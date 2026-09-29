@@ -168,7 +168,7 @@ def nearby(lat: float, lng: float, http: httpx.Client) -> tuple[Optional[list[di
 
 
 def apply_geo(listings: list, log: list[str], previous: Optional[dict] = None, http: Optional[httpx.Client] = None,
-              probe: bool = False, geocode_on: bool = True, nearby_on: bool = True) -> None:
+              probe: bool = False, geocode_on: bool = True, nearby_on: bool = True, lawd_cache: Optional[dict] = None) -> None:
     """공고(주소)별로 한 번 좌표와 주변 입지를 구해 같은 공고의 주택형 전체에 넣는다."""
     previous = previous or {}
     prev_by_notice: dict[str, dict] = {}
@@ -206,6 +206,39 @@ def apply_geo(listings: list, log: list[str], previous: Optional[dict] = None, h
                                                           if nb is not None else f"조회 실패 ({msg})"))
             found[nid] = (geo, nb)
             time.sleep(1)   # Overpass 공용 서버 예의
+    # 3) 시군구 코드: 표에 없는 지역(서울·경기·인천 밖)은 좌표로 네이버 역지오코딩 → 법정동 코드 앞 5자리 (다음 실행부터 시세 조회에 씀)
+    if key and lawd_cache is not None:
+        from . import lawd as LW
+        tried = 0
+        for nid, (geo, nb) in found.items():
+            addr = groups[nid][0].address
+            k = LW.key_of(addr)
+            if not geo or not k or LW.lawd_for(addr, lawd_cache) or tried >= 30:
+                continue
+            tried += 1
+            try:
+                info, msg = LW.reverse(geo["lat"], geo["lng"], client, key)
+            except Exception as e:
+                info, msg = None, f"오류 {e.__class__.__name__}"
+            if info and LW.matches(addr, info):
+                lawd_cache[k] = {"code": info["code"], "legal_code": info["legal_code"], "names": info["names"], "from": groups[nid][0].name}
+                log.append(f"[지역코드] {k} = {info['code']} ({info['names']}, 네이버 역지오코딩)")
+            else:
+                log.append(f"[지역코드] {k}: 못 구함 ({msg if not info else '지역 이름 불일치 ' + info['names']})")
+        # 표에 있는 지역 몇 곳은 역지오코딩과 같은지 대조해 둔다 (표·역지오코딩 모두의 점검)
+        checked = 0
+        for nid, (geo, nb) in found.items():
+            addr = groups[nid][0].address
+            table = LW.RG.lawd_of(LW.RG.sigungu_of(addr))
+            if not geo or not table or checked >= 3 or geo.get("precision") != "exact":
+                continue
+            checked += 1
+            try:
+                info, msg = LW.reverse(geo["lat"], geo["lng"], client, key)
+            except Exception as e:
+                info, msg = None, str(e)
+            log.append(f"[지역코드·대조] {LW.key_of(addr)}: 표 {table} / 역지오코딩 {info['code'] if info else msg}"
+                       + (" 일치" if info and info["code"] == table else " ← 확인 필요" if info else ""))
     for nid, Ls in groups.items():
         geo, nb = found[nid]
         stat[geo["precision"] if geo else "none"] += 1

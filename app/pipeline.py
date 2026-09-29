@@ -24,7 +24,7 @@ from .models import Listing
 from .sources.applyhome import RAW_KEYS, ApplyhomeClient, iter_open_listings, probe_fields
 from .sources.rtms import RtmsClient
 from .sources import cmpet
-from . import geo, notice_pdf, notify, validate
+from . import geo, lawd as LC, notice_pdf, notify, validate
 
 ROOT = Path(__file__).resolve().parent.parent
 DATA = ROOT / "data" / "listings.json"
@@ -54,18 +54,18 @@ def target_of(name: str) -> Optional[str]:
     return None
 
 
-def build_listing(raw: dict, rtms: Optional[RtmsClient], today: date) -> Optional[Listing]:
+def build_listing(raw: dict, rtms: Optional[RtmsClient], today: date, lawd_cache: Optional[dict] = None) -> Optional[Listing]:
     if not raw.get("price"):
         return None
     addr = raw["address"]
     reg = RG.region_of(addr)
     sg = RG.sigungu_of(addr)
-    lawd = RG.lawd_of(sg)
+    lawd = LC.lawd_for(addr, lawd_cache if lawd_cache is not None else {})
     regulated = raw["speculative"] if raw.get("speculative") is not None else RG.is_regulated(addr)
     capital = RG.is_capital(addr)
     price_cap = bool(raw.get("price_cap"))
 
-    mk = {"mkt_low": None, "mkt_base": None, "mkt_note": "지역코드를 몰라 시세를 조회하지 못했어요."}
+    mk = {"mkt_low": None, "mkt_base": None, "mkt_note": "시군구 코드를 아직 확인하지 못해 시세를 조회하지 못했어요 (지도 좌표로 확인되면 다음 수집부터 조회)."}
     js = {"jeonse": None, "jeonse_note": "", "jeonse_weak": False}
     if rtms and lawd:
         months = months_back(today, R.MARKET_MONTHS)
@@ -268,14 +268,15 @@ def run(dry_run: bool = False, today: Optional[date] = None, read_notices: bool 
     raws = list(iter_open_listings(ah, today.isoformat(), since))
     t1 = time.monotonic()
     months = months_back(today, R.MARKET_MONTHS)
-    lawds = {RG.lawd_of(RG.sigungu_of(r["address"])) for r in raws if r.get("price")}
+    lawd_cache = LC.load()
+    lawds = {LC.lawd_for(r["address"], lawd_cache) for r in raws if r.get("price")}
     keys = [(k, l, ym) for l in sorted(x for x in lawds if x) for k in ("trade", "presale", "rent") for ym in months]
     pf = rt.prefetch(keys, budget_sec=MARKET_BUDGET_SEC)
     log.append(f"[시간] 공고 {len(raws)}건 {t1 - t0:.0f}초 · 실거래 요청 {pf['total']}건 {pf['seconds']:.0f}초 "
                f"(성공 {pf['done']}, 실패 {pf['failed']}, 시간 초과로 생략 {pf['skipped']})")
     for raw in raws:
         try:
-            L = build_listing(raw, rt, today)
+            L = build_listing(raw, rt, today, lawd_cache)
         except Exception as e:  # 한 공고가 실패해도 나머지는 진행
             log.append(f"[건너뜀] {raw.get('name')} {raw.get('unit')}: {e}")
             continue
@@ -340,7 +341,10 @@ def run(dry_run: bool = False, today: Optional[date] = None, read_notices: bool 
         except Exception as e:
             log.append(f"[지난 경쟁률] 전체 실패: {e}")
         try:
-            geo.apply_geo(out, log, previous=prev, probe=not dry_run, geocode_on=on("naver_map"), nearby_on=on("nearby"))
+            geo.apply_geo(out, log, previous=prev, probe=not dry_run, geocode_on=on("naver_map"), nearby_on=on("nearby"),
+                          lawd_cache=lawd_cache)
+            if not dry_run:
+                LC.save(lawd_cache)
         except Exception as e:
             log.append(f"[위치] 전체 실패: {e}")
     log += [f"[실거래가 경고] {m}" for m in sorted(RTMS_ERRORS)]
