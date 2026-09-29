@@ -134,6 +134,8 @@ def _from_previous(prev: dict) -> tuple[dict, Optional[str]]:
             found["rewin_years"] = int(v[:-1])
         elif v == "없음":
             found["rewin_years"] = 0
+    if "1순위 가입기간" in got and prev.get("account_months"):
+        found["account_months"] = prev["account_months"]
     return found, prev.get("notice_pdf")
 
 
@@ -175,7 +177,8 @@ def apply_notice(listings: list[Listing], log: list[str], client=None, previous:
                     for sn in notice_pdf.snippets(text, word):
                         log.append(f"[공고문·원문] {Ls[0].name} ({word}): …{sn}…")
         labels = {"need_head": "세대주 요건", "price_cap": "분양가상한제", "residence_duty": "실거주 의무",
-                  "balance": "잔금일", "ext": "발코니 확장비", "rewin_years": "재당첨 제한"}
+                  "balance": "잔금일", "ext": "발코니 확장비", "rewin_years": "재당첨 제한",
+                  "account_months": "1순위 가입기간"}
         for L in Ls:
             L.notice_pdf = pdf
             L.from_notice = [labels[k] for k in found if k in labels and not (k == "ext" and len(Ls) != 1)]
@@ -193,6 +196,8 @@ def apply_notice(listings: list[Listing], log: list[str], client=None, previous:
                 L.balance = found["balance"]
             if "ext" in found and len(Ls) == 1:
                 L.ext = found["ext"]
+            if "account_months" in found and feature_on("account_rules"):
+                L.account_months = found["account_months"]
             if "rewin_years" in found:
                 n = found["rewin_years"]
                 L.limits = [x for x in L.limits if x[0] != "재당첨 제한"]

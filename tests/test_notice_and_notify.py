@@ -172,3 +172,17 @@ def test_apply_notice_keeps_previous_when_download_fails(monkeypatch):
     assert x.need_head and x.balance == "2026-11-30" and x.ext == 0.2178 and x.limits[0] == ("재당첨 제한", "10년")
     assert "재당첨 제한" in x.from_notice and x.notice_pdf.endswith("x.pdf")
     assert any("지난 실행" in l for l in log)
+
+
+def test_parse_account_months_real_sentences():
+    """2026-09-30 실제 공고문 문장들 (docs/rules-evidence.txt)."""
+    from app.notice_pdf import parse_notice
+    cases = {
+        "※ 1순위 : 입주자저축에 가입하여 가입기간이 24개월이 경과하고 지역별·면적별 예치금액 이상 납입한 분": 24,   # 광명
+        "※ 1순위 : 입주자저축에 가입하여 가입 기간이 6개월이 경과하고 지역별·면적별 예치금액 이상 납입한 분": 6,     # 삼천
+        "※ 1순위 : 입주자저축에 가입한 후 12개월이 경과하고 지역별·면적별 예치금액 이상 납입한 분": 12,              # 화서역
+        "순위 1 :※ 입주자저축에 가입하여 가입기간이 개월6 이 경과하고 지역별 면적별 · 예치금액 이상 납입한 분": 6,   # 더샵 시에르네 (뒤섞임)
+    }
+    for text, want in cases.items():
+        assert parse_notice(text).get("account_months") == want, text
+    assert "account_months" not in parse_notice("청약통장 가입기간 6개월 경과(지역별·면적별 예치금액 이상)한 분")  # 기관추천 특공 문장은 1순위 기준이 아님

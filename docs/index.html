@@ -217,6 +217,10 @@ const RULES = {
   dsr: 0.40, stressRate: 0.07, years: 30,                 // DSR, 심사 금리 가정(기본 4% + 스트레스 3%), 만기
   dutyDeferralYears: 3                                    // 거주의무 시작 유예 (최초 입주가능일부터)
 };
+/* 민영주택 1순위 청약 예치기준금액 (만원) — 근거: 모집공고문 표 '청약예금의 예치금액'(광명 시티프라디움 에듀하임 2026000453, 2026-09-18 공고)과
+   「주택공급에 관한 규칙」 별표2. 구분은 신청자의 주민등록 거주지, 칸은 전용면적 85㎡ 이하 / 102㎡ 이하 / 135㎡ 이하 / 모든 면적 */
+const ACCOUNT_DEPOSIT = { seoul_busan:[300, 600, 1000, 1500], metro:[250, 400, 700, 1000], other:[200, 300, 400, 500] };
+const HOME_AREA = { seoul_busan:'서울·부산', metro:'그 밖의 광역시', other:'광역시 외 지역' };
 /* 지역 규제: 서울 전역 + 경기 12곳이 투기과열·조정대상·토지거래허가 (2025.10.15 대책, 토허는 2026.12.31까지) */
 const REGULATED_GYEONGGI = ['과천','광명','성남 분당','성남 수정','성남 중원','수원 영통','수원 장안','수원 팔달','안양 동안','용인 수지','의왕','하남'];
 
@@ -316,7 +320,7 @@ function afterRender(){
 
 /* ---------- 내 조건 (대화에서 알려주신 값으로 시작) ---------- */
 const DEFAULT_PROFILE = { seoul:true, household:'parents', parents60:true, parentsOwn:true, headSince:'',
-  selfOwn:false, married:false, spouseOwn:false, spouseIncome:0, spouseLoan:0, account:'unknown', recentWin:false,
+  selfOwn:false, married:false, spouseOwn:false, spouseIncome:0, spouseLoan:0, account:'unknown', recentWin:false, acctType:'', acctSince:'', acctAmount:0, homeArea:'',
   cash:32500, liquid:0, deposit:0, income:4000, loanMonthly:0, firstTime:true };
 
 const store = {
@@ -354,6 +358,49 @@ function marginText(m){
   return '마진 ' + a + '~' + b.replace('+','');
 }
 
+function monthsBetween(a, b){ // a~b 사이 꽉 찬 개월 수
+  if (!a || !b) return null;
+  const [y1, m1, d1] = a.split('-').map(Number), [y2, m2, d2] = b.split('-').map(Number);
+  return (y2 - y1) * 12 + (m2 - m1) - (d2 < d1 ? 1 : 0);
+}
+function acctNeedMonths(L){ // [필요 개월, 공고문에서 읽었는지]
+  if (L.accountMonths) return [L.accountMonths, true];
+  return [L.regulated ? 24 : L.capital ? 12 : 6, false];   // 투기과열·청약과열 24 · 수도권 12 · 그 밖 6 (공고문들의 1순위 문장 기준)
+}
+function depositNeed(L, p){
+  const g = p.seoul ? 'seoul_busan' : p.homeArea; if (!g || !ACCOUNT_DEPOSIT[g]) return null;
+  const a = L.area || 0;
+  return { need: ACCOUNT_DEPOSIT[g][a <= 85 ? 0 : a <= 102 ? 1 : a <= 135 ? 2 : 3], g, a };
+}
+function accountItems(L, p){ // 청약통장 1순위 요건 (기능: account_rules). 입력이 없으면 null → 예전 방식
+  if (!on('account_rules') || !p.acctType || !L.needAccount) return null;
+  const out = [], ref = L.notice || TODAY, minyoung = L.houseDtl !== '국민';
+  if (p.acctType === 'none') return [{ k:'청약통장', s:'fail', v:'없음', note:'1순위·2순위 모두 청약통장이 필요해요' }];
+  const m = monthsBetween(p.acctSince, ref), [need, fromN] = acctNeedMonths(L);
+  out.push({ k:'청약통장 가입기간', s: m == null ? 'warn' : m >= need ? 'ok' : 'fail', v: m == null ? '가입일 입력 필요' : m + '개월 / ' + need + '개월 필요',
+    note: (fromN ? '' : '공고문에서 못 읽어 지역 기준으로 추정 · ') + '공고일 ' + ref.replace(/-/g, '.') + ' 기준', src: fromN ? 'notice' : 'estimate' });
+  if (minyoung) {
+    if (p.acctType === 'saving') out.push({ k:'통장 종류 (민영)', s:'fail', v:'청약저축', note:'청약저축으로는 민영주택에 넣을 수 없어요. 공고 전일까지 청약예금으로 전환하면 가능해요', src:'notice' });
+    else if (p.acctType === 'bugeum' && (L.area || 0) > 85) out.push({ k:'통장 종류 (민영)', s:'fail', v:'청약부금', note:'청약부금은 전용 85㎡ 이하 주택형만 넣을 수 있어요', src:'notice' });
+    const d = depositNeed(L, p);
+    out.push({ k:'예치금 (민영)', s: !d ? 'warn' : (p.acctAmount || 0) >= d.need ? 'ok' : 'fail',
+      v: !d ? '거주 지역 입력 필요' : (p.acctAmount || 0).toLocaleString() + '만 / ' + d.need.toLocaleString() + '만 필요',
+      note: d ? '전용 ' + Math.round(d.a) + '㎡ · ' + HOME_AREA[d.g] + ' 거주 기준 · 공고일까지 채우면 돼요' : '', src:'deposit' });
+  } else {
+    out.push({ k:'납입 인정 횟수·금액 (국민)', s:'warn', v:'확인 필요', note:'국민주택은 예치금이 아니라 납입 인정 횟수와 금액으로 봐요. 아직 판정하지 않아요', src:'notice' });
+  }
+  return out;
+}
+function pendingChecks(L, p){ // 아직 판정하지 않는 항목 (기능이 늘면 줄어든다)
+  const acct = accountItems(L, p), out = [];
+  if (!acct) out.push('통장 가입기간·예치금 또는 납입 횟수·금액');
+  else if (L.houseDtl === '국민') out.push('국민주택 납입 인정 횟수·금액');
+  out.push('해당지역 거주기간');
+  if (!(on('regulated_rules') && typeof regulatedItems === 'function')) out.push('규제지역 1순위 추가 요건(세대원 5년 내 당첨 등)');
+  out.push('특별공급 유형별 요건');
+  if (!(on('score') && typeof myScore === 'function')) out.push('가점');
+  return out;
+}
 function eligibility(L, p){
   const items = [];
   if (L.region === '서울') items.push({ k:'거주지 (서울)', s: p.seoul ? 'ok' : 'fail', v: p.seoul ? '충족' : '미충족' });
@@ -373,8 +420,10 @@ function eligibility(L, p){
     }
     items.push({ k:'세대주', s, v, note });
   }
+  const acct = accountItems(L, p);
+  if (acct) items.push(...acct);
   const caution = on('eligibility_caution');   // 세부 통장 요건을 아직 판정하지 않으므로 '충족'으로 단정하지 않는다
-  items.push({ k:'청약통장', s: !L.needAccount ? 'na' : p.account === 'yes' ? (caution ? 'warn' : 'ok') : p.account === 'no' ? 'fail' : 'warn',
+  if (!acct) items.push({ k:'청약통장', s: !L.needAccount ? 'na' : p.account === 'yes' ? (caution ? 'warn' : 'ok') : p.account === 'no' ? 'fail' : 'warn',
     v: !L.needAccount ? '불필요' : p.account === 'yes' ? (caution ? '보유 · 세부 확인 필요' : '충족') : p.account === 'no' ? '미충족' : '확인 필요',
     note: L.needAccount && caution ? '가입기간, 예치금(민영) 또는 납입 인정 횟수·금액(국민)은 아직 판정하지 않아요' : '' });
   // 공고의 재당첨 제한(당첨되면 걸리는 기간)과 헷갈리지 않게 '내 이력'으로 부른다
@@ -389,7 +438,7 @@ function eligibility(L, p){
       : f.k.startsWith('무주택') ? '세대에 주택 소유자가 있어요 (' + f.note + ').'
       : f.k.startsWith('거주') ? L.region + ' 거주자만 신청할 수 있어요.'
       : f.k.endsWith('전용') ? f.k.replace(' 전용','') + ' 대상 공급이에요. ' + (f.note || '')
-      : f.k === '청약통장' ? '1순위 청약통장 요건을 채우지 못했어요.' : '재당첨 제한 기간이에요.';
+      : f.k.startsWith('청약통장') || f.k.startsWith('예치금') || f.k.startsWith('통장') ? '1순위 청약통장 요건을 채우지 못했어요 (' + f.k + ': ' + f.v + '). 2순위로는 신청할 수 있어요.' : '재당첨 제한 기간이에요.';
     if (fails.some(i => i.k === '세대주')) {
       fix = p.household === 'parents' && p.parents60
         ? '부모님이 모두 만 60세 이상이라 세대주만 본인으로 변경하면 무주택 세대주가 돼요. 다음 공고부터 적용돼요.'
@@ -678,6 +727,9 @@ function itemSrc(L, k){
   if (k.startsWith('거주지')) return noticeSrc(L);
   if (k.endsWith('전용')) return noticeSrc(L);
   if (k.startsWith('재당첨 제한 (내 이력)')) return src('user');
+  if (k === '청약통장 가입기간') return fromNotice(L, '1순위 가입기간') ? noticeSrc(L) : src(null, ['지역 기준 추정 · 공고문 확인', null]);
+  if (k === '예치금 (민영)') return src(null, ['공고문 예치금 표 · 주택공급에 관한 규칙 별표2', L.noticePdf]);
+  if (k.startsWith('통장 종류') || k.startsWith('납입 인정')) return noticeSrc(L);
   return src('supplyRule');
 }
 function limitSrc(L, k){
@@ -717,7 +769,7 @@ function vDetail(){
   else if (m.g === 'unknown') mine = `<div class="note warn"><b>${okWord} 시세를 확인해야 해요</b><div>${esc(L.mktNote)}</div></div>`;
   else if (m.g === 'pass' || m.g === 'flat') mine = `<div class="note warn"><b>${okWord} ${m.g === 'pass' ? '시세보다 비싸요' : '마진이 거의 없어요'}</b><div>당첨되면 재당첨 제한이 걸려요. 실거주 목적이 아니면 통장을 아끼세요.</div></div>`;
   else if (gap > 0) mine = `<div class="note warn"><b>${okWord} 자금 ${fmt(gap)} 부족</b><div>${o.mode === 'live' ? '잔금대출' : '전세 활용'} 기준이에요. 부족분 조달처를 확보한 뒤 신청하세요.</div></div>`;
-  else if (on('eligibility_caution')) mine = `<div class="note info"><b>기본 요건과 자금은 가능해요 · 세부 요건 확인 필요</b><div>통장 가입기간·예치금(납입), 해당지역 거주기간, 규제지역 1순위 추가 요건, 특별공급 요건은 아직 판정하지 않아요. 신청 전에 모집공고문으로 확인하세요. ${noticeSrc(L)}</div></div>`;
+  else if (on('eligibility_caution')) mine = `<div class="note info"><b>기본 요건과 자금은 가능해요 · 세부 요건 확인 필요</b><div>${pendingChecks(L, p).join(', ')}은(는) 아직 판정하지 않아요. 신청 전에 모집공고문으로 확인하세요. ${noticeSrc(L)}</div></div>`;
   else mine = `<div class="note ok"><b>${e.unsure ? '넣어도 돼요 (청약통장 요건 확인 필요)' : '넣어도 돼요'}</b><div>자격과 자금 모두 계산상 가능해요.</div></div>`;
   const stCls = s => ({ ok:'st-ok', fail:'st-fail', warn:'st-warn', na:'st-na' }[s]);
   return `
@@ -737,7 +789,7 @@ function vDetail(){
     <div class="tile"><span class="small muted">자금 (${o.mode === 'live' ? '대출' : '전세'})</span><span class="v ${gap > 0 ? 'st-warn' : 'st-ok'}">${gap > 0 ? fmt(gap) + ' 부족' : '가능'}</span></div>
   </div>
   ${L.sample ? '' : compCard(L)}
-  <section class="card"><h2>자격 체크리스트</h2>${on('eligibility_caution') ? `<div class="note info" style="padding:10px 12px"><b style="font-size:13px">기본 요건만 확인했어요</b><div class="small">아직 판정하지 않는 것: 통장 가입기간·예치금 또는 납입 횟수·금액, 해당지역 거주기간, 규제지역 1순위 추가 요건(세대원 5년 내 당첨 등), 특별공급 유형별 요건, 가점. 이 항목들은 순서대로 추가하고 있어요.</div></div>` : ''}<div class="rows">
+  <section class="card"><h2>자격 체크리스트</h2>${on('eligibility_caution') ? `<div class="note info" style="padding:10px 12px"><b style="font-size:13px">기본 요건만 확인했어요</b><div class="small">아직 판정하지 않는 것: ${pendingChecks(L, p).join(', ')}. 이 항목들은 순서대로 추가하고 있어요.</div></div>` : ''}${on('account_rules') && !p.acctType && L.needAccount ? `<div class="row small"><span class="muted">청약통장 가입일·예치금을 넣으면 1순위 요건을 판정해요.</span><button class="linkbtn small" data-action="restart">입력하기</button></div>` : ''}<div class="rows">
     ${e.items.map(i => `<div class="row"><span>${esc(i.k)}${i.note ? `<br><span class="small muted">${esc(i.note)}</span>` : ''}<br>${itemSrc(L, i.k)}</span><span class="${stCls(i.s)}">${esc(i.v)}</span></div>`).join('')}
   </div>
   <div class="small muted">내 정보는 ${src('user')} · 판정 기준은 ${src('supplyRule')}</div></section>
@@ -865,7 +917,10 @@ function vMe(){
     ${p.household === 'parents' ? `<dt>부모님 만 60세 이상</dt><dd>${yn(p.parents60)}</dd><dt>부모님 주택</dt><dd>${p.parentsOwn ? '있음' : '없음'}</dd>` : ''}
     ${p.household === 'head' ? `<dt>세대주가 된 날</dt><dd>${p.headSince || '미입력'}</dd>` : ''}
     <dt>본인 주택</dt><dd>${p.selfOwn ? '있음' : '없음'}</dd><dt>혼인신고</dt><dd>${p.married ? '했음' : '안 했음'}</dd>
-    <dt>청약통장 요건</dt><dd>${{yes:'충족',no:'미충족',unknown:'모름'}[p.account]}</dd><dt>재당첨 제한 (내 이력)</dt><dd>${p.recentWin ? '제한 중' : '없음'}</dd>
+    ${on('account_rules') && p.acctType ? `<dt>청약통장</dt><dd>${{all:'주택청약종합저축',deposit:'청약예금',bugeum:'청약부금',saving:'청약저축',none:'없음'}[p.acctType]}</dd>
+      <dt>가입일</dt><dd>${p.acctSince || '미입력'}</dd><dt>예치금</dt><dd>${(p.acctAmount || 0).toLocaleString()}만</dd>
+      ${p.seoul ? '' : `<dt>거주 지역</dt><dd>${HOME_AREA[p.homeArea] || '미입력'}</dd>`}`
+      : `<dt>청약통장 요건</dt><dd>${{yes:'충족',no:'미충족',unknown:'모름'}[p.account]}</dd>`}<dt>재당첨 제한 (내 이력)</dt><dd>${p.recentWin ? '제한 중' : '없음'}</dd>
   </dl></section>
   <section class="card"><h2>자금</h2><dl class="kv">
     <dt>예금·현금</dt><dd>${fmt(eok(p.cash))}</dd><dt>현금화 가능 자산</dt><dd>${fmt(eok(p.liquid))}</dd><dt>돌려받을 보증금</dt><dd>${fmt(eok(p.deposit))}</dd>
@@ -917,7 +972,13 @@ const STEPS = [
   { show:p => p.married, t:'배우자 정보', d:'혼인신고를 하면 청약과 대출 모두 부부 합산으로 봐요.',
     f:[{ k:'spouseOwn', type:'choice', l:'배우자 명의 주택이 있나요?', o:[[true,'있어요'],[false,'없어요']], two:true },
        { k:'spouseIncome', type:'money', l:'배우자 세전 연소득' }, { k:'spouseLoan', type:'money', l:'배우자 대출 월 상환액' }] },
-  { t:'청약 이력', d:'무순위는 청약통장이 없어도 되지만 1순위는 필요해요.',
+  { show:p => on('account_rules'), t:'청약통장', d:'청약홈 → 청약자격확인 → 청약통장 순위(가입)확인서에서 가입일과 예치금을 볼 수 있어요.',
+    f:[{ k:'acctType', type:'choice', l:'통장 종류', o:[['all','주택청약종합저축'],['deposit','청약예금'],['bugeum','청약부금'],['saving','청약저축'],['none','없어요']] },
+       { k:'acctSince', type:'date', l:'가입일 (순위기산일)' }, { k:'acctAmount', type:'money', l:'지금 예치금 (납입 인정 금액)', h:'민영주택은 공고일까지 지역·면적별 금액을 채우면 돼요' },
+       { k:'recentWin', type:'choice', l:'재당첨 제한 기간인가요?', o:[[true,'예'],[false,'아니요']], two:true }] },
+  { show:p => on('account_rules') && !p.seoul, t:'주민등록상 사는 지역', d:'민영주택 예치금 기준이 사는 지역에 따라 달라요.',
+    f:[{ k:'homeArea', type:'choice', o:[['seoul_busan','부산'],['metro','인천·대구·광주·대전·울산'],['other','경기·세종·그 밖의 시·군']] }] },
+  { show:p => !on('account_rules'), t:'청약 이력', d:'무순위는 청약통장이 없어도 되지만 1순위는 필요해요.',
     f:[{ k:'account', type:'choice', l:'청약통장 가입 2년 이상이고 예치금도 채웠나요?', o:[['yes','예'],['no','아니요'],['unknown','잘 모르겠어요']] },
        { k:'recentWin', type:'choice', l:'재당첨 제한 기간인가요?', o:[[true,'예'],[false,'아니요']], two:true }] },
   { t:'바로 쓸 수 있는 돈', d:'계약금은 당첨 후 2주 안팎에 현금으로 내야 해요.',
@@ -1028,7 +1089,7 @@ function fromApi(x){
     region:x.region, kind:x.kind, target:x.target,
     sido:x.sido || null, district:x.district || null, supplyType:x.supply_type || x.kind,
     mktComps:x.mkt_comps || [], mktCount:x.mkt_count || 0, mktDirectExcluded:x.mkt_direct_excluded || 0, mktBasis:x.mkt_basis || null, jeonseComps:x.jeonse_comps || [],
-    noticePdf:x.notice_pdf || null, competition:x.competition || null, areaComps:Array.isArray(x.area_comps) ? x.area_comps : null, unitName:x.unit, address:x.address || '', geo:x.geo || null, nearby:Array.isArray(x.nearby) ? x.nearby : null, mapQuery:x.map_query || null, fromNotice:x.from_notice || [], checks:x.checks || [],
+    noticePdf:x.notice_pdf || null, area:x.area || null, accountMonths:x.account_months || null, competition:x.competition || null, areaComps:Array.isArray(x.area_comps) ? x.area_comps : null, unitName:x.unit, address:x.address || '', geo:x.geo || null, nearby:Array.isArray(x.nearby) ? x.nearby : null, mapQuery:x.map_query || null, fromNotice:x.from_notice || [], checks:x.checks || [],
     specialApply:x.special_apply || null, houseDtl:x.house_dtl || null, rentSecd:x.rent_secd || null, applyEnd:x.apply_end || null, unit:x.unit + (x.households ? ' · ' + x.households + '세대' : ''),
     notice:x.notice, apply:x.apply, winner:x.winner, contract:x.contract, balance:x.balance,
     price:x.price, ext:x.ext || 0, contractRate:x.contract_rate || 0.1, midRate:x.mid_rate || 0,
