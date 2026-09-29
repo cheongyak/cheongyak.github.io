@@ -51,6 +51,7 @@ def parse_items(xml_text: str) -> list[dict]:
             "deposit": _num(r.get("deposit")),              # 전월세 보증금 (만 원)
             "monthly": _num(r.get("monthlyRent")) or 0,
             "floor": _num(r.get("floor")),
+            "dong": r.get("aptDong", ""),                   # 동 (매매 자료에만 있고 비어 있을 수 있음. 호수는 국토부가 공개하지 않음)
             "build_year": _num(r.get("buildYear")),
             "date": f"{r.get('dealYear','')}-{str(r.get('dealMonth','')).zfill(2)}-{str(r.get('dealDay','')).zfill(2)}",
             "kind": r.get("ownershipGbn", ""),              # 분양권 / 입주권

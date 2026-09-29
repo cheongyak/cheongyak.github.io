@@ -71,6 +71,12 @@ def test_real_remainder_record():
     assert region.sigungu_of(n["address"]) == "중구" and region.is_regulated(n["address"])
 
 
+def test_trade_dong():
+    rows = parse_items(xml([{"aptNm": "A", "excluUseAr": "84.9", "dealAmount": "100,000", "floor": "7", "aptDong": "101동",
+                             "dealYear": "2026", "dealMonth": "9", "dealDay": "1"}]))
+    assert rows[0]["dong"] == "101동" and rows[0]["floor"] == 7
+
+
 def test_parsers():
     n = normalize(DETAIL, MODEL, "remainder")
     assert n["price"] == 12.2202 and n["unit"] == "84C" and n["notice"] == "2026-09-23"
@@ -94,7 +100,7 @@ def test_end_to_end(tmp_path, monkeypatch):
     assert L.mkt_base == 21.75 and L.mkt_low == 21.25
     assert L.jeonse == 7.2
     assert L.mkt_basis == "same_complex" and L.mkt_count == 4 and len(L.mkt_comps) == 4
-    assert L.mkt_comps[0]["kind"] == "분양권" and L.mkt_comps[0]["amount"] in (22.0, 21.5, 20.5, 22.5)
+    assert L.mkt_comps[0]["kind"] == "분양권" and "dong" in L.mkt_comps[0] and L.mkt_comps[0]["amount"] in (22.0, 21.5, 20.5, 22.5)
     assert all(c["amount"] != 15.0 for c in L.mkt_comps)          # 해제 거래는 근거에서도 빠진다
     assert len(L.jeonse_comps) == 3 and L.jeonse_comps[0]["kind"] == "전세"
 
