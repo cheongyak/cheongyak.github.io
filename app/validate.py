@@ -39,7 +39,8 @@ def listing_checks(L: Listing, today: date) -> list[str]:
         out.append("실거주 의무가 수도권 분양가상한제 주택이 아닌데 붙어 있어요")
     if L.regulated and "세대주 요건" not in L.from_notice and L.need_head:
         out.append("세대주 요건을 공고문에서 확인하지 못해 규제지역 기준으로 추정했어요")
-    if "재당첨 제한" not in L.from_notice:
+    if "재당첨 제한" not in L.from_notice and (L.regulated or L.price_cap):
+        # 비규제·상한제 미적용 주택은 재당첨 제한 대상이 아니라 추정해도 틀릴 여지가 작다
         out.append("재당첨 제한 기간을 공고문에서 확인하지 못해 추정했어요")
     # 시세
     g = grade(L)

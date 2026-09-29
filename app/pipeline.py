@@ -80,7 +80,9 @@ def build_listing(raw: dict, rtms: Optional[RtmsClient], today: date) -> Optiona
     # 준공 임박(입주 6개월 이내) 단지는 중도금 없이 잔금, 그 외엔 중도금 60% 가정
     soon = (today + timedelta(days=183)).isoformat()[:7]
     built = bool(raw.get("move_in")) and raw["move_in"][:7] <= soon
-    limits = [("재당첨 제한", "10년" if regulated else "공고문 확인")]
+    # 공고문에서 못 읽을 때의 기본값 (주택공급에 관한 규칙 제54조 기준 추정):
+    # 규제지역(투기과열·조정대상) 10년, 비규제지역이면서 분양가상한제가 아니면 재당첨 제한 대상이 아님
+    limits = [("재당첨 제한", "10년" if regulated else ("공고문 확인" if price_cap else "없음"))]
     if price_cap:
         limits.append(("실거주 의무", "공고문 확인"))
 
