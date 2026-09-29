@@ -124,3 +124,13 @@ def test_history_and_area_comps():
     cmpet.attach_area_comps([L, small], hist, date(2026, 9, 30))
     assert L.area_comps[0]["name"] == "옆 단지" and L.area_comps[0]["rate"] == "32.00"
     assert small.area_comps == []          # 면적이 많이 다르면 붙이지 않는다
+
+
+def test_house_type_with_trailing_space_matches():
+    """실제 응답(2026-09-30 숭의역): 주택형 끝에 공백 '069.7032 ' → 공고 id 에도 공백이 남아 있어 맞춰야 한다."""
+    rows = [{"HOUSE_TY": "069.7032 ", "SUBSCRPT_RANK_CODE": "1", "RESIDE_SENM": "해당지역", "SUPLY_HSHLDCO": "7", "REQ_CNT": "9", "CMPET_RATE": "1.29"}]
+    cl = cmpet.CmpetClient("k", httpx.Client(transport=httpx.MockTransport(
+        lambda r: httpx.Response(200, json={"data": [] if r.url.path.endswith("Score") else rows}))))
+    L = _L("2026000448", "069.7032 ")
+    cmpet.apply_competition([L], [], "2026-09-30", client=cl)
+    assert L.competition and L.competition["rows"][0]["rate"] == "1.29"

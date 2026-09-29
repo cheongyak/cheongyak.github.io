@@ -127,13 +127,13 @@ def apply_competition(listings: list, log: list[str], today: str, client: Option
         by_ty = parse(c, s)
         n = 0
         for L in Ls:
-            ty = L.id.split("-", 1)[1]
+            ty = L.id.split("-", 1)[1].strip()   # 청약홈 HOUSE_TY 는 끝에 공백이 붙기도 한다 ("069.7032 ")
             comp = by_ty.get(ty)
             if comp and (comp["rows"] or comp["scores"]):
                 L.competition = comp
                 n += 1
         got += bool(n)
-        h = headline(by_ty.get(Ls[0].id.split("-", 1)[1]))
+        h = headline(by_ty.get(Ls[0].id.split("-", 1)[1].strip()))
         log.append(f"[경쟁률] {Ls[0].name}: 경쟁률 {len(c)}줄 · 가점 {len(s)}줄 → 주택형 {n}/{len(Ls)}개에 반영"
                    + (f" (예: {Ls[0].unit} {h['rank']}순위 {h['reside']} 공급 {h['supply']} 접수 {h['req']} 경쟁률 {h['rate']})" if h else ""))
     log.append(f"[경쟁률] 접수가 시작된 공고 {len(groups)}건 중 {got}건에 결과가 있어요")
