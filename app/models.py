@@ -13,7 +13,15 @@ class Listing(BaseModel):
     name: str
     address: str
     region: Literal["서울", "경기", "인천", "지방"]
-    sigungu: Optional[str] = None            # "광진구", "성남시 분당구" 등
+    sigungu: Optional[str] = None            # "광진구", "성남시 분당구" 등 (법정동코드 표 기준, 시세 조회용)
+    sido: Optional[str] = None               # 시·도 (서울, 경기, 부산 ... 17개) — 주소에서 추출
+    district: Optional[str] = None           # 시·군·구 (전국) — 주소에서 추출, 필터용
+    supply_type: Optional[str] = None        # 청약홈 HOUSE_SECD_NM 원본 (APT, 무순위, 불법행위 재공급 ...)
+    house_secd: Optional[str] = None         # 청약홈 HOUSE_SECD 원본 코드
+    house_dtl: Optional[str] = None          # 청약홈 HOUSE_DTL_SECD_NM (있을 때만: 민영/국민 등)
+    rent_secd: Optional[str] = None          # 청약홈 RENT_SECD_NM (있을 때만: 분양/임대)
+    special_apply: Optional[str] = None      # 특별공급 접수 시작일 (있을 때만)
+    special_apply_end: Optional[str] = None
     kind: str                                # "무순위 · 불법행위 재공급" 등
     category: Literal["general", "remainder"]
     target: Optional[str] = None             # 신혼부부 등 특정 대상 전용 공급

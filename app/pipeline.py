@@ -19,7 +19,7 @@ from . import rules as R
 from .engine import grade
 from .market import estimate_jeonse, estimate_market, months_back
 from .models import Listing
-from .sources.applyhome import ApplyhomeClient, iter_open_listings
+from .sources.applyhome import RAW_KEYS, ApplyhomeClient, iter_open_listings, probe_fields
 from .sources.rtms import RtmsClient
 from . import notice_pdf, notify
 
@@ -85,6 +85,10 @@ def build_listing(raw: dict, rtms: Optional[RtmsClient], today: date) -> Optiona
     return Listing(
         id=f"{raw['notice_no']}-{raw.get('house_ty') or raw['unit']}",
         name=raw["name"], address=addr, region=reg, sigungu=sg,
+        sido=RG.sido_of(addr) or raw.get("area_code_nm"), district=RG.sigungu_any(addr),
+        supply_type=raw.get("supply_type"), house_secd=raw.get("house_secd"), house_dtl=raw.get("house_dtl"),
+        rent_secd=raw.get("rent_secd"), special_apply=raw.get("special_apply"),
+        special_apply_end=raw.get("special_apply_end"),
         kind=kind_label(raw), category=raw["category"], target=target_of(raw["name"]), unit=raw["unit"], area=raw["area"],
         households=raw.get("households"),
         notice=raw["notice"], apply=raw["apply"], apply_end=raw["apply_end"], winner=raw["winner"],
@@ -151,6 +155,14 @@ def run(dry_run: bool = False, today: Optional[date] = None, read_notices: bool 
         except Exception as e:
             log.append(f"[공고문] 전체 실패: {e}")
     log += [f"[실거래가 경고] {m}" for m in sorted(RTMS_ERRORS)]
+    # 실제 응답 필드 기록 (필터·기능을 추가하기 전에 근거로 쓴다)
+    for name, keys in RAW_KEYS.items():
+        log.append(f"[응답 필드] {name}: {', '.join(keys)}")
+    try:
+        for name, keys in probe_fields(ah).items():
+            log.append(f"[응답 필드·미수집] {name}: {', '.join(keys)}")
+    except Exception as e:
+        log.append(f"[응답 필드·미수집] 확인 실패: {e}")
 
     lines = summary(out)
     cfg = notify.load_config()

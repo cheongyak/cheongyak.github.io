@@ -37,14 +37,46 @@ def load() -> list[Listing]:
     return [Listing(**x) for x in json.loads(path.read_text(encoding="utf-8"))]
 
 
+def status_of(L: Listing, today: str) -> str:
+    """모집 상태: 예정 / 접수중 / 마감 (접수 시작·종료일 기준)."""
+    start, end = L.special_apply or L.apply, L.apply_end or L.apply
+    if start and today < start:
+        return "예정"
+    if end and today > end:
+        return "마감"
+    return "접수중"
+
+
 @app.get("/listings")
-def listings(grade_filter: Optional[str] = None, region: Optional[str] = None):
+def listings(grade_filter: Optional[str] = None, region: Optional[str] = None, sido: Optional[str] = None,
+             district: Optional[str] = None, supply_type: Optional[str] = None, status: Optional[str] = None,
+             date_field: str = "apply", date_from: Optional[str] = None, date_to: Optional[str] = None):
+    """모든 조건은 함께 적용된다 (AND). date_field: notice|apply|apply_end|winner."""
+    from datetime import date as _d
+    today = _d.today().isoformat()
+    if date_field not in ("notice", "apply", "apply_end", "winner"):
+        raise HTTPException(400, "date_field 는 notice, apply, apply_end, winner 중 하나예요.")
     rows = []
     for L in load():
         g = grade(L)
         if grade_filter and g["grade"] != grade_filter:
             continue
         if region and L.region != region:
+            continue
+        if sido and L.sido != sido:
+            continue
+        if district and L.district != district:
+            continue
+        if supply_type and L.supply_type != supply_type:
+            continue
+        if status and status_of(L, today) != status:
+            continue
+        dv = getattr(L, date_field)
+        if (date_from or date_to) and not dv:
+            continue
+        if date_from and dv < date_from:
+            continue
+        if date_to and dv > date_to:
             continue
         rows.append({"listing": L.model_dump(), "grade": g})
     rows.sort(key=lambda r: (GRADE_ORDER[r["grade"]["grade"]], r["listing"]["apply"] or "9999"))

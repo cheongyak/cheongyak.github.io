@@ -15,6 +15,41 @@ _GYEONGGI_CITIES_WITH_GU = {
 }
 
 
+# 주소 첫 단어 → 시·도 짧은 이름 (17개)
+SIDO = {
+    "서울": "서울", "서울특별시": "서울", "부산": "부산", "부산광역시": "부산", "대구": "대구", "대구광역시": "대구",
+    "인천": "인천", "인천광역시": "인천", "광주": "광주", "광주광역시": "광주", "대전": "대전", "대전광역시": "대전",
+    "울산": "울산", "울산광역시": "울산", "세종": "세종", "세종특별자치시": "세종", "경기": "경기", "경기도": "경기",
+    "강원": "강원", "강원도": "강원", "강원특별자치도": "강원", "충북": "충북", "충청북도": "충북",
+    "충남": "충남", "충청남도": "충남", "전북": "전북", "전라북도": "전북", "전북특별자치도": "전북",
+    "전남": "전남", "전라남도": "전남", "경북": "경북", "경상북도": "경북", "경남": "경남", "경상남도": "경남",
+    "제주": "제주", "제주도": "제주", "제주특별자치도": "제주",
+}
+SIDO_ORDER = ["서울", "경기", "인천", "부산", "대구", "대전", "광주", "울산", "세종",
+              "강원", "충북", "충남", "전북", "전남", "경북", "경남", "제주"]
+
+
+def sido_of(address: str) -> Optional[str]:
+    first = (address or "").strip().split(" ")[0] if address else ""
+    return SIDO.get(first)
+
+
+def sigungu_any(address: str) -> Optional[str]:
+    """시·군·구 이름 (전국). 서울·경기·인천은 법정동코드 표와 같은 이름을 쓴다."""
+    known = sigungu_of(address)
+    if known:
+        return known.replace("인천 ", "")
+    parts = (address or "").split()
+    if len(parts) < 2 or sido_of(address) == "세종":
+        return None
+    a = parts[1]
+    if not a.endswith(("시", "군", "구")):
+        return None
+    if a.endswith("시") and len(parts) > 2 and parts[2].endswith("구"):
+        return f"{a} {parts[2]}"
+    return a
+
+
 def region_of(address: str) -> str:
     a = address or ""
     if a.startswith("서울"):

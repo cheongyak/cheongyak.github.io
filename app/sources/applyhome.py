@@ -13,11 +13,11 @@ from typing import Iterable, Optional
 
 import httpx
 
-BASE = "https://api.odcloud.kr/api/ApplyhomeInfoDetailSvc/v1"
-ENDPOINTS = {
-    "general": ("/getAPTLttotPblancDetail", "/getAPTLttotPblancMdl"),
-    "remainder": ("/getRemndrLttotPblancDetail", "/getRemndrLttotPblancMdl"),
-}
+from .. import config
+
+# 주소는 app/config.py 에서 관리한다 (환경변수로 바꿀 수 있음). 아래 이름은 기존 코드 호환용.
+BASE = config.APPLYHOME_BASE_URL
+ENDPOINTS = config.APPLYHOME_ENDPOINTS
 
 # 표준 필드 → 응답에서 찾아볼 후보 키 (앞에서부터)
 FIELD = {
@@ -36,6 +36,12 @@ FIELD = {
     "area_name": ["SUBSCRPT_AREA_CODE_NM"],        # 공급지역 (서울/경기/...)
     "move_in": ["MVN_PREARNGE_YM"],
     "url": ["PBLANC_URL", "HMPG_ADRES"],
+    "house_secd": ["HOUSE_SECD"],                   # 주택구분 코드 (예: "04" 무순위)
+    "house_dtl": ["HOUSE_DTL_SECD_NM"],             # 주택상세구분 (민영/국민 등, 일반분양 개요에 있을 때만)
+    "rent_secd": ["RENT_SECD_NM"],                  # 분양/임대 구분 (있을 때만)
+    "special_apply": ["SPSPLY_RCEPT_BGNDE"],        # 특별공급 접수 시작 (2026-09-29 무순위 응답에서 필드 확인, 값은 null)
+    "special_apply_end": ["SPSPLY_RCEPT_ENDDE"],
+    "area_code_nm": ["SUBSCRPT_AREA_CODE_NM"],      # 공급지역 이름 (서울/경기/...)
     # 아래 셋은 일반분양(APT) 개요에만 있을 수 있다. 무순위 개요에는 없음 (2026-09-29 실제 응답 확인)
     # → 없으면 주소로 규제지역을 판정한다.
     "speculative": ["SPECLT_RDN_EARTH_AT"],        # 투기과열지구 Y/N
@@ -100,7 +106,7 @@ class ApplyhomeClient:
 
     def _get(self, path: str, **params) -> dict:
         params = {"page": 1, "perPage": 100, "returnType": "JSON", "serviceKey": self.key, **params}
-        r = self.http.get(BASE + path, params=params)
+        r = self.http.get(config.APPLYHOME_BASE_URL + path, params=params)
         if r.status_code == 401:
             raise ApplyhomeError("인증키가 거절됐어요. 발급 직후라면 1~2시간 뒤 다시 시도하세요. Decoding 키를 쓰세요.")
         r.raise_for_status()
@@ -113,7 +119,7 @@ class ApplyhomeClient:
         서버 필터(cond[RCRIT_PBLANC_DE::GTE])를 먼저 시도하고, 안 되면 페이지를 넘기다
         since 보다 오래된 공고만 나오는 페이지에서 멈춘다.
         """
-        path = ENDPOINTS[category][0]
+        path = config.APPLYHOME_ENDPOINTS[category][0]
         use_filter = bool(since)
         out: list[dict] = []
         for page in range(1, max_pages + 1):
@@ -134,7 +140,7 @@ class ApplyhomeClient:
         return out
 
     def models(self, category: str, notice_no: str) -> list[dict]:
-        path = ENDPOINTS[category][1]
+        path = config.APPLYHOME_ENDPOINTS[category][1]
         return self._get(path, **{"cond[PBLANC_NO::EQ]": notice_no}).get("data", [])
 
 
@@ -162,6 +168,13 @@ def normalize(detail: dict, model: dict, category: str) -> dict:
         "total_households": to_int(pick(detail, "total_households")),
         "move_in": to_date(pick(detail, "move_in")),
         "url": pick(detail, "url"),
+        "supply_type": pick(detail, "kind"),
+        "house_secd": pick(detail, "house_secd"),
+        "house_dtl": pick(detail, "house_dtl"),
+        "rent_secd": pick(detail, "rent_secd"),
+        "special_apply": to_date(pick(detail, "special_apply")),
+        "special_apply_end": to_date(pick(detail, "special_apply_end")),
+        "area_code_nm": pick(detail, "area_code_nm"),
         "price": price_manwon / 10000 if price_manwon else None,
         "speculative": yn(pick(detail, "speculative")),
         "adjusted": yn(pick(detail, "adjusted")),
@@ -169,10 +182,14 @@ def normalize(detail: dict, model: dict, category: str) -> dict:
     }
 
 
+RAW_KEYS: dict[str, list[str]] = {}   # 실행 기록용: 엔드포인트별 실제 응답 키
+
+
 def iter_open_listings(client: ApplyhomeClient, today: str, since: str) -> Iterable[dict]:
     """접수가 끝나지 않은 공고를 주택형 단위로 펼쳐서 돌려준다."""
-    for category in ("general", "remainder"):
+    for category in config.APPLYHOME_ENDPOINTS:
         for d in client.notices(category, since=since):
+            RAW_KEYS.setdefault(f"{category} 개요", sorted(d.keys()))
             end = to_date(pick(d, "apply_end")) or to_date(pick(d, "apply"))
             if end and end < today:
                 continue
@@ -180,4 +197,17 @@ def iter_open_listings(client: ApplyhomeClient, today: str, since: str) -> Itera
             if not no:
                 continue
             for m in client.models(category, no):
+                RAW_KEYS.setdefault(f"{category} 주택형", sorted(m.keys()))
                 yield normalize(d, m, category)
+
+
+def probe_fields(client: ApplyhomeClient) -> dict[str, list[str]]:
+    """아직 수집하지 않는 엔드포인트의 실제 응답 키를 확인한다 (필터 추가 전 근거 확보용)."""
+    out = {}
+    for name, path in config.APPLYHOME_PROBE_ENDPOINTS.items():
+        try:
+            rows = client._get(path, perPage=1).get("data", [])
+            out[name] = sorted(rows[0].keys()) if rows else ["(데이터 없음)"]
+        except Exception as e:
+            out[name] = [f"(실패: {e.__class__.__name__})"]
+    return out

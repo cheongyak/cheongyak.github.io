@@ -131,3 +131,48 @@ def test_incheon_lawd():
     a = "인천광역시 계양구 계양동 일원"
     assert region.sigungu_of(a) == "인천 계양구" and region.lawd_of("인천 계양구") == "28245"
     assert not region.is_regulated(a) and region.is_capital(a)
+
+
+def test_sido_and_district():
+    from app import region
+    assert region.sido_of("서울특별시 광진구 구의동") == "서울"
+    assert region.sido_of("전북특별자치도 전주시 완산구 삼천동") == "전북"
+    assert region.sigungu_any("전북특별자치도 전주시 완산구 삼천동") == "전주시 완산구"
+    assert region.sigungu_any("경상남도 진주시 판문동") == "진주시"
+    assert region.sigungu_any("인천광역시 계양구 계양동") == "계양구"
+    assert region.sigungu_any("세종특별자치시 어진동") is None
+
+
+def test_config_env_override(monkeypatch):
+    import importlib
+    from app import config
+    monkeypatch.setenv("APPLYHOME_BASE_URL", "https://example.org/api/")
+    monkeypatch.setenv("RTMS_PATH_TRADE", "/X/getX")
+    importlib.reload(config)
+    try:
+        assert config.APPLYHOME_BASE_URL == "https://example.org/api"
+        assert config.RTMS_ENDPOINTS["trade"] == "/X/getX"
+    finally:
+        monkeypatch.delenv("APPLYHOME_BASE_URL"); monkeypatch.delenv("RTMS_PATH_TRADE")
+        importlib.reload(config)
+
+
+def test_api_filters(tmp_path, monkeypatch):
+    ah, rt = clients()
+    monkeypatch.setattr(pipeline, "ApplyhomeClient", lambda: ah)
+    monkeypatch.setattr(pipeline, "RtmsClient", lambda: rt)
+    monkeypatch.setattr(pipeline, "DATA", tmp_path / "listings.json")
+    monkeypatch.setattr(pipeline, "RUN_LOG", tmp_path / "run-log.txt")
+    monkeypatch.setattr(pipeline.notify, "send", lambda msgs, cfg: [])
+    out = pipeline.run(today=date(2026, 9, 29), read_notices=False)
+    L = out[0]
+    assert L.sido == "서울" and L.district == "광진구" and L.supply_type == "불법행위 재공급"
+    assert "[응답 필드] remainder 개요" in (tmp_path / "run-log.txt").read_text(encoding="utf-8")
+    monkeypatch.setenv("LISTINGS_PATH", str(tmp_path / "listings.json"))
+    from app.api import app
+    c = TestClient(app)
+    assert len(c.get("/listings", params={"sido": "서울", "district": "광진구"}).json()) == 1
+    assert len(c.get("/listings", params={"sido": "부산"}).json()) == 0
+    assert len(c.get("/listings", params={"date_field": "apply", "date_from": "2026-10-01", "date_to": "2026-10-31"}).json()) == 1
+    assert len(c.get("/listings", params={"date_field": "apply", "date_to": "2026-09-30"}).json()) == 0
+    assert c.get("/listings", params={"date_field": "bad"}).status_code == 400
