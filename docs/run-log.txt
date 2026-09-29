@@ -1,6 +1,6 @@
 실행: 2026-09-30 · 공고 211건
 
-로또    강변역 센트럴 아이파크 84C · 광진구 · 분양가 12.22억 마진 +7.18~+9.38억 · 세대주
+로또    강변역 센트럴 아이파크 84C · 광진구 · 분양가 12.22억 마진 +6.95~+9.15억 · 세대주
 로또    과천 푸르지오 라비엔오 84D · 과천시 · 분양가 8.03억 마진 +10.80~+12.91억 · 세대구성원
 로또    과천 푸르지오 벨라르테 99B · 과천시 · 분양가 9.52억 마진 +8.88~+10.96억 · 세대주
 로또    브라운스톤 월곡 센트럴 59B · 성북구 · 분양가 8.92억 마진 +2.89~+3.64억 · 세대구성원
@@ -212,8 +212,8 @@
 시세 부족 태화강 에피트 84 · 지방 · 분양가 5.48억  · 세대주
 시세 부족 한강 푸르지오 리버프론트 180B · 김포시 · 분양가 29.22억  · 세대구성원
 
-[시간] 공고 211건 14초 · 실거래 요청 414건 34초 (성공 414, 실패 0, 시간 초과로 생략 0)
-[시간] 공고문 56건 189초
+[시간] 공고 211건 18초 · 실거래 요청 414건 26초 (성공 414, 실패 0, 시간 초과로 생략 0)
+[시간] 공고문 56건 147초
 [공고문] 시흥하중지구 A-4블록 신혼희망타운(공공분양) 추가입주자모집: PDF 링크 못 찾음 (페이지 10372자) → 추출 없음
 [공고문] 광명 시티프라디움 에듀하임: PDF 읽음 (79285자): https://static.applyhome.co.kr/ai/aia/getAtchmnfl.do?houseManageNo=2026000453&pblancNo=2026000453&atchmnflSeqNo=1971127&atchmnflSn=7 → {'need_head': False, 'price_cap': False, 'residence_duty': 0, 'rewin_years': 10, 'account_months': 24}
 [공고문·원문] 광명 시티프라디움 에듀하임 (입주지정기간): …진단서 등으로 판단 * 임신 상태가 입주지정기간 개시일까지 지속되는 경우에는 입주지정기간 개시일 이후 발급받은 임신진단서를 통해 확인 * 입양의 경우 입주지정기간 개시일 이후 발급받은 가족관계증명서…
@@ -304,7 +304,7 @@
 [공고문] 충정로역자이르네: PDF 읽음 (44822자): https://static.applyhome.co.kr/ai/aia/getAtchmnfl.do?houseManageNo=2026910251&pblancNo=2026910251&atchmnflSeqNo=1986036&atchmnflSn=2 → {'need_head': False, 'price_cap': False, 'residence_duty': 0, 'rewin_years': 10}
 [공고문·원문] 충정로역자이르네 (입주지정기간): …대출 실행일로부터 사업주체가 지정한 입주지정기간 최초일 전일까지입니다 중도금 대출에 따른 보증수수료 인지대 등 제반 경비는 계약자가 부담하여야 하며 대출 기간 . , , • 이내라도 계약자의 금융신…
 [공고문·원문] 충정로역자이르네 (입주지정기간): …하여야 합니다. 중도금 대출 이자는 입주지정기간 최초일 전일까지 시행위탁자가 대납하되 계약자는 입주 시 사업주체가 지정한 기일 내에 중도금 대출 원금 상환 또는 담보대출 전환 및 대납이자 등을 완납…
-[공고문] 강변역 센트럴 아이파크: PDF 받기 실패(형식 아님): https://static.applyhome.co.kr/ai/aia/getAtchmnfl.do?houseManageNo=2026930040&pblancNo=2026930040&atchmnflSeqNo=1982993&atchmnflSn=5 → 추출 없음
+[공고문] 강변역 센트럴 아이파크: PDF 읽음 (26171자): https://static.applyhome.co.kr/ai/aia/getAtchmnfl.do?houseManageNo=2026930040&pblancNo=2026930040&atchmnflSeqNo=1982993&atchmnflSn=5 → {'need_head': True, 'price_cap': False, 'residence_duty': 0, 'rewin_years': 10, 'balance': '2026-11-30', 'ext': 0.2178}
 [공고문] 과천 푸르지오 벨라르테: PDF 읽음 (23865자): https://static.applyhome.co.kr/ai/aia/getAtchmnfl.do?houseManageNo=2026930037&pblancNo=2026930037&atchmnflSeqNo=1980252&atchmnflSn=3 → {'need_head': True, 'price_cap': True}
 [공고문·원문] 과천 푸르지오 벨라르테 (재당첨): …00 주택유형 규제지역여부 거주요건 재당첨제한 민영 투기과열지구 청약과열지역 / 경기도 과천시 거주자 입주자모집공고일 기준( ) 년10 분양가상한제 적용주택( ) 전매제한 거주의무기간 분양가상한제…
 [공고문·원문] 과천 푸르지오 벨라르테 (재당첨): …예비입주자로 선정된 분이 다른 주택 재당첨 제한이 적용되는 주택에 한함 의 입주자로 선정된 경우 예비입주자로서 주택을 공급받을 수( ) 없습니다 . 다만 예비입주자의 동, ·호수 배정일 당첨일 이…
@@ -425,40 +425,21 @@
 [응답 예시] 경쟁률(APT): CMPET_RATE=1.29, HOUSE_MANAGE_NO=2026000448, HOUSE_TY=069.7032 , MODEL_NO=01, PBLANC_NO=2026000448, REQ_CNT=9, RESIDE_SECD=01, RESIDE_SENM=해당지역, SUBSCRPT_RANK_CODE=1, SUPLY_HSHLDCO=7
 [응답 예시] 당첨가점: AVRG_SCORE=-, HOUSE_MANAGE_NO=2026000426, HOUSE_TY=084.8786A, LWET_SCORE=-, MODEL_NO=01, PBLANC_NO=2026000426, RESIDE_SECD=01, RESIDE_SENM=해당지역, TOP_SCORE=-
 [응답 예시] 경쟁률(무순위): CMPET_RATE=71.00, HOUSE_MANAGE_NO=2026910220, HOUSE_TY=140.8560P, PBLANC_NO=2026910220, REMNDR_HSHLD_PBLANC_TYCD=01, REQ_CNT=213, SUPLY_HSHLDCO=3
-[지난 경쟁률] 시·군·구 23곳 · 이번에 161건 조회 (결과 있음 151, 비어 있음 10) · 기록 234건 · 64초
+[지난 경쟁률] 시·군·구 23곳 · 이번에 0건 조회 (결과 있음 0, 비어 있음 0) · 기록 234건 · 2초
 [위치] 힐스테이트 고덕엘리스트 A65BL 공공분양주택: 못 찾음 ← '경기도 평택시 고덕동 고덕면' 0건
 [위치] 힐스테이트 고덕엘리스트 A12BL 공공분양주택: 못 찾음 ← '경기도 평택시 고덕동 고덕면' 0건
-[위치] 충정로역자이르네: 찾음 (exact) 서울특별시 중구 중림동 157-2 ← '서울특별시 중구 중림동 157-2' 1건
-[위치] 강변역 센트럴 아이파크: 찾음 (exact) 서울특별시 광진구 구의동 592-39 ← '서울특별시 광진구 구의동 592-39' 1건
 [위치] 과천 푸르지오 벨라르테: 못 찾음 ← 검색어를 만들지 못했어요
 [위치] 과천 푸르지오 라비엔오: 못 찾음 ← 검색어를 만들지 못했어요
-[위치] 아크로 리버스카이(2차): 찾음 (exact) 서울특별시 동작구 대방동 23-61 ← '서울특별시 동작구 대방동 23-61' 1건
 [위치] 제일풍경채 첨단3지구(A6BL): 못 찾음 ← 검색어를 만들지 못했어요
-[위치] 더샵 청주그리니티: 찾음 (exact) 충청북도 청주시 서원구 개신동 767 더샵 청주그리니티 ← '충청북도 청주시 서원구 개신동 767' 1건
-[위치] 더샵 청주그리니티: 찾음 (exact) 충청북도 청주시 서원구 개신동 767 더샵 청주그리니티 ← '충청북도 청주시 서원구 개신동 767' 1건
-[위치] 신천역 에피트(2차): 찾음 (exact) 경기도 시흥시 은행동 694 신천역 에피트 아파트 ← '경기도 시흥시 시흥대로 1110' 1건
-[위치] 철산자이 브리에르: 찾음 (exact) 경기도 광명시 철산동 105 철산자이브리에르 ← '경기도 광명시 철산동 105' 1건
-[위치] 철산자이 더 헤리티지: 찾음 (exact) 경기도 광명시 철산동 235 철산자이 더 헤리티지 ← '경기도 광명시 철산동 235' 1건
-[위치] 용인반도체클러스터 동일하이빌 파크밸리(D1-1블록): 찾음 (dong) 경기도 용인시 처인구 원삼면 ← '경기도 용인시 처인구 원삼면' 1건
-[위치] 두산위브더제니스 부천: 찾음 (exact) 경기도 부천시 소사구 소사본동 88-39 ← '경기도 부천시 소사구 소사본동 88-39' 1건
-[위치] 태화강 에피트: 찾음 (dong) 울산광역시 울주군 범서읍 굴화리 ← '울산광역시 울주군 범서읍 굴화리' 1건
-[위치] 더 리치먼드 미아(3차): 찾음 (exact) 서울특별시 강북구 미아동 703-13 ← '서울특별시 강북구 미아동 703-13' 1건
-[위치] 아야진 라메르 데시앙: 찾음 (exact) 강원특별자치도 고성군 토성면 아야진리 876 아야진 라메르 데시앙 ← '강원특별자치도 고성군 토성면 아야진길 24-10' 1건
-[위치] 더샵 송도마리나베이(조합원 자격상실세대 3회차): 찾음 (exact) 인천광역시 연수구 송도동 308-1 더샵 송도 마리나베이 ← '인천광역시 연수구 송도동 308-1' 1건
-[위치] 더샵 트리센트: 찾음 (exact) 부산광역시 남구 문현동 334 ← '부산광역시 남구 문현동 334' 1건
-[위치] 북오산자이 드포레: 찾음 (exact) 경기도 오산시 내삼미동 288 ← '경기도 오산시 내삼미동 288' 1건
-[위치] 두산위브더제니스 대연: 찾음 (exact) 부산광역시 남구 대연동 1756-9 ← '부산광역시 남구 대연동 1756-9' 1건
-[위치] 역북 서희스타힐스 프라임시티(조합원 취소분): 찾음 (exact) 경기도 용인시 처인구 역북동 89-25 ← '경기도 용인시 처인구 역북동 89-25' 1건
-[위치] 한강 푸르지오 리버프론트: 찾음 (exact) 경기도 김포시 고촌읍 향산리 588-45 ← '경기도 김포시 고촌읍 향산리 588-45' 1건
-[위치] 제일풍경채 검단Ⅳ: 찾음 (dong) 인천광역시 검단구 불로동 ← '인천광역시 검단구 불로동' 1건
-[위치] 청계 노르웨이숲(12차): 찾음 (exact) 서울특별시 중구 황학동 1756 ← '서울특별시 중구 황학동 1756' 1건
-[위치] 드파인 아르티아(2차): 찾음 (exact) 서울특별시 동작구 노량진동 312-75 ← '서울특별시 동작구 노량진동 312-75' 1건
-[입지] 더샵 분당하이스트: 조회 실패 (overpass-api.de 응답 504, overpass.private.coffee ReadTimeout, maps.mail.ru 응답 504)
-[입지] 중동역 다채로움 더원: 중동역 302m, 송내역 879m, 부천송일초등학교 196m, 부천여자중학교 390m, 부천여자고등학교 550m
-[입지] 오남역 서희스타힐스 여의재 3단지 (조합원 취소분): 오남역 800m, 진접역 1834m, 양지초등학교 752m, 오남중학교 564m, 오남고등학교 864m
-[입지] 남울산 노르웨이숲(조합원 취소분)(2회차): 남창역 1790m, 온남초등학교 923m
-[입지] 더샵 여주역더퍼스트: 여주역 1224m, 세종초등학교 932m, 세종중학교 1037m, 세종고등학교 1205m
-[위치] 공고 56건: 정확 42 · 동 기준 9 · 못 찾음 5 (지난 값 재사용 29) · 주변 입지 20건 · 좌표 13초, 전체 313초
+[입지] 더샵 분당하이스트: 정자역 460m, 수내역 1230m, 성남신기초등학교 280m, 정자중학교 336m, 한솔고등학교 207m
+[입지] 대전 경남아너스빌 센텀스카이: 중앙로역 777m, 중구청역 964m, 대흥초등학교 473m, 대전중학교 439m, 대전고등학교.부설방송통신고등학교 467m
+[입지] 올 뉴 챔피언스시티 1차: 양동시장역 1288m, 돌고개역 1383m, 광주서림초등학교 521m, 광주북성중학교 1014m, 전남사대부설중학고등학교 1266m
+[입지] 그랑라크 에일린의 뜰: 선암초등학교 518m, 태화중학교 1453m
+[입지] 남양주진접2지구 A-4블록 신혼희망타운(공공분양) 잔여세대 추가입주자모집공고: 남양주풍양초등학교 650m
+[입지] 브라운스톤 월곡 센트럴: 월곡역 639m, 미아사거리역 973m, 숭인초등학교 396m, 숭곡중학교 496m, 서울도시과학기술고등학교 357m
+[입지] 양주회천지구 A-26블록 공공분양주택: 덕정역 496m, 덕정초등학교 318m, 덕정중학교 443m, 덕정고등학교 964m
+[입지] 의정부우정 A2블록 공공분양주택(본청약): 녹양역 887m, 가능역 1682m, 버들개초등학교 311m, 녹양중학교 434m, 의정부고등학교 627m
+[위치] 공고 56건: 정확 42 · 동 기준 9 · 못 찾음 5 (지난 값 재사용 51) · 주변 입지 28건 · 좌표 3초, 전체 273초
 [응답 필드] general 개요: BSNS_MBY_NM, CNSTRCT_ENTRPS_NM, CNTRCT_CNCLS_BGNDE, CNTRCT_CNCLS_ENDDE, GNRL_RNK1_CRSPAREA_ENDDE, GNRL_RNK1_CRSPAREA_RCPTDE, GNRL_RNK1_ETC_AREA_ENDDE, GNRL_RNK1_ETC_AREA_RCPTDE, GNRL_RNK1_ETC_GG_ENDDE, GNRL_RNK1_ETC_GG_RCPTDE, GNRL_RNK2_CRSPAREA_ENDDE, GNRL_RNK2_CRSPAREA_RCPTDE, GNRL_RNK2_ETC_AREA_ENDDE, GNRL_RNK2_ETC_AREA_RCPTDE, GNRL_RNK2_ETC_GG_ENDDE, GNRL_RNK2_ETC_GG_RCPTDE, HMPG_ADRES, HOUSE_DTL_SECD, HOUSE_DTL_SECD_NM, HOUSE_MANAGE_NO, HOUSE_NM, HOUSE_SECD, HOUSE_SECD_NM, HSSPLY_ADRES, HSSPLY_ZIP, IMPRMN_BSNS_AT, LRSCL_BLDLND_AT, MDAT_TRGET_AREA_SECD, MDHS_TELNO, MVN_PREARNGE_YM, NPLN_PRVOPR_PUBLIC_HOUSE_AT, NSPRC_NM, PARCPRC_ULS_AT, PBLANC_NO, PBLANC_URL, PRZWNER_PRESNATN_DE, PUBLIC_HOUSE_EARTH_AT, PUBLIC_HOUSE_SPCLW_APPLC_AT, RCEPT_BGNDE, RCEPT_ENDDE, RCRIT_PBLANC_DE, RENT_SECD, RENT_SECD_NM, SPECLT_RDN_EARTH_AT, SPSPLY_RCEPT_BGNDE, SPSPLY_RCEPT_ENDDE, SUBSCRPT_AREA_CODE, SUBSCRPT_AREA_CODE_NM, TOT_SUPLY_HSHLDCO
 [응답 필드] general 주택형: ETC_HSHLDCO, HOUSE_MANAGE_NO, HOUSE_TY, INSTT_RECOMEND_HSHLDCO, LFE_FRST_HSHLDCO, LTTOT_TOP_AMOUNT, MNYCH_HSHLDCO, MODEL_NO, NWBB_HSHLDCO, NWWDS_HSHLDCO, OLD_PARNTS_SUPORT_HSHLDCO, PBLANC_NO, SPSPLY_HSHLDCO, SUPLY_AR, SUPLY_HSHLDCO, TRANSR_INSTT_ENFSN_HSHLDCO, YGMN_HSHLDCO
 [응답 필드] remainder 개요: BSNS_MBY_NM, CNTRCT_CNCLS_BGNDE, CNTRCT_CNCLS_ENDDE, GNRL_RCEPT_BGNDE, GNRL_RCEPT_ENDDE, HMPG_ADRES, HOUSE_MANAGE_NO, HOUSE_NM, HOUSE_SECD, HOUSE_SECD_NM, HSSPLY_ADRES, HSSPLY_ZIP, MDHS_TELNO, MVN_PREARNGE_YM, NSPRC_NM, PBLANC_NO, PBLANC_URL, PRZWNER_PRESNATN_DE, RCRIT_PBLANC_DE, SPSPLY_RCEPT_BGNDE, SPSPLY_RCEPT_ENDDE, SUBSCRPT_AREA_CODE, SUBSCRPT_AREA_CODE_NM, SUBSCRPT_RCEPT_BGNDE, SUBSCRPT_RCEPT_ENDDE, TOT_SUPLY_HSHLDCO
@@ -466,7 +447,7 @@
 [응답 필드·미수집] 오피스텔·도시형·민간임대: BSNS_MBY_NM, CNTRCT_CNCLS_BGNDE, CNTRCT_CNCLS_ENDDE, HMPG_ADRES, HOUSE_DTL_SECD, HOUSE_DTL_SECD_NM, HOUSE_MANAGE_NO, HOUSE_NM, HOUSE_SECD, HOUSE_SECD_NM, HSSPLY_ADRES, HSSPLY_ZIP, MDHS_TELNO, MVN_PREARNGE_YM, NSPRC_NM, PBLANC_NO, PBLANC_URL, PRZWNER_PRESNATN_DE, RCRIT_PBLANC_DE, SEARCH_HOUSE_SECD, SUBSCRPT_AREA_CODE, SUBSCRPT_AREA_CODE_NM, SUBSCRPT_RCEPT_BGNDE, SUBSCRPT_RCEPT_ENDDE, TOT_SUPLY_HSHLDCO
 [응답 필드·미수집] 공공지원 민간임대: BSNS_MBY_NM, CNTRCT_CNCLS_BGNDE, CNTRCT_CNCLS_ENDDE, HMPG_ADRES, HOUSE_DETAIL_SECD, HOUSE_DETAIL_SECD_NM, HOUSE_MANAGE_NO, HOUSE_NM, HOUSE_SECD, HOUSE_SECD_NM, HSSPLY_ADRES, HSSPLY_ZIP, MDHS_TELNO, MVN_PREARNGE_YM, NSPRC_NM, PBLANC_NO, PBLANC_URL, PRZWNER_PRESNATN_DE, RCRIT_PBLANC_DE, SEARCH_HOUSE_SECD, SUBSCRPT_AREA_CODE, SUBSCRPT_AREA_CODE_NM, SUBSCRPT_RCEPT_BGNDE, SUBSCRPT_RCEPT_ENDDE, TOT_SUPLY_HSHLDCO
 [응답 필드·미수집] 임의공급: BSNS_MBY_NM, CNTRCT_CNCLS_BGNDE, CNTRCT_CNCLS_ENDDE, GNRL_RCEPT_BGNDE, GNRL_RCEPT_ENDDE, HMPG_ADRES, HOUSE_MANAGE_NO, HOUSE_NM, HOUSE_SECD, HOUSE_SECD_NM, HSSPLY_ADRES, HSSPLY_ZIP, MDHS_TELNO, MVN_PREARNGE_YM, PBLANC_NO, PBLANC_URL, PRZWNER_PRESNATN_DE, RCRIT_PBLANC_DE, SPSPLY_RCEPT_BGNDE, SPSPLY_RCEPT_ENDDE, SUBSCRPT_AREA_CODE, SUBSCRPT_AREA_CODE_NM, SUBSCRPT_RCEPT_BGNDE, SUBSCRPT_RCEPT_ENDDE, TOT_SUPLY_HSHLDCO
-[검증] 공고 211건 중 50건에 확인할 점이 있어요
+[검증] 공고 211건 중 49건에 확인할 점이 있어요
 [검증] 시흥하중지구 A-4블록 신혼희망타운(공공분양) 추가입주자모집 55O: 재당첨 제한 기간을 공고문에서 확인하지 못해 추정했어요
 [검증] 시흥하중지구 A-4블록 신혼희망타운(공공분양) 추가입주자모집 56O: 재당첨 제한 기간을 공고문에서 확인하지 못해 추정했어요
 [검증] 숭의역 노르웨이숲 더 스카이 69: 마진율 -61%는 이례적이에요. 시세 근거를 확인하세요
@@ -506,7 +487,6 @@
 [검증] 성남복정2 A1블록 신혼희망타운(공공분양)(본청약) 55B: 세대주 요건을 공고문에서 확인하지 못해 규제지역 기준으로 추정했어요 / 재당첨 제한 기간을 공고문에서 확인하지 못해 추정했어요
 [검증] 성남복정2 A1블록 신혼희망타운(공공분양)(본청약) 55C: 세대주 요건을 공고문에서 확인하지 못해 규제지역 기준으로 추정했어요 / 재당첨 제한 기간을 공고문에서 확인하지 못해 추정했어요
 [검증] 성남복정2 A1블록 신혼희망타운(공공분양)(본청약) 56T: 세대주 요건을 공고문에서 확인하지 못해 규제지역 기준으로 추정했어요 / 재당첨 제한 기간을 공고문에서 확인하지 못해 추정했어요
-[검증] 강변역 센트럴 아이파크 84C: 세대주 요건을 공고문에서 확인하지 못해 규제지역 기준으로 추정했어요 / 재당첨 제한 기간을 공고문에서 확인하지 못해 추정했어요
 [검증] 과천 푸르지오 벨라르테 99B: 재당첨 제한 기간을 공고문에서 확인하지 못해 추정했어요 / 시세 근거 거래가 1건뿐이에요
 [검증] 과천 푸르지오 라비엔오 84D: 재당첨 제한 기간을 공고문에서 확인하지 못해 추정했어요 / 시세 근거 거래가 2건뿐이에요 / 마진율 131%는 이례적이에요. 시세 근거를 확인하세요
 [검증] 신천역 에피트(2차) 111A: 시세 근거 거래가 2건뿐이에요
@@ -517,6 +497,4 @@
 [검증] 역북 서희스타힐스 프라임시티(조합원 취소분) 59B: 시세 근거 거래가 1건뿐이에요
 [검증] 제일풍경채 검단Ⅳ 110B: 재당첨 제한 기간을 공고문에서 확인하지 못해 추정했어요
 [검증] 청계 노르웨이숲(12차) 39: 재당첨 제한 기간을 공고문에서 확인하지 못해 추정했어요
-[검증·정답 불일치] 강변역 센트럴 아이파크 84C · balance: 수집값 None ≠ 공고문 '2026-11-30'
-[검증·정답 불일치] 강변역 센트럴 아이파크 84C · ext: 수집값 0.0 ≠ 공고문 0.2178
-알림 전송 200: 로또 청약 1건이 새로 올라왔어요
+[검증·정답] 정답 데이터와 모두 일치해요 (대상 공고가 없으면 비교 생략)
