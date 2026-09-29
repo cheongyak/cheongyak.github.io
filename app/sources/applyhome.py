@@ -188,16 +188,21 @@ def normalize(detail: dict, model: dict, category: str) -> dict:
     }
 
 
+KEEP_AFTER_WINNER_DAYS = 14   # 마감 공고를 당첨자 발표 뒤 며칠까지 남길지
 RAW_KEYS: dict[str, list[str]] = {}   # 실행 기록용: 엔드포인트별 실제 응답 키
 
 
 def iter_open_listings(client: ApplyhomeClient, today: str, since: str) -> Iterable[dict]:
-    """접수가 끝나지 않은 공고를 주택형 단위로 펼쳐서 돌려준다."""
+    """접수가 끝나지 않았거나, 끝났어도 당첨자 발표 후 KEEP_AFTER_WINNER_DAYS 일이 지나지 않은 공고를
+    주택형 단위로 펼쳐서 돌려준다 (마감 공고의 경쟁률·당첨 가점을 보여주기 위해 남긴다)."""
+    from datetime import date as _d, timedelta as _td
     for category in ("general", "remainder"):
         for d in client.notices(category, since=since):
             RAW_KEYS.setdefault(f"{category} 개요", sorted(d.keys()))
             end = to_date(pick(d, "apply_end")) or to_date(pick(d, "apply"))
-            if end and end < today:
+            winner = to_date(pick(d, "winner"))
+            keep = (_d.fromisoformat(winner) + _td(days=KEEP_AFTER_WINNER_DAYS)).isoformat() if winner else end
+            if keep and keep < today:
                 continue
             no = str(pick(d, "notice_no") or "")
             if not no:

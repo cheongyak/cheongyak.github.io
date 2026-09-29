@@ -21,6 +21,7 @@ from .market import estimate_jeonse, estimate_market, months_back
 from .models import Listing
 from .sources.applyhome import RAW_KEYS, ApplyhomeClient, iter_open_listings, probe_fields
 from .sources.rtms import RtmsClient
+from .sources import cmpet
 from . import geo, notice_pdf, notify, validate
 
 ROOT = Path(__file__).resolve().parent.parent
@@ -231,6 +232,10 @@ def run(dry_run: bool = False, today: Optional[date] = None, read_notices: bool 
             apply_notice(out, log, previous=prev)
         except Exception as e:
             log.append(f"[공고문] 전체 실패: {e}")
+        try:
+            cmpet.apply_competition(out, log, today.isoformat())
+        except Exception as e:
+            log.append(f"[경쟁률] 전체 실패: {e}")
         try:
             geo.apply_geo(out, log, previous=prev, probe=not dry_run)
         except Exception as e:

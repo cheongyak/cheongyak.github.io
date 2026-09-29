@@ -59,7 +59,8 @@ def build_messages(listings: list[Listing], previous_ids: Optional[set[str]], to
     msgs: list[dict] = []
 
     if previous_ids is not None:
-        new = [L for L in good if L.id not in previous_ids]
+        # 마감 공고는 경쟁률을 보여주려고 목록에 남기는 것이라 '새 공고' 알림에서 뺀다
+        new = [L for L in good if L.id not in previous_ids and (L.apply_end or L.apply or '9999') >= today.isoformat()]
         if new:
             groups = _by_notice(new)
             has_lotto = any(grade(L)["grade"] == "lotto" for L in new)

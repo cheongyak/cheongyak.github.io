@@ -76,6 +76,15 @@ h2{margin:0;font-size:16px}
 .dday.d-soon{background:var(--warn-soft);color:var(--warn-ink);box-shadow:inset 0 0 0 1px var(--warn-ink)}
 .dday.d-week{background:var(--consider-soft);color:var(--consider-ink)}
 .dday.d-closed{color:var(--muted);font-weight:500}
+.dday.d-comp{background:var(--surface);color:var(--fg);box-shadow:inset 0 0 0 1px var(--line)}
+.dstack{display:flex;flex-direction:column;align-items:flex-end;gap:4px;flex:none}
+.ctable{width:100%;border-collapse:collapse;font-size:13px}
+.ctable th{font-size:11px;font-weight:600;color:var(--muted);text-align:right;padding:4px 4px;border-bottom:1px solid var(--line)}
+.ctable td{text-align:right;padding:7px 4px;border-bottom:1px solid var(--line);white-space:nowrap}
+.ctable th:first-child,.ctable td:first-child{text-align:left}
+.ctable tr.mine td{background:var(--sunk);font-weight:700}
+.ctable .rate{font-weight:700}
+details.more summary{cursor:pointer;color:var(--link);font-weight:600;font-size:13px;min-height:32px;display:flex;align-items:center}
 .sample{display:inline-block;padding:1px 6px;border-radius:4px;background:var(--sunk);font-size:11px;font-weight:600;color:var(--muted);margin-left:6px;vertical-align:2px}
 .band{display:flex;align-items:center;gap:12px;padding:12px;border-radius:12px}
 .badge{flex:none;min-width:64px;height:32px;padding:0 10px;border-radius:8px;display:inline-flex;align-items:center;justify-content:center;font-weight:700;font-size:15px}
@@ -443,6 +452,38 @@ function ddayCls(L){ // 급한 순서: 접수 중·오늘(빨강) > 3일 안(주
   const n = Math.round((new Date(d) - new Date(TODAY)) / 864e5);
   return n <= 0 ? 'd-now' : n <= 3 ? 'd-soon' : n <= 7 ? 'd-week' : '';
 }
+/* 청약홈 경쟁률 · 당첨 가점 (app/sources/cmpet.py) */
+const CMPET_SRC = 'https://www.data.go.kr/data/15098905/openapi.do';
+function compHead(c){
+  if (!c || !c.rows || !c.rows.length) return null;
+  const first = c.rows.filter(r => ['1','01','1순위'].includes(r.rank)), local = first.filter(r => (r.reside || '').includes('해당'));
+  return (local[0] || first[0] || c.rows[0]);
+}
+function rateText(r){
+  if (!r) return '';
+  if (r.rate_num != null) return (r.rate_num >= 100 ? Math.round(r.rate_num).toLocaleString() : (Math.round(r.rate_num * 10) / 10)) + ':1';
+  return (r.rate || '').includes('△') ? '미달 ' + r.rate : (r.rate || '-');
+}
+const n0 = v => v == null ? '-' : Math.round(v).toLocaleString();
+function compCard(L){
+  const nid = L.id.split('-')[0], st = statusOf(L);
+  const units = LISTINGS.filter(x => x.id.split('-')[0] === nid && x.competition);
+  if (!units.length) {
+    if (st === '접수 예정' || !st) return '';
+    return `<section class="card"><h2>경쟁률·당첨 가점</h2><div class="small muted">아직 결과가 없어요. 청약홈에 1순위 경쟁률이 올라오면(보통 접수 다음 날) 매일 새벽 수집 때 반영돼요.</div></section>`;
+  }
+  const score = u => { const sc = (u.competition.scores || []), s = sc.find(x => (x.reside || '').includes('해당')) || sc[0]; return s && s.low != null ? n0(s.low) + ' / ' + (s.avg == null ? '-' : (Math.round(s.avg * 10) / 10)) : '-'; };
+  const rows = units.map(u => { const h = compHead(u.competition);
+    return `<tr class="${u.id === L.id ? 'mine' : ''}"><td>${esc(u.unitName)}</td><td>${h ? n0(h.supply) : '-'}</td><td>${h ? n0(h.req) : '-'}</td><td class="rate">${h ? esc(rateText(h)) : '-'}</td><td>${score(u)}</td></tr>`; }).join('');
+  const all = units.map(u => `<div class="row small"><span><b>${esc(u.unitName)}</b></span><span style="white-space:normal;text-align:right">${
+    u.competition.rows.map(r => `${esc(r.rank)}순위 ${esc(r.reside)} · 공급 ${n0(r.supply)} · 접수 ${n0(r.req)} · <b>${esc(rateText(r))}</b>`).join('<br>')}${
+    (u.competition.scores || []).map(x => `<br>당첨가점 ${esc(x.reside)} 최저 ${n0(x.low)} · 최고 ${n0(x.top)} · 평균 ${x.avg == null ? '-' : Math.round(x.avg * 10) / 10}`).join('')}</span></div>`).join('');
+  return `<section class="card"><h2>경쟁률·당첨 가점</h2>
+    <table class="ctable"><thead><tr><th>주택형</th><th>공급</th><th>접수</th><th>경쟁률</th><th>가점 최저/평균</th></tr></thead><tbody>${rows}</tbody></table>
+    <div class="small muted">1순위 해당지역 기준이에요 (없으면 다른 순위·지역). 굵은 줄이 지금 보는 주택형이에요. ${src(null, ['청약홈 경쟁률·당첨가점 API', CMPET_SRC])}</div>
+    <details class="more"><summary>순위·지역별 전체 보기</summary><div class="rows">${all}</div></details>
+  </section>`;
+}
 function ddayOf(L){ // 모집 상태와 같은 기준으로 표시: 예정이면 D-n, 접수 중이면 마감일, 끝났으면 마감
   const st = statusOf(L), end = L.applyEnd || L.apply;
   if (st === '접수 중' && end && end !== TODAY && end > TODAY) return '접수 중 · ~' + end.slice(5).replace('-','.');
@@ -575,12 +616,12 @@ function filterPanel(){
 function feedList(){
   return LISTINGS.filter(L => matches(L, S.f)).map(L => ({ L, m: grade(L) }))
     .filter(x => S.filter === 'all' || x.m.g === S.filter)
-    .sort((a,b) => GORDER[a.m.g] - GORDER[b.m.g]);
+    .sort((a,b) => (statusOf(a.L) === '마감') - (statusOf(b.L) === '마감') || GORDER[a.m.g] - GORDER[b.m.g]);   // 마감 공고는 아래로
 }
 function listingCard(L, m){
   return `
     <button class="card listing g-${m.g}" data-open="${L.id}">
-      <div class="row"><div><div class="meta">${esc(L.kind)} · ${esc(L.unit)}</div><div class="name">${esc(L.name)}${L.sample ? '<span class="sample">샘플</span>' : ''}</div><div class="meta">${esc(L.loc)}</div></div><span class="dday ${ddayCls(L)}">${ddayOf(L)}</span></div>
+      <div class="row"><div><div class="meta">${esc(L.kind)} · ${esc(L.unit)}</div><div class="name">${esc(L.name)}${L.sample ? '<span class="sample">샘플</span>' : ''}</div><div class="meta">${esc(L.loc)}</div></div><span class="dstack"><span class="dday ${ddayCls(L)}">${ddayOf(L)}</span>${compHead(L.competition) ? `<span class="dday d-comp">경쟁 ${esc(rateText(compHead(L.competition)))}</span>` : ''}</span></div>
       <div class="band"><span class="badge">${GNAME[m.g]}</span><div><div class="mg">${marginText(m)}</div><div class="small">분양가 ${fmt(L.price)} · ${m.g === 'unknown' ? '주변 거래 부족' : '시세 ' + fmt(L.mktLow) + '~' + fmt(L.mktBase)}</div></div></div>
       <div class="me-line">${meLine(L)}</div>
     </button>`;
@@ -675,6 +716,7 @@ function vDetail(){
     <div class="tile"><span class="small muted">마진 (보수)</span><span class="v">${m.lo == null ? '확인 필요' : (m.lo >= 0 ? '+' : '') + fmt(m.lo)}</span></div>
     <div class="tile"><span class="small muted">자금 (${o.mode === 'live' ? '대출' : '전세'})</span><span class="v ${gap > 0 ? 'st-warn' : 'st-ok'}">${gap > 0 ? fmt(gap) + ' 부족' : '가능'}</span></div>
   </div>
+  ${L.sample ? '' : compCard(L)}
   <section class="card"><h2>자격 체크리스트</h2><div class="rows">
     ${e.items.map(i => `<div class="row"><span>${esc(i.k)}${i.note ? `<br><span class="small muted">${esc(i.note)}</span>` : ''}<br>${itemSrc(L, i.k)}</span><span class="${stCls(i.s)}">${esc(i.v)}</span></div>`).join('')}
   </div>
@@ -965,7 +1007,7 @@ function fromApi(x){
     region:x.region, kind:x.kind, target:x.target,
     sido:x.sido || null, district:x.district || null, supplyType:x.supply_type || x.kind,
     mktComps:x.mkt_comps || [], mktCount:x.mkt_count || 0, mktDirectExcluded:x.mkt_direct_excluded || 0, mktBasis:x.mkt_basis || null, jeonseComps:x.jeonse_comps || [],
-    noticePdf:x.notice_pdf || null, address:x.address || '', geo:x.geo || null, nearby:Array.isArray(x.nearby) ? x.nearby : null, mapQuery:x.map_query || null, fromNotice:x.from_notice || [], checks:x.checks || [],
+    noticePdf:x.notice_pdf || null, competition:x.competition || null, unitName:x.unit, address:x.address || '', geo:x.geo || null, nearby:Array.isArray(x.nearby) ? x.nearby : null, mapQuery:x.map_query || null, fromNotice:x.from_notice || [], checks:x.checks || [],
     specialApply:x.special_apply || null, houseDtl:x.house_dtl || null, rentSecd:x.rent_secd || null, applyEnd:x.apply_end || null, unit:x.unit + (x.households ? ' · ' + x.households + '세대' : ''),
     notice:x.notice, apply:x.apply, winner:x.winner, contract:x.contract, balance:x.balance,
     price:x.price, ext:x.ext || 0, contractRate:x.contract_rate || 0.1, midRate:x.mid_rate || 0,
