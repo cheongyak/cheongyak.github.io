@@ -186,3 +186,23 @@ def test_parse_account_months_real_sentences():
     for text, want in cases.items():
         assert parse_notice(text).get("account_months") == want, text
     assert "account_months" not in parse_notice("청약통장 가입기간 6개월 경과(지역별·면적별 예치금액 이상)한 분")  # 기관추천 특공 문장은 1순위 기준이 아님
+
+
+def test_apply_notice_uses_cache_when_listing_was_missing_last_run(monkeypatch):
+    """직전 실행에서 공고가 빠졌다 돌아왔고 이번 PDF 도 실패 → 보관 기록으로 되살린다 (2026-09-30 강변역)."""
+    monkeypatch.setattr(notice_pdf, "fetch_notice_text", lambda url, client=None: (None, "PDF 받기 실패(형식 아님)", None))
+    x = L(need_head=False)
+    nid = x.id.split("-")[0]
+    cache = {nid: {"found": {"need_head": True, "balance": "2026-11-30", "ext": 0.2178, "rewin_years": 10}, "notice_pdf": "https://x/y.pdf"}}
+    log = []
+    apply_notice([x], log, previous={}, cache=cache)
+    assert x.need_head and x.balance == "2026-11-30" and x.ext == 0.2178 and ("재당첨 제한", "10년") in x.limits
+    assert any("보관" in l for l in log)
+
+
+def test_apply_notice_saves_to_cache(monkeypatch):
+    monkeypatch.setattr(notice_pdf, "fetch_notice_text", lambda url, client=None: ("재당첨 제한 10년 적용 1순위 : 입주자저축에 가입하여 가입기간이 24개월이 경과하고", "PDF 읽음", "https://x/p.pdf"))
+    x = L()
+    cache = {}
+    apply_notice([x], [], cache=cache)
+    assert cache[x.id.split("-")[0]]["found"]["account_months"] == 24

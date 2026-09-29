@@ -139,10 +139,23 @@ def _from_previous(prev: dict) -> tuple[dict, Optional[str]]:
     return found, prev.get("notice_pdf")
 
 
-def apply_notice(listings: list[Listing], log: list[str], client=None, previous: Optional[dict] = None) -> None:
+NOTICE_CACHE = ROOT / "docs" / "notice-cache.json"   # 공고문에서 읽은 값 보관 (공고문은 한 번 나오면 바뀌지 않는다)
+
+
+def _load_cache(path: Path) -> dict:
+    try:
+        return json.loads(path.read_text(encoding="utf-8"))
+    except Exception:
+        return {}
+
+
+def apply_notice(listings: list[Listing], log: list[str], client=None, previous: Optional[dict] = None,
+                 cache: Optional[dict] = None) -> None:
     """공고별로 공고문 PDF 를 한 번 읽어 같은 공고의 주택형 전체에 반영한다.
-    이번에 못 읽으면 지난 실행에서 읽은 값(previous: 공고 id → 지난 공고 데이터)을 유지한다."""
+    이번에 못 읽으면 (1) 공고문 보관 기록(cache: 공고번호 → 읽은 값) (2) 지난 실행 결과(previous) 순으로 지난 값을 쓴다.
+    직전 실행에서 공고가 잠깐 빠졌다 돌아와도 보관 기록으로 되살린다 (2026-09-30 강변역 사례)."""
     previous = previous or {}
+    cache = {} if cache is None else cache
     groups: dict[str, list[Listing]] = {}
     for L in listings:
         if L.url:
@@ -166,9 +179,15 @@ def apply_notice(listings: list[Listing], log: list[str], client=None, previous:
             text, msg, pdf = None, f"읽기 실패: {e.__class__.__name__}", None
         found = notice_pdf.parse_notice(text) if text else {}
         log.append(f"[공고문] {Ls[0].name}: {msg} → {found or '추출 없음'}")
+        nid = Ls[0].id.split("-")[0]
+        if text and found:
+            cache[nid] = {"name": Ls[0].name, "found": found, "notice_pdf": pdf}
         if not text:
             prev = previous.get(Ls[0].id)
-            if prev and prev.get("from_notice"):
+            if cache.get(nid, {}).get("found"):
+                found, pdf = dict(cache[nid]["found"]), cache[nid].get("notice_pdf")
+                log.append(f"[공고문] {Ls[0].name}: 이번엔 못 읽어 보관해 둔 공고문 값을 써요 → {found}")
+            elif prev and prev.get("from_notice"):
                 found, pdf = _from_previous(prev)
                 log.append(f"[공고문] {Ls[0].name}: 이번엔 못 읽어 지난 실행에서 공고문으로 읽은 값을 유지해요 → {found}")
         if text:   # 못 읽은 항목은 원문 문장을 남겨 규칙을 근거 있게 고친다
@@ -261,7 +280,19 @@ def run(dry_run: bool = False, today: Optional[date] = None, read_notices: bool 
         return []
     if read_notices:
         try:
-            apply_notice(out, log, previous=prev)
+            cache = _load_cache(NOTICE_CACHE)
+            # 처음 한 번: 지난 결과에서 공고문 값을 보관 기록으로 옮긴다
+            for x in prev.values():
+                n = x["id"].split("-")[0]
+                if n not in cache and x.get("from_notice"):
+                    f0, pdf0 = _from_previous(x)
+                    if f0:
+                        cache[n] = {"name": x.get("name"), "found": f0, "notice_pdf": pdf0}
+            apply_notice(out, log, previous=prev, cache=cache)
+            if not dry_run:
+                live = {L.id.split("-")[0] for L in out}
+                NOTICE_CACHE.write_text(json.dumps({k: v for k, v in cache.items() if k in live}, ensure_ascii=False, indent=1,
+                                                   sort_keys=True), encoding="utf-8")
         except Exception as e:
             log.append(f"[공고문] 전체 실패: {e}")
         on = feature_on
