@@ -644,8 +644,14 @@ function feedMapBlock(list){
   <div id="mappick">${pick ? listingCard(pick.L, pick.m) : '<p class="small muted" style="margin:0">지도의 표시를 누르면 공고가 보여요.</p>'}</div>
   <p class="foot">색은 판정 등급이에요. 점선 표시는 공고 주소에 지번이 없어 동 중심에 놓은 대략 위치예요.${noGeo ? ' 위치를 찾지 못한 공고 ' + noGeo + '건은 목록에서 보세요.' : ''} 위치: ${src(null, ['네이버 클라우드 플랫폼 Geocoding', null])}${withGeo.length ? '' : ' · 조건에 맞는 공고 중 위치가 있는 공고가 없어요.'}</p>`;
 }
+function closedToggle(n){
+  if (!n || S.f.status === '마감') return '';
+  return `<button class="btn ghost" data-action="toggle-closed">${S.showClosed ? '마감된 공고 숨기기' : '마감된 공고 ' + n + '건 보기 (경쟁률·당첨 가점 확인)'}</button>`;
+}
 function vFeed(){
-  const list = feedList();
+  const all = feedList(), isClosed = x => statusOf(x.L) === '마감';
+  const closedN = all.filter(isClosed).length, showClosed = S.showClosed || S.f.status === '마감';
+  const list = showClosed ? all : all.filter(x => !isClosed(x));   // 마감 공고는 경쟁률 확인용이라 기본은 숨긴다
   const showMap = S.feedMode === 'map' && mapReady();
   const chip = (k, t) => `<button class="chip" data-filter="${k}" aria-pressed="${S.filter === k}">${t}</button>`;
   const act = activeFilters();
@@ -663,7 +669,7 @@ function vFeed(){
   ${mapReady() ? `<div class="segs" role="group" aria-label="보기 방식"><button class="chip" data-feedmode="list" aria-pressed="${!showMap}">목록</button><button class="chip" data-feedmode="map" aria-pressed="${showMap}">지도</button></div>` : ''}
   ${S.showFilters ? filterPanel() : ''}
   ${act.length ? `<div class="active-f" aria-label="선택한 필터">${act.map(([k, t]) => `<button class="fchip" data-unset="${k}" aria-label="${esc(t)} 필터 해제">${esc(t)}${x}</button>`).join('')}</div>` : ''}
-  ${showMap ? feedMapBlock(list) : list.length ? list.map(({L,m}) => listingCard(L, m)).join('') : `<div class="card empty"><b>조건에 맞는 공고가 없어요</b><span class="small muted">${act.length ? '필터를 하나씩 해제하거나 초기화해 보세요.' : '이 등급의 공고가 아직 없어요.'}</span>${act.length || S.filter !== 'all' ? '<button class="btn ghost" data-action="reset-filters" style="max-width:220px">필터 초기화</button>' : ''}</div>`}
+  ${showMap ? feedMapBlock(list) : list.length ? list.map(({L,m}) => listingCard(L, m)).join('') + closedToggle(closedN) : closedToggle(closedN) + `<div class="card empty"><b>조건에 맞는 공고가 없어요</b><span class="small muted">${act.length ? '필터를 하나씩 해제하거나 초기화해 보세요.' : '이 등급의 공고가 아직 없어요.'}</span>${act.length || S.filter !== 'all' ? '<button class="btn ghost" data-action="reset-filters" style="max-width:220px">필터 초기화</button>' : ''}</div>`}
   <p class="foot">${DATA_SOURCE.live ? '공고: ' + src('applyhome') + ' · 시세: ' + src('rtms') + ' · 매일 새벽 갱신, 시세는 추정치예요.' + (CONFIG.goatcounter && on('analytics') ? ' 방문 통계는 쿠키 없이 GoatCounter로 집계하며, 입력한 내 정보는 보내지 않아요.' : '') : '샘플 표시가 있는 단지는 등급 예시를 위한 가상 데이터예요.'}</p>`;
 }
 
@@ -982,6 +988,7 @@ document.addEventListener('click', ev => {
   if (t.dataset.set) { S.profile[t.dataset.set] = JSON.parse(t.dataset.val); save(); render(); return; }
   if (t.dataset.mode) { planOpt(LISTINGS.find(x => x.id === S.id)).mode = t.dataset.mode; render(); return; }
   const a = t.dataset.action;
+  if (a === 'toggle-closed') { S.showClosed = !S.showClosed; render(); return; }
   if (a === 'toggle-filters') { S.showFilters = !S.showFilters; render(); return; }
   if (a === 'reset-filters') { S.f = Object.assign({}, F0); S.filter = 'all'; render(); return; }
   if (a === 'copy-topic') {
