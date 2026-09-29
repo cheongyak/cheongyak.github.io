@@ -1,5 +1,5 @@
-대상: ['남양주진접2지구 A-4블록 신혼희망타운(공공분양) 잔여세대 추가입주자모집공고', '성남복정2 A1블록 신혼희망타운(공공분양)(본청약)', '시흥하중지구 A-4블록 신혼희망타운(공공분양) 추가입주자모집', '양주회천지구 A-26블록 공공분양주택', '의정부우정 A2블록 공공분양주택(본청약)', '인천계양지구 A6블록 공공분양주택(본청약)']
-== GET {'mi': '1027'} → 200 · 145101자 · 최종 주소 https://apply.lh.or.kr/lhapply/apply/wt/wrtanc/selectWrtancList.do?mi=1027
+대상: []
+== GET {'mi': '1027'} → 200 · 144962자 · 최종 주소 https://apply.lh.or.kr/lhapply/apply/wt/wrtanc/selectWrtancList.do?mi=1027
   /lhapply/apply/wt/wrtanc/selectWrtancList.do?mi=1026
   /lhapply/apply/wt/wrtanc/selectWrtancList.do?mi=1027
   /lhapply/apply/wt/wrtanc/selectWrtancList.do?mi=1062
@@ -7,13 +7,7 @@
   fileDownLoad(
   javascript:fileDownLoad(
   /lhapply/lhFile.do?fileid=
-  /lhapply/apply/wt/wrtanc/selectWrtancList.do?mi=1026&cntntsId=
   /lhapply/apply/wt/wrtanc/selectWrtancList.do?mi=1027&cntntsId=
-  [남양주진접2지구] 목록에 없음
-  [성남복정2 A1] 목록에 없음
-  [시흥하중지구 A] 목록에 없음
-  [양주회천지구 A] 목록에 없음
-  [의정부우정 A2] 목록에 없음
-  [인천계양지구 A] 목록에 없음
-== GET {'mi': '1027', 'srchUppAisTpCd': '05'} → 200 · 145101자 · 최종 주소 https://apply.lh.or.kr/lhapply/apply/wt/wrtanc/selectWrtancList.do?mi=1027&srchUppAisTpCd=05
+== GET {'mi': '1027', 'srchUppAisTpCd': '05'} → 200 · 144962자 · 최종 주소 https://apply.lh.or.kr/lhapply/apply/wt/wrtanc/selectWrtancList.do?mi=1027&srchUppAisTpCd=05
 == GET {'mi': '1026'} → 200 · 180041자 · 최종 주소 https://apply.lh.or.kr/lhapply/apply/wt/wrtanc/selectWrtancList.do?mi=1026
+  /lhapply/apply/wt/wrtanc/selectWrtancList.do?mi=1026&cntntsId=
