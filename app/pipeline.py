@@ -143,7 +143,8 @@ def _from_previous(prev: dict) -> tuple[dict, Optional[str]]:
     return found, prev.get("notice_pdf")
 
 
-NOTICE_CACHE = ROOT / "docs" / "notice-cache.json"   # 공고문에서 읽은 값 보관 (공고문은 한 번 나오면 바뀌지 않는다)
+NOTICE_CACHE = ROOT / "docs" / "notice-cache.json"
+PARSER_VERSION = 3   # parse_notice 규칙을 바꾸면 올린다 → 모든 공고문을 다시 읽는다   # 공고문에서 읽은 값 보관 (공고문은 한 번 나오면 바뀌지 않는다)
 
 
 def _load_cache(path: Path) -> dict:
@@ -184,26 +185,32 @@ def apply_notice(listings: list[Listing], log: list[str], client=None, previous:
     import time
     from concurrent.futures import ThreadPoolExecutor, wait
     start = time.monotonic()
+    # 이미 같은 읽기 규칙(PARSER_VERSION)으로 읽은 공고문은 다시 받지 않는다 (공고문은 바뀌지 않고, 받기·읽기가 가장 오래 걸린다)
+    fresh = {url for url, Ls in groups.items() if cache.get(Ls[0].id.split("-")[0], {}).get("v") == PARSER_VERSION}
     ex = ThreadPoolExecutor(max_workers=6)
-    futs = {url: ex.submit(_fetch_text, url, Ls[0], client) for url, Ls in groups.items()}
+    futs = {url: ex.submit(_fetch_text, url, Ls[0], client) for url, Ls in groups.items() if url not in fresh}
     wait(list(futs.values()), timeout=NOTICE_BUDGET_SEC)
     ex.shutdown(wait=False, cancel_futures=True)
-    log.append(f"[시간] 공고문 {len(groups)}건 {time.monotonic() - start:.0f}초")
+    log.append(f"[시간] 공고문 {len(groups)}건 중 새로 읽기 {len(futs)}건 {time.monotonic() - start:.0f}초 (보관 기록 사용 {len(fresh)}건)")
     for url, Ls in groups.items():
-        f = futs[url]
-        if not f.done():
-            log.append(f"[공고문] {Ls[0].name}: 시간 제한으로 이번 실행에서는 읽지 못했어요")
-            continue
-        try:
-            text, msg, pdf = f.result()
-        except Exception as e:
-            text, msg, pdf = None, f"읽기 실패: {e.__class__.__name__}", None
-        found = notice_pdf.parse_notice(text) if text else {}
-        log.append(f"[공고문] {Ls[0].name}: {msg} → {found or '추출 없음'}")
         nid = Ls[0].id.split("-")[0]
-        if text and found:
-            cache[nid] = {"name": Ls[0].name, "found": found, "notice_pdf": pdf}
-        if not text:
+        if url in fresh:
+            text, msg, pdf = None, "보관 기록", cache[nid].get("notice_pdf")
+            found = dict(cache[nid]["found"])
+        else:
+            f = futs[url]
+            if not f.done() or f.cancelled():
+                text, msg, pdf = None, "시간 제한으로 이번 실행에서는 읽지 못했어요", None
+            else:
+                try:
+                    text, msg, pdf = f.result()
+                except Exception as e:
+                    text, msg, pdf = None, f"읽기 실패: {e.__class__.__name__}", None
+            found = notice_pdf.parse_notice(text) if text else {}
+            log.append(f"[공고문] {Ls[0].name}: {msg} → {found or '추출 없음'}")
+            if text and found:
+                cache[nid] = {"name": Ls[0].name, "found": found, "notice_pdf": pdf, "v": PARSER_VERSION}
+        if not text and url not in fresh:
             prev = previous.get(Ls[0].id)
             if cache.get(nid, {}).get("found"):
                 found, pdf = dict(cache[nid]["found"]), cache[nid].get("notice_pdf")

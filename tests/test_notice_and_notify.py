@@ -206,3 +206,31 @@ def test_apply_notice_saves_to_cache(monkeypatch):
     cache = {}
     apply_notice([x], [], cache=cache)
     assert cache[x.id.split("-")[0]]["found"]["account_months"] == 24
+
+
+def test_apply_notice_skips_already_read_notice(monkeypatch):
+    """같은 읽기 규칙으로 이미 읽은 공고문은 다시 받지 않는다 (2026-09-30 공고문 56건이 시간 제한 300초를 넘김)."""
+    from app import pipeline
+    calls = []
+    monkeypatch.setattr(notice_pdf, "fetch_notice_text", lambda url, client=None: calls.append(url) or (None, "x", None))
+    x = L()
+    nid = x.id.split("-")[0]
+    cache = {nid: {"found": {"need_head": True, "rewin_years": 10}, "notice_pdf": "https://x/p.pdf", "v": pipeline.PARSER_VERSION}}
+    apply_notice([x], [], cache=cache)
+    assert calls == [] and x.need_head and ("재당첨 제한", "10년") in x.limits and x.notice_pdf == "https://x/p.pdf"
+    old = {nid: {"found": {"need_head": True}, "notice_pdf": None, "v": 1}}
+    apply_notice([L()], [], cache=old)
+    assert len(calls) == 1                                  # 규칙이 바뀌었으면 다시 읽는다
+
+
+def test_apply_notice_timeout_uses_cache(monkeypatch):
+    """시간 제한으로 못 읽어도 보관 기록 값은 쓴다."""
+    from app import pipeline
+    import time as _t
+    monkeypatch.setattr(pipeline, "NOTICE_BUDGET_SEC", 0.05)
+    monkeypatch.setattr(notice_pdf, "fetch_notice_text", lambda url, client=None: (_t.sleep(0.3), (None, "x", None))[1])
+    x = L(need_head=False)
+    nid = x.id.split("-")[0]
+    log = []
+    apply_notice([x], log, cache={nid: {"found": {"need_head": True}, "notice_pdf": None, "v": 0}})
+    assert x.need_head and any("보관" in l for l in log)
