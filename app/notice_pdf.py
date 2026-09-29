@@ -18,7 +18,7 @@ from urllib.parse import urljoin
 
 import httpx
 
-UA = {"User-Agent": "Mozilla/5.0 (cheongyak-bot; +https://github.com/ckwlsgur92-sys/cheongyak)"}
+UA = {"User-Agent": "Mozilla/5.0 (cheongyak-bot; +https://github.com/cheongyak/cheongyak.github.io)"}
 _LINK = re.compile(r"""(?:href|src|onclick)\s*=\s*["']([^"']*?(?:\.pdf|[Aa]tchmnfl|[Dd]ownload|fileDown|FileDown)[^"']*)["']""")
 _URL_IN_JS = re.compile(r"""['"]((?:https?:)?//[^'"]+?\.pdf[^'"]*)['"]|['"](/[^'"]+?\.pdf[^'"]*)['"]""")
 
