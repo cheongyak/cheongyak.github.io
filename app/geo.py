@@ -112,9 +112,9 @@ def walk_min(m: int) -> int:
 def overpass_query(lat: float, lng: float) -> str:
     c = f"{lat},{lng}"
     return (f"[out:json][timeout:25];("
-            f'nwr(around:{STATION_RADIUS_M},{c})["railway"="station"];'
-            f'nwr(around:{STATION_RADIUS_M},{c})["public_transport"="station"]["subway"="yes"];'
-            f'nwr(around:{SCHOOL_RADIUS_M},{c})["amenity"="school"];'
+            f'node["railway"="station"](around:{STATION_RADIUS_M},{c});'
+            f'node["public_transport"="station"]["subway"="yes"](around:{STATION_RADIUS_M},{c});'
+            f'nwr["amenity"="school"](around:{SCHOOL_RADIUS_M},{c});'
             f");out center tags;")
 
 
