@@ -444,9 +444,11 @@ function myScore(L, p){ // 기능: score
 function scoreTarget(L){ // 비교할 당첨 가점: 이 공고 결과 → 근처 최근 단지
   const sc = (on('competition') && L.competition && L.competition.scores) || [];
   const own = sc.find(x => (x.reside || '').includes('해당') && x.low != null) || sc.find(x => x.low != null);
-  if (own) return { low: own.low, avg: own.avg, from: '이 공고 ' + (own.reside || '') + ' 당첨자' };
+  if (own) return { low: own.low, avg: own.avg, from: '이 공고 ' + (own.reside || '') + ' 당첨자', srcHtml: cmpetSrc(L) };
   const ac = (on('area_competition') && L.areaComps || []).find(x => x.low != null);
-  if (ac) return { low: ac.low, avg: ac.avg, from: '근처 ' + shortName(ac.name) + ' (' + (ac.apply || '').slice(0, 7).replace('-', '.') + ', ' + (ac.unit || '') + ')' };
+  if (ac) { const u = cmpetUrl(noOf(ac.url), ac.category) || ac.url;
+    return { low: ac.low, avg: ac.avg, from: '근처 ' + shortName(ac.name) + ' (' + (ac.apply || '').slice(0, 7).replace('-', '.') + ', ' + (ac.unit || '') + ')',
+             srcHtml: src(null, ['청약홈 ' + shortName(ac.name) + ' 청약 결과', u]) }; }
   return null;
 }
 function scoreCard(L){
@@ -456,7 +458,7 @@ function scoreCard(L){
   let cmp = '';
   if (r.total != null && t) {
     const d = r.total - t.low;
-    cmp = `<div class="note ${d >= 0 ? 'ok' : 'warn'}" style="padding:10px 12px"><b style="font-size:13px">${d >= 0 ? '당첨 최저 가점보다 ' + d + '점 높아요' : '당첨 최저 가점보다 ' + (-d) + '점 낮아요'}</b><div class="small">${esc(t.from)} 최저 ${Math.round(t.low)}점${t.avg != null ? ' · 평균 ' + Math.round(t.avg * 10) / 10 + '점' : ''}. 가점제 물량 기준이며 추첨제 물량은 가점과 관계없어요. ${src(null, ['청약홈 경쟁률·당첨가점 API', CMPET_SRC])}</div></div>`;
+    cmp = `<div class="note ${d >= 0 ? 'ok' : 'warn'}" style="padding:10px 12px"><b style="font-size:13px">${d >= 0 ? '당첨 최저 가점보다 ' + d + '점 높아요' : '당첨 최저 가점보다 ' + (-d) + '점 낮아요'}</b><div class="small">${esc(t.from)} 최저 ${Math.round(t.low)}점${t.avg != null ? ' · 평균 ' + Math.round(t.avg * 10) / 10 + '점' : ''}. 가점제 물량 기준이며 추첨제 물량은 가점과 관계없어요. ${t.srcHtml}</div></div>`;
   }
   return `<section class="card"><div class="row"><h2>내 청약 가점 (추정)</h2><b style="font-size:20px">${r.total == null ? '-' : r.total + '점'}<span class="small muted"> / 84</span></b></div>
     <div class="rows">${rows}</div>${cmp}
@@ -583,7 +585,15 @@ function ddayCls(L){ // 급한 순서: 접수 중·오늘(빨강) > 3일 안(주
   return n <= 0 ? 'd-now' : n <= 3 ? 'd-soon' : n <= 7 ? 'd-week' : '';
 }
 /* 청약홈 경쟁률 · 당첨 가점 (app/sources/cmpet.py) */
-const CMPET_SRC = 'https://www.data.go.kr/data/15098905/openapi.do';
+const CMPET_SRC = 'https://www.data.go.kr/data/15098905/openapi.do';   // 수집에 쓰는 API (화면 출처로는 청약홈 결과 화면을 쓴다)
+/* 청약홈의 청약 결과(경쟁률·당첨 가점) 화면. APT 일반분양은 공고번호로 바로 열린다 (2026-09-30 확인).
+   무순위·잔여세대는 결과 화면 주소를 확인하지 못해 공고 페이지로 연결한다 */
+const noOf = s => ((String(s || '').match(/houseManageNo=(\d+)/) || [])[1]);
+const cmpetUrl = (no, category) => no && category !== 'remainder' ? 'https://www.applyhome.co.kr/ai/aia/selectAPTCompetitionPopup.do?houseManageNo=' + no + '&pblancNo=' + no : null;
+function cmpetSrc(L){
+  const u = cmpetUrl(L.id.split('-')[0], L.category);
+  return u ? src(null, ['청약홈 청약 결과(경쟁률·당첨 가점)', u]) : src(null, ['청약홈 공고 페이지', L.sources && L.sources[0] ? L.sources[0][1] : null]);
+}
 function compHead(c){
   if (!c || !c.rows || !c.rows.length) return null;
   const first = c.rows.filter(r => ['1','01','1순위'].includes(r.rank)), local = first.filter(r => (r.reside || '').includes('해당'));
@@ -603,8 +613,8 @@ function compCard(L){
     const ac = L.areaComps || [];
     const note = st === '접수 예정' || !st ? '이 공고의 경쟁률은 접수가 끝난 뒤에 나와요.' : '이 공고의 결과는 아직 없어요. 청약홈에 올라오면(보통 접수 다음 날) 매일 새벽 수집 때 반영돼요.';
     const tbl = ac.length ? `<table class="ctable"><thead><tr><th>단지 (접수월)</th><th>주택형</th><th>경쟁률</th><th>가점 최저/평균</th></tr></thead><tbody>${
-      ac.map(c => `<tr><td style="white-space:normal">${c.url ? `<a href="${esc(c.url)}" target="_blank" rel="noopener" data-ev="area-comp">${esc(shortName(c.name))}</a>` : esc(shortName(c.name))}<br><span class="small muted">${esc((c.apply || '').slice(0, 7).replace('-', '.'))}</span></td><td>${esc(c.unit || '-')}</td><td class="rate">${c.rate || c.rate_num != null ? esc(rateText(c)) : '-'}</td><td>${c.low == null ? '-' : n0(c.low) + ' / ' + (c.avg == null ? '-' : Math.round(c.avg * 10) / 10)}</td></tr>`).join('')}</tbody></table>
-      <div class="small muted">같은 ${esc(L.district || '시·군·구')}에서 최근 12개월 안에 접수한 단지 중 전용면적이 비슷한(±15㎡) 주택형의 1순위 해당지역 결과예요 (없으면 다른 순위·지역). 입지·분양가가 달라 그대로 적용되진 않아요. ${src(null, ['청약홈 경쟁률·당첨가점 API', CMPET_SRC])}</div>`
+      ac.map(c => `<tr><td style="white-space:normal">${c.url ? `<a href="${esc(cmpetUrl(noOf(c.url), c.category) || c.url)}" target="_blank" rel="noopener" data-ev="area-comp">${esc(shortName(c.name))}</a>` : esc(shortName(c.name))}<br><span class="small muted">${esc((c.apply || '').slice(0, 7).replace('-', '.'))}</span></td><td>${esc(c.unit || '-')}</td><td class="rate">${c.rate || c.rate_num != null ? esc(rateText(c)) : '-'}</td><td>${c.low == null ? '-' : n0(c.low) + ' / ' + (c.avg == null ? '-' : Math.round(c.avg * 10) / 10)}</td></tr>`).join('')}</tbody></table>
+      <div class="small muted">같은 ${esc(L.district || '시·군·구')}에서 최근 12개월 안에 접수한 단지 중 전용면적이 비슷한(±15㎡) 주택형의 1순위 해당지역 결과예요 (없으면 다른 순위·지역). 입지·분양가가 달라 그대로 적용되진 않아요. 단지 이름을 누르면 청약홈의 그 단지 청약 결과 화면이 열려요.</div>`
       : `<div class="small muted">같은 ${esc(L.district || '시·군·구')}에서 최근 12개월 안에 비슷한 면적으로 접수한 단지의 결과가 아직 없어요.</div>`;
     return `<section class="card"><h2>신청 전 참고: 근처 최근 경쟁률</h2>${tbl}<div class="small muted">${note}</div></section>`;
   }
@@ -616,7 +626,7 @@ function compCard(L){
     (u.competition.scores || []).map(x => `<br>당첨가점 ${esc(x.reside)} 최저 ${n0(x.low)} · 최고 ${n0(x.top)} · 평균 ${x.avg == null ? '-' : Math.round(x.avg * 10) / 10}`).join('')}</span></div>`).join('');
   return `<section class="card"><h2>경쟁률·당첨 가점</h2>
     <table class="ctable"><thead><tr><th>주택형</th><th>공급</th><th>접수</th><th>경쟁률</th><th>가점 최저/평균</th></tr></thead><tbody>${rows}</tbody></table>
-    <div class="small muted">1순위 해당지역 기준이에요 (없으면 다른 순위·지역). 굵은 줄이 지금 보는 주택형이에요. ${src(null, ['청약홈 경쟁률·당첨가점 API', CMPET_SRC])}</div>
+    <div class="small muted">1순위 해당지역 기준이에요 (없으면 다른 순위·지역). 굵은 줄이 지금 보는 주택형이에요. ${cmpetSrc(L)}</div>
     <details class="more"><summary>순위·지역별 전체 보기</summary><div class="rows">${all}</div></details>
   </section>`;
 }
