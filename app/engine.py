@@ -90,7 +90,9 @@ def eligibility(L: Listing, p: Profile) -> dict:
         s = {"yes": "ok", "no": "fail"}.get(p.account, "warn")
         items.append({"k": "청약통장", "s": s, "v": {"ok": "충족", "fail": "미충족", "warn": "확인 필요"}[s]})
 
-    items.append({"k": "재당첨 제한", "s": "fail" if p.recentWin else "ok", "v": "제한 중" if p.recentWin else "없음"})
+    # 공고의 재당첨 제한(당첨되면 걸리는 기간)과 헷갈리지 않게 '내 이력'으로 부른다
+    items.append({"k": "재당첨 제한 (내 이력)", "s": "fail" if p.recentWin else "ok",
+                  "v": "제한 중" if p.recentWin else "해당 없음", "note": "과거 당첨으로 지금 제한 기간인지 여부"})
 
     if L.target == "신혼부부":
         items.append({"k": "신혼부부 전용", "s": "ok" if p.married else "fail", "v": "충족" if p.married else "미충족",

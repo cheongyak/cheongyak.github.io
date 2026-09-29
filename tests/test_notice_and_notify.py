@@ -67,6 +67,7 @@ def test_apply_notice_updates_listing(monkeypatch):
     assert x.need_head and x.balance == "2026-11-30" and x.ext == 0.2178
     assert ("실거주 의무", "없음") in x.limits and "PDF 읽음" in log[0]
     assert x.notice_pdf.endswith("x.pdf") and "잔금일" in x.from_notice and "세대주 요건" in x.from_notice
+    assert x.limits[0] == ("재당첨 제한", "10년") and "재당첨 제한" in x.from_notice
 
 
 def test_notify_new_and_due():
@@ -116,3 +117,32 @@ def test_newlywed_only():
     x = L(target="신혼부부", need_head=False)
     e = eligibility(x, Profile(seoul=True, household="parents", parents60=True, parentsOwn=True, married=False))
     assert not e["ok"] and "신혼부부" in e["reason"]
+
+
+def test_rewin_from_notice():
+    assert notice_pdf.parse_notice(GANGBYEON_TEXT)["rewin_years"] == 10
+    assert notice_pdf.parse_notice("본 주택은 재당첨제한을 적용받지 않으며")["rewin_years"] == 0
+
+
+def test_golden_gangbyeon_parse():
+    """사람이 모집공고문 원문으로 확인한 정답과 공고문 추출 결과가 같은지."""
+    import json, pathlib
+    gold = json.loads((pathlib.Path(__file__).parent / "golden" / "notices.json").read_text(encoding="utf-8"))["2026930040"]["fields"]
+    f = notice_pdf.parse_notice(GANGBYEON_TEXT)
+    for k in ("need_head", "price_cap", "residence_duty", "balance", "ext", "rewin_years"):
+        assert f[k] == gold[k], k
+
+
+def test_validate_flags_and_golden(monkeypatch):
+    from datetime import date as d
+    from app import validate
+    x = L(notice="2026-10-10", apply="2026-10-06", sido="서울", mkt_count=1)
+    checks = validate.listing_checks(x, d(2026, 9, 29))
+    assert any("날짜 순서" in c for c in checks) and any("근거 거래가 1건" in c for c in checks)
+    good = L(id="2026930040-084.9811C", price=12.2202, notice="2026-09-23", apply="2026-10-06", winner="2026-10-12",
+             contract="2026-10-23", balance="2026-11-30", ext=0.2178, need_head=True, price_cap=False, residence_duty=0,
+             sido="서울", district="광진구", limits=[("재당첨 제한", "10년")])
+    assert validate.golden_mismatches([good]) == []
+    bad = good.model_copy(update={"limits": [("재당첨 제한", "5년")], "balance": "2026-12-01"})
+    mm = validate.golden_mismatches([bad])
+    assert any("rewin_years" in m for m in mm) and any("balance" in m for m in mm)

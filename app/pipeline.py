@@ -21,7 +21,7 @@ from .market import estimate_jeonse, estimate_market, months_back
 from .models import Listing
 from .sources.applyhome import RAW_KEYS, ApplyhomeClient, iter_open_listings, probe_fields
 from .sources.rtms import RtmsClient
-from . import notice_pdf, notify
+from . import notice_pdf, notify, validate
 
 ROOT = Path(__file__).resolve().parent.parent
 DATA = ROOT / "data" / "listings.json"
@@ -115,7 +115,7 @@ def apply_notice(listings: list[Listing], log: list[str], client=None) -> None:
         found = notice_pdf.parse_notice(text) if text else {}
         log.append(f"[공고문] {Ls[0].name}: {msg} → {found or '추출 없음'}")
         labels = {"need_head": "세대주 요건", "price_cap": "분양가상한제", "residence_duty": "실거주 의무",
-                  "balance": "잔금일", "ext": "발코니 확장비"}
+                  "balance": "잔금일", "ext": "발코니 확장비", "rewin_years": "재당첨 제한"}
         for L in Ls:
             L.notice_pdf = pdf
             L.from_notice = [labels[k] for k in found if k in labels and not (k == "ext" and len(Ls) != 1)]
@@ -133,6 +133,10 @@ def apply_notice(listings: list[Listing], log: list[str], client=None) -> None:
                 L.balance = found["balance"]
             if "ext" in found and len(Ls) == 1:
                 L.ext = found["ext"]
+            if "rewin_years" in found:
+                n = found["rewin_years"]
+                L.limits = [x for x in L.limits if x[0] != "재당첨 제한"]
+                L.limits.insert(0, ("재당첨 제한", f"{n}년" if n else "없음"))
             L.limits = [x for x in L.limits if x[0] != "실거주 의무"]
             duty = L.residence_duty
             L.limits.append(("실거주 의무", "공고문 확인" if duty is None else (f"{duty}년" if duty else "없음")))
@@ -168,6 +172,7 @@ def run(dry_run: bool = False, today: Optional[date] = None, read_notices: bool 
     except Exception as e:
         log.append(f"[응답 필드·미수집] 확인 실패: {e}")
 
+    log += validate.run_checks(out, today)
     lines = summary(out)
     cfg = notify.load_config()
     msgs = notify.build_messages(out, notify.load_previous_ids(), today, cfg)

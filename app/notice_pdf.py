@@ -109,6 +109,14 @@ def parse_notice(text: str) -> dict:
     elif re.search(r"거주의무(?:기간)?(?:[:：]|은|는)?없음", flat) or out.get("price_cap") is False:
         out["residence_duty"] = 0
 
+    # 재당첨 제한 (1~10년). "재당첨제한을 적용받지 않음" 이면 0
+    if re.search(r"재당첨제한(?:을|이|은)?(?:적용받지|적용되지)않", flat):
+        out["rewin_years"] = 0
+    else:
+        m = re.search(r"재당첨제한(?:기간)?\D{0,40}?(\d{1,2})년", flat)
+        if m and 1 <= int(m.group(1)) <= 10:
+            out["rewin_years"] = int(m.group(1))
+
     # 잔금일: "입주지정기간 : 2026년 9월 7일~2026년 11월 30일" 또는 "입주지정기간 종료일(2026.11.30.)"
     m = re.search(r"입주지정기간[:：]?\d{4}년\d{1,2}월\d{1,2}일~(\d{4})년(\d{1,2})월(\d{1,2})일", flat) \
         or re.search(r"입주지정기간종료일\(?(\d{4})\.(\d{1,2})\.(\d{1,2})", flat)

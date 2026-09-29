@@ -67,6 +67,7 @@ class Listing(BaseModel):
     url: Optional[str] = None                # 청약홈 공고 페이지
     notice_pdf: Optional[str] = None         # 입주자모집공고문 PDF (읽은 경우)
     from_notice: list[str] = Field(default_factory=list)    # 공고문에서 읽어 반영한 항목
+    checks: list[str] = Field(default_factory=list)         # 자동 검증에서 걸린 항목 (화면에 '데이터 확인 필요'로 표시)
     sample: bool = False
 
 
