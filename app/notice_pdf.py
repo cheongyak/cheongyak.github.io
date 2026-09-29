@@ -97,10 +97,15 @@ def parse_notice(text: str) -> dict:
     elif re.search(r"분양가상한제(?:가|를)?적용(?:되는|받는|주택)", flat):
         out["price_cap"] = True
 
-    # 실거주 의무
-    m = re.search(r"거주의무기간[^\d없]{0,20}(\d+)년", flat) or re.search(r"(\d+)년(?:간)?(?:의)?거주의무", flat)
-    if m:
-        out["residence_duty"] = int(m.group(1))
+    # 실거주 의무 (법상 수도권 분양가상한제 주택만 해당, 1~5년). 표 머리글에 섞인 '재당첨제한 10년' 등은 거른다.
+    duty = None
+    for m in re.finditer(r"거주의무기간(?:은|:|：)?(\d)년|(\d)년(?:간)?(?:의)?거주의무", flat):
+        v = int(m.group(1) or m.group(2))
+        if 1 <= v <= 5:
+            duty = v
+            break
+    if duty is not None:
+        out["residence_duty"] = duty
     elif re.search(r"거주의무(?:기간)?(?:[:：]|은|는)?없음", flat) or out.get("price_cap") is False:
         out["residence_duty"] = 0
 

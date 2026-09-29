@@ -71,11 +71,14 @@ def build_messages(listings: list[Listing], previous_ids: Optional[set[str]], to
             })
 
     soon = (today + timedelta(days=int(cfg.get("remind_days_before", 1)))).isoformat()
-    due = [L for L in good if L.apply == soon]
-    if due:
-        groups = _by_notice(due)
+    starting = [L for L in good if L.apply == soon]
+    ending = [L for L in good if L.apply_end and L.apply_end == soon and L.apply != soon]
+    for Ls_all, label in ((starting, "내일 접수 시작"), (ending, "내일 접수 마감")):
+        if not Ls_all:
+            continue
+        groups = _by_notice(Ls_all)
         msgs.append({
-            "title": f"내일 접수: {', '.join(Ls[0].name for Ls in groups.values())}",
+            "title": f"{label}: {', '.join(Ls[0].name for Ls in groups.values())}",
             "body": "\n".join(_line(Ls) for Ls in groups.values()) + "\n자격과 자금 계획을 앱에서 확인하세요.",
             "priority": "high",
             "tags": "alarm_clock",

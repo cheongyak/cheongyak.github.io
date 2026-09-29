@@ -16,6 +16,7 @@ class Listing(BaseModel):
     sigungu: Optional[str] = None            # "광진구", "성남시 분당구" 등
     kind: str                                # "무순위 · 불법행위 재공급" 등
     category: Literal["general", "remainder"]
+    target: Optional[str] = None             # 신혼부부 등 특정 대상 전용 공급
     unit: str                                # "84C" 등
     area: Optional[float] = None             # 전용면적 ㎡
     households: Optional[int] = None

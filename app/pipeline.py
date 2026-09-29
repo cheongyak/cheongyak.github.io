@@ -29,6 +29,21 @@ RUN_LOG = ROOT / "docs" / "run-log.txt"
 RTMS_ERRORS: set[str] = set()
 
 
+def kind_label(raw: dict) -> str:
+    k = raw.get("kind") or ""
+    if raw["category"] == "general":
+        return "일반분양 (특별공급·1순위)" if k in ("", "APT", "민영", "국민") else f"일반분양 · {k}"
+    return k or "무순위·잔여세대"
+
+
+def target_of(name: str) -> Optional[str]:
+    if "신혼희망타운" in name:
+        return "신혼부부"
+    if "청년" in name and "주택" in name:
+        return "청년"
+    return None
+
+
 def build_listing(raw: dict, rtms: Optional[RtmsClient], today: date) -> Optional[Listing]:
     if not raw.get("price"):
         return None
@@ -70,7 +85,7 @@ def build_listing(raw: dict, rtms: Optional[RtmsClient], today: date) -> Optiona
     return Listing(
         id=f"{raw['notice_no']}-{raw.get('house_ty') or raw['unit']}",
         name=raw["name"], address=addr, region=reg, sigungu=sg,
-        kind=raw["kind"], category=raw["category"], unit=raw["unit"], area=raw["area"],
+        kind=kind_label(raw), category=raw["category"], target=target_of(raw["name"]), unit=raw["unit"], area=raw["area"],
         households=raw.get("households"),
         notice=raw["notice"], apply=raw["apply"], apply_end=raw["apply_end"], winner=raw["winner"],
         contract=raw["contract"], move_in=raw["move_in"],
@@ -100,9 +115,11 @@ def apply_notice(listings: list[Listing], log: list[str], client=None) -> None:
                 L.need_head = found["need_head"]
             if "price_cap" in found:
                 L.price_cap = found["price_cap"]
-            if "residence_duty" in found:
+            if not (L.capital and L.price_cap):
+                L.residence_duty = 0            # 거주의무는 수도권 분양가상한제 주택에만 있다
+            elif "residence_duty" in found:
                 L.residence_duty = found["residence_duty"]
-            elif L.price_cap and L.residence_duty == 0:
+            elif L.residence_duty == 0:
                 L.residence_duty = None
             if "balance" in found:
                 L.balance = found["balance"]

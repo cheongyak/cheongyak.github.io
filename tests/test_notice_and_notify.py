@@ -74,7 +74,7 @@ def test_notify_new_and_due():
     msgs = notify.build_messages([lotto, flat], previous_ids=set(), today=date(2026, 10, 5), cfg=cfg)
     titles = [m["title"] for m in msgs]
     assert any("로또" in t and "1건" in t for t in titles)
-    assert any(t.startswith("내일 접수") for t in titles)
+    assert any(t.startswith("내일 접수 시작") for t in titles)
     assert "패스단지" not in "".join(m["body"] for m in msgs)
     # 이미 알린 공고는 다시 '새 공고'로 보내지 않고, 첫 실행(previous None)도 보내지 않는다
     assert not notify.build_messages([lotto], {lotto.id}, date(2026, 9, 29), cfg)
@@ -93,3 +93,25 @@ def test_notify_send_payload():
                       httpx.Client(transport=httpx.MockTransport(h)))
     assert seen["topic"] == "cheongyak-test" and seen["priority"] == 4 and seen["click"] == "https://example.org/"
     assert out[0].startswith("알림 전송 200")
+
+
+def test_notify_deadline_reminder():
+    cfg = {"notify_grades": ["lotto", "consider"], "remind_days_before": 1}
+    x = L(apply="2026-09-29", apply_end="2026-10-02")
+    msgs = notify.build_messages([x], {x.id}, date(2026, 10, 1), cfg)
+    assert msgs and msgs[0]["title"].startswith("내일 접수 마감")
+
+
+def test_duty_ignores_unrelated_years():
+    t = "재당첨제한 10년 전매제한 거주의무기간 분양가상한제 적용 ... 거주의무기간은 3년입니다"
+    assert notice_pdf.parse_notice(t).get("residence_duty") == 3
+    t2 = "거주의무기간 10년 ... 분양가상한제 미적용"
+    assert notice_pdf.parse_notice(t2).get("residence_duty") == 0
+
+
+def test_newlywed_only():
+    from app.engine import eligibility
+    from app.models import Profile
+    x = L(target="신혼부부", need_head=False)
+    e = eligibility(x, Profile(seoul=True, household="parents", parents60=True, parentsOwn=True, married=False))
+    assert not e["ok"] and "신혼부부" in e["reason"]

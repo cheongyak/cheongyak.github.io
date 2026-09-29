@@ -92,6 +92,12 @@ def eligibility(L: Listing, p: Profile) -> dict:
 
     items.append({"k": "재당첨 제한", "s": "fail" if p.recentWin else "ok", "v": "제한 중" if p.recentWin else "없음"})
 
+    if L.target == "신혼부부":
+        items.append({"k": "신혼부부 전용", "s": "ok" if p.married else "fail", "v": "충족" if p.married else "미충족",
+                      "note": "혼인신고 7년 이내 등 공고문 요건 확인" if p.married else "혼인신고를 한 신혼부부만 신청할 수 있어요"})
+    elif L.target:
+        items.append({"k": f"{L.target} 전용", "s": "warn", "v": "확인 필요", "note": "공고문의 대상 요건을 확인하세요"})
+
     fails = [i for i in items if i["s"] == "fail"]
     reason = fix = ""
     if fails:
@@ -103,6 +109,8 @@ def eligibility(L: Listing, p: Profile) -> dict:
             reason = f"세대에 주택 소유자가 있어요 ({f['note']})."
         elif f["k"].startswith("거주"):
             reason = f"{L.region} 거주자만 신청할 수 있어요."
+        elif f["k"].endswith("전용"):
+            reason = f"{f['k'].replace(' 전용', '')} 대상 공급이에요. {f.get('note', '')}"
         elif f["k"] == "청약통장":
             reason = "1순위 청약통장 요건을 채우지 못했어요."
         else:
