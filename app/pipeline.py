@@ -21,7 +21,7 @@ from .market import estimate_jeonse, estimate_market, months_back
 from .models import Listing
 from .sources.applyhome import RAW_KEYS, ApplyhomeClient, iter_open_listings, probe_fields
 from .sources.rtms import RtmsClient
-from . import notice_pdf, notify, validate
+from . import geo, notice_pdf, notify, validate
 
 ROOT = Path(__file__).resolve().parent.parent
 DATA = ROOT / "data" / "listings.json"
@@ -221,16 +221,20 @@ def run(dry_run: bool = False, today: Optional[date] = None, read_notices: bool 
             continue
         if L:
             out.append(L)
+    prev = {}
+    try:
+        prev = {x["id"]: x for x in json.loads(notify.PREVIOUS.read_text(encoding="utf-8"))}
+    except Exception:
+        pass
     if read_notices:
         try:
-            prev = {}
-            try:
-                prev = {x["id"]: x for x in json.loads(notify.PREVIOUS.read_text(encoding="utf-8"))}
-            except Exception:
-                pass
             apply_notice(out, log, previous=prev)
         except Exception as e:
             log.append(f"[공고문] 전체 실패: {e}")
+        try:
+            geo.apply_geo(out, log, previous=prev, probe=not dry_run)
+        except Exception as e:
+            log.append(f"[위치] 전체 실패: {e}")
     log += [f"[실거래가 경고] {m}" for m in sorted(RTMS_ERRORS)]
     # 실제 응답 필드 기록 (필터·기능을 추가하기 전에 근거로 쓴다)
     for name, keys in RAW_KEYS.items():

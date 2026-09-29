@@ -13,6 +13,7 @@ from pathlib import Path
 
 from . import rules as R
 from .engine import grade
+from .geo import in_korea
 from .models import Listing
 
 GOLDEN = Path(__file__).resolve().parent.parent / "tests" / "golden" / "notices.json"
@@ -54,6 +55,8 @@ def listing_checks(L: Listing, today: date) -> list[str]:
             out.append("시세 근거에 기간을 벗어난 거래가 섞여 있어요")
     if not L.sido:
         out.append("주소에서 시·도를 찾지 못했어요")
+    if L.geo and not in_korea(L.geo.get("lat", 0), L.geo.get("lng", 0)):
+        out.append("지도 좌표가 국내 범위를 벗어나요")
     return out
 
 

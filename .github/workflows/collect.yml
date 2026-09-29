@@ -17,6 +17,8 @@ jobs:
     timeout-minutes: 30
     env:
       DATA_GO_KR_KEY: ${{ secrets.DATA_GO_KR_KEY }}
+      NCP_MAPS_CLIENT_ID: ${{ secrets.NCP_MAPS_CLIENT_ID }}
+      NCP_MAPS_CLIENT_SECRET: ${{ secrets.NCP_MAPS_CLIENT_SECRET }}
       TZ: Asia/Seoul
     steps:
       - uses: actions/checkout@v4
@@ -43,6 +45,8 @@ jobs:
           mkdir -p docs
           cp data/listings.json docs/listings.json
           date +"%Y-%m-%d %H:%M" > docs/updated.txt
+          # 지도 표시용 Client ID (사이트 주소가 등록된 키라 페이지에 들어가도 다른 곳에서는 쓸 수 없다. Secret 은 내보내지 않는다)
+          if [ -n "$NCP_MAPS_CLIENT_ID" ]; then printf '{"naver_map_key":"%s"}\n' "$NCP_MAPS_CLIENT_ID" > docs/map.json; fi
           git config user.name "cheongyak-bot"
           git config user.email "actions@users.noreply.github.com"
           git add -A

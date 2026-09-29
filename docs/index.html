@@ -142,6 +142,15 @@ input[type=date]{min-height:52px;border-radius:12px;border:1px solid var(--line)
 .tabbar button{border:0;background:none;font-size:13px;color:var(--muted);cursor:pointer}
 .tabbar button[aria-current="page"]{color:var(--fg);font-weight:700}
 .foot{font-size:11px;color:var(--muted);margin:0}
+.mapbox{height:220px;border-radius:12px;overflow:hidden;background:var(--sunk);border:1px solid var(--line)}
+.mapbox.big{height:58vh;min-height:340px}
+.mapfail{height:100%;display:flex;align-items:center;justify-content:center;padding:16px;text-align:center;font-size:13px;color:var(--muted)}
+.mk{transform:translate(-50%,-100%);padding:4px 8px;border-radius:12px;font:600 12px/1.2 var(--font);white-space:nowrap;border:2px solid #fff;box-shadow:0 1px 4px rgba(0,0,0,.35);cursor:pointer;color:#fff;background:var(--flat-ink)}
+.mk.g-lotto{background:var(--lotto)} .mk.g-consider{background:var(--consider)} .mk.g-pass{background:var(--pass)}
+.mk.g-flat,.mk.g-unknown{background:var(--flat);color:var(--flat-ink)}
+.mk.approx{border-style:dashed}
+.mk.near{background:var(--surface);color:var(--fg);border:1px solid var(--line);font-weight:500}
+.segs{display:flex;gap:6px}
 .src{display:inline-flex;align-items:center;gap:3px;font-size:11px;font-weight:500;color:var(--muted);text-decoration:none;border-bottom:1px dotted var(--line);white-space:nowrap}
 a.src:hover{color:var(--link);border-bottom-color:var(--link)}
 .srcs{display:flex;flex-wrap:wrap;gap:4px 10px;margin-top:2px}
@@ -225,7 +234,70 @@ let LISTINGS = [
 ];
 const TODAY = (() => { const d = new Date(Date.now() + 9*3600e3); return d.toISOString().slice(0,10); })(); // 한국 날짜
 let DATA_SOURCE = { live:false, updated:'' };
-let CONFIG = { ntfy_server:'https://ntfy.sh', ntfy_topic:'cheongyak-97ecbdb4', site_url:'' };
+let CONFIG = { ntfy_server:'https://ntfy.sh', ntfy_topic:'cheongyak-97ecbdb4', site_url:'', goatcounter:'', naver_map_key:'' };
+
+/* 방문자 집계 (GoatCounter · 쿠키 없음). 화면 이름과 공고 번호만 보내고, 내가 입력한 소득·자산 같은 값은 보내지 않는다 */
+const GC = { q: [] };
+function track(o){ GC.q.push(o); flushGC(); }
+function flushGC(){ const g = window.goatcounter; if (!g || typeof g.count !== 'function') return; while (GC.q.length) { try { g.count(GC.q.shift()); } catch(e) {} } }
+function initGC(code){
+  if (!code || !/^[a-z0-9-]+$/.test(code) || document.getElementById('gc-js')) return;
+  window.goatcounter = { no_onload: true };
+  const s = document.createElement('script'); s.id = 'gc-js'; s.async = true; s.src = 'https://gc.zgo.at/count.js';
+  s.dataset.goatcounter = 'https://' + code + '.goatcounter.com/count'; s.onload = flushGC; document.head.appendChild(s);
+}
+
+/* 네이버 지도 (NCP Maps). 키는 GitHub Secrets 에 있고 Actions 가 map.json 으로 내보낸다. 사이트 주소가 등록된 키라 다른 곳에선 동작하지 않는다 */
+let naverP = null, MAP_FAIL = '';
+function loadNaver(){
+  if (window.naver && window.naver.maps) return Promise.resolve();
+  if (naverP) return naverP;
+  naverP = new Promise((res, rej) => {
+    window.navermap_authFailure = () => { MAP_FAIL = '지도 인증에 실패했어요. 네이버 클라우드에 이 사이트 주소가 등록됐는지 확인이 필요해요.'; document.querySelectorAll('.mapbox').forEach(showMapFail); track({ path:'map-auth-fail', event:true }); };
+    const s = document.createElement('script');
+    s.src = 'https://oapi.map.naver.com/openapi/v3/maps.js?ncpKeyId=' + encodeURIComponent(CONFIG.naver_map_key);
+    s.onload = () => (window.naver && window.naver.maps) ? res() : rej(new Error('no maps'));
+    s.onerror = () => rej(new Error('load'));
+    document.head.appendChild(s);
+  });
+  return naverP;
+}
+function showMapFail(el){ el.innerHTML = `<div class="mapfail">${esc(MAP_FAIL || '지도를 불러오지 못했어요. 아래 네이버 지도 링크로 보세요.')}</div>`; }
+const mapReady = () => !!CONFIG.naver_map_key && LISTINGS.some(L => L.geo);
+const naverMapUrl = L => 'https://map.naver.com/p/search/' + encodeURIComponent(L.mapQuery || L.address || L.name);
+const shortName = n => (n || '').replace(/\([^)]*\)/g, '').trim().slice(0, 12);
+const distText = m => m < 1000 ? m + 'm' : (m / 1000).toFixed(1) + 'km';
+function mkIcon(html){ return { content: html, anchor: new window.naver.maps.Point(0, 0) }; }
+function initFeedMap(el, list){
+  loadNaver().then(() => {
+    if (MAP_FAIL) return showMapFail(el);
+    const nm = window.naver.maps, groups = {};
+    list.forEach(x => { if (!x.L.geo) return; const k = x.L.id.split('-')[0]; if (!groups[k] || GORDER[x.m.g] < GORDER[groups[k].m.g]) groups[k] = x; });
+    const g = Object.values(groups);
+    const map = new nm.Map(el, { center: new nm.LatLng(36.4, 127.8), zoom: 7 });
+    const b = new nm.LatLngBounds();
+    g.forEach(({ L, m }) => {
+      const pos = new nm.LatLng(L.geo.lat, L.geo.lng); b.extend(pos);
+      const mk = new nm.Marker({ position: pos, map, title: L.name,
+        icon: mkIcon(`<div class="mk g-${m.g}${L.geo.precision === 'dong' ? ' approx' : ''}">${GNAME[m.g]} · ${esc(shortName(L.name))}</div>`) });
+      nm.Event.addListener(mk, 'click', () => { S.mapPick = L.id; const p = document.getElementById('mappick'); if (p) p.innerHTML = listingCard(L, m); track({ path:'map-pick', title:L.name, event:true }); });
+    });
+    if (g.length > 1) map.fitBounds(b); else if (g.length === 1) { map.setCenter(new nm.LatLng(g[0].L.geo.lat, g[0].L.geo.lng)); map.setZoom(14); }
+  }).catch(() => showMapFail(el));
+}
+function initDetailMap(el, L){
+  loadNaver().then(() => {
+    if (MAP_FAIL) return showMapFail(el);
+    const nm = window.naver.maps, c = new nm.LatLng(L.geo.lat, L.geo.lng);
+    const map = new nm.Map(el, { center: c, zoom: L.geo.precision === 'dong' ? 14 : 15 });
+    new nm.Marker({ position: c, map, title: L.name, icon: mkIcon(`<div class="mk g-${grade(L).g}${L.geo.precision === 'dong' ? ' approx' : ''}">${esc(shortName(L.name))}${L.geo.precision === 'dong' ? ' (대략)' : ''}</div>`) });
+    (L.nearby || []).forEach(n => new nm.Marker({ position: new nm.LatLng(n.lat, n.lng), map, title: n.name, icon: mkIcon(`<div class="mk near">${esc(n.name)}</div>`) }));
+  }).catch(() => showMapFail(el));
+}
+function afterRender(){
+  const f = document.getElementById('feedmap'); if (f) initFeedMap(f, feedList());
+  const d = document.getElementById('detailmap'); if (d) initDetailMap(d, LISTINGS.find(x => x.id === S.id));
+}
 
 /* ---------- 내 조건 (대화에서 알려주신 값으로 시작) ---------- */
 const DEFAULT_PROFILE = { seoul:true, household:'parents', parents60:true, parentsOwn:true, headSince:'',
@@ -238,7 +310,7 @@ const store = {
 };
 
 const F0 = { sido:'', district:'', supply:'', dtl:'', rent:'', special:'', status:'', dateField:'apply', from:'', to:'' };
-const S = { view:'feed', step:0, id:null, filter:'all', f: Object.assign({}, F0), showFilters:false, plan:{}, profile: Object.assign({}, DEFAULT_PROFILE, store.get('cy-profile') || {}) };
+const S = { view:'feed', step:0, id:null, filter:'all', f: Object.assign({}, F0), showFilters:false, feedMode:'list', mapPick:null, plan:{}, profile: Object.assign({}, DEFAULT_PROFILE, store.get('cy-profile') || {}) };
 
 /* ---------- 계산 엔진 ---------- */
 const eok = v => v/10000; // 만원 -> 억
@@ -394,7 +466,7 @@ function src(key, over){ // over: [label, url]
   const [label, url] = over || SRC[key];
   return url ? `<a class="src" href="${esc(url)}" target="_blank" rel="noopener">출처: ${esc(label)}${ARROW}</a>` : `<span class="src">출처: ${esc(label)}</span>`;
 }
-const naver = q => 'https://search.naver.com/search.naver?query=' + encodeURIComponent(q);
+const naverSearch = q => 'https://search.naver.com/search.naver?query=' + encodeURIComponent(q);
 const noticeSrc = L => L.noticePdf ? src(null, ['모집공고문 PDF', L.noticePdf]) : (L.sources && L.sources[0] ? src(null, ['청약홈 공고', L.sources[0][1]]) : src('applyhome'));
 const fromNotice = (L, label) => (L.fromNotice || []).includes(label);
 const landSearch = name => 'https://m.land.naver.com/search/result/' + encodeURIComponent((name || '').replace(/\s+/g, ''));
@@ -409,7 +481,7 @@ function compRow(c, L){
   const sub = [esc(c.kind), where, esc(pyeong(c.area)), esc((c.date || '').replace(/-/g, '.'))].filter(Boolean);
   return `<div class="comp"><span class="apt">${esc(c.apt || '단지명 없음')}</span><span class="amt">${fmt(c.amount)}</span>
     <span class="sub">${sub.join(' · ')}${c.direct ? ' <span class="tag warn">직거래</span>' : ''}</span>
-    <span class="sub"><a class="src" href="${landSearch(c.apt || L.name)}" target="_blank" rel="noopener">네이버 부동산 단지 매물${ARROW}</a><a class="src" href="${naver((c.apt || L.name) + ' ' + Math.round((c.area || 0) * 1.33 / 3.3058) + '평 실거래가')}" target="_blank" rel="noopener">네이버 검색${ARROW}</a></span></div>`;
+    <span class="sub"><a class="src" href="${landSearch(c.apt || L.name)}" target="_blank" rel="noopener">네이버 부동산 단지 매물${ARROW}</a><a class="src" href="${naverSearch((c.apt || L.name) + ' ' + Math.round((c.area || 0) * 1.33 / 3.3058) + '평 실거래가')}" target="_blank" rel="noopener">네이버 검색${ARROW}</a></span></div>`;
 }
 function basisTag(L){
   if (L.mktBasis === 'same_complex') return '<span class="tag">같은 단지 거래</span>';
@@ -488,10 +560,29 @@ function filterPanel(){
   </div>`;
 }
 
-function vFeed(){
-  const list = LISTINGS.filter(L => matches(L, S.f)).map(L => ({ L, m: grade(L) }))
+function feedList(){
+  return LISTINGS.filter(L => matches(L, S.f)).map(L => ({ L, m: grade(L) }))
     .filter(x => S.filter === 'all' || x.m.g === S.filter)
     .sort((a,b) => GORDER[a.m.g] - GORDER[b.m.g]);
+}
+function listingCard(L, m){
+  return `
+    <button class="card listing g-${m.g}" data-open="${L.id}">
+      <div class="row"><div><div class="meta">${esc(L.kind)} · ${esc(L.unit)}</div><div class="name">${esc(L.name)}${L.sample ? '<span class="sample">샘플</span>' : ''}</div><div class="meta">${esc(L.loc)}</div></div><span class="dday">${ddayOf(L)}</span></div>
+      <div class="band"><span class="badge">${GNAME[m.g]}</span><div><div class="mg">${marginText(m)}</div><div class="small">분양가 ${fmt(L.price)} · ${m.g === 'unknown' ? '주변 거래 부족' : '시세 ' + fmt(L.mktLow) + '~' + fmt(L.mktBase)}</div></div></div>
+      <div class="me-line">${meLine(L)}</div>
+    </button>`;
+}
+function feedMapBlock(list){
+  const withGeo = list.filter(x => x.L.geo), noGeo = new Set(list.filter(x => !x.L.geo).map(x => x.L.id.split('-')[0])).size;
+  const pick = list.find(x => x.L.id === S.mapPick);
+  return `<div id="feedmap" class="mapbox big" role="region" aria-label="공고 위치 지도"></div>
+  <div id="mappick">${pick ? listingCard(pick.L, pick.m) : '<p class="small muted" style="margin:0">지도의 표시를 누르면 공고가 보여요.</p>'}</div>
+  <p class="foot">색은 판정 등급이에요. 점선 표시는 공고 주소에 지번이 없어 동 중심에 놓은 대략 위치예요.${noGeo ? ' 위치를 찾지 못한 공고 ' + noGeo + '건은 목록에서 보세요.' : ''} 위치: ${src(null, ['네이버 클라우드 플랫폼 Geocoding', null])}${withGeo.length ? '' : ' · 조건에 맞는 공고 중 위치가 있는 공고가 없어요.'}</p>`;
+}
+function vFeed(){
+  const list = feedList();
+  const showMap = S.feedMode === 'map' && mapReady();
   const chip = (k, t) => `<button class="chip" data-filter="${k}" aria-pressed="${S.filter === k}">${t}</button>`;
   const act = activeFilters();
   const x = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" aria-hidden="true"><path d="M18 6 6 18M6 6l12 12"/></svg>';
@@ -505,15 +596,11 @@ function vFeed(){
     <span class="count" aria-live="polite">결과 <b>${list.length}</b>건</span>
     ${act.length || S.filter !== 'all' ? '<button class="linkbtn" data-action="reset-filters">필터 초기화</button>' : ''}
   </div>
+  ${mapReady() ? `<div class="segs" role="group" aria-label="보기 방식"><button class="chip" data-feedmode="list" aria-pressed="${!showMap}">목록</button><button class="chip" data-feedmode="map" aria-pressed="${showMap}">지도</button></div>` : ''}
   ${S.showFilters ? filterPanel() : ''}
   ${act.length ? `<div class="active-f" aria-label="선택한 필터">${act.map(([k, t]) => `<button class="fchip" data-unset="${k}" aria-label="${esc(t)} 필터 해제">${esc(t)}${x}</button>`).join('')}</div>` : ''}
-  ${list.length ? list.map(({L,m}) => `
-    <button class="card listing g-${m.g}" data-open="${L.id}">
-      <div class="row"><div><div class="meta">${esc(L.kind)} · ${esc(L.unit)}</div><div class="name">${esc(L.name)}${L.sample ? '<span class="sample">샘플</span>' : ''}</div><div class="meta">${esc(L.loc)}</div></div><span class="dday">${ddayOf(L)}</span></div>
-      <div class="band"><span class="badge">${GNAME[m.g]}</span><div><div class="mg">${marginText(m)}</div><div class="small">분양가 ${fmt(L.price)} · ${m.g === 'unknown' ? '주변 거래 부족' : '시세 ' + fmt(L.mktLow) + '~' + fmt(L.mktBase)}</div></div></div>
-      <div class="me-line">${meLine(L)}</div>
-    </button>`).join('') : `<div class="card empty"><b>조건에 맞는 공고가 없어요</b><span class="small muted">${act.length ? '필터를 하나씩 해제하거나 초기화해 보세요.' : '이 등급의 공고가 아직 없어요.'}</span>${act.length || S.filter !== 'all' ? '<button class="btn ghost" data-action="reset-filters" style="max-width:220px">필터 초기화</button>' : ''}</div>`}
-  <p class="foot">${DATA_SOURCE.live ? '공고: ' + src('applyhome') + ' · 시세: ' + src('rtms') + ' · 매일 새벽 갱신, 시세는 추정치예요.' : '샘플 표시가 있는 단지는 등급 예시를 위한 가상 데이터예요.'}</p>`;
+  ${showMap ? feedMapBlock(list) : list.length ? list.map(({L,m}) => listingCard(L, m)).join('') : `<div class="card empty"><b>조건에 맞는 공고가 없어요</b><span class="small muted">${act.length ? '필터를 하나씩 해제하거나 초기화해 보세요.' : '이 등급의 공고가 아직 없어요.'}</span>${act.length || S.filter !== 'all' ? '<button class="btn ghost" data-action="reset-filters" style="max-width:220px">필터 초기화</button>' : ''}</div>`}
+  <p class="foot">${DATA_SOURCE.live ? '공고: ' + src('applyhome') + ' · 시세: ' + src('rtms') + ' · 매일 새벽 갱신, 시세는 추정치예요.' + (CONFIG.goatcounter ? ' 방문 통계는 쿠키 없이 GoatCounter로 집계하며, 입력한 내 정보는 보내지 않아요.' : '') : '샘플 표시가 있는 단지는 등급 예시를 위한 가상 데이터예요.'}</p>`;
 }
 
 function itemSrc(L, k){
@@ -530,6 +617,26 @@ function limitSrc(L, k){
   return noticeSrc(L);
 }
 
+const NEAR_KIND = { '역':'지하철·기차역', '초등학교':'초등학교', '중학교':'중학교', '고등학교':'고등학교' };
+function locationCard(L){
+  const g = L.geo, nb = L.nearby;
+  const osm = g ? `https://www.openstreetmap.org/?mlat=${g.lat}&mlon=${g.lng}#map=16/${g.lat}/${g.lng}` : null;
+  let where;
+  if (!g) where = `<div class="small muted">지도 위치를 아직 찾지 못했어요. 네이버 지도 링크로 주소를 검색해 보세요.</div>`;
+  else if (g.precision === 'dong') where = `<div class="note warn" style="padding:10px 12px"><b style="font-size:13px">대략 위치 (${esc(g.query)} 중심)</b><div class="small">공고 주소에 지번이 없어 동 중심에 표시했어요. 실제 단지 위치와 거리 차이가 클 수 있어요.</div></div>`;
+  else where = `<div class="small muted">공고 주소(${esc(g.query)})로 찾은 위치예요.</div>`;
+  const rows = (nb || []).map(n => `<div class="row"><span>${esc(n.name)}<br><span class="small muted">${NEAR_KIND[n.kind] || esc(n.kind)}</span></span><span>직선 ${distText(n.m)}<br><span class="small muted">도보 약 ${n.walk}분 (추정)</span></span></div>`).join('');
+  return `<section class="card"><h2>위치와 주변 입지</h2>
+    <div class="rows"><div class="row"><span>공고 주소<br>${src('applyhome')}</span><span style="white-space:normal;max-width:60%">${esc(L.address || L.loc)}</span></div></div>
+    ${where}
+    ${g && CONFIG.naver_map_key ? '<div id="detailmap" class="mapbox" role="region" aria-label="단지 위치 지도"></div>' : ''}
+    ${g ? `<div class="small muted">위치 ${src(null, ['네이버 클라우드 플랫폼 Geocoding', null])}</div>` : ''}
+    ${nb && nb.length ? `<div class="rows">${rows}</div>
+      <div class="small muted">가까운 역 2곳과 초·중·고 각 1곳이에요 (역 2km, 학교 1.5km 안). 거리는 직선거리이고, 도보 시간은 직선거리×1.3을 분당 67m로 나눈 추정이에요. 역·학교 위치 ${src(null, ['OpenStreetMap', osm])}</div>`
+      : nb ? '<div class="small muted">반경 안(역 2km, 학교 1.5km)에서 찾은 역·학교가 없어요. 출처: OpenStreetMap</div>' : ''}
+    <div class="linkrow"><a href="${esc(naverMapUrl(L))}" target="_blank" rel="noopener" data-ev="naver-map">네이버 지도에서 보기</a></div>
+  </section>`;
+}
 function vDetail(){
   const L = LISTINGS.find(x => x.id === S.id), m = grade(L), p = S.profile, e = eligibility(L, p), o = planOpt(L), f = funding(L, p, o);
   const gap = bestGap(f, o), barCost = L.mktBase ? Math.min(100, m.cost / L.mktBase * 100) : 0, barLo = L.mktBase ? Math.max(0, Math.min(100 - barCost, m.lo / L.mktBase * 100)) : 0;
@@ -543,7 +650,7 @@ function vDetail(){
   return `
   <div class="top"><button class="back" data-go="feed">${chev}공고</button></div>
   <div class="stack" style="gap:4px"><div class="meta">${esc(L.kind)} · 접수 ${L.apply ? L.apply.replace(/-/g,'.') : '샘플'}</div><h1>${esc(L.name)}${L.sample ? '<span class="sample">샘플</span>' : ''}</h1><div class="meta">${esc(L.loc)} · ${esc(L.unit)}</div></div>
-  <div class="srcs">${L.sources && L.sources[0] ? src(null, ['청약홈 공고', L.sources[0][1]]) : src('applyhome')}${L.noticePdf ? src(null, ['모집공고문 PDF', L.noticePdf]) : ''}</div>
+  <div class="srcs">${L.sources && L.sources[0] ? src(null, ['청약홈 공고', L.sources[0][1]]) : src('applyhome')}${L.noticePdf ? src(null, ['모집공고문 PDF', L.noticePdf]) : ''}${L.sample ? '' : `<a class="src" href="${esc(naverMapUrl(L))}" target="_blank" rel="noopener" data-ev="naver-map">네이버 지도${ARROW}</a>`}</div>
   <div class="hero g-${m.g}">
     <div class="row"><span class="small" style="font-weight:600;opacity:.85">청약 판정</span><button class="linkbtn small" data-go="grades" style="color:inherit">등급 기준</button></div>
     <div style="display:flex;align-items:baseline;gap:12px;flex-wrap:wrap"><span class="big">${GNAME[m.g]}</span><span class="amt">${marginText(m).replace('마진 ','')}</span></div>
@@ -578,15 +685,16 @@ function vDetail(){
       ${L.mktCount < 3 ? '<div class="note warn" style="padding:10px 12px;margin-top:6px"><b style="font-size:13px">거래가 적어 시세 신뢰도가 낮아요</b></div>' : ''}
       <div class="comps">${L.mktComps.map(c => compRow(c, L)).join('')}</div></div>` : ''}
     <div class="linkrow">
-      <a href="${landSearch(L.name)}" target="_blank" rel="noopener">네이버 부동산에서 이 단지 매물</a>
+      <a href="${landSearch(L.name)}" target="_blank" rel="noopener" data-ev="naver-land">네이버 부동산에서 이 단지 매물</a>
       <a href="https://rt.molit.go.kr/" target="_blank" rel="noopener">국토부 실거래가 공개시스템</a>
     </div>
   </section>
+  ${L.sample ? '' : locationCard(L)}
   <section class="card"><h2>당첨되면 걸리는 제약 (공고 조건)</h2><div class="rows">${L.limits.map(x => `<div class="row"><span>${x[0]}<br>${limitSrc(L, x[0])}</span><b>${x[1]}</b></div>`).join('')}</div>
     <div class="small muted">계약을 포기해도 당첨자로 관리돼요. 자금 확보 전에는 신청하지 마세요.</div></section>
   <div class="stack">
     <button class="btn" data-go="plan">자금 플랜 보기</button>
-    ${L.sources.map(s => `<a class="btn ghost" href="${s[1]}" target="_blank" rel="noopener">${s[0]}</a>`).join('')}
+    ${L.sources.map(s => `<a class="btn ghost" href="${s[1]}" target="_blank" rel="noopener" data-ev="notice">${s[0]}</a>`).join('')}
   </div>
   <p class="foot">판정은 참고용이며 모집공고문과 관계 법령이 우선해요. 시세는 최근 거래·호가 기준 추정치예요.</p>`;
 }
@@ -701,7 +809,7 @@ function vAlerts(){
   <div class="top"><button class="back" data-go="feed">${chev}공고</button></div>
   <div class="stack" style="gap:6px"><h1>로또 공고가 뜨면 알려드릴게요</h1>
   <p class="muted" style="margin:0;font-size:14px">매일 새벽 수집이 끝나면 새로 올라온 <b>로또·고려</b> 공고와, 이런 공고의 <b>접수 전날</b>에 푸시 알림을 보내요.</p></div>
-  <a class="btn" href="${url}" target="_blank" rel="noopener">알림 구독하기</a>
+  <a class="btn" href="${url}" target="_blank" rel="noopener" data-ev="alert-subscribe">알림 구독하기</a>
   <section class="card"><h2>핸드폰으로 받기 (추천)</h2>
     <ol class="steps">
       <li>Play 스토어나 App Store에서 <b>ntfy</b> 앱을 설치해요.</li>
@@ -781,13 +889,24 @@ function render(){
   const tab = { feed:'feed', detail:'feed', plan:'feed', alerts:'feed', grades:'grades', me:'me' }[S.view];
   tabbar.querySelectorAll('button').forEach(b => { if (b.dataset.go === tab) b.setAttribute('aria-current','page'); else b.removeAttribute('aria-current'); });
   if (lastView !== S.view) window.scrollTo(0, 0);
+  const key = S.view + '|' + (S.view === 'detail' || S.view === 'plan' ? S.id : '') + '|' + (S.view === 'feed' ? S.feedMode : '');
+  if (key !== lastTrack) { lastTrack = key; trackView(); }
   lastView = S.view;
+  afterRender();
+}
+let lastTrack = '';
+function trackView(){
+  const L = S.id && LISTINGS.find(x => x.id === S.id), nid = S.id ? S.id.split('-')[0] : '';
+  const path = S.view === 'feed' ? (S.feedMode === 'map' && mapReady() ? '/map' : '/') : (S.view === 'detail' || S.view === 'plan') ? '/' + S.view + '/' + nid : '/' + S.view;
+  track({ path, title: L && (S.view === 'detail' || S.view === 'plan') ? L.name : document.title });
 }
 function go(v){ S.view = v; render(); }
 function save(){ store.set('cy-profile', S.profile); }
 
 document.addEventListener('click', ev => {
   const t = ev.target.closest('button,a'); if (!t) return;
+  if (t.dataset.ev) { const L = S.id && LISTINGS.find(x => x.id === S.id); track({ path: 'click-' + t.dataset.ev, title: L ? L.name : '', event: true }); }
+  if (t.dataset.feedmode) { S.feedMode = t.dataset.feedmode; S.mapPick = null; render(); return; }
   if (t.dataset.go) { go(t.dataset.go); return; }
   if (t.dataset.open) { S.id = t.dataset.open; go('detail'); return; }
   if (t.dataset.filter) { S.filter = t.dataset.filter; render(); return; }
@@ -804,7 +923,7 @@ document.addEventListener('click', ev => {
   }
   if (a === 'restart') { S.step = 0; go('onboard'); }
   if (a === 'prev') { if (S.step === 0) go('me'); else { S.step--; render(); } }
-  if (a === 'next') { const n = visibleSteps().length; if (S.step >= n - 1) { save(); go('feed'); } else { S.step++; render(); } }
+  if (a === 'next') { const n = visibleSteps().length; if (S.step >= n - 1) { save(); track({ path:'onboard-done', event:true }); go('feed'); } else { S.step++; render(); } }
 });
 document.addEventListener('input', ev => {
   const el = ev.target;
@@ -817,7 +936,7 @@ document.addEventListener('input', ev => {
 document.addEventListener('change', ev => {
   const el = ev.target;
   if (el.dataset.f) {
-    const k = el.dataset.f; S.f[k] = el.value;
+    const k = el.dataset.f; S.f[k] = el.value; track({ path:'filter-' + k, event:true });
     if (k === 'sido') S.f.district = '';
     if (k === 'from' && S.f.to && S.f.from > S.f.to) S.f.to = S.f.from;   // 시작이 끝보다 늦으면 맞춰 준다
     if (k === 'to' && S.f.from && S.f.to < S.f.from) S.f.from = S.f.to;
@@ -834,7 +953,7 @@ function fromApi(x){
     region:x.region, kind:x.kind, target:x.target,
     sido:x.sido || null, district:x.district || null, supplyType:x.supply_type || x.kind,
     mktComps:x.mkt_comps || [], mktCount:x.mkt_count || 0, mktDirectExcluded:x.mkt_direct_excluded || 0, mktBasis:x.mkt_basis || null, jeonseComps:x.jeonse_comps || [],
-    noticePdf:x.notice_pdf || null, fromNotice:x.from_notice || [], checks:x.checks || [],
+    noticePdf:x.notice_pdf || null, address:x.address || '', geo:x.geo || null, nearby:Array.isArray(x.nearby) ? x.nearby : null, mapQuery:x.map_query || null, fromNotice:x.from_notice || [], checks:x.checks || [],
     specialApply:x.special_apply || null, houseDtl:x.house_dtl || null, rentSecd:x.rent_secd || null, applyEnd:x.apply_end || null, unit:x.unit + (x.households ? ' · ' + x.households + '세대' : ''),
     notice:x.notice, apply:x.apply, winner:x.winner, contract:x.contract, balance:x.balance,
     price:x.price, ext:x.ext || 0, contractRate:x.contract_rate || 0.1, midRate:x.mid_rate || 0,
@@ -844,7 +963,14 @@ function fromApi(x){
     limits:(x.limits || []).map(l => [l[0], l[1]]), sources: x.url ? [['모집공고 (청약홈)', x.url]] : [] };
 }
 render();
-fetch('config.json', { cache:'no-store' }).then(r => r.ok ? r.json() : null).then(c => { if (c && c.ntfy_topic) { CONFIG = Object.assign(CONFIG, c); if (S.view === 'alerts') render(); } }).catch(() => {});
+fetch('config.json', { cache:'no-store' }).then(r => r.ok ? r.json() : null).then(c => {
+  if (c) CONFIG = Object.assign(CONFIG, c);
+  initGC(CONFIG.goatcounter);
+  if (c && (S.view === 'feed' || S.view === 'alerts')) render();
+}).catch(() => {});
+fetch('map.json', { cache:'no-store' }).then(r => r.ok ? r.json() : null).then(c => {
+  if (c && c.naver_map_key) { CONFIG.naver_map_key = c.naver_map_key; if (S.view === 'feed' || S.view === 'detail') render(); }
+}).catch(() => {});
 fetch('listings.json', { cache:'no-store' }).then(r => r.ok ? r.json() : null).then(async rows => {
   if (!Array.isArray(rows) || !rows.length) return;
   LISTINGS = rows.map(fromApi);
