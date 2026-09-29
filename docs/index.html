@@ -141,6 +141,10 @@ input[type=date]{min-height:52px;border-radius:12px;border:1px solid var(--line)
 .tabbar button{border:0;background:none;font-size:13px;color:var(--muted);cursor:pointer}
 .tabbar button[aria-current="page"]{color:var(--fg);font-weight:700}
 .foot{font-size:11px;color:var(--muted);margin:0}
+.bell{display:inline-flex;align-items:center;gap:6px;min-height:44px;padding:0 14px;border-radius:22px;border:1px solid var(--line);background:var(--surface);font-weight:600;font-size:14px;cursor:pointer}
+.bell svg{width:18px;height:18px}
+.steps{margin:0;padding-left:20px;display:flex;flex-direction:column;gap:6px;font-size:14px}
+code.topic{font-family:ui-monospace,Menlo,monospace;background:var(--sunk);padding:2px 6px;border-radius:6px;font-size:13px;overflow-wrap:anywhere}
 dl.kv{margin:0;display:grid;grid-template-columns:auto 1fr;gap:8px 16px;font-size:14px}
 dl.kv dt{color:var(--muted)} dl.kv dd{margin:0;text-align:right;font-weight:600}
 </style>
@@ -195,6 +199,7 @@ let LISTINGS = [
 ];
 const TODAY = (() => { const d = new Date(Date.now() + 9*3600e3); return d.toISOString().slice(0,10); })(); // 한국 날짜
 let DATA_SOURCE = { live:false, updated:'' };
+let CONFIG = { ntfy_server:'https://ntfy.sh', ntfy_topic:'cheongyak-97ecbdb4', site_url:'' };
 
 /* ---------- 내 조건 (대화에서 알려주신 값으로 시작) ---------- */
 const DEFAULT_PROFILE = { seoul:true, household:'parents', parents60:true, parentsOwn:true, headSince:'',
@@ -341,7 +346,8 @@ function vFeed(){
     .sort((a,b) => GORDER[a.m.g] - GORDER[b.m.g]);
   const chip = (k, t) => `<button class="chip" data-filter="${k}" aria-pressed="${S.filter === k}">${t}</button>`;
   return `
-  <div class="top"><div class="brand">청약판정</div><span class="small muted">${DATA_SOURCE.live ? '청약홈 · ' + esc(DATA_SOURCE.updated) + ' 갱신' : '샘플 데이터'}</span></div>
+  <div class="top"><div><div class="brand">청약판정</div><span class="small muted">${DATA_SOURCE.live ? '청약홈 · ' + esc(DATA_SOURCE.updated) + ' 갱신' : '샘플 데이터'}</span></div>
+    <button class="bell" data-go="alerts" aria-label="알림 받기"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 8a6 6 0 1 1 12 0c0 7 3 9 3 9H3s3-2 3-9"/><path d="M10.3 21a1.94 1.94 0 0 0 3.4 0"/></svg><span>알림</span></button></div>
   <div class="profile-bar"><span class="muted">내 조건 · <b style="color:var(--fg)">${esc(profileLine(S.profile))}</b></span><button class="linkbtn" data-go="me">수정</button></div>
   <div class="chips" role="group" aria-label="등급 필터">${chip('all','전체')}${chip('lotto','로또')}${chip('consider','고려')}${chip('flat','마진없음')}${chip('pass','패스')}</div>
   ${list.length ? list.map(({L,m}) => `
@@ -503,6 +509,27 @@ function vMe(){
   <p class="foot">입력한 정보는 이 브라우저에만 저장돼요.</p>`;
 }
 
+function vAlerts(){
+  const url = CONFIG.ntfy_server.replace(/\/$/,'') + '/' + CONFIG.ntfy_topic;
+  return `
+  <div class="top"><button class="back" data-go="feed">${chev}공고</button></div>
+  <div class="stack" style="gap:6px"><h1>로또 공고가 뜨면 알려드릴게요</h1>
+  <p class="muted" style="margin:0;font-size:14px">매일 새벽 수집이 끝나면 새로 올라온 <b>로또·고려</b> 공고와, 이런 공고의 <b>접수 전날</b>에 푸시 알림을 보내요.</p></div>
+  <a class="btn" href="${url}" target="_blank" rel="noopener">알림 구독하기</a>
+  <section class="card"><h2>핸드폰으로 받기 (추천)</h2>
+    <ol class="steps">
+      <li>Play 스토어나 App Store에서 <b>ntfy</b> 앱을 설치해요.</li>
+      <li>앱에서 <b>+</b> 를 누르고 주제 이름에 <code class="topic">${esc(CONFIG.ntfy_topic)}</code> 를 넣어요.</li>
+      <li>구독을 누르면 끝이에요. 알림을 누르면 이 앱이 열려요.</li>
+    </ol>
+    <button class="btn ghost" data-action="copy-topic">주제 이름 복사</button>
+  </section>
+  <section class="card"><h2>브라우저로 받기</h2>
+    <p style="margin:0;font-size:14px">위 <b>알림 구독하기</b>를 누르면 ntfy 웹 페이지가 열려요. 거기서 브라우저 알림을 허용하면 PC나 핸드폰 브라우저로도 받을 수 있어요.</p>
+  </section>
+  <p class="foot">알림은 모든 구독자에게 같은 내용으로 가요. 내 자격과 자금 판정은 공고를 눌러 앱에서 확인하세요.</p>`;
+}
+
 /* ---------- 온보딩 인터뷰 ---------- */
 const STEPS = [
   { t:'서울에 살고 계세요?', d:'주민등록 기준이에요. 서울 공고는 대부분 서울 거주자만 넣을 수 있어요.',
@@ -560,12 +587,12 @@ function vOnboard(){
 
 /* ---------- 라우팅 & 이벤트 ---------- */
 const app = document.getElementById('app'), tabbar = document.getElementById('tabbar');
-const VIEWS = { feed:vFeed, detail:vDetail, plan:vPlan, grades:vGrades, me:vMe, onboard:vOnboard };
+const VIEWS = { feed:vFeed, detail:vDetail, plan:vPlan, grades:vGrades, me:vMe, onboard:vOnboard, alerts:vAlerts };
 let lastView = null;
 function render(){
   app.innerHTML = VIEWS[S.view]();
   tabbar.hidden = S.view === 'onboard';
-  const tab = { feed:'feed', detail:'feed', plan:'feed', grades:'grades', me:'me' }[S.view];
+  const tab = { feed:'feed', detail:'feed', plan:'feed', alerts:'feed', grades:'grades', me:'me' }[S.view];
   tabbar.querySelectorAll('button').forEach(b => { if (b.dataset.go === tab) b.setAttribute('aria-current','page'); else b.removeAttribute('aria-current'); });
   if (lastView !== S.view) window.scrollTo(0, 0);
   lastView = S.view;
@@ -581,6 +608,11 @@ document.addEventListener('click', ev => {
   if (t.dataset.set) { S.profile[t.dataset.set] = JSON.parse(t.dataset.val); save(); render(); return; }
   if (t.dataset.mode) { planOpt(LISTINGS.find(x => x.id === S.id)).mode = t.dataset.mode; render(); return; }
   const a = t.dataset.action;
+  if (a === 'copy-topic') {
+    const done = () => { t.textContent = '복사했어요'; };
+    try { navigator.clipboard.writeText(CONFIG.ntfy_topic).then(done, () => { t.textContent = CONFIG.ntfy_topic; }); } catch(e) { t.textContent = CONFIG.ntfy_topic; }
+    return;
+  }
   if (a === 'restart') { S.step = 0; go('onboard'); }
   if (a === 'prev') { if (S.step === 0) go('me'); else { S.step--; render(); } }
   if (a === 'next') { const n = visibleSteps().length; if (S.step >= n - 1) { save(); go('feed'); } else { S.step++; render(); } }
@@ -610,6 +642,7 @@ function fromApi(x){
     limits:(x.limits || []).map(l => [l[0], l[1]]), sources: x.url ? [['모집공고 (청약홈)', x.url]] : [] };
 }
 render();
+fetch('config.json', { cache:'no-store' }).then(r => r.ok ? r.json() : null).then(c => { if (c && c.ntfy_topic) { CONFIG = Object.assign(CONFIG, c); if (S.view === 'alerts') render(); } }).catch(() => {});
 fetch('listings.json', { cache:'no-store' }).then(r => r.ok ? r.json() : null).then(async rows => {
   if (!Array.isArray(rows) || !rows.length) return;
   LISTINGS = rows.map(fromApi);

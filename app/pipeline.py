@@ -21,8 +21,11 @@ from .market import estimate_jeonse, estimate_market, months_back
 from .models import Listing
 from .sources.applyhome import ApplyhomeClient, iter_open_listings
 from .sources.rtms import RtmsClient
+from . import notice_pdf, notify
 
-DATA = Path(__file__).resolve().parent.parent / "data" / "listings.json"
+ROOT = Path(__file__).resolve().parent.parent
+DATA = ROOT / "data" / "listings.json"
+RUN_LOG = ROOT / "docs" / "run-log.txt"
 RTMS_ERRORS: set[str] = set()
 
 
@@ -57,6 +60,9 @@ def build_listing(raw: dict, rtms: Optional[RtmsClient], today: date) -> Optiona
             js = estimate_jeonse(raw["name"], raw["area"], rents, today.year)
 
     remainder = raw["category"] == "remainder"
+    # 준공 임박(입주 6개월 이내) 단지는 중도금 없이 잔금, 그 외엔 중도금 60% 가정
+    soon = (today + timedelta(days=183)).isoformat()[:7]
+    built = bool(raw.get("move_in")) and raw["move_in"][:7] <= soon
     limits = [("재당첨 제한", "10년" if regulated else "공고문 확인")]
     if price_cap:
         limits.append(("실거주 의무", "공고문 확인"))
@@ -68,7 +74,7 @@ def build_listing(raw: dict, rtms: Optional[RtmsClient], today: date) -> Optiona
         households=raw.get("households"),
         notice=raw["notice"], apply=raw["apply"], apply_end=raw["apply_end"], winner=raw["winner"],
         contract=raw["contract"], move_in=raw["move_in"],
-        price=raw["price"], ext=0.0, contract_rate=0.10, mid_rate=0.0 if remainder else 0.6,
+        price=raw["price"], ext=0.0, contract_rate=0.10, mid_rate=0.0 if built else 0.6,
         **mk, **js,
         capital=capital, regulated=bool(regulated),
         land_permit=bool(regulated) and capital and today.isoformat() <= R.LAND_PERMIT_UNTIL,
@@ -79,35 +85,85 @@ def build_listing(raw: dict, rtms: Optional[RtmsClient], today: date) -> Optiona
     )
 
 
-def run(dry_run: bool = False, today: Optional[date] = None) -> list[Listing]:
+def apply_notice(listings: list[Listing], log: list[str], client=None) -> None:
+    """공고별로 공고문 PDF 를 한 번 읽어 같은 공고의 주택형 전체에 반영한다."""
+    groups: dict[str, list[Listing]] = {}
+    for L in listings:
+        if L.url:
+            groups.setdefault(L.url, []).append(L)
+    for url, Ls in groups.items():
+        text, msg = notice_pdf.fetch_notice_text(url, client)
+        found = notice_pdf.parse_notice(text) if text else {}
+        log.append(f"[공고문] {Ls[0].name}: {msg} → {found or '추출 없음'}")
+        for L in Ls:
+            if "need_head" in found:
+                L.need_head = found["need_head"]
+            if "price_cap" in found:
+                L.price_cap = found["price_cap"]
+            if "residence_duty" in found:
+                L.residence_duty = found["residence_duty"]
+            elif L.price_cap and L.residence_duty == 0:
+                L.residence_duty = None
+            if "balance" in found:
+                L.balance = found["balance"]
+            if "ext" in found and len(Ls) == 1:
+                L.ext = found["ext"]
+            L.limits = [x for x in L.limits if x[0] != "실거주 의무"]
+            duty = L.residence_duty
+            L.limits.append(("실거주 의무", "공고문 확인" if duty is None else (f"{duty}년" if duty else "없음")))
+
+
+def run(dry_run: bool = False, today: Optional[date] = None, read_notices: bool = True) -> list[Listing]:
     today = today or date.today()
     since = (today - timedelta(days=60)).isoformat()
     ah = ApplyhomeClient()
     rt = RtmsClient()
+    log: list[str] = []
     out: list[Listing] = []
     for raw in iter_open_listings(ah, today.isoformat(), since):
         try:
             L = build_listing(raw, rt, today)
         except Exception as e:  # 한 공고가 실패해도 나머지는 진행
-            print(f"[건너뜀] {raw.get('name')} {raw.get('unit')}: {e}", file=sys.stderr)
+            log.append(f"[건너뜀] {raw.get('name')} {raw.get('unit')}: {e}")
             continue
         if L:
             out.append(L)
-    summary(out)
-    for msg in sorted(RTMS_ERRORS):
-        print(f"[실거래가 경고] {msg}")
+    if read_notices:
+        try:
+            apply_notice(out, log)
+        except Exception as e:
+            log.append(f"[공고문] 전체 실패: {e}")
+    log += [f"[실거래가 경고] {m}" for m in sorted(RTMS_ERRORS)]
+
+    lines = summary(out)
+    cfg = notify.load_config()
+    msgs = notify.build_messages(out, notify.load_previous_ids(), today, cfg)
+    if not dry_run:
+        log += notify.send(msgs, cfg)
+    else:
+        log += [f"(보낼 알림) {m['title']}" for m in msgs]
+    for l in log:
+        print(l)
     if not dry_run:
         DATA.parent.mkdir(parents=True, exist_ok=True)
         DATA.write_text(json.dumps([l.model_dump() for l in out], ensure_ascii=False, indent=1), encoding="utf-8")
+        RUN_LOG.parent.mkdir(parents=True, exist_ok=True)
+        RUN_LOG.write_text(f"실행: {today.isoformat()} · 공고 {len(out)}건\n\n" + "\n".join(lines + [""] + log) + "\n",
+                           encoding="utf-8")
         print(f"저장: {DATA} ({len(out)}건)")
     return out
 
 
-def summary(listings: list[Listing]) -> None:
-    for L in listings:
+def summary(listings: list[Listing]) -> list[str]:
+    lines = []
+    for L in sorted(listings, key=lambda L: (["lotto", "consider", "flat", "pass", "unknown"].index(grade(L)["grade"]), L.name)):
         g = grade(L)
         m = "" if g["lo"] is None else f"마진 {g['lo']:+.2f}~{g['hi']:+.2f}억"
-        print(f"{g['name']:<5} {L.name} {L.unit} · {L.region} {L.sigungu or ''} · 분양가 {L.price:.2f}억 {m}")
+        head = "세대주" if L.need_head else "세대구성원"
+        lines.append(f"{g['name']:<5} {L.name} {L.unit} · {L.sigungu or L.region} · 분양가 {L.price:.2f}억 {m} · {head}")
+    for l in lines:
+        print(l)
+    return lines
 
 
 if __name__ == "__main__":

@@ -84,8 +84,11 @@ def test_end_to_end(tmp_path, monkeypatch):
     monkeypatch.setattr(pipeline, "ApplyhomeClient", lambda: ah)
     monkeypatch.setattr(pipeline, "RtmsClient", lambda: rt)
     monkeypatch.setattr(pipeline, "DATA", tmp_path / "listings.json")
-    out = pipeline.run(today=date(2026, 9, 29))
+    monkeypatch.setattr(pipeline, "RUN_LOG", tmp_path / "run-log.txt")
+    monkeypatch.setattr(pipeline.notify, "send", lambda msgs, cfg: [f"sent {len(msgs)}"])
+    out = pipeline.run(today=date(2026, 9, 29), read_notices=False)
     assert len(out) == 1
+    assert "로또" in (tmp_path / "run-log.txt").read_text(encoding="utf-8")
     L = out[0]
     assert L.regulated and L.land_permit and L.sigungu == "광진구"
     assert L.mkt_base == 21.75 and L.mkt_low == 21.25
@@ -116,7 +119,9 @@ def test_rtms_forbidden_keeps_listing(tmp_path, monkeypatch):
     monkeypatch.setattr(pipeline, "ApplyhomeClient", lambda: ApplyhomeClient("T", http))
     monkeypatch.setattr(pipeline, "RtmsClient", lambda: RtmsClient("T", http))
     monkeypatch.setattr(pipeline, "DATA", tmp_path / "l.json")
-    out = pipeline.run(today=date(2026, 9, 29))
+    monkeypatch.setattr(pipeline, "RUN_LOG", tmp_path / "run-log.txt")
+    monkeypatch.setattr(pipeline.notify, "send", lambda msgs, cfg: [])
+    out = pipeline.run(today=date(2026, 9, 29), read_notices=False)
     assert len(out) == 1 and out[0].mkt_base is None
     assert "실패" in out[0].mkt_note
 
