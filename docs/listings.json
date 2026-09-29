@@ -1382,43 +1382,28 @@
    "matched": "인천광역시 미추홀구 숭의동 350-1",
    "source": "네이버 클라우드 플랫폼 Geocoding"
   },
-  "competition": null,
-  "area_comps": [
-   {
-    "name": "시티오씨엘 9단지 오션파크뷰",
-    "notice": "2026-08-21",
-    "apply": "2026-08-31",
-    "url": "https://www.applyhome.co.kr/ai/aia/selectAPTLttotPblancDetail.do?houseManageNo=2026000388&pblancNo=2026000388",
-    "category": "general",
-    "unit": "75",
-    "area": 75.9096,
-    "rank": "1",
-    "reside": "해당지역",
-    "supply": 95.0,
-    "req": 89.0,
-    "rate": "(△6)",
-    "rate_num": null,
-    "low": null,
-    "avg": null
-   },
-   {
-    "name": "시티오씨엘 8단지",
-    "notice": "2025-11-21",
-    "apply": "2025-12-01",
-    "url": "https://www.applyhome.co.kr/ai/aia/selectAPTLttotPblancDetail.do?houseManageNo=2025000560&pblancNo=2025000560",
-    "category": "general",
-    "unit": "75",
-    "area": 75.9096,
-    "rank": "1",
-    "reside": "해당지역",
-    "supply": 87.0,
-    "req": 185.0,
-    "rate": "2.13",
-    "rate_num": 2.13,
-    "low": 30.0,
-    "avg": 37.54
-   }
-  ],
+  "competition": {
+   "rows": [
+    {
+     "rank": "1",
+     "reside": "해당지역",
+     "supply": 7.0,
+     "req": 9.0,
+     "rate": "1.29",
+     "rate_num": 1.29
+    },
+    {
+     "rank": "1",
+     "reside": "기타지역",
+     "supply": 7.0,
+     "req": 2.0,
+     "rate": "-",
+     "rate_num": null
+    }
+   ],
+   "scores": []
+  },
+  "area_comps": null,
   "map_query": "인천광역시 미추홀구 숭의동 350-1",
   "nearby": [
    {
@@ -1541,60 +1526,28 @@
    "matched": "인천광역시 미추홀구 숭의동 350-1",
    "source": "네이버 클라우드 플랫폼 Geocoding"
   },
-  "competition": null,
-  "area_comps": [
-   {
-    "name": "시티오씨엘 9단지 오션파크뷰",
-    "notice": "2026-08-21",
-    "apply": "2026-08-31",
-    "url": "https://www.applyhome.co.kr/ai/aia/selectAPTLttotPblancDetail.do?houseManageNo=2026000388&pblancNo=2026000388",
-    "category": "general",
-    "unit": "84A",
-    "area": 84.9771,
-    "rank": "1",
-    "reside": "해당지역",
-    "supply": 942.0,
-    "req": 144.0,
-    "rate": "(△798)",
-    "rate_num": null,
-    "low": null,
-    "avg": null
-   },
-   {
-    "name": "시티오씨엘 8단지",
-    "notice": "2025-11-21",
-    "apply": "2025-12-01",
-    "url": "https://www.applyhome.co.kr/ai/aia/selectAPTLttotPblancDetail.do?houseManageNo=2025000560&pblancNo=2025000560",
-    "category": "general",
-    "unit": "84A",
-    "area": 84.9771,
-    "rank": "1",
-    "reside": "해당지역",
-    "supply": 507.0,
-    "req": 200.0,
-    "rate": "(△307)",
-    "rate_num": null,
-    "low": null,
-    "avg": null
-   },
-   {
-    "name": "인하대역 수자인 로이센트",
-    "notice": "2025-10-24",
-    "apply": "2025-11-04",
-    "url": "https://www.applyhome.co.kr/ai/aia/selectAPTLttotPblancDetail.do?houseManageNo=2025000425&pblancNo=2025000425",
-    "category": "general",
-    "unit": "84G",
-    "area": 84.9856,
-    "rank": "1",
-    "reside": "해당지역",
-    "supply": 28.0,
-    "req": 89.0,
-    "rate": "3.18",
-    "rate_num": 3.18,
-    "low": 37.0,
-    "avg": 46.5
-   }
-  ],
+  "competition": {
+   "rows": [
+    {
+     "rank": "1",
+     "reside": "해당지역",
+     "supply": 22.0,
+     "req": 5.0,
+     "rate": "(△17)",
+     "rate_num": null
+    },
+    {
+     "rank": "1",
+     "reside": "기타지역",
+     "supply": 22.0,
+     "req": 2.0,
+     "rate": "(△15)",
+     "rate_num": null
+    }
+   ],
+   "scores": []
+  },
+  "area_comps": null,
   "map_query": "인천광역시 미추홀구 숭의동 350-1",
   "nearby": [
    {
@@ -1717,8 +1670,28 @@
    "matched": "경상남도 진주시 판문동 241-1",
    "source": "네이버 클라우드 플랫폼 Geocoding"
   },
-  "competition": null,
-  "area_comps": [],
+  "competition": {
+   "rows": [
+    {
+     "rank": "1",
+     "reside": "해당지역",
+     "supply": 60.0,
+     "req": 676.0,
+     "rate": "11.27",
+     "rate_num": 11.27
+    },
+    {
+     "rank": "1",
+     "reside": "기타지역",
+     "supply": 60.0,
+     "req": 103.0,
+     "rate": "-",
+     "rate_num": null
+    }
+   ],
+   "scores": []
+  },
+  "area_comps": null,
   "map_query": "경상남도 진주시 판문동 241-1",
   "nearby": [
    {
@@ -2081,8 +2054,28 @@
    "matched": "경상남도 진주시 판문동 241-1",
    "source": "네이버 클라우드 플랫폼 Geocoding"
   },
-  "competition": null,
-  "area_comps": [],
+  "competition": {
+   "rows": [
+    {
+     "rank": "1",
+     "reside": "해당지역",
+     "supply": 66.0,
+     "req": 1855.0,
+     "rate": "28.11",
+     "rate_num": 28.11
+    },
+    {
+     "rank": "1",
+     "reside": "기타지역",
+     "supply": 66.0,
+     "req": 172.0,
+     "rate": "-",
+     "rate_num": null
+    }
+   ],
+   "scores": []
+  },
+  "area_comps": null,
   "map_query": "경상남도 진주시 판문동 241-1",
   "nearby": [
    {
@@ -2189,8 +2182,28 @@
    "matched": "경상남도 진주시 판문동 241-1",
    "source": "네이버 클라우드 플랫폼 Geocoding"
   },
-  "competition": null,
-  "area_comps": [],
+  "competition": {
+   "rows": [
+    {
+     "rank": "1",
+     "reside": "해당지역",
+     "supply": 4.0,
+     "req": 174.0,
+     "rate": "43.50",
+     "rate_num": 43.5
+    },
+    {
+     "rank": "1",
+     "reside": "기타지역",
+     "supply": 4.0,
+     "req": 12.0,
+     "rate": "-",
+     "rate_num": null
+    }
+   ],
+   "scores": []
+  },
+  "area_comps": null,
   "map_query": "경상남도 진주시 판문동 241-1",
   "nearby": [
    {
@@ -2297,8 +2310,28 @@
    "matched": "전북특별자치도 전주시 완산구 삼천동1가 585-4",
    "source": "네이버 클라우드 플랫폼 Geocoding"
   },
-  "competition": null,
-  "area_comps": [],
+  "competition": {
+   "rows": [
+    {
+     "rank": "1",
+     "reside": "해당지역",
+     "supply": 31.0,
+     "req": 257.0,
+     "rate": "8.29",
+     "rate_num": 8.29
+    },
+    {
+     "rank": "1",
+     "reside": "기타지역",
+     "supply": 31.0,
+     "req": 24.0,
+     "rate": "-",
+     "rate_num": null
+    }
+   ],
+   "scores": []
+  },
+  "area_comps": null,
   "map_query": "전북특별자치도 전주시 완산구 삼천동1가 585-4",
   "nearby": [
    {
@@ -2899,8 +2932,28 @@
    "matched": "울산광역시 중구 학성동 397-1",
    "source": "네이버 클라우드 플랫폼 Geocoding"
   },
-  "competition": null,
-  "area_comps": [],
+  "competition": {
+   "rows": [
+    {
+     "rank": "1",
+     "reside": "해당지역",
+     "supply": 1.0,
+     "req": 52.0,
+     "rate": "52.00",
+     "rate_num": 52.0
+    },
+    {
+     "rank": "1",
+     "reside": "기타지역",
+     "supply": 1.0,
+     "req": 7.0,
+     "rate": "-",
+     "rate_num": null
+    }
+   ],
+   "scores": []
+  },
+  "area_comps": null,
   "map_query": "울산광역시 중구 학성동 397-1",
   "nearby": [
    {
@@ -3007,8 +3060,28 @@
    "matched": "울산광역시 중구 학성동 397-1",
    "source": "네이버 클라우드 플랫폼 Geocoding"
   },
-  "competition": null,
-  "area_comps": [],
+  "competition": {
+   "rows": [
+    {
+     "rank": "1",
+     "reside": "해당지역",
+     "supply": 1.0,
+     "req": 37.0,
+     "rate": "37.00",
+     "rate_num": 37.0
+    },
+    {
+     "rank": "1",
+     "reside": "기타지역",
+     "supply": 1.0,
+     "req": 0.0,
+     "rate": "-",
+     "rate_num": null
+    }
+   ],
+   "scores": []
+  },
+  "area_comps": null,
   "map_query": "울산광역시 중구 학성동 397-1",
   "nearby": [
    {
@@ -3931,8 +4004,28 @@
    "matched": "부산광역시 수영구 망미동 253-1",
    "source": "네이버 클라우드 플랫폼 Geocoding"
   },
-  "competition": null,
-  "area_comps": [],
+  "competition": {
+   "rows": [
+    {
+     "rank": "1",
+     "reside": "해당지역",
+     "supply": 36.0,
+     "req": 17.0,
+     "rate": "(△19)",
+     "rate_num": null
+    },
+    {
+     "rank": "1",
+     "reside": "기타지역",
+     "supply": 36.0,
+     "req": 4.0,
+     "rate": "(△15)",
+     "rate_num": null
+    }
+   ],
+   "scores": []
+  },
+  "area_comps": null,
   "map_query": "부산광역시 수영구 망미동 253-1",
   "nearby": [
    {
@@ -4324,8 +4417,44 @@
    "matched": "충청남도 천안시 동남구 용곡동 617 천안용곡 두산위브",
    "source": "네이버 클라우드 플랫폼 Geocoding"
   },
-  "competition": null,
-  "area_comps": [],
+  "competition": {
+   "rows": [
+    {
+     "rank": "1",
+     "reside": "해당지역",
+     "supply": 1.0,
+     "req": 0.0,
+     "rate": "(△1)",
+     "rate_num": null
+    },
+    {
+     "rank": "1",
+     "reside": "기타지역",
+     "supply": 1.0,
+     "req": 0.0,
+     "rate": "(△1)",
+     "rate_num": null
+    },
+    {
+     "rank": "2",
+     "reside": "해당지역",
+     "supply": 1.0,
+     "req": 1.0,
+     "rate": "1.00",
+     "rate_num": 1.0
+    },
+    {
+     "rank": "2",
+     "reside": "기타지역",
+     "supply": 1.0,
+     "req": 0.0,
+     "rate": "-",
+     "rate_num": null
+    }
+   ],
+   "scores": []
+  },
+  "area_comps": null,
   "map_query": "충청남도 천안시 동남구 풍세로 801",
   "nearby": [
    {
@@ -8431,60 +8560,44 @@
    "matched": "경기도 부천시 소사구 송내동 365-1",
    "source": "네이버 클라우드 플랫폼 Geocoding"
   },
-  "competition": null,
-  "area_comps": [
-   {
-    "name": "두산위브더제니스 부천",
-    "notice": "2026-08-12",
-    "apply": "2026-08-19",
-    "url": "https://www.applyhome.co.kr/ai/aia/selectAPTLttotPblancDetail.do?houseManageNo=2026000382&pblancNo=2026000382",
-    "category": "general",
-    "unit": "59A",
-    "area": 59.94,
-    "rank": "1",
-    "reside": "해당지역",
-    "supply": 145.0,
-    "req": 64.0,
-    "rate": "(△81)",
-    "rate_num": null,
-    "low": 0.0,
-    "avg": 0.0
-   },
-   {
-    "name": "오정 해모로 스마트시티(조합원 취소분)",
-    "notice": "2026-05-19",
-    "apply": "2026-05-29",
-    "url": "https://www.applyhome.co.kr/ai/aia/selectAPTLttotPblancDetail.do?houseManageNo=2026000122&pblancNo=2026000122",
-    "category": "general",
-    "unit": "59",
-    "area": 59.9026,
-    "rank": "1",
-    "reside": "해당지역",
-    "supply": 25.0,
-    "req": 4.0,
-    "rate": "(△21)",
-    "rate_num": null,
-    "low": null,
-    "avg": null
-   },
-   {
-    "name": "엘리프 역곡",
-    "notice": "2026-05-14",
-    "apply": "2026-05-26",
-    "url": "https://www.applyhome.co.kr/ai/aia/selectAPTLttotPblancDetail.do?houseManageNo=2026000187&pblancNo=2026000187",
-    "category": "general",
-    "unit": "59",
-    "area": 59.95,
-    "rank": "1",
-    "reside": "해당지역",
-    "supply": 8.0,
-    "req": 4.0,
-    "rate": "(△4)",
-    "rate_num": null,
-    "low": 0.0,
-    "avg": 0.0
-   }
-  ],
+  "competition": {
+   "rows": [
+    {
+     "rank": "1",
+     "reside": "해당지역",
+     "supply": 7.0,
+     "req": 2.0,
+     "rate": "(△5)",
+     "rate_num": null
+    },
+    {
+     "rank": "1",
+     "reside": "기타지역",
+     "supply": 7.0,
+     "req": 7.0,
+     "rate": "1.40",
+     "rate_num": 1.4
+    },
+    {
+     "rank": "2",
+     "reside": "해당지역",
+     "supply": 7.0,
+     "req": 3.0,
+     "rate": "-",
+     "rate_num": null
+    },
+    {
+     "rank": "2",
+     "reside": "기타지역",
+     "supply": 7.0,
+     "req": 4.0,
+     "rate": "-",
+     "rate_num": null
+    }
+   ],
+   "scores": []
+  },
+  "area_comps": null,
   "map_query": "경기도 부천시 소사구 송내동 365-1",
   "nearby": null,
   "sample": false
@@ -8685,60 +8798,44 @@
    "matched": "경기도 부천시 소사구 송내동 365-1",
    "source": "네이버 클라우드 플랫폼 Geocoding"
   },
-  "competition": null,
-  "area_comps": [
-   {
-    "name": "두산위브더제니스 부천",
-    "notice": "2026-08-12",
-    "apply": "2026-08-19",
-    "url": "https://www.applyhome.co.kr/ai/aia/selectAPTLttotPblancDetail.do?houseManageNo=2026000382&pblancNo=2026000382",
-    "category": "general",
-    "unit": "59B",
-    "area": 59.98,
-    "rank": "1",
-    "reside": "해당지역",
-    "supply": 123.0,
-    "req": 20.0,
-    "rate": "(△103)",
-    "rate_num": null,
-    "low": null,
-    "avg": null
-   },
-   {
-    "name": "오정 해모로 스마트시티(조합원 취소분)",
-    "notice": "2026-05-19",
-    "apply": "2026-05-29",
-    "url": "https://www.applyhome.co.kr/ai/aia/selectAPTLttotPblancDetail.do?houseManageNo=2026000122&pblancNo=2026000122",
-    "category": "general",
-    "unit": "59",
-    "area": 59.9026,
-    "rank": "1",
-    "reside": "해당지역",
-    "supply": 25.0,
-    "req": 4.0,
-    "rate": "(△21)",
-    "rate_num": null,
-    "low": null,
-    "avg": null
-   },
-   {
-    "name": "엘리프 역곡",
-    "notice": "2026-05-14",
-    "apply": "2026-05-26",
-    "url": "https://www.applyhome.co.kr/ai/aia/selectAPTLttotPblancDetail.do?houseManageNo=2026000187&pblancNo=2026000187",
-    "category": "general",
-    "unit": "59",
-    "area": 59.95,
-    "rank": "1",
-    "reside": "해당지역",
-    "supply": 8.0,
-    "req": 4.0,
-    "rate": "(△4)",
-    "rate_num": null,
-    "low": 0.0,
-    "avg": 0.0
-   }
-  ],
+  "competition": {
+   "rows": [
+    {
+     "rank": "1",
+     "reside": "해당지역",
+     "supply": 3.0,
+     "req": 3.0,
+     "rate": "1.00",
+     "rate_num": 1.0
+    },
+    {
+     "rank": "1",
+     "reside": "기타지역",
+     "supply": 3.0,
+     "req": 14.0,
+     "rate": "-",
+     "rate_num": null
+    },
+    {
+     "rank": "2",
+     "reside": "해당지역",
+     "supply": 3.0,
+     "req": 0.0,
+     "rate": "-",
+     "rate_num": null
+    },
+    {
+     "rank": "2",
+     "reside": "기타지역",
+     "supply": 3.0,
+     "req": 2.0,
+     "rate": "-",
+     "rate_num": null
+    }
+   ],
+   "scores": []
+  },
+  "area_comps": null,
   "map_query": "경기도 부천시 소사구 송내동 365-1",
   "nearby": null,
   "sample": false
@@ -9415,60 +9512,44 @@
    "matched": "경기도 남양주시 오남읍 양지리 186-10",
    "source": "네이버 클라우드 플랫폼 Geocoding"
   },
-  "competition": null,
-  "area_comps": [
-   {
-    "name": "오남역 서희스타힐스 여의재 1단지",
-    "notice": "2026-08-13",
-    "apply": "2026-08-24",
-    "url": "https://www.applyhome.co.kr/ai/aia/selectAPTLttotPblancDetail.do?houseManageNo=2026000365&pblancNo=2026000365",
-    "category": "general",
-    "unit": "75",
-    "area": 75.4603,
-    "rank": "1",
-    "reside": "해당지역",
-    "supply": 15.0,
-    "req": 5.0,
-    "rate": "(△10)",
-    "rate_num": null,
-    "low": null,
-    "avg": null
-   },
-   {
-    "name": "남양주 진접 서한이다음(S1BL)",
-    "notice": "2026-07-09",
-    "apply": "2026-07-20",
-    "url": "https://www.applyhome.co.kr/ai/aia/selectAPTLttotPblancDetail.do?houseManageNo=2026000310&pblancNo=2026000310",
-    "category": "general",
-    "unit": "72A",
-    "area": 72.4726,
-    "rank": "1",
-    "reside": "해당지역",
-    "supply": 15.0,
-    "req": 77.0,
-    "rate": "15.40",
-    "rate_num": 15.4,
-    "low": 59.0,
-    "avg": 66.25
-   },
-   {
-    "name": "오남역 서희스타힐스 여의재 3단지",
-    "notice": "2026-05-13",
-    "apply": "2026-05-26",
-    "url": "https://www.applyhome.co.kr/ai/aia/selectAPTLttotPblancDetail.do?houseManageNo=2025000422&pblancNo=2025000422",
-    "category": "general",
-    "unit": "75",
-    "area": 75.4603,
-    "rank": "1",
-    "reside": "해당지역",
-    "supply": 11.0,
-    "req": 4.0,
-    "rate": "(△7)",
-    "rate_num": null,
-    "low": 0.0,
-    "avg": 0.0
-   }
-  ],
+  "competition": {
+   "rows": [
+    {
+     "rank": "1",
+     "reside": "해당지역",
+     "supply": 5.0,
+     "req": 2.0,
+     "rate": "(△3)",
+     "rate_num": null
+    },
+    {
+     "rank": "1",
+     "reside": "기타지역",
+     "supply": 5.0,
+     "req": 4.0,
+     "rate": "1.33",
+     "rate_num": 1.33
+    },
+    {
+     "rank": "2",
+     "reside": "해당지역",
+     "supply": 5.0,
+     "req": 2.0,
+     "rate": "-",
+     "rate_num": null
+    },
+    {
+     "rank": "2",
+     "reside": "기타지역",
+     "supply": 5.0,
+     "req": 2.0,
+     "rate": "-",
+     "rate_num": null
+    }
+   ],
+   "scores": []
+  },
+  "area_comps": null,
   "map_query": "경기도 남양주시 오남읍 양지리 186-10",
   "nearby": null,
   "sample": false
@@ -9550,60 +9631,44 @@
    "matched": "경기도 남양주시 오남읍 양지리 186-10",
    "source": "네이버 클라우드 플랫폼 Geocoding"
   },
-  "competition": null,
-  "area_comps": [
-   {
-    "name": "오남역 서희스타힐스 여의재 1단지",
-    "notice": "2026-08-13",
-    "apply": "2026-08-24",
-    "url": "https://www.applyhome.co.kr/ai/aia/selectAPTLttotPblancDetail.do?houseManageNo=2026000365&pblancNo=2026000365",
-    "category": "general",
-    "unit": "84",
-    "area": 84.9596,
-    "rank": "1",
-    "reside": "해당지역",
-    "supply": 9.0,
-    "req": 4.0,
-    "rate": "(△5)",
-    "rate_num": null,
-    "low": null,
-    "avg": null
-   },
-   {
-    "name": "남양주 진접 서한이다음(S1BL)",
-    "notice": "2026-07-09",
-    "apply": "2026-07-20",
-    "url": "https://www.applyhome.co.kr/ai/aia/selectAPTLttotPblancDetail.do?houseManageNo=2026000310&pblancNo=2026000310",
-    "category": "general",
-    "unit": "84B",
-    "area": 84.7614,
-    "rank": "1",
-    "reside": "해당지역",
-    "supply": 13.0,
-    "req": 19.0,
-    "rate": "4.75",
-    "rate_num": 4.75,
-    "low": 43.0,
-    "avg": 44.67
-   },
-   {
-    "name": "오남역 서희스타힐스 여의재 3단지",
-    "notice": "2026-05-13",
-    "apply": "2026-05-26",
-    "url": "https://www.applyhome.co.kr/ai/aia/selectAPTLttotPblancDetail.do?houseManageNo=2025000422&pblancNo=2025000422",
-    "category": "general",
-    "unit": "84",
-    "area": 84.9596,
-    "rank": "1",
-    "reside": "해당지역",
-    "supply": 1.0,
-    "req": 10.0,
-    "rate": "10.00",
-    "rate_num": 10.0,
-    "low": 57.0,
-    "avg": 57.0
-   }
-  ],
+  "competition": {
+   "rows": [
+    {
+     "rank": "1",
+     "reside": "해당지역",
+     "supply": 3.0,
+     "req": 2.0,
+     "rate": "(△1)",
+     "rate_num": null
+    },
+    {
+     "rank": "1",
+     "reside": "기타지역",
+     "supply": 3.0,
+     "req": 4.0,
+     "rate": "4.00",
+     "rate_num": 4.0
+    },
+    {
+     "rank": "2",
+     "reside": "해당지역",
+     "supply": 3.0,
+     "req": 2.0,
+     "rate": "-",
+     "rate_num": null
+    },
+    {
+     "rank": "2",
+     "reside": "기타지역",
+     "supply": 3.0,
+     "req": 6.0,
+     "rate": "-",
+     "rate_num": null
+    }
+   ],
+   "scores": []
+  },
+  "area_comps": null,
   "map_query": "경기도 남양주시 오남읍 양지리 186-10",
   "nearby": null,
   "sample": false
@@ -9737,7 +9802,40 @@
   },
   "area_comps": null,
   "map_query": "충청남도 천안시 서북구 부대동 384-20",
-  "nearby": null,
+  "nearby": [
+   {
+    "kind": "역",
+    "name": "두정역",
+    "m": 1842,
+    "lat": 36.8336521,
+    "lng": 127.1489375,
+    "walk": 36
+   },
+   {
+    "kind": "초등학교",
+    "name": "천안부대초등학교",
+    "m": 671,
+    "lat": 36.8487595,
+    "lng": 127.152006,
+    "walk": 13
+   },
+   {
+    "kind": "중학교",
+    "name": "천안부성중학교",
+    "m": 530,
+    "lat": 36.8477433,
+    "lng": 127.1499333,
+    "walk": 10
+   },
+   {
+    "kind": "고등학교",
+    "name": "천안오성고등학교",
+    "m": 959,
+    "lat": 36.8414564,
+    "lng": 127.1420659,
+    "walk": 19
+   }
+  ],
   "sample": false
  },
  {
@@ -9869,7 +9967,40 @@
   },
   "area_comps": null,
   "map_query": "충청남도 천안시 서북구 부대동 384-20",
-  "nearby": null,
+  "nearby": [
+   {
+    "kind": "역",
+    "name": "두정역",
+    "m": 1842,
+    "lat": 36.8336521,
+    "lng": 127.1489375,
+    "walk": 36
+   },
+   {
+    "kind": "초등학교",
+    "name": "천안부대초등학교",
+    "m": 671,
+    "lat": 36.8487595,
+    "lng": 127.152006,
+    "walk": 13
+   },
+   {
+    "kind": "중학교",
+    "name": "천안부성중학교",
+    "m": 530,
+    "lat": 36.8477433,
+    "lng": 127.1499333,
+    "walk": 10
+   },
+   {
+    "kind": "고등학교",
+    "name": "천안오성고등학교",
+    "m": 959,
+    "lat": 36.8414564,
+    "lng": 127.1420659,
+    "walk": 19
+   }
+  ],
   "sample": false
  },
  {
@@ -10001,7 +10132,40 @@
   },
   "area_comps": null,
   "map_query": "충청남도 천안시 서북구 부대동 384-20",
-  "nearby": null,
+  "nearby": [
+   {
+    "kind": "역",
+    "name": "두정역",
+    "m": 1842,
+    "lat": 36.8336521,
+    "lng": 127.1489375,
+    "walk": 36
+   },
+   {
+    "kind": "초등학교",
+    "name": "천안부대초등학교",
+    "m": 671,
+    "lat": 36.8487595,
+    "lng": 127.152006,
+    "walk": 13
+   },
+   {
+    "kind": "중학교",
+    "name": "천안부성중학교",
+    "m": 530,
+    "lat": 36.8477433,
+    "lng": 127.1499333,
+    "walk": 10
+   },
+   {
+    "kind": "고등학교",
+    "name": "천안오성고등학교",
+    "m": 959,
+    "lat": 36.8414564,
+    "lng": 127.1420659,
+    "walk": 19
+   }
+  ],
   "sample": false
  },
  {
@@ -10133,7 +10297,40 @@
   },
   "area_comps": null,
   "map_query": "충청남도 천안시 서북구 부대동 384-20",
-  "nearby": null,
+  "nearby": [
+   {
+    "kind": "역",
+    "name": "두정역",
+    "m": 1842,
+    "lat": 36.8336521,
+    "lng": 127.1489375,
+    "walk": 36
+   },
+   {
+    "kind": "초등학교",
+    "name": "천안부대초등학교",
+    "m": 671,
+    "lat": 36.8487595,
+    "lng": 127.152006,
+    "walk": 13
+   },
+   {
+    "kind": "중학교",
+    "name": "천안부성중학교",
+    "m": 530,
+    "lat": 36.8477433,
+    "lng": 127.1499333,
+    "walk": 10
+   },
+   {
+    "kind": "고등학교",
+    "name": "천안오성고등학교",
+    "m": 959,
+    "lat": 36.8414564,
+    "lng": 127.1420659,
+    "walk": 19
+   }
+  ],
   "sample": false
  },
  {
@@ -10213,10 +10410,92 @@
    "matched": "충청남도 천안시 서북구 부대동 384-20",
    "source": "네이버 클라우드 플랫폼 Geocoding"
   },
-  "competition": null,
-  "area_comps": [],
+  "competition": {
+   "rows": [
+    {
+     "rank": "1",
+     "reside": "해당지역",
+     "supply": 96.0,
+     "req": 4.0,
+     "rate": "(△92)",
+     "rate_num": null
+    },
+    {
+     "rank": "1",
+     "reside": "기타지역",
+     "supply": 96.0,
+     "req": 0.0,
+     "rate": "(△92)",
+     "rate_num": null
+    },
+    {
+     "rank": "2",
+     "reside": "해당지역",
+     "supply": 96.0,
+     "req": 0.0,
+     "rate": "(△92)",
+     "rate_num": null
+    },
+    {
+     "rank": "2",
+     "reside": "기타지역",
+     "supply": 96.0,
+     "req": 0.0,
+     "rate": "(△92)",
+     "rate_num": null
+    }
+   ],
+   "scores": [
+    {
+     "reside": "해당지역",
+     "low": null,
+     "top": null,
+     "avg": null
+    },
+    {
+     "reside": "기타지역",
+     "low": null,
+     "top": null,
+     "avg": null
+    }
+   ]
+  },
+  "area_comps": null,
   "map_query": "충청남도 천안시 서북구 부대동 384-20",
-  "nearby": null,
+  "nearby": [
+   {
+    "kind": "역",
+    "name": "두정역",
+    "m": 1842,
+    "lat": 36.8336521,
+    "lng": 127.1489375,
+    "walk": 36
+   },
+   {
+    "kind": "초등학교",
+    "name": "천안부대초등학교",
+    "m": 671,
+    "lat": 36.8487595,
+    "lng": 127.152006,
+    "walk": 13
+   },
+   {
+    "kind": "중학교",
+    "name": "천안부성중학교",
+    "m": 530,
+    "lat": 36.8477433,
+    "lng": 127.1499333,
+    "walk": 10
+   },
+   {
+    "kind": "고등학교",
+    "name": "천안오성고등학교",
+    "m": 959,
+    "lat": 36.8414564,
+    "lng": 127.1420659,
+    "walk": 19
+   }
+  ],
   "sample": false
  },
  {
@@ -10348,7 +10627,48 @@
   },
   "area_comps": null,
   "map_query": "충청남도 천안시 서북구 성정동 511",
-  "nearby": null,
+  "nearby": [
+   {
+    "kind": "역",
+    "name": "두정역",
+    "m": 815,
+    "lat": 36.8336521,
+    "lng": 127.1489375,
+    "walk": 16
+   },
+   {
+    "kind": "역",
+    "name": "천안역",
+    "m": 1802,
+    "lat": 36.8102804,
+    "lng": 127.14684,
+    "walk": 35
+   },
+   {
+    "kind": "초등학교",
+    "name": "천안희망초등학교",
+    "m": 607,
+    "lat": 36.8260412,
+    "lng": 127.1537989,
+    "walk": 12
+   },
+   {
+    "kind": "중학교",
+    "name": "천안성정중학교",
+    "m": 1020,
+    "lat": 36.8296587,
+    "lng": 127.1362469,
+    "walk": 20
+   },
+   {
+    "kind": "고등학교",
+    "name": "북일고등학교",
+    "m": 1182,
+    "lat": 36.8322417,
+    "lng": 127.1581716,
+    "walk": 23
+   }
+  ],
   "sample": false
  },
  {
@@ -10480,7 +10800,48 @@
   },
   "area_comps": null,
   "map_query": "충청남도 천안시 서북구 성정동 511",
-  "nearby": null,
+  "nearby": [
+   {
+    "kind": "역",
+    "name": "두정역",
+    "m": 815,
+    "lat": 36.8336521,
+    "lng": 127.1489375,
+    "walk": 16
+   },
+   {
+    "kind": "역",
+    "name": "천안역",
+    "m": 1802,
+    "lat": 36.8102804,
+    "lng": 127.14684,
+    "walk": 35
+   },
+   {
+    "kind": "초등학교",
+    "name": "천안희망초등학교",
+    "m": 607,
+    "lat": 36.8260412,
+    "lng": 127.1537989,
+    "walk": 12
+   },
+   {
+    "kind": "중학교",
+    "name": "천안성정중학교",
+    "m": 1020,
+    "lat": 36.8296587,
+    "lng": 127.1362469,
+    "walk": 20
+   },
+   {
+    "kind": "고등학교",
+    "name": "북일고등학교",
+    "m": 1182,
+    "lat": 36.8322417,
+    "lng": 127.1581716,
+    "walk": 23
+   }
+  ],
   "sample": false
  },
  {
@@ -10560,10 +10921,100 @@
    "matched": "충청남도 천안시 서북구 성정동 511 케이티엔지",
    "source": "네이버 클라우드 플랫폼 Geocoding"
   },
-  "competition": null,
-  "area_comps": [],
+  "competition": {
+   "rows": [
+    {
+     "rank": "1",
+     "reside": "해당지역",
+     "supply": 80.0,
+     "req": 24.0,
+     "rate": "(△56)",
+     "rate_num": null
+    },
+    {
+     "rank": "1",
+     "reside": "기타지역",
+     "supply": 80.0,
+     "req": 2.0,
+     "rate": "(△54)",
+     "rate_num": null
+    },
+    {
+     "rank": "2",
+     "reside": "해당지역",
+     "supply": 80.0,
+     "req": 5.0,
+     "rate": "(△49)",
+     "rate_num": null
+    },
+    {
+     "rank": "2",
+     "reside": "기타지역",
+     "supply": 80.0,
+     "req": 2.0,
+     "rate": "(△47)",
+     "rate_num": null
+    }
+   ],
+   "scores": [
+    {
+     "reside": "해당지역",
+     "low": null,
+     "top": null,
+     "avg": null
+    },
+    {
+     "reside": "기타지역",
+     "low": null,
+     "top": null,
+     "avg": null
+    }
+   ]
+  },
+  "area_comps": null,
   "map_query": "충청남도 천안시 서북구 성정동 511",
-  "nearby": null,
+  "nearby": [
+   {
+    "kind": "역",
+    "name": "두정역",
+    "m": 815,
+    "lat": 36.8336521,
+    "lng": 127.1489375,
+    "walk": 16
+   },
+   {
+    "kind": "역",
+    "name": "천안역",
+    "m": 1802,
+    "lat": 36.8102804,
+    "lng": 127.14684,
+    "walk": 35
+   },
+   {
+    "kind": "초등학교",
+    "name": "천안희망초등학교",
+    "m": 607,
+    "lat": 36.8260412,
+    "lng": 127.1537989,
+    "walk": 12
+   },
+   {
+    "kind": "중학교",
+    "name": "천안성정중학교",
+    "m": 1020,
+    "lat": 36.8296587,
+    "lng": 127.1362469,
+    "walk": 20
+   },
+   {
+    "kind": "고등학교",
+    "name": "북일고등학교",
+    "m": 1182,
+    "lat": 36.8322417,
+    "lng": 127.1581716,
+    "walk": 23
+   }
+  ],
   "sample": false
  },
  {
@@ -10643,10 +11094,100 @@
    "matched": "충청남도 천안시 서북구 성정동 511 케이티엔지",
    "source": "네이버 클라우드 플랫폼 Geocoding"
   },
-  "competition": null,
-  "area_comps": [],
+  "competition": {
+   "rows": [
+    {
+     "rank": "1",
+     "reside": "해당지역",
+     "supply": 661.0,
+     "req": 34.0,
+     "rate": "(△627)",
+     "rate_num": null
+    },
+    {
+     "rank": "1",
+     "reside": "기타지역",
+     "supply": 661.0,
+     "req": 7.0,
+     "rate": "(△620)",
+     "rate_num": null
+    },
+    {
+     "rank": "2",
+     "reside": "해당지역",
+     "supply": 661.0,
+     "req": 8.0,
+     "rate": "(△612)",
+     "rate_num": null
+    },
+    {
+     "rank": "2",
+     "reside": "기타지역",
+     "supply": 661.0,
+     "req": 2.0,
+     "rate": "(△610)",
+     "rate_num": null
+    }
+   ],
+   "scores": [
+    {
+     "reside": "해당지역",
+     "low": null,
+     "top": null,
+     "avg": null
+    },
+    {
+     "reside": "기타지역",
+     "low": null,
+     "top": null,
+     "avg": null
+    }
+   ]
+  },
+  "area_comps": null,
   "map_query": "충청남도 천안시 서북구 성정동 511",
-  "nearby": null,
+  "nearby": [
+   {
+    "kind": "역",
+    "name": "두정역",
+    "m": 815,
+    "lat": 36.8336521,
+    "lng": 127.1489375,
+    "walk": 16
+   },
+   {
+    "kind": "역",
+    "name": "천안역",
+    "m": 1802,
+    "lat": 36.8102804,
+    "lng": 127.14684,
+    "walk": 35
+   },
+   {
+    "kind": "초등학교",
+    "name": "천안희망초등학교",
+    "m": 607,
+    "lat": 36.8260412,
+    "lng": 127.1537989,
+    "walk": 12
+   },
+   {
+    "kind": "중학교",
+    "name": "천안성정중학교",
+    "m": 1020,
+    "lat": 36.8296587,
+    "lng": 127.1362469,
+    "walk": 20
+   },
+   {
+    "kind": "고등학교",
+    "name": "북일고등학교",
+    "m": 1182,
+    "lat": 36.8322417,
+    "lng": 127.1581716,
+    "walk": 23
+   }
+  ],
   "sample": false
  },
  {
@@ -10726,10 +11267,100 @@
    "matched": "충청남도 천안시 서북구 성정동 511 케이티엔지",
    "source": "네이버 클라우드 플랫폼 Geocoding"
   },
-  "competition": null,
-  "area_comps": [],
+  "competition": {
+   "rows": [
+    {
+     "rank": "1",
+     "reside": "해당지역",
+     "supply": 102.0,
+     "req": 6.0,
+     "rate": "(△96)",
+     "rate_num": null
+    },
+    {
+     "rank": "1",
+     "reside": "기타지역",
+     "supply": 102.0,
+     "req": 0.0,
+     "rate": "(△96)",
+     "rate_num": null
+    },
+    {
+     "rank": "2",
+     "reside": "해당지역",
+     "supply": 102.0,
+     "req": 1.0,
+     "rate": "(△95)",
+     "rate_num": null
+    },
+    {
+     "rank": "2",
+     "reside": "기타지역",
+     "supply": 102.0,
+     "req": 0.0,
+     "rate": "(△95)",
+     "rate_num": null
+    }
+   ],
+   "scores": [
+    {
+     "reside": "해당지역",
+     "low": null,
+     "top": null,
+     "avg": null
+    },
+    {
+     "reside": "기타지역",
+     "low": null,
+     "top": null,
+     "avg": null
+    }
+   ]
+  },
+  "area_comps": null,
   "map_query": "충청남도 천안시 서북구 성정동 511",
-  "nearby": null,
+  "nearby": [
+   {
+    "kind": "역",
+    "name": "두정역",
+    "m": 815,
+    "lat": 36.8336521,
+    "lng": 127.1489375,
+    "walk": 16
+   },
+   {
+    "kind": "역",
+    "name": "천안역",
+    "m": 1802,
+    "lat": 36.8102804,
+    "lng": 127.14684,
+    "walk": 35
+   },
+   {
+    "kind": "초등학교",
+    "name": "천안희망초등학교",
+    "m": 607,
+    "lat": 36.8260412,
+    "lng": 127.1537989,
+    "walk": 12
+   },
+   {
+    "kind": "중학교",
+    "name": "천안성정중학교",
+    "m": 1020,
+    "lat": 36.8296587,
+    "lng": 127.1362469,
+    "walk": 20
+   },
+   {
+    "kind": "고등학교",
+    "name": "북일고등학교",
+    "m": 1182,
+    "lat": 36.8322417,
+    "lng": 127.1581716,
+    "walk": 23
+   }
+  ],
   "sample": false
  },
  {
@@ -10809,10 +11440,100 @@
    "matched": "충청남도 천안시 서북구 성정동 511 케이티엔지",
    "source": "네이버 클라우드 플랫폼 Geocoding"
   },
-  "competition": null,
-  "area_comps": [],
+  "competition": {
+   "rows": [
+    {
+     "rank": "1",
+     "reside": "해당지역",
+     "supply": 198.0,
+     "req": 7.0,
+     "rate": "(△191)",
+     "rate_num": null
+    },
+    {
+     "rank": "1",
+     "reside": "기타지역",
+     "supply": 198.0,
+     "req": 1.0,
+     "rate": "(△190)",
+     "rate_num": null
+    },
+    {
+     "rank": "2",
+     "reside": "해당지역",
+     "supply": 198.0,
+     "req": 1.0,
+     "rate": "(△189)",
+     "rate_num": null
+    },
+    {
+     "rank": "2",
+     "reside": "기타지역",
+     "supply": 198.0,
+     "req": 1.0,
+     "rate": "(△188)",
+     "rate_num": null
+    }
+   ],
+   "scores": [
+    {
+     "reside": "해당지역",
+     "low": null,
+     "top": null,
+     "avg": null
+    },
+    {
+     "reside": "기타지역",
+     "low": null,
+     "top": null,
+     "avg": null
+    }
+   ]
+  },
+  "area_comps": null,
   "map_query": "충청남도 천안시 서북구 성정동 511",
-  "nearby": null,
+  "nearby": [
+   {
+    "kind": "역",
+    "name": "두정역",
+    "m": 815,
+    "lat": 36.8336521,
+    "lng": 127.1489375,
+    "walk": 16
+   },
+   {
+    "kind": "역",
+    "name": "천안역",
+    "m": 1802,
+    "lat": 36.8102804,
+    "lng": 127.14684,
+    "walk": 35
+   },
+   {
+    "kind": "초등학교",
+    "name": "천안희망초등학교",
+    "m": 607,
+    "lat": 36.8260412,
+    "lng": 127.1537989,
+    "walk": 12
+   },
+   {
+    "kind": "중학교",
+    "name": "천안성정중학교",
+    "m": 1020,
+    "lat": 36.8296587,
+    "lng": 127.1362469,
+    "walk": 20
+   },
+   {
+    "kind": "고등학교",
+    "name": "북일고등학교",
+    "m": 1182,
+    "lat": 36.8322417,
+    "lng": 127.1581716,
+    "walk": 23
+   }
+  ],
   "sample": false
  },
  {
@@ -10944,7 +11665,40 @@
   },
   "area_comps": null,
   "map_query": "충청남도 천안시 서북구 부대동 394-2",
-  "nearby": null,
+  "nearby": [
+   {
+    "kind": "역",
+    "name": "두정역",
+    "m": 1508,
+    "lat": 36.8336521,
+    "lng": 127.1489375,
+    "walk": 29
+   },
+   {
+    "kind": "초등학교",
+    "name": "천안부대초등학교",
+    "m": 676,
+    "lat": 36.8487595,
+    "lng": 127.152006,
+    "walk": 13
+   },
+   {
+    "kind": "중학교",
+    "name": "천안부성중학교",
+    "m": 468,
+    "lat": 36.8477433,
+    "lng": 127.1499333,
+    "walk": 9
+   },
+   {
+    "kind": "고등학교",
+    "name": "천안오성고등학교",
+    "m": 643,
+    "lat": 36.8414564,
+    "lng": 127.1420659,
+    "walk": 12
+   }
+  ],
   "sample": false
  },
  {
@@ -11076,7 +11830,40 @@
   },
   "area_comps": null,
   "map_query": "충청남도 천안시 서북구 부대동 394-2",
-  "nearby": null,
+  "nearby": [
+   {
+    "kind": "역",
+    "name": "두정역",
+    "m": 1508,
+    "lat": 36.8336521,
+    "lng": 127.1489375,
+    "walk": 29
+   },
+   {
+    "kind": "초등학교",
+    "name": "천안부대초등학교",
+    "m": 676,
+    "lat": 36.8487595,
+    "lng": 127.152006,
+    "walk": 13
+   },
+   {
+    "kind": "중학교",
+    "name": "천안부성중학교",
+    "m": 468,
+    "lat": 36.8477433,
+    "lng": 127.1499333,
+    "walk": 9
+   },
+   {
+    "kind": "고등학교",
+    "name": "천안오성고등학교",
+    "m": 643,
+    "lat": 36.8414564,
+    "lng": 127.1420659,
+    "walk": 12
+   }
+  ],
   "sample": false
  },
  {
@@ -11208,7 +11995,40 @@
   },
   "area_comps": null,
   "map_query": "충청남도 천안시 서북구 부대동 394-2",
-  "nearby": null,
+  "nearby": [
+   {
+    "kind": "역",
+    "name": "두정역",
+    "m": 1508,
+    "lat": 36.8336521,
+    "lng": 127.1489375,
+    "walk": 29
+   },
+   {
+    "kind": "초등학교",
+    "name": "천안부대초등학교",
+    "m": 676,
+    "lat": 36.8487595,
+    "lng": 127.152006,
+    "walk": 13
+   },
+   {
+    "kind": "중학교",
+    "name": "천안부성중학교",
+    "m": 468,
+    "lat": 36.8477433,
+    "lng": 127.1499333,
+    "walk": 9
+   },
+   {
+    "kind": "고등학교",
+    "name": "천안오성고등학교",
+    "m": 643,
+    "lat": 36.8414564,
+    "lng": 127.1420659,
+    "walk": 12
+   }
+  ],
   "sample": false
  },
  {
@@ -11340,7 +12160,40 @@
   },
   "area_comps": null,
   "map_query": "충청남도 천안시 서북구 부대동 394-2",
-  "nearby": null,
+  "nearby": [
+   {
+    "kind": "역",
+    "name": "두정역",
+    "m": 1508,
+    "lat": 36.8336521,
+    "lng": 127.1489375,
+    "walk": 29
+   },
+   {
+    "kind": "초등학교",
+    "name": "천안부대초등학교",
+    "m": 676,
+    "lat": 36.8487595,
+    "lng": 127.152006,
+    "walk": 13
+   },
+   {
+    "kind": "중학교",
+    "name": "천안부성중학교",
+    "m": 468,
+    "lat": 36.8477433,
+    "lng": 127.1499333,
+    "walk": 9
+   },
+   {
+    "kind": "고등학교",
+    "name": "천안오성고등학교",
+    "m": 643,
+    "lat": 36.8414564,
+    "lng": 127.1420659,
+    "walk": 12
+   }
+  ],
   "sample": false
  },
  {
@@ -11420,10 +12273,92 @@
    "matched": "충청남도 천안시 서북구 부대동 394-2",
    "source": "네이버 클라우드 플랫폼 Geocoding"
   },
-  "competition": null,
-  "area_comps": [],
+  "competition": {
+   "rows": [
+    {
+     "rank": "1",
+     "reside": "해당지역",
+     "supply": 101.0,
+     "req": 6.0,
+     "rate": "(△95)",
+     "rate_num": null
+    },
+    {
+     "rank": "1",
+     "reside": "기타지역",
+     "supply": 101.0,
+     "req": 1.0,
+     "rate": "(△94)",
+     "rate_num": null
+    },
+    {
+     "rank": "2",
+     "reside": "해당지역",
+     "supply": 101.0,
+     "req": 0.0,
+     "rate": "(△94)",
+     "rate_num": null
+    },
+    {
+     "rank": "2",
+     "reside": "기타지역",
+     "supply": 101.0,
+     "req": 2.0,
+     "rate": "(△92)",
+     "rate_num": null
+    }
+   ],
+   "scores": [
+    {
+     "reside": "해당지역",
+     "low": null,
+     "top": null,
+     "avg": null
+    },
+    {
+     "reside": "기타지역",
+     "low": null,
+     "top": null,
+     "avg": null
+    }
+   ]
+  },
+  "area_comps": null,
   "map_query": "충청남도 천안시 서북구 부대동 394-2",
-  "nearby": null,
+  "nearby": [
+   {
+    "kind": "역",
+    "name": "두정역",
+    "m": 1508,
+    "lat": 36.8336521,
+    "lng": 127.1489375,
+    "walk": 29
+   },
+   {
+    "kind": "초등학교",
+    "name": "천안부대초등학교",
+    "m": 676,
+    "lat": 36.8487595,
+    "lng": 127.152006,
+    "walk": 13
+   },
+   {
+    "kind": "중학교",
+    "name": "천안부성중학교",
+    "m": 468,
+    "lat": 36.8477433,
+    "lng": 127.1499333,
+    "walk": 9
+   },
+   {
+    "kind": "고등학교",
+    "name": "천안오성고등학교",
+    "m": 643,
+    "lat": 36.8414564,
+    "lng": 127.1420659,
+    "walk": 12
+   }
+  ],
   "sample": false
  },
  {
@@ -12295,10 +13230,92 @@
    "matched": "경기도 시흥시 은행동 289-31",
    "source": "네이버 클라우드 플랫폼 Geocoding"
   },
-  "competition": null,
-  "area_comps": [],
+  "competition": {
+   "rows": [
+    {
+     "rank": "1",
+     "reside": "해당지역",
+     "supply": 2.0,
+     "req": 0.0,
+     "rate": "(△2)",
+     "rate_num": null
+    },
+    {
+     "rank": "1",
+     "reside": "기타지역",
+     "supply": 2.0,
+     "req": 1.0,
+     "rate": "(△1)",
+     "rate_num": null
+    },
+    {
+     "rank": "2",
+     "reside": "해당지역",
+     "supply": 2.0,
+     "req": 1.0,
+     "rate": "1.00",
+     "rate_num": 1.0
+    },
+    {
+     "rank": "2",
+     "reside": "기타지역",
+     "supply": 2.0,
+     "req": 2.0,
+     "rate": "-",
+     "rate_num": null
+    }
+   ],
+   "scores": [
+    {
+     "reside": "해당지역",
+     "low": null,
+     "top": null,
+     "avg": null
+    },
+    {
+     "reside": "기타지역",
+     "low": null,
+     "top": null,
+     "avg": null
+    }
+   ]
+  },
+  "area_comps": null,
   "map_query": "경기도 시흥시 은행동 289-31",
-  "nearby": null,
+  "nearby": [
+   {
+    "kind": "역",
+    "name": "신천역",
+    "m": 1202,
+    "lat": 37.4393096,
+    "lng": 126.7867997,
+    "walk": 23
+   },
+   {
+    "kind": "초등학교",
+    "name": "검바위초등학교",
+    "m": 387,
+    "lat": 37.4326624,
+    "lng": 126.7989013,
+    "walk": 8
+   },
+   {
+    "kind": "중학교",
+    "name": "은계중학교",
+    "m": 292,
+    "lat": 37.4315406,
+    "lng": 126.7983626,
+    "walk": 6
+   },
+   {
+    "kind": "고등학교",
+    "name": "소래고등학교",
+    "m": 737,
+    "lat": 37.4374274,
+    "lng": 126.7948978,
+    "walk": 14
+   }
+  ],
   "sample": false
  },
  {
@@ -12378,28 +13395,92 @@
    "matched": "경기도 시흥시 은행동 289-31",
    "source": "네이버 클라우드 플랫폼 Geocoding"
   },
-  "competition": null,
-  "area_comps": [
+  "competition": {
+   "rows": [
+    {
+     "rank": "1",
+     "reside": "해당지역",
+     "supply": 1.0,
+     "req": 1.0,
+     "rate": "1.00",
+     "rate_num": 1.0
+    },
+    {
+     "rank": "1",
+     "reside": "기타지역",
+     "supply": 1.0,
+     "req": 1.0,
+     "rate": "-",
+     "rate_num": null
+    },
+    {
+     "rank": "2",
+     "reside": "해당지역",
+     "supply": 1.0,
+     "req": 0.0,
+     "rate": "-",
+     "rate_num": null
+    },
+    {
+     "rank": "2",
+     "reside": "기타지역",
+     "supply": 1.0,
+     "req": 1.0,
+     "rate": "-",
+     "rate_num": null
+    }
+   ],
+   "scores": [
+    {
+     "reside": "해당지역",
+     "low": null,
+     "top": null,
+     "avg": null
+    },
+    {
+     "reside": "기타지역",
+     "low": null,
+     "top": null,
+     "avg": null
+    }
+   ]
+  },
+  "area_comps": null,
+  "map_query": "경기도 시흥시 은행동 289-31",
+  "nearby": [
    {
-    "name": "시흥거모 엘가 로제비앙",
-    "notice": "2025-11-28",
-    "apply": "2025-12-08",
-    "url": "https://www.applyhome.co.kr/ai/aia/selectAPTLttotPblancDetail.do?houseManageNo=2025000591&pblancNo=2025000591",
-    "category": "general",
-    "unit": "61",
-    "area": 61.9953,
-    "rank": "1",
-    "reside": "해당지역",
-    "supply": 58.0,
-    "req": 107.0,
-    "rate": "6.29",
-    "rate_num": 6.29,
-    "low": 54.0,
-    "avg": 60.33
+    "kind": "역",
+    "name": "신천역",
+    "m": 1202,
+    "lat": 37.4393096,
+    "lng": 126.7867997,
+    "walk": 23
+   },
+   {
+    "kind": "초등학교",
+    "name": "검바위초등학교",
+    "m": 387,
+    "lat": 37.4326624,
+    "lng": 126.7989013,
+    "walk": 8
+   },
+   {
+    "kind": "중학교",
+    "name": "은계중학교",
+    "m": 292,
+    "lat": 37.4315406,
+    "lng": 126.7983626,
+    "walk": 6
+   },
+   {
+    "kind": "고등학교",
+    "name": "소래고등학교",
+    "m": 737,
+    "lat": 37.4374274,
+    "lng": 126.7948978,
+    "walk": 14
    }
   ],
-  "map_query": "경기도 시흥시 은행동 289-31",
-  "nearby": null,
   "sample": false
  },
  {
@@ -12531,7 +13612,40 @@
   },
   "area_comps": null,
   "map_query": "경기도 시흥시 은행동 289-31",
-  "nearby": null,
+  "nearby": [
+   {
+    "kind": "역",
+    "name": "신천역",
+    "m": 1202,
+    "lat": 37.4393096,
+    "lng": 126.7867997,
+    "walk": 23
+   },
+   {
+    "kind": "초등학교",
+    "name": "검바위초등학교",
+    "m": 387,
+    "lat": 37.4326624,
+    "lng": 126.7989013,
+    "walk": 8
+   },
+   {
+    "kind": "중학교",
+    "name": "은계중학교",
+    "m": 292,
+    "lat": 37.4315406,
+    "lng": 126.7983626,
+    "walk": 6
+   },
+   {
+    "kind": "고등학교",
+    "name": "소래고등학교",
+    "m": 737,
+    "lat": 37.4374274,
+    "lng": 126.7948978,
+    "walk": 14
+   }
+  ],
   "sample": false
  },
  {
@@ -12663,7 +13777,40 @@
   },
   "area_comps": null,
   "map_query": "경기도 시흥시 은행동 289-31",
-  "nearby": null,
+  "nearby": [
+   {
+    "kind": "역",
+    "name": "신천역",
+    "m": 1202,
+    "lat": 37.4393096,
+    "lng": 126.7867997,
+    "walk": 23
+   },
+   {
+    "kind": "초등학교",
+    "name": "검바위초등학교",
+    "m": 387,
+    "lat": 37.4326624,
+    "lng": 126.7989013,
+    "walk": 8
+   },
+   {
+    "kind": "중학교",
+    "name": "은계중학교",
+    "m": 292,
+    "lat": 37.4315406,
+    "lng": 126.7983626,
+    "walk": 6
+   },
+   {
+    "kind": "고등학교",
+    "name": "소래고등학교",
+    "m": 737,
+    "lat": 37.4374274,
+    "lng": 126.7948978,
+    "walk": 14
+   }
+  ],
   "sample": false
  },
  {
@@ -12795,7 +13942,40 @@
   },
   "area_comps": null,
   "map_query": "경기도 시흥시 은행동 289-31",
-  "nearby": null,
+  "nearby": [
+   {
+    "kind": "역",
+    "name": "신천역",
+    "m": 1202,
+    "lat": 37.4393096,
+    "lng": 126.7867997,
+    "walk": 23
+   },
+   {
+    "kind": "초등학교",
+    "name": "검바위초등학교",
+    "m": 387,
+    "lat": 37.4326624,
+    "lng": 126.7989013,
+    "walk": 8
+   },
+   {
+    "kind": "중학교",
+    "name": "은계중학교",
+    "m": 292,
+    "lat": 37.4315406,
+    "lng": 126.7983626,
+    "walk": 6
+   },
+   {
+    "kind": "고등학교",
+    "name": "소래고등학교",
+    "m": 737,
+    "lat": 37.4374274,
+    "lng": 126.7948978,
+    "walk": 14
+   }
+  ],
   "sample": false
  },
  {
@@ -12927,7 +14107,40 @@
   },
   "area_comps": null,
   "map_query": "경기도 시흥시 은행동 289-31",
-  "nearby": null,
+  "nearby": [
+   {
+    "kind": "역",
+    "name": "신천역",
+    "m": 1202,
+    "lat": 37.4393096,
+    "lng": 126.7867997,
+    "walk": 23
+   },
+   {
+    "kind": "초등학교",
+    "name": "검바위초등학교",
+    "m": 387,
+    "lat": 37.4326624,
+    "lng": 126.7989013,
+    "walk": 8
+   },
+   {
+    "kind": "중학교",
+    "name": "은계중학교",
+    "m": 292,
+    "lat": 37.4315406,
+    "lng": 126.7983626,
+    "walk": 6
+   },
+   {
+    "kind": "고등학교",
+    "name": "소래고등학교",
+    "m": 737,
+    "lat": 37.4374274,
+    "lng": 126.7948978,
+    "walk": 14
+   }
+  ],
   "sample": false
  },
  {
@@ -13059,7 +14272,40 @@
   },
   "area_comps": null,
   "map_query": "경기도 시흥시 은행동 289-31",
-  "nearby": null,
+  "nearby": [
+   {
+    "kind": "역",
+    "name": "신천역",
+    "m": 1202,
+    "lat": 37.4393096,
+    "lng": 126.7867997,
+    "walk": 23
+   },
+   {
+    "kind": "초등학교",
+    "name": "검바위초등학교",
+    "m": 387,
+    "lat": 37.4326624,
+    "lng": 126.7989013,
+    "walk": 8
+   },
+   {
+    "kind": "중학교",
+    "name": "은계중학교",
+    "m": 292,
+    "lat": 37.4315406,
+    "lng": 126.7983626,
+    "walk": 6
+   },
+   {
+    "kind": "고등학교",
+    "name": "소래고등학교",
+    "m": 737,
+    "lat": 37.4374274,
+    "lng": 126.7948978,
+    "walk": 14
+   }
+  ],
   "sample": false
  },
  {
@@ -13191,7 +14437,40 @@
   },
   "area_comps": null,
   "map_query": "경기도 시흥시 은행동 289-31",
-  "nearby": null,
+  "nearby": [
+   {
+    "kind": "역",
+    "name": "신천역",
+    "m": 1202,
+    "lat": 37.4393096,
+    "lng": 126.7867997,
+    "walk": 23
+   },
+   {
+    "kind": "초등학교",
+    "name": "검바위초등학교",
+    "m": 387,
+    "lat": 37.4326624,
+    "lng": 126.7989013,
+    "walk": 8
+   },
+   {
+    "kind": "중학교",
+    "name": "은계중학교",
+    "m": 292,
+    "lat": 37.4315406,
+    "lng": 126.7983626,
+    "walk": 6
+   },
+   {
+    "kind": "고등학교",
+    "name": "소래고등학교",
+    "m": 737,
+    "lat": 37.4374274,
+    "lng": 126.7948978,
+    "walk": 14
+   }
+  ],
   "sample": false
  },
  {
@@ -16571,8 +17850,57 @@
    "matched": "울산광역시 남구 야음동 350-5",
    "source": "네이버 클라우드 플랫폼 Geocoding"
   },
-  "competition": null,
-  "area_comps": [],
+  "competition": {
+   "rows": [
+    {
+     "rank": "1",
+     "reside": "해당지역",
+     "supply": 119.0,
+     "req": 84.0,
+     "rate": "(△35)",
+     "rate_num": null
+    },
+    {
+     "rank": "1",
+     "reside": "기타지역",
+     "supply": 119.0,
+     "req": 11.0,
+     "rate": "(△24)",
+     "rate_num": null
+    },
+    {
+     "rank": "2",
+     "reside": "해당지역",
+     "supply": 119.0,
+     "req": 14.0,
+     "rate": "(△10)",
+     "rate_num": null
+    },
+    {
+     "rank": "2",
+     "reside": "기타지역",
+     "supply": 119.0,
+     "req": 1.0,
+     "rate": "(△9)",
+     "rate_num": null
+    }
+   ],
+   "scores": [
+    {
+     "reside": "해당지역",
+     "low": null,
+     "top": null,
+     "avg": null
+    },
+    {
+     "reside": "기타지역",
+     "low": null,
+     "top": null,
+     "avg": null
+    }
+   ]
+  },
+  "area_comps": null,
   "map_query": "울산광역시 남구 야음동 350-5",
   "nearby": null,
   "sample": false
@@ -16654,8 +17982,57 @@
    "matched": "울산광역시 남구 야음동 350-5",
    "source": "네이버 클라우드 플랫폼 Geocoding"
   },
-  "competition": null,
-  "area_comps": [],
+  "competition": {
+   "rows": [
+    {
+     "rank": "1",
+     "reside": "해당지역",
+     "supply": 669.0,
+     "req": 223.0,
+     "rate": "(△446)",
+     "rate_num": null
+    },
+    {
+     "rank": "1",
+     "reside": "기타지역",
+     "supply": 669.0,
+     "req": 16.0,
+     "rate": "(△430)",
+     "rate_num": null
+    },
+    {
+     "rank": "2",
+     "reside": "해당지역",
+     "supply": 669.0,
+     "req": 41.0,
+     "rate": "(△389)",
+     "rate_num": null
+    },
+    {
+     "rank": "2",
+     "reside": "기타지역",
+     "supply": 669.0,
+     "req": 5.0,
+     "rate": "(△384)",
+     "rate_num": null
+    }
+   ],
+   "scores": [
+    {
+     "reside": "해당지역",
+     "low": null,
+     "top": null,
+     "avg": null
+    },
+    {
+     "reside": "기타지역",
+     "low": null,
+     "top": null,
+     "avg": null
+    }
+   ]
+  },
+  "area_comps": null,
   "map_query": "울산광역시 남구 야음동 350-5",
   "nearby": null,
   "sample": false
@@ -18998,26 +20375,57 @@
    "matched": "서울특별시 성북구 하월곡동 70-4",
    "source": "네이버 클라우드 플랫폼 Geocoding"
   },
-  "competition": null,
-  "area_comps": [
-   {
-    "name": "장위 푸르지오 마크원",
-    "notice": "2026-06-19",
-    "apply": "2026-06-29",
-    "url": "https://www.applyhome.co.kr/ai/aia/selectAPTLttotPblancDetail.do?houseManageNo=2026000275&pblancNo=2026000275",
-    "category": "general",
-    "unit": "74A",
-    "area": 74.87,
-    "rank": "1",
-    "reside": "해당지역",
-    "supply": 30.0,
-    "req": 160.0,
-    "rate": "5.33",
-    "rate_num": 5.33,
-    "low": 56.0,
-    "avg": 61.19
-   }
-  ],
+  "competition": {
+   "rows": [
+    {
+     "rank": "1",
+     "reside": "해당지역",
+     "supply": 5.0,
+     "req": 255.0,
+     "rate": "51.00",
+     "rate_num": 51.0
+    },
+    {
+     "rank": "1",
+     "reside": "기타지역",
+     "supply": 5.0,
+     "req": 0.0,
+     "rate": "-",
+     "rate_num": null
+    },
+    {
+     "rank": "2",
+     "reside": "해당지역",
+     "supply": 5.0,
+     "req": 0.0,
+     "rate": "-",
+     "rate_num": null
+    },
+    {
+     "rank": "2",
+     "reside": "기타지역",
+     "supply": 5.0,
+     "req": 0.0,
+     "rate": "-",
+     "rate_num": null
+    }
+   ],
+   "scores": [
+    {
+     "reside": "해당지역",
+     "low": 69.0,
+     "top": 69.0,
+     "avg": 69.0
+    },
+    {
+     "reside": "기타지역",
+     "low": 0.0,
+     "top": 0.0,
+     "avg": 0.0
+    }
+   ]
+  },
+  "area_comps": null,
   "map_query": "서울특별시 성북구 하월곡동 70-4",
   "nearby": null,
   "sample": false
