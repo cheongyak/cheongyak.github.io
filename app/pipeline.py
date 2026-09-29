@@ -108,8 +108,33 @@ def build_listing(raw: dict, rtms: Optional[RtmsClient], today: date) -> Optiona
     )
 
 
-def apply_notice(listings: list[Listing], log: list[str], client=None) -> None:
-    """공고별로 공고문 PDF 를 한 번 읽어 같은 공고의 주택형 전체에 반영한다."""
+def _from_previous(prev: dict) -> tuple[dict, Optional[str]]:
+    """지난 실행에서 공고문으로 읽었던 값을 되살린다 (공고문은 한 번 나오면 바뀌지 않는다)."""
+    got = prev.get("from_notice") or []
+    found: dict = {}
+    if "세대주 요건" in got:
+        found["need_head"] = prev.get("need_head")
+    if "분양가상한제" in got:
+        found["price_cap"] = prev.get("price_cap")
+    if "실거주 의무" in got and prev.get("residence_duty") is not None:
+        found["residence_duty"] = prev["residence_duty"]
+    if "잔금일" in got and prev.get("balance"):
+        found["balance"] = prev["balance"]
+    if "발코니 확장비" in got and prev.get("ext"):
+        found["ext"] = prev["ext"]
+    if "재당첨 제한" in got:
+        v = next((l[1] for l in prev.get("limits", []) if l[0] == "재당첨 제한"), None)
+        if v and v.endswith("년"):
+            found["rewin_years"] = int(v[:-1])
+        elif v == "없음":
+            found["rewin_years"] = 0
+    return found, prev.get("notice_pdf")
+
+
+def apply_notice(listings: list[Listing], log: list[str], client=None, previous: Optional[dict] = None) -> None:
+    """공고별로 공고문 PDF 를 한 번 읽어 같은 공고의 주택형 전체에 반영한다.
+    이번에 못 읽으면 지난 실행에서 읽은 값(previous: 공고 id → 지난 공고 데이터)을 유지한다."""
+    previous = previous or {}
     groups: dict[str, list[Listing]] = {}
     for L in listings:
         if L.url:
@@ -133,6 +158,11 @@ def apply_notice(listings: list[Listing], log: list[str], client=None) -> None:
             text, msg, pdf = None, f"읽기 실패: {e.__class__.__name__}", None
         found = notice_pdf.parse_notice(text) if text else {}
         log.append(f"[공고문] {Ls[0].name}: {msg} → {found or '추출 없음'}")
+        if not text:
+            prev = previous.get(Ls[0].id)
+            if prev and prev.get("from_notice"):
+                found, pdf = _from_previous(prev)
+                log.append(f"[공고문] {Ls[0].name}: 이번엔 못 읽어 지난 실행에서 공고문으로 읽은 값을 유지해요 → {found}")
         if text:   # 못 읽은 항목은 원문 문장을 남겨 규칙을 근거 있게 고친다
             for key, word in (("rewin_years", "재당첨"), ("need_head", "무주택세대"), ("balance", "입주지정기간")):
                 if key not in found:
@@ -193,7 +223,12 @@ def run(dry_run: bool = False, today: Optional[date] = None, read_notices: bool 
             out.append(L)
     if read_notices:
         try:
-            apply_notice(out, log)
+            prev = {}
+            try:
+                prev = {x["id"]: x for x in json.loads(notify.PREVIOUS.read_text(encoding="utf-8"))}
+            except Exception:
+                pass
+            apply_notice(out, log, previous=prev)
         except Exception as e:
             log.append(f"[공고문] 전체 실패: {e}")
     log += [f"[실거래가 경고] {m}" for m in sorted(RTMS_ERRORS)]

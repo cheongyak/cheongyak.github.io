@@ -159,3 +159,16 @@ def test_rewin_scrambled_pdf_text():
     t2 = "「 」 당첨자발표일로부터 년간 재당첨 10 제한을 적용받습니다 계약의사가 없는"
     assert notice_pdf.parse_notice(t1)["rewin_years"] == 10
     assert notice_pdf.parse_notice(t2)["rewin_years"] == 10
+
+
+def test_apply_notice_keeps_previous_when_download_fails(monkeypatch):
+    monkeypatch.setattr(notice_pdf, "fetch_notice_text", lambda url, client=None: (None, "PDF 받기 실패(ReadTimeout)", None))
+    x = L(need_head=False)
+    prev = {x.id: {"from_notice": ["세대주 요건", "잔금일", "발코니 확장비", "재당첨 제한", "분양가상한제", "실거주 의무"],
+                   "need_head": True, "price_cap": False, "residence_duty": 0, "balance": "2026-11-30", "ext": 0.2178,
+                   "limits": [["재당첨 제한", "10년"], ["실거주 의무", "없음"]], "notice_pdf": "https://static.applyhome.co.kr/x.pdf"}}
+    log = []
+    apply_notice([x], log, previous=prev)
+    assert x.need_head and x.balance == "2026-11-30" and x.ext == 0.2178 and x.limits[0] == ("재당첨 제한", "10년")
+    assert "재당첨 제한" in x.from_notice and x.notice_pdf.endswith("x.pdf")
+    assert any("지난 실행" in l for l in log)

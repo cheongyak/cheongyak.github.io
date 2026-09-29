@@ -23,6 +23,7 @@ git push origin "origin/main:refs/heads/$B"
 ## 2. 모든 수정은 WORK.md 에 기록한다
 
 커밋할 때마다 `WORK.md` 맨 위(최신이 위)에 한 항목을 추가하고, 같은 커밋에 포함한다.
+시각은 짐작해서 쓰지 않고 백업 브랜치를 만든 시각(`TZ=Asia/Seoul date`)을 쓴다.
 
 ```
 ## YYYY-MM-DD HH:MM · 제목

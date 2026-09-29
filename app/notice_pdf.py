@@ -58,10 +58,21 @@ def fetch_notice_text(page_url: str, client: Optional[httpx.Client] = None) -> t
     links = find_pdf_links(r.text, str(r.url))
     if not links:
         return None, f"PDF 링크 못 찾음 (페이지 {len(r.text)}자)", None
+    last = ""
     for link in links[:4]:
-        try:
-            p = http.get(link)
-        except Exception as e:
+        p = None
+        for attempt in range(2):          # 일시적인 실패가 있어 한 번 더 시도한다
+            try:
+                p = http.get(link)
+                if p.status_code == 200:
+                    break
+                last = f"응답 {p.status_code}"
+            except Exception as e:
+                last = e.__class__.__name__
+            if attempt == 0:
+                import time
+                time.sleep(2)
+        if p is None:
             continue
         ctype = p.headers.get("content-type", "")
         if p.status_code == 200 and (p.content[:4] == b"%PDF" or "pdf" in ctype):
@@ -71,7 +82,7 @@ def fetch_notice_text(page_url: str, client: Optional[httpx.Client] = None) -> t
                 return None, f"PDF 해석 실패: {e.__class__.__name__}", None
             if len(text) > 500:
                 return text, f"PDF 읽음 ({len(text)}자): {link}", link
-    return None, "PDF 후보 실패: " + " | ".join(links[:3]), None
+    return None, f"PDF 받기 실패({last or '형식 아님'}): " + " | ".join(links[:3]), None
 
 
 def _date(y, m, d) -> str:
