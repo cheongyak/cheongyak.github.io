@@ -1,0 +1,86 @@
+"""시세·전세 추정.
+
+순서:
+1. 같은 단지 분양권 전매·매매 거래 (단지명 일치) — 가장 믿을 만함
+2. 같은 시군구, 준공 10년 이내, 같은 평형(전용 ±3㎡) 매매 거래
+기준 시세 = 중앙값, 보수 시세 = 하위 25% (거래 4건 미만이면 기준 × 0.9)
+전세 = 같은 조건 전세(월세 0) 보증금 중앙값 × 입주장 할인
+"""
+from __future__ import annotations
+
+import re
+import statistics
+from datetime import date
+from typing import Optional
+
+from . import rules as R
+
+
+def months_back(today: date, n: int) -> list[str]:
+    y, m = today.year, today.month
+    out = []
+    for _ in range(n):
+        out.append(f"{y}{m:02d}")
+        m -= 1
+        if m == 0:
+            y, m = y - 1, 12
+    return out
+
+
+def _norm(s: str) -> str:
+    return re.sub(r"[\s()·\-]|아파트", "", s or "")
+
+
+def same_complex(apt: str, name: str) -> bool:
+    a, n = _norm(apt), _norm(name)
+    if not a or not n:
+        return False
+    return a in n or n in a
+
+
+def _in_band(area: Optional[float], target: Optional[float]) -> bool:
+    return area is not None and target is not None and abs(area - target) <= R.AREA_BAND
+
+
+def _p25(xs: list[float]) -> float:
+    xs = sorted(xs)
+    k = (len(xs) - 1) * 0.25
+    lo, hi = int(k), min(int(k) + 1, len(xs) - 1)
+    return xs[lo] + (xs[hi] - xs[lo]) * (k - lo)
+
+
+def _summary(amounts_manwon: list[float]) -> tuple[float, float]:
+    base = statistics.median(amounts_manwon) / 10000
+    low = _p25(amounts_manwon) / 10000 if len(amounts_manwon) >= 4 else base * R.LOW_DISCOUNT
+    return round(low, 2), round(base, 2)
+
+
+def estimate_market(name: str, area: Optional[float], trades: list[dict], presales: list[dict],
+                    this_year: int) -> dict:
+    own = [r["amount"] for r in presales + trades
+           if r.get("amount") and same_complex(r["apt"], name) and _in_band(r["area"], area)]
+    if own:
+        low, base = _summary(own)
+        return {"mkt_low": low, "mkt_base": base,
+                "mkt_note": f"같은 단지 같은 평형 거래 {len(own)}건 기준 (최근 {R.MARKET_MONTHS}개월)"}
+    comps = [r["amount"] for r in trades
+             if r.get("amount") and _in_band(r["area"], area)
+             and r.get("build_year") and r["build_year"] >= this_year - R.NEW_BUILD_YEARS]
+    if len(comps) >= 3:
+        low, base = _summary(comps)
+        return {"mkt_low": low, "mkt_base": base,
+                "mkt_note": f"같은 구 준공 {R.NEW_BUILD_YEARS}년 이내 같은 평형 매매 {len(comps)}건 기준 (최근 {R.MARKET_MONTHS}개월)"}
+    return {"mkt_low": None, "mkt_base": None, "mkt_note": "비교할 거래가 부족해요. 시세를 직접 확인하세요."}
+
+
+def estimate_jeonse(name: str, area: Optional[float], rents: list[dict], this_year: int) -> dict:
+    pool = [r for r in rents if r.get("deposit") and not r.get("monthly") and _in_band(r["area"], area)]
+    own = [r["deposit"] for r in pool if same_complex(r["apt"], name)]
+    comps = own or [r["deposit"] for r in pool if r.get("build_year") and r["build_year"] >= this_year - R.NEW_BUILD_YEARS]
+    if len(comps) < 3 and not own:
+        return {"jeonse": None, "jeonse_note": "전세 거래가 부족해 추정하지 못했어요.", "jeonse_weak": True}
+    v = statistics.median(comps) / 10000 * R.JEONSE_MOVEIN_DISCOUNT
+    src = "같은 단지" if own else f"같은 구 준공 {R.NEW_BUILD_YEARS}년 이내"
+    return {"jeonse": round(v, 2),
+            "jeonse_note": f"{src} 전세 {len(comps)}건 중앙값에서 입주장 할인 {int((1-R.JEONSE_MOVEIN_DISCOUNT)*100)}%",
+            "jeonse_weak": len(comps) < 5}
