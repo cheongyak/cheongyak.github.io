@@ -847,10 +847,10 @@ function locationCard(L){
   else where = `<div class="small muted">공고 주소(${esc(g.query)})로 찾은 위치예요.</div>`;
   const rows = (nb || []).map(n => `<div class="row"><span>${esc(n.name)}<br><span class="small muted">${NEAR_KIND[n.kind] || esc(n.kind)}</span></span><span>직선 ${distText(n.m)}<br><span class="small muted">도보 약 ${n.walk}분 (추정)</span></span></div>`).join('');
   return `<section class="card"><h2>위치와 주변 입지</h2>
-    <div class="rows"><div class="row"><span>공고 주소<br>${src('applyhome')}</span><span style="white-space:normal;max-width:60%">${esc(L.address || L.loc)}</span></div></div>
+    <div class="rows"><div class="row"><span>공고 주소<br>${L.sources && L.sources[0] ? src(null, ['청약홈 공고', L.sources[0][1]]) : src('applyhome')}</span><span style="white-space:normal;max-width:60%">${esc(L.address || L.loc)}</span></div></div>
     ${where}
     ${g && CONFIG.naver_map_key ? '<div id="detailmap" class="mapbox" role="region" aria-label="단지 위치 지도"></div>' : ''}
-    ${g ? `<div class="small muted">위치 ${src(null, ['네이버 클라우드 플랫폼 Geocoding', null])}</div>` : ''}
+    ${g ? `<div class="small muted">위치: 네이버 클라우드 플랫폼 주소 검색 결과 ${src(null, ['네이버 지도에서 이 주소 보기', naverMapUrl(L)])}</div>` : ''}
     ${nb && nb.length ? `<div class="rows">${rows}</div>
       <div class="small muted">가까운 역 2곳과 초·중·고 각 1곳이에요 (역 2km, 학교 1.5km 안). 거리는 직선거리이고, 도보 시간은 직선거리×1.3을 분당 67m로 나눈 추정이에요. 역·학교 위치 ${src(null, ['OpenStreetMap', osm])}</div>`
       : nb ? '<div class="small muted">반경 안(역 2km, 학교 1.5km)에서 찾은 역·학교가 없어요. 출처: OpenStreetMap</div>' : ''}
@@ -896,7 +896,7 @@ function vDetail(){
       <div class="legend"><span><i style="background:var(--fg)"></i>실매입가</span><span><i style="background:var(--lotto)"></i>보수 마진</span><span><i style="background:var(--lotto-soft);outline:1px solid var(--line)"></i>기준 시세까지</span></div>`}
     </div>
     <div class="rows">
-      <div class="row"><span>분양가 (주택형 최고가)<br>${L.sample ? src('estimate', ['샘플 값', null]) : src(null, ['청약홈 분양정보 API', 'https://www.data.go.kr/data/15098547/openapi.do'])}</span><span>${fmt(L.price)}</span></div>
+      <div class="row"><span>분양가 (주택형 최고가)<br>${L.sample ? src('estimate', ['샘플 값', null]) : (L.sources && L.sources[0] ? src(null, ['청약홈 공고 (공급금액)', L.sources[0][1]]) : noticeSrc(L))}</span><span>${fmt(L.price)}</span></div>
       ${L.ext ? `<div class="row"><span>발코니 확장 (승계 필수)<br>${fromNotice(L, '발코니 확장비') ? noticeSrc(L) : src('estimate', ['공고문 수기 확인', null])}</span><span>${fmt(L.ext)}</span></div>` : ''}
       <div class="row"><span>취득세 등 (추정)<br>${src('localTax')} · 1주택·85㎡ 이하 가정</span><span>${fmt(m.tax)}</span></div>
       <div class="row total"><span>실매입가</span><span>${fmt(m.cost)}</span></div>
