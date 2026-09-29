@@ -72,6 +72,10 @@ h2{margin:0;font-size:16px}
 .meta{font-size:12px;color:var(--muted)}
 .name{font-size:17px;font-weight:700;letter-spacing:-.3px}
 .dday{flex:none;padding:4px 8px;border-radius:6px;background:var(--sunk);font-size:12px;font-weight:600;white-space:nowrap}
+.dday.d-now{background:var(--pass);color:var(--on-fill)}
+.dday.d-soon{background:var(--warn-soft);color:var(--warn-ink);box-shadow:inset 0 0 0 1px var(--warn-ink)}
+.dday.d-week{background:var(--consider-soft);color:var(--consider-ink)}
+.dday.d-closed{color:var(--muted);font-weight:500}
 .sample{display:inline-block;padding:1px 6px;border-radius:4px;background:var(--sunk);font-size:11px;font-weight:600;color:var(--muted);margin-left:6px;vertical-align:2px}
 .band{display:flex;align-items:center;gap:12px;padding:12px;border-radius:12px}
 .badge{flex:none;min-width:64px;height:32px;padding:0 10px;border-radius:8px;display:inline-flex;align-items:center;justify-content:center;font-weight:700;font-size:15px}
@@ -431,6 +435,14 @@ function bestGap(f, o){ return o.mode === 'live' ? f.gapLive : f.gapJeonse; }
 const esc = s => String(s).replace(/[&<>"]/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
 const chev = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m15 18-6-6 6-6"/></svg>';
 function dday(d){ if(!d) return '샘플'; const n = Math.round((new Date(d) - new Date(TODAY)) / 864e5); return (n > 0 ? 'D-' + n : n === 0 ? 'D-day' : '마감') + ' · ' + d.slice(5).replace('-','.'); }
+function ddayCls(L){ // 급한 순서: 접수 중·오늘(빨강) > 3일 안(주황) > 7일 안(파랑) > 그 뒤(회색) · 마감(흐리게)
+  const st = statusOf(L);
+  if (st === '접수 중') return 'd-now';
+  if (st === '마감') return 'd-closed';
+  const d = L.specialApply || L.apply; if (!d) return '';
+  const n = Math.round((new Date(d) - new Date(TODAY)) / 864e5);
+  return n <= 0 ? 'd-now' : n <= 3 ? 'd-soon' : n <= 7 ? 'd-week' : '';
+}
 function ddayOf(L){ // 모집 상태와 같은 기준으로 표시: 예정이면 D-n, 접수 중이면 마감일, 끝났으면 마감
   const st = statusOf(L), end = L.applyEnd || L.apply;
   if (st === '접수 중' && end && end !== TODAY && end > TODAY) return '접수 중 · ~' + end.slice(5).replace('-','.');
@@ -568,7 +580,7 @@ function feedList(){
 function listingCard(L, m){
   return `
     <button class="card listing g-${m.g}" data-open="${L.id}">
-      <div class="row"><div><div class="meta">${esc(L.kind)} · ${esc(L.unit)}</div><div class="name">${esc(L.name)}${L.sample ? '<span class="sample">샘플</span>' : ''}</div><div class="meta">${esc(L.loc)}</div></div><span class="dday">${ddayOf(L)}</span></div>
+      <div class="row"><div><div class="meta">${esc(L.kind)} · ${esc(L.unit)}</div><div class="name">${esc(L.name)}${L.sample ? '<span class="sample">샘플</span>' : ''}</div><div class="meta">${esc(L.loc)}</div></div><span class="dday ${ddayCls(L)}">${ddayOf(L)}</span></div>
       <div class="band"><span class="badge">${GNAME[m.g]}</span><div><div class="mg">${marginText(m)}</div><div class="small">분양가 ${fmt(L.price)} · ${m.g === 'unknown' ? '주변 거래 부족' : '시세 ' + fmt(L.mktLow) + '~' + fmt(L.mktBase)}</div></div></div>
       <div class="me-line">${meLine(L)}</div>
     </button>`;
