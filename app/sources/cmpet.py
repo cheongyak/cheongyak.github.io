@@ -141,3 +141,123 @@ def apply_competition(listings: list, log: list[str], today: str, client: Option
         log.append(f"[응답 필드] {name}: {', '.join(keys)}")
     for name, row in SAMPLES.items():
         log.append(f"[응답 예시] {name}: " + ", ".join(f"{k}={v}" for k, v in row.items()))
+
+
+# ── 신청 전 참고: 같은 시·군·구의 지난 청약 결과 ─────────────────────────────
+# 공고별 결과를 docs/cmpet-history.json 에 쌓아 두고(한 번 받은 결과는 다시 받지 않음),
+# 접수 전·접수 중 공고에 '같은 시·군·구, 최근 12개월, 비슷한 면적' 단지의 1순위 경쟁률·당첨 가점을 붙인다.
+import json as _json
+from datetime import date as _date, timedelta as _td
+from pathlib import Path as _Path
+
+HISTORY = _Path(__file__).resolve().parent.parent.parent / "docs" / "cmpet-history.json"
+HISTORY_MONTHS = 12
+HISTORY_BUDGET_SEC = 180
+EMPTY_RETRY_DAYS = 30      # 결과가 비어 있던 공고는 30일 뒤에 다시 확인
+AREA_TOL = 15.0            # 전용면적 차이 허용 (㎡)
+
+
+def load_history(path: _Path = None) -> dict:
+    try:
+        return _json.loads((path or HISTORY).read_text(encoding="utf-8"))
+    except Exception:
+        return {}
+
+
+def save_history(h: dict, path: _Path = None) -> None:
+    (path or HISTORY).write_text(_json.dumps(h, ensure_ascii=False, indent=1, sort_keys=True), encoding="utf-8")
+
+
+def summarize(by_ty: dict[str, dict]) -> dict[str, dict]:
+    """주택형별 대표 결과만 남긴다 (기록 크기를 줄이려고)."""
+    from .applyhome import area_of, unit_label
+    out = {}
+    for ty, comp in by_ty.items():
+        h = headline(comp)
+        sc = comp.get("scores") or []
+        s = next((x for x in sc if "해당" in x["reside"]), sc[0] if sc else None)
+        if not h and not s:
+            continue
+        out[ty] = {"unit": unit_label(ty), "area": area_of(ty),
+                   "rank": h and h["rank"], "reside": h and h["reside"], "supply": h and h["supply"], "req": h and h["req"],
+                   "rate": h and h["rate"], "rate_num": h and h["rate_num"],
+                   "low": s and s["low"], "avg": s and s["avg"], "top": s and s["top"]}
+    return out
+
+
+def update_history(ah, listings: list, log: list[str], today: _date, client: "CmpetClient" = None,
+                   history: dict = None) -> dict:
+    """현재 공고들의 시·군·구에서 최근 12개월 동안 접수가 끝난 공고의 결과를 기록에 채운다."""
+    import os
+    import time
+    from .. import region as RG
+    from .applyhome import pick, to_date
+    h = load_history() if history is None else history
+    key = os.environ.get("DATA_GO_KR_KEY")
+    if client is None and not key:
+        log.append("[지난 경쟁률] 인증키가 없어 건너뛰었어요")
+        return h
+    cl = client or CmpetClient(key)
+    sgs = {L.sigungu for L in listings if L.sigungu}
+    since = (today - _td(days=31 * HISTORY_MONTHS)).isoformat()
+    t0, added, empty, checked = time.monotonic(), 0, 0, 0
+    for cat in ("general", "remainder"):
+        try:
+            notices = ah.notices(cat, since=since)
+        except Exception as e:
+            log.append(f"[지난 경쟁률] {cat} 공고 목록 실패: {e}")
+            continue
+        for d in notices:
+            no = str(pick(d, "manage_no") or pick(d, "notice_no") or "")
+            addr = pick(d, "address") or ""
+            sg = RG.sigungu_of(addr)
+            end = to_date(pick(d, "apply_end")) or to_date(pick(d, "apply"))
+            if not no or sg not in sgs or not end or end >= today.isoformat():
+                continue
+            old = h.get(no)
+            if old and (old.get("units") or old.get("checked", "") > (today - _td(days=EMPTY_RETRY_DAYS)).isoformat()):
+                continue
+            if time.monotonic() - t0 > HISTORY_BUDGET_SEC:
+                break
+            try:
+                kind = "remainder" if cat == "remainder" else "general"
+                units = summarize(parse(cl.rows(kind, no), cl.rows("score", no) if kind == "general" else []))
+            except Exception as e:
+                log.append(f"[지난 경쟁률] {pick(d, 'name')}: 조회 실패 ({e})")
+                continue
+            checked += 1
+            h[no] = {"name": pick(d, "name") or "", "address": addr, "sigungu": sg, "sido": RG.sido_of(addr),
+                     "category": cat, "notice": to_date(pick(d, "notice")), "apply": to_date(pick(d, "apply")),
+                     "url": pick(d, "url"), "units": units, "checked": today.isoformat()}
+            added += bool(units)
+            empty += not units
+    # 오래된 기록 정리
+    for no in [k for k, v in h.items() if (v.get("apply") or "") < since]:
+        del h[no]
+    log.append(f"[지난 경쟁률] 시·군·구 {len(sgs)}곳 · 이번에 {checked}건 조회 (결과 있음 {added}, 비어 있음 {empty}) · 기록 {len(h)}건 · "
+               f"{time.monotonic() - t0:.0f}초")
+    return h
+
+
+def attach_area_comps(listings: list, history: dict, today: _date, limit: int = 3) -> None:
+    """자기 결과가 없는 공고에 같은 시·군·구의 최근 결과(비슷한 면적)를 최신순으로 붙인다."""
+    since = (today - _td(days=31 * HISTORY_MONTHS)).isoformat()
+    for L in listings:
+        if L.competition or not L.sigungu:
+            L.area_comps = None if L.competition else []
+            continue
+        own = L.id.split("-")[0]
+        found = []
+        for no, e in history.items():
+            if no == own or e.get("sigungu") != L.sigungu or (e.get("apply") or "") < since or not e.get("units"):
+                continue
+            us = [u for u in e["units"].values() if u.get("area") and L.area and abs(u["area"] - L.area) <= AREA_TOL
+                  and (u.get("rate") or u.get("low") is not None)]
+            if not us:
+                continue
+            u = min(us, key=lambda u: abs(u["area"] - L.area))
+            found.append({"name": e["name"], "notice": e.get("notice"), "apply": e.get("apply"), "url": e.get("url"),
+                          "category": e.get("category"), **{k: u.get(k) for k in
+                          ("unit", "area", "rank", "reside", "supply", "req", "rate", "rate_num", "low", "avg")}})
+        found.sort(key=lambda x: x.get("apply") or "", reverse=True)
+        L.area_comps = found[:limit]

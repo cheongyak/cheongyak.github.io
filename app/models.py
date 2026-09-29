@@ -70,6 +70,7 @@ class Listing(BaseModel):
     checks: list[str] = Field(default_factory=list)         # 자동 검증에서 걸린 항목 (화면에 '데이터 확인 필요'로 표시)
     geo: Optional[dict] = None               # 좌표 {lat, lng, precision: exact|dong, query, matched, source} (app/geo.py)
     competition: Optional[dict] = None       # 청약홈 경쟁률·당첨가점 {rows:[{rank,reside,supply,req,rate,rate_num}], scores:[{reside,low,top,avg}]}
+    area_comps: Optional[list[dict]] = None  # 신청 전 참고: 같은 시·군·구 최근 12개월 비슷한 면적 단지의 1순위 경쟁률·당첨가점
     map_query: Optional[str] = None          # 네이버 지도 검색어 (주소에서 '일원', 블록명 등을 뺀 것)
     nearby: Optional[list[dict]] = None      # 주변 역·학교 직선거리 [{kind, name, m, walk, lat, lng}] · None 이면 아직 조회 안 함
     sample: bool = False

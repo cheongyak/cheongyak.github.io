@@ -259,6 +259,13 @@ def run(dry_run: bool = False, today: Optional[date] = None, read_notices: bool 
         except Exception as e:
             log.append(f"[경쟁률] 전체 실패: {e}")
         try:
+            hist = cmpet.update_history(ah, out, log, today)
+            cmpet.attach_area_comps(out, hist, today)
+            if not dry_run:
+                cmpet.save_history(hist)
+        except Exception as e:
+            log.append(f"[지난 경쟁률] 전체 실패: {e}")
+        try:
             geo.apply_geo(out, log, previous=prev, probe=not dry_run)
         except Exception as e:
             log.append(f"[위치] 전체 실패: {e}")

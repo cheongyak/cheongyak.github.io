@@ -81,3 +81,46 @@ def test_closed_notice_does_not_trigger_new_alert():
     closed.mkt_low, closed.mkt_base = 20, 22      # 로또 등급
     msgs = notify.build_messages([closed], set(), date(2026, 9, 30), {})
     assert not any("새로" in m["title"] for m in msgs)
+
+
+def test_history_and_area_comps():
+    class AH:
+        def notices(self, category, since):
+            if category != "general":
+                return []
+            return [  # 같은 구, 접수 끝남
+                {"PBLANC_NO": "2026000009", "HOUSE_MANAGE_NO": "2026000009", "HOUSE_NM": "옆 단지", "HSSPLY_ADRES": "서울특별시 광진구 자양동 1",
+                 "RCRIT_PBLANC_DE": "2026-06-01", "RCEPT_BGNDE": "2026-06-10", "RCEPT_ENDDE": "2026-06-11"},
+                # 다른 구
+                {"PBLANC_NO": "2026000010", "HOUSE_MANAGE_NO": "2026000010", "HOUSE_NM": "먼 단지", "HSSPLY_ADRES": "서울특별시 강남구 역삼동 1",
+                 "RCRIT_PBLANC_DE": "2026-06-01", "RCEPT_BGNDE": "2026-06-10", "RCEPT_ENDDE": "2026-06-11"},
+                # 같은 구, 아직 접수 전
+                {"PBLANC_NO": "2026000011", "HOUSE_MANAGE_NO": "2026000011", "HOUSE_NM": "예정 단지", "HSSPLY_ADRES": "서울특별시 광진구 구의동 2",
+                 "RCRIT_PBLANC_DE": "2026-09-25", "RCEPT_BGNDE": "2026-10-10", "RCEPT_ENDDE": "2026-10-11"},
+            ]
+
+    asked = []
+
+    def h(req):
+        asked.append(req.url.params["cond[HOUSE_MANAGE_NO::EQ]"])
+        if req.url.path.endswith("Score"):
+            return httpx.Response(200, json={"data": SCORES})
+        return httpx.Response(200, json={"data": ROWS})
+
+    cl = cmpet.CmpetClient("k", httpx.Client(transport=httpx.MockTransport(h)))
+    L = _L("2026000001", "084.0000C", apply="2026-10-06", apply_end="2026-10-07")
+    L.sigungu = "광진구"
+    L.area = 84.9
+    small = _L("2026000001", "039.0000A", apply="2026-10-06", apply_end="2026-10-07")
+    small.sigungu, small.area = "광진구", 39.0
+    hist = cmpet.update_history(AH(), [L, small], [], date(2026, 9, 30), client=cl, history={})
+    assert set(hist) == {"2026000009"} and set(asked) == {"2026000009"}
+    u = hist["2026000009"]["units"]["084.0000A"]
+    assert u["rate"] == "32.00" and u["low"] == 64.0 and u["unit"] == "84A"
+    # 한 번 받은 결과는 다시 받지 않는다
+    asked.clear()
+    cmpet.update_history(AH(), [L], [], date(2026, 9, 30), client=cl, history=hist)
+    assert asked == []
+    cmpet.attach_area_comps([L, small], hist, date(2026, 9, 30))
+    assert L.area_comps[0]["name"] == "옆 단지" and L.area_comps[0]["rate"] == "32.00"
+    assert small.area_comps == []          # 면적이 많이 다르면 붙이지 않는다

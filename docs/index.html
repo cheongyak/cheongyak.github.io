@@ -469,8 +469,13 @@ function compCard(L){
   const nid = L.id.split('-')[0], st = statusOf(L);
   const units = LISTINGS.filter(x => x.id.split('-')[0] === nid && x.competition);
   if (!units.length) {
-    if (st === '접수 예정' || !st) return '';
-    return `<section class="card"><h2>경쟁률·당첨 가점</h2><div class="small muted">아직 결과가 없어요. 청약홈에 1순위 경쟁률이 올라오면(보통 접수 다음 날) 매일 새벽 수집 때 반영돼요.</div></section>`;
+    const ac = L.areaComps || [];
+    const note = st === '접수 예정' || !st ? '이 공고의 경쟁률은 접수가 끝난 뒤에 나와요.' : '이 공고의 결과는 아직 없어요. 청약홈에 올라오면(보통 접수 다음 날) 매일 새벽 수집 때 반영돼요.';
+    const tbl = ac.length ? `<table class="ctable"><thead><tr><th>단지 (접수월)</th><th>주택형</th><th>경쟁률</th><th>가점 최저/평균</th></tr></thead><tbody>${
+      ac.map(c => `<tr><td style="white-space:normal">${c.url ? `<a href="${esc(c.url)}" target="_blank" rel="noopener" data-ev="area-comp">${esc(shortName(c.name))}</a>` : esc(shortName(c.name))}<br><span class="small muted">${esc((c.apply || '').slice(0, 7).replace('-', '.'))}</span></td><td>${esc(c.unit || '-')}</td><td class="rate">${c.rate || c.rate_num != null ? esc(rateText(c)) : '-'}</td><td>${c.low == null ? '-' : n0(c.low) + ' / ' + (c.avg == null ? '-' : Math.round(c.avg * 10) / 10)}</td></tr>`).join('')}</tbody></table>
+      <div class="small muted">같은 ${esc(L.district || '시·군·구')}에서 최근 12개월 안에 접수한 단지 중 전용면적이 비슷한(±15㎡) 주택형의 1순위 해당지역 결과예요 (없으면 다른 순위·지역). 입지·분양가가 달라 그대로 적용되진 않아요. ${src(null, ['청약홈 경쟁률·당첨가점 API', CMPET_SRC])}</div>`
+      : `<div class="small muted">같은 ${esc(L.district || '시·군·구')}에서 최근 12개월 안에 비슷한 면적으로 접수한 단지의 결과가 아직 없어요.</div>`;
+    return `<section class="card"><h2>신청 전 참고: 근처 최근 경쟁률</h2>${tbl}<div class="small muted">${note}</div></section>`;
   }
   const score = u => { const sc = (u.competition.scores || []), s = sc.find(x => (x.reside || '').includes('해당')) || sc[0]; return s && s.low != null ? n0(s.low) + ' / ' + (s.avg == null ? '-' : (Math.round(s.avg * 10) / 10)) : '-'; };
   const rows = units.map(u => { const h = compHead(u.competition);
@@ -1007,7 +1012,7 @@ function fromApi(x){
     region:x.region, kind:x.kind, target:x.target,
     sido:x.sido || null, district:x.district || null, supplyType:x.supply_type || x.kind,
     mktComps:x.mkt_comps || [], mktCount:x.mkt_count || 0, mktDirectExcluded:x.mkt_direct_excluded || 0, mktBasis:x.mkt_basis || null, jeonseComps:x.jeonse_comps || [],
-    noticePdf:x.notice_pdf || null, competition:x.competition || null, unitName:x.unit, address:x.address || '', geo:x.geo || null, nearby:Array.isArray(x.nearby) ? x.nearby : null, mapQuery:x.map_query || null, fromNotice:x.from_notice || [], checks:x.checks || [],
+    noticePdf:x.notice_pdf || null, competition:x.competition || null, areaComps:Array.isArray(x.area_comps) ? x.area_comps : null, unitName:x.unit, address:x.address || '', geo:x.geo || null, nearby:Array.isArray(x.nearby) ? x.nearby : null, mapQuery:x.map_query || null, fromNotice:x.from_notice || [], checks:x.checks || [],
     specialApply:x.special_apply || null, houseDtl:x.house_dtl || null, rentSecd:x.rent_secd || null, applyEnd:x.apply_end || null, unit:x.unit + (x.households ? ' · ' + x.households + '세대' : ''),
     notice:x.notice, apply:x.apply, winner:x.winner, contract:x.contract, balance:x.balance,
     price:x.price, ext:x.ext || 0, contractRate:x.contract_rate || 0.1, midRate:x.mid_rate || 0,
