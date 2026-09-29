@@ -14,6 +14,8 @@ from datetime import date, timedelta
 from pathlib import Path
 from typing import Optional
 
+import httpx
+
 from . import region as RG
 from . import rules as R
 from .engine import grade
@@ -134,6 +136,8 @@ def _from_previous(prev: dict) -> tuple[dict, Optional[str]]:
             found["rewin_years"] = int(v[:-1])
         elif v == "없음":
             found["rewin_years"] = 0
+    if "납입 인정 횟수" in got and prev.get("deposit_count"):
+        found["deposit_count"] = prev["deposit_count"]
     if "1순위 가입기간" in got and prev.get("account_months"):
         found["account_months"] = prev["account_months"]
     return found, prev.get("notice_pdf")
@@ -147,6 +151,23 @@ def _load_cache(path: Path) -> dict:
         return json.loads(path.read_text(encoding="utf-8"))
     except Exception:
         return {}
+
+
+def _fetch_text(url: str, L0: Listing, client=None):
+    """청약홈 공고 화면에서 공고문 PDF 를 받고, 없으면(LH 공공분양) LH청약플러스에서 받는다 (기능: public_deposit)."""
+    text, msg, pdf = notice_pdf.fetch_notice_text(url, client)
+    if text or "PDF 링크 못 찾음" not in msg or L0.house_dtl != "국민" or not feature_on("public_deposit"):
+        return text, msg, pdf
+    from . import lh
+    try:
+        http = client or httpx.Client(timeout=httpx.Timeout(30, connect=10), follow_redirects=True, headers=notice_pdf.UA)
+        data, m2, url2 = lh.fetch_lh_notice(L0.name, http)
+        if not data:
+            return None, msg + " → " + m2, None
+        t2 = notice_pdf.pdf_text(data)
+        return (t2, f"PDF 읽음 ({len(t2)}자, {m2}): {url2}", url2) if len(t2) > 500 else (None, msg + " → LH 공고문 글자 없음", None)
+    except Exception as e:
+        return None, msg + f" → LH 실패 {e.__class__.__name__}", None
 
 
 def apply_notice(listings: list[Listing], log: list[str], client=None, previous: Optional[dict] = None,
@@ -164,7 +185,7 @@ def apply_notice(listings: list[Listing], log: list[str], client=None, previous:
     from concurrent.futures import ThreadPoolExecutor, wait
     start = time.monotonic()
     ex = ThreadPoolExecutor(max_workers=6)
-    futs = {url: ex.submit(notice_pdf.fetch_notice_text, url, client) for url in groups}
+    futs = {url: ex.submit(_fetch_text, url, Ls[0], client) for url, Ls in groups.items()}
     wait(list(futs.values()), timeout=NOTICE_BUDGET_SEC)
     ex.shutdown(wait=False, cancel_futures=True)
     log.append(f"[시간] 공고문 {len(groups)}건 {time.monotonic() - start:.0f}초")
@@ -197,7 +218,7 @@ def apply_notice(listings: list[Listing], log: list[str], client=None, previous:
                         log.append(f"[공고문·원문] {Ls[0].name} ({word}): …{sn}…")
         labels = {"need_head": "세대주 요건", "price_cap": "분양가상한제", "residence_duty": "실거주 의무",
                   "balance": "잔금일", "ext": "발코니 확장비", "rewin_years": "재당첨 제한",
-                  "account_months": "1순위 가입기간"}
+                  "account_months": "1순위 가입기간", "deposit_count": "납입 인정 횟수"}
         for L in Ls:
             L.notice_pdf = pdf
             L.from_notice = [labels[k] for k in found if k in labels and not (k == "ext" and len(Ls) != 1)]
@@ -217,6 +238,8 @@ def apply_notice(listings: list[Listing], log: list[str], client=None, previous:
                 L.ext = found["ext"]
             if "account_months" in found and feature_on("account_rules"):
                 L.account_months = found["account_months"]
+            if "deposit_count" in found and feature_on("public_deposit"):
+                L.deposit_count = found["deposit_count"]
             if "rewin_years" in found:
                 n = found["rewin_years"]
                 L.limits = [x for x in L.limits if x[0] != "재당첨 제한"]

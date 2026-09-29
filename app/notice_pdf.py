@@ -43,7 +43,7 @@ def find_pdf_links(html: str, base: str) -> list[str]:
 def pdf_text(data: bytes) -> str:
     from pypdf import PdfReader
     reader = PdfReader(io.BytesIO(data))
-    return "\n".join((p.extract_text() or "") for p in reader.pages[:40])
+    return "\n".join((p.extract_text() or "") for p in reader.pages[:80])   # 공고문 일반공급 자격표가 45쪽 넘게 있는 경우가 있음 (2026-09-30 고덕 A65BL)
 
 
 def fetch_notice_text(page_url: str, client: Optional[httpx.Client] = None) -> tuple[Optional[str], str, Optional[str]]:
@@ -155,6 +155,20 @@ def parse_notice(text: str) -> dict:
         if m and int(m.group(1)) in (6, 12, 24):
             out["account_months"] = int(m.group(1))
             break
+
+    # 국민주택(공공분양) 일반공급 1순위: '1순위 입주자저축에 가입하여 1년(12개월)이 경과된 분으로서 매월 약정납입일에 월 납입금을 12회 이상 납입한 분'
+    # (2026-09-30 인천계양 A6·양주회천 A-26·의정부우정 A-2·고덕 A65BL/A12BL 공고문 '일반공급 순위별 자격요건' 표)
+    m = re.search(r"순위별자격요건.{0,40}?1순위-?입주자저축에가입하여(\d+)(년|개월)(?:\((\d+)개월\))?이경과된분으로서매월약정납입일에월납입금을(\d+)회이상납입", flat)
+    if m:
+        months = int(m.group(3)) if m.group(3) else int(m.group(1)) * (12 if m.group(2) == "년" else 1)
+        out["account_months"] = months
+        out["deposit_count"] = int(m.group(4))
+    elif "신혼희망타운" in flat[:3000]:
+        # 신혼희망타운: '입주자저축에 가입하여 6개월이 경과되고, 매월 약정납입일에 월납입금을 6회 이상 납입한 분'
+        m = re.search(r"신청자격.{0,400}?입주자저축에가입하여(\d+)개월이경과되고,?매월약정납입일에월납입금을(\d+)회이상납입한분", flat)
+        if m:
+            out["account_months"] = int(m.group(1))
+            out["deposit_count"] = int(m.group(2))
 
     # 잔금일: "입주지정기간 : 2026년 9월 7일~2026년 11월 30일" 또는 "입주지정기간 종료일(2026.11.30.)"
     m = re.search(r"입주지정기간[:：]?\d{4}년\d{1,2}월\d{1,2}일~(\d{4})년(\d{1,2})월(\d{1,2})일", flat) \
