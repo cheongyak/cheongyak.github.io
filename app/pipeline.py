@@ -111,10 +111,14 @@ def apply_notice(listings: list[Listing], log: list[str], client=None) -> None:
         if L.url:
             groups.setdefault(L.url, []).append(L)
     for url, Ls in groups.items():
-        text, msg = notice_pdf.fetch_notice_text(url, client)
+        text, msg, pdf = notice_pdf.fetch_notice_text(url, client)
         found = notice_pdf.parse_notice(text) if text else {}
         log.append(f"[공고문] {Ls[0].name}: {msg} → {found or '추출 없음'}")
+        labels = {"need_head": "세대주 요건", "price_cap": "분양가상한제", "residence_duty": "실거주 의무",
+                  "balance": "잔금일", "ext": "발코니 확장비"}
         for L in Ls:
+            L.notice_pdf = pdf
+            L.from_notice = [labels[k] for k in found if k in labels and not (k == "ext" and len(Ls) != 1)]
             if "need_head" in found:
                 L.need_head = found["need_head"]
             if "price_cap" in found:

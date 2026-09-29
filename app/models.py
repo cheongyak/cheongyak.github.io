@@ -45,8 +45,12 @@ class Listing(BaseModel):
     mkt_low: Optional[float] = None          # 보수 시세 (억)
     mkt_base: Optional[float] = None         # 기준 시세 (억)
     mkt_note: str = ""
+    mkt_basis: Optional[str] = None          # same_complex | district_newbuild | None
+    mkt_count: int = 0                       # 시세 계산에 쓴 거래 수
+    mkt_comps: list[dict] = Field(default_factory=list)     # 근거 거래 (최근순 최대 8건, 국토부 실거래가)
     jeonse: Optional[float] = None           # 예상 전세 보증금 (억)
     jeonse_note: str = ""
+    jeonse_comps: list[dict] = Field(default_factory=list)  # 근거 전세 거래
 
     capital: bool = True
     regulated: bool = True
@@ -59,7 +63,9 @@ class Listing(BaseModel):
     need_head: bool = True
     need_account: bool = False
     limits: list[tuple[str, str]] = Field(default_factory=list)
-    url: Optional[str] = None
+    url: Optional[str] = None                # 청약홈 공고 페이지
+    notice_pdf: Optional[str] = None         # 입주자모집공고문 PDF (읽은 경우)
+    from_notice: list[str] = Field(default_factory=list)    # 공고문에서 읽어 반영한 항목
     sample: bool = False
 
 

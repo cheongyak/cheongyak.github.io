@@ -93,6 +93,10 @@ def test_end_to_end(tmp_path, monkeypatch):
     assert L.regulated and L.land_permit and L.sigungu == "광진구"
     assert L.mkt_base == 21.75 and L.mkt_low == 21.25
     assert L.jeonse == 7.2
+    assert L.mkt_basis == "same_complex" and L.mkt_count == 4 and len(L.mkt_comps) == 4
+    assert L.mkt_comps[0]["kind"] == "분양권" and L.mkt_comps[0]["amount"] in (22.0, 21.5, 20.5, 22.5)
+    assert all(c["amount"] != 15.0 for c in L.mkt_comps)          # 해제 거래는 근거에서도 빠진다
+    assert len(L.jeonse_comps) == 3 and L.jeonse_comps[0]["kind"] == "전세"
 
     monkeypatch.setenv("LISTINGS_PATH", str(tmp_path / "listings.json"))
     from app.api import app

@@ -46,18 +46,18 @@ def pdf_text(data: bytes) -> str:
     return "\n".join((p.extract_text() or "") for p in reader.pages[:40])
 
 
-def fetch_notice_text(page_url: str, client: Optional[httpx.Client] = None) -> tuple[Optional[str], str]:
-    """(공고문 텍스트, 기록용 메시지)."""
+def fetch_notice_text(page_url: str, client: Optional[httpx.Client] = None) -> tuple[Optional[str], str, Optional[str]]:
+    """(공고문 텍스트, 기록용 메시지, PDF 주소)."""
     http = client or httpx.Client(timeout=30, follow_redirects=True, headers=UA)
     try:
         r = http.get(page_url)
     except Exception as e:
-        return None, f"공고 페이지 접속 실패: {e.__class__.__name__}"
+        return None, f"공고 페이지 접속 실패: {e.__class__.__name__}", None
     if r.status_code != 200:
-        return None, f"공고 페이지 응답 {r.status_code}"
+        return None, f"공고 페이지 응답 {r.status_code}", None
     links = find_pdf_links(r.text, str(r.url))
     if not links:
-        return None, f"PDF 링크 못 찾음 (페이지 {len(r.text)}자)"
+        return None, f"PDF 링크 못 찾음 (페이지 {len(r.text)}자)", None
     for link in links[:4]:
         try:
             p = http.get(link)
@@ -68,10 +68,10 @@ def fetch_notice_text(page_url: str, client: Optional[httpx.Client] = None) -> t
             try:
                 text = pdf_text(p.content)
             except Exception as e:
-                return None, f"PDF 해석 실패: {e.__class__.__name__}"
+                return None, f"PDF 해석 실패: {e.__class__.__name__}", None
             if len(text) > 500:
-                return text, f"PDF 읽음 ({len(text)}자): {link}"
-    return None, "PDF 후보 실패: " + " | ".join(links[:3])
+                return text, f"PDF 읽음 ({len(text)}자): {link}", link
+    return None, "PDF 후보 실패: " + " | ".join(links[:3]), None
 
 
 def _date(y, m, d) -> str:

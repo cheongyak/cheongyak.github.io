@@ -54,6 +54,7 @@ def parse_items(xml_text: str) -> list[dict]:
             "build_year": _num(r.get("buildYear")),
             "date": f"{r.get('dealYear','')}-{str(r.get('dealMonth','')).zfill(2)}-{str(r.get('dealDay','')).zfill(2)}",
             "kind": r.get("ownershipGbn", ""),              # 분양권 / 입주권
+            "deal_type": r.get("dealingGbn", ""),           # 중개거래 / 직거래
         })
     return rows
 

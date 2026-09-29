@@ -60,12 +60,13 @@ def L(**kw):
 
 
 def test_apply_notice_updates_listing(monkeypatch):
-    monkeypatch.setattr(notice_pdf, "fetch_notice_text", lambda url, client=None: (GANGBYEON_TEXT * 3, "PDF 읽음"))
+    monkeypatch.setattr(notice_pdf, "fetch_notice_text", lambda url, client=None: (GANGBYEON_TEXT * 3, "PDF 읽음", "https://static.applyhome.co.kr/x.pdf"))
     x = L(need_head=False)
     log = []
     apply_notice([x], log)
     assert x.need_head and x.balance == "2026-11-30" and x.ext == 0.2178
     assert ("실거주 의무", "없음") in x.limits and "PDF 읽음" in log[0]
+    assert x.notice_pdf.endswith("x.pdf") and "잔금일" in x.from_notice and "세대주 요건" in x.from_notice
 
 
 def test_notify_new_and_due():

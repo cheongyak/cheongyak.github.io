@@ -55,32 +55,52 @@ def _summary(amounts_manwon: list[float]) -> tuple[float, float]:
     return round(low, 2), round(base, 2)
 
 
+MAX_COMPS = 8
+
+
+def _comp(r: dict, label: str, value_key: str) -> dict:
+    """화면에 보여줄 근거 거래 한 건 (금액은 억 원)."""
+    return {"apt": r.get("apt", ""), "area": r.get("area"), "floor": r.get("floor"),
+            "amount": round((r.get(value_key) or 0) / 10000, 2), "date": r.get("date", ""),
+            "kind": label, "direct": r.get("deal_type") == "직거래"}
+
+
+def _recent(comps: list[dict]) -> list[dict]:
+    return sorted(comps, key=lambda c: c["date"], reverse=True)[:MAX_COMPS]
+
+
 def estimate_market(name: str, area: Optional[float], trades: list[dict], presales: list[dict],
                     this_year: int) -> dict:
-    own = [r["amount"] for r in presales + trades
-           if r.get("amount") and same_complex(r["apt"], name) and _in_band(r["area"], area)]
+    tagged = [(r, (r.get("kind") or "분양권")) for r in presales] + [(r, "매매") for r in trades]
+    own = [(r, k) for r, k in tagged if r.get("amount") and same_complex(r["apt"], name) and _in_band(r["area"], area)]
     if own:
-        low, base = _summary(own)
-        return {"mkt_low": low, "mkt_base": base,
+        low, base = _summary([r["amount"] for r, _ in own])
+        return {"mkt_low": low, "mkt_base": base, "mkt_basis": "same_complex", "mkt_count": len(own),
+                "mkt_comps": _recent([_comp(r, k, "amount") for r, k in own]),
                 "mkt_note": f"같은 단지 같은 평형 거래 {len(own)}건 기준 (최근 {R.MARKET_MONTHS}개월)"}
-    comps = [r["amount"] for r in trades
+    comps = [r for r in trades
              if r.get("amount") and _in_band(r["area"], area)
              and r.get("build_year") and r["build_year"] >= this_year - R.NEW_BUILD_YEARS]
     if len(comps) >= 3:
-        low, base = _summary(comps)
-        return {"mkt_low": low, "mkt_base": base,
+        low, base = _summary([r["amount"] for r in comps])
+        return {"mkt_low": low, "mkt_base": base, "mkt_basis": "district_newbuild", "mkt_count": len(comps),
+                "mkt_comps": _recent([_comp(r, "매매", "amount") for r in comps]),
                 "mkt_note": f"같은 구 준공 {R.NEW_BUILD_YEARS}년 이내 같은 평형 매매 {len(comps)}건 기준 (최근 {R.MARKET_MONTHS}개월)"}
-    return {"mkt_low": None, "mkt_base": None, "mkt_note": "비교할 거래가 부족해요. 시세를 직접 확인하세요."}
+    return {"mkt_low": None, "mkt_base": None, "mkt_basis": None, "mkt_count": len(comps),
+            "mkt_comps": _recent([_comp(r, "매매", "amount") for r in comps]),
+            "mkt_note": "비교할 거래가 부족해요. 시세를 직접 확인하세요."}
 
 
 def estimate_jeonse(name: str, area: Optional[float], rents: list[dict], this_year: int) -> dict:
     pool = [r for r in rents if r.get("deposit") and not r.get("monthly") and _in_band(r["area"], area)]
-    own = [r["deposit"] for r in pool if same_complex(r["apt"], name)]
-    comps = own or [r["deposit"] for r in pool if r.get("build_year") and r["build_year"] >= this_year - R.NEW_BUILD_YEARS]
+    own = [r for r in pool if same_complex(r["apt"], name)]
+    comps = own or [r for r in pool if r.get("build_year") and r["build_year"] >= this_year - R.NEW_BUILD_YEARS]
+    shown = _recent([_comp(r, "전세", "deposit") for r in comps])
     if len(comps) < 3 and not own:
-        return {"jeonse": None, "jeonse_note": "전세 거래가 부족해 추정하지 못했어요.", "jeonse_weak": True}
-    v = statistics.median(comps) / 10000 * R.JEONSE_MOVEIN_DISCOUNT
+        return {"jeonse": None, "jeonse_note": "전세 거래가 부족해 추정하지 못했어요.", "jeonse_weak": True,
+                "jeonse_comps": shown}
+    v = statistics.median([r["deposit"] for r in comps]) / 10000 * R.JEONSE_MOVEIN_DISCOUNT
     src = "같은 단지" if own else f"같은 구 준공 {R.NEW_BUILD_YEARS}년 이내"
     return {"jeonse": round(v, 2),
             "jeonse_note": f"{src} 전세 {len(comps)}건 중앙값에서 입주장 할인 {int((1-R.JEONSE_MOVEIN_DISCOUNT)*100)}%",
-            "jeonse_weak": len(comps) < 5}
+            "jeonse_weak": len(comps) < 5, "jeonse_comps": shown}
