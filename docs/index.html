@@ -417,7 +417,11 @@ function regulatedItems(L, p){ // 투기과열지구·청약과열지역 민영 
   // 근거: 모집공고문 '투기과열지구 및 청약과열지역에서 공급하는 경우 아래 조건을 만족해야 1순위 신청 가능 - 세대주일 것 -
   //       2주택 이상을 소유한 세대에 속하지 않을 것 - 과거 5년 이내 당첨된 분의 세대에 속하지 않을 것' (광명 2026000453 등)
   if (!on('regulated_rules') || !L.regulated || !L.needAccount || L.category === 'remainder') return [];
+  const headOk = p.household === 'head' && !(L.notice && p.headSince && p.headSince > L.notice);
   return [
+    // 공고의 신청 대상이 '세대구성원'이어도 규제지역 1순위는 세대주여야 한다 (공고문 '세대주일 것'). 이미 세대주 항목이 있으면 생략
+    ...(L.needHead ? [] : [{ k:'세대주 (규제지역 1순위)', r1:true, s: headOk ? 'ok' : 'fail', v: headOk ? '충족' : '세대원',
+      note:'1순위 신청은 세대주만 가능해요 (2순위는 세대원도 가능)' + (L.notice ? ' · 공고일 ' + L.notice.replace(/-/g, '.') + ' 기준' : '') }]),
     { k:'2주택 이상 세대 아님 (규제지역 1순위)', r1:true, s: p.hhHomes === '' ? 'warn' : p.hhHomes === '2+' ? 'fail' : 'ok',
       v: p.hhHomes === '' ? '입력 필요' : p.hhHomes === '2+' ? '2채 이상' : p.hhHomes === '1' ? '1채' : '없음', note:'세대(등본) 전체 주택·분양권 기준' },
     { k:'세대 5년 내 당첨 없음 (규제지역 1순위)', r1:true, s: p.win5y == null ? 'warn' : p.win5y ? 'fail' : 'ok',
