@@ -60,6 +60,7 @@ h2{margin:0;font-size:16px}
 .row > :first-child{min-width:0}
 .rows{display:flex;flex-direction:column;gap:8px;font-size:14px}
 .rows .total{font-weight:700;padding-top:8px;border-top:1px solid var(--line)}
+.rows .row>:last-child{white-space:nowrap;text-align:right}
 .chips{display:flex;gap:6px;overflow-x:auto;padding-bottom:2px;scrollbar-width:none}
 .chip{flex:none;height:36px;padding:0 14px;border-radius:18px;border:1px solid var(--line);background:var(--surface);font-size:13px;font-weight:600;cursor:pointer}
 .chip[aria-pressed="true"]{background:var(--btn);color:var(--btn-fg);border-color:var(--btn)}
@@ -141,6 +142,18 @@ input[type=date]{min-height:52px;border-radius:12px;border:1px solid var(--line)
 .tabbar button{border:0;background:none;font-size:13px;color:var(--muted);cursor:pointer}
 .tabbar button[aria-current="page"]{color:var(--fg);font-weight:700}
 .foot{font-size:11px;color:var(--muted);margin:0}
+.src{display:inline-flex;align-items:center;gap:3px;font-size:11px;font-weight:500;color:var(--muted);text-decoration:none;border-bottom:1px dotted var(--line);white-space:nowrap}
+a.src:hover{color:var(--link);border-bottom-color:var(--link)}
+.srcs{display:flex;flex-wrap:wrap;gap:4px 10px;margin-top:2px}
+.comps{display:flex;flex-direction:column;gap:0;border-top:1px solid var(--line);margin-top:4px}
+.comp{display:grid;grid-template-columns:minmax(0,1fr) auto;gap:2px 10px;padding:8px 0;border-bottom:1px solid var(--line);font-size:13px}
+.comp .apt{font-weight:600;min-width:0;overflow-wrap:anywhere}
+.comp .amt{font-weight:700;text-align:right}
+.comp .sub{grid-column:1 / -1;font-size:12px;color:var(--muted);display:flex;gap:8px;flex-wrap:wrap;align-items:center}
+.tag{display:inline-block;padding:0 6px;border-radius:4px;background:var(--sunk);font-size:11px;font-weight:600;color:var(--flat-ink)}
+.tag.warn{background:var(--warn-soft);color:var(--warn-ink)}
+.linkrow{display:flex;gap:8px;flex-wrap:wrap}
+.linkrow a{flex:1 1 140px;min-height:44px;display:flex;align-items:center;justify-content:center;border:1px solid var(--line);border-radius:10px;font-size:13px;font-weight:600;text-decoration:none;color:var(--fg);background:var(--surface);padding:0 10px;text-align:center}
 .filterbar{display:flex;align-items:center;gap:8px;flex-wrap:wrap}
 .filterbar .count{flex:1;min-width:0;font-size:13px;color:var(--muted)}
 .filterbar .count b{color:var(--fg)}
@@ -363,6 +376,37 @@ function meLine(L){
   return el + (gap > 0 ? '<span class="muted">· 자금 ' + fmt(gap) + ' 부족</span>' : '<span class="muted">· 자금 가능</span>');
 }
 
+/* ---------- 출처 (화면의 모든 숫자에 붙인다) ---------- */
+const SRC = {
+  applyhome: ['청약홈 분양정보', 'https://www.applyhome.co.kr'],
+  rtms: ['국토부 실거래가', 'https://rt.molit.go.kr/'],
+  supplyRule: ['주택공급에 관한 규칙', 'https://www.law.go.kr/법령/주택공급에관한규칙'],
+  housingLaw: ['주택법', 'https://www.law.go.kr/법령/주택법'],
+  localTax: ['지방세법 (취득세)', 'https://www.law.go.kr/법령/지방세법'],
+  p1015: ['10·15 주택시장 안정화 대책', 'https://www.molit.go.kr/USR/NEWS/m_71/dtl.jsp?id=95091308'],
+  p627: ['6·27 가계부채 관리 방안', 'https://www.fsc.go.kr/no010101/84824'],
+  estimate: ['이 서비스 추정', null],
+  user: ['내가 입력한 값', null],
+};
+const ARROW = '<svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M7 17 17 7M8 7h9v9"/></svg>';
+function src(key, over){ // over: [label, url]
+  const [label, url] = over || SRC[key];
+  return url ? `<a class="src" href="${esc(url)}" target="_blank" rel="noopener">출처: ${esc(label)}${ARROW}</a>` : `<span class="src">출처: ${esc(label)}</span>`;
+}
+const naver = q => 'https://search.naver.com/search.naver?query=' + encodeURIComponent(q);
+const noticeSrc = L => L.noticePdf ? src(null, ['모집공고문 PDF', L.noticePdf]) : (L.sources && L.sources[0] ? src(null, ['청약홈 공고', L.sources[0][1]]) : src('applyhome'));
+const fromNotice = (L, label) => (L.fromNotice || []).includes(label);
+function compRow(c, L){
+  const sub = [c.kind, c.area ? c.area.toFixed(1) + '㎡' : '', c.floor ? Math.round(c.floor) + '층' : '', (c.date || '').replace(/-/g, '.')].filter(Boolean);
+  return `<div class="comp"><span class="apt">${esc(c.apt || '단지명 없음')}</span><span class="amt">${fmt(c.amount)}</span>
+    <span class="sub">${sub.map(esc).join(' · ')}${c.direct ? ' <span class="tag warn">직거래</span>' : ''}<a class="src" href="${naver((c.apt || L.name) + ' 시세')}" target="_blank" rel="noopener">네이버에서 보기${ARROW}</a></span></div>`;
+}
+function basisTag(L){
+  if (L.mktBasis === 'same_complex') return '<span class="tag">같은 단지 거래</span>';
+  if (L.mktBasis === 'district_newbuild') return '<span class="tag">같은 구 신축 비교</span>';
+  return '<span class="tag warn">거래 부족</span>';
+}
+
 /* ---------- 공고 필터 (실제 데이터에 있는 값만 선택지로 보여준다) ---------- */
 const SIDO_ORDER = ['서울','경기','인천','부산','대구','대전','광주','울산','세종','강원','충북','충남','전북','전남','경북','경남','제주'];
 const DATE_FIELDS = { notice:'공고일', apply:'접수 시작일', applyEnd:'접수 마감일', winner:'당첨자 발표일' };
@@ -459,7 +503,19 @@ function vFeed(){
       <div class="band"><span class="badge">${GNAME[m.g]}</span><div><div class="mg">${marginText(m)}</div><div class="small">분양가 ${fmt(L.price)} · ${m.g === 'unknown' ? '주변 거래 부족' : '시세 ' + fmt(L.mktLow) + '~' + fmt(L.mktBase)}</div></div></div>
       <div class="me-line">${meLine(L)}</div>
     </button>`).join('') : `<div class="card empty"><b>조건에 맞는 공고가 없어요</b><span class="small muted">${act.length ? '필터를 하나씩 해제하거나 초기화해 보세요.' : '이 등급의 공고가 아직 없어요.'}</span>${act.length || S.filter !== 'all' ? '<button class="btn ghost" data-action="reset-filters" style="max-width:220px">필터 초기화</button>' : ''}</div>`}
-  <p class="foot">${DATA_SOURCE.live ? '청약홈 공고와 국토부 실거래가로 매일 새벽 갱신돼요. 시세는 추정치예요.' : '샘플 표시가 있는 단지는 등급 예시를 위한 가상 데이터예요.'}</p>`;
+  <p class="foot">${DATA_SOURCE.live ? '공고: ' + src('applyhome') + ' · 시세: ' + src('rtms') + ' · 매일 새벽 갱신, 시세는 추정치예요.' : '샘플 표시가 있는 단지는 등급 예시를 위한 가상 데이터예요.'}</p>`;
+}
+
+function itemSrc(L, k){
+  if (k === '세대주') return fromNotice(L, '세대주 요건') ? noticeSrc(L) : src(null, ['규제지역 기준 추정 · 공고문 확인', null]);
+  if (k.startsWith('거주지')) return noticeSrc(L);
+  if (k.endsWith('전용')) return noticeSrc(L);
+  return src('supplyRule');
+}
+function limitSrc(L, k){
+  if (k === '실거주 의무') return fromNotice(L, '실거주 의무') ? noticeSrc(L) : src('housingLaw');
+  if (k === '재당첨 제한' || k.includes('1순위 제한')) return src('supplyRule');
+  return noticeSrc(L);
 }
 
 function vDetail(){
@@ -475,6 +531,7 @@ function vDetail(){
   return `
   <div class="top"><button class="back" data-go="feed">${chev}공고</button></div>
   <div class="stack" style="gap:4px"><div class="meta">${esc(L.kind)} · 접수 ${L.apply ? L.apply.replace(/-/g,'.') : '샘플'}</div><h1>${esc(L.name)}${L.sample ? '<span class="sample">샘플</span>' : ''}</h1><div class="meta">${esc(L.loc)} · ${esc(L.unit)}</div></div>
+  <div class="srcs">${L.sources && L.sources[0] ? src(null, ['청약홈 공고', L.sources[0][1]]) : src('applyhome')}${L.noticePdf ? src(null, ['모집공고문 PDF', L.noticePdf]) : ''}</div>
   <div class="hero g-${m.g}">
     <div class="row"><span class="small" style="font-weight:600;opacity:.85">청약 판정</span><button class="linkbtn small" data-go="grades" style="color:inherit">등급 기준</button></div>
     <div style="display:flex;align-items:baseline;gap:12px;flex-wrap:wrap"><span class="big">${GNAME[m.g]}</span><span class="amt">${marginText(m).replace('마진 ','')}</span></div>
@@ -487,23 +544,31 @@ function vDetail(){
     <div class="tile"><span class="small muted">자금 (${o.mode === 'live' ? '대출' : '전세'})</span><span class="v ${gap > 0 ? 'st-warn' : 'st-ok'}">${gap > 0 ? fmt(gap) + ' 부족' : '가능'}</span></div>
   </div>
   <section class="card"><h2>자격 체크리스트</h2><div class="rows">
-    ${e.items.map(i => `<div class="row"><span>${esc(i.k)}${i.note ? `<br><span class="small muted">${esc(i.note)}</span>` : ''}</span><span class="${stCls(i.s)}">${esc(i.v)}</span></div>`).join('')}
-  </div></section>
+    ${e.items.map(i => `<div class="row"><span>${esc(i.k)}${i.note ? `<br><span class="small muted">${esc(i.note)}</span>` : ''}<br>${itemSrc(L, i.k)}</span><span class="${stCls(i.s)}">${esc(i.v)}</span></div>`).join('')}
+  </div>
+  <div class="small muted">내 정보는 ${src('user')} · 판정 기준은 ${src('supplyRule')}</div></section>
   <section class="card"><h2>마진 계산</h2>
     <div class="stack" style="gap:6px">
       ${m.g === 'unknown' ? '' : `<div class="bar" role="img" aria-label="실매입가 ${fmt(m.cost)}, 기준 시세 ${fmt(L.mktBase)}"><i style="width:${barCost}%;background:var(--fg)"></i><i style="width:${barLo}%;background:var(--lotto)"></i></div>
       <div class="legend"><span><i style="background:var(--fg)"></i>실매입가</span><span><i style="background:var(--lotto)"></i>보수 마진</span><span><i style="background:var(--lotto-soft);outline:1px solid var(--line)"></i>기준 시세까지</span></div>`}
     </div>
     <div class="rows">
-      <div class="row"><span>분양가</span><span>${fmt(L.price)}</span></div>
-      ${L.ext ? `<div class="row"><span>발코니 확장 (승계 필수)</span><span>${fmt(L.ext)}</span></div>` : ''}
-      <div class="row"><span>취득세 등 (추정)</span><span>${fmt(m.tax)}</span></div>
+      <div class="row"><span>분양가 (주택형 최고가)<br>${L.sample ? src('estimate', ['샘플 값', null]) : src(null, ['청약홈 분양정보 API', 'https://www.data.go.kr/data/15098547/openapi.do'])}</span><span>${fmt(L.price)}</span></div>
+      ${L.ext ? `<div class="row"><span>발코니 확장 (승계 필수)<br>${fromNotice(L, '발코니 확장비') ? noticeSrc(L) : src('estimate', ['공고문 수기 확인', null])}</span><span>${fmt(L.ext)}</span></div>` : ''}
+      <div class="row"><span>취득세 등 (추정)<br>${src('localTax')} · 1주택·85㎡ 이하 가정</span><span>${fmt(m.tax)}</span></div>
       <div class="row total"><span>실매입가</span><span>${fmt(m.cost)}</span></div>
-      <div class="row"><span>시세 (보수 / 기준)</span><span>${m.g === 'unknown' ? '확인 필요' : fmt(L.mktLow) + ' / ' + fmt(L.mktBase)}</span></div>
-      <div class="small muted">${esc(L.mktNote)}</div>
+      <div class="row"><span>시세 (보수 / 기준)<br>${L.sample ? src(null, ['샘플 값', null]) : src('rtms')} ${L.mktComps && L.mktComps.length ? basisTag(L) : ''}</span><span>${m.g === 'unknown' ? '확인 필요' : fmt(L.mktLow) + ' / ' + fmt(L.mktBase)}</span></div>
+      <div class="small muted">${esc(L.mktNote)}${L.mktBasis ? ' 기준 시세는 중앙값, 보수 시세는 하위 25% 값이에요.' : ''}</div>
+    </div>
+    ${L.mktComps && L.mktComps.length ? `<div><h3 style="margin:4px 0 0;font-size:14px">시세 근거 거래 <span class="small muted">(최근순 ${L.mktComps.length}건 / 전체 ${L.mktCount}건)</span></h3>
+      ${L.mktCount < 3 ? '<div class="note warn" style="padding:10px 12px;margin-top:6px"><b style="font-size:13px">거래가 적어 시세 신뢰도가 낮아요</b></div>' : ''}
+      <div class="comps">${L.mktComps.map(c => compRow(c, L)).join('')}</div></div>` : ''}
+    <div class="linkrow">
+      <a href="${naver(L.name + ' 시세')}" target="_blank" rel="noopener">네이버에서 ${esc(L.name.length > 10 ? L.name.slice(0, 10) + '…' : L.name)} 시세</a>
+      <a href="https://rt.molit.go.kr/" target="_blank" rel="noopener">국토부 실거래가 공개시스템</a>
     </div>
   </section>
-  <section class="card"><h2>당첨 시 따라오는 제약</h2><div class="rows">${L.limits.map(x => `<div class="row"><span>${x[0]}</span><b>${x[1]}</b></div>`).join('')}</div>
+  <section class="card"><h2>당첨 시 따라오는 제약</h2><div class="rows">${L.limits.map(x => `<div class="row"><span>${x[0]}<br>${limitSrc(L, x[0])}</span><b>${x[1]}</b></div>`).join('')}</div>
     <div class="small muted">계약을 포기해도 당첨자로 관리돼요. 자금 확보 전에는 신청하지 마세요.</div></section>
   <div class="stack">
     <button class="btn" data-go="plan">자금 플랜 보기</button>
@@ -530,8 +595,8 @@ function vPlan(){
   <div class="top"><button class="back" data-go="detail">${chev}단지 판정</button></div>
   <div class="stack" style="gap:4px"><div class="meta">${esc(L.name)} · ${esc(L.unit.split(' · ')[0])}</div><h1>총 ${fmt(f.total)}이 필요해요</h1></div>
   <div class="tiles">
-    <div class="tile"><span class="small muted">필요 자금</span><span class="v">${fmt(f.total)}</span></div>
-    <div class="tile"><span class="small muted">내 자금</span><span class="v">${fmt(f.available)}</span></div>
+    <div class="tile"><span class="small muted">필요 자금</span><span class="v">${fmt(f.total)}</span><span class="small muted" style="font-size:11px">분양가+확장비+취득세</span></div>
+    <div class="tile"><span class="small muted">내 자금</span><span class="v">${fmt(f.available)}</span>${src('user')}</div>
     <div class="tile"><span class="small muted">외부 조달</span><span class="v">${fmt(Math.max(0, f.total - f.available))}</span></div>
   </div>
 
@@ -540,6 +605,7 @@ function vPlan(){
     <div class="rows" style="font-size:13px">
       ${jc.reasons.map(r => `<div style="display:flex;gap:8px"><span class="${r.lvl === 'no' ? 'st-fail' : r.lvl === 'cond' ? 'st-warn' : 'st-na'}" style="flex:none">${r.lvl === 'no' ? '불가' : r.lvl === 'cond' ? '주의' : '참고'}</span><span>${esc(r.t)}</span></div>`).join('')}
     </div>
+    <div class="srcs">${src('p1015')}${src('p627')}${fromNotice(L, '실거주 의무') ? noticeSrc(L) : src('housingLaw')}</div>
   </section>
 
   <section class="card"><h2>이 공고에 대한 질문</h2>
@@ -548,13 +614,14 @@ function vPlan(){
     <div class="field"><label for="pl-family">가족 지원 (증여·차용)</label>
       <div class="money"><input id="pl-family" inputmode="numeric" data-plan="family" value="${o.family || ''}" placeholder="0"><span>만원</span></div></div>
     ${o.mode === 'jeonse' ? `<div class="field"><label for="pl-jeonse">예상 전세 보증금</label>
-      <div class="money"><input id="pl-jeonse" inputmode="numeric" data-plan="jeonse" value="${o.jeonse}"><span>만원</span></div><span class="hint">${esc(L.jeonseNote)}</span></div>` : ''}
+      <div class="money"><input id="pl-jeonse" inputmode="numeric" data-plan="jeonse" value="${o.jeonse}"><span>만원</span></div><span class="hint">${esc(L.jeonseNote)} ${L.sample ? '' : src('rtms')}</span>
+      ${L.jeonseComps && L.jeonseComps.length ? `<details><summary class="small" style="cursor:pointer;min-height:32px">전세 근거 거래 ${L.jeonseComps.length}건 보기</summary><div class="comps">${L.jeonseComps.map(c => compRow(c, L)).join('')}</div></details>` : ''}</div>` : ''}
   </section>
 
   <section class="card"><h2>납부 일정</h2><div class="timeline">
-    <div class="tl ${f.contractOk ? 'dot-ok' : 'dot-fail'}"><div class="dot"><i></i><b></b></div><div class="body"><div class="row" style="font-weight:600;font-size:14px"><span>${d(L.contract)} 계약금</span><span>${fmt(f.contractAmt)}</span></div><div class="small muted">${f.contractOk ? '예금으로 낼 수 있어요' : '예금이 ' + fmt(f.contractAmt - eok(p.cash)) + ' 모자라요. 계약금은 대출이 안 돼요'}</div></div></div>
-    <div class="tl ${bestGap(f,o) > 0 ? 'dot-fail' : 'dot-ok'}"><div class="dot"><i></i><b></b></div><div class="body"><div class="row" style="font-weight:600;font-size:14px"><span>${L.midRate ? '입주 때 (중도금 + 잔금)' : d(L.balance) + ' 잔금'}</span><span>${fmt((L.price + L.ext) - f.contractAmt)}</span></div><div class="small muted">${L.midRate ? '중도금 ' + Math.round(L.midRate*100) + '%는 보통 집단대출로 내고, 입주 때 잔금대출이나 전세로 갚아요' : '중도금 없이 한 번에 내야 해요'}</div></div></div>
-    <div class="tl"><div class="dot"><i></i></div><div class="body"><div class="row" style="font-weight:600;font-size:14px"><span>잔금 후 60일 내 취득세</span><span>${fmt(f.tax)}</span></div><div class="small muted">추정치 · 세무 확인 필요</div></div></div>
+    <div class="tl ${f.contractOk ? 'dot-ok' : 'dot-fail'}"><div class="dot"><i></i><b></b></div><div class="body"><div class="row" style="font-weight:600;font-size:14px"><span>${d(L.contract)} 계약금<br>${L.contract ? src(null, ['청약홈 공고', L.sources && L.sources[0] ? L.sources[0][1] : SRC.applyhome[1]]) : ''}</span><span>${fmt(f.contractAmt)}</span></div><div class="small muted">${f.contractOk ? '예금으로 낼 수 있어요' : '예금이 ' + fmt(f.contractAmt - eok(p.cash)) + ' 모자라요. 계약금은 대출이 안 돼요'}</div></div></div>
+    <div class="tl ${bestGap(f,o) > 0 ? 'dot-fail' : 'dot-ok'}"><div class="dot"><i></i><b></b></div><div class="body"><div class="row" style="font-weight:600;font-size:14px"><span>${L.midRate ? '입주 때 (중도금 + 잔금)' : d(L.balance) + ' 잔금'}<br>${fromNotice(L, '잔금일') ? noticeSrc(L) : src(null, [L.midRate ? '중도금 60% 가정 (이 서비스 추정)' : '공고문 확인', null])}</span><span>${fmt((L.price + L.ext) - f.contractAmt)}</span></div><div class="small muted">${L.midRate ? '중도금 ' + Math.round(L.midRate*100) + '%는 보통 집단대출로 내고, 입주 때 잔금대출이나 전세로 갚아요' : '중도금 없이 한 번에 내야 해요'}</div></div></div>
+    <div class="tl"><div class="dot"><i></i></div><div class="body"><div class="row" style="font-weight:600;font-size:14px"><span>잔금 후 60일 내 취득세<br>${src('localTax')}</span><span>${fmt(f.tax)}</span></div><div class="small muted">추정치 · 세무 확인 필요</div></div></div>
   </div></section>
 
   ${scen('jeonse', L.residenceDuty ? '전세 2년 후 직접 입주' : '전세 끼고 잔금', [['전세 보증금', fmt(f.jeonse)], ['내 자금', fmt(f.available)]].concat(dutyRow), f.gapJeonse,
@@ -563,7 +630,7 @@ function vPlan(){
      : L.regulated && L.capital ? '세입자 전세대출이 막혀 현금 세입자만 받을 수 있어요. 입주장 공실 위험도 감안하세요.'
      : '입주장에 전세 물량이 몰리면 보증금이 내려가요.', jc.status === 'no')}
   ${scen('live', '잔금대출로 실거주', [['잔금대출 (' + f.limitBy + ' 기준)', fmt(f.loan)], ['내 자금', fmt(f.available)]], f.gapLive,
-     'LTV ' + (f.ltvRate*100) + '% ' + fmt(f.loanLtv) + (isFinite(f.cap) ? ' · 한도 ' + f.cap + '억' : '') + ' · 소득 기준(DSR) ' + fmt(f.loanDsr) + ' 중 가장 작은 값이에요.' + (L.regulated ? ' 규제지역이라 6개월 안에 전입해야 해요.' : '') + ' 실제 한도는 은행 심사로 확인하세요.')}
+     'LTV ' + (f.ltvRate*100) + '% ' + fmt(f.loanLtv) + (isFinite(f.cap) ? ' · 한도 ' + f.cap + '억' : '') + ' · 소득 기준(DSR) ' + fmt(f.loanDsr) + ' 중 가장 작은 값이에요.' + (L.regulated ? ' 규제지역이라 6개월 안에 전입해야 해요.' : '') + ' 실제 한도는 은행 심사로 확인하세요.<div class="srcs">' + src('p1015') + src('p627') + '</div>')}
 
   <section class="note info"><b>부족분 메우는 방법</b>
     <div><b style="font-size:13px">가족 차용</b> · 차용증과 이자 지급 기록이 있어야 증여로 보지 않아요</div>
@@ -571,6 +638,7 @@ function vPlan(){
     <div><b style="font-size:13px">보유 자산 처분</b> · 만기와 매도 시점을 잔금일 전으로 맞추세요</div>
     <div class="small muted">계약 시 자금조달계획서와 증빙을 내야 해요.</div>
   </section>
+  <div class="srcs">${src('p1015')}${src('p627')}${src('localTax')}</div>
   <p class="foot">계산 가정: 무주택 LTV 규제지역 ${RULES.ltvRegulated*100}% · 비규제 ${RULES.ltvOther*100}%, 규제지역 주담대 한도 시세 15억 이하 6억 · 25억 이하 4억 · 초과 2억, 수도권 비규제 ${RULES.loanCapCapital}억, DSR ${RULES.dsr*100}%, 심사 금리 ${(RULES.stressRate*100).toFixed(1)}%(스트레스 포함) ${RULES.years}년 원리금균등. 규제지역은 서울 전역과 경기 ${REGULATED_GYEONGGI.length}곳이에요. 이 앱은 대출을 중개하지 않아요.</p>`;
 }
 
@@ -587,6 +655,7 @@ function vGrades(){
     ${g('pass', '마진 마이너스', '분양가가 시세보다 비싸요. 넣지 마세요')}
   </div>
   <div class="note info"><b>등급과 내 자격은 따로 보여줘요</b><div>등급은 단지 자체의 가치예요. 로또여도 내 자격이나 자금이 안 되면 카드 아래에 이유를 함께 표시해요.</div></div>
+  <div class="srcs">${src(null, ['등급 기준은 이 서비스가 정한 값', null])}${src('rtms')}${src('localTax')}</div>
   <p class="foot">시세는 추정치이며 판정은 참고용이에요. 최종 판단은 모집공고문 기준으로 하세요.</p>`;
 }
 
@@ -750,6 +819,8 @@ function fromApi(x){
   return { id:x.id, sample:false, name:x.name, loc:(x.address || '').replace(/특별시|광역시|특별자치시|특별자치도/g,'').replace(/\s+/g,' ').trim(),
     region:x.region, kind:x.kind, target:x.target,
     sido:x.sido || null, district:x.district || null, supplyType:x.supply_type || x.kind,
+    mktComps:x.mkt_comps || [], mktCount:x.mkt_count || 0, mktBasis:x.mkt_basis || null, jeonseComps:x.jeonse_comps || [],
+    noticePdf:x.notice_pdf || null, fromNotice:x.from_notice || [],
     specialApply:x.special_apply || null, houseDtl:x.house_dtl || null, rentSecd:x.rent_secd || null, applyEnd:x.apply_end || null, unit:x.unit + (x.households ? ' · ' + x.households + '세대' : ''),
     notice:x.notice, apply:x.apply, winner:x.winner, contract:x.contract, balance:x.balance,
     price:x.price, ext:x.ext || 0, contractRate:x.contract_rate || 0.1, midRate:x.mid_rate || 0,

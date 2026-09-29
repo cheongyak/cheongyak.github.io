@@ -23,7 +23,7 @@ def xml(items: list[dict]) -> str:
 
 
 PRESALE = [{"aptNm": "강변역센트럴아이파크", "excluUseAr": "84.98", "dealAmount": a, "dealYear": "2026", "dealMonth": "8",
-            "dealDay": "10", "ownershipGbn": "분양권", "cdealType": ""} for a in ("220,000", "215,000", "205,000", "225,000")]
+            "dealDay": "10", "ownershipGbn": "분", "cdealType": ""} for a in ("220,000", "215,000", "205,000", "225,000")]
 PRESALE.append({**PRESALE[0], "dealAmount": "150,000", "cdealType": "O"})  # 해제 거래는 빠져야 함
 RENT = [{"aptNm": "강변역센트럴아이파크", "excluUseAr": "84.98", "deposit": d, "monthlyRent": "0", "buildYear": "2026",
          "dealYear": "2026", "dealMonth": "9", "dealDay": "1"} for d in ("80,000", "78,000", "85,000")]

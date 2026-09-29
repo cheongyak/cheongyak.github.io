@@ -71,7 +71,9 @@ def _recent(comps: list[dict]) -> list[dict]:
 
 def estimate_market(name: str, area: Optional[float], trades: list[dict], presales: list[dict],
                     this_year: int) -> dict:
-    tagged = [(r, (r.get("kind") or "분양권")) for r in presales] + [(r, "매매") for r in trades]
+    # 분양권전매 API 의 ownershipGbn 은 '분'(분양권) / '입'(입주권) 약자로 온다 (2026-09-29 실제 응답)
+    names = {"분": "분양권", "입": "입주권"}
+    tagged = [(r, names.get(r.get("kind") or "", r.get("kind") or "분양권")) for r in presales] + [(r, "매매") for r in trades]
     own = [(r, k) for r, k in tagged if r.get("amount") and same_complex(r["apt"], name) and _in_band(r["area"], area)]
     if own:
         low, base = _summary([r["amount"] for r, _ in own])
