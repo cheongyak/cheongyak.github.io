@@ -78,6 +78,19 @@ def _date(y, m, d) -> str:
     return f"{int(y):04d}-{int(m):02d}-{int(d):02d}"
 
 
+def snippets(text: str, word: str, n: int = 2, width: int = 90) -> list[str]:
+    """공고문에서 word 가 나오는 문장 일부 (추출 규칙을 원문 근거로 고치기 위한 진단용)."""
+    t = re.sub(r"\s+", " ", text)
+    out, i = [], 0
+    while len(out) < n:
+        i = t.find(word, i)
+        if i < 0:
+            break
+        out.append(t[max(0, i - 20): i + width].strip())
+        i += len(word)
+    return out
+
+
 def parse_notice(text: str) -> dict:
     """공고문 텍스트 → 판정에 쓰는 값. 확실하지 않은 항목은 넣지 않는다."""
     t = re.sub(r"[ \t]+", " ", text)

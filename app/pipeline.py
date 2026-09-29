@@ -131,6 +131,11 @@ def apply_notice(listings: list[Listing], log: list[str], client=None) -> None:
             text, msg, pdf = None, f"읽기 실패: {e.__class__.__name__}", None
         found = notice_pdf.parse_notice(text) if text else {}
         log.append(f"[공고문] {Ls[0].name}: {msg} → {found or '추출 없음'}")
+        if text:   # 못 읽은 항목은 원문 문장을 남겨 규칙을 근거 있게 고친다
+            for key, word in (("rewin_years", "재당첨"), ("need_head", "무주택세대"), ("balance", "입주지정기간")):
+                if key not in found:
+                    for sn in notice_pdf.snippets(text, word):
+                        log.append(f"[공고문·원문] {Ls[0].name} ({word}): …{sn}…")
         labels = {"need_head": "세대주 요건", "price_cap": "분양가상한제", "residence_duty": "실거주 의무",
                   "balance": "잔금일", "ext": "발코니 확장비", "rewin_years": "재당첨 제한"}
         for L in Ls:

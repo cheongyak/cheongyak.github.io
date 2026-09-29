@@ -146,3 +146,8 @@ def test_validate_flags_and_golden(monkeypatch):
     bad = good.model_copy(update={"limits": [("재당첨 제한", "5년")], "balance": "2026-12-01"})
     mm = validate.golden_mismatches([bad])
     assert any("rewin_years" in m for m in mm) and any("balance" in m for m in mm)
+
+
+def test_snippets():
+    sn = notice_pdf.snippets("앞 문장입니다. 당첨자는 재당첨 제한 규정을 적용받습니다. 뒤", "재당첨")
+    assert sn and "재당첨 제한 규정" in sn[0]
