@@ -222,11 +222,24 @@ def run(dry_run: bool = False, today: Optional[date] = None, read_notices: bool 
             continue
         if L:
             out.append(L)
-    prev = {}
+    prev_rows: list = []
     try:
-        prev = {x["id"]: x for x in json.loads(notify.PREVIOUS.read_text(encoding="utf-8"))}
+        prev_rows = json.loads(notify.PREVIOUS.read_text(encoding="utf-8"))
     except Exception:
         pass
+    prev = {x["id"]: x for x in prev_rows}
+    if not out and prev_rows:
+        # 청약홈 API 가 일시적으로 빈 목록을 돌려주면(2026-09-30 00시대 실제 발생) 서비스가 비지 않게 지난 결과를 유지한다
+        log.append(f"[경고] 청약홈에서 공고를 0건 받았어요. 일시적인 문제일 수 있어 지난 결과({len(prev_rows)}건)를 그대로 둬요")
+        for l in log:
+            print(l)
+        if not dry_run:
+            DATA.parent.mkdir(parents=True, exist_ok=True)
+            DATA.write_text(json.dumps(prev_rows, ensure_ascii=False, indent=1), encoding="utf-8")
+            RUN_LOG.parent.mkdir(parents=True, exist_ok=True)
+            RUN_LOG.write_text(f"실행: {today.isoformat()} · 공고 0건 받음 → 지난 결과 {len(prev_rows)}건 유지\n\n" + "\n".join(log) + "\n",
+                               encoding="utf-8")
+        return []
     if read_notices:
         try:
             apply_notice(out, log, previous=prev)

@@ -197,3 +197,19 @@ def test_prefetch_budget_freezes():
     from app.sources.rtms import RtmsError
     with pytest.raises(RtmsError):
         rt.fetch("rent", "11215", "202601")
+
+
+def test_empty_api_result_keeps_previous_listings(tmp_path, monkeypatch):
+    http = httpx.Client(transport=httpx.MockTransport(lambda r: httpx.Response(200, json={"data": []})))
+    monkeypatch.setattr(pipeline, "ApplyhomeClient", lambda: ApplyhomeClient("T", http))
+    monkeypatch.setattr(pipeline, "RtmsClient", lambda: RtmsClient("T", http))
+    prev = tmp_path / "prev.json"
+    prev.write_text('[{"id": "1-084.0000A", "name": "지난 공고"}]', encoding="utf-8")
+    monkeypatch.setattr(pipeline.notify, "PREVIOUS", prev)
+    monkeypatch.setattr(pipeline, "DATA", tmp_path / "l.json")
+    monkeypatch.setattr(pipeline, "RUN_LOG", tmp_path / "run-log.txt")
+    sent = []
+    monkeypatch.setattr(pipeline.notify, "send", lambda msgs, cfg: sent.append(msgs) or [])
+    assert pipeline.run(today=date(2026, 9, 30)) == []
+    assert "지난 공고" in (tmp_path / "l.json").read_text(encoding="utf-8")
+    assert "[경고]" in (tmp_path / "run-log.txt").read_text(encoding="utf-8") and not sent
