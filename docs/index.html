@@ -949,7 +949,7 @@ function vDetail(){
   </section>
   ${L.sample ? '' : locationCard(L)}
   <section class="card"><h2>당첨되면 걸리는 제약 (공고 조건)</h2><div class="rows">${L.limits.map(x => `<div class="row"><span>${x[0]}<br>${limitSrc(L, x[0])}</span><b>${x[1]}</b></div>`).join('')}</div>
-    <div class="small muted">계약을 포기해도 당첨자로 관리돼요. 자금 확보 전에는 신청하지 마세요.</div></section>
+    ${L.limits.some(x => x[1] !== '없음') ? '<div class="small muted">계약을 포기해도 당첨자로 관리돼 이 제약이 그대로 걸려요. 자금 확보 전에는 신청하지 마세요.</div>' : ''}</section>
   <div class="stack">
     <button class="btn" data-go="plan">자금 플랜 보기</button>
     ${L.sources.map(s => `<a class="btn ghost" href="${s[1]}" target="_blank" rel="noopener" data-ev="notice">${s[0]}</a>`).join('')}
