@@ -82,6 +82,8 @@ def probe_lh(rows: list, http: httpx.Client) -> None:
         try:
             r = http.get(LH_LIST, params=params)
             html = r.text
+            (EVIDENCE / "pages").mkdir(parents=True, exist_ok=True)
+            (EVIDENCE / "pages" / f"lh-list-{params['mi']}{'-05' if 'srchUppAisTpCd' in params else ''}.html").write_text(html, encoding="utf-8")
             out.append(f"== GET {params} → {r.status_code} · {len(html)}자 · 최종 주소 {r.url}")
             for m in re.finditer(r"""(?:href|onclick|data-[a-z-]+)\s*=\s*["']([^"']{4,300})["']""", html):
                 v = m.group(1)
