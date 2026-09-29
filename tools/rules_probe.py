@@ -4,7 +4,7 @@
 법령에 따라 적어 둔다. 여러 공고문에서 해당 문단을 뽑아 docs/rules-evidence.txt 에 남기고,
 사람이 원문과 대조해 자격 판정 규칙의 근거로 쓴다.
 
-    python -m app.rules_probe
+    python -m tools.rules_probe
 """
 from __future__ import annotations
 
@@ -14,7 +14,7 @@ from pathlib import Path
 
 import httpx
 
-from .notice_pdf import UA, pdf_text
+from app.notice_pdf import UA, pdf_text
 
 
 def pdf_text_all(data: bytes) -> str:

@@ -4,6 +4,14 @@
 2026-09-29 12:55 이전 항목은 규칙을 만들기 전 작업을 커밋 기록으로 정리한 것이라 백업 브랜치가 없어요.
 그 시점으로 되돌릴 때는 해당 커밋 번호로 `git revert` 를 써요.
 
+## 2026-09-30 07:07 · 근거 자료 모으기를 따로 떼어 빠르게
+- 요청: (작업 효율) 규정·LH 공고문 점검을 할 때마다 전체 수집(약 15분)을 기다려야 해서 분리
+- 변경: app/rules_probe.py → tools/rules_probe.py, 매일 수집 작업에서 빼고 새 작업(.github/workflows/probe.yml '근거 자료 모으기')으로 실행. tools/ 를 고치거나 손으로 실행할 때만 돌고 evidence/·docs/rules-evidence.txt 만 저장
+- 기능: 없음(인프라)
+- 파일: tools/rules_probe.py(이동), tools/__init__.py, .github/workflows/collect.yml, .github/workflows/probe.yml(새)
+- 확인: 올린 뒤 새 작업 실행 결과 확인
+- 백업: backup/20260930-0707
+
 ## 2026-09-30 07:07 · LH 공고문 받는 방법 점검, 공고문 전문을 끝까지 읽기
 - 요청: 국민주택 납입 인정 판정 준비 (정답 데이터 여러 개)
 - 확인 결과: 청약홈 화면의 LH 공공분양 공고는 공고문 PDF 없이 LH청약플러스 목록 주소만 연결함(evidence/pages). 수집한 국민주택 공고문(고덕 A65BL)은 40쪽까지만 읽어 일반공급 부분이 빠져 있었음
