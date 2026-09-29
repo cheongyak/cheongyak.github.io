@@ -141,6 +141,19 @@ input[type=date]{min-height:52px;border-radius:12px;border:1px solid var(--line)
 .tabbar button{border:0;background:none;font-size:13px;color:var(--muted);cursor:pointer}
 .tabbar button[aria-current="page"]{color:var(--fg);font-weight:700}
 .foot{font-size:11px;color:var(--muted);margin:0}
+.filterbar{display:flex;align-items:center;gap:8px;flex-wrap:wrap}
+.filterbar .count{flex:1;min-width:0;font-size:13px;color:var(--muted)}
+.filterbar .count b{color:var(--fg)}
+.fpanel{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px;padding:14px;background:var(--surface);border:1px solid var(--line);border-radius:14px}
+.fpanel .full{grid-column:1 / -1}
+.fpanel label{display:flex;flex-direction:column;gap:4px;font-size:12px;font-weight:600;color:var(--muted);min-width:0}
+.fpanel select,.fpanel input[type=date]{min-height:44px;width:100%;border-radius:10px;border:1px solid var(--line);background:var(--bg);color:var(--fg);padding:0 10px;font-size:14px;font-weight:500}
+.fpanel select:disabled{opacity:.5}
+.dates{display:grid;grid-template-columns:minmax(0,1.1fr) minmax(0,1fr) minmax(0,1fr);gap:6px}
+.active-f{display:flex;gap:6px;flex-wrap:wrap}
+.fchip{display:inline-flex;align-items:center;gap:4px;height:32px;padding:0 10px;border-radius:16px;border:1px solid var(--fg);background:var(--surface);font-size:13px;font-weight:600;cursor:pointer}
+.fchip svg{width:14px;height:14px}
+.empty{align-items:center;text-align:center;padding:28px 16px}
 .bell{display:inline-flex;align-items:center;gap:6px;min-height:44px;padding:0 14px;border-radius:22px;border:1px solid var(--line);background:var(--surface);font-weight:600;font-size:14px;cursor:pointer}
 .bell svg{width:18px;height:18px}
 .steps{margin:0;padding-left:20px;display:flex;flex-direction:column;gap:6px;font-size:14px}
@@ -174,7 +187,7 @@ const REGULATED_GYEONGGI = ['과천','광명','성남 분당','성남 수정','�
 
 /* ---------- 공고 데이터 ---------- */
 let LISTINGS = [
-  { id:'gangbyeon', sample:false, name:'강변역 센트럴 아이파크', loc:'서울 광진구 구의동', region:'서울',
+  { id:'gangbyeon', sample:false, name:'강변역 센트럴 아이파크', loc:'서울 광진구 구의동', region:'서울', sido:'서울', district:'광진구', supplyType:'불법행위 재공급', applyEnd:'2026-10-06',
     kind:'무순위 · 불법행위재공급', unit:'84C · 101동 402호 · 1세대',
     notice:'2026-09-23', apply:'2026-10-06', winner:'2026-10-12', contract:'2026-10-23', balance:'2026-11-30',
     price:12.2202, ext:0.2178, contractRate:0.10,
@@ -184,15 +197,15 @@ let LISTINGS = [
     needHead:true, needAccount:false,
     limits:[['재당첨 제한','10년'],['규제지역 1순위 제한','5년'],['전매 제한','~2027.06.19'],['실거주 의무','없음']],
     sources:[['모집공고문 (청약홈)','https://www.applyhome.co.kr'],['한국경제 보도','https://www.hankyung.com/article/202609280239i']] },
-  { id:'b', sample:true, name:'샘플 단지 B', loc:'샘플 데이터 · 서울 공공택지', region:'서울', kind:'1순위 · 추첨제 · 분양가상한제', unit:'84㎡',
+  { id:'b', sample:true, name:'샘플 단지 B', loc:'샘플 데이터 · 서울 공공택지', region:'서울', sido:'서울', supplyType:'APT', kind:'1순위 · 추첨제 · 분양가상한제', unit:'84㎡',
     notice:null, apply:null, price:9.4, ext:0, contractRate:0.10, mktLow:11.5, mktBase:12.5, mktNote:'샘플 값', jeonse:5.5, jeonseNote:'샘플 값',
     capital:true, regulated:true, landPermit:true, priceCap:true, residenceDuty:3, jeonseWeak:false, unregistered:true,
     needHead:true, needAccount:true, limits:[['재당첨 제한','10년'],['실거주 의무','3년']], sources:[] },
-  { id:'c', sample:true, name:'샘플 단지 C', loc:'샘플 데이터 · 경기 비규제지역', region:'경기', kind:'무순위 · 잔여세대', unit:'59㎡',
+  { id:'c', sample:true, name:'샘플 단지 C', loc:'샘플 데이터 · 경기 비규제지역', region:'경기', sido:'경기', supplyType:'무순위', kind:'무순위 · 잔여세대', unit:'59㎡',
     notice:null, apply:null, price:8.1, ext:0, contractRate:0.10, mktLow:8.4, mktBase:8.9, mktNote:'샘플 값', jeonse:4.5, jeonseNote:'샘플 값',
     capital:true, regulated:false, landPermit:false, priceCap:false, residenceDuty:0, jeonseWeak:false, unregistered:true,
     needHead:false, needAccount:false, limits:[['실거주 의무','없음']], sources:[] },
-  { id:'d', sample:true, name:'샘플 단지 D', loc:'샘플 데이터 · 지방 비규제지역', region:'지방', kind:'1순위 · 가점제', unit:'84㎡',
+  { id:'d', sample:true, name:'샘플 단지 D', loc:'샘플 데이터 · 경남 비규제지역', region:'지방', sido:'경남', supplyType:'APT', kind:'1순위 · 가점제', unit:'84㎡',
     notice:null, apply:null, price:7.3, ext:0, contractRate:0.10, mktLow:6.6, mktBase:7.0, mktNote:'샘플 값', jeonse:4.0, jeonseNote:'샘플 값',
     capital:false, regulated:false, landPermit:false, priceCap:false, residenceDuty:0, jeonseWeak:true, unregistered:true,
     needHead:false, needAccount:true, limits:[['실거주 의무','없음']], sources:[] }
@@ -211,7 +224,8 @@ const store = {
   set(k,v){ try{ localStorage.setItem(k, JSON.stringify(v)); }catch(e){} }
 };
 
-const S = { view:'feed', step:0, id:null, filter:'all', plan:{}, profile: Object.assign({}, DEFAULT_PROFILE, store.get('cy-profile') || {}) };
+const F0 = { sido:'', district:'', supply:'', dtl:'', rent:'', special:'', status:'', dateField:'apply', from:'', to:'' };
+const S = { view:'feed', step:0, id:null, filter:'all', f: Object.assign({}, F0), showFilters:false, plan:{}, profile: Object.assign({}, DEFAULT_PROFILE, store.get('cy-profile') || {}) };
 
 /* ---------- 계산 엔진 ---------- */
 const eok = v => v/10000; // 만원 -> 억
@@ -331,6 +345,12 @@ function bestGap(f, o){ return o.mode === 'live' ? f.gapLive : f.gapJeonse; }
 const esc = s => String(s).replace(/[&<>"]/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
 const chev = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m15 18-6-6 6-6"/></svg>';
 function dday(d){ if(!d) return '샘플'; const n = Math.round((new Date(d) - new Date(TODAY)) / 864e5); return (n > 0 ? 'D-' + n : n === 0 ? 'D-day' : '마감') + ' · ' + d.slice(5).replace('-','.'); }
+function ddayOf(L){ // 모집 상태와 같은 기준으로 표시: 예정이면 D-n, 접수 중이면 마감일, 끝났으면 마감
+  const st = statusOf(L), end = L.applyEnd || L.apply;
+  if (st === '접수 중' && end && end !== TODAY && end > TODAY) return '접수 중 · ~' + end.slice(5).replace('-','.');
+  if (st === '접수 중') return '오늘 마감';
+  return dday(L.specialApply || L.apply);
+}
 function profileLine(p){
   const hh = { head:'세대주', parents:'세대원', spouse:'세대원', other:'기타' }[p.household];
   return (p.seoul ? '서울' : '서울 외') + ' · ' + (p.selfOwn ? '유주택' : '무주택') + ' · ' + hh + ' · 현금 ' + fmt(eok(p.cash + p.liquid + p.deposit));
@@ -343,22 +363,102 @@ function meLine(L){
   return el + (gap > 0 ? '<span class="muted">· 자금 ' + fmt(gap) + ' 부족</span>' : '<span class="muted">· 자금 가능</span>');
 }
 
+/* ---------- 공고 필터 (실제 데이터에 있는 값만 선택지로 보여준다) ---------- */
+const SIDO_ORDER = ['서울','경기','인천','부산','대구','대전','광주','울산','세종','강원','충북','충남','전북','전남','경북','경남','제주'];
+const DATE_FIELDS = { notice:'공고일', apply:'접수 시작일', applyEnd:'접수 마감일', winner:'당첨자 발표일' };
+const STATUS = ['접수 예정','접수 중','마감'];
+function statusOf(L){
+  const start = L.specialApply || L.apply, end = L.applyEnd || L.apply;
+  if (start && TODAY < start) return '접수 예정';
+  if (end && TODAY > end) return '마감';
+  return start || end ? '접수 중' : '';
+}
+const hasSpecialData = () => LISTINGS.some(L => L.specialApply);
+const distinct = key => [...new Set(LISTINGS.map(L => L[key]).filter(Boolean))].sort();
+function matches(L, f, skip){
+  if (skip !== 'sido' && f.sido && L.sido !== f.sido) return false;
+  if (skip !== 'district' && f.district && L.district !== f.district) return false;
+  if (skip !== 'supply' && f.supply && L.supplyType !== f.supply) return false;
+  if (skip !== 'dtl' && f.dtl && L.houseDtl !== f.dtl) return false;
+  if (skip !== 'rent' && f.rent && L.rentSecd !== f.rent) return false;
+  if (skip !== 'special' && f.special === 'yes' && !L.specialApply) return false;
+  if (skip !== 'special' && f.special === 'no' && L.specialApply) return false;
+  if (skip !== 'status' && f.status && statusOf(L) !== f.status) return false;
+  if (skip !== 'date' && (f.from || f.to)) {
+    const v = L[f.dateField];
+    if (!v) return false;
+    if (f.from && v < f.from) return false;
+    if (f.to && v > f.to) return false;
+  }
+  return true;
+}
+function countBy(key, fn){ // 다른 조건은 유지한 채 이 항목의 값별 개수
+  const c = {};
+  LISTINGS.filter(L => matches(L, S.f, key)).forEach(L => { const v = fn(L); if (v) c[v] = (c[v] || 0) + 1; });
+  return c;
+}
+function activeFilters(){
+  const f = S.f, out = [];
+  if (f.sido) out.push(['sido', f.sido]);
+  if (f.district) out.push(['district', f.district]);
+  if (f.supply) out.push(['supply', f.supply]);
+  if (f.dtl) out.push(['dtl', f.dtl]);
+  if (f.rent) out.push(['rent', f.rent]);
+  if (f.special) out.push(['special', f.special === 'yes' ? '특별공급 있음' : '특별공급 없음']);
+  if (f.status) out.push(['status', f.status]);
+  if (f.from || f.to) out.push(['date', DATE_FIELDS[f.dateField] + ' ' + (f.from || '…').slice(5).replace('-','.') + '~' + (f.to || '…').slice(5).replace('-','.')]);
+  return out;
+}
+function opt(v, label, n, sel){ return `<option value="${esc(v)}" ${sel ? 'selected' : ''} ${n === 0 && !sel ? 'disabled' : ''}>${esc(label)}${n != null ? ' (' + n + ')' : ''}</option>`; }
+function filterPanel(){
+  const f = S.f;
+  const cs = countBy('sido', L => L.sido), cd = countBy('district', L => L.sido === f.sido ? L.district : null);
+  const cp = countBy('supply', L => L.supplyType), ct = countBy('status', statusOf);
+  const sp = countBy('special', L => L.specialApply ? 'yes' : 'no');
+  const dists = Object.keys(cd).sort();
+  const supplies = Object.keys(cp).sort();
+  return `<div class="fpanel" id="filters">
+    <label>지역 (시·도)<select data-f="sido"><option value="">전체</option>${SIDO_ORDER.map(x => opt(x, x, cs[x] || 0, f.sido === x)).join('')}</select></label>
+    <label>시·군·구<select data-f="district" ${f.sido ? '' : 'disabled'}><option value="">${f.sido ? '전체' : '시·도를 먼저 골라요'}</option>${dists.map(x => opt(x, x, cd[x], f.district === x)).join('')}</select></label>
+    <label>공급 구분<select data-f="supply"><option value="">전체</option>${supplies.map(x => opt(x, x, cp[x], f.supply === x)).join('')}</select></label>
+    <label>모집 상태<select data-f="status"><option value="">전체</option>${STATUS.map(x => opt(x, x, ct[x] || 0, f.status === x)).join('')}</select></label>
+    ${distinct('houseDtl').length > 1 ? (() => { const c = countBy('dtl', L => L.houseDtl); return `<label>주택 구분<select data-f="dtl"><option value="">전체</option>${distinct('houseDtl').map(x => opt(x, x, c[x] || 0, f.dtl === x)).join('')}</select></label>`; })() : ''}
+    ${distinct('rentSecd').length > 1 ? (() => { const c = countBy('rent', L => L.rentSecd); return `<label>분양/임대<select data-f="rent"><option value="">전체</option>${distinct('rentSecd').map(x => opt(x, x, c[x] || 0, f.rent === x)).join('')}</select></label>`; })() : ''}
+    ${hasSpecialData() ? `<label class="full">청약 유형<select data-f="special"><option value="">전체</option>${opt('yes', '특별공급 있음', sp.yes || 0, f.special === 'yes')}${opt('no', '특별공급 없음', sp.no || 0, f.special === 'no')}</select></label>` : ''}
+    <div class="full"><label>날짜 범위</label>
+      <div class="dates" style="margin-top:4px">
+        <select data-f="dateField" aria-label="날짜 기준">${Object.entries(DATE_FIELDS).map(([k, v]) => `<option value="${k}" ${f.dateField === k ? 'selected' : ''}>${v}</option>`).join('')}</select>
+        <input type="date" data-f="from" aria-label="시작 날짜" value="${f.from}">
+        <input type="date" data-f="to" aria-label="끝 날짜" value="${f.to}">
+      </div></div>
+  </div>`;
+}
+
 function vFeed(){
-  const list = LISTINGS.map(L => ({ L, m: grade(L) }))
+  const list = LISTINGS.filter(L => matches(L, S.f)).map(L => ({ L, m: grade(L) }))
     .filter(x => S.filter === 'all' || x.m.g === S.filter)
     .sort((a,b) => GORDER[a.m.g] - GORDER[b.m.g]);
   const chip = (k, t) => `<button class="chip" data-filter="${k}" aria-pressed="${S.filter === k}">${t}</button>`;
+  const act = activeFilters();
+  const x = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" aria-hidden="true"><path d="M18 6 6 18M6 6l12 12"/></svg>';
   return `
   <div class="top"><div><div class="brand">청약판정</div><span class="small muted">${DATA_SOURCE.live ? '청약홈 · ' + esc(DATA_SOURCE.updated) + ' 갱신' : '샘플 데이터'}</span></div>
     <button class="bell" data-go="alerts" aria-label="알림 받기"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 8a6 6 0 1 1 12 0c0 7 3 9 3 9H3s3-2 3-9"/><path d="M10.3 21a1.94 1.94 0 0 0 3.4 0"/></svg><span>알림</span></button></div>
   <div class="profile-bar"><span class="muted">내 조건 · <b style="color:var(--fg)">${esc(profileLine(S.profile))}</b></span><button class="linkbtn" data-go="me">수정</button></div>
   <div class="chips" role="group" aria-label="등급 필터">${chip('all','전체')}${chip('lotto','로또')}${chip('consider','고려')}${chip('flat','마진없음')}${chip('pass','패스')}</div>
+  <div class="filterbar">
+    <button class="chip" data-action="toggle-filters" aria-expanded="${S.showFilters}" aria-controls="filters">필터${act.length ? ' ' + act.length : ''} ${S.showFilters ? '▲' : '▼'}</button>
+    <span class="count" aria-live="polite">결과 <b>${list.length}</b>건</span>
+    ${act.length || S.filter !== 'all' ? '<button class="linkbtn" data-action="reset-filters">필터 초기화</button>' : ''}
+  </div>
+  ${S.showFilters ? filterPanel() : ''}
+  ${act.length ? `<div class="active-f" aria-label="선택한 필터">${act.map(([k, t]) => `<button class="fchip" data-unset="${k}" aria-label="${esc(t)} 필터 해제">${esc(t)}${x}</button>`).join('')}</div>` : ''}
   ${list.length ? list.map(({L,m}) => `
     <button class="card listing g-${m.g}" data-open="${L.id}">
-      <div class="row"><div><div class="meta">${esc(L.kind)} · ${esc(L.unit)}</div><div class="name">${esc(L.name)}${L.sample ? '<span class="sample">샘플</span>' : ''}</div><div class="meta">${esc(L.loc)}</div></div><span class="dday">${dday(L.apply)}</span></div>
+      <div class="row"><div><div class="meta">${esc(L.kind)} · ${esc(L.unit)}</div><div class="name">${esc(L.name)}${L.sample ? '<span class="sample">샘플</span>' : ''}</div><div class="meta">${esc(L.loc)}</div></div><span class="dday">${ddayOf(L)}</span></div>
       <div class="band"><span class="badge">${GNAME[m.g]}</span><div><div class="mg">${marginText(m)}</div><div class="small">분양가 ${fmt(L.price)} · ${m.g === 'unknown' ? '주변 거래 부족' : '시세 ' + fmt(L.mktLow) + '~' + fmt(L.mktBase)}</div></div></div>
       <div class="me-line">${meLine(L)}</div>
-    </button>`).join('') : '<p class="muted">이 등급의 공고가 없어요.</p>'}
+    </button>`).join('') : `<div class="card empty"><b>조건에 맞는 공고가 없어요</b><span class="small muted">${act.length ? '필터를 하나씩 해제하거나 초기화해 보세요.' : '이 등급의 공고가 아직 없어요.'}</span>${act.length || S.filter !== 'all' ? '<button class="btn ghost" data-action="reset-filters" style="max-width:220px">필터 초기화</button>' : ''}</div>`}
   <p class="foot">${DATA_SOURCE.live ? '청약홈 공고와 국토부 실거래가로 매일 새벽 갱신돼요. 시세는 추정치예요.' : '샘플 표시가 있는 단지는 등급 예시를 위한 가상 데이터예요.'}</p>`;
 }
 
@@ -608,9 +708,12 @@ document.addEventListener('click', ev => {
   if (t.dataset.go) { go(t.dataset.go); return; }
   if (t.dataset.open) { S.id = t.dataset.open; go('detail'); return; }
   if (t.dataset.filter) { S.filter = t.dataset.filter; render(); return; }
+  if (t.dataset.unset) { const k = t.dataset.unset; if (k === 'date') { S.f.from = ''; S.f.to = ''; } else { S.f[k] = ''; if (k === 'sido') S.f.district = ''; } render(); return; }
   if (t.dataset.set) { S.profile[t.dataset.set] = JSON.parse(t.dataset.val); save(); render(); return; }
   if (t.dataset.mode) { planOpt(LISTINGS.find(x => x.id === S.id)).mode = t.dataset.mode; render(); return; }
   const a = t.dataset.action;
+  if (a === 'toggle-filters') { S.showFilters = !S.showFilters; render(); return; }
+  if (a === 'reset-filters') { S.f = Object.assign({}, F0); S.filter = 'all'; render(); return; }
   if (a === 'copy-topic') {
     const done = () => { t.textContent = '복사했어요'; };
     try { navigator.clipboard.writeText(CONFIG.ntfy_topic).then(done, () => { t.textContent = CONFIG.ntfy_topic; }); } catch(e) { t.textContent = CONFIG.ntfy_topic; }
@@ -630,13 +733,24 @@ document.addEventListener('input', ev => {
 });
 document.addEventListener('change', ev => {
   const el = ev.target;
+  if (el.dataset.f) {
+    const k = el.dataset.f; S.f[k] = el.value;
+    if (k === 'sido') S.f.district = '';
+    if (k === 'from' && S.f.to && S.f.from > S.f.to) S.f.to = S.f.from;   // 시작이 끝보다 늦으면 맞춰 준다
+    if (k === 'to' && S.f.from && S.f.to < S.f.from) S.f.from = S.f.to;
+    const id = el.getAttribute('data-f'); render();
+    const again = app.querySelector(`[data-f="${id}"]`); if (again) again.focus();
+    return;
+  }
   if (el.dataset.plan) { planOpt(LISTINGS.find(x => x.id === S.id))[el.dataset.plan] = Number(String(el.value).replace(/[^0-9]/g, '')) || 0; render(); }
 });
 
 /* 실제 데이터: 같은 폴더의 listings.json (GitHub Actions 가 매일 갱신). 없으면 샘플로 동작 */
 function fromApi(x){
   return { id:x.id, sample:false, name:x.name, loc:(x.address || '').replace(/특별시|광역시|특별자치시|특별자치도/g,'').replace(/\s+/g,' ').trim(),
-    region:x.region, kind:x.kind, target:x.target, unit:x.unit + (x.households ? ' · ' + x.households + '세대' : ''),
+    region:x.region, kind:x.kind, target:x.target,
+    sido:x.sido || null, district:x.district || null, supplyType:x.supply_type || x.kind,
+    specialApply:x.special_apply || null, houseDtl:x.house_dtl || null, rentSecd:x.rent_secd || null, applyEnd:x.apply_end || null, unit:x.unit + (x.households ? ' · ' + x.households + '세대' : ''),
     notice:x.notice, apply:x.apply, winner:x.winner, contract:x.contract, balance:x.balance,
     price:x.price, ext:x.ext || 0, contractRate:x.contract_rate || 0.1, midRate:x.mid_rate || 0,
     mktLow:x.mkt_low, mktBase:x.mkt_base, mktNote:x.mkt_note || '', jeonse:x.jeonse, jeonseNote:x.jeonse_note || '',
@@ -651,7 +765,7 @@ fetch('listings.json', { cache:'no-store' }).then(r => r.ok ? r.json() : null).t
   LISTINGS = rows.map(fromApi);
   let upd = ''; try { const t = await fetch('updated.txt', { cache:'no-store' }); if (t.ok) upd = (await t.text()).trim(); } catch(e) {}
   DATA_SOURCE = { live:true, updated: upd };
-  S.plan = {}; if (S.view === 'detail' || S.view === 'plan') S.view = 'feed';
+  S.plan = {}; S.f = Object.assign({}, F0); if (S.view === 'detail' || S.view === 'plan') S.view = 'feed';
   render();
 }).catch(() => {});
 </script>
