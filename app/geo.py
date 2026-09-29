@@ -22,7 +22,8 @@ import httpx
 from . import region as RG
 
 GEOCODE_URL = "https://maps.apigw.ntruss.com/map-geocode/v2/geocode"
-OVERPASS_URLS = ["https://overpass-api.de/api/interpreter", "https://overpass.kumi.systems/api/interpreter"]
+OVERPASS_URLS = ["https://overpass-api.de/api/interpreter", "https://overpass.private.coffee/api/interpreter",
+                 "https://maps.mail.ru/osm/tools/overpass/api/interpreter"]
 GEO_SOURCE = "네이버 클라우드 플랫폼 Geocoding"
 NEARBY_SOURCE = "OpenStreetMap"
 STATION_RADIUS_M = 2000
@@ -153,16 +154,17 @@ def parse_nearby(elements: list[dict], lat: float, lng: float) -> list[dict]:
 
 def nearby(lat: float, lng: float, http: httpx.Client) -> tuple[Optional[list[dict]], str]:
     q = overpass_query(lat, lng)
-    last = ""
+    errs = []
     for url in OVERPASS_URLS:
+        host = url.split("/")[2]
         try:
-            r = http.post(url, data={"data": q})
+            r = http.post(url, data={"data": q}, timeout=60)
             if r.status_code == 200:
-                return parse_nearby(r.json().get("elements") or [], lat, lng), url.split("/")[2]
-            last = f"{url.split('/')[2]} 응답 {r.status_code}"
+                return parse_nearby(r.json().get("elements") or [], lat, lng), host
+            errs.append(f"{host} 응답 {r.status_code}")
         except Exception as e:
-            last = f"{url.split('/')[2]} {e.__class__.__name__}"
-    return None, last
+            errs.append(f"{host} {e.__class__.__name__}")
+    return None, ", ".join(errs)
 
 
 def apply_geo(listings: list, log: list[str], previous: Optional[dict] = None, http: Optional[httpx.Client] = None,
