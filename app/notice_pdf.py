@@ -48,7 +48,7 @@ def pdf_text(data: bytes) -> str:
 
 def fetch_notice_text(page_url: str, client: Optional[httpx.Client] = None) -> tuple[Optional[str], str, Optional[str]]:
     """(공고문 텍스트, 기록용 메시지, PDF 주소)."""
-    http = client or httpx.Client(timeout=30, follow_redirects=True, headers=UA)
+    http = client or httpx.Client(timeout=httpx.Timeout(20, connect=10), follow_redirects=True, headers=UA)
     try:
         r = http.get(page_url)
     except Exception as e:

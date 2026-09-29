@@ -65,7 +65,7 @@ def test_apply_notice_updates_listing(monkeypatch):
     log = []
     apply_notice([x], log)
     assert x.need_head and x.balance == "2026-11-30" and x.ext == 0.2178
-    assert ("실거주 의무", "없음") in x.limits and "PDF 읽음" in log[0]
+    assert ("실거주 의무", "없음") in x.limits and any("PDF 읽음" in l for l in log)
     assert x.notice_pdf.endswith("x.pdf") and "잔금일" in x.from_notice and "세대주 요건" in x.from_notice
     assert x.limits[0] == ("재당첨 제한", "10년") and "재당첨 제한" in x.from_notice
 

@@ -27,6 +27,8 @@ ROOT = Path(__file__).resolve().parent.parent
 DATA = ROOT / "data" / "listings.json"
 RUN_LOG = ROOT / "docs" / "run-log.txt"
 RTMS_ERRORS: set[str] = set()
+MARKET_BUDGET_SEC = 600      # 실거래 조회에 쓰는 최대 시간 (공공데이터포털이 느려도 수집이 끝나게)
+NOTICE_BUDGET_SEC = 300      # 공고문 PDF 읽기에 쓰는 최대 시간
 
 
 def kind_label(raw: dict) -> str:
@@ -110,8 +112,23 @@ def apply_notice(listings: list[Listing], log: list[str], client=None) -> None:
     for L in listings:
         if L.url:
             groups.setdefault(L.url, []).append(L)
+    import time
+    from concurrent.futures import ThreadPoolExecutor, wait
+    start = time.monotonic()
+    ex = ThreadPoolExecutor(max_workers=6)
+    futs = {url: ex.submit(notice_pdf.fetch_notice_text, url, client) for url in groups}
+    wait(list(futs.values()), timeout=NOTICE_BUDGET_SEC)
+    ex.shutdown(wait=False, cancel_futures=True)
+    log.append(f"[시간] 공고문 {len(groups)}건 {time.monotonic() - start:.0f}초")
     for url, Ls in groups.items():
-        text, msg, pdf = notice_pdf.fetch_notice_text(url, client)
+        f = futs[url]
+        if not f.done():
+            log.append(f"[공고문] {Ls[0].name}: 시간 제한으로 이번 실행에서는 읽지 못했어요")
+            continue
+        try:
+            text, msg, pdf = f.result()
+        except Exception as e:
+            text, msg, pdf = None, f"읽기 실패: {e.__class__.__name__}", None
         found = notice_pdf.parse_notice(text) if text else {}
         log.append(f"[공고문] {Ls[0].name}: {msg} → {found or '추출 없음'}")
         labels = {"need_head": "세대주 요건", "price_cap": "분양가상한제", "residence_duty": "실거주 의무",
@@ -149,7 +166,17 @@ def run(dry_run: bool = False, today: Optional[date] = None, read_notices: bool 
     rt = RtmsClient()
     log: list[str] = []
     out: list[Listing] = []
-    for raw in iter_open_listings(ah, today.isoformat(), since):
+    import time
+    t0 = time.monotonic()
+    raws = list(iter_open_listings(ah, today.isoformat(), since))
+    t1 = time.monotonic()
+    months = months_back(today, R.MARKET_MONTHS)
+    lawds = {RG.lawd_of(RG.sigungu_of(r["address"])) for r in raws if r.get("price")}
+    keys = [(k, l, ym) for l in sorted(x for x in lawds if x) for k in ("trade", "presale", "rent") for ym in months]
+    pf = rt.prefetch(keys, budget_sec=MARKET_BUDGET_SEC)
+    log.append(f"[시간] 공고 {len(raws)}건 {t1 - t0:.0f}초 · 실거래 요청 {pf['total']}건 {pf['seconds']:.0f}초 "
+               f"(성공 {pf['done']}, 실패 {pf['failed']}, 시간 초과로 생략 {pf['skipped']})")
+    for raw in raws:
         try:
             L = build_listing(raw, rt, today)
         except Exception as e:  # 한 공고가 실패해도 나머지는 진행

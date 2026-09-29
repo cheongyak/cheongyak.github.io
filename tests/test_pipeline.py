@@ -182,3 +182,18 @@ def test_api_filters(tmp_path, monkeypatch):
     assert len(c.get("/listings", params={"date_field": "apply", "date_from": "2026-10-01", "date_to": "2026-10-31"}).json()) == 1
     assert len(c.get("/listings", params={"date_field": "apply", "date_to": "2026-09-30"}).json()) == 0
     assert c.get("/listings", params={"date_field": "bad"}).status_code == 400
+
+
+def test_prefetch_budget_freezes():
+    import time
+    def slow(req):
+        time.sleep(0.3)
+        return httpx.Response(200, text=xml([]))
+    rt = RtmsClient("T", httpx.Client(transport=httpx.MockTransport(slow)))
+    keys = [("trade", "11215", f"2026{m:02d}") for m in range(1, 13)]
+    r = rt.prefetch(keys, budget_sec=0.5, workers=2)
+    assert r["skipped"] > 0 and rt.frozen
+    import pytest
+    from app.sources.rtms import RtmsError
+    with pytest.raises(RtmsError):
+        rt.fetch("rent", "11215", "202601")

@@ -65,14 +65,45 @@ class RtmsClient:
         self.key = service_key or os.environ.get("DATA_GO_KR_KEY")
         if not self.key:
             raise RtmsError("환경변수 DATA_GO_KR_KEY 가 없어요.")
-        self.http = client or httpx.Client(timeout=20)
+        self.http = client or httpx.Client(timeout=httpx.Timeout(15, connect=10))
         self._cache: dict[tuple, list[dict]] = {}
+        self.frozen = False          # True 면 새로 요청하지 않는다 (시간 제한을 넘긴 뒤)
+        self.stats = {"requests": 0, "failed": 0}
+
+    def prefetch(self, keys: list[tuple], budget_sec: float, workers: int = 8) -> dict:
+        """(kind, lawd, ym) 목록을 동시에 받아 캐시에 넣는다. 시간 제한을 넘기면 남은 것은 포기한다."""
+        import time
+        from concurrent.futures import ThreadPoolExecutor, wait, FIRST_COMPLETED
+        start, todo = time.monotonic(), [k for k in dict.fromkeys(keys) if k not in self._cache]
+        done_n = fail_n = 0
+        ex = ThreadPoolExecutor(max_workers=workers)
+        futs = {ex.submit(self.fetch, *k): k for k in todo}
+        pending = set(futs)
+        while pending:
+            left = budget_sec - (time.monotonic() - start)
+            if left <= 0:
+                break
+            done, pending = wait(pending, timeout=left, return_when=FIRST_COMPLETED)
+            for f in done:
+                if f.exception():
+                    fail_n += 1
+                else:
+                    done_n += 1
+        for f in pending:
+            f.cancel()
+        ex.shutdown(wait=False, cancel_futures=True)
+        self.frozen = True
+        return {"total": len(todo), "done": done_n, "failed": fail_n, "skipped": len(pending),
+                "seconds": round(time.monotonic() - start, 1)}
 
     def fetch(self, kind: str, lawd: str, ym: str) -> list[dict]:
         """kind: trade|presale|rent, lawd: 5자리, ym: YYYYMM"""
         key = (kind, lawd, ym)
         if key in self._cache:
             return self._cache[key]
+        if self.frozen:
+            raise RtmsError("시간 제한으로 이번 실행에서는 조회하지 못했어요")
+        self.stats["requests"] += 1
         rows: list[dict] = []
         for page in range(1, 20):
             r = self.http.get(BASE + ENDPOINTS[kind], params={
