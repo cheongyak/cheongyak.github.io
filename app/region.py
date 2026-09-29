@@ -45,12 +45,18 @@ def sigungu_of(address: str) -> Optional[str]:
                             return f"{city} {gu}"
                     return city  # 구 표기가 없으면 시까지만
                 return city
+    if reg == "인천":
+        for gu in R.INCHEON_LAWD:
+            if f" {gu}" in a:
+                return f"인천 {gu}"
     return None
 
 
 def lawd_of(sigungu: Optional[str]) -> Optional[str]:
     if not sigungu:
         return None
+    if sigungu.startswith("인천 "):
+        return R.INCHEON_LAWD.get(sigungu[3:])
     return R.SEOUL_LAWD.get(sigungu) or R.GYEONGGI_LAWD.get(sigungu)
 
 

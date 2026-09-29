@@ -23,6 +23,7 @@ from .sources.applyhome import ApplyhomeClient, iter_open_listings
 from .sources.rtms import RtmsClient
 
 DATA = Path(__file__).resolve().parent.parent / "data" / "listings.json"
+RTMS_ERRORS: set[str] = set()
 
 
 def build_listing(raw: dict, rtms: Optional[RtmsClient], today: date) -> Optional[Listing]:
@@ -40,11 +41,20 @@ def build_listing(raw: dict, rtms: Optional[RtmsClient], today: date) -> Optiona
     js = {"jeonse": None, "jeonse_note": "", "jeonse_weak": False}
     if rtms and lawd:
         months = months_back(today, R.MARKET_MONTHS)
-        trades = rtms.recent("trade", lawd, months)
-        presales = rtms.recent("presale", lawd, months)
-        rents = rtms.recent("rent", lawd, months)
-        mk = estimate_market(raw["name"], raw["area"], trades, presales, today.year)
-        js = estimate_jeonse(raw["name"], raw["area"], rents, today.year)
+
+        def safe(kind):
+            try:
+                return rtms.recent(kind, lawd, months)
+            except Exception as e:
+                RTMS_ERRORS.add(str(e)[:160])
+                return None
+        trades, presales, rents = safe("trade"), safe("presale"), safe("rent")
+        if trades is not None or presales is not None:
+            mk = estimate_market(raw["name"], raw["area"], trades or [], presales or [], today.year)
+        else:
+            mk["mkt_note"] = "실거래가 조회에 실패해 시세를 계산하지 못했어요."
+        if rents is not None:
+            js = estimate_jeonse(raw["name"], raw["area"], rents, today.year)
 
     remainder = raw["category"] == "remainder"
     limits = [("재당첨 제한", "10년" if regulated else "공고문 확인")]
@@ -84,6 +94,8 @@ def run(dry_run: bool = False, today: Optional[date] = None) -> list[Listing]:
         if L:
             out.append(L)
     summary(out)
+    for msg in sorted(RTMS_ERRORS):
+        print(f"[실거래가 경고] {msg}")
     if not dry_run:
         DATA.parent.mkdir(parents=True, exist_ok=True)
         DATA.write_text(json.dumps([l.model_dump() for l in out], ensure_ascii=False, indent=1), encoding="utf-8")

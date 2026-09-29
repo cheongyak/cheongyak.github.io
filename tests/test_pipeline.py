@@ -100,3 +100,29 @@ def test_end_to_end(tmp_path, monkeypatch):
     j = c.post(f"/listings/{L.id}/judge", json=body).json()
     assert j["verdict"] == "신청 불가"
     assert j["funding"]["jeonse_check"]["status"] == "cond"
+
+
+def test_rtms_forbidden_keeps_listing(tmp_path, monkeypatch):
+    def h(req):
+        u = str(req.url)
+        if "getRemndrLttotPblancDetail" in u:
+            return httpx.Response(200, json={"data": [DETAIL]})
+        if "getRemndrLttotPblancMdl" in u:
+            return httpx.Response(200, json={"data": [MODEL]})
+        if "odcloud" in u:
+            return httpx.Response(200, json={"data": []})
+        return httpx.Response(403, text="Forbidden")
+    http = httpx.Client(transport=httpx.MockTransport(h))
+    monkeypatch.setattr(pipeline, "ApplyhomeClient", lambda: ApplyhomeClient("T", http))
+    monkeypatch.setattr(pipeline, "RtmsClient", lambda: RtmsClient("T", http))
+    monkeypatch.setattr(pipeline, "DATA", tmp_path / "l.json")
+    out = pipeline.run(today=date(2026, 9, 29))
+    assert len(out) == 1 and out[0].mkt_base is None
+    assert "실패" in out[0].mkt_note
+
+
+def test_incheon_lawd():
+    from app import region
+    a = "인천광역시 계양구 계양동 일원"
+    assert region.sigungu_of(a) == "인천 계양구" and region.lawd_of("인천 계양구") == "28245"
+    assert not region.is_regulated(a) and region.is_capital(a)

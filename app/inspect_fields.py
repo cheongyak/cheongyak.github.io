@@ -42,7 +42,11 @@ def main():
     rt = RtmsClient()
     ym = months_back(date.today(), 2)[1]
     for kind in ("trade", "presale", "rent"):
-        rows = rt.fetch(kind, "11215", ym)  # 광진구
+        try:
+            rows = rt.fetch(kind, "11215", ym)  # 광진구
+        except Exception as e:
+            print(f"\n== 실거래 {kind}: 실패 → {e}")
+            continue
         print(f"\n== 실거래 {kind} (광진구 {ym}) : {len(rows)}건 ==")
         if rows:
             print(" 예:", rows[0])

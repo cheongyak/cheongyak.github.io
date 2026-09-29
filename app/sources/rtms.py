@@ -14,7 +14,7 @@ import httpx
 
 BASE = "https://apis.data.go.kr/1613000"
 ENDPOINTS = {
-    "trade": "/RTMSDataSvcAptTradeDev/getRTMSDataSvcAptTradeDev",   # 아파트 매매 (상세)
+    "trade": "/RTMSDataSvcAptTrade/getRTMSDataSvcAptTrade",         # 아파트 매매 실거래가 자료
     "presale": "/RTMSDataSvcSilvTrade/getRTMSDataSvcSilvTrade",     # 아파트 분양권·입주권 전매
     "rent": "/RTMSDataSvcAptRent/getRTMSDataSvcAptRent",            # 아파트 전월세
 }
@@ -75,6 +75,8 @@ class RtmsClient:
         for page in range(1, 20):
             r = self.http.get(BASE + ENDPOINTS[kind], params={
                 "serviceKey": self.key, "LAWD_CD": lawd, "DEAL_YMD": ym, "numOfRows": 1000, "pageNo": page})
+            if r.status_code in (401, 403):
+                raise RtmsError(f"{kind} API 권한 없음({r.status_code}). 공공데이터포털에서 이 API 활용신청·승인 상태를 확인하세요.")
             r.raise_for_status()
             batch = parse_items(r.text)
             rows.extend(batch)
