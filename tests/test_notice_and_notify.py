@@ -151,3 +151,11 @@ def test_validate_flags_and_golden(monkeypatch):
 def test_snippets():
     sn = notice_pdf.snippets("앞 문장입니다. 당첨자는 재당첨 제한 규정을 적용받습니다. 뒤", "재당첨")
     assert sn and "재당첨 제한 규정" in sn[0]
+
+
+def test_rewin_scrambled_pdf_text():
+    """충정로역자이르네 공고문에서 실제로 뽑힌 뒤섞인 문장 (2026-09-29 실행 기록)."""
+    t1 = "( ) 1660-1245 구분 내용 재당첨제한 년 적용10 본 입주자모집공고의 당첨자로 선정 시"
+    t2 = "「 」 당첨자발표일로부터 년간 재당첨 10 제한을 적용받습니다 계약의사가 없는"
+    assert notice_pdf.parse_notice(t1)["rewin_years"] == 10
+    assert notice_pdf.parse_notice(t2)["rewin_years"] == 10

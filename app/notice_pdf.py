@@ -126,9 +126,14 @@ def parse_notice(text: str) -> dict:
     if re.search(r"재당첨제한(?:을|이|은)?(?:적용받지|적용되지)않", flat):
         out["rewin_years"] = 0
     else:
-        m = re.search(r"재당첨제한(?:기간)?\D{0,40}?(\d{1,2})년", flat)
-        if m and 1 <= int(m.group(1)) <= 10:
-            out["rewin_years"] = int(m.group(1))
+        # PDF 글자 순서가 뒤섞여 나오는 경우도 있다 (2026-09-29 충정로역자이르네 원문: "재당첨제한 년 적용10", "년간 재당첨 10 제한을")
+        for pat in (r"재당첨제한(?:기간)?\D{0,40}?(\d{1,2})년",
+                    r"재당첨제한년(?:적용)?(\d{1,2})",
+                    r"년간재당첨(\d{1,2})제한"):
+            m = re.search(pat, flat)
+            if m and 1 <= int(m.group(1)) <= 10:
+                out["rewin_years"] = int(m.group(1))
+                break
 
     # 잔금일: "입주지정기간 : 2026년 9월 7일~2026년 11월 30일" 또는 "입주지정기간 종료일(2026.11.30.)"
     m = re.search(r"입주지정기간[:：]?\d{4}년\d{1,2}월\d{1,2}일~(\d{4})년(\d{1,2})월(\d{1,2})일", flat) \
