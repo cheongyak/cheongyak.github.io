@@ -18,6 +18,8 @@ jobs:
     timeout-minutes: 15
     env:
       DATA_GO_KR_KEY: ${{ secrets.DATA_GO_KR_KEY }}
+      NCP_MAPS_CLIENT_ID: ${{ secrets.NCP_MAPS_CLIENT_ID }}
+      NCP_MAPS_CLIENT_SECRET: ${{ secrets.NCP_MAPS_CLIENT_SECRET }}
       TZ: Asia/Seoul
     steps:
       - uses: actions/checkout@v4

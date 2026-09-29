@@ -187,6 +187,34 @@ def probe_codes(http: httpx.Client) -> None:
     (d / "probe.txt").write_text("\n".join(out) + "\n", encoding="utf-8")
 
 
+def probe_reverse_geocode(http: httpx.Client) -> None:
+    """공고 좌표 → 네이버 역지오코딩(법정동 코드). 앞 5자리가 실거래가 조회용 시군구 코드 → evidence/codes/reverse.txt"""
+    import os
+    cid, sec = os.environ.get("NCP_MAPS_CLIENT_ID"), os.environ.get("NCP_MAPS_CLIENT_SECRET")
+    out = []
+    rows = json.loads((ROOT / "docs" / "listings.json").read_text(encoding="utf-8"))
+    seen = set()
+    for x in rows:
+        g = x.get("geo")
+        if not g or x.get("sigungu") in seen and x.get("sigungu"):
+            continue
+        seen.add(x.get("sigungu") or x["address"])
+        try:
+            r = http.get("https://maps.apigw.ntruss.com/map-reversegeocode/v2/gc",
+                         params={"coords": f"{g['lng']},{g['lat']}", "orders": "legalcode", "output": "json"},
+                         headers={"x-ncp-apigw-api-key-id": cid or "", "x-ncp-apigw-api-key": sec or ""})
+            j = r.json() if r.headers.get("content-type", "").startswith("application/json") else {}
+            res = (j.get("results") or [{}])[0]
+            code = (res.get("code") or {}).get("id")
+            reg = res.get("region") or {}
+            names = " ".join((reg.get(f"area{i}") or {}).get("name", "") for i in range(1, 5))
+            out.append(f"{x['address'][:40]} | 우리 표 {x.get('sigungu')} | 응답 {r.status_code} 코드 {code} 지역 {names} {'' if code else r.text[:200]}")
+        except Exception as e:
+            out.append(f"{x['address'][:40]} | 실패 {e.__class__.__name__}")
+    (EVIDENCE / "codes").mkdir(parents=True, exist_ok=True)
+    (EVIDENCE / "codes" / "reverse.txt").write_text("\n".join(out) + "\n", encoding="utf-8")
+
+
 def probe_naver_land(http: httpx.Client) -> None:
     """네이버 부동산 검색 주소가 어느 단지로 가는지 확인 → evidence/pages/naver-land.txt"""
     out = []
@@ -209,7 +237,7 @@ def main() -> None:
     rows = json.loads((ROOT / "docs" / "listings.json").read_text(encoding="utf-8"))
     seen, lines = set(), []
     http = httpx.Client(timeout=httpx.Timeout(30, connect=10), follow_redirects=True, headers=UA)
-    for fn in (probe_codes, probe_naver_land):
+    for fn in (probe_reverse_geocode,):
         try:
             fn(http)
         except Exception as e:
