@@ -47,6 +47,7 @@ class Listing(BaseModel):
     mkt_note: str = ""
     mkt_basis: Optional[str] = None          # same_complex | district_newbuild | None
     mkt_count: int = 0                       # 시세 계산에 쓴 거래 수
+    mkt_direct_excluded: int = 0             # 시세 계산에서 뺀 직거래 수
     mkt_comps: list[dict] = Field(default_factory=list)     # 근거 거래 (최근순 최대 8건, 국토부 실거래가)
     jeonse: Optional[float] = None           # 예상 전세 보증금 (억)
     jeonse_note: str = ""

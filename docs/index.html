@@ -566,6 +566,7 @@ function vDetail(){
       <div class="row total"><span>실매입가</span><span>${fmt(m.cost)}</span></div>
       <div class="row"><span>시세 (보수 / 기준)<br>${L.sample ? src(null, ['샘플 값', null]) : src('rtms')} ${L.mktComps && L.mktComps.length ? basisTag(L) : ''}</span><span>${m.g === 'unknown' ? '확인 필요' : fmt(L.mktLow) + ' / ' + fmt(L.mktBase)}</span></div>
       <div class="small muted">${esc(L.mktNote)}${L.mktBasis ? ' 기준 시세는 중앙값, 보수 시세는 하위 25% 값이에요.' : ''} 호수는 국토부가 공개하지 않아 표시할 수 없어요.</div>
+      ${L.mktComps && L.mktComps.length ? `<div class="small muted">모두 국토부에 신고된 실제 거래예요. 신고 후 해제된 거래${L.mktDirectExcluded ? '와 직거래 ' + L.mktDirectExcluded + '건' : '와 직거래'}은 시세 계산에서 뺐어요.</div>` : ''}
     </div>
     ${L.mktComps && L.mktComps.length ? `<div><h3 style="margin:4px 0 0;font-size:14px">시세 근거 거래 <span class="small muted">(최근순 ${L.mktComps.length}건 / 전체 ${L.mktCount}건)</span></h3>
       ${L.mktCount < 3 ? '<div class="note warn" style="padding:10px 12px;margin-top:6px"><b style="font-size:13px">거래가 적어 시세 신뢰도가 낮아요</b></div>' : ''}
@@ -826,7 +827,7 @@ function fromApi(x){
   return { id:x.id, sample:false, name:x.name, loc:(x.address || '').replace(/특별시|광역시|특별자치시|특별자치도/g,'').replace(/\s+/g,' ').trim(),
     region:x.region, kind:x.kind, target:x.target,
     sido:x.sido || null, district:x.district || null, supplyType:x.supply_type || x.kind,
-    mktComps:x.mkt_comps || [], mktCount:x.mkt_count || 0, mktBasis:x.mkt_basis || null, jeonseComps:x.jeonse_comps || [],
+    mktComps:x.mkt_comps || [], mktCount:x.mkt_count || 0, mktDirectExcluded:x.mkt_direct_excluded || 0, mktBasis:x.mkt_basis || null, jeonseComps:x.jeonse_comps || [],
     noticePdf:x.notice_pdf || null, fromNotice:x.from_notice || [],
     specialApply:x.special_apply || null, houseDtl:x.house_dtl || null, rentSecd:x.rent_secd || null, applyEnd:x.apply_end || null, unit:x.unit + (x.households ? ' · ' + x.households + '세대' : ''),
     notice:x.notice, apply:x.apply, winner:x.winner, contract:x.contract, balance:x.balance,

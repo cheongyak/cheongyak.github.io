@@ -71,6 +71,15 @@ def test_real_remainder_record():
     assert region.sigungu_of(n["address"]) == "중구" and region.is_regulated(n["address"])
 
 
+def test_direct_deals_excluded():
+    from app.market import estimate_market
+    t = [{"apt": "A", "area": 84.9, "amount": a, "deal_type": d, "build_year": 2024, "date": "2026-09-01"}
+         for a, d in ((100000, "중개거래"), (101000, "중개거래"), (99000, "중개거래"), (50000, "직거래"))]
+    m = estimate_market("B", 84.9, t, [], 2026)
+    assert m["mkt_count"] == 3 and m["mkt_direct_excluded"] == 1 and m["mkt_base"] == 10.0
+    assert all(not c["direct"] for c in m["mkt_comps"])
+
+
 def test_trade_dong():
     rows = parse_items(xml([{"aptNm": "A", "excluUseAr": "84.9", "dealAmount": "100,000", "floor": "7", "aptDong": "101동",
                              "dealYear": "2026", "dealMonth": "9", "dealDay": "1"}]))

@@ -71,6 +71,10 @@ def _recent(comps: list[dict]) -> list[dict]:
 
 def estimate_market(name: str, area: Optional[float], trades: list[dict], presales: list[dict],
                     this_year: int) -> dict:
+    # 실제 시장 거래만 쓴다: 해제 거래는 parse_items 에서 이미 빠지고, 직거래(가족 간 저가 거래 등이 섞임)도 뺀다
+    direct = sum(1 for r in trades + presales if r.get("deal_type") == "직거래")
+    trades = [r for r in trades if r.get("deal_type") != "직거래"]
+    presales = [r for r in presales if r.get("deal_type") != "직거래"]
     # 분양권전매 API 의 ownershipGbn 은 '분'(분양권) / '입'(입주권) 약자로 온다 (2026-09-29 실제 응답)
     names = {"분": "분양권", "입": "입주권"}
     tagged = [(r, names.get(r.get("kind") or "", r.get("kind") or "분양권")) for r in presales] + [(r, "매매") for r in trades]
@@ -79,6 +83,7 @@ def estimate_market(name: str, area: Optional[float], trades: list[dict], presal
         low, base = _summary([r["amount"] for r, _ in own])
         return {"mkt_low": low, "mkt_base": base, "mkt_basis": "same_complex", "mkt_count": len(own),
                 "mkt_comps": _recent([_comp(r, k, "amount") for r, k in own]),
+                "mkt_direct_excluded": direct,
                 "mkt_note": f"같은 단지 같은 평형 거래 {len(own)}건 기준 (최근 {R.MARKET_MONTHS}개월)"}
     comps = [r for r in trades
              if r.get("amount") and _in_band(r["area"], area)
@@ -87,9 +92,11 @@ def estimate_market(name: str, area: Optional[float], trades: list[dict], presal
         low, base = _summary([r["amount"] for r in comps])
         return {"mkt_low": low, "mkt_base": base, "mkt_basis": "district_newbuild", "mkt_count": len(comps),
                 "mkt_comps": _recent([_comp(r, "매매", "amount") for r in comps]),
+                "mkt_direct_excluded": direct,
                 "mkt_note": f"같은 구 준공 {R.NEW_BUILD_YEARS}년 이내 같은 평형 매매 {len(comps)}건 기준 (최근 {R.MARKET_MONTHS}개월)"}
     return {"mkt_low": None, "mkt_base": None, "mkt_basis": None, "mkt_count": len(comps),
             "mkt_comps": _recent([_comp(r, "매매", "amount") for r in comps]),
+            "mkt_direct_excluded": direct,
             "mkt_note": "비교할 거래가 부족해요. 시세를 직접 확인하세요."}
 
 
