@@ -16,6 +16,12 @@ import httpx
 
 from .notice_pdf import UA, pdf_text
 
+
+def pdf_text_all(data: bytes) -> str:
+    from io import BytesIO
+    from pypdf import PdfReader
+    return "\n".join((p.extract_text() or "") for p in PdfReader(BytesIO(data)).pages)
+
 ROOT = Path(__file__).resolve().parent.parent
 OUT = ROOT / "docs" / "rules-evidence.txt"
 KEYWORDS = ["예치기준금액", "예치금액", "청약예금", "가입기간", "납입인정", "1순위", "가점제", "무주택기간", "부양가족",
@@ -65,10 +71,40 @@ def probe_pages(rows: list, http: httpx.Client) -> None:
         (EVIDENCE / "pages" / f"{nid}.txt").write_text("\n".join(dict.fromkeys(out)) + "\n", encoding="utf-8")
 
 
+LH_LIST = "https://apply.lh.or.kr/lhapply/apply/wt/wrtanc/selectWrtancList.do"
+
+
+def probe_lh(rows: list, http: httpx.Client) -> None:
+    """LH 청약플러스 공고 목록에서 공공분양 공고를 찾아 상세·첨부파일 링크 형태를 기록 (공고문 PDF 받는 방법 확인용)"""
+    names = sorted({x["name"] for x in rows if x.get("house_dtl") == "국민" and not x.get("notice_pdf")})
+    out = [f"대상: {names}"]
+    for params in ({"mi": "1027"}, {"mi": "1027", "srchUppAisTpCd": "05"}, {"mi": "1026"}):
+        try:
+            r = http.get(LH_LIST, params=params)
+            html = r.text
+            out.append(f"== GET {params} → {r.status_code} · {len(html)}자 · 최종 주소 {r.url}")
+            for m in re.finditer(r"""(?:href|onclick|data-[a-z-]+)\s*=\s*["']([^"']{4,300})["']""", html):
+                v = m.group(1)
+                if re.search(r"panId|pan_id|PAN_ID|selectWrtanc|lhFile|fileDown|Detail|detail", v):
+                    out.append("  " + v)
+            for n in names:
+                key = re.sub(r"\(.*", "", n)[:8]
+                i = html.find(key)
+                out.append(f"  [{key}] " + (re.sub(r"\s+", " ", html[max(0, i - 400): i + 400]) if i >= 0 else "목록에 없음"))
+        except Exception as e:
+            out.append(f"== GET {params} 실패: {e.__class__.__name__} {e}")
+    (EVIDENCE / "pages").mkdir(parents=True, exist_ok=True)
+    (EVIDENCE / "pages" / "lh-list.txt").write_text("\n".join(dict.fromkeys(out)) + "\n", encoding="utf-8")
+
+
 def main() -> None:
     rows = json.loads((ROOT / "docs" / "listings.json").read_text(encoding="utf-8"))
     seen, lines = set(), []
     http = httpx.Client(timeout=httpx.Timeout(30, connect=10), follow_redirects=True, headers=UA)
+    try:
+        probe_lh(rows, http)
+    except Exception as e:
+        print(f"LH 점검 실패: {e}")
     try:
         probe_pages(rows, http)
     except Exception as e:
@@ -81,7 +117,7 @@ def main() -> None:
         head = f"### {x['name']} · {x.get('house_dtl') or x['category']} · {x.get('sido')} {x.get('district')} · 공고일 {x.get('notice')} · 주택관리번호 {x['id'].split('-')[0]}"
         try:
             r = http.get(pdf)
-            text = pdf_text(r.content) if r.status_code == 200 else ""
+            text = pdf_text_all(r.content) if r.status_code == 200 else ""
         except Exception as e:
             lines += [head, f"(PDF 실패: {e.__class__.__name__})", ""]
             continue
