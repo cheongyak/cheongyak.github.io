@@ -26,7 +26,7 @@ jobs:
         with:
           python-version: "3.12"
       - run: pip install -r requirements.txt
-      - run: pytest -q
+      - run: python -m pytest -q
       - name: API 응답 필드 확인
         continue-on-error: true
         run: python -m app.inspect_fields
