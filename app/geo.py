@@ -28,7 +28,7 @@ GEO_SOURCE = "네이버 클라우드 플랫폼 Geocoding"
 NEARBY_SOURCE = "OpenStreetMap"
 STATION_RADIUS_M = 2000
 SCHOOL_RADIUS_M = 1500
-GEO_BUDGET_SEC = 180
+GEO_BUDGET_SEC = 240      # 주변 입지 조회에 쓰는 최대 시간
 KOREA = (33.0, 39.0, 124.0, 132.0)   # 위도 최소·최대, 경도 최소·최대
 
 
@@ -181,6 +181,8 @@ def apply_geo(listings: list, log: list[str], previous: Optional[dict] = None, h
     client = http or httpx.Client(timeout=20, headers={"User-Agent": "cheongyak.github.io (daily collector)"})
     start = time.monotonic()
     stat = {"exact": 0, "dong": 0, "none": 0, "reused": 0, "nearby": 0}
+    found: dict[str, tuple] = {}
+    # 1) 좌표: 빠르므로 모든 공고를 먼저 처리한다
     for nid, Ls in groups.items():
         L0 = Ls[0]
         prev = prev_by_notice.get(nid)
@@ -188,23 +190,30 @@ def apply_geo(listings: list, log: list[str], previous: Optional[dict] = None, h
         if prev and prev.get("address") == L0.address and prev.get("geo"):
             geo, nb = prev["geo"], prev.get("nearby")
             stat["reused"] += 1
-        elif key and time.monotonic() - start < GEO_BUDGET_SEC:
+        elif key:
             try:
                 geo, msg = geocode(L0.address, L0.sido, client, key)
             except Exception as e:
                 geo, msg = None, f"오류 {e.__class__.__name__}"
             log.append(f"[위치] {L0.name}: {'찾음 (' + geo['precision'] + ') ' + geo['matched'] if geo else '못 찾음'} ← {msg}")
+        found[nid] = (geo, nb)
+    geo_sec = time.monotonic() - start
+    # 2) 주변 입지: 공용 서버라 느릴 수 있어 시간 제한 안에서만. 못 한 공고는 다음 실행에서 다시 시도한다
+    for nid, (geo, nb) in found.items():
         if geo and nb is None and time.monotonic() - start < GEO_BUDGET_SEC:
             nb, msg = nearby(geo["lat"], geo["lng"], client)
-            log.append(f"[입지] {L0.name}: " + (", ".join(f"{n['name']} {n['m']}m" for n in nb) or "반경 안에 역·학교 없음"
-                                                 if nb is not None else f"조회 실패 ({msg})"))
+            log.append(f"[입지] {groups[nid][0].name}: " + (", ".join(f"{n['name']} {n['m']}m" for n in nb) or "반경 안에 역·학교 없음"
+                                                          if nb is not None else f"조회 실패 ({msg})"))
+            found[nid] = (geo, nb)
             time.sleep(1)   # Overpass 공용 서버 예의
+    for nid, Ls in groups.items():
+        geo, nb = found[nid]
         stat[geo["precision"] if geo else "none"] += 1
         stat["nearby"] += nb is not None
-        qs = address_queries(L0.address)
+        qs = address_queries(Ls[0].address)
         for L in Ls:
             L.geo, L.nearby = geo, nb
-            L.map_query = qs[0][0] if qs else L0.address
+            L.map_query = qs[0][0] if qs else Ls[0].address
     if not key:
         log.append("[위치] 네이버 지도 키(NCP_MAPS_CLIENT_ID/SECRET)가 없어 새 좌표는 찾지 않았어요")
         if probe and stat["nearby"] == 0:
@@ -215,4 +224,4 @@ def apply_geo(listings: list, log: list[str], previous: Optional[dict] = None, h
             except Exception as e:
                 log.append(f"[입지·점검] 실패: {e.__class__.__name__}")
     log.append(f"[위치] 공고 {len(groups)}건: 정확 {stat['exact']} · 동 기준 {stat['dong']} · 못 찾음 {stat['none']}"
-               f" (지난 값 재사용 {stat['reused']}) · 주변 입지 {stat['nearby']}건 · {time.monotonic() - start:.0f}초")
+               f" (지난 값 재사용 {stat['reused']}) · 주변 입지 {stat['nearby']}건 · 좌표 {geo_sec:.0f}초, 전체 {time.monotonic() - start:.0f}초")

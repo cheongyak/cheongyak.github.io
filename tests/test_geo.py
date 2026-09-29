@@ -104,3 +104,18 @@ def test_validate_flags_coordinate_outside_korea():
     a = _L(1)
     a.geo = {"lat": 0.0, "lng": 0.0}
     assert "지도 좌표가 국내 범위를 벗어나요" in listing_checks(a, date(2026, 9, 29))
+
+
+def test_apply_geo_geocodes_all_even_when_nearby_budget_runs_out(monkeypatch):
+    monkeypatch.setenv("NCP_MAPS_CLIENT_ID", "id")
+    monkeypatch.setenv("NCP_MAPS_CLIENT_SECRET", "sec")
+    monkeypatch.setattr(geo, "GEO_BUDGET_SEC", 0)   # 입지 조회 시간이 바로 끝난 상황
+
+    def h(req):
+        if "geocode" in str(req.url):
+            return httpx.Response(200, json={"addresses": [{"x": "127.0857", "y": "37.5410", "jibunAddress": "서울특별시 광진구 구의동 1"}]})
+        raise AssertionError("입지 조회를 하면 안 됨")
+
+    Ls = [_L(i) for i in (401, 402, 403)]
+    geo.apply_geo(Ls, [], http=_client(h))
+    assert all(L.geo for L in Ls) and all(L.nearby is None for L in Ls)
