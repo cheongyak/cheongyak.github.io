@@ -320,7 +320,7 @@ function afterRender(){
 
 /* ---------- 내 조건 (대화에서 알려주신 값으로 시작) ---------- */
 const DEFAULT_PROFILE = { seoul:true, household:'parents', parents60:true, parentsOwn:true, headSince:'',
-  selfOwn:false, married:false, spouseOwn:false, spouseIncome:0, spouseLoan:0, account:'unknown', recentWin:false, acctType:'', acctSince:'', acctAmount:0, homeArea:'',
+  selfOwn:false, married:false, spouseOwn:false, spouseIncome:0, spouseLoan:0, account:'unknown', recentWin:false, hhHomes:'', win5y:null, acctType:'', acctSince:'', acctAmount:0, homeArea:'',
   cash:32500, liquid:0, deposit:0, income:4000, loanMonthly:0, firstTime:true };
 
 const store = {
@@ -377,19 +377,30 @@ function accountItems(L, p){ // 청약통장 1순위 요건 (기능: account_rul
   const out = [], ref = L.notice || TODAY, minyoung = L.houseDtl !== '국민';
   if (p.acctType === 'none') return [{ k:'청약통장', s:'fail', v:'없음', note:'1순위·2순위 모두 청약통장이 필요해요' }];
   const m = monthsBetween(p.acctSince, ref), [need, fromN] = acctNeedMonths(L);
-  out.push({ k:'청약통장 가입기간', s: m == null ? 'warn' : m >= need ? 'ok' : 'fail', v: m == null ? '가입일 입력 필요' : m + '개월 / ' + need + '개월 필요',
+  out.push({ k:'청약통장 가입기간', r1:true, s: m == null ? 'warn' : m >= need ? 'ok' : 'fail', v: m == null ? '가입일 입력 필요' : m + '개월 / ' + need + '개월 필요',
     note: (fromN ? '' : '공고문에서 못 읽어 지역 기준으로 추정 · ') + '공고일 ' + ref.replace(/-/g, '.') + ' 기준', src: fromN ? 'notice' : 'estimate' });
   if (minyoung) {
-    if (p.acctType === 'saving') out.push({ k:'통장 종류 (민영)', s:'fail', v:'청약저축', note:'청약저축으로는 민영주택에 넣을 수 없어요. 공고 전일까지 청약예금으로 전환하면 가능해요', src:'notice' });
-    else if (p.acctType === 'bugeum' && (L.area || 0) > 85) out.push({ k:'통장 종류 (민영)', s:'fail', v:'청약부금', note:'청약부금은 전용 85㎡ 이하 주택형만 넣을 수 있어요', src:'notice' });
+    if (p.acctType === 'saving') out.push({ k:'통장 종류 (민영)', r1:true, s:'fail', v:'청약저축', note:'청약저축으로는 민영주택에 넣을 수 없어요. 공고 전일까지 청약예금으로 전환하면 가능해요', src:'notice' });
+    else if (p.acctType === 'bugeum' && (L.area || 0) > 85) out.push({ k:'통장 종류 (민영)', r1:true, s:'fail', v:'청약부금', note:'청약부금은 전용 85㎡ 이하 주택형만 넣을 수 있어요', src:'notice' });
     const d = depositNeed(L, p);
-    out.push({ k:'예치금 (민영)', s: !d ? 'warn' : (p.acctAmount || 0) >= d.need ? 'ok' : 'fail',
+    out.push({ k:'예치금 (민영)', r1:true, s: !d ? 'warn' : (p.acctAmount || 0) >= d.need ? 'ok' : 'fail',
       v: !d ? '거주 지역 입력 필요' : (p.acctAmount || 0).toLocaleString() + '만 / ' + d.need.toLocaleString() + '만 필요',
       note: d ? '전용 ' + Math.round(d.a) + '㎡ · ' + HOME_AREA[d.g] + ' 거주 기준 · 공고일까지 채우면 돼요' : '', src:'deposit' });
   } else {
     out.push({ k:'납입 인정 횟수·금액 (국민)', s:'warn', v:'확인 필요', note:'국민주택은 예치금이 아니라 납입 인정 횟수와 금액으로 봐요. 아직 판정하지 않아요', src:'notice' });
   }
   return out;
+}
+function regulatedItems(L, p){ // 투기과열지구·청약과열지역 민영 1순위 추가 요건 (기능: regulated_rules)
+  // 근거: 모집공고문 '투기과열지구 및 청약과열지역에서 공급하는 경우 아래 조건을 만족해야 1순위 신청 가능 - 세대주일 것 -
+  //       2주택 이상을 소유한 세대에 속하지 않을 것 - 과거 5년 이내 당첨된 분의 세대에 속하지 않을 것' (광명 2026000453 등)
+  if (!on('regulated_rules') || !L.regulated || !L.needAccount || L.category === 'remainder') return [];
+  return [
+    { k:'2주택 이상 세대 아님 (규제지역 1순위)', r1:true, s: p.hhHomes === '' ? 'warn' : p.hhHomes === '2+' ? 'fail' : 'ok',
+      v: p.hhHomes === '' ? '입력 필요' : p.hhHomes === '2+' ? '2채 이상' : p.hhHomes === '1' ? '1채' : '없음', note:'세대(등본) 전체 주택·분양권 기준' },
+    { k:'세대 5년 내 당첨 없음 (규제지역 1순위)', r1:true, s: p.win5y == null ? 'warn' : p.win5y ? 'fail' : 'ok',
+      v: p.win5y == null ? '입력 필요' : p.win5y ? '당첨 있음' : '없음', note:'나와 세대원의 최근 5년 청약 당첨' },
+  ];
 }
 function pendingChecks(L, p){ // 아직 판정하지 않는 항목 (기능이 늘면 줄어든다)
   const acct = accountItems(L, p), out = [];
@@ -422,6 +433,7 @@ function eligibility(L, p){
   }
   const acct = accountItems(L, p);
   if (acct) items.push(...acct);
+  items.push(...regulatedItems(L, p));
   const caution = on('eligibility_caution');   // 세부 통장 요건을 아직 판정하지 않으므로 '충족'으로 단정하지 않는다
   if (!acct) items.push({ k:'청약통장', s: !L.needAccount ? 'na' : p.account === 'yes' ? (caution ? 'warn' : 'ok') : p.account === 'no' ? 'fail' : 'warn',
     v: !L.needAccount ? '불필요' : p.account === 'yes' ? (caution ? '보유 · 세부 확인 필요' : '충족') : p.account === 'no' ? '미충족' : '확인 필요',
@@ -438,6 +450,7 @@ function eligibility(L, p){
       : f.k.startsWith('무주택') ? '세대에 주택 소유자가 있어요 (' + f.note + ').'
       : f.k.startsWith('거주') ? L.region + ' 거주자만 신청할 수 있어요.'
       : f.k.endsWith('전용') ? f.k.replace(' 전용','') + ' 대상 공급이에요. ' + (f.note || '')
+      : f.k.includes('(규제지역 1순위)') ? '투기과열지구·청약과열지역 1순위 요건을 채우지 못했어요 (' + f.k.replace(' (규제지역 1순위)', '') + ': ' + f.v + '). 2순위로는 신청할 수 있어요.'
       : f.k.startsWith('청약통장') || f.k.startsWith('예치금') || f.k.startsWith('통장') ? '1순위 청약통장 요건을 채우지 못했어요 (' + f.k + ': ' + f.v + '). 2순위로는 신청할 수 있어요.' : '재당첨 제한 기간이에요.';
     if (fails.some(i => i.k === '세대주')) {
       fix = p.household === 'parents' && p.parents60
@@ -445,7 +458,8 @@ function eligibility(L, p){
         : '다음 공고의 모집공고일 전에 세대주가 되어 두세요. 전입신고로 세대를 만들 때는 실제로 살아야 해요.';
     }
   }
-  return { ok: !fails.length, unsure: !fails.length && warns.length > 0, items, reason, fix };
+  const rank2 = fails.length > 0 && fails.every(i => i.r1);   // 1순위 요건만 못 채움 → 2순위 신청은 가능
+  return { ok: !fails.length, rank2, unsure: !fails.length && warns.length > 0, items, reason, fix };
 }
 
 function funding(L, p, opt){
@@ -556,7 +570,7 @@ function profileLine(p){
 }
 function meLine(L){
   const e = eligibility(L, S.profile);
-  if (!e.ok) { const f = e.items.find(i => i.s === 'fail'); return '<span class="st-fail">내 자격 불가</span><span class="muted">· ' + esc(f.k) + ' ' + esc(f.v) + '</span>'; }
+  if (!e.ok) { const f = e.items.find(i => i.s === 'fail'); return '<span class="st-fail">' + (e.rank2 ? '1순위 불가 · 2순위 가능' : '내 자격 불가') + '</span><span class="muted">· ' + esc(f.k) + ' ' + esc(f.v) + '</span>'; }
   const f = funding(L, S.profile, planOpt(L)), gap = bestGap(f, planOpt(L));
   const el = e.unsure ? '<span class="st-warn">자격 확인 필요</span>' : on('eligibility_caution') ? '<span class="st-ok">기본 요건 충족</span>' : '<span class="st-ok">내 자격 가능</span>';
   return el + (gap > 0 ? '<span class="muted">· 자금 ' + fmt(gap) + ' 부족</span>' : '<span class="muted">· 자금 가능</span>');
@@ -727,6 +741,7 @@ function itemSrc(L, k){
   if (k.startsWith('거주지')) return noticeSrc(L);
   if (k.endsWith('전용')) return noticeSrc(L);
   if (k.startsWith('재당첨 제한 (내 이력)')) return src('user');
+  if (k.includes('(규제지역 1순위)')) return noticeSrc(L);
   if (k === '청약통장 가입기간') return fromNotice(L, '1순위 가입기간') ? noticeSrc(L) : src(null, ['지역 기준 추정 · 공고문 확인', null]);
   if (k === '예치금 (민영)') return src(null, ['공고문 예치금 표 · 주택공급에 관한 규칙 별표2', L.noticePdf]);
   if (k.startsWith('통장 종류') || k.startsWith('납입 인정')) return noticeSrc(L);
@@ -765,7 +780,7 @@ function vDetail(){
   const L = LISTINGS.find(x => x.id === S.id), m = grade(L), p = S.profile, e = eligibility(L, p), o = planOpt(L), f = funding(L, p, o);
   const gap = bestGap(f, o), barCost = L.mktBase ? Math.min(100, m.cost / L.mktBase * 100) : 0, barLo = L.mktBase ? Math.max(0, Math.min(100 - barCost, m.lo / L.mktBase * 100)) : 0;
   let mine; const okWord = on('eligibility_caution') ? '기본 요건은 되지만' : '자격은 되지만';
-  if (!e.ok) mine = `<div class="note fail"><b>${m.g === 'lotto' || m.g === 'consider' ? '하지만 나는 이번 공고 신청 불가' : '나는 이번 공고 신청 불가'}</b><div>${esc(e.reason)}</div>${e.fix ? `<div class="inner"><b style="font-size:13px">다음 공고부터 가능하게 하려면</b><br>${esc(e.fix)}</div>` : ''}</div>`;
+  if (!e.ok) mine = `<div class="note fail"><b>${e.rank2 ? (m.g === 'lotto' || m.g === 'consider' ? '하지만 1순위로는 신청 불가 (2순위는 가능)' : '1순위로는 신청 불가 (2순위는 가능)') : m.g === 'lotto' || m.g === 'consider' ? '하지만 나는 이번 공고 신청 불가' : '나는 이번 공고 신청 불가'}</b><div>${esc(e.reason)}</div>${e.fix ? `<div class="inner"><b style="font-size:13px">다음 공고부터 가능하게 하려면</b><br>${esc(e.fix)}</div>` : ''}</div>`;
   else if (m.g === 'unknown') mine = `<div class="note warn"><b>${okWord} 시세를 확인해야 해요</b><div>${esc(L.mktNote)}</div></div>`;
   else if (m.g === 'pass' || m.g === 'flat') mine = `<div class="note warn"><b>${okWord} ${m.g === 'pass' ? '시세보다 비싸요' : '마진이 거의 없어요'}</b><div>당첨되면 재당첨 제한이 걸려요. 실거주 목적이 아니면 통장을 아끼세요.</div></div>`;
   else if (gap > 0) mine = `<div class="note warn"><b>${okWord} 자금 ${fmt(gap)} 부족</b><div>${o.mode === 'live' ? '잔금대출' : '전세 활용'} 기준이에요. 부족분 조달처를 확보한 뒤 신청하세요.</div></div>`;
@@ -920,6 +935,7 @@ function vMe(){
     ${on('account_rules') && p.acctType ? `<dt>청약통장</dt><dd>${{all:'주택청약종합저축',deposit:'청약예금',bugeum:'청약부금',saving:'청약저축',none:'없음'}[p.acctType]}</dd>
       <dt>가입일</dt><dd>${p.acctSince || '미입력'}</dd><dt>예치금</dt><dd>${(p.acctAmount || 0).toLocaleString()}만</dd>
       ${p.seoul ? '' : `<dt>거주 지역</dt><dd>${HOME_AREA[p.homeArea] || '미입력'}</dd>`}`
+      + (on('regulated_rules') ? `<dt>세대 주택 수</dt><dd>${{'0':'없음','1':'1채','2+':'2채 이상'}[p.hhHomes] || '미입력'}</dd><dt>세대 5년 내 당첨</dt><dd>${p.win5y == null ? '미입력' : p.win5y ? '있음' : '없음'}</dd>` : '')
       : `<dt>청약통장 요건</dt><dd>${{yes:'충족',no:'미충족',unknown:'모름'}[p.account]}</dd>`}<dt>재당첨 제한 (내 이력)</dt><dd>${p.recentWin ? '제한 중' : '없음'}</dd>
   </dl></section>
   <section class="card"><h2>자금</h2><dl class="kv">
@@ -976,6 +992,9 @@ const STEPS = [
     f:[{ k:'acctType', type:'choice', l:'통장 종류', o:[['all','주택청약종합저축'],['deposit','청약예금'],['bugeum','청약부금'],['saving','청약저축'],['none','없어요']] },
        { k:'acctSince', type:'date', l:'가입일 (순위기산일)' }, { k:'acctAmount', type:'money', l:'지금 예치금 (납입 인정 금액)', h:'민영주택은 공고일까지 지역·면적별 금액을 채우면 돼요' },
        { k:'recentWin', type:'choice', l:'재당첨 제한 기간인가요?', o:[[true,'예'],[false,'아니요']], two:true }] },
+  { show:p => on('regulated_rules'), t:'세대의 주택과 당첨 이력', d:'서울 전역 등 투기과열지구·청약과열지역의 1순위는 등본에 함께 있는 세대 전체를 봐요.',
+    f:[{ k:'hhHomes', type:'choice', l:'세대 전체가 가진 주택 수 (분양권 포함)', o:[['0','없어요'],['1','1채'],['2+','2채 이상']] },
+       { k:'win5y', type:'choice', l:'나나 세대원이 최근 5년 안에 청약에 당첨된 적이 있나요?', o:[[true,'있어요'],[false,'없어요']], two:true }] },
   { show:p => on('account_rules') && !p.seoul, t:'주민등록상 사는 지역', d:'민영주택 예치금 기준이 사는 지역에 따라 달라요.',
     f:[{ k:'homeArea', type:'choice', o:[['seoul_busan','부산'],['metro','인천·대구·광주·대전·울산'],['other','경기·세종·그 밖의 시·군']] }] },
   { show:p => !on('account_rules'), t:'청약 이력', d:'무순위는 청약통장이 없어도 되지만 1순위는 필요해요.',
