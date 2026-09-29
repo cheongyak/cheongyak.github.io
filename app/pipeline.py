@@ -231,6 +231,15 @@ def run(dry_run: bool = False, today: Optional[date] = None, read_notices: bool 
     if not out and prev_rows:
         # 청약홈 API 가 일시적으로 빈 목록을 돌려주면(2026-09-30 00시대 실제 발생) 서비스가 비지 않게 지난 결과를 유지한다
         log.append(f"[경고] 청약홈에서 공고를 0건 받았어요. 일시적인 문제일 수 있어 지난 결과({len(prev_rows)}건)를 그대로 둬요")
+        from .sources.applyhome import ENDPOINTS
+        for cat in ("general", "remainder"):   # 원인 확인용: 날짜 필터 없이 / 있이 받은 건수
+            for label, extra in (("필터 없이", {}), (f"공고일 {since} 이후", {"cond[RCRIT_PBLANC_DE::GTE]": since})):
+                try:
+                    j = ah._get(ENDPOINTS[cat][0], perPage=1, **extra)
+                    log.append(f"[경고·확인] {cat} {label}: totalCount={j.get('totalCount')} matchCount={j.get('matchCount')} "
+                               f"첫 공고={[(d.get('HOUSE_NM'), d.get('RCRIT_PBLANC_DE')) for d in j.get('data', [])]}")
+                except Exception as e:
+                    log.append(f"[경고·확인] {cat} {label}: 실패 {e.__class__.__name__} {e}")
         for l in log:
             print(l)
         if not dry_run:
