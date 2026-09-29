@@ -38,6 +38,9 @@ jobs:
       - name: API 응답 필드 확인
         continue-on-error: true
         run: python -m app.inspect_fields
+      - name: 자격 규정 원문 모으기 (일회성, 판정 규칙 근거 확보)
+        continue-on-error: true
+        run: python -m app.rules_probe
       - name: 공고 수집 · 시세 · 등급
         run: python -m app.pipeline
       - name: 저장
