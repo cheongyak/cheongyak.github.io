@@ -13,11 +13,17 @@ from typing import Iterable, Optional
 
 import httpx
 
-from .. import config
-
-# 주소는 app/config.py 에서 관리한다 (환경변수로 바꿀 수 있음). 아래 이름은 기존 코드 호환용.
-BASE = config.APPLYHOME_BASE_URL
-ENDPOINTS = config.APPLYHOME_ENDPOINTS
+BASE = "https://api.odcloud.kr/api/ApplyhomeInfoDetailSvc/v1"
+ENDPOINTS = {
+    "general": ("/getAPTLttotPblancDetail", "/getAPTLttotPblancMdl"),
+    "remainder": ("/getRemndrLttotPblancDetail", "/getRemndrLttotPblancMdl"),
+}
+# 아직 수집하지 않고 실제 응답 필드만 실행 기록에 남기는 엔드포인트
+PROBE_ENDPOINTS = {
+    "오피스텔·도시형·민간임대": "/getUrbtyOfctlLttotPblancDetail",
+    "공공지원 민간임대": "/getPblPvtRentLttotPblancDetail",
+    "임의공급": "/getOPTLttotPblancDetail",
+}
 
 # 표준 필드 → 응답에서 찾아볼 후보 키 (앞에서부터)
 FIELD = {
@@ -106,7 +112,7 @@ class ApplyhomeClient:
 
     def _get(self, path: str, **params) -> dict:
         params = {"page": 1, "perPage": 100, "returnType": "JSON", "serviceKey": self.key, **params}
-        r = self.http.get(config.APPLYHOME_BASE_URL + path, params=params)
+        r = self.http.get(BASE + path, params=params)
         if r.status_code == 401:
             raise ApplyhomeError("인증키가 거절됐어요. 발급 직후라면 1~2시간 뒤 다시 시도하세요. Decoding 키를 쓰세요.")
         r.raise_for_status()
@@ -119,7 +125,7 @@ class ApplyhomeClient:
         서버 필터(cond[RCRIT_PBLANC_DE::GTE])를 먼저 시도하고, 안 되면 페이지를 넘기다
         since 보다 오래된 공고만 나오는 페이지에서 멈춘다.
         """
-        path = config.APPLYHOME_ENDPOINTS[category][0]
+        path = ENDPOINTS[category][0]
         use_filter = bool(since)
         out: list[dict] = []
         for page in range(1, max_pages + 1):
@@ -140,7 +146,7 @@ class ApplyhomeClient:
         return out
 
     def models(self, category: str, notice_no: str) -> list[dict]:
-        path = config.APPLYHOME_ENDPOINTS[category][1]
+        path = ENDPOINTS[category][1]
         return self._get(path, **{"cond[PBLANC_NO::EQ]": notice_no}).get("data", [])
 
 
@@ -187,7 +193,7 @@ RAW_KEYS: dict[str, list[str]] = {}   # 실행 기록용: 엔드포인트별 실
 
 def iter_open_listings(client: ApplyhomeClient, today: str, since: str) -> Iterable[dict]:
     """접수가 끝나지 않은 공고를 주택형 단위로 펼쳐서 돌려준다."""
-    for category in config.APPLYHOME_ENDPOINTS:
+    for category in ("general", "remainder"):
         for d in client.notices(category, since=since):
             RAW_KEYS.setdefault(f"{category} 개요", sorted(d.keys()))
             end = to_date(pick(d, "apply_end")) or to_date(pick(d, "apply"))
@@ -204,7 +210,7 @@ def iter_open_listings(client: ApplyhomeClient, today: str, since: str) -> Itera
 def probe_fields(client: ApplyhomeClient) -> dict[str, list[str]]:
     """아직 수집하지 않는 엔드포인트의 실제 응답 키를 확인한다 (필터 추가 전 근거 확보용)."""
     out = {}
-    for name, path in config.APPLYHOME_PROBE_ENDPOINTS.items():
+    for name, path in PROBE_ENDPOINTS.items():
         try:
             rows = client._get(path, perPage=1).get("data", [])
             out[name] = sorted(rows[0].keys()) if rows else ["(데이터 없음)"]

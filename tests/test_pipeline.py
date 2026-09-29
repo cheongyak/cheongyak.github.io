@@ -143,20 +143,6 @@ def test_sido_and_district():
     assert region.sigungu_any("세종특별자치시 어진동") is None
 
 
-def test_config_env_override(monkeypatch):
-    import importlib
-    from app import config
-    monkeypatch.setenv("APPLYHOME_BASE_URL", "https://example.org/api/")
-    monkeypatch.setenv("RTMS_PATH_TRADE", "/X/getX")
-    importlib.reload(config)
-    try:
-        assert config.APPLYHOME_BASE_URL == "https://example.org/api"
-        assert config.RTMS_ENDPOINTS["trade"] == "/X/getX"
-    finally:
-        monkeypatch.delenv("APPLYHOME_BASE_URL"); monkeypatch.delenv("RTMS_PATH_TRADE")
-        importlib.reload(config)
-
-
 def test_api_filters(tmp_path, monkeypatch):
     ah, rt = clients()
     monkeypatch.setattr(pipeline, "ApplyhomeClient", lambda: ah)

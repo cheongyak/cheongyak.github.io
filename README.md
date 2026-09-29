@@ -100,21 +100,6 @@ Profile 필드는 웹 앱 인터뷰와 같아요 (금액은 만 원 단위).
   - 새로 올라온 로또·고려 공고, 그리고 그런 공고의 접수 전날에 알림이 가요.
 - 공고문(PDF)은 청약홈 공고 페이지에서 찾아 읽어요. 세대주/세대구성원 요건, 분양가상한제, 실거주 의무, 잔금일, 확장비를 반영해요. 못 읽으면 기존 판정을 그대로 써요.
 
-## 8. 데이터 주소 바꾸기
-
-API 주소와 엔드포인트는 `app/config.py` 한 곳에서 관리해요. 코드를 고치지 않고 환경변수로 바꿀 수 있어요.
-
-| 환경변수 | 기본값 |
-|---|---|
-| `APPLYHOME_BASE_URL` | `https://api.odcloud.kr/api/ApplyhomeInfoDetailSvc/v1` |
-| `APPLYHOME_PATH_GENERAL_DETAIL` / `_GENERAL_MODEL` | `/getAPTLttotPblancDetail` / `/getAPTLttotPblancMdl` |
-| `APPLYHOME_PATH_REMAINDER_DETAIL` / `_REMAINDER_MODEL` | `/getRemndrLttotPblancDetail` / `/getRemndrLttotPblancMdl` |
-| `RTMS_BASE_URL` | `https://apis.data.go.kr/1613000` |
-| `RTMS_PATH_TRADE` / `_PRESALE` / `_RENT` | 매매 / 분양권전매 / 전월세 경로 |
-
-응답 필드 이름이 바뀌면 `app/sources/applyhome.py` 의 `FIELD` 후보 목록에 새 이름을 더하면 돼요.
-매 실행마다 `docs/run-log.txt` 끝에 실제 응답 필드 목록(`[응답 필드]`)이 남아요.
-
 ## 알고 있는 한계
 
 - **시세 추정**: 같은 단지 거래가 없으면 같은 구의 준공 10년 이내 같은 평형 거래로 추정해요. 신축 대단지 옆 소규모 단지처럼 입지 차이가 크면 틀릴 수 있어서, 화면에 근거(`mkt_note`)를 함께 보여줘요.
