@@ -224,6 +224,9 @@
   "url": "https://www.applyhome.co.kr/ai/aia/selectAPTLttotPblancDetail.do?houseManageNo=2026820011&pblancNo=2026820011",
   "notice_pdf": null,
   "from_notice": [],
+  "checks": [
+   "재당첨 제한 기간을 공고문에서 확인하지 못해 추정했어요"
+  ],
   "sample": false
  },
  {
@@ -451,6 +454,9 @@
   "url": "https://www.applyhome.co.kr/ai/aia/selectAPTLttotPblancDetail.do?houseManageNo=2026820011&pblancNo=2026820011",
   "notice_pdf": null,
   "from_notice": [],
+  "checks": [
+   "재당첨 제한 기간을 공고문에서 확인하지 못해 추정했어요"
+  ],
   "sample": false
  },
  {
@@ -680,8 +686,10 @@
   "from_notice": [
    "세대주 요건",
    "분양가상한제",
-   "실거주 의무"
+   "실거주 의무",
+   "재당첨 제한"
   ],
+  "checks": [],
   "sample": false
  },
  {
@@ -911,8 +919,10 @@
   "from_notice": [
    "세대주 요건",
    "분양가상한제",
-   "실거주 의무"
+   "실거주 의무",
+   "재당첨 제한"
   ],
+  "checks": [],
   "sample": false
  },
  {
@@ -1142,8 +1152,10 @@
   "from_notice": [
    "세대주 요건",
    "분양가상한제",
-   "실거주 의무"
+   "실거주 의무",
+   "재당첨 제한"
   ],
+  "checks": [],
   "sample": false
  },
  {
@@ -1373,8 +1385,10 @@
   "from_notice": [
    "세대주 요건",
    "분양가상한제",
-   "실거주 의무"
+   "실거주 의무",
+   "재당첨 제한"
   ],
+  "checks": [],
   "sample": false
  },
  {
@@ -1604,8 +1618,10 @@
   "from_notice": [
    "세대주 요건",
    "분양가상한제",
-   "실거주 의무"
+   "실거주 의무",
+   "재당첨 제한"
   ],
+  "checks": [],
   "sample": false
  },
  {
@@ -1835,8 +1851,10 @@
   "from_notice": [
    "세대주 요건",
    "분양가상한제",
-   "실거주 의무"
+   "실거주 의무",
+   "재당첨 제한"
   ],
+  "checks": [],
   "sample": false
  },
  {
@@ -2066,8 +2084,10 @@
   "from_notice": [
    "세대주 요건",
    "분양가상한제",
-   "실거주 의무"
+   "실거주 의무",
+   "재당첨 제한"
   ],
+  "checks": [],
   "sample": false
  },
  {
@@ -2275,7 +2295,7 @@
   "limits": [
    [
     "재당첨 제한",
-    "공고문 확인"
+    "없음"
    ],
    [
     "실거주 의무",
@@ -2287,7 +2307,11 @@
   "from_notice": [
    "세대주 요건",
    "분양가상한제",
-   "실거주 의무"
+   "실거주 의무",
+   "재당첨 제한"
+  ],
+  "checks": [
+   "마진율 -61%는 이례적이에요. 시세 근거를 확인하세요"
   ],
   "sample": false
  },
@@ -2506,7 +2530,7 @@
   "limits": [
    [
     "재당첨 제한",
-    "공고문 확인"
+    "없음"
    ],
    [
     "실거주 의무",
@@ -2518,8 +2542,10 @@
   "from_notice": [
    "세대주 요건",
    "분양가상한제",
-   "실거주 의무"
+   "실거주 의무",
+   "재당첨 제한"
   ],
+  "checks": [],
   "sample": false
  },
  {
@@ -2575,7 +2601,7 @@
   "limits": [
    [
     "재당첨 제한",
-    "공고문 확인"
+    "없음"
    ],
    [
     "실거주 의무",
@@ -2587,8 +2613,10 @@
   "from_notice": [
    "세대주 요건",
    "분양가상한제",
-   "실거주 의무"
+   "실거주 의무",
+   "재당첨 제한"
   ],
+  "checks": [],
   "sample": false
  },
  {
@@ -2644,7 +2672,7 @@
   "limits": [
    [
     "재당첨 제한",
-    "공고문 확인"
+    "없음"
    ],
    [
     "실거주 의무",
@@ -2656,8 +2684,10 @@
   "from_notice": [
    "세대주 요건",
    "분양가상한제",
-   "실거주 의무"
+   "실거주 의무",
+   "재당첨 제한"
   ],
+  "checks": [],
   "sample": false
  },
  {
@@ -2713,7 +2743,7 @@
   "limits": [
    [
     "재당첨 제한",
-    "공고문 확인"
+    "없음"
    ],
    [
     "실거주 의무",
@@ -2725,8 +2755,10 @@
   "from_notice": [
    "세대주 요건",
    "분양가상한제",
-   "실거주 의무"
+   "실거주 의무",
+   "재당첨 제한"
   ],
+  "checks": [],
   "sample": false
  },
  {
@@ -2782,7 +2814,7 @@
   "limits": [
    [
     "재당첨 제한",
-    "공고문 확인"
+    "없음"
    ],
    [
     "실거주 의무",
@@ -2794,8 +2826,10 @@
   "from_notice": [
    "세대주 요건",
    "분양가상한제",
-   "실거주 의무"
+   "실거주 의무",
+   "재당첨 제한"
   ],
+  "checks": [],
   "sample": false
  },
  {
@@ -2851,7 +2885,7 @@
   "limits": [
    [
     "재당첨 제한",
-    "공고문 확인"
+    "없음"
    ],
    [
     "실거주 의무",
@@ -2863,8 +2897,10 @@
   "from_notice": [
    "세대주 요건",
    "분양가상한제",
-   "실거주 의무"
+   "실거주 의무",
+   "재당첨 제한"
   ],
+  "checks": [],
   "sample": false
  },
  {
@@ -2920,7 +2956,7 @@
   "limits": [
    [
     "재당첨 제한",
-    "공고문 확인"
+    "없음"
    ],
    [
     "실거주 의무",
@@ -2932,8 +2968,10 @@
   "from_notice": [
    "세대주 요건",
    "분양가상한제",
-   "실거주 의무"
+   "실거주 의무",
+   "재당첨 제한"
   ],
+  "checks": [],
   "sample": false
  },
  {
@@ -2989,7 +3027,7 @@
   "limits": [
    [
     "재당첨 제한",
-    "공고문 확인"
+    "없음"
    ],
    [
     "실거주 의무",
@@ -3001,8 +3039,10 @@
   "from_notice": [
    "세대주 요건",
    "분양가상한제",
-   "실거주 의무"
+   "실거주 의무",
+   "재당첨 제한"
   ],
+  "checks": [],
   "sample": false
  },
  {
@@ -3058,7 +3098,7 @@
   "limits": [
    [
     "재당첨 제한",
-    "공고문 확인"
+    "없음"
    ],
    [
     "실거주 의무",
@@ -3070,8 +3110,10 @@
   "from_notice": [
    "세대주 요건",
    "분양가상한제",
-   "실거주 의무"
+   "실거주 의무",
+   "재당첨 제한"
   ],
+  "checks": [],
   "sample": false
  },
  {
@@ -3127,7 +3169,7 @@
   "limits": [
    [
     "재당첨 제한",
-    "공고문 확인"
+    "10년"
    ],
    [
     "실거주 의무",
@@ -3138,8 +3180,10 @@
   "notice_pdf": "https://static.applyhome.co.kr/ai/aia/getAtchmnfl.do?houseManageNo=2026000443&pblancNo=2026000443&atchmnflSeqNo=1980180&atchmnflSn=3",
   "from_notice": [
    "세대주 요건",
-   "분양가상한제"
+   "분양가상한제",
+   "재당첨 제한"
   ],
+  "checks": [],
   "sample": false
  },
  {
@@ -3195,7 +3239,7 @@
   "limits": [
    [
     "재당첨 제한",
-    "공고문 확인"
+    "10년"
    ],
    [
     "실거주 의무",
@@ -3206,8 +3250,10 @@
   "notice_pdf": "https://static.applyhome.co.kr/ai/aia/getAtchmnfl.do?houseManageNo=2026000443&pblancNo=2026000443&atchmnflSeqNo=1980180&atchmnflSn=3",
   "from_notice": [
    "세대주 요건",
-   "분양가상한제"
+   "분양가상한제",
+   "재당첨 제한"
   ],
+  "checks": [],
   "sample": false
  },
  {
@@ -3263,7 +3309,7 @@
   "limits": [
    [
     "재당첨 제한",
-    "공고문 확인"
+    "없음"
    ],
    [
     "실거주 의무",
@@ -3275,8 +3321,10 @@
   "from_notice": [
    "세대주 요건",
    "분양가상한제",
-   "실거주 의무"
+   "실거주 의무",
+   "재당첨 제한"
   ],
+  "checks": [],
   "sample": false
  },
  {
@@ -3332,7 +3380,7 @@
   "limits": [
    [
     "재당첨 제한",
-    "공고문 확인"
+    "없음"
    ],
    [
     "실거주 의무",
@@ -3344,8 +3392,10 @@
   "from_notice": [
    "세대주 요건",
    "분양가상한제",
-   "실거주 의무"
+   "실거주 의무",
+   "재당첨 제한"
   ],
+  "checks": [],
   "sample": false
  },
  {
@@ -3401,7 +3451,7 @@
   "limits": [
    [
     "재당첨 제한",
-    "공고문 확인"
+    "없음"
    ],
    [
     "실거주 의무",
@@ -3413,8 +3463,10 @@
   "from_notice": [
    "세대주 요건",
    "분양가상한제",
-   "실거주 의무"
+   "실거주 의무",
+   "재당첨 제한"
   ],
+  "checks": [],
   "sample": false
  },
  {
@@ -3470,7 +3522,7 @@
   "limits": [
    [
     "재당첨 제한",
-    "공고문 확인"
+    "없음"
    ],
    [
     "실거주 의무",
@@ -3482,8 +3534,10 @@
   "from_notice": [
    "세대주 요건",
    "분양가상한제",
-   "실거주 의무"
+   "실거주 의무",
+   "재당첨 제한"
   ],
+  "checks": [],
   "sample": false
  },
  {
@@ -3539,7 +3593,7 @@
   "limits": [
    [
     "재당첨 제한",
-    "공고문 확인"
+    "없음"
    ],
    [
     "실거주 의무",
@@ -3551,8 +3605,10 @@
   "from_notice": [
    "세대주 요건",
    "분양가상한제",
-   "실거주 의무"
+   "실거주 의무",
+   "재당첨 제한"
   ],
+  "checks": [],
   "sample": false
  },
  {
@@ -3608,7 +3664,7 @@
   "limits": [
    [
     "재당첨 제한",
-    "공고문 확인"
+    "없음"
    ],
    [
     "실거주 의무",
@@ -3620,8 +3676,10 @@
   "from_notice": [
    "세대주 요건",
    "분양가상한제",
-   "실거주 의무"
+   "실거주 의무",
+   "재당첨 제한"
   ],
+  "checks": [],
   "sample": false
  },
  {
@@ -3677,7 +3735,7 @@
   "limits": [
    [
     "재당첨 제한",
-    "공고문 확인"
+    "없음"
    ],
    [
     "실거주 의무",
@@ -3689,8 +3747,10 @@
   "from_notice": [
    "세대주 요건",
    "분양가상한제",
-   "실거주 의무"
+   "실거주 의무",
+   "재당첨 제한"
   ],
+  "checks": [],
   "sample": false
  },
  {
@@ -3746,7 +3806,7 @@
   "limits": [
    [
     "재당첨 제한",
-    "공고문 확인"
+    "없음"
    ],
    [
     "실거주 의무",
@@ -3758,8 +3818,10 @@
   "from_notice": [
    "세대주 요건",
    "분양가상한제",
-   "실거주 의무"
+   "실거주 의무",
+   "재당첨 제한"
   ],
+  "checks": [],
   "sample": false
  },
  {
@@ -3815,7 +3877,7 @@
   "limits": [
    [
     "재당첨 제한",
-    "공고문 확인"
+    "없음"
    ],
    [
     "실거주 의무",
@@ -3827,8 +3889,10 @@
   "from_notice": [
    "세대주 요건",
    "분양가상한제",
-   "실거주 의무"
+   "실거주 의무",
+   "재당첨 제한"
   ],
+  "checks": [],
   "sample": false
  },
  {
@@ -3884,7 +3948,7 @@
   "limits": [
    [
     "재당첨 제한",
-    "공고문 확인"
+    "없음"
    ],
    [
     "실거주 의무",
@@ -3895,8 +3959,10 @@
   "notice_pdf": "https://static.applyhome.co.kr/ai/aia/getAtchmnfl.do?houseManageNo=2026000454&pblancNo=2026000454&atchmnflSeqNo=1966131&atchmnflSn=7",
   "from_notice": [
    "분양가상한제",
-   "실거주 의무"
+   "실거주 의무",
+   "재당첨 제한"
   ],
+  "checks": [],
   "sample": false
  },
  {
@@ -3952,7 +4018,7 @@
   "limits": [
    [
     "재당첨 제한",
-    "공고문 확인"
+    "없음"
    ],
    [
     "실거주 의무",
@@ -3963,8 +4029,10 @@
   "notice_pdf": "https://static.applyhome.co.kr/ai/aia/getAtchmnfl.do?houseManageNo=2026000454&pblancNo=2026000454&atchmnflSeqNo=1966131&atchmnflSn=7",
   "from_notice": [
    "분양가상한제",
-   "실거주 의무"
+   "실거주 의무",
+   "재당첨 제한"
   ],
+  "checks": [],
   "sample": false
  },
  {
@@ -4020,7 +4088,7 @@
   "limits": [
    [
     "재당첨 제한",
-    "공고문 확인"
+    "없음"
    ],
    [
     "실거주 의무",
@@ -4031,8 +4099,10 @@
   "notice_pdf": "https://static.applyhome.co.kr/ai/aia/getAtchmnfl.do?houseManageNo=2026000454&pblancNo=2026000454&atchmnflSeqNo=1966131&atchmnflSn=7",
   "from_notice": [
    "분양가상한제",
-   "실거주 의무"
+   "실거주 의무",
+   "재당첨 제한"
   ],
+  "checks": [],
   "sample": false
  },
  {
@@ -4260,6 +4330,9 @@
   "url": "https://www.applyhome.co.kr/ai/aia/selectAPTLttotPblancDetail.do?houseManageNo=2026000414&pblancNo=2026000414",
   "notice_pdf": null,
   "from_notice": [],
+  "checks": [
+   "재당첨 제한 기간을 공고문에서 확인하지 못해 추정했어요"
+  ],
   "sample": false
  },
  {
@@ -4487,6 +4560,9 @@
   "url": "https://www.applyhome.co.kr/ai/aia/selectAPTLttotPblancDetail.do?houseManageNo=2026000414&pblancNo=2026000414",
   "notice_pdf": null,
   "from_notice": [],
+  "checks": [
+   "재당첨 제한 기간을 공고문에서 확인하지 못해 추정했어요"
+  ],
   "sample": false
  },
  {
@@ -4714,6 +4790,9 @@
   "url": "https://www.applyhome.co.kr/ai/aia/selectAPTLttotPblancDetail.do?houseManageNo=2026000414&pblancNo=2026000414",
   "notice_pdf": null,
   "from_notice": [],
+  "checks": [
+   "재당첨 제한 기간을 공고문에서 확인하지 못해 추정했어요"
+  ],
   "sample": false
  },
  {
@@ -4941,6 +5020,9 @@
   "url": "https://www.applyhome.co.kr/ai/aia/selectAPTLttotPblancDetail.do?houseManageNo=2026000414&pblancNo=2026000414",
   "notice_pdf": null,
   "from_notice": [],
+  "checks": [
+   "재당첨 제한 기간을 공고문에서 확인하지 못해 추정했어요"
+  ],
   "sample": false
  },
  {
@@ -5168,6 +5250,9 @@
   "url": "https://www.applyhome.co.kr/ai/aia/selectAPTLttotPblancDetail.do?houseManageNo=2026000414&pblancNo=2026000414",
   "notice_pdf": null,
   "from_notice": [],
+  "checks": [
+   "재당첨 제한 기간을 공고문에서 확인하지 못해 추정했어요"
+  ],
   "sample": false
  },
  {
@@ -5395,6 +5480,9 @@
   "url": "https://www.applyhome.co.kr/ai/aia/selectAPTLttotPblancDetail.do?houseManageNo=2026000414&pblancNo=2026000414",
   "notice_pdf": null,
   "from_notice": [],
+  "checks": [
+   "재당첨 제한 기간을 공고문에서 확인하지 못해 추정했어요"
+  ],
   "sample": false
  },
  {
@@ -5622,6 +5710,9 @@
   "url": "https://www.applyhome.co.kr/ai/aia/selectAPTLttotPblancDetail.do?houseManageNo=2026000414&pblancNo=2026000414",
   "notice_pdf": null,
   "from_notice": [],
+  "checks": [
+   "재당첨 제한 기간을 공고문에서 확인하지 못해 추정했어요"
+  ],
   "sample": false
  },
  {
@@ -5708,6 +5799,9 @@
   "url": "https://www.applyhome.co.kr/ai/aia/selectAPTLttotPblancDetail.do?houseManageNo=2026000414&pblancNo=2026000414",
   "notice_pdf": null,
   "from_notice": [],
+  "checks": [
+   "재당첨 제한 기간을 공고문에서 확인하지 못해 추정했어요"
+  ],
   "sample": false
  },
  {
@@ -5935,6 +6029,9 @@
   "url": "https://www.applyhome.co.kr/ai/aia/selectAPTLttotPblancDetail.do?houseManageNo=2026000414&pblancNo=2026000414",
   "notice_pdf": null,
   "from_notice": [],
+  "checks": [
+   "재당첨 제한 기간을 공고문에서 확인하지 못해 추정했어요"
+  ],
   "sample": false
  },
  {
@@ -6162,6 +6259,9 @@
   "url": "https://www.applyhome.co.kr/ai/aia/selectAPTLttotPblancDetail.do?houseManageNo=2026000414&pblancNo=2026000414",
   "notice_pdf": null,
   "from_notice": [],
+  "checks": [
+   "재당첨 제한 기간을 공고문에서 확인하지 못해 추정했어요"
+  ],
   "sample": false
  },
  {
@@ -6389,6 +6489,9 @@
   "url": "https://www.applyhome.co.kr/ai/aia/selectAPTLttotPblancDetail.do?houseManageNo=2026000414&pblancNo=2026000414",
   "notice_pdf": null,
   "from_notice": [],
+  "checks": [
+   "재당첨 제한 기간을 공고문에서 확인하지 못해 추정했어요"
+  ],
   "sample": false
  },
  {
@@ -6616,6 +6719,9 @@
   "url": "https://www.applyhome.co.kr/ai/aia/selectAPTLttotPblancDetail.do?houseManageNo=2026000414&pblancNo=2026000414",
   "notice_pdf": null,
   "from_notice": [],
+  "checks": [
+   "재당첨 제한 기간을 공고문에서 확인하지 못해 추정했어요"
+  ],
   "sample": false
  },
  {
@@ -6843,6 +6949,9 @@
   "url": "https://www.applyhome.co.kr/ai/aia/selectAPTLttotPblancDetail.do?houseManageNo=2026000414&pblancNo=2026000414",
   "notice_pdf": null,
   "from_notice": [],
+  "checks": [
+   "재당첨 제한 기간을 공고문에서 확인하지 못해 추정했어요"
+  ],
   "sample": false
  },
  {
@@ -7063,6 +7172,9 @@
    "세대주 요건",
    "분양가상한제",
    "실거주 의무"
+  ],
+  "checks": [
+   "재당첨 제한 기간을 공고문에서 확인하지 못해 추정했어요"
   ],
   "sample": false
  },
@@ -7285,6 +7397,9 @@
    "분양가상한제",
    "실거주 의무"
   ],
+  "checks": [
+   "재당첨 제한 기간을 공고문에서 확인하지 못해 추정했어요"
+  ],
   "sample": false
  },
  {
@@ -7465,9 +7580,11 @@
    "세대주 요건",
    "분양가상한제",
    "실거주 의무",
+   "재당첨 제한",
    "잔금일",
    "발코니 확장비"
   ],
+  "checks": [],
   "sample": false
  }
 ]
