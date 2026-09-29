@@ -4,6 +4,15 @@
 2026-09-29 12:55 이전 항목은 규칙을 만들기 전 작업을 커밋 기록으로 정리한 것이라 백업 브랜치가 없어요.
 그 시점으로 되돌릴 때는 해당 커밋 번호로 `git revert` 를 써요.
 
+## 2026-09-30 07:20 · LH 공고문 PDF 받기 시험
+- 요청: (준비) 국민주택 정답 데이터를 여러 개 만들려면 LH 공고문 원문이 필요
+- 근거: LH 목록 화면 구조(evidence/pages/lh-list-1026.html): 공고마다 data-id1~4(panId, 연계코드, 상위유형, 유형), 상세는 selectWrtancInfo.do, 첨부는 fileDownLoad('파일번호') → /lhapply/lhFile.do?fileid=
+- 변경: 근거 자료 모으기에서 LH 공공분양 공고를 공고명으로 검색 → 상세 → 공고문 PDF 를 받아 evidence/notices/<공고번호>.txt 로 저장, 과정은 evidence/pages/lh-notices.txt
+- 기능: 없음(준비)
+- 파일: tools/rules_probe.py
+- 확인: 올린 뒤 기록 확인
+- 백업: backup/20260930-0720
+
 ## 2026-09-30 07:13 · LH 목록 화면 원문 저장
 - 요청: (준비) LH청약플러스 목록에서 공고 이름을 못 찾음 → 화면 구조 확인 필요
 - 변경: 근거 자료 모으기에서 LH 목록 화면 HTML 을 evidence/pages/lh-list-*.html 로 저장

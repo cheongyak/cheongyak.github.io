@@ -99,10 +99,67 @@ def probe_lh(rows: list, http: httpx.Client) -> None:
     (EVIDENCE / "pages" / "lh-list.txt").write_text("\n".join(dict.fromkeys(out)) + "\n", encoding="utf-8")
 
 
+LH_BASE = "https://apply.lh.or.kr"
+
+
+def lh_key(name: str) -> str:
+    """'인천계양지구 A6블록 공공분양주택(본청약)' → '인천계양' (LH 목록 검색어)"""
+    n = re.sub(r"\(.*", "", name)
+    m = re.match(r"([가-힣]+?)(?:지구|\s|$)", n)
+    return (m.group(1) if m else n)[:6]
+
+
+def probe_lh_notices(rows: list, http: httpx.Client) -> None:
+    """LH 공공분양 공고문 PDF 받기 시험: 목록 검색 → 상세 → 첨부파일 → 본문 저장"""
+    log = []
+    targets = {}
+    for x in rows:
+        if x.get("house_dtl") == "국민" and not x.get("notice_pdf"):
+            targets.setdefault(x["id"].split("-")[0], x)
+    for nid, x in targets.items():
+        key = lh_key(x["name"])
+        log.append(f"### {nid} {x['name']} (검색어 '{key}')")
+        try:
+            r = http.get(LH_LIST, params={"mi": "1026", "srchY": "Y", "panNm": key, "currPage": "1"})
+            rows_ = re.findall(r'data-id1="(\d+)" data-id2="(\w*)" data-id3="(\w*)" data-id4="(\w*)" class="wrtancInfoBtn">\s*(?:<!--.*?-->)?\s*<span>(.*?)<', r.text, re.S)
+            log.append(f"목록 {r.status_code} · {len(rows_)}건: " + " | ".join(f"{t.strip()[:40]}({a},{b},{c},{d})" for a, b, c, d, t in rows_[:10]))
+            words = [w for w in re.split(r"[\s()]+", re.sub(r"\(.*", "", x["name"])) if len(w) >= 2][:3]
+            pick = next((row for row in rows_ if all(w in re.sub(r"\s", "", row[4]) for w in [re.sub(r"\s", "", w) for w in words])), None) \
+                or next((row for row in rows_ if key in row[4]), None)
+            if not pick:
+                log.append("일치하는 공고 없음")
+                continue
+            pan, ccr, upp, ais, title = pick
+            d = http.get(LH_BASE + "/lhapply/apply/wt/wrtanc/selectWrtancInfo.do",
+                         params={"panId": pan, "ccrCnntSysDsCd": ccr, "uppAisTpCd": upp, "aisTpCd": ais, "mi": "1026"})
+            files = re.findall(r"fileDownLoad\('(\w+)'\)[^>]*>\s*([^<]{0,120})", d.text)
+            log.append(f"상세 {d.status_code} · {len(d.text)}자 · 첨부 {len(files)}개: " + " | ".join(f"{fid}:{nm.strip()[:60]}" for fid, nm in files[:15]))
+            cand = [(fid, nm) for fid, nm in files if re.search(r"공고", nm) and re.search(r"pdf", nm, re.I)] or \
+                   [(fid, nm) for fid, nm in files if re.search(r"pdf", nm, re.I)]
+            if not cand:
+                continue
+            fid, nm = cand[0]
+            f = http.get(LH_BASE + "/lhapply/lhFile.do", params={"fileid": fid})
+            log.append(f"파일 {f.status_code} · {f.headers.get('content-type')} · {len(f.content)}바이트 · {nm.strip()[:60]}")
+            if f.content[:4] == b"%PDF":
+                text = pdf_text_all(f.content)
+                (EVIDENCE / "notices").mkdir(parents=True, exist_ok=True)
+                (EVIDENCE / "notices" / f"{nid}.txt").write_text(f"### {x['name']} · LH {title.strip()} · fileid {fid}\n" + text, encoding="utf-8")
+                log.append(f"본문 {len(text)}자 저장")
+        except Exception as e:
+            log.append(f"실패: {e.__class__.__name__} {e}")
+    (EVIDENCE / "pages").mkdir(parents=True, exist_ok=True)
+    (EVIDENCE / "pages" / "lh-notices.txt").write_text("\n".join(log) + "\n", encoding="utf-8")
+
+
 def main() -> None:
     rows = json.loads((ROOT / "docs" / "listings.json").read_text(encoding="utf-8"))
     seen, lines = set(), []
     http = httpx.Client(timeout=httpx.Timeout(30, connect=10), follow_redirects=True, headers=UA)
+    try:
+        probe_lh_notices(rows, http)
+    except Exception as e:
+        print(f"LH 공고문 시험 실패: {e}")
     try:
         probe_lh(rows, http)
     except Exception as e:
