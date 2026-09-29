@@ -3,6 +3,12 @@ on:
   schedule:
     - cron: "30 20 * * *"
   workflow_dispatch:
+  push:                     # 코드가 바뀌면 바로 한 번 돌려서 결과를 확인한다
+    branches: [main]
+    paths:
+      - "app/**"
+      - "requirements.txt"
+      - ".github/workflows/collect.yml"
 permissions:
   contents: write
 jobs:
