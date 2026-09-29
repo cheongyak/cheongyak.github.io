@@ -37,10 +37,42 @@ def windows(text: str, word: str) -> list[str]:
     return out
 
 
+EVIDENCE = ROOT / "evidence"   # 공고문 전문(사이트에는 올라가지 않는 폴더). 규칙을 원문과 대조할 때 쓴다
+
+
+def probe_pages(rows: list, http: httpx.Client) -> None:
+    """공고문 PDF 를 못 찾은 공고(주로 LH 공공분양)의 청약홈 화면에서 링크를 모아 둔다 → PDF 를 어디서 받을지 근거"""
+    seen = set()
+    for x in rows:
+        nid = x["id"].split("-")[0]
+        if x.get("notice_pdf") or nid in seen or not x.get("url"):
+            continue
+        seen.add(nid)
+        out = [f"{x['name']} · {x.get('house_dtl')} · {x['url']}"]
+        try:
+            r = http.get(x["url"])
+            html = r.text
+            out.append(f"응답 {r.status_code} · {len(html)}자")
+            for m in re.finditer(r"""(?:href|onclick|src)\s*=\s*["']([^"']{4,300})["']""", html):
+                v = m.group(1)
+                if re.search(r"lh\.or\.kr|[Ff]ile|[Dd]own|[Aa]tch|pdf|hwp|popup|Popup|window\.open", v):
+                    out.append(v)
+            for m in re.finditer(r"https?://[^\s'\"<>]*lh\.or\.kr[^\s'\"<>]*", html):
+                out.append(m.group(0))
+        except Exception as e:
+            out.append(f"실패: {e.__class__.__name__}")
+        (EVIDENCE / "pages").mkdir(parents=True, exist_ok=True)
+        (EVIDENCE / "pages" / f"{nid}.txt").write_text("\n".join(dict.fromkeys(out)) + "\n", encoding="utf-8")
+
+
 def main() -> None:
     rows = json.loads((ROOT / "docs" / "listings.json").read_text(encoding="utf-8"))
     seen, lines = set(), []
     http = httpx.Client(timeout=httpx.Timeout(30, connect=10), follow_redirects=True, headers=UA)
+    try:
+        probe_pages(rows, http)
+    except Exception as e:
+        print(f"페이지 점검 실패: {e}")
     for x in rows:
         pdf = x.get("notice_pdf")
         if not pdf or pdf in seen:
@@ -54,6 +86,9 @@ def main() -> None:
             lines += [head, f"(PDF 실패: {e.__class__.__name__})", ""]
             continue
         lines += [head, f"PDF: {pdf} · {len(text)}자", ""]
+        if text:
+            (EVIDENCE / "notices").mkdir(parents=True, exist_ok=True)
+            (EVIDENCE / "notices" / f"{x['id'].split('-')[0]}.txt").write_text(head + "\n" + text, encoding="utf-8")
         for w in KEYWORDS:
             for sn in windows(text, w):
                 lines.append(f"[{w}] …{sn}…")
