@@ -402,7 +402,9 @@ function pyeong(area){ // 전용㎡ → 전용 평, 공급 평형(전용의 약 
   return '전용 ' + area.toFixed(1) + '㎡ (' + (area / 3.3058).toFixed(1) + '평, 약 ' + Math.round(area * 1.33 / 3.3058) + '평형)';
 }
 function compRow(c, L){
-  const where = [c.dong ? esc(c.dong.endsWith('동') ? c.dong : c.dong + '동') : '', c.floor ? Math.round(c.floor) + '층' : ''].filter(Boolean).join(' ');
+  // 국토부 자료의 동 항목은 비어 있거나 단지명이 들어오기도 해서, 동 번호 형태(예: 101, 101동, A동)일 때만 쓴다
+  const dong = /^([A-Za-z가-힣]?\d{1,4}|[A-Za-z가-힣])동?$/.test((c.dong || '').trim()) ? c.dong.trim().replace(/동?$/, '동') : '';
+  const where = [esc(dong), c.floor ? Math.round(c.floor) + '층' : ''].filter(Boolean).join(' ');
   const sub = [esc(c.kind), where, esc(pyeong(c.area)), esc((c.date || '').replace(/-/g, '.'))].filter(Boolean);
   return `<div class="comp"><span class="apt">${esc(c.apt || '단지명 없음')}</span><span class="amt">${fmt(c.amount)}</span>
     <span class="sub">${sub.join(' · ')}${c.direct ? ' <span class="tag warn">직거래</span>' : ''}</span>

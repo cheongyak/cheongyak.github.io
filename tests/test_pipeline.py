@@ -75,8 +75,9 @@ def test_direct_deals_excluded():
     from app.market import estimate_market
     t = [{"apt": "A", "area": 84.9, "amount": a, "deal_type": d, "build_year": 2024, "date": "2026-09-01"}
          for a, d in ((100000, "중개거래"), (101000, "중개거래"), (99000, "중개거래"), (50000, "직거래"))]
+    t.append({"apt": "C", "area": 59.9, "amount": 30000, "deal_type": "직거래", "build_year": 2024, "date": "2026-09-01"})
     m = estimate_market("B", 84.9, t, [], 2026)
-    assert m["mkt_count"] == 3 and m["mkt_direct_excluded"] == 1 and m["mkt_base"] == 10.0
+    assert m["mkt_count"] == 3 and m["mkt_direct_excluded"] == 1 and m["mkt_base"] == 10.0   # 다른 평형 직거래는 안 센다
     assert all(not c["direct"] for c in m["mkt_comps"])
 
 
