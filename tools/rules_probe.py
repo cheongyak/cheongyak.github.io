@@ -121,16 +121,18 @@ def probe_lh_notices(rows: list, http: httpx.Client) -> None:
         log.append(f"### {nid} {x['name']} (검색어 '{key}')")
         try:
             rows_ = []
-            for upp in ("05", "39", "0539"):
-                r = http.get(LH_LIST, params={"mi": "1026", "srchY": "Y", "panNm": key, "currPage": "1", "srchUppAisTpCd": upp,
-                                              "uppAisTpCd": upp[:2], "panSs": "", "schTy": "0", "startDt": "2026-03-01", "endDt": "2026-12-31"})
+            for upp in ("053954",):   # 분양주택 메뉴(mi=1027)의 기본 유형 (2026-09-30 목록 화면에서 확인)
+                r = http.get(LH_LIST, params={"mi": "1027", "srchY": "Y", "panNm": key, "currPage": "1", "srchUppAisTpCd": upp,
+                                              "uppAisTpCd": "05", "panSs": "", "schTy": "0", "startDt": "2026-03-01", "endDt": "2026-12-31"})
                 got = re.findall(r'data-id1="(\d+)" data-id2="(\w*)" data-id3="(\w*)" data-id4="(\w*)" class="wrtancInfoBtn">\s*(?:<!--.*?-->)?\s*<span>(.*?)<', r.text, re.S)
                 log.append(f"목록(유형 {upp}) {r.status_code} · {len(got)}건: " + " | ".join(f"{t.strip()[:50]}({a},{b},{c},{d})" for a, b, c, d, t in got[:8]))
                 rows_ += got
             # 이름이 확실히 같은 공고만 (지구·블록·유형 단어가 모두 들어 있어야). 다른 공고문을 저장하지 않도록 엄격하게
             words = [re.sub(r"(지구|블록)$", "", w) for w in re.split(r"[\s()]+", re.sub(r"\(.*", "", x["name"])) if len(w) >= 2][:3]
             flat = lambda t: re.sub(r"[\s·ㆍ\-]", "", t)
-            pick = next((row for row in rows_ if all(flat(w) in flat(row[4]) for w in words) and not re.search(r"임대", row[4])), None)
+            ok = [row for row in rows_ if all(flat(w) in flat(row[4]) for w in words) and not re.search(r"임대|행복주택|매각", row[4])]
+            ok.sort(key=lambda row: ("정정" not in row[4], row[0]), reverse=False)   # 정정공고가 있으면 정정공고(최신 내용)를 먼저
+            pick = ok[0] if ok else None
             if not pick:
                 log.append("일치하는 공고 없음")
                 continue
