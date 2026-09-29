@@ -60,7 +60,7 @@ MAX_COMPS = 8
 
 def _comp(r: dict, label: str, value_key: str) -> dict:
     """화면에 보여줄 근거 거래 한 건 (금액은 억 원)."""
-    return {"apt": r.get("apt", ""), "area": r.get("area"), "floor": r.get("floor"), "dong": r.get("dong") or "",
+    return {"apt": r.get("apt", ""), "umd": r.get("umd") or "", "area": r.get("area"), "floor": r.get("floor"), "dong": r.get("dong") or "",
             "amount": round((r.get(value_key) or 0) / 10000, 2), "date": r.get("date", ""),
             "kind": label, "direct": r.get("deal_type") == "직거래"}
 

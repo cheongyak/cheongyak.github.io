@@ -46,6 +46,7 @@ def parse_items(xml_text: str) -> list[dict]:
             continue
         rows.append({
             "apt": r.get("aptNm", ""),
+            "umd": r.get("umdNm", ""),                      # 법정동 이름 (네이버 부동산에서 같은 이름 다른 단지와 구분하는 데 씀)
             "area": _num(r.get("excluUseAr")),
             "amount": _num(r.get("dealAmount")),            # 매매·분양권 (만 원)
             "deposit": _num(r.get("deposit")),              # 전월세 보증금 (만 원)

@@ -704,7 +704,15 @@ function src(key, over){ // over: [label, url]
 const naverSearch = q => 'https://search.naver.com/search.naver?query=' + encodeURIComponent(q);
 const noticeSrc = L => L.noticePdf ? src(null, ['모집공고문 PDF', L.noticePdf]) : (L.sources && L.sources[0] ? src(null, ['청약홈 공고', L.sources[0][1]]) : src('applyhome'));
 const fromNotice = (L, label) => (L.fromNotice || []).includes(label);
-const landSearch = name => 'https://m.land.naver.com/search/result/' + encodeURIComponent((name || '').replace(/\s+/g, ''));
+/* 네이버 부동산 검색. 단지 이름만으로 찾으면 이름이 비슷한 다른 단지로 연결되는 일이 있어(2026-09-30 사용자 제보)
+   동 이름(법정동)이나 시·군·구를 앞에 붙여 찾는다. 공고 이름의 '(조합원취소분)', '입주자모집공고' 같은 말은 뺀다.
+   검색 결과가 없으면 네이버 화면의 '검색 결과 없음'이 그대로 보인다 */
+const complexName = n => (n || '').replace(/\([^)]*\)/g, ' ')
+  .replace(/(잔여세대|추가|입주자|모집공고|모집|공고|본청약|사전청약|공공분양주택|공공분양|민간참여|조합원\s*취소분|무순위|불법행위\s*재공급|\d+차\s*회차|\d+회차)/g, ' ')
+  .replace(/\s+/g, ' ').trim();
+const dongOf = L => { const toks = t => (t || '').replace(/[(),]/g, ' ').split(/\s+/).reverse(); const ok = t => /[동읍면리가]$/.test(t) && !/^\d/.test(t) && !/(지구|단지)$/.test(t);
+  return toks(L.mapQuery).find(ok) || toks(L.address).find(ok) || ''; };
+const landSearch = (name, where) => 'https://m.land.naver.com/search/result/' + encodeURIComponent(((where ? where + ' ' : '') + (name || '')).replace(/\s+/g, ' ').trim());
 function pyeong(area){ // 전용㎡ → 전용 평, 공급 평형(전용의 약 1.33배로 추정)
   if (!area) return '';
   return '전용 ' + area.toFixed(1) + '㎡ (' + (area / 3.3058).toFixed(1) + '평, 약 ' + Math.round(area * 1.33 / 3.3058) + '평형)';
@@ -716,7 +724,7 @@ function compRow(c, L){
   const sub = [esc(c.kind), where, esc(pyeong(c.area)), esc((c.date || '').replace(/-/g, '.'))].filter(Boolean);
   return `<div class="comp"><span class="apt">${esc(c.apt || '단지명 없음')}</span><span class="amt">${fmt(c.amount)}</span>
     <span class="sub">${sub.join(' · ')}${c.direct ? ' <span class="tag warn">직거래</span>' : ''}</span>
-    <span class="sub"><a class="src" href="${landSearch(c.apt || L.name)}" target="_blank" rel="noopener">네이버 부동산 단지 매물${ARROW}</a><a class="src" href="${naverSearch((c.apt || L.name) + ' ' + Math.round((c.area || 0) * 1.33 / 3.3058) + '평 실거래가')}" target="_blank" rel="noopener">네이버 검색${ARROW}</a></span></div>`;
+    <span class="sub"><a class="src" href="${c.apt ? landSearch(c.apt, c.umd || (L.district || '').split(' ').pop()) : landSearch(complexName(L.name), dongOf(L))}" target="_blank" rel="noopener" data-ev="naver-land">네이버 부동산 단지 매물${ARROW}</a><a class="src" href="${naverSearch((c.apt || L.name) + ' ' + Math.round((c.area || 0) * 1.33 / 3.3058) + '평 실거래가')}" target="_blank" rel="noopener">네이버 검색${ARROW}</a></span></div>`;
 }
 function basisTag(L){
   if (L.mktBasis === 'same_complex') return '<span class="tag">같은 단지 거래</span>';
@@ -935,7 +943,7 @@ function vDetail(){
       ${L.mktCount < 3 ? '<div class="note warn" style="padding:10px 12px;margin-top:6px"><b style="font-size:13px">거래가 적어 시세 신뢰도가 낮아요</b></div>' : ''}
       <div class="comps">${L.mktComps.map(c => compRow(c, L)).join('')}</div></div>` : ''}
     <div class="linkrow">
-      <a href="${landSearch(L.name)}" target="_blank" rel="noopener" data-ev="naver-land">네이버 부동산에서 이 단지 매물</a>
+      <a href="${landSearch(complexName(L.name), dongOf(L))}" target="_blank" rel="noopener" data-ev="naver-land">네이버 부동산에서 이 단지 매물</a>
       <a href="https://rt.molit.go.kr/" target="_blank" rel="noopener">국토부 실거래가 공개시스템</a>
     </div>
   </section>
