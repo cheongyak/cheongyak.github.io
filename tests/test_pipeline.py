@@ -213,3 +213,9 @@ def test_empty_api_result_keeps_previous_listings(tmp_path, monkeypatch):
     assert pipeline.run(today=date(2026, 9, 30)) == []
     assert "지난 공고" in (tmp_path / "l.json").read_text(encoding="utf-8")
     assert "[경고]" in (tmp_path / "run-log.txt").read_text(encoding="utf-8") and not sent
+
+
+def test_feature_switch(monkeypatch):
+    monkeypatch.setattr(pipeline.notify, "load_config", lambda: {"features": {"competition": False}})
+    assert pipeline.feature_on("competition") is False
+    assert pipeline.feature_on("nearby") is True          # 적혀 있지 않으면 켜짐

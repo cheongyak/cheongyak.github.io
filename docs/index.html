@@ -247,7 +247,9 @@ let LISTINGS = [
 ];
 const TODAY = (() => { const d = new Date(Date.now() + 9*3600e3); return d.toISOString().slice(0,10); })(); // 한국 날짜
 let DATA_SOURCE = { live:false, updated:'' };
-let CONFIG = { ntfy_server:'https://ntfy.sh', ntfy_topic:'cheongyak-97ecbdb4', site_url:'', goatcounter:'', naver_map_key:'' };
+let CONFIG = { ntfy_server:'https://ntfy.sh', ntfy_topic:'cheongyak-97ecbdb4', site_url:'', goatcounter:'', naver_map_key:'', features:{} };
+/* 기능 스위치: config.json 의 features 에서 false 로 두면 그 기능만 꺼진다 (목록과 설명은 저장소의 FEATURES.md) */
+const on = k => !CONFIG.features || CONFIG.features[k] !== false;
 
 /* 방문자 집계 (GoatCounter · 쿠키 없음). 화면 이름과 공고 번호만 보내고, 내가 입력한 소득·자산 같은 값은 보내지 않는다 */
 const GC = { q: [] };
@@ -276,7 +278,7 @@ function loadNaver(){
   return naverP;
 }
 function showMapFail(el){ el.innerHTML = `<div class="mapfail">${esc(MAP_FAIL || '지도를 불러오지 못했어요. 아래 네이버 지도 링크로 보세요.')}</div>`; }
-const mapReady = () => !!CONFIG.naver_map_key && LISTINGS.some(L => L.geo);
+const mapReady = () => on('naver_map') && !!CONFIG.naver_map_key && LISTINGS.some(L => L.geo);
 const naverMapUrl = L => 'https://map.naver.com/p/search/' + encodeURIComponent(L.mapQuery || L.address || L.name);
 const shortName = n => (n || '').replace(/\([^)]*\)/g, '').trim().slice(0, 12);
 const distText = m => m < 1000 ? m + 'm' : (m / 1000).toFixed(1) + 'km';
@@ -445,6 +447,7 @@ const esc = s => String(s).replace(/[&<>"]/g, c => ({'&':'&amp;','<':'&lt;','>':
 const chev = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m15 18-6-6 6-6"/></svg>';
 function dday(d){ if(!d) return '샘플'; const n = Math.round((new Date(d) - new Date(TODAY)) / 864e5); return (n > 0 ? 'D-' + n : n === 0 ? 'D-day' : '마감') + ' · ' + d.slice(5).replace('-','.'); }
 function ddayCls(L){ // 급한 순서: 접수 중·오늘(빨강) > 3일 안(주황) > 7일 안(파랑) > 그 뒤(회색) · 마감(흐리게)
+  if (!on('dday_colors')) return '';
   const st = statusOf(L);
   if (st === '접수 중') return 'd-now';
   if (st === '마감') return 'd-closed';
@@ -467,8 +470,9 @@ function rateText(r){
 const n0 = v => v == null ? '-' : Math.round(v).toLocaleString();
 function compCard(L){
   const nid = L.id.split('-')[0], st = statusOf(L);
-  const units = LISTINGS.filter(x => x.id.split('-')[0] === nid && x.competition);
+  const units = on('competition') ? LISTINGS.filter(x => x.id.split('-')[0] === nid && x.competition) : [];
   if (!units.length) {
+    if (!on('area_competition')) return '';
     const ac = L.areaComps || [];
     const note = st === '접수 예정' || !st ? '이 공고의 경쟁률은 접수가 끝난 뒤에 나와요.' : '이 공고의 결과는 아직 없어요. 청약홈에 올라오면(보통 접수 다음 날) 매일 새벽 수집 때 반영돼요.';
     const tbl = ac.length ? `<table class="ctable"><thead><tr><th>단지 (접수월)</th><th>주택형</th><th>경쟁률</th><th>가점 최저/평균</th></tr></thead><tbody>${
@@ -626,7 +630,7 @@ function feedList(){
 function listingCard(L, m){
   return `
     <button class="card listing g-${m.g}" data-open="${L.id}">
-      <div class="row"><div><div class="meta">${esc(L.kind)} · ${esc(L.unit)}</div><div class="name">${esc(L.name)}${L.sample ? '<span class="sample">샘플</span>' : ''}</div><div class="meta">${esc(L.loc)}</div></div><span class="dstack"><span class="dday ${ddayCls(L)}">${ddayOf(L)}</span>${compHead(L.competition) ? `<span class="dday d-comp">경쟁 ${esc(rateText(compHead(L.competition)))}</span>` : ''}</span></div>
+      <div class="row"><div><div class="meta">${esc(L.kind)} · ${esc(L.unit)}</div><div class="name">${esc(L.name)}${L.sample ? '<span class="sample">샘플</span>' : ''}</div><div class="meta">${esc(L.loc)}</div></div><span class="dstack"><span class="dday ${ddayCls(L)}">${ddayOf(L)}</span>${on('competition') && compHead(L.competition) ? `<span class="dday d-comp">경쟁 ${esc(rateText(compHead(L.competition)))}</span>` : ''}</span></div>
       <div class="band"><span class="badge">${GNAME[m.g]}</span><div><div class="mg">${marginText(m)}</div><div class="small">분양가 ${fmt(L.price)} · ${m.g === 'unknown' ? '주변 거래 부족' : '시세 ' + fmt(L.mktLow) + '~' + fmt(L.mktBase)}</div></div></div>
       <div class="me-line">${meLine(L)}</div>
     </button>`;
@@ -658,7 +662,7 @@ function vFeed(){
   ${S.showFilters ? filterPanel() : ''}
   ${act.length ? `<div class="active-f" aria-label="선택한 필터">${act.map(([k, t]) => `<button class="fchip" data-unset="${k}" aria-label="${esc(t)} 필터 해제">${esc(t)}${x}</button>`).join('')}</div>` : ''}
   ${showMap ? feedMapBlock(list) : list.length ? list.map(({L,m}) => listingCard(L, m)).join('') : `<div class="card empty"><b>조건에 맞는 공고가 없어요</b><span class="small muted">${act.length ? '필터를 하나씩 해제하거나 초기화해 보세요.' : '이 등급의 공고가 아직 없어요.'}</span>${act.length || S.filter !== 'all' ? '<button class="btn ghost" data-action="reset-filters" style="max-width:220px">필터 초기화</button>' : ''}</div>`}
-  <p class="foot">${DATA_SOURCE.live ? '공고: ' + src('applyhome') + ' · 시세: ' + src('rtms') + ' · 매일 새벽 갱신, 시세는 추정치예요.' + (CONFIG.goatcounter ? ' 방문 통계는 쿠키 없이 GoatCounter로 집계하며, 입력한 내 정보는 보내지 않아요.' : '') : '샘플 표시가 있는 단지는 등급 예시를 위한 가상 데이터예요.'}</p>`;
+  <p class="foot">${DATA_SOURCE.live ? '공고: ' + src('applyhome') + ' · 시세: ' + src('rtms') + ' · 매일 새벽 갱신, 시세는 추정치예요.' + (CONFIG.goatcounter && on('analytics') ? ' 방문 통계는 쿠키 없이 GoatCounter로 집계하며, 입력한 내 정보는 보내지 않아요.' : '') : '샘플 표시가 있는 단지는 등급 예시를 위한 가상 데이터예요.'}</p>`;
 }
 
 function itemSrc(L, k){
@@ -677,10 +681,12 @@ function limitSrc(L, k){
 
 const NEAR_KIND = { '역':'지하철·기차역', '초등학교':'초등학교', '중학교':'중학교', '고등학교':'고등학교' };
 function locationCard(L){
-  const g = L.geo, nb = L.nearby;
+  if (!on('naver_map') && !on('nearby')) return '';
+  const g = on('naver_map') ? L.geo : null, nb = on('nearby') ? L.nearby : null;
   const osm = g ? `https://www.openstreetmap.org/?mlat=${g.lat}&mlon=${g.lng}#map=16/${g.lat}/${g.lng}` : null;
   let where;
-  if (!g) where = `<div class="small muted">지도 위치를 아직 찾지 못했어요. 네이버 지도 링크로 주소를 검색해 보세요.</div>`;
+  if (!on('naver_map')) where = '';
+  else if (!g) where = `<div class="small muted">지도 위치를 아직 찾지 못했어요. 네이버 지도 링크로 주소를 검색해 보세요.</div>`;
   else if (g.precision === 'dong') where = `<div class="note warn" style="padding:10px 12px"><b style="font-size:13px">대략 위치 (${esc(g.query)} 중심)</b><div class="small">공고 주소에 지번이 없어 동 중심에 표시했어요. 실제 단지 위치와 거리 차이가 클 수 있어요.</div></div>`;
   else where = `<div class="small muted">공고 주소(${esc(g.query)})로 찾은 위치예요.</div>`;
   const rows = (nb || []).map(n => `<div class="row"><span>${esc(n.name)}<br><span class="small muted">${NEAR_KIND[n.kind] || esc(n.kind)}</span></span><span>직선 ${distText(n.m)}<br><span class="small muted">도보 약 ${n.walk}분 (추정)</span></span></div>`).join('');
@@ -692,7 +698,7 @@ function locationCard(L){
     ${nb && nb.length ? `<div class="rows">${rows}</div>
       <div class="small muted">가까운 역 2곳과 초·중·고 각 1곳이에요 (역 2km, 학교 1.5km 안). 거리는 직선거리이고, 도보 시간은 직선거리×1.3을 분당 67m로 나눈 추정이에요. 역·학교 위치 ${src(null, ['OpenStreetMap', osm])}</div>`
       : nb ? '<div class="small muted">반경 안(역 2km, 학교 1.5km)에서 찾은 역·학교가 없어요. 출처: OpenStreetMap</div>' : ''}
-    <div class="linkrow"><a href="${esc(naverMapUrl(L))}" target="_blank" rel="noopener" data-ev="naver-map">네이버 지도에서 보기</a></div>
+    ${on('naver_map') ? `<div class="linkrow"><a href="${esc(naverMapUrl(L))}" target="_blank" rel="noopener" data-ev="naver-map">네이버 지도에서 보기</a></div>` : ''}
   </section>`;
 }
 function vDetail(){
@@ -708,7 +714,7 @@ function vDetail(){
   return `
   <div class="top"><button class="back" data-go="feed">${chev}공고</button></div>
   <div class="stack" style="gap:4px"><div class="meta">${esc(L.kind)} · 접수 ${L.apply ? L.apply.replace(/-/g,'.') : '샘플'}</div><h1>${esc(L.name)}${L.sample ? '<span class="sample">샘플</span>' : ''}</h1><div class="meta">${esc(L.loc)} · ${esc(L.unit)}</div></div>
-  <div class="srcs">${L.sources && L.sources[0] ? src(null, ['청약홈 공고', L.sources[0][1]]) : src('applyhome')}${L.noticePdf ? src(null, ['모집공고문 PDF', L.noticePdf]) : ''}${L.sample ? '' : `<a class="src" href="${esc(naverMapUrl(L))}" target="_blank" rel="noopener" data-ev="naver-map">네이버 지도${ARROW}</a>`}</div>
+  <div class="srcs">${L.sources && L.sources[0] ? src(null, ['청약홈 공고', L.sources[0][1]]) : src('applyhome')}${L.noticePdf ? src(null, ['모집공고문 PDF', L.noticePdf]) : ''}${L.sample || !on('naver_map') ? '' : `<a class="src" href="${esc(naverMapUrl(L))}" target="_blank" rel="noopener" data-ev="naver-map">네이버 지도${ARROW}</a>`}</div>
   <div class="hero g-${m.g}">
     <div class="row"><span class="small" style="font-weight:600;opacity:.85">청약 판정</span><button class="linkbtn small" data-go="grades" style="color:inherit">등급 기준</button></div>
     <div style="display:flex;align-items:baseline;gap:12px;flex-wrap:wrap"><span class="big">${GNAME[m.g]}</span><span class="amt">${marginText(m).replace('마진 ','')}</span></div>
@@ -1024,8 +1030,8 @@ function fromApi(x){
 render();
 fetch('config.json', { cache:'no-store' }).then(r => r.ok ? r.json() : null).then(c => {
   if (c) CONFIG = Object.assign(CONFIG, c);
-  initGC(CONFIG.goatcounter);
-  if (c && (S.view === 'feed' || S.view === 'alerts')) render();
+  if (on('analytics')) initGC(CONFIG.goatcounter);
+  if (c && ['feed', 'alerts', 'detail', 'grades', 'me'].includes(S.view)) render();
 }).catch(() => {});
 fetch('map.json', { cache:'no-store' }).then(r => r.ok ? r.json() : null).then(c => {
   if (c && c.naver_map_key) { CONFIG.naver_map_key = c.naver_map_key; if (S.view === 'feed' || S.view === 'detail') render(); }

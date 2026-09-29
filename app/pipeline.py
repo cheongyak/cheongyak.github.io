@@ -32,6 +32,11 @@ MARKET_BUDGET_SEC = 600      # 실거래 조회에 쓰는 최대 시간 (공공�
 NOTICE_BUDGET_SEC = 300      # 공고문 PDF 읽기에 쓰는 최대 시간
 
 
+def feature_on(name: str) -> bool:
+    """기능 스위치 (docs/config.json 의 features). 적혀 있지 않으면 켜진 것으로 본다. 목록은 FEATURES.md"""
+    return bool(notify.load_config().get("features", {}).get(name, True))
+
+
 def kind_label(raw: dict) -> str:
     k = raw.get("kind") or ""
     if raw["category"] == "general":
@@ -254,19 +259,22 @@ def run(dry_run: bool = False, today: Optional[date] = None, read_notices: bool 
             apply_notice(out, log, previous=prev)
         except Exception as e:
             log.append(f"[공고문] 전체 실패: {e}")
+        on = feature_on
         try:
-            cmpet.apply_competition(out, log, today.isoformat())
+            if on("competition"):
+                cmpet.apply_competition(out, log, today.isoformat())
         except Exception as e:
             log.append(f"[경쟁률] 전체 실패: {e}")
         try:
-            hist = cmpet.update_history(ah, out, log, today)
-            cmpet.attach_area_comps(out, hist, today)
-            if not dry_run:
-                cmpet.save_history(hist)
+            if on("area_competition"):
+                hist = cmpet.update_history(ah, out, log, today)
+                cmpet.attach_area_comps(out, hist, today)
+                if not dry_run:
+                    cmpet.save_history(hist)
         except Exception as e:
             log.append(f"[지난 경쟁률] 전체 실패: {e}")
         try:
-            geo.apply_geo(out, log, previous=prev, probe=not dry_run)
+            geo.apply_geo(out, log, previous=prev, probe=not dry_run, geocode_on=on("naver_map"), nearby_on=on("nearby"))
         except Exception as e:
             log.append(f"[위치] 전체 실패: {e}")
     log += [f"[실거래가 경고] {m}" for m in sorted(RTMS_ERRORS)]

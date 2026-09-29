@@ -2,7 +2,18 @@
   "site_url": "https://cheongyak.github.io/",
   "ntfy_server": "https://ntfy.sh",
   "ntfy_topic": "cheongyak-97ecbdb4",
-  "notify_grades": ["lotto", "consider"],
+  "notify_grades": [
+    "lotto",
+    "consider"
+  ],
   "remind_days_before": 1,
-  "goatcounter": "cheongyak"
+  "goatcounter": "cheongyak",
+  "features": {
+    "analytics": true,
+    "naver_map": true,
+    "nearby": true,
+    "dday_colors": true,
+    "competition": true,
+    "area_competition": true
+  }
 }

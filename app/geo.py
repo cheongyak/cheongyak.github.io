@@ -168,7 +168,7 @@ def nearby(lat: float, lng: float, http: httpx.Client) -> tuple[Optional[list[di
 
 
 def apply_geo(listings: list, log: list[str], previous: Optional[dict] = None, http: Optional[httpx.Client] = None,
-              probe: bool = False) -> None:
+              probe: bool = False, geocode_on: bool = True, nearby_on: bool = True) -> None:
     """공고(주소)별로 한 번 좌표와 주변 입지를 구해 같은 공고의 주택형 전체에 넣는다."""
     previous = previous or {}
     prev_by_notice: dict[str, dict] = {}
@@ -190,7 +190,7 @@ def apply_geo(listings: list, log: list[str], previous: Optional[dict] = None, h
         if prev and prev.get("address") == L0.address and prev.get("geo"):
             geo, nb = prev["geo"], prev.get("nearby")
             stat["reused"] += 1
-        elif key:
+        elif key and geocode_on:
             try:
                 geo, msg = geocode(L0.address, L0.sido, client, key)
             except Exception as e:
@@ -200,7 +200,7 @@ def apply_geo(listings: list, log: list[str], previous: Optional[dict] = None, h
     geo_sec = time.monotonic() - start
     # 2) 주변 입지: 공용 서버라 느릴 수 있어 시간 제한 안에서만. 못 한 공고는 다음 실행에서 다시 시도한다
     for nid, (geo, nb) in found.items():
-        if geo and nb is None and time.monotonic() - start < GEO_BUDGET_SEC:
+        if nearby_on and geo and nb is None and time.monotonic() - start < GEO_BUDGET_SEC:
             nb, msg = nearby(geo["lat"], geo["lng"], client)
             log.append(f"[입지] {groups[nid][0].name}: " + (", ".join(f"{n['name']} {n['m']}m" for n in nb) or "반경 안에 역·학교 없음"
                                                           if nb is not None else f"조회 실패 ({msg})"))
