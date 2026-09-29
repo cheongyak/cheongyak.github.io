@@ -159,10 +159,61 @@ def probe_lh_notices(rows: list, http: httpx.Client) -> None:
     (EVIDENCE / "pages" / "lh-notices.txt").write_text("\n".join(log) + "\n", encoding="utf-8")
 
 
+def probe_codes(http: httpx.Client) -> None:
+    """법정동코드(시군구 5자리) 전체 목록을 공식 자료에서 받을 수 있는지 확인 → evidence/codes/"""
+    out = []
+    d = EVIDENCE / "codes"
+    d.mkdir(parents=True, exist_ok=True)
+    for page in ("https://www.data.go.kr/data/15063424/fileData.do", "https://www.data.go.kr/data/15123287/fileData.do"):
+        try:
+            r = http.get(page)
+            out.append(f"== {page} → {r.status_code} · {len(r.text)}자")
+            title = re.search(r"<title>(.*?)</title>", r.text, re.S)
+            out.append("제목: " + (title.group(1).strip() if title else "-"))
+            for m in re.finditer(r"""(fileDownload[^"'<>]{0,200}|atchFileId[^"'<>]{0,120}|fn_fileDataDown\([^)]*\)|fileDetailSn[^"'<>]{0,60})""", r.text):
+                out.append("  " + m.group(1))
+        except Exception as e:
+            out.append(f"== {page} 실패 {e.__class__.__name__}")
+    # 행정안전부 법정동코드 API (활용신청이 되어 있으면 동작)
+    import os
+    key = os.environ.get("DATA_GO_KR_KEY")
+    if key:
+        try:
+            r = http.get("https://apis.data.go.kr/1741000/StanReginCd/getStanReginCdList",
+                         params={"serviceKey": key, "type": "json", "pageNo": 1, "numOfRows": 5, "locatadd_nm": "강원특별자치도 고성군"})
+            out.append(f"== StanReginCd → {r.status_code} · {r.text[:600]}")
+        except Exception as e:
+            out.append(f"== StanReginCd 실패 {e.__class__.__name__}")
+    (d / "probe.txt").write_text("\n".join(out) + "\n", encoding="utf-8")
+
+
+def probe_naver_land(http: httpx.Client) -> None:
+    """네이버 부동산 검색 주소가 어느 단지로 가는지 확인 → evidence/pages/naver-land.txt"""
+    out = []
+    for q in ("더샵분당파크리버", "정자동 더샵분당파크리버", "더샵 분당하이스트", "강변역 센트럴 아이파크", "구의동 강변역센트럴아이파크", "아야진 라메르 데시앙"):
+        for base in ("https://m.land.naver.com/search/result/", "https://fin.land.naver.com/search?q="):
+            u = base + q
+            try:
+                r = http.get(u, follow_redirects=False)
+                loc = r.headers.get("location", "")
+                body = re.sub(r"\s+", " ", r.text[:1500])
+                ids = sorted(set(re.findall(r"complexes?/(\d+)|hscpNo[\"'=:\s]+(\d+)|complexNo[\"'=:\s]+(\d+)", r.text)))[:10]
+                out.append(f"== {u} → {r.status_code} · location={loc} · 단지번호 후보 {ids}\n   {body[:600]}")
+            except Exception as e:
+                out.append(f"== {u} 실패 {e.__class__.__name__}")
+    (EVIDENCE / "pages").mkdir(parents=True, exist_ok=True)
+    (EVIDENCE / "pages" / "naver-land.txt").write_text("\n".join(out) + "\n", encoding="utf-8")
+
+
 def main() -> None:
     rows = json.loads((ROOT / "docs" / "listings.json").read_text(encoding="utf-8"))
     seen, lines = set(), []
     http = httpx.Client(timeout=httpx.Timeout(30, connect=10), follow_redirects=True, headers=UA)
+    for fn in (probe_codes, probe_naver_land):
+        try:
+            fn(http)
+        except Exception as e:
+            print(f"{fn.__name__} 실패: {e}")
     try:
         probe_lh_notices(rows, http)
     except Exception as e:
