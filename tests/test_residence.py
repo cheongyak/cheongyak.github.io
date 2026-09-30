@@ -119,3 +119,51 @@ def test_household_count_rules_in_originals():
     assert ("생애최초 특별공급 10페이지의 ‘무주택세대구성원’에 해당하는 자 전원을 포함하여 산정. 단, 직계존속은 주택공급신청자 또는 "
             "주택공급신청자의 배우자와 1년 이상 같은 주민등록표등본상 등재되어 있는 경우에만 가구원수에 포함") in t409
     assert "노부모부양 특별공급 10페이지의 ‘무주택세대구성원’에 해당하는 자 전원과 피부양자 및 피부양자의 배우자를 포함하여 산정" in t409
+
+
+def test_golden_schedule_from_real_notices():
+    """공급유형별 접수 일정 (기능: notice_schedule) — LH 공고문 '신청일정' 표·'신청시간' 문장으로 확인한 정답과 같다."""
+    sch = {k: v for k, v in GOLD.items() if "schedule" in v["fields"]}
+    assert len(sch) >= 3
+    for no, g in sch.items():
+        assert notice_pdf.parse_schedule(text(no)) == g["fields"]["schedule"], no
+        assert notice_pdf.parse_notice(text(no)).get("schedule") == g["fields"]["schedule"], no
+    # 신청시간 문장이 없거나(민영·청약홈 접수 LH) 특별공급이 없는 공고(신혼희망타운)는 읽지 않는다
+    for no in ("2026000437", "2026000454", "2026000453", "2026820008", "2026820011"):
+        assert notice_pdf.parse_schedule(text(no)) is None, no
+
+
+def test_schedule_quotes_in_originals():
+    import re
+    q = {
+        "2026000409": "(특별공급) 2026.09.14.(10:00) ~ 2026.09.15.(17:00), (일반공급) 2026.09.16.(10:00) ~ 2026.09.17.(17:00)",
+        "2026000414": "(특별공급) 2026.09.30.(10:00~17:00), (일반공급) 2026.10.01.(10:00) ~ 2026.10.02.(17:00)",
+        "2026000416": "(특별공급) 2026.9.14. 10:00 ~ 2026.9.15. 17:00, (일반공급) 2026.9.16. 10:00 ~ 2026.9.17. 17:00",
+    }
+    for no, s in q.items():
+        assert s in re.sub(r"\s+", " ", text(no)), no
+
+
+def test_schedule_checked_against_applyhome_dates():
+    """공고문 접수 일정과 청약홈 날짜가 어긋나면 자동 검증에 걸린다 (기능: notice_schedule)."""
+    import datetime
+    from app import validate
+    def mk(**kw):
+        base = dict(id="2026000414-0", name="인천계양", address="인천광역시 계양구", region="인천", sigungu="계양구",
+                    unit="84", price=4.0, mkt_low=4.0, mkt_base=4.0, url="https://www.applyhome.co.kr/x")
+        base.update(kw)
+        return Listing(**base)
+    today = datetime.date(2026, 9, 30)
+    L = mk(kind="국민", category="general", apply="2026-09-17", apply_end="2026-10-02", special_apply="2026-09-30",
+           special_apply_end="2026-09-30", schedule=GOLD["2026000414"]["fields"]["schedule"])
+    assert not [c for c in validate.listing_checks(L, today) if "청약홈(" in c]
+    L.special_apply = "2026-09-29"
+    assert any("특별공급 접수일" in c for c in validate.listing_checks(L, today))
+    L.special_apply, L.apply_end = "2026-09-30", "2026-10-03"
+    assert any("접수 마감일" in c for c in validate.listing_checks(L, today))
+
+
+def test_pipeline_keeps_schedule_from_previous_run():
+    prev = {"from_notice": ["접수 일정"], "schedule": GOLD["2026000414"]["fields"]["schedule"]}
+    found, _ = pipeline._from_previous(prev)
+    assert found["schedule"]["special"] == ["2026-09-30", "2026-09-30"]

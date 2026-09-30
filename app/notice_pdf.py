@@ -189,7 +189,37 @@ def parse_notice(text: str) -> dict:
     mc = parse_mc_quota(text)
     if mc:
         out["mc_quota"] = mc
+    sc = parse_schedule(text)
+    if sc:
+        out["schedule"] = sc
     return out
+
+
+# ---- 공급유형별 접수 일정 (기능: notice_schedule) ----
+# LH 공공분양 공고문의 '• 신청시간 : (사전청약 당첨자) … , (특별공급) … , (일반공급) …' 문장을 읽는다.
+# 청약홈 API 가 특별공급 접수일을 주지 않는 LH 공고(2026000409·414·416)에서 특별공급 날짜를 채우는 데 쓴다.
+_SCH_LABEL = {"사전청약 당첨자": "pre", "특별공급": "special", "일반공급": "general"}
+_SCH_DATE = re.compile(r"(?<![\d.])(?:(20\d\d)\.\s*)?(\d{1,2})\.\s*(\d{1,2})\.?(?!\d)")
+
+
+def parse_schedule(text: str) -> Optional[dict]:
+    m = re.search(r"신청시간\s*:\s*(\([^\n]*(?:\n[ \t]+\([^\n]*)*)", text)
+    if not m:
+        return None
+    line = re.sub(r"\s+", " ", m.group(1))
+    parts = re.split(r"\((사전청약 당첨자|특별공급|일반공급)\)", line)
+    out = {}
+    for label, seg in zip(parts[1::2], parts[2::2]):
+        seg = re.sub(r"\d{1,2}:\d{2}", " ", seg)      # 10:00 같은 시각은 빼고 날짜만
+        ds, year = [], None
+        for y, mo, d in _SCH_DATE.findall(seg):
+            year = int(y) if y else year
+            if year is None or not (1 <= int(mo) <= 12 and 1 <= int(d) <= 31):
+                continue
+            ds.append(_date(year, mo, d))
+        if ds:
+            out[_SCH_LABEL[label]] = [ds[0], ds[-1]]
+    return out if "special" in out else None
 
 
 # ---- 거주 지역 요건 (기능: residence_v2) ----

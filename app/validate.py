@@ -28,6 +28,11 @@ def listing_checks(L: Listing, today: date) -> list[str]:
     for (k1, v1), (k2, v2) in zip(seq, seq[1:]):
         if v1 > v2:
             out.append(f"날짜 순서가 이상해요 ({k1} {v1} > {k2} {v2})")
+    sc = getattr(L, "schedule", None) or {}   # 공고문 접수 일정과 청약홈 날짜가 다르면 알린다 (기능: notice_schedule)
+    if sc.get("special") and L.special_apply and sc["special"][0] != L.special_apply:
+        out.append(f"특별공급 접수일이 청약홈({L.special_apply})과 공고문({sc['special'][0]})에서 달라요")
+    if sc.get("general") and L.apply_end and sc["general"][1] != L.apply_end:
+        out.append(f"접수 마감일이 청약홈({L.apply_end})과 공고문 일반공급({sc['general'][1]})에서 달라요")
     if L.balance and L.contract and L.balance < L.contract:
         out.append(f"잔금일({L.balance})이 계약일({L.contract})보다 빨라요")
     # 금액

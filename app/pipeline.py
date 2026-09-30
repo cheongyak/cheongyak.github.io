@@ -180,11 +180,13 @@ def _from_previous(prev: dict) -> tuple[dict, Optional[str]]:
         found["residence"] = prev["residence"]
     if "다자녀 지역 배정" in got and prev.get("mc_quota"):
         found["mc_quota"] = prev["mc_quota"]
+    if "접수 일정" in got and prev.get("schedule"):
+        found["schedule"] = prev["schedule"]
     return found, prev.get("notice_pdf")
 
 
 NOTICE_CACHE = ROOT / "docs" / "notice-cache.json"
-PARSER_VERSION = 5   # 5: 다자녀 지역 배정(mc_quota) · 4: 거주 지역 요건(residence) 추가 · parse_notice 규칙을 바꾸면 올린다 → 모든 공고문을 다시 읽는다   # 공고문에서 읽은 값 보관 (공고문은 한 번 나오면 바뀌지 않는다)
+PARSER_VERSION = 6   # 6: 공급유형별 접수 일정(schedule) · 5: 다자녀 지역 배정(mc_quota) · 4: 거주 지역 요건(residence) 추가 · parse_notice 규칙을 바꾸면 올린다 → 모든 공고문을 다시 읽는다   # 공고문에서 읽은 값 보관 (공고문은 한 번 나오면 바뀌지 않는다)
 
 
 def _load_cache(path: Path) -> dict:
@@ -265,12 +267,13 @@ def apply_notice(listings: list[Listing], log: list[str], client=None, previous:
                         log.append(f"[공고문·원문] {Ls[0].name} ({word}): …{sn}…")
         labels = {"need_head": "세대주 요건", "price_cap": "분양가상한제", "residence_duty": "실거주 의무",
                   "balance": "잔금일", "ext": "발코니 확장비", "rewin_years": "재당첨 제한",
-                  "account_months": "1순위 가입기간", "deposit_count": "납입 인정 횟수", "residence": "거주 지역 요건", "mc_quota": "다자녀 지역 배정"}
+                  "account_months": "1순위 가입기간", "deposit_count": "납입 인정 횟수", "residence": "거주 지역 요건", "mc_quota": "다자녀 지역 배정", "schedule": "접수 일정"}
         for L in Ls:
             L.notice_pdf = pdf
             L.from_notice = [labels[k] for k in found if k in labels and not (k == "ext" and len(Ls) != 1)
                              and not (k == "residence" and not feature_on("residence_v2"))
-                             and not (k == "mc_quota" and not feature_on("mc_quota"))]
+                             and not (k == "mc_quota" and not feature_on("mc_quota"))
+                             and not (k == "schedule" and not feature_on("notice_schedule"))]
             if "need_head" in found:
                 L.need_head = found["need_head"]
             if "price_cap" in found:
@@ -293,6 +296,11 @@ def apply_notice(listings: list[Listing], log: list[str], client=None, previous:
                 L.residence = found["residence"]
             if "mc_quota" in found and feature_on("mc_quota"):
                 L.mc_quota = found["mc_quota"]
+            if "schedule" in found and feature_on("notice_schedule"):
+                L.schedule = found["schedule"]
+                sp = found["schedule"].get("special")
+                if sp and not L.special_apply:      # 청약홈 API 가 특별공급 날짜를 안 준 공고만 공고문 날짜로 채운다
+                    L.special_apply, L.special_apply_end = sp
             if "rewin_years" in found:
                 n = found["rewin_years"]
                 L.limits = [x for x in L.limits if x[0] != "재당첨 제한"]
