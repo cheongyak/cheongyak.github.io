@@ -64,6 +64,13 @@ a{color:var(--link)}
 .cmp .cvals{display:grid;gap:8px;font-size:14px;font-weight:600} .cmp .cvals>div{min-width:0;overflow-wrap:anywhere}
 .cmp .chead{padding-bottom:8px}
 .dirow{display:grid;grid-template-columns:84px 1fr;gap:8px;padding:7px 0;border-top:1px solid var(--line);font-size:13px;line-height:1.5} .dirow:first-child{border-top:0}
+.cutrow{padding:10px 0;border-top:1px solid var(--line)} .cutrow:first-of-type{border-top:0}
+.cutbar{position:relative;height:14px;margin:6px 0;border-radius:7px;background:var(--sunk)}
+.cutbar .rng{position:absolute;top:3px;height:8px;border-radius:4px;background:var(--consider-soft);box-shadow:inset 0 0 0 1px var(--consider)}
+.cutbar .md{position:absolute;top:0;width:10px;height:14px;margin-left:-5px;border-radius:50%;background:var(--consider)}
+.cutbar .me{position:absolute;top:-3px;width:2px;height:20px;margin-left:-1px;background:var(--pass)}
+.cutlegend{display:flex;flex-wrap:wrap;gap:10px;margin:4px 0 6px} .cutlegend i{display:inline-block;vertical-align:middle;margin-right:4px}
+.cutlegend i.rng{width:16px;height:8px;border-radius:4px;background:var(--consider-soft);box-shadow:inset 0 0 0 1px var(--consider)} .cutlegend i.md{width:10px;height:10px;border-radius:50%;background:var(--consider)} .cutlegend i.me{width:2px;height:12px;background:var(--pass)}
 .linkcard{display:flex;flex-direction:column;gap:2px;text-decoration:none;color:inherit}
 .back{display:flex;align-items:center;gap:2px;border:0;background:none;padding:0 8px 0 0;min-height:44px;font-weight:600;cursor:pointer}
 .back svg{width:22px;height:22px}
@@ -174,7 +181,7 @@ input[type=date]{min-height:52px;border-radius:12px;border:1px solid var(--line)
 .legend span{display:inline-flex;align-items:center;gap:6px}
 .legend i{width:10px;height:10px;border-radius:2px;display:inline-block}
 .tabbar{position:fixed;left:0;right:0;bottom:0;background:var(--surface);border-top:1px solid var(--line);padding-bottom:env(safe-area-inset-bottom,0px);z-index:5}
-.tabbar nav{max-width:440px;margin:0 auto;display:grid;grid-template-columns:repeat(3,minmax(0,1fr));height:60px}
+.tabbar nav{max-width:440px;margin:0 auto;display:grid;grid-auto-flow:column;grid-auto-columns:minmax(0,1fr);height:60px}
 .tabbar button{border:0;background:none;font-size:13px;color:var(--muted);cursor:pointer}
 .tabbar button[aria-current="page"]{color:var(--fg);font-weight:700}
 .foot{font-size:11px;color:var(--muted);margin:0}
@@ -231,6 +238,7 @@ dl.kv dt{color:var(--muted)} dl.kv dd{margin:0;text-align:right;font-weight:600}
 <div id="app" class="shell" aria-live="polite"></div>
 <div class="tabbar" id="tabbar"><nav aria-label="하단 메뉴">
   <button data-go="feed">공고</button>
+  <button data-go="trend" hidden>가점 컷</button>
   <button data-go="grades">등급 기준</button>
   <button data-go="me">내 정보</button>
 </nav></div>
@@ -1392,14 +1400,67 @@ function vCompare(){
   <p class="foot">공고: ${src('applyhome')} · 시세: ${src('rtms')} · 마진·시세는 추정, 계약금·잔금은 내 정보에 넣은 값으로 계산해요. 이름을 누르면 공고 상세로 가요.</p>`;
 }
 
+/* ---------- 지역별 당첨 가점 컷 (기능: score_cut) ----------
+   docs/cmpet-history.json (청약홈 경쟁률·당첨 가점 기록) 에서 1순위 해당지역 가점제 당첨자의 최저 가점을 지역별로 모은다.
+   최저 가점 0 은 가점제 당첨자가 없던 경우라 뺀다. */
+let HIST = null, HIST_ERR = '';
+function loadHist(){
+  if (HIST || HIST_ERR) return;
+  fetch('cmpet-history.json', { cache:'no-store' }).then(r => r.ok ? r.json() : Promise.reject(r.status)).then(h => { HIST = h; if (S.view === 'trend') render(); })
+    .catch(e => { HIST_ERR = '기록을 불러오지 못했어요 (' + e + ')'; if (S.view === 'trend') render(); });
+}
+function cutRows(){
+  const out = [];
+  Object.entries(HIST || {}).forEach(([no, v]) => {
+    if (v.category === 'remainder') return;
+    Object.values(v.units || {}).forEach(u => {
+      if (String(u.rank) !== '1' || !(u.reside || '').includes('해당') || u.low == null || !(u.low > 0)) return;
+      out.push({ no, name: v.name, sido: v.sido, sg: (v.sigungu || '').split(' ')[0], notice: v.notice || v.apply || '', unit: u.unit, low: u.low, avg: u.avg, top: u.top, url: v.url });
+    });
+  });
+  return out;
+}
+const median = a => { const b = a.slice().sort((x, y) => x - y), n = b.length; return n ? (n % 2 ? b[(n - 1) / 2] : (b[n / 2 - 1] + b[n / 2]) / 2) : null; };
+function cutBar(lows, mine){
+  const lo = Math.min(...lows), hi = Math.max(...lows), md = median(lows), pct = v => (v / 84 * 100).toFixed(1) + '%';
+  return `<div class="cutbar" aria-hidden="true"><span class="rng" style="left:${pct(lo)};width:${pct(hi - lo)}"></span><span class="md" style="left:${pct(md)}"></span>${mine != null ? `<span class="me" style="left:${pct(mine)}"></span>` : ''}</div>`;
+}
+function vTrend(){
+  loadHist();
+  const head = `<div class="top"><div><div class="brand">당첨 가점 컷</div><span class="small muted">청약홈 청약 결과 · 1순위 해당지역 가점제</span></div></div>`;
+  if (!HIST) return head + `<div class="card empty"><b>${HIST_ERR ? esc(HIST_ERR) : '불러오는 중…'}</b></div>`;
+  const rows = cutRows(), sc = on('score') ? myScore({ notice: TODAY }, S.profile) : null, mine = sc && sc.total != null ? sc.total : null;
+  if (!rows.length) return head + '<div class="card empty"><b>아직 모인 결과가 없어요</b></div>';
+  const dates = rows.map(r => r.notice).filter(Boolean).sort(), from = dates[0].slice(0, 7).replace('-', '.'), to = dates[dates.length - 1].slice(0, 7).replace('-', '.');
+  const group = key => { const g = {}; rows.forEach(r => { const k = key(r); if (k) (g[k] = g[k] || []).push(r); }); return g; };
+  const line = (label, rs) => { const lows = rs.map(r => r.low), n = new Set(rs.map(r => r.no)).size, ok = mine != null ? lows.filter(x => mine >= x).length : null;
+    return `<div class="cutrow"><div class="row"><b>${esc(label)}</b><span class="small muted">공고 ${n} · 주택형 ${lows.length}</span></div>${cutBar(lows, mine)}
+      <div class="small">최저 당첨 가점 중간값 <b>${Math.round(median(lows))}점</b> <span class="muted">(${Math.min(...lows)}~${Math.max(...lows)}점)</span>${ok != null ? ` · 내 가점이 컷 이상 <b>${ok}/${lows.length}</b>` : ''}</div></div>`; };
+  const bySido = group(r => r.sido), sidoKeys = SIDO_ORDER.filter(k => bySido[k]);
+  const pick = S.cutSido && bySido[S.cutSido] ? S.cutSido : sidoKeys[0];
+  const bySg = group(r => r.sido === pick ? r.sg : null);
+  const sgKeys = Object.keys(bySg).sort((a, b) => median(bySg[b].map(r => r.low)) - median(bySg[a].map(r => r.low)));
+  return head + `
+  <section class="card"><div class="row"><h2>내 가점</h2><b style="font-size:20px">${mine != null ? mine + '점' : '-'}<span class="small muted"> / 84 (추정)</span></b></div>
+    ${mine == null ? `<div class="row small"><span class="muted">${sc && sc.miss && sc.miss.length ? esc(sc.miss.join(', ')) + '을(를) 넣으면 계산해요.' : '가점 계산에 필요한 정보를 넣어 주세요.'}</span><button class="linkbtn small" data-action="restart">입력하기</button></div>` : '<p class="small muted" style="margin:4px 0 0">오늘 기준 추정이에요. 막대의 세로선이 내 가점이에요.</p>'}</section>
+  <section class="card"><h2>시·도별 (${from}~${to} 공고)</h2>
+    <div class="cutlegend small muted"><span><i class="rng"></i>최저 당첨 가점 범위</span><span><i class="md"></i>중간값</span>${mine != null ? '<span><i class="me"></i>내 가점</span>' : ''}<span>0~84점</span></div>
+    ${sidoKeys.map(k => line(k, bySido[k])).join('')}</section>
+  <section class="card"><h2>시·군·구별</h2>
+    <div class="chips" role="group" aria-label="시·도 고르기">${sidoKeys.map(k => `<button class="chip sm" data-cutsido="${esc(k)}" aria-pressed="${k === pick}">${esc(k)}</button>`).join('')}</div>
+    ${sgKeys.map(k => line(k, bySg[k])).join('')}</section>
+  <p class="foot">최저 당첨 가점은 1순위 해당지역 가점제 당첨자 중 가장 낮은 점수예요. 내 가점이 이보다 높아도 경쟁자와 추첨 비율에 따라 당첨이 보장되지 않아요. 가점제 당첨자가 없던 주택형(0점)과 무순위는 뺐어요. 지금 모인 기록은 ${esc(sidoKeys.join('·'))}이에요. ${src(null, ['청약홈 청약 결과 (단지별 경쟁률·당첨 가점)', 'https://www.applyhome.co.kr'])}</p>`;
+}
+
 /* ---------- 라우팅 & 이벤트 ---------- */
 const app = document.getElementById('app'), tabbar = document.getElementById('tabbar');
-const VIEWS = { feed:vFeed, detail:vDetail, plan:vPlan, grades:vGrades, me:vMe, onboard:vOnboard, alerts:vAlerts, about:vAbout, compare:vCompare };
+const VIEWS = { feed:vFeed, detail:vDetail, plan:vPlan, grades:vGrades, me:vMe, onboard:vOnboard, alerts:vAlerts, about:vAbout, compare:vCompare, trend:vTrend };
 let lastView = null;
 function render(){
+  const tt = tabbar.querySelector('[data-go=trend]'); if (tt) tt.hidden = !on('score_cut');
   app.innerHTML = VIEWS[S.view]();
   tabbar.hidden = S.view === 'onboard';
-  const tab = { feed:'feed', detail:'feed', plan:'feed', alerts:'feed', grades:'grades', me:'me', about:'me', compare:'feed' }[S.view];
+  const tab = { feed:'feed', detail:'feed', plan:'feed', alerts:'feed', grades:'grades', me:'me', about:'me', compare:'feed', trend:'trend' }[S.view];
   tabbar.querySelectorAll('button').forEach(b => { if (b.dataset.go === tab) b.setAttribute('aria-current','page'); else b.removeAttribute('aria-current'); });
   if (lastView !== S.view) window.scrollTo(0, 0);
   const key = S.view + '|' + (S.view === 'detail' || S.view === 'plan' ? S.id : '') + '|' + (S.view === 'feed' ? S.feedMode : '');
@@ -1425,6 +1486,7 @@ document.addEventListener('click', ev => {
   if (t.dataset.watch) { const id = t.dataset.watch; if (WATCH.has(id)) WATCH.delete(id); else WATCH.add(id); saveWatch(); track({ path:'watch', event:true }); render(); return; }
   if (t.dataset.cmp) { const id = t.dataset.cmp, cur = cmpList().map(L => L.id); S.cmp = cur.includes(id) ? cur.filter(x => x !== id) : cur.concat(id).slice(-3); if (S.cmp.length < 2) S.cmp = cur; render(); return; }
   if (t.dataset.action === 'cmp-back') { S.filter = 'watch'; go('feed'); return; }
+  if (t.dataset.cutsido) { S.cutSido = t.dataset.cutsido; render(); return; }
   if (t.dataset.open) { S.id = t.dataset.open; go('detail'); return; }
   if (t.dataset.filter) { S.filter = t.dataset.filter; render(); return; }
   if (t.dataset.unset) { const k = t.dataset.unset; if (k === 'date') { S.f.from = ''; S.f.to = ''; } else { S.f[k] = ''; if (k === 'sido') S.f.district = ''; } render(); return; }
