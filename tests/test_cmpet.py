@@ -134,3 +134,73 @@ def test_house_type_with_trailing_space_matches():
     L = _L("2026000448", "069.7032 ")
     cmpet.apply_competition([L], [], "2026-09-30", client=cl)
     assert L.competition and L.competition["rows"][0]["rate"] == "1.29"
+
+
+# 실제 응답 (evidence/cmpet/special.txt, 2026-10-01 조회) — 2026000103 066.0000A.
+# 공급 세대수는 모집공고문 2026000103 「특별공급 신청자격별・주택형별 공급세대수」 표 066.0000A 행
+# (기관추천 6 · 다자녀 - · 신혼부부 8 · 노부모부양 1 · 생애최초 4 · 신생아 5 · 합계 24)과 같다
+SP_ROW_103 = {"CRSPAREA_LFE_FRST_CNT": 12, "CRSPAREA_MNYCH_CNT": 0, "CRSPAREA_NWBB_NWBBSHR_CNT": 16, "CRSPAREA_NWWDS_NMTW_CNT": 22,
+              "CRSPAREA_OPS_CNT": 0, "CRSPAREA_YGMN_CNT": 0, "CTPRVN_LFE_FRST_CNT": 0, "CTPRVN_MNYCH_CNT": 0, "CTPRVN_NWBB_NWBBSHR_CNT": 0,
+              "CTPRVN_NWWDS_NMTW_CNT": 0, "CTPRVN_OPS_CNT": 0, "CTPRVN_YGMN_CNT": 0, "ETC_AREA_LFE_FRST_CNT": 22, "ETC_AREA_MNYCH_CNT": 0,
+              "ETC_AREA_NWBB_NWBBSHR_CNT": 17, "ETC_AREA_NWWDS_NMTW_CNT": 36, "ETC_AREA_OPS_CNT": 1, "ETC_AREA_YGMN_CNT": 0,
+              "HOUSE_MANAGE_NO": "2026000103", "HOUSE_TY": "066.0000A", "INSTT_RECOMEND_DCSN_CNT": 0, "INSTT_RECOMEND_HSHLDCO": 6,
+              "INSTT_RECOMEND_PREPAR_CNT": 2, "LFE_FRST_HSHLDCO": 4, "MNYCH_HSHLDCO": 0, "NWBB_NWBBSHR_HSHLDCO": 5, "NWWDS_NMTW_HSHLDCO": 8,
+              "OLD_PARNTS_SUPORT_HSHLDCO": 1, "PBLANC_NO": "2026000103", "SPSPLY_HSHLDCO": 24, "SUBSCRPT_RESULT_NM": "청약접수 종료",
+              "TRANSR_INSTT_ENFSN_CNT": 0, "TRANSR_INSTT_ENFSN_HSHLDCO": 0, "YGMN_HSHLDCO": 0}
+
+
+def test_golden_special_request_fields_match_notice_table():
+    by = cmpet.parse_special([SP_ROW_103])
+    a = by["066.0000A"]
+    assert {t: v["u"] for t, v in a.items()} == {"newborn": 5, "newlywed": 8, "first": 4, "elder": 1}   # 다자녀 0세대는 뺀다
+    assert a["newlywed"] == {"u": 8, "req": 58, "local": 22, "sido": 0, "other": 36}
+    assert a["first"]["req"] == 34 and a["newborn"]["req"] == 33 and a["elder"]["req"] == 1
+
+
+def test_parse_special_ignores_rows_without_fields():
+    assert cmpet.parse_special(ROWS) == {}          # 일반공급 경쟁률 줄은 특별공급 필드가 없다
+
+
+def test_apply_sp_competition_after_special_end():
+    cl = cmpet.CmpetClient("k", httpx.Client(transport=httpx.MockTransport(lambda r: httpx.Response(200, json={"data": [SP_ROW_103]}))))
+    a = _L("2026000103", "066.0000A")
+    a.special_apply, a.special_apply_end = "2026-09-20", "2026-09-20"
+    b = _L("2026000104", "066.0000A")
+    b.special_apply, b.special_apply_end = "2026-09-30", "2026-09-30"      # 오늘 끝나는 공고는 아직 결과가 없다
+    log = []
+    cmpet.apply_sp_competition([a, b], log, "2026-09-30", client=cl)
+    assert a.sp_competition["newlywed"]["req"] == 58 and b.sp_competition is None
+    assert any("[특별공급 신청] 특별공급 접수가 끝난 공고 1건 중 1건" in l for l in log)
+
+
+def test_history_special_backfill_and_attach_area_sp():
+    hist = {"2026000103": {"name": "옆 단지", "sigungu": "광진구", "category": "general", "apply": "2026-06-10", "notice": "2026-06-01",
+                           "units": {"066.0000A": {"area": 66.0}}},
+            "2026000200": {"name": "LH 단지", "sigungu": "광진구", "category": "general", "apply": "2026-06-10", "units": {}}}
+    asked = []
+
+    def h(req):
+        no = req.url.params["cond[HOUSE_MANAGE_NO::EQ]"]
+        asked.append((req.url.path.rsplit("/", 1)[1], no))
+        return httpx.Response(200, json={"data": [SP_ROW_103] if no == "2026000103" else []})
+
+    cl = cmpet.CmpetClient("k", httpx.Client(transport=httpx.MockTransport(h)))
+
+    class AH:
+        def notices(self, category, since):
+            return []
+
+    L = _L("2026000001", "059.0000A", apply="2026-10-06", apply_end="2026-10-07")
+    L.sigungu, L.area = "광진구", 59.9
+    far = _L("2026000001", "114.0000A", apply="2026-10-06", apply_end="2026-10-07")
+    far.sigungu, far.area = "광진구", 114.0
+    log = []
+    cmpet.update_history(AH(), [L], log, date(2026, 9, 30), client=cl, history=hist, special=True)
+    assert sorted(asked) == [("getAPTSpsplyReqstStus", "2026000103"), ("getAPTSpsplyReqstStus", "2026000200")]
+    assert hist["2026000103"]["sp"]["066.0000A"]["first"]["u"] == 4 and hist["2026000200"]["sp"] == {}
+    asked.clear()      # 받은 기록·최근에 빈 기록은 다시 묻지 않는다
+    cmpet.update_history(AH(), [L], [], date(2026, 9, 30), client=cl, history=hist, special=True)
+    assert asked == []
+    cmpet.attach_area_sp([L, far], hist, date(2026, 9, 30))
+    assert L.area_sp[0]["name"] == "옆 단지" and L.area_sp[0]["unit"] == "66A" and L.area_sp[0]["sp"]["newlywed"]["req"] == 58
+    assert far.area_sp == []

@@ -430,12 +430,16 @@ def run(dry_run: bool = False, today: Optional[date] = None, read_notices: bool 
         try:
             if on("competition"):
                 cmpet.apply_competition(out, log, today.isoformat())
+                if on("sp_competition"):
+                    cmpet.apply_sp_competition(out, log, today.isoformat())
         except Exception as e:
             log.append(f"[경쟁률] 전체 실패: {e}")
         try:
             if on("area_competition"):
-                hist = cmpet.update_history(ah, out, log, today)
+                hist = cmpet.update_history(ah, out, log, today, special=on("sp_competition"))
                 cmpet.attach_area_comps(out, hist, today)
+                if on("sp_competition"):
+                    cmpet.attach_area_sp(out, hist, today)
                 if not dry_run:
                     cmpet.save_history(hist)
         except Exception as e:

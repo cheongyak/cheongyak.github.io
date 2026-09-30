@@ -3,6 +3,7 @@
     https://api.odcloud.kr/api/ApplyhomeInfoCmpetRtSvc/v1/getAPTLttotPblancCmpet    APT 경쟁률
     https://api.odcloud.kr/api/ApplyhomeInfoCmpetRtSvc/v1/getRemndrLttotPblancCmpet 무순위·잔여세대 경쟁률
     https://api.odcloud.kr/api/ApplyhomeInfoCmpetRtSvc/v1/getAptLttotPblancScore    APT 당첨 가점
+    https://api.odcloud.kr/api/ApplyhomeInfoCmpetRtSvc/v1/getAPTSpsplyReqstStus     APT 특별공급 신청현황 (기능: sp_competition)
 
 공공데이터포털 활용신청(2026-09-30)이 필요하고, 인증키는 DATA_GO_KR_KEY 를 그대로 쓴다.
 응답 필드 이름은 실행 기록의 [응답 필드] 경쟁률·당첨가점 줄로 확인한다 (아래 FIELD 는 후보 목록).
@@ -18,6 +19,7 @@ PATHS = {
     "general": "/getAPTLttotPblancCmpet",
     "remainder": "/getRemndrLttotPblancCmpet",
     "score": "/getAptLttotPblancScore",
+    "special": "/getAPTSpsplyReqstStus",
 }
 SOURCE_URL = "https://www.data.go.kr/data/15098905/openapi.do"
 FIELD = {
@@ -62,7 +64,7 @@ class CmpetClient:
             raise PermissionError(f"응답 {r.status_code} (활용신청·승인 확인 필요)")
         r.raise_for_status()
         data = r.json().get("data") or []
-        name = {"general": "경쟁률(APT)", "remainder": "경쟁률(무순위)", "score": "당첨가점"}[kind]
+        name = {"general": "경쟁률(APT)", "remainder": "경쟁률(무순위)", "score": "당첨가점", "special": "특별공급 신청현황"}[kind]
         if data:
             RAW_KEYS.setdefault(name, sorted(data[0].keys()))
             SAMPLES.setdefault(name, data[0])
@@ -89,6 +91,42 @@ def parse(cmpet_rows: list[dict], score_rows: list[dict]) -> dict[str, dict]:
             "reside": str(_pick(r, "reside") or ""),
             "low": _num(_pick(r, "low")), "top": _num(_pick(r, "top")), "avg": _num(_pick(r, "avg")),
         })
+    return out
+
+
+# 특별공급 신청현황 필드 (evidence/cmpet/special.txt 실제 응답, 2026-10-01).
+# 공급 세대수 *_HSHLDCO 가 모집공고문 2026000103 「특별공급 신청자격별・주택형별 공급세대수」 표와 같음을 확인했다
+# (066.0000A: 기관추천 6·다자녀 0·신혼부부 8·노부모부양 1·생애최초 4·신생아 5·합계 24 = INSTT_RECOMEND 6·MNYCH 0·NWWDS_NMTW 8·
+#  OLD_PARNTS_SUPORT 1·LFE_FRST 4·NWBB_NWBBSHR 5·SPSPLY 24). 신청 건수는 지역별 *_CNT: CRSPAREA 해당지역 · CTPRVN 해당 시·도(기타 시·군) · ETC_AREA 기타지역.
+SP_FIELDS = {  # 유형: (공급 세대수 필드, 신청 건수 필드 가운데 이름)
+    "newborn": ("NWBB_NWBBSHR_HSHLDCO", "NWBB_NWBBSHR"),
+    "newlywed": ("NWWDS_NMTW_HSHLDCO", "NWWDS_NMTW"),
+    "first": ("LFE_FRST_HSHLDCO", "LFE_FRST"),
+    "multichild": ("MNYCH_HSHLDCO", "MNYCH"),
+    "elder": ("OLD_PARNTS_SUPORT_HSHLDCO", "OPS"),
+}
+
+
+def parse_special(rows: list[dict]) -> dict[str, dict]:
+    """주택형(HOUSE_TY)별 {유형: {u: 공급 세대수, req: 신청 건수 합, local: 해당지역, sido: 해당 시·도, other: 기타지역}}.
+    공급 세대수가 0이거나 필드가 없는 유형은 뺀다 (경쟁률을 만들 수 없음)."""
+    out: dict[str, dict] = {}
+    for r in rows:
+        ty = str(r.get("HOUSE_TY") or "").strip()
+        if not ty:
+            continue
+        d = {}
+        for t, (uf, c) in SP_FIELDS.items():
+            u = _num(r.get(uf))
+            if not u:
+                continue
+            parts = [_num(r.get(f"{a}_{c}_CNT")) for a in ("CRSPAREA", "CTPRVN", "ETC_AREA")]
+            if all(v is None for v in parts):
+                continue
+            loc, sido, oth = (int(v or 0) for v in parts)
+            d[t] = {"u": int(u), "req": loc + sido + oth, "local": loc, "sido": sido, "other": oth}
+        if d:
+            out[ty] = d
     return out
 
 
@@ -143,6 +181,36 @@ def apply_competition(listings: list, log: list[str], today: str, client: Option
         log.append(f"[응답 예시] {name}: " + ", ".join(f"{k}={v}" for k, v in row.items()))
 
 
+def apply_sp_competition(listings: list, log: list[str], today: str, client: Optional[CmpetClient] = None) -> None:
+    """특별공급 접수가 끝난 공고의 유형별 신청 건수를 주택형에 붙인다 (기능: sp_competition). 공고당 한 번 조회.
+    LH 청약플러스에서 접수하는 공공분양은 이 서비스에 없어서(2026000409·414 조회 0건) 비어 있는 것이 정상이다."""
+    import os
+    key = os.environ.get("DATA_GO_KR_KEY")
+    if not key and client is None:
+        return
+    cl = client or CmpetClient(key)
+    groups: dict[str, list] = {}
+    for L in listings:
+        end = L.special_apply_end or L.special_apply
+        if L.category == "general" and end and end < today:
+            groups.setdefault(L.id.split("-")[0], []).append(L)
+    got = 0
+    for nid, Ls in groups.items():
+        try:
+            by_ty = parse_special(cl.rows("special", nid))
+        except Exception as e:
+            log.append(f"[특별공급 신청] {Ls[0].name}: 조회 실패 ({e})")
+            continue
+        n = 0
+        for L in Ls:
+            sp = by_ty.get(L.id.split("-", 1)[1].strip())
+            if sp:
+                L.sp_competition = sp
+                n += 1
+        got += bool(n)
+    log.append(f"[특별공급 신청] 특별공급 접수가 끝난 공고 {len(groups)}건 중 {got}건에 유형별 신청 건수가 있어요")
+
+
 # ── 신청 전 참고: 같은 시·군·구의 지난 청약 결과 ─────────────────────────────
 # 공고별 결과를 docs/cmpet-history.json 에 쌓아 두고(한 번 받은 결과는 다시 받지 않음),
 # 접수 전·접수 중 공고에 '같은 시·군·구, 최근 12개월, 비슷한 면적' 단지의 1순위 경쟁률·당첨 가점을 붙인다.
@@ -155,6 +223,7 @@ HISTORY_MONTHS = 12
 HISTORY_BUDGET_SEC = 180
 EMPTY_RETRY_DAYS = 30      # 결과가 비어 있던 공고는 30일 뒤에 다시 확인
 AREA_TOL = 15.0            # 전용면적 차이 허용 (㎡)
+SP_BACKFILL = 60           # 한 번 실행에서 특별공급 신청현황을 새로 조회할 지난 공고 수 (나머지는 다음 실행에)
 
 
 def load_history(path: _Path = None) -> dict:
@@ -186,7 +255,7 @@ def summarize(by_ty: dict[str, dict]) -> dict[str, dict]:
 
 
 def update_history(ah, listings: list, log: list[str], today: _date, client: "CmpetClient" = None,
-                   history: dict = None) -> dict:
+                   history: dict = None, special: bool = False) -> dict:
     """현재 공고들의 시·군·구에서 최근 12개월 동안 접수가 끝난 공고의 결과를 기록에 채운다."""
     import os
     import time
@@ -231,6 +300,24 @@ def update_history(ah, listings: list, log: list[str], today: _date, client: "Cm
                      "url": pick(d, "url"), "units": units, "checked": today.isoformat()}
             added += bool(units)
             empty += not units
+    # 특별공급 신청현황 (기능: sp_competition): 일반 공고 기록에 주택형별 유형 신청 건수를 채운다. 한 번 받으면 다시 받지 않고, 비어 있으면 30일 뒤 다시
+    sp_n = 0
+    if special:
+        retry = (today - _td(days=EMPTY_RETRY_DAYS)).isoformat()
+        for no, e in sorted(h.items(), key=lambda kv: kv[1].get("apply") or "", reverse=True):
+            if e.get("category") != "general" or e.get("sigungu") not in sgs or "sp" in e and (e["sp"] or e.get("sp_checked", "") > retry):
+                continue
+            if sp_n >= SP_BACKFILL or time.monotonic() - t0 > HISTORY_BUDGET_SEC:
+                break
+            try:
+                e["sp"] = parse_special(cl.rows("special", no))
+            except Exception as ex:
+                log.append(f"[지난 경쟁률] {e.get('name')}: 특별공급 신청현황 조회 실패 ({ex})")
+                continue
+            e["sp_checked"] = today.isoformat()
+            sp_n += 1
+        have = sum(1 for e in h.values() if e.get("sp"))
+        log.append(f"[지난 경쟁률] 특별공급 신청현황 이번에 {sp_n}건 조회 · 유형별 신청 건수가 있는 기록 {have}건")
     # 오래된 기록 정리
     for no in [k for k, v in h.items() if (v.get("apply") or "") < since]:
         del h[no]
@@ -261,3 +348,27 @@ def attach_area_comps(listings: list, history: dict, today: _date, limit: int = 
                           ("unit", "area", "rank", "reside", "supply", "req", "rate", "rate_num", "low", "avg")}})
         found.sort(key=lambda x: x.get("apply") or "", reverse=True)
         L.area_comps = found[:limit]
+
+
+def attach_area_sp(listings: list, history: dict, today: _date, limit: int = 3) -> None:
+    """같은 시·군·구 최근 12개월 공고 가운데 비슷한 면적 주택형의 특별공급 유형별 공급·신청 건수를 최신순으로 붙인다 (기능: sp_competition)."""
+    from .applyhome import area_of, unit_label
+    since = (today - _td(days=31 * HISTORY_MONTHS)).isoformat()
+    for L in listings:
+        if L.category != "general" or not L.sigungu:
+            L.area_sp = None
+            continue
+        own = L.id.split("-")[0]
+        found = []
+        for no, e in history.items():
+            if no == own or e.get("sigungu") != L.sigungu or (e.get("apply") or "") < since or not e.get("sp"):
+                continue
+            cands = [(ty, area_of(ty)) for ty in e["sp"]]
+            cands = [(ty, a) for ty, a in cands if a and L.area and abs(a - L.area) <= AREA_TOL]
+            if not cands:
+                continue
+            ty, a = min(cands, key=lambda c: abs(c[1] - L.area))
+            found.append({"name": e.get("name"), "notice": e.get("notice"), "apply": e.get("apply"), "url": e.get("url"),
+                          "unit": unit_label(ty), "area": a, "sp": e["sp"][ty]})
+        found.sort(key=lambda x: x.get("apply") or "", reverse=True)
+        L.area_sp = found[:limit]

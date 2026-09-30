@@ -2813,6 +2813,20 @@ function wsPlan(L, p, r){
   const kids = p.kidsMinor, rank = r.type === 'newlywed' ? (kids > 0 || p.pregnant ? 1 : kids == null && p.pregnant == null ? null : 2) : null;
   return { steps, reach, reg, rank, kind: steps.length ? steps[0].kind : 'lottery', u };
 }
+/* 특별공급 유형별 경쟁률 (기능: sp_competition). 출처: 청약홈 「청약접수 경쟁률 및 특별공급 신청현황」 getAPTSpsplyReqstStus
+   — 공급 세대수(*_HSHLDCO)가 모집공고문 2026000103 공급세대수 표와 같음을 확인 (tests/test_cmpet.py).
+   이 공고의 특별공급 접수가 끝났으면 그 결과, 아니면 같은 시·군·구 최근 12개월·비슷한 면적 주택형들의 신청 건수 합 ÷ 공급 세대수 합.
+   LH 청약플러스 접수(공공분양)는 이 자료에 없다. 신청 건수에는 부적격이 섞여 있을 수 있어 '약'으로 보여준다 */
+function spRate(L, type){
+  if (!on('sp_competition')) return null;
+  const own = L.spCompetition && L.spCompetition[type];
+  if (own && own.u) return { own:true, rate: own.req / own.u, req: own.req, u: own.u, n:1 };
+  const xs = (L.areaSp || []).filter(e => e.sp && e.sp[type] && e.sp[type].u);
+  if (!xs.length) return null;
+  const req = xs.reduce((a, e) => a + e.sp[type].req, 0), u = xs.reduce((a, e) => a + e.sp[type].u, 0);
+  return { own:false, rate: req / u, req, u, n: xs.length };
+}
+const rateTxt = r => (r < 10 ? r.toFixed(1) : Math.round(r)) + ':1';
 function wsRecV2(L, p, xs, types){
   const oks = xs.filter(x => x.r.s === 'ok').map(x => Object.assign(x, { plan: wsPlan(L, p, x.r) }));
   const warns = xs.filter(x => x.r.s === 'warn');
@@ -2825,21 +2839,28 @@ function wsRecV2(L, p, xs, types){
     const extra = [];
     if (x.score != null && isScore(P.kind)) extra.push(`내 점수 ${x.score} / ${x.max}`);
     if (P.rank === 2) extra.push('자녀가 없어 2순위 (자녀 있는 신혼부부가 먼저)');
+    const sr = spRate(L, x.r.type);
+    if (sr) extra.push((sr.own ? '이 공고 접수 결과 ' : '근처 지난 공고 ') + '경쟁률 약 ' + rateTxt(sr.rate) + ' (신청 ' + sr.req + ' / ' + sr.u + '세대' + (sr.own ? '' : ' · ' + sr.n + '건') + ')');
     return `<div class="small" style="margin-top:3px"><b>${esc(nm)}</b> · ${esc(flow)}${P.reach != null ? `세대 <span class="muted">· 노릴 수 있는 몫 약 ${P.reach}세대${P.u && P.reach !== P.u ? ' (전체 ' + P.u + ')' : ''}</span>` : ''}${extra.length ? `<div class="muted">${esc(extra.join(' · '))}</div>` : ''}</div>`; };
   const byReach = (a, b) => (b.plan.reach || 0) - (a.plan.reach || 0);
   const sc = oks.filter(x => isScore(x.plan.kind) && x.plan.rank !== 2).sort(byReach), lt = oks.filter(x => /lottery/.test(x.plan.kind)).sort(byReach);   // 순차(저축액)는 추첨이 아니라 제외
   const nmB = x => `<b>${esc(SP_NAME[x.r.type])}</b>`;
+  const rated = oks.map(x => ({ x, sr: spRate(L, x.r.type) })).filter(o => o.sr).sort((a, b) => a.sr.rate - b.sr.rate);
+  const rateHead = rated.length >= 2 ? `${rated[0].sr.own ? '이 공고 특별공급 접수 결과' : '같은 시·군·구 비슷한 면적의 지난 공고'}에서는 ${nmB(rated[0].x)} 경쟁률이 가장 낮았어요 (약 ${rateTxt(rated[0].sr.rate)}, ${rated.slice(1).map(q => esc(SP_NAME[q.x.r.type]) + ' ' + rateTxt(q.sr.rate)).join(' · ')}).` : '';
   let head;
   if (oks.length === 1) head = `신청할 수 있는 특별공급은 ${nmB(oks[0])}${hasBatchim(SP_NAME[oks[0].r.type]) ? '이에요' : '예요'}.`;
-  else if (sc.length && lt.length) head = `점수에 자신이 있으면 ${nmB(sc[0])}(${esc(SP_KIND[sc[0].plan.kind])}), 점수가 애매하면 점수와 상관없는 ${nmB(lt[0])}(${esc(SP_KIND[lt[0].plan.kind])})가 나을 수 있어요.`;
+  else if (sc.length && lt.length) head = `점수에 자신이 있으면 ${nmB(sc[0])}(${esc(SP_KIND[sc[0].plan.kind])}), 점수가 애매하면 점수와 상관없는 ${nmB(lt[0])}(${esc(SP_KIND[lt[0].plan.kind])})가 나을 수 있어요.` + (rateHead ? ' ' + rateHead : '');
   else { const all = oks.slice().sort(byReach), b = all[0];
     const allLt = oks.every(x => /lottery/.test(x.plan.kind)), allSc = oks.every(x => isScore(x.plan.kind) && x.plan.rank !== 2);
     head = (allLt ? '신청 가능한 유형이 모두 추첨 위주라 점수는 상관없어요. ' : allSc ? '신청 가능한 유형이 모두 점수 순이에요. 점수가 높을수록 유리하고, ' : '')
-      + (b.plan.reach != null ? `물량만 보면 ${nmB(b)}${hasBatchim(SP_NAME[b.r.type]) ? '이' : '가'} 가장 많아요.` : '뽑는 방식으로 비교해 보세요.'); }
+      + (rateHead || (b.plan.reach != null ? `물량만 보면 ${nmB(b)}${hasBatchim(SP_NAME[b.r.type]) ? '이' : '가'} 가장 많아요.` : '뽑는 방식으로 비교해 보세요.')); }
   const reg = oks.map(x => x.plan.reg).find(Boolean);
+  const anyRate = rated.length > 0, pubNo = on('sp_competition') && L.houseDtl === '국민';
+  const foot = anyRate ? '경쟁률은 청약홈 특별공급 신청현황 기준이에요. 지난 공고 결과는 참고용이고 공고마다 달라요' + (rated.some(o => !o.sr.own) ? ' · 참고한 공고: ' + esc((L.areaSp || []).filter(e => e.sp).map(e => e.name + (e.apply ? ' ' + e.apply.slice(0, 7).replace('-', '.') : '') + ' ' + (e.unit || '')).join(', ')) : '') + '.'
+    : pubNo ? 'LH 공공분양은 유형별 신청 건수가 청약홈에 공개되지 않아 당첨 확률은 비교하지 않았어요.' : '유형별 신청자 수(경쟁률)는 아직 모르기 때문에 당첨 확률은 비교하지 않았어요.';
   const rec = head + oks.slice().sort(byReach).map(line).join('')
     + (reg ? `<div class="small muted" style="margin-top:4px">지역: ${esc(reg.text)}.</div>` : '')
-    + '<div class="small muted" style="margin-top:4px">특별공급은 한 가지만 신청할 수 있어요. 유형별 신청자 수(경쟁률)는 아직 모르기 때문에 당첨 확률은 비교하지 않았어요 · 공고문 선정 방식·배정 비율 기준 추정.</div>';
+    + `<div class="small muted" style="margin-top:4px">특별공급은 한 가지만 신청할 수 있어요. ${on('sp_competition') ? foot : '유형별 신청자 수(경쟁률)는 아직 모르기 때문에 당첨 확률은 비교하지 않았어요.'} · 공고문 선정 방식·배정 비율 기준 추정.</div>`;
   return { rec, oks };
 }
 function wsCard(L, p){
@@ -3244,7 +3265,7 @@ function fromApi(x){
     region:x.region, kind:x.kind, target:x.target,
     sido:x.sido || null, district:x.district || null, supplyType:x.supply_type || x.kind,
     mktComps:x.mkt_comps || [], mktCount:x.mkt_count || 0, mktDirectExcluded:x.mkt_direct_excluded || 0, mktBasis:x.mkt_basis || null, jeonseComps:x.jeonse_comps || [],
-    noticePdf:x.notice_pdf || null, category:x.category || null, area:x.area || null, accountMonths:x.account_months || null, depositCount:x.deposit_count || null, competition:x.competition || null, areaComps:Array.isArray(x.area_comps) ? x.area_comps : null, unitName:x.unit, address:x.address || '', geo:x.geo || null, nearby:Array.isArray(x.nearby) ? x.nearby : null, mapQuery:x.map_query || null, fromNotice:x.from_notice || [], checks:x.checks || [],
+    noticePdf:x.notice_pdf || null, category:x.category || null, area:x.area || null, accountMonths:x.account_months || null, depositCount:x.deposit_count || null, competition:x.competition || null, areaComps:Array.isArray(x.area_comps) ? x.area_comps : null, spCompetition:x.sp_competition || null, areaSp:Array.isArray(x.area_sp) ? x.area_sp : null, unitName:x.unit, address:x.address || '', geo:x.geo || null, nearby:Array.isArray(x.nearby) ? x.nearby : null, mapQuery:x.map_query || null, fromNotice:x.from_notice || [], checks:x.checks || [],
     specialApply:x.special_apply || null, houseDtl:x.house_dtl || null, rentSecd:x.rent_secd || null, applyEnd:x.apply_end || null, unit:x.unit + (x.households ? ' · ' + x.households + '세대' : ''), specialUnits:x.special_units || null, residence:x.residence || null, mcQuota:x.mc_quota || null, schedule:x.schedule || null, pubLimits:x.pub_limits || null,
     notice:x.notice, apply:x.apply, winner:x.winner, contract:x.contract, balance:x.balance,
     price:x.price, ext:x.ext || 0, contractRate:x.contract_rate || 0.1, midRate:x.mid_rate || 0,

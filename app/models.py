@@ -78,6 +78,8 @@ class Listing(BaseModel):
     deposit_count: Optional[int] = None      # 국민주택·신혼희망타운 청약통장 납입 인정 횟수 기준(회). 공고문에서 읽은 값
     competition: Optional[dict] = None       # 청약홈 경쟁률·당첨가점 {rows:[{rank,reside,supply,req,rate,rate_num}], scores:[{reside,low,top,avg}]}
     area_comps: Optional[list[dict]] = None  # 신청 전 참고: 같은 시·군·구 최근 12개월 비슷한 면적 단지의 1순위 경쟁률·당첨가점
+    sp_competition: Optional[dict] = None    # 특별공급 유형별 공급·신청 건수 {newborn:{u,req,local,sido,other}, …} (청약홈 특별공급 신청현황, 기능: sp_competition)
+    area_sp: Optional[list[dict]] = None      # 같은 시·군·구 최근 12개월 비슷한 면적 주택형의 특별공급 유형별 공급·신청 건수
     map_query: Optional[str] = None          # 네이버 지도 검색어 (주소에서 '일원', 블록명 등을 뺀 것)
     nearby: Optional[list[dict]] = None      # 주변 역·학교 직선거리 [{kind, name, m, walk, lat, lng}] · None 이면 아직 조회 안 함
     sample: bool = False
