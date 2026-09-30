@@ -260,21 +260,22 @@ def probe_cmpet_special(http: httpx.Client) -> None:
                 out.append(f"== {u.split('?')[0]} → {r.status_code} · {r.text[:300]!r}")
             except Exception as e:
                 out.append(f"== {u} 실패 {e.__class__.__name__}")
-        paths = ["/getAPTLttotPblancCmpet", "/getAPTSpsplyReqstStus", "/getAptSpsplyReqstStus", "/getAPTSpsplyReqstSttus",
-                 "/getSpsplyReqstStus", "/getAPTLttotPblancSpsplyReqst", "/getAPTSpsplyCmpet", "/getPblPvtRentLttotPblancCmpet", "/getOPTLttotPblancCmpet"]
+        paths = ["/getAPTSpsplyReqstStus"]
     if key:
         for path in paths:
             if path.startswith("/15098905/v1"):
                 path = path[len("/15098905/v1"):]
-            for cond in ({}, {"cond[HOUSE_MANAGE_NO::EQ]": "2026000409"}, {"cond[HOUSE_MANAGE_NO::EQ]": "2026000414"}, {"cond[HOUSE_MANAGE_NO::EQ]": "2026000103"}):
+            for cond in ({}, {"cond[HOUSE_MANAGE_NO::EQ]": "2026000409"}, {"cond[HOUSE_MANAGE_NO::EQ]": "2026000103"}, {"cond[HOUSE_MANAGE_NO::EQ]": "2026000443"},
+                         {"cond[HOUSE_MANAGE_NO::EQ]": "2025000488"}):
                 try:
                     r = http.get("https://api.odcloud.kr/api/ApplyhomeInfoCmpetRtSvc/v1" + path,
                                  params={"page": 1, "perPage": 3 if not cond else 50, "returnType": "JSON", "serviceKey": key, **cond})
                     j = r.json() if r.headers.get("content-type", "").startswith("application/json") else {}
                     data = j.get("data") or []
                     out.append(f"== {path} {cond or '(조건 없음)'} → {r.status_code} · 전체 {j.get('totalCount')} · 받은 {len(data)}")
-                    for row in data[:6]:
-                        out.append("   " + json.dumps(row, ensure_ascii=False)[:700])
+                    lim = 2000 if "Spsply" in path else 700   # 특별공급 신청현황은 필드 전체를 본다
+                    for row in data[:6] if not cond or "Spsply" not in path else data:
+                        out.append("   " + json.dumps(row, ensure_ascii=False)[:lim])
                 except Exception as e:
                     out.append(f"== {path} {cond} 실패 {e.__class__.__name__}")
     (EVIDENCE / "cmpet").mkdir(parents=True, exist_ok=True)
