@@ -235,3 +235,18 @@ def test_apply_notice_timeout_uses_cache(monkeypatch):
     log = []
     apply_notice([x], log, cache={nid: {"found": {"need_head": True}, "notice_pdf": None, "v": 0}})
     assert x.need_head and any("보관" in l for l in log)
+
+
+def test_ntfy_send_skipped_when_switch_off(monkeypatch):
+    """ntfy.sh 공개 주제는 누구나 보낼 수 있어 스위치(ntfy_alerts)가 꺼져 있으면 알림을 보내지 않는다."""
+    from app import pipeline
+    monkeypatch.setattr(pipeline.notify, "load_config", lambda: {"features": {"ntfy_alerts": False}, "ntfy_topic": "x"})
+    assert pipeline.feature_on("ntfy_alerts") is False
+    monkeypatch.setattr(pipeline.notify, "load_config", lambda: {"features": {}, "ntfy_topic": "x"})
+    assert pipeline.feature_on("ntfy_alerts") is True
+
+
+def test_ntfy_alerts_off_in_site_config():
+    import json, pathlib
+    cfg = json.loads((pathlib.Path(__file__).resolve().parent.parent / "docs" / "config.json").read_text(encoding="utf-8"))
+    assert cfg["features"].get("ntfy_alerts") is False

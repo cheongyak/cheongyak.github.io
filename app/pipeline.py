@@ -426,7 +426,10 @@ def run(dry_run: bool = False, today: Optional[date] = None, read_notices: bool 
     cfg = notify.load_config()
     msgs = notify.build_messages(out, notify.load_previous_ids(), today, cfg)
     if not dry_run:
-        log += notify.send(msgs, cfg)
+        if feature_on("ntfy_alerts"):
+            log += notify.send(msgs, cfg)
+        else:   # ntfy.sh 공개 주제는 누구나 보낼 수 있어 보내기를 제한할 수 있을 때까지 끔 (기능: ntfy_alerts)
+            log.append(f"[알림] 꺼져 있어 보내지 않음 (ntfy_alerts 스위치) · 보낼 알림 {len(msgs)}건")
     else:
         log += [f"(보낼 알림) {m['title']}" for m in msgs]
     for l in log:

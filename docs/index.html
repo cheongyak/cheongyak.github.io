@@ -344,7 +344,7 @@ body.sheet-open{overflow:hidden}
 .fchip{display:inline-flex;align-items:center;gap:4px;height:32px;padding:0 10px;border-radius:16px;border:1px solid var(--fg);background:var(--surface);font-size:13px;font-weight:600;cursor:pointer}
 .fchip svg{width:14px;height:14px}
 .empty{align-items:center;text-align:center;padding:28px 16px}
-.bell{display:inline-flex;align-items:center;gap:6px;min-height:44px;padding:0 14px;border-radius:22px;border:1px solid var(--line);background:var(--surface);font-weight:600;font-size:14px;cursor:pointer}
+.bell{display:inline-flex;align-items:center;gap:6px;min-height:44px;padding:0 14px;border-radius:22px;border:1px solid var(--line);background:var(--surface);font-weight:600;font-size:14px;cursor:pointer} .bell[hidden]{display:none}
 .bell svg{width:18px;height:18px}
 .steps{margin:0;padding-left:20px;display:flex;flex-direction:column;gap:6px;font-size:14px}
 code.topic{font-family:ui-monospace,Menlo,monospace;background:var(--sunk);padding:2px 6px;border-radius:6px;font-size:13px;overflow-wrap:anywhere}
@@ -1339,7 +1339,7 @@ function vFeedV2(){
   const anyF = act.length || S.filter !== 'all' || S.newDays || (on('search') && S.q) || (on('elig_filter') && S.elig);
   return `
   <div class="top"><div><div class="brand">청약패스</div><span class="small muted sub-line">${DATA_SOURCE.live ? '청약홈 ' + esc(String(DATA_SOURCE.updated || '').slice(5).replace('-', '.')) + ' 갱신' : '샘플 데이터'}${on('disclaimer_banner') ? ' · 참고용 추정' + (on('about_page') ? ' <button class="linkbtn small" data-go="about">자세히</button>' : '') : ''}</span></div>
-    <button class="bell" data-go="alerts" aria-label="알림 받기"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 8a6 6 0 1 1 12 0c0 7 3 9 3 9H3s3-2 3-9"/><path d="M10.3 21a1.94 1.94 0 0 0 3.4 0"/></svg><span>알림</span></button></div>
+    <button class="bell" data-go="alerts" aria-label="알림 받기" ${on('ntfy_alerts') ? '' : 'hidden'}><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 8a6 6 0 1 1 12 0c0 7 3 9 3 9H3s3-2 3-9"/><path d="M10.3 21a1.94 1.94 0 0 0 3.4 0"/></svg><span>알림</span></button></div>
   ${staleNote()}
   ${myCondCard()}
   <section class="findbox" aria-label="공고 찾기">
@@ -1386,7 +1386,7 @@ function vFeed(){
   const x = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" aria-hidden="true"><path d="M18 6 6 18M6 6l12 12"/></svg>';
   return `
   <div class="top"><div><div class="brand">청약패스</div><span class="small muted">${DATA_SOURCE.live ? '청약홈 · ' + esc(DATA_SOURCE.updated) + ' 갱신' : '샘플 데이터'}</span></div>
-    <button class="bell" data-go="alerts" aria-label="알림 받기"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 8a6 6 0 1 1 12 0c0 7 3 9 3 9H3s3-2 3-9"/><path d="M10.3 21a1.94 1.94 0 0 0 3.4 0"/></svg><span>알림</span></button></div>
+    <button class="bell" data-go="alerts" aria-label="알림 받기" ${on('ntfy_alerts') ? '' : 'hidden'}><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 8a6 6 0 1 1 12 0c0 7 3 9 3 9H3s3-2 3-9"/><path d="M10.3 21a1.94 1.94 0 0 0 3.4 0"/></svg><span>알림</span></button></div>
   ${staleNote()}
   ${summaryBar()}
   ${on('disclaimer_banner') ? `<div class="small muted" style="margin:-4px 0 8px">${on('summary_bar') ? '판정·마진은 참고용 추정이에요' : '판정은 참고용이에요'}. 신청 전 공고문을 꼭 확인하세요.${on('about_page') ? ' <button class="linkbtn small" data-go="about">자세히</button>' : ''}</div>` : ''}
@@ -2356,7 +2356,11 @@ function vMe(){
   <p class="foot">입력한 정보는 이 브라우저에만 저장돼요.${aboutLink()}</p>`;
 }
 
+/* 푸시 알림 (기능: ntfy_alerts). ntfy.sh 공개 주제는 이름만 알면 누구나 메시지를 보낼 수 있다 (ntfy.sh 이용약관: 접근 제어·주제 예약은 유료 요금제).
+   주제 이름이 공개 화면에 있어 구독자에게 가짜 알림을 막을 수 없으므로, 보내기를 제한할 수 있을 때까지 꺼 둔다 (2026-10-01 출시 전 QA) */
 function vAlerts(){
+  if (!on('ntfy_alerts')) return `<div class="top"><button class="back" data-go="feed">${chev}공고</button></div>
+  <section class="card"><h2 style="margin:0 0 6px">알림은 준비 중이에요</h2><p class="small" style="margin:0">새 공고 푸시 알림은 안전하게 보낼 수 있게 정비하고 있어요. 그동안은 사이트에서 '새 공고'와 '이번 주 마감'을 확인해 주세요.</p></section>`;
   const url = CONFIG.ntfy_server.replace(/\/$/,'') + '/' + CONFIG.ntfy_topic;
   return `
   <div class="top"><button class="back" data-go="feed">${chev}공고</button></div>
