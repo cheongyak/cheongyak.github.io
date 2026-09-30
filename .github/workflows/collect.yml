@@ -9,6 +9,9 @@ on:
       - "app/**"
       - "requirements.txt"
       - ".github/workflows/collect.yml"
+concurrency:               # 수집은 한 번에 하나만 돈다. 겹치면 앞 실행이 끝날 때까지 기다린다 (2026-10-01 01:16/01:23 두 실행이 겹쳐 뒤 실행의 옛 데이터가 덮어쓴 문제)
+  group: collect
+  cancel-in-progress: false
 permissions:
   contents: write
   issues: write             # 수집 실패·경고를 이슈로 남겨 운영자에게 메일이 가게 한다
@@ -23,6 +26,8 @@ jobs:
       TZ: Asia/Seoul
     steps:
       - uses: actions/checkout@v4
+        with:
+          ref: main           # 기다렸다 시작해도 앞 실행이 올린 최신 데이터(시세·공고문 보관 기록)에서 시작한다
       - name: 올린 zip 풀기 (처음 한 번)
         run: |
           if [ -f cheongyak-backend.zip ]; then

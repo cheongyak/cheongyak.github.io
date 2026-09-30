@@ -318,6 +318,39 @@ def apply_notice(listings: list[Listing], log: list[str], client=None, previous:
             L.limits.append(("실거주 의무", "공고문 확인" if duty is None else (f"{duty}년" if duty else "없음")))
 
 
+def _still_listed(x: dict, today: date) -> bool:
+    """지난 결과의 주택형이 오늘도 목록에 남아 있어야 하는지 (iter_open_listings 와 같은 기준: 발표 후 KEEP_AFTER_WINNER_DAYS 일까지)."""
+    from .sources.applyhome import KEEP_AFTER_WINNER_DAYS
+    winner, end = x.get("winner"), x.get("apply_end") or x.get("apply")
+    keep = (date.fromisoformat(winner) + timedelta(days=KEEP_AFTER_WINNER_DAYS)).isoformat() if winner else end
+    return bool(keep) and keep >= today.isoformat()
+
+
+def restore_missing_category(out: list, prev_rows: list, today: date, log: list[str]) -> int:
+    """한 유형(일반분양·무순위)만 0건으로 오면 수집 실패로 보고 그 유형의 지난 결과를 유지한다.
+    2026-10-01 00:59 실행에서 청약홈이 무순위를 0건 줘 접수 중인 무순위 공고(강변역 등)가 목록에서 사라진 문제.
+    실제로 0건일 수 있는 경우(지난 결과의 그 유형 공고가 모두 발표 후 보관 기간을 지남)는 되살리지 않는다."""
+    got = {L.category for L in out}
+    restored = 0
+    for cat in ("general", "remainder"):
+        if cat in got:
+            continue
+        keep = [x for x in prev_rows if x.get("category") == cat and _still_listed(x, today)]
+        if not keep:
+            continue
+        ok = []
+        for x in keep:
+            try:
+                ok.append(Listing(**x))
+            except Exception as e:
+                log.append(f"[경고] 지난 {cat} 결과 복원 실패 {x.get('name')} {x.get('unit')}: {e.__class__.__name__}")
+        out.extend(ok)
+        restored += len(ok)
+        name = {"general": "일반분양", "remainder": "무순위·잔여세대"}[cat]
+        log.append(f"[경고] 청약홈에서 {name} 공고를 0건 받았어요. 아직 접수·발표 중인 지난 결과 {len(ok)}건이 있어 수집 실패로 보고 그대로 유지해요")
+    return restored
+
+
 def run(dry_run: bool = False, today: Optional[date] = None, read_notices: bool = True) -> list[Listing]:
     today = today or date.today()
     since = (today - timedelta(days=60)).isoformat()
@@ -353,6 +386,8 @@ def run(dry_run: bool = False, today: Optional[date] = None, read_notices: bool 
     except Exception:
         pass
     prev = {x["id"]: x for x in prev_rows}
+    if out and prev_rows:
+        restore_missing_category(out, prev_rows, today, log)
     if not out and prev_rows:
         # 청약홈 API 가 일시적으로 빈 목록을 돌려주면(2026-09-30 00시대 실제 발생) 서비스가 비지 않게 지난 결과를 유지한다
         log.append(f"[경고] 청약홈에서 공고를 0건 받았어요. 일시적인 문제일 수 있어 지난 결과({len(prev_rows)}건)를 그대로 둬요")

@@ -283,3 +283,41 @@ def test_market_cache_kept_when_no_listings(tmp_path):
     p.write_text('{"a": {"mkt_low": 1, "date": "2026-09-30"}}', encoding="utf-8")
     pipeline.market_fallback([], __import__("datetime").date(2026, 10, 1), [], path=p)
     assert "a" in __import__("json").loads(p.read_text(encoding="utf-8"))
+
+
+def _row(i, cat, apply_end, winner):
+    from app.models import Listing
+    L = Listing(id=f"{i}-084.0000A", name=f"공고{i}", address="서울특별시 광진구", region="서울", sigungu="광진구",
+                category=cat, kind="무순위" if cat == "remainder" else "민영", unit="84A", price=10.0, mkt_low=11.0, mkt_base=12.0, apply=apply_end, apply_end=apply_end,
+                winner=winner, url="https://www.applyhome.co.kr/x")
+    return L.model_dump()
+
+
+def test_restore_category_when_one_category_returns_zero():
+    """일반분양만 받고 무순위가 0건이면, 아직 접수·발표 중인 지난 무순위 결과를 유지한다 (00:59 실행 재현)."""
+    from app.models import Listing
+    today = date(2026, 10, 1)
+    out = [Listing(**_row(1, "general", "2026-10-02", "2026-10-10"))]
+    prev = [_row(1, "general", "2026-10-02", "2026-10-10"), _row(2, "remainder", "2026-10-06", "2026-10-12"),
+            _row(3, "remainder", "2026-09-01", "2026-09-05")]   # 3번은 발표 후 14일 지남 → 되살리지 않음
+    log = []
+    n = pipeline.restore_missing_category(out, prev, today, log)
+    assert n == 1 and {L.id for L in out} == {"1-084.0000A", "2-084.0000A"}
+    assert any("무순위" in l and "0건" in l for l in log)
+
+
+def test_no_restore_when_category_really_empty():
+    """지난 무순위 공고가 모두 보관 기간을 지났으면 0건이 정상일 수 있어 되살리지 않는다."""
+    from app.models import Listing
+    today = date(2026, 10, 1)
+    out = [Listing(**_row(1, "general", "2026-10-02", "2026-10-10"))]
+    prev = [_row(3, "remainder", "2026-09-01", "2026-09-05")]
+    assert pipeline.restore_missing_category(out, prev, today, []) == 0 and len(out) == 1
+
+
+def test_no_restore_when_category_present():
+    from app.models import Listing
+    today = date(2026, 10, 1)
+    out = [Listing(**_row(1, "general", "2026-10-02", "2026-10-10")), Listing(**_row(4, "remainder", "2026-10-06", "2026-10-12"))]
+    prev = [_row(2, "remainder", "2026-10-06", "2026-10-12")]
+    assert pipeline.restore_missing_category(out, prev, today, []) == 0 and len(out) == 2

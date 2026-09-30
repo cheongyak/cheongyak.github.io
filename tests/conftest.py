@@ -7,3 +7,4 @@ def _isolate_market_cache(tmp_path, monkeypatch):
     from app import pipeline
     monkeypatch.setattr(pipeline, "MARKET_CACHE", tmp_path / "market-cache.json")
     monkeypatch.setattr(pipeline, "FRESH", tmp_path / "data-updated.txt")   # docs/data-updated.txt (마지막 정상 수집 시각)도 건드리지 않게
+    monkeypatch.setattr(pipeline.notify, "PREVIOUS", tmp_path / "no-previous.json")   # 실제 서비스 결과(docs/listings.json)를 지난 결과로 쓰지 않게
