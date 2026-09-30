@@ -244,3 +244,14 @@ def test_public_special_selection_method_in_originals():
     t = re.sub(r"\s+", "", text("2026000414"))
     assert "동일순위내에서경쟁이있는경우아래가점항목다득점순" in t
     assert "인천광역시거주자가50%우선공급에서낙첨될경우,50%물량의기타지역(수도권)거주자와다시경쟁" in t
+
+
+def test_public_points_table_in_originals():
+    """점수 내역·올리는 방법 (기능: score_tips) — 화면의 항목 기준이 공공 신혼부부·신생아 점수표 원문과 같다."""
+    import re
+    for no in ("2026000409", "2026000414"):
+        t = re.sub(r"\s+", "", text(no))
+        for q in ("3명이상3", "24회이상3", "12회이상24회미만2", "6회이상12회미만1", "3년이상3", "1년이상3년미만2", "1년미만1",
+                  "3년이하3", "3년초과5년이하2", "5년초과7년이하1"):
+            assert q in t, (no, q)
+        assert "80%이하인경우(본인및배우자가모두소득이있는경우100%)" in t, no
