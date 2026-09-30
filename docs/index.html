@@ -967,6 +967,7 @@ function vDetail(){
   <div class="stack">
     <button class="btn" data-go="plan">자금 플랜 보기</button>
     ${L.sources.map(s => `<a class="btn ghost" href="${s[1]}" target="_blank" rel="noopener" data-ev="notice">${s[0]}</a>`).join('')}
+    ${reportLink(L)}
   </div>
   <p class="foot">판정은 참고용이며 모집공고문과 관계 법령이 우선해요. 시세는 최근 거래·호가 기준 추정치예요.${aboutLink()}</p>`;
 }
@@ -1175,6 +1176,18 @@ function vOnboard(){
   </div>`;
 }
 
+/* 오류 신고 (기능: report_form). config.json 의 report_form_url 에 구글폼 '미리 채워진 링크'를 넣고, 공고 칸 값 자리에 {listing} 을 둔다 */
+function reportUrl(L){
+  const u = CONFIG.report_form_url;
+  if (!on('report_form') || !u) return '';
+  const what = L ? L.name + (L.unitName || L.unit ? ' ' + (L.unitName || L.unit) : '') + ' (' + (L.id || '').split('-')[0] + ')' : '';
+  return u.replace('{listing}', encodeURIComponent(what));
+}
+function reportLink(L){
+  const u = reportUrl(L);
+  return u ? `<a class="btn ghost" href="${esc(u)}" target="_blank" rel="noopener" data-ev="report">이 공고 정보가 틀렸어요 (오류 신고)</a>` : '';
+}
+
 /* ---------- 이용 안내·개인정보 (기능: about_page) ---------- */
 function analyticsName(){ return !on('analytics') ? '' : CONFIG.cf_beacon ? 'Cloudflare Web Analytics' : CONFIG.goatcounter ? 'GoatCounter' : ''; }
 function aboutLink(){ return on('about_page') ? ' <button class="linkbtn small" data-go="about">이용 안내 · 개인정보</button>' : ''; }
@@ -1193,7 +1206,7 @@ function vAbout(){
     <p style="margin:6px 0" class="small">${an ? '방문 통계는 ' + an + '로 쿠키 없이 페이지 방문 수만 집계해요. 입력한 내 정보는 보내지 않아요.' : '방문 통계는 수집하지 않아요.'}</p>
     <p style="margin:6px 0" class="small">지도를 열면 네이버 지도가 화면을 그리기 위해 접속 정보(IP 주소 등)를 받을 수 있어요. 알림을 구독하면 알림 서비스에 구독 정보가 전달돼요.</p>
     <button class="btn ghost" data-action="wipe">이 기기에 저장된 내 정보 모두 지우기</button></section>
-  ${mail ? `<section class="card"><h2>문의</h2><p style="margin:6px 0" class="small">서비스 운영: <a href="mailto:${esc(mail)}">${esc(mail)}</a></p></section>` : ''}`;
+  ${mail || reportUrl(null) ? `<section class="card"><h2>문의</h2>${reportUrl(null) ? `<p style="margin:6px 0" class="small">정보가 틀렸다면 <a href="${esc(reportUrl(null))}" target="_blank" rel="noopener">오류 신고</a>로 알려주세요. 모집공고문 원문과 대조해 고쳐요.</p>` : ''}${mail ? `<p style="margin:6px 0" class="small">서비스 운영: <a href="mailto:${esc(mail)}">${esc(mail)}</a></p>` : ''}</section>` : ''}`;
 }
 
 /* ---------- 라우팅 & 이벤트 ---------- */
