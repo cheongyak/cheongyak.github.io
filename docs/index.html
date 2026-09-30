@@ -1839,14 +1839,17 @@ function spPosition(L, p, r){
   if (r.type === 'elder' && !r.pub) { const sc = on('score') ? myScore(L, Object.assign({}, p, { spouseAcctSince:'' })) : null;
     return sc && sc.total != null ? '가점 <b>' + sc.total + '점</b> / 84 · 배우자 통장 점수 빼고 · 점수 높은 순' : '가점 순 (84점)'; }
   if (r.type === 'elder' && r.pub) return '저축총액 많은 순' + (p.acctPaid != null ? ' · 내 인정 금액 <b>' + p.acctPaid.toLocaleString() + '만</b>' : '');
-  if (r.pub && (r.type === 'newlywed' || r.type === 'newborn') && r.stage && r.stage[0] !== '추첨') {
+  // 공공 신혼부부: 선정순위(1순위 혼인 중 미성년 자녀·임신·입양, 2순위 그 밖·예비신혼부부) 먼저. 1단계는 같은 순위 안에서 가점 순, 2단계는 같은 순위 안에서 추첨
+  // 근거: 2026000409·414·416 신혼부부 '당첨자 선정방법' 1단계 「선정순위 … 동일 순위 내 가점항목 다득점순」, 2단계 「선정순위 … 동일 순위 내 경쟁이 있는 경우 추첨」
+  const pubRank = r.pub && r.type === 'newlywed' ? (p.kidsMinor > 0 || p.pregnant ? ' · 1순위 (혼인 중 자녀)' : p.kidsMinor == null && p.pregnant == null ? '' : ' · 2순위 (자녀 없음)') : '';
+  if (r.pub && (r.type === 'newlywed' || r.type === 'newborn') && r.stage && r.stage[0] !== '추첨' && !(r.type === 'newlywed' && r.stage[0] !== '우선공급')) {
     const pp = pubPoints(L, p, r.type), exact = pp.hi === pp.sum;
-    return '<b>' + esc(r.stage[0]) + '</b>' + units + ' · 점수 <b>' + (exact ? pp.sum : pp.sum + '~' + pp.hi) + '점</b> / ' + pp.max + ' (' + esc(pp.text) + ')'
+    return '<b>' + esc(r.stage[0]) + '</b>' + units + pubRank + ' · 점수 <b>' + (exact ? pp.sum : pp.sum + '~' + pp.hi) + '점</b> / ' + pp.max + ' (' + esc(pp.text) + ')'
       + (exact ? '' : '<br><span class="st-warn">' + esc(pp.missing.join(', ')) + ' 점수는 반영 안 했어요.</span> <button class="linkbtn small" data-action="sp-home">입력하기</button>');
   }
   if (r.stage) {
-    const rank = r.type === 'newlywed' && !r.pub ? (p.kidsMinor > 0 || p.pregnant ? ' · 1순위 (혼인 중 자녀)' : ' · 2순위 (자녀 없음)') : '';
-    return '<b>' + esc(r.stage[0]) + '</b>' + units + rank + ' · 그 안에서 ' + (r.type === 'newlywed' && !r.pub ? '지역 → 자녀 수 → 추첨' : '지역 → 추첨') + ' (가점 무관)';
+    const rank = r.type === 'newlywed' && !r.pub ? (p.kidsMinor > 0 || p.pregnant ? ' · 1순위 (혼인 중 자녀)' : ' · 2순위 (자녀 없음)') : pubRank;
+    return '<b>' + esc(r.stage[0]) + '</b>' + units + rank + ' · 그 안에서 ' + (r.type === 'newlywed' && !r.pub ? '지역 → 자녀 수 → 추첨' : r.type === 'newlywed' && r.stage[0] !== '추첨' ? '순위 → 지역 → 추첨' : '지역 → 추첨') + ' (가점 무관)';
   }
   return '';
 }
@@ -2024,8 +2027,11 @@ function spMinePlain(L, p, r){
   if (r.type === 'elder' && !r.pub) { const sc = on('score') ? myScore(L, Object.assign({}, p, { spouseAcctSince:'' })) : null;
     out.push(sc && sc.total != null ? `내 가점은 <b>${sc.total}점</b> / 84이에요 (노부모부양은 배우자 통장 점수를 빼요). 높을수록 먼저 뽑혀요.` : '가점 항목을 넣으면 내 가점을 계산해 드려요.'); }
   if (r.type === 'elder' && r.pub && p.acctPaid != null) out.push(`내 청약통장 인정 금액은 <b>${p.acctPaid.toLocaleString()}만원</b>이에요. 많을수록 먼저 뽑혀요.`);
-  if (r.pub && (r.type === 'newlywed' || r.type === 'newborn') && r.stage && !/추첨/.test(r.stage[0])) {
+  if (r.pub && r.type === 'newlywed' && r.stage && !/추첨/.test(r.stage[0]) && r.stage[0] !== '우선공급')
+    out.push('이 단계(소득 2구간)는 점수가 아니라 <b>선정순위</b>(혼인 중 자녀가 있으면 1순위) 안에서 추첨으로 뽑아요.');
+  else if (r.pub && (r.type === 'newlywed' || r.type === 'newborn') && r.stage && !/추첨/.test(r.stage[0])) {
     const pp = pubPoints(L, p, r.type), exact = pp.hi === pp.sum;
+    if (r.type === 'newlywed') out.push('신혼부부는 <b>선정순위</b>(혼인 중 자녀가 있으면 1순위)가 먼저이고, 같은 순위 안에서 점수 순이에요.');
     out.push(`내 점수는 <b>${exact ? pp.sum : pp.sum + '~' + pp.hi}점</b> / ${pp.max}이에요${exact ? '' : ` (${esc(eulReul(pp.missing.join(', ')))} 넣으면 정확해져요)`}. 높을수록 먼저 뽑혀요.`);
     if (pp.text) out.push(`<span class="muted">점수 내역: ${esc(pp.text)}</span>`);
   }
