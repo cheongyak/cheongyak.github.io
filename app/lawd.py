@@ -18,11 +18,14 @@ CACHE = Path(__file__).resolve().parent.parent / "docs" / "lawd-cache.json"
 REVERSE_URL = "https://maps.apigw.ntruss.com/map-reversegeocode/v2/gc"
 
 
-def key_of(address: str) -> Optional[str]:
-    sido = RG.sido_of(address)
+def key_of(address: str, sido_hint: Optional[str] = None) -> Optional[str]:
+    """'시도 시군구'. 새 광역 단위(예: 2026-07 출범 전남광주통합특별시)처럼 표에 없는 시·도 이름이면
+    청약홈이 준 공급지역 이름(sido_hint)을 쓴다."""
+    a = RG.main_address(address)
+    sido = RG.sido_of(a) or sido_hint
     if not sido:
         return None
-    sg = RG.sigungu_any(address)
+    sg = RG.sigungu_any(a)
     return f"{sido} {sg}" if sg else (sido if sido == "세종" else None)
 
 
@@ -37,12 +40,12 @@ def save(cache: dict, path: Path = None) -> None:
     (path or CACHE).write_text(json.dumps(cache, ensure_ascii=False, indent=1, sort_keys=True), encoding="utf-8")
 
 
-def lawd_for(address: str, cache: Optional[dict] = None) -> Optional[str]:
+def lawd_for(address: str, cache: Optional[dict] = None, sido_hint: Optional[str] = None) -> Optional[str]:
     """표에 있으면 표, 없으면 역지오코딩으로 모아 둔 기록."""
     code = RG.lawd_of(RG.sigungu_of(address))
     if code:
         return code
-    k = key_of(address)
+    k = key_of(address, sido_hint)
     e = (cache if cache is not None else load()).get(k) if k else None
     return e.get("code") if isinstance(e, dict) else None
 
@@ -63,9 +66,14 @@ def reverse(lat: float, lng: float, http: httpx.Client, key: tuple[str, str]) ->
 
 def matches(address: str, info: dict) -> bool:
     """역지오코딩 지역 이름이 공고 주소의 시·도·시군구와 같은지."""
+    a = RG.main_address(address)
     names = info.get("names", "")
-    sido = RG.sido_of(address)
-    if not sido or RG.sido_of(names) != sido:
+    first, area1 = a.split(" ")[0], names.split(" ")[0]
+    sido = RG.sido_of(a)
+    if sido:
+        if RG.sido_of(area1) != sido:
+            return False
+    elif not first or first != area1:  # 표에 없는 시·도 이름은 글자 그대로 같아야 함
         return False
-    sg = RG.sigungu_any(address)
+    sg = RG.sigungu_any(a)
     return sg is None or sg.split(" ")[0] in names

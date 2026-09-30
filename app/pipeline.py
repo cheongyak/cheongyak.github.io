@@ -60,7 +60,7 @@ def build_listing(raw: dict, rtms: Optional[RtmsClient], today: date, lawd_cache
     addr = raw["address"]
     reg = RG.region_of(addr)
     sg = RG.sigungu_of(addr)
-    lawd = LC.lawd_for(addr, lawd_cache if lawd_cache is not None else {})
+    lawd = LC.lawd_for(addr, lawd_cache if lawd_cache is not None else {}, raw.get("area_code_nm"))
     regulated = raw["speculative"] if raw.get("speculative") is not None else RG.is_regulated(addr)
     capital = RG.is_capital(addr)
     price_cap = bool(raw.get("price_cap"))
@@ -97,7 +97,7 @@ def build_listing(raw: dict, rtms: Optional[RtmsClient], today: date, lawd_cache
     return Listing(
         id=f"{raw['notice_no']}-{raw.get('house_ty') or raw['unit']}",
         name=raw["name"], address=addr, region=reg, sigungu=sg,
-        sido=RG.sido_of(addr) or raw.get("area_code_nm"), district=RG.sigungu_any(addr),
+        sido=RG.sido_of(addr) or raw.get("area_code_nm"), district=RG.sigungu_any(RG.main_address(addr)),
         supply_type=raw.get("supply_type"), house_secd=raw.get("house_secd"), house_dtl=raw.get("house_dtl"),
         rent_secd=raw.get("rent_secd"), special_apply=raw.get("special_apply"),
         special_apply_end=raw.get("special_apply_end"),
@@ -269,7 +269,7 @@ def run(dry_run: bool = False, today: Optional[date] = None, read_notices: bool 
     t1 = time.monotonic()
     months = months_back(today, R.MARKET_MONTHS)
     lawd_cache = LC.load()
-    lawds = {LC.lawd_for(r["address"], lawd_cache) for r in raws if r.get("price")}
+    lawds = {LC.lawd_for(r["address"], lawd_cache, r.get("area_code_nm")) for r in raws if r.get("price")}
     keys = [(k, l, ym) for l in sorted(x for x in lawds if x) for k in ("trade", "presale", "rent") for ym in months]
     pf = rt.prefetch(keys, budget_sec=MARKET_BUDGET_SEC)
     log.append(f"[시간] 공고 {len(raws)}건 {t1 - t0:.0f}초 · 실거래 요청 {pf['total']}건 {pf['seconds']:.0f}초 "

@@ -1,6 +1,7 @@
 """주소 문자열 → 지역 분류, 시군구, 법정동코드(LAWD_CD)."""
 from __future__ import annotations
 
+import re
 from typing import Optional
 
 from . import rules as R
@@ -27,6 +28,19 @@ SIDO = {
 }
 SIDO_ORDER = ["서울", "경기", "인천", "부산", "대구", "대전", "광주", "울산", "세종",
               "강원", "충북", "충남", "전북", "전남", "경북", "경남", "제주"]
+
+
+def main_address(address: str) -> str:
+    """'광주연구개발특구 첨단3지구 A6블록(전남광주통합특별시 북구 월출동)'처럼 괄호 안에 행정 주소가 있으면 그것을 쓴다."""
+    a = (address or "").strip()
+    first = a.split(" ")[0] if a else ""
+    if SIDO.get(first) or re.search(r"(특별시|광역시|특별자치시|특별자치도|도)$", first):
+        return a
+    for inner in re.findall(r"\(([^)]*)\)", a):
+        f = inner.strip().split(" ")[0] if inner.strip() else ""
+        if SIDO.get(f) or re.search(r"(특별시|광역시|특별자치시|특별자치도|도)$", f):
+            return inner.strip()
+    return a
 
 
 def sido_of(address: str) -> Optional[str]:

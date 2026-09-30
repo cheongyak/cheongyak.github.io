@@ -44,7 +44,7 @@ _ADMIN_END = re.compile(r"(동|읍|면|리|\d가)$")
 
 def address_queries(address: str) -> list[tuple[str, str]]:
     """공고 주소 → [(검색어, 정밀도)] (정확한 것부터)."""
-    s = re.sub(r"\([^)]*\)", " ", address or "")
+    s = re.sub(r"\([^)]*\)", " ", RG.main_address(address))
     s = s.split(" 및 ")[0].split(",")[0]
     area: list[str] = []
     lot = None
@@ -211,9 +211,9 @@ def apply_geo(listings: list, log: list[str], previous: Optional[dict] = None, h
         from . import lawd as LW
         tried, seen = 0, set()
         for nid, (geo, nb) in found.items():
-            addr = groups[nid][0].address
-            k = LW.key_of(addr)
-            if not geo or not k or k in seen or LW.lawd_for(addr, lawd_cache) or tried >= 30:
+            addr, hint = groups[nid][0].address, groups[nid][0].sido
+            k = LW.key_of(addr, hint)
+            if not geo or not k or k in seen or LW.lawd_for(addr, lawd_cache, hint) or tried >= 30:
                 continue
             seen.add(k)
             tried += 1
