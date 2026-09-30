@@ -71,6 +71,17 @@ a{color:var(--link)}
 .cutbar .me{position:absolute;top:-3px;width:2px;height:20px;margin-left:-1px;background:var(--pass)}
 .cutlegend{display:flex;flex-wrap:wrap;gap:10px;margin:4px 0 6px} .cutlegend i{display:inline-block;vertical-align:middle;margin-right:4px}
 .cutlegend i.rng{width:16px;height:8px;border-radius:4px;background:var(--consider-soft);box-shadow:inset 0 0 0 1px var(--consider)} .cutlegend i.md{width:10px;height:10px;border-radius:50%;background:var(--consider)} .cutlegend i.me{width:2px;height:12px;background:var(--pass)}
+.doc p{margin:6px 0;font-size:14px;line-height:1.65} .doc h2{margin-bottom:4px}
+.doclist{margin:4px 0;padding-left:18px;font-size:14px;line-height:1.65} .doclist li{margin:4px 0}
+.eyebrow{font-size:11px;font-weight:700;letter-spacing:.06em;color:var(--muted);margin-bottom:6px}
+.story .lead,.doc .lead{font-size:21px;font-weight:700;line-height:1.45;margin:4px 0 8px;letter-spacing:-.3px}
+.dq{padding:8px 10px;border-radius:10px;background:var(--sunk)} .dq b{color:var(--consider-ink)}
+.numlist{list-style:none;counter-reset:n;margin:6px 0;padding:0} .numlist li{counter-increment:n;display:grid;grid-template-columns:28px 1fr;gap:2px 8px;padding:8px 0;border-top:1px solid var(--line);font-size:14px;line-height:1.55}
+.numlist li::before{content:counter(n);grid-row:1 / span 2;width:24px;height:24px;border-radius:12px;background:var(--btn);color:var(--btn-fg);font-size:12px;font-weight:700;display:flex;align-items:center;justify-content:center}
+.numlist li span{color:var(--muted)}
+.docrow{display:flex;align-items:center;justify-content:space-between;gap:8px;width:100%;padding:12px 0;border:0;border-top:1px solid var(--line);background:none;color:inherit;font:inherit;text-align:left;cursor:pointer} .docrow>span{display:flex;flex-direction:column;gap:2px} .docrow svg{width:16px;height:16px;flex:none;color:var(--muted)}
+.tblwrap{overflow-x:auto} .doctbl{width:100%;border-collapse:collapse;font-size:13px} .doctbl th,.doctbl td{text-align:left;padding:6px 6px;border-top:1px solid var(--line);vertical-align:top} .doctbl th{color:var(--muted);font-weight:600}
+.doc-kv{margin:8px 0 0}
 .linkcard{display:flex;flex-direction:column;gap:2px;text-decoration:none;color:inherit}
 .back{display:flex;align-items:center;gap:2px;border:0;background:none;padding:0 8px 0 0;min-height:44px;font-weight:600;cursor:pointer}
 .back svg{width:22px;height:22px}
@@ -300,7 +311,7 @@ let LISTINGS = [
 ];
 const TODAY = (() => { const d = new Date(Date.now() + 9*3600e3); return d.toISOString().slice(0,10); })(); // 한국 날짜
 let DATA_SOURCE = { live:false, updated:'' };
-let CONFIG = { ntfy_server:'https://ntfy.sh', ntfy_topic:'cheongyak-97ecbdb4', site_url:'', goatcounter:'', cf_beacon:'', contact_email:'', report_form_url:'', open_chat_url:'', maker:'', naver_map_key:'', features:{} };
+let CONFIG = { ntfy_server:'https://ntfy.sh', ntfy_topic:'cheongyak-97ecbdb4', site_url:'', goatcounter:'', cf_beacon:'', contact_email:'', report_form_url:'', open_chat_url:'', maker:'', privacy_officer:'', naver_map_key:'', features:{} };
 /* 기능 스위치: config.json 의 features 에서 false 로 두면 그 기능만 꺼진다 (목록과 설명은 저장소의 FEATURES.md) */
 const on = k => !CONFIG.features || CONFIG.features[k] !== false;
 
@@ -1415,6 +1426,7 @@ function vAbout(){
     <p style="margin:6px 0" class="small">${an ? '방문 통계는 ' + an + '로 쿠키 없이 페이지 방문 수만 집계해요. 입력한 내 정보는 보내지 않아요.' : '방문 통계는 수집하지 않아요.'}</p>
     <p style="margin:6px 0" class="small">지도를 열면 네이버 지도가 화면을 그리기 위해 접속 정보(IP 주소 등)를 받을 수 있어요. 알림을 구독하면 알림 서비스에 구독 정보가 전달돼요.</p>
     <button class="btn ghost" data-action="wipe">이 기기에 저장된 내 정보 모두 지우기</button></section>
+  ${docLinks()}
   ${mail || reportUrl(null) ? `<section class="card"><h2>문의</h2>${reportUrl(null) ? `<p style="margin:6px 0" class="small">정보가 틀렸다면 <a href="${esc(reportUrl(null))}" target="_blank" rel="noopener">오류 신고</a>로 알려주세요. 모집공고문 원문과 대조해 고쳐요.</p>` : ''}${mail ? `<p style="margin:6px 0" class="small">서비스 운영: <a href="mailto:${esc(mail)}">${esc(mail)}</a></p>` : ''}${chatCard() ? `<p style="margin:6px 0" class="small">사용 문의·건의는 <a href="${esc(CONFIG.open_chat_url)}" target="_blank" rel="noopener">오픈카톡방</a>에서도 받아요.</p>` : ''}</section>` : ''}`;
 }
 
@@ -1510,16 +1522,160 @@ function vTrend(){
   <p class="foot">최저 당첨 가점은 1순위 해당지역 가점제 당첨자 중 가장 낮은 점수예요. 내 가점이 이보다 높아도 경쟁자와 추첨 비율에 따라 당첨이 보장되지 않아요. 가점제 당첨자가 없던 주택형(0점)과 무순위는 뺐어요. 지금 모인 기록은 ${esc(sidoKeys.join('·'))}이에요. ${src(null, ['청약홈 청약 결과 (단지별 경쟁률·당첨 가점)', 'https://www.applyhome.co.kr'])}</p>`;
 }
 
+/* ---------- 만든 사람·이용약관·개인정보처리방침 (기능: legal_pages) ----------
+   로그인이 없고 입력값은 이 기기에만 저장되는 구조를 그대로 적는다. 운영자 이름은 config.json 의 privacy_officer, 소개는 maker */
+const LEGAL_DATE = '2026-09-30';
+function docLinks(){
+  if (!on('legal_pages')) return '';
+  const a = (v, t, d) => `<button class="docrow" data-go="${v}"><span><b>${t}</b><span class="small muted">${d}</span></span>${chev.replace('<svg', '<svg style="transform:rotate(180deg)"')}</button>`;
+  return `<section class="card"><h2>문서</h2>${a('story', '만든 이유와 데이터', '청약판정이 답하려는 질문')}${a('terms', '이용약관', '시행일 ' + LEGAL_DATE)}${a('privacy', '개인정보처리방침', '시행일 ' + LEGAL_DATE)}</section>`;
+}
+const docTop = t => `<div class="top"><button class="back" data-go="about">${chev}이용 안내</button></div><h1 style="margin:0 0 4px">${t}</h1>`;
+const officer = () => esc(CONFIG.privacy_officer || '서비스 운영자');
+const mailLink = () => CONFIG.contact_email ? `<a href="mailto:${esc(CONFIG.contact_email)}">${esc(CONFIG.contact_email)}</a>` : '서비스 내 문의 창구';
+function art(n, title, body){ return `<section class="card doc"><h2>${n ? n + ' ' : ''}${title}</h2>${body}</section>`; }
+const ul = items => `<ul class="doclist">${items.map(x => `<li>${x}</li>`).join('')}</ul>`;
+const infoTable = () => `<dl class="kv doc-kv"><dt>서비스</dt><dd>청약판정 (cheongyak.github.io)</dd><dt>운영</dt><dd>${officer()} (개인)</dd><dt>이메일</dt><dd>${mailLink()}</dd></dl>`;
+
+function vStory(){
+  const nids = new Set(LISTINGS.filter(L => !L.sample).map(nidOf)), units = LISTINGS.filter(L => !L.sample).length;
+  const sidos = new Set(LISTINGS.filter(L => !L.sample && L.sido).map(L => L.sido)).size;
+  const tile = (n, t) => `<div><b>${n}</b><span>${t}</span></div>`;
+  const q = t => `<p class="dq"><b>Q.</b> ${t}</p>`;
+  return docTop('만든 이유와 데이터') + `
+  <section class="card doc story">
+    <div class="eyebrow">WHY · 만든 이유</div>
+    <p class="lead">청약은 감으로 넣기엔<br>되돌리기 어려운 결정이에요.</p>
+    <p>공고문, 실거래가, 경쟁률은 모두 공개돼 있어요.<br>흩어져 있을 뿐이에요.</p>
+  </section>
+  ${DATA_SOURCE.live ? `<section class="card doc"><div class="eyebrow">FOUNDATION · 이 도구의 토대</div>
+    <div class="sumbar" style="margin:6px 0 0">${tile(nids.size + '개', '공고 · 주택형 ' + units + '개')}${tile(sidos + '개', '시·도의 공고')}${tile('매일', '새벽 청약홈·국토부 동기화')}</div>
+    <p class="foot" style="margin-top:6px">지금 화면에 있는 공고 기준 (마감 후 발표 전 공고 포함).</p></section>` : ''}
+  <section class="card doc"><div class="eyebrow">01 · The decision</div><h2>한 번 넣으면 되돌리기 어려워요</h2>
+    <p>당첨되면 재당첨 제한이 걸리고, 계약을 포기해도 당첨자로 관리돼요. 자격이 안 되는데 당첨되면 부적격으로 한동안 다른 청약에 당첨될 수 없어요.</p>
+    <p>그런데 판단은 보통 수십 쪽짜리 모집공고문, 커뮤니티 후기, "여기 로또래요" 같은 말에 기대요.</p></section>
+  <section class="card doc"><div class="eyebrow">02 · The question</div><h2>신청 전에 알고 싶은 것</h2>
+    ${q('나는 이 공고에 1순위로 넣을 수 있을까?')}${q('당첨되면 계약금과 잔금을 마련할 수 있을까?')}${q('분양가가 주변 시세보다 정말 싼 걸까?')}${q('내 가점이면 이 지역에서 당첨된 적이 있을까?')}</section>
+  <section class="card doc"><div class="eyebrow">03 · The insight</div><h2>답은 이미 공개돼 있어요</h2>
+    <p>청약홈 공고와 모집공고문에 자격 조건이, 국토교통부 실거래가에 주변 시세가, 청약홈 청약 결과에 경쟁률과 당첨 가점이 있어요. 다만 서로 다른 곳에 흩어져 있고, 내 상황에 맞춰 계산해 주지 않을 뿐이에요.</p></section>
+  <section class="card doc"><div class="eyebrow">04 · The tool</div><h2>청약판정은</h2>
+    <ol class="numlist">
+      <li><b>자격</b><span>청약통장 1순위 요건, 규제지역 추가 요건, 내 청약 가점을 공고 조건과 맞춰 봐요.</span></li>
+      <li><b>자금</b><span>계약금, 잔금, 대출 한도를 내 소득과 자산으로 계산해요.</span></li>
+      <li><b>마진</b><span>같은 지역 비슷한 아파트의 실거래로 시세를 추정해 분양가와 비교해요.</span></li>
+      <li><b>가능성</b><span>근처 최근 경쟁률과 지역별 당첨 가점 컷을 보여줘요.</span></li>
+    </ol>
+    <p>모든 숫자에 출처를 달고, 추정값은 추정이라고 표시해요. 공고문 원문을 직접 확인한 값과 매번 대조해 검증해요.</p></section>
+  <section class="card doc"><p class="lead" style="font-size:18px">청약을 감이 아니라 근거로.</p>
+    <p class="muted" style="margin:0">— 청약판정을 만든 사람${CONFIG.maker ? '<br>' + esc(CONFIG.maker) : ''}</p></section>
+  ${on('community_link') && /^https:\/\/open\.kakao\.com\//.test(CONFIG.open_chat_url || '') ? `<a class="card linkcard" href="${esc(CONFIG.open_chat_url)}" target="_blank" rel="noopener" data-ev="open-chat"><div class="eyebrow">OPEN CHAT · 함께 고민하는 방</div><b>오픈카톡방 입장하기</b><span class="small muted">청약 고민 나누기 · 사용 문의 · 건의</span></a>` : ''}`;
+}
+
+function vTerms(){
+  return docTop('이용약관') + `<p class="small muted" style="margin:0 0 8px">시행일 ${LEGAL_DATE}</p>
+  ${art('제1조', '(목적)', `<p>이 약관은 ${officer()}(이하 "운영자")가 제공하는 청약판정(이하 "서비스")의 이용 조건과 운영자와 이용자의 권리·의무·책임을 정합니다.</p>${infoTable()}`)}
+  ${art('제2조', '(용어)', ul([
+    '"서비스"란 cheongyak.github.io 에서 제공하는 청약 공고 정리·판정 화면과 부속 기능 일체를 말합니다.',
+    '"이용자"란 이 약관에 따라 서비스를 이용하는 사람을 말합니다. 서비스는 회원가입 없이 이용합니다.',
+    '"판정 콘텐츠"란 공개 자료(청약홈 분양정보, 모집공고문, 국토교통부 실거래가, 청약홈 청약 결과 등)와 이용자가 입력한 값으로 계산한 자격·자금·마진·등급·가점 등의 결과를 말합니다.'
+  ]))}
+  ${art('제3조', '(약관의 효력과 변경)', ul([
+    '이 약관은 서비스 화면에 게시함으로써 효력이 생깁니다.',
+    '운영자는 관련 법령을 위반하지 않는 범위에서 약관을 바꿀 수 있으며, 바꿀 때는 시행 7일 전(이용자에게 불리하거나 중요한 변경은 30일 전)부터 서비스 화면에 알립니다.',
+    '바뀐 약관에 동의하지 않으면 서비스 이용을 중단할 수 있습니다.'
+  ]))}
+  ${art('제4조', '(서비스의 내용과 변경)', ul([
+    '서비스는 ① 청약 공고 모아 보기, ② 이용자 입력값에 따른 기본 자격·청약 가점 계산, ③ 자금(계약금·잔금·대출 한도) 계산, ④ 실거래가 기반 시세·마진 추정, ⑤ 경쟁률·당첨 가점 정보, ⑥ 관심 공고·비교, ⑦ 알림 안내 등을 무료로 제공합니다.',
+    '운영자는 품질 개선이나 운영·기술상 이유로 서비스의 일부 또는 전부를 바꾸거나 멈출 수 있으며, 가능한 경우 미리 서비스 화면에 알립니다.',
+    '공고와 시세 자료는 매일 새벽 자동으로 모으며, 출처 쪽 사정으로 늦거나 빠질 수 있습니다.'
+  ]))}
+  ${art('제5조', '(판정 콘텐츠의 성격)', ul([
+    '판정 콘텐츠는 참고용 계산 결과이며, 청약 자격의 공식 확인, 「감정평가 및 감정평가사에 관한 법률」에 따른 감정평가, 투자·매수 권유, 대출 가능 여부의 확정에 해당하지 않습니다.',
+    '청약 자격과 조건은 해당 모집공고문과 청약홈의 청약자격 확인이 우선합니다. 서비스가 아직 판정하지 않는 요건(특별공급 유형별 요건, 해당지역 거주기간, 소득·자산 기준 등)은 화면에 따로 표시합니다.',
+    '판정 콘텐츠는 이용자가 입력한 값에 따라 달라지며, 입력값이 사실과 다르면 결과도 달라집니다.'
+  ]))}
+  ${art('제6조', '(이용자의 의무)', `<p>이용자는 다음 행위를 해서는 안 됩니다.</p>${ul([
+    '자동화 프로그램·크롤러 등으로 서비스에 비정상적인 부하를 주는 행위',
+    '판정 콘텐츠를 공식 자료나 운영자의 보증인 것처럼 꾸며 배포하는 행위',
+    '서비스 운영을 방해하거나 운영자 또는 제3자의 권리를 침해하는 행위'
+  ])}`)}
+  ${art('제7조', '(면책)', ul([
+    '이용자는 청약 신청, 계약, 대출 등 실제 결정 전에 모집공고문과 청약홈, 금융기관 등에서 사실관계를 직접 확인할 책임이 있습니다.',
+    '운영자는 출처 자료(청약홈, 국토교통부, LH청약플러스 등)의 지연·오류·누락, 이용자가 입력한 값의 오류로 생긴 결과에 대해 책임지지 않습니다. 다만 운영자의 고의 또는 중대한 과실로 인한 계산 오류로 손해가 생긴 경우는 법령에 따라 책임을 집니다.',
+    '천재지변, 호스팅·통신 장애 등 운영자가 통제할 수 없는 사유로 서비스가 멈춘 경우 운영자는 책임지지 않습니다.',
+    '운영자는 오류를 알게 되면 원문과 대조해 고치고, 이용자가 알려준 오류는 서비스 기록에 남깁니다.'
+  ]))}
+  ${art('제8조', '(외부 링크)', `<p>서비스에는 청약홈, 네이버 지도·부동산, 국토교통부 등 외부 사이트 링크가 있습니다. 외부 사이트의 내용과 개인정보 처리는 각 사이트의 정책을 따릅니다.</p>`)}
+  ${art('제9조', '(분쟁 해결과 준거법)', ul([
+    '운영자와 이용자 사이의 분쟁은 먼저 서로 협의해 해결합니다.',
+    '이 약관은 대한민국 법을 따르며, 소송은 「민사소송법」에 따른 관할 법원에서 합니다.',
+    '이 약관에 없는 사항은 관련 법령과 일반 관례를 따릅니다.'
+  ]))}
+  <p class="foot">부칙: 이 약관은 ${LEGAL_DATE}부터 적용합니다. <button class="linkbtn small" data-go="privacy">개인정보처리방침</button></p>`;
+}
+
+function vPrivacy(){
+  const an = analyticsName();
+  return docTop('개인정보처리방침') + `<p class="small muted" style="margin:0 0 8px">시행일 ${LEGAL_DATE}</p>
+  <section class="card doc"><p>${officer()}(이하 "운영자")는 「개인정보 보호법」에 따라 청약판정 이용자의 개인정보를 보호하고 관련 고충을 신속하게 처리하기 위해 이 방침을 공개합니다.</p>
+    <div class="note ok" style="padding:10px 12px"><b style="font-size:14px">한 줄 요약</b><div class="small">회원가입이 없고, 운영자는 이용자를 알아볼 수 있는 개인정보를 모으거나 보관하지 않아요. 인터뷰에 입력한 정보는 이용자 기기의 브라우저에만 저장돼요.</div></div>
+    ${infoTable()}</section>
+  ${art('1.', '처리하는 개인정보', ul([
+    '<b>운영자가 수집·보관하는 개인정보: 없음.</b> 회원가입, 로그인, 서버 저장 기능이 없습니다.',
+    '<b>이용자 기기에만 저장되는 정보:</b> 인터뷰에 입력한 거주 지역, 세대·무주택 여부, 청약통장, 생년월일·혼인신고일, 부양가족, 소득·자산·대출, 관심 공고 목록. 브라우저 저장소(localStorage)에만 저장되며 운영자에게 전송되지 않습니다.',
+    `<b>방문 통계:</b> ${an ? an + '로 쿠키 없이 페이지 방문 수를 셉니다. 이 과정에서 통계 서비스가 접속 정보(IP 주소, 브라우저 종류, 방문한 페이지, 유입 경로)를 처리하며, 운영자는 개인을 알아볼 수 없는 합계 통계만 봅니다.' : '수집하지 않습니다.'}`,
+    '<b>오류 신고:</b> 이용자가 오류 신고 양식(구글폼)이나 이메일로 보낸 내용과, 이용자가 적은 경우 회신용 이메일 주소를 처리합니다.'
+  ]))}
+  ${art('2.', '처리 목적', ul(['방문 통계: 서비스 이용 규모 파악과 개선 (비식별 합계)', '오류 신고·문의: 오류 확인·수정과 회신', '이용자 기기의 입력값: 자격·자금·가점 계산 (기기 안에서만 계산)']))}
+  ${art('3.', '보유 기간과 파기', ul([
+    '기기에 저장된 정보는 이용자가 지울 때까지 그 기기에 남습니다. 이용 안내의 <b>이 기기에 저장된 내 정보 모두 지우기</b> 버튼이나 브라우저의 사이트 데이터 삭제로 바로 지울 수 있습니다.',
+    '오류 신고·문의 내용은 처리 완료 후 1년 동안 보관한 뒤 지웁니다. 이용자가 요청하면 그 전에 지웁니다.',
+    '방문 통계는 통계 서비스가 정한 기간 동안 합계 형태로 보관됩니다.'
+  ]))}
+  ${art('4.', '제3자 제공', `<p>운영자는 이용자의 개인정보를 제3자에게 제공하지 않습니다. 다만 법령에 특별한 규정이 있거나 수사기관이 적법한 절차로 요구하는 경우는 예외로 합니다.</p>`)}
+  ${art('5.', '서비스에 쓰는 외부 서비스', `<p>서비스 화면을 열거나 기능을 쓸 때 이용자의 브라우저가 아래 서비스에 직접 접속하며, 그 과정에서 각 서비스가 접속 정보(IP 주소, 브라우저 정보 등)를 처리할 수 있습니다. 각 서비스의 개인정보 처리는 그 회사의 방침을 따릅니다.</p>
+    <div class="tblwrap"><table class="doctbl"><thead><tr><th>서비스</th><th>언제</th><th>하는 일</th></tr></thead><tbody>
+      <tr><td>GitHub Pages (GitHub, Inc., 미국)</td><td>사이트를 열 때</td><td>웹사이트 호스팅</td></tr>
+      <tr><td>Google Fonts (Google LLC, 미국)</td><td>사이트를 열 때</td><td>글꼴 제공</td></tr>
+      ${an ? `<tr><td>${an === 'GoatCounter' ? 'GoatCounter (네덜란드)' : 'Cloudflare Web Analytics (Cloudflare, Inc., 미국)'}</td><td>사이트를 열 때</td><td>쿠키 없는 방문 통계</td></tr>` : ''}
+      <tr><td>네이버 지도 (NAVER Cloud, 한국)</td><td>지도를 볼 때</td><td>지도 표시</td></tr>
+      <tr><td>ntfy (ntfy.sh)</td><td>알림을 구독할 때</td><td>푸시 알림 전달</td></tr>
+      <tr><td>Google Forms (Google LLC, 미국)</td><td>오류 신고를 보낼 때</td><td>신고 내용 접수</td></tr>
+      <tr><td>카카오 오픈채팅 (카카오, 한국)</td><td>오픈카톡방에 들어갈 때</td><td>이용자 대화방</td></tr>
+    </tbody></table></div>
+    <p class="small muted">운영자가 이용자의 개인정보를 이 회사들에 맡기거나 보내는 것이 아니라, 이용자의 브라우저가 해당 기능을 쓰려고 직접 접속하는 구조입니다.</p>`)}
+  ${art('6.', '이용자의 권리와 행사 방법', ul([
+    '이용자는 언제든지 개인정보의 열람·정정·삭제·처리정지를 요구할 수 있습니다.',
+    '기기에 저장된 정보는 이용자가 직접 보고(내 정보 화면), 고치고(인터뷰 다시 하기), 지울 수(내 정보 모두 지우기) 있습니다.',
+    `오류 신고·문의 내용에 대한 요구는 ${mailLink()} 로 보내 주시면 10일 안에 처리합니다.`
+  ]))}
+  ${art('7.', '쿠키와 추적 기술', ul([
+    '운영자는 쿠키를 쓰지 않습니다. 방문 통계도 쿠키 없이 셉니다.',
+    '광고 식별자를 수집하지 않고, 광고·마케팅에 쓰지 않습니다.',
+    '입력값과 관심 공고는 쿠키가 아닌 브라우저 저장소(localStorage)에 저장되며, 서버로 보내지 않습니다.'
+  ]))}
+  ${art('8.', '안전성 확보 조치', ul(['모든 접속은 HTTPS로 암호화됩니다.', '서비스 코드와 설정의 인증키는 공개 저장소가 아닌 별도 보관소(GitHub Secrets)에만 둡니다.', '운영자가 보관하는 개인정보(오류 신고·문의)는 운영자만 볼 수 있게 관리합니다.']))}
+  ${art('9.', '개인정보 보호책임자', `<dl class="kv doc-kv"><dt>책임자</dt><dd>${officer()}</dd><dt>연락처</dt><dd>${mailLink()}</dd></dl><p class="small">개인정보 관련 문의·불만·피해 구제 요청은 위 책임자에게 하실 수 있습니다.</p>`)}
+  ${art('10.', '권익침해 구제 방법', `<p>개인정보 침해로 도움이 필요하면 아래 기관에 상담·신고할 수 있습니다.</p>${ul([
+    '개인정보분쟁조정위원회: 1833-6972 · <a href="https://www.kopico.go.kr" target="_blank" rel="noopener">kopico.go.kr</a>',
+    '개인정보침해 신고센터: 118 · <a href="https://privacy.kisa.or.kr" target="_blank" rel="noopener">privacy.kisa.or.kr</a>',
+    '대검찰청: 1301 · <a href="https://www.spo.go.kr" target="_blank" rel="noopener">spo.go.kr</a>',
+    '경찰청: 182 · <a href="https://ecrm.police.go.kr" target="_blank" rel="noopener">ecrm.police.go.kr</a>'
+  ])}`)}
+  ${art('11.', '방침의 변경', `<p>이 방침은 법령이나 서비스가 바뀌면 고칠 수 있으며, 고칠 때는 시행 7일 전(중요한 변경은 30일 전)부터 서비스 화면에 알립니다.</p><p class="small muted">개정 이력 · ${LEGAL_DATE} 최초 시행</p>`)}
+  <p class="foot"><button class="linkbtn small" data-go="terms">이용약관</button></p>`;
+}
+
 /* ---------- 라우팅 & 이벤트 ---------- */
 const app = document.getElementById('app'), tabbar = document.getElementById('tabbar');
-const VIEWS = { feed:vFeed, detail:vDetail, plan:vPlan, grades:vGrades, me:vMe, onboard:vOnboard, alerts:vAlerts, about:vAbout, compare:vCompare, trend:vTrend };
+const VIEWS = { feed:vFeed, detail:vDetail, plan:vPlan, grades:vGrades, me:vMe, onboard:vOnboard, alerts:vAlerts, about:vAbout, compare:vCompare, trend:vTrend, story:vStory, terms:vTerms, privacy:vPrivacy };
 let lastView = null;
 function render(){
   const tt = tabbar.querySelector('[data-go=trend]'); if (tt) tt.hidden = !on('score_cut');
   const ta = tabbar.querySelector('[data-go=about]'); if (ta) ta.hidden = !(on('about_tab') && on('about_page'));
   app.innerHTML = VIEWS[S.view]();
   tabbar.hidden = S.view === 'onboard';
-  const tab = { feed:'feed', detail:'feed', plan:'feed', alerts:'feed', grades:'grades', me:'me', about: on('about_tab') ? 'about' : 'me', compare:'feed', trend:'trend' }[S.view];
+  const tab = { feed:'feed', detail:'feed', plan:'feed', alerts:'feed', grades:'grades', me:'me', about: on('about_tab') ? 'about' : 'me', story: on('about_tab') ? 'about' : 'me', terms: on('about_tab') ? 'about' : 'me', privacy: on('about_tab') ? 'about' : 'me', compare:'feed', trend:'trend' }[S.view];
   tabbar.querySelectorAll('button').forEach(b => { if (b.dataset.go === tab) b.setAttribute('aria-current','page'); else b.removeAttribute('aria-current'); });
   if (lastView !== S.view) window.scrollTo(0, 0);
   const key = S.view + '|' + (S.view === 'detail' || S.view === 'plan' ? S.id : '') + '|' + (S.view === 'feed' ? S.feedMode : '');

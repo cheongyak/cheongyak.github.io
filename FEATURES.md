@@ -44,6 +44,7 @@
 | `score_cut` | 지역별 당첨 가점 컷 (시·도·시군구별 최저 당첨 가점, 내 가점 비교) | 하단 "가점 컷" 탭 | - (기존 docs/cmpet-history.json 사용) | 390889b | backup/20260930-1108-cut |
 | `summary_sheet` | 요약 숫자를 누르면 공고 목록 창 (B안) | 목록 맨 위 세 칸 → 아래에서 올라오는 창 | - | 90b37df | backup/20260930-1132-sheet |
 | `about_tab` | 하단 "이용 안내" 탭 | 하단 메뉴 탭 (about_page 가 켜져 있을 때만) | - | 6b3ddf9 | backup/20260930-1137-abtab |
+| `legal_pages` | 만든 이유와 데이터·이용약관·개인정보처리방침 화면 | 이용 안내 "문서" 칸 → 세 화면 (config 의 maker·privacy_officer) | - | (커밋 후 기입) | backup/20260930-1152-legal |
 
 `naver_map`·`nearby`·`analytics` 는 한 커밋(147fa99)에 함께 들어갔다. 이 셋 중 하나만 없애려면 revert 대신 스위치로 끄거나,
 해당 부분만 지우는 새 커밋을 만든다.
