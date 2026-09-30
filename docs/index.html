@@ -1840,7 +1840,7 @@ function vMeSections(){
   const nMiss = steps.reduce((a, st) => a + st.f.filter(fd => (!fd.show || fd.show(p)) && fieldValue(fd, p).miss).length, 0);
   return `
   <div class="top"><div class="brand">내 정보</div></div>
-  <p class="small muted" style="margin:-4px 0 4px">항목마다 <b>수정</b>을 눌러 그 부분만 고칠 수 있어요. 바꾸면 모든 공고의 판정에 바로 반영돼요.${nMiss ? ` 아직 <b>${nMiss}개</b>가 비어 있어요.` : ''}</p>
+  <p class="small muted" style="margin:-4px 0 4px"><b>수정</b>을 누르면 그 항목부터 이어서 입력하고, 단계마다 저장하고 나올 수 있어요. 바꾸면 모든 공고의 판정에 바로 반영돼요.${nMiss ? ` 아직 <b>${nMiss}개</b>가 비어 있어요.` : ''}</p>
   ${cards}
   <button class="btn ghost" data-action="restart">처음부터 다시 입력하기</button>
   ${chatCard()}
@@ -1990,16 +1990,6 @@ function vOnboard(){
     return `<div class="field"><label for="f-${fd.k}">${fd.l}</label><div class="money"><input id="f-${fd.k}" inputmode="numeric" data-field="${fd.k}" data-num="1" value="${p[fd.k] || ''}" placeholder="0"><span>만원</span></div>${fd.h ? `<span class="hint">${fd.h}</span>` : ''}${p[fd.k] ? `<span class="hint" data-echo="${fd.k}">= ${fmt(eok(p[fd.k]))}</span>` : `<span class="hint" data-echo="${fd.k}"></span>`}</div>`;
   };
   const note = st.note && st.note(p);
-  if (on('profile_sections') && S.edit) {   // 내 정보에서 한 단계만 고칠 때
-    const es = steps.find(x => stepKey(x) === S.edit) || STEPS.find(x => stepKey(x) === S.edit);
-    if (es) { const en = es.note && es.note(p);
-      return `
-  <div class="stack" style="gap:6px;padding-top:8px"><div class="row small muted"><span>내 조건 수정 · ${esc(es.n || '')}</span></div><h1>${es.t}</h1><p class="muted" style="margin:0;font-size:14px">${es.d}</p></div>
-  ${es.f.filter(fd => !fd.show || fd.show(p)).map(field).join('')}
-  ${en ? `<div class="note info"><b style="font-size:13px">이렇게 판정돼요</b><div>${en}</div></div>` : ''}
-  <button class="btn" data-action="edit-done" style="margin-top:8px">완료</button>
-  <p class="small muted" style="margin:0;text-align:center">고친 내용은 바로 저장돼요.</p>`; }
-  }
   return `
   <div class="stack" style="gap:10px;padding-top:8px">
     <div class="row small muted"><span>내 조건 입력</span><span>${i + 1} / ${steps.length}</span></div>
@@ -2012,7 +2002,7 @@ function vOnboard(){
     <button class="btn ghost" data-action="prev">${i === 0 ? '닫기' : '이전'}</button>
     <button class="btn" data-action="next">${i === steps.length - 1 ? '판정 보기' : '다음'}</button>
   </div>
-  ${on('profile_sections') && i > 0 && i < steps.length - 1 ? '<button class="linkbtn small" data-action="onboard-exit" style="align-self:center">여기까지 저장하고 나가기 (나머지는 내 정보에서 언제든)</button>' : ''}`;
+  ${on('profile_sections') ? `<button class="linkbtn small" data-action="onboard-exit" style="align-self:center">${S.fromMe ? '여기까지 저장하고 내 정보로' : '여기까지 저장하고 나가기 (나머지는 내 정보에서 언제든)'}</button>` : ''}`;
 }
 
 /* 오류 신고 (기능: report_form). config.json 의 report_form_url 에 구글폼 '미리 채워진 링크'를 넣고, 공고 칸 값 자리에 {listing} 을 둔다 */
@@ -2356,7 +2346,7 @@ document.addEventListener('click', ev => {
   if (t.dataset.filter) { S.filter = t.dataset.filter; render(); return; }
   if (t.dataset.unset) { const k = t.dataset.unset; if (k === 'date') { S.f.from = ''; S.f.to = ''; } else { S.f[k] = ''; if (k === 'sido') S.f.district = ''; } render(); return; }
   if (t.dataset.set) { S.profile[t.dataset.set] = JSON.parse(t.dataset.val); save(); render(); return; }
-  if (t.dataset.edit) { S.edit = t.dataset.edit; go('onboard'); window.scrollTo(0, 0); return; }
+  if (t.dataset.edit) { const i = visibleSteps().findIndex(x => stepKey(x) === t.dataset.edit); S.step = Math.max(0, i); S.fromMe = true; go('onboard'); window.scrollTo(0, 0); return; }   // 그 단계부터 이어서 입력, 단계마다 저장하고 나가기
   if (t.dataset.mode) { planOpt(LISTINGS.find(x => x.id === S.id)).mode = t.dataset.mode; render(); return; }
   const a = t.dataset.action;
   if (a === 'toggle-closed') { S.showClosed = !S.showClosed; render(); return; }
@@ -2370,13 +2360,12 @@ document.addEventListener('click', ev => {
   }
   if (a === 'wipe') { if (!confirm('이 기기에 저장된 내 정보를 모두 지울까요?')) return; try { localStorage.removeItem('cy-profile'); localStorage.removeItem('cy-watch'); } catch(e) {} WATCH.clear(); S.profile = Object.assign({}, DEFAULT_PROFILE); S.step = 0; go('onboard'); return; }
   if (a === 'install' && installEvt) { const e = installEvt; installEvt = null; e.prompt(); (e.userChoice || Promise.resolve()).then(() => render()); track({ path:'install', event:true }); return; }
-  if (a === 'sp-home') { S.edit = null; let i = visibleSteps().findIndex(x => x.id === 'sp5'); if (i < 0) i = visibleSteps().findIndex(x => x.id === 'home'); S.step = Math.max(0, i); go('onboard'); return; }
-  if (a === 'sp-input') { S.edit = null; const i = visibleSteps().findIndex(x => x.id === 'sp1'); S.step = Math.max(0, i); go('onboard'); return; }
-  if (a === 'restart') { S.step = 0; S.edit = null; go('onboard'); }
-  if (a === 'edit-done') { save(); S.edit = null; track({ path:'profile-edit', event:true }); go('me'); return; }
-  if (a === 'onboard-exit') { save(); track({ path:'onboard-exit', event:true }); go('feed'); return; }
+  if (a === 'sp-home') { S.fromMe = false; let i = visibleSteps().findIndex(x => x.id === 'sp5'); if (i < 0) i = visibleSteps().findIndex(x => x.id === 'home'); S.step = Math.max(0, i); go('onboard'); return; }
+  if (a === 'sp-input') { S.fromMe = false; const i = visibleSteps().findIndex(x => x.id === 'sp1'); S.step = Math.max(0, i); go('onboard'); return; }
+  if (a === 'restart') { S.step = 0; S.fromMe = S.view === 'me'; go('onboard'); }
+  if (a === 'onboard-exit') { save(); track({ path:'onboard-exit', event:true }); const back = S.fromMe ? 'me' : 'feed'; S.fromMe = false; go(back); return; }
   if (a === 'prev') { if (S.step === 0) go('me'); else { S.step--; render(); } }
-  if (a === 'next') { const n = visibleSteps().length; if (S.step >= n - 1) { save(); track({ path:'onboard-done', event:true }); go('feed'); } else { S.step++; render(); } }
+  if (a === 'next') { const n = visibleSteps().length; if (S.step >= n - 1) { S.fromMe = false; save(); track({ path:'onboard-done', event:true }); go('feed'); } else { S.step++; render(); } }
 });
 /* 검색어를 칠 때는 검색창은 그대로 두고 나머지만 다시 그린다 (다시 만들면 폰 키보드가 닫히고 커서가 튄다) */
 let qTimer = null, qTracked = false;
