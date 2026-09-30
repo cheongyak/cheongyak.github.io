@@ -282,11 +282,38 @@ def probe_cmpet_special(http: httpx.Client) -> None:
     (EVIDENCE / "cmpet" / "special.txt").write_text("\n".join(out) + "\n", encoding="utf-8")
 
 
+def probe_applyhome_result_pages(http: httpx.Client) -> None:
+    """청약홈에서 특별공급 신청현황(유형별 공급·신청 건수)이 실제로 보이는 화면 주소 확인 → evidence/pages/applyhome-special.txt
+    (광명 시티프라디움 2026000453 059.9742A: API 기준 신생아 2세대 18건 · 신혼부부 3세대 45건 · 생애최초 1세대 105건)"""
+    out = []
+    no = "2026000453"
+    q = f"houseManageNo={no}&pblancNo={no}"
+    for u in (f"https://www.applyhome.co.kr/ai/aia/selectAPTCompetitionPopup.do?{q}",
+              f"https://www.applyhome.co.kr/ai/aia/selectSpsplyReqstStusPopup.do?{q}",
+              f"https://www.applyhome.co.kr/ai/aia/selectAPTSpsplyReqstStusPopup.do?{q}",
+              f"https://www.applyhome.co.kr/ai/aia/selectSpsplyCompetitionPopup.do?{q}",
+              f"https://www.applyhome.co.kr/ai/aia/selectAPTLttotPblancDetail.do?{q}"):
+        try:
+            r = http.get(u)
+            t = re.sub(r"<script.*?</script>|<style.*?</style>", " ", r.text, flags=re.S)
+            txt = re.sub(r"\s+", " ", re.sub(r"<[^>]+>", " ", t))
+            hits = [m.start() for m in re.finditer("특별공급|생애최초|신생아|신혼부부", txt)]
+            out.append(f"== {u} → {r.status_code} · {len(r.text)}자 · 키워드 {len(hits)}개 · 105 포함 {'105' in txt}")
+            for k in hits[:6]:
+                out.append("   …" + txt[max(0, k - 80):k + 220] + "…")
+            for m in re.finditer(r"(select[A-Za-z]*(?:Spsply|Sp|Reqst|Cmpet|Competition)[A-Za-z]*\.do)", r.text):
+                out.append("   링크: " + m.group(1))
+        except Exception as e:
+            out.append(f"== {u} 실패 {e.__class__.__name__}")
+    (EVIDENCE / "pages").mkdir(parents=True, exist_ok=True)
+    (EVIDENCE / "pages" / "applyhome-special.txt").write_text("\n".join(dict.fromkeys(out)) + "\n", encoding="utf-8")
+
+
 def main() -> None:
     rows = json.loads((ROOT / "docs" / "listings.json").read_text(encoding="utf-8"))
     seen, lines = set(), []
     http = httpx.Client(timeout=httpx.Timeout(30, connect=10), follow_redirects=True, headers=UA)
-    for fn in (probe_cmpet_special, probe_reverse_geocode):
+    for fn in (probe_applyhome_result_pages, probe_cmpet_special, probe_reverse_geocode):
         try:
             fn(http)
         except Exception as e:
