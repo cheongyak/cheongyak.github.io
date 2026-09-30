@@ -252,6 +252,16 @@ def probe_cmpet_special(http: httpx.Client) -> None:
             out.append(f"  [스키마] {name}: " + ", ".join(f"{k}({(v or {}).get('description', '')})" for k, v in props.items())[:3000])
     except Exception as e:
         out.append(f"== 기능 목록 실패 {e.__class__.__name__}")
+    # 기능 목록을 못 받으면 알려진 이름 후보로 직접 확인 (응답 200 + data 가 있으면 존재)
+    if not paths:
+        for u in ("https://infuser.odcloud.kr/oas/docs?namespace=15098905/v1", "https://infuser.odcloud.kr/api/stages/15098905/api-docs"):
+            try:
+                r = http.get(u)
+                out.append(f"== {u.split('?')[0]} → {r.status_code} · {r.text[:300]!r}")
+            except Exception as e:
+                out.append(f"== {u} 실패 {e.__class__.__name__}")
+        paths = ["/getAPTLttotPblancCmpet", "/getAPTSpsplyReqstStus", "/getAptSpsplyReqstStus", "/getAPTSpsplyReqstSttus",
+                 "/getSpsplyReqstStus", "/getAPTLttotPblancSpsplyReqst", "/getAPTSpsplyCmpet", "/getPblPvtRentLttotPblancCmpet", "/getOPTLttotPblancCmpet"]
     if key:
         for path in paths:
             if path.startswith("/15098905/v1"):
