@@ -64,6 +64,8 @@ def market_fallback(out: list, today: date, log: list[str], path: Optional[Path]
     """실거래가 조회가 실패한 주택형은 마지막으로 조회에 성공한 날의 시세를 쓰고 '○월 ○일 조회값'이라고 적는다.
     조회에 성공한 주택형(거래 부족 포함)은 그 값을 기록해 둔다 (docs/market-cache.json)."""
     path = path or MARKET_CACHE
+    if not out:   # 청약홈이 0건을 준 날은 공고 목록을 그대로 두므로 시세 기록도 지우지 않는다 (2026-10-01 00시 실행에서 기록이 비워진 문제)
+        return
     try:
         cache = json.loads(path.read_text(encoding="utf-8"))
     except Exception:

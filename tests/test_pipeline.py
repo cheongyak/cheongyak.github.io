@@ -270,3 +270,11 @@ def test_rtms_retries_transient_errors(monkeypatch):
         return httpx.Response(500, text="err") if calls["n"] < 3 else httpx.Response(200, text=ok_xml)
     c = rtms_mod.RtmsClient("T", httpx.Client(transport=httpx.MockTransport(h)))
     assert c.fetch("trade", "11740", "202609") == [] and calls["n"] == 3
+
+
+def test_market_cache_kept_when_no_listings(tmp_path):
+    """청약홈이 0건을 준 실행에서 시세 기록(market-cache.json)을 비우지 않는다."""
+    p = tmp_path / "market-cache.json"
+    p.write_text('{"a": {"mkt_low": 1, "date": "2026-09-30"}}', encoding="utf-8")
+    pipeline.market_fallback([], __import__("datetime").date(2026, 10, 1), [], path=p)
+    assert "a" in __import__("json").loads(p.read_text(encoding="utf-8"))
