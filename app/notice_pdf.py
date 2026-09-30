@@ -186,6 +186,9 @@ def parse_notice(text: str) -> dict:
     res = parse_residence(text)
     if res:
         out["residence"] = res
+    mc = parse_mc_quota(text)
+    if mc:
+        out["mc_quota"] = mc
     return out
 
 
@@ -307,4 +310,73 @@ def parse_residence(text: str) -> Optional[dict]:
             return {"area": single, "months": 0, "since": None, "others": [], "equal": True}
         if regs:
             return {"area": _area(first) if more else None, "months": 0, "since": None, "others": regs, "equal": not more}
+    return None
+
+
+# ---- 다자녀 특별공급 지역별 배정 (기능: mc_quota) ----
+# 실제 문장 (evidence/notices):
+#  민영 2026000399 "다자녀가구 특별공급 해당시도(서울특별시) 거주자 (50%) … 기타지역(경기도 및 인천광역시) 거주자 (50%)"
+#  LH 2026000409 "다자녀 특별공급 지역 우선공급 기준 … ① 경기도 50% ․ 공고일 현재 주민등록표등본상 해당 주택건설지역(의정부시) 거주자에게 우선 공급
+#                 단, 남는 물량은 경기도 거주자에게 공급 ② 기타지역(수도권) 50% ․ 공고일 현재 주민등록표등본상 수도권(서울특별시, 인천광역시)에 거주하는 분"
+#  LH 2026000416 "① 경기도 50% ․ 공고일 현재 해당 주택건설지역(양주시) 1년 이상 거주자에게 우선 공급. 단, 남는 물량은 경기도 6개월 이상 거주자에게 공급
+#                 - 주민등록표등본상 ‘25.8.27 이전부터 … ② 기타지역(수도권) 50% ․ … 경기도(6개월 미만 거주자 포함), 서울특별시, 인천광역시에 거주하는 분"
+#  LH 2026000414 "다자녀 특별공급 및 일반공급 지역 우선공급 기준 … ① 해당 주택건설지역 (인천광역시) 50% … ② 기타지역(수도권) 50% … 서울특별시, 경기도에 거주하는 분"
+def _regions_listed(text: str) -> list[str]:
+    """'수도권(서울특별시, 인천광역시)' 처럼 괄호로 나열했으면 나열한 것만, 아니면 _regions."""
+    m = re.search(r"수도권\(([^)]+)\)", text)
+    return _regions(m.group(1)) if m else _regions(text)
+
+
+SHORT_SIDO = ["서울", "부산", "대구", "인천", "광주", "대전", "울산", "세종", "경기", "강원", "충북", "충남", "전북", "전남", "경북", "경남", "제주"]
+
+
+def _regions_any(text: str) -> list[str]:
+    """정식 이름이 없으면 '서울, 인천' 같은 짧은 이름도 읽는다."""
+    r = _regions(text)
+    if r:
+        return r
+    return [x for x in SHORT_SIDO if re.search(r"(?:^|[\s,(·및])" + x + r"(?:$|[\s,)·및])", text)]
+
+
+def parse_mc_quota(text: str) -> Optional[dict]:
+    """다자녀 특별공급 지역별 배정. {'buckets': [{'name','pct','regions'(시·도), 'first'(그 안의 해당지역 우선), 'rest_months'}]}.
+    배정 표가 있는 것 같은데 못 읽으면 {'unknown': True}, 흔적이 없으면 None (추측하지 않음)."""
+    t = re.sub(r"\s+", " ", text)
+    # 민영 공급세대수 표: '다자녀가구 특별공급 해당시·도(광명시 및 경기도) 거주자(50%) … 기타지역(서울특별시 및 인천광역시) 거주자(50%)'
+    #  (2026000399 '해당시도(서울특별시) 거주자 (50%)', 2026000394 '여주시 및 경기도 거주자(50%) … 서울특별시 및 인천광역시 거주자(50%)',
+    #   2026000431 '해당 시,도(남양주시, 경기도) … 기타지역(서울, 인천)', 2026000449 표 사이에 다른 글이 끼어 있음)
+    m = re.search(r"다자녀가구 특별공급 (?:해당\s?시\s?[,·]?\s?도\s?\(([^)]+)\)|([가-힣]+ 및 [가-힣]+)) ?거주자 ?\((\d{1,3})%\)", t)
+    if m:
+        first = m.group(1) or m.group(2)
+        m2 = re.search(r"(?:기타지역\s?\(([^)]+)\)|([가-힣]+ 및 [가-힣]+)) ?거주자 ?\((\d{1,3})%\)", t[m.end():m.end() + 900])
+        if m2:
+            return {"buckets": [{"name": "해당 시·도", "pct": int(m.group(3)), "regions": _regions_any(first)},
+                                {"name": "기타지역", "pct": int(m2.group(3)), "regions": _regions_any(m2.group(1) or m2.group(2))}]}
+        return {"unknown": True}
+    m = re.search(r"다자녀(?:가구)? 특별공급 (?:및 일반공급 )?지역 우선공급 기준", t)
+    if m:
+        w = t[m.end():m.end() + 1500]
+        out = []
+        for b in re.finditer(r"[①②③] ?(경기도|해당 ?주택건설지역 ?\(([^)]+)\)|기타지역(?:\(([^)]+)\))?) ?(\d{1,3}) ?% ?[․ㆍ·]? ?(.*?)(?=[①②③]|※|$)", w):
+            name, body, pct = b.group(1), b.group(5), int(b.group(4))
+            if name == "경기도":
+                f = re.search(r"해당 주택건설지역\(([^)]+)\) ?(?:(\d)년 이상 (?:계속 )?)?거주자에게 우선 공급", body)
+                sd = re.search(r"주민등록표등본상 [‘’'`](\d{2})\.(\d{1,2})\.(\d{1,2})\.? ?이전부터", body)
+                r = re.search(r"남(?:는|은) 물량은 경기도 (?:(\d+)개월 이상 (?:계속 )?)?거주자", body)
+                bk = {"name": "경기도", "pct": pct, "regions": ["경기"]}
+                if f:
+                    bk["first"] = {"area": _area(f.group(1)), "months": int(f.group(2)) * 12 if f.group(2) else 0,
+                                   "since": _ymd(*sd.groups()) if (sd and f.group(2)) else None}
+                if r:
+                    bk["rest_months"] = int(r.group(1)) if r.group(1) else 0
+                out.append(bk)
+            elif b.group(2):
+                a = _area(b.group(2))
+                out.append({"name": "해당 주택건설지역", "pct": pct, **({"regions": [a["sido"]]} if a.get("sido") else {"area": a, "regions": []})})
+            else:
+                out.append({"name": "기타지역" + (f"({b.group(3)})" if b.group(3) else ""), "pct": pct,
+                            "regions": ["전국"] if (b.group(3) == "전국" or "전국" in body) else _regions_listed(body)})
+        return {"buckets": out} if len(out) >= 2 else {"unknown": True}
+    if re.search(r"다자녀[^.]{0,60}(?:\d{1,3}\s?%\s?[․ㆍ·]|거주자\s?\(\d{1,3}%\))", t):
+        return {"unknown": True}
     return None

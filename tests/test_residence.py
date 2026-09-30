@@ -77,3 +77,45 @@ def test_special_supply_shares_residence_requirement():
     t409 = re.sub(r"\s+", " ", text("2026000409"))
     assert "신혼부부ㆍ생애최초ㆍ노부모부양ㆍ신생아 특별공급 및 일반공급 지역 우선공급 기준" in t409
     assert "다자녀 특별공급 지역 우선공급 기준" in t409                                         # 다자녀는 표가 따로
+
+
+MC = {k: v for k, v in GOLD.items() if "mc_quota" in v["fields"]}
+
+
+def test_golden_mc_quota_from_real_notices():
+    """다자녀 특별공급 지역별 배정 (기능: mc_quota) — 공고문 원문으로 확인한 정답과 같다."""
+    import json
+    gold = json.loads((ROOT / "tests" / "golden" / "notices.json").read_text(encoding="utf-8"))
+    mc = {k: v for k, v in gold.items() if "mc_quota" in v["fields"]}
+    assert len(mc) >= 10
+    for no, g in mc.items():
+        assert notice_pdf.parse_mc_quota(text(no)) == g["fields"]["mc_quota"], no
+        assert notice_pdf.parse_notice(text(no)).get("mc_quota") == g["fields"]["mc_quota"], no
+
+
+def test_mc_quota_quotes_in_originals():
+    import re
+    q = {
+        "2026000399": "다자녀가구 특별공급 해당시도(서울특별시) 거주자 (50%)",
+        "2026000453": "다자녀가구 특별공급 해당시·도(광명시 및 경기도) 거주자(50%)",
+        "2026000431": "기타지역(서울, 인천) 거주자(50%)",
+        "2026000416": "① 경기도 50% ․ 공고일 현재 해당 주택건설지역(양주시) 1년 이상 거주자에게 우선 공급. 단, 남는 물량은 경기도 6개월 이상 거주자에게 공급",
+        "2026000437": "② 기타지역(전국) 50%",
+    }
+    for no, s in q.items():
+        assert s in re.sub(r"\s+", " ", text(no)), no
+
+
+def test_household_count_rules_in_originals():
+    """가구원수 산정 기준 원문 (기능: hh_count). 민영: 무주택세대구성원 전원 + 태아 수 + 직계존속은 최근 1년 이상 같은 등본.
+    공공(LH): 신혼부부·다자녀·신생아 = 무주택세대구성원 전원(태아 포함), 생애최초 = 직계존속은 1년 이상 등재만."""
+    import re
+    t453 = re.sub(r"\s+", " ", text("2026000453"))
+    assert ("(가구원수 산정 기준) 무주택세대구성원 전원으로 산정. 단, 임신 중인 태아는 태아 수만큼 인정하되, 공급신청자의 직계존속"
+            "(공급신청자의 배우자의 직계존속을 포함)은 입주자모집공고일을 기준으로 최근 1년 이상 계속하여 공급신청자 또는 그 배우자와 "
+            "같은 세대별 주민등록표에 등재되어 있는 경우에만 포함") in t453
+    t409 = re.sub(r"\s+", " ", text("2026000409"))
+    assert "신혼부부·다자녀·신생아 특별공급, 일반공급 10페이지의 ‘무주택세대구성원’에 해당하는 자 전원을 포함하여 산정" in t409
+    assert ("생애최초 특별공급 10페이지의 ‘무주택세대구성원’에 해당하는 자 전원을 포함하여 산정. 단, 직계존속은 주택공급신청자 또는 "
+            "주택공급신청자의 배우자와 1년 이상 같은 주민등록표등본상 등재되어 있는 경우에만 가구원수에 포함") in t409
+    assert "노부모부양 특별공급 10페이지의 ‘무주택세대구성원’에 해당하는 자 전원과 피부양자 및 피부양자의 배우자를 포함하여 산정" in t409

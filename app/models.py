@@ -28,6 +28,7 @@ class Listing(BaseModel):
     unit: str                                # "84C" 등
     area: Optional[float] = None             # 전용면적 ㎡
     households: Optional[int] = None
+    mc_quota: Optional[dict] = None          # 다자녀 특별공급 지역별 배정 {buckets:[{name,pct,regions,first,rest_months}]} 또는 {unknown:true} (기능: mc_quota)
     residence: Optional[dict] = None         # 공고문의 거주 지역 요건 {area, months, since, gyeonggi, others, quota, equal} (기능: residence_v2)
     special_units: Optional[dict] = None     # 특별공급 유형별 세대수 {newborn, newlywed, first, multichild, elder, agency, ..., total} (기능: special_counts)
 
