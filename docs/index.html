@@ -827,6 +827,18 @@ function closedToggle(n){
   if (!n || S.f.status === '마감') return '';
   return `<button class="btn ghost" data-action="toggle-closed">${S.showClosed ? '마감된 공고 숨기기' : '마감된 공고 ' + n + '건 보기 (경쟁률·당첨 가점 확인)'}</button>`;
 }
+/* 데이터가 오래됐을 때 경고 (기능: stale_warning). updated.txt 는 한국 시각 'YYYY-MM-DD HH:MM' */
+function staleDays(){
+  const m = /^(\d{4})-(\d\d)-(\d\d) (\d\d):(\d\d)/.exec(DATA_SOURCE.updated || '');
+  if (!m) return 0;
+  return (Date.now() - Date.UTC(+m[1], m[2] - 1, +m[3], m[4] - 9, +m[5])) / 86400000;
+}
+function staleNote(){
+  if (!on('stale_warning') || !DATA_SOURCE.live) return '';
+  const d = staleDays();
+  if (d < 1.5) return '';
+  return `<div class="note warn" style="padding:10px 12px;margin-bottom:8px"><b style="font-size:13px">공고 정보가 ${Math.floor(d)}일 전(${esc(DATA_SOURCE.updated)}) 기준이에요</b><div class="small">자동 수집이 늦어지고 있어요. 새 공고와 일정 변경은 <a href="https://www.applyhome.co.kr" target="_blank" rel="noopener">청약홈</a>에서 확인하세요.</div></div>`;
+}
 function vFeed(){
   const all = feedList(), isClosed = x => statusOf(x.L) === '마감';
   const closedN = all.filter(isClosed).length, showClosed = S.showClosed || S.f.status === '마감';
@@ -838,6 +850,7 @@ function vFeed(){
   return `
   <div class="top"><div><div class="brand">청약판정</div><span class="small muted">${DATA_SOURCE.live ? '청약홈 · ' + esc(DATA_SOURCE.updated) + ' 갱신' : '샘플 데이터'}</span></div>
     <button class="bell" data-go="alerts" aria-label="알림 받기"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 8a6 6 0 1 1 12 0c0 7 3 9 3 9H3s3-2 3-9"/><path d="M10.3 21a1.94 1.94 0 0 0 3.4 0"/></svg><span>알림</span></button></div>
+  ${staleNote()}
   ${on('disclaimer_banner') ? `<div class="small muted" style="margin:-4px 0 8px">판정은 참고용이에요. 신청 전 공고문을 꼭 확인하세요.${on('about_page') ? ' <button class="linkbtn small" data-go="about">자세히</button>' : ''}</div>` : ''}
   <div class="profile-bar"><span class="muted">내 조건 · <b style="color:var(--fg)">${esc(profileLine(S.profile))}</b></span><button class="linkbtn" data-go="me">수정</button></div>
   <div class="chips" role="group" aria-label="등급 필터">${chip('all','전체')}${chip('lotto','로또')}${chip('consider','고려')}${chip('flat','마진없음')}${chip('pass','패스')}</div>
