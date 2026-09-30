@@ -213,6 +213,16 @@ a.src:hover{color:var(--link);border-bottom-color:var(--link)}
 .sumbar{display:grid;grid-template-columns:repeat(3,1fr);background:var(--surface);border:1px solid var(--line);border-radius:14px;padding:10px 4px;margin-bottom:10px;text-align:center}
 .sumbar div{display:flex;flex-direction:column;gap:2px;min-width:0} .sumbar div+div{border-left:1px solid var(--line)}
 .sumbar b{font-size:17px;font-weight:700} .sumbar span{font-size:11px;color:var(--muted)} .sumbar .up{color:var(--lotto-ink)}
+.sumbar button{display:flex;flex-direction:column;gap:2px;min-width:0;border:0;background:none;color:inherit;font:inherit;cursor:pointer;padding:0} .sumbar button+button,.sumbar div+button,.sumbar button+div{border-left:1px solid var(--line)}
+.sumbar button span{color:var(--link)}
+body.sheet-open{overflow:hidden}
+.sheet-bg{position:fixed;inset:0;background:rgba(0,0,0,.4);z-index:20}
+.sheet{position:fixed;left:0;right:0;bottom:0;max-width:440px;margin:0 auto;max-height:75vh;display:flex;flex-direction:column;gap:8px;background:var(--surface);border-radius:18px 18px 0 0;padding:8px 16px calc(16px + env(safe-area-inset-bottom,0px));z-index:21;box-shadow:0 -8px 24px rgba(0,0,0,.18)}
+.sheet-grip{width:40px;height:4px;border-radius:2px;background:var(--line);margin:0 auto 4px}
+.sheet-list{overflow-y:auto;display:flex;flex-direction:column;gap:6px;-webkit-overflow-scrolling:touch}
+.sheet-item{display:flex;align-items:center;gap:10px;width:100%;text-align:left;padding:10px;border:1px solid var(--line);border-radius:12px;background:var(--bg);color:inherit;font:inherit;cursor:pointer}
+.sheet-item .si-main{flex:1;min-width:0;display:flex;flex-direction:column} .sheet-item .si-main b{white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.badge.sm{min-width:52px;height:26px;font-size:12px}
 .filterbar{display:flex;align-items:center;gap:8px;flex-wrap:wrap}
 .filterbar .count{flex:1;min-width:0;font-size:13px;color:var(--muted)}
 .filterbar .count b{color:var(--fg)}
@@ -358,6 +368,8 @@ function initDetailMap(el, L){
   }).catch(() => showMapFail(el));
 }
 function afterRender(){
+  document.body.classList.toggle('sheet-open', !!(S.sheet && S.view === 'feed'));
+  const sh = document.querySelector('.sheet'); if (sh) { const b = sh.querySelector('.sheet-item') || sh.querySelector('button'); if (b) b.focus({ preventScroll:true }); }
   const f = document.getElementById('feedmap'); if (f) initFeedMap(f, feedList());
   const d = document.getElementById('detailmap'); if (d) initDetailMap(d, LISTINGS.find(x => x.id === S.id));
 }
@@ -954,17 +966,42 @@ function staleNote(){
 /* 목록 맨 위 요약 줄 (기능: summary_bar). 공고(주택관리번호) 단위로 센다. 지역 필터를 고르면 그 지역만 */
 const nidOf = L => String(L.id || '').split('-')[0];
 function addDays(d, n){ const t = new Date(d + 'T00:00:00Z'); t.setUTCDate(t.getUTCDate() + n); return t.toISOString().slice(0, 10); }
-function summaryBar(){
-  if (!on('summary_bar') || !DATA_SOURCE.live) return '';
+function summaryGroups(){
   const pool = LISTINGS.filter(L => (!S.f.sido || L.sido === S.f.sido) && (!S.f.district || L.district === S.f.district));
   const open = pool.filter(L => statusOf(L) !== '마감');
-  const uniq = arr => new Set(arr.map(nidOf)).size;
-  const now = uniq(open.filter(L => statusOf(L) === '접수 중'));
-  const fresh = uniq(pool.filter(L => L.notice && L.notice >= addDays(TODAY, -7)));
-  const weekEnd = addDays(TODAY, 7), closing = uniq(open.filter(L => { const e = L.applyEnd || L.apply; return e && e >= TODAY && e <= weekEnd; }));
+  const weekEnd = addDays(TODAY, 7), endOf = L => L.applyEnd || L.apply || '';
+  return {
+    now:     { t:'접수 중', units: open.filter(L => statusOf(L) === '접수 중'), sort:'end' },
+    fresh:   { t:'새 공고 7일', units: pool.filter(L => L.notice && L.notice >= addDays(TODAY, -7)), sort:'notice' },
+    closing: { t:'이번 주 마감', units: open.filter(L => { const e = endOf(L); return e && e >= TODAY && e <= weekEnd; }), sort:'end' },
+  };
+}
+function summaryBar(){
+  if (!on('summary_bar') || !DATA_SOURCE.live) return '';
+  const G = summaryGroups(), uniq = arr => new Set(arr.map(nidOf)).size, tap = on('summary_sheet');
   const where = S.f.district || S.f.sido || '전국';
-  const cell = (n, t, cls) => `<div><b class="${cls || ''}">${n}</b><span>${t}</span></div>`;
-  return `<div class="sumbar" role="status" aria-label="${esc(where)} 공고 요약">${cell(now, '접수 중')}${cell(fresh, '새 공고 7일')}${cell(closing, '이번 주 마감')}</div>${on('disclaimer_banner') ? '' : `<p class="foot" style="margin:-6px 0 8px">${esc(where)} · 공고 단위</p>`}`;
+  const cell = k => { const n = uniq(G[k].units); return tap && n
+    ? `<button type="button" data-sheet="${k}" aria-haspopup="dialog" aria-label="${G[k].t} ${n}건 목록 보기"><b>${n}</b><span>${G[k].t} ›</span></button>`
+    : `<div><b>${n}</b><span>${G[k].t}</span></div>`; };
+  return `<div class="sumbar" role="group" aria-label="${esc(where)} 공고 요약">${cell('now')}${cell('fresh')}${cell('closing')}</div>${on('disclaimer_banner') ? '' : `<p class="foot" style="margin:-6px 0 8px">${esc(where)} · 공고 단위</p>`}`;
+}
+/* 요약 숫자를 누르면 아래에서 올라오는 공고 목록 (기능: summary_sheet). 필터는 건드리지 않는다 */
+function summarySheet(){
+  if (!on('summary_sheet') || !S.sheet) return '';
+  const g = summaryGroups()[S.sheet]; if (!g) return '';
+  const by = {};
+  g.units.forEach(L => { (by[nidOf(L)] = by[nidOf(L)] || []).push(L); });
+  const rows = Object.values(by).map(us => { const ms = us.map(L => ({ L, m: grade(L) })).sort((a, b) => GORDER[a.m.g] - GORDER[b.m.g]); return { us, best: ms[0] }; });
+  rows.sort((a, b) => g.sort === 'notice' ? (b.best.L.notice || '').localeCompare(a.best.L.notice || '') : ((a.best.L.applyEnd || a.best.L.apply || '').localeCompare(b.best.L.applyEnd || b.best.L.apply || '')));
+  const where = S.f.district || S.f.sido || '전국';
+  return `<div class="sheet-bg" data-action="sheet-close"></div>
+  <div class="sheet" role="dialog" aria-modal="true" aria-label="${esc(g.t)} 공고 ${rows.length}건">
+    <div class="sheet-grip" aria-hidden="true"></div>
+    <div class="row"><h2 style="margin:0">${esc(g.t)} <span class="muted" style="font-weight:500">${rows.length}건 · ${esc(where)}</span></h2><button class="linkbtn" data-action="sheet-close" aria-label="닫기">닫기</button></div>
+    <div class="sheet-list">${rows.map(({ us, best }) => { const L = best.L, m = best.m;
+      return `<button class="sheet-item g-${m.g}" data-open="${esc(L.id)}"><span class="badge sm">${GNAME[m.g]}</span><span class="si-main"><b>${esc(L.name)}</b><span class="small muted">${esc(L.district || L.sido || '')} · ${us.length > 1 ? '주택형 ' + us.length + '개' : esc(L.unitName || '')}${g.sort === 'notice' && L.notice ? ' · 공고 ' + L.notice.slice(5).replace('-', '.') : ''}</span></span><span class="dday ${ddayCls(L)}">${ddayOf(L)}</span></button>`; }).join('')}</div>
+    <p class="foot">등급은 그 공고 주택형 중 가장 좋은 등급이에요. 누르면 그 주택형 상세로 가요.</p>
+  </div>`;
 }
 function vFeed(){
   const all = feedList(), isClosed = x => statusOf(x.L) === '마감';
@@ -998,7 +1035,8 @@ function vFeed(){
   ${S.showFilters ? filterPanel() : ''}
   ${actShown.length ? `<div class="active-f" aria-label="선택한 필터">${actShown.map(([k, t]) => `<button class="fchip" data-unset="${k}" aria-label="${esc(t)} 필터 해제">${esc(t)}${x}</button>`).join('')}</div>` : ''}
   ${showMap ? feedMapBlock(list) : list.length ? list.map(({L,m}) => listingCard(L, m)).join('') + closedToggle(closedN) : closedToggle(closedN) + `<div class="card empty"><b>조건에 맞는 공고가 없어요</b><span class="small muted">${act.length ? '필터를 하나씩 해제하거나 초기화해 보세요.' : '이 등급의 공고가 아직 없어요.'}</span>${act.length || S.filter !== 'all' ? '<button class="btn ghost" data-action="reset-filters" style="max-width:220px">필터 초기화</button>' : ''}</div>`}
-  <p class="foot">${DATA_SOURCE.live ? '공고: ' + src('applyhome') + ' · 시세: ' + src('rtms') + ' · 매일 새벽 갱신, 시세는 추정치예요.' + (analyticsName() ? ' 방문 통계는 쿠키 없이 ' + analyticsName() + '로 집계하며, 입력한 내 정보는 보내지 않아요.' : '') : '샘플 표시가 있는 단지는 등급 예시를 위한 가상 데이터예요.'}${aboutLink()}</p>`;
+  <p class="foot">${DATA_SOURCE.live ? '공고: ' + src('applyhome') + ' · 시세: ' + src('rtms') + ' · 매일 새벽 갱신, 시세는 추정치예요.' + (analyticsName() ? ' 방문 통계는 쿠키 없이 ' + analyticsName() + '로 집계하며, 입력한 내 정보는 보내지 않아요.' : '') : '샘플 표시가 있는 단지는 등급 예시를 위한 가상 데이터예요.'}${aboutLink()}</p>
+  ${summarySheet()}`;
 }
 
 function itemSrc(L, k){
@@ -1493,10 +1531,12 @@ function trackView(){
   const path = S.view === 'feed' ? (S.feedMode === 'map' && mapReady() ? '/map' : '/') : (S.view === 'detail' || S.view === 'plan') ? '/' + S.view + '/' + nid : '/' + S.view;
   track({ path, title: L && (S.view === 'detail' || S.view === 'plan') ? L.name : document.title });
 }
-function go(v){ S.view = v; render(); }
+function go(v){ S.view = v; if (v !== 'feed') S.sheet = null; render(); }
 function save(){ store.set('cy-profile', S.profile); }
 
+document.addEventListener('keydown', ev => { if (ev.key === 'Escape' && S.sheet) { S.sheet = null; render(); } });
 document.addEventListener('click', ev => {
+  if (ev.target.classList && ev.target.classList.contains('sheet-bg')) { S.sheet = null; render(); return; }
   const t = ev.target.closest('button,a'); if (!t) return;
   if (t.dataset.ev) { const L = S.id && LISTINGS.find(x => x.id === S.id); track({ path: 'click-' + t.dataset.ev, title: L ? L.name : '', event: true }); }
   if (t.dataset.feedmode) { S.feedMode = t.dataset.feedmode; S.mapPick = null; render(); return; }
@@ -1506,6 +1546,9 @@ document.addEventListener('click', ev => {
   if (t.dataset.cmp) { const id = t.dataset.cmp, cur = cmpList().map(L => L.id); S.cmp = cur.includes(id) ? cur.filter(x => x !== id) : cur.concat(id).slice(-3); if (S.cmp.length < 2) S.cmp = cur; render(); return; }
   if (t.dataset.action === 'cmp-back') { S.filter = 'watch'; go('feed'); return; }
   if (t.dataset.cutsido) { S.cutSido = t.dataset.cutsido; render(); return; }
+  if (t.dataset.sheet) { S.sheet = t.dataset.sheet; track({ path:'sheet-' + S.sheet, event:true }); render(); return; }
+  if (t.dataset.action === 'sheet-close') { S.sheet = null; render(); return; }
+  if (t.dataset.open && S.sheet) S.sheet = null;
   if (t.dataset.open) { S.id = t.dataset.open; go('detail'); return; }
   if (t.dataset.filter) { S.filter = t.dataset.filter; render(); return; }
   if (t.dataset.unset) { const k = t.dataset.unset; if (k === 'date') { S.f.from = ''; S.f.to = ''; } else { S.f[k] = ''; if (k === 'sido') S.f.district = ''; } render(); return; }
