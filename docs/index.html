@@ -501,7 +501,7 @@ function afterRender(){
 const DEFAULT_PROFILE = { seoul:null, household:'', parents60:null, parentsOwn:null, headSince:'',
   selfOwn:null, married:null, spouseOwn:false, spouseIncome:0, spouseLoan:0, account:'unknown', recentWin:false, birth:'', marriedOn:'', homeSoldOn:'', dependents:null, spouseAcctSince:'', hhHomes:'', win5y:null, acctType:'', acctSince:'', acctAmount:0, acctCount:null, acctPaid:null, homeArea:'',
   cash:0, liquid:0, deposit:0, income:0, loanMonthly:0, firstTime:null,
-  kidsUnder6:null, gen3:null, homeSido:'', sidoSince:'', sidoOwnSince:'', kidsOnDeed:null, eldersOnDeed:null, elders1y:null, fetusCount:null, homeSigun:'', areaSince:'', kidsMinor:null, youngestBirth:'', pregnant:null, hhSize:null, hhIncomeYear:null, realEstate:null, carValue:null, hhNeverOwned:null, taxYears5:null, elder65:null };
+  kidsUnder6:null, gen3:null, homeSido:'', sidoSince:'', sidoOwnSince:'', kidsOnDeed:null, eldersOnDeed:null, elders1y:null, fetusCount:null, homeSigun:'', areaSince:'', kidsMinor:null, youngestBirth:'', pregnant:null, hhSize:null, hhIncomeYear:null, realEstate:null, carValue:null, townType:null, townInsurance:null, townFinOther:null, townOtherAsset:null, townDebt:null, hhNeverOwned:null, taxYears5:null, elder65:null };
 
 const store = {
   get(k){ try{ const v = localStorage.getItem(k); return v ? JSON.parse(v) : null; }catch(e){ return null; } },
@@ -791,7 +791,7 @@ function pendingChecks(L, p){ // 아직 판정하지 않는 항목 (기능이 �
    출산가구 완화('23.3.28. 이후 출생 자녀·태아 1명 +10%p, 2명 이상 +20%p, <표3> 자산 237,050·258,600천원 / 자동차 49,960·54,510천원).
    가구원수·소득 합산은 특별공급과 같은 표('특별공급, 일반공급(60㎡ 이하)' 무주택세대구성원 전원, 태아 포함)를 따른다.
    기준을 읽지 못한 60㎡ 이하 공공분양과 신혼희망타운(총자산 기준)은 '확인 필요'로 둔다 — '충족'으로 단정하지 않는다 */
-const manW = v => { v = Math.round(Number(v)); return v >= 10000 ? Math.floor(v / 10000) + '억' + (v % 10000 ? ' ' + (v % 10000).toLocaleString() + '만원' : '원') : v.toLocaleString() + '만원'; };
+const manW = v => { v = Math.round(Number(v)); if (!v) return '0원'; return v >= 10000 ? Math.floor(v / 10000) + '억' + (v % 10000 ? ' ' + (v % 10000).toLocaleString() + '만원' : '원') : v.toLocaleString() + '만원'; };
 /* 신혼희망타운 신청 유형·소득·총자산 (기능: town_rules). 공고문에서 읽은 기준(L.pubLimits.kind === 'town')으로 판정한다.
    근거: LH 신혼희망타운 공고문 2026820008·009·011 <표1> '신혼부부: 혼인 중인 자로서 혼인기간이 7년 이내 또는 6세 이하(태아 포함) 자녀를 둔 경우,
    예비신혼부부: 입주 전까지 혼인사실을 증명할 수 있는 자, 한부모가족: 6세 이하 자녀(태아 포함)를 둔 부 또는 모', 소득 표 '우선·일반공급 130%
@@ -799,6 +799,34 @@ const manW = v => { v = Math.round(Number(v)); return v >= 10000 ? Math.floor(v 
    출산가구 완화(소득 +10/20%p, 총자산 397·431백만원). 「공공주택 특별법 시행규칙」 별표6의3.
    이 서비스는 부채(대출 잔액)와 보험 해약환급금 등을 묻지 않아 총자산은 입력값으로 '가능성'만 보여주고 '확인 필요'로 둔다 (원인 A: 사용자 정보 부족).
    예비신혼부부·한부모 여부도 묻지 않으므로 혼인 전이면 '확인 필요' (불가로 단정하지 않음) */
+/* 신혼희망타운 총자산 판정 (기능: town_assets). 공고문 <표3>: ①부동산(건물+토지 공시가격) + ②금융자산(예금·적금·주식·펀드·채권·연금저축·IRP·
+   보험/연금보험 해약환급금) + ③기타자산(임차보증금·분양권 납부액·조합원입주권·회원권·선박 등) + ④자동차(차량기준가액) − ⑤부채(금융회사·공공기관 대출,
+   공제회·서민금융 대출, 법원 확인 사채, 임대보증금은 해당 부동산 가액까지. 마이너스통장·현금서비스 제외) ≤ 기준(362,000천원).
+   출산가구 완화: '23.3.28. 이후 출생 자녀(태아 포함) 1명 397,000천원, 2명 이상 431,000천원 (<표4>). 세대(무주택세대구성원 전원, 예비신혼부부는 혼인으로 구성될 세대) 합계.
+   필요한 값이 하나라도 비면 '확인 필요' (불가로 단정하지 않음) */
+const TOWN_ASSET_FIELDS = [['realEstate', '부동산'], ['carValue', '자동차'], ['townInsurance', '보험 해약환급금'], ['townFinOther', '그 밖의 금융자산'], ['townOtherAsset', '기타 자산'], ['townDebt', '부채']];
+function townAssetParts(p){
+  const v = k => Number(p[k]) || 0;
+  return { realEstate: v('realEstate'), fin: v('cash') + v('liquid') + v('townInsurance') + v('townFinOther'), other: v('deposit') + v('townOtherAsset'), car: v('carValue'), debt: v('townDebt'),
+           get total(){ return this.realEstate + this.fin + this.other + this.car - this.debt; } };
+}
+function townAssetItem(pl, p, relax){
+  const k = '총자산 (신혼희망타운)', miss = TOWN_ASSET_FIELDS.filter(([f]) => p[f] == null || p[f] === '').map(([, n]) => n);
+  if (miss.length) return { k, s:'warn', v:'총자산 정보 입력 필요', cause:'A', edit:'town', editLabel:'총자산 정보 넣기',
+    note:'총자산 = 부동산 + 금융자산 + 기타자산 + 자동차 − 부채가 ' + manW(pl.total_asset) + ' 이하여야 해요. 아직 넣지 않은 값: ' + miss.join(', ') + ' (없으면 0)' };
+  const a = townAssetParts(p), tot = a.total, base = pl.total_asset, r1 = pl.total_asset_relax ? pl.total_asset_relax[0] : null, r2 = pl.total_asset_relax ? pl.total_asset_relax[1] : null;
+  const calc = '부동산 ' + manW(a.realEstate) + ' + 금융자산 ' + manW(a.fin) + ' + 기타자산 ' + manW(a.other) + ' + 자동차 ' + manW(a.car) + ' − 부채 ' + manW(a.debt) + ' = ' + (tot < 0 ? '−' + manW(-tot) : manW(tot));
+  if (tot <= base) return { k, s:'ok', v:'충족', note: calc + ' · 기준 ' + manW(base) + ' 이하' };
+  if (relax === 0 || !r1 || tot > r2) return { k, s:'fail', v:'기준 초과', note: calc + ' · 기준 ' + manW(base) + (r2 && relax !== 0 ? ' (출산가구 완화 최대 ' + manW(r2) + '도 초과)' : '') };
+  if (relax === 1 && tot <= r1) return { k, s:'ok', v:'충족 (출산가구 완화)', note: calc + ' · 2023.3.28 이후 출생 자녀·태아로 완화 기준 ' + manW(r1) + ' 이하. 출생·임신 증빙이 필요해요' };
+  return { k, s:'warn', v:'출산가구 완화 확인 필요', cause:'A', note: calc + ' · 기준 ' + manW(base) + '을 넘지만 2023.3.28 이후 출생 자녀(태아 포함)가 ' + (tot <= r1 ? '있으면' : '2명 이상이면') + ' 완화 기준(' + manW(tot <= r1 ? r1 : r2) + ') 이하예요' };
+}
+/* 신혼희망타운을 신청할 수도 있는 사람인지 (총자산 질문을 보여줄지 정할 때만 씀, 판정 아님). 무주택이고, 혼인 전이거나 혼인 7년 이내이거나 6세 이하 자녀·태아가 있으면 */
+function townMayApply(p){
+  if (p.selfOwn === true || (p.married && p.spouseOwn)) return false;
+  const kid6 = p.pregnant === true || (p.youngestBirth && p.youngestBirth > addYears(TODAY, -7));
+  return p.married !== true || !p.marriedOn || p.marriedOn >= addYears(TODAY, -8) || kid6;   // 공고일이 조금 뒤여도 놓치지 않게 8년
+}
 function townItems(L, p){
   const pl = L.pubLimits && L.pubLimits.kind === 'town' ? L.pubLimits : null, ref = L.notice || TODAY, out = [];
   const kid6 = p.pregnant === true || (p.youngestBirth && p.youngestBirth > addYears(ref, -7));   // 만 6세 이하 (공고일 기준 7번째 생일 전) 또는 태아
@@ -809,7 +837,13 @@ function townItems(L, p){
     else if (!p.marriedOn) out.push({ k:'신청 유형 (신혼희망타운)', s:'warn', v:'혼인신고일 입력 필요', note:'혼인 7년 이내이거나 6세 이하 자녀가 있어야 해요', cause:'A' });
     else if (p.kidsMinor == null && p.pregnant == null) out.push({ k:'신청 유형 (신혼희망타운)', s:'warn', v:'자녀 정보 입력 필요', note:'혼인 7년이 지났으면 6세 이하 자녀(태아 포함)가 있어야 해요', cause:'A' });
     else out.push({ k:'신청 유형 (신혼희망타운)', s:'fail', v:'혼인 7년 초과 · 6세 이하 자녀 없음', note:'신혼희망타운 신혼부부는 혼인 7년 이내이거나 6세 이하 자녀(태아 포함)가 있어야 해요 (공고문 신청자격 표)' });
-  } else if (p.married === false) out.push({ k:'신청 유형 (신혼희망타운)', s:'warn', v: kid6 ? '한부모가족이면 가능' : '예비신혼부부면 가능', cause:'A',
+  } else if (p.married === false && on('town_assets') && p.townType) {   // 예비신혼부부·한부모가족 여부 (기능: town_assets)
+    if (p.townType === 'pre') out.push({ k:'신청 유형 (신혼희망타운)', s:'ok', v:'예비신혼부부', note:'입주 전까지 혼인사실을 증명해야 해요. 소득·총자산은 혼인으로 구성될 세대(예비 배우자 포함) 기준이에요' });
+    else if (p.townType === 'single') out.push(kid6 ? { k:'신청 유형 (신혼희망타운)', s:'ok', v:'한부모가족 (6세 이하 자녀)', note:'6세 이하 자녀(태아 포함)를 둔 부 또는 모' }
+      : p.kidsMinor == null && p.pregnant == null ? { k:'신청 유형 (신혼희망타운)', s:'warn', v:'자녀 정보 입력 필요', cause:'A', note:'한부모가족은 6세 이하 자녀(태아 포함)가 있어야 해요' }
+      : { k:'신청 유형 (신혼희망타운)', s:'fail', v:'6세 이하 자녀 없음', note:'한부모가족 유형은 6세 이하 자녀(태아 포함)를 둔 부 또는 모만 신청할 수 있어요 (공고문 신청자격 표)' });
+    else out.push({ k:'신청 유형 (신혼희망타운)', s:'fail', v:'신청 유형에 해당 없음', note:'신혼희망타운은 신혼부부·예비신혼부부·한부모가족만 신청할 수 있어요 (공고문 신청자격 표)' });
+  } else if (p.married === false) out.push({ k:'신청 유형 (신혼희망타운)', s:'warn', v: kid6 ? '한부모가족이면 가능' : '예비신혼부부면 가능', cause:'A', edit: on('town_assets') ? 'town' : undefined, editLabel:'해당 유형 고르기',
       note: kid6 ? '6세 이하 자녀(태아 포함)를 둔 한부모가족이거나, 입주 전까지 혼인을 증명할 예비신혼부부면 신청할 수 있어요' : '입주 전까지 혼인사실을 증명할 수 있는 예비신혼부부면 신청할 수 있어요 (소득·자산은 혼인으로 구성될 세대 기준)' });
   else out.push({ k:'신청 유형 (신혼희망타운)', s:'warn', v:'혼인 여부 입력 필요', note:'신혼부부·예비신혼부부·한부모가족만 신청할 수 있어요', cause:'A' });
   if (!pl) { out.push({ k:'소득·총자산 (신혼희망타운)', s:'warn', v:'확인 필요', cause:'E', note:'이 공고문에서 소득·총자산 기준을 읽지 못했어요. 공고문의 기준을 확인하세요.' }); return out; }
@@ -829,6 +863,7 @@ function townItems(L, p){
   }
   // 총자산 = 부동산 + 금융자산 + 기타자산(임차보증금 등) + 자동차 − 부채. 부채·보험 해약환급금 등은 묻지 않아 판정하지 않는다
   const lim = relax === 1 && pl.total_asset_relax ? pl.total_asset_relax[0] : pl.total_asset;
+  if (on('town_assets')) { out.push(townAssetItem(pl, p, relax)); return out; }   // 기능: town_assets — 부채·해약환급금까지 받아 판정
   if (p.realEstate == null || p.realEstate === '' || p.carValue == null || p.carValue === '')
     out.push({ k:'총자산 (신혼희망타운)', s:'warn', v:'부동산·자동차 입력 필요', cause:'A', note:'총자산(부동산+금융자산+전세보증금 등+자동차−부채)이 ' + manW(lim) + ' 이하여야 해요' });
   else {
@@ -2158,7 +2193,7 @@ function checklistV2(L, p, e){
   const failItem = i => `<div class="ckitem fail"><div class="ck-top"><b>${esc(i.k)}</b><span class="st-fail">${esc(i.v)}</span></div>
     ${i.note ? `<div class="small">${esc(i.note)}</div>` : ''}<div class="ck-src">${itemSrc(L, i.k)}</div></div>`;
   const warnItem = i => `<div class="ckwarn"><div class="ck-top"><span>${esc(i.k)}</span><span class="st-warn">${esc(i.v)}</span></div>
-    ${i.note ? `<div class="small muted">${esc(i.note)}</div>` : ''}<div class="ck-src">${itemSrc(L, i.k)}</div></div>`;
+    ${i.note ? `<div class="small muted">${esc(i.note)}</div>` : ''}${i.edit && visibleSteps().find(s2 => stepKey(s2) === i.edit) ? `<button class="linkbtn small" data-edit="${esc(i.edit)}" style="align-self:flex-start">${esc(i.editLabel || '정보 넣기')}</button>` : ''}<div class="ck-src">${itemSrc(L, i.k)}</div></div>`;
   return `<section class="card ckcard"><h2>자격 체크리스트</h2>
     ${supplySummary(L, p, e)}
     <div class="spsum" style="margin:4px 0 0">${on('supply_summary') && hasProfile() ? `<span class="small muted" style="align-self:center">${L.needAccount ? '일반공급' : '무순위'} 조건</span>` : ''}${count}</div>
@@ -2195,7 +2230,7 @@ function marginV2(L, m, barCost, barLo){
       ${step('시세 (보수 / 기준)', unknown ? '확인 필요' : fmt(L.mktLow) + ' / ' + fmt(L.mktBase), L.sample ? src(null, ['샘플 값', null]) : src('rtms'), 'mkt')}
       ${unknown ? '' : step('차이', `<span class="mgdiff g-${m.g}">${sgn(m.lo)} ~ ${sgn(m.hi)}</span>`, '시세 − 실매입가', 'diff')}
     </div>
-    ${on('town_rules') && isNewlywedTown(L) && L.pubLimits && L.pubLimits.kind === 'town' && L.price * 10000 > L.pubLimits.total_asset ? `<p class="small st-warn" style="margin:6px 0 0">공급가격이 총자산 기준(${manW(L.pubLimits.total_asset)})을 넘어 신혼희망타운 전용 수익공유형 모기지 의무 가입 대상이에요. 팔거나 대출을 갚을 때 시세차익의 10~50%를 주택도시기금과 나눠요 (공고문). 위 차이에는 반영하지 않았어요.</p>` : ''}
+    ${on('town_rules') && isNewlywedTown(L) && L.pubLimits && L.pubLimits.kind === 'town' && L.price * 10000 > L.pubLimits.total_asset ? `<p class="small st-warn" style="margin:6px 0 0">${on('town_assets') ? `이 주택은 분양가가 ${manW(L.pubLimits.total_asset)}(공공주택 특별법 시행규칙의 총자산가액)을 넘어, 당첨되면 신혼희망타운 전용 수익공유형 모기지에 주택가격의 30% 이상 의무로 가입해야 해요. 집을 팔거나 대출을 갚을 때 시세차익의 10~50%를 주택도시기금과 나눠요 (공고문). 위 차이에는 반영하지 않았어요. 신청 자격(내 세대 총자산 기준)과는 별개예요.` : `공급가격이 총자산 기준(${manW(L.pubLimits.total_asset)})을 넘어 신혼희망타운 전용 수익공유형 모기지 의무 가입 대상이에요. 팔거나 대출을 갚을 때 시세차익의 10~50%를 주택도시기금과 나눠요 (공고문). 위 차이에는 반영하지 않았어요.`}</p>` : ''}
     ${on('margin_caveat') && !unknown ? '<p class="small muted" style="margin:6px 0 0">세전 추정 차이예요. 양도소득세, 보유 비용(재산세 등), 대출이자, 중개수수료는 빼지 않았고, 전매 제한·실거주 의무 기간에는 팔 수 없어요. 확정 수익이 아니에요.</p>' : ''}
     ${unknown ? '' : `<div class="bar" role="img" aria-label="실매입가 ${fmt(m.cost)}, 기준 시세 ${fmt(L.mktBase)}"><i style="width:${barCost}%;background:var(--fg)"></i><i style="width:${barLo}%;background:var(--lotto)"></i></div>
       <div class="legend"><span><i style="background:var(--fg)"></i>실매입가</span><span><i style="background:var(--lotto)"></i>보수 마진</span><span><i style="background:var(--lotto-soft);outline:1px solid var(--line)"></i>기준 시세까지</span></div>`}
@@ -2533,7 +2568,7 @@ const STEPS = [
   { id:'sp2', show:p => on('special_eligibility'), n:'세대 소득·자산', t:on('pub_general_limits') ? '소득과 자산 (특별공급·공공분양)' : '소득과 자산 (특별공급)', d:on('pub_general_limits') ? '특별공급과 공공분양 전용 60㎡ 이하 일반공급은 세대 월평균 소득과 부동산(공공은 자동차도) 기준이 있어요.' : '특별공급은 세대 월평균 소득과 부동산(공공은 자동차도) 기준이 있어요.',
     f:[{ k:'hhIncomeYear', type:'money', opt:true, l:'세대원 전원의 작년 세전 소득 합계', h:'비워두면 본인+배우자 연소득으로 추정해요. 같은 등본의 부모님 소득도 들어가요' },
        { k:'realEstate', type:'money', opt:true, l:'세대가 가진 부동산 가액 (건물+토지 공시가격)', h:'없으면 0' },
-       { k:'carValue', type:'money', opt:true, l:'자동차 가액', h:'공공분양만 봐요. 없으면 0' }] },
+       { k:'carValue', type:'money', opt:true, l:'자동차 가액', h: on('town_assets') ? '공공분양·신혼희망타운만 봐요 (보험개발원 차량기준가액). 없으면 0' : '공공분양만 봐요. 없으면 0' }] },
   { id:'sp3', show:p => on('special_eligibility'), n:'주택 이력·부양', t:'주택 이력과 부양 (특별공급)', d:'생애최초·노부모부양 특별공급 판정에 써요.',
     f:[{ k:'hhNeverOwned', type:'choice', l:'세대원 모두 지금까지 집을 가진 적이 없나요?', o:[[true,'없어요'],[false,'있어요']], two:true },
        { k:'taxYears5', type:'choice', l:'본인이 소득세를 5년 이상 냈나요? (끊겨도 합산)', o:[[true,'예'],[false,'아니요']], two:true },
@@ -2549,6 +2584,16 @@ const STEPS = [
        { k:'recentWin', type:'choice', l:'재당첨 제한 기간인가요?', o:[[true,'예'],[false,'아니요']], two:true }] },
   { n:'바로 쓸 수 있는 돈', t:'바로 쓸 수 있는 돈', d:'계약금은 당첨 후 2주 안팎에 현금으로 내야 해요.',
     f:[{ k:'cash', type:'money', l:'예금·현금' }, { k:'liquid', type:'money', l:'주식·펀드·적금', h:'잔금일 전에 현금화할 수 있는 것만' }, { k:'deposit', type:'money', l:'돌려받을 전세보증금' }] },
+  /* 신혼희망타운 총자산 (기능: town_assets). 공고문 <표3>: 총자산 = ①부동산 + ②금융자산 + ③기타자산 + ④자동차 − ⑤부채.
+     부동산·자동차는 '소득과 자산' 단계, 예금·주식·전세보증금은 '바로 쓸 수 있는 돈' 단계 값을 그대로 쓰고, 빠진 항목만 묻는다 */
+  { id:'town', show:p => on('town_assets') && on('town_rules') && townMayApply(p), n:'신혼희망타운 총자산', t:'총자산 (신혼희망타운)',
+    d:'신혼희망타운은 세대 총자산(자산 − 부채)이 공고문 기준 이하여야 해요. 아래를 넣으면 공고마다 판정해요. 다른 청약 판정에는 쓰지 않아요.',
+    f:[{ k:'townType', type:'choice', l:'혼인 전이라면 어디에 해당하나요?', o:[['pre','예비신혼부부 (입주 전까지 혼인신고 예정)'],['single','한부모가족 (6세 이하 자녀를 둔 부 또는 모)'],['none','해당 없음']], show:p => p.married === false },
+       { k:'townInsurance', type:'money', opt:true, l:'보험·연금보험 해약환급금 합계', h:'지금 해약하면 돌려받는 금액이에요 (보험사 앱에서 확인). 없으면 0' },
+       { k:'townFinOther', type:'money', opt:true, l:'그 밖의 금융자산', h:'연금저축·개인형퇴직연금(IRP) 잔액, 앞 단계에 넣지 않은 예금·적금·주식·채권. 회사 퇴직연금(DB·DC형)은 빼요. 없으면 0' },
+       { k:'townOtherAsset', type:'money', opt:true, l:'기타 자산', h:'분양권(지금까지 낸 돈)·조합원입주권, 회원권, 선박 등. 전세보증금은 앞 단계 값을 써요. 없으면 0' },
+       { k:'townDebt', type:'money', opt:true, l:'부채 (대출 잔액 합계)', h:'금융회사·공공기관 대출 잔액(전세·신용·주택담보대출 등)과 세 준 부동산의 임대보증금(그 부동산 가액까지). 마이너스통장·현금서비스는 빼요. 없으면 0' }],
+    note:p => '총자산에 함께 들어가는 값: 부동산 ' + (p.realEstate == null ? '미입력' : manW(p.realEstate)) + ' · 자동차 ' + (p.carValue == null ? '미입력' : manW(p.carValue)) + " ('소득과 자산' 단계), 예금·현금 " + manW(p.cash || 0) + ' · 주식·펀드·적금 ' + manW(p.liquid || 0) + ' · 전세보증금 ' + manW(p.deposit || 0) + " ('바로 쓸 수 있는 돈' 단계). 세대원 전원(예비신혼부부는 예비 배우자 포함) 합계로 넣어 주세요." },
   { n:'소득과 대출', t:'소득과 대출', d:'대출 한도(DSR)를 계산하는 데 써요.',
     f:[{ k:'income', type:'money', l:'본인 세전 연소득', h:'휴직 중이면 작년 소득을 넣어 주세요' }, { k:'loanMonthly', type:'money', l:'기존 대출 월 상환액' },
        { k:'firstTime', type:'choice', l:'집을 가져본 적이 없나요?', o:[[true,'없어요 (생애최초)'],[false,'있어요']], two:true }] }
@@ -3086,7 +3131,8 @@ document.addEventListener('input', ev => {
   if (el.dataset.field) {
     let v = el.value;
     if (el.dataset.count) v = String(v).trim() === '' ? null : (Number(String(v).replace(/[^0-9]/g, '')) || 0);
-    if (el.dataset.opt) v = String(v).trim() === '' ? null : (Number(String(v).replace(/[^0-9]/g, '')) || 0);
+    if (el.dataset.opt && on('town_assets') && /-/.test(v)) { el.value = ''; el.setAttribute('placeholder', '0 이상 금액만 넣을 수 있어요'); }   // 음수 입력은 지우고 안내
+    if (el.dataset.opt) v = String(v).trim() === '' || (on('town_assets') && /-/.test(v)) ? null : (Number(String(v).replace(/[^0-9]/g, '')) || 0);   // 음수는 받지 않고 '입력 안 함'으로 둔다 (기능: town_assets)
     if (el.dataset.num) { v = Number(String(v).replace(/[^0-9]/g, '')) || 0; const e = app.querySelector(`[data-echo="${el.dataset.field}"]`); if (e) e.textContent = v ? '= ' + fmt(eok(v)) : ''; }
     S.profile[el.dataset.field] = v; save();
   }
