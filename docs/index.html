@@ -63,6 +63,7 @@ a{color:var(--link)}
 .cmp .clabel{font-size:12px;color:var(--muted);margin-bottom:4px}
 .cmp .cvals{display:grid;gap:8px;font-size:14px;font-weight:600} .cmp .cvals>div{min-width:0;overflow-wrap:anywhere}
 .cmp .chead{padding-bottom:8px}
+.linkcard{display:flex;flex-direction:column;gap:2px;text-decoration:none;color:inherit}
 .back{display:flex;align-items:center;gap:2px;border:0;background:none;padding:0 8px 0 0;min-height:44px;font-weight:600;cursor:pointer}
 .back svg{width:22px;height:22px}
 .muted{color:var(--muted)}
@@ -277,7 +278,7 @@ let LISTINGS = [
 ];
 const TODAY = (() => { const d = new Date(Date.now() + 9*3600e3); return d.toISOString().slice(0,10); })(); // 한국 날짜
 let DATA_SOURCE = { live:false, updated:'' };
-let CONFIG = { ntfy_server:'https://ntfy.sh', ntfy_topic:'cheongyak-97ecbdb4', site_url:'', goatcounter:'', cf_beacon:'', contact_email:'', report_form_url:'', naver_map_key:'', features:{} };
+let CONFIG = { ntfy_server:'https://ntfy.sh', ntfy_topic:'cheongyak-97ecbdb4', site_url:'', goatcounter:'', cf_beacon:'', contact_email:'', report_form_url:'', open_chat_url:'', naver_map_key:'', features:{} };
 /* 기능 스위치: config.json 의 features 에서 false 로 두면 그 기능만 꺼진다 (목록과 설명은 저장소의 FEATURES.md) */
 const on = k => !CONFIG.features || CONFIG.features[k] !== false;
 
@@ -1173,6 +1174,12 @@ function installCard(){
   return `<section class="card"><h2>홈 화면에 추가</h2><p class="small" style="margin:4px 0 8px">앱 설치 없이 홈 화면 아이콘으로 바로 열 수 있어요.${ios ? ' 아이폰은 홈 화면에서 연 화면에 내 정보를 한 번 더 입력해야 해요 (Safari와 저장 공간이 따로예요).' : ''}</p>
     ${installEvt ? '<button class="btn" data-action="install">홈 화면에 추가하기</button>' : `<p class="small" style="margin:0">${how}</p>`}</section>`;
 }
+/* 오픈카톡방 (기능: community_link). config.json 의 open_chat_url 이 있을 때만 */
+function chatCard(){
+  const u = CONFIG.open_chat_url;
+  if (!on('community_link') || !/^https:\/\/open\.kakao\.com\//.test(u || '')) return '';
+  return `<a class="card linkcard" href="${esc(u)}" target="_blank" rel="noopener" data-ev="open-chat"><b>오픈카톡방</b><span class="small muted">청약 고민 나누기 · 사용 문의 · 건의</span></a>`;
+}
 function vMe(){
   const p = S.profile, yn = v => v ? '예' : '아니요';
   const hh = { head:'세대주', parents:'부모님 세대의 세대원', spouse:'배우자 세대의 세대원', other:'기타' }[p.household];
@@ -1198,6 +1205,7 @@ function vMe(){
     <dt>생애최초</dt><dd>${yn(p.firstTime)}</dd>
   </dl></section>
   <button class="btn" data-action="restart">인터뷰 다시 하기</button>
+  ${chatCard()}
   ${installCard()}
   <p class="foot">입력한 정보는 이 브라우저에만 저장돼요.${aboutLink()}</p>`;
 }
@@ -1326,7 +1334,7 @@ function vAbout(){
     <p style="margin:6px 0" class="small">${an ? '방문 통계는 ' + an + '로 쿠키 없이 페이지 방문 수만 집계해요. 입력한 내 정보는 보내지 않아요.' : '방문 통계는 수집하지 않아요.'}</p>
     <p style="margin:6px 0" class="small">지도를 열면 네이버 지도가 화면을 그리기 위해 접속 정보(IP 주소 등)를 받을 수 있어요. 알림을 구독하면 알림 서비스에 구독 정보가 전달돼요.</p>
     <button class="btn ghost" data-action="wipe">이 기기에 저장된 내 정보 모두 지우기</button></section>
-  ${mail || reportUrl(null) ? `<section class="card"><h2>문의</h2>${reportUrl(null) ? `<p style="margin:6px 0" class="small">정보가 틀렸다면 <a href="${esc(reportUrl(null))}" target="_blank" rel="noopener">오류 신고</a>로 알려주세요. 모집공고문 원문과 대조해 고쳐요.</p>` : ''}${mail ? `<p style="margin:6px 0" class="small">서비스 운영: <a href="mailto:${esc(mail)}">${esc(mail)}</a></p>` : ''}</section>` : ''}`;
+  ${mail || reportUrl(null) ? `<section class="card"><h2>문의</h2>${reportUrl(null) ? `<p style="margin:6px 0" class="small">정보가 틀렸다면 <a href="${esc(reportUrl(null))}" target="_blank" rel="noopener">오류 신고</a>로 알려주세요. 모집공고문 원문과 대조해 고쳐요.</p>` : ''}${mail ? `<p style="margin:6px 0" class="small">서비스 운영: <a href="mailto:${esc(mail)}">${esc(mail)}</a></p>` : ''}${chatCard() ? `<p style="margin:6px 0" class="small">사용 문의·건의는 <a href="${esc(CONFIG.open_chat_url)}" target="_blank" rel="noopener">오픈카톡방</a>에서도 받아요.</p>` : ''}</section>` : ''}`;
 }
 
 /* ---------- 비교함 (기능: compare) : 관심 공고 중 최대 3개를 나란히 ---------- */
