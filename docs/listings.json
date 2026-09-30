@@ -27,16 +27,16 @@
     "sigungu": "시흥시"
    },
    "months": 12,
+   "since": "2025-09-18",
+   "quota": {
+    "해당": 100,
+    "기타": 0
+   },
    "others": [
     "서울",
     "인천",
     "경기"
-   ],
-   "quota": {
-    "기타": 0,
-    "해당": 100
-   },
-   "since": "2025-09-18"
+   ]
   },
   "special_units": {
    "newborn": 0,
@@ -271,11 +271,11 @@
   "url": "https://www.applyhome.co.kr/ai/aia/selectAPTLttotPblancDetail.do?houseManageNo=2026820011&pblancNo=2026820011",
   "notice_pdf": "https://apply.lh.or.kr/lhapply/lhFile.do?fileid=68663246",
   "from_notice": [
+   "분양가상한제",
+   "재당첨 제한",
    "1순위 가입기간",
    "납입 인정 횟수",
-   "분양가상한제",
-   "거주 지역 요건",
-   "재당첨 제한"
+   "거주 지역 요건"
   ],
   "checks": [],
   "geo": {
@@ -415,16 +415,16 @@
     "sigungu": "시흥시"
    },
    "months": 12,
+   "since": "2025-09-18",
+   "quota": {
+    "해당": 100,
+    "기타": 0
+   },
    "others": [
     "서울",
     "인천",
     "경기"
-   ],
-   "quota": {
-    "기타": 0,
-    "해당": 100
-   },
-   "since": "2025-09-18"
+   ]
   },
   "special_units": {
    "newborn": 0,
@@ -659,11 +659,11 @@
   "url": "https://www.applyhome.co.kr/ai/aia/selectAPTLttotPblancDetail.do?houseManageNo=2026820011&pblancNo=2026820011",
   "notice_pdf": "https://apply.lh.or.kr/lhapply/lhFile.do?fileid=68663246",
   "from_notice": [
+   "분양가상한제",
+   "재당첨 제한",
    "1순위 가입기간",
    "납입 인정 횟수",
-   "분양가상한제",
-   "거주 지역 요건",
-   "재당첨 제한"
+   "거주 지역 요건"
   ],
   "checks": [],
   "geo": {
@@ -3785,6 +3785,22 @@
      "req": 2.0,
      "rate": "-",
      "rate_num": null
+    },
+    {
+     "rank": "2",
+     "reside": "해당지역",
+     "supply": 7.0,
+     "req": 5.0,
+     "rate": "-",
+     "rate_num": null
+    },
+    {
+     "rank": "2",
+     "reside": "기타지역",
+     "supply": 7.0,
+     "req": 10.0,
+     "rate": "-",
+     "rate_num": null
     }
    ],
    "scores": []
@@ -4138,6 +4154,22 @@
      "req": 2.0,
      "rate": "(△15)",
      "rate_num": null
+    },
+    {
+     "rank": "2",
+     "reside": "해당지역",
+     "supply": 22.0,
+     "req": 2.0,
+     "rate": "(△13)",
+     "rate_num": null
+    },
+    {
+     "rank": "2",
+     "reside": "기타지역",
+     "supply": 22.0,
+     "req": 4.0,
+     "rate": "(△9)",
+     "rate_num": null
     }
    ],
    "scores": []
@@ -4457,6 +4489,22 @@
      "reside": "기타지역",
      "supply": 60.0,
      "req": 103.0,
+     "rate": "-",
+     "rate_num": null
+    },
+    {
+     "rank": "2",
+     "reside": "해당지역",
+     "supply": 60.0,
+     "req": 0.0,
+     "rate": "-",
+     "rate_num": null
+    },
+    {
+     "rank": "2",
+     "reside": "기타지역",
+     "supply": 60.0,
+     "req": 0.0,
      "rate": "-",
      "rate_num": null
     }
@@ -4797,6 +4845,22 @@
      "req": 610.0,
      "rate": "-",
      "rate_num": null
+    },
+    {
+     "rank": "2",
+     "reside": "해당지역",
+     "supply": 91.0,
+     "req": 0.0,
+     "rate": "-",
+     "rate_num": null
+    },
+    {
+     "rank": "2",
+     "reside": "기타지역",
+     "supply": 91.0,
+     "req": 0.0,
+     "rate": "-",
+     "rate_num": null
     }
    ],
    "scores": []
@@ -5133,6 +5197,22 @@
      "reside": "기타지역",
      "supply": 125.0,
      "req": 308.0,
+     "rate": "-",
+     "rate_num": null
+    },
+    {
+     "rank": "2",
+     "reside": "해당지역",
+     "supply": 125.0,
+     "req": 0.0,
+     "rate": "-",
+     "rate_num": null
+    },
+    {
+     "rank": "2",
+     "reside": "기타지역",
+     "supply": 125.0,
+     "req": 0.0,
      "rate": "-",
      "rate_num": null
     }
@@ -5473,6 +5553,22 @@
      "req": 172.0,
      "rate": "-",
      "rate_num": null
+    },
+    {
+     "rank": "2",
+     "reside": "해당지역",
+     "supply": 66.0,
+     "req": 0.0,
+     "rate": "-",
+     "rate_num": null
+    },
+    {
+     "rank": "2",
+     "reside": "기타지역",
+     "supply": 66.0,
+     "req": 0.0,
+     "rate": "-",
+     "rate_num": null
     }
    ],
    "scores": []
@@ -5631,6 +5727,22 @@
      "reside": "기타지역",
      "supply": 4.0,
      "req": 12.0,
+     "rate": "-",
+     "rate_num": null
+    },
+    {
+     "rank": "2",
+     "reside": "해당지역",
+     "supply": 4.0,
+     "req": 0.0,
+     "rate": "-",
+     "rate_num": null
+    },
+    {
+     "rank": "2",
+     "reside": "기타지역",
+     "supply": 4.0,
+     "req": 0.0,
      "rate": "-",
      "rate_num": null
     }
@@ -5968,6 +6080,22 @@
      "req": 24.0,
      "rate": "-",
      "rate_num": null
+    },
+    {
+     "rank": "2",
+     "reside": "해당지역",
+     "supply": 31.0,
+     "req": 0.0,
+     "rate": "-",
+     "rate_num": null
+    },
+    {
+     "rank": "2",
+     "reside": "기타지역",
+     "supply": 31.0,
+     "req": 0.0,
+     "rate": "-",
+     "rate_num": null
     }
    ],
    "scores": []
@@ -6301,6 +6429,22 @@
      "reside": "기타지역",
      "supply": 1.0,
      "req": 11.0,
+     "rate": "-",
+     "rate_num": null
+    },
+    {
+     "rank": "2",
+     "reside": "해당지역",
+     "supply": 1.0,
+     "req": 0.0,
+     "rate": "-",
+     "rate_num": null
+    },
+    {
+     "rank": "2",
+     "reside": "기타지역",
+     "supply": 1.0,
+     "req": 0.0,
      "rate": "-",
      "rate_num": null
     }
@@ -6638,6 +6782,22 @@
      "req": 36.0,
      "rate": "-",
      "rate_num": null
+    },
+    {
+     "rank": "2",
+     "reside": "해당지역",
+     "supply": 19.0,
+     "req": 0.0,
+     "rate": "-",
+     "rate_num": null
+    },
+    {
+     "rank": "2",
+     "reside": "기타지역",
+     "supply": 19.0,
+     "req": 0.0,
+     "rate": "-",
+     "rate_num": null
     }
    ],
    "scores": []
@@ -6973,6 +7133,22 @@
      "req": 0.0,
      "rate": "(△176)",
      "rate_num": null
+    },
+    {
+     "rank": "2",
+     "reside": "해당지역",
+     "supply": 179.0,
+     "req": 3.0,
+     "rate": "(△173)",
+     "rate_num": null
+    },
+    {
+     "rank": "2",
+     "reside": "기타지역",
+     "supply": 179.0,
+     "req": 0.0,
+     "rate": "(△173)",
+     "rate_num": null
     }
    ],
    "scores": []
@@ -7300,6 +7476,22 @@
      "req": 2.0,
      "rate": "(△164)",
      "rate_num": null
+    },
+    {
+     "rank": "2",
+     "reside": "해당지역",
+     "supply": 169.0,
+     "req": 2.0,
+     "rate": "(△162)",
+     "rate_num": null
+    },
+    {
+     "rank": "2",
+     "reside": "기타지역",
+     "supply": 169.0,
+     "req": 0.0,
+     "rate": "(△162)",
+     "rate_num": null
     }
    ],
    "scores": []
@@ -7605,6 +7797,22 @@
      "reside": "기타지역",
      "supply": 1.0,
      "req": 7.0,
+     "rate": "-",
+     "rate_num": null
+    },
+    {
+     "rank": "2",
+     "reside": "해당지역",
+     "supply": 1.0,
+     "req": 0.0,
+     "rate": "-",
+     "rate_num": null
+    },
+    {
+     "rank": "2",
+     "reside": "기타지역",
+     "supply": 1.0,
+     "req": 0.0,
      "rate": "-",
      "rate_num": null
     }
@@ -7922,6 +8130,22 @@
      "req": 0.0,
      "rate": "-",
      "rate_num": null
+    },
+    {
+     "rank": "2",
+     "reside": "해당지역",
+     "supply": 1.0,
+     "req": 0.0,
+     "rate": "-",
+     "rate_num": null
+    },
+    {
+     "rank": "2",
+     "reside": "기타지역",
+     "supply": 1.0,
+     "req": 0.0,
+     "rate": "-",
+     "rate_num": null
     }
    ],
    "scores": []
@@ -8202,6 +8426,22 @@
      "reside": "기타지역",
      "supply": 6.0,
      "req": 35.0,
+     "rate": "-",
+     "rate_num": null
+    },
+    {
+     "rank": "2",
+     "reside": "해당지역",
+     "supply": 6.0,
+     "req": 0.0,
+     "rate": "-",
+     "rate_num": null
+    },
+    {
+     "rank": "2",
+     "reside": "기타지역",
+     "supply": 6.0,
+     "req": 0.0,
      "rate": "-",
      "rate_num": null
     }
@@ -8486,6 +8726,22 @@
      "req": 5.0,
      "rate": "-",
      "rate_num": null
+    },
+    {
+     "rank": "2",
+     "reside": "해당지역",
+     "supply": 2.0,
+     "req": 0.0,
+     "rate": "-",
+     "rate_num": null
+    },
+    {
+     "rank": "2",
+     "reside": "기타지역",
+     "supply": 2.0,
+     "req": 0.0,
+     "rate": "-",
+     "rate_num": null
     }
    ],
    "scores": []
@@ -8766,6 +9022,22 @@
      "reside": "기타지역",
      "supply": 3.0,
      "req": 4.0,
+     "rate": "-",
+     "rate_num": null
+    },
+    {
+     "rank": "2",
+     "reside": "해당지역",
+     "supply": 3.0,
+     "req": 0.0,
+     "rate": "-",
+     "rate_num": null
+    },
+    {
+     "rank": "2",
+     "reside": "기타지역",
+     "supply": 3.0,
+     "req": 0.0,
      "rate": "-",
      "rate_num": null
     }
@@ -9094,6 +9366,22 @@
      "reside": "기타지역",
      "supply": 5.0,
      "req": 0.0,
+     "rate": "-",
+     "rate_num": null
+    },
+    {
+     "rank": "2",
+     "reside": "해당지역",
+     "supply": 5.0,
+     "req": 5.0,
+     "rate": "-",
+     "rate_num": null
+    },
+    {
+     "rank": "2",
+     "reside": "기타지역",
+     "supply": 5.0,
+     "req": 1.0,
      "rate": "-",
      "rate_num": null
     }
@@ -9439,6 +9727,22 @@
      "supply": 2.0,
      "req": 0.0,
      "rate": "(△1)",
+     "rate_num": null
+    },
+    {
+     "rank": "2",
+     "reside": "해당지역",
+     "supply": 2.0,
+     "req": 1.0,
+     "rate": "1.00",
+     "rate_num": 1.0
+    },
+    {
+     "rank": "2",
+     "reside": "기타지역",
+     "supply": 2.0,
+     "req": 3.0,
+     "rate": "-",
      "rate_num": null
     }
    ],
@@ -9795,6 +10099,22 @@
      "req": 0.0,
      "rate": "(△3)",
      "rate_num": null
+    },
+    {
+     "rank": "2",
+     "reside": "해당지역",
+     "supply": 3.0,
+     "req": 3.0,
+     "rate": "1.00",
+     "rate_num": 1.0
+    },
+    {
+     "rank": "2",
+     "reside": "기타지역",
+     "supply": 3.0,
+     "req": 0.0,
+     "rate": "-",
+     "rate_num": null
     }
    ],
    "scores": []
@@ -10150,6 +10470,22 @@
      "req": 4.0,
      "rate": "(△15)",
      "rate_num": null
+    },
+    {
+     "rank": "2",
+     "reside": "해당지역",
+     "supply": 36.0,
+     "req": 13.0,
+     "rate": "(△2)",
+     "rate_num": null
+    },
+    {
+     "rank": "2",
+     "reside": "기타지역",
+     "supply": 36.0,
+     "req": 3.0,
+     "rate": "1.50",
+     "rate_num": 1.5
     }
    ],
    "scores": []
@@ -41378,22 +41714,22 @@
     "name": "남양주시",
     "sigungu": "남양주시"
    },
+   "months": 12,
+   "since": "2025-08-31",
+   "quota": {
+    "해당": 30,
+    "경기": 20,
+    "기타": 50
+   },
    "gyeonggi": {
     "months": 6,
     "since": "2026-02-28"
    },
-   "months": 12,
    "others": [
     "서울",
     "인천",
     "경기"
-   ],
-   "quota": {
-    "경기": 20,
-    "기타": 50,
-    "해당": 30
-   },
-   "since": "2025-08-31"
+   ]
   },
   "special_units": {
    "newborn": 0,
@@ -41628,11 +41964,11 @@
   "url": "https://www.applyhome.co.kr/ai/aia/selectAPTLttotPblancDetail.do?houseManageNo=2026820009&pblancNo=2026820009",
   "notice_pdf": "https://apply.lh.or.kr/lhapply/lhFile.do?fileid=68353030",
   "from_notice": [
+   "분양가상한제",
+   "재당첨 제한",
    "1순위 가입기간",
    "납입 인정 횟수",
-   "분양가상한제",
-   "거주 지역 요건",
-   "재당첨 제한"
+   "거주 지역 요건"
   ],
   "checks": [],
   "geo": {
@@ -41724,8 +42060,8 @@
   "house_secd": "01",
   "house_dtl": "국민",
   "rent_secd": "분양주택",
-  "special_apply": null,
-  "special_apply_end": null,
+  "special_apply": "2026-09-30",
+  "special_apply_end": "2026-09-30",
   "kind": "일반분양 (특별공급·1순위)",
   "category": "general",
   "target": null,
@@ -41751,22 +42087,35 @@
     }
    ]
   },
-  "schedule": null,
+  "schedule": {
+   "pre": [
+    "2026-09-17",
+    "2026-09-18"
+   ],
+   "special": [
+    "2026-09-30",
+    "2026-09-30"
+   ],
+   "general": [
+    "2026-10-01",
+    "2026-10-02"
+   ]
+  },
   "residence": {
    "area": {
     "name": "인천광역시",
     "sido": "인천"
    },
    "months": 0,
+   "since": null,
+   "quota": {
+    "해당": 50,
+    "기타": 50
+   },
    "others": [
     "서울",
     "경기"
-   ],
-   "quota": {
-    "기타": 50,
-    "해당": 50
-   },
-   "since": null
+   ]
   },
   "special_units": {
    "newborn": 21,
@@ -42001,13 +42350,14 @@
   "url": "https://www.applyhome.co.kr/ai/aia/selectAPTLttotPblancDetail.do?houseManageNo=2026000414&pblancNo=2026000414",
   "notice_pdf": "https://apply.lh.or.kr/lhapply/lhFile.do?fileid=68595376",
   "from_notice": [
-   "1순위 가입기간",
-   "납입 인정 횟수",
-   "다자녀 지역 배정",
    "세대주 요건",
    "분양가상한제",
+   "재당첨 제한",
+   "1순위 가입기간",
+   "납입 인정 횟수",
    "거주 지역 요건",
-   "재당첨 제한"
+   "다자녀 지역 배정",
+   "접수 일정"
   ],
   "checks": [],
   "geo": {
@@ -42071,8 +42421,8 @@
   "house_secd": "01",
   "house_dtl": "국민",
   "rent_secd": "분양주택",
-  "special_apply": null,
-  "special_apply_end": null,
+  "special_apply": "2026-09-30",
+  "special_apply_end": "2026-09-30",
   "kind": "일반분양 (특별공급·1순위)",
   "category": "general",
   "target": null,
@@ -42098,22 +42448,35 @@
     }
    ]
   },
-  "schedule": null,
+  "schedule": {
+   "pre": [
+    "2026-09-17",
+    "2026-09-18"
+   ],
+   "special": [
+    "2026-09-30",
+    "2026-09-30"
+   ],
+   "general": [
+    "2026-10-01",
+    "2026-10-02"
+   ]
+  },
   "residence": {
    "area": {
     "name": "인천광역시",
     "sido": "인천"
    },
    "months": 0,
+   "since": null,
+   "quota": {
+    "해당": 50,
+    "기타": 50
+   },
    "others": [
     "서울",
     "경기"
-   ],
-   "quota": {
-    "기타": 50,
-    "해당": 50
-   },
-   "since": null
+   ]
   },
   "special_units": {
    "newborn": 10,
@@ -42348,13 +42711,14 @@
   "url": "https://www.applyhome.co.kr/ai/aia/selectAPTLttotPblancDetail.do?houseManageNo=2026000414&pblancNo=2026000414",
   "notice_pdf": "https://apply.lh.or.kr/lhapply/lhFile.do?fileid=68595376",
   "from_notice": [
-   "1순위 가입기간",
-   "납입 인정 횟수",
-   "다자녀 지역 배정",
    "세대주 요건",
    "분양가상한제",
+   "재당첨 제한",
+   "1순위 가입기간",
+   "납입 인정 횟수",
    "거주 지역 요건",
-   "재당첨 제한"
+   "다자녀 지역 배정",
+   "접수 일정"
   ],
   "checks": [],
   "geo": {
@@ -42418,8 +42782,8 @@
   "house_secd": "01",
   "house_dtl": "국민",
   "rent_secd": "분양주택",
-  "special_apply": null,
-  "special_apply_end": null,
+  "special_apply": "2026-09-30",
+  "special_apply_end": "2026-09-30",
   "kind": "일반분양 (특별공급·1순위)",
   "category": "general",
   "target": null,
@@ -42445,22 +42809,35 @@
     }
    ]
   },
-  "schedule": null,
+  "schedule": {
+   "pre": [
+    "2026-09-17",
+    "2026-09-18"
+   ],
+   "special": [
+    "2026-09-30",
+    "2026-09-30"
+   ],
+   "general": [
+    "2026-10-01",
+    "2026-10-02"
+   ]
+  },
   "residence": {
    "area": {
     "name": "인천광역시",
     "sido": "인천"
    },
    "months": 0,
+   "since": null,
+   "quota": {
+    "해당": 50,
+    "기타": 50
+   },
    "others": [
     "서울",
     "경기"
-   ],
-   "quota": {
-    "기타": 50,
-    "해당": 50
-   },
-   "since": null
+   ]
   },
   "special_units": {
    "newborn": 0,
@@ -42695,13 +43072,14 @@
   "url": "https://www.applyhome.co.kr/ai/aia/selectAPTLttotPblancDetail.do?houseManageNo=2026000414&pblancNo=2026000414",
   "notice_pdf": "https://apply.lh.or.kr/lhapply/lhFile.do?fileid=68595376",
   "from_notice": [
-   "1순위 가입기간",
-   "납입 인정 횟수",
-   "다자녀 지역 배정",
    "세대주 요건",
    "분양가상한제",
+   "재당첨 제한",
+   "1순위 가입기간",
+   "납입 인정 횟수",
    "거주 지역 요건",
-   "재당첨 제한"
+   "다자녀 지역 배정",
+   "접수 일정"
   ],
   "checks": [],
   "geo": {
@@ -42765,8 +43143,8 @@
   "house_secd": "01",
   "house_dtl": "국민",
   "rent_secd": "분양주택",
-  "special_apply": null,
-  "special_apply_end": null,
+  "special_apply": "2026-09-30",
+  "special_apply_end": "2026-09-30",
   "kind": "일반분양 (특별공급·1순위)",
   "category": "general",
   "target": null,
@@ -42792,22 +43170,35 @@
     }
    ]
   },
-  "schedule": null,
+  "schedule": {
+   "pre": [
+    "2026-09-17",
+    "2026-09-18"
+   ],
+   "special": [
+    "2026-09-30",
+    "2026-09-30"
+   ],
+   "general": [
+    "2026-10-01",
+    "2026-10-02"
+   ]
+  },
   "residence": {
    "area": {
     "name": "인천광역시",
     "sido": "인천"
    },
    "months": 0,
+   "since": null,
+   "quota": {
+    "해당": 50,
+    "기타": 50
+   },
    "others": [
     "서울",
     "경기"
-   ],
-   "quota": {
-    "기타": 50,
-    "해당": 50
-   },
-   "since": null
+   ]
   },
   "special_units": {
    "newborn": 1,
@@ -43042,13 +43433,14 @@
   "url": "https://www.applyhome.co.kr/ai/aia/selectAPTLttotPblancDetail.do?houseManageNo=2026000414&pblancNo=2026000414",
   "notice_pdf": "https://apply.lh.or.kr/lhapply/lhFile.do?fileid=68595376",
   "from_notice": [
-   "1순위 가입기간",
-   "납입 인정 횟수",
-   "다자녀 지역 배정",
    "세대주 요건",
    "분양가상한제",
+   "재당첨 제한",
+   "1순위 가입기간",
+   "납입 인정 횟수",
    "거주 지역 요건",
-   "재당첨 제한"
+   "다자녀 지역 배정",
+   "접수 일정"
   ],
   "checks": [],
   "geo": {
@@ -43112,8 +43504,8 @@
   "house_secd": "01",
   "house_dtl": "국민",
   "rent_secd": "분양주택",
-  "special_apply": null,
-  "special_apply_end": null,
+  "special_apply": "2026-09-30",
+  "special_apply_end": "2026-09-30",
   "kind": "일반분양 (특별공급·1순위)",
   "category": "general",
   "target": null,
@@ -43139,22 +43531,35 @@
     }
    ]
   },
-  "schedule": null,
+  "schedule": {
+   "pre": [
+    "2026-09-17",
+    "2026-09-18"
+   ],
+   "special": [
+    "2026-09-30",
+    "2026-09-30"
+   ],
+   "general": [
+    "2026-10-01",
+    "2026-10-02"
+   ]
+  },
   "residence": {
    "area": {
     "name": "인천광역시",
     "sido": "인천"
    },
    "months": 0,
+   "since": null,
+   "quota": {
+    "해당": 50,
+    "기타": 50
+   },
    "others": [
     "서울",
     "경기"
-   ],
-   "quota": {
-    "기타": 50,
-    "해당": 50
-   },
-   "since": null
+   ]
   },
   "special_units": {
    "newborn": 7,
@@ -43389,13 +43794,14 @@
   "url": "https://www.applyhome.co.kr/ai/aia/selectAPTLttotPblancDetail.do?houseManageNo=2026000414&pblancNo=2026000414",
   "notice_pdf": "https://apply.lh.or.kr/lhapply/lhFile.do?fileid=68595376",
   "from_notice": [
-   "1순위 가입기간",
-   "납입 인정 횟수",
-   "다자녀 지역 배정",
    "세대주 요건",
    "분양가상한제",
+   "재당첨 제한",
+   "1순위 가입기간",
+   "납입 인정 횟수",
    "거주 지역 요건",
-   "재당첨 제한"
+   "다자녀 지역 배정",
+   "접수 일정"
   ],
   "checks": [],
   "geo": {
@@ -43459,8 +43865,8 @@
   "house_secd": "01",
   "house_dtl": "국민",
   "rent_secd": "분양주택",
-  "special_apply": null,
-  "special_apply_end": null,
+  "special_apply": "2026-09-30",
+  "special_apply_end": "2026-09-30",
   "kind": "일반분양 (특별공급·1순위)",
   "category": "general",
   "target": null,
@@ -43486,22 +43892,35 @@
     }
    ]
   },
-  "schedule": null,
+  "schedule": {
+   "pre": [
+    "2026-09-17",
+    "2026-09-18"
+   ],
+   "special": [
+    "2026-09-30",
+    "2026-09-30"
+   ],
+   "general": [
+    "2026-10-01",
+    "2026-10-02"
+   ]
+  },
   "residence": {
    "area": {
     "name": "인천광역시",
     "sido": "인천"
    },
    "months": 0,
+   "since": null,
+   "quota": {
+    "해당": 50,
+    "기타": 50
+   },
    "others": [
     "서울",
     "경기"
-   ],
-   "quota": {
-    "기타": 50,
-    "해당": 50
-   },
-   "since": null
+   ]
   },
   "special_units": {
    "newborn": 1,
@@ -43736,13 +44155,14 @@
   "url": "https://www.applyhome.co.kr/ai/aia/selectAPTLttotPblancDetail.do?houseManageNo=2026000414&pblancNo=2026000414",
   "notice_pdf": "https://apply.lh.or.kr/lhapply/lhFile.do?fileid=68595376",
   "from_notice": [
-   "1순위 가입기간",
-   "납입 인정 횟수",
-   "다자녀 지역 배정",
    "세대주 요건",
    "분양가상한제",
+   "재당첨 제한",
+   "1순위 가입기간",
+   "납입 인정 횟수",
    "거주 지역 요건",
-   "재당첨 제한"
+   "다자녀 지역 배정",
+   "접수 일정"
   ],
   "checks": [],
   "geo": {
@@ -43806,8 +44226,8 @@
   "house_secd": "01",
   "house_dtl": "국민",
   "rent_secd": "분양주택",
-  "special_apply": null,
-  "special_apply_end": null,
+  "special_apply": "2026-09-30",
+  "special_apply_end": "2026-09-30",
   "kind": "일반분양 (특별공급·1순위)",
   "category": "general",
   "target": null,
@@ -43833,22 +44253,35 @@
     }
    ]
   },
-  "schedule": null,
+  "schedule": {
+   "pre": [
+    "2026-09-17",
+    "2026-09-18"
+   ],
+   "special": [
+    "2026-09-30",
+    "2026-09-30"
+   ],
+   "general": [
+    "2026-10-01",
+    "2026-10-02"
+   ]
+  },
   "residence": {
    "area": {
     "name": "인천광역시",
     "sido": "인천"
    },
    "months": 0,
+   "since": null,
+   "quota": {
+    "해당": 50,
+    "기타": 50
+   },
    "others": [
     "서울",
     "경기"
-   ],
-   "quota": {
-    "기타": 50,
-    "해당": 50
-   },
-   "since": null
+   ]
   },
   "special_units": {
    "newborn": 0,
@@ -44083,13 +44516,14 @@
   "url": "https://www.applyhome.co.kr/ai/aia/selectAPTLttotPblancDetail.do?houseManageNo=2026000414&pblancNo=2026000414",
   "notice_pdf": "https://apply.lh.or.kr/lhapply/lhFile.do?fileid=68595376",
   "from_notice": [
-   "1순위 가입기간",
-   "납입 인정 횟수",
-   "다자녀 지역 배정",
    "세대주 요건",
    "분양가상한제",
+   "재당첨 제한",
+   "1순위 가입기간",
+   "납입 인정 횟수",
    "거주 지역 요건",
-   "재당첨 제한"
+   "다자녀 지역 배정",
+   "접수 일정"
   ],
   "checks": [],
   "geo": {
@@ -44153,8 +44587,8 @@
   "house_secd": "01",
   "house_dtl": "국민",
   "rent_secd": "분양주택",
-  "special_apply": null,
-  "special_apply_end": null,
+  "special_apply": "2026-09-30",
+  "special_apply_end": "2026-09-30",
   "kind": "일반분양 (특별공급·1순위)",
   "category": "general",
   "target": null,
@@ -44180,22 +44614,35 @@
     }
    ]
   },
-  "schedule": null,
+  "schedule": {
+   "pre": [
+    "2026-09-17",
+    "2026-09-18"
+   ],
+   "special": [
+    "2026-09-30",
+    "2026-09-30"
+   ],
+   "general": [
+    "2026-10-01",
+    "2026-10-02"
+   ]
+  },
   "residence": {
    "area": {
     "name": "인천광역시",
     "sido": "인천"
    },
    "months": 0,
+   "since": null,
+   "quota": {
+    "해당": 50,
+    "기타": 50
+   },
    "others": [
     "서울",
     "경기"
-   ],
-   "quota": {
-    "기타": 50,
-    "해당": 50
-   },
-   "since": null
+   ]
   },
   "special_units": {
    "newborn": 0,
@@ -44275,13 +44722,14 @@
   "url": "https://www.applyhome.co.kr/ai/aia/selectAPTLttotPblancDetail.do?houseManageNo=2026000414&pblancNo=2026000414",
   "notice_pdf": "https://apply.lh.or.kr/lhapply/lhFile.do?fileid=68595376",
   "from_notice": [
-   "1순위 가입기간",
-   "납입 인정 횟수",
-   "다자녀 지역 배정",
    "세대주 요건",
    "분양가상한제",
+   "재당첨 제한",
+   "1순위 가입기간",
+   "납입 인정 횟수",
    "거주 지역 요건",
-   "재당첨 제한"
+   "다자녀 지역 배정",
+   "접수 일정"
   ],
   "checks": [],
   "geo": {
@@ -44345,8 +44793,8 @@
   "house_secd": "01",
   "house_dtl": "국민",
   "rent_secd": "분양주택",
-  "special_apply": null,
-  "special_apply_end": null,
+  "special_apply": "2026-09-30",
+  "special_apply_end": "2026-09-30",
   "kind": "일반분양 (특별공급·1순위)",
   "category": "general",
   "target": null,
@@ -44372,22 +44820,35 @@
     }
    ]
   },
-  "schedule": null,
+  "schedule": {
+   "pre": [
+    "2026-09-17",
+    "2026-09-18"
+   ],
+   "special": [
+    "2026-09-30",
+    "2026-09-30"
+   ],
+   "general": [
+    "2026-10-01",
+    "2026-10-02"
+   ]
+  },
   "residence": {
    "area": {
     "name": "인천광역시",
     "sido": "인천"
    },
    "months": 0,
+   "since": null,
+   "quota": {
+    "해당": 50,
+    "기타": 50
+   },
    "others": [
     "서울",
     "경기"
-   ],
-   "quota": {
-    "기타": 50,
-    "해당": 50
-   },
-   "since": null
+   ]
   },
   "special_units": {
    "newborn": 6,
@@ -44622,13 +45083,14 @@
   "url": "https://www.applyhome.co.kr/ai/aia/selectAPTLttotPblancDetail.do?houseManageNo=2026000414&pblancNo=2026000414",
   "notice_pdf": "https://apply.lh.or.kr/lhapply/lhFile.do?fileid=68595376",
   "from_notice": [
-   "1순위 가입기간",
-   "납입 인정 횟수",
-   "다자녀 지역 배정",
    "세대주 요건",
    "분양가상한제",
+   "재당첨 제한",
+   "1순위 가입기간",
+   "납입 인정 횟수",
    "거주 지역 요건",
-   "재당첨 제한"
+   "다자녀 지역 배정",
+   "접수 일정"
   ],
   "checks": [],
   "geo": {
@@ -44710,8 +45172,8 @@
   "house_secd": "01",
   "house_dtl": "국민",
   "rent_secd": "분양주택",
-  "special_apply": null,
-  "special_apply_end": null,
+  "special_apply": "2026-09-30",
+  "special_apply_end": "2026-09-30",
   "kind": "일반분양 (특별공급·1순위)",
   "category": "general",
   "target": null,
@@ -44737,22 +45199,35 @@
     }
    ]
   },
-  "schedule": null,
+  "schedule": {
+   "pre": [
+    "2026-09-17",
+    "2026-09-18"
+   ],
+   "special": [
+    "2026-09-30",
+    "2026-09-30"
+   ],
+   "general": [
+    "2026-10-01",
+    "2026-10-02"
+   ]
+  },
   "residence": {
    "area": {
     "name": "인천광역시",
     "sido": "인천"
    },
    "months": 0,
+   "since": null,
+   "quota": {
+    "해당": 50,
+    "기타": 50
+   },
    "others": [
     "서울",
     "경기"
-   ],
-   "quota": {
-    "기타": 50,
-    "해당": 50
-   },
-   "since": null
+   ]
   },
   "special_units": {
    "newborn": 1,
@@ -44987,13 +45462,14 @@
   "url": "https://www.applyhome.co.kr/ai/aia/selectAPTLttotPblancDetail.do?houseManageNo=2026000414&pblancNo=2026000414",
   "notice_pdf": "https://apply.lh.or.kr/lhapply/lhFile.do?fileid=68595376",
   "from_notice": [
-   "1순위 가입기간",
-   "납입 인정 횟수",
-   "다자녀 지역 배정",
    "세대주 요건",
    "분양가상한제",
+   "재당첨 제한",
+   "1순위 가입기간",
+   "납입 인정 횟수",
    "거주 지역 요건",
-   "재당첨 제한"
+   "다자녀 지역 배정",
+   "접수 일정"
   ],
   "checks": [],
   "geo": {
@@ -45075,8 +45551,8 @@
   "house_secd": "01",
   "house_dtl": "국민",
   "rent_secd": "분양주택",
-  "special_apply": null,
-  "special_apply_end": null,
+  "special_apply": "2026-09-30",
+  "special_apply_end": "2026-09-30",
   "kind": "일반분양 (특별공급·1순위)",
   "category": "general",
   "target": null,
@@ -45102,22 +45578,35 @@
     }
    ]
   },
-  "schedule": null,
+  "schedule": {
+   "pre": [
+    "2026-09-17",
+    "2026-09-18"
+   ],
+   "special": [
+    "2026-09-30",
+    "2026-09-30"
+   ],
+   "general": [
+    "2026-10-01",
+    "2026-10-02"
+   ]
+  },
   "residence": {
    "area": {
     "name": "인천광역시",
     "sido": "인천"
    },
    "months": 0,
+   "since": null,
+   "quota": {
+    "해당": 50,
+    "기타": 50
+   },
    "others": [
     "서울",
     "경기"
-   ],
-   "quota": {
-    "기타": 50,
-    "해당": 50
-   },
-   "since": null
+   ]
   },
   "special_units": {
    "newborn": 0,
@@ -45352,13 +45841,14 @@
   "url": "https://www.applyhome.co.kr/ai/aia/selectAPTLttotPblancDetail.do?houseManageNo=2026000414&pblancNo=2026000414",
   "notice_pdf": "https://apply.lh.or.kr/lhapply/lhFile.do?fileid=68595376",
   "from_notice": [
-   "1순위 가입기간",
-   "납입 인정 횟수",
-   "다자녀 지역 배정",
    "세대주 요건",
    "분양가상한제",
+   "재당첨 제한",
+   "1순위 가입기간",
+   "납입 인정 횟수",
    "거주 지역 요건",
-   "재당첨 제한"
+   "다자녀 지역 배정",
+   "접수 일정"
   ],
   "checks": [],
   "geo": {
@@ -45440,8 +45930,8 @@
   "house_secd": "01",
   "house_dtl": "국민",
   "rent_secd": "분양주택",
-  "special_apply": null,
-  "special_apply_end": null,
+  "special_apply": "2026-09-30",
+  "special_apply_end": "2026-09-30",
   "kind": "일반분양 (특별공급·1순위)",
   "category": "general",
   "target": null,
@@ -45467,22 +45957,35 @@
     }
    ]
   },
-  "schedule": null,
+  "schedule": {
+   "pre": [
+    "2026-09-17",
+    "2026-09-18"
+   ],
+   "special": [
+    "2026-09-30",
+    "2026-09-30"
+   ],
+   "general": [
+    "2026-10-01",
+    "2026-10-02"
+   ]
+  },
   "residence": {
    "area": {
     "name": "인천광역시",
     "sido": "인천"
    },
    "months": 0,
+   "since": null,
+   "quota": {
+    "해당": 50,
+    "기타": 50
+   },
    "others": [
     "서울",
     "경기"
-   ],
-   "quota": {
-    "기타": 50,
-    "해당": 50
-   },
-   "since": null
+   ]
   },
   "special_units": {
    "newborn": 1,
@@ -45717,13 +46220,14 @@
   "url": "https://www.applyhome.co.kr/ai/aia/selectAPTLttotPblancDetail.do?houseManageNo=2026000414&pblancNo=2026000414",
   "notice_pdf": "https://apply.lh.or.kr/lhapply/lhFile.do?fileid=68595376",
   "from_notice": [
-   "1순위 가입기간",
-   "납입 인정 횟수",
-   "다자녀 지역 배정",
    "세대주 요건",
    "분양가상한제",
+   "재당첨 제한",
+   "1순위 가입기간",
+   "납입 인정 횟수",
    "거주 지역 요건",
-   "재당첨 제한"
+   "다자녀 지역 배정",
+   "접수 일정"
   ],
   "checks": [],
   "geo": {
@@ -45805,8 +46309,8 @@
   "house_secd": "01",
   "house_dtl": "국민",
   "rent_secd": "분양주택",
-  "special_apply": null,
-  "special_apply_end": null,
+  "special_apply": "2026-09-30",
+  "special_apply_end": "2026-09-30",
   "kind": "일반분양 (특별공급·1순위)",
   "category": "general",
   "target": null,
@@ -45832,22 +46336,35 @@
     }
    ]
   },
-  "schedule": null,
+  "schedule": {
+   "pre": [
+    "2026-09-17",
+    "2026-09-18"
+   ],
+   "special": [
+    "2026-09-30",
+    "2026-09-30"
+   ],
+   "general": [
+    "2026-10-01",
+    "2026-10-02"
+   ]
+  },
   "residence": {
    "area": {
     "name": "인천광역시",
     "sido": "인천"
    },
    "months": 0,
+   "since": null,
+   "quota": {
+    "해당": 50,
+    "기타": 50
+   },
    "others": [
     "서울",
     "경기"
-   ],
-   "quota": {
-    "기타": 50,
-    "해당": 50
-   },
-   "since": null
+   ]
   },
   "special_units": {
    "newborn": 1,
@@ -46082,13 +46599,14 @@
   "url": "https://www.applyhome.co.kr/ai/aia/selectAPTLttotPblancDetail.do?houseManageNo=2026000414&pblancNo=2026000414",
   "notice_pdf": "https://apply.lh.or.kr/lhapply/lhFile.do?fileid=68595376",
   "from_notice": [
-   "1순위 가입기간",
-   "납입 인정 횟수",
-   "다자녀 지역 배정",
    "세대주 요건",
    "분양가상한제",
+   "재당첨 제한",
+   "1순위 가입기간",
+   "납입 인정 횟수",
    "거주 지역 요건",
-   "재당첨 제한"
+   "다자녀 지역 배정",
+   "접수 일정"
   ],
   "checks": [],
   "geo": {
@@ -47774,8 +48292,8 @@
   "house_secd": "01",
   "house_dtl": "국민",
   "rent_secd": "분양주택",
-  "special_apply": null,
-  "special_apply_end": null,
+  "special_apply": "2026-09-14",
+  "special_apply_end": "2026-09-15",
   "kind": "일반분양 (특별공급·1순위)",
   "category": "general",
   "target": null,
@@ -47785,6 +48303,11 @@
   "mc_quota": {
    "buckets": [
     {
+     "name": "경기도",
+     "pct": 50,
+     "regions": [
+      "경기"
+     ],
      "first": {
       "area": {
        "name": "양주시",
@@ -47793,11 +48316,6 @@
       "months": 12,
       "since": "2025-08-27"
      },
-     "name": "경기도",
-     "pct": 50,
-     "regions": [
-      "경기"
-     ],
      "rest_months": 6
     },
     {
@@ -47811,28 +48329,37 @@
     }
    ]
   },
-  "schedule": null,
+  "schedule": {
+   "special": [
+    "2026-09-14",
+    "2026-09-15"
+   ],
+   "general": [
+    "2026-09-16",
+    "2026-09-17"
+   ]
+  },
   "residence": {
    "area": {
     "name": "양주시",
     "sigungu": "양주시"
    },
+   "months": 12,
+   "since": "2025-08-27",
+   "quota": {
+    "해당": 30,
+    "경기": 20,
+    "기타": 50
+   },
    "gyeonggi": {
     "months": 6,
     "since": "2026-02-27"
    },
-   "months": 12,
    "others": [
     "서울",
     "인천",
     "경기"
-   ],
-   "quota": {
-    "경기": 20,
-    "기타": 50,
-    "해당": 30
-   },
-   "since": "2025-08-27"
+   ]
   },
   "special_units": {
    "newborn": 52,
@@ -48067,13 +48594,14 @@
   "url": "https://www.applyhome.co.kr/ai/aia/selectAPTLttotPblancDetail.do?houseManageNo=2026000416&pblancNo=2026000416",
   "notice_pdf": "https://apply.lh.or.kr/lhapply/lhFile.do?fileid=68440094",
   "from_notice": [
-   "1순위 가입기간",
-   "납입 인정 횟수",
-   "다자녀 지역 배정",
    "세대주 요건",
    "분양가상한제",
+   "재당첨 제한",
+   "1순위 가입기간",
+   "납입 인정 횟수",
    "거주 지역 요건",
-   "재당첨 제한"
+   "다자녀 지역 배정",
+   "접수 일정"
   ],
   "checks": [],
   "geo": {
@@ -48189,8 +48717,8 @@
   "house_secd": "01",
   "house_dtl": "국민",
   "rent_secd": "분양주택",
-  "special_apply": null,
-  "special_apply_end": null,
+  "special_apply": "2026-09-14",
+  "special_apply_end": "2026-09-15",
   "kind": "일반분양 (특별공급·1순위)",
   "category": "general",
   "target": null,
@@ -48200,6 +48728,11 @@
   "mc_quota": {
    "buckets": [
     {
+     "name": "경기도",
+     "pct": 50,
+     "regions": [
+      "경기"
+     ],
      "first": {
       "area": {
        "name": "양주시",
@@ -48208,11 +48741,6 @@
       "months": 12,
       "since": "2025-08-27"
      },
-     "name": "경기도",
-     "pct": 50,
-     "regions": [
-      "경기"
-     ],
      "rest_months": 6
     },
     {
@@ -48226,28 +48754,37 @@
     }
    ]
   },
-  "schedule": null,
+  "schedule": {
+   "special": [
+    "2026-09-14",
+    "2026-09-15"
+   ],
+   "general": [
+    "2026-09-16",
+    "2026-09-17"
+   ]
+  },
   "residence": {
    "area": {
     "name": "양주시",
     "sigungu": "양주시"
    },
+   "months": 12,
+   "since": "2025-08-27",
+   "quota": {
+    "해당": 30,
+    "경기": 20,
+    "기타": 50
+   },
    "gyeonggi": {
     "months": 6,
     "since": "2026-02-27"
    },
-   "months": 12,
    "others": [
     "서울",
     "인천",
     "경기"
-   ],
-   "quota": {
-    "경기": 20,
-    "기타": 50,
-    "해당": 30
-   },
-   "since": "2025-08-27"
+   ]
   },
   "special_units": {
    "newborn": 26,
@@ -48482,13 +49019,14 @@
   "url": "https://www.applyhome.co.kr/ai/aia/selectAPTLttotPblancDetail.do?houseManageNo=2026000416&pblancNo=2026000416",
   "notice_pdf": "https://apply.lh.or.kr/lhapply/lhFile.do?fileid=68440094",
   "from_notice": [
-   "1순위 가입기간",
-   "납입 인정 횟수",
-   "다자녀 지역 배정",
    "세대주 요건",
    "분양가상한제",
+   "재당첨 제한",
+   "1순위 가입기간",
+   "납입 인정 횟수",
    "거주 지역 요건",
-   "재당첨 제한"
+   "다자녀 지역 배정",
+   "접수 일정"
   ],
   "checks": [],
   "geo": {
@@ -48604,8 +49142,8 @@
   "house_secd": "01",
   "house_dtl": "국민",
   "rent_secd": "분양주택",
-  "special_apply": null,
-  "special_apply_end": null,
+  "special_apply": "2026-09-14",
+  "special_apply_end": "2026-09-15",
   "kind": "일반분양 (특별공급·1순위)",
   "category": "general",
   "target": null,
@@ -48615,6 +49153,11 @@
   "mc_quota": {
    "buckets": [
     {
+     "name": "경기도",
+     "pct": 50,
+     "regions": [
+      "경기"
+     ],
      "first": {
       "area": {
        "name": "양주시",
@@ -48623,11 +49166,6 @@
       "months": 12,
       "since": "2025-08-27"
      },
-     "name": "경기도",
-     "pct": 50,
-     "regions": [
-      "경기"
-     ],
      "rest_months": 6
     },
     {
@@ -48641,28 +49179,37 @@
     }
    ]
   },
-  "schedule": null,
+  "schedule": {
+   "special": [
+    "2026-09-14",
+    "2026-09-15"
+   ],
+   "general": [
+    "2026-09-16",
+    "2026-09-17"
+   ]
+  },
   "residence": {
    "area": {
     "name": "양주시",
     "sigungu": "양주시"
    },
+   "months": 12,
+   "since": "2025-08-27",
+   "quota": {
+    "해당": 30,
+    "경기": 20,
+    "기타": 50
+   },
    "gyeonggi": {
     "months": 6,
     "since": "2026-02-27"
    },
-   "months": 12,
    "others": [
     "서울",
     "인천",
     "경기"
-   ],
-   "quota": {
-    "경기": 20,
-    "기타": 50,
-    "해당": 30
-   },
-   "since": "2025-08-27"
+   ]
   },
   "special_units": {
    "newborn": 17,
@@ -48897,13 +49444,14 @@
   "url": "https://www.applyhome.co.kr/ai/aia/selectAPTLttotPblancDetail.do?houseManageNo=2026000416&pblancNo=2026000416",
   "notice_pdf": "https://apply.lh.or.kr/lhapply/lhFile.do?fileid=68440094",
   "from_notice": [
-   "1순위 가입기간",
-   "납입 인정 횟수",
-   "다자녀 지역 배정",
    "세대주 요건",
    "분양가상한제",
+   "재당첨 제한",
+   "1순위 가입기간",
+   "납입 인정 횟수",
    "거주 지역 요건",
-   "재당첨 제한"
+   "다자녀 지역 배정",
+   "접수 일정"
   ],
   "checks": [],
   "geo": {
@@ -49019,8 +49567,8 @@
   "house_secd": "01",
   "house_dtl": "국민",
   "rent_secd": "분양주택",
-  "special_apply": null,
-  "special_apply_end": null,
+  "special_apply": "2026-09-14",
+  "special_apply_end": "2026-09-15",
   "kind": "일반분양 (특별공급·1순위)",
   "category": "general",
   "target": null,
@@ -49030,6 +49578,11 @@
   "mc_quota": {
    "buckets": [
     {
+     "name": "경기도",
+     "pct": 50,
+     "regions": [
+      "경기"
+     ],
      "first": {
       "area": {
        "name": "양주시",
@@ -49038,11 +49591,6 @@
       "months": 12,
       "since": "2025-08-27"
      },
-     "name": "경기도",
-     "pct": 50,
-     "regions": [
-      "경기"
-     ],
      "rest_months": 6
     },
     {
@@ -49056,28 +49604,37 @@
     }
    ]
   },
-  "schedule": null,
+  "schedule": {
+   "special": [
+    "2026-09-14",
+    "2026-09-15"
+   ],
+   "general": [
+    "2026-09-16",
+    "2026-09-17"
+   ]
+  },
   "residence": {
    "area": {
     "name": "양주시",
     "sigungu": "양주시"
    },
+   "months": 12,
+   "since": "2025-08-27",
+   "quota": {
+    "해당": 30,
+    "경기": 20,
+    "기타": 50
+   },
    "gyeonggi": {
     "months": 6,
     "since": "2026-02-27"
    },
-   "months": 12,
    "others": [
     "서울",
     "인천",
     "경기"
-   ],
-   "quota": {
-    "경기": 20,
-    "기타": 50,
-    "해당": 30
-   },
-   "since": "2025-08-27"
+   ]
   },
   "special_units": {
    "newborn": 17,
@@ -49312,13 +49869,14 @@
   "url": "https://www.applyhome.co.kr/ai/aia/selectAPTLttotPblancDetail.do?houseManageNo=2026000416&pblancNo=2026000416",
   "notice_pdf": "https://apply.lh.or.kr/lhapply/lhFile.do?fileid=68440094",
   "from_notice": [
-   "1순위 가입기간",
-   "납입 인정 횟수",
-   "다자녀 지역 배정",
    "세대주 요건",
    "분양가상한제",
+   "재당첨 제한",
+   "1순위 가입기간",
+   "납입 인정 횟수",
    "거주 지역 요건",
-   "재당첨 제한"
+   "다자녀 지역 배정",
+   "접수 일정"
   ],
   "checks": [],
   "geo": {
@@ -49434,8 +49992,8 @@
   "house_secd": "01",
   "house_dtl": "국민",
   "rent_secd": "분양주택",
-  "special_apply": null,
-  "special_apply_end": null,
+  "special_apply": "2026-09-14",
+  "special_apply_end": "2026-09-15",
   "kind": "일반분양 (특별공급·1순위)",
   "category": "general",
   "target": null,
@@ -49445,6 +50003,11 @@
   "mc_quota": {
    "buckets": [
     {
+     "name": "경기도",
+     "pct": 50,
+     "regions": [
+      "경기"
+     ],
      "first": {
       "area": {
        "name": "양주시",
@@ -49453,11 +50016,6 @@
       "months": 12,
       "since": "2025-08-27"
      },
-     "name": "경기도",
-     "pct": 50,
-     "regions": [
-      "경기"
-     ],
      "rest_months": 6
     },
     {
@@ -49471,28 +50029,37 @@
     }
    ]
   },
-  "schedule": null,
+  "schedule": {
+   "special": [
+    "2026-09-14",
+    "2026-09-15"
+   ],
+   "general": [
+    "2026-09-16",
+    "2026-09-17"
+   ]
+  },
   "residence": {
    "area": {
     "name": "양주시",
     "sigungu": "양주시"
    },
+   "months": 12,
+   "since": "2025-08-27",
+   "quota": {
+    "해당": 30,
+    "경기": 20,
+    "기타": 50
+   },
    "gyeonggi": {
     "months": 6,
     "since": "2026-02-27"
    },
-   "months": 12,
    "others": [
     "서울",
     "인천",
     "경기"
-   ],
-   "quota": {
-    "경기": 20,
-    "기타": 50,
-    "해당": 30
-   },
-   "since": "2025-08-27"
+   ]
   },
   "special_units": {
    "newborn": 46,
@@ -49727,13 +50294,14 @@
   "url": "https://www.applyhome.co.kr/ai/aia/selectAPTLttotPblancDetail.do?houseManageNo=2026000416&pblancNo=2026000416",
   "notice_pdf": "https://apply.lh.or.kr/lhapply/lhFile.do?fileid=68440094",
   "from_notice": [
-   "1순위 가입기간",
-   "납입 인정 횟수",
-   "다자녀 지역 배정",
    "세대주 요건",
    "분양가상한제",
+   "재당첨 제한",
+   "1순위 가입기간",
+   "납입 인정 횟수",
    "거주 지역 요건",
-   "재당첨 제한"
+   "다자녀 지역 배정",
+   "접수 일정"
   ],
   "checks": [],
   "geo": {
@@ -49849,8 +50417,8 @@
   "house_secd": "01",
   "house_dtl": "국민",
   "rent_secd": "분양주택",
-  "special_apply": null,
-  "special_apply_end": null,
+  "special_apply": "2026-09-14",
+  "special_apply_end": "2026-09-15",
   "kind": "일반분양 (특별공급·1순위)",
   "category": "general",
   "target": null,
@@ -49860,6 +50428,11 @@
   "mc_quota": {
    "buckets": [
     {
+     "name": "경기도",
+     "pct": 50,
+     "regions": [
+      "경기"
+     ],
      "first": {
       "area": {
        "name": "의정부시",
@@ -49868,11 +50441,6 @@
       "months": 0,
       "since": null
      },
-     "name": "경기도",
-     "pct": 50,
-     "regions": [
-      "경기"
-     ],
      "rest_months": 0
     },
     {
@@ -49885,23 +50453,36 @@
     }
    ]
   },
-  "schedule": null,
+  "schedule": {
+   "pre": [
+    "2026-09-07",
+    "2026-09-08"
+   ],
+   "special": [
+    "2026-09-14",
+    "2026-09-15"
+   ],
+   "general": [
+    "2026-09-16",
+    "2026-09-17"
+   ]
+  },
   "residence": {
    "area": {
     "name": "의정부시",
     "sigungu": "의정부시"
    },
    "months": 0,
+   "since": null,
+   "quota": {
+    "해당": 100,
+    "기타": 0
+   },
    "others": [
     "서울",
     "경기",
     "인천"
-   ],
-   "quota": {
-    "기타": 0,
-    "해당": 100
-   },
-   "since": null
+   ]
   },
   "special_units": {
    "newborn": 26,
@@ -50136,13 +50717,14 @@
   "url": "https://www.applyhome.co.kr/ai/aia/selectAPTLttotPblancDetail.do?houseManageNo=2026000409&pblancNo=2026000409",
   "notice_pdf": "https://apply.lh.or.kr/lhapply/lhFile.do?fileid=68307467",
   "from_notice": [
-   "1순위 가입기간",
-   "납입 인정 횟수",
-   "다자녀 지역 배정",
    "세대주 요건",
    "분양가상한제",
+   "재당첨 제한",
+   "1순위 가입기간",
+   "납입 인정 횟수",
    "거주 지역 요건",
-   "재당첨 제한"
+   "다자녀 지역 배정",
+   "접수 일정"
   ],
   "checks": [],
   "geo": {
@@ -50266,8 +50848,8 @@
   "house_secd": "01",
   "house_dtl": "국민",
   "rent_secd": "분양주택",
-  "special_apply": null,
-  "special_apply_end": null,
+  "special_apply": "2026-09-14",
+  "special_apply_end": "2026-09-15",
   "kind": "일반분양 (특별공급·1순위)",
   "category": "general",
   "target": null,
@@ -50277,6 +50859,11 @@
   "mc_quota": {
    "buckets": [
     {
+     "name": "경기도",
+     "pct": 50,
+     "regions": [
+      "경기"
+     ],
      "first": {
       "area": {
        "name": "의정부시",
@@ -50285,11 +50872,6 @@
       "months": 0,
       "since": null
      },
-     "name": "경기도",
-     "pct": 50,
-     "regions": [
-      "경기"
-     ],
      "rest_months": 0
     },
     {
@@ -50302,23 +50884,36 @@
     }
    ]
   },
-  "schedule": null,
+  "schedule": {
+   "pre": [
+    "2026-09-07",
+    "2026-09-08"
+   ],
+   "special": [
+    "2026-09-14",
+    "2026-09-15"
+   ],
+   "general": [
+    "2026-09-16",
+    "2026-09-17"
+   ]
+  },
   "residence": {
    "area": {
     "name": "의정부시",
     "sigungu": "의정부시"
    },
    "months": 0,
+   "since": null,
+   "quota": {
+    "해당": 100,
+    "기타": 0
+   },
    "others": [
     "서울",
     "경기",
     "인천"
-   ],
-   "quota": {
-    "기타": 0,
-    "해당": 100
-   },
-   "since": null
+   ]
   },
   "special_units": {
    "newborn": 9,
@@ -50553,13 +51148,14 @@
   "url": "https://www.applyhome.co.kr/ai/aia/selectAPTLttotPblancDetail.do?houseManageNo=2026000409&pblancNo=2026000409",
   "notice_pdf": "https://apply.lh.or.kr/lhapply/lhFile.do?fileid=68307467",
   "from_notice": [
-   "1순위 가입기간",
-   "납입 인정 횟수",
-   "다자녀 지역 배정",
    "세대주 요건",
    "분양가상한제",
+   "재당첨 제한",
+   "1순위 가입기간",
+   "납입 인정 횟수",
    "거주 지역 요건",
-   "재당첨 제한"
+   "다자녀 지역 배정",
+   "접수 일정"
   ],
   "checks": [],
   "geo": {
@@ -50699,16 +51295,16 @@
     "sigungu": "성남시"
    },
    "months": 24,
+   "since": "2024-08-10",
+   "quota": {
+    "해당": 100,
+    "기타": 0
+   },
    "others": [
     "서울",
     "인천",
     "경기"
-   ],
-   "quota": {
-    "기타": 0,
-    "해당": 100
-   },
-   "since": "2024-08-10"
+   ]
   },
   "special_units": {
    "newborn": 0,
@@ -50777,11 +51373,11 @@
   "url": "https://www.applyhome.co.kr/ai/aia/selectAPTLttotPblancDetail.do?houseManageNo=2026820008&pblancNo=2026820008",
   "notice_pdf": "https://apply.lh.or.kr/lhapply/lhFile.do?fileid=68049805",
   "from_notice": [
+   "분양가상한제",
+   "재당첨 제한",
    "1순위 가입기간",
    "납입 인정 횟수",
-   "분양가상한제",
-   "거주 지역 요건",
-   "재당첨 제한"
+   "거주 지역 요건"
   ],
   "checks": [
    "세대주 요건을 공고문에서 확인하지 못해 규제지역 기준으로 추정했어요"
@@ -50871,16 +51467,16 @@
     "sigungu": "성남시"
    },
    "months": 24,
+   "since": "2024-08-10",
+   "quota": {
+    "해당": 100,
+    "기타": 0
+   },
    "others": [
     "서울",
     "인천",
     "경기"
-   ],
-   "quota": {
-    "기타": 0,
-    "해당": 100
-   },
-   "since": "2024-08-10"
+   ]
   },
   "special_units": {
    "newborn": 0,
@@ -50949,11 +51545,11 @@
   "url": "https://www.applyhome.co.kr/ai/aia/selectAPTLttotPblancDetail.do?houseManageNo=2026820008&pblancNo=2026820008",
   "notice_pdf": "https://apply.lh.or.kr/lhapply/lhFile.do?fileid=68049805",
   "from_notice": [
+   "분양가상한제",
+   "재당첨 제한",
    "1순위 가입기간",
    "납입 인정 횟수",
-   "분양가상한제",
-   "거주 지역 요건",
-   "재당첨 제한"
+   "거주 지역 요건"
   ],
   "checks": [
    "세대주 요건을 공고문에서 확인하지 못해 규제지역 기준으로 추정했어요"
@@ -51043,16 +51639,16 @@
     "sigungu": "성남시"
    },
    "months": 24,
+   "since": "2024-08-10",
+   "quota": {
+    "해당": 100,
+    "기타": 0
+   },
    "others": [
     "서울",
     "인천",
     "경기"
-   ],
-   "quota": {
-    "기타": 0,
-    "해당": 100
-   },
-   "since": "2024-08-10"
+   ]
   },
   "special_units": {
    "newborn": 0,
@@ -51121,11 +51717,11 @@
   "url": "https://www.applyhome.co.kr/ai/aia/selectAPTLttotPblancDetail.do?houseManageNo=2026820008&pblancNo=2026820008",
   "notice_pdf": "https://apply.lh.or.kr/lhapply/lhFile.do?fileid=68049805",
   "from_notice": [
+   "분양가상한제",
+   "재당첨 제한",
    "1순위 가입기간",
    "납입 인정 횟수",
-   "분양가상한제",
-   "거주 지역 요건",
-   "재당첨 제한"
+   "거주 지역 요건"
   ],
   "checks": [
    "세대주 요건을 공고문에서 확인하지 못해 규제지역 기준으로 추정했어요"
@@ -51215,16 +51811,16 @@
     "sigungu": "성남시"
    },
    "months": 24,
+   "since": "2024-08-10",
+   "quota": {
+    "해당": 100,
+    "기타": 0
+   },
    "others": [
     "서울",
     "인천",
     "경기"
-   ],
-   "quota": {
-    "기타": 0,
-    "해당": 100
-   },
-   "since": "2024-08-10"
+   ]
   },
   "special_units": {
    "newborn": 0,
@@ -51459,11 +52055,11 @@
   "url": "https://www.applyhome.co.kr/ai/aia/selectAPTLttotPblancDetail.do?houseManageNo=2026820008&pblancNo=2026820008",
   "notice_pdf": "https://apply.lh.or.kr/lhapply/lhFile.do?fileid=68049805",
   "from_notice": [
+   "분양가상한제",
+   "재당첨 제한",
    "1순위 가입기간",
    "납입 인정 횟수",
-   "분양가상한제",
-   "거주 지역 요건",
-   "재당첨 제한"
+   "거주 지역 요건"
   ],
   "checks": [
    "세대주 요건을 공고문에서 확인하지 못해 규제지역 기준으로 추정했어요"
@@ -58243,14 +58839,14 @@
   "schedule": null,
   "residence": {
    "area": null,
+   "equal": true,
    "months": 0,
-   "since": null,
    "others": [
     "서울",
     "경기",
     "인천"
    ],
-   "equal": true
+   "since": null
   },
   "special_units": null,
   "notice": "2026-09-16",
@@ -58298,8 +58894,8 @@
   "from_notice": [
    "세대주 요건",
    "분양가상한제",
-   "실거주 의무",
-   "거주 지역 요건"
+   "거주 지역 요건",
+   "실거주 의무"
   ],
   "checks": [],
   "geo": {
@@ -58390,10 +58986,10 @@
     "name": "울산광역시",
     "sido": "울산"
    },
+   "equal": true,
    "months": 0,
-   "since": null,
    "others": [],
-   "equal": true
+   "since": null
   },
   "special_units": null,
   "notice": "2026-09-15",
@@ -58606,11 +59202,11 @@
   "url": "https://www.applyhome.co.kr/ai/aia/selectAPTRemndrLttotPblancDetailView.do?houseManageNo=2026930032&pblancNo=2026930032",
   "notice_pdf": "https://static.applyhome.co.kr/ai/aia/getAtchmnfl.do?houseManageNo=2026930032&pblancNo=2026930032&atchmnflSeqNo=1976997&atchmnflSn=3",
   "from_notice": [
+   "발코니 확장비",
    "세대주 요건",
    "분양가상한제",
-   "재당첨 제한",
-   "발코니 확장비",
-   "거주 지역 요건"
+   "거주 지역 요건",
+   "재당첨 제한"
   ],
   "checks": [],
   "geo": {
@@ -58678,12 +59274,12 @@
   "schedule": null,
   "residence": {
    "area": null,
+   "equal": true,
    "months": 0,
-   "since": null,
    "others": [
     "전국"
    ],
-   "equal": true
+   "since": null
   },
   "special_units": null,
   "notice": "2026-09-15",
@@ -58909,9 +59505,9 @@
   "from_notice": [
    "세대주 요건",
    "분양가상한제",
+   "거주 지역 요건",
    "실거주 의무",
-   "재당첨 제한",
-   "거주 지역 요건"
+   "재당첨 제한"
   ],
   "checks": [],
   "geo": {
@@ -59010,10 +59606,10 @@
     "name": "강원특별자치도",
     "sido": "강원"
    },
+   "equal": true,
    "months": 0,
-   "since": null,
    "others": [],
-   "equal": true
+   "since": null
   },
   "special_units": null,
   "notice": "2026-09-15",
@@ -59294,10 +59890,10 @@
     "name": "강원특별자치도",
     "sido": "강원"
    },
+   "equal": true,
    "months": 0,
-   "since": null,
    "others": [],
-   "equal": true
+   "since": null
   },
   "special_units": null,
   "notice": "2026-09-15",
@@ -59575,12 +60171,12 @@
   "schedule": null,
   "residence": {
    "area": null,
+   "equal": true,
    "months": 0,
-   "since": null,
    "others": [
     "전국"
    ],
-   "equal": true
+   "since": null
   },
   "special_units": null,
   "notice": "2026-09-10",
@@ -59804,8 +60400,8 @@
   "url": "https://www.applyhome.co.kr/ai/aia/selectAPTRemndrLttotPblancDetailView.do?houseManageNo=2026910242&pblancNo=2026910242",
   "notice_pdf": "https://static.applyhome.co.kr/ai/aia/getAtchmnfl.do?houseManageNo=2026910242&pblancNo=2026910242&atchmnflSeqNo=1972087&atchmnflSn=2",
   "from_notice": [
-   "세대주 요건",
    "발코니 확장비",
+   "세대주 요건",
    "거주 지역 요건"
   ],
   "checks": [],
@@ -59886,14 +60482,14 @@
   "schedule": null,
   "residence": {
    "area": null,
+   "equal": true,
    "months": 0,
-   "since": null,
    "others": [
     "부산",
     "울산",
     "경남"
    ],
-   "equal": true
+   "since": null
   },
   "special_units": null,
   "notice": "2026-09-10",
@@ -60214,14 +60810,14 @@
   "schedule": null,
   "residence": {
    "area": null,
+   "equal": true,
    "months": 0,
-   "since": null,
    "others": [
     "부산",
     "울산",
     "경남"
    ],
-   "equal": true
+   "since": null
   },
   "special_units": null,
   "notice": "2026-09-10",
@@ -60542,14 +61138,14 @@
   "schedule": null,
   "residence": {
    "area": null,
+   "equal": true,
    "months": 0,
-   "since": null,
    "others": [
     "서울",
     "경기",
     "인천"
    ],
-   "equal": true
+   "since": null
   },
   "special_units": null,
   "notice": "2026-09-10",
@@ -60641,8 +61237,8 @@
   "url": "https://www.applyhome.co.kr/ai/aia/selectAPTRemndrLttotPblancDetailView.do?houseManageNo=2026910238&pblancNo=2026910238",
   "notice_pdf": "https://static.applyhome.co.kr/ai/aia/getAtchmnfl.do?houseManageNo=2026910238&pblancNo=2026910238&atchmnflSeqNo=1970993&atchmnflSn=3",
   "from_notice": [
-   "세대주 요건",
    "발코니 확장비",
+   "세대주 요건",
    "거주 지역 요건"
   ],
   "checks": [
@@ -60734,14 +61330,14 @@
   "schedule": null,
   "residence": {
    "area": null,
+   "equal": true,
    "months": 0,
-   "since": null,
    "others": [
     "부산",
     "울산",
     "경남"
    ],
-   "equal": true
+   "since": null
   },
   "special_units": null,
   "notice": "2026-09-09",
@@ -60967,8 +61563,8 @@
   "from_notice": [
    "세대주 요건",
    "분양가상한제",
-   "실거주 의무",
-   "거주 지역 요건"
+   "거주 지역 요건",
+   "실거주 의무"
   ],
   "checks": [],
   "geo": {
@@ -61064,14 +61660,14 @@
   "schedule": null,
   "residence": {
    "area": null,
+   "equal": true,
    "months": 0,
-   "since": null,
    "others": [
     "부산",
     "울산",
     "경남"
    ],
-   "equal": true
+   "since": null
   },
   "special_units": null,
   "notice": "2026-09-09",
@@ -61297,8 +61893,8 @@
   "from_notice": [
    "세대주 요건",
    "분양가상한제",
-   "실거주 의무",
-   "거주 지역 요건"
+   "거주 지역 요건",
+   "실거주 의무"
   ],
   "checks": [
    "마진율 -57%는 이례적이에요. 시세 근거를 확인하세요"
@@ -61396,14 +61992,14 @@
   "schedule": null,
   "residence": {
    "area": null,
+   "equal": true,
    "months": 0,
-   "since": null,
    "others": [
     "부산",
     "울산",
     "경남"
    ],
-   "equal": true
+   "since": null
   },
   "special_units": null,
   "notice": "2026-09-09",
@@ -61629,8 +62225,8 @@
   "from_notice": [
    "세대주 요건",
    "분양가상한제",
-   "실거주 의무",
-   "거주 지역 요건"
+   "거주 지역 요건",
+   "실거주 의무"
   ],
   "checks": [],
   "geo": {
@@ -61726,14 +62322,14 @@
   "schedule": null,
   "residence": {
    "area": null,
+   "equal": true,
    "months": 0,
-   "since": null,
    "others": [
     "부산",
     "울산",
     "경남"
    ],
-   "equal": true
+   "since": null
   },
   "special_units": null,
   "notice": "2026-09-09",
@@ -61959,8 +62555,8 @@
   "from_notice": [
    "세대주 요건",
    "분양가상한제",
-   "실거주 의무",
-   "거주 지역 요건"
+   "거주 지역 요건",
+   "실거주 의무"
   ],
   "checks": [],
   "geo": {
@@ -62056,12 +62652,12 @@
   "schedule": null,
   "residence": {
    "area": null,
+   "equal": true,
    "months": 0,
-   "since": null,
    "others": [
     "전국"
    ],
-   "equal": true
+   "since": null
   },
   "special_units": null,
   "notice": "2026-09-09",
@@ -62307,12 +62903,12 @@
   "schedule": null,
   "residence": {
    "area": null,
+   "equal": true,
    "months": 0,
-   "since": null,
    "others": [
     "전국"
    ],
-   "equal": true
+   "since": null
   },
   "special_units": null,
   "notice": "2026-09-09",
@@ -62633,12 +63229,12 @@
   "schedule": null,
   "residence": {
    "area": null,
+   "equal": true,
    "months": 0,
-   "since": null,
    "others": [
     "전국"
    ],
-   "equal": true
+   "since": null
   },
   "special_units": null,
   "notice": "2026-09-09",
@@ -62959,12 +63555,12 @@
   "schedule": null,
   "residence": {
    "area": null,
+   "equal": true,
    "months": 0,
-   "since": null,
    "others": [
     "전국"
    ],
-   "equal": true
+   "since": null
   },
   "special_units": null,
   "notice": "2026-09-09",
@@ -63189,8 +63785,8 @@
   "notice_pdf": "https://static.applyhome.co.kr/ai/aia/getAtchmnfl.do?houseManageNo=2026910227&pblancNo=2026910227&atchmnflSeqNo=1966341&atchmnflSn=6",
   "from_notice": [
    "세대주 요건",
-   "재당첨 제한",
-   "거주 지역 요건"
+   "거주 지역 요건",
+   "재당첨 제한"
   ],
   "checks": [],
   "geo": {
@@ -63270,12 +63866,12 @@
   "schedule": null,
   "residence": {
    "area": null,
+   "equal": true,
    "months": 0,
-   "since": null,
    "others": [
     "전국"
    ],
-   "equal": true
+   "since": null
   },
   "special_units": null,
   "notice": "2026-09-09",
@@ -63500,8 +64096,8 @@
   "notice_pdf": "https://static.applyhome.co.kr/ai/aia/getAtchmnfl.do?houseManageNo=2026910227&pblancNo=2026910227&atchmnflSeqNo=1966341&atchmnflSn=6",
   "from_notice": [
    "세대주 요건",
-   "재당첨 제한",
-   "거주 지역 요건"
+   "거주 지역 요건",
+   "재당첨 제한"
   ],
   "checks": [],
   "geo": {
@@ -63581,12 +64177,12 @@
   "schedule": null,
   "residence": {
    "area": null,
+   "equal": true,
    "months": 0,
-   "since": null,
    "others": [
     "전국"
    ],
-   "equal": true
+   "since": null
   },
   "special_units": null,
   "notice": "2026-09-09",
@@ -63811,8 +64407,8 @@
   "notice_pdf": "https://static.applyhome.co.kr/ai/aia/getAtchmnfl.do?houseManageNo=2026910227&pblancNo=2026910227&atchmnflSeqNo=1966341&atchmnflSn=6",
   "from_notice": [
    "세대주 요건",
-   "재당첨 제한",
-   "거주 지역 요건"
+   "거주 지역 요건",
+   "재당첨 제한"
   ],
   "checks": [],
   "geo": {
@@ -63892,12 +64488,12 @@
   "schedule": null,
   "residence": {
    "area": null,
+   "equal": true,
    "months": 0,
-   "since": null,
    "others": [
     "전국"
    ],
-   "equal": true
+   "since": null
   },
   "special_units": null,
   "notice": "2026-09-09",
@@ -63944,8 +64540,8 @@
   "notice_pdf": "https://static.applyhome.co.kr/ai/aia/getAtchmnfl.do?houseManageNo=2026910227&pblancNo=2026910227&atchmnflSeqNo=1966341&atchmnflSn=6",
   "from_notice": [
    "세대주 요건",
-   "재당첨 제한",
-   "거주 지역 요건"
+   "거주 지역 요건",
+   "재당첨 제한"
   ],
   "checks": [],
   "geo": {
@@ -64028,10 +64624,10 @@
     "name": "인천광역시",
     "sido": "인천"
    },
+   "equal": true,
    "months": 0,
-   "since": null,
    "others": [],
-   "equal": true
+   "since": null
   },
   "special_units": null,
   "notice": "2026-09-08",
@@ -64347,12 +64943,12 @@
   "schedule": null,
   "residence": {
    "area": null,
+   "equal": true,
    "months": 0,
-   "since": null,
    "others": [
     "전국"
    ],
-   "equal": true
+   "since": null
   },
   "special_units": null,
   "notice": "2026-09-08",
@@ -64645,10 +65241,10 @@
     "name": "서울특별시",
     "sido": "서울"
    },
+   "equal": true,
    "months": 0,
-   "since": null,
    "others": [],
-   "equal": true
+   "since": null
   },
   "special_units": null,
   "notice": "2026-09-08",
@@ -64874,9 +65470,9 @@
   "from_notice": [
    "세대주 요건",
    "분양가상한제",
+   "거주 지역 요건",
    "실거주 의무",
-   "재당첨 제한",
-   "거주 지역 요건"
+   "재당첨 제한"
   ],
   "checks": [],
   "geo": {
@@ -64975,10 +65571,10 @@
     "name": "서울특별시",
     "sido": "서울"
    },
+   "equal": true,
    "months": 0,
-   "since": null,
    "others": [],
-   "equal": true
+   "since": null
   },
   "special_units": null,
   "notice": "2026-09-08",
@@ -65060,9 +65656,9 @@
   "from_notice": [
    "세대주 요건",
    "분양가상한제",
+   "거주 지역 요건",
    "실거주 의무",
-   "재당첨 제한",
-   "거주 지역 요건"
+   "재당첨 제한"
   ],
   "checks": [],
   "geo": {
