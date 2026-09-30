@@ -65,7 +65,7 @@ h2{margin:0;font-size:16px}
 .chip{flex:none;height:36px;padding:0 14px;border-radius:18px;border:1px solid var(--line);background:var(--surface);font-size:13px;font-weight:600;cursor:pointer}
 .chip[aria-pressed="true"]{background:var(--btn);color:var(--btn-fg);border-color:var(--btn)}
 .qf{margin-bottom:8px}
-.qsel{flex:none;height:36px;padding:0 28px 0 12px;border-radius:18px;border:1px solid var(--line);background:var(--surface) url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='10' height='10' viewBox='0 0 24 24' fill='none' stroke='%23566068' stroke-width='3'%3E%3Cpath d='m6 9 6 6 6-6'/%3E%3C/svg%3E") no-repeat right 10px center;color:var(--fg);font:inherit;font-size:13px;font-weight:600;-webkit-appearance:none;appearance:none;cursor:pointer}
+.qsel{flex:none;height:36px;padding:0 28px 0 12px;border-radius:18px;border:1px solid var(--line);background:var(--surface) url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='10' height='10' viewBox='0 0 24 24' fill='none' stroke='%23566068' stroke-width='3'%3E%3Cpath d='m6 9 6 6 6-6'/%3E%3C/svg%3E") no-repeat right 10px center;color:var(--fg);font:inherit;font-size:13px;font-weight:600;-webkit-appearance:none;appearance:none;cursor:pointer;field-sizing:content;max-width:170px}
 .qsel.on{border-color:var(--fg);box-shadow:inset 0 0 0 1px var(--fg)}
 .profile-bar{display:flex;align-items:center;gap:10px;padding:12px 14px;background:var(--surface);border:1px solid var(--line);border-radius:12px;font-size:13px}
 .profile-bar span{flex:1;min-width:0}
@@ -167,6 +167,8 @@ input[type=date]{min-height:52px;border-radius:12px;border:1px solid var(--line)
 .mk.approx{border-style:dashed}
 .mk.near{background:var(--surface);color:var(--fg);border:1px solid var(--line);font-weight:500}
 .segs{display:flex;gap:6px}
+.newtabs{display:flex;align-items:center;gap:6px;margin:8px 0;overflow-x:auto;scrollbar-width:none} .newtabs .small{flex:none;margin-right:2px}
+.chip.sm{height:30px;padding:0 11px;font-size:12px}
 .src{display:inline-flex;align-items:center;gap:3px;font-size:11px;font-weight:500;color:var(--muted);text-decoration:none;border-bottom:1px dotted var(--line);white-space:nowrap}
 a.src:hover{color:var(--link);border-bottom-color:var(--link)}
 .srcs{display:flex;flex-wrap:wrap;gap:4px 10px;margin-top:2px}
@@ -835,8 +837,17 @@ function filterPanel(){
   </div>`;
 }
 
+/* 새 공고 기간 탭 (기능: new_tabs). 공고일(모집공고일)이 최근 n일 안인 공고만 */
+const isNew = (L, n) => !!L.notice && L.notice >= addDays(TODAY, -n) && L.notice <= TODAY;
+function newTabs(){
+  if (!on('new_tabs') || !DATA_SOURCE.live) return '';
+  const pool = LISTINGS.filter(L => matches(L, S.f) && (S.showClosed || S.f.status === '마감' || statusOf(L) !== '마감'));   // 목록에 보이는 것과 같은 기준
+  const n = d => new Set(pool.filter(L => isNew(L, d)).map(nidOf)).size;
+  const tab = (d, t) => `<button class="chip sm" data-newdays="${d}" aria-pressed="${(S.newDays || 0) === d}">${t}</button>`;
+  return `<div class="newtabs" role="group" aria-label="새 공고 기간"><span class="small muted">새 공고</span>${tab(0, '전체')}${tab(1, '1일 ' + n(1))}${tab(3, '3일 ' + n(3))}${tab(7, '7일 ' + n(7))}</div>`;
+}
 function feedList(){
-  return LISTINGS.filter(L => matches(L, S.f)).map(L => ({ L, m: grade(L) }))
+  return LISTINGS.filter(L => matches(L, S.f) && (!on('new_tabs') || !S.newDays || isNew(L, S.newDays))).map(L => ({ L, m: grade(L) }))
     .filter(x => S.filter === 'all' || x.m.g === S.filter)
     .sort((a,b) => (statusOf(a.L) === '마감') - (statusOf(b.L) === '마감') || GORDER[a.m.g] - GORDER[b.m.g]);   // 마감 공고는 아래로
 }
@@ -907,9 +918,10 @@ function vFeed(){
   <div class="filterbar">
     <button class="chip" data-action="toggle-filters" aria-expanded="${S.showFilters}" aria-controls="filters">필터${act.length ? ' ' + act.length : ''} ${S.showFilters ? '▲' : '▼'}</button>
     <span class="count" aria-live="polite">결과 <b>${list.length}</b>건</span>
-    ${act.length || S.filter !== 'all' ? '<button class="linkbtn" data-action="reset-filters">필터 초기화</button>' : ''}
+    ${act.length || S.filter !== 'all' || S.newDays ? '<button class="linkbtn" data-action="reset-filters">필터 초기화</button>' : ''}
   </div>
   ${mapReady() ? `<div class="segs" role="group" aria-label="보기 방식"><button class="chip" data-feedmode="list" aria-pressed="${!showMap}">목록</button><button class="chip" data-feedmode="map" aria-pressed="${showMap}">지도</button></div>` : ''}
+  ${newTabs()}
   ${S.showFilters ? filterPanel() : ''}
   ${act.length ? `<div class="active-f" aria-label="선택한 필터">${act.map(([k, t]) => `<button class="fchip" data-unset="${k}" aria-label="${esc(t)} 필터 해제">${esc(t)}${x}</button>`).join('')}</div>` : ''}
   ${showMap ? feedMapBlock(list) : list.length ? list.map(({L,m}) => listingCard(L, m)).join('') + closedToggle(closedN) : closedToggle(closedN) + `<div class="card empty"><b>조건에 맞는 공고가 없어요</b><span class="small muted">${act.length ? '필터를 하나씩 해제하거나 초기화해 보세요.' : '이 등급의 공고가 아직 없어요.'}</span>${act.length || S.filter !== 'all' ? '<button class="btn ghost" data-action="reset-filters" style="max-width:220px">필터 초기화</button>' : ''}</div>`}
@@ -1288,6 +1300,7 @@ document.addEventListener('click', ev => {
   if (t.dataset.ev) { const L = S.id && LISTINGS.find(x => x.id === S.id); track({ path: 'click-' + t.dataset.ev, title: L ? L.name : '', event: true }); }
   if (t.dataset.feedmode) { S.feedMode = t.dataset.feedmode; S.mapPick = null; render(); return; }
   if (t.dataset.go) { go(t.dataset.go); return; }
+  if (t.dataset.newdays != null) { S.newDays = Number(t.dataset.newdays); track({ path:'new-' + S.newDays, event:true }); render(); return; }
   if (t.dataset.open) { S.id = t.dataset.open; go('detail'); return; }
   if (t.dataset.filter) { S.filter = t.dataset.filter; render(); return; }
   if (t.dataset.unset) { const k = t.dataset.unset; if (k === 'date') { S.f.from = ''; S.f.to = ''; } else { S.f[k] = ''; if (k === 'sido') S.f.district = ''; } render(); return; }
@@ -1296,7 +1309,7 @@ document.addEventListener('click', ev => {
   const a = t.dataset.action;
   if (a === 'toggle-closed') { S.showClosed = !S.showClosed; render(); return; }
   if (a === 'toggle-filters') { S.showFilters = !S.showFilters; render(); return; }
-  if (a === 'reset-filters') { S.f = Object.assign({}, F0); S.filter = 'all'; render(); return; }
+  if (a === 'reset-filters') { S.f = Object.assign({}, F0); S.filter = 'all'; S.newDays = 0; render(); return; }
   if (a === 'copy-topic') {
     const done = () => { t.textContent = '복사했어요'; };
     try { navigator.clipboard.writeText(CONFIG.ntfy_topic).then(done, () => { t.textContent = CONFIG.ntfy_topic; }); } catch(e) { t.textContent = CONFIG.ntfy_topic; }
