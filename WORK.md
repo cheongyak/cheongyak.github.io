@@ -4,6 +4,14 @@
 2026-09-29 12:55 이전 항목은 규칙을 만들기 전 작업을 커밋 기록으로 정리한 것이라 백업 브랜치가 없어요.
 그 시점으로 되돌릴 때는 해당 커밋 번호로 `git revert` 를 써요.
 
+## 2026-09-30 10:34 · 방문자 집계를 Cloudflare Web Analytics 로
+- 요청: 방문자 집계는 Cloudflare 로
+- 변경: config.json 의 cf_beacon(Cloudflare Web Analytics 사이트 토큰)이 있으면 Cloudflare 비콘을 쓰고 GoatCounter 는 불러오지 않음. 없으면 지금처럼 GoatCounter. 하단·이용 안내 문구가 쓰는 도구 이름을 따라감
+- 파일: docs/index.html, docs/config.json, FEATURES.md
+- 확인: 스크립트 문법 검사, 브라우저에서 시험 토큰 → Cloudflare 스크립트만 요청·문구 'Cloudflare Web Analytics', 토큰 없음 → GoatCounter 만 요청
+- 기능: analytics (변경)
+- 백업: backup/20260930-1034-cf
+
 ## 2026-09-30 10:33 · 오류 신고 버튼 (구글폼)
 - 요청: 오류 신고 창구는 구글폼으로
 - 변경: 공고 상세 버튼 '이 공고 정보가 틀렸어요 (오류 신고)', 이용 안내 '문의'에 오류 신고 링크. config.json 의 report_form_url(구글폼 미리 채워진 링크, 공고 칸에 {listing})에 공고명·주택형·주택관리번호를 채워 엶. 주소가 비어 있으면 버튼을 숨김 → 사용자가 폼을 만들면 주소만 넣으면 됨

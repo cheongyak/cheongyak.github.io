@@ -17,7 +17,7 @@
 
 | 스위치 | 기능 | 화면 | 수집(Actions) | 커밋 (오래된 것 → 최신) | 추가 직전 백업 |
 | --- | --- | --- | --- | --- | --- |
-| `analytics` | 방문자 집계 (GoatCounter) | 방문 집계 스크립트, 목록 하단 안내 | - | 147fa99 | backup/20260929-2228 |
+| `analytics` | 방문자 집계 (Cloudflare Web Analytics, config 의 cf_beacon 이 없으면 GoatCounter) | 방문 집계 스크립트, 목록 하단 안내 | - | 147fa99 | backup/20260929-2228 |
 | `naver_map` | 네이버 지도 (링크·좌표·지도 화면) | 네이버 지도 링크, 목록/지도 전환, 상세 작은 지도 | 공고 좌표(NCP Geocoding), docs/map.json | 147fa99, bb0bd8f | backup/20260929-2228 |
 | `nearby` | 주변 입지 (역·학교 직선거리) | 상세 '위치와 주변 입지'의 역·학교 목록 | OpenStreetMap 조회 | 147fa99, a8ee201, 9769b17, bb0bd8f | backup/20260929-2228 |
 | `dday_colors` | 접수 일정 색 (D-n) | 목록의 일정 표시 색 | - | f6b61d7 | backup/20260929-2359 |

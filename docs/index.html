@@ -259,6 +259,12 @@ const on = k => !CONFIG.features || CONFIG.features[k] !== false;
 const GC = { q: [] };
 function track(o){ GC.q.push(o); flushGC(); }
 function flushGC(){ const g = window.goatcounter; if (!g || typeof g.count !== 'function') return; while (GC.q.length) { try { g.count(GC.q.shift()); } catch(e) {} } }
+/* Cloudflare Web Analytics: 쿠키 없이 방문(페이지 조회)만 센다. token 은 공개용 값(사이트 코드에 들어가는 값) */
+function initCF(token){
+  if (!/^[0-9a-f]{32}$/i.test(token || '')) return;
+  const s = document.createElement('script'); s.defer = true; s.src = 'https://static.cloudflareinsights.com/beacon.min.js';
+  s.setAttribute('data-cf-beacon', JSON.stringify({ token })); document.head.appendChild(s);
+}
 function initGC(code){
   if (!code || !/^[a-z0-9-]+$/.test(code) || document.getElementById('gc-js')) return;
   window.goatcounter = { no_onload: true };
@@ -1298,7 +1304,7 @@ function fromApi(x){
 render();
 fetch('config.json', { cache:'no-store' }).then(r => r.ok ? r.json() : null).then(c => {
   if (c) CONFIG = Object.assign(CONFIG, c);
-  if (on('analytics')) initGC(CONFIG.goatcounter);
+  if (on('analytics')) { if (CONFIG.cf_beacon) initCF(CONFIG.cf_beacon); else initGC(CONFIG.goatcounter); }
   if (c && ['feed', 'alerts', 'detail', 'grades', 'me'].includes(S.view)) render();
 }).catch(() => {});
 fetch('map.json', { cache:'no-store' }).then(r => r.ok ? r.json() : null).then(c => {
