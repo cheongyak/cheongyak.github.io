@@ -123,6 +123,17 @@ a{color:var(--link)}
 .mgstep.diff .mg-l{font-weight:700} .mgdiff{font-size:17px;font-weight:800} .mgdiff.g-lotto{color:var(--lotto-ink)} .mgdiff.g-consider{color:var(--consider-ink)} .mgdiff.g-pass{color:var(--pass-ink)}
 .mgbasis{display:flex;align-items:center;flex-wrap:wrap;gap:6px;margin:8px 0 2px}
 .mgnote p{margin:6px 0}
+.sctotal{display:flex;align-items:baseline;gap:4px;margin:4px 0 6px} .sctotal b{font-size:34px;line-height:1;letter-spacing:-1px}
+.scscale{margin-bottom:8px} .sc-track{position:relative;height:10px;border-radius:5px;background:var(--sunk)}
+.sc-fill{position:absolute;left:0;top:0;bottom:0;border-radius:5px;background:var(--fg)}
+.sc-mk{position:absolute;top:-4px;width:3px;height:18px;margin-left:-1.5px;border-radius:2px} .sc-mk.low{background:var(--warn-ink)} .sc-mk.avg{background:var(--consider)}
+.sc-axis{display:flex;justify-content:space-between;font-size:11px;color:var(--muted);margin-top:3px}
+.sccmp{padding:10px 12px;margin:4px 0 6px}
+.scitems{display:flex;flex-direction:column;border:1px solid var(--line);border-radius:12px}
+.scitem+.scitem{border-top:1px solid var(--line)} .scitem>summary{list-style:none;cursor:pointer;padding:10px 12px;display:flex;flex-direction:column;gap:4px} .scitem>summary::-webkit-details-marker{display:none}
+.sc-row{display:flex;justify-content:space-between;align-items:baseline;font-size:14px} .sc-row b{font-size:15px}
+.sc-mini{height:6px;border-radius:3px;background:var(--sunk);overflow:hidden} .sc-mini i{display:block;height:100%;background:var(--consider)}
+.sc-note{padding:0 12px 10px;line-height:1.5}
 .linkcard{display:flex;flex-direction:column;gap:2px;text-decoration:none;color:inherit}
 .back{display:flex;align-items:center;gap:2px;border:0;background:none;padding:0 8px 0 0;min-height:44px;font-weight:600;cursor:pointer}
 .back svg{width:22px;height:22px}
@@ -592,9 +603,44 @@ function scoreTarget(L){ // 비교할 당첨 가점: 이 공고 결과 → 근�
              srcHtml: src(null, ['청약홈 ' + shortName(ac.name) + ' 청약 결과', u]) }; }
   return null;
 }
+/* ---------- 내 청약 가점 v2 (기능: score_v2) — 화면 구성만. 점수는 myScore()·scoreTarget() 결과 그대로 ----------
+   총점과 0~84 눈금(내 점수·당첨 최저·평균) → 당첨 사례 비교 → 항목별 점수(최대까지 남은 점수) → 접힌 계산 근거·방법·출처 */
+const SCORE_GROW = { '무주택기간':'1년마다 +2점', '부양가족':'1명마다 +5점', '청약통장 가입기간':'1년마다 +1점' };
+function scoreCardV2(L, p, r, t){
+  const pct = v => Math.max(0, Math.min(100, v / 84 * 100)).toFixed(1) + '%';
+  const has = r.total != null, low = t && t.low != null ? Math.round(t.low) : null, avg = t && t.avg != null ? Math.round(t.avg * 10) / 10 : null;
+  const d = has && low != null ? r.total - low : null;
+  const scale = `<div class="scscale" role="img" aria-label="84점 중 내 가점 ${has ? r.total : '미계산'}${low != null ? ', 당첨 최저 ' + low : ''}${avg != null ? ', 평균 ' + avg : ''}">
+      <div class="sc-track">${has ? `<i class="sc-fill" style="width:${pct(r.total)}"></i>` : ''}${low != null ? `<i class="sc-mk low" style="left:${pct(low)}"></i>` : ''}${avg != null ? `<i class="sc-mk avg" style="left:${pct(avg)}"></i>` : ''}</div>
+      <div class="sc-axis"><span>0</span><span>42</span><span>84</span></div>
+      ${low != null || avg != null ? `<div class="legend"><span><i style="background:var(--fg)"></i>내 가점${has ? ' ' + r.total : ''}</span>${low != null ? '<span><i style="background:var(--warn-ink)"></i>당첨 최저 ' + low + '</span>' : ''}${avg != null ? '<span><i style="background:var(--consider)"></i>당첨 평균 ' + avg + '</span>' : ''}</div>` : ''}</div>`;
+  const cmp = !has ? '' : !t ? `<div class="small muted sccmp">비교할 당첨 가점 기록이 없어요.</div>`
+    : `<div class="note ${d >= 0 ? 'ok' : 'warn'} sccmp"><b>${d >= 0 ? '당첨 최저보다 ' + d + '점 높아요' : '당첨 최저보다 ' + (-d) + '점 낮아요'}</b>
+       <div class="small">최저 ${low}점${avg != null ? ' · 평균 ' + avg + '점' : ''} · ${esc(t.from)}</div><div class="small">가점제 물량 기준이에요. 추첨 물량은 가점과 관계없어요. ${t.srcHtml}</div></div>`;
+  const items = r.parts.map(x => { const room = x.v == null ? null : x.max - x.v;
+    return `<details class="scitem"><summary><div class="sc-row"><span>${x.k}</span><b>${x.v == null ? '<span class="st-warn">입력 필요</span>' : x.v + '<span class="muted"> / ' + x.max + '</span>'}</b></div>
+      <div class="sc-mini"><i style="width:${x.v == null ? 0 : (x.v / x.max * 100).toFixed(1)}%"></i></div>
+      <div class="small muted">${room == null ? '' : room === 0 ? '최대 점수예요' : '최대까지 ' + room + '점 · ' + (SCORE_GROW[x.k] || '')}</div></summary>
+      <div class="small sc-note">${esc(x.note || '입력한 값이 없어 계산하지 못했어요')}</div></details>`; }).join('');
+  return `<section class="card sccard"><div class="row"><h2>내 청약 가점</h2><span class="small muted">추정 · 민영 1순위 가점제</span></div>
+    <div class="sctotal">${has ? `<b>${r.total}</b><span class="muted">점 / 84</span>` : '<b style="font-size:22px">계산 전</b><span class="muted">/ 84점</span>'}</div>
+    ${scale}${cmp}
+    ${r.miss.length ? `<div class="note warn sp-need"><span class="small">${esc(r.miss.join(', '))}을(를) 넣으면 계산해요.</span><button class="linkbtn small" data-action="restart">입력하기</button></div>` : ''}
+    <div class="small" style="margin:10px 0 4px"><b>항목별 점수</b> <span class="muted">· 누르면 계산 근거</span></div>
+    <div class="scitems">${items}</div>
+    <details class="ckmore"><summary>계산 방법과 출처</summary><div class="small" style="display:flex;flex-direction:column;gap:6px;margin-top:6px">
+      <div><b>무주택기간 (최대 32점)</b> · 만 30세가 된 날부터 공고일까지 집이 없던 기간. 만 30세 전에 혼인했으면 혼인신고일부터, 집을 가졌다가 처분했으면 처분일부터 세요. 1년 미만 2점, 1년마다 2점씩 더해 15년 이상 32점. 만 30세 미만 미혼이거나 지금 집이 있으면 0점.</div>
+      <div><b>부양가족 (최대 35점)</b> · 0명 5점, 1명마다 5점씩 더해 6명 이상 35점. 본인은 빼고 세요.</div>
+      <div><b>청약통장 가입기간 (최대 17점)</b> · 6개월 미만 1점, 6개월~1년 2점, 1~2년 3점, 그 뒤 1년마다 1점씩 더해 15년 이상 17점. 혼인했다면 배우자 통장 가입기간의 절반으로 최대 3점을 더할 수 있어요 (합계 17점까지).</div>
+      <div>계산에 쓴 생년월일·혼인신고일·처분일·부양가족 수·통장 가입일은 모두 내가 입력한 값이에요 (${src('user')}). 내 정보 → 인터뷰 다시 하기에서 고칠 수 있어요.</div>
+      <div class="muted">민영주택 1순위 가점제 기준이에요. 부양가족은 같은 등본의 배우자·미혼 자녀, 그리고 내가 세대주이고 3년 이상 같은 등본에 있는 집 없는 부모님만 세요. 공고일 기준으로 계산했고, 실제 점수는 청약홈 가점 계산기로 확인하세요. ${src(null, ['모집공고문 가점 산정기준표 (주택공급에 관한 규칙 별표1의2)', L.noticePdf])}</div>
+    </div></details>
+  </section>`;
+}
 function scoreCard(L){
   if (!on('score') || L.sample || L.category !== 'general' || L.houseDtl === '국민') return '';
   const p = S.profile, r = myScore(L, p), t = scoreTarget(L);
+  if (on('score_v2')) return scoreCardV2(L, p, r, t);
   const rows = r.parts.map(x => `<div class="row"><span>${x.k}<br><span class="small muted">${esc(x.note || '')}</span></span><span>${x.v == null ? '입력 필요' : x.v + ' / ' + x.max}</span></div>`).join('');
   let cmp = '';
   if (r.total != null && t) {
