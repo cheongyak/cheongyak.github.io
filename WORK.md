@@ -4,6 +4,14 @@
 2026-09-29 12:55 이전 항목은 규칙을 만들기 전 작업을 커밋 기록으로 정리한 것이라 백업 브랜치가 없어요.
 그 시점으로 되돌릴 때는 해당 커밋 번호로 `git revert` 를 써요.
 
+## 2026-09-30 10:49 · Cloudflare Web Analytics 켜기
+- 요청: 방문자 집계 Cloudflare 로 (사용자가 사이트 토큰 전달, 공개용 값)
+- 변경: config.json cf_beacon 에 cheongyak.github.io 사이트 토큰 입력 → GoatCounter 대신 Cloudflare 비콘을 불러옴
+- 파일: docs/config.json
+- 확인: 브라우저에서 Cloudflare 스크립트만 요청되고 GoatCounter 는 요청되지 않음, 이용 안내 문구 'Cloudflare Web Analytics'
+- 기능: analytics (설정)
+- 백업: backup/20260930-1048
+
 ## 2026-09-30 10:34 · 방문자 집계를 Cloudflare Web Analytics 로
 - 요청: 방문자 집계는 Cloudflare 로
 - 변경: config.json 의 cf_beacon(Cloudflare Web Analytics 사이트 토큰)이 있으면 Cloudflare 비콘을 쓰고 GoatCounter 는 불러오지 않음. 없으면 지금처럼 GoatCounter. 하단·이용 안내 문구가 쓰는 도구 이름을 따라감
