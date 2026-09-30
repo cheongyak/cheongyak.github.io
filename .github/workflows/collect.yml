@@ -11,6 +11,7 @@ on:
       - ".github/workflows/collect.yml"
 permissions:
   contents: write
+  issues: write             # 수집 실패·경고를 이슈로 남겨 운영자에게 메일이 가게 한다
 jobs:
   collect:
     runs-on: ubuntu-latest
@@ -52,3 +53,22 @@ jobs:
           git add -A
           git reset -q data .env 2>/dev/null || true
           git diff --cached --quiet || (git commit -m "공고 데이터 갱신 $(date +%Y-%m-%d)" && (git push || (git pull --rebase -X theirs origin main && git push)))
+      - name: 경고가 있으면 운영자 알림 (이슈)
+        if: always() && github.event_name != 'push'
+        continue-on-error: true
+        env:
+          GH_TOKEN: ${{ github.token }}
+          RUN_URL: ${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}
+          JOB_STATUS: ${{ job.status }}
+        run: |
+          body=""
+          if [ "$JOB_STATUS" != "success" ]; then body="수집 실행이 실패했어요 ($JOB_STATUS)."; fi
+          if [ -f docs/run-log.txt ]; then
+            w=$(grep -E '^\[(경고|검증·정답 불일치)' docs/run-log.txt | head -20 || true)
+            if [ -n "$w" ]; then body="$body"$'\n\n실행 기록의 경고:\n```\n'"$w"$'\n```'; fi
+          fi
+          body="${body#$'\n\n'}"
+          [ -z "$body" ] && exit 0
+          body="$body"$'\n\n실행: '"$RUN_URL"$'\n\n처리 절차는 CLAUDE.md 4항. 확인 후 이 이슈를 닫아 주세요.'
+          n=$(gh issue list --state open --search "in:title 수집 알림" --json number --jq '.[0].number' 2>/dev/null || true)
+          if [ -n "$n" ]; then gh issue comment "$n" --body "$body"; else gh issue create --title "수집 알림 $(date +%Y-%m-%d)" --body "$body"; fi
