@@ -1,6 +1,6 @@
 # 작업 규칙 (Claude 가 이 저장소를 수정할 때 반드시 지킨다)
 
-이 저장소는 실제 서비스(https://cheongyak.github.io)이고, 매일 새벽 GitHub Actions 가 공고를 수집한다.
+이 저장소는 실제 서비스(https://cheongyakpass.kr, 저장소 이름은 cheongyak.github.io)이고, 매일 새벽 GitHub Actions 가 공고를 수집한다.
 잘못된 수정이 곧바로 서비스에 나가므로 아래 규칙을 예외 없이 따른다.
 
 ## 1. 수정 전에 반드시 백업한다

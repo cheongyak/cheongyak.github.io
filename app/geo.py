@@ -178,7 +178,7 @@ def apply_geo(listings: list, log: list[str], previous: Optional[dict] = None, h
     for L in listings:
         groups.setdefault(L.id.split("-")[0], []).append(L)
     key = keys()
-    client = http or httpx.Client(timeout=20, headers={"User-Agent": "cheongyak.github.io (daily collector)"})
+    client = http or httpx.Client(timeout=20, headers={"User-Agent": "cheongyakpass.kr (daily collector)"})
     start = time.monotonic()
     stat = {"exact": 0, "dong": 0, "none": 0, "reused": 0, "nearby": 0}
     found: dict[str, tuple] = {}

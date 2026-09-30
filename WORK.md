@@ -4,6 +4,15 @@
 2026-09-29 12:55 이전 항목은 규칙을 만들기 전 작업을 커밋 기록으로 정리한 것이라 백업 브랜치가 없어요.
 그 시점으로 되돌릴 때는 해당 커밋 번호로 `git revert` 를 써요.
 
+## 2026-09-30 19:08 · 개인 도메인 cheongyakpass.kr 연결
+- 요청: 도메인을 사서 웹에 연결 (수익화 준비: 광고 심사·검색 노출을 새 주소에서 쌓기 위해 정식 오픈 전에 전환)
+- 변경: 사용자가 가비아에서 cheongyakpass.kr 을 사고 DNS(A 185.199.108~111.153, www CNAME cheongyak.github.io.)를 넣은 뒤 GitHub Pages 에 도메인을 등록 → GitHub 이 docs/CNAME 을 커밋(8bf5ff4 Create CNAME). 이어서 사이트 주소 표기를 새 도메인으로: config.json site_url(알림 클릭 주소), 이용 안내 서비스 정보·이용약관 '서비스' 정의(이전 주소 포함 명시), 수집기 User-Agent, CLAUDE.md 서비스 주소
+- 파일: docs/CNAME(GitHub 자동), docs/config.json, docs/index.html, app/geo.py, CLAUDE.md, WORK.md
+- 확인: DNS 조회로 cheongyakpass.kr → GitHub 4개 IP, www → cheongyak.github.io 확인. 작업 환경에서는 사이트 접속이 막혀 새 주소 접속·HTTPS·자동 이동은 사용자 확인 필요. 수집 작업(collect.yml)은 git add -A 라 docs/CNAME 을 지우지 않음. 스크립트 문법 검사, pytest 통과
+- 남은 일: 네이버 클라우드 Maps 'Web 서비스 URL'에 https://cheongyakpass.kr 추가(안 하면 지도 인증 실패), Cloudflare Web Analytics 새 도메인 집계 확인, Enforce HTTPS 체크. 기기에 저장된 내 조건·관심 공고는 주소별로 저장돼 예전 주소에서 넣은 값은 새 주소에서 보이지 않음(오픈 전이라 영향 적음)
+- 기능: 없음(수정)
+- 백업: backup/20260930-1908-domain (CNAME 커밋 전 상태: backup/20260930-1858-pre-domain)
+
 ## 2026-09-30 17:37 · 인터뷰 기본값 비우기 (운영자 조건 제거)
 - 요청: 인터뷰 내용 싹 초기화
 - 원인: 인터뷰 기본값(DEFAULT_PROFILE)에 처음 대화 때 받은 운영자 본인 조건(서울 거주·부모님 세대원·부모님 만 60세 이상·주택 있음·현금 3억2,500만·연소득 4,000만·생애최초)이 들어 있어, 기기에서 지워도 그 값으로 돌아오고 처음 온 방문자도 그 조건으로 판정받고 있었음
