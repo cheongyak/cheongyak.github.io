@@ -251,7 +251,7 @@ let LISTINGS = [
 ];
 const TODAY = (() => { const d = new Date(Date.now() + 9*3600e3); return d.toISOString().slice(0,10); })(); // 한국 날짜
 let DATA_SOURCE = { live:false, updated:'' };
-let CONFIG = { ntfy_server:'https://ntfy.sh', ntfy_topic:'cheongyak-97ecbdb4', site_url:'', goatcounter:'', naver_map_key:'', features:{} };
+let CONFIG = { ntfy_server:'https://ntfy.sh', ntfy_topic:'cheongyak-97ecbdb4', site_url:'', goatcounter:'', cf_beacon:'', contact_email:'', report_form_url:'', naver_map_key:'', features:{} };
 /* 기능 스위치: config.json 의 features 에서 false 로 두면 그 기능만 꺼진다 (목록과 설명은 저장소의 FEATURES.md) */
 const on = k => !CONFIG.features || CONFIG.features[k] !== false;
 
@@ -849,7 +849,7 @@ function vFeed(){
   ${S.showFilters ? filterPanel() : ''}
   ${act.length ? `<div class="active-f" aria-label="선택한 필터">${act.map(([k, t]) => `<button class="fchip" data-unset="${k}" aria-label="${esc(t)} 필터 해제">${esc(t)}${x}</button>`).join('')}</div>` : ''}
   ${showMap ? feedMapBlock(list) : list.length ? list.map(({L,m}) => listingCard(L, m)).join('') + closedToggle(closedN) : closedToggle(closedN) + `<div class="card empty"><b>조건에 맞는 공고가 없어요</b><span class="small muted">${act.length ? '필터를 하나씩 해제하거나 초기화해 보세요.' : '이 등급의 공고가 아직 없어요.'}</span>${act.length || S.filter !== 'all' ? '<button class="btn ghost" data-action="reset-filters" style="max-width:220px">필터 초기화</button>' : ''}</div>`}
-  <p class="foot">${DATA_SOURCE.live ? '공고: ' + src('applyhome') + ' · 시세: ' + src('rtms') + ' · 매일 새벽 갱신, 시세는 추정치예요.' + (CONFIG.goatcounter && on('analytics') ? ' 방문 통계는 쿠키 없이 GoatCounter로 집계하며, 입력한 내 정보는 보내지 않아요.' : '') : '샘플 표시가 있는 단지는 등급 예시를 위한 가상 데이터예요.'}</p>`;
+  <p class="foot">${DATA_SOURCE.live ? '공고: ' + src('applyhome') + ' · 시세: ' + src('rtms') + ' · 매일 새벽 갱신, 시세는 추정치예요.' + (analyticsName() ? ' 방문 통계는 쿠키 없이 ' + analyticsName() + '로 집계하며, 입력한 내 정보는 보내지 않아요.' : '') : '샘플 표시가 있는 단지는 등급 예시를 위한 가상 데이터예요.'}${aboutLink()}</p>`;
 }
 
 function itemSrc(L, k){
@@ -954,7 +954,7 @@ function vDetail(){
     <button class="btn" data-go="plan">자금 플랜 보기</button>
     ${L.sources.map(s => `<a class="btn ghost" href="${s[1]}" target="_blank" rel="noopener" data-ev="notice">${s[0]}</a>`).join('')}
   </div>
-  <p class="foot">판정은 참고용이며 모집공고문과 관계 법령이 우선해요. 시세는 최근 거래·호가 기준 추정치예요.</p>`;
+  <p class="foot">판정은 참고용이며 모집공고문과 관계 법령이 우선해요. 시세는 최근 거래·호가 기준 추정치예요.${aboutLink()}</p>`;
 }
 
 function vPlan(){
@@ -1064,7 +1064,7 @@ function vMe(){
     <dt>생애최초</dt><dd>${yn(p.firstTime)}</dd>
   </dl></section>
   <button class="btn" data-action="restart">인터뷰 다시 하기</button>
-  <p class="foot">입력한 정보는 이 브라우저에만 저장돼요.</p>`;
+  <p class="foot">입력한 정보는 이 브라우저에만 저장돼요.${aboutLink()}</p>`;
 }
 
 function vAlerts(){
@@ -1161,14 +1161,35 @@ function vOnboard(){
   </div>`;
 }
 
+/* ---------- 이용 안내·개인정보 (기능: about_page) ---------- */
+function analyticsName(){ return !on('analytics') ? '' : CONFIG.cf_beacon ? 'Cloudflare Web Analytics' : CONFIG.goatcounter ? 'GoatCounter' : ''; }
+function aboutLink(){ return on('about_page') ? ' <button class="linkbtn small" data-go="about">이용 안내 · 개인정보</button>' : ''; }
+function vAbout(){
+  const mail = CONFIG.contact_email, an = analyticsName();
+  return `
+  <div class="top"><div><div class="brand">이용 안내</div><span class="small muted">청약판정</span></div><button class="linkbtn" data-go="feed">공고로</button></div>
+  <section class="card"><h2>판정은 참고용이에요</h2>
+    <p style="margin:6px 0" class="small">청약홈 공고와 국토교통부 실거래가를 모아 자격·마진·자금을 계산해 보여주는 서비스예요. <b>최종 자격과 조건은 모집공고문과 청약홈의 청약자격 확인이 우선</b>해요.</p>
+    <p style="margin:6px 0" class="small">판정만 보고 신청했다가 부적격으로 처리되면 일정 기간 다른 청약에 당첨될 수 없는 등 불이익이 생길 수 있어요. 신청 전에 모집공고문을 꼭 직접 확인하세요.</p>
+    <p style="margin:6px 0" class="small"><b>아직 판정하지 않는 것:</b> 특별공급 유형별 요건, 해당지역 거주기간, 소득·자산 기준. 이 항목들은 공고 화면에 '아직 판정하지 않는 것'으로 따로 표시하고, 순서대로 추가하고 있어요.</p>
+    <p style="margin:6px 0" class="small">시세·마진은 실거래가로 계산한 추정치예요. 공고는 매일 새벽에 갱신돼요.</p>
+    <p style="margin:6px 0" class="small muted">이 서비스는 청약홈(한국부동산원)·LH·국토교통부와 관계없는 개인이 운영해요.</p></section>
+  <section class="card"><h2>개인정보 안내</h2>
+    <p style="margin:6px 0" class="small"><b>회원가입이 없고, 입력한 내 정보를 서버로 보내지 않아요.</b> 인터뷰에 넣은 통장·무주택·소득·자금 정보는 이 기기의 브라우저 저장소에만 저장돼요.</p>
+    <p style="margin:6px 0" class="small">${an ? '방문 통계는 ' + an + '로 쿠키 없이 페이지 방문 수만 집계해요. 입력한 내 정보는 보내지 않아요.' : '방문 통계는 수집하지 않아요.'}</p>
+    <p style="margin:6px 0" class="small">지도를 열면 네이버 지도가 화면을 그리기 위해 접속 정보(IP 주소 등)를 받을 수 있어요. 알림을 구독하면 알림 서비스에 구독 정보가 전달돼요.</p>
+    <button class="btn ghost" data-action="wipe">이 기기에 저장된 내 정보 모두 지우기</button></section>
+  ${mail ? `<section class="card"><h2>문의</h2><p style="margin:6px 0" class="small">서비스 운영: <a href="mailto:${esc(mail)}">${esc(mail)}</a></p></section>` : ''}`;
+}
+
 /* ---------- 라우팅 & 이벤트 ---------- */
 const app = document.getElementById('app'), tabbar = document.getElementById('tabbar');
-const VIEWS = { feed:vFeed, detail:vDetail, plan:vPlan, grades:vGrades, me:vMe, onboard:vOnboard, alerts:vAlerts };
+const VIEWS = { feed:vFeed, detail:vDetail, plan:vPlan, grades:vGrades, me:vMe, onboard:vOnboard, alerts:vAlerts, about:vAbout };
 let lastView = null;
 function render(){
   app.innerHTML = VIEWS[S.view]();
   tabbar.hidden = S.view === 'onboard';
-  const tab = { feed:'feed', detail:'feed', plan:'feed', alerts:'feed', grades:'grades', me:'me' }[S.view];
+  const tab = { feed:'feed', detail:'feed', plan:'feed', alerts:'feed', grades:'grades', me:'me', about:'me' }[S.view];
   tabbar.querySelectorAll('button').forEach(b => { if (b.dataset.go === tab) b.setAttribute('aria-current','page'); else b.removeAttribute('aria-current'); });
   if (lastView !== S.view) window.scrollTo(0, 0);
   const key = S.view + '|' + (S.view === 'detail' || S.view === 'plan' ? S.id : '') + '|' + (S.view === 'feed' ? S.feedMode : '');
@@ -1204,6 +1225,7 @@ document.addEventListener('click', ev => {
     try { navigator.clipboard.writeText(CONFIG.ntfy_topic).then(done, () => { t.textContent = CONFIG.ntfy_topic; }); } catch(e) { t.textContent = CONFIG.ntfy_topic; }
     return;
   }
+  if (a === 'wipe') { if (!confirm('이 기기에 저장된 내 정보를 모두 지울까요?')) return; try { localStorage.removeItem('cy-profile'); } catch(e) {} S.profile = Object.assign({}, DEFAULT_PROFILE); S.step = 0; go('onboard'); return; }
   if (a === 'restart') { S.step = 0; go('onboard'); }
   if (a === 'prev') { if (S.step === 0) go('me'); else { S.step--; render(); } }
   if (a === 'next') { const n = visibleSteps().length; if (S.step >= n - 1) { save(); track({ path:'onboard-done', event:true }); go('feed'); } else { S.step++; render(); } }
