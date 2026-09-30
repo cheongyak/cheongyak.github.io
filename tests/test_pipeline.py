@@ -234,3 +234,39 @@ def test_special_units_from_model():
     assert normalize(DETAIL, model, "general")["special_units"] == su
     # 무순위 주택형 응답에는 유형별 필드가 없다 → None
     assert special_units({"HOUSE_TY": "059.99A", "SPSPLY_HSHLDCO": "0", "SUPLY_HSHLDCO": "1"}) is None
+
+
+def test_market_fallback_uses_last_success(tmp_path):
+    from datetime import date
+    from app.pipeline import market_fallback, MARKET_FAIL_NOTE
+    from app.models import Listing
+    base = dict(name="가", address="서울특별시 광진구 구의동 1", region="서울", kind="일반", category="general", unit="84A", price=10.0)
+    ok = Listing(id="1-84A", mkt_low=12.0, mkt_base=13.0, mkt_note="같은 구 매매 20건", mkt_count=20, **base)
+    cache = tmp_path / "m.json"
+    log = []
+    market_fallback([ok], date(2026, 9, 29), log, cache)          # 성공 → 기록
+    bad = Listing(id="1-84A", mkt_note=MARKET_FAIL_NOTE, **base)
+    fresh = Listing(id="2-59A", mkt_note=MARKET_FAIL_NOTE, **base)
+    market_fallback([bad, fresh], date(2026, 9, 30), log, cache)  # 실패 → 지난 값
+    assert bad.mkt_base == 13.0 and bad.mkt_low == 12.0 and "09월 29일 조회값" in bad.mkt_note
+    assert fresh.mkt_base is None
+    assert any("지난 조회값 사용 1건" in m for m in log)
+
+
+def test_rtms_error_hides_key():
+    from app.sources.rtms import safe_msg
+    e = RuntimeError("Client error '500' for url 'https://apis.data.go.kr/x?serviceKey=SECRET123&LAWD_CD=11740'")
+    m = safe_msg(e)
+    assert "SECRET123" not in m and "serviceKey=***" in m
+
+
+def test_rtms_retries_transient_errors(monkeypatch):
+    import app.sources.rtms as rtms_mod
+    monkeypatch.setattr("time.sleep", lambda s: None)
+    calls = {"n": 0}
+    ok_xml = "<response><header><resultCode>000</resultCode></header><body><items></items></body></response>"
+    def h(req):
+        calls["n"] += 1
+        return httpx.Response(500, text="err") if calls["n"] < 3 else httpx.Response(200, text=ok_xml)
+    c = rtms_mod.RtmsClient("T", httpx.Client(transport=httpx.MockTransport(h)))
+    assert c.fetch("trade", "11740", "202609") == [] and calls["n"] == 3

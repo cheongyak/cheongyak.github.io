@@ -24,6 +24,13 @@ class RtmsError(RuntimeError):
     pass
 
 
+def safe_msg(e: BaseException) -> str:
+    """기록용 오류 문장. 요청 주소에 들어 있는 인증키(serviceKey)는 지운다"""
+    m = f"{type(e).__name__}: {e}"
+    m = re.sub(r"(serviceKey=)[^&\s']+", r"\1***", m)
+    return m[:200]
+
+
 def _num(v) -> Optional[float]:
     if v in (None, ""):
         return None
@@ -77,6 +84,7 @@ class RtmsClient:
         from concurrent.futures import ThreadPoolExecutor, wait, FIRST_COMPLETED
         start, todo = time.monotonic(), [k for k in dict.fromkeys(keys) if k not in self._cache]
         done_n = fail_n = 0
+        errors: dict[str, int] = {}
         ex = ThreadPoolExecutor(max_workers=workers)
         futs = {ex.submit(self.fetch, *k): k for k in todo}
         pending = set(futs)
@@ -88,6 +96,8 @@ class RtmsClient:
             for f in done:
                 if f.exception():
                     fail_n += 1
+                    k = safe_msg(f.exception())
+                    errors[k] = errors.get(k, 0) + 1
                 else:
                     done_n += 1
         for f in pending:
@@ -95,7 +105,8 @@ class RtmsClient:
         ex.shutdown(wait=False, cancel_futures=True)
         self.frozen = True
         return {"total": len(todo), "done": done_n, "failed": fail_n, "skipped": len(pending),
-                "seconds": round(time.monotonic() - start, 1)}
+                "seconds": round(time.monotonic() - start, 1),
+                "errors": sorted(errors.items(), key=lambda x: -x[1])[:5]}
 
     def fetch(self, kind: str, lawd: str, ym: str) -> list[dict]:
         """kind: trade|presale|rent, lawd: 5자리, ym: YYYYMM"""
@@ -107,17 +118,38 @@ class RtmsClient:
         self.stats["requests"] += 1
         rows: list[dict] = []
         for page in range(1, 20):
-            r = self.http.get(BASE + ENDPOINTS[kind], params={
-                "serviceKey": self.key, "LAWD_CD": lawd, "DEAL_YMD": ym, "numOfRows": 1000, "pageNo": page})
-            if r.status_code in (401, 403):
-                raise RtmsError(f"{kind} API 권한 없음({r.status_code}). 공공데이터포털에서 이 API 활용신청·승인 상태를 확인하세요.")
-            r.raise_for_status()
-            batch = parse_items(r.text)
+            batch = self._get_page(kind, lawd, ym, page)
             rows.extend(batch)
             if len(batch) < 1000:
                 break
         self._cache[key] = rows
         return rows
+
+    def _get_page(self, kind: str, lawd: str, ym: str, page: int, tries: int = 3) -> list[dict]:
+        """한 쪽 받기. 연결 오류·5xx·429 와 XML 이 아닌 응답(게이트웨이 오류 문서)은 잠깐 쉬었다 다시 시도한다"""
+        import time
+        last: Optional[BaseException] = None
+        for i in range(tries):
+            try:
+                r = self.http.get(BASE + ENDPOINTS[kind], params={
+                    "serviceKey": self.key, "LAWD_CD": lawd, "DEAL_YMD": ym, "numOfRows": 1000, "pageNo": page})
+                if r.status_code in (401, 403):
+                    raise RtmsError(f"{kind} API 권한 없음({r.status_code}). 공공데이터포털에서 이 API 활용신청·승인 상태를 확인하세요.")
+                if r.status_code == 429 or r.status_code >= 500:
+                    raise RtmsError(f"{kind} API 응답 {r.status_code}")
+                r.raise_for_status()
+                try:
+                    return parse_items(r.text)
+                except ET.ParseError:
+                    raise RtmsError(f"{kind} API 가 XML 이 아닌 응답을 보냄: {r.text[:80]!r}")
+            except RtmsError as e:
+                if "권한 없음" in str(e) or "API 오류" in str(e) and "LIMITED" in str(e):
+                    raise
+                last = e
+            except httpx.HTTPError as e:
+                last = e
+            time.sleep(1.5 * (i + 1))
+        raise last if last else RtmsError("알 수 없는 오류")
 
     def recent(self, kind: str, lawd: str, months: list[str]) -> list[dict]:
         out: list[dict] = []

@@ -54,6 +54,41 @@ def target_of(name: str) -> Optional[str]:
     return None
 
 
+MARKET_CACHE = ROOT / "docs" / "market-cache.json"
+MARKET_FAIL_NOTE = "실거래가 조회에 실패해 시세를 계산하지 못했어요."
+MARKET_KEYS = ("mkt_low", "mkt_base", "mkt_note", "mkt_basis", "mkt_count", "mkt_direct_excluded", "mkt_comps",
+               "jeonse", "jeonse_note", "jeonse_comps", "jeonse_weak")
+
+
+def market_fallback(out: list, today: date, log: list[str], path: Optional[Path] = None) -> None:
+    """실거래가 조회가 실패한 주택형은 마지막으로 조회에 성공한 날의 시세를 쓰고 '○월 ○일 조회값'이라고 적는다.
+    조회에 성공한 주택형(거래 부족 포함)은 그 값을 기록해 둔다 (docs/market-cache.json)."""
+    path = path or MARKET_CACHE
+    try:
+        cache = json.loads(path.read_text(encoding="utf-8"))
+    except Exception:
+        cache = {}
+    used = failed = 0
+    for L in out:
+        if L.mkt_note == MARKET_FAIL_NOTE:
+            failed += 1
+            c = cache.get(L.id)
+            if c:
+                for k in MARKET_KEYS:
+                    if k in c:
+                        setattr(L, k, c[k])
+                d = c.get("date", "")
+                L.mkt_note = (c.get("mkt_note") or "") + f" · 오늘 실거래가 조회가 실패해 {d[5:7]}월 {d[8:10]}일 조회값을 보여줘요."
+                used += 1
+        elif not L.mkt_note.startswith("시군구 코드를"):
+            cache[L.id] = {k: getattr(L, k) for k in MARKET_KEYS} | {"date": today.isoformat()}
+    keep = {L.id for L in out}
+    cache = {k: v for k, v in cache.items() if k in keep}
+    path.write_text(json.dumps(cache, ensure_ascii=False, indent=0, default=str), encoding="utf-8")
+    if failed:
+        log.append(f"[경고·시세] 실거래가 조회 실패 {failed}건 → 지난 조회값 사용 {used}건, 시세 없음 {failed - used}건")
+
+
 def build_listing(raw: dict, rtms: Optional[RtmsClient], today: date, lawd_cache: Optional[dict] = None) -> Optional[Listing]:
     if not raw.get("price"):
         return None
@@ -80,7 +115,7 @@ def build_listing(raw: dict, rtms: Optional[RtmsClient], today: date, lawd_cache
         if trades is not None or presales is not None:
             mk = estimate_market(raw["name"], raw["area"], trades or [], presales or [], today.year)
         else:
-            mk["mkt_note"] = "실거래가 조회에 실패해 시세를 계산하지 못했어요."
+            mk["mkt_note"] = MARKET_FAIL_NOTE
         if rents is not None:
             js = estimate_jeonse(raw["name"], raw["area"], rents, today.year)
 
@@ -275,6 +310,8 @@ def run(dry_run: bool = False, today: Optional[date] = None, read_notices: bool 
     pf = rt.prefetch(keys, budget_sec=MARKET_BUDGET_SEC)
     log.append(f"[시간] 공고 {len(raws)}건 {t1 - t0:.0f}초 · 실거래 요청 {pf['total']}건 {pf['seconds']:.0f}초 "
                f"(성공 {pf['done']}, 실패 {pf['failed']}, 시간 초과로 생략 {pf['skipped']})")
+    for msg, n in pf.get("errors", []):
+        log.append(f"[실거래 오류] {n}건: {msg}")
     for raw in raws:
         try:
             L = build_listing(raw, rt, today, lawd_cache)
@@ -283,6 +320,7 @@ def run(dry_run: bool = False, today: Optional[date] = None, read_notices: bool 
             continue
         if L:
             out.append(L)
+    market_fallback(out, today, log)
     prev_rows: list = []
     try:
         prev_rows = json.loads(notify.PREVIOUS.read_text(encoding="utf-8"))
