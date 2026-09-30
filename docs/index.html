@@ -2570,7 +2570,7 @@ function wsCard(L, p){
     if (b.n2) why.push('자녀가 없어 2순위');
     rec = `특별공급은 <b>${SP_NAME[b.r.type]}</b>${hasBatchim(SP_NAME[b.r.type]) ? '이' : '가'} 가장 유리해 보여요. <span class="muted">${esc(why.join(' · '))}.</span>`
       + (oks.length > 1 ? `<div class="small muted">다음 후보: ${oks.slice(1).map(x => esc(SP_NAME[x.r.type]) + (x.mine ? ' (약 ' + x.mine + '세대)' : '')).join(', ')}</div>` : '');
-  } else if (warns.length) rec = `신청 가능이 확정된 특별공급이 아직 없어요. <b>${esc(warns.map(x => SP_NAME[x.r.type]).join('·'))}</b>는 정보를 더 넣으면 판정하고 추천해요. <button class="linkbtn small" data-action="sp-input">정보 넣기</button>`;
+  } else if (warns.length) rec = `신청 가능이 확정된 특별공급이 아직 없어요. <b>${esc(eunNeun(warns.map(x => SP_NAME[x.r.type]).join('·')))}</b> 정보를 더 넣으면 판정하고 추천해요. <button class="linkbtn small" data-action="sp-input">정보 넣기</button>`;
   else if (types.length) rec = '지금 조건으로 신청할 수 있는 특별공급이 없어요.';
   if (hasProfile() && L.needAccount) {
     const canGen = e.ok || e.rank2;
