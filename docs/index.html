@@ -176,6 +176,9 @@ a.src:hover{color:var(--link);border-bottom-color:var(--link)}
 .tag.warn{background:var(--warn-soft);color:var(--warn-ink)}
 .linkrow{display:flex;gap:8px;flex-wrap:wrap}
 .linkrow a{flex:1 1 140px;min-height:44px;display:flex;align-items:center;justify-content:center;border:1px solid var(--line);border-radius:10px;font-size:13px;font-weight:600;text-decoration:none;color:var(--fg);background:var(--surface);padding:0 10px;text-align:center}
+.sumbar{display:grid;grid-template-columns:repeat(4,1fr);background:var(--surface);border:1px solid var(--line);border-radius:14px;padding:10px 4px;margin-bottom:10px;text-align:center}
+.sumbar div{display:flex;flex-direction:column;gap:2px;min-width:0} .sumbar div+div{border-left:1px solid var(--line)}
+.sumbar b{font-size:17px;font-weight:700} .sumbar span{font-size:11px;color:var(--muted)} .sumbar .up{color:var(--lotto-ink)}
 .filterbar{display:flex;align-items:center;gap:8px;flex-wrap:wrap}
 .filterbar .count{flex:1;min-width:0;font-size:13px;color:var(--muted)}
 .filterbar .count b{color:var(--fg)}
@@ -845,6 +848,22 @@ function staleNote(){
   if (d < 1.5) return '';
   return `<div class="note warn" style="padding:10px 12px;margin-bottom:8px"><b style="font-size:13px">공고 정보가 ${Math.floor(d)}일 전(${esc(DATA_SOURCE.updated)}) 기준이에요</b><div class="small">자동 수집이 늦어지고 있어요. 새 공고와 일정 변경은 <a href="https://www.applyhome.co.kr" target="_blank" rel="noopener">청약홈</a>에서 확인하세요.</div></div>`;
 }
+/* 목록 맨 위 요약 줄 (기능: summary_bar). 공고(주택관리번호) 단위로 센다. 지역 필터를 고르면 그 지역만 */
+const nidOf = L => String(L.id || '').split('-')[0];
+function addDays(d, n){ const t = new Date(d + 'T00:00:00Z'); t.setUTCDate(t.getUTCDate() + n); return t.toISOString().slice(0, 10); }
+function summaryBar(){
+  if (!on('summary_bar') || !DATA_SOURCE.live) return '';
+  const pool = LISTINGS.filter(L => (!S.f.sido || L.sido === S.f.sido) && (!S.f.district || L.district === S.f.district));
+  const open = pool.filter(L => statusOf(L) !== '마감');
+  const uniq = arr => new Set(arr.map(nidOf)).size;
+  const now = uniq(open.filter(L => statusOf(L) === '접수 중'));
+  const fresh = uniq(pool.filter(L => L.notice && L.notice >= addDays(TODAY, -7)));
+  const weekEnd = addDays(TODAY, 7), closing = uniq(open.filter(L => { const e = L.applyEnd || L.apply; return e && e >= TODAY && e <= weekEnd; }));
+  const best = open.map(grade).filter(m => m.g !== 'unknown' && m.lo > 0).reduce((a, m) => Math.max(a, m.lo), 0);
+  const where = S.f.district || S.f.sido || '전국';
+  const cell = (n, t, cls) => `<div><b class="${cls || ''}">${n}</b><span>${t}</span></div>`;
+  return `<div class="sumbar" role="status" aria-label="${esc(where)} 공고 요약">${cell(now, '접수 중')}${cell(fresh, '새 공고 7일')}${cell(closing, '이번 주 마감')}${cell(best > 0 ? '+' + fmt(best) : '-', '최대 마진', 'up')}</div><p class="foot" style="margin:-6px 0 8px">${esc(where)} · 공고 단위 · 마진은 보수적 시세 기준 추정</p>`;
+}
 function vFeed(){
   const all = feedList(), isClosed = x => statusOf(x.L) === '마감';
   const closedN = all.filter(isClosed).length, showClosed = S.showClosed || S.f.status === '마감';
@@ -857,6 +876,7 @@ function vFeed(){
   <div class="top"><div><div class="brand">청약판정</div><span class="small muted">${DATA_SOURCE.live ? '청약홈 · ' + esc(DATA_SOURCE.updated) + ' 갱신' : '샘플 데이터'}</span></div>
     <button class="bell" data-go="alerts" aria-label="알림 받기"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 8a6 6 0 1 1 12 0c0 7 3 9 3 9H3s3-2 3-9"/><path d="M10.3 21a1.94 1.94 0 0 0 3.4 0"/></svg><span>알림</span></button></div>
   ${staleNote()}
+  ${summaryBar()}
   ${on('disclaimer_banner') ? `<div class="small muted" style="margin:-4px 0 8px">판정은 참고용이에요. 신청 전 공고문을 꼭 확인하세요.${on('about_page') ? ' <button class="linkbtn small" data-go="about">자세히</button>' : ''}</div>` : ''}
   <div class="profile-bar"><span class="muted">내 조건 · <b style="color:var(--fg)">${esc(profileLine(S.profile))}</b></span><button class="linkbtn" data-go="me">수정</button></div>
   <div class="chips" role="group" aria-label="등급 필터">${chip('all','전체')}${chip('lotto','로또')}${chip('consider','고려')}${chip('flat','마진없음')}${chip('pass','패스')}</div>
