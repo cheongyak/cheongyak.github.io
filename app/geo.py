@@ -209,12 +209,13 @@ def apply_geo(listings: list, log: list[str], previous: Optional[dict] = None, h
     # 3) 시군구 코드: 표에 없는 지역(서울·경기·인천 밖)은 좌표로 네이버 역지오코딩 → 법정동 코드 앞 5자리 (다음 실행부터 시세 조회에 씀)
     if key and lawd_cache is not None:
         from . import lawd as LW
-        tried = 0
+        tried, seen = 0, set()
         for nid, (geo, nb) in found.items():
             addr = groups[nid][0].address
             k = LW.key_of(addr)
-            if not geo or not k or LW.lawd_for(addr, lawd_cache) or tried >= 30:
+            if not geo or not k or k in seen or LW.lawd_for(addr, lawd_cache) or tried >= 30:
                 continue
+            seen.add(k)
             tried += 1
             try:
                 info, msg = LW.reverse(geo["lat"], geo["lng"], client, key)
@@ -225,6 +226,9 @@ def apply_geo(listings: list, log: list[str], previous: Optional[dict] = None, h
                 log.append(f"[지역코드] {k} = {info['code']} ({info['names']}, 네이버 역지오코딩)")
             else:
                 log.append(f"[지역코드] {k}: 못 구함 ({msg if not info else '지역 이름 불일치 ' + info['names']})")
+                if "Reverse Geocoding" in msg:  # 권한이 없으면 나머지도 같은 결과라 멈춘다
+                    log.append("[지역코드] 역지오코딩 권한이 없어 나머지 지역은 건너뜀")
+                    break
         # 표에 있는 지역 몇 곳은 역지오코딩과 같은지 대조해 둔다 (표·역지오코딩 모두의 점검)
         checked = 0
         for nid, (geo, nb) in found.items():
