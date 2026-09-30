@@ -63,6 +63,7 @@ a{color:var(--link)}
 .cmp .clabel{font-size:12px;color:var(--muted);margin-bottom:4px}
 .cmp .cvals{display:grid;gap:8px;font-size:14px;font-weight:600} .cmp .cvals>div{min-width:0;overflow-wrap:anywhere}
 .cmp .chead{padding-bottom:8px}
+.dirow{display:grid;grid-template-columns:84px 1fr;gap:8px;padding:7px 0;border-top:1px solid var(--line);font-size:13px;line-height:1.5} .dirow:first-child{border-top:0}
 .linkcard{display:flex;flex-direction:column;gap:2px;text-decoration:none;color:inherit}
 .back{display:flex;align-items:center;gap:2px;border:0;background:none;padding:0 8px 0 0;min-height:44px;font-weight:600;cursor:pointer}
 .back svg{width:22px;height:22px}
@@ -278,7 +279,7 @@ let LISTINGS = [
 ];
 const TODAY = (() => { const d = new Date(Date.now() + 9*3600e3); return d.toISOString().slice(0,10); })(); // 한국 날짜
 let DATA_SOURCE = { live:false, updated:'' };
-let CONFIG = { ntfy_server:'https://ntfy.sh', ntfy_topic:'cheongyak-97ecbdb4', site_url:'', goatcounter:'', cf_beacon:'', contact_email:'', report_form_url:'', open_chat_url:'', naver_map_key:'', features:{} };
+let CONFIG = { ntfy_server:'https://ntfy.sh', ntfy_topic:'cheongyak-97ecbdb4', site_url:'', goatcounter:'', cf_beacon:'', contact_email:'', report_form_url:'', open_chat_url:'', maker:'', naver_map_key:'', features:{} };
 /* 기능 스위치: config.json 의 features 에서 false 로 두면 그 기능만 꺼진다 (목록과 설명은 저장소의 FEATURES.md) */
 const on = k => !CONFIG.features || CONFIG.features[k] !== false;
 
@@ -1319,6 +1320,19 @@ function reportLink(L){
 /* ---------- 이용 안내·개인정보 (기능: about_page) ---------- */
 function analyticsName(){ return !on('analytics') ? '' : CONFIG.cf_beacon ? 'Cloudflare Web Analytics' : CONFIG.goatcounter ? 'GoatCounter' : ''; }
 function aboutLink(){ return on('about_page') ? ' <button class="linkbtn small" data-go="about">이용 안내 · 개인정보</button>' : ''; }
+/* 데이터와 검증 방식 (기능: data_info) */
+function dataInfo(){
+  if (!on('data_info')) return '';
+  const li = (t, d) => `<div class="dirow"><b>${t}</b><span>${d}</span></div>`;
+  return `<section class="card"><h2>데이터와 검증 방식</h2><div>
+    ${li('공고', '청약홈 분양정보(공공데이터포털). 매일 새벽 5시 30분에 모아요.')}
+    ${li('모집공고문', '청약홈·LH청약플러스의 공고문 PDF에서 1순위 가입기간, 납입 인정 횟수, 세대주 요건 같은 조건을 읽어요.')}
+    ${li('시세', '국토교통부 실거래가. 주로 같은 시·군·구, 준공 10년 이내, 같은 평형의 최근 6개월 거래로 추정해요.')}
+    ${li('경쟁률·가점', '청약홈 청약 경쟁률·당첨 가점.')}
+    ${li('위치·입지', '네이버 지도(좌표), OpenStreetMap(역·학교).')}
+    ${li('검증', '공고문 원문을 사람이 직접 읽고 확인한 값(정답 데이터)과 매번 대조해요. 매일 날짜 순서·금액 범위 같은 이상값을 자동 검사하고, 걸리면 화면에 \'데이터 확인 필요\'로 표시해요.')}
+  </div>${CONFIG.maker ? `<p class="small" style="margin:8px 0 0"><b>만든 사람</b> · ${esc(CONFIG.maker)}</p>` : ''}</section>`;
+}
 function vAbout(){
   const mail = CONFIG.contact_email, an = analyticsName();
   return `
@@ -1329,6 +1343,7 @@ function vAbout(){
     <p style="margin:6px 0" class="small"><b>아직 판정하지 않는 것:</b> 특별공급 유형별 요건, 해당지역 거주기간, 소득·자산 기준. 이 항목들은 공고 화면에 '아직 판정하지 않는 것'으로 따로 표시하고, 순서대로 추가하고 있어요.</p>
     <p style="margin:6px 0" class="small">시세·마진은 실거래가로 계산한 추정치예요. 공고는 매일 새벽에 갱신돼요.</p>
     <p style="margin:6px 0" class="small muted">이 서비스는 청약홈(한국부동산원)·LH·국토교통부와 관계없는 개인이 운영해요.</p></section>
+  ${dataInfo()}
   <section class="card"><h2>개인정보 안내</h2>
     <p style="margin:6px 0" class="small"><b>회원가입이 없고, 입력한 내 정보를 서버로 보내지 않아요.</b> 인터뷰에 넣은 통장·무주택·소득·자금 정보는 이 기기의 브라우저 저장소에만 저장돼요.</p>
     <p style="margin:6px 0" class="small">${an ? '방문 통계는 ' + an + '로 쿠키 없이 페이지 방문 수만 집계해요. 입력한 내 정보는 보내지 않아요.' : '방문 통계는 수집하지 않아요.'}</p>

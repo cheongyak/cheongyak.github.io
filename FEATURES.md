@@ -39,7 +39,8 @@
 | `compare` | 비교함 (관심 공고 최대 3개 나란히) | 목록 관심 칩 → 비교 버튼, 비교함 화면 | - | 6846f6b | backup/20260930-1103-cmp |
 | `card_badges` | 카드 뱃지(무순위·특공·규제·상한제·재당첨·실거주)와 마진율 | 목록 카드 뱃지 줄, 등급 배지 아래 % | - | e9a9a52 | backup/20260930-1104-badge |
 | `pwa` | 홈 화면에 추가 (manifest·아이콘, 설치 안내) | 내 정보 "홈 화면에 추가" 카드 (manifest·아이콘은 스위치와 무관하게 유지) | - | 370b8bb | backup/20260930-1105-pwa |
-| `community_link` | 오픈카톡방 링크 (config 의 open_chat_url 이 있을 때만) | 내 정보 카드, 이용 안내 문의 칸 | - | (커밋 후 기입) | backup/20260930-1106-chat |
+| `community_link` | 오픈카톡방 링크 (config 의 open_chat_url 이 있을 때만) | 내 정보 카드, 이용 안내 문의 칸 | - | 5655c22 | backup/20260930-1106-chat |
+| `data_info` | 이용 안내의 데이터와 검증 방식 (+ 만든 사람, config 의 maker) | 이용 안내 화면 칸 | - | (커밋 후 기입) | backup/20260930-1107-data |
 
 `naver_map`·`nearby`·`analytics` 는 한 커밋(147fa99)에 함께 들어갔다. 이 셋 중 하나만 없애려면 revert 대신 스위치로 끄거나,
 해당 부분만 지우는 새 커밋을 만든다.
