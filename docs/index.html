@@ -2901,7 +2901,7 @@ function wsRecV2(L, p, xs, types){
       + (rateHead || (b.plan.reach != null ? `물량만 보면 ${nmB(b)}${hasBatchim(SP_NAME[b.r.type]) ? '이' : '가'} 가장 많아요.` : '뽑는 방식으로 비교해 보세요.')); }
   const reg = oks.map(x => x.plan.reg).find(Boolean);
   const anyRate = rated.length > 0, pubNo = on('sp_competition') && L.houseDtl === '국민';
-  const foot = anyRate ? '경쟁률은 청약홈 특별공급 신청현황 기준이에요 (신청 건수라 부적격이 섞여 있을 수 있어요). ' + (rated.every(o => o.sr.own) ? '이 공고는 특별공급 접수가 끝나 실제 결과예요' : '지난 공고 결과는 참고용이고 공고마다 달라요') + (rated.some(o => !o.sr.own) ? ' · 참고한 공고: ' + esc((L.areaSp || []).filter(e => e.sp).map(e => e.name + (e.apply ? ' ' + e.apply.slice(0, 7).replace('-', '.') : '') + ' ' + (e.unit || '')).join(', ')) : '') + '.'
+  const foot = anyRate ? '경쟁률은 청약홈 특별공급 신청현황 기준이에요 (신청 건수라 부적격이 섞여 있을 수 있어요). ' + (rated.every(o => o.sr.own) ? '이 공고는 특별공급 접수가 끝나 실제 결과예요' : '지난 공고 결과는 참고용이고 공고마다 달라요') + ' ' + src(null, ['청약홈 특별공급 신청현황 (한국부동산원·공공데이터포털)', 'https://www.data.go.kr/data/15098905/openapi.do']) + (L.url ? ' ' + src(null, ['청약홈 이 공고', L.url]) : '') + (rated.some(o => !o.sr.own) ? ' · 참고한 공고: ' + esc((L.areaSp || []).filter(e => e.sp).map(e => e.name + (e.apply ? ' ' + e.apply.slice(0, 7).replace('-', '.') : '') + ' ' + (e.unit || '')).join(', ')) : '') + '.'
     : pubNo ? 'LH 공공분양은 유형별 신청 건수가 청약홈에 공개되지 않아 당첨 확률은 비교하지 않았어요.' : '유형별 신청자 수(경쟁률)는 아직 모르기 때문에 당첨 확률은 비교하지 않았어요.';
   const rec = head + oks.slice().sort(byReach).map(line).join('')
     + (oks.some(x => x.plan.steps.length > 1) ? '<div class="small" style="margin-top:4px">단계: 특별공급은 <b>한 번만 신청</b>해요. 소득 기준에 맞는 첫 단계부터 경쟁하고, 떨어지면 다음 단계로 <b>자동으로</b> 넘어가 다시 경쟁해요 (따로 신청하지 않아요).</div>' : '')
@@ -2962,7 +2962,7 @@ function watchScores(){
   const Ls = LISTINGS.filter(L => WATCH.has(L.id) && !L.sample).sort((a, b) => (statusOf(a) === '마감') - (statusOf(b) === '마감') || (a.specialApply || a.apply || '').localeCompare(b.specialApply || b.apply || ''));
   const head = `<h2 class="ws-h">관심 공고 · 내 당첨 점수</h2>`;
   if (!Ls.length) return head + `<section class="card"><p class="small" style="margin:0">공고에서 <b>☆ 관심</b>을 누르면 여기서 일반·특별공급별 내 점수와 유리한 공급을 크게 비교해요.</p></section>`;
-  return head + `<p class="small muted" style="margin:-4px 0 8px">관심 공고 ${Ls.length}개 · 특별공급 추천은 먼저 뽑히는 순서와 내 몫 세대수로 고른 추정이에요. 유형별 경쟁률은 반영하지 않았어요.</p>`
+  return head + `<p class="small muted" style="margin:-4px 0 8px">관심 공고 ${Ls.length}개 · ${on('ws_reco_v2') ? '특별공급 비교는 공고문 선정 방식·배정 비율과 청약홈 특별공급 신청현황(있을 때)으로 만든 추정이에요.' : '특별공급 추천은 먼저 뽑히는 순서와 내 몫 세대수로 고른 추정이에요. 유형별 경쟁률은 반영하지 않았어요.'}</p>`
     + Ls.map(L => wsCard(L, S.profile)).join('') + '<h2 class="ws-h" style="margin-top:18px">지역별 당첨 가점 컷</h2>';
 }
 function vTrend(){
