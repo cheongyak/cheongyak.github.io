@@ -97,6 +97,10 @@ h2{margin:0;font-size:16px}
 .ctable .rate{font-weight:700}
 details.more summary{cursor:pointer;color:var(--link);font-weight:600;font-size:13px;min-height:32px;display:flex;align-items:center}
 .sample{display:inline-block;padding:1px 6px;border-radius:4px;background:var(--sunk);font-size:11px;font-weight:600;color:var(--muted);margin-left:6px;vertical-align:2px}
+.cbadges{display:flex;flex-wrap:wrap;gap:4px;margin:6px 0 8px}
+.cb{font-size:11px;font-weight:600;padding:2px 7px;border-radius:5px;background:var(--sunk);color:var(--fg)}
+.cb.warn{background:var(--warn-soft);color:var(--warn-ink)} .cb.hot{background:var(--pass-soft);color:var(--pass-ink)}
+.bcol{display:flex;flex-direction:column;align-items:center;gap:2px} .brate{font-size:12px;font-weight:700;opacity:.85}
 .band{display:flex;align-items:center;gap:12px;padding:12px;border-radius:12px}
 .badge{flex:none;min-width:64px;height:32px;padding:0 10px;border-radius:8px;display:inline-flex;align-items:center;justify-content:center;font-weight:700;font-size:15px}
 .g-lotto .band{background:var(--lotto-soft)} .g-lotto .badge{background:var(--lotto);color:var(--on-fill)} .g-lotto .mg{color:var(--lotto-ink)}
@@ -871,11 +875,24 @@ function feedList(){
     .filter(x => S.filter === 'all' || (S.filter === 'watch' ? WATCH.has(x.L.id) : x.m.g === S.filter))
     .sort((a,b) => (statusOf(a.L) === '마감') - (statusOf(b.L) === '마감') || GORDER[a.m.g] - GORDER[b.m.g]);   // 마감 공고는 아래로
 }
+/* 카드 뱃지 (기능: card_badges). 수집 데이터에 있는 값만 쓴다 (추첨 비율·전매제한은 데이터가 없어 표시하지 않음) */
+function cardBadges(L){
+  if (!on('card_badges') || L.sample) return '';
+  const lim = k => (L.limits || []).find(x => x[0] === k), re = lim('재당첨 제한'), live = lim('실거주 의무'), b = [];
+  if (L.category === 'remainder') b.push(['무순위', 'hot']);
+  if (L.specialApply) b.push(['특별공급', '']);
+  if (L.regulated) b.push(['규제지역', 'warn']);
+  if (L.priceCap) b.push(['분양가상한제', '']);
+  if (re && re[1] !== '없음') b.push(['재당첨 제한 ' + re[1], 'warn']);
+  if (live && live[1] !== '없음') b.push([live[1] === '공고문 확인' ? '실거주 의무 확인' : '실거주 ' + live[1], 'warn']);
+  return b.length ? `<div class="cbadges">${b.map(([t, c]) => `<span class="cb ${c}">${esc(t)}</span>`).join('')}</div>` : '';
+}
 function listingCard(L, m){
   return `
     <button class="card listing g-${m.g}" data-open="${L.id}">
       <div class="row"><div><div class="meta">${on('watchlist') && WATCH.has(L.id) ? '<span class="star" aria-label="관심 공고">★</span> ' : ''}${esc(L.kind)} · ${esc(L.unit)}</div><div class="name">${esc(L.name)}${L.sample ? '<span class="sample">샘플</span>' : ''}</div><div class="meta">${esc(L.loc)}</div></div><span class="dstack"><span class="dday ${ddayCls(L)}">${ddayOf(L)}</span>${on('competition') && compHead(L.competition) ? `<span class="dday d-comp">경쟁 ${esc(rateText(compHead(L.competition)))}</span>` : ''}</span></div>
-      <div class="band"><span class="badge">${GNAME[m.g]}</span><div><div class="mg">${marginText(m)}</div><div class="small">분양가 ${fmt(L.price)} · ${m.g === 'unknown' ? '주변 거래 부족' : '시세 ' + fmt(L.mktLow) + '~' + fmt(L.mktBase)}</div></div></div>
+      ${cardBadges(L)}
+      <div class="band"><span class="bcol"><span class="badge">${GNAME[m.g]}</span>${on('card_badges') && m.rate != null ? `<span class="brate">${m.rate >= 0 ? '+' : ''}${Math.round(m.rate * 100)}%</span>` : ''}</span><div><div class="mg">${marginText(m)}</div><div class="small">분양가 ${fmt(L.price)} · ${m.g === 'unknown' ? '주변 거래 부족' : '시세 ' + fmt(L.mktLow) + '~' + fmt(L.mktBase)}</div></div></div>
       <div class="me-line">${meLine(L)}</div>
     </button>`;
 }
