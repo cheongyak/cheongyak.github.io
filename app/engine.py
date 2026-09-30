@@ -4,13 +4,28 @@
 """
 from __future__ import annotations
 
+import json
 import math
+from pathlib import Path
 from typing import Optional
 
 from . import rules as R
 from .models import Listing, PlanOptions, Profile
 
 GRADE_NAMES = {"lotto": "로또", "consider": "고려", "flat": "마진없음", "pass": "패스", "unknown": "시세 부족"}
+CONFIG_PATH = Path(__file__).resolve().parent.parent / "docs" / "config.json"
+
+
+def grade_name(g: str) -> str:
+    """등급 이름. 스위치 grade_skip 이 켜져 있으면 '패스' 등급을 '스킵'으로 부른다 (기준은 같음)."""
+    if g == "pass":
+        try:
+            feats = json.loads(CONFIG_PATH.read_text(encoding="utf-8")).get("features", {})
+        except (OSError, ValueError):
+            feats = {}
+        if feats.get("grade_skip", True):
+            return "스킵"
+    return GRADE_NAMES[g]
 
 
 def eok(manwon: float) -> float:
@@ -33,7 +48,7 @@ def grade(L: Listing) -> dict:
     tax = acq_tax(base)
     cost = base + tax
     if L.mkt_low is None or L.mkt_base is None:
-        return {"grade": "unknown", "name": GRADE_NAMES["unknown"], "cost": cost, "tax": tax,
+        return {"grade": "unknown", "name": grade_name("unknown"), "cost": cost, "tax": tax,
                 "lo": None, "hi": None, "rate": None}
     lo, hi = L.mkt_low - cost, L.mkt_base - cost
     rate = lo / cost
@@ -45,7 +60,7 @@ def grade(L: Listing) -> dict:
         g = "flat"
     else:
         g = "pass"
-    return {"grade": g, "name": GRADE_NAMES[g], "cost": cost, "tax": tax, "lo": lo, "hi": hi, "rate": rate}
+    return {"grade": g, "name": grade_name(g), "cost": cost, "tax": tax, "lo": lo, "hi": hi, "rate": rate}
 
 
 def eligibility(L: Listing, p: Profile) -> dict:

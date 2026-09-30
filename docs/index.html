@@ -474,7 +474,9 @@ function grade(L){
   let g = lo >= RULES.lottoAbs || rate >= RULES.lottoRate ? 'lotto' : lo >= RULES.considerAbs ? 'consider' : lo >= 0 ? 'flat' : 'pass';
   return { g, lo, hi, rate, cost, tax, base };
 }
-const GNAME = { lotto:'로또', consider:'고려', flat:'마진없음', pass:'패스', unknown:'시세 부족' };
+const GNAME_BASE = { lotto:'로또', consider:'고려', flat:'마진없음', pass:'패스', unknown:'시세 부족' };
+// 스위치 grade_skip: '패스' 등급을 '스킵'으로 부른다 (서비스 이름 청약패스와 헷갈리지 않게, 기준은 같음)
+const GNAME = new Proxy(GNAME_BASE, { get: (o, k) => (k === 'pass' && on('grade_skip')) ? '스킵' : o[k] });
 const GORDER = { lotto:0, consider:1, flat:2, pass:3, unknown:4 };
 function marginText(m){
   if (m.g === 'unknown') return '시세 확인 필요';
@@ -1127,7 +1129,7 @@ function vFeed(){
   ${hasProfile() ? `<div class="profile-bar"><span class="muted">내 조건 · <b style="color:var(--fg)">${esc(profileLine(S.profile))}</b></span><button class="linkbtn" data-go="me">수정</button></div>`
     : `<div class="profile-bar"><span class="muted">내 조건을 넣으면 공고마다 <b style="color:var(--fg)">자격·자금</b>을 판정해요</span><button class="linkbtn" data-action="restart">입력하기</button></div>`}
   ${quickFilters()}
-  <div class="chips" role="group" aria-label="등급 필터">${chip('all','전체')}${watchChip(chip)}${chip('lotto','로또')}${chip('consider','고려')}${chip('flat','마진없음')}${chip('pass','패스')}</div>
+  <div class="chips" role="group" aria-label="등급 필터">${chip('all','전체')}${watchChip(chip)}${chip('lotto','로또')}${chip('consider','고려')}${chip('flat','마진없음')}${chip('pass',GNAME.pass)}</div>
   ${QF ? `<div class="filterbar">
     <span class="count" aria-live="polite">결과 <b>${list.length}</b>건</span>
     ${act.length || S.filter !== 'all' || S.newDays ? '<button class="linkbtn small" data-action="reset-filters">초기화</button>' : ''}
