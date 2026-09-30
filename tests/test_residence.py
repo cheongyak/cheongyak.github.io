@@ -167,3 +167,36 @@ def test_pipeline_keeps_schedule_from_previous_run():
     prev = {"from_notice": ["접수 일정"], "schedule": GOLD["2026000414"]["fields"]["schedule"]}
     found, _ = pipeline._from_previous(prev)
     assert found["schedule"]["special"] == ["2026-09-30", "2026-09-30"]
+
+
+def test_golden_pub_limits_from_real_notices():
+    """공공분양 일반공급 소득·자산 기준 (기능: pub_general_limits) — LH 공고문 원문으로 확인한 정답과 같다."""
+    pl = {k: v for k, v in GOLD.items() if "pub_limits" in v["fields"]}
+    assert len(pl) >= 3
+    for no, g in pl.items():
+        assert notice_pdf.parse_pub_limits(text(no)) == g["fields"]["pub_limits"], no
+        assert notice_pdf.parse_notice(text(no)).get("pub_limits") == g["fields"]["pub_limits"], no
+    # 60㎡ 초과만 있어 일반공급 소득 기준이 '해당 없음'인 공고, 민영, 신혼희망타운(총자산 기준)은 읽지 않는다
+    for no in ("2026000437", "2026000438", "2026000453", "2026820008", "2026820011"):
+        assert notice_pdf.parse_pub_limits(text(no)) is None, no
+
+
+def test_pub_limits_quotes_in_originals():
+    import re
+    q = {
+        "2026000414": ["(세대) 월평균소득 100% 이하 (맞벌이 200%) * 전용면적 60㎡ 이하만 적용",
+                       "1순위자로서 무주택세대구성원 전원의 월평균소득이 “<표4> 전년도 도시근로자 가구당 월평균소득”의 100%(본인 및 배우자가 모두 소득이 있는 경우 140%) 이하인 자",
+                       "부동산 (건물+토지) 215,500천원 이하", "자동차 45,420천원 이하"],
+        "2026000409": ["(세대) 월평균소득 100% 이하 (맞벌이 200%) 자산", "부동산 (건물+토지) 215,500천원 이하"],
+        "2026000416": ["(세대) 월평균소득 100% 이하 (맞벌이 200%) * 전용면적 60㎡ 이하만 적용"],
+    }
+    for no, ss in q.items():
+        t = re.sub(r"\s+", " ", text(no))
+        for s in ss:
+            assert s in t, (no, s)
+
+
+def test_pipeline_keeps_pub_limits_from_previous_run():
+    prev = {"from_notice": ["공공 일반공급 소득·자산"], "pub_limits": GOLD["2026000414"]["fields"]["pub_limits"]}
+    found, _ = pipeline._from_previous(prev)
+    assert found["pub_limits"]["cap"] == [100, 200]

@@ -28,6 +28,9 @@ def listing_checks(L: Listing, today: date) -> list[str]:
     for (k1, v1), (k2, v2) in zip(seq, seq[1:]):
         if v1 > v2:
             out.append(f"날짜 순서가 이상해요 ({k1} {v1} > {k2} {v2})")
+    # 공공분양 전용 60㎡ 이하 일반공급은 소득·자산 기준이 있다. 공고문에서 못 읽으면 화면은 '확인 필요'로 둔다 (기능: pub_general_limits)
+    if L.house_dtl == "국민" and L.category == "general" and "신혼희망타운" not in L.name and (L.area or 0) <= 60 and not getattr(L, "pub_limits", None):
+        out.append("공공분양 60㎡ 이하 일반공급 소득·자산 기준을 공고문에서 읽지 못했어요 (화면은 확인 필요)")
     sc = getattr(L, "schedule", None) or {}   # 공고문 접수 일정과 청약홈 날짜가 다르면 알린다 (기능: notice_schedule)
     if sc.get("special") and L.special_apply and sc["special"][0] != L.special_apply:
         out.append(f"특별공급 접수일이 청약홈({L.special_apply})과 공고문({sc['special'][0]})에서 달라요")

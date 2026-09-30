@@ -29,6 +29,7 @@ class Listing(BaseModel):
     area: Optional[float] = None             # 전용면적 ㎡
     households: Optional[int] = None
     mc_quota: Optional[dict] = None          # 다자녀 특별공급 지역별 배정 {buckets:[{name,pct,regions,first,rest_months}]} 또는 {unknown:true} (기능: mc_quota)
+    pub_limits: Optional[dict] = None        # 공공분양 일반공급 소득·자산 기준 {cap, priority, real_estate, car, area_max} (기능: pub_general_limits)
     schedule: Optional[dict] = None          # 공고문의 공급유형별 접수 일정 {pre?, special, general: [시작, 끝]} (기능: notice_schedule)
     residence: Optional[dict] = None         # 공고문의 거주 지역 요건 {area, months, since, gyeonggi, others, quota, equal} (기능: residence_v2)
     special_units: Optional[dict] = None     # 특별공급 유형별 세대수 {newborn, newlywed, first, multichild, elder, agency, ..., total} (기능: special_counts)

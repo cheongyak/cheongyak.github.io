@@ -192,6 +192,36 @@ def parse_notice(text: str) -> dict:
     sc = parse_schedule(text)
     if sc:
         out["schedule"] = sc
+    pl = parse_pub_limits(text)
+    if pl:
+        out["pub_limits"] = pl
+    return out
+
+
+# ---- 공공분양 일반공급 소득·자산 기준 (기능: pub_general_limits) ----
+# LH 공공분양 공고문(2026000409·414·416)에서 읽는다.
+#   신청자격 요약표 소득 줄의 일반공급 칸: '(세대) 월평균소득 100% 이하 (맞벌이 200%) * 전용면적 60㎡ 이하만 적용' → 자격 상한
+#   2단계 우선공급 문장: '일반공급 신청자격에 해당되며 … 1순위자로서 무주택세대구성원 전원의 월평균소득이 … 100%(본인 및 배우자가
+#     모두 소득이 있는 경우 140%) 이하인 자' → 우선공급 상한 (넘으면 3단계 추첨공급만)
+#   자산: '부동산(건물+토지) 215,500천원 이하', '자동차 45,420천원 이하'
+#   적용 면적: '전용면적 60㎡ 이하만 적용'·'60㎡ 이하 일반공급' 문구가 있으면 60㎡ 이하, 없으면 이 공고 일반공급 전체(2026000409 는 59㎡뿐)
+# 요약표 일반공급 소득 칸이나 자산 금액을 찾지 못하면 None (화면은 60㎡ 이하 공공분양을 '확인 필요'로 둔다)
+def parse_pub_limits(text: str) -> Optional[dict]:
+    t = re.sub(r"\s+", " ", text)
+    cap = re.search(r"월평균소득 (\d{2,3})% 이하 \(맞\s*벌\s*이\**\s*(\d{2,3})%\)(\s*\*\s*전용면적 60㎡ 이하만 적용)?\s*자산", t)
+    pri = re.search(r"일반공급 신청자격에 해당되며[^.]{0,80}1순위자로서 무주택세대구성원 전원의 월평균소득이[^.]{0,80}?"
+                    r"(\d{2,3})%\s*\(본인 및 배우자가 모두 소득이 있는 경우 (\d{2,3})%\) 이하인 자", t)
+    re_ = re.search(r"부동산\s*\(건물\s*\+\s*토지\)\s*([\d,]+)천원 이하", t)
+    car = re.search(r"자동차\s*([\d,]+)천원 이하", t)
+    if not (cap and re_ and car):
+        return None
+    out = {"cap": [int(cap.group(1)), int(cap.group(2))],
+           "real_estate": int(re_.group(1).replace(",", "")) // 10,   # 천원 → 만원
+           "car": int(car.group(1).replace(",", "")) // 10}
+    if pri:
+        out["priority"] = [int(pri.group(1)), int(pri.group(2))]
+    le60 = cap.group(3) or re.search(r"전용면적 60㎡ 이하 일반공급|일반공급\s*\(60㎡ 이하\)", t)
+    out["area_max"] = 60 if le60 else None
     return out
 
 
