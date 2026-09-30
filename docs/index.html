@@ -838,6 +838,7 @@ function vFeed(){
   return `
   <div class="top"><div><div class="brand">청약판정</div><span class="small muted">${DATA_SOURCE.live ? '청약홈 · ' + esc(DATA_SOURCE.updated) + ' 갱신' : '샘플 데이터'}</span></div>
     <button class="bell" data-go="alerts" aria-label="알림 받기"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 8a6 6 0 1 1 12 0c0 7 3 9 3 9H3s3-2 3-9"/><path d="M10.3 21a1.94 1.94 0 0 0 3.4 0"/></svg><span>알림</span></button></div>
+  ${on('disclaimer_banner') ? `<div class="small muted" style="margin:-4px 0 8px">판정은 참고용이에요. 신청 전 공고문을 꼭 확인하세요.${on('about_page') ? ' <button class="linkbtn small" data-go="about">자세히</button>' : ''}</div>` : ''}
   <div class="profile-bar"><span class="muted">내 조건 · <b style="color:var(--fg)">${esc(profileLine(S.profile))}</b></span><button class="linkbtn" data-go="me">수정</button></div>
   <div class="chips" role="group" aria-label="등급 필터">${chip('all','전체')}${chip('lotto','로또')}${chip('consider','고려')}${chip('flat','마진없음')}${chip('pass','패스')}</div>
   <div class="filterbar">
