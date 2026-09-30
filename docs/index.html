@@ -3064,7 +3064,9 @@ function loadListings(){
   return fetch('listings.json', { cache:'no-store' }).then(r => r.ok ? r.json() : Promise.reject('응답 ' + r.status)).then(async rows => {
     if (!Array.isArray(rows) || !rows.length) return Promise.reject('공고 0건');
     LISTINGS = rows.map(fromApi);
-    let upd = ''; try { const t = await fetch('updated.txt', { cache:'no-store' }); if (t.ok) upd = (await t.text()).trim(); } catch(e) {}
+    let upd = '';
+    if (on('fresh_time')) try { const t = await fetch('data-updated.txt', { cache:'no-store' }); if (t.ok) upd = (await t.text()).trim(); } catch(e) {}   // 마지막으로 공고를 실제로 받은 시각 (기능: fresh_time)
+    if (!/^\d{4}-\d\d-\d\d \d\d:\d\d/.test(upd)) { upd = ''; try { const t = await fetch('updated.txt', { cache:'no-store' }); if (t.ok) upd = (await t.text()).trim(); } catch(e) {} }
     DATA_SOURCE = { live:true, updated: upd, state:'live' };
     S.plan = {}; S.f = Object.assign({}, F0); if (S.view === 'detail' || S.view === 'plan') S.view = 'feed';
     render();

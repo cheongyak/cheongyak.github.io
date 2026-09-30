@@ -105,6 +105,8 @@ def test_end_to_end(tmp_path, monkeypatch):
     out = pipeline.run(today=date(2026, 9, 29), read_notices=False)
     assert len(out) == 1
     assert "로또" in (tmp_path / "run-log.txt").read_text(encoding="utf-8")
+    import re
+    assert re.fullmatch(r"\d{4}-\d\d-\d\d \d\d:\d\d\n", pipeline.FRESH.read_text(encoding="utf-8"))   # 정상 수집이면 시각을 남긴다
     L = out[0]
     assert L.regulated and L.land_permit and L.sigungu == "광진구"
     assert L.mkt_base == 21.75 and L.mkt_low == 21.25
@@ -210,7 +212,10 @@ def test_empty_api_result_keeps_previous_listings(tmp_path, monkeypatch):
     monkeypatch.setattr(pipeline, "RUN_LOG", tmp_path / "run-log.txt")
     sent = []
     monkeypatch.setattr(pipeline.notify, "send", lambda msgs, cfg: sent.append(msgs) or [])
+    fresh = pipeline.FRESH
+    fresh.write_text("2026-09-29 05:31\n", encoding="utf-8")
     assert pipeline.run(today=date(2026, 9, 30)) == []
+    assert fresh.read_text(encoding="utf-8") == "2026-09-29 05:31\n"   # 0건 실행은 마지막 정상 갱신 시각을 바꾸지 않는다
     assert "지난 공고" in (tmp_path / "l.json").read_text(encoding="utf-8")
     assert "[경고]" in (tmp_path / "run-log.txt").read_text(encoding="utf-8") and not sent
 

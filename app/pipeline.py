@@ -29,6 +29,7 @@ from . import geo, lawd as LC, notice_pdf, notify, validate
 ROOT = Path(__file__).resolve().parent.parent
 DATA = ROOT / "data" / "listings.json"
 RUN_LOG = ROOT / "docs" / "run-log.txt"
+FRESH = ROOT / "docs" / "data-updated.txt"   # 공고를 실제로 받은 마지막 시각 (한국 시각). 0건·실패 실행에서는 바꾸지 않는다 (updated.txt 는 실행 시각)
 RTMS_ERRORS: set[str] = set()
 MARKET_BUDGET_SEC = 600      # 실거래 조회에 쓰는 최대 시간 (공공데이터포털이 느려도 수집이 끝나게)
 NOTICE_BUDGET_SEC = 300      # 공고문 PDF 읽기에 쓰는 최대 시간
@@ -441,6 +442,11 @@ def run(dry_run: bool = False, today: Optional[date] = None, read_notices: bool 
         RUN_LOG.write_text(f"실행: {today.isoformat()} · 공고 {len(out)}건\n\n" + "\n".join(lines + [""] + log) + "\n",
                            encoding="utf-8")
         print(f"저장: {DATA} ({len(out)}건)")
+        if out:   # 유효한 공고를 받았을 때만 '마지막 정상 갱신' 시각을 바꾼다 (2026-10-01 00시 0건 실행에서도 갱신 시각이 바뀐 문제)
+            from zoneinfo import ZoneInfo
+            from datetime import datetime
+            FRESH.parent.mkdir(parents=True, exist_ok=True)
+            FRESH.write_text(datetime.now(ZoneInfo("Asia/Seoul")).strftime("%Y-%m-%d %H:%M") + "\n", encoding="utf-8")
     return out
 
 
