@@ -208,7 +208,7 @@ def test_pipeline_keeps_pub_limits_from_previous_run():
 def test_town_limits_quotes_in_originals():
     """신혼희망타운 신청 유형·소득·총자산 문장이 공고문 원문에 있다 (기능: town_rules)."""
     import re
-    for no in ("2026820008", "2026820009", "2026820011"):
+    for no in ("2026820008", "2026820009", "2026820010", "2026820011"):
         t = re.sub(r"\s+", " ", text(no))
         assert re.search(r"혼인 중인 자로서 혼인기간이 7년 이내 또는 6세 이하\s*(\(태아 포함\)\s*)?자녀(\(태아 포함\))?를 둔 경우", t), no
         assert "예비신혼부부 혼인을 계획 중이며, 입주 전까지 혼인사실을 증명할 수 있는 자" in t, no

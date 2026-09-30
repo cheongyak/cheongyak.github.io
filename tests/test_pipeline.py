@@ -321,3 +321,18 @@ def test_no_restore_when_category_present():
     out = [Listing(**_row(1, "general", "2026-10-02", "2026-10-10")), Listing(**_row(4, "remainder", "2026-10-06", "2026-10-12"))]
     prev = [_row(2, "remainder", "2026-10-06", "2026-10-12")]
     assert pipeline.restore_missing_category(out, prev, today, []) == 0 and len(out) == 2
+
+
+def test_bad_api_response_does_not_overwrite_previous(tmp_path, monkeypatch):
+    """청약홈이 HTML·500·타임아웃을 주면 실행이 실패하고(워크플로 저장 단계가 돌지 않음) 지난 결과·갱신 시각을 덮어쓰지 않는다."""
+    import pytest
+    for handler in (lambda r: httpx.Response(200, text="<html>error</html>"),
+                    lambda r: httpx.Response(500, text="err")):
+        http = httpx.Client(transport=httpx.MockTransport(handler))
+        monkeypatch.setattr(pipeline, "ApplyhomeClient", lambda: ApplyhomeClient("T", http))
+        monkeypatch.setattr(pipeline, "RtmsClient", lambda: RtmsClient("T", http))
+        monkeypatch.setattr(pipeline, "DATA", tmp_path / "l.json")
+        monkeypatch.setattr(pipeline, "RUN_LOG", tmp_path / "run-log.txt")
+        with pytest.raises(Exception):
+            pipeline.run(today=date(2026, 10, 1), read_notices=False)
+        assert not (tmp_path / "l.json").exists() and not pipeline.FRESH.exists()
