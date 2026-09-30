@@ -141,7 +141,8 @@ def test_validate_flags_and_golden(monkeypatch):
     assert any("날짜 순서" in c for c in checks) and any("근거 거래가 1건" in c for c in checks)
     good = L(id="2026930040-084.9811C", price=12.2202, notice="2026-09-23", apply="2026-10-06", winner="2026-10-12",
              contract="2026-10-23", balance="2026-11-30", ext=0.2178, need_head=True, price_cap=False, residence_duty=0,
-             sido="서울", district="광진구", limits=[("재당첨 제한", "10년")])
+             sido="서울", district="광진구", limits=[("재당첨 제한", "10년")],
+             residence={"area": {"name": "서울특별시", "sido": "서울"}, "months": 0, "since": None, "others": [], "equal": True})
     assert validate.golden_mismatches([good]) == []
     bad = good.model_copy(update={"limits": [("재당첨 제한", "5년")], "balance": "2026-12-01"})
     mm = validate.golden_mismatches([bad])

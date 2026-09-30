@@ -453,7 +453,7 @@ function afterRender(){
 const DEFAULT_PROFILE = { seoul:null, household:'', parents60:null, parentsOwn:null, headSince:'',
   selfOwn:null, married:null, spouseOwn:false, spouseIncome:0, spouseLoan:0, account:'unknown', recentWin:false, birth:'', marriedOn:'', homeSoldOn:'', dependents:null, spouseAcctSince:'', hhHomes:'', win5y:null, acctType:'', acctSince:'', acctAmount:0, acctCount:null, acctPaid:null, homeArea:'',
   cash:0, liquid:0, deposit:0, income:0, loanMonthly:0, firstTime:null,
-  kidsUnder6:null, gen3:null, homeSido:'', sidoSince:'', homeSigun:'', areaSince:'', kidsMinor:null, youngestBirth:'', pregnant:null, hhSize:null, hhIncomeYear:null, realEstate:null, carValue:null, hhNeverOwned:null, taxYears5:null, elder65:null };
+  kidsUnder6:null, gen3:null, homeSido:'', sidoSince:'', sidoOwnSince:'', homeSigun:'', areaSince:'', kidsMinor:null, youngestBirth:'', pregnant:null, hhSize:null, hhIncomeYear:null, realEstate:null, carValue:null, hhNeverOwned:null, taxYears5:null, elder65:null };
 
 const store = {
   get(k){ try{ const v = localStorage.getItem(k); return v ? JSON.parse(v) : null; }catch(e){ return null; } },
@@ -673,11 +673,59 @@ function scoreCard(L){
     <div class="small muted">민영주택 1순위 가점제 기준이에요. 부양가족은 같은 등본의 배우자·미혼 자녀, 그리고 내가 세대주이고 3년 이상 같은 등본에 있는 집 없는 부모님만 세요. 공고일 기준으로 계산했고, 실제 점수는 청약홈 가점 계산기로 확인하세요. ${src(null, ['모집공고문 가점 산정기준표 (주택공급에 관한 규칙 별표1의2)', L.noticePdf])}</div>
   </section>`;
 }
+/* 거주 지역 판정 (기능: residence_v2). 공고문의 '해당지역·기타지역' 표(수집 때 L.residence 로 읽음)를 그대로 따른다.
+   해당지역에 기준일 이전부터 살면 해당지역 우선, 기간이 모자라거나 다른 시·도면 공고가 정한 기타지역 순서, 어디에도 없으면 신청 불가.
+   근거: 각 공고문(「주택공급에 관한 규칙」 제4조·제25조·제34조 적용 결과). 공고문을 못 읽은 공고는 추측하지 않고 '확인 필요' */
+const bareArea = t => (t || '').replace(/\s/g, '').replace(/(시|군)$/, '');
+const shortDate = d => d ? d.slice(2).replace(/-/g, '.') : '';
+function homeLabel(p){ return p.homeSido ? p.homeSido + (p.homeSigun && !METRO_SIDO.includes(p.homeSido) ? ' ' + p.homeSigun.trim() : '') : ''; }
+function inResArea(a, L, p){   // true / false / null(모름: 시·군 미입력)
+  if (!a || !p.homeSido) return false;
+  if (a.sido && a.sido !== p.homeSido) return false;
+  if (!a.sido && L.sido && L.sido !== p.homeSido) return false;
+  if (!a.sigungu) return true;
+  if (!p.homeSigun) return null;
+  return bareArea(sigunOf(p.homeSigun)) === bareArea(a.sigungu);
+}
+function residenceItem(L, p){
+  const R = L.residence, k = '거주지';
+  if (!p.homeSido) return { k, s:'warn', v:'입력 필요', note:'사는 곳을 넣으면 공고문의 해당지역·기타지역 기준으로 판정해요' };
+  if (!R) return L.sido && L.sido === p.homeSido
+    ? { k, s:'warn', v:'공고 지역 거주 · 확인 필요', note:'공고문에서 해당지역·거주기간을 읽지 못했어요. 공고문의 거주 요건을 확인하세요' }
+    : { k, s:'warn', v:'확인 필요', note:'공고문에서 거주 지역 요건을 읽지 못했어요. 공고문을 확인하세요' };
+  const areaName = R.area ? (R.area.sigungu || R.area.name) : '';
+  const others = R.others || [], nation = others.includes('전국'), inOther = nation || others.includes(p.homeSido);
+  const quota = R.quota ? ' 배정: 해당지역 ' + R.quota['해당'] + '%' + (R.quota['경기'] != null ? ' · 경기 ' + R.quota['경기'] + '%' : '') + (R.quota['기타'] != null ? ' · 기타지역 ' + R.quota['기타'] + '%' : '') + '.' : '';
+  const otherTxt = nation ? '전국' : others.join('·');
+  if (R.equal) {   // 무순위·재공급: 지역 안에서는 순서 없이 추첨
+    const inA = R.area ? inResArea(R.area, L, p) : false;
+    if (inA === null && !inOther) return { k, s:'warn', v:'사는 시·군 입력 필요', note: areaName + ' 거주자만 신청할 수 있어요' };
+    if (inA || inOther) return { k, s:'ok', v:'신청 가능', note:'공고일 현재 ' + (nation ? '전국' : [areaName, ...others].filter(Boolean).join('·')) + ' 거주자 대상 (거주기간 요건 없음)' };
+    return { k, s:'fail', v:'신청 불가', note:'공고일 현재 ' + [areaName, ...others].filter(Boolean).join('·') + ' 거주자만 신청할 수 있어요 (지금 ' + homeLabel(p) + ')' };
+  }
+  const inA = R.area ? inResArea(R.area, L, p) : false;
+  let short = '';
+  if (inA === null) return { k, s:'warn', v:'사는 시·군 입력 필요', note:'해당지역은 ' + areaName + (R.months ? ' ' + R.months / 12 + '년 이상 거주자' : ' 거주자') + '예요' };
+  if (inA) {
+    if (!R.months) return { k, s:'ok', v:'해당지역', note: areaName + ' 거주자 우선 (거주기간 요건 없음).' + quota };
+    const since = R.area.sigungu ? p.areaSince : p.sidoOwnSince;
+    if (!since) return { k, s:'warn', v:'해당지역 · 전입일 입력 필요', note:'해당지역 우선은 ' + areaName + ' ' + R.months / 12 + '년 이상 거주자 (' + shortDate(R.since) + ' 이전부터 계속 거주)예요.' + quota };
+    if (!R.since || since <= R.since) return { k, s:'ok', v:'해당지역 (' + R.months / 12 + '년 이상)', note: areaName + ' ' + shortDate(since) + '부터 거주 · 기준 ' + shortDate(R.since) + ' 이전.' + quota };
+    short = areaName + ' 거주기간이 ' + R.months / 12 + '년에 못 미쳐요 (' + shortDate(R.since) + ' 이전 전입이어야 해당지역). ';
+  }
+  if (R.gyeonggi && p.homeSido === '경기') {
+    const g = R.gyeonggi, since = p.sidoOwnSince;
+    if (!since) return { k, s:'warn', v:'경기 거주 · 전입일 입력 필요', note: short + '경기도 ' + g.months + '개월 이상 거주자(' + shortDate(g.since) + ' 이전부터)는 경기 몫으로 먼저 뽑아요.' + quota };
+    if (since <= g.since) return { k, s:'ok', v:'기타경기 (경기 ' + g.months + '개월 이상)', note: short + '해당지역 다음으로 경기도 거주자 몫에서 뽑아요.' + quota };
+  }
+  if (inOther || inA) return { k, s:'ok', v:'기타지역 (해당지역 다음)', note: short + '같은 순위에서 해당지역 거주자가 먼저예요. 경쟁이 있으면 기회가 적어요. 기타지역: ' + otherTxt + '.' + quota };
+  return { k, s:'fail', v:'신청 불가', note:'해당지역 ' + areaName + (otherTxt ? ' · 기타지역 ' + otherTxt : '') + ' 거주자만 신청할 수 있어요 (지금 ' + homeLabel(p) + ')' };
+}
 function pendingChecks(L, p){ // 아직 판정하지 않는 항목 (기능이 늘면 줄어든다)
   const acct = accountItems(L, p), out = [];
   if (!acct) out.push('통장 가입기간·예치금 또는 납입 횟수·금액');
   else if (L.houseDtl === '국민' && !on('public_deposit')) out.push('국민주택 납입 인정 횟수·금액');
-  out.push('해당지역 거주기간');
+  if (!(on('residence_v2') && L.residence)) out.push('해당지역 거주기간');
   if (!(on('regulated_rules') && typeof regulatedItems === 'function')) out.push('규제지역 1순위 추가 요건(세대원 5년 내 당첨 등)');
   out.push(on('special_eligibility') ? '특별공급 해당지역 우선·가구원수 산정 세부' : '특별공급 유형별 요건');
   if (!(on('score') && typeof myScore === 'function')) out.push('가점');
@@ -685,10 +733,11 @@ function pendingChecks(L, p){ // 아직 판정하지 않는 항목 (기능이 �
 }
 function eligibility(L, p){
   const items = [];
-  if (p.seoul == null && (L.region === '서울' || L.region === '경기')) items.push({ k:'거주지 (' + (L.region === '서울' ? '서울' : '수도권') + ')', s:'warn', v:'입력 필요', note:'사는 곳을 넣으면 판정해요' });
+  if (on('residence_v2')) items.push(residenceItem(L, p));
+  else if (p.seoul == null && (L.region === '서울' || L.region === '경기')) items.push({ k:'거주지 (' + (L.region === '서울' ? '서울' : '수도권') + ')', s:'warn', v:'입력 필요', note:'사는 곳을 넣으면 판정해요' });
   else if (L.region === '서울') items.push({ k:'거주지 (서울)', s: p.seoul ? 'ok' : 'fail', v: p.seoul ? '충족' : '미충족' });
   else if (L.region === '경기') items.push({ k:'거주지 (수도권)', s: p.seoul ? 'ok' : 'warn', v: p.seoul ? '충족' : '확인 필요', note: p.seoul ? '해당 지역 우선공급 대상은 아니에요' : '' });
-  else items.push({ k:'거주지 (' + L.region + ')', s:'warn', v:'확인 필요', note:'공고문의 거주 지역 요건을 확인하세요' });
+  else if (!on('residence_v2')) items.push({ k:'거주지 (' + L.region + ')', s:'warn', v:'확인 필요', note:'공고문의 거주 지역 요건을 확인하세요' });
   const own = []; let homeNote = '';
   if (p.selfOwn) own.push('본인 명의 주택');
   if (p.married && p.spouseOwn) own.push('배우자 명의 주택');
@@ -723,7 +772,7 @@ function eligibility(L, p){
     const f = fails[0];
     reason = f.k === '세대주' ? (L.notice ? '모집공고일(' + L.notice.replace(/-/g,'.') + ') 기준 세대주가 아니에요. 지금 바꿔도 이번 공고에는 반영되지 않아요.' : '세대주가 아니에요.')
       : f.k.startsWith('무주택') ? '세대에 주택 소유자가 있어요 (' + f.note + ').'
-      : f.k.startsWith('거주') ? L.region + ' 거주자만 신청할 수 있어요.'
+      : f.k.startsWith('거주') ? (on('residence_v2') && f.note ? f.note + '.' : L.region + ' 거주자만 신청할 수 있어요.')
       : f.k.endsWith('전용') ? f.k.replace(' 전용','') + ' 대상 공급이에요. ' + (f.note || '')
       : f.k.includes('(규제지역 1순위)') ? '투기과열지구·청약과열지역 1순위 요건을 채우지 못했어요 (' + f.k.replace(' (규제지역 1순위)', '') + ': ' + f.v + '). 2순위로는 신청할 수 있어요.'
       : f.k === '통장 종류 (공공분양)' ? '공공분양은 주택청약종합저축으로 신청해요. 공고 전일까지 전환하면 신청할 수 있어요.'
@@ -850,7 +899,7 @@ function ddayOf(L){ // 모집 상태와 같은 기준으로 표시: 예정이면
 }
 function profileLine(p){
   const hh = { head:'세대주', parents:'세대원', spouse:'세대원', other:'기타' }[p.household] || '세대 미입력';
-  return (p.seoul == null ? '지역 미입력' : p.seoul ? '서울' : '서울 외') + ' · ' + (p.selfOwn == null ? '주택 미입력' : p.selfOwn ? '유주택' : '무주택') + ' · ' + hh + ' · 현금 ' + fmt(eok(p.cash + p.liquid + p.deposit));
+  return (on('residence_v2') ? (homeLabel(p) || '사는 곳 미입력') : p.seoul == null ? '지역 미입력' : p.seoul ? '서울' : '서울 외') + ' · ' + (p.selfOwn == null ? '주택 미입력' : p.selfOwn ? '유주택' : '무주택') + ' · ' + hh + ' · 현금 ' + fmt(eok(p.cash + p.liquid + p.deposit));
 }
 function meLine(L){
   if (!hasProfile()) return '<span class="muted">내 조건을 넣으면 자격·자금을 판정해요</span>';
@@ -1390,7 +1439,7 @@ const sigunOf = t => ((t || '').trim().split(/\s+/)[0] || '').replace(/(시|군)
 function areaResidence(L, p){
   const metro = METRO_SIDO.includes(L.sido), area = metro ? L.sido : sigunOf(L.district);
   if (!p.homeSido) return { v:null, area, why:'사는 시·도 미입력' };
-  const since = METRO_SIDO.includes(p.homeSido) ? p.sidoSince : p.areaSince;
+  const since = METRO_SIDO.includes(p.homeSido) ? ((on('residence_v2') && p.sidoOwnSince) || p.sidoSince) : p.areaSince;   // 특별·광역시는 그 시 자체에 계속 산 날 (수도권 합산 아님)
   if (p.homeSido !== L.sido) return { v:0, area, why: area + ' 거주 아님' };
   if (!metro && !p.homeSigun) return { v:null, area, why:'사는 시·군 미입력' };
   const bare = t => (t || '').replace(/\s/g, '').replace(/(시|군)$/, '');
@@ -1851,7 +1900,13 @@ function vAlerts(){
 
 /* ---------- 온보딩 인터뷰 ---------- */
 const STEPS = [
-  { n:'서울 거주', t:'서울에 살고 계세요?', d:'주민등록 기준이에요. 서울 공고는 대부분 서울 거주자만 넣을 수 있어요.',
+  { id:'home', show:p => on('residence_v2'), n:'사는 곳', t:'어디에 살고 계세요?', d:'주민등록 기준이에요. 공고마다 해당지역 우선인지, 기타지역인지, 신청할 수 없는지 공고문 기준으로 판정해요.',
+    f:[{ k:'homeSido', type:'choice', l:'지금 사는 시·도', o:SIDO_ORDER.map(x => [x, x]), two:true },
+       { k:'homeSigun', type:'text', l:'사는 시·군 (도 지역만, 예: 성남시·천안시)', show:p => p.homeSido && !METRO_SIDO.includes(p.homeSido) },
+       { k:'sidoOwnSince', type:'date', l:'그 시·도로 전입한 날 (계속 살았다면 처음 전입일 · 태어나서 쭉이면 생년월일)', show:p => !!p.homeSido },
+       { k:'areaSince', type:'date', l:'그 시·군으로 전입한 날', show:p => p.homeSido && !METRO_SIDO.includes(p.homeSido) }],
+    note:p => p.homeSido ? '공고일 기준으로 몇 년 계속 살았는지 봐요 (예: 서울 2년 이상이면 서울 해당지역 우선). 90일 넘게 계속 해외에 있었으면 해당지역 우선에서 빠질 수 있어요.' : '' },
+  { show:() => !on('residence_v2'), n:'서울 거주', t:'서울에 살고 계세요?', d:'주민등록 기준이에요. 서울 공고는 대부분 서울 거주자만 넣을 수 있어요.',
     f:[{ k:'seoul', type:'choice', o:[[true,'예, 서울이에요'],[false,'아니요']] }] },
   { n:'세대 구성', t:'주민등록상 지금 어떻게 살고 계세요?', d:'청약 자격은 모집공고일 기준 등본으로 판정돼요.',
     f:[{ k:'household', type:'choice', o:[['head','내가 세대주예요'],['parents','부모님 세대의 세대원이에요'],['spouse','배우자 세대의 세대원이에요'],['other','기타']] }] },
@@ -1890,11 +1945,11 @@ const STEPS = [
     f:[{ k:'kidsUnder6', type:'choice', l:'만 6세 미만 자녀 수 (태아·입양 포함)', o:[[0,'없어요'],[1,'1명'],[2,'2명'],[3,'3명 이상']] },
        { k:'gen3', type:'choice', l:'무주택 부모님(배우자 부모님 포함)과 3년 이상 같은 등본이거나, 한부모 가족 5년 이상인가요?', o:[[true,'예'],[false,'아니요']], two:true },
        ] },
-  { id:'sp5', show:p => on('special_eligibility') && (on('special_position') || (on('multichild_score') && p.kidsMinor >= 2)), n:'사는 곳', t:'사는 곳 (특별공급 점수)', d:'다자녀 배점과 공공분양 신혼부부·신생아 점수의 거주기간에 써요. 주민등록 기준이에요.',
-    f:[{ k:'homeSido', type:'choice', l:'지금 사는 시·도', o:SIDO_ORDER.map(x => [x, x]), two:true },
-       { k:'homeSigun', type:'text', l:'사는 시·군 (도 지역만, 예: 평택시·수원시)', show:p => p.homeSido && !METRO_SIDO.includes(p.homeSido) },
+  { id:'sp5', show:p => on('special_eligibility') && (on('special_position') || (on('multichild_score') && p.kidsMinor >= 2)) && (!on('residence_v2') || CAPITAL3.includes(p.homeSido)), n:'사는 곳', t:'사는 곳 (특별공급 점수)', d:'다자녀 배점과 공공분양 신혼부부·신생아 점수의 거주기간에 써요. 주민등록 기준이에요.',
+    f:[{ k:'homeSido', type:'choice', l:'지금 사는 시·도', o:SIDO_ORDER.map(x => [x, x]), two:true, show:() => !on('residence_v2') },
+       { k:'homeSigun', type:'text', l:'사는 시·군 (도 지역만, 예: 평택시·수원시)', show:p => !on('residence_v2') && p.homeSido && !METRO_SIDO.includes(p.homeSido) },
        { k:'sidoSince', type:'date', l:'그 시·도에 계속 살기 시작한 날 (수도권은 서울·경기·인천 안에서 옮긴 건 이어서)' },
-       { k:'areaSince', type:'date', l:'그 시·군에 계속 살기 시작한 날', show:p => p.homeSido && !METRO_SIDO.includes(p.homeSido) }] },
+       { k:'areaSince', type:'date', l:'그 시·군에 계속 살기 시작한 날', show:p => !on('residence_v2') && p.homeSido && !METRO_SIDO.includes(p.homeSido) }] },
   { id:'sp2', show:p => on('special_eligibility'), n:'세대 소득·자산', t:'소득과 자산 (특별공급)', d:'특별공급은 세대 월평균 소득과 부동산(공공은 자동차도) 기준이 있어요.',
     f:[{ k:'hhIncomeYear', type:'money', opt:true, l:'세대원 전원의 작년 세전 소득 합계', h:'비워두면 본인+배우자 연소득으로 추정해요. 같은 등본의 부모님 소득도 들어가요' },
        { k:'realEstate', type:'money', opt:true, l:'세대가 가진 부동산 가액 (건물+토지 공시가격)', h:'없으면 0' },
@@ -1907,7 +1962,7 @@ const STEPS = [
   { show:p => on('regulated_rules'), n:'세대 주택·당첨 이력', t:'세대의 주택과 당첨 이력', d:'서울 전역 등 투기과열지구·청약과열지역의 1순위는 등본에 함께 있는 세대 전체를 봐요.',
     f:[{ k:'hhHomes', type:'choice', l:'세대 전체가 가진 주택 수 (분양권 포함)', o:[['0','없어요'],['1','1채'],['2+','2채 이상']] },
        { k:'win5y', type:'choice', l:'나나 세대원이 최근 5년 안에 청약에 당첨된 적이 있나요?', o:[[true,'있어요'],[false,'없어요']], two:true }] },
-  { show:p => on('account_rules') && !p.seoul, n:'사는 지역 (예치금)', t:'주민등록상 사는 지역', d:'민영주택 예치금 기준이 사는 지역에 따라 달라요.',
+  { show:p => on('account_rules') && !p.seoul && !on('residence_v2'), n:'사는 지역 (예치금)', t:'주민등록상 사는 지역', d:'민영주택 예치금 기준이 사는 지역에 따라 달라요.',
     f:[{ k:'homeArea', type:'choice', o:[['seoul_busan','부산'],['metro','인천·대구·광주·대전·울산'],['other','경기·세종·그 밖의 시·군']] }] },
   { show:p => !on('account_rules'), n:'청약 이력', t:'청약 이력', d:'무순위는 청약통장이 없어도 되지만 1순위는 필요해요.',
     f:[{ k:'account', type:'choice', l:'청약통장 가입 2년 이상이고 예치금도 채웠나요?', o:[['yes','예'],['no','아니요'],['unknown','잘 모르겠어요']] },
@@ -2267,7 +2322,18 @@ function trackView(){
   track({ path, title: L && (S.view === 'detail' || S.view === 'plan') ? L.name : document.title });
 }
 function go(v){ S.view = v; if (v !== 'feed') S.sheet = null; render(); }
-function save(){ store.set('cy-profile', S.profile); }
+/* 사는 곳 하나로 합친 뒤 예전 값(서울 거주·예치금 지역)과 특별공급 시·도 거주 시작일을 맞춰 둔다 (기능: residence_v2) */
+function syncHome(p){
+  if (!on('residence_v2')) return p;
+  if (!p.homeSido && p.seoul === true) p.homeSido = '서울';            // 예전에 '서울 거주 예'라고 답한 사람
+  if (p.homeSido) {
+    p.seoul = p.homeSido === '서울';
+    p.homeArea = ['서울', '부산'].includes(p.homeSido) ? 'seoul_busan' : ['인천', '대구', '광주', '대전', '울산'].includes(p.homeSido) ? 'metro' : 'other';
+    if (!CAPITAL3.includes(p.homeSido) && p.sidoOwnSince) p.sidoSince = p.sidoOwnSince;   // 수도권 밖은 시·도 전입일 = 시·도 거주 시작일
+  }
+  return p;
+}
+function save(){ store.set('cy-profile', syncHome(S.profile)); }
 
 document.addEventListener('keydown', ev => { if (ev.key === 'Escape' && S.sheet) { S.sheet = null; render(); } });
 document.addEventListener('click', ev => {
@@ -2302,7 +2368,7 @@ document.addEventListener('click', ev => {
   }
   if (a === 'wipe') { if (!confirm('이 기기에 저장된 내 정보를 모두 지울까요?')) return; try { localStorage.removeItem('cy-profile'); localStorage.removeItem('cy-watch'); } catch(e) {} WATCH.clear(); S.profile = Object.assign({}, DEFAULT_PROFILE); S.step = 0; go('onboard'); return; }
   if (a === 'install' && installEvt) { const e = installEvt; installEvt = null; e.prompt(); (e.userChoice || Promise.resolve()).then(() => render()); track({ path:'install', event:true }); return; }
-  if (a === 'sp-home') { S.edit = null; const i = visibleSteps().findIndex(x => x.id === 'sp5'); S.step = Math.max(0, i); go('onboard'); return; }
+  if (a === 'sp-home') { S.edit = null; let i = visibleSteps().findIndex(x => x.id === 'sp5'); if (i < 0) i = visibleSteps().findIndex(x => x.id === 'home'); S.step = Math.max(0, i); go('onboard'); return; }
   if (a === 'sp-input') { S.edit = null; const i = visibleSteps().findIndex(x => x.id === 'sp1'); S.step = Math.max(0, i); go('onboard'); return; }
   if (a === 'restart') { S.step = 0; S.edit = null; go('onboard'); }
   if (a === 'edit-done') { save(); S.edit = null; track({ path:'profile-edit', event:true }); go('me'); return; }
@@ -2365,7 +2431,7 @@ function fromApi(x){
     sido:x.sido || null, district:x.district || null, supplyType:x.supply_type || x.kind,
     mktComps:x.mkt_comps || [], mktCount:x.mkt_count || 0, mktDirectExcluded:x.mkt_direct_excluded || 0, mktBasis:x.mkt_basis || null, jeonseComps:x.jeonse_comps || [],
     noticePdf:x.notice_pdf || null, category:x.category || null, area:x.area || null, accountMonths:x.account_months || null, depositCount:x.deposit_count || null, competition:x.competition || null, areaComps:Array.isArray(x.area_comps) ? x.area_comps : null, unitName:x.unit, address:x.address || '', geo:x.geo || null, nearby:Array.isArray(x.nearby) ? x.nearby : null, mapQuery:x.map_query || null, fromNotice:x.from_notice || [], checks:x.checks || [],
-    specialApply:x.special_apply || null, houseDtl:x.house_dtl || null, rentSecd:x.rent_secd || null, applyEnd:x.apply_end || null, unit:x.unit + (x.households ? ' · ' + x.households + '세대' : ''), specialUnits:x.special_units || null,
+    specialApply:x.special_apply || null, houseDtl:x.house_dtl || null, rentSecd:x.rent_secd || null, applyEnd:x.apply_end || null, unit:x.unit + (x.households ? ' · ' + x.households + '세대' : ''), specialUnits:x.special_units || null, residence:x.residence || null,
     notice:x.notice, apply:x.apply, winner:x.winner, contract:x.contract, balance:x.balance,
     price:x.price, ext:x.ext || 0, contractRate:x.contract_rate || 0.1, midRate:x.mid_rate || 0,
     mktLow:x.mkt_low, mktBase:x.mkt_base, mktNote:x.mkt_note || '', jeonse:x.jeonse, jeonseNote:x.jeonse_note || '',
@@ -2376,6 +2442,7 @@ function fromApi(x){
 render();
 fetch('config.json', { cache:'no-store' }).then(r => r.ok ? r.json() : null).then(c => {
   if (c) CONFIG = Object.assign(CONFIG, c);
+  syncHome(S.profile);   // 설정을 읽은 뒤 예전 '서울 거주' 답을 사는 곳으로 옮김 (기기에만 반영, 저장은 다음 입력 때)
   if (on('analytics')) { if (CONFIG.cf_beacon) initCF(CONFIG.cf_beacon); else initGC(CONFIG.goatcounter); }
   if (c && ['feed', 'alerts', 'detail', 'grades', 'me'].includes(S.view)) render();
 }).catch(() => {});

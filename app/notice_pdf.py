@@ -182,4 +182,129 @@ def parse_notice(text: str) -> dict:
         won = amts.pop()
         if 1_000_000 <= won <= 200_000_000:
             out["ext"] = round(won / 100_000_000, 4)
+
+    res = parse_residence(text)
+    if res:
+        out["residence"] = res
     return out
+
+
+# ---- 거주 지역 요건 (기능: residence_v2) ----
+# 공고문 첫머리 '해당지역 / 기타지역' 표나 LH 공고의 '지역우선 공급기준' 표를 그대로 읽는다.
+# 근거: 공고문이 인용하는 「주택공급에 관한 규칙」 제4조(공급대상)·제25조·제34조(대규모 택지개발지구 우선공급).
+# 실제 문장 예 (evidence/notices):
+#  민영 표   "해당지역 기타지역 규제지역여부 민영 서울특별시 2년 이상 계속 거주자 (2024.08.28. 이전부터 계속 거주)
+#             서울특별시 2년 미만 거주자, 경기도 및 인천광역시 거주자 투기과열지구"
+#  국민 표   "주택유형 해당지역 기타경기 기타지역 규제지역여부 국민주택 (공공분양) 경기도 평택시 1년 이상 계속 거주자 (2025.09.11. 이전부터 계속 거주)
+#             경기도 6개월 이상 거주자 (2026.03.11. 이전부터 계속 거주) 경기도 6개월 미만 거주자 및 전국 거주자 비규제지역"
+#  LH 표     "① 해당 주택건설지역 (양주시) 30% ․ 공고일 현재 양주시 1년 이상 거주자 - 주민등록표등본상 ‘25.8.27 이전부터 …
+#             ② 경기도 20% ․ 공고일 현재 경기도 6개월 이상 거주자 - 주민등록표등본상 ‘26.2.27 이전부터 … ③ 기타지역(수도권) 50% …"
+#  무순위    "입주자모집공고일 현재 전국에 거주하는 무주택세대구성원", "현재 해당 주택건설지역인 경기도 광명시에 거주하는"
+SIDO_NAMES = [
+    ("서울특별시", "서울"), ("서울시", "서울"), ("부산광역시", "부산"), ("대구광역시", "대구"), ("인천광역시", "인천"), ("인천시", "인천"),
+    ("광주광역시", "광주"), ("대전광역시", "대전"), ("울산광역시", "울산"), ("세종특별자치시", "세종"), ("경기도", "경기"),
+    ("강원특별자치도", "강원"), ("강원도", "강원"), ("충청북도", "충북"), ("충청남도", "충남"), ("전북특별자치도", "전북"),
+    ("전라북도", "전북"), ("전라남도", "전남"), ("경상북도", "경북"), ("경상남도", "경남"), ("제주특별자치도", "제주"),
+]
+CAPITAL = ["서울", "경기", "인천"]
+_REG_END = r"(?:비규제지역|투기과열지구|청약과열지역|조정대상지역|규제지역)"
+
+
+def _regions(text: str) -> list[str]:
+    """글에 나오는 시·도 (수도권은 서울·경기·인천, '전국'은 전국)."""
+    if "전국" in text:
+        return ["전국"]
+    out: list[str] = []
+    if "수도권" in text:
+        out += CAPITAL
+    for long, short in SIDO_NAMES:
+        if long in text and short not in out:
+            out.append(short)
+    return out
+
+
+def _area(words: str) -> dict:
+    """'경기도 성남시' → {'sido':'경기','sigungu':'성남시'}, '서울특별시' → {'sido':'서울'}, '전주시' → {'sigungu':'전주시'}."""
+    w = re.sub(r"^(?:기존|입주자모집공고일현재|입주자모집공고일 현재|공고일 현재)\s*", "", words.strip())
+    out: dict = {"name": w}
+    for long, short in SIDO_NAMES:
+        if w.startswith(long):
+            out["sido"] = short
+            w = w[len(long):].strip()
+            break
+    m = re.match(r"([가-힣]+(?:시|군))(?:\s|$)", w)
+    if m:
+        out["sigungu"] = m.group(1)
+    return out
+
+
+def _ymd(y, m, d) -> str:
+    y = int(y)
+    return _date(y + 2000 if y < 100 else y, m, d)
+
+
+def parse_residence(text: str) -> Optional[dict]:
+    """공고문의 거주 지역 요건. 못 읽으면 None (추측하지 않음).
+    {'area': {'name','sido','sigungu'}, 'months': 해당지역 거주기간(0=기간 없음), 'since': 'YYYY-MM-DD'(이날 이전부터 계속 거주),
+     'gyeonggi': {'months','since'} (대규모 택지의 경기도 몫), 'others': 기타지역 시·도 목록(['전국'] 가능), 'quota': {'해당':%,'경기':%,'기타':%}}"""
+    t = re.sub(r"\s+", " ", text)
+    # 1) 민영·국민 요약 표
+    m = re.search(r"해당지역 (기타경기 )?기타지역 규제지역 ?여부 (?:민영(?:주택)?|국민주택 ?\(공공분양\)|국민주택|공공분양) (.+?) " + _REG_END, t)
+    if m and len(m.group(2)) < 400:
+        mid = m.group(2)
+        a = re.match(r"(?:입주자모집공고일 현재 )?(?:기존 )?((?:[가-힣]+(?:특별시|광역시|특별자치시|특별자치도|도))?(?: ?[가-힣]+(?:시|군))?)", mid)
+        area = _area(a.group(1)) if a and a.group(1) else None
+        if not area:
+            return None
+        head = re.search(r"거주자\s*(?:\d\s*)?(?:\([^)]*\)|이전부터 계속 ?거주\s*\([^)]*\))?", mid)
+        hpart = mid[:head.end()] if head else mid
+        rest = mid[head.end():] if head else ""
+        yrs = re.search(r"(\d{1,2})\s*년\s*이상|년\s*이상\s*거주자\s*(\d)", hpart)
+        mos = re.search(r"(\d{1,2})\s*개월\s*이상", hpart)
+        months = int(yrs.group(1) or yrs.group(2)) * 12 if yrs else (int(mos.group(1)) if mos else 0)
+        sd = re.search(r"\((\d{4})\.(\d{1,2})\.(\d{1,2})\.?\s*\)?(?:\s*이전부터)?", hpart)
+        out = {"area": area, "months": months, "since": _ymd(*sd.groups()) if (sd and months) else None}
+        if m.group(1):   # 기타경기 칸
+            g = re.search(r"경기도 (\d+)개월 이상 거주자 ?\((\d{4})\.(\d{1,2})\.(\d{1,2})", rest)
+            if g:
+                out["gyeonggi"] = {"months": int(g.group(1)), "since": _ymd(*g.groups()[1:])}
+                rest = rest[g.end():]
+        out["others"] = _regions(rest)
+        return out
+    # 2) LH 지역우선 공급기준 표
+    m = re.search(r"① ?해당 ?주택건설지역 ?\(([^)]+)\) ?(\d{1,3}) ?% ?․? ?(.{0,200})", t)
+    if m:
+        area = _area(m.group(1))
+        body = m.group(3).split("②")[0]
+        yrs = re.match(r"공고일 현재 (?:주민등록표등본상 )?\S+ ?(?:(\d{1,2})년 이상|(\d{1,2})개월 이상)? ?거주자", body)
+        months = (int(yrs.group(1)) * 12 if yrs.group(1) else int(yrs.group(2) or 0)) if yrs else 0
+        sd = re.search(r"주민등록표등본상 [‘’'`](\d{2})\.(\d{1,2})\.(\d{1,2})\.? ?이전부터", body)
+        out = {"area": area, "months": months, "since": _ymd(*sd.groups()) if (sd and months) else None,
+               "quota": {"해당": int(m.group(2))}}
+        after = t[m.start():m.start() + 1500]
+        g = re.search(r"② ?경기도 ?(\d{1,3}) ?% ?․? ?공고일 현재 경기도 (\d+)개월 이상 거주자 - 주민등록표등본상 [‘’'`](\d{2})\.(\d{1,2})\.(\d{1,2})", after)
+        if g:
+            out["gyeonggi"] = {"months": int(g.group(2)), "since": _ymd(*g.groups()[2:])}
+            out["quota"]["경기"] = int(g.group(1))
+        o = re.search(r"[②③] ?기타지역(?:\([^)]*\))? ?(\d{1,3}) ?% ?․? ?공고일 현재 (.{0,140})", after)
+        if o:
+            out["quota"]["기타"] = int(o.group(1))
+            txt = o.group(2).split("※")[0]
+            out["others"] = _regions(txt)
+        else:
+            out["others"] = []
+        return out
+    # 3) 무순위·재공급·취소분: 대상자 문장 (기간 요건 없음). 지역이 여럿이면 우선순위 없이 모두 신청 가능(equal)
+    #    예: "입주자모집공고일 현재 부산광역시 및 울산광역시, 경상남도에 거주하는 무주택세대구성원",
+    #        "모집공고일 현재 과천시에 거주 주민등록표등본 기준 하는 무주택세대구성원", "현재 ( ) 충청북도에 거주하는 무주택"
+    for m in re.finditer(r"공고일 ?현재 (?:\( ?\) )?(?:해당 주택건설지역인 )?([^.■※]{2,70}?)에 ?거주(?:하거나 ([^.■※]{2,80}?)에 ?거주)?[^.■]{0,30}?무주택", t):
+        first, more = m.group(1).strip(), (m.group(2) or "")
+        if "전국" in first:
+            return {"area": None, "months": 0, "since": None, "others": ["전국"], "equal": True}
+        regs = _regions(first + " " + more)
+        single = _area(first)
+        if not more and len(regs) <= 1 and (single.get("sido") or single.get("sigungu")):
+            return {"area": single, "months": 0, "since": None, "others": [], "equal": True}
+        if regs:
+            return {"area": _area(first) if more else None, "months": 0, "since": None, "others": regs, "equal": not more}
+    return None
