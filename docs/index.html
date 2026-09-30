@@ -2117,6 +2117,7 @@ function marginV2(L, m, barCost, barLo){
       ${step('시세 (보수 / 기준)', unknown ? '확인 필요' : fmt(L.mktLow) + ' / ' + fmt(L.mktBase), L.sample ? src(null, ['샘플 값', null]) : src('rtms'), 'mkt')}
       ${unknown ? '' : step('차이', `<span class="mgdiff g-${m.g}">${sgn(m.lo)} ~ ${sgn(m.hi)}</span>`, '시세 − 실매입가', 'diff')}
     </div>
+    ${on('margin_caveat') && !unknown ? '<p class="small muted" style="margin:6px 0 0">세전 추정 차이예요. 양도소득세, 보유 비용(재산세 등), 대출이자, 중개수수료는 빼지 않았고, 전매 제한·실거주 의무 기간에는 팔 수 없어요. 확정 수익이 아니에요.</p>' : ''}
     ${unknown ? '' : `<div class="bar" role="img" aria-label="실매입가 ${fmt(m.cost)}, 기준 시세 ${fmt(L.mktBase)}"><i style="width:${barCost}%;background:var(--fg)"></i><i style="width:${barLo}%;background:var(--lotto)"></i></div>
       <div class="legend"><span><i style="background:var(--fg)"></i>실매입가</span><span><i style="background:var(--lotto)"></i>보수 마진</span><span><i style="background:var(--lotto-soft);outline:1px solid var(--line)"></i>기준 시세까지</span></div>`}
     ${L.mktComps && L.mktComps.length ? `<div class="mgbasis">${basisTag(L)}<span class="small">근거 거래 ${L.mktCount}건</span>${few ? '<span class="small st-warn">· 거래가 적어 신뢰도 낮음</span>' : ''}</div>` : ''}
@@ -2139,7 +2140,7 @@ function vDetail(){
   if (!hasProfile()) mine = `<div class="note info"><b>내 조건을 넣으면 이 공고의 자격·자금을 판정해요</b><div>입력한 정보는 이 기기에만 저장돼요.</div><div style="margin-top:6px"><button class="btn sm" data-action="restart">내 조건 입력하기</button></div></div>`;
   else if (!e.ok) mine = `<div class="note fail"><b>${e.rank2 ? (m.g === 'lotto' || m.g === 'consider' ? '하지만 1순위로는 신청 불가 (2순위는 가능)' : '1순위로는 신청 불가 (2순위는 가능)') : m.g === 'lotto' || m.g === 'consider' ? '하지만 나는 이번 공고 신청 불가' : '나는 이번 공고 신청 불가'}</b><div>${esc(e.reason)}</div>${e.fix ? `<div class="inner"><b style="font-size:13px">다음 공고부터 가능하게 하려면</b><br>${esc(e.fix)}</div>` : ''}</div>`;
   else if (m.g === 'unknown') mine = `<div class="note warn"><b>${okWord} 시세를 확인해야 해요</b><div>${esc(L.mktNote)}</div></div>`;
-  else if (m.g === 'pass' || m.g === 'flat') mine = `<div class="note warn"><b>${okWord} ${m.g === 'pass' ? '시세보다 비싸요' : '마진이 거의 없어요'}</b><div>당첨되면 재당첨 제한이 걸려요. 실거주 목적이 아니면 통장을 아끼세요.</div></div>`;
+  else if (m.g === 'pass' || m.g === 'flat') mine = `<div class="note warn"><b>${okWord} ${m.g === 'pass' ? '시세보다 비싸요' : '마진이 거의 없어요'}</b><div>${on('margin_caveat') ? '당첨되면 재당첨 제한이 걸려 한동안 다른 청약에 당첨될 수 없어요.' : '당첨되면 재당첨 제한이 걸려요. 실거주 목적이 아니면 통장을 아끼세요.'}</div></div>`;
   else if (gap > 0) mine = `<div class="note warn"><b>${okWord} 자금 ${fmt(gap)} 부족</b><div>${o.mode === 'live' ? '잔금대출' : '전세 활용'} 기준이에요. 부족분 조달처를 확보한 뒤 신청하세요.</div></div>`;
   else if (on('eligibility_caution')) {   // 판정하지 않은 항목이 없으면 '확인 필요'라고 하지 않는다 (2026-09-30 문구 수정)
     const pend = pendingChecks(L, p), gen = pend.filter(x => !((typeof PEND_INFO !== 'undefined' && PEND_INFO[x]) || {}).sp), sp = pend.length - gen.length;
@@ -2276,12 +2277,12 @@ function vGrades(){
   return `
   <div class="top"><div class="brand">등급 기준</div></div>
   <div class="stack" style="gap:6px"><h1>마진 = 보수 시세 − 실매입가</h1>
-  <p class="muted" style="margin:0;font-size:14px">실매입가는 분양가에 확장비와 취득세를 더한 금액이에요. 보수 시세는 인근 거래 중 낮은 쪽을 써요.</p></div>
+  <p class="muted" style="margin:0;font-size:14px">실매입가는 분양가에 확장비와 취득세를 더한 금액이에요. 보수 시세는 인근 거래 중 낮은 쪽을 써요.${on('margin_caveat') ? ' 세전 추정 차이예요. 양도소득세, 보유 비용(재산세 등), 대출이자, 중개수수료는 빼지 않았고, 전매 제한·실거주 의무 기간에는 팔 수 없어요. 확정 수익이 아니에요.' : ''}</p></div>
   <div class="stack">
-    ${g('lotto', '마진 ' + RULES.lottoAbs + '억 이상 또는 마진율 ' + RULES.lottoRate*100 + '% 이상', '자격이 되면 넣을 만해요. 단, 자금 계획부터 세우세요')}
-    ${g('consider', '마진 ' + RULES.considerAbs + '억 ~ ' + RULES.lottoAbs + '억', '재당첨 제한과 실거주 계획을 따져보고 결정')}
-    ${g('flat', '마진 0 ~ ' + RULES.considerAbs + '억', '시세 수준. 실거주 목적이 아니면 통장 아끼기')}
-    ${g('pass', '마진 마이너스', '분양가가 시세보다 비싸요. 넣지 마세요')}
+    ${g('lotto', '마진 ' + RULES.lottoAbs + '억 이상 또는 마진율 ' + RULES.lottoRate*100 + '% 이상', on('margin_caveat') ? '현재 추정 시세보다 실매입가가 크게 낮아요. 자격·자금은 공고마다 따로 판정해요' : '자격이 되면 넣을 만해요. 단, 자금 계획부터 세우세요')}
+    ${g('consider', '마진 ' + RULES.considerAbs + '억 ~ ' + RULES.lottoAbs + '억', on('margin_caveat') ? '현재 추정 시세보다 실매입가가 낮아요. 재당첨 제한·실거주 의무도 함께 확인하세요' : '재당첨 제한과 실거주 계획을 따져보고 결정')}
+    ${g('flat', '마진 0 ~ ' + RULES.considerAbs + '억', on('margin_caveat') ? '현재 추정 시세와 실매입가가 비슷해요' : '시세 수준. 실거주 목적이 아니면 통장 아끼기')}
+    ${g('pass', '마진 마이너스', on('margin_caveat') ? '현재 추정 시세보다 실매입가가 높아요' : '분양가가 시세보다 비싸요. 넣지 마세요')}
   </div>
   <div class="note info"><b>등급과 내 자격은 따로 보여줘요</b><div>등급은 단지 자체의 가치예요. 로또여도 내 자격이나 자금이 안 되면 카드 아래에 이유를 함께 표시해요.</div></div>
   <div class="srcs">${src(null, ['등급 기준은 이 서비스가 정한 값', null])}${src('rtms')}${src('localTax')}</div>
