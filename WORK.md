@@ -4,6 +4,14 @@
 2026-09-29 12:55 이전 항목은 규칙을 만들기 전 작업을 커밋 기록으로 정리한 것이라 백업 브랜치가 없어요.
 그 시점으로 되돌릴 때는 해당 커밋 번호로 `git revert` 를 써요.
 
+## 2026-09-30 11:05 · 홈 화면에 추가 (PWA)
+- 요청: 급매캐치 벤치마킹 — 앱으로 받기(홈 화면 추가 안내)
+- 변경: manifest.webmanifest·아이콘(192·512·maskable·apple-touch·favicon, 직접 그린 집+체크 모양)·theme-color 추가. 내 정보 화면에 '홈 화면에 추가' 카드: 안드로이드 크롬은 설치 버튼(beforeinstallprompt), 아이폰은 Safari 공유 메뉴 안내(홈 화면 앱은 저장 공간이 따로라 정보 재입력 필요 안내), 카카오톡 인앱은 다른 브라우저로 열기 안내. 이미 홈 화면에서 열었으면 숨김. 서비스 워커는 넣지 않음(오래된 공고가 캐시에 남는 위험)
+- 파일: docs/index.html, docs/config.json, docs/manifest.webmanifest, docs/icon-192.png, docs/icon-512.png, docs/icon-maskable-512.png, docs/apple-touch-icon.png, docs/favicon.png, FEATURES.md
+- 확인: manifest JSON 검사·200 응답, 크롬/아이폰/카카오톡 UA 로 안내 문구 확인, 아이콘 이미지 확인, 스크립트 문법 검사, pytest 통과. 실제 설치는 휴대폰 확인 필요
+- 기능: pwa (스위치는 안내 카드만 끔. manifest·아이콘 링크는 켜진 상태로 남음)
+- 백업: backup/20260930-1105-pwa
+
 ## 2026-09-30 11:04 · 카드 뱃지·마진율
 - 요청: 급매캐치 벤치마킹 — 카드 칩(무순위·특공·제약 등)과 마진을 크게
 - 변경: 목록 카드에 뱃지 줄(무순위·특별공급·규제지역·분양가상한제·재당첨 제한 N년·실거주 의무). 모두 수집 데이터(category·special_apply·regulated·price_cap·limits)에 있는 값만 쓰고, 데이터가 없는 추첨 비율·전매제한은 표시하지 않음. 등급 배지 아래 보수 기준 마진율(%)

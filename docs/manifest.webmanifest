@@ -1,0 +1,16 @@
+{
+  "name": "청약판정",
+  "short_name": "청약판정",
+  "description": "청약 공고의 자격·마진·자금을 참고용으로 판정해요.",
+  "lang": "ko",
+  "start_url": "./",
+  "scope": "./",
+  "display": "standalone",
+  "background_color": "#F1F3F1",
+  "theme_color": "#15181A",
+  "icons": [
+    { "src": "icon-192.png", "sizes": "192x192", "type": "image/png" },
+    { "src": "icon-512.png", "sizes": "512x512", "type": "image/png" },
+    { "src": "icon-maskable-512.png", "sizes": "512x512", "type": "image/png", "purpose": "maskable" }
+  ]
+}

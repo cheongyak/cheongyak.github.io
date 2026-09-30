@@ -4,6 +4,12 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <title>청약판정</title>
+<link rel="manifest" href="manifest.webmanifest">
+<link rel="icon" type="image/png" href="favicon.png">
+<link rel="apple-touch-icon" href="apple-touch-icon.png">
+<meta name="theme-color" content="#15181A">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-title" content="청약판정">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+KR:wght@400;500;600;700&display=swap">
@@ -1154,6 +1160,19 @@ function vGrades(){
   <p class="foot">시세는 추정치이며 판정은 참고용이에요. 최종 판단은 모집공고문 기준으로 하세요.</p>`;
 }
 
+/* 홈 화면에 추가 안내 (기능: pwa). 안드로이드 크롬은 설치 버튼, 아이폰은 공유 메뉴 안내 */
+let installEvt = null;
+window.addEventListener('beforeinstallprompt', e => { e.preventDefault(); installEvt = e; if (S.view === 'me') render(); });
+const isStandalone = () => (window.matchMedia && matchMedia('(display-mode: standalone)').matches) || navigator.standalone === true;
+function installCard(){
+  if (!on('pwa') || isStandalone()) return '';
+  const ios = /iphone|ipad|ipod/i.test(navigator.userAgent), kakao = /KAKAOTALK/i.test(navigator.userAgent);
+  const how = kakao ? '카카오톡 안에서는 추가가 안 돼요. 카카오톡 브라우저 메뉴(⋯)에서 <b>다른 브라우저로 열기</b>를 누른 뒤 추가하세요.'
+    : ios ? 'Safari 아래쪽 <b>공유 버튼(□↑)</b> → <b>홈 화면에 추가</b>를 누르세요.'
+    : '브라우저 오른쪽 위 <b>⋮ 메뉴</b> → <b>홈 화면에 추가</b>(또는 앱 설치)를 누르세요.';
+  return `<section class="card"><h2>홈 화면에 추가</h2><p class="small" style="margin:4px 0 8px">앱 설치 없이 홈 화면 아이콘으로 바로 열 수 있어요.${ios ? ' 아이폰은 홈 화면에서 연 화면에 내 정보를 한 번 더 입력해야 해요 (Safari와 저장 공간이 따로예요).' : ''}</p>
+    ${installEvt ? '<button class="btn" data-action="install">홈 화면에 추가하기</button>' : `<p class="small" style="margin:0">${how}</p>`}</section>`;
+}
 function vMe(){
   const p = S.profile, yn = v => v ? '예' : '아니요';
   const hh = { head:'세대주', parents:'부모님 세대의 세대원', spouse:'배우자 세대의 세대원', other:'기타' }[p.household];
@@ -1179,6 +1198,7 @@ function vMe(){
     <dt>생애최초</dt><dd>${yn(p.firstTime)}</dd>
   </dl></section>
   <button class="btn" data-action="restart">인터뷰 다시 하기</button>
+  ${installCard()}
   <p class="foot">입력한 정보는 이 브라우저에만 저장돼요.${aboutLink()}</p>`;
 }
 
@@ -1397,6 +1417,7 @@ document.addEventListener('click', ev => {
     return;
   }
   if (a === 'wipe') { if (!confirm('이 기기에 저장된 내 정보를 모두 지울까요?')) return; try { localStorage.removeItem('cy-profile'); localStorage.removeItem('cy-watch'); } catch(e) {} WATCH.clear(); S.profile = Object.assign({}, DEFAULT_PROFILE); S.step = 0; go('onboard'); return; }
+  if (a === 'install' && installEvt) { const e = installEvt; installEvt = null; e.prompt(); (e.userChoice || Promise.resolve()).then(() => render()); track({ path:'install', event:true }); return; }
   if (a === 'restart') { S.step = 0; go('onboard'); }
   if (a === 'prev') { if (S.step === 0) go('me'); else { S.step--; render(); } }
   if (a === 'next') { const n = visibleSteps().length; if (S.step >= n - 1) { save(); track({ path:'onboard-done', event:true }); go('feed'); } else { S.step++; render(); } }
