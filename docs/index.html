@@ -2859,7 +2859,37 @@ function trackView(){
   const path = S.view === 'feed' ? (S.feedMode === 'map' && mapReady() ? '/map' : '/') : (S.view === 'detail' || S.view === 'plan') ? '/' + S.view + '/' + nid : '/' + S.view;
   track({ path, title: L && (S.view === 'detail' || S.view === 'plan') ? L.name : document.title });
 }
-function go(v){ S.view = v; if (v !== 'feed') S.sheet = null; render(); }
+function go(v){
+  const prev = S.view, prevId = S.id, y = window.scrollY;
+  S.view = v; if (v !== 'feed') S.sheet = null; render();
+  if (prev !== v || (NAV_ID_VIEWS.includes(v) && prevId !== S.id)) navPush(y);
+}
+/* 뒤로가기·주소 (기능: history_nav). 화면을 바꿀 때 브라우저 기록에 남겨 뒤로가기가 사이트 안에서 이전 화면으로 돌아가게 한다.
+   주소: 목록 = 사이트 주소 그대로, 공고 = #/detail/<주택형 id>, 그 밖 = #/<화면>. 새로고침·공유 링크는 데이터를 읽은 뒤 그 화면을 연다 */
+const NAV_ID_VIEWS = ['detail', 'plan'];
+const NAV_VIEWS = ['feed', 'detail', 'plan', 'grades', 'me', 'about', 'story', 'terms', 'privacy', 'trend', 'alerts', 'compare'];
+let navPopping = false, navPending = null;
+function navUrl(v){ return v === 'feed' ? location.pathname + location.search : '#/' + v + (NAV_ID_VIEWS.includes(v) && S.id ? '/' + encodeURIComponent(S.id) : ''); }
+function navPush(prevY){
+  if (!on('history_nav') || navPopping) return;
+  try {
+    history.replaceState(Object.assign({}, history.state || {}, { y: prevY }), '');   // 돌아왔을 때 목록 스크롤 위치
+    history.pushState({ nav:1, v: S.view, id: S.id || null, y: 0 }, '', navUrl(S.view));
+  } catch(e) {}
+}
+function navParse(h){ const m = /^#\/([a-z]+)(?:\/(.+))?$/.exec(h || ''); return m && NAV_VIEWS.includes(m[1]) ? { v: m[1], id: m[2] ? decodeURIComponent(m[2]) : null } : null; }
+function navApply(st, fromPop){
+  const L = st.id ? LISTINGS.find(x => x.id === st.id) : null;
+  if (NAV_ID_VIEWS.includes(st.v) && !L) return false;
+  navPopping = true; S.sheet = null; if (L) S.id = L.id; S.view = st.v; render(); navPopping = false;
+  if (fromPop && st.y) requestAnimationFrame(() => window.scrollTo(0, st.y));
+  return true;
+}
+window.addEventListener('popstate', ev => {
+  if (!on('history_nav')) return;
+  const st = (ev.state && ev.state.nav) ? ev.state : (navParse(location.hash) || { v:'feed' });
+  if (!navApply(st, true)) { navApply({ v:'feed' }, true); try { history.replaceState({ nav:1, v:'feed', id:null, y:0 }, '', location.pathname + location.search); } catch(e) {} }
+});
 /* 사는 곳 하나로 합친 뒤 예전 값(서울 거주·예치금 지역)과 특별공급 시·도 거주 시작일을 맞춰 둔다 (기능: residence_v2) */
 function syncHome(p){
   if (!on('residence_v2')) return p;
@@ -2986,6 +3016,8 @@ function fromApi(x){
     limits:(x.limits || []).map(l => [l[0], l[1]]), sources: x.url ? [['모집공고 (청약홈)', x.url]] : [] };
 }
 render();
+try { navPending = navParse(location.hash); if (!(history.state && history.state.nav)) history.replaceState({ nav:1, v: S.view, id: null, y: 0 }, ''); } catch(e) {}   // 기능: history_nav
+if (navPending && !NAV_ID_VIEWS.includes(navPending.v) && on('history_nav') && S.view !== 'onboard') { navApply(navPending); try { history.replaceState({ nav:1, v: S.view, id: null, y: 0 }, ''); } catch(e) {} navPending = null; }
 fetch('config.json', { cache:'no-store' }).then(r => r.ok ? r.json() : null).then(c => {
   if (c) CONFIG = Object.assign(CONFIG, c);
   syncHome(S.profile);   // 설정을 읽은 뒤 예전 '서울 거주' 답을 사는 곳으로 옮김 (기기에만 반영, 저장은 다음 입력 때)
@@ -3002,6 +3034,11 @@ fetch('listings.json', { cache:'no-store' }).then(r => r.ok ? r.json() : null).t
   DATA_SOURCE = { live:true, updated: upd };
   S.plan = {}; S.f = Object.assign({}, F0); if (S.view === 'detail' || S.view === 'plan') S.view = 'feed';
   render();
+  if (navPending && on('history_nav')) {   // 공유 링크·새로고침: #/detail/<id> 를 데이터를 읽은 뒤 연다 (기능: history_nav)
+    const ok = navApply(navPending);
+    try { history.replaceState({ nav:1, v: S.view, id: ok ? S.id : null, y: 0 }, '', ok ? navUrl(S.view) : location.pathname + location.search); } catch(e) {}
+    navPending = null;
+  }
 }).catch(() => {});
 </script>
 
