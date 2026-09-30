@@ -239,6 +239,9 @@ input[type=date]{min-height:52px;border-radius:12px;border:1px solid var(--line)
 .scen{border-width:1px}
 .scen.mine{border:2px solid var(--fg);padding:15px}
 .pill{flex:none;padding:4px 8px;border-radius:6px;font-size:12px;font-weight:700;white-space:nowrap}
+/* 내 정보 항목별 수정 (기능: profile_sections) */
+.psec h2{display:flex;align-items:center;gap:8px} .psec h2 .linkbtn{margin-left:auto}
+.psec dl.kv{grid-template-columns:minmax(0,1fr) auto} .psec dl.kv dd{max-width:14em} .psec dl.kv dd.miss{color:var(--warn-ink);font-weight:600}
 .pill.fail{background:var(--pass-soft);color:var(--pass-ink)} .pill.warn{background:var(--warn-soft);color:var(--warn-ink)} .pill.ok{background:var(--lotto-soft);color:var(--lotto-ink)}
 .bar{height:14px;border-radius:7px;background:var(--lotto-soft);display:flex;overflow:hidden}
 .bar i{display:block;height:100%}
@@ -1763,7 +1766,39 @@ function chatCard(){
   if (!on('community_link') || !/^https:\/\/open\.kakao\.com\//.test(u || '')) return '';
   return `<a class="card linkcard" href="${esc(u)}" target="_blank" rel="noopener" data-ev="open-chat"><b>오픈카톡방</b><span class="small muted">청약 고민 나누기 · 사용 문의 · 건의</span></a>`;
 }
+/* 내 정보를 인터뷰 단계(주제)별로 보여 주고 단계 하나만 고칠 수 있게 (기능: profile_sections). 값 표시는 인터뷰 선택지 문구를 그대로 쓴다 */
+const stepKey = st => st.id || st.n || st.t;
+const optDate = fd => /비워두세요/.test(fd.l || '');
+function fieldValue(fd, p){
+  const v = p[fd.k];
+  if (fd.type === 'choice') { const o = fd.o.find(([x]) => JSON.stringify(x) === JSON.stringify(v)); return o ? { t:o[1] } : { t:'미입력', miss:true }; }
+  if (fd.type === 'date') return v ? { t:v } : optDate(fd) ? { t:'없음' } : { t:'미입력', miss:true };
+  if (fd.type === 'text') return v ? { t:v } : { t:'미입력', miss:true };
+  if (fd.type === 'count') return v == null ? { t:'미입력', miss:true } : { t:v + '회' };
+  if (fd.opt) return v == null ? { t:'입력 안 함' } : { t:fmt(eok(v)) };
+  return { t:fmt(eok(v || 0)) };
+}
+const fieldLabel = (fd, st) => (fd.l || st.n || st.t).replace(/\s*\([^)]*\)\s*$/, '');
+function vMeSections(){
+  const p = S.profile, steps = visibleSteps();
+  const cards = steps.map(st => {
+    const rows = st.f.filter(fd => !fd.show || fd.show(p)).map(fd => ({ l:fieldLabel(fd, st), ...fieldValue(fd, p) }));
+    const miss = rows.filter(r => r.miss).length;
+    return `<section class="card psec"><h2>${esc(st.n || st.t)}${miss ? `<span class="pill warn">입력 필요 ${miss}</span>` : ''}<button class="linkbtn" data-edit="${esc(stepKey(st))}" aria-label="${esc(st.n || st.t)} 수정">수정</button></h2>
+      <dl class="kv">${rows.map(r => `<dt>${esc(r.l)}</dt><dd${r.miss ? ' class="miss"' : ''}>${esc(r.t)}</dd>`).join('')}</dl></section>`;
+  }).join('');
+  const nMiss = steps.reduce((a, st) => a + st.f.filter(fd => (!fd.show || fd.show(p)) && fieldValue(fd, p).miss).length, 0);
+  return `
+  <div class="top"><div class="brand">내 정보</div></div>
+  <p class="small muted" style="margin:-4px 0 4px">항목마다 <b>수정</b>을 눌러 그 부분만 고칠 수 있어요. 바꾸면 모든 공고의 판정에 바로 반영돼요.${nMiss ? ` 아직 <b>${nMiss}개</b>가 비어 있어요.` : ''}</p>
+  ${cards}
+  <button class="btn ghost" data-action="restart">처음부터 다시 입력하기</button>
+  ${chatCard()}
+  ${installCard()}
+  <p class="foot">입력한 정보는 이 브라우저에만 저장돼요.${aboutLink()}</p>`;
+}
 function vMe(){
+  if (on('profile_sections')) return vMeSections();
   const p = S.profile, yn = v => v == null ? '미입력' : v ? '예' : '아니요';
   const hh = { head:'세대주', parents:'부모님 세대의 세대원', spouse:'배우자 세대의 세대원', other:'기타' }[p.household] || '미입력';
   return `
@@ -1816,70 +1851,70 @@ function vAlerts(){
 
 /* ---------- 온보딩 인터뷰 ---------- */
 const STEPS = [
-  { t:'서울에 살고 계세요?', d:'주민등록 기준이에요. 서울 공고는 대부분 서울 거주자만 넣을 수 있어요.',
+  { n:'서울 거주', t:'서울에 살고 계세요?', d:'주민등록 기준이에요. 서울 공고는 대부분 서울 거주자만 넣을 수 있어요.',
     f:[{ k:'seoul', type:'choice', o:[[true,'예, 서울이에요'],[false,'아니요']] }] },
-  { t:'주민등록상 지금 어떻게 살고 계세요?', d:'청약 자격은 모집공고일 기준 등본으로 판정돼요.',
+  { n:'세대 구성', t:'주민등록상 지금 어떻게 살고 계세요?', d:'청약 자격은 모집공고일 기준 등본으로 판정돼요.',
     f:[{ k:'household', type:'choice', o:[['head','내가 세대주예요'],['parents','부모님 세대의 세대원이에요'],['spouse','배우자 세대의 세대원이에요'],['other','기타']] }] },
-  { show:p => p.household === 'parents', t:'부모님에 대해 알려주세요', d:'부모님 나이에 따라 무주택 판정이 달라져요.',
+  { show:p => p.household === 'parents', n:'부모님', t:'부모님에 대해 알려주세요', d:'부모님 나이에 따라 무주택 판정이 달라져요.',
     f:[{ k:'parents60', type:'choice', l:'두 분 모두 만 60세 이상인가요?', o:[[true,'예'],[false,'아니요']], two:true },
        { k:'parentsOwn', type:'choice', l:'부모님 명의 주택이 있나요?', o:[[true,'있어요'],[false,'없어요']], two:true }],
     note:p => p.parents60 ? '만 60세 이상 부모님 소유 주택은 무주택 판정에서 빠져요. 세대주만 본인으로 바꾸면 무주택 세대주가 될 수 있어요. 집 명의는 바뀌지 않아요.' : '' },
-  { show:p => p.household === 'head', t:'언제부터 세대주였나요?', d:'공고일보다 늦게 세대주가 되면 그 공고에는 넣을 수 없어요.',
+  { show:p => p.household === 'head', n:'세대주가 된 날', t:'언제부터 세대주였나요?', d:'공고일보다 늦게 세대주가 되면 그 공고에는 넣을 수 없어요.',
     f:[{ k:'headSince', type:'date', l:'세대주가 된 날' }] },
-  { t:'집과 혼인 상태', d:'분양권과 입주권도 주택으로 봐요.',
+  { n:'집과 혼인', t:'집과 혼인 상태', d:'분양권과 입주권도 주택으로 봐요.',
     f:[{ k:'selfOwn', type:'choice', l:'본인 명의 주택이나 분양권이 있나요?', o:[[true,'있어요'],[false,'없어요']], two:true },
        { k:'married', type:'choice', l:'혼인신고를 했나요?', o:[[true,'했어요'],[false,'안 했어요']], two:true }],
     note:p => p.married === false ? '혼인신고 전이면 배우자 주택과 소득은 판정에 들어가지 않아요. 신고하는 순간부터 합산돼요.' : '' },
-  { show:p => p.married, t:'배우자 정보', d:'혼인신고를 하면 청약과 대출 모두 부부 합산으로 봐요.',
+  { show:p => p.married, n:'배우자', t:'배우자 정보', d:'혼인신고를 하면 청약과 대출 모두 부부 합산으로 봐요.',
     f:[{ k:'spouseOwn', type:'choice', l:'배우자 명의 주택이 있나요?', o:[[true,'있어요'],[false,'없어요']], two:true },
        { k:'spouseIncome', type:'money', l:'배우자 세전 연소득' }, { k:'spouseLoan', type:'money', l:'배우자 대출 월 상환액' }] },
-  { show:p => p.married && on('score'), t:'혼인신고일과 배우자 통장', d:'가점의 무주택기간과 통장 점수에 써요.',
+  { show:p => p.married && on('score'), n:'혼인신고일·배우자 통장', t:'혼인신고일과 배우자 통장', d:'가점의 무주택기간과 통장 점수에 써요.',
     f:[{ k:'marriedOn', type:'date', l:'혼인신고일' }, { k:'spouseAcctSince', type:'date', l:'배우자 청약통장 가입일 (없으면 비워두세요)' }] },
-  { show:p => on('account_rules'), t:'청약통장', d:'청약홈 → 청약자격확인 → 청약통장 순위(가입)확인서에서 가입일과 예치금을 볼 수 있어요.',
+  { show:p => on('account_rules'), n:'청약통장', t:'청약통장', d:'청약홈 → 청약자격확인 → 청약통장 순위(가입)확인서에서 가입일과 예치금을 볼 수 있어요.',
     f:[{ k:'acctType', type:'choice', l:'통장 종류', o:[['all','주택청약종합저축'],['deposit','청약예금'],['bugeum','청약부금'],['saving','청약저축'],['none','없어요']] },
        { k:'acctSince', type:'date', l:'가입일 (순위기산일)' }, { k:'acctAmount', type:'money', l:'지금 예치금 (납입 인정 금액)', h:'민영주택은 공고일까지 지역·면적별 금액을 채우면 돼요' },
        ...(on('public_deposit') ? [{ k:'acctCount', type:'count', l:'납입 인정 회차', h:'공공분양(LH 등)은 납입 횟수와 인정 금액으로 봐요. 순위(가입)확인서에 나와요' },
                                   { k:'acctPaid', type:'money', l:'납입 인정 금액 (한 달 25만원까지만 인정된 합계)' }] : []),
        { k:'recentWin', type:'choice', l:'재당첨 제한 기간인가요?', o:[[true,'예'],[false,'아니요']], two:true }] },
-  { show:p => on('score'), t:'가점 계산', d:'민영주택 1순위 가점(84점 만점)을 계산하는 데 써요. 공고의 당첨 가점과 비교해 드려요.',
+  { show:p => on('score'), n:'가점 계산', t:'가점 계산', d:'민영주택 1순위 가점(84점 만점)을 계산하는 데 써요. 공고의 당첨 가점과 비교해 드려요.',
     f:[{ k:'birth', type:'date', l:'생년월일' }, { k:'homeSoldOn', type:'date', l:'집을 가졌다가 처분한 적이 있다면 그 날 (없으면 비워두세요)' },
        { k:'dependents', type:'choice', l:'부양가족 수', o:[[0,'0명'],[1,'1명'],[2,'2명'],[3,'3명'],[4,'4명'],[5,'5명'],[6,'6명 이상']] }],
     note:() => '부양가족: 같은 등본의 배우자·미혼 자녀, 내가 세대주이고 3년 이상 같은 등본에 있는 집 없는 부모님.' },
-  { id:'sp1', show:p => on('special_eligibility'), t:'자녀와 가구 (특별공급)', d:'신생아·신혼부부·다자녀 특별공급 판정과 소득 기준(가구원수)에 써요.',
+  { id:'sp1', show:p => on('special_eligibility'), n:'자녀와 가구', t:'자녀와 가구 (특별공급)', d:'신생아·신혼부부·다자녀 특별공급 판정과 소득 기준(가구원수)에 써요.',
     f:[{ k:'kidsMinor', type:'choice', l:'만 19세 미만 자녀 수 (태아·입양 포함)', o:[[0,'없어요'],[1,'1명'],[2,'2명'],[3,'3명'],[4,'4명 이상']] },
        { k:'youngestBirth', type:'date', l:'가장 어린 자녀 생년월일 (없으면 비워두세요)' },
        { k:'pregnant', type:'choice', l:'지금 임신 중인가요?', o:[[true,'예'],[false,'아니요']], two:true },
        { k:'hhSize', type:'choice', l:'가구원수 (등본의 무주택 세대원 전원, 태아 포함)', o:[[1,'1명'],[2,'2명'],[3,'3명'],[4,'4명'],[5,'5명'],[6,'6명'],[7,'7명'],[8,'8명'],[9,'9명 이상']] }],
     note:() => '부모님은 1년 이상 같은 등본에 있어야 가구원수에 들어가요.' },
-  { id:'sp4', show:p => on('special_eligibility') && on('multichild_score') && p.kidsMinor >= 2, t:'다자녀 배점 (특별공급)', d:'다자녀가구 특별공급은 100점 배점표로 뽑아요.',
+  { id:'sp4', show:p => on('special_eligibility') && on('multichild_score') && p.kidsMinor >= 2, n:'다자녀 배점', t:'다자녀 배점 (특별공급)', d:'다자녀가구 특별공급은 100점 배점표로 뽑아요.',
     f:[{ k:'kidsUnder6', type:'choice', l:'만 6세 미만 자녀 수 (태아·입양 포함)', o:[[0,'없어요'],[1,'1명'],[2,'2명'],[3,'3명 이상']] },
        { k:'gen3', type:'choice', l:'무주택 부모님(배우자 부모님 포함)과 3년 이상 같은 등본이거나, 한부모 가족 5년 이상인가요?', o:[[true,'예'],[false,'아니요']], two:true },
        ] },
-  { id:'sp5', show:p => on('special_eligibility') && (on('special_position') || (on('multichild_score') && p.kidsMinor >= 2)), t:'사는 곳 (특별공급 점수)', d:'다자녀 배점과 공공분양 신혼부부·신생아 점수의 거주기간에 써요. 주민등록 기준이에요.',
+  { id:'sp5', show:p => on('special_eligibility') && (on('special_position') || (on('multichild_score') && p.kidsMinor >= 2)), n:'사는 곳', t:'사는 곳 (특별공급 점수)', d:'다자녀 배점과 공공분양 신혼부부·신생아 점수의 거주기간에 써요. 주민등록 기준이에요.',
     f:[{ k:'homeSido', type:'choice', l:'지금 사는 시·도', o:SIDO_ORDER.map(x => [x, x]), two:true },
        { k:'homeSigun', type:'text', l:'사는 시·군 (도 지역만, 예: 평택시·수원시)', show:p => p.homeSido && !METRO_SIDO.includes(p.homeSido) },
        { k:'sidoSince', type:'date', l:'그 시·도에 계속 살기 시작한 날 (수도권은 서울·경기·인천 안에서 옮긴 건 이어서)' },
        { k:'areaSince', type:'date', l:'그 시·군에 계속 살기 시작한 날', show:p => p.homeSido && !METRO_SIDO.includes(p.homeSido) }] },
-  { id:'sp2', show:p => on('special_eligibility'), t:'소득과 자산 (특별공급)', d:'특별공급은 세대 월평균 소득과 부동산(공공은 자동차도) 기준이 있어요.',
+  { id:'sp2', show:p => on('special_eligibility'), n:'세대 소득·자산', t:'소득과 자산 (특별공급)', d:'특별공급은 세대 월평균 소득과 부동산(공공은 자동차도) 기준이 있어요.',
     f:[{ k:'hhIncomeYear', type:'money', opt:true, l:'세대원 전원의 작년 세전 소득 합계', h:'비워두면 본인+배우자 연소득으로 추정해요. 같은 등본의 부모님 소득도 들어가요' },
        { k:'realEstate', type:'money', opt:true, l:'세대가 가진 부동산 가액 (건물+토지 공시가격)', h:'없으면 0' },
        { k:'carValue', type:'money', opt:true, l:'자동차 가액', h:'공공분양만 봐요. 없으면 0' }] },
-  { id:'sp3', show:p => on('special_eligibility'), t:'주택 이력과 부양 (특별공급)', d:'생애최초·노부모부양 특별공급 판정에 써요.',
+  { id:'sp3', show:p => on('special_eligibility'), n:'주택 이력·부양', t:'주택 이력과 부양 (특별공급)', d:'생애최초·노부모부양 특별공급 판정에 써요.',
     f:[{ k:'hhNeverOwned', type:'choice', l:'세대원 모두 지금까지 집을 가진 적이 없나요?', o:[[true,'없어요'],[false,'있어요']], two:true },
        { k:'taxYears5', type:'choice', l:'본인이 소득세를 5년 이상 냈나요? (끊겨도 합산)', o:[[true,'예'],[false,'아니요']], two:true },
        { k:'elder65', type:'choice', l:'만 65세 이상 부모님(배우자 부모님 포함)을 3년 이상 같은 등본에서 모시고 있나요?', o:[[true,'예'],[false,'아니요']], two:true }],
     note:() => '배우자가 혼인 전에 가졌다가 혼인 전에 판 집은 생애최초 이력에서 빼요.' },
-  { show:p => on('regulated_rules'), t:'세대의 주택과 당첨 이력', d:'서울 전역 등 투기과열지구·청약과열지역의 1순위는 등본에 함께 있는 세대 전체를 봐요.',
+  { show:p => on('regulated_rules'), n:'세대 주택·당첨 이력', t:'세대의 주택과 당첨 이력', d:'서울 전역 등 투기과열지구·청약과열지역의 1순위는 등본에 함께 있는 세대 전체를 봐요.',
     f:[{ k:'hhHomes', type:'choice', l:'세대 전체가 가진 주택 수 (분양권 포함)', o:[['0','없어요'],['1','1채'],['2+','2채 이상']] },
        { k:'win5y', type:'choice', l:'나나 세대원이 최근 5년 안에 청약에 당첨된 적이 있나요?', o:[[true,'있어요'],[false,'없어요']], two:true }] },
-  { show:p => on('account_rules') && !p.seoul, t:'주민등록상 사는 지역', d:'민영주택 예치금 기준이 사는 지역에 따라 달라요.',
+  { show:p => on('account_rules') && !p.seoul, n:'사는 지역 (예치금)', t:'주민등록상 사는 지역', d:'민영주택 예치금 기준이 사는 지역에 따라 달라요.',
     f:[{ k:'homeArea', type:'choice', o:[['seoul_busan','부산'],['metro','인천·대구·광주·대전·울산'],['other','경기·세종·그 밖의 시·군']] }] },
-  { show:p => !on('account_rules'), t:'청약 이력', d:'무순위는 청약통장이 없어도 되지만 1순위는 필요해요.',
+  { show:p => !on('account_rules'), n:'청약 이력', t:'청약 이력', d:'무순위는 청약통장이 없어도 되지만 1순위는 필요해요.',
     f:[{ k:'account', type:'choice', l:'청약통장 가입 2년 이상이고 예치금도 채웠나요?', o:[['yes','예'],['no','아니요'],['unknown','잘 모르겠어요']] },
        { k:'recentWin', type:'choice', l:'재당첨 제한 기간인가요?', o:[[true,'예'],[false,'아니요']], two:true }] },
-  { t:'바로 쓸 수 있는 돈', d:'계약금은 당첨 후 2주 안팎에 현금으로 내야 해요.',
+  { n:'바로 쓸 수 있는 돈', t:'바로 쓸 수 있는 돈', d:'계약금은 당첨 후 2주 안팎에 현금으로 내야 해요.',
     f:[{ k:'cash', type:'money', l:'예금·현금' }, { k:'liquid', type:'money', l:'주식·펀드·적금', h:'잔금일 전에 현금화할 수 있는 것만' }, { k:'deposit', type:'money', l:'돌려받을 전세보증금' }] },
-  { t:'소득과 대출', d:'대출 한도(DSR)를 계산하는 데 써요.',
+  { n:'소득과 대출', t:'소득과 대출', d:'대출 한도(DSR)를 계산하는 데 써요.',
     f:[{ k:'income', type:'money', l:'본인 세전 연소득', h:'휴직 중이면 작년 소득을 넣어주세요' }, { k:'loanMonthly', type:'money', l:'기존 대출 월 상환액' },
        { k:'firstTime', type:'choice', l:'집을 가져본 적이 없나요?', o:[[true,'없어요 (생애최초)'],[false,'있어요']], two:true }] }
 ];
@@ -1899,6 +1934,16 @@ function vOnboard(){
     return `<div class="field"><label for="f-${fd.k}">${fd.l}</label><div class="money"><input id="f-${fd.k}" inputmode="numeric" data-field="${fd.k}" data-num="1" value="${p[fd.k] || ''}" placeholder="0"><span>만원</span></div>${fd.h ? `<span class="hint">${fd.h}</span>` : ''}${p[fd.k] ? `<span class="hint" data-echo="${fd.k}">= ${fmt(eok(p[fd.k]))}</span>` : `<span class="hint" data-echo="${fd.k}"></span>`}</div>`;
   };
   const note = st.note && st.note(p);
+  if (on('profile_sections') && S.edit) {   // 내 정보에서 한 단계만 고칠 때
+    const es = steps.find(x => stepKey(x) === S.edit) || STEPS.find(x => stepKey(x) === S.edit);
+    if (es) { const en = es.note && es.note(p);
+      return `
+  <div class="stack" style="gap:6px;padding-top:8px"><div class="row small muted"><span>내 조건 수정 · ${esc(es.n || '')}</span></div><h1>${es.t}</h1><p class="muted" style="margin:0;font-size:14px">${es.d}</p></div>
+  ${es.f.filter(fd => !fd.show || fd.show(p)).map(field).join('')}
+  ${en ? `<div class="note info"><b style="font-size:13px">이렇게 판정돼요</b><div>${en}</div></div>` : ''}
+  <button class="btn" data-action="edit-done" style="margin-top:8px">완료</button>
+  <p class="small muted" style="margin:0;text-align:center">고친 내용은 바로 저장돼요.</p>`; }
+  }
   return `
   <div class="stack" style="gap:10px;padding-top:8px">
     <div class="row small muted"><span>내 조건 입력</span><span>${i + 1} / ${steps.length}</span></div>
@@ -1910,7 +1955,8 @@ function vOnboard(){
   <div style="display:grid;grid-template-columns:1fr 2fr;gap:8px;margin-top:8px">
     <button class="btn ghost" data-action="prev">${i === 0 ? '닫기' : '이전'}</button>
     <button class="btn" data-action="next">${i === steps.length - 1 ? '판정 보기' : '다음'}</button>
-  </div>`;
+  </div>
+  ${on('profile_sections') && i > 0 && i < steps.length - 1 ? '<button class="linkbtn small" data-action="onboard-exit" style="align-self:center">여기까지 저장하고 나가기 (나머지는 내 정보에서 언제든)</button>' : ''}`;
 }
 
 /* 오류 신고 (기능: report_form). config.json 의 report_form_url 에 구글폼 '미리 채워진 링크'를 넣고, 공고 칸 값 자리에 {listing} 을 둔다 */
@@ -2242,6 +2288,7 @@ document.addEventListener('click', ev => {
   if (t.dataset.filter) { S.filter = t.dataset.filter; render(); return; }
   if (t.dataset.unset) { const k = t.dataset.unset; if (k === 'date') { S.f.from = ''; S.f.to = ''; } else { S.f[k] = ''; if (k === 'sido') S.f.district = ''; } render(); return; }
   if (t.dataset.set) { S.profile[t.dataset.set] = JSON.parse(t.dataset.val); save(); render(); return; }
+  if (t.dataset.edit) { S.edit = t.dataset.edit; go('onboard'); window.scrollTo(0, 0); return; }
   if (t.dataset.mode) { planOpt(LISTINGS.find(x => x.id === S.id)).mode = t.dataset.mode; render(); return; }
   const a = t.dataset.action;
   if (a === 'toggle-closed') { S.showClosed = !S.showClosed; render(); return; }
@@ -2255,9 +2302,11 @@ document.addEventListener('click', ev => {
   }
   if (a === 'wipe') { if (!confirm('이 기기에 저장된 내 정보를 모두 지울까요?')) return; try { localStorage.removeItem('cy-profile'); localStorage.removeItem('cy-watch'); } catch(e) {} WATCH.clear(); S.profile = Object.assign({}, DEFAULT_PROFILE); S.step = 0; go('onboard'); return; }
   if (a === 'install' && installEvt) { const e = installEvt; installEvt = null; e.prompt(); (e.userChoice || Promise.resolve()).then(() => render()); track({ path:'install', event:true }); return; }
-  if (a === 'sp-home') { const i = visibleSteps().findIndex(x => x.id === 'sp5'); S.step = Math.max(0, i); go('onboard'); return; }
-  if (a === 'sp-input') { const i = visibleSteps().findIndex(x => x.id === 'sp1'); S.step = Math.max(0, i); go('onboard'); return; }
-  if (a === 'restart') { S.step = 0; go('onboard'); }
+  if (a === 'sp-home') { S.edit = null; const i = visibleSteps().findIndex(x => x.id === 'sp5'); S.step = Math.max(0, i); go('onboard'); return; }
+  if (a === 'sp-input') { S.edit = null; const i = visibleSteps().findIndex(x => x.id === 'sp1'); S.step = Math.max(0, i); go('onboard'); return; }
+  if (a === 'restart') { S.step = 0; S.edit = null; go('onboard'); }
+  if (a === 'edit-done') { save(); S.edit = null; track({ path:'profile-edit', event:true }); go('me'); return; }
+  if (a === 'onboard-exit') { save(); track({ path:'onboard-exit', event:true }); go('feed'); return; }
   if (a === 'prev') { if (S.step === 0) go('me'); else { S.step--; render(); } }
   if (a === 'next') { const n = visibleSteps().length; if (S.step >= n - 1) { save(); track({ path:'onboard-done', event:true }); go('feed'); } else { S.step++; render(); } }
 });
