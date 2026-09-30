@@ -83,6 +83,22 @@ a{color:var(--link)}
 .tblwrap{overflow-x:auto} .doctbl{width:100%;border-collapse:collapse;font-size:13px} .doctbl th,.doctbl td{text-align:left;padding:6px 6px;border-top:1px solid var(--line);vertical-align:top} .doctbl th{color:var(--muted);font-weight:600}
 .doc-kv{margin:8px 0 0}
 .spchips{display:flex;flex-wrap:wrap;gap:6px;margin:6px 0} .spchip{display:inline-flex;align-items:baseline;gap:4px;padding:6px 10px;border-radius:10px;background:var(--sunk);font-size:13px} .spchip b{font-size:15px}
+.spsum{display:flex;gap:6px;flex-wrap:wrap;margin:6px 0 8px}
+.note.sp-need{flex-direction:row;align-items:center;justify-content:space-between;gap:8px;padding:8px 12px;margin-bottom:6px} .sp-need .linkbtn{flex:none;white-space:nowrap}
+.splist{display:flex;flex-direction:column;gap:6px}
+.sprow{border:1px solid var(--line);border-radius:12px;background:var(--bg)}
+.sprow.base{background:var(--surface);border-style:dashed}
+.sprow>summary{list-style:none;cursor:pointer;padding:10px 12px;display:flex;flex-direction:column;gap:3px}
+.sprow>summary::-webkit-details-marker{display:none}
+.sp-top{display:flex;align-items:center;gap:6px} .sp-top .pill{margin-left:auto}
+.sp-top::after{content:'';width:8px;height:8px;border-right:2px solid var(--muted);border-bottom:2px solid var(--muted);transform:rotate(45deg);margin:-3px 2px 0 4px;flex:none;transition:transform .15s}
+.sprow[open] .sp-top::after{transform:rotate(-135deg);margin-top:3px}
+.sp-head{font-size:13px;font-weight:600;line-height:1.45}
+.sp-body{padding:0 12px 12px;display:flex;flex-direction:column;gap:10px;border-top:1px solid var(--line);padding-top:10px}
+.sp-sec{display:flex;flex-direction:column;gap:3px} .sp-lbl{font-size:11px;font-weight:700;color:var(--muted)}
+.spcheck{list-style:none;margin:0;padding:0;font-size:13px;line-height:1.6} .spcheck li span{display:inline-block;width:14px;font-weight:700}
+.btn.sm{min-height:38px;font-size:13px}
+.spbasis{margin-top:10px} .spbasis summary{cursor:pointer;color:var(--muted)} .spbasis p{margin:6px 0}
 .linkcard{display:flex;flex-direction:column;gap:2px;text-decoration:none;color:inherit}
 .back{display:flex;align-items:center;gap:2px;border:0;background:none;padding:0 8px 0 0;min-height:44px;font-weight:600;cursor:pointer}
 .back svg{width:22px;height:22px}
@@ -1322,12 +1338,79 @@ function generalRow(L, p){
   return `<div class="row" style="align-items:flex-start"><span><b>일반공급 (1순위 가점제)</b><br><span class="small">내 가점 <b>${sc.total != null ? sc.total + '점' : '-'}</b> / 84${t && t.low != null ? ' · 비교 당첨 컷 ' + t.low + '점' + (gap != null ? ' (' + (gap >= 0 ? '+' : '') + gap + ')' : '') : ''}</span>
     <br><span class="small muted">${t ? esc(t.from) : '비교할 당첨 가점 기록 없음'} · 추첨 물량은 공고문 확인</span></span><span class="${gap == null ? 'st-na' : gap >= 0 ? 'st-ok' : 'st-warn'}">${gap == null ? '참고' : gap >= 0 ? '컷 이상' : '컷 미만'}</span></div>`;
 }
+/* ---------- 공급 유형별 카드 v2 (기능: special_card_v2) — 화면 구성만 바꾼다. 판정·점수는 spJudge·spPosition·pubPoints·mcScore·myScore 그대로 ----------
+   한 줄 요약(유형 · 결과 · 내 위치/이유)을 먼저 보여주고, 판정 근거와 계산 내역은 눌러서 펼친다. 공통 기준·출처는 맨 아래 접힌 칸으로 */
+const SP_PILL = { ok:['가능','ok'], warn:['확인 필요','warn'], fail:['불가','fail'] };
+const stripTags = h => String(h || '').replace(/<br>.*$/s, '').replace(/<button[^>]*>.*?<\/button>/g, '').replace(/<[^>]+>/g, '');
+function spHeadline(L, p, r){   // 접힌 상태에서 보이는 한 줄: 가능 → 내 위치, 확인 필요 → 무엇이 필요한지, 불가 → 첫 번째 이유
+  if (r.s === 'fail') return { text: r.fail[0] + (r.fail.length > 1 ? ' 외 ' + (r.fail.length - 1) + '건' : ''), kind:'fail' };
+  if (r.s === 'warn') return { text: r.warn.slice(0, 2).join(', ') + (r.warn.length > 2 ? ' 외 ' + (r.warn.length - 2) + '건' : ''), kind:'warn' };
+  const pos = stripTags(spPosition(L, p, r));
+  if (r.type === 'multichild' && on('multichild_score') && mcScore(L, p).total == null) return { text:'배점 순 (100점)', kind:'ok', partial:true, note:'배점 정보 미입력' };
+  if (r.type === 'multichild' || r.type === 'elder') return { text: pos.replace(/ · 점수 높은 순| · 배우자 통장 점수 빼고/g, ''), kind:'ok' };
+  if (r.pub && (r.type === 'newlywed' || r.type === 'newborn') && r.stage && r.stage[0] !== '추첨') {
+    const pp = pubPoints(L, p, r.type);
+    return { text: '점수 ' + (pp.hi === pp.sum ? pp.sum : pp.sum + '~' + pp.hi) + ' / ' + pp.max + ' · ' + r.stage[0], kind:'ok', partial: pp.hi !== pp.sum, note: pp.hi !== pp.sum ? '거주기간 미입력' : '' };
+  }
+  if (r.stage) {
+    const u = L.specialUnits && L.specialUnits[r.type], share = SP_SHARE[r.pub ? 'public' : 'minyoung'][r.stage[0]];
+    const rank = r.type === 'newlywed' && !r.pub ? (p.kidsMinor > 0 || p.pregnant ? ' · 1순위' : ' · 2순위') : '';
+    return { text: r.stage[0] + (u && share ? ' · 약 ' + Math.max(1, Math.round(u * share)) + '세대' : '') + rank + ' · 추첨', kind:'ok' };
+  }
+  return { text: r.how || '가능', kind:'ok' };
+}
+function spChecklist(r){
+  const li = (mark, cls, t) => `<li><span class="${cls}" aria-hidden="true">${mark}</span> ${esc(t)}</li>`;
+  return `<ul class="spcheck" aria-label="판정 근거">${r.fail.map(t => li('✕', 'st-fail', t)).join('')}${r.warn.map(t => li('!', 'st-warn', t)).join('')}${r.ok.map(t => li('✓', 'st-ok', t)).join('')}</ul>`;
+}
+function spRowV2(L, p, r){
+  const [pill, pc] = SP_PILL[r.s], h = spHeadline(L, p, r), u = L.specialUnits && L.specialUnits[r.type];
+  const pos = r.s !== 'fail' ? spPosition(L, p, r) : '';
+  const mc = r.type === 'multichild' && r.s !== 'fail' && on('multichild_score') ? mcScore(L, p) : null;
+  const needInput = r.warn.some(t => /입력 필요|미입력/.test(t)) || (h.partial);
+  return `<details class="sprow">
+    <summary><span class="sp-top"><b>${SP_NAME[r.type]}</b>${u ? `<span class="small muted">${u}세대</span>` : ''}<span class="pill ${pc}">${pill}</span></span>
+      <span class="sp-head ${h.kind === 'ok' ? '' : 'st-' + h.kind}">${h.kind === 'ok' ? '내 위치 · ' : h.kind === 'fail' ? '이유 · ' : ''}${esc(h.text)}${h.note ? ` <span class="st-warn">· ${esc(h.note)}</span>` : ''}</span></summary>
+    <div class="sp-body">
+      ${pos ? `<div class="sp-sec"><span class="sp-lbl">내 위치</span><div class="small">${pos}</div></div>` : ''}
+      ${r.stageNote && r.s !== 'fail' ? `<div class="sp-sec"><span class="sp-lbl">소득</span><div class="small">${esc(r.stageNote)}</div></div>` : ''}
+      ${mc ? `<div class="sp-sec"><span class="sp-lbl">다자녀 배점 ${mc.total != null ? mc.total : '-'} / 100</span><div class="rows">${mc.parts.map(x => `<div class="row small"><span>${x.k}<br><span class="muted">${esc(x.note || '입력 필요')}</span></span><b>${x.v == null ? '-' : x.v}/${x.max}</b></div>`).join('')}</div></div>` : ''}
+      <div class="sp-sec"><span class="sp-lbl">판정 근거</span>${spChecklist(r)}${!pos && r.how ? `<div class="small muted">${esc(r.how)}</div>` : ''}</div>
+      ${needInput ? `<button class="btn ghost sm" data-action="${h.partial && !r.warn.length && r.type !== 'multichild' ? 'sp-home' : 'sp-input'}">부족한 정보 입력하기</button>` : ''}
+    </div></details>`;
+}
+function generalRowV2(L, p){
+  if (!on('score') || L.houseDtl === '국민') return '';
+  const sc = myScore(L, p), t = scoreTarget(L), gap = sc.total != null && t && t.low != null ? sc.total - t.low : null;
+  const [pill, pc] = gap == null ? ['참고', ''] : gap >= 0 ? ['컷 이상', 'ok'] : ['컷 미만', 'warn'];
+  return `<details class="sprow base">
+    <summary><span class="sp-top"><b>일반공급</b><span class="small muted">가점제 · 비교 기준</span><span class="pill ${pc}">${pill}</span></span>
+      <span class="sp-head">내 가점 ${sc.total != null ? sc.total : '-'} / 84${t && t.low != null ? ' · 당첨 컷 ' + t.low + (gap != null ? ' (' + (gap >= 0 ? '+' : '') + gap + ')' : '') : ''}</span></summary>
+    <div class="sp-body"><div class="small muted">${t ? '비교한 컷: ' + esc(t.from) : '비교할 당첨 가점 기록이 없어요'} · 가점 계산 내역은 아래 '내 청약 가점' 칸에 있어요. 추첨 물량은 공고문을 확인하세요.</div></div></details>`;
+}
+function specialCardV2(L, rs, p){
+  const n = s => rs.filter(r => r.s === s).length, order = { ok:0, warn:1, fail:2 };
+  const sorted = rs.slice().sort((a, b) => order[a.s] - order[b.s]);
+  const missing = p.kidsMinor == null || !p.hhSize || rs.some(r => r.warn.some(t => /입력 필요|미입력/.test(t)) || (r.s === 'ok' && spHeadline(L, p, r).partial));
+  const POS = on('special_position');
+  return `<section class="card spcard"><div class="row"><h2>${POS ? '공급 유형별 내 자격과 위치' : '특별공급 자격'}</h2><span class="small muted">${rs[0].pub ? '공공' : '민영'} · 추정</span></div>
+    <div class="spsum" role="group" aria-label="판정 요약">${[['ok','가능'],['warn','확인 필요'],['fail','불가']].filter(([k]) => n(k)).map(([k, t]) => `<span class="pill ${k}">${t} ${n(k)}</span>`).join('')}</div>
+    ${missing ? `<div class="note warn sp-need"><span class="small">비어 있는 정보가 있어 일부는 판정·점수가 빠졌어요.</span><button class="linkbtn small" data-action="sp-input">입력하기</button></div>` : ''}
+    <p class="small muted" style="margin:2px 0 6px">유형을 누르면 판정 근거와 계산 내역이 보여요.</p>
+    <div class="splist">${POS ? generalRowV2(L, p) : ''}${sorted.map(r => spRowV2(L, p, r)).join('')}</div>
+    <details class="spbasis"><summary class="small">판정 기준과 출처</summary><div class="small muted">
+      ${POS ? '<p>유형마다 뽑는 방식이 달라요. 추첨 유형은 가점과 상관없고, 점수·배점 유형은 높은 순이에요. 특별공급과 일반공급은 함께 신청할 수 있지만 둘 다 당첨되면 특별공급만 인정돼요.</p>' : ''}
+      <p>2026.6.15 시행 규칙이 적용된 모집공고문의 공통 기준(소득 2025년 도시근로자 월평균소득, ${rs[0].pub ? '공공 부동산 2억1,550만원·자동차 4,542만원' : '민영 부동산 3억3,100만원'})으로 계산한 추정이에요. 가구원수·소득 산정, 해당지역 우선, ${rs[0].pub ? '출산 가구 소득·자산 완화(더 넉넉해짐), ' : ''}기관추천·청년 등은 공고문을 확인하세요.</p>
+      <p>${noticeSrc(L)}</p></div></details>
+  </section>`;
+}
 function specialCard(L){
   const types = spTypesFor(L);
   if (!types.length) return '';
   const p = S.profile, rs = types.map(t => spJudge(L, p, t));
   const cls = s => ({ ok:'st-ok', fail:'st-fail', warn:'st-warn' }[s]);
   const missing = !on('special_eligibility') ? false : (p.kidsMinor == null || !p.hhSize);
+  if (on('special_card_v2')) return specialCardV2(L, rs, p);
   const POS = on('special_position');
   return `<section class="card"><h2>${POS ? '공급 유형별 내 자격과 위치' : '특별공급 자격'} (${rs[0].pub ? '공공' : '민영'} · 추정)</h2>
     ${POS ? `<p class="small muted" style="margin:0 0 4px">유형마다 뽑는 방식이 달라요. '내 위치'를 비교해 유리한 쪽을 고르세요. 특별공급과 일반공급은 함께 신청할 수 있지만 둘 다 당첨되면 특별공급만 인정돼요.</p>` : ''}
