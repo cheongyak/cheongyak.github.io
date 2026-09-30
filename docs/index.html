@@ -239,6 +239,7 @@ input[type=date]{min-height:52px;border-radius:12px;border:1px solid var(--line)
 .scen{border-width:1px}
 .scen.mine{border:2px solid var(--fg);padding:15px}
 .pill{flex:none;padding:4px 8px;border-radius:6px;font-size:12px;font-weight:700;white-space:nowrap}
+.gname-v2 .g-pass .badge{font-size:13px;white-space:nowrap}
 /* 내 정보 항목별 수정 (기능: profile_sections) */
 .psec h2{display:flex;align-items:center;gap:8px} .psec h2 .linkbtn{margin-left:auto}
 .psec dl.kv{grid-template-columns:minmax(0,1fr) auto} .psec dl.kv dd{max-width:14em} .psec dl.kv dd.miss{color:var(--warn-ink);font-weight:600}
@@ -485,8 +486,8 @@ function grade(L){
   return { g, lo, hi, rate, cost, tax, base };
 }
 const GNAME_BASE = { lotto:'로또', consider:'고려', flat:'마진없음', pass:'패스', unknown:'시세 부족' };
-// 스위치 grade_skip: '패스' 등급을 '스킵'으로 부른다 (서비스 이름 청약패스와 헷갈리지 않게, 기준은 같음)
-const GNAME = new Proxy(GNAME_BASE, { get: (o, k) => (k === 'pass' && on('grade_skip')) ? '스킵' : o[k] });
+// 스위치 grade_skip: '패스' 등급을 '비추천'으로 (2026-09-30 스킵 → 비추천) 부른다 (서비스 이름 청약패스와 헷갈리지 않게, 기준은 같음)
+const GNAME = new Proxy(GNAME_BASE, { get: (o, k) => (k === 'pass' && on('grade_skip')) ? '비추천' : o[k] });
 const GORDER = { lotto:0, consider:1, flat:2, pass:3, unknown:4 };
 function marginText(m){
   if (m.g === 'unknown') return '시세 확인 필요';
@@ -2303,6 +2304,7 @@ const app = document.getElementById('app'), tabbar = document.getElementById('ta
 const VIEWS = { feed:vFeed, detail:vDetail, plan:vPlan, grades:vGrades, me:vMe, onboard:vOnboard, alerts:vAlerts, about:vAbout, compare:vCompare, trend:vTrend, story:vStory, terms:vTerms, privacy:vPrivacy };
 let lastView = null;
 function render(){
+  document.body.classList.toggle('gname-v2', on('grade_skip'));   // '비추천' 배지가 두 줄로 꺾이지 않게
   const tt = tabbar.querySelector('[data-go=trend]'); if (tt) tt.hidden = !on('score_cut');
   const ta = tabbar.querySelector('[data-go=about]'); if (ta) ta.hidden = !(on('about_tab') && on('about_page'));
   app.innerHTML = VIEWS[S.view]();

@@ -17,14 +17,14 @@ CONFIG_PATH = Path(__file__).resolve().parent.parent / "docs" / "config.json"
 
 
 def grade_name(g: str) -> str:
-    """등급 이름. 스위치 grade_skip 이 켜져 있으면 '패스' 등급을 '스킵'으로 부른다 (기준은 같음)."""
+    """등급 이름. 스위치 grade_skip 이 켜져 있으면 '패스' 등급을 '비추천'으로 부른다 (기준은 같음)."""
     if g == "pass":
         try:
             feats = json.loads(CONFIG_PATH.read_text(encoding="utf-8")).get("features", {})
         except (OSError, ValueError):
             feats = {}
         if feats.get("grade_skip", True):
-            return "스킵"
+            return "비추천"
     return GRADE_NAMES[g]
 
 

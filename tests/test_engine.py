@@ -70,11 +70,11 @@ def test_unknown_market():
 
 
 def test_grade_skip_name(tmp_path, monkeypatch):
-    """스위치 grade_skip: '패스' 등급 이름만 '스킵'으로, 끄면 '패스' (등급 기준은 그대로)"""
+    """스위치 grade_skip: '패스' 등급 이름만 '비추천'으로, 끄면 '패스' (등급 기준은 그대로)"""
     from app import engine as E
     cfg = tmp_path / "config.json"
     cfg.write_text('{"features": {"grade_skip": true}}', encoding="utf-8")
     monkeypatch.setattr(E, "CONFIG_PATH", cfg)
-    assert E.grade_name("pass") == "스킵" and E.grade_name("lotto") == "로또"
+    assert E.grade_name("pass") == "비추천" and E.grade_name("lotto") == "로또"
     cfg.write_text('{"features": {"grade_skip": false}}', encoding="utf-8")
     assert E.grade_name("pass") == "패스"
