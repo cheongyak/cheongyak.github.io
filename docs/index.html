@@ -2748,7 +2748,8 @@ function cutBar(lows, mine){
    추천 규칙(이 서비스의 추정): 특별공급은 한 유형만, 일반공급과는 1건씩 함께 신청할 수 있다
    (모집공고문 2026000453 「특별공급과 일반공급 각 1건씩 중복청약이 가능하나 … 특별공급 중복청약은 불가」, 2026000414 「특별공급 1개, 일반공급 1개 중복신청이 가능」).
    그래서 신청 가능한 특별공급 중 ① 먼저 뽑히는 몫(우선공급)에 드는 유형 → ② 점수·가점 순 유형 → ③ 추첨 몫만 남는 유형 순으로,
-   같은 순서면 내가 들어가는 몫의 세대수가 많은 쪽을 고른다. 특별공급 유형별 경쟁률은 아직 모으지 않아 반영하지 않는다 */
+   같은 순서면 내가 들어가는 몫의 세대수가 많은 쪽을 고른다. 특별공급 유형별 경쟁률은 아직 모으지 않아 반영하지 않는다
+   (ws_reco_v2 가 켜져 있으면 아래 wsRecV2 가 대신한다 — 선정 방식·지역 몫·단계별 재도전으로 비교) */
 function wsSpecial(L, p, r){
   const u = (L.specialUnits && L.specialUnits[r.type]) || null, st = r.stage && r.stage[0];
   const share = st && SP_SHARE[r.pub ? 'public' : 'minyoung'][st];
@@ -2757,11 +2758,83 @@ function wsSpecial(L, p, r){
   if (r.type === 'multichild') { const m = on('multichild_score') ? mcScore(L, p) : null; score = m && m.total != null ? m.total : null; max = 100; method = '배점 순'; }
   else if (r.type === 'elder' && !r.pub) { const sc = on('score') ? myScore(L, Object.assign({}, p, { spouseAcctSince:'' })) : null; score = sc && sc.total != null ? sc.total : null; max = 84; method = '가점 순'; }
   else if (r.type === 'elder') method = st && /추첨/.test(st) ? '추첨' : '저축액 순';
-  else if (r.pub && (r.type === 'newlywed' || r.type === 'newborn') && st && !/추첨/.test(st)) { const pp = pubPoints(L, p, r.type); score = pp.hi === pp.sum ? pp.sum : pp.sum + '~' + pp.hi; max = pp.max; method = '점수 순'; }
+  else if (r.pub && (r.type === 'newlywed' || r.type === 'newborn') && st && !/추첨/.test(st) && !(on('ws_reco_v2') && r.type === 'newlywed' && st !== '우선공급')) {   /* 공공 신혼 2단계는 순위·추첨 (ws_reco_v2) */ const pp = pubPoints(L, p, r.type); score = pp.hi === pp.sum ? pp.sum : pp.sum + '~' + pp.hi; max = pp.max; method = '점수 순'; }
+  if (on('ws_reco_v2') && r.type === 'newlywed' && r.pub && st && !/추첨/.test(st) && st !== '우선공급') method = '순위·추첨';
   const n2 = r.type === 'newlywed' && !r.pub && !(p.kidsMinor > 0 || p.pregnant);
   const tier = st && /추첨/.test(st) || n2 ? 3 : st && /^우선공급/.test(st) ? 1 : 2;
   const pool = st ? (STAGE_PLAIN[st] || st) : '전체 물량';
   return { r, u, mine, score, max, method, tier, pool, n2 };
+}
+/* 추천 v2 (기능: ws_reco_v2). 경쟁률(신청자 수)이 없으므로 '당첨 확률'로 줄 세우지 않고, 공고문의 선정 방식·배정 비율로 비교한다.
+   근거: LH 공고문 2026000409·414·416 '당첨자 선정방법'
+   - 생애최초: 1단계 우선공급 70%·2단계 20%·3단계 추첨 모두 「경쟁이 있는 경우 추첨의 방법」 (점수 무관)
+   - 신혼부부: 1단계 70% 「신혼부부 특별공급 입주자 선정순위(1순위: 혼인기간 중 출산·임신·입양한 미성년 자녀) … 동일 순위 내 가점항목 다득점순」,
+     2단계 20% 「선정순위 … 동일 순위 내 경쟁이 있는 경우 추첨」, 3단계 추첨
+   - 신생아: 1단계 70%·2단계 20% 「점수 항목 다득점순」, 3단계 추첨
+   - 각 단계 「1단계 우선공급 낙첨자 전원을 대상으로」 다음 단계에서 다시 경쟁 (물량은 소수점 이하 올림, 추첨은 잔여물량)
+   - 지역: 「해당 주택건설지역(인천광역시) 거주자에게 50%, 나머지 50%는 기타지역(수도권)」, 「인천광역시 거주자가 50% 우선공급에서 낙첨될 경우,
+     50% 물량의 기타지역(수도권) 거주자와 다시 경쟁」 → 해당지역 거주자는 전체, 기타지역 거주자는 기타지역 몫만 노릴 수 있다 (L.residence.quota)
+   - 민영: 2026000103·443 「각 단계별 낙첨자는 다음 단계 공급대상에 포함」, 신혼부부 「① 소득구분 ▶ ② 순위 ▶ … 추첨」, 그 밖의 유형은 소득구분·지역 뒤 추첨
+   민영 단계별 물량의 반올림 방식은 공고문마다 달라 '약'으로만 보여준다 */
+const SP_METHOD = {
+  public: { newborn:{ '우선공급':'score', '일반공급':'score' }, newlywed:{ '우선공급':'rank-score', '일반공급':'rank-lottery' },
+            first:{}, multichild:{ '우선공급 (배점순)':'score' }, elder:{ '우선공급':'order' } },
+  minyoung: { newborn:{}, newlywed:{ '우선공급':'rank-lottery', '일반공급':'rank-lottery' }, first:{}, multichild:{ '전체':'score' }, elder:{ '전체':'score' } },
+};
+const SP_KIND = { score:'점수 순', 'rank-score':'순위·점수 순', 'rank-lottery':'순위·추첨', lottery:'추첨', order:'순차(저축액)' };
+function wsRegion(L, p, type){   // 내가 노릴 수 있는 지역 몫 (%) — 다자녀는 별도 배정 표(mcQuota)라 제외
+  const Q = L.residence && L.residence.quota;
+  if (!Q || type === 'multichild' || !on('residence_v2')) return null;
+  const ri = residenceItem(L, p); if (!ri || ri.s !== 'ok') return null;
+  const area = L.residence.area ? (L.residence.area.sigungu || L.residence.area.name) : '해당지역';
+  if (/^해당지역/.test(ri.v)) return { pct:100, text: area + ' 거주자 몫(' + Q['해당'] + '%) 먼저, 떨어져도 나머지 몫에서 다시 경쟁' };
+  if (/^기타경기/.test(ri.v) && Q['경기'] != null) return { pct:(Q['경기'] || 0) + (Q['기타'] || 0), text:'경기 몫(' + Q['경기'] + '%)부터, 떨어지면 기타지역 몫(' + (Q['기타'] || 0) + '%)에서 다시 경쟁' };
+  if (/^기타/.test(ri.v) && Q['기타'] != null) return { pct:Q['기타'], text:'기타지역 거주자라 기타지역 몫(' + Q['기타'] + '%)만 노릴 수 있어요' };
+  return null;
+}
+function wsPlan(L, p, r){
+  const pub = r.pub, R = SP_RULES[pub ? 'public' : 'minyoung'][r.type], u = (L.specialUnits && L.specialUnits[r.type]) || null;
+  const M = SP_METHOD[pub ? 'public' : 'minyoung'][r.type] || {};
+  const stages = R.stages && R.stages.length ? R.stages : [['전체', '100%']];
+  const st = r.stage ? r.stage[0] : (!R.income ? '전체' : null);
+  let i = stages.findIndex(x => x[0] === (st === '추첨 (1인 가구)' ? '추첨' : st)); if (i < 0) i = st ? stages.length - 1 : 0;
+  // 단계별 물량: 공공은 소수점 이하 올림, 추첨(마지막)은 잔여물량
+  let left = u, units = stages.map((x, k) => { if (u == null) return null; const m = /(\d+)%/.exec(x[1]);
+    const v = k === stages.length - 1 || !m ? left : Math.min(left, pub ? Math.ceil(u * m[1] / 100) : Math.round(u * m[1] / 100)); left -= v; return Math.max(0, v); });
+  const reg = wsRegion(L, p, r.type), f = reg ? reg.pct / 100 : 1;
+  const steps = stages.slice(i).map((x, k) => ({ n:i + k + 1, name:x[0], kind: M[x[0]] || 'lottery', units: units[i + k] == null ? null : Math.round(units[i + k] * f) })).filter(x => x.units !== 0);
+  const reach = u == null ? null : steps.reduce((a, s) => a + (s.units || 0), 0);
+  const kids = p.kidsMinor, rank = r.type === 'newlywed' ? (kids > 0 || p.pregnant ? 1 : kids == null && p.pregnant == null ? null : 2) : null;
+  return { steps, reach, reg, rank, kind: steps.length ? steps[0].kind : 'lottery', u };
+}
+function wsRecV2(L, p, xs, types){
+  const oks = xs.filter(x => x.r.s === 'ok').map(x => Object.assign(x, { plan: wsPlan(L, p, x.r) }));
+  const warns = xs.filter(x => x.r.s === 'warn');
+  if (!hasProfile()) return { rec:'내 조건을 넣으면 어느 공급이 나은지 비교해 드려요.', oks };
+  if (!oks.length) return { rec: warns.length ? `신청 가능이 확정된 특별공급이 아직 없어요. <b>${esc(eunNeun(warns.map(x => SP_NAME[x.r.type]).join('·')))}</b> 정보를 더 넣으면 비교해 드려요. <button class="linkbtn small" data-action="sp-input">정보 넣기</button>`
+    : types.length ? '지금 조건으로 신청할 수 있는 특별공급이 없어요.' : '', oks };
+  const isScore = k => k === 'score' || k === 'rank-score';
+  const line = x => { const P = x.plan, nm = SP_NAME[x.r.type];
+    const flow = P.steps.map(s => (P.steps.length > 1 || s.name !== '전체' ? s.n + '단계 ' : '') + SP_KIND[s.kind] + (s.units != null ? ' ' + s.units : '')).join(' → ');
+    const extra = [];
+    if (x.score != null && isScore(P.kind)) extra.push(`내 점수 ${x.score} / ${x.max}`);
+    if (P.rank === 2) extra.push('자녀가 없어 2순위 (자녀 있는 신혼부부가 먼저)');
+    return `<div class="small" style="margin-top:3px"><b>${esc(nm)}</b> · ${esc(flow)}${P.reach != null ? `세대 <span class="muted">· 노릴 수 있는 몫 약 ${P.reach}세대${P.u && P.reach !== P.u ? ' (전체 ' + P.u + ')' : ''}</span>` : ''}${extra.length ? `<div class="muted">${esc(extra.join(' · '))}</div>` : ''}</div>`; };
+  const byReach = (a, b) => (b.plan.reach || 0) - (a.plan.reach || 0);
+  const sc = oks.filter(x => isScore(x.plan.kind) && x.plan.rank !== 2).sort(byReach), lt = oks.filter(x => /lottery/.test(x.plan.kind)).sort(byReach);   // 순차(저축액)는 추첨이 아니라 제외
+  const nmB = x => `<b>${esc(SP_NAME[x.r.type])}</b>`;
+  let head;
+  if (oks.length === 1) head = `신청할 수 있는 특별공급은 ${nmB(oks[0])}${hasBatchim(SP_NAME[oks[0].r.type]) ? '이에요' : '예요'}.`;
+  else if (sc.length && lt.length) head = `점수에 자신이 있으면 ${nmB(sc[0])}(${esc(SP_KIND[sc[0].plan.kind])}), 점수가 애매하면 점수와 상관없는 ${nmB(lt[0])}(${esc(SP_KIND[lt[0].plan.kind])})가 나을 수 있어요.`;
+  else { const all = oks.slice().sort(byReach), b = all[0];
+    const allLt = oks.every(x => /lottery/.test(x.plan.kind)), allSc = oks.every(x => isScore(x.plan.kind) && x.plan.rank !== 2);
+    head = (allLt ? '신청 가능한 유형이 모두 추첨 위주라 점수는 상관없어요. ' : allSc ? '신청 가능한 유형이 모두 점수 순이에요. 점수가 높을수록 유리하고, ' : '')
+      + (b.plan.reach != null ? `물량만 보면 ${nmB(b)}${hasBatchim(SP_NAME[b.r.type]) ? '이' : '가'} 가장 많아요.` : '뽑는 방식으로 비교해 보세요.'); }
+  const reg = oks.map(x => x.plan.reg).find(Boolean);
+  const rec = head + oks.slice().sort(byReach).map(line).join('')
+    + (reg ? `<div class="small muted" style="margin-top:4px">지역: ${esc(reg.text)}.</div>` : '')
+    + '<div class="small muted" style="margin-top:4px">특별공급은 한 가지만 신청할 수 있어요. 유형별 신청자 수(경쟁률)는 아직 모르기 때문에 당첨 확률은 비교하지 않았어요 · 공고문 선정 방식·배정 비율 기준 추정.</div>';
+  return { rec, oks };
 }
 function wsCard(L, p){
   const e = eligibility(L, p), types = spTypesFor(L), rs = types.map(t => spJudge(L, p, t)), xs = rs.map(r => wsSpecial(L, p, r));
@@ -2778,13 +2851,16 @@ function wsCard(L, p){
   const spRows = xs.slice().sort((a, b) => order[a.r.s] - order[b.r.s]).map(x => { const [pl, pc] = PILL[x.r.s], hp = spHeadPlain(L, p, x.r);
     return `<div class="ws-row ${x.r.s === 'fail' ? 'dim' : ''}"><div class="ws-k"><b>${SP_NAME[x.r.type]}</b><span class="pill ${pc}">${pl}</span></div>
       <div class="ws-v">${x.r.s === 'fail' ? '' : x.max ? big(x.score, x.max) : `<span class="ws-num sm">${esc(x.method)}</span>`}</div>
-      <div class="ws-sub small ${x.r.s === 'ok' ? '' : 'st-' + x.r.s}">${esc(hp.t)}${x.r.s !== 'fail' && x.mine ? ` <span class="muted">· 내 몫 약 ${x.mine}세대${x.u && x.mine !== x.u ? ' (전체 ' + x.u + ')' : ''}</span>` : ''}</div></div>`; }).join('');
+      <div class="ws-sub small ${x.r.s === 'ok' ? '' : 'st-' + x.r.s}">${esc(hp.t)}${x.r.s !== 'fail' && on('ws_reco_v2') ? (P => P.reach != null ? ` <span class="muted">· 노릴 수 있는 몫 약 ${P.reach}세대${P.u && P.reach !== P.u ? ' (전체 ' + P.u + ')' : ''}</span>` : '')(wsPlan(L, p, x.r))
+        : x.r.s !== 'fail' && x.mine ? ` <span class="muted">· 내 몫 약 ${x.mine}세대${x.u && x.mine !== x.u ? ' (전체 ' + x.u + ')' : ''}</span>` : ''}</div></div>`; }).join('');
   // 추천
   const oks = xs.filter(x => x.r.s === 'ok').sort((a, b) => a.tier - b.tier || (b.mine || 0) - (a.mine || 0));
   const warns = xs.filter(x => x.r.s === 'warn');
   const TIER = { 1:'먼저 뽑는 몫에 들어가요', 2:'점수·가점이 높은 순으로 뽑아요', 3:'추첨 몫으로만 뽑혀요' };
   let rec = '';
-  if (!hasProfile()) rec = '내 조건을 넣으면 어느 공급이 유리한지 골라 드려요.';
+  const v2 = on('ws_reco_v2') ? wsRecV2(L, p, xs, types) : null;
+  if (v2) rec = v2.rec;
+  else if (!hasProfile()) rec = '내 조건을 넣으면 어느 공급이 유리한지 골라 드려요.';
   else if (oks.length) { const b = oks[0], why = [TIER[b.tier]];
     if (b.mine) why.push(`${b.tier === 1 ? b.pool + ' ' : '내 몫 '}약 ${b.mine}세대`);
     if (b.score != null) why.push(`내 ${b.method.replace(' 순', '')} ${b.score}점 / ${b.max}`);
@@ -2796,8 +2872,8 @@ function wsCard(L, p){
   if (hasProfile() && L.needAccount) {
     const canGen = e.ok || e.rank2;
     const g = !canGen ? '일반공급은 신청할 수 없어요.' : gap != null && gap >= 0 ? `일반공급 가점도 최근 당첨 최저점보다 ${gap}점 높거나 같아요.`
-      : gap != null ? `일반공급은 가점이 최근 당첨 최저점보다 ${-gap}점 낮아 가점만으로는 어려워요. 추첨 물량이 있는지 공고문을 확인하세요.` : oks.length ? '' : '일반공급은 신청할 수 있어요.';
-    const dup = oks.length && canGen ? '특별공급 1개와 일반공급 1개는 함께 신청할 수 있어요. 특별공급에 당첨되면 일반공급에서는 빠져요.' : '';
+      : gap != null ? `일반공급은 가점이 최근 당첨 최저점보다 ${-gap}점 낮아 가점만으로는 어려워요. 추첨 물량이 있는지 공고문을 확인하세요.` : (v2 ? v2.oks : oks).length ? '' : '일반공급은 신청할 수 있어요.';
+    const dup = (v2 ? v2.oks : oks).length && canGen ? '특별공급 1개와 일반공급 1개는 함께 신청할 수 있어요. 특별공급에 당첨되면 일반공급에서는 빠져요.' : '';
     if (g || dup) rec += `<div class="small" style="margin-top:4px">${[dup, g].filter(Boolean).join(' ')}</div>`;
   }
   const st = statusOf(L);
