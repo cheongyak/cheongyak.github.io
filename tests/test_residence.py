@@ -64,3 +64,16 @@ def test_pipeline_keeps_residence_from_previous_run():
 
 def test_listing_has_residence_field():
     assert "residence" in Listing.model_fields
+
+
+def test_special_supply_shares_residence_requirement():
+    """특별공급 신청자격 ①도 일반공급과 같은 거주 지역 요건이다 (기능: supply_summary) — 원문 문장 확인."""
+    import re
+    t103 = re.sub(r"\s+", " ", text("2026000103"))
+    for kind in ("신혼부부", "생애최초", "신생아", "다자녀가구", "노부모부양자"):
+        assert (kind + " 특별공급 신청자격 ① 최초 입주자모집공고일 현재 경기도 성남시에 거주하거나 "
+                "수도권(서울시, 경기도, 인천시)에 거주하는") in t103, kind
+    assert "경쟁이 있을 경우 해당 주택건설지역인 경기도 성남시 2년 이상 거주자" in t103      # 해당지역은 순서(우선)
+    t409 = re.sub(r"\s+", " ", text("2026000409"))
+    assert "신혼부부ㆍ생애최초ㆍ노부모부양ㆍ신생아 특별공급 및 일반공급 지역 우선공급 기준" in t409
+    assert "다자녀 특별공급 지역 우선공급 기준" in t409                                         # 다자녀는 표가 따로
