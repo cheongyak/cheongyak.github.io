@@ -210,7 +210,7 @@ a.src:hover{color:var(--link);border-bottom-color:var(--link)}
 .tag.warn{background:var(--warn-soft);color:var(--warn-ink)}
 .linkrow{display:flex;gap:8px;flex-wrap:wrap}
 .linkrow a{flex:1 1 140px;min-height:44px;display:flex;align-items:center;justify-content:center;border:1px solid var(--line);border-radius:10px;font-size:13px;font-weight:600;text-decoration:none;color:var(--fg);background:var(--surface);padding:0 10px;text-align:center}
-.sumbar{display:grid;grid-template-columns:repeat(4,1fr);background:var(--surface);border:1px solid var(--line);border-radius:14px;padding:10px 4px;margin-bottom:10px;text-align:center}
+.sumbar{display:grid;grid-template-columns:repeat(3,1fr);background:var(--surface);border:1px solid var(--line);border-radius:14px;padding:10px 4px;margin-bottom:10px;text-align:center}
 .sumbar div{display:flex;flex-direction:column;gap:2px;min-width:0} .sumbar div+div{border-left:1px solid var(--line)}
 .sumbar b{font-size:17px;font-weight:700} .sumbar span{font-size:11px;color:var(--muted)} .sumbar .up{color:var(--lotto-ink)}
 .filterbar{display:flex;align-items:center;gap:8px;flex-wrap:wrap}
@@ -962,10 +962,9 @@ function summaryBar(){
   const now = uniq(open.filter(L => statusOf(L) === '접수 중'));
   const fresh = uniq(pool.filter(L => L.notice && L.notice >= addDays(TODAY, -7)));
   const weekEnd = addDays(TODAY, 7), closing = uniq(open.filter(L => { const e = L.applyEnd || L.apply; return e && e >= TODAY && e <= weekEnd; }));
-  const best = open.map(grade).filter(m => m.g !== 'unknown' && m.lo > 0).reduce((a, m) => Math.max(a, m.lo), 0);
   const where = S.f.district || S.f.sido || '전국';
   const cell = (n, t, cls) => `<div><b class="${cls || ''}">${n}</b><span>${t}</span></div>`;
-  return `<div class="sumbar" role="status" aria-label="${esc(where)} 공고 요약">${cell(now, '접수 중')}${cell(fresh, '새 공고 7일')}${cell(closing, '이번 주 마감')}${cell(best > 0 ? '+' + fmt(best) : '-', '최대 마진', 'up')}</div>${on('disclaimer_banner') ? '' : `<p class="foot" style="margin:-6px 0 8px">${esc(where)} · 공고 단위 · 마진은 보수적 시세 기준 추정</p>`}`;
+  return `<div class="sumbar" role="status" aria-label="${esc(where)} 공고 요약">${cell(now, '접수 중')}${cell(fresh, '새 공고 7일')}${cell(closing, '이번 주 마감')}</div>${on('disclaimer_banner') ? '' : `<p class="foot" style="margin:-6px 0 8px">${esc(where)} · 공고 단위</p>`}`;
 }
 function vFeed(){
   const all = feedList(), isClosed = x => statusOf(x.L) === '마감';
