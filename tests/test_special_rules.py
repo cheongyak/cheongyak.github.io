@@ -104,3 +104,12 @@ def test_public_newlywed_newborn_points_quoted():
         assert frag in HTML, frag
     # 단계 비율의 원문: 민영 우선 50%·일반 20% (2026000443), 공공 우선 70%·일반 20% (2026000409)
     assert squeeze("우선공급 (50%)") in text("2026000443") and squeeze("일반공급 (20%)") in text("2026000443")
+
+
+def test_public_residence_area_quoted():
+    # 공공 신혼부부·신생아 '해당 주택건설지역 연속 거주기간' 의 지역 단위와 점수
+    t = text("2026000409")
+    assert squeeze("주택이 건설되는 특별시·광역시·특별자치시·특별자치도 또는 시·군의 행정구역을 말함") in t
+    assert squeeze("해당 지역에 거주하지 않는 경우는 0") in t
+    assert "METRO_SIDO = ['서울', '부산', '대구', '인천', '광주', '대전', '울산', '세종', '제주']" in HTML
+    assert "y >= 3 ? 3 : y >= 1 ? 2 : 1" in HTML

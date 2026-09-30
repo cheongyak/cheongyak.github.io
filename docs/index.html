@@ -391,7 +391,7 @@ function afterRender(){
 const DEFAULT_PROFILE = { seoul:true, household:'parents', parents60:true, parentsOwn:true, headSince:'',
   selfOwn:false, married:false, spouseOwn:false, spouseIncome:0, spouseLoan:0, account:'unknown', recentWin:false, birth:'', marriedOn:'', homeSoldOn:'', dependents:null, spouseAcctSince:'', hhHomes:'', win5y:null, acctType:'', acctSince:'', acctAmount:0, acctCount:null, acctPaid:null, homeArea:'',
   cash:32500, liquid:0, deposit:0, income:4000, loanMonthly:0, firstTime:true,
-  kidsUnder6:null, gen3:null, homeSido:'', sidoSince:'', kidsMinor:null, youngestBirth:'', pregnant:null, hhSize:null, hhIncomeYear:null, realEstate:null, carValue:null, hhNeverOwned:null, taxYears5:null, elder65:null };
+  kidsUnder6:null, gen3:null, homeSido:'', sidoSince:'', homeSigun:'', areaSince:'', kidsMinor:null, youngestBirth:'', pregnant:null, hhSize:null, hhIncomeYear:null, realEstate:null, carValue:null, hhNeverOwned:null, taxYears5:null, elder65:null };
 
 const store = {
   get(k){ try{ const v = localStorage.getItem(k); return v ? JSON.parse(v) : null; }catch(e){ return null; } },
@@ -1264,6 +1264,22 @@ function mcScoreHtml(L, p){
 /* 공급 유형별 '내 위치' (기능: special_position). 유형마다 뽑는 방식이 달라 같은 줄에 비교할 수 있게 한 줄로 요약한다.
    공공 신혼부부·신생아 점수표: LH 의정부우정 2026000409 (신혼 가.소득1 나.자녀3 다.거주3 라.납입3 마.혼인기간3 / 신생아 가~라, 최대 10점) */
 const SP_SHARE = { minyoung: { '우선공급':0.5, '일반공급':0.2 }, public: { '우선공급':0.7, '일반공급':0.2, '우선공급 (배점순)':0.9 } };
+/* 공공 신혼부부·신생아 '해당 주택건설지역 연속 거주기간': 주택이 건설되는 특별시·광역시·특별자치시·특별자치도 또는 시·군
+   (2026000409 「주택이 건설되는 특별시·광역시·특별자치시·특별자치도 또는 시·군의 행정구역」, 3년 이상 3 · 1~3년 2 · 1년 미만 1 · 미거주 0) */
+const METRO_SIDO = ['서울', '부산', '대구', '인천', '광주', '대전', '울산', '세종', '제주'];
+const sigunOf = t => ((t || '').trim().split(/\s+/)[0] || '').replace(/(시|군)$/, '$1');
+function areaResidence(L, p){
+  const metro = METRO_SIDO.includes(L.sido), area = metro ? L.sido : sigunOf(L.district);
+  if (!p.homeSido) return { v:null, area, why:'사는 시·도 미입력' };
+  const since = METRO_SIDO.includes(p.homeSido) ? p.sidoSince : p.areaSince;
+  if (p.homeSido !== L.sido) return { v:0, area, why: area + ' 거주 아님' };
+  if (!metro && !p.homeSigun) return { v:null, area, why:'사는 시·군 미입력' };
+  const bare = t => (t || '').replace(/\s/g, '').replace(/(시|군)$/, '');
+  if (!metro && bare(sigunOf(p.homeSigun)) !== bare(area)) return { v:0, area, why: area + ' 거주 아님' };
+  if (!since) return { v:null, area, why:'거주 시작일 미입력' };
+  const y = monthsBetween(since, L.notice || TODAY) / 12;
+  return { v: y >= 3 ? 3 : y >= 1 ? 2 : 1, area, why: area + ' ' + (y < 1 ? '1년 미만' : Math.floor(y) + '년') + ' 거주' };
+}
 function pubPoints(L, p, type){
   const inc = spIncome(p), n = p.hhSize, parts = [];
   const lowInc = n ? inc.monthly <= spAmt(n, inc.dual ? 100 : 80) : null;
@@ -1272,8 +1288,12 @@ function pubPoints(L, p, type){
   const c = p.acctCount; parts.push(['납입 인정 횟수', c == null ? null : c >= 24 ? 3 : c >= 12 ? 2 : c >= 6 ? 1 : 0, 3]);
   if (type === 'newlywed') { const ref = L.notice || TODAY, y = p.marriedOn ? monthsBetween(p.marriedOn, ref) / 12 : null;
     parts.push(['혼인기간', y == null ? null : y <= 3 ? 3 : y <= 5 ? 2 : y <= 7 ? 1 : 0, 3]); }
-  const known = parts.filter(x => x[1] != null), sum = known.reduce((a, x) => a + x[1], 0), max = parts.reduce((a, x) => a + x[2], 0) + 3;
-  return { sum, max, missing: parts.filter(x => x[1] == null).map(x => x[0]), text: parts.map(x => x[0] + ' ' + (x[1] == null ? '?' : x[1])).join(' · ') + ' · 거주기간 0~3 (공고 지역 시·군 연속 거주)' };
+  const res = areaResidence(L, p);
+  parts.push(['거주기간 (' + res.why + ')', res.v, 3]);
+  const known = parts.filter(x => x[1] != null), sum = known.reduce((a, x) => a + x[1], 0), max = parts.reduce((a, x) => a + x[2], 0);
+  const miss = parts.filter(x => x[1] == null);
+  return { sum, hi: sum + miss.reduce((a, x) => a + x[2], 0), max, residenceMissing: res.v == null, missing: miss.map(x => x[0]),
+           text: parts.filter(x => x[1] != null).map(x => x[0] + ' ' + x[1]).join(' · ') };
 }
 function spPosition(L, p, r){
   const u = L.specialUnits && L.specialUnits[r.type], share = r.stage && SP_SHARE[r.pub ? 'public' : 'minyoung'][r.stage[0]];
@@ -1285,8 +1305,9 @@ function spPosition(L, p, r){
     return sc && sc.total != null ? '가점 <b>' + sc.total + '점</b> / 84 · 배우자 통장 점수 빼고 · 점수 높은 순' : '가점 순 (84점)'; }
   if (r.type === 'elder' && r.pub) return '저축총액 많은 순' + (p.acctPaid != null ? ' · 내 인정 금액 <b>' + p.acctPaid.toLocaleString() + '만</b>' : '');
   if (r.pub && (r.type === 'newlywed' || r.type === 'newborn') && r.stage && r.stage[0] !== '추첨') {
-    const pp = pubPoints(L, p, r.type);
-    return '<b>' + esc(r.stage[0]) + '</b>' + units + ' · 점수 <b>' + pp.sum + '~' + (pp.sum + 3) + '점</b> / ' + pp.max + ' (' + esc(pp.text) + ')';
+    const pp = pubPoints(L, p, r.type), exact = pp.hi === pp.sum;
+    return '<b>' + esc(r.stage[0]) + '</b>' + units + ' · 점수 <b>' + (exact ? pp.sum : pp.sum + '~' + pp.hi) + '점</b> / ' + pp.max + ' (' + esc(pp.text) + ')'
+      + (exact ? '' : '<br><span class="st-warn">' + esc(pp.missing.join(', ')) + ' 점수는 반영 안 했어요.</span> <button class="linkbtn small" data-action="sp-home">입력하기</button>');
   }
   if (r.stage) {
     const rank = r.type === 'newlywed' && !r.pub ? (p.kidsMinor > 0 || p.pregnant ? ' · 1순위 (혼인 중 자녀)' : ' · 2순위 (자녀 없음)') : '';
@@ -1578,8 +1599,12 @@ const STEPS = [
   { id:'sp4', show:p => on('special_eligibility') && on('multichild_score') && p.kidsMinor >= 2, t:'다자녀 배점 (특별공급)', d:'다자녀가구 특별공급은 100점 배점표로 뽑아요.',
     f:[{ k:'kidsUnder6', type:'choice', l:'만 6세 미만 자녀 수 (태아·입양 포함)', o:[[0,'없어요'],[1,'1명'],[2,'2명'],[3,'3명 이상']] },
        { k:'gen3', type:'choice', l:'무주택 부모님(배우자 부모님 포함)과 3년 이상 같은 등본이거나, 한부모 가족 5년 이상인가요?', o:[[true,'예'],[false,'아니요']], two:true },
-       { k:'homeSido', type:'choice', l:'지금 사는 시·도', o:SIDO_ORDER.map(x => [x, x]), two:true },
-       { k:'sidoSince', type:'date', l:'그 시·도에 계속 살기 시작한 날 (수도권은 서울·경기·인천 안에서 옮긴 건 이어서)' }] },
+       ] },
+  { id:'sp5', show:p => on('special_eligibility') && (on('special_position') || (on('multichild_score') && p.kidsMinor >= 2)), t:'사는 곳 (특별공급 점수)', d:'다자녀 배점과 공공분양 신혼부부·신생아 점수의 거주기간에 써요. 주민등록 기준이에요.',
+    f:[{ k:'homeSido', type:'choice', l:'지금 사는 시·도', o:SIDO_ORDER.map(x => [x, x]), two:true },
+       { k:'homeSigun', type:'text', l:'사는 시·군 (도 지역만, 예: 평택시·수원시)', show:p => p.homeSido && !METRO_SIDO.includes(p.homeSido) },
+       { k:'sidoSince', type:'date', l:'그 시·도에 계속 살기 시작한 날 (수도권은 서울·경기·인천 안에서 옮긴 건 이어서)' },
+       { k:'areaSince', type:'date', l:'그 시·군에 계속 살기 시작한 날', show:p => p.homeSido && !METRO_SIDO.includes(p.homeSido) }] },
   { id:'sp2', show:p => on('special_eligibility'), t:'소득과 자산 (특별공급)', d:'특별공급은 세대 월평균 소득과 부동산(공공은 자동차도) 기준이 있어요.',
     f:[{ k:'hhIncomeYear', type:'money', opt:true, l:'세대원 전원의 작년 세전 소득 합계', h:'비워두면 본인+배우자 연소득으로 추정해요. 같은 등본의 부모님 소득도 들어가요' },
        { k:'realEstate', type:'money', opt:true, l:'세대가 가진 부동산 가액 (건물+토지 공시가격)', h:'없으면 0' },
@@ -1612,6 +1637,7 @@ function vOnboard(){
       const opts = fd.o.map(([v, t]) => { const on = p[fd.k] === v; return `<button class="opt" role="radio" aria-checked="${on}" data-set="${fd.k}" data-val='${JSON.stringify(v)}'>${t}${on ? '<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 6 9 17l-5-5"/></svg>' : ''}</button>`; }).join('');
       return `<div class="field">${fd.l ? `<span class="lbl" id="l-${fd.k}">${fd.l}</span>` : ''}<div role="radiogroup" ${fd.l ? `aria-labelledby="l-${fd.k}"` : `aria-label="${esc(st.t)}"`} class="${fd.two ? 'opts-2' : 'stack'}">${opts}</div></div>`;
     }
+    if (fd.type === 'text') return `<div class="field"><label for="f-${fd.k}">${fd.l}</label><input type="text" id="f-${fd.k}" data-field="${fd.k}" value="${esc(p[fd.k] || '')}"></div>`;
     if (fd.type === 'date') return `<div class="field"><label for="f-${fd.k}">${fd.l}</label><input type="date" id="f-${fd.k}" data-field="${fd.k}" value="${p[fd.k] || ''}"></div>`;
     if (fd.type === 'count') return `<div class="field"><label for="f-${fd.k}">${fd.l}</label><div class="money"><input id="f-${fd.k}" inputmode="numeric" data-field="${fd.k}" data-count="1" value="${p[fd.k] == null ? '' : p[fd.k]}" placeholder="0"><span>회</span></div>${fd.h ? `<span class="hint">${fd.h}</span>` : ''}</div>`;
     if (fd.opt) return `<div class="field"><label for="f-${fd.k}">${fd.l}</label><div class="money"><input id="f-${fd.k}" inputmode="numeric" data-field="${fd.k}" data-opt="1" value="${p[fd.k] == null ? '' : p[fd.k]}" placeholder="입력 안 함"><span>만원</span></div>${fd.h ? `<span class="hint">${fd.h}</span>` : ''}</div>`;
@@ -1624,7 +1650,7 @@ function vOnboard(){
     <div class="progress" role="progressbar" aria-valuemin="1" aria-valuemax="${steps.length}" aria-valuenow="${i + 1}"><i style="width:${(i + 1) / steps.length * 100}%"></i></div>
   </div>
   <div class="stack" style="gap:6px"><h1>${st.t}</h1><p class="muted" style="margin:0;font-size:14px">${st.d}</p></div>
-  ${st.f.map(field).join('')}
+  ${st.f.filter(fd => !fd.show || fd.show(p)).map(field).join('')}
   ${note ? `<div class="note info"><b style="font-size:13px">이렇게 판정돼요</b><div>${note}</div></div>` : ''}
   <div style="display:grid;grid-template-columns:1fr 2fr;gap:8px;margin-top:8px">
     <button class="btn ghost" data-action="prev">${i === 0 ? '닫기' : '이전'}</button>
@@ -1973,6 +1999,7 @@ document.addEventListener('click', ev => {
   }
   if (a === 'wipe') { if (!confirm('이 기기에 저장된 내 정보를 모두 지울까요?')) return; try { localStorage.removeItem('cy-profile'); localStorage.removeItem('cy-watch'); } catch(e) {} WATCH.clear(); S.profile = Object.assign({}, DEFAULT_PROFILE); S.step = 0; go('onboard'); return; }
   if (a === 'install' && installEvt) { const e = installEvt; installEvt = null; e.prompt(); (e.userChoice || Promise.resolve()).then(() => render()); track({ path:'install', event:true }); return; }
+  if (a === 'sp-home') { const i = visibleSteps().findIndex(x => x.id === 'sp5'); S.step = Math.max(0, i); go('onboard'); return; }
   if (a === 'sp-input') { const i = visibleSteps().findIndex(x => x.id === 'sp1'); S.step = Math.max(0, i); go('onboard'); return; }
   if (a === 'restart') { S.step = 0; go('onboard'); }
   if (a === 'prev') { if (S.step === 0) go('me'); else { S.step--; render(); } }
