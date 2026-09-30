@@ -233,11 +233,49 @@ def probe_naver_land(http: httpx.Client) -> None:
     (EVIDENCE / "pages" / "naver-land.txt").write_text("\n".join(out) + "\n", encoding="utf-8")
 
 
+def probe_cmpet_special(http: httpx.Client) -> None:
+    """청약홈 경쟁률 서비스(15098905)의 전체 기능 목록과 특별공급 신청현황 응답 필드를 확인 → evidence/cmpet/special.txt
+    (인증키가 들어간 요청 주소는 기록하지 않는다)"""
+    import os
+    key = os.environ.get("DATA_GO_KR_KEY")
+    out, paths = [], []
+    try:
+        r = http.get("https://infuser.odcloud.kr/oas/docs", params={"namespace": "15098905/v1"})
+        out.append(f"== 기능 목록(OAS) → {r.status_code}")
+        doc = r.json() if r.status_code == 200 else {}
+        for path, ops in (doc.get("paths") or {}).items():
+            for m, op in ops.items():
+                out.append(f"  {m.upper()} {path} · {op.get('summary', '')}")
+                paths.append(path)
+        for name, sch in ((doc.get("components") or {}).get("schemas") or doc.get("definitions") or {}).items():
+            props = sch.get("properties") or {}
+            out.append(f"  [스키마] {name}: " + ", ".join(f"{k}({(v or {}).get('description', '')})" for k, v in props.items())[:3000])
+    except Exception as e:
+        out.append(f"== 기능 목록 실패 {e.__class__.__name__}")
+    if key:
+        for path in paths:
+            if path.startswith("/15098905/v1"):
+                path = path[len("/15098905/v1"):]
+            for cond in ({}, {"cond[HOUSE_MANAGE_NO::EQ]": "2026000409"}, {"cond[HOUSE_MANAGE_NO::EQ]": "2026000414"}, {"cond[HOUSE_MANAGE_NO::EQ]": "2026000103"}):
+                try:
+                    r = http.get("https://api.odcloud.kr/api/ApplyhomeInfoCmpetRtSvc/v1" + path,
+                                 params={"page": 1, "perPage": 3 if not cond else 50, "returnType": "JSON", "serviceKey": key, **cond})
+                    j = r.json() if r.headers.get("content-type", "").startswith("application/json") else {}
+                    data = j.get("data") or []
+                    out.append(f"== {path} {cond or '(조건 없음)'} → {r.status_code} · 전체 {j.get('totalCount')} · 받은 {len(data)}")
+                    for row in data[:6]:
+                        out.append("   " + json.dumps(row, ensure_ascii=False)[:700])
+                except Exception as e:
+                    out.append(f"== {path} {cond} 실패 {e.__class__.__name__}")
+    (EVIDENCE / "cmpet").mkdir(parents=True, exist_ok=True)
+    (EVIDENCE / "cmpet" / "special.txt").write_text("\n".join(out) + "\n", encoding="utf-8")
+
+
 def main() -> None:
     rows = json.loads((ROOT / "docs" / "listings.json").read_text(encoding="utf-8"))
     seen, lines = set(), []
     http = httpx.Client(timeout=httpx.Timeout(30, connect=10), follow_redirects=True, headers=UA)
-    for fn in (probe_reverse_geocode,):
+    for fn in (probe_cmpet_special, probe_reverse_geocode):
         try:
             fn(http)
         except Exception as e:
