@@ -407,7 +407,7 @@ let LISTINGS = [
     needHead:false, needAccount:true, limits:[['실거주 의무','없음']], sources:[] }
 ];
 const TODAY = (() => { const d = new Date(Date.now() + 9*3600e3); return d.toISOString().slice(0,10); })(); // 한국 날짜
-let DATA_SOURCE = { live:false, updated:'' };
+let DATA_SOURCE = { live:false, updated:'', state:'loading', err:'' };
 let CONFIG = { ntfy_server:'https://ntfy.sh', ntfy_topic:'cheongyak-97ecbdb4', site_url:'', goatcounter:'', cf_beacon:'', contact_email:'', report_form_url:'', open_chat_url:'', maker:'', privacy_officer:'', naver_map_key:'', features:{} };
 /* 기능 스위치: config.json 의 features 에서 false 로 두면 그 기능만 꺼진다 (목록과 설명은 저장소의 FEATURES.md) */
 const on = k => !CONFIG.features || CONFIG.features[k] !== false;
@@ -1363,7 +1363,19 @@ function vFeedV2(){
   <p class="foot">${DATA_SOURCE.live ? '공고 ' + src('applyhome') + ' · 시세 ' + src('rtms') + ' · 매일 새벽 갱신, 시세는 추정치예요. 판정은 참고용이며 신청 전 공고문을 꼭 확인하세요.' + (analyticsName() ? ' 방문 통계는 쿠키 없이 ' + analyticsName() + '로 집계하며, 입력한 내 정보는 보내지 않아요.' : '') : '샘플 표시가 있는 단지는 등급 예시를 위한 가상 데이터예요.'}${aboutLink()}</p>
   ${summarySheet()}`;
 }
+/* 공고 데이터를 읽는 중·실패 (기능: data_fail_ui). 실패하면 코드에 든 예시 공고를 실제 공고처럼 보여주지 않고, 실패를 알리고 다시 시도하게 한다 */
+function dataStatusView(){
+  const err = DATA_SOURCE.state === 'error';
+  return `<div class="top"><div><div class="brand">청약패스</div><span class="small muted sub-line">${err ? '공고 데이터를 불러오지 못했어요' : '공고를 불러오는 중'}</span></div></div>
+  <section class="card" role="${err ? 'alert' : 'status'}" aria-live="polite">
+    ${err ? `<h2 style="margin:0 0 6px">공고 데이터를 불러오지 못했어요</h2>
+      <p class="small" style="margin:0 0 10px">인터넷 연결을 확인하고 다시 시도해 주세요. 잠시 뒤에도 안 되면 청약홈에서 공고를 직접 확인하세요.${DATA_SOURCE.err ? ` <span class="muted">(${esc(DATA_SOURCE.err)})</span>` : ''}</p>
+      <div class="row" style="gap:8px;justify-content:flex-start"><button class="btn" data-action="reload-data">다시 시도</button><a class="btn ghost" href="https://www.applyhome.co.kr" target="_blank" rel="noopener">청약홈 열기</a></div>`
+    : `<p class="small muted" style="margin:0">공고를 불러오는 중이에요…</p>`}
+  </section>`;
+}
 function vFeed(){
+  if (on('data_fail_ui') && !DATA_SOURCE.live) return dataStatusView();
   if (on('home_v2') && on('quick_filters')) return vFeedV2();
   const all = feedList(), isClosed = x => statusOf(x.L) === '마감';
   const closedN = all.filter(isClosed).length, showClosed = S.showClosed || S.f.status === '마감';
@@ -2929,6 +2941,7 @@ document.addEventListener('click', ev => {
   const a = t.dataset.action;
   if (a === 'toggle-closed') { S.showClosed = !S.showClosed; render(); return; }
   if (a === 'toggle-filters') { S.showFilters = !S.showFilters; render(); return; }
+  if (a === 'reload-data') { DATA_SOURCE.state = 'loading'; render(); loadListings(); return; }   // 기능: data_fail_ui
   if (a === 'reset-filters') { S.f = Object.assign({}, F0); S.filter = 'all'; S.newDays = 0; S.q = ''; S.elig = null; render(); return; }
   if (a === 'clear-q') { S.q = ''; render(); const q = app.querySelector('#q'); if (q) refocus(q); return; }
   if (a === 'copy-topic') {
@@ -3020,6 +3033,7 @@ try { navPending = navParse(location.hash); if (!(history.state && history.state
 if (navPending && !NAV_ID_VIEWS.includes(navPending.v) && on('history_nav') && S.view !== 'onboard') { navApply(navPending); try { history.replaceState({ nav:1, v: S.view, id: null, y: 0 }, ''); } catch(e) {} navPending = null; }
 fetch('config.json', { cache:'no-store' }).then(r => r.ok ? r.json() : null).then(c => {
   if (c) CONFIG = Object.assign(CONFIG, c);
+  if (!on('data_fail_ui') && !DATA_SOURCE.live && DATA_SOURCE.samples) LISTINGS = DATA_SOURCE.samples;   // 기능 data_fail_ui 를 끄면 예전처럼 예시 공고로
   syncHome(S.profile);   // 설정을 읽은 뒤 예전 '서울 거주' 답을 사는 곳으로 옮김 (기기에만 반영, 저장은 다음 입력 때)
   if (on('analytics')) { if (CONFIG.cf_beacon) initCF(CONFIG.cf_beacon); else initGC(CONFIG.goatcounter); }
   if (c && ['feed', 'alerts', 'detail', 'grades', 'me'].includes(S.view)) render();
@@ -3027,19 +3041,29 @@ fetch('config.json', { cache:'no-store' }).then(r => r.ok ? r.json() : null).the
 fetch('map.json', { cache:'no-store' }).then(r => r.ok ? r.json() : null).then(c => {
   if (c && c.naver_map_key) { CONFIG.naver_map_key = c.naver_map_key; if (S.view === 'feed' || S.view === 'detail') render(); }
 }).catch(() => {});
-fetch('listings.json', { cache:'no-store' }).then(r => r.ok ? r.json() : null).then(async rows => {
-  if (!Array.isArray(rows) || !rows.length) return;
-  LISTINGS = rows.map(fromApi);
-  let upd = ''; try { const t = await fetch('updated.txt', { cache:'no-store' }); if (t.ok) upd = (await t.text()).trim(); } catch(e) {}
-  DATA_SOURCE = { live:true, updated: upd };
-  S.plan = {}; S.f = Object.assign({}, F0); if (S.view === 'detail' || S.view === 'plan') S.view = 'feed';
-  render();
-  if (navPending && on('history_nav')) {   // 공유 링크·새로고침: #/detail/<id> 를 데이터를 읽은 뒤 연다 (기능: history_nav)
-    const ok = navApply(navPending);
-    try { history.replaceState({ nav:1, v: S.view, id: ok ? S.id : null, y: 0 }, '', ok ? navUrl(S.view) : location.pathname + location.search); } catch(e) {}
-    navPending = null;
-  }
-}).catch(() => {});
+function loadListings(){
+  if (on('data_fail_ui')) { DATA_SOURCE.state = 'loading'; DATA_SOURCE.err = ''; }
+  return fetch('listings.json', { cache:'no-store' }).then(r => r.ok ? r.json() : Promise.reject('응답 ' + r.status)).then(async rows => {
+    if (!Array.isArray(rows) || !rows.length) return Promise.reject('공고 0건');
+    LISTINGS = rows.map(fromApi);
+    let upd = ''; try { const t = await fetch('updated.txt', { cache:'no-store' }); if (t.ok) upd = (await t.text()).trim(); } catch(e) {}
+    DATA_SOURCE = { live:true, updated: upd, state:'live' };
+    S.plan = {}; S.f = Object.assign({}, F0); if (S.view === 'detail' || S.view === 'plan') S.view = 'feed';
+    render();
+    if (navPending && on('history_nav')) {   // 공유 링크·새로고침: #/detail/<id> 를 데이터를 읽은 뒤 연다 (기능: history_nav)
+      const ok = navApply(navPending);
+      try { history.replaceState({ nav:1, v: S.view, id: ok ? S.id : null, y: 0 }, '', ok ? navUrl(S.view) : location.pathname + location.search); } catch(e) {}
+      navPending = null;
+    }
+  }).catch(e => {
+    if (!on('data_fail_ui')) return;   // 끄면 예전처럼 코드 안의 예시 공고로 동작
+    if (LISTINGS.length) DATA_SOURCE.samples = LISTINGS;   // 스위치를 끈 설정이 늦게 오면 되돌릴 수 있게 보관
+    LISTINGS = [];   // 코드 안의 예시 공고(강변역·샘플 B~D)를 실제 공고처럼 쓰지 않는다
+    DATA_SOURCE.state = 'error'; DATA_SOURCE.err = typeof e === 'string' ? e : (e && e.message ? '네트워크 오류' : '');
+    if (['feed', 'detail', 'plan'].includes(S.view)) { if (S.view !== 'feed') S.view = 'feed'; render(); }
+  });
+}
+loadListings();
 </script>
 
 </body>
