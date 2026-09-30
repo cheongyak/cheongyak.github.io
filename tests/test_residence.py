@@ -177,8 +177,11 @@ def test_golden_pub_limits_from_real_notices():
         assert notice_pdf.parse_pub_limits(text(no)) == g["fields"]["pub_limits"], no
         assert notice_pdf.parse_notice(text(no)).get("pub_limits") == g["fields"]["pub_limits"], no
     # 60㎡ 초과만 있어 일반공급 소득 기준이 '해당 없음'인 공고, 민영, 신혼희망타운(총자산 기준)은 읽지 않는다
-    for no in ("2026000437", "2026000438", "2026000453", "2026820008", "2026820011"):
+    for no in ("2026000437", "2026000438", "2026000453"):
         assert notice_pdf.parse_pub_limits(text(no)) is None, no
+    # 신혼희망타운은 소득·총자산 기준 (기능: town_rules)
+    for no in ("2026820008", "2026820009", "2026820011"):
+        assert notice_pdf.parse_pub_limits(text(no))["kind"] == "town", no
 
 
 def test_pub_limits_quotes_in_originals():
@@ -200,3 +203,16 @@ def test_pipeline_keeps_pub_limits_from_previous_run():
     prev = {"from_notice": ["공공 일반공급 소득·자산"], "pub_limits": GOLD["2026000414"]["fields"]["pub_limits"]}
     found, _ = pipeline._from_previous(prev)
     assert found["pub_limits"]["cap"] == [100, 200]
+
+
+def test_town_limits_quotes_in_originals():
+    """신혼희망타운 신청 유형·소득·총자산 문장이 공고문 원문에 있다 (기능: town_rules)."""
+    import re
+    for no in ("2026820008", "2026820009", "2026820011"):
+        t = re.sub(r"\s+", " ", text(no))
+        assert re.search(r"혼인 중인 자로서 혼인기간이 7년 이내 또는 6세 이하\s*(\(태아 포함\)\s*)?자녀(\(태아 포함\))?를 둔 경우", t), no
+        assert "예비신혼부부 혼인을 계획 중이며, 입주 전까지 혼인사실을 증명할 수 있는 자" in t, no
+        assert re.search(r"한 부 모 가 족 6세 이하 자녀(\(태아 포함\))?를 둔 부 또는 ?모", t), no
+        assert "우선·일반공급 전년도 도시근로자 가구당 월평균소득의 130%" in t, no
+        assert re.search(r"합계액에서 ⑤를 차감한 금액이 (362,000천원|362백만원) 이하", t), no
+        assert "시세차익(주택매각금액- 분양금액)의 최소 10%~최대 50%" in t or "최소 10%~최대 50%" in t, no

@@ -208,6 +208,8 @@ def parse_notice(text: str) -> dict:
 # 요약표 일반공급 소득 칸이나 자산 금액을 찾지 못하면 None (화면은 60㎡ 이하 공공분양을 '확인 필요'로 둔다)
 def parse_pub_limits(text: str) -> Optional[dict]:
     t = re.sub(r"\s+", " ", text)
+    if "신혼희망타운" in t[:3000]:
+        return _parse_town_limits(t)
     cap = re.search(r"월평균소득 (\d{2,3})% 이하 \(맞\s*벌\s*이\**\s*(\d{2,3})%\)(\s*\*\s*전용면적 60㎡ 이하만 적용)?\s*자산", t)
     pri = re.search(r"일반공급 신청자격에 해당되며[^.]{0,80}1순위자로서 무주택세대구성원 전원의 월평균소득이[^.]{0,80}?"
                     r"(\d{2,3})%\s*\(본인 및 배우자가 모두 소득이 있는 경우 (\d{2,3})%\) 이하인 자", t)
@@ -440,3 +442,25 @@ def parse_mc_quota(text: str) -> Optional[dict]:
     if re.search(r"다자녀[^.]{0,60}(?:\d{1,3}\s?%\s?[․ㆍ·]|거주자\s?\(\d{1,3}%\))", t):
         return {"unknown": True}
     return None
+
+
+# ---- 신혼희망타운 소득·총자산 기준 (기능: town_rules) ----
+# LH 신혼희망타운 공고문(2026820008·009·011)의 소득 표 '우선·일반공급 … 130% … 140% (본인 및 배우자가 모두 소득이 있는 경우)'와
+# <표3> 총자산보유기준 '①+②+③+④ 합계액에서 ⑤를 차감한 금액이 362,000천원(362백만원) 이하', <표4> 출산가구 완화(397,000·431,000천원)를 읽는다.
+# 총자산 = 부동산 + 금융자산 + 기타자산(임차보증금 등) + 자동차 − 부채 (공고문 <표3>)
+def _parse_town_limits(t: str) -> Optional[dict]:
+    inc = re.search(r"우선·일반공급 전년도 도시근로자 가구당 월평균소득의 (\d{2,3})% [\d, ]+ 전년도 도시근로자 가구당 월평균소득의 (\d{2,3})% "
+                    r"\(본인 및 배우자가 모두 소득이 있는 경우\)", t)
+    amts = []
+    for m in re.finditer(r"합계액에서 ⑤를 차감한 금액이 ([\d,]+)\s*(천원|백만원) 이하", t):
+        v = int(m.group(1).replace(",", ""))
+        v = v // 10 if m.group(2) == "천원" else v * 100   # → 만원
+        if v not in amts:
+            amts.append(v)
+    if not (inc and amts):
+        return None
+    out = {"kind": "town", "cap": [int(inc.group(1)), int(inc.group(2))], "total_asset": amts[0]}
+    if len(amts) >= 3:
+        out["total_asset_relax"] = amts[1:3]
+    return out
+
