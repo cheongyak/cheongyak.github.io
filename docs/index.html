@@ -1100,7 +1100,7 @@ function specialCountCard(L){
   if (!on('special_counts') || !u || !(u.total > 0)) return '';
   const items = SP_TYPES.filter(([k]) => u[k] > 0);
   return `<section class="card"><div class="row"><h2>특별공급 세대수 (이 주택형)</h2><span class="small muted">합계 ${u.total}세대</span></div>
-    <div class="spchips">${items.map(([k, t]) => `<span class="spchip"><b>${u[k]}</b>${t}</span>`).join('')}</div>
+    ${items.length ? `<div class="spchips">${items.map(([k, t]) => `<span class="spchip"><b>${u[k]}</b>${t}</span>`).join('')}</div>` : `<p class="small muted" style="margin:6px 0">청약홈이 유형별 세대수를 나눠 주지 않았어요${isNewlywedTown(L) ? ' (신혼희망타운은 신혼부부 등 대상 전용 공급)' : ''}. 모집공고문을 확인하세요.</p>`}
     <p class="foot">일반공급 ${L.unit.split(' · ')[1] || '-'} · ${L.sources && L.sources[0] ? src(null, ['청약홈 공고', L.sources[0][1]]) : src('applyhome')}</p></section>`;
 }
 /* ---------- 특별공급 유형별 자격 (기능: special_eligibility) ----------
