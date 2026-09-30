@@ -4,6 +4,14 @@
 2026-09-29 12:55 이전 항목은 규칙을 만들기 전 작업을 커밋 기록으로 정리한 것이라 백업 브랜치가 없어요.
 그 시점으로 되돌릴 때는 해당 커밋 번호로 `git revert` 를 써요.
 
+## 2026-09-30 19:26 · 서비스 이름 '청약판정' → '청약패스'
+- 요청: 도메인(cheongyakpass.kr)에 맞춰 서비스 이름을 청약패스로
+- 변경: 화면 제목(<title>)·맨 위 이름·홈 화면 추가 이름(apple-mobile-web-app-title, manifest name/short_name)·이용 안내·만든 이유·이용약관·개인정보처리방침·서비스 정보의 '청약판정'을 '청약패스'로 (조사도 맞춤: 청약패스는/가/를). 백엔드 API 제목·README 도 같이. 판정 로직·데이터는 그대로. 등급 이름 '패스'(목록 필터·카드)는 바꾸지 않음
+- 파일: docs/index.html, docs/manifest.webmanifest, app/api.py, README.md, WORK.md
+- 확인: 브라우저(390px)에서 탭 제목·맨 위 이름 '청약패스', 이용 안내·만든 이유·약관·방침 화면에 옛 이름 없음, 스크립트 오류 없음. 스크립트 문법 검사, pytest 통과. 이미 홈 화면에 추가한 기기는 아이콘 이름이 다시 추가해야 바뀔 수 있음
+- 기능: 없음(수정)
+- 백업: backup/20260930-1926-rename
+
 ## 2026-09-30 19:08 · 개인 도메인 cheongyakpass.kr 연결
 - 요청: 도메인을 사서 웹에 연결 (수익화 준비: 광고 심사·검색 노출을 새 주소에서 쌓기 위해 정식 오픈 전에 전환)
 - 변경: 사용자가 가비아에서 cheongyakpass.kr 을 사고 DNS(A 185.199.108~111.153, www CNAME cheongyak.github.io.)를 넣은 뒤 GitHub Pages 에 도메인을 등록 → GitHub 이 docs/CNAME 을 커밋(8bf5ff4 Create CNAME). 이어서 사이트 주소 표기를 새 도메인으로: config.json site_url(알림 클릭 주소), 이용 안내 서비스 정보·이용약관 '서비스' 정의(이전 주소 포함 명시), 수집기 User-Agent, CLAUDE.md 서비스 주소

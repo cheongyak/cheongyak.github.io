@@ -3,13 +3,13 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<title>청약판정</title>
+<title>청약패스</title>
 <link rel="manifest" href="manifest.webmanifest">
 <link rel="icon" type="image/png" href="favicon.png">
 <link rel="apple-touch-icon" href="apple-touch-icon.png">
 <meta name="theme-color" content="#15181A">
 <meta name="apple-mobile-web-app-capable" content="yes">
-<meta name="apple-mobile-web-app-title" content="청약판정">
+<meta name="apple-mobile-web-app-title" content="청약패스">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+KR:wght@400;500;600;700&display=swap">
@@ -1119,7 +1119,7 @@ function vFeed(){
   const act = activeFilters(), QF = on('quick_filters'), actShown = QF ? act.filter(([k]) => ADV_KEYS.includes(k)) : act;
   const x = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" aria-hidden="true"><path d="M18 6 6 18M6 6l12 12"/></svg>';
   return `
-  <div class="top"><div><div class="brand">청약판정</div><span class="small muted">${DATA_SOURCE.live ? '청약홈 · ' + esc(DATA_SOURCE.updated) + ' 갱신' : '샘플 데이터'}</span></div>
+  <div class="top"><div><div class="brand">청약패스</div><span class="small muted">${DATA_SOURCE.live ? '청약홈 · ' + esc(DATA_SOURCE.updated) + ' 갱신' : '샘플 데이터'}</span></div>
     <button class="bell" data-go="alerts" aria-label="알림 받기"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 8a6 6 0 1 1 12 0c0 7 3 9 3 9H3s3-2 3-9"/><path d="M10.3 21a1.94 1.94 0 0 0 3.4 0"/></svg><span>알림</span></button></div>
   ${staleNote()}
   ${summaryBar()}
@@ -1922,7 +1922,7 @@ function dataInfo(){
 function vAbout(){
   const mail = CONFIG.contact_email, an = analyticsName();
   return `
-  <div class="top"><div><div class="brand">이용 안내</div><span class="small muted">청약판정</span></div><button class="linkbtn" data-go="feed">공고로</button></div>
+  <div class="top"><div><div class="brand">이용 안내</div><span class="small muted">청약패스</span></div><button class="linkbtn" data-go="feed">공고로</button></div>
   <section class="card"><h2>판정은 참고용이에요</h2>
     <p style="margin:6px 0" class="small">청약홈 공고와 국토교통부 실거래가를 모아 자격·마진·자금을 계산해 보여주는 서비스예요. <b>최종 자격과 조건은 모집공고문과 청약홈의 청약자격 확인이 우선</b>해요.</p>
     <p style="margin:6px 0" class="small">판정만 보고 신청했다가 부적격으로 처리되면 일정 기간 다른 청약에 당첨될 수 없는 등 불이익이 생길 수 있어요. 신청 전에 모집공고문을 꼭 직접 확인하세요.</p>
@@ -2037,14 +2037,14 @@ const LEGAL_DATE = '2026-09-30';
 function docLinks(){
   if (!on('legal_pages')) return '';
   const a = (v, t, d) => `<button class="docrow" data-go="${v}"><span><b>${t}</b><span class="small muted">${d}</span></span>${chev.replace('<svg', '<svg style="transform:rotate(180deg)"')}</button>`;
-  return `<section class="card"><h2>문서</h2>${a('story', '만든 이유와 데이터', '청약판정이 답하려는 질문')}${a('terms', '이용약관', '시행일 ' + LEGAL_DATE)}${a('privacy', '개인정보처리방침', '시행일 ' + LEGAL_DATE)}</section>`;
+  return `<section class="card"><h2>문서</h2>${a('story', '만든 이유와 데이터', '청약패스가 답하려는 질문')}${a('terms', '이용약관', '시행일 ' + LEGAL_DATE)}${a('privacy', '개인정보처리방침', '시행일 ' + LEGAL_DATE)}</section>`;
 }
 const docTop = t => `<div class="top"><button class="back" data-go="about">${chev}이용 안내</button></div><h1 style="margin:0 0 4px">${t}</h1>`;
 const officer = () => esc(CONFIG.privacy_officer || '서비스 운영자');
 const mailLink = () => CONFIG.contact_email ? `<a href="mailto:${esc(CONFIG.contact_email)}">${esc(CONFIG.contact_email)}</a>` : '서비스 내 문의 창구';
 function art(n, title, body){ return `<section class="card doc"><h2>${n ? n + ' ' : ''}${title}</h2>${body}</section>`; }
 const ul = items => `<ul class="doclist">${items.map(x => `<li>${x}</li>`).join('')}</ul>`;
-const infoTable = () => `<dl class="kv doc-kv"><dt>서비스</dt><dd>청약판정 (cheongyakpass.kr)</dd><dt>운영</dt><dd>${officer()} (개인)</dd><dt>이메일</dt><dd>${mailLink()}</dd></dl>`;
+const infoTable = () => `<dl class="kv doc-kv"><dt>서비스</dt><dd>청약패스 (cheongyakpass.kr)</dd><dt>운영</dt><dd>${officer()} (개인)</dd><dt>이메일</dt><dd>${mailLink()}</dd></dl>`;
 
 function vStory(){
   const nids = new Set(LISTINGS.filter(L => !L.sample).map(nidOf)), units = LISTINGS.filter(L => !L.sample).length;
@@ -2067,7 +2067,7 @@ function vStory(){
     ${q('나는 이 공고에 1순위로 넣을 수 있을까?')}${q('당첨되면 계약금과 잔금을 마련할 수 있을까?')}${q('분양가가 주변 시세보다 정말 싼 걸까?')}${q('내 가점이면 이 지역에서 당첨된 적이 있을까?')}</section>
   <section class="card doc"><div class="eyebrow">03 · The insight</div><h2>답은 이미 공개돼 있어요</h2>
     <p>청약홈 공고와 모집공고문에 자격 조건이, 국토교통부 실거래가에 주변 시세가, 청약홈 청약 결과에 경쟁률과 당첨 가점이 있어요. 다만 서로 다른 곳에 흩어져 있고, 내 상황에 맞춰 계산해 주지 않을 뿐이에요.</p></section>
-  <section class="card doc"><div class="eyebrow">04 · The tool</div><h2>청약판정은</h2>
+  <section class="card doc"><div class="eyebrow">04 · The tool</div><h2>청약패스는</h2>
     <ol class="numlist">
       <li><b>자격</b><span>청약통장 1순위 요건, 규제지역 추가 요건, 내 청약 가점을 공고 조건과 맞춰 봐요.</span></li>
       <li><b>자금</b><span>계약금, 잔금, 대출 한도를 내 소득과 자산으로 계산해요.</span></li>
@@ -2076,13 +2076,13 @@ function vStory(){
     </ol>
     <p>모든 숫자에 출처를 달고, 추정값은 추정이라고 표시해요. 공고문 원문을 직접 확인한 값과 매번 대조해 검증해요.</p></section>
   <section class="card doc"><p class="lead" style="font-size:18px">청약을 감이 아니라 근거로.</p>
-    <p class="muted" style="margin:0">— 청약판정을 만든 사람${CONFIG.maker ? '<br>' + esc(CONFIG.maker) : ''}</p></section>
+    <p class="muted" style="margin:0">— 청약패스를 만든 사람${CONFIG.maker ? '<br>' + esc(CONFIG.maker) : ''}</p></section>
   ${on('community_link') && /^https:\/\/open\.kakao\.com\//.test(CONFIG.open_chat_url || '') ? `<a class="card linkcard" href="${esc(CONFIG.open_chat_url)}" target="_blank" rel="noopener" data-ev="open-chat"><div class="eyebrow">OPEN CHAT · 함께 고민하는 방</div><b>오픈카톡방 입장하기</b><span class="small muted">청약 고민 나누기 · 사용 문의 · 건의</span></a>` : ''}`;
 }
 
 function vTerms(){
   return docTop('이용약관') + `<p class="small muted" style="margin:0 0 8px">시행일 ${LEGAL_DATE}</p>
-  ${art('제1조', '(목적)', `<p>이 약관은 ${officer()}(이하 "운영자")가 제공하는 청약판정(이하 "서비스")의 이용 조건과 운영자와 이용자의 권리·의무·책임을 정합니다.</p>${infoTable()}`)}
+  ${art('제1조', '(목적)', `<p>이 약관은 ${officer()}(이하 "운영자")가 제공하는 청약패스(이하 "서비스")의 이용 조건과 운영자와 이용자의 권리·의무·책임을 정합니다.</p>${infoTable()}`)}
   ${art('제2조', '(용어)', ul([
     '"서비스"란 cheongyakpass.kr(이전 주소 cheongyak.github.io 포함) 에서 제공하는 청약 공고 정리·판정 화면과 부속 기능 일체를 말합니다.',
     '"이용자"란 이 약관에 따라 서비스를 이용하는 사람을 말합니다. 서비스는 회원가입 없이 이용합니다.',
@@ -2126,7 +2126,7 @@ function vTerms(){
 function vPrivacy(){
   const an = analyticsName();
   return docTop('개인정보처리방침') + `<p class="small muted" style="margin:0 0 8px">시행일 ${LEGAL_DATE}</p>
-  <section class="card doc"><p>${officer()}(이하 "운영자")는 「개인정보 보호법」에 따라 청약판정 이용자의 개인정보를 보호하고 관련 고충을 신속하게 처리하기 위해 이 방침을 공개합니다.</p>
+  <section class="card doc"><p>${officer()}(이하 "운영자")는 「개인정보 보호법」에 따라 청약패스 이용자의 개인정보를 보호하고 관련 고충을 신속하게 처리하기 위해 이 방침을 공개합니다.</p>
     <div class="note ok" style="padding:10px 12px"><b style="font-size:14px">한 줄 요약</b><div class="small">회원가입이 없고, 운영자는 이용자를 알아볼 수 있는 개인정보를 모으거나 보관하지 않아요. 인터뷰에 입력한 정보는 이용자 기기의 브라우저에만 저장돼요.</div></div>
     ${infoTable()}</section>
   ${art('1.', '처리하는 개인정보', ul([

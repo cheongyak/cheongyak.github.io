@@ -23,7 +23,7 @@ from .engine import grade, judge
 from .models import Listing, PlanOptions, Profile
 from .pipeline import DATA
 
-app = FastAPI(title="청약판정 API", version="0.1.0")
+app = FastAPI(title="청약패스 API", version="0.1.0")
 app.add_middleware(CORSMiddleware, allow_origins=os.environ.get("CORS_ORIGINS", "*").split(","),
                    allow_methods=["GET", "POST"], allow_headers=["*"])
 
