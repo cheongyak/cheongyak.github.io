@@ -2238,16 +2238,20 @@ document.addEventListener('input', ev => {
     S.profile[el.dataset.field] = v; save();
   }
 });
+/* 다시 그린 뒤 같은 입력칸에 포커스를 돌려준다(키보드 사용자용). 단 터치 기기의 선택창(select)은 포커스만 줘도
+   아이폰 Safari 가 목록을 다시 열어 닫히지 않는 것처럼 보이므로 건너뛴다 */
+const TOUCH = (() => { try { return matchMedia('(hover: none) and (pointer: coarse)').matches || /iPhone|iPad|iPod/.test(navigator.userAgent); } catch(e) { return false; } })();
+function refocus(el){ if (!el || (TOUCH && el.tagName === 'SELECT')) return; try { el.focus({ preventScroll:true }); } catch(e) {} }
 document.addEventListener('change', ev => {
   const el = ev.target;
-  if (el.dataset.newsel) { S.newDays = Number(el.value) || 0; track({ path:'new-' + S.newDays, event:true }); render(); const again = app.querySelector('[data-newsel]'); if (again) again.focus(); return; }
+  if (el.dataset.newsel) { S.newDays = Number(el.value) || 0; track({ path:'new-' + S.newDays, event:true }); render(); refocus(app.querySelector('[data-newsel]')); return; }
   if (el.dataset.f) {
     const k = el.dataset.f; S.f[k] = el.value; track({ path:'filter-' + k, event:true });
     if (k === 'sido') S.f.district = '';
     if (k === 'from' && S.f.to && S.f.from > S.f.to) S.f.to = S.f.from;   // 시작이 끝보다 늦으면 맞춰 준다
     if (k === 'to' && S.f.from && S.f.to < S.f.from) S.f.from = S.f.to;
     const id = el.getAttribute('data-f'); render();
-    const again = app.querySelector(`[data-f="${id}"]`); if (again) again.focus();
+    refocus(app.querySelector(`[data-f="${id}"]`));
     return;
   }
   if (el.dataset.plan) { planOpt(LISTINGS.find(x => x.id === S.id))[el.dataset.plan] = Number(String(el.value).replace(/[^0-9]/g, '')) || 0; render(); }
