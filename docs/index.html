@@ -1049,6 +1049,9 @@ const CMPET_SRC = 'https://www.data.go.kr/data/15098905/openapi.do';   // 수집
 /* 청약홈의 청약 결과(경쟁률·당첨 가점) 화면. APT 일반분양은 공고번호로 바로 열린다 (2026-09-30 확인).
    무순위·잔여세대는 결과 화면 주소를 확인하지 못해 공고 페이지로 연결한다 */
 const noOf = s => ((String(s || '').match(/houseManageNo=(\d+)/) || [])[1]);
+/* 청약홈 '특별공급 청약접수 현황' 화면 — 주택형별 배정세대수와 지역별 유형 접수건수가 보인다
+   (2026-10-01 확인: 2026000453 059.9742A 배정 신혼부부 3·생애최초 1·신생아 2, 접수 해당지역 7·13·5 + 기타지역 38·92·13 = API 45·105·18, evidence/pages/applyhome-special.txt) */
+const spReqUrl = no => no ? 'https://www.applyhome.co.kr/ai/aia/selectSpsplyReqstStusPopup.do?houseManageNo=' + no + '&pblancNo=' + no : null;
 const cmpetUrl = (no, category) => no && category !== 'remainder' ? 'https://www.applyhome.co.kr/ai/aia/selectAPTCompetitionPopup.do?houseManageNo=' + no + '&pblancNo=' + no : null;
 function cmpetSrc(L){
   const u = cmpetUrl(L.id.split('-')[0], L.category);
@@ -2901,7 +2904,8 @@ function wsRecV2(L, p, xs, types){
       + (rateHead || (b.plan.reach != null ? `물량만 보면 ${nmB(b)}${hasBatchim(SP_NAME[b.r.type]) ? '이' : '가'} 가장 많아요.` : '뽑는 방식으로 비교해 보세요.')); }
   const reg = oks.map(x => x.plan.reg).find(Boolean);
   const anyRate = rated.length > 0, pubNo = on('sp_competition') && L.houseDtl === '국민';
-  const foot = anyRate ? '경쟁률은 청약홈 특별공급 신청현황 기준이에요 (신청 건수라 부적격이 섞여 있을 수 있어요). ' + (rated.every(o => o.sr.own) ? '이 공고는 특별공급 접수가 끝나 실제 결과예요' : '지난 공고 결과는 참고용이고 공고마다 달라요') + ' ' + src(null, ['청약홈 특별공급 신청현황 (한국부동산원·공공데이터포털)', 'https://www.data.go.kr/data/15098905/openapi.do']) + (L.url ? ' ' + src(null, ['청약홈 이 공고', L.url]) : '') + (rated.some(o => !o.sr.own) ? ' · 참고한 공고: ' + esc((L.areaSp || []).filter(e => e.sp).map(e => e.name + (e.apply ? ' ' + e.apply.slice(0, 7).replace('-', '.') : '') + ' ' + (e.unit || '')).join(', ')) : '') + '.'
+  const foot = anyRate ? '경쟁률은 청약홈 특별공급 신청현황 기준이에요 (신청 건수라 부적격이 섞여 있을 수 있어요). ' + (rated.every(o => o.sr.own) ? '이 공고는 특별공급 접수가 끝나 실제 결과예요' : '지난 공고 결과는 참고용이고 공고마다 달라요') + (rated.some(o => o.sr.own) ? ' ' + src(null, ['청약홈 특별공급 청약접수 현황 (이 공고)', spReqUrl(L.id.split('-')[0])]) : '') + (rated.some(o => !o.sr.own) ? ' · 참고한 공고 (청약홈 특별공급 청약접수 현황): ' + (L.areaSp || []).filter(e => e.sp).map(e => { const no = ((e.url || '').match(/houseManageNo=(\d+)/) || [])[1], t = esc(e.name + (e.apply ? ' ' + e.apply.slice(0, 7).replace('-', '.') : '') + ' ' + (e.unit || ''));
+      return no ? `<a class="src" href="${esc(spReqUrl(no))}" target="_blank" rel="noopener">${t}${ARROW}</a>` : t; }).join(', ') : '') + '.'
     : pubNo ? 'LH 공공분양은 유형별 신청 건수가 청약홈에 공개되지 않아 당첨 확률은 비교하지 않았어요.' : '유형별 신청자 수(경쟁률)는 아직 모르기 때문에 당첨 확률은 비교하지 않았어요.';
   const rec = head + oks.slice().sort(byReach).map(line).join('')
     + (oks.some(x => x.plan.steps.length > 1) ? '<div class="small" style="margin-top:4px">단계: 특별공급은 <b>한 번만 신청</b>해요. 소득 기준에 맞는 첫 단계부터 경쟁하고, 떨어지면 다음 단계로 <b>자동으로</b> 넘어가 다시 경쟁해요 (따로 신청하지 않아요).</div>' : '')
