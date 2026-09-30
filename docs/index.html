@@ -87,8 +87,10 @@ h2{margin:0;font-size:16px}
 .chips{display:flex;gap:6px;overflow-x:auto;padding-bottom:2px;scrollbar-width:none}
 .chip{flex:none;height:36px;padding:0 14px;border-radius:18px;border:1px solid var(--line);background:var(--surface);font-size:13px;font-weight:600;cursor:pointer}
 .chip[aria-pressed="true"]{background:var(--btn);color:var(--btn-fg);border-color:var(--btn)}
-.qf{margin-bottom:8px}
+.qf{margin-bottom:8px;flex-wrap:wrap;overflow:visible}
 .qsel{flex:none;height:36px;padding:0 28px 0 12px;border-radius:18px;border:1px solid var(--line);background:var(--surface) url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='10' height='10' viewBox='0 0 24 24' fill='none' stroke='%23566068' stroke-width='3'%3E%3Cpath d='m6 9 6 6 6-6'/%3E%3C/svg%3E") no-repeat right 10px center;color:var(--fg);font:inherit;font-size:13px;font-weight:600;-webkit-appearance:none;appearance:none;cursor:pointer;field-sizing:content;max-width:170px}
+.qmore{padding:0 14px;background-image:none}
+.segs.mini{margin-left:auto;gap:4px}
 .qsel.on{border-color:var(--fg);box-shadow:inset 0 0 0 1px var(--fg)}
 .profile-bar{display:flex;align-items:center;gap:10px;padding:12px 14px;background:var(--surface);border:1px solid var(--line);border-radius:12px;font-size:13px}
 .profile-bar span{flex:1;min-width:0}
@@ -780,6 +782,8 @@ function basisTag(L){
 /* 항상 보이는 필터 칩 (기능: quick_filters). 분양가는 억, 면적은 전용㎡ (청약 공고의 60·85㎡ 구분) */
 const PRICE_BANDS = { '5':['5억 미만', 0, 5], '5-10':['5~10억', 5, 10], '10-15':['10~15억', 10, 15], '15-20':['15~20억', 15, 20], '20':['20억 이상', 20, 1e9] };
 const SIZE_BANDS = { s:['전용 60㎡ 이하', 0, 60], m:['60~85㎡', 60, 85], l:['85㎡ 초과', 85, 1e9] };
+const ADV_KEYS = ['district', 'supply', 'dtl', 'rent', 'special', 'date'];   // 칩 줄에 없는 필터 (상세에서 고름)
+const advCount = () => activeFilters().filter(([k]) => ADV_KEYS.includes(k)).length;
 function quickFilters(){
   if (!on('quick_filters')) return '';
   const f = S.f, cs = countBy('sido', L => L.sido), ct = countBy('status', statusOf);
@@ -791,6 +795,8 @@ function quickFilters(){
     ${sel('price', '분양가', Object.entries(PRICE_BANDS).map(([k, b]) => opt(k, b[0], null, f.price === k).replace('<option', cpz[k] || f.price === k ? '<option' : '<option disabled')).join(''))}
     ${sel('size', '면적', Object.entries(SIZE_BANDS).map(([k, b]) => opt(k, b[0], null, f.size === k).replace('<option', csz[k] || f.size === k ? '<option' : '<option disabled')).join(''))}
     ${sel('status', '모집 상태', STATUS.map(x => opt(x, x, null, f.status === x)).join(''))}
+    ${newSelect()}
+    <button class="qsel qmore${advCount() ? ' on' : ''}" data-action="toggle-filters" aria-expanded="${S.showFilters}" aria-controls="filters">상세${advCount() ? ' ' + advCount() : ''}</button>
   </div>`;
 }
 const SIDO_ORDER = ['서울','경기','인천','부산','대구','대전','광주','울산','세종','강원','충북','충남','전북','전남','경북','경남','제주'];
@@ -851,10 +857,10 @@ function filterPanel(){
   const dists = Object.keys(cd).sort();
   const supplies = Object.keys(cp).sort();
   return `<div class="fpanel" id="filters">
-    <label>지역 (시·도)<select data-f="sido"><option value="">전체</option>${SIDO_ORDER.map(x => opt(x, x, cs[x] || 0, f.sido === x)).join('')}</select></label>
-    <label>시·군·구<select data-f="district" ${f.sido ? '' : 'disabled'}><option value="">${f.sido ? '전체' : '시·도를 먼저 골라요'}</option>${dists.map(x => opt(x, x, cd[x], f.district === x)).join('')}</select></label>
+    ${on('quick_filters') ? '' : `<label>지역 (시·도)<select data-f="sido"><option value="">전체</option>${SIDO_ORDER.map(x => opt(x, x, cs[x] || 0, f.sido === x)).join('')}</select></label>`}
+    <label>시·군·구<select data-f="district" ${f.sido ? '' : 'disabled'}><option value="">${f.sido ? '전체' : (on('quick_filters') ? '지역 칩에서 시·도를 먼저 골라요' : '시·도를 먼저 골라요')}</option>${dists.map(x => opt(x, x, cd[x], f.district === x)).join('')}</select></label>
     <label>공급 구분<select data-f="supply"><option value="">전체</option>${supplies.map(x => opt(x, x, cp[x], f.supply === x)).join('')}</select></label>
-    <label>모집 상태<select data-f="status"><option value="">전체</option>${STATUS.map(x => opt(x, x, ct[x] || 0, f.status === x)).join('')}</select></label>
+    ${on('quick_filters') ? '' : `<label>모집 상태<select data-f="status"><option value="">전체</option>${STATUS.map(x => opt(x, x, ct[x] || 0, f.status === x)).join('')}</select></label>`}
     ${distinct('houseDtl').length > 1 ? (() => { const c = countBy('dtl', L => L.houseDtl); return `<label>주택 구분<select data-f="dtl"><option value="">전체</option>${distinct('houseDtl').map(x => opt(x, x, c[x] || 0, f.dtl === x)).join('')}</select></label>`; })() : ''}
     ${distinct('rentSecd').length > 1 ? (() => { const c = countBy('rent', L => L.rentSecd); return `<label>분양/임대<select data-f="rent"><option value="">전체</option>${distinct('rentSecd').map(x => opt(x, x, c[x] || 0, f.rent === x)).join('')}</select></label>`; })() : ''}
     ${hasSpecialData() ? `<label class="full">청약 유형<select data-f="special"><option value="">전체</option>${opt('yes', '특별공급 있음', sp.yes || 0, f.special === 'yes')}${opt('no', '특별공급 없음', sp.no || 0, f.special === 'no')}</select></label>` : ''}
@@ -869,12 +875,22 @@ function filterPanel(){
 
 /* 새 공고 기간 탭 (기능: new_tabs). 공고일(모집공고일)이 최근 n일 안인 공고만 */
 const isNew = (L, n) => !!L.notice && L.notice >= addDays(TODAY, -n) && L.notice <= TODAY;
+function newCounts(){
+  const pool = LISTINGS.filter(L => matches(L, S.f) && (S.showClosed || S.f.status === '마감' || statusOf(L) !== '마감'));   // 목록에 보이는 것과 같은 기준
+  const n = d => pool.filter(L => isNew(L, d) && (S.filter === 'all' || (S.filter === 'watch' ? WATCH.has(L.id) : grade(L).g === S.filter))).length;   // '결과 N건'과 같은 단위(주택형 카드)
+  return { 1: n(1), 3: n(3), 7: n(7) };
+}
+function newSelect(){
+  if (!on('new_tabs') || !DATA_SOURCE.live) return '';
+  const c = newCounts(), d = S.newDays || 0;
+  return `<select class="qsel${d ? ' on' : ''}" data-newsel="1" aria-label="새 공고 기간"><option value="0">새 공고</option>${[1, 3, 7].map(k => `<option value="${k}" ${d === k ? 'selected' : ''} ${c[k] || d === k ? '' : 'disabled'}>최근 ${k}일 (${c[k]}건)</option>`).join('')}</select>`;
+}
 function newTabs(){
   if (!on('new_tabs') || !DATA_SOURCE.live) return '';
   const pool = LISTINGS.filter(L => matches(L, S.f) && (S.showClosed || S.f.status === '마감' || statusOf(L) !== '마감'));   // 목록에 보이는 것과 같은 기준
   const n = d => new Set(pool.filter(L => isNew(L, d)).map(nidOf)).size;
   const tab = (d, t) => `<button class="chip sm" data-newdays="${d}" aria-pressed="${(S.newDays || 0) === d}">${t}</button>`;
-  return `<div class="newtabs" role="group" aria-label="새 공고 기간"><span class="small muted">새 공고</span>${tab(0, '전체')}${tab(1, '1일 ' + n(1))}${tab(3, '3일 ' + n(3))}${tab(7, '7일 ' + n(7))}</div>`;
+  return `<div class="newtabs" role="group" aria-label="새 공고 기간"><span class="small muted">새 공고</span>${tab(0, '전체')}${tab(1, '최근 1일 (' + n(1) + '건)')}${tab(3, '최근 3일 (' + n(3) + '건)')}${tab(7, '최근 7일 (' + n(7) + '건)')}</div>`;
 }
 function watchChip(chip){
   if (!on('watchlist')) return '';
@@ -949,7 +965,7 @@ function summaryBar(){
   const best = open.map(grade).filter(m => m.g !== 'unknown' && m.lo > 0).reduce((a, m) => Math.max(a, m.lo), 0);
   const where = S.f.district || S.f.sido || '전국';
   const cell = (n, t, cls) => `<div><b class="${cls || ''}">${n}</b><span>${t}</span></div>`;
-  return `<div class="sumbar" role="status" aria-label="${esc(where)} 공고 요약">${cell(now, '접수 중')}${cell(fresh, '새 공고 7일')}${cell(closing, '이번 주 마감')}${cell(best > 0 ? '+' + fmt(best) : '-', '최대 마진', 'up')}</div><p class="foot" style="margin:-6px 0 8px">${esc(where)} · 공고 단위 · 마진은 보수적 시세 기준 추정</p>`;
+  return `<div class="sumbar" role="status" aria-label="${esc(where)} 공고 요약">${cell(now, '접수 중')}${cell(fresh, '새 공고 7일')}${cell(closing, '이번 주 마감')}${cell(best > 0 ? '+' + fmt(best) : '-', '최대 마진', 'up')}</div>${on('disclaimer_banner') ? '' : `<p class="foot" style="margin:-6px 0 8px">${esc(where)} · 공고 단위 · 마진은 보수적 시세 기준 추정</p>`}`;
 }
 function vFeed(){
   const all = feedList(), isClosed = x => statusOf(x.L) === '마감';
@@ -957,27 +973,31 @@ function vFeed(){
   const list = showClosed ? all : all.filter(x => !isClosed(x));   // 마감 공고는 경쟁률 확인용이라 기본은 숨긴다
   const showMap = S.feedMode === 'map' && mapReady();
   const chip = (k, t) => `<button class="chip" data-filter="${k}" aria-pressed="${S.filter === k}">${t}</button>`;
-  const act = activeFilters();
+  const act = activeFilters(), QF = on('quick_filters'), actShown = QF ? act.filter(([k]) => ADV_KEYS.includes(k)) : act;
   const x = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" aria-hidden="true"><path d="M18 6 6 18M6 6l12 12"/></svg>';
   return `
   <div class="top"><div><div class="brand">청약판정</div><span class="small muted">${DATA_SOURCE.live ? '청약홈 · ' + esc(DATA_SOURCE.updated) + ' 갱신' : '샘플 데이터'}</span></div>
     <button class="bell" data-go="alerts" aria-label="알림 받기"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 8a6 6 0 1 1 12 0c0 7 3 9 3 9H3s3-2 3-9"/><path d="M10.3 21a1.94 1.94 0 0 0 3.4 0"/></svg><span>알림</span></button></div>
   ${staleNote()}
   ${summaryBar()}
-  ${on('disclaimer_banner') ? `<div class="small muted" style="margin:-4px 0 8px">판정은 참고용이에요. 신청 전 공고문을 꼭 확인하세요.${on('about_page') ? ' <button class="linkbtn small" data-go="about">자세히</button>' : ''}</div>` : ''}
+  ${on('disclaimer_banner') ? `<div class="small muted" style="margin:-4px 0 8px">${on('summary_bar') ? '판정·마진은 참고용 추정이에요' : '판정은 참고용이에요'}. 신청 전 공고문을 꼭 확인하세요.${on('about_page') ? ' <button class="linkbtn small" data-go="about">자세히</button>' : ''}</div>` : ''}
   <div class="profile-bar"><span class="muted">내 조건 · <b style="color:var(--fg)">${esc(profileLine(S.profile))}</b></span><button class="linkbtn" data-go="me">수정</button></div>
   ${quickFilters()}
   <div class="chips" role="group" aria-label="등급 필터">${chip('all','전체')}${watchChip(chip)}${chip('lotto','로또')}${chip('consider','고려')}${chip('flat','마진없음')}${chip('pass','패스')}</div>
-  <div class="filterbar">
+  ${QF ? `<div class="filterbar">
+    <span class="count" aria-live="polite">결과 <b>${list.length}</b>건</span>
+    ${act.length || S.filter !== 'all' || S.newDays ? '<button class="linkbtn small" data-action="reset-filters">초기화</button>' : ''}
+    ${mapReady() ? `<div class="segs mini" role="group" aria-label="보기 방식"><button class="chip sm" data-feedmode="list" aria-pressed="${!showMap}">목록</button><button class="chip sm" data-feedmode="map" aria-pressed="${showMap}">지도</button></div>` : ''}
+  </div>` : `<div class="filterbar">
     <button class="chip" data-action="toggle-filters" aria-expanded="${S.showFilters}" aria-controls="filters">필터${act.length ? ' ' + act.length : ''} ${S.showFilters ? '▲' : '▼'}</button>
     <span class="count" aria-live="polite">결과 <b>${list.length}</b>건</span>
     ${act.length || S.filter !== 'all' || S.newDays ? '<button class="linkbtn" data-action="reset-filters">필터 초기화</button>' : ''}
   </div>
   ${mapReady() ? `<div class="segs" role="group" aria-label="보기 방식"><button class="chip" data-feedmode="list" aria-pressed="${!showMap}">목록</button><button class="chip" data-feedmode="map" aria-pressed="${showMap}">지도</button></div>` : ''}
-  ${newTabs()}
+  ${newTabs()}`}
   ${compareEntry()}
   ${S.showFilters ? filterPanel() : ''}
-  ${act.length ? `<div class="active-f" aria-label="선택한 필터">${act.map(([k, t]) => `<button class="fchip" data-unset="${k}" aria-label="${esc(t)} 필터 해제">${esc(t)}${x}</button>`).join('')}</div>` : ''}
+  ${actShown.length ? `<div class="active-f" aria-label="선택한 필터">${actShown.map(([k, t]) => `<button class="fchip" data-unset="${k}" aria-label="${esc(t)} 필터 해제">${esc(t)}${x}</button>`).join('')}</div>` : ''}
   ${showMap ? feedMapBlock(list) : list.length ? list.map(({L,m}) => listingCard(L, m)).join('') + closedToggle(closedN) : closedToggle(closedN) + `<div class="card empty"><b>조건에 맞는 공고가 없어요</b><span class="small muted">${act.length ? '필터를 하나씩 해제하거나 초기화해 보세요.' : '이 등급의 공고가 아직 없어요.'}</span>${act.length || S.filter !== 'all' ? '<button class="btn ghost" data-action="reset-filters" style="max-width:220px">필터 초기화</button>' : ''}</div>`}
   <p class="foot">${DATA_SOURCE.live ? '공고: ' + src('applyhome') + ' · 시세: ' + src('rtms') + ' · 매일 새벽 갱신, 시세는 추정치예요.' + (analyticsName() ? ' 방문 통계는 쿠키 없이 ' + analyticsName() + '로 집계하며, 입력한 내 정보는 보내지 않아요.' : '') : '샘플 표시가 있는 단지는 등급 예시를 위한 가상 데이터예요.'}${aboutLink()}</p>`;
 }
@@ -1518,6 +1538,7 @@ document.addEventListener('input', ev => {
 });
 document.addEventListener('change', ev => {
   const el = ev.target;
+  if (el.dataset.newsel) { S.newDays = Number(el.value) || 0; track({ path:'new-' + S.newDays, event:true }); render(); const again = app.querySelector('[data-newsel]'); if (again) again.focus(); return; }
   if (el.dataset.f) {
     const k = el.dataset.f; S.f[k] = el.value; track({ path:'filter-' + k, event:true });
     if (k === 'sido') S.f.district = '';
