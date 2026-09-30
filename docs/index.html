@@ -64,6 +64,9 @@ h2{margin:0;font-size:16px}
 .chips{display:flex;gap:6px;overflow-x:auto;padding-bottom:2px;scrollbar-width:none}
 .chip{flex:none;height:36px;padding:0 14px;border-radius:18px;border:1px solid var(--line);background:var(--surface);font-size:13px;font-weight:600;cursor:pointer}
 .chip[aria-pressed="true"]{background:var(--btn);color:var(--btn-fg);border-color:var(--btn)}
+.qf{margin-bottom:8px}
+.qsel{flex:none;height:36px;padding:0 28px 0 12px;border-radius:18px;border:1px solid var(--line);background:var(--surface) url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='10' height='10' viewBox='0 0 24 24' fill='none' stroke='%23566068' stroke-width='3'%3E%3Cpath d='m6 9 6 6 6-6'/%3E%3C/svg%3E") no-repeat right 10px center;color:var(--fg);font:inherit;font-size:13px;font-weight:600;-webkit-appearance:none;appearance:none;cursor:pointer}
+.qsel.on{border-color:var(--fg);box-shadow:inset 0 0 0 1px var(--fg)}
 .profile-bar{display:flex;align-items:center;gap:10px;padding:12px 14px;background:var(--surface);border:1px solid var(--line);border-radius:12px;font-size:13px}
 .profile-bar span{flex:1;min-width:0}
 .linkbtn{border:0;background:none;color:var(--link);font-weight:600;cursor:pointer;padding:6px 0;min-height:32px}
@@ -337,7 +340,7 @@ const store = {
   set(k,v){ try{ localStorage.setItem(k, JSON.stringify(v)); }catch(e){} }
 };
 
-const F0 = { sido:'', district:'', supply:'', dtl:'', rent:'', special:'', status:'', dateField:'apply', from:'', to:'' };
+const F0 = { sido:'', district:'', supply:'', dtl:'', rent:'', special:'', status:'', dateField:'apply', from:'', to:'', price:'', size:'' };
 const S = { view:'feed', step:0, id:null, filter:'all', f: Object.assign({}, F0), showFilters:false, feedMode:'list', mapPick:null, plan:{}, profile: Object.assign({}, DEFAULT_PROFILE, store.get('cy-profile') || {}) };
 
 /* ---------- 계산 엔진 ---------- */
@@ -742,6 +745,22 @@ function basisTag(L){
 }
 
 /* ---------- 공고 필터 (실제 데이터에 있는 값만 선택지로 보여준다) ---------- */
+/* 항상 보이는 필터 칩 (기능: quick_filters). 분양가는 억, 면적은 전용㎡ (청약 공고의 60·85㎡ 구분) */
+const PRICE_BANDS = { '5':['5억 미만', 0, 5], '5-10':['5~10억', 5, 10], '10-15':['10~15억', 10, 15], '15-20':['15~20억', 15, 20], '20':['20억 이상', 20, 1e9] };
+const SIZE_BANDS = { s:['전용 60㎡ 이하', 0, 60], m:['60~85㎡', 60, 85], l:['85㎡ 초과', 85, 1e9] };
+function quickFilters(){
+  if (!on('quick_filters')) return '';
+  const f = S.f, cs = countBy('sido', L => L.sido), ct = countBy('status', statusOf);
+  const cpz = countBy('price', L => Object.keys(PRICE_BANDS).find(k => L.price != null && L.price >= PRICE_BANDS[k][1] && L.price < PRICE_BANDS[k][2]));
+  const csz = countBy('size', L => Object.keys(SIZE_BANDS).find(k => L.area != null && L.area > SIZE_BANDS[k][1] && L.area <= SIZE_BANDS[k][2]));
+  const sel = (k, label, opts) => `<select class="qsel${f[k] ? ' on' : ''}" data-f="${k}" aria-label="${label}"><option value="">${label}</option>${opts}</select>`;
+  return `<div class="chips qf" role="group" aria-label="빠른 필터">
+    ${sel('sido', '지역', SIDO_ORDER.filter(x => cs[x] || f.sido === x).map(x => opt(x, x, null, f.sido === x)).join(''))}
+    ${sel('price', '분양가', Object.entries(PRICE_BANDS).map(([k, b]) => opt(k, b[0], null, f.price === k).replace('<option', cpz[k] || f.price === k ? '<option' : '<option disabled')).join(''))}
+    ${sel('size', '면적', Object.entries(SIZE_BANDS).map(([k, b]) => opt(k, b[0], null, f.size === k).replace('<option', csz[k] || f.size === k ? '<option' : '<option disabled')).join(''))}
+    ${sel('status', '모집 상태', STATUS.map(x => opt(x, x, null, f.status === x)).join(''))}
+  </div>`;
+}
 const SIDO_ORDER = ['서울','경기','인천','부산','대구','대전','광주','울산','세종','강원','충북','충남','전북','전남','경북','경남','제주'];
 const DATE_FIELDS = { notice:'공고일', apply:'접수 시작일', applyEnd:'접수 마감일', winner:'당첨자 발표일' };
 const STATUS = ['접수 예정','접수 중','마감'];
@@ -762,6 +781,8 @@ function matches(L, f, skip){
   if (skip !== 'special' && f.special === 'yes' && !L.specialApply) return false;
   if (skip !== 'special' && f.special === 'no' && L.specialApply) return false;
   if (skip !== 'status' && f.status && statusOf(L) !== f.status) return false;
+  if (skip !== 'price' && f.price) { const b = PRICE_BANDS[f.price]; if (!b || L.price == null || L.price < b[1] || L.price >= b[2]) return false; }
+  if (skip !== 'size' && f.size) { const b = SIZE_BANDS[f.size]; if (!b || L.area == null || L.area <= b[1] || L.area > b[2]) return false; }
   if (skip !== 'date' && (f.from || f.to)) {
     const v = L[f.dateField];
     if (!v) return false;
@@ -784,6 +805,8 @@ function activeFilters(){
   if (f.rent) out.push(['rent', f.rent]);
   if (f.special) out.push(['special', f.special === 'yes' ? '특별공급 있음' : '특별공급 없음']);
   if (f.status) out.push(['status', f.status]);
+  if (f.price) out.push(['price', '분양가 ' + PRICE_BANDS[f.price][0]]);
+  if (f.size) out.push(['size', SIZE_BANDS[f.size][0]]);
   if (f.from || f.to) out.push(['date', DATE_FIELDS[f.dateField] + ' ' + (f.from || '…').slice(5).replace('-','.') + '~' + (f.to || '…').slice(5).replace('-','.')]);
   return out;
 }
@@ -879,6 +902,7 @@ function vFeed(){
   ${summaryBar()}
   ${on('disclaimer_banner') ? `<div class="small muted" style="margin:-4px 0 8px">판정은 참고용이에요. 신청 전 공고문을 꼭 확인하세요.${on('about_page') ? ' <button class="linkbtn small" data-go="about">자세히</button>' : ''}</div>` : ''}
   <div class="profile-bar"><span class="muted">내 조건 · <b style="color:var(--fg)">${esc(profileLine(S.profile))}</b></span><button class="linkbtn" data-go="me">수정</button></div>
+  ${quickFilters()}
   <div class="chips" role="group" aria-label="등급 필터">${chip('all','전체')}${chip('lotto','로또')}${chip('consider','고려')}${chip('flat','마진없음')}${chip('pass','패스')}</div>
   <div class="filterbar">
     <button class="chip" data-action="toggle-filters" aria-expanded="${S.showFilters}" aria-controls="filters">필터${act.length ? ' ' + act.length : ''} ${S.showFilters ? '▲' : '▼'}</button>
