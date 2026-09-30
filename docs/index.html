@@ -253,6 +253,7 @@ dl.kv dt{color:var(--muted)} dl.kv dd{margin:0;text-align:right;font-weight:600}
   <button data-go="trend" hidden>가점 컷</button>
   <button data-go="grades">등급 기준</button>
   <button data-go="me">내 정보</button>
+  <button data-go="about" hidden>이용 안내</button>
 </nav></div>
 
 <script>
@@ -1515,9 +1516,10 @@ const VIEWS = { feed:vFeed, detail:vDetail, plan:vPlan, grades:vGrades, me:vMe, 
 let lastView = null;
 function render(){
   const tt = tabbar.querySelector('[data-go=trend]'); if (tt) tt.hidden = !on('score_cut');
+  const ta = tabbar.querySelector('[data-go=about]'); if (ta) ta.hidden = !(on('about_tab') && on('about_page'));
   app.innerHTML = VIEWS[S.view]();
   tabbar.hidden = S.view === 'onboard';
-  const tab = { feed:'feed', detail:'feed', plan:'feed', alerts:'feed', grades:'grades', me:'me', about:'me', compare:'feed', trend:'trend' }[S.view];
+  const tab = { feed:'feed', detail:'feed', plan:'feed', alerts:'feed', grades:'grades', me:'me', about: on('about_tab') ? 'about' : 'me', compare:'feed', trend:'trend' }[S.view];
   tabbar.querySelectorAll('button').forEach(b => { if (b.dataset.go === tab) b.setAttribute('aria-current','page'); else b.removeAttribute('aria-current'); });
   if (lastView !== S.view) window.scrollTo(0, 0);
   const key = S.view + '|' + (S.view === 'detail' || S.view === 'plan' ? S.id : '') + '|' + (S.view === 'feed' ? S.feedMode : '');
