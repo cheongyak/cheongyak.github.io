@@ -750,7 +750,7 @@ function residenceItem(L, p){
 }
 function pendingChecks(L, p){ // 아직 판정하지 않는 항목 (기능이 늘면 줄어든다)
   const acct = accountItems(L, p), out = [];
-  if (!acct) out.push('통장 가입기간·예치금 또는 납입 횟수·금액');
+  if (!acct && L.needAccount) out.push('통장 가입기간·예치금 또는 납입 횟수·금액');   // 무순위·재공급은 청약통장이 필요 없어 판정할 것이 없음 (2026-09-30 수정)
   else if (L.houseDtl === '국민' && !on('public_deposit')) out.push('국민주택 납입 인정 횟수·금액');
   if (!(on('residence_v2') && L.residence)) out.push('해당지역 거주기간');
   if (!(on('regulated_rules') && typeof regulatedItems === 'function')) out.push('규제지역 1순위 추가 요건(세대원 5년 내 당첨 등)');
@@ -1889,12 +1889,13 @@ function supplySummary(L, p, e){
   const okT = rs.filter(r => r.s === 'ok').map(r => SP_NAME[r.type]), wT = rs.filter(r => r.s === 'warn').map(r => SP_NAME[r.type]);
   const sp = !types.length ? ['', '이 주택형은 특별공급 없음'] : okT.length ? ['ok', okT.join('·') + ' 가능'] : wT.length ? ['warn', wT.join('·') + ' 확인 필요'] : ['fail', '모두 불가'];
   const ri = on('residence_v2') ? e.items.find(i => i.k === '거주지') : null;
-  const reg = !ri ? null : ri.s === 'fail' ? ['fail', '공고 대상 지역 밖'] : ri.s === 'warn' ? ['warn', ri.v] : /기타/.test(ri.v) ? ['ok', ri.v.replace(' (해당지역 다음)', '') + ' · 해당지역 다음 순서'] : ['ok', ri.v + ' · 먼저 뽑힘'];
+  const eq = L.residence && L.residence.equal;   // 무순위·재공급: 지역 안에서는 우선 순서 없음
+  const reg = !ri ? null : ri.s === 'fail' ? ['fail', '공고 대상 지역 밖'] : ri.s === 'warn' ? ['warn', ri.v] : eq ? ['ok', '신청 가능 지역'] : /기타/.test(ri.v) ? ['ok', ri.v.replace(' (해당지역 다음)', '') + ' · 해당지역 다음 순서'] : ['ok', ri.v + ' · 먼저 뽑힘'];
   const row = (k, v, sub) => `<div class="ss-row"><span class="ss-k">${k}</span><span><b class="${cls[v[0]] || 'muted'}">${esc(v[1])}</b>${sub ? `<br><span class="small muted">${sub}</span>` : ''}</span></div>`;
   return `<div class="ss" aria-label="신청할 수 있는 공급">
-    ${row('일반공급', g, '아래 조건 목록이 일반공급 기준이에요')}
-    ${row('특별공급', sp, types.length ? (wT.length && okT.length ? esc(wT.join('·')) + '는 정보를 더 넣어야 판단 · ' : '') + '유형별 내용은 아래 \'공급 유형별 내 자격과 위치\'' : '')}
-    ${reg ? row(reg[0] === 'fail' ? '거주지' : '지역 순서', reg, reg[0] === 'fail' ? '일반·특별공급 공통 거주 요건이라 둘 다 신청할 수 없어요.' : reg[0] === 'warn' ? '일반·특별공급 공통이에요. 사는 곳을 넣으면 순서까지 판정해요.' : '일반·특별공급 공통이에요. 해당지역 우선이 아니어도 신청은 할 수 있고, 해당지역 신청자가 먼저 뽑혀요.') : ''}
+    ${row(L.needAccount ? '일반공급' : '무순위', g, (L.needAccount ? '' : '청약통장이 필요 없는 공고예요. ') + '아래 조건 목록이 이 공급 기준이에요')}
+    ${!types.length && !L.needAccount ? '' : row('특별공급', sp, types.length ? (wT.length && okT.length ? esc(wT.join('·')) + '는 정보를 더 넣어야 판단 · ' : '') + '유형별 내용은 아래 \'공급 유형별 내 자격과 위치\'' : '')}
+    ${reg ? row(reg[0] === 'fail' || eq ? '거주지' : '지역 순서', reg, reg[0] === 'fail' ? '일반·특별공급 공통 거주 요건이라 둘 다 신청할 수 없어요.' : eq && reg[0] === 'ok' ? '이 공고는 지역별 우선 순서와 거주기간 요건이 없어요. ' + esc(ri.note || '') : reg[0] === 'warn' ? '일반·특별공급 공통이에요. 사는 곳을 넣으면 순서까지 판정해요.' : '일반·특별공급 공통이에요. 해당지역 우선이 아니어도 신청은 할 수 있고, 해당지역 신청자가 먼저 뽑혀요.') : ''}
   </div>`;
 }
 function checklistV2(L, p, e){
@@ -1921,8 +1922,8 @@ function checklistV2(L, p, e){
     ${i.note ? `<div class="small muted">${esc(i.note)}</div>` : ''}<div class="ck-src">${itemSrc(L, i.k)}</div></div>`;
   return `<section class="card ckcard"><h2>자격 체크리스트</h2>
     ${supplySummary(L, p, e)}
-    <div class="spsum" style="margin:4px 0 0">${on('supply_summary') && hasProfile() ? '<span class="small muted" style="align-self:center">일반공급 조건</span>' : ''}${count}</div>
-    <div class="note ${tone} ckverdict"><b>${on('supply_summary') && hasProfile() ? '일반공급 · ' : ''}${esc(title)}</b>${sub ? `<div class="small">${esc(sub)}</div>` : ''}${e.fix ? `<div class="small" style="margin-top:4px"><b>다음 공고부터 가능하게 하려면</b> · ${esc(e.fix)}</div>` : ''}</div>
+    <div class="spsum" style="margin:4px 0 0">${on('supply_summary') && hasProfile() ? `<span class="small muted" style="align-self:center">${L.needAccount ? '일반공급' : '무순위'} 조건</span>` : ''}${count}</div>
+    <div class="note ${tone} ckverdict"><b>${on('supply_summary') && hasProfile() ? (L.needAccount ? '일반공급 · ' : '무순위 · ') : ''}${esc(title)}</b>${sub ? `<div class="small">${esc(sub)}</div>` : ''}${e.fix ? `<div class="small" style="margin-top:4px"><b>다음 공고부터 가능하게 하려면</b> · ${esc(e.fix)}</div>` : ''}</div>
     ${fails.length ? `<div class="ckgroup"><div class="ck-h st-fail">문제가 있는 조건 ${fails.length}</div>${fails.map(failItem).join('')}</div>` : ''}
     ${nWarn ? `<div class="ckgroup"><div class="ck-h st-warn"><span>확인이 필요한 조건 ${nWarn}</span>${needInput ? '<button class="linkbtn small" data-action="restart">내 정보 입력하기</button>' : ''}</div>
       <div class="ckwarns">${acctPrompt ? `<div class="ckwarn"><div class="ck-top"><span>청약통장 1순위 요건</span><span class="st-warn">입력 필요</span></div><div class="small muted">가입일·예치금(공공은 납입 횟수)을 넣으면 가입기간·예치금·납입 횟수를 판정해요</div><div class="ck-src">${src('supplyRule')}</div></div>` : ''}${warns.map(warnItem).join('')}</div></div>` : ''}
