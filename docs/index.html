@@ -287,6 +287,13 @@ body.sheet-open{overflow:hidden}
 .sheet-item .si-main{flex:1;min-width:0;display:flex;flex-direction:column} .sheet-item .si-main b{white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
 .badge.sm{min-width:52px;height:26px;font-size:12px}
 .filterbar{display:flex;align-items:center;gap:8px;flex-wrap:wrap}
+/* 검색 (기능: search) */
+.search{position:relative;display:flex;align-items:center;margin:0 0 8px}
+.search svg{position:absolute;left:12px;width:18px;height:18px;color:var(--muted);pointer-events:none}
+.search input{width:100%;height:42px;padding:0 40px 0 38px;border:1px solid var(--line);border-radius:21px;background:var(--surface);color:var(--fg);font-size:16px;-webkit-appearance:none;appearance:none}
+.search input::-webkit-search-cancel-button{display:none}
+.search input:focus{outline:2px solid var(--fg);outline-offset:1px}
+.search .qclear{position:absolute;right:6px;width:32px;height:32px;border:0;border-radius:16px;background:transparent;color:var(--muted);font-size:18px;cursor:pointer}
 .filterbar .count{flex:1;min-width:0;font-size:13px;color:var(--muted)}
 .filterbar .count b{color:var(--fg)}
 .fpanel{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px;padding:14px;background:var(--surface);border:1px solid var(--line);border-radius:14px}
@@ -931,7 +938,14 @@ function statusOf(L){
 }
 const hasSpecialData = () => LISTINGS.some(L => L.specialApply);
 const distinct = key => [...new Set(LISTINGS.map(L => L[key]).filter(Boolean))].sort();
+/* 검색 (기능: search): 단지명·주소·시도·시군구·공급 유형에서 찾는다. 띄어쓰기로 나눈 말이 모두 들어 있어야 맞음 */
+const qnorm = t => String(t || '').toLowerCase().replace(/\s+/g, '');
+function searchHit(L, q){
+  const hay = qnorm([L.name, L.loc, L.sido, L.district, L.supplyType, L.kind].join(' '));
+  return String(q).trim().split(/\s+/).every(w => hay.includes(qnorm(w)));
+}
 function matches(L, f, skip){
+  if (skip !== 'q' && on('search') && S.q && S.q.trim() && !searchHit(L, S.q)) return false;
   if (skip !== 'sido' && f.sido && L.sido !== f.sido) return false;
   if (skip !== 'district' && f.district && L.district !== f.district) return false;
   if (skip !== 'supply' && f.supply && L.supplyType !== f.supply) return false;
@@ -1112,6 +1126,11 @@ function summarySheet(){
     <p class="foot">등급은 그 공고 주택형 중 가장 좋은 등급이에요. 누르면 그 주택형 상세로 가요.</p>
   </div>`;
 }
+function searchBox(){
+  if (!on('search')) return '';
+  const icon = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5"/></svg>';
+  return `<div class="search" id="searchwrap" role="search">${icon}<input id="q" type="search" data-q enterkeyhint="search" autocomplete="off" placeholder="단지명·지역 검색 (예: 강변, 광진구)" aria-label="공고 검색 (단지명·주소·지역)" value="${esc(S.q || '')}"><button class="qclear" data-action="clear-q" aria-label="검색어 지우기"${S.q ? '' : ' hidden'}>×</button></div>`;
+}
 function vFeed(){
   const all = feedList(), isClosed = x => statusOf(x.L) === '마감';
   const closedN = all.filter(isClosed).length, showClosed = S.showClosed || S.f.status === '마감';
@@ -1128,23 +1147,24 @@ function vFeed(){
   ${on('disclaimer_banner') ? `<div class="small muted" style="margin:-4px 0 8px">${on('summary_bar') ? '판정·마진은 참고용 추정이에요' : '판정은 참고용이에요'}. 신청 전 공고문을 꼭 확인하세요.${on('about_page') ? ' <button class="linkbtn small" data-go="about">자세히</button>' : ''}</div>` : ''}
   ${hasProfile() ? `<div class="profile-bar"><span class="muted">내 조건 · <b style="color:var(--fg)">${esc(profileLine(S.profile))}</b></span><button class="linkbtn" data-go="me">수정</button></div>`
     : `<div class="profile-bar"><span class="muted">내 조건을 넣으면 공고마다 <b style="color:var(--fg)">자격·자금</b>을 판정해요</span><button class="linkbtn" data-action="restart">입력하기</button></div>`}
+  ${searchBox()}
   ${quickFilters()}
   <div class="chips" role="group" aria-label="등급 필터">${chip('all','전체')}${watchChip(chip)}${chip('lotto','로또')}${chip('consider','고려')}${chip('flat','마진없음')}${chip('pass',GNAME.pass)}</div>
   ${QF ? `<div class="filterbar">
     <span class="count" aria-live="polite">결과 <b>${list.length}</b>건</span>
-    ${act.length || S.filter !== 'all' || S.newDays ? '<button class="linkbtn small" data-action="reset-filters">초기화</button>' : ''}
+    ${act.length || S.filter !== 'all' || S.newDays || (on('search') && S.q) ? '<button class="linkbtn small" data-action="reset-filters">초기화</button>' : ''}
     ${mapReady() ? `<div class="segs mini" role="group" aria-label="보기 방식"><button class="chip sm" data-feedmode="list" aria-pressed="${!showMap}">목록</button><button class="chip sm" data-feedmode="map" aria-pressed="${showMap}">지도</button></div>` : ''}
   </div>` : `<div class="filterbar">
     <button class="chip" data-action="toggle-filters" aria-expanded="${S.showFilters}" aria-controls="filters">필터${act.length ? ' ' + act.length : ''} ${S.showFilters ? '▲' : '▼'}</button>
     <span class="count" aria-live="polite">결과 <b>${list.length}</b>건</span>
-    ${act.length || S.filter !== 'all' || S.newDays ? '<button class="linkbtn" data-action="reset-filters">필터 초기화</button>' : ''}
+    ${act.length || S.filter !== 'all' || S.newDays || (on('search') && S.q) ? '<button class="linkbtn" data-action="reset-filters">필터 초기화</button>' : ''}
   </div>
   ${mapReady() ? `<div class="segs" role="group" aria-label="보기 방식"><button class="chip" data-feedmode="list" aria-pressed="${!showMap}">목록</button><button class="chip" data-feedmode="map" aria-pressed="${showMap}">지도</button></div>` : ''}
   ${newTabs()}`}
   ${compareEntry()}
   ${S.showFilters ? filterPanel() : ''}
   ${actShown.length ? `<div class="active-f" aria-label="선택한 필터">${actShown.map(([k, t]) => `<button class="fchip" data-unset="${k}" aria-label="${esc(t)} 필터 해제">${esc(t)}${x}</button>`).join('')}</div>` : ''}
-  ${showMap ? feedMapBlock(list) : list.length ? list.map(({L,m}) => listingCard(L, m)).join('') + closedToggle(closedN) : closedToggle(closedN) + `<div class="card empty"><b>조건에 맞는 공고가 없어요</b><span class="small muted">${act.length ? '필터를 하나씩 해제하거나 초기화해 보세요.' : '이 등급의 공고가 아직 없어요.'}</span>${act.length || S.filter !== 'all' ? '<button class="btn ghost" data-action="reset-filters" style="max-width:220px">필터 초기화</button>' : ''}</div>`}
+  ${showMap ? feedMapBlock(list) : list.length ? list.map(({L,m}) => listingCard(L, m)).join('') + closedToggle(closedN) : closedToggle(closedN) + `<div class="card empty"><b>${on('search') && S.q && S.q.trim() ? `'${esc(S.q.trim())}' 에 맞는 공고가 없어요` : '조건에 맞는 공고가 없어요'}</b><span class="small muted">${on('search') && S.q && S.q.trim() ? '단지명 일부나 구 이름으로 찾아보세요.' + (closedN && !showClosed ? ' 마감된 공고까지 보려면 위 버튼을 누르세요.' : '') + (act.length || S.filter !== 'all' ? ' 걸어 둔 필터도 함께 적용돼요.' : '') : act.length ? '필터를 하나씩 해제하거나 초기화해 보세요.' : '이 등급의 공고가 아직 없어요.'}</span>${act.length || S.filter !== 'all' ? '<button class="btn ghost" data-action="reset-filters" style="max-width:220px">필터 초기화</button>' : ''}</div>`}
   <p class="foot">${DATA_SOURCE.live ? '공고: ' + src('applyhome') + ' · 시세: ' + src('rtms') + ' · 매일 새벽 갱신, 시세는 추정치예요.' + (analyticsName() ? ' 방문 통계는 쿠키 없이 ' + analyticsName() + '로 집계하며, 입력한 내 정보는 보내지 않아요.' : '') : '샘플 표시가 있는 단지는 등급 예시를 위한 가상 데이터예요.'}${aboutLink()}</p>
   ${summarySheet()}`;
 }
@@ -2226,7 +2246,8 @@ document.addEventListener('click', ev => {
   const a = t.dataset.action;
   if (a === 'toggle-closed') { S.showClosed = !S.showClosed; render(); return; }
   if (a === 'toggle-filters') { S.showFilters = !S.showFilters; render(); return; }
-  if (a === 'reset-filters') { S.f = Object.assign({}, F0); S.filter = 'all'; S.newDays = 0; render(); return; }
+  if (a === 'reset-filters') { S.f = Object.assign({}, F0); S.filter = 'all'; S.newDays = 0; S.q = ''; render(); return; }
+  if (a === 'clear-q') { S.q = ''; render(); const q = app.querySelector('#q'); if (q) refocus(q); return; }
   if (a === 'copy-topic') {
     const done = () => { t.textContent = '복사했어요'; };
     try { navigator.clipboard.writeText(CONFIG.ntfy_topic).then(done, () => { t.textContent = CONFIG.ntfy_topic; }); } catch(e) { t.textContent = CONFIG.ntfy_topic; }
@@ -2240,8 +2261,27 @@ document.addEventListener('click', ev => {
   if (a === 'prev') { if (S.step === 0) go('me'); else { S.step--; render(); } }
   if (a === 'next') { const n = visibleSteps().length; if (S.step >= n - 1) { save(); track({ path:'onboard-done', event:true }); go('feed'); } else { S.step++; render(); } }
 });
+/* 검색어를 칠 때는 검색창은 그대로 두고 나머지만 다시 그린다 (다시 만들면 폰 키보드가 닫히고 커서가 튄다) */
+let qTimer = null, qTracked = false;
+function renderKeepSearch(){
+  const wrap = app.querySelector('#searchwrap');
+  if (S.view !== 'feed' || !wrap) { render(); return; }
+  const tmp = document.createElement('div'); tmp.innerHTML = VIEWS.feed();
+  const nw = tmp.querySelector('#searchwrap'); if (!nw) { render(); return; }
+  while (wrap.previousSibling) wrap.previousSibling.remove();
+  while (wrap.nextSibling) wrap.nextSibling.remove();
+  while (nw.previousSibling) wrap.before(tmp.firstChild);   // 검색창 앞부분을 순서대로 옮김
+  while (nw.nextSibling) wrap.parentNode.appendChild(nw.nextSibling);
+  const c = wrap.querySelector('.qclear'); if (c) c.hidden = !S.q;
+  afterRender();
+}
 document.addEventListener('input', ev => {
   const el = ev.target;
+  if (el.dataset.q !== undefined && el.id === 'q') {
+    S.q = el.value; clearTimeout(qTimer); qTimer = setTimeout(renderKeepSearch, 150);
+    if (!qTracked && S.q.trim()) { qTracked = true; track({ path:'search', event:true }); }   // 검색어 내용은 보내지 않음
+    return;
+  }
   if (el.dataset.field) {
     let v = el.value;
     if (el.dataset.count) v = String(v).trim() === '' ? null : (Number(String(v).replace(/[^0-9]/g, '')) || 0);
