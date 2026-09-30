@@ -103,6 +103,7 @@ def build_listing(raw: dict, rtms: Optional[RtmsClient], today: date, lawd_cache
         special_apply_end=raw.get("special_apply_end"),
         kind=kind_label(raw), category=raw["category"], target=target_of(raw["name"]), unit=raw["unit"], area=raw["area"],
         households=raw.get("households"),
+        special_units=raw.get("special_units") if feature_on("special_counts") else None,
         notice=raw["notice"], apply=raw["apply"], apply_end=raw["apply_end"], winner=raw["winner"],
         contract=raw["contract"], move_in=raw["move_in"],
         price=raw["price"], ext=0.0, contract_rate=0.10, mid_rate=0.0 if built else 0.6,

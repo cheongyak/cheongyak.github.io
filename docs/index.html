@@ -82,6 +82,7 @@ a{color:var(--link)}
 .docrow{display:flex;align-items:center;justify-content:space-between;gap:8px;width:100%;padding:12px 0;border:0;border-top:1px solid var(--line);background:none;color:inherit;font:inherit;text-align:left;cursor:pointer} .docrow>span{display:flex;flex-direction:column;gap:2px} .docrow svg{width:16px;height:16px;flex:none;color:var(--muted)}
 .tblwrap{overflow-x:auto} .doctbl{width:100%;border-collapse:collapse;font-size:13px} .doctbl th,.doctbl td{text-align:left;padding:6px 6px;border-top:1px solid var(--line);vertical-align:top} .doctbl th{color:var(--muted);font-weight:600}
 .doc-kv{margin:8px 0 0}
+.spchips{display:flex;flex-wrap:wrap;gap:6px;margin:6px 0} .spchip{display:inline-flex;align-items:baseline;gap:4px;padding:6px 10px;border-radius:10px;background:var(--sunk);font-size:13px} .spchip b{font-size:15px}
 .linkcard{display:flex;flex-direction:column;gap:2px;text-decoration:none;color:inherit}
 .back{display:flex;align-items:center;gap:2px;border:0;background:none;padding:0 8px 0 0;min-height:44px;font-weight:600;cursor:pointer}
 .back svg{width:22px;height:22px}
@@ -1091,6 +1092,16 @@ function locationCard(L){
     ${on('naver_map') ? `<div class="linkrow"><a href="${esc(naverMapUrl(L))}" target="_blank" rel="noopener" data-ev="naver-map">네이버 지도에서 보기</a></div>` : ''}
   </section>`;
 }
+/* 특별공급 유형별 세대수 (기능: special_counts). 청약홈 주택형 응답의 유형별 세대수 */
+const SP_TYPES = [['newborn','신생아'],['newlywed','신혼부부'],['first','생애최초'],['multichild','다자녀'],['elder','노부모부양'],['agency','기관추천'],['relocated','이전기관'],['youth','청년'],['etc','기타']];
+function specialCountCard(L){
+  const u = L.specialUnits;
+  if (!on('special_counts') || !u || !(u.total > 0)) return '';
+  const items = SP_TYPES.filter(([k]) => u[k] > 0);
+  return `<section class="card"><div class="row"><h2>특별공급 세대수 (이 주택형)</h2><span class="small muted">합계 ${u.total}세대</span></div>
+    <div class="spchips">${items.map(([k, t]) => `<span class="spchip"><b>${u[k]}</b>${t}</span>`).join('')}</div>
+    <p class="foot">일반공급 ${L.unit.split(' · ')[1] || '-'} · ${L.sources && L.sources[0] ? src(null, ['청약홈 공고', L.sources[0][1]]) : src('applyhome')}</p></section>`;
+}
 function vDetail(){
   const L = LISTINGS.find(x => x.id === S.id), m = grade(L), p = S.profile, e = eligibility(L, p), o = planOpt(L), f = funding(L, p, o);
   const gap = bestGap(f, o), barCost = L.mktBase ? Math.min(100, m.cost / L.mktBase * 100) : 0, barLo = L.mktBase ? Math.max(0, Math.min(100 - barCost, m.lo / L.mktBase * 100)) : 0;
@@ -1124,6 +1135,7 @@ function vDetail(){
     ${e.items.map(i => `<div class="row"><span>${esc(i.k)}${i.note ? `<br><span class="small muted">${esc(i.note)}</span>` : ''}<br>${itemSrc(L, i.k)}</span><span class="${stCls(i.s)}">${esc(i.v)}</span></div>`).join('')}
   </div>
   <div class="small muted">내 정보는 ${src('user')} · 판정 기준은 ${src('supplyRule')}</div></section>
+  ${specialCountCard(L)}
   <section class="card"><h2>마진 계산</h2>
     <div class="stack" style="gap:6px">
       ${m.g === 'unknown' ? '' : `<div class="bar" role="img" aria-label="실매입가 ${fmt(m.cost)}, 기준 시세 ${fmt(L.mktBase)}"><i style="width:${barCost}%;background:var(--fg)"></i><i style="width:${barLo}%;background:var(--lotto)"></i></div>
@@ -1758,7 +1770,7 @@ function fromApi(x){
     sido:x.sido || null, district:x.district || null, supplyType:x.supply_type || x.kind,
     mktComps:x.mkt_comps || [], mktCount:x.mkt_count || 0, mktDirectExcluded:x.mkt_direct_excluded || 0, mktBasis:x.mkt_basis || null, jeonseComps:x.jeonse_comps || [],
     noticePdf:x.notice_pdf || null, category:x.category || null, area:x.area || null, accountMonths:x.account_months || null, depositCount:x.deposit_count || null, competition:x.competition || null, areaComps:Array.isArray(x.area_comps) ? x.area_comps : null, unitName:x.unit, address:x.address || '', geo:x.geo || null, nearby:Array.isArray(x.nearby) ? x.nearby : null, mapQuery:x.map_query || null, fromNotice:x.from_notice || [], checks:x.checks || [],
-    specialApply:x.special_apply || null, houseDtl:x.house_dtl || null, rentSecd:x.rent_secd || null, applyEnd:x.apply_end || null, unit:x.unit + (x.households ? ' · ' + x.households + '세대' : ''),
+    specialApply:x.special_apply || null, houseDtl:x.house_dtl || null, rentSecd:x.rent_secd || null, applyEnd:x.apply_end || null, unit:x.unit + (x.households ? ' · ' + x.households + '세대' : ''), specialUnits:x.special_units || null,
     notice:x.notice, apply:x.apply, winner:x.winner, contract:x.contract, balance:x.balance,
     price:x.price, ext:x.ext || 0, contractRate:x.contract_rate || 0.1, midRate:x.mid_rate || 0,
     mktLow:x.mkt_low, mktBase:x.mkt_base, mktNote:x.mkt_note || '', jeonse:x.jeonse, jeonseNote:x.jeonse_note || '',

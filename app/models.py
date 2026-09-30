@@ -28,6 +28,7 @@ class Listing(BaseModel):
     unit: str                                # "84C" 등
     area: Optional[float] = None             # 전용면적 ㎡
     households: Optional[int] = None
+    special_units: Optional[dict] = None     # 특별공급 유형별 세대수 {newborn, newlywed, first, multichild, elder, agency, ..., total} (기능: special_counts)
 
     notice: Optional[str] = None             # 모집공고일 YYYY-MM-DD
     apply: Optional[str] = None              # 접수 시작일

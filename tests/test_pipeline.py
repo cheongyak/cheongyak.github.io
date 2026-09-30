@@ -219,3 +219,18 @@ def test_feature_switch(monkeypatch):
     monkeypatch.setattr(pipeline.notify, "load_config", lambda: {"features": {"competition": False}})
     assert pipeline.feature_on("competition") is False
     assert pipeline.feature_on("nearby") is True          # 적혀 있지 않으면 켜짐
+
+
+def test_special_units_from_model():
+    # 2026-09-30 실행 기록 [응답 필드] general 주택형 의 실제 필드 이름
+    from app.sources.applyhome import normalize, special_units
+    model = {"HOUSE_TY": "084.9800A", "LTTOT_TOP_AMOUNT": "90000", "SUPLY_HSHLDCO": "40", "SPSPLY_HSHLDCO": "52",
+             "NWBB_HSHLDCO": "5", "NWWDS_HSHLDCO": "8", "LFE_FRST_HSHLDCO": "4", "MNYCH_HSHLDCO": "5",
+             "OLD_PARNTS_SUPORT_HSHLDCO": "1", "INSTT_RECOMEND_HSHLDCO": "5", "TRANSR_INSTT_ENFSN_HSHLDCO": "0",
+             "YGMN_HSHLDCO": "0", "ETC_HSHLDCO": "0"}
+    su = special_units(model)
+    assert su["newborn"] == 5 and su["newlywed"] == 8 and su["first"] == 4 and su["multichild"] == 5
+    assert su["elder"] == 1 and su["agency"] == 5 and su["total"] == 52
+    assert normalize(DETAIL, model, "general")["special_units"] == su
+    # 무순위 주택형 응답에는 유형별 필드가 없다 → None
+    assert special_units({"HOUSE_TY": "059.99A", "SPSPLY_HSHLDCO": "0", "SUPLY_HSHLDCO": "1"}) is None

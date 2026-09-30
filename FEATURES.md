@@ -45,6 +45,7 @@
 | `summary_sheet` | 요약 숫자를 누르면 공고 목록 창 (B안) | 목록 맨 위 세 칸 → 아래에서 올라오는 창 | - | 90b37df | backup/20260930-1132-sheet |
 | `about_tab` | 하단 "이용 안내" 탭 | 하단 메뉴 탭 (about_page 가 켜져 있을 때만) | - | 6b3ddf9 | backup/20260930-1137-abtab |
 | `legal_pages` | 만든 이유와 데이터·이용약관·개인정보처리방침 화면 | 이용 안내 "문서" 칸 → 세 화면 (config 의 maker·privacy_officer) | - | da40421 | backup/20260930-1152-legal |
+| `special_counts` | 특별공급 유형별 세대수 (청약홈 주택형 응답) | 상세 "특별공급 세대수 (이 주택형)" | 주택형 응답의 NWBB·NWWDS·LFE_FRST·MNYCH·OLD_PARNTS_SUPORT 등 저장 (special_units) | (커밋 후 기입) | backup/20260930-1243-spcnt |
 
 `naver_map`·`nearby`·`analytics` 는 한 커밋(147fa99)에 함께 들어갔다. 이 셋 중 하나만 없애려면 revert 대신 스위치로 끄거나,
 해당 부분만 지우는 새 커밋을 만든다.

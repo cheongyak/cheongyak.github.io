@@ -59,6 +59,23 @@ FIELD = {
     "households": ["SUPLY_HSHLDCO", "SPSPLY_HSHLDCO"],
 }
 
+# 주택형별(Mdl) 특별공급 유형별 세대수. 2026-09-30 실행 기록 [응답 필드] general 주택형 에서 필드 이름 확인
+# (NWBB 신생아, NWWDS 신혼부부, LFE_FRST 생애최초, MNYCH 다자녀, OLD_PARNTS_SUPORT 노부모부양,
+#  INSTT_RECOMEND 기관추천, TRANSR_INSTT_ENFSN 이전기관, YGMN 청년, ETC 기타, SPSPLY 특별공급 합계)
+SPECIAL_UNITS = (
+    ("newborn", "NWBB_HSHLDCO"), ("newlywed", "NWWDS_HSHLDCO"), ("first", "LFE_FRST_HSHLDCO"),
+    ("multichild", "MNYCH_HSHLDCO"), ("elder", "OLD_PARNTS_SUPORT_HSHLDCO"), ("agency", "INSTT_RECOMEND_HSHLDCO"),
+    ("relocated", "TRANSR_INSTT_ENFSN_HSHLDCO"), ("youth", "YGMN_HSHLDCO"), ("etc", "ETC_HSHLDCO"), ("total", "SPSPLY_HSHLDCO"),
+)
+
+
+def special_units(model: dict) -> Optional[dict]:
+    """주택형 응답에 특별공급 유형별 세대수 필드가 있을 때만 {유형: 세대수}. 없으면 None (무순위 주택형 응답에는 없음)"""
+    if not any(k in model for _, k in SPECIAL_UNITS if _ != "total"):
+        return None
+    out = {name: to_int(model.get(k)) or 0 for name, k in SPECIAL_UNITS if k in model}
+    return out
+
 
 class ApplyhomeError(RuntimeError):
     pass
@@ -165,6 +182,7 @@ def normalize(detail: dict, model: dict, category: str) -> dict:
         "unit": unit_label(house_ty),
         "area": area_of(house_ty),
         "households": to_int(pick(model, "households")),
+        "special_units": special_units(model),
         "notice": to_date(pick(detail, "notice")),
         "apply": to_date(pick(detail, "apply")),
         "apply_end": to_date(pick(detail, "apply_end")),

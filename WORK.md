@@ -4,6 +4,14 @@
 2026-09-29 12:55 이전 항목은 규칙을 만들기 전 작업을 커밋 기록으로 정리한 것이라 백업 브랜치가 없어요.
 그 시점으로 되돌릴 때는 해당 커밋 번호로 `git revert` 를 써요.
 
+## 2026-09-30 12:43 · 특별공급 유형별 세대수
+- 요청: 특별공급도 판정할 수 있게, 기능별로 나눠서 (1/3: 유형별 세대수)
+- 변경: 청약홈 주택형(Mdl) 응답의 유형별 세대수(NWBB 신생아·NWWDS 신혼부부·LFE_FRST 생애최초·MNYCH 다자녀·OLD_PARNTS_SUPORT 노부모·INSTT_RECOMEND 기관추천·TRANSR_INSTT_ENFSN 이전기관·YGMN 청년·ETC·SPSPLY 합계)를 모아 listings.json special_units 로 저장. 필드 이름은 실행 기록 [응답 필드] general 주택형 에서 확인한 것만 씀. 무순위 주택형 응답에는 없어 None. 공고 상세에 '특별공급 세대수 (이 주택형)' 칸(0세대 유형은 숨김, 일반공급 세대수와 출처)
+- 파일: app/sources/applyhome.py, app/models.py, app/pipeline.py, docs/index.html, docs/config.json, tests/test_pipeline.py, FEATURES.md
+- 확인: 테스트 test_special_units_from_model 추가(pytest 65 통과), 브라우저에서 시험 값으로 칸 표시. 올린 뒤 수집 결과에서 실제 값 확인 예정
+- 기능: special_counts
+- 백업: backup/20260930-1243-spcnt
+
 ## 2026-09-30 11:52 · 만든 이유·이용약관·개인정보처리방침
 - 요청: 급매캐치의 '데이터 & 만든 사람'·이용약관·개인정보처리방침을 벤치마킹해 새로 구성
 - 변경: 이용 안내에 '문서' 칸(만든 이유와 데이터 / 이용약관 / 개인정보처리방침). 구성만 참고하고 내용은 이 서비스 구조에 맞게 새로 씀 — 회원가입·서버 저장 없음, 입력값은 기기(localStorage)에만, 쿠키 없음, 브라우저가 직접 접속하는 외부 서비스(GitHub Pages·Google Fonts·방문 통계·네이버 지도·ntfy·구글폼·오픈채팅) 표, 판정 콘텐츠는 참고용(청약자격 공식 확인·감정평가·투자 권유 아님), 이용자 권리(내 정보 지우기), 보호책임자·권익침해 구제 기관. 만든 이유 화면은 WHY/FOUNDATION(현재 공고 수·시·도 수)/01~04 구성, 개인 경력 같은 사실 확인이 안 된 내용은 넣지 않고 config.json 의 maker·privacy_officer 로 채우게 함(비면 '서비스 운영자'). 시행일 2026-09-30
