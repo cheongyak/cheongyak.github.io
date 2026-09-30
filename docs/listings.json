@@ -291,6 +291,8 @@
   "deposit_count": 6,
   "competition": null,
   "area_comps": [],
+  "sp_competition": null,
+  "area_sp": [],
   "map_query": "인천광역시 계양구 귤현동",
   "nearby": [
    {
@@ -620,6 +622,8 @@
   "deposit_count": 6,
   "competition": null,
   "area_comps": [],
+  "sp_competition": null,
+  "area_sp": [],
   "map_query": "인천광역시 계양구 귤현동",
   "nearby": [
    {
@@ -949,6 +953,8 @@
   "deposit_count": 6,
   "competition": null,
   "area_comps": [],
+  "sp_competition": null,
+  "area_sp": [],
   "map_query": "인천광역시 계양구 귤현동",
   "nearby": [
    {
@@ -1340,6 +1346,26 @@
     "rate_num": 6.29,
     "low": 54.0,
     "avg": 60.33
+   }
+  ],
+  "sp_competition": null,
+  "area_sp": [
+   {
+    "name": "시흥 은계 에피트(조합원 취소분)",
+    "notice": "2026-09-04",
+    "apply": "2026-09-15",
+    "url": "https://www.applyhome.co.kr/ai/aia/selectAPTLttotPblancDetail.do?houseManageNo=2026000393&pblancNo=2026000393",
+    "unit": "52B",
+    "area": 52.784,
+    "sp": {
+     "newlywed": {
+      "u": 1,
+      "req": 0,
+      "local": 0,
+      "sido": 0,
+      "other": 0
+     }
+    }
    }
   ],
   "map_query": "경기도 시흥시 하중동",
@@ -1743,6 +1769,26 @@
     "avg": 60.33
    }
   ],
+  "sp_competition": null,
+  "area_sp": [
+   {
+    "name": "시흥 은계 에피트(조합원 취소분)",
+    "notice": "2026-09-04",
+    "apply": "2026-09-15",
+    "url": "https://www.applyhome.co.kr/ai/aia/selectAPTLttotPblancDetail.do?houseManageNo=2026000393&pblancNo=2026000393",
+    "unit": "52B",
+    "area": 52.784,
+    "sp": {
+     "newlywed": {
+      "u": 1,
+      "req": 0,
+      "local": 0,
+      "sido": 0,
+      "other": 0
+     }
+    }
+   }
+  ],
   "map_query": "경기도 시흥시 하중동",
   "nearby": [
    {
@@ -2132,6 +2178,44 @@
     "avg": 58.55
    }
   ],
+  "sp_competition": {
+   "newborn": {
+    "u": 2,
+    "req": 18,
+    "local": 5,
+    "sido": 0,
+    "other": 13
+   },
+   "newlywed": {
+    "u": 3,
+    "req": 45,
+    "local": 7,
+    "sido": 0,
+    "other": 38
+   },
+   "first": {
+    "u": 1,
+    "req": 105,
+    "local": 13,
+    "sido": 0,
+    "other": 92
+   },
+   "multichild": {
+    "u": 2,
+    "req": 4,
+    "local": 2,
+    "sido": 2,
+    "other": 0
+   },
+   "elder": {
+    "u": 1,
+    "req": 1,
+    "local": 0,
+    "sido": 0,
+    "other": 1
+   }
+  },
+  "area_sp": [],
   "map_query": "경기도 광명시 소하동",
   "nearby": [
    {
@@ -2521,6 +2605,44 @@
     "avg": 53.7
    }
   ],
+  "sp_competition": {
+   "newborn": {
+    "u": 8,
+    "req": 50,
+    "local": 8,
+    "sido": 0,
+    "other": 42
+   },
+   "newlywed": {
+    "u": 13,
+    "req": 103,
+    "local": 11,
+    "sido": 0,
+    "other": 92
+   },
+   "first": {
+    "u": 6,
+    "req": 252,
+    "local": 18,
+    "sido": 0,
+    "other": 234
+   },
+   "multichild": {
+    "u": 8,
+    "req": 12,
+    "local": 2,
+    "sido": 4,
+    "other": 6
+   },
+   "elder": {
+    "u": 2,
+    "req": 1,
+    "local": 0,
+    "sido": 0,
+    "other": 1
+   }
+  },
+  "area_sp": [],
   "map_query": "경기도 광명시 소하동",
   "nearby": [
    {
@@ -2910,6 +3032,44 @@
     "avg": 62.0
    }
   ],
+  "sp_competition": {
+   "newborn": {
+    "u": 9,
+    "req": 6,
+    "local": 1,
+    "sido": 0,
+    "other": 5
+   },
+   "newlywed": {
+    "u": 13,
+    "req": 12,
+    "local": 1,
+    "sido": 0,
+    "other": 11
+   },
+   "first": {
+    "u": 7,
+    "req": 4,
+    "local": 1,
+    "sido": 0,
+    "other": 3
+   },
+   "multichild": {
+    "u": 9,
+    "req": 4,
+    "local": 0,
+    "sido": 0,
+    "other": 4
+   },
+   "elder": {
+    "u": 3,
+    "req": 0,
+    "local": 0,
+    "sido": 0,
+    "other": 0
+   }
+  },
+  "area_sp": [],
   "map_query": "경기도 광명시 소하동",
   "nearby": [
    {
@@ -3299,6 +3459,44 @@
     "avg": 62.0
    }
   ],
+  "sp_competition": {
+   "newborn": {
+    "u": 2,
+    "req": 0,
+    "local": 0,
+    "sido": 0,
+    "other": 0
+   },
+   "newlywed": {
+    "u": 3,
+    "req": 1,
+    "local": 0,
+    "sido": 0,
+    "other": 1
+   },
+   "first": {
+    "u": 1,
+    "req": 1,
+    "local": 0,
+    "sido": 0,
+    "other": 1
+   },
+   "multichild": {
+    "u": 2,
+    "req": 1,
+    "local": 0,
+    "sido": 1,
+    "other": 0
+   },
+   "elder": {
+    "u": 1,
+    "req": 0,
+    "local": 0,
+    "sido": 0,
+    "other": 0
+   }
+  },
+  "area_sp": [],
   "map_query": "경기도 광명시 소하동",
   "nearby": [
    {
@@ -3688,6 +3886,44 @@
     "avg": 62.0
    }
   ],
+  "sp_competition": {
+   "newborn": {
+    "u": 11,
+    "req": 12,
+    "local": 1,
+    "sido": 0,
+    "other": 11
+   },
+   "newlywed": {
+    "u": 16,
+    "req": 17,
+    "local": 3,
+    "sido": 0,
+    "other": 14
+   },
+   "first": {
+    "u": 8,
+    "req": 6,
+    "local": 2,
+    "sido": 0,
+    "other": 4
+   },
+   "multichild": {
+    "u": 11,
+    "req": 4,
+    "local": 1,
+    "sido": 0,
+    "other": 3
+   },
+   "elder": {
+    "u": 3,
+    "req": 1,
+    "local": 0,
+    "sido": 0,
+    "other": 1
+   }
+  },
+  "area_sp": [],
   "map_query": "경기도 광명시 소하동",
   "nearby": [
    {
@@ -4077,6 +4313,44 @@
     "avg": 62.0
    }
   ],
+  "sp_competition": {
+   "newborn": {
+    "u": 2,
+    "req": 1,
+    "local": 1,
+    "sido": 0,
+    "other": 0
+   },
+   "newlywed": {
+    "u": 3,
+    "req": 5,
+    "local": 2,
+    "sido": 0,
+    "other": 3
+   },
+   "first": {
+    "u": 1,
+    "req": 0,
+    "local": 0,
+    "sido": 0,
+    "other": 0
+   },
+   "multichild": {
+    "u": 2,
+    "req": 2,
+    "local": 0,
+    "sido": 1,
+    "other": 1
+   },
+   "elder": {
+    "u": 1,
+    "req": 0,
+    "local": 0,
+    "sido": 0,
+    "other": 0
+   }
+  },
+  "area_sp": [],
   "map_query": "경기도 광명시 소하동",
   "nearby": [
    {
@@ -4466,6 +4740,44 @@
     "avg": 62.0
    }
   ],
+  "sp_competition": {
+   "newborn": {
+    "u": 9,
+    "req": 4,
+    "local": 0,
+    "sido": 0,
+    "other": 4
+   },
+   "newlywed": {
+    "u": 13,
+    "req": 14,
+    "local": 0,
+    "sido": 0,
+    "other": 14
+   },
+   "first": {
+    "u": 6,
+    "req": 0,
+    "local": 0,
+    "sido": 0,
+    "other": 0
+   },
+   "multichild": {
+    "u": 9,
+    "req": 0,
+    "local": 0,
+    "sido": 0,
+    "other": 0
+   },
+   "elder": {
+    "u": 2,
+    "req": 0,
+    "local": 0,
+    "sido": 0,
+    "other": 0
+   }
+  },
+  "area_sp": [],
   "map_query": "경기도 광명시 소하동",
   "nearby": [
    {
@@ -4805,6 +5117,83 @@
    "scores": []
   },
   "area_comps": null,
+  "sp_competition": {
+   "newborn": {
+    "u": 2,
+    "req": 1,
+    "local": 1,
+    "sido": 0,
+    "other": 0
+   },
+   "newlywed": {
+    "u": 2,
+    "req": 0,
+    "local": 0,
+    "sido": 0,
+    "other": 0
+   },
+   "first": {
+    "u": 1,
+    "req": 4,
+    "local": 1,
+    "sido": 0,
+    "other": 3
+   },
+   "multichild": {
+    "u": 1,
+    "req": 1,
+    "local": 1,
+    "sido": 0,
+    "other": 0
+   }
+  },
+  "area_sp": [
+   {
+    "name": "시티오씨엘 9단지 오션파크뷰",
+    "notice": "2026-08-21",
+    "apply": "2026-08-31",
+    "url": "https://www.applyhome.co.kr/ai/aia/selectAPTLttotPblancDetail.do?houseManageNo=2026000388&pblancNo=2026000388",
+    "unit": "75",
+    "area": 75.9096,
+    "sp": {
+     "newborn": {
+      "u": 13,
+      "req": 11,
+      "local": 9,
+      "sido": 0,
+      "other": 2
+     },
+     "newlywed": {
+      "u": 20,
+      "req": 13,
+      "local": 7,
+      "sido": 0,
+      "other": 6
+     },
+     "first": {
+      "u": 9,
+      "req": 16,
+      "local": 12,
+      "sido": 0,
+      "other": 4
+     },
+     "multichild": {
+      "u": 13,
+      "req": 2,
+      "local": 2,
+      "sido": 0,
+      "other": 0
+     },
+     "elder": {
+      "u": 5,
+      "req": 0,
+      "local": 0,
+      "sido": 0,
+      "other": 0
+     }
+    }
+   }
+  ],
   "map_query": "인천광역시 미추홀구 숭의동 350-1",
   "nearby": [
    {
@@ -5175,6 +5564,90 @@
    "scores": []
   },
   "area_comps": null,
+  "sp_competition": {
+   "newborn": {
+    "u": 2,
+    "req": 0,
+    "local": 0,
+    "sido": 0,
+    "other": 0
+   },
+   "newlywed": {
+    "u": 3,
+    "req": 0,
+    "local": 0,
+    "sido": 0,
+    "other": 0
+   },
+   "first": {
+    "u": 2,
+    "req": 0,
+    "local": 0,
+    "sido": 0,
+    "other": 0
+   },
+   "multichild": {
+    "u": 2,
+    "req": 0,
+    "local": 0,
+    "sido": 0,
+    "other": 0
+   },
+   "elder": {
+    "u": 1,
+    "req": 0,
+    "local": 0,
+    "sido": 0,
+    "other": 0
+   }
+  },
+  "area_sp": [
+   {
+    "name": "시티오씨엘 9단지 오션파크뷰",
+    "notice": "2026-08-21",
+    "apply": "2026-08-31",
+    "url": "https://www.applyhome.co.kr/ai/aia/selectAPTLttotPblancDetail.do?houseManageNo=2026000388&pblancNo=2026000388",
+    "unit": "84A",
+    "area": 84.9771,
+    "sp": {
+     "newborn": {
+      "u": 98,
+      "req": 12,
+      "local": 7,
+      "sido": 0,
+      "other": 5
+     },
+     "newlywed": {
+      "u": 147,
+      "req": 8,
+      "local": 6,
+      "sido": 0,
+      "other": 2
+     },
+     "first": {
+      "u": 68,
+      "req": 13,
+      "local": 11,
+      "sido": 0,
+      "other": 2
+     },
+     "multichild": {
+      "u": 98,
+      "req": 8,
+      "local": 7,
+      "sido": 0,
+      "other": 1
+     },
+     "elder": {
+      "u": 31,
+      "req": 0,
+      "local": 0,
+      "sido": 0,
+      "other": 0
+     }
+    }
+   }
+  ],
   "map_query": "인천광역시 미추홀구 숭의동 350-1",
   "nearby": [
    {
@@ -5491,6 +5964,44 @@
    "scores": []
   },
   "area_comps": null,
+  "sp_competition": {
+   "newborn": {
+    "u": 13,
+    "req": 4,
+    "local": 1,
+    "sido": 0,
+    "other": 3
+   },
+   "newlywed": {
+    "u": 20,
+    "req": 15,
+    "local": 11,
+    "sido": 0,
+    "other": 4
+   },
+   "first": {
+    "u": 9,
+    "req": 44,
+    "local": 35,
+    "sido": 0,
+    "other": 9
+   },
+   "multichild": {
+    "u": 13,
+    "req": 2,
+    "local": 1,
+    "sido": 0,
+    "other": 1
+   },
+   "elder": {
+    "u": 4,
+    "req": 2,
+    "local": 2,
+    "sido": 0,
+    "other": 0
+   }
+  },
+  "area_sp": null,
   "map_query": "경상남도 진주시 판문동 241-1",
   "nearby": [
    {
@@ -5846,6 +6357,44 @@
    "scores": []
   },
   "area_comps": null,
+  "sp_competition": {
+   "newborn": {
+    "u": 21,
+    "req": 120,
+    "local": 97,
+    "sido": 0,
+    "other": 23
+   },
+   "newlywed": {
+    "u": 31,
+    "req": 133,
+    "local": 106,
+    "sido": 0,
+    "other": 27
+   },
+   "first": {
+    "u": 14,
+    "req": 191,
+    "local": 168,
+    "sido": 0,
+    "other": 23
+   },
+   "multichild": {
+    "u": 20,
+    "req": 83,
+    "local": 82,
+    "sido": 0,
+    "other": 1
+   },
+   "elder": {
+    "u": 6,
+    "req": 3,
+    "local": 3,
+    "sido": 0,
+    "other": 0
+   }
+  },
+  "area_sp": null,
   "map_query": "경상남도 진주시 판문동 241-1",
   "nearby": [
    {
@@ -6201,6 +6750,44 @@
    "scores": []
   },
   "area_comps": null,
+  "sp_competition": {
+   "newborn": {
+    "u": 28,
+    "req": 47,
+    "local": 36,
+    "sido": 0,
+    "other": 11
+   },
+   "newlywed": {
+    "u": 42,
+    "req": 58,
+    "local": 44,
+    "sido": 0,
+    "other": 14
+   },
+   "first": {
+    "u": 19,
+    "req": 100,
+    "local": 84,
+    "sido": 0,
+    "other": 16
+   },
+   "multichild": {
+    "u": 28,
+    "req": 41,
+    "local": 36,
+    "sido": 0,
+    "other": 5
+   },
+   "elder": {
+    "u": 8,
+    "req": 1,
+    "local": 1,
+    "sido": 0,
+    "other": 0
+   }
+  },
+  "area_sp": null,
   "map_query": "경상남도 진주시 판문동 241-1",
   "nearby": [
    {
@@ -6556,6 +7143,23 @@
    "scores": []
   },
   "area_comps": null,
+  "sp_competition": {
+   "multichild": {
+    "u": 8,
+    "req": 43,
+    "local": 39,
+    "sido": 0,
+    "other": 4
+   },
+   "elder": {
+    "u": 2,
+    "req": 0,
+    "local": 0,
+    "sido": 0,
+    "other": 0
+   }
+  },
+  "area_sp": null,
   "map_query": "경상남도 진주시 판문동 241-1",
   "nearby": [
    {
@@ -6733,6 +7337,8 @@
    "scores": []
   },
   "area_comps": null,
+  "sp_competition": null,
+  "area_sp": null,
   "map_query": "경상남도 진주시 판문동 241-1",
   "nearby": [
    {
@@ -7085,6 +7691,44 @@
    "scores": []
   },
   "area_comps": null,
+  "sp_competition": {
+   "newborn": {
+    "u": 7,
+    "req": 2,
+    "local": 1,
+    "sido": 0,
+    "other": 1
+   },
+   "newlywed": {
+    "u": 11,
+    "req": 2,
+    "local": 2,
+    "sido": 0,
+    "other": 0
+   },
+   "first": {
+    "u": 5,
+    "req": 109,
+    "local": 89,
+    "sido": 0,
+    "other": 20
+   },
+   "multichild": {
+    "u": 7,
+    "req": 1,
+    "local": 1,
+    "sido": 0,
+    "other": 0
+   },
+   "elder": {
+    "u": 2,
+    "req": 1,
+    "local": 1,
+    "sido": 0,
+    "other": 0
+   }
+  },
+  "area_sp": null,
   "map_query": "전북특별자치도 전주시 완산구 삼천동1가 585-4",
   "nearby": [
    {
@@ -7437,6 +8081,8 @@
    "scores": []
   },
   "area_comps": null,
+  "sp_competition": null,
+  "area_sp": null,
   "map_query": "전북특별자치도 전주시 완산구 삼천동1가 585-4",
   "nearby": [
    {
@@ -7789,6 +8435,44 @@
    "scores": []
   },
   "area_comps": null,
+  "sp_competition": {
+   "newborn": {
+    "u": 5,
+    "req": 10,
+    "local": 9,
+    "sido": 0,
+    "other": 1
+   },
+   "newlywed": {
+    "u": 7,
+    "req": 13,
+    "local": 12,
+    "sido": 0,
+    "other": 1
+   },
+   "first": {
+    "u": 3,
+    "req": 34,
+    "local": 25,
+    "sido": 0,
+    "other": 9
+   },
+   "multichild": {
+    "u": 5,
+    "req": 4,
+    "local": 4,
+    "sido": 0,
+    "other": 0
+   },
+   "elder": {
+    "u": 1,
+    "req": 0,
+    "local": 0,
+    "sido": 0,
+    "other": 0
+   }
+  },
+  "area_sp": null,
   "map_query": "전북특별자치도 전주시 완산구 삼천동1가 585-4",
   "nearby": [
    {
@@ -8141,6 +8825,44 @@
    "scores": []
   },
   "area_comps": null,
+  "sp_competition": {
+   "newborn": {
+    "u": 18,
+    "req": 0,
+    "local": 0,
+    "sido": 0,
+    "other": 0
+   },
+   "newlywed": {
+    "u": 28,
+    "req": 0,
+    "local": 0,
+    "sido": 0,
+    "other": 0
+   },
+   "first": {
+    "u": 31,
+    "req": 4,
+    "local": 3,
+    "sido": 0,
+    "other": 1
+   },
+   "multichild": {
+    "u": 18,
+    "req": 0,
+    "local": 0,
+    "sido": 0,
+    "other": 0
+   },
+   "elder": {
+    "u": 5,
+    "req": 0,
+    "local": 0,
+    "sido": 0,
+    "other": 0
+   }
+  },
+  "area_sp": null,
   "map_query": "부산광역시 강서구 강동동 5048-5",
   "nearby": [
    {
@@ -8485,6 +9207,44 @@
    "scores": []
   },
   "area_comps": null,
+  "sp_competition": {
+   "newborn": {
+    "u": 18,
+    "req": 0,
+    "local": 0,
+    "sido": 0,
+    "other": 0
+   },
+   "newlywed": {
+    "u": 26,
+    "req": 0,
+    "local": 0,
+    "sido": 0,
+    "other": 0
+   },
+   "first": {
+    "u": 30,
+    "req": 6,
+    "local": 3,
+    "sido": 0,
+    "other": 3
+   },
+   "multichild": {
+    "u": 17,
+    "req": 0,
+    "local": 0,
+    "sido": 0,
+    "other": 0
+   },
+   "elder": {
+    "u": 5,
+    "req": 0,
+    "local": 0,
+    "sido": 0,
+    "other": 0
+   }
+  },
+  "area_sp": null,
   "map_query": "부산광역시 강서구 강동동 5048-5",
   "nearby": [
    {
@@ -8798,6 +9558,8 @@
    "scores": []
   },
   "area_comps": null,
+  "sp_competition": null,
+  "area_sp": null,
   "map_query": "울산광역시 중구 학성동 397-1",
   "nearby": [
    {
@@ -9119,6 +9881,8 @@
    "scores": []
   },
   "area_comps": null,
+  "sp_competition": null,
+  "area_sp": null,
   "map_query": "울산광역시 중구 학성동 397-1",
   "nearby": [
    {
@@ -9409,6 +10173,44 @@
    "scores": []
   },
   "area_comps": null,
+  "sp_competition": {
+   "newborn": {
+    "u": 1,
+    "req": 39,
+    "local": 38,
+    "sido": 0,
+    "other": 1
+   },
+   "newlywed": {
+    "u": 2,
+    "req": 64,
+    "local": 58,
+    "sido": 0,
+    "other": 6
+   },
+   "first": {
+    "u": 1,
+    "req": 60,
+    "local": 54,
+    "sido": 0,
+    "other": 6
+   },
+   "multichild": {
+    "u": 1,
+    "req": 24,
+    "local": 24,
+    "sido": 0,
+    "other": 0
+   },
+   "elder": {
+    "u": 1,
+    "req": 2,
+    "local": 2,
+    "sido": 0,
+    "other": 0
+   }
+  },
+  "area_sp": null,
   "map_query": "울산광역시 중구 학성동 397-1",
   "nearby": [
    {
@@ -9699,6 +10501,30 @@
    "scores": []
   },
   "area_comps": null,
+  "sp_competition": {
+   "newborn": {
+    "u": 1,
+    "req": 20,
+    "local": 18,
+    "sido": 0,
+    "other": 2
+   },
+   "newlywed": {
+    "u": 1,
+    "req": 2,
+    "local": 2,
+    "sido": 0,
+    "other": 0
+   },
+   "multichild": {
+    "u": 1,
+    "req": 6,
+    "local": 6,
+    "sido": 0,
+    "other": 0
+   }
+  },
+  "area_sp": null,
   "map_query": "울산광역시 중구 학성동 397-1",
   "nearby": [
    {
@@ -9989,6 +10815,37 @@
    "scores": []
   },
   "area_comps": null,
+  "sp_competition": {
+   "newborn": {
+    "u": 1,
+    "req": 14,
+    "local": 14,
+    "sido": 0,
+    "other": 0
+   },
+   "newlywed": {
+    "u": 1,
+    "req": 9,
+    "local": 8,
+    "sido": 0,
+    "other": 1
+   },
+   "first": {
+    "u": 1,
+    "req": 12,
+    "local": 12,
+    "sido": 0,
+    "other": 0
+   },
+   "multichild": {
+    "u": 1,
+    "req": 1,
+    "local": 1,
+    "sido": 0,
+    "other": 0
+   }
+  },
+  "area_sp": null,
   "map_query": "울산광역시 중구 학성동 397-1",
   "nearby": [
    {
@@ -10301,6 +11158,8 @@
    "scores": []
   },
   "area_comps": null,
+  "sp_competition": null,
+  "area_sp": null,
   "map_query": "부산광역시 수영구 망미동 253-1",
   "nearby": [
    {
@@ -10629,6 +11488,8 @@
    "scores": []
   },
   "area_comps": null,
+  "sp_competition": null,
+  "area_sp": null,
   "map_query": "부산광역시 수영구 망미동 253-1",
   "nearby": [
    {
@@ -11001,6 +11862,8 @@
    "scores": []
   },
   "area_comps": null,
+  "sp_competition": null,
+  "area_sp": null,
   "map_query": "부산광역시 수영구 망미동 253-1",
   "nearby": [
    {
@@ -11373,6 +12236,44 @@
    "scores": []
   },
   "area_comps": null,
+  "sp_competition": {
+   "newborn": {
+    "u": 4,
+    "req": 0,
+    "local": 0,
+    "sido": 0,
+    "other": 0
+   },
+   "newlywed": {
+    "u": 6,
+    "req": 1,
+    "local": 1,
+    "sido": 0,
+    "other": 0
+   },
+   "first": {
+    "u": 3,
+    "req": 5,
+    "local": 5,
+    "sido": 0,
+    "other": 0
+   },
+   "multichild": {
+    "u": 4,
+    "req": 1,
+    "local": 1,
+    "sido": 0,
+    "other": 0
+   },
+   "elder": {
+    "u": 1,
+    "req": 0,
+    "local": 0,
+    "sido": 0,
+    "other": 0
+   }
+  },
+  "area_sp": null,
   "map_query": "부산광역시 수영구 망미동 253-1",
   "nearby": [
    {
@@ -11732,6 +12633,8 @@
    "scores": []
   },
   "area_comps": null,
+  "sp_competition": null,
+  "area_sp": null,
   "map_query": "충청남도 천안시 동남구 풍세로 801",
   "nearby": [
    {
@@ -12067,6 +12970,8 @@
    "scores": []
   },
   "area_comps": null,
+  "sp_competition": null,
+  "area_sp": null,
   "map_query": "충청남도 천안시 동남구 풍세로 801",
   "nearby": [
    {
@@ -12281,6 +13186,8 @@
    "scores": []
   },
   "area_comps": null,
+  "sp_competition": null,
+  "area_sp": null,
   "map_query": "충청남도 천안시 동남구 풍세로 801",
   "nearby": [
    {
@@ -12647,6 +13554,83 @@
    "scores": []
   },
   "area_comps": null,
+  "sp_competition": {
+   "newborn": {
+    "u": 3,
+    "req": 3,
+    "local": 3,
+    "sido": 0,
+    "other": 0
+   },
+   "newlywed": {
+    "u": 4,
+    "req": 1,
+    "local": 0,
+    "sido": 0,
+    "other": 1
+   },
+   "first": {
+    "u": 2,
+    "req": 5,
+    "local": 1,
+    "sido": 0,
+    "other": 4
+   },
+   "multichild": {
+    "u": 3,
+    "req": 0,
+    "local": 0,
+    "sido": 0,
+    "other": 0
+   },
+   "elder": {
+    "u": 1,
+    "req": 0,
+    "local": 0,
+    "sido": 0,
+    "other": 0
+   }
+  },
+  "area_sp": [
+   {
+    "name": "수원역 아너스빌 타임원",
+    "notice": "2026-05-22",
+    "apply": "2026-06-01",
+    "url": "https://www.applyhome.co.kr/ai/aia/selectAPTLttotPblancDetail.do?houseManageNo=2026000205&pblancNo=2026000205",
+    "unit": "84A",
+    "area": 84.6388,
+    "sp": {
+     "newlywed": {
+      "u": 8,
+      "req": 34,
+      "local": 16,
+      "sido": 0,
+      "other": 18
+     },
+     "first": {
+      "u": 2,
+      "req": 23,
+      "local": 11,
+      "sido": 0,
+      "other": 12
+     },
+     "multichild": {
+      "u": 2,
+      "req": 3,
+      "local": 0,
+      "sido": 2,
+      "other": 1
+     },
+     "elder": {
+      "u": 2,
+      "req": 0,
+      "local": 0,
+      "sido": 0,
+      "other": 0
+     }
+    }
+   }
+  ],
   "map_query": "경기도 수원시 권선구 서둔동 212-1",
   "nearby": [
    {
@@ -13037,6 +14021,83 @@
    "scores": []
   },
   "area_comps": null,
+  "sp_competition": {
+   "newborn": {
+    "u": 8,
+    "req": 4,
+    "local": 2,
+    "sido": 0,
+    "other": 2
+   },
+   "newlywed": {
+    "u": 12,
+    "req": 11,
+    "local": 5,
+    "sido": 0,
+    "other": 6
+   },
+   "first": {
+    "u": 6,
+    "req": 18,
+    "local": 11,
+    "sido": 0,
+    "other": 7
+   },
+   "multichild": {
+    "u": 8,
+    "req": 1,
+    "local": 0,
+    "sido": 1,
+    "other": 0
+   },
+   "elder": {
+    "u": 3,
+    "req": 1,
+    "local": 1,
+    "sido": 0,
+    "other": 0
+   }
+  },
+  "area_sp": [
+   {
+    "name": "수원역 아너스빌 타임원",
+    "notice": "2026-05-22",
+    "apply": "2026-06-01",
+    "url": "https://www.applyhome.co.kr/ai/aia/selectAPTLttotPblancDetail.do?houseManageNo=2026000205&pblancNo=2026000205",
+    "unit": "84B",
+    "area": 84.8874,
+    "sp": {
+     "newlywed": {
+      "u": 7,
+      "req": 12,
+      "local": 5,
+      "sido": 0,
+      "other": 7
+     },
+     "first": {
+      "u": 2,
+      "req": 12,
+      "local": 4,
+      "sido": 0,
+      "other": 8
+     },
+     "multichild": {
+      "u": 2,
+      "req": 1,
+      "local": 1,
+      "sido": 0,
+      "other": 0
+     },
+     "elder": {
+      "u": 2,
+      "req": 0,
+      "local": 0,
+      "sido": 0,
+      "other": 0
+     }
+    }
+   }
+  ],
   "map_query": "경기도 수원시 권선구 서둔동 212-1",
   "nearby": [
    {
@@ -13427,6 +14488,83 @@
    "scores": []
   },
   "area_comps": null,
+  "sp_competition": {
+   "newborn": {
+    "u": 4,
+    "req": 0,
+    "local": 0,
+    "sido": 0,
+    "other": 0
+   },
+   "newlywed": {
+    "u": 6,
+    "req": 3,
+    "local": 0,
+    "sido": 0,
+    "other": 3
+   },
+   "first": {
+    "u": 2,
+    "req": 1,
+    "local": 0,
+    "sido": 0,
+    "other": 1
+   },
+   "multichild": {
+    "u": 4,
+    "req": 1,
+    "local": 1,
+    "sido": 0,
+    "other": 0
+   },
+   "elder": {
+    "u": 1,
+    "req": 0,
+    "local": 0,
+    "sido": 0,
+    "other": 0
+   }
+  },
+  "area_sp": [
+   {
+    "name": "수원역 아너스빌 타임원",
+    "notice": "2026-05-22",
+    "apply": "2026-06-01",
+    "url": "https://www.applyhome.co.kr/ai/aia/selectAPTLttotPblancDetail.do?houseManageNo=2026000205&pblancNo=2026000205",
+    "unit": "84A",
+    "area": 84.6388,
+    "sp": {
+     "newlywed": {
+      "u": 8,
+      "req": 34,
+      "local": 16,
+      "sido": 0,
+      "other": 18
+     },
+     "first": {
+      "u": 2,
+      "req": 23,
+      "local": 11,
+      "sido": 0,
+      "other": 12
+     },
+     "multichild": {
+      "u": 2,
+      "req": 3,
+      "local": 0,
+      "sido": 2,
+      "other": 1
+     },
+     "elder": {
+      "u": 2,
+      "req": 0,
+      "local": 0,
+      "sido": 0,
+      "other": 0
+     }
+    }
+   }
+  ],
   "map_query": "경기도 수원시 권선구 서둔동 212-1",
   "nearby": [
    {
@@ -13817,6 +14955,83 @@
    "scores": []
   },
   "area_comps": null,
+  "sp_competition": {
+   "newborn": {
+    "u": 7,
+    "req": 12,
+    "local": 3,
+    "sido": 0,
+    "other": 9
+   },
+   "newlywed": {
+    "u": 10,
+    "req": 7,
+    "local": 1,
+    "sido": 0,
+    "other": 6
+   },
+   "first": {
+    "u": 4,
+    "req": 7,
+    "local": 3,
+    "sido": 0,
+    "other": 4
+   },
+   "multichild": {
+    "u": 7,
+    "req": 0,
+    "local": 0,
+    "sido": 0,
+    "other": 0
+   },
+   "elder": {
+    "u": 2,
+    "req": 0,
+    "local": 0,
+    "sido": 0,
+    "other": 0
+   }
+  },
+  "area_sp": [
+   {
+    "name": "수원역 아너스빌 타임원",
+    "notice": "2026-05-22",
+    "apply": "2026-06-01",
+    "url": "https://www.applyhome.co.kr/ai/aia/selectAPTLttotPblancDetail.do?houseManageNo=2026000205&pblancNo=2026000205",
+    "unit": "84B",
+    "area": 84.8874,
+    "sp": {
+     "newlywed": {
+      "u": 7,
+      "req": 12,
+      "local": 5,
+      "sido": 0,
+      "other": 7
+     },
+     "first": {
+      "u": 2,
+      "req": 12,
+      "local": 4,
+      "sido": 0,
+      "other": 8
+     },
+     "multichild": {
+      "u": 2,
+      "req": 1,
+      "local": 1,
+      "sido": 0,
+      "other": 0
+     },
+     "elder": {
+      "u": 2,
+      "req": 0,
+      "local": 0,
+      "sido": 0,
+      "other": 0
+     }
+    }
+   }
+  ],
   "map_query": "경기도 수원시 권선구 서둔동 212-1",
   "nearby": [
    {
@@ -14207,6 +15422,76 @@
    "scores": []
   },
   "area_comps": null,
+  "sp_competition": {
+   "newborn": {
+    "u": 1,
+    "req": 0,
+    "local": 0,
+    "sido": 0,
+    "other": 0
+   },
+   "newlywed": {
+    "u": 2,
+    "req": 0,
+    "local": 0,
+    "sido": 0,
+    "other": 0
+   },
+   "first": {
+    "u": 1,
+    "req": 1,
+    "local": 0,
+    "sido": 0,
+    "other": 1
+   },
+   "multichild": {
+    "u": 1,
+    "req": 0,
+    "local": 0,
+    "sido": 0,
+    "other": 0
+   }
+  },
+  "area_sp": [
+   {
+    "name": "수원역 아너스빌 타임원",
+    "notice": "2026-05-22",
+    "apply": "2026-06-01",
+    "url": "https://www.applyhome.co.kr/ai/aia/selectAPTLttotPblancDetail.do?houseManageNo=2026000205&pblancNo=2026000205",
+    "unit": "84B",
+    "area": 84.8874,
+    "sp": {
+     "newlywed": {
+      "u": 7,
+      "req": 12,
+      "local": 5,
+      "sido": 0,
+      "other": 7
+     },
+     "first": {
+      "u": 2,
+      "req": 12,
+      "local": 4,
+      "sido": 0,
+      "other": 8
+     },
+     "multichild": {
+      "u": 2,
+      "req": 1,
+      "local": 1,
+      "sido": 0,
+      "other": 0
+     },
+     "elder": {
+      "u": 2,
+      "req": 0,
+      "local": 0,
+      "sido": 0,
+      "other": 0
+     }
+    }
+   }
+  ],
   "map_query": "경기도 수원시 권선구 서둔동 212-1",
   "nearby": [
    {
@@ -14553,6 +15838,62 @@
    "scores": []
   },
   "area_comps": null,
+  "sp_competition": {
+   "multichild": {
+    "u": 14,
+    "req": 4,
+    "local": 2,
+    "sido": 1,
+    "other": 1
+   },
+   "elder": {
+    "u": 4,
+    "req": 0,
+    "local": 0,
+    "sido": 0,
+    "other": 0
+   }
+  },
+  "area_sp": [
+   {
+    "name": "수원역 아너스빌 타임원",
+    "notice": "2026-05-22",
+    "apply": "2026-06-01",
+    "url": "https://www.applyhome.co.kr/ai/aia/selectAPTLttotPblancDetail.do?houseManageNo=2026000205&pblancNo=2026000205",
+    "unit": "84B",
+    "area": 84.8874,
+    "sp": {
+     "newlywed": {
+      "u": 7,
+      "req": 12,
+      "local": 5,
+      "sido": 0,
+      "other": 7
+     },
+     "first": {
+      "u": 2,
+      "req": 12,
+      "local": 4,
+      "sido": 0,
+      "other": 8
+     },
+     "multichild": {
+      "u": 2,
+      "req": 1,
+      "local": 1,
+      "sido": 0,
+      "other": 0
+     },
+     "elder": {
+      "u": 2,
+      "req": 0,
+      "local": 0,
+      "sido": 0,
+      "other": 0
+     }
+    }
+   }
+  ],
   "map_query": "경기도 수원시 권선구 서둔동 212-1",
   "nearby": [
    {
@@ -14899,6 +16240,55 @@
    "scores": []
   },
   "area_comps": null,
+  "sp_competition": {
+   "multichild": {
+    "u": 1,
+    "req": 0,
+    "local": 0,
+    "sido": 0,
+    "other": 0
+   }
+  },
+  "area_sp": [
+   {
+    "name": "수원역 아너스빌 타임원",
+    "notice": "2026-05-22",
+    "apply": "2026-06-01",
+    "url": "https://www.applyhome.co.kr/ai/aia/selectAPTLttotPblancDetail.do?houseManageNo=2026000205&pblancNo=2026000205",
+    "unit": "84B",
+    "area": 84.8874,
+    "sp": {
+     "newlywed": {
+      "u": 7,
+      "req": 12,
+      "local": 5,
+      "sido": 0,
+      "other": 7
+     },
+     "first": {
+      "u": 2,
+      "req": 12,
+      "local": 4,
+      "sido": 0,
+      "other": 8
+     },
+     "multichild": {
+      "u": 2,
+      "req": 1,
+      "local": 1,
+      "sido": 0,
+      "other": 0
+     },
+     "elder": {
+      "u": 2,
+      "req": 0,
+      "local": 0,
+      "sido": 0,
+      "other": 0
+     }
+    }
+   }
+  ],
   "map_query": "경기도 수원시 권선구 서둔동 212-1",
   "nearby": [
    {
@@ -15289,6 +16679,62 @@
    "scores": []
   },
   "area_comps": null,
+  "sp_competition": {
+   "multichild": {
+    "u": 7,
+    "req": 2,
+    "local": 0,
+    "sido": 1,
+    "other": 1
+   },
+   "elder": {
+    "u": 2,
+    "req": 0,
+    "local": 0,
+    "sido": 0,
+    "other": 0
+   }
+  },
+  "area_sp": [
+   {
+    "name": "수원역 아너스빌 타임원",
+    "notice": "2026-05-22",
+    "apply": "2026-06-01",
+    "url": "https://www.applyhome.co.kr/ai/aia/selectAPTLttotPblancDetail.do?houseManageNo=2026000205&pblancNo=2026000205",
+    "unit": "84B",
+    "area": 84.8874,
+    "sp": {
+     "newlywed": {
+      "u": 7,
+      "req": 12,
+      "local": 5,
+      "sido": 0,
+      "other": 7
+     },
+     "first": {
+      "u": 2,
+      "req": 12,
+      "local": 4,
+      "sido": 0,
+      "other": 8
+     },
+     "multichild": {
+      "u": 2,
+      "req": 1,
+      "local": 1,
+      "sido": 0,
+      "other": 0
+     },
+     "elder": {
+      "u": 2,
+      "req": 0,
+      "local": 0,
+      "sido": 0,
+      "other": 0
+     }
+    }
+   }
+  ],
   "map_query": "경기도 수원시 권선구 서둔동 212-1",
   "nearby": [
    {
@@ -15659,6 +17105,44 @@
    "scores": []
   },
   "area_comps": null,
+  "sp_competition": {
+   "newborn": {
+    "u": 9,
+    "req": 6,
+    "local": 6,
+    "sido": 0,
+    "other": 0
+   },
+   "newlywed": {
+    "u": 9,
+    "req": 7,
+    "local": 7,
+    "sido": 0,
+    "other": 0
+   },
+   "first": {
+    "u": 6,
+    "req": 9,
+    "local": 8,
+    "sido": 0,
+    "other": 1
+   },
+   "multichild": {
+    "u": 13,
+    "req": 3,
+    "local": 3,
+    "sido": 0,
+    "other": 0
+   },
+   "elder": {
+    "u": 3,
+    "req": 0,
+    "local": 0,
+    "sido": 0,
+    "other": 0
+   }
+  },
+  "area_sp": null,
   "map_query": "울산광역시 남구 무거동 1615-1",
   "nearby": [
    {
@@ -16013,6 +17497,8 @@
    "scores": []
   },
   "area_comps": null,
+  "sp_competition": null,
+  "area_sp": null,
   "map_query": "울산광역시 남구 무거동 1615-1",
   "nearby": [
    {
@@ -16367,6 +17853,44 @@
    "scores": []
   },
   "area_comps": null,
+  "sp_competition": {
+   "newborn": {
+    "u": 40,
+    "req": 6,
+    "local": 3,
+    "sido": 0,
+    "other": 3
+   },
+   "newlywed": {
+    "u": 40,
+    "req": 10,
+    "local": 7,
+    "sido": 0,
+    "other": 3
+   },
+   "first": {
+    "u": 28,
+    "req": 9,
+    "local": 8,
+    "sido": 0,
+    "other": 1
+   },
+   "multichild": {
+    "u": 61,
+    "req": 5,
+    "local": 5,
+    "sido": 0,
+    "other": 0
+   },
+   "elder": {
+    "u": 12,
+    "req": 0,
+    "local": 0,
+    "sido": 0,
+    "other": 0
+   }
+  },
+  "area_sp": null,
   "map_query": "울산광역시 남구 무거동 1615-1",
   "nearby": [
    {
@@ -16721,6 +18245,44 @@
    "scores": []
   },
   "area_comps": null,
+  "sp_competition": {
+   "newborn": {
+    "u": 21,
+    "req": 0,
+    "local": 0,
+    "sido": 0,
+    "other": 0
+   },
+   "newlywed": {
+    "u": 21,
+    "req": 0,
+    "local": 0,
+    "sido": 0,
+    "other": 0
+   },
+   "first": {
+    "u": 15,
+    "req": 2,
+    "local": 2,
+    "sido": 0,
+    "other": 0
+   },
+   "multichild": {
+    "u": 31,
+    "req": 2,
+    "local": 2,
+    "sido": 0,
+    "other": 0
+   },
+   "elder": {
+    "u": 6,
+    "req": 0,
+    "local": 0,
+    "sido": 0,
+    "other": 0
+   }
+  },
+  "area_sp": null,
   "map_query": "울산광역시 남구 무거동 1615-1",
   "nearby": [
    {
@@ -17113,6 +18675,173 @@
    "scores": []
   },
   "area_comps": null,
+  "sp_competition": {
+   "newborn": {
+    "u": 131,
+    "req": 4,
+    "local": 1,
+    "sido": 2,
+    "other": 1
+   },
+   "newlywed": {
+    "u": 66,
+    "req": 12,
+    "local": 3,
+    "sido": 7,
+    "other": 2
+   },
+   "first": {
+    "u": 98,
+    "req": 4,
+    "local": 4,
+    "sido": 0,
+    "other": 0
+   },
+   "multichild": {
+    "u": 66,
+    "req": 0,
+    "local": 0,
+    "sido": 0,
+    "other": 0
+   },
+   "elder": {
+    "u": 33,
+    "req": 0,
+    "local": 0,
+    "sido": 0,
+    "other": 0
+   }
+  },
+  "area_sp": [
+   {
+    "name": "힐스테이트 고덕엘리스트 A12BL 공공분양주택",
+    "notice": "2026-09-11",
+    "apply": "2026-09-21",
+    "url": "https://www.applyhome.co.kr/ai/aia/selectAPTLttotPblancDetail.do?houseManageNo=2026000437&pblancNo=2026000437",
+    "unit": "84A",
+    "area": 84.0,
+    "sp": {
+     "newborn": {
+      "u": 116,
+      "req": 6,
+      "local": 3,
+      "sido": 2,
+      "other": 1
+     },
+     "newlywed": {
+      "u": 58,
+      "req": 24,
+      "local": 10,
+      "sido": 11,
+      "other": 3
+     },
+     "first": {
+      "u": 86,
+      "req": 7,
+      "local": 5,
+      "sido": 2,
+      "other": 0
+     },
+     "multichild": {
+      "u": 58,
+      "req": 5,
+      "local": 3,
+      "sido": 2,
+      "other": 0
+     },
+     "elder": {
+      "u": 29,
+      "req": 1,
+      "local": 0,
+      "sido": 0,
+      "other": 1
+     }
+    }
+   },
+   {
+    "name": "평택역 더센트럴45",
+    "notice": "2026-07-09",
+    "apply": "2026-07-20",
+    "url": "https://www.applyhome.co.kr/ai/aia/selectAPTLttotPblancDetail.do?houseManageNo=2026000336&pblancNo=2026000336",
+    "unit": "84A",
+    "area": 84.5994,
+    "sp": {
+     "newborn": {
+      "u": 2,
+      "req": 0,
+      "local": 0,
+      "sido": 0,
+      "other": 0
+     },
+     "newlywed": {
+      "u": 4,
+      "req": 0,
+      "local": 0,
+      "sido": 0,
+      "other": 0
+     },
+     "first": {
+      "u": 3,
+      "req": 0,
+      "local": 0,
+      "sido": 0,
+      "other": 0
+     },
+     "multichild": {
+      "u": 2,
+      "req": 0,
+      "local": 0,
+      "sido": 0,
+      "other": 0
+     },
+     "elder": {
+      "u": 1,
+      "req": 0,
+      "local": 0,
+      "sido": 0,
+      "other": 0
+     }
+    }
+   },
+   {
+    "name": "고덕국제신도시 수자인하우스디",
+    "notice": "2026-06-11",
+    "apply": "2026-06-22",
+    "url": "https://www.applyhome.co.kr/ai/aia/selectAPTLttotPblancDetail.do?houseManageNo=2026000258&pblancNo=2026000258",
+    "unit": "84A",
+    "area": 84.839,
+    "sp": {
+     "newlywed": {
+      "u": 24,
+      "req": 1,
+      "local": 1,
+      "sido": 0,
+      "other": 0
+     },
+     "first": {
+      "u": 20,
+      "req": 4,
+      "local": 1,
+      "sido": 0,
+      "other": 3
+     },
+     "multichild": {
+      "u": 10,
+      "req": 1,
+      "local": 0,
+      "sido": 0,
+      "other": 1
+     },
+     "elder": {
+      "u": 3,
+      "req": 0,
+      "local": 0,
+      "sido": 0,
+      "other": 0
+     }
+    }
+   }
+  ],
   "map_query": "경기도 평택시 고덕동 고덕면",
   "nearby": null,
   "sample": false
@@ -17480,6 +19209,173 @@
    "scores": []
   },
   "area_comps": null,
+  "sp_competition": {
+   "newborn": {
+    "u": 36,
+    "req": 0,
+    "local": 0,
+    "sido": 0,
+    "other": 0
+   },
+   "newlywed": {
+    "u": 18,
+    "req": 1,
+    "local": 0,
+    "sido": 0,
+    "other": 1
+   },
+   "first": {
+    "u": 28,
+    "req": 0,
+    "local": 0,
+    "sido": 0,
+    "other": 0
+   },
+   "multichild": {
+    "u": 18,
+    "req": 0,
+    "local": 0,
+    "sido": 0,
+    "other": 0
+   },
+   "elder": {
+    "u": 9,
+    "req": 0,
+    "local": 0,
+    "sido": 0,
+    "other": 0
+   }
+  },
+  "area_sp": [
+   {
+    "name": "힐스테이트 고덕엘리스트 A12BL 공공분양주택",
+    "notice": "2026-09-11",
+    "apply": "2026-09-21",
+    "url": "https://www.applyhome.co.kr/ai/aia/selectAPTLttotPblancDetail.do?houseManageNo=2026000437&pblancNo=2026000437",
+    "unit": "84A",
+    "area": 84.0,
+    "sp": {
+     "newborn": {
+      "u": 116,
+      "req": 6,
+      "local": 3,
+      "sido": 2,
+      "other": 1
+     },
+     "newlywed": {
+      "u": 58,
+      "req": 24,
+      "local": 10,
+      "sido": 11,
+      "other": 3
+     },
+     "first": {
+      "u": 86,
+      "req": 7,
+      "local": 5,
+      "sido": 2,
+      "other": 0
+     },
+     "multichild": {
+      "u": 58,
+      "req": 5,
+      "local": 3,
+      "sido": 2,
+      "other": 0
+     },
+     "elder": {
+      "u": 29,
+      "req": 1,
+      "local": 0,
+      "sido": 0,
+      "other": 1
+     }
+    }
+   },
+   {
+    "name": "평택역 더센트럴45",
+    "notice": "2026-07-09",
+    "apply": "2026-07-20",
+    "url": "https://www.applyhome.co.kr/ai/aia/selectAPTLttotPblancDetail.do?houseManageNo=2026000336&pblancNo=2026000336",
+    "unit": "84A",
+    "area": 84.5994,
+    "sp": {
+     "newborn": {
+      "u": 2,
+      "req": 0,
+      "local": 0,
+      "sido": 0,
+      "other": 0
+     },
+     "newlywed": {
+      "u": 4,
+      "req": 0,
+      "local": 0,
+      "sido": 0,
+      "other": 0
+     },
+     "first": {
+      "u": 3,
+      "req": 0,
+      "local": 0,
+      "sido": 0,
+      "other": 0
+     },
+     "multichild": {
+      "u": 2,
+      "req": 0,
+      "local": 0,
+      "sido": 0,
+      "other": 0
+     },
+     "elder": {
+      "u": 1,
+      "req": 0,
+      "local": 0,
+      "sido": 0,
+      "other": 0
+     }
+    }
+   },
+   {
+    "name": "고덕국제신도시 수자인하우스디",
+    "notice": "2026-06-11",
+    "apply": "2026-06-22",
+    "url": "https://www.applyhome.co.kr/ai/aia/selectAPTLttotPblancDetail.do?houseManageNo=2026000258&pblancNo=2026000258",
+    "unit": "84A",
+    "area": 84.839,
+    "sp": {
+     "newlywed": {
+      "u": 24,
+      "req": 1,
+      "local": 1,
+      "sido": 0,
+      "other": 0
+     },
+     "first": {
+      "u": 20,
+      "req": 4,
+      "local": 1,
+      "sido": 0,
+      "other": 3
+     },
+     "multichild": {
+      "u": 10,
+      "req": 1,
+      "local": 0,
+      "sido": 0,
+      "other": 1
+     },
+     "elder": {
+      "u": 3,
+      "req": 0,
+      "local": 0,
+      "sido": 0,
+      "other": 0
+     }
+    }
+   }
+  ],
   "map_query": "경기도 평택시 고덕동 고덕면",
   "nearby": null,
   "sample": false
@@ -17847,6 +19743,173 @@
    "scores": []
   },
   "area_comps": null,
+  "sp_competition": {
+   "newborn": {
+    "u": 116,
+    "req": 6,
+    "local": 3,
+    "sido": 2,
+    "other": 1
+   },
+   "newlywed": {
+    "u": 58,
+    "req": 24,
+    "local": 10,
+    "sido": 11,
+    "other": 3
+   },
+   "first": {
+    "u": 86,
+    "req": 7,
+    "local": 5,
+    "sido": 2,
+    "other": 0
+   },
+   "multichild": {
+    "u": 58,
+    "req": 5,
+    "local": 3,
+    "sido": 2,
+    "other": 0
+   },
+   "elder": {
+    "u": 29,
+    "req": 1,
+    "local": 0,
+    "sido": 0,
+    "other": 1
+   }
+  },
+  "area_sp": [
+   {
+    "name": "힐스테이트 고덕엘리스트 A65BL 공공분양주택",
+    "notice": "2026-09-11",
+    "apply": "2026-09-21",
+    "url": "https://www.applyhome.co.kr/ai/aia/selectAPTLttotPblancDetail.do?houseManageNo=2026000438&pblancNo=2026000438",
+    "unit": "84A",
+    "area": 84.0,
+    "sp": {
+     "newborn": {
+      "u": 131,
+      "req": 4,
+      "local": 1,
+      "sido": 2,
+      "other": 1
+     },
+     "newlywed": {
+      "u": 66,
+      "req": 12,
+      "local": 3,
+      "sido": 7,
+      "other": 2
+     },
+     "first": {
+      "u": 98,
+      "req": 4,
+      "local": 4,
+      "sido": 0,
+      "other": 0
+     },
+     "multichild": {
+      "u": 66,
+      "req": 0,
+      "local": 0,
+      "sido": 0,
+      "other": 0
+     },
+     "elder": {
+      "u": 33,
+      "req": 0,
+      "local": 0,
+      "sido": 0,
+      "other": 0
+     }
+    }
+   },
+   {
+    "name": "평택역 더센트럴45",
+    "notice": "2026-07-09",
+    "apply": "2026-07-20",
+    "url": "https://www.applyhome.co.kr/ai/aia/selectAPTLttotPblancDetail.do?houseManageNo=2026000336&pblancNo=2026000336",
+    "unit": "84A",
+    "area": 84.5994,
+    "sp": {
+     "newborn": {
+      "u": 2,
+      "req": 0,
+      "local": 0,
+      "sido": 0,
+      "other": 0
+     },
+     "newlywed": {
+      "u": 4,
+      "req": 0,
+      "local": 0,
+      "sido": 0,
+      "other": 0
+     },
+     "first": {
+      "u": 3,
+      "req": 0,
+      "local": 0,
+      "sido": 0,
+      "other": 0
+     },
+     "multichild": {
+      "u": 2,
+      "req": 0,
+      "local": 0,
+      "sido": 0,
+      "other": 0
+     },
+     "elder": {
+      "u": 1,
+      "req": 0,
+      "local": 0,
+      "sido": 0,
+      "other": 0
+     }
+    }
+   },
+   {
+    "name": "고덕국제신도시 수자인하우스디",
+    "notice": "2026-06-11",
+    "apply": "2026-06-22",
+    "url": "https://www.applyhome.co.kr/ai/aia/selectAPTLttotPblancDetail.do?houseManageNo=2026000258&pblancNo=2026000258",
+    "unit": "84A",
+    "area": 84.839,
+    "sp": {
+     "newlywed": {
+      "u": 24,
+      "req": 1,
+      "local": 1,
+      "sido": 0,
+      "other": 0
+     },
+     "first": {
+      "u": 20,
+      "req": 4,
+      "local": 1,
+      "sido": 0,
+      "other": 3
+     },
+     "multichild": {
+      "u": 10,
+      "req": 1,
+      "local": 0,
+      "sido": 0,
+      "other": 1
+     },
+     "elder": {
+      "u": 3,
+      "req": 0,
+      "local": 0,
+      "sido": 0,
+      "other": 0
+     }
+    }
+   }
+  ],
   "map_query": "경기도 평택시 고덕동 고덕면",
   "nearby": null,
   "sample": false
@@ -18214,6 +20277,173 @@
    "scores": []
   },
   "area_comps": null,
+  "sp_competition": {
+   "newborn": {
+    "u": 40,
+    "req": 1,
+    "local": 0,
+    "sido": 0,
+    "other": 1
+   },
+   "newlywed": {
+    "u": 20,
+    "req": 1,
+    "local": 0,
+    "sido": 0,
+    "other": 1
+   },
+   "first": {
+    "u": 30,
+    "req": 1,
+    "local": 0,
+    "sido": 1,
+    "other": 0
+   },
+   "multichild": {
+    "u": 20,
+    "req": 0,
+    "local": 0,
+    "sido": 0,
+    "other": 0
+   },
+   "elder": {
+    "u": 10,
+    "req": 0,
+    "local": 0,
+    "sido": 0,
+    "other": 0
+   }
+  },
+  "area_sp": [
+   {
+    "name": "힐스테이트 고덕엘리스트 A65BL 공공분양주택",
+    "notice": "2026-09-11",
+    "apply": "2026-09-21",
+    "url": "https://www.applyhome.co.kr/ai/aia/selectAPTLttotPblancDetail.do?houseManageNo=2026000438&pblancNo=2026000438",
+    "unit": "84A",
+    "area": 84.0,
+    "sp": {
+     "newborn": {
+      "u": 131,
+      "req": 4,
+      "local": 1,
+      "sido": 2,
+      "other": 1
+     },
+     "newlywed": {
+      "u": 66,
+      "req": 12,
+      "local": 3,
+      "sido": 7,
+      "other": 2
+     },
+     "first": {
+      "u": 98,
+      "req": 4,
+      "local": 4,
+      "sido": 0,
+      "other": 0
+     },
+     "multichild": {
+      "u": 66,
+      "req": 0,
+      "local": 0,
+      "sido": 0,
+      "other": 0
+     },
+     "elder": {
+      "u": 33,
+      "req": 0,
+      "local": 0,
+      "sido": 0,
+      "other": 0
+     }
+    }
+   },
+   {
+    "name": "평택역 더센트럴45",
+    "notice": "2026-07-09",
+    "apply": "2026-07-20",
+    "url": "https://www.applyhome.co.kr/ai/aia/selectAPTLttotPblancDetail.do?houseManageNo=2026000336&pblancNo=2026000336",
+    "unit": "84A",
+    "area": 84.5994,
+    "sp": {
+     "newborn": {
+      "u": 2,
+      "req": 0,
+      "local": 0,
+      "sido": 0,
+      "other": 0
+     },
+     "newlywed": {
+      "u": 4,
+      "req": 0,
+      "local": 0,
+      "sido": 0,
+      "other": 0
+     },
+     "first": {
+      "u": 3,
+      "req": 0,
+      "local": 0,
+      "sido": 0,
+      "other": 0
+     },
+     "multichild": {
+      "u": 2,
+      "req": 0,
+      "local": 0,
+      "sido": 0,
+      "other": 0
+     },
+     "elder": {
+      "u": 1,
+      "req": 0,
+      "local": 0,
+      "sido": 0,
+      "other": 0
+     }
+    }
+   },
+   {
+    "name": "고덕국제신도시 수자인하우스디",
+    "notice": "2026-06-11",
+    "apply": "2026-06-22",
+    "url": "https://www.applyhome.co.kr/ai/aia/selectAPTLttotPblancDetail.do?houseManageNo=2026000258&pblancNo=2026000258",
+    "unit": "84A",
+    "area": 84.839,
+    "sp": {
+     "newlywed": {
+      "u": 24,
+      "req": 1,
+      "local": 1,
+      "sido": 0,
+      "other": 0
+     },
+     "first": {
+      "u": 20,
+      "req": 4,
+      "local": 1,
+      "sido": 0,
+      "other": 3
+     },
+     "multichild": {
+      "u": 10,
+      "req": 1,
+      "local": 0,
+      "sido": 0,
+      "other": 1
+     },
+     "elder": {
+      "u": 3,
+      "req": 0,
+      "local": 0,
+      "sido": 0,
+      "other": 0
+     }
+    }
+   }
+  ],
   "map_query": "경기도 평택시 고덕동 고덕면",
   "nearby": null,
   "sample": false
@@ -18581,6 +20811,166 @@
    "scores": []
   },
   "area_comps": null,
+  "sp_competition": {
+   "newborn": {
+    "u": 33,
+    "req": 0,
+    "local": 0,
+    "sido": 0,
+    "other": 0
+   },
+   "newlywed": {
+    "u": 16,
+    "req": 2,
+    "local": 0,
+    "sido": 2,
+    "other": 0
+   },
+   "first": {
+    "u": 25,
+    "req": 0,
+    "local": 0,
+    "sido": 0,
+    "other": 0
+   },
+   "multichild": {
+    "u": 16,
+    "req": 0,
+    "local": 0,
+    "sido": 0,
+    "other": 0
+   },
+   "elder": {
+    "u": 8,
+    "req": 0,
+    "local": 0,
+    "sido": 0,
+    "other": 0
+   }
+  },
+  "area_sp": [
+   {
+    "name": "힐스테이트 고덕엘리스트 A65BL 공공분양주택",
+    "notice": "2026-09-11",
+    "apply": "2026-09-21",
+    "url": "https://www.applyhome.co.kr/ai/aia/selectAPTLttotPblancDetail.do?houseManageNo=2026000438&pblancNo=2026000438",
+    "unit": "84A",
+    "area": 84.0,
+    "sp": {
+     "newborn": {
+      "u": 131,
+      "req": 4,
+      "local": 1,
+      "sido": 2,
+      "other": 1
+     },
+     "newlywed": {
+      "u": 66,
+      "req": 12,
+      "local": 3,
+      "sido": 7,
+      "other": 2
+     },
+     "first": {
+      "u": 98,
+      "req": 4,
+      "local": 4,
+      "sido": 0,
+      "other": 0
+     },
+     "multichild": {
+      "u": 66,
+      "req": 0,
+      "local": 0,
+      "sido": 0,
+      "other": 0
+     },
+     "elder": {
+      "u": 33,
+      "req": 0,
+      "local": 0,
+      "sido": 0,
+      "other": 0
+     }
+    }
+   },
+   {
+    "name": "평택역 더센트럴45",
+    "notice": "2026-07-09",
+    "apply": "2026-07-20",
+    "url": "https://www.applyhome.co.kr/ai/aia/selectAPTLttotPblancDetail.do?houseManageNo=2026000336&pblancNo=2026000336",
+    "unit": "84D",
+    "area": 84.9764,
+    "sp": {
+     "newborn": {
+      "u": 1,
+      "req": 0,
+      "local": 0,
+      "sido": 0,
+      "other": 0
+     },
+     "newlywed": {
+      "u": 3,
+      "req": 0,
+      "local": 0,
+      "sido": 0,
+      "other": 0
+     },
+     "first": {
+      "u": 1,
+      "req": 0,
+      "local": 0,
+      "sido": 0,
+      "other": 0
+     },
+     "multichild": {
+      "u": 2,
+      "req": 0,
+      "local": 0,
+      "sido": 0,
+      "other": 0
+     }
+    }
+   },
+   {
+    "name": "고덕국제신도시 수자인하우스디",
+    "notice": "2026-06-11",
+    "apply": "2026-06-22",
+    "url": "https://www.applyhome.co.kr/ai/aia/selectAPTLttotPblancDetail.do?houseManageNo=2026000258&pblancNo=2026000258",
+    "unit": "84C",
+    "area": 84.9865,
+    "sp": {
+     "newlywed": {
+      "u": 13,
+      "req": 0,
+      "local": 0,
+      "sido": 0,
+      "other": 0
+     },
+     "first": {
+      "u": 11,
+      "req": 1,
+      "local": 1,
+      "sido": 0,
+      "other": 0
+     },
+     "multichild": {
+      "u": 5,
+      "req": 1,
+      "local": 0,
+      "sido": 1,
+      "other": 0
+     },
+     "elder": {
+      "u": 1,
+      "req": 0,
+      "local": 0,
+      "sido": 0,
+      "other": 0
+     }
+    }
+   }
+  ],
   "map_query": "경기도 평택시 고덕동 고덕면",
   "nearby": null,
   "sample": false
@@ -18733,6 +21123,37 @@
    "scores": []
   },
   "area_comps": null,
+  "sp_competition": {
+   "newborn": {
+    "u": 5,
+    "req": 33,
+    "local": 16,
+    "sido": 0,
+    "other": 17
+   },
+   "newlywed": {
+    "u": 8,
+    "req": 58,
+    "local": 22,
+    "sido": 0,
+    "other": 36
+   },
+   "first": {
+    "u": 4,
+    "req": 34,
+    "local": 12,
+    "sido": 0,
+    "other": 22
+   },
+   "elder": {
+    "u": 1,
+    "req": 1,
+    "local": 0,
+    "sido": 0,
+    "other": 1
+   }
+  },
+  "area_sp": [],
   "map_query": "경기도 성남시 분당구 정자동 90",
   "nearby": [
    {
@@ -18949,6 +21370,37 @@
    "scores": []
   },
   "area_comps": null,
+  "sp_competition": {
+   "newborn": {
+    "u": 1,
+    "req": 3,
+    "local": 1,
+    "sido": 0,
+    "other": 2
+   },
+   "newlywed": {
+    "u": 1,
+    "req": 4,
+    "local": 3,
+    "sido": 0,
+    "other": 1
+   },
+   "first": {
+    "u": 1,
+    "req": 5,
+    "local": 1,
+    "sido": 0,
+    "other": 4
+   },
+   "multichild": {
+    "u": 1,
+    "req": 6,
+    "local": 2,
+    "sido": 4,
+    "other": 0
+   }
+  },
+  "area_sp": [],
   "map_query": "경기도 성남시 분당구 정자동 90",
   "nearby": [
    {
@@ -19165,6 +21617,30 @@
    "scores": []
   },
   "area_comps": null,
+  "sp_competition": {
+   "newborn": {
+    "u": 1,
+    "req": 2,
+    "local": 1,
+    "sido": 0,
+    "other": 1
+   },
+   "newlywed": {
+    "u": 1,
+    "req": 8,
+    "local": 2,
+    "sido": 0,
+    "other": 6
+   },
+   "multichild": {
+    "u": 1,
+    "req": 5,
+    "local": 4,
+    "sido": 0,
+    "other": 1
+   }
+  },
+  "area_sp": [],
   "map_query": "경기도 성남시 분당구 정자동 90",
   "nearby": [
    {
@@ -19381,6 +21857,8 @@
    "scores": []
   },
   "area_comps": null,
+  "sp_competition": null,
+  "area_sp": [],
   "map_query": "경기도 성남시 분당구 정자동 90",
   "nearby": [
    {
@@ -19597,6 +22075,8 @@
    "scores": []
   },
   "area_comps": null,
+  "sp_competition": null,
+  "area_sp": [],
   "map_query": "경기도 성남시 분당구 정자동 90",
   "nearby": [
    {
@@ -19970,6 +22450,44 @@
    "scores": []
   },
   "area_comps": null,
+  "sp_competition": {
+   "newborn": {
+    "u": 2,
+    "req": 3,
+    "local": 1,
+    "sido": 0,
+    "other": 2
+   },
+   "newlywed": {
+    "u": 4,
+    "req": 11,
+    "local": 5,
+    "sido": 0,
+    "other": 6
+   },
+   "first": {
+    "u": 1,
+    "req": 10,
+    "local": 1,
+    "sido": 0,
+    "other": 9
+   },
+   "multichild": {
+    "u": 3,
+    "req": 7,
+    "local": 2,
+    "sido": 5,
+    "other": 0
+   },
+   "elder": {
+    "u": 1,
+    "req": 1,
+    "local": 0,
+    "sido": 0,
+    "other": 1
+   }
+  },
+  "area_sp": [],
   "map_query": "경기도 성남시 분당구 정자동 90",
   "nearby": [
    {
@@ -20343,6 +22861,37 @@
    "scores": []
   },
   "area_comps": null,
+  "sp_competition": {
+   "newborn": {
+    "u": 1,
+    "req": 0,
+    "local": 0,
+    "sido": 0,
+    "other": 0
+   },
+   "newlywed": {
+    "u": 1,
+    "req": 0,
+    "local": 0,
+    "sido": 0,
+    "other": 0
+   },
+   "first": {
+    "u": 1,
+    "req": 3,
+    "local": 1,
+    "sido": 0,
+    "other": 2
+   },
+   "multichild": {
+    "u": 1,
+    "req": 1,
+    "local": 1,
+    "sido": 0,
+    "other": 0
+   }
+  },
+  "area_sp": [],
   "map_query": "경기도 성남시 분당구 정자동 90",
   "nearby": [
    {
@@ -20716,6 +23265,8 @@
    "scores": []
   },
   "area_comps": null,
+  "sp_competition": null,
+  "area_sp": [],
   "map_query": "경기도 성남시 분당구 정자동 90",
   "nearby": [
    {
@@ -21089,6 +23640,30 @@
    "scores": []
   },
   "area_comps": null,
+  "sp_competition": {
+   "newborn": {
+    "u": 1,
+    "req": 1,
+    "local": 0,
+    "sido": 0,
+    "other": 1
+   },
+   "newlywed": {
+    "u": 1,
+    "req": 1,
+    "local": 0,
+    "sido": 0,
+    "other": 1
+   },
+   "multichild": {
+    "u": 1,
+    "req": 2,
+    "local": 2,
+    "sido": 0,
+    "other": 0
+   }
+  },
+  "area_sp": [],
   "map_query": "경기도 성남시 분당구 정자동 90",
   "nearby": [
    {
@@ -21462,6 +24037,44 @@
    "scores": []
   },
   "area_comps": null,
+  "sp_competition": {
+   "newborn": {
+    "u": 1,
+    "req": 0,
+    "local": 0,
+    "sido": 0,
+    "other": 0
+   },
+   "newlywed": {
+    "u": 2,
+    "req": 2,
+    "local": 2,
+    "sido": 0,
+    "other": 0
+   },
+   "first": {
+    "u": 1,
+    "req": 1,
+    "local": 1,
+    "sido": 0,
+    "other": 0
+   },
+   "multichild": {
+    "u": 3,
+    "req": 7,
+    "local": 3,
+    "sido": 3,
+    "other": 1
+   },
+   "elder": {
+    "u": 1,
+    "req": 0,
+    "local": 0,
+    "sido": 0,
+    "other": 0
+   }
+  },
+  "area_sp": [],
   "map_query": "경기도 성남시 분당구 정자동 90",
   "nearby": [
    {
@@ -21835,6 +24448,30 @@
    "scores": []
   },
   "area_comps": null,
+  "sp_competition": {
+   "newborn": {
+    "u": 1,
+    "req": 2,
+    "local": 1,
+    "sido": 0,
+    "other": 1
+   },
+   "newlywed": {
+    "u": 1,
+    "req": 0,
+    "local": 0,
+    "sido": 0,
+    "other": 0
+   },
+   "multichild": {
+    "u": 1,
+    "req": 0,
+    "local": 0,
+    "sido": 0,
+    "other": 0
+   }
+  },
+  "area_sp": [],
   "map_query": "경기도 성남시 분당구 정자동 90",
   "nearby": [
    {
@@ -22208,6 +24845,44 @@
    "scores": []
   },
   "area_comps": null,
+  "sp_competition": {
+   "newborn": {
+    "u": 1,
+    "req": 0,
+    "local": 0,
+    "sido": 0,
+    "other": 0
+   },
+   "newlywed": {
+    "u": 2,
+    "req": 3,
+    "local": 1,
+    "sido": 0,
+    "other": 2
+   },
+   "first": {
+    "u": 2,
+    "req": 1,
+    "local": 0,
+    "sido": 0,
+    "other": 1
+   },
+   "multichild": {
+    "u": 3,
+    "req": 8,
+    "local": 2,
+    "sido": 6,
+    "other": 0
+   },
+   "elder": {
+    "u": 1,
+    "req": 1,
+    "local": 0,
+    "sido": 0,
+    "other": 1
+   }
+  },
+  "area_sp": [],
   "map_query": "경기도 성남시 분당구 정자동 90",
   "nearby": [
    {
@@ -22581,6 +25256,8 @@
    "scores": []
   },
   "area_comps": null,
+  "sp_competition": null,
+  "area_sp": [],
   "map_query": "경기도 성남시 분당구 정자동 90",
   "nearby": [
    {
@@ -22774,6 +25451,152 @@
    "scores": []
   },
   "area_comps": null,
+  "sp_competition": {
+   "newborn": {
+    "u": 1,
+    "req": 0,
+    "local": 0,
+    "sido": 0,
+    "other": 0
+   },
+   "newlywed": {
+    "u": 1,
+    "req": 0,
+    "local": 0,
+    "sido": 0,
+    "other": 0
+   },
+   "multichild": {
+    "u": 1,
+    "req": 0,
+    "local": 0,
+    "sido": 0,
+    "other": 0
+   }
+  },
+  "area_sp": [
+   {
+    "name": "두산위브더제니스 부천",
+    "notice": "2026-08-12",
+    "apply": "2026-08-19",
+    "url": "https://www.applyhome.co.kr/ai/aia/selectAPTLttotPblancDetail.do?houseManageNo=2026000382&pblancNo=2026000382",
+    "unit": "59A",
+    "area": 59.94,
+    "sp": {
+     "newborn": {
+      "u": 32,
+      "req": 20,
+      "local": 2,
+      "sido": 0,
+      "other": 18
+     },
+     "newlywed": {
+      "u": 48,
+      "req": 24,
+      "local": 0,
+      "sido": 0,
+      "other": 24
+     },
+     "first": {
+      "u": 23,
+      "req": 148,
+      "local": 31,
+      "sido": 0,
+      "other": 117
+     },
+     "multichild": {
+      "u": 32,
+      "req": 1,
+      "local": 0,
+      "sido": 1,
+      "other": 0
+     },
+     "elder": {
+      "u": 9,
+      "req": 0,
+      "local": 0,
+      "sido": 0,
+      "other": 0
+     }
+    }
+   },
+   {
+    "name": "오정 해모로 스마트시티(조합원 취소분)",
+    "notice": "2026-05-19",
+    "apply": "2026-05-29",
+    "url": "https://www.applyhome.co.kr/ai/aia/selectAPTLttotPblancDetail.do?houseManageNo=2026000122&pblancNo=2026000122",
+    "unit": "59",
+    "area": 59.9026,
+    "sp": {
+     "newlywed": {
+      "u": 9,
+      "req": 0,
+      "local": 0,
+      "sido": 0,
+      "other": 0
+     },
+     "first": {
+      "u": 3,
+      "req": 7,
+      "local": 2,
+      "sido": 0,
+      "other": 5
+     },
+     "multichild": {
+      "u": 2,
+      "req": 0,
+      "local": 0,
+      "sido": 0,
+      "other": 0
+     },
+     "elder": {
+      "u": 1,
+      "req": 0,
+      "local": 0,
+      "sido": 0,
+      "other": 0
+     }
+    }
+   },
+   {
+    "name": "엘리프 역곡",
+    "notice": "2026-05-14",
+    "apply": "2026-05-26",
+    "url": "https://www.applyhome.co.kr/ai/aia/selectAPTLttotPblancDetail.do?houseManageNo=2026000187&pblancNo=2026000187",
+    "unit": "59",
+    "area": 59.95,
+    "sp": {
+     "newlywed": {
+      "u": 4,
+      "req": 11,
+      "local": 1,
+      "sido": 0,
+      "other": 10
+     },
+     "first": {
+      "u": 2,
+      "req": 41,
+      "local": 11,
+      "sido": 0,
+      "other": 30
+     },
+     "multichild": {
+      "u": 2,
+      "req": 0,
+      "local": 0,
+      "sido": 0,
+      "other": 0
+     },
+     "elder": {
+      "u": 1,
+      "req": 0,
+      "local": 0,
+      "sido": 0,
+      "other": 0
+     }
+    }
+   }
+  ],
   "map_query": "경기도 부천시 소사구 송내동 365-1",
   "nearby": [
    {
@@ -22967,6 +25790,138 @@
    "scores": []
   },
   "area_comps": null,
+  "sp_competition": {
+   "newlywed": {
+    "u": 1,
+    "req": 1,
+    "local": 0,
+    "sido": 0,
+    "other": 1
+   }
+  },
+  "area_sp": [
+   {
+    "name": "두산위브더제니스 부천",
+    "notice": "2026-08-12",
+    "apply": "2026-08-19",
+    "url": "https://www.applyhome.co.kr/ai/aia/selectAPTLttotPblancDetail.do?houseManageNo=2026000382&pblancNo=2026000382",
+    "unit": "59B",
+    "area": 59.98,
+    "sp": {
+     "newborn": {
+      "u": 17,
+      "req": 1,
+      "local": 1,
+      "sido": 0,
+      "other": 0
+     },
+     "newlywed": {
+      "u": 25,
+      "req": 1,
+      "local": 0,
+      "sido": 0,
+      "other": 1
+     },
+     "first": {
+      "u": 12,
+      "req": 45,
+      "local": 8,
+      "sido": 0,
+      "other": 37
+     },
+     "multichild": {
+      "u": 17,
+      "req": 0,
+      "local": 0,
+      "sido": 0,
+      "other": 0
+     },
+     "elder": {
+      "u": 5,
+      "req": 0,
+      "local": 0,
+      "sido": 0,
+      "other": 0
+     }
+    }
+   },
+   {
+    "name": "오정 해모로 스마트시티(조합원 취소분)",
+    "notice": "2026-05-19",
+    "apply": "2026-05-29",
+    "url": "https://www.applyhome.co.kr/ai/aia/selectAPTLttotPblancDetail.do?houseManageNo=2026000122&pblancNo=2026000122",
+    "unit": "59",
+    "area": 59.9026,
+    "sp": {
+     "newlywed": {
+      "u": 9,
+      "req": 0,
+      "local": 0,
+      "sido": 0,
+      "other": 0
+     },
+     "first": {
+      "u": 3,
+      "req": 7,
+      "local": 2,
+      "sido": 0,
+      "other": 5
+     },
+     "multichild": {
+      "u": 2,
+      "req": 0,
+      "local": 0,
+      "sido": 0,
+      "other": 0
+     },
+     "elder": {
+      "u": 1,
+      "req": 0,
+      "local": 0,
+      "sido": 0,
+      "other": 0
+     }
+    }
+   },
+   {
+    "name": "엘리프 역곡",
+    "notice": "2026-05-14",
+    "apply": "2026-05-26",
+    "url": "https://www.applyhome.co.kr/ai/aia/selectAPTLttotPblancDetail.do?houseManageNo=2026000187&pblancNo=2026000187",
+    "unit": "59",
+    "area": 59.95,
+    "sp": {
+     "newlywed": {
+      "u": 4,
+      "req": 11,
+      "local": 1,
+      "sido": 0,
+      "other": 10
+     },
+     "first": {
+      "u": 2,
+      "req": 41,
+      "local": 11,
+      "sido": 0,
+      "other": 30
+     },
+     "multichild": {
+      "u": 2,
+      "req": 0,
+      "local": 0,
+      "sido": 0,
+      "other": 0
+     },
+     "elder": {
+      "u": 1,
+      "req": 0,
+      "local": 0,
+      "sido": 0,
+      "other": 0
+     }
+    }
+   }
+  ],
   "map_query": "경기도 부천시 소사구 송내동 365-1",
   "nearby": [
    {
@@ -23160,6 +26115,159 @@
    "scores": []
   },
   "area_comps": null,
+  "sp_competition": {
+   "newborn": {
+    "u": 1,
+    "req": 1,
+    "local": 0,
+    "sido": 0,
+    "other": 1
+   },
+   "newlywed": {
+    "u": 1,
+    "req": 4,
+    "local": 0,
+    "sido": 0,
+    "other": 4
+   },
+   "first": {
+    "u": 1,
+    "req": 1,
+    "local": 0,
+    "sido": 0,
+    "other": 1
+   },
+   "multichild": {
+    "u": 1,
+    "req": 0,
+    "local": 0,
+    "sido": 0,
+    "other": 0
+   }
+  },
+  "area_sp": [
+   {
+    "name": "두산위브더제니스 부천",
+    "notice": "2026-08-12",
+    "apply": "2026-08-19",
+    "url": "https://www.applyhome.co.kr/ai/aia/selectAPTLttotPblancDetail.do?houseManageNo=2026000382&pblancNo=2026000382",
+    "unit": "59B",
+    "area": 59.98,
+    "sp": {
+     "newborn": {
+      "u": 17,
+      "req": 1,
+      "local": 1,
+      "sido": 0,
+      "other": 0
+     },
+     "newlywed": {
+      "u": 25,
+      "req": 1,
+      "local": 0,
+      "sido": 0,
+      "other": 1
+     },
+     "first": {
+      "u": 12,
+      "req": 45,
+      "local": 8,
+      "sido": 0,
+      "other": 37
+     },
+     "multichild": {
+      "u": 17,
+      "req": 0,
+      "local": 0,
+      "sido": 0,
+      "other": 0
+     },
+     "elder": {
+      "u": 5,
+      "req": 0,
+      "local": 0,
+      "sido": 0,
+      "other": 0
+     }
+    }
+   },
+   {
+    "name": "오정 해모로 스마트시티(조합원 취소분)",
+    "notice": "2026-05-19",
+    "apply": "2026-05-29",
+    "url": "https://www.applyhome.co.kr/ai/aia/selectAPTLttotPblancDetail.do?houseManageNo=2026000122&pblancNo=2026000122",
+    "unit": "59",
+    "area": 59.9026,
+    "sp": {
+     "newlywed": {
+      "u": 9,
+      "req": 0,
+      "local": 0,
+      "sido": 0,
+      "other": 0
+     },
+     "first": {
+      "u": 3,
+      "req": 7,
+      "local": 2,
+      "sido": 0,
+      "other": 5
+     },
+     "multichild": {
+      "u": 2,
+      "req": 0,
+      "local": 0,
+      "sido": 0,
+      "other": 0
+     },
+     "elder": {
+      "u": 1,
+      "req": 0,
+      "local": 0,
+      "sido": 0,
+      "other": 0
+     }
+    }
+   },
+   {
+    "name": "엘리프 역곡",
+    "notice": "2026-05-14",
+    "apply": "2026-05-26",
+    "url": "https://www.applyhome.co.kr/ai/aia/selectAPTLttotPblancDetail.do?houseManageNo=2026000187&pblancNo=2026000187",
+    "unit": "59",
+    "area": 59.95,
+    "sp": {
+     "newlywed": {
+      "u": 4,
+      "req": 11,
+      "local": 1,
+      "sido": 0,
+      "other": 10
+     },
+     "first": {
+      "u": 2,
+      "req": 41,
+      "local": 11,
+      "sido": 0,
+      "other": 30
+     },
+     "multichild": {
+      "u": 2,
+      "req": 0,
+      "local": 0,
+      "sido": 0,
+      "other": 0
+     },
+     "elder": {
+      "u": 1,
+      "req": 0,
+      "local": 0,
+      "sido": 0,
+      "other": 0
+     }
+    }
+   }
+  ],
   "map_query": "경기도 부천시 소사구 송내동 365-1",
   "nearby": [
    {
@@ -23353,6 +26461,116 @@
    "scores": []
   },
   "area_comps": null,
+  "sp_competition": null,
+  "area_sp": [
+   {
+    "name": "상동역 롯데캐슬 시그니처",
+    "notice": "2026-08-14",
+    "apply": "2026-08-24",
+    "url": "https://www.applyhome.co.kr/ai/aia/selectAPTLttotPblancDetail.do?houseManageNo=2026000354&pblancNo=2026000354",
+    "unit": "84C",
+    "area": 84.9874,
+    "sp": {
+     "newborn": {
+      "u": 35,
+      "req": 10,
+      "local": 7,
+      "sido": 0,
+      "other": 3
+     },
+     "newlywed": {
+      "u": 53,
+      "req": 8,
+      "local": 2,
+      "sido": 0,
+      "other": 6
+     },
+     "first": {
+      "u": 25,
+      "req": 16,
+      "local": 10,
+      "sido": 0,
+      "other": 6
+     },
+     "multichild": {
+      "u": 35,
+      "req": 11,
+      "local": 7,
+      "sido": 2,
+      "other": 2
+     },
+     "elder": {
+      "u": 11,
+      "req": 1,
+      "local": 1,
+      "sido": 0,
+      "other": 0
+     }
+    }
+   },
+   {
+    "name": "두산위브더제니스 부천",
+    "notice": "2026-08-12",
+    "apply": "2026-08-19",
+    "url": "https://www.applyhome.co.kr/ai/aia/selectAPTLttotPblancDetail.do?houseManageNo=2026000382&pblancNo=2026000382",
+    "unit": "84A",
+    "area": 84.95,
+    "sp": {
+     "newborn": {
+      "u": 10,
+      "req": 1,
+      "local": 0,
+      "sido": 0,
+      "other": 1
+     },
+     "newlywed": {
+      "u": 16,
+      "req": 3,
+      "local": 1,
+      "sido": 0,
+      "other": 2
+     },
+     "first": {
+      "u": 7,
+      "req": 5,
+      "local": 1,
+      "sido": 0,
+      "other": 4
+     },
+     "multichild": {
+      "u": 10,
+      "req": 1,
+      "local": 0,
+      "sido": 1,
+      "other": 0
+     },
+     "elder": {
+      "u": 3,
+      "req": 0,
+      "local": 0,
+      "sido": 0,
+      "other": 0
+     }
+    }
+   },
+   {
+    "name": "오정 해모로 스마트시티(조합원 취소분)",
+    "notice": "2026-05-19",
+    "apply": "2026-05-29",
+    "url": "https://www.applyhome.co.kr/ai/aia/selectAPTLttotPblancDetail.do?houseManageNo=2026000122&pblancNo=2026000122",
+    "unit": "71",
+    "area": 71.97,
+    "sp": {
+     "multichild": {
+      "u": 2,
+      "req": 1,
+      "local": 0,
+      "sido": 1,
+      "other": 0
+     }
+    }
+   }
+  ],
   "map_query": "경기도 부천시 소사구 송내동 365-1",
   "nearby": [
    {
@@ -23546,6 +26764,145 @@
    "scores": []
   },
   "area_comps": null,
+  "sp_competition": {
+   "newborn": {
+    "u": 1,
+    "req": 1,
+    "local": 0,
+    "sido": 0,
+    "other": 1
+   },
+   "newlywed": {
+    "u": 1,
+    "req": 0,
+    "local": 0,
+    "sido": 0,
+    "other": 0
+   },
+   "first": {
+    "u": 1,
+    "req": 4,
+    "local": 2,
+    "sido": 0,
+    "other": 2
+   },
+   "multichild": {
+    "u": 1,
+    "req": 0,
+    "local": 0,
+    "sido": 0,
+    "other": 0
+   }
+  },
+  "area_sp": [
+   {
+    "name": "상동역 롯데캐슬 시그니처",
+    "notice": "2026-08-14",
+    "apply": "2026-08-24",
+    "url": "https://www.applyhome.co.kr/ai/aia/selectAPTLttotPblancDetail.do?houseManageNo=2026000354&pblancNo=2026000354",
+    "unit": "84F",
+    "area": 84.9928,
+    "sp": {
+     "newborn": {
+      "u": 45,
+      "req": 30,
+      "local": 15,
+      "sido": 0,
+      "other": 15
+     },
+     "newlywed": {
+      "u": 66,
+      "req": 30,
+      "local": 14,
+      "sido": 0,
+      "other": 16
+     },
+     "first": {
+      "u": 32,
+      "req": 33,
+      "local": 20,
+      "sido": 0,
+      "other": 13
+     },
+     "multichild": {
+      "u": 45,
+      "req": 22,
+      "local": 19,
+      "sido": 1,
+      "other": 2
+     },
+     "elder": {
+      "u": 14,
+      "req": 3,
+      "local": 3,
+      "sido": 0,
+      "other": 0
+     }
+    }
+   },
+   {
+    "name": "두산위브더제니스 부천",
+    "notice": "2026-08-12",
+    "apply": "2026-08-19",
+    "url": "https://www.applyhome.co.kr/ai/aia/selectAPTLttotPblancDetail.do?houseManageNo=2026000382&pblancNo=2026000382",
+    "unit": "84A",
+    "area": 84.95,
+    "sp": {
+     "newborn": {
+      "u": 10,
+      "req": 1,
+      "local": 0,
+      "sido": 0,
+      "other": 1
+     },
+     "newlywed": {
+      "u": 16,
+      "req": 3,
+      "local": 1,
+      "sido": 0,
+      "other": 2
+     },
+     "first": {
+      "u": 7,
+      "req": 5,
+      "local": 1,
+      "sido": 0,
+      "other": 4
+     },
+     "multichild": {
+      "u": 10,
+      "req": 1,
+      "local": 0,
+      "sido": 1,
+      "other": 0
+     },
+     "elder": {
+      "u": 3,
+      "req": 0,
+      "local": 0,
+      "sido": 0,
+      "other": 0
+     }
+    }
+   },
+   {
+    "name": "오정 해모로 스마트시티(조합원 취소분)",
+    "notice": "2026-05-19",
+    "apply": "2026-05-29",
+    "url": "https://www.applyhome.co.kr/ai/aia/selectAPTLttotPblancDetail.do?houseManageNo=2026000122&pblancNo=2026000122",
+    "unit": "71",
+    "area": 71.97,
+    "sp": {
+     "multichild": {
+      "u": 2,
+      "req": 1,
+      "local": 0,
+      "sido": 1,
+      "other": 0
+     }
+    }
+   }
+  ],
   "map_query": "경기도 부천시 소사구 송내동 365-1",
   "nearby": [
    {
@@ -23739,6 +27096,145 @@
    "scores": []
   },
   "area_comps": null,
+  "sp_competition": {
+   "newborn": {
+    "u": 1,
+    "req": 0,
+    "local": 0,
+    "sido": 0,
+    "other": 0
+   },
+   "newlywed": {
+    "u": 2,
+    "req": 0,
+    "local": 0,
+    "sido": 0,
+    "other": 0
+   },
+   "first": {
+    "u": 1,
+    "req": 2,
+    "local": 2,
+    "sido": 0,
+    "other": 0
+   },
+   "multichild": {
+    "u": 1,
+    "req": 0,
+    "local": 0,
+    "sido": 0,
+    "other": 0
+   }
+  },
+  "area_sp": [
+   {
+    "name": "상동역 롯데캐슬 시그니처",
+    "notice": "2026-08-14",
+    "apply": "2026-08-24",
+    "url": "https://www.applyhome.co.kr/ai/aia/selectAPTLttotPblancDetail.do?houseManageNo=2026000354&pblancNo=2026000354",
+    "unit": "84C",
+    "area": 84.9874,
+    "sp": {
+     "newborn": {
+      "u": 35,
+      "req": 10,
+      "local": 7,
+      "sido": 0,
+      "other": 3
+     },
+     "newlywed": {
+      "u": 53,
+      "req": 8,
+      "local": 2,
+      "sido": 0,
+      "other": 6
+     },
+     "first": {
+      "u": 25,
+      "req": 16,
+      "local": 10,
+      "sido": 0,
+      "other": 6
+     },
+     "multichild": {
+      "u": 35,
+      "req": 11,
+      "local": 7,
+      "sido": 2,
+      "other": 2
+     },
+     "elder": {
+      "u": 11,
+      "req": 1,
+      "local": 1,
+      "sido": 0,
+      "other": 0
+     }
+    }
+   },
+   {
+    "name": "두산위브더제니스 부천",
+    "notice": "2026-08-12",
+    "apply": "2026-08-19",
+    "url": "https://www.applyhome.co.kr/ai/aia/selectAPTLttotPblancDetail.do?houseManageNo=2026000382&pblancNo=2026000382",
+    "unit": "84A",
+    "area": 84.95,
+    "sp": {
+     "newborn": {
+      "u": 10,
+      "req": 1,
+      "local": 0,
+      "sido": 0,
+      "other": 1
+     },
+     "newlywed": {
+      "u": 16,
+      "req": 3,
+      "local": 1,
+      "sido": 0,
+      "other": 2
+     },
+     "first": {
+      "u": 7,
+      "req": 5,
+      "local": 1,
+      "sido": 0,
+      "other": 4
+     },
+     "multichild": {
+      "u": 10,
+      "req": 1,
+      "local": 0,
+      "sido": 1,
+      "other": 0
+     },
+     "elder": {
+      "u": 3,
+      "req": 0,
+      "local": 0,
+      "sido": 0,
+      "other": 0
+     }
+    }
+   },
+   {
+    "name": "오정 해모로 스마트시티(조합원 취소분)",
+    "notice": "2026-05-19",
+    "apply": "2026-05-29",
+    "url": "https://www.applyhome.co.kr/ai/aia/selectAPTLttotPblancDetail.do?houseManageNo=2026000122&pblancNo=2026000122",
+    "unit": "71",
+    "area": 71.97,
+    "sp": {
+     "multichild": {
+      "u": 2,
+      "req": 1,
+      "local": 0,
+      "sido": 1,
+      "other": 0
+     }
+    }
+   }
+  ],
   "map_query": "경기도 부천시 소사구 송내동 365-1",
   "nearby": [
    {
@@ -24129,6 +27625,173 @@
    "scores": []
   },
   "area_comps": null,
+  "sp_competition": {
+   "newborn": {
+    "u": 7,
+    "req": 0,
+    "local": 0,
+    "sido": 0,
+    "other": 0
+   },
+   "newlywed": {
+    "u": 10,
+    "req": 1,
+    "local": 0,
+    "sido": 0,
+    "other": 1
+   },
+   "first": {
+    "u": 4,
+    "req": 8,
+    "local": 1,
+    "sido": 0,
+    "other": 7
+   },
+   "multichild": {
+    "u": 6,
+    "req": 0,
+    "local": 0,
+    "sido": 0,
+    "other": 0
+   },
+   "elder": {
+    "u": 2,
+    "req": 0,
+    "local": 0,
+    "sido": 0,
+    "other": 0
+   }
+  },
+  "area_sp": [
+   {
+    "name": "오남역 서희스타힐스 여의재 1단지",
+    "notice": "2026-08-13",
+    "apply": "2026-08-24",
+    "url": "https://www.applyhome.co.kr/ai/aia/selectAPTLttotPblancDetail.do?houseManageNo=2026000365&pblancNo=2026000365",
+    "unit": "59A",
+    "area": 59.7153,
+    "sp": {
+     "newborn": {
+      "u": 8,
+      "req": 0,
+      "local": 0,
+      "sido": 0,
+      "other": 0
+     },
+     "newlywed": {
+      "u": 12,
+      "req": 4,
+      "local": 0,
+      "sido": 0,
+      "other": 4
+     },
+     "first": {
+      "u": 5,
+      "req": 11,
+      "local": 1,
+      "sido": 0,
+      "other": 10
+     },
+     "multichild": {
+      "u": 8,
+      "req": 0,
+      "local": 0,
+      "sido": 0,
+      "other": 0
+     },
+     "elder": {
+      "u": 2,
+      "req": 0,
+      "local": 0,
+      "sido": 0,
+      "other": 0
+     }
+    }
+   },
+   {
+    "name": "남양주 진접 서한이다음(S1BL)",
+    "notice": "2026-07-09",
+    "apply": "2026-07-20",
+    "url": "https://www.applyhome.co.kr/ai/aia/selectAPTLttotPblancDetail.do?houseManageNo=2026000310&pblancNo=2026000310",
+    "unit": "72A",
+    "area": 72.4726,
+    "sp": {
+     "newborn": {
+      "u": 5,
+      "req": 35,
+      "local": 11,
+      "sido": 9,
+      "other": 15
+     },
+     "newlywed": {
+      "u": 7,
+      "req": 28,
+      "local": 7,
+      "sido": 8,
+      "other": 13
+     },
+     "first": {
+      "u": 8,
+      "req": 56,
+      "local": 18,
+      "sido": 9,
+      "other": 29
+     },
+     "multichild": {
+      "u": 5,
+      "req": 5,
+      "local": 2,
+      "sido": 1,
+      "other": 2
+     },
+     "elder": {
+      "u": 1,
+      "req": 0,
+      "local": 0,
+      "sido": 0,
+      "other": 0
+     }
+    }
+   },
+   {
+    "name": "오남역 서희스타힐스 여의재 3단지",
+    "notice": "2026-05-13",
+    "apply": "2026-05-26",
+    "url": "https://www.applyhome.co.kr/ai/aia/selectAPTLttotPblancDetail.do?houseManageNo=2025000422&pblancNo=2025000422",
+    "unit": "59A",
+    "area": 59.7153,
+    "sp": {
+     "newlywed": {
+      "u": 6,
+      "req": 2,
+      "local": 0,
+      "sido": 0,
+      "other": 2
+     },
+     "first": {
+      "u": 2,
+      "req": 22,
+      "local": 6,
+      "sido": 0,
+      "other": 16
+     },
+     "multichild": {
+      "u": 3,
+      "req": 0,
+      "local": 0,
+      "sido": 0,
+      "other": 0
+     },
+     "elder": {
+      "u": 1,
+      "req": 0,
+      "local": 0,
+      "sido": 0,
+      "other": 0
+     }
+    }
+   }
+  ],
   "map_query": "경기도 남양주시 오남읍 양지리 186-10",
   "nearby": [
    {
@@ -24519,6 +28182,173 @@
    "scores": []
   },
   "area_comps": null,
+  "sp_competition": {
+   "newborn": {
+    "u": 5,
+    "req": 0,
+    "local": 0,
+    "sido": 0,
+    "other": 0
+   },
+   "newlywed": {
+    "u": 8,
+    "req": 0,
+    "local": 0,
+    "sido": 0,
+    "other": 0
+   },
+   "first": {
+    "u": 4,
+    "req": 5,
+    "local": 1,
+    "sido": 0,
+    "other": 4
+   },
+   "multichild": {
+    "u": 5,
+    "req": 1,
+    "local": 0,
+    "sido": 0,
+    "other": 1
+   },
+   "elder": {
+    "u": 1,
+    "req": 0,
+    "local": 0,
+    "sido": 0,
+    "other": 0
+   }
+  },
+  "area_sp": [
+   {
+    "name": "오남역 서희스타힐스 여의재 1단지",
+    "notice": "2026-08-13",
+    "apply": "2026-08-24",
+    "url": "https://www.applyhome.co.kr/ai/aia/selectAPTLttotPblancDetail.do?houseManageNo=2026000365&pblancNo=2026000365",
+    "unit": "59B",
+    "area": 59.9642,
+    "sp": {
+     "newborn": {
+      "u": 6,
+      "req": 0,
+      "local": 0,
+      "sido": 0,
+      "other": 0
+     },
+     "newlywed": {
+      "u": 9,
+      "req": 1,
+      "local": 0,
+      "sido": 0,
+      "other": 1
+     },
+     "first": {
+      "u": 4,
+      "req": 6,
+      "local": 1,
+      "sido": 0,
+      "other": 5
+     },
+     "multichild": {
+      "u": 6,
+      "req": 0,
+      "local": 0,
+      "sido": 0,
+      "other": 0
+     },
+     "elder": {
+      "u": 1,
+      "req": 0,
+      "local": 0,
+      "sido": 0,
+      "other": 0
+     }
+    }
+   },
+   {
+    "name": "남양주 진접 서한이다음(S1BL)",
+    "notice": "2026-07-09",
+    "apply": "2026-07-20",
+    "url": "https://www.applyhome.co.kr/ai/aia/selectAPTLttotPblancDetail.do?houseManageNo=2026000310&pblancNo=2026000310",
+    "unit": "72A",
+    "area": 72.4726,
+    "sp": {
+     "newborn": {
+      "u": 5,
+      "req": 35,
+      "local": 11,
+      "sido": 9,
+      "other": 15
+     },
+     "newlywed": {
+      "u": 7,
+      "req": 28,
+      "local": 7,
+      "sido": 8,
+      "other": 13
+     },
+     "first": {
+      "u": 8,
+      "req": 56,
+      "local": 18,
+      "sido": 9,
+      "other": 29
+     },
+     "multichild": {
+      "u": 5,
+      "req": 5,
+      "local": 2,
+      "sido": 1,
+      "other": 2
+     },
+     "elder": {
+      "u": 1,
+      "req": 0,
+      "local": 0,
+      "sido": 0,
+      "other": 0
+     }
+    }
+   },
+   {
+    "name": "오남역 서희스타힐스 여의재 3단지",
+    "notice": "2026-05-13",
+    "apply": "2026-05-26",
+    "url": "https://www.applyhome.co.kr/ai/aia/selectAPTLttotPblancDetail.do?houseManageNo=2025000422&pblancNo=2025000422",
+    "unit": "59B",
+    "area": 59.9642,
+    "sp": {
+     "newlywed": {
+      "u": 10,
+      "req": 4,
+      "local": 2,
+      "sido": 0,
+      "other": 2
+     },
+     "first": {
+      "u": 4,
+      "req": 14,
+      "local": 3,
+      "sido": 0,
+      "other": 11
+     },
+     "multichild": {
+      "u": 5,
+      "req": 0,
+      "local": 0,
+      "sido": 0,
+      "other": 0
+     },
+     "elder": {
+      "u": 1,
+      "req": 0,
+      "local": 0,
+      "sido": 0,
+      "other": 0
+     }
+    }
+   }
+  ],
   "map_query": "경기도 남양주시 오남읍 양지리 186-10",
   "nearby": [
    {
@@ -24909,6 +28739,138 @@
    "scores": []
   },
   "area_comps": null,
+  "sp_competition": {
+   "newlywed": {
+    "u": 1,
+    "req": 0,
+    "local": 0,
+    "sido": 0,
+    "other": 0
+   }
+  },
+  "area_sp": [
+   {
+    "name": "오남역 서희스타힐스 여의재 1단지",
+    "notice": "2026-08-13",
+    "apply": "2026-08-24",
+    "url": "https://www.applyhome.co.kr/ai/aia/selectAPTLttotPblancDetail.do?houseManageNo=2026000365&pblancNo=2026000365",
+    "unit": "75",
+    "area": 75.4603,
+    "sp": {
+     "newborn": {
+      "u": 1,
+      "req": 1,
+      "local": 0,
+      "sido": 0,
+      "other": 1
+     },
+     "newlywed": {
+      "u": 2,
+      "req": 2,
+      "local": 0,
+      "sido": 0,
+      "other": 2
+     },
+     "first": {
+      "u": 1,
+      "req": 1,
+      "local": 0,
+      "sido": 0,
+      "other": 1
+     },
+     "multichild": {
+      "u": 2,
+      "req": 0,
+      "local": 0,
+      "sido": 0,
+      "other": 0
+     }
+    }
+   },
+   {
+    "name": "남양주 진접 서한이다음(S1BL)",
+    "notice": "2026-07-09",
+    "apply": "2026-07-20",
+    "url": "https://www.applyhome.co.kr/ai/aia/selectAPTLttotPblancDetail.do?houseManageNo=2026000310&pblancNo=2026000310",
+    "unit": "72A",
+    "area": 72.4726,
+    "sp": {
+     "newborn": {
+      "u": 5,
+      "req": 35,
+      "local": 11,
+      "sido": 9,
+      "other": 15
+     },
+     "newlywed": {
+      "u": 7,
+      "req": 28,
+      "local": 7,
+      "sido": 8,
+      "other": 13
+     },
+     "first": {
+      "u": 8,
+      "req": 56,
+      "local": 18,
+      "sido": 9,
+      "other": 29
+     },
+     "multichild": {
+      "u": 5,
+      "req": 5,
+      "local": 2,
+      "sido": 1,
+      "other": 2
+     },
+     "elder": {
+      "u": 1,
+      "req": 0,
+      "local": 0,
+      "sido": 0,
+      "other": 0
+     }
+    }
+   },
+   {
+    "name": "오남역 서희스타힐스 여의재 3단지",
+    "notice": "2026-05-13",
+    "apply": "2026-05-26",
+    "url": "https://www.applyhome.co.kr/ai/aia/selectAPTLttotPblancDetail.do?houseManageNo=2025000422&pblancNo=2025000422",
+    "unit": "75",
+    "area": 75.4603,
+    "sp": {
+     "newlywed": {
+      "u": 6,
+      "req": 4,
+      "local": 1,
+      "sido": 0,
+      "other": 3
+     },
+     "first": {
+      "u": 2,
+      "req": 6,
+      "local": 0,
+      "sido": 0,
+      "other": 6
+     },
+     "multichild": {
+      "u": 2,
+      "req": 0,
+      "local": 0,
+      "sido": 0,
+      "other": 0
+     },
+     "elder": {
+      "u": 1,
+      "req": 0,
+      "local": 0,
+      "sido": 0,
+      "other": 0
+     }
+    }
+   }
+  ],
   "map_query": "경기도 남양주시 오남읍 양지리 186-10",
   "nearby": [
    {
@@ -25299,6 +29261,130 @@
    "scores": []
   },
   "area_comps": null,
+  "sp_competition": null,
+  "area_sp": [
+   {
+    "name": "오남역 서희스타힐스 여의재 1단지",
+    "notice": "2026-08-13",
+    "apply": "2026-08-24",
+    "url": "https://www.applyhome.co.kr/ai/aia/selectAPTLttotPblancDetail.do?houseManageNo=2026000365&pblancNo=2026000365",
+    "unit": "84",
+    "area": 84.9596,
+    "sp": {
+     "newborn": {
+      "u": 1,
+      "req": 2,
+      "local": 0,
+      "sido": 0,
+      "other": 2
+     },
+     "newlywed": {
+      "u": 2,
+      "req": 3,
+      "local": 1,
+      "sido": 0,
+      "other": 2
+     },
+     "first": {
+      "u": 1,
+      "req": 1,
+      "local": 0,
+      "sido": 0,
+      "other": 1
+     },
+     "multichild": {
+      "u": 1,
+      "req": 0,
+      "local": 0,
+      "sido": 0,
+      "other": 0
+     }
+    }
+   },
+   {
+    "name": "남양주 진접 서한이다음(S1BL)",
+    "notice": "2026-07-09",
+    "apply": "2026-07-20",
+    "url": "https://www.applyhome.co.kr/ai/aia/selectAPTLttotPblancDetail.do?houseManageNo=2026000310&pblancNo=2026000310",
+    "unit": "84B",
+    "area": 84.7614,
+    "sp": {
+     "newborn": {
+      "u": 3,
+      "req": 13,
+      "local": 4,
+      "sido": 6,
+      "other": 3
+     },
+     "newlywed": {
+      "u": 5,
+      "req": 7,
+      "local": 3,
+      "sido": 2,
+      "other": 2
+     },
+     "first": {
+      "u": 5,
+      "req": 11,
+      "local": 4,
+      "sido": 1,
+      "other": 6
+     },
+     "multichild": {
+      "u": 3,
+      "req": 2,
+      "local": 2,
+      "sido": 0,
+      "other": 0
+     },
+     "elder": {
+      "u": 1,
+      "req": 0,
+      "local": 0,
+      "sido": 0,
+      "other": 0
+     }
+    }
+   },
+   {
+    "name": "오남역 서희스타힐스 여의재 3단지",
+    "notice": "2026-05-13",
+    "apply": "2026-05-26",
+    "url": "https://www.applyhome.co.kr/ai/aia/selectAPTLttotPblancDetail.do?houseManageNo=2025000422&pblancNo=2025000422",
+    "unit": "84",
+    "area": 84.9596,
+    "sp": {
+     "newlywed": {
+      "u": 5,
+      "req": 4,
+      "local": 0,
+      "sido": 0,
+      "other": 4
+     },
+     "first": {
+      "u": 2,
+      "req": 7,
+      "local": 1,
+      "sido": 0,
+      "other": 6
+     },
+     "multichild": {
+      "u": 2,
+      "req": 2,
+      "local": 0,
+      "sido": 1,
+      "other": 1
+     },
+     "elder": {
+      "u": 1,
+      "req": 0,
+      "local": 0,
+      "sido": 0,
+      "other": 0
+     }
+    }
+   }
+  ],
   "map_query": "경기도 남양주시 오남읍 양지리 186-10",
   "nearby": [
    {
@@ -25683,6 +29769,44 @@
    ]
   },
   "area_comps": null,
+  "sp_competition": {
+   "newborn": {
+    "u": 29,
+    "req": 3,
+    "local": 2,
+    "sido": 0,
+    "other": 1
+   },
+   "newlywed": {
+    "u": 43,
+    "req": 0,
+    "local": 0,
+    "sido": 0,
+    "other": 0
+   },
+   "first": {
+    "u": 20,
+    "req": 3,
+    "local": 0,
+    "sido": 0,
+    "other": 3
+   },
+   "multichild": {
+    "u": 29,
+    "req": 0,
+    "local": 0,
+    "sido": 0,
+    "other": 0
+   },
+   "elder": {
+    "u": 8,
+    "req": 0,
+    "local": 0,
+    "sido": 0,
+    "other": 0
+   }
+  },
+  "area_sp": null,
   "map_query": "충청남도 천안시 서북구 부대동 384-20",
   "nearby": [
    {
@@ -26059,6 +30183,44 @@
    ]
   },
   "area_comps": null,
+  "sp_competition": {
+   "newborn": {
+    "u": 17,
+    "req": 0,
+    "local": 0,
+    "sido": 0,
+    "other": 0
+   },
+   "newlywed": {
+    "u": 25,
+    "req": 0,
+    "local": 0,
+    "sido": 0,
+    "other": 0
+   },
+   "first": {
+    "u": 12,
+    "req": 0,
+    "local": 0,
+    "sido": 0,
+    "other": 0
+   },
+   "multichild": {
+    "u": 17,
+    "req": 0,
+    "local": 0,
+    "sido": 0,
+    "other": 0
+   },
+   "elder": {
+    "u": 5,
+    "req": 0,
+    "local": 0,
+    "sido": 0,
+    "other": 0
+   }
+  },
+  "area_sp": null,
   "map_query": "충청남도 천안시 서북구 부대동 384-20",
   "nearby": [
    {
@@ -26360,6 +30522,23 @@
    ]
   },
   "area_comps": null,
+  "sp_competition": {
+   "multichild": {
+    "u": 18,
+    "req": 0,
+    "local": 0,
+    "sido": 0,
+    "other": 0
+   },
+   "elder": {
+    "u": 5,
+    "req": 0,
+    "local": 0,
+    "sido": 0,
+    "other": 0
+   }
+  },
+  "area_sp": null,
   "map_query": "충청남도 천안시 서북구 부대동 384-20",
   "nearby": [
    {
@@ -26661,6 +30840,23 @@
    ]
   },
   "area_comps": null,
+  "sp_competition": {
+   "multichild": {
+    "u": 2,
+    "req": 0,
+    "local": 0,
+    "sido": 0,
+    "other": 0
+   },
+   "elder": {
+    "u": 1,
+    "req": 0,
+    "local": 0,
+    "sido": 0,
+    "other": 0
+   }
+  },
+  "area_sp": null,
   "map_query": "충청남도 천안시 서북구 부대동 384-20",
   "nearby": [
    {
@@ -26893,6 +31089,23 @@
    ]
   },
   "area_comps": null,
+  "sp_competition": {
+   "multichild": {
+    "u": 9,
+    "req": 0,
+    "local": 0,
+    "sido": 0,
+    "other": 0
+   },
+   "elder": {
+    "u": 2,
+    "req": 0,
+    "local": 0,
+    "sido": 0,
+    "other": 0
+   }
+  },
+  "area_sp": null,
   "map_query": "충청남도 천안시 서북구 부대동 384-20",
   "nearby": [
    {
@@ -27269,6 +31482,44 @@
    ]
   },
   "area_comps": null,
+  "sp_competition": {
+   "newborn": {
+    "u": 22,
+    "req": 0,
+    "local": 0,
+    "sido": 0,
+    "other": 0
+   },
+   "newlywed": {
+    "u": 33,
+    "req": 3,
+    "local": 2,
+    "sido": 0,
+    "other": 1
+   },
+   "first": {
+    "u": 15,
+    "req": 31,
+    "local": 25,
+    "sido": 0,
+    "other": 6
+   },
+   "multichild": {
+    "u": 22,
+    "req": 0,
+    "local": 0,
+    "sido": 0,
+    "other": 0
+   },
+   "elder": {
+    "u": 7,
+    "req": 1,
+    "local": 1,
+    "sido": 0,
+    "other": 0
+   }
+  },
+  "area_sp": null,
   "map_query": "충청남도 천안시 서북구 성정동 511",
   "nearby": [
    {
@@ -27653,6 +31904,44 @@
    ]
   },
   "area_comps": null,
+  "sp_competition": {
+   "newborn": {
+    "u": 16,
+    "req": 0,
+    "local": 0,
+    "sido": 0,
+    "other": 0
+   },
+   "newlywed": {
+    "u": 24,
+    "req": 1,
+    "local": 1,
+    "sido": 0,
+    "other": 0
+   },
+   "first": {
+    "u": 11,
+    "req": 6,
+    "local": 4,
+    "sido": 0,
+    "other": 2
+   },
+   "multichild": {
+    "u": 16,
+    "req": 0,
+    "local": 0,
+    "sido": 0,
+    "other": 0
+   },
+   "elder": {
+    "u": 5,
+    "req": 0,
+    "local": 0,
+    "sido": 0,
+    "other": 0
+   }
+  },
+  "area_sp": null,
   "map_query": "충청남도 천안시 서북구 성정동 511",
   "nearby": [
    {
@@ -27973,6 +32262,44 @@
    ]
   },
   "area_comps": null,
+  "sp_competition": {
+   "newborn": {
+    "u": 8,
+    "req": 0,
+    "local": 0,
+    "sido": 0,
+    "other": 0
+   },
+   "newlywed": {
+    "u": 12,
+    "req": 1,
+    "local": 1,
+    "sido": 0,
+    "other": 0
+   },
+   "first": {
+    "u": 6,
+    "req": 5,
+    "local": 4,
+    "sido": 0,
+    "other": 1
+   },
+   "multichild": {
+    "u": 8,
+    "req": 0,
+    "local": 0,
+    "sido": 0,
+    "other": 0
+   },
+   "elder": {
+    "u": 2,
+    "req": 0,
+    "local": 0,
+    "sido": 0,
+    "other": 0
+   }
+  },
+  "area_sp": null,
   "map_query": "충청남도 천안시 서북구 성정동 511",
   "nearby": [
    {
@@ -28346,6 +32673,44 @@
    ]
   },
   "area_comps": null,
+  "sp_competition": {
+   "newborn": {
+    "u": 67,
+    "req": 0,
+    "local": 0,
+    "sido": 0,
+    "other": 0
+   },
+   "newlywed": {
+    "u": 100,
+    "req": 4,
+    "local": 4,
+    "sido": 0,
+    "other": 0
+   },
+   "first": {
+    "u": 46,
+    "req": 3,
+    "local": 3,
+    "sido": 0,
+    "other": 0
+   },
+   "multichild": {
+    "u": 67,
+    "req": 0,
+    "local": 0,
+    "sido": 0,
+    "other": 0
+   },
+   "elder": {
+    "u": 20,
+    "req": 0,
+    "local": 0,
+    "sido": 0,
+    "other": 0
+   }
+  },
+  "area_sp": null,
   "map_query": "충청남도 천안시 서북구 성정동 511",
   "nearby": [
    {
@@ -28653,6 +33018,23 @@
    ]
   },
   "area_comps": null,
+  "sp_competition": {
+   "multichild": {
+    "u": 10,
+    "req": 0,
+    "local": 0,
+    "sido": 0,
+    "other": 0
+   },
+   "elder": {
+    "u": 3,
+    "req": 0,
+    "local": 0,
+    "sido": 0,
+    "other": 0
+   }
+  },
+  "area_sp": null,
   "map_query": "충청남도 천안시 서북구 성정동 511",
   "nearby": [
    {
@@ -29015,6 +33397,23 @@
    ]
   },
   "area_comps": null,
+  "sp_competition": {
+   "multichild": {
+    "u": 20,
+    "req": 1,
+    "local": 1,
+    "sido": 0,
+    "other": 0
+   },
+   "elder": {
+    "u": 6,
+    "req": 0,
+    "local": 0,
+    "sido": 0,
+    "other": 0
+   }
+  },
+  "area_sp": null,
   "map_query": "충청남도 천안시 서북구 성정동 511",
   "nearby": [
    {
@@ -29399,6 +33798,44 @@
    ]
   },
   "area_comps": null,
+  "sp_competition": {
+   "newborn": {
+    "u": 32,
+    "req": 6,
+    "local": 4,
+    "sido": 0,
+    "other": 2
+   },
+   "newlywed": {
+    "u": 49,
+    "req": 4,
+    "local": 1,
+    "sido": 0,
+    "other": 3
+   },
+   "first": {
+    "u": 23,
+    "req": 2,
+    "local": 1,
+    "sido": 0,
+    "other": 1
+   },
+   "multichild": {
+    "u": 32,
+    "req": 0,
+    "local": 0,
+    "sido": 0,
+    "other": 0
+   },
+   "elder": {
+    "u": 9,
+    "req": 0,
+    "local": 0,
+    "sido": 0,
+    "other": 0
+   }
+  },
+  "area_sp": null,
   "map_query": "충청남도 천안시 서북구 부대동 394-2",
   "nearby": [
    {
@@ -29775,6 +34212,44 @@
    ]
   },
   "area_comps": null,
+  "sp_competition": {
+   "newborn": {
+    "u": 17,
+    "req": 0,
+    "local": 0,
+    "sido": 0,
+    "other": 0
+   },
+   "newlywed": {
+    "u": 25,
+    "req": 0,
+    "local": 0,
+    "sido": 0,
+    "other": 0
+   },
+   "first": {
+    "u": 12,
+    "req": 1,
+    "local": 1,
+    "sido": 0,
+    "other": 0
+   },
+   "multichild": {
+    "u": 17,
+    "req": 0,
+    "local": 0,
+    "sido": 0,
+    "other": 0
+   },
+   "elder": {
+    "u": 5,
+    "req": 0,
+    "local": 0,
+    "sido": 0,
+    "other": 0
+   }
+  },
+  "area_sp": null,
   "map_query": "충청남도 천안시 서북구 부대동 394-2",
   "nearby": [
    {
@@ -30076,6 +34551,23 @@
    ]
   },
   "area_comps": null,
+  "sp_competition": {
+   "multichild": {
+    "u": 23,
+    "req": 0,
+    "local": 0,
+    "sido": 0,
+    "other": 0
+   },
+   "elder": {
+    "u": 6,
+    "req": 0,
+    "local": 0,
+    "sido": 0,
+    "other": 0
+   }
+  },
+  "area_sp": null,
   "map_query": "충청남도 천안시 서북구 부대동 394-2",
   "nearby": [
    {
@@ -30377,6 +34869,16 @@
    ]
   },
   "area_comps": null,
+  "sp_competition": {
+   "multichild": {
+    "u": 1,
+    "req": 0,
+    "local": 0,
+    "sido": 0,
+    "other": 0
+   }
+  },
+  "area_sp": null,
   "map_query": "충청남도 천안시 서북구 부대동 394-2",
   "nearby": [
    {
@@ -30609,6 +35111,23 @@
    ]
   },
   "area_comps": null,
+  "sp_competition": {
+   "multichild": {
+    "u": 10,
+    "req": 0,
+    "local": 0,
+    "sido": 0,
+    "other": 0
+   },
+   "elder": {
+    "u": 3,
+    "req": 0,
+    "local": 0,
+    "sido": 0,
+    "other": 0
+   }
+  },
+  "area_sp": null,
   "map_query": "충청남도 천안시 서북구 부대동 394-2",
   "nearby": [
    {
@@ -30983,6 +35502,37 @@
    ]
   },
   "area_comps": null,
+  "sp_competition": {
+   "newborn": {
+    "u": 2,
+    "req": 0,
+    "local": 0,
+    "sido": 0,
+    "other": 0
+   },
+   "newlywed": {
+    "u": 2,
+    "req": 0,
+    "local": 0,
+    "sido": 0,
+    "other": 0
+   },
+   "first": {
+    "u": 2,
+    "req": 0,
+    "local": 0,
+    "sido": 0,
+    "other": 0
+   },
+   "multichild": {
+    "u": 2,
+    "req": 0,
+    "local": 0,
+    "sido": 0,
+    "other": 0
+   }
+  },
+  "area_sp": null,
   "map_query": "울산광역시 울주군 온양읍 발리동상로 34",
   "nearby": [
    {
@@ -31341,6 +35891,16 @@
    ]
   },
   "area_comps": null,
+  "sp_competition": {
+   "newlywed": {
+    "u": 1,
+    "req": 0,
+    "local": 0,
+    "sido": 0,
+    "other": 0
+   }
+  },
+  "area_sp": null,
   "map_query": "울산광역시 울주군 온양읍 발리동상로 34",
   "nearby": [
    {
@@ -31699,6 +36259,37 @@
    ]
   },
   "area_comps": null,
+  "sp_competition": {
+   "newborn": {
+    "u": 1,
+    "req": 0,
+    "local": 0,
+    "sido": 0,
+    "other": 0
+   },
+   "newlywed": {
+    "u": 2,
+    "req": 0,
+    "local": 0,
+    "sido": 0,
+    "other": 0
+   },
+   "first": {
+    "u": 1,
+    "req": 0,
+    "local": 0,
+    "sido": 0,
+    "other": 0
+   },
+   "multichild": {
+    "u": 2,
+    "req": 0,
+    "local": 0,
+    "sido": 0,
+    "other": 0
+   }
+  },
+  "area_sp": null,
   "map_query": "울산광역시 울주군 온양읍 발리동상로 34",
   "nearby": [
    {
@@ -32057,6 +36648,8 @@
    ]
   },
   "area_comps": null,
+  "sp_competition": null,
+  "area_sp": null,
   "map_query": "울산광역시 울주군 온양읍 발리동상로 34",
   "nearby": [
    {
@@ -32415,6 +37008,44 @@
    ]
   },
   "area_comps": null,
+  "sp_competition": {
+   "newborn": {
+    "u": 3,
+    "req": 0,
+    "local": 0,
+    "sido": 0,
+    "other": 0
+   },
+   "newlywed": {
+    "u": 2,
+    "req": 0,
+    "local": 0,
+    "sido": 0,
+    "other": 0
+   },
+   "first": {
+    "u": 1,
+    "req": 0,
+    "local": 0,
+    "sido": 0,
+    "other": 0
+   },
+   "multichild": {
+    "u": 3,
+    "req": 0,
+    "local": 0,
+    "sido": 0,
+    "other": 0
+   },
+   "elder": {
+    "u": 1,
+    "req": 0,
+    "local": 0,
+    "sido": 0,
+    "other": 0
+   }
+  },
+  "area_sp": null,
   "map_query": "울산광역시 울주군 온양읍 발리동상로 34",
   "nearby": [
    {
@@ -32773,6 +37404,30 @@
    ]
   },
   "area_comps": null,
+  "sp_competition": {
+   "newlywed": {
+    "u": 1,
+    "req": 0,
+    "local": 0,
+    "sido": 0,
+    "other": 0
+   },
+   "multichild": {
+    "u": 1,
+    "req": 0,
+    "local": 0,
+    "sido": 0,
+    "other": 0
+   },
+   "elder": {
+    "u": 1,
+    "req": 0,
+    "local": 0,
+    "sido": 0,
+    "other": 0
+   }
+  },
+  "area_sp": null,
   "map_query": "울산광역시 울주군 온양읍 발리동상로 34",
   "nearby": [
    {
@@ -33133,6 +37788,8 @@
    ]
   },
   "area_comps": null,
+  "sp_competition": null,
+  "area_sp": [],
   "map_query": "경기도 시흥시 은행동 289-31",
   "nearby": [
    {
@@ -33476,6 +38133,8 @@
    ]
   },
   "area_comps": null,
+  "sp_competition": null,
+  "area_sp": [],
   "map_query": "경기도 시흥시 은행동 289-31",
   "nearby": [
    {
@@ -33852,6 +38511,44 @@
    ]
   },
   "area_comps": null,
+  "sp_competition": {
+   "newborn": {
+    "u": 1,
+    "req": 0,
+    "local": 0,
+    "sido": 0,
+    "other": 0
+   },
+   "newlywed": {
+    "u": 2,
+    "req": 0,
+    "local": 0,
+    "sido": 0,
+    "other": 0
+   },
+   "first": {
+    "u": 1,
+    "req": 8,
+    "local": 1,
+    "sido": 0,
+    "other": 7
+   },
+   "multichild": {
+    "u": 1,
+    "req": 0,
+    "local": 0,
+    "sido": 0,
+    "other": 0
+   },
+   "elder": {
+    "u": 1,
+    "req": 0,
+    "local": 0,
+    "sido": 0,
+    "other": 0
+   }
+  },
+  "area_sp": [],
   "map_query": "경기도 시흥시 은행동 289-31",
   "nearby": [
    {
@@ -34228,6 +38925,16 @@
    ]
   },
   "area_comps": null,
+  "sp_competition": {
+   "newlywed": {
+    "u": 1,
+    "req": 0,
+    "local": 0,
+    "sido": 0,
+    "other": 0
+   }
+  },
+  "area_sp": [],
   "map_query": "경기도 시흥시 은행동 289-31",
   "nearby": [
    {
@@ -34604,6 +39311,8 @@
    ]
   },
   "area_comps": null,
+  "sp_competition": null,
+  "area_sp": [],
   "map_query": "경기도 시흥시 은행동 289-31",
   "nearby": [
    {
@@ -34916,6 +39625,16 @@
    ]
   },
   "area_comps": null,
+  "sp_competition": {
+   "newlywed": {
+    "u": 1,
+    "req": 0,
+    "local": 0,
+    "sido": 0,
+    "other": 0
+   }
+  },
+  "area_sp": [],
   "map_query": "경기도 시흥시 은행동 289-31",
   "nearby": [
    {
@@ -35228,6 +39947,8 @@
    ]
   },
   "area_comps": null,
+  "sp_competition": null,
+  "area_sp": [],
   "map_query": "경기도 시흥시 은행동 289-31",
   "nearby": [
    {
@@ -35540,6 +40261,8 @@
    ]
   },
   "area_comps": null,
+  "sp_competition": null,
+  "area_sp": [],
   "map_query": "경기도 시흥시 은행동 289-31",
   "nearby": [
    {
@@ -35935,6 +40658,44 @@
    ]
   },
   "area_comps": null,
+  "sp_competition": {
+   "newborn": {
+    "u": 55,
+    "req": 0,
+    "local": 0,
+    "sido": 0,
+    "other": 0
+   },
+   "newlywed": {
+    "u": 82,
+    "req": 5,
+    "local": 5,
+    "sido": 0,
+    "other": 0
+   },
+   "first": {
+    "u": 38,
+    "req": 4,
+    "local": 2,
+    "sido": 0,
+    "other": 2
+   },
+   "multichild": {
+    "u": 54,
+    "req": 1,
+    "local": 1,
+    "sido": 0,
+    "other": 0
+   },
+   "elder": {
+    "u": 16,
+    "req": 0,
+    "local": 0,
+    "sido": 0,
+    "other": 0
+   }
+  },
+  "area_sp": [],
   "map_query": "경기도 여주시 홍문동 332-2",
   "nearby": [
    {
@@ -36330,6 +41091,44 @@
    ]
   },
   "area_comps": null,
+  "sp_competition": {
+   "newborn": {
+    "u": 12,
+    "req": 0,
+    "local": 0,
+    "sido": 0,
+    "other": 0
+   },
+   "newlywed": {
+    "u": 19,
+    "req": 0,
+    "local": 0,
+    "sido": 0,
+    "other": 0
+   },
+   "first": {
+    "u": 9,
+    "req": 1,
+    "local": 1,
+    "sido": 0,
+    "other": 0
+   },
+   "multichild": {
+    "u": 12,
+    "req": 0,
+    "local": 0,
+    "sido": 0,
+    "other": 0
+   },
+   "elder": {
+    "u": 4,
+    "req": 0,
+    "local": 0,
+    "sido": 0,
+    "other": 0
+   }
+  },
+  "area_sp": [],
   "map_query": "경기도 여주시 홍문동 332-2",
   "nearby": [
    {
@@ -36725,6 +41524,44 @@
    ]
   },
   "area_comps": null,
+  "sp_competition": {
+   "newborn": {
+    "u": 3,
+    "req": 0,
+    "local": 0,
+    "sido": 0,
+    "other": 0
+   },
+   "newlywed": {
+    "u": 4,
+    "req": 0,
+    "local": 0,
+    "sido": 0,
+    "other": 0
+   },
+   "first": {
+    "u": 2,
+    "req": 0,
+    "local": 0,
+    "sido": 0,
+    "other": 0
+   },
+   "multichild": {
+    "u": 4,
+    "req": 0,
+    "local": 0,
+    "sido": 0,
+    "other": 0
+   },
+   "elder": {
+    "u": 1,
+    "req": 0,
+    "local": 0,
+    "sido": 0,
+    "other": 0
+   }
+  },
+  "area_sp": [],
   "map_query": "경기도 여주시 홍문동 332-2",
   "nearby": [
    {
@@ -37101,6 +41938,44 @@
    ]
   },
   "area_comps": null,
+  "sp_competition": {
+   "newborn": {
+    "u": 31,
+    "req": 52,
+    "local": 39,
+    "sido": 0,
+    "other": 13
+   },
+   "newlywed": {
+    "u": 47,
+    "req": 24,
+    "local": 17,
+    "sido": 0,
+    "other": 7
+   },
+   "first": {
+    "u": 22,
+    "req": 38,
+    "local": 30,
+    "sido": 0,
+    "other": 8
+   },
+   "multichild": {
+    "u": 31,
+    "req": 16,
+    "local": 12,
+    "sido": 0,
+    "other": 4
+   },
+   "elder": {
+    "u": 10,
+    "req": 2,
+    "local": 2,
+    "sido": 0,
+    "other": 0
+   }
+  },
+  "area_sp": null,
   "map_query": "전남광주통합특별시 북구 임동 100-1",
   "nearby": [
    {
@@ -37485,6 +42360,44 @@
    ]
   },
   "area_comps": null,
+  "sp_competition": {
+   "newborn": {
+    "u": 31,
+    "req": 8,
+    "local": 5,
+    "sido": 0,
+    "other": 3
+   },
+   "newlywed": {
+    "u": 47,
+    "req": 4,
+    "local": 4,
+    "sido": 0,
+    "other": 0
+   },
+   "first": {
+    "u": 22,
+    "req": 10,
+    "local": 8,
+    "sido": 0,
+    "other": 2
+   },
+   "multichild": {
+    "u": 31,
+    "req": 0,
+    "local": 0,
+    "sido": 0,
+    "other": 0
+   },
+   "elder": {
+    "u": 10,
+    "req": 0,
+    "local": 0,
+    "sido": 0,
+    "other": 0
+   }
+  },
+  "area_sp": null,
   "map_query": "전남광주통합특별시 북구 임동 100-1",
   "nearby": [
    {
@@ -37869,6 +42782,44 @@
    ]
   },
   "area_comps": null,
+  "sp_competition": {
+   "newborn": {
+    "u": 54,
+    "req": 9,
+    "local": 2,
+    "sido": 0,
+    "other": 7
+   },
+   "newlywed": {
+    "u": 80,
+    "req": 5,
+    "local": 3,
+    "sido": 0,
+    "other": 2
+   },
+   "first": {
+    "u": 37,
+    "req": 14,
+    "local": 7,
+    "sido": 0,
+    "other": 7
+   },
+   "multichild": {
+    "u": 54,
+    "req": 5,
+    "local": 3,
+    "sido": 0,
+    "other": 2
+   },
+   "elder": {
+    "u": 16,
+    "req": 0,
+    "local": 0,
+    "sido": 0,
+    "other": 0
+   }
+  },
+  "area_sp": null,
   "map_query": "전남광주통합특별시 북구 임동 100-1",
   "nearby": [
    {
@@ -38253,6 +43204,44 @@
    ]
   },
   "area_comps": null,
+  "sp_competition": {
+   "newborn": {
+    "u": 53,
+    "req": 13,
+    "local": 8,
+    "sido": 0,
+    "other": 5
+   },
+   "newlywed": {
+    "u": 80,
+    "req": 10,
+    "local": 9,
+    "sido": 0,
+    "other": 1
+   },
+   "first": {
+    "u": 37,
+    "req": 6,
+    "local": 5,
+    "sido": 0,
+    "other": 1
+   },
+   "multichild": {
+    "u": 53,
+    "req": 3,
+    "local": 3,
+    "sido": 0,
+    "other": 0
+   },
+   "elder": {
+    "u": 17,
+    "req": 0,
+    "local": 0,
+    "sido": 0,
+    "other": 0
+   }
+  },
+  "area_sp": null,
   "map_query": "전남광주통합특별시 북구 임동 100-1",
   "nearby": [
    {
@@ -38637,6 +43626,44 @@
    ]
   },
   "area_comps": null,
+  "sp_competition": {
+   "newborn": {
+    "u": 30,
+    "req": 2,
+    "local": 2,
+    "sido": 0,
+    "other": 0
+   },
+   "newlywed": {
+    "u": 46,
+    "req": 2,
+    "local": 0,
+    "sido": 0,
+    "other": 2
+   },
+   "first": {
+    "u": 21,
+    "req": 2,
+    "local": 1,
+    "sido": 0,
+    "other": 1
+   },
+   "multichild": {
+    "u": 31,
+    "req": 0,
+    "local": 0,
+    "sido": 0,
+    "other": 0
+   },
+   "elder": {
+    "u": 9,
+    "req": 0,
+    "local": 0,
+    "sido": 0,
+    "other": 0
+   }
+  },
+  "area_sp": null,
   "map_query": "전남광주통합특별시 북구 임동 100-1",
   "nearby": [
    {
@@ -39021,6 +44048,44 @@
    ]
   },
   "area_comps": null,
+  "sp_competition": {
+   "newborn": {
+    "u": 54,
+    "req": 10,
+    "local": 6,
+    "sido": 0,
+    "other": 4
+   },
+   "newlywed": {
+    "u": 80,
+    "req": 12,
+    "local": 7,
+    "sido": 0,
+    "other": 5
+   },
+   "first": {
+    "u": 38,
+    "req": 5,
+    "local": 3,
+    "sido": 0,
+    "other": 2
+   },
+   "multichild": {
+    "u": 53,
+    "req": 3,
+    "local": 3,
+    "sido": 0,
+    "other": 0
+   },
+   "elder": {
+    "u": 16,
+    "req": 0,
+    "local": 0,
+    "sido": 0,
+    "other": 0
+   }
+  },
+  "area_sp": null,
   "map_query": "전남광주통합특별시 북구 임동 100-1",
   "nearby": [
    {
@@ -39337,6 +44402,23 @@
    ]
   },
   "area_comps": null,
+  "sp_competition": {
+   "multichild": {
+    "u": 22,
+    "req": 14,
+    "local": 9,
+    "sido": 0,
+    "other": 5
+   },
+   "elder": {
+    "u": 6,
+    "req": 0,
+    "local": 0,
+    "sido": 0,
+    "other": 0
+   }
+  },
+  "area_sp": null,
   "map_query": "전남광주통합특별시 북구 임동 100-1",
   "nearby": [
    {
@@ -39653,6 +44735,23 @@
    ]
   },
   "area_comps": null,
+  "sp_competition": {
+   "multichild": {
+    "u": 24,
+    "req": 0,
+    "local": 0,
+    "sido": 0,
+    "other": 0
+   },
+   "elder": {
+    "u": 6,
+    "req": 0,
+    "local": 0,
+    "sido": 0,
+    "other": 0
+   }
+  },
+  "area_sp": null,
   "map_query": "전남광주통합특별시 북구 임동 100-1",
   "nearby": [
    {
@@ -39969,6 +45068,23 @@
    ]
   },
   "area_comps": null,
+  "sp_competition": {
+   "multichild": {
+    "u": 13,
+    "req": 5,
+    "local": 5,
+    "sido": 0,
+    "other": 0
+   },
+   "elder": {
+    "u": 3,
+    "req": 0,
+    "local": 0,
+    "sido": 0,
+    "other": 0
+   }
+  },
+  "area_sp": null,
   "map_query": "전남광주통합특별시 북구 임동 100-1",
   "nearby": [
    {
@@ -40173,6 +45289,23 @@
    ]
   },
   "area_comps": null,
+  "sp_competition": {
+   "multichild": {
+    "u": 9,
+    "req": 2,
+    "local": 2,
+    "sido": 0,
+    "other": 0
+   },
+   "elder": {
+    "u": 3,
+    "req": 0,
+    "local": 0,
+    "sido": 0,
+    "other": 0
+   }
+  },
+  "area_sp": null,
   "map_query": "전남광주통합특별시 북구 임동 100-1",
   "nearby": [
    {
@@ -40377,6 +45510,8 @@
    ]
   },
   "area_comps": null,
+  "sp_competition": null,
+  "area_sp": null,
   "map_query": "전남광주통합특별시 북구 임동 100-1",
   "nearby": [
    {
@@ -40581,6 +45716,8 @@
    ]
   },
   "area_comps": null,
+  "sp_competition": null,
+  "area_sp": null,
   "map_query": "전남광주통합특별시 북구 임동 100-1",
   "nearby": [
    {
@@ -40785,6 +45922,8 @@
    ]
   },
   "area_comps": null,
+  "sp_competition": null,
+  "area_sp": null,
   "map_query": "전남광주통합특별시 북구 임동 100-1",
   "nearby": [
    {
@@ -40989,6 +46128,8 @@
    ]
   },
   "area_comps": null,
+  "sp_competition": null,
+  "area_sp": null,
   "map_query": "전남광주통합특별시 북구 임동 100-1",
   "nearby": [
    {
@@ -41193,6 +46334,8 @@
    ]
   },
   "area_comps": null,
+  "sp_competition": null,
+  "area_sp": null,
   "map_query": "전남광주통합특별시 북구 임동 100-1",
   "nearby": [
    {
@@ -41397,6 +46540,8 @@
    ]
   },
   "area_comps": null,
+  "sp_competition": null,
+  "area_sp": null,
   "map_query": "전남광주통합특별시 북구 임동 100-1",
   "nearby": [
    {
@@ -41780,6 +46925,44 @@
    ]
   },
   "area_comps": null,
+  "sp_competition": {
+   "newborn": {
+    "u": 9,
+    "req": 16,
+    "local": 14,
+    "sido": 0,
+    "other": 2
+   },
+   "newlywed": {
+    "u": 13,
+    "req": 4,
+    "local": 4,
+    "sido": 0,
+    "other": 0
+   },
+   "first": {
+    "u": 6,
+    "req": 128,
+    "local": 114,
+    "sido": 0,
+    "other": 14
+   },
+   "multichild": {
+    "u": 9,
+    "req": 1,
+    "local": 1,
+    "sido": 0,
+    "other": 0
+   },
+   "elder": {
+    "u": 3,
+    "req": 0,
+    "local": 0,
+    "sido": 0,
+    "other": 0
+   }
+  },
+  "area_sp": null,
   "map_query": "울산광역시 남구 야음동 350-5",
   "nearby": [
    {
@@ -42139,6 +47322,44 @@
    ]
   },
   "area_comps": null,
+  "sp_competition": {
+   "newborn": {
+    "u": 11,
+    "req": 9,
+    "local": 7,
+    "sido": 0,
+    "other": 2
+   },
+   "newlywed": {
+    "u": 17,
+    "req": 7,
+    "local": 6,
+    "sido": 0,
+    "other": 1
+   },
+   "first": {
+    "u": 8,
+    "req": 139,
+    "local": 115,
+    "sido": 0,
+    "other": 24
+   },
+   "multichild": {
+    "u": 11,
+    "req": 2,
+    "local": 2,
+    "sido": 0,
+    "other": 0
+   },
+   "elder": {
+    "u": 3,
+    "req": 0,
+    "local": 0,
+    "sido": 0,
+    "other": 0
+   }
+  },
+  "area_sp": null,
   "map_query": "울산광역시 남구 야음동 350-5",
   "nearby": [
    {
@@ -42498,6 +47719,44 @@
    ]
   },
   "area_comps": null,
+  "sp_competition": {
+   "newborn": {
+    "u": 5,
+    "req": 0,
+    "local": 0,
+    "sido": 0,
+    "other": 0
+   },
+   "newlywed": {
+    "u": 8,
+    "req": 4,
+    "local": 3,
+    "sido": 0,
+    "other": 1
+   },
+   "first": {
+    "u": 4,
+    "req": 12,
+    "local": 8,
+    "sido": 0,
+    "other": 4
+   },
+   "multichild": {
+    "u": 5,
+    "req": 0,
+    "local": 0,
+    "sido": 0,
+    "other": 0
+   },
+   "elder": {
+    "u": 2,
+    "req": 0,
+    "local": 0,
+    "sido": 0,
+    "other": 0
+   }
+  },
+  "area_sp": null,
   "map_query": "울산광역시 남구 야음동 350-5",
   "nearby": [
    {
@@ -42857,6 +48116,44 @@
    ]
   },
   "area_comps": null,
+  "sp_competition": {
+   "newborn": {
+    "u": 14,
+    "req": 5,
+    "local": 4,
+    "sido": 0,
+    "other": 1
+   },
+   "newlywed": {
+    "u": 21,
+    "req": 2,
+    "local": 1,
+    "sido": 0,
+    "other": 1
+   },
+   "first": {
+    "u": 10,
+    "req": 12,
+    "local": 11,
+    "sido": 0,
+    "other": 1
+   },
+   "multichild": {
+    "u": 14,
+    "req": 1,
+    "local": 1,
+    "sido": 0,
+    "other": 0
+   },
+   "elder": {
+    "u": 4,
+    "req": 0,
+    "local": 0,
+    "sido": 0,
+    "other": 0
+   }
+  },
+  "area_sp": null,
   "map_query": "울산광역시 남구 야음동 350-5",
   "nearby": [
    {
@@ -43216,6 +48513,44 @@
    ]
   },
   "area_comps": null,
+  "sp_competition": {
+   "newborn": {
+    "u": 71,
+    "req": 17,
+    "local": 16,
+    "sido": 0,
+    "other": 1
+   },
+   "newlywed": {
+    "u": 106,
+    "req": 10,
+    "local": 7,
+    "sido": 0,
+    "other": 3
+   },
+   "first": {
+    "u": 50,
+    "req": 8,
+    "local": 8,
+    "sido": 0,
+    "other": 0
+   },
+   "multichild": {
+    "u": 71,
+    "req": 4,
+    "local": 4,
+    "sido": 0,
+    "other": 0
+   },
+   "elder": {
+    "u": 21,
+    "req": 0,
+    "local": 0,
+    "sido": 0,
+    "other": 0
+   }
+  },
+  "area_sp": null,
   "map_query": "울산광역시 남구 야음동 350-5",
   "nearby": [
    {
@@ -43409,6 +48744,23 @@
    ]
   },
   "area_comps": null,
+  "sp_competition": {
+   "multichild": {
+    "u": 3,
+    "req": 0,
+    "local": 0,
+    "sido": 0,
+    "other": 0
+   },
+   "elder": {
+    "u": 1,
+    "req": 0,
+    "local": 0,
+    "sido": 0,
+    "other": 0
+   }
+  },
+  "area_sp": null,
   "map_query": "울산광역시 남구 야음동 350-5",
   "nearby": [
    {
@@ -43602,6 +48954,23 @@
    ]
   },
   "area_comps": null,
+  "sp_competition": {
+   "multichild": {
+    "u": 2,
+    "req": 0,
+    "local": 0,
+    "sido": 0,
+    "other": 0
+   },
+   "elder": {
+    "u": 1,
+    "req": 0,
+    "local": 0,
+    "sido": 0,
+    "other": 0
+   }
+  },
+  "area_sp": null,
   "map_query": "울산광역시 남구 야음동 350-5",
   "nearby": [
    {
@@ -43961,6 +49330,8 @@
   "deposit_count": 12,
   "competition": null,
   "area_comps": [],
+  "sp_competition": null,
+  "area_sp": [],
   "map_query": "인천광역시 계양구 귤현동",
   "nearby": [
    {
@@ -44336,6 +49707,8 @@
   "deposit_count": 12,
   "competition": null,
   "area_comps": [],
+  "sp_competition": null,
+  "area_sp": [],
   "map_query": "인천광역시 계양구 귤현동",
   "nearby": [
    {
@@ -44711,6 +50084,8 @@
   "deposit_count": 12,
   "competition": null,
   "area_comps": [],
+  "sp_competition": null,
+  "area_sp": [],
   "map_query": "인천광역시 계양구 귤현동",
   "nearby": [
    {
@@ -45086,6 +50461,8 @@
   "deposit_count": 12,
   "competition": null,
   "area_comps": [],
+  "sp_competition": null,
+  "area_sp": [],
   "map_query": "인천광역시 계양구 귤현동",
   "nearby": [
    {
@@ -45461,6 +50838,8 @@
   "deposit_count": 12,
   "competition": null,
   "area_comps": [],
+  "sp_competition": null,
+  "area_sp": [],
   "map_query": "인천광역시 계양구 귤현동",
   "nearby": [
    {
@@ -45836,6 +51215,8 @@
   "deposit_count": 12,
   "competition": null,
   "area_comps": [],
+  "sp_competition": null,
+  "area_sp": [],
   "map_query": "인천광역시 계양구 귤현동",
   "nearby": [
    {
@@ -46211,6 +51592,8 @@
   "deposit_count": 12,
   "competition": null,
   "area_comps": [],
+  "sp_competition": null,
+  "area_sp": [],
   "map_query": "인천광역시 계양구 귤현동",
   "nearby": [
    {
@@ -46431,6 +51814,8 @@
   "deposit_count": 12,
   "competition": null,
   "area_comps": [],
+  "sp_competition": null,
+  "area_sp": [],
   "map_query": "인천광역시 계양구 귤현동",
   "nearby": [
    {
@@ -46824,6 +52209,8 @@
     "avg": null
    }
   ],
+  "sp_competition": null,
+  "area_sp": [],
   "map_query": "인천광역시 계양구 귤현동",
   "nearby": [
    {
@@ -47217,6 +52604,8 @@
     "avg": null
    }
   ],
+  "sp_competition": null,
+  "area_sp": [],
   "map_query": "인천광역시 계양구 귤현동",
   "nearby": [
    {
@@ -47610,6 +52999,8 @@
     "avg": null
    }
   ],
+  "sp_competition": null,
+  "area_sp": [],
   "map_query": "인천광역시 계양구 귤현동",
   "nearby": [
    {
@@ -48003,6 +53394,8 @@
     "avg": null
    }
   ],
+  "sp_competition": null,
+  "area_sp": [],
   "map_query": "인천광역시 계양구 귤현동",
   "nearby": [
    {
@@ -48396,6 +53789,8 @@
     "avg": null
    }
   ],
+  "sp_competition": null,
+  "area_sp": [],
   "map_query": "인천광역시 계양구 귤현동",
   "nearby": [
    {
@@ -48835,6 +54230,8 @@
     "avg": null
    }
   ],
+  "sp_competition": null,
+  "area_sp": [],
   "map_query": "경기도 양주시 덕정동",
   "nearby": [
    {
@@ -49274,6 +54671,8 @@
     "avg": null
    }
   ],
+  "sp_competition": null,
+  "area_sp": [],
   "map_query": "경기도 양주시 덕정동",
   "nearby": [
    {
@@ -49711,6 +55110,54 @@
     "rate_num": 8.0,
     "low": null,
     "avg": null
+   }
+  ],
+  "sp_competition": null,
+  "area_sp": [
+   {
+    "name": "양주 회천지구 A-8BL 로제비앙 엘가",
+    "notice": "2026-06-22",
+    "apply": "2026-07-02",
+    "url": "https://www.applyhome.co.kr/ai/aia/selectAPTLttotPblancDetail.do?houseManageNo=2026000278&pblancNo=2026000278",
+    "unit": "84A",
+    "area": 84.9051,
+    "sp": {
+     "newborn": {
+      "u": 33,
+      "req": 0,
+      "local": 0,
+      "sido": 0,
+      "other": 0
+     },
+     "newlywed": {
+      "u": 50,
+      "req": 0,
+      "local": 0,
+      "sido": 0,
+      "other": 0
+     },
+     "first": {
+      "u": 54,
+      "req": 3,
+      "local": 0,
+      "sido": 1,
+      "other": 2
+     },
+     "multichild": {
+      "u": 33,
+      "req": 0,
+      "local": 0,
+      "sido": 0,
+      "other": 0
+     },
+     "elder": {
+      "u": 10,
+      "req": 0,
+      "local": 0,
+      "sido": 0,
+      "other": 0
+     }
+    }
    }
   ],
   "map_query": "경기도 양주시 덕정동",
@@ -50152,6 +55599,54 @@
     "avg": null
    }
   ],
+  "sp_competition": null,
+  "area_sp": [
+   {
+    "name": "양주 회천지구 A-8BL 로제비앙 엘가",
+    "notice": "2026-06-22",
+    "apply": "2026-07-02",
+    "url": "https://www.applyhome.co.kr/ai/aia/selectAPTLttotPblancDetail.do?houseManageNo=2026000278&pblancNo=2026000278",
+    "unit": "84A",
+    "area": 84.9051,
+    "sp": {
+     "newborn": {
+      "u": 33,
+      "req": 0,
+      "local": 0,
+      "sido": 0,
+      "other": 0
+     },
+     "newlywed": {
+      "u": 50,
+      "req": 0,
+      "local": 0,
+      "sido": 0,
+      "other": 0
+     },
+     "first": {
+      "u": 54,
+      "req": 3,
+      "local": 0,
+      "sido": 1,
+      "other": 2
+     },
+     "multichild": {
+      "u": 33,
+      "req": 0,
+      "local": 0,
+      "sido": 0,
+      "other": 0
+     },
+     "elder": {
+      "u": 10,
+      "req": 0,
+      "local": 0,
+      "sido": 0,
+      "other": 0
+     }
+    }
+   }
+  ],
   "map_query": "경기도 양주시 덕정동",
   "nearby": [
    {
@@ -50591,6 +56086,54 @@
     "avg": null
    }
   ],
+  "sp_competition": null,
+  "area_sp": [
+   {
+    "name": "양주 회천지구 A-8BL 로제비앙 엘가",
+    "notice": "2026-06-22",
+    "apply": "2026-07-02",
+    "url": "https://www.applyhome.co.kr/ai/aia/selectAPTLttotPblancDetail.do?houseManageNo=2026000278&pblancNo=2026000278",
+    "unit": "84A",
+    "area": 84.9051,
+    "sp": {
+     "newborn": {
+      "u": 33,
+      "req": 0,
+      "local": 0,
+      "sido": 0,
+      "other": 0
+     },
+     "newlywed": {
+      "u": 50,
+      "req": 0,
+      "local": 0,
+      "sido": 0,
+      "other": 0
+     },
+     "first": {
+      "u": 54,
+      "req": 3,
+      "local": 0,
+      "sido": 1,
+      "other": 2
+     },
+     "multichild": {
+      "u": 33,
+      "req": 0,
+      "local": 0,
+      "sido": 0,
+      "other": 0
+     },
+     "elder": {
+      "u": 10,
+      "req": 0,
+      "local": 0,
+      "sido": 0,
+      "other": 0
+     }
+    }
+   }
+  ],
   "map_query": "경기도 양주시 덕정동",
   "nearby": [
    {
@@ -51028,6 +56571,8 @@
     "avg": null
    }
   ],
+  "sp_competition": null,
+  "area_sp": [],
   "map_query": "경기도 의정부시 녹양동",
   "nearby": [
    {
@@ -51473,6 +57018,8 @@
     "avg": null
    }
   ],
+  "sp_competition": null,
+  "area_sp": [],
   "map_query": "경기도 의정부시 녹양동",
   "nearby": [
    {
@@ -51646,6 +57193,8 @@
   "deposit_count": 6,
   "competition": null,
   "area_comps": [],
+  "sp_competition": null,
+  "area_sp": [],
   "map_query": "경기도 성남시 수정구 신흥동 81-8",
   "nearby": [
    {
@@ -51819,6 +57368,8 @@
   "deposit_count": 6,
   "competition": null,
   "area_comps": [],
+  "sp_competition": null,
+  "area_sp": [],
   "map_query": "경기도 성남시 수정구 신흥동 81-8",
   "nearby": [
    {
@@ -51992,6 +57543,8 @@
   "deposit_count": 6,
   "competition": null,
   "area_comps": [],
+  "sp_competition": null,
+  "area_sp": [],
   "map_query": "경기도 성남시 수정구 신흥동 81-8",
   "nearby": [
    {
@@ -52343,6 +57896,8 @@
   "deposit_count": 6,
   "competition": null,
   "area_comps": [],
+  "sp_competition": null,
+  "area_sp": [],
   "map_query": "경기도 성남시 수정구 신흥동 81-8",
   "nearby": [
    {
@@ -52658,6 +58213,8 @@
     "avg": 62.44
    }
   ],
+  "sp_competition": null,
+  "area_sp": null,
   "map_query": "서울특별시 중구 중림동 157-2",
   "nearby": [
    {
@@ -52973,6 +58530,8 @@
     "avg": 59.48
    }
   ],
+  "sp_competition": null,
+  "area_sp": null,
   "map_query": "서울특별시 중구 중림동 157-2",
   "nearby": [
    {
@@ -53239,6 +58798,8 @@
   "deposit_count": null,
   "competition": null,
   "area_comps": [],
+  "sp_competition": null,
+  "area_sp": null,
   "map_query": "서울특별시 광진구 구의동 592-39",
   "nearby": [
    {
@@ -53420,6 +58981,8 @@
   "deposit_count": null,
   "competition": null,
   "area_comps": [],
+  "sp_competition": null,
+  "area_sp": null,
   "map_query": "경기도 과천시 과천지식정보타운 공공주택지구 S6BL (과천대로8길 65, 과천푸르지오벨라르테)",
   "nearby": null,
   "sample": false
@@ -53616,6 +59179,8 @@
   "deposit_count": null,
   "competition": null,
   "area_comps": [],
+  "sp_competition": null,
+  "area_sp": null,
   "map_query": "경기도 과천시 과천지식정보타운 공공주택지구 S4BL (과천대로8길 15, 과천푸르지오라비엔오)",
   "nearby": null,
   "sample": false
@@ -53727,6 +59292,8 @@
    "scores": []
   },
   "area_comps": null,
+  "sp_competition": null,
+  "area_sp": null,
   "map_query": "서울특별시 동작구 대방동 23-61",
   "nearby": [
    {
@@ -54054,6 +59621,8 @@
    "scores": []
   },
   "area_comps": null,
+  "sp_competition": null,
+  "area_sp": null,
   "map_query": "전남광주통합특별시 북구 월출동",
   "nearby": [],
   "sample": false
@@ -54340,6 +59909,8 @@
    "scores": []
   },
   "area_comps": null,
+  "sp_competition": null,
+  "area_sp": null,
   "map_query": "전남광주통합특별시 북구 월출동",
   "nearby": [],
   "sample": false
@@ -54553,6 +60124,8 @@
   "deposit_count": null,
   "competition": null,
   "area_comps": [],
+  "sp_competition": null,
+  "area_sp": null,
   "map_query": "충청북도 청주시 서원구 개신동 767",
   "nearby": [
    {
@@ -54728,6 +60301,8 @@
   "deposit_count": null,
   "competition": null,
   "area_comps": [],
+  "sp_competition": null,
+  "area_sp": null,
   "map_query": "충청북도 청주시 서원구 개신동 767",
   "nearby": [
    {
@@ -54968,6 +60543,8 @@
    "scores": []
   },
   "area_comps": null,
+  "sp_competition": null,
+  "area_sp": null,
   "map_query": "충청북도 청주시 서원구 개신동 767",
   "nearby": [
    {
@@ -55153,6 +60730,8 @@
    "scores": []
   },
   "area_comps": null,
+  "sp_competition": null,
+  "area_sp": null,
   "map_query": "충청북도 청주시 서원구 개신동 767",
   "nearby": [
    {
@@ -55379,6 +60958,8 @@
    "scores": []
   },
   "area_comps": null,
+  "sp_competition": null,
+  "area_sp": null,
   "map_query": "경기도 시흥시 시흥대로 1110",
   "nearby": [
    {
@@ -55629,6 +61210,8 @@
    "scores": []
   },
   "area_comps": null,
+  "sp_competition": null,
+  "area_sp": null,
   "map_query": "경기도 시흥시 시흥대로 1110",
   "nearby": [
    {
@@ -55879,6 +61462,8 @@
    "scores": []
   },
   "area_comps": null,
+  "sp_competition": null,
+  "area_sp": null,
   "map_query": "경기도 시흥시 시흥대로 1110",
   "nearby": [
    {
@@ -56098,6 +61683,8 @@
    "scores": []
   },
   "area_comps": null,
+  "sp_competition": null,
+  "area_sp": null,
   "map_query": "경기도 시흥시 시흥대로 1110",
   "nearby": [
    {
@@ -56317,6 +61904,8 @@
    "scores": []
   },
   "area_comps": null,
+  "sp_competition": null,
+  "area_sp": null,
   "map_query": "경기도 시흥시 시흥대로 1110",
   "nearby": [
    {
@@ -56597,6 +62186,8 @@
     "avg": 58.55
    }
   ],
+  "sp_competition": null,
+  "area_sp": null,
   "map_query": "경기도 광명시 철산동 105",
   "nearby": [
    {
@@ -56877,6 +62468,8 @@
     "avg": 58.55
    }
   ],
+  "sp_competition": null,
+  "area_sp": null,
   "map_query": "경기도 광명시 철산동 105",
   "nearby": [
    {
@@ -57152,6 +62745,8 @@
    "scores": []
   },
   "area_comps": null,
+  "sp_competition": null,
+  "area_sp": null,
   "map_query": "경기도 광명시 철산동 235",
   "nearby": [
    {
@@ -57427,6 +63022,8 @@
    "scores": []
   },
   "area_comps": null,
+  "sp_competition": null,
+  "area_sp": null,
   "map_query": "경기도 광명시 철산동 235",
   "nearby": [
    {
@@ -57754,6 +63351,8 @@
    "scores": []
   },
   "area_comps": null,
+  "sp_competition": null,
+  "area_sp": null,
   "map_query": "경기도 용인시 처인구 원삼면",
   "nearby": [
    {
@@ -58057,6 +63656,8 @@
    "scores": []
   },
   "area_comps": null,
+  "sp_competition": null,
+  "area_sp": null,
   "map_query": "경기도 용인시 처인구 원삼면",
   "nearby": [
    {
@@ -58360,6 +63961,8 @@
    "scores": []
   },
   "area_comps": null,
+  "sp_competition": null,
+  "area_sp": null,
   "map_query": "경기도 용인시 처인구 원삼면",
   "nearby": [
    {
@@ -58663,6 +64266,8 @@
    "scores": []
   },
   "area_comps": null,
+  "sp_competition": null,
+  "area_sp": null,
   "map_query": "경기도 용인시 처인구 원삼면",
   "nearby": [
    {
@@ -58966,6 +64571,8 @@
    "scores": []
   },
   "area_comps": null,
+  "sp_competition": null,
+  "area_sp": null,
   "map_query": "경기도 용인시 처인구 원삼면",
   "nearby": [
    {
@@ -59095,6 +64702,8 @@
    "scores": []
   },
   "area_comps": null,
+  "sp_competition": null,
+  "area_sp": null,
   "map_query": "경기도 부천시 소사구 소사본동 88-39",
   "nearby": [
    {
@@ -59395,6 +65004,8 @@
   "deposit_count": null,
   "competition": null,
   "area_comps": [],
+  "sp_competition": null,
+  "area_sp": null,
   "map_query": "울산광역시 울주군 범서읍 굴화리",
   "nearby": [
    {
@@ -59709,6 +65320,8 @@
    "scores": []
   },
   "area_comps": null,
+  "sp_competition": null,
+  "area_sp": null,
   "map_query": "서울특별시 강북구 미아동 703-13",
   "nearby": [
    {
@@ -60026,6 +65639,8 @@
    "scores": []
   },
   "area_comps": null,
+  "sp_competition": null,
+  "area_sp": null,
   "map_query": "강원특별자치도 고성군 토성면 아야진길 24-10",
   "nearby": [
    {
@@ -60311,6 +65926,8 @@
    "scores": []
   },
   "area_comps": null,
+  "sp_competition": null,
+  "area_sp": null,
   "map_query": "강원특별자치도 고성군 토성면 아야진길 24-10",
   "nearby": [
    {
@@ -60607,6 +66224,8 @@
    "scores": []
   },
   "area_comps": null,
+  "sp_competition": null,
+  "area_sp": null,
   "map_query": "인천광역시 연수구 송도동 308-1",
   "nearby": [
    {
@@ -60920,6 +66539,8 @@
    "scores": []
   },
   "area_comps": null,
+  "sp_competition": null,
+  "area_sp": null,
   "map_query": "부산광역시 남구 문현동 334",
   "nearby": [
    {
@@ -61249,6 +66870,8 @@
    "scores": []
   },
   "area_comps": null,
+  "sp_competition": null,
+  "area_sp": null,
   "map_query": "부산광역시 남구 문현동 334",
   "nearby": [
    {
@@ -61461,6 +67084,8 @@
    "scores": []
   },
   "area_comps": null,
+  "sp_competition": null,
+  "area_sp": null,
   "map_query": "경기도 오산시 내삼미동 288",
   "nearby": [
    {
@@ -61784,6 +67409,8 @@
    "scores": []
   },
   "area_comps": null,
+  "sp_competition": null,
+  "area_sp": null,
   "map_query": "부산광역시 남구 대연동 1756-9",
   "nearby": [
    {
@@ -62117,6 +67744,8 @@
    "scores": []
   },
   "area_comps": null,
+  "sp_competition": null,
+  "area_sp": null,
   "map_query": "부산광역시 남구 대연동 1756-9",
   "nearby": [
    {
@@ -62448,6 +68077,8 @@
    "scores": []
   },
   "area_comps": null,
+  "sp_competition": null,
+  "area_sp": null,
   "map_query": "부산광역시 남구 대연동 1756-9",
   "nearby": [
    {
@@ -62779,6 +68410,8 @@
    "scores": []
   },
   "area_comps": null,
+  "sp_competition": null,
+  "area_sp": null,
   "map_query": "부산광역시 남구 대연동 1756-9",
   "nearby": [
    {
@@ -63031,6 +68664,8 @@
    "scores": []
   },
   "area_comps": null,
+  "sp_competition": null,
+  "area_sp": null,
   "map_query": "경기도 용인시 처인구 역북동 89-25",
   "nearby": [
    {
@@ -63358,6 +68993,8 @@
    "scores": []
   },
   "area_comps": null,
+  "sp_competition": null,
+  "area_sp": null,
   "map_query": "경기도 용인시 처인구 역북동 89-25",
   "nearby": [
    {
@@ -63685,6 +69322,8 @@
    "scores": []
   },
   "area_comps": null,
+  "sp_competition": null,
+  "area_sp": null,
   "map_query": "경기도 용인시 처인구 역북동 89-25",
   "nearby": [
    {
@@ -64013,6 +69652,8 @@
    "scores": []
   },
   "area_comps": null,
+  "sp_competition": null,
+  "area_sp": null,
   "map_query": "경기도 김포시 고촌읍 향산리 588-45",
   "nearby": [
    {
@@ -64325,6 +69966,8 @@
    "scores": []
   },
   "area_comps": null,
+  "sp_competition": null,
+  "area_sp": null,
   "map_query": "경기도 김포시 고촌읍 향산리 588-45",
   "nearby": [
    {
@@ -64615,6 +70258,8 @@
    "scores": []
   },
   "area_comps": null,
+  "sp_competition": null,
+  "area_sp": null,
   "map_query": "경기도 김포시 고촌읍 향산리 588-45",
   "nearby": [
    {
@@ -64749,6 +70394,8 @@
    "scores": []
   },
   "area_comps": null,
+  "sp_competition": null,
+  "area_sp": null,
   "map_query": "경기도 김포시 고촌읍 향산리 588-45",
   "nearby": [
    {
@@ -65064,8 +70711,43 @@
    "scores": []
   },
   "area_comps": null,
+  "sp_competition": null,
+  "area_sp": null,
   "map_query": "인천광역시 검단구 불로동",
-  "nearby": null,
+  "nearby": [
+   {
+    "kind": "역",
+    "name": "검단호수공원역",
+    "m": 933,
+    "lat": 37.6024395,
+    "lng": 126.6885664,
+    "walk": 18
+   },
+   {
+    "kind": "역",
+    "name": "신검단중앙역",
+    "m": 1038,
+    "lat": 37.6026764,
+    "lng": 126.6985265,
+    "walk": 20
+   },
+   {
+    "kind": "초등학교",
+    "name": "목향초등학교",
+    "m": 699,
+    "lat": 37.6162725,
+    "lng": 126.6947175,
+    "walk": 14
+   },
+   {
+    "kind": "중학교",
+    "name": "인천불로중학교",
+    "m": 673,
+    "lat": 37.6154781,
+    "lng": 126.6960525,
+    "walk": 13
+   }
+  ],
   "sample": false
  },
  {
@@ -65297,6 +70979,8 @@
    "scores": []
   },
   "area_comps": null,
+  "sp_competition": null,
+  "area_sp": null,
   "map_query": "서울특별시 중구 황학동 1756",
   "nearby": null,
   "sample": false
@@ -65587,6 +71271,8 @@
    "scores": []
   },
   "area_comps": null,
+  "sp_competition": null,
+  "area_sp": null,
   "map_query": "서울특별시 동작구 노량진동 312-75",
   "nearby": [
    {
@@ -65763,6 +71449,8 @@
    "scores": []
   },
   "area_comps": null,
+  "sp_competition": null,
+  "area_sp": null,
   "map_query": "서울특별시 동작구 노량진동 312-75",
   "nearby": [
    {
