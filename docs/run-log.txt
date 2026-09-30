@@ -212,7 +212,7 @@
 시세 부족 태화강 에피트 84 · 지방 · 분양가 5.48억  · 세대주
 시세 부족 한강 푸르지오 리버프론트 180B · 김포시 · 분양가 29.22억  · 세대구성원
 
-[시간] 공고 211건 20초 · 실거래 요청 414건 38초 (성공 414, 실패 0, 시간 초과로 생략 0)
+[시간] 공고 211건 21초 · 실거래 요청 414건 50초 (성공 414, 실패 0, 시간 초과로 생략 0)
 [시간] 공고문 56건 중 새로 읽기 0건 0초 (보관 기록 사용 56건)
 [경쟁률] 시흥하중지구 A-4블록 신혼희망타운(공공분양) 추가입주자모집: 경쟁률 0줄 · 가점 0줄 → 주택형 0/2개에 반영
 [경쟁률] 광명 시티프라디움 에듀하임: 경쟁률 0줄 · 가점 0줄 → 주택형 0/7개에 반영
@@ -281,12 +281,24 @@
 [위치] 과천 푸르지오 벨라르테: 못 찾음 ← 검색어를 만들지 못했어요
 [위치] 과천 푸르지오 라비엔오: 못 찾음 ← 검색어를 만들지 못했어요
 [위치] 제일풍경채 첨단3지구(A6BL): 못 찾음 ← 검색어를 만들지 못했어요
-[지역코드] 경남 진주시: 못 구함 (역지오코딩 응답 403 (네이버 클라우드 앱에서 Reverse Geocoding 사용 설정 필요))
-[지역코드] 역지오코딩 권한이 없어 나머지 지역은 건너뜀
-[지역코드·대조] 인천 미추홀구: 표 28177 / 역지오코딩 역지오코딩 응답 403 (네이버 클라우드 앱에서 Reverse Geocoding 사용 설정 필요)
-[지역코드·대조] 경기 수원시 권선구: 표 41113 / 역지오코딩 역지오코딩 응답 403 (네이버 클라우드 앱에서 Reverse Geocoding 사용 설정 필요)
-[지역코드·대조] 경기 성남시 분당구: 표 41135 / 역지오코딩 역지오코딩 응답 403 (네이버 클라우드 앱에서 Reverse Geocoding 사용 설정 필요)
-[위치] 공고 56건: 정확 42 · 동 기준 9 · 못 찾음 5 (지난 값 재사용 51) · 주변 입지 51건 · 좌표 1초, 전체 3초
+[지역코드] 경남 진주시 = 48170 (경상남도 진주시 판문동, 네이버 역지오코딩)
+[지역코드] 전북 전주시 완산구 = 52111 (전북특별자치도 전주시 완산구 삼천동1가, 네이버 역지오코딩)
+[지역코드] 부산 강서구 = 26440 (부산광역시 강서구 강동동, 네이버 역지오코딩)
+[지역코드] 울산 중구 = 31110 (울산광역시 중구 학성동, 네이버 역지오코딩)
+[지역코드] 부산 수영구 = 26500 (부산광역시 수영구 망미동, 네이버 역지오코딩)
+[지역코드] 충남 천안시 동남구 = 44131 (충청남도 천안시 동남구 용곡동, 네이버 역지오코딩)
+[지역코드] 울산 남구 = 31140 (울산광역시 남구 무거동, 네이버 역지오코딩)
+[지역코드] 충남 천안시 서북구 = 44133 (충청남도 천안시 서북구 부대동, 네이버 역지오코딩)
+[지역코드] 울산 울주군 = 31710 (울산광역시 울주군 온양읍, 네이버 역지오코딩)
+[지역코드] 대전 중구 = 30140 (대전광역시 중구 대흥동, 네이버 역지오코딩)
+[지역코드] 충북 청주시 서원구 = 43112 (충청북도 청주시 서원구 개신동, 네이버 역지오코딩)
+[지역코드] 강원 고성군 = 51820 (강원특별자치도 고성군 토성면, 네이버 역지오코딩)
+[지역코드] 부산 남구 = 26290 (부산광역시 남구 문현동, 네이버 역지오코딩)
+[지역코드] 인천 검단구 = 28290 (인천광역시 검단구 불로동, 네이버 역지오코딩)
+[지역코드·대조] 인천 미추홀구: 표 28177 / 역지오코딩 28177 일치
+[지역코드·대조] 경기 수원시 권선구: 표 41113 / 역지오코딩 41113 일치
+[지역코드·대조] 경기 성남시 분당구: 표 41135 / 역지오코딩 41135 일치
+[위치] 공고 56건: 정확 42 · 동 기준 9 · 못 찾음 5 (지난 값 재사용 51) · 주변 입지 51건 · 좌표 2초, 전체 10초
 [응답 필드] general 개요: BSNS_MBY_NM, CNSTRCT_ENTRPS_NM, CNTRCT_CNCLS_BGNDE, CNTRCT_CNCLS_ENDDE, GNRL_RNK1_CRSPAREA_ENDDE, GNRL_RNK1_CRSPAREA_RCPTDE, GNRL_RNK1_ETC_AREA_ENDDE, GNRL_RNK1_ETC_AREA_RCPTDE, GNRL_RNK1_ETC_GG_ENDDE, GNRL_RNK1_ETC_GG_RCPTDE, GNRL_RNK2_CRSPAREA_ENDDE, GNRL_RNK2_CRSPAREA_RCPTDE, GNRL_RNK2_ETC_AREA_ENDDE, GNRL_RNK2_ETC_AREA_RCPTDE, GNRL_RNK2_ETC_GG_ENDDE, GNRL_RNK2_ETC_GG_RCPTDE, HMPG_ADRES, HOUSE_DTL_SECD, HOUSE_DTL_SECD_NM, HOUSE_MANAGE_NO, HOUSE_NM, HOUSE_SECD, HOUSE_SECD_NM, HSSPLY_ADRES, HSSPLY_ZIP, IMPRMN_BSNS_AT, LRSCL_BLDLND_AT, MDAT_TRGET_AREA_SECD, MDHS_TELNO, MVN_PREARNGE_YM, NPLN_PRVOPR_PUBLIC_HOUSE_AT, NSPRC_NM, PARCPRC_ULS_AT, PBLANC_NO, PBLANC_URL, PRZWNER_PRESNATN_DE, PUBLIC_HOUSE_EARTH_AT, PUBLIC_HOUSE_SPCLW_APPLC_AT, RCEPT_BGNDE, RCEPT_ENDDE, RCRIT_PBLANC_DE, RENT_SECD, RENT_SECD_NM, SPECLT_RDN_EARTH_AT, SPSPLY_RCEPT_BGNDE, SPSPLY_RCEPT_ENDDE, SUBSCRPT_AREA_CODE, SUBSCRPT_AREA_CODE_NM, TOT_SUPLY_HSHLDCO
 [응답 필드] general 주택형: ETC_HSHLDCO, HOUSE_MANAGE_NO, HOUSE_TY, INSTT_RECOMEND_HSHLDCO, LFE_FRST_HSHLDCO, LTTOT_TOP_AMOUNT, MNYCH_HSHLDCO, MODEL_NO, NWBB_HSHLDCO, NWWDS_HSHLDCO, OLD_PARNTS_SUPORT_HSHLDCO, PBLANC_NO, SPSPLY_HSHLDCO, SUPLY_AR, SUPLY_HSHLDCO, TRANSR_INSTT_ENFSN_HSHLDCO, YGMN_HSHLDCO
 [응답 필드] remainder 개요: BSNS_MBY_NM, CNTRCT_CNCLS_BGNDE, CNTRCT_CNCLS_ENDDE, GNRL_RCEPT_BGNDE, GNRL_RCEPT_ENDDE, HMPG_ADRES, HOUSE_MANAGE_NO, HOUSE_NM, HOUSE_SECD, HOUSE_SECD_NM, HSSPLY_ADRES, HSSPLY_ZIP, MDHS_TELNO, MVN_PREARNGE_YM, NSPRC_NM, PBLANC_NO, PBLANC_URL, PRZWNER_PRESNATN_DE, RCRIT_PBLANC_DE, SPSPLY_RCEPT_BGNDE, SPSPLY_RCEPT_ENDDE, SUBSCRPT_AREA_CODE, SUBSCRPT_AREA_CODE_NM, SUBSCRPT_RCEPT_BGNDE, SUBSCRPT_RCEPT_ENDDE, TOT_SUPLY_HSHLDCO
