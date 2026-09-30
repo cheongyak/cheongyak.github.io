@@ -834,6 +834,16 @@ function eligibility(L, p){
   if (p.household === 'parents' && p.parentsOwn) { if (p.parents60) homeNote = '부모님 주택: 만 60세 이상 예외 적용'; else own.push('부모님 주택 (만 60세 미만)'); }
   if (!p.married) homeNote = (homeNote ? homeNote + ' · ' : '') + '혼인신고 전: 배우자 주택 미합산';
   if (!own.length && (p.selfOwn == null || !p.household)) items.push({ k:'무주택 세대', s:'warn', v:'입력 필요', note:'집 보유와 세대 구성을 넣으면 판정해요' });
+  else if (own.length && on('owner_lottery') && L.houseDtl === '민영' && L.category === 'general' && L.needAccount) {
+    /* 유주택 세대의 민영주택 일반공급 (기능: owner_lottery). 무주택은 특별공급·공공분양·가점 점수의 요건이지 민영 1순위 자격 요건이 아니다.
+       근거: 광명 2026000453·서울 2026000399(규제지역) '투기과열지구 및 청약과열지역에서 공급하는 경우 1주택 이상 소유한 세대에 속한 분은 1순위 가점제 청약이 불가',
+       '1순위 추첨제 : ①지역 → ②무주택자 우선공급 → ③추첨' (1단계 추첨제 물량의 75% 무주택세대구성원, 2단계 잔여물량 무주택세대구성원과 1주택을 소유한 세대, 3단계 잔여물량 1순위 전원),
+       천안 2026000426(비규제) '1순위 추첨제 : ①지역 → ②추첨', 가점표 '만30세 미만 미혼자 또는 유주택자 0'. 2주택 이상 규제지역 1순위 제한은 regulatedItems 그대로 */
+    items.push({ k:'무주택 세대', s:'ok', owns:true, v: L.regulated ? '유주택 · 추첨제만' : '유주택 · 가점 0점',
+      note: own.join(', ') + (L.regulated
+        ? ' · 투기과열지구·청약과열지역은 1주택 이상 세대가 1순위 가점제로 신청할 수 없어요. 1순위 추첨제는 추첨 물량의 75%를 무주택 세대에서 먼저 뽑고, 남은 물량에서 1주택 세대도 함께 뽑아요. 특별공급은 신청할 수 없어요.'
+        : ' · 이 공고(비규제지역)는 유주택 세대도 1순위로 신청할 수 있어요. 가점제로 넣으면 무주택기간 점수가 0점이고, 추첨제는 지역 우선 뒤 추첨이에요. 특별공급은 신청할 수 없어요.') });
+  }
   else items.push({ k:'무주택 세대', s: own.length ? 'fail' : 'ok', v: own.length ? '미충족' : '충족', note: own.length ? own.join(', ') : homeNote });
   if (L.needHead) {
     let s = 'fail', v = '미충족', note = L.notice ? '공고일 ' + L.notice.slice(5).replace('-','.') + ' 기준' : '';
@@ -1531,7 +1541,7 @@ function spJudge(L, p, type){
   const need = (cond, okText, failText, missText) => { if (cond === null) warn.push(missText || okText + ' 입력 필요'); else if (cond) ok.push(okText); else fail.push(failText); };
   // 무주택 (세대구성원 전원) — 기본 체크리스트와 같은 판정
   const e = eligibility(L, p), home = e.items.find(i => i.k === '무주택 세대');
-  need(home ? home.s !== 'fail' : null, '무주택 세대', '무주택 세대 아님', '무주택 확인 필요');
+  need(home ? home.s !== 'fail' && !home.owns : null, '무주택 세대', '무주택 세대 아님', '무주택 확인 필요');   // 유주택 민영 추첨제(owner_lottery)는 일반공급만 가능, 특별공급은 여전히 무주택 요건
   // 거주지 (기능: supply_summary): 특별공급 신청자격 ①도 일반공급과 같은 거주 지역 요건
   // 근거: 2026000103 각 유형 '신청자격 ① 최초 입주자모집공고일 현재 경기도 성남시에 거주하거나 수도권(…)에 거주하는 무주택세대구성원',
   //       2026000409 '신혼부부ㆍ생애최초ㆍ노부모부양ㆍ신생아 특별공급 및 일반공급 지역 우선공급 기준'(같은 표). 해당지역 우선은 순서일 뿐 자격이 아님
@@ -1935,6 +1945,10 @@ function spRowPlain(L, p, r){
 function generalRowPlain(L, p){
   if (!on('score') || L.houseDtl === '국민') return '';
   const sc = myScore(L, p), t = scoreTarget(L), gap = sc.total != null && t && t.low != null ? sc.total - t.low : null;
+  const ownIt = on('owner_lottery') ? eligibility(L, p).items.find(i => i.k === '무주택 세대' && i.owns) : null;   // 유주택 세대 (기능: owner_lottery)
+  if (ownIt && L.regulated) return `<details class="sprow base"><summary><span class="sp-top"><b>일반공급</b><span class="small muted">추첨제만</span><span class="pill warn">가점제 불가</span></span>
+      <span class="sp-head">1주택 이상 세대라 이 공고(규제지역)는 1순위 가점제로 신청할 수 없어요. 1순위 추첨제로 신청해요</span></summary>
+    <div class="sp-body"><div class="small">1순위 추첨제는 추첨 물량의 75%를 무주택 세대에서 먼저 뽑고, 남은 물량에서 1주택 세대도 함께 뽑아요. 가점과는 상관없어요. 가점제·추첨제 비율은 공고문의 전용면적별 표를 확인하세요.</div></div></details>`;
   const [pill, pc] = gap == null ? ['참고', ''] : gap >= 0 ? ['최저점 이상', 'ok'] : ['최저점 미만', 'warn'];
   const head = sc.total == null ? '가점을 계산하려면 생년월일·부양가족·통장 가입일을 넣어 주세요'
     : t && t.low != null ? `내 가점 ${sc.total}점 · 비교 단지 당첨 최저 ${t.low}점보다 ${Math.abs(gap)}점 ${gap >= 0 ? '높아요' : '낮아요'}` : `내 가점 ${sc.total}점 / 84 · 비교할 당첨 기록이 없어요`;
@@ -2005,7 +2019,8 @@ function pendHtml(L, pend){
 function supplySummary(L, p, e){
   if (!on('supply_summary') || !hasProfile()) return '';
   const cls = { ok:'st-ok', warn:'st-warn', fail:'st-fail' };
-  const g = !e.ok ? (e.rank2 ? ['warn', '2순위만 가능'] : ['fail', '신청 불가']) : e.unsure ? ['warn', '가능 · 확인할 것 있음'] : ['ok', '신청 가능'];
+  const ownIt = e.items.find(i => i.k === '무주택 세대' && i.owns);
+  const g = !e.ok ? (e.rank2 ? ['warn', '2순위만 가능'] : ['fail', '신청 불가']) : e.unsure ? ['warn', '가능 · 확인할 것 있음'] : ['ok', ownIt ? '신청 가능 · ' + ownIt.v.replace('유주택 · ', '') : '신청 가능'];
   const types = spTypesFor(L), rs = types.map(t => spJudge(L, p, t));
   const okT = rs.filter(r => r.s === 'ok').map(r => SP_NAME[r.type]), wT = rs.filter(r => r.s === 'warn').map(r => SP_NAME[r.type]);
   const sp = !types.length ? ['', '이 주택형은 특별공급 없음'] : okT.length ? ['ok', okT.join('·') + ' 가능'] : wT.length ? ['warn', wT.join('·') + ' 확인 필요'] : ['fail', '모두 불가'];
