@@ -440,7 +440,9 @@ body.sheet-open{overflow:hidden}
 .fchip{display:inline-flex;align-items:center;gap:4px;height:32px;padding:0 10px;border-radius:16px;border:1px solid var(--fg);background:var(--surface);font-size:13px;font-weight:600;cursor:pointer}
 .fchip svg{width:14px;height:14px}
 .empty{align-items:center;text-align:center;padding:28px 16px}
+.topf .qf{flex-wrap:nowrap;overflow-x:auto;scrollbar-width:none;margin:0;-webkit-mask-image:linear-gradient(90deg,#000 88%,transparent);mask-image:linear-gradient(90deg,#000 88%,transparent)} .topf .qf>*:last-child{margin-right:24px} .topf .qf::-webkit-scrollbar{display:none} .topf .qf>*{flex:none}
 body.tab6 .tabbar button{font-size:12px;white-space:nowrap;letter-spacing:-.2px;padding:0 2px}
+.topf{display:flex;flex-direction:column;gap:8px;margin:0 0 12px} .topf .chips{margin:0} .topf .fpanel{margin-top:2px}
 .topbtns{display:inline-flex;align-items:center;gap:8px;flex:none} .top+.search{margin:-4px 0 10px} .srchbtn{width:44px;height:44px;flex:none;display:inline-flex;align-items:center;justify-content:center;border-radius:22px;border:1px solid var(--line);background:var(--surface);color:var(--fg);cursor:pointer} .srchbtn svg{width:20px;height:20px} .srchbtn.on{background:var(--btn);color:var(--btn-fg);border-color:var(--btn)}
 .bell{display:inline-flex;align-items:center;gap:6px;min-height:44px;padding:0 14px;border-radius:22px;border:1px solid var(--line);background:var(--surface);font-weight:600;font-size:14px;cursor:pointer} .bell[hidden]{display:none}
 .bell svg{width:18px;height:18px} .bell.on{background:var(--lotto-soft);border-color:transparent;color:var(--lotto-ink)}
@@ -1489,6 +1491,15 @@ const PRICE_BANDS = { '5':['5억 미만', 0, 5], '5-10':['5~10억', 5, 10], '10-
 const SIZE_BANDS = { s:['전용 60㎡ 이하', 0, 60], m:['60~85㎡', 60, 85], l:['85㎡ 초과', 85, 1e9] };
 const ADV_KEYS = ['district', 'supply', 'dtl', 'rent', 'special', 'date'];   // 칩 줄에 없는 필터 (상세에서 고름)
 const advCount = () => activeFilters().filter(([k]) => ADV_KEYS.includes(k)).length;
+/* 필터를 맨 위(검색 아래)에 펼쳐 두기 (기능: top_filters, 2026-10-01 사용자 요청 — 다른 앱처럼 값이 보이는 칩 한 줄). 지역·분양가·면적·모집 상태·새 공고·상세 + 판정 등급 칩.
+   필터 동작은 그대로(quickFilters·filterPanel·data-filter), 위치만 바꾼다 */
+function topFilters(){
+  if (!on('top_filters')) return '';
+  const chip = (k, t) => `<button class="chip sm" data-filter="${k}" aria-pressed="${S.filter === k}">${t}</button>`;
+  return `<div class="topf" aria-label="공고 필터">${quickFilters()}
+    <div class="chips gchips" role="group" aria-label="등급 필터">${chip('all','전체')}${watchChip(chip)}${chip('lotto','로또')}${chip('consider','고려')}${chip('flat','마진없음')}${chip('pass',GNAME.pass)}</div>
+    ${S.showFilters ? filterPanel() : ''}</div>`;
+}
 function quickFilters(){
   if (!on('quick_filters')) return '';
   const f = S.f, cs = countBy('sido', L => L.sido), ct = countBy('status', statusOf);
@@ -1809,15 +1820,15 @@ function vFeedV2(){
   return `
   <div class="top"><div><div class="brand">청약패스${betaTag()}</div><span class="small muted sub-line">${DATA_SOURCE.live ? '청약홈 ' + esc(String(DATA_SOURCE.updated || '').slice(5).replace('-', '.')) + ' 갱신' : '샘플 데이터'}${on('disclaimer_banner') && !on('beta_notice') ? ' · 참고용 추정' + (on('about_page') ? ' <button class="linkbtn small" data-go="about">자세히</button>' : '') : ''}</span></div>
     ${on('search_icon') && on('search') ? `<span class="topbtns">${searchBtn()}${bellBtn()}</span>` : bellBtn()}</div>
-  ${on('search_icon') ? searchBox() : ''}${staleNote()}
+  ${on('search_icon') ? searchBox() : ''}${topFilters()}${staleNote()}
   ${betaBanner('feed')}${legalLine()}
   ${myCondCard()}
   <section class="findbox" aria-label="공고 찾기">
     ${on('search_icon') ? '' : searchBox()}
     ${summaryBar()}
-    ${on('feed_compact') ? (() => { const nf = act.length + (S.filter !== 'all' ? 1 : 0);   /* 기능: feed_compact — 필터·등급은 버튼 하나로 접기 */
+    ${on('top_filters') ? '' : on('feed_compact') ? (() => { const nf = act.length + (S.filter !== 'all' ? 1 : 0);   /* 기능: feed_compact — 필터·등급은 버튼 하나로 접기 */
       return `<button class="btn ghost fbtoggle" data-action="toggle-feedf" aria-expanded="${!!S.feedF}">필터 · 판정 등급${nf ? ` <span class="pill info">${nf}개 적용</span>` : ''}<span aria-hidden="true">${S.feedF ? '▴' : '▾'}</span></button>`; })() : ''}
-    ${!on('feed_compact') || S.feedF ? `<p class="fb-label">필터</p>
+    ${!on('top_filters') && (!on('feed_compact') || S.feedF) ? `<p class="fb-label">필터</p>
     ${quickFilters()}
     <p class="fb-label">판정 등급</p>
     <div class="chips" role="group" aria-label="등급 필터">${chip('all','전체')}${watchChip(chip)}${chip('lotto','로또')}${chip('consider','고려')}${chip('flat','마진없음')}${chip('pass',GNAME.pass)}</div>` : ''}
@@ -1829,7 +1840,7 @@ function vFeedV2(){
     </div>
   </section>
   ${compareEntry()}
-  ${S.showFilters ? filterPanel() : ''}
+  ${S.showFilters && !on('top_filters') ? filterPanel() : ''}
   ${actShown.length ? `<div class="active-f" aria-label="선택한 필터">${actShown.map(([k, t]) => `<button class="fchip" data-unset="${k}" aria-label="${esc(t)} 필터 해제">${esc(t)}${x}</button>`).join('')}</div>` : ''}
   ${showMap ? feedMapBlock(list) : list.length ? groupTypes(list).map((gr, i) => groupCard(gr, i) + (i === 4 ? adSlot('feed') : '')).join('') + closedToggle(closedN) : closedToggle(closedN) + `<div class="card empty"><b>${on('search') && S.q && S.q.trim() ? `'${esc(S.q.trim())}' 에 맞는 공고가 없어요` : '조건에 맞는 공고가 없어요'}</b><span class="small muted">${on('search') && S.q && S.q.trim() ? '단지명 일부나 구 이름으로 찾아보세요.' + (closedN && !showClosed ? ' 마감된 공고까지 보려면 위 버튼을 누르세요.' : '') + (act.length || S.filter !== 'all' ? ' 걸어 둔 필터도 함께 적용돼요.' : '') : act.length ? '필터를 하나씩 해제하거나 초기화해 보세요.' : '이 등급의 공고가 아직 없어요.'}</span>${act.length || S.filter !== 'all' ? '<button class="btn ghost" data-action="reset-filters" style="max-width:220px">필터 초기화</button>' : ''}</div>`}
   <p class="foot">${DATA_SOURCE.live ? '공고 ' + src('applyhome') + ' · 시세 ' + src('rtms') + ' · 매일 새벽 갱신, 시세는 추정치예요. 판정은 참고용이며 신청 전 공고문을 꼭 확인하세요.' + (analyticsName() ? ' 방문 통계는 쿠키 없이 ' + analyticsName() + '로 집계하며, 입력한 내 정보는 보내지 않아요.' : '') : '샘플 표시가 있는 단지는 등급 예시를 위한 가상 데이터예요.'}${aboutLink()}</p>
@@ -1859,15 +1870,15 @@ function vFeed(){
   return `
   <div class="top"><div><div class="brand">청약패스</div><span class="small muted">${DATA_SOURCE.live ? '청약홈 · ' + esc(DATA_SOURCE.updated) + ' 갱신' : '샘플 데이터'}</span></div>
     ${on('search_icon') && on('search') ? `<span class="topbtns">${searchBtn()}${bellBtn()}</span>` : bellBtn()}</div>
-  ${on('search_icon') ? searchBox() : ''}${staleNote()}
+  ${on('search_icon') ? searchBox() : ''}${topFilters()}${staleNote()}
   ${betaBanner('feed')}${legalLine()}
   ${summaryBar()}
   ${on('disclaimer_banner') && !on('beta_notice') ? `<div class="small muted" style="margin:-4px 0 8px">${on('summary_bar') ? '판정·마진은 참고용 추정이에요' : '판정은 참고용이에요'}. 신청 전 공고문을 꼭 확인하세요.${on('about_page') ? ' <button class="linkbtn small" data-go="about">자세히</button>' : ''}</div>` : ''}
   ${hasProfile() ? `<div class="profile-bar"><span class="muted">내 조건 · <b style="color:var(--fg)">${esc(profileLine(S.profile))}</b></span><button class="linkbtn" data-go="me">수정</button></div>`
     : `<div class="profile-bar"><span class="muted">내 조건을 넣으면 공고마다 <b style="color:var(--fg)">자격·자금</b>을 판정해요</span><button class="linkbtn" data-action="restart">입력하기</button></div>`}
   ${on('search_icon') ? '' : searchBox()}
-  ${quickFilters()}
-  <div class="chips" role="group" aria-label="등급 필터">${chip('all','전체')}${watchChip(chip)}${chip('lotto','로또')}${chip('consider','고려')}${chip('flat','마진없음')}${chip('pass',GNAME.pass)}</div>
+  ${on('top_filters') ? '' : `${quickFilters()}
+  <div class="chips" role="group" aria-label="등급 필터">${chip('all','전체')}${watchChip(chip)}${chip('lotto','로또')}${chip('consider','고려')}${chip('flat','마진없음')}${chip('pass',GNAME.pass)}</div>`}
   ${QF ? `<div class="filterbar">
     <span class="count" aria-live="polite">${countText(list)}</span>
     ${act.length || S.filter !== 'all' || S.newDays || (on('search') && S.q) ? '<button class="linkbtn small" data-action="reset-filters">초기화</button>' : ''}
@@ -1880,7 +1891,7 @@ function vFeed(){
   ${mapReady() ? `<div class="segs" role="group" aria-label="보기 방식"><button class="chip" data-feedmode="list" aria-pressed="${!showMap}">목록</button><button class="chip" data-feedmode="map" aria-pressed="${showMap}">지도</button></div>` : ''}
   ${newTabs()}`}
   ${compareEntry()}
-  ${S.showFilters ? filterPanel() : ''}
+  ${S.showFilters && !on('top_filters') ? filterPanel() : ''}
   ${actShown.length ? `<div class="active-f" aria-label="선택한 필터">${actShown.map(([k, t]) => `<button class="fchip" data-unset="${k}" aria-label="${esc(t)} 필터 해제">${esc(t)}${x}</button>`).join('')}</div>` : ''}
   ${showMap ? feedMapBlock(list) : list.length ? groupTypes(list).map((gr, i) => groupCard(gr, i) + (i === 4 ? adSlot('feed') : '')).join('') + closedToggle(closedN) : closedToggle(closedN) + `<div class="card empty"><b>${on('search') && S.q && S.q.trim() ? `'${esc(S.q.trim())}' 에 맞는 공고가 없어요` : '조건에 맞는 공고가 없어요'}</b><span class="small muted">${on('search') && S.q && S.q.trim() ? '단지명 일부나 구 이름으로 찾아보세요.' + (closedN && !showClosed ? ' 마감된 공고까지 보려면 위 버튼을 누르세요.' : '') + (act.length || S.filter !== 'all' ? ' 걸어 둔 필터도 함께 적용돼요.' : '') : act.length ? '필터를 하나씩 해제하거나 초기화해 보세요.' : '이 등급의 공고가 아직 없어요.'}</span>${act.length || S.filter !== 'all' ? '<button class="btn ghost" data-action="reset-filters" style="max-width:220px">필터 초기화</button>' : ''}</div>`}
   <p class="foot">${DATA_SOURCE.live ? '공고 ' + src('applyhome') + ' · 시세 ' + src('rtms') + ' · 매일 새벽 갱신, 시세는 추정치예요.' + (analyticsName() ? ' 방문 통계는 쿠키 없이 ' + analyticsName() + '로 집계하며, 입력한 내 정보는 보내지 않아요.' : '') : '샘플 표시가 있는 단지는 등급 예시를 위한 가상 데이터예요.'}${aboutLink()}</p>
