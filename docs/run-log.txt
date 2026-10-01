@@ -207,10 +207,13 @@
 시세 부족 진주 판문지구 레이크써밋 웰가 182 · 지방 · 분양가 13.95억  · 세대구성원
 시세 부족 한강 푸르지오 리버프론트 180B · 김포시 · 분양가 29.22억  · 세대구성원
 
-[시간] 공고 206건 21초 · 실거래 요청 648건 31초 (성공 648, 실패 0, 시간 초과로 생략 0)
-[시간] 공고문 54건 중 새로 읽기 1건 1초 (보관 기록 사용 53건)
-[공고문] 충정로역자이르네: PDF 받기 실패(형식 아님): https://static.applyhome.co.kr/ai/aia/getAtchmnfl.do?houseManageNo=2026910251&pblancNo=2026910251&atchmnflSeqNo=1986036&atchmnflSn=2 → 추출 없음
-[공고문] 충정로역자이르네: 이번엔 못 읽어 보관해 둔 공고문 값을 써요 → {'need_head': False, 'price_cap': False, 'residence': {'area': {'name': '서울특별시', 'sido': '서울'}, 'equal': True, 'months': 0, 'others': [], 'since': None}, 'residence_duty': 0, 'rewin_years': 10}
+[시간] 공고 206건 17초 · 실거래 요청 648건 600초 (성공 0, 실패 112, 시간 초과로 생략 536)
+[실거래 오류] 112건: ConnectTimeout: timed out
+[경고·시세] 실거래가 조회 실패 206건 → 지난 조회값 사용 206건, 시세 없음 0건
+[시간] 공고문 54건 중 새로 읽기 1건 7초 (보관 기록 사용 53건)
+[공고문] 충정로역자이르네: PDF 읽음 (44822자): https://static.applyhome.co.kr/ai/aia/getAtchmnfl.do?houseManageNo=2026910251&pblancNo=2026910251&atchmnflSeqNo=1986036&atchmnflSn=2 → {'need_head': False, 'price_cap': False, 'residence_duty': 0, 'rewin_years': 10, 'residence': {'area': {'name': '서울특별시', 'sido': '서울'}, 'months': 0, 'since': None, 'others': [], 'equal': True}}
+[공고문·원문] 충정로역자이르네 (입주지정기간): …대출 실행일로부터 사업주체가 지정한 입주지정기간 최초일 전일까지입니다 중도금 대출에 따른 보증수수료 인지대 등 제반 경비는 계약자가 부담하여야 하며 대출 기간 . , , • 이내라도 계약자의 금융신…
+[공고문·원문] 충정로역자이르네 (입주지정기간): …하여야 합니다. 중도금 대출 이자는 입주지정기간 최초일 전일까지 시행위탁자가 대납하되 계약자는 입주 시 사업주체가 지정한 기일 내에 중도금 대출 원금 상환 또는 담보대출 전환 및 대납이자 등을 완납…
 [경쟁률] 시흥하중지구 A-4블록 신혼희망타운(공공분양) 추가입주자모집: 경쟁률 0줄 · 가점 0줄 → 주택형 0/2개에 반영
 [경쟁률] 광명 시티프라디움 에듀하임: 경쟁률 0줄 · 가점 0줄 → 주택형 0/7개에 반영
 [경쟁률] 숭의역 노르웨이숲 더 스카이: 경쟁률 8줄 · 가점 0줄 → 주택형 2/2개에 반영 (예: 69 1순위 해당지역 공급 7.0 접수 9.0 경쟁률 1.29)
@@ -279,7 +282,8 @@
 [지역코드·대조] 인천 미추홀구: 표 28177 / 역지오코딩 28177 일치
 [지역코드·대조] 경기 수원시 권선구: 표 41113 / 역지오코딩 41113 일치
 [지역코드·대조] 경기 성남시 분당구: 표 41135 / 역지오코딩 41135 일치
-[위치] 공고 54건: 정확 40 · 동 기준 10 · 못 찾음 4 (지난 값 재사용 50) · 주변 입지 50건 · 좌표 2초, 전체 3초
+[위치] 공고 54건: 정확 40 · 동 기준 10 · 못 찾음 4 (지난 값 재사용 50) · 주변 입지 50건 · 좌표 1초, 전체 3초
+[실거래가 경고] 시간 제한으로 이번 실행에서는 조회하지 못했어요
 [응답 필드] general 개요: BSNS_MBY_NM, CNSTRCT_ENTRPS_NM, CNTRCT_CNCLS_BGNDE, CNTRCT_CNCLS_ENDDE, GNRL_RNK1_CRSPAREA_ENDDE, GNRL_RNK1_CRSPAREA_RCPTDE, GNRL_RNK1_ETC_AREA_ENDDE, GNRL_RNK1_ETC_AREA_RCPTDE, GNRL_RNK1_ETC_GG_ENDDE, GNRL_RNK1_ETC_GG_RCPTDE, GNRL_RNK2_CRSPAREA_ENDDE, GNRL_RNK2_CRSPAREA_RCPTDE, GNRL_RNK2_ETC_AREA_ENDDE, GNRL_RNK2_ETC_AREA_RCPTDE, GNRL_RNK2_ETC_GG_ENDDE, GNRL_RNK2_ETC_GG_RCPTDE, HMPG_ADRES, HOUSE_DTL_SECD, HOUSE_DTL_SECD_NM, HOUSE_MANAGE_NO, HOUSE_NM, HOUSE_SECD, HOUSE_SECD_NM, HSSPLY_ADRES, HSSPLY_ZIP, IMPRMN_BSNS_AT, LRSCL_BLDLND_AT, MDAT_TRGET_AREA_SECD, MDHS_TELNO, MVN_PREARNGE_YM, NPLN_PRVOPR_PUBLIC_HOUSE_AT, NSPRC_NM, PARCPRC_ULS_AT, PBLANC_NO, PBLANC_URL, PRZWNER_PRESNATN_DE, PUBLIC_HOUSE_EARTH_AT, PUBLIC_HOUSE_SPCLW_APPLC_AT, RCEPT_BGNDE, RCEPT_ENDDE, RCRIT_PBLANC_DE, RENT_SECD, RENT_SECD_NM, SPECLT_RDN_EARTH_AT, SPSPLY_RCEPT_BGNDE, SPSPLY_RCEPT_ENDDE, SUBSCRPT_AREA_CODE, SUBSCRPT_AREA_CODE_NM, TOT_SUPLY_HSHLDCO
 [응답 필드] general 주택형: ETC_HSHLDCO, HOUSE_MANAGE_NO, HOUSE_TY, INSTT_RECOMEND_HSHLDCO, LFE_FRST_HSHLDCO, LTTOT_TOP_AMOUNT, MNYCH_HSHLDCO, MODEL_NO, NWBB_HSHLDCO, NWWDS_HSHLDCO, OLD_PARNTS_SUPORT_HSHLDCO, PBLANC_NO, SPSPLY_HSHLDCO, SUPLY_AR, SUPLY_HSHLDCO, TRANSR_INSTT_ENFSN_HSHLDCO, YGMN_HSHLDCO
 [응답 필드] remainder 개요: BSNS_MBY_NM, CNTRCT_CNCLS_BGNDE, CNTRCT_CNCLS_ENDDE, GNRL_RCEPT_BGNDE, GNRL_RCEPT_ENDDE, HMPG_ADRES, HOUSE_MANAGE_NO, HOUSE_NM, HOUSE_SECD, HOUSE_SECD_NM, HSSPLY_ADRES, HSSPLY_ZIP, MDHS_TELNO, MVN_PREARNGE_YM, NSPRC_NM, PBLANC_NO, PBLANC_URL, PRZWNER_PRESNATN_DE, RCRIT_PBLANC_DE, SPSPLY_RCEPT_BGNDE, SPSPLY_RCEPT_ENDDE, SUBSCRPT_AREA_CODE, SUBSCRPT_AREA_CODE_NM, SUBSCRPT_RCEPT_BGNDE, SUBSCRPT_RCEPT_ENDDE, TOT_SUPLY_HSHLDCO
@@ -338,7 +342,5 @@
 [검증] 제일풍경채 검단Ⅳ 110B: 재당첨 제한 기간을 공고문에서 확인하지 못해 추정했어요
 [검증] 청계 노르웨이숲(12차) 39: 재당첨 제한 기간을 공고문에서 확인하지 못해 추정했어요
 [검증·정답] 정답 데이터와 모두 일치해요 (대상 공고가 없으면 비교 생략)
-[검증·공고문] 공고문 53건 대조 · 기준표 258줄 · 분양가 204/204 일치 · 불일치 공고 0건
+[검증·공고문] 공고문 54건 대조 · 기준표 258줄 · 분양가 206/206 일치 · 불일치 공고 0건
 [알림] 꺼져 있어 보내지 않음 (ntfy_alerts 스위치) · 보낼 알림 1건
-[판정 검증] 사례 144건 중 144건 일치
-[검증 요약] 통과 · 판정 사례 144/144 · [검증·공고문] 공고문 53건 대조 · 기준표 258줄 · 분양가 204/204 일치 · 불일치 공고 0건 · 정답 불일치 0건
