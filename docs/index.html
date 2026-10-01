@@ -139,6 +139,7 @@ a{color:var(--link)}
 .ckgroup{display:flex;flex-direction:column;gap:6px;margin-bottom:8px}
 .ck-h{font-size:12px;font-weight:700;margin-top:2px;display:flex;justify-content:space-between;align-items:center;gap:8px}
 .ckwarns{border:1px solid var(--line);border-radius:10px;background:var(--bg)} .ckwarn{padding:8px 10px;display:flex;flex-direction:column;gap:2px} .ckwarn+.ckwarn{border-top:1px solid var(--line)} .ckwarn .ck-top span:first-child{font-size:14px;font-weight:600}
+.fixpanel{border:2px solid var(--consider);border-radius:12px;padding:12px;margin:10px 0;display:flex;flex-direction:column;gap:10px;background:var(--surface)} .fixpanel .fixstat{margin:0} .fixdone summary{cursor:pointer;color:var(--muted);padding:4px 0} .fixdone[open]{display:flex;flex-direction:column;gap:10px}
 .mc-unsure{display:flex;flex-wrap:wrap;gap:6px;align-items:center;padding:8px 10px;border-radius:10px;background:var(--warn-soft)} .mc-unsure .btn.sm{font-size:13px}
 .ckitem{border:1px solid var(--line);border-left-width:3px;border-radius:10px;padding:8px 10px;background:var(--bg);display:flex;flex-direction:column;gap:3px}
 .ckitem.fail{border-left-color:var(--pass)} .ckitem.warn{border-left-color:var(--warn-ink)}
@@ -2020,7 +2021,7 @@ function spRowV2(L, p, r){
       ${r.stageNote && r.s !== 'fail' ? `<div class="sp-sec"><span class="sp-lbl">소득</span><div class="small">${esc(r.stageNote)}</div></div>` : ''}
       ${mc ? `<div class="sp-sec"><span class="sp-lbl">다자녀 배점 ${mc.total != null ? mc.total : '-'} / 100</span><div class="rows">${mc.parts.map(x => `<div class="row small"><span>${x.k}<br><span class="muted">${esc(x.note || '입력 필요')}</span></span><b>${x.v == null ? '-' : x.v}/${x.max}</b></div>`).join('')}</div></div>` : ''}
       <div class="sp-sec"><span class="sp-lbl">판정 근거</span>${spChecklist(r)}${!pos && r.how ? `<div class="small muted">${esc(r.how)}</div>` : ''}</div>
-      ${needInput ? `<button class="btn ghost sm" data-action="${h.partial && !r.warn.length && r.type !== 'multichild' ? 'sp-home' : 'sp-input'}">부족한 정보 입력하기</button>` : ''}
+      ${needInput ? (on('inline_fix') ? `<button class="btn ghost sm" data-fix="sp:${r.type}">바로 답하기</button>` : `<button class="btn ghost sm" data-action="${h.partial && !r.warn.length && r.type !== 'multichild' ? 'sp-home' : 'sp-input'}">부족한 정보 입력하기</button>`) : ''}
     </div></details>`;
 }
 function generalRowV2(L, p){
@@ -2204,7 +2205,7 @@ function spRowPlain(L, p, r){
       ${inc || mine ? `<div class="sp-sec"><span class="sp-lbl">3. 내 조건은 그 안에서 어떤가요?</span>${inc}${mine ? `<div class="sp-sub"><span class="sp-lbl2">내 위치</span>${mine}</div>` : ''}</div>` : ''}
       ${mc ? `<details class="small"><summary>배점 내역 보기</summary><div class="rows" style="margin-top:4px">${mc.parts.map(x => `<div class="row small"><span>${x.k}<br><span class="muted">${esc(x.note || '입력 필요')}</span></span><b>${x.v == null ? '-' : x.v}/${x.max}</b></div>`).join('')}</div></details>` : ''}
       ${todo.length ? `<div class="sp-sec"><span class="sp-lbl">4. 해야 할 일</span><ul class="spcheck">${todo.map(t => `<li><span class="st-warn" aria-hidden="true">→</span> ${esc(t)}</li>`).join('')}</ul>
-        <button class="btn ghost sm" data-action="${h.partial && !r.warn.length && r.type !== 'multichild' ? 'sp-home' : 'sp-input'}">부족한 정보 입력하기</button></div>` : ''}
+        ${on('inline_fix') ? `<button class="btn ghost sm" data-fix="sp:${r.type}">바로 답하기</button>` : `<button class="btn ghost sm" data-action="${h.partial && !r.warn.length && r.type !== 'multichild' ? 'sp-home' : 'sp-input'}">부족한 정보 입력하기</button>`}</div>` : ''}
       <div class="small muted">근거: 모집공고문 기준(${esc(r.cite)})을 바탕으로 한 추정이에요. 신청 전 공고문을 확인하세요.</div>
     </div></details>`;
 }
@@ -2236,7 +2237,8 @@ function specialCardV2(L, rs, p){
   const POS = on('special_position');
   return `<section class="card spcard"><div class="row"><h2>${POS ? '공급 유형별 내 자격과 위치' : '특별공급 자격'}</h2><span class="small muted">${rs[0].pub ? '공공' : '민영'} · 추정</span></div>
     <div class="spsum" role="group" aria-label="판정 요약">${[['ok','가능'],['warn','확인 필요'],['fail','불가']].filter(([k]) => n(k)).map(([k, t]) => `<span class="pill ${k}">${t} ${n(k)}</span>`).join('')}</div>
-    ${missing ? `<div class="note warn sp-need"><span class="small">비어 있는 정보가 있어 일부는 판정·점수가 빠졌어요.</span><button class="linkbtn small" data-action="sp-input">입력하기</button></div>` : ''}
+    ${missing ? `<div class="note warn sp-need"><span class="small">비어 있는 정보가 있어 일부는 판정·점수가 빠졌어요.</span>${on('inline_fix') ? `<button class="linkbtn small" data-fix="sp:all">바로 답하기</button>` : '<button class="linkbtn small" data-action="sp-input">입력하기</button>'}</div>` : ''}
+    ${fixPanel(L, p, 'sp')}
     ${on('special_plain') ? spIntroPlain(rs) : '<p class="small muted" style="margin:2px 0 6px">유형을 누르면 판정 근거와 계산 내역이 보여요.</p>'}
     <div class="splist">${POS ? (on('special_plain') ? generalRowPlain(L, p) : generalRowV2(L, p)) : ''}${sorted.map(r => on('special_plain') ? spRowPlain(L, p, r) : spRowV2(L, p, r)).join('')}</div>
     <details class="spbasis"><summary class="small">판정 기준과 출처</summary><div class="small muted">
@@ -2281,7 +2283,7 @@ const PEND_INFO = {
 const pendAsk = x => { const i = PEND_INFO[x] || {}; return !!(i.edit && typeof visibleSteps === 'function' && visibleSteps().find(s2 => stepKey(s2) === i.edit)); };
 function pendHtml(L, pend){
   return pend.map(x => { const i = PEND_INFO[x] || {}, st = i.edit && typeof visibleSteps === 'function' && visibleSteps().find(s2 => stepKey(s2) === i.edit);
-    return `<div class="ckwarn"><div class="ck-top"><span>${esc(x)}</span><span class="${i.sp ? 'muted' : 'st-warn'}">${st ? (i.sp ? '특별공급 · 답하면 판정' : '답하면 판정') : i.sp ? '특별공급 때만' : '직접 확인'}</span></div>${i.why ? `<div class="small muted">${esc(i.why)}</div>` : ''}${st ? `<button class="linkbtn small" data-edit="${esc(stepKey(st))}" style="align-self:flex-start">${esc(i.act)}</button>` : ''}</div>`; }).join('');
+    return `<div class="ckwarn"><div class="ck-top"><span>${esc(x)}</span><span class="${i.sp ? 'muted' : 'st-warn'}">${st ? (i.sp ? '특별공급 · 답하면 판정' : '답하면 판정') : i.sp ? '특별공급 때만' : '직접 확인'}</span></div>${i.why ? `<div class="small muted">${esc(i.why)}</div>` : ''}${st ? (on('inline_fix') && PEND_FIX[x] ? fixBtn(x, '바로 답하기') : `<button class="linkbtn small" data-edit="${esc(stepKey(st))}" style="align-self:flex-start">${esc(i.act)}</button>`) : ''}</div>`; }).join('');
 }
 /* '확인 필요' 원인별 다음 행동 (기능: unsure_actions). 판정은 그대로 두고, 어떤 질문에 답하면 그 항목이 판정되는지(원인 A: 내 정보 부족)
    또는 공고문을 봐야 하는지(원인 B~E: 공고·기준 쪽 정보)만 붙인다. 원인 분류는 itemCause() 그대로. */
@@ -2303,6 +2305,7 @@ function warnAction(i){
 }
 function warnActBtn(L, i){
   const a = warnAction(i);
+  if ((a.edit || a.go) && on('inline_fix') && fixKeysFor(i.k, L, S.profile).length) return fixBtn(i.k, /답하기$/.test(a.label) ? a.label : '바로 답하기 · ' + a.label.replace(/ 넣기$/, ''));
   if (a.edit) return `<button class="linkbtn small" data-edit="${esc(a.edit)}" style="align-self:flex-start">${esc(a.label)}</button>`;
   if (a.go) return `<button class="linkbtn small" data-go="me" style="align-self:flex-start">${esc(a.label)}</button>`;
   const url = L.noticePdf || (L.sources && L.sources[0] && L.sources[0][1]);
@@ -2354,6 +2357,88 @@ function ineligCard(L, p, e){
     <div class="ckwarns">${rows.join('')}</div>
     <div class="small muted">신청 전에 청약홈 '청약자격확인'에서 청약제한사항과 주택소유 여부를 조회해 보세요. ${src('supplyRule')} · ${noticeSrc(L)}</div></section>`;
 }
+/* 바로 답하기 (기능: inline_fix, 2026-10-01 사용자 요청: '확인 필요' 버튼을 누르면 필요한 칸으로 바로 가고, 그것만 넣으면 바로 판정).
+   공고 화면 안에서 그 항목을 판정하는 데 필요한 질문만 보여주고, 답할 때마다 다시 판정해 결과를 같은 자리에 보여준다.
+   질문 정의는 인터뷰(STEPS)의 것을 그대로 쓰고(fieldHtml), 값은 내 조건에 그대로 저장된다. 판정 로직은 바꾸지 않는다 */
+const FIX_KEYS = [
+  [i => i.hhUnknown, ['hhHomes', 'hhOwner']],
+  [i => i.k === '무주택 세대', ['selfOwn', 'married', 'spouseOwn', 'household', 'parents60', 'parentsOwn', 'hhHomes', 'hhOwner']],
+  [i => /^거주지/.test(i.k), ['homeSido', 'homeSigun', 'sidoOwnSince', 'areaSince']],
+  [i => /세대주/.test(i.k), ['household', 'headSince']],
+  [i => /2주택/.test(i.k), ['hhHomes', 'hhOwner']],
+  [i => /당첨/.test(i.k), ['everWin', 'win5y', 'recentWin']],
+  [i => /청약통장|예치금|납입|통장/.test(i.k), ['acctType', 'acctSince', 'acctAmount', 'acctCount', 'acctPaid', 'homeArea']],
+  [i => /총자산/.test(i.k), ['townType', 'realEstate', 'carValue', 'cash', 'liquid', 'deposit', 'townInsurance', 'townFinOther', 'townOtherAsset', 'townDebt']],
+  [i => /출산가구/.test(i.v || ''), ['kidsMinor', 'youngestBirth', 'pregnant', 'fetusCount']],
+  [i => /^소득/.test(i.k), ['married', 'kidsMinor', 'pregnant', 'fetusCount', 'hhSize', 'kidsOnDeed', 'eldersOnDeed', 'elders1y', 'income', 'spouseIncome', 'hhIncomeYear']],   // 가구원수 → 세대 소득 순서로 이어서 물음
+  [i => /가구원수/.test(i.k + ' ' + (i.v || '')), ['married', 'kidsMinor', 'pregnant', 'fetusCount', 'hhSize', 'kidsOnDeed', 'eldersOnDeed', 'elders1y']],
+  [i => /^자산/.test(i.k), ['realEstate', 'carValue']],
+  [i => /신청 유형|신혼부부/.test(i.k), ['married', 'marriedOn', 'kidsMinor', 'youngestBirth', 'pregnant', 'townType']],
+];
+const PEND_FIX = { '특별공급 가구원수 산정': ['married', 'kidsMinor', 'pregnant', 'fetusCount', 'hhSize', 'kidsOnDeed', 'eldersOnDeed', 'elders1y'],
+  '통장 가입기간·예치금 또는 납입 횟수·금액': ['acctType', 'acctSince', 'acctAmount', 'acctCount', 'acctPaid', 'homeArea'] };
+let FIELD_IDX = null;
+const fieldVariants = k => { if (!FIELD_IDX) { FIELD_IDX = {}; STEPS.forEach(st => st.f.forEach(fd => (FIELD_IDX[fd.k] = FIELD_IDX[fd.k] || []).push(fd))); } return FIELD_IDX[k] || []; };
+/* 특별공급 칸의 '바로 답하기' — spJudge 의 '입력 필요·확인 필요' 문구로 필요한 질문을 고른다. 'sp:all' 은 모든 유형을 합친다 */
+const SP_FIX = [
+  [/가구원수|자녀|생일|태아/, ['married', 'kidsMinor', 'youngestBirth', 'pregnant', 'fetusCount', 'hhSize', 'kidsOnDeed', 'eldersOnDeed', 'elders1y']],
+  [/부동산|자동차|자산/, ['realEstate', 'carValue']],
+  [/세대 구성|세대주/, ['household', 'headSince']],
+  [/통장|납입|저축액|예치/, ['acctType', 'acctSince', 'acctAmount', 'acctCount', 'acctPaid', 'homeArea']],
+  [/거주/, ['homeSido', 'homeSigun', 'sidoOwnSince', 'areaSince', 'sidoSince']],
+  [/직계존속|부양|부모님/, ['elder65', 'eldersOnDeed', 'elders1y']],
+  [/주택 소유 이력/, ['hhNeverOwned']],
+  [/소득세/, ['taxYears5']],
+  [/혼인/, ['married', 'marriedOn']],
+  [/세대 주택|무주택/, ['selfOwn', 'household', 'parents60', 'parentsOwn', 'hhHomes', 'hhOwner']],
+  [/소득/, ['income', 'married', 'spouseIncome', 'hhIncomeYear']],
+];
+function spFixKeys(L, p, k){
+  const types = k === 'sp:all' ? spTypesFor(L) : [k.slice(3)], keys = [];
+  const add = ks => ks.forEach(x => { if (!keys.includes(x)) keys.push(x); });
+  const PP_FIX = [[/소득/, ['hhSize', 'kidsOnDeed', 'eldersOnDeed', 'income', 'spouseIncome', 'hhIncomeYear']], [/자녀/, ['kidsMinor']], [/납입/, ['acctCount']], [/혼인/, ['marriedOn']],
+    [/거주/, ['homeSido', 'homeSigun', 'sidoOwnSince', 'areaSince', 'sidoSince']]];
+  types.forEach(t => { const r = spJudge(L, p, t);
+    r.warn.forEach(w => {
+      if (/1순위 요건/.test(w))   // 일반공급 1순위 요건(통장·규제지역) 중 확인 필요인 항목의 질문
+        [...(accountItems(L, p) || []), ...(typeof regulatedItems === 'function' ? regulatedItems(L, p) : [])].filter(i => i.s === 'warn').forEach(i => { const m = FIX_KEYS.find(([f]) => f(i)); if (m) add(m[1]); });
+      SP_FIX.forEach(([re, ks]) => { if (re.test(w)) add(ks); }); });
+    if (r.s === 'ok' && spHeadline(L, p, r).partial) {
+      if (r.pub) pubPoints(L, p, t).missing.forEach(x => PP_FIX.forEach(([re, ks]) => { if (re.test(x)) add(ks); }));
+      else add(t === 'multichild' ? ['kidsUnder6', 'gen3', 'sidoSince', 'areaSince'] : ['sidoSince', 'areaSince', 'sidoOwnSince']);
+      if (t === 'multichild') add(['kidsUnder6', 'gen3']); } });
+  if (!keys.length) add(['married', 'kidsMinor', 'youngestBirth', 'pregnant', 'hhSize', 'kidsOnDeed', 'eldersOnDeed', 'income', 'spouseIncome', 'hhIncomeYear', 'realEstate', 'carValue']);
+  return keys;
+}
+function spFixState(L, p, k){   // [톤, 문구]
+  const types = k === 'sp:all' ? spTypesFor(L) : [k.slice(3)], rs = types.map(t => spJudge(L, p, t));
+  const open = rs.filter(r => r.s === 'warn' || (r.s === 'ok' && spHeadline(L, p, r).partial));
+  if (open.length) { const r = open[0]; return ['warn', '아직 확인 필요 · ' + SP_NAME[r.type] + ' ' + (r.warn[0] ? spPlain(r.warn[0]) : '점수 계산에 정보가 더 필요해요')]; }
+  if (k === 'sp:all') return ['ok', '판정됐어요 · 아래 유형별 결과를 보세요'];
+  const r = rs[0]; return r.s === 'ok' ? ['ok', '판정됐어요 · 가능'] : ['fail', '판정됐어요 · 불가 · ' + spPlain(r.fail[0] || '')];
+}
+function fixKeysFor(k, L, p){
+  if (/^sp:/.test(k)) return spFixKeys(L, p, k);
+  if (PEND_FIX[k]) return PEND_FIX[k];
+  const it = eligibility(L, p).items.find(i => i.k === k) || { k }, m = FIX_KEYS.find(([t]) => t(it));
+  return m ? m[1] : [];
+}
+const fixBtn = (k, label) => on('inline_fix') ? `<button class="linkbtn small" data-fix="${esc(k)}" style="align-self:flex-start">${esc(label || '바로 답하기')}</button>` : '';
+function fixPanel(L, p, where){
+  if (!on('inline_fix') || !S.fix || S.fix.id !== L.id || (where === 'sp') !== /^sp:/.test(S.fix.k)) return '';
+  if (/^sp:/.test(S.fix.k)) S.fix.keys = Array.from(new Set([...S.fix.keys, ...spFixKeys(L, p, S.fix.k)]));   // 답하면 새로 필요한 질문이 생길 수 있음
+  const seen = new Set(), need = [], done = [];   // 아직 안 넣은 질문을 위에, 이미 넣은 값은 접어 둔다
+  S.fix.keys.forEach(k => { const fd = fieldVariants(k).find(f => !f.show || f.show(p)); if (fd && !seen.has(fd.k)) { seen.add(fd.k); (fieldValue(fd, p).miss ? need : done).push(fieldHtml(fd, p)); } });
+  const html = [...need, done.length ? `<details class="fixdone"${need.length ? '' : ' open'}><summary class="small">이미 넣은 값 ${done.length}개 · 고치기</summary>${done.join('')}</details>` : ''].filter(Boolean);
+  const pendK = !!PEND_FIX[S.fix.k], it = pendK ? null : eligibility(L, p).items.find(i => i.k === S.fix.k);
+  const st = /^sp:/.test(S.fix.k) ? spFixState(L, p, S.fix.k) : pendK ? (pendingChecks(L, p).includes(S.fix.k) ? ['warn', '아직 판정 전이에요'] : ['ok', '판정됐어요 · 아래 특별공급 칸에 반영됐어요'])
+    : !it ? ['ok', '판정됐어요'] : it.s === 'warn' ? ['warn', '아직 확인 필요 · ' + it.v] : it.s === 'fail' ? ['fail', '판정됐어요 · ' + it.v] : ['ok', '판정됐어요 · ' + it.v];
+  return `<div class="fixpanel" id="fixpanel" role="region" aria-label="바로 답하기">
+    <div class="row"><b>바로 답하기 · ${esc(S.fix.k === 'sp:all' ? '특별공급' : /^sp:/.test(S.fix.k) ? SP_NAME[S.fix.k.slice(3)] + ' 특별공급' : S.fix.k)}</b><button class="linkbtn small" data-action="fix-close">닫기</button></div>
+    <div class="note ${st[0]} fixstat" aria-live="polite"><b>${esc(st[1])}</b>${it && it.s === 'warn' && it.note ? `<div class="small">${esc(it.note)}</div>` : ''}</div>
+    ${html.join('') || '<div class="small muted">이 항목은 질문으로 판정할 수 없어요. 공고문에서 확인하세요.</div>'}
+    <div class="small muted">답하면 바로 다시 판정해요. 넣은 값은 내 조건에도 저장돼요.</div></div>`;
+}
 /* 신청할 수 있는 공급 요약 (기능: supply_summary). 일반공급 = eligibility() 결과, 특별공급 = spJudge() 결과, 지역 순서 = 거주지 판정 — 그대로 모아 보여준다 */
 /* 신혼희망타운은 주택형 공급 전체가 신혼부부·예비신혼부부·한부모가족 대상 공급이고(청약홈은 특별공급으로 집계, 일반공급 0),
    누구나 넣는 일반공급이나 따로 고르는 특별공급 유형이 없다 — 2026820010 「1단계 우선공급 30% · 2단계 일반공급 60% · 3단계 추첨공급」 모두 신혼부부 등 대상 */
@@ -2404,9 +2489,10 @@ function checklistV2(L, p, e){
     ${supplySummary(L, p, e)}
     <div class="spsum" style="margin:4px 0 0">${on('supply_summary') && hasProfile() ? `<span class="small muted" style="align-self:center">${genLabel(L)} 조건</span>` : ''}${count}</div>
     <div class="note ${tone} ckverdict"><b>${on('supply_summary') && hasProfile() ? (genLabel(L) + ' · ') : ''}${esc(title)}</b>${sub ? `<div class="small">${esc(sub)}</div>` : ''}${e.fix ? `<div class="small" style="margin-top:4px"><b>다음 공고에 신청하려면</b> · ${esc(e.fix)}</div>` : ''}</div>
+    ${fixPanel(L, p, 'gen')}
     ${fails.length ? `<div class="ckgroup"><div class="ck-h ${e.rank2 ? 'st-warn' : 'st-fail'}">${e.rank2 ? (e.rank2Need ? '1순위만 막는 조건' : '1순위만 막는 조건 (2순위는 신청 가능)') : '문제가 있는 조건'} ${fails.length}개</div>${fails.map(failItem).join('')}</div>` : ''}
     ${nWarn ? `<div class="ckgroup"><div class="ck-h st-warn"><span>확인이 필요한 조건 ${nWarn}</span>${needInput ? '<button class="linkbtn small" data-action="restart">내 조건 입력하기</button>' : ''}</div>
-      <div class="ckwarns">${acctPrompt ? `<div class="ckwarn"><div class="ck-top"><span>청약통장 1순위 요건</span><span class="st-warn">입력 필요</span></div><div class="small muted">가입일·예치금(공공은 납입 횟수)을 넣으면 청약통장 1순위 요건을 판정해요</div>${on('unsure_actions') && stepWithField('acctType') ? `<button class="linkbtn small" data-edit="${esc(stepKey(stepWithField('acctType')))}" style="align-self:flex-start">청약통장 정보 넣기</button>` : ''}<div class="ck-src">${src('supplyRule')}</div></div>` : ''}${warns.map(warnItem).join('')}</div></div>` : ''}
+      <div class="ckwarns">${acctPrompt ? `<div class="ckwarn"><div class="ck-top"><span>청약통장 1순위 요건</span><span class="st-warn">입력 필요</span></div><div class="small muted">가입일·예치금(공공은 납입 횟수)을 넣으면 청약통장 1순위 요건을 판정해요</div>${on('inline_fix') ? fixBtn('청약통장', '바로 답하기 · 청약통장') : on('unsure_actions') && stepWithField('acctType') ? `<button class="linkbtn small" data-edit="${esc(stepKey(stepWithField('acctType')))}" style="align-self:flex-start">청약통장 정보 넣기</button>` : ''}<div class="ck-src">${src('supplyRule')}</div></div>` : ''}${warns.map(warnItem).join('')}</div></div>` : ''}
     ${oks.length ? `<details class="ckmore"><summary>충족한 조건 ${oks.length}개</summary>
       ${oks.map(i => `<div class="ckok"><span class="st-ok" aria-hidden="true">${i.s === 'na' ? '–' : '✓'}</span><span><b>${esc(i.k)}</b> <span class="muted">${esc(i.v)}</span>${i.note ? `<br><span class="small muted">${esc(i.note)}</span>` : ''}<br>${itemSrc(L, i.k)}</span></div>`).join('')}</details>` : ''}
     ${pend.some(pendAsk) ? `<details class="ckmore" open><summary>답하면 바로 판정되는 질문 ${pend.filter(pendAsk).length}개</summary><div class="ckwarns" style="margin-top:6px">${pendHtml(L, pend.filter(pendAsk))}</div></details>` : ''}
@@ -2949,19 +3035,20 @@ const QUICK_STEPS = ['home', '서울 거주', '세대 구성', '세대주가 된
 const quickMode = () => !!S.quick && on('quick_start');
 const visibleSteps = () => STEPS.filter(s => (!s.show || s.show(S.profile)) && (!quickMode() || QUICK_STEPS.includes(stepKey(s))));
 
+function fieldHtml(fd, p, groupLabel){   // 인터뷰 질문 한 칸 (vOnboard·바로 답하기 inline_fix 공용)
+  if (fd.type === 'choice') {
+    const opts = fd.o.map(([v, t]) => { const on = p[fd.k] === v; return `<button class="opt" role="radio" aria-checked="${on}" data-set="${fd.k}" data-val='${JSON.stringify(v)}'>${t}${on ? '<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 6 9 17l-5-5"/></svg>' : ''}</button>`; }).join('');
+    return `<div class="field">${fd.l ? `<span class="lbl" id="l-${fd.k}">${fd.l}</span>` : ''}<div role="radiogroup" ${fd.l ? `aria-labelledby="l-${fd.k}"` : `aria-label="${esc(groupLabel || fd.l || '')}"`} class="${fd.two ? 'opts-2' : 'stack'}">${opts}</div></div>`;
+  }
+  if (fd.type === 'text') return `<div class="field"><label for="f-${fd.k}">${fd.l}</label><input type="text" id="f-${fd.k}" data-field="${fd.k}" value="${esc(p[fd.k] || '')}"></div>`;
+  if (fd.type === 'date') return `<div class="field"><label for="f-${fd.k}">${fd.l}</label><input type="date" id="f-${fd.k}" data-field="${fd.k}" value="${p[fd.k] || ''}"></div>`;
+  if (fd.type === 'count') return `<div class="field"><label for="f-${fd.k}">${fd.l}</label><div class="money"><input id="f-${fd.k}" inputmode="numeric" data-field="${fd.k}" data-count="1" value="${p[fd.k] == null ? '' : p[fd.k]}" placeholder="0"><span>회</span></div>${fd.h ? `<span class="hint">${fd.h}</span>` : ''}</div>`;
+  if (fd.opt) return `<div class="field"><label for="f-${fd.k}">${fd.l}</label><div class="money"><input id="f-${fd.k}" inputmode="numeric" data-field="${fd.k}" data-opt="1" value="${p[fd.k] == null ? '' : p[fd.k]}" placeholder="입력 안 함"><span>만원</span></div>${fd.h ? `<span class="hint">${fd.h}</span>` : ''}</div>`;
+  return `<div class="field"><label for="f-${fd.k}">${fd.l}</label><div class="money"><input id="f-${fd.k}" inputmode="numeric" data-field="${fd.k}" data-num="1" value="${p[fd.k] || ''}" placeholder="0"><span>만원</span></div>${fd.h ? `<span class="hint">${fd.h}</span>` : ''}${p[fd.k] ? `<span class="hint" data-echo="${fd.k}">= ${fmt(eok(p[fd.k]))}</span>` : `<span class="hint" data-echo="${fd.k}"></span>`}</div>`;
+}
 function vOnboard(){
   const steps = visibleSteps(), i = Math.min(S.step, steps.length - 1), st = steps[i], p = S.profile;
-  const field = fd => {
-    if (fd.type === 'choice') {
-      const opts = fd.o.map(([v, t]) => { const on = p[fd.k] === v; return `<button class="opt" role="radio" aria-checked="${on}" data-set="${fd.k}" data-val='${JSON.stringify(v)}'>${t}${on ? '<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 6 9 17l-5-5"/></svg>' : ''}</button>`; }).join('');
-      return `<div class="field">${fd.l ? `<span class="lbl" id="l-${fd.k}">${fd.l}</span>` : ''}<div role="radiogroup" ${fd.l ? `aria-labelledby="l-${fd.k}"` : `aria-label="${esc(st.t)}"`} class="${fd.two ? 'opts-2' : 'stack'}">${opts}</div></div>`;
-    }
-    if (fd.type === 'text') return `<div class="field"><label for="f-${fd.k}">${fd.l}</label><input type="text" id="f-${fd.k}" data-field="${fd.k}" value="${esc(p[fd.k] || '')}"></div>`;
-    if (fd.type === 'date') return `<div class="field"><label for="f-${fd.k}">${fd.l}</label><input type="date" id="f-${fd.k}" data-field="${fd.k}" value="${p[fd.k] || ''}"></div>`;
-    if (fd.type === 'count') return `<div class="field"><label for="f-${fd.k}">${fd.l}</label><div class="money"><input id="f-${fd.k}" inputmode="numeric" data-field="${fd.k}" data-count="1" value="${p[fd.k] == null ? '' : p[fd.k]}" placeholder="0"><span>회</span></div>${fd.h ? `<span class="hint">${fd.h}</span>` : ''}</div>`;
-    if (fd.opt) return `<div class="field"><label for="f-${fd.k}">${fd.l}</label><div class="money"><input id="f-${fd.k}" inputmode="numeric" data-field="${fd.k}" data-opt="1" value="${p[fd.k] == null ? '' : p[fd.k]}" placeholder="입력 안 함"><span>만원</span></div>${fd.h ? `<span class="hint">${fd.h}</span>` : ''}</div>`;
-    return `<div class="field"><label for="f-${fd.k}">${fd.l}</label><div class="money"><input id="f-${fd.k}" inputmode="numeric" data-field="${fd.k}" data-num="1" value="${p[fd.k] || ''}" placeholder="0"><span>만원</span></div>${fd.h ? `<span class="hint">${fd.h}</span>` : ''}${p[fd.k] ? `<span class="hint" data-echo="${fd.k}">= ${fmt(eok(p[fd.k]))}</span>` : `<span class="hint" data-echo="${fd.k}"></span>`}</div>`;
-  };
+  const field = fd => fieldHtml(fd, p, st.t);
   const note = st.note && st.note(p);
   return `
   <div class="stack" style="gap:10px;padding-top:8px">
@@ -3658,7 +3745,7 @@ function trackView(){
 }
 function go(v){
   const prev = S.view, prevId = S.id, y = window.scrollY;
-  S.view = v; if (v !== 'feed') S.sheet = null; render();
+  S.view = v; if (v !== 'feed') S.sheet = null; if (v !== 'detail') S.fix = null; render();
   if (prev !== v || (NAV_ID_VIEWS.includes(v) && prevId !== S.id)) navPush(y);
 }
 /* 뒤로가기·주소 (기능: history_nav). 화면을 바꿀 때 브라우저 기록에 남겨 뒤로가기가 사이트 안에서 이전 화면으로 돌아가게 한다.
@@ -3731,6 +3818,9 @@ document.addEventListener('click', ev => {
   if (t.dataset.set) { S.profile[t.dataset.set] = JSON.parse(t.dataset.val); save(); render(); return; }
   if (t.dataset.elig) { S.elig = S.elig === t.dataset.elig ? null : t.dataset.elig; track({ path:'elig-' + (S.elig || 'off'), event:true }); render();
     if (S.elig) { const fb = app.querySelector('.findbox .filterbar'); if (fb) fb.scrollIntoView({ behavior:'smooth', block:'start' }); } return; }
+  if (t.dataset.fix && S.id) { const Lf = LISTINGS.find(x => x.id === S.id); S.fix = { id:S.id, k:t.dataset.fix, keys: fixKeysFor(t.dataset.fix, Lf, S.profile) }; metric('fix/' + t.dataset.fix); render();
+    const fp = app.querySelector('#fixpanel'); if (fp) fp.scrollIntoView({ behavior:'smooth', block:'start' }); return; }   // 기능: inline_fix
+  if (t.dataset.action === 'fix-close') { S.fix = null; render(); return; }
   if (t.dataset.edit) { S.quick = false; const i = visibleSteps().findIndex(x => stepKey(x) === t.dataset.edit); S.step = Math.max(0, i); S.fromMe = true; go('onboard'); window.scrollTo(0, 0); return; }   // 그 단계부터 이어서 입력, 단계마다 저장하고 나가기
   if (t.dataset.mode) { planOpt(LISTINGS.find(x => x.id === S.id)).mode = t.dataset.mode; render(); return; }
   const a = t.dataset.action;
@@ -3797,6 +3887,7 @@ const TOUCH = (() => { try { return matchMedia('(hover: none) and (pointer: coar
 function refocus(el){ if (!el || (TOUCH && el.tagName === 'SELECT')) return; try { el.focus({ preventScroll:true }); } catch(e) {} }
 document.addEventListener('change', ev => {
   const el = ev.target;
+  if (el.dataset.field && S.fix && S.view === 'detail') { const y = window.scrollY; render(); window.scrollTo(0, y); return; }   // 기능: inline_fix — 입력하면 바로 다시 판정
   if (el.dataset.newsel) { S.newDays = Number(el.value) || 0; track({ path:'new-' + S.newDays, event:true }); render(); refocus(app.querySelector('[data-newsel]')); return; }
   if (el.dataset.f) {
     const k = el.dataset.f; S.f[k] = el.value; track({ path:'filter-' + k, event:true });
