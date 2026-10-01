@@ -201,6 +201,9 @@ h2{margin:0;font-size:16px}
 .profile-bar{display:flex;align-items:center;gap:10px;padding:12px 14px;background:var(--surface);border:1px solid var(--line);border-radius:12px;font-size:13px}
 .profile-bar span{flex:1;min-width:0}
 .linkbtn{border:0;background:none;color:var(--link);font-weight:600;cursor:pointer;padding:6px 0;min-height:32px}
+/* 기능: tap_targets (Fitts) — 보이는 크기는 그대로 두고 손가락이 닿는 영역을 위아래로 넓힌다(약 44px). 공고 링크 줄은 버튼(.actbar) */
+body.tt .src,body.tt .linkbtn,body.tt .betabar a,body.tt .betabar button{position:relative} body.tt .src::after,body.tt .linkbtn.small::after,body.tt .betabar a::after,body.tt .betabar button::after{content:'';position:absolute;left:-4px;right:-4px;top:50%;height:44px;transform:translateY(-50%)}
+body.tt .ckmore>summary,body.tt .fixdone>summary,body.tt details.small>summary{min-height:44px;display:flex;align-items:center} body.tt .chip.sm{min-height:40px} body.tt .starbtn{height:44px;border-radius:22px;padding:0 16px} body.tt [data-fix]{min-height:44px;display:inline-flex;align-items:center} body.tt .ck-src{margin-top:12px} body.tt td a{display:inline-block;padding:10px 0;margin:-10px 0} .actbar{display:flex;gap:6px} .actbar .btn{min-height:44px;flex:1 1 0;width:auto;min-width:0;padding:0 6px;font-size:13px;white-space:nowrap}
 .listing{cursor:pointer;text-align:left;width:100%;font:inherit;color:inherit}
 .listing:hover{border-color:var(--muted)}
 .meta{font-size:12px;color:var(--muted)}
@@ -2579,7 +2582,8 @@ function vDetail(){
   <div class="top"><button class="back" data-go="feed">${chev}공고</button>${watchBtn(L)}</div>
   ${betaBanner('detail')}
   <div class="stack" style="gap:4px"><div class="meta">${esc(L.kind)} · 접수 ${scheduleText(L) ? esc(scheduleText(L)) + ' <span class="muted">(모집공고문)</span>' : L.apply ? L.apply.replace(/-/g,'.') : '샘플'}</div><h1>${esc(L.name)}${L.sample ? '<span class="sample">샘플</span>' : ''}</h1><div class="meta">${esc(L.loc)} · ${esc(L.unit)}</div></div>
-  <div class="srcs">${L.sources && L.sources[0] ? src(null, ['청약홈 공고', L.sources[0][1]]) : src('applyhome')}${L.noticePdf ? src(null, ['모집공고문 PDF', L.noticePdf]) : ''}${L.sample || !on('naver_map') ? '' : `<a class="src" href="${esc(naverMapUrl(L))}" target="_blank" rel="noopener" data-ev="naver-map">네이버 지도${ARROW}</a>`}</div>
+  ${on('tap_targets') ? `<div class="actbar">${L.noticePdf ? `<a class="btn ghost sm" href="${esc(L.noticePdf)}" target="_blank" rel="noopener">모집공고문 PDF</a>` : ''}<a class="btn ghost sm" href="${esc(L.sources && L.sources[0] ? L.sources[0][1] : SRC.applyhome[1])}" target="_blank" rel="noopener">청약홈 공고</a>${L.sample || !on('naver_map') ? '' : `<a class="btn ghost sm" href="${esc(naverMapUrl(L))}" target="_blank" rel="noopener" data-ev="naver-map">네이버 지도</a>`}</div>`   /* 기능: tap_targets — 자주 누르는 공고 링크는 버튼으로 */
+  : `<div class="srcs">${L.sources && L.sources[0] ? src(null, ['청약홈 공고', L.sources[0][1]]) : src('applyhome')}${L.noticePdf ? src(null, ['모집공고문 PDF', L.noticePdf]) : ''}${L.sample || !on('naver_map') ? '' : `<a class="src" href="${esc(naverMapUrl(L))}" target="_blank" rel="noopener" data-ev="naver-map">네이버 지도${ARROW}</a>`}</div>`}
   ${on('detail_result_first') ? (() => {   /* 기능: detail_result_first — 맨 위에 '내 판정'을 가장 크게, 마진 등급은 그 아래 작게 (2026-10-01, Von Restorff) */
     const st = !hasProfile() ? ['info', '판정 전'] : !e.ok ? (e.rank2 ? ['warn', e.rank2Need ? '2순위 확인 필요' : '2순위만 가능'] : ['fail', '신청 불가']) : e.unsure ? ['warn', '확인 필요'] : ['ok', '신청 가능'];
     const wk = hasProfile() && e.ok && e.unsure ? e.items.filter(i => i.s === 'warn').map(i => i.k.replace(/ \(.*\)/, '')) : [];
@@ -3771,6 +3775,7 @@ const VIEWS = { feed:vFeed, detail:vDetail, plan:vPlan, grades:vGrades, me:vMe, 
 let lastView = null;
 function render(){
   document.body.classList.toggle('gname-v2', on('grade_skip'));
+  document.body.classList.toggle('tt', on('tap_targets'));   // 기능: tap_targets — 작은 링크의 누르는 영역 넓히기
   document.body.classList.toggle('home2', on('home_v2'));
   const tm = tabbar.querySelector('[data-go=me]'); if (tm) tm.textContent = on('home_v2') ? '내 조건' : '내 정보';   // 메인 '내 조건'과 같은 이름   // '비추천' 배지가 두 줄로 꺾이지 않게
   const tt = tabbar.querySelector('[data-go=trend]'); if (tt) tt.hidden = !on('score_cut');
