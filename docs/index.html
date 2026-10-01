@@ -2243,9 +2243,11 @@ const PEND_INFO = {
   '특별공급 유형별 요건': { why:'특별공급을 신청할 때만 해당해요. 유형별 요건은 공고문으로 확인하세요.', sp:true },
   '가점': { why:'가점은 계산하지 않았어요. 가점제로 신청하려면 공고문 기준으로 확인하세요.' },
 };
+/* 답하면 판정되는 항목(질문 단계가 화면에 있음)과 이 서비스가 판정하지 않는 항목을 나눈다 (2026-10-01 수정: 가구원수가 '판정하지 않는 항목'으로 보이던 문제) */
+const pendAsk = x => { const i = PEND_INFO[x] || {}; return !!(i.edit && typeof visibleSteps === 'function' && visibleSteps().find(s2 => stepKey(s2) === i.edit)); };
 function pendHtml(L, pend){
   return pend.map(x => { const i = PEND_INFO[x] || {}, st = i.edit && typeof visibleSteps === 'function' && visibleSteps().find(s2 => stepKey(s2) === i.edit);
-    return `<div class="ckwarn"><div class="ck-top"><span>${esc(x)}</span><span class="${i.sp ? 'muted' : 'st-warn'}">${i.sp ? '특별공급 때만' : '직접 확인'}</span></div>${i.why ? `<div class="small muted">${esc(i.why)}</div>` : ''}${st ? `<button class="linkbtn small" data-edit="${esc(stepKey(st))}" style="align-self:flex-start">${esc(i.act)}</button>` : ''}</div>`; }).join('');
+    return `<div class="ckwarn"><div class="ck-top"><span>${esc(x)}</span><span class="${i.sp ? 'muted' : 'st-warn'}">${st ? (i.sp ? '특별공급 · 답하면 판정' : '답하면 판정') : i.sp ? '특별공급 때만' : '직접 확인'}</span></div>${i.why ? `<div class="small muted">${esc(i.why)}</div>` : ''}${st ? `<button class="linkbtn small" data-edit="${esc(stepKey(st))}" style="align-self:flex-start">${esc(i.act)}</button>` : ''}</div>`; }).join('');
 }
 /* 신청할 수 있는 공급 요약 (기능: supply_summary). 일반공급 = eligibility() 결과, 특별공급 = spJudge() 결과, 지역 순서 = 거주지 판정 — 그대로 모아 보여준다 */
 /* 신혼희망타운은 주택형 공급 전체가 신혼부부·예비신혼부부·한부모가족 대상 공급이고(청약홈은 특별공급으로 집계, 일반공급 0),
@@ -2282,9 +2284,11 @@ function checklistV2(L, p, e){
   else if (!e.ok) { tone = 'fail'; title = '지금 조건으로는 신청 불가'; sub = e.reason; }
   else if (nWarn) { tone = 'warn'; title = '기본 요건은 충족 · 확인할 것 ' + nWarn + '개'; }
   else { tone = 'ok'; title = on('eligibility_caution') ? '기본 요건 충족' : '자격 충족';
-    const pc = pend.filter(x => !(PEND_INFO[x] || {}).sp).length, ps = pend.length - pc;
+    const po = pend.filter(x => !pendAsk(x)), pa = pend.length - po.length;
+    const pc = po.filter(x => !(PEND_INFO[x] || {}).sp).length, ps = po.length - pc;
     sub = pc ? '이 서비스가 판정하지 않는 ' + pc + '가지는 충족인지 모르는 상태예요. 아래 \'직접 확인할 것\'을 공고문으로 확인하세요.'
-      : ps ? '일반공급 기본 요건은 모두 판정했고 충족이에요. 특별공급을 쓸 때만 공고문에서 ' + ps + '가지를 더 확인하세요.' : ''; }
+      : ps ? '일반공급 기본 요건은 모두 판정했고 충족이에요. 특별공급을 쓸 때만 공고문에서 ' + ps + '가지를 더 확인하세요.'
+      : pa ? '일반공급 기본 요건은 모두 판정했고 충족이에요. 아래 질문 ' + pa + '개에 답하면 ' + (pend.every(x => (PEND_INFO[x] || {}).sp) ? '특별공급까지 ' : '') + '판정해요.' : ''; }
   const count = [[e.rank2 ? 'warn' : 'fail', e.rank2 ? '1순위 요건 미충족' : '미충족', fails.length], ['warn', '확인 필요', nWarn], ['ok', '충족', oks.length]].filter(x => x[2]).map(([c, t, n]) => `<span class="pill ${c}">${t} ${n}</span>`).join('');
   const needInput = acctPrompt || warns.some(i => /입력 필요/.test(i.v || ''));
   const failItem = i => `<div class="ckitem ${e.rank2 ? 'warn' : 'fail'}"><div class="ck-top"><b>${esc(i.k)}</b><span class="${e.rank2 ? 'st-warn' : 'st-fail'}">${esc(i.v)}</span></div>
@@ -2300,7 +2304,8 @@ function checklistV2(L, p, e){
       <div class="ckwarns">${acctPrompt ? `<div class="ckwarn"><div class="ck-top"><span>청약통장 1순위 요건</span><span class="st-warn">입력 필요</span></div><div class="small muted">가입일·예치금(공공은 납입 횟수)을 넣으면 가입기간·예치금·납입 횟수를 판정해요</div><div class="ck-src">${src('supplyRule')}</div></div>` : ''}${warns.map(warnItem).join('')}</div></div>` : ''}
     ${oks.length ? `<details class="ckmore"><summary>충족한 조건 ${oks.length}개</summary>
       ${oks.map(i => `<div class="ckok"><span class="st-ok" aria-hidden="true">${i.s === 'na' ? '–' : '✓'}</span><span><b>${esc(i.k)}</b> <span class="muted">${esc(i.v)}</span>${i.note ? `<br><span class="small muted">${esc(i.note)}</span>` : ''}<br>${itemSrc(L, i.k)}</span></div>`).join('')}</details>` : ''}
-    ${pend.length ? `<details class="ckmore"${pend.some(x => !(PEND_INFO[x] || {}).sp) ? ' open' : ''}><summary>직접 확인할 것 ${pend.length}개 <span class="muted small">· 이 서비스가 판정하지 않는 항목</span></summary><div class="ckwarns" style="margin-top:6px">${pendHtml(L, pend)}</div><div class="small muted">판정하지 않은 항목은 '충족'으로 세지 않았어요. 신청 전 모집공고문으로 확인하세요. ${noticeSrc(L)}</div></details>` : ''}
+    ${pend.some(pendAsk) ? `<details class="ckmore" open><summary>답하면 판정해요 ${pend.filter(pendAsk).length}개 <span class="muted small">· 질문에 답하면 바로 판정</span></summary><div class="ckwarns" style="margin-top:6px">${pendHtml(L, pend.filter(pendAsk))}</div></details>` : ''}
+    ${pend.some(x => !pendAsk(x)) ? `<details class="ckmore"${pend.some(x => !pendAsk(x) && !(PEND_INFO[x] || {}).sp) ? ' open' : ''}><summary>직접 확인할 것 ${pend.filter(x => !pendAsk(x)).length}개 <span class="muted small">· 이 서비스가 판정하지 않는 항목</span></summary><div class="ckwarns" style="margin-top:6px">${pendHtml(L, pend.filter(x => !pendAsk(x)))}</div><div class="small muted">판정하지 않은 항목은 '충족'으로 세지 않았어요. 신청 전 모집공고문으로 확인하세요. ${noticeSrc(L)}</div></details>` : ''}
     <details class="ckmore"><summary>근거와 출처</summary><div class="small muted">내 조건 ${src('user')} · 판정 기준 ${src('supplyRule')} · 공고 조건 ${noticeSrc(L)}</div></details>
   </section>`;
 }
@@ -2354,10 +2359,12 @@ function vDetail(){
   else if (m.g === 'pass' || m.g === 'flat') mine = `<div class="note warn"><b>${okWord} ${m.g === 'pass' ? '시세보다 비싸요' : '마진이 거의 없어요'}</b><div>${on('margin_caveat') ? '당첨되면 재당첨 제한이 걸려 한동안 다른 청약에 당첨될 수 없어요.' : '당첨되면 재당첨 제한이 걸려요. 실거주 목적이 아니면 통장을 아끼세요.'}</div></div>`;
   else if (gap > 0) mine = `<div class="note warn"><b>${okWord} 자금 ${fmt(gap)} 부족</b><div>${o.mode === 'live' ? '잔금대출' : '전세 활용'} 기준이에요. 부족분 조달처를 확보한 뒤 신청하세요.</div></div>`;
   else if (on('eligibility_caution')) {   // 판정하지 않은 항목이 없으면 '확인 필요'라고 하지 않는다 (2026-09-30 문구 수정)
-    const pend = pendingChecks(L, p), gen = pend.filter(x => !((typeof PEND_INFO !== 'undefined' && PEND_INFO[x]) || {}).sp), sp = pend.length - gen.length;
-    mine = !pend.length ? `<div class="note ok"><b>${e.unsure ? '기본 요건과 자금은 가능해요 · 확인할 것 있음' : '자격과 자금 모두 가능해요'}</b><div>${e.unsure ? '아래 자격 체크리스트의 \'확인이 필요한 조건\'을 봐 주세요. ' : ''}신청 전에 모집공고문으로 한 번 더 확인하세요. ${noticeSrc(L)}</div></div>`
-      : !gen.length ? `<div class="note ok"><b>일반공급은 자격과 자금 모두 가능해요</b><div>특별공급을 쓸 때만 ${sp}가지(${esc(pend.join(', '))})를 모집공고문으로 확인하세요. ${noticeSrc(L)}</div></div>`
-      : `<div class="note info"><b>기본 요건과 자금은 가능해요 · ${gen.length}가지는 직접 확인</b><div>이 서비스가 아직 판정하지 않는 항목이 있어요: ${esc(gen.join(', '))}. 신청 전에 모집공고문으로 확인하세요. ${noticeSrc(L)}</div></div>`;
+    const pendAll = pendingChecks(L, p), ask = pendAll.filter(pendAsk), pend = pendAll.filter(x => !pendAsk(x)), gen = pend.filter(x => !((typeof PEND_INFO !== 'undefined' && PEND_INFO[x]) || {}).sp), sp = pend.length - gen.length;
+    const askTxt = ask.length ? ` 아래 자격 체크리스트의 질문 ${ask.length}개(${esc(ask.join(', '))})에 답하면 판정해요.` : '';
+    mine = !pend.length && ask.length && !e.unsure ? `<div class="note ok"><b>${ask.every(x => (PEND_INFO[x] || {}).sp) ? '일반공급은 자격과 자금 모두 가능해요' : '기본 요건과 자금은 가능해요 · 답할 질문 있음'}</b><div>${ask.every(x => (PEND_INFO[x] || {}).sp) ? '특별공급은' : ''}${askTxt} 신청 전에 모집공고문으로 한 번 더 확인하세요. ${noticeSrc(L)}</div></div>`
+      : !pend.length ? `<div class="note ok"><b>${e.unsure ? '기본 요건과 자금은 가능해요 · 확인할 것 있음' : '자격과 자금 모두 가능해요'}</b><div>${e.unsure ? '아래 자격 체크리스트의 \'확인이 필요한 조건\'을 봐 주세요. ' : ''}${askTxt} 신청 전에 모집공고문으로 한 번 더 확인하세요. ${noticeSrc(L)}</div></div>`
+      : !gen.length ? `<div class="note ok"><b>일반공급은 자격과 자금 모두 가능해요</b><div>특별공급을 쓸 때만 ${sp}가지(${esc(pend.join(', '))})를 모집공고문으로 확인하세요.${askTxt} ${noticeSrc(L)}</div></div>`
+      : `<div class="note info"><b>기본 요건과 자금은 가능해요 · ${gen.length}가지는 직접 확인</b><div>이 서비스가 아직 판정하지 않는 항목이 있어요: ${esc(gen.join(', '))}. 신청 전에 모집공고문으로 확인하세요.${askTxt} ${noticeSrc(L)}</div></div>`;
   }
   else mine = `<div class="note ok"><b>${e.unsure ? '넣어도 돼요 (청약통장 요건 확인 필요)' : '넣어도 돼요'}</b><div>자격과 자금 모두 계산상 가능해요.</div></div>`;
   const stCls = s => ({ ok:'st-ok', fail:'st-fail', warn:'st-warn', na:'st-na' }[s]);
