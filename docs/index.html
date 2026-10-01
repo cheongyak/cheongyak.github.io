@@ -299,6 +299,7 @@ input[type=date]{min-height:52px;border-radius:12px;border:1px solid var(--line)
 .mc-actions .btn{min-height:46px;flex:1 1 0;min-width:0;width:auto;margin:0;padding:0 12px;font-size:14px;gap:6px;white-space:nowrap} .mc-actions .btn svg{width:16px;height:16px;flex:none}
 .findbox{display:flex;flex-direction:column;gap:10px;margin-bottom:10px}
 .findbox .search{margin:0} .findbox .sumbar{margin:0}
+.mc-compact{gap:8px;padding:12px 14px} .mcc-row{display:flex;align-items:center;gap:8px;justify-content:space-between} .mcc-txt{font-size:14px;min-width:0} .mcc-row .linkbtn{white-space:nowrap;flex:none} .fbtoggle{display:flex;justify-content:space-between;align-items:center;gap:8px;min-height:44px}
 .fb-label{font-size:12px;color:var(--muted);font-weight:600;margin:0 0 -4px 2px}
 .findbox .chips.qf{flex-wrap:nowrap;overflow-x:auto;margin:0;padding-bottom:2px;-webkit-mask-image:linear-gradient(90deg,#000 88%,transparent);mask-image:linear-gradient(90deg,#000 88%,transparent)}
 .findbox .chips.qf>*:last-child{margin-right:24px}
@@ -1506,6 +1507,16 @@ function myCondCard(){
   const tag = (v, miss) => v ? `<span class="mc-tag">${esc(v)}</span>` : `<span class="mc-tag miss">${miss} 입력 필요</span>`;
   const tags = [tag(where, '사는 곳'), tag(p.selfOwn == null ? '' : p.selfOwn ? '유주택' : '무주택', '집'), tag(hh, '세대'),
     `<span class="mc-tag">현금 ${fmt(eok(p.cash + p.liquid + p.deposit))}</span>`].join('');
+  if (on('feed_compact')) {   /* 기능: feed_compact — 조건을 넣은 사람에게는 한 줄로 접어 첫 화면에 공고가 보이게 (2026-10-01, Hick·Von Restorff) */
+    const line = [where || '사는 곳 미입력', p.selfOwn == null ? '집 미입력' : p.selfOwn ? '유주택' : '무주택', hh || '세대 미입력', '현금 ' + fmt(eok(p.cash + p.liquid + p.deposit))].join(' · ');
+    const gp = profileGaps(p), op = LISTINGS.filter(L => !L.sample && statusOf(L) !== '마감');
+    let o = 0, u = 0, r = 0, n = 0; op.forEach(L => { const b = eligBucket(L, p); if (b === 'ok') o++; else if (b === 'unsure') u++; else if (b === 'r2') r++; else n++; });
+    const EF = on('elig_filter'), vb = (k, cls, label, c) => EF && c ? `<button type="button" class="${cls}" data-elig="${k}" aria-pressed="${S.elig === k}" aria-label="${label} ${c}건만 보기">${label} <b>${c}</b></button>` : `<span class="${cls}">${label} <b>${c}</b></span>`;
+    return `<section class="mycond mc-compact" aria-label="내 조건과 판정">
+      <div class="mcc-row"><span class="mcc-txt"><b>내 조건</b> <span class="muted">${esc(line)}</span></span><button class="linkbtn small" data-go="me">수정</button></div>
+      ${op.length ? `<div class="mc-verdict">${vb('ok', 'ok', '신청 가능', o)}${vb('unsure', 'warn', '확인 필요', u)}${r ? vb('r2', 'warn', '2순위만', r) : ''}${vb('no', 'fail', '불가', n)}${gp.n && gp.first ? `<button class="linkbtn small" data-edit="${esc(stepKey(gp.first))}" style="margin-left:auto">빈 항목 ${gp.n}개 채우기</button>` : ''}</div>` : ''}
+    </section>`;
+  }
   const gaps = profileGaps(p);
   const open = LISTINGS.filter(L => !L.sample && statusOf(L) !== '마감');
   let ok = 0, unsure = 0, r2 = 0, no = 0;
@@ -1538,10 +1549,12 @@ function vFeedV2(){
   <section class="findbox" aria-label="공고 찾기">
     ${searchBox()}
     ${summaryBar()}
-    <p class="fb-label">필터</p>
+    ${on('feed_compact') ? (() => { const nf = act.length + (S.filter !== 'all' ? 1 : 0);   /* 기능: feed_compact — 필터·등급은 버튼 하나로 접기 */
+      return `<button class="btn ghost fbtoggle" data-action="toggle-feedf" aria-expanded="${!!S.feedF}">필터 · 판정 등급${nf ? ` <span class="pill info">${nf}개 적용</span>` : ''}<span aria-hidden="true">${S.feedF ? '▴' : '▾'}</span></button>`; })() : ''}
+    ${!on('feed_compact') || S.feedF ? `<p class="fb-label">필터</p>
     ${quickFilters()}
     <p class="fb-label">판정 등급</p>
-    <div class="chips" role="group" aria-label="등급 필터">${chip('all','전체')}${watchChip(chip)}${chip('lotto','로또')}${chip('consider','고려')}${chip('flat','마진없음')}${chip('pass',GNAME.pass)}</div>
+    <div class="chips" role="group" aria-label="등급 필터">${chip('all','전체')}${watchChip(chip)}${chip('lotto','로또')}${chip('consider','고려')}${chip('flat','마진없음')}${chip('pass',GNAME.pass)}</div>` : ''}
     <div class="filterbar">
       <span class="count" aria-live="polite">결과 <b>${list.length}</b>건</span>
       ${on('elig_filter') && S.elig && hasProfile() ? `<button class="fchip" data-elig="${S.elig}" aria-label="내 판정 ${ELIG_NAME[S.elig]} 필터 해제">내 판정: ${ELIG_NAME[S.elig]}${x}</button>` : ''}
@@ -3856,6 +3869,7 @@ document.addEventListener('click', ev => {
   const a = t.dataset.action;
   if (a === 'toggle-closed') { S.showClosed = !S.showClosed; render(); return; }
   if (a === 'toggle-filters') { S.showFilters = !S.showFilters; render(); return; }
+  if (a === 'toggle-feedf') { S.feedF = !S.feedF; render(); return; }   // 기능: feed_compact
   if (a === 'reload-data') { DATA_SOURCE.state = 'loading'; render(); loadListings(); return; }   // 기능: data_fail_ui
   if (a === 'reset-filters') { S.f = Object.assign({}, F0); S.filter = 'all'; S.newDays = 0; S.q = ''; S.elig = null; render(); return; }
   if (a === 'clear-q') { S.q = ''; render(); const q = app.querySelector('#q'); if (q) refocus(q); return; }
