@@ -263,3 +263,26 @@ def test_pdf_fail_reason_names_file_kind():
     c = httpx.Client(transport=httpx.MockTransport(handler))
     text, msg, link = notice_pdf.fetch_notice_text("https://www.applyhome.co.kr/x", client=c)
     assert text is None and "HWP" in msg
+
+
+def test_pdf_retry_with_referer():
+    """첨부 서버가 Referer 없이 받으면 작은 HTML 을 주는 경우 공고 페이지를 Referer 로 다시 받는다."""
+    import httpx
+    from app import notice_pdf
+    page = '<a href="https://static.applyhome.co.kr/ai/aia/getAtchmnfl.do?x=1">모집공고문</a>'
+    def handler(req):
+        if "getAtchmnfl" in str(req.url):
+            if req.headers.get("referer"):
+                from io import BytesIO
+                return httpx.Response(200, content=b"%PDF-1.4 fake", headers={"content-type": "application/pdf"})
+            return httpx.Response(200, text="<script>history.back()</script>", headers={"content-type": "text/html"})
+        return httpx.Response(200, text=page)
+    c = httpx.Client(transport=httpx.MockTransport(handler))
+    seen = []
+    orig = notice_pdf.pdf_text
+    notice_pdf.pdf_text = lambda b: (seen.append(b), "가" * 600)[1]
+    try:
+        text, msg, link = notice_pdf.fetch_notice_text("https://www.applyhome.co.kr/x", client=c)
+    finally:
+        notice_pdf.pdf_text = orig
+    assert text and seen and seen[0].startswith(b"%PDF")

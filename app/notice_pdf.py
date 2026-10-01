@@ -63,10 +63,10 @@ def fetch_notice_text(page_url: str, client: Optional[httpx.Client] = None) -> t
         p = None
         for attempt in range(2):          # 일시적인 실패가 있어 한 번 더 시도한다
             try:
-                p = http.get(link)
-                if p.status_code == 200:
+                p = http.get(link, headers={**UA, "Referer": str(r.url)} if attempt else UA)   # 두 번째 시도는 공고 페이지를 Referer 로 (첨부 서버가 바로 받기를 막는 경우)
+                if p.status_code == 200 and (p.content[:4] == b"%PDF" or attempt):
                     break
-                last = f"응답 {p.status_code}"
+                last = f"응답 {p.status_code}" if p.status_code != 200 else last
             except Exception as e:
                 last = e.__class__.__name__
             if attempt == 0:
@@ -86,7 +86,8 @@ def fetch_notice_text(page_url: str, client: Optional[httpx.Client] = None) -> t
         elif p.status_code == 200:
             head = p.content[:8]
             kind = "HWP" if head[:4] == bytes.fromhex("d0cf11e0") else "ZIP/HWPX" if head[:2] == b"PK" else "HTML" if b"<" in head else "알 수 없음"
-            last = f"PDF가 아닌 파일({kind}, {ctype or '형식 표시 없음'}, {len(p.content)}바이트)"
+            snip = p.content[:120].decode("utf-8", "replace").replace("\n", " ").strip() if kind == "HTML" or len(p.content) < 400 else ""
+            last = f"PDF가 아닌 파일({kind}, {ctype or '형식 표시 없음'}, {len(p.content)}바이트{(': ' + snip) if snip else ''})"
     return None, f"PDF 받기 실패({last or '형식 아님'}): " + " | ".join(links[:3]), None
 
 
