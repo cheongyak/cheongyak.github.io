@@ -49,11 +49,27 @@ def main() -> int:
         return 0
     http = httpx.Client(timeout=60, follow_redirects=True, headers={"User-Agent": "cheongyakpass-law-probe"})
 
-    # 1) 법령 찾기
-    r = http.get(f"{BASE}/lawSearch.do", params={"OC": oc, "target": "law", "type": "XML", "query": LAW_NAME, "display": 20})
+    # 1) 법령 찾기 — 주소 형태(http/https, 법령명 띄어쓰기)에 따라 '필수 입력값 없음'이 나는 경우가 있어 차례로 시도하고 모두 기록한다
+    tries = []
+    r = None
+    found = BASE
+    for base in ("http://www.law.go.kr/DRF", "https://www.law.go.kr/DRF"):
+        for q in (LAW_NAME, LAW_NAME.replace(" ", "")):
+            rr = http.get(f"{base}/lawSearch.do", params={"OC": oc, "target": "law", "type": "XML", "query": q, "display": 20})
+            hops = " → ".join(scrub(str(h.url), oc) for h in rr.history) + (" → " if rr.history else "") + scrub(str(rr.url), oc)
+            tries.append(f"[검색 시도] {hops} · HTTP {rr.status_code} · " + re.sub(r"\s+", " ", scrub(rr.text, oc)[:160]))
+            if rr.status_code == 200 and "<law" in rr.text:
+                r = rr
+                break
+        if r is not None:
+            found = base
+            break
+    log += tries
+    if r is None:
+        r = rr
     body = scrub(r.text, oc)
     (OUT / "search.xml").write_text(body, encoding="utf-8")
-    log.append(f"[검색] HTTP {r.status_code} · {len(body)}자")
+    log.append(f"[검색] HTTP {r.status_code} · {len(body)}자 · 사용 주소 {found}")
     try:
         root = ET.fromstring(r.content)
     except ET.ParseError:
@@ -77,7 +93,7 @@ def main() -> int:
     log.append(f"[검색] 법령일련번호 {mst} · 시행일자 {summary['effective']} · 공포일자 {summary['promulgated']} ({summary['kind']} 제{summary['promulgation_no']}호)")
 
     # 2) 본문 (별표 포함)
-    r = http.get(f"{BASE}/lawService.do", params={"OC": oc, "target": "law", "type": "XML", "MST": mst})
+    r = http.get(f"{found}/lawService.do", params={"OC": oc, "target": "law", "type": "XML", "MST": mst})
     body = scrub(r.text, oc)
     (OUT / "rule.xml").write_text(body, encoding="utf-8")
     log.append(f"[본문] HTTP {r.status_code} · {len(body)}자")
