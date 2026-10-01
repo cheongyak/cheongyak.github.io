@@ -1,0 +1,39 @@
+name: 법령 원문 받기
+# 주택공급에 관한 규칙 본문·별표(가점표·예치금 등)를 법제처 OPEN API 로 받아 evidence/law/ 에 남긴다 (tools/law_probe.py).
+# 인증키는 GitHub Secrets LAW_OC. 매주 월요일 아침 한 번 받아 법령이 바뀌었는지 기록에 남는다.
+on:
+  workflow_dispatch:
+  schedule:
+    - cron: "10 21 * * 0"
+  push:
+    branches: [main]
+    paths:
+      - "tools/law_probe.py"
+      - ".github/workflows/law-probe.yml"
+permissions:
+  contents: write
+concurrency:
+  group: law-probe
+  cancel-in-progress: true
+jobs:
+  law:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    env:
+      LAW_OC: ${{ secrets.LAW_OC }}
+      TZ: Asia/Seoul
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - run: pip install -q httpx
+      - name: 법령 받기
+        run: python -m tools.law_probe
+      - name: 저장
+        if: always()
+        run: |
+          git config user.name "cheongyak-bot"
+          git config user.email "actions@users.noreply.github.com"
+          git add -A evidence/law
+          git diff --cached --quiet || (git commit -m "법령 원문 갱신 $(date +%Y-%m-%d)" && (git push || (git pull --rebase -X theirs origin main && git push)))
