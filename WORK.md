@@ -4,6 +4,14 @@
 2026-09-29 12:55 이전 항목은 규칙을 만들기 전 작업을 커밋 기록으로 정리한 것이라 백업 브랜치가 없어요.
 그 시점으로 되돌릴 때는 해당 커밋 번호로 `git revert` 를 써요.
 
+## 2026-10-02 06:00 · 청약봇 서버 첫 배포
+- 요청: Anthropic API 키 등 청약봇 연결 준비를 마쳤으니 후속 작업 진행
+- 변경: chat/worker/wrangler.toml 에 주석 한 줄 — chat-worker.yml 이 chat/worker/** 변경에 돌아 배포(비밀값 확인 → KV cheongyakpass-chat → wrangler deploy → 비밀값 넣기 → 확인 → chat/deployed.json). 이어서 config.json chat_api 에 주소를 넣음(스위치 chatbot 은 꺼진 채, 미리보기만)
+- 파일: chat/worker/wrangler.toml
+- 확인: 청약봇 시험(Actions 단계) · 배포 확인 단계(/health, 토큰 없는 /stats 401, 다른 사이트 403)
+- 기능: chatbot
+- 백업: backup/20261002-0600-chatdeploy
+
 ## 2026-10-02 05:59 · 공고문 첨부를 Referer 와 함께 다시 받기
 - 요청: 오남역 서희스타힐스 여의재 1단지 공고문 수집 실패 원인
 - 원인(앞 커밋의 기록으로 확인): 첨부 주소가 PDF 대신 59바이트 HTML(text/html)을 돌려줌 — 바로 받기를 막는 응답으로 보임

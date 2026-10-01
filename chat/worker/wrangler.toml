@@ -1,4 +1,5 @@
 # 청약봇 서버 설정 (기능: chatbot, 알림 서버 push/ 와 별도 Worker). 배포는 .github/workflows/chat-worker.yml 이 한다. KV id 는 배포 때 채운다 (__KV_ID__).
+# 2026-10-02 사용자가 Anthropic 키·미리보기 코드·합계 토큰을 GitHub Secrets 에 넣음 → 첫 배포
 # 공개(사이트 스위치 chatbot 을 켤 때)에는 CHAT_OPEN = "1" 로 바꾼다. 그 전에는 미리보기 코드(CHAT_PREVIEW_CODE)를 아는 기기만 답을 받는다.
 # 비밀값은 여기에 적지 않는다: ANTHROPIC_API_KEY 는 `wrangler secret put` 또는 GitHub Secrets → 배포 단계에서 넣는다.
 name = "cheongyakpass-chat"
