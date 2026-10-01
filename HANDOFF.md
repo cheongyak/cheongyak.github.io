@@ -66,6 +66,9 @@ GitHub Secrets (이름만): `DATA_GO_KR_KEY`, `NCP_MAPS_CLIENT_ID`, `NCP_MAPS_CL
    v1.34.1 아래 고정 버튼에 자금 플랜, v1.35.0 supply_split(자격 → 일반공급·특별공급 카드, 탭도), v1.36.0 score_in_general(내 가점·근처 경쟁률을 일반공급 칸 안으로, '가점·경쟁률' 탭 없앰),
    v1.36.1 무순위(needAccount=false)는 가점 안내 대신 '청약통장·가점 없이 추첨'(판정 칸·일반공급 칸·가점 컷 카드), 탭 이름은 공고 종류대로·특별공급 없으면 탭 없음.
    다음 (사용자와 상의 중): 가점 컷 탭 개편 — 안: '내 가점' 탭(내 점수·오르는 날 / 관심 공고 한 줄 요약 / 지역별 당첨 컷에 내 점수 표시).
+-4. **청약 도우미 (v1.37.0, 2026-10-02 사용자 요청)** — 청약봇을 청약 전반 질문용으로: 모든 화면 오른쪽 아래 둥근 버튼(chat_fab), 공고 화면이면 '이 공고 기준'(끄고 켬).
+   근거 = docs/chat-law.json(규칙 조문·별표, chat/tools/build_law.py) + docs/chat-notice/<번호>.json(공고문 전체 조각, 수집 때 저장 — chatbot_notice). 서버 retrieve.js 가 낱말·핵심 조문으로 고름, 프롬프트 v2.
+   사용자 지적: '서류 질문에 공고문 참고하라'는 답 금지 → 공고문 조각에서 서류 이름을 정리. 실제 AI 답 품질은 사용자 미리보기로 확인 중 — 이상하면 retrieve.js(SYN·PIN)·prompt.js 를 고치고 chat.test·chatflow 로 확인.
 -3. **청약봇 미리보기 연결됨 (2026-10-02, v1.36.2)** — 서버 https://cheongyakpass-chat.ckwlsgur.workers.dev (chat/deployed.json, AI 키 있음), config chat_api 설정, 스위치 chatbot false.
    사용자는 휴대폰에서 cheongyakpass.kr/?chat=preview → 공고 상세 '이 공고 물어보기' → 미리보기 코드 입력. 운영 명령(미리보기 코드 기기에서 대화창에): !점검(모두 멈춤) · !오픈(서버 열기, 방침 시행일 chat_legal_date 이후면 모두에게 버튼) · !상태.
    제한: 기기 2번·IP 3번/일, 사이트 100번/일, 서버 월 추정 $18(CHAT_MONTH_USD) 넘으면 AI 없이 기본 답. 사용자 콘솔 월 한도 $20 (Anthropic 쪽, 여기서 확인 불가).
@@ -82,7 +85,7 @@ GitHub Secrets (이름만): `DATA_GO_KR_KEY`, `NCP_MAPS_CLIENT_ID`, `NCP_MAPS_CL
      검사: `cd chat && node --test test/chat.test.mjs` · `node golden/eval.mjs` · `NODE_PATH=… node tools/qa/chatflow.cjs 40`. 하루 합계는 run-log `[청약봇]`.
    - 다음 단계 후보: 근거 조각 고르기 개선, 새 공고 근거를 매일 수집에 넣기(지금은 probe.yml 실행 때만), 평가 '정보가 틀렸어요' 많으면 원인 분석, 캐시는 하루 수백 건이 되면.
 
-0. **버전·전략 실행 현황 (2026-10-01 오후)** — 지금 버전 v1.36.2 (VERSIONS.md, release/v1.0.0~v1.36.2 브랜치). v1.3.1~1.3.3 은 사용자 지적 수정: 관심 공고 유주택 '추첨제만', 시·도 검색, 이용 안내 '업데이트 소식'(검증 현황·상세 내역은 운영자용 — 사용자가 물으면 verify-status.json·changelog.json·VERSIONS.md 로 답함).
+0. **버전·전략 실행 현황 (2026-10-01 오후)** — 지금 버전 v1.37.0 (VERSIONS.md, release/v1.0.0~v1.37.0 브랜치). v1.3.1~1.3.3 은 사용자 지적 수정: 관심 공고 유주택 '추첨제만', 시·도 검색, 이용 안내 '업데이트 소식'(검증 현황·상세 내역은 운영자용 — 사용자가 물으면 verify-status.json·changelog.json·VERSIONS.md 로 답함).
    v1.6.2~v1.7.3 (2026-10-01 오후): 출산가구 완화 범위(+10%p 확인 가구는 +20%p 가능 → 그 사이 '확인 필요'), 가점 부양가족 설명 법령대로, score_scope(2순위·규제지역 유주택은 가점 안 쓰임 안내),
    세대 주택 명의 모름 → 공공·특공 무주택 '확인 필요', 노부모부양 같은 등본 요건, 화면 문구 전체 점검. 판정 검증 사례 165건.
    판정 정확도 블라인드 감사(tools/qa/audit/, 결과 evidence/audit/2026-10-01/): 무작위 40건 일반공급 34/40 → 원인 분석 후 앱 오류 1건(A40) 고침, 나머지는 감사 프로필 모호함·검토자 오해(가점 무주택기간은 신청자·배우자 기준이 맞음).
