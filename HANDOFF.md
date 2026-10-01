@@ -120,8 +120,9 @@ GitHub Secrets (이름만): `DATA_GO_KR_KEY`, `NCP_MAPS_CLIENT_ID`, `NCP_MAPS_CL
      미리보기 표시(`cy-push-preview`)가 안 넘어갈 수 있음 → 사용자가 알려주면 홈 화면 앱에서도 켤 방법을 만든다.
    - 공개 순서: 개인정보처리방침 개정(4-2 처리 위탁·국외 이전 등, 이미 만들어 둠) **시행 7일 전 예고** → `push_legal_date` 설정 →
      시행일에 `web_push: true`, `push_preview` 제거, `docs/changelog.json` 에 '새 기능' 줄. 개정 예고 배너 기능은 아직 없음(만들어야 함).
-2. **광고 (`ads`) — 꺼 둠, 사용자가 2026-10-01 오후 애드센스 신청 진행 중**
-   - 사용자가 `ca-pub-…` 게시자 ID 를 주면: 애드센스 확인 메타 태그와 `docs/ads.txt` 추가, `adsense_client` 설정(스위치는 승인 전까지 끔).
+2. **광고 (`ads`) — 꺼 둠, 애드센스 검토 요청 단계 (2026-10-02)**
+   - 끝냄(08d5618): 모든 화면에 확인 메타(ca-pub-8680972365235939), `docs/ads.txt`. 사용자는 애드센스 화면에서 ☑ 메타 태그 삽입 → 확인 → 검토 요청.
+   - 승인 메일이 오면: `adsense_client` = "ca-pub-8680972365235939" 설정, 광고는 처리방침 개정 7일 예고 뒤 스위치 `ads` 켬.
    - 승인 뒤 슬롯 ID 2개(목록·상세) → `adsense_slot_feed`·`adsense_slot_detail`, 카카오 애드핏은 `DAN-…` 단위 ID·크기 → `adfit_units`.
    - 광고를 켜면 방침·약관이 바뀌므로 `ads_legal_date`(시행일) 7일 전 예고. 알림 개정과 날짜가 가까우면 한 번에 묶는다.
    - 서치 콘솔·네이버 서치어드바이저 확인 메타 값을 주면 index.html 머리에 넣는다. sitemap.xml 은 이미 10개 주소.
