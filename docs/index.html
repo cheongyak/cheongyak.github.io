@@ -446,6 +446,10 @@ body.sheet-open{overflow:hidden}
 .pc-why{border-top:1px solid var(--line);padding-top:8px;display:flex;flex-direction:column;gap:2px} .pc-lbl{font-size:12px;font-weight:700;color:var(--muted);letter-spacing:.04em}
 .medal{flex:none;width:52px;height:52px;border-radius:26px;display:inline-flex;align-items:center;justify-content:center;font-weight:800;font-size:13px;line-height:1.1;text-align:center;padding:2px;box-shadow:inset 0 0 0 3px rgba(255,255,255,.35),0 1px 3px rgba(0,0,0,.18);background:var(--flat);color:var(--flat-ink)}
 .medal.g-lotto{background:var(--lotto);color:var(--on-fill)} .medal.g-consider{background:var(--consider);color:var(--on-fill)} .medal.g-pass{background:var(--pass);color:var(--on-fill)}
+.trank{gap:8px} .tr-big{display:flex;align-items:baseline;gap:6px} .tr-big b{font-size:40px;line-height:1;color:#B8862B} .tr-big>span:nth-child(2){font-size:24px;color:var(--muted)} .tr-ok{align-self:flex-start}
+.tr-list{display:flex;flex-direction:column;gap:4px} .tr-row{display:grid;grid-template-columns:28px 1fr auto auto auto;align-items:center;gap:8px;min-height:48px;padding:6px 10px;border:1px solid var(--line);border-radius:12px;background:var(--surface);color:var(--fg);font:inherit;text-align:left;cursor:pointer}
+.tr-row.me{border:2px solid #B8862B;background:color-mix(in srgb,#B8862B 10%,var(--surface))} .tr-n{width:26px;height:26px;border-radius:13px;background:var(--sunk);display:inline-flex;align-items:center;justify-content:center;font-weight:700;font-size:13px} .tr-row:first-child .tr-n{background:#B8862B;color:#fff}
+.tr-u{font-weight:700;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap} .tr-p{font-weight:700;white-space:nowrap} .tr-m{font-size:13px;font-weight:700;white-space:nowrap} .tr-m.up{color:var(--lotto)} .tr-m.down{color:var(--pass)} .tr-more summary{font-size:13px}
 .dcta{position:fixed;left:0;right:0;bottom:calc(60px + env(safe-area-inset-bottom,0px));z-index:4;max-width:440px;margin:0 auto;padding:8px 16px 10px;background:linear-gradient(to bottom,transparent,var(--bg) 18%);display:flex;flex-direction:column;gap:6px;text-align:center}
 .dcta-row{display:flex;gap:8px} .dcta-row .btn{min-height:50px;width:auto;flex:1} .dcta-row .dcta-main{flex:2;background:var(--lotto);color:var(--on-fill)} body.has-cta .shell{padding-bottom:190px} body.chat-open .dcta{display:none}
 .topf .qf{flex-wrap:nowrap;overflow-x:auto;scrollbar-width:none;margin:0;-webkit-mask-image:linear-gradient(90deg,#000 88%,transparent);mask-image:linear-gradient(90deg,#000 88%,transparent)} .topf .qf>*:last-child{margin-right:24px} .topf .qf::-webkit-scrollbar{display:none} .topf .qf>*{flex:none}
@@ -2889,6 +2893,23 @@ function checklistV2(L, p, e){
    결론(시세보다 얼마 싼지) → 분양가 + 취득세 = 실매입가 → 시세(보수·기준) → 차이, 근거 거래와 계산 방법은 접힌 칸 */
 /* 상세 '가격 비교' 카드 (기능: price_compare, 2026-10-01 사용자 요청 — 다른 앱의 '적정가 vs 호가' 카드처럼). 마진 등급 카드 자리에
    시세(보수~기준)와 실매입가를 위아래로, 차이를 크게, '왜 이 시세'에 근거 거래를 한 줄로. 숫자는 grade()·수집 시세 그대로 */
+/* '이 공고 주택형 중 위치' (기능: type_rank, 2026-10-01 사용자 요청 — 다른 앱의 '이 평형 내 순위 1/8'처럼). 같은 공고 주택형을 보수 마진 순으로 줄 세우고
+   지금 주택형의 순위, 내가 신청 가능한 주택형 수, 위 3개(+지금 주택형)를 보여준다. 누르면 그 주택형으로 바꾼다(data-topen). 계산은 grade()·eligBucket() 그대로 */
+function typeRank(L, p){
+  if (!on('type_rank') || L.sample) return '';
+  const sib = LISTINGS.filter(x => tgNid(x.id) === tgNid(L.id)); if (sib.length < 2) return '';
+  const rows = sib.map(x => ({ x, m: grade(x) })).sort((a, b) => (b.m.lo == null ? -1e9 : b.m.lo) - (a.m.lo == null ? -1e9 : a.m.lo) || (a.x.area || 0) - (b.x.area || 0));
+  const rank = rows.findIndex(r => r.x.id === L.id) + 1, okN = hasProfile() ? sib.filter(x => eligBucket(x, p) === 'ok').length : null;
+  const shown = rows.slice(0, 3); if (rank > 3) shown.push(rows[rank - 1]);
+  const row = (r, i) => { const n = rows.indexOf(r) + 1, me = r.x.id === L.id, b = hasProfile() ? eligBucket(r.x, p) : null, u = String(r.x.unit).split(' · ')[0];
+    return `<button class="tr-row${me ? ' me' : ''}" data-topen="${esc(r.x.id)}" aria-current="${me}"><span class="tr-n">${n === 1 ? '1' : n}</span><span class="tr-u">${esc(u)}${me ? ' <span class="small muted">지금</span>' : ''}</span>${b ? `<i class="tdot td-${b}" aria-label="${ELIG_NAME[b]}"></i>` : ''}<span class="tr-p">${fmt(r.x.price)}</span><span class="tr-m ${r.m.lo == null ? '' : r.m.lo >= 0 ? 'up' : 'down'}">${r.m.lo == null ? '시세 부족' : (r.m.lo >= 0 ? '+' : '−') + fmt(Math.abs(r.m.lo))}</span></button>`; };
+  return `<section class="card trank" aria-label="이 공고 주택형 중 위치"><div class="row"><span class="eyebrow">이 공고 주택형 중 위치</span><span class="small muted">보수 마진 순</span></div>
+    <div class="tr-big"><b>${rank}</b><span>/ ${sib.length}</span><span class="small muted">${rank === 1 ? '· 이 공고에서 마진이 가장 커요' : rank === sib.length ? '· 이 공고에서 마진이 가장 작아요' : '· 마진 ' + rank + '번째'}</span></div>
+    ${okN != null ? `<span class="pill ${okN ? 'ok' : ''} tr-ok">내가 신청 가능한 주택형 ${okN}개${okN && eligBucket(L, p) !== 'ok' ? ' · 지금 주택형은 아님' : ''}</span>` : ''}
+    <div class="tr-list">${shown.map(row).join('')}</div>
+    ${rows.length > shown.length ? `<details class="tr-more"><summary>주택형 ${rows.length}개 모두 보기</summary><div class="tr-list">${rows.filter(r => !shown.includes(r)).map(row).join('')}</div></details>` : ''}
+    <div class="small muted">마진은 보수 시세 − 실매입가 · 점 색은 내 판정 · 누르면 그 주택형으로 바뀌어요</div></section>`;
+}
 function priceCompare(L, m){
   const unknown = m.g === 'unknown', sgn = v => (v >= 0 ? '+' : '−') + fmt(Math.abs(v));
   const priceSrc = L.sample ? src('estimate', ['샘플 값', null]) : (L.sources && L.sources[0] ? src(null, ['청약홈 공고 (공급금액)', L.sources[0][1]]) : noticeSrc(L));
@@ -2989,6 +3010,7 @@ function vDetail(){
     <div style="display:flex;align-items:baseline;gap:12px;flex-wrap:wrap"><span class="big">${GNAME[m.g]}</span><span class="amt">${marginText(m).replace('마진 ','')}</span></div>
     <p>${m.g === 'unknown' ? '실매입가 ' + fmt(m.cost) + '. ' + esc(L.mktNote) : '실매입가 ' + fmt(m.cost) + ' 대비 시세 ' + fmt(L.mktLow) + '~' + fmt(L.mktBase) + '. 보수적 시세 기준 마진율 ' + Math.round(m.rate*100) + '%예요.'}</p>
   </div>`}
+  ${typeRank(L, p)}
   ${on('detail_result_first') ? '' : mine}
   ${L.checks && L.checks.length ? `<div class="note warn"><b style="font-size:14px">데이터 확인 필요 ${L.checks.length}건</b>${L.checks.map(c => `<div>· ${esc(c)}</div>`).join('')}<div class="small muted">자동 검증에서 걸린 항목이에요. 모집공고문 원문으로 확인하세요. ${noticeSrc(L)}</div></div>` : ''}
   <div class="tiles">
