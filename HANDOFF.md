@@ -54,11 +54,11 @@ GitHub Secrets (이름만): `DATA_GO_KR_KEY`, `NCP_MAPS_CLIENT_ID`, `NCP_MAPS_CL
 1. **웹 푸시 알림 (`web_push`) — 운영자 미리보기 중**
    - 알림 서버 배포됨: `push/deployed.json` 의 주소, `docs/config.json` 의 `push_api`. `push_preview: true`, 스위치 `web_push: false`.
    - 사용자는 휴대폰에서 `https://cheongyakpass.kr/?push=preview` 로 열어 알림을 켜고 확인하는 중. 테스트는 Actions '알림 테스트 발송'.
-   - 남은 확인: 안드로이드 확인 알림·테스트 알림·알림 누르면 화면 열림. 아이폰은 홈 화면 앱이 Safari 와 저장 공간이 달라
+   - 2026-10-01 12:45 사용자 확인: 안드로이드 휴대폰에서 알림이 잘 옴. 아이폰은 아직 확인 안 함 — 홈 화면 앱이 Safari 와 저장 공간이 달라
      미리보기 표시(`cy-push-preview`)가 안 넘어갈 수 있음 → 사용자가 알려주면 홈 화면 앱에서도 켤 방법을 만든다.
    - 공개 순서: 개인정보처리방침 개정(4-2 처리 위탁·국외 이전 등, 이미 만들어 둠) **시행 7일 전 예고** → `push_legal_date` 설정 →
      시행일에 `web_push: true`, `push_preview` 제거, `docs/changelog.json` 에 '새 기능' 줄. 개정 예고 배너 기능은 아직 없음(만들어야 함).
-2. **광고 (`ads`) — 꺼 둠, 사용자가 2026-10-02 애드센스 신청 예정**
+2. **광고 (`ads`) — 꺼 둠, 사용자가 2026-10-01 오후 애드센스 신청 진행 중**
    - 사용자가 `ca-pub-…` 게시자 ID 를 주면: 애드센스 확인 메타 태그와 `docs/ads.txt` 추가, `adsense_client` 설정(스위치는 승인 전까지 끔).
    - 승인 뒤 슬롯 ID 2개(목록·상세) → `adsense_slot_feed`·`adsense_slot_detail`, 카카오 애드핏은 `DAN-…` 단위 ID·크기 → `adfit_units`.
    - 광고를 켜면 방침·약관이 바뀌므로 `ads_legal_date`(시행일) 7일 전 예고. 알림 개정과 날짜가 가까우면 한 번에 묶는다.
