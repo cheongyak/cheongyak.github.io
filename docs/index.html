@@ -440,6 +440,12 @@ body.sheet-open{overflow:hidden}
 .fchip{display:inline-flex;align-items:center;gap:4px;height:32px;padding:0 10px;border-radius:16px;border:1px solid var(--fg);background:var(--surface);font-size:13px;font-weight:600;cursor:pointer}
 .fchip svg{width:14px;height:14px}
 .empty{align-items:center;text-align:center;padding:28px 16px}
+.pcmp{gap:10px} .pcmp .eyebrow{margin:0} .pc-row{display:flex;justify-content:space-between;align-items:baseline;gap:10px} .pc-row>span{min-width:0} .pc-row .small{display:block} .pc-row b{font-size:20px;white-space:nowrap}
+.pc-diff{display:flex;align-items:center;gap:10px;padding:12px;border-radius:12px;background:var(--sunk)} .pc-dl{flex:1;min-width:0;display:flex;flex-direction:column;gap:1px} .pc-big{font-size:21px;white-space:nowrap}
+.pcmp.g-lotto .pc-diff{background:var(--lotto-soft)} .pcmp.g-lotto .pc-big{color:var(--lotto-ink)} .pcmp.g-consider .pc-diff{background:var(--consider-soft)} .pcmp.g-consider .pc-big{color:var(--consider-ink)} .pcmp.g-pass .pc-diff{background:var(--pass-soft)} .pcmp.g-pass .pc-big{color:var(--pass-ink)}
+.pc-why{border-top:1px solid var(--line);padding-top:8px;display:flex;flex-direction:column;gap:2px} .pc-lbl{font-size:12px;font-weight:700;color:var(--muted);letter-spacing:.04em}
+.medal{flex:none;width:52px;height:52px;border-radius:26px;display:inline-flex;align-items:center;justify-content:center;font-weight:800;font-size:13px;line-height:1.1;text-align:center;padding:2px;box-shadow:inset 0 0 0 3px rgba(255,255,255,.35),0 1px 3px rgba(0,0,0,.18);background:var(--flat);color:var(--flat-ink)}
+.medal.g-lotto{background:var(--lotto);color:var(--on-fill)} .medal.g-consider{background:var(--consider);color:var(--on-fill)} .medal.g-pass{background:var(--pass);color:var(--on-fill)}
 .dcta{position:fixed;left:0;right:0;bottom:calc(60px + env(safe-area-inset-bottom,0px));z-index:4;max-width:440px;margin:0 auto;padding:8px 16px 10px;background:linear-gradient(to bottom,transparent,var(--bg) 18%);display:flex;flex-direction:column;gap:6px;text-align:center}
 .dcta-row{display:flex;gap:8px} .dcta-row .btn{min-height:50px;width:auto;flex:1} .dcta-row .dcta-main{flex:2;background:var(--lotto);color:var(--on-fill)} body.has-cta .shell{padding-bottom:190px} body.chat-open .dcta{display:none}
 .topf .qf{flex-wrap:nowrap;overflow-x:auto;scrollbar-width:none;margin:0;-webkit-mask-image:linear-gradient(90deg,#000 88%,transparent);mask-image:linear-gradient(90deg,#000 88%,transparent)} .topf .qf>*:last-child{margin-right:24px} .topf .qf::-webkit-scrollbar{display:none} .topf .qf>*{flex:none}
@@ -2881,6 +2887,22 @@ function checklistV2(L, p, e){
 }
 /* ---------- 마진 계산 v2 (기능: margin_v2) — 화면 구성만. 숫자는 grade()·L 값 그대로 ----------
    결론(시세보다 얼마 싼지) → 분양가 + 취득세 = 실매입가 → 시세(보수·기준) → 차이, 근거 거래와 계산 방법은 접힌 칸 */
+/* 상세 '가격 비교' 카드 (기능: price_compare, 2026-10-01 사용자 요청 — 다른 앱의 '적정가 vs 호가' 카드처럼). 마진 등급 카드 자리에
+   시세(보수~기준)와 실매입가를 위아래로, 차이를 크게, '왜 이 시세'에 근거 거래를 한 줄로. 숫자는 grade()·수집 시세 그대로 */
+function priceCompare(L, m){
+  const unknown = m.g === 'unknown', sgn = v => (v >= 0 ? '+' : '−') + fmt(Math.abs(v));
+  const priceSrc = L.sample ? src('estimate', ['샘플 값', null]) : (L.sources && L.sources[0] ? src(null, ['청약홈 공고 (공급금액)', L.sources[0][1]]) : noticeSrc(L));
+  const last = (L.mktComps || []).map(c => c.date).filter(Boolean).sort().pop();
+  const diffLbl = unknown ? '시세를 확인해야 해요' : m.lo >= 0 ? '시세보다 싸요' : m.hi > 0 ? '시세와 비슷해요' : '시세보다 비싸요';
+  return `<section class="card pcmp g-${m.g}" aria-label="가격 비교">
+    <div class="row"><span class="eyebrow">가격 비교 · 추정</span><button class="linkbtn small" data-go="grades">등급 기준</button></div>
+    <div class="pc-row"><span>시세 <span class="small muted">보수 ~ 기준</span></span><b>${unknown ? '확인 필요' : fmt(L.mktLow) + ' ~ ' + fmt(L.mktBase)}</b></div>
+    <div class="pc-row"><span>실매입가 <span class="small muted">분양가 ${fmt(L.price)}${L.ext ? ' + 확장 ' + fmt(L.ext) : ''} + 취득세 등 ${fmt(m.tax)}</span></span><b>${fmt(m.cost)}</b></div>
+    <div class="pc-diff"><span class="medal g-${m.g}">${GNAME[m.g]}</span><div class="pc-dl"><span class="small">시세 − 실매입가 · ${diffLbl}</span>${unknown ? '<b class="pc-big">—</b>' : `<b class="pc-big">${sgn(Math.min(m.lo, m.hi))} ~ ${sgn(Math.max(m.lo, m.hi))}</b><span class="small">보수 시세 기준 ${m.rate >= 0 ? '+' : ''}${Math.round(m.rate * 100)}%</span>`}</div></div>
+    <div class="pc-why"><span class="pc-lbl">왜 이 시세</span><span class="small">${unknown ? esc(L.mktNote || '주변 거래가 부족해요') : `${esc(L.mktNote || '')}${L.mktCount && !/\d+건/.test(L.mktNote || '') ? ' · 근거 거래 ' + L.mktCount + '건' : ''}${last ? ' · 최근 ' + last.slice(2).replace(/-/g, '.') : ''} · 기준 시세는 중앙값, 보수 시세는 하위 25%`}</span></div>
+    <div class="small muted">분양가 ${priceSrc} · 시세 ${L.sample ? src(null, ['샘플 값', null]) : src('rtms')} <button class="linkbtn small" data-sec="margin">마진 계산 자세히</button></div>
+  </section>`;
+}
 function marginV2(L, m, barCost, barLo){
   const unknown = m.g === 'unknown', sgn = v => (v >= 0 ? '+' : '−') + fmt(Math.abs(v));
   const priceSrc = L.sample ? src('estimate', ['샘플 값', null]) : (L.sources && L.sources[0] ? src(null, ['청약홈 공고 (공급금액)', L.sources[0][1]]) : noticeSrc(L));
@@ -2962,11 +2984,11 @@ function vDetail(){
     const wk = hasProfile() && e.ok && e.unsure ? e.items.filter(i => i.s === 'warn').map(i => i.k.replace(/ \(.*\)/, '')) : [];
     return `<section class="rhero t-${st[0]}" aria-label="내 판정"><span class="rlabel">내 판정 · 내가 넣은 정보 기준</span><span class="rbig">${st[1]}</span>${wk.length ? `<span class="rsub">확인할 것: ${esc(wk.join(', '))} · 아래 자격 체크리스트에서 바로 답하면 판정돼요</span>` : ''}${mine}</section>`; })() : ''}
   ${chatEntry(L)}
-  <div class="hero g-${m.g}${on('detail_result_first') ? ' hero-sm' : ''}">
+  ${on('price_compare') ? priceCompare(L, m) : `  <div class="hero g-${m.g}${on('detail_result_first') ? ' hero-sm' : ''}">
     <div class="row"><span class="small" style="font-weight:600;opacity:.85">${on('detail_result_first') ? '마진 등급' : '청약 판정'}</span><button class="linkbtn small" data-go="grades" style="color:inherit">등급 기준</button></div>
     <div style="display:flex;align-items:baseline;gap:12px;flex-wrap:wrap"><span class="big">${GNAME[m.g]}</span><span class="amt">${marginText(m).replace('마진 ','')}</span></div>
     <p>${m.g === 'unknown' ? '실매입가 ' + fmt(m.cost) + '. ' + esc(L.mktNote) : '실매입가 ' + fmt(m.cost) + ' 대비 시세 ' + fmt(L.mktLow) + '~' + fmt(L.mktBase) + '. 보수적 시세 기준 마진율 ' + Math.round(m.rate*100) + '%예요.'}</p>
-  </div>
+  </div>`}
   ${on('detail_result_first') ? '' : mine}
   ${L.checks && L.checks.length ? `<div class="note warn"><b style="font-size:14px">데이터 확인 필요 ${L.checks.length}건</b>${L.checks.map(c => `<div>· ${esc(c)}</div>`).join('')}<div class="small muted">자동 검증에서 걸린 항목이에요. 모집공고문 원문으로 확인하세요. ${noticeSrc(L)}</div></div>` : ''}
   <div class="tiles">
