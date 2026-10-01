@@ -187,11 +187,13 @@ def _from_previous(prev: dict) -> tuple[dict, Optional[str]]:
         found["schedule"] = prev["schedule"]
     if "공공 일반공급 소득·자산" in got and prev.get("pub_limits"):
         found["pub_limits"] = prev["pub_limits"]
+    if "가점제·추첨제 비율" in got and prev.get("score_ratio"):
+        found["score_ratio"] = prev["score_ratio"]
     return found, prev.get("notice_pdf")
 
 
 NOTICE_CACHE = ROOT / "docs" / "notice-cache.json"
-PARSER_VERSION = 9   # 9: 공고문 대조용 원문 숫자(facts) · 8: 신혼희망타운 소득·총자산(pub_limits kind=town) · 7: 공공분양 일반공급 소득·자산(pub_limits) · 6: 공급유형별 접수 일정(schedule) · 5: 다자녀 지역 배정(mc_quota) · 4: 거주 지역 요건(residence) 추가 · parse_notice 규칙을 바꾸면 올린다 → 모든 공고문을 다시 읽는다   # 공고문에서 읽은 값 보관 (공고문은 한 번 나오면 바뀌지 않는다)
+PARSER_VERSION = 10   # 10: 민영 1순위 가점제·추첨제 비율(score_ratio) · 9: 공고문 대조용 원문 숫자(facts) · 8: 신혼희망타운 소득·총자산(pub_limits kind=town) · 7: 공공분양 일반공급 소득·자산(pub_limits) · 6: 공급유형별 접수 일정(schedule) · 5: 다자녀 지역 배정(mc_quota) · 4: 거주 지역 요건(residence) 추가 · parse_notice 규칙을 바꾸면 올린다 → 모든 공고문을 다시 읽는다   # 공고문에서 읽은 값 보관 (공고문은 한 번 나오면 바뀌지 않는다)
 
 
 def _load_cache(path: Path) -> dict:
@@ -278,14 +280,15 @@ def apply_notice(listings: list[Listing], log: list[str], client=None, previous:
         NOTICE_FACTS[nid] = found.get("facts")
         labels = {"need_head": "세대주 요건", "price_cap": "분양가상한제", "residence_duty": "실거주 의무",
                   "balance": "잔금일", "ext": "발코니 확장비", "rewin_years": "재당첨 제한",
-                  "account_months": "1순위 가입기간", "deposit_count": "납입 인정 횟수", "residence": "거주 지역 요건", "mc_quota": "다자녀 지역 배정", "schedule": "접수 일정", "pub_limits": "공공 일반공급 소득·자산"}
+                  "account_months": "1순위 가입기간", "deposit_count": "납입 인정 횟수", "residence": "거주 지역 요건", "mc_quota": "다자녀 지역 배정", "schedule": "접수 일정", "pub_limits": "공공 일반공급 소득·자산", "score_ratio": "가점제·추첨제 비율"}
         for L in Ls:
             L.notice_pdf = pdf
             L.from_notice = [labels[k] for k in found if k in labels and not (k == "ext" and len(Ls) != 1)
                              and not (k == "residence" and not feature_on("residence_v2"))
                              and not (k == "mc_quota" and not feature_on("mc_quota"))
                              and not (k == "schedule" and not feature_on("notice_schedule"))
-                             and not (k == "pub_limits" and not feature_on("pub_general_limits"))]
+                             and not (k == "pub_limits" and not feature_on("pub_general_limits"))
+                             and not (k == "score_ratio" and not feature_on("region_first_score"))]
             if "need_head" in found:
                 L.need_head = found["need_head"]
             if "price_cap" in found:
@@ -310,6 +313,8 @@ def apply_notice(listings: list[Listing], log: list[str], client=None, previous:
                 L.mc_quota = found["mc_quota"]
             if "pub_limits" in found and feature_on("pub_general_limits"):
                 L.pub_limits = found["pub_limits"]
+            if "score_ratio" in found and feature_on("region_first_score"):
+                L.score_ratio = found["score_ratio"]
             if "schedule" in found and feature_on("notice_schedule"):
                 L.schedule = found["schedule"]
                 sp = found["schedule"].get("special")

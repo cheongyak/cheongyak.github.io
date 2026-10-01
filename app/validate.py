@@ -36,6 +36,9 @@ def listing_checks(L: Listing, today: date) -> list[str]:
         out.append(f"특별공급 접수일이 청약홈({L.special_apply})과 공고문({sc['special'][0]})에서 달라요")
     if sc.get("general") and L.apply_end and sc["general"][1] != L.apply_end:
         out.append(f"접수 마감일이 청약홈({L.apply_end})과 공고문 일반공급({sc['general'][1]})에서 달라요")
+    sr = getattr(L, "score_ratio", None) or {}   # 민영 가점제·추첨제 비율 표를 못 읽으면 알린다 (기능: region_first_score)
+    if L.house_dtl == "민영" and sr.get("unknown"):
+        out.append("가점제·추첨제 비율 표를 공고문에서 읽지 못했어요 (화면은 비율 없이 안내)")
     if L.balance and L.contract and L.balance < L.contract:
         out.append(f"잔금일({L.balance})이 계약일({L.contract})보다 빨라요")
     # 금액

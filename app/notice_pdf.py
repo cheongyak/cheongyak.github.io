@@ -195,7 +195,33 @@ def parse_notice(text: str) -> dict:
     pl = parse_pub_limits(text)
     if pl:
         out["pub_limits"] = pl
+    sr = parse_score_ratio(text)
+    if sr:
+        out["score_ratio"] = sr
     return out
+
+
+# ---- 민영 1순위 가점제·추첨제 비율 (기능: region_first_score, 2026-10-01) ----
+# 공고문 '전용면적별 1순위 가점제/추첨제 적용비율' 표: '전용면적 60㎡ 이하 40% 60%', '전용면적 60㎡ 초과 85㎡ 이하 70% 30%',
+#   '전용면적 85㎡ 초과 - 100%' (2026000453·403·103·454 원문). 2026000454 는 칸에 주택형 '84A / 84B' 가 끼어 있다.
+# 표가 있는 것 같은데 못 읽으면 {'unknown': True}, 흔적이 없으면 None (추측하지 않음). 가점제+추첨제가 100% 가 아니면 못 읽은 것으로 본다.
+def parse_score_ratio(text: str) -> Optional[dict]:
+    t = re.sub(r"\s+", " ", text)
+    m = re.search(r"전용면적별 1순위 가점제\s?[/·]\s?추첨제 적용\s?비율 ?구분 ?가점제 ?추첨제", t)
+    if not m:
+        return {"unknown": True} if re.search(r"가점제 ?[/·]? ?추첨제 ?적용 ?비율", t) else None
+    rows = []
+    for r in re.finditer(r"전용면적 (?:(\d{2,3})\s?㎡ ?초과 ?~? ?)?(?:(\d{2,3})\s?㎡ ?이하)? ?(?:\d{2,3}[A-Z]{0,2} ?/? ?)*?(-|\d{1,3}) ?%? ?(-|\d{1,3}) ?%",
+                         t[m.end():m.end() + 260]):
+        lo, hi = r.group(1), r.group(2)
+        if not lo and not hi:
+            continue
+        a = 0 if r.group(3) == "-" else int(r.group(3))
+        b = 0 if r.group(4) == "-" else int(r.group(4))
+        if a + b != 100:
+            return {"unknown": True}
+        rows.append({"over": int(lo) if lo else 0, "upto": int(hi) if hi else None, "score": a, "lottery": b})
+    return {"rows": rows} if rows else {"unknown": True}
 
 
 # ---- 공공분양 일반공급 소득·자산 기준 (기능: pub_general_limits) ----

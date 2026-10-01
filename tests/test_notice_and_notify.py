@@ -226,3 +226,26 @@ def test_ntfy_removed():
     assert "ntfy_topic" not in cfg and "ntfy_alerts" not in cfg["features"]
     assert "ntfy.sh" not in (root / "docs" / "index.html").read_text(encoding="utf-8")
 
+
+
+def test_golden_score_ratio_from_real_notices():
+    """민영 '전용면적별 1순위 가점제/추첨제 적용비율' 표를 원문과 같게 읽는다 (기능: region_first_score)."""
+    import json, pathlib
+    root = pathlib.Path(__file__).resolve().parent.parent
+    gold = json.loads((root / "tests" / "golden" / "notices.json").read_text(encoding="utf-8"))
+    nos = [k for k, v in gold.items() if "score_ratio" in v["fields"]]
+    assert len(nos) >= 4
+    for no in nos:
+        text = (root / "evidence" / "notices" / f"{no}.txt").read_text(encoding="utf-8")
+        assert notice_pdf.parse_notice(text).get("score_ratio") == gold[no]["fields"]["score_ratio"], no
+
+
+def test_score_ratio_unknown_and_absent():
+    import pathlib
+    root = pathlib.Path(__file__).resolve().parent.parent / "evidence" / "notices"
+    # 2026000436: 표 글자가 뒤섞여 추출돼 비율을 확실히 못 읽는다 → 추측하지 않고 unknown
+    assert notice_pdf.parse_score_ratio((root / "2026000436.txt").read_text(encoding="utf-8")) == {"unknown": True}
+    # 공공분양(국민주택) 공고문에는 표가 없다
+    assert notice_pdf.parse_score_ratio((root / "2026000409.txt").read_text(encoding="utf-8")) is None
+    # 합이 100% 가 아니면 못 읽은 것으로 본다
+    assert notice_pdf.parse_score_ratio("전용면적별 1순위 가점제/추첨제 적용비율 구분 가점제 추첨제 전용면적 60㎡ 이하 40% 50%") == {"unknown": True}

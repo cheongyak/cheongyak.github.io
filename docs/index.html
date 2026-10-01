@@ -712,21 +712,55 @@ function myScore(L, p){ // 기능: score
   const total = parts.every(x => x.v != null) ? parts.reduce((t, x) => t + x.v, 0) : null;
   return { total, parts, miss };
 }
-function scoreTarget(L){ // 비교할 당첨 가점: 이 공고 결과 → 근처 최근 단지
+function scoreTarget(L, prefer){ // 비교할 당첨 가점: 이 공고 결과 → 근처 최근 단지. prefer '기타': 기타지역 사용자는 이 공고의 기타지역 결과를 먼저 (기능: region_first_score)
   const sc = (on('competition') && L.competition && L.competition.scores) || [];
-  const own = sc.find(x => (x.reside || '').includes('해당') && x.low != null) || sc.find(x => x.low != null);
-  if (own) return { low: own.low, avg: own.avg, from: '이 공고 ' + (own.reside || '') + ' 당첨자', srcHtml: cmpetSrc(L) };
+  const own = (prefer && sc.find(x => (x.reside || '').includes(prefer) && x.low != null)) || sc.find(x => (x.reside || '').includes('해당') && x.low != null) || sc.find(x => x.low != null);
+  if (own) return { low: own.low, avg: own.avg, reside: own.reside || '', from: '이 공고 ' + (own.reside || '') + ' 당첨자', srcHtml: cmpetSrc(L) };
   const ac = (on('area_competition') && L.areaComps || []).find(x => x.low != null);
   if (ac) { const u = cmpetUrl(noOf(ac.url), ac.category) || ac.url;
-    return { low: ac.low, avg: ac.avg, from: '근처 ' + shortName(ac.name) + ' (' + (ac.apply || '').slice(0, 7).replace('-', '.') + ', ' + (ac.unit || '') + ')',
+    return { low: ac.low, avg: ac.avg, reside: ac.reside || '', from: '근처 ' + shortName(ac.name) + ' (' + (ac.apply || '').slice(0, 7).replace('-', '.') + ', ' + (ac.unit || '') + ')',
              srcHtml: src(null, ['청약홈 ' + shortName(ac.name) + ' 청약 결과', u]) }; }
   return null;
+}
+/* 지역 순서 먼저 보이는 가점 표기 (기능: region_first_score, 2026-10-01 사용자 질문 '가점이 우선이야, 거주지역이 우선이야?').
+   민영 1순위 가점제는 ①지역 → ②가점 → ③통장 가입기간 → ④추첨, 추첨제는 ①지역 → ②무주택자 우선 → ③추첨 (각 공고문 '당첨자 선정 순서',
+   예: 2026000453 광명 시티프라디움 에듀하임). 그래서 가점은 같은 지역 순서 안에서만 비교된다. 이 함수는 판정을 바꾸지 않고,
+   거주지 판정(eligibility 의 '거주지' 항목)·공고문 가점제/추첨제 비율 표(L.scoreRatio)를 읽어 표기만 만든다 */
+function scoreRatioFor(L){
+  const R = on('region_first_score') && L.scoreRatio && L.scoreRatio.rows;
+  if (!R || L.area == null) return null;
+  return R.find(r => L.area > r.over && (r.upto == null || L.area <= r.upto)) || null;
+}
+function regionScore(L, p){
+  if (!on('region_first_score') || L.houseDtl === '국민') return null;
+  const R = L.residence, ri = eligibility(L, p).items.find(i => i.k === '거주지'), quota = R && R.quota;
+  let tier = 'unknown';
+  if (R && R.equal) tier = 'equal';
+  else if (ri && ri.s === 'ok') tier = /^해당지역/.test(ri.v) ? 'local' : /^기타경기/.test(ri.v) ? 'gyeonggi' : /기타/.test(ri.v) ? 'other' : 'unknown';
+  else if (ri && ri.s === 'fail') tier = 'out';
+  const t = scoreTarget(L, tier === 'other' || tier === 'gyeonggi' ? '기타' : null), ratio = scoreRatioFor(L);
+  const cmpLabel = !t ? '' : /기타/.test(t.reside) ? '기타지역 당첨선' : /해당/.test(t.reside) ? '해당지역 당첨선' : '당첨선';
+  const short = { local:'해당지역(먼저)', gyeonggi:'경기 몫(해당지역 다음)', other:'기타지역(해당지역 다음)', equal:'지역 순서 없음', unknown:'', out:'' }[tier];
+  const order = { local:'해당지역이라 먼저 뽑는 그룹이에요. 그 안에서 가점이 높은 순으로 뽑아요.',
+    gyeonggi:'해당지역 신청자 다음으로 경기도 거주자 몫에서 가점 순으로 뽑아요.',
+    other:'해당지역 신청자를 먼저 뽑고, 남은 물량에서 기타지역 신청자를 가점 순으로 뽑아요.',
+    equal:'이 공고는 지역별 우선 순서가 없어요.',
+    unknown:'일반공급은 지역 순서(해당지역 → 기타지역)를 먼저 보고, 같은 순서 안에서 가점을 비교해요. 사는 곳을 넣으면 내 순서를 알려드려요.', out:'' }[tier];
+  const warn = tier === 'other' || tier === 'gyeonggi' ? (quota
+      ? '해당지역에서 떨어진 신청자도 다음 몫에서 함께 겨뤄요. ' + (cmpLabel === '해당지역 당첨선' ? '비교한 점수는 해당지역 당첨선이라 참고만 하세요.' : '')
+      : '해당지역 신청자로 가점제 물량이 다 차면 기타지역 차례는 오지 않아요. ' + (cmpLabel === '해당지역 당첨선' ? '비교한 점수는 해당지역 당첨선이라, 넘어도 당첨을 기대하기 어려울 수 있어요.' : '')) : '';
+  const band = ratio ? '전용 ' + (ratio.upto == null ? ratio.over + '㎡ 초과' : ratio.over ? ratio.over + '㎡ 초과 ' + ratio.upto + '㎡ 이하' : ratio.upto + '㎡ 이하') : '';   // 공고문 표의 면적 구간 그대로
+  const ratioTxt = ratio ? (ratio.score === 0 ? '이 주택형(' + band + ')은 가점제 물량이 없고 1순위를 모두 추첨으로 뽑아요.'
+      : '이 주택형(' + band + ')은 1순위 물량의 가점제 ' + ratio.score + '% · 추첨제 ' + ratio.lottery + '%예요. 추첨제 물량은 가점과 상관없이 뽑아요.') : '';
+  return { tier, short, order, warn: warn.trim(), t, cmpLabel, ratio, ratioTxt, lotteryOnly: !!(ratio && ratio.score === 0),
+    ratioSrc: ratio ? src(null, ['모집공고문 전용면적별 가점제·추첨제 적용비율', L.noticePdf]) : '' };
 }
 /* ---------- 내 청약 가점 v2 (기능: score_v2) — 화면 구성만. 점수는 myScore()·scoreTarget() 결과 그대로 ----------
    총점과 0~84 눈금(내 점수·당첨 최저·평균) → 당첨 사례 비교 → 항목별 점수(최대까지 남은 점수) → 접힌 계산 근거·방법·출처 */
 const SCORE_GROW = { '무주택기간':'1년마다 +2점', '부양가족':'1명마다 +5점', '청약통장 가입기간':'1년마다 +1점' };
 function scoreCardV2(L, p, r, t){
   const pct = v => Math.max(0, Math.min(100, v / 84 * 100)).toFixed(1) + '%';
+  if (on('region_first_score') && hasProfile() && L.houseDtl !== '국민') { const rs0 = regionScore(L, p); if (rs0) t = rs0.t; }
   const has = r.total != null, low = t && t.low != null ? Math.round(t.low) : null, avg = t && t.avg != null ? Math.round(t.avg * 10) / 10 : null;
   const d = has && low != null ? r.total - low : null;
   const scale = `<div class="scscale" role="img" aria-label="84점 중 내 가점 ${has ? r.total : '미계산'}${low != null ? ', 당첨 최저 ' + low : ''}${avg != null ? ', 평균 ' + avg : ''}">
@@ -738,7 +772,12 @@ function scoreCardV2(L, p, r, t){
   const e = on('score_scope') ? eligibility(L, p) : null, ownI = e && e.items.find(i => i.k === '무주택 세대' && i.owns);
   const off = e && !e.ok && e.rank2 ? (e.rank2Need ? '지금 조건으로는 이 공고에 1순위로 신청할 수 없어요.' : '지금 조건으로는 이 공고에 2순위로만 신청할 수 있어요.') + ' 2순위는 가점 없이 추첨으로 뽑아서(주택공급에 관한 규칙 제28조⑨) 아래 가점은 이번 공고에 쓰이지 않아요. 1순위로 신청하는 공고에서 쓰이는 점수예요.'
     : ownI && L.regulated ? '집이 있어 이 공고에서는 가점제가 아니라 추첨 물량으로만 신청할 수 있어요. 아래 가점은 이번 공고에 쓰이지 않아요.' : '';
-  const cmp = off ? `<div class="note info sccmp"><b>이번 공고에서는 가점이 쓰이지 않아요</b><div class="small">${off}</div></div>` : !has ? '' : !t ? `<div class="small muted sccmp">비교할 당첨 가점 기록이 없어요.</div>`
+  const RS = !off && has ? regionScore(L, p) : null;   // 기능: region_first_score
+  const cmp = off ? `<div class="note info sccmp"><b>이번 공고에서는 가점이 쓰이지 않아요</b><div class="small">${off}</div></div>`
+    : RS && RS.lotteryOnly ? `<div class="note info sccmp"><b>이 주택형은 가점이 쓰이지 않아요</b><div class="small">${esc(RS.ratioTxt)} ${RS.ratioSrc}</div></div>`
+    : !has ? '' : !t ? `<div class="small muted sccmp">비교할 당첨 가점 기록이 없어요.${RS && RS.short ? ' 내 지역 순서: ' + esc(RS.short) + '.' : ''}</div>`
+    : RS ? `<div class="note ${d >= 0 ? 'ok' : 'warn'} sccmp"><b>${RS.short ? esc(RS.short) + ' → ' : ''}${RS.cmpLabel}보다 ${Math.abs(d)}점 ${d >= 0 ? '높아요' : '낮아요'}</b>
+       <div class="small">${RS.cmpLabel} ${low}점${avg != null ? ' · 평균 ' + avg + '점' : ''} · ${esc(t.from)}</div><div class="small">${esc(RS.order)}${RS.ratioTxt ? ' ' + esc(RS.ratioTxt) : ' 추첨 물량은 가점과 관계없어요.'} ${t.srcHtml}</div>${RS.warn ? `<div class="small st-warn">${esc(RS.warn)}</div>` : ''}</div>`
     : `<div class="note ${d >= 0 ? 'ok' : 'warn'} sccmp"><b>${d >= 0 ? '당첨 최저보다 ' + d + '점 높아요' : '당첨 최저보다 ' + (-d) + '점 낮아요'}</b>
        <div class="small">최저 ${low}점${avg != null ? ' · 평균 ' + avg + '점' : ''} · ${esc(t.from)}</div><div class="small">가점제 물량 기준이에요. 추첨 물량은 가점과 관계없어요. ${t.srcHtml}</div></div>`;
   const items = r.parts.map(x => { const room = x.v == null ? null : x.max - x.v;
@@ -2239,6 +2278,8 @@ function generalRowPlain(L, p){
   if (ownIt && L.regulated) return `<details class="sprow base"><summary><span class="sp-top"><b>일반공급</b><span class="small muted">추첨제만</span><span class="pill warn">가점제 불가</span></span>
       <span class="sp-head">1주택 이상 세대라 이 공고(규제지역)는 1순위 가점제로 신청할 수 없어요. 1순위 추첨제로는 신청할 수 있어요</span></summary>
     <div class="sp-body"><div class="small">1순위 추첨제는 추첨 물량의 75%를 무주택 세대에서 먼저 뽑고, 남은 물량에서 1주택 세대도 함께 뽑아요. 가점과는 상관없어요. 가점제·추첨제 비율은 공고문의 전용면적별 표를 확인하세요.</div></div></details>`;
+  const RS = regionScore(L, p);
+  if (RS) return generalRowRegion(L, p, sc, RS);
   const [pill, pc] = gap == null ? ['참고', ''] : gap >= 0 ? ['최저점 이상', 'ok'] : ['최저점 미만', 'warn'];
   const head = sc.total == null ? '가점을 계산하려면 생년월일·부양가족·통장 가입일을 넣어 주세요'
     : t && t.low != null ? `내 가점 ${sc.total}점 · 비교 단지 당첨 최저 ${t.low}점보다 ${Math.abs(gap)}점 ${gap >= 0 ? '높아요' : '낮아요'}` : `내 가점 ${sc.total}점 / 84 · 비교할 당첨 기록이 없어요`;
@@ -2247,6 +2288,21 @@ function generalRowPlain(L, p){
       <span class="sp-head">${esc(head)}</span></summary>
     <div class="sp-body"><div class="small">일반공급은 청약 가점(84점 만점)이 높은 순으로 뽑는 몫이 있어요. 특별공급과 함께 신청할 수 있지만, 둘 다 당첨되면 특별공급만 인정돼요.</div>
       <div class="small muted">${t ? '비교한 당첨 최저점: ' + esc(t.from) + '. 지난 결과라 이번 공고의 커트라인은 달라질 수 있어요.' : '비교할 당첨 가점 기록이 없어요.'} 가점 계산 내역은 아래 '내 청약 가점' 칸에 있어요. 추첨 물량은 공고문을 확인하세요.</div></div></details>`;
+}
+function generalRowRegion(L, p, sc, RS){   // 기능: region_first_score — 지역 순서 → 가점 순서로 쓴다
+  const t = RS.t, gap = sc.total != null && t && t.low != null ? sc.total - t.low : null;
+  const [pill, pc] = RS.lotteryOnly ? ['추첨제만', ''] : gap == null ? ['참고', ''] : gap >= 0 ? ['당첨선 이상', 'ok'] : ['당첨선 미만', 'warn'];
+  const score = sc.total == null ? '가점은 생년월일·부양가족·통장 가입일을 넣으면 계산해요'
+    : RS.lotteryOnly ? '가점 ' + sc.total + '점은 이 주택형에 쓰이지 않아요'
+    : (RS.short ? '그 안에서 가점 ' : '가점 ') + sc.total + '점' + (t && t.low != null ? ` · ${RS.cmpLabel} ${t.low}점보다 ${Math.abs(gap)}점 ${gap >= 0 ? '높아요' : '낮아요'}` : ' · 비교할 당첨 기록이 없어요');
+  const head = (RS.short ? RS.short + ' → ' : '') + score;
+  return `<details class="sprow base">
+    <summary><span class="sp-top"><b>일반공급</b><span class="small muted">${RS.lotteryOnly ? '추첨' : '지역 → 가점 순'}</span><span class="pill ${pc}">${pill}</span></span>
+      <span class="sp-head">${esc(head)}</span>${RS.tier === 'unknown' ? '<span class="small muted">사는 곳을 넣으면 내 지역 순서(해당지역·기타지역)를 알려드려요</span>' : ''}${RS.warn ? `<span class="small st-warn">${esc(RS.warn)}</span>` : ''}${RS.ratio && !RS.lotteryOnly && gap != null && gap < 0 ? `<span class="small muted">추첨제 물량 ${RS.ratio.lottery}%는 가점과 상관없이 뽑아요</span>` : ''}</summary>
+    <div class="sp-body">
+      <div class="sp-sec"><span class="sp-lbl">뽑는 순서</span><div class="small">1순위 가점제: 지역 → 가점 → 통장 가입기간 → 추첨<br>1순위 추첨제: 지역 → 무주택자 우선 → 추첨<br>${esc(RS.order)}</div></div>
+      ${RS.ratioTxt ? `<div class="sp-sec"><span class="sp-lbl">가점제·추첨제 비율</span><div class="small">${esc(RS.ratioTxt)} ${RS.ratioSrc}</div></div>` : ''}
+      <div class="small muted">${t ? '비교한 ' + RS.cmpLabel + ': ' + esc(t.from) + '. 지난 결과라 이번 공고의 당첨선은 달라질 수 있어요.' : '비교할 당첨 가점 기록이 없어요.'}${RS.ratio ? '' : ' 가점제·추첨제 비율은 공고문을 확인하세요.'} 특별공급과 함께 신청할 수 있지만, 둘 다 당첨되면 특별공급만 인정돼요. 가점 계산 내역은 아래 '내 청약 가점' 칸에 있어요.</div></div></details>`;
 }
 function spIntroPlain(rs){
   const okT = rs.filter(r => r.s === 'ok').map(r => SP_NAME[r.type]), wT = rs.filter(r => r.s === 'warn').map(r => SP_NAME[r.type]);
@@ -2481,7 +2537,7 @@ function supplySummary(L, p, e){
   return `<div class="ss" aria-label="신청할 수 있는 공급">
     ${row(genLabel(L), g, (L.needAccount ? '' : '청약통장이 필요 없는 공고예요. ') + (isNewlywedTown(L) ? '신혼부부·예비신혼부부·한부모가족만 신청하는 공급이에요. ' : '') + '아래 조건 목록은 이 공급 기준이에요')}
     ${isNewlywedTown(L) ? row('특별공급', ['', '따로 없음'], '이 주택형' + (L.specialUnits && L.specialUnits.total ? ' ' + L.specialUnits.total + '세대' : '') + '는 모두 신혼희망타운 공급이에요 (청약홈에는 특별공급으로 집계돼요)') : !types.length && !L.needAccount ? '' : row('특별공급', sp, types.length ? (wT.length && okT.length ? esc(wT.join('·')) + '는 정보를 더 넣어야 판단 · ' : '') + '유형별 내용은 아래 \'공급 유형별 내 자격과 위치\'' : '')}
-    ${reg ? row(reg[0] === 'fail' || eq ? '거주지' : '지역 순서', reg, reg[0] === 'fail' ? '일반공급과 특별공급에 공통인 거주 요건이라 둘 다 신청할 수 없어요.' : eq && reg[0] === 'ok' ? '이 공고는 지역별 우선 순서와 거주기간 요건이 없어요. ' + esc((ri.note || '').replace(' 대상 (거주기간 요건 없음)', '면 신청할 수 있어요.')) : reg[0] === 'warn' ? (isNewlywedTown(L) ? '1~3단계 공통이에요' : '일반·특별공급 공통이에요') + '. 사는 곳을 넣으면 순서까지 판정해요.' : (isNewlywedTown(L) ? '1~3단계 공통이에요' : '일반·특별공급 공통이에요') + '. 해당지역 거주자가 아니어도 신청할 수 있지만, 해당지역 신청자를 먼저 뽑아요.') : ''}
+    ${reg ? row(reg[0] === 'fail' || eq ? '거주지' : '지역 순서', reg, reg[0] === 'fail' ? '일반공급과 특별공급에 공통인 거주 요건이라 둘 다 신청할 수 없어요.' : eq && reg[0] === 'ok' ? '이 공고는 지역별 우선 순서와 거주기간 요건이 없어요. ' + esc((ri.note || '').replace(' 대상 (거주기간 요건 없음)', '면 신청할 수 있어요.')) : reg[0] === 'warn' ? (isNewlywedTown(L) ? '1~3단계 공통이에요' : '일반·특별공급 공통이에요') + '. 사는 곳을 넣으면 순서까지 판정해요.' : (isNewlywedTown(L) ? '1~3단계 공통이에요' : '일반·특별공급 공통이에요') + '. 해당지역 거주자가 아니어도 신청할 수 있지만, 해당지역 신청자를 먼저 뽑아요.' + (on('region_first_score') && L.houseDtl !== '국민' ? ' 가점·추첨은 같은 지역 순서 안에서 비교해요.' : '')) : ''}
   </div>`;
 }
 function checklistV2(L, p, e){
@@ -3460,17 +3516,19 @@ function genWhyHtml(L, p, e){
 }
 function wsCard(L, p){
   const e = eligibility(L, p), types = spTypesFor(L), rs = types.map(t => spJudge(L, p, t)), xs = rs.map(r => wsSpecial(L, p, r));
-  const pub = L.houseDtl === '국민', sc = on('score') && !pub ? myScore(L, p) : null, t = sc ? scoreTarget(L) : null;
-  const gap = sc && sc.total != null && t && t.low != null ? sc.total - t.low : null;
+  const pub = L.houseDtl === '국민', sc = on('score') && !pub ? myScore(L, p) : null, RS = sc && hasProfile() ? regionScore(L, p) : null, t = sc ? (RS ? RS.t : scoreTarget(L)) : null;
+  const gap = sc && sc.total != null && t && t.low != null && !(RS && RS.lotteryOnly) ? sc.total - t.low : null;
   /* 유주택 세대의 민영 일반공급 (owner_lottery 판정 결과를 그대로 보여준다): 규제지역은 가점제 불가·추첨제만, 비규제는 무주택기간 0점 — 공고 상세 체크리스트와 같은 표기 (2026-10-01 사용자 지적) */
   const own = e.ok ? e.items.find(i => i.k === '무주택 세대' && i.owns) : null, lotOnly = !!(own && L.regulated);
   const gp = !e.ok ? (e.rank2 ? ['warn', e.rank2Need ? '확인 필요' : '2순위만'] : ['fail', '불가']) : e.unsure ? ['warn', '확인 필요'] : own ? ['ok', lotOnly ? '추첨제만' : '가능 · 무주택기간 0점'] : ['ok', '가능'];
   const PILL = { ok:['가능','ok'], warn:['확인 필요','warn'], fail:['불가','fail'] };
   const big = (v, max) => v == null ? '<span class="ws-num muted">-</span>' : `<span class="ws-num">${v}</span>${max ? `<span class="ws-max">/ ${max}</span>` : ''}`;
   const genSub = !e.ok && !e.rank2 && hasProfile() ? e.reason : lotOnly ? '집이 있어 1순위 가점제로는 신청할 수 없고 추첨 물량으로만 신청할 수 있어요' : !L.needAccount ? '청약통장 없이 신청하는 공고예요' : pub ? '공공분양 일반공급은 납입 인정 금액·횟수 순이에요'
-    : sc && sc.total == null ? '가점 계산에 ' + (sc.miss || []).join(', ') + ' 필요' : t && t.low != null ? `당첨 최저 ${t.low}점 (${gap >= 0 ? '+' : ''}${gap}) · ${t.from}` : '비교할 당첨 가점 기록이 없어요';
+    : RS && RS.lotteryOnly ? '이 주택형은 1순위를 모두 추첨으로 뽑아요 (가점 무관)'
+    : sc && sc.total == null ? '가점 계산에 ' + (sc.miss || []).join(', ') + ' 필요' : RS && t && t.low != null ? `${RS.short ? RS.short + ' → ' : ''}${RS.cmpLabel} ${t.low}점 (${gap >= 0 ? '+' : ''}${gap}) · ${t.from}`
+    : t && t.low != null ? `당첨 최저 ${t.low}점 (${gap >= 0 ? '+' : ''}${gap}) · ${t.from}` : (RS && RS.short ? RS.short + ' · ' : '') + '비교할 당첨 가점 기록이 없어요';
   const gen = `<div class="ws-row"><div class="ws-k"><b>${genLabel(L)}</b><span class="pill ${gp[0]}">${gp[1]}</span></div>
-    <div class="ws-v">${pub || !L.needAccount || lotOnly ? `<span class="ws-num sm">${esc(pub ? '순차제' : '추첨')}</span>` : big(sc && sc.total, 84)}</div><div class="ws-sub small muted">${esc(genSub)}</div>${genWhyHtml(L, p, e)}</div>`;
+    <div class="ws-v">${pub || !L.needAccount || lotOnly || (RS && RS.lotteryOnly) ? `<span class="ws-num sm">${esc(pub ? '순차제' : '추첨')}</span>` : big(sc && sc.total, 84)}</div><div class="ws-sub small muted">${esc(genSub)}</div>${RS && RS.warn && e.ok && !lotOnly ? `<div class="ws-sub small st-warn">${esc(RS.warn)}</div>` : ''}${genWhyHtml(L, p, e)}</div>`;
   const order = { ok:0, warn:1, fail:2 };
   const spRows = xs.slice().sort((a, b) => order[a.r.s] - order[b.r.s]).map(x => { const [pl, pc] = PILL[x.r.s], hp = spHeadPlain(L, p, x.r);
     return `<div class="ws-row ${x.r.s === 'fail' ? 'dim' : ''}"><div class="ws-k"><b>${SP_NAME[x.r.type]}</b><span class="pill ${pc}">${pl}</span></div>
@@ -3495,7 +3553,9 @@ function wsCard(L, p){
   else if (types.length) rec = '지금 조건으로 신청할 수 있는 특별공급이 없어요.';
   if (hasProfile() && L.needAccount) {
     const canGen = e.ok || e.rank2;
-    const g = !canGen ? '일반공급은 신청할 수 없어요.' : lotOnly ? '일반공급은 집이 있어 가점제가 아닌 추첨 물량으로만 신청할 수 있어요. 추첨 물량은 무주택 세대를 먼저 뽑고 남은 몫에서 1주택 세대도 뽑아요. 이 주택형의 추첨 비율은 공고문에서 확인하세요.' : gap != null && gap >= 0 ? `일반공급 가점도 최근 당첨 최저점보다 ${gap}점 높거나 같아요.`
+    const g = !canGen ? '일반공급은 신청할 수 없어요.' : lotOnly ? '일반공급은 집이 있어 가점제가 아닌 추첨 물량으로만 신청할 수 있어요. 추첨 물량은 무주택 세대를 먼저 뽑고 남은 몫에서 1주택 세대도 뽑아요. ' + (RS && RS.ratio ? '이 주택형의 추첨제 물량은 ' + RS.ratio.lottery + '%예요.' : '이 주택형의 추첨 비율은 공고문에서 확인하세요.') : gap != null && gap >= 0 && RS ? `일반공급 가점도 ${RS.cmpLabel}보다 ${gap}점 높거나 같아요.${RS.warn && (RS.tier === 'other' || RS.tier === 'gyeonggi') ? ' 다만 기타지역 순서라 참고만 하세요.' : ''}` : gap != null && gap >= 0 ? `일반공급 가점도 최근 당첨 최저점보다 ${gap}점 높거나 같아요.`
+      : RS && RS.lotteryOnly ? '일반공급은 이 주택형이 모두 추첨이라 가점과 상관없이 뽑아요.'
+      : gap != null && RS ? `일반공급은 가점이 ${RS.cmpLabel}보다 ${-gap}점 낮아 가점제로는 어려워요. ${RS.ratio ? '추첨제 물량 ' + RS.ratio.lottery + '%는 가점과 상관없이 뽑아요.' : '추첨 물량이 있는지 공고문을 확인하세요.'}`
       : gap != null ? `일반공급은 가점이 최근 당첨 최저점보다 ${-gap}점 낮아 가점만으로는 어려워요. 추첨 물량이 있는지 공고문을 확인하세요.` : (v2 ? v2.oks : oks).length ? '' : '일반공급은 신청할 수 있어요.';
     const dup = (v2 ? v2.oks : oks).length && canGen ? '특별공급 1개와 일반공급 1개는 함께 신청할 수 있어요. 특별공급에 당첨되면 일반공급에서는 빠져요.' : '';
     if ((g || dup) && v2 && on('ws_compact') && rec.includes('<!--WS_MORE-->')) rec = rec.replace('<!--WS_MORE-->', [dup, g].filter(Boolean).map(t => `<li>${t}</li>`).join(''));
@@ -3980,7 +4040,7 @@ function fromApi(x){
     sido:x.sido || null, district:x.district || null, supplyType:x.supply_type || x.kind,
     mktComps:x.mkt_comps || [], mktCount:x.mkt_count || 0, mktDirectExcluded:x.mkt_direct_excluded || 0, mktBasis:x.mkt_basis || null, jeonseComps:x.jeonse_comps || [],
     noticePdf:x.notice_pdf || null, category:x.category || null, area:x.area || null, accountMonths:x.account_months || null, depositCount:x.deposit_count || null, competition:x.competition || null, areaComps:Array.isArray(x.area_comps) ? x.area_comps : null, spCompetition:x.sp_competition || null, areaSp:Array.isArray(x.area_sp) ? x.area_sp : null, unitName:x.unit, address:x.address || '', geo:x.geo || null, nearby:Array.isArray(x.nearby) ? x.nearby : null, mapQuery:x.map_query || null, fromNotice:x.from_notice || [], checks:x.checks || [],
-    specialApply:x.special_apply || null, houseDtl:x.house_dtl || null, rentSecd:x.rent_secd || null, applyEnd:x.apply_end || null, unit:x.unit + (x.households ? ' · ' + x.households + '세대' : ''), specialUnits:x.special_units || null, residence:x.residence || null, mcQuota:x.mc_quota || null, schedule:x.schedule || null, pubLimits:x.pub_limits || null,
+    specialApply:x.special_apply || null, houseDtl:x.house_dtl || null, rentSecd:x.rent_secd || null, applyEnd:x.apply_end || null, unit:x.unit + (x.households ? ' · ' + x.households + '세대' : ''), specialUnits:x.special_units || null, residence:x.residence || null, mcQuota:x.mc_quota || null, schedule:x.schedule || null, pubLimits:x.pub_limits || null, scoreRatio:x.score_ratio || null,
     notice:x.notice, apply:x.apply, winner:x.winner, contract:x.contract, balance:x.balance,
     price:x.price, ext:x.ext || 0, contractRate:x.contract_rate || 0.1, midRate:x.mid_rate || 0,
     mktLow:x.mkt_low, mktBase:x.mkt_base, mktNote:x.mkt_note || '', jeonse:x.jeonse, jeonseNote:x.jeonse_note || '',
