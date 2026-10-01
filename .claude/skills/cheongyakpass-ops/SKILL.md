@@ -47,6 +47,9 @@ description: 청약패스(cheongyakpass.kr, 저장소 cheongyak/cheongyak.github
 8. **HANDOFF.md '진행 중인 일' 갱신** 후 사용자에게 결과를 짧게 알린다 (무엇이 바뀌었나, 확인한 것, 사용자가 할 일).
 
 ## 4. 알아 둔 함정
+- 판정 정확도 점검은 블라인드 감사로: tools/qa/audit/README.md (검토자는 공고문·법령 원문만 보고, 앱 코드·결과는 안 봄). 불일치는 원문으로 누가 맞는지 가린 뒤 앱이 틀렸을 때만 사례 추가·수정.
+- 판정 사례 기대값은 공고문 문장으로 따로 계산한다. 생성기 기본 프로필끼리 모순(예: 노부모 부양함 + 같은 등본 부모 0명)이 있으면 사례가 엉뚱하게 실패하니 먼저 의심.
+- 문구 점검: tools/qa/textsweep.cjs → 문장 묶음 → 검토. 표 행·flex 칸이 붙어 보이는 것(예: '공고청약홈')은 추출 착시라 고치지 않는다. 약관·방침은 '-합니다'체가 맞다.
 - ship.sh 가 '받기(pull) 실패'로 멈추면 커밋은 로컬에만 있다. 남은 변경(대개 tools/static_fragments.json)을 버리고 `git pull --no-rebase origin main && git push` 로 올린 뒤에 release.sh 를 실행한다 (release.sh 는 이제 올라가지 않은 커밋이면 멈춘다).
 - 법제처 API 는 `Referer: https://cheongyakpass.kr/` 헤더가 없으면 '필수입력요소 검증 실패'. 별표와 서식은 번호가 겹쳐 `별표구분` 으로 가른다.
 
