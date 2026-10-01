@@ -70,38 +70,18 @@ def test_apply_notice_updates_listing(monkeypatch):
     assert x.limits[0] == ("재당첨 제한", "10년") and "재당첨 제한" in x.from_notice
 
 
-def test_notify_new_and_due():
+def test_alert_new_and_due():
+    """알림 이벤트(웹 푸시): 새 공고·내일 접수 시작·마감 (예전 ntfy 알림 테스트를 옮김)."""
+    from app import webpush
     cfg = {"notify_grades": ["lotto", "consider"], "remind_days_before": 1}
-    lotto, flat = L(), L(id="999-059A", name="패스단지", price=30.0)
-    msgs = notify.build_messages([lotto, flat], previous_ids=set(), today=date(2026, 10, 5), cfg=cfg)
-    titles = [m["title"] for m in msgs]
-    assert any("로또" in t and "1건" in t for t in titles)
-    assert any(t.startswith("내일 접수 시작") for t in titles)
-    assert "패스단지" not in "".join(m["body"] for m in msgs)
-    # 이미 알린 공고는 다시 '새 공고'로 보내지 않고, 첫 실행(previous None)도 보내지 않는다
-    assert not notify.build_messages([lotto], {lotto.id}, date(2026, 9, 29), cfg)
-    assert not notify.build_messages([lotto], None, date(2026, 9, 29), cfg)
-
-
-def test_notify_send_payload():
-    seen = {}
-
-    def h(req):
-        import json
-        seen.update(json.loads(req.content))
-        return httpx.Response(200, json={})
-    out = notify.send([{"title": "t", "body": "b", "priority": "high", "tags": "house"}],
-                      {"ntfy_topic": "cheongyak-test", "site_url": "https://example.org/"},
-                      httpx.Client(transport=httpx.MockTransport(h)))
-    assert seen["topic"] == "cheongyak-test" and seen["priority"] == 4 and seen["click"] == "https://example.org/"
-    assert out[0].startswith("알림 전송 200")
-
-
-def test_notify_deadline_reminder():
-    cfg = {"notify_grades": ["lotto", "consider"], "remind_days_before": 1}
+    lotto = L()
+    ev, _ = webpush.build_events([lotto], previous_ids=set(), today=date(2026, 10, 5), cfg=cfg)
+    assert {e["kind"] for e in ev} == {"new", "start"} and all(e["good"] for e in ev)
+    assert not [e for e in webpush.build_events([lotto], {lotto.id}, date(2026, 9, 29), cfg)[0] if e["kind"] == "new"]
+    assert not [e for e in webpush.build_events([lotto], None, date(2026, 9, 29), cfg)[0] if e["kind"] == "new"]
     x = L(apply="2026-09-29", apply_end="2026-10-02")
-    msgs = notify.build_messages([x], {x.id}, date(2026, 10, 1), cfg)
-    assert msgs and msgs[0]["title"].startswith("내일 접수 마감")
+    ev, _ = webpush.build_events([x], {x.id}, date(2026, 10, 1), cfg)
+    assert [e["kind"] for e in ev] == ["end"]
 
 
 def test_duty_ignores_unrelated_years():
@@ -237,16 +217,12 @@ def test_apply_notice_timeout_uses_cache(monkeypatch):
     assert x.need_head and any("보관" in l for l in log)
 
 
-def test_ntfy_send_skipped_when_switch_off(monkeypatch):
-    """ntfy.sh 공개 주제는 누구나 보낼 수 있어 스위치(ntfy_alerts)가 꺼져 있으면 알림을 보내지 않는다."""
-    from app import pipeline
-    monkeypatch.setattr(pipeline.notify, "load_config", lambda: {"features": {"ntfy_alerts": False}, "ntfy_topic": "x"})
-    assert pipeline.feature_on("ntfy_alerts") is False
-    monkeypatch.setattr(pipeline.notify, "load_config", lambda: {"features": {}, "ntfy_topic": "x"})
-    assert pipeline.feature_on("ntfy_alerts") is True
+def test_ntfy_removed():
+    """ntfy 알림은 삭제됨 (2026-10-01): 설정·화면에 남은 것이 없어야 한다."""
+    import json
+    from pathlib import Path
+    root = Path(__file__).resolve().parent.parent
+    cfg = json.loads((root / "docs" / "config.json").read_text(encoding="utf-8"))
+    assert "ntfy_topic" not in cfg and "ntfy_alerts" not in cfg["features"]
+    assert "ntfy.sh" not in (root / "docs" / "index.html").read_text(encoding="utf-8")
 
-
-def test_ntfy_alerts_off_in_site_config():
-    import json, pathlib
-    cfg = json.loads((pathlib.Path(__file__).resolve().parent.parent / "docs" / "config.json").read_text(encoding="utf-8"))
-    assert cfg["features"].get("ntfy_alerts") is False

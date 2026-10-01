@@ -79,8 +79,9 @@ def test_closed_notice_kept_until_two_weeks_after_winner():
 def test_closed_notice_does_not_trigger_new_alert():
     closed = _L("2026000001", "084.0000A", apply="2026-09-20", apply_end="2026-09-22")
     closed.mkt_low, closed.mkt_base = 20, 22      # 로또 등급
-    msgs = notify.build_messages([closed], set(), date(2026, 9, 30), {})
-    assert not any("새로" in m["title"] for m in msgs)
+    from app import webpush
+    ev, _ = webpush.build_events([closed], set(), date(2026, 9, 30), {})
+    assert not [e for e in ev if e["kind"] == "new"]
 
 
 def test_history_and_area_comps():

@@ -12,7 +12,8 @@ app/
   sources/applyhome.py  청약홈 분양정보 API
   sources/rtms.py       국토부 실거래가 API (매매·분양권·전월세)
   pipeline.py        매일 돌리는 수집 작업 → data/listings.json
-  api.py             웹 앱이 부르는 API 서버
+  webpush.py         수집 뒤 웹 푸시 알림 이벤트 보내기 (알림 서버: push/worker.js)
+  api.py             (지금 사이트는 쓰지 않음) 판정 엔진 API 서버 — 테스트(tests/test_pipeline.py)에서 파이썬 엔진 확인용으로만 쓴다
   inspect_fields.py  처음 연결할 때 실제 응답 필드 확인
 tests/               판정 숫자 검증 + 목업 응답으로 전체 흐름 검증
 ```

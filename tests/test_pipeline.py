@@ -102,7 +102,6 @@ def test_end_to_end(tmp_path, monkeypatch):
     monkeypatch.setattr(pipeline, "RtmsClient", lambda: rt)
     monkeypatch.setattr(pipeline, "DATA", tmp_path / "listings.json")
     monkeypatch.setattr(pipeline, "RUN_LOG", tmp_path / "run-log.txt")
-    monkeypatch.setattr(pipeline.notify, "send", lambda msgs, cfg: [f"sent {len(msgs)}"])
     out = pipeline.run(today=date(2026, 9, 29), read_notices=False)
     assert len(out) == 1
     assert "로또" in (tmp_path / "run-log.txt").read_text(encoding="utf-8")
@@ -143,7 +142,6 @@ def test_rtms_forbidden_keeps_listing(tmp_path, monkeypatch):
     monkeypatch.setattr(pipeline, "RtmsClient", lambda: RtmsClient("T", http))
     monkeypatch.setattr(pipeline, "DATA", tmp_path / "l.json")
     monkeypatch.setattr(pipeline, "RUN_LOG", tmp_path / "run-log.txt")
-    monkeypatch.setattr(pipeline.notify, "send", lambda msgs, cfg: [])
     out = pipeline.run(today=date(2026, 9, 29), read_notices=False)
     assert len(out) == 1 and out[0].mkt_base is None
     assert "실패" in out[0].mkt_note
@@ -172,7 +170,6 @@ def test_api_filters(tmp_path, monkeypatch):
     monkeypatch.setattr(pipeline, "RtmsClient", lambda: rt)
     monkeypatch.setattr(pipeline, "DATA", tmp_path / "listings.json")
     monkeypatch.setattr(pipeline, "RUN_LOG", tmp_path / "run-log.txt")
-    monkeypatch.setattr(pipeline.notify, "send", lambda msgs, cfg: [])
     out = pipeline.run(today=date(2026, 9, 29), read_notices=False)
     L = out[0]
     assert L.sido == "서울" and L.district == "광진구" and L.supply_type == "불법행위 재공급"
@@ -212,7 +209,6 @@ def test_empty_api_result_keeps_previous_listings(tmp_path, monkeypatch):
     monkeypatch.setattr(pipeline, "DATA", tmp_path / "l.json")
     monkeypatch.setattr(pipeline, "RUN_LOG", tmp_path / "run-log.txt")
     sent = []
-    monkeypatch.setattr(pipeline.notify, "send", lambda msgs, cfg: sent.append(msgs) or [])
     fresh = pipeline.FRESH
     fresh.write_text("2026-09-29 05:31\n", encoding="utf-8")
     assert pipeline.run(today=date(2026, 9, 30)) == []

@@ -476,20 +476,13 @@ def run(dry_run: bool = False, today: Optional[date] = None, read_notices: bool 
             log.append(f"[검증·공고문 불일치] 공고문 대조 실행 실패: {e}")
     lines = summary(out)
     cfg = notify.load_config()
-    msgs = notify.build_messages(out, notify.load_previous_ids(), today, cfg)
-    if not dry_run:
-        if feature_on("ntfy_alerts"):
-            log += notify.send(msgs, cfg)
-        else:   # ntfy.sh 공개 주제는 누구나 보낼 수 있어 보내기를 제한할 수 있을 때까지 끔 (기능: ntfy_alerts)
-            log.append(f"[알림] 꺼져 있어 보내지 않음 (ntfy_alerts 스위치) · 보낼 알림 {len(msgs)}건")
+    if not dry_run:   # 예전 ntfy 알림(ntfy_alerts)은 2026-10-01 정리로 삭제, 알림은 웹 푸시만
         if feature_on("web_push") or cfg.get("push_preview"):   # 웹 푸시 (기능: web_push) — 알림 서버(push/worker.js)가 구독자별로 골라 보낸다. 미리보기는 미리보기 링크로 켠 구독자만 있어 보내도 된다
             try:
                 from . import webpush
                 log += webpush.run(out, notify.load_previous_ids(), today, cfg)
             except Exception as e:
                 log.append(f"[경고] 웹푸시 실행 실패: {e}")
-    else:
-        log += [f"(보낼 알림) {m['title']}" for m in msgs]
     for l in log:
         print(l)
     if not dry_run:

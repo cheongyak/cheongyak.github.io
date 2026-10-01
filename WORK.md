@@ -4,6 +4,15 @@
 2026-09-29 12:55 이전 항목은 규칙을 만들기 전 작업을 커밋 기록으로 정리한 것이라 백업 브랜치가 없어요.
 그 시점으로 되돌릴 때는 해당 커밋 번호로 `git revert` 를 써요.
 
+## 2026-10-01 13:25 · 안 쓰는 코드 정리 (ntfy 삭제, api.py 표시)
+- 요청: 전략 보고서 4번 — 유지보수만 늘리는 코드 정리 (화면 변화 없이)
+- 변경: ① ntfy 알림 삭제(꺼져 있었고 웹 푸시로 대체): 화면 알림 안내·주제 복사·설정값(ntfy_server/topic, 스위치 ntfy_alerts)·방침 표의 ntfy 줄(이미 숨김 상태)·수집 뒤 ntfy 발송과 메시지 만들기(app/notify.py 는 설정·지난 결과 읽기만 남김) ② 테스트 이전: ntfy 메시지 테스트 3개 → 웹 푸시 이벤트 테스트로(새 공고·첫 실행·내일 시작·마감·접수 끝난 공고 제외), 'ntfy 가 남아 있지 않음' 테스트 추가 ③ README: app/api.py 는 사이트가 쓰지 않고 테스트용으로만 남김을 표시, webpush.py 추가 ④ FEATURES.md ntfy_alerts 줄에 삭제 표시
+- 파일: docs/index.html, docs/config.json, app/notify.py, app/pipeline.py, tests/test_notice_and_notify.py, tests/test_cmpet.py, tests/test_pipeline.py, README.md, FEATURES.md, 정적 페이지(사용 안 하는 CSS 한 줄만 빠짐)
+- 확인: pytest 120 통과(ntfy 테스트 대체), 판정 1,030개 조합 차이 0·화면 1,287개 오류 0, 알림 미리보기·켜짐 표시 브라우저 검사 통과, 정적 방침·약관 문구 변화 없음
+- 기능: 없음(수정)
+- 버전: 올리지 않음 (화면 변화 없음)
+- 백업: backup/20261001-1325-cleanup
+
 ## 2026-10-01 13:23 · 사용 측정 (v1.1.0)
 - 요청: 전략 보고서 1번 — 무엇이 쓰이는지 재기 (프로필 완료율, 첫 판정, 확인 필요 원인, 재방문)
 - 변경: metric() — 기존 방문 통계(GoatCounter) 이벤트 'm/…' 로 횟수만 보냄, 같은 기기·같은 이름은 하루 한 번(once 는 처음 한 번). 이벤트: visit/new·return-7d·return-later, profile/0·1-4·5-14·15-24·25+(입력 항목 수 구간), onboard/<단계 이름>·onboard/done, verdict/ok·unsure·rank2·no·first-clear, unsure/<규칙 이름>. 입력값은 보내지 않음. 개인정보처리방침 1항 방문 통계에 '기능을 쓴 횟수' 문장(스위치가 켜졌을 때만). 확인: GoatCounter 대시보드의 이벤트(m/…)
