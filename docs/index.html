@@ -84,6 +84,8 @@ a{color:var(--link)}
 .ws-row{display:grid;grid-template-columns:1fr auto;gap:2px 10px;padding:10px 0;border-top:1px solid var(--line)} .ws-row.dim{opacity:.6}
 .ws-k{display:flex;align-items:center;gap:8px;font-size:16px} .ws-v{grid-row:span 2;align-self:center;text-align:right;white-space:nowrap}
 .ws-num{font-size:26px;font-weight:800;letter-spacing:-.02em} .ws-num.sm{font-size:15px;font-weight:700} .ws-max{font-size:13px;color:var(--muted);margin-left:3px}
+.cl-ul{list-style:none;margin:6px 0 0;padding:0} .cl-ul li{display:flex;gap:8px;align-items:flex-start;margin:6px 0;font-size:14px;line-height:1.5} .cl-ul .pill{flex:none}
+.betabar.bad{background:color-mix(in srgb, var(--pass-ink) 12%, var(--card, #fff));color:var(--pass-ink)}
 .beta{display:inline-block;vertical-align:middle;margin-left:6px;padding:1px 7px;border-radius:999px;font-size:11px;font-weight:700;letter-spacing:0;background:var(--warn-soft);color:var(--warn-ink);border:1px solid currentColor}
 .betabar{display:flex;gap:8px;align-items:flex-start;margin:0 0 10px;padding:10px 12px;border-radius:12px;background:var(--warn-soft);color:var(--warn-ink);font-size:13px;line-height:1.5;border:1px solid color-mix(in srgb, var(--warn-ink) 30%, transparent)}
 .betabar>b{flex:none;white-space:nowrap} .betabar .linkbtn{min-height:0;padding:0}
@@ -1138,7 +1140,9 @@ const ARROW = '<svg width="10" height="10" viewBox="0 0 24 24" fill="none" strok
 const betaTag = () => on('beta_notice') ? ' <span class="beta" aria-label="베타 서비스">베타</span>' : '';
 function betaBanner(where){
   if (!on('beta_notice')) return '';
-  return `<div class="betabar" role="note"><b>베타 · 참고용</b><span>${where === 'detail' ? '이 화면의 자격·점수·마진은 공개 자료와 내 입력으로 계산한 참고용 추정이에요.' : '모든 판정은 참고용 추정이에요.'} 신청 전 <b>모집공고문</b>과 <b>청약홈 청약자격 확인</b>으로 꼭 확인하세요.${on('about_page') ? ' <button class="linkbtn small" data-go="about">자세히</button>' : ''}</span></div>`;
+  if (on('verify_badge')) loadSide();
+  const vbad = on('verify_badge') && VERIFY && VERIFY.ok === false;
+  return `<div class="betabar${vbad ? ' bad' : ''}" role="note"><b>베타 · 참고용</b><span>${vbad ? '<b>최근 자동 검증에서 공고문과 다른 값이 발견돼 확인 중이에요.</b> ' : ''}${where === 'detail' ? '이 화면의 자격·점수·마진은 공개 자료와 내 입력으로 계산한 참고용 추정이에요.' : '모든 판정은 참고용 추정이에요.'} 신청 전 <b>모집공고문</b>과 <b>청약홈 청약자격 확인</b>으로 꼭 확인하세요.${on('about_page') ? ' <button class="linkbtn small" data-go="about">자세히</button>' : ''}</span></div>`;
 }
 function src(key, over){ // over: [label, url]
   const [label, url] = over || SRC[key];
@@ -2741,6 +2745,7 @@ function vAbout(){
     <p style="margin:6px 0" class="small">시세·마진은 실거래가로 계산한 추정치예요. 공고는 매일 새벽${on('about_v2') ? ' 5시 30분쯤' : '에'} 갱신돼요.</p>
     <p style="margin:6px 0" class="small muted">이 서비스는 청약홈(한국부동산원)·LH·국토교통부와 관계없는 개인이 운영해요.</p></section>
   ${dataInfo()}
+  ${verifyCard()}
   <section class="card"><h2>개인정보 안내</h2>
     <p style="margin:6px 0" class="small"><b>회원가입이 없고, 입력한 내 정보를 서버로 보내지 않아요.</b> 인터뷰에 넣은 통장·무주택·소득·자금 정보는 이 기기의 브라우저 저장소에만 저장돼요.</p>
     <p style="margin:6px 0" class="small">${an ? '방문 통계는 ' + an + '로 쿠키 없이 페이지 방문 수만 집계해요. 입력한 내 정보는 보내지 않아요.' : '방문 통계는 수집하지 않아요.'}</p>
@@ -3117,10 +3122,39 @@ function vTrend(){
 /* ---------- 만든 사람·이용약관·개인정보처리방침 (기능: legal_pages) ----------
    로그인이 없고 입력값은 이 기기에만 저장되는 구조를 그대로 적는다. 운영자 이름은 config.json 의 privacy_officer, 소개는 maker */
 const LEGAL_DATE = '2026-09-30';
+/* 업데이트 내역 (기능: changelog) — docs/changelog.json. 사용자에게 보이는 변경은 배포할 때 한 줄씩 적는다 (CLAUDE.md 7항) */
+let CHANGELOG = null, VERIFY = null;
+function loadSide(){
+  if (CHANGELOG === null && on('changelog')) { CHANGELOG = false; fetch('changelog.json', { cache:'no-store' }).then(r => r.ok ? r.json() : []).then(j => { CHANGELOG = j; if (['updates', 'about'].includes(S.view)) render(); }).catch(() => { CHANGELOG = []; }); }
+  if (VERIFY === null && on('verify_badge')) { VERIFY = false; fetch('verify-status.json', { cache:'no-store' }).then(r => r.ok ? r.json() : null).then(j => { VERIFY = j || false; render(); }).catch(() => {}); }
+}
+function vUpdates(){
+  loadSide();
+  const top = `<div class="top"><button class="back" data-go="about">${chev}이용 안내</button></div><h1 style="margin:0 0 4px">업데이트 내역</h1>
+    <p class="small muted" style="margin:0 0 8px">베타 기간에 무엇이 바뀌고 고쳐졌는지 날짜별로 적어요. 판정이 바뀐 수정은 '수정'으로 표시해요.</p>`;
+  if (!CHANGELOG) return top + '<div class="card empty"><b>불러오는 중…</b></div>';
+  const KIND = { '새 기능':'ok', '개선':'info', '수정':'warn', '검증':'ok' };
+  return top + CHANGELOG.map(v => `<section class="card"><div class="row"><h2>${esc(v.title)}</h2><span class="small muted">${esc(v.date.replace(/-/g, '.'))}</span></div>
+    <ul class="cl-ul">${v.items.map(([k, t]) => `<li><span class="pill ${KIND[k] || ''}">${esc(k)}</span><span>${esc(t)}</span></li>`).join('')}</ul></section>`).join('');
+}
+/* 데이터 검증 현황 (기능: verify_badge) — docs/verify-status.json (수집 뒤 Actions 가 만든다: 판정 검증 사례·공고문 대조·정답 데이터) */
+function verifyCard(){
+  if (!on('verify_badge')) return '';
+  loadSide();
+  const v = VERIFY;
+  if (!v) return `<section class="card"><h2>데이터 검증 현황</h2><p class="small muted" style="margin:6px 0">검증 결과를 불러오는 중이거나 아직 없어요.</p></section>`;
+  const cc = v.crosscheck && v.crosscheck.summary ? v.crosscheck.summary.replace('[검증·공고문] ', '') : '공고문 대조 결과 없음';
+  return `<section class="card"><div class="row"><h2>데이터 검증 현황</h2><span class="pill ${v.ok ? 'ok' : 'fail'}">${v.ok ? '모두 일치' : '차이 발견 · 확인 중'}</span></div>
+    <dl class="kv"><dt>마지막 검증</dt><dd>${esc(v.at || '-')}</dd>
+      <dt>판정 검증 사례</dt><dd>${v.judge ? v.judge.passed + ' / ' + v.judge.total + '건 일치' : '-'}</dd>
+      <dt>공고문 원문 대조</dt><dd>${esc(cc)}</dd>
+      <dt>정답 데이터</dt><dd>${v.golden && v.golden.mismatches.length ? v.golden.mismatches.length + '건 다름' : '모두 일치'}</dd></dl>
+    <p class="small muted" style="margin:6px 0 0">판정 검증 사례는 공고문·법령 표로 기대값을 정한 사례를 화면 판정과 맞춰 본 것이고, 공고문 대조는 매일 수집한 모집공고문의 소득 기준표·예치금·자산 기준·분양가를 앱 수치와 맞춰 본 거예요.${v.ok ? '' : ' 차이가 난 공고는 공고 화면에 \'데이터 확인 필요\'로 표시돼요.'}</p></section>`;
+}
 function docLinks(){
   if (!on('legal_pages')) return '';
   const a = (v, t, d) => `<button class="docrow" data-go="${v}"><span><b>${t}</b><span class="small muted">${d}</span></span>${chev.replace('<svg', '<svg style="transform:rotate(180deg)"')}</button>`;
-  return `<section class="card"><h2>문서</h2>${a('story', '만든 이유와 데이터', '청약패스가 답하려는 질문')}${a('terms', '이용약관', '시행일 ' + LEGAL_DATE)}${a('privacy', '개인정보처리방침', '시행일 ' + LEGAL_DATE)}</section>`;
+  return `<section class="card"><h2>문서</h2>${on('changelog') ? a('updates', '업데이트 내역 (베타)', '무엇이 바뀌고 고쳐졌는지') : ''}${a('story', '만든 이유와 데이터', '청약패스가 답하려는 질문')}${a('terms', '이용약관', '시행일 ' + LEGAL_DATE)}${a('privacy', '개인정보처리방침', '시행일 ' + LEGAL_DATE)}</section>`;
 }
 const docTop = t => `<div class="top"><button class="back" data-go="about">${chev}이용 안내</button></div><h1 style="margin:0 0 4px">${t}</h1>`;
 const officer = () => esc(CONFIG.privacy_officer || '서비스 운영자');
@@ -3260,7 +3294,7 @@ function vPrivacy(){
 
 /* ---------- 라우팅 & 이벤트 ---------- */
 const app = document.getElementById('app'), tabbar = document.getElementById('tabbar');
-const VIEWS = { feed:vFeed, detail:vDetail, plan:vPlan, grades:vGrades, me:vMe, onboard:vOnboard, alerts:vAlerts, about:vAbout, compare:vCompare, trend:vTrend, story:vStory, terms:vTerms, privacy:vPrivacy };
+const VIEWS = { feed:vFeed, detail:vDetail, plan:vPlan, grades:vGrades, me:vMe, onboard:vOnboard, alerts:vAlerts, about:vAbout, compare:vCompare, trend:vTrend, story:vStory, terms:vTerms, privacy:vPrivacy, updates:vUpdates };
 let lastView = null;
 function render(){
   document.body.classList.toggle('gname-v2', on('grade_skip'));
@@ -3270,7 +3304,7 @@ function render(){
   const ta = tabbar.querySelector('[data-go=about]'); if (ta) ta.hidden = !(on('about_tab') && on('about_page'));
   app.innerHTML = VIEWS[S.view]();
   tabbar.hidden = S.view === 'onboard';
-  const tab = { feed:'feed', detail:'feed', plan:'feed', alerts:'feed', grades:'grades', me:'me', about: on('about_tab') ? 'about' : 'me', story: on('about_tab') ? 'about' : 'me', terms: on('about_tab') ? 'about' : 'me', privacy: on('about_tab') ? 'about' : 'me', compare:'feed', trend:'trend' }[S.view];
+  const tab = { feed:'feed', detail:'feed', plan:'feed', alerts:'feed', grades:'grades', me:'me', about: on('about_tab') ? 'about' : 'me', story: on('about_tab') ? 'about' : 'me', terms: on('about_tab') ? 'about' : 'me', privacy: on('about_tab') ? 'about' : 'me', updates: on('about_tab') ? 'about' : 'me', compare:'feed', trend:'trend' }[S.view];
   tabbar.querySelectorAll('button').forEach(b => { if (b.dataset.go === tab) b.setAttribute('aria-current','page'); else b.removeAttribute('aria-current'); });
   if (lastView !== S.view) window.scrollTo(0, 0);
   const key = S.view + '|' + (S.view === 'detail' || S.view === 'plan' ? S.id : '') + '|' + (S.view === 'feed' ? S.feedMode : '');
@@ -3292,7 +3326,7 @@ function go(v){
 /* 뒤로가기·주소 (기능: history_nav). 화면을 바꿀 때 브라우저 기록에 남겨 뒤로가기가 사이트 안에서 이전 화면으로 돌아가게 한다.
    주소: 목록 = 사이트 주소 그대로, 공고 = #/detail/<주택형 id>, 그 밖 = #/<화면>. 새로고침·공유 링크는 데이터를 읽은 뒤 그 화면을 연다 */
 const NAV_ID_VIEWS = ['detail', 'plan'];
-const NAV_VIEWS = ['feed', 'detail', 'plan', 'grades', 'me', 'about', 'story', 'terms', 'privacy', 'trend', 'alerts', 'compare'];
+const NAV_VIEWS = ['feed', 'detail', 'plan', 'grades', 'me', 'about', 'story', 'terms', 'privacy', 'trend', 'alerts', 'compare', 'updates'];
 let navPopping = false, navPending = null;
 function navUrl(v){ return v === 'feed' ? location.pathname + location.search : '#/' + v + (NAV_ID_VIEWS.includes(v) && S.id ? '/' + encodeURIComponent(S.id) : ''); }
 function navPush(prevY){
