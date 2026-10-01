@@ -457,6 +457,13 @@ body.gm .listing.g-flat .bcol .badge,body.gm .listing.g-unknown .bcol .badge{fon
 .dcta-row{display:flex;gap:8px} .dcta-row .btn{min-height:50px;width:auto;flex:1} .dcta-row .dcta-main{flex:2;background:var(--lotto);color:var(--on-fill)} body.has-cta .shell{padding-bottom:190px} body.chat-open .dcta{display:none}
 .topf .qf{flex-wrap:nowrap;overflow-x:auto;scrollbar-width:none;margin:0;-webkit-mask-image:linear-gradient(90deg,#000 88%,transparent);mask-image:linear-gradient(90deg,#000 88%,transparent)} .topf .qf>*:last-child{margin-right:24px} .topf .qf::-webkit-scrollbar{display:none} .topf .qf>*{flex:none}
 body.tab6 .tabbar button{font-size:12px;white-space:nowrap;letter-spacing:-.2px;padding:0 2px}
+/* 기능: top_compact — 맨 위 필터·내 조건·요약을 작게 (2026-10-01 사용자 요청: 카드가 첫 화면에 보이게) */
+.topf.tc{gap:6px;margin-bottom:8px} .tc-row{display:flex;align-items:center;gap:6px;min-width:0} .tc-row .qf{flex:1;min-width:0}
+body.tcmp .topf.tc .qsel{height:32px;min-height:32px;font-size:13px;padding:0 24px 0 10px;background-position:right 8px center} body.tcmp .topf.tc .chip{height:32px;min-height:32px;padding:0 11px;font-size:12.5px}
+.freset{flex:none;width:34px;height:34px;border-radius:17px;border:1px solid var(--line);background:var(--surface);color:var(--fg);display:inline-flex;align-items:center;justify-content:center;cursor:pointer} .freset svg{width:16px;height:16px} .freset:disabled{opacity:.4;cursor:default}
+body.tcmp .mycond{padding:10px 12px;gap:6px;border-radius:14px;margin-bottom:6px} body.tcmp .mycond .mc-verdict{padding:5px 8px;font-size:12.5px} body.tcmp .mycond.mc-new .mc-head h2{font-size:15px}
+body.tcmp .mycond.mc-new .mc-actions .btn{min-height:40px;font-size:13.5px} body.tcmp .sumbar{padding:6px 4px;margin-bottom:6px} body.tcmp .sumbar b{font-size:15px} body.tcmp .findbox{gap:8px}
+body.tcmp .betaline{margin-bottom:4px}
 .topf{display:flex;flex-direction:column;gap:8px;margin:0 0 12px} .topf .chips{margin:0} .topf .fpanel{margin-top:2px}
 .topbtns{display:inline-flex;align-items:center;gap:8px;flex:none} .top+.search{margin:-4px 0 10px} .srchbtn{width:44px;height:44px;flex:none;display:inline-flex;align-items:center;justify-content:center;border-radius:22px;border:1px solid var(--line);background:var(--surface);color:var(--fg);cursor:pointer} .srchbtn svg{width:20px;height:20px} .srchbtn.on{background:var(--btn);color:var(--btn-fg);border-color:var(--btn)}
 .bell{display:inline-flex;align-items:center;gap:6px;min-height:44px;padding:0 14px;border-radius:22px;border:1px solid var(--line);background:var(--surface);font-weight:600;font-size:14px;cursor:pointer} .bell[hidden]{display:none}
@@ -1511,11 +1518,13 @@ const advCount = () => activeFilters().filter(([k]) => ADV_KEYS.includes(k)).len
 function topFilters(){
   if (!on('top_filters')) return '';
   const chip = (k, t) => `<button class="chip sm" data-filter="${k}" aria-pressed="${S.filter === k}">${t}</button>`;
-  return `<div class="topf" aria-label="공고 필터">${quickFilters()}
+  const TC = on('top_compact'), anyF = activeFilters().length || S.filter !== 'all' || S.newDays || (S.q && S.q.trim()) || S.elig;   // 기능: top_compact — 모집 상태·새 공고는 빼고(요약 숫자·상세에 있음) 초기화 아이콘
+  const reset = TC ? `<button class="freset" data-action="reset-filters" aria-label="필터 모두 초기화"${anyF ? '' : ' disabled'}><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 12a9 9 0 1 0 3-6.7"/><path d="M3 4v5h5"/></svg></button>` : '';
+  return `<div class="topf${TC ? ' tc' : ''}" aria-label="공고 필터">${TC ? `<div class="tc-row">${quickFilters(true)}${reset}</div>` : quickFilters()}
     <div class="chips gchips" role="group" aria-label="등급 필터">${chip('all','전체')}${watchChip(chip)}${chip('lotto','로또')}${chip('consider','고려')}${chip('flat','마진없음')}${chip('pass',GNAME.pass)}</div>
     ${S.showFilters ? filterPanel() : ''}</div>`;
 }
-function quickFilters(){
+function quickFilters(slim){
   if (!on('quick_filters')) return '';
   const f = S.f, cs = countBy('sido', L => L.sido), ct = countBy('status', statusOf);
   const cpz = countBy('price', L => Object.keys(PRICE_BANDS).find(k => L.price != null && L.price >= PRICE_BANDS[k][1] && L.price < PRICE_BANDS[k][2]));
@@ -1525,8 +1534,8 @@ function quickFilters(){
     ${sel('sido', '지역', SIDO_ORDER.filter(x => cs[x] || f.sido === x).map(x => opt(x, x, null, f.sido === x)).join(''))}
     ${sel('price', '분양가', Object.entries(PRICE_BANDS).map(([k, b]) => opt(k, b[0], null, f.price === k).replace('<option', cpz[k] || f.price === k ? '<option' : '<option disabled')).join(''))}
     ${sel('size', '면적', Object.entries(SIZE_BANDS).map(([k, b]) => opt(k, b[0], null, f.size === k).replace('<option', csz[k] || f.size === k ? '<option' : '<option disabled')).join(''))}
-    ${sel('status', '모집 상태', STATUS.map(x => opt(x, x, null, f.status === x)).join(''))}
-    ${newSelect()}
+    ${slim ? '' : sel('status', '모집 상태', STATUS.map(x => opt(x, x, null, f.status === x)).join(''))}
+    ${slim ? '' : newSelect()}
     <button class="qsel qmore${advCount() ? ' on' : ''}" data-action="toggle-filters" aria-expanded="${S.showFilters}" aria-controls="filters">상세${advCount() ? ' ' + advCount() : ''}</button>
   </div>`;
 }
@@ -1609,7 +1618,7 @@ function filterPanel(){
     ${on('quick_filters') ? '' : `<label>지역 (시·도)<select data-f="sido"><option value="">전체</option>${SIDO_ORDER.map(x => opt(x, x, cs[x] || 0, f.sido === x)).join('')}</select></label>`}
     <label>시·군·구<select data-f="district" ${f.sido ? '' : 'disabled'}><option value="">${f.sido ? '전체' : (on('quick_filters') ? '지역 칩에서 시·도를 먼저 골라요' : '시·도를 먼저 골라요')}</option>${dists.map(x => opt(x, x, cd[x], f.district === x)).join('')}</select></label>
     <label>공급 구분<select data-f="supply"><option value="">전체</option>${supplies.map(x => opt(x, x, cp[x], f.supply === x)).join('')}</select></label>
-    ${on('quick_filters') ? '' : `<label>모집 상태<select data-f="status"><option value="">전체</option>${STATUS.map(x => opt(x, x, ct[x] || 0, f.status === x)).join('')}</select></label>`}
+    ${on('quick_filters') && !(on('top_compact') && on('top_filters')) ? '' : `<label>모집 상태<select data-f="status"><option value="">전체</option>${STATUS.map(x => opt(x, x, ct[x] || 0, f.status === x)).join('')}</select></label>`}
     ${distinct('houseDtl').length > 1 ? (() => { const c = countBy('dtl', L => L.houseDtl); return `<label>주택 구분<select data-f="dtl"><option value="">전체</option>${distinct('houseDtl').map(x => opt(x, x, c[x] || 0, f.dtl === x)).join('')}</select></label>`; })() : ''}
     ${distinct('rentSecd').length > 1 ? (() => { const c = countBy('rent', L => L.rentSecd); return `<label>분양/임대<select data-f="rent"><option value="">전체</option>${distinct('rentSecd').map(x => opt(x, x, c[x] || 0, f.rent === x)).join('')}</select></label>`; })() : ''}
     ${hasSpecialData() ? `<label class="full">청약 유형<select data-f="special"><option value="">전체</option>${opt('yes', '특별공급 있음', sp.yes || 0, f.special === 'yes')}${opt('no', '특별공급 없음', sp.no || 0, f.special === 'no')}</select></label>` : ''}
@@ -1789,11 +1798,11 @@ function myCondCard(){
   const p = S.profile;
   if (!hasProfile()) return `<section class="mycond mc-new" aria-labelledby="mc-t">
     <div class="mc-head"><h2 id="mc-t">먼저 내 조건을 넣어 주세요</h2></div>
-    ${on('quick_start') ? `<p class="small" style="margin:0">사는 곳·세대·집·청약통장만 답하면 공고마다 <b>신청할 수 있는지</b> 바로 알려 드려요. ${QUICK_STEPS.length - 2}단계 안팎, 1분이면 돼요. 가점·자금은 나중에 채워도 돼요.</p>
+    ${on('quick_start') ? `<p class="small" style="margin:0">${on('top_compact') ? `사는 곳·세대·집·청약통장만 답하면 공고마다 <b>신청할 수 있는지</b> 알려 드려요 (1분, 이 기기에만 저장).` : `사는 곳·세대·집·청약통장만 답하면 공고마다 <b>신청할 수 있는지</b> 바로 알려 드려요. ${QUICK_STEPS.length - 2}단계 안팎, 1분이면 돼요. 가점·자금은 나중에 채워도 돼요.`}</p>
     <div class="mc-actions"><button class="btn" data-action="quick-start">${PENCIL}빠르게 시작하기</button><button class="btn ghost" data-action="restart">전부 입력하기</button></div>`
     : `<p class="small" style="margin:0">사는 곳·집·세대·현금을 넣으면 공고마다 <b>신청할 수 있는지</b>와 <b>모자란 돈</b>을 판정해요. 2분이면 돼요.</p>
     <div class="mc-actions"><button class="btn" data-action="restart">${PENCIL}내 조건 입력하기</button></div>`}
-    <span class="small muted">입력한 정보는 이 기기에만 저장돼요.</span></section>`;
+    ${on('top_compact') && on('quick_start') ? '' : '<span class="small muted">입력한 정보는 이 기기에만 저장돼요.</span>'}</section>`;
   const hh = { head:'세대주', parents:'세대원 (부모님 세대)', spouse:'세대원 (배우자 세대)', other:'세대 기타' }[p.household];
   const where = on('residence_v2') ? homeLabel(p) : p.seoul == null ? '' : p.seoul ? '서울' : '서울 외';
   const tag = (v, miss) => v ? `<span class="mc-tag">${esc(v)}</span>` : `<span class="mc-tag miss">${miss} 입력 필요</span>`;
@@ -4418,6 +4427,7 @@ const app = document.getElementById('app'), tabbar = document.getElementById('ta
 const VIEWS = { feed:vFeed, detail:vDetail, plan:vPlan, grades:vGrades, me:vMe, onboard:vOnboard, alerts:vAlerts, about:vAbout, compare:vCompare, trend:vTrend, story:vStory, terms:vTerms, privacy:vPrivacy, updates:vUpdates };
 let lastView = null;
 function render(){
+  document.body.classList.toggle('tcmp', on('top_compact'));   // 기능: top_compact
   document.body.classList.toggle('gm', on('grade_medal'));   // 기능: grade_medal — 목록 카드 등급을 원형 배지로
   document.body.classList.toggle('has-cta', on('detail_cta') && S.view === 'detail');   // 기능: detail_cta — 아래 고정 버튼만큼 여백
   if (CHAT && (S.view !== 'detail' || S.id !== CHAT.lid)) chatClose();   // 기능: chatbot — 다른 화면으로 가면 대화창을 닫는다 (대화는 저장하지 않음)
