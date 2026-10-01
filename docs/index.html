@@ -154,6 +154,7 @@ body.ta details:not(.sprow):not(.scitem):not(.menudet)>summary:active{background
 body.ta .ckmore{border-top:0;padding-top:0}
 body.ta .scitem .sc-row{align-items:center} body.ta .scitem .sc-row>b{margin-left:auto} body.ta .scitem .sc-row::after{color:var(--link);margin-left:8px}
 body.ta .sp-top::after{border-color:var(--link);width:9px;height:9px}
+.optag{display:inline-block;margin-left:6px;padding:1px 7px;border-radius:999px;background:var(--line);color:var(--muted);font-size:12px;font-weight:500;vertical-align:1px;white-space:nowrap}
 .mc-unsure{display:flex;flex-wrap:wrap;gap:6px;align-items:center;padding:8px 10px;border-radius:10px;background:var(--warn-soft)} .mc-unsure .btn.sm{font-size:13px}
 .ckitem{border:1px solid var(--line);border-left-width:3px;border-radius:10px;padding:8px 10px;background:var(--bg);display:flex;flex-direction:column;gap:3px}
 .ckitem.fail{border-left-color:var(--pass)} .ckitem.warn{border-left-color:var(--warn-ink)}
@@ -566,7 +567,7 @@ function afterRender(){
 const DEFAULT_PROFILE = { seoul:null, household:'', parents60:null, parentsOwn:null, headSince:'',
   selfOwn:null, married:null, spouseOwn:false, spouseIncome:0, spouseLoan:0, account:'unknown', recentWin:false, birth:'', marriedOn:'', homeSoldOn:'', dependents:null, spouseAcctSince:'', hhHomes:'', hhOwner:'', win5y:null, acctType:'', acctSince:'', acctAmount:0, acctCount:null, acctPaid:null, homeArea:'',
   cash:0, liquid:0, deposit:0, income:0, loanMonthly:0, firstTime:null,
-  kidsUnder6:null, gen3:null, homeSido:'', sidoSince:'', sidoOwnSince:'', kidsOnDeed:null, eldersOnDeed:null, elders1y:null, fetusCount:null, homeSigun:'', areaSince:'', kidsMinor:null, youngestBirth:'', pregnant:null, hhSize:null, hhIncomeYear:null, realEstate:null, carValue:null, townType:null, townInsurance:null, townFinOther:null, townOtherAsset:null, townDebt:null, hhNeverOwned:null, everWin:null, taxYears5:null, elder65:null };
+  kidsUnder6:null, gen3:null, homeSido:'', sidoSince:'', sidoOwnSince:'', kidsOnDeed:null, eldersOnDeed:null, elders1y:null, fetusCount:null, homeSigun:'', areaSince:'', kidsMinor:null, youngestBirth:'', pregnant:null, hhSize:null, hhIncomeYear:null, realEstate:null, carValue:null, townType:null, townInsurance:null, townFinOther:null, townOtherAsset:null, townDebt:null, ownExc:null, spouseSoldOn:'', winSpecial:null, winScore2y:null, hhNeverOwned:null, everWin:null, taxYears5:null, elder65:null };
 
 const store = {
   get(k){ try{ const v = localStorage.getItem(k); return v ? JSON.parse(v) : null; }catch(e){ return null; } },
@@ -618,6 +619,30 @@ function monthsBetween(a, b){ // a~b 사이 꽉 찬 개월 수
 }
 /* 재당첨 제한을 받는 공고인지 (2026-10-01 판정엔진 감사). 규칙 제54조① '다른 분양주택(…투기과열지구 및 청약과열지역이 아닌 지역에서 공급되는 민영주택은 제외한다)',
    불법행위 재공급은 제47조의3 에 따라 따로 제한. 신혼희망타운·공공분양(국민주택)은 지역과 관계없이 제한 */
+/* 해당하는 분만 답하는 질문 (기능: optional_inputs, 2026-10-01 사용자 요청: 극소수만 해당하는 질문은 안 적으면 '해당 없음'으로 넘어가게).
+   비워 두면 아래 값으로 판정한다. 화면의 질문 표시(fieldValue)와 같은 기준 — 저장된 내 조건은 바꾸지 않는다.
+   - 임신 중·만 65세 부모님 3년 부양·3세대 동거·예비신혼/한부모·주택 소유 예외(소형·저가 등): 해당 없음
+   - 청약 당첨 이력: 없음 (예전 질문 '최근 5년 당첨'에 답한 사람은 그 답을 씀)
+   - 부동산 가액: 본인·배우자 집이 없으면 0 (만 60세 이상 부모님 집은 parentHouseMissing 이 따로 물음), 신혼희망타운 부채: 0 */
+const OPT_NONE = { pregnant:false, elder65:false, gen3:false, townType:'none', ownExc:'none' };
+function optDefaults(p){
+  if (!p || p._opt || !on('optional_inputs')) return p;
+  const q = Object.assign({}, p, { _opt:true });
+  for (const k in OPT_NONE) if (q[k] == null || q[k] === '') q[k] = OPT_NONE[k];
+  if (q.everWin == null && q.win5y == null && q.recentWin !== true) Object.assign(q, { everWin:'none', win5y:false, recentWin:false });
+  if ((q.realEstate == null || q.realEstate === '') && !q.selfOwn && !(q.married && q.spouseOwn)) q.realEstate = 0;
+  if (q.townDebt == null || q.townDebt === '') q.townDebt = 0;
+  return q;
+}
+/* 주택 소유 예외 (규칙 제53조, 기능: optional_inputs). 세대가 1채(1호)만 가졌을 때만:
+   9호 가 아파트 등 전용 60㎡ 이하·가격 1억(수도권 1억6천만) 이하 / 9호 나 단독·다가구·다세대·연립 등 전용 85㎡ 이하·가격 3억(수도권 5억) 이하,
+   5호 전용 20㎡ 이하, 1호 상속받은 공유지분(부적격 통보 후 3개월 안에 처분) → 주택을 소유하지 않은 것으로 봄. 공공임대만 9호 제외(이 서비스는 분양만 다룸).
+   'other'(2호 농어촌 단독주택·7호 폐가·11호 전세피해 경매 등)는 조건이 복잡해 확인 필요 */
+const OWN_EXC_OK = ['small_apt', 'small_villa', 'tiny', 'inherit'];
+const ownExcept = p => on('optional_inputs') && p.hhHomes !== '2+' && p.ownExc && p.ownExc !== 'none' ? p.ownExc : null;
+const OWN_EXC_NOTE = { small_apt:'소형·저가 아파트 1채(전용 60㎡ 이하·공시가격 1억, 수도권 1억6천만 이하)는 무주택으로 봐요 (주택공급에 관한 규칙 제53조제9호)',
+  small_villa:'소형·저가 빌라·단독주택 1채(전용 85㎡ 이하·공시가격 3억, 수도권 5억 이하)는 무주택으로 봐요 (규칙 제53조제9호)',
+  tiny:'전용 20㎡ 이하 주택 1채는 무주택으로 봐요 (규칙 제53조제5호)', inherit:'상속받은 공유지분은 부적격 통보 후 3개월 안에 처분하면 무주택으로 봐요 (규칙 제53조제1호)' };
 const rewinTarget = L => L.houseDtl === '국민' || !!L.regulated || /불법행위/.test(L.kind || '') || isNewlywedTown(L);
 /* 세대 소득을 비워 두면 본인+배우자 소득으로 추정하는데, 같은 등본에 부모님 등 다른 성인 세대원이 있으면 그 소득도 합쳐야 해서 추정으로 '충족'을 주지 않는다 (감사 H3) */
 const incomeNeedsHh = p => (p.hhIncomeYear == null || p.hhIncomeYear === '') && (p.household === 'parents' || (p.eldersOnDeed || 0) > 0);
@@ -674,6 +699,7 @@ function publicItems(L, p){
   return out;
 }
 function accountItems(L, p){ // 청약통장 1순위 요건 (기능: account_rules). 입력이 없으면 null → 예전 방식
+  p = optDefaults(p);   // 기능: optional_inputs
   if (!on('account_rules') || !p.acctType || !L.needAccount) return null;
   const out = [], ref = L.notice || TODAY, minyoung = L.houseDtl !== '국민';
   if (p.acctType === 'none') return [{ k:'청약통장', s:'fail', v:'없음', note:'1순위·2순위 모두 청약통장이 필요해요' }];
@@ -696,6 +722,7 @@ function accountItems(L, p){ // 청약통장 1순위 요건 (기능: account_rul
   return out;
 }
 function regulatedItems(L, p){ // 투기과열지구·청약과열지역 민영 1순위 추가 요건 (기능: regulated_rules)
+  p = optDefaults(p);   // 기능: optional_inputs
   // 근거: 모집공고문 '투기과열지구 및 청약과열지역에서 공급하는 경우 아래 조건을 만족해야 1순위 신청 가능 - 세대주일 것 -
   //       2주택 이상을 소유한 세대에 속하지 않을 것 - 과거 5년 이내 당첨된 분의 세대에 속하지 않을 것' (광명 2026000453 등)
   if (!on('regulated_rules') || !L.regulated || !L.needAccount || L.category === 'remainder' || isNewlywedTown(L)) return [];   // 신혼희망타운은 순위가 없다 (감사 M1)
@@ -717,14 +744,16 @@ function regulatedItems(L, p){ // 투기과열지구·청약과열지역 민영 
    집을 가졌다가 처분했으면 처분일부터. 배우자 통장 가입기간은 50%로 계산해 최대 3점, 통장 점수 합계는 17점까지 */
 function addYears(d, n){ const [y, m, dd] = d.split('-'); return (Number(y) + n) + '-' + m + '-' + dd; }
 function myScore(L, p){ // 기능: score
+  p = optDefaults(p);   // 기능: optional_inputs
   const ref = L.notice || TODAY, parts = [], miss = [];
   // ① 무주택기간 (32)
   let a = null, aNote = '';
   /* 별표1 가목 1) '입주자모집공고일 현재 세대원 모두 주택을 소유하지 않아야 한다' — 세대원(만 60세 미만 부모님 등) 명의 주택이 있으면 0점 (2026-10-01 감사 F1).
      만 60세 이상 직계존속 명의는 제53조제6호로 무주택. 세대 주택이 있는데 누구 명의인지 모르면 계산하지 않는다 */
-  const hhAnyS = p.hhHomes === '1' || p.hhHomes === '2+', mine = p.selfOwn || (p.married && p.spouseOwn);
-  const hhOther = !mine && ((p.household === 'parents' && p.parentsOwn && !p.parents60) || (hhAnyS && p.hhOwner === 'other'));
-  const hhWho = !mine && hhAnyS && !p.hhOwner && !(p.household === 'parents' && p.parentsOwn);
+  const exS = ownExcept(p) && OWN_EXC_OK.includes(ownExcept(p));   // 제53조 예외면 무주택 (별표1 가목2) 소형·저가 가격 기준)
+  const hhAnyS = p.hhHomes === '1' || p.hhHomes === '2+', mine = !exS && (p.selfOwn || (p.married && p.spouseOwn));
+  const hhOther = !mine && !exS && ((p.household === 'parents' && p.parentsOwn && !p.parents60) || (hhAnyS && p.hhOwner === 'other'));
+  const hhWho = !mine && !exS && hhAnyS && !p.hhOwner && !(p.household === 'parents' && p.parentsOwn) && !p.selfOwn && !(p.married && p.spouseOwn);
   if (mine) { a = 0; aNote = '지금 집이 있으면 0점'; }
   else if (hhOther) { a = 0; aNote = '세대원 명의 주택이 있으면 0점 (세대원 모두 무주택이어야 해요 · 별표1)'; }
   else if (hhWho) miss.push('세대 주택 명의');
@@ -734,6 +763,8 @@ function myScore(L, p){ // 기능: score
     let start = thirty, why = '만 30세가 된 날';
     if (p.married && p.marriedOn && p.marriedOn < thirty) { start = p.marriedOn; why = '혼인신고일 (만 30세 전 혼인)'; }
     if (p.homeSoldOn && p.homeSoldOn > start) { start = p.homeSoldOn; why = '주택 처분일'; }
+    // 별표1 3) '주택공급신청자 또는 배우자가 주택을 소유한 사실이 있는 경우 … 최근에 무주택자가 된 날' — 배우자 처분일 (기능: optional_inputs)
+    if (on('optional_inputs') && p.married && p.spouseSoldOn && p.spouseSoldOn > start) { start = p.spouseSoldOn; why = '배우자 주택 처분일'; }
     const d = x => x.replace(/-/g, '.');
     if (ref < start) { a = 0; aNote = ref < thirty && !(p.married && p.marriedOn && p.marriedOn <= ref) ? '만 30세 미만 미혼은 0점 (만 30세가 되는 날 ' + d(thirty) + ')' : '공고일 기준 무주택기간 없음'; }
     else { const y = Math.floor(monthsBetween(start, ref) / 12); a = y < 1 ? 2 : Math.min(32, 2 + 2 * y);
@@ -822,7 +853,7 @@ function scoreCardV2(L, p, r, t){
   const off = e && !e.ok && e.rank2 ? (e.rank2Need ? '지금 조건으로는 이 공고에 1순위로 신청할 수 없어요.' : '지금 조건으로는 이 공고에 2순위로만 신청할 수 있어요.') + ' 2순위는 가점 없이 추첨으로 뽑아서(주택공급에 관한 규칙 제28조⑨) 아래 가점은 이번 공고에 쓰이지 않아요. 1순위로 신청하는 공고에서 쓰이는 점수예요.'
     : ownI && L.regulated ? '집이 있어 이 공고에서는 가점제가 아니라 추첨 물량으로만 신청할 수 있어요. 아래 가점은 이번 공고에 쓰이지 않아요.' : '';
   const RS = !off && has ? regionScore(L, p) : null;   // 기능: region_first_score
-  const win2 = p.win5y === true && !off ? `<div class="note warn sccmp"><b>가점제로 신청할 수 있는지 확인하세요</b><div class="small">최근 5년 안에 당첨된 적이 있다고 했어요. 그 당첨이 최근 2년 안의 가점제 당첨이면 세대 전체가 가점제로 신청할 수 없어요 (추첨제는 가능 · 주택공급에 관한 규칙 제28조⑥).</div></div>` : '';
+  const win2 = p.win5y === true && !off && !(on('optional_inputs') && p.winScore2y === false) ? (on('optional_inputs') && p.winScore2y === true ? `<div class="note fail sccmp"><b>이번 공고에 가점제로는 신청할 수 없어요</b><div class="small">세대가 최근 2년 안에 가점제로 당첨돼서 가점제로 신청할 수 없어요. 추첨제로는 신청할 수 있어요 (주택공급에 관한 규칙 제28조⑥).</div></div>` :  `<div class="note warn sccmp"><b>가점제로 신청할 수 있는지 확인하세요</b><div class="small">최근 5년 안에 당첨된 적이 있다고 했어요. 그 당첨이 최근 2년 안의 가점제 당첨이면 세대 전체가 가점제로 신청할 수 없어요 (추첨제는 가능 · 주택공급에 관한 규칙 제28조⑥).</div></div>`) : '';
   const cmp = win2 + (off ? `<div class="note info sccmp"><b>이번 공고에서는 가점이 쓰이지 않아요</b><div class="small">${off}</div></div>`
     : RS && RS.lotteryOnly ? `<div class="note info sccmp"><b>이 주택형은 가점이 쓰이지 않아요</b><div class="small">${esc(RS.ratioTxt)} ${RS.ratioSrc}</div></div>`
     : !has ? '' : !t ? `<div class="small muted sccmp">비교할 당첨 가점 기록이 없어요.${RS && RS.short ? ' 내 지역 순서: ' + esc(RS.short) + '.' : ''}</div>`
@@ -962,12 +993,18 @@ function townAssetParts(p){
            get total(){ return this.realEstate + this.fin + this.other + this.car - this.debt; } };
 }
 function townAssetItem(pl, p, relax){
-  const k = '총자산 (신혼희망타운)', miss = TOWN_ASSET_FIELDS.filter(([f]) => p[f] == null || p[f] === '').map(([, n]) => n);
+  const k = '총자산 (신혼희망타운)';
+  let miss = TOWN_ASSET_FIELDS.filter(([f]) => p[f] == null || p[f] === '').map(([, n]) => n), zeroed = [];
+  /* 보험 해약환급금·그 밖의 금융자산·기타 자산은 비워 두면 0으로 보되, 그렇게 계산한 총자산이 기준의 90% 를 넘으면(빠진 값이 결과를 바꿀 수 있으면) 넣어 달라고 한다 (기능: optional_inputs) */
+  if (on('optional_inputs') && miss.length && miss.every(n => ['보험 해약환급금', '그 밖의 금융자산', '기타 자산'].includes(n))) {
+    const z = townAssetParts(p).total;
+    if (z <= pl.total_asset * 0.9) { zeroed = miss; miss = []; }
+  }
   if (miss.length) return { k, s:'warn', v:'총자산 정보 입력 필요', cause:'A', edit:'town', editLabel:'총자산 정보 넣기',
     note:'총자산(부동산 + 금융자산 + 기타자산 + 자동차 − 부채)이 ' + manW(pl.total_asset) + ' 이하여야 해요. 아직 넣지 않은 값: ' + miss.join(', ') + ' (없으면 0으로 넣어 주세요)' };
   const a = townAssetParts(p), tot = a.total, base = pl.total_asset, r1 = pl.total_asset_relax ? pl.total_asset_relax[0] : null, r2 = pl.total_asset_relax ? pl.total_asset_relax[1] : null;
   const calc = '부동산 ' + manW(a.realEstate) + ' + 금융자산 ' + manW(a.fin) + ' + 기타자산 ' + manW(a.other) + ' + 자동차 ' + manW(a.car) + ' − 부채 ' + manW(a.debt) + ' = ' + (tot < 0 ? '−' + manW(-tot) : manW(tot));
-  if (tot <= base) return { k, s:'ok', v:'충족', note: calc + ' · 기준 ' + manW(base) + ' 이하' };
+  if (tot <= base) return { k, s:'ok', v:'충족', note: calc + ' · 기준 ' + manW(base) + ' 이하' + (zeroed.length ? ' · 비워 둔 ' + zeroed.join('·') + '은 0으로 봤어요 (기준과 거리가 있어 결과가 바뀌지 않아요)' : '') };
   if (relax === 0 || !r1 || tot > r2) return { k, s:'fail', v:'기준 초과', note: calc + ' · 기준 ' + manW(base) + (r2 && relax !== 0 ? ' (출산가구 완화 최대 ' + manW(r2) + '도 초과)' : '') };
   if (relax === 1 && tot <= r1) return { k, s:'ok', v:'충족 (출산가구 완화)', note: calc + ' · 2023.3.28 이후 출생 자녀·태아로 완화 기준 ' + manW(r1) + ' 이하. 출생·임신 증빙이 필요해요' };
   return { k, s:'warn', v:'출산가구 완화 확인 필요', cause:'A', note: calc + ' · 기준 ' + manW(base) + '을 넘지만 2023.3.28 이후 출생 자녀(태아 포함)가 ' + (tot <= r1 ? '있으면' : '2명 이상이면') + ' 완화 기준(' + manW(tot <= r1 ? r1 : r2) + ') 이하예요' };
@@ -979,6 +1016,7 @@ function townMayApply(p){
   return p.married !== true || !p.marriedOn || p.marriedOn >= addYears(TODAY, -8) || kid6;   // 공고일이 조금 뒤여도 놓치지 않게 8년
 }
 function townItems(L, p){
+  p = optDefaults(p);   // 기능: optional_inputs
   const pl = L.pubLimits && L.pubLimits.kind === 'town' ? L.pubLimits : null, ref = L.notice || TODAY, out = [];
   const kid6 = p.pregnant === true || (p.youngestBirth && p.youngestBirth > addYears(ref, -7));   // 만 6세 이하 (공고일 기준 7번째 생일 전) 또는 태아
   // 신청 유형
@@ -1000,7 +1038,8 @@ function townItems(L, p){
       note: kid6 ? '6세 이하 자녀(태아 포함)를 둔 한부모가족이거나, 입주 전까지 혼인을 증명할 예비신혼부부면 신청할 수 있어요' : '입주 전까지 혼인사실을 증명할 수 있는 예비신혼부부면 신청할 수 있어요 (소득·자산은 혼인으로 구성될 세대 기준)' });
   else out.push({ k:'신청 유형 (신혼희망타운)', s:'warn', v:'혼인 여부 입력 필요', note:'신혼부부·예비신혼부부·한부모가족만 신청할 수 있어요', cause:'A' });
   // 신혼희망타운 당첨은 특별공급으로 보고, '과거 다른 특별공급으로 당첨된 자의 세대에 속한 자'는 신청할 수 없다 (2026820008, 규칙 제55조) — 당첨 종류를 묻지 않아 확인 필요
-  if (p.everWin === 'yes') out.push({ k:'특별공급 당첨 이력 (신혼희망타운)', s:'warn', cause:'A', v:'확인 필요', note:'나 또는 세대원이 예전에 특별공급(신혼희망타운 포함)으로 당첨됐으면 신청할 수 없어요. 일반공급·무순위 당첨이면 괜찮아요' });
+  if (p.everWin === 'yes' && on('optional_inputs') && p.winSpecial === true) out.push({ k:'특별공급 당첨 이력 (신혼희망타운)', s:'fail', v:'예전 특별공급 당첨', note:'과거 다른 특별공급으로 당첨된 사람의 세대는 신혼희망타운에 신청할 수 없어요 (규칙 제55조, 공고문)' });
+  else if (p.everWin === 'yes' && !(on('optional_inputs') && p.winSpecial === false)) out.push({ k:'특별공급 당첨 이력 (신혼희망타운)', s:'warn', cause:'A', v:'확인 필요', note:'나 또는 세대원이 예전에 특별공급(신혼희망타운 포함)으로 당첨됐으면 신청할 수 없어요. 일반공급·무순위 당첨이면 괜찮아요' });
   if (!pl) { out.push({ k:'소득·총자산 (신혼희망타운)', s:'warn', v:'확인 필요', cause:'E', note:'이 공고문에서 소득·총자산 기준을 읽지 못했어요. 공고문의 기준을 확인하세요.' }); return out; }
   const relax = p.pregnant === true || (p.youngestBirth && p.youngestBirth >= '2023-03-28') ? 1 : (p.kidsMinor === 0 && p.pregnant === false) || (p.kidsMinor > 0 && p.youngestBirth && p.pregnant === false) ? 0 : null;
   // 소득
@@ -1032,6 +1071,7 @@ function townItems(L, p){
   return out;
 }
 function pubGeneralItems(L, p){
+  p = optDefaults(p);   // 기능: optional_inputs
   if (!on('pub_general_limits') || L.houseDtl !== '국민' || L.category !== 'general' || !L.needAccount) return [];
   if (isNewlywedTown(L)) return on('town_rules') ? townItems(L, p) : [{ k:'소득·총자산 (신혼희망타운)', s:'warn', v:'확인 필요', note:'신혼희망타운은 세대 월평균소득과 총자산(부동산·자동차·금융자산에서 부채를 뺀 금액) 기준이 있어요. 이 서비스는 총자산을 판정하지 않아요. 공고문의 기준을 확인하세요.' }];
   const pl = L.pubLimits;
@@ -1076,6 +1116,7 @@ function pubGeneralItems(L, p){
   return out;
 }
 function eligibility(L, p){
+  p = optDefaults(p);   // 기능: optional_inputs
   const items = [];
   if (on('residence_v2')) items.push(residenceItem(L, p));
   else if (p.seoul == null && (L.region === '서울' || L.region === '경기')) items.push({ k:'거주지 (' + (L.region === '서울' ? '서울' : '수도권') + ')', s:'warn', v:'입력 필요', note:'사는 곳을 넣으면 판정해요' });
@@ -1083,19 +1124,22 @@ function eligibility(L, p){
   else if (L.region === '경기') items.push({ k:'거주지 (수도권)', s: p.seoul ? 'ok' : 'warn', v: p.seoul ? '충족' : '확인 필요', note: p.seoul ? '해당 지역 우선공급 대상은 아니에요' : '' });
   else if (!on('residence_v2')) items.push({ k:'거주지 (' + L.region + ')', s:'warn', v:'확인 필요', note:'공고문의 거주 지역 요건을 확인하세요' });
   const own = []; let homeNote = '';
-  if (p.selfOwn) own.push('본인 명의 주택');
-  if (p.married && p.spouseOwn) own.push('배우자 명의 주택');
+  const exc = ownExcept(p);   // 소형·저가주택 등 제53조 예외 (기능: optional_inputs)
+  if (exc && OWN_EXC_OK.includes(exc)) homeNote = OWN_EXC_NOTE[exc];
+  if (p.selfOwn && !(exc && OWN_EXC_OK.includes(exc))) own.push('본인 명의 주택');
+  if (p.married && p.spouseOwn && !(exc && OWN_EXC_OK.includes(exc))) own.push('배우자 명의 주택');
   if (p.household === 'parents' && p.parentsOwn) { if (p.parents60) homeNote = '부모님 주택: 만 60세 이상 예외 적용'; else own.push('부모님 주택 (만 60세 미만)'); }
   /* 세대 주택이 본인·배우자 명의가 아닐 때 누구 명의인지 (hhOwner, 2026-10-01): 'parent60' = 만 60세 이상 직계존속(배우자 직계존속 포함) → 제53조제6호 예외,
      'other' = 그 밖의 세대원 → 유주택 세대 */
   const hhAny = p.hhHomes === '1' || p.hhHomes === '2+';
-  if (hhAny && !own.length && p.hhOwner === 'other') own.push('세대원 명의 주택');
+  if (hhAny && !own.length && p.hhOwner === 'other' && !(exc && OWN_EXC_OK.includes(exc))) own.push('세대원 명의 주택');
   if (hhAny && !own.length && p.hhOwner === 'parent60' && !homeNote) homeNote = '세대 주택: 만 60세 이상 부모님 명의라 무주택으로 봐요 (노부모부양 특별공급 제외)';
   if (!p.married) homeNote = (homeNote ? homeNote + ' · ' : '') + '혼인신고 전: 배우자 주택 미합산';
   /* 세대 전체 주택 수(hhHomes)를 1채 이상이라고 했는데 본인·배우자·(60세 미만) 부모님 명의가 아니면, 누구 명의인지 몰라 무주택 세대로 단정하지 않는다
      (2026-10-01 블라인드 감사에서 발견: 예전에는 '충족'). 근거: 주택공급에 관한 규칙 제2조제4호 '무주택세대구성원 = 세대원 전원이 주택을 소유하고 있지 않은 세대의 구성원',
      제53조제6호 '60세 이상의 직계존속(배우자의 직계존속 포함)이 주택 또는 분양권등을 소유하고 있는 경우' 무주택으로 봄(노부모부양 특별공급 제외) */
-  const hhOwnUnknown = hhAny && !own.length && !(p.household === 'parents' && p.parentsOwn && p.parents60) && p.hhOwner !== 'parent60';
+  const hhOwnUnknown = hhAny && !own.length && !(p.household === 'parents' && p.parentsOwn && p.parents60) && p.hhOwner !== 'parent60' && !(exc && OWN_EXC_OK.includes(exc)) && !p.selfOwn && !(p.married && p.spouseOwn);
+  if (exc === 'other') items.push({ k:'주택 소유 예외', s:'warn', cause:'C', v:'예외 해당 여부 확인 필요', note:'농어촌 단독주택·폐가·전세피해 경매 주택 등은 조건을 갖추면 무주택으로 봐요 (규칙 제53조). 조건이 복잡해 판정하지 않았어요. 청약홈 청약자격확인이나 사업주체에 확인하세요' });
   if (!own.length && (p.selfOwn == null || !p.household)) items.push({ k:'무주택 세대', s:'warn', v:'입력 필요', note:'집 보유와 세대 구성을 넣으면 판정해요' });
   else if (hhOwnUnknown && on('owner_lottery') && L.houseDtl === '민영' && L.category === 'general' && L.needAccount)   // 민영 일반공급 1순위는 유주택 세대도 신청 가능 — 가점제·추첨 여부만 명의에 따라 달라짐
     items.push({ k:'무주택 세대', s:'ok', hhUnknown:true, edit:'세대 주택·당첨 이력', editLabel:'집 명의 답하기', v:'세대 주택 있음 · 1순위 신청 가능', note:'세대 전체 주택을 ' + (p.hhHomes === '1' ? '1채' : '2채 이상') + '로 입력했고, 본인·배우자 명의는 아니에요. 만 60세 이상 부모님(배우자 부모님 포함) 명의면 무주택으로 봐서 가점제·특별공급도 돼요. 그 밖의 세대원 명의면 유주택 세대라 ' + (L.regulated ? '가점제가 아닌 추첨제로만 뽑히고' : '무주택기간 0점이고') + ' 특별공급은 신청할 수 없어요.' });
@@ -1898,6 +1942,7 @@ function mcPlace(L, p){
   return { t:'다자녀 배정 지역 밖이에요', warn:true };
 }
 function birthRelax(p){   // 출산가구 완화 가산 %p: 10 · 20 · 0(해당 없음) · null(모름)
+  p = optDefaults(p);   // 기능: optional_inputs
   const hasNew = p.pregnant === true || (p.youngestBirth && p.youngestBirth >= '2023-03-28');
   if (hasNew) return { add: p.kidsMinor >= 2 || (p.pregnant === true && p.youngestBirth) ? 20 : 10 };
   if ((p.kidsMinor === 0 && p.pregnant === false) || (p.kidsMinor > 0 && p.youngestBirth && p.pregnant === false)) return { add:0 };
@@ -1909,6 +1954,7 @@ function birthRelax(p){   // 출산가구 완화 가산 %p: 10 · 20 · 0(해당
 function relaxRange(p){ const a = birthRelax(p).add; return a == null ? [0, 20] : a === 0 ? [0, 0] : [a, 20]; }
 const RELAX_UP_NOTE = '2023.3.28 이후 출생 자녀가 1명이라 +10%p까지 확인됐어요. 그 전에 태어난 자녀(만 19세 이상 포함)가 더 있으면 +20%p 완화로 충족해요';
 function spJudge(L, p, type){
+  p = optDefaults(p);   // 기능: optional_inputs
   const hh = hhCount(L, p, type);
   if (hh) p = Object.assign({}, p, { hhSize: hh.n });   // 공고문 기준으로 센 가구원수로 소득 기준 비교 (기능: hh_count)
   const pub = L.houseDtl === '국민', R = SP_RULES[pub ? 'public' : 'minyoung'][type], ref = L.notice || TODAY;
@@ -1920,7 +1966,8 @@ function spJudge(L, p, type){
   /* 재당첨 제한 (규칙 제54조①, 감사 SP-01) — 일반공급과 같은 판정. 특별공급은 세대당 한 번 (제55조, 감사 SP-02): 당첨 종류를 묻지 않아 당첨 이력이 있으면 확인 필요 */
   const rw = e.items.find(i => i.k === '재당첨 제한 (내 이력)');
   if (rw && rw.s === 'fail') fail.push('재당첨 제한 기간 (내 이력)'); else if (rw && rw.s === 'warn') warn.push('당첨 이력 입력 필요');
-  if (p.everWin === 'yes') warn.push('예전 당첨이 특별공급이었는지 확인 필요 (특별공급은 세대당 한 번만 · 규칙 제55조)');   // 유주택 민영 추첨제(owner_lottery)는 일반공급만 가능, 특별공급은 여전히 무주택 요건
+  if (p.everWin === 'yes' && on('optional_inputs') && p.winSpecial === true) fail.push('세대가 예전에 특별공급으로 당첨됐어요 (특별공급은 세대당 한 번만 · 규칙 제55조)');
+  else if (p.everWin === 'yes' && !(on('optional_inputs') && p.winSpecial === false)) warn.push('예전 당첨이 특별공급이었는지 확인 필요 (특별공급은 세대당 한 번만 · 규칙 제55조)');   // 유주택 민영 추첨제(owner_lottery)는 일반공급만 가능, 특별공급은 여전히 무주택 요건
   // 거주지 (기능: supply_summary): 특별공급 신청자격 ①도 일반공급과 같은 거주 지역 요건
   // 근거: 2026000103 각 유형 '신청자격 ① 최초 입주자모집공고일 현재 경기도 성남시에 거주하거나 수도권(…)에 거주하는 무주택세대구성원',
   //       2026000409 '신혼부부ㆍ생애최초ㆍ노부모부양ㆍ신생아 특별공급 및 일반공급 지역 우선공급 기준'(같은 표). 해당지역 우선은 순서일 뿐 자격이 아님
@@ -2044,6 +2091,7 @@ function spJudge(L, p, type){
    (더샵 분당하이스트 2026000103 배점 기준표, LH 의정부우정 2026000409 도 같음). 무주택기간·거주기간은 만 19세(성년)부터 */
 const CAPITAL3 = ['서울', '경기', '인천'];
 function mcScore(L, p){
+  p = optDefaults(p);   // 기능: optional_inputs
   const ref = L.notice || TODAY, parts = [], miss = [], yrs = from => from && from <= ref ? Math.floor(monthsBetween(from, ref) / 12) : 0;
   const k = p.kidsMinor;
   parts.push({ k:'미성년 자녀 수', max:40, v: k == null ? null : k >= 4 ? 40 : k === 3 ? 35 : k === 2 ? 25 : 0, note: k == null ? '' : k + '명 (4명 이상 40 · 3명 35 · 2명 25)' });
@@ -2099,6 +2147,7 @@ function areaResidence(L, p){
   return { v: y >= 3 ? 3 : y >= 1 ? 2 : 1, area, why: area + ' ' + (y < 1 ? '1년 미만' : Math.floor(y) + '년') + ' 거주' };
 }
 function pubPoints(L, p, type){
+  p = optDefaults(p);   // 기능: optional_inputs
   const hc = hhCount(L, p, type), inc = spIncome(p), n = hc ? hc.n : p.hhSize, parts = [];
   const lowInc = n ? inc.monthly <= spAmt(n, inc.dual ? 100 : 80) : null;
   parts.push(['소득 80%(맞벌이 100%) 이하', lowInc == null ? null : lowInc ? 1 : 0, 1]);
@@ -2539,7 +2588,8 @@ function ineligCard(L, p, e){
    질문 정의는 인터뷰(STEPS)의 것을 그대로 쓰고(fieldHtml), 값은 내 조건에 그대로 저장된다. 판정 로직은 바꾸지 않는다 */
 const FIX_KEYS = [
   [i => i.hhUnknown, ['hhHomes', 'hhOwner']],
-  [i => i.k === '무주택 세대', ['selfOwn', 'married', 'spouseOwn', 'household', 'parents60', 'parentsOwn', 'hhHomes', 'hhOwner']],
+  [i => i.k === '무주택 세대', ['selfOwn', 'married', 'spouseOwn', 'household', 'parents60', 'parentsOwn', 'hhHomes', 'ownExc', 'hhOwner']],
+  [i => i.k === '주택 소유 예외', ['ownExc']],
   [i => /^거주지/.test(i.k), ['homeSido', 'homeSigun', 'sidoOwnSince', 'areaSince']],
   [i => /세대주/.test(i.k), ['household', 'headSince']],
   [i => /2주택/.test(i.k), ['hhHomes', 'hhOwner']],
@@ -2570,7 +2620,8 @@ const SP_FIX = [
   [/혼인/, ['married', 'marriedOn']],
   [/세대 주택|무주택/, ['selfOwn', 'household', 'parents60', 'parentsOwn', 'hhHomes', 'hhOwner']],
   [/예비신혼|한부모/, ['married', 'townType', 'kidsMinor', 'youngestBirth', 'pregnant']],
-  [/당첨 이력|특별공급이었는지/, ['everWin', 'win5y', 'recentWin']],
+  [/당첨 이력|특별공급이었는지|특별공급으로 당첨/, ['everWin', 'win5y', 'recentWin', 'winSpecial']],
+  [/예외 해당/, ['ownExc']],
   [/임신/, ['pregnant', 'fetusCount']],
   [/소득/, ['income', 'married', 'spouseIncome', 'hhIncomeYear']],
 ];
@@ -2922,7 +2973,7 @@ const stepKey = st => st.id || st.n || st.t;
 const optDate = fd => /비워두세요/.test(fd.l || '');
 function fieldValue(fd, p){
   const v = p[fd.k];
-  if (fd.type === 'choice') { const o = fd.o.find(([x]) => JSON.stringify(x) === JSON.stringify(v)); return o ? { t:o[1] } : { t:'미입력', miss:true }; }
+  if (fd.type === 'choice') { const o = fd.o.find(([x]) => JSON.stringify(x) === JSON.stringify(v)); return o ? { t:o[1] } : fd.skip && on('optional_inputs') ? { t: fd.skip + ' (안 적음)' } : { t:'미입력', miss:true }; }
   if (fd.type === 'date') return v ? { t:v } : optDate(fd) ? { t:'없음' } : { t:'미입력', miss:true };
   if (fd.type === 'text') return v ? { t:v } : { t:'미입력', miss:true };
   if (fd.type === 'count') return v == null ? { t:'미입력', miss:true } : { t:v + '회' };
@@ -3140,14 +3191,15 @@ const STEPS = [
   { show:p => p.household === 'head', n:'세대주가 된 날', t:'언제부터 세대주였나요?', d:'모집공고일보다 늦게 세대주가 되면 그 공고에는 세대주로 넣을 수 없어요.',
     f:[{ k:'headSince', type:'date', l:'세대주가 된 날' }] },
   { n:'집과 혼인', t:'집과 혼인 상태', d:'분양권과 입주권도 주택으로 봐요.',
-    f:[{ k:'selfOwn', type:'choice', l:'본인 명의 주택이나 분양권이 있나요?', o:[[true,'있어요'],[false,'없어요']], two:true },
+    f:[{ k:'selfOwn', type:'choice', get l(){ return on('optional_inputs') ? '본인 명의 주택이나 분양권이 있나요? (공유지분·상속받은 지분도 포함)' : '본인 명의 주택이나 분양권이 있나요?'; }, o:[[true,'있어요'],[false,'없어요']], two:true },
        { k:'married', type:'choice', l:'혼인신고를 했나요?', o:[[true,'했어요'],[false,'안 했어요']], two:true }],
     note:p => p.married === false ? '혼인신고 전이면 배우자 주택과 소득은 판정에 들어가지 않아요. 신고하는 순간부터 합산돼요.' : '' },
   { show:p => p.married, n:'배우자', t:'배우자 정보', d:'혼인신고를 하면 청약과 대출 모두 부부 합산으로 봐요.',
-    f:[{ k:'spouseOwn', type:'choice', l:'배우자 명의 주택이나 분양권이 있나요?', o:[[true,'있어요'],[false,'없어요']], two:true },
+    f:[{ k:'spouseOwn', type:'choice', get l(){ return on('optional_inputs') ? '배우자 명의 주택이나 분양권이 있나요? (공유지분 포함)' : '배우자 명의 주택이나 분양권이 있나요?'; }, o:[[true,'있어요'],[false,'없어요']], two:true },
        { k:'marriedOn', type:'date', l:'혼인신고일', show:() => V2() },
        { k:'spouseIncome', type:'money', l:'배우자 세전 연소득 (작년)' }, { k:'spouseLoan', type:'money', l:'배우자 대출 월 상환액', show:() => !V2() },
-       { k:'spouseAcctSince', type:'date', l:'배우자 청약통장 가입일 (없으면 비워두세요)', show:() => V2() && on('score') }],
+       { k:'spouseAcctSince', type:'date', l:'배우자 청약통장 가입일 (없으면 비워두세요)', show:() => V2() && on('score') },
+       { k:'spouseSoldOn', type:'date', l:'배우자가 집을 가졌다가 처분한 적이 있다면 그날 (없으면 비워두세요)', show:() => V2() && on('score') && on('optional_inputs') }],
     note:p => V2() ? '혼인신고일은 신혼부부 특별공급(혼인 7년 이내)과 가점의 무주택기간에, 배우자 통장은 가점(최대 3점)에 써요.' : '' },
   { show:p => p.married && on('score') && !V2(), n:'혼인신고일·배우자 통장', t:'혼인신고일과 배우자 통장', d:'가점의 무주택기간과 통장 점수에 써요.',
     f:[{ k:'marriedOn', type:'date', l:'혼인신고일' }, { k:'spouseAcctSince', type:'date', l:'배우자 청약통장 가입일 (없으면 비워두세요)' }] },
@@ -3166,8 +3218,8 @@ const STEPS = [
     note:() => '부양가족: 배우자(등본이 달라도 포함), 같은 등본의 미혼 자녀(만 30세 이상은 1년 이상 같은 등본), 내가 세대주이고 3년 이상 같은 등본에 있는 집 없는 부모님.' },
   { id:'sp1', show:p => on('special_eligibility'), n:'자녀와 가구', t:'자녀와 가구 (특별공급)', d:'신생아·신혼부부·다자녀 특별공급 판정과 소득 기준(가구원수)에 써요.',
     f:[{ k:'kidsMinor', type:'choice', l:'만 19세 미만 자녀 수 (태아·입양 포함)', o:[[0,'없어요'],[1,'1명'],[2,'2명'],[3,'3명'],[4,'4명 이상']] },
-       { k:'youngestBirth', type:'date', l:'가장 어린 자녀 생년월일 (없으면 비워두세요)' },
-       { k:'pregnant', type:'choice', l:'지금 임신 중인가요?', o:[[true,'예'],[false,'아니요']], two:true },
+       { k:'youngestBirth', type:'date', get l(){ return on('optional_inputs') ? '가장 어린 자녀 생년월일 (태아만 있으면 비워두세요)' : '가장 어린 자녀 생년월일 (없으면 비워두세요)'; }, show:p => !on('optional_inputs') || p.kidsMinor > 0 },   // 기능: optional_inputs — 자녀가 있으면 필요한 질문이라 '해당하는 분만' 표시를 붙이지 않는다
+       { k:'pregnant', type:'choice', l:'지금 임신 중인가요?', o:[[true,'예'],[false,'아니요']], two:true, skip:'아니요' },
        { k:'hhSize', type:'choice', l:'가구원수 (등본의 무주택 세대원 전원, 태아 포함)', o:[[1,'1명'],[2,'2명'],[3,'3명'],[4,'4명'],[5,'5명'],[6,'6명'],[7,'7명'],[8,'8명'],[9,'9명 이상']], show:() => !on('hh_count') },
        { k:'fetusCount', type:'choice', l:'태아 수', o:[[1,'1명'],[2,'2명 (쌍둥이)'],[3,'3명 이상']], two:true, show:p => on('hh_count') && p.pregnant === true },
        { k:'kidsOnDeed', type:'choice', l:'나·배우자와 같은 등본에 있는 자녀·손자녀 수 (성년 자녀, 배우자의 자녀, 자녀의 배우자 포함)', o:[[0,'없어요'],[1,'1명'],[2,'2명'],[3,'3명'],[4,'4명'],[5,'5명 이상']], show:() => on('hh_count') && !V2() },
@@ -3177,7 +3229,7 @@ const STEPS = [
     note:() => on('hh_count') ? '가구원수는 공고문 기준대로 세어 드려요: 본인·배우자(다른 등본이어도)·같은 등본의 자녀·태아 수, 부모님은 민영주택·공공 생애최초에서 1년 이상 같은 등본일 때만.' : '부모님은 1년 이상 같은 등본에 있어야 가구원수에 들어가요.' },
   { id:'sp4', show:p => on('special_eligibility') && on('multichild_score') && p.kidsMinor >= 2, n:'다자녀 배점', t:'다자녀 배점 (특별공급)', d:'다자녀가구 특별공급은 100점 배점표로 뽑아요.',
     f:[{ k:'kidsUnder6', type:'choice', l:'만 6세 미만 자녀 수 (태아·입양 포함)', o:[[0,'없어요'],[1,'1명'],[2,'2명'],[3,'3명 이상']] },
-       { k:'gen3', type:'choice', l:'무주택 부모님(배우자 부모님 포함)과 3년 이상 같은 등본이거나, 한부모 가족이 된 지 5년 이상인가요?', o:[[true,'예'],[false,'아니요']], two:true },
+       { k:'gen3', type:'choice', l:'무주택 부모님(배우자 부모님 포함)과 3년 이상 같은 등본이거나, 한부모 가족이 된 지 5년 이상인가요?', o:[[true,'예'],[false,'아니요']], two:true, skip:'아니요' },
        ] },
   { id:'sp5', show:p => on('special_eligibility') && (on('special_position') || (on('multichild_score') && p.kidsMinor >= 2)) && (!on('residence_v2') || CAPITAL3.includes(p.homeSido)), get n(){ return V2() && on('residence_v2') ? '수도권 거주 시작일' : '사는 곳'; }, t:'사는 곳 (특별공급 점수)', d:'다자녀 배점과 공공분양 신혼부부·신생아 점수의 거주기간에 써요. 주민등록 기준이에요.',
     f:[{ k:'homeSido', type:'choice', l:'지금 사는 시·도', o:SIDO_ORDER.map(x => [x, x]), two:true, show:() => !on('residence_v2') },
@@ -3187,22 +3239,26 @@ const STEPS = [
        { k:'areaSince', type:'date', l:'그 시·군에 계속 살기 시작한 날', show:p => !on('residence_v2') && p.homeSido && !METRO_SIDO.includes(p.homeSido) }],
     note:p => V2() && on('residence_v2') && p.sidoSince && p.sidoSince === p.sidoOwnSince ? '앞에서 넣은 ' + p.homeSido + ' 전입일로 채워 뒀어요. 그 전에 서울·경기·인천의 다른 곳에 살다 옮겨 왔다면 처음 날짜로 바꿔 주세요 (다자녀 배점의 거주기간이 올라가요).' : '' },
   { id:'sp2', show:p => on('special_eligibility'), n:'세대 소득·자산', t:on('pub_general_limits') ? '소득과 자산 (특별공급·공공분양)' : '소득과 자산 (특별공급)', d:on('pub_general_limits') ? '특별공급과 공공분양 전용 60㎡ 이하 일반공급은 세대 월평균 소득과 부동산(공공은 자동차도) 기준이 있어요.' : '특별공급은 세대 월평균 소득과 부동산(공공은 자동차도) 기준이 있어요.',
-    f:[{ k:'income', type:'money', l:'본인 세전 연소득 (작년)', h:'휴직 중이면 작년 소득을 넣어 주세요. 대출 한도 계산에도 써요', show:() => V2() },
+    f:[{ k:'income', type:'money', l:'본인 세전 연소득 (작년)', get h(){ return on('optional_inputs') ? '올해 이직·급여 변화로 지금 월급이 작년과 많이 다르면 지금 월급 × 12로 넣어 주세요 (공공분양은 공고일 무렵 소득으로 조사해요). 대출 한도 계산에도 써요' : '휴직 중이면 작년 소득을 넣어 주세요. 대출 한도 계산에도 써요'; }, show:() => V2() },
        { k:'hhIncomeYear', type:'money', opt:true, l:'세대원 전원의 작년 세전 소득 합계', h:'비워두면 본인+배우자 연소득으로 추정해요. 같은 등본의 부모님 소득도 들어가요' },
-       { k:'realEstate', type:'money', opt:true, l:'세대가 가진 부동산 가액 (건물+토지 공시가격)', h:'없으면 0' },
+       { k:'realEstate', type:'money', opt:true, l:'세대가 가진 부동산 가액 (건물+토지 공시가격)', get h(){ return on('optional_inputs') ? '집·땅이 없으면 비워도 돼요 (0으로 봐요). 만 60세 이상 부모님 집도 여기에 넣어요' : '없으면 0'; } },
        { k:'carValue', type:'money', opt:true, l:'자동차 가액', h: on('town_assets') ? '공공분양·신혼희망타운만 봐요 (보험개발원 차량기준가액). 없으면 0' : '공공분양만 봐요. 없으면 0' }] },
   { id:'sp3', show:p => on('special_eligibility'), n:'주택 이력·부양', t:'주택 이력과 부양 (특별공급)', d:'생애최초·노부모부양 특별공급 판정에 써요.',
     f:[{ k:'hhNeverOwned', type:'choice', l:'세대원 모두 지금까지 집을 가진 적이 없나요?', o:[[true,'없어요'],[false,'있어요']], two:true, show:p => !(V2() && ownsNow(p)) },
        { k:'taxYears5', type:'choice', l:'본인이 소득세를 5년 이상 냈나요? (끊겨도 합산)', o:[[true,'예'],[false,'아니요']], two:true },
-       { k:'elder65', type:'choice', l:'만 65세 이상 부모님(배우자 부모님 포함)을 3년 이상 같은 등본에서 모시고 있나요?', o:[[true,'예'],[false,'아니요']], two:true }],
+       { k:'elder65', type:'choice', l:'만 65세 이상 부모님(배우자 부모님 포함)을 3년 이상 같은 등본에서 모시고 있나요?', o:[[true,'예'],[false,'아니요']], two:true, skip:'아니요' }],
     note:p => (V2() && ownsNow(p) ? '앞에서 지금 집이 있다고 답해서 세대 주택 이력은 \'있음\'으로 봐요 (생애최초 특별공급 불가). ' : '') + '배우자가 혼인 전에 가졌다가 혼인 전에 판 집은 생애최초 이력에서 빼요.' },
   { show:p => on('regulated_rules'), n:'세대 주택·당첨 이력', t:'세대의 주택과 당첨 이력', d:'등본에 함께 있는 세대 전체의 주택과 당첨 이력이에요. 배우자는 등본이 달라도 세대에 들어가고, 배우자 등본에 있는 자녀·부모님도 포함해요. 공공분양·특별공급의 무주택 요건과 투기과열지구·청약과열지역 1순위에 쓰여요.',
     f:[{ k:'hhHomes', type:'choice', l:'세대 전체가 가진 주택 수 (분양권 포함)', o:[['0','없어요'],['1','1채'],['2+','2채 이상']] },
+       { k:'ownExc', type:'choice', l:'그 집이 아래에 해당하면 골라 주세요', skip:'해당 없음', o:[['small_apt','아파트 전용 60㎡ 이하 · 공시가격 1억 이하 (수도권 1억6천만 이하)'],['small_villa','빌라·단독주택 등 전용 85㎡ 이하 · 공시가격 3억 이하 (수도권 5억 이하)'],['tiny','전용 20㎡ 이하'],['inherit','상속받은 공유지분'],['other','그 밖의 예외 (농어촌 단독주택·폐가·전세피해 경매 주택 등)'],['none','해당 없음']],
+         show:p => on('optional_inputs') && (p.hhHomes === '1' || (p.hhHomes === '' && (p.selfOwn === true || (p.married && p.spouseOwn)))) },
        { k:'hhOwner', type:'choice', l:'그 집은 누구 명의인가요?', o:[['parent60','만 60세 이상 부모님 (배우자 부모님 포함)'],['other','그 밖의 세대원']], show:p => (p.hhHomes === '1' || p.hhHomes === '2+') && p.selfOwn === false && !(p.married && p.spouseOwn) && !(p.household === 'parents' && p.parentsOwn) },
        { k:'win5y', type:'choice', l:'나 또는 세대원이 최근 5년 안에 청약에 당첨된 적이 있나요?', o:[[true,'있어요'],[false,'없어요']], two:true, show:() => !V2() },
-       { k:'everWin', type:'choice', l:'나 또는 세대원이 청약에 당첨된 적이 있나요? (특별공급·일반공급·무순위 모두)', o:[['none','없어요'],['yes','있어요']], two:true, show:() => V2() },
+       { k:'everWin', type:'choice', l:'나 또는 세대원이 청약에 당첨된 적이 있나요? (특별공급·일반공급·무순위 모두)', o:[['none','없어요'],['yes','있어요']], two:true, show:() => V2(), skip:'없음' },
        { k:'win5y', type:'choice', l:'그 당첨이 최근 5년 안인가요?', o:[[true,'예'],[false,'아니요']], two:true, show:p => V2() && p.everWin === 'yes' },
-       { k:'recentWin', type:'choice', l:'그 당첨으로 지금 재당첨 제한 기간인가요?', o:[[true,'예'],[false,'아니요']], two:true, show:p => V2() && p.everWin === 'yes' }],
+       { k:'recentWin', type:'choice', l:'그 당첨으로 지금 재당첨 제한 기간인가요?', o:[[true,'예'],[false,'아니요']], two:true, show:p => V2() && p.everWin === 'yes' },
+       { k:'winSpecial', type:'choice', l:'그중 특별공급(신혼희망타운 포함) 당첨이 있나요?', o:[[true,'있어요'],[false,'없어요']], two:true, show:p => V2() && on('optional_inputs') && p.everWin === 'yes' },
+       { k:'winScore2y', type:'choice', l:'최근 2년 안에 일반공급 가점제로 당첨된 적이 있나요?', o:[[true,'있어요'],[false,'없어요']], two:true, show:p => V2() && on('optional_inputs') && p.everWin === 'yes' && p.win5y === true }],
     note:p => V2() && p.everWin === 'yes' ? '재당첨 제한 기간은 청약홈 → 청약자격확인 → 청약제한사항 확인에서 볼 수 있어요.' : '' },
   { show:p => on('account_rules') && !p.seoul && !on('residence_v2'), n:'사는 지역 (예치금)', t:'주민등록상 사는 지역', d:'민영주택 예치금 기준이 사는 지역에 따라 달라요.',
     f:[{ k:'homeArea', type:'choice', o:[['seoul_busan','부산'],['metro','인천·대구·광주·대전·울산'],['other','경기·세종·그 밖의 시·군']] }] },
@@ -3215,11 +3271,11 @@ const STEPS = [
      부동산·자동차는 '소득과 자산' 단계, 예금·주식·전세보증금은 '바로 쓸 수 있는 돈' 단계 값을 그대로 쓰고, 빠진 항목만 묻는다 */
   { id:'town', show:p => on('town_assets') && on('town_rules') && townMayApply(p), n:'신혼희망타운 총자산', t:'총자산 (신혼희망타운)',
     d:'신혼희망타운은 세대 총자산(자산 − 부채)이 공고문 기준 이하여야 해요. 아래를 넣으면 공고마다 판정해요. 다른 청약 판정에는 쓰지 않아요.',
-    f:[{ k:'townType', type:'choice', l:'혼인 전이라면 어디에 해당하나요?', o:[['pre','예비신혼부부 (입주 전까지 혼인신고 예정)'],['single','한부모가족 (6세 이하 자녀를 둔 부 또는 모)'],['none','해당 없음']], show:p => p.married === false },
-       { k:'townInsurance', type:'money', opt:true, l:'보험·연금보험 해약환급금 합계', h:'지금 해약하면 돌려받는 금액이에요 (보험사 앱에서 확인). 없으면 0' },
+    f:[{ k:'townType', type:'choice', l:'혼인 전이라면 어디에 해당하나요?', o:[['pre','예비신혼부부 (입주 전까지 혼인신고 예정)'],['single','한부모가족 (6세 이하 자녀를 둔 부 또는 모)'],['none','해당 없음']], show:p => p.married === false, skip:'해당 없음' },
+       { k:'townInsurance', type:'money', opt:true, l:'보험·연금보험 해약환급금 합계', get h(){ return '지금 해약하면 돌려받는 금액이에요 (보험사 앱에서 확인). ' + (on('optional_inputs') ? '비워 두면 0으로 보고, 총자산이 기준에 가까울 때만 다시 물어요' : '없으면 0'); } },
        { k:'townFinOther', type:'money', opt:true, l:'그 밖의 금융자산', h:'연금저축·개인형퇴직연금(IRP) 잔액, 앞 단계에 넣지 않은 예금·적금·주식·채권. 회사 퇴직연금(DB·DC형)은 빼요. 없으면 0' },
        { k:'townOtherAsset', type:'money', opt:true, l:'기타 자산', h:'분양권(지금까지 낸 돈)·조합원입주권, 회원권, 선박 등. 전세보증금은 앞 단계 값을 써요. 없으면 0' },
-       { k:'townDebt', type:'money', opt:true, l:'부채 (대출 잔액 합계)', h:'금융회사·공공기관 대출 잔액(전세·신용·주택담보대출 등)과 세 준 부동산의 임대보증금(그 부동산 가액까지). 마이너스통장·현금서비스는 빼요. 없으면 0' }],
+       { k:'townDebt', type:'money', opt:true, l:'부채 (대출 잔액 합계)', h:'금융회사·공공기관 대출 잔액(전세·신용·주택담보대출 등)과 세 준 부동산의 임대보증금(그 부동산 가액까지). 마이너스통장·현금서비스는 빼요. 없으면 비워도 돼요' }],
     note:p => '총자산에 함께 들어가는 값: 부동산 ' + (p.realEstate == null ? '미입력' : manW(p.realEstate)) + ' · 자동차 ' + (p.carValue == null ? '미입력' : manW(p.carValue)) + " ('소득과 자산' 단계), 예금·현금 " + manW(p.cash || 0) + ' · 주식·펀드·적금 ' + manW(p.liquid || 0) + ' · 전세보증금 ' + manW(p.deposit || 0) + " ('바로 쓸 수 있는 돈' 단계). 세대원 전원(예비신혼부부는 예비 배우자 포함) 합계로 넣어 주세요." },
   { n:'소득과 대출', t:'소득과 대출', d:'대출 한도(DSR)를 계산하는 데 써요.',
     f:[{ k:'income', type:'money', l:'본인 세전 연소득', h:'휴직 중이면 작년 소득을 넣어 주세요', show:() => !(V2() && on('special_eligibility')) }, { k:'loanMonthly', type:'money', l:'기존 대출 월 상환액' },
@@ -3234,11 +3290,12 @@ const visibleSteps = () => STEPS.filter(s => (!s.show || s.show(S.profile)) && (
 
 function fieldHtml(fd, p, groupLabel){   // 인터뷰 질문 한 칸 (vOnboard·바로 답하기 inline_fix 공용)
   if (fd.type === 'choice') {
+    const optTag = fd.skip && on('optional_inputs') ? ` <span class="optag">해당하는 분만 · 안 고르면 ${esc(fd.skip)}</span>` : '';   // 기능: optional_inputs
     const opts = fd.o.map(([v, t]) => { const on = p[fd.k] === v; return `<button class="opt" role="radio" aria-checked="${on}" data-set="${fd.k}" data-val='${JSON.stringify(v)}'>${t}${on ? '<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 6 9 17l-5-5"/></svg>' : ''}</button>`; }).join('');
-    return `<div class="field">${fd.l ? `<span class="lbl" id="l-${fd.k}">${fd.l}</span>` : ''}<div role="radiogroup" ${fd.l ? `aria-labelledby="l-${fd.k}"` : `aria-label="${esc(groupLabel || fd.l || '')}"`} class="${fd.two ? 'opts-2' : 'stack'}">${opts}</div></div>`;
+    return `<div class="field">${fd.l ? `<span class="lbl" id="l-${fd.k}">${fd.l}${optTag}</span>` : ''}<div role="radiogroup" ${fd.l ? `aria-labelledby="l-${fd.k}"` : `aria-label="${esc(groupLabel || fd.l || '')}"`} class="${fd.two ? 'opts-2' : 'stack'}">${opts}</div></div>`;
   }
   if (fd.type === 'text') return `<div class="field"><label for="f-${fd.k}">${fd.l}</label><input type="text" id="f-${fd.k}" data-field="${fd.k}" value="${esc(p[fd.k] || '')}"></div>`;
-  if (fd.type === 'date') return `<div class="field"><label for="f-${fd.k}">${fd.l}</label><input type="date" id="f-${fd.k}" data-field="${fd.k}" value="${p[fd.k] || ''}"></div>`;
+  if (fd.type === 'date') return `<div class="field"><label for="f-${fd.k}">${on('optional_inputs') && optDate(fd) && fd.k !== 'youngestBirth' ? fd.l.replace(/\s*\(없으면 비워두세요\)/, '') + ' <span class="optag">해당하는 분만 · 비우면 없음</span>' : fd.l}</label><input type="date" id="f-${fd.k}" data-field="${fd.k}" value="${p[fd.k] || ''}"></div>`;
   if (fd.type === 'count') return `<div class="field"><label for="f-${fd.k}">${fd.l}</label><div class="money"><input id="f-${fd.k}" inputmode="numeric" data-field="${fd.k}" data-count="1" value="${p[fd.k] == null ? '' : p[fd.k]}" placeholder="0"><span>회</span></div>${fd.h ? `<span class="hint">${fd.h}</span>` : ''}</div>`;
   if (fd.opt) return `<div class="field"><label for="f-${fd.k}">${fd.l}</label><div class="money"><input id="f-${fd.k}" inputmode="numeric" data-field="${fd.k}" data-opt="1" value="${p[fd.k] == null ? '' : p[fd.k]}" placeholder="입력 안 함"><span>만원</span></div>${fd.h ? `<span class="hint">${fd.h}</span>` : ''}</div>`;
   return `<div class="field"><label for="f-${fd.k}">${fd.l}</label><div class="money"><input id="f-${fd.k}" inputmode="numeric" data-field="${fd.k}" data-num="1" value="${p[fd.k] || ''}" placeholder="0"><span>만원</span></div>${fd.h ? `<span class="hint">${fd.h}</span>` : ''}${p[fd.k] ? `<span class="hint" data-echo="${fd.k}">= ${fmt(eok(p[fd.k]))}</span>` : `<span class="hint" data-echo="${fd.k}"></span>`}</div>`;

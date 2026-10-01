@@ -60,9 +60,11 @@ def minor_months(since: str, birth: str, ref: str) -> int:
 
 def score(p: dict, ref: str) -> list:
     hh_any = p.get("hhHomes") in ("1", "2+")
-    mine = p.get("selfOwn") or (p.get("married") and p.get("spouseOwn"))
-    other = not mine and ((p.get("household") == "parents" and p.get("parentsOwn") and not p.get("parents60")) or (hh_any and p.get("hhOwner") == "other"))
-    who = not mine and hh_any and not p.get("hhOwner") and not (p.get("household") == "parents" and p.get("parentsOwn"))
+    # 규칙 제53조 1·5·9호: 세대가 1채만 가졌고 그 집이 소형·저가, 20㎡ 이하, 상속 공유지분이면 무주택
+    exc = p.get("hhHomes") != "2+" and p.get("ownExc") in ("small_apt", "small_villa", "tiny", "inherit")
+    mine = not exc and (p.get("selfOwn") or (p.get("married") and p.get("spouseOwn")))
+    other = not mine and not exc and ((p.get("household") == "parents" and p.get("parentsOwn") and not p.get("parents60")) or (hh_any and p.get("hhOwner") == "other"))
+    who = not mine and not exc and hh_any and not p.get("hhOwner") and not (p.get("household") == "parents" and p.get("parentsOwn")) and not p.get("selfOwn") and not (p.get("married") and p.get("spouseOwn"))
     if mine or other:   # 별표1 가목 1) '세대원 모두 주택을 소유하지 않아야 한다' (60세 이상 직계존속 명의는 제53조제6호로 무주택)
         a = 0
     elif who:
@@ -74,6 +76,8 @@ def score(p: dict, ref: str) -> list:
             start = p["marriedOn"]
         if p.get("homeSoldOn") and p["homeSoldOn"] > start:
             start = p["homeSoldOn"]
+        if p.get("married") and p.get("spouseSoldOn") and p["spouseSoldOn"] > start:   # 별표1 3) 신청자 또는 배우자
+            start = p["spouseSoldOn"]
         if ref < start:
             a = 0
         else:
@@ -412,7 +416,7 @@ def main() -> None:
     for lid, over, exp in [("2026000443-059.9986A", {"recentWin": True, "everWin": "yes", "win5y": True}, "ok"),
                            ("2026000453-059.9742A", {"recentWin": True, "everWin": "yes", "win5y": True}, "fail"),
                            ("2026000414-059.8400A", {"recentWin": True, "everWin": "yes", "win5y": True}, "fail"),
-                           ("2026000414-059.8400A", {"everWin": None, "win5y": None, "recentWin": False}, "warn"),
+                           ("2026000414-059.8400A", {"everWin": None, "win5y": None, "recentWin": False}, "ok"),   # 사용자 방침(2026-10-01): 당첨 이력을 비우면 없음
                            ("2026000443-059.9986A", {"everWin": None, "recentWin": False}, "ok")]:
         g(fn="item", item="재당첨 제한 (내 이력)", listing=lid, profile=dict(gw, **over), expect={"s": exp},
           basis="규칙 제54조① '다른 분양주택(…투기과열지구 및 청약과열지역이 아닌 지역에서 공급되는 민영주택은 제외)'")
@@ -431,14 +435,14 @@ def main() -> None:
                       ({"marriedOn": "2019-08-25", "youngestBirth": "2010-01-01"}, "fail"), ({"married": False, "marriedOn": "", "townType": "pre"}, "warn"),
                       ({"married": False, "marriedOn": "", "townType": "single", "youngestBirth": "2021-01-01"}, "ok"),
                       ({"married": False, "marriedOn": "", "townType": "single", "youngestBirth": "2015-01-01"}, "fail"),
-                      ({"married": False, "marriedOn": "", "townType": "none"}, "fail"), ({"married": False, "marriedOn": "", "townType": None}, "warn")]:
+                      ({"married": False, "marriedOn": "", "townType": "none"}, "fail"), ({"married": False, "marriedOn": "", "townType": None}, "fail")]:   # 사용자 방침: 예비신혼·한부모를 안 고르면 해당 없음
         g(fn="sp", type="newlywed", listing="2026000409-059.9200A", profile=dict(nb, **over), expect={"s": exp},
           basis="2026000409 신혼부부 '혼인기간이 7년 이내(2019.08.26.~2026.08.26.)이거나 6세 이하(만 7세 미만) 자녀', 예비신혼부부(혼인으로 구성될 세대 — 예비 배우자 정보 미입력), 한부모가족")
     for mo, exp in [("2019-09-18", "ok"), ("2019-09-17", "fail")]:
         g(fn="sp", type="newlywed", listing="2026000453-059.9742A", profile=dict(gw, marriedOn=mo, hhIncomeYear=3000, income=3000), expect={"s": exp},
           basis="2026000453 민영 신혼부부 '혼인기간 7년 이내' — 공고일 2026.09.18 기준 경계")
     # 신생아 '2세 미만(공고일 기준 2년 이내 출생)' 경계와 임신 여부 미입력
-    for yb, preg, exp in [("2024-09-18", False, "ok"), ("2024-09-17", False, "fail"), ("2024-09-17", None, "warn")]:
+    for yb, preg, exp in [("2024-09-18", False, "ok"), ("2024-09-17", False, "fail"), ("2024-09-17", None, "fail"), ("2024-09-17", True, "ok")]:   # 사용자 방침: 임신 여부를 비우면 아니요
         g(fn="sp", type="newborn", listing="2026000453-059.9742A", profile=dict(gw, youngestBirth=yb, pregnant=preg, hhIncomeYear=3000, income=3000), expect={"s": exp},
           basis="2026000453 신생아 '입주자모집공고일 현재 2세 미만(2024.09.18. 이후 출생)' — 임신 중이면 태아로 해당")
     # 생애최초: 미혼·무자녀는 민영 추첨만(단독세대 60㎡ 이하), 공공은 불가 (제43조①③, 2026000409)
@@ -492,6 +496,37 @@ def main() -> None:
     # 생애최초 혼자 사는 세대는 60㎡ 이하 (세대주 여부 답과 관계없이 가구원수 1)
     g(fn="sp", type="first", listing="2026000426-084.8786A", profile=dict(fb, homeSido="충남", homeSigun="천안시", household="spouse", hhSize=1), expect={"s": "fail"},
       basis="규칙 제43조③ 후단 단독세대 — 가구원수 1명이면 전용 60㎡ 이하만 (천안 84㎡)")
+    # ---------- 9) 해당하는 분만 답하는 질문 (기능: optional_inputs, 사용자 방침 2026-10-01: 비우면 해당 없음) ----------
+    for over, exp in [({"selfOwn": True, "hhHomes": "1", "ownExc": "small_villa"}, "ok"), ({"selfOwn": True, "hhHomes": "1", "ownExc": "small_apt"}, "ok"),
+                      ({"selfOwn": True, "hhHomes": "1", "ownExc": "tiny"}, "ok"), ({"selfOwn": True, "hhHomes": "1", "ownExc": None}, "fail"),
+                      ({"selfOwn": True, "hhHomes": "2+", "ownExc": "small_apt"}, "fail"), ({"hhHomes": "1", "hhOwner": "other", "ownExc": "small_villa"}, "ok")]:
+        g(fn="home", listing="2026000414-059.8400A", profile=dict(pub_base, **over), expect={"s": exp},
+          basis="규칙 제53조 본문·5호·9호 '주택공급신청자가 속한 세대가 … 1호 또는 1세대만 소유하고 있는 경우' 무주택으로 봄 — 2채 이상이면 적용 안 함")
+    g(fn="item", item="주택 소유 예외", listing="2026000414-059.8400A", profile=dict(pub_base, selfOwn=True, hhHomes="1", ownExc="other"), expect={"s": "warn"},
+      basis="규칙 제53조 2·7·11호 등 조건이 복잡한 예외 — 판정하지 않고 확인 필요")
+    g(fn="sp", type="first", listing="2026000414-059.8400A", profile=dict(pub_base, selfOwn=True, hhHomes="1", ownExc="small_villa", hhNeverOwned=False, hhIncomeYear=3000, income=3000, youngestBirth="2019-01-01"), expect={"s": "fail"},
+      basis="생애최초는 '세대에 속한 모든 자가 과거 주택을 소유한 사실이 없는 경우' (규칙 제43조①) — 무주택으로 봐도 소유 이력은 남음")
+    g(fn="sp", type="newlywed", listing="2026000414-059.8400A", profile=dict(pub_base, selfOwn=True, hhHomes="1", ownExc="small_villa", hhIncomeYear=3000, income=3000, realEstate=20000), expect={"s": "ok", "stage": "우선공급"},
+      basis="규칙 제53조제9호 — 공공분양 특별공급의 무주택세대구성원 판정에도 적용 (노부모부양만 제6호 제외), 부동산 2억은 215,500천원 이하")
+    for over in [{"selfOwn": True, "hhHomes": "1", "ownExc": "small_villa"}, {"married": True, "marriedOn": "2015-01-01", "spouseSoldOn": "2023-05-01"},
+                 {"married": True, "marriedOn": "2015-01-01", "homeSoldOn": "2024-02-01", "spouseSoldOn": "2023-05-01"}]:
+        pp = dict(sb, **over)
+        g(fn="score", listing="2026000453-059.9742A", profile=pp, expect={"parts": score(pp, REF453)},
+          basis="별표1 가목 2)·3) 소형·저가주택은 무주택, '주택공급신청자 또는 배우자가 … 최근에 무주택자가 된 날'부터")
+    for over, exp in [({"everWin": "yes", "win5y": True, "recentWin": False, "winSpecial": True}, "fail"),
+                      ({"everWin": "yes", "win5y": True, "recentWin": False, "winSpecial": False}, "ok"),
+                      ({"everWin": "yes", "win5y": False, "recentWin": False, "winSpecial": None}, "warn")]:
+        g(fn="sp", type="first", listing="2026000443-059.9986A", profile=dict(pub_base, homeSido="부산", homeSigun="", hhIncomeYear=3000, income=3000, youngestBirth="2019-01-01", **over), expect={"s": exp},
+          basis="규칙 제55조 '특별공급은 한 차례에 한정하여 1세대 1주택' — 예전 당첨이 특별공급인지 (비규제 민영이라 재당첨 제한은 해당 없음)")
+    g(fn="sp", type="elder", listing="2026000453-059.9742A", profile=dict(gw, elder65=None), expect={"s": "fail"},
+      basis="사용자 방침(2026-10-01): 해당하는 분만 답하는 질문은 비우면 해당 없음 — 노부모부양 요건 미충족")
+    for cash, exp in [(10000, "ok"), (33000, "warn")]:
+        tp = dict(town_base, hhIncomeYear=5000, income=5000, realEstate=0, carValue=0, cash=cash, townInsurance=None, townFinOther=None, townOtherAsset=None, townDebt=None)
+        g(fn="town", listing="2026820010-055.8800B", profile=tp, expect={"총자산": exp},
+          basis="2026820010 <표3> 총자산 362,000천원 — 비운 보험·기타 자산은 0으로 보되 합계가 기준의 90%(32,580만원)를 넘으면 확인 필요")
+    g(fn="pubgen", listing="2026000414-059.8400A", profile=dict(pub_base, hhIncomeYear=5000, income=5000, realEstate=None, carValue=1000), expect={"소득": "ok"},
+      basis="2026000414 일반공급 — 자산 칸을 비운 무주택자는 부동산 0 (소득 판정은 그대로)")
+
     # 소득: 세대 소득을 비우고 같은 등본에 부모님이 있으면 추정으로 판정하지 않음
     g(fn="pubgen", listing="2026000414-059.8400A", profile=dict(pub_base, hhIncomeYear=None, income=3000, household="parents", parentsOwn=False, parents60=True), expect={"소득": "warn"},
       basis="2026000414 '무주택세대구성원 전원(…)의 소득을 합산' — 같은 등본 부모님 소득 미입력")
