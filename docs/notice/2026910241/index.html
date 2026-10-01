@@ -128,6 +128,17 @@ a{color:var(--link)}
 .ckwarns{border:1px solid var(--line);border-radius:10px;background:var(--bg)} .ckwarn{padding:8px 10px;display:flex;flex-direction:column;gap:2px} .ckwarn+.ckwarn{border-top:1px solid var(--line)} .ckwarn .ck-top span:first-child{font-size:14px;font-weight:600}
 .fixpanel{border:2px solid var(--consider);border-radius:12px;padding:12px;margin:10px 0;display:flex;flex-direction:column;gap:10px;background:var(--surface)} .fixpanel .fixstat{margin:0} .fixdone summary{cursor:pointer;color:var(--muted);padding:4px 0} .fixdone[open]{display:flex;flex-direction:column;gap:10px}
 .menulist{display:flex;flex-direction:column;gap:10px;margin-top:6px} .menurow{display:flex;align-items:center;justify-content:space-between;gap:10px;width:100%;text-align:left;background:var(--surface);border:1px solid var(--line);border-radius:16px;padding:16px;color:var(--fg);font:inherit;text-decoration:none;cursor:pointer} .menurow>span,.menudet summary>span{display:flex;flex-direction:column;gap:3px} .menurow b{font-size:16px} .menurow svg{flex:none;width:20px;height:20px;color:var(--muted)} .menurow>span,.menudet summary>span{flex:1;min-width:0} .menudet{display:block} .menudet summary{display:flex;align-items:center;justify-content:space-between;gap:10px;list-style:none;cursor:pointer} .menudet summary::-webkit-details-marker{display:none}
+/* 접힌 칸을 누를 수 있게 보이기 (기능: tap_affordance, 2026-10-01 사용자: '눌러야 되는 건지 글자인지 헷갈려 지나칠 것 같다').
+   '충족한 조건 5개'·'근거와 출처'·'계산 방법과 출처' 같은 펼치기 줄을 테두리 있는 버튼 모양 + 오른쪽 화살표(펼치면 위로)로 */
+body.ta details:not(.sprow):not(.scitem):not(.menudet)>summary{list-style:none;display:flex;align-items:center;justify-content:space-between;gap:10px;min-height:44px;padding:8px 12px;margin-top:6px;border:1px solid var(--line);border-radius:10px;background:var(--surface);color:var(--link);font-weight:600;font-size:13px;cursor:pointer;-webkit-tap-highlight-color:transparent}
+body.ta details:not(.sprow):not(.scitem):not(.menudet)>summary::-webkit-details-marker{display:none}
+body.ta details:not(.sprow):not(.scitem):not(.menudet)>summary::after,body.ta .scitem .sc-row::after{content:'';width:8px;height:8px;border-right:2px solid currentColor;border-bottom:2px solid currentColor;transform:rotate(45deg);margin:-4px 4px 0 0;flex:none;transition:transform .15s}
+body.ta details:not(.sprow):not(.scitem):not(.menudet)[open]>summary{margin-bottom:8px}
+body.ta details:not(.sprow):not(.scitem):not(.menudet)[open]>summary::after,body.ta .scitem[open] .sc-row::after{transform:rotate(-135deg);margin-top:4px}
+body.ta details:not(.sprow):not(.scitem):not(.menudet)>summary:active{background:var(--line)}
+body.ta .ckmore{border-top:0;padding-top:0}
+body.ta .scitem .sc-row{align-items:center} body.ta .scitem .sc-row>b{margin-left:auto} body.ta .scitem .sc-row::after{color:var(--link);margin-left:8px}
+body.ta .sp-top::after{border-color:var(--link);width:9px;height:9px}
 .mc-unsure{display:flex;flex-wrap:wrap;gap:6px;align-items:center;padding:8px 10px;border-radius:10px;background:var(--warn-soft)} .mc-unsure .btn.sm{font-size:13px}
 .ckitem{border:1px solid var(--line);border-left-width:3px;border-radius:10px;padding:8px 10px;background:var(--bg);display:flex;flex-direction:column;gap:3px}
 .ckitem.fail{border-left-color:var(--pass)} .ckitem.warn{border-left-color:var(--warn-ink)}
@@ -392,7 +403,7 @@ dl.kv dt{color:var(--muted)} dl.kv dd{margin:0;text-align:right;font-weight:600}
 <p class="small muted">분양가는 청약홈 공고의 최고가 기준(발코니 확장 등 추가 비용 제외)이에요. 추정 시세는 실거래로 계산한 보수~기준 범위로, 실제 가격과 다를 수 있어요.</p></section>
 
 <section class="card doc"><h2>공고문에서 읽은 조건</h2><ul class="doclist"><li>재당첨 제한: 없음</li><li>실거주 의무: 없음</li><li>기타 지역으로 신청 가능: 서울·경기·인천</li><li>규제지역(투기과열·조정대상): 아니오 · 분양가상한제: 미적용</li></ul><p class="small muted">모집공고문에서 자동으로 읽은 값이에요. 신청 자격의 최종 기준은 모집공고문 원문이에요.</p></section>
-<section class="card doc"><h2>출처</h2><ul class="doclist"><li><a href="https://www.applyhome.co.kr/ai/aia/selectAPTLttotPblancDetail.do?houseManageNo=2026910241&pblancNo=2026910241" target="_blank" rel="noopener">청약홈 모집공고 (2026910241)</a></li><li><a href="https://static.applyhome.co.kr/ai/aia/getAtchmnfl.do?houseManageNo=2026910241&amp;pblancNo=2026910241&amp;atchmnflSeqNo=1978005&amp;atchmnflSn=4" target="_blank" rel="noopener">모집공고문 원문 (PDF)</a></li><li>추정 시세: 국토교통부 실거래가로 이 서비스가 계산한 범위 (비교할 거래가 부족해요. 시세를 직접 확인하세요.)</li></ul><p class="small muted">데이터 수집 2026-10-01 14:20 · 페이지는 매일 새벽 다시 만들어요.</p></section>
+<section class="card doc"><h2>출처</h2><ul class="doclist"><li><a href="https://www.applyhome.co.kr/ai/aia/selectAPTLttotPblancDetail.do?houseManageNo=2026910241&pblancNo=2026910241" target="_blank" rel="noopener">청약홈 모집공고 (2026910241)</a></li><li><a href="https://static.applyhome.co.kr/ai/aia/getAtchmnfl.do?houseManageNo=2026910241&amp;pblancNo=2026910241&amp;atchmnflSeqNo=1978005&amp;atchmnflSn=4" target="_blank" rel="noopener">모집공고문 원문 (PDF)</a></li><li>추정 시세: 국토교통부 실거래가로 이 서비스가 계산한 범위 (비교할 거래가 부족해요. 시세를 직접 확인하세요.)</li></ul><p class="small muted">데이터 수집 2026-10-01 18:49 · 페이지는 매일 새벽 다시 만들어요.</p></section>
 </main>
 <footer class="static-foot"><a href="/">공고 보기</a> · <a href="/about/">이용 안내</a> · <a href="/privacy/">개인정보처리방침</a> · <a href="/story/">만든 이유</a> · <a href="/terms/">이용약관</a><br>청약패스는 청약홈(한국부동산원)·LH·국토교통부와 관계없는 개인이 운영해요. 페이지 생성 2026-10-01</footer>
 </div>
