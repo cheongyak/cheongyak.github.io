@@ -4,6 +4,16 @@
 2026-09-29 12:55 이전 항목은 규칙을 만들기 전 작업을 커밋 기록으로 정리한 것이라 백업 브랜치가 없어요.
 그 시점으로 되돌릴 때는 해당 커밋 번호로 `git revert` 를 써요.
 
+## 2026-10-02 06:06 · 공고문을 못 읽은 공고는 운영자 알림(이슈)으로
+- 요청: 여의재 1단지처럼 공고문을 놓치지 않도록 앞으로도 반영
+- 변경: ① (앞 커밋) 첨부가 PDF 가 아니면 공고 페이지를 Referer 로 다시 받기 — 코드에 계속 남아 매 수집에 적용
+  ② app/pipeline.py — 이번에 못 읽었고 보관 기록·지난 값도 없는(한 번도 못 읽은) 공고는 run-log 에 '[경고] 공고문을 읽지 못한 공고: 이름 (번호) — 이유' → collect.yml 이 이슈로 알림(시간 제한으로 못 읽은 건 다음 실행에 다시 읽으므로 제외)
+  ③ 운영 스킬에 함정 기록
+- 파일: app/pipeline.py, tests/test_notice_and_notify.py, .claude/skills/cheongyakpass-ops/SKILL.md
+- 확인: pytest(새 시험: 못 읽은 공고 → [경고] 줄) 통과, 수집 실행 run-log 확인
+- 기능: 없음(수정)
+- 백업: backup/20261002-0606-pdfwarn
+
 ## 2026-10-02 06:00 · 청약봇 서버 첫 배포
 - 요청: Anthropic API 키 등 청약봇 연결 준비를 마쳤으니 후속 작업 진행
 - 변경: chat/worker/wrangler.toml 에 주석 한 줄 — chat-worker.yml 이 chat/worker/** 변경에 돌아 배포(비밀값 확인 → KV cheongyakpass-chat → wrangler deploy → 비밀값 넣기 → 확인 → chat/deployed.json). 이어서 config.json chat_api 에 주소를 넣음(스위치 chatbot 은 꺼진 채, 미리보기만)

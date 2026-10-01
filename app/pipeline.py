@@ -273,6 +273,8 @@ def apply_notice(listings: list[Listing], log: list[str], client=None, previous:
             elif prev and prev.get("from_notice"):
                 found, pdf = _from_previous(prev)
                 log.append(f"[공고문] {Ls[0].name}: 이번엔 못 읽어 지난 실행에서 공고문으로 읽은 값을 유지해요 → {found}")
+            elif "시간 제한" not in msg:   # 한 번도 못 읽은 공고문은 운영자 알림(이슈)으로 — 2026-10-02 여의재 1단지처럼 조용히 놓치지 않게
+                log.append(f"[경고] 공고문을 읽지 못한 공고: {Ls[0].name} ({nid}) — {msg[:160]}")
         if text:   # 못 읽은 항목은 원문 문장을 남겨 규칙을 근거 있게 고친다
             for key, word in (("rewin_years", "재당첨"), ("need_head", "무주택세대"), ("balance", "입주지정기간")):
                 if key not in found:

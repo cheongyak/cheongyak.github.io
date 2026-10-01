@@ -71,6 +71,7 @@ description: 청약패스(cheongyakpass.kr, 저장소 cheongyak/cheongyak.github
   청약봇 화면을 고치면 `node tools/qa/chatflow.cjs 40`(실제 서버 코드로 끝에서 끝), 서버를 고치면 `cd chat && node --test test/chat.test.mjs && node golden/eval.mjs`. 서버 답의 판정이 화면과 다르면 화면이 막는다.
   Worker 무료 CPU 10ms — 큰 파일을 서버에서 풀지 말 것(근거는 docs/chat-evidence/<번호>.json). 되물음 공짜는 질문 1건당 2번까지.
 - 방침·약관 개정 예고는 config.json legal_notice(date·posted·privacy[]·terms[]) — '바뀐 뒤 전문'은 LEGAL_AS 로 알림·청약봇이 켜진 상태를 그린다. 새 기능 문구는 pushOn()/chatOn() 처럼 기능 값에 묶는다.
+- 공고문 PDF 받기: 청약홈 첨부 서버가 Referer 없는 요청에 PDF 대신 짧은 HTML 을 줄 때가 있다(2026-10-02 여의재 1단지) — notice_pdf 가 Referer 로 다시 받는다. 한 번도 못 읽은 공고문은 `[경고] 공고문을 읽지 못한 공고` 로 이슈가 열린다. 실패 이유(스캔 PDF·HWP·HTML 내용)는 [공고문] 줄에 있다.
 - 가점 비교 문구: 민영 1순위는 지역 순서가 먼저다. 가점 비교 점수(scoreTarget)는 reside(해당/기타)를 같이 들고 다니고, regionScore(L,p) 로 지역 순서·비율·경고를 만든다.
 
 - 판정 규칙을 고칠 때 함정 (2026-10-01 감사):

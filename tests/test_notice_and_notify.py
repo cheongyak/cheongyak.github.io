@@ -286,3 +286,21 @@ def test_pdf_retry_with_referer():
     finally:
         notice_pdf.pdf_text = orig
     assert text and seen and seen[0].startswith(b"%PDF")
+
+
+def test_unread_notice_warns():
+    """공고문을 한 번도 못 읽은 공고는 [경고] 로 남아 운영자 이슈가 열린다 (2026-10-02)."""
+    from app import pipeline
+    from app.models import Listing
+    L = Listing.model_construct(id="2026999999-084.0000A", name="테스트 단지", url="https://www.applyhome.co.kr/x")
+    orig = pipeline._fetch_text
+    pipeline._fetch_text = lambda url, L0, client=None: (None, "PDF 받기 실패(PDF가 아닌 파일(HTML, text/html, 59바이트))", None)
+    try:
+        log = []
+        try:
+            pipeline.apply_notice([L], log, previous={}, cache={})
+        except Exception:
+            pass
+    finally:
+        pipeline._fetch_text = orig
+    assert any(l.startswith("[경고] 공고문을 읽지 못한 공고: 테스트 단지") for l in log), log
