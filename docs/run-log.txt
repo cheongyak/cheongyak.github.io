@@ -195,12 +195,10 @@
 시세 부족 중동역 다채로움 더원 84C · 부천시 · 분양가 7.96억  · 세대구성원
 시세 부족 진주 판문지구 레이크써밋 웰가 182 · 지방 · 분양가 13.95억  · 세대구성원
 
-[시간] 공고 194건 25초 · 실거래 요청 630건 35초 (성공 630, 실패 0, 시간 초과로 생략 0)
-[시간] 공고문 50건 중 새로 읽기 1건 2초 (보관 기록 사용 49건)
-[공고문] 오남역 서희스타힐스 여의재 1단지: PDF 읽음 (15246자): https://static.applyhome.co.kr/ai/aia/getAtchmnfl.do?houseManageNo=2026910253&pblancNo=2026910253&atchmnflSeqNo=1988120&atchmnflSn=3 → {'need_head': False, 'residence': {'area': None, 'months': 0, 'since': None, 'others': ['전국'], 'equal': True}}
-[공고문·원문] 오남역 서희스타힐스 여의재 1단지 (재당첨): …재 전국에 거주하는 무주택세대구성원 재당첨제한 전매제한 거주의무기간 분양가상한제 없음 최초 당첨자 발표일(2026.09.01.)로부터 6개월 없음 미적용 구분 최초 입주자모집공고일 무순위 입주자모집…
-[공고문·원문] 오남역 서희스타힐스 여의재 1단지 (재당첨): …) 시 당첨자로 명단관리 되지 않아 재당첨 제한 등 제한을 받지 않으나, 2018.12.11. 개정된「주택공급에 관한 규칙」제53조에 의거 본 아파트의 무순위 입주자로 선정되어 분양권을 소유한 경우…
-[공고문·원문] 오남역 서희스타힐스 여의재 1단지 (입주지정기간): …회 (10%) 2029.07.20. 입주지정기간의 만료일 또는 세대출입 열쇠 수령일 중 선 도래일 84 104동 3,4호 105동 1,2,4호 107동 3,4호 1층 3 254,372,729 415…
+[시간] 공고 194건 31초 · 실거래 요청 630건 600초 (성공 0, 실패 120, 시간 초과로 생략 510)
+[실거래 오류] 120건: ConnectTimeout: timed out
+[경고·시세] 실거래가 조회 실패 194건 → 지난 조회값 사용 194건, 시세 없음 0건
+[시간] 공고문 50건 중 새로 읽기 0건 0초 (보관 기록 사용 50건)
 [경쟁률] 시흥하중지구 A-4블록 신혼희망타운(공공분양) 추가입주자모집: 경쟁률 0줄 · 가점 0줄 → 주택형 0/2개에 반영
 [경쟁률] 광명 시티프라디움 에듀하임: 경쟁률 14줄 · 가점 0줄 → 주택형 7/7개에 반영 (예: 59A 1순위 해당지역 공급 10.0 접수 36.0 경쟁률 3.60)
 [경쟁률] 숭의역 노르웨이숲 더 스카이: 경쟁률 8줄 · 가점 0줄 → 주택형 2/2개에 반영 (예: 69 1순위 해당지역 공급 7.0 접수 9.0 경쟁률 1.29)
@@ -263,6 +261,7 @@
 [지역코드·대조] 경기 수원시 권선구: 표 41113 / 역지오코딩 41113 일치
 [지역코드·대조] 경기 성남시 분당구: 표 41135 / 역지오코딩 41135 일치
 [위치] 공고 50건: 정확 36 · 동 기준 10 · 못 찾음 4 (지난 값 재사용 46) · 주변 입지 46건 · 좌표 2초, 전체 3초
+[실거래가 경고] 시간 제한으로 이번 실행에서는 조회하지 못했어요
 [응답 필드] general 개요: BSNS_MBY_NM, CNSTRCT_ENTRPS_NM, CNTRCT_CNCLS_BGNDE, CNTRCT_CNCLS_ENDDE, GNRL_RNK1_CRSPAREA_ENDDE, GNRL_RNK1_CRSPAREA_RCPTDE, GNRL_RNK1_ETC_AREA_ENDDE, GNRL_RNK1_ETC_AREA_RCPTDE, GNRL_RNK1_ETC_GG_ENDDE, GNRL_RNK1_ETC_GG_RCPTDE, GNRL_RNK2_CRSPAREA_ENDDE, GNRL_RNK2_CRSPAREA_RCPTDE, GNRL_RNK2_ETC_AREA_ENDDE, GNRL_RNK2_ETC_AREA_RCPTDE, GNRL_RNK2_ETC_GG_ENDDE, GNRL_RNK2_ETC_GG_RCPTDE, HMPG_ADRES, HOUSE_DTL_SECD, HOUSE_DTL_SECD_NM, HOUSE_MANAGE_NO, HOUSE_NM, HOUSE_SECD, HOUSE_SECD_NM, HSSPLY_ADRES, HSSPLY_ZIP, IMPRMN_BSNS_AT, LRSCL_BLDLND_AT, MDAT_TRGET_AREA_SECD, MDHS_TELNO, MVN_PREARNGE_YM, NPLN_PRVOPR_PUBLIC_HOUSE_AT, NSPRC_NM, PARCPRC_ULS_AT, PBLANC_NO, PBLANC_URL, PRZWNER_PRESNATN_DE, PUBLIC_HOUSE_EARTH_AT, PUBLIC_HOUSE_SPCLW_APPLC_AT, RCEPT_BGNDE, RCEPT_ENDDE, RCRIT_PBLANC_DE, RENT_SECD, RENT_SECD_NM, SPECLT_RDN_EARTH_AT, SPSPLY_RCEPT_BGNDE, SPSPLY_RCEPT_ENDDE, SUBSCRPT_AREA_CODE, SUBSCRPT_AREA_CODE_NM, TOT_SUPLY_HSHLDCO
 [응답 필드] general 주택형: ETC_HSHLDCO, HOUSE_MANAGE_NO, HOUSE_TY, INSTT_RECOMEND_HSHLDCO, LFE_FRST_HSHLDCO, LTTOT_TOP_AMOUNT, MNYCH_HSHLDCO, MODEL_NO, NWBB_HSHLDCO, NWWDS_HSHLDCO, OLD_PARNTS_SUPORT_HSHLDCO, PBLANC_NO, SPSPLY_HSHLDCO, SUPLY_AR, SUPLY_HSHLDCO, TRANSR_INSTT_ENFSN_HSHLDCO, YGMN_HSHLDCO
 [응답 필드] remainder 개요: BSNS_MBY_NM, CNTRCT_CNCLS_BGNDE, CNTRCT_CNCLS_ENDDE, GNRL_RCEPT_BGNDE, GNRL_RCEPT_ENDDE, HMPG_ADRES, HOUSE_MANAGE_NO, HOUSE_NM, HOUSE_SECD, HOUSE_SECD_NM, HSSPLY_ADRES, HSSPLY_ZIP, MDHS_TELNO, MVN_PREARNGE_YM, NSPRC_NM, PBLANC_NO, PBLANC_URL, PRZWNER_PRESNATN_DE, RCRIT_PBLANC_DE, SPSPLY_RCEPT_BGNDE, SPSPLY_RCEPT_ENDDE, SUBSCRPT_AREA_CODE, SUBSCRPT_AREA_CODE_NM, SUBSCRPT_RCEPT_BGNDE, SUBSCRPT_RCEPT_ENDDE, TOT_SUPLY_HSHLDCO
@@ -321,6 +320,3 @@
 [검증·공고문] 공고문 50건 대조 · 기준표 245줄 · 분양가 194/194 일치 · 불일치 공고 0건
 [알림·웹푸시] 코드 변경으로 돈 실행이라 접수 전날 알림은 건너뜀 (매일 새벽 실행에서만 보냄)
 [알림·웹푸시] 보낼 이벤트 없음
-[청약봇] 2026-10-01 질문 0건(되물음 0) · AI 호출 0 · 검사기 거절 0 · 고정 문구 대체 0 · 개인정보 가림 0 · 제한 0/0 · 👍0 👎0 · 7일 질문 0건 · 7일 추정 비용 $0.00
-[판정 검증] 사례 256건 중 256건 일치
-[검증 요약] 통과 · 판정 사례 256/256 · [검증·공고문] 공고문 50건 대조 · 기준표 245줄 · 분양가 194/194 일치 · 불일치 공고 0건 · 정답 불일치 0건
