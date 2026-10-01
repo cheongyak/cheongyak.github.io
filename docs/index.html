@@ -121,6 +121,7 @@ body.ta details.chatq:not(.sprow):not(.scitem):not(.menudet)>summary{display:inl
 .chatfoot{margin:0;padding:2px 16px calc(10px + env(safe-area-inset-bottom));text-align:center}
 .chatgate{padding:16px;overflow-y:auto} .chatgate ul{padding-left:18px} .chatgate li{margin:6px 0;line-height:1.55} .chatgate .btn{margin-top:8px}
 .chatin1{width:100%;min-height:44px;border:1px solid var(--line);border-radius:12px;padding:0 12px;font-size:16px;background:var(--surface);color:var(--fg);margin:6px 0}
+.dsel{display:grid;grid-template-columns:1.3fr 1fr 1fr;gap:6px} .dsel select{min-height:48px;border:1px solid var(--line);border-radius:12px;padding:0 8px;font:inherit;font-size:16px;background:var(--surface);color:var(--fg)}
 .mecho{color:var(--consider-ink);font-weight:600}
 .legalnote ul{margin:6px 0;padding-left:18px} .legalnote li{margin:3px 0;font-size:13.5px} .legalfull{margin-top:6px} .legalfull .legalbody{margin-top:8px;border-top:1px solid var(--line);padding-top:8px} .legalfull .legalbody .card{box-shadow:none;border:0;padding:6px 0;margin:0} .legalline b{color:var(--fg)}
 .betaline{margin:0 2px 8px;font-size:12.5px;color:var(--muted);line-height:1.5} .betaline .beta{font-size:11px;vertical-align:1px} .betaline .linkbtn{min-height:0;padding:0}
@@ -3491,6 +3492,32 @@ const QUICK_STEPS = ['home', '서울 거주', '세대 구성', '세대주가 된
 const quickMode = () => !!S.quick && on('quick_start');
 const visibleSteps = () => STEPS.filter(s => (!s.show || s.show(S.profile)) && (!quickMode() || QUICK_STEPS.includes(stepKey(s))));
 
+/* 날짜를 년·월·일 드롭다운으로 (기능: date_select, 2026-10-01 사용자 요청 '달력이 불편해'). 셋 다 고르면 YYYY-MM-DD 로 저장, 하나라도 비우면 '입력 안 함'.
+   고르는 중인 값은 DATE_PART 에 두어 화면을 다시 그려도(바로 답하기) 남게 한다. 없는 날(2월 30일 등)은 그달 마지막 날로 맞춘다 */
+const DATE_PART = {};
+function dateSelHtml(fd, p, label){
+  const k = fd.k, v = p[k] || '', [vy, vm, vd] = v ? v.split('-').map(Number) : [], part = DATE_PART[k] || { y: vy || '', m: vm || '', d: vd || '' };
+  const now = +TODAY.slice(0, 4), lo = k === 'birth' ? now - 90 : k === 'youngestBirth' ? now - 30 : now - 60, hi = k === 'youngestBirth' ? now + 1 : now;
+  const ys = []; for (let y = hi; y >= lo; y--) ys.push(y);
+  const opt = (arr, cur, unit, blank) => `<option value="">${blank}</option>` + arr.map(x => `<option value="${x}"${+cur === x ? ' selected' : ''}>${x}${unit}</option>`).join('');
+  const r = n => Array.from({ length: n }, (_, i) => i + 1);
+  return `<div class="field"><span class="lbl" id="l-${k}">${label}</span><div class="dsel" role="group" aria-labelledby="l-${k}">
+    <select id="f-${k}" data-dpart="y" data-dk="${k}" aria-label="년">${opt(ys, part.y, '년', '년')}</select><select data-dpart="m" data-dk="${k}" aria-label="월">${opt(r(12), part.m, '월', '월')}</select><select data-dpart="d" data-dk="${k}" aria-label="일">${opt(r(31), part.d, '일', '일')}</select></div>
+    ${v ? `<span class="hint">${vy}년 ${vm}월 ${vd}일</span>` : part.y || part.m || part.d ? '<span class="hint">년·월·일을 모두 고르면 저장돼요</span>' : ''}</div>`;
+}
+function dateSelChange(el){
+  const k = el.dataset.dk, box = el.closest('.dsel'), g = n => (box.querySelector(`[data-dpart="${n}"]`) || {}).value || '';
+  const part = { y: g('y'), m: g('m'), d: g('d') }; DATE_PART[k] = part;
+  let v = '';
+  if (part.y && part.m && part.d) { const last = new Date(+part.y, +part.m, 0).getDate(), d = Math.min(+part.d, last);
+    v = `${part.y}-${String(part.m).padStart(2, '0')}-${String(d).padStart(2, '0')}`; delete DATE_PART[k]; }
+  else if (!part.y && !part.m && !part.d) delete DATE_PART[k];
+  S.profile[k] = v; save();
+  const hint = el.closest('.field').querySelector('.hint');
+  const txt = v ? `${+v.slice(0, 4)}년 ${+v.slice(5, 7)}월 ${+v.slice(8)}일` : part.y || part.m || part.d ? '년·월·일을 모두 고르면 저장돼요' : '';
+  if (hint) hint.textContent = txt; else if (txt) el.closest('.field').insertAdjacentHTML('beforeend', `<span class="hint">${txt}</span>`);
+  if (v && +v.slice(8) !== +part.d) { const ds = box.querySelector('[data-dpart="d"]'); if (ds) ds.value = String(+v.slice(8)); }
+}
 function fieldHtml(fd, p, groupLabel){   // 인터뷰 질문 한 칸 (vOnboard·바로 답하기 inline_fix 공용)
   if (fd.type === 'choice') {
     const optTag = fd.skip && on('optional_inputs') ? ` <span class="optag">해당하는 분만 · 안 고르면 ${esc(fd.skip)}</span>` : '';   // 기능: optional_inputs
@@ -3498,6 +3525,7 @@ function fieldHtml(fd, p, groupLabel){   // 인터뷰 질문 한 칸 (vOnboard·
     return `<div class="field">${fd.l ? `<span class="lbl" id="l-${fd.k}">${fd.l}${optTag}</span>` : ''}<div role="radiogroup" ${fd.l ? `aria-labelledby="l-${fd.k}"` : `aria-label="${esc(groupLabel || fd.l || '')}"`} class="${fd.two ? 'opts-2' : 'stack'}">${opts}</div></div>`;
   }
   if (fd.type === 'text') return `<div class="field"><label for="f-${fd.k}">${fd.l}</label><input type="text" id="f-${fd.k}" data-field="${fd.k}" value="${esc(p[fd.k] || '')}"></div>`;
+  if (fd.type === 'date' && on('date_select')) return dateSelHtml(fd, p, on('optional_inputs') && optDate(fd) && fd.k !== 'youngestBirth' ? fd.l.replace(/\s*\(없으면 비워두세요\)/, '') + ' <span class="optag">해당하는 분만 · 비우면 없음</span>' : fd.l);
   if (fd.type === 'date') return `<div class="field"><label for="f-${fd.k}">${on('optional_inputs') && optDate(fd) && fd.k !== 'youngestBirth' ? fd.l.replace(/\s*\(없으면 비워두세요\)/, '') + ' <span class="optag">해당하는 분만 · 비우면 없음</span>' : fd.l}</label><input type="date" id="f-${fd.k}" data-field="${fd.k}" value="${p[fd.k] || ''}"></div>`;
   if (fd.type === 'count') return `<div class="field"><label for="f-${fd.k}">${fd.l}</label><div class="money"><input id="f-${fd.k}" inputmode="numeric" data-field="${fd.k}" data-count="1" value="${p[fd.k] == null ? '' : p[fd.k]}" placeholder="0"><span>회</span></div>${fd.h ? `<span class="hint">${fd.h}</span>` : ''}</div>`;
   if (fd.opt) return `<div class="field"><label for="f-${fd.k}">${fd.l}</label><div class="money"><input id="f-${fd.k}" inputmode="numeric" data-field="${fd.k}" data-opt="1" value="${p[fd.k] == null ? '' : p[fd.k]}" placeholder="입력 안 함"><span>만원</span></div>${mEcho(p[fd.k])}${fd.h ? `<span class="hint">${fd.h}</span>` : ''}</div>`;
@@ -4356,7 +4384,7 @@ document.addEventListener('click', ev => {
   if (t.dataset.sec) { const k = t.dataset.sec; if (k === 'top') window.scrollTo({ top:0, behavior:'smooth' }); else { const a = document.getElementById('sec-' + k); if (a) window.scrollTo({ top: a.getBoundingClientRect().top + window.scrollY - 64, behavior:'smooth' }); } return; }   // 기능: detail_nav
   if (t.dataset.fix && S.id) { const Lf = LISTINGS.find(x => x.id === S.id); S.fix = { id:S.id, k:t.dataset.fix, keys: fixKeysFor(t.dataset.fix, Lf, S.profile) }; metric('fix/' + t.dataset.fix); render();
     const fp = app.querySelector('#fixpanel'), nd = on('fix_focus') && fp && fp.querySelector('[data-fixneed]');
-    if (nd) { nd.scrollIntoView({ behavior:'smooth', block:'center' }); const inp = nd.querySelector('input'); try { (inp || nd.querySelector('button')).focus({ preventScroll:true }); if (inp && inp.select && inp.type !== 'date') inp.select(); } catch(e) {} }   // 기능: fix_focus — 0 이 들어 있으면 선택해 두어 입력하면 바뀌게
+    if (nd) { nd.scrollIntoView({ behavior:'smooth', block:'center' }); const inp = nd.querySelector('input, select'); try { (inp || nd.querySelector('button')).focus({ preventScroll:true }); if (inp && inp.select && inp.type !== 'date' && inp.tagName === 'INPUT') inp.select(); } catch(e) {} }   // 기능: fix_focus — 0 이 들어 있으면 선택해 두어 입력하면 바뀌게
     else if (fp) fp.scrollIntoView({ behavior:'smooth', block:'start' }); return; }   // 기능: inline_fix
   if (t.dataset.action === 'fix-close') { S.fix = null; render(); return; }
   if (t.dataset.action === 'fix-save') { fixSave(); return; }
@@ -4440,6 +4468,7 @@ const TOUCH = (() => { try { return matchMedia('(hover: none) and (pointer: coar
 function refocus(el){ if (!el || (TOUCH && el.tagName === 'SELECT')) return; try { el.focus({ preventScroll:true }); } catch(e) {} }
 document.addEventListener('change', ev => {
   const el = ev.target;
+  if (el.dataset.dpart) { dateSelChange(el); if (S.fix && S.view === 'detail') { const y = window.scrollY; render(); window.scrollTo(0, y); } return; }   // 기능: date_select
   if (el.dataset.field && S.fix && S.view === 'detail') { const y = window.scrollY; render(); window.scrollTo(0, y); return; }   // 기능: inline_fix — 입력하면 바로 다시 판정
   if (el.dataset.newsel) { S.newDays = Number(el.value) || 0; track({ path:'new-' + S.newDays, event:true }); render(); refocus(app.querySelector('[data-newsel]')); return; }
   if (el.dataset.f) {
