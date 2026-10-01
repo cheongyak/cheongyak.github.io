@@ -722,7 +722,12 @@ function scoreCardV2(L, p, r, t){
       <div class="sc-track">${has ? `<i class="sc-fill" style="width:${pct(r.total)}"></i>` : ''}${low != null ? `<i class="sc-mk low" style="left:${pct(low)}"></i>` : ''}${avg != null ? `<i class="sc-mk avg" style="left:${pct(avg)}"></i>` : ''}</div>
       <div class="sc-axis"><span>0</span><span>42</span><span>84</span></div>
       ${low != null || avg != null ? `<div class="legend"><span><i style="background:var(--fg)"></i>내 가점${has ? ' ' + r.total : ''}</span>${low != null ? '<span><i style="background:var(--warn-ink)"></i>당첨 최저 ' + low + '</span>' : ''}${avg != null ? '<span><i style="background:var(--consider)"></i>당첨 평균 ' + avg + '</span>' : ''}</div>` : ''}</div>`;
-  const cmp = !has ? '' : !t ? `<div class="small muted sccmp">비교할 당첨 가점 기록이 없어요.</div>`
+  /* 이 공고에서 가점이 쓰이지 않는 경우 (기능: score_scope, 2026-10-01): 2순위만 가능 → 제28조⑨ '제2순위에서 경쟁이 있는 경우에는 추첨',
+     규제지역 유주택 → 1순위 가점제 대상이 아니라 추첨 물량만. 이때는 당첨 최저 비교 대신 이 안내를 보여준다 */
+  const e = on('score_scope') ? eligibility(L, p) : null, ownI = e && e.items.find(i => i.k === '무주택 세대' && i.owns);
+  const off = e && !e.ok && e.rank2 ? '이 공고는 2순위로만 신청할 수 있어요. 2순위는 가점 없이 추첨으로 뽑아서(주택공급에 관한 규칙 제28조⑨) 아래 가점은 이번 공고에 쓰이지 않아요. 1순위 요건을 채우면 쓰이는 점수예요.'
+    : ownI && L.regulated ? '집이 있어 이 공고에서는 가점제가 아니라 추첨 물량으로만 뽑혀요. 아래 가점은 이번 공고에 쓰이지 않아요.' : '';
+  const cmp = off ? `<div class="note info sccmp"><b>이번 공고에서는 가점이 쓰이지 않아요</b><div class="small">${off}</div></div>` : !has ? '' : !t ? `<div class="small muted sccmp">비교할 당첨 가점 기록이 없어요.</div>`
     : `<div class="note ${d >= 0 ? 'ok' : 'warn'} sccmp"><b>${d >= 0 ? '당첨 최저보다 ' + d + '점 높아요' : '당첨 최저보다 ' + (-d) + '점 낮아요'}</b>
        <div class="small">최저 ${low}점${avg != null ? ' · 평균 ' + avg + '점' : ''} · ${esc(t.from)}</div><div class="small">가점제 물량 기준이에요. 추첨 물량은 가점과 관계없어요. ${t.srcHtml}</div></div>`;
   const items = r.parts.map(x => { const room = x.v == null ? null : x.max - x.v;
