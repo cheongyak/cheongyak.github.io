@@ -255,3 +255,14 @@ def test_public_points_table_in_originals():
                   "3년이하3", "3년초과5년이하2", "5년초과7년이하1"):
             assert q in t, (no, q)
         assert "80%이하인경우(본인및배우자가모두소득이있는경우100%)" in t, no
+
+
+def test_public_special_birth_relax_in_originals():
+    """특별공급 출산가구 완화 (기능: sp_birth_relax) — 가산 폭과 완화 자산 기준이 공공분양 공고문 원문에 있다."""
+    import re
+    for no in ("2026000409", "2026000414"):
+        t = re.sub(r"\s+", "", text(no))
+        assert "’23.3.28.이후출생한자녀(태아포함)가1명만있는경우10%p,2명이상(’23.3.28.이후출생한자녀가1명이고,’23.3.27.전출생한자녀가있는경우포함)인경우20%p가산하여소득기준완화" in t, no
+    t = re.sub(r"\s+", "", text("2026000414"))
+    assert "부동산(건물+토지)237,050천원이하258,600천원이하" in t and "자동차49,960천원이하54,510천원이하" in t
+    assert "적용대상:다자녀․노부모부양․생애최초․신혼부부․신생아특별공급및전용면적60㎡이하일반공급" in t

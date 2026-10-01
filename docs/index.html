@@ -1686,6 +1686,12 @@ function mcPlace(L, p){
   }
   return { t:'다자녀 배정 지역 밖이에요', warn:true };
 }
+function birthRelax(p){   // 출산가구 완화 가산 %p: 10 · 20 · 0(해당 없음) · null(모름)
+  const hasNew = p.pregnant === true || (p.youngestBirth && p.youngestBirth >= '2023-03-28');
+  if (hasNew) return { add: p.kidsMinor >= 2 || (p.pregnant === true && p.youngestBirth) ? 20 : 10 };
+  if ((p.kidsMinor === 0 && p.pregnant === false) || (p.kidsMinor > 0 && p.youngestBirth && p.pregnant === false)) return { add:0 };
+  return { add:null };
+}
 function spJudge(L, p, type){
   const hh = hhCount(L, p, type);
   if (hh) p = Object.assign({}, p, { hhSize: hh.n });   // 공고문 기준으로 센 가구원수로 소득 기준 비교 (기능: hh_count)
@@ -1740,29 +1746,38 @@ function spJudge(L, p, type){
   }
   // 소득·자산 → 단계
   let stage = null, stageNote = '';
+  // 출산가구 소득·자산 완화 (기능: sp_birth_relax, 공공분양만). 2026000409·414 「’23.3.28. 이후 출생한 자녀(태아 포함)가 1명만 있는 경우 10%p,
+  // 2명 이상(’23.3.28. 이후 출생한 자녀가 1명이고, ’23.3.27. 전 출생한 자녀가 있는 경우 포함)인 경우 20%p 가산」, <표3> 부동산 237,050·258,600천원 · 자동차 49,960·54,510천원.
+  // 완화 여부를 모르면(자녀 정보 없음) 기준을 넘는 사람에게 '불가' 대신 '확인 필요'를 준다 — 가능으로 단정하지 않는다
+  const BR = on('sp_birth_relax') && pub ? birthRelax(p) : null, addK = BR && BR.add ? BR.add : 0;
+  let relaxUsed = false;
   if (R.income && !fail.length) {
     const inc = spIncome(p), n = p.hhSize;
     if (!n) warn.push('가구원수 입력 필요');
     else {
       const dual = R.dual && inc.dual, pct = inc.monthly / spBase(n) * 100;
       for (const [nm, share, a, b] of R.stages) {
-        const lim = dual && b != null ? b : a;
+        const lim0 = dual && b != null ? b : a, lim = lim0 == null ? null : lim0 + addK;
         if (lim == null) { stage = [nm, share]; break; }
         let okStage = inc.monthly <= spAmt(n, lim);
+        if (okStage && addK && inc.monthly > spAmt(n, lim0)) relaxUsed = true;
         // 민영 신혼부부 맞벌이: 부부 중 1인 소득이 외벌이 기준 이하여야
         if (okStage && dual && !pub && type === 'newlywed') okStage = Math.min(inc.self, inc.spouse) <= spAmt(n, a);
         if (okStage) { stage = [nm, share, lim]; break; }
       }
       stageNote = '월평균 ' + won(inc.monthly) + (inc.est ? ' (본인+배우자 소득으로 추정)' : '') + ' · ' + n + '인 가구 기준 ' + Math.round(pct) + '%' + (R.dual && inc.dual ? ' · 맞벌이' : '');
-      if (!stage && pub) fail.push('소득 기준 초과 (' + R.max[inc.dual ? 1 : 0] + '% 초과)');
+      const mx = pub && R.max ? R.max[inc.dual ? 1 : 0] : null;
+      if (!stage && pub && BR && BR.add === null && inc.monthly <= spAmt(n, mx + 20)) warn.push('출산가구 완화 확인 필요 (2023.3.28 이후 출생 자녀·태아가 있으면 소득 기준 +10%p, 2명 이상 +20%p)');
+      else if (!stage && pub) fail.push('소득 기준 초과 (' + mx + '% 초과' + (addK ? ' · 출산가구 완화 +' + addK + '%p 적용해도' : '') + ')');
+      else if (relaxUsed) ok.push('출산가구 완화 +' + addK + '%p 적용 (출생·임신 증빙 필요)');
     }
     // 자산: 민영은 추첨 단계에서만, 공공은 자격 요건
-    const assetLim = pub ? SP_ASSET.public : SP_ASSET.minyoung;
+    const assetLim = pub ? (addK === 20 ? 25860 : addK === 10 ? 23705 : SP_ASSET.public) : SP_ASSET.minyoung, carLim = addK === 20 ? 5451 : addK === 10 ? 4996 : SP_ASSET.car;
     const assetNeeded = pub || (stage && stage[0] === '추첨');
     if (assetNeeded) {
       if (p.realEstate == null || p.realEstate === '') warn.push('부동산 자산 입력 필요');
-      else if (p.realEstate > assetLim) { fail.push('부동산 자산 ' + (assetLim / 10000).toFixed(3).replace(/0+$/, '') + '억 초과'); stage = null; }
-      if (pub && R.car) { if (p.carValue == null || p.carValue === '') warn.push('자동차가액 입력 필요'); else if (p.carValue > SP_ASSET.car) { fail.push('자동차 4,542만원 초과'); stage = null; } }
+      else if (p.realEstate > assetLim) { if (BR && BR.add === null && p.realEstate <= 25860) warn.push('부동산 자산 기준 초과 · 출산가구 완화 확인 필요'); else { fail.push('부동산 자산 ' + (addK ? manW(assetLim) + ' (출산가구 완화 기준)' : (assetLim / 10000).toFixed(3).replace(/0+$/, '') + '억') + ' 초과'); stage = null; } }
+      if (pub && R.car) { if (p.carValue == null || p.carValue === '') warn.push('자동차가액 입력 필요'); else if (p.carValue > carLim) { if (BR && BR.add === null && p.carValue <= 5451) warn.push('자동차 기준 초과 · 출산가구 완화 확인 필요'); else { fail.push('자동차 ' + carLim.toLocaleString() + '만원 초과'); stage = null; } } }
     }
     if (!pub && type === 'first' && !p.married && !(kids > 0) && p.hhSize === 1 && stage) {   // 1인 가구: 추첨만, 전용 60㎡ 이하
       if ((L.area || 0) > 60) fail.push('1인 가구는 전용 60㎡ 이하만'); else stage = ['추첨 (1인 가구)', '추첨 물량'];
