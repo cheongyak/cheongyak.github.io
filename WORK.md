@@ -4,6 +4,14 @@
 2026-09-29 12:55 이전 항목은 규칙을 만들기 전 작업을 커밋 기록으로 정리한 것이라 백업 브랜치가 없어요.
 그 시점으로 되돌릴 때는 해당 커밋 번호로 `git revert` 를 써요.
 
+## 2026-10-01 11:30 · 웹 푸시 새 공고 알림 (Cloudflare Workers, 꺼 둠)
+- 요청: 앱처럼 공고 알림을 웹에서도 받게 (B안: Cloudflare Workers 직접 운영)
+- 변경: ① 알림 서버 push/worker.js — 구독 보관(KV 메타데이터: 푸시 주소·키·지역·종류·날짜만), VAPID 키를 서버에서 만들어 KV 에만 보관, RFC 8291 암호화·RFC 8292 서명을 WebCrypto 로 직접 구현, 구독자별로 지역·등급·전날 알림 설정에 맞는 이벤트만 골라 하루 한 통으로 묶어 발송, 404/410 만료 구독 즉시 삭제, 푸시 서비스 주소만 허용·청약패스 출처만 CORS·발송은 토큰 필요, 무료 한도(호출당 외부 요청 50·CPU 10ms)에 맞춰 10명씩 이어 받기 ② app/webpush.py — 수집 뒤 이벤트(새 공고: 공고 단위로 지난 결과와 비교·접수 끝난 공고 제외·30건 넘으면 비정상으로 보고 중단 / 내일 접수 시작: 특별공급 있으면 특별공급 시작일 / 내일 마감) 만들어 발송, 코드 변경 실행에서는 전날 알림 생략, 결과를 run-log [알림·웹푸시] 로 ③ 화면: 알림 화면(지역 17개·로또·고려만·전날 알림, 켜기·설정 저장·끄기), 아이폰 홈 화면 추가·앱 안 브라우저·차단 안내, docs/sw.js(알림 표시·누르면 그 공고 상세, 캐시 없음, 켤 때만 등록) ④ 개인정보처리방침: 수집 항목·목적·보유/파기·4-2 처리 위탁과 국외 이전(Cloudflare)·외부 서비스 표·권리·안전성, 시행일·개정 이력(push_legal_date), 이용약관 제4조 알림 지연 안내, 이용 안내 문구 — 모두 스위치가 켜지고 push_api 가 있을 때만 ⑤ 배포 워크플로 push-worker.yml(Cloudflare API 로 workers.dev 주소·KV 준비 → wrangler 배포 → 발송 토큰 등록 → health·VAPID·무토큰 401 확인 → push/deployed.json 기록), collect.yml 에 PUSH_SEND_TOKEN
+- 파일: push/worker.js, push/test.mjs, push/wrangler.toml, push/package.json, app/webpush.py, app/pipeline.py, tests/test_webpush.py, docs/index.html, docs/sw.js, docs/config.json(web_push false, push_api, push_legal_date), .github/workflows/push-worker.yml, .github/workflows/collect.yml, requirements.txt(cryptography, 테스트용), .gitignore, 정적 페이지 재생성(CSS 만 바뀜)
+- 확인: push/test.mjs 22개 항목 통과(구독·출처·주소 검증·410 미저장·설정 덮어쓰기·고르기/묶기·토큰·이어 받기 16명 2번·만료 삭제·해지·CORS). 워커가 보낸 실제 암호문 3통을 제3자 라이브러리(web-push-libs http_ece)와 워커와 따로 짠 파이썬 RFC 8291 복호화로 풀고 VAPID 서명 검증(tests/test_webpush.py), 암호화 정보 문자열·서명 입력을 바꾸면 테스트 실패 확인. 브라우저(크로미움, 로컬 워커): 켜기→서버 저장 항목·확인 알림 1통·VAPID 키 일치, 서비스 워커 등록, CDP 푸시 전달→알림 표시, 알림 누름→상세 이동, 상세 주소 새로 열기, 설정 저장·끄기→서버 삭제, 방침·약관 문구, 아이폰/카카오톡/차단 안내, 밝은·어두운 화면 가로 넘침 없음, 오류 0. 스위치 꺼진 상태: 직전 배포와 1,030개 조합 차이 0, 1,287개 화면 오류 0, 판정 검증 144/144, 정적 방침 페이지 문구 변화 없음. pytest 123 통과
+- 기능: web_push
+- 백업: backup/20261001-1130-push
+
 ## 2026-10-01 11:14 · 개인정보 보호책임자 이름 기입
 - 요청: 개인정보 보호책임자 실명을 차진혁으로
 - 변경: config.json privacy_officer = 차진혁 → 개인정보처리방침 서두·책임자 항목, 이용약관·이용 안내의 운영자 표기가 '서비스 운영자' 대신 실명으로 나옴. 정적 페이지(/privacy/ /terms/ /about/ /updates/) 다시 만듦. 업데이트 내역에 한 줄

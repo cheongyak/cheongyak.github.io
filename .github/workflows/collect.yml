@@ -23,6 +23,7 @@ jobs:
       DATA_GO_KR_KEY: ${{ secrets.DATA_GO_KR_KEY }}
       NCP_MAPS_CLIENT_ID: ${{ secrets.NCP_MAPS_CLIENT_ID }}
       NCP_MAPS_CLIENT_SECRET: ${{ secrets.NCP_MAPS_CLIENT_SECRET }}
+      PUSH_SEND_TOKEN: ${{ secrets.PUSH_SEND_TOKEN }}   # 웹 푸시 발송 토큰 (기능: web_push). 없으면 보내지 않는다
       TZ: Asia/Seoul
     steps:
       - uses: actions/checkout@v4

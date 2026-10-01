@@ -1,0 +1,14 @@
+# 알림 서버 설정 (기능: web_push). 배포는 .github/workflows/push-worker.yml 이 한다.
+# KV id 는 배포할 때 Cloudflare API 로 찾거나 만들어 채운다 (__KV_ID__). 인증키는 여기 적지 않는다 (GitHub Secrets).
+name = "cheongyakpass-push"
+main = "worker.js"
+compatibility_date = "2025-09-01"
+workers_dev = true
+
+[vars]
+ALLOWED_ORIGINS = "https://cheongyakpass.kr,https://www.cheongyakpass.kr"
+CONTACT = "mailto:ckwlsgur@naver.com"
+
+[[kv_namespaces]]
+binding = "SUBS"
+id = "__KV_ID__"
