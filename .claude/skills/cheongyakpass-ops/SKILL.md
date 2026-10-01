@@ -47,6 +47,8 @@ description: 청약패스(cheongyakpass.kr, 저장소 cheongyak/cheongyak.github
 8. **HANDOFF.md '진행 중인 일' 갱신** 후 사용자에게 결과를 짧게 알린다 (무엇이 바뀌었나, 확인한 것, 사용자가 할 일).
 
 ## 4. 알아 둔 함정
+- ship.sh 가 '받기(pull) 실패'로 멈추면 커밋은 로컬에만 있다. 남은 변경(대개 tools/static_fragments.json)을 버리고 `git pull --no-rebase origin main && git push` 로 올린 뒤에 release.sh 를 실행한다 (release.sh 는 이제 올라가지 않은 커밋이면 멈춘다).
+- 법제처 API 는 `Referer: https://cheongyakpass.kr/` 헤더가 없으면 '필수입력요소 검증 실패'. 별표와 서식은 번호가 겹쳐 `별표구분` 으로 가른다.
 
 - index.html 템플릿 문자열 안에서 `//` 주석을 쓰면 뒤 코드가 주석이 된다. `/* */` 를 쓴다.
 - 정적 페이지는 `node tools/snapshot_docs.cjs && python -m tools.build_static` (스크립트 경로로 실행하면 import 오류). verify.yml 도 다시 만든다.
