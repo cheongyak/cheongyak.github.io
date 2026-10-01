@@ -453,6 +453,9 @@ body.sheet-open{overflow:hidden}
 /* 기능: grade_medal — 목록 카드 왼쪽 등급을 원형 배지로 (다른 앱의 SS 배지처럼) */
 body.gm .listing .bcol{gap:4px} body.gm .listing .bcol .badge{width:54px;min-width:54px;height:54px;padding:2px;border-radius:27px;font-size:14px;font-weight:800;line-height:1.1;text-align:center;box-shadow:inset 0 0 0 3px rgba(255,255,255,.35),0 1px 3px rgba(0,0,0,.18)}
 body.gm .listing.g-flat .bcol .badge,body.gm .listing.g-unknown .bcol .badge{font-size:12px} body.gm .listing .brate{font-size:13px}
+/* 기능: detail_tidy */
+.rstats{display:grid;grid-template-columns:repeat(auto-fit,minmax(0,1fr));gap:6px;margin-top:10px} .rstat{display:flex;flex-direction:column;align-items:flex-start;gap:2px;padding:8px 10px;border-radius:10px;border:0;background:var(--surface);color:var(--fg);font:inherit;text-align:left;cursor:pointer;min-width:0}
+.rstat span{font-size:12px;color:var(--muted)} .rstat b{font-size:15px;white-space:nowrap} .pc-rank{display:flex;flex-direction:column;gap:4px;border-top:1px solid var(--line);padding-top:8px} .pc-more .tr-list{margin-top:6px} .mgbare{display:flex;flex-direction:column;gap:10px;margin-top:6px}
 .dcta{position:fixed;left:0;right:0;bottom:calc(60px + env(safe-area-inset-bottom,0px));z-index:4;max-width:440px;margin:0 auto;padding:8px 16px 10px;background:linear-gradient(to bottom,transparent,var(--bg) 18%);display:flex;flex-direction:column;gap:6px;text-align:center}
 .dcta-row{display:flex;gap:8px} .dcta-row .btn{min-height:50px;width:auto;flex:1} .dcta-row .dcta-main{flex:2;background:var(--lotto);color:var(--on-fill)} body.has-cta .shell{padding-bottom:190px} body.chat-open .dcta{display:none}
 .topf .qf{flex-wrap:nowrap;overflow-x:auto;scrollbar-width:none;margin:0;-webkit-mask-image:linear-gradient(90deg,#000 88%,transparent);mask-image:linear-gradient(90deg,#000 88%,transparent)} .topf .qf>*:last-child{margin-right:24px} .topf .qf::-webkit-scrollbar{display:none} .topf .qf>*{flex:none}
@@ -962,6 +965,7 @@ function scoreCardV2(L, p, r, t){
   const cmp = win2 + (off ? `<div class="note info sccmp"><b>이번 공고에서는 가점이 쓰이지 않아요</b><div class="small">${off}</div></div>`
     : RS && RS.lotteryOnly ? `<div class="note info sccmp"><b>이 주택형은 가점이 쓰이지 않아요</b><div class="small">${esc(RS.ratioTxt)} ${RS.ratioSrc}</div></div>`
     : !has ? '' : !t ? `<div class="small muted sccmp">비교할 당첨 가점 기록이 없어요.${RS && RS.short ? ' 내 지역 순서: ' + esc(RS.short) + '.' : ''}</div>`
+    : RS && splitOn(RS, r) && on('detail_tidy') ? `<div class="note info sccmp"><b>${d >= 0 ? `최근 ${esc(RS.cmpLabel)}보다 ${d}점 높아요` : `최근 ${esc(RS.cmpLabel)}보다 ${-d}점 낮아요`}</b><div class="small">${RS.cmpLabel} ${low}점${avg != null ? ' · 평균 ' + avg + '점' : ''} · ${esc(t.from)} ${t.srcHtml}</div><div class="small">${RS.ratio ? `1순위는 가점제 ${RS.ratio.score}%로 먼저 뽑고, 떨어지면 추첨제 ${RS.ratio.lottery}%에서 한 번 더 뽑아요.` : '1순위는 가점제로 먼저 뽑고, 떨어지면 추첨제에서 한 번 더 뽑아요.'} 내 순서와 근거는 위 '공급 유형별 내 자격과 위치'의 일반공급에 있어요.</div></div>`   /* 기능: detail_tidy — 같은 ①② 설명을 두 번 쓰지 않음 */
     : RS && splitOn(RS, r) ? `<div class="note info sccmp"><b>가점제로 먼저, 떨어지면 추첨제로${RS.short ? ' · ' + esc(RS.short) : ''}</b>${splitRows(L, p, RS, r, d)}<div class="small muted">비교한 당첨 가점: ${esc(t.from)} ${t.srcHtml}</div></div>`
     : RS ? `<div class="note ${d >= 0 ? 'ok' : 'warn'} sccmp"><b>${RS.short ? esc(RS.short) + ' → ' : ''}${RS.cmpLabel}보다 ${Math.abs(d)}점 ${d >= 0 ? '높아요' : '낮아요'}</b>
        <div class="small">${RS.cmpLabel} ${low}점${avg != null ? ' · 평균 ' + avg + '점' : ''} · ${esc(t.from)}</div><div class="small">${esc(RS.order)}${RS.ratioTxt ? ' ' + esc(RS.ratioTxt) : ' 추첨 물량은 가점과 관계없어요.'} ${t.srcHtml}</div>${RS.warn ? `<div class="small st-warn">${esc(RS.warn)}</div>` : ''}</div>`
@@ -2603,7 +2607,7 @@ function generalRowRegion(L, p, sc, RS){   // 기능: region_first_score — 지
 function spIntroPlain(rs){
   const okT = rs.filter(r => r.s === 'ok').map(r => SP_NAME[r.type]), wT = rs.filter(r => r.s === 'warn').map(r => SP_NAME[r.type]);
   return `<div class="small" style="margin:2px 0 4px">${okT.length ? `지금 조건으로 신청할 수 있는 특별공급은 <b>${iEyo(okT.join('·'))}</b>.` : '지금 조건으로 확실히 신청할 수 있는 특별공급은 없어요.'}${wT.length ? ` <b>${eunNeun(wT.join('·'))}</b> 정보를 더 넣어야 판단할 수 있어요.` : ''}</div>
-    <p class="small muted" style="margin:0 0 6px">특별공급은 조건을 갖춘 사람끼리 따로 뽑는 몫이고, 유형마다 뽑는 방식(추첨·점수·가점)이 달라요. 유형을 누르면 조건·뽑는 방식·내 위치·할 일이 보여요.</p>`;
+    ${on('detail_tidy') ? '' : `<p class="small muted" style="margin:0 0 6px">특별공급은 조건을 갖춘 사람끼리 따로 뽑는 몫이고, 유형마다 뽑는 방식(추첨·점수·가점)이 달라요. 유형을 누르면 조건·뽑는 방식·내 위치·할 일이 보여요.</p>`}`;
 }
 function specialCardV2(L, rs, p){
   const n = s => rs.filter(r => r.s === s).length, order = { ok:0, warn:1, fail:2 };
@@ -2890,7 +2894,7 @@ function checklistV2(L, p, e){
   const warnItem = i => `<div class="ckwarn"><div class="ck-top"><span>${esc(i.k)}</span><span class="st-warn">${esc(i.v)}</span></div>
     ${i.note ? `<div class="small muted">${esc(i.note)}</div>` : ''}${on('unsure_actions') ? warnActBtn(L, i) : i.edit && visibleSteps().find(s2 => stepKey(s2) === i.edit) ? `<button class="linkbtn small" data-edit="${esc(i.edit)}" style="align-self:flex-start">${esc(i.editLabel || '정보 넣기')}</button>` : ''}<div class="ck-src">${itemSrc(L, i.k)}</div></div>`;
   return `<section class="card ckcard"><h2>자격 체크리스트</h2>
-    ${supplySummary(L, p, e)}
+    ${on('detail_tidy') ? '' : supplySummary(L, p, e)}
     <div class="spsum" style="margin:4px 0 0">${on('supply_summary') && hasProfile() ? `<span class="small muted" style="align-self:center">${genLabel(L)} 조건</span>` : ''}${count}</div>
     <div class="note ${tone} ckverdict"><b>${on('supply_summary') && hasProfile() ? (genLabel(L) + ' · ') : ''}${esc(title)}</b>${sub ? `<div class="small">${esc(sub)}</div>` : ''}${e.fix ? `<div class="small" style="margin-top:4px"><b>다음 공고에 신청하려면</b> · ${esc(e.fix)}</div>` : ''}</div>
     ${fixPanel(L, p, 'gen')}
@@ -2910,7 +2914,7 @@ function checklistV2(L, p, e){
    시세(보수~기준)와 실매입가를 위아래로, 차이를 크게, '왜 이 시세'에 근거 거래를 한 줄로. 숫자는 grade()·수집 시세 그대로 */
 /* '이 공고 주택형 중 위치' (기능: type_rank, 2026-10-01 사용자 요청 — 다른 앱의 '이 평형 내 순위 1/8'처럼). 같은 공고 주택형을 보수 마진 순으로 줄 세우고
    지금 주택형의 순위, 내가 신청 가능한 주택형 수, 위 3개(+지금 주택형)를 보여준다. 누르면 그 주택형으로 바꾼다(data-topen). 계산은 grade()·eligBucket() 그대로 */
-function typeRank(L, p){
+function typeRank(L, p, inline){
   if (!on('type_rank') || L.sample) return '';
   const sib = LISTINGS.filter(x => tgNid(x.id) === tgNid(L.id)); if (sib.length < 2) return '';
   const rows = sib.map(x => ({ x, m: grade(x) })).sort((a, b) => (b.m.lo == null ? -1e9 : b.m.lo) - (a.m.lo == null ? -1e9 : a.m.lo) || (a.x.area || 0) - (b.x.area || 0));
@@ -2918,6 +2922,8 @@ function typeRank(L, p){
   const shown = rows.slice(0, 3); if (rank > 3) shown.push(rows[rank - 1]);
   const row = (r, i) => { const n = rows.indexOf(r) + 1, me = r.x.id === L.id, b = hasProfile() ? eligBucket(r.x, p) : null, u = String(r.x.unit).split(' · ')[0];
     return `<button class="tr-row${me ? ' me' : ''}" data-topen="${esc(r.x.id)}" aria-current="${me}"><span class="tr-n">${n === 1 ? '1' : n}</span><span class="tr-u">${esc(u)}${me ? ' <span class="small muted">지금</span>' : ''}</span>${b ? `<i class="tdot td-${b}" aria-label="${ELIG_NAME[b]}"></i>` : ''}<span class="tr-p">${fmt(r.x.price)}</span><span class="tr-m ${r.m.lo == null ? '' : r.m.lo >= 0 ? 'up' : 'down'}">${r.m.lo == null ? '시세 부족' : (r.m.lo >= 0 ? '+' : '−') + fmt(Math.abs(r.m.lo))}</span></button>`; };
+  if (inline) return `<div class="pc-rank"><div class="small"><b>이 공고 주택형 ${sib.length}개 중 마진 ${rank}위</b>${okN != null ? ` · 내가 신청 가능한 주택형 ${okN}개` : ''}</div>
+    <details class="pc-more"><summary>주택형별 마진 보기</summary><div class="tr-list">${rows.map(row).join('')}</div><div class="small muted">점 색은 내 판정 · 누르면 그 주택형으로 바뀌어요</div></details></div>`;   // 기능: detail_tidy — 가격 비교 카드 안으로
   return `<section class="card trank" aria-label="이 공고 주택형 중 위치"><div class="row"><span class="eyebrow">이 공고 주택형 중 위치</span><span class="small muted">보수 마진 순</span></div>
     <div class="tr-big"><b>${rank}</b><span>/ ${sib.length}</span><span class="small muted">${rank === 1 ? '· 이 공고에서 마진이 가장 커요' : rank === sib.length ? '· 이 공고에서 마진이 가장 작아요' : '· 마진 ' + rank + '번째'}</span></div>
     ${okN != null ? `<span class="pill ${okN ? 'ok' : ''} tr-ok">내가 신청 가능한 주택형 ${okN}개${okN && eligBucket(L, p) !== 'ok' ? ' · 지금 주택형은 아님' : ''}</span>` : ''}
@@ -2936,10 +2942,12 @@ function priceCompare(L, m){
     <div class="pc-row"><span>실매입가 <span class="small muted">분양가 ${fmt(L.price)}${L.ext ? ' + 확장 ' + fmt(L.ext) : ''} + 취득세 등 ${fmt(m.tax)}</span></span><b>${fmt(m.cost)}</b></div>
     <div class="pc-diff"><span class="medal g-${m.g}">${GNAME[m.g]}</span><div class="pc-dl"><span class="small">시세 − 실매입가 · ${diffLbl}</span>${unknown ? '<b class="pc-big">—</b>' : `<b class="pc-big">${sgn(Math.min(m.lo, m.hi))} ~ ${sgn(Math.max(m.lo, m.hi))}</b><span class="small">보수 시세 기준 ${m.rate >= 0 ? '+' : ''}${Math.round(m.rate * 100)}%</span>`}</div></div>
     <div class="pc-why"><span class="pc-lbl">왜 이 시세</span><span class="small">${unknown ? esc(L.mktNote || '주변 거래가 부족해요') : `${esc(L.mktNote || '')}${L.mktCount && !/\d+건/.test(L.mktNote || '') ? ' · 근거 거래 ' + L.mktCount + '건' : ''}${last ? ' · 최근 ' + last.slice(2).replace(/-/g, '.') : ''} · 기준 시세는 중앙값, 보수 시세는 하위 25%`}</span></div>
-    <div class="small muted">분양가 ${priceSrc} · 시세 ${L.sample ? src(null, ['샘플 값', null]) : src('rtms')} <button class="linkbtn small" data-sec="margin">마진 계산 자세히</button></div>
+    ${on('detail_tidy') ? typeRank(L, S.profile, true) + (() => { const bc = L.mktBase ? Math.min(100, m.cost / L.mktBase * 100) : 0, bl = L.mktBase ? Math.max(0, Math.min(100 - bc, m.lo / L.mktBase * 100)) : 0;
+      return `<details class="pc-more" id="sec-margin"><summary>마진 계산 자세히</summary>${marginV2(L, m, bc, bl, true)}</details>`; })() : ''}
+    <div class="small muted">분양가 ${priceSrc} · 시세 ${L.sample ? src(null, ['샘플 값', null]) : src('rtms')}${on('detail_tidy') ? '' : ' <button class="linkbtn small" data-sec="margin">마진 계산 자세히</button>'}</div>
   </section>`;
 }
-function marginV2(L, m, barCost, barLo){
+function marginV2(L, m, barCost, barLo, bare){   // bare: 가격 비교 카드 안 '마진 계산 자세히'에 넣을 본문만 (기능: detail_tidy)
   const unknown = m.g === 'unknown', sgn = v => (v >= 0 ? '+' : '−') + fmt(Math.abs(v));
   const priceSrc = L.sample ? src('estimate', ['샘플 값', null]) : (L.sources && L.sources[0] ? src(null, ['청약홈 공고 (공급금액)', L.sources[0][1]]) : noticeSrc(L));
   let pre = '', head, headCls = unknown ? 'flat' : m.g;
@@ -2949,9 +2957,9 @@ function marginV2(L, m, barCost, barLo){
   else { pre = '시세보다'; head = fmt(Math.min(-m.hi, -m.lo)) + '~' + fmt(Math.max(-m.hi, -m.lo)) + ' 비싸요'; }
   const few = L.mktComps && L.mktComps.length && L.mktCount < 3;
   const step = (label, val, srcHtml, cls) => `<div class="mgstep ${cls || ''}"><span class="mg-l">${label}${srcHtml ? `<span class="mg-src">${srcHtml}</span>` : ''}</span><span class="mg-v">${val}</span></div>`;
-  return `<section class="card mgcard"><div class="row"><h2>마진 계산</h2><span class="small muted">추정</span></div>
-    <div class="mghead g-${headCls}"><span class="badge">${GNAME[m.g]}</span><div>${pre ? `<div class="small" style="font-weight:600">${pre}</div>` : ''}<b>${esc(head)}</b>
-      <div class="small">${unknown ? esc(L.mktNote) : '보수 시세 기준 마진율 ' + Math.round(m.rate * 100) + '% · 실매입가 ' + fmt(m.cost) + ' 기준'}</div></div></div>
+  return `${bare ? '<div class="mgcard mgbare">' : '<section class="card mgcard"><div class="row"><h2>마진 계산</h2><span class="small muted">추정</span></div>'}
+    ${bare ? '' : `<div class="mghead g-${headCls}"><span class="badge">${GNAME[m.g]}</span><div>${pre ? `<div class="small" style="font-weight:600">${pre}</div>` : ''}<b>${esc(head)}</b>
+      <div class="small">${unknown ? esc(L.mktNote) : '보수 시세 기준 마진율 ' + Math.round(m.rate * 100) + '% · 실매입가 ' + fmt(m.cost) + ' 기준'}</div></div></div>`}
     <div class="mgflow" aria-label="분양가에서 시세까지">
       ${step('분양가', fmt(L.price), priceSrc)}
       ${L.ext ? step('+ 발코니 확장 (분양 조건으로 정해진 선택 항목이라 계약할 때 함께 내요)', fmt(L.ext), fromNotice(L, '발코니 확장비') ? noticeSrc(L) : src('estimate', ['공고문 수기 확인', null])) : ''}
@@ -2975,15 +2983,16 @@ function marginV2(L, m, barCost, barLo){
       <a href="${landSearch(complexName(L.name), dongOf(L))}" target="_blank" rel="noopener" data-ev="naver-land">네이버 부동산에서 이 단지 매물</a>
       <a href="https://rt.molit.go.kr/" target="_blank" rel="noopener">국토부 실거래가 공개시스템</a>
     </div>
-  </section>`;
+  ${bare ? '</div>' : '</section>'}`;
 }
 /* 공고 상세 구역 탭 (기능: detail_nav, Jakob·Proximity) — 화면이 길어 요약·자격·가점·경쟁률·마진·위치·제약으로 바로 이동 */
 const D_SECS = [['top', '요약'], ['elig', '자격'], ['score', '가점·경쟁률'], ['margin', '마진'], ['loc', '위치·제약']];
 const dAnchor = k => on('detail_nav') ? `<div class="danchor" id="sec-${k}" aria-hidden="true"></div>` : '';
-const dNav = () => on('detail_nav') ? `<nav class="dnav" aria-label="이 공고 구역">${D_SECS.map(([k, t]) => `<button type="button" data-sec="${k}"${k === 'top' ? ' aria-current="true"' : ''}>${t}</button>`).join('')}</nav>` : '';
+const dSecs = () => D_SECS.filter(([k]) => !(k === 'margin' && on('detail_tidy') && on('price_compare')));   // 기능: detail_tidy — 마진은 요약의 가격 비교 카드 안으로
+const dNav = () => on('detail_nav') ? `<nav class="dnav" aria-label="이 공고 구역">${dSecs().map(([k, t]) => `<button type="button" data-sec="${k}"${k === 'top' ? ' aria-current="true"' : ''}>${t}</button>`).join('')}</nav>` : '';
 function dNavSync(){   // 스크롤 위치에 맞춰 지금 구역 표시
   const nav = app.querySelector('.dnav'); if (!nav) return;
-  let cur = 'top'; D_SECS.slice(1).forEach(([k]) => { const a = document.getElementById('sec-' + k); if (a && a.getBoundingClientRect().top < 120) cur = k; });
+  let cur = 'top'; dSecs().slice(1).forEach(([k]) => { const a = document.getElementById('sec-' + k); if (a && a.getBoundingClientRect().top < 120) cur = k; });
   nav.querySelectorAll('button').forEach(b => { if (b.dataset.sec === cur) { b.setAttribute('aria-current', 'true'); } else b.removeAttribute('aria-current'); });
   const act = nav.querySelector('[aria-current]'); if (act && nav.scrollWidth > nav.clientWidth) nav.scrollLeft = act.offsetLeft - 16;
 }
@@ -3013,34 +3022,38 @@ function vDetail(){
   ${betaBanner('detail')}
   <div class="stack" style="gap:4px"><div class="meta">${esc(L.kind)} · 접수 ${scheduleText(L) ? esc(scheduleText(L)) + ' <span class="muted">(모집공고문)</span>' : L.apply ? L.apply.replace(/-/g,'.') : '샘플'}</div><h1>${esc(L.name)}${L.sample ? '<span class="sample">샘플</span>' : ''}</h1><div class="meta">${esc(L.loc)} · ${esc(L.unit)}</div></div>
   ${(() => { if (!on('type_group')) return ''; const sib = LISTINGS.filter(x => tgNid(x.id) === tgNid(L.id)).map(x => ({ L: x })); return sib.length > 1 ? `<div class="tpick"><span class="small muted">주택형 ${sib.length}개 · 눌러서 바꿔 보기${hasProfile() ? ' · 점 색은 내 판정' : ''}</span>${typeChips(sib, L.id, 'data-topen')}</div>` : ''; })()}
-  ${on('tap_targets') ? `<div class="actbar">${L.noticePdf ? `<a class="btn ghost sm" href="${esc(L.noticePdf)}" target="_blank" rel="noopener">모집공고문 PDF</a>` : ''}<a class="btn ghost sm" href="${esc(L.sources && L.sources[0] ? L.sources[0][1] : SRC.applyhome[1])}" target="_blank" rel="noopener">청약홈 공고</a>${L.sample || !on('naver_map') ? '' : `<a class="btn ghost sm" href="${esc(naverMapUrl(L))}" target="_blank" rel="noopener" data-ev="naver-map">네이버 지도</a>`}</div>`   /* 기능: tap_targets — 자주 누르는 공고 링크는 버튼으로 */
+  ${on('detail_tidy') && on('detail_cta') && !L.sample ? '' : on('tap_targets') ? `<div class="actbar">${L.noticePdf ? `<a class="btn ghost sm" href="${esc(L.noticePdf)}" target="_blank" rel="noopener">모집공고문 PDF</a>` : ''}<a class="btn ghost sm" href="${esc(L.sources && L.sources[0] ? L.sources[0][1] : SRC.applyhome[1])}" target="_blank" rel="noopener">청약홈 공고</a>${L.sample || !on('naver_map') ? '' : `<a class="btn ghost sm" href="${esc(naverMapUrl(L))}" target="_blank" rel="noopener" data-ev="naver-map">네이버 지도</a>`}</div>`   /* 기능: tap_targets — 자주 누르는 공고 링크는 버튼으로 */
   : `<div class="srcs">${L.sources && L.sources[0] ? src(null, ['청약홈 공고', L.sources[0][1]]) : src('applyhome')}${L.noticePdf ? src(null, ['모집공고문 PDF', L.noticePdf]) : ''}${L.sample || !on('naver_map') ? '' : `<a class="src" href="${esc(naverMapUrl(L))}" target="_blank" rel="noopener" data-ev="naver-map">네이버 지도${ARROW}</a>`}</div>`}
   ${on('detail_result_first') ? (() => {   /* 기능: detail_result_first — 맨 위에 '내 판정'을 가장 크게, 마진 등급은 그 아래 작게 (2026-10-01, Von Restorff) */
     const st = !hasProfile() ? ['info', '판정 전'] : !e.ok ? (e.rank2 ? ['warn', e.rank2Need ? '2순위 확인 필요' : '2순위만 가능'] : ['fail', '신청 불가']) : e.unsure ? ['warn', '확인 필요'] : ['ok', '신청 가능'];
     const wk = hasProfile() && e.ok && e.unsure ? e.items.filter(i => i.s === 'warn').map(i => i.k.replace(/ \(.*\)/, '')) : [];
-    return `<section class="rhero t-${st[0]}" aria-label="내 판정"><span class="rlabel">내 판정 · 내가 넣은 정보 기준</span><span class="rbig">${st[1]}</span>${wk.length ? `<span class="rsub">확인할 것: ${esc(wk.join(', '))} · 아래 자격 체크리스트에서 바로 답하면 판정돼요</span>` : ''}${mine}</section>`; })() : ''}
+    return `<section class="rhero t-${st[0]}" aria-label="내 판정"><span class="rlabel">내 판정 · 내가 넣은 정보 기준</span><span class="rbig">${st[1]}</span>${wk.length ? `<span class="rsub">확인할 것: ${esc(wk.join(', '))} · 아래 자격 체크리스트에서 바로 답하면 판정돼요</span>` : ''}${on('detail_tidy') && hasProfile() ? (() => {   /* 기능: detail_tidy — 가운데 타일 3개(자격·마진·자금)를 여기로 합침 */
+      const spR = spTypesFor(L).map(t => spJudge(L, p, t).s), spOk = spR.filter(x => x === 'ok').length, spW = spR.filter(x => x === 'warn').length;
+      const cell = (k, v, cls, attr) => `<button class="rstat" ${attr}><span>${k}</span><b class="${cls}">${v}</b></button>`;
+      const sc = on('score') && L.houseDtl !== '국민' ? myScore(L, p) : null;   /* 마진은 바로 아래 가격 비교 카드에 크게 있으니 여기엔 가점을 */
+      return `<div class="rstats">${sc ? cell('내 가점', sc.total == null ? '입력 필요' : sc.total + '점', sc.total == null ? 'st-warn' : '', 'data-sec="score"') : ''}${cell('자금 (' + (o.mode === 'live' ? '대출' : '전세') + ')', gap > 0 ? fmt(gap) + ' 부족' : '가능', gap > 0 ? 'st-warn' : 'st-ok', 'data-go="plan"')}${spR.length ? cell('특별공급', spOk ? '가능 ' + spOk : spW ? '확인 ' + spW : '불가', spOk ? 'st-ok' : spW ? 'st-warn' : 'st-fail', 'data-sec="elig"') : ''}</div>`; })() : mine}</section>`; })() : ''}
   ${chatEntry(L)}
   ${on('price_compare') ? priceCompare(L, m) : `  <div class="hero g-${m.g}${on('detail_result_first') ? ' hero-sm' : ''}">
     <div class="row"><span class="small" style="font-weight:600;opacity:.85">${on('detail_result_first') ? '마진 등급' : '청약 판정'}</span><button class="linkbtn small" data-go="grades" style="color:inherit">등급 기준</button></div>
     <div style="display:flex;align-items:baseline;gap:12px;flex-wrap:wrap"><span class="big">${GNAME[m.g]}</span><span class="amt">${marginText(m).replace('마진 ','')}</span></div>
     <p>${m.g === 'unknown' ? '실매입가 ' + fmt(m.cost) + '. ' + esc(L.mktNote) : '실매입가 ' + fmt(m.cost) + ' 대비 시세 ' + fmt(L.mktLow) + '~' + fmt(L.mktBase) + '. 보수적 시세 기준 마진율 ' + Math.round(m.rate*100) + '%예요.'}</p>
   </div>`}
-  ${typeRank(L, p)}
+  ${on('detail_tidy') ? '' : typeRank(L, p)}
   ${on('detail_result_first') ? '' : mine}
   ${L.checks && L.checks.length ? `<div class="note warn"><b style="font-size:14px">데이터 확인 필요 ${L.checks.length}건</b>${L.checks.map(c => `<div>· ${esc(c)}</div>`).join('')}<div class="small muted">자동 검증에서 걸린 항목이에요. 모집공고문 원문으로 확인하세요. ${noticeSrc(L)}</div></div>` : ''}
-  <div class="tiles">
+  ${on('detail_tidy') ? '' : `  <div class="tiles">
     <div class="tile"><span class="small muted">자격</span><span class="v ${e.ok ? (e.unsure ? 'st-warn' : 'st-ok') : e.rank2 ? 'st-warn' : 'st-fail'}">${e.ok ? (e.unsure ? '확인 필요' : on('eligibility_caution') ? '기본 충족' : '가능') : e.rank2 ? (e.rank2Need ? '확인 필요' : '2순위만') : '불가'}</span></div>
     <div class="tile"><span class="small muted">마진 (보수적)</span><span class="v">${m.lo == null ? '확인 필요' : (m.lo >= 0 ? '+' : '') + fmt(m.lo)}</span></div>
     <div class="tile"><span class="small muted">자금 (${o.mode === 'live' ? '대출' : '전세'})</span><span class="v ${gap > 0 ? 'st-warn' : 'st-ok'}">${gap > 0 ? fmt(gap) + ' 부족' : '가능'}</span></div>
-  </div>
+  </div>`}
   ${(() => {   /* 기능: detail_nav — 내 판정 바로 아래에 자격(일반·특별공급), 그다음 가점·경쟁률 순서로 묶는다 (Proximity) */
     const A = { comp: L.sample ? '' : compCard(L), score: scoreCard(L), check: on('checklist_v2') ? checklistV2(L, p, e) : `<section class="card"><h2>자격 체크리스트</h2>${on('eligibility_caution') ? `<div class="note info" style="padding:10px 12px"><b style="font-size:13px">기본 요건만 확인했어요</b><div class="small">아직 판정하지 않는 것: ${pendingChecks(L, p).join(', ')}. 이 항목들은 순서대로 추가하고 있어요.</div></div>` : ''}${on('account_rules') && !p.acctType && L.needAccount ? `<div class="row small"><span class="muted">청약통장 가입일·예치금을 넣으면 1순위 요건을 판정해요.</span><button class="linkbtn small" data-action="restart">입력하기</button></div>` : ''}<div class="rows">
     ${e.items.map(i => `<div class="row"><span>${esc(i.k)}${i.note ? `<br><span class="small muted">${esc(i.note)}</span>` : ''}<br>${itemSrc(L, i.k)}</span><span class="${stCls(i.s)}">${esc(i.v)}</span></div>`).join('')}
   </div>
   <div class="small muted">내 조건 ${src('user')} · 판정 기준 ${src('supplyRule')}</div></section>`, sp: specialCard(L), inel: ineligCard(L, p, e), spc: specialCountCard(L) };
-    return on('detail_nav') ? dAnchor('elig') + A.check + A.sp + A.inel + A.spc + dAnchor('score') + A.score + A.comp : A.comp + A.score + A.check + A.sp + A.inel + A.spc; })()}
-  ${dAnchor('margin')}
-  ${on('margin_v2') ? marginV2(L, m, barCost, barLo) : `<section class="card"><h2>마진 계산</h2>
+    return on('detail_nav') ? dAnchor('elig') + A.check + A.sp + A.inel + (on('detail_tidy') ? '' : A.spc) + dAnchor('score') + A.score + A.comp : A.comp + A.score + A.check + A.sp + A.inel + A.spc; })()}
+  ${on('detail_tidy') && on('price_compare') ? '' : dAnchor('margin')}
+  ${on('detail_tidy') && on('price_compare') ? '' : on('margin_v2') ? marginV2(L, m, barCost, barLo) : `<section class="card"><h2>마진 계산</h2>
     <div class="stack" style="gap:6px">
       ${m.g === 'unknown' ? '' : `<div class="bar" role="img" aria-label="실매입가 ${fmt(m.cost)}, 기준 시세 ${fmt(L.mktBase)}"><i style="width:${barCost}%;background:var(--fg)"></i><i style="width:${barLo}%;background:var(--lotto)"></i></div>
       <div class="legend"><span><i style="background:var(--fg)"></i>실매입가</span><span><i style="background:var(--lotto)"></i>보수 마진</span><span><i style="background:var(--lotto-soft);outline:1px solid var(--line)"></i>기준 시세까지</span></div>`}
@@ -3068,7 +3081,7 @@ function vDetail(){
     ${L.limits.some(x => x[1] !== '없음') ? '<div class="small muted">계약을 포기해도 당첨자로 관리돼 이 제약이 그대로 걸려요. 자금 확보 전에는 신청하지 마세요.</div>' : ''}</section>
   <div class="stack">
     <button class="btn" data-go="plan">자금 플랜 보기</button>
-    ${L.sources.map(s => `<a class="btn ghost" href="${s[1]}" target="_blank" rel="noopener" data-ev="notice">${s[0]}</a>`).join('')}
+    ${on('detail_tidy') && on('detail_cta') ? '' : L.sources.map(s => `<a class="btn ghost" href="${s[1]}" target="_blank" rel="noopener" data-ev="notice">${s[0]}</a>`).join('')}
     ${reportLink(L)}
   </div>
   ${adSlot('detail')}
@@ -4538,7 +4551,7 @@ document.addEventListener('click', ev => {
   if (t.dataset.set) { S.profile[t.dataset.set] = JSON.parse(t.dataset.val); save(); render(); return; }
   if (t.dataset.elig) { S.elig = S.elig === t.dataset.elig ? null : t.dataset.elig; track({ path:'elig-' + (S.elig || 'off'), event:true }); render();
     if (S.elig) { const fb = app.querySelector('.findbox .filterbar'); if (fb) fb.scrollIntoView({ behavior:'smooth', block:'start' }); } return; }
-  if (t.dataset.sec) { const k = t.dataset.sec; if (k === 'top') window.scrollTo({ top:0, behavior:'smooth' }); else { const a = document.getElementById('sec-' + k); if (a) window.scrollTo({ top: a.getBoundingClientRect().top + window.scrollY - 64, behavior:'smooth' }); } return; }   // 기능: detail_nav
+  if (t.dataset.sec) { const k = t.dataset.sec; if (k === 'top') window.scrollTo({ top:0, behavior:'smooth' }); else { const a = document.getElementById('sec-' + k); if (a && a.tagName === 'DETAILS') a.open = true; if (a) window.scrollTo({ top: a.getBoundingClientRect().top + window.scrollY - 64, behavior:'smooth' }); } return; }   // 기능: detail_nav
   if (t.dataset.fix && S.id) { const Lf = LISTINGS.find(x => x.id === S.id); S.fix = { id:S.id, k:t.dataset.fix, keys: fixKeysFor(t.dataset.fix, Lf, S.profile) }; metric('fix/' + t.dataset.fix); render();
     const fp = app.querySelector('#fixpanel'), nd = on('fix_focus') && fp && fp.querySelector('[data-fixneed]');
     if (nd) { nd.scrollIntoView({ behavior:'smooth', block:'center' }); const inp = nd.querySelector('input, select'); try { (inp || nd.querySelector('button')).focus({ preventScroll:true }); if (inp && inp.select && inp.type !== 'date' && inp.tagName === 'INPUT') inp.select(); } catch(e) {} }   // 기능: fix_focus — 0 이 들어 있으면 선택해 두어 입력하면 바뀌게
