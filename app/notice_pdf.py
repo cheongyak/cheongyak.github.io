@@ -109,7 +109,9 @@ def parse_notice(text: str) -> dict:
     out: dict = {}
 
     # 신청 대상: "…에 거주하는 무주택세대의 세대주" / "…무주택세대구성원"
-    m = re.search(r"거주하는(?:만\d+세이상인)?(?:분|자)?(?:중)?(무주택세대의세대주|무주택세대주|무주택세대구성원)", flat)
+    # 2026-10-01 감사: 2026000436 은 노부모부양 특별공급 대상자 문장('…거주하는 무주택세대주')이 먼저 걸려 일반공급에 세대주 요건이 붙었다 → 노부모부양 칸 문장은 건너뛴다
+    m = next((x for x in re.finditer(r"거주하는(?:만\d+세이상인)?(?:분|자)?(?:중)?(무주택세대의세대주|무주택세대주|무주택세대구성원)", flat)
+              if "노부모부양" not in flat[max(0, x.start() - 120):x.start()]), None)
     if m:
         out["need_head"] = "세대주" in m.group(1)
     elif "무주택세대주(무주택세대의세대주)를대상으로" in flat:
@@ -486,6 +488,11 @@ def _parse_town_limits(t: str) -> Optional[dict]:
     if not (inc and amts):
         return None
     out = {"kind": "town", "cap": [int(inc.group(1)), int(inc.group(2))], "total_asset": amts[0]}
+    # 신청자격 ③ '무주택세대구성원 전원의 월평균소득이 … 130%(단, 본인 및 배우자가 모두 소득이 있는 경우에는 200%) 이하' (2026820008~011).
+    # cap(130/140%)은 1·2단계 우선공급 기준이고, 자격 상한은 이 값이다 (2026-10-01 감사에서 발견: 예전에는 140%를 자격 상한으로 씀)
+    el = re.search(r"월평균소득이[^.]{0,60}?(\d{2,3})%\s*\(단,?\s*본인 및 배우자가 모두 소득이 있는 경우(?:에는)?\s*(\d{2,3})%\)\s*이하", t)
+    if el:
+        out["eligible"] = [int(el.group(1)), int(el.group(2))]
     if len(amts) >= 3:
         out["total_asset_relax"] = amts[1:3]
     return out

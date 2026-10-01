@@ -150,7 +150,8 @@ def build_listing(raw: dict, rtms: Optional[RtmsClient], today: date, lawd_cache
         land_permit=bool(regulated) and capital and today.isoformat() <= R.LAND_PERMIT_UNTIL,
         price_cap=price_cap, residence_duty=None if price_cap else 0,
         unregistered=True,
-        need_head=bool(regulated), need_account=not remainder,
+        # 세대주 요건을 공고문에서 못 읽으면 규제지역은 세대주로 추정한다. 신혼희망타운은 신청자격에 세대주 요건이 없다 (2026820008~011 신청자격 ①~④, 2026-10-01 감사)
+        need_head=bool(regulated) and "신혼희망타운" not in raw["name"], need_account=not remainder,
         limits=limits, url=raw.get("url"),
     )
 
@@ -193,7 +194,7 @@ def _from_previous(prev: dict) -> tuple[dict, Optional[str]]:
 
 
 NOTICE_CACHE = ROOT / "docs" / "notice-cache.json"
-PARSER_VERSION = 10   # 10: 민영 1순위 가점제·추첨제 비율(score_ratio) · 9: 공고문 대조용 원문 숫자(facts) · 8: 신혼희망타운 소득·총자산(pub_limits kind=town) · 7: 공공분양 일반공급 소득·자산(pub_limits) · 6: 공급유형별 접수 일정(schedule) · 5: 다자녀 지역 배정(mc_quota) · 4: 거주 지역 요건(residence) 추가 · parse_notice 규칙을 바꾸면 올린다 → 모든 공고문을 다시 읽는다   # 공고문에서 읽은 값 보관 (공고문은 한 번 나오면 바뀌지 않는다)
+PARSER_VERSION = 11   # 11: 세대주 문장에서 노부모부양 칸 제외·신혼희망타운 자격 소득 상한(eligible) · 10: 민영 1순위 가점제·추첨제 비율(score_ratio) · 9: 공고문 대조용 원문 숫자(facts) · 8: 신혼희망타운 소득·총자산(pub_limits kind=town) · 7: 공공분양 일반공급 소득·자산(pub_limits) · 6: 공급유형별 접수 일정(schedule) · 5: 다자녀 지역 배정(mc_quota) · 4: 거주 지역 요건(residence) 추가 · parse_notice 규칙을 바꾸면 올린다 → 모든 공고문을 다시 읽는다   # 공고문에서 읽은 값 보관 (공고문은 한 번 나오면 바뀌지 않는다)
 
 
 def _load_cache(path: Path) -> dict:

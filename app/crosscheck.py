@@ -21,7 +21,11 @@ def app_constants(path: Path = INDEX) -> dict:
     dep = json.loads(re.sub(r"(\w+):", r'"\1":', dep_raw))
     m = re.search(r"addK === 20 \? (\d+) : addK === 10 \? (\d+) : SP_ASSET\.public\) : SP_ASSET\.minyoung, carLim = addK === 20 \? (\d+) : addK === 10 \? (\d+)", s)
     relax = {"부동산": [int(m.group(2)), int(m.group(1))], "자동차": [int(m.group(4)), int(m.group(3))]} if m else None
-    return {"income": inc, "asset": asset, "deposit": dep, "relax": relax}
+    # 공공 일반공급 출산가구 완화 자산 표 (docs/index.html RELAX_TABLE, 2026-10-01 감사 M2) — 특별공급 값과 같아야 한다
+    rt = re.search(r"const RELAX_TABLE = \{ 21550:\{ 10:(\d+), 20:(\d+) \}, 4542:\{ 10:(\d+), 20:(\d+) \} \}", s)
+    if rt and relax and ([int(rt.group(1)), int(rt.group(2))] != relax["부동산"] or [int(rt.group(3)), int(rt.group(4))] != relax["자동차"]):
+        relax = None   # 두 곳이 다르면 아래 대조에서 '못 읽음'으로 실패시켜 사람이 보게 한다
+    return {"income": inc, "asset": asset, "deposit": dep, "relax": relax if rt else None}
 
 
 def notice_problems(facts: dict, C: dict) -> list[str]:

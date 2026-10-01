@@ -42,9 +42,31 @@ def add_years(d: str, n: int) -> str:
 
 
 # ---------- oracle: 가점 ([별표1]) ----------
-def score(p: dict, ref: str) -> list[int]:
-    if p.get("selfOwn") or (p.get("married") and p.get("spouseOwn")):
+def minor_months(since: str, birth: str, ref: str) -> int:
+    """규칙 제10조⑥ (2024.7.1 시행): 가점 산정 시 '미성년자로서 가입한 2023년 12월 31일 이전의 기간(2년 초과 시 2년)과 2024년 1월 1일 이후의 기간의 합이
+    5년을 초과하면 5년만 인정'. 성년 = 만 19세(민법). 성년 뒤 기간은 그대로. 반환: 인정 개월 수"""
+    whole = months(since, ref)
+    adult = add_years(birth, 19)
+    if since >= adult:
+        return whole
+    end = min(adult, ref)
+    before = max(0, months(since, min(end, "2024-01-01"))) if since < "2024-01-01" else 0
+    after = max(0, months(max(since, "2024-01-01"), end)) if end > "2024-01-01" else 0
+    minor = min(60, min(24, before) + after)
+    if minor >= before + after:
+        return whole
+    return (months(adult, ref) if ref > adult else 0) + minor
+
+
+def score(p: dict, ref: str) -> list:
+    hh_any = p.get("hhHomes") in ("1", "2+")
+    mine = p.get("selfOwn") or (p.get("married") and p.get("spouseOwn"))
+    other = not mine and ((p.get("household") == "parents" and p.get("parentsOwn") and not p.get("parents60")) or (hh_any and p.get("hhOwner") == "other"))
+    who = not mine and hh_any and not p.get("hhOwner") and not (p.get("household") == "parents" and p.get("parentsOwn"))
+    if mine or other:   # 별표1 가목 1) '세대원 모두 주택을 소유하지 않아야 한다' (60세 이상 직계존속 명의는 제53조제6호로 무주택)
         a = 0
+    elif who:
+        a = None
     else:
         thirty = add_years(p["birth"], 30)
         start = thirty
@@ -58,7 +80,7 @@ def score(p: dict, ref: str) -> list[int]:
             y = months(start, ref) // 12
             a = 2 if y < 1 else min(32, 2 + 2 * y)
     b = min(35, 5 + 5 * p["dependents"])
-    m = months(p["acctSince"], ref)
+    m = minor_months(p["acctSince"], p["birth"], ref) if p.get("birth") else months(p["acctSince"], ref)
     c = 1 if m < 6 else 2 if m < 12 else min(17, m // 12 + 2)
     if p.get("married") and p.get("spouseAcctSince"):
         sm = months(p["spouseAcctSince"], ref) / 2
@@ -178,7 +200,7 @@ def main() -> None:
     pub_base = {"homeSido": "인천", "homeSigun": "계양구", "sidoOwnSince": "2015-01-01", "sidoSince": "2015-01-01", "areaSince": "2015-01-01",
                 "household": "head", "headSince": "2015-01-01", "selfOwn": False, "married": True, "marriedOn": "2023-05-01", "spouseOwn": False,
                 "acctType": "all", "acctSince": "2014-01-01", "acctAmount": 1500, "acctCount": 30, "acctPaid": 1500, "hhHomes": "0",
-                "win5y": False, "recentWin": False, "birth": "1990-03-01", "dependents": 2, "kidsMinor": 1, "youngestBirth": "2025-06-01",
+                "win5y": False, "recentWin": False, "everWin": "none", "birth": "1990-03-01", "dependents": 2, "kidsMinor": 1, "youngestBirth": "2025-06-01",
                 "pregnant": False, "hhSize": 3, "kidsOnDeed": 1, "eldersOnDeed": 0, "spouseIncome": 0, "realEstate": 0, "carValue": 1000,
                 "hhNeverOwned": True, "taxYears5": True, "elder65": True}
     kidvars = {"신생아1": {"youngestBirth": "2025-06-01"}, "옛자녀": {"youngestBirth": "2019-01-01"}, "새2명": {"kidsMinor": 2, "kidsOnDeed": 2, "hhSize": 4},
@@ -294,12 +316,13 @@ def main() -> None:
     # ---------- 6) 신혼희망타운 소득·총자산 (인천계양 A17 2026820010) ----------
     town_base = dict(pub_base, youngestBirth="2019-01-01", cash=0, liquid=0, deposit=0, townInsurance=0, townFinOther=0, townOtherAsset=0, townDebt=0)
     i = 0
-    for pct, dual in [(130, False), (131, False), (140, True), (141, True)]:
+    for pct, dual in [(130, False), (131, False), (140, True), (141, True), (200, True), (201, True)]:
         p = dict(town_base)
-        y = (amt(3, pct) * 12) // 10000 if pct in (130, 140) else (amt(3, pct - 1) * 12) // 10000 + 1
+        y = (amt(3, pct) * 12) // 10000 if pct in (130, 140, 200) else (amt(3, pct - 1) * 12) // 10000 + 1
         p.update(hhIncomeYear=y, income=(y // 2 if dual else y), spouseIncome=(y - y // 2 if dual else 0))
-        add(id=f"town-{i:02d}", fn="town", listing="2026820010-055.8800B", profile=p, expect={"소득": "ok" if pct in (130, 140) else "fail"},
-            basis="2026820010 '우선·일반공급 130%(본인 및 배우자가 모두 소득이 있는 경우 140%)'"); i += 1
+        cap = 200 if dual else 130
+        add(id=f"town-{i:02d}", fn="town", listing="2026820010-055.8800B", profile=p, expect={"소득": "ok" if y * 10000 / 12 <= amt(3, cap) else "fail"},
+            basis="2026820010 신청자격 ③ '130%(단, 본인 및 배우자가 모두 소득이 있는 경우에는 200%) 이하' (1·2단계 우선공급은 130%/140%)"); i += 1
     for re_v, cash, debt, kv, exp in [(20000, 16200, 0, "옛자녀", "ok"), (20000, 16201, 0, "옛자녀", "fail"), (30000, 10000, 3800, "옛자녀", "ok"),
                                       (30000, 9700, 0, "신생아1", "ok"), (30000, 9701, 0, "신생아1", "warn"), (0, 0, 5000, "옛자녀", "ok")]:
         p = dict(town_base, **kidvars[kv], hhIncomeYear=5000, income=5000, realEstate=re_v, cash=cash, townDebt=debt, carValue=0)
@@ -328,9 +351,9 @@ def main() -> None:
 
     # ---------- 6-2b) 특별공급의 무주택 (세대 주택 명의) — 규칙 제53조 단서: 60세 이상 직계존속 예외는 노부모부양(제46조·공공 별표6 2라)에 적용 안 함 ----------
     i = 0
-    for t_, over, exp in [("first", {}, "ok"), ("first", {"hhHomes": "1"}, "warn"), ("first", {"hhHomes": "1", "hhOwner": "parent60"}, "ok"),
+    for t_, over, exp in [("first", {}, "ok"), ("first", {"hhHomes": "1"}, "warn"), ("first", {"hhHomes": "1", "hhOwner": "parent60", "realEstate": 20000}, "ok"),
                           ("first", {"hhHomes": "1", "hhOwner": "other"}, "fail"), ("elder", {"hhHomes": "1", "hhOwner": "parent60", "eldersOnDeed": None}, "fail")]:
-        p = dict(pub_base, hhIncomeYear=3000, income=3000, realEstate=0, carValue=1000, youngestBirth="2019-01-01", **over)
+        p = dict(pub_base, **{**dict(hhIncomeYear=3000, income=3000, realEstate=0, carValue=1000, youngestBirth="2019-01-01"), **over})
         add(id=f"sphome-{i:02d}", fn="sp", listing="2026000414-059.8400A", type=t_, profile=p, expect={"s": exp},
             basis="규칙 제2조제4호 무주택세대구성원·제53조제6호(60세 이상 직계존속 소유는 무주택, 노부모부양 특별공급 제외), 2026000414 특별공급 '무주택세대구성원'"); i += 1
 
@@ -366,6 +389,112 @@ def main() -> None:
         p = {"homeSido": sido, "homeSigun": sigun, "sidoOwnSince": since, "sidoSince": since, "areaSince": since}
         add(id=f"res-{i:02d}", fn="residence", listing=lid, profile=p, expect={"s": exp[0], "v": exp[1]},
             basis="해당지역 2년 이상(광명)·인천 거주(기간 요건 없음) → 기타지역 수도권 → 그 밖은 신청 불가 (2026000453·414 신청자격)"); i += 1
+
+    # ---------- 8) 2026-10-01 판정엔진 감사에서 고친 규칙 (경계값 포함) ----------
+    REF453, REF414, REF409 = "2026-09-18", "2026-08-26", "2026-08-26"
+    gw = dict(pub_base, homeSido="경기", homeSigun="광명시")
+    i = 0
+    def g(**c):
+        nonlocal i
+        add(id=f"audit-{i:03d}", **c); i += 1
+    # 가점: 세대원 명의 주택 (별표1 가목 1), 미성년 가입기간 (제10조⑥)
+    sb = {"selfOwn": False, "married": False, "spouseOwn": False, "dependents": 0, "acctSince": "2020-01-01", "birth": "1985-01-01", "household": "head"}
+    for over in [{"hhHomes": "1", "hhOwner": "other"}, {"hhHomes": "1", "hhOwner": "parent60"}, {"household": "parents", "parentsOwn": True, "parents60": False},
+                 {"household": "parents", "parentsOwn": True, "parents60": True}, {"hhHomes": "0"}]:
+        pp = dict(sb, **over)
+        g(fn="score", listing="2026000453-059.9742A", profile=pp, expect={"parts": score(pp, REF453)}, basis="별표1 가목 1) '입주자모집공고일 현재 세대원 모두 주택을 소유하지 않아야 한다', 제53조제6호")
+    for birth, since in [("2001-03-01", "2011-01-01"), ("2007-01-01", "2010-01-01"), ("2005-05-05", "2023-01-01"), ("1990-01-01", "2005-01-01"),
+                         ("2006-01-01", "2020-01-01"), ("2004-09-18", "2015-09-18"), ("2010-01-01", "2012-06-01")]:
+        pp = dict(sb, birth=birth, acctSince=since)
+        g(fn="score", listing="2026000453-059.9742A", profile=pp, expect={"parts": score(pp, REF453)},
+          basis="규칙 제10조⑥ 미성년 가입기간: 2023.12.31 이전 2년 한도 + 2024.1.1 이후 합계 5년 한도 (성년 뒤 기간은 그대로)")
+    # 재당첨 제한 (제54조① — 비규제 민영 제외)
+    for lid, over, exp in [("2026000443-059.9986A", {"recentWin": True, "everWin": "yes", "win5y": True}, "ok"),
+                           ("2026000453-059.9742A", {"recentWin": True, "everWin": "yes", "win5y": True}, "fail"),
+                           ("2026000414-059.8400A", {"recentWin": True, "everWin": "yes", "win5y": True}, "fail"),
+                           ("2026000414-059.8400A", {"everWin": None, "win5y": None, "recentWin": False}, "warn"),
+                           ("2026000443-059.9986A", {"everWin": None, "recentWin": False}, "ok")]:
+        g(fn="item", item="재당첨 제한 (내 이력)", listing=lid, profile=dict(gw, **over), expect={"s": exp},
+          basis="규칙 제54조① '다른 분양주택(…투기과열지구 및 청약과열지역이 아닌 지역에서 공급되는 민영주택은 제외)'")
+    g(fn="sp", type="first", listing="2026000414-059.8400A", profile=dict(pub_base, hhIncomeYear=3000, income=3000, youngestBirth="2019-01-01", recentWin=True, everWin="yes", win5y=True),
+      expect={"s": "fail"}, basis="규칙 제54조① 재당첨 제한은 특별공급에도 적용 (2026000414 특별공급 유의사항)")
+    g(fn="sp", type="first", listing="2026000414-059.8400A", profile=dict(pub_base, hhIncomeYear=3000, income=3000, youngestBirth="2019-01-01", recentWin=False, everWin="yes", win5y=False),
+      expect={"s": "warn"}, basis="규칙 제55조 특별공급은 한 차례 — 예전 당첨 종류를 묻지 않아 확인 필요")
+    # 공공 생애최초·노부모는 1순위 (제43조①1호·제46조) — 투기과열 변형 공고(테스트용)에서는 24회·세대주
+    for over, exp in [({"acctCount": 20}, "fail"), ({"acctCount": 24}, "ok"), ({"acctCount": 24, "household": "parents", "parentsOwn": False}, "fail"), ({"acctCount": 24, "acctPaid": 599}, "fail")]:
+        g(fn="sp", type="first", listing="2026000414-REG", profile=dict(pub_base, hhIncomeYear=3000, income=3000, youngestBirth="2019-01-01", **over), expect={"s": exp},
+          basis="규칙 제43조①1호 '제27조제1항의 1순위 무주택세대구성원 + 저축액 600만원', 제27조①1다 투기과열 24개월·24회·세대주 (공공 변형 공고)")
+    # 신혼부부 (공공 2026000409 '혼인 7년 이내이거나 6세 이하 자녀', 예비신혼·한부모 / 민영 혼인 7년)
+    nb = dict(pub_base, hhIncomeYear=3000, income=3000)
+    for over, exp in [({"marriedOn": "2015-01-01", "youngestBirth": "2020-01-01"}, "ok"), ({"marriedOn": "2015-01-01", "youngestBirth": "2019-08-26"}, "fail"),
+                      ({"marriedOn": "2015-01-01", "youngestBirth": "2019-08-27"}, "ok"), ({"marriedOn": "2019-08-26", "youngestBirth": "2010-01-01"}, "ok"),
+                      ({"marriedOn": "2019-08-25", "youngestBirth": "2010-01-01"}, "fail"), ({"married": False, "marriedOn": "", "townType": "pre"}, "warn"),
+                      ({"married": False, "marriedOn": "", "townType": "single", "youngestBirth": "2021-01-01"}, "ok"),
+                      ({"married": False, "marriedOn": "", "townType": "single", "youngestBirth": "2015-01-01"}, "fail"),
+                      ({"married": False, "marriedOn": "", "townType": "none"}, "fail"), ({"married": False, "marriedOn": "", "townType": None}, "warn")]:
+        g(fn="sp", type="newlywed", listing="2026000409-059.9200A", profile=dict(nb, **over), expect={"s": exp},
+          basis="2026000409 신혼부부 '혼인기간이 7년 이내(2019.08.26.~2026.08.26.)이거나 6세 이하(만 7세 미만) 자녀', 예비신혼부부(혼인으로 구성될 세대 — 예비 배우자 정보 미입력), 한부모가족")
+    for mo, exp in [("2019-09-18", "ok"), ("2019-09-17", "fail")]:
+        g(fn="sp", type="newlywed", listing="2026000453-059.9742A", profile=dict(gw, marriedOn=mo, hhIncomeYear=3000, income=3000), expect={"s": exp},
+          basis="2026000453 민영 신혼부부 '혼인기간 7년 이내' — 공고일 2026.09.18 기준 경계")
+    # 신생아 '2세 미만(공고일 기준 2년 이내 출생)' 경계와 임신 여부 미입력
+    for yb, preg, exp in [("2024-09-18", False, "ok"), ("2024-09-17", False, "fail"), ("2024-09-17", None, "warn")]:
+        g(fn="sp", type="newborn", listing="2026000453-059.9742A", profile=dict(gw, youngestBirth=yb, pregnant=preg, hhIncomeYear=3000, income=3000), expect={"s": exp},
+          basis="2026000453 신생아 '입주자모집공고일 현재 2세 미만(2024.09.18. 이후 출생)' — 임신 중이면 태아로 해당")
+    # 생애최초: 미혼·무자녀는 민영 추첨만(단독세대 60㎡ 이하), 공공은 불가 (제43조①③, 2026000409)
+    fb = dict(gw, married=False, marriedOn="", kidsMinor=0, kidsOnDeed=0, youngestBirth="", pregnant=False, spouseIncome=0, hhIncomeYear=3000, income=3000)
+    g(fn="sp", type="first", listing="2026000453-059.9742A", profile=dict(fb, household="head", hhSize=1), expect={"s": "ok", "stage": "추첨 (미혼·무자녀)"},
+      basis="규칙 제43조③2나·④ 미혼·무자녀는 3호(추첨) 물량, 단독세대주 전용 60㎡ 이하 — 59.97㎡")
+    g(fn="sp", type="first", listing="2026000103-084.0000A", profile=dict(fb, homeSigun="성남시", household="head", hhSize=1), expect={"s": "fail"},
+      basis="규칙 제43조③ 후단 '단독세대주…에게는 주거전용면적이 60제곱미터 이하인 주택으로만' — 84㎡")
+    g(fn="sp", type="first", listing="2026000103-084.0000A", profile=dict(fb, homeSigun="성남시", household="parents", parentsOwn=False, parents60=False, hhSize=3), expect={"s": "fail"},
+      basis="2026000103 투기과열 생애최초 '1순위' — 규제지역 1순위는 세대주 (규칙 제28조①1다·제43조③1호)")
+    g(fn="sp", type="first", listing="2026000426-084.8786A", profile=dict(fb, homeSido="충남", homeSigun="천안시", household="parents", parentsOwn=False, parents60=False, hhSize=3), expect={"s": "ok", "stage": "추첨 (미혼·무자녀)"},
+      basis="규칙 제43조③ — 비규제지역, 부모님 세대의 세대원(단독세대 아님)은 면적 제한 없이 추첨 물량 (천안 84㎡)")
+    g(fn="sp", type="first", listing="2026000414-059.8400A", profile=dict(pub_base, married=False, marriedOn="", kidsMinor=0, kidsOnDeed=0, youngestBirth="", pregnant=False, spouseIncome=0, hhIncomeYear=3000, income=3000, hhSize=1),
+      expect={"s": "fail"}, basis="2026000409·414 공공분양 '1인 가구의 경우 생애최초 특별공급 청약신청 불가', 신청자격 ③ 혼인 중이거나 미혼 자녀")
+    g(fn="sp", type="first", listing="2026000414-059.8400A", profile=dict(pub_base, married=False, marriedOn="", kidsMinor=0, kidsOnDeed=None, youngestBirth="", pregnant=False, spouseIncome=0, hhIncomeYear=3000, income=3000, hhSize=2),
+      expect={"s": "warn"}, basis="생애최초 '미혼인 자녀(혼인 중이 아니면 같은 등본)' — 같은 등본 자녀 수를 모르면 확인 필요")
+    # 통장 종류: 공공은 청약저축 그대로 가능(부칙 제7조), 민영은 청약저축 1·2순위 모두 불가
+    g(fn="item", item="통장 종류 (공공분양)", listing="2026000414-059.8400A", profile=dict(pub_base, acctType="saving"), expect={"s": "none"},
+      basis="규칙 부칙 제7조(2015.9.1 전 가입 청약저축은 종전 규정), 2026000409 '저축총액(주택청약종합저축 및 청약저축은 매월 최대 25만원…)'")
+    g(fn="item", item="통장 종류 (공공분양)", listing="2026000414-059.8400A", profile=dict(pub_base, acctType="deposit"), expect={"s": "fail"},
+      basis="2026000409 '종전 통장(청약저축·청약예금·청약부금)을 주택청약종합저축으로 전환하여 … 공고일 전일까지 전환한 경우에만' — 예금·부금")
+    g(fn="bucket", listing="2026000453-059.9742A", profile=dict(gw, acctType="saving"), expect={"b": "no"},
+      basis="2026000453 '2순위 : 예치금액과 관계없이 청약예금·청약부금·주택청약종합저축에 가입한 분' — 청약저축은 2순위도 아님")
+    # 무주택: 세대 주택 수를 안 넣으면 공공·특별공급은 확인 필요
+    g(fn="home", listing="2026000414-059.8400A", profile=dict(pub_base, hhHomes=""), expect={"s": "warn"},
+      basis="규칙 제2조제4호 무주택세대구성원 — 세대원 주택 여부를 모르면 판정하지 않음")
+    # 규제지역 2주택: 60세 이상 부모님 명의는 주택 수에서 뺌 (제53조제6호)
+    g(fn="item", item="2주택 이상 세대 아님 (규제지역 1순위)", listing="2026000453-059.9742A", profile=dict(gw, hhHomes="2+", hhOwner="parent60"), expect={"s": "ok"},
+      basis="규칙 제53조제6호 60세 이상 직계존속 소유 주택은 무주택으로 봄 — 2주택 판정에서 제외")
+    # 거주: 공고일 뒤 전입
+    g(fn="item", item="거주지", listing="2026000453-059.9742A", profile=dict(gw, sidoOwnSince="2026-12-01", areaSince="2026-12-01", sidoSince="2026-12-01"), expect={"s": "warn"},
+      basis="2026000453 '입주자모집공고일 현재 … 거주' — 공고일 뒤 전입이면 공고일 당시 주소를 모름")
+    g(fn="bucket", listing="2026000453-059.9742A", profile=dict(gw, household="parents", parentsOwn=False, parents60=True, sidoOwnSince="2026-12-01", areaSince="2026-12-01", sidoSince="2026-12-01"), expect={"b": "unsure"},
+      basis="2026000453 1순위 세대주(투기과열) 미충족이어도, 공고일 당시 주소를 모르면 2순위 자격(거주 요건)도 모름 → 확인 필요")
+    # 규제지역 세대주 추정은 1순위 요건 → 세대원은 2순위 (제27조①1다, 공공 변형 공고)
+    g(fn="bucket", listing="2026000414-REG", profile=dict(pub_base, household="parents", parentsOwn=False, parents60=False, hhIncomeYear=5000, income=5000), expect={"b": "r2"},
+      basis="규칙 제27조①1다 투기과열·청약과열 국민주택 1순위 '세대주' — 세대원은 2순위")
+    # 신혼희망타운: 세대주·순위 없음 (2026820008 신청자격 ①~④), 예비신혼부부는 예비 배우자 정보가 없어 확인 필요
+    tb = dict(town_base, hhIncomeYear=5000, income=5000, realEstate=0, carValue=0)
+    g(fn="item", item="세대주", listing="2026820010-REG", profile=dict(tb, household="parents", parentsOwn=False, parents60=False), expect={"s": "none"},
+      basis="2026820008~011 신혼희망타운 신청자격 ①~④ — 세대주 요건 없음 (공고문에서 세대주 요건을 읽지 않은 경우)")
+    g(fn="item", item="세대 5년 내 당첨 없음 (규제지역 1순위)", listing="2026820010-REG", profile=dict(tb, win5y=True, everWin="yes", recentWin=False), expect={"s": "none"},
+      basis="신혼희망타운은 1순위·2순위가 없다 (2026820008 입주자 선정 1·2·3단계)")
+    g(fn="item", item="신청 유형 (신혼희망타운)", listing="2026820010-055.8800B", profile=dict(tb, married=False, marriedOn="", townType="pre"), expect={"s": "warn"},
+      basis="2026820008 예비신혼부부 ① '혼인으로 구성할 세대원 전원이 무주택', ③·④ 소득·총자산 그 세대 기준 — 예비 배우자 정보 미입력")
+    # 60세 이상 부모님 명의 집은 무주택이지만 공공 자산에는 포함 (2026000409·414 '제53조에 의거 주택으로 보지 않는 경우에도 … 자산보유기준 적용 대상')
+    g(fn="sp", type="first", listing="2026000414-059.8400A", profile=dict(pub_base, hhIncomeYear=3000, income=3000, youngestBirth="2019-01-01", hhHomes="1", hhOwner="parent60", realEstate=0), expect={"s": "warn"},
+      basis="2026000414 '제53조에 의거 주택으로 보지 않는 경우에도 해당 주택과 그 주택의 부속 토지는 자산보유기준 적용 대상' — 부동산 0 입력")
+    g(fn="sp", type="first", listing="2026000414-059.8400A", profile=dict(pub_base, hhIncomeYear=3000, income=3000, youngestBirth="2019-01-01", hhHomes="1", hhOwner="parent60", realEstate=30000), expect={"s": "fail"},
+      basis="2026000414 <표2> 부동산 215,500천원 — 부모님(60세 이상) 집을 포함한 부동산 3억")
+    # 생애최초 혼자 사는 세대는 60㎡ 이하 (세대주 여부 답과 관계없이 가구원수 1)
+    g(fn="sp", type="first", listing="2026000426-084.8786A", profile=dict(fb, homeSido="충남", homeSigun="천안시", household="spouse", hhSize=1), expect={"s": "fail"},
+      basis="규칙 제43조③ 후단 단독세대 — 가구원수 1명이면 전용 60㎡ 이하만 (천안 84㎡)")
+    # 소득: 세대 소득을 비우고 같은 등본에 부모님이 있으면 추정으로 판정하지 않음
+    g(fn="pubgen", listing="2026000414-059.8400A", profile=dict(pub_base, hhIncomeYear=None, income=3000, household="parents", parentsOwn=False, parents60=True), expect={"소득": "warn"},
+      basis="2026000414 '무주택세대구성원 전원(…)의 소득을 합산' — 같은 등본 부모님 소득 미입력")
 
     OUT.parent.mkdir(parents=True, exist_ok=True)
     OUT.write_text(json.dumps(cases, ensure_ascii=False, indent=1) + "\n", encoding="utf-8")

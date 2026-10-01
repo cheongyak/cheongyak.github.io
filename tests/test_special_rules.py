@@ -100,7 +100,7 @@ def test_public_newlywed_newborn_points_quoted():
                  "다.해당주택건설지역연속거주기간3년이상3", "1년이상3년미만2", "1년미만1", "나.미성년자녀의수3명이상3"):
         assert frag in t, frag
     for frag in ("inc.dual ? 100 : 80", "Math.min(3, p.kidsMinor)", "c >= 24 ? 3 : c >= 12 ? 2 : c >= 6 ? 1 : 0",
-                 "y <= 3 ? 3 : y <= 5 ? 2 : y <= 7 ? 1 : 0", "'우선공급':0.5, '일반공급':0.2", "'우선공급':0.7, '일반공급':0.2, '우선공급 (배점순)':0.9"):
+                 "mo >= addYears(ref, -3) ? 3 : mo >= addYears(ref, -5) ? 2 : mo >= addYears(ref, -7) ? 1 : 0", "'우선공급':0.5, '일반공급':0.2", "'우선공급':0.7, '일반공급':0.2, '우선공급 (배점순)':0.9"):
         assert frag in HTML, frag
     # 단계 비율의 원문: 민영 우선 50%·일반 20% (2026000443), 공공 우선 70%·일반 20% (2026000409)
     assert squeeze("우선공급 (50%)") in text("2026000443") and squeeze("일반공급 (20%)") in text("2026000443")
