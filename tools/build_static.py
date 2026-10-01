@@ -44,6 +44,7 @@ def page(slug: str, title: str, desc: str, body: str) -> str:
 <html lang="ko"><head>
 <meta charset="utf-8">
 <meta name="google-adsense-account" content="ca-pub-8680972365235939">
+<meta name="google-site-verification" content="hm524U3tqr-uUo_Z_lrNUELcT50r_XoLYj-nWxrd0tc">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>{html.escape(title)} | 청약패스</title>
 <meta name="description" content="{html.escape(desc)}">
