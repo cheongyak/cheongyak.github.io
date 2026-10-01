@@ -1150,7 +1150,7 @@ function profileLine(p){
 function meLine(L){
   if (!hasProfile()) return '<span class="muted">내 조건을 넣으면 자격·자금을 판정해요</span>';
   const e = eligibility(L, S.profile);
-  if (!e.ok) { const f = e.items.find(i => i.s === 'fail'); return '<span class="st-fail">' + (e.rank2 ? '1순위 불가 · 2순위 가능' : '내 자격 불가') + '</span><span class="muted">· ' + esc(f.k) + ' ' + esc(f.v) + '</span>'; }
+  if (!e.ok) { const f = e.items.find(i => i.s === 'fail'); return '<span class="' + (e.rank2 ? 'st-warn' : 'st-fail') + '">' + (e.rank2 ? '2순위만 가능' : '내 자격 불가') + '</span><span class="muted">· ' + esc(f.k) + ' ' + esc(f.v) + '</span>'; }
   const f = funding(L, S.profile, planOpt(L)), gap = bestGap(f, planOpt(L));
   const el = e.unsure ? '<span class="st-warn">자격 확인 필요</span>' : on('eligibility_caution') ? '<span class="st-ok">기본 요건 충족</span>' : '<span class="st-ok">내 자격 가능</span>';
   return el + (gap > 0 ? '<span class="muted">· 자금 ' + fmt(gap) + ' 부족</span>' : '<span class="muted">· 자금 가능</span>');
@@ -2278,16 +2278,16 @@ function checklistV2(L, p, e){
   const pend = (on('eligibility_caution') ? pendingChecks(L, p) : []).filter(x => !(acctPrompt && x.startsWith('통장 가입기간')));   // 위 '청약통장 1순위 요건 · 입력 필요'와 같은 뜻이라 한 번만
   let tone, title, sub = '';
   if (!hasProfile()) { tone = 'info'; title = '내 조건을 넣으면 자격을 판정해요'; sub = '지금은 조건을 모르는 항목이 \'입력 필요\'로 보여요.'; }
-  else if (!e.ok && e.rank2) { tone = 'warn'; title = '1순위로는 신청 불가 · 2순위는 가능'; sub = e.reason; }
+  else if (!e.ok && e.rank2) { tone = 'warn'; title = '2순위로만 신청 가능 (1순위 요건 미충족)'; sub = e.reason + ' 2순위는 1순위 신청자가 공급 물량보다 적을 때만 접수해요. 1순위에서 마감되면 2순위 차례는 오지 않아요.'; }
   else if (!e.ok) { tone = 'fail'; title = '지금 조건으로는 신청 불가'; sub = e.reason; }
   else if (nWarn) { tone = 'warn'; title = '기본 요건은 충족 · 확인할 것 ' + nWarn + '개'; }
   else { tone = 'ok'; title = on('eligibility_caution') ? '기본 요건 충족' : '자격 충족';
     const pc = pend.filter(x => !(PEND_INFO[x] || {}).sp).length, ps = pend.length - pc;
     sub = pc ? '이 서비스가 판정하지 않는 ' + pc + '가지는 충족인지 모르는 상태예요. 아래 \'직접 확인할 것\'을 공고문으로 확인하세요.'
       : ps ? '일반공급 기본 요건은 모두 판정했고 충족이에요. 특별공급을 쓸 때만 공고문에서 ' + ps + '가지를 더 확인하세요.' : ''; }
-  const count = [['fail', '미충족', fails.length], ['warn', '확인 필요', nWarn], ['ok', '충족', oks.length]].filter(x => x[2]).map(([c, t, n]) => `<span class="pill ${c}">${t} ${n}</span>`).join('');
+  const count = [[e.rank2 ? 'warn' : 'fail', e.rank2 ? '1순위 요건 미충족' : '미충족', fails.length], ['warn', '확인 필요', nWarn], ['ok', '충족', oks.length]].filter(x => x[2]).map(([c, t, n]) => `<span class="pill ${c}">${t} ${n}</span>`).join('');
   const needInput = acctPrompt || warns.some(i => /입력 필요/.test(i.v || ''));
-  const failItem = i => `<div class="ckitem fail"><div class="ck-top"><b>${esc(i.k)}</b><span class="st-fail">${esc(i.v)}</span></div>
+  const failItem = i => `<div class="ckitem ${e.rank2 ? 'warn' : 'fail'}"><div class="ck-top"><b>${esc(i.k)}</b><span class="${e.rank2 ? 'st-warn' : 'st-fail'}">${esc(i.v)}</span></div>
     ${i.note ? `<div class="small">${esc(i.note)}</div>` : ''}<div class="ck-src">${itemSrc(L, i.k)}</div></div>`;
   const warnItem = i => `<div class="ckwarn"><div class="ck-top"><span>${esc(i.k)}</span><span class="st-warn">${esc(i.v)}</span></div>
     ${i.note ? `<div class="small muted">${esc(i.note)}</div>` : ''}${i.edit && visibleSteps().find(s2 => stepKey(s2) === i.edit) ? `<button class="linkbtn small" data-edit="${esc(i.edit)}" style="align-self:flex-start">${esc(i.editLabel || '정보 넣기')}</button>` : ''}<div class="ck-src">${itemSrc(L, i.k)}</div></div>`;
@@ -2295,7 +2295,7 @@ function checklistV2(L, p, e){
     ${supplySummary(L, p, e)}
     <div class="spsum" style="margin:4px 0 0">${on('supply_summary') && hasProfile() ? `<span class="small muted" style="align-self:center">${genLabel(L)} 조건</span>` : ''}${count}</div>
     <div class="note ${tone} ckverdict"><b>${on('supply_summary') && hasProfile() ? (genLabel(L) + ' · ') : ''}${esc(title)}</b>${sub ? `<div class="small">${esc(sub)}</div>` : ''}${e.fix ? `<div class="small" style="margin-top:4px"><b>다음 공고부터 가능하게 하려면</b> · ${esc(e.fix)}</div>` : ''}</div>
-    ${fails.length ? `<div class="ckgroup"><div class="ck-h st-fail">문제가 있는 조건 ${fails.length}</div>${fails.map(failItem).join('')}</div>` : ''}
+    ${fails.length ? `<div class="ckgroup"><div class="ck-h ${e.rank2 ? 'st-warn' : 'st-fail'}">${e.rank2 ? '1순위만 막는 조건 (2순위는 신청 가능)' : '문제가 있는 조건'} ${fails.length}</div>${fails.map(failItem).join('')}</div>` : ''}
     ${nWarn ? `<div class="ckgroup"><div class="ck-h st-warn"><span>확인이 필요한 조건 ${nWarn}</span>${needInput ? '<button class="linkbtn small" data-action="restart">내 조건 입력하기</button>' : ''}</div>
       <div class="ckwarns">${acctPrompt ? `<div class="ckwarn"><div class="ck-top"><span>청약통장 1순위 요건</span><span class="st-warn">입력 필요</span></div><div class="small muted">가입일·예치금(공공은 납입 횟수)을 넣으면 가입기간·예치금·납입 횟수를 판정해요</div><div class="ck-src">${src('supplyRule')}</div></div>` : ''}${warns.map(warnItem).join('')}</div></div>` : ''}
     ${oks.length ? `<details class="ckmore"><summary>충족한 조건 ${oks.length}개</summary>
@@ -2349,7 +2349,7 @@ function vDetail(){
   const gap = bestGap(f, o), barCost = L.mktBase ? Math.min(100, m.cost / L.mktBase * 100) : 0, barLo = L.mktBase ? Math.max(0, Math.min(100 - barCost, m.lo / L.mktBase * 100)) : 0;
   let mine; const okWord = on('eligibility_caution') ? '기본 요건은 되지만' : '자격은 되지만';
   if (!hasProfile()) mine = `<div class="note info"><b>내 조건을 넣으면 이 공고의 자격·자금을 판정해요</b><div>입력한 정보는 이 기기에만 저장돼요.</div><div style="margin-top:6px"><button class="btn sm" data-action="restart">내 조건 입력하기</button></div></div>`;
-  else if (!e.ok) mine = `<div class="note fail"><b>${e.rank2 ? (m.g === 'lotto' || m.g === 'consider' ? '하지만 1순위로는 신청 불가 (2순위는 가능)' : '1순위로는 신청 불가 (2순위는 가능)') : m.g === 'lotto' || m.g === 'consider' ? '하지만 나는 이번 공고 신청 불가' : '나는 이번 공고 신청 불가'}</b><div>${esc(e.reason)}</div>${e.fix ? `<div class="inner"><b style="font-size:13px">다음 공고부터 가능하게 하려면</b><br>${esc(e.fix)}</div>` : ''}</div>`;
+  else if (!e.ok) mine = `<div class="note ${e.rank2 ? 'warn' : 'fail'}"><b>${e.rank2 ? (m.g === 'lotto' || m.g === 'consider' ? '하지만 2순위로만 신청할 수 있어요' : '2순위로만 신청할 수 있어요') : m.g === 'lotto' || m.g === 'consider' ? '하지만 나는 이번 공고 신청 불가' : '나는 이번 공고 신청 불가'}</b><div>${esc(e.reason)}</div>${e.rank2 ? '<div style="margin-top:4px">2순위는 1순위 신청자가 공급 물량보다 적을 때만 접수해요. 1순위에서 마감되면 2순위 차례는 오지 않아요.</div>' : ''}${e.fix ? `<div class="inner"><b style="font-size:13px">다음 공고부터 가능하게 하려면</b><br>${esc(e.fix)}</div>` : ''}</div>`;
   else if (m.g === 'unknown') mine = `<div class="note warn"><b>${okWord} 시세를 확인해야 해요</b><div>${esc(L.mktNote)}</div></div>`;
   else if (m.g === 'pass' || m.g === 'flat') mine = `<div class="note warn"><b>${okWord} ${m.g === 'pass' ? '시세보다 비싸요' : '마진이 거의 없어요'}</b><div>${on('margin_caveat') ? '당첨되면 재당첨 제한이 걸려 한동안 다른 청약에 당첨될 수 없어요.' : '당첨되면 재당첨 제한이 걸려요. 실거주 목적이 아니면 통장을 아끼세요.'}</div></div>`;
   else if (gap > 0) mine = `<div class="note warn"><b>${okWord} 자금 ${fmt(gap)} 부족</b><div>${o.mode === 'live' ? '잔금대출' : '전세 활용'} 기준이에요. 부족분 조달처를 확보한 뒤 신청하세요.</div></div>`;
@@ -2374,7 +2374,7 @@ function vDetail(){
   ${mine}
   ${L.checks && L.checks.length ? `<div class="note warn"><b style="font-size:14px">데이터 확인 필요 ${L.checks.length}건</b>${L.checks.map(c => `<div>· ${esc(c)}</div>`).join('')}<div class="small muted">자동 검증에서 걸린 항목이에요. 모집공고문 원문으로 확인하세요. ${noticeSrc(L)}</div></div>` : ''}
   <div class="tiles">
-    <div class="tile"><span class="small muted">자격</span><span class="v ${e.ok ? (e.unsure ? 'st-warn' : 'st-ok') : 'st-fail'}">${e.ok ? (e.unsure ? '확인 필요' : on('eligibility_caution') ? '기본 충족' : '가능') : '불가'}</span></div>
+    <div class="tile"><span class="small muted">자격</span><span class="v ${e.ok ? (e.unsure ? 'st-warn' : 'st-ok') : e.rank2 ? 'st-warn' : 'st-fail'}">${e.ok ? (e.unsure ? '확인 필요' : on('eligibility_caution') ? '기본 충족' : '가능') : e.rank2 ? '2순위만' : '불가'}</span></div>
     <div class="tile"><span class="small muted">마진 (보수)</span><span class="v">${m.lo == null ? '확인 필요' : (m.lo >= 0 ? '+' : '') + fmt(m.lo)}</span></div>
     <div class="tile"><span class="small muted">자금 (${o.mode === 'live' ? '대출' : '전세'})</span><span class="v ${gap > 0 ? 'st-warn' : 'st-ok'}">${gap > 0 ? fmt(gap) + ' 부족' : '가능'}</span></div>
   </div>
