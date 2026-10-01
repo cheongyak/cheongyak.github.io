@@ -440,6 +440,7 @@ body.sheet-open{overflow:hidden}
 .fchip{display:inline-flex;align-items:center;gap:4px;height:32px;padding:0 10px;border-radius:16px;border:1px solid var(--fg);background:var(--surface);font-size:13px;font-weight:600;cursor:pointer}
 .fchip svg{width:14px;height:14px}
 .empty{align-items:center;text-align:center;padding:28px 16px}
+body.tab6 .tabbar button{font-size:12px;white-space:nowrap;letter-spacing:-.2px;padding:0 2px}
 .topbtns{display:inline-flex;align-items:center;gap:8px;flex:none} .top+.search{margin:-4px 0 10px} .srchbtn{width:44px;height:44px;flex:none;display:inline-flex;align-items:center;justify-content:center;border-radius:22px;border:1px solid var(--line);background:var(--surface);color:var(--fg);cursor:pointer} .srchbtn svg{width:20px;height:20px} .srchbtn.on{background:var(--btn);color:var(--btn-fg);border-color:var(--btn)}
 .bell{display:inline-flex;align-items:center;gap:6px;min-height:44px;padding:0 14px;border-radius:22px;border:1px solid var(--line);background:var(--surface);font-weight:600;font-size:14px;cursor:pointer} .bell[hidden]{display:none}
 .bell svg{width:18px;height:18px} .bell.on{background:var(--lotto-soft);border-color:transparent;color:var(--lotto-ink)}
@@ -456,6 +457,7 @@ dl.kv dt{color:var(--muted)} dl.kv dd{margin:0;text-align:right;font-weight:600}
   <button data-go="feed">공고</button>
   <button data-go="trend" hidden>가점 컷</button>
   <button data-go="grades">등급 기준</button>
+  <button data-go="alerts" hidden>알림</button>
   <button data-go="me">내 정보</button>
   <button data-go="about" hidden>이용 안내</button>
 </nav></div>
@@ -3314,7 +3316,7 @@ const setPushLit = v => { try { if (v) localStorage.setItem('cy-push-on', '1'); 
 function bellBtn(){
   const show = pushOn(), lit = pushOn() && pushLit();
   const bell = '<path d="M6 8a6 6 0 1 1 12 0c0 7 3 9 3 9H3s3-2 3-9"/><path d="M10.3 21a1.94 1.94 0 0 0 3.4 0"/>';
-  return `<button class="bell${lit ? ' on' : ''}" data-go="alerts" aria-label="${lit ? '알림 켜짐, 알림 설정' : '알림 받기'}" ${show ? '' : 'hidden'}><svg viewBox="0 0 24 24" fill="${lit ? 'currentColor' : 'none'}" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">${bell}</svg><span>${lit ? '알림 켜짐' : '알림'}</span></button>`;
+  return `<button class="bell${lit ? ' on' : ''}" data-go="alerts" aria-label="${lit ? '알림 켜짐, 알림 설정' : '알림 받기'}" ${show && !on('alerts_tab') ? '' : 'hidden'}><svg viewBox="0 0 24 24" fill="${lit ? 'currentColor' : 'none'}" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">${bell}</svg><span>${lit ? '알림 켜짐' : '알림'}</span></button>`;
 }
 const PUSH = { state:'init', prefs:null, msg:'', busy:false };
 const pushApi = p => CONFIG.push_api.replace(/\/$/, '') + p;
@@ -3405,7 +3407,7 @@ function vPush(){
   }[st] || '';
   const canEdit = st === 'on' || st === 'off' || st === 'init';
   return `
-  <div class="top"><button class="back" data-go="feed">${chev}공고</button></div>
+  ${on('alerts_tab') ? '' : `<div class="top"><button class="back" data-go="feed">${chev}공고</button></div>`}
   ${pushPreview() ? '<div class="note warn"><b>미리보기 (운영자 확인용)</b><div>아직 공개 전이에요. ?push=preview 로 연 이 기기에서만 보여요. 끄려면 주소 끝에 ?push=off 를 붙여 여세요.</div></div>' : ''}
   <div class="stack" style="gap:6px"><h1>새 공고 알림 ${betaTag()}</h1>
   <p class="muted" style="margin:0;font-size:14px">매일 새벽 수집이 끝나면, 고른 지역에 <b>새 공고</b>가 올라왔을 때와 <b>접수 전날</b>에 휴대폰 알림을 보내요. 하루 한 통으로 묶어 보내요.</p></div>
@@ -4357,10 +4359,12 @@ function render(){
   const tm = tabbar.querySelector('[data-go=me]'); if (tm) tm.textContent = on('home_v2') ? '내 조건' : '내 정보';   // 메인 '내 조건'과 같은 이름   // '비추천' 배지가 두 줄로 꺾이지 않게
   const tt = tabbar.querySelector('[data-go=trend]'); if (tt) tt.hidden = !on('score_cut');
   const ta = tabbar.querySelector('[data-go=about]'); if (ta) ta.hidden = !(on('about_tab') && on('about_page'));
+  const tl = tabbar.querySelector('[data-go=alerts]'); if (tl) tl.hidden = !(on('alerts_tab') && pushOn());
+  document.body.classList.toggle('tab6', [...tabbar.querySelectorAll('button')].filter(b => !b.hidden).length >= 6);   // 기능: alerts_tab — 알림은 아래 탭으로 (맨 위 알림 버튼 자리는 검색)
   app.innerHTML = VIEWS[S.view]();
   if (S.view === 'feed' || S.view === 'detail') adsAfterRender();   // 기능: ads
   tabbar.hidden = S.view === 'onboard';
-  const tab = { feed:'feed', detail:'feed', plan:'feed', alerts:'feed', grades:'grades', me:'me', about: on('about_tab') ? 'about' : 'me', story: on('about_tab') ? 'about' : 'me', terms: on('about_tab') ? 'about' : 'me', privacy: on('about_tab') ? 'about' : 'me', updates: on('about_tab') ? 'about' : 'me', compare:'feed', trend:'trend' }[S.view];
+  const tab = { feed:'feed', detail:'feed', plan:'feed', alerts: on('alerts_tab') && pushOn() ? 'alerts' : 'feed', grades:'grades', me:'me', about: on('about_tab') ? 'about' : 'me', story: on('about_tab') ? 'about' : 'me', terms: on('about_tab') ? 'about' : 'me', privacy: on('about_tab') ? 'about' : 'me', updates: on('about_tab') ? 'about' : 'me', compare:'feed', trend:'trend' }[S.view];
   tabbar.querySelectorAll('button').forEach(b => { if (b.dataset.go === tab) b.setAttribute('aria-current','page'); else b.removeAttribute('aria-current'); });
   if (lastView !== S.view) window.scrollTo(0, 0);
   const key = S.view + '|' + (S.view === 'detail' || S.view === 'plan' ? S.id : '') + '|' + (S.view === 'feed' ? S.feedMode : '');
