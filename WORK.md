@@ -4,6 +4,20 @@
 2026-09-29 12:55 이전 항목은 규칙을 만들기 전 작업을 커밋 기록으로 정리한 것이라 백업 브랜치가 없어요.
 그 시점으로 되돌릴 때는 해당 커밋 번호로 `git revert` 를 써요.
 
+## 2026-10-01 20:57 · 개인정보처리방침·이용약관 개정 예고 (새 공고 알림·AI 질문 답변, 10월 9일 시행)
+- 요청: 청약봇 계획 승인 — 방침 개정은 '7일 예고 + 첫 사용 동의'로, 이미 잘 오는 새 공고 알림의 방침 개정도 같이 진행
+- 변경: 기능 legal_notice. config.json legal_notice(시행 2026-10-09, 게시 2026-10-01, 바뀌는 점 목록)로 방침·약관 맨 위에 '개정 예고' 카드(바뀌는 점 + '바뀐 뒤 전문 보기'),
+  공고 목록 베타 안내 아래 한 줄, 이용 안내 문서 줄에 '개정 예정'. 전문은 LEGAL_AS 로 알림·청약봇이 켜진 상태의 실제 개정안을 그림. 시행일이 지나면 예고는 저절로 사라짐.
+  청약봇(chatOn = chat_api + 스위치 chatbot) 방침 문구 추가: 처리 항목(가린 질문·공고 번호·판정 요약·앞선 대화, IP 해시), 목적, 보유(운영자 보관 안 함, Anthropic 30일 내 삭제·학습 안 함, IP 해시 다음 날 삭제, 합계 1년),
+  4-3 처리 위탁·국외 이전(Anthropic PBC·Cloudflare, 미국), 외부 서비스 표, 권리, 안전성. 약관 제4조 AI 답변 성격·이용 제한, 제6조 개인정보 적지 않기·반복 호출 금지.
+  개정 이력은 같은 날 개정을 한 줄로 묶음(legalRevs). 청약봇 기능 자체는 아직 없음(chat_api 비어 있음) — 방침 문구는 기능이 켜질 때만 보임
+- 근거: Anthropic API 입출력 30일 내 삭제 privacy.claude.com/en/articles/7996866, 학습 금지 anthropic.com/legal/commercial-terms ('Anthropic may not train models on Customer Content from Services'), 문의 privacy@anthropic.com (anthropic.com/legal/privacy)
+- 파일: docs/index.html, docs/config.json, docs/privacy/index.html, docs/terms/index.html, docs/about/index.html, docs/story/index.html, tools/static_fragments.json, docs/changelog.json, VERSIONS.md, FEATURES.md
+- 확인: 스크립트 문법, pytest 128, 판정 사례 256/256, 회귀 판정 차이 0·화면 1,287개 오류 0, 390px 밝은·어두운 화면(목록 한 줄·방침·약관 예고 카드·전문 펼침) 넘침·오류 0
+- 기능: legal_notice (예고는 켜야 의미가 있어 처음부터 켬 — 사용자 승인)
+- 버전: v1.19.0
+- 백업: backup/20261001-2057-chatbot
+
 ## 2026-10-01 20:05 · 기록 정리 (v1.18.0)
 - 요청: CLAUDE.md 6·8항 — FEATURES 커밋 번호, HANDOFF 진행 중인 일
 - 변경: FEATURES.md fix_focus 커밋 번호, HANDOFF 에 v1.18.0 과 새 문구 연결 규칙

@@ -99,7 +99,8 @@
     "region_first_score": true,
     "tap_affordance": true,
     "optional_inputs": true,
-    "fix_focus": true
+    "fix_focus": true,
+    "legal_notice": true
   },
   "contact_email": "ckwlsgur@naver.com",
   "report_form_url": "",
@@ -114,5 +115,22 @@
   "ads_legal_date": "",
   "push_api": "https://cheongyakpass-push.ckwlsgur.workers.dev",
   "push_preview": true,
-  "push_legal_date": ""
+  "push_legal_date": "",
+  "chat_api": "",
+  "chat_legal_date": "",
+  "legal_notice": {
+    "date": "2026-10-09",
+    "posted": "2026-10-01",
+    "what": "새 공고 알림·AI 질문 답변",
+    "privacy": [
+      "새 공고 알림을 켠 분만: 브라우저 알림 주소와 고른 지역·종류를 알림 서버(Cloudflare, 미국)에 보관해요. 알림을 끄면 바로 지워요. (처리 위탁·국외 이전 4-2항)",
+      "공고 상세의 '이 공고 물어보기'(AI 질문 답변)를 쓴 분만: 질문과 그 공고의 판정 요약을 답변을 만들기 위해 Anthropic(미국)으로 보내요. 주민등록번호·전화번호 같은 정보는 보내기 전에 가리고, 운영자는 대화를 저장하지 않아요. (처리 위탁·국외 이전 4-3항)",
+      "AI 질문 하루 이용 횟수를 세기 위해 IP 주소를 바꾼 값(해시)을 하루만 보관해요.",
+      "두 기능을 쓰지 않으면 지금과 똑같이 입력한 정보는 이 기기에만 저장돼요."
+    ],
+    "terms": [
+      "제4조(서비스 내용)에 새 공고 알림과 AI 질문 답변의 이용 조건을 더해요. AI 답변은 참고용이고, 판정은 화면의 판정 결과와 모집공고문이 기준이에요.",
+      "제6조(이용자의 의무)에 AI 질문에 주민등록번호 같은 개인정보나 다른 사람의 정보를 적지 않을 것, 기능을 자동으로 반복 호출하지 않을 것을 더해요."
+    ]
+  }
 }
