@@ -543,7 +543,7 @@ function afterRender(){
 /* ---------- 내 조건 (대화에서 알려주신 값으로 시작) ---------- */
 /* 처음 온 사람의 기본값: 아무것도 입력하지 않은 상태 (예전에는 운영자 본인 조건이 들어 있었음). 모르는 값은 '입력 필요'로 판정 */
 const DEFAULT_PROFILE = { seoul:null, household:'', parents60:null, parentsOwn:null, headSince:'',
-  selfOwn:null, married:null, spouseOwn:false, spouseIncome:0, spouseLoan:0, account:'unknown', recentWin:false, birth:'', marriedOn:'', homeSoldOn:'', dependents:null, spouseAcctSince:'', hhHomes:'', win5y:null, acctType:'', acctSince:'', acctAmount:0, acctCount:null, acctPaid:null, homeArea:'',
+  selfOwn:null, married:null, spouseOwn:false, spouseIncome:0, spouseLoan:0, account:'unknown', recentWin:false, birth:'', marriedOn:'', homeSoldOn:'', dependents:null, spouseAcctSince:'', hhHomes:'', hhOwner:'', win5y:null, acctType:'', acctSince:'', acctAmount:0, acctCount:null, acctPaid:null, homeArea:'',
   cash:0, liquid:0, deposit:0, income:0, loanMonthly:0, firstTime:null,
   kidsUnder6:null, gen3:null, homeSido:'', sidoSince:'', sidoOwnSince:'', kidsOnDeed:null, eldersOnDeed:null, elders1y:null, fetusCount:null, homeSigun:'', areaSince:'', kidsMinor:null, youngestBirth:'', pregnant:null, hhSize:null, hhIncomeYear:null, realEstate:null, carValue:null, townType:null, townInsurance:null, townFinOther:null, townOtherAsset:null, townDebt:null, hhNeverOwned:null, everWin:null, taxYears5:null, elder65:null };
 
@@ -978,15 +978,20 @@ function eligibility(L, p){
   if (p.selfOwn) own.push('본인 명의 주택');
   if (p.married && p.spouseOwn) own.push('배우자 명의 주택');
   if (p.household === 'parents' && p.parentsOwn) { if (p.parents60) homeNote = '부모님 주택: 만 60세 이상 예외 적용'; else own.push('부모님 주택 (만 60세 미만)'); }
+  /* 세대 주택이 본인·배우자 명의가 아닐 때 누구 명의인지 (hhOwner, 2026-10-01): 'parent60' = 만 60세 이상 직계존속(배우자 직계존속 포함) → 제53조제6호 예외,
+     'other' = 그 밖의 세대원 → 유주택 세대 */
+  const hhAny = p.hhHomes === '1' || p.hhHomes === '2+';
+  if (hhAny && !own.length && p.hhOwner === 'other') own.push('세대원 명의 주택');
+  if (hhAny && !own.length && p.hhOwner === 'parent60' && !homeNote) homeNote = '세대 주택: 만 60세 이상 부모님 명의라 무주택으로 봐요 (노부모부양 특별공급 제외)';
   if (!p.married) homeNote = (homeNote ? homeNote + ' · ' : '') + '혼인신고 전: 배우자 주택 미합산';
   /* 세대 전체 주택 수(hhHomes)를 1채 이상이라고 했는데 본인·배우자·(60세 미만) 부모님 명의가 아니면, 누구 명의인지 몰라 무주택 세대로 단정하지 않는다
      (2026-10-01 블라인드 감사에서 발견: 예전에는 '충족'). 근거: 주택공급에 관한 규칙 제2조제4호 '무주택세대구성원 = 세대원 전원이 주택을 소유하고 있지 않은 세대의 구성원',
      제53조제6호 '60세 이상의 직계존속(배우자의 직계존속 포함)이 주택 또는 분양권등을 소유하고 있는 경우' 무주택으로 봄(노부모부양 특별공급 제외) */
-  const hhOwnUnknown = (p.hhHomes === '1' || p.hhHomes === '2+') && !own.length && !(p.household === 'parents' && p.parentsOwn && p.parents60);
+  const hhOwnUnknown = hhAny && !own.length && !(p.household === 'parents' && p.parentsOwn && p.parents60) && p.hhOwner !== 'parent60';
   if (!own.length && (p.selfOwn == null || !p.household)) items.push({ k:'무주택 세대', s:'warn', v:'입력 필요', note:'집 보유와 세대 구성을 넣으면 판정해요' });
   else if (hhOwnUnknown && on('owner_lottery') && L.houseDtl === '민영' && L.category === 'general' && L.needAccount)   // 민영 일반공급 1순위는 유주택 세대도 신청 가능 — 가점제·추첨 여부만 명의에 따라 달라짐
-    items.push({ k:'무주택 세대', s:'ok', v:'세대 주택 있음 · 1순위 신청 가능', note:'세대 전체 주택을 ' + (p.hhHomes === '1' ? '1채' : '2채 이상') + '로 입력했고, 본인·배우자 명의는 아니에요. 만 60세 이상 부모님(배우자 부모님 포함) 명의면 무주택으로 봐서 가점제·특별공급도 돼요. 그 밖의 세대원 명의면 유주택 세대라 ' + (L.regulated ? '가점제가 아닌 추첨제로만 뽑히고' : '무주택기간 0점이고') + ' 특별공급은 신청할 수 없어요.' });
-  else if (hhOwnUnknown) items.push({ k:'무주택 세대', s:'warn', cause:'A', v:'세대 주택 확인 필요', note:'세대 전체 주택을 ' + (p.hhHomes === '1' ? '1채' : '2채 이상') + '로 입력했고, 본인·배우자 명의는 아니에요. 만 60세 이상 부모님(배우자 부모님 포함) 명의의 주택은 무주택으로 봐요(노부모부양 특별공급은 제외). 그 밖의 세대원 명의면 무주택 세대가 아니에요.' });
+    items.push({ k:'무주택 세대', s:'ok', hhUnknown:true, edit:'세대 주택·당첨 이력', editLabel:'집 명의 답하기', v:'세대 주택 있음 · 1순위 신청 가능', note:'세대 전체 주택을 ' + (p.hhHomes === '1' ? '1채' : '2채 이상') + '로 입력했고, 본인·배우자 명의는 아니에요. 만 60세 이상 부모님(배우자 부모님 포함) 명의면 무주택으로 봐서 가점제·특별공급도 돼요. 그 밖의 세대원 명의면 유주택 세대라 ' + (L.regulated ? '가점제가 아닌 추첨제로만 뽑히고' : '무주택기간 0점이고') + ' 특별공급은 신청할 수 없어요.' });
+  else if (hhOwnUnknown) items.push({ k:'무주택 세대', s:'warn', cause:'A', hhUnknown:true, edit:'세대 주택·당첨 이력', editLabel:'집 명의 답하기', v:'세대 주택 확인 필요', note:'세대 전체 주택을 ' + (p.hhHomes === '1' ? '1채' : '2채 이상') + '로 입력했고, 본인·배우자 명의는 아니에요. 만 60세 이상 부모님(배우자 부모님 포함) 명의의 주택은 무주택으로 봐요(노부모부양 특별공급은 제외). 그 밖의 세대원 명의면 무주택 세대가 아니에요. 누구 명의인지 답하면 판정해요.' });
   else if (own.length && on('owner_lottery') && L.houseDtl === '민영' && L.category === 'general' && L.needAccount) {
     /* 유주택 세대의 민영주택 일반공급 (기능: owner_lottery). 무주택은 특별공급·공공분양·가점 점수의 요건이지 민영 1순위 자격 요건이 아니다.
        근거: 광명 2026000453·서울 2026000399(규제지역) '투기과열지구 및 청약과열지역에서 공급하는 경우 1주택 이상 소유한 세대에 속한 분은 1순위 가점제 청약이 불가',
@@ -1783,7 +1788,7 @@ function spJudge(L, p, type){
   const need = (cond, okText, failText, missText) => { if (cond === null) warn.push(missText || okText + ' 입력 필요'); else if (cond) ok.push(okText); else fail.push(failText); };
   // 무주택 (세대구성원 전원) — 기본 체크리스트와 같은 판정
   const e = eligibility(L, p), home = e.items.find(i => i.k === '무주택 세대');
-  need(home ? home.s !== 'fail' && !home.owns : null, '무주택 세대', '무주택 세대 아님', '무주택 확인 필요');   // 유주택 민영 추첨제(owner_lottery)는 일반공급만 가능, 특별공급은 여전히 무주택 요건
+  need(home ? (home.hhUnknown ? null : home.s !== 'fail' && !home.owns) : null, '무주택 세대', '무주택 세대 아님', home && home.hhUnknown ? '세대 주택 명의 확인 필요' : '무주택 확인 필요');   // 유주택 민영 추첨제(owner_lottery)는 일반공급만 가능, 특별공급은 여전히 무주택 요건
   // 거주지 (기능: supply_summary): 특별공급 신청자격 ①도 일반공급과 같은 거주 지역 요건
   // 근거: 2026000103 각 유형 '신청자격 ① 최초 입주자모집공고일 현재 경기도 성남시에 거주하거나 수도권(…)에 거주하는 무주택세대구성원',
   //       2026000409 '신혼부부ㆍ생애최초ㆍ노부모부양ㆍ신생아 특별공급 및 일반공급 지역 우선공급 기준'(같은 표). 해당지역 우선은 순서일 뿐 자격이 아님
@@ -1828,7 +1833,7 @@ function spJudge(L, p, type){
        '부양함'과 '같은 등본 부모님 0명'을 함께 답하면 서로 맞지 않아 '확인 필요' (2026-10-01 블라인드 감사 S08·S09) */
     if (p.elder65 === true && p.eldersOnDeed === 0) warn.push('같은 등본 부모님을 0명으로 입력했어요. 만 65세 이상 부모님이 같은 등본에 3년 이상 함께 있어야 해요');
     else need(p.elder65 == null ? null : p.elder65, '만 65세 이상 직계존속 3년 이상 부양', '만 65세 이상 직계존속 3년 부양 아님');
-    if (!pub && p.household === 'parents' && p.parentsOwn) fail.push('노부모부양 특별공급에서는 만 60세 이상 부모님 주택도 유주택으로 봐요 (일반공급의 만 60세 예외가 적용되지 않아요)');
+    if ((p.household === 'parents' && p.parentsOwn) || (p.hhOwner === 'parent60' && (p.hhHomes === '1' || p.hhHomes === '2+'))) fail.push('노부모부양 특별공급에서는 만 60세 이상 부모님 주택도 유주택으로 봐요 (일반공급의 만 60세 예외가 적용되지 않아요)');
   }
   // 소득·자산 → 단계
   let stage = null, stageNote = '';
@@ -2908,8 +2913,9 @@ const STEPS = [
        { k:'taxYears5', type:'choice', l:'본인이 소득세를 5년 이상 냈나요? (끊겨도 합산)', o:[[true,'예'],[false,'아니요']], two:true },
        { k:'elder65', type:'choice', l:'만 65세 이상 부모님(배우자 부모님 포함)을 3년 이상 같은 등본에서 모시고 있나요?', o:[[true,'예'],[false,'아니요']], two:true }],
     note:p => (V2() && ownsNow(p) ? '앞에서 지금 집이 있다고 답해서 세대 주택 이력은 \'있음\'으로 봐요 (생애최초 특별공급 불가). ' : '') + '배우자가 혼인 전에 가졌다가 혼인 전에 판 집은 생애최초 이력에서 빼요.' },
-  { show:p => on('regulated_rules'), n:'세대 주택·당첨 이력', t:'세대의 주택과 당첨 이력', d:'서울 전역 등 투기과열지구·청약과열지역의 1순위는 등본에 함께 있는 세대 전체를 봐요.',
+  { show:p => on('regulated_rules'), n:'세대 주택·당첨 이력', t:'세대의 주택과 당첨 이력', d:'등본에 함께 있는 세대 전체의 주택과 당첨 이력이에요. 공공분양·특별공급의 무주택 요건과 투기과열지구·청약과열지역 1순위에 쓰여요.',
     f:[{ k:'hhHomes', type:'choice', l:'세대 전체가 가진 주택 수 (분양권 포함)', o:[['0','없어요'],['1','1채'],['2+','2채 이상']] },
+       { k:'hhOwner', type:'choice', l:'그 집은 누구 명의인가요?', o:[['parent60','만 60세 이상 부모님 (배우자 부모님 포함)'],['other','그 밖의 세대원']], show:p => (p.hhHomes === '1' || p.hhHomes === '2+') && p.selfOwn === false && !(p.married && p.spouseOwn) && !(p.household === 'parents' && p.parentsOwn) },
        { k:'win5y', type:'choice', l:'나 또는 세대원이 최근 5년 안에 청약에 당첨된 적이 있나요?', o:[[true,'있어요'],[false,'없어요']], two:true, show:() => !V2() },
        { k:'everWin', type:'choice', l:'나 또는 세대원이 청약에 당첨된 적이 있나요? (특별공급·일반공급·무순위 모두)', o:[['none','없어요'],['yes','있어요']], two:true, show:() => V2() },
        { k:'win5y', type:'choice', l:'그 당첨이 최근 5년 안인가요?', o:[[true,'예'],[false,'아니요']], two:true, show:p => V2() && p.everWin === 'yes' },
