@@ -84,6 +84,9 @@ a{color:var(--link)}
 .ws-row{display:grid;grid-template-columns:1fr auto;gap:2px 10px;padding:10px 0;border-top:1px solid var(--line)} .ws-row.dim{opacity:.6}
 .ws-k{display:flex;align-items:center;gap:8px;font-size:16px} .ws-v{grid-row:span 2;align-self:center;text-align:right;white-space:nowrap}
 .ws-num{font-size:26px;font-weight:800;letter-spacing:-.02em} .ws-num.sm{font-size:15px;font-weight:700} .ws-max{font-size:13px;color:var(--muted);margin-left:3px}
+.beta{display:inline-block;vertical-align:middle;margin-left:6px;padding:1px 7px;border-radius:999px;font-size:11px;font-weight:700;letter-spacing:0;background:var(--warn-soft);color:var(--warn-ink);border:1px solid currentColor}
+.betabar{display:flex;gap:8px;align-items:flex-start;margin:0 0 10px;padding:10px 12px;border-radius:12px;background:var(--warn-soft);color:var(--warn-ink);font-size:13px;line-height:1.5;border:1px solid color-mix(in srgb, var(--warn-ink) 30%, transparent)}
+.betabar>b{flex:none;white-space:nowrap} .betabar .linkbtn{min-height:0;padding:0}
 .ws-sub{grid-column:1} .ws-tips{grid-column:1/-1;margin-top:2px} .ws-tips summary{cursor:pointer;color:var(--link)}
 .cutbar{position:relative;height:14px;margin:6px 0;border-radius:7px;background:var(--sunk)}
 .cutbar .rng{position:absolute;top:3px;height:8px;border-radius:4px;background:var(--consider-soft);box-shadow:inset 0 0 0 1px var(--consider)}
@@ -1126,6 +1129,12 @@ const SRC = {
   user: ['내가 입력한 값', null],
 };
 const ARROW = '<svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M7 17 17 7M8 7h9v9"/></svg>';
+/* 베타 표시·참고용 공지 (기능: beta_notice) */
+const betaTag = () => on('beta_notice') ? ' <span class="beta" aria-label="베타 서비스">베타</span>' : '';
+function betaBanner(where){
+  if (!on('beta_notice')) return '';
+  return `<div class="betabar" role="note"><b>베타 · 참고용</b><span>${where === 'detail' ? '이 화면의 자격·점수·마진은 공개 자료와 내 입력으로 계산한 참고용 추정이에요.' : '모든 판정은 참고용 추정이에요.'} 신청 전 <b>모집공고문</b>과 <b>청약홈 청약자격 확인</b>으로 꼭 확인하세요.${on('about_page') ? ' <button class="linkbtn small" data-go="about">자세히</button>' : ''}</span></div>`;
+}
 function src(key, over){ // over: [label, url]
   const [label, url] = over || SRC[key];
   return url ? `<a class="src" href="${esc(url)}" target="_blank" rel="noopener">출처: ${esc(label)}${ARROW}</a>` : `<span class="src">출처: ${esc(label)}</span>`;
@@ -1439,9 +1448,10 @@ function vFeedV2(){
   const x = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" aria-hidden="true"><path d="M18 6 6 18M6 6l12 12"/></svg>';
   const anyF = act.length || S.filter !== 'all' || S.newDays || (on('search') && S.q) || (on('elig_filter') && S.elig);
   return `
-  <div class="top"><div><div class="brand">청약패스</div><span class="small muted sub-line">${DATA_SOURCE.live ? '청약홈 ' + esc(String(DATA_SOURCE.updated || '').slice(5).replace('-', '.')) + ' 갱신' : '샘플 데이터'}${on('disclaimer_banner') ? ' · 참고용 추정' + (on('about_page') ? ' <button class="linkbtn small" data-go="about">자세히</button>' : '') : ''}</span></div>
+  <div class="top"><div><div class="brand">청약패스${betaTag()}</div><span class="small muted sub-line">${DATA_SOURCE.live ? '청약홈 ' + esc(String(DATA_SOURCE.updated || '').slice(5).replace('-', '.')) + ' 갱신' : '샘플 데이터'}${on('disclaimer_banner') && !on('beta_notice') ? ' · 참고용 추정' + (on('about_page') ? ' <button class="linkbtn small" data-go="about">자세히</button>' : '') : ''}</span></div>
     <button class="bell" data-go="alerts" aria-label="알림 받기" ${on('ntfy_alerts') ? '' : 'hidden'}><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 8a6 6 0 1 1 12 0c0 7 3 9 3 9H3s3-2 3-9"/><path d="M10.3 21a1.94 1.94 0 0 0 3.4 0"/></svg><span>알림</span></button></div>
   ${staleNote()}
+  ${betaBanner('feed')}
   ${myCondCard()}
   <section class="findbox" aria-label="공고 찾기">
     ${searchBox()}
@@ -1467,7 +1477,7 @@ function vFeedV2(){
 /* 공고 데이터를 읽는 중·실패 (기능: data_fail_ui). 실패하면 코드에 든 예시 공고를 실제 공고처럼 보여주지 않고, 실패를 알리고 다시 시도하게 한다 */
 function dataStatusView(){
   const err = DATA_SOURCE.state === 'error';
-  return `<div class="top"><div><div class="brand">청약패스</div><span class="small muted sub-line">${err ? '공고 데이터를 불러오지 못했어요' : '공고를 불러오는 중'}</span></div></div>
+  return `<div class="top"><div><div class="brand">청약패스${betaTag()}</div><span class="small muted sub-line">${err ? '공고 데이터를 불러오지 못했어요' : '공고를 불러오는 중'}</span></div></div>
   <section class="card" role="${err ? 'alert' : 'status'}" aria-live="polite">
     ${err ? `<h2 style="margin:0 0 6px">공고 데이터를 불러오지 못했어요</h2>
       <p class="small" style="margin:0 0 10px">인터넷 연결을 확인하고 다시 시도해 주세요. 잠시 뒤에도 안 되면 청약홈에서 공고를 직접 확인하세요.${DATA_SOURCE.err ? ` <span class="muted">(${esc(DATA_SOURCE.err)})</span>` : ''}</p>
@@ -1489,8 +1499,9 @@ function vFeed(){
   <div class="top"><div><div class="brand">청약패스</div><span class="small muted">${DATA_SOURCE.live ? '청약홈 · ' + esc(DATA_SOURCE.updated) + ' 갱신' : '샘플 데이터'}</span></div>
     <button class="bell" data-go="alerts" aria-label="알림 받기" ${on('ntfy_alerts') ? '' : 'hidden'}><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 8a6 6 0 1 1 12 0c0 7 3 9 3 9H3s3-2 3-9"/><path d="M10.3 21a1.94 1.94 0 0 0 3.4 0"/></svg><span>알림</span></button></div>
   ${staleNote()}
+  ${betaBanner('feed')}
   ${summaryBar()}
-  ${on('disclaimer_banner') ? `<div class="small muted" style="margin:-4px 0 8px">${on('summary_bar') ? '판정·마진은 참고용 추정이에요' : '판정은 참고용이에요'}. 신청 전 공고문을 꼭 확인하세요.${on('about_page') ? ' <button class="linkbtn small" data-go="about">자세히</button>' : ''}</div>` : ''}
+  ${on('disclaimer_banner') && !on('beta_notice') ? `<div class="small muted" style="margin:-4px 0 8px">${on('summary_bar') ? '판정·마진은 참고용 추정이에요' : '판정은 참고용이에요'}. 신청 전 공고문을 꼭 확인하세요.${on('about_page') ? ' <button class="linkbtn small" data-go="about">자세히</button>' : ''}</div>` : ''}
   ${hasProfile() ? `<div class="profile-bar"><span class="muted">내 조건 · <b style="color:var(--fg)">${esc(profileLine(S.profile))}</b></span><button class="linkbtn" data-go="me">수정</button></div>`
     : `<div class="profile-bar"><span class="muted">내 조건을 넣으면 공고마다 <b style="color:var(--fg)">자격·자금</b>을 판정해요</span><button class="linkbtn" data-action="restart">입력하기</button></div>`}
   ${searchBox()}
@@ -2276,6 +2287,7 @@ function vDetail(){
   const stCls = s => ({ ok:'st-ok', fail:'st-fail', warn:'st-warn', na:'st-na' }[s]);
   return `
   <div class="top"><button class="back" data-go="feed">${chev}공고</button>${watchBtn(L)}</div>
+  ${betaBanner('detail')}
   <div class="stack" style="gap:4px"><div class="meta">${esc(L.kind)} · 접수 ${scheduleText(L) ? esc(scheduleText(L)) + ' <span class="muted">(모집공고문)</span>' : L.apply ? L.apply.replace(/-/g,'.') : '샘플'}</div><h1>${esc(L.name)}${L.sample ? '<span class="sample">샘플</span>' : ''}</h1><div class="meta">${esc(L.loc)} · ${esc(L.unit)}</div></div>
   <div class="srcs">${L.sources && L.sources[0] ? src(null, ['청약홈 공고', L.sources[0][1]]) : src('applyhome')}${L.noticePdf ? src(null, ['모집공고문 PDF', L.noticePdf]) : ''}${L.sample || !on('naver_map') ? '' : `<a class="src" href="${esc(naverMapUrl(L))}" target="_blank" rel="noopener" data-ev="naver-map">네이버 지도${ARROW}</a>`}</div>
   <div class="hero g-${m.g}">
@@ -2996,7 +3008,7 @@ function watchScores(){
 }
 function vTrend(){
   loadHist();
-  const head = `<div class="top"><div><div class="brand">당첨 가점 컷</div><span class="small muted">청약홈 청약 결과 · 1순위 해당지역 가점제</span></div></div>`;
+  const head = `<div class="top"><div><div class="brand">당첨 가점 컷</div><span class="small muted">청약홈 청약 결과 · 1순위 해당지역 가점제</span></div></div>` + betaBanner('trend');
   if (!HIST) return head + watchScores() + `<div class="card empty"><b>${HIST_ERR ? esc(HIST_ERR) : '불러오는 중…'}</b></div>`;
   const rows = cutRows(), sc = on('score') ? myScore({ notice: TODAY }, S.profile) : null, mine = sc && sc.total != null ? sc.total : null;
   if (!rows.length) return head + watchScores() + '<div class="card empty"><b>아직 모인 결과가 없어요</b></div>';
