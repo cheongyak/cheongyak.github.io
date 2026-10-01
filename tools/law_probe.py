@@ -53,17 +53,26 @@ def main() -> int:
     tries = []
     r = None
     found = BASE
-    for base in ("http://www.law.go.kr/DRF", "https://www.law.go.kr/DRF"):
-        for q in (LAW_NAME, LAW_NAME.replace(" ", "")):
-            rr = http.get(f"{base}/lawSearch.do", params={"OC": oc, "target": "law", "type": "XML", "query": q, "display": 20})
+    variants = []   # (주소, 법령명, Referer 헤더, display 포함 여부)
+    for base in ("https://www.law.go.kr/DRF", "http://www.law.go.kr/DRF"):
+        for ref in ("", "https://cheongyakpass.kr/"):
+            for disp in (False, True):
+                variants.append((base, LAW_NAME.replace(" ", ""), ref, disp))
+    raw = os.environ.get("LAW_OC", "")
+    log.append(f"[인증키] 길이 {len(oc)}자 (앞뒤 공백 {'있었음' if raw != oc else '없음'}) · 영문/숫자만 {'예' if re.fullmatch(r'[A-Za-z0-9_.-]+', oc) else '아니오'} · @ 포함 {'예' if '@' in oc else '아니오'}")
+    for base, q, ref, disp in variants:
+        if True:
+            params = {"OC": oc, "target": "law", "type": "XML", "query": q}
+            if disp:
+                params["display"] = 20
+            rr = http.get(f"{base}/lawSearch.do", params=params, headers={"Referer": ref} if ref else {})
             hops = " → ".join(scrub(str(h.url), oc) for h in rr.history) + (" → " if rr.history else "") + scrub(str(rr.url), oc)
-            tries.append(f"[검색 시도] {hops} · HTTP {rr.status_code} · " + re.sub(r"\s+", " ", scrub(rr.text, oc)[:160]))
+            tries.append(f"[검색 시도] Referer {'있음' if ref else '없음'} · {hops} · HTTP {rr.status_code} · " + re.sub(r"\s+", " ", scrub(rr.text, oc)[:160]))
             if rr.status_code == 200 and "<law" in rr.text:
                 r = rr
+                found = base
+                http.headers.update({"Referer": ref} if ref else {})
                 break
-        if r is not None:
-            found = base
-            break
     log += tries
     if r is None:
         r = rr
