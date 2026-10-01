@@ -266,3 +266,12 @@ def test_public_special_birth_relax_in_originals():
     t = re.sub(r"\s+", "", text("2026000414"))
     assert "부동산(건물+토지)237,050천원이하258,600천원이하" in t and "자동차49,960천원이하54,510천원이하" in t
     assert "적용대상:다자녀․노부모부양․생애최초․신혼부부․신생아특별공급및전용면적60㎡이하일반공급" in t
+
+
+def test_town_supply_stages_in_originals():
+    """신혼희망타운 공급 세대수 카드 — 주택형 공급 전체가 신혼부부 등 대상 1단계 우선 30% · 2단계 일반 60% · 3단계 추첨임이 원문에 있다."""
+    import re
+    for no in ("2026820008", "2026820009", "2026820010", "2026820011"):
+        t = re.sub(r"\s+", "", text(no))
+        assert "1단계우선공급" in t and "2단계일반공급" in t and "3단계추첨공급" in t, no
+        assert re.search(r"주택형(\(타입\))?별공급량의30%", t) and re.search(r"주택형(\(타입\))?별공급량의60%", t), no
