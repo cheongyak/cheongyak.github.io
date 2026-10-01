@@ -85,6 +85,13 @@ def relax_add(p: dict) -> int | None:
     return None
 
 
+def relax_range(p: dict) -> tuple[int, int]:
+    """[확실한 최소, 가능한 최대] 완화 %p. 공고문 「’23.3.28. 이후 출생한 자녀(태아 포함)가 1명만 있는 경우 10%p, 2명 이상(’23.3.28. 이후 출생한 자녀가 1명이고,
+    ’23.3.27. 전 출생한 자녀가 있는 경우 포함)인 경우 20%p」(2026000409 13쪽). 만 19세 이상 자녀는 묻지 않으므로 +10%p 로 확인된 사람도 +20%p 일 수 있다."""
+    a = relax_add(p)
+    return (0, 20) if a is None else (0, 0) if a == 0 else (a, 20)
+
+
 def sp_expect(pub: bool, t: str, p: dict, n: int) -> dict:
     y = p["hhIncomeYear"]
     mon = y * 10000 / 12
@@ -95,11 +102,15 @@ def sp_expect(pub: bool, t: str, p: dict, n: int) -> dict:
             if mon <= amt(n, (b if dual else a) + add):
                 re_lim = {0: 21550, 10: 23705, 20: 25860}[add]
                 car_lim = {0: 4542, 10: 4996, 20: 5451}[add]
-                if p.get("realEstate", 0) > re_lim or p.get("carValue", 0) > car_lim:
+                soft = relax_range(p)[1] > add   # 더 큰 완화가 가능하면 <표3> 최대(258,600천원·54,510천원) 안쪽은 '확인 필요'
+                re_v, car_v = p.get("realEstate", 0), p.get("carValue", 0)
+                if (re_v > re_lim and not (soft and re_v <= 25860)) or (car_v > car_lim and not (soft and car_v <= 5451)):
                     return {"s": "fail"}
+                if re_v > re_lim or car_v > car_lim:
+                    return {"s": "warn"}
                 return {"s": "ok", "stage": nm}
         mx = PUB[t][-1][2 if dual else 1]
-        if relax_add(p) is None and mon <= amt(n, mx + 20):
+        if relax_range(p)[1] > add and mon <= amt(n, mx + 20):
             return {"s": "warn"}
         return {"s": "fail"}
     st = MIN[t]
@@ -202,6 +213,17 @@ def main() -> None:
         p.update(hhIncomeYear=y, income=y)
         add(id=f"pub-{i:03d}", fn="sp", listing="2026000414-059.8400A", type="first", profile=p, expect=sp_expect(True, "first", p, n),
             basis="2026000414 출산가구 완화 — 자녀 정보가 없으면 +20%p 안쪽은 '확인 필요'"); i += 1
+    mxf = PUB["first"][-1][1]
+    for pct in [mxf + 10, mxf + 11, mxf + 20, mxf + 21]:   # 신생아 1명(+10%p 확인)·만 19세 이상 자녀 모름 → +10~+20%p 사이는 '확인 필요', 넘으면 '불가'
+        p = dict(pub_base, **kidvars["신생아1"])
+        y = (amt(3, pct) * 12) // 10000 if pct in (mxf + 10, mxf + 20) else (amt(3, pct - 1) * 12) // 10000 + 1
+        p.update(hhIncomeYear=y, income=y)
+        add(id=f"pub-{i:03d}", fn="sp", listing="2026000414-059.8400A", type="first", profile=p, expect=sp_expect(True, "first", p, 3),
+            basis="2026000414 13쪽 출산가구 완화 '2명 이상(’23.3.28. 이후 출생 자녀 1명이고 ’23.3.27. 전 출생 자녀가 있는 경우 포함) 20%p' — 신생아 1명은 +10%p 확정, +20%p 가능"); i += 1
+    for re_v in (25860, 25861):
+        p = dict(pub_base, **kidvars["신생아1"], hhIncomeYear=5000, income=5000, realEstate=re_v, carValue=1000)
+        add(id=f"pub-{i:03d}", fn="sp", listing="2026000414-059.8400A", type="first", profile=p, expect=sp_expect(True, "first", p, 3),
+            basis="2026000414 <표3> 2명 이상 부동산 258,600천원 — 신생아 1명은 그 안쪽 '확인 필요', 넘으면 '불가'"); i += 1
     for dual_pct in [119, 121, 149, 151, 199, 201]:
         p = dict(pub_base)
         lim = amt(3, dual_pct)
@@ -249,19 +271,19 @@ def main() -> None:
     # ---------- 5) 공공 일반공급 60㎡ 이하 소득·자산 (인천계양 A6 2026000414) ----------
     i = 0
     for pct, dual, kv in [(100, False, "옛자녀"), (101, False, "옛자녀"), (140, True, "옛자녀"), (141, True, "옛자녀"), (200, True, "옛자녀"),
-                          (201, True, "옛자녀"), (109, False, "신생아1"), (111, False, "모름")]:
+                          (201, True, "옛자녀"), (109, False, "신생아1"), (111, False, "모름"),
+                          (111, False, "신생아1"), (121, False, "신생아1"), (119, False, "새2명"), (121, False, "새2명")]:
         p = dict(pub_base, **kidvars[kv])
-        y = (amt(3, pct) * 12) // 10000 if pct in (100, 140, 200) else (amt(3, pct - 1) * 12) // 10000 + 1
+        n3 = 1 + 1 + p["kidsOnDeed"]   # 본인·배우자·같은 등본 자녀 (공고문 가구원수 산정)
+        y = (amt(n3, pct) * 12) // 10000 if pct in (100, 140, 200) else (amt(n3, pct - 1) * 12) // 10000 + 1
         p.update(hhIncomeYear=y, income=(y // 2 if dual else y), spouseIncome=(y - y // 2 if dual else 0))
         mon = y * 10000 / 12
         cap, pri = (200, 140) if dual else (100, 100)
-        r = relax_add(p)
-        if mon <= amt(3, cap):
+        lo, hi = relax_range(p)
+        if mon <= amt(n3, cap) or (lo and mon <= amt(n3, cap + lo)):
             exp = "ok"
-        elif r == 0 or mon > amt(3, cap + 20):
+        elif mon > amt(n3, cap + hi):
             exp = "fail"
-        elif r and r >= 10 and mon <= amt(3, cap + 10):
-            exp = "ok"
         else:
             exp = "warn"
         add(id=f"pubgen-{i:02d}", fn="pubgen", listing="2026000414-059.8400A", profile=p, expect={"소득": exp},

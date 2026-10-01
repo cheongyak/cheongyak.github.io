@@ -901,9 +901,9 @@ function townItems(L, p){
     const cap = pl.cap[inc.dual ? 1 : 0], m = inc.monthly;
     const base = '월평균 ' + won(m) + (inc.est ? ' (본인+배우자 소득으로 추정)' : '') + ' · ' + n + '인 가구 기준 ' + Math.round(m / spBase(n) * 100) + '% · 상한 ' + cap + '%' + (inc.dual ? ' (맞벌이)' : '');
     if (m <= spAmt(n, cap)) out.push({ k:'소득 (신혼희망타운)', s:'ok', v:'충족', note: base });
-    else if (relax === 0 || m > spAmt(n, cap + 20)) out.push({ k:'소득 (신혼희망타운)', s:'fail', v:'기준 초과', note: base + (relax === 0 ? '' : ' · 출산가구 완화(+20%p)를 넣어도 초과') });
-    else if (relax === 1 && m <= spAmt(n, cap + 10)) out.push({ k:'소득 (신혼희망타운)', s:'ok', v:'충족 (출산가구 완화)', note: base + ' · 2023.3.28 이후 출생 자녀·태아로 +10%p 완화 적용. 공고문의 완화 기준과 증빙을 확인하세요' });
-    else out.push({ k:'소득 (신혼희망타운)', s:'warn', v:'출산가구 완화 확인 필요', cause:'A', note: base + ' · 2023.3.28 이후 출생 자녀(태아 포함)가 있으면 기준이 10%p(2명 이상이면 20%p) 완화돼요' });
+    else if (m > spAmt(n, cap + relaxRange(p)[1])) out.push({ k:'소득 (신혼희망타운)', s:'fail', v:'기준 초과', note: base + (relaxRange(p)[1] ? ' · 출산가구 완화(+20%p)를 적용해도 초과' : '') });
+    else if (relaxRange(p)[0] && m <= spAmt(n, cap + relaxRange(p)[0])) out.push({ k:'소득 (신혼희망타운)', s:'ok', v:'충족 (출산가구 완화)', note: base + ' · 2023.3.28 이후 출생 자녀·태아로 +' + relaxRange(p)[0] + '%p 완화 적용. 공고문의 완화 기준과 증빙을 확인하세요' });
+    else out.push({ k:'소득 (신혼희망타운)', s:'warn', v:'출산가구 완화 확인 필요', cause:'A', note: base + ' · ' + (relaxRange(p)[0] === 10 ? RELAX_UP_NOTE : '2023.3.28 이후 출생 자녀(태아 포함)가 있으면 기준이 10%p(2명 이상이면 20%p) 완화돼요') });
   }
   // 총자산 = 부동산 + 금융자산 + 기타자산(임차보증금 등) + 자동차 − 부채. 부채·보험 해약환급금 등은 묻지 않아 판정하지 않는다
   const lim = relax === 1 && pl.total_asset_relax ? pl.total_asset_relax[0] : pl.total_asset;
@@ -928,6 +928,7 @@ function pubGeneralItems(L, p){
   const out = [], born = p.youngestBirth && p.youngestBirth >= '2023-03-28';
   const relax = p.pregnant === true || born ? 1 : (p.kidsMinor === 0 && p.pregnant === false) ? 0 : (p.kidsMinor > 0 && p.youngestBirth && p.pregnant === false) ? 0 : null;   // 1: 완화 최소 +10%p 확실, 0: 해당 없음, null: 모름
   const relaxNote = '2023.3.28 이후 출생 자녀(태아 포함)가 있으면 기준이 10%p(2명 이상이면 20%p) 완화돼요';
+  const [rLo, rHi] = relaxRange(p), rNote = rLo === 10 ? RELAX_UP_NOTE : relaxNote;
   // 소득
   const hc = hhCount(L, p, 'general'), n = hc ? hc.n : p.hhSize, hasHh = p.hhIncomeYear != null && p.hhIncomeYear !== '';
   const inc = spIncome(p), known = hasHh || (p.income > 0) || (p.married && p.spouseIncome > 0);
@@ -937,9 +938,9 @@ function pubGeneralItems(L, p){
     const dual = inc.dual, cap = pl.cap[dual ? 1 : 0], pri = pl.priority ? pl.priority[dual ? 1 : 0] : null, m = inc.monthly;
     const base = '월평균 ' + won(m) + (inc.est ? ' (본인+배우자 소득으로 추정)' : '') + ' · ' + n + '인 가구 기준 ' + Math.round(m / spBase(n) * 100) + '% · 상한 ' + cap + '%' + (dual ? ' (맞벌이)' : '');
     if (m <= spAmt(n, cap)) out.push({ k:'소득 (공공 일반공급)', s:'ok', v: pri != null && m > spAmt(n, pri) ? '충족 · 추첨공급만' : '충족', note: base + (pri != null && m > spAmt(n, pri) ? ' · 우선공급 상한 ' + pri + '%를 넘어 3단계 추첨공급만 해당' : '') });
-    else if (relax === 0 || m > spAmt(n, cap + 20)) out.push({ k:'소득 (공공 일반공급)', s:'fail', v:'기준 초과', note: base + (relax === 0 ? '' : ' · 출산가구 완화(+20%p)를 넣어도 초과') });
-    else if (relax === 1 && m <= spAmt(n, cap + 10)) out.push({ k:'소득 (공공 일반공급)', s:'ok', v:'충족 (출산가구 완화)', note: base + ' · 2023.3.28 이후 출생 자녀·태아로 +10%p 완화 적용. 공고문의 완화 기준과 증빙을 확인하세요' });
-    else out.push({ k:'소득 (공공 일반공급)', s:'warn', v:'출산가구 완화 확인 필요', note: base + ' · 기준은 넘지만 ' + relaxNote + '. 해당하면 신청할 수 있어요' });
+    else if (m > spAmt(n, cap + rHi)) out.push({ k:'소득 (공공 일반공급)', s:'fail', v:'기준 초과', note: base + (rHi ? ' · 출산가구 완화(+20%p)를 적용해도 초과' : '') });
+    else if (rLo && m <= spAmt(n, cap + rLo)) out.push({ k:'소득 (공공 일반공급)', s:'ok', v:'충족 (출산가구 완화)', note: base + ' · 2023.3.28 이후 출생 자녀·태아로 +' + rLo + '%p 완화 적용. 공고문의 완화 기준과 증빙을 확인하세요' });
+    else out.push({ k:'소득 (공공 일반공급)', s:'warn', v:'출산가구 완화 확인 필요', note: base + ' · 기준은 넘지만 ' + rNote + '. 해당하면 신청할 수 있어요' });
   }
   // 자산 (부동산 + 자동차)
   const lim = (v, k) => Math.round(v * (1 + k / 100)), re = p.realEstate, car = p.carValue, miss = [];
@@ -949,13 +950,13 @@ function pubGeneralItems(L, p){
     const over = [], soft = [];
     [['부동산', re, pl.real_estate], ['자동차', car, pl.car]].forEach(([nm, v, b]) => {
       if (v <= b) return;
-      if (relax === 0 || v > lim(b, 20)) over.push(nm + ' ' + manW(v) + ' > ' + manW(b));
-      else if (relax === 1 && v <= lim(b, 10)) return;
+      if (v > lim(b, rHi)) over.push(nm + ' ' + manW(v) + ' > ' + manW(b));
+      else if (rLo && v <= lim(b, rLo)) return;
       else soft.push(nm + ' ' + manW(v) + ' > ' + manW(b));
     });
     const bNote = '부동산 ' + manW(re) + ' / ' + manW(pl.real_estate) + ' · 자동차 ' + manW(car) + ' / ' + manW(pl.car);
-    if (over.length) out.push({ k:'자산 (공공 일반공급)', s:'fail', v:'기준 초과', note: over.join(', ') + (relax === 0 ? '' : ' · 출산가구 완화(+20%p)를 넣어도 초과') });
-    else if (soft.length) out.push({ k:'자산 (공공 일반공급)', s:'warn', v:'출산가구 완화 확인 필요', note: soft.join(', ') + ' · ' + relaxNote });
+    if (over.length) out.push({ k:'자산 (공공 일반공급)', s:'fail', v:'기준 초과', note: over.join(', ') + (rHi ? ' · 출산가구 완화(+20%p)를 적용해도 초과' : '') });
+    else if (soft.length) out.push({ k:'자산 (공공 일반공급)', s:'warn', v:'출산가구 완화 확인 필요', note: soft.join(', ') + ' · ' + rNote });
     else out.push({ k:'자산 (공공 일반공급)', s:'ok', v: (re > pl.real_estate || car > pl.car) ? '충족 (출산가구 완화)' : '충족', note: bNote });
   }
   return out;
@@ -1752,6 +1753,11 @@ function birthRelax(p){   // 출산가구 완화 가산 %p: 10 · 20 · 0(해당
   if ((p.kidsMinor === 0 && p.pregnant === false) || (p.kidsMinor > 0 && p.youngestBirth && p.pregnant === false)) return { add:0 };
   return { add:null };
 }
+/* 출산가구 완화 폭의 범위 [확실한 최소, 가능한 최대] (%p). 공고문 「’23.3.28. 이후 출생한 자녀(태아 포함)가 1명만 있는 경우 10%p, 2명 이상(’23.3.28. 이후 출생한
+   자녀가 1명이고, ’23.3.27. 전 출생한 자녀가 있는 경우 포함)인 경우 20%p」(2026000409·414·438·820010). +10%p 로 확정된 사람도 그 전에 태어난 자녀가 있으면 +20%p 인데,
+   만 19세 이상 자녀는 묻지 않으므로(kidsMinor 는 미성년·태아) 최대는 20 으로 둔다 → 그 사이 구간은 '불가'가 아니라 '확인 필요' (2026-10-01 수정) */
+function relaxRange(p){ const a = birthRelax(p).add; return a == null ? [0, 20] : a === 0 ? [0, 0] : [a, 20]; }
+const RELAX_UP_NOTE = '2023.3.28 이후 출생 자녀가 1명이라 +10%p까지 확인됐어요. 그 전에 태어난 자녀(만 19세 이상 포함)가 더 있으면 +20%p 완화로 충족해요';
 function spJudge(L, p, type){
   const hh = hhCount(L, p, type);
   if (hh) p = Object.assign({}, p, { hhSize: hh.n });   // 공고문 기준으로 센 가구원수로 소득 기준 비교 (기능: hh_count)
@@ -1828,6 +1834,7 @@ function spJudge(L, p, type){
       stageNote = '월평균 ' + won(inc.monthly) + (inc.est ? ' (본인+배우자 소득으로 추정)' : '') + ' · ' + n + '인 가구 기준 ' + Math.round(pct) + '%' + (R.dual && inc.dual ? ' · 맞벌이' : '');
       const mx = pub && R.max ? R.max[inc.dual ? 1 : 0] : null;
       if (!stage && pub && BR && BR.add === null && inc.monthly <= spAmt(n, mx + 20)) warn.push('출산가구 완화 확인 필요 (2023.3.28 이후 출생 자녀·태아가 있으면 소득 기준 +10%p, 2명 이상 +20%p)');
+      else if (!stage && pub && BR && BR.add === 10 && inc.monthly <= spAmt(n, mx + 20)) warn.push('출산가구 완화 확인 필요 (' + RELAX_UP_NOTE + ')');
       else if (!stage && pub) fail.push('소득 기준 초과 (' + mx + '% 초과' + (addK ? ' · 출산가구 완화 +' + addK + '%p 적용해도' : '') + ')');
       else if (relaxUsed) ok.push('출산가구 완화 +' + addK + '%p 적용 (출생·임신 증빙 필요)');
     }
@@ -1836,8 +1843,8 @@ function spJudge(L, p, type){
     const assetNeeded = pub || (stage && stage[0] === '추첨');
     if (assetNeeded) {
       if (p.realEstate == null || p.realEstate === '') warn.push('부동산 자산 입력 필요');
-      else if (p.realEstate > assetLim) { if (BR && BR.add === null && p.realEstate <= 25860) warn.push('부동산 자산 기준 초과 · 출산가구 완화 확인 필요'); else { fail.push('부동산 자산 ' + (addK ? manW(assetLim) + ' (출산가구 완화 기준)' : (assetLim / 10000).toFixed(3).replace(/0+$/, '') + '억') + ' 초과'); stage = null; } }
-      if (pub && R.car) { if (p.carValue == null || p.carValue === '') warn.push('자동차가액 입력 필요'); else if (p.carValue > carLim) { if (BR && BR.add === null && p.carValue <= 5451) warn.push('자동차 기준 초과 · 출산가구 완화 확인 필요'); else { fail.push('자동차 ' + carLim.toLocaleString() + '만원 초과'); stage = null; } } }
+      else if (p.realEstate > assetLim) { if (BR && (BR.add === null || BR.add === 10) && p.realEstate <= 25860) warn.push('부동산 자산 기준 초과 · 출산가구 완화 확인 필요'); else { fail.push('부동산 자산 ' + (addK ? manW(assetLim) + ' (출산가구 완화 기준)' : (assetLim / 10000).toFixed(3).replace(/0+$/, '') + '억') + ' 초과'); stage = null; } }
+      if (pub && R.car) { if (p.carValue == null || p.carValue === '') warn.push('자동차가액 입력 필요'); else if (p.carValue > carLim) { if (BR && (BR.add === null || BR.add === 10) && p.carValue <= 5451) warn.push('자동차 기준 초과 · 출산가구 완화 확인 필요'); else { fail.push('자동차 ' + carLim.toLocaleString() + '만원 초과'); stage = null; } } }
     }
     if (!pub && type === 'first' && !p.married && !(kids > 0) && p.hhSize === 1 && stage) {   // 1인 가구: 추첨만, 전용 60㎡ 이하
       if ((L.area || 0) > 60) fail.push('1인 가구는 전용 60㎡ 이하만'); else stage = ['추첨 (1인 가구)', '추첨 물량'];
