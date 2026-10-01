@@ -7,7 +7,10 @@
 set -e
 cd "$(dirname "$0")/../.."
 feat=$1; row=$2; wf=$3; msg=$4; shift 4
-python -m pytest -q 2>&1 | tail -1
+PY=$(command -v python || command -v python3)
+LOG=$(mktemp)
+if ! "$PY" -m pytest -q >"$LOG" 2>&1; then tail -20 "$LOG"; echo "테스트 실패 또는 pytest 없음 — 올리지 않음 (pip install -r requirements.txt)"; exit 1; fi
+tail -1 "$LOG"
 python3 - "$feat" "$row" "$wf" <<'PY'
 import sys
 feat, row, wf = sys.argv[1:4]
