@@ -440,6 +440,8 @@ body.sheet-open{overflow:hidden}
 .fchip{display:inline-flex;align-items:center;gap:4px;height:32px;padding:0 10px;border-radius:16px;border:1px solid var(--fg);background:var(--surface);font-size:13px;font-weight:600;cursor:pointer}
 .fchip svg{width:14px;height:14px}
 .empty{align-items:center;text-align:center;padding:28px 16px}
+.dcta{position:fixed;left:0;right:0;bottom:calc(60px + env(safe-area-inset-bottom,0px));z-index:4;max-width:440px;margin:0 auto;padding:8px 16px 10px;background:linear-gradient(to bottom,transparent,var(--bg) 18%);display:flex;flex-direction:column;gap:6px;text-align:center}
+.dcta-row{display:flex;gap:8px} .dcta-row .btn{min-height:50px;width:auto;flex:1} .dcta-row .dcta-main{flex:2;background:var(--lotto);color:var(--on-fill)} body.has-cta .shell{padding-bottom:190px} body.chat-open .dcta{display:none}
 .topf .qf{flex-wrap:nowrap;overflow-x:auto;scrollbar-width:none;margin:0;-webkit-mask-image:linear-gradient(90deg,#000 88%,transparent);mask-image:linear-gradient(90deg,#000 88%,transparent)} .topf .qf>*:last-child{margin-right:24px} .topf .qf::-webkit-scrollbar{display:none} .topf .qf>*{flex:none}
 body.tab6 .tabbar button{font-size:12px;white-space:nowrap;letter-spacing:-.2px;padding:0 2px}
 .topf{display:flex;flex-direction:column;gap:8px;margin:0 0 12px} .topf .chips{margin:0} .topf .fpanel{margin-top:2px}
@@ -3011,7 +3013,14 @@ function vDetail(){
     ${reportLink(L)}
   </div>
   ${adSlot('detail')}
-  <p class="foot">판정은 참고용이며 모집공고문과 관계 법령이 우선해요. 시세는 최근 거래·호가 기준 추정치예요.${aboutLink()}</p>`;
+  <p class="foot">판정은 참고용이며 모집공고문과 관계 법령이 우선해요. 시세는 최근 거래·호가 기준 추정치예요.${aboutLink()}</p>${detailCta(L)}`;
+}
+/* 공고 상세 하단 고정 버튼 (기능: detail_cta, 2026-10-01 사용자 요청 — 다른 앱의 '네이버 매물 보러가기'처럼). 신청은 청약홈에서 하므로 청약홈 공고·모집공고문을 늘 손 닿는 곳에 */
+function detailCta(L){
+  if (!on('detail_cta') || L.sample) return '';
+  const home = L.sources && L.sources[0] ? L.sources[0][1] : SRC.applyhome[1];
+  return `<div class="dcta" role="region" aria-label="공고 바로가기"><span class="small muted">신청은 청약홈에서 해요 · 신청 전 모집공고문을 꼭 확인하세요</span>
+    <div class="dcta-row">${L.noticePdf ? `<a class="btn ghost" href="${esc(L.noticePdf)}" target="_blank" rel="noopener" data-ev="cta-pdf">모집공고문</a>` : ''}<a class="btn dcta-main" href="${esc(home)}" target="_blank" rel="noopener" data-ev="cta-applyhome">청약홈 공고 보기 ↗</a></div></div>`;
 }
 
 function vPlan(){
@@ -4362,6 +4371,7 @@ const app = document.getElementById('app'), tabbar = document.getElementById('ta
 const VIEWS = { feed:vFeed, detail:vDetail, plan:vPlan, grades:vGrades, me:vMe, onboard:vOnboard, alerts:vAlerts, about:vAbout, compare:vCompare, trend:vTrend, story:vStory, terms:vTerms, privacy:vPrivacy, updates:vUpdates };
 let lastView = null;
 function render(){
+  document.body.classList.toggle('has-cta', on('detail_cta') && S.view === 'detail');   // 기능: detail_cta — 아래 고정 버튼만큼 여백
   if (CHAT && (S.view !== 'detail' || S.id !== CHAT.lid)) chatClose();   // 기능: chatbot — 다른 화면으로 가면 대화창을 닫는다 (대화는 저장하지 않음)
   document.body.classList.toggle('gname-v2', on('grade_skip'));
   document.body.classList.toggle('tt', on('tap_targets'));
