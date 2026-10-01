@@ -1,7 +1,7 @@
 // 사용량 제한: 사람마다 하루 2건, 같은 인터넷 주소(IP) 하루 6건, 사이트 전체 하루 상한.
 // 되물음에 답한 것은 같은 1건으로 센다(대화에 '되물음 대기' 표시를 남겨 확인).
 // Cloudflare KV 는 바로바로 맞춰지지 않아 몇 건 넘칠 수 있다. 비용 상한은 Anthropic 콘솔 월 한도가 최종 장치.
-export const LIMITS = { perUser: 2, perIp: 6, global: 100, freeFollowUps: 2 };   // 되물음 답은 질문 1건당 2번까지만 세지 않는다
+export const LIMITS = { perUser: 2, perIp: 3, global: 100, freeFollowUps: 2 };   // 꼼수 방지: 기기 번호(지우면 새로 생김)와 별도로 같은 인터넷 주소는 하루 3번까지 (집·회사 와이파이를 함께 쓰는 경우 여유 1)   // 되물음 답은 질문 1건당 2번까지만 세지 않는다
 
 const today = () => new Date(Date.now() + 9 * 3600e3).toISOString().slice(0, 10);   // 한국 날짜
 const DAY = 60 * 60 * 26;

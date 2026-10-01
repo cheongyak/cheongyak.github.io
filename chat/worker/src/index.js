@@ -29,6 +29,14 @@ async function evidenceIndex(env, fetchImpl, listingId) {
   return m;
 }
 
+// 이번 달 추정 사용액 (Haiku 4.5: 입력 $1 · 출력 $5 / 100만 토큰). KV 'mspend:YYYY-MM' 에 달러로 쌓는다
+const MONTH = () => new Date(Date.now() + 9 * 3600e3).toISOString().slice(0, 7);
+export const monthCap = env => +(env.CHAT_MONTH_USD || 18);
+export async function monthSpent(kv) { return kv ? +((await kv.get('mspend:' + MONTH())) || 0) : 0; }
+async function addMonthSpent(kv, attempts) {
+  const usd = attempts.reduce((n, a) => n + (a.usage ? (a.usage.input_tokens || 0) / 1e6 + (a.usage.output_tokens || 0) * 5 / 1e6 : 0), 0);
+  if (kv && usd) await kv.put('mspend:' + MONTH(), String((await monthSpent(kv)) + usd), { expirationTtl: 40 * 86400 });
+}
 function badRequest(msg) { return { status: 400, body: { error: msg } }; }
 
 // 테스트에서도 그대로 부르는 본체. deps 로 fetch·KV·근거 색인을 바꿔 끼울 수 있다.
@@ -40,8 +48,21 @@ export async function handleChat(env, input, deps = {}) {
   if (typeof question !== 'string' || !question.trim() || question.length > 500) return badRequest('질문은 1~500자');
   if (!engine || !VERDICTS.includes(engine.verdict) || !engine.listing || !Array.isArray(engine.items)) return badRequest('engine 결과 형식 오류');
   if (typeof anon_id !== 'string' || anon_id.length < 8) return badRequest('anon_id 필요');
-  // 공개 전(CHAT_OPEN 이 '1' 이 아님)에는 미리보기 코드를 아는 운영자만
-  if (env.CHAT_OPEN !== '1' && !(env.CHAT_PREVIEW_CODE && input.preview === env.CHAT_PREVIEW_CODE)) return { status: 403, body: { closed: true, message: '아직 준비 중인 기능이에요.' } };
+  const isOp = !!(env.CHAT_PREVIEW_CODE && input.preview === env.CHAT_PREVIEW_CODE);
+  const mode = kv ? await kv.get('mode') : null;   // 'maint' | 'open' | null — 운영자가 '!점검'·'!오픈'으로 바꾼다
+  // 운영자 명령 (미리보기 코드가 맞을 때만): !점검 = 점검 모드(모두에게 멈춤), !오픈 = 다시 켜기(공개 열기). 질문 횟수에 세지 않는다
+  const cmd = question.trim();
+  if (isOp && (cmd === '!점검' || cmd === '!오픈' || cmd === '!상태')) {
+    if (cmd === '!점검') await kv.put('mode', 'maint');
+    if (cmd === '!오픈') await kv.put('mode', 'open');
+    const now = cmd === '!점검' ? 'maint' : cmd === '!오픈' ? 'open' : mode;
+    const spent = await monthSpent(kv);
+    return { status: 200, body: { kind: 'admin', mode: now || 'preview', message: (now === 'maint' ? '점검 모드로 바꿨어요. 모든 이용자에게 \'점검 중\'으로 보여요. 다시 켜려면 !오픈' : now === 'open' ? '청약봇을 켰어요. 공개 기간이면 모든 이용자가 쓸 수 있어요. 멈추려면 !점검' : '지금은 미리보기(운영자만)예요.')
+      + ` · 이번 달 추정 사용액 $${spent.toFixed(2)} / 서버 한도 $${monthCap(env)}` } };
+  }
+  if (mode === 'maint') return { status: 503, body: { maint: true, message: '지금은 청약봇 점검 중이에요. 잠시 뒤 다시 이용해 주세요.' } };
+  // 공개 전(CHAT_OPEN 이 '1' 도 아니고 !오픈 도 안 함)에는 미리보기 코드를 아는 운영자만
+  if (env.CHAT_OPEN !== '1' && mode !== 'open' && !isOp) return { status: 403, body: { closed: true, message: '아직 준비 중인 기능이에요.' } };
 
   const lim = await checkLimit(kv, { anonId: anon_id, ip: ip || '', conversationId: conversation_id, salt: env.CHAT_STATS_TOKEN || '' });
   if (!lim.ok) { await bump(kv, { ['limited_' + lim.reason]: true }); return { status: 429, body: { limited: lim.reason, message: LIMIT_TEXT[lim.reason] } }; }
@@ -63,7 +84,8 @@ export async function handleChat(env, input, deps = {}) {
 
   let answer = null, attempts = [];
   const apiKey = env.ANTHROPIC_API_KEY;
-  if (apiKey || deps.llm) {
+  const overBudget = (await monthSpent(kv)) >= monthCap(env);   // 이번 달 추정 사용액이 서버 한도에 닿으면 AI 없이 고정 문구로만 (콘솔 월 한도 앞의 안전장치)
+  if ((apiKey || deps.llm) && !overBudget) {
     let user = buildUserMessage({ question: q.text, intent, engine, evidence, history: hist });
     for (let i = 0; i < 2 && !answer; i++) {
       try {
@@ -84,7 +106,8 @@ export async function handleChat(env, input, deps = {}) {
 
   const used = new Set([...(answer.why || []), ...(answer.official || [])].flatMap(x => x.refs || []));
   const sources = evidence.filter(e => used.has(e.id)).map(e => ({ id: e.id, kind: e.kind, title: e.title, url: e.kind === 'notice' ? e.url : engine.listing.link, quote: e.text.slice(0, 200) }));
-  await bump(kv, { q: true, follow_up: lim.followUp, intent, verdict: engine.verdict, pii: q.found.length > 0, ai_calls: attempts.filter(a => a.usage || a.ok || a.flags.length).length,
+  await addMonthSpent(kv, attempts);
+  await bump(kv, { over_budget: overBudget, q: true, follow_up: lim.followUp, intent, verdict: engine.verdict, pii: q.found.length > 0, ai_calls: attempts.filter(a => a.usage || a.ok || a.flags.length).length,
     rejected: attempts.filter(a => !a.ok).length, fallback: usedFallback,
     in_tokens: attempts.reduce((n, a) => n + ((a.usage && a.usage.input_tokens) || 0), 0), out_tokens: attempts.reduce((n, a) => n + ((a.usage && a.usage.output_tokens) || 0), 0) });
   Object.assign(log, { attempts: attempts.map(a => ({ ok: a.ok, flags: a.flags.length })), fallback: usedFallback, ms: Date.now() - t0 });
@@ -122,7 +145,8 @@ export default {
       if (!ok) return new Response('unauthorized', { status: 401 });
       return new Response(JSON.stringify(await readStats(env.CHAT_KV, 7)), { headers: { 'content-type': 'application/json; charset=utf-8' } });
     }
-    if (request.method === 'GET' && path === '/health') return new Response(JSON.stringify({ ok: true, open: env.CHAT_OPEN === '1', model: MODEL, prompt: PROMPT_VERSION, key: !!env.ANTHROPIC_API_KEY }), { headers: { 'content-type': 'application/json' } });
+    if (request.method === 'GET' && path === '/health') { const mode = env.CHAT_KV ? await env.CHAT_KV.get('mode') : null;
+      return new Response(JSON.stringify({ ok: true, open: env.CHAT_OPEN === '1' || mode === 'open', maint: mode === 'maint', model: MODEL, prompt: PROMPT_VERSION, key: !!env.ANTHROPIC_API_KEY }), { headers: { 'content-type': 'application/json', 'access-control-allow-origin': '*', 'cache-control': 'max-age=60' } }); }
     const origin = request.headers.get('origin') || '';
     const h = cors(env, origin);
     if (!h) return new Response('forbidden', { status: 403 });

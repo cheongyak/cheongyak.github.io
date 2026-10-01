@@ -3288,7 +3288,12 @@ try { const q = new URLSearchParams(location.search).get('push'); if (q === 'pre
 const pushPreview = () => { try { return !!CONFIG.push_preview && !on('web_push') && localStorage.getItem('cy-push-preview') === '1'; } catch(e) { return false; } };
 const pushOn = () => LEGAL_AS || (!!CONFIG.push_api && (on('web_push') || pushPreview()));
 /* 청약봇 '이 공고 물어보기' (기능: chatbot) — 방침·약관 문구는 이 값이 참일 때만 들어간다 */
-const chatOn = () => LEGAL_AS || (!!CONFIG.chat_api && (on('chatbot') || chatPreview()));
+/* 서버 상태 (운영자 '!오픈'·'!점검'): 방침 시행일(chat_legal_date)이 지났고 서버가 열려 있으면 스위치와 상관없이 켠다. 점검 중이면 이용자에게는 버튼을 숨긴다 */
+let CHAT_HEALTH = null;
+function chatHealthLoad(){ if (CHAT_HEALTH !== null || !CONFIG.chat_api) return; CHAT_HEALTH = false;
+  fetch(CONFIG.chat_api.replace(/\/$/, '') + '/health', { cache: 'no-store' }).then(r => r.ok ? r.json() : null).then(j => { const was = chatOn(); CHAT_HEALTH = j || false; if (chatOn() !== was) render(); }).catch(() => {}); }
+const chatServerOpen = () => !!(CHAT_HEALTH && CHAT_HEALTH.open && !CHAT_HEALTH.maint && CONFIG.chat_legal_date && TODAY >= CONFIG.chat_legal_date);
+const chatOn = () => LEGAL_AS || (!!CONFIG.chat_api && (((on('chatbot') || chatServerOpen()) && !(CHAT_HEALTH && CHAT_HEALTH.maint)) || chatPreview()));
 /* ---------- 청약봇 '이 공고 물어보기' (기능: chatbot, 2026-10-01) ----------
    판정은 하지 않는다. 지금 화면의 판정 함수(cpExplain·myScore·grade·itemBasis)를 읽기만 해서 그 결과와 질문을 청약봇 서버(chat/worker, Cloudflare Workers)로 보내고,
    서버가 공고문 근거를 붙여 Claude 에게 설명만 맡긴 뒤 검사기(판정 불일치·지어낸 숫자·금지 표현·근거 없는 규정)를 통과한 답만 받는다.
@@ -3317,6 +3322,7 @@ function chatEnginePayload(L, p){
     score: { total: s.total, parts: (s.parts || []).map(v => v.v), miss: s.miss || [] }, grade: { lo: r2(g.lo), hi: r2(g.hi) } };
 }
 function chatEntry(L){
+  chatHealthLoad();
   if (!chatOn() || LEGAL_AS || L.sample || !hasProfile()) return '';
   return `<button class="chatentry" data-chat="open"><span class="chatico" aria-hidden="true">💬</span><span><b>이 공고 물어보기</b><span class="small muted">내 판정 결과를 바탕으로 AI가 설명해 드려요 · 베타${chatPreview() ? ' · 미리보기' : ''}</span></span><span class="chatgo" aria-hidden="true">›</span></button>`;
 }
@@ -3383,7 +3389,9 @@ async function chatSend(q0){
       body: JSON.stringify({ question: r.text, engine, anon_id: chatId(), conversation_id: CHAT.cid, history, preview: chatPreview() ? chatCode() : undefined }) });
     res = await resp.json().catch(() => ({}));
     if (!CHAT) return;
-    if (resp.status === 403 && res.closed) { try { localStorage.removeItem('cy-chat-code'); } catch(e) {} CHAT.msgs.push({ role: 'bot', text: chatPreview() ? '미리보기 코드가 맞지 않아요. 창을 닫고 다시 열어 코드를 넣어 주세요.' : res.message || '아직 준비 중인 기능이에요.' }); }
+    if (res.kind === 'admin') CHAT.msgs.push({ role: 'bot', text: '운영자 명령 · ' + res.message });   // !점검·!오픈·!상태
+    else if (resp.status === 503 && res.maint) CHAT.msgs.push({ role: 'bot', text: res.message });
+    else if (resp.status === 403 && res.closed) { try { localStorage.removeItem('cy-chat-code'); } catch(e) {} CHAT.msgs.push({ role: 'bot', text: chatPreview() ? '미리보기 코드가 맞지 않아요. 창을 닫고 다시 열어 코드를 넣어 주세요.' : res.message || '아직 준비 중인 기능이에요.' }); }
     else if (resp.status === 429) { CHAT.msgs.push({ role: 'bot', text: res.message || '오늘 질문을 모두 쓰셨어요.' }); CHAT.remaining = 0; }
     else if (!resp.ok) CHAT.msgs.push({ role: 'bot', text: '지금은 답을 만들 수 없어요. 잠시 뒤 다시 해 주세요.' });
     else if (res.kind === 'out_of_scope') CHAT.msgs.push({ role: 'bot', text: res.message });

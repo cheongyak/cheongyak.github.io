@@ -189,3 +189,37 @@ test('답이 계속 되물어도 공짜 되물음은 질문 1건당 2번까지',
   const r5 = await handleChat(OPEN, input('ask-1', { ...base, conversation_id: 'conv-new' }), { kv, evidence: index, llm });
   assert.equal(r5.status, 429);
 });
+
+// ── 운영 명령·월 사용액 한도·꼼수 방지 (2026-10-02) ──
+test('!점검·!오픈: 미리보기 코드가 맞는 운영자만, 횟수에 안 셈', async () => {
+  const kv = new MemKV(), env = { CHAT_PREVIEW_CODE: 'op-code-123' };
+  const nope = await handleChat(env, input('kakao-mom-1', { question: '!점검' }), { kv, evidence: index });
+  assert.equal(nope.status, 403); assert.equal(kv.m.get('mode'), undefined, '코드 없으면 명령 안 됨');
+  const m = await handleChat(env, input('kakao-mom-1', { question: '!점검', preview: 'op-code-123' }), { kv, evidence: index });
+  assert.equal(m.body.kind, 'admin'); assert.equal(kv.m.get('mode'), 'maint');
+  const blocked = await handleChat({ ...env, CHAT_OPEN: '1' }, input('kakao-mom-1', { anon_id: 'someone-1234' }), { kv, evidence: index });
+  assert.equal(blocked.status, 503); assert.equal(blocked.body.maint, true);
+  const op = await handleChat(env, input('kakao-mom-1', { preview: 'op-code-123', conversation_id: 'c-op' }), { kv, evidence: index });
+  assert.equal(op.status, 503, '점검 중엔 운영자 질문도 멈춤');
+  await handleChat(env, input('kakao-mom-1', { question: '!오픈', preview: 'op-code-123' }), { kv, evidence: index });
+  assert.equal(kv.m.get('mode'), 'open');
+  const pub = await handleChat(env, input('kakao-mom-1', { anon_id: 'someone-1234', ip: '7.7.7.7' }), { kv, evidence: index });
+  assert.equal(pub.status, 200, '!오픈 뒤에는 미리보기 코드 없이도 답함');
+  assert.ok(![...kv.m.keys()].some(k => k.startsWith('u:') && false));
+});
+
+test('같은 인터넷 주소는 기기 번호를 바꿔도 하루 3번까지', async () => {
+  const kv = new MemKV(); let ok = 0;
+  for (let i = 0; i < 5; i++) { const r = await handleChat(OPEN, input('kakao-mom-1', { anon_id: 'device-' + i + '-xxxx', conversation_id: 'cv' + i }), { kv, evidence: index }); if (r.status === 200) ok++; }
+  assert.equal(ok, 3);
+});
+
+test('이번 달 추정 사용액이 서버 한도에 닿으면 AI 없이 답함', async () => {
+  const kv = new MemKV(); const month = new Date(Date.now() + 9 * 3600e3).toISOString().slice(0, 7);
+  let called = 0; const llm = async () => { called++; return { text: GOOD['kakao-mom-1'], usage: { input_tokens: 7000, output_tokens: 600 } }; };
+  const r1 = await handleChat({ ...OPEN, CHAT_MONTH_USD: '18' }, input('kakao-mom-1', { conversation_id: 'a1' }), { kv, evidence: index, llm });
+  assert.equal(called, 1); assert.ok(+kv.m.get('mspend:' + month) > 0.009);
+  await kv.put('mspend:' + month, '18.01');
+  const r2 = await handleChat({ ...OPEN, CHAT_MONTH_USD: '18' }, input('kakao-mom-1', { conversation_id: 'a2' }), { kv, evidence: index, llm });
+  assert.equal(called, 1, '한도 넘으면 AI 를 부르지 않음'); assert.equal(r2.body.fallback, true); assert.equal(r2.body.verdict, '불가');
+});

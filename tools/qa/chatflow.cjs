@@ -124,6 +124,17 @@ class MemKV { constructor() { this.m = new Map(); } async get(k) { return this.m
     await p.goto('http://j.local/?chat=off', { waitUntil: 'networkidle' }); await p.waitForTimeout(300); await p.evaluate(id => { S.id = id; go('detail'); }, id);
     t('미리보기 해제(?chat=off)', !(await p.$('[data-chat="open"]')));
     t('미리보기 화면 오류 0', !errs.length, errs[0]); await p.close(); }
+  // 6) 운영자 명령: 미리보기 코드로 !점검 → 점검 안내, !오픈 → 다시 답함 (2026-10-02)
+  { const s6 = mkServer({ CHAT_PREVIEW_CODE: 'code-abc-123' }); const { p, errs } = await page({ top: { chat_api: 'https://chat.local' }, query: '?chat=preview' }, s6.fn);
+    await setProfile(p, PROFS[0]); const id = await p.evaluate(() => LISTINGS.filter(x => !x.sample)[0].id);
+    await p.evaluate(id => { localStorage.setItem('cy-chat-code', 'code-abc-123'); localStorage.setItem('cy-chat-consent', CONFIG.chat_legal_date || 'preview'); S.id = id; go('detail'); }, id);
+    await p.click('[data-chat="open"]');
+    const ask = async q => { await p.fill('#chatq', q); await p.click('.chatform button'); await p.waitForFunction(() => CHAT && !CHAT.busy, null, { timeout: 8000 }); return p.evaluate(() => CHAT.msgs[CHAT.msgs.length - 1].text || (CHAT.msgs[CHAT.msgs.length - 1].ans ? 'ANSWER' : '')); };
+    t('!점검 → 운영자 명령 안내', /운영자 명령 · 점검 모드/.test(await ask('!점검')));
+    t('점검 중 질문 → 점검 안내', /점검 중/.test(await ask('접수 일정 알려줘')));
+    t('!오픈 → 켰어요', /켰어요/.test(await ask('!오픈')));
+    t('!오픈 뒤 답함', (await ask('왜 이 판정이 나왔어?')) === 'ANSWER');
+    t('운영 명령 화면 오류 0', !errs.length, errs[0]); await p.close(); }
   await b.close();
   const total = Object.values(tally).reduce((a, [o, f]) => a + o + f, 0), bad = Object.values(tally).reduce((a, [, f]) => a + f, 0);
   console.log(`[청약봇 화면 검사] ${total - bad}/${total} 통과`); for (const [k, [o, f]] of Object.entries(tally)) console.log(`  ${f ? '✗' : '✓'} ${k}: ${o}/${o + f}`);
