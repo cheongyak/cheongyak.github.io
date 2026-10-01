@@ -87,6 +87,9 @@ a{color:var(--link)}
 .beta{display:inline-block;vertical-align:middle;margin-left:6px;padding:1px 7px;border-radius:999px;font-size:11px;font-weight:700;letter-spacing:0;background:var(--warn-soft);color:var(--warn-ink);border:1px solid currentColor}
 .betabar{display:flex;gap:8px;align-items:flex-start;margin:0 0 10px;padding:10px 12px;border-radius:12px;background:var(--warn-soft);color:var(--warn-ink);font-size:13px;line-height:1.5;border:1px solid color-mix(in srgb, var(--warn-ink) 30%, transparent)}
 .betabar>b{flex:none;white-space:nowrap} .betabar .linkbtn{min-height:0;padding:0}
+.ws-concl{font-size:16px;font-weight:600;line-height:1.45;margin:2px 0 4px} .ws-bul{margin:0 0 4px;padding-left:18px;font-size:13px;line-height:1.5} .ws-bul li{margin:1px 0}
+.ws-more{margin-top:6px;font-size:13px} .ws-more>summary{cursor:pointer;color:var(--link);font-weight:600} .ws-more h4{margin:10px 0 2px;font-size:13px} .ws-more ul{margin:2px 0;padding-left:18px;line-height:1.5}
+.ws-tbl{width:100%;border-collapse:collapse;margin-top:6px;font-size:12.5px} .ws-tbl th,.ws-tbl td{padding:5px 4px;border-bottom:1px solid var(--line);text-align:left;white-space:nowrap} .ws-tbl thead th{color:var(--muted);font-weight:600}
 .ws-sub{grid-column:1} .ws-tips{grid-column:1/-1;margin-top:2px} .ws-tips summary{cursor:pointer;color:var(--link)}
 .cutbar{position:relative;height:14px;margin:6px 0;border-radius:7px;background:var(--sunk)}
 .cutbar .rng{position:absolute;top:3px;height:8px;border-radius:4px;background:var(--consider-soft);box-shadow:inset 0 0 0 1px var(--consider)}
@@ -1092,7 +1095,7 @@ function compCard(L){
     u.competition.rows.map(r => `${r.rank ? esc(r.rank) + '순위' : '순위 정보 없음'}${r.reside ? ' ' + esc(r.reside) : ''} · 공급 ${n0(r.supply)} · 접수 ${n0(r.req)} · <b>${esc(rateText(r))}</b>`).join('<br>')}${
     (u.competition.scores || []).map(x => x.low == null && x.top == null && x.avg == null ? `<br>당첨가점 ${esc(x.reside)}: 발표된 기록 없음` : `<br>당첨가점 ${esc(x.reside)} 최저 ${n0(x.low)} · 최고 ${n0(x.top)} · 평균 ${x.avg == null ? '-' : Math.round(x.avg * 10) / 10}`).join('')}</span></div>`).join('');
   return `<section class="card"><h2>경쟁률·당첨 가점</h2>
-    <table class="ctable"><thead><tr><th>주택형</th><th>공급</th><th>접수</th><th>경쟁률</th><th>가점 최저/평균</th></tr></thead><tbody>${rows}</tbody></table>
+    <table class="ctable"><thead><tr><th>주택형</th><th>공급</th><th>접수</th><th>경쟁률</th><th>가점 최저/평균</th></tr></thead><tbody>${rows}</tbody></table></div>
     <div class="small muted">1순위 해당지역 기준이에요 (없으면 다른 순위·지역). 굵은 줄이 지금 보는 주택형이에요. ${cmpetSrc(L)}</div>
     <details class="more"><summary>순위·지역별 전체 보기</summary><div class="rows">${all}</div></details>
   </section>`;
@@ -2964,6 +2967,29 @@ function wsRecV2(L, p, xs, types){
     + (oks.some(x => x.plan.steps.length > 1) ? '<div class="small" style="margin-top:4px">단계: 특별공급은 <b>한 번만 신청</b>해요. 소득 기준에 맞는 첫 단계부터 경쟁하고, 떨어지면 다음 단계로 <b>자동으로</b> 넘어가 다시 경쟁해요 (따로 신청하지 않아요).</div>' : '')
     + (reg ? `<div class="small muted" style="margin-top:4px">지역: ${esc(reg.text)}.</div>` : '')
     + `<div class="small muted" style="margin-top:4px">특별공급은 한 가지만 신청할 수 있어요. ${on('sp_competition') ? foot : '유형별 신청자 수(경쟁률)는 아직 모르기 때문에 당첨 확률은 비교하지 않았어요.'} · 공고문 선정 방식·배정 비율 기준 추정.</div>`;
+  if (on('ws_compact')) {   // 결론 한 줄 + 핵심 2~3개, 나머지는 '자세히' 안에 표·목록으로 (기능: ws_compact)
+    const B = x => `<b>${esc(SP_NAME[x.r.type])}</b>`;
+    const allLt = oks.every(x => /lottery/.test(x.plan.kind));
+    let short;
+    if (oks.length === 1) short = `${B(oks[0])}만 신청할 수 있어요`;
+    else if (sc.length && lt.length) short = `점수에 자신 있으면 ${B(sc[0])}, 아니면 추첨인 ${B(lt[0])}`;
+    else if (rated.length >= 2) short = (allLt ? '모두 추첨이라 점수와 상관없어요 · ' : '') + `경쟁률이 가장 낮았던 ${B(rated[0].x)} (${rateTxt(rated[0].sr.rate)})`;
+    else { const b = oks.slice().sort(byReach)[0]; short = (allLt ? '모두 추첨이라 점수와 상관없어요 · ' : '') + `물량이 가장 많은 ${B(b)}${b.plan.reach != null ? ' (약 ' + b.plan.reach + '세대)' : ''}`; }
+    const bul = [];
+    if (sc.length && lt.length && rateHead) bul.push(rateHead.replace(/<[^>]+>/g, ''));
+    if (reg) bul.push(reg.text);
+    const r2 = oks.find(x => x.plan.rank === 2); if (r2) bul.push(SP_NAME[r2.r.type] + '는 자녀가 없어 2순위예요 (자녀 있는 신혼부부가 먼저)');
+    bul.push(anyRate ? (rated.every(o => o.sr.own) ? '경쟁률: 이 공고 특별공급 접수 결과' : '경쟁률: 같은 시·군·구 지난 공고 참고') : pubNo ? 'LH 공고라 유형별 경쟁률 자료가 없어요' : '유형별 경쟁률 자료가 없어요');
+    const rows = oks.slice().sort(byReach).map(x => { const P = x.plan, sr = spRate(L, x.r.type);
+      return `<tr><th scope="row">${esc(SP_NAME[x.r.type])}</th><td>${esc(SP_KIND[P.kind])}</td><td>${P.reach != null ? '약 ' + P.reach : '-'}</td><td>${x.score != null && isScore(P.kind) ? esc(String(x.score)) + '/' + x.max : '-'}</td><td>${sr ? rateTxt(sr.rate) : '-'}</td></tr>`; }).join('');
+    const flows = oks.slice().sort(byReach).filter(x => x.plan.steps.length).map(x => `<li><b>${esc(SP_NAME[x.r.type])}</b> ${esc(x.plan.steps.map(s => (x.plan.steps.length > 1 || s.name !== '전체' ? s.n + '단계 ' : '') + SP_KIND[s.kind] + (s.units != null ? ' ' + s.units + '세대' : '')).join(' → '))}</li>`).join('');
+    const more = `<details class="ws-more"><summary>자세히 보기</summary>
+      <div style="overflow-x:auto"><table class="ws-tbl"><thead><tr><th>유형</th><th>뽑는 방식</th><th>노릴 몫</th><th>내 점수</th><th>경쟁률</th></tr></thead><tbody>${rows}</tbody></table></div>
+      <h4>단계별 물량</h4><ul>${flows}<li>특별공급은 <b>한 번만 신청</b>해요. 첫 단계에서 떨어지면 다음 단계로 <b>자동으로</b> 넘어가 다시 경쟁해요.</li></ul>
+      <h4>알아둘 것</h4><ul><li>특별공급은 한 가지만 신청할 수 있어요.</li><!--WS_MORE--></ul>
+      <p class="small muted">${on('sp_competition') ? foot : '유형별 신청자 수(경쟁률)는 아직 모르기 때문에 당첨 확률은 비교하지 않았어요.'} · 공고문 선정 방식·배정 비율 기준 추정.</p></details>`;
+    return { oks, rec: `<div class="ws-concl">${short}</div><ul class="ws-bul">${bul.map(t => `<li>${esc(t)}</li>`).join('')}</ul>${more}` };
+  }
   return { rec, oks };
 }
 function wsCard(L, p){
@@ -2981,7 +3007,7 @@ function wsCard(L, p){
   const spRows = xs.slice().sort((a, b) => order[a.r.s] - order[b.r.s]).map(x => { const [pl, pc] = PILL[x.r.s], hp = spHeadPlain(L, p, x.r);
     return `<div class="ws-row ${x.r.s === 'fail' ? 'dim' : ''}"><div class="ws-k"><b>${SP_NAME[x.r.type]}</b><span class="pill ${pc}">${pl}</span></div>
       <div class="ws-v">${x.r.s === 'fail' ? '' : x.max ? big(x.score, x.max) : `<span class="ws-num sm">${esc(x.method)}</span>`}</div>
-      <div class="ws-sub small ${x.r.s === 'ok' ? '' : 'st-' + x.r.s}">${esc(hp.t)}${x.r.s !== 'fail' && on('ws_reco_v2') ? (P => P.reach != null ? ` <span class="muted">· 노릴 수 있는 몫 약 ${P.reach}세대${P.u && P.reach !== P.u ? ' (전체 ' + P.u + ')' : ''}</span>` : '')(wsPlan(L, p, x.r))
+      <div class="ws-sub small ${x.r.s === 'ok' ? '' : 'st-' + x.r.s}">${esc(hp.t)}${x.r.s !== 'fail' && on('ws_reco_v2') && on('ws_compact') ? '' : x.r.s !== 'fail' && on('ws_reco_v2') ? (P => P.reach != null ? ` <span class="muted">· 노릴 수 있는 몫 약 ${P.reach}세대${P.u && P.reach !== P.u ? ' (전체 ' + P.u + ')' : ''}</span>` : '')(wsPlan(L, p, x.r))
         : x.r.s !== 'fail' && x.mine ? ` <span class="muted">· 내 몫 약 ${x.mine}세대${x.u && x.mine !== x.u ? ' (전체 ' + x.u + ')' : ''}</span>` : ''}</div>${x.r.s !== 'fail' && x.max && x.max <= 100 && (x.r.type !== 'elder') ? scoreTipsHtml(L, p, x.r.type, x.r.pub) : ''}</div>`; }).join('');
   // 추천
   const oks = xs.filter(x => x.r.s === 'ok').sort((a, b) => a.tier - b.tier || (b.mine || 0) - (a.mine || 0));
@@ -3004,7 +3030,8 @@ function wsCard(L, p){
     const g = !canGen ? '일반공급은 신청할 수 없어요.' : gap != null && gap >= 0 ? `일반공급 가점도 최근 당첨 최저점보다 ${gap}점 높거나 같아요.`
       : gap != null ? `일반공급은 가점이 최근 당첨 최저점보다 ${-gap}점 낮아 가점만으로는 어려워요. 추첨 물량이 있는지 공고문을 확인하세요.` : (v2 ? v2.oks : oks).length ? '' : '일반공급은 신청할 수 있어요.';
     const dup = (v2 ? v2.oks : oks).length && canGen ? '특별공급 1개와 일반공급 1개는 함께 신청할 수 있어요. 특별공급에 당첨되면 일반공급에서는 빠져요.' : '';
-    if (g || dup) rec += `<div class="small" style="margin-top:4px">${[dup, g].filter(Boolean).join(' ')}</div>`;
+    if ((g || dup) && v2 && on('ws_compact') && rec.includes('<!--WS_MORE-->')) rec = rec.replace('<!--WS_MORE-->', [dup, g].filter(Boolean).map(t => `<li>${t}</li>`).join(''));
+    else if (g || dup) rec += `<div class="small" style="margin-top:4px">${[dup, g].filter(Boolean).join(' ')}</div>`;
   }
   const st = statusOf(L);
   return `<section class="card ws-card ${st === '마감' ? 'dim' : ''}">
