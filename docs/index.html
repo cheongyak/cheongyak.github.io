@@ -372,7 +372,7 @@ body.sheet-open{overflow:hidden}
 .fchip svg{width:14px;height:14px}
 .empty{align-items:center;text-align:center;padding:28px 16px}
 .bell{display:inline-flex;align-items:center;gap:6px;min-height:44px;padding:0 14px;border-radius:22px;border:1px solid var(--line);background:var(--surface);font-weight:600;font-size:14px;cursor:pointer} .bell[hidden]{display:none}
-.bell svg{width:18px;height:18px}
+.bell svg{width:18px;height:18px} .bell.on{background:var(--lotto-soft);border-color:transparent;color:var(--lotto-ink)}
 .steps{margin:0;padding-left:20px;display:flex;flex-direction:column;gap:6px;font-size:14px}
 code.topic{font-family:ui-monospace,Menlo,monospace;background:var(--sunk);padding:2px 6px;border-radius:6px;font-size:13px;overflow-wrap:anywhere}
 dl.kv{margin:0;display:grid;grid-template-columns:auto 1fr;gap:8px 16px;font-size:14px}
@@ -1462,7 +1462,7 @@ function vFeedV2(){
   const anyF = act.length || S.filter !== 'all' || S.newDays || (on('search') && S.q) || (on('elig_filter') && S.elig);
   return `
   <div class="top"><div><div class="brand">청약패스${betaTag()}</div><span class="small muted sub-line">${DATA_SOURCE.live ? '청약홈 ' + esc(String(DATA_SOURCE.updated || '').slice(5).replace('-', '.')) + ' 갱신' : '샘플 데이터'}${on('disclaimer_banner') && !on('beta_notice') ? ' · 참고용 추정' + (on('about_page') ? ' <button class="linkbtn small" data-go="about">자세히</button>' : '') : ''}</span></div>
-    <button class="bell" data-go="alerts" aria-label="알림 받기" ${on('ntfy_alerts') || pushOn() ? '' : 'hidden'}><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 8a6 6 0 1 1 12 0c0 7 3 9 3 9H3s3-2 3-9"/><path d="M10.3 21a1.94 1.94 0 0 0 3.4 0"/></svg><span>알림</span></button></div>
+    ${bellBtn()}</div>
   ${staleNote()}
   ${betaBanner('feed')}
   ${myCondCard()}
@@ -1510,7 +1510,7 @@ function vFeed(){
   const x = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" aria-hidden="true"><path d="M18 6 6 18M6 6l12 12"/></svg>';
   return `
   <div class="top"><div><div class="brand">청약패스</div><span class="small muted">${DATA_SOURCE.live ? '청약홈 · ' + esc(DATA_SOURCE.updated) + ' 갱신' : '샘플 데이터'}</span></div>
-    <button class="bell" data-go="alerts" aria-label="알림 받기" ${on('ntfy_alerts') || pushOn() ? '' : 'hidden'}><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 8a6 6 0 1 1 12 0c0 7 3 9 3 9H3s3-2 3-9"/><path d="M10.3 21a1.94 1.94 0 0 0 3.4 0"/></svg><span>알림</span></button></div>
+    ${bellBtn()}</div>
   ${staleNote()}
   ${betaBanner('feed')}
   ${summaryBar()}
@@ -2550,6 +2550,14 @@ function vMe(){
 try { const q = new URLSearchParams(location.search).get('push'); if (q === 'preview') localStorage.setItem('cy-push-preview', '1'); else if (q === 'off') localStorage.removeItem('cy-push-preview'); } catch(e) {}
 const pushPreview = () => { try { return !!CONFIG.push_preview && !on('web_push') && localStorage.getItem('cy-push-preview') === '1'; } catch(e) { return false; } };
 const pushOn = () => !!CONFIG.push_api && (on('web_push') || pushPreview());
+/* 알림이 켜진 기기는 위쪽 알림 버튼에 '알림 켜짐'으로 표시한다. 화면을 바로 그리려고 이 기기에 표시값(cy-push-on)을 두고, 실제 구독 상태로 다시 맞춘다 */
+const pushLit = () => { try { return localStorage.getItem('cy-push-on') === '1'; } catch(e) { return false; } };
+const setPushLit = v => { try { if (v) localStorage.setItem('cy-push-on', '1'); else localStorage.removeItem('cy-push-on'); } catch(e) {} };
+function bellBtn(){
+  const show = on('ntfy_alerts') || pushOn(), lit = pushOn() && pushLit();
+  const bell = '<path d="M6 8a6 6 0 1 1 12 0c0 7 3 9 3 9H3s3-2 3-9"/><path d="M10.3 21a1.94 1.94 0 0 0 3.4 0"/>';
+  return `<button class="bell${lit ? ' on' : ''}" data-go="alerts" aria-label="${lit ? '알림 켜짐, 알림 설정' : '알림 받기'}" ${show ? '' : 'hidden'}><svg viewBox="0 0 24 24" fill="${lit ? 'currentColor' : 'none'}" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">${bell}</svg><span>${lit ? '알림 켜짐' : '알림'}</span></button>`;
+}
 const PUSH = { state:'init', prefs:null, msg:'', busy:false };
 const pushApi = p => CONFIG.push_api.replace(/\/$/, '') + p;
 const b64uBytes = s => { s = s.replace(/-/g, '+').replace(/_/g, '/'); s += '='.repeat((4 - s.length % 4) % 4); return Uint8Array.from(atob(s), c => c.charCodeAt(0)); };
@@ -2563,10 +2571,11 @@ async function pushReg(){ try { return await navigator.serviceWorker.getRegistra
 async function pushInit(){
   PUSH.prefs = PUSH.prefs || store.get('cy-push') || { regions: SIDO_ORDER.includes(S.profile.homeSido) ? [S.profile.homeSido] : [], good:false, remind:true };
   const sup = pushSupport();
-  if (sup !== 'ok') { PUSH.state = sup; return; }
-  if (Notification.permission === 'denied') { PUSH.state = 'denied'; return; }
+  if (sup !== 'ok') { PUSH.state = sup; setPushLit(false); return; }
+  if (Notification.permission === 'denied') { PUSH.state = 'denied'; setPushLit(false); return; }
   const reg = await pushReg(), sub = reg && reg.pushManager ? await reg.pushManager.getSubscription().catch(() => null) : null;
   PUSH.state = sub && Notification.permission === 'granted' ? 'on' : 'off';
+  setPushLit(PUSH.state === 'on');
 }
 async function pushPost(path, body){
   const r = await fetch(pushApi(path), { method:'POST', headers:{ 'Content-Type':'application/json' }, body: JSON.stringify(body) });
@@ -2590,7 +2599,7 @@ async function pushSubscribe(){
     if (sub && cur && (cur.length !== want.length || cur.some((b, i) => b !== want[i]))) { await sub.unsubscribe(); sub = null; }   // 서버 키가 바뀌었으면 다시 구독
     if (!sub) sub = await reg.pushManager.subscribe({ userVisibleOnly:true, applicationServerKey: want });
     await pushPost('/subscribe', { sub: sub.toJSON(), prefs: PUSH.prefs });
-    store.set('cy-push', PUSH.prefs); PUSH.state = 'on'; PUSH.msg = '알림을 켰어요. 확인 알림을 하나 보냈어요.';
+    store.set('cy-push', PUSH.prefs); PUSH.state = 'on'; setPushLit(true); PUSH.msg = '알림을 켰어요. 확인 알림을 하나 보냈어요.';
     track({ path:'push-on', event:true });
   } catch(e) { PUSH.msg = '알림을 켜지 못했어요. 잠시 뒤 다시 해 주세요. (' + (e && e.message || e) + ')'; await pushInit(); }
   finally { PUSH.busy = false; render(); }
@@ -2599,7 +2608,7 @@ async function pushSave(){
   if (PUSH.busy) return; PUSH.busy = true; PUSH.msg = ''; render();
   try {
     const reg = await pushReg(), sub = reg && await reg.pushManager.getSubscription();
-    if (!sub) { PUSH.state = 'off'; PUSH.msg = '알림이 꺼져 있어요. 다시 켜 주세요.'; return; }
+    if (!sub) { PUSH.state = 'off'; setPushLit(false); PUSH.msg = '알림이 꺼져 있어요. 다시 켜 주세요.'; return; }
     await pushPost('/subscribe', { sub: sub.toJSON(), prefs: PUSH.prefs, test:false });
     store.set('cy-push', PUSH.prefs); PUSH.msg = '알림 설정을 저장했어요.';
   } catch(e) { PUSH.msg = '저장하지 못했어요. 잠시 뒤 다시 해 주세요.'; }
@@ -2610,11 +2619,13 @@ async function pushUnsubscribe(){
   try {
     const reg = await pushReg(), sub = reg && await reg.pushManager.getSubscription();
     if (sub) { const endpoint = sub.endpoint; await sub.unsubscribe(); await pushPost('/unsubscribe', { endpoint }).catch(() => {}); }
-    PUSH.state = 'off'; PUSH.msg = '알림을 껐어요. 알림 서버에서도 지웠어요.';
+    PUSH.state = 'off'; setPushLit(false); PUSH.msg = '알림을 껐어요. 알림 서버에서도 지웠어요.';
     track({ path:'push-off', event:true });
   } catch(e) { PUSH.msg = '끄지 못했어요. 브라우저 설정에서 이 사이트 알림을 꺼도 돼요.'; }
   finally { PUSH.busy = false; render(); }
 }
+// 실제 구독 상태를 한 번 확인해 버튼 표시를 맞춘다 (이 표시가 생기기 전에 켠 기기, 브라우저에서 알림을 막았거나 사이트 데이터를 지운 경우). 등록된 서비스 워커를 읽기만 한다
+setTimeout(() => { if (pushOn() && PUSH.state === 'init' && 'serviceWorker' in navigator) { const was = pushLit(); pushInit().then(() => { if (pushLit() !== was) render(); }); } }, 1500);
 // 알림을 눌렀을 때 이미 열린 화면이면 서비스 워커가 보낸 주소로 이동
 if (typeof navigator !== 'undefined' && 'serviceWorker' in navigator) navigator.serviceWorker.addEventListener('message', ev => {
   const d = ev.data || {};
@@ -2641,6 +2652,7 @@ function vPush(){
   <div class="stack" style="gap:6px"><h1>새 공고 알림 ${betaTag()}</h1>
   <p class="muted" style="margin:0;font-size:14px">매일 새벽 수집이 끝나면, 고른 지역에 <b>새 공고</b>가 올라왔을 때와 <b>접수 전날</b>에 휴대폰 알림을 보내요. 하루 한 통으로 묶어 보내요.</p></div>
   ${why}
+  ${st === 'init' ? `<p class="small muted" role="status" style="margin:0">알림 상태를 확인하고 있어요…</p>` : ''}
   ${st === 'on' ? `<div class="note ok"><b>알림이 켜져 있어요</b><div>${P.regions.length ? esc(P.regions.join('·')) : '전국'} · ${P.good ? '로또·고려 등급만' : '모든 공고'}${P.remind ? ' · 접수 전날 알림' : ''}</div></div>` : ''}
   ${PUSH.msg ? `<p class="small" role="status" style="margin:0">${esc(PUSH.msg)}</p>` : ''}
   ${canEdit ? `<section class="card"><h2>지역</h2><p class="small muted" style="margin:2px 0 8px">고르지 않으면 전국이에요. 공고 단지가 있는 시·도 기준이에요.</p>
@@ -2649,7 +2661,7 @@ function vPush(){
     ${tog('good', '로또·고려 등급만', '시세보다 싼 공고만 받아요. 끄면 고른 지역의 모든 새 공고를 받아요.')}
     ${tog('remind', '접수 전날 알림', '접수 시작(특별공급이 있으면 특별공급) 전날과 마감 전날에 알려줘요.')}</section>
   ${st === 'on' ? `<button class="btn" data-action="push-save"${dis}>${PUSH.busy ? '저장 중…' : '설정 저장'}</button><button class="btn ghost" data-action="push-off"${dis}>알림 끄기</button>`
-    : `<button class="btn" data-action="push-on"${dis}>${PUSH.busy ? '켜는 중…' : '알림 켜기'}</button>`}` : ''}
+    : `<button class="btn" data-action="push-on"${dis || (st === 'init' ? ' disabled' : '')}>${PUSH.busy ? '켜는 중…' : st === 'init' ? '확인 중…' : '알림 켜기'}</button>`}` : ''}
   <section class="card"><h2>알아 두세요</h2><ul class="small" style="margin:0;padding-left:18px">
     <li>알림 서버에는 이 브라우저의 <b>알림 주소와 고른 지역·종류만</b> 보내요. 인터뷰에 입력한 소득·자산·통장 정보는 보내지 않아요.</li>
     <li>그래서 알림은 <b>내 자격과 상관없이</b> 지역·등급으로만 골라 보내요. 내 판정은 알림을 눌러 공고 화면에서 확인하세요.</li>
