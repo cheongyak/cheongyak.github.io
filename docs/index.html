@@ -89,6 +89,7 @@ a{color:var(--link)}
 .betabar.bad{background:color-mix(in srgb, var(--pass-ink) 12%, var(--card, #fff));color:var(--pass-ink)}
 .adbox{margin:12px 0;padding:8px;border:1px dashed var(--line);border-radius:12px;min-height:60px} .adlabel{display:block;font-size:11px;color:var(--muted);margin-bottom:4px}
 .beta{display:inline-block;vertical-align:middle;margin-left:6px;padding:1px 7px;border-radius:999px;font-size:11px;font-weight:700;letter-spacing:0;background:var(--warn-soft);color:var(--warn-ink);border:1px solid currentColor}
+.betaline{margin:0 2px 8px;font-size:12.5px;color:var(--muted);line-height:1.5} .betaline .beta{font-size:11px;vertical-align:1px} .betaline .linkbtn{min-height:0;padding:0}
 .betabar{display:flex;gap:8px;align-items:flex-start;margin:0 0 10px;padding:10px 12px;border-radius:12px;background:var(--warn-soft);color:var(--warn-ink);font-size:13px;line-height:1.5;border:1px solid color-mix(in srgb, var(--warn-ink) 30%, transparent)}
 .betabar>b{flex:none;white-space:nowrap} .betabar .linkbtn{min-height:0;padding:0}
 .ws-concl{font-size:16px;font-weight:600;line-height:1.45;margin:2px 0 4px} .ws-bul{margin:0 0 4px;padding-left:18px;font-size:13px;line-height:1.5} .ws-bul li{margin:1px 0}
@@ -1207,8 +1208,10 @@ const betaTag = () => on('beta_notice') ? ' <span class="beta" aria-label="베�
 function betaBanner(where){
   if (!on('beta_notice')) return '';
   if (on('verify_badge')) loadSide();
-  const vbad = on('verify_badge') && VERIFY && VERIFY.ok === false;
-  return `<div class="betabar${vbad ? ' bad' : ''}" role="note"><b>베타 · 참고용</b><span>${vbad ? '<b>최근 자동 검증에서 공고문과 다른 값이 발견돼 확인 중이에요.</b> ' : ''}${where === 'detail' ? '이 화면의 자격·점수·마진은 공개 자료와 내 입력으로 계산한 참고용 추정이에요.' : '모든 판정은 참고용 추정이에요.'} 신청 전 <b>모집공고문</b>과 <b>청약홈 '청약자격확인'</b>에서 꼭 확인하세요.${on('about_page') ? ' <button class="linkbtn small" data-go="about">자세히</button>' : ''}</span></div>`;
+  const vbad = on('verify_badge') && VERIFY && VERIFY.ok === false, more = on('about_menu') ? 'story' : 'about';
+  /* 기능: beta_compact (Von Restorff) — '확인했어요'를 누른 뒤에는 한 줄로 줄여 결과가 묻히지 않게. 자동 검증에 문제가 있으면 다시 크게 */
+  if (on('beta_compact') && !vbad && store.get('cy-beta-ok')) return `<p class="betaline" role="note"><span class="beta">베타</span> 판정은 내 입력으로 계산한 참고용이에요. 신청 전 모집공고문으로 확인하세요.${on('about_page') ? ` <button class="linkbtn small" data-go="${more}">자세히</button>` : ''}</p>`;
+  return `<div class="betabar${vbad ? ' bad' : ''}" role="note"><b>베타 · 참고용</b><span>${vbad ? '<b>최근 자동 검증에서 공고문과 다른 값이 발견돼 확인 중이에요.</b> ' : ''}${where === 'detail' ? '이 화면의 자격·점수·마진은 공개 자료와 내 입력으로 계산한 참고용 추정이에요.' : '모든 판정은 참고용 추정이에요.'} 신청 전 <b>모집공고문</b>과 <b>청약홈 '청약자격확인'</b>에서 꼭 확인하세요.${on('about_page') ? ` <button class="linkbtn small" data-go="${more}">자세히</button>` : ''}${on('beta_compact') && !vbad ? ' <button class="linkbtn small" data-action="beta-ok">확인했어요</button>' : ''}</span></div>`;
 }
 function src(key, over){ // over: [label, url]
   const [label, url] = over || SRC[key];
@@ -3893,6 +3896,7 @@ document.addEventListener('click', ev => {
   const a = t.dataset.action;
   if (a === 'toggle-closed') { S.showClosed = !S.showClosed; render(); return; }
   if (a === 'toggle-filters') { S.showFilters = !S.showFilters; render(); return; }
+  if (a === 'beta-ok') { store.set('cy-beta-ok', true); metric('beta/ok', true); render(); return; }   // 기능: beta_compact
   if (a === 'toggle-feedf') { S.feedF = !S.feedF; render(); return; }   // 기능: feed_compact
   if (a === 'reload-data') { DATA_SOURCE.state = 'loading'; render(); loadListings(); return; }   // 기능: data_fail_ui
   if (a === 'reset-filters') { S.f = Object.assign({}, F0); S.filter = 'all'; S.newDays = 0; S.q = ''; S.elig = null; render(); return; }
