@@ -52,6 +52,11 @@ GitHub Secrets (이름만): `DATA_GO_KR_KEY`, `NCP_MAPS_CLIENT_ID`, `NCP_MAPS_CL
 
 ## 진행 중인 일 (2026-10-01 기준, 최신이 위)
 
+0. **버전·전략 실행 현황 (2026-10-01 오후)** — 지금 버전 v1.3.0 (VERSIONS.md, release/v1.0.0~v1.3.0 브랜치).
+   - 끝남: 버전 관리(v1.0.1), 사용 측정 usage_metrics(v1.1.0, GoatCounter 이벤트 m/…), 안 쓰는 코드 정리(ntfy 삭제), 공고별 페이지 notice_pages(v1.2.0, /notice/), 빠른 시작 quick_start(v1.3.0)
+   - 다음 후보(보고서 순서): '확인 필요' 원인별 행동 버튼 → 부적격 방지 체크 → '내 청약 현황' 한 화면 → 가점 오르는 날 → (사용자 결정) '비추천' 등급명 → _v2 이전 분기 정리 → 엔진 분리·청약봇(오픈카톡 질문 로그 필요)
+   - 측정 확인: 1~2주 뒤 GoatCounter 대시보드에서 m/visit·m/profile·m/quick·m/verdict·m/unsure 이벤트를 보고 다음 우선순위를 정한다
+
 1. **웹 푸시 알림 (`web_push`) — 운영자 미리보기 중**
    - 알림 서버 배포됨: `push/deployed.json` 의 주소, `docs/config.json` 의 `push_api`. `push_preview: true`, 스위치 `web_push: false`.
    - 사용자는 휴대폰에서 `https://cheongyakpass.kr/?push=preview` 로 열어 알림을 켜고 확인하는 중. 테스트는 Actions '알림 테스트 발송'.
