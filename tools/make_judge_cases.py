@@ -331,6 +331,15 @@ def main() -> None:
         add(id=f"elder-{i:02d}", fn="sp", listing="2026000453-059.9742A", type="elder", profile=p, expect={"s": exp},
             basis="2026000453 노부모부양 '만65세 이상의 직계존속을 3년 이상 계속하여 부양(같은 세대별 주민등록표등본에 등재되어 있는 경우에 한함)'"); i += 1
 
+    # ---------- 6-4) 2순위 (광명 2026000453 투기과열 — 세대원은 1순위 불가) ----------
+    # 2026000453 '2순위 : 예치금액과 관계없이 청약예금·청약부금·주택청약종합저축에 가입한 분', 규칙 제28조①2호 '제2순위 : 제1순위에 해당하지 아니하는 자'.
+    # 통장 가입 → 2순위만(r2), 통장 정보 없음 → 확인 필요(unsure), 통장 없음 → 불가(no)
+    i = 0
+    for over, exp in [({"acctType": "all"}, "r2"), ({"acctType": "", "acctSince": "", "acctAmount": 0}, "unsure"), ({"acctType": "none"}, "no")]:
+        p = dict(pub_base, homeSido="경기", homeSigun="광명시", household="parents", parentsOwn=False, headSince="", **over)
+        add(id=f"rank2-{i:02d}", fn="bucket", listing="2026000453-059.9742A", profile=p, expect={"b": exp},
+            basis="2026000453 '2순위 : 예치금액과 관계없이 청약예금·청약부금·주택청약종합저축에 가입한 분' · 투기과열 1순위 세대주 요건"); i += 1
+
     # ---------- 7) 거주지 (광명 2026000453 · 인천계양 A6 2026000414) ----------
     i = 0
     for lid, sido, sigun, since, exp in [

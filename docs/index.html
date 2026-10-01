@@ -466,7 +466,7 @@ function visitMetrics(){
 function detailMetrics(L){
   if (!on('usage_metrics') || !L) return;
   try {
-    const e = eligibility(L, S.profile), v = e.ok ? (e.unsure ? 'unsure' : 'ok') : e.rank2 ? 'rank2' : 'no';
+    const e = eligibility(L, S.profile), v = e.ok ? (e.unsure ? 'unsure' : 'ok') : e.rank2 ? (e.rank2Need ? 'unsure' : 'rank2') : 'no';
     metric('verdict/' + v);
     if (v !== 'unsure') metric('verdict/first-clear', true);
     e.items.filter(i => i.s === 'warn').forEach(i => metric('unsure/' + i.k));
@@ -726,7 +726,7 @@ function scoreCardV2(L, p, r, t){
   /* 이 공고에서 가점이 쓰이지 않는 경우 (기능: score_scope, 2026-10-01): 2순위만 가능 → 제28조⑨ '제2순위에서 경쟁이 있는 경우에는 추첨',
      규제지역 유주택 → 1순위 가점제 대상이 아니라 추첨 물량만. 이때는 당첨 최저 비교 대신 이 안내를 보여준다 */
   const e = on('score_scope') ? eligibility(L, p) : null, ownI = e && e.items.find(i => i.k === '무주택 세대' && i.owns);
-  const off = e && !e.ok && e.rank2 ? '지금 조건으로는 이 공고에 2순위로만 신청할 수 있어요. 2순위는 가점 없이 추첨으로 뽑아서(주택공급에 관한 규칙 제28조⑨) 아래 가점은 이번 공고에 쓰이지 않아요. 1순위로 신청하는 공고에서 쓰이는 점수예요.'
+  const off = e && !e.ok && e.rank2 ? (e.rank2Need ? '지금 조건으로는 이 공고에 1순위로 신청할 수 없어요.' : '지금 조건으로는 이 공고에 2순위로만 신청할 수 있어요.') + ' 2순위는 가점 없이 추첨으로 뽑아서(주택공급에 관한 규칙 제28조⑨) 아래 가점은 이번 공고에 쓰이지 않아요. 1순위로 신청하는 공고에서 쓰이는 점수예요.'
     : ownI && L.regulated ? '집이 있어 이 공고에서는 가점제가 아니라 추첨 물량으로만 신청할 수 있어요. 아래 가점은 이번 공고에 쓰이지 않아요.' : '';
   const cmp = off ? `<div class="note info sccmp"><b>이번 공고에서는 가점이 쓰이지 않아요</b><div class="small">${off}</div></div>` : !has ? '' : !t ? `<div class="small muted sccmp">비교할 당첨 가점 기록이 없어요.</div>`
     : `<div class="note ${d >= 0 ? 'ok' : 'warn'} sccmp"><b>${d >= 0 ? '당첨 최저보다 ' + d + '점 높아요' : '당첨 최저보다 ' + (-d) + '점 낮아요'}</b>
@@ -1042,7 +1042,11 @@ function eligibility(L, p){
     }
   }
   const rank2 = fails.length > 0 && fails.every(i => i.r1);   // 1순위 요건만 못 채움 → 2순위 신청은 가능
-  return { ok: !fails.length, rank2, unsure: !fails.length && warns.length > 0, items, reason, fix };
+  /* 2순위도 청약통장 가입이 필요하다 (2026000453 등 '2순위 : 예치금액과 관계없이 청약예금·청약부금·주택청약종합저축에 가입한 분'). 통장을 아직 안 넣었으면
+     '2순위만'으로 단정하지 않고 '확인 필요'로 둔다 (2026-10-01 수정). 통장 없음(none)은 r1 이 아닌 fail 이라 rank2 가 아니다 */
+  const rank2Need = rank2 && !!L.needAccount && !p.acctType;
+  if (rank2Need) reason = reason.replace(' 2순위로는 신청할 수 있어요.', '');   // 통장 정보가 없으면 2순위 가능이라고 말하지 않는다
+  return { ok: !fails.length, rank2, rank2Need, unsure: !fails.length && warns.length > 0, items, reason, fix };
 }
 
 function funding(L, p, opt){
@@ -1165,7 +1169,7 @@ function profileLine(p){
 function meLine(L){
   if (!hasProfile()) return '<span class="muted">내 조건을 넣으면 자격·자금을 판정해요</span>';
   const e = eligibility(L, S.profile);
-  if (!e.ok) { const f = e.items.find(i => i.s === 'fail'); return '<span class="' + (e.rank2 ? 'st-warn' : 'st-fail') + '">' + (e.rank2 ? '2순위만 가능' : '내 자격 불가') + '</span><span class="muted">· ' + esc(f.k) + ' ' + esc(f.v) + '</span>'; }
+  if (!e.ok) { const f = e.items.find(i => i.s === 'fail'); return '<span class="' + (e.rank2 ? 'st-warn' : 'st-fail') + '">' + (e.rank2 ? (e.rank2Need ? '1순위 불가 · 2순위 확인 필요' : '2순위만 가능') : '내 자격 불가') + '</span><span class="muted">· ' + esc(f.k) + ' ' + esc(f.v) + '</span>'; }
   const f = funding(L, S.profile, planOpt(L)), gap = bestGap(f, planOpt(L));
   const el = e.unsure ? '<span class="st-warn">자격 확인 필요</span>' : on('eligibility_caution') ? '<span class="st-ok">기본 요건 충족</span>' : '<span class="st-ok">내 자격 가능</span>';
   return el + (gap > 0 ? '<span class="muted">· 자금 ' + fmt(gap) + ' 부족</span>' : '<span class="muted">· 자금 가능</span>');
@@ -1377,7 +1381,7 @@ function watchBtn(L){
 }
 /* 내 판정으로 거르기 (기능: elig_filter). 내 조건 카드의 숫자와 같은 기준: eligibility() 결과 그대로 */
 const ELIG_NAME = { ok:'신청 가능', unsure:'확인 필요', r2:'2순위만', no:'불가' };
-function eligBucket(L, p){ const e = eligibility(L, p); return e.ok && !e.unsure ? 'ok' : e.ok ? 'unsure' : e.rank2 ? 'r2' : 'no'; }
+function eligBucket(L, p){ const e = eligibility(L, p); return e.ok && !e.unsure ? 'ok' : e.ok ? 'unsure' : e.rank2 ? (e.rank2Need ? 'unsure' : 'r2') : 'no'; }
 function feedList(){
   return LISTINGS.filter(L => matches(L, S.f) && (!on('new_tabs') || !S.newDays || isNew(L, S.newDays))).map(L => ({ L, m: grade(L) }))
     .filter(x => S.filter === 'all' || (S.filter === 'watch' ? WATCH.has(x.L.id) : x.m.g === S.filter))
@@ -1621,7 +1625,7 @@ function cpExplain(id, profile){
   const L = LISTINGS.find(x => x.id === id); if (!L) return null;
   const p = profile || S.profile, e = eligibility(L, p);
   return { id, name: L.name, unit: L.unit, dataUpdated: DATA_SOURCE.updated, fromNotice: L.fromNotice || [],
-    verdict: e.ok ? (e.unsure ? '확인 필요' : '가능') : e.rank2 ? '2순위만' : '불가', reason: e.reason,
+    verdict: e.ok ? (e.unsure ? '확인 필요' : '가능') : e.rank2 ? (e.rank2Need ? '확인 필요' : '2순위만') : '불가', reason: e.reason,
     items: e.items.map(i => { const c = itemCause(i); return { k:i.k, s:i.s, v:i.v, note:i.note || '', cause:c, causeName: c ? CAUSE_NAME[c] : null, basis: itemBasis(L, i.k) }; }),
     special: spTypesFor(L).map(t => { const r = spJudge(L, p, t); return { type:t, v:r.v, stage:r.stage && r.stage[0], fail:r.fail, warn:r.warn, cite:r.cite }; }) };
 }
@@ -2353,7 +2357,7 @@ function supplySummary(L, p, e){
   if (!on('supply_summary') || !hasProfile()) return '';
   const cls = { ok:'st-ok', warn:'st-warn', fail:'st-fail' };
   const ownIt = e.items.find(i => i.k === '무주택 세대' && i.owns);
-  const g = !e.ok ? (e.rank2 ? ['warn', '2순위만 가능'] : ['fail', '신청 불가']) : e.unsure ? ['warn', '가능 · 확인할 것 있음'] : ['ok', ownIt ? '신청 가능 · ' + ownIt.v.replace('유주택 · ', '') : '신청 가능'];
+  const g = !e.ok ? (e.rank2 ? ['warn', e.rank2Need ? '1순위 불가 · 2순위 확인 필요' : '2순위만 가능'] : ['fail', '신청 불가']) : e.unsure ? ['warn', '가능 · 확인할 것 있음'] : ['ok', ownIt ? '신청 가능 · ' + ownIt.v.replace('유주택 · ', '') : '신청 가능'];
   const types = spTypesFor(L), rs = types.map(t => spJudge(L, p, t));
   const okT = rs.filter(r => r.s === 'ok').map(r => SP_NAME[r.type]), wT = rs.filter(r => r.s === 'warn').map(r => SP_NAME[r.type]);
   const sp = !types.length ? ['', '이 주택형은 특별공급 없음'] : okT.length ? ['ok', okT.join('·') + ' 가능'] : wT.length ? ['warn', wT.join('·') + ' 확인 필요'] : ['fail', '모두 불가'];
@@ -2376,7 +2380,7 @@ function checklistV2(L, p, e){
   const pend = (on('eligibility_caution') ? pendingChecks(L, p) : []).filter(x => !(acctPrompt && x.startsWith('통장 가입기간')));   // 위 '청약통장 1순위 요건 · 입력 필요'와 같은 뜻이라 한 번만
   let tone, title, sub = '';
   if (!hasProfile()) { tone = 'info'; title = '내 조건을 넣으면 자격을 판정해요'; sub = '지금은 조건을 모르는 항목이 \'입력 필요\'로 보여요.'; }
-  else if (!e.ok && e.rank2) { tone = 'warn'; title = '2순위로만 신청 가능 (1순위 요건 미충족)'; sub = e.reason + ' 2순위는 1순위 신청자가 공급 물량보다 적을 때만 접수해요. 1순위에서 마감되면 2순위 차례는 오지 않아요.'; }
+  else if (!e.ok && e.rank2) { tone = 'warn'; title = e.rank2Need ? '1순위 요건 미충족 · 2순위는 청약통장 확인 필요' : '2순위로만 신청 가능 (1순위 요건 미충족)'; sub = e.reason + ' ' + (e.rank2Need ? '2순위는 청약통장(청약예금·청약부금·주택청약종합저축)에 가입돼 있으면 신청할 수 있어요. 청약통장 정보를 넣으면 판정해요.' : '2순위는 1순위 신청자가 공급 물량보다 적을 때만 접수해요. 1순위에서 마감되면 2순위 차례는 오지 않아요.'); }
   else if (!e.ok) { tone = 'fail'; title = '지금 조건으로는 신청 불가'; sub = e.reason; }
   else if (nWarn) { tone = 'warn'; title = '기본 요건은 충족 · 확인할 것 ' + nWarn + '개'; }
   else { tone = 'ok'; title = on('eligibility_caution') ? '기본 요건 충족' : '자격 충족';
@@ -2395,7 +2399,7 @@ function checklistV2(L, p, e){
     ${supplySummary(L, p, e)}
     <div class="spsum" style="margin:4px 0 0">${on('supply_summary') && hasProfile() ? `<span class="small muted" style="align-self:center">${genLabel(L)} 조건</span>` : ''}${count}</div>
     <div class="note ${tone} ckverdict"><b>${on('supply_summary') && hasProfile() ? (genLabel(L) + ' · ') : ''}${esc(title)}</b>${sub ? `<div class="small">${esc(sub)}</div>` : ''}${e.fix ? `<div class="small" style="margin-top:4px"><b>다음 공고에 신청하려면</b> · ${esc(e.fix)}</div>` : ''}</div>
-    ${fails.length ? `<div class="ckgroup"><div class="ck-h ${e.rank2 ? 'st-warn' : 'st-fail'}">${e.rank2 ? '1순위만 막는 조건 (2순위는 신청 가능)' : '문제가 있는 조건'} ${fails.length}개</div>${fails.map(failItem).join('')}</div>` : ''}
+    ${fails.length ? `<div class="ckgroup"><div class="ck-h ${e.rank2 ? 'st-warn' : 'st-fail'}">${e.rank2 ? (e.rank2Need ? '1순위만 막는 조건' : '1순위만 막는 조건 (2순위는 신청 가능)') : '문제가 있는 조건'} ${fails.length}개</div>${fails.map(failItem).join('')}</div>` : ''}
     ${nWarn ? `<div class="ckgroup"><div class="ck-h st-warn"><span>확인이 필요한 조건 ${nWarn}</span>${needInput ? '<button class="linkbtn small" data-action="restart">내 조건 입력하기</button>' : ''}</div>
       <div class="ckwarns">${acctPrompt ? `<div class="ckwarn"><div class="ck-top"><span>청약통장 1순위 요건</span><span class="st-warn">입력 필요</span></div><div class="small muted">가입일·예치금(공공은 납입 횟수)을 넣으면 청약통장 1순위 요건을 판정해요</div>${on('unsure_actions') && stepWithField('acctType') ? `<button class="linkbtn small" data-edit="${esc(stepKey(stepWithField('acctType')))}" style="align-self:flex-start">청약통장 정보 넣기</button>` : ''}<div class="ck-src">${src('supplyRule')}</div></div>` : ''}${warns.map(warnItem).join('')}</div></div>` : ''}
     ${oks.length ? `<details class="ckmore"><summary>충족한 조건 ${oks.length}개</summary>
@@ -2450,7 +2454,7 @@ function vDetail(){
   const gap = bestGap(f, o), barCost = L.mktBase ? Math.min(100, m.cost / L.mktBase * 100) : 0, barLo = L.mktBase ? Math.max(0, Math.min(100 - barCost, m.lo / L.mktBase * 100)) : 0;
   let mine; const okWord = on('eligibility_caution') ? '기본 요건은 되지만' : '자격은 되지만';
   if (!hasProfile()) mine = `<div class="note info"><b>내 조건을 넣으면 이 공고의 자격·자금을 판정해요</b><div>입력한 정보는 이 기기에만 저장돼요.</div><div style="margin-top:6px"><button class="btn sm" data-action="restart">내 조건 입력하기</button></div></div>`;
-  else if (!e.ok) mine = `<div class="note ${e.rank2 ? 'warn' : 'fail'}"><b>${e.rank2 ? (m.g === 'lotto' || m.g === 'consider' ? '하지만 2순위로만 신청할 수 있어요' : '2순위로만 신청할 수 있어요') : m.g === 'lotto' || m.g === 'consider' ? '하지만 나는 이번 공고 신청 불가' : '나는 이번 공고 신청 불가'}</b><div>${esc(e.reason)}</div>${e.rank2 ? '<div style="margin-top:4px">2순위는 1순위 신청자가 공급 물량보다 적을 때만 접수해요. 1순위에서 마감되면 2순위 차례는 오지 않아요.</div>' : ''}${e.fix ? `<div class="inner"><b style="font-size:13px">다음 공고에 신청하려면</b><br>${esc(e.fix)}</div>` : ''}</div>`;
+  else if (!e.ok) mine = `<div class="note ${e.rank2 ? 'warn' : 'fail'}"><b>${e.rank2 ? (e.rank2Need ? (m.g === 'lotto' || m.g === 'consider' ? '하지만 1순위로는 신청할 수 없어요 · 2순위는 청약통장 확인 필요' : '1순위로는 신청할 수 없어요 · 2순위는 청약통장 확인 필요') : m.g === 'lotto' || m.g === 'consider' ? '하지만 2순위로만 신청할 수 있어요' : '2순위로만 신청할 수 있어요') : m.g === 'lotto' || m.g === 'consider' ? '하지만 나는 이번 공고 신청 불가' : '나는 이번 공고 신청 불가'}</b><div>${esc(e.reason)}</div>${e.rank2 ? '<div style="margin-top:4px">' + (e.rank2Need ? '2순위는 청약통장(청약예금·청약부금·주택청약종합저축)에 가입돼 있으면 신청할 수 있어요. 청약통장 정보를 넣으면 판정해요.' : '2순위는 1순위 신청자가 공급 물량보다 적을 때만 접수해요. 1순위에서 마감되면 2순위 차례는 오지 않아요.') + '</div>' : ''}${e.fix ? `<div class="inner"><b style="font-size:13px">다음 공고에 신청하려면</b><br>${esc(e.fix)}</div>` : ''}</div>`;
   else if (m.g === 'unknown') mine = `<div class="note warn"><b>${okWord} 시세를 확인해야 해요</b><div>${esc(L.mktNote)}</div></div>`;
   else if (m.g === 'pass' || m.g === 'flat') mine = `<div class="note warn"><b>${okWord} ${m.g === 'pass' ? '시세보다 비싸요' : '마진이 거의 없어요'}</b><div>${on('margin_caveat') ? '당첨되면 재당첨 제한이 걸려 한동안 다른 청약에 당첨될 수 없어요.' : '당첨되면 재당첨 제한이 걸려요. 실거주 목적이 아니면 통장을 아끼세요.'}</div></div>`;
   else if (gap > 0) mine = `<div class="note warn"><b>${okWord} 자금 ${fmt(gap)} 부족</b><div>${o.mode === 'live' ? '잔금대출' : '전세 활용'} 기준이에요. 부족분 조달처를 확보한 뒤 신청하세요.</div></div>`;
@@ -2477,8 +2481,8 @@ function vDetail(){
   ${mine}
   ${L.checks && L.checks.length ? `<div class="note warn"><b style="font-size:14px">데이터 확인 필요 ${L.checks.length}건</b>${L.checks.map(c => `<div>· ${esc(c)}</div>`).join('')}<div class="small muted">자동 검증에서 걸린 항목이에요. 모집공고문 원문으로 확인하세요. ${noticeSrc(L)}</div></div>` : ''}
   <div class="tiles">
-    <div class="tile"><span class="small muted">자격</span><span class="v ${e.ok ? (e.unsure ? 'st-warn' : 'st-ok') : e.rank2 ? 'st-warn' : 'st-fail'}">${e.ok ? (e.unsure ? '확인 필요' : on('eligibility_caution') ? '기본 충족' : '가능') : e.rank2 ? '2순위만' : '불가'}</span></div>
-    <div class="tile"><span class="small muted">마진 (보수적 추정)</span><span class="v">${m.lo == null ? '확인 필요' : (m.lo >= 0 ? '+' : '') + fmt(m.lo)}</span></div>
+    <div class="tile"><span class="small muted">자격</span><span class="v ${e.ok ? (e.unsure ? 'st-warn' : 'st-ok') : e.rank2 ? 'st-warn' : 'st-fail'}">${e.ok ? (e.unsure ? '확인 필요' : on('eligibility_caution') ? '기본 충족' : '가능') : e.rank2 ? (e.rank2Need ? '확인 필요' : '2순위만') : '불가'}</span></div>
+    <div class="tile"><span class="small muted">마진 (보수적)</span><span class="v">${m.lo == null ? '확인 필요' : (m.lo >= 0 ? '+' : '') + fmt(m.lo)}</span></div>
     <div class="tile"><span class="small muted">자금 (${o.mode === 'live' ? '대출' : '전세'})</span><span class="v ${gap > 0 ? 'st-warn' : 'st-ok'}">${gap > 0 ? fmt(gap) + ' 부족' : '가능'}</span></div>
   </div>
   ${L.sample ? '' : compCard(L)}
@@ -3049,7 +3053,7 @@ function vCompare(){
     ${row('시세', c => c.L.mktLow == null ? '-' : fmt(c.L.mktLow) + '~' + fmt(c.L.mktBase), '추정')}
     ${row('계약금', c => tone(c.f.contractOk, fmt(c.f.contractAmt) + (c.f.contractOk ? '' : ' 부족')), '내 현금 기준')}
     ${row('잔금 (실거주)', c => c.f.gapLive > 0 ? tone(false, fmt(c.f.gapLive) + ' 부족') : tone(true, '가능'), '내 입력 기준')}
-    ${row('내 자격', c => c.e.ok ? `<span class="${c.e.unsure ? 'st-warn' : 'st-ok'}">${c.e.unsure ? '확인 필요' : '기본 충족'}</span>` : c.e.rank2 ? '<span class="st-warn">2순위만</span>' : tone(false, '불가'))}
+    ${row('내 자격', c => c.e.ok ? `<span class="${c.e.unsure ? 'st-warn' : 'st-ok'}">${c.e.unsure ? '확인 필요' : '기본 충족'}</span>` : c.e.rank2 ? `<span class="st-warn">${c.e.rank2Need ? '확인 필요' : '2순위만'}</span>` : tone(false, '불가'))}
     ${row('접수', c => `${esc(ddayOf(c.L))}<br><span class="small muted">${scheduleText(c.L) ? esc(scheduleText(c.L)) : c.L.apply ? c.L.apply.slice(5).replace('-', '.') : '-'}</span>`)}
     ${row('당첨 발표', c => c.L.winner ? c.L.winner.slice(5).replace('-', '.') : '-')}
     ${C.some(c => c.h) ? row('경쟁률', c => c.h ? esc(rateText(c.h)) : '-') : ''}
@@ -3304,7 +3308,7 @@ function wsCard(L, p){
   const gap = sc && sc.total != null && t && t.low != null ? sc.total - t.low : null;
   /* 유주택 세대의 민영 일반공급 (owner_lottery 판정 결과를 그대로 보여준다): 규제지역은 가점제 불가·추첨제만, 비규제는 무주택기간 0점 — 공고 상세 체크리스트와 같은 표기 (2026-10-01 사용자 지적) */
   const own = e.ok ? e.items.find(i => i.k === '무주택 세대' && i.owns) : null, lotOnly = !!(own && L.regulated);
-  const gp = !e.ok ? (e.rank2 ? ['warn', '2순위만'] : ['fail', '불가']) : e.unsure ? ['warn', '확인 필요'] : own ? ['ok', lotOnly ? '추첨제만' : '가능 · 무주택기간 0점'] : ['ok', '가능'];
+  const gp = !e.ok ? (e.rank2 ? ['warn', e.rank2Need ? '확인 필요' : '2순위만'] : ['fail', '불가']) : e.unsure ? ['warn', '확인 필요'] : own ? ['ok', lotOnly ? '추첨제만' : '가능 · 무주택기간 0점'] : ['ok', '가능'];
   const PILL = { ok:['가능','ok'], warn:['확인 필요','warn'], fail:['불가','fail'] };
   const big = (v, max) => v == null ? '<span class="ws-num muted">-</span>' : `<span class="ws-num">${v}</span>${max ? `<span class="ws-max">/ ${max}</span>` : ''}`;
   const genSub = !e.ok && !e.rank2 && hasProfile() ? e.reason : lotOnly ? '집이 있어 1순위 가점제로는 신청할 수 없고 추첨 물량으로만 신청할 수 있어요' : !L.needAccount ? '청약통장 없이 신청하는 공고예요' : pub ? '공공분양 일반공급은 납입 인정 금액·횟수 순이에요'
