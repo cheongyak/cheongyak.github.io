@@ -189,7 +189,7 @@
 }
 ],
 "jeonse_weak": false,
-"date": "2026-10-01"
+"date": "2026-10-02"
 },
 "2026820011-056.0000O": {
 "mkt_low": 4.54,
@@ -381,14 +381,14 @@
 }
 ],
 "jeonse_weak": false,
-"date": "2026-10-01"
+"date": "2026-10-02"
 },
 "2026000453-059.9742A": {
 "mkt_low": 10.7,
 "mkt_base": 11.5,
-"mkt_note": "같은 구 준공 10년 이내 같은 평형 매매 95건 기준 (최근 6개월)",
+"mkt_note": "같은 구 준공 10년 이내 같은 평형 매매 96건 기준 (최근 6개월)",
 "mkt_basis": "district_newbuild",
-"mkt_count": 95,
+"mkt_count": 96,
 "mkt_direct_excluded": 0,
 "mkt_comps": [
 {
@@ -399,6 +399,17 @@
 "dong": "",
 "amount": 14.95,
 "date": "2026-09-15",
+"kind": "매매",
+"direct": false
+},
+{
+"apt": "철산센트럴푸르지오",
+"umd": "철산동",
+"area": 59.9981,
+"floor": 7.0,
+"dong": "",
+"amount": 14.0,
+"date": "2026-09-12",
 "kind": "매매",
 "direct": false
 },
@@ -465,17 +476,6 @@
 "dong": "",
 "amount": 13.5,
 "date": "2026-08-21",
-"kind": "매매",
-"direct": false
-},
-{
-"apt": "광명푸르지오센트베르",
-"umd": "광명동",
-"area": 59.4654,
-"floor": 17.0,
-"dong": "",
-"amount": 11.7,
-"date": "2026-08-15",
 "kind": "매매",
 "direct": false
 }
@@ -573,14 +573,14 @@
 }
 ],
 "jeonse_weak": false,
-"date": "2026-10-01"
+"date": "2026-10-02"
 },
 "2026000453-059.7421B": {
 "mkt_low": 10.7,
 "mkt_base": 11.5,
-"mkt_note": "같은 구 준공 10년 이내 같은 평형 매매 95건 기준 (최근 6개월)",
+"mkt_note": "같은 구 준공 10년 이내 같은 평형 매매 96건 기준 (최근 6개월)",
 "mkt_basis": "district_newbuild",
-"mkt_count": 95,
+"mkt_count": 96,
 "mkt_direct_excluded": 0,
 "mkt_comps": [
 {
@@ -591,6 +591,17 @@
 "dong": "",
 "amount": 14.95,
 "date": "2026-09-15",
+"kind": "매매",
+"direct": false
+},
+{
+"apt": "철산센트럴푸르지오",
+"umd": "철산동",
+"area": 59.9981,
+"floor": 7.0,
+"dong": "",
+"amount": 14.0,
+"date": "2026-09-12",
 "kind": "매매",
 "direct": false
 },
@@ -657,17 +668,6 @@
 "dong": "",
 "amount": 13.5,
 "date": "2026-08-21",
-"kind": "매매",
-"direct": false
-},
-{
-"apt": "광명푸르지오센트베르",
-"umd": "광명동",
-"area": 59.4654,
-"floor": 17.0,
-"dong": "",
-"amount": 11.7,
-"date": "2026-08-15",
 "kind": "매매",
 "direct": false
 }
@@ -765,7 +765,7 @@
 }
 ],
 "jeonse_weak": false,
-"date": "2026-10-01"
+"date": "2026-10-02"
 },
 "2026000453-084.8481A": {
 "mkt_low": 13.25,
@@ -957,7 +957,7 @@
 }
 ],
 "jeonse_weak": false,
-"date": "2026-10-01"
+"date": "2026-10-02"
 },
 "2026000453-084.9648B": {
 "mkt_low": 13.25,
@@ -1149,7 +1149,7 @@
 }
 ],
 "jeonse_weak": false,
-"date": "2026-10-01"
+"date": "2026-10-02"
 },
 "2026000453-084.9558C": {
 "mkt_low": 13.25,
@@ -1341,7 +1341,7 @@
 }
 ],
 "jeonse_weak": false,
-"date": "2026-10-01"
+"date": "2026-10-02"
 },
 "2026000453-084.9796D": {
 "mkt_low": 13.25,
@@ -1533,7 +1533,7 @@
 }
 ],
 "jeonse_weak": false,
-"date": "2026-10-01"
+"date": "2026-10-02"
 },
 "2026000453-084.9149E": {
 "mkt_low": 13.25,
@@ -1725,7 +1725,7 @@
 }
 ],
 "jeonse_weak": false,
-"date": "2026-10-01"
+"date": "2026-10-02"
 },
 "2026000448-069.7032 ": {
 "mkt_low": 2.1,
@@ -1802,9 +1802,20 @@
 "direct": false
 }
 ],
-"jeonse": 2.7,
-"jeonse_note": "같은 구 준공 10년 이내 전세 7건 중앙값에서 입주장 할인 9%",
+"jeonse": 2.88,
+"jeonse_note": "같은 구 준공 10년 이내 전세 8건 중앙값에서 입주장 할인 9%",
 "jeonse_comps": [
+{
+"apt": "포레나미추홀",
+"umd": "주안동",
+"area": 70.9508,
+"floor": 35.0,
+"dong": "",
+"amount": 3.6,
+"date": "2026-10-01",
+"kind": "전세",
+"direct": false
+},
 {
 "apt": "용현엘크루윈드포레",
 "umd": "용현동",
@@ -1884,7 +1895,7 @@
 }
 ],
 "jeonse_weak": false,
-"date": "2026-10-01"
+"date": "2026-10-02"
 },
 "2026000448-084.9818 ": {
 "mkt_low": 5.5,
@@ -2076,7 +2087,7 @@
 }
 ],
 "jeonse_weak": false,
-"date": "2026-10-01"
+"date": "2026-10-02"
 },
 "2026000446-078.8382 ": {
 "mkt_low": 3.13,
@@ -2213,14 +2224,14 @@
 }
 ],
 "jeonse_weak": true,
-"date": "2026-10-01"
+"date": "2026-10-02"
 },
 "2026000446-084.9115A": {
-"mkt_low": 5.11,
-"mkt_base": 5.99,
-"mkt_note": "같은 구 준공 10년 이내 같은 평형 매매 220건 기준 (최근 6개월)",
+"mkt_low": 5.15,
+"mkt_base": 5.98,
+"mkt_note": "같은 구 준공 10년 이내 같은 평형 매매 221건 기준 (최근 6개월)",
 "mkt_basis": "district_newbuild",
-"mkt_count": 220,
+"mkt_count": 221,
 "mkt_direct_excluded": 7,
 "mkt_comps": [
 {
@@ -2313,7 +2324,7 @@
 }
 ],
 "jeonse": 3.49,
-"jeonse_note": "같은 구 준공 10년 이내 전세 180건 중앙값에서 입주장 할인 9%",
+"jeonse_note": "같은 구 준공 10년 이내 전세 181건 중앙값에서 입주장 할인 9%",
 "jeonse_comps": [
 {
 "apt": "센트렐웰가",
@@ -2323,6 +2334,17 @@
 "dong": "",
 "amount": 4.7,
 "date": "2026-09-30",
+"kind": "전세",
+"direct": false
+},
+{
+"apt": "진주정촌대경파미르",
+"umd": "정촌면 예하리",
+"area": 84.9625,
+"floor": 15.0,
+"dong": "",
+"amount": 2.5,
+"date": "2026-09-22",
 "kind": "전세",
 "direct": false
 },
@@ -2391,28 +2413,17 @@
 "date": "2026-09-08",
 "kind": "전세",
 "direct": false
-},
-{
-"apt": "진주정촌대경파미르",
-"umd": "정촌면 예하리",
-"area": 84.9426,
-"floor": 10.0,
-"dong": "",
-"amount": 2.5,
-"date": "2026-09-07",
-"kind": "전세",
-"direct": false
 }
 ],
 "jeonse_weak": false,
-"date": "2026-10-01"
+"date": "2026-10-02"
 },
 "2026000446-084.9519B": {
-"mkt_low": 5.11,
-"mkt_base": 5.99,
-"mkt_note": "같은 구 준공 10년 이내 같은 평형 매매 220건 기준 (최근 6개월)",
+"mkt_low": 5.15,
+"mkt_base": 5.98,
+"mkt_note": "같은 구 준공 10년 이내 같은 평형 매매 221건 기준 (최근 6개월)",
 "mkt_basis": "district_newbuild",
-"mkt_count": 220,
+"mkt_count": 221,
 "mkt_direct_excluded": 7,
 "mkt_comps": [
 {
@@ -2505,7 +2516,7 @@
 }
 ],
 "jeonse": 3.49,
-"jeonse_note": "같은 구 준공 10년 이내 전세 180건 중앙값에서 입주장 할인 9%",
+"jeonse_note": "같은 구 준공 10년 이내 전세 181건 중앙값에서 입주장 할인 9%",
 "jeonse_comps": [
 {
 "apt": "센트렐웰가",
@@ -2515,6 +2526,17 @@
 "dong": "",
 "amount": 4.7,
 "date": "2026-09-30",
+"kind": "전세",
+"direct": false
+},
+{
+"apt": "진주정촌대경파미르",
+"umd": "정촌면 예하리",
+"area": 84.9625,
+"floor": 15.0,
+"dong": "",
+"amount": 2.5,
+"date": "2026-09-22",
 "kind": "전세",
 "direct": false
 },
@@ -2583,21 +2605,10 @@
 "date": "2026-09-08",
 "kind": "전세",
 "direct": false
-},
-{
-"apt": "진주정촌대경파미르",
-"umd": "정촌면 예하리",
-"area": 84.9426,
-"floor": 10.0,
-"dong": "",
-"amount": 2.5,
-"date": "2026-09-07",
-"kind": "전세",
-"direct": false
 }
 ],
 "jeonse_weak": false,
-"date": "2026-10-01"
+"date": "2026-10-02"
 },
 "2026000446-119.6206 ": {
 "mkt_low": 7.99,
@@ -2789,7 +2800,7 @@
 }
 ],
 "jeonse_weak": false,
-"date": "2026-10-01"
+"date": "2026-10-02"
 },
 "2026000446-182.9263 ": {
 "mkt_low": null,
@@ -2803,7 +2814,7 @@
 "jeonse_note": "전세 거래가 부족해 추정하지 못했어요.",
 "jeonse_comps": [],
 "jeonse_weak": true,
-"date": "2026-10-01"
+"date": "2026-10-02"
 },
 "2026000445-059.9831 ": {
 "mkt_low": 3.65,
@@ -2903,8 +2914,19 @@
 }
 ],
 "jeonse": 3.15,
-"jeonse_note": "같은 구 준공 10년 이내 전세 49건 중앙값에서 입주장 할인 9%",
+"jeonse_note": "같은 구 준공 10년 이내 전세 50건 중앙값에서 입주장 할인 9%",
 "jeonse_comps": [
+{
+"apt": "태평아이파크",
+"umd": "태평동",
+"area": 59.7204,
+"floor": 7.0,
+"dong": "",
+"amount": 3.15,
+"date": "2026-09-30",
+"kind": "전세",
+"direct": false
+},
 {
 "apt": "태평아이파크",
 "umd": "태평동",
@@ -2981,21 +3003,10 @@
 "date": "2026-08-15",
 "kind": "전세",
 "direct": false
-},
-{
-"apt": "태평아이파크",
-"umd": "태평동",
-"area": 59.8476,
-"floor": 11.0,
-"dong": "",
-"amount": 3.8,
-"date": "2026-08-12",
-"kind": "전세",
-"direct": false
 }
 ],
 "jeonse_weak": false,
-"date": "2026-10-01"
+"date": "2026-10-02"
 },
 "2026000445-074.9225A": {
 "mkt_low": 3.93,
@@ -3187,7 +3198,7 @@
 }
 ],
 "jeonse_weak": false,
-"date": "2026-10-01"
+"date": "2026-10-02"
 },
 "2026000445-074.9823B": {
 "mkt_low": 3.93,
@@ -3379,7 +3390,7 @@
 }
 ],
 "jeonse_weak": false,
-"date": "2026-10-01"
+"date": "2026-10-02"
 },
 "2026000443-059.9986A": {
 "mkt_low": 2.71,
@@ -3479,8 +3490,19 @@
 }
 ],
 "jeonse": 1.26,
-"jeonse_note": "같은 구 준공 10년 이내 전세 278건 중앙값에서 입주장 할인 9%",
+"jeonse_note": "같은 구 준공 10년 이내 전세 280건 중앙값에서 입주장 할인 9%",
 "jeonse_comps": [
+{
+"apt": "명지화전우방아이유쉘",
+"umd": "화전동",
+"area": 59.8736,
+"floor": 5.0,
+"dong": "",
+"amount": 1.4,
+"date": "2026-10-01",
+"kind": "전세",
+"direct": false
+},
 {
 "apt": "명지화전우방아이유쉘",
 "umd": "화전동",
@@ -3500,6 +3522,17 @@
 "dong": "",
 "amount": 1.4,
 "date": "2026-09-30",
+"kind": "전세",
+"direct": false
+},
+{
+"apt": "명지화전우방아이유쉘",
+"umd": "화전동",
+"area": 59.9808,
+"floor": 2.0,
+"dong": "",
+"amount": 1.29,
+"date": "2026-09-28",
 "kind": "전세",
 "direct": false
 },
@@ -3546,32 +3579,10 @@
 "date": "2026-09-23",
 "kind": "전세",
 "direct": false
-},
-{
-"apt": "지사과학삼정그린코아",
-"umd": "지사동",
-"area": 59.9971,
-"floor": 5.0,
-"dong": "",
-"amount": 1.2,
-"date": "2026-09-23",
-"kind": "전세",
-"direct": false
-},
-{
-"apt": "명지화전우방아이유쉘",
-"umd": "화전동",
-"area": 59.952,
-"floor": 17.0,
-"dong": "",
-"amount": 1.4,
-"date": "2026-09-23",
-"kind": "전세",
-"direct": false
 }
 ],
 "jeonse_weak": false,
-"date": "2026-10-01"
+"date": "2026-10-02"
 },
 "2026000443-059.9992B": {
 "mkt_low": 2.71,
@@ -3671,8 +3682,19 @@
 }
 ],
 "jeonse": 1.26,
-"jeonse_note": "같은 구 준공 10년 이내 전세 278건 중앙값에서 입주장 할인 9%",
+"jeonse_note": "같은 구 준공 10년 이내 전세 280건 중앙값에서 입주장 할인 9%",
 "jeonse_comps": [
+{
+"apt": "명지화전우방아이유쉘",
+"umd": "화전동",
+"area": 59.8736,
+"floor": 5.0,
+"dong": "",
+"amount": 1.4,
+"date": "2026-10-01",
+"kind": "전세",
+"direct": false
+},
 {
 "apt": "명지화전우방아이유쉘",
 "umd": "화전동",
@@ -3692,6 +3714,17 @@
 "dong": "",
 "amount": 1.4,
 "date": "2026-09-30",
+"kind": "전세",
+"direct": false
+},
+{
+"apt": "명지화전우방아이유쉘",
+"umd": "화전동",
+"area": 59.9808,
+"floor": 2.0,
+"dong": "",
+"amount": 1.29,
+"date": "2026-09-28",
 "kind": "전세",
 "direct": false
 },
@@ -3738,32 +3771,10 @@
 "date": "2026-09-23",
 "kind": "전세",
 "direct": false
-},
-{
-"apt": "지사과학삼정그린코아",
-"umd": "지사동",
-"area": 59.9971,
-"floor": 5.0,
-"dong": "",
-"amount": 1.2,
-"date": "2026-09-23",
-"kind": "전세",
-"direct": false
-},
-{
-"apt": "명지화전우방아이유쉘",
-"umd": "화전동",
-"area": 59.952,
-"floor": 17.0,
-"dong": "",
-"amount": 1.4,
-"date": "2026-09-23",
-"kind": "전세",
-"direct": false
 }
 ],
 "jeonse_weak": false,
-"date": "2026-10-01"
+"date": "2026-10-02"
 },
 "2026000436-074.9469 ": {
 "mkt_low": 6.83,
@@ -3922,7 +3933,7 @@
 }
 ],
 "jeonse_weak": false,
-"date": "2026-10-01"
+"date": "2026-10-02"
 },
 "2026000436-075.9849 ": {
 "mkt_low": 6.7,
@@ -4081,7 +4092,7 @@
 }
 ],
 "jeonse_weak": false,
-"date": "2026-10-01"
+"date": "2026-10-02"
 },
 "2026000436-084.9630A": {
 "mkt_low": 7.32,
@@ -4115,8 +4126,19 @@
 }
 ],
 "jeonse": 3.78,
-"jeonse_note": "같은 구 준공 10년 이내 전세 52건 중앙값에서 입주장 할인 9%",
+"jeonse_note": "같은 구 준공 10년 이내 전세 53건 중앙값에서 입주장 할인 9%",
 "jeonse_comps": [
+{
+"apt": "유탑유블레스센트럴파크",
+"umd": "우정동",
+"area": 84.8232,
+"floor": 6.0,
+"dong": "",
+"amount": 4.9,
+"date": "2026-10-01",
+"kind": "전세",
+"direct": false
+},
 {
 "apt": "한동리안느",
 "umd": "옥교동",
@@ -4193,21 +4215,10 @@
 "date": "2026-08-24",
 "kind": "전세",
 "direct": false
-},
-{
-"apt": "태화강유보라팰라티움",
-"umd": "우정동",
-"area": 84.8627,
-"floor": 37.0,
-"dong": "",
-"amount": 4.1,
-"date": "2026-08-19",
-"kind": "전세",
-"direct": false
 }
 ],
 "jeonse_weak": false,
-"date": "2026-10-01"
+"date": "2026-10-02"
 },
 "2026000436-084.9650B": {
 "mkt_low": 7.32,
@@ -4241,8 +4252,19 @@
 }
 ],
 "jeonse": 3.78,
-"jeonse_note": "같은 구 준공 10년 이내 전세 52건 중앙값에서 입주장 할인 9%",
+"jeonse_note": "같은 구 준공 10년 이내 전세 53건 중앙값에서 입주장 할인 9%",
 "jeonse_comps": [
+{
+"apt": "유탑유블레스센트럴파크",
+"umd": "우정동",
+"area": 84.8232,
+"floor": 6.0,
+"dong": "",
+"amount": 4.9,
+"date": "2026-10-01",
+"kind": "전세",
+"direct": false
+},
 {
 "apt": "한동리안느",
 "umd": "옥교동",
@@ -4319,21 +4341,10 @@
 "date": "2026-08-24",
 "kind": "전세",
 "direct": false
-},
-{
-"apt": "태화강유보라팰라티움",
-"umd": "우정동",
-"area": 84.8627,
-"floor": 37.0,
-"dong": "",
-"amount": 4.1,
-"date": "2026-08-19",
-"kind": "전세",
-"direct": false
 }
 ],
 "jeonse_weak": false,
-"date": "2026-10-01"
+"date": "2026-10-02"
 },
 "2026000436-084.8968C": {
 "mkt_low": 7.32,
@@ -4367,8 +4378,19 @@
 }
 ],
 "jeonse": 3.78,
-"jeonse_note": "같은 구 준공 10년 이내 전세 52건 중앙값에서 입주장 할인 9%",
+"jeonse_note": "같은 구 준공 10년 이내 전세 53건 중앙값에서 입주장 할인 9%",
 "jeonse_comps": [
+{
+"apt": "유탑유블레스센트럴파크",
+"umd": "우정동",
+"area": 84.8232,
+"floor": 6.0,
+"dong": "",
+"amount": 4.9,
+"date": "2026-10-01",
+"kind": "전세",
+"direct": false
+},
 {
 "apt": "한동리안느",
 "umd": "옥교동",
@@ -4445,21 +4467,10 @@
 "date": "2026-08-24",
 "kind": "전세",
 "direct": false
-},
-{
-"apt": "태화강유보라팰라티움",
-"umd": "우정동",
-"area": 84.8627,
-"floor": 37.0,
-"dong": "",
-"amount": 4.1,
-"date": "2026-08-19",
-"kind": "전세",
-"direct": false
 }
 ],
 "jeonse_weak": false,
-"date": "2026-10-01"
+"date": "2026-10-02"
 },
 "2026000424-063.1378A": {
 "mkt_low": 3.65,
@@ -4607,7 +4618,7 @@
 }
 ],
 "jeonse_weak": false,
-"date": "2026-10-01"
+"date": "2026-10-02"
 },
 "2026000424-063.0513B": {
 "mkt_low": 3.65,
@@ -4755,7 +4766,7 @@
 }
 ],
 "jeonse_weak": false,
-"date": "2026-10-01"
+"date": "2026-10-02"
 },
 "2026000424-074.3998B": {
 "mkt_low": 4.36,
@@ -4947,14 +4958,14 @@
 }
 ],
 "jeonse_weak": false,
-"date": "2026-10-01"
+"date": "2026-10-02"
 },
 "2026000424-084.0948 ": {
 "mkt_low": 6.7,
-"mkt_base": 8.7,
-"mkt_note": "같은 구 준공 10년 이내 같은 평형 매매 92건 기준 (최근 6개월)",
+"mkt_base": 8.65,
+"mkt_note": "같은 구 준공 10년 이내 같은 평형 매매 93건 기준 (최근 6개월)",
 "mkt_basis": "district_newbuild",
-"mkt_count": 92,
+"mkt_count": 93,
 "mkt_direct_excluded": 43,
 "mkt_comps": [
 {
@@ -5013,6 +5024,17 @@
 "direct": false
 },
 {
+"apt": "수영SKVIEW1단지",
+"umd": "망미동",
+"area": 84.9819,
+"floor": 17.0,
+"dong": "",
+"amount": 6.44,
+"date": "2026-09-13",
+"kind": "매매",
+"direct": false
+},
+{
 "apt": "e편한세상오션테라스1단지",
 "umd": "민락동",
 "area": 84.9275,
@@ -5031,17 +5053,6 @@
 "dong": "",
 "amount": 12.2,
 "date": "2026-09-11",
-"kind": "매매",
-"direct": false
-},
-{
-"apt": "정원센텀뷰남천",
-"umd": "남천동",
-"area": 82.69,
-"floor": 13.0,
-"dong": "",
-"amount": 5.3,
-"date": "2026-09-05",
 "kind": "매매",
 "direct": false
 }
@@ -5139,14 +5150,14 @@
 }
 ],
 "jeonse_weak": false,
-"date": "2026-10-01"
+"date": "2026-10-02"
 },
 "2026000454-084.9890A": {
-"mkt_low": 3.12,
-"mkt_base": 3.6,
-"mkt_note": "같은 구 준공 10년 이내 같은 평형 매매 155건 기준 (최근 6개월)",
+"mkt_low": 3.14,
+"mkt_base": 3.61,
+"mkt_note": "같은 구 준공 10년 이내 같은 평형 매매 156건 기준 (최근 6개월)",
 "mkt_basis": "district_newbuild",
-"mkt_count": 155,
+"mkt_count": 156,
 "mkt_direct_excluded": 15,
 "mkt_comps": [
 {
@@ -5320,14 +5331,14 @@
 }
 ],
 "jeonse_weak": false,
-"date": "2026-10-01"
+"date": "2026-10-02"
 },
 "2026000454-084.9740B": {
-"mkt_low": 3.12,
-"mkt_base": 3.6,
-"mkt_note": "같은 구 준공 10년 이내 같은 평형 매매 155건 기준 (최근 6개월)",
+"mkt_low": 3.14,
+"mkt_base": 3.61,
+"mkt_note": "같은 구 준공 10년 이내 같은 평형 매매 156건 기준 (최근 6개월)",
 "mkt_basis": "district_newbuild",
-"mkt_count": 155,
+"mkt_count": 156,
 "mkt_direct_excluded": 15,
 "mkt_comps": [
 {
@@ -5501,7 +5512,7 @@
 }
 ],
 "jeonse_weak": false,
-"date": "2026-10-01"
+"date": "2026-10-02"
 },
 "2026000454-114.8419 ": {
 "mkt_low": 5.31,
@@ -5561,14 +5572,14 @@
 }
 ],
 "jeonse_weak": true,
-"date": "2026-10-01"
+"date": "2026-10-02"
 },
 "2026000449-084.7459A": {
-"mkt_low": 6.49,
-"mkt_base": 7.15,
-"mkt_note": "같은 구 준공 10년 이내 같은 평형 매매 235건 기준 (최근 6개월)",
+"mkt_low": 6.5,
+"mkt_base": 7.17,
+"mkt_note": "같은 구 준공 10년 이내 같은 평형 매매 236건 기준 (최근 6개월)",
 "mkt_basis": "district_newbuild",
-"mkt_count": 235,
+"mkt_count": 236,
 "mkt_direct_excluded": 2,
 "mkt_comps": [
 {
@@ -5616,6 +5627,17 @@
 "direct": false
 },
 {
+"apt": "쌍용더플래티넘오목천역",
+"umd": "오목천동",
+"area": 84.96,
+"floor": 6.0,
+"dong": "",
+"amount": 7.55,
+"date": "2026-09-17",
+"kind": "매매",
+"direct": false
+},
+{
 "apt": "호반 써밋 수원",
 "umd": "금곡동",
 "area": 84.9843,
@@ -5647,22 +5669,44 @@
 "date": "2026-09-15",
 "kind": "매매",
 "direct": false
-},
-{
-"apt": "쌍용더플래티넘오목천역",
-"umd": "오목천동",
-"area": 84.96,
-"floor": 5.0,
-"dong": "",
-"amount": 7.28,
-"date": "2026-09-13",
-"kind": "매매",
-"direct": false
 }
 ],
 "jeonse": 3.96,
-"jeonse_note": "같은 구 준공 10년 이내 전세 120건 중앙값에서 입주장 할인 9%",
+"jeonse_note": "같은 구 준공 10년 이내 전세 123건 중앙값에서 입주장 할인 9%",
 "jeonse_comps": [
+{
+"apt": "호반베르디움더센트럴",
+"umd": "금곡동",
+"area": 84.9843,
+"floor": 13.0,
+"dong": "",
+"amount": 5.0,
+"date": "2026-10-01",
+"kind": "전세",
+"direct": false
+},
+{
+"apt": "한양수자인파크원",
+"umd": "호매실동",
+"area": 84.9521,
+"floor": 4.0,
+"dong": "",
+"amount": 4.0,
+"date": "2026-10-01",
+"kind": "전세",
+"direct": false
+},
+{
+"apt": "수원모아미래도센트럴타운1단지",
+"umd": "금곡동",
+"area": 84.8763,
+"floor": 5.0,
+"dong": "",
+"amount": 4.62,
+"date": "2026-09-29",
+"kind": "전세",
+"direct": false
+},
 {
 "apt": "수원하늘채더퍼스트2단지",
 "umd": "곡반정동",
@@ -5717,50 +5761,17 @@
 "date": "2026-09-19",
 "kind": "전세",
 "direct": false
-},
-{
-"apt": "수원아이파크시티10단지",
-"umd": "권선동",
-"area": 84.9056,
-"floor": 7.0,
-"dong": "",
-"amount": 4.57,
-"date": "2026-09-18",
-"kind": "전세",
-"direct": false
-},
-{
-"apt": "극동스타클래스",
-"umd": "호매실동",
-"area": 84.94,
-"floor": 21.0,
-"dong": "",
-"amount": 4.3,
-"date": "2026-09-18",
-"kind": "전세",
-"direct": false
-},
-{
-"apt": "수원하늘채더퍼스트1단지",
-"umd": "곡반정동",
-"area": 84.96,
-"floor": 7.0,
-"dong": "",
-"amount": 5.25,
-"date": "2026-09-18",
-"kind": "전세",
-"direct": false
 }
 ],
 "jeonse_weak": false,
-"date": "2026-10-01"
+"date": "2026-10-02"
 },
 "2026000449-084.8508B": {
-"mkt_low": 6.49,
-"mkt_base": 7.15,
-"mkt_note": "같은 구 준공 10년 이내 같은 평형 매매 235건 기준 (최근 6개월)",
+"mkt_low": 6.5,
+"mkt_base": 7.17,
+"mkt_note": "같은 구 준공 10년 이내 같은 평형 매매 236건 기준 (최근 6개월)",
 "mkt_basis": "district_newbuild",
-"mkt_count": 235,
+"mkt_count": 236,
 "mkt_direct_excluded": 2,
 "mkt_comps": [
 {
@@ -5808,6 +5819,17 @@
 "direct": false
 },
 {
+"apt": "쌍용더플래티넘오목천역",
+"umd": "오목천동",
+"area": 84.96,
+"floor": 6.0,
+"dong": "",
+"amount": 7.55,
+"date": "2026-09-17",
+"kind": "매매",
+"direct": false
+},
+{
 "apt": "호반 써밋 수원",
 "umd": "금곡동",
 "area": 84.9843,
@@ -5839,22 +5861,44 @@
 "date": "2026-09-15",
 "kind": "매매",
 "direct": false
-},
-{
-"apt": "쌍용더플래티넘오목천역",
-"umd": "오목천동",
-"area": 84.96,
-"floor": 5.0,
-"dong": "",
-"amount": 7.28,
-"date": "2026-09-13",
-"kind": "매매",
-"direct": false
 }
 ],
 "jeonse": 3.96,
-"jeonse_note": "같은 구 준공 10년 이내 전세 120건 중앙값에서 입주장 할인 9%",
+"jeonse_note": "같은 구 준공 10년 이내 전세 123건 중앙값에서 입주장 할인 9%",
 "jeonse_comps": [
+{
+"apt": "호반베르디움더센트럴",
+"umd": "금곡동",
+"area": 84.9843,
+"floor": 13.0,
+"dong": "",
+"amount": 5.0,
+"date": "2026-10-01",
+"kind": "전세",
+"direct": false
+},
+{
+"apt": "한양수자인파크원",
+"umd": "호매실동",
+"area": 84.9521,
+"floor": 4.0,
+"dong": "",
+"amount": 4.0,
+"date": "2026-10-01",
+"kind": "전세",
+"direct": false
+},
+{
+"apt": "수원모아미래도센트럴타운1단지",
+"umd": "금곡동",
+"area": 84.8763,
+"floor": 5.0,
+"dong": "",
+"amount": 4.62,
+"date": "2026-09-29",
+"kind": "전세",
+"direct": false
+},
 {
 "apt": "수원하늘채더퍼스트2단지",
 "umd": "곡반정동",
@@ -5909,50 +5953,17 @@
 "date": "2026-09-19",
 "kind": "전세",
 "direct": false
-},
-{
-"apt": "수원아이파크시티10단지",
-"umd": "권선동",
-"area": 84.9056,
-"floor": 7.0,
-"dong": "",
-"amount": 4.57,
-"date": "2026-09-18",
-"kind": "전세",
-"direct": false
-},
-{
-"apt": "극동스타클래스",
-"umd": "호매실동",
-"area": 84.94,
-"floor": 21.0,
-"dong": "",
-"amount": 4.3,
-"date": "2026-09-18",
-"kind": "전세",
-"direct": false
-},
-{
-"apt": "수원하늘채더퍼스트1단지",
-"umd": "곡반정동",
-"area": 84.96,
-"floor": 7.0,
-"dong": "",
-"amount": 5.25,
-"date": "2026-09-18",
-"kind": "전세",
-"direct": false
 }
 ],
 "jeonse_weak": false,
-"date": "2026-10-01"
+"date": "2026-10-02"
 },
 "2026000449-084.6391C": {
-"mkt_low": 6.49,
-"mkt_base": 7.15,
-"mkt_note": "같은 구 준공 10년 이내 같은 평형 매매 235건 기준 (최근 6개월)",
+"mkt_low": 6.5,
+"mkt_base": 7.17,
+"mkt_note": "같은 구 준공 10년 이내 같은 평형 매매 236건 기준 (최근 6개월)",
 "mkt_basis": "district_newbuild",
-"mkt_count": 235,
+"mkt_count": 236,
 "mkt_direct_excluded": 2,
 "mkt_comps": [
 {
@@ -6000,6 +6011,17 @@
 "direct": false
 },
 {
+"apt": "쌍용더플래티넘오목천역",
+"umd": "오목천동",
+"area": 84.96,
+"floor": 6.0,
+"dong": "",
+"amount": 7.55,
+"date": "2026-09-17",
+"kind": "매매",
+"direct": false
+},
+{
 "apt": "호반 써밋 수원",
 "umd": "금곡동",
 "area": 84.9843,
@@ -6031,22 +6053,44 @@
 "date": "2026-09-15",
 "kind": "매매",
 "direct": false
-},
-{
-"apt": "쌍용더플래티넘오목천역",
-"umd": "오목천동",
-"area": 84.96,
-"floor": 5.0,
-"dong": "",
-"amount": 7.28,
-"date": "2026-09-13",
-"kind": "매매",
-"direct": false
 }
 ],
 "jeonse": 3.96,
-"jeonse_note": "같은 구 준공 10년 이내 전세 120건 중앙값에서 입주장 할인 9%",
+"jeonse_note": "같은 구 준공 10년 이내 전세 123건 중앙값에서 입주장 할인 9%",
 "jeonse_comps": [
+{
+"apt": "호반베르디움더센트럴",
+"umd": "금곡동",
+"area": 84.9843,
+"floor": 13.0,
+"dong": "",
+"amount": 5.0,
+"date": "2026-10-01",
+"kind": "전세",
+"direct": false
+},
+{
+"apt": "한양수자인파크원",
+"umd": "호매실동",
+"area": 84.9521,
+"floor": 4.0,
+"dong": "",
+"amount": 4.0,
+"date": "2026-10-01",
+"kind": "전세",
+"direct": false
+},
+{
+"apt": "수원모아미래도센트럴타운1단지",
+"umd": "금곡동",
+"area": 84.8763,
+"floor": 5.0,
+"dong": "",
+"amount": 4.62,
+"date": "2026-09-29",
+"kind": "전세",
+"direct": false
+},
 {
 "apt": "수원하늘채더퍼스트2단지",
 "umd": "곡반정동",
@@ -6101,50 +6145,17 @@
 "date": "2026-09-19",
 "kind": "전세",
 "direct": false
-},
-{
-"apt": "수원아이파크시티10단지",
-"umd": "권선동",
-"area": 84.9056,
-"floor": 7.0,
-"dong": "",
-"amount": 4.57,
-"date": "2026-09-18",
-"kind": "전세",
-"direct": false
-},
-{
-"apt": "극동스타클래스",
-"umd": "호매실동",
-"area": 84.94,
-"floor": 21.0,
-"dong": "",
-"amount": 4.3,
-"date": "2026-09-18",
-"kind": "전세",
-"direct": false
-},
-{
-"apt": "수원하늘채더퍼스트1단지",
-"umd": "곡반정동",
-"area": 84.96,
-"floor": 7.0,
-"dong": "",
-"amount": 5.25,
-"date": "2026-09-18",
-"kind": "전세",
-"direct": false
 }
 ],
 "jeonse_weak": false,
-"date": "2026-10-01"
+"date": "2026-10-02"
 },
 "2026000449-084.9663D": {
-"mkt_low": 6.49,
-"mkt_base": 7.15,
-"mkt_note": "같은 구 준공 10년 이내 같은 평형 매매 235건 기준 (최근 6개월)",
+"mkt_low": 6.5,
+"mkt_base": 7.17,
+"mkt_note": "같은 구 준공 10년 이내 같은 평형 매매 236건 기준 (최근 6개월)",
 "mkt_basis": "district_newbuild",
-"mkt_count": 235,
+"mkt_count": 236,
 "mkt_direct_excluded": 2,
 "mkt_comps": [
 {
@@ -6192,6 +6203,17 @@
 "direct": false
 },
 {
+"apt": "쌍용더플래티넘오목천역",
+"umd": "오목천동",
+"area": 84.96,
+"floor": 6.0,
+"dong": "",
+"amount": 7.55,
+"date": "2026-09-17",
+"kind": "매매",
+"direct": false
+},
+{
 "apt": "호반 써밋 수원",
 "umd": "금곡동",
 "area": 84.9843,
@@ -6223,22 +6245,44 @@
 "date": "2026-09-15",
 "kind": "매매",
 "direct": false
-},
-{
-"apt": "쌍용더플래티넘오목천역",
-"umd": "오목천동",
-"area": 84.96,
-"floor": 5.0,
-"dong": "",
-"amount": 7.28,
-"date": "2026-09-13",
-"kind": "매매",
-"direct": false
 }
 ],
 "jeonse": 3.96,
-"jeonse_note": "같은 구 준공 10년 이내 전세 120건 중앙값에서 입주장 할인 9%",
+"jeonse_note": "같은 구 준공 10년 이내 전세 123건 중앙값에서 입주장 할인 9%",
 "jeonse_comps": [
+{
+"apt": "호반베르디움더센트럴",
+"umd": "금곡동",
+"area": 84.9843,
+"floor": 13.0,
+"dong": "",
+"amount": 5.0,
+"date": "2026-10-01",
+"kind": "전세",
+"direct": false
+},
+{
+"apt": "한양수자인파크원",
+"umd": "호매실동",
+"area": 84.9521,
+"floor": 4.0,
+"dong": "",
+"amount": 4.0,
+"date": "2026-10-01",
+"kind": "전세",
+"direct": false
+},
+{
+"apt": "수원모아미래도센트럴타운1단지",
+"umd": "금곡동",
+"area": 84.8763,
+"floor": 5.0,
+"dong": "",
+"amount": 4.62,
+"date": "2026-09-29",
+"kind": "전세",
+"direct": false
+},
 {
 "apt": "수원하늘채더퍼스트2단지",
 "umd": "곡반정동",
@@ -6293,50 +6337,17 @@
 "date": "2026-09-19",
 "kind": "전세",
 "direct": false
-},
-{
-"apt": "수원아이파크시티10단지",
-"umd": "권선동",
-"area": 84.9056,
-"floor": 7.0,
-"dong": "",
-"amount": 4.57,
-"date": "2026-09-18",
-"kind": "전세",
-"direct": false
-},
-{
-"apt": "극동스타클래스",
-"umd": "호매실동",
-"area": 84.94,
-"floor": 21.0,
-"dong": "",
-"amount": 4.3,
-"date": "2026-09-18",
-"kind": "전세",
-"direct": false
-},
-{
-"apt": "수원하늘채더퍼스트1단지",
-"umd": "곡반정동",
-"area": 84.96,
-"floor": 7.0,
-"dong": "",
-"amount": 5.25,
-"date": "2026-09-18",
-"kind": "전세",
-"direct": false
 }
 ],
 "jeonse_weak": false,
-"date": "2026-10-01"
+"date": "2026-10-02"
 },
 "2026000449-084.9739E": {
-"mkt_low": 6.49,
-"mkt_base": 7.15,
-"mkt_note": "같은 구 준공 10년 이내 같은 평형 매매 235건 기준 (최근 6개월)",
+"mkt_low": 6.5,
+"mkt_base": 7.17,
+"mkt_note": "같은 구 준공 10년 이내 같은 평형 매매 236건 기준 (최근 6개월)",
 "mkt_basis": "district_newbuild",
-"mkt_count": 235,
+"mkt_count": 236,
 "mkt_direct_excluded": 2,
 "mkt_comps": [
 {
@@ -6384,6 +6395,17 @@
 "direct": false
 },
 {
+"apt": "쌍용더플래티넘오목천역",
+"umd": "오목천동",
+"area": 84.96,
+"floor": 6.0,
+"dong": "",
+"amount": 7.55,
+"date": "2026-09-17",
+"kind": "매매",
+"direct": false
+},
+{
 "apt": "호반 써밋 수원",
 "umd": "금곡동",
 "area": 84.9843,
@@ -6415,22 +6437,44 @@
 "date": "2026-09-15",
 "kind": "매매",
 "direct": false
-},
-{
-"apt": "쌍용더플래티넘오목천역",
-"umd": "오목천동",
-"area": 84.96,
-"floor": 5.0,
-"dong": "",
-"amount": 7.28,
-"date": "2026-09-13",
-"kind": "매매",
-"direct": false
 }
 ],
 "jeonse": 3.96,
-"jeonse_note": "같은 구 준공 10년 이내 전세 120건 중앙값에서 입주장 할인 9%",
+"jeonse_note": "같은 구 준공 10년 이내 전세 123건 중앙값에서 입주장 할인 9%",
 "jeonse_comps": [
+{
+"apt": "호반베르디움더센트럴",
+"umd": "금곡동",
+"area": 84.9843,
+"floor": 13.0,
+"dong": "",
+"amount": 5.0,
+"date": "2026-10-01",
+"kind": "전세",
+"direct": false
+},
+{
+"apt": "한양수자인파크원",
+"umd": "호매실동",
+"area": 84.9521,
+"floor": 4.0,
+"dong": "",
+"amount": 4.0,
+"date": "2026-10-01",
+"kind": "전세",
+"direct": false
+},
+{
+"apt": "수원모아미래도센트럴타운1단지",
+"umd": "금곡동",
+"area": 84.8763,
+"floor": 5.0,
+"dong": "",
+"amount": 4.62,
+"date": "2026-09-29",
+"kind": "전세",
+"direct": false
+},
 {
 "apt": "수원하늘채더퍼스트2단지",
 "umd": "곡반정동",
@@ -6485,43 +6529,10 @@
 "date": "2026-09-19",
 "kind": "전세",
 "direct": false
-},
-{
-"apt": "수원아이파크시티10단지",
-"umd": "권선동",
-"area": 84.9056,
-"floor": 7.0,
-"dong": "",
-"amount": 4.57,
-"date": "2026-09-18",
-"kind": "전세",
-"direct": false
-},
-{
-"apt": "극동스타클래스",
-"umd": "호매실동",
-"area": 84.94,
-"floor": 21.0,
-"dong": "",
-"amount": 4.3,
-"date": "2026-09-18",
-"kind": "전세",
-"direct": false
-},
-{
-"apt": "수원하늘채더퍼스트1단지",
-"umd": "곡반정동",
-"area": 84.96,
-"floor": 7.0,
-"dong": "",
-"amount": 5.25,
-"date": "2026-09-18",
-"kind": "전세",
-"direct": false
 }
 ],
 "jeonse_weak": false,
-"date": "2026-10-01"
+"date": "2026-10-02"
 },
 "2026000449-094.9503A": {
 "mkt_low": 7.21,
@@ -6669,7 +6680,7 @@
 }
 ],
 "jeonse_weak": true,
-"date": "2026-10-01"
+"date": "2026-10-02"
 },
 "2026000449-094.9610B": {
 "mkt_low": 7.21,
@@ -6817,7 +6828,7 @@
 }
 ],
 "jeonse_weak": true,
-"date": "2026-10-01"
+"date": "2026-10-02"
 },
 "2026000449-099.6774A": {
 "mkt_low": 7.34,
@@ -7009,7 +7020,7 @@
 }
 ],
 "jeonse_weak": false,
-"date": "2026-10-01"
+"date": "2026-10-02"
 },
 "2026000441-068.4720A": {
 "mkt_low": 4.4,
@@ -7079,7 +7090,7 @@
 "umd": "야음동",
 "area": 68.632,
 "floor": 8.0,
-"dong": "",
+"dong": "207동",
 "amount": 7.58,
 "date": "2026-07-04",
 "kind": "매매",
@@ -7201,7 +7212,7 @@
 }
 ],
 "jeonse_weak": false,
-"date": "2026-10-01"
+"date": "2026-10-02"
 },
 "2026000441-068.4720B": {
 "mkt_low": 4.4,
@@ -7271,7 +7282,7 @@
 "umd": "야음동",
 "area": 68.632,
 "floor": 8.0,
-"dong": "",
+"dong": "207동",
 "amount": 7.58,
 "date": "2026-07-04",
 "kind": "매매",
@@ -7393,7 +7404,7 @@
 }
 ],
 "jeonse_weak": false,
-"date": "2026-10-01"
+"date": "2026-10-02"
 },
 "2026000441-084.9937A": {
 "mkt_low": 5.48,
@@ -7493,8 +7504,19 @@
 }
 ],
 "jeonse": 4.32,
-"jeonse_note": "같은 구 준공 10년 이내 전세 151건 중앙값에서 입주장 할인 9%",
+"jeonse_note": "같은 구 준공 10년 이내 전세 153건 중앙값에서 입주장 할인 9%",
 "jeonse_comps": [
+{
+"apt": "힐스테이트수암(1단지)",
+"umd": "야음동",
+"area": 84.7267,
+"floor": 18.0,
+"dong": "",
+"amount": 4.5,
+"date": "2026-10-01",
+"kind": "전세",
+"direct": false
+},
 {
 "apt": "울산번영로두산위브",
 "umd": "야음동",
@@ -7571,21 +7593,10 @@
 "date": "2026-09-19",
 "kind": "전세",
 "direct": false
-},
-{
-"apt": "대공원호반베르디움2차",
-"umd": "두왕동",
-"area": 84.9801,
-"floor": 6.0,
-"dong": "",
-"amount": 4.1,
-"date": "2026-09-19",
-"kind": "전세",
-"direct": false
 }
 ],
 "jeonse_weak": false,
-"date": "2026-10-01"
+"date": "2026-10-02"
 },
 "2026000441-084.9890B": {
 "mkt_low": 5.48,
@@ -7685,8 +7696,19 @@
 }
 ],
 "jeonse": 4.32,
-"jeonse_note": "같은 구 준공 10년 이내 전세 151건 중앙값에서 입주장 할인 9%",
+"jeonse_note": "같은 구 준공 10년 이내 전세 153건 중앙값에서 입주장 할인 9%",
 "jeonse_comps": [
+{
+"apt": "힐스테이트수암(1단지)",
+"umd": "야음동",
+"area": 84.7267,
+"floor": 18.0,
+"dong": "",
+"amount": 4.5,
+"date": "2026-10-01",
+"kind": "전세",
+"direct": false
+},
 {
 "apt": "울산번영로두산위브",
 "umd": "야음동",
@@ -7763,798 +7785,30 @@
 "date": "2026-09-19",
 "kind": "전세",
 "direct": false
-},
-{
-"apt": "대공원호반베르디움2차",
-"umd": "두왕동",
-"area": 84.9801,
-"floor": 6.0,
-"dong": "",
-"amount": 4.1,
-"date": "2026-09-19",
-"kind": "전세",
-"direct": false
 }
 ],
 "jeonse_weak": false,
-"date": "2026-10-01"
+"date": "2026-10-02"
 },
 "2026000438-084.0000A": {
-"mkt_low": 3.8,
-"mkt_base": 5.0,
-"mkt_note": "같은 구 준공 10년 이내 같은 평형 매매 783건 기준 (최근 6개월)",
-"mkt_basis": "district_newbuild",
-"mkt_count": 783,
-"mkt_direct_excluded": 31,
-"mkt_comps": [
-{
-"apt": "평택지제역동문디이스트5단지",
-"umd": "칠원동",
-"area": 84.9942,
-"floor": 2.0,
-"dong": "",
-"amount": 4.0,
-"date": "2026-09-30",
-"kind": "매매",
-"direct": false
-},
-{
-"apt": "평택화양휴먼빌퍼스트시티아파트",
-"umd": "현덕면 화양리",
-"area": 84.984,
-"floor": 10.0,
-"dong": "",
-"amount": 4.69,
-"date": "2026-09-28",
-"kind": "매매",
-"direct": false
-},
-{
-"apt": "평택뉴비전엘크루",
-"umd": "합정동",
-"area": 84.9752,
-"floor": 25.0,
-"dong": "",
-"amount": 3.48,
-"date": "2026-09-28",
-"kind": "매매",
-"direct": false
-},
-{
-"apt": "e편한세상지제역",
-"umd": "동삭동",
-"area": 84.052,
-"floor": 6.0,
-"dong": "",
-"amount": 5.15,
-"date": "2026-09-28",
-"kind": "매매",
-"direct": false
-},
-{
-"apt": "평택효성해링턴플레이스2단지",
-"umd": "소사동",
-"area": 84.772,
-"floor": 8.0,
-"dong": "",
-"amount": 3.58,
-"date": "2026-09-27",
-"kind": "매매",
-"direct": false
-},
-{
-"apt": "평택효성해링턴플레이스2단지",
-"umd": "소사동",
-"area": 84.793,
-"floor": 21.0,
-"dong": "",
-"amount": 3.33,
-"date": "2026-09-27",
-"kind": "매매",
-"direct": false
-},
-{
-"apt": "e편한세상평택용이2단지",
-"umd": "용이동",
-"area": 84.91,
-"floor": 12.0,
-"dong": "",
-"amount": 3.03,
-"date": "2026-09-27",
-"kind": "매매",
-"direct": false
-},
-{
-"apt": "평택소사벌중흥에스-클래스에코시티",
-"umd": "죽백동",
-"area": 84.9939,
-"floor": 7.0,
-"dong": "",
-"amount": 3.63,
-"date": "2026-09-23",
-"kind": "매매",
-"direct": false
-}
-],
-"jeonse": 2.61,
-"jeonse_note": "같은 구 준공 10년 이내 전세 734건 중앙값에서 입주장 할인 9%",
-"jeonse_comps": [
-{
-"apt": "고덕국제신도시리슈빌레이크파크",
-"umd": "고덕동",
-"area": 84.8462,
-"floor": 4.0,
-"dong": "",
-"amount": 2.83,
-"date": "2026-09-30",
-"kind": "전세",
-"direct": false
-},
-{
-"apt": "고덕국제신도시리슈빌레이크파크",
-"umd": "고덕동",
-"area": 84.8462,
-"floor": 12.0,
-"dong": "",
-"amount": 3.45,
-"date": "2026-09-29",
-"kind": "전세",
-"direct": false
-},
-{
-"apt": "지제역더샵센트럴시티",
-"umd": "지제동",
-"area": 84.9264,
-"floor": 16.0,
-"dong": "",
-"amount": 3.8,
-"date": "2026-09-29",
-"kind": "전세",
-"direct": false
-},
-{
-"apt": "고덕국제신도시파라곤에듀포레",
-"umd": "고덕동",
-"area": 84.7996,
-"floor": 8.0,
-"dong": "",
-"amount": 2.2,
-"date": "2026-09-29",
-"kind": "전세",
-"direct": false
-},
-{
-"apt": "고덕하늘채시그니처",
-"umd": "고덕면 궁리",
-"area": 84.7048,
-"floor": 23.0,
-"dong": "",
-"amount": 2.65,
-"date": "2026-09-29",
-"kind": "전세",
-"direct": false
-},
-{
-"apt": "고덕국제신도시대광로제비앙THEART",
-"umd": "고덕동",
-"area": 84.9656,
-"floor": 12.0,
-"dong": "",
-"amount": 3.5,
-"date": "2026-09-29",
-"kind": "전세",
-"direct": false
-},
-{
-"apt": "지제역더샵센트럴시티",
-"umd": "지제동",
-"area": 84.9264,
-"floor": 8.0,
-"dong": "",
-"amount": 3.41,
-"date": "2026-09-28",
-"kind": "전세",
-"direct": false
-},
-{
-"apt": "힐스테이트지제역",
-"umd": "동삭동",
-"area": 84.9974,
-"floor": 18.0,
-"dong": "",
-"amount": 3.3,
-"date": "2026-09-28",
-"kind": "전세",
-"direct": false
-}
-],
-"jeonse_weak": false,
-"date": "2026-10-01"
-},
-"2026000438-084.0000B": {
-"mkt_low": 3.8,
-"mkt_base": 5.0,
-"mkt_note": "같은 구 준공 10년 이내 같은 평형 매매 783건 기준 (최근 6개월)",
-"mkt_basis": "district_newbuild",
-"mkt_count": 783,
-"mkt_direct_excluded": 31,
-"mkt_comps": [
-{
-"apt": "평택지제역동문디이스트5단지",
-"umd": "칠원동",
-"area": 84.9942,
-"floor": 2.0,
-"dong": "",
-"amount": 4.0,
-"date": "2026-09-30",
-"kind": "매매",
-"direct": false
-},
-{
-"apt": "평택화양휴먼빌퍼스트시티아파트",
-"umd": "현덕면 화양리",
-"area": 84.984,
-"floor": 10.0,
-"dong": "",
-"amount": 4.69,
-"date": "2026-09-28",
-"kind": "매매",
-"direct": false
-},
-{
-"apt": "평택뉴비전엘크루",
-"umd": "합정동",
-"area": 84.9752,
-"floor": 25.0,
-"dong": "",
-"amount": 3.48,
-"date": "2026-09-28",
-"kind": "매매",
-"direct": false
-},
-{
-"apt": "e편한세상지제역",
-"umd": "동삭동",
-"area": 84.052,
-"floor": 6.0,
-"dong": "",
-"amount": 5.15,
-"date": "2026-09-28",
-"kind": "매매",
-"direct": false
-},
-{
-"apt": "평택효성해링턴플레이스2단지",
-"umd": "소사동",
-"area": 84.772,
-"floor": 8.0,
-"dong": "",
-"amount": 3.58,
-"date": "2026-09-27",
-"kind": "매매",
-"direct": false
-},
-{
-"apt": "평택효성해링턴플레이스2단지",
-"umd": "소사동",
-"area": 84.793,
-"floor": 21.0,
-"dong": "",
-"amount": 3.33,
-"date": "2026-09-27",
-"kind": "매매",
-"direct": false
-},
-{
-"apt": "e편한세상평택용이2단지",
-"umd": "용이동",
-"area": 84.91,
-"floor": 12.0,
-"dong": "",
-"amount": 3.03,
-"date": "2026-09-27",
-"kind": "매매",
-"direct": false
-},
-{
-"apt": "평택소사벌중흥에스-클래스에코시티",
-"umd": "죽백동",
-"area": 84.9939,
-"floor": 7.0,
-"dong": "",
-"amount": 3.63,
-"date": "2026-09-23",
-"kind": "매매",
-"direct": false
-}
-],
-"jeonse": 2.61,
-"jeonse_note": "같은 구 준공 10년 이내 전세 734건 중앙값에서 입주장 할인 9%",
-"jeonse_comps": [
-{
-"apt": "고덕국제신도시리슈빌레이크파크",
-"umd": "고덕동",
-"area": 84.8462,
-"floor": 4.0,
-"dong": "",
-"amount": 2.83,
-"date": "2026-09-30",
-"kind": "전세",
-"direct": false
-},
-{
-"apt": "고덕국제신도시리슈빌레이크파크",
-"umd": "고덕동",
-"area": 84.8462,
-"floor": 12.0,
-"dong": "",
-"amount": 3.45,
-"date": "2026-09-29",
-"kind": "전세",
-"direct": false
-},
-{
-"apt": "지제역더샵센트럴시티",
-"umd": "지제동",
-"area": 84.9264,
-"floor": 16.0,
-"dong": "",
-"amount": 3.8,
-"date": "2026-09-29",
-"kind": "전세",
-"direct": false
-},
-{
-"apt": "고덕국제신도시파라곤에듀포레",
-"umd": "고덕동",
-"area": 84.7996,
-"floor": 8.0,
-"dong": "",
-"amount": 2.2,
-"date": "2026-09-29",
-"kind": "전세",
-"direct": false
-},
-{
-"apt": "고덕하늘채시그니처",
-"umd": "고덕면 궁리",
-"area": 84.7048,
-"floor": 23.0,
-"dong": "",
-"amount": 2.65,
-"date": "2026-09-29",
-"kind": "전세",
-"direct": false
-},
-{
-"apt": "고덕국제신도시대광로제비앙THEART",
-"umd": "고덕동",
-"area": 84.9656,
-"floor": 12.0,
-"dong": "",
-"amount": 3.5,
-"date": "2026-09-29",
-"kind": "전세",
-"direct": false
-},
-{
-"apt": "지제역더샵센트럴시티",
-"umd": "지제동",
-"area": 84.9264,
-"floor": 8.0,
-"dong": "",
-"amount": 3.41,
-"date": "2026-09-28",
-"kind": "전세",
-"direct": false
-},
-{
-"apt": "힐스테이트지제역",
-"umd": "동삭동",
-"area": 84.9974,
-"floor": 18.0,
-"dong": "",
-"amount": 3.3,
-"date": "2026-09-28",
-"kind": "전세",
-"direct": false
-}
-],
-"jeonse_weak": false,
-"date": "2026-10-01"
-},
-"2026000437-084.0000A": {
-"mkt_low": 3.8,
-"mkt_base": 5.0,
-"mkt_note": "같은 구 준공 10년 이내 같은 평형 매매 783건 기준 (최근 6개월)",
-"mkt_basis": "district_newbuild",
-"mkt_count": 783,
-"mkt_direct_excluded": 31,
-"mkt_comps": [
-{
-"apt": "평택지제역동문디이스트5단지",
-"umd": "칠원동",
-"area": 84.9942,
-"floor": 2.0,
-"dong": "",
-"amount": 4.0,
-"date": "2026-09-30",
-"kind": "매매",
-"direct": false
-},
-{
-"apt": "평택화양휴먼빌퍼스트시티아파트",
-"umd": "현덕면 화양리",
-"area": 84.984,
-"floor": 10.0,
-"dong": "",
-"amount": 4.69,
-"date": "2026-09-28",
-"kind": "매매",
-"direct": false
-},
-{
-"apt": "평택뉴비전엘크루",
-"umd": "합정동",
-"area": 84.9752,
-"floor": 25.0,
-"dong": "",
-"amount": 3.48,
-"date": "2026-09-28",
-"kind": "매매",
-"direct": false
-},
-{
-"apt": "e편한세상지제역",
-"umd": "동삭동",
-"area": 84.052,
-"floor": 6.0,
-"dong": "",
-"amount": 5.15,
-"date": "2026-09-28",
-"kind": "매매",
-"direct": false
-},
-{
-"apt": "평택효성해링턴플레이스2단지",
-"umd": "소사동",
-"area": 84.772,
-"floor": 8.0,
-"dong": "",
-"amount": 3.58,
-"date": "2026-09-27",
-"kind": "매매",
-"direct": false
-},
-{
-"apt": "평택효성해링턴플레이스2단지",
-"umd": "소사동",
-"area": 84.793,
-"floor": 21.0,
-"dong": "",
-"amount": 3.33,
-"date": "2026-09-27",
-"kind": "매매",
-"direct": false
-},
-{
-"apt": "e편한세상평택용이2단지",
-"umd": "용이동",
-"area": 84.91,
-"floor": 12.0,
-"dong": "",
-"amount": 3.03,
-"date": "2026-09-27",
-"kind": "매매",
-"direct": false
-},
-{
-"apt": "평택소사벌중흥에스-클래스에코시티",
-"umd": "죽백동",
-"area": 84.9939,
-"floor": 7.0,
-"dong": "",
-"amount": 3.63,
-"date": "2026-09-23",
-"kind": "매매",
-"direct": false
-}
-],
-"jeonse": 2.61,
-"jeonse_note": "같은 구 준공 10년 이내 전세 734건 중앙값에서 입주장 할인 9%",
-"jeonse_comps": [
-{
-"apt": "고덕국제신도시리슈빌레이크파크",
-"umd": "고덕동",
-"area": 84.8462,
-"floor": 4.0,
-"dong": "",
-"amount": 2.83,
-"date": "2026-09-30",
-"kind": "전세",
-"direct": false
-},
-{
-"apt": "고덕국제신도시리슈빌레이크파크",
-"umd": "고덕동",
-"area": 84.8462,
-"floor": 12.0,
-"dong": "",
-"amount": 3.45,
-"date": "2026-09-29",
-"kind": "전세",
-"direct": false
-},
-{
-"apt": "지제역더샵센트럴시티",
-"umd": "지제동",
-"area": 84.9264,
-"floor": 16.0,
-"dong": "",
-"amount": 3.8,
-"date": "2026-09-29",
-"kind": "전세",
-"direct": false
-},
-{
-"apt": "고덕국제신도시파라곤에듀포레",
-"umd": "고덕동",
-"area": 84.7996,
-"floor": 8.0,
-"dong": "",
-"amount": 2.2,
-"date": "2026-09-29",
-"kind": "전세",
-"direct": false
-},
-{
-"apt": "고덕하늘채시그니처",
-"umd": "고덕면 궁리",
-"area": 84.7048,
-"floor": 23.0,
-"dong": "",
-"amount": 2.65,
-"date": "2026-09-29",
-"kind": "전세",
-"direct": false
-},
-{
-"apt": "고덕국제신도시대광로제비앙THEART",
-"umd": "고덕동",
-"area": 84.9656,
-"floor": 12.0,
-"dong": "",
-"amount": 3.5,
-"date": "2026-09-29",
-"kind": "전세",
-"direct": false
-},
-{
-"apt": "지제역더샵센트럴시티",
-"umd": "지제동",
-"area": 84.9264,
-"floor": 8.0,
-"dong": "",
-"amount": 3.41,
-"date": "2026-09-28",
-"kind": "전세",
-"direct": false
-},
-{
-"apt": "힐스테이트지제역",
-"umd": "동삭동",
-"area": 84.9974,
-"floor": 18.0,
-"dong": "",
-"amount": 3.3,
-"date": "2026-09-28",
-"kind": "전세",
-"direct": false
-}
-],
-"jeonse_weak": false,
-"date": "2026-10-01"
-},
-"2026000437-084.0000B": {
-"mkt_low": 3.8,
-"mkt_base": 5.0,
-"mkt_note": "같은 구 준공 10년 이내 같은 평형 매매 783건 기준 (최근 6개월)",
-"mkt_basis": "district_newbuild",
-"mkt_count": 783,
-"mkt_direct_excluded": 31,
-"mkt_comps": [
-{
-"apt": "평택지제역동문디이스트5단지",
-"umd": "칠원동",
-"area": 84.9942,
-"floor": 2.0,
-"dong": "",
-"amount": 4.0,
-"date": "2026-09-30",
-"kind": "매매",
-"direct": false
-},
-{
-"apt": "평택화양휴먼빌퍼스트시티아파트",
-"umd": "현덕면 화양리",
-"area": 84.984,
-"floor": 10.0,
-"dong": "",
-"amount": 4.69,
-"date": "2026-09-28",
-"kind": "매매",
-"direct": false
-},
-{
-"apt": "평택뉴비전엘크루",
-"umd": "합정동",
-"area": 84.9752,
-"floor": 25.0,
-"dong": "",
-"amount": 3.48,
-"date": "2026-09-28",
-"kind": "매매",
-"direct": false
-},
-{
-"apt": "e편한세상지제역",
-"umd": "동삭동",
-"area": 84.052,
-"floor": 6.0,
-"dong": "",
-"amount": 5.15,
-"date": "2026-09-28",
-"kind": "매매",
-"direct": false
-},
-{
-"apt": "평택효성해링턴플레이스2단지",
-"umd": "소사동",
-"area": 84.772,
-"floor": 8.0,
-"dong": "",
-"amount": 3.58,
-"date": "2026-09-27",
-"kind": "매매",
-"direct": false
-},
-{
-"apt": "평택효성해링턴플레이스2단지",
-"umd": "소사동",
-"area": 84.793,
-"floor": 21.0,
-"dong": "",
-"amount": 3.33,
-"date": "2026-09-27",
-"kind": "매매",
-"direct": false
-},
-{
-"apt": "e편한세상평택용이2단지",
-"umd": "용이동",
-"area": 84.91,
-"floor": 12.0,
-"dong": "",
-"amount": 3.03,
-"date": "2026-09-27",
-"kind": "매매",
-"direct": false
-},
-{
-"apt": "평택소사벌중흥에스-클래스에코시티",
-"umd": "죽백동",
-"area": 84.9939,
-"floor": 7.0,
-"dong": "",
-"amount": 3.63,
-"date": "2026-09-23",
-"kind": "매매",
-"direct": false
-}
-],
-"jeonse": 2.61,
-"jeonse_note": "같은 구 준공 10년 이내 전세 734건 중앙값에서 입주장 할인 9%",
-"jeonse_comps": [
-{
-"apt": "고덕국제신도시리슈빌레이크파크",
-"umd": "고덕동",
-"area": 84.8462,
-"floor": 4.0,
-"dong": "",
-"amount": 2.83,
-"date": "2026-09-30",
-"kind": "전세",
-"direct": false
-},
-{
-"apt": "고덕국제신도시리슈빌레이크파크",
-"umd": "고덕동",
-"area": 84.8462,
-"floor": 12.0,
-"dong": "",
-"amount": 3.45,
-"date": "2026-09-29",
-"kind": "전세",
-"direct": false
-},
-{
-"apt": "지제역더샵센트럴시티",
-"umd": "지제동",
-"area": 84.9264,
-"floor": 16.0,
-"dong": "",
-"amount": 3.8,
-"date": "2026-09-29",
-"kind": "전세",
-"direct": false
-},
-{
-"apt": "고덕국제신도시파라곤에듀포레",
-"umd": "고덕동",
-"area": 84.7996,
-"floor": 8.0,
-"dong": "",
-"amount": 2.2,
-"date": "2026-09-29",
-"kind": "전세",
-"direct": false
-},
-{
-"apt": "고덕하늘채시그니처",
-"umd": "고덕면 궁리",
-"area": 84.7048,
-"floor": 23.0,
-"dong": "",
-"amount": 2.65,
-"date": "2026-09-29",
-"kind": "전세",
-"direct": false
-},
-{
-"apt": "고덕국제신도시대광로제비앙THEART",
-"umd": "고덕동",
-"area": 84.9656,
-"floor": 12.0,
-"dong": "",
-"amount": 3.5,
-"date": "2026-09-29",
-"kind": "전세",
-"direct": false
-},
-{
-"apt": "지제역더샵센트럴시티",
-"umd": "지제동",
-"area": 84.9264,
-"floor": 8.0,
-"dong": "",
-"amount": 3.41,
-"date": "2026-09-28",
-"kind": "전세",
-"direct": false
-},
-{
-"apt": "힐스테이트지제역",
-"umd": "동삭동",
-"area": 84.9974,
-"floor": 18.0,
-"dong": "",
-"amount": 3.3,
-"date": "2026-09-28",
-"kind": "전세",
-"direct": false
-}
-],
-"jeonse_weak": false,
-"date": "2026-10-01"
-},
-"2026000437-084.9500C": {
 "mkt_low": 3.81,
 "mkt_base": 5.0,
-"mkt_note": "같은 구 준공 10년 이내 같은 평형 매매 782건 기준 (최근 6개월)",
+"mkt_note": "같은 구 준공 10년 이내 같은 평형 매매 786건 기준 (최근 6개월)",
 "mkt_basis": "district_newbuild",
-"mkt_count": 782,
-"mkt_direct_excluded": 31,
+"mkt_count": 786,
+"mkt_direct_excluded": 32,
 "mkt_comps": [
+{
+"apt": "호반써밋고덕신도시",
+"umd": "고덕동",
+"area": 84.9092,
+"floor": 8.0,
+"dong": "",
+"amount": 6.95,
+"date": "2026-09-30",
+"kind": "매매",
+"direct": false
+},
 {
 "apt": "평택지제역동문디이스트5단지",
 "umd": "칠원동",
@@ -8631,22 +7885,66 @@
 "date": "2026-09-27",
 "kind": "매매",
 "direct": false
-},
-{
-"apt": "평택소사벌중흥에스-클래스에코시티",
-"umd": "죽백동",
-"area": 84.9939,
-"floor": 7.0,
-"dong": "",
-"amount": 3.63,
-"date": "2026-09-23",
-"kind": "매매",
-"direct": false
 }
 ],
 "jeonse": 2.61,
-"jeonse_note": "같은 구 준공 10년 이내 전세 733건 중앙값에서 입주장 할인 9%",
+"jeonse_note": "같은 구 준공 10년 이내 전세 745건 중앙값에서 입주장 할인 9%",
 "jeonse_comps": [
+{
+"apt": "호반써밋고덕국제신도시에듀파크",
+"umd": "고덕동",
+"area": 84.4382,
+"floor": 20.0,
+"dong": "",
+"amount": 3.5,
+"date": "2026-10-01",
+"kind": "전세",
+"direct": false
+},
+{
+"apt": "힐스테이트평택화양",
+"umd": "현덕면 화양리",
+"area": 84.5911,
+"floor": 10.0,
+"dong": "",
+"amount": 2.4,
+"date": "2026-10-01",
+"kind": "전세",
+"direct": false
+},
+{
+"apt": "힐스테이트평택화양",
+"umd": "현덕면 화양리",
+"area": 84.5911,
+"floor": 11.0,
+"dong": "",
+"amount": 2.4,
+"date": "2026-10-01",
+"kind": "전세",
+"direct": false
+},
+{
+"apt": "브레인시티2BL로제비앙엘가더퍼스트",
+"umd": "장안동",
+"area": 84.9991,
+"floor": 27.0,
+"dong": "",
+"amount": 2.8,
+"date": "2026-09-30",
+"kind": "전세",
+"direct": false
+},
+{
+"apt": "송담지엔하임1차",
+"umd": "안중읍 송담리",
+"area": 84.9059,
+"floor": 20.0,
+"dong": "",
+"amount": 2.2,
+"date": "2026-09-30",
+"kind": "전세",
+"direct": false
+},
 {
 "apt": "고덕국제신도시리슈빌레이크파크",
 "umd": "고덕동",
@@ -8659,85 +7957,798 @@
 "direct": false
 },
 {
-"apt": "고덕국제신도시리슈빌레이크파크",
-"umd": "고덕동",
-"area": 84.8462,
-"floor": 12.0,
-"dong": "",
-"amount": 3.45,
-"date": "2026-09-29",
-"kind": "전세",
-"direct": false
-},
-{
-"apt": "지제역더샵센트럴시티",
-"umd": "지제동",
-"area": 84.9264,
-"floor": 16.0,
-"dong": "",
-"amount": 3.8,
-"date": "2026-09-29",
-"kind": "전세",
-"direct": false
-},
-{
-"apt": "고덕국제신도시파라곤에듀포레",
-"umd": "고덕동",
-"area": 84.7996,
-"floor": 8.0,
-"dong": "",
-"amount": 2.2,
-"date": "2026-09-29",
-"kind": "전세",
-"direct": false
-},
-{
-"apt": "고덕하늘채시그니처",
-"umd": "고덕면 궁리",
-"area": 84.7048,
+"apt": "평택지제역동문굿모닝힐맘시티4단지",
+"umd": "칠원동",
+"area": 84.9718,
 "floor": 23.0,
 "dong": "",
-"amount": 2.65,
+"amount": 2.5,
 "date": "2026-09-29",
 "kind": "전세",
 "direct": false
 },
 {
-"apt": "고덕국제신도시대광로제비앙THEART",
-"umd": "고덕동",
-"area": 84.9656,
-"floor": 12.0,
-"dong": "",
-"amount": 3.5,
-"date": "2026-09-29",
-"kind": "전세",
-"direct": false
-},
-{
-"apt": "지제역더샵센트럴시티",
-"umd": "지제동",
-"area": 84.9264,
-"floor": 8.0,
-"dong": "",
-"amount": 3.41,
-"date": "2026-09-28",
-"kind": "전세",
-"direct": false
-},
-{
-"apt": "힐스테이트지제역",
-"umd": "동삭동",
-"area": 84.9974,
-"floor": 18.0,
+"apt": "평택비전에듀포레푸르지오",
+"umd": "용이동",
+"area": 84.9274,
+"floor": 1.0,
 "dong": "",
 "amount": 3.3,
-"date": "2026-09-28",
+"date": "2026-09-29",
 "kind": "전세",
 "direct": false
 }
 ],
 "jeonse_weak": false,
-"date": "2026-10-01"
+"date": "2026-10-02"
+},
+"2026000438-084.0000B": {
+"mkt_low": 3.81,
+"mkt_base": 5.0,
+"mkt_note": "같은 구 준공 10년 이내 같은 평형 매매 786건 기준 (최근 6개월)",
+"mkt_basis": "district_newbuild",
+"mkt_count": 786,
+"mkt_direct_excluded": 32,
+"mkt_comps": [
+{
+"apt": "호반써밋고덕신도시",
+"umd": "고덕동",
+"area": 84.9092,
+"floor": 8.0,
+"dong": "",
+"amount": 6.95,
+"date": "2026-09-30",
+"kind": "매매",
+"direct": false
+},
+{
+"apt": "평택지제역동문디이스트5단지",
+"umd": "칠원동",
+"area": 84.9942,
+"floor": 2.0,
+"dong": "",
+"amount": 4.0,
+"date": "2026-09-30",
+"kind": "매매",
+"direct": false
+},
+{
+"apt": "평택화양휴먼빌퍼스트시티아파트",
+"umd": "현덕면 화양리",
+"area": 84.984,
+"floor": 10.0,
+"dong": "",
+"amount": 4.69,
+"date": "2026-09-28",
+"kind": "매매",
+"direct": false
+},
+{
+"apt": "평택뉴비전엘크루",
+"umd": "합정동",
+"area": 84.9752,
+"floor": 25.0,
+"dong": "",
+"amount": 3.48,
+"date": "2026-09-28",
+"kind": "매매",
+"direct": false
+},
+{
+"apt": "e편한세상지제역",
+"umd": "동삭동",
+"area": 84.052,
+"floor": 6.0,
+"dong": "",
+"amount": 5.15,
+"date": "2026-09-28",
+"kind": "매매",
+"direct": false
+},
+{
+"apt": "평택효성해링턴플레이스2단지",
+"umd": "소사동",
+"area": 84.772,
+"floor": 8.0,
+"dong": "",
+"amount": 3.58,
+"date": "2026-09-27",
+"kind": "매매",
+"direct": false
+},
+{
+"apt": "평택효성해링턴플레이스2단지",
+"umd": "소사동",
+"area": 84.793,
+"floor": 21.0,
+"dong": "",
+"amount": 3.33,
+"date": "2026-09-27",
+"kind": "매매",
+"direct": false
+},
+{
+"apt": "e편한세상평택용이2단지",
+"umd": "용이동",
+"area": 84.91,
+"floor": 12.0,
+"dong": "",
+"amount": 3.03,
+"date": "2026-09-27",
+"kind": "매매",
+"direct": false
+}
+],
+"jeonse": 2.61,
+"jeonse_note": "같은 구 준공 10년 이내 전세 745건 중앙값에서 입주장 할인 9%",
+"jeonse_comps": [
+{
+"apt": "호반써밋고덕국제신도시에듀파크",
+"umd": "고덕동",
+"area": 84.4382,
+"floor": 20.0,
+"dong": "",
+"amount": 3.5,
+"date": "2026-10-01",
+"kind": "전세",
+"direct": false
+},
+{
+"apt": "힐스테이트평택화양",
+"umd": "현덕면 화양리",
+"area": 84.5911,
+"floor": 10.0,
+"dong": "",
+"amount": 2.4,
+"date": "2026-10-01",
+"kind": "전세",
+"direct": false
+},
+{
+"apt": "힐스테이트평택화양",
+"umd": "현덕면 화양리",
+"area": 84.5911,
+"floor": 11.0,
+"dong": "",
+"amount": 2.4,
+"date": "2026-10-01",
+"kind": "전세",
+"direct": false
+},
+{
+"apt": "브레인시티2BL로제비앙엘가더퍼스트",
+"umd": "장안동",
+"area": 84.9991,
+"floor": 27.0,
+"dong": "",
+"amount": 2.8,
+"date": "2026-09-30",
+"kind": "전세",
+"direct": false
+},
+{
+"apt": "송담지엔하임1차",
+"umd": "안중읍 송담리",
+"area": 84.9059,
+"floor": 20.0,
+"dong": "",
+"amount": 2.2,
+"date": "2026-09-30",
+"kind": "전세",
+"direct": false
+},
+{
+"apt": "고덕국제신도시리슈빌레이크파크",
+"umd": "고덕동",
+"area": 84.8462,
+"floor": 4.0,
+"dong": "",
+"amount": 2.83,
+"date": "2026-09-30",
+"kind": "전세",
+"direct": false
+},
+{
+"apt": "평택지제역동문굿모닝힐맘시티4단지",
+"umd": "칠원동",
+"area": 84.9718,
+"floor": 23.0,
+"dong": "",
+"amount": 2.5,
+"date": "2026-09-29",
+"kind": "전세",
+"direct": false
+},
+{
+"apt": "평택비전에듀포레푸르지오",
+"umd": "용이동",
+"area": 84.9274,
+"floor": 1.0,
+"dong": "",
+"amount": 3.3,
+"date": "2026-09-29",
+"kind": "전세",
+"direct": false
+}
+],
+"jeonse_weak": false,
+"date": "2026-10-02"
+},
+"2026000437-084.0000A": {
+"mkt_low": 3.81,
+"mkt_base": 5.0,
+"mkt_note": "같은 구 준공 10년 이내 같은 평형 매매 786건 기준 (최근 6개월)",
+"mkt_basis": "district_newbuild",
+"mkt_count": 786,
+"mkt_direct_excluded": 32,
+"mkt_comps": [
+{
+"apt": "호반써밋고덕신도시",
+"umd": "고덕동",
+"area": 84.9092,
+"floor": 8.0,
+"dong": "",
+"amount": 6.95,
+"date": "2026-09-30",
+"kind": "매매",
+"direct": false
+},
+{
+"apt": "평택지제역동문디이스트5단지",
+"umd": "칠원동",
+"area": 84.9942,
+"floor": 2.0,
+"dong": "",
+"amount": 4.0,
+"date": "2026-09-30",
+"kind": "매매",
+"direct": false
+},
+{
+"apt": "평택화양휴먼빌퍼스트시티아파트",
+"umd": "현덕면 화양리",
+"area": 84.984,
+"floor": 10.0,
+"dong": "",
+"amount": 4.69,
+"date": "2026-09-28",
+"kind": "매매",
+"direct": false
+},
+{
+"apt": "평택뉴비전엘크루",
+"umd": "합정동",
+"area": 84.9752,
+"floor": 25.0,
+"dong": "",
+"amount": 3.48,
+"date": "2026-09-28",
+"kind": "매매",
+"direct": false
+},
+{
+"apt": "e편한세상지제역",
+"umd": "동삭동",
+"area": 84.052,
+"floor": 6.0,
+"dong": "",
+"amount": 5.15,
+"date": "2026-09-28",
+"kind": "매매",
+"direct": false
+},
+{
+"apt": "평택효성해링턴플레이스2단지",
+"umd": "소사동",
+"area": 84.772,
+"floor": 8.0,
+"dong": "",
+"amount": 3.58,
+"date": "2026-09-27",
+"kind": "매매",
+"direct": false
+},
+{
+"apt": "평택효성해링턴플레이스2단지",
+"umd": "소사동",
+"area": 84.793,
+"floor": 21.0,
+"dong": "",
+"amount": 3.33,
+"date": "2026-09-27",
+"kind": "매매",
+"direct": false
+},
+{
+"apt": "e편한세상평택용이2단지",
+"umd": "용이동",
+"area": 84.91,
+"floor": 12.0,
+"dong": "",
+"amount": 3.03,
+"date": "2026-09-27",
+"kind": "매매",
+"direct": false
+}
+],
+"jeonse": 2.61,
+"jeonse_note": "같은 구 준공 10년 이내 전세 745건 중앙값에서 입주장 할인 9%",
+"jeonse_comps": [
+{
+"apt": "호반써밋고덕국제신도시에듀파크",
+"umd": "고덕동",
+"area": 84.4382,
+"floor": 20.0,
+"dong": "",
+"amount": 3.5,
+"date": "2026-10-01",
+"kind": "전세",
+"direct": false
+},
+{
+"apt": "힐스테이트평택화양",
+"umd": "현덕면 화양리",
+"area": 84.5911,
+"floor": 10.0,
+"dong": "",
+"amount": 2.4,
+"date": "2026-10-01",
+"kind": "전세",
+"direct": false
+},
+{
+"apt": "힐스테이트평택화양",
+"umd": "현덕면 화양리",
+"area": 84.5911,
+"floor": 11.0,
+"dong": "",
+"amount": 2.4,
+"date": "2026-10-01",
+"kind": "전세",
+"direct": false
+},
+{
+"apt": "브레인시티2BL로제비앙엘가더퍼스트",
+"umd": "장안동",
+"area": 84.9991,
+"floor": 27.0,
+"dong": "",
+"amount": 2.8,
+"date": "2026-09-30",
+"kind": "전세",
+"direct": false
+},
+{
+"apt": "송담지엔하임1차",
+"umd": "안중읍 송담리",
+"area": 84.9059,
+"floor": 20.0,
+"dong": "",
+"amount": 2.2,
+"date": "2026-09-30",
+"kind": "전세",
+"direct": false
+},
+{
+"apt": "고덕국제신도시리슈빌레이크파크",
+"umd": "고덕동",
+"area": 84.8462,
+"floor": 4.0,
+"dong": "",
+"amount": 2.83,
+"date": "2026-09-30",
+"kind": "전세",
+"direct": false
+},
+{
+"apt": "평택지제역동문굿모닝힐맘시티4단지",
+"umd": "칠원동",
+"area": 84.9718,
+"floor": 23.0,
+"dong": "",
+"amount": 2.5,
+"date": "2026-09-29",
+"kind": "전세",
+"direct": false
+},
+{
+"apt": "평택비전에듀포레푸르지오",
+"umd": "용이동",
+"area": 84.9274,
+"floor": 1.0,
+"dong": "",
+"amount": 3.3,
+"date": "2026-09-29",
+"kind": "전세",
+"direct": false
+}
+],
+"jeonse_weak": false,
+"date": "2026-10-02"
+},
+"2026000437-084.0000B": {
+"mkt_low": 3.81,
+"mkt_base": 5.0,
+"mkt_note": "같은 구 준공 10년 이내 같은 평형 매매 786건 기준 (최근 6개월)",
+"mkt_basis": "district_newbuild",
+"mkt_count": 786,
+"mkt_direct_excluded": 32,
+"mkt_comps": [
+{
+"apt": "호반써밋고덕신도시",
+"umd": "고덕동",
+"area": 84.9092,
+"floor": 8.0,
+"dong": "",
+"amount": 6.95,
+"date": "2026-09-30",
+"kind": "매매",
+"direct": false
+},
+{
+"apt": "평택지제역동문디이스트5단지",
+"umd": "칠원동",
+"area": 84.9942,
+"floor": 2.0,
+"dong": "",
+"amount": 4.0,
+"date": "2026-09-30",
+"kind": "매매",
+"direct": false
+},
+{
+"apt": "평택화양휴먼빌퍼스트시티아파트",
+"umd": "현덕면 화양리",
+"area": 84.984,
+"floor": 10.0,
+"dong": "",
+"amount": 4.69,
+"date": "2026-09-28",
+"kind": "매매",
+"direct": false
+},
+{
+"apt": "평택뉴비전엘크루",
+"umd": "합정동",
+"area": 84.9752,
+"floor": 25.0,
+"dong": "",
+"amount": 3.48,
+"date": "2026-09-28",
+"kind": "매매",
+"direct": false
+},
+{
+"apt": "e편한세상지제역",
+"umd": "동삭동",
+"area": 84.052,
+"floor": 6.0,
+"dong": "",
+"amount": 5.15,
+"date": "2026-09-28",
+"kind": "매매",
+"direct": false
+},
+{
+"apt": "평택효성해링턴플레이스2단지",
+"umd": "소사동",
+"area": 84.772,
+"floor": 8.0,
+"dong": "",
+"amount": 3.58,
+"date": "2026-09-27",
+"kind": "매매",
+"direct": false
+},
+{
+"apt": "평택효성해링턴플레이스2단지",
+"umd": "소사동",
+"area": 84.793,
+"floor": 21.0,
+"dong": "",
+"amount": 3.33,
+"date": "2026-09-27",
+"kind": "매매",
+"direct": false
+},
+{
+"apt": "e편한세상평택용이2단지",
+"umd": "용이동",
+"area": 84.91,
+"floor": 12.0,
+"dong": "",
+"amount": 3.03,
+"date": "2026-09-27",
+"kind": "매매",
+"direct": false
+}
+],
+"jeonse": 2.61,
+"jeonse_note": "같은 구 준공 10년 이내 전세 745건 중앙값에서 입주장 할인 9%",
+"jeonse_comps": [
+{
+"apt": "호반써밋고덕국제신도시에듀파크",
+"umd": "고덕동",
+"area": 84.4382,
+"floor": 20.0,
+"dong": "",
+"amount": 3.5,
+"date": "2026-10-01",
+"kind": "전세",
+"direct": false
+},
+{
+"apt": "힐스테이트평택화양",
+"umd": "현덕면 화양리",
+"area": 84.5911,
+"floor": 10.0,
+"dong": "",
+"amount": 2.4,
+"date": "2026-10-01",
+"kind": "전세",
+"direct": false
+},
+{
+"apt": "힐스테이트평택화양",
+"umd": "현덕면 화양리",
+"area": 84.5911,
+"floor": 11.0,
+"dong": "",
+"amount": 2.4,
+"date": "2026-10-01",
+"kind": "전세",
+"direct": false
+},
+{
+"apt": "브레인시티2BL로제비앙엘가더퍼스트",
+"umd": "장안동",
+"area": 84.9991,
+"floor": 27.0,
+"dong": "",
+"amount": 2.8,
+"date": "2026-09-30",
+"kind": "전세",
+"direct": false
+},
+{
+"apt": "송담지엔하임1차",
+"umd": "안중읍 송담리",
+"area": 84.9059,
+"floor": 20.0,
+"dong": "",
+"amount": 2.2,
+"date": "2026-09-30",
+"kind": "전세",
+"direct": false
+},
+{
+"apt": "고덕국제신도시리슈빌레이크파크",
+"umd": "고덕동",
+"area": 84.8462,
+"floor": 4.0,
+"dong": "",
+"amount": 2.83,
+"date": "2026-09-30",
+"kind": "전세",
+"direct": false
+},
+{
+"apt": "평택지제역동문굿모닝힐맘시티4단지",
+"umd": "칠원동",
+"area": 84.9718,
+"floor": 23.0,
+"dong": "",
+"amount": 2.5,
+"date": "2026-09-29",
+"kind": "전세",
+"direct": false
+},
+{
+"apt": "평택비전에듀포레푸르지오",
+"umd": "용이동",
+"area": 84.9274,
+"floor": 1.0,
+"dong": "",
+"amount": 3.3,
+"date": "2026-09-29",
+"kind": "전세",
+"direct": false
+}
+],
+"jeonse_weak": false,
+"date": "2026-10-02"
+},
+"2026000437-084.9500C": {
+"mkt_low": 3.82,
+"mkt_base": 5.0,
+"mkt_note": "같은 구 준공 10년 이내 같은 평형 매매 785건 기준 (최근 6개월)",
+"mkt_basis": "district_newbuild",
+"mkt_count": 785,
+"mkt_direct_excluded": 32,
+"mkt_comps": [
+{
+"apt": "호반써밋고덕신도시",
+"umd": "고덕동",
+"area": 84.9092,
+"floor": 8.0,
+"dong": "",
+"amount": 6.95,
+"date": "2026-09-30",
+"kind": "매매",
+"direct": false
+},
+{
+"apt": "평택지제역동문디이스트5단지",
+"umd": "칠원동",
+"area": 84.9942,
+"floor": 2.0,
+"dong": "",
+"amount": 4.0,
+"date": "2026-09-30",
+"kind": "매매",
+"direct": false
+},
+{
+"apt": "평택화양휴먼빌퍼스트시티아파트",
+"umd": "현덕면 화양리",
+"area": 84.984,
+"floor": 10.0,
+"dong": "",
+"amount": 4.69,
+"date": "2026-09-28",
+"kind": "매매",
+"direct": false
+},
+{
+"apt": "평택뉴비전엘크루",
+"umd": "합정동",
+"area": 84.9752,
+"floor": 25.0,
+"dong": "",
+"amount": 3.48,
+"date": "2026-09-28",
+"kind": "매매",
+"direct": false
+},
+{
+"apt": "e편한세상지제역",
+"umd": "동삭동",
+"area": 84.052,
+"floor": 6.0,
+"dong": "",
+"amount": 5.15,
+"date": "2026-09-28",
+"kind": "매매",
+"direct": false
+},
+{
+"apt": "평택효성해링턴플레이스2단지",
+"umd": "소사동",
+"area": 84.772,
+"floor": 8.0,
+"dong": "",
+"amount": 3.58,
+"date": "2026-09-27",
+"kind": "매매",
+"direct": false
+},
+{
+"apt": "평택효성해링턴플레이스2단지",
+"umd": "소사동",
+"area": 84.793,
+"floor": 21.0,
+"dong": "",
+"amount": 3.33,
+"date": "2026-09-27",
+"kind": "매매",
+"direct": false
+},
+{
+"apt": "e편한세상평택용이2단지",
+"umd": "용이동",
+"area": 84.91,
+"floor": 12.0,
+"dong": "",
+"amount": 3.03,
+"date": "2026-09-27",
+"kind": "매매",
+"direct": false
+}
+],
+"jeonse": 2.61,
+"jeonse_note": "같은 구 준공 10년 이내 전세 744건 중앙값에서 입주장 할인 9%",
+"jeonse_comps": [
+{
+"apt": "호반써밋고덕국제신도시에듀파크",
+"umd": "고덕동",
+"area": 84.4382,
+"floor": 20.0,
+"dong": "",
+"amount": 3.5,
+"date": "2026-10-01",
+"kind": "전세",
+"direct": false
+},
+{
+"apt": "힐스테이트평택화양",
+"umd": "현덕면 화양리",
+"area": 84.5911,
+"floor": 10.0,
+"dong": "",
+"amount": 2.4,
+"date": "2026-10-01",
+"kind": "전세",
+"direct": false
+},
+{
+"apt": "힐스테이트평택화양",
+"umd": "현덕면 화양리",
+"area": 84.5911,
+"floor": 11.0,
+"dong": "",
+"amount": 2.4,
+"date": "2026-10-01",
+"kind": "전세",
+"direct": false
+},
+{
+"apt": "브레인시티2BL로제비앙엘가더퍼스트",
+"umd": "장안동",
+"area": 84.9991,
+"floor": 27.0,
+"dong": "",
+"amount": 2.8,
+"date": "2026-09-30",
+"kind": "전세",
+"direct": false
+},
+{
+"apt": "송담지엔하임1차",
+"umd": "안중읍 송담리",
+"area": 84.9059,
+"floor": 20.0,
+"dong": "",
+"amount": 2.2,
+"date": "2026-09-30",
+"kind": "전세",
+"direct": false
+},
+{
+"apt": "고덕국제신도시리슈빌레이크파크",
+"umd": "고덕동",
+"area": 84.8462,
+"floor": 4.0,
+"dong": "",
+"amount": 2.83,
+"date": "2026-09-30",
+"kind": "전세",
+"direct": false
+},
+{
+"apt": "평택지제역동문굿모닝힐맘시티4단지",
+"umd": "칠원동",
+"area": 84.9718,
+"floor": 23.0,
+"dong": "",
+"amount": 2.5,
+"date": "2026-09-29",
+"kind": "전세",
+"direct": false
+},
+{
+"apt": "평택비전에듀포레푸르지오",
+"umd": "용이동",
+"area": 84.9274,
+"floor": 1.0,
+"dong": "",
+"amount": 3.3,
+"date": "2026-09-29",
+"kind": "전세",
+"direct": false
+}
+],
+"jeonse_weak": false,
+"date": "2026-10-02"
 },
 "2026000103-066.0000A": {
 "mkt_low": null,
@@ -8751,7 +8762,7 @@
 "jeonse_note": "전세 거래가 부족해 추정하지 못했어요.",
 "jeonse_comps": [],
 "jeonse_weak": true,
-"date": "2026-10-01"
+"date": "2026-10-02"
 },
 "2026000103-074.0000A": {
 "mkt_low": null,
@@ -8788,7 +8799,7 @@
 "jeonse_note": "전세 거래가 부족해 추정하지 못했어요.",
 "jeonse_comps": [],
 "jeonse_weak": true,
-"date": "2026-10-01"
+"date": "2026-10-02"
 },
 "2026000103-074.0000B": {
 "mkt_low": null,
@@ -8825,7 +8836,7 @@
 "jeonse_note": "전세 거래가 부족해 추정하지 못했어요.",
 "jeonse_comps": [],
 "jeonse_weak": true,
-"date": "2026-10-01"
+"date": "2026-10-02"
 },
 "2026000103-074.0000C": {
 "mkt_low": null,
@@ -8862,7 +8873,7 @@
 "jeonse_note": "전세 거래가 부족해 추정하지 못했어요.",
 "jeonse_comps": [],
 "jeonse_weak": true,
-"date": "2026-10-01"
+"date": "2026-10-02"
 },
 "2026000103-074.4400D": {
 "mkt_low": null,
@@ -8899,7 +8910,7 @@
 "jeonse_note": "전세 거래가 부족해 추정하지 못했어요.",
 "jeonse_comps": [],
 "jeonse_weak": true,
-"date": "2026-10-01"
+"date": "2026-10-02"
 },
 "2026000103-084.0000A": {
 "mkt_low": 12.84,
@@ -8999,7 +9010,7 @@
 }
 ],
 "jeonse": 6.75,
-"jeonse_note": "같은 구 준공 10년 이내 전세 92건 중앙값에서 입주장 할인 9%",
+"jeonse_note": "같은 구 준공 10년 이내 전세 93건 중앙값에서 입주장 할인 9%",
 "jeonse_comps": [
 {
 "apt": "THESHARP판교퍼스트파크",
@@ -9091,7 +9102,7 @@
 }
 ],
 "jeonse_weak": false,
-"date": "2026-10-01"
+"date": "2026-10-02"
 },
 "2026000103-084.0000B": {
 "mkt_low": 12.84,
@@ -9191,7 +9202,7 @@
 }
 ],
 "jeonse": 6.75,
-"jeonse_note": "같은 구 준공 10년 이내 전세 92건 중앙값에서 입주장 할인 9%",
+"jeonse_note": "같은 구 준공 10년 이내 전세 93건 중앙값에서 입주장 할인 9%",
 "jeonse_comps": [
 {
 "apt": "THESHARP판교퍼스트파크",
@@ -9283,7 +9294,7 @@
 }
 ],
 "jeonse_weak": false,
-"date": "2026-10-01"
+"date": "2026-10-02"
 },
 "2026000103-084.0000C": {
 "mkt_low": 12.84,
@@ -9383,7 +9394,7 @@
 }
 ],
 "jeonse": 6.75,
-"jeonse_note": "같은 구 준공 10년 이내 전세 92건 중앙값에서 입주장 할인 9%",
+"jeonse_note": "같은 구 준공 10년 이내 전세 93건 중앙값에서 입주장 할인 9%",
 "jeonse_comps": [
 {
 "apt": "THESHARP판교퍼스트파크",
@@ -9475,7 +9486,7 @@
 }
 ],
 "jeonse_weak": false,
-"date": "2026-10-01"
+"date": "2026-10-02"
 },
 "2026000103-084.0900D": {
 "mkt_low": 12.84,
@@ -9575,7 +9586,7 @@
 }
 ],
 "jeonse": 6.75,
-"jeonse_note": "같은 구 준공 10년 이내 전세 92건 중앙값에서 입주장 할인 9%",
+"jeonse_note": "같은 구 준공 10년 이내 전세 93건 중앙값에서 입주장 할인 9%",
 "jeonse_comps": [
 {
 "apt": "THESHARP판교퍼스트파크",
@@ -9667,7 +9678,7 @@
 }
 ],
 "jeonse_weak": false,
-"date": "2026-10-01"
+"date": "2026-10-02"
 },
 "2026000103-084.0000E": {
 "mkt_low": 12.84,
@@ -9767,7 +9778,7 @@
 }
 ],
 "jeonse": 6.75,
-"jeonse_note": "같은 구 준공 10년 이내 전세 92건 중앙값에서 입주장 할인 9%",
+"jeonse_note": "같은 구 준공 10년 이내 전세 93건 중앙값에서 입주장 할인 9%",
 "jeonse_comps": [
 {
 "apt": "THESHARP판교퍼스트파크",
@@ -9859,7 +9870,7 @@
 }
 ],
 "jeonse_weak": false,
-"date": "2026-10-01"
+"date": "2026-10-02"
 },
 "2026000103-084.7200F": {
 "mkt_low": 12.84,
@@ -9959,7 +9970,7 @@
 }
 ],
 "jeonse": 6.75,
-"jeonse_note": "같은 구 준공 10년 이내 전세 92건 중앙값에서 입주장 할인 9%",
+"jeonse_note": "같은 구 준공 10년 이내 전세 93건 중앙값에서 입주장 할인 9%",
 "jeonse_comps": [
 {
 "apt": "THESHARP판교퍼스트파크",
@@ -10051,7 +10062,7 @@
 }
 ],
 "jeonse_weak": false,
-"date": "2026-10-01"
+"date": "2026-10-02"
 },
 "2026000103-084.6400G": {
 "mkt_low": 12.84,
@@ -10151,7 +10162,7 @@
 }
 ],
 "jeonse": 6.75,
-"jeonse_note": "같은 구 준공 10년 이내 전세 92건 중앙값에서 입주장 할인 9%",
+"jeonse_note": "같은 구 준공 10년 이내 전세 93건 중앙값에서 입주장 할인 9%",
 "jeonse_comps": [
 {
 "apt": "THESHARP판교퍼스트파크",
@@ -10243,7 +10254,7 @@
 }
 ],
 "jeonse_weak": false,
-"date": "2026-10-01"
+"date": "2026-10-02"
 },
 "2026000103-084.7800H": {
 "mkt_low": 12.84,
@@ -10343,7 +10354,7 @@
 }
 ],
 "jeonse": 6.75,
-"jeonse_note": "같은 구 준공 10년 이내 전세 92건 중앙값에서 입주장 할인 9%",
+"jeonse_note": "같은 구 준공 10년 이내 전세 93건 중앙값에서 입주장 할인 9%",
 "jeonse_comps": [
 {
 "apt": "THESHARP판교퍼스트파크",
@@ -10435,7 +10446,7 @@
 }
 ],
 "jeonse_weak": false,
-"date": "2026-10-01"
+"date": "2026-10-02"
 },
 "2026000314-054.8244 ": {
 "mkt_low": null,
@@ -10449,7 +10460,7 @@
 "jeonse_note": "전세 거래가 부족해 추정하지 못했어요.",
 "jeonse_comps": [],
 "jeonse_weak": true,
-"date": "2026-10-01"
+"date": "2026-10-02"
 },
 "2026000314-059.9935B": {
 "mkt_low": null,
@@ -10463,7 +10474,7 @@
 "jeonse_note": "전세 거래가 부족해 추정하지 못했어요.",
 "jeonse_comps": [],
 "jeonse_weak": true,
-"date": "2026-10-01"
+"date": "2026-10-02"
 },
 "2026000314-060.7403 ": {
 "mkt_low": null,
@@ -10477,7 +10488,7 @@
 "jeonse_note": "전세 거래가 부족해 추정하지 못했어요.",
 "jeonse_comps": [],
 "jeonse_weak": true,
-"date": "2026-10-01"
+"date": "2026-10-02"
 },
 "2026000314-084.9888A": {
 "mkt_low": null,
@@ -10491,7 +10502,7 @@
 "jeonse_note": "전세 거래가 부족해 추정하지 못했어요.",
 "jeonse_comps": [],
 "jeonse_weak": true,
-"date": "2026-10-01"
+"date": "2026-10-02"
 },
 "2026000314-084.9933B": {
 "mkt_low": null,
@@ -10505,7 +10516,7 @@
 "jeonse_note": "전세 거래가 부족해 추정하지 못했어요.",
 "jeonse_comps": [],
 "jeonse_weak": true,
-"date": "2026-10-01"
+"date": "2026-10-02"
 },
 "2026000314-084.9894C": {
 "mkt_low": null,
@@ -10519,16 +10530,27 @@
 "jeonse_note": "전세 거래가 부족해 추정하지 못했어요.",
 "jeonse_comps": [],
 "jeonse_weak": true,
-"date": "2026-10-01"
+"date": "2026-10-02"
 },
 "2026000431-059.7153A": {
 "mkt_low": 3.95,
 "mkt_base": 5.1,
-"mkt_note": "같은 구 준공 10년 이내 같은 평형 매매 331건 기준 (최근 6개월)",
+"mkt_note": "같은 구 준공 10년 이내 같은 평형 매매 332건 기준 (최근 6개월)",
 "mkt_basis": "district_newbuild",
-"mkt_count": 331,
+"mkt_count": 332,
 "mkt_direct_excluded": 5,
 "mkt_comps": [
+{
+"apt": "평내호평역대명루첸포레스티움",
+"umd": "평내동",
+"area": 59.8129,
+"floor": 30.0,
+"dong": "",
+"amount": 5.15,
+"date": "2026-09-30",
+"kind": "매매",
+"direct": false
+},
 {
 "apt": "e편한세상평내메트로원",
 "umd": "평내동",
@@ -10605,30 +10627,30 @@
 "date": "2026-09-19",
 "kind": "매매",
 "direct": false
-},
-{
-"apt": "더샵남양주퍼스트시티",
-"umd": "진접읍 부평리",
-"area": 59.97,
-"floor": 10.0,
-"dong": "",
-"amount": 3.83,
-"date": "2026-09-19",
-"kind": "매매",
-"direct": false
 }
 ],
 "jeonse": 2.16,
-"jeonse_note": "같은 구 준공 10년 이내 전세 915건 중앙값에서 입주장 할인 9%",
+"jeonse_note": "같은 구 준공 10년 이내 전세 937건 중앙값에서 입주장 할인 9%",
 "jeonse_comps": [
 {
 "apt": "다산지금데시앙",
 "umd": "다산동",
 "area": 59.1282,
-"floor": 24.0,
+"floor": 21.0,
 "dong": "",
 "amount": 2.38,
-"date": "2026-09-30",
+"date": "2026-10-01",
+"kind": "전세",
+"direct": false
+},
+{
+"apt": "다산지금데시앙",
+"umd": "다산동",
+"area": 59.1282,
+"floor": 28.0,
+"dong": "",
+"amount": 2.38,
+"date": "2026-10-01",
 "kind": "전세",
 "direct": false
 },
@@ -10636,21 +10658,10 @@
 "apt": "다산지금데시앙",
 "umd": "다산동",
 "area": 59.74,
-"floor": 24.0,
+"floor": 13.0,
 "dong": "",
 "amount": 2.41,
-"date": "2026-09-30",
-"kind": "전세",
-"direct": false
-},
-{
-"apt": "e편한세상평내메트로원",
-"umd": "평내동",
-"area": 59.9958,
-"floor": 10.0,
-"dong": "",
-"amount": 3.8,
-"date": "2026-09-30",
+"date": "2026-10-01",
 "kind": "전세",
 "direct": false
 },
@@ -10658,10 +10669,21 @@
 "apt": "다산지금데시앙",
 "umd": "다산동",
 "area": 59.1282,
-"floor": 23.0,
+"floor": 25.0,
 "dong": "",
 "amount": 2.38,
-"date": "2026-09-30",
+"date": "2026-10-01",
+"kind": "전세",
+"direct": false
+},
+{
+"apt": "힐스테이트 황금산",
+"umd": "다산동",
+"area": 59.99,
+"floor": 11.0,
+"dong": "",
+"amount": 2.16,
+"date": "2026-10-01",
 "kind": "전세",
 "direct": false
 },
@@ -10669,21 +10691,10 @@
 "apt": "다산지금데시앙",
 "umd": "다산동",
 "area": 59.1282,
-"floor": 18.0,
+"floor": 6.0,
 "dong": "",
 "amount": 2.38,
-"date": "2026-09-30",
-"kind": "전세",
-"direct": false
-},
-{
-"apt": "다산지금데시앙",
-"umd": "다산동",
-"area": 59.74,
-"floor": 27.0,
-"dong": "",
-"amount": 2.41,
-"date": "2026-09-30",
+"date": "2026-10-01",
 "kind": "전세",
 "direct": false
 },
@@ -10691,10 +10702,10 @@
 "apt": "다산지금데시앙",
 "umd": "다산동",
 "area": 59.1282,
-"floor": 14.0,
+"floor": 2.0,
 "dong": "",
 "amount": 2.38,
-"date": "2026-09-30",
+"date": "2026-10-01",
 "kind": "전세",
 "direct": false
 },
@@ -10702,25 +10713,36 @@
 "apt": "다산지금데시앙",
 "umd": "다산동",
 "area": 59.1282,
-"floor": 4.0,
+"floor": 19.0,
 "dong": "",
 "amount": 2.38,
-"date": "2026-09-29",
+"date": "2026-10-01",
 "kind": "전세",
 "direct": false
 }
 ],
 "jeonse_weak": false,
-"date": "2026-10-01"
+"date": "2026-10-02"
 },
 "2026000431-059.9642B": {
 "mkt_low": 3.95,
 "mkt_base": 5.1,
-"mkt_note": "같은 구 준공 10년 이내 같은 평형 매매 331건 기준 (최근 6개월)",
+"mkt_note": "같은 구 준공 10년 이내 같은 평형 매매 332건 기준 (최근 6개월)",
 "mkt_basis": "district_newbuild",
-"mkt_count": 331,
+"mkt_count": 332,
 "mkt_direct_excluded": 5,
 "mkt_comps": [
+{
+"apt": "평내호평역대명루첸포레스티움",
+"umd": "평내동",
+"area": 59.8129,
+"floor": 30.0,
+"dong": "",
+"amount": 5.15,
+"date": "2026-09-30",
+"kind": "매매",
+"direct": false
+},
 {
 "apt": "e편한세상평내메트로원",
 "umd": "평내동",
@@ -10797,30 +10819,30 @@
 "date": "2026-09-19",
 "kind": "매매",
 "direct": false
-},
-{
-"apt": "더샵남양주퍼스트시티",
-"umd": "진접읍 부평리",
-"area": 59.97,
-"floor": 10.0,
-"dong": "",
-"amount": 3.83,
-"date": "2026-09-19",
-"kind": "매매",
-"direct": false
 }
 ],
 "jeonse": 2.16,
-"jeonse_note": "같은 구 준공 10년 이내 전세 915건 중앙값에서 입주장 할인 9%",
+"jeonse_note": "같은 구 준공 10년 이내 전세 937건 중앙값에서 입주장 할인 9%",
 "jeonse_comps": [
 {
 "apt": "다산지금데시앙",
 "umd": "다산동",
 "area": 59.1282,
-"floor": 24.0,
+"floor": 21.0,
 "dong": "",
 "amount": 2.38,
-"date": "2026-09-30",
+"date": "2026-10-01",
+"kind": "전세",
+"direct": false
+},
+{
+"apt": "다산지금데시앙",
+"umd": "다산동",
+"area": 59.1282,
+"floor": 28.0,
+"dong": "",
+"amount": 2.38,
+"date": "2026-10-01",
 "kind": "전세",
 "direct": false
 },
@@ -10828,21 +10850,10 @@
 "apt": "다산지금데시앙",
 "umd": "다산동",
 "area": 59.74,
-"floor": 24.0,
+"floor": 13.0,
 "dong": "",
 "amount": 2.41,
-"date": "2026-09-30",
-"kind": "전세",
-"direct": false
-},
-{
-"apt": "e편한세상평내메트로원",
-"umd": "평내동",
-"area": 59.9958,
-"floor": 10.0,
-"dong": "",
-"amount": 3.8,
-"date": "2026-09-30",
+"date": "2026-10-01",
 "kind": "전세",
 "direct": false
 },
@@ -10850,10 +10861,21 @@
 "apt": "다산지금데시앙",
 "umd": "다산동",
 "area": 59.1282,
-"floor": 23.0,
+"floor": 25.0,
 "dong": "",
 "amount": 2.38,
-"date": "2026-09-30",
+"date": "2026-10-01",
+"kind": "전세",
+"direct": false
+},
+{
+"apt": "힐스테이트 황금산",
+"umd": "다산동",
+"area": 59.99,
+"floor": 11.0,
+"dong": "",
+"amount": 2.16,
+"date": "2026-10-01",
 "kind": "전세",
 "direct": false
 },
@@ -10861,21 +10883,10 @@
 "apt": "다산지금데시앙",
 "umd": "다산동",
 "area": 59.1282,
-"floor": 18.0,
+"floor": 6.0,
 "dong": "",
 "amount": 2.38,
-"date": "2026-09-30",
-"kind": "전세",
-"direct": false
-},
-{
-"apt": "다산지금데시앙",
-"umd": "다산동",
-"area": 59.74,
-"floor": 27.0,
-"dong": "",
-"amount": 2.41,
-"date": "2026-09-30",
+"date": "2026-10-01",
 "kind": "전세",
 "direct": false
 },
@@ -10883,10 +10894,10 @@
 "apt": "다산지금데시앙",
 "umd": "다산동",
 "area": 59.1282,
-"floor": 14.0,
+"floor": 2.0,
 "dong": "",
 "amount": 2.38,
-"date": "2026-09-30",
+"date": "2026-10-01",
 "kind": "전세",
 "direct": false
 },
@@ -10894,25 +10905,36 @@
 "apt": "다산지금데시앙",
 "umd": "다산동",
 "area": 59.1282,
-"floor": 4.0,
+"floor": 19.0,
 "dong": "",
 "amount": 2.38,
-"date": "2026-09-29",
+"date": "2026-10-01",
 "kind": "전세",
 "direct": false
 }
 ],
 "jeonse_weak": false,
-"date": "2026-10-01"
+"date": "2026-10-02"
 },
 "2026000431-075.4603 ": {
-"mkt_low": 4.11,
+"mkt_low": 4.1,
 "mkt_base": 5.99,
-"mkt_note": "같은 구 준공 10년 이내 같은 평형 매매 139건 기준 (최근 6개월)",
+"mkt_note": "같은 구 준공 10년 이내 같은 평형 매매 141건 기준 (최근 6개월)",
 "mkt_basis": "district_newbuild",
-"mkt_count": 139,
+"mkt_count": 141,
 "mkt_direct_excluded": 3,
 "mkt_comps": [
+{
+"apt": "진접스타힐스",
+"umd": "진접읍 부평리",
+"area": 74.9951,
+"floor": 23.0,
+"dong": "",
+"amount": 3.61,
+"date": "2026-10-01",
+"kind": "매매",
+"direct": false
+},
 {
 "apt": "두산알프하임",
 "umd": "호평동",
@@ -10989,22 +11011,44 @@
 "date": "2026-09-11",
 "kind": "매매",
 "direct": false
-},
-{
-"apt": "진접스타힐스",
-"umd": "진접읍 부평리",
-"area": 74.9959,
-"floor": 15.0,
-"dong": "",
-"amount": 3.95,
-"date": "2026-09-08",
-"kind": "매매",
-"direct": false
 }
 ],
-"jeonse": 2.88,
-"jeonse_note": "같은 구 준공 10년 이내 전세 239건 중앙값에서 입주장 할인 9%",
+"jeonse": 2.93,
+"jeonse_note": "같은 구 준공 10년 이내 전세 244건 중앙값에서 입주장 할인 9%",
 "jeonse_comps": [
+{
+"apt": "다산한양수자인리버팰리스",
+"umd": "다산동",
+"area": 74.5763,
+"floor": 8.0,
+"dong": "",
+"amount": 5.04,
+"date": "2026-10-01",
+"kind": "전세",
+"direct": false
+},
+{
+"apt": "호평오네뜨센트럴",
+"umd": "호평동",
+"area": 74.9943,
+"floor": 14.0,
+"dong": "",
+"amount": 4.3,
+"date": "2026-10-01",
+"kind": "전세",
+"direct": false
+},
+{
+"apt": "다산진건데시앙",
+"umd": "다산동",
+"area": 72.9858,
+"floor": 18.0,
+"dong": "",
+"amount": 2.82,
+"date": "2026-10-01",
+"kind": "전세",
+"direct": false
+},
 {
 "apt": "다산진건데시앙",
 "umd": "다산동",
@@ -11059,50 +11103,17 @@
 "date": "2026-09-29",
 "kind": "전세",
 "direct": false
-},
-{
-"apt": "진접스타힐스",
-"umd": "진접읍 부평리",
-"area": 74.9951,
-"floor": 5.0,
-"dong": "",
-"amount": 2.94,
-"date": "2026-09-28",
-"kind": "전세",
-"direct": false
-},
-{
-"apt": "다산진건데시앙",
-"umd": "다산동",
-"area": 72.9858,
-"floor": 6.0,
-"dong": "",
-"amount": 2.82,
-"date": "2026-09-28",
-"kind": "전세",
-"direct": false
-},
-{
-"apt": "덕소강변서희스타힐스",
-"umd": "와부읍 도곡리",
-"area": 77.48,
-"floor": 17.0,
-"dong": "",
-"amount": 4.72,
-"date": "2026-09-23",
-"kind": "전세",
-"direct": false
 }
 ],
 "jeonse_weak": false,
-"date": "2026-10-01"
+"date": "2026-10-02"
 },
 "2026000431-084.9596 ": {
-"mkt_low": 8.0,
-"mkt_base": 9.48,
-"mkt_note": "같은 구 준공 10년 이내 같은 평형 매매 651건 기준 (최근 6개월)",
+"mkt_low": 7.99,
+"mkt_base": 9.46,
+"mkt_note": "같은 구 준공 10년 이내 같은 평형 매매 654건 기준 (최근 6개월)",
 "mkt_basis": "district_newbuild",
-"mkt_count": 651,
+"mkt_count": 654,
 "mkt_direct_excluded": 6,
 "mkt_comps": [
 {
@@ -11195,8 +11206,52 @@
 }
 ],
 "jeonse": 3.96,
-"jeonse_note": "같은 구 준공 10년 이내 전세 1082건 중앙값에서 입주장 할인 9%",
+"jeonse_note": "같은 구 준공 10년 이내 전세 1087건 중앙값에서 입주장 할인 9%",
 "jeonse_comps": [
+{
+"apt": "다산유승한내들센트럴",
+"umd": "다산동",
+"area": 84.0379,
+"floor": 9.0,
+"dong": "",
+"amount": 6.5,
+"date": "2026-10-01",
+"kind": "전세",
+"direct": false
+},
+{
+"apt": "남양주라온프라이빗4단지",
+"umd": "화도읍 녹촌리",
+"area": 84.6269,
+"floor": 2.0,
+"dong": "",
+"amount": 3.4,
+"date": "2026-10-01",
+"kind": "전세",
+"direct": false
+},
+{
+"apt": "다산진건데시앙",
+"umd": "다산동",
+"area": 84.9585,
+"floor": 13.0,
+"dong": "",
+"amount": 3.02,
+"date": "2026-09-30",
+"kind": "전세",
+"direct": false
+},
+{
+"apt": "다산진건데시앙",
+"umd": "다산동",
+"area": 84.9876,
+"floor": 25.0,
+"dong": "",
+"amount": 3.02,
+"date": "2026-09-30",
+"kind": "전세",
+"direct": false
+},
 {
 "apt": "e편한세상 다산",
 "umd": "다산동",
@@ -11240,54 +11295,10 @@
 "date": "2026-09-30",
 "kind": "전세",
 "direct": false
-},
-{
-"apt": "다산펜테리움리버테라스Ⅱ",
-"umd": "다산동",
-"area": 84.9527,
-"floor": 6.0,
-"dong": "",
-"amount": 5.25,
-"date": "2026-09-30",
-"kind": "전세",
-"direct": false
-},
-{
-"apt": "다산한강반도유보라",
-"umd": "다산동",
-"area": 84.9802,
-"floor": 2.0,
-"dong": "",
-"amount": 4.72,
-"date": "2026-09-29",
-"kind": "전세",
-"direct": false
-},
-{
-"apt": "다산 펜테리움 리버테라스 Ⅰ",
-"umd": "다산동",
-"area": 84.9301,
-"floor": 8.0,
-"dong": "",
-"amount": 5.0,
-"date": "2026-09-29",
-"kind": "전세",
-"direct": false
-},
-{
-"apt": "다산한강반도유보라",
-"umd": "다산동",
-"area": 84.9611,
-"floor": 9.0,
-"dong": "",
-"amount": 6.5,
-"date": "2026-09-29",
-"kind": "전세",
-"direct": false
 }
 ],
 "jeonse_weak": false,
-"date": "2026-10-01"
+"date": "2026-10-02"
 },
 "2026000426-084.8786A": {
 "mkt_low": 5.65,
@@ -11386,8 +11397,8 @@
 "direct": false
 }
 ],
-"jeonse": 3.12,
-"jeonse_note": "같은 구 준공 10년 이내 전세 192건 중앙값에서 입주장 할인 9%",
+"jeonse": 3.09,
+"jeonse_note": "같은 구 준공 10년 이내 전세 196건 중앙값에서 입주장 할인 9%",
 "jeonse_comps": [
 {
 "apt": "천안불당린스트라우스1단지",
@@ -11479,7 +11490,7 @@
 }
 ],
 "jeonse_weak": false,
-"date": "2026-10-01"
+"date": "2026-10-02"
 },
 "2026000426-084.9323B": {
 "mkt_low": 5.65,
@@ -11578,8 +11589,8 @@
 "direct": false
 }
 ],
-"jeonse": 3.12,
-"jeonse_note": "같은 구 준공 10년 이내 전세 192건 중앙값에서 입주장 할인 9%",
+"jeonse": 3.09,
+"jeonse_note": "같은 구 준공 10년 이내 전세 196건 중앙값에서 입주장 할인 9%",
 "jeonse_comps": [
 {
 "apt": "천안불당린스트라우스1단지",
@@ -11671,7 +11682,7 @@
 }
 ],
 "jeonse_weak": false,
-"date": "2026-10-01"
+"date": "2026-10-02"
 },
 "2026000426-102.8880A": {
 "mkt_low": 6.31,
@@ -11786,7 +11797,7 @@
 }
 ],
 "jeonse_weak": false,
-"date": "2026-10-01"
+"date": "2026-10-02"
 },
 "2026000426-102.7602B": {
 "mkt_low": 6.31,
@@ -11901,7 +11912,7 @@
 }
 ],
 "jeonse_weak": false,
-"date": "2026-10-01"
+"date": "2026-10-02"
 },
 "2026000426-116.8234 ": {
 "mkt_low": 6.84,
@@ -11949,16 +11960,38 @@
 "jeonse_note": "전세 거래가 부족해 추정하지 못했어요.",
 "jeonse_comps": [],
 "jeonse_weak": true,
-"date": "2026-10-01"
+"date": "2026-10-02"
 },
 "2026000423-059.9808A": {
-"mkt_low": 2.57,
+"mkt_low": 2.54,
 "mkt_base": 3.25,
-"mkt_note": "같은 구 준공 10년 이내 같은 평형 매매 205건 기준 (최근 6개월)",
+"mkt_note": "같은 구 준공 10년 이내 같은 평형 매매 207건 기준 (최근 6개월)",
 "mkt_basis": "district_newbuild",
-"mkt_count": 205,
+"mkt_count": 207,
 "mkt_direct_excluded": 73,
 "mkt_comps": [
+{
+"apt": "천안스마일시티효성해링턴플레이스",
+"umd": "차암동",
+"area": 59.9476,
+"floor": 20.0,
+"dong": "",
+"amount": 2.19,
+"date": "2026-10-01",
+"kind": "매매",
+"direct": false
+},
+{
+"apt": "e편한세상스마일시티2차",
+"umd": "차암동",
+"area": 59.9819,
+"floor": 11.0,
+"dong": "",
+"amount": 2.19,
+"date": "2026-09-29",
+"kind": "매매",
+"direct": false
+},
 {
 "apt": "천안레이크타운3차푸르지오",
 "umd": "성성동",
@@ -12024,33 +12057,33 @@
 "date": "2026-09-21",
 "kind": "매매",
 "direct": false
-},
-{
-"apt": "불당리더힐스",
-"umd": "불당동",
-"area": 59.7,
-"floor": 11.0,
-"dong": "",
-"amount": 3.8,
-"date": "2026-09-20",
-"kind": "매매",
-"direct": false
-},
-{
-"apt": "프라지움10차아파트",
-"umd": "성정동",
-"area": 60.0,
-"floor": 15.0,
-"dong": "",
-"amount": 1.65,
-"date": "2026-09-19",
-"kind": "매매",
-"direct": false
 }
 ],
-"jeonse": 2.34,
-"jeonse_note": "같은 구 준공 10년 이내 전세 130건 중앙값에서 입주장 할인 9%",
+"jeonse": 2.36,
+"jeonse_note": "같은 구 준공 10년 이내 전세 133건 중앙값에서 입주장 할인 9%",
 "jeonse_comps": [
+{
+"apt": "불당호반베르디움TheFirst",
+"umd": "불당동",
+"area": 59.916,
+"floor": 9.0,
+"dong": "",
+"amount": 3.4,
+"date": "2026-09-30",
+"kind": "전세",
+"direct": false
+},
+{
+"apt": "두정역효성해링턴플레이스",
+"umd": "두정동",
+"area": 59.86,
+"floor": 5.0,
+"dong": "",
+"amount": 2.8,
+"date": "2026-09-28",
+"kind": "전세",
+"direct": false
+},
 {
 "apt": "천안시티자이",
 "umd": "성성동",
@@ -12116,41 +12149,41 @@
 "date": "2026-09-14",
 "kind": "전세",
 "direct": false
-},
-{
-"apt": "천안레이크타운3차푸르지오",
-"umd": "성성동",
-"area": 59.9903,
-"floor": 24.0,
-"dong": "",
-"amount": 3.1,
-"date": "2026-09-10",
-"kind": "전세",
-"direct": false
-},
-{
-"apt": "e편한세상스마일시티2차",
-"umd": "차암동",
-"area": 59.9819,
-"floor": 12.0,
-"dong": "",
-"amount": 2.0,
-"date": "2026-09-08",
-"kind": "전세",
-"direct": false
 }
 ],
 "jeonse_weak": false,
-"date": "2026-10-01"
+"date": "2026-10-02"
 },
 "2026000423-059.9657B": {
-"mkt_low": 2.57,
+"mkt_low": 2.54,
 "mkt_base": 3.25,
-"mkt_note": "같은 구 준공 10년 이내 같은 평형 매매 205건 기준 (최근 6개월)",
+"mkt_note": "같은 구 준공 10년 이내 같은 평형 매매 207건 기준 (최근 6개월)",
 "mkt_basis": "district_newbuild",
-"mkt_count": 205,
+"mkt_count": 207,
 "mkt_direct_excluded": 73,
 "mkt_comps": [
+{
+"apt": "천안스마일시티효성해링턴플레이스",
+"umd": "차암동",
+"area": 59.9476,
+"floor": 20.0,
+"dong": "",
+"amount": 2.19,
+"date": "2026-10-01",
+"kind": "매매",
+"direct": false
+},
+{
+"apt": "e편한세상스마일시티2차",
+"umd": "차암동",
+"area": 59.9819,
+"floor": 11.0,
+"dong": "",
+"amount": 2.19,
+"date": "2026-09-29",
+"kind": "매매",
+"direct": false
+},
 {
 "apt": "천안레이크타운3차푸르지오",
 "umd": "성성동",
@@ -12216,33 +12249,33 @@
 "date": "2026-09-21",
 "kind": "매매",
 "direct": false
-},
-{
-"apt": "불당리더힐스",
-"umd": "불당동",
-"area": 59.7,
-"floor": 11.0,
-"dong": "",
-"amount": 3.8,
-"date": "2026-09-20",
-"kind": "매매",
-"direct": false
-},
-{
-"apt": "프라지움10차아파트",
-"umd": "성정동",
-"area": 60.0,
-"floor": 15.0,
-"dong": "",
-"amount": 1.65,
-"date": "2026-09-19",
-"kind": "매매",
-"direct": false
 }
 ],
-"jeonse": 2.34,
-"jeonse_note": "같은 구 준공 10년 이내 전세 130건 중앙값에서 입주장 할인 9%",
+"jeonse": 2.36,
+"jeonse_note": "같은 구 준공 10년 이내 전세 133건 중앙값에서 입주장 할인 9%",
 "jeonse_comps": [
+{
+"apt": "불당호반베르디움TheFirst",
+"umd": "불당동",
+"area": 59.916,
+"floor": 9.0,
+"dong": "",
+"amount": 3.4,
+"date": "2026-09-30",
+"kind": "전세",
+"direct": false
+},
+{
+"apt": "두정역효성해링턴플레이스",
+"umd": "두정동",
+"area": 59.86,
+"floor": 5.0,
+"dong": "",
+"amount": 2.8,
+"date": "2026-09-28",
+"kind": "전세",
+"direct": false
+},
 {
 "apt": "천안시티자이",
 "umd": "성성동",
@@ -12308,32 +12341,10 @@
 "date": "2026-09-14",
 "kind": "전세",
 "direct": false
-},
-{
-"apt": "천안레이크타운3차푸르지오",
-"umd": "성성동",
-"area": 59.9903,
-"floor": 24.0,
-"dong": "",
-"amount": 3.1,
-"date": "2026-09-10",
-"kind": "전세",
-"direct": false
-},
-{
-"apt": "e편한세상스마일시티2차",
-"umd": "차암동",
-"area": 59.9819,
-"floor": 12.0,
-"dong": "",
-"amount": 2.0,
-"date": "2026-09-08",
-"kind": "전세",
-"direct": false
 }
 ],
 "jeonse_weak": false,
-"date": "2026-10-01"
+"date": "2026-10-02"
 },
 "2026000423-074.9304 ": {
 "mkt_low": 2.4,
@@ -12366,8 +12377,8 @@
 "direct": false
 }
 ],
-"jeonse": 2.67,
-"jeonse_note": "같은 구 준공 10년 이내 전세 51건 중앙값에서 입주장 할인 9%",
+"jeonse": 2.64,
+"jeonse_note": "같은 구 준공 10년 이내 전세 52건 중앙값에서 입주장 할인 9%",
 "jeonse_comps": [
 {
 "apt": "천안레이크타운2차푸르지오",
@@ -12459,7 +12470,7 @@
 }
 ],
 "jeonse_weak": false,
-"date": "2026-10-01"
+"date": "2026-10-02"
 },
 "2026000423-084.6795 ": {
 "mkt_low": 3.1,
@@ -12640,7 +12651,7 @@
 }
 ],
 "jeonse_weak": false,
-"date": "2026-10-01"
+"date": "2026-10-02"
 },
 "2026000423-101.9795 ": {
 "mkt_low": 7.33,
@@ -12755,7 +12766,7 @@
 }
 ],
 "jeonse_weak": true,
-"date": "2026-10-01"
+"date": "2026-10-02"
 },
 "2026000423-114.6527 ": {
 "mkt_low": 8.35,
@@ -12925,7 +12936,7 @@
 }
 ],
 "jeonse_weak": false,
-"date": "2026-10-01"
+"date": "2026-10-02"
 },
 "2026000422-084.8786A": {
 "mkt_low": 5.65,
@@ -13024,8 +13035,8 @@
 "direct": false
 }
 ],
-"jeonse": 3.12,
-"jeonse_note": "같은 구 준공 10년 이내 전세 192건 중앙값에서 입주장 할인 9%",
+"jeonse": 3.09,
+"jeonse_note": "같은 구 준공 10년 이내 전세 196건 중앙값에서 입주장 할인 9%",
 "jeonse_comps": [
 {
 "apt": "천안불당린스트라우스1단지",
@@ -13117,7 +13128,7 @@
 }
 ],
 "jeonse_weak": false,
-"date": "2026-10-01"
+"date": "2026-10-02"
 },
 "2026000422-084.9323B": {
 "mkt_low": 5.65,
@@ -13216,8 +13227,8 @@
 "direct": false
 }
 ],
-"jeonse": 3.12,
-"jeonse_note": "같은 구 준공 10년 이내 전세 192건 중앙값에서 입주장 할인 9%",
+"jeonse": 3.09,
+"jeonse_note": "같은 구 준공 10년 이내 전세 196건 중앙값에서 입주장 할인 9%",
 "jeonse_comps": [
 {
 "apt": "천안불당린스트라우스1단지",
@@ -13309,7 +13320,7 @@
 }
 ],
 "jeonse_weak": false,
-"date": "2026-10-01"
+"date": "2026-10-02"
 },
 "2026000422-102.8880A": {
 "mkt_low": 6.31,
@@ -13424,7 +13435,7 @@
 }
 ],
 "jeonse_weak": false,
-"date": "2026-10-01"
+"date": "2026-10-02"
 },
 "2026000422-102.7602B": {
 "mkt_low": 6.31,
@@ -13539,7 +13550,7 @@
 }
 ],
 "jeonse_weak": false,
-"date": "2026-10-01"
+"date": "2026-10-02"
 },
 "2026000422-116.8234 ": {
 "mkt_low": 6.84,
@@ -13587,7 +13598,7 @@
 "jeonse_note": "전세 거래가 부족해 추정하지 못했어요.",
 "jeonse_comps": [],
 "jeonse_weak": true,
-"date": "2026-10-01"
+"date": "2026-10-02"
 },
 "2026000420-059.9957A": {
 "mkt_low": 3.27,
@@ -13779,7 +13790,7 @@
 }
 ],
 "jeonse_weak": false,
-"date": "2026-10-01"
+"date": "2026-10-02"
 },
 "2026000420-059.9734B": {
 "mkt_low": 3.27,
@@ -13971,7 +13982,7 @@
 }
 ],
 "jeonse_weak": false,
-"date": "2026-10-01"
+"date": "2026-10-02"
 },
 "2026000420-074.5847A": {
 "mkt_low": 4.16,
@@ -14070,9 +14081,20 @@
 "direct": false
 }
 ],
-"jeonse": 2.16,
-"jeonse_note": "같은 구 준공 10년 이내 전세 29건 중앙값에서 입주장 할인 9%",
+"jeonse": 2.21,
+"jeonse_note": "같은 구 준공 10년 이내 전세 30건 중앙값에서 입주장 할인 9%",
 "jeonse_comps": [
+{
+"apt": "e편한세상울산역어반스퀘어",
+"umd": "언양읍 어음리",
+"area": 74.968,
+"floor": 14.0,
+"dong": "",
+"amount": 2.5,
+"date": "2026-10-01",
+"kind": "전세",
+"direct": false
+},
 {
 "apt": "울산덕하신일해피트리",
 "umd": "청량읍 상남리",
@@ -14149,21 +14171,10 @@
 "date": "2026-09-08",
 "kind": "전세",
 "direct": false
-},
-{
-"apt": "양우내안애더퍼스트",
-"umd": "언양읍 송대리",
-"area": 72.8926,
-"floor": 11.0,
-"dong": "",
-"amount": 2.0,
-"date": "2026-09-03",
-"kind": "전세",
-"direct": false
 }
 ],
 "jeonse_weak": false,
-"date": "2026-10-01"
+"date": "2026-10-02"
 },
 "2026000420-074.9026B": {
 "mkt_low": 4.16,
@@ -14262,9 +14273,20 @@
 "direct": false
 }
 ],
-"jeonse": 2.16,
-"jeonse_note": "같은 구 준공 10년 이내 전세 29건 중앙값에서 입주장 할인 9%",
+"jeonse": 2.21,
+"jeonse_note": "같은 구 준공 10년 이내 전세 30건 중앙값에서 입주장 할인 9%",
 "jeonse_comps": [
+{
+"apt": "e편한세상울산역어반스퀘어",
+"umd": "언양읍 어음리",
+"area": 74.968,
+"floor": 14.0,
+"dong": "",
+"amount": 2.5,
+"date": "2026-10-01",
+"kind": "전세",
+"direct": false
+},
 {
 "apt": "울산덕하신일해피트리",
 "umd": "청량읍 상남리",
@@ -14341,21 +14363,10 @@
 "date": "2026-09-08",
 "kind": "전세",
 "direct": false
-},
-{
-"apt": "양우내안애더퍼스트",
-"umd": "언양읍 송대리",
-"area": 72.8926,
-"floor": 11.0,
-"dong": "",
-"amount": 2.0,
-"date": "2026-09-03",
-"kind": "전세",
-"direct": false
 }
 ],
 "jeonse_weak": false,
-"date": "2026-10-01"
+"date": "2026-10-02"
 },
 "2026000420-084.9350A": {
 "mkt_low": 4.74,
@@ -14455,7 +14466,7 @@
 }
 ],
 "jeonse": 2.7,
-"jeonse_note": "같은 구 준공 10년 이내 전세 50건 중앙값에서 입주장 할인 9%",
+"jeonse_note": "같은 구 준공 10년 이내 전세 51건 중앙값에서 입주장 할인 9%",
 "jeonse_comps": [
 {
 "apt": "울산뉴시티에일린의뜰2차",
@@ -14547,7 +14558,7 @@
 }
 ],
 "jeonse_weak": false,
-"date": "2026-10-01"
+"date": "2026-10-02"
 },
 "2026000420-084.4955B": {
 "mkt_low": 4.74,
@@ -14647,7 +14658,7 @@
 }
 ],
 "jeonse": 2.7,
-"jeonse_note": "같은 구 준공 10년 이내 전세 50건 중앙값에서 입주장 할인 9%",
+"jeonse_note": "같은 구 준공 10년 이내 전세 51건 중앙값에서 입주장 할인 9%",
 "jeonse_comps": [
 {
 "apt": "울산뉴시티에일린의뜰2차",
@@ -14739,7 +14750,7 @@
 }
 ],
 "jeonse_weak": false,
-"date": "2026-10-01"
+"date": "2026-10-02"
 },
 "2026000393-039.1570 ": {
 "mkt_low": 2.72,
@@ -14931,14 +14942,14 @@
 }
 ],
 "jeonse_weak": false,
-"date": "2026-10-01"
+"date": "2026-10-02"
 },
 "2026000393-048.8190 ": {
-"mkt_low": 3.6,
+"mkt_low": 3.77,
 "mkt_base": 4.05,
-"mkt_note": "같은 구 준공 10년 이내 같은 평형 매매 11건 기준 (최근 6개월)",
+"mkt_note": "같은 구 준공 10년 이내 같은 평형 매매 10건 기준 (최근 6개월)",
 "mkt_basis": "district_newbuild",
-"mkt_count": 11,
+"mkt_count": 10,
 "mkt_direct_excluded": 1,
 "mkt_comps": [
 {
@@ -15008,17 +15019,6 @@
 "direct": false
 },
 {
-"apt": "해오름아파트101동",
-"umd": "거모동",
-"area": 48.47,
-"floor": 4.0,
-"dong": "",
-"amount": 1.67,
-"date": "2026-07-11",
-"kind": "매매",
-"direct": false
-},
-{
 "apt": "리벤티움",
 "umd": "조남동",
 "area": 51.8,
@@ -15026,6 +15026,17 @@
 "dong": "1111동",
 "amount": 3.5,
 "date": "2026-07-03",
+"kind": "매매",
+"direct": false
+},
+{
+"apt": "리벤티움",
+"umd": "조남동",
+"area": 51.8,
+"floor": 13.0,
+"dong": "1111동",
+"amount": 3.7,
+"date": "2026-06-16",
 "kind": "매매",
 "direct": false
 }
@@ -15090,7 +15101,7 @@
 }
 ],
 "jeonse_weak": false,
-"date": "2026-10-01"
+"date": "2026-10-02"
 },
 "2026000393-052.1850A": {
 "mkt_low": 3.73,
@@ -15282,7 +15293,7 @@
 }
 ],
 "jeonse_weak": false,
-"date": "2026-10-01"
+"date": "2026-10-02"
 },
 "2026000393-052.7840B": {
 "mkt_low": 3.75,
@@ -15474,7 +15485,7 @@
 }
 ],
 "jeonse_weak": false,
-"date": "2026-10-01"
+"date": "2026-10-02"
 },
 "2026000393-052.4300C": {
 "mkt_low": 3.75,
@@ -15666,9 +15677,135 @@
 }
 ],
 "jeonse_weak": false,
-"date": "2026-10-01"
+"date": "2026-10-02"
 },
 "2026000393-059.6120A": {
+"mkt_low": 3.6,
+"mkt_base": 4.0,
+"mkt_note": "같은 단지 같은 평형 거래 2건 기준 (최근 6개월)",
+"mkt_basis": "same_complex",
+"mkt_count": 2,
+"mkt_direct_excluded": 0,
+"mkt_comps": [
+{
+"apt": "시흥 은계 에피트",
+"umd": "은행동",
+"area": 59.612,
+"floor": 2.0,
+"dong": "",
+"amount": 3.9,
+"date": "2026-09-19",
+"kind": "입주권",
+"direct": false
+},
+{
+"apt": "시흥 은계 에피트",
+"umd": "은행동",
+"area": 59.612,
+"floor": 7.0,
+"dong": "",
+"amount": 4.1,
+"date": "2026-09-18",
+"kind": "입주권",
+"direct": false
+}
+],
+"jeonse": 2.7,
+"jeonse_note": "같은 구 준공 10년 이내 전세 118건 중앙값에서 입주장 할인 9%",
+"jeonse_comps": [
+{
+"apt": "시흥배곧신도시이지더원1차더퍼스트",
+"umd": "배곧동",
+"area": 59.3423,
+"floor": 24.0,
+"dong": "",
+"amount": 3.1,
+"date": "2026-10-01",
+"kind": "전세",
+"direct": false
+},
+{
+"apt": "목감레이크푸르지오",
+"umd": "산현동",
+"area": 59.0365,
+"floor": 11.0,
+"dong": "",
+"amount": 3.6,
+"date": "2026-09-29",
+"kind": "전세",
+"direct": false
+},
+{
+"apt": "목감한양수자인아파트",
+"umd": "논곡동",
+"area": 59.9297,
+"floor": 11.0,
+"dong": "",
+"amount": 3.2,
+"date": "2026-09-23",
+"kind": "전세",
+"direct": false
+},
+{
+"apt": "시흥센트럴푸르지오",
+"umd": "대야동",
+"area": 59.948,
+"floor": 12.0,
+"dong": "",
+"amount": 4.0,
+"date": "2026-09-19",
+"kind": "전세",
+"direct": false
+},
+{
+"apt": "목감레이크푸르지오",
+"umd": "산현동",
+"area": 59.0365,
+"floor": 9.0,
+"dong": "",
+"amount": 3.4,
+"date": "2026-09-15",
+"kind": "전세",
+"direct": false
+},
+{
+"apt": "대야역두산위브더파크",
+"umd": "대야동",
+"area": 59.8111,
+"floor": 2.0,
+"dong": "",
+"amount": 3.7,
+"date": "2026-09-15",
+"kind": "전세",
+"direct": false
+},
+{
+"apt": "시흥배곧신도시이지더원1차더퍼스트",
+"umd": "배곧동",
+"area": 59.5476,
+"floor": 18.0,
+"dong": "",
+"amount": 2.7,
+"date": "2026-09-14",
+"kind": "전세",
+"direct": false
+},
+{
+"apt": "대야역두산위브더파크",
+"umd": "대야동",
+"area": 59.8421,
+"floor": 4.0,
+"dong": "",
+"amount": 3.5,
+"date": "2026-09-12",
+"kind": "전세",
+"direct": false
+}
+],
+"jeonse_weak": false,
+"date": "2026-10-02"
+},
+"2026000393-059.0050B": {
 "mkt_low": 3.6,
 "mkt_base": 4.0,
 "mkt_note": "같은 단지 같은 평형 거래 2건 기준 (최근 6개월)",
@@ -15703,131 +15840,16 @@
 "jeonse_note": "같은 구 준공 10년 이내 전세 117건 중앙값에서 입주장 할인 9%",
 "jeonse_comps": [
 {
-"apt": "목감레이크푸르지오",
-"umd": "산현동",
-"area": 59.0365,
-"floor": 11.0,
-"dong": "",
-"amount": 3.6,
-"date": "2026-09-29",
-"kind": "전세",
-"direct": false
-},
-{
-"apt": "목감한양수자인아파트",
-"umd": "논곡동",
-"area": 59.9297,
-"floor": 11.0,
-"dong": "",
-"amount": 3.2,
-"date": "2026-09-23",
-"kind": "전세",
-"direct": false
-},
-{
-"apt": "시흥센트럴푸르지오",
-"umd": "대야동",
-"area": 59.948,
-"floor": 12.0,
-"dong": "",
-"amount": 4.0,
-"date": "2026-09-19",
-"kind": "전세",
-"direct": false
-},
-{
-"apt": "목감레이크푸르지오",
-"umd": "산현동",
-"area": 59.0365,
-"floor": 9.0,
-"dong": "",
-"amount": 3.4,
-"date": "2026-09-15",
-"kind": "전세",
-"direct": false
-},
-{
-"apt": "대야역두산위브더파크",
-"umd": "대야동",
-"area": 59.8111,
-"floor": 2.0,
-"dong": "",
-"amount": 3.7,
-"date": "2026-09-15",
-"kind": "전세",
-"direct": false
-},
-{
 "apt": "시흥배곧신도시이지더원1차더퍼스트",
 "umd": "배곧동",
-"area": 59.5476,
-"floor": 18.0,
+"area": 59.3423,
+"floor": 24.0,
 "dong": "",
-"amount": 2.7,
-"date": "2026-09-14",
+"amount": 3.1,
+"date": "2026-10-01",
 "kind": "전세",
 "direct": false
 },
-{
-"apt": "대야역두산위브더파크",
-"umd": "대야동",
-"area": 59.8421,
-"floor": 4.0,
-"dong": "",
-"amount": 3.5,
-"date": "2026-09-12",
-"kind": "전세",
-"direct": false
-},
-{
-"apt": "시흥배곧신도시이지더원1차더퍼스트",
-"umd": "배곧동",
-"area": 59.5476,
-"floor": 12.0,
-"dong": "",
-"amount": 3.0,
-"date": "2026-09-12",
-"kind": "전세",
-"direct": false
-}
-],
-"jeonse_weak": false,
-"date": "2026-10-01"
-},
-"2026000393-059.0050B": {
-"mkt_low": 3.6,
-"mkt_base": 4.0,
-"mkt_note": "같은 단지 같은 평형 거래 2건 기준 (최근 6개월)",
-"mkt_basis": "same_complex",
-"mkt_count": 2,
-"mkt_direct_excluded": 0,
-"mkt_comps": [
-{
-"apt": "시흥 은계 에피트",
-"umd": "은행동",
-"area": 59.612,
-"floor": 2.0,
-"dong": "",
-"amount": 3.9,
-"date": "2026-09-19",
-"kind": "입주권",
-"direct": false
-},
-{
-"apt": "시흥 은계 에피트",
-"umd": "은행동",
-"area": 59.612,
-"floor": 7.0,
-"dong": "",
-"amount": 4.1,
-"date": "2026-09-18",
-"kind": "입주권",
-"direct": false
-}
-],
-"jeonse": 2.7,
-"jeonse_note": "같은 구 준공 10년 이내 전세 116건 중앙값에서 입주장 할인 9%",
-"jeonse_comps": [
 {
 "apt": "목감레이크푸르지오",
 "umd": "산현동",
@@ -15904,21 +15926,10 @@
 "date": "2026-09-12",
 "kind": "전세",
 "direct": false
-},
-{
-"apt": "시흥배곧신도시이지더원1차더퍼스트",
-"umd": "배곧동",
-"area": 59.5476,
-"floor": 12.0,
-"dong": "",
-"amount": 3.0,
-"date": "2026-09-12",
-"kind": "전세",
-"direct": false
 }
 ],
 "jeonse_weak": false,
-"date": "2026-10-01"
+"date": "2026-10-02"
 },
 "2026000393-059.0570C": {
 "mkt_low": 3.6,
@@ -15952,8 +15963,19 @@
 }
 ],
 "jeonse": 2.7,
-"jeonse_note": "같은 구 준공 10년 이내 전세 116건 중앙값에서 입주장 할인 9%",
+"jeonse_note": "같은 구 준공 10년 이내 전세 117건 중앙값에서 입주장 할인 9%",
 "jeonse_comps": [
+{
+"apt": "시흥배곧신도시이지더원1차더퍼스트",
+"umd": "배곧동",
+"area": 59.3423,
+"floor": 24.0,
+"dong": "",
+"amount": 3.1,
+"date": "2026-10-01",
+"kind": "전세",
+"direct": false
+},
 {
 "apt": "목감레이크푸르지오",
 "umd": "산현동",
@@ -16030,21 +16052,10 @@
 "date": "2026-09-12",
 "kind": "전세",
 "direct": false
-},
-{
-"apt": "시흥배곧신도시이지더원1차더퍼스트",
-"umd": "배곧동",
-"area": 59.5476,
-"floor": 12.0,
-"dong": "",
-"amount": 3.0,
-"date": "2026-09-12",
-"kind": "전세",
-"direct": false
 }
 ],
 "jeonse_weak": false,
-"date": "2026-10-01"
+"date": "2026-10-02"
 },
 "2026000394-084.6536A": {
 "mkt_low": 3.96,
@@ -16236,7 +16247,7 @@
 }
 ],
 "jeonse_weak": false,
-"date": "2026-10-01"
+"date": "2026-10-02"
 },
 "2026000394-084.0452B": {
 "mkt_low": 3.96,
@@ -16428,7 +16439,7 @@
 }
 ],
 "jeonse_weak": false,
-"date": "2026-10-01"
+"date": "2026-10-02"
 },
 "2026000394-084.8414C": {
 "mkt_low": 3.96,
@@ -16620,7 +16631,7 @@
 }
 ],
 "jeonse_weak": false,
-"date": "2026-10-01"
+"date": "2026-10-02"
 },
 "2026000419-084.9730A": {
 "mkt_low": 4.1,
@@ -16628,7 +16639,7 @@
 "mkt_note": "같은 구 준공 10년 이내 같은 평형 매매 317건 기준 (최근 6개월)",
 "mkt_basis": "district_newbuild",
 "mkt_count": 317,
-"mkt_direct_excluded": 51,
+"mkt_direct_excluded": 52,
 "mkt_comps": [
 {
 "apt": "용봉동아델리움인비엔날레",
@@ -16720,8 +16731,19 @@
 }
 ],
 "jeonse": 2.41,
-"jeonse_note": "같은 구 준공 10년 이내 전세 539건 중앙값에서 입주장 할인 9%",
+"jeonse_note": "같은 구 준공 10년 이내 전세 542건 중앙값에서 입주장 할인 9%",
 "jeonse_comps": [
+{
+"apt": "힐스테이트신용더리버",
+"umd": "신용동",
+"area": 84.77,
+"floor": 6.0,
+"dong": "",
+"amount": 2.6,
+"date": "2026-09-29",
+"kind": "전세",
+"direct": false
+},
 {
 "apt": "양산명지써밋주상복합",
 "umd": "양산동",
@@ -16798,21 +16820,10 @@
 "date": "2026-09-22",
 "kind": "전세",
 "direct": false
-},
-{
-"apt": "일곡엘리체프라임",
-"umd": "삼각동",
-"area": 84.9613,
-"floor": 1.0,
-"dong": "",
-"amount": 3.05,
-"date": "2026-09-22",
-"kind": "전세",
-"direct": false
 }
 ],
 "jeonse_weak": false,
-"date": "2026-10-01"
+"date": "2026-10-02"
 },
 "2026000419-084.9479B": {
 "mkt_low": 4.1,
@@ -16820,7 +16831,7 @@
 "mkt_note": "같은 구 준공 10년 이내 같은 평형 매매 317건 기준 (최근 6개월)",
 "mkt_basis": "district_newbuild",
 "mkt_count": 317,
-"mkt_direct_excluded": 51,
+"mkt_direct_excluded": 52,
 "mkt_comps": [
 {
 "apt": "용봉동아델리움인비엔날레",
@@ -16912,8 +16923,19 @@
 }
 ],
 "jeonse": 2.41,
-"jeonse_note": "같은 구 준공 10년 이내 전세 539건 중앙값에서 입주장 할인 9%",
+"jeonse_note": "같은 구 준공 10년 이내 전세 542건 중앙값에서 입주장 할인 9%",
 "jeonse_comps": [
+{
+"apt": "힐스테이트신용더리버",
+"umd": "신용동",
+"area": 84.77,
+"floor": 6.0,
+"dong": "",
+"amount": 2.6,
+"date": "2026-09-29",
+"kind": "전세",
+"direct": false
+},
 {
 "apt": "양산명지써밋주상복합",
 "umd": "양산동",
@@ -16990,21 +17012,10 @@
 "date": "2026-09-22",
 "kind": "전세",
 "direct": false
-},
-{
-"apt": "일곡엘리체프라임",
-"umd": "삼각동",
-"area": 84.9613,
-"floor": 1.0,
-"dong": "",
-"amount": 3.05,
-"date": "2026-09-22",
-"kind": "전세",
-"direct": false
 }
 ],
 "jeonse_weak": false,
-"date": "2026-10-01"
+"date": "2026-10-02"
 },
 "2026000419-084.9819C": {
 "mkt_low": 4.1,
@@ -17012,7 +17023,7 @@
 "mkt_note": "같은 구 준공 10년 이내 같은 평형 매매 317건 기준 (최근 6개월)",
 "mkt_basis": "district_newbuild",
 "mkt_count": 317,
-"mkt_direct_excluded": 51,
+"mkt_direct_excluded": 52,
 "mkt_comps": [
 {
 "apt": "용봉동아델리움인비엔날레",
@@ -17104,8 +17115,19 @@
 }
 ],
 "jeonse": 2.41,
-"jeonse_note": "같은 구 준공 10년 이내 전세 539건 중앙값에서 입주장 할인 9%",
+"jeonse_note": "같은 구 준공 10년 이내 전세 542건 중앙값에서 입주장 할인 9%",
 "jeonse_comps": [
+{
+"apt": "힐스테이트신용더리버",
+"umd": "신용동",
+"area": 84.77,
+"floor": 6.0,
+"dong": "",
+"amount": 2.6,
+"date": "2026-09-29",
+"kind": "전세",
+"direct": false
+},
 {
 "apt": "양산명지써밋주상복합",
 "umd": "양산동",
@@ -17182,21 +17204,10 @@
 "date": "2026-09-22",
 "kind": "전세",
 "direct": false
-},
-{
-"apt": "일곡엘리체프라임",
-"umd": "삼각동",
-"area": 84.9613,
-"floor": 1.0,
-"dong": "",
-"amount": 3.05,
-"date": "2026-09-22",
-"kind": "전세",
-"direct": false
 }
 ],
 "jeonse_weak": false,
-"date": "2026-10-01"
+"date": "2026-10-02"
 },
 "2026000419-084.9769D": {
 "mkt_low": 4.1,
@@ -17204,7 +17215,7 @@
 "mkt_note": "같은 구 준공 10년 이내 같은 평형 매매 317건 기준 (최근 6개월)",
 "mkt_basis": "district_newbuild",
 "mkt_count": 317,
-"mkt_direct_excluded": 51,
+"mkt_direct_excluded": 52,
 "mkt_comps": [
 {
 "apt": "용봉동아델리움인비엔날레",
@@ -17296,8 +17307,19 @@
 }
 ],
 "jeonse": 2.41,
-"jeonse_note": "같은 구 준공 10년 이내 전세 539건 중앙값에서 입주장 할인 9%",
+"jeonse_note": "같은 구 준공 10년 이내 전세 542건 중앙값에서 입주장 할인 9%",
 "jeonse_comps": [
+{
+"apt": "힐스테이트신용더리버",
+"umd": "신용동",
+"area": 84.77,
+"floor": 6.0,
+"dong": "",
+"amount": 2.6,
+"date": "2026-09-29",
+"kind": "전세",
+"direct": false
+},
 {
 "apt": "양산명지써밋주상복합",
 "umd": "양산동",
@@ -17374,21 +17396,10 @@
 "date": "2026-09-22",
 "kind": "전세",
 "direct": false
-},
-{
-"apt": "일곡엘리체프라임",
-"umd": "삼각동",
-"area": 84.9613,
-"floor": 1.0,
-"dong": "",
-"amount": 3.05,
-"date": "2026-09-22",
-"kind": "전세",
-"direct": false
 }
 ],
 "jeonse_weak": false,
-"date": "2026-10-01"
+"date": "2026-10-02"
 },
 "2026000419-084.9809E": {
 "mkt_low": 4.1,
@@ -17396,7 +17407,7 @@
 "mkt_note": "같은 구 준공 10년 이내 같은 평형 매매 317건 기준 (최근 6개월)",
 "mkt_basis": "district_newbuild",
 "mkt_count": 317,
-"mkt_direct_excluded": 51,
+"mkt_direct_excluded": 52,
 "mkt_comps": [
 {
 "apt": "용봉동아델리움인비엔날레",
@@ -17488,8 +17499,19 @@
 }
 ],
 "jeonse": 2.41,
-"jeonse_note": "같은 구 준공 10년 이내 전세 539건 중앙값에서 입주장 할인 9%",
+"jeonse_note": "같은 구 준공 10년 이내 전세 542건 중앙값에서 입주장 할인 9%",
 "jeonse_comps": [
+{
+"apt": "힐스테이트신용더리버",
+"umd": "신용동",
+"area": 84.77,
+"floor": 6.0,
+"dong": "",
+"amount": 2.6,
+"date": "2026-09-29",
+"kind": "전세",
+"direct": false
+},
 {
 "apt": "양산명지써밋주상복합",
 "umd": "양산동",
@@ -17566,21 +17588,10 @@
 "date": "2026-09-22",
 "kind": "전세",
 "direct": false
-},
-{
-"apt": "일곡엘리체프라임",
-"umd": "삼각동",
-"area": 84.9613,
-"floor": 1.0,
-"dong": "",
-"amount": 3.05,
-"date": "2026-09-22",
-"kind": "전세",
-"direct": false
 }
 ],
 "jeonse_weak": false,
-"date": "2026-10-01"
+"date": "2026-10-02"
 },
 "2026000419-084.9849F": {
 "mkt_low": 4.1,
@@ -17588,7 +17599,7 @@
 "mkt_note": "같은 구 준공 10년 이내 같은 평형 매매 317건 기준 (최근 6개월)",
 "mkt_basis": "district_newbuild",
 "mkt_count": 317,
-"mkt_direct_excluded": 51,
+"mkt_direct_excluded": 52,
 "mkt_comps": [
 {
 "apt": "용봉동아델리움인비엔날레",
@@ -17680,8 +17691,19 @@
 }
 ],
 "jeonse": 2.41,
-"jeonse_note": "같은 구 준공 10년 이내 전세 539건 중앙값에서 입주장 할인 9%",
+"jeonse_note": "같은 구 준공 10년 이내 전세 542건 중앙값에서 입주장 할인 9%",
 "jeonse_comps": [
+{
+"apt": "힐스테이트신용더리버",
+"umd": "신용동",
+"area": 84.77,
+"floor": 6.0,
+"dong": "",
+"amount": 2.6,
+"date": "2026-09-29",
+"kind": "전세",
+"direct": false
+},
 {
 "apt": "양산명지써밋주상복합",
 "umd": "양산동",
@@ -17758,21 +17780,10 @@
 "date": "2026-09-22",
 "kind": "전세",
 "direct": false
-},
-{
-"apt": "일곡엘리체프라임",
-"umd": "삼각동",
-"area": 84.9613,
-"floor": 1.0,
-"dong": "",
-"amount": 3.05,
-"date": "2026-09-22",
-"kind": "전세",
-"direct": false
 }
 ],
 "jeonse_weak": false,
-"date": "2026-10-01"
+"date": "2026-10-02"
 },
 "2026000419-103.0590A": {
 "mkt_low": null,
@@ -17898,7 +17909,7 @@
 }
 ],
 "jeonse_weak": false,
-"date": "2026-10-01"
+"date": "2026-10-02"
 },
 "2026000419-103.2718B": {
 "mkt_low": null,
@@ -18024,7 +18035,7 @@
 }
 ],
 "jeonse_weak": false,
-"date": "2026-10-01"
+"date": "2026-10-02"
 },
 "2026000419-112.3407A": {
 "mkt_low": 6.83,
@@ -18150,7 +18161,7 @@
 }
 ],
 "jeonse_weak": true,
-"date": "2026-10-01"
+"date": "2026-10-02"
 },
 "2026000419-128.5318A": {
 "mkt_low": null,
@@ -18164,7 +18175,7 @@
 "jeonse_note": "전세 거래가 부족해 추정하지 못했어요.",
 "jeonse_comps": [],
 "jeonse_weak": true,
-"date": "2026-10-01"
+"date": "2026-10-02"
 },
 "2026000419-200.4768B": {
 "mkt_low": null,
@@ -18178,7 +18189,7 @@
 "jeonse_note": "전세 거래가 부족해 추정하지 못했어요.",
 "jeonse_comps": [],
 "jeonse_weak": true,
-"date": "2026-10-01"
+"date": "2026-10-02"
 },
 "2026000419-207.9807F": {
 "mkt_low": null,
@@ -18192,7 +18203,7 @@
 "jeonse_note": "전세 거래가 부족해 추정하지 못했어요.",
 "jeonse_comps": [],
 "jeonse_weak": true,
-"date": "2026-10-01"
+"date": "2026-10-02"
 },
 "2026000419-209.5090C": {
 "mkt_low": null,
@@ -18206,7 +18217,7 @@
 "jeonse_note": "전세 거래가 부족해 추정하지 못했어요.",
 "jeonse_comps": [],
 "jeonse_weak": true,
-"date": "2026-10-01"
+"date": "2026-10-02"
 },
 "2026000419-211.8099E": {
 "mkt_low": null,
@@ -18220,7 +18231,7 @@
 "jeonse_note": "전세 거래가 부족해 추정하지 못했어요.",
 "jeonse_comps": [],
 "jeonse_weak": true,
-"date": "2026-10-01"
+"date": "2026-10-02"
 },
 "2026000419-214.6183A": {
 "mkt_low": null,
@@ -18234,7 +18245,7 @@
 "jeonse_note": "전세 거래가 부족해 추정하지 못했어요.",
 "jeonse_comps": [],
 "jeonse_weak": true,
-"date": "2026-10-01"
+"date": "2026-10-02"
 },
 "2026000419-214.8717D": {
 "mkt_low": null,
@@ -18248,14 +18259,14 @@
 "jeonse_note": "전세 거래가 부족해 추정하지 못했어요.",
 "jeonse_comps": [],
 "jeonse_weak": true,
-"date": "2026-10-01"
+"date": "2026-10-02"
 },
 "2026000403-059.8300A": {
-"mkt_low": 3.58,
-"mkt_base": 5.19,
-"mkt_note": "같은 구 준공 10년 이내 같은 평형 매매 48건 기준 (최근 6개월)",
+"mkt_low": 3.56,
+"mkt_base": 5.18,
+"mkt_note": "같은 구 준공 10년 이내 같은 평형 매매 47건 기준 (최근 6개월)",
 "mkt_basis": "district_newbuild",
-"mkt_count": 48,
+"mkt_count": 47,
 "mkt_direct_excluded": 2,
 "mkt_comps": [
 {
@@ -18440,14 +18451,14 @@
 }
 ],
 "jeonse_weak": false,
-"date": "2026-10-01"
+"date": "2026-10-02"
 },
 "2026000403-059.9900B": {
-"mkt_low": 3.58,
-"mkt_base": 5.19,
-"mkt_note": "같은 구 준공 10년 이내 같은 평형 매매 48건 기준 (최근 6개월)",
+"mkt_low": 3.56,
+"mkt_base": 5.18,
+"mkt_note": "같은 구 준공 10년 이내 같은 평형 매매 47건 기준 (최근 6개월)",
 "mkt_basis": "district_newbuild",
-"mkt_count": 48,
+"mkt_count": 47,
 "mkt_direct_excluded": 2,
 "mkt_comps": [
 {
@@ -18632,14 +18643,14 @@
 }
 ],
 "jeonse_weak": false,
-"date": "2026-10-01"
+"date": "2026-10-02"
 },
 "2026000403-059.9700C": {
-"mkt_low": 3.58,
-"mkt_base": 5.19,
-"mkt_note": "같은 구 준공 10년 이내 같은 평형 매매 48건 기준 (최근 6개월)",
+"mkt_low": 3.56,
+"mkt_base": 5.18,
+"mkt_note": "같은 구 준공 10년 이내 같은 평형 매매 47건 기준 (최근 6개월)",
 "mkt_basis": "district_newbuild",
-"mkt_count": 48,
+"mkt_count": 47,
 "mkt_direct_excluded": 2,
 "mkt_comps": [
 {
@@ -18824,24 +18835,35 @@
 }
 ],
 "jeonse_weak": false,
-"date": "2026-10-01"
+"date": "2026-10-02"
 },
 "2026000403-074.8300 ": {
-"mkt_low": 5.38,
-"mkt_base": 6.0,
-"mkt_note": "같은 구 준공 10년 이내 같은 평형 매매 46건 기준 (최근 6개월)",
+"mkt_low": 5.3,
+"mkt_base": 5.9,
+"mkt_note": "같은 구 준공 10년 이내 같은 평형 매매 48건 기준 (최근 6개월)",
 "mkt_basis": "district_newbuild",
-"mkt_count": 46,
+"mkt_count": 48,
 "mkt_direct_excluded": 1,
 "mkt_comps": [
 {
-"apt": "번영로하늘채센트럴파크",
-"umd": "야음동",
-"area": 74.707,
-"floor": 26.0,
+"apt": "문수비스타동원",
+"umd": "무거동",
+"area": 74.9988,
+"floor": 12.0,
 "dong": "",
-"amount": 6.94,
-"date": "2026-09-23",
+"amount": 5.85,
+"date": "2026-10-01",
+"kind": "매매",
+"direct": false
+},
+{
+"apt": "양우내안애팰리스",
+"umd": "신정동",
+"area": 73.003,
+"floor": 15.0,
+"dong": "",
+"amount": 2.99,
+"date": "2026-09-30",
 "kind": "매매",
 "direct": false
 },
@@ -18901,24 +18923,13 @@
 "direct": false
 },
 {
-"apt": "울산호수공원대명루첸아파트",
-"umd": "야음동",
-"area": 73.02,
-"floor": 14.0,
-"dong": "",
-"amount": 6.0,
-"date": "2026-08-26",
-"kind": "매매",
-"direct": false
-},
-{
-"apt": "울산문수로동문디이스트",
+"apt": "양우내안애팰리스",
 "umd": "신정동",
-"area": 74.7373,
-"floor": 8.0,
+"area": 73.003,
+"floor": 12.0,
 "dong": "",
-"amount": 4.85,
-"date": "2026-08-22",
+"amount": 3.05,
+"date": "2026-08-29",
 "kind": "매매",
 "direct": false
 }
@@ -19016,7 +19027,7 @@
 }
 ],
 "jeonse_weak": false,
-"date": "2026-10-01"
+"date": "2026-10-02"
 },
 "2026000403-084.9000 ": {
 "mkt_low": 5.29,
@@ -19115,9 +19126,20 @@
 "direct": false
 }
 ],
-"jeonse": 4.32,
-"jeonse_note": "같은 구 준공 10년 이내 전세 152건 중앙값에서 입주장 할인 9%",
+"jeonse": 4.29,
+"jeonse_note": "같은 구 준공 10년 이내 전세 154건 중앙값에서 입주장 할인 9%",
 "jeonse_comps": [
+{
+"apt": "힐스테이트수암(1단지)",
+"umd": "야음동",
+"area": 84.7267,
+"floor": 18.0,
+"dong": "",
+"amount": 4.5,
+"date": "2026-10-01",
+"kind": "전세",
+"direct": false
+},
 {
 "apt": "울산번영로두산위브",
 "umd": "야음동",
@@ -19194,21 +19216,10 @@
 "date": "2026-09-19",
 "kind": "전세",
 "direct": false
-},
-{
-"apt": "대공원호반베르디움2차",
-"umd": "두왕동",
-"area": 84.9801,
-"floor": 6.0,
-"dong": "",
-"amount": 4.1,
-"date": "2026-09-19",
-"kind": "전세",
-"direct": false
 }
 ],
 "jeonse_weak": false,
-"date": "2026-10-01"
+"date": "2026-10-02"
 },
 "2026000403-102.8800A": {
 "mkt_low": null,
@@ -19234,7 +19245,7 @@
 }
 ],
 "jeonse_weak": true,
-"date": "2026-10-01"
+"date": "2026-10-02"
 },
 "2026000403-102.5600B": {
 "mkt_low": null,
@@ -19260,7 +19271,7 @@
 }
 ],
 "jeonse_weak": true,
-"date": "2026-10-01"
+"date": "2026-10-02"
 },
 "2026000414-059.8400A": {
 "mkt_low": 4.33,
@@ -19452,7 +19463,7 @@
 }
 ],
 "jeonse_weak": false,
-"date": "2026-10-01"
+"date": "2026-10-02"
 },
 "2026000414-059.8100B": {
 "mkt_low": 4.33,
@@ -19644,7 +19655,7 @@
 }
 ],
 "jeonse_weak": false,
-"date": "2026-10-01"
+"date": "2026-10-02"
 },
 "2026000414-059.8300C": {
 "mkt_low": 4.33,
@@ -19836,7 +19847,7 @@
 }
 ],
 "jeonse_weak": false,
-"date": "2026-10-01"
+"date": "2026-10-02"
 },
 "2026000414-059.7100D": {
 "mkt_low": 4.33,
@@ -20028,7 +20039,7 @@
 }
 ],
 "jeonse_weak": false,
-"date": "2026-10-01"
+"date": "2026-10-02"
 },
 "2026000414-059.7200E": {
 "mkt_low": 4.33,
@@ -20220,7 +20231,7 @@
 }
 ],
 "jeonse_weak": false,
-"date": "2026-10-01"
+"date": "2026-10-02"
 },
 "2026000414-059.9700G": {
 "mkt_low": 4.33,
@@ -20412,7 +20423,7 @@
 }
 ],
 "jeonse_weak": false,
-"date": "2026-10-01"
+"date": "2026-10-02"
 },
 "2026000414-059.8200H": {
 "mkt_low": 4.33,
@@ -20604,7 +20615,7 @@
 }
 ],
 "jeonse_weak": false,
-"date": "2026-10-01"
+"date": "2026-10-02"
 },
 "2026000414-069.8200P": {
 "mkt_low": null,
@@ -20641,7 +20652,7 @@
 }
 ],
 "jeonse_weak": true,
-"date": "2026-10-01"
+"date": "2026-10-02"
 },
 "2026000414-074.9300O": {
 "mkt_low": 5.47,
@@ -20833,7 +20844,7 @@
 }
 ],
 "jeonse_weak": false,
-"date": "2026-10-01"
+"date": "2026-10-02"
 },
 "2026000414-077.4100A": {
 "mkt_low": 5.68,
@@ -21025,7 +21036,7 @@
 }
 ],
 "jeonse_weak": false,
-"date": "2026-10-01"
+"date": "2026-10-02"
 },
 "2026000414-077.4100C": {
 "mkt_low": 5.68,
@@ -21217,16 +21228,27 @@
 }
 ],
 "jeonse_weak": false,
-"date": "2026-10-01"
+"date": "2026-10-02"
 },
 "2026000414-084.7800A": {
-"mkt_low": 5.94,
-"mkt_base": 6.35,
-"mkt_note": "같은 구 준공 10년 이내 같은 평형 매매 27건 기준 (최근 6개월)",
+"mkt_low": 5.89,
+"mkt_base": 6.32,
+"mkt_note": "같은 구 준공 10년 이내 같은 평형 매매 28건 기준 (최근 6개월)",
 "mkt_basis": "district_newbuild",
-"mkt_count": 27,
+"mkt_count": 28,
 "mkt_direct_excluded": 0,
 "mkt_comps": [
+{
+"apt": "계양효성해링턴플레이스",
+"umd": "서운동",
+"area": 84.966,
+"floor": 12.0,
+"dong": "",
+"amount": 5.85,
+"date": "2026-09-18",
+"kind": "매매",
+"direct": false
+},
 {
 "apt": "힐스테이트자이계양",
 "umd": "작전동",
@@ -21301,17 +21323,6 @@
 "dong": "",
 "amount": 6.1,
 "date": "2026-07-30",
-"kind": "매매",
-"direct": false
-},
-{
-"apt": "힐스테이트자이계양",
-"umd": "작전동",
-"area": 84.53,
-"floor": 27.0,
-"dong": "105",
-"amount": 8.2,
-"date": "2026-07-29",
 "kind": "매매",
 "direct": false
 }
@@ -21409,16 +21420,27 @@
 }
 ],
 "jeonse_weak": false,
-"date": "2026-10-01"
+"date": "2026-10-02"
 },
 "2026000414-084.9900B": {
-"mkt_low": 5.94,
-"mkt_base": 6.35,
-"mkt_note": "같은 구 준공 10년 이내 같은 평형 매매 27건 기준 (최근 6개월)",
+"mkt_low": 5.89,
+"mkt_base": 6.32,
+"mkt_note": "같은 구 준공 10년 이내 같은 평형 매매 28건 기준 (최근 6개월)",
 "mkt_basis": "district_newbuild",
-"mkt_count": 27,
+"mkt_count": 28,
 "mkt_direct_excluded": 0,
 "mkt_comps": [
+{
+"apt": "계양효성해링턴플레이스",
+"umd": "서운동",
+"area": 84.966,
+"floor": 12.0,
+"dong": "",
+"amount": 5.85,
+"date": "2026-09-18",
+"kind": "매매",
+"direct": false
+},
 {
 "apt": "힐스테이트자이계양",
 "umd": "작전동",
@@ -21493,17 +21515,6 @@
 "dong": "",
 "amount": 6.1,
 "date": "2026-07-30",
-"kind": "매매",
-"direct": false
-},
-{
-"apt": "힐스테이트자이계양",
-"umd": "작전동",
-"area": 84.53,
-"floor": 27.0,
-"dong": "105",
-"amount": 8.2,
-"date": "2026-07-29",
 "kind": "매매",
 "direct": false
 }
@@ -21601,16 +21612,27 @@
 }
 ],
 "jeonse_weak": false,
-"date": "2026-10-01"
+"date": "2026-10-02"
 },
 "2026000416-059.7400A": {
 "mkt_low": 3.2,
 "mkt_base": 3.4,
-"mkt_note": "같은 구 준공 10년 이내 같은 평형 매매 140건 기준 (최근 6개월)",
+"mkt_note": "같은 구 준공 10년 이내 같은 평형 매매 142건 기준 (최근 6개월)",
 "mkt_basis": "district_newbuild",
-"mkt_count": 140,
-"mkt_direct_excluded": 9,
+"mkt_count": 142,
+"mkt_direct_excluded": 10,
 "mkt_comps": [
+{
+"apt": "옥정센트럴파크푸르지오",
+"umd": "옥정동",
+"area": 58.9923,
+"floor": 10.0,
+"dong": "",
+"amount": 3.7,
+"date": "2026-09-30",
+"kind": "매매",
+"direct": false
+},
 {
 "apt": "옥정센트럴파크푸르지오",
 "umd": "옥정동",
@@ -21680,29 +21702,29 @@
 {
 "apt": "옥정센트럴파크푸르지오",
 "umd": "옥정동",
-"area": 58.9846,
-"floor": 21.0,
+"area": 58.9923,
+"floor": 8.0,
 "dong": "",
-"amount": 3.5,
-"date": "2026-09-17",
-"kind": "매매",
-"direct": false
-},
-{
-"apt": "덕정역서희스타힐스에듀포레뷰",
-"umd": "덕정동",
-"area": 59.9986,
-"floor": 18.0,
-"dong": "306동",
-"amount": 3.4,
-"date": "2026-09-17",
+"amount": 3.7,
+"date": "2026-09-20",
 "kind": "매매",
 "direct": false
 }
 ],
-"jeonse": 2.07,
-"jeonse_note": "같은 구 준공 10년 이내 전세 129건 중앙값에서 입주장 할인 9%",
+"jeonse": 2.05,
+"jeonse_note": "같은 구 준공 10년 이내 전세 130건 중앙값에서 입주장 할인 9%",
 "jeonse_comps": [
+{
+"apt": "옥정센트럴파크푸르지오",
+"umd": "옥정동",
+"area": 58.9846,
+"floor": 15.0,
+"dong": "",
+"amount": 1.89,
+"date": "2026-10-01",
+"kind": "전세",
+"direct": false
+},
 {
 "apt": "옥정센트럴파크푸르지오",
 "umd": "옥정동",
@@ -21779,30 +21801,30 @@
 "date": "2026-09-15",
 "kind": "전세",
 "direct": false
-},
-{
-"apt": "양주옥정LH엘리프",
-"umd": "옥정동",
-"area": 59.76,
-"floor": 8.0,
-"dong": "",
-"amount": 1.83,
-"date": "2026-09-15",
-"kind": "전세",
-"direct": false
 }
 ],
 "jeonse_weak": false,
-"date": "2026-10-01"
+"date": "2026-10-02"
 },
 "2026000416-059.9100B": {
 "mkt_low": 3.2,
 "mkt_base": 3.4,
-"mkt_note": "같은 구 준공 10년 이내 같은 평형 매매 140건 기준 (최근 6개월)",
+"mkt_note": "같은 구 준공 10년 이내 같은 평형 매매 142건 기준 (최근 6개월)",
 "mkt_basis": "district_newbuild",
-"mkt_count": 140,
-"mkt_direct_excluded": 9,
+"mkt_count": 142,
+"mkt_direct_excluded": 10,
 "mkt_comps": [
+{
+"apt": "옥정센트럴파크푸르지오",
+"umd": "옥정동",
+"area": 58.9923,
+"floor": 10.0,
+"dong": "",
+"amount": 3.7,
+"date": "2026-09-30",
+"kind": "매매",
+"direct": false
+},
 {
 "apt": "옥정센트럴파크푸르지오",
 "umd": "옥정동",
@@ -21872,29 +21894,29 @@
 {
 "apt": "옥정센트럴파크푸르지오",
 "umd": "옥정동",
-"area": 58.9846,
-"floor": 21.0,
+"area": 58.9923,
+"floor": 8.0,
 "dong": "",
-"amount": 3.5,
-"date": "2026-09-17",
-"kind": "매매",
-"direct": false
-},
-{
-"apt": "덕정역서희스타힐스에듀포레뷰",
-"umd": "덕정동",
-"area": 59.9986,
-"floor": 18.0,
-"dong": "306동",
-"amount": 3.4,
-"date": "2026-09-17",
+"amount": 3.7,
+"date": "2026-09-20",
 "kind": "매매",
 "direct": false
 }
 ],
-"jeonse": 2.07,
-"jeonse_note": "같은 구 준공 10년 이내 전세 129건 중앙값에서 입주장 할인 9%",
+"jeonse": 2.05,
+"jeonse_note": "같은 구 준공 10년 이내 전세 130건 중앙값에서 입주장 할인 9%",
 "jeonse_comps": [
+{
+"apt": "옥정센트럴파크푸르지오",
+"umd": "옥정동",
+"area": 58.9846,
+"floor": 15.0,
+"dong": "",
+"amount": 1.89,
+"date": "2026-10-01",
+"kind": "전세",
+"direct": false
+},
 {
 "apt": "옥정센트럴파크푸르지오",
 "umd": "옥정동",
@@ -21971,28 +21993,17 @@
 "date": "2026-09-15",
 "kind": "전세",
 "direct": false
-},
-{
-"apt": "양주옥정LH엘리프",
-"umd": "옥정동",
-"area": 59.76,
-"floor": 8.0,
-"dong": "",
-"amount": 1.83,
-"date": "2026-09-15",
-"kind": "전세",
-"direct": false
 }
 ],
 "jeonse_weak": false,
-"date": "2026-10-01"
+"date": "2026-10-02"
 },
 "2026000416-074.6100A": {
-"mkt_low": 3.75,
+"mkt_low": 3.72,
 "mkt_base": 4.0,
-"mkt_note": "같은 구 준공 10년 이내 같은 평형 매매 121건 기준 (최근 6개월)",
+"mkt_note": "같은 구 준공 10년 이내 같은 평형 매매 122건 기준 (최근 6개월)",
 "mkt_basis": "district_newbuild",
-"mkt_count": 121,
+"mkt_count": 122,
 "mkt_direct_excluded": 3,
 "mkt_comps": [
 {
@@ -22014,6 +22025,17 @@
 "dong": "",
 "amount": 3.47,
 "date": "2026-09-23",
+"kind": "매매",
+"direct": false
+},
+{
+"apt": "양주옥정린파밀리에",
+"umd": "옥정동",
+"area": 74.88,
+"floor": 8.0,
+"dong": "",
+"amount": 3.53,
+"date": "2026-09-22",
 "kind": "매매",
 "direct": false
 },
@@ -22071,22 +22093,22 @@
 "date": "2026-09-11",
 "kind": "매매",
 "direct": false
-},
-{
-"apt": "양주옥정린파밀리에",
-"umd": "옥정동",
-"area": 74.44,
-"floor": 13.0,
-"dong": "",
-"amount": 3.55,
-"date": "2026-09-11",
-"kind": "매매",
-"direct": false
 }
 ],
 "jeonse": 2.43,
-"jeonse_note": "같은 구 준공 10년 이내 전세 152건 중앙값에서 입주장 할인 9%",
+"jeonse_note": "같은 구 준공 10년 이내 전세 153건 중앙값에서 입주장 할인 9%",
 "jeonse_comps": [
+{
+"apt": "양주옥정린파밀리에",
+"umd": "옥정동",
+"area": 74.86,
+"floor": 20.0,
+"dong": "",
+"amount": 2.6,
+"date": "2026-09-30",
+"kind": "전세",
+"direct": false
+},
 {
 "apt": "e편한세상옥정메트로포레",
 "umd": "옥정동",
@@ -22163,28 +22185,17 @@
 "date": "2026-09-17",
 "kind": "전세",
 "direct": false
-},
-{
-"apt": "e편한세상옥정메트로포레",
-"umd": "옥정동",
-"area": 74.9891,
-"floor": 17.0,
-"dong": "",
-"amount": 2.52,
-"date": "2026-09-16",
-"kind": "전세",
-"direct": false
 }
 ],
 "jeonse_weak": false,
-"date": "2026-10-01"
+"date": "2026-10-02"
 },
 "2026000416-074.9700B": {
-"mkt_low": 3.75,
+"mkt_low": 3.72,
 "mkt_base": 4.0,
-"mkt_note": "같은 구 준공 10년 이내 같은 평형 매매 121건 기준 (최근 6개월)",
+"mkt_note": "같은 구 준공 10년 이내 같은 평형 매매 122건 기준 (최근 6개월)",
 "mkt_basis": "district_newbuild",
-"mkt_count": 121,
+"mkt_count": 122,
 "mkt_direct_excluded": 3,
 "mkt_comps": [
 {
@@ -22206,6 +22217,17 @@
 "dong": "",
 "amount": 3.47,
 "date": "2026-09-23",
+"kind": "매매",
+"direct": false
+},
+{
+"apt": "양주옥정린파밀리에",
+"umd": "옥정동",
+"area": 74.88,
+"floor": 8.0,
+"dong": "",
+"amount": 3.53,
+"date": "2026-09-22",
 "kind": "매매",
 "direct": false
 },
@@ -22263,22 +22285,22 @@
 "date": "2026-09-11",
 "kind": "매매",
 "direct": false
-},
-{
-"apt": "양주옥정린파밀리에",
-"umd": "옥정동",
-"area": 74.44,
-"floor": 13.0,
-"dong": "",
-"amount": 3.55,
-"date": "2026-09-11",
-"kind": "매매",
-"direct": false
 }
 ],
 "jeonse": 2.43,
-"jeonse_note": "같은 구 준공 10년 이내 전세 152건 중앙값에서 입주장 할인 9%",
+"jeonse_note": "같은 구 준공 10년 이내 전세 153건 중앙값에서 입주장 할인 9%",
 "jeonse_comps": [
+{
+"apt": "양주옥정린파밀리에",
+"umd": "옥정동",
+"area": 74.86,
+"floor": 20.0,
+"dong": "",
+"amount": 2.6,
+"date": "2026-09-30",
+"kind": "전세",
+"direct": false
+},
 {
 "apt": "e편한세상옥정메트로포레",
 "umd": "옥정동",
@@ -22355,30 +22377,30 @@
 "date": "2026-09-17",
 "kind": "전세",
 "direct": false
-},
-{
-"apt": "e편한세상옥정메트로포레",
-"umd": "옥정동",
-"area": 74.9891,
-"floor": 17.0,
-"dong": "",
-"amount": 2.52,
-"date": "2026-09-16",
-"kind": "전세",
-"direct": false
 }
 ],
 "jeonse_weak": false,
-"date": "2026-10-01"
+"date": "2026-10-02"
 },
 "2026000416-084.8600A": {
 "mkt_low": 4.0,
 "mkt_base": 4.45,
-"mkt_note": "같은 구 준공 10년 이내 같은 평형 매매 274건 기준 (최근 6개월)",
+"mkt_note": "같은 구 준공 10년 이내 같은 평형 매매 276건 기준 (최근 6개월)",
 "mkt_basis": "district_newbuild",
-"mkt_count": 274,
+"mkt_count": 276,
 "mkt_direct_excluded": 11,
 "mkt_comps": [
+{
+"apt": "양주옥정신도시대방노블랜드더시그니처",
+"umd": "옥정동",
+"area": 84.998,
+"floor": 12.0,
+"dong": "",
+"amount": 5.1,
+"date": "2026-10-01",
+"kind": "매매",
+"direct": false
+},
 {
 "apt": "옥정중앙역중흥S-클래스센텀시티(1단지)",
 "umd": "옥정동",
@@ -22455,22 +22477,22 @@
 "date": "2026-09-23",
 "kind": "매매",
 "direct": false
-},
-{
-"apt": "장흥역경남아너스빌북한산뷰2단지",
-"umd": "장흥면 일영리",
-"area": 84.9916,
-"floor": 2.0,
-"dong": "",
-"amount": 3.9,
-"date": "2026-09-23",
-"kind": "매매",
-"direct": false
 }
 ],
 "jeonse": 2.65,
-"jeonse_note": "같은 구 준공 10년 이내 전세 377건 중앙값에서 입주장 할인 9%",
+"jeonse_note": "같은 구 준공 10년 이내 전세 378건 중앙값에서 입주장 할인 9%",
 "jeonse_comps": [
+{
+"apt": "옥정역로제비앙메트로파크1단지",
+"umd": "삼숭동",
+"area": 84.8119,
+"floor": 16.0,
+"dong": "",
+"amount": 2.73,
+"date": "2026-10-01",
+"kind": "전세",
+"direct": false
+},
 {
 "apt": "양주옥정신도시디에트르프레스티지",
 "umd": "옥정동",
@@ -22547,21 +22569,10 @@
 "date": "2026-09-23",
 "kind": "전세",
 "direct": false
-},
-{
-"apt": "옥정역로제비앙메트로파크1단지",
-"umd": "삼숭동",
-"area": 84.9065,
-"floor": 16.0,
-"dong": "",
-"amount": 2.8,
-"date": "2026-09-22",
-"kind": "전세",
-"direct": false
 }
 ],
 "jeonse_weak": false,
-"date": "2026-10-01"
+"date": "2026-10-02"
 },
 "2026000409-059.9200A": {
 "mkt_low": 3.39,
@@ -22661,8 +22672,19 @@
 }
 ],
 "jeonse": 2.97,
-"jeonse_note": "같은 구 준공 10년 이내 전세 242건 중앙값에서 입주장 할인 9%",
+"jeonse_note": "같은 구 준공 10년 이내 전세 244건 중앙값에서 입주장 할인 9%",
 "jeonse_comps": [
+{
+"apt": "의정부역브라운스톤리버뷰",
+"umd": "신곡동",
+"area": 59.995,
+"floor": 7.0,
+"dong": "",
+"amount": 3.1,
+"date": "2026-10-01",
+"kind": "전세",
+"direct": false
+},
 {
 "apt": "의정부역센트럴자이앤위브캐슬",
 "umd": "의정부동",
@@ -22739,21 +22761,10 @@
 "date": "2026-09-19",
 "kind": "전세",
 "direct": false
-},
-{
-"apt": "의정부역센트럴자이앤위브캐슬",
-"umd": "의정부동",
-"area": 59.948,
-"floor": 10.0,
-"dong": "",
-"amount": 3.5,
-"date": "2026-09-19",
-"kind": "전세",
-"direct": false
 }
 ],
 "jeonse_weak": false,
-"date": "2026-10-01"
+"date": "2026-10-02"
 },
 "2026000409-059.9600B": {
 "mkt_low": 3.39,
@@ -22853,8 +22864,19 @@
 }
 ],
 "jeonse": 2.97,
-"jeonse_note": "같은 구 준공 10년 이내 전세 242건 중앙값에서 입주장 할인 9%",
+"jeonse_note": "같은 구 준공 10년 이내 전세 244건 중앙값에서 입주장 할인 9%",
 "jeonse_comps": [
+{
+"apt": "의정부역브라운스톤리버뷰",
+"umd": "신곡동",
+"area": 59.995,
+"floor": 7.0,
+"dong": "",
+"amount": 3.1,
+"date": "2026-10-01",
+"kind": "전세",
+"direct": false
+},
 {
 "apt": "의정부역센트럴자이앤위브캐슬",
 "umd": "의정부동",
@@ -22931,255 +22953,10 @@
 "date": "2026-09-19",
 "kind": "전세",
 "direct": false
-},
-{
-"apt": "의정부역센트럴자이앤위브캐슬",
-"umd": "의정부동",
-"area": 59.948,
-"floor": 10.0,
-"dong": "",
-"amount": 3.5,
-"date": "2026-09-19",
-"kind": "전세",
-"direct": false
 }
 ],
 "jeonse_weak": false,
-"date": "2026-10-01"
-},
-"2026820008-055.9700A": {
-"mkt_low": null,
-"mkt_base": null,
-"mkt_note": "비교할 거래가 부족해요. 시세를 직접 확인하세요.",
-"mkt_basis": null,
-"mkt_count": 0,
-"mkt_direct_excluded": 0,
-"mkt_comps": [],
-"jeonse": null,
-"jeonse_note": "전세 거래가 부족해 추정하지 못했어요.",
-"jeonse_comps": [],
-"jeonse_weak": true,
-"date": "2026-10-01"
-},
-"2026820008-055.9700B": {
-"mkt_low": null,
-"mkt_base": null,
-"mkt_note": "비교할 거래가 부족해요. 시세를 직접 확인하세요.",
-"mkt_basis": null,
-"mkt_count": 0,
-"mkt_direct_excluded": 0,
-"mkt_comps": [],
-"jeonse": null,
-"jeonse_note": "전세 거래가 부족해 추정하지 못했어요.",
-"jeonse_comps": [],
-"jeonse_weak": true,
-"date": "2026-10-01"
-},
-"2026820008-055.9800C": {
-"mkt_low": null,
-"mkt_base": null,
-"mkt_note": "비교할 거래가 부족해요. 시세를 직접 확인하세요.",
-"mkt_basis": null,
-"mkt_count": 0,
-"mkt_direct_excluded": 0,
-"mkt_comps": [],
-"jeonse": null,
-"jeonse_note": "전세 거래가 부족해 추정하지 못했어요.",
-"jeonse_comps": [],
-"jeonse_weak": true,
-"date": "2026-10-01"
-},
-"2026820008-056.9400T": {
-"mkt_low": 13.0,
-"mkt_base": 14.05,
-"mkt_note": "같은 구 준공 10년 이내 같은 평형 매매 38건 기준 (최근 6개월)",
-"mkt_basis": "district_newbuild",
-"mkt_count": 38,
-"mkt_direct_excluded": 0,
-"mkt_comps": [
-{
-"apt": "산성역포레스티아",
-"umd": "신흥동",
-"area": 59.84,
-"floor": 5.0,
-"dong": "",
-"amount": 14.25,
-"date": "2026-09-14",
-"kind": "매매",
-"direct": false
-},
-{
-"apt": "산성역포레스티아",
-"umd": "신흥동",
-"area": 59.84,
-"floor": 13.0,
-"dong": "",
-"amount": 15.0,
-"date": "2026-09-14",
-"kind": "매매",
-"direct": false
-},
-{
-"apt": "산성역포레스티아",
-"umd": "신흥동",
-"area": 59.84,
-"floor": 2.0,
-"dong": "",
-"amount": 14.3,
-"date": "2026-09-12",
-"kind": "매매",
-"direct": false
-},
-{
-"apt": "가천대역두산위브",
-"umd": "태평동",
-"area": 59.6073,
-"floor": 1.0,
-"dong": "",
-"amount": 8.0,
-"date": "2026-09-11",
-"kind": "매매",
-"direct": false
-},
-{
-"apt": "산성역포레스티아",
-"umd": "신흥동",
-"area": 59.84,
-"floor": 10.0,
-"dong": "",
-"amount": 14.95,
-"date": "2026-09-09",
-"kind": "매매",
-"direct": false
-},
-{
-"apt": "산성역포레스티아",
-"umd": "신흥동",
-"area": 59.84,
-"floor": 27.0,
-"dong": "",
-"amount": 15.0,
-"date": "2026-09-05",
-"kind": "매매",
-"direct": false
-},
-{
-"apt": "산성역포레스티아",
-"umd": "신흥동",
-"area": 59.84,
-"floor": 27.0,
-"dong": "",
-"amount": 15.0,
-"date": "2026-09-02",
-"kind": "매매",
-"direct": false
-},
-{
-"apt": "산성역포레스티아",
-"umd": "신흥동",
-"area": 59.84,
-"floor": 6.0,
-"dong": "",
-"amount": 14.1,
-"date": "2026-08-08",
-"kind": "매매",
-"direct": false
-}
-],
-"jeonse": 5.49,
-"jeonse_note": "같은 구 준공 10년 이내 전세 85건 중앙값에서 입주장 할인 9%",
-"jeonse_comps": [
-{
-"apt": "산성역포레스티아",
-"umd": "신흥동",
-"area": 59.84,
-"floor": 11.0,
-"dong": "",
-"amount": 7.0,
-"date": "2026-09-22",
-"kind": "전세",
-"direct": false
-},
-{
-"apt": "위례센트럴자이",
-"umd": "창곡동",
-"area": 59.83,
-"floor": 3.0,
-"dong": "",
-"amount": 6.51,
-"date": "2026-09-18",
-"kind": "전세",
-"direct": false
-},
-{
-"apt": "가천대역두산위브",
-"umd": "태평동",
-"area": 59.6073,
-"floor": 9.0,
-"dong": "",
-"amount": 5.3,
-"date": "2026-09-16",
-"kind": "전세",
-"direct": false
-},
-{
-"apt": "산성역포레스티아",
-"umd": "신흥동",
-"area": 59.84,
-"floor": 25.0,
-"dong": "",
-"amount": 5.78,
-"date": "2026-09-12",
-"kind": "전세",
-"direct": false
-},
-{
-"apt": "산성역포레스티아",
-"umd": "신흥동",
-"area": 59.84,
-"floor": 26.0,
-"dong": "",
-"amount": 6.5,
-"date": "2026-09-12",
-"kind": "전세",
-"direct": false
-},
-{
-"apt": "위례센트럴자이",
-"umd": "창곡동",
-"area": 59.83,
-"floor": 2.0,
-"dong": "",
-"amount": 6.1,
-"date": "2026-09-10",
-"kind": "전세",
-"direct": false
-},
-{
-"apt": "산성역포레스티아",
-"umd": "신흥동",
-"area": 59.84,
-"floor": 18.0,
-"dong": "",
-"amount": 7.0,
-"date": "2026-09-09",
-"kind": "전세",
-"direct": false
-},
-{
-"apt": "엘리프세곡리버파크",
-"umd": "신촌동",
-"area": 59.94,
-"floor": 4.0,
-"dong": "",
-"amount": 6.0,
-"date": "2026-09-06",
-"kind": "전세",
-"direct": false
-}
-],
-"jeonse_weak": false,
-"date": "2026-10-01"
+"date": "2026-10-02"
 },
 "2026820010-055.9000A": {
 "mkt_low": 5.2,
@@ -23360,7 +23137,7 @@
 }
 ],
 "jeonse_weak": false,
-"date": "2026-10-01"
+"date": "2026-10-02"
 },
 "2026820010-055.8800B": {
 "mkt_low": 5.2,
@@ -23541,7 +23318,7 @@
 }
 ],
 "jeonse_weak": false,
-"date": "2026-10-01"
+"date": "2026-10-02"
 },
 "2026820010-055.7600C": {
 "mkt_low": 5.2,
@@ -23722,7 +23499,7 @@
 }
 ],
 "jeonse_weak": false,
-"date": "2026-10-01"
+"date": "2026-10-02"
 },
 "2026910251-084.9972A": {
 "mkt_low": 20.15,
@@ -23892,7 +23669,7 @@
 }
 ],
 "jeonse_weak": false,
-"date": "2026-10-01"
+"date": "2026-10-02"
 },
 "2026910251-084.9965B": {
 "mkt_low": 20.15,
@@ -24062,7 +23839,7 @@
 }
 ],
 "jeonse_weak": false,
-"date": "2026-10-01"
+"date": "2026-10-02"
 },
 "2026930040-084.9811C": {
 "mkt_low": 19.8,
@@ -24199,7 +23976,7 @@
 }
 ],
 "jeonse_weak": false,
-"date": "2026-10-01"
+"date": "2026-10-02"
 },
 "2026930037-099.9842B": {
 "mkt_low": 18.72,
@@ -24259,7 +24036,7 @@
 }
 ],
 "jeonse_weak": true,
-"date": "2026-10-01"
+"date": "2026-10-02"
 },
 "2026930036-084.7450D": {
 "mkt_low": 18.45,
@@ -24281,9 +24058,20 @@
 "direct": false
 }
 ],
-"jeonse": 7.51,
-"jeonse_note": "같은 단지 전세 18건 중앙값에서 입주장 할인 9%",
+"jeonse": 7.46,
+"jeonse_note": "같은 단지 전세 19건 중앙값에서 입주장 할인 9%",
 "jeonse_comps": [
+{
+"apt": "과천푸르지오라비엔오",
+"umd": "갈현동",
+"area": 84.745,
+"floor": 35.0,
+"dong": "",
+"amount": 8.0,
+"date": "2026-10-01",
+"kind": "전세",
+"direct": false
+},
 {
 "apt": "과천푸르지오라비엔오",
 "umd": "갈현동",
@@ -24360,21 +24148,10 @@
 "date": "2026-07-04",
 "kind": "전세",
 "direct": false
-},
-{
-"apt": "과천푸르지오라비엔오",
-"umd": "갈현동",
-"area": 84.8513,
-"floor": 8.0,
-"dong": "",
-"amount": 8.7,
-"date": "2026-06-30",
-"kind": "전세",
-"direct": false
 }
 ],
 "jeonse_weak": false,
-"date": "2026-10-01"
+"date": "2026-10-02"
 },
 "2026910220-140.8560P": {
 "mkt_low": null,
@@ -24388,7 +24165,7 @@
 "jeonse_note": "전세 거래가 부족해 추정하지 못했어요.",
 "jeonse_comps": [],
 "jeonse_weak": true,
-"date": "2026-10-01"
+"date": "2026-10-02"
 },
 "2026910248-084.9900A": {
 "mkt_low": 4.1,
@@ -24396,7 +24173,7 @@
 "mkt_note": "같은 구 준공 10년 이내 같은 평형 매매 317건 기준 (최근 6개월)",
 "mkt_basis": "district_newbuild",
 "mkt_count": 317,
-"mkt_direct_excluded": 51,
+"mkt_direct_excluded": 52,
 "mkt_comps": [
 {
 "apt": "용봉동아델리움인비엔날레",
@@ -24488,8 +24265,19 @@
 }
 ],
 "jeonse": 2.41,
-"jeonse_note": "같은 구 준공 10년 이내 전세 539건 중앙값에서 입주장 할인 9%",
+"jeonse_note": "같은 구 준공 10년 이내 전세 542건 중앙값에서 입주장 할인 9%",
 "jeonse_comps": [
+{
+"apt": "힐스테이트신용더리버",
+"umd": "신용동",
+"area": 84.77,
+"floor": 6.0,
+"dong": "",
+"amount": 2.6,
+"date": "2026-09-29",
+"kind": "전세",
+"direct": false
+},
 {
 "apt": "양산명지써밋주상복합",
 "umd": "양산동",
@@ -24566,21 +24354,10 @@
 "date": "2026-09-22",
 "kind": "전세",
 "direct": false
-},
-{
-"apt": "일곡엘리체프라임",
-"umd": "삼각동",
-"area": 84.9613,
-"floor": 1.0,
-"dong": "",
-"amount": 3.05,
-"date": "2026-09-22",
-"kind": "전세",
-"direct": false
 }
 ],
 "jeonse_weak": false,
-"date": "2026-10-01"
+"date": "2026-10-02"
 },
 "2026910248-084.9900B": {
 "mkt_low": 4.1,
@@ -24588,7 +24365,7 @@
 "mkt_note": "같은 구 준공 10년 이내 같은 평형 매매 317건 기준 (최근 6개월)",
 "mkt_basis": "district_newbuild",
 "mkt_count": 317,
-"mkt_direct_excluded": 51,
+"mkt_direct_excluded": 52,
 "mkt_comps": [
 {
 "apt": "용봉동아델리움인비엔날레",
@@ -24680,8 +24457,19 @@
 }
 ],
 "jeonse": 2.41,
-"jeonse_note": "같은 구 준공 10년 이내 전세 539건 중앙값에서 입주장 할인 9%",
+"jeonse_note": "같은 구 준공 10년 이내 전세 542건 중앙값에서 입주장 할인 9%",
 "jeonse_comps": [
+{
+"apt": "힐스테이트신용더리버",
+"umd": "신용동",
+"area": 84.77,
+"floor": 6.0,
+"dong": "",
+"amount": 2.6,
+"date": "2026-09-29",
+"kind": "전세",
+"direct": false
+},
 {
 "apt": "양산명지써밋주상복합",
 "umd": "양산동",
@@ -24758,21 +24546,10 @@
 "date": "2026-09-22",
 "kind": "전세",
 "direct": false
-},
-{
-"apt": "일곡엘리체프라임",
-"umd": "삼각동",
-"area": 84.9613,
-"floor": 1.0,
-"dong": "",
-"amount": 3.05,
-"date": "2026-09-22",
-"kind": "전세",
-"direct": false
 }
 ],
 "jeonse_weak": false,
-"date": "2026-10-01"
+"date": "2026-10-02"
 },
 "2026930035-084.7621A": {
 "mkt_low": 3.54,
@@ -24806,8 +24583,19 @@
 }
 ],
 "jeonse": 3.24,
-"jeonse_note": "같은 단지 전세 8건 중앙값에서 입주장 할인 9%",
+"jeonse_note": "같은 단지 전세 9건 중앙값에서 입주장 할인 9%",
 "jeonse_comps": [
+{
+"apt": "더샵청주그리니티",
+"umd": "개신동",
+"area": 84.7621,
+"floor": 15.0,
+"dong": "",
+"amount": 3.7,
+"date": "2026-09-30",
+"kind": "전세",
+"direct": false
+},
 {
 "apt": "더샵청주그리니티",
 "umd": "개신동",
@@ -24884,21 +24672,10 @@
 "date": "2026-05-08",
 "kind": "전세",
 "direct": false
-},
-{
-"apt": "더샵청주그리니티",
-"umd": "개신동",
-"area": 84.7621,
-"floor": 11.0,
-"dong": "",
-"amount": 3.5,
-"date": "2026-05-02",
-"kind": "전세",
-"direct": false
 }
 ],
 "jeonse_weak": false,
-"date": "2026-10-01"
+"date": "2026-10-02"
 },
 "2026930035-099.8624A": {
 "mkt_low": 5.11,
@@ -24969,7 +24746,7 @@
 }
 ],
 "jeonse_weak": true,
-"date": "2026-10-01"
+"date": "2026-10-02"
 },
 "2026910243-084.7214B": {
 "mkt_low": 3.54,
@@ -25003,8 +24780,19 @@
 }
 ],
 "jeonse": 3.24,
-"jeonse_note": "같은 단지 전세 8건 중앙값에서 입주장 할인 9%",
+"jeonse_note": "같은 단지 전세 9건 중앙값에서 입주장 할인 9%",
 "jeonse_comps": [
+{
+"apt": "더샵청주그리니티",
+"umd": "개신동",
+"area": 84.7621,
+"floor": 15.0,
+"dong": "",
+"amount": 3.7,
+"date": "2026-09-30",
+"kind": "전세",
+"direct": false
+},
 {
 "apt": "더샵청주그리니티",
 "umd": "개신동",
@@ -25081,21 +24869,10 @@
 "date": "2026-05-08",
 "kind": "전세",
 "direct": false
-},
-{
-"apt": "더샵청주그리니티",
-"umd": "개신동",
-"area": 84.7621,
-"floor": 11.0,
-"dong": "",
-"amount": 3.5,
-"date": "2026-05-02",
-"kind": "전세",
-"direct": false
 }
 ],
 "jeonse_weak": false,
-"date": "2026-10-01"
+"date": "2026-10-02"
 },
 "2026910243-099.8624A": {
 "mkt_low": 5.11,
@@ -25166,7 +24943,7 @@
 }
 ],
 "jeonse_weak": true,
-"date": "2026-10-01"
+"date": "2026-10-02"
 },
 "2026910247-084.7050A": {
 "mkt_low": 6.28,
@@ -25281,7 +25058,7 @@
 }
 ],
 "jeonse_weak": true,
-"date": "2026-10-01"
+"date": "2026-10-02"
 },
 "2026910247-084.7324C": {
 "mkt_low": 6.28,
@@ -25396,7 +25173,7 @@
 }
 ],
 "jeonse_weak": true,
-"date": "2026-10-01"
+"date": "2026-10-02"
 },
 "2026910247-084.0616D": {
 "mkt_low": 6.28,
@@ -25511,7 +25288,7 @@
 }
 ],
 "jeonse_weak": true,
-"date": "2026-10-01"
+"date": "2026-10-02"
 },
 "2026910247-111.6914A": {
 "mkt_low": 6.95,
@@ -25593,7 +25370,7 @@
 }
 ],
 "jeonse_weak": true,
-"date": "2026-10-01"
+"date": "2026-10-02"
 },
 "2026910247-111.9114B": {
 "mkt_low": 6.95,
@@ -25675,7 +25452,7 @@
 }
 ],
 "jeonse_weak": true,
-"date": "2026-10-01"
+"date": "2026-10-02"
 },
 "2026930031-059.9979A": {
 "mkt_low": 7.92,
@@ -25790,7 +25567,7 @@
 }
 ],
 "jeonse_weak": false,
-"date": "2026-10-01"
+"date": "2026-10-02"
 },
 "2026930031-059.9960B": {
 "mkt_low": 7.92,
@@ -25905,14 +25682,14 @@
 }
 ],
 "jeonse_weak": false,
-"date": "2026-10-01"
+"date": "2026-10-02"
 },
 "2026910236-059.9626 ": {
 "mkt_low": 10.7,
 "mkt_base": 11.5,
-"mkt_note": "같은 구 준공 10년 이내 같은 평형 매매 95건 기준 (최근 6개월)",
+"mkt_note": "같은 구 준공 10년 이내 같은 평형 매매 96건 기준 (최근 6개월)",
 "mkt_basis": "district_newbuild",
-"mkt_count": 95,
+"mkt_count": 96,
 "mkt_direct_excluded": 0,
 "mkt_comps": [
 {
@@ -25923,6 +25700,17 @@
 "dong": "",
 "amount": 14.95,
 "date": "2026-09-15",
+"kind": "매매",
+"direct": false
+},
+{
+"apt": "철산센트럴푸르지오",
+"umd": "철산동",
+"area": 59.9981,
+"floor": 7.0,
+"dong": "",
+"amount": 14.0,
+"date": "2026-09-12",
 "kind": "매매",
 "direct": false
 },
@@ -25991,17 +25779,6 @@
 "date": "2026-08-21",
 "kind": "매매",
 "direct": false
-},
-{
-"apt": "광명푸르지오센트베르",
-"umd": "광명동",
-"area": 59.4654,
-"floor": 17.0,
-"dong": "",
-"amount": 11.7,
-"date": "2026-08-15",
-"kind": "매매",
-"direct": false
 }
 ],
 "jeonse": 6.75,
@@ -26042,14 +25819,14 @@
 }
 ],
 "jeonse_weak": true,
-"date": "2026-10-01"
+"date": "2026-10-02"
 },
 "2026910236-059.9353 ": {
 "mkt_low": 10.7,
 "mkt_base": 11.5,
-"mkt_note": "같은 구 준공 10년 이내 같은 평형 매매 95건 기준 (최근 6개월)",
+"mkt_note": "같은 구 준공 10년 이내 같은 평형 매매 96건 기준 (최근 6개월)",
 "mkt_basis": "district_newbuild",
-"mkt_count": 95,
+"mkt_count": 96,
 "mkt_direct_excluded": 0,
 "mkt_comps": [
 {
@@ -26060,6 +25837,17 @@
 "dong": "",
 "amount": 14.95,
 "date": "2026-09-15",
+"kind": "매매",
+"direct": false
+},
+{
+"apt": "철산센트럴푸르지오",
+"umd": "철산동",
+"area": 59.9981,
+"floor": 7.0,
+"dong": "",
+"amount": 14.0,
+"date": "2026-09-12",
 "kind": "매매",
 "direct": false
 },
@@ -26128,17 +25916,6 @@
 "date": "2026-08-21",
 "kind": "매매",
 "direct": false
-},
-{
-"apt": "광명푸르지오센트베르",
-"umd": "광명동",
-"area": 59.4654,
-"floor": 17.0,
-"dong": "",
-"amount": 11.7,
-"date": "2026-08-15",
-"kind": "매매",
-"direct": false
 }
 ],
 "jeonse": 6.75,
@@ -26179,16 +25956,27 @@
 }
 ],
 "jeonse_weak": true,
-"date": "2026-10-01"
+"date": "2026-10-02"
 },
 "2026910246-059.9390A": {
 "mkt_low": 4.05,
 "mkt_base": 4.68,
-"mkt_note": "같은 구 준공 10년 이내 같은 평형 매매 209건 기준 (최근 6개월)",
+"mkt_note": "같은 구 준공 10년 이내 같은 평형 매매 211건 기준 (최근 6개월)",
 "mkt_basis": "district_newbuild",
-"mkt_count": 209,
+"mkt_count": 211,
 "mkt_direct_excluded": 4,
 "mkt_comps": [
+{
+"apt": "e편한세상용인한숲시티4단지",
+"umd": "남사읍 완장리",
+"area": 59.709,
+"floor": 19.0,
+"dong": "",
+"amount": 3.6,
+"date": "2026-10-01",
+"kind": "매매",
+"direct": false
+},
 {
 "apt": "역북지웰푸르지오",
 "umd": "역북동",
@@ -26265,22 +26053,33 @@
 "date": "2026-09-20",
 "kind": "매매",
 "direct": false
-},
-{
-"apt": "서희스타힐스포레스트",
-"umd": "역북동",
-"area": 59.9957,
-"floor": 14.0,
-"dong": "",
-"amount": 4.05,
-"date": "2026-09-18",
-"kind": "매매",
-"direct": false
 }
 ],
 "jeonse": 2.36,
-"jeonse_note": "같은 구 준공 10년 이내 전세 236건 중앙값에서 입주장 할인 9%",
+"jeonse_note": "같은 구 준공 10년 이내 전세 239건 중앙값에서 입주장 할인 9%",
 "jeonse_comps": [
+{
+"apt": "힐스테이트용인고진역1단지",
+"umd": "고림동",
+"area": 59.9837,
+"floor": 13.0,
+"dong": "",
+"amount": 2.62,
+"date": "2026-10-01",
+"kind": "전세",
+"direct": false
+},
+{
+"apt": "힐스테이트용인고진역2단지",
+"umd": "고림동",
+"area": 59.9837,
+"floor": 17.0,
+"dong": "",
+"amount": 2.52,
+"date": "2026-09-30",
+"kind": "전세",
+"direct": false
+},
 {
 "apt": "힐스테이트용인고진역1단지",
 "umd": "고림동",
@@ -26326,6 +26125,17 @@
 "direct": false
 },
 {
+"apt": "힐스테이트용인둔전역",
+"umd": "고림동",
+"area": 59.8827,
+"floor": 25.0,
+"dong": "",
+"amount": 3.4,
+"date": "2026-09-21",
+"kind": "전세",
+"direct": false
+},
+{
 "apt": "힐스테이트용인고진역1단지",
 "umd": "고림동",
 "area": 59.9837,
@@ -26335,52 +26145,30 @@
 "date": "2026-09-21",
 "kind": "전세",
 "direct": false
-},
-{
-"apt": "힐스테이트용인고진역2단지",
-"umd": "고림동",
-"area": 59.9786,
-"floor": 16.0,
-"dong": "",
-"amount": 2.62,
-"date": "2026-09-21",
-"kind": "전세",
-"direct": false
-},
-{
-"apt": "e편한세상용인한숲시티2단지",
-"umd": "남사읍 완장리",
-"area": 59.709,
-"floor": 8.0,
-"dong": "",
-"amount": 2.0,
-"date": "2026-09-20",
-"kind": "전세",
-"direct": false
-},
-{
-"apt": "용인보평역서희스타힐스리버파크",
-"umd": "유방동",
-"area": 59.8423,
-"floor": 27.0,
-"dong": "",
-"amount": 3.4,
-"date": "2026-09-19",
-"kind": "전세",
-"direct": false
 }
 ],
 "jeonse_weak": false,
-"date": "2026-10-01"
+"date": "2026-10-02"
 },
 "2026910246-059.5027C": {
 "mkt_low": 4.05,
 "mkt_base": 4.68,
-"mkt_note": "같은 구 준공 10년 이내 같은 평형 매매 209건 기준 (최근 6개월)",
+"mkt_note": "같은 구 준공 10년 이내 같은 평형 매매 211건 기준 (최근 6개월)",
 "mkt_basis": "district_newbuild",
-"mkt_count": 209,
+"mkt_count": 211,
 "mkt_direct_excluded": 4,
 "mkt_comps": [
+{
+"apt": "e편한세상용인한숲시티4단지",
+"umd": "남사읍 완장리",
+"area": 59.709,
+"floor": 19.0,
+"dong": "",
+"amount": 3.6,
+"date": "2026-10-01",
+"kind": "매매",
+"direct": false
+},
 {
 "apt": "역북지웰푸르지오",
 "umd": "역북동",
@@ -26457,22 +26245,33 @@
 "date": "2026-09-20",
 "kind": "매매",
 "direct": false
-},
-{
-"apt": "서희스타힐스포레스트",
-"umd": "역북동",
-"area": 59.9957,
-"floor": 14.0,
-"dong": "",
-"amount": 4.05,
-"date": "2026-09-18",
-"kind": "매매",
-"direct": false
 }
 ],
 "jeonse": 2.36,
-"jeonse_note": "같은 구 준공 10년 이내 전세 236건 중앙값에서 입주장 할인 9%",
+"jeonse_note": "같은 구 준공 10년 이내 전세 239건 중앙값에서 입주장 할인 9%",
 "jeonse_comps": [
+{
+"apt": "힐스테이트용인고진역1단지",
+"umd": "고림동",
+"area": 59.9837,
+"floor": 13.0,
+"dong": "",
+"amount": 2.62,
+"date": "2026-10-01",
+"kind": "전세",
+"direct": false
+},
+{
+"apt": "힐스테이트용인고진역2단지",
+"umd": "고림동",
+"area": 59.9837,
+"floor": 17.0,
+"dong": "",
+"amount": 2.52,
+"date": "2026-09-30",
+"kind": "전세",
+"direct": false
+},
 {
 "apt": "힐스테이트용인고진역1단지",
 "umd": "고림동",
@@ -26518,6 +26317,17 @@
 "direct": false
 },
 {
+"apt": "힐스테이트용인둔전역",
+"umd": "고림동",
+"area": 59.8827,
+"floor": 25.0,
+"dong": "",
+"amount": 3.4,
+"date": "2026-09-21",
+"kind": "전세",
+"direct": false
+},
+{
 "apt": "힐스테이트용인고진역1단지",
 "umd": "고림동",
 "area": 59.9837,
@@ -26527,43 +26337,10 @@
 "date": "2026-09-21",
 "kind": "전세",
 "direct": false
-},
-{
-"apt": "힐스테이트용인고진역2단지",
-"umd": "고림동",
-"area": 59.9786,
-"floor": 16.0,
-"dong": "",
-"amount": 2.62,
-"date": "2026-09-21",
-"kind": "전세",
-"direct": false
-},
-{
-"apt": "e편한세상용인한숲시티2단지",
-"umd": "남사읍 완장리",
-"area": 59.709,
-"floor": 8.0,
-"dong": "",
-"amount": 2.0,
-"date": "2026-09-20",
-"kind": "전세",
-"direct": false
-},
-{
-"apt": "용인보평역서희스타힐스리버파크",
-"umd": "유방동",
-"area": 59.8423,
-"floor": 27.0,
-"dong": "",
-"amount": 3.4,
-"date": "2026-09-19",
-"kind": "전세",
-"direct": false
 }
 ],
 "jeonse_weak": false,
-"date": "2026-10-01"
+"date": "2026-10-02"
 },
 "2026910246-071.2889A": {
 "mkt_low": 4.95,
@@ -26755,7 +26532,7 @@
 }
 ],
 "jeonse_weak": false,
-"date": "2026-10-01"
+"date": "2026-10-02"
 },
 "2026910246-071.8211B": {
 "mkt_low": 4.95,
@@ -26947,14 +26724,14 @@
 }
 ],
 "jeonse_weak": false,
-"date": "2026-10-01"
+"date": "2026-10-02"
 },
 "2026910246-084.7577A": {
 "mkt_low": 4.4,
-"mkt_base": 5.39,
-"mkt_note": "같은 구 준공 10년 이내 같은 평형 매매 206건 기준 (최근 6개월)",
+"mkt_base": 5.4,
+"mkt_note": "같은 구 준공 10년 이내 같은 평형 매매 207건 기준 (최근 6개월)",
 "mkt_basis": "district_newbuild",
-"mkt_count": 206,
+"mkt_count": 207,
 "mkt_direct_excluded": 4,
 "mkt_comps": [
 {
@@ -26965,6 +26742,17 @@
 "dong": "",
 "amount": 4.25,
 "date": "2026-09-23",
+"kind": "매매",
+"direct": false
+},
+{
+"apt": "힐스테이트몬테로이2단지",
+"umd": "모현읍 왕산리",
+"area": 84.899,
+"floor": 14.0,
+"dong": "",
+"amount": 6.25,
+"date": "2026-09-22",
 "kind": "매매",
 "direct": false
 },
@@ -27033,22 +26821,33 @@
 "date": "2026-09-19",
 "kind": "매매",
 "direct": false
-},
-{
-"apt": "힐스테이트용인고진역1단지",
-"umd": "고림동",
-"area": 84.9868,
-"floor": 29.0,
-"dong": "",
-"amount": 6.88,
-"date": "2026-09-19",
-"kind": "매매",
-"direct": false
 }
 ],
 "jeonse": 2.79,
-"jeonse_note": "같은 구 준공 10년 이내 전세 247건 중앙값에서 입주장 할인 9%",
+"jeonse_note": "같은 구 준공 10년 이내 전세 251건 중앙값에서 입주장 할인 9%",
 "jeonse_comps": [
+{
+"apt": "e편한세상용인한숲시티5단지",
+"umd": "남사읍 아곡리",
+"area": 84.826,
+"floor": 10.0,
+"dong": "",
+"amount": 3.0,
+"date": "2026-10-01",
+"kind": "전세",
+"direct": false
+},
+{
+"apt": "힐스테이트몬테로이1단지",
+"umd": "모현읍 왕산리",
+"area": 84.846,
+"floor": 13.0,
+"dong": "",
+"amount": 4.0,
+"date": "2026-09-30",
+"kind": "전세",
+"direct": false
+},
 {
 "apt": "e편한세상용인한숲시티6단지",
 "umd": "남사읍 완장리",
@@ -27114,32 +26913,10 @@
 "date": "2026-09-28",
 "kind": "전세",
 "direct": false
-},
-{
-"apt": "힐스테이트몬테로이2단지",
-"umd": "모현읍 왕산리",
-"area": 84.846,
-"floor": 2.0,
-"dong": "",
-"amount": 3.9,
-"date": "2026-09-28",
-"kind": "전세",
-"direct": false
-},
-{
-"apt": "e편한세상용인한숲시티6단지",
-"umd": "남사읍 완장리",
-"area": 84.658,
-"floor": 26.0,
-"dong": "",
-"amount": 2.2,
-"date": "2026-09-23",
-"kind": "전세",
-"direct": false
 }
 ],
 "jeonse_weak": false,
-"date": "2026-10-01"
+"date": "2026-10-02"
 },
 "2026910241-059.9400A": {
 "mkt_low": null,
@@ -27153,7 +26930,7 @@
 "jeonse_note": "전세 거래가 부족해 추정하지 못했어요.",
 "jeonse_comps": [],
 "jeonse_weak": true,
-"date": "2026-10-01"
+"date": "2026-10-02"
 },
 "2026930032-084.7646 ": {
 "mkt_low": 5.7,
@@ -27242,7 +27019,7 @@
 }
 ],
 "jeonse": 2.7,
-"jeonse_note": "같은 구 준공 10년 이내 전세 50건 중앙값에서 입주장 할인 9%",
+"jeonse_note": "같은 구 준공 10년 이내 전세 51건 중앙값에서 입주장 할인 9%",
 "jeonse_comps": [
 {
 "apt": "울산뉴시티에일린의뜰2차",
@@ -27334,7 +27111,7 @@
 }
 ],
 "jeonse_weak": false,
-"date": "2026-10-01"
+"date": "2026-10-02"
 },
 "2026910244-059.8400A": {
 "mkt_low": 8.4,
@@ -27526,7 +27303,7 @@
 }
 ],
 "jeonse_weak": false,
-"date": "2026-10-01"
+"date": "2026-10-02"
 },
 "2026910240-084.3589A": {
 "mkt_low": 3.67,
@@ -27707,7 +27484,7 @@
 }
 ],
 "jeonse_weak": false,
-"date": "2026-10-01"
+"date": "2026-10-02"
 },
 "2026910240-084.9235B": {
 "mkt_low": 3.67,
@@ -27888,7 +27665,7 @@
 }
 ],
 "jeonse_weak": false,
-"date": "2026-10-01"
+"date": "2026-10-02"
 },
 "2026910242-084.9766C": {
 "mkt_low": 6.29,
@@ -27988,8 +27765,30 @@
 }
 ],
 "jeonse": 3.6,
-"jeonse_note": "같은 단지 전세 83건 중앙값에서 입주장 할인 9%",
+"jeonse_note": "같은 단지 전세 85건 중앙값에서 입주장 할인 9%",
 "jeonse_comps": [
+{
+"apt": "더샵송도마리나베이",
+"umd": "송도동",
+"area": 84.4546,
+"floor": 25.0,
+"dong": "",
+"amount": 4.2,
+"date": "2026-10-01",
+"kind": "전세",
+"direct": false
+},
+{
+"apt": "더샵송도마리나베이",
+"umd": "송도동",
+"area": 84.916,
+"floor": 10.0,
+"dong": "",
+"amount": 3.6,
+"date": "2026-09-30",
+"kind": "전세",
+"direct": false
+},
 {
 "apt": "더샵송도마리나베이",
 "umd": "송도동",
@@ -28055,32 +27854,10 @@
 "date": "2026-09-18",
 "kind": "전세",
 "direct": false
-},
-{
-"apt": "더샵송도마리나베이",
-"umd": "송도동",
-"area": 84.9738,
-"floor": 29.0,
-"dong": "",
-"amount": 4.3,
-"date": "2026-09-17",
-"kind": "전세",
-"direct": false
-},
-{
-"apt": "더샵송도마리나베이",
-"umd": "송도동",
-"area": 84.4546,
-"floor": 29.0,
-"dong": "",
-"amount": 3.2,
-"date": "2026-09-17",
-"kind": "전세",
-"direct": false
 }
 ],
 "jeonse_weak": false,
-"date": "2026-10-01"
+"date": "2026-10-02"
 },
 "2026910239-075.4145 ": {
 "mkt_low": 4.85,
@@ -28272,7 +28049,7 @@
 }
 ],
 "jeonse_weak": false,
-"date": "2026-10-01"
+"date": "2026-10-02"
 },
 "2026910239-084.4817 ": {
 "mkt_low": 5.98,
@@ -28372,7 +28149,7 @@
 }
 ],
 "jeonse": 3.61,
-"jeonse_note": "같은 구 준공 10년 이내 전세 120건 중앙값에서 입주장 할인 9%",
+"jeonse_note": "같은 구 준공 10년 이내 전세 122건 중앙값에서 입주장 할인 9%",
 "jeonse_comps": [
 {
 "apt": "대연롯데캐슬레전드2단지",
@@ -28382,6 +28159,28 @@
 "dong": "",
 "amount": 4.9,
 "date": "2026-09-30",
+"kind": "전세",
+"direct": false
+},
+{
+"apt": "대연롯데캐슬레전드1단지",
+"umd": "대연동",
+"area": 84.98,
+"floor": 16.0,
+"dong": "",
+"amount": 3.99,
+"date": "2026-09-29",
+"kind": "전세",
+"direct": false
+},
+{
+"apt": "베스티움",
+"umd": "문현동",
+"area": 84.6906,
+"floor": 3.0,
+"dong": "",
+"amount": 4.1,
+"date": "2026-09-29",
 "kind": "전세",
 "direct": false
 },
@@ -28439,32 +28238,10 @@
 "date": "2026-09-19",
 "kind": "전세",
 "direct": false
-},
-{
-"apt": "문현경동리인아파트",
-"umd": "문현동",
-"area": 84.6766,
-"floor": 11.0,
-"dong": "",
-"amount": 3.01,
-"date": "2026-09-16",
-"kind": "전세",
-"direct": false
-},
-{
-"apt": "더비치푸르지오써밋",
-"umd": "대연동",
-"area": 84.9252,
-"floor": 3.0,
-"dong": "",
-"amount": 6.1,
-"date": "2026-09-15",
-"kind": "전세",
-"direct": false
 }
 ],
 "jeonse_weak": false,
-"date": "2026-10-01"
+"date": "2026-10-02"
 },
 "2026910238-124.4008P": {
 "mkt_low": 3.61,
@@ -28535,1830 +28312,321 @@
 }
 ],
 "jeonse_weak": true,
-"date": "2026-10-01"
+"date": "2026-10-02"
 },
-"2026910234-059.7600 ": {
-"mkt_low": 5.0,
-"mkt_base": 5.6,
-"mkt_note": "같은 구 준공 10년 이내 같은 평형 매매 190건 기준 (최근 6개월)",
+"2026910253-084.9596 ": {
+"mkt_low": 7.99,
+"mkt_base": 9.46,
+"mkt_note": "같은 구 준공 10년 이내 같은 평형 매매 654건 기준 (최근 6개월)",
 "mkt_basis": "district_newbuild",
-"mkt_count": 190,
-"mkt_direct_excluded": 3,
+"mkt_count": 654,
+"mkt_direct_excluded": 6,
 "mkt_comps": [
 {
-"apt": "더비치푸르지오써밋",
-"umd": "대연동",
-"area": 59.9372,
-"floor": 11.0,
+"apt": "두산알프하임",
+"umd": "호평동",
+"area": 84.9558,
+"floor": 10.0,
 "dong": "",
-"amount": 10.5,
-"date": "2026-09-24",
+"amount": 5.95,
+"date": "2026-09-29",
 "kind": "매매",
 "direct": false
 },
 {
-"apt": "롯데캐슬인피니엘",
-"umd": "문현동",
-"area": 59.9665,
+"apt": "진접스타힐스",
+"umd": "진접읍 부평리",
+"area": 84.9932,
+"floor": 19.0,
+"dong": "",
+"amount": 4.4,
+"date": "2026-09-28",
+"kind": "매매",
+"direct": false
+},
+{
+"apt": "다산유승한내들골든뷰",
+"umd": "다산동",
+"area": 84.6732,
+"floor": 5.0,
+"dong": "",
+"amount": 10.48,
+"date": "2026-09-27",
+"kind": "매매",
+"direct": false
+},
+{
+"apt": "화도센트럴우방아이유쉘",
+"umd": "화도읍 녹촌리",
+"area": 84.91,
+"floor": 3.0,
+"dong": "",
+"amount": 4.57,
+"date": "2026-09-23",
+"kind": "매매",
+"direct": false
+},
+{
+"apt": "다산한강반도유보라",
+"umd": "다산동",
+"area": 84.9611,
 "floor": 9.0,
 "dong": "",
-"amount": 5.7,
+"amount": 10.0,
 "date": "2026-09-23",
 "kind": "매매",
 "direct": false
 },
 {
-"apt": "롯데캐슬인피니엘",
-"umd": "문현동",
-"area": 59.9665,
-"floor": 20.0,
+"apt": "다산반도유보라메이플타운",
+"umd": "다산동",
+"area": 82.1967,
+"floor": 11.0,
 "dong": "",
-"amount": 5.62,
+"amount": 10.2,
 "date": "2026-09-23",
 "kind": "매매",
 "direct": false
 },
 {
-"apt": "롯데캐슬인피니엘",
-"umd": "문현동",
-"area": 59.9665,
-"floor": 18.0,
+"apt": "다산한양수자인리버팰리스",
+"umd": "다산동",
+"area": 84.6174,
+"floor": 2.0,
+"dong": "",
+"amount": 10.55,
+"date": "2026-09-22",
+"kind": "매매",
+"direct": false
+},
+{
+"apt": "다산신안인스빌퍼스트리버",
+"umd": "다산동",
+"area": 84.965,
+"floor": 17.0,
+"dong": "",
+"amount": 10.3,
+"date": "2026-09-21",
+"kind": "매매",
+"direct": false
+}
+],
+"jeonse": 3.96,
+"jeonse_note": "같은 구 준공 10년 이내 전세 1087건 중앙값에서 입주장 할인 9%",
+"jeonse_comps": [
+{
+"apt": "다산유승한내들센트럴",
+"umd": "다산동",
+"area": 84.0379,
+"floor": 9.0,
+"dong": "",
+"amount": 6.5,
+"date": "2026-10-01",
+"kind": "전세",
+"direct": false
+},
+{
+"apt": "남양주라온프라이빗4단지",
+"umd": "화도읍 녹촌리",
+"area": 84.6269,
+"floor": 2.0,
+"dong": "",
+"amount": 3.4,
+"date": "2026-10-01",
+"kind": "전세",
+"direct": false
+},
+{
+"apt": "다산진건데시앙",
+"umd": "다산동",
+"area": 84.9585,
+"floor": 13.0,
+"dong": "",
+"amount": 3.02,
+"date": "2026-09-30",
+"kind": "전세",
+"direct": false
+},
+{
+"apt": "다산진건데시앙",
+"umd": "다산동",
+"area": 84.9876,
+"floor": 25.0,
+"dong": "",
+"amount": 3.02,
+"date": "2026-09-30",
+"kind": "전세",
+"direct": false
+},
+{
+"apt": "e편한세상 다산",
+"umd": "다산동",
+"area": 84.97,
+"floor": 10.0,
 "dong": "",
 "amount": 5.6,
-"date": "2026-09-19",
-"kind": "매매",
-"direct": false
-},
-{
-"apt": "대연푸르지오클라센트1단지",
-"umd": "대연동",
-"area": 59.9837,
-"floor": 2.0,
-"dong": "",
-"amount": 5.85,
-"date": "2026-09-19",
-"kind": "매매",
-"direct": false
-},
-{
-"apt": "롯데캐슬인피니엘",
-"umd": "문현동",
-"area": 59.9665,
-"floor": 12.0,
-"dong": "",
-"amount": 5.8,
-"date": "2026-09-19",
-"kind": "매매",
-"direct": false
-},
-{
-"apt": "더비치푸르지오써밋",
-"umd": "대연동",
-"area": 59.8917,
-"floor": 15.0,
-"dong": "",
-"amount": 10.5,
-"date": "2026-09-18",
-"kind": "매매",
-"direct": false
-},
-{
-"apt": "롯데캐슬인피니엘",
-"umd": "문현동",
-"area": 59.9665,
-"floor": 12.0,
-"dong": "",
-"amount": 5.7,
-"date": "2026-09-18",
-"kind": "매매",
-"direct": false
-}
-],
-"jeonse": 2.93,
-"jeonse_note": "같은 구 준공 10년 이내 전세 133건 중앙값에서 입주장 할인 9%",
-"jeonse_comps": [
-{
-"apt": "롯데캐슬인피니엘",
-"umd": "문현동",
-"area": 59.9664,
-"floor": 22.0,
-"dong": "",
-"amount": 3.1,
-"date": "2026-09-29",
+"date": "2026-09-30",
 "kind": "전세",
 "direct": false
 },
 {
-"apt": "대연롯데캐슬레전드1단지",
-"umd": "대연동",
-"area": 59.99,
-"floor": 24.0,
+"apt": "다산롯데캐슬",
+"umd": "다산동",
+"area": 84.99,
+"floor": 20.0,
 "dong": "",
-"amount": 3.7,
-"date": "2026-09-28",
+"amount": 6.5,
+"date": "2026-09-30",
 "kind": "전세",
 "direct": false
 },
 {
-"apt": "베스티움",
-"umd": "문현동",
-"area": 59.9574,
+"apt": "다산진건데시앙",
+"umd": "다산동",
+"area": 84.9876,
 "floor": 5.0,
 "dong": "",
-"amount": 3.0,
-"date": "2026-09-28",
-"kind": "전세",
-"direct": false
-},
-{
-"apt": "롯데캐슬인피니엘",
-"umd": "문현동",
-"area": 59.9665,
-"floor": 15.0,
-"dong": "",
-"amount": 3.5,
-"date": "2026-09-28",
-"kind": "전세",
-"direct": false
-},
-{
-"apt": "대연자이",
-"umd": "대연동",
-"area": 59.8922,
-"floor": 27.0,
-"dong": "",
-"amount": 3.7,
-"date": "2026-09-24",
-"kind": "전세",
-"direct": false
-},
-{
-"apt": "더비치푸르지오써밋",
-"umd": "대연동",
-"area": 59.8917,
-"floor": 17.0,
-"dong": "",
-"amount": 5.3,
-"date": "2026-09-23",
-"kind": "전세",
-"direct": false
-},
-{
-"apt": "대연자이",
-"umd": "대연동",
-"area": 59.8922,
-"floor": 4.0,
-"dong": "",
-"amount": 3.8,
-"date": "2026-09-23",
-"kind": "전세",
-"direct": false
-},
-{
-"apt": "롯데캐슬인피니엘",
-"umd": "문현동",
-"area": 59.9664,
-"floor": 11.0,
-"dong": "",
-"amount": 3.3,
-"date": "2026-09-22",
-"kind": "전세",
-"direct": false
-}
-],
-"jeonse_weak": false,
-"date": "2026-10-01"
-},
-"2026910234-074.9500A": {
-"mkt_low": 4.85,
-"mkt_base": 5.65,
-"mkt_note": "같은 구 준공 10년 이내 같은 평형 매매 46건 기준 (최근 6개월)",
-"mkt_basis": "district_newbuild",
-"mkt_count": 46,
-"mkt_direct_excluded": 0,
-"mkt_comps": [
-{
-"apt": "오션파라곤아파트",
-"umd": "문현동",
-"area": 74.9476,
-"floor": 7.0,
-"dong": "",
-"amount": 4.03,
-"date": "2026-09-18",
-"kind": "매매",
-"direct": false
-},
-{
-"apt": "대연파크푸르지오",
-"umd": "대연동",
-"area": 74.9524,
-"floor": 24.0,
-"dong": "",
-"amount": 5.65,
-"date": "2026-09-18",
-"kind": "매매",
-"direct": false
-},
-{
-"apt": "오션파라곤아파트",
-"umd": "문현동",
-"area": 74.9476,
-"floor": 18.0,
-"dong": "",
-"amount": 4.42,
-"date": "2026-09-17",
-"kind": "매매",
-"direct": false
-},
-{
-"apt": "대연파크푸르지오",
-"umd": "대연동",
-"area": 74.9524,
-"floor": 23.0,
-"dong": "",
-"amount": 5.65,
-"date": "2026-09-09",
-"kind": "매매",
-"direct": false
-},
-{
-"apt": "문현경동리인아파트",
-"umd": "문현동",
-"area": 74.6026,
-"floor": 22.0,
-"dong": "",
-"amount": 4.1,
-"date": "2026-09-08",
-"kind": "매매",
-"direct": false
-},
-{
-"apt": "대연자이",
-"umd": "대연동",
-"area": 72.9645,
-"floor": 16.0,
-"dong": "",
-"amount": 7.63,
-"date": "2026-08-29",
-"kind": "매매",
-"direct": false
-},
-{
-"apt": "문현경동리인아파트",
-"umd": "문현동",
-"area": 72.5806,
-"floor": 20.0,
-"dong": "",
-"amount": 3.9,
-"date": "2026-08-26",
-"kind": "매매",
-"direct": false
-},
-{
-"apt": "힐스테이트대연센트럴",
-"umd": "대연동",
-"area": 74.937,
-"floor": 20.0,
-"dong": "",
-"amount": 7.89,
-"date": "2026-08-22",
-"kind": "매매",
-"direct": false
-}
-],
-"jeonse": 3.02,
-"jeonse_note": "같은 구 준공 10년 이내 전세 39건 중앙값에서 입주장 할인 9%",
-"jeonse_comps": [
-{
-"apt": "데시앙해링턴플레이스파크시티",
-"umd": "용호동",
-"area": 73.8648,
-"floor": 13.0,
-"dong": "",
-"amount": 3.6,
-"date": "2026-09-21",
-"kind": "전세",
-"direct": false
-},
-{
-"apt": "오션파라곤아파트",
-"umd": "문현동",
-"area": 74.8509,
-"floor": 3.0,
-"dong": "",
-"amount": 3.35,
-"date": "2026-09-21",
-"kind": "전세",
-"direct": false
-},
-{
-"apt": "오션파라곤아파트",
-"umd": "문현동",
-"area": 74.9749,
-"floor": 18.0,
-"dong": "",
-"amount": 3.0,
-"date": "2026-09-10",
-"kind": "전세",
-"direct": false
-},
-{
-"apt": "오션파라곤아파트",
-"umd": "문현동",
-"area": 74.9476,
-"floor": 16.0,
-"dong": "",
-"amount": 3.0,
-"date": "2026-09-03",
-"kind": "전세",
-"direct": false
-},
-{
-"apt": "데시앙해링턴플레이스파크시티",
-"umd": "용호동",
-"area": 73.8648,
-"floor": 27.0,
-"dong": "",
-"amount": 3.6,
-"date": "2026-09-01",
-"kind": "전세",
-"direct": false
-},
-{
-"apt": "대연푸르지오클라센트1단지",
-"umd": "대연동",
-"area": 74.9717,
-"floor": 29.0,
-"dong": "",
-"amount": 3.6,
-"date": "2026-09-01",
-"kind": "전세",
-"direct": false
-},
-{
-"apt": "데시앙해링턴플레이스파크시티",
-"umd": "용호동",
-"area": 73.9077,
-"floor": 8.0,
-"dong": "",
-"amount": 2.85,
-"date": "2026-08-27",
-"kind": "전세",
-"direct": false
-},
-{
-"apt": "대연푸르지오클라센트1단지",
-"umd": "대연동",
-"area": 74.9183,
-"floor": 20.0,
-"dong": "",
-"amount": 3.7,
-"date": "2026-08-22",
-"kind": "전세",
-"direct": false
-}
-],
-"jeonse_weak": false,
-"date": "2026-10-01"
-},
-"2026910234-084.8500A": {
-"mkt_low": 5.98,
-"mkt_base": 6.96,
-"mkt_note": "같은 구 준공 10년 이내 같은 평형 매매 100건 기준 (최근 6개월)",
-"mkt_basis": "district_newbuild",
-"mkt_count": 100,
-"mkt_direct_excluded": 3,
-"mkt_comps": [
-{
-"apt": "대연푸르지오클라센트1단지",
-"umd": "대연동",
-"area": 84.9624,
-"floor": 11.0,
-"dong": "",
-"amount": 6.9,
-"date": "2026-09-22",
-"kind": "매매",
-"direct": false
-},
-{
-"apt": "롯데캐슬인피니엘",
-"umd": "문현동",
-"area": 84.9524,
-"floor": 17.0,
-"dong": "",
-"amount": 7.55,
-"date": "2026-09-18",
-"kind": "매매",
-"direct": false
-},
-{
-"apt": "베스티움",
-"umd": "문현동",
-"area": 84.6906,
-"floor": 13.0,
-"dong": "",
-"amount": 6.03,
-"date": "2026-09-14",
-"kind": "매매",
-"direct": false
-},
-{
-"apt": "대연푸르지오클라센트1단지",
-"umd": "대연동",
-"area": 84.9624,
-"floor": 32.0,
-"dong": "",
-"amount": 7.55,
-"date": "2026-09-14",
-"kind": "매매",
-"direct": false
-},
-{
-"apt": "베스티움",
-"umd": "문현동",
-"area": 84.6906,
-"floor": 21.0,
-"dong": "",
-"amount": 6.3,
-"date": "2026-09-13",
-"kind": "매매",
-"direct": false
-},
-{
-"apt": "데시앙해링턴플레이스파크시티",
-"umd": "용호동",
-"area": 84.9932,
-"floor": 23.0,
-"dong": "",
-"amount": 5.4,
-"date": "2026-09-10",
-"kind": "매매",
-"direct": false
-},
-{
-"apt": "대연푸르지오클라센트1단지",
-"umd": "대연동",
-"area": 84.9624,
-"floor": 24.0,
-"dong": "",
-"amount": 5.5,
-"date": "2026-09-08",
-"kind": "매매",
-"direct": false
-},
-{
-"apt": "대연푸르지오클라센트1단지",
-"umd": "대연동",
-"area": 84.9624,
-"floor": 13.0,
-"dong": "",
-"amount": 6.9,
-"date": "2026-09-07",
-"kind": "매매",
-"direct": false
-}
-],
-"jeonse": 3.61,
-"jeonse_note": "같은 구 준공 10년 이내 전세 120건 중앙값에서 입주장 할인 9%",
-"jeonse_comps": [
-{
-"apt": "대연롯데캐슬레전드2단지",
-"umd": "대연동",
-"area": 84.98,
-"floor": 14.0,
-"dong": "",
-"amount": 4.9,
+"amount": 3.02,
 "date": "2026-09-30",
 "kind": "전세",
 "direct": false
 },
 {
-"apt": "대연양우내안애퍼스트",
-"umd": "문현동",
-"area": 84.9684,
-"floor": 11.0,
-"dong": "",
-"amount": 4.0,
-"date": "2026-09-28",
-"kind": "전세",
-"direct": false
-},
-{
-"apt": "롯데캐슬인피니엘",
-"umd": "문현동",
-"area": 84.9524,
-"floor": 7.0,
-"dong": "",
-"amount": 4.0,
-"date": "2026-09-22",
-"kind": "전세",
-"direct": false
-},
-{
-"apt": "대연SKVIEWHills",
-"umd": "대연동",
-"area": 84.9984,
-"floor": 4.0,
-"dong": "",
-"amount": 5.1,
-"date": "2026-09-22",
-"kind": "전세",
-"direct": false
-},
-{
-"apt": "롯데캐슬인피니엘",
-"umd": "문현동",
-"area": 84.9524,
-"floor": 19.0,
-"dong": "",
-"amount": 4.5,
-"date": "2026-09-20",
-"kind": "전세",
-"direct": false
-},
-{
-"apt": "대연푸르지오클라센트1단지",
-"umd": "대연동",
-"area": 84.9624,
-"floor": 8.0,
-"dong": "",
-"amount": 4.2,
-"date": "2026-09-19",
-"kind": "전세",
-"direct": false
-},
-{
-"apt": "문현경동리인아파트",
-"umd": "문현동",
-"area": 84.6766,
-"floor": 11.0,
-"dong": "",
-"amount": 3.01,
-"date": "2026-09-16",
-"kind": "전세",
-"direct": false
-},
-{
-"apt": "더비치푸르지오써밋",
-"umd": "대연동",
-"area": 84.9252,
+"apt": "다산진건데시앙",
+"umd": "다산동",
+"area": 84.9585,
 "floor": 3.0,
 "dong": "",
-"amount": 6.1,
-"date": "2026-09-15",
-"kind": "전세",
-"direct": false
-}
-],
-"jeonse_weak": false,
-"date": "2026-10-01"
-},
-"2026910234-084.9800B": {
-"mkt_low": 5.98,
-"mkt_base": 6.96,
-"mkt_note": "같은 구 준공 10년 이내 같은 평형 매매 100건 기준 (최근 6개월)",
-"mkt_basis": "district_newbuild",
-"mkt_count": 100,
-"mkt_direct_excluded": 3,
-"mkt_comps": [
-{
-"apt": "대연푸르지오클라센트1단지",
-"umd": "대연동",
-"area": 84.9624,
-"floor": 11.0,
-"dong": "",
-"amount": 6.9,
-"date": "2026-09-22",
-"kind": "매매",
-"direct": false
-},
-{
-"apt": "롯데캐슬인피니엘",
-"umd": "문현동",
-"area": 84.9524,
-"floor": 17.0,
-"dong": "",
-"amount": 7.55,
-"date": "2026-09-18",
-"kind": "매매",
-"direct": false
-},
-{
-"apt": "베스티움",
-"umd": "문현동",
-"area": 84.6906,
-"floor": 13.0,
-"dong": "",
-"amount": 6.03,
-"date": "2026-09-14",
-"kind": "매매",
-"direct": false
-},
-{
-"apt": "대연푸르지오클라센트1단지",
-"umd": "대연동",
-"area": 84.9624,
-"floor": 32.0,
-"dong": "",
-"amount": 7.55,
-"date": "2026-09-14",
-"kind": "매매",
-"direct": false
-},
-{
-"apt": "베스티움",
-"umd": "문현동",
-"area": 84.6906,
-"floor": 21.0,
-"dong": "",
-"amount": 6.3,
-"date": "2026-09-13",
-"kind": "매매",
-"direct": false
-},
-{
-"apt": "데시앙해링턴플레이스파크시티",
-"umd": "용호동",
-"area": 84.9932,
-"floor": 23.0,
-"dong": "",
-"amount": 5.4,
-"date": "2026-09-10",
-"kind": "매매",
-"direct": false
-},
-{
-"apt": "대연푸르지오클라센트1단지",
-"umd": "대연동",
-"area": 84.9624,
-"floor": 24.0,
-"dong": "",
-"amount": 5.5,
-"date": "2026-09-08",
-"kind": "매매",
-"direct": false
-},
-{
-"apt": "대연푸르지오클라센트1단지",
-"umd": "대연동",
-"area": 84.9624,
-"floor": 13.0,
-"dong": "",
-"amount": 6.9,
-"date": "2026-09-07",
-"kind": "매매",
-"direct": false
-}
-],
-"jeonse": 3.61,
-"jeonse_note": "같은 구 준공 10년 이내 전세 120건 중앙값에서 입주장 할인 9%",
-"jeonse_comps": [
-{
-"apt": "대연롯데캐슬레전드2단지",
-"umd": "대연동",
-"area": 84.98,
-"floor": 14.0,
-"dong": "",
-"amount": 4.9,
+"amount": 3.02,
 "date": "2026-09-30",
 "kind": "전세",
 "direct": false
-},
-{
-"apt": "대연양우내안애퍼스트",
-"umd": "문현동",
-"area": 84.9684,
-"floor": 11.0,
-"dong": "",
-"amount": 4.0,
-"date": "2026-09-28",
-"kind": "전세",
-"direct": false
-},
-{
-"apt": "롯데캐슬인피니엘",
-"umd": "문현동",
-"area": 84.9524,
-"floor": 7.0,
-"dong": "",
-"amount": 4.0,
-"date": "2026-09-22",
-"kind": "전세",
-"direct": false
-},
-{
-"apt": "대연SKVIEWHills",
-"umd": "대연동",
-"area": 84.9984,
-"floor": 4.0,
-"dong": "",
-"amount": 5.1,
-"date": "2026-09-22",
-"kind": "전세",
-"direct": false
-},
-{
-"apt": "롯데캐슬인피니엘",
-"umd": "문현동",
-"area": 84.9524,
-"floor": 19.0,
-"dong": "",
-"amount": 4.5,
-"date": "2026-09-20",
-"kind": "전세",
-"direct": false
-},
-{
-"apt": "대연푸르지오클라센트1단지",
-"umd": "대연동",
-"area": 84.9624,
-"floor": 8.0,
-"dong": "",
-"amount": 4.2,
-"date": "2026-09-19",
-"kind": "전세",
-"direct": false
-},
-{
-"apt": "문현경동리인아파트",
-"umd": "문현동",
-"area": 84.6766,
-"floor": 11.0,
-"dong": "",
-"amount": 3.01,
-"date": "2026-09-16",
-"kind": "전세",
-"direct": false
-},
-{
-"apt": "더비치푸르지오써밋",
-"umd": "대연동",
-"area": 84.9252,
-"floor": 3.0,
-"dong": "",
-"amount": 6.1,
-"date": "2026-09-15",
-"kind": "전세",
-"direct": false
 }
 ],
 "jeonse_weak": false,
-"date": "2026-10-01"
+"date": "2026-10-02"
 },
-"2026910232-059.9987B": {
-"mkt_low": 3.89,
-"mkt_base": 4.33,
-"mkt_note": "같은 단지 같은 평형 거래 1건 기준 (최근 6개월)",
-"mkt_basis": "same_complex",
-"mkt_count": 1,
-"mkt_direct_excluded": 5,
-"mkt_comps": [
-{
-"apt": "역북 서희스타힐스 프라임시티",
-"umd": "역북동",
-"area": 59.9986,
-"floor": 2.0,
-"dong": "",
-"amount": 4.33,
-"date": "2026-09-14",
-"kind": "분양권",
-"direct": false
-}
-],
-"jeonse": 2.36,
-"jeonse_note": "같은 구 준공 10년 이내 전세 236건 중앙값에서 입주장 할인 9%",
-"jeonse_comps": [
-{
-"apt": "힐스테이트용인고진역1단지",
-"umd": "고림동",
-"area": 59.9837,
-"floor": 25.0,
-"dong": "",
-"amount": 2.73,
-"date": "2026-09-29",
-"kind": "전세",
-"direct": false
-},
-{
-"apt": "e편한세상용인한숲시티6단지",
-"umd": "남사읍 완장리",
-"area": 59.534,
-"floor": 5.0,
-"dong": "",
-"amount": 2.55,
-"date": "2026-09-29",
-"kind": "전세",
-"direct": false
-},
-{
-"apt": "힐스테이트용인고진역2단지",
-"umd": "고림동",
-"area": 59.9837,
-"floor": 25.0,
-"dong": "",
-"amount": 3.4,
-"date": "2026-09-28",
-"kind": "전세",
-"direct": false
-},
-{
-"apt": "힐스테이트용인고진역2단지",
-"umd": "고림동",
-"area": 59.9786,
-"floor": 2.0,
-"dong": "",
-"amount": 2.52,
-"date": "2026-09-23",
-"kind": "전세",
-"direct": false
-},
-{
-"apt": "힐스테이트용인고진역1단지",
-"umd": "고림동",
-"area": 59.9837,
-"floor": 14.0,
-"dong": "",
-"amount": 2.42,
-"date": "2026-09-21",
-"kind": "전세",
-"direct": false
-},
-{
-"apt": "힐스테이트용인고진역2단지",
-"umd": "고림동",
-"area": 59.9786,
-"floor": 16.0,
-"dong": "",
-"amount": 2.62,
-"date": "2026-09-21",
-"kind": "전세",
-"direct": false
-},
-{
-"apt": "e편한세상용인한숲시티2단지",
-"umd": "남사읍 완장리",
-"area": 59.709,
-"floor": 8.0,
-"dong": "",
-"amount": 2.0,
-"date": "2026-09-20",
-"kind": "전세",
-"direct": false
-},
-{
-"apt": "용인보평역서희스타힐스리버파크",
-"umd": "유방동",
-"area": 59.8423,
-"floor": 27.0,
-"dong": "",
-"amount": 3.4,
-"date": "2026-09-19",
-"kind": "전세",
-"direct": false
-}
-],
-"jeonse_weak": false,
-"date": "2026-10-01"
-},
-"2026910232-074.9988A": {
-"mkt_low": 4.7,
-"mkt_base": 5.0,
-"mkt_note": "같은 구 준공 10년 이내 같은 평형 매매 75건 기준 (최근 6개월)",
+"2026910250-035.7100 ": {
+"mkt_low": 4.77,
+"mkt_base": 5.3,
+"mkt_note": "같은 구 준공 10년 이내 같은 평형 매매 3건 기준 (최근 6개월)",
 "mkt_basis": "district_newbuild",
-"mkt_count": 75,
-"mkt_direct_excluded": 1,
+"mkt_count": 3,
+"mkt_direct_excluded": 16,
 "mkt_comps": [
 {
-"apt": "양우내안애에듀파크",
-"umd": "고림동",
-"area": 74.8836,
-"floor": 2.0,
-"dong": "",
-"amount": 4.99,
-"date": "2026-09-30",
-"kind": "매매",
-"direct": false
-},
-{
-"apt": "양우내안애에듀파크",
-"umd": "고림동",
-"area": 74.8272,
-"floor": 23.0,
-"dong": "",
-"amount": 5.3,
-"date": "2026-09-29",
-"kind": "매매",
-"direct": false
-},
-{
-"apt": "서희스타힐스포레스트",
-"umd": "역북동",
-"area": 76.4926,
-"floor": 19.0,
-"dong": "",
-"amount": 4.98,
-"date": "2026-09-28",
-"kind": "매매",
-"direct": false
-},
-{
-"apt": "역북지웰푸르지오",
-"umd": "역북동",
-"area": 74.9932,
-"floor": 4.0,
-"dong": "",
-"amount": 5.3,
-"date": "2026-09-23",
-"kind": "매매",
-"direct": false
-},
-{
-"apt": "역북신원아침도시",
-"umd": "역북동",
-"area": 74.02,
-"floor": 19.0,
-"dong": "",
-"amount": 4.93,
-"date": "2026-09-20",
-"kind": "매매",
-"direct": false
-},
-{
-"apt": "역북지웰푸르지오",
-"umd": "역북동",
-"area": 74.9964,
-"floor": 18.0,
-"dong": "",
-"amount": 5.99,
-"date": "2026-09-20",
-"kind": "매매",
-"direct": false
-},
-{
-"apt": "서희스타힐스포레스트",
-"umd": "역북동",
-"area": 76.4926,
-"floor": 3.0,
-"dong": "",
-"amount": 4.6,
-"date": "2026-09-19",
-"kind": "매매",
-"direct": false
-},
-{
-"apt": "힐스테이트용인둔전역",
-"umd": "고림동",
-"area": 75.981,
-"floor": 22.0,
-"dong": "",
-"amount": 5.99,
-"date": "2026-09-19",
-"kind": "매매",
-"direct": false
-}
-],
-"jeonse": 3.09,
-"jeonse_note": "같은 구 준공 10년 이내 전세 36건 중앙값에서 입주장 할인 9%",
-"jeonse_comps": [
-{
-"apt": "우미린센트럴파크",
-"umd": "역북동",
-"area": 75.5133,
-"floor": 23.0,
-"dong": "",
-"amount": 3.88,
-"date": "2026-09-21",
-"kind": "전세",
-"direct": false
-},
-{
-"apt": "역북지웰푸르지오",
-"umd": "역북동",
-"area": 74.9964,
-"floor": 30.0,
-"dong": "",
-"amount": 3.78,
-"date": "2026-09-21",
-"kind": "전세",
-"direct": false
-},
-{
-"apt": "서희스타힐스포레스트",
-"umd": "역북동",
-"area": 74.9987,
-"floor": 22.0,
-"dong": "",
-"amount": 3.7,
-"date": "2026-09-12",
-"kind": "전세",
-"direct": false
-},
-{
-"apt": "역북신원아침도시",
-"umd": "역북동",
-"area": 74.02,
-"floor": 14.0,
-"dong": "",
-"amount": 3.0,
-"date": "2026-08-31",
-"kind": "전세",
-"direct": false
-},
-{
-"apt": "역북2단지우남퍼스트빌",
-"umd": "역북동",
-"area": 72.4818,
-"floor": 12.0,
-"dong": "",
-"amount": 1.82,
-"date": "2026-08-20",
-"kind": "전세",
-"direct": false
-},
-{
-"apt": "역북2단지우남퍼스트빌",
-"umd": "역북동",
-"area": 72.4818,
-"floor": 12.0,
-"dong": "",
-"amount": 1.82,
-"date": "2026-08-20",
-"kind": "전세",
-"direct": false
-},
-{
-"apt": "역북지웰푸르지오",
-"umd": "역북동",
-"area": 74.9932,
-"floor": 19.0,
-"dong": "",
-"amount": 3.7,
-"date": "2026-08-18",
-"kind": "전세",
-"direct": false
-},
-{
-"apt": "역북2단지우남퍼스트빌",
-"umd": "역북동",
-"area": 72.4818,
-"floor": 4.0,
-"dong": "",
-"amount": 1.74,
-"date": "2026-08-14",
-"kind": "전세",
-"direct": false
-}
-],
-"jeonse_weak": false,
-"date": "2026-10-01"
-},
-"2026910232-084.9956B": {
-"mkt_low": 4.4,
-"mkt_base": 5.39,
-"mkt_note": "같은 구 준공 10년 이내 같은 평형 매매 206건 기준 (최근 6개월)",
-"mkt_basis": "district_newbuild",
-"mkt_count": 206,
-"mkt_direct_excluded": 4,
-"mkt_comps": [
-{
-"apt": "e편한세상용인한숲시티5단지",
-"umd": "남사읍 아곡리",
-"area": 84.658,
-"floor": 6.0,
-"dong": "",
-"amount": 4.25,
-"date": "2026-09-23",
-"kind": "매매",
-"direct": false
-},
-{
-"apt": "e편한세상용인한숲시티3단지",
-"umd": "남사읍 완장리",
-"area": 84.233,
-"floor": 7.0,
+"apt": "위드비엠3",
+"umd": "신림동",
+"area": 37.1,
+"floor": 9.0,
 "dong": "",
 "amount": 4.28,
-"date": "2026-09-22",
-"kind": "매매",
-"direct": false
-},
-{
-"apt": "e편한세상용인한숲시티3단지",
-"umd": "남사읍 완장리",
-"area": 84.658,
-"floor": 21.0,
-"dong": "",
-"amount": 4.38,
-"date": "2026-09-22",
-"kind": "매매",
-"direct": false
-},
-{
-"apt": "e편한세상용인한숲시티5단지",
-"umd": "남사읍 아곡리",
-"area": 84.658,
-"floor": 8.0,
-"dong": "",
-"amount": 4.8,
-"date": "2026-09-22",
-"kind": "매매",
-"direct": false
-},
-{
-"apt": "골드클래스",
-"umd": "역북동",
-"area": 83.7764,
-"floor": 14.0,
-"dong": "",
-"amount": 5.9,
-"date": "2026-09-21",
-"kind": "매매",
-"direct": false
-},
-{
-"apt": "e편한세상용인한숲시티5단지",
-"umd": "남사읍 아곡리",
-"area": 84.233,
-"floor": 6.0,
-"dong": "",
-"amount": 4.07,
-"date": "2026-09-19",
-"kind": "매매",
-"direct": false
-},
-{
-"apt": "e편한세상용인한숲시티6단지",
-"umd": "남사읍 완장리",
-"area": 84.233,
-"floor": 21.0,
-"dong": "",
-"amount": 4.55,
-"date": "2026-09-19",
-"kind": "매매",
-"direct": false
-},
-{
-"apt": "힐스테이트용인고진역1단지",
-"umd": "고림동",
-"area": 84.9868,
-"floor": 29.0,
-"dong": "",
-"amount": 6.88,
-"date": "2026-09-19",
-"kind": "매매",
-"direct": false
-}
-],
-"jeonse": 2.79,
-"jeonse_note": "같은 구 준공 10년 이내 전세 247건 중앙값에서 입주장 할인 9%",
-"jeonse_comps": [
-{
-"apt": "e편한세상용인한숲시티6단지",
-"umd": "남사읍 완장리",
-"area": 84.233,
-"floor": 27.0,
-"dong": "",
-"amount": 2.4,
-"date": "2026-09-29",
-"kind": "전세",
-"direct": false
-},
-{
-"apt": "e편한세상용인한숲시티5단지",
-"umd": "남사읍 아곡리",
-"area": 84.233,
-"floor": 5.0,
-"dong": "",
-"amount": 2.1,
-"date": "2026-09-29",
-"kind": "전세",
-"direct": false
-},
-{
-"apt": "e편한세상용인한숲시티5단지",
-"umd": "남사읍 아곡리",
-"area": 84.233,
-"floor": 14.0,
-"dong": "",
-"amount": 3.2,
-"date": "2026-09-29",
-"kind": "전세",
-"direct": false
-},
-{
-"apt": "우미린센트럴파크",
-"umd": "역북동",
-"area": 84.9882,
-"floor": 4.0,
-"dong": "",
-"amount": 4.5,
 "date": "2026-09-28",
-"kind": "전세",
-"direct": false
-},
-{
-"apt": "힐스테이트용인고진역2단지",
-"umd": "고림동",
-"area": 84.9868,
-"floor": 25.0,
-"dong": "",
-"amount": 3.25,
-"date": "2026-09-28",
-"kind": "전세",
-"direct": false
-},
-{
-"apt": "힐스테이트용인고진역1단지",
-"umd": "고림동",
-"area": 84.9868,
-"floor": 23.0,
-"dong": "",
-"amount": 3.3,
-"date": "2026-09-28",
-"kind": "전세",
-"direct": false
-},
-{
-"apt": "힐스테이트몬테로이2단지",
-"umd": "모현읍 왕산리",
-"area": 84.846,
-"floor": 2.0,
-"dong": "",
-"amount": 3.9,
-"date": "2026-09-28",
-"kind": "전세",
-"direct": false
-},
-{
-"apt": "e편한세상용인한숲시티6단지",
-"umd": "남사읍 완장리",
-"area": 84.658,
-"floor": 26.0,
-"dong": "",
-"amount": 2.2,
-"date": "2026-09-23",
-"kind": "전세",
-"direct": false
-}
-],
-"jeonse_weak": false,
-"date": "2026-10-01"
-},
-"2026910227-084.7402A": {
-"mkt_low": 4.61,
-"mkt_base": 5.75,
-"mkt_note": "같은 구 준공 10년 이내 같은 평형 매매 365건 기준 (최근 6개월)",
-"mkt_basis": "district_newbuild",
-"mkt_count": 365,
-"mkt_direct_excluded": 13,
-"mkt_comps": [
-{
-"apt": "e편한세상김포로얄하임",
-"umd": "통진읍 마송리",
-"area": 84.997,
-"floor": 18.0,
-"dong": "",
-"amount": 3.85,
-"date": "2026-09-19",
 "kind": "매매",
 "direct": false
 },
 {
-"apt": "캐슬앤파밀리에시티 1단지",
-"umd": "고촌읍 태리",
-"area": 84.7724,
-"floor": 6.0,
-"dong": "",
-"amount": 5.62,
-"date": "2026-09-19",
-"kind": "매매",
-"direct": false
-},
-{
-"apt": "풍무푸르지오센트레빌",
-"umd": "풍무동",
-"area": 84.9975,
-"floor": 9.0,
-"dong": "",
-"amount": 7.1,
-"date": "2026-09-18",
-"kind": "매매",
-"direct": false
-},
-{
-"apt": "e편한세상김포로얄하임",
-"umd": "통진읍 마송리",
-"area": 84.9865,
-"floor": 14.0,
-"dong": "",
-"amount": 3.95,
-"date": "2026-09-17",
-"kind": "매매",
-"direct": false
-},
-{
-"apt": "한강센트럴자이1단지",
-"umd": "장기동",
-"area": 84.9751,
-"floor": 6.0,
-"dong": "",
-"amount": 4.83,
-"date": "2026-09-15",
-"kind": "매매",
-"direct": false
-},
-{
-"apt": "캐슬앤파밀리에시티 2단지",
-"umd": "고촌읍 신곡리",
-"area": 84.9582,
-"floor": 3.0,
-"dong": "",
-"amount": 4.0,
-"date": "2026-09-14",
-"kind": "매매",
-"direct": false
-},
-{
-"apt": "한강센트럴자이1단지",
-"umd": "장기동",
-"area": 84.9699,
+"apt": "네스코수피아",
+"umd": "남현동",
+"area": 38.64,
 "floor": 11.0,
 "dong": "",
-"amount": 5.09,
-"date": "2026-09-13",
+"amount": 5.3,
+"date": "2026-06-16",
 "kind": "매매",
 "direct": false
 },
 {
-"apt": "한강동일스위트TheParkView1단지",
-"umd": "마산동",
-"area": 84.9584,
-"floor": 4.0,
-"dong": "",
-"amount": 4.15,
-"date": "2026-09-13",
-"kind": "매매",
-"direct": false
-}
-],
-"jeonse": 3.42,
-"jeonse_note": "같은 구 준공 10년 이내 전세 477건 중앙값에서 입주장 할인 9%",
-"jeonse_comps": [
-{
-"apt": "풍무센트럴푸르지오",
-"umd": "풍무동",
-"area": 84.9553,
-"floor": 15.0,
-"dong": "",
-"amount": 4.55,
-"date": "2026-09-29",
-"kind": "전세",
-"direct": false
-},
-{
-"apt": "한강메트로자이2단지",
-"umd": "걸포동",
-"area": 84.9402,
-"floor": 20.0,
-"dong": "",
-"amount": 4.7,
-"date": "2026-09-28",
-"kind": "전세",
-"direct": false
-},
-{
-"apt": "한강센트럴자이1단지",
-"umd": "장기동",
-"area": 84.9751,
-"floor": 21.0,
-"dong": "",
-"amount": 3.3,
-"date": "2026-09-26",
-"kind": "전세",
-"direct": false
-},
-{
-"apt": "호반베르디움더레이크5차",
-"umd": "구래동",
-"area": 84.8559,
-"floor": 4.0,
-"dong": "",
-"amount": 3.1,
-"date": "2026-09-23",
-"kind": "전세",
-"direct": false
-},
-{
-"apt": "한강메트로자이1단지",
-"umd": "걸포동",
-"area": 84.969,
-"floor": 23.0,
-"dong": "",
-"amount": 4.25,
-"date": "2026-09-23",
-"kind": "전세",
-"direct": false
-},
-{
-"apt": "고촌센트럴자이",
-"umd": "고촌읍 신곡리",
-"area": 84.3506,
+"apt": "다청림라인씨티",
+"umd": "남현동",
+"area": 38.53,
 "floor": 13.0,
 "dong": "",
-"amount": 5.36,
-"date": "2026-09-23",
-"kind": "전세",
-"direct": false
-},
-{
-"apt": "호반베르디움더레이크3차",
-"umd": "구래동",
-"area": 84.8559,
-"floor": 12.0,
-"dong": "",
-"amount": 3.3,
-"date": "2026-09-22",
-"kind": "전세",
-"direct": false
-},
-{
-"apt": "풍무푸르지오센트레빌",
-"umd": "풍무동",
-"area": 84.9975,
-"floor": 8.0,
-"dong": "",
-"amount": 4.2,
-"date": "2026-09-22",
-"kind": "전세",
+"amount": 5.8,
+"date": "2026-05-25",
+"kind": "매매",
 "direct": false
 }
 ],
-"jeonse_weak": false,
-"date": "2026-10-01"
-},
-"2026910227-084.7060E": {
-"mkt_low": 4.61,
-"mkt_base": 5.75,
-"mkt_note": "같은 구 준공 10년 이내 같은 평형 매매 365건 기준 (최근 6개월)",
-"mkt_basis": "district_newbuild",
-"mkt_count": 365,
-"mkt_direct_excluded": 13,
-"mkt_comps": [
+"jeonse": 2.61,
+"jeonse_note": "같은 단지 전세 1건 중앙값에서 입주장 할인 9%",
+"jeonse_comps": [
 {
-"apt": "e편한세상김포로얄하임",
-"umd": "통진읍 마송리",
-"area": 84.997,
-"floor": 18.0,
-"dong": "",
-"amount": 3.85,
-"date": "2026-09-19",
-"kind": "매매",
-"direct": false
-},
-{
-"apt": "캐슬앤파밀리에시티 1단지",
-"umd": "고촌읍 태리",
-"area": 84.7724,
-"floor": 6.0,
-"dong": "",
-"amount": 5.62,
-"date": "2026-09-19",
-"kind": "매매",
-"direct": false
-},
-{
-"apt": "풍무푸르지오센트레빌",
-"umd": "풍무동",
-"area": 84.9975,
-"floor": 9.0,
-"dong": "",
-"amount": 7.1,
-"date": "2026-09-18",
-"kind": "매매",
-"direct": false
-},
-{
-"apt": "e편한세상김포로얄하임",
-"umd": "통진읍 마송리",
-"area": 84.9865,
-"floor": 14.0,
-"dong": "",
-"amount": 3.95,
-"date": "2026-09-17",
-"kind": "매매",
-"direct": false
-},
-{
-"apt": "한강센트럴자이1단지",
-"umd": "장기동",
-"area": 84.9751,
-"floor": 6.0,
-"dong": "",
-"amount": 4.83,
-"date": "2026-09-15",
-"kind": "매매",
-"direct": false
-},
-{
-"apt": "캐슬앤파밀리에시티 2단지",
-"umd": "고촌읍 신곡리",
-"area": 84.9582,
+"apt": "신림스카이아파트",
+"umd": "신림동",
+"area": 38.34,
 "floor": 3.0,
 "dong": "",
-"amount": 4.0,
-"date": "2026-09-14",
-"kind": "매매",
-"direct": false
-},
-{
-"apt": "한강센트럴자이1단지",
-"umd": "장기동",
-"area": 84.9699,
-"floor": 11.0,
-"dong": "",
-"amount": 5.09,
-"date": "2026-09-13",
-"kind": "매매",
-"direct": false
-},
-{
-"apt": "한강동일스위트TheParkView1단지",
-"umd": "마산동",
-"area": 84.9584,
-"floor": 4.0,
-"dong": "",
-"amount": 4.15,
-"date": "2026-09-13",
-"kind": "매매",
-"direct": false
-}
-],
-"jeonse": 3.42,
-"jeonse_note": "같은 구 준공 10년 이내 전세 477건 중앙값에서 입주장 할인 9%",
-"jeonse_comps": [
-{
-"apt": "풍무센트럴푸르지오",
-"umd": "풍무동",
-"area": 84.9553,
-"floor": 15.0,
-"dong": "",
-"amount": 4.55,
-"date": "2026-09-29",
-"kind": "전세",
-"direct": false
-},
-{
-"apt": "한강메트로자이2단지",
-"umd": "걸포동",
-"area": 84.9402,
-"floor": 20.0,
-"dong": "",
-"amount": 4.7,
-"date": "2026-09-28",
-"kind": "전세",
-"direct": false
-},
-{
-"apt": "한강센트럴자이1단지",
-"umd": "장기동",
-"area": 84.9751,
-"floor": 21.0,
-"dong": "",
-"amount": 3.3,
-"date": "2026-09-26",
-"kind": "전세",
-"direct": false
-},
-{
-"apt": "호반베르디움더레이크5차",
-"umd": "구래동",
-"area": 84.8559,
-"floor": 4.0,
-"dong": "",
-"amount": 3.1,
-"date": "2026-09-23",
-"kind": "전세",
-"direct": false
-},
-{
-"apt": "한강메트로자이1단지",
-"umd": "걸포동",
-"area": 84.969,
-"floor": 23.0,
-"dong": "",
-"amount": 4.25,
-"date": "2026-09-23",
-"kind": "전세",
-"direct": false
-},
-{
-"apt": "고촌센트럴자이",
-"umd": "고촌읍 신곡리",
-"area": 84.3506,
-"floor": 13.0,
-"dong": "",
-"amount": 5.36,
-"date": "2026-09-23",
-"kind": "전세",
-"direct": false
-},
-{
-"apt": "호반베르디움더레이크3차",
-"umd": "구래동",
-"area": 84.8559,
-"floor": 12.0,
-"dong": "",
-"amount": 3.3,
-"date": "2026-09-22",
-"kind": "전세",
-"direct": false
-},
-{
-"apt": "풍무푸르지오센트레빌",
-"umd": "풍무동",
-"area": 84.9975,
-"floor": 8.0,
-"dong": "",
-"amount": 4.2,
-"date": "2026-09-22",
+"amount": 2.9,
+"date": "2026-05-16",
 "kind": "전세",
 "direct": false
 }
 ],
-"jeonse_weak": false,
-"date": "2026-10-01"
+"jeonse_weak": true,
+"date": "2026-10-02"
 },
-"2026910227-106.9778B": {
-"mkt_low": 5.05,
-"mkt_base": 5.15,
-"mkt_note": "같은 구 준공 10년 이내 같은 평형 매매 6건 기준 (최근 6개월)",
+"2026910250-038.3400 ": {
+"mkt_low": 4.77,
+"mkt_base": 5.3,
+"mkt_note": "같은 구 준공 10년 이내 같은 평형 매매 3건 기준 (최근 6개월)",
 "mkt_basis": "district_newbuild",
-"mkt_count": 6,
-"mkt_direct_excluded": 0,
+"mkt_count": 3,
+"mkt_direct_excluded": 17,
 "mkt_comps": [
 {
-"apt": "한강신도시반도유보라5차",
-"umd": "구래동",
-"area": 104.3203,
-"floor": 2.0,
+"apt": "위드비엠3",
+"umd": "신림동",
+"area": 37.1,
+"floor": 9.0,
 "dong": "",
-"amount": 4.85,
-"date": "2026-09-09",
+"amount": 4.28,
+"date": "2026-09-28",
 "kind": "매매",
 "direct": false
 },
 {
-"apt": "한강신도시반도유보라5차",
-"umd": "구래동",
-"area": 104.3203,
-"floor": 30.0,
-"dong": "",
-"amount": 5.32,
-"date": "2026-09-04",
-"kind": "매매",
-"direct": false
-},
-{
-"apt": "풍무푸르지오센트레빌",
-"umd": "풍무동",
-"area": 108.9942,
-"floor": 19.0,
-"dong": "",
-"amount": 8.3,
-"date": "2026-09-04",
-"kind": "매매",
-"direct": false
-},
-{
-"apt": "한강신도시반도유보라5차",
-"umd": "구래동",
-"area": 104.3203,
-"floor": 7.0,
-"dong": "",
-"amount": 5.05,
-"date": "2026-08-06",
-"kind": "매매",
-"direct": false
-},
-{
-"apt": "한강신도시반도유보라5차",
-"umd": "구래동",
-"area": 104.3203,
-"floor": 20.0,
-"dong": "101동",
-"amount": 5.25,
-"date": "2026-06-22",
-"kind": "매매",
-"direct": false
-},
-{
-"apt": "한강신도시반도유보라5차",
-"umd": "구래동",
-"area": 104.3203,
-"floor": 6.0,
-"dong": "103동",
-"amount": 5.05,
-"date": "2026-06-12",
-"kind": "매매",
-"direct": false
-}
-],
-"jeonse": 3.17,
-"jeonse_note": "같은 구 준공 10년 이내 전세 8건 중앙값에서 입주장 할인 9%",
-"jeonse_comps": [
-{
-"apt": "풍무푸르지오센트레빌",
-"umd": "풍무동",
-"area": 108.9942,
+"apt": "네스코수피아",
+"umd": "남현동",
+"area": 38.64,
 "floor": 11.0,
 "dong": "",
-"amount": 4.0,
-"date": "2026-08-24",
-"kind": "전세",
+"amount": 5.3,
+"date": "2026-06-16",
+"kind": "매매",
 "direct": false
 },
 {
-"apt": "한강신도시반도유보라5차",
-"umd": "구래동",
-"area": 104.3203,
-"floor": 15.0,
+"apt": "다청림라인씨티",
+"umd": "남현동",
+"area": 38.53,
+"floor": 13.0,
 "dong": "",
-"amount": 3.5,
-"date": "2026-08-22",
-"kind": "전세",
+"amount": 5.8,
+"date": "2026-05-25",
+"kind": "매매",
 "direct": false
-},
+}
+],
+"jeonse": 2.61,
+"jeonse_note": "같은 단지 전세 1건 중앙값에서 입주장 할인 9%",
+"jeonse_comps": [
 {
-"apt": "풍무푸르지오센트레빌",
-"umd": "풍무동",
-"area": 108.9942,
-"floor": 8.0,
+"apt": "신림스카이아파트",
+"umd": "신림동",
+"area": 38.34,
+"floor": 3.0,
 "dong": "",
-"amount": 5.6,
-"date": "2026-07-04",
-"kind": "전세",
-"direct": false
-},
-{
-"apt": "한강신도시반도유보라5차",
-"umd": "구래동",
-"area": 104.3203,
-"floor": 19.0,
-"dong": "",
-"amount": 3.6,
-"date": "2026-06-20",
-"kind": "전세",
-"direct": false
-},
-{
-"apt": "한강신도시반도유보라5차",
-"umd": "구래동",
-"area": 104.3203,
-"floor": 15.0,
-"dong": "",
-"amount": 3.4,
-"date": "2026-06-17",
-"kind": "전세",
-"direct": false
-},
-{
-"apt": "한강신도시반도유보라5차",
-"umd": "구래동",
-"area": 104.3203,
-"floor": 12.0,
-"dong": "",
-"amount": 3.36,
-"date": "2026-06-12",
-"kind": "전세",
-"direct": false
-},
-{
-"apt": "한강신도시반도유보라5차",
-"umd": "구래동",
-"area": 104.3203,
-"floor": 19.0,
-"dong": "",
-"amount": 3.55,
-"date": "2026-06-04",
-"kind": "전세",
-"direct": false
-},
-{
-"apt": "한강신도시반도유보라5차",
-"umd": "구래동",
-"area": 104.3203,
-"floor": 8.0,
-"dong": "",
-"amount": 3.5,
-"date": "2026-05-13",
+"amount": 2.9,
+"date": "2026-05-16",
 "kind": "전세",
 "direct": false
 }
 ],
-"jeonse_weak": false,
-"date": "2026-10-01"
+"jeonse_weak": true,
+"date": "2026-10-02"
 },
-"2026910227-180.9387B": {
+"2026910250-056.4500 ": {
 "mkt_low": null,
 "mkt_base": null,
 "mkt_note": "비교할 거래가 부족해요. 시세를 직접 확인하세요.",
@@ -30370,564 +28638,6 @@
 "jeonse_note": "전세 거래가 부족해 추정하지 못했어요.",
 "jeonse_comps": [],
 "jeonse_weak": true,
-"date": "2026-10-01"
-},
-"2026910237-110.9098B": {
-"mkt_low": 6.48,
-"mkt_base": 6.65,
-"mkt_note": "같은 구 준공 10년 이내 같은 평형 매매 13건 기준 (최근 6개월)",
-"mkt_basis": "district_newbuild",
-"mkt_count": 13,
-"mkt_direct_excluded": 1,
-"mkt_comps": [
-{
-"apt": "검단신도시디에트르더펠리체",
-"umd": "당하동",
-"area": 108.1463,
-"floor": 5.0,
-"dong": "",
-"amount": 6.48,
-"date": "2026-09-17",
-"kind": "매매",
-"direct": false
-},
-{
-"apt": "검단신도시디에트르더힐",
-"umd": "원당동",
-"area": 108.5045,
-"floor": 10.0,
-"dong": "",
-"amount": 6.75,
-"date": "2026-09-07",
-"kind": "매매",
-"direct": false
-},
-{
-"apt": "검단신도시대성베르힐라프리미어",
-"umd": "당하동",
-"area": 110.3995,
-"floor": 12.0,
-"dong": "",
-"amount": 5.9,
-"date": "2026-09-02",
-"kind": "매매",
-"direct": false
-},
-{
-"apt": "검단신도시디에트르더힐",
-"umd": "원당동",
-"area": 109.427,
-"floor": 19.0,
-"dong": "",
-"amount": 9.0,
-"date": "2026-08-23",
-"kind": "매매",
-"direct": false
-},
-{
-"apt": "검단신도시디에트르더힐",
-"umd": "원당동",
-"area": 108.5045,
-"floor": 18.0,
-"dong": "",
-"amount": 7.05,
-"date": "2026-08-14",
-"kind": "매매",
-"direct": false
-},
-{
-"apt": "검단신도시디에트르더힐",
-"umd": "원당동",
-"area": 108.5045,
-"floor": 10.0,
-"dong": "",
-"amount": 6.9,
-"date": "2026-07-24",
-"kind": "매매",
-"direct": false
-},
-{
-"apt": "검단신도시디에트르더펠리체",
-"umd": "당하동",
-"area": 108.9359,
-"floor": 6.0,
-"dong": "610동",
-"amount": 6.4,
-"date": "2026-07-14",
-"kind": "매매",
-"direct": false
-},
-{
-"apt": "검단신도시디에트르더펠리체",
-"umd": "당하동",
-"area": 108.9359,
-"floor": 12.0,
-"dong": "611동",
-"amount": 6.48,
-"date": "2026-06-24",
-"kind": "매매",
-"direct": false
-}
-],
-"jeonse": 3.69,
-"jeonse_note": "같은 구 준공 10년 이내 전세 43건 중앙값에서 입주장 할인 9%",
-"jeonse_comps": [
-{
-"apt": "롯데캐슬넥스티엘",
-"umd": "원당동",
-"area": 108.1488,
-"floor": 15.0,
-"dong": "",
-"amount": 4.8,
-"date": "2026-09-20",
-"kind": "전세",
-"direct": false
-},
-{
-"apt": "검단신도시디에트르더펠리체",
-"umd": "당하동",
-"area": 108.9359,
-"floor": 5.0,
-"dong": "",
-"amount": 3.6,
-"date": "2026-09-20",
-"kind": "전세",
-"direct": false
-},
-{
-"apt": "검단신도시대성베르힐라프리미어",
-"umd": "당하동",
-"area": 110.3995,
-"floor": 13.0,
-"dong": "",
-"amount": 4.02,
-"date": "2026-09-19",
-"kind": "전세",
-"direct": false
-},
-{
-"apt": "검단신도시디에트르더힐",
-"umd": "원당동",
-"area": 109.427,
-"floor": 16.0,
-"dong": "",
-"amount": 4.2,
-"date": "2026-09-19",
-"kind": "전세",
-"direct": false
-},
-{
-"apt": "검단신도시디에트르더힐",
-"umd": "원당동",
-"area": 108.5045,
-"floor": 6.0,
-"dong": "",
-"amount": 4.4,
-"date": "2026-09-09",
-"kind": "전세",
-"direct": false
-},
-{
-"apt": "검단신도시디에트르더힐",
-"umd": "원당동",
-"area": 108.5045,
-"floor": 6.0,
-"dong": "",
-"amount": 4.4,
-"date": "2026-09-09",
-"kind": "전세",
-"direct": false
-},
-{
-"apt": "검단신도시디에트르더펠리체",
-"umd": "당하동",
-"area": 108.9359,
-"floor": 4.0,
-"dong": "",
-"amount": 3.5,
-"date": "2026-09-08",
-"kind": "전세",
-"direct": false
-},
-{
-"apt": "롯데캐슬넥스티엘",
-"umd": "원당동",
-"area": 108.1488,
-"floor": 12.0,
-"dong": "",
-"amount": 5.2,
-"date": "2026-09-07",
-"kind": "전세",
-"direct": false
-}
-],
-"jeonse_weak": false,
-"date": "2026-10-01"
-},
-"2026910235-039.6950 ": {
-"mkt_low": 4.5,
-"mkt_base": 7.15,
-"mkt_note": "같은 구 준공 10년 이내 같은 평형 매매 5건 기준 (최근 6개월)",
-"mkt_basis": "district_newbuild",
-"mkt_count": 5,
-"mkt_direct_excluded": 0,
-"mkt_comps": [
-{
-"apt": "청계랜드힐아파트",
-"umd": "황학동",
-"area": 36.73,
-"floor": 6.0,
-"dong": "",
-"amount": 3.6,
-"date": "2026-07-02",
-"kind": "매매",
-"direct": false
-},
-{
-"apt": "세운푸르지오헤리시티",
-"umd": "인현동2가",
-"area": 40.7637,
-"floor": 23.0,
-"dong": "",
-"amount": 7.5,
-"date": "2026-06-11",
-"kind": "매매",
-"direct": false
-},
-{
-"apt": "충무로헤센스마트",
-"umd": "충무로5가",
-"area": 40.65,
-"floor": 7.0,
-"dong": "충무로 헤센 스마트",
-"amount": 4.5,
-"date": "2026-06-02",
-"kind": "매매",
-"direct": false
-},
-{
-"apt": "세운푸르지오헤리시티",
-"umd": "인현동2가",
-"area": 40.7637,
-"floor": 18.0,
-"dong": "",
-"amount": 7.15,
-"date": "2026-05-09",
-"kind": "매매",
-"direct": false
-},
-{
-"apt": "힐스테이트남산",
-"umd": "묵정동",
-"area": 38.95,
-"floor": 8.0,
-"dong": "102동",
-"amount": 7.8,
-"date": "2026-05-01",
-"kind": "매매",
-"direct": false
-}
-],
-"jeonse": 4.57,
-"jeonse_note": "같은 구 준공 10년 이내 전세 6건 중앙값에서 입주장 할인 9%",
-"jeonse_comps": [
-{
-"apt": "덕수궁롯데캐슬",
-"umd": "순화동",
-"area": 42.3686,
-"floor": 3.0,
-"dong": "",
-"amount": 4.9,
-"date": "2026-09-22",
-"kind": "전세",
-"direct": false
-},
-{
-"apt": "세운푸르지오헤리시티",
-"umd": "인현동2가",
-"area": 40.7637,
-"floor": 23.0,
-"dong": "",
-"amount": 5.4,
-"date": "2026-09-08",
-"kind": "전세",
-"direct": false
-},
-{
-"apt": "세운푸르지오헤리시티",
-"umd": "인현동2가",
-"area": 42.2349,
-"floor": 4.0,
-"dong": "",
-"amount": 7.0,
-"date": "2026-09-05",
-"kind": "전세",
-"direct": false
-},
-{
-"apt": "충무로헤센스마트",
-"umd": "충무로5가",
-"area": 40.65,
-"floor": 7.0,
-"dong": "",
-"amount": 3.61,
-"date": "2026-06-25",
-"kind": "전세",
-"direct": false
-},
-{
-"apt": "충무로헤센스마트",
-"umd": "충무로5가",
-"area": 40.65,
-"floor": 7.0,
-"dong": "",
-"amount": 3.6,
-"date": "2026-06-20",
-"kind": "전세",
-"direct": false
-},
-{
-"apt": "힐스테이트남산",
-"umd": "묵정동",
-"area": 38.95,
-"floor": 9.0,
-"dong": "",
-"amount": 5.25,
-"date": "2026-05-16",
-"kind": "전세",
-"direct": false
-}
-],
-"jeonse_weak": false,
-"date": "2026-10-01"
-},
-"2026910233-084.0000B": {
-"mkt_low": 16.45,
-"mkt_base": 19.5,
-"mkt_note": "같은 구 준공 10년 이내 같은 평형 매매 60건 기준 (최근 6개월)",
-"mkt_basis": "district_newbuild",
-"mkt_count": 60,
-"mkt_direct_excluded": 3,
-"mkt_comps": [
-{
-"apt": "e편한세상상도노빌리티",
-"umd": "상도동",
-"area": 84.9704,
-"floor": 16.0,
-"dong": "",
-"amount": 23.7,
-"date": "2026-09-19",
-"kind": "매매",
-"direct": false
-},
-{
-"apt": "이수푸르지오더프레티움",
-"umd": "사당동",
-"area": 84.9243,
-"floor": 15.0,
-"dong": "",
-"amount": 23.3,
-"date": "2026-09-10",
-"kind": "매매",
-"direct": false
-},
-{
-"apt": "동작협성휴포레시그니처",
-"umd": "신대방동",
-"area": 84.9464,
-"floor": 20.0,
-"dong": "",
-"amount": 13.75,
-"date": "2026-09-05",
-"kind": "매매",
-"direct": false
-},
-{
-"apt": "보라매자이더포레스트",
-"umd": "신대방동",
-"area": 84.75,
-"floor": 31.0,
-"dong": "",
-"amount": 19.3,
-"date": "2026-08-31",
-"kind": "매매",
-"direct": false
-},
-{
-"apt": "상도푸르지오클라베뉴",
-"umd": "상도동",
-"area": 84.6246,
-"floor": 5.0,
-"dong": "",
-"amount": 17.3,
-"date": "2026-08-22",
-"kind": "매매",
-"direct": false
-},
-{
-"apt": "상도파크자이",
-"umd": "상도동",
-"area": 84.888,
-"floor": 13.0,
-"dong": "",
-"amount": 22.4,
-"date": "2026-08-10",
-"kind": "매매",
-"direct": false
-},
-{
-"apt": "흑석리버파크자이",
-"umd": "흑석동",
-"area": 84.96,
-"floor": 1.0,
-"dong": "",
-"amount": 24.0,
-"date": "2026-08-07",
-"kind": "매매",
-"direct": false
-},
-{
-"apt": "보라매자이더포레스트",
-"umd": "신대방동",
-"area": 84.7739,
-"floor": 8.0,
-"dong": "",
-"amount": 18.3,
-"date": "2026-08-04",
-"kind": "매매",
-"direct": false
-}
-],
-"jeonse": 8.01,
-"jeonse_note": "같은 구 준공 10년 이내 전세 239건 중앙값에서 입주장 할인 9%",
-"jeonse_comps": [
-{
-"apt": "이수푸르지오더프레티움",
-"umd": "사당동",
-"area": 84.9885,
-"floor": 4.0,
-"dong": "",
-"amount": 10.5,
-"date": "2026-09-29",
-"kind": "전세",
-"direct": false
-},
-{
-"apt": "두산위브트레지움2차",
-"umd": "상도동",
-"area": 84.9988,
-"floor": 12.0,
-"dong": "",
-"amount": 9.0,
-"date": "2026-09-27",
-"kind": "전세",
-"direct": false
-},
-{
-"apt": "롯데캐슬에듀포레",
-"umd": "흑석동",
-"area": 84.9778,
-"floor": 16.0,
-"dong": "",
-"amount": 9.66,
-"date": "2026-09-21",
-"kind": "전세",
-"direct": false
-},
-{
-"apt": "아크로리버하임",
-"umd": "흑석동",
-"area": 84.9184,
-"floor": 14.0,
-"dong": "",
-"amount": 12.0,
-"date": "2026-09-21",
-"kind": "전세",
-"direct": false
-},
-{
-"apt": "동작협성휴포레시그니처",
-"umd": "신대방동",
-"area": 84.9814,
-"floor": 21.0,
-"dong": "",
-"amount": 8.25,
-"date": "2026-09-19",
-"kind": "전세",
-"direct": false
-},
-{
-"apt": "동작협성휴포레시그니처",
-"umd": "신대방동",
-"area": 84.9814,
-"floor": 21.0,
-"dong": "",
-"amount": 8.25,
-"date": "2026-09-19",
-"kind": "전세",
-"direct": false
-},
-{
-"apt": "아크로리버하임",
-"umd": "흑석동",
-"area": 84.9184,
-"floor": 4.0,
-"dong": "",
-"amount": 12.5,
-"date": "2026-09-19",
-"kind": "전세",
-"direct": false
-},
-{
-"apt": "이수스위첸포레힐즈",
-"umd": "동작동",
-"area": 84.97,
-"floor": 10.0,
-"dong": "",
-"amount": 8.93,
-"date": "2026-09-19",
-"kind": "전세",
-"direct": false
-}
-],
-"jeonse_weak": false,
-"date": "2026-10-01"
-},
-"2026910233-109.8652A": {
-"mkt_low": null,
-"mkt_base": null,
-"mkt_note": "비교할 거래가 부족해요. 시세를 직접 확인하세요.",
-"mkt_basis": null,
-"mkt_count": 0,
-"mkt_direct_excluded": 1,
-"mkt_comps": [],
-"jeonse": null,
-"jeonse_note": "전세 거래가 부족해 추정하지 못했어요.",
-"jeonse_comps": [
-{
-"apt": "상도역롯데캐슬파크엘",
-"umd": "상도동",
-"area": 110.9996,
-"floor": 12.0,
-"dong": "",
-"amount": 11.3,
-"date": "2026-06-19",
-"kind": "전세",
-"direct": false
-},
-{
-"apt": "상도역롯데캐슬파크엘",
-"umd": "상도동",
-"area": 110.9878,
-"floor": 11.0,
-"dong": "",
-"amount": 13.5,
-"date": "2026-05-23",
-"kind": "전세",
-"direct": false
-}
-],
-"jeonse_weak": true,
-"date": "2026-10-01"
+"date": "2026-10-02"
 }
 }
