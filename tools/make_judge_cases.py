@@ -304,6 +304,24 @@ def main() -> None:
         add(id=f"town-{i:02d}", fn="town", listing="2026820010-055.8800B", profile=p, expect={"총자산": exp},
             basis="2026820010 <표3> 총자산(부동산+금융+기타+자동차−부채) 362,000천원, 출산 1명 397,000천원 (2명 이상 여부는 따로 묻지 않아 넘으면 확인 필요)"); i += 1
 
+    # ---------- 6-2) 무주택 세대 (공공분양 인천계양 A6 2026000414 — '무주택세대구성원') ----------
+    # 규칙 제2조제4호 무주택세대구성원 = 세대원 전원 무주택, 제53조제6호 60세 이상 직계존속(배우자 직계존속 포함) 소유는 무주택으로 봄.
+    # 세대 주택이 있다고 했는데 본인·배우자·부모님 명의가 아니면 누구 것인지 몰라 '확인 필요'
+    i = 0
+    for over, exp in [({"hhHomes": "0"}, "ok"),
+                      ({"hhHomes": "1"}, "warn"),
+                      ({"hhHomes": "2+"}, "warn"),
+                      ({"hhHomes": "1", "household": "parents", "parentsOwn": True, "parents60": True}, "ok"),
+                      ({"hhHomes": "1", "household": "parents", "parentsOwn": True, "parents60": False}, "fail"),
+                      ({"hhHomes": "1", "selfOwn": True}, "fail")]:
+        p = dict(pub_base, **over)
+        add(id=f"home-{i:02d}", fn="home", listing="2026000414-059.8400A", profile=p, expect={"s": exp},
+            basis="주택공급에 관한 규칙 제2조제4호·제53조제6호, 2026000414 '무주택세대구성원'"); i += 1
+    for lid, over in [("2026000453-059.9742A", {"hhHomes": "1"}), ("2026000443-059.9986A", {"hhHomes": "1"})]:
+        p = dict(pub_base, **over)   # 민영 일반공급: 1순위는 유주택 세대도 가능 (제28조①1호, 규제지역 2주택 이상만 제외) → 무주택 항목 자체는 '가능'
+        add(id=f"home-{i:02d}", fn="home", listing=lid, profile=p, expect={"s": "ok"},
+            basis=f"{lid.split('-')[0]} 민영 1순위 — 유주택 세대도 신청(추첨제), 규칙 제28조①1호"); i += 1
+
     # ---------- 7) 거주지 (광명 2026000453 · 인천계양 A6 2026000414) ----------
     i = 0
     for lid, sido, sigun, since, exp in [

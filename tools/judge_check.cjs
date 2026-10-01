@@ -41,6 +41,7 @@ const results = await page.evaluate(({ cases, listings }) => {
       else if (c.fn === 'acct') { const it = accountItems(L, p) || []; got = { '가입기간': (it.find(i => i.k === '청약통장 가입기간') || {}).s, '예치금': (it.find(i => i.k === '예치금 (민영)') || {}).s }; }
       else if (c.fn === 'pubgen') { const it = pubGeneralItems(L, p); got = { '소득': (it.find(i => i.k.startsWith('소득')) || {}).s }; }
       else if (c.fn === 'town') { const it = townItems(L, p); got = {}; for (const k of Object.keys(c.expect)) got[k] = (it.find(i => i.k === k + ' (신혼희망타운)') || {}).s; }
+      else if (c.fn === 'home') { const it = eligibility(L, p).items.find(i => i.k === '무주택 세대') || {}; got = { s: it.s }; }
       else if (c.fn === 'residence') { const r = residenceItem(L, p); got = { s: r.s, v: r.v.includes(c.expect.v) ? c.expect.v : r.v }; }
     } catch (e) { got = { error: e.message }; }
     out.push({ id: c.id, ok: JSON.stringify(got) === JSON.stringify(c.expect), got, expect: c.expect, basis: c.basis });

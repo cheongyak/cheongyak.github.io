@@ -978,7 +978,14 @@ function eligibility(L, p){
   if (p.married && p.spouseOwn) own.push('배우자 명의 주택');
   if (p.household === 'parents' && p.parentsOwn) { if (p.parents60) homeNote = '부모님 주택: 만 60세 이상 예외 적용'; else own.push('부모님 주택 (만 60세 미만)'); }
   if (!p.married) homeNote = (homeNote ? homeNote + ' · ' : '') + '혼인신고 전: 배우자 주택 미합산';
+  /* 세대 전체 주택 수(hhHomes)를 1채 이상이라고 했는데 본인·배우자·(60세 미만) 부모님 명의가 아니면, 누구 명의인지 몰라 무주택 세대로 단정하지 않는다
+     (2026-10-01 블라인드 감사에서 발견: 예전에는 '충족'). 근거: 주택공급에 관한 규칙 제2조제4호 '무주택세대구성원 = 세대원 전원이 주택을 소유하고 있지 않은 세대의 구성원',
+     제53조제6호 '60세 이상의 직계존속(배우자의 직계존속 포함)이 주택 또는 분양권등을 소유하고 있는 경우' 무주택으로 봄(노부모부양 특별공급 제외) */
+  const hhOwnUnknown = (p.hhHomes === '1' || p.hhHomes === '2+') && !own.length && !(p.household === 'parents' && p.parentsOwn && p.parents60);
   if (!own.length && (p.selfOwn == null || !p.household)) items.push({ k:'무주택 세대', s:'warn', v:'입력 필요', note:'집 보유와 세대 구성을 넣으면 판정해요' });
+  else if (hhOwnUnknown && on('owner_lottery') && L.houseDtl === '민영' && L.category === 'general' && L.needAccount)   // 민영 일반공급 1순위는 유주택 세대도 신청 가능 — 가점제·추첨 여부만 명의에 따라 달라짐
+    items.push({ k:'무주택 세대', s:'ok', v:'세대 주택 있음 · 1순위 신청 가능', note:'세대 전체 주택이 ' + (p.hhHomes === '1' ? '1채' : '2채 이상') + '라고 했지만 본인·배우자 명의는 아니에요. 만 60세 이상 부모님(배우자 부모님 포함) 명의면 무주택으로 봐서 가점제·특별공급도 돼요. 그 밖의 세대원 명의면 유주택 세대라 ' + (L.regulated ? '가점제가 아닌 추첨제로만 뽑히고' : '무주택기간 0점이고') + ' 특별공급은 신청할 수 없어요.' });
+  else if (hhOwnUnknown) items.push({ k:'무주택 세대', s:'warn', cause:'A', v:'세대 주택 확인 필요', note:'세대 전체 주택이 ' + (p.hhHomes === '1' ? '1채' : '2채 이상') + '라고 했지만 본인·배우자 명의는 아니에요. 만 60세 이상 부모님(배우자 부모님 포함) 명의면 무주택으로 봐요(노부모부양 특별공급은 제외). 그 밖의 세대원 명의면 무주택 세대가 아니에요.' });
   else if (own.length && on('owner_lottery') && L.houseDtl === '민영' && L.category === 'general' && L.needAccount) {
     /* 유주택 세대의 민영주택 일반공급 (기능: owner_lottery). 무주택은 특별공급·공공분양·가점 점수의 요건이지 민영 1순위 자격 요건이 아니다.
        근거: 광명 2026000453·서울 2026000399(규제지역) '투기과열지구 및 청약과열지역에서 공급하는 경우 1주택 이상 소유한 세대에 속한 분은 1순위 가점제 청약이 불가',
