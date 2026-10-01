@@ -3351,7 +3351,7 @@ function docLinks(){
   if (!on('legal_pages')) return '';
   const a = (v, t, d) => `<button class="docrow" data-go="${v}"><span><b>${t}</b><span class="small muted">${d}</span></span>${chev.replace('<svg', '<svg style="transform:rotate(180deg)"')}</button>`;
   const ext = (href, t, d) => `<a class="docrow" href="${href}"><span><b>${t}</b><span class="small muted">${d}</span></span>${chev.replace('<svg', '<svg style="transform:rotate(180deg)"')}</a>`;
-  return `<section class="card"><h2>문서</h2>${on('static_pages') ? ext('/guide/', '청약 기준 가이드', '소득 기준표 · 가점 계산표 · 예치금 (공고문 원문 표)') : ''}${on('changelog') ? (on('about_simple') ? a('updates', '업데이트 소식', '새로 생기고 바뀐 것 한눈에') : a('updates', '업데이트 내역 (베타)', '무엇이 바뀌고 고쳐졌는지')) : ''}${a('story', '만든 이유와 데이터', '청약패스가 답하려는 질문')}${a('terms', '이용약관', '시행일 ' + legalDate())}${a('privacy', '개인정보처리방침', '시행일 ' + legalDate())}</section>`;
+  return `<section class="card"><h2>문서</h2>${on('static_pages') && on('guide_pages') ? ext('/guide/', '청약 기준 가이드', '소득 기준표 · 가점 계산표 · 예치금 (공고문 원문 표)') : ''}${on('changelog') ? (on('about_simple') ? a('updates', '업데이트 소식', '새로 생기고 바뀐 것 한눈에') : a('updates', '업데이트 내역 (베타)', '무엇이 바뀌고 고쳐졌는지')) : ''}${a('story', '만든 이유와 데이터', '청약패스가 답하려는 질문')}${a('terms', '이용약관', '시행일 ' + legalDate())}${a('privacy', '개인정보처리방침', '시행일 ' + legalDate())}</section>`;
 }
 const docTop = t => `<div class="top"><button class="back" data-go="about">${chev}이용 안내</button></div><h1 style="margin:0 0 4px">${t}</h1>`;
 const officer = () => esc(CONFIG.privacy_officer || '서비스 운영자');

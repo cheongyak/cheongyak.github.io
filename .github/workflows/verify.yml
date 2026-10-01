@@ -51,7 +51,7 @@ jobs:
           rc=$?
           git config user.name "cheongyak-bot"
           git config user.email "actions@users.noreply.github.com"
-          git add docs/verify-status.json docs/judge-status.json docs/sitemap.xml docs/story docs/about docs/terms docs/privacy docs/updates docs/guide
+          git add -A -- docs/verify-status.json docs/judge-status.json docs/sitemap.xml $(for d in docs/story docs/about docs/terms docs/privacy docs/updates docs/guide docs/notice; do [ -e "$d" ] || git ls-files --error-unmatch "$d" >/dev/null 2>&1 && echo "$d"; done)
           git diff --cached --quiet || (git commit -m "판정 검증 결과 $(date +%Y-%m-%d)" && (git push || (git pull --rebase -X theirs origin main && git push)))
           exit $rc
       - name: 실패하면 운영자 알림 (이슈)

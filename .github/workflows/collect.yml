@@ -63,7 +63,7 @@ jobs:
         continue-on-error: true
         run: |
           python -m tools.build_static
-          git add docs/notice docs/sitemap.xml docs/guide docs/story docs/about docs/terms docs/privacy docs/updates 2>/dev/null || true
+          git add -A -- docs/sitemap.xml $(for d in docs/notice docs/guide docs/story docs/about docs/terms docs/privacy docs/updates; do [ -e "$d" ] || git ls-files --error-unmatch "$d" >/dev/null 2>&1 && echo "$d"; done)
           git diff --cached --quiet || (git commit -m "공고 페이지 갱신 $(date +%Y-%m-%d)" && (git push || (git pull --rebase -X theirs origin main && git push)))
       # ---- 수집 뒤 필수 검증 (CLAUDE.md 4항): 판정 검증 사례 + 공고문 대조 결과를 모아 docs/verify-status.json 으로 공개, 다르면 실패 ----
       - uses: actions/setup-node@v4

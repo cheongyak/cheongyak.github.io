@@ -37,8 +37,9 @@ NAV = [("/", "공고 보기"), ("/guide/", "청약 기준 가이드"), ("/about/
 
 def page(slug: str, title: str, desc: str, body: str) -> str:
     url = f"{SITE}/{slug}" if slug else SITE + "/"
-    nav = " · ".join(f'<a href="{h}">{t}</a>' for h, t in NAV)
-    foot = " · ".join(f'<a href="{h}">{t}</a>' for h, t in NAV + [("/story/", "만든 이유"), ("/terms/", "이용약관")])
+    navs = [(h, t) for h, t in NAV if h != "/guide/" or feature("guide_pages")]
+    nav = " · ".join(f'<a href="{h}">{t}</a>' for h, t in navs)
+    foot = " · ".join(f'<a href="{h}">{t}</a>' for h, t in navs + [("/story/", "만든 이유"), ("/terms/", "이용약관")])
     return f"""<!doctype html>
 <html lang="ko"><head>
 <meta charset="utf-8">
@@ -149,11 +150,18 @@ def guide_deposit() -> str:
 <p class="small muted">공고마다 조건이 다를 수 있어요. 신청 전에 모집공고문의 '신청자격' 부분을 꼭 확인하세요.</p>"""
 
 
+def feature(name: str) -> bool:
+    try:
+        return bool(json.loads((DOCS / "config.json").read_text(encoding="utf-8")).get("features", {}).get(name, True))
+    except Exception:
+        return True
+
+
 def main() -> None:
     frag = json.loads((ROOT / "tools" / "static_fragments.json").read_text(encoding="utf-8"))
     pages = {
         "story/": ("만든 이유와 데이터", "청약패스가 답하려는 질문과 쓰는 데이터(청약홈, 모집공고문, 국토부 실거래가)", frag["story"]),
-        "about/": ("이용 안내", "청약패스 판정의 범위, 데이터와 검증 방식, 데이터 검증 현황, 개인정보 안내", ("" if "<h1" in frag["about"] else "<h1>이용 안내</h1>") + frag["about"]),
+        "about/": ("이용 안내", "청약패스 판정의 범위, 데이터와 검증 방식, 개인정보 안내", ("" if "<h1" in frag["about"] else "<h1>이용 안내</h1>") + frag["about"]),
         "terms/": ("이용약관", "청약패스 이용약관", frag["terms"]),
         "privacy/": ("개인정보처리방침", "청약패스 개인정보처리방침", frag["privacy"]),
         "updates/": ("업데이트 소식", "청약패스 업데이트 소식 — 새로 생기고 바뀐 것", frag["updates"]),
@@ -161,9 +169,18 @@ def main() -> None:
         "guide/score/": ("청약 가점 계산표", "무주택기간·부양가족·청약통장 가입기간 가점표(84점)와 계산 예시 — 주택공급에 관한 규칙 별표1", guide_score()),
         "guide/deposit/": ("청약통장 1순위 조건과 예치금", "민영주택 지역·면적별 예치금 표와 1순위 가입기간 조건", guide_deposit()),
     }
+    # 청약 기준 가이드 (기능: guide_pages). 2026-10-01 사용자 지적으로 꺼 둠: 기준표 출처가 특정 공고문이고, 소득 기준·비율은 공고마다 달라
+    # 하나의 고정 표로 안내하기 어렵다. 꺼져 있으면 /guide/ 를 만들지 않고 지운다 (가점표·예치금은 법령 출처로 다시 만들 수 있음)
+    if not feature("guide_pages"):
+        for k in [k for k in pages if k.startswith("guide/")]:
+            del pages[k]
+        if (DOCS / "guide").exists():
+            import shutil
+            shutil.rmtree(DOCS / "guide")
     idx = "".join(f'<li><a href="/{slug}"><b>{html.escape(t)}</b></a><br><span class="small muted">{html.escape(d)}</span></li>' for slug, (t, d, _) in pages.items() if slug.startswith("guide/"))
-    pages["guide/"] = ("청약 기준 가이드", "청약 소득 기준표, 가점 계산표, 예치금 기준 — 모집공고문 원문으로 만든 참고 자료",
-                       f"<h1>청약 기준 가이드</h1><p>모집공고문 원문 표를 그대로 옮기고, 매일 수집하는 공고문과 대조해 확인하는 기준표예요.</p><section class=\"card doc\"><ul class=\"doclist\">{idx}</ul></section>")
+    if idx:
+        pages["guide/"] = ("청약 기준 가이드", "청약 소득 기준표, 가점 계산표, 예치금 기준 — 모집공고문 원문으로 만든 참고 자료",
+                         f"<h1>청약 기준 가이드</h1><p>모집공고문 원문 표를 그대로 옮기고, 매일 수집하는 공고문과 대조해 확인하는 기준표예요.</p><section class=\"card doc\"><ul class=\"doclist\">{idx}</ul></section>")
     for slug, (t, d, body) in pages.items():
         out = DOCS / slug / "index.html"
         out.parent.mkdir(parents=True, exist_ok=True)
