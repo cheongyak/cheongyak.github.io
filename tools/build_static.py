@@ -32,7 +32,7 @@ def style() -> str:
     return re.search(r"<style>(.*?)</style>", s, re.S).group(1)
 
 
-NAV = [("/", "공고 보기"), ("/guide/", "청약 기준 가이드"), ("/about/", "이용 안내"), ("/updates/", "업데이트 내역"), ("/privacy/", "개인정보처리방침")]
+NAV = [("/", "공고 보기"), ("/guide/", "청약 기준 가이드"), ("/about/", "이용 안내"), ("/updates/", "업데이트 소식"), ("/privacy/", "개인정보처리방침")]
 
 
 def page(slug: str, title: str, desc: str, body: str) -> str:
@@ -156,7 +156,7 @@ def main() -> None:
         "about/": ("이용 안내", "청약패스 판정의 범위, 데이터와 검증 방식, 데이터 검증 현황, 개인정보 안내", ("" if "<h1" in frag["about"] else "<h1>이용 안내</h1>") + frag["about"]),
         "terms/": ("이용약관", "청약패스 이용약관", frag["terms"]),
         "privacy/": ("개인정보처리방침", "청약패스 개인정보처리방침", frag["privacy"]),
-        "updates/": ("업데이트 내역", "청약패스 베타 업데이트 내역 — 무엇이 바뀌고 고쳐졌는지", frag["updates"]),
+        "updates/": ("업데이트 소식", "청약패스 업데이트 소식 — 새로 생기고 바뀐 것", frag["updates"]),
         "guide/income/": ("2026년 청약 소득 기준표", "특별공급·공공분양·신혼희망타운 월평균소득 기준 금액표와 단계별 기준, 출산가구 완화 — 모집공고문 원문 표", guide_income()),
         "guide/score/": ("청약 가점 계산표", "무주택기간·부양가족·청약통장 가입기간 가점표(84점)와 계산 예시 — 주택공급에 관한 규칙 별표1", guide_score()),
         "guide/deposit/": ("청약통장 1순위 조건과 예치금", "민영주택 지역·면적별 예치금 표와 1순위 가입기간 조건", guide_deposit()),
