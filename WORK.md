@@ -4,7 +4,7 @@
 2026-09-29 12:55 이전 항목은 규칙을 만들기 전 작업을 커밋 기록으로 정리한 것이라 백업 브랜치가 없어요.
 그 시점으로 되돌릴 때는 해당 커밋 번호로 `git revert` 를 써요.
 
-## 2026-10-01 16:40 · 검사 도구: 블라인드 판정 감사·화면 문구 훑기 (저장소에 보관)
+## 2026-10-01 16:38 · 검사 도구: 블라인드 판정 감사·화면 문구 훑기 (저장소에 보관)
 - 요청: 판정 정확도 검증과 문구 점검을 다음 세션에서도 같은 방법으로 할 수 있게 (CLAUDE.md 8항: 검사 도구는 저장소에)
 - 변경: tools/qa/audit/(사례 생성기 2개·검토자 지시서·README), tools/qa/textsweep.cjs, 이번 감사 결과 evidence/audit/2026-10-01/(무작위 40건·특별공급 16건의 사례·앱 판정·검토자 판정, 합성 프로필이라 개인 정보 없음), HANDOFF 진행 상황·저장소 스킬 함정 추가
 - 파일: tools/qa/audit/*, tools/qa/textsweep.cjs, evidence/audit/2026-10-01/*, HANDOFF.md, .claude/skills/cheongyakpass-ops/SKILL.md
