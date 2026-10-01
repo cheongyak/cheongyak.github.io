@@ -128,7 +128,7 @@ body.ta details.chatq:not(.sprow):not(.scitem):not(.menudet)>summary{display:inl
 .td-ok{background:var(--lotto)} .td-unsure,.td-r2{background:#D69A16} .td-no{background:var(--pass)} .tchip[aria-pressed="true"] .tdot{outline:2px solid var(--btn-fg)}
 .tpick{display:flex;flex-direction:column;gap:6px;margin:6px 0 4px}
 .pill.info{background:var(--consider-soft);color:var(--consider-ink)}
-.ws-sub.wide{grid-column:1/-1;min-width:0} .splitq .src{white-space:normal} .splitq{min-width:0;display:flex;flex-direction:column;gap:6px;margin-top:6px} .splitq .sq{border:1px solid var(--line);border-radius:10px;padding:8px 10px;background:var(--surface)} .splitq .sq-top{display:flex;align-items:center;justify-content:space-between;gap:8px;margin-bottom:2px} .splitq .sq-top b{font-size:14px}
+.ws-sub.wide{grid-column:1/-1;min-width:0} .splitq .src{white-space:normal} .splitq{min-width:0;display:flex;flex-direction:column;gap:6px;margin-top:6px} .splitq .sq{border:1px solid var(--line);border-radius:10px;padding:8px 10px;background:var(--surface);font-size:13.5px;line-height:1.5} .splitq .sq b{font-size:14px;margin-right:4px} .sq-steps{display:flex;flex-direction:column;gap:2px} .sq-arrow{padding-left:12px} .sq-lead{font-weight:600} .sq-mine{font-weight:600;color:var(--consider-ink)}
 .dsel{display:grid;grid-template-columns:1.3fr 1fr 1fr;gap:6px} .dsel select{min-height:48px;border:1px solid var(--line);border-radius:12px;padding:0 8px;font:inherit;font-size:16px;background:var(--surface);color:var(--fg)}
 .mecho{color:var(--consider-ink);font-weight:600}
 .legalnote ul{margin:6px 0;padding-left:18px} .legalnote li{margin:3px 0;font-size:13.5px} .legalfull{margin-top:6px} .legalfull .legalbody{margin-top:8px;border-top:1px solid var(--line);padding-top:8px} .legalfull .legalbody .card{box-shadow:none;border:0;padding:6px 0;margin:0} .legalline b{color:var(--fg)}
@@ -888,21 +888,30 @@ function regionScore(L, p){
 }
 /* 일반공급을 가점제·추첨제 물량으로 나눠 보여주기 (기능: score_lottery_split, 2026-10-01 사용자 요청) — '당첨선 미만'만 보이면 신청하면 안 되는 것처럼 읽혀서,
    가점제 몫(가점 비교)과 추첨제 몫(가점 무관)을 따로 줄로 쓴다. 판정 값은 바꾸지 않고 regionScore·myScore·scoreTarget 결과만 쓴다 */
-function splitOn(RS, sc){ return on('score_lottery_split') && RS && !RS.lotteryOnly && sc && sc.total != null; }
+function splitOn(RS, sc){ return on('score_lottery_split') && RS && !RS.lotteryOnly && !(RS.ratio && RS.ratio.lottery === 0) && sc && sc.total != null; }
+/* v1.24.1 (사용자 의견): 두 상자를 나란히 두면 '둘 중 하나를 골라 쓰는 것'처럼, '가점 부족'은 '쓰지 말라'처럼 읽힌다 →
+   '신청할 수 있어요 → ① 가점제로 먼저 뽑고 → 떨어지면 따로 신청 없이 ② 추첨제' 순서와 내 위치, 근거(공고문 당첨자 선정 순서·HUG 안내)를 쓴다 */
+const HUG_LOT = ['HUG 주택청약도우미 · 가점제 낙첨자는 별도 신청 없이 추첨 대상', 'https://www.khug.or.kr/khmb/m/hg/lg/hglg000019.jsp'];
 function splitRows(L, p, RS, sc, gap){
-  const t = RS.t, r = RS.ratio, own = (eligibility(L, p).items.find(i => i.k === '무주택 세대') || {}).owns;
+  const t = RS.t, r = RS.ratio, own = (eligibility(L, p).items.find(i => i.k === '무주택 세대') || {}).owns, b = eligBucket(L, p);
   const later = RS.tier === 'other' || RS.tier === 'gyeonggi';
   /* 추첨제 무주택 우선(추첨 물량의 75%): 규제지역·수도권·광역시 공고문에만 있다 (evidence/notices 25건 대조: 충남·전북·경남 비규제 공고문에는 없음) */
   const pri = L.regulated || ['서울', '경기', '인천', '부산', '대구', '광주', '대전', '울산'].includes(L.sido);
-  const gScore = '가점 ' + sc.total + '점' + (t && t.low != null ? ` · ${RS.cmpLabel} ${t.low}점보다 ${Math.abs(gap)}점 ${gap >= 0 ? '높아요' : '낮아요'}` : ' · 비교할 당첨 기록이 없어요');
-  const gPill = gap == null ? ['비교 없음', ''] : gap >= 0 ? ['당첨선 이상', 'ok'] : ['가점 부족', 'warn'];
-  const lot = !r ? '이 주택형의 추첨 비율을 공고문에서 읽지 못했어요. 모집공고문의 \'가점제·추첨제 적용비율\' 표를 확인하세요.'
-    : '가점과 상관없이 추첨해요.' + (!pri ? '' : own ? ' 추첨 물량의 75%는 무주택 세대를 먼저 뽑고, 남은 물량에서 집이 있는 세대도 함께 뽑아요.' : ' 추첨 물량의 75%는 무주택 세대끼리 먼저 추첨해요 (해당돼요).');
-  const row = (k, txt, pill) => `<div class="sq"><div class="sq-top"><b>${k}</b>${pill ? `<span class="pill ${pill[1]}">${pill[0]}</span>` : ''}</div><div class="small">${txt}</div></div>`;
-  const tail = later ? `<div class="small st-warn">${RS.tier === 'gyeonggi' ? '경기 몫' : '기타지역'}은 가점제·추첨제 모두 해당지역 신청자를 먼저 뽑아요. ${RS.ratio && L.residence && L.residence.quota ? '해당지역에서 떨어진 신청자와 다음 몫에서 함께 겨뤄요.' : '해당지역 신청자로 물량이 다 차면 차례가 오지 않아요.'}${/해당지역/.test(RS.cmpLabel) ? ' 가점 비교는 해당지역 당첨선이라 참고만 하세요.' : ''}</div>` : '';
-  return `<div class="splitq">${row('1순위 가점제' + (r ? ' ' + r.score + '%' : ''), esc(gScore), gPill)}${r && r.lottery === 0 ? '' : row('1순위 추첨제' + (r ? ' ' + r.lottery + '%' : ''), esc(lot) + (r ? ' ' + RS.ratioSrc : ''), r ? ['가점 무관', 'info'] : null)}${tail}</div>`;
+  const avg = t && t.avg != null ? Math.round(t.avg * 10) / 10 : null;
+  const lead = (b === 'ok' ? '신청할 수 있어요. ' : '') + '한 번 신청하면 가점제로 먼저 뽑고, 떨어지면 따로 신청하지 않아도 추첨제에서 한 번 더 뽑아요.';
+  const s1 = `<b>① 가점제${r ? ' ' + r.score + '%' : ''}</b> 가점 높은 순으로 먼저 뽑아요 · 내 가점 ${sc.total}점${t && t.low != null ? `, 최근 ${esc(RS.cmpLabel)} ${t.low}점${avg != null ? ' (평균 ' + avg + '점)' : ''}` : ''}`;
+  const s2 = r ? `<b>② 추첨제 ${r.lottery}%</b> ①에서 떨어진 사람까지 함께 가점 없이 추첨해요${pri ? (own ? ' · 추첨 물량의 75%는 무주택 세대를 먼저 뽑고 남은 물량에서 함께 뽑아요' : ' · 추첨 물량의 75%는 무주택 세대끼리 먼저 추첨해요 (해당돼요)') : ''}`
+    : `<b>② 추첨제</b> ①에서 떨어진 사람까지 함께 가점 없이 추첨해요 · 이 주택형의 비율은 모집공고문의 '가점제·추첨제 적용비율' 표를 확인하세요`;
+  const mine = gap == null ? '비교할 당첨 가점 기록이 없어 ① 가능성은 비교하지 못했어요. 떨어져도 ② 추첨제에서 한 번 더 기회가 있어요.'
+    : gap >= 0 ? `내 가점이 최근 당첨선 이상이라 ① 가점제에서 먼저 노려볼 수 있고, 떨어져도 ② 추첨제에서 한 번 더 기회가 있어요.`
+    : `내 가점이 최근 당첨선보다 ${-gap}점 낮아서, ① 가점제보다는 ② 추첨제${r ? ' ' + r.lottery + '%' : ''}에서 당첨을 노리게 돼요.`;
+  const tail = later ? `<div class="small st-warn">${RS.tier === 'gyeonggi' ? '경기 몫' : '기타지역'}은 ①② 모두 해당지역 신청자를 먼저 뽑아요. ${L.residence && L.residence.quota ? '해당지역에서 떨어진 신청자와 다음 몫에서 함께 겨뤄요.' : '해당지역 신청자로 물량이 다 차면 차례가 오지 않아요.'}${/해당지역/.test(RS.cmpLabel) ? ' 가점 비교는 해당지역 당첨선이라 참고만 하세요.' : ''}</div>` : '';
+  return `<div class="splitq"><div class="small sq-lead">${lead}</div>
+    <div class="sq-steps"><div class="sq">${s1}</div><div class="sq-arrow small muted" aria-hidden="true">↓ 떨어지면 자동으로</div><div class="sq">${s2}</div></div>
+    <div class="small sq-mine">${mine}</div>${tail}
+    <div class="small muted">근거: ${r ? RS.ratioSrc : src(null, ['모집공고문 당첨자 선정 순서', L.noticePdf || null])} ${src(null, HUG_LOT)}</div></div>`;
 }
-const splitPill = (RS, gap) => RS.ratio && RS.ratio.lottery === 0 ? null : gap != null && gap < 0 ? ['추첨제 가능', 'info'] : null;
+const splitPill = (L, p) => ({ ok: ['신청 가능', 'ok'], unsure: ['확인 필요', 'warn'], r2: ['2순위만', 'warn'], no: ['불가', 'fail'] })[eligBucket(L, p)];
 /* ---------- 내 청약 가점 v2 (기능: score_v2) — 화면 구성만. 점수는 myScore()·scoreTarget() 결과 그대로 ----------
    총점과 0~84 눈금(내 점수·당첨 최저·평균) → 당첨 사례 비교 → 항목별 점수(최대까지 남은 점수) → 접힌 계산 근거·방법·출처 */
 const SCORE_GROW = { '무주택기간':'1년마다 +2점', '부양가족':'1명마다 +5점', '청약통장 가입기간':'1년마다 +1점' };
@@ -925,7 +934,7 @@ function scoreCardV2(L, p, r, t){
   const cmp = win2 + (off ? `<div class="note info sccmp"><b>이번 공고에서는 가점이 쓰이지 않아요</b><div class="small">${off}</div></div>`
     : RS && RS.lotteryOnly ? `<div class="note info sccmp"><b>이 주택형은 가점이 쓰이지 않아요</b><div class="small">${esc(RS.ratioTxt)} ${RS.ratioSrc}</div></div>`
     : !has ? '' : !t ? `<div class="small muted sccmp">비교할 당첨 가점 기록이 없어요.${RS && RS.short ? ' 내 지역 순서: ' + esc(RS.short) + '.' : ''}</div>`
-    : RS && splitOn(RS, r) ? `<div class="note info sccmp"><b>${RS.short ? esc(RS.short) + ' · ' : ''}가점제와 추첨제로 나눠 뽑아요</b>${splitRows(L, p, RS, r, d)}<div class="small muted">${RS.cmpLabel} ${low}점${avg != null ? ' · 평균 ' + avg + '점' : ''} · ${esc(t.from)} · ${esc(RS.order)} ${t.srcHtml}</div></div>`
+    : RS && splitOn(RS, r) ? `<div class="note info sccmp"><b>가점제로 먼저, 떨어지면 추첨제로${RS.short ? ' · ' + esc(RS.short) : ''}</b>${splitRows(L, p, RS, r, d)}<div class="small muted">비교한 당첨 가점: ${esc(t.from)} ${t.srcHtml}</div></div>`
     : RS ? `<div class="note ${d >= 0 ? 'ok' : 'warn'} sccmp"><b>${RS.short ? esc(RS.short) + ' → ' : ''}${RS.cmpLabel}보다 ${Math.abs(d)}점 ${d >= 0 ? '높아요' : '낮아요'}</b>
        <div class="small">${RS.cmpLabel} ${low}점${avg != null ? ' · 평균 ' + avg + '점' : ''} · ${esc(t.from)}</div><div class="small">${esc(RS.order)}${RS.ratioTxt ? ' ' + esc(RS.ratioTxt) : ' 추첨 물량은 가점과 관계없어요.'} ${t.srcHtml}</div>${RS.warn ? `<div class="small st-warn">${esc(RS.warn)}</div>` : ''}</div>`
     : `<div class="note ${d >= 0 ? 'ok' : 'warn'} sccmp"><b>${d >= 0 ? '당첨 최저보다 ' + d + '점 높아요' : '당첨 최저보다 ' + (-d) + '점 낮아요'}</b>
@@ -2535,10 +2544,10 @@ function generalRowRegion(L, p, sc, RS){   // 기능: region_first_score — 지
     : RS.lotteryOnly ? '가점 ' + sc.total + '점은 이 주택형에 쓰이지 않아요'
     : (RS.short ? '그 안에서 가점 ' : '가점 ') + sc.total + '점' + (t && t.low != null ? ` · ${RS.cmpLabel} ${t.low}점보다 ${Math.abs(gap)}점 ${gap >= 0 ? '높아요' : '낮아요'}` : ' · 비교할 당첨 기록이 없어요');
   const head = (RS.short ? RS.short + ' → ' : '') + score;
-  const SPL = splitOn(RS, sc), sp2 = SPL && splitPill(RS, gap);   // 기능: score_lottery_split
+  const SPL = splitOn(RS, sc) && eligibility(L, p).ok, sp2 = SPL && splitPill(L, p);   // 기능: score_lottery_split — 1순위로 신청할 수 있을 때만 (2순위만이면 가점 안 쓰임)
   return `<details class="sprow base">
-    <summary><span class="sp-top"><b>일반공급</b><span class="small muted">${RS.lotteryOnly ? '추첨' : SPL ? '가점제·추첨제' : '지역 → 가점 순'}</span><span class="pill ${sp2 ? sp2[1] : pc}">${sp2 ? sp2[0] : pill}</span></span>
-      ${SPL ? `<span class="sp-head">${esc((RS.short ? RS.short + ' · ' : '') + '1순위는 가점제와 추첨제로 나눠 뽑아요')}</span>${splitRows(L, p, RS, sc, gap)}${RS.tier === 'unknown' ? '<span class="small muted">사는 곳을 넣으면 내 지역 순서(해당지역·기타지역)를 알려드려요</span>' : ''}`
+    <summary><span class="sp-top"><b>일반공급</b><span class="small muted">${RS.lotteryOnly ? '추첨' : SPL ? '가점제 → 추첨제' : '지역 → 가점 순'}</span><span class="pill ${sp2 ? sp2[1] : pc}">${sp2 ? sp2[0] : pill}</span></span>
+      ${SPL ? `${RS.short ? `<span class="sp-head">${esc('내 순서: ' + RS.short)}</span>` : ''}${splitRows(L, p, RS, sc, gap)}${RS.tier === 'unknown' ? '<span class="small muted">사는 곳을 넣으면 내 지역 순서(해당지역·기타지역)를 알려드려요</span>' : ''}`
       : `<span class="sp-head">${esc(head)}</span>${RS.tier === 'unknown' ? '<span class="small muted">사는 곳을 넣으면 내 지역 순서(해당지역·기타지역)를 알려드려요</span>' : ''}${RS.warn ? `<span class="small st-warn">${esc(RS.warn)}</span>` : ''}${RS.ratio && !RS.lotteryOnly && gap != null && gap < 0 ? `<span class="small muted">추첨제 물량 ${RS.ratio.lottery}%는 가점과 상관없이 뽑아요</span>` : ''}`}</summary>
     <div class="sp-body">
       <div class="sp-sec"><span class="sp-lbl">뽑는 순서</span><div class="small">1순위 가점제: 지역 → 가점 → 통장 가입기간 → 추첨<br>1순위 추첨제: 지역 → 무주택자 우선 → 추첨<br>${esc(RS.order)}</div></div>
@@ -3970,7 +3979,7 @@ function wsCard(L, p){
     : sc && sc.total == null ? '가점 계산에 ' + (sc.miss || []).join(', ') + ' 필요' : RS && t && t.low != null ? `${RS.short ? RS.short + ' → ' : ''}${RS.cmpLabel} ${t.low}점 (${gap >= 0 ? '+' : ''}${gap}) · ${t.from}`
     : t && t.low != null ? `당첨 최저 ${t.low}점 (${gap >= 0 ? '+' : ''}${gap}) · ${t.from}` : (RS && RS.short ? RS.short + ' · ' : '') + '비교할 당첨 가점 기록이 없어요';
   const gen = `<div class="ws-row"><div class="ws-k"><b>${genLabel(L)}</b><span class="pill ${gp[0]}">${gp[1]}</span></div>
-    <div class="ws-v">${pub || !L.needAccount || lotOnly || (RS && RS.lotteryOnly) ? `<span class="ws-num sm">${esc(pub ? '순차제' : '추첨')}</span>` : big(sc && sc.total, 84)}</div>${e.ok && !lotOnly && splitOn(RS, sc) ? `<div class="ws-sub small muted">${esc((RS.short ? RS.short + ' · ' : '') + '1순위는 가점제와 추첨제로 나눠 뽑아요')}</div><div class="ws-sub wide">${splitRows(L, p, RS, sc, gap)}</div>`
+    <div class="ws-v">${pub || !L.needAccount || lotOnly || (RS && RS.lotteryOnly) ? `<span class="ws-num sm">${esc(pub ? '순차제' : '추첨')}</span>` : big(sc && sc.total, 84)}</div>${e.ok && !lotOnly && splitOn(RS, sc) ? `${RS.short ? `<div class="ws-sub small muted">${esc('내 순서: ' + RS.short)}</div>` : ''}<div class="ws-sub wide">${splitRows(L, p, RS, sc, gap)}</div>`
       : `<div class="ws-sub small muted">${esc(genSub)}</div>${RS && RS.warn && e.ok && !lotOnly ? `<div class="ws-sub small st-warn">${esc(RS.warn)}</div>` : ''}`}${genWhyHtml(L, p, e)}</div>`;
   const order = { ok:0, warn:1, fail:2 };
   const spRows = xs.slice().sort((a, b) => order[a.r.s] - order[b.r.s]).map(x => { const [pl, pc] = PILL[x.r.s], hp = spHeadPlain(L, p, x.r);
