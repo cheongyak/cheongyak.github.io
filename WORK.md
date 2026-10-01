@@ -4,6 +4,15 @@
 2026-09-29 12:55 이전 항목은 규칙을 만들기 전 작업을 커밋 기록으로 정리한 것이라 백업 브랜치가 없어요.
 그 시점으로 되돌릴 때는 해당 커밋 번호로 `git revert` 를 써요.
 
+## 2026-10-02 08:04 · 애드센스 사이트 확인용 메타 태그·ads.txt 추가 (광고는 꺼 둔 채)
+- 요청: 애드센스에 cheongyakpass.kr 을 추가하려는데 사이트 확인 화면에서 무엇을 눌러야 하는지
+- 변경: 모든 화면(index.html·정적 페이지 머리말 build_static) <head> 에 `google-adsense-account` 메타(게시자 ID ca-pub-8680972365235939, 공개 값),
+  docs/ads.txt 추가(google.com, pub-8680972365235939, DIRECT, f08c47fec0942fa0). 광고 스위치 ads=false·adsense_client 는 그대로 — 승인 전에는 광고가 뜨지 않음
+- 파일: docs/index.html, tools/build_static.py, docs/ads.txt, 정적 페이지 재생성(docs/*/index.html, docs/notice/*), tools/static_fragments.json
+- 확인: pytest, 모든 정적 페이지에 메타 1줄만 추가된 것 확인, 배포 후 https://cheongyakpass.kr/ads.txt·메타 확인
+- 기능: 없음(설정) — 화면 변화 없음, 버전 그대로
+- 백업: backup/20261002-0804-adsense
+
 ## 2026-10-02 06:45 · 청약봇을 '청약 도우미'로: 오른쪽 아래 둥근 버튼 + 청약 전반 질문 + 공고문에서 서류 찾아 답하기
 - 요청: 써 보니 '이 공고 물어보기'보다 청약 전반에 답하는 용도로, 화면 오른쪽 아래 동그란 버튼 → 팝업 창, '필요한 서류' 질문에 '공고문 참고'라고만 하지 말고 공고문을 확인해 서류를 알려줄 것
 - 원인: 서버 근거가 공고문 발췌(rules-evidence, 자격 키워드 주변만)라 서류 문단이 없었고, 서류 질문은 고정 문구('공고문의 제출 서류 항목에서 확인하세요')로 답했음

@@ -43,6 +43,7 @@ def page(slug: str, title: str, desc: str, body: str) -> str:
     return f"""<!doctype html>
 <html lang="ko"><head>
 <meta charset="utf-8">
+<meta name="google-adsense-account" content="ca-pub-8680972365235939">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>{html.escape(title)} | 청약패스</title>
 <meta name="description" content="{html.escape(desc)}">
