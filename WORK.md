@@ -4,6 +4,14 @@
 2026-09-29 12:55 이전 항목은 규칙을 만들기 전 작업을 커밋 기록으로 정리한 것이라 백업 브랜치가 없어요.
 그 시점으로 되돌릴 때는 해당 커밋 번호로 `git revert` 를 써요.
 
+## 2026-10-01 12:16 · 알림 서버 연결과 운영자 미리보기
+- 요청: 알림 서버 배포 완료 (사용자가 Cloudflare 가입·Secrets 등록·'알림 서버 배포' 실행 #2 성공, 주소 https://cheongyakpass-push.ckwlsgur.workers.dev, 배포 확인 단계에서 health·VAPID·무토큰 401 통과)
+- 변경: ① config push_api 연결, push_preview true — 스위치 web_push 는 그대로 끔. ?push=preview 로 연 기기에서만 알림 화면·버튼·방침 문구가 보이고(그 기기에 기억, ?push=off 로 해제) 다른 방문자는 그대로 ② 미리보기 중에도 수집 뒤 발송(구독자는 미리보기로 켠 기기뿐) ③ 알림 서버: 운영자 테스트 이벤트(all) — 설정과 상관없이 모든 구독자에게 ④ 워크플로 '알림 테스트 발송'(workflow_dispatch, 내용 입력)
+- 파일: docs/config.json, docs/index.html, push/worker.js, push/test.mjs, app/pipeline.py, .github/workflows/push-test.yml
+- 확인: push/test.mjs 전체 통과(테스트 이벤트 항목 추가), 브라우저: 일반 방문 버튼 숨김·방침 그대로, ?push=preview 버튼·미리보기 표시·켜기, 기억, ?push=off 해제, 다른 기기 #/alerts 직접 열기도 공개 전 안내, 오류 0. 판정 검증 144/144, 정적 페이지 변화 없음, pytest 통과
+- 기능: web_push
+- 백업: backup/20261001-1216-pushpv
+
 ## 2026-10-01 11:46 · 이용약관 제5조 오래된 문구 수정
 - 요청: (출시 전 점검 중 발견) 이용약관 '아직 판정하지 않는 요건'에 이미 판정하는 출산가구 소득기준 완화가 남아 있음
 - 변경: sp_birth_relax 가 켜져 있으면 예시에서 출산가구 소득기준 완화를 뺌. 정적 /terms/ 다시 만듦. 업데이트 내역에 한 줄

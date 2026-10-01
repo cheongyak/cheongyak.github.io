@@ -1,0 +1,36 @@
+name: 알림 테스트 발송
+# 운영자 확인용: 지금 구독한 모든 기기에 테스트 알림을 한 통 보낸다 (기능: web_push). 지역·종류 설정과 상관없이 간다.
+on:
+  workflow_dispatch:
+    inputs:
+      message:
+        description: "알림 내용"
+        default: "알림이 잘 오는지 확인하는 테스트예요."
+permissions:
+  contents: read
+jobs:
+  send:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    env:
+      PUSH_SEND_TOKEN: ${{ secrets.PUSH_SEND_TOKEN }}
+      MSG: ${{ github.event.inputs.message }}
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - run: pip install -q -r requirements.txt
+      - name: 테스트 알림 보내기
+        run: |
+          python - <<'PY'
+          import json, os, sys
+          from app import webpush
+          cfg = json.load(open("docs/config.json", encoding="utf-8"))
+          ev = [{"kind": "test", "all": True, "sido": None, "good": False, "name": "청약패스",
+                 "line": os.environ.get("MSG") or "테스트", "url": "/#/alerts"}]
+          log = webpush.send(ev, cfg["push_api"], os.environ["PUSH_SEND_TOKEN"])
+          print("\n".join(log))
+          print("::notice::" + log[0])
+          sys.exit(1 if any("[경고]" in l for l in log) else 0)
+          PY

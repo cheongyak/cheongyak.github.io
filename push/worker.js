@@ -90,10 +90,10 @@ async function pushTo(sub, payload, keys, env) {
 // 이벤트: { kind: 'new'|'start'|'end', sido, good, name, line, url }
 // 구독 설정: r(지역 목록, 비면 전체) · g(true 면 로또·고려 등급만) · m(true 면 접수 전날 알림도)
 export function pick(events, pref) {
-  return events.filter(ev => (!pref.r || !pref.r.length || pref.r.includes(ev.sido))
-    && (!pref.g || ev.good) && (ev.kind === 'new' || pref.m));
+  return events.filter(ev => ev.all || ((!pref.r || !pref.r.length || pref.r.includes(ev.sido))   // all: 운영자 테스트 알림 (모든 구독자)
+    && (!pref.g || ev.good) && (ev.kind === 'new' || pref.m)));
 }
-const KIND_TITLE = { new: '새 공고', start: '내일 접수 시작', end: '내일 접수 마감' };
+const KIND_TITLE = { new: '새 공고', start: '내일 접수 시작', end: '내일 접수 마감', test: '테스트 알림' };
 export function compose(evs) {
   if (evs.length === 1) {
     const ev = evs[0];

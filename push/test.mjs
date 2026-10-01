@@ -101,6 +101,8 @@ assert(pick(events, { r: ['서울'], g: false, m: true }).length === 2, '서울�
 assert(pick(events, { r: ['서울'], g: false, m: false }).length === 1, '전날 알림 끔 → 새 공고만');
 assert(pick(events, { r: [], g: true, m: true }).map(e => e.name).join() === '서울 A단지', '전국·로또·고려만 → 등급 좋은 공고만');
 assert(pick(events, { r: ['제주'], g: false, m: true }).length === 0, '맞는 공고가 없으면 보내지 않음');
+const tst = { kind: 'test', all: true, sido: null, good: false, name: '청약패스', line: '테스트', url: '/#/alerts' };
+assert(pick([tst], { r: ['제주'], g: true, m: false }).length === 1 && compose([tst]).title === '테스트 알림 · 청약패스', '운영자 테스트 알림은 설정과 상관없이 모든 구독자에게');
 const one = compose([events[0]]), two = compose(pick(events, { r: ['서울'], g: false, m: true }));
 assert(one.title === '새 공고 · 서울 A단지' && one.url === '/#/detail/1-084A', '한 건이면 공고 이름·상세 화면 주소');
 assert(two.title === '청약패스 · 새 공고 1 · 내일 접수 시작 1' && two.body.split('\n').length === 2 && two.url === '/', '여러 건이면 한 통으로 묶음');

@@ -482,7 +482,7 @@ def run(dry_run: bool = False, today: Optional[date] = None, read_notices: bool 
             log += notify.send(msgs, cfg)
         else:   # ntfy.sh 공개 주제는 누구나 보낼 수 있어 보내기를 제한할 수 있을 때까지 끔 (기능: ntfy_alerts)
             log.append(f"[알림] 꺼져 있어 보내지 않음 (ntfy_alerts 스위치) · 보낼 알림 {len(msgs)}건")
-        if feature_on("web_push"):   # 웹 푸시 (기능: web_push) — 알림 서버(push/worker.js)가 구독자별로 골라 보낸다
+        if feature_on("web_push") or cfg.get("push_preview"):   # 웹 푸시 (기능: web_push) — 알림 서버(push/worker.js)가 구독자별로 골라 보낸다. 미리보기는 미리보기 링크로 켠 구독자만 있어 보내도 된다
             try:
                 from . import webpush
                 log += webpush.run(out, notify.load_previous_ids(), today, cfg)
