@@ -165,15 +165,37 @@ test('서버: 다른 사이트에서 온 요청·토큰 없는 합계 요청은 
   assert.equal(pre.status, 204); assert.equal(pre.headers.get('access-control-allow-origin'), 'https://cheongyakpass.kr');
 });
 
-test('근거는 물어본 공고 파일만 받음 (docs/chat-evidence)', async () => {
+test('근거는 법령과 물어본 공고의 공고문 조각만 받음 (docs/chat-law.json · chat-notice)', async () => {
   const urls = [];
   const g = G['kakao-mom-1'], nid = g.listing.split('-')[0];
-  const file = JSON.parse(fs.readFileSync(REPO + '/docs/chat-evidence/' + nid + '.json', 'utf8'));
-  const fetchImpl = async u => { urls.push(String(u)); return { ok: true, json: async () => file }; };
-  const r = await handleChat({ ...OPEN, EVIDENCE_BASE: 'https://cheongyakpass.kr/chat-evidence' }, input('kakao-mom-1'), { kv: new MemKV(), fetch: fetchImpl });
+  const files = { 'chat-law.json': REPO + '/docs/chat-law.json', [`chat-notice/${nid}.json`]: REPO + '/docs/chat-notice/' + nid + '.json' };
+  const fetchImpl = async u => { urls.push(String(u)); const k = String(u).replace('https://cheongyakpass.kr/', ''); return files[k] && fs.existsSync(files[k]) ? { ok: true, json: async () => JSON.parse(fs.readFileSync(files[k], 'utf8')) } : { ok: false }; };
+  const r = await handleChat(OPEN, input('kakao-mom-1'), { kv: new MemKV(), fetch: fetchImpl });
   assert.equal(r.status, 200);
-  assert.deepEqual(urls, ['https://cheongyakpass.kr/chat-evidence/' + nid + '.json']);
-  assert.ok(r.body.answer.official.length > 0, '공고문 근거가 붙음');
+  assert.deepEqual(urls.sort(), ['https://cheongyakpass.kr/chat-law.json', `https://cheongyakpass.kr/chat-notice/${nid}.json`].sort());
+});
+
+// ── 청약 전반 질문 (2026-10-02): 공고 판정 없이도, 공고문 조각에서 서류를 찾아 답함 ──
+const LAW = JSON.parse(fs.readFileSync(REPO + '/docs/chat-law.json', 'utf8'));
+const NOTICE453 = fs.existsSync(REPO + '/docs/chat-notice/2026000453.json') ? JSON.parse(fs.readFileSync(REPO + '/docs/chat-notice/2026000453.json', 'utf8')) : null;
+const genIn = (q, extra = {}) => ({ question: q, engine: null, anon_id: 'tester-gen-01', conversation_id: 'g-' + Math.random(), ip: '5.5.5.5', ...extra });
+test('일반 질문: 판정 없이 법령 근거로 답함 (AI 없으면 원문 조각)', async () => {
+  const r = await handleChat(OPEN, genIn('1순위 조건이 뭐야?'), { kv: new MemKV(), law: LAW, notice: null });
+  assert.equal(r.status, 200); assert.equal(r.body.verdict, null);
+  assert.ok(r.body.answer.official.length > 0 && r.body.sources.every(x => x.kind === 'law'));
+  assert.ok(r.body.sources.some(x => /제28조|제27조|제2조/.test(x.title)), JSON.stringify(r.body.sources.map(x => x.title)));
+});
+test('공고 서류 질문: 공고문 조각에서 서류 내용을 찾아 보여줌', { skip: !NOTICE453 }, async () => {
+  const r = await handleChat(OPEN, genIn('필요한 서류는 뭐야?', { listing_id: '2026000453-059.9742A' }), { kv: new MemKV(), law: LAW, notice: NOTICE453 });
+  const txt = r.body.answer.official.map(x => x.text).join(' ');
+  assert.match(txt, /등본|증명서|서류/); assert.ok(!/공고문의 제출 서류 항목에서 확인하세요/.test(JSON.stringify(r.body.answer)));
+});
+test('일반 질문인데 AI 가 판정을 지어내면 막음', async () => {
+  const bad = JSON.stringify({ verdict: '가능', conclusion: '신청할 수 있어요.', my_conditions: [], why: [], official: [], cautions: [], ask: null });
+  const good = JSON.stringify({ verdict: null, conclusion: '1순위는 통장 가입기간과 예치금 요건을 채워야 해요.', my_conditions: [], why: [], official: [{ text: '민영주택 1순위 요건은 주택공급에 관한 규칙 제28조에 있어요.', refs: ['L1'] }], cautions: [], ask: null });
+  const llm = async ({ attempt }) => ({ text: attempt ? good : bad });
+  const r = await handleChat(OPEN, genIn('1순위 조건이 뭐야?'), { kv: new MemKV(), law: LAW, notice: null, llm });
+  assert.equal(r.body.fallback, false); assert.equal(r.body.answer.verdict, null); assert.equal(r.body.log.attempts.length, 2);
 });
 
 test('답이 계속 되물어도 공짜 되물음은 질문 1건당 2번까지', async () => {

@@ -27,8 +27,7 @@ class MemKV { constructor() { this.m = new Map(); } async get(k) { return this.m
   const mkServer = (env, opts = {}) => { const kv = new MemKV(); const calls = []; return { kv, calls, fn: async (path, body) => {
     calls.push({ path, body });
     if (path === '/feedback') return W.handleFeedback(env, body, { kv });
-    const nid = String(body.engine && body.engine.listing && body.engine.listing.id || '').split('-')[0];
-    const fetchImpl = async () => existsSync(join(DOCS, 'chat-evidence', nid + '.json')) ? { ok: true, json: async () => JSON.parse(readFileSync(join(DOCS, 'chat-evidence', nid + '.json'), 'utf8')) } : { ok: false };
+    const fetchImpl = async u => { const f = join(DOCS, new URL(String(u)).pathname.slice(1)); return existsSync(f) ? { ok: true, json: async () => JSON.parse(readFileSync(f, 'utf8')) } : { ok: false }; };   // 서버가 받는 근거(docs/chat-law.json·chat-notice) 그대로
     const r = await W.handleChat(env, { ...body, ip: '10.0.0.1' }, { kv, fetch: fetchImpl, llm: opts.llm });
     calls[calls.length - 1].follow_up = r.body && r.body.follow_up;
     if (opts.tamper && r.body.kind === 'answer') { r.body.verdict = r.body.answer.verdict = r.body.verdict === '가능' ? '불가' : '가능'; }
@@ -135,6 +134,25 @@ class MemKV { constructor() { this.m = new Map(); } async get(k) { return this.m
     t('!오픈 → 켰어요', /켰어요/.test(await ask('!오픈')));
     t('!오픈 뒤 답함', (await ask('왜 이 판정이 나왔어?')) === 'ANSWER');
     t('운영 명령 화면 오류 0', !errs.length, errs[0]); await p.close(); }
+  // 7) 둥근 버튼(기능 chat_fab): 목록에서 청약 전반 질문 → 판정 상자 없이 법령 근거 / 공고 화면에서 서류 질문 → 공고문 서류 내용
+  { const s7 = mkServer({ CHAT_OPEN: '1' }); const { p, errs } = await page({ top: { chat_api: 'https://chat.local' }, features: { chatbot: true } }, s7.fn);
+    await setProfile(p, PROFS[0]); await p.evaluate(() => { localStorage.setItem('cy-chat-consent', CONFIG.chat_legal_date || 'preview'); go('feed'); });
+    t('목록에 둥근 버튼', !!(await p.$('#chatfab')));
+    await p.click('#chatfab'); t('목록에서 열면 공고 기준 없음', !(await p.$('.chatctx')));
+    await p.click('[data-chat="quick"]'); await p.waitForFunction(() => CHAT && !CHAT.busy, null, { timeout: 8000 });
+    const g = await p.evaluate(() => ({ ans: !!document.querySelector('.chatans'), verdict: !!document.querySelector('.chatverdict'), src: [...document.querySelectorAll('.chatsrc li')].map(x => x.textContent).join(' | ') }));
+    t('청약 전반 질문: 답·판정 상자 없음·법령 출처', g.ans && !g.verdict && /주택공급에 관한 규칙/.test(g.src), JSON.stringify(g));
+    if (SHOTS) await p.screenshot({ path: `${SHOTS}/chat-general.png` });
+    await p.click('.chatx');
+    s7.kv.m.clear();
+    await p.evaluate(() => { S.id = '2026000453-059.9742A'; go('detail'); });
+    if (SHOTS) await p.screenshot({ path: `${SHOTS}/chat-fab-detail.png` });
+    await p.click('#chatfab'); t('공고 화면에서 열면 공고 기준 표시', /이 공고 기준/.test(await p.evaluate(() => (document.querySelector('.chatctx') || {}).textContent || '')));
+    await p.fill('#chatq', '필요한 서류는 뭐야?'); await p.click('.chatform button'); await p.waitForFunction(() => CHAT && !CHAT.busy, null, { timeout: 8000 });
+    const d = await p.evaluate(() => (document.querySelector('.chatans:last-of-type') || {}).innerText || '');
+    t('서류 질문: 공고문 서류 내용', /등본|증명서|서류/.test(d) && /모집공고문/.test(d) && !/제출 서류 항목에서 확인하세요/.test(d), d.slice(0, 200));
+    if (SHOTS) await p.screenshot({ path: `${SHOTS}/chat-docs.png` });
+    t('둥근 버튼 화면 오류 0', !errs.length, errs[0]); await p.close(); }
   await b.close();
   const total = Object.values(tally).reduce((a, [o, f]) => a + o + f, 0), bad = Object.values(tally).reduce((a, [, f]) => a + f, 0);
   console.log(`[청약봇 화면 검사] ${total - bad}/${total} 통과`); for (const [k, [o, f]] of Object.entries(tally)) console.log(`  ${f ? '✗' : '✓'} ${k}: ${o}/${o + f}`);

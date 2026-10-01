@@ -304,3 +304,12 @@ def test_unread_notice_warns():
     finally:
         pipeline._fetch_text = orig
     assert any(l.startswith("[경고] 공고문을 읽지 못한 공고: 테스트 단지") for l in log), log
+
+
+def test_notice_chunks_keep_document_section():
+    """청약봇 공고문 조각: 쪽 번호 줄을 빼고, 서류 문단은 머리말과 함께 남는다 (기능: chatbot_notice)."""
+    from app.notice_chunks import chunk_text
+    text = "■ 입주대상자 자격검증서류 제출\n○ 주민등록표등본\n○ 가족관계증명서\n- 12 -\n" + "가" * 900 + "\n■ 계약 체결\n계약금 10%"
+    ch = chunk_text(text)
+    assert any("주민등록표등본" in c["t"] and "자격검증서류" in c["h"] for c in ch)
+    assert not any("- 12 -" in c["t"] for c in ch)

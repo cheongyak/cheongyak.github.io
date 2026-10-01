@@ -51,23 +51,24 @@ export function validate(raw, { engine, evidence, question }) {
   const ans = parseAnswer(raw);
   if (!ans || typeof ans.conclusion !== 'string') return { ok: false, flags: ['형식 오류: JSON 이 아니거나 conclusion 없음'], answer: null };
 
-  // 1. 판정 값
-  if (!VERDICTS.includes(ans.verdict)) flags.push('판정 값 없음');
+  // 1. 판정 값 (공고 판정이 없는 일반 질문이면 verdict 는 비어 있어야 함)
+  if (!engine) { if (ans.verdict != null && ans.verdict !== '') flags.push('판정 결과 없이 판정을 냄'); }
+  else if (!VERDICTS.includes(ans.verdict)) flags.push('판정 값 없음');
   else if (ans.verdict !== engine.verdict) flags.push(`판정 불일치: 답 ${ans.verdict} / 엔진 ${engine.verdict}`);
 
   // 2. 결론 문장이 엔진 판정과 어긋나는가
   const c = ans.conclusion;
-  if (engine.verdict === '가능' && NEG.test(c)) flags.push('결론이 엔진(가능)과 반대');
-  if (engine.verdict === '불가' && POS.test(c)) flags.push('결론이 엔진(불가)과 반대');
-  if (engine.verdict === '확인 필요') {
+  if (engine && engine.verdict === '가능' && NEG.test(c)) flags.push('결론이 엔진(가능)과 반대');
+  if (engine && engine.verdict === '불가' && POS.test(c)) flags.push('결론이 엔진(불가)과 반대');
+  if (engine && engine.verdict === '확인 필요') {
     if (!/확인/.test(c)) flags.push('확인 필요인데 결론에 \'확인\'이 없음');
     if (/(신청(할|하실)\s*수\s*있어요|가능해요|가능합니다)/.test(c) && !/(확인|만약|하면|다면)/.test(c)) flags.push('확인 필요를 가능으로 단정');
   }
-  if (engine.verdict === '2순위만' && !/2순위/.test(c)) flags.push('2순위만인데 결론에 2순위가 없음');
+  if (engine && engine.verdict === '2순위만' && !/2순위/.test(c)) flags.push('2순위만인데 결론에 2순위가 없음');
 
   // 3. 특별공급 유형별 판정과 어긋나는가
   const all = texts(ans);
-  for (const sp of engine.special || []) {
+  for (const sp of (engine && engine.special) || []) {
     const name = SP_NAMES[sp.type];
     if (!name) continue;
     for (const sent of all.join(' ').split(/(?<=[.!?요])\s+/)) {
@@ -92,7 +93,7 @@ export function validate(raw, { engine, evidence, question }) {
   }
 
   // 6. 숫자는 엔진·근거·질문에 있는 것만
-  const allowed = allowedNumbers([JSON.stringify(engine), ...evidence.map(e => e.text), question]);
+  const allowed = allowedNumbers([JSON.stringify(engine || {}), ...evidence.map(e => e.text), question]);
   for (const t of all) {
     // 2026.09.18 / 2026-09-18 / 2026/9/18 같은 날짜는 연·월·일 숫자로 나눠 본다
     const plain = t.replace(/\[[^\]]*가림\]/g, '').replace(/(\d{4})\s*[.\-/]\s*(\d{1,2})\s*[.\-/]\s*(\d{1,2})\.?/g, '$1 $2 $3');

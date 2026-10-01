@@ -2,31 +2,23 @@
 // 브라우저가 판정 엔진 결과(engine)와 질문을 보내면, 근거를 붙여 Claude 에게 '설명'만 맡기고 검사기를 통과한 답만 돌려준다.
 import { redact } from './redact.js';
 import { classify, OUT_OF_SCOPE_TEXT } from './intent.js';
-import { parseEvidence, selectEvidence } from './evidence.js';
+import { selectEvidence } from './evidence.js';
 import { SYSTEM, PROMPT_VERSION, buildUserMessage } from './prompt.js';
 import { validate } from './validate.js';
-import { fallbackAnswer } from './fallback.js';
+import { fallbackAnswer, fallbackGeneral } from './fallback.js';
+import { selectGeneral } from './retrieve.js';
 import { checkLimit, markConversation, LIMIT_TEXT } from './limits.js';
 import { callClaude, MODEL } from './llm.js';
 import { bump, readStats, FEEDBACK_REASONS } from './stats.js';
 
 const VERDICTS = ['가능', '불가', '확인 필요', '2순위만'];
-const EVIDENCE = new Map();   // 공고번호 → [받은 시각, 근거]
-
-// 물어본 공고의 근거 조각만 받는다 (docs/chat-evidence/<번호>.json, chat/tools/split_evidence.mjs 가 만듦).
-// 전체 파일(2.4MB)을 풀면 Worker 무료 한도(CPU 10ms)를 넘는다.
-async function evidenceIndex(env, fetchImpl, listingId) {
-  const nid = String(listingId || '').split('-')[0];
-  if (!/^\d{6,12}$/.test(nid)) return new Map();
-  const hit = EVIDENCE.get(nid);
-  if (hit && Date.now() - hit[0] < 6 * 3600e3) return hit[1];
-  let m = new Map();
-  try {
-    const res = await fetchImpl(`${env.EVIDENCE_BASE || 'https://cheongyakpass.kr/chat-evidence'}/${nid}.json`, { cf: { cacheTtl: 21600 } });
-    if (res.ok) m = new Map([[nid, await res.json()]]);
-  } catch (e) {}
-  EVIDENCE.set(nid, [Date.now(), m]);
-  return m;
+// 청약 전반 근거 (2026-10-02): 법령 조각 + 보고 있는 공고의 모집공고문 조각. 사이트(GitHub Pages)에서 받아 6시간 기억
+const DOCS = new Map();
+async function docJson(env, fetchImpl, path) {
+  const hit = DOCS.get(path); if (hit && Date.now() - hit[0] < 6 * 3600e3) return hit[1];
+  let j = null;
+  try { const res = await fetchImpl(`${env.DOCS_BASE || 'https://cheongyakpass.kr'}/${path}`, { cf: { cacheTtl: 21600 } }); if (res.ok) j = await res.json(); } catch (e) {}
+  DOCS.set(path, [Date.now(), j]); return j;
 }
 
 // 이번 달 추정 사용액 (Haiku 4.5: 입력 $1 · 출력 $5 / 100만 토큰). KV 'mspend:YYYY-MM' 에 달러로 쌓는다
@@ -46,7 +38,8 @@ export async function handleChat(env, input, deps = {}) {
   const kv = deps.kv || env.CHAT_KV;
   const { question, engine, anon_id, conversation_id, history, ip } = input || {};
   if (typeof question !== 'string' || !question.trim() || question.length > 500) return badRequest('질문은 1~500자');
-  if (!engine || !VERDICTS.includes(engine.verdict) || !engine.listing || !Array.isArray(engine.items)) return badRequest('engine 결과 형식 오류');
+  if (engine != null && (!VERDICTS.includes(engine.verdict) || !engine.listing || !Array.isArray(engine.items))) return badRequest('engine 결과 형식 오류');   // engine 없이(청약 전반 질문)도 받는다
+  const listingId = String((engine && engine.listing.id) || input.listing_id || '');
   if (typeof anon_id !== 'string' || anon_id.length < 8) return badRequest('anon_id 필요');
   const isOp = !!(env.CHAT_PREVIEW_CODE && input.preview === env.CHAT_PREVIEW_CODE);
   const mode = kv ? await kv.get('mode') : null;   // 'maint' | 'open' | null — 운영자가 '!점검'·'!오픈'으로 바꾼다
@@ -70,7 +63,7 @@ export async function handleChat(env, input, deps = {}) {
   const q = redact(question);
   const hist = (Array.isArray(history) ? history : []).slice(-4).map(h => ({ role: h.role, text: redact(h.text).text }));
   const intent = classify(q.text);
-  const log = { intent, verdict: engine.verdict, pii: q.found, prompt: PROMPT_VERSION, model: MODEL };
+  const log = { intent, verdict: engine ? engine.verdict : null, listing: !!listingId, pii: q.found, prompt: PROMPT_VERSION, model: MODEL };
 
   if (intent === 'out_of_scope') {
     await markConversation(kv, conversation_id, false);
@@ -78,15 +71,21 @@ export async function handleChat(env, input, deps = {}) {
     return { status: 200, body: { kind: 'out_of_scope', message: OUT_OF_SCOPE_TEXT, pii: q.found, remaining: lim.remaining, log } };
   }
 
-  const index = deps.evidence || await evidenceIndex(env, fetchImpl, engine.listing.id);
-  const { evidence } = selectEvidence(index, engine, q.text);
+  let evidence;
+  if (deps.evidence) evidence = selectEvidence(deps.evidence, engine, q.text).evidence;   // 예전 근거(공고문 발췌 태그) — 골든셋 시험용
+  else {
+    const nid = listingId.split('-')[0];
+    const [law, notice] = await Promise.all([deps.law !== undefined ? deps.law : docJson(env, fetchImpl, 'chat-law.json'),
+      deps.notice !== undefined ? deps.notice : /^\d{6,12}$/.test(nid) ? docJson(env, fetchImpl, `chat-notice/${nid}.json`) : null]);
+    evidence = selectGeneral({ law, notice, question: q.text, engineItems: engine ? engine.items : [] });
+  }
   const ctx = { engine, evidence, question: q.text };
 
   let answer = null, attempts = [];
   const apiKey = env.ANTHROPIC_API_KEY;
   const overBudget = (await monthSpent(kv)) >= monthCap(env);   // 이번 달 추정 사용액이 서버 한도에 닿으면 AI 없이 고정 문구로만 (콘솔 월 한도 앞의 안전장치)
   if ((apiKey || deps.llm) && !overBudget) {
-    let user = buildUserMessage({ question: q.text, intent, engine, evidence, history: hist });
+    let user = buildUserMessage({ question: q.text, intent, engine: engine || null, evidence, history: hist, listing: input.listing || null });
     for (let i = 0; i < 2 && !answer; i++) {
       try {
         const r = deps.llm ? await deps.llm({ system: SYSTEM, user, attempt: i }) : await callClaude({ apiKey, system: SYSTEM, user, fetchImpl });
@@ -101,20 +100,20 @@ export async function handleChat(env, input, deps = {}) {
     }
   }
   const usedFallback = !answer;
-  if (!answer) answer = fallbackAnswer({ engine, evidence, intent });
+  if (!answer) answer = deps.evidence ? fallbackAnswer({ engine, evidence, intent }) : fallbackGeneral({ engine, evidence, intent });
   await markConversation(kv, conversation_id, !!answer.ask, lim.followUp ? lim.followN + 1 : 0);
 
   const used = new Set([...(answer.why || []), ...(answer.official || [])].flatMap(x => x.refs || []));
-  const sources = evidence.filter(e => used.has(e.id)).map(e => ({ id: e.id, kind: e.kind, title: e.title, url: e.kind === 'notice' ? e.url : engine.listing.link, quote: e.text.slice(0, 200) }));
+  const sources = evidence.filter(e => used.has(e.id)).map(e => ({ id: e.id, kind: e.kind, title: e.title, url: e.kind === 'engine' ? (engine && engine.listing.link) : e.url, quote: e.text.slice(0, 200) }));
   await addMonthSpent(kv, attempts);
-  await bump(kv, { over_budget: overBudget, q: true, follow_up: lim.followUp, intent, verdict: engine.verdict, pii: q.found.length > 0, ai_calls: attempts.filter(a => a.usage || a.ok || a.flags.length).length,
+  await bump(kv, { over_budget: overBudget, q: true, follow_up: lim.followUp, intent, verdict: engine ? engine.verdict : 'general', pii: q.found.length > 0, ai_calls: attempts.filter(a => a.usage || a.ok || a.flags.length).length,
     rejected: attempts.filter(a => !a.ok).length, fallback: usedFallback,
     in_tokens: attempts.reduce((n, a) => n + ((a.usage && a.usage.input_tokens) || 0), 0), out_tokens: attempts.reduce((n, a) => n + ((a.usage && a.usage.output_tokens) || 0), 0) });
   Object.assign(log, { attempts: attempts.map(a => ({ ok: a.ok, flags: a.flags.length })), fallback: usedFallback, ms: Date.now() - t0 });
   return {
     status: 200,
     body: {
-      kind: 'answer', verdict: engine.verdict, answer, sources,
+      kind: 'answer', verdict: engine ? engine.verdict : null, answer, sources,
       notice: '참고용이에요. 신청 전 모집공고문과 청약홈에서 꼭 확인하세요.',
       pii: q.found, follow_up: lim.followUp, remaining: lim.remaining, fallback: usedFallback, log,
     },

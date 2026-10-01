@@ -240,6 +240,9 @@ def apply_notice(listings: list[Listing], log: list[str], client=None, previous:
     start = time.monotonic()
     # 이미 같은 읽기 규칙(PARSER_VERSION)으로 읽은 공고문은 다시 받지 않는다 (공고문은 바뀌지 않고, 받기·읽기가 가장 오래 걸린다)
     fresh = {url for url, Ls in groups.items() if cache.get(Ls[0].id.split("-")[0], {}).get("v") == PARSER_VERSION}
+    if feature_on("chatbot_notice"):   # 청약봇 공고문 조각이 없는 공고는 한 번 다시 읽는다 (기능: chatbot_notice)
+        from . import notice_chunks
+        fresh = {u for u in fresh if notice_chunks.has(groups[u][0].id.split("-")[0])}
     ex = ThreadPoolExecutor(max_workers=6)
     futs = {url: ex.submit(_fetch_text, url, Ls[0], client) for url, Ls in groups.items() if url not in fresh}
     wait(list(futs.values()), timeout=NOTICE_BUDGET_SEC)
@@ -263,6 +266,12 @@ def apply_notice(listings: list[Listing], log: list[str], client=None, previous:
             log.append(f"[공고문] {Ls[0].name}: {msg} → {found or '추출 없음'}")
             if text:   # 공고문 대조용 원문 숫자 (기능: notice_crosscheck) — 판정에는 쓰지 않는다
                 found["facts"] = notice_pdf.notice_facts(text, {L.id.split("-", 1)[1].strip(): round((L.price or 0) * 10000) for L in Ls})
+            if text and feature_on("chatbot_notice"):
+                from . import notice_chunks
+                try:
+                    notice_chunks.write(nid, Ls[0].name, pdf, text)
+                except Exception as e:
+                    log.append(f"[청약봇] 공고문 조각 저장 실패 {nid}: {e.__class__.__name__}")
             if text and found:
                 cache[nid] = {"name": Ls[0].name, "found": found, "notice_pdf": pdf, "v": PARSER_VERSION}
         if not text and url not in fresh:

@@ -1,7 +1,11 @@
 // 프롬프트. 바꿀 때는 PROMPT_VERSION 을 올리고 골든셋을 다시 돌린다.
-export const PROMPT_VERSION = 'v1';
+export const PROMPT_VERSION = 'v2';   // v2 (2026-10-02): 청약 전반 질문 + 공고문 조각에서 실제 내용(서류 목록 등)을 뽑아 답함
 
-export const SYSTEM = `너는 청약패스의 청약봇이다. 사용자가 보고 있는 공고와 청약패스 판정 엔진의 결과를 쉬운 한국어 해요체로 설명한다.
+export const SYSTEM = `너는 청약패스의 청약 도우미다. 청약 제도 전반(순위·가점·특별공급·통장·재당첨·서류·일정 등)과, 사용자가 보고 있는 공고가 있으면 그 공고에 대해 쉬운 한국어 해요체로 답한다.
+근거는 EVIDENCE 의 세 종류다: L = 주택공급에 관한 규칙 조문, N = 보고 있는 공고의 모집공고문 조각, E = 그 공고에 대한 청약패스 판정 결과(있을 때만).
+공고에 관한 질문(필요 서류, 일정, 계약금, 자격 등)은 N 조각에 적힌 내용을 직접 정리해 구체적으로 답한다. 예: 서류를 물으면 공고문에 적힌 서류 이름을 항목별로 나열한다.
+"공고문을 확인하세요"로만 끝내는 답은 쓰지 않는다. N·L 에 답이 없을 때만 그렇게 말하고, 어디(청약홈·사업주체)에서 확인하는지 알려준다.
+ENGINE 이 null 이면 verdict 는 null 로 쓰고, 개인 자격을 판정하지 않는다(내 조건 판정은 공고 화면에서 하라고 안내).
 
 절대 규칙
 1. 자격 판정(가능·불가·확인 필요·2순위만)은 ENGINE.verdict 를 그대로 쓴다. 네가 판정을 새로 내리거나 바꾸지 않는다.
@@ -18,19 +22,19 @@ export const SYSTEM = `너는 청약패스의 청약봇이다. 사용자가 보�
 
 출력은 JSON 하나만. 다른 글자는 쓰지 않는다.
 {
- "verdict": "ENGINE.verdict 와 같은 값",
+ "verdict": "ENGINE.verdict 와 같은 값 (ENGINE 이 null 이면 null)",
  "conclusion": "한두 문장 결론",
- "my_conditions": ["판정에 쓰인 내 조건 요약, 최대 4개"],
- "why": [{"text": "이유 한 문장", "refs": ["E3"]}],
+ "my_conditions": ["판정에 쓰인 내 조건 요약, 최대 4개 (ENGINE 이 없으면 빈 배열)"],
+ "why": [{"text": "이유·답 내용 한 문장 (서류 목록 같으면 항목마다 한 줄, 최대 12개)", "refs": ["N2"]}],
  "official": [{"text": "공식 기준 한 문장", "refs": ["N1"]}],
  "cautions": ["주의할 점, 최대 3개"],
  "ask": "되물을 질문 하나 또는 null"
 }`;
 
 // 사용자 메시지: 질문 + 엔진 결과 + 근거. 엔진 결과는 필요한 것만 줄여서 보낸다.
-export function buildUserMessage({ question, intent, engine, evidence, history }) {
-  const L = engine.listing || {};
-  const eng = {
+export function buildUserMessage({ question, intent, engine, evidence, history, listing }) {
+  const L = (engine && engine.listing) || listing || {};
+  const eng = !engine ? null : {
     listing: { name: L.name, unit: L.unit, region: [L.sido, L.district].filter(Boolean).join(' '), kind: L.kind, type: L.dtl, status: L.status, price_eok: L.price, regulated: L.regulated, dates: L.dates },
     verdict: engine.verdict, reason: engine.reason,
     special: (engine.special || []).map(s => ({ type: s.type, v: s.v, fail: s.fail, warn: s.warn })),
@@ -43,6 +47,7 @@ export function buildUserMessage({ question, intent, engine, evidence, history }
     `QUESTION_TYPE: ${intent}`,
     hist ? `HISTORY:\n${hist}` : '',
     `QUESTION: ${question}`,
+    L.name ? `LISTING: ${JSON.stringify({ name: L.name, unit: L.unit, kind: L.kind })}` : 'LISTING: null',
     `ENGINE: ${JSON.stringify(eng)}`,
     `EVIDENCE: ${JSON.stringify(ev)}`,
   ].filter(Boolean).join('\n\n');
