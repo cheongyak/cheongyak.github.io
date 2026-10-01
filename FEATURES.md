@@ -87,6 +87,7 @@
 | `changelog` | 이용 안내 > 업데이트 내역 (베타) 화면 (docs/changelog.json) | 이용 안내 문서 목록 (끄면 숨김) | - | 3050626 | backup/20261001-1037-updates |
 | `verify_badge` | 이용 안내 '데이터 검증 현황' 카드(docs/verify-status.json)와 검증 실패 시 붉은 베타 상자 | 이용 안내, 베타 상자 (끄면 숨김) | - | 3050626 | backup/20261001-1037-updates |
 | `ads` | 광고(AdSense·애드핏) 자리와 개인정보처리방침·이용약관·이용 안내의 광고·쿠키·맞춤형 광고 고지 (config 의 광고 ID가 있을 때만) | 목록 5번째 카드 뒤, 상세 맨 아래, 방침·약관 (꺼 둠) | - | 5e22e7e | backup/20261001-1050-ads |
+| `static_pages` | 검색엔진·광고 심사용 정적 페이지(/story/ /about/ /terms/ /privacy/ /updates/)와 청약 기준 가이드(/guide/ 소득 기준표·가점표·예치금), sitemap | 이용 안내 문서 목록의 가이드 링크 (끄면 링크 숨김, 페이지 파일은 남음) | - | (커밋 후 기입) | backup/20261001-1057-static |
 
 `naver_map`·`nearby`·`analytics` 는 한 커밋(147fa99)에 함께 들어갔다. 이 셋 중 하나만 없애려면 revert 대신 스위치로 끄거나,
 해당 부분만 지우는 새 커밋을 만든다.

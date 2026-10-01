@@ -399,3 +399,14 @@ def test_oracle_matches_notice_table_amounts():
     """검증 사례의 기대값 계산(oracle)이 공고문 금액표와 같은 숫자를 낸다 — 2026000414 <표5> 130% 3인 이하 9,793,892원 등."""
     from tools.make_judge_cases import amt
     assert amt(3, 130) == 9793892 and amt(5, 130) == 12125081 and amt(3, 150) == 11300645 and amt(5, 90) == 8394287 and amt(8, 220) == 24342602
+
+
+def test_static_guides_use_notice_numbers():
+    """정적 가이드 페이지 (기능: static_pages) — 공고문 원문 표의 숫자 그대로 나온다."""
+    from tools import build_static
+    inc = build_static.guide_income()
+    assert "9,793,892" in inc and "7,533,763" in inc and "24,342,602" in inc
+    dep = build_static.guide_deposit()
+    assert "<td>1,500</td><td>1,000</td><td>500</td>" in dep
+    sc = build_static.guide_score()
+    assert "<td>15년 이상</td><td>32</td>" in sc and "<td>15년 이상</td><td>17</td>" in sc
