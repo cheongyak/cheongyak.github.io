@@ -67,6 +67,10 @@ description: 청약패스(cheongyakpass.kr, 저장소 cheongyak/cheongyak.github
 - 개인정보처리방침·이용약관 문구는 스위치(광고 `adsOn()`, 알림 `pushOn()`)가 켜질 때만 바뀌게 짜고, 시행일(`ads_legal_date`·`push_legal_date`)과 개정 이력을 같이 바꾼다. 개정은 7일 전 예고.
 
 - 공고문에서 새 항목을 읽을 때(예: score_ratio): notice_pdf 에 parse_* 추가 → parse_notice 에 넣기 → pipeline 의 _from_previous·labels·from_notice 필터·L.<필드> 대입 → models 필드 → PARSER_VERSION 올림(모든 공고문 다시 읽음) → evidence/notices/*.txt 전체에 돌려 읽힘/unknown/None 개수 확인 → 원문 표를 직접 읽은 정답을 tests/golden 에(정답 비교는 model_dump 필드 이름으로 자동) → 화면 데이터 연결(index.html 의 LISTINGS 매핑 `x.<필드>`). 로컬 listings.json 에는 아직 없으니 브라우저 검사는 정답 값을 LISTINGS 에 넣어서 본다.
+- 청약봇(chatbot): 판정 함수는 읽기만 한다 — tests/test_engine_lock.py 가 지문을 본다. 판정 규칙을 일부러 고쳤으면 판정 사례·회귀 후 `python -m tools.engine_lock --update`.
+  청약봇 화면을 고치면 `node tools/qa/chatflow.cjs 40`(실제 서버 코드로 끝에서 끝), 서버를 고치면 `cd chat && node --test test/chat.test.mjs && node golden/eval.mjs`. 서버 답의 판정이 화면과 다르면 화면이 막는다.
+  Worker 무료 CPU 10ms — 큰 파일을 서버에서 풀지 말 것(근거는 docs/chat-evidence/<번호>.json). 되물음 공짜는 질문 1건당 2번까지.
+- 방침·약관 개정 예고는 config.json legal_notice(date·posted·privacy[]·terms[]) — '바뀐 뒤 전문'은 LEGAL_AS 로 알림·청약봇이 켜진 상태를 그린다. 새 기능 문구는 pushOn()/chatOn() 처럼 기능 값에 묶는다.
 - 가점 비교 문구: 민영 1순위는 지역 순서가 먼저다. 가점 비교 점수(scoreTarget)는 reside(해당/기타)를 같이 들고 다니고, regionScore(L,p) 로 지역 순서·비율·경고를 만든다.
 
 - 판정 규칙을 고칠 때 함정 (2026-10-01 감사):

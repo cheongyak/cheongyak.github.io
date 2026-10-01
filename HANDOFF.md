@@ -53,7 +53,19 @@ GitHub Secrets (이름만): `DATA_GO_KR_KEY`, `NCP_MAPS_CLIENT_ID`, `NCP_MAPS_CL
 
 ## 진행 중인 일 (2026-10-01 기준, 최신이 위)
 
-0. **버전·전략 실행 현황 (2026-10-01 오후)** — 지금 버전 v1.18.0 (VERSIONS.md, release/v1.0.0~v1.18.0 브랜치). v1.3.1~1.3.3 은 사용자 지적 수정: 관심 공고 유주택 '추첨제만', 시·도 검색, 이용 안내 '업데이트 소식'(검증 현황·상세 내역은 운영자용 — 사용자가 물으면 verify-status.json·changelog.json·VERSIONS.md 로 답함).
+-1. **청약봇 '이 공고 물어보기' (chatbot, v1.20.0) + 방침·약관 개정 예고 (legal_notice, v1.19.0) — 2026-10-01 밤**
+   - 개정 예고 게시 2026-10-01, **시행 2026-10-09** (config.json legal_notice). 내용: 새 공고 알림(4-2)·AI 질문 답변(4-3) 처리 위탁·국외 이전, 약관 제4·6조. 시행일이 지나면 예고 카드는 저절로 사라짐.
+   - **10-09 에 할 일 (사용자 확인 후)**: ① 알림 공개 — `push_legal_date: "2026-10-09"`, 스위치 `web_push: true`, `push_preview` 제거, changelog '새 기능'.
+     ② 청약봇 공개(미리보기에서 괜찮다고 했을 때만) — `chat_legal_date: "2026-10-09"`, chat/worker/wrangler.toml `CHAT_OPEN = "1"`(푸시하면 재배포), 스위치 `chatbot: true`, changelog 의 1.20.0 internal 해제 또는 새 항목.
+     청약봇이 늦어지면 ①만 하고 chat_legal_date 는 청약봇을 켤 때 넣는다 (예고는 이미 했으므로 다시 예고할 필요 없음 — 단, 개정안에 적은 처리 내용(4-3항)을 바꾸면 다시 예고).
+   - **사용자가 할 일 (아직 안 함)**: Anthropic 콘솔(platform.claude.com) 가입·크레딧 $5~10·Spend limits 월 $30·API 키 발급 → GitHub Secrets `ANTHROPIC_API_KEY`, `CHAT_PREVIEW_CODE`(본인이 기억할 코드), `CHAT_STATS_TOKEN`(긴 무작위).
+     비밀값이 들어오면 Actions '청약봇 서버 배포'를 다시 실행(workflow_dispatch) → chat/deployed.json 의 주소를 docs/config.json `chat_api` 에 넣고 올림 → 사용자에게 `https://cheongyakpass.kr/?chat=preview` 안내.
+   - 키가 생기면 `cd chat && ANTHROPIC_API_KEY=… node golden/eval.mjs`(Actions 에서, 키를 대화에 쓰지 않게 — 필요하면 eval 워크플로를 만든다)로 실제 답 270문항: 검사기 거절률·대체율 보고 프롬프트 v2.
+   - 구조: 화면은 판정 함수를 읽기만(tools/engine_lock.py 가 28개 함수 지문 확인 — 판정 규칙을 일부러 고치면 `python -m tools.engine_lock --update`). 서버 chat/worker(검사기 통과 답만, 두 번 막히면 고정 문구), 근거 docs/chat-evidence(probe.yml 이 나눔).
+     검사: `cd chat && node --test test/chat.test.mjs` · `node golden/eval.mjs` · `NODE_PATH=… node tools/qa/chatflow.cjs 40`. 하루 합계는 run-log `[청약봇]`.
+   - 다음 단계 후보: 근거 조각 고르기 개선, 새 공고 근거를 매일 수집에 넣기(지금은 probe.yml 실행 때만), 평가 '정보가 틀렸어요' 많으면 원인 분석, 캐시는 하루 수백 건이 되면.
+
+0. **버전·전략 실행 현황 (2026-10-01 오후)** — 지금 버전 v1.20.0 (VERSIONS.md, release/v1.0.0~v1.20.0 브랜치). v1.3.1~1.3.3 은 사용자 지적 수정: 관심 공고 유주택 '추첨제만', 시·도 검색, 이용 안내 '업데이트 소식'(검증 현황·상세 내역은 운영자용 — 사용자가 물으면 verify-status.json·changelog.json·VERSIONS.md 로 답함).
    v1.6.2~v1.7.3 (2026-10-01 오후): 출산가구 완화 범위(+10%p 확인 가구는 +20%p 가능 → 그 사이 '확인 필요'), 가점 부양가족 설명 법령대로, score_scope(2순위·규제지역 유주택은 가점 안 쓰임 안내),
    세대 주택 명의 모름 → 공공·특공 무주택 '확인 필요', 노부모부양 같은 등본 요건, 화면 문구 전체 점검. 판정 검증 사례 165건.
    판정 정확도 블라인드 감사(tools/qa/audit/, 결과 evidence/audit/2026-10-01/): 무작위 40건 일반공급 34/40 → 원인 분석 후 앱 오류 1건(A40) 고침, 나머지는 감사 프로필 모호함·검토자 오해(가점 무주택기간은 신청자·배우자 기준이 맞음).
