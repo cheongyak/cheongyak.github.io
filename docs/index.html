@@ -456,6 +456,7 @@ body.gm .listing.g-flat .bcol .badge,body.gm .listing.g-unknown .bcol .badge{fon
 /* 기능: detail_tidy */
 .rstats{display:grid;grid-template-columns:repeat(auto-fit,minmax(0,1fr));gap:6px;margin-top:10px} .rstat{display:flex;flex-direction:column;align-items:flex-start;gap:2px;padding:8px 10px;border-radius:10px;border:0;background:var(--surface);color:var(--fg);font:inherit;text-align:left;cursor:pointer;min-width:0}
 .rstat span{font-size:12px;color:var(--muted)} .rstat b{font-size:15px;white-space:nowrap} .pc-rank{display:flex;flex-direction:column;gap:4px;border-top:1px solid var(--line);padding-top:8px} .pc-more .tr-list{margin-top:6px} .mgbare{display:flex;flex-direction:column;gap:10px;margin-top:6px}
+.gsec{border:1px solid var(--line);border-radius:12px;padding:0 12px;margin:4px 0} .gsec>summary{min-height:48px;display:flex;align-items:center;font-weight:700;font-size:14px;cursor:pointer} .gsec[open]>summary{border-bottom:1px solid var(--line);margin-bottom:10px} .gsec .scin,.gsec .compin{display:flex;flex-direction:column;gap:10px;padding-bottom:12px} body.ta details.gsec:not(.sprow):not(.scitem):not(.menudet)>summary{border:0;margin-top:0;padding:8px 0;background:none;color:var(--fg)}
 .gsref-wrap{margin:2px 0 4px} .gsref{border-style:dashed} .ckcard>.row h2{margin:0} .gvpill{font-size:13px}
 .dcta{position:fixed;left:0;right:0;bottom:calc(60px + env(safe-area-inset-bottom,0px));z-index:4;max-width:440px;margin:0 auto;padding:8px 16px 10px;background:linear-gradient(to bottom,transparent,var(--bg) 18%);display:flex;flex-direction:column;gap:6px;text-align:center}
 .dcta-row{display:flex;gap:8px} .dcta-row .btn{min-height:50px;width:auto;flex:1} .dcta-row .btn{padding:0 6px;font-size:14px;white-space:nowrap} .dcta-row .dcta-main{flex:1.6;background:var(--lotto);color:var(--on-fill)} body.has-cta .shell{padding-bottom:190px} body.chat-open .dcta{display:none}
@@ -966,7 +967,7 @@ function scoreCardV2(L, p, r, t){
   const cmp = win2 + (off ? `<div class="note info sccmp"><b>이번 공고에서는 가점이 쓰이지 않아요</b><div class="small">${off}</div></div>`
     : RS && RS.lotteryOnly ? `<div class="note info sccmp"><b>이 주택형은 가점이 쓰이지 않아요</b><div class="small">${esc(RS.ratioTxt)} ${RS.ratioSrc}</div></div>`
     : !has ? '' : !t ? `<div class="small muted sccmp">비교할 당첨 가점 기록이 없어요.${RS && RS.short ? ' 내 지역 순서: ' + esc(RS.short) + '.' : ''}</div>`
-    : RS && splitOn(RS, r) && on('detail_tidy') ? `<div class="note info sccmp"><b>${d >= 0 ? `최근 ${esc(RS.cmpLabel)}보다 ${d}점 높아요` : `최근 ${esc(RS.cmpLabel)}보다 ${-d}점 낮아요`}</b><div class="small">${RS.cmpLabel} ${low}점${avg != null ? ' · 평균 ' + avg + '점' : ''} · ${esc(t.from)} ${t.srcHtml}</div><div class="small">${RS.ratio ? `1순위는 가점제 ${RS.ratio.score}%로 먼저 뽑고, 떨어지면 추첨제 ${RS.ratio.lottery}%에서 한 번 더 뽑아요.` : '1순위는 가점제로 먼저 뽑고, 떨어지면 추첨제에서 한 번 더 뽑아요.'} 내 순서와 근거는 위 ${on('supply_split') ? "일반공급 칸의 '참고 · 뽑는 방식과 내 위치'" : "'공급 유형별 내 자격과 위치'의 일반공급"}에 있어요.</div></div>`   /* 기능: detail_tidy — 같은 ①② 설명을 두 번 쓰지 않음 */
+    : RS && splitOn(RS, r) && on('detail_tidy') ? `<div class="note info sccmp"><b>${d >= 0 ? `최근 ${esc(RS.cmpLabel)}보다 ${d}점 높아요` : `최근 ${esc(RS.cmpLabel)}보다 ${-d}점 낮아요`}</b><div class="small">${RS.cmpLabel} ${low}점${avg != null ? ' · 평균 ' + avg + '점' : ''} · ${esc(t.from)} ${t.srcHtml}</div><div class="small">${RS.ratio ? `1순위는 가점제 ${RS.ratio.score}%로 먼저 뽑고, 떨어지면 추첨제 ${RS.ratio.lottery}%에서 한 번 더 뽑아요.` : '1순위는 가점제로 먼저 뽑고, 떨어지면 추첨제에서 한 번 더 뽑아요.'} 내 순서와 근거는 위 ${on('supply_split') ? (on('score_in_general') ? "'참고 · 뽑는 방식과 내 위치'" : "일반공급 칸의 '참고 · 뽑는 방식과 내 위치'") : "'공급 유형별 내 자격과 위치'의 일반공급"}에 있어요.</div></div>`   /* 기능: detail_tidy — 같은 ①② 설명을 두 번 쓰지 않음 */
     : RS && splitOn(RS, r) ? `<div class="note info sccmp"><b>가점제로 먼저, 떨어지면 추첨제로${RS.short ? ' · ' + esc(RS.short) : ''}</b>${splitRows(L, p, RS, r, d)}<div class="small muted">비교한 당첨 가점: ${esc(t.from)} ${t.srcHtml}</div></div>`
     : RS ? `<div class="note ${d >= 0 ? 'ok' : 'warn'} sccmp"><b>${RS.short ? esc(RS.short) + ' → ' : ''}${RS.cmpLabel}보다 ${Math.abs(d)}점 ${d >= 0 ? '높아요' : '낮아요'}</b>
        <div class="small">${RS.cmpLabel} ${low}점${avg != null ? ' · 평균 ' + avg + '점' : ''} · ${esc(t.from)}</div><div class="small">${esc(RS.order)}${RS.ratioTxt ? ' ' + esc(RS.ratioTxt) : ' 추첨 물량은 가점과 관계없어요.'} ${t.srcHtml}</div>${RS.warn ? `<div class="small st-warn">${esc(RS.warn)}</div>` : ''}</div>`
@@ -2905,6 +2906,7 @@ function checklistV2(L, p, e){
     <div class="note ${tone} ckverdict"><b>${on('supply_summary') && hasProfile() && !SS ? (genLabel(L) + ' · ') : ''}${esc(title)}</b>${sub ? `<div class="small">${esc(sub)}</div>` : ''}${e.fix ? `<div class="small" style="margin-top:4px"><b>다음 공고에 신청하려면</b> · ${esc(e.fix)}</div>` : ''}</div>
     ${fixPanel(L, p, 'gen')}
     ${gref ? `<div class="splist gsref-wrap">${gref}</div>` : ''}
+    <!--GEN_EXTRA-->
     ${fails.length ? `<div class="ckgroup"><div class="ck-h ${e.rank2 ? 'st-warn' : 'st-fail'}">${e.rank2 ? (e.rank2Need ? '1순위만 막는 조건' : '1순위만 막는 조건 (2순위는 신청 가능)') : '문제가 있는 조건'} ${fails.length}개</div>${fails.map(failItem).join('')}</div>` : ''}
     ${nWarn ? `<div class="ckgroup"><div class="ck-h st-warn"><span>확인이 필요한 조건 ${nWarn}</span>${needInput ? '<button class="linkbtn small" data-action="restart">내 조건 입력하기</button>' : ''}</div>
       <div class="ckwarns">${acctPrompt ? `<div class="ckwarn"><div class="ck-top"><span>청약통장 1순위 요건</span><span class="st-warn">입력 필요</span></div><div class="small muted">가입일·예치금(공공은 납입 횟수)을 넣으면 청약통장 1순위 요건을 판정해요</div>${on('inline_fix') ? fixBtn('청약통장', '바로 답하기 · 청약통장') : on('unsure_actions') && stepWithField('acctType') ? `<button class="linkbtn small" data-edit="${esc(stepKey(stepWithField('acctType')))}" style="align-self:flex-start">청약통장 정보 넣기</button>` : ''}<div class="ck-src">${src('supplyRule')}</div></div>` : ''}${warns.map(warnItem).join('')}</div></div>` : ''}
@@ -2995,7 +2997,7 @@ function marginV2(L, m, barCost, barLo, bare){   // bare: 가격 비교 카드 �
 /* 공고 상세 구역 탭 (기능: detail_nav, Jakob·Proximity) — 화면이 길어 요약·자격·가점·경쟁률·마진·위치·제약으로 바로 이동 */
 const D_SECS = [['top', '요약'], ['elig', '자격'], ['score', '가점·경쟁률'], ['margin', '마진'], ['loc', '위치·제약']];
 const dAnchor = k => on('detail_nav') ? `<div class="danchor" id="sec-${k}" aria-hidden="true"></div>` : '';
-const dSecs = () => D_SECS.filter(([k]) => !(k === 'margin' && on('detail_tidy') && on('price_compare'))).flatMap(x => x[0] === 'elig' && on('supply_split') ? [['elig', '일반공급'], ['sp', '특별공급']] : [x]);   // 기능: supply_split — 자격 탭을 일반공급·특별공급으로   // 기능: detail_tidy — 마진은 요약의 가격 비교 카드 안으로
+const dSecs = () => D_SECS.filter(([k]) => !(k === 'margin' && on('detail_tidy') && on('price_compare')) && !(k === 'score' && on('score_in_general') && on('supply_split'))).flatMap(x => x[0] === 'elig' && on('supply_split') ? [['elig', '일반공급'], ['sp', '특별공급']] : [x]);   // 기능: supply_split — 자격 탭을 일반공급·특별공급으로   // 기능: detail_tidy — 마진은 요약의 가격 비교 카드 안으로
 const dNav = () => on('detail_nav') ? `<nav class="dnav" aria-label="이 공고 구역">${dSecs().map(([k, t]) => `<button type="button" data-sec="${k}"${k === 'top' ? ' aria-current="true"' : ''}>${t}</button>`).join('')}</nav>` : '';
 function dNavSync(){   // 스크롤 위치에 맞춰 지금 구역 표시
   const nav = app.querySelector('.dnav'); if (!nav) return;
@@ -3038,7 +3040,7 @@ function vDetail(){
       const spR = spTypesFor(L).map(t => spJudge(L, p, t).s), spOk = spR.filter(x => x === 'ok').length, spW = spR.filter(x => x === 'warn').length;
       const cell = (k, v, cls, attr) => `<button class="rstat" ${attr}><span>${k}</span><b class="${cls}">${v}</b></button>`;
       const sc = on('score') && L.houseDtl !== '국민' ? myScore(L, p) : null;   /* 마진은 바로 아래 가격 비교 카드에 크게 있으니 여기엔 가점을 */
-      return `<div class="rstats">${sc ? cell('내 가점', sc.total == null ? '입력 필요' : sc.total + '점', sc.total == null ? 'st-warn' : '', 'data-sec="score"') : ''}${cell('자금 (' + (o.mode === 'live' ? '대출' : '전세') + ')', gap > 0 ? fmt(gap) + ' 부족' : '가능', gap > 0 ? 'st-warn' : 'st-ok', 'data-go="plan"')}${spR.length ? cell('특별공급', spOk ? '가능 ' + spOk : spW ? '확인 ' + spW : '불가', spOk ? 'st-ok' : spW ? 'st-warn' : 'st-fail', on('supply_split') ? 'data-sec="sp"' : 'data-sec="elig"') : ''}</div>`; })() : mine}</section>`; })() : ''}
+      return `<div class="rstats">${sc ? cell('내 가점', sc.total == null ? '입력 필요' : sc.total + '점', sc.total == null ? 'st-warn' : '', on('score_in_general') && on('supply_split') ? 'data-sec="elig"' : 'data-sec="score"') : ''}${cell('자금 (' + (o.mode === 'live' ? '대출' : '전세') + ')', gap > 0 ? fmt(gap) + ' 부족' : '가능', gap > 0 ? 'st-warn' : 'st-ok', 'data-go="plan"')}${spR.length ? cell('특별공급', spOk ? '가능 ' + spOk : spW ? '확인 ' + spW : '불가', spOk ? 'st-ok' : spW ? 'st-warn' : 'st-fail', on('supply_split') ? 'data-sec="sp"' : 'data-sec="elig"') : ''}</div>`; })() : mine}</section>`; })() : ''}
   ${chatEntry(L)}
   ${on('price_compare') ? priceCompare(L, m) : `  <div class="hero g-${m.g}${on('detail_result_first') ? ' hero-sm' : ''}">
     <div class="row"><span class="small" style="font-weight:600;opacity:.85">${on('detail_result_first') ? '마진 등급' : '청약 판정'}</span><button class="linkbtn small" data-go="grades" style="color:inherit">등급 기준</button></div>
@@ -3058,6 +3060,15 @@ function vDetail(){
     ${e.items.map(i => `<div class="row"><span>${esc(i.k)}${i.note ? `<br><span class="small muted">${esc(i.note)}</span>` : ''}<br>${itemSrc(L, i.k)}</span><span class="${stCls(i.s)}">${esc(i.v)}</span></div>`).join('')}
   </div>
   <div class="small muted">내 조건 ${src('user')} · 판정 기준 ${src('supplyRule')}</div></section>`, sp: specialCard(L), inel: ineligCard(L, p, e), spc: specialCountCard(L) };
+    if (on('score_in_general') && on('supply_split') && A.check.includes('<!--GEN_EXTRA-->')) {   /* 기능: score_in_general — 내 청약 가점·근처 경쟁률을 일반공급 칸 안으로 (2026-10-02 사용자 요청) */
+      const inner = h => h.replace(/^\s*<section class="card[^"]*">\s*(<div class="row"><h2>[\s\S]*?<\/h2>[\s\S]*?<\/div>|<h2>[\s\S]*?<\/h2>)/, '').replace(/<\/section>\s*$/, '');
+      const r0 = A.score ? myScore(L, p) : null, rs0 = r0 && hasProfile() ? regionScore(L, p) : null, t0 = r0 ? (rs0 ? rs0.t : scoreTarget(L)) : null;
+      const sSum = !r0 ? '' : r0.total == null ? '내 가점 · 계산 전 (' + r0.miss.join(', ') + ' 입력 필요)' : `내 가점 ${r0.total}점 / 84` + (t0 && t0.low != null ? ` · 최근 ${rs0 ? rs0.cmpLabel : '당첨 최저'} ${t0.low}점` : '');
+      const nComp = (L.areaComps || []).length;
+      A.check = A.check.replace('<!--GEN_EXTRA-->', (A.score ? `<details class="gsec" open><summary>${esc(sSum)}</summary><div class="sccard scin">${inner(A.score)}</div></details>` : '')
+        + (A.comp ? `<details class="gsec"><summary>근처 최근 경쟁률${nComp ? ' · ' + nComp + '곳' : ''}</summary><div class="compin">${inner(A.comp)}</div></details>` : ''));
+      A.score = ''; A.comp = '';
+    }
     return on('detail_nav') ? dAnchor('elig') + A.check + (on('supply_split') ? dAnchor('sp') : '') + A.sp + A.inel + (on('detail_tidy') ? '' : A.spc) + dAnchor('score') + A.score + A.comp : A.comp + A.score + A.check + A.sp + A.inel + A.spc; })()}
   ${on('detail_tidy') && on('price_compare') ? '' : dAnchor('margin')}
   ${on('detail_tidy') && on('price_compare') ? '' : on('margin_v2') ? marginV2(L, m, barCost, barLo) : `<section class="card"><h2>마진 계산</h2>
