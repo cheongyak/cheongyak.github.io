@@ -504,7 +504,7 @@ function loadNaver(){
 function showMapFail(el){ el.innerHTML = `<div class="mapfail">${esc(MAP_FAIL || '지도를 불러오지 못했어요. 아래 네이버 지도 링크로 보세요.')}</div>`; }
 const mapReady = () => on('naver_map') && !!CONFIG.naver_map_key && LISTINGS.some(L => L.geo);
 const naverMapUrl = L => 'https://map.naver.com/p/search/' + encodeURIComponent(L.mapQuery || L.address || L.name);
-const shortName = n => (n || '').replace(/\([^)]*\)/g, '').trim().slice(0, 12);
+const shortName = n => { const t = (n || '').replace(/\([^)]*\)/g, '').trim(); return t.length > 12 ? t.slice(0, 11) + '…' : t; };
 const distText = m => m < 1000 ? m + 'm' : (m / 1000).toFixed(1) + 'km';
 function mkIcon(html){ return { content: html, anchor: new window.naver.maps.Point(0, 0) }; }
 function initFeedMap(el, list){
@@ -560,6 +560,7 @@ const S = { view:'feed', step:0, id:null, filter:'all', f: Object.assign({}, F0)
 
 /* ---------- 계산 엔진 ---------- */
 const eok = v => v/10000; // 만원 -> 억
+const josaIGa = w => hasBatchim(w) ? '이' : '가', josaEunNeun = w => hasBatchim(w) ? '은' : '는';
 const eulReul = w => { const t = String(w), c = t.charCodeAt(t.length - 1) - 0xAC00; return t + (c >= 0 && c <= 11171 && c % 28 !== 0 ? '을' : '를'); };   // 받침 따라 을/를
 function fmt(v){ // 억 단위 숫자 -> 표기
   const s = v < 0 ? '−' : ''; const a = Math.abs(v);
@@ -584,7 +585,7 @@ const GNAME = new Proxy(GNAME_BASE, { get: (o, k) => (k === 'pass' && on('grade_
 const GORDER = { lotto:0, consider:1, flat:2, pass:3, unknown:4 };
 function marginText(m){
   if (m.g === 'unknown') return '시세 확인 필요';
-  if (m.g === 'pass') return '마진 ' + fmt(m.hi) + ' ~ ' + fmt(m.lo);
+  if (m.g === 'pass') { const [x, y] = [m.lo, m.hi].sort((a, b) => a - b); return '마진 ' + (x >= 0 ? '+' : '') + fmt(x) + ' ~ ' + (y >= 0 ? '+' : '') + fmt(y); }
   const a = (m.lo >= 0 ? '+' : '') + fmt(m.lo), b = (m.hi >= 0 ? '+' : '') + fmt(m.hi);
   return '마진 ' + a + '~' + b.replace('+','');
 }
@@ -617,7 +618,7 @@ function publicItems(L, p){
     out.push({ k:'통장 종류 (공공분양)', s:'fail', v:{deposit:'청약예금', bugeum:'청약부금', saving:'청약저축'}[p.acctType] || p.acctType,
       note:'LH 공공분양은 주택청약종합저축으로 신청해요. 종전 통장은 공고 전일까지 전환하면 신청할 수 있어요 (청약저축은 납입 실적 합산, 예금·부금은 전환일부터 인정)', src:'notice' });
   out.push({ k:'납입 인정 횟수 (' + (town ? '신혼희망타운' : '국민 1순위') + ')', r1: !town, s: p.acctCount == null ? 'warn' : p.acctCount >= need ? 'ok' : 'fail',
-    v: p.acctCount == null ? '입력 필요' : p.acctCount + '회 / ' + need + '회 필요',
+    v: p.acctCount == null ? '입력 필요' : '내 ' + p.acctCount + '회 · ' + need + '회 필요',
     note: (fromN ? '' : '공고문에서 못 읽어 지역 기준으로 추정 · ') + '청약홈 순위(가입)확인서의 납입 인정 회차', src: fromN ? 'notice' : 'estimate' });
   if (!town) out.push({ k:'당첨자 선정 (국민 1순위 경쟁 시)', s:'na', v: p.acctPaid == null ? '인정 금액 입력 필요' : '내 인정 금액 ' + p.acctPaid.toLocaleString() + '만',
     note:'3년 이상 무주택세대구성원 중 저축총액(한 달 최대 25만원까지 인정)이 많은 순, 그다음 저축총액 순이에요. 공고별 당첨 커트라인 금액은 공개 데이터가 없어 비교하지 않아요', src:'notice' });
@@ -628,15 +629,15 @@ function accountItems(L, p){ // 청약통장 1순위 요건 (기능: account_rul
   const out = [], ref = L.notice || TODAY, minyoung = L.houseDtl !== '국민';
   if (p.acctType === 'none') return [{ k:'청약통장', s:'fail', v:'없음', note:'1순위·2순위 모두 청약통장이 필요해요' }];
   const m = monthsBetween(p.acctSince, ref), [need, fromN] = acctNeedMonths(L);
-  out.push({ k:'청약통장 가입기간', r1:true, s: m == null ? 'warn' : m >= need ? 'ok' : 'fail', v: m == null ? '가입일 입력 필요' : m + '개월 / ' + need + '개월 필요',
+  out.push({ k:'청약통장 가입기간', r1:true, s: m == null ? 'warn' : m >= need ? 'ok' : 'fail', v: m == null ? '가입일 입력 필요' : '내 ' + m + '개월 · ' + need + '개월 필요',
     note: (fromN ? '' : '공고문에서 못 읽어 지역 기준으로 추정 · ') + '공고일 ' + ref.replace(/-/g, '.') + ' 기준', src: fromN ? 'notice' : 'estimate' });
   if (minyoung) {
     if (p.acctType === 'saving') out.push({ k:'통장 종류 (민영)', r1:true, s:'fail', v:'청약저축', note:'청약저축으로는 민영주택에 넣을 수 없어요. 공고 전일까지 청약예금으로 전환하면 가능해요', src:'notice' });
     else if (p.acctType === 'bugeum' && (L.area || 0) > 85) out.push({ k:'통장 종류 (민영)', r1:true, s:'fail', v:'청약부금', note:'청약부금은 전용 85㎡ 이하 주택형만 넣을 수 있어요', src:'notice' });
     const d = depositNeed(L, p);
     out.push({ k:'예치금 (민영)', r1:true, s: !d ? 'warn' : (p.acctAmount || 0) >= d.need ? 'ok' : 'fail',
-      v: !d ? '거주 지역 입력 필요' : (p.acctAmount || 0).toLocaleString() + '만 / ' + d.need.toLocaleString() + '만 필요',
-      note: d ? '전용 ' + Math.round(d.a) + '㎡ · ' + HOME_AREA[d.g] + ' 거주 기준 · 공고일까지 채우면 돼요' : '', src:'deposit' });
+      v: !d ? '거주 지역 입력 필요' : '내 ' + (p.acctAmount || 0).toLocaleString() + '만 · ' + d.need.toLocaleString() + '만 필요',
+      note: d ? '전용 ' + Math.round(d.a) + '㎡ · ' + HOME_AREA[d.g] + ' 거주 기준 · 예치금은 공고일까지 채우면 돼요' : '', src:'deposit' });
   } else if (on('public_deposit')) {
     out.push(...publicItems(L, p));
   } else {
@@ -721,19 +722,19 @@ function scoreCardV2(L, p, r, t){
   const scale = `<div class="scscale" role="img" aria-label="84점 중 내 가점 ${has ? r.total : '미계산'}${low != null ? ', 당첨 최저 ' + low : ''}${avg != null ? ', 평균 ' + avg : ''}">
       <div class="sc-track">${has ? `<i class="sc-fill" style="width:${pct(r.total)}"></i>` : ''}${low != null ? `<i class="sc-mk low" style="left:${pct(low)}"></i>` : ''}${avg != null ? `<i class="sc-mk avg" style="left:${pct(avg)}"></i>` : ''}</div>
       <div class="sc-axis"><span>0</span><span>42</span><span>84</span></div>
-      ${low != null || avg != null ? `<div class="legend"><span><i style="background:var(--fg)"></i>내 가점${has ? ' ' + r.total : ''}</span>${low != null ? '<span><i style="background:var(--warn-ink)"></i>당첨 최저 ' + low + '</span>' : ''}${avg != null ? '<span><i style="background:var(--consider)"></i>당첨 평균 ' + avg + '</span>' : ''}</div>` : ''}</div>`;
+      ${low != null || avg != null ? `<div class="legend"><span><i style="background:var(--fg)"></i>내 가점${has ? ' ' + r.total + '점' : ''}</span>${low != null ? '<span><i style="background:var(--warn-ink)"></i>당첨 최저 ' + low + '점</span>' : ''}${avg != null ? '<span><i style="background:var(--consider)"></i>당첨 평균 ' + avg + '점</span>' : ''}</div>` : ''}</div>`;
   /* 이 공고에서 가점이 쓰이지 않는 경우 (기능: score_scope, 2026-10-01): 2순위만 가능 → 제28조⑨ '제2순위에서 경쟁이 있는 경우에는 추첨',
      규제지역 유주택 → 1순위 가점제 대상이 아니라 추첨 물량만. 이때는 당첨 최저 비교 대신 이 안내를 보여준다 */
   const e = on('score_scope') ? eligibility(L, p) : null, ownI = e && e.items.find(i => i.k === '무주택 세대' && i.owns);
-  const off = e && !e.ok && e.rank2 ? '이 공고는 2순위로만 신청할 수 있어요. 2순위는 가점 없이 추첨으로 뽑아서(주택공급에 관한 규칙 제28조⑨) 아래 가점은 이번 공고에 쓰이지 않아요. 1순위 요건을 채우면 쓰이는 점수예요.'
-    : ownI && L.regulated ? '집이 있어 이 공고에서는 가점제가 아니라 추첨 물량으로만 뽑혀요. 아래 가점은 이번 공고에 쓰이지 않아요.' : '';
+  const off = e && !e.ok && e.rank2 ? '지금 조건으로는 이 공고에 2순위로만 신청할 수 있어요. 2순위는 가점 없이 추첨으로 뽑아서(주택공급에 관한 규칙 제28조⑨) 아래 가점은 이번 공고에 쓰이지 않아요. 1순위로 신청하는 공고에서 쓰이는 점수예요.'
+    : ownI && L.regulated ? '집이 있어 이 공고에서는 가점제가 아니라 추첨 물량으로만 신청할 수 있어요. 아래 가점은 이번 공고에 쓰이지 않아요.' : '';
   const cmp = off ? `<div class="note info sccmp"><b>이번 공고에서는 가점이 쓰이지 않아요</b><div class="small">${off}</div></div>` : !has ? '' : !t ? `<div class="small muted sccmp">비교할 당첨 가점 기록이 없어요.</div>`
     : `<div class="note ${d >= 0 ? 'ok' : 'warn'} sccmp"><b>${d >= 0 ? '당첨 최저보다 ' + d + '점 높아요' : '당첨 최저보다 ' + (-d) + '점 낮아요'}</b>
        <div class="small">최저 ${low}점${avg != null ? ' · 평균 ' + avg + '점' : ''} · ${esc(t.from)}</div><div class="small">가점제 물량 기준이에요. 추첨 물량은 가점과 관계없어요. ${t.srcHtml}</div></div>`;
   const items = r.parts.map(x => { const room = x.v == null ? null : x.max - x.v;
     return `<details class="scitem"><summary><div class="sc-row"><span>${x.k}</span><b>${x.v == null ? '<span class="st-warn">입력 필요</span>' : x.v + '<span class="muted"> / ' + x.max + '</span>'}</b></div>
       <div class="sc-mini"><i style="width:${x.v == null ? 0 : (x.v / x.max * 100).toFixed(1)}%"></i></div>
-      <div class="small muted">${room == null ? '' : room === 0 ? '최대 점수예요' : '최대까지 ' + room + '점 · ' + (SCORE_GROW[x.k] || '')}</div></summary>
+      <div class="small muted">${room == null ? '' : room === 0 ? '최대 점수예요' : '만점까지 ' + room + '점 · ' + (SCORE_GROW[x.k] || '')}</div></summary>
       <div class="small sc-note">${esc(x.note || '입력한 값이 없어 계산하지 못했어요')}</div></details>`; }).join('');
   return `<section class="card sccard"><div class="row"><h2>내 청약 가점</h2><span class="small muted">추정 · 민영 1순위 가점제</span></div>
     <div class="sctotal">${has ? `<b>${r.total}</b><span class="muted">점 / 84</span>` : '<b style="font-size:22px">계산 전</b><span class="muted">/ 84점</span>'}</div>
@@ -798,17 +799,17 @@ function residenceItem(L, p){
   const SORD = ['서울', '경기', '인천'], otherTxt = nation ? '전국' : others.slice().sort((a, b) => (SORD.indexOf(a) + 1 || 99) - (SORD.indexOf(b) + 1 || 99)).join('·');
   if (R.equal) {   // 무순위·재공급: 지역 안에서는 순서 없이 추첨
     const inA = R.area ? inResArea(R.area, L, p) : false;
-    if (inA === null && !inOther) return { k, s:'warn', v:'사는 시·군 입력 필요', note: areaName + ' 거주자만 신청할 수 있어요' };
+    if (inA === null && !inOther) return { k, s:'warn', v:'시·군 입력 필요', note: areaName + ' 거주자만 신청할 수 있어요' };
     if (inA || inOther) return { k, s:'ok', v:'신청 가능', note:'공고일 현재 ' + (nation ? '전국' : [areaName, ...others].filter(Boolean).join('·')) + ' 거주자 대상 (거주기간 요건 없음)' };
     return { k, s:'fail', v:'신청 불가', note:'공고일 현재 ' + [areaName, ...others].filter(Boolean).join('·') + ' 거주자만 신청할 수 있어요 (지금 ' + homeLabel(p) + ')' };
   }
   const inA = R.area ? inResArea(R.area, L, p) : false;
   let short = '';
-  if (inA === null) return { k, s:'warn', v:'사는 시·군 입력 필요', note:'해당지역은 ' + areaName + (R.months ? ' ' + R.months / 12 + '년 이상 거주자' : ' 거주자') + '예요' };
+  if (inA === null) return { k, s:'warn', v:'시·군 입력 필요', note: areaName + (R.months ? ' ' + R.months / 12 + '년 이상 거주자' : ' 거주자') + '가 해당지역이에요' };
   if (inA) {
     if (!R.months) return { k, s:'ok', v:'해당지역', note: areaName + ' 거주자 우선 (거주기간 요건 없음).' + quota };
     const since = R.area.sigungu ? p.areaSince : p.sidoOwnSince;
-    if (!since) return { k, s:'warn', v:'해당지역 · 전입일 입력 필요', note:'해당지역 우선은 ' + areaName + ' ' + R.months / 12 + '년 이상 거주자 (' + shortDate(R.since) + ' 이전부터 계속 거주)예요.' + quota };
+    if (!since) return { k, s:'warn', v:'해당지역 · 전입일 입력 필요', note:'해당지역 우선 대상은 ' + areaName + ' ' + R.months / 12 + '년 이상 거주자(' + shortDate(R.since) + ' 이전부터 계속 거주)예요.' + quota };
     if (!R.since || since <= R.since) return { k, s:'ok', v:'해당지역 (' + R.months / 12 + '년 이상)', note: areaName + ' ' + shortDate(since) + '부터 거주 · 기준 ' + shortDate(R.since) + ' 이전.' + quota };
     short = areaName + ' 거주기간이 ' + R.months / 12 + '년에 못 미쳐요 (' + shortDate(R.since) + ' 이전 전입이어야 해당지역). ';
   }
@@ -818,7 +819,7 @@ function residenceItem(L, p){
     if (since <= g.since) return { k, s:'ok', v:'기타경기 (경기 ' + g.months + '개월 이상)', note: short + '해당지역 다음으로 경기도 거주자 몫에서 뽑아요.' + quota };
   }
   if (inOther || inA) return { k, s:'ok', v:'기타지역 (해당지역 다음)', note: short + '같은 순위에서 해당지역 거주자가 먼저예요. 경쟁이 있으면 기회가 적어요. 기타지역: ' + otherTxt + '.' + quota };
-  return { k, s:'fail', v:'신청 불가', note:'해당지역 ' + areaName + (otherTxt ? ' · 기타지역 ' + otherTxt : '') + ' 거주자만 신청할 수 있어요 (지금 ' + homeLabel(p) + ')' };
+  return { k, s:'fail', v:'신청 불가', note:(otherTxt ? '해당지역(' + areaName + ')과 기타지역(' + otherTxt + ')' : areaName) + ' 거주자만 신청할 수 있어요 (지금 ' + homeLabel(p) + ')' };
 }
 function pendingChecks(L, p){ // 아직 판정하지 않는 항목 (기능이 늘면 줄어든다)
   const acct = accountItems(L, p), out = [];
@@ -862,7 +863,7 @@ function townAssetParts(p){
 function townAssetItem(pl, p, relax){
   const k = '총자산 (신혼희망타운)', miss = TOWN_ASSET_FIELDS.filter(([f]) => p[f] == null || p[f] === '').map(([, n]) => n);
   if (miss.length) return { k, s:'warn', v:'총자산 정보 입력 필요', cause:'A', edit:'town', editLabel:'총자산 정보 넣기',
-    note:'총자산 = 부동산 + 금융자산 + 기타자산 + 자동차 − 부채가 ' + manW(pl.total_asset) + ' 이하여야 해요. 아직 넣지 않은 값: ' + miss.join(', ') + ' (없으면 0)' };
+    note:'총자산(부동산 + 금융자산 + 기타자산 + 자동차 − 부채)이 ' + manW(pl.total_asset) + ' 이하여야 해요. 아직 넣지 않은 값: ' + miss.join(', ') + ' (없으면 0으로 넣어 주세요)' };
   const a = townAssetParts(p), tot = a.total, base = pl.total_asset, r1 = pl.total_asset_relax ? pl.total_asset_relax[0] : null, r2 = pl.total_asset_relax ? pl.total_asset_relax[1] : null;
   const calc = '부동산 ' + manW(a.realEstate) + ' + 금융자산 ' + manW(a.fin) + ' + 기타자산 ' + manW(a.other) + ' + 자동차 ' + manW(a.car) + ' − 부채 ' + manW(a.debt) + ' = ' + (tot < 0 ? '−' + manW(-tot) : manW(tot));
   if (tot <= base) return { k, s:'ok', v:'충족', note: calc + ' · 기준 ' + manW(base) + ' 이하' };
@@ -885,13 +886,13 @@ function townItems(L, p){
     else if (kid6) out.push({ k:'신청 유형 (신혼희망타운)', s:'ok', v:'신혼부부 (6세 이하 자녀)', note:'혼인 7년이 지났어도 6세 이하 자녀(태아 포함)가 있으면 신청할 수 있어요' });
     else if (!p.marriedOn) out.push({ k:'신청 유형 (신혼희망타운)', s:'warn', v:'혼인신고일 입력 필요', note:'혼인 7년 이내이거나 6세 이하 자녀가 있어야 해요', cause:'A' });
     else if (p.kidsMinor == null && p.pregnant == null) out.push({ k:'신청 유형 (신혼희망타운)', s:'warn', v:'자녀 정보 입력 필요', note:'혼인 7년이 지났으면 6세 이하 자녀(태아 포함)가 있어야 해요', cause:'A' });
-    else out.push({ k:'신청 유형 (신혼희망타운)', s:'fail', v:'혼인 7년 초과 · 6세 이하 자녀 없음', note:'신혼희망타운 신혼부부는 혼인 7년 이내이거나 6세 이하 자녀(태아 포함)가 있어야 해요 (공고문 신청자격 표)' });
+    else out.push({ k:'신청 유형 (신혼희망타운)', s:'fail', v:'혼인 7년 초과 · 6세 이하 자녀 없음', note:'신혼희망타운 신혼부부는 혼인 7년 이내이거나 6세 이하 자녀(태아 포함)가 있어야 해요 · 공고문 신청자격 표 기준' });
   } else if (p.married === false && on('town_assets') && p.townType) {   // 예비신혼부부·한부모가족 여부 (기능: town_assets)
     if (p.townType === 'pre') out.push({ k:'신청 유형 (신혼희망타운)', s:'ok', v:'예비신혼부부', note:'입주 전까지 혼인사실을 증명해야 해요. 소득·총자산은 혼인으로 구성될 세대(예비 배우자 포함) 기준이에요' });
     else if (p.townType === 'single') out.push(kid6 ? { k:'신청 유형 (신혼희망타운)', s:'ok', v:'한부모가족 (6세 이하 자녀)', note:'6세 이하 자녀(태아 포함)를 둔 부 또는 모' }
       : p.kidsMinor == null && p.pregnant == null ? { k:'신청 유형 (신혼희망타운)', s:'warn', v:'자녀 정보 입력 필요', cause:'A', note:'한부모가족은 6세 이하 자녀(태아 포함)가 있어야 해요' }
-      : { k:'신청 유형 (신혼희망타운)', s:'fail', v:'6세 이하 자녀 없음', note:'한부모가족 유형은 6세 이하 자녀(태아 포함)를 둔 부 또는 모만 신청할 수 있어요 (공고문 신청자격 표)' });
-    else out.push({ k:'신청 유형 (신혼희망타운)', s:'fail', v:'신청 유형에 해당 없음', note:'신혼희망타운은 신혼부부·예비신혼부부·한부모가족만 신청할 수 있어요 (공고문 신청자격 표)' });
+      : { k:'신청 유형 (신혼희망타운)', s:'fail', v:'6세 이하 자녀 없음', note:'한부모가족 유형은 6세 이하 자녀(태아 포함)를 둔 부 또는 모만 신청할 수 있어요 · 공고문 신청자격 표 기준' });
+    else out.push({ k:'신청 유형 (신혼희망타운)', s:'fail', v:'신청 유형에 해당 없음', note:'신혼희망타운은 신혼부부·예비신혼부부·한부모가족만 신청할 수 있어요 · 공고문 신청자격 표 기준' });
   } else if (p.married === false) out.push({ k:'신청 유형 (신혼희망타운)', s:'warn', v: kid6 ? '한부모가족이면 가능' : '예비신혼부부면 가능', cause:'A', edit: on('town_assets') ? 'town' : undefined, editLabel:'해당 유형 고르기',
       note: kid6 ? '6세 이하 자녀(태아 포함)를 둔 한부모가족이거나, 입주 전까지 혼인을 증명할 예비신혼부부면 신청할 수 있어요' : '입주 전까지 혼인사실을 증명할 수 있는 예비신혼부부면 신청할 수 있어요 (소득·자산은 혼인으로 구성될 세대 기준)' });
   else out.push({ k:'신청 유형 (신혼희망타운)', s:'warn', v:'혼인 여부 입력 필요', note:'신혼부부·예비신혼부부·한부모가족만 신청할 수 있어요', cause:'A' });
@@ -945,12 +946,12 @@ function pubGeneralItems(L, p){
     if (m <= spAmt(n, cap)) out.push({ k:'소득 (공공 일반공급)', s:'ok', v: pri != null && m > spAmt(n, pri) ? '충족 · 추첨공급만' : '충족', note: base + (pri != null && m > spAmt(n, pri) ? ' · 우선공급 상한 ' + pri + '%를 넘어 3단계 추첨공급만 해당' : '') });
     else if (m > spAmt(n, cap + rHi)) out.push({ k:'소득 (공공 일반공급)', s:'fail', v:'기준 초과', note: base + (rHi ? ' · 출산가구 완화(+20%p)를 적용해도 초과' : '') });
     else if (rLo && m <= spAmt(n, cap + rLo)) out.push({ k:'소득 (공공 일반공급)', s:'ok', v:'충족 (출산가구 완화)', note: base + ' · 2023.3.28 이후 출생 자녀·태아로 +' + rLo + '%p 완화 적용. 공고문의 완화 기준과 증빙을 확인하세요' });
-    else out.push({ k:'소득 (공공 일반공급)', s:'warn', v:'출산가구 완화 확인 필요', note: base + ' · 기준은 넘지만 ' + rNote + '. 해당하면 신청할 수 있어요' });
+    else out.push({ k:'소득 (공공 일반공급)', s:'warn', v:'출산가구 완화 확인 필요', note: base + ' · 상한을 넘지만 ' + rNote + '. 해당하면 신청할 수 있어요' });
   }
   // 자산 (부동산 + 자동차)
   const lim = (v, k) => Math.round(v * (1 + k / 100)), re = p.realEstate, car = p.carValue, miss = [];
   if (re == null || re === '') miss.push('부동산'); if (car == null || car === '') miss.push('자동차');
-  if (miss.length) out.push({ k:'자산 (공공 일반공급)', s:'warn', v: miss.join('·') + ' 입력 필요', note:'부동산 ' + manW(pl.real_estate) + ' · 자동차 ' + manW(pl.car) + ' 이하여야 해요 (없으면 0)' });
+  if (miss.length) out.push({ k:'자산 (공공 일반공급)', s:'warn', v: miss.join('·') + ' 입력 필요', note:'부동산 ' + manW(pl.real_estate) + ' · 자동차 ' + manW(pl.car) + ' 이하여야 해요 (없으면 0으로 넣어 주세요)' });
   else {
     const over = [], soft = [];
     [['부동산', re, pl.real_estate], ['자동차', car, pl.car]].forEach(([nm, v, b]) => {
@@ -984,8 +985,8 @@ function eligibility(L, p){
   const hhOwnUnknown = (p.hhHomes === '1' || p.hhHomes === '2+') && !own.length && !(p.household === 'parents' && p.parentsOwn && p.parents60);
   if (!own.length && (p.selfOwn == null || !p.household)) items.push({ k:'무주택 세대', s:'warn', v:'입력 필요', note:'집 보유와 세대 구성을 넣으면 판정해요' });
   else if (hhOwnUnknown && on('owner_lottery') && L.houseDtl === '민영' && L.category === 'general' && L.needAccount)   // 민영 일반공급 1순위는 유주택 세대도 신청 가능 — 가점제·추첨 여부만 명의에 따라 달라짐
-    items.push({ k:'무주택 세대', s:'ok', v:'세대 주택 있음 · 1순위 신청 가능', note:'세대 전체 주택이 ' + (p.hhHomes === '1' ? '1채' : '2채 이상') + '라고 했지만 본인·배우자 명의는 아니에요. 만 60세 이상 부모님(배우자 부모님 포함) 명의면 무주택으로 봐서 가점제·특별공급도 돼요. 그 밖의 세대원 명의면 유주택 세대라 ' + (L.regulated ? '가점제가 아닌 추첨제로만 뽑히고' : '무주택기간 0점이고') + ' 특별공급은 신청할 수 없어요.' });
-  else if (hhOwnUnknown) items.push({ k:'무주택 세대', s:'warn', cause:'A', v:'세대 주택 확인 필요', note:'세대 전체 주택이 ' + (p.hhHomes === '1' ? '1채' : '2채 이상') + '라고 했지만 본인·배우자 명의는 아니에요. 만 60세 이상 부모님(배우자 부모님 포함) 명의면 무주택으로 봐요(노부모부양 특별공급은 제외). 그 밖의 세대원 명의면 무주택 세대가 아니에요.' });
+    items.push({ k:'무주택 세대', s:'ok', v:'세대 주택 있음 · 1순위 신청 가능', note:'세대 전체 주택을 ' + (p.hhHomes === '1' ? '1채' : '2채 이상') + '로 입력했고, 본인·배우자 명의는 아니에요. 만 60세 이상 부모님(배우자 부모님 포함) 명의면 무주택으로 봐서 가점제·특별공급도 돼요. 그 밖의 세대원 명의면 유주택 세대라 ' + (L.regulated ? '가점제가 아닌 추첨제로만 뽑히고' : '무주택기간 0점이고') + ' 특별공급은 신청할 수 없어요.' });
+  else if (hhOwnUnknown) items.push({ k:'무주택 세대', s:'warn', cause:'A', v:'세대 주택 확인 필요', note:'세대 전체 주택을 ' + (p.hhHomes === '1' ? '1채' : '2채 이상') + '로 입력했고, 본인·배우자 명의는 아니에요. 만 60세 이상 부모님(배우자 부모님 포함) 명의의 주택은 무주택으로 봐요(노부모부양 특별공급은 제외). 그 밖의 세대원 명의면 무주택 세대가 아니에요.' });
   else if (own.length && on('owner_lottery') && L.houseDtl === '민영' && L.category === 'general' && L.needAccount) {
     /* 유주택 세대의 민영주택 일반공급 (기능: owner_lottery). 무주택은 특별공급·공공분양·가점 점수의 요건이지 민영 1순위 자격 요건이 아니다.
        근거: 광명 2026000453·서울 2026000399(규제지역) '투기과열지구 및 청약과열지역에서 공급하는 경우 1주택 이상 소유한 세대에 속한 분은 1순위 가점제 청약이 불가',
@@ -1037,7 +1038,7 @@ function eligibility(L, p){
     if (fails.some(i => i.k === '세대주')) {
       fix = p.household === 'parents' && p.parents60
         ? '부모님이 모두 만 60세 이상이라 세대주를 본인으로 바꾸기만 하면 무주택 세대주가 돼요 (이번 공고에는 반영되지 않아요).'
-        : '다음 공고의 모집공고일 전에 세대주가 되어 두세요. 전입신고로 세대를 만들 때는 실제로 살아야 해요.';
+        : '다음 공고의 모집공고일 전까지 세대주가 되어 있어야 해요. 전입신고로 세대를 만들 때는 실제로 살아야 해요.';
     }
   }
   const rank2 = fails.length > 0 && fails.every(i => i.r1);   // 1순위 요건만 못 채움 → 2순위 신청은 가능
@@ -1078,7 +1079,7 @@ function jeonseCheck(L){
   if (L.regulated && L.capital) add('cond', '수도권 규제지역이라 세입자가 소유권이전 조건부 전세대출을 쓰기 어려워요. 보증금을 현금으로 낼 수 있는 세입자만 받을 수 있어서 보증금을 낮게 잡는 게 안전해요.');
   else if (L.unregistered) add('info', '입주 직후엔 등기 전이라 세입자 전세대출 심사가 까다로울 수 있어요. 은행에 미리 확인하세요.');
   if (L.regulated) add('info', '규제지역에서 주담대를 받으면 6개월 안에 전입해야 해요. 잔금대출과 전세를 함께 쓸 수는 없어요.');
-  else add('info', '비규제지역이라 전입 의무가 없어요. 다만 선순위 대출이 있으면 세입자가 꺼려서 보증금이 낮아져요.');
+  else add('info', '비규제지역이라 전입 의무가 없어요. 다만 선순위 대출이 있으면 세입자가 꺼려서 보증금이 낮아질 수 있어요.');
   if (L.landPermit) add('info', '토지거래허가구역이지만 최초 분양계약은 허가 대상이 아니에요. 나중에 팔 때는 매수자에게 실거주 의무가 붙어요.');
   if (L.jeonseWeak) add('cond', '전세 수요가 약한 지역이에요. 입주장에 세입자를 못 구하면 잔금을 못 치를 수 있어요.');
   return { status, reasons: R };
@@ -1189,7 +1190,7 @@ function betaBanner(where){
   if (!on('beta_notice')) return '';
   if (on('verify_badge')) loadSide();
   const vbad = on('verify_badge') && VERIFY && VERIFY.ok === false;
-  return `<div class="betabar${vbad ? ' bad' : ''}" role="note"><b>베타 · 참고용</b><span>${vbad ? '<b>최근 자동 검증에서 공고문과 다른 값이 발견돼 확인 중이에요.</b> ' : ''}${where === 'detail' ? '이 화면의 자격·점수·마진은 공개 자료와 내 입력으로 계산한 참고용 추정이에요.' : '모든 판정은 참고용 추정이에요.'} 신청 전 <b>모집공고문</b>과 <b>청약홈 청약자격 확인</b>으로 꼭 확인하세요.${on('about_page') ? ' <button class="linkbtn small" data-go="about">자세히</button>' : ''}</span></div>`;
+  return `<div class="betabar${vbad ? ' bad' : ''}" role="note"><b>베타 · 참고용</b><span>${vbad ? '<b>최근 자동 검증에서 공고문과 다른 값이 발견돼 확인 중이에요.</b> ' : ''}${where === 'detail' ? '이 화면의 자격·점수·마진은 공개 자료와 내 입력으로 계산한 참고용 추정이에요.' : '모든 판정은 참고용 추정이에요.'} 신청 전 <b>모집공고문</b>과 <b>청약홈 '청약자격확인'</b>에서 꼭 확인하세요.${on('about_page') ? ' <button class="linkbtn small" data-go="about">자세히</button>' : ''}</span></div>`;
 }
 function src(key, over){ // over: [label, url]
   const [label, url] = over || SRC[key];
@@ -1355,14 +1356,14 @@ function newCounts(){
 function newSelect(){
   if (!on('new_tabs') || !DATA_SOURCE.live) return '';
   const c = newCounts(), d = S.newDays || 0;
-  return `<select class="qsel${d ? ' on' : ''}" data-newsel="1" aria-label="새 공고 기간"><option value="0">새 공고</option>${[1, 3, 7].map(k => `<option value="${k}" ${d === k ? 'selected' : ''} ${c[k] || d === k ? '' : 'disabled'}>최근 ${k}일 (${c[k]}건)</option>`).join('')}</select>`;
+  return `<select class="qsel${d ? ' on' : ''}" data-newsel="1" aria-label="새 공고 기간"><option value="0">새 공고</option>${[1, 3, 7].map(k => `<option value="${k}" ${d === k ? 'selected' : ''} ${c[k] || d === k ? '' : 'disabled'}>최근 ${k === 1 ? '하루' : k + '일'} (${c[k]}건)</option>`).join('')}</select>`;
 }
 function newTabs(){
   if (!on('new_tabs') || !DATA_SOURCE.live) return '';
   const pool = LISTINGS.filter(L => matches(L, S.f) && (S.showClosed || S.f.status === '마감' || statusOf(L) !== '마감'));   // 목록에 보이는 것과 같은 기준
   const n = d => new Set(pool.filter(L => isNew(L, d)).map(nidOf)).size;
   const tab = (d, t) => `<button class="chip sm" data-newdays="${d}" aria-pressed="${(S.newDays || 0) === d}">${t}</button>`;
-  return `<div class="newtabs" role="group" aria-label="새 공고 기간"><span class="small muted">새 공고</span>${tab(0, '전체')}${tab(1, '최근 1일 (' + n(1) + '건)')}${tab(3, '최근 3일 (' + n(3) + '건)')}${tab(7, '최근 7일 (' + n(7) + '건)')}</div>`;
+  return `<div class="newtabs" role="group" aria-label="새 공고 기간"><span class="small muted">새 공고</span>${tab(0, '전체')}${tab(1, '최근 하루 (' + n(1) + '건)')}${tab(3, '최근 3일 (' + n(3) + '건)')}${tab(7, '최근 7일 (' + n(7) + '건)')}</div>`;
 }
 function watchChip(chip){
   if (!on('watchlist')) return '';
@@ -1484,7 +1485,7 @@ function myCondCard(){
   const p = S.profile;
   if (!hasProfile()) return `<section class="mycond mc-new" aria-labelledby="mc-t">
     <div class="mc-head"><h2 id="mc-t">먼저 내 조건을 넣어 주세요</h2></div>
-    ${on('quick_start') ? `<p class="small" style="margin:0">사는 곳·세대·집·청약통장만 답하면 공고마다 <b>신청할 수 있는지</b>를 바로 나눠 드려요. ${QUICK_STEPS.length - 2}단계 안팎, 1분이면 돼요. 가점·자금은 나중에 채워도 돼요.</p>
+    ${on('quick_start') ? `<p class="small" style="margin:0">사는 곳·세대·집·청약통장만 답하면 공고마다 <b>신청할 수 있는지</b> 바로 알려 드려요. ${QUICK_STEPS.length - 2}단계 안팎, 1분이면 돼요. 가점·자금은 나중에 채워도 돼요.</p>
     <div class="mc-actions"><button class="btn" data-action="quick-start">${PENCIL}빠르게 시작하기</button><button class="btn ghost" data-action="restart">전부 입력하기</button></div>`
     : `<p class="small" style="margin:0">사는 곳·집·세대·현금을 넣으면 공고마다 <b>신청할 수 있는지</b>와 <b>모자란 돈</b>을 판정해요. 2분이면 돼요.</p>
     <div class="mc-actions"><button class="btn" data-action="restart">${PENCIL}내 조건 입력하기</button></div>`}
@@ -1626,7 +1627,7 @@ function cpExplain(id, profile){
 }
 window.cpExplain = cpExplain;
 function itemSrc(L, k){
-  if (k === '세대주') return fromNotice(L, '세대주 요건') ? noticeSrc(L) : src(null, ['규제지역 기준 추정 · 공고문 확인', null]);
+  if (k === '세대주') return fromNotice(L, '세대주 요건') ? noticeSrc(L) : src(null, ['이 서비스 추정(규제지역 기준) · 공고문에서 확인하세요', null]);
   if (k.startsWith('거주지')) return noticeSrc(L);
   if (k.includes('(공공 일반공급)') || k.includes('(신혼희망타운)')) return noticeSrc(L);
   if (k.endsWith('전용')) return noticeSrc(L);
@@ -1639,7 +1640,7 @@ function itemSrc(L, k){
 }
 function limitSrc(L, k){
   if (k === '실거주 의무') return fromNotice(L, '실거주 의무') ? noticeSrc(L) : src('housingLaw');
-  if (k === '재당첨 제한') return fromNotice(L, '재당첨 제한') ? noticeSrc(L) : src(null, ['규제지역 기준 추정 · 공고문 확인', null]);
+  if (k === '재당첨 제한') return fromNotice(L, '재당첨 제한') ? noticeSrc(L) : src(null, ['이 서비스 추정(규제지역 기준) · 공고문에서 확인하세요', null]);
   if (k.includes('1순위 제한')) return src('supplyRule');
   return noticeSrc(L);
 }
@@ -1652,7 +1653,7 @@ function locationCard(L){
   let where;
   if (!on('naver_map')) where = '';
   else if (!g) where = `<div class="small muted">지도 위치를 아직 찾지 못했어요. 네이버 지도 링크로 주소를 검색해 보세요.</div>`;
-  else if (g.precision === 'dong') where = `<div class="note warn" style="padding:10px 12px"><b style="font-size:13px">대략 위치 (${esc(g.query)} 중심)</b><div class="small">공고 주소에 지번이 없어 동 중심에 표시했어요. 실제 단지 위치와 거리 차이가 클 수 있어요.</div></div>`;
+  else if (g.precision === 'dong') where = `<div class="note warn" style="padding:10px 12px"><b style="font-size:13px">대략 위치 (${esc(g.query)} 중심)</b><div class="small">공고 주소에 지번이 없어 동 중심에 표시했어요. 지도에 표시한 위치가 실제 단지 위치와 많이 다를 수 있어요.</div></div>`;
   else where = `<div class="small muted">공고 주소(${esc(g.query)})로 찾은 위치예요.</div>`;
   const rows = (nb || []).map(n => `<div class="row"><span>${esc(n.name)}<br><span class="small muted">${NEAR_KIND[n.kind] || esc(n.kind)}</span></span><span>직선 ${distText(n.m)}<br><span class="small muted">도보 약 ${n.walk}분 (추정)</span></span></div>`).join('');
   return `<section class="card"><h2>위치와 주변 입지</h2>
@@ -1662,7 +1663,7 @@ function locationCard(L){
     ${g ? `<div class="small muted">위치: 네이버 클라우드 플랫폼 주소 검색 결과 ${src(null, ['네이버 지도에서 이 주소 보기', naverMapUrl(L)])}</div>` : ''}
     ${nb && nb.length ? `<div class="rows">${rows}</div>
       <div class="small muted">가까운 역 2곳과 초·중·고 각 1곳이에요 (역 2km, 학교 1.5km 안). 거리는 직선거리이고, 도보 시간은 직선거리×1.3을 분당 67m로 나눈 추정이에요. 역·학교 위치 ${src(null, ['OpenStreetMap', osm])}</div>`
-      : nb ? '<div class="small muted">반경 안(역 2km, 학교 1.5km)에서 찾은 역·학교가 없어요. 출처: OpenStreetMap</div>' : ''}
+      : nb ? '<div class="small muted">반경(역 2km, 학교 1.5km) 안에 역·학교가 없어요. 출처: OpenStreetMap</div>' : ''}
     ${on('naver_map') ? `<div class="linkrow"><a href="${esc(naverMapUrl(L))}" target="_blank" rel="noopener" data-ev="naver-map">네이버 지도에서 보기</a></div>` : ''}
   </section>`;
 }
@@ -1673,7 +1674,7 @@ function specialCountCard(L){
   if (!on('special_counts') || !u || !(u.total > 0)) return '';
   const items = SP_TYPES.filter(([k]) => u[k] > 0);
   if (isNewlywedTown(L) && !items.length) return `<section class="card"><div class="row"><h2>공급 세대수 (이 주택형)</h2><span class="small muted">${u.total}세대</span></div>
-    <p class="small" style="margin:6px 0">이 주택형 <b>${u.total}세대</b>는 모두 <b>신혼희망타운 공급</b>이에요. 신혼부부·예비신혼부부·한부모가족이 1단계 우선공급(30%) → 2단계 일반공급(60%) → 3단계 추첨으로 신청해요. 누구나 넣는 일반공급과 따로 고르는 특별공급 유형은 없어요.</p>
+    <p class="small" style="margin:6px 0">이 주택형 <b>${u.total}세대</b>는 모두 <b>신혼희망타운 공급</b>이에요. 신혼부부·예비신혼부부·한부모가족을 1단계 우선공급(30%) → 2단계 일반공급(60%) → 3단계 추첨 순서로 뽑아요. 누구나 넣는 일반공급도, 따로 골라 넣는 특별공급 유형도 없어요.</p>
     <p class="foot">청약홈에는 특별공급 ${u.total}세대 · 일반공급 0세대로 집계돼요 · ${L.sources && L.sources[0] ? src(null, ['청약홈 공고', L.sources[0][1]]) : src('applyhome')}${L.noticePdf ? ' ' + src(null, ['모집공고문 PDF', L.noticePdf]) : ''}</p></section>`;
   return `<section class="card"><div class="row"><h2>특별공급 세대수 (이 주택형)</h2><span class="small muted">합계 ${u.total}세대</span></div>
     ${items.length ? `<div class="spchips">${items.map(([k, t]) => `<span class="spchip"><b>${u[k]}</b>${t}</span>`).join('')}</div>` : `<p class="small muted" style="margin:6px 0">청약홈이 유형별 세대수를 나눠 주지 않았어요${isNewlywedTown(L) ? ' (신혼희망타운은 신혼부부 등 대상 전용 공급)' : ''}. 모집공고문을 확인하세요.</p>`}
@@ -1858,7 +1859,7 @@ function spJudge(L, p, type){
     const assetNeeded = pub || (stage && stage[0] === '추첨');
     if (assetNeeded) {
       if (p.realEstate == null || p.realEstate === '') warn.push('부동산 자산 입력 필요');
-      else if (p.realEstate > assetLim) { if (BR && (BR.add === null || BR.add === 10) && p.realEstate <= 25860) warn.push('부동산 자산 기준 초과 · 출산가구 완화 확인 필요'); else { fail.push('부동산 자산 ' + (addK ? manW(assetLim) + ' (출산가구 완화 기준)' : (assetLim / 10000).toFixed(3).replace(/0+$/, '') + '억') + ' 초과'); stage = null; } }
+      else if (p.realEstate > assetLim) { if (BR && (BR.add === null || BR.add === 10) && p.realEstate <= 25860) warn.push('부동산 자산 기준 초과 · 출산가구 완화 확인 필요'); else { fail.push('부동산 자산 기준 ' + (addK ? manW(assetLim) + '(출산가구 완화 기준)' : manW(assetLim)) + ' 초과'); stage = null; } }
       if (pub && R.car) { if (p.carValue == null || p.carValue === '') warn.push('자동차가액 입력 필요'); else if (p.carValue > carLim) { if (BR && (BR.add === null || BR.add === 10) && p.carValue <= 5451) warn.push('자동차 기준 초과 · 출산가구 완화 확인 필요'); else { fail.push('자동차 ' + carLim.toLocaleString() + '만원 초과'); stage = null; } } }
     }
     if (!pub && type === 'first' && !p.married && !(kids > 0) && p.hhSize === 1 && stage) {   // 1인 가구: 추첨만, 전용 60㎡ 이하
@@ -2078,7 +2079,7 @@ const SP_PLAIN_RULES = [   // spJudge 가 내는 근거 문구 → 쉬운 문장
   [/^미성년 자녀 2명 미만$/, '미성년 자녀가 2명이 안 돼요'],
   [/^미성년 자녀 수 입력 필요$/, '미성년 자녀 수를 넣어 주세요'],
   [/^만 65세 이상 직계존속 3년 이상 부양$/, '만 65세 이상 부모님을 3년 이상 같은 등본에서 모시고 있어요'],
-  [/^만 65세 이상 직계존속 3년 부양 아님$/, '만 65세 이상 부모님을 3년 이상 모신 게 아니에요'],
+  [/^만 65세 이상 직계존속 3년 부양 아님$/, '만 65세 이상 부모님을 3년 이상 모시지 않았어요'],
   [/^만 65세 이상 직계존속 3년 이상 부양 입력 필요$/, '만 65세 이상 부모님을 3년 이상 모시고 있는지 넣어 주세요'],
   [/^소득 기준 초과 \((\d+)% 초과\)$/, '가구 소득이 이 유형의 상한(기준 소득의 $1%)을 넘어요'],
   [/^부동산 자산 (.+)억 초과$/, '부동산 자산이 기준($1억)을 넘어요'],
@@ -2105,7 +2106,7 @@ function spIncomePlain(L, p, r){
   if (!r.stage && r.pub) say = `공공분양 ${SP_NAME[r.type]} 소득 상한(${R.max[inc.dual ? 1 : 0]}%)을 넘어서 이 유형은 신청할 수 없어요.`;
   else if (!r.stage) say = '';
   else if (r.stage[0] === first[0]) say = `소득이 가장 낮은 구간 기준(${fl}%) 안이라, 가장 먼저 뽑는 몫(${STAGE_PLAIN[first[0]] || first[0]})에 들어가요.`;
-  else if (/추첨/.test(r.stage[0])) say = r.pub ? `우선·일반공급 소득 기준보다 높아서 남은 추첨 몫(${r.stage[1]})에서 뽑혀요.` : `소득이 구간 기준을 넘어서 소득 구간 몫에는 못 들어가고, ${r.stage[1] === '나머지' ? '남은 추첨 몫' : '남은 추첨 몫(' + r.stage[1] + ')'}에서 뽑혀요. 이때는 부동산 자산 기준을 맞춰야 해요.`;
+  else if (/추첨/.test(r.stage[0])) say = r.pub ? `우선·일반공급 소득 기준보다 높아서 남은 추첨 물량(${r.stage[1]}) 대상이에요.` : `소득이 구간 기준을 넘어서 소득 구간 몫에는 못 들어가고, ${r.stage[1] === '나머지' ? '남은 추첨 몫' : '남은 추첨 몫(' + r.stage[1] + ')'}에서 뽑혀요. 이때는 부동산 자산 기준을 맞춰야 해요.`;
   else say = `가장 낮은 구간 기준(${fl}%)은 넘지만 다음 구간 기준(${r.stage[2]}%) 안이라 ${STAGE_PLAIN[r.stage[0]] || r.stage[0]}에 들어가요.`;
   return `<div class="sp-sub"><span class="sp-lbl2">소득 기준과 비교하면</span>
     <div class="small">우리 집 월평균 소득 <b>${man(inc.monthly)}</b>은 ${n}인 가구 기준 소득(월 ${man(spBase(n))})의 <b>${pct}%</b> 수준이에요.${inc.est ? ' <span class="muted">(세대 소득을 넣지 않아 본인+배우자 소득으로 추정)</span>' : ''}${dual ? ' 맞벌이라 맞벌이 기준을 적용했어요.' : ''}</div>
@@ -2120,7 +2121,7 @@ function spHowPlain(L, p, r){
   const t = r.type, st = r.stage && r.stage[0];
   if (t === 'multichild') return (r.pub ? '' : '공고 지역에 사는 사람이 먼저이고, 그 안에서 ') + '다자녀 배점표(100점) 점수가 높은 순으로 뽑아요. 점수가 같으면 미성년 자녀 수 → 신청자 나이 → 추첨 순이에요.';
   if (t === 'elder' && !r.pub) return '일반공급과 같은 청약 가점(84점) 높은 순이에요. 공고 지역 거주자가 먼저이고, 점수가 같으면 청약통장 가입기간 → 추첨 순이에요.';
-  if (t === 'elder') return (st && /추첨/.test(st) ? '소득이 우선공급 기준보다 높아 추첨 몫(10%)에서 뽑혀요.' : '청약통장에 모은 금액(인정 금액)이 많은 순으로 뽑아요.');
+  if (t === 'elder') return (st && /추첨/.test(st) ? '소득이 우선공급 기준보다 높아 추첨 물량(10%) 대상이에요.' : '청약통장에 모은 금액(인정 금액)이 많은 순으로 뽑아요.');
   if (r.pub && (t === 'newlywed' || t === 'newborn') && st && !/추첨/.test(st)) return `소득 구간 안에서 점수(최대 ${t === 'newlywed' ? 13 : 10}점)가 높은 순으로 뽑아요. 점수는 소득·자녀 수·청약통장 납입 횟수·거주기간${t === 'newlywed' ? '·혼인기간' : ''}으로 매겨요.`;
   if (st && /추첨/.test(st)) return '추첨으로만 뽑아요. 가점이나 점수는 상관없어요.';
   if (t === 'newlywed' && !r.pub) return '같은 소득 구간 안에서 ① 자녀(임신 포함)가 있는 신혼부부(1순위)가 먼저, ② 공고 지역에 사는 사람이 먼저, ③ 미성년 자녀가 많은 순, ④ 같으면 추첨이에요. 가점은 상관없어요.';
@@ -2149,7 +2150,7 @@ function spMinePlain(L, p, r){
   }
   if (r.stage && /추첨/.test(r.stage[0])) {
     const R = SP_RULES[r.pub ? 'public' : 'minyoung'][r.type], first = (R.stages || []).filter(x => !/추첨/.test(x[0])).map(x => x[1]).join('·');
-    if (u) out.push(`이 주택형 ${SP_NAME[r.type]} 물량은 전체 ${u}세대예요. 소득 구간 몫(${first})이 먼저 배정되고, 남는 추첨 몫에서 뽑혀요${u <= 5 ? ' · 물량이 적어 추첨 몫이 거의 없을 수 있어요 (정확한 세대수는 공고문 배정표)' : ''}.`);
+    if (u) out.push(`이 주택형 ${SP_NAME[r.type]} 물량은 전체 ${u}세대예요. 소득 구간 몫(${first})이 먼저 배정되고, 남는 추첨 물량에서 뽑아요${u <= 5 ? ' · 물량이 적어 추첨 몫이 거의 없을 수 있어요 (정확한 세대수는 공고문 배정표)' : ''}.`);
     out.push('추첨이라 조건과 상관없이 운에 달려 있어요.'); }
   if (on('supply_summary')) { const ro = !(r.type === 'multichild' && mcPlace(L, p)) && r.ok.find(t => t.startsWith('거주지 · '));   // 다자녀 배정 표가 있으면 그쪽이 지역 순서
     if (ro && /기타/.test(ro)) out.push('지역 순서: 해당지역 거주자가 먼저 뽑히고, 남으면 내 차례예요.');
@@ -2169,13 +2170,13 @@ function spHeadPlain(L, p, r){   // 접힌 상태 한 줄: 결론 + 뽑히는 �
   if (r.s === 'fail') return { t: spPlain(r.fail[0]) + (r.fail.length > 1 ? ` 외 ${r.fail.length - 1}가지` : ''), k:'fail' };
   if (r.s === 'warn') return { t: spPlain(r.warn[0]) + (r.warn.length > 1 ? ` 외 ${r.warn.length - 1}가지` : ''), k:'warn' };
   const st = r.stage && r.stage[0];
-  if (r.type === 'multichild') { const m = on('multichild_score') ? mcScore(L, p) : null; return { t: '배점 순으로 뽑아요' + (m && m.total != null ? ` (내 ${m.total}점 / 100)` : ' (점수 계산하려면 정보 입력)'), k:'ok' }; }
-  if (r.type === 'elder' && !r.pub) { const sc = on('score') ? myScore(L, Object.assign({}, p, { spouseAcctSince:'' })) : null; return { t: '가점 순으로 뽑아요' + (sc && sc.total != null ? ` (내 ${sc.total}점 / 84)` : ''), k:'ok' }; }
-  if (r.type === 'elder') return { t: st && /추첨/.test(st) ? '추첨 몫에서 뽑혀요' : '청약통장 모은 금액이 많은 순이에요', k:'ok' };
+  if (r.type === 'multichild') { const m = on('multichild_score') ? mcScore(L, p) : null; return { t: '배점 순으로 뽑아요' + (m && m.total != null ? ` (내 배점 ${m.total}점 / 100점)` : ' (점수 계산하려면 정보 입력)'), k:'ok' }; }
+  if (r.type === 'elder' && !r.pub) { const sc = on('score') ? myScore(L, Object.assign({}, p, { spouseAcctSince:'' })) : null; return { t: '가점 순으로 뽑아요' + (sc && sc.total != null ? ` (내 가점 ${sc.total}점 / 84점)` : ''), k:'ok' }; }
+  if (r.type === 'elder') return { t: st && /추첨/.test(st) ? '추첨 물량 대상이에요' : '청약통장에 모은 금액이 많은 순이에요', k:'ok' };
   if (r.pub && (r.type === 'newlywed' || r.type === 'newborn') && st && !/추첨/.test(st)) { const pp = pubPoints(L, p, r.type);
-    return { t: `${STAGE_PLAIN[st] || st}에서 점수 순 (내 ${pp.hi === pp.sum ? pp.sum : pp.sum + '~' + pp.hi}점 / ${pp.max})`, k:'ok' }; }
-  if (st && /추첨/.test(st)) return { t: '소득이 구간 기준을 넘어 추첨 몫으로만 뽑혀요', k:'ok' };
-  if (st) return { t: `${STAGE_PLAIN[st] || st}에서 뽑혀요` + (r.type === 'newlywed' && !r.pub ? (p.kidsMinor > 0 || p.pregnant ? ' · 자녀가 있어 먼저(1순위)' : ' · 자녀가 없어 나중(2순위)') : ' · 지역 우선 뒤 추첨'), k:'ok' };
+    return { t: `${STAGE_PLAIN[st] || st}에서 점수 순 (내 ${pp.hi === pp.sum ? pp.sum : pp.sum + '~' + pp.hi}점 / ${pp.max}점)`, k:'ok' }; }
+  if (st && /추첨/.test(st)) return { t: '소득이 구간 기준을 넘어 추첨 물량 대상이에요', k:'ok' };
+  if (st) return { t: `${STAGE_PLAIN[st] || st} 대상이에요` + (r.type === 'newlywed' && !r.pub ? (p.kidsMinor > 0 || p.pregnant ? ' · 자녀가 있어 1순위로 먼저 뽑는 대상' : ' · 자녀가 없어 2순위 대상') : ' · 지역 우선 뒤 추첨'), k:'ok' };
   return { t: r.how || '조건을 채웠어요', k:'ok' };
 }
 function spRowPlain(L, p, r){
@@ -2203,7 +2204,7 @@ function generalRowPlain(L, p){
   const sc = myScore(L, p), t = scoreTarget(L), gap = sc.total != null && t && t.low != null ? sc.total - t.low : null;
   const ownIt = on('owner_lottery') ? eligibility(L, p).items.find(i => i.k === '무주택 세대' && i.owns) : null;   // 유주택 세대 (기능: owner_lottery)
   if (ownIt && L.regulated) return `<details class="sprow base"><summary><span class="sp-top"><b>일반공급</b><span class="small muted">추첨제만</span><span class="pill warn">가점제 불가</span></span>
-      <span class="sp-head">1주택 이상 세대라 이 공고(규제지역)는 1순위 가점제로 신청할 수 없어요. 1순위 추첨제로 신청해요</span></summary>
+      <span class="sp-head">1주택 이상 세대라 이 공고(규제지역)는 1순위 가점제로 신청할 수 없어요. 1순위 추첨제로는 신청할 수 있어요</span></summary>
     <div class="sp-body"><div class="small">1순위 추첨제는 추첨 물량의 75%를 무주택 세대에서 먼저 뽑고, 남은 물량에서 1주택 세대도 함께 뽑아요. 가점과는 상관없어요. 가점제·추첨제 비율은 공고문의 전용면적별 표를 확인하세요.</div></div></details>`;
   const [pill, pc] = gap == null ? ['참고', ''] : gap >= 0 ? ['최저점 이상', 'ok'] : ['최저점 미만', 'warn'];
   const head = sc.total == null ? '가점을 계산하려면 생년월일·부양가족·통장 가입일을 넣어 주세요'
@@ -2325,17 +2326,17 @@ function ineligCard(L, p, e){
   const row = (t, cond, my, how) => rows.push(`<div class="ckwarn"><div class="ck-top"><b>${t}</b></div>${cond ? `<span class="small"><span class="muted">이 공고 조건</span> · ${cond}</span>` : ''}${my || ''}<div class="small muted">${how}</div></div>`);
   if (!pub && !town && on('score') && p.selfOwn === false && !e.rank2) {
     const sc = myScore(L, p);
-    const parts = sc.parts.map(x => x.k + ' ' + (x.v == null ? '?' : x.v) + '점').join(' · ');
+    const parts = sc.parts.map(x => x.k + ' ' + (x.v == null ? '미입력' : x.v + '점')).join(' · ');
     row('청약 가점 입력', '민영주택 가점제 (별표 1)', mine(parts + (sc.total != null ? ' = ' + sc.total + '점' : '')),
-      '청약홈에 넣는 가점이 서류로 다시 센 점수보다 높으면 부적격이에요. 부양가족: 배우자는 등본이 달라도 넣고, 부모님은 내가 세대주이고 3년 이상 같은 등본일 때만, 30세 이상 미혼 자녀는 1년 이상 같은 등본일 때만 넣어요. 무주택기간: 만 30세(그 전에 혼인했으면 혼인신고일)부터, 집을 판 적 있으면 판 날부터 세요. 다시 센 점수가 그 주택형 당첨선 이상이면 당첨은 유지돼요(제58조④).');
+      '청약홈에 넣는 가점이 서류로 다시 계산한 점수보다 높으면 부적격이에요. 부양가족: 배우자는 등본이 달라도 넣고, 부모님은 내가 세대주이고 3년 이상 같은 등본일 때만, 30세 이상 미혼 자녀는 1년 이상 같은 등본일 때만 넣어요. 무주택기간: 만 30세(그 전에 혼인했으면 혼인신고일)부터, 집을 판 적이 있으면 판 날부터 계산해요. 다시 계산한 점수가 그 주택형의 당첨 최저 가점 이상이면 당첨은 유지돼요(제58조④).');
   }
-  row('세대 전원의 주택·분양권', pub || sp || town || L.regulated ? '세대원 전원 무주택이 필요한 공급이 있어요' : '1순위 가점제는 무주택 세대여야 해요',
+  row('세대 전원의 주택·분양권', pub || sp || town || L.regulated ? '세대원 전원 무주택이 필요한 공급이 있어요' : '1순위 가점제는 무주택 세대만 신청할 수 있어요',
     mine(p.hhHomes === '' || p.hhHomes == null ? (p.selfOwn == null ? null : p.selfOwn ? '본인 주택 있음' : '본인 무주택') : { '0':'세대 주택 없음', '1':'세대 주택 1채', '2+':'세대 주택 2채 이상' }[p.hhHomes]),
-    '세대는 나, 배우자(등본이 달라도 포함), 같은 등본의 부모님·자녀예요(제2조). 분양권·입주권과 공유지분도 주택으로 세요(제53조). 60세 이상 부모님(배우자 부모님 포함)이 가진 집은 무주택으로 보지만, 노부모부양 특별공급에서는 주택으로 세요.');
-  if (L.regulated && !pub) row('세대주 · 세대 당첨 이력', '투기과열지구·청약과열지역 1순위: 공고일 현재 세대주, 세대원 누구도 과거 5년 내 당첨 없음, 2주택 이상 세대 아님 (제28조①)',
+    '세대는 나, 배우자(등본이 달라도 포함), 같은 등본의 부모님·자녀예요(제2조). 분양권·입주권과 공유지분도 주택으로 봐요(제53조). 60세 이상 부모님(배우자 부모님 포함)이 가진 집은 무주택으로 보지만, 노부모부양 특별공급에서는 주택으로 봐요.');
+  if (L.regulated && !pub) row('세대주 · 세대 당첨 이력', '투기과열지구·청약과열지역 1순위: 공고일 현재 세대주 · 세대원 모두 과거 5년 내 당첨 없음 · 2주택 이상 세대 아님 (제28조①)',
     mine((p.household === 'head' ? '세대주' : p.household ? '세대원' : '세대 미입력') + ' · 5년 내 당첨 ' + (p.win5y == null ? '미입력' : p.win5y ? '있음' : '없음')),
     '세대주는 공고일 현재 등본 기준이에요. 당첨 이력은 배우자·같은 등본 세대원 것까지 봐요.');
-  if (sp) row('특별공급 당첨 이력', '특별공급은 세대 기준 한 번만 (제55조)', '', '나나 세대원이 예전에 특별공급에 당첨된 적이 있으면 원칙적으로 특별공급은 다시 신청할 수 없어요(일부 유형은 예외). 이 서비스는 이 이력을 판정하지 않으니 청약홈 청약제한사항 조회로 확인하세요.');
+  if (sp) row('특별공급 당첨 이력', '특별공급은 세대 기준 한 번만 (제55조)', '', '나 또는 세대원이 예전에 특별공급에 당첨된 적이 있으면 원칙적으로 특별공급은 다시 신청할 수 없어요(일부 유형은 예외). 이 서비스는 이 이력을 판정하지 않으니 청약홈 청약제한사항 조회로 확인하세요.');
   if (L.residence || L.regulated) row('거주기간', L.residence && L.residence.area ? esc(L.residence.area.name) + (L.residence.months ? ' ' + L.residence.months + '개월 이상 거주자 우선' : ' 거주자 우선') : '해당지역 거주자 우선',
     mine(p.areaSince || p.sidoSince || p.sidoOwnSince ? '거주 시작 ' + (p.areaSince || p.sidoSince || p.sidoOwnSince) : null),
     '공고일에서 거꾸로 세어 계속 산 기간만 인정돼요. 해외에 계속 90일 넘게, 또는 1년에 183일 넘게 있었으면 그 기간은 거주로 안 봐요(제4조⑦). 주민등록 초본의 주소 이력으로 확인해요.');
@@ -2361,9 +2362,9 @@ function supplySummary(L, p, e){
   const reg = !ri ? null : ri.s === 'fail' ? ['fail', '공고 대상 지역 밖'] : ri.s === 'warn' ? ['warn', ri.v] : eq ? ['ok', '신청 가능 지역'] : /기타/.test(ri.v) ? ['ok', ri.v.replace(' (해당지역 다음)', '') + ' · 해당지역 다음 순서'] : ['ok', ri.v + ' · 먼저 뽑힘'];
   const row = (k, v, sub) => `<div class="ss-row"><span class="ss-k">${k}</span><span><b class="${cls[v[0]] || 'muted'}">${esc(v[1])}</b>${sub ? `<br><span class="small muted">${sub}</span>` : ''}</span></div>`;
   return `<div class="ss" aria-label="신청할 수 있는 공급">
-    ${row(genLabel(L), g, (L.needAccount ? '' : '청약통장이 필요 없는 공고예요. ') + (isNewlywedTown(L) ? '신혼부부·예비신혼부부·한부모가족만 신청하는 공급이에요. ' : '') + '아래 조건 목록이 이 공급 기준이에요')}
+    ${row(genLabel(L), g, (L.needAccount ? '' : '청약통장이 필요 없는 공고예요. ') + (isNewlywedTown(L) ? '신혼부부·예비신혼부부·한부모가족만 신청하는 공급이에요. ' : '') + '아래 조건 목록은 이 공급 기준이에요')}
     ${isNewlywedTown(L) ? row('특별공급', ['', '따로 없음'], '이 주택형' + (L.specialUnits && L.specialUnits.total ? ' ' + L.specialUnits.total + '세대' : '') + '는 모두 신혼희망타운 공급이에요 (청약홈에는 특별공급으로 집계돼요)') : !types.length && !L.needAccount ? '' : row('특별공급', sp, types.length ? (wT.length && okT.length ? esc(wT.join('·')) + '는 정보를 더 넣어야 판단 · ' : '') + '유형별 내용은 아래 \'공급 유형별 내 자격과 위치\'' : '')}
-    ${reg ? row(reg[0] === 'fail' || eq ? '거주지' : '지역 순서', reg, reg[0] === 'fail' ? '일반·특별공급 공통 거주 요건이라 일반공급과 특별공급 모두 신청할 수 없어요.' : eq && reg[0] === 'ok' ? '이 공고는 지역별 우선 순서와 거주기간 요건이 없어요. ' + esc((ri.note || '').replace(' 대상 (거주기간 요건 없음)', '면 신청할 수 있어요.')) : reg[0] === 'warn' ? (isNewlywedTown(L) ? '1~3단계 공통이에요' : '일반·특별공급 공통이에요') + '. 사는 곳을 넣으면 순서까지 판정해요.' : (isNewlywedTown(L) ? '1~3단계 공통이에요' : '일반·특별공급 공통이에요') + '. 해당지역 우선이 아니어도 신청은 할 수 있고, 해당지역 신청자가 먼저 뽑혀요.') : ''}
+    ${reg ? row(reg[0] === 'fail' || eq ? '거주지' : '지역 순서', reg, reg[0] === 'fail' ? '일반공급과 특별공급에 공통인 거주 요건이라 둘 다 신청할 수 없어요.' : eq && reg[0] === 'ok' ? '이 공고는 지역별 우선 순서와 거주기간 요건이 없어요. ' + esc((ri.note || '').replace(' 대상 (거주기간 요건 없음)', '면 신청할 수 있어요.')) : reg[0] === 'warn' ? (isNewlywedTown(L) ? '1~3단계 공통이에요' : '일반·특별공급 공통이에요') + '. 사는 곳을 넣으면 순서까지 판정해요.' : (isNewlywedTown(L) ? '1~3단계 공통이에요' : '일반·특별공급 공통이에요') + '. 해당지역 거주자가 아니어도 신청할 수 있지만, 해당지역 신청자를 먼저 뽑아요.') : ''}
   </div>`;
 }
 function checklistV2(L, p, e){
@@ -2382,8 +2383,8 @@ function checklistV2(L, p, e){
     const po = pend.filter(x => !pendAsk(x)), pa = pend.length - po.length;
     const pc = po.filter(x => !(PEND_INFO[x] || {}).sp).length, ps = po.length - pc;
     sub = pc ? '이 서비스가 판정하지 않는 ' + pc + '가지는 충족인지 모르는 상태예요. 아래 \'직접 확인할 것\'을 공고문으로 확인하세요.'
-      : ps ? '일반공급 기본 요건은 모두 판정했고 충족이에요. 특별공급을 쓸 때만 공고문에서 ' + ps + '가지를 더 확인하세요.'
-      : pa ? '일반공급 기본 요건은 모두 판정했고 충족이에요. 아래 질문 ' + pa + '개에 답하면 ' + (pend.every(x => (PEND_INFO[x] || {}).sp) ? '특별공급까지 ' : '') + '판정해요.' : ''; }
+      : ps ? '일반공급 기본 요건을 모두 판정했고, 모두 충족해요. 특별공급을 쓸 때만 공고문에서 ' + ps + '가지를 더 확인하세요.'
+      : pa ? '일반공급 기본 요건을 모두 판정했고, 모두 충족해요. 아래 질문 ' + pa + '개에 답하면 ' + (pend.every(x => (PEND_INFO[x] || {}).sp) ? '특별공급까지 ' : '') + '판정해요.' : ''; }
   const count = [[e.rank2 ? 'warn' : 'fail', e.rank2 ? '1순위 요건 미충족' : '미충족', fails.length], ['warn', '확인 필요', nWarn], ['ok', '충족', oks.length]].filter(x => x[2]).map(([c, t, n]) => `<span class="pill ${c}">${t} ${n}</span>`).join('');
   const needInput = acctPrompt || warns.some(i => /입력 필요/.test(i.v || ''));
   const failItem = i => `<div class="ckitem ${e.rank2 ? 'warn' : 'fail'}"><div class="ck-top"><b>${esc(i.k)}</b><span class="${e.rank2 ? 'st-warn' : 'st-fail'}">${esc(i.v)}</span></div>
@@ -2393,13 +2394,13 @@ function checklistV2(L, p, e){
   return `<section class="card ckcard"><h2>자격 체크리스트</h2>
     ${supplySummary(L, p, e)}
     <div class="spsum" style="margin:4px 0 0">${on('supply_summary') && hasProfile() ? `<span class="small muted" style="align-self:center">${genLabel(L)} 조건</span>` : ''}${count}</div>
-    <div class="note ${tone} ckverdict"><b>${on('supply_summary') && hasProfile() ? (genLabel(L) + ' · ') : ''}${esc(title)}</b>${sub ? `<div class="small">${esc(sub)}</div>` : ''}${e.fix ? `<div class="small" style="margin-top:4px"><b>다음 공고부터 가능하게 하려면</b> · ${esc(e.fix)}</div>` : ''}</div>
-    ${fails.length ? `<div class="ckgroup"><div class="ck-h ${e.rank2 ? 'st-warn' : 'st-fail'}">${e.rank2 ? '1순위만 막는 조건 (2순위는 신청 가능)' : '문제가 있는 조건'} ${fails.length}</div>${fails.map(failItem).join('')}</div>` : ''}
+    <div class="note ${tone} ckverdict"><b>${on('supply_summary') && hasProfile() ? (genLabel(L) + ' · ') : ''}${esc(title)}</b>${sub ? `<div class="small">${esc(sub)}</div>` : ''}${e.fix ? `<div class="small" style="margin-top:4px"><b>다음 공고에 신청하려면</b> · ${esc(e.fix)}</div>` : ''}</div>
+    ${fails.length ? `<div class="ckgroup"><div class="ck-h ${e.rank2 ? 'st-warn' : 'st-fail'}">${e.rank2 ? '1순위만 막는 조건 (2순위는 신청 가능)' : '문제가 있는 조건'} ${fails.length}개</div>${fails.map(failItem).join('')}</div>` : ''}
     ${nWarn ? `<div class="ckgroup"><div class="ck-h st-warn"><span>확인이 필요한 조건 ${nWarn}</span>${needInput ? '<button class="linkbtn small" data-action="restart">내 조건 입력하기</button>' : ''}</div>
-      <div class="ckwarns">${acctPrompt ? `<div class="ckwarn"><div class="ck-top"><span>청약통장 1순위 요건</span><span class="st-warn">입력 필요</span></div><div class="small muted">가입일·예치금(공공은 납입 횟수)을 넣으면 가입기간·예치금·납입 횟수를 판정해요</div>${on('unsure_actions') && stepWithField('acctType') ? `<button class="linkbtn small" data-edit="${esc(stepKey(stepWithField('acctType')))}" style="align-self:flex-start">청약통장 정보 넣기</button>` : ''}<div class="ck-src">${src('supplyRule')}</div></div>` : ''}${warns.map(warnItem).join('')}</div></div>` : ''}
+      <div class="ckwarns">${acctPrompt ? `<div class="ckwarn"><div class="ck-top"><span>청약통장 1순위 요건</span><span class="st-warn">입력 필요</span></div><div class="small muted">가입일·예치금(공공은 납입 횟수)을 넣으면 청약통장 1순위 요건을 판정해요</div>${on('unsure_actions') && stepWithField('acctType') ? `<button class="linkbtn small" data-edit="${esc(stepKey(stepWithField('acctType')))}" style="align-self:flex-start">청약통장 정보 넣기</button>` : ''}<div class="ck-src">${src('supplyRule')}</div></div>` : ''}${warns.map(warnItem).join('')}</div></div>` : ''}
     ${oks.length ? `<details class="ckmore"><summary>충족한 조건 ${oks.length}개</summary>
       ${oks.map(i => `<div class="ckok"><span class="st-ok" aria-hidden="true">${i.s === 'na' ? '–' : '✓'}</span><span><b>${esc(i.k)}</b> <span class="muted">${esc(i.v)}</span>${i.note ? `<br><span class="small muted">${esc(i.note)}</span>` : ''}<br>${itemSrc(L, i.k)}</span></div>`).join('')}</details>` : ''}
-    ${pend.some(pendAsk) ? `<details class="ckmore" open><summary>답하면 판정해요 ${pend.filter(pendAsk).length}개 <span class="muted small">· 질문에 답하면 바로 판정</span></summary><div class="ckwarns" style="margin-top:6px">${pendHtml(L, pend.filter(pendAsk))}</div></details>` : ''}
+    ${pend.some(pendAsk) ? `<details class="ckmore" open><summary>답하면 바로 판정되는 질문 ${pend.filter(pendAsk).length}개</summary><div class="ckwarns" style="margin-top:6px">${pendHtml(L, pend.filter(pendAsk))}</div></details>` : ''}
     ${pend.some(x => !pendAsk(x)) ? `<details class="ckmore"${pend.some(x => !pendAsk(x) && !(PEND_INFO[x] || {}).sp) ? ' open' : ''}><summary>직접 확인할 것 ${pend.filter(x => !pendAsk(x)).length}개 <span class="muted small">· 이 서비스가 판정하지 않는 항목</span></summary><div class="ckwarns" style="margin-top:6px">${pendHtml(L, pend.filter(x => !pendAsk(x)))}</div><div class="small muted">판정하지 않은 항목은 '충족'으로 세지 않았어요. 신청 전 모집공고문으로 확인하세요. ${noticeSrc(L)}</div></details>` : ''}
     <details class="ckmore"><summary>근거와 출처</summary><div class="small muted">내 조건 ${src('user')} · 판정 기준 ${src('supplyRule')} · 공고 조건 ${noticeSrc(L)}</div></details>
   </section>`;
@@ -2413,7 +2414,7 @@ function marginV2(L, m, barCost, barLo){
   if (unknown) head = '시세를 확인해야 해요';
   else if (m.lo >= 0) { pre = '시세보다'; head = fmt(m.lo) + '~' + fmt(m.hi) + ' 싸요'; }
   else if (m.hi > 0) { pre = '시세와 비슷해요'; head = sgn(m.lo) + '~' + sgn(m.hi); }
-  else { pre = '시세보다'; head = fmt(-m.hi) + '~' + fmt(-m.lo) + ' 비싸요'; }
+  else { pre = '시세보다'; head = fmt(Math.min(-m.hi, -m.lo)) + '~' + fmt(Math.max(-m.hi, -m.lo)) + ' 비싸요'; }
   const few = L.mktComps && L.mktComps.length && L.mktCount < 3;
   const step = (label, val, srcHtml, cls) => `<div class="mgstep ${cls || ''}"><span class="mg-l">${label}${srcHtml ? `<span class="mg-src">${srcHtml}</span>` : ''}</span><span class="mg-v">${val}</span></div>`;
   return `<section class="card mgcard"><div class="row"><h2>마진 계산</h2><span class="small muted">추정</span></div>
@@ -2421,13 +2422,13 @@ function marginV2(L, m, barCost, barLo){
       <div class="small">${unknown ? esc(L.mktNote) : '보수 시세 기준 마진율 ' + Math.round(m.rate * 100) + '% · 실매입가 ' + fmt(m.cost) + ' 기준'}</div></div></div>
     <div class="mgflow" aria-label="분양가에서 시세까지">
       ${step('분양가', fmt(L.price), priceSrc)}
-      ${L.ext ? step('+ 발코니 확장 (분양 때 정해진 선택, 계약 시 함께 내야 해요)', fmt(L.ext), fromNotice(L, '발코니 확장비') ? noticeSrc(L) : src('estimate', ['공고문 수기 확인', null])) : ''}
+      ${L.ext ? step('+ 발코니 확장 (분양 조건으로 정해진 선택 항목이라 계약할 때 함께 내요)', fmt(L.ext), fromNotice(L, '발코니 확장비') ? noticeSrc(L) : src('estimate', ['공고문 수기 확인', null])) : ''}
       ${step('+ 취득세 등', fmt(m.tax), src('localTax') + ' · 1주택·85㎡ 이하 가정')}
       ${step('= 실매입가', fmt(m.cost), '', 'total')}
       ${step('시세 (보수 / 기준)', unknown ? '확인 필요' : fmt(L.mktLow) + ' / ' + fmt(L.mktBase), L.sample ? src(null, ['샘플 값', null]) : src('rtms'), 'mkt')}
-      ${unknown ? '' : step('차이', `<span class="mgdiff g-${m.g}">${sgn(m.lo)} ~ ${sgn(m.hi)}</span>`, '시세 − 실매입가', 'diff')}
+      ${unknown ? '' : step('차이', `<span class="mgdiff g-${m.g}">${sgn(Math.min(m.lo, m.hi))} ~ ${sgn(Math.max(m.lo, m.hi))}</span>`, '시세 − 실매입가', 'diff')}
     </div>
-    ${on('town_rules') && isNewlywedTown(L) && L.pubLimits && L.pubLimits.kind === 'town' && L.price * 10000 > L.pubLimits.total_asset ? `<p class="small st-warn" style="margin:6px 0 0">${on('town_assets') ? `이 주택은 분양가가 ${manW(L.pubLimits.total_asset)}(공공주택 특별법 시행규칙의 총자산가액)을 넘어, 당첨되면 신혼희망타운 전용 수익공유형 모기지에 주택가격의 30% 이상 의무로 가입해야 해요. 집을 팔거나 대출을 갚을 때 시세차익의 10~50%를 주택도시기금과 나눠요 (공고문). 위 차이에는 반영하지 않았어요. 신청 자격(내 세대 총자산 기준)과는 별개예요.` : `공급가격이 총자산 기준(${manW(L.pubLimits.total_asset)})을 넘어 신혼희망타운 전용 수익공유형 모기지 의무 가입 대상이에요. 팔거나 대출을 갚을 때 시세차익의 10~50%를 주택도시기금과 나눠요 (공고문). 위 차이에는 반영하지 않았어요.`}</p>` : ''}
+    ${on('town_rules') && isNewlywedTown(L) && L.pubLimits && L.pubLimits.kind === 'town' && L.price * 10000 > L.pubLimits.total_asset ? `<p class="small st-warn" style="margin:6px 0 0">${on('town_assets') ? `이 주택은 분양가가 ${manW(L.pubLimits.total_asset)}(공공주택 특별법 시행규칙의 총자산가액)을 넘어, 당첨되면 신혼희망타운 전용 수익공유형 모기지에 주택가격의 30% 이상으로 반드시 가입해야 해요. 집을 팔거나 대출을 갚을 때 시세차익의 10~50%를 주택도시기금과 나눠요 (공고문). 위 차이에는 반영하지 않았어요. 신청 자격(내 세대 총자산 기준)과는 별개예요.` : `공급가격이 총자산 기준(${manW(L.pubLimits.total_asset)})을 넘어 신혼희망타운 전용 수익공유형 모기지 의무 가입 대상이에요. 팔거나 대출을 갚을 때 시세차익의 10~50%를 주택도시기금과 나눠요 (공고문). 위 차이에는 반영하지 않았어요.`}</p>` : ''}
     ${on('margin_caveat') && !unknown ? '<p class="small muted" style="margin:6px 0 0">세전 추정 차이예요. 양도소득세, 보유 비용(재산세 등), 대출이자, 중개수수료는 빼지 않았고, 전매 제한·실거주 의무 기간에는 팔 수 없어요. 확정 수익이 아니에요.</p>' : ''}
     ${unknown ? '' : `<div class="bar" role="img" aria-label="실매입가 ${fmt(m.cost)}, 기준 시세 ${fmt(L.mktBase)}"><i style="width:${barCost}%;background:var(--fg)"></i><i style="width:${barLo}%;background:var(--lotto)"></i></div>
       <div class="legend"><span><i style="background:var(--fg)"></i>실매입가</span><span><i style="background:var(--lotto)"></i>보수 마진</span><span><i style="background:var(--lotto-soft);outline:1px solid var(--line)"></i>기준 시세까지</span></div>`}
@@ -2449,7 +2450,7 @@ function vDetail(){
   const gap = bestGap(f, o), barCost = L.mktBase ? Math.min(100, m.cost / L.mktBase * 100) : 0, barLo = L.mktBase ? Math.max(0, Math.min(100 - barCost, m.lo / L.mktBase * 100)) : 0;
   let mine; const okWord = on('eligibility_caution') ? '기본 요건은 되지만' : '자격은 되지만';
   if (!hasProfile()) mine = `<div class="note info"><b>내 조건을 넣으면 이 공고의 자격·자금을 판정해요</b><div>입력한 정보는 이 기기에만 저장돼요.</div><div style="margin-top:6px"><button class="btn sm" data-action="restart">내 조건 입력하기</button></div></div>`;
-  else if (!e.ok) mine = `<div class="note ${e.rank2 ? 'warn' : 'fail'}"><b>${e.rank2 ? (m.g === 'lotto' || m.g === 'consider' ? '하지만 2순위로만 신청할 수 있어요' : '2순위로만 신청할 수 있어요') : m.g === 'lotto' || m.g === 'consider' ? '하지만 나는 이번 공고 신청 불가' : '나는 이번 공고 신청 불가'}</b><div>${esc(e.reason)}</div>${e.rank2 ? '<div style="margin-top:4px">2순위는 1순위 신청자가 공급 물량보다 적을 때만 접수해요. 1순위에서 마감되면 2순위 차례는 오지 않아요.</div>' : ''}${e.fix ? `<div class="inner"><b style="font-size:13px">다음 공고부터 가능하게 하려면</b><br>${esc(e.fix)}</div>` : ''}</div>`;
+  else if (!e.ok) mine = `<div class="note ${e.rank2 ? 'warn' : 'fail'}"><b>${e.rank2 ? (m.g === 'lotto' || m.g === 'consider' ? '하지만 2순위로만 신청할 수 있어요' : '2순위로만 신청할 수 있어요') : m.g === 'lotto' || m.g === 'consider' ? '하지만 나는 이번 공고 신청 불가' : '나는 이번 공고 신청 불가'}</b><div>${esc(e.reason)}</div>${e.rank2 ? '<div style="margin-top:4px">2순위는 1순위 신청자가 공급 물량보다 적을 때만 접수해요. 1순위에서 마감되면 2순위 차례는 오지 않아요.</div>' : ''}${e.fix ? `<div class="inner"><b style="font-size:13px">다음 공고에 신청하려면</b><br>${esc(e.fix)}</div>` : ''}</div>`;
   else if (m.g === 'unknown') mine = `<div class="note warn"><b>${okWord} 시세를 확인해야 해요</b><div>${esc(L.mktNote)}</div></div>`;
   else if (m.g === 'pass' || m.g === 'flat') mine = `<div class="note warn"><b>${okWord} ${m.g === 'pass' ? '시세보다 비싸요' : '마진이 거의 없어요'}</b><div>${on('margin_caveat') ? '당첨되면 재당첨 제한이 걸려 한동안 다른 청약에 당첨될 수 없어요.' : '당첨되면 재당첨 제한이 걸려요. 실거주 목적이 아니면 통장을 아끼세요.'}</div></div>`;
   else if (gap > 0) mine = `<div class="note warn"><b>${okWord} 자금 ${fmt(gap)} 부족</b><div>${o.mode === 'live' ? '잔금대출' : '전세 활용'} 기준이에요. 부족분 조달처를 확보한 뒤 신청하세요.</div></div>`;
@@ -2471,13 +2472,13 @@ function vDetail(){
   <div class="hero g-${m.g}">
     <div class="row"><span class="small" style="font-weight:600;opacity:.85">청약 판정</span><button class="linkbtn small" data-go="grades" style="color:inherit">등급 기준</button></div>
     <div style="display:flex;align-items:baseline;gap:12px;flex-wrap:wrap"><span class="big">${GNAME[m.g]}</span><span class="amt">${marginText(m).replace('마진 ','')}</span></div>
-    <p>${m.g === 'unknown' ? '실매입가 ' + fmt(m.cost) + '. ' + esc(L.mktNote) : '실매입가 ' + fmt(m.cost) + ' 대비 시세 ' + fmt(L.mktLow) + '~' + fmt(L.mktBase) + '. 보수 기준 마진율 ' + Math.round(m.rate*100) + '%예요.'}</p>
+    <p>${m.g === 'unknown' ? '실매입가 ' + fmt(m.cost) + '. ' + esc(L.mktNote) : '실매입가 ' + fmt(m.cost) + ' 대비 시세 ' + fmt(L.mktLow) + '~' + fmt(L.mktBase) + '. 보수적 시세 기준 마진율 ' + Math.round(m.rate*100) + '%예요.'}</p>
   </div>
   ${mine}
   ${L.checks && L.checks.length ? `<div class="note warn"><b style="font-size:14px">데이터 확인 필요 ${L.checks.length}건</b>${L.checks.map(c => `<div>· ${esc(c)}</div>`).join('')}<div class="small muted">자동 검증에서 걸린 항목이에요. 모집공고문 원문으로 확인하세요. ${noticeSrc(L)}</div></div>` : ''}
   <div class="tiles">
     <div class="tile"><span class="small muted">자격</span><span class="v ${e.ok ? (e.unsure ? 'st-warn' : 'st-ok') : e.rank2 ? 'st-warn' : 'st-fail'}">${e.ok ? (e.unsure ? '확인 필요' : on('eligibility_caution') ? '기본 충족' : '가능') : e.rank2 ? '2순위만' : '불가'}</span></div>
-    <div class="tile"><span class="small muted">마진 (보수)</span><span class="v">${m.lo == null ? '확인 필요' : (m.lo >= 0 ? '+' : '') + fmt(m.lo)}</span></div>
+    <div class="tile"><span class="small muted">마진 (보수적 추정)</span><span class="v">${m.lo == null ? '확인 필요' : (m.lo >= 0 ? '+' : '') + fmt(m.lo)}</span></div>
     <div class="tile"><span class="small muted">자금 (${o.mode === 'live' ? '대출' : '전세'})</span><span class="v ${gap > 0 ? 'st-warn' : 'st-ok'}">${gap > 0 ? fmt(gap) + ' 부족' : '가능'}</span></div>
   </div>
   ${L.sample ? '' : compCard(L)}
@@ -2496,7 +2497,7 @@ function vDetail(){
     </div>
     <div class="rows">
       <div class="row"><span>분양가 (주택형 최고가)<br>${L.sample ? src('estimate', ['샘플 값', null]) : (L.sources && L.sources[0] ? src(null, ['청약홈 공고 (공급금액)', L.sources[0][1]]) : noticeSrc(L))}</span><span>${fmt(L.price)}</span></div>
-      ${L.ext ? `<div class="row"><span>발코니 확장 (분양 때 정해진 선택, 계약 시 함께 내야 해요)<br>${fromNotice(L, '발코니 확장비') ? noticeSrc(L) : src('estimate', ['공고문 수기 확인', null])}</span><span>${fmt(L.ext)}</span></div>` : ''}
+      ${L.ext ? `<div class="row"><span>발코니 확장 (분양 조건으로 정해진 선택 항목이라 계약할 때 함께 내요)<br>${fromNotice(L, '발코니 확장비') ? noticeSrc(L) : src('estimate', ['공고문 수기 확인', null])}</span><span>${fmt(L.ext)}</span></div>` : ''}
       <div class="row"><span>취득세 등 (추정)<br>${src('localTax')} · 1주택·85㎡ 이하 가정</span><span>${fmt(m.tax)}</span></div>
       <div class="row total"><span>실매입가</span><span>${fmt(m.cost)}</span></div>
       <div class="row"><span>시세 (보수 / 기준)<br>${L.sample ? src(null, ['샘플 값', null]) : src('rtms')} ${L.mktComps && L.mktComps.length ? basisTag(L) : ''}</span><span>${m.g === 'unknown' ? '확인 필요' : fmt(L.mktLow) + ' / ' + fmt(L.mktBase)}</span></div>
@@ -2525,7 +2526,7 @@ function vDetail(){
 
 function vPlan(){
   const L = LISTINGS.find(x => x.id === S.id), p = S.profile, o = planOpt(L), f = funding(L, p, o), jc = jeonseCheck(L);
-  const d = s => s ? s.slice(5).replace('-','.') : '[일자]';
+  const d = s => s ? s.slice(5).replace('-','.') : '날짜 미정';
   const scen = (key, title, rows, gap, note, blocked) => `
     <section class="card scen ${o.mode === key ? 'mine' : ''}">
       <div class="row"><h2 style="font-size:15px">${title}${o.mode === key ? ' <span class="small muted">· 내 계획</span>' : ''}</h2>${blocked ? '<span class="pill fail">이 단지는 불가</span>' : `<span class="pill ${gap > 0 ? (gap > 3 ? 'fail' : 'warn') : 'ok'}">${gap > 0 ? fmt(gap) + ' 부족' : '가능'}</span>`}</div>
@@ -2576,7 +2577,7 @@ function vPlan(){
      : L.regulated && L.capital ? '세입자 전세대출이 막혀 현금 세입자만 받을 수 있어요. 입주장 공실 위험도 감안하세요.'
      : '입주장에 전세 물량이 몰리면 보증금이 내려가요.', jc.status === 'no')}
   ${scen('live', '잔금대출로 실거주', [['잔금대출 (' + f.limitBy + ' 기준)', fmt(f.loan)], ['내 자금', fmt(f.available)]], f.gapLive,
-     '집값 기준(LTV) ' + (f.ltvRate*100) + '% ' + fmt(f.loanLtv) + (isFinite(f.cap) ? ' · 한도 ' + f.cap + '억' : '') + ' · 소득 기준(DSR) ' + fmt(f.loanDsr) + ' 중 가장 작은 값이에요.' + (L.regulated ? ' 규제지역이라 6개월 안에 전입해야 해요.' : '') + ' 실제 한도는 은행 심사로 확인하세요.<div class="srcs">' + src('p1015') + src('p627') + '</div>')}
+     '집값 기준(LTV) ' + (f.ltvRate*100) + '% ' + fmt(f.loanLtv) + (isFinite(f.cap) ? ' · 한도 ' + f.cap + '억' : '') + ' · 소득 기준(DSR) ' + fmt(f.loanDsr) + ' 중 더 작은 값이에요.' + (L.regulated ? ' 규제지역이라 6개월 안에 전입해야 해요.' : '') + ' 실제 한도는 은행 심사로 확인하세요.<div class="srcs">' + src('p1015') + src('p627') + '</div>')}
 
   <section class="note info"><b>부족분 메우는 방법</b>
     <div><b style="font-size:13px">가족 차용</b> · 차용증과 이자 지급 기록이 있어야 증여로 보지 않아요</div>
@@ -2600,7 +2601,7 @@ function vGrades(){
     ${g('flat', '마진 0 ~ ' + RULES.considerAbs + '억', on('margin_caveat') ? '현재 추정 시세와 실매입가가 비슷해요' : '시세 수준. 실거주 목적이 아니면 통장 아끼기')}
     ${g('pass', '마진 마이너스', on('margin_caveat') ? '현재 추정 시세보다 실매입가가 높아요' : '분양가가 시세보다 비싸요. 넣지 마세요')}
   </div>
-  <div class="note info"><b>등급과 내 자격은 따로 보여줘요</b><div>등급은 단지 자체의 가치예요. 로또여도 내 자격이나 자금이 안 되면 카드 아래에 이유를 함께 표시해요.</div></div>
+  <div class="note info"><b>등급과 내 자격은 따로 보여줘요</b><div>등급은 아파트 단지 자체의 가치를 본 거예요. 로또여도 내 자격이나 자금이 안 되면 카드 아래에 이유를 함께 표시해요.</div></div>
   <div class="srcs">${src(null, ['등급 기준은 이 서비스가 정한 값', null])}${src('rtms')}${src('localTax')}</div>
   <p class="foot">시세는 추정치이며 판정은 참고용이에요. 최종 판단은 모집공고문 기준으로 하세요.</p>`;
 }
@@ -2844,7 +2845,7 @@ const STEPS = [
     f:[{ k:'parents60', type:'choice', l:'두 분 모두 만 60세 이상인가요?', o:[[true,'예'],[false,'아니요']], two:true },
        { k:'parentsOwn', type:'choice', l:'부모님 명의 주택이 있나요?', o:[[true,'있어요'],[false,'없어요']], two:true }],
     note:p => p.parents60 ? '만 60세 이상 부모님 소유 주택은 무주택 판정에서 빠져요. 세대주만 본인으로 바꾸면 무주택 세대주가 될 수 있어요. 집 명의는 바뀌지 않아요.' : '' },
-  { show:p => p.household === 'head', n:'세대주가 된 날', t:'언제부터 세대주였나요?', d:'공고일보다 늦게 세대주가 되면 그 공고에는 넣을 수 없어요.',
+  { show:p => p.household === 'head', n:'세대주가 된 날', t:'언제부터 세대주였나요?', d:'모집공고일보다 늦게 세대주가 되면 그 공고에는 세대주로 넣을 수 없어요.',
     f:[{ k:'headSince', type:'date', l:'세대주가 된 날' }] },
   { n:'집과 혼인', t:'집과 혼인 상태', d:'분양권과 입주권도 주택으로 봐요.',
     f:[{ k:'selfOwn', type:'choice', l:'본인 명의 주택이나 분양권이 있나요?', o:[[true,'있어요'],[false,'없어요']], two:true },
@@ -2868,7 +2869,7 @@ const STEPS = [
                                   { k:'acctPaid', type:'money', l:'납입 인정 금액 (공공분양 기준)', h:'회차마다 최대 25만원까지만 인정한 합계라 통장 잔액보다 적을 수 있어요. 순위(가입)확인서에 나와요', show:() => V2() }] : []),
        { k:'recentWin', type:'choice', l:'재당첨 제한 기간인가요?', o:[[true,'예'],[false,'아니요']], two:true, show:() => !(V2() && on('regulated_rules')) }] },
   { show:p => on('score'), n:'가점 계산', t:'가점 계산', d:'민영주택 1순위 가점(84점 만점)을 계산하는 데 써요. 공고의 당첨 가점과 비교해 드려요.',
-    f:[{ k:'birth', type:'date', l:'생년월일' }, { k:'homeSoldOn', type:'date', l:'집을 가졌다가 처분한 적이 있다면 그 날 (없으면 비워두세요)' },
+    f:[{ k:'birth', type:'date', l:'생년월일' }, { k:'homeSoldOn', type:'date', l:'집을 가졌다가 처분한 적이 있다면 그날 (없으면 비워두세요)' },
        { k:'dependents', type:'choice', l:'부양가족 수', o:[[0,'0명'],[1,'1명'],[2,'2명'],[3,'3명'],[4,'4명'],[5,'5명'],[6,'6명 이상']] }],
     note:() => '부양가족: 배우자(등본이 달라도 포함), 같은 등본의 미혼 자녀(만 30세 이상은 1년 이상 같은 등본), 내가 세대주이고 3년 이상 같은 등본에 있는 집 없는 부모님.' },
   { id:'sp1', show:p => on('special_eligibility'), n:'자녀와 가구', t:'자녀와 가구 (특별공급)', d:'신생아·신혼부부·다자녀 특별공급 판정과 소득 기준(가구원수)에 써요.',
@@ -2878,13 +2879,13 @@ const STEPS = [
        { k:'hhSize', type:'choice', l:'가구원수 (등본의 무주택 세대원 전원, 태아 포함)', o:[[1,'1명'],[2,'2명'],[3,'3명'],[4,'4명'],[5,'5명'],[6,'6명'],[7,'7명'],[8,'8명'],[9,'9명 이상']], show:() => !on('hh_count') },
        { k:'fetusCount', type:'choice', l:'태아 수', o:[[1,'1명'],[2,'2명 (쌍둥이)'],[3,'3명 이상']], two:true, show:p => on('hh_count') && p.pregnant === true },
        { k:'kidsOnDeed', type:'choice', l:'나·배우자와 같은 등본에 있는 자녀·손자녀 수 (성년 자녀, 배우자의 자녀, 자녀의 배우자 포함)', o:[[0,'없어요'],[1,'1명'],[2,'2명'],[3,'3명'],[4,'4명'],[5,'5명 이상']], show:() => on('hh_count') && !V2() },
-       { k:'kidsOnDeed', type:'choice', l:'나·배우자와 같은 등본에 있는 자녀 수 (태어난 자녀만 · 성년 자녀, 손자녀, 배우자의 자녀, 자녀의 배우자도 세요)', o:[[0,'없어요'],[1,'1명'],[2,'2명'],[3,'3명'],[4,'4명'],[5,'5명 이상']], show:() => on('hh_count') && V2() },
+       { k:'kidsOnDeed', type:'choice', l:'나·배우자와 같은 등본에 있는 자녀 수 (태어난 자녀만 · 성년 자녀, 손자녀, 배우자의 자녀, 자녀의 배우자도 포함해요)', o:[[0,'없어요'],[1,'1명'],[2,'2명'],[3,'3명'],[4,'4명'],[5,'5명 이상']], show:() => on('hh_count') && V2() },
        { k:'eldersOnDeed', type:'choice', l:'나·배우자와 같은 등본에 있는 부모·조부모 수 (배우자 쪽 포함)', o:[[0,'없어요'],[1,'1명'],[2,'2명'],[3,'3명'],[4,'4명 이상']], show:() => on('hh_count') },
        { k:'elders1y', type:'choice', l:'그중 공고일 기준 1년 넘게 계속 같은 등본에 있는 분', o:[[0,'없어요'],[1,'1명'],[2,'2명'],[3,'3명'],[4,'4명 이상']], show:p => on('hh_count') && p.eldersOnDeed > 0 }],
     note:() => on('hh_count') ? '가구원수는 공고문 기준대로 세어 드려요: 본인·배우자(다른 등본이어도)·같은 등본의 자녀·태아 수, 부모님은 민영주택·공공 생애최초에서 1년 이상 같은 등본일 때만.' : '부모님은 1년 이상 같은 등본에 있어야 가구원수에 들어가요.' },
   { id:'sp4', show:p => on('special_eligibility') && on('multichild_score') && p.kidsMinor >= 2, n:'다자녀 배점', t:'다자녀 배점 (특별공급)', d:'다자녀가구 특별공급은 100점 배점표로 뽑아요.',
     f:[{ k:'kidsUnder6', type:'choice', l:'만 6세 미만 자녀 수 (태아·입양 포함)', o:[[0,'없어요'],[1,'1명'],[2,'2명'],[3,'3명 이상']] },
-       { k:'gen3', type:'choice', l:'무주택 부모님(배우자 부모님 포함)과 3년 이상 같은 등본이거나, 한부모 가족 5년 이상인가요?', o:[[true,'예'],[false,'아니요']], two:true },
+       { k:'gen3', type:'choice', l:'무주택 부모님(배우자 부모님 포함)과 3년 이상 같은 등본이거나, 한부모 가족이 된 지 5년 이상인가요?', o:[[true,'예'],[false,'아니요']], two:true },
        ] },
   { id:'sp5', show:p => on('special_eligibility') && (on('special_position') || (on('multichild_score') && p.kidsMinor >= 2)) && (!on('residence_v2') || CAPITAL3.includes(p.homeSido)), get n(){ return V2() && on('residence_v2') ? '수도권 거주 시작일' : '사는 곳'; }, t:'사는 곳 (특별공급 점수)', d:'다자녀 배점과 공공분양 신혼부부·신생아 점수의 거주기간에 써요. 주민등록 기준이에요.',
     f:[{ k:'homeSido', type:'choice', l:'지금 사는 시·도', o:SIDO_ORDER.map(x => [x, x]), two:true, show:() => !on('residence_v2') },
@@ -2905,8 +2906,8 @@ const STEPS = [
     note:p => (V2() && ownsNow(p) ? '앞에서 지금 집이 있다고 답해서 세대 주택 이력은 \'있음\'으로 봐요 (생애최초 특별공급 불가). ' : '') + '배우자가 혼인 전에 가졌다가 혼인 전에 판 집은 생애최초 이력에서 빼요.' },
   { show:p => on('regulated_rules'), n:'세대 주택·당첨 이력', t:'세대의 주택과 당첨 이력', d:'서울 전역 등 투기과열지구·청약과열지역의 1순위는 등본에 함께 있는 세대 전체를 봐요.',
     f:[{ k:'hhHomes', type:'choice', l:'세대 전체가 가진 주택 수 (분양권 포함)', o:[['0','없어요'],['1','1채'],['2+','2채 이상']] },
-       { k:'win5y', type:'choice', l:'나나 세대원이 최근 5년 안에 청약에 당첨된 적이 있나요?', o:[[true,'있어요'],[false,'없어요']], two:true, show:() => !V2() },
-       { k:'everWin', type:'choice', l:'나나 세대원이 청약에 당첨된 적이 있나요? (특별공급·일반공급·무순위 모두)', o:[['none','없어요'],['yes','있어요']], two:true, show:() => V2() },
+       { k:'win5y', type:'choice', l:'나 또는 세대원이 최근 5년 안에 청약에 당첨된 적이 있나요?', o:[[true,'있어요'],[false,'없어요']], two:true, show:() => !V2() },
+       { k:'everWin', type:'choice', l:'나 또는 세대원이 청약에 당첨된 적이 있나요? (특별공급·일반공급·무순위 모두)', o:[['none','없어요'],['yes','있어요']], two:true, show:() => V2() },
        { k:'win5y', type:'choice', l:'그 당첨이 최근 5년 안인가요?', o:[[true,'예'],[false,'아니요']], two:true, show:p => V2() && p.everWin === 'yes' },
        { k:'recentWin', type:'choice', l:'그 당첨으로 지금 재당첨 제한 기간인가요?', o:[[true,'예'],[false,'아니요']], two:true, show:p => V2() && p.everWin === 'yes' }],
     note:p => V2() && p.everWin === 'yes' ? '재당첨 제한 기간은 청약홈 → 청약자격확인 → 청약제한사항 확인에서 볼 수 있어요.' : '' },
@@ -2988,9 +2989,9 @@ function dataInfo(){
   const li = (t, d) => `<div class="dirow"><b>${t}</b><span>${d}</span></div>`;
   return `<section class="card"><h2>데이터와 검증 방식</h2><div>
     ${li('공고', '청약홈 분양정보(공공데이터포털). 매일 새벽 5시 30분에 모아요.')}
-    ${li('모집공고문', on('about_v2') ? '청약홈·LH청약플러스의 공고문 PDF에서 1순위 가입기간, 납입 인정 횟수, 세대주·거주 요건, 소득·자산 기준, 특별공급 선정 방식(단계·배점)과 접수 일정을 읽어요.' : '청약홈·LH청약플러스의 공고문 PDF에서 1순위 가입기간, 납입 인정 횟수, 세대주 요건 같은 조건을 읽어요.')}
+    ${li('모집공고문', on('about_v2') ? '청약홈·LH 청약플러스의 공고문 PDF에서 1순위 가입기간, 납입 인정 횟수, 세대주·거주 요건, 소득·자산 기준, 특별공급 선정 방식(단계·배점)과 접수 일정을 읽어요.' : '청약홈·LH 청약플러스의 공고문 PDF에서 1순위 가입기간, 납입 인정 횟수, 세대주 요건 같은 조건을 읽어요.')}
     ${li('시세', '국토교통부 실거래가. 주로 같은 시·군·구, 준공 10년 이내, 같은 평형의 최근 6개월 거래로 추정해요.')}
-    ${li('경쟁률·가점', on('about_v2') ? '청약홈 청약 경쟁률·당첨 가점, 특별공급 유형별 접수 현황(LH 청약플러스 접수 공고는 공개되지 않아 없어요).' : '청약홈 청약 경쟁률·당첨 가점.')}
+    ${li('경쟁률·가점', on('about_v2') ? '청약홈 청약 경쟁률·당첨 가점, 특별공급 유형별 접수 현황(LH 청약플러스 공고는 접수 현황이 공개되지 않아 없어요).' : '청약홈 청약 경쟁률·당첨 가점.')}
     ${li('위치·입지', '네이버 지도(좌표), OpenStreetMap(역·학교).')}
     ${li('검증', on('verify_badge') && on('about_simple') ? '매일 수집 뒤 모집공고문 원문의 숫자(소득 기준표·예치금·자산 기준·분양가)와 앱 수치를 자동으로 대조하고, 다르거나 이상한 값이 있으면 그 공고에 \'데이터 확인 필요\'로 표시해요.' : on('verify_badge') ? '매일 수집 뒤 ① 모집공고문 원문의 소득 기준표·예치금·자산 기준·분양가를 앱 수치와 대조하고 ② 공고문·법령 표로 기대값을 정한 판정 사례 144건을 화면 판정과 맞춰 보고 ③ 사람이 원문으로 확인한 정답 데이터와 비교해요. 날짜 순서·금액 범위 같은 이상값도 검사해 걸리면 공고에 \'데이터 확인 필요\'로 표시해요. 결과는 아래 \'데이터 검증 현황\'에서 볼 수 있어요.' : '공고문 원문을 사람이 직접 읽고 확인한 값(정답 데이터)과 매번 대조해요. 매일 날짜 순서·금액 범위 같은 이상값을 자동 검사하고, 걸리면 화면에 \'데이터 확인 필요\'로 표시해요.')}
   </div>${CONFIG.maker ? `<p class="small" style="margin:8px 0 0"><b>만든 사람</b> · ${esc(CONFIG.maker)}</p>` : ''}</section>`;
@@ -3009,7 +3010,7 @@ function vAbout(){
   ${dataInfo()}
   ${on('about_simple') ? '' : verifyCard()}
   <section class="card"><h2>개인정보 안내</h2>
-    <p style="margin:6px 0" class="small"><b>회원가입이 없고, 입력한 내 정보를 서버로 보내지 않아요.</b> 인터뷰에 넣은 통장·무주택·소득·자금 정보는 이 기기의 브라우저 저장소에만 저장돼요.</p>
+    <p style="margin:6px 0" class="small"><b>회원가입이 없고, 입력한 내 정보를 서버로 보내지 않아요.</b> 내 조건에 넣은 통장·무주택·소득·자금 정보는 이 기기의 브라우저 저장소에만 저장돼요.</p>
     <p style="margin:6px 0" class="small">${an ? '방문 통계는 ' + an + '로 쿠키 없이 페이지 방문 수만 집계해요. 입력한 내 정보는 보내지 않아요.' : '방문 통계는 수집하지 않아요.'}${adsOn() ? ' 운영비를 위해 광고(' + adVendors() + ')를 보여주고, 광고 사업자가 쿠키로 관심 기반 광고를 고를 수 있어요. 입력한 내 정보는 광고 사업자에게 보내지 않아요. 끄는 방법은 개인정보처리방침 7항에 있어요.' : ''}</p>
     <p style="margin:6px 0" class="small">지도를 열면 네이버 지도가 화면을 그리기 위해 접속 정보(IP 주소 등)를 받을 수 있어요.${pushOn() ? ' 새 공고 알림을 켜면 브라우저 알림 주소와 고른 지역·종류만 알림 서버(Cloudflare)에 보관돼요.' : ''}</p>
     <button class="btn ghost" data-action="wipe">이 기기에 저장된 내 정보 모두 지우기</button></section>
@@ -3306,7 +3307,7 @@ function wsCard(L, p){
   const gp = !e.ok ? (e.rank2 ? ['warn', '2순위만'] : ['fail', '불가']) : e.unsure ? ['warn', '확인 필요'] : own ? ['ok', lotOnly ? '추첨제만' : '가능 · 무주택기간 0점'] : ['ok', '가능'];
   const PILL = { ok:['가능','ok'], warn:['확인 필요','warn'], fail:['불가','fail'] };
   const big = (v, max) => v == null ? '<span class="ws-num muted">-</span>' : `<span class="ws-num">${v}</span>${max ? `<span class="ws-max">/ ${max}</span>` : ''}`;
-  const genSub = !e.ok && !e.rank2 && hasProfile() ? e.reason : lotOnly ? '집이 있어 1순위 가점제로는 신청할 수 없고 추첨 물량으로만 뽑혀요' : !L.needAccount ? '청약통장 없이 신청하는 공고예요' : pub ? '공공분양 일반공급은 납입 인정 금액·횟수 순이에요'
+  const genSub = !e.ok && !e.rank2 && hasProfile() ? e.reason : lotOnly ? '집이 있어 1순위 가점제로는 신청할 수 없고 추첨 물량으로만 신청할 수 있어요' : !L.needAccount ? '청약통장 없이 신청하는 공고예요' : pub ? '공공분양 일반공급은 납입 인정 금액·횟수 순이에요'
     : sc && sc.total == null ? '가점 계산에 ' + (sc.miss || []).join(', ') + ' 필요' : t && t.low != null ? `당첨 최저 ${t.low}점 (${gap >= 0 ? '+' : ''}${gap}) · ${t.from}` : '비교할 당첨 가점 기록이 없어요';
   const gen = `<div class="ws-row"><div class="ws-k"><b>${genLabel(L)}</b><span class="pill ${gp[0]}">${gp[1]}</span></div>
     <div class="ws-v">${pub || !L.needAccount || lotOnly ? `<span class="ws-num sm">${esc(pub ? '순차제' : '추첨')}</span>` : big(sc && sc.total, 84)}</div><div class="ws-sub small muted">${esc(genSub)}</div>${genWhyHtml(L, p, e)}</div>`;
@@ -3319,7 +3320,7 @@ function wsCard(L, p){
   // 추천
   const oks = xs.filter(x => x.r.s === 'ok').sort((a, b) => a.tier - b.tier || (b.mine || 0) - (a.mine || 0));
   const warns = xs.filter(x => x.r.s === 'warn');
-  const TIER = { 1:'먼저 뽑는 몫에 들어가요', 2:'점수·가점이 높은 순으로 뽑아요', 3:'추첨 몫으로만 뽑혀요' };
+  const TIER = { 1:'먼저 뽑는 몫에 들어가요', 2:'점수·가점이 높은 순으로 뽑아요', 3:'추첨 물량 대상이에요' };
   let rec = '';
   const v2 = on('ws_reco_v2') ? wsRecV2(L, p, xs, types) : null;
   if (v2) rec = v2.rec;
@@ -3334,7 +3335,7 @@ function wsCard(L, p){
   else if (types.length) rec = '지금 조건으로 신청할 수 있는 특별공급이 없어요.';
   if (hasProfile() && L.needAccount) {
     const canGen = e.ok || e.rank2;
-    const g = !canGen ? '일반공급은 신청할 수 없어요.' : lotOnly ? '일반공급은 집이 있어 가점제가 아닌 추첨 물량으로만 뽑혀요. 추첨 물량은 무주택 세대를 먼저 뽑고 남은 몫에서 1주택 세대도 뽑아요. 이 주택형의 추첨 비율은 공고문에서 확인하세요.' : gap != null && gap >= 0 ? `일반공급 가점도 최근 당첨 최저점보다 ${gap}점 높거나 같아요.`
+    const g = !canGen ? '일반공급은 신청할 수 없어요.' : lotOnly ? '일반공급은 집이 있어 가점제가 아닌 추첨 물량으로만 신청할 수 있어요. 추첨 물량은 무주택 세대를 먼저 뽑고 남은 몫에서 1주택 세대도 뽑아요. 이 주택형의 추첨 비율은 공고문에서 확인하세요.' : gap != null && gap >= 0 ? `일반공급 가점도 최근 당첨 최저점보다 ${gap}점 높거나 같아요.`
       : gap != null ? `일반공급은 가점이 최근 당첨 최저점보다 ${-gap}점 낮아 가점만으로는 어려워요. 추첨 물량이 있는지 공고문을 확인하세요.` : (v2 ? v2.oks : oks).length ? '' : '일반공급은 신청할 수 있어요.';
     const dup = (v2 ? v2.oks : oks).length && canGen ? '특별공급 1개와 일반공급 1개는 함께 신청할 수 있어요. 특별공급에 당첨되면 일반공급에서는 빠져요.' : '';
     if ((g || dup) && v2 && on('ws_compact') && rec.includes('<!--WS_MORE-->')) rec = rec.replace('<!--WS_MORE-->', [dup, g].filter(Boolean).map(t => `<li>${t}</li>`).join(''));
@@ -3351,8 +3352,8 @@ function wsCard(L, p){
 function watchScores(){
   if (!on('watch_scores') || !on('watchlist')) return '';
   const Ls = LISTINGS.filter(L => WATCH.has(L.id) && !L.sample).sort((a, b) => (statusOf(a) === '마감') - (statusOf(b) === '마감') || (a.specialApply || a.apply || '').localeCompare(b.specialApply || b.apply || ''));
-  const head = `<h2 class="ws-h">관심 공고 · 내 당첨 점수</h2>`;
-  if (!Ls.length) return head + `<section class="card"><p class="small" style="margin:0">공고에서 <b>☆ 관심</b>을 누르면 여기서 일반·특별공급별 내 점수와 유리한 공급을 크게 비교해요.</p></section>`;
+  const head = `<h2 class="ws-h">관심 공고 · 내 점수</h2>`;
+  if (!Ls.length) return head + `<section class="card"><p class="small" style="margin:0">공고에서 <b>☆ 관심</b>을 누르면 여기서 일반·특별공급별 내 점수와 어느 공급이 유리한지 한눈에 비교해 드려요.</p></section>`;
   return head + `<p class="small muted" style="margin:-4px 0 8px">관심 공고 ${Ls.length}개 · ${on('ws_reco_v2') ? '특별공급 비교는 공고문 선정 방식·배정 비율과 청약홈 특별공급 신청현황(있을 때)으로 만든 추정이에요.' : '특별공급 추천은 먼저 뽑히는 순서와 내 몫 세대수로 고른 추정이에요. 유형별 경쟁률은 반영하지 않았어요.'}</p>`
     + Ls.map(L => wsCard(L, S.profile)).join('') + '<h2 class="ws-h" style="margin-top:18px">지역별 당첨 가점 컷</h2>';
 }
@@ -3478,8 +3479,8 @@ function vStory(){
     <div class="sumbar" style="margin:6px 0 0">${tile(nids.size + '개', '공고 · 주택형 ' + units + '개')}${tile(sidos + '개', '시·도의 공고')}${tile('매일', '새벽 청약홈·국토부 동기화')}</div>
     <p class="foot" style="margin-top:6px">지금 화면에 있는 공고 기준 (마감 후 발표 전 공고 포함).</p></section>` : ''}
   <section class="card doc"><div class="eyebrow">01 · The decision</div><h2>한 번 넣으면 되돌리기 어려워요</h2>
-    <p>당첨되면 재당첨 제한이 걸리고, 계약을 포기해도 당첨자로 관리돼요. 자격이 안 되는데 당첨되면 부적격으로 한동안 다른 청약에 당첨될 수 없어요.</p>
-    <p>그런데 판단은 보통 수십 쪽짜리 모집공고문, 커뮤니티 후기, "여기 로또래요" 같은 말에 기대요.</p></section>
+    <p>당첨되면 재당첨 제한이 걸리고, 계약을 포기해도 당첨자로 관리돼요. 자격이 안 되는데 당첨되면 부적격 처리되어 한동안 다른 청약에 당첨될 수 없어요.</p>
+    <p>그런데 보통은 수십 쪽짜리 모집공고문, 커뮤니티 후기, "여기 로또래요" 같은 말에 기대어 판단해요.</p></section>
   <section class="card doc"><div class="eyebrow">02 · The question</div><h2>신청 전에 알고 싶은 것</h2>
     ${q('나는 이 공고에 1순위로 넣을 수 있을까?')}${q('당첨되면 계약금과 잔금을 마련할 수 있을까?')}${q('분양가가 주변 시세보다 정말 싼 걸까?')}${q('내 가점이면 이 지역에서 당첨된 적이 있을까?')}</section>
   <section class="card doc"><div class="eyebrow">03 · The insight</div><h2>답은 이미 공개돼 있어요</h2>
@@ -3499,7 +3500,7 @@ function vStory(){
 
 function vTerms(){
   return docTop('이용약관') + `<p class="small muted" style="margin:0 0 8px">시행일 ${legalDate()}</p>
-  ${art('제1조', '(목적)', `<p>이 약관은 ${officer()}(이하 "운영자")가 제공하는 청약패스(이하 "서비스")의 이용 조건과 운영자와 이용자의 권리·의무·책임을 정합니다.</p>${infoTable()}`)}
+  ${art('제1조', '(목적)', `<p>이 약관은 ${officer()}(이하 "운영자")${josaIGa(CONFIG.privacy_officer || '서비스 운영자')} 제공하는 청약패스(이하 "서비스")의 이용 조건과 운영자와 이용자의 권리·의무·책임을 정합니다.</p>${infoTable()}`)}
   ${art('제2조', '(용어)', ul([
     '"서비스"란 cheongyakpass.kr(이전 주소 cheongyak.github.io 포함)에서 제공하는 청약 공고 정리·판정 화면과 부속 기능 일체를 말합니다.',
     '"이용자"란 이 약관에 따라 서비스를 이용하는 사람을 말합니다. 서비스는 회원가입 없이 이용합니다.',
@@ -3545,7 +3546,7 @@ function vTerms(){
 function vPrivacy(){
   const an = analyticsName();
   return docTop('개인정보처리방침') + `<p class="small muted" style="margin:0 0 8px">시행일 ${legalDate()}</p>
-  <section class="card doc"><p>${officer()}(이하 "운영자")는 「개인정보 보호법」에 따라 청약패스 이용자의 개인정보를 보호하고 관련 고충을 신속하게 처리하기 위해 이 방침을 공개합니다.</p>
+  <section class="card doc"><p>${officer()}(이하 "운영자")${josaEunNeun(CONFIG.privacy_officer || '서비스 운영자')} 「개인정보 보호법」에 따라 청약패스 이용자의 개인정보를 보호하고 관련 고충을 신속하게 처리하기 위해 이 방침을 공개합니다.</p>
     <div class="note ok" style="padding:10px 12px"><b style="font-size:14px">한 줄 요약</b><div class="small">회원가입이 없고, 운영자는 이용자를 알아볼 수 있는 개인정보를 모으거나 보관하지 않아요. 인터뷰에 입력한 정보는 이용자 기기의 브라우저에만 저장돼요.${pushOn() ? ' 새 공고 알림을 켠 경우에만 브라우저 알림 주소와 고른 지역·종류를 알림 서버에 보관해요.' : ''}</div></div>
     ${infoTable()}</section>
   ${art('1.', '처리하는 개인정보', ul([

@@ -61,7 +61,7 @@ def page(slug: str, title: str, desc: str, body: str) -> str:
 </head><body>
 <div class="static-wrap">
 <header><a class="static-brand" href="/">청약패스</a> <span class="beta">베타</span><nav class="static-nav">{nav}</nav></header>
-<div class="betabar" role="note"><b>베타 · 참고용</b><span>이 사이트의 판정과 기준표는 공개 자료로 만든 참고용이에요. 신청 전 <b>모집공고문</b>과 <b>청약홈 청약자격 확인</b>으로 꼭 확인하세요.</span></div>
+<div class="betabar" role="note"><b>베타 · 참고용</b><span>이 사이트의 판정과 기준표는 공개 자료로 만든 참고용이에요. 신청 전 <b>모집공고문</b>과 <b>청약홈 '청약자격확인'</b>에서 꼭 확인하세요.</span></div>
 <main>
 {body}
 </main>
@@ -166,18 +166,18 @@ def guide_score() -> str:
     return f"""<h1>청약 가점 계산표 (84점 만점)</h1>
 <p class="muted small">「주택공급에 관한 규칙」 [별표 1] 가점제 적용기준 2 나목{law_note('1')}</p>
 <section class="card doc"><h2>세 항목의 합이 내 가점이에요</h2>
-<ul class="doclist"><li><b>무주택기간 (32점)</b>: 만 30세가 된 날(그 전에 혼인했으면 혼인신고일)부터 계산하고, 집을 판 적이 있으면 판 날부터 다시 계산해요. 만 30세 미만 미혼이면 무주택기간이 아직 시작되지 않아 0점.</li>
-<li><b>부양가족 (35점)</b>: 본인 제외, 공고일 현재 나 또는 배우자와 같은 등본에 있는 세대원. 0명 5점, 1명마다 5점, 6명 이상 35점.
+<ul class="doclist"><li><b>무주택기간 (최대 32점)</b>: 만 30세가 된 날(그 전에 혼인했으면 혼인신고일)부터 계산하고, 집을 판 적이 있으면 판 날부터 다시 계산해요. 만 30세 미만 미혼이면 무주택기간이 아직 시작되지 않아 0점.</li>
+<li><b>부양가족 (최대 35점)</b>: 본인 제외, 공고일 현재 나 또는 배우자와 같은 등본에 있는 세대원. 0명 5점, 1명마다 5점, 6명 이상 35점.
 <br><span class="small">배우자는 등본이 달라도 포함 · 직계존속(부모님 등)은 내가 세대주이고 공고일 기준 최근 3년 이상 계속 같은 등본에 있어야 하며, 직계존속과 그 배우자 중 한 명이라도 집이 있으면 둘 다 빼요 · 자녀는 미혼만(같은 등본의 손자녀는 그 부모가 모두 사망한 경우 포함), 만 30세 이상 자녀는 최근 1년 이상 계속 같은 등본. 그 밖의 세부 인정 기준은 모집공고문을 확인하세요.</span></li>
-<li><b>청약통장 가입기간 (17점)</b>: 본인 가입기간 점수 + 배우자 통장 가입기간 50%에 해당하는 점수(최대 3점). 합계 17점까지.</li></ul></section>
+<li><b>청약통장 가입기간 (최대 17점)</b>: 본인 가입기간 점수 + 배우자 통장 가입기간 50%에 해당하는 점수(최대 3점). 합계 17점까지.</li></ul></section>
 <section class="card doc"><h2>무주택기간</h2><div class="gwrap"><table class="gtbl"><thead><tr><th>기간</th><th>점수</th></tr></thead><tbody><tr><td>만 30세 미만 미혼</td><td>0</td></tr>{nohome}</tbody></table></div></section>
 <section class="card doc"><h2>청약통장 가입기간 (본인)</h2><div class="gwrap"><table class="gtbl"><thead><tr><th>기간</th><th>점수</th></tr></thead><tbody>{acct}</tbody></table></div>
 <p>배우자 통장: 배우자 가입기간의 50%에 해당하는 기간을 위 표로 계산하되 최대 3점 (6개월 미만 1점, 6개월~1년 2점, 1년 이상 3점), 본인 점수와 합쳐 17점까지 (별표 1 비고 2).</p></section>
 <section class="card doc"><h2>계산 예시 (공고일 2026.9.18 기준)</h2>
 <div class="gwrap"><table class="gtbl"><thead><tr><th>예시</th><th>무주택</th><th>부양가족</th><th>통장</th><th>합계</th></tr></thead><tbody>{rows}</tbody></table></div>
 <p class="small muted">예시 점수는 청약패스 판정 검증 사례와 같은 계산으로 만들었어요. 내 점수는 <a href="/">청약패스</a>에서 내 조건을 넣으면 공고마다 계산돼요.</p></section>
-<section class="card doc"><h2>가점제에서 빠지는 경우</h2><p>공고일 현재 주택을 소유한 세대에 속한 사람과, 과거 2년 안에 가점제로 당첨된 사람의 세대에 속한 사람은 1순위 가점제 대상에서 빠지고 추첨제 대상에 들어가요 (별표 1 비고 1, 제28조제6항이 적용되는 공고). 적용 여부는 공고문에서 확인하세요.</p></section>
-<p class="small muted">출처: 「주택공급에 관한 규칙」 <a href="{LAW_TABLES}" target="_blank" rel="noopener">[별표 1] 가점제 적용기준</a> (가점 산정기준 표·비고, 부양가족의 인정 적용기준){law_note('1')}. 배우자 통장 점수는 특별공급(제46조)에는 더하지 않아요. 법령 원문은 매주 법제처에서 다시 받아 이 표와 대조해요.</p>"""
+<section class="card doc"><h2>가점제에서 빠지는 경우</h2><p>공고일 현재 세대에 주택이 있거나, 세대에 과거 2년 안에 가점제로 당첨된 사람이 있으면 1순위 가점제 대상에서 빠지고 추첨제 대상에 들어가요 (별표 1 비고 1, 제28조제6항이 적용되는 공고). 적용 여부는 공고문에서 확인하세요.</p></section>
+<p class="small muted">출처: 「주택공급에 관한 규칙」 <a href="{LAW_TABLES}" target="_blank" rel="noopener">[별표 1] 가점제 적용기준</a> (가점 산정기준 표·비고, 부양가족의 인정 적용기준){law_note('1')} 배우자 통장 점수는 특별공급(제46조)에는 더하지 않아요. 법령 원문은 매주 법제처에서 다시 받아 이 표와 대조해요.</p>"""
 
 
 def guide_deposit() -> str:
@@ -189,10 +189,10 @@ def guide_deposit() -> str:
 <section class="card doc"><h2>민영주택 예치금 (만원)</h2>
 <p>공고일 현재 주민등록상 사는 지역 기준이에요. 주택청약종합저축은 공고일까지 예치금을 채우면 돼요.</p>
 <div class="gwrap"><table class="gtbl"><thead><tr><th>면적</th><th>서울·부산</th><th>그 밖의 광역시</th><th>그 밖의 지역</th></tr></thead><tbody>{tr}</tbody></table></div>
-<p class="small muted">출처: 「주택공급에 관한 규칙」 <a href="{LAW_TABLES}" target="_blank" rel="noopener">[별표 2] 민영주택 청약 예치기준금액</a>{law_note('2')}. 청약패스는 매일 모든 민영 공고문의 예치금 표도 이 기준과 대조해요.</p></section>
+<p class="small muted">출처: 「주택공급에 관한 규칙」 <a href="{LAW_TABLES}" target="_blank" rel="noopener">[별표 2] 민영주택 청약 예치기준금액</a>{law_note('2')} 청약패스는 매일 모든 민영 공고문의 예치금 표도 이 기준과 대조해요.</p></section>
 <section class="card doc"><h2>1순위 가입기간</h2>
 <ul class="doclist"><li><b>투기과열지구·청약과열지역</b>: 가입 2년 경과 + 예치금, 세대주, 과거 5년 안에 당첨된 세대가 아닐 것, 2주택 이상 세대가 아닐 것 (제28조제1항제1호다목)</li>
-<li><b>그 밖의 수도권</b>: 1년 · <b>수도권 밖</b>: 6개월. 시·도지사가 청약과열 우려로 각각 24개월·12개월까지 늘려 공고할 수 있어 공고문에 적힌 기간이 우선이에요 (제28조제1항제1호가·나목)</li>
+<li><b>그 밖의 수도권</b>: 1년 · <b>수도권 밖</b>: 6개월. 청약과열이 우려되면 시·도지사가 이 기간을 수도권은 24개월, 수도권 밖은 12개월까지 늘려 공고할 수 있어요. 공고문에 적힌 기간을 따르세요 (제28조제1항제1호가·나목)</li>
 <li><b>공공분양(국민주택)</b>은 예치금 대신 가입기간과 납입 횟수로 봐요: 수도권 1년·12회, 수도권 밖 6개월·6회, 투기과열지구·청약과열지역 2년·24회 (제27조제1항). 납입 인정 금액은 매달 최대 25만원까지예요.</li>
 <li>규제지역 1순위는 세대주여야 하고, 2주택 이상 세대나 5년 안에 당첨된 세대는 1순위가 안 돼요.</li></ul></section>
 <p class="small muted">공고마다 조건이 다를 수 있어요. 신청 전에 모집공고문의 '신청자격' 부분을 꼭 확인하세요.</p>"""
