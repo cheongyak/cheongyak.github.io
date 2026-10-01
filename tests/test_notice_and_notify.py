@@ -249,3 +249,17 @@ def test_score_ratio_unknown_and_absent():
     assert notice_pdf.parse_score_ratio((root / "2026000409.txt").read_text(encoding="utf-8")) is None
     # 합이 100% 가 아니면 못 읽은 것으로 본다
     assert notice_pdf.parse_score_ratio("전용면적별 1순위 가점제/추첨제 적용비율 구분 가점제 추첨제 전용면적 60㎡ 이하 40% 50%") == {"unknown": True}
+
+
+def test_pdf_fail_reason_names_file_kind():
+    """공고문 PDF 를 못 읽었을 때 원인(스캔 PDF·HWP 등)을 기록에 남긴다 (2026-10-02 오남역 여의재 1단지)."""
+    import httpx
+    from app import notice_pdf
+    page = '<a href="https://static.applyhome.co.kr/ai/aia/getAtchmnfl.do?x=1">모집공고문</a>'
+    def handler(req):
+        if "getAtchmnfl" in str(req.url):
+            return httpx.Response(200, content=bytes.fromhex("d0cf11e0a1b11ae1") + b"0" * 100, headers={"content-type": "application/octet-stream"})
+        return httpx.Response(200, text=page)
+    c = httpx.Client(transport=httpx.MockTransport(handler))
+    text, msg, link = notice_pdf.fetch_notice_text("https://www.applyhome.co.kr/x", client=c)
+    assert text is None and "HWP" in msg

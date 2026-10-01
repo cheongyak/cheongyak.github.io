@@ -82,6 +82,11 @@ def fetch_notice_text(page_url: str, client: Optional[httpx.Client] = None) -> t
                 return None, f"PDF 해석 실패: {e.__class__.__name__}", None
             if len(text) > 500:
                 return text, f"PDF 읽음 ({len(text)}자): {link}", link
+            last = f"글자를 못 읽는 PDF(스캔 이미지 추정, 글자 {len(text)}자)"   # 2026-10-02: 예전엔 '형식 아님'으로만 남아 원인을 몰랐다
+        elif p.status_code == 200:
+            head = p.content[:8]
+            kind = "HWP" if head[:4] == bytes.fromhex("d0cf11e0") else "ZIP/HWPX" if head[:2] == b"PK" else "HTML" if b"<" in head else "알 수 없음"
+            last = f"PDF가 아닌 파일({kind}, {ctype or '형식 표시 없음'}, {len(p.content)}바이트)"
     return None, f"PDF 받기 실패({last or '형식 아님'}): " + " | ".join(links[:3]), None
 
 
