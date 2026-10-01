@@ -2285,7 +2285,7 @@ function unsureActions(open, p){
   return [...m.values()].sort((a, b) => (a.notice ? 1 : 0) - (b.notice ? 1 : 0) || b.n - a.n);
 }
 function unsureActsHtml(open, p){
-  if (!on('unsure_actions')) return '';
+  if (!on('unsure_actions') || !on('unsure_summary')) return '';   // 내 조건 카드 요약 칸만 따로 끌 수 있게 (2026-10-01 사용자 요청으로 끔)
   const acts = unsureActions(open, p); if (!acts.length) return '';
   const mine = acts.filter(a => !a.notice).slice(0, 3), nt = acts.find(a => a.notice);
   return `<div class="mc-unsure"><span class="small"><b>확인 필요</b>를 줄이려면</span>${mine.map(a => `<button type="button" class="btn ghost sm" ${a.edit ? `data-edit="${esc(a.edit)}"` : 'data-go="me"'}>${esc(a.label)}<span class="muted">&nbsp;· 공고 ${a.n}건</span></button>`).join('')}${nt ? `<span class="small muted">공고 ${nt.n}건은 공고문 쪽 기준을 확인해야 해요 (공고 상세의 '공고문에서 확인')</span>` : ''}</div>`;
