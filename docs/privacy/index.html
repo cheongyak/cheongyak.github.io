@@ -79,6 +79,9 @@ a{color:var(--link)}
 .chatentry>span:nth-child(2){flex:1;min-width:0} .chatgo{font-size:24px;line-height:1;color:var(--consider-ink);flex:none}
 .chatentry b{display:block;font-size:15px;color:var(--consider-ink)} .chatentry .small{display:block} .chatentry .chatico{font-size:20px}
 body.chat-open{overflow:hidden}
+.chatfab{position:fixed;right:max(16px,calc(50vw - 204px));bottom:calc(76px + env(safe-area-inset-bottom,0px));z-index:6;width:56px;height:56px;border-radius:28px;border:0;background:var(--consider);color:#fff;display:flex;align-items:center;justify-content:center;box-shadow:0 4px 14px rgba(0,0,0,.25);cursor:pointer}
+.chatfab svg{width:26px;height:26px} .chatfab.up{bottom:calc(176px + env(safe-area-inset-bottom,0px))} body.chat-open .chatfab{display:none}
+.chatctx{margin-top:6px;border:1px solid var(--line);background:var(--surface);color:var(--fg);border-radius:14px;padding:4px 10px;font:inherit;font-size:12.5px;cursor:pointer;max-width:100%;text-align:left} .chatctx.on{background:var(--consider-soft);color:var(--consider-ink);border-color:var(--consider)}
 #chatsheet{position:fixed;inset:0;z-index:60;display:flex;flex-direction:column;justify-content:flex-end}
 .chatdim{position:absolute;inset:0;background:rgba(0,0,0,.45)}
 .chatpanel{position:relative;width:100%;max-width:440px;margin:0 auto;height:88vh;height:88dvh;background:var(--bg);border-radius:18px 18px 0 0;display:flex;flex-direction:column;box-shadow:0 -8px 30px rgba(0,0,0,.25)}
