@@ -25,7 +25,8 @@ git add "$@" WORK.md FEATURES.md
 git commit -qm "$msg${COMMIT_TRAILER:+
 
 $COMMIT_TRAILER}"
-git pull -q --rebase origin main && git push -q origin HEAD:main
+if ! git pull -q --rebase origin main; then echo "받기(pull) 실패 — 커밋 안 한 변경을 정리한 뒤 git pull --rebase origin main && git push 로 올리세요 (FEATURES 번호도 그다음에)"; exit 1; fi
+git push -q origin HEAD:main || { echo "올리기(push) 실패"; exit 1; }
 c=$(git rev-parse --short HEAD)
 python3 - "$feat" "$c" <<'PY'
 import sys

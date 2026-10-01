@@ -50,7 +50,7 @@ description: 청약패스(cheongyakpass.kr, 저장소 cheongyak/cheongyak.github
 
 - index.html 템플릿 문자열 안에서 `//` 주석을 쓰면 뒤 코드가 주석이 된다. `/* */` 를 쓴다.
 - 정적 페이지는 `node tools/snapshot_docs.cjs && python -m tools.build_static` (스크립트 경로로 실행하면 import 오류). verify.yml 도 다시 만든다.
-  정적 /about/ 의 '마지막 검증' 시각만 바뀌는 diff 는 버린다 (`git checkout docs/about/index.html tools/static_fragments.json`).
+  정적 /about/ 의 '마지막 검증' 시각, docs/notice/ 의 '데이터 수집' 시각만 바뀌는 diff 는 버린다 (`git checkout docs/about/index.html docs/notice tools/static_fragments.json`).
 - 커밋 안 한 변경이 있으면 ship.sh 의 `pull --rebase` 가 실패한다. 먼저 정리하거나 stash.
 - collect.yml 은 app/** 변경에도 돈다. 그 실행에서는 접수 전날 알림을 보내지 않는다(중복 방지). 수집 실행끼리는 concurrency 로 줄 선다.
 - crosscheck 반올림은 half-up (파이썬 round 의 은행가 반올림 쓰지 않음). 예치금 표 열 순서는 공고문마다 다르니 머리글에서 읽는다.
