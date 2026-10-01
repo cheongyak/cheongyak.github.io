@@ -90,6 +90,8 @@ a{color:var(--link)}
 .ws-concl{font-size:16px;font-weight:600;line-height:1.45;margin:2px 0 4px} .ws-bul{margin:0 0 4px;padding-left:18px;font-size:13px;line-height:1.5} .ws-bul li{margin:1px 0}
 .ws-more{margin-top:6px;font-size:13px} .ws-more>summary{cursor:pointer;color:var(--link);font-weight:600} .ws-more h4{margin:10px 0 2px;font-size:13px} .ws-more ul{margin:2px 0;padding-left:18px;line-height:1.5}
 .ws-tbl{width:100%;border-collapse:collapse;margin-top:6px;font-size:12.5px} .ws-tbl th,.ws-tbl td{padding:5px 4px;border-bottom:1px solid var(--line);text-align:left;white-space:nowrap} .ws-tbl thead th{color:var(--muted);font-weight:600}
+.why h4{margin:8px 0 2px;font-size:13px} .why p{margin:2px 0;line-height:1.5} .why-ul{list-style:none;margin:2px 0;padding:0;line-height:1.5} .why-ul li{display:flex;gap:6px;margin:2px 0}
+.why-ul li>span{flex:none;width:14px;font-weight:800} .why-ok>span{color:var(--lotto-ink)} .why-warn>span{color:var(--warn-ink)} .why-fail>span{color:var(--pass-ink)} .why-me td{font-weight:700}
 .ws-sub{grid-column:1} .ws-tips{grid-column:1/-1;margin-top:2px} .ws-tips summary{cursor:pointer;color:var(--link)}
 .cutbar{position:relative;height:14px;margin:6px 0;border-radius:7px;background:var(--sunk)}
 .cutbar .rng{position:absolute;top:3px;height:8px;border-radius:4px;background:var(--consider-soft);box-shadow:inset 0 0 0 1px var(--consider)}
@@ -2998,6 +3000,36 @@ function wsRecV2(L, p, xs, types){
   }
   return { rec, oks };
 }
+/* 판정 근거 접기 (기능: ws_why). 공고 상세와 같은 판정 결과(spJudge·eligibility)를 그대로 정리해 보여준다 — 새 판정을 만들지 않는다 */
+const WHY_MARK = { ok:'✓', warn:'!', fail:'✗' };
+function whyList(items){ return `<ul class="why-ul">${items.map(([s, t]) => `<li class="why-${s}"><span aria-hidden="true">${WHY_MARK[s] || '·'}</span><div>${t}</div></li>`).join('')}</ul>`; }
+function spWhyHtml(L, p, r){
+  if (!on('ws_why')) return '';
+  const R = SP_RULES[r.pub ? 'public' : 'minyoung'][r.type], parts = [];
+  // 소득 구간
+  if (R.income && R.stages) {
+    const hh = hhCount(L, p, r.type), n = hh ? hh.n : p.hhSize, inc = spIncome(p), dual = R.dual && inc.dual, st = r.stage && r.stage[0];
+    if (n) {
+      const pct = Math.round(inc.monthly / spBase(n) * 100), br = on('sp_birth_relax') && r.pub ? birthRelax(p) : null, add = br && br.add ? br.add : 0;
+      const rows = R.stages.map(([nm, share, a, b]) => { const lim = dual && b != null ? b : a, mine = st === nm || (st === '추첨 (1인 가구)' && nm === '추첨');
+        return `<tr${mine ? ' class="why-me"' : ''}><td>${esc(STAGE_PLAIN[nm] || nm)}</td><td>${esc(share)}</td><td>${lim == null ? '소득 제한 없음' + (!r.pub ? `<br><span class="muted">부동산 ${manW(SP_ASSET.minyoung)} 이하</span>` : '') : lim + (add ? '+' + add : '') + '% 이하'}${lim != null ? `<br><span class="muted">월 ${won(spAmt(n, lim + add))}</span>` : ''}</td><td>${mine ? '← 나' : ''}</td></tr>`; }).join('');
+      parts.push(`<h4>소득 구간은 이렇게 정했어요</h4><p>${esc(r.stageNote || '')}${hh ? ` <span class="muted">(가구원 ${esc(hh.why)})</span>` : ''}. ${dual ? '맞벌이 기준' : '외벌이 기준'}으로 아래 표의 첫 구간부터 맞는 곳에 들어가요${add ? ` · 출산가구 완화 +${add}%p 적용` : ''}.</p>
+        <div style="overflow-x:auto"><table class="ws-tbl"><thead><tr><th>구간</th><th>물량</th><th>소득 기준</th><th></th></tr></thead><tbody>${rows}</tbody></table></div>`);
+    } else parts.push('<h4>소득 구간</h4><p>가구원수를 넣으면 소득 구간을 정해요.</p>');
+  }
+  const items = [...r.fail.map(t => ['fail', esc(spPlain(t))]), ...r.warn.map(t => ['warn', esc(spPlain(t))]), ...r.ok.map(t => ['ok', esc(spPlain(t))])];
+  if (items.length) parts.push(`<h4>조건별 판정</h4>${whyList(items)}`);
+  const how = spHowPlain(L, p, r); if (how && r.s !== 'fail') parts.push(`<h4>뽑는 방식</h4><p>${esc(how)}</p>`);
+  parts.push(`<p class="muted">근거: ${esc(R.cite || '모집공고문')} · ${L.noticePdf ? src(null, ['이 공고 모집공고문', L.noticePdf]) : src('applyhome')}</p>`);
+  return `<details class="ws-tips small"><summary>왜 이렇게 판정했나</summary><div class="why">${parts.join('')}</div></details>`;
+}
+function genWhyHtml(L, p, e){
+  if (!on('ws_why') || !hasProfile()) return '';
+  const items = e.items.filter(i => i.s && i.s !== 'na').map(i => [i.s, `<b>${esc(i.k)}</b> · ${esc(i.v || '')}${i.note ? `<br><span class="muted">${esc(i.note)}</span>` : ''}`]);
+  if (!items.length) return '';
+  const order = { fail:0, warn:1, ok:2 }; items.sort((a, b) => (order[a[0]] ?? 3) - (order[b[0]] ?? 3));
+  return `<details class="ws-tips small"><summary>왜 이렇게 판정했나</summary><div class="why"><h4>조건별 판정</h4>${whyList(items)}<p class="muted">공고 상세의 자격 체크리스트와 같은 결과예요 · ${L.noticePdf ? src(null, ['이 공고 모집공고문', L.noticePdf]) : src('applyhome')}</p></div></details>`;
+}
 function wsCard(L, p){
   const e = eligibility(L, p), types = spTypesFor(L), rs = types.map(t => spJudge(L, p, t)), xs = rs.map(r => wsSpecial(L, p, r));
   const pub = L.houseDtl === '국민', sc = on('score') && !pub ? myScore(L, p) : null, t = sc ? scoreTarget(L) : null;
@@ -3008,13 +3040,13 @@ function wsCard(L, p){
   const genSub = !e.ok && !e.rank2 && hasProfile() ? e.reason : !L.needAccount ? '청약통장 없이 신청하는 공고예요' : pub ? '공공분양 일반공급은 납입 인정 금액·횟수 순이에요'
     : sc && sc.total == null ? '가점 계산에 ' + (sc.miss || []).join(', ') + ' 필요' : t && t.low != null ? `당첨 최저 ${t.low}점 (${gap >= 0 ? '+' : ''}${gap}) · ${t.from}` : '비교할 당첨 가점 기록이 없어요';
   const gen = `<div class="ws-row"><div class="ws-k"><b>${genLabel(L)}</b><span class="pill ${gp[0]}">${gp[1]}</span></div>
-    <div class="ws-v">${pub || !L.needAccount ? `<span class="ws-num sm">${esc(pub ? '순차제' : '추첨')}</span>` : big(sc && sc.total, 84)}</div><div class="ws-sub small muted">${esc(genSub)}</div></div>`;
+    <div class="ws-v">${pub || !L.needAccount ? `<span class="ws-num sm">${esc(pub ? '순차제' : '추첨')}</span>` : big(sc && sc.total, 84)}</div><div class="ws-sub small muted">${esc(genSub)}</div>${genWhyHtml(L, p, e)}</div>`;
   const order = { ok:0, warn:1, fail:2 };
   const spRows = xs.slice().sort((a, b) => order[a.r.s] - order[b.r.s]).map(x => { const [pl, pc] = PILL[x.r.s], hp = spHeadPlain(L, p, x.r);
     return `<div class="ws-row ${x.r.s === 'fail' ? 'dim' : ''}"><div class="ws-k"><b>${SP_NAME[x.r.type]}</b><span class="pill ${pc}">${pl}</span></div>
       <div class="ws-v">${x.r.s === 'fail' ? '' : x.max ? big(x.score, x.max) : `<span class="ws-num sm">${esc(x.method)}</span>`}</div>
       <div class="ws-sub small ${x.r.s === 'ok' ? '' : 'st-' + x.r.s}">${esc(hp.t)}${x.r.s !== 'fail' && on('ws_reco_v2') && on('ws_compact') ? '' : x.r.s !== 'fail' && on('ws_reco_v2') ? (P => P.reach != null ? ` <span class="muted">· 노릴 수 있는 몫 약 ${P.reach}세대${P.u && P.reach !== P.u ? ' (전체 ' + P.u + ')' : ''}</span>` : '')(wsPlan(L, p, x.r))
-        : x.r.s !== 'fail' && x.mine ? ` <span class="muted">· 내 몫 약 ${x.mine}세대${x.u && x.mine !== x.u ? ' (전체 ' + x.u + ')' : ''}</span>` : ''}</div>${x.r.s !== 'fail' && x.max && x.max <= 100 && (x.r.type !== 'elder') ? scoreTipsHtml(L, p, x.r.type, x.r.pub) : ''}</div>`; }).join('');
+        : x.r.s !== 'fail' && x.mine ? ` <span class="muted">· 내 몫 약 ${x.mine}세대${x.u && x.mine !== x.u ? ' (전체 ' + x.u + ')' : ''}</span>` : ''}</div>${spWhyHtml(L, p, x.r)}${x.r.s !== 'fail' && x.max && x.max <= 100 && (x.r.type !== 'elder') ? scoreTipsHtml(L, p, x.r.type, x.r.pub) : ''}</div>`; }).join('');
   // 추천
   const oks = xs.filter(x => x.r.s === 'ok').sort((a, b) => a.tier - b.tier || (b.mine || 0) - (a.mine || 0));
   const warns = xs.filter(x => x.r.s === 'warn');
