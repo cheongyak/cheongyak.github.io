@@ -191,6 +191,8 @@ def main() -> None:
                     p = dict(pub_base, **kidvars[kv])
                     if t == "multichild":
                         p.update(kidsMinor=2, kidsOnDeed=2, hhSize=4, youngestBirth="2025-06-01")
+                    if t == "elder":
+                        p.update(eldersOnDeed=None)   # 소득 단계만 보는 사례 — 기본 프로필의 '같은 등본 부모 0명'은 노부모 요건과 맞지 않아 모름으로 둠
                     if t == "newborn" and kv == "옛자녀":
                         continue   # 2세 미만 자녀가 없으면 신생아 대상이 아님
                     n = 1 + 1 + p["kidsOnDeed"]
@@ -321,6 +323,13 @@ def main() -> None:
         p = dict(pub_base, **over)   # 민영 일반공급: 1순위는 유주택 세대도 가능 (제28조①1호, 규제지역 2주택 이상만 제외) → 무주택 항목 자체는 '가능'
         add(id=f"home-{i:02d}", fn="home", listing=lid, profile=p, expect={"s": "ok"},
             basis=f"{lid.split('-')[0]} 민영 1순위 — 유주택 세대도 신청(추첨제), 규칙 제28조①1호"); i += 1
+
+    # ---------- 6-3) 노부모부양 '같은 세대별 주민등록표등본에 등재되어 있는 경우에 한함' (민영 광명 2026000453) ----------
+    i = 0
+    for over, exp in [({"elder65": True, "eldersOnDeed": 1, "elders1y": True, "hhSize": 4}, "ok"), ({"elder65": True, "eldersOnDeed": 0}, "warn"), ({"elder65": False}, "fail")]:
+        p = dict(pub_base, homeSido="경기", homeSigun="광명시", **over)
+        add(id=f"elder-{i:02d}", fn="sp", listing="2026000453-059.9742A", type="elder", profile=p, expect={"s": exp},
+            basis="2026000453 노부모부양 '만65세 이상의 직계존속을 3년 이상 계속하여 부양(같은 세대별 주민등록표등본에 등재되어 있는 경우에 한함)'"); i += 1
 
     # ---------- 7) 거주지 (광명 2026000453 · 인천계양 A6 2026000414) ----------
     i = 0
