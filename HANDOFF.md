@@ -52,7 +52,7 @@ GitHub Secrets (이름만): `DATA_GO_KR_KEY`, `NCP_MAPS_CLIENT_ID`, `NCP_MAPS_CL
 
 ## 진행 중인 일 (2026-10-01 기준, 최신이 위)
 
-0. **버전·전략 실행 현황 (2026-10-01 오후)** — 지금 버전 v1.3.0 (VERSIONS.md, release/v1.0.0~v1.3.0 브랜치).
+0. **버전·전략 실행 현황 (2026-10-01 오후)** — 지금 버전 v1.3.3 (VERSIONS.md, release/v1.0.0~v1.3.3 브랜치). v1.3.1~1.3.3 은 사용자 지적 수정: 관심 공고 유주택 '추첨제만', 시·도 검색, 이용 안내 '업데이트 소식'(검증 현황·상세 내역은 운영자용 — 사용자가 물으면 verify-status.json·changelog.json·VERSIONS.md 로 답함), 청약 기준 가이드 내림(guide_pages 꺼짐; 다시 하려면 가점표·예치금을 법령 원문 화면으로 확인해 출처를 바꾼 뒤 켬, 소득 기준표는 공고마다 달라 만들지 않음).
    - 끝남: 버전 관리(v1.0.1), 사용 측정 usage_metrics(v1.1.0, GoatCounter 이벤트 m/…), 안 쓰는 코드 정리(ntfy 삭제), 공고별 페이지 notice_pages(v1.2.0, /notice/), 빠른 시작 quick_start(v1.3.0)
    - 다음 후보(보고서 순서): '확인 필요' 원인별 행동 버튼 → 부적격 방지 체크 → '내 청약 현황' 한 화면 → 가점 오르는 날 → (사용자 결정) '비추천' 등급명 → _v2 이전 분기 정리 → 엔진 분리·청약봇(오픈카톡 질문 로그 필요)
    - 측정 확인: 1~2주 뒤 GoatCounter 대시보드에서 m/visit·m/profile·m/quick·m/verdict·m/unsure 이벤트를 보고 다음 우선순위를 정한다
