@@ -2573,6 +2573,10 @@ function spRowPlain(L, p, r){
 }
 function generalRowPlain(L, p){
   if (!on('score') || L.houseDtl === '국민') return '';
+  if (!L.needAccount) return `<details class="sprow base"><summary><span class="sp-top"><b>${esc(genLabel(L))}</b><span class="small muted">추첨</span><span class="pill">가점 없음</span></span>
+      <span class="sp-head">청약통장·가점 없이 추첨으로 뽑아요</span></summary>
+    <div class="sp-body"><div class="small">무순위(사후접수·잔여세대)는 청약통장 가입 여부나 가점과 상관없이, 공고문의 신청 자격(거주지·무주택 등)을 갖춘 사람 중에서 추첨으로 당첨자를 정해요.${L.residence && L.residence.equal ? ' 이 공고는 지역별 우선 순서도 없어요.' : ''} 신청 자격은 위 조건 목록과 모집공고문을 확인하세요.</div>
+      <div class="small muted">${noticeSrc(L)}</div></div></details>`;   // 2026-10-02 사용자 지적: 무순위인데 가점 입력·가점제 순서가 보임
   const sc = myScore(L, p), t = scoreTarget(L), gap = sc.total != null && t && t.low != null ? sc.total - t.low : null;
   const ownIt = on('owner_lottery') ? eligibility(L, p).items.find(i => i.k === '무주택 세대' && i.owns) : null;   // 유주택 세대 (기능: owner_lottery)
   if (ownIt && L.regulated) return `<details class="sprow base"><summary><span class="sp-top"><b>일반공급</b><span class="small muted">추첨제만</span><span class="pill warn">가점제 불가</span></span>
@@ -2899,7 +2903,7 @@ function checklistV2(L, p, e){
     ${i.note ? `<div class="small muted">${esc(i.note)}</div>` : ''}${on('unsure_actions') ? warnActBtn(L, i) : i.edit && visibleSteps().find(s2 => stepKey(s2) === i.edit) ? `<button class="linkbtn small" data-edit="${esc(i.edit)}" style="align-self:flex-start">${esc(i.editLabel || '정보 넣기')}</button>` : ''}<div class="ck-src">${itemSrc(L, i.k)}</div></div>`;
   const SS = on('supply_split');   /* 기능: supply_split — 자격 체크리스트 = 일반공급 카드 (판정 표시 + 참고: 뽑는 방식과 내 위치 + 조건 목록) */
   const gv = !hasProfile() ? ['', '판정 전'] : e.ok ? (e.unsure ? ['warn', '확인 필요'] : ['ok', '신청 가능']) : e.rank2 ? ['warn', e.rank2Need ? '확인 필요' : '2순위만 가능'] : ['fail', '신청 불가'];
-  const gref = SS && on('special_position') ? (on('special_plain') ? generalRowPlain(L, p) : generalRowV2(L, p)).replace(/<span class="sp-top"><b>일반공급<\/b><span class="small muted">[^<]*<\/span>/, '<span class="sp-top"><b>참고 · 뽑는 방식과 내 위치</b>').replace(/<span class="pill[^"]*">[^<]*<\/span>/, '').replace('<details class="sprow base">', '<details class="sprow base gsref">') : '';
+  const gref = SS && on('special_position') ? (on('special_plain') ? generalRowPlain(L, p) : generalRowV2(L, p)).replace(/<span class="sp-top"><b>[^<]*<\/b><span class="small muted">[^<]*<\/span>/, '<span class="sp-top"><b>참고 · 뽑는 방식과 내 위치</b>').replace(/<span class="pill[^"]*">[^<]*<\/span>/, '').replace('<details class="sprow base">', '<details class="sprow base gsref">') : '';
   return `<section class="card ckcard">${SS ? `<div class="row"><h2>${esc(genLabel(L))}</h2><span class="pill ${gv[0]} gvpill">${gv[1]}</span></div>` : '<h2>자격 체크리스트</h2>'}
     ${on('detail_tidy') || SS ? '' : supplySummary(L, p, e)}
     <div class="spsum" style="margin:4px 0 0">${on('supply_summary') && hasProfile() && !SS ? `<span class="small muted" style="align-self:center">${genLabel(L)} 조건</span>` : ''}${count}</div>
@@ -2997,7 +3001,7 @@ function marginV2(L, m, barCost, barLo, bare){   // bare: 가격 비교 카드 �
 /* 공고 상세 구역 탭 (기능: detail_nav, Jakob·Proximity) — 화면이 길어 요약·자격·가점·경쟁률·마진·위치·제약으로 바로 이동 */
 const D_SECS = [['top', '요약'], ['elig', '자격'], ['score', '가점·경쟁률'], ['margin', '마진'], ['loc', '위치·제약']];
 const dAnchor = k => on('detail_nav') ? `<div class="danchor" id="sec-${k}" aria-hidden="true"></div>` : '';
-const dSecs = () => D_SECS.filter(([k]) => !(k === 'margin' && on('detail_tidy') && on('price_compare')) && !(k === 'score' && on('score_in_general') && on('supply_split'))).flatMap(x => x[0] === 'elig' && on('supply_split') ? [['elig', '일반공급'], ['sp', '특별공급']] : [x]);   // 기능: supply_split — 자격 탭을 일반공급·특별공급으로   // 기능: detail_tidy — 마진은 요약의 가격 비교 카드 안으로
+const dSecs = () => D_SECS.filter(([k]) => !(k === 'margin' && on('detail_tidy') && on('price_compare')) && !(k === 'score' && on('score_in_general') && on('supply_split'))).flatMap(x => x[0] === 'elig' && on('supply_split') ? [['elig', (Ls => Ls ? genLabel(Ls) : '일반공급')(LISTINGS.find(z => z.id === S.id))], ...((Ls => Ls && spTypesFor(Ls).length)(LISTINGS.find(z => z.id === S.id)) ? [['sp', '특별공급']] : [])] : [x]);   // 기능: supply_split — 자격 탭을 일반공급·특별공급으로   // 기능: detail_tidy — 마진은 요약의 가격 비교 카드 안으로
 const dNav = () => on('detail_nav') ? `<nav class="dnav" aria-label="이 공고 구역">${dSecs().map(([k, t]) => `<button type="button" data-sec="${k}"${k === 'top' ? ' aria-current="true"' : ''}>${t}</button>`).join('')}</nav>` : '';
 function dNavSync(){   // 스크롤 위치에 맞춰 지금 구역 표시
   const nav = app.querySelector('.dnav'); if (!nav) return;
@@ -3039,8 +3043,8 @@ function vDetail(){
     return `<section class="rhero t-${st[0]}" aria-label="내 판정"><span class="rlabel">내 판정 · 내가 넣은 정보 기준</span><span class="rbig">${st[1]}</span>${wk.length ? `<span class="rsub">확인할 것: ${esc(wk.join(', '))} · 아래 ${on('supply_split') ? '일반공급 칸' : '자격 체크리스트'}에서 바로 답하면 판정돼요</span>` : ''}${on('detail_tidy') && hasProfile() ? (() => {   /* 기능: detail_tidy — 가운데 타일 3개(자격·마진·자금)를 여기로 합침 */
       const spR = spTypesFor(L).map(t => spJudge(L, p, t).s), spOk = spR.filter(x => x === 'ok').length, spW = spR.filter(x => x === 'warn').length;
       const cell = (k, v, cls, attr) => `<button class="rstat" ${attr}><span>${k}</span><b class="${cls}">${v}</b></button>`;
-      const sc = on('score') && L.houseDtl !== '국민' ? myScore(L, p) : null;   /* 마진은 바로 아래 가격 비교 카드에 크게 있으니 여기엔 가점을 */
-      return `<div class="rstats">${sc ? cell('내 가점', sc.total == null ? '입력 필요' : sc.total + '점', sc.total == null ? 'st-warn' : '', on('score_in_general') && on('supply_split') ? 'data-sec="elig"' : 'data-sec="score"') : ''}${cell('자금 (' + (o.mode === 'live' ? '대출' : '전세') + ')', gap > 0 ? fmt(gap) + ' 부족' : '가능', gap > 0 ? 'st-warn' : 'st-ok', 'data-go="plan"')}${spR.length ? cell('특별공급', spOk ? '가능 ' + spOk : spW ? '확인 ' + spW : '불가', spOk ? 'st-ok' : spW ? 'st-warn' : 'st-fail', on('supply_split') ? 'data-sec="sp"' : 'data-sec="elig"') : ''}</div>`; })() : mine}</section>`; })() : ''}
+      const sc = on('score') && L.houseDtl !== '국민' && L.needAccount ? myScore(L, p) : null;   /* 마진은 바로 아래 가격 비교 카드에 크게 있으니 여기엔 가점을. 무순위는 가점이 안 쓰여 '뽑는 방식: 추첨' */
+      return `<div class="rstats">${!L.needAccount ? cell('뽑는 방식', '추첨 (가점 없음)', '', 'data-sec="elig"') : ''}${sc ? cell('내 가점', sc.total == null ? '입력 필요' : sc.total + '점', sc.total == null ? 'st-warn' : '', on('score_in_general') && on('supply_split') ? 'data-sec="elig"' : 'data-sec="score"') : ''}${cell('자금 (' + (o.mode === 'live' ? '대출' : '전세') + ')', gap > 0 ? fmt(gap) + ' 부족' : '가능', gap > 0 ? 'st-warn' : 'st-ok', 'data-go="plan"')}${spR.length ? cell('특별공급', spOk ? '가능 ' + spOk : spW ? '확인 ' + spW : '불가', spOk ? 'st-ok' : spW ? 'st-warn' : 'st-fail', on('supply_split') ? 'data-sec="sp"' : 'data-sec="elig"') : ''}</div>`; })() : mine}</section>`; })() : ''}
   ${chatEntry(L)}
   ${on('price_compare') ? priceCompare(L, m) : `  <div class="hero g-${m.g}${on('detail_result_first') ? ' hero-sm' : ''}">
     <div class="row"><span class="small" style="font-weight:600;opacity:.85">${on('detail_result_first') ? '마진 등급' : '청약 판정'}</span><button class="linkbtn small" data-go="grades" style="color:inherit">등급 기준</button></div>
@@ -4092,7 +4096,7 @@ function wsCard(L, p){
   const gp = !e.ok ? (e.rank2 ? ['warn', e.rank2Need ? '확인 필요' : '2순위만'] : ['fail', '불가']) : e.unsure ? ['warn', '확인 필요'] : own ? ['ok', lotOnly ? '추첨제만' : '가능 · 무주택기간 0점'] : ['ok', '가능'];
   const PILL = { ok:['가능','ok'], warn:['확인 필요','warn'], fail:['불가','fail'] };
   const big = (v, max) => v == null ? '<span class="ws-num muted">-</span>' : `<span class="ws-num">${v}</span>${max ? `<span class="ws-max">/ ${max}</span>` : ''}`;
-  const genSub = !e.ok && !e.rank2 && hasProfile() ? e.reason : lotOnly ? '집이 있어 1순위 가점제로는 신청할 수 없고 추첨 물량으로만 신청할 수 있어요' : !L.needAccount ? '청약통장 없이 신청하는 공고예요' : pub ? '공공분양 일반공급은 납입 인정 금액·횟수 순이에요'
+  const genSub = !e.ok && !e.rank2 && hasProfile() ? e.reason : lotOnly ? '집이 있어 1순위 가점제로는 신청할 수 없고 추첨 물량으로만 신청할 수 있어요' : !L.needAccount ? '청약통장·가점 없이 추첨으로 뽑는 공고예요' : pub ? '공공분양 일반공급은 납입 인정 금액·횟수 순이에요'
     : RS && RS.lotteryOnly ? '이 주택형은 1순위를 모두 추첨으로 뽑아요 (가점 무관)'
     : sc && sc.total == null ? '가점 계산에 ' + (sc.miss || []).join(', ') + ' 필요' : RS && t && t.low != null ? `${RS.short ? RS.short + ' → ' : ''}${RS.cmpLabel} ${t.low}점 (${gap >= 0 ? '+' : ''}${gap}) · ${t.from}`
     : t && t.low != null ? `당첨 최저 ${t.low}점 (${gap >= 0 ? '+' : ''}${gap}) · ${t.from}` : (RS && RS.short ? RS.short + ' · ' : '') + '비교할 당첨 가점 기록이 없어요';
