@@ -230,6 +230,26 @@ test('!점검·!오픈: 미리보기 코드가 맞는 운영자만, 횟수에 �
   assert.ok(![...kv.m.keys()].some(k => k.startsWith('u:') && false));
 });
 
+test('!무료: 운영자 질문만 AI 안 부르고 횟수 제한 없음, !AI 로 복귀', async () => {
+  const kv = new MemKV(), env = { CHAT_PREVIEW_CODE: 'op-code-123' }; let calls = 0;
+  const llm = async () => { calls++; return { text: '{}', usage: { input_tokens: 1, output_tokens: 1 } }; };
+  const no = await handleChat(env, input('kakao-mom-1', { question: '!무료' }), { kv, evidence: index, llm });
+  assert.equal(no.status, 403); assert.equal(kv.m.get('opfree'), undefined, '코드 없으면 안 됨');
+  const m = await handleChat(env, input('kakao-mom-1', { question: '!무료', preview: 'op-code-123' }), { kv, evidence: index, llm });
+  assert.equal(m.body.kind, 'admin'); assert.equal(kv.m.get('opfree'), '1');
+  for (let i = 0; i < 6; i++) {
+    const r = await handleChat(env, input('kakao-mom-1', { preview: 'op-code-123', conversation_id: 'f' + i }), { kv, evidence: index, llm });
+    assert.equal(r.status, 200, '제한 없음 ' + i); assert.equal(r.body.fallback, true);
+  }
+  assert.equal(calls, 0, 'AI 호출 0');
+  const pub = await handleChat({ ...env, CHAT_OPEN: '1' }, input('kakao-mom-1', { anon_id: 'someone-1234', ip: '8.8.8.8' }), { kv, evidence: index, llm });
+  assert.ok(calls > 0, '다른 이용자는 그대로 AI'); calls = 0;
+  await handleChat(env, input('kakao-mom-1', { question: '!AI', preview: 'op-code-123' }), { kv, evidence: index, llm });
+  assert.equal(kv.m.get('opfree'), undefined);
+  await handleChat(env, input('kakao-mom-1', { preview: 'op-code-123', conversation_id: 'g1' }), { kv, evidence: index, llm });
+  assert.ok(calls > 0, '!AI 뒤에는 운영자도 AI');
+});
+
 test('같은 인터넷 주소는 기기 번호를 바꿔도 하루 3번까지', async () => {
   const kv = new MemKV(); let ok = 0;
   for (let i = 0; i < 5; i++) { const r = await handleChat(OPEN, input('kakao-mom-1', { anon_id: 'device-' + i + '-xxxx', conversation_id: 'cv' + i }), { kv, evidence: index }); if (r.status === 200) ok++; }

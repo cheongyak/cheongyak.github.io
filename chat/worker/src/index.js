@@ -45,19 +45,28 @@ export async function handleChat(env, input, deps = {}) {
   const mode = kv ? await kv.get('mode') : null;   // 'maint' | 'open' | null — 운영자가 '!점검'·'!오픈'으로 바꾼다
   // 운영자 명령 (미리보기 코드가 맞을 때만): !점검 = 점검 모드(모두에게 멈춤), !오픈 = 다시 켜기(공개 열기). 질문 횟수에 세지 않는다
   const cmd = question.trim();
+  // !무료 = 운영자 시험 모드(운영자 질문만 AI 를 부르지 않고 고정 문구로 답, 하루 횟수 제한 없음), !AI = 운영자도 실제 AI·횟수 제한으로 돌아감
+  const lc = cmd.toLowerCase();
+  if (isOp && (cmd === '!무료' || lc === '!ai' || cmd === '!유료')) {
+    if (cmd === '!무료') await kv.put('opfree', '1'); else await kv.delete('opfree');
+    return { status: 200, body: { kind: 'admin', mode: mode || 'preview', message: cmd === '!무료'
+      ? '운영자 무료 시험 모드예요. 내 질문은 AI 를 부르지 않고(토큰 0) 기본 답으로, 횟수 제한 없이 받아요. 다른 이용자에게는 영향 없어요. 실제 AI 로 돌아가려면 !AI'
+      : '운영자도 실제 AI 답으로 돌아왔어요(토큰 사용, 하루 2건 제한). 무료 시험은 !무료' } };
+  }
+  const opFree = isOp && kv ? (await kv.get('opfree')) === '1' : false;
   if (isOp && (cmd === '!점검' || cmd === '!오픈' || cmd === '!상태')) {
     if (cmd === '!점검') await kv.put('mode', 'maint');
     if (cmd === '!오픈') await kv.put('mode', 'open');
     const now = cmd === '!점검' ? 'maint' : cmd === '!오픈' ? 'open' : mode;
     const spent = await monthSpent(kv);
     return { status: 200, body: { kind: 'admin', mode: now || 'preview', message: (now === 'maint' ? '점검 모드로 바꿨어요. 모든 이용자에게 \'점검 중\'으로 보여요. 다시 켜려면 !오픈' : now === 'open' ? '청약봇을 켰어요. 공개 기간이면 모든 이용자가 쓸 수 있어요. 멈추려면 !점검' : '지금은 미리보기(운영자만)예요.')
-      + ` · 이번 달 추정 사용액 $${spent.toFixed(2)} / 서버 한도 $${monthCap(env)}` } };
+      + ` · 이번 달 추정 사용액 $${spent.toFixed(2)} / 서버 한도 $${monthCap(env)}` + (opFree ? ' · 운영자 무료 시험 모드(AI 안 부름, 제한 없음)' : ' · 운영자 실제 AI 모드') } };
   }
   if (mode === 'maint') return { status: 503, body: { maint: true, message: '지금은 청약봇 점검 중이에요. 잠시 뒤 다시 이용해 주세요.' } };
   // 공개 전(CHAT_OPEN 이 '1' 도 아니고 !오픈 도 안 함)에는 미리보기 코드를 아는 운영자만
   if (env.CHAT_OPEN !== '1' && mode !== 'open' && !isOp) return { status: 403, body: { closed: true, message: '아직 준비 중인 기능이에요.' } };
 
-  const lim = await checkLimit(kv, { anonId: anon_id, ip: ip || '', conversationId: conversation_id, salt: env.CHAT_STATS_TOKEN || '' });
+  const lim = opFree ? { ok: true, followUp: false, followN: 0, remaining: null } : await checkLimit(kv, { anonId: anon_id, ip: ip || '', conversationId: conversation_id, salt: env.CHAT_STATS_TOKEN || '' });
   if (!lim.ok) { await bump(kv, { ['limited_' + lim.reason]: true }); return { status: 429, body: { limited: lim.reason, message: LIMIT_TEXT[lim.reason] } }; }
 
   const q = redact(question);
@@ -84,7 +93,7 @@ export async function handleChat(env, input, deps = {}) {
   let answer = null, attempts = [];
   const apiKey = env.ANTHROPIC_API_KEY;
   const overBudget = (await monthSpent(kv)) >= monthCap(env);   // 이번 달 추정 사용액이 서버 한도에 닿으면 AI 없이 고정 문구로만 (콘솔 월 한도 앞의 안전장치)
-  if ((apiKey || deps.llm) && !overBudget) {
+  if ((apiKey || deps.llm) && !overBudget && !opFree) {
     let user = buildUserMessage({ question: q.text, intent, engine: engine || null, evidence, history: hist, listing: input.listing || null });
     for (let i = 0; i < 2 && !answer; i++) {
       try {
