@@ -61237,7 +61237,15 @@
   "score_ratio": null,
   "pub_limits": null,
   "schedule": null,
-  "residence": null,
+  "residence": {
+   "area": null,
+   "months": 0,
+   "since": null,
+   "others": [
+    "전국"
+   ],
+   "equal": true
+  },
   "special_units": null,
   "notice": "2026-10-01",
   "apply": "2026-10-06",
@@ -61458,8 +61466,11 @@
    ]
   ],
   "url": "https://www.applyhome.co.kr/ai/aia/selectAPTRemndrLttotPblancDetailView.do?houseManageNo=2026910253&pblancNo=2026910253",
-  "notice_pdf": null,
-  "from_notice": [],
+  "notice_pdf": "https://static.applyhome.co.kr/ai/aia/getAtchmnfl.do?houseManageNo=2026910253&pblancNo=2026910253&atchmnflSeqNo=1988120&atchmnflSn=3",
+  "from_notice": [
+   "세대주 요건",
+   "거주 지역 요건"
+  ],
   "checks": [],
   "geo": {
    "lat": 37.700134,
