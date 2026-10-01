@@ -4,6 +4,15 @@
 2026-09-29 12:55 이전 항목은 규칙을 만들기 전 작업을 커밋 기록으로 정리한 것이라 백업 브랜치가 없어요.
 그 시점으로 되돌릴 때는 해당 커밋 번호로 `git revert` 를 써요.
 
+## 2026-10-01 13:31 · 공고별 검색 유입 페이지 (v1.2.0)
+- 요청: 전략 보고서 5번 — "단지명 청약" 검색으로 들어오는 공고별 페이지
+- 변경: tools/notice_pages.py — 수집한 공고마다 /notice/<공고번호>/ 일반 HTML: 청약 일정, 주택형별 전용면적·일반공급 세대·분양가·추정 시세 범위·1순위 해당지역 경쟁률(있을 때), 특별공급 유형별 물량 합계, 공고문에서 읽은 조건(재당첨·실거주·해당 지역·기타 지역·규제지역·분양가상한제), 출처(청약홈 공고·공고문 PDF·청약홈 경쟁률·특공 접수 현황, 시세는 국토부 실거래 추정), '내 조건으로 보기' → 앱 상세. 등급('로또'·'비추천')·개인 판정은 넣지 않음. /notice/ 목록(접수일 최신순), 사이트맵 10 → 65개 주소. 스위치 끄면 /notice/ 폴더를 지우고 사이트맵에서도 뺌. tools/build_static 이 부르고, collect.yml 에 수집 뒤 다시 만드는 단계 추가(목록에서 빠진 공고 페이지는 지움)
+- 파일: tools/notice_pages.py, tools/build_static.py, .github/workflows/collect.yml, docs/notice/, docs/sitemap.xml, docs/config.json, docs/changelog.json, VERSIONS.md, docs/updates/, tools/static_fragments.json, tests/test_webpush.py
+- 확인: 54개 공고 페이지 + 목록을 밝은·어두운 390px 로 열어 제목·가로 넘침·오류 0 (표는 가로 스크롤 안에서), 스위치 끄기 → 폴더 삭제·사이트맵 10개, 다시 켜기 → 55쪽. 테스트: 일정·분양가·시세 범위·특공 합계·링크·등급 단어 없음. pytest 통과
+- 기능: notice_pages
+- 버전: v1.2.0
+- 백업: backup/20261001-1331-noticepages
+
 ## 2026-10-01 13:25 · 안 쓰는 코드 정리 (ntfy 삭제, api.py 표시)
 - 요청: 전략 보고서 4번 — 유지보수만 늘리는 코드 정리 (화면 변화 없이)
 - 변경: ① ntfy 알림 삭제(꺼져 있었고 웹 푸시로 대체): 화면 알림 안내·주제 복사·설정값(ntfy_server/topic, 스위치 ntfy_alerts)·방침 표의 ntfy 줄(이미 숨김 상태)·수집 뒤 ntfy 발송과 메시지 만들기(app/notify.py 는 설정·지난 결과 읽기만 남김) ② 테스트 이전: ntfy 메시지 테스트 3개 → 웹 푸시 이벤트 테스트로(새 공고·첫 실행·내일 시작·마감·접수 끝난 공고 제외), 'ntfy 가 남아 있지 않음' 테스트 추가 ③ README: app/api.py 는 사이트가 쓰지 않고 테스트용으로만 남김을 표시, webpush.py 추가 ④ FEATURES.md ntfy_alerts 줄에 삭제 표시

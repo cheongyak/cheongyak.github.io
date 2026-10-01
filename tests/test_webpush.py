@@ -144,3 +144,20 @@ def test_worker_encryption_and_vapid():
                   f"{h}.{b}".encode(), ec.ECDSA(hashes.SHA256()))
         claims = json.loads(_ub(b))
         assert claims["aud"] == "/".join(p["url"].split("/")[:3]) and claims["sub"].startswith("mailto:")
+
+
+# ---- 공고별 검색 유입 페이지 (기능: notice_pages) ----
+def test_notice_page_facts_only():
+    from tools import notice_pages
+    a = L(id="2026000453-059.9742A", unit="59A", area=59.9742, households=10, price=8.79, mkt_low=10.7, mkt_base=11.5,
+          special_apply="2026-09-29", apply="2026-09-30", apply_end="2026-10-02", winner="2026-10-12", notice="2026-09-18",
+          special_units={"newborn": 2, "newlywed": 3, "first": 1, "total": 6}, limits=[("재당첨 제한", "10년")])
+    b = L(id="2026000453-084.9800A", unit="84A", area=84.98, households=36, price=11.85, mkt_low=None, mkt_base=None,
+          special_units={"newborn": 7, "newlywed": 9, "total": 16})
+    t, d, body = notice_pages.notice_body("2026000453", [a.model_dump(), b.model_dump()], "2026-10-01 05:30")
+    assert "강변 아이파크" in t and "청약 일정" in body
+    assert "10.7~11.5억" in body and "8.79억" in body and "<td>-</td>" in body       # 시세 없는 주택형은 '-'
+    assert "<td>신생아</td><td>9</td>" in body and "<td>신혼부부</td><td>12</td>" in body   # 주택형별 특별공급 합계
+    assert "/#/detail/2026000453-059.9742A" in body and "houseManageNo=2026000453" in body
+    for word in ("로또", "비추천", "추천"):
+        assert word not in body          # 공개 페이지에는 등급·추천을 넣지 않는다

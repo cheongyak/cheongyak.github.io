@@ -4,6 +4,7 @@
 그래서 문서 화면과 청약 기준 가이드를 별도 주소의 일반 HTML 페이지로 만든다.
   - /story/ /about/ /terms/ /privacy/ /updates/ : 앱 화면 그대로 (tools/snapshot_docs.cjs 가 그린 조각)
   - /guide/ /guide/income/ /guide/score/ /guide/deposit/ : 모집공고문 원문 표에서 뽑은 기준표 (공고문 대조로 앱 수치와 같음이 검증된 숫자)
+  - /notice/ /notice/<공고번호>/ : 공고별 일정·분양가·물량 (tools/notice_pages.py, 기능 notice_pages)
   - docs/sitemap.xml 갱신
 실행: node tools/snapshot_docs.cjs && python -m tools.build_static
 """
@@ -168,6 +169,8 @@ def main() -> None:
         out.parent.mkdir(parents=True, exist_ok=True)
         out.write_text(page(slug, t, d, body), encoding="utf-8")
     urls = [("", "daily", "1.0")] + [(s, "weekly" if s.startswith("guide") else "monthly", "0.7" if s.startswith("guide") else "0.5") for s in pages]
+    from tools import notice_pages   # 공고별 검색 유입 페이지 (기능: notice_pages) — 꺼져 있으면 빈 목록
+    urls += [(s, "daily", "0.8") for s in notice_pages.build()]
     sm = "".join(f"  <url><loc>{SITE}/{s}</loc><lastmod>{TODAY}</lastmod><changefreq>{c}</changefreq><priority>{p}</priority></url>\n" for s, c, p in urls)
     (DOCS / "sitemap.xml").write_text(f'<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n{sm}</urlset>\n', encoding="utf-8")
     print(f"[정적 문서] {len(pages)}쪽 · sitemap {len(urls)}개 주소")
