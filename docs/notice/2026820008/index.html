@@ -106,6 +106,12 @@ body.ta details.chatq:not(.sprow):not(.scitem):not(.menudet)>summary{display:inl
 .chatfoot{margin:0;padding:2px 16px calc(10px + env(safe-area-inset-bottom));text-align:center}
 .chatgate{padding:16px;overflow-y:auto} .chatgate ul{padding-left:18px} .chatgate li{margin:6px 0;line-height:1.55} .chatgate .btn{margin-top:8px}
 .chatin1{width:100%;min-height:44px;border:1px solid var(--line);border-radius:12px;padding:0 12px;font-size:16px;background:var(--surface);color:var(--fg);margin:6px 0}
+.card.tg{padding:0;gap:0;overflow:hidden} .tg .tchips{padding:12px 16px 0} .tgbody{display:flex;flex-direction:column;gap:12px;width:100%;text-align:left;background:none;border:0;padding:12px 16px 16px;color:inherit;font:inherit;cursor:pointer}
+.tchips{display:flex;gap:6px;overflow-x:auto;scrollbar-width:none;padding-bottom:2px} .tchips::-webkit-scrollbar{display:none}
+.tchip{flex:none;display:inline-flex;align-items:center;gap:5px;min-height:36px;padding:0 12px;border-radius:18px;border:1px solid var(--line);background:var(--surface);color:var(--fg);font:inherit;font-size:13px;font-weight:600;cursor:pointer}
+.tchip[aria-pressed="true"]{background:var(--btn);color:var(--btn-fg);border-color:var(--btn)} .tdot{width:8px;height:8px;border-radius:4px;background:var(--muted)}
+.td-ok{background:var(--lotto)} .td-unsure,.td-r2{background:#D69A16} .td-no{background:var(--pass)} .tchip[aria-pressed="true"] .tdot{outline:2px solid var(--btn-fg)}
+.tpick{display:flex;flex-direction:column;gap:6px;margin:6px 0 4px}
 .pill.info{background:var(--consider-soft);color:var(--consider-ink)}
 .ws-sub.wide{grid-column:1/-1;min-width:0} .splitq .src{white-space:normal} .splitq{min-width:0;display:flex;flex-direction:column;gap:6px;margin-top:6px} .splitq .sq{border:1px solid var(--line);border-radius:10px;padding:8px 10px;background:var(--surface)} .splitq .sq-top{display:flex;align-items:center;justify-content:space-between;gap:8px;margin-bottom:2px} .splitq .sq-top b{font-size:14px}
 .dsel{display:grid;grid-template-columns:1.3fr 1fr 1fr;gap:6px} .dsel select{min-height:48px;border:1px solid var(--line);border-radius:12px;padding:0 8px;font:inherit;font-size:16px;background:var(--surface);color:var(--fg)}
