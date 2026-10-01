@@ -4,6 +4,14 @@
 2026-09-29 12:55 이전 항목은 규칙을 만들기 전 작업을 커밋 기록으로 정리한 것이라 백업 브랜치가 없어요.
 그 시점으로 되돌릴 때는 해당 커밋 번호로 `git revert` 를 써요.
 
+## 2026-10-02 08:31 · 네이버 서치어드바이저 소유 확인 메타 태그 추가
+- 요청: 네이버 서치어드바이저 등록 — 사용자가 확인 태그를 줌
+- 변경: 모든 화면 <head> 에 `naver-site-verification` 메타(공개 값) 추가 (index.html, build_static 머리말 → 정적 페이지 재생성)
+- 파일: docs/index.html, tools/build_static.py, docs/*/index.html, docs/notice/*
+- 확인: pytest, 모든 index.html 에 메타 1줄만 추가된 것 확인, Pages 배포 성공 확인
+- 기능: 없음(설정) — 화면 변화 없음, 버전 그대로
+- 백업: backup/20261002-0831-naver
+
 ## 2026-10-02 08:21 · 구글 서치 콘솔 소유 확인 메타 태그 추가
 - 요청: 애드센스 승인에 도움되게 서치 콘솔 등록 — 사용자가 확인 태그를 줌
 - 변경: 모든 화면 <head> 에 `google-site-verification` 메타(공개 값) 추가 (index.html, build_static 머리말 → 정적 페이지 재생성)
