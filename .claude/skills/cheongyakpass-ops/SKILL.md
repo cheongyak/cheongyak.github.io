@@ -40,8 +40,9 @@ description: 청약패스(cheongyakpass.kr, 저장소 cheongyak/cheongyak.github
    - 공고문에서 읽는 값을 바꿨으면 원문 대조·정답 데이터(`tests/golden/`)와 crosscheck
 5. **기록**: WORK.md 항목(요청·변경·파일·확인·기능·백업), 새 기능이면 FEATURES.md 줄, 사용자에게 보이는 변경이면 `docs/changelog.json` 한 줄(판정이 바뀌면 '수정').
    서로 다른 기능은 커밋을 나눈다.
+5-1. **버전** (CLAUDE.md 9항): 사용자에게 보이는 변경이면 changelog 항목에 `version`, VERSIONS.md 맨 위 줄, WORK.md `- 버전:`. 새 기능은 스위치로만.
 6. **올리기**: `bash tools/qa/ship.sh <스위치|-> '<FEATURES 줄>' <WORK 항목 파일> "<메시지>" <파일...>` 그다음 FEATURES 커밋 번호 커밋.
-7. **올린 뒤**: Actions(수집·판정 검증·pages) 결과를 기다려 확인하고 `git pull` 후 `docs/run-log.txt` 의 `[검증]`·`[검증·공고문 불일치]`·`[경고]` 와
+7. **올린 뒤**: 버전을 올렸으면 `bash tools/qa/release.sh X.Y.Z` 로 release 브랜치를 남긴다. 그리고 Actions(수집·판정 검증·pages) 결과를 기다려 확인하고 `git pull` 후 `docs/run-log.txt` 의 `[검증]`·`[검증·공고문 불일치]`·`[경고]` 와
    `docs/verify-status.json` 의 `ok: true` 를 확인한다.
 8. **HANDOFF.md '진행 중인 일' 갱신** 후 사용자에게 결과를 짧게 알린다 (무엇이 바뀌었나, 확인한 것, 사용자가 할 일).
 

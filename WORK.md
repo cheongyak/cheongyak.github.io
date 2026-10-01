@@ -4,6 +4,15 @@
 2026-09-29 12:55 이전 항목은 규칙을 만들기 전 작업을 커밋 기록으로 정리한 것이라 백업 브랜치가 없어요.
 그 시점으로 되돌릴 때는 해당 커밋 번호로 `git revert` 를 써요.
 
+## 2026-10-01 13:20 · 버전 관리 체계 (v1.0.0 기준점, v1.0.1)
+- 요청: 완성도가 높으니 항상 백업하고, 새 기능은 언제든 원복 가능하게, 기능 업데이트는 버전별로 관리해 무엇이 바뀌었는지 기록
+- 변경: ① 지금 main(d948d4d)을 release/v1.0.0 브랜치로 고정 ② VERSIONS.md — 버전 목록·되돌리는 방법(스위치 끄기 / 커밋 revert / release 브랜치로 화면 되돌리기)·버전 규칙 ③ tools/qa/release.sh — 기록 확인 후 release/vX.Y.Z 브랜치 생성(덮어쓰지 않음) ④ CLAUDE.md 9항, HANDOFF·스킬에 절차 ⑤ docs/changelog.json 항목에 version(0.9.0·1.0.0·1.0.1) ⑥ 업데이트 내역 화면에 버전 표시·'지금 버전' (스위치 version_label, 끄면 이전처럼 날짜만)
+- 파일: VERSIONS.md, tools/qa/release.sh, CLAUDE.md, HANDOFF.md, .claude/skills/cheongyakpass-ops/SKILL.md, docs/changelog.json, docs/config.json, docs/index.html, docs/updates/, tools/static_fragments.json
+- 확인: 브라우저(밝은·어두운): 업데이트 내역에 '지금 버전 v1.0.1'·버전 3개 표시, 스위치 끄면 버전 표시 없음, 오류 0. 판정 검증 144/144, pytest 통과
+- 기능: version_label
+- 버전: v1.0.1
+- 백업: backup/20261001-1320-version
+
 ## 2026-10-01 13:09 · 인수인계: 제품 전략 보고서 요약
 - 요청: 청약패스 제품 전략 보고서 (시장·경쟁·차별화·청약봇·수익·로드맵)
 - 변경: 보고서는 사용자 문서(Claude Docs)로 작성. HANDOFF.md 진행 중인 일에 결론·3개월 순서·정리 후보·측정치 요약 추가 (코드 변경 없음)

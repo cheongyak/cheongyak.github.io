@@ -30,6 +30,7 @@ npm i --no-save playwright@1.56.0          # 화면 검사용. 크로미움이 /
 | 하는 일 | 명령 |
 |---|---|
 | 커밋 (테스트 → WORK.md·FEATURES.md 기록 → 커밋 → 올리기) | `bash tools/qa/ship.sh <스위치\|-> '<FEATURES 줄>' <WORK 항목 파일> "<메시지>" <파일...>` |
+| 버전 브랜치 남기기 (올린 뒤) | `bash tools/qa/release.sh X.Y.Z` (VERSIONS.md·changelog 에 그 버전이 있어야 함) |
 | 화면 회귀 (origin/main 과 판정 1,030개 조합 비교 + 화면 1,287개 오류) | `bash tools/qa/regress.sh` |
 | 판정 검증 사례 144건 (화면 판정 함수) | `node tools/judge_check.cjs` (기대값 생성: `python -m tools.make_judge_cases`) |
 | 검증 현황 모으기 | `python -m tools.verify_status` → `docs/verify-status.json` 의 `ok` |

@@ -3286,10 +3286,12 @@ function loadSide(){
 function vUpdates(){
   loadSide();
   const top = `<div class="top"><button class="back" data-go="about">${chev}이용 안내</button></div><h1 style="margin:0 0 4px">업데이트 내역</h1>
-    <p class="small muted" style="margin:0 0 8px">베타 기간에 무엇이 바뀌고 고쳐졌는지 날짜별로 적어요. 판정이 바뀐 수정은 '수정'으로 표시해요.</p>`;
+    <p class="small muted" style="margin:0 0 8px">베타 기간에 무엇이 바뀌고 고쳐졌는지 ${on('version_label') ? '버전별로' : '날짜별로'} 적어요. 판정이 바뀐 수정은 '수정'으로 표시해요.</p>`;
   if (!CHANGELOG) return top + '<div class="card empty"><b>불러오는 중…</b></div>';
   const KIND = { '새 기능':'ok', '개선':'info', '수정':'warn', '검증':'ok' };
-  return top + CHANGELOG.map(v => `<section class="card"><div class="row"><h2>${esc(v.title)}</h2><span class="small muted">${esc(v.date.replace(/-/g, '.'))}</span></div>
+  const ver = v => on('version_label') && v.version ? `<span class="pill info" style="margin-right:6px">v${esc(v.version)}</span>` : '';   // 기능: version_label — 버전별 기록 (VERSIONS.md)
+  const now = on('version_label') && CHANGELOG[0] && CHANGELOG[0].version ? `<p class="small" style="margin:0 0 8px">지금 버전 <b>v${esc(CHANGELOG[0].version)}</b></p>` : '';
+  return top + now + CHANGELOG.map(v => `<section class="card"><div class="row"><h2>${ver(v)}${esc(v.title)}</h2><span class="small muted">${esc(v.date.replace(/-/g, '.'))}</span></div>
     <ul class="cl-ul">${v.items.map(([k, t]) => `<li><span class="pill ${KIND[k] || ''}">${esc(k)}</span><span>${esc(t)}</span></li>`).join('')}</ul></section>`).join('');
 }
 /* 데이터 검증 현황 (기능: verify_badge) — docs/verify-status.json (수집 뒤 Actions 가 만든다: 판정 검증 사례·공고문 대조·정답 데이터) */
