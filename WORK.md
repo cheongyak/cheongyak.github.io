@@ -4,6 +4,25 @@
 2026-09-29 12:55 이전 항목은 규칙을 만들기 전 작업을 커밋 기록으로 정리한 것이라 백업 브랜치가 없어요.
 그 시점으로 되돌릴 때는 해당 커밋 번호로 `git revert` 를 써요.
 
+## 2026-10-01 20:57 · 청약봇 '이 공고 물어보기' (꺼진 채로, 운영자 미리보기)
+- 요청: 청약봇 계획 승인(추천대로: 캐시 없이 시작·7일 예고+첫 사용 동의·하루 2건/사이트 100건/AI 호출 200·콘솔 한도 $30·미리보기 코드) + 사용자가 준 시제품(chatbot-proto.zip, 설계 Phase 1)을 바탕으로 진행. zip 에 HANDOFF-PROMPT.md 는 없어 README 와 승인한 계획대로 함
+- 변경: 기능 chatbot (스위치 false, chat_api 비어 있음).
+  · chat/ — 시제품 서버(검사기·근거 지도·프롬프트 v1·고정 문구 답·제한·가리기·분류)를 그대로 가져오고 더함: 공개 전 미리보기 코드 잠금(CHAT_OPEN), 하루 합계 stats.js(개인 식별 없음)·/feedback(평가 이유 7가지)·/stats(토큰)·/health,
+    IP·기기 번호 해시에 비밀 소금+날짜, 되물음 공짜는 질문 1건당 2번까지(시제품은 답이 계속 되물으면 무제한이던 구멍), 근거는 공고별 작은 파일 docs/chat-evidence/<번호>.json 만 받음(2.4MB 전체는 Worker CPU 10ms 한도 초과).
+  · 화면 docs/index.html — 공고 상세 '내 판정' 아래 '이 공고 물어보기' 버튼 → 아래에서 올라오는 대화창. 첫 사용 동의(국외 이전·가림·저장 안 함·참고용), 빠른 질문 4개,
+    답 형식 결론→내 조건 기준→이유→공식 기준→주의할 점→출처(근거 번호·원문 보기)→되물음→고정 안내, 👍👎+이유 7가지, '정보가 틀렸어요'는 지금 조건으로 판정을 다시 돌려 비교,
+    보내기 전 개인정보 가림, 서버 답의 판정이 화면 판정과 다르면 보여주지 않음, 대화는 메모리에만(닫거나 다른 화면이면 사라짐). ?chat=preview + 코드로 운영자만.
+  · 판정 엔진은 읽기만: tools/engine_lock.py + tests/test_engine_lock.py 가 판정 함수 28개 지문을 비교(작업 전 백업과 같음 확인).
+  · 배포 .github/workflows/chat-worker.yml (알림 서버와 별도 Worker·KV cheongyakpass-chat, 비밀값 없으면 배포 안 함), probe.yml 이 근거를 공고별로 나눔, collect.yml 이 [청약봇] 하루 합계를 run-log 에.
+  · 시제품 README 의 '/home/claude/cheongyak/…' 기본 경로를 저장소 기준으로 고침
+- 파일: chat/**, docs/chat-evidence/*, docs/index.html, docs/config.json, docs/about·privacy·story·terms/index.html, tools/static_fragments.json, tools/engine_lock.py, tools/engine_lock.json, tests/test_engine_lock.py, tools/qa/chatflow.cjs, .github/workflows/chat-worker.yml·probe.yml·collect.yml, docs/changelog.json, VERSIONS.md, FEATURES.md
+- 확인: 스크립트 문법, pytest 130(엔진 잠금 2 포함), 판정 사례 256/256, 회귀 판정 차이 0·화면 1,287개 오류 0, 변이 400 위반 0, 바로 답하기 fixflow·fixfocus 1182/1182, 알림 서버 시험 통과,
+  청약봇 서버 시험 30/30, 골든셋 270/270(AI 없이·미리 쓴 답), 화면 검사 chatflow 529/529(공고 40×프로필 3 답 판정=화면 판정 126/126, 390px 밝은·어두운 넘침 0, 스위치 끄면 버튼·방침 문구 없음, 미리보기 코드, 하루 2건, 되물음, 평가, 변조 판정 차단, KV 에 질문·전화·IP 없음)
+- 아직: 실제 Claude 답 품질(키 받은 뒤 골든셋 실제 실행), 배포(사용자 비밀값 3개), 공개(10-09 시행 후 CHAT_OPEN·스위치)
+- 기능: chatbot
+- 버전: v1.20.0 (내부 — 공개 전이라 업데이트 소식에 안 보임)
+- 백업: backup/20261001-2057-chatbot
+
 ## 2026-10-01 20:57 · 개인정보처리방침·이용약관 개정 예고 (새 공고 알림·AI 질문 답변, 10월 9일 시행)
 - 요청: 청약봇 계획 승인 — 방침 개정은 '7일 예고 + 첫 사용 동의'로, 이미 잘 오는 새 공고 알림의 방침 개정도 같이 진행
 - 변경: 기능 legal_notice. config.json legal_notice(시행 2026-10-09, 게시 2026-10-01, 바뀌는 점 목록)로 방침·약관 맨 위에 '개정 예고' 카드(바뀌는 점 + '바뀐 뒤 전문 보기'),

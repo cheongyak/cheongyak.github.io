@@ -6,6 +6,7 @@ on:
     branches: [main]
     paths:
       - "tools/**"
+      - "chat/tools/**"
       - ".github/workflows/probe.yml"
 permissions:
   contents: write
@@ -28,9 +29,14 @@ jobs:
           python-version: "3.12"
       - run: pip install -r requirements.txt
       - run: python -m tools.rules_probe
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "22"
+      - name: 청약봇 근거 나누기 (공고별 docs/chat-evidence)
+        run: node chat/tools/split_evidence.mjs "$PWD"
       - name: 저장
         run: |
           git config user.name "cheongyak-bot"
           git config user.email "actions@users.noreply.github.com"
-          git add evidence docs/rules-evidence.txt
+          git add evidence docs/rules-evidence.txt docs/chat-evidence
           git diff --cached --quiet || (git commit -m "근거 자료 갱신 $(date +%Y-%m-%d)" && (git push || (git pull --rebase -X theirs origin main && git push)))

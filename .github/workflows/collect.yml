@@ -24,6 +24,7 @@ jobs:
       NCP_MAPS_CLIENT_ID: ${{ secrets.NCP_MAPS_CLIENT_ID }}
       NCP_MAPS_CLIENT_SECRET: ${{ secrets.NCP_MAPS_CLIENT_SECRET }}
       PUSH_SEND_TOKEN: ${{ secrets.PUSH_SEND_TOKEN }}   # 웹 푸시 발송 토큰 (기능: web_push). 없으면 보내지 않는다
+      CHAT_STATS_TOKEN: ${{ secrets.CHAT_STATS_TOKEN }}   # 청약봇 하루 합계 읽기 (기능: chatbot). 없으면 건너뛴다
       TZ: Asia/Seoul
     steps:
       - uses: actions/checkout@v4
@@ -70,6 +71,13 @@ jobs:
         if: always()
         with:
           node-version: "20"
+      - name: 청약봇 하루 합계 (기능 chatbot — 개인 식별 없는 합계만)
+        if: always()
+        continue-on-error: true
+        run: |
+          [ -n "$CHAT_STATS_TOKEN" ] && [ -f chat/deployed.json ] || exit 0
+          url=$(python3 -c "import json; print(json.load(open('chat/deployed.json'))['url'])")
+          curl -fsS -H "Authorization: Bearer $CHAT_STATS_TOKEN" "$url/stats" | python3 chat/tools/stats_line.py | tee -a docs/run-log.txt
       - name: 판정 검증 사례 실행 (tests/judge, 144건+)
         if: always()
         continue-on-error: true

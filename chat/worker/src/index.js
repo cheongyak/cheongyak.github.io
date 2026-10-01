@@ -1,0 +1,140 @@
+// 청약패스 청약봇 서버 (Cloudflare Worker, 시험용). 판정은 하지 않는다.
+// 브라우저가 판정 엔진 결과(engine)와 질문을 보내면, 근거를 붙여 Claude 에게 '설명'만 맡기고 검사기를 통과한 답만 돌려준다.
+import { redact } from './redact.js';
+import { classify, OUT_OF_SCOPE_TEXT } from './intent.js';
+import { parseEvidence, selectEvidence } from './evidence.js';
+import { SYSTEM, PROMPT_VERSION, buildUserMessage } from './prompt.js';
+import { validate } from './validate.js';
+import { fallbackAnswer } from './fallback.js';
+import { checkLimit, markConversation, LIMIT_TEXT } from './limits.js';
+import { callClaude, MODEL } from './llm.js';
+import { bump, readStats, FEEDBACK_REASONS } from './stats.js';
+
+const VERDICTS = ['가능', '불가', '확인 필요', '2순위만'];
+const EVIDENCE = new Map();   // 공고번호 → [받은 시각, 근거]
+
+// 물어본 공고의 근거 조각만 받는다 (docs/chat-evidence/<번호>.json, chat/tools/split_evidence.mjs 가 만듦).
+// 전체 파일(2.4MB)을 풀면 Worker 무료 한도(CPU 10ms)를 넘는다.
+async function evidenceIndex(env, fetchImpl, listingId) {
+  const nid = String(listingId || '').split('-')[0];
+  if (!/^\d{6,12}$/.test(nid)) return new Map();
+  const hit = EVIDENCE.get(nid);
+  if (hit && Date.now() - hit[0] < 6 * 3600e3) return hit[1];
+  let m = new Map();
+  try {
+    const res = await fetchImpl(`${env.EVIDENCE_BASE || 'https://cheongyakpass.kr/chat-evidence'}/${nid}.json`, { cf: { cacheTtl: 21600 } });
+    if (res.ok) m = new Map([[nid, await res.json()]]);
+  } catch (e) {}
+  EVIDENCE.set(nid, [Date.now(), m]);
+  return m;
+}
+
+function badRequest(msg) { return { status: 400, body: { error: msg } }; }
+
+// 테스트에서도 그대로 부르는 본체. deps 로 fetch·KV·근거 색인을 바꿔 끼울 수 있다.
+export async function handleChat(env, input, deps = {}) {
+  const t0 = Date.now();
+  const fetchImpl = deps.fetch || fetch;
+  const kv = deps.kv || env.CHAT_KV;
+  const { question, engine, anon_id, conversation_id, history, ip } = input || {};
+  if (typeof question !== 'string' || !question.trim() || question.length > 500) return badRequest('질문은 1~500자');
+  if (!engine || !VERDICTS.includes(engine.verdict) || !engine.listing || !Array.isArray(engine.items)) return badRequest('engine 결과 형식 오류');
+  if (typeof anon_id !== 'string' || anon_id.length < 8) return badRequest('anon_id 필요');
+  // 공개 전(CHAT_OPEN 이 '1' 이 아님)에는 미리보기 코드를 아는 운영자만
+  if (env.CHAT_OPEN !== '1' && !(env.CHAT_PREVIEW_CODE && input.preview === env.CHAT_PREVIEW_CODE)) return { status: 403, body: { closed: true, message: '아직 준비 중인 기능이에요.' } };
+
+  const lim = await checkLimit(kv, { anonId: anon_id, ip: ip || '', conversationId: conversation_id, salt: env.CHAT_STATS_TOKEN || '' });
+  if (!lim.ok) { await bump(kv, { ['limited_' + lim.reason]: true }); return { status: 429, body: { limited: lim.reason, message: LIMIT_TEXT[lim.reason] } }; }
+
+  const q = redact(question);
+  const hist = (Array.isArray(history) ? history : []).slice(-4).map(h => ({ role: h.role, text: redact(h.text).text }));
+  const intent = classify(q.text);
+  const log = { intent, verdict: engine.verdict, pii: q.found, prompt: PROMPT_VERSION, model: MODEL };
+
+  if (intent === 'out_of_scope') {
+    await markConversation(kv, conversation_id, false);
+    await bump(kv, { q: true, follow_up: lim.followUp, intent, pii: q.found.length > 0 });
+    return { status: 200, body: { kind: 'out_of_scope', message: OUT_OF_SCOPE_TEXT, pii: q.found, remaining: lim.remaining, log } };
+  }
+
+  const index = deps.evidence || await evidenceIndex(env, fetchImpl, engine.listing.id);
+  const { evidence } = selectEvidence(index, engine, q.text);
+  const ctx = { engine, evidence, question: q.text };
+
+  let answer = null, attempts = [];
+  const apiKey = env.ANTHROPIC_API_KEY;
+  if (apiKey || deps.llm) {
+    let user = buildUserMessage({ question: q.text, intent, engine, evidence, history: hist });
+    for (let i = 0; i < 2 && !answer; i++) {
+      try {
+        const r = deps.llm ? await deps.llm({ system: SYSTEM, user, attempt: i }) : await callClaude({ apiKey, system: SYSTEM, user, fetchImpl });
+        const v = validate(r.text, ctx);
+        attempts.push({ ok: v.ok, flags: v.flags, usage: r.usage || null });
+        if (v.ok) answer = v.answer;
+        else user += `\n\nPREVIOUS_ANSWER_REJECTED: ${v.flags.join(' / ')}\n위 문제를 고쳐 JSON 으로 다시 써라.`;
+      } catch (e) {
+        attempts.push({ ok: false, flags: ['호출 실패: ' + e.message] });
+        break;
+      }
+    }
+  }
+  const usedFallback = !answer;
+  if (!answer) answer = fallbackAnswer({ engine, evidence, intent });
+  await markConversation(kv, conversation_id, !!answer.ask, lim.followUp ? lim.followN + 1 : 0);
+
+  const used = new Set([...(answer.why || []), ...(answer.official || [])].flatMap(x => x.refs || []));
+  const sources = evidence.filter(e => used.has(e.id)).map(e => ({ id: e.id, kind: e.kind, title: e.title, url: e.kind === 'notice' ? e.url : engine.listing.link, quote: e.text.slice(0, 200) }));
+  await bump(kv, { q: true, follow_up: lim.followUp, intent, verdict: engine.verdict, pii: q.found.length > 0, ai_calls: attempts.filter(a => a.usage || a.ok || a.flags.length).length,
+    rejected: attempts.filter(a => !a.ok).length, fallback: usedFallback,
+    in_tokens: attempts.reduce((n, a) => n + ((a.usage && a.usage.input_tokens) || 0), 0), out_tokens: attempts.reduce((n, a) => n + ((a.usage && a.usage.output_tokens) || 0), 0) });
+  Object.assign(log, { attempts: attempts.map(a => ({ ok: a.ok, flags: a.flags.length })), fallback: usedFallback, ms: Date.now() - t0 });
+  return {
+    status: 200,
+    body: {
+      kind: 'answer', verdict: engine.verdict, answer, sources,
+      notice: '참고용이에요. 신청 전 모집공고문과 청약홈에서 꼭 확인하세요.',
+      pii: q.found, follow_up: lim.followUp, remaining: lim.remaining, fallback: usedFallback, log,
+    },
+  };
+}
+
+// 답변 평가: 좋아요·아쉬워요와 이유만 하루 합계로 (질문·답변 원문은 받지 않는다)
+export async function handleFeedback(env, input, deps = {}) {
+  const kv = deps.kv || env.CHAT_KV;
+  const { vote, reason, recheck } = input || {};
+  if (!['up', 'down'].includes(vote)) return badRequest('vote 는 up 또는 down');
+  if (reason != null && !(reason in FEEDBACK_REASONS)) return badRequest('reason 값 오류');
+  await bump(kv, { ['fb_' + vote]: true, fb_reason: reason || null, recheck: ['same', 'changed'].includes(recheck) ? recheck : null });
+  return { status: 200, body: { ok: true } };
+}
+
+function cors(env, origin) {
+  const allowed = String(env.ALLOWED_ORIGINS || '').split(',').map(s => s.trim()).filter(Boolean);
+  return allowed.includes(origin) ? { 'access-control-allow-origin': origin, 'access-control-allow-methods': 'POST, OPTIONS', 'access-control-allow-headers': 'content-type', vary: 'origin' } : null;
+}
+
+export default {
+  async fetch(request, env) {
+    const path = new URL(request.url).pathname;
+    // 운영자 수집 작업(collect.yml)이 하루 합계를 가져간다 — 비밀 토큰이 있어야 함
+    if (request.method === 'GET' && path === '/stats') {
+      const ok = env.CHAT_STATS_TOKEN && request.headers.get('authorization') === 'Bearer ' + env.CHAT_STATS_TOKEN;
+      if (!ok) return new Response('unauthorized', { status: 401 });
+      return new Response(JSON.stringify(await readStats(env.CHAT_KV, 7)), { headers: { 'content-type': 'application/json; charset=utf-8' } });
+    }
+    if (request.method === 'GET' && path === '/health') return new Response(JSON.stringify({ ok: true, open: env.CHAT_OPEN === '1', model: MODEL, prompt: PROMPT_VERSION, key: !!env.ANTHROPIC_API_KEY }), { headers: { 'content-type': 'application/json' } });
+    const origin = request.headers.get('origin') || '';
+    const h = cors(env, origin);
+    if (!h) return new Response('forbidden', { status: 403 });
+    if (request.method === 'OPTIONS') return new Response(null, { status: 204, headers: h });
+    if (request.method !== 'POST' || !['/chat', '/feedback'].includes(path)) return new Response('not found', { status: 404, headers: h });
+    const len = +(request.headers.get('content-length') || 0);
+    if (len > 40000) return new Response('too large', { status: 413, headers: h });
+    let input;
+    try { input = await request.json(); } catch (e) { return new Response('bad json', { status: 400, headers: h }); }
+    input.ip = request.headers.get('cf-connecting-ip') || '';
+    const r = path === '/feedback' ? await handleFeedback(env, input) : await handleChat(env, input);
+    if (r.body && r.body.log) { console.log(JSON.stringify(r.body.log)); delete r.body.log; }   // 개인정보 없는 집계만 로그로
+    return new Response(JSON.stringify(r.body), { status: r.status, headers: { ...h, 'content-type': 'application/json; charset=utf-8' } });
+  },
+};
