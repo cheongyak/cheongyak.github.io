@@ -1,5 +1,6 @@
 """가짜 API 응답(형태만 실제와 같게 만든 목업)으로 수집 → 시세 → 등급 → API 서버까지 끝까지 돌려본다."""
 import json
+from pathlib import Path
 from datetime import date
 
 import httpx
@@ -336,3 +337,39 @@ def test_bad_api_response_does_not_overwrite_previous(tmp_path, monkeypatch):
         with pytest.raises(Exception):
             pipeline.run(today=date(2026, 10, 1), read_notices=False)
         assert not (tmp_path / "l.json").exists() and not pipeline.FRESH.exists()
+
+
+def test_crosscheck_all_evidence_notices_match_app_constants():
+    """공고문 대조 (기능: notice_crosscheck) — 보관된 모집공고문 원문 전체의 소득 기준표·예치금 표·자산 기준이 화면 고정 수치와 같다."""
+    import glob
+    from app import notice_pdf, crosscheck
+    C = crosscheck.app_constants()
+    assert C["relax"] == {"부동산": [23705, 25860], "자동차": [4996, 5451]}
+    n_rows = 0
+    for f in sorted(glob.glob(str(Path(__file__).resolve().parent.parent / "evidence" / "notices" / "*.txt"))):
+        facts = notice_pdf.notice_facts(Path(f).read_text(encoding="utf-8"), {})
+        n_rows += len(facts["income_rows"]) + len(facts["deposit_rows"])
+        assert crosscheck.notice_problems(facts, C) == [], f
+    assert n_rows >= 250   # 2026-10-01 기준 287줄 (공고문 57건)
+
+
+def test_crosscheck_detects_wrong_constant_and_price():
+    """앱 수치가 틀리면 잡아낸다 (소득 기준 1원, 예치금, 분양가)."""
+    from app import notice_pdf, crosscheck
+    t = (Path(__file__).resolve().parent.parent / "evidence" / "notices" / "2026000453.txt").read_text(encoding="utf-8")
+    C = crosscheck.app_constants()
+    bad = dict(C, income=[C["income"][0] + 1] + C["income"][1:])
+    assert any("소득 기준" in p for p in crosscheck.notice_problems(notice_pdf.notice_facts(t, {}), bad))
+    bad2 = dict(C, deposit=dict(C["deposit"], other=[250, 300, 400, 500]))
+    assert any("예치금" in p for p in crosscheck.notice_problems(notice_pdf.notice_facts(t, {}), bad2))
+    facts = notice_pdf.notice_facts(t, {"059.9742A": 99999})
+    assert facts["price_seen"] == {"059.9742A": False}
+
+
+def test_crosscheck_run_flags_listing():
+    from app import crosscheck
+    from app.models import Listing
+    L = Listing(id="2026000453-059.9742A", name="광명", address="경기 광명시", region="경기", sido="경기", kind="k", unit="59A", area=59, price=5.0,
+                category="general")
+    log = crosscheck.run([L], {"2026000453": {"income_rows": {}, "deposit_rows": {}, "asset_thousand": {}, "price_seen": {"059.9742A": False}}})
+    assert L.checks and "분양가" in L.checks[0] and any("[검증·공고문 불일치]" in l for l in log)

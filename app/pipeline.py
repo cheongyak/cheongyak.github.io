@@ -191,7 +191,7 @@ def _from_previous(prev: dict) -> tuple[dict, Optional[str]]:
 
 
 NOTICE_CACHE = ROOT / "docs" / "notice-cache.json"
-PARSER_VERSION = 8   # 8: 신혼희망타운 소득·총자산(pub_limits kind=town) · 7: 공공분양 일반공급 소득·자산(pub_limits) · 6: 공급유형별 접수 일정(schedule) · 5: 다자녀 지역 배정(mc_quota) · 4: 거주 지역 요건(residence) 추가 · parse_notice 규칙을 바꾸면 올린다 → 모든 공고문을 다시 읽는다   # 공고문에서 읽은 값 보관 (공고문은 한 번 나오면 바뀌지 않는다)
+PARSER_VERSION = 9   # 9: 공고문 대조용 원문 숫자(facts) · 8: 신혼희망타운 소득·총자산(pub_limits kind=town) · 7: 공공분양 일반공급 소득·자산(pub_limits) · 6: 공급유형별 접수 일정(schedule) · 5: 다자녀 지역 배정(mc_quota) · 4: 거주 지역 요건(residence) 추가 · parse_notice 규칙을 바꾸면 올린다 → 모든 공고문을 다시 읽는다   # 공고문에서 읽은 값 보관 (공고문은 한 번 나오면 바뀌지 않는다)
 
 
 def _load_cache(path: Path) -> dict:
@@ -216,6 +216,9 @@ def _fetch_text(url: str, L0: Listing, client=None):
         return (t2, f"PDF 읽음 ({len(t2)}자, {m2}): {url2}", url2) if len(t2) > 500 else (None, msg + " → LH 공고문 글자 없음", None)
     except Exception as e:
         return None, msg + f" → LH 실패 {e.__class__.__name__}", None
+
+
+NOTICE_FACTS: dict = {}   # 공고번호 → 공고문 대조용 원문 숫자 (이번 실행)
 
 
 def apply_notice(listings: list[Listing], log: list[str], client=None, previous: Optional[dict] = None,
@@ -255,13 +258,15 @@ def apply_notice(listings: list[Listing], log: list[str], client=None, previous:
                     text, msg, pdf = None, f"읽기 실패: {e.__class__.__name__}", None
             found = notice_pdf.parse_notice(text) if text else {}
             log.append(f"[공고문] {Ls[0].name}: {msg} → {found or '추출 없음'}")
+            if text:   # 공고문 대조용 원문 숫자 (기능: notice_crosscheck) — 판정에는 쓰지 않는다
+                found["facts"] = notice_pdf.notice_facts(text, {L.id.split("-", 1)[1].strip(): round((L.price or 0) * 10000) for L in Ls})
             if text and found:
                 cache[nid] = {"name": Ls[0].name, "found": found, "notice_pdf": pdf, "v": PARSER_VERSION}
         if not text and url not in fresh:
             prev = previous.get(Ls[0].id)
             if cache.get(nid, {}).get("found"):
                 found, pdf = dict(cache[nid]["found"]), cache[nid].get("notice_pdf")
-                log.append(f"[공고문] {Ls[0].name}: 이번엔 못 읽어 보관해 둔 공고문 값을 써요 → {found}")
+                log.append(f"[공고문] {Ls[0].name}: 이번엔 못 읽어 보관해 둔 공고문 값을 써요 → { {k: v for k, v in found.items() if k != 'facts'} }")
             elif prev and prev.get("from_notice"):
                 found, pdf = _from_previous(prev)
                 log.append(f"[공고문] {Ls[0].name}: 이번엔 못 읽어 지난 실행에서 공고문으로 읽은 값을 유지해요 → {found}")
@@ -270,6 +275,7 @@ def apply_notice(listings: list[Listing], log: list[str], client=None, previous:
                 if key not in found:
                     for sn in notice_pdf.snippets(text, word):
                         log.append(f"[공고문·원문] {Ls[0].name} ({word}): …{sn}…")
+        NOTICE_FACTS[nid] = found.get("facts")
         labels = {"need_head": "세대주 요건", "price_cap": "분양가상한제", "residence_duty": "실거주 의무",
                   "balance": "잔금일", "ext": "발코니 확장비", "rewin_years": "재당첨 제한",
                   "account_months": "1순위 가입기간", "deposit_count": "납입 인정 횟수", "residence": "거주 지역 요건", "mc_quota": "다자녀 지역 배정", "schedule": "접수 일정", "pub_limits": "공공 일반공급 소득·자산"}
@@ -462,6 +468,12 @@ def run(dry_run: bool = False, today: Optional[date] = None, read_notices: bool 
         log.append(f"[응답 필드·미수집] 확인 실패: {e}")
 
     log += validate.run_checks(out, today)
+    if feature_on("notice_crosscheck"):
+        try:
+            from . import crosscheck
+            log += crosscheck.run(out, NOTICE_FACTS)
+        except Exception as e:
+            log.append(f"[검증·공고문 불일치] 공고문 대조 실행 실패: {e}")
     lines = summary(out)
     cfg = notify.load_config()
     msgs = notify.build_messages(out, notify.load_previous_ids(), today, cfg)

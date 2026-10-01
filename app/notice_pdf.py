@@ -464,3 +464,46 @@ def _parse_town_limits(t: str) -> Optional[dict]:
         out["total_asset_relax"] = amts[1:3]
     return out
 
+
+
+# ---- 공고문 대조용 사실 (기능: notice_crosscheck) ----
+# 화면에 쓰는 수치가 이 공고문 원문과 같은지 매 수집마다 대조하려고, 원문에서 숫자 표를 그대로 뽑아 둔다 (판정에는 쓰지 않는다).
+#  - income_rows: '도시근로자 가구당 월평균소득(액)의 N% a b c d e f' (3인 이하 ~ 8인, 원)
+#  - deposit_rows: 민영 청약예금 예치금 표 '전용면적 85㎡ 이하 300만원 250만원 200만원' 등 (만원)
+#  - asset_thousand: '부동산 … ○○○천원 이하', '자동차 … ○○○천원 이하' 숫자 (천원)
+#  - price_seen: 주택형별 청약홈 분양가(최고가)가 원문 숫자로 나오는지 (천원·만원·원 표기)
+def notice_facts(text: str, prices_man: Optional[dict] = None) -> dict:
+    t = re.sub(r"[ \t]+", " ", text)
+    flat = re.sub(r"\s+", "", text)
+    rows = {}
+    for m in re.finditer(r"도시근로자 가구당 월평균소득(?:액)?의 (\d{2,3})%\s*(?:\([^)]{0,40}\))?\s*((?:[\d,]{7,11}\s+){5}[\d,]{7,11})", t):
+        nums = [int(x.replace(",", "")) for x in m.group(2).split()]
+        if all(1_000_000 <= v <= 60_000_000 for v in nums):
+            rows.setdefault(m.group(1), nums)
+    for m in re.finditer(r"(\d{2,3})% 이하\s*((?:~[\d,]{7,11}원\s*){6})", t):   # 민영 표기 '130% 이하 ~9,793,892원 …'
+        nums = [int(x.replace(",", "")) for x in re.findall(r"~([\d,]+)원", m.group(2))]
+        if len(nums) == 6 and all(1_000_000 <= v <= 60_000_000 for v in nums):
+            rows.setdefault(m.group(1), nums)
+    dep = {}
+    for m in re.finditer(r"(전용면적\s?(85|102|135)\s?㎡\s?이하|모든\s?면적)\s+([\d,]+)만원\s+([\d,]+)만원\s+([\d,]+)만원", t):
+        k = m.group(2) or "all"
+        if k in dep:
+            continue
+        # 표 머리글의 지역 순서를 읽는다 (공고마다 '그 밖의 광역시'가 앞에 오기도 한다)
+        head = t[max(0, m.start() - 400):m.start()]
+        hl = head[head.rfind("구"):] if "구" in head else head
+        pos = {"seoul_busan": hl.rfind("특별시 및 부산"), "metro": max(hl.rfind("그 밖의 광역시"), hl.rfind("그밖의 광역시")), "other": hl.rfind("광역시를 제외")}
+        vals = [int(m.group(i).replace(",", "")) for i in (3, 4, 5)]
+        if all(v >= 0 for v in pos.values()):
+            keys = sorted(pos, key=pos.get)
+            dep[k] = {keys[i]: vals[i] for i in range(3)}
+        else:
+            dep[k] = {"seoul_busan": vals[0], "metro": vals[1], "other": vals[2], "order_guess": True}
+    assets = {"부동산": sorted({int(x.replace(",", "")) for x in re.findall(r"부동산[^\n]{0,40}?([\d]{2,3},\d{3})천원\s?이하", t)}),
+              "자동차": sorted({int(x.replace(",", "")) for x in re.findall(r"자동차[^\n]{0,40}?([\d]{2},\d{3})천원\s?이하", t)}),
+              "부동산_만원": sorted({int(a) * 10000 + int(b.replace(",", "")) for a, b in re.findall(r"부동산가액\s?(\d)억\s?([\d,]{1,5})만원\s?이하", t)})}
+    seen = {}
+    for ty, man in (prices_man or {}).items():
+        if man:
+            seen[ty] = any(f"{v:,}" in flat for v in (man * 10, man, man * 10000))
+    return {"income_rows": rows, "deposit_rows": dep, "asset_thousand": assets, "price_seen": seen}
