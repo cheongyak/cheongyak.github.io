@@ -37,7 +37,7 @@ NAV = [("/", "공고 보기"), ("/guide/", "청약 기준 가이드"), ("/about/
 
 def page(slug: str, title: str, desc: str, body: str) -> str:
     url = f"{SITE}/{slug}" if slug else SITE + "/"
-    navs = [(h, t) for h, t in NAV if h != "/guide/" or feature("guide_pages")]
+    navs = [(h, t) for h, t in NAV if (h != "/guide/" or feature("guide_pages")) and (h != "/updates/" or not feature("about_menu"))]
     nav = " · ".join(f'<a href="{h}">{t}</a>' for h, t in navs)
     foot = " · ".join(f'<a href="{h}">{t}</a>' for h, t in navs + [("/story/", "만든 이유"), ("/terms/", "이용약관")])
     return f"""<!doctype html>
@@ -216,6 +216,12 @@ def main() -> None:
         "guide/score/": ("청약 가점 계산표", "무주택기간·부양가족·청약통장 가입기간 가점표(84점)와 계산 예시 — 주택공급에 관한 규칙 별표 1 법령 원문", guide_score()),
         "guide/deposit/": ("청약통장 1순위 조건과 예치금", "민영주택 지역·면적별 예치금 표와 1순위 가입기간 조건 — 주택공급에 관한 규칙 별표 2·제27조·제28조 법령 원문", guide_deposit()),
     }
+    # 업데이트 소식은 이용 안내 메뉴(기능: about_menu)를 켜면 공개하지 않는다 — 기록(docs/changelog.json·VERSIONS.md·WORK.md)은 내부에서 관리 (2026-10-01 사용자 요청)
+    if feature("about_menu"):
+        del pages["updates/"]
+        if (DOCS / "updates").exists():
+            import shutil
+            shutil.rmtree(DOCS / "updates")
     # 청약 기준 가이드 (기능: guide_pages). 2026-10-01 사용자 지적으로 꺼 둠: 기준표 출처가 특정 공고문이고, 소득 기준·비율은 공고마다 달라
     # 하나의 고정 표로 안내하기 어렵다. 꺼져 있으면 /guide/ 를 만들지 않고 지운다 (가점표·예치금은 법령 출처로 다시 만들 수 있음)
     if not feature("guide_pages") or not law_tables():   # 법령 원문(evidence/law/rule.xml)이 없으면 가이드를 만들지 않는다
