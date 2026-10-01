@@ -4,6 +4,15 @@
 2026-09-29 12:55 이전 항목은 규칙을 만들기 전 작업을 커밋 기록으로 정리한 것이라 백업 브랜치가 없어요.
 그 시점으로 되돌릴 때는 해당 커밋 번호로 `git revert` 를 써요.
 
+## 2026-10-01 15:03 · 청약 기준 가이드 다시 열기 (법령 원문 기준)
+- 요청: 청약 기준 가이드가 특정 공고문을 출처로 삼는 문제 — 공통 기준은 공식 지침(법령)을 출처로 (사용자가 방안2 법제처 OPEN API 선택, LAW_OC 등록)
+- 변경: tools/build_static.py — evidence/law/rule.xml(법제처 API 로 받은 주택공급에 관한 규칙 원문)의 별표 1(가점제 적용기준)·별표 2(예치기준금액)를 읽어 /guide/score/·/guide/deposit/ 를 만들고 출처를 법령(시행일·개정일·조항)으로 표시, 공고문 링크 제거. 가점제에서 빠지는 경우(별표 1 비고 1), 부양가족 인정 기준을 법령대로 고침(배우자 등본 무관, 직계존속 세대주·3년, 30세 이상 자녀 1년), 배우자 통장(비고 2) 추가. 소득 기준표 페이지는 공고마다 달라 뺌. 법령 원문이 없으면 가이드를 만들지 않음. guide_pages 다시 켬. tools/law_probe.py — 같은 번호의 서식(신청서)이 별표를 덮어쓰던 문제를 별표구분으로 거름. tests/test_law.py — 법령 별표 2 예치금 = 화면 ACCOUNT_DEPOSIT, 법령 별표 1 가점표 40칸 = 판정 사례 생성기 계산, 가이드에 공고문 출처가 없는지
+- 파일: tools/build_static.py, tools/law_probe.py, tests/test_law.py, tests/test_pipeline.py, docs/config.json, docs/index.html, docs/guide/, docs/sitemap.xml, docs/about·privacy·story·terms·updates/index.html, tools/static_fragments.json, docs/changelog.json, VERSIONS.md
+- 확인: pytest 124 통과(값을 바꾸면 test_law 실패하는 것 확인), 판정 사례 144/144, 회귀 판정 1,030조합 차이 0·화면 1,287개 오류 0, 스크립트 문법 검사, 브라우저로 /guide/ 3쪽 밝은·어두운 화면 확인(넘침·오류 없음). 법령 값: 예치금 300/600/1000/1500·250/400/700/1000·200/300/400/500 이 앱과 같음
+- 기능: guide_pages
+- 버전: v1.4.0
+- 백업: backup/20261001-1503-lawguide
+
 ## 2026-10-01 14:59 · 법령 원문 받기: Referer·인증키 형태 점검
 - 요청: (두 번째 실행 결과) 네 가지 주소 모두 '필수입력요소 검증에 실패' — 원인 찾기
 - 변경: Referer(등록 도메인 cheongyakpass.kr) 있음·없음, display 있음·없음을 https/http 로 시도해 기록, 인증키의 길이·앞뒤 공백·문자 종류만 기록(값은 남기지 않음)

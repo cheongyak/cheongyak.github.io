@@ -118,12 +118,12 @@ def main() -> int:
             content = txt(b, "별표내용")
             links = {k: txt(b, k) for k in ("별표서식파일링크", "별표서식PDF파일링크", "별표HWP파일명", "별표PDF파일명") if txt(b, k)}
             gaji = txt(b, "별표가지번호")
-            tables.append({"no": no, "branch": gaji, "title": title, "chars": len(content), "links": links})
+            tables.append({"no": no, "branch": gaji, "kind": txt(b, "별표구분"), "title": title, "chars": len(content), "links": links})
             try:
                 n = int(no)
             except ValueError:
                 n = None
-            if n in WANT and not (gaji and gaji not in ("0", "00")):
+            if n in WANT and txt(b, "별표구분") == "별표" and not (gaji and gaji not in ("0", "00")):   # 서식(신청서 등)은 번호가 겹쳐 빼야 한다
                 (OUT / f"byeolpyo_{n}.txt").write_text(f"{title}\n\n{content}\n", encoding="utf-8")
                 for k, url in links.items():
                     if "PDF" in k and url.startswith("/"):
@@ -139,9 +139,9 @@ def main() -> int:
                         except Exception as e:
                             log.append(f"[별표 {n}] PDF 받기 실패: {e}")
         for t in tables:
-            log.append(f"[별표 목록] 별표 {t['no']}{('의' + t['branch']) if t['branch'] and t['branch'] not in ('0', '00') else ''} · {t['title']} · 본문 {t['chars']}자")
+            log.append(f"[{t.get('kind') or '별표'} 목록] {t.get('kind') or '별표'} {t['no']}{('의' + t['branch']) if t['branch'] and t['branch'] not in ('0', '00') else ''} · {t['title']} · 본문 {t['chars']}자")
     summary["tables"] = tables
-    summary["ok"] = any(t["no"].lstrip("0") in ("1", "2") and t["chars"] > 0 for t in tables)
+    summary["ok"] = all(any(t["kind"] == "별표" and t["no"].lstrip("0") == k and t["chars"] > 0 for t in tables) for k in ("1", "2"))
     (OUT / "summary.json").write_text(json.dumps(summary, ensure_ascii=False, indent=1), encoding="utf-8")
     (OUT / "README.txt").write_text("\n".join(log) + "\n", encoding="utf-8")
     print("\n".join(log))

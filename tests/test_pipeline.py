@@ -400,7 +400,7 @@ def test_oracle_matches_notice_table_amounts():
 def test_static_guides_use_notice_numbers():
     """정적 가이드 페이지 (기능: static_pages) — 공고문 원문 표의 숫자 그대로 나온다."""
     from tools import build_static
-    inc = build_static.guide_income()
+    inc = build_static.guide_income()     # 소득 기준표 가이드는 내렸지만(공고마다 다름) 계산 함수는 남아 있다
     assert "9,793,892" in inc and "7,533,763" in inc and "24,342,602" in inc
     dep = build_static.guide_deposit()
     assert "<td>1,500</td><td>1,000</td><td>500</td>" in dep

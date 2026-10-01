@@ -109,6 +109,53 @@ def guide_income() -> str:
 <p class="small muted">공고마다 기준이 다를 수 있어요. 신청 전에 해당 모집공고문의 소득 기준 표를 꼭 확인하세요.</p>"""
 
 
+LAW_XML = ROOT / "evidence" / "law" / "rule.xml"
+LAW_PAGE = "https://www.law.go.kr/법령/주택공급에관한규칙"
+LAW_TABLES = "https://www.law.go.kr/법령별표서식/(주택공급에관한규칙,1)"
+
+
+def law_tables() -> dict | None:
+    """법제처 OPEN API 로 받은 '주택공급에 관한 규칙' 원문(tools/law_probe.py → evidence/law/)에서 별표 1·2 와 시행일을 읽는다.
+    가이드의 가점표·예치금은 이 법령 원문 기준이다 (2026-10-01 사용자 지적: 특정 공고문을 기준으로 삼지 말 것)."""
+    import xml.etree.ElementTree as ET
+    if not LAW_XML.exists():
+        return None
+    root = ET.parse(LAW_XML).getroot()
+    out: dict = {"effective": (root.findtext(".//시행일자") or "").strip(), "promulgated": (root.findtext(".//공포일자") or "").strip(), "tables": {}}
+    for b in root.iter("별표단위"):
+        if (b.findtext("별표구분") or "").strip() != "별표":
+            continue
+        no = (b.findtext("별표번호") or "").strip().lstrip("0")
+        body = b.findtext("별표내용") or ""
+        rev = re.search(r"<개정\s*([0-9]{4})\.\s*([0-9]+)\.\s*([0-9]+)\.", body)
+        out["tables"][no] = {"title": (b.findtext("별표제목") or "").strip(), "body": body,
+                             "revised": f"{rev.group(1)}.{int(rev.group(2))}.{int(rev.group(3))}." if rev else ""}
+    dep = {}
+    t2 = out["tables"].get("2", {}).get("body", "")
+    for key, label in (("85", "85제곱미터 이하"), ("102", "102제곱미터 이하"), ("135", "135제곱미터 이하"), ("all", "모든 면적")):
+        m = re.search(re.escape(label) + r"\s*│\s*([\d,]+)\s*│\s*([\d,]+)\s*│\s*([\d,]+)", t2)
+        if m:
+            dep[key] = {"seoul_busan": int(m.group(1).replace(",", "")), "metro": int(m.group(2).replace(",", "")), "other": int(m.group(3).replace(",", ""))}
+    out["deposit"] = dep
+    t1 = out["tables"].get("1", {}).get("body", "")
+    # 별표1 2 나목 표: '구간 │점수' 쌍을 모두 읽는다 (무주택기간·부양가족·통장 가입기간 순서로 나온다)
+    pairs = re.findall(r"(\d+년 미만|\d+년 이상～\d+년 미만|\d+년 이상|6개월 미만|6개월 이상～1년 미만|\d+명이상|\d+명)\s*│\s*(\d+)", t1)
+    out["score_pairs"] = pairs
+    return out
+
+
+def fmt_ymd(d: str) -> str:
+    return f"{d[:4]}.{int(d[4:6])}.{int(d[6:8])}." if len(d) == 8 else d
+
+
+def law_note(no: str) -> str:
+    lt = law_tables()
+    if not lt:
+        return ""
+    rev = lt["tables"].get(no, {}).get("revised")
+    return f" · 별표 개정 {rev}" * bool(rev) + f" · 법령 시행 {fmt_ymd(lt['effective'])}" * bool(lt.get("effective"))
+
+
 def guide_score() -> str:
     ex = [("만 36세 미혼 무주택, 부양가족 0명, 통장 6년", dict(birth="1990-01-01", married=False, dependents=0, acctSince="2020-09-01")),
           ("만 38세 기혼(만 30세 전 혼인), 자녀 2명, 통장 12년", dict(birth="1988-05-01", married=True, marriedOn="2016-05-01", dependents=3, acctSince="2014-09-01")),
@@ -117,35 +164,36 @@ def guide_score() -> str:
     nohome = "".join(f"<tr><td>{'1년 미만' if y == 0 else f'{y}년 이상'}</td><td>{2 if y == 0 else min(32, 2 + 2 * y)}</td></tr>" for y in range(0, 16))
     acct = "<tr><td>6개월 미만</td><td>1</td></tr><tr><td>6개월~1년</td><td>2</td></tr>" + "".join(f"<tr><td>{y}년 이상</td><td>{min(17, y + 2)}</td></tr>" for y in range(1, 16))
     return f"""<h1>청약 가점 계산표 (84점 만점)</h1>
-<p class="muted small">「주택공급에 관한 규칙」 [별표1]의 2 나목 · 2026년 민영주택 모집공고문 가점표 원문</p>
+<p class="muted small">「주택공급에 관한 규칙」 [별표 1] 가점제 적용기준 2 나목{law_note('1')}</p>
 <section class="card doc"><h2>세 항목의 합이 내 가점이에요</h2>
-<ul class="doclist"><li><b>무주택기간 (32점)</b>: 만 30세가 된 날(그 전에 혼인했으면 혼인신고일)부터 계산하고, 집을 판 적이 있으면 판 날부터 다시 계산해요. 만 30세 미만 미혼이면 0점.</li>
+<ul class="doclist"><li><b>무주택기간 (32점)</b>: 만 30세가 된 날(그 전에 혼인했으면 혼인신고일)부터 계산하고, 집을 판 적이 있으면 판 날부터 다시 계산해요. 만 30세 미만 미혼이면 무주택기간이 아직 시작되지 않아 0점.</li>
 <li><b>부양가족 (35점)</b>: 본인 제외, 공고일 현재 나 또는 배우자와 같은 등본에 있는 세대원. 0명 5점, 1명마다 5점, 6명 이상 35점.
-<br><span class="small">배우자 · 직계존속은 내가 세대주이고 최근 3년 이상 계속 같은 등본에 있어야 하며, 직계존속이나 그 배우자 중 한 명이라도 집이 있으면 빼요 · 자녀는 미혼만, 만 30세 이상은 최근 1년 이상 같은 등본 · 해외 체류(90일 초과)·요양시설·외국인은 빼요.</span></li>
+<br><span class="small">배우자는 등본이 달라도 포함 · 직계존속(부모님 등)은 내가 세대주이고 공고일 기준 최근 3년 이상 계속 같은 등본에 있어야 하며, 직계존속과 그 배우자 중 한 명이라도 집이 있으면 둘 다 빼요 · 자녀는 미혼만(같은 등본의 손자녀는 그 부모가 모두 사망한 경우 포함), 만 30세 이상 자녀는 최근 1년 이상 계속 같은 등본. 그 밖의 세부 인정 기준은 모집공고문을 확인하세요.</span></li>
 <li><b>청약통장 가입기간 (17점)</b>: 본인 가입기간 점수 + 배우자 통장 가입기간 50%에 해당하는 점수(최대 3점). 합계 17점까지.</li></ul></section>
 <section class="card doc"><h2>무주택기간</h2><div class="gwrap"><table class="gtbl"><thead><tr><th>기간</th><th>점수</th></tr></thead><tbody><tr><td>만 30세 미만 미혼</td><td>0</td></tr>{nohome}</tbody></table></div></section>
 <section class="card doc"><h2>청약통장 가입기간 (본인)</h2><div class="gwrap"><table class="gtbl"><thead><tr><th>기간</th><th>점수</th></tr></thead><tbody>{acct}</tbody></table></div>
-<p>배우자 통장: 배우자 가입기간의 50%가 6개월 미만 1점, 6개월~1년 2점, 1년 이상 3점 (2024.3.25 시행).</p></section>
+<p>배우자 통장: 배우자 가입기간의 50%에 해당하는 기간을 위 표로 계산하되 최대 3점 (6개월 미만 1점, 6개월~1년 2점, 1년 이상 3점), 본인 점수와 합쳐 17점까지 (별표 1 비고 2).</p></section>
 <section class="card doc"><h2>계산 예시 (공고일 2026.9.18 기준)</h2>
 <div class="gwrap"><table class="gtbl"><thead><tr><th>예시</th><th>무주택</th><th>부양가족</th><th>통장</th><th>합계</th></tr></thead><tbody>{rows}</tbody></table></div>
 <p class="small muted">예시 점수는 청약패스 판정 검증 사례와 같은 계산으로 만들었어요. 내 점수는 <a href="/">청약패스</a>에서 내 조건을 넣으면 공고마다 계산돼요.</p></section>
-<p class="small muted">출처: {notice_link('2026000103', '더샵 분당하이스트')} 가점 산정기준 표·배우자 통장가입기간 점수표·부양가족의 인정 적용기준. 노부모부양 특별공급은 배우자 통장 점수를 더하지 않아요.</p>"""
+<section class="card doc"><h2>가점제에서 빠지는 경우</h2><p>공고일 현재 주택을 소유한 세대에 속한 사람과, 과거 2년 안에 가점제로 당첨된 사람의 세대에 속한 사람은 1순위 가점제 대상에서 빠지고 추첨제 대상에 들어가요 (별표 1 비고 1, 제28조제6항이 적용되는 공고). 적용 여부는 공고문에서 확인하세요.</p></section>
+<p class="small muted">출처: 「주택공급에 관한 규칙」 <a href="{LAW_TABLES}" target="_blank" rel="noopener">[별표 1] 가점제 적용기준</a> (가점 산정기준 표·비고, 부양가족의 인정 적용기준){law_note('1')}. 배우자 통장 점수는 특별공급(제46조)에는 더하지 않아요. 법령 원문은 매주 법제처에서 다시 받아 이 표와 대조해요.</p>"""
 
 
 def guide_deposit() -> str:
-    dep = notice_pdf.notice_facts((NOTICE / "2026000453.txt").read_text(encoding="utf-8"))["deposit_rows"]
+    dep = (law_tables() or {}).get("deposit") or {}
     lab = {"85": "전용 85㎡ 이하", "102": "전용 102㎡ 이하", "135": "전용 135㎡ 이하", "all": "모든 면적"}
     tr = "".join(f"<tr><td>{lab[k]}</td><td>{won(dep[k]['seoul_busan'])}</td><td>{won(dep[k]['metro'])}</td><td>{won(dep[k]['other'])}</td></tr>" for k in ("85", "102", "135", "all") if k in dep)
     return f"""<h1>청약통장 1순위 조건과 예치금 기준표</h1>
-<p class="muted small">민영주택 1순위 · 2026년 모집공고문 원문 표</p>
+<p class="muted small">민영주택 1순위 · 「주택공급에 관한 규칙」 [별표 2]·제27조·제28조{law_note('2')}</p>
 <section class="card doc"><h2>민영주택 예치금 (만원)</h2>
 <p>공고일 현재 주민등록상 사는 지역 기준이에요. 주택청약종합저축은 공고일까지 예치금을 채우면 돼요.</p>
 <div class="gwrap"><table class="gtbl"><thead><tr><th>면적</th><th>서울·부산</th><th>그 밖의 광역시</th><th>그 밖의 지역</th></tr></thead><tbody>{tr}</tbody></table></div>
-<p class="small muted">출처: {notice_link('2026000453', '광명 시티프라디움 에듀하임')} 청약예금 예치금액 표. 청약패스는 매일 모든 민영 공고문의 이 표를 앱 기준과 대조해요.</p></section>
+<p class="small muted">출처: 「주택공급에 관한 규칙」 <a href="{LAW_TABLES}" target="_blank" rel="noopener">[별표 2] 민영주택 청약 예치기준금액</a>{law_note('2')}. 청약패스는 매일 모든 민영 공고문의 예치금 표도 이 기준과 대조해요.</p></section>
 <section class="card doc"><h2>1순위 가입기간</h2>
-<ul class="doclist"><li><b>투기과열지구·청약과열지역</b>: 가입 24개월 경과 + 예치금 (예: 광명·성남 분당 공고 '가입기간이 24개월이 경과하고 지역별·면적별 예치금액 이상')</li>
-<li><b>그 밖의 수도권</b>: 12개월 · <b>수도권 밖</b>: 6개월 (공고문에 적힌 기간이 우선)</li>
-<li><b>공공분양(국민주택)</b>은 예치금 대신 납입 인정 횟수와 금액(매달 최대 25만원 인정)으로 봐요. 수도권 1순위는 보통 12개월·12회 이상.</li>
+<ul class="doclist"><li><b>투기과열지구·청약과열지역</b>: 가입 2년 경과 + 예치금, 세대주, 과거 5년 안에 당첨된 세대가 아닐 것, 2주택 이상 세대가 아닐 것 (제28조제1항제1호다목)</li>
+<li><b>그 밖의 수도권</b>: 1년 · <b>수도권 밖</b>: 6개월. 시·도지사가 청약과열 우려로 각각 24개월·12개월까지 늘려 공고할 수 있어 공고문에 적힌 기간이 우선이에요 (제28조제1항제1호가·나목)</li>
+<li><b>공공분양(국민주택)</b>은 예치금 대신 가입기간과 납입 횟수로 봐요: 수도권 1년·12회, 수도권 밖 6개월·6회, 투기과열지구·청약과열지역 2년·24회 (제27조제1항). 납입 인정 금액은 매달 최대 25만원까지예요.</li>
 <li>규제지역 1순위는 세대주여야 하고, 2주택 이상 세대나 5년 안에 당첨된 세대는 1순위가 안 돼요.</li></ul></section>
 <p class="small muted">공고마다 조건이 다를 수 있어요. 신청 전에 모집공고문의 '신청자격' 부분을 꼭 확인하세요.</p>"""
 
@@ -165,13 +213,12 @@ def main() -> None:
         "terms/": ("이용약관", "청약패스 이용약관", frag["terms"]),
         "privacy/": ("개인정보처리방침", "청약패스 개인정보처리방침", frag["privacy"]),
         "updates/": ("업데이트 소식", "청약패스 업데이트 소식 — 새로 생기고 바뀐 것", frag["updates"]),
-        "guide/income/": ("2026년 청약 소득 기준표", "특별공급·공공분양·신혼희망타운 월평균소득 기준 금액표와 단계별 기준, 출산가구 완화 — 모집공고문 원문 표", guide_income()),
-        "guide/score/": ("청약 가점 계산표", "무주택기간·부양가족·청약통장 가입기간 가점표(84점)와 계산 예시 — 주택공급에 관한 규칙 별표1", guide_score()),
-        "guide/deposit/": ("청약통장 1순위 조건과 예치금", "민영주택 지역·면적별 예치금 표와 1순위 가입기간 조건", guide_deposit()),
+        "guide/score/": ("청약 가점 계산표", "무주택기간·부양가족·청약통장 가입기간 가점표(84점)와 계산 예시 — 주택공급에 관한 규칙 별표 1 법령 원문", guide_score()),
+        "guide/deposit/": ("청약통장 1순위 조건과 예치금", "민영주택 지역·면적별 예치금 표와 1순위 가입기간 조건 — 주택공급에 관한 규칙 별표 2·제27조·제28조 법령 원문", guide_deposit()),
     }
     # 청약 기준 가이드 (기능: guide_pages). 2026-10-01 사용자 지적으로 꺼 둠: 기준표 출처가 특정 공고문이고, 소득 기준·비율은 공고마다 달라
     # 하나의 고정 표로 안내하기 어렵다. 꺼져 있으면 /guide/ 를 만들지 않고 지운다 (가점표·예치금은 법령 출처로 다시 만들 수 있음)
-    if not feature("guide_pages"):
+    if not feature("guide_pages") or not law_tables():   # 법령 원문(evidence/law/rule.xml)이 없으면 가이드를 만들지 않는다
         for k in [k for k in pages if k.startswith("guide/")]:
             del pages[k]
         if (DOCS / "guide").exists():
@@ -179,8 +226,8 @@ def main() -> None:
             shutil.rmtree(DOCS / "guide")
     idx = "".join(f'<li><a href="/{slug}"><b>{html.escape(t)}</b></a><br><span class="small muted">{html.escape(d)}</span></li>' for slug, (t, d, _) in pages.items() if slug.startswith("guide/"))
     if idx:
-        pages["guide/"] = ("청약 기준 가이드", "청약 소득 기준표, 가점 계산표, 예치금 기준 — 모집공고문 원문으로 만든 참고 자료",
-                         f"<h1>청약 기준 가이드</h1><p>모집공고문 원문 표를 그대로 옮기고, 매일 수집하는 공고문과 대조해 확인하는 기준표예요.</p><section class=\"card doc\"><ul class=\"doclist\">{idx}</ul></section>")
+            pages["guide/"] = ("청약 기준 가이드", "청약 가점 계산표와 청약통장 예치금 기준 — 주택공급에 관한 규칙 법령 원문",
+                         f"<h1>청약 기준 가이드</h1><p>모든 공고에 똑같이 적용되는 기준만 「주택공급에 관한 규칙」 법령 원문에서 그대로 옮겼어요. 소득·자산·거주 요건처럼 공고마다 다른 기준은 <a href=\"/\">청약패스</a>의 공고 화면과 <a href=\"/notice/\">공고별 페이지</a>에서 그 공고문 기준으로 보여드려요.</p><section class=\"card doc\"><ul class=\"doclist\">{idx}</ul></section>")
     for slug, (t, d, body) in pages.items():
         out = DOCS / slug / "index.html"
         out.parent.mkdir(parents=True, exist_ok=True)
