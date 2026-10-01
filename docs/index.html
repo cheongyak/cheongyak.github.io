@@ -121,6 +121,7 @@ body.ta details.chatq:not(.sprow):not(.scitem):not(.menudet)>summary{display:inl
 .chatfoot{margin:0;padding:2px 16px calc(10px + env(safe-area-inset-bottom));text-align:center}
 .chatgate{padding:16px;overflow-y:auto} .chatgate ul{padding-left:18px} .chatgate li{margin:6px 0;line-height:1.55} .chatgate .btn{margin-top:8px}
 .chatin1{width:100%;min-height:44px;border:1px solid var(--line);border-radius:12px;padding:0 12px;font-size:16px;background:var(--surface);color:var(--fg);margin:6px 0}
+.mecho{color:var(--consider-ink);font-weight:600}
 .legalnote ul{margin:6px 0;padding-left:18px} .legalnote li{margin:3px 0;font-size:13.5px} .legalfull{margin-top:6px} .legalfull .legalbody{margin-top:8px;border-top:1px solid var(--line);padding-top:8px} .legalfull .legalbody .card{box-shadow:none;border:0;padding:6px 0;margin:0} .legalline b{color:var(--fg)}
 .betaline{margin:0 2px 8px;font-size:12.5px;color:var(--muted);line-height:1.5} .betaline .beta{font-size:11px;vertical-align:1px} .betaline .linkbtn{min-height:0;padding:0}
 .betabar{display:flex;gap:8px;align-items:flex-start;margin:0 0 10px;padding:10px 12px;border-radius:12px;background:var(--warn-soft);color:var(--warn-ink);font-size:13px;line-height:1.5;border:1px solid color-mix(in srgb, var(--warn-ink) 30%, transparent)}
@@ -618,6 +619,11 @@ const S = { view:'feed', step:0, id:null, filter:'all', f: Object.assign({}, F0)
 
 /* ---------- 계산 엔진 ---------- */
 const eok = v => v/10000; // 만원 -> 억
+/* 금액 입력칸 아래 '= 2억 1,550만원' (기능: money_echo, 2026-10-01 사용자 요청) — 만원 단위 숫자를 억·천만 단위 말로 */
+const korMoney = v => { v = Math.round(Number(v) || 0); if (!v) return ''; const e = Math.floor(v / 10000), r = v % 10000;
+  if (e) return e.toLocaleString('ko-KR') + '억' + (r ? ' ' + r.toLocaleString('ko-KR') + '만원' : '원');
+  return r % 1000 === 0 ? r / 1000 + '천만원' : r.toLocaleString('ko-KR') + '만원'; };
+const mEcho = v => on('money_echo') ? `<span class="hint mecho" aria-live="polite">${v ? '= ' + korMoney(v) : ''}</span>` : '';
 const josaIGa = w => hasBatchim(w) ? '이' : '가', josaEunNeun = w => hasBatchim(w) ? '은' : '는';
 const eulReul = w => { const t = String(w), c = t.charCodeAt(t.length - 1) - 0xAC00; return t + (c >= 0 && c <= 11171 && c % 28 !== 0 ? '을' : '를'); };   // 받침 따라 을/를
 function fmt(v){ // 억 단위 숫자 -> 표기
@@ -2962,9 +2968,9 @@ function vPlan(){
     <div class="field"><span class="lbl">입주 계획</span>
       <div class="seg" role="group" aria-label="입주 계획"><button data-mode="live" aria-pressed="${o.mode === 'live'}">직접 들어가 살래요</button><button data-mode="jeonse" aria-pressed="${o.mode === 'jeonse'}" ${jc.status === 'no' ? 'disabled title="이 단지는 전세를 줄 수 없어요"' : ''}>${L.residenceDuty ? '전세 2년 후 입주' : '전세를 줄래요'}</button></div></div>
     <div class="field"><label for="pl-family">가족 지원 (증여·차용)</label>
-      <div class="money"><input id="pl-family" inputmode="numeric" data-plan="family" value="${o.family || ''}" placeholder="0"><span>만원</span></div></div>
+      <div class="money"><input id="pl-family" inputmode="numeric" data-plan="family" value="${o.family || ''}" placeholder="0"><span>만원</span></div>${mEcho(o.family)}</div>
     ${o.mode === 'jeonse' ? `<div class="field"><label for="pl-jeonse">예상 전세 보증금</label>
-      <div class="money"><input id="pl-jeonse" inputmode="numeric" data-plan="jeonse" value="${o.jeonse}"><span>만원</span></div><span class="hint">${esc(L.jeonseNote)}${/입주장 할인 \d+%$/.test(L.jeonseNote || '') ? '를 뺐어요 (입주장: 새 아파트 입주 시기에 전세 물량이 몰려 보증금이 낮아지는 때).' : ''} ${L.sample ? '' : src('rtms')}</span>
+      <div class="money"><input id="pl-jeonse" inputmode="numeric" data-plan="jeonse" value="${o.jeonse}"><span>만원</span></div>${mEcho(o.jeonse)}<span class="hint">${esc(L.jeonseNote)}${/입주장 할인 \d+%$/.test(L.jeonseNote || '') ? '를 뺐어요 (입주장: 새 아파트 입주 시기에 전세 물량이 몰려 보증금이 낮아지는 때).' : ''} ${L.sample ? '' : src('rtms')}</span>
       ${L.jeonseComps && L.jeonseComps.length ? `<details><summary class="small" style="cursor:pointer;min-height:32px">전세 근거 거래 ${L.jeonseComps.length}건 보기</summary><div class="comps">${L.jeonseComps.map(c => compRow(c, L)).join('')}</div></details>` : ''}</div>` : ''}
   </section>
 
@@ -3494,8 +3500,8 @@ function fieldHtml(fd, p, groupLabel){   // 인터뷰 질문 한 칸 (vOnboard·
   if (fd.type === 'text') return `<div class="field"><label for="f-${fd.k}">${fd.l}</label><input type="text" id="f-${fd.k}" data-field="${fd.k}" value="${esc(p[fd.k] || '')}"></div>`;
   if (fd.type === 'date') return `<div class="field"><label for="f-${fd.k}">${on('optional_inputs') && optDate(fd) && fd.k !== 'youngestBirth' ? fd.l.replace(/\s*\(없으면 비워두세요\)/, '') + ' <span class="optag">해당하는 분만 · 비우면 없음</span>' : fd.l}</label><input type="date" id="f-${fd.k}" data-field="${fd.k}" value="${p[fd.k] || ''}"></div>`;
   if (fd.type === 'count') return `<div class="field"><label for="f-${fd.k}">${fd.l}</label><div class="money"><input id="f-${fd.k}" inputmode="numeric" data-field="${fd.k}" data-count="1" value="${p[fd.k] == null ? '' : p[fd.k]}" placeholder="0"><span>회</span></div>${fd.h ? `<span class="hint">${fd.h}</span>` : ''}</div>`;
-  if (fd.opt) return `<div class="field"><label for="f-${fd.k}">${fd.l}</label><div class="money"><input id="f-${fd.k}" inputmode="numeric" data-field="${fd.k}" data-opt="1" value="${p[fd.k] == null ? '' : p[fd.k]}" placeholder="입력 안 함"><span>만원</span></div>${fd.h ? `<span class="hint">${fd.h}</span>` : ''}</div>`;
-  return `<div class="field"><label for="f-${fd.k}">${fd.l}</label><div class="money"><input id="f-${fd.k}" inputmode="numeric" data-field="${fd.k}" data-num="1" value="${p[fd.k] || ''}" placeholder="0"><span>만원</span></div>${fd.h ? `<span class="hint">${fd.h}</span>` : ''}${p[fd.k] ? `<span class="hint" data-echo="${fd.k}">= ${fmt(eok(p[fd.k]))}</span>` : `<span class="hint" data-echo="${fd.k}"></span>`}</div>`;
+  if (fd.opt) return `<div class="field"><label for="f-${fd.k}">${fd.l}</label><div class="money"><input id="f-${fd.k}" inputmode="numeric" data-field="${fd.k}" data-opt="1" value="${p[fd.k] == null ? '' : p[fd.k]}" placeholder="입력 안 함"><span>만원</span></div>${mEcho(p[fd.k])}${fd.h ? `<span class="hint">${fd.h}</span>` : ''}</div>`;
+  return `<div class="field"><label for="f-${fd.k}">${fd.l}</label><div class="money"><input id="f-${fd.k}" inputmode="numeric" data-field="${fd.k}" data-num="1" value="${p[fd.k] || ''}" placeholder="0"><span>만원</span></div>${on('money_echo') ? mEcho(p[fd.k]) + (fd.h ? `<span class="hint">${fd.h}</span>` : '') : (fd.h ? `<span class="hint">${fd.h}</span>` : '') + (p[fd.k] ? `<span class="hint" data-echo="${fd.k}">= ${fmt(eok(p[fd.k]))}</span>` : `<span class="hint" data-echo="${fd.k}"></span>`)}</div>`;
 }
 function vOnboard(){
   const steps = visibleSteps(), i = Math.min(S.step, steps.length - 1), st = steps[i], p = S.profile;
@@ -4401,6 +4407,8 @@ function renderKeepSearch(){
   afterRender();
 }
 document.addEventListener('input', ev => {
+  { const el = ev.target, me = on('money_echo') && el.closest && el.closest('.money') && !el.dataset.count && el.closest('.field') && el.closest('.field').querySelector('.mecho');   // 기능: money_echo
+    if (me) { const n = Number(String(el.value).replace(/[^0-9]/g, '')) || 0; me.textContent = n ? '= ' + korMoney(n) : ''; } }
   const el = ev.target;
   if (el.dataset.q !== undefined && el.id === 'q') {
     S.q = el.value; clearTimeout(qTimer); qTimer = setTimeout(renderKeepSearch, 150);
