@@ -4,6 +4,15 @@
 2026-09-29 12:55 이전 항목은 규칙을 만들기 전 작업을 커밋 기록으로 정리한 것이라 백업 브랜치가 없어요.
 그 시점으로 되돌릴 때는 해당 커밋 번호로 `git revert` 를 써요.
 
+## 2026-10-01 13:23 · 사용 측정 (v1.1.0)
+- 요청: 전략 보고서 1번 — 무엇이 쓰이는지 재기 (프로필 완료율, 첫 판정, 확인 필요 원인, 재방문)
+- 변경: metric() — 기존 방문 통계(GoatCounter) 이벤트 'm/…' 로 횟수만 보냄, 같은 기기·같은 이름은 하루 한 번(once 는 처음 한 번). 이벤트: visit/new·return-7d·return-later, profile/0·1-4·5-14·15-24·25+(입력 항목 수 구간), onboard/<단계 이름>·onboard/done, verdict/ok·unsure·rank2·no·first-clear, unsure/<규칙 이름>. 입력값은 보내지 않음. 개인정보처리방침 1항 방문 통계에 '기능을 쓴 횟수' 문장(스위치가 켜졌을 때만). 확인: GoatCounter 대시보드의 이벤트(m/…)
+- 파일: docs/index.html, docs/config.json, docs/changelog.json, VERSIONS.md, docs/privacy/, docs/updates/, tools/static_fragments.json
+- 확인: 브라우저: 첫 방문 이벤트, 상세 판정·확인 필요 규칙 이벤트, 하루 한 번만, 인터뷰 단계 이벤트에 입력값(소득·날짜) 없음, 7일 내 재방문, 스위치 끄면 이벤트 0·방침 그대로, 오류 0. 회귀: 판정 1,030개 조합 차이 0·화면 1,287개 오류 0, 판정 검증 144/144, pytest 통과
+- 기능: usage_metrics
+- 버전: v1.1.0
+- 백업: backup/20261001-1323-metrics
+
 ## 2026-10-01 13:20 · 버전 관리 체계 (v1.0.0 기준점, v1.0.1)
 - 요청: 완성도가 높으니 항상 백업하고, 새 기능은 언제든 원복 가능하게, 기능 업데이트는 버전별로 관리해 무엇이 바뀌었는지 기록
 - 변경: ① 지금 main(d948d4d)을 release/v1.0.0 브랜치로 고정 ② VERSIONS.md — 버전 목록·되돌리는 방법(스위치 끄기 / 커밋 revert / release 브랜치로 화면 되돌리기)·버전 규칙 ③ tools/qa/release.sh — 기록 확인 후 release/vX.Y.Z 브랜치 생성(덮어쓰지 않음) ④ CLAUDE.md 9항, HANDOFF·스킬에 절차 ⑤ docs/changelog.json 항목에 version(0.9.0·1.0.0·1.0.1) ⑥ 업데이트 내역 화면에 버전 표시·'지금 버전' (스위치 version_label, 끄면 이전처럼 날짜만)
