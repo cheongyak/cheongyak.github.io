@@ -457,7 +457,7 @@ body.gm .listing.g-flat .bcol .badge,body.gm .listing.g-unknown .bcol .badge{fon
 .rstats{display:grid;grid-template-columns:repeat(auto-fit,minmax(0,1fr));gap:6px;margin-top:10px} .rstat{display:flex;flex-direction:column;align-items:flex-start;gap:2px;padding:8px 10px;border-radius:10px;border:0;background:var(--surface);color:var(--fg);font:inherit;text-align:left;cursor:pointer;min-width:0}
 .rstat span{font-size:12px;color:var(--muted)} .rstat b{font-size:15px;white-space:nowrap} .pc-rank{display:flex;flex-direction:column;gap:4px;border-top:1px solid var(--line);padding-top:8px} .pc-more .tr-list{margin-top:6px} .mgbare{display:flex;flex-direction:column;gap:10px;margin-top:6px}
 .dcta{position:fixed;left:0;right:0;bottom:calc(60px + env(safe-area-inset-bottom,0px));z-index:4;max-width:440px;margin:0 auto;padding:8px 16px 10px;background:linear-gradient(to bottom,transparent,var(--bg) 18%);display:flex;flex-direction:column;gap:6px;text-align:center}
-.dcta-row{display:flex;gap:8px} .dcta-row .btn{min-height:50px;width:auto;flex:1} .dcta-row .dcta-main{flex:2;background:var(--lotto);color:var(--on-fill)} body.has-cta .shell{padding-bottom:190px} body.chat-open .dcta{display:none}
+.dcta-row{display:flex;gap:8px} .dcta-row .btn{min-height:50px;width:auto;flex:1} .dcta-row .btn{padding:0 6px;font-size:14px;white-space:nowrap} .dcta-row .dcta-main{flex:1.6;background:var(--lotto);color:var(--on-fill)} body.has-cta .shell{padding-bottom:190px} body.chat-open .dcta{display:none}
 .topf .qf{flex-wrap:nowrap;overflow-x:auto;scrollbar-width:none;margin:0;-webkit-mask-image:linear-gradient(90deg,#000 88%,transparent);mask-image:linear-gradient(90deg,#000 88%,transparent)} .topf .qf>*:last-child{margin-right:24px} .topf .qf::-webkit-scrollbar{display:none} .topf .qf>*{flex:none}
 body.tab6 .tabbar button{font-size:12px;white-space:nowrap;letter-spacing:-.2px;padding:0 2px}
 /* 기능: top_compact — 맨 위 필터·내 조건·요약을 작게 (2026-10-01 사용자 요청: 카드가 첫 화면에 보이게) */
@@ -3080,7 +3080,7 @@ function vDetail(){
   <section class="card"><h2>당첨되면 걸리는 제약 (공고 조건)</h2><div class="rows">${L.limits.map(x => `<div class="row"><span>${x[0]}<br>${limitSrc(L, x[0])}</span><b>${x[1]}</b></div>`).join('')}</div>
     ${L.limits.some(x => x[1] !== '없음') ? '<div class="small muted">계약을 포기해도 당첨자로 관리돼 이 제약이 그대로 걸려요. 자금 확보 전에는 신청하지 마세요.</div>' : ''}</section>
   <div class="stack">
-    <button class="btn" data-go="plan">자금 플랜 보기</button>
+    ${on('detail_cta') && !L.sample ? '' : '<button class="btn" data-go="plan">자금 플랜 보기</button>'}
     ${on('detail_tidy') && on('detail_cta') ? '' : L.sources.map(s => `<a class="btn ghost" href="${s[1]}" target="_blank" rel="noopener" data-ev="notice">${s[0]}</a>`).join('')}
     ${reportLink(L)}
   </div>
@@ -3092,7 +3092,7 @@ function detailCta(L){
   if (!on('detail_cta') || L.sample) return '';
   const home = L.sources && L.sources[0] ? L.sources[0][1] : SRC.applyhome[1];
   return `<div class="dcta" role="region" aria-label="공고 바로가기"><span class="small muted">신청은 청약홈에서 해요 · 신청 전 모집공고문을 꼭 확인하세요</span>
-    <div class="dcta-row">${L.noticePdf ? `<a class="btn ghost" href="${esc(L.noticePdf)}" target="_blank" rel="noopener" data-ev="cta-pdf">모집공고문</a>` : ''}<a class="btn dcta-main" href="${esc(home)}" target="_blank" rel="noopener" data-ev="cta-applyhome">청약홈 공고 보기 ↗</a></div></div>`;
+    <div class="dcta-row">${L.noticePdf ? `<a class="btn ghost" href="${esc(L.noticePdf)}" target="_blank" rel="noopener" data-ev="cta-pdf">모집공고문</a>` : ''}<button class="btn ghost" data-go="plan" data-ev="cta-plan">자금 플랜</button><a class="btn dcta-main" href="${esc(home)}" target="_blank" rel="noopener" data-ev="cta-applyhome">청약홈 공고 ↗</a></div></div>`;
 }
 
 function vPlan(){
