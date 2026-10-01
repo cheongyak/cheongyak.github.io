@@ -47,12 +47,14 @@ npm i --no-save playwright@1.56.0          # 화면 검사용. 크로미움이 /
 | 근거 자료 모으기 (probe.yml) | 변경 시 | tools/rules_probe.py |
 | 알림 서버 배포 (push-worker.yml) | push/ 변경 시, 수동 | Cloudflare Workers 배포 → push/deployed.json |
 | 알림 테스트 발송 (push-test.yml) | 수동 | 구독한 모든 기기에 테스트 알림 한 통 |
+| 법령 원문 받기 (law-probe.yml) | 매주 월 06:10, 도구 변경 시, 수동 | 법제처 OPEN API 로 주택공급에 관한 규칙 본문·별표 1·2 → evidence/law/ (Referer 헤더 https://cheongyakpass.kr/ 필수) |
 
-GitHub Secrets (이름만): `DATA_GO_KR_KEY`, `NCP_MAPS_CLIENT_ID`, `NCP_MAPS_CLIENT_SECRET`, `CLOUDFLARE_API_TOKEN`, `CLOUDFLARE_ACCOUNT_ID`, `PUSH_SEND_TOKEN`
+GitHub Secrets (이름만): `DATA_GO_KR_KEY`, `NCP_MAPS_CLIENT_ID`, `NCP_MAPS_CLIENT_SECRET`, `CLOUDFLARE_API_TOKEN`, `CLOUDFLARE_ACCOUNT_ID`, `PUSH_SEND_TOKEN`, `LAW_OC`(법제처 API, 2026-10-01 사용자 등록)
 
 ## 진행 중인 일 (2026-10-01 기준, 최신이 위)
 
-0. **버전·전략 실행 현황 (2026-10-01 오후)** — 지금 버전 v1.3.3 (VERSIONS.md, release/v1.0.0~v1.3.3 브랜치). v1.3.1~1.3.3 은 사용자 지적 수정: 관심 공고 유주택 '추첨제만', 시·도 검색, 이용 안내 '업데이트 소식'(검증 현황·상세 내역은 운영자용 — 사용자가 물으면 verify-status.json·changelog.json·VERSIONS.md 로 답함), 청약 기준 가이드 내림(guide_pages 꺼짐; 다시 하려면 가점표·예치금을 법령 원문 화면으로 확인해 출처를 바꾼 뒤 켬, 소득 기준표는 공고마다 달라 만들지 않음).
+0. **버전·전략 실행 현황 (2026-10-01 오후)** — 지금 버전 v1.4.0 (VERSIONS.md, release/v1.0.0~v1.4.0 브랜치). v1.3.1~1.3.3 은 사용자 지적 수정: 관심 공고 유주택 '추첨제만', 시·도 검색, 이용 안내 '업데이트 소식'(검증 현황·상세 내역은 운영자용 — 사용자가 물으면 verify-status.json·changelog.json·VERSIONS.md 로 답함).
+   v1.4.0: 청약 기준 가이드를 법령 원문(주택공급에 관한 규칙 별표 1·2, evidence/law/rule.xml)으로 다시 엶. 소득 기준표는 공고마다 달라 만들지 않음. 법령이 개정돼 값이 앱 수치(ACCOUNT_DEPOSIT·가점표)와 달라지면 tests/test_law.py 가 실패 → 원문 확인 후 앱·판정 사례를 고친다.
    - 끝남: 버전 관리(v1.0.1), 사용 측정 usage_metrics(v1.1.0, GoatCounter 이벤트 m/…), 안 쓰는 코드 정리(ntfy 삭제), 공고별 페이지 notice_pages(v1.2.0, /notice/), 빠른 시작 quick_start(v1.3.0)
    - 다음 후보(보고서 순서): '확인 필요' 원인별 행동 버튼 → 부적격 방지 체크 → '내 청약 현황' 한 화면 → 가점 오르는 날 → (사용자 결정) '비추천' 등급명 → _v2 이전 분기 정리 → 엔진 분리·청약봇(오픈카톡 질문 로그 필요)
    - 측정 확인: 1~2주 뒤 GoatCounter 대시보드에서 m/visit·m/profile·m/quick·m/verdict·m/unsure 이벤트를 보고 다음 우선순위를 정한다
