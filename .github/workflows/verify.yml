@@ -1,0 +1,56 @@
+name: 판정 검증
+# 화면 판정 코드(docs/index.html)나 검증 사례가 바뀌면 바로 검증 사례를 돌린다 (수집 뒤 검증은 collect.yml 에서)
+on:
+  workflow_dispatch:
+  push:
+    branches: [main]
+    paths:
+      - "docs/index.html"
+      - "tests/judge/**"
+      - "tools/judge_check.cjs"
+      - "tools/verify_status.py"
+      - ".github/workflows/verify.yml"
+concurrency:
+  group: collect          # 수집과 겹치지 않게 같은 줄에 선다
+  cancel-in-progress: false
+permissions:
+  contents: write
+  issues: write
+jobs:
+  verify:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: main
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "20"
+      - name: 판정 검증 사례 실행
+        continue-on-error: true
+        run: |
+          npm i --no-save --no-package-lock playwright@1.56.0 >/dev/null 2>&1
+          npx playwright install --with-deps chromium >/dev/null 2>&1
+          node tools/judge_check.cjs | tee /tmp/judge.txt
+      - name: 검증 요약 저장
+        run: |
+          set +e
+          python -m tools.verify_status
+          rc=$?
+          git config user.name "cheongyak-bot"
+          git config user.email "actions@users.noreply.github.com"
+          git add docs/verify-status.json docs/judge-status.json
+          git diff --cached --quiet || (git commit -m "판정 검증 결과 $(date +%Y-%m-%d)" && (git push || (git pull --rebase -X theirs origin main && git push)))
+          exit $rc
+      - name: 실패하면 운영자 알림 (이슈)
+        if: failure()
+        env:
+          GH_TOKEN: ${{ github.token }}
+          RUN_URL: ${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}
+        run: |
+          w=$(grep -E '^\[판정 검증' /tmp/judge.txt | head -30 || true)
+          gh issue create --title "판정 검증 실패 $(date +%Y-%m-%d)" --body "$(printf '판정 검증 사례가 화면 판정과 달라요.\n\n```\n%s\n```\n\n실행: %s\n\n처리 절차는 CLAUDE.md 4항.' "$w" "$RUN_URL")"

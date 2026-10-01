@@ -58,6 +58,28 @@ jobs:
           git add -A
           git reset -q data .env 2>/dev/null || true
           git diff --cached --quiet || (git commit -m "공고 데이터 갱신 $(date +%Y-%m-%d)" && (git push || (git pull --rebase -X theirs origin main && git push)))
+      # ---- 수집 뒤 필수 검증 (CLAUDE.md 4항): 판정 검증 사례 + 공고문 대조 결과를 모아 docs/verify-status.json 으로 공개, 다르면 실패 ----
+      - uses: actions/setup-node@v4
+        if: always()
+        with:
+          node-version: "20"
+      - name: 판정 검증 사례 실행 (tests/judge, 144건+)
+        if: always()
+        continue-on-error: true
+        run: |
+          npm i --no-save --no-package-lock playwright@1.56.0 >/dev/null 2>&1
+          npx playwright install --with-deps chromium >/dev/null 2>&1
+          node tools/judge_check.cjs | tee -a docs/run-log.txt
+      - name: 검증 요약 저장
+        id: verify
+        if: always()
+        run: |
+          set +e
+          python -m tools.verify_status | tee -a docs/run-log.txt
+          rc=${PIPESTATUS[0]}
+          git add docs/verify-status.json docs/judge-status.json docs/run-log.txt
+          git diff --cached --quiet || (git commit -m "검증 결과 $(date +%Y-%m-%d)" && (git push || (git pull --rebase -X theirs origin main && git push)))
+          exit $rc
       - name: 경고가 있으면 운영자 알림 (이슈)
         if: always() && github.event_name != 'push'
         continue-on-error: true
@@ -69,7 +91,7 @@ jobs:
           body=""
           if [ "$JOB_STATUS" != "success" ]; then body="수집 실행이 실패했어요 ($JOB_STATUS)."; fi
           if [ -f docs/run-log.txt ]; then
-            w=$(grep -E '^\[(경고|검증·정답 불일치)' docs/run-log.txt | head -20 || true)
+            w=$(grep -E '^\[(경고|검증·정답 불일치|검증·공고문 불일치|판정 검증·불일치|판정 검증·화면 오류)' docs/run-log.txt | head -30 || true)
             if [ -n "$w" ]; then body="$body"$'\n\n실행 기록의 경고:\n```\n'"$w"$'\n```'; fi
           fi
           body="${body#$'\n\n'}"

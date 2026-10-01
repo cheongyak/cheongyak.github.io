@@ -373,3 +373,29 @@ def test_crosscheck_run_flags_listing():
                 category="general")
     log = crosscheck.run([L], {"2026000453": {"income_rows": {}, "deposit_rows": {}, "asset_thousand": {}, "price_seen": {"059.9742A": False}}})
     assert L.checks and "분양가" in L.checks[0] and any("[검증·공고문 불일치]" in l for l in log)
+
+
+def test_judge_cases_are_current_and_enough():
+    """판정 검증 사례 (기능: judge_cases) — 생성기와 저장본이 같고 100건 이상이다 (화면 대조는 tools/judge_check.cjs · Actions)."""
+    import importlib
+    gen = importlib.import_module("tools.make_judge_cases")
+    saved = (gen.OUT).read_text(encoding="utf-8")
+    tmp = gen.OUT.with_suffix(".tmp.json")
+    orig = gen.OUT
+    gen.OUT = tmp
+    try:
+        gen.main()
+        assert tmp.read_text(encoding="utf-8") == saved, "tests/judge/cases.json 이 생성기와 달라요 — python -m tools.make_judge_cases 로 다시 만드세요"
+    finally:
+        gen.OUT = orig
+        tmp.unlink(missing_ok=True)
+    cases = json.loads(saved)
+    assert len(cases) >= 100 and len({c["id"] for c in cases}) == len(cases)
+    assert {c["fn"] for c in cases} >= {"score", "sp", "acct", "pubgen", "town", "residence"}
+    assert all(c.get("basis") for c in cases)
+
+
+def test_oracle_matches_notice_table_amounts():
+    """검증 사례의 기대값 계산(oracle)이 공고문 금액표와 같은 숫자를 낸다 — 2026000414 <표5> 130% 3인 이하 9,793,892원 등."""
+    from tools.make_judge_cases import amt
+    assert amt(3, 130) == 9793892 and amt(5, 130) == 12125081 and amt(3, 150) == 11300645 and amt(5, 90) == 8394287 and amt(8, 220) == 24342602
