@@ -440,6 +440,7 @@ body.sheet-open{overflow:hidden}
 .fchip{display:inline-flex;align-items:center;gap:4px;height:32px;padding:0 10px;border-radius:16px;border:1px solid var(--fg);background:var(--surface);font-size:13px;font-weight:600;cursor:pointer}
 .fchip svg{width:14px;height:14px}
 .empty{align-items:center;text-align:center;padding:28px 16px}
+.topbtns{display:inline-flex;align-items:center;gap:8px;flex:none} .top+.search{margin:-4px 0 10px} .srchbtn{width:44px;height:44px;flex:none;display:inline-flex;align-items:center;justify-content:center;border-radius:22px;border:1px solid var(--line);background:var(--surface);color:var(--fg);cursor:pointer} .srchbtn svg{width:20px;height:20px} .srchbtn.on{background:var(--btn);color:var(--btn-fg);border-color:var(--btn)}
 .bell{display:inline-flex;align-items:center;gap:6px;min-height:44px;padding:0 14px;border-radius:22px;border:1px solid var(--line);background:var(--surface);font-weight:600;font-size:14px;cursor:pointer} .bell[hidden]{display:none}
 .bell svg{width:18px;height:18px} .bell.on{background:var(--lotto-soft);border-color:transparent;color:var(--lotto-ink)}
 .steps{margin:0;padding-left:20px;display:flex;flex-direction:column;gap:6px;font-size:14px}
@@ -1738,8 +1739,13 @@ function summarySheet(){
     <p class="foot">등급은 그 공고 주택형 중 가장 좋은 등급이에요. 누르면 그 주택형 상세로 가요.</p>
   </div>`;
 }
+/* 검색을 맨 위 돋보기 버튼으로 (기능: search_icon, 2026-10-01 사용자 요청 — 다른 앱처럼). 누르면 검색창이 열리고, 검색어가 있으면 계속 열려 있다 */
+const SEARCH_ICO = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5"/></svg>';
+const searchOpen = () => !!(S.searchOpen || (S.q && S.q.trim()));
+function searchBtn(){ return `<button class="srchbtn${searchOpen() ? ' on' : ''}" data-action="search-toggle" aria-label="${searchOpen() ? '검색 닫기' : '공고 검색'}" aria-expanded="${searchOpen()}">${SEARCH_ICO}</button>`; }
 function searchBox(){
   if (!on('search')) return '';
+  if (on('search_icon') && !searchOpen()) return '';
   const icon = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5"/></svg>';
   return `<div class="search" id="searchwrap" role="search">${icon}<input id="q" type="search" data-q enterkeyhint="search" autocomplete="off" placeholder="단지명·지역 검색 (예: 강변, 광진구)" aria-label="공고 검색 (단지명·주소·지역)" value="${esc(S.q || '')}"><button class="qclear" data-action="clear-q" aria-label="검색어 지우기"${S.q ? '' : ' hidden'}>×</button></div>`;
 }
@@ -1800,12 +1806,12 @@ function vFeedV2(){
   const anyF = act.length || S.filter !== 'all' || S.newDays || (on('search') && S.q) || (on('elig_filter') && S.elig);
   return `
   <div class="top"><div><div class="brand">청약패스${betaTag()}</div><span class="small muted sub-line">${DATA_SOURCE.live ? '청약홈 ' + esc(String(DATA_SOURCE.updated || '').slice(5).replace('-', '.')) + ' 갱신' : '샘플 데이터'}${on('disclaimer_banner') && !on('beta_notice') ? ' · 참고용 추정' + (on('about_page') ? ' <button class="linkbtn small" data-go="about">자세히</button>' : '') : ''}</span></div>
-    ${bellBtn()}</div>
-  ${staleNote()}
+    ${on('search_icon') && on('search') ? `<span class="topbtns">${searchBtn()}${bellBtn()}</span>` : bellBtn()}</div>
+  ${on('search_icon') ? searchBox() : ''}${staleNote()}
   ${betaBanner('feed')}${legalLine()}
   ${myCondCard()}
   <section class="findbox" aria-label="공고 찾기">
-    ${searchBox()}
+    ${on('search_icon') ? '' : searchBox()}
     ${summaryBar()}
     ${on('feed_compact') ? (() => { const nf = act.length + (S.filter !== 'all' ? 1 : 0);   /* 기능: feed_compact — 필터·등급은 버튼 하나로 접기 */
       return `<button class="btn ghost fbtoggle" data-action="toggle-feedf" aria-expanded="${!!S.feedF}">필터 · 판정 등급${nf ? ` <span class="pill info">${nf}개 적용</span>` : ''}<span aria-hidden="true">${S.feedF ? '▴' : '▾'}</span></button>`; })() : ''}
@@ -1850,14 +1856,14 @@ function vFeed(){
   const x = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" aria-hidden="true"><path d="M18 6 6 18M6 6l12 12"/></svg>';
   return `
   <div class="top"><div><div class="brand">청약패스</div><span class="small muted">${DATA_SOURCE.live ? '청약홈 · ' + esc(DATA_SOURCE.updated) + ' 갱신' : '샘플 데이터'}</span></div>
-    ${bellBtn()}</div>
-  ${staleNote()}
+    ${on('search_icon') && on('search') ? `<span class="topbtns">${searchBtn()}${bellBtn()}</span>` : bellBtn()}</div>
+  ${on('search_icon') ? searchBox() : ''}${staleNote()}
   ${betaBanner('feed')}${legalLine()}
   ${summaryBar()}
   ${on('disclaimer_banner') && !on('beta_notice') ? `<div class="small muted" style="margin:-4px 0 8px">${on('summary_bar') ? '판정·마진은 참고용 추정이에요' : '판정은 참고용이에요'}. 신청 전 공고문을 꼭 확인하세요.${on('about_page') ? ' <button class="linkbtn small" data-go="about">자세히</button>' : ''}</div>` : ''}
   ${hasProfile() ? `<div class="profile-bar"><span class="muted">내 조건 · <b style="color:var(--fg)">${esc(profileLine(S.profile))}</b></span><button class="linkbtn" data-go="me">수정</button></div>`
     : `<div class="profile-bar"><span class="muted">내 조건을 넣으면 공고마다 <b style="color:var(--fg)">자격·자금</b>을 판정해요</span><button class="linkbtn" data-action="restart">입력하기</button></div>`}
-  ${searchBox()}
+  ${on('search_icon') ? '' : searchBox()}
   ${quickFilters()}
   <div class="chips" role="group" aria-label="등급 필터">${chip('all','전체')}${watchChip(chip)}${chip('lotto','로또')}${chip('consider','고려')}${chip('flat','마진없음')}${chip('pass',GNAME.pass)}</div>
   ${QF ? `<div class="filterbar">
@@ -4461,6 +4467,7 @@ document.addEventListener('click', ev => {
   if (a === 'toggle-feedf') { S.feedF = !S.feedF; render(); return; }   // 기능: feed_compact
   if (a === 'reload-data') { DATA_SOURCE.state = 'loading'; render(); loadListings(); return; }   // 기능: data_fail_ui
   if (a === 'reset-filters') { S.f = Object.assign({}, F0); S.filter = 'all'; S.newDays = 0; S.q = ''; S.elig = null; render(); return; }
+  if (a === 'search-toggle') { const open = !searchOpen(); S.searchOpen = open; if (!open) S.q = ''; render(); if (open) { const q = app.querySelector('#q'); if (q) try { q.focus(); } catch(e) {} } metric('search/' + (open ? 'open' : 'close')); return; }   // 기능: search_icon
   if (a === 'clear-q') { S.q = ''; render(); const q = app.querySelector('#q'); if (q) refocus(q); return; }
   if (t.dataset.pushsido && PUSH.prefs) { const r = PUSH.prefs.regions, x = t.dataset.pushsido; PUSH.prefs.regions = r.includes(x) ? r.filter(v => v !== x) : SIDO_ORDER.filter(v => v === x || r.includes(v)); PUSH.msg = ''; render(); return; }   // 기능: web_push
   if (t.dataset.pushopt && PUSH.prefs) { PUSH.prefs[t.dataset.pushopt] = !PUSH.prefs[t.dataset.pushopt]; PUSH.msg = ''; render(); return; }
