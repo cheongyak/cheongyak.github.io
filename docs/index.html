@@ -464,6 +464,7 @@ body.tcmp .topf.tc .qsel{height:32px;min-height:32px;font-size:13px;padding:0 24
 body.tcmp .mycond{padding:10px 12px;gap:6px;border-radius:14px;margin-bottom:6px} body.tcmp .mycond .mc-verdict{padding:5px 8px;font-size:12.5px} body.tcmp .mycond.mc-new .mc-head h2{font-size:15px}
 body.tcmp .mycond.mc-new .mc-actions .btn{min-height:40px;font-size:13.5px} body.tcmp .sumbar{padding:6px 4px;margin-bottom:6px} body.tcmp .sumbar b{font-size:15px} body.tcmp .findbox{gap:8px}
 body.tcmp .betaline{margin-bottom:4px}
+.notex{float:right;width:32px;height:32px;margin:-6px -6px 0 6px;border:0;background:none;color:var(--muted);display:inline-flex;align-items:center;justify-content:center;cursor:pointer;border-radius:16px} .notex svg{width:15px;height:15px} .betabar{position:relative} .betabar>.notex{position:absolute;top:6px;right:6px;margin:0}
 .topf{display:flex;flex-direction:column;gap:8px;margin:0 0 12px} .topf .chips{margin:0} .topf .fpanel{margin-top:2px}
 .topbtns{display:inline-flex;align-items:center;gap:8px;flex:none} .top+.search{margin:-4px 0 10px} .srchbtn{width:44px;height:44px;flex:none;display:inline-flex;align-items:center;justify-content:center;border-radius:22px;border:1px solid var(--line);background:var(--surface);color:var(--fg);cursor:pointer} .srchbtn svg{width:20px;height:20px} .srchbtn.on{background:var(--btn);color:var(--btn-fg);border-color:var(--btn)}
 .bell{display:inline-flex;align-items:center;gap:6px;min-height:44px;padding:0 14px;border-radius:22px;border:1px solid var(--line);background:var(--surface);font-weight:600;font-size:14px;cursor:pointer} .bell[hidden]{display:none}
@@ -1463,8 +1464,10 @@ function betaBanner(where){
   if (on('verify_badge')) loadSide();
   const vbad = on('verify_badge') && VERIFY && VERIFY.ok === false, more = on('about_menu') ? 'story' : 'about';
   /* 기능: beta_compact (Von Restorff) — '확인했어요'를 누른 뒤에는 한 줄로 줄여 결과가 묻히지 않게. 자동 검증에 문제가 있으면 다시 크게 */
-  if (on('beta_compact') && !vbad && store.get('cy-beta-ok')) return `<p class="betaline" role="note"><span class="beta">베타</span> 판정은 내 입력으로 계산한 참고용이에요. 신청 전 모집공고문으로 확인하세요.${on('about_page') ? ` <button class="linkbtn small" data-go="${more}">자세히</button>` : ''}</p>`;
-  return `<div class="betabar${vbad ? ' bad' : ''}" role="note"><b>베타 · 참고용</b><span>${vbad ? '<b>최근 자동 검증에서 공고문과 다른 값이 발견돼 확인 중이에요.</b> ' : ''}${where === 'detail' ? '이 화면의 자격·점수·마진은 공개 자료와 내 입력으로 계산한 참고용 추정이에요.' : '모든 판정은 참고용 추정이에요.'} 신청 전 <b>모집공고문</b>과 <b>청약홈 '청약자격확인'</b>에서 꼭 확인하세요.${on('about_page') ? ` <button class="linkbtn small" data-go="${more}">자세히</button>` : ''}${on('beta_compact') && !vbad ? ' <button class="linkbtn small" data-action="beta-ok">확인했어요</button>' : ''}</span></div>`;
+  if (on('dismiss_notes') && where === 'feed' && !vbad && store.get('cy-beta-hide')) return '';   // 기능: dismiss_notes — 공고 목록에서 ✕ 로 닫은 기기는 목록에서만 숨김 (상세의 참고용 안내는 그대로, 자동 검증에 문제가 있으면 다시 보임)
+  const nx = on('dismiss_notes') && where === 'feed' && !vbad ? `<button class="notex" data-action="beta-hide" aria-label="베타 안내 닫기"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" aria-hidden="true"><path d="M18 6 6 18M6 6l12 12"/></svg></button>` : '';
+  if (on('beta_compact') && !vbad && store.get('cy-beta-ok')) return `<p class="betaline" role="note"><span class="beta">베타</span> 판정은 내 입력으로 계산한 참고용이에요. 신청 전 모집공고문으로 확인하세요.${on('about_page') ? ` <button class="linkbtn small" data-go="${more}">자세히</button>` : ''}${nx}</p>`;
+  return `<div class="betabar${vbad ? ' bad' : ''}" role="note"><b>베타 · 참고용</b><span>${vbad ? '<b>최근 자동 검증에서 공고문과 다른 값이 발견돼 확인 중이에요.</b> ' : ''}${where === 'detail' ? '이 화면의 자격·점수·마진은 공개 자료와 내 입력으로 계산한 참고용 추정이에요.' : '모든 판정은 참고용 추정이에요.'} 신청 전 <b>모집공고문</b>과 <b>청약홈 '청약자격확인'</b>에서 꼭 확인하세요.${on('about_page') ? ` <button class="linkbtn small" data-go="${more}">자세히</button>` : ''}${on('beta_compact') && !vbad ? ' <button class="linkbtn small" data-action="beta-ok">확인했어요</button>' : ''}</span>${nx}</div>`;
 }
 function src(key, over){ // over: [label, url]
   const [label, url] = over || SRC[key];
@@ -4164,7 +4167,8 @@ const legalNotice = () => { const n = CONFIG.legal_notice; return !LEGAL_AS && o
 const legalDay = d => { const [y, m, dd] = d.split('-').map(Number); return m + '월 ' + dd + '일'; };
 function legalLine(){
   const n = legalNotice(); if (!n) return '';
-  return `<p class="betaline legalline" role="note"><b>알림</b> ${legalDay(n.date)}부터 개인정보처리방침·이용약관이 바뀌어요. <button class="linkbtn small" data-go="privacy">바뀌는 내용</button></p>`;
+  if (on('dismiss_notes') && store.get('cy-legal-hide') === n.date) return '';   // 기능: dismiss_notes — 목록의 한 줄만 숨김 (방침·약관 화면의 예고는 그대로)
+  return `<p class="betaline legalline" role="note"><b>알림</b> ${legalDay(n.date)}부터 개인정보처리방침·이용약관이 바뀌어요. <button class="linkbtn small" data-go="privacy">바뀌는 내용</button>${on('dismiss_notes') ? `<button class="notex" data-action="legal-hide" aria-label="개정 안내 닫기"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" aria-hidden="true"><path d="M18 6 6 18M6 6l12 12"/></svg></button>` : ''}</p>`;
 }
 function legalNoticeCard(doc){
   const n = legalNotice(); if (!n) return '';
@@ -4546,6 +4550,8 @@ document.addEventListener('click', ev => {
   const a = t.dataset.action;
   if (a === 'toggle-closed') { S.showClosed = !S.showClosed; render(); return; }
   if (a === 'toggle-filters') { S.showFilters = !S.showFilters; render(); return; }
+  if (a === 'beta-hide') { store.set('cy-beta-hide', true); metric('beta/hide', true); render(); return; }   // 기능: dismiss_notes
+  if (a === 'legal-hide') { const n = CONFIG.legal_notice; if (n) store.set('cy-legal-hide', n.date); render(); return; }
   if (a === 'beta-ok') { store.set('cy-beta-ok', true); metric('beta/ok', true); render(); return; }   // 기능: beta_compact
   if (a === 'toggle-feedf') { S.feedF = !S.feedF; render(); return; }   // 기능: feed_compact
   if (a === 'reload-data') { DATA_SOURCE.state = 'loading'; render(); loadListings(); return; }   // 기능: data_fail_ui
