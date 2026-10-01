@@ -69,6 +69,13 @@ description: 청약패스(cheongyakpass.kr, 저장소 cheongyak/cheongyak.github
 - 공고문에서 새 항목을 읽을 때(예: score_ratio): notice_pdf 에 parse_* 추가 → parse_notice 에 넣기 → pipeline 의 _from_previous·labels·from_notice 필터·L.<필드> 대입 → models 필드 → PARSER_VERSION 올림(모든 공고문 다시 읽음) → evidence/notices/*.txt 전체에 돌려 읽힘/unknown/None 개수 확인 → 원문 표를 직접 읽은 정답을 tests/golden 에(정답 비교는 model_dump 필드 이름으로 자동) → 화면 데이터 연결(index.html 의 LISTINGS 매핑 `x.<필드>`). 로컬 listings.json 에는 아직 없으니 브라우저 검사는 정답 값을 LISTINGS 에 넣어서 본다.
 - 가점 비교 문구: 민영 1순위는 지역 순서가 먼저다. 가점 비교 점수(scoreTarget)는 reside(해당/기타)를 같이 들고 다니고, regionScore(L,p) 로 지역 순서·비율·경고를 만든다.
 
+- 판정 규칙을 고칠 때 함정 (2026-10-01 감사):
+  - 미입력값을 '없음'으로 보지 않는다 — DEFAULT_PROFILE 의 false 기본값(recentWin·spouseOwn)과 '' (hhHomes)는 '안 답함'일 수 있다. 판정에 쓰면 '확인 필요'로.
+  - 특별공급(spJudge)은 eligibility 결과를 일부만 읽는다 — 일반공급에 새 요건을 넣으면 특공에도 필요한지 따로 본다 (재당첨·통장 종류·세대주 r1 이 빠졌었다).
+  - 신혼희망타운은 순위·세대주가 없다 (regulatedItems·세대주 항목 제외). 소득 자격 상한(pub_limits.eligible)과 우선공급 기준(cap)이 다르다.
+  - 판정 사례 기본 프로필에 everWin:'none' 이 있어야 재당첨 '입력 필요'가 안 생긴다. 테스트용 규제지역 변형 공고는 tests/judge/listings.json 의 '-REG'.
+  - 변이 검사(tools/qa/mutation.cjs)의 허용 예외: 생애최초 단독세대 60㎡ (세대원이 되면 풀리는 게 규칙대로).
+
 ## 5. 자주 하는 답
 
 - "자동으로 돌아가?" → 수집은 GitHub Actions 가 매일 05:30, 사이트는 GitHub Pages. Claude 세션과 무관하게 돈다. 실패·불일치는 이슈로 메일이 간다.
