@@ -4,6 +4,16 @@
 2026-09-29 12:55 이전 항목은 규칙을 만들기 전 작업을 커밋 기록으로 정리한 것이라 백업 브랜치가 없어요.
 그 시점으로 되돌릴 때는 해당 커밋 번호로 `git revert` 를 써요.
 
+## 2026-10-02 17:30 · 시세 원자료 대조 검사 (MASTER QA 남은 일)
+- 요청: MASTER QA 남은 일 '시세 원자료 대조' — 화면 시세·근거 거래가 국토부 실거래가 원자료와 같은지
+- 변경: tools/qa/market_check.py — 수집 코드(app/market.py·rtms.py)를 쓰지 않고 국토부 매매·분양권 전매 XML 을 따로 받아 따로 계산(해제·직거래 제외, 같은 단지 ±3㎡ → 없으면 같은 구 준공 10년 이내 3건 이상, 중앙값·하위 25%)해
+  mkt_basis·mkt_base·mkt_low·mkt_count 와 근거 거래 한 건씩(단지·날짜·면적·층·금액)이 원자료에 있는지 비교. 수집 뒤 공고 8개씩 날마다 돌아가며(요청 수 제한), 인증키 없으면 건너뜀(로컬은 원자료 접근 불가).
+  결과 evidence/qa/market-check.json · run-log '[QA 시세 원자료]' · verify-status qa.market_fails(다르면 실패). 첫 실행 전 자리 파일을 둠(git add 가 없는 파일에서 멈추지 않게)
+- 파일: tools/qa/market_check.py, tests/test_market_check.py, evidence/qa/market-check.json, .github/workflows/collect.yml, tools/verify_status.py
+- 확인: tests/test_market_check.py — 원자료 XML 모양 거래 8건(같은 단지·다른 신축·옛 단지·해제·직거래)으로 따로 만든 계산이 app/market.estimate_market 과 4가지 경우 모두 같음, 시세 0.1억 바꾸면·해제 거래를 근거로 넣으면 잡음. pytest. 실제 원자료 대조는 이 커밋으로 도는 수집 실행에서 확인
+- 기능: 없음(수정)
+- 백업: backup/20261002-1730-mkcheck
+
 ## 2026-10-02 17:26 · v1.42.2 특별공급 뽑는 방식·단계 세대수 표시 고침 (자체 점검에서 발견)
 - 요청: (자체 피드백) 공공임대 특공 화면 확인 중, 같은 판정 결과를 화면마다 다르게 말하는 곳 발견 — 사용자 지적(과천 84D)과 같은 종류라 전수 검사 도구를 만들고 고침
 - 원인: (1) 공공 신혼부부 2단계(일반공급)는 2026000409 「선정순위에 따라 공급 … 동일 순위 내 경쟁이 있는 경우 추첨」인데 spPosition·spMinePlain 은 '순위·추첨', 한 줄 요약(spHeadPlain·spHeadline)·설명(spHowPlain)은 '점수 순'.
