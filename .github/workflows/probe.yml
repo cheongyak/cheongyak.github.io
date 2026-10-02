@@ -15,7 +15,7 @@ concurrency:
 jobs:
   probe:
     runs-on: ubuntu-latest
-    timeout-minutes: 15
+    timeout-minutes: 45
     env:
       DATA_GO_KR_KEY: ${{ secrets.DATA_GO_KR_KEY }}
       NCP_MAPS_CLIENT_ID: ${{ secrets.NCP_MAPS_CLIENT_ID }}
@@ -31,6 +31,11 @@ jobs:
       - name: MASTER QA 원문 대조용 공고문 (실패해도 계속)
         continue-on-error: true
         run: python -m tools.qa.fetch_notices
+      - name: 공고문 PDF 읽기 점검 (첨부 고르기·쪽수 상한·빈 쪽·필수 단원·두 도구 비교, 실패해도 계속)
+        continue-on-error: true
+        run: |
+          pip install -q pypdfium2
+          python -m tools.qa.pdf_audit | tee -a docs/rules-evidence.txt
       - name: 저장
         run: |
           git config user.name "cheongyak-bot"
