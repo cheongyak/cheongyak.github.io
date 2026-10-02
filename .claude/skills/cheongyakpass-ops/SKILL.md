@@ -105,6 +105,10 @@ description: 청약패스(cheongyakpass.kr, 저장소 cheongyak/cheongyak.github
 
 - 판정 범위 밖(judgeScope none)은 분양 규칙의 '불가'도 확정으로 쓰지 않는다. 새 공급유형·새 임대 유형을 받으면 먼저 judgeScope 에 넣고, 공고문 표를 읽어 정답 데이터를 만든 뒤 partial/full 로 올린다.
 - `node tools/qa/monotonic.cjs` — 판정 코드를 바꾸면 돌린다. 위반이 나오면 먼저 검사 가정(예: 공고일 뒤 전입은 '모름'이 맞음, 모순 입력 해소)인지 판정 오류인지 가린다.
+- `node tools/qa/past_chat.cjs` — 지난 공고 판정 줄·청약봇에 보내는 판정 요약(chatEnginePayload)이 상세 화면과 같은지. 상세 맨 위 판정 문구를 새로 만들면 HERO_TO_VERDICT 와 chatVerdict() 를 같이 고친다.
+  chat/tools/engine_payload.cjs 는 화면 함수를 그대로 부른다 — 요약 모양을 따로 옮겨 적지 않는다.
+- 공고문 값의 근거 문장(notice_quotes): parse_notice 에서 값을 넣을 때 `cite(키, 매치)` 를 같이 부른다. tests/test_notice_quotes.py 가 "문장에 그 값이 들어 있는지"를 원문 전부로 본다.
+  ship.sh 가 git add 에서 실패하면 WORK.md·FEATURES.md 는 이미 고쳐진 상태 — `git checkout -- WORK.md FEATURES.md` 뒤 다시.
 
 - 공고문 PDF 는 작업 환경에서 받을 수 없다 — 실제 PDF 점검은 probe.yml 의 tools/qa/pdf_audit.py 결과(evidence/qa/pdf-audit.json)로 본다. pypdfium2 는 여러 스레드에서 동시에 쓰면 깨진다(잠금 _PDFIUM_LOCK).
 - Actions 작업 로그는 인증 없이 못 읽는다 — 실패하면 단계 이름과 로컬 재현으로 원인을 찾는다.

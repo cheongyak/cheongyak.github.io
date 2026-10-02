@@ -53,11 +53,20 @@ GitHub Secrets (이름만): `DATA_GO_KR_KEY`, `NCP_MAPS_CLIENT_ID`, `NCP_MAPS_CL
 
 ## 진행 중인 일 (2026-10-02 기준, 최신이 위)
 
+-9. **미뤄둔 일 정리 (2026-10-02 21시, 사용자 '1·4·8·9·10 진행, 3 패스' → 4는 21:08 '헷갈린다'로 원복)**
+   - 1 알림 공개: v1.44.0 push_legal_date 2026-10-09 — 그날부터 화면이 저절로 알림을 공개. 10-09 09:20 KST send_later(trig_015RcJsB1VaWPd3W5QbpSN8W)가 이 세션에 확인을 맡김(공개 확인·push_preview 정리).
+     **청약봇 공개는 사용자가 미리보기로 답 품질을 확인하고 OK 한 뒤에만** (지금 chat_off true).
+   - 4 주택형 칩 면적대 묶음: v1.45.0 → v1.46.1 에서 git revert(스위치 type_bands 삭제). 다시 하자고 하기 전엔 하지 않는다.
+   - 8 E2E·스냅샷 CI: collect·verify 에 snapshot.cjs·e2e.cjs (시간 제한 40·25분), verify_status snapshot_diffs·e2e_fails.
+   - 9 값마다 원문 문장: v1.46.0 notice_quotes (PARSER_VERSION 20, Listing.notice_quotes, 화면 '공고문 문장'). 수집 뒤 listings.json 에 notice_quotes 가 채워졌는지 확인.
+   - 10 지난 공고·청약봇 교차 검사: v1.46.2 tools/qa/past_chat.cjs(CI) — 청약봇 요약이 일반 물량 없는 주택형에서 화면과 반대 결론이던 것 고침(chatVerdict), chat/tools/engine_payload.cjs 는 화면 함수를 그대로 부름.
+   - 남은 것(사용자와 상의): 2 청약봇 답 품질, 5 민간 공공건설임대 자격표, 6 청년 특별공급, 7 LH 임대. 3 '내 가점' 탭은 사용자가 패스.
+
 -8. **공고문 읽기 점검 (2026-10-02 밤, 사용자 '공고문에서 은근히 잘못 가져온다')** — v1.43.1 두 도구 읽기(pdf_dual_read: pypdf + pypdfium2, pdfium 은 스레드 잠금 필수), 쪽수 상한 80→300, 1쪽 표↔본문 값 대조(notice_conflicts).
    tools/qa/pdf_audit.py(probe.yml, 실제 PDF: 첨부 고르기·잘림·빈 쪽·필수 단원·도구 차이·수집 값 차이 → evidence/qa/pdf-audit.json) — 첫 점검에서 80쪽 잘림 3·재당첨 못 읽음 2 발견, 고친 뒤 0.
    주간 블라인드 표본 tools/qa/blind_sample.py pick → 앱 값 안 보는 검토자(서브 에이전트)가 evidence/qa/blind/<주>.json 채움 → compare → 일치 값은 golden 으로. 2026-W40: 답 38개 읽기 오류 0.
    주간 표본은 예약 작업 '청약패스 주간 블라인드 표본'(매주 월 09:59, trig_01Jemw3Ana4rAaFbz8eRbJbz)이 돌린다 — 앱 오류가 나오면 고치지 않고 보고만 함(운영자 확인 뒤 고침).
-   남은 것: 값마다 원문 문장 저장은 1쪽 표만(quote) — 나머지 항목은 다음.
+   값마다 원문 문장 저장은 v1.46.0 notice_quotes 로 끝남(-9).
 
 -7. **판정 범위·과신 방지 (2026-10-02 밤, 사용자 QA 피드백 2차)** — v1.43.0 judge_scope(판정하지 않는 공고는 확인 필요 + 이유; 임대인데 자격표 못 읽음 등), 임대 이름 보강,
    tools/qa/monotonic.cjs(정보 줄이면 '가능' 생기면 위반·값 방향 단조성, 일부러 넣은 오류 3종 모두 잡음), 교차 규칙 SCOPE-001·RENT-001. 분석·지원 범위·우선순위: evidence/qa/SUPPLY_SCOPE.md.
@@ -66,23 +75,23 @@ GitHub Secrets (이름만): `DATA_GO_KR_KEY`, `NCP_MAPS_CLIENT_ID`, `NCP_MAPS_CL
 
 -6. **교차 규칙(Cross-Rule) 검증 (2026-10-02 저녁, 사용자 추가 명세 + 과천 푸르지오 벨라르테 제보)** — v1.42.3 고침(거주의무 모름 → '확인 필요' 전파, 공고문 단지 주요정보 표 거주의무기간, 마감 공고 상세 '접수 마감', 카드 '자금 가능(전제)'),
    v1.42.4 tools/qa/cross_rule.cjs(공고 201 × 조건 42, 6만 회, CRITICAL·HIGH 있으면 verify-status 실패) · evidence/qa/CROSS_RULES.md(기존 QA 한계 분석·규칙 표·의존 그래프·모순 행렬·회귀 ID·완료 조건).
-   사용자 QA 피드백(2차, 판정 범위·과신 방지)은 -7 에서 처리함. 남은 것: 챗봇·지난 공고 화면은 교차 검사 밖(CROSS_RULES.md 10항), 거주의무 모름 공고(UNKNOWN 38 → 수집 뒤 줄어드는지 확인).
+   사용자 QA 피드백(2차, 판정 범위·과신 방지)은 -7 에서 처리함. 챗봇·지난 공고 화면 교차 검사는 v1.46.2 past_chat.cjs 로 끝남(-9). 남은 것: 거주의무 모름 공고(UNKNOWN 38 → 수집 뒤 줄어드는지 확인).
 
 -5. **MASTER QA (2026-10-02, 사용자가 첨부한 45항 QA 명세) — 끝난 것과 남은 것**
    - 올린 것: v1.39.0 지난 공고(참고용)·v1.39.1 1년 보관(tools/history/window.py)·v1.40.0 공공임대 일반공급(rental_rules)·v1.40.1 화면마다 다른 판정 통일(verdict_one, 사용자 제보 과천 84D)·
      v1.41.0 재공급 특별공급(resupply_special)·v1.41.1 깨진 저장 조건 정리(profile_clean)·v1.42.0 공공임대 특별공급(rental_special)·v1.42.2 특공 뽑는 방식·단계 세대수 표시(자체 점검). v1.42.1 은 번호만 건너뜀(VERSIONS.md).
    - 검사 도구(수집·verify Actions 에서 매번, 다르면 verify-status ok=false): supply_type·invariants·filter_check·consistency(카드·상세·묶음 판정 일치 7,680)·sp_text(특공 문구 768칸)·market_check(시세 ↔ 국토부 원자료, 공고 8개씩).
-     로컬 전용(느림): e2e.cjs(흐름 30 + 퍼징 390), snapshot.cjs(화면 글자 기준 tests/qa/snapshots.json — 일부러 바꾸면 --update), code_mutation.cjs, audit/audit_verdict.cjs(블라인드 36건).
+     (10-02 밤부터 CI: e2e.cjs·snapshot.cjs(화면 글자 기준 tests/qa/snapshots.json — 일부러 바꾸면 --update)·past_chat.cjs) 로컬 전용: code_mutation.cjs, audit/audit_verdict.cjs(블라인드 36건).
    - 보고서: Claude 문서 '청약패스 MASTER QA — 1차 분석 보고서'(최종 QA 보고서 칸 포함).
    - market_check 첫 실제 결과(10-02 17:51 수집): 공고 8개·근거 거래 46건 원자료와 다름 0. 이후 다름이 나오면 원자료와 수집 중 어느 쪽이 맞는지 가린다(수집과 검사 사이 새 거래 등록일 수도).
    - 남은 일:
      ② 청년 특별공급(공공임대·공공분양)은 판정하지 않음 — 유형 목록에 없음(스스로 판단 필요). 규칙: 19~39세 미혼, 본인 소득 140%, 본인·부모 총자산 각각(2026000307 '청년 특별공급').
-     ③ e2e·snapshot 을 CI 에 넣을지(실행 3~4분) 사용자와 상의. ④ 공공임대 공고가 새로 올라오면 pub_limits.sp 를 읽었는지 run-log·화면으로 확인(지금 진행 중인 임대 공고 0건, 지난 공고 16주택형).
+     ③ e2e·snapshot CI 넣기는 끝남(-9). ④ 공공임대 공고가 새로 올라오면 pub_limits.sp 를 읽었는지 run-log·화면으로 확인(지금 진행 중인 임대 공고 0건, 지난 공고 16주택형).
 
 -2. **화면 개선 5가지 (2026-10-01 밤, 사용자 휴대폰 캡처 요청)** — v1.21.0 money_echo(금액 칸 아래 '= 2억 1,550만원'), v1.22.0 date_select(날짜를 년·월·일 드롭다운),
    v1.23.0 score_lottery_split(일반공급을 1순위 가점제 N%·추첨제 M% 두 줄로, 가점 낮아도 추첨 물량 있으면 '추첨제 가능'; 무주택 우선 75%는 규제지역·수도권·광역시만 — 공고문 25건 대조),
    v1.24.0 type_group(목록에서 같은 공고 주택형을 카드 하나+주택형 칩, 상세 제목 아래 주택형 칩). 사용자가 '되돌리자' 하면 각 스위치 false.
-   후보: 주택형 칩이 많은 공고(7개 이상)에서 칩 줄이 길면 면적대(59·84) 묶음 검토.
+   (주택형 칩 면적대 묶음은 v1.45.0 에 했다가 사용자 요청으로 v1.46.1 에 되돌림 — 공고마다 표기가 달라 헷갈림)
    v1.24.1: 일반공급 표시를 '신청 가능 → ① 가점제 먼저 → 떨어지면 자동으로 ② 추첨제' 순서 + 내 가점 위치 + 근거(공고문·HUG). v1.25.0 search_icon: 검색을 맨 위 돋보기 버튼으로.
    급매캐치 앱 참고 UI (사용자 선택, 2026-10-01 밤): v1.26.0 alerts_tab(알림을 하단 탭으로 — 알림 공개 전엔 미리보기 기기만 보임), v1.27.0 top_filters(필터를 검색 아래 맨 위에 펼침),
    v1.28.0 detail_cta(상세 아래 고정 '모집공고문·청약홈 공고 보기'), v1.29.0 price_compare(상세 가격 비교 카드), v1.30.0 type_rank(이 공고 주택형 중 마진 순위), v1.31.0 grade_medal(목록 원형 등급 배지).
