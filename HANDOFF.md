@@ -56,7 +56,8 @@ GitHub Secrets (이름만): `DATA_GO_KR_KEY`, `NCP_MAPS_CLIENT_ID`, `NCP_MAPS_CL
 -8. **공고문 읽기 점검 (2026-10-02 밤, 사용자 '공고문에서 은근히 잘못 가져온다')** — v1.43.1 두 도구 읽기(pdf_dual_read: pypdf + pypdfium2, pdfium 은 스레드 잠금 필수), 쪽수 상한 80→300, 1쪽 표↔본문 값 대조(notice_conflicts).
    tools/qa/pdf_audit.py(probe.yml, 실제 PDF: 첨부 고르기·잘림·빈 쪽·필수 단원·도구 차이·수집 값 차이 → evidence/qa/pdf-audit.json) — 첫 점검에서 80쪽 잘림 3·재당첨 못 읽음 2 발견, 고친 뒤 0.
    주간 블라인드 표본 tools/qa/blind_sample.py pick → 앱 값 안 보는 검토자(서브 에이전트)가 evidence/qa/blind/<주>.json 채움 → compare → 일치 값은 golden 으로. 2026-W40: 답 38개 읽기 오류 0.
-   남은 것: 매주 표본을 자동으로 돌릴지(예약 작업) 사용자 결정, 값마다 원문 문장 저장은 1쪽 표만(quote) — 나머지 항목은 다음.
+   주간 표본은 예약 작업 '청약패스 주간 블라인드 표본'(매주 월 09:59, trig_01Jemw3Ana4rAaFbz8eRbJbz)이 돌린다 — 앱 오류가 나오면 고치지 않고 보고만 함(운영자 확인 뒤 고침).
+   남은 것: 값마다 원문 문장 저장은 1쪽 표만(quote) — 나머지 항목은 다음.
 
 -7. **판정 범위·과신 방지 (2026-10-02 밤, 사용자 QA 피드백 2차)** — v1.43.0 judge_scope(판정하지 않는 공고는 확인 필요 + 이유; 임대인데 자격표 못 읽음 등), 임대 이름 보강,
    tools/qa/monotonic.cjs(정보 줄이면 '가능' 생기면 위반·값 방향 단조성, 일부러 넣은 오류 3종 모두 잡음), 교차 규칙 SCOPE-001·RENT-001. 분석·지원 범위·우선순위: evidence/qa/SUPPLY_SCOPE.md.
@@ -65,7 +66,7 @@ GitHub Secrets (이름만): `DATA_GO_KR_KEY`, `NCP_MAPS_CLIENT_ID`, `NCP_MAPS_CL
 
 -6. **교차 규칙(Cross-Rule) 검증 (2026-10-02 저녁, 사용자 추가 명세 + 과천 푸르지오 벨라르테 제보)** — v1.42.3 고침(거주의무 모름 → '확인 필요' 전파, 공고문 단지 주요정보 표 거주의무기간, 마감 공고 상세 '접수 마감', 카드 '자금 가능(전제)'),
    v1.42.4 tools/qa/cross_rule.cjs(공고 201 × 조건 42, 6만 회, CRITICAL·HIGH 있으면 verify-status 실패) · evidence/qa/CROSS_RULES.md(기존 QA 한계 분석·규칙 표·의존 그래프·모순 행렬·회귀 ID·완료 조건).
-   **사용자가 MASTER QA 결과 피드백을 따로 주기로 함 — 기다리는 중.** 남은 것: 챗봇·지난 공고 화면은 교차 검사 밖(CROSS_RULES.md 10항), 거주의무 모름 공고(UNKNOWN 38 → 수집 뒤 줄어드는지 확인).
+   사용자 QA 피드백(2차, 판정 범위·과신 방지)은 -7 에서 처리함. 남은 것: 챗봇·지난 공고 화면은 교차 검사 밖(CROSS_RULES.md 10항), 거주의무 모름 공고(UNKNOWN 38 → 수집 뒤 줄어드는지 확인).
 
 -5. **MASTER QA (2026-10-02, 사용자가 첨부한 45항 QA 명세) — 끝난 것과 남은 것**
    - 올린 것: v1.39.0 지난 공고(참고용)·v1.39.1 1년 보관(tools/history/window.py)·v1.40.0 공공임대 일반공급(rental_rules)·v1.40.1 화면마다 다른 판정 통일(verdict_one, 사용자 제보 과천 84D)·
