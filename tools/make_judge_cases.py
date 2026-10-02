@@ -586,6 +586,41 @@ def main() -> None:
         add(id=f"rental-{i:02d}", fn="sp", type=t, listing=RL, profile=dict(r_base, hhIncomeYear=3000, income=3000), expect={"s": "warn"},
             basis="2026000307 특별공급은 유형별 소득표(표4-1~3)·총자산 기준이 공공분양과 달라 이 서비스는 판정하지 않음 → 확인 필요 (가능·불가로 단정하지 않음)"); i += 1
 
+    # ---------- 12) 경계값 보강 (2026-10-02 MASTER QA 코드 변이 검사에서 못 잡던 규칙, evidence/qa/code-mutation.json) ----------
+    i = 0
+    def b(**c):
+        nonlocal i
+        add(id=f"edge-{i:02d}", **c); i += 1
+    # 공공분양 일반공급 소득·자산 기준은 '전용면적 60㎡ 이하만 적용'(2026000414 요약표) — 60.00㎡ 는 대상, 60.01㎡ 는 아님. 기준을 못 읽은 공고는 대상이면 확인 필요
+    b(fn="item", item="소득·자산 (공공 일반공급)", listing="2026000414-A60", profile=dict(pub_base, hhIncomeYear=3000, income=3000), expect={"s": "warn"},
+      basis="2026000414 '* 전용면적 60㎡ 이하만 적용' — 정확히 60㎡ 는 적용 대상 (기준 미확인 → 확인 필요)")
+    b(fn="item", item="소득·자산 (공공 일반공급)", listing="2026000414-A6001", profile=dict(pub_base, hhIncomeYear=3000, income=3000), expect={"s": "none"},
+      basis="2026000414 '* 전용면적 60㎡ 이하만 적용' — 60.01㎡ 는 소득·자산 기준 없음")
+    # 민영 예치금: '전용 85㎡ 이하 300·250·200만원', '102㎡ 이하 600·400·300만원' (2026000453) — 85.00㎡ 는 첫 구간
+    for lid, amount, exp in [("2026000453-A85", 200, "ok"), ("2026000453-A8501", 200, "fail"), ("2026000453-A8501", 300, "ok")]:
+        b(fn="acct", listing=lid, profile={"acctType": "all", "acctSince": "2014-01-01", "acctAmount": amount, "homeSido": "경기", "household": "head"},
+          expect={"가입기간": "ok", "예치금": exp}, basis="2026000453 예치금 표 — 경기(광역시 외) 85㎡ 이하 200만원, 102㎡ 이하 300만원 (85.00㎡ 는 85㎡ 이하)")
+    # 투기과열지구 1순위 가입기간 24개월 (2026000453 '가입기간 24개월 경과'). 공고문에서 못 읽은 규제지역 공고(2026000414-REG)도 24개월로 본다
+    for since, exp in [("2024-08-31", "ok"), ("2024-09-01", "fail"), ("2025-08-31", "fail")]:
+        assert (months(since, "2026-08-31") >= 24) == (exp == "ok")
+        b(fn="acct", listing="2026000414-REG", profile=dict(pub_base, acctSince=since), expect={"가입기간": exp},
+          basis="주택공급규칙 제27조 투기과열지구·청약과열지역 1순위 24개월 (2026000414 변형, 공고일 2026-08-31 기준 2024-08-31 가입 = 정확히 24개월)")
+    # 거주기간 기준일: '2024.09.18. 이전부터 계속 거주' (2026000453) — 기준일 당일 전입은 해당지역
+    for since, v in [("2024-09-18", "해당지역 (2년 이상)"), ("2024-09-19", "기타지역")]:
+        b(fn="residence", listing="2026000453-059.9742A", profile={"homeSido": "경기", "homeSigun": "광명시", "sidoOwnSince": since, "sidoSince": since, "areaSince": since},
+          expect={"s": "ok", "v": v}, basis="2026000453 '경기도 광명시 2년 이상 계속 거주자 (2024.08.28. 이전부터)' 형식 — 기준일 당일 전입은 해당지역, 다음 날은 기타지역")
+    # 신혼희망타운 신청 유형: 혼인 7년 이내(공고일 2026-09-30 → 2019-09-30 혼인까지), 한부모 만 6세 이하 자녀(2019-09-30 출생은 공고일에 만 7세)
+    tb12 = dict(town_base, hhIncomeYear=5000, income=5000, realEstate=0, carValue=0, youngestBirth="2012-01-01")
+    for mo, exp in [("2019-09-30", "ok"), ("2019-09-29", "fail"), ("2018-12-01", "fail")]:
+        b(fn="item", item="신청 유형 (신혼희망타운)", listing="2026820010-055.8800B", profile=dict(tb12, married=True, marriedOn=mo), expect={"s": exp},
+          basis="2026820010 신혼부부 '혼인 중인 사람으로서 혼인기간이 7년 이내' — 공고일 2026-09-30 기준 2019-09-30 혼인 = 7년 이내, 하루 전은 초과 (6세 이하 자녀 없음)")
+    for yb, exp in [("2019-10-01", "ok"), ("2019-09-30", "fail")]:
+        b(fn="item", item="신청 유형 (신혼희망타운)", listing="2026820010-055.8800B", profile=dict(tb12, married=False, marriedOn="", townType="single", youngestBirth=yb), expect={"s": exp},
+          basis="2026820010 한부모가족 '만 6세 이하 자녀' — 2019-09-30 출생은 공고일(2026-09-30)에 만 7세라 제외, 2019-10-01 출생은 만 6세")
+    # 판정 묶음: 자격은 되지만 확인할 항목(세대 소득 미입력)이 있으면 '확인 필요' — '신청 가능'으로 올리지 않는다
+    b(fn="bucket", listing="2026000414-059.8400A", profile=dict(pub_base, hhIncomeYear=None, income=0, spouseIncome=0), expect={"b": "unsure"},
+      basis="2026000414 60㎡ 이하 공공분양 일반공급은 세대 소득 기준이 있어 소득을 모르면 판정할 수 없음 → 확인 필요 (가짜 '가능' 금지)")
+
     OUT.parent.mkdir(parents=True, exist_ok=True)
     OUT.write_text(json.dumps(cases, ensure_ascii=False, indent=1) + "\n", encoding="utf-8")
     print(f"{len(cases)}건 → {OUT}")

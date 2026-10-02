@@ -10,7 +10,8 @@ const M = [   // [이름, 찾을 글, 바꿀 글]
   ['무주택: 본인 주택을 무시', "if (p.selfOwn && !(exc && OWN_EXC_OK.includes(exc))) own.push('본인 명의 주택');", "if (false) own.push('본인 명의 주택');"],
   ['60㎡ 경계 > → >= (공공 소득·자산 없음 판단)', "if (!pl) return (L.area != null && L.area > 60)", "if (!pl) return (L.area != null && L.area >= 60)"],
   ['60㎡ → 59㎡ (생애최초 단독세대)', "if (alone && (L.area || 0) > 60)", "if (alone && (L.area || 0) > 59)"],
-  ['소득 기준 <= → < (공공 일반공급)', "if (m <= spAmt(n, cap)) out.push({ k:'소득 (공공 일반공급)'", "if (m < spAmt(n, cap)) out.push({ k:'소득 (공공 일반공급)'"],
+  // 동등 변이(EQUIVALENT): 소득은 만 원/년으로 입력해 월평균이 원 단위 기준액과 정확히 같아질 수 없다 (기준표 3인 이하~8인 × 50~259% 모두 확인, 2026-10-02) — 점수에서 뺌
+  ['소득 기준 <= → < (공공 일반공급) [동등]', "if (m <= spAmt(n, cap)) out.push({ k:'소득 (공공 일반공급)'", "if (m < spAmt(n, cap)) out.push({ k:'소득 (공공 일반공급)'"],
   ['소득 기준 +1%', "if (m <= spAmt(n, cap)) out.push({ k:'소득 (공공 일반공급)'", "if (m <= spAmt(n, cap) * 1.01) out.push({ k:'소득 (공공 일반공급)'"],
   ['혼인 7년 → 8년 (신혼희망타운)', "if (p.marriedOn && p.marriedOn >= addYears(ref, -7)) out.push({ k:'신청 유형 (신혼희망타운)'", "if (p.marriedOn && p.marriedOn >= addYears(ref, -8)) out.push({ k:'신청 유형 (신혼희망타운)'"],
   ['자녀 만 6세 경계 하루 이동', "const kid6 = p.pregnant === true || (p.youngestBirth && p.youngestBirth > addYears(ref, -7));", "const kid6 = p.pregnant === true || (p.youngestBirth && p.youngestBirth >= addYears(ref, -7));"],
@@ -50,7 +51,7 @@ const M = [   // [이름, 찾을 글, 바꿀 글]
           else if (c.fn === 'bucket') got = { b: eligBucket(L, p) };
           else if (c.fn === 'item') { const it = c.item === '거주지' ? residenceItem(L, p) : eligibility(L, p).items.find(i => i.k === c.item); got = { s: it ? it.s : 'none' }; }
           else if (c.fn === 'home') { const it = eligibility(L, p).items.find(i => i.k === '무주택 세대') || {}; got = { s: it.s }; }
-          else if (c.fn === 'residence') { const q = residenceItem(L, p); got = { s: q.s, v: q.v.includes(c.expect.v) ? c.expect.v : q.v }; }
+          else if (c.fn === 'residence') { const q = residenceItem(L, p); got = { s: q.s, v: q.v.startsWith(c.expect.v) ? c.expect.v : q.v }; }
         } catch (e) { got = { error: e.message }; }
         if (JSON.stringify(got) !== JSON.stringify(c.expect)) bad++; }
       // 공급유형 표시: 불법행위 재공급 주택형의 카드 배지·일반공급 칸 이름에 '무순위'가 나오면 잡힌 것
@@ -62,12 +63,12 @@ const M = [   // [이름, 찾을 글, 바꿀 글]
     }, { cases, listings });
     await page.close();
     const caught = r.bad + r.disp + r.st + errs.length;
-    out.push({ name, status: find ? (caught ? 'KILLED' : 'SURVIVED') : (caught ? 'BASELINE_FAIL' : 'BASELINE_OK'), judge_fail: r.bad, display_fail: r.disp, status_fail: r.st, page_errors: errs.length });
+    out.push({ name, status: find ? (caught ? 'KILLED' : name.includes('[동등]') ? 'EQUIVALENT' : 'SURVIVED') : (caught ? 'BASELINE_FAIL' : 'BASELINE_OK'), judge_fail: r.bad, display_fail: r.disp, status_fail: r.st, page_errors: errs.length });
     console.log(out[out.length - 1].status.padEnd(14), name, JSON.stringify(r));
   }
   await b.close();
   const mut = out.filter(o => o.name[0] !== '('), killed = mut.filter(o => o.status === 'KILLED').length, surv = mut.filter(o => o.status === 'SURVIVED').length;
-  const rep = { date: new Date().toISOString().slice(0, 10), mutations: mut.length, killed, survived: surv, not_testable: mut.filter(o => o.status === 'NOT_TESTABLE').length, score: +(killed / Math.max(1, killed + surv)).toFixed(3), results: out };
+  const rep = { date: new Date().toISOString().slice(0, 10), mutations: mut.length, killed, survived: surv, not_testable: mut.filter(o => o.status === 'NOT_TESTABLE').length, equivalent: mut.filter(o => o.status === 'EQUIVALENT').length, score: +(killed / Math.max(1, killed + surv)).toFixed(3), results: out };
   writeFileSync(join(ROOT, 'evidence/qa/code-mutation.json'), JSON.stringify(rep, null, 1) + '\n');
   console.log(`변이 ${mut.length} · 잡음 ${killed} · 못 잡음 ${surv} · 점수 ${rep.score}`);
   process.exit(surv ? 1 : 0);

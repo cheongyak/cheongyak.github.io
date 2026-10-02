@@ -4,6 +4,16 @@
 2026-09-29 12:55 이전 항목은 규칙을 만들기 전 작업을 커밋 기록으로 정리한 것이라 백업 브랜치가 없어요.
 그 시점으로 되돌릴 때는 해당 커밋 번호로 `git revert` 를 써요.
 
+## 2026-10-02 15:20 · MASTER QA: 판정 사례 경계값 보강 (QA-04·05)
+- 요청: MASTER QA — 코드 변이 검사에서 못 잡던 규칙을 테스트로 지키기
+- 변경: make_judge_cases.py 12) 경계값 16건 (60.00/60.01㎡ 공공 소득·자산, 85.00/85.01㎡ 예치금, 규제지역 통장 24개월 ±1일, 거주 기준일 당일/다음 날, 신혼희망타운 혼인 7년 ±1일·한부모 자녀 만 6세 ±1일, 소득 미입력이면 '확인 필요'),
+  경계 시험용 고정 공고 4개(tests/judge/listings.json, 원 공고 변형 — _basis 에 적음). judge_check·code_mutation 의 거주지 비교를 includes → startsWith 로 ('기타지역 (해당지역 다음)'이 '해당지역'을 포함해 틀려도 통과하던 약점)
+  code_mutation.cjs: '소득 <= → <' 는 동등 변이로 분류(만 원/년 입력으로는 월평균이 원 단위 기준액과 같아질 수 없음 — 표 전체 확인)
+- 파일: tools/make_judge_cases.py, tests/judge/cases.json, tests/judge/listings.json, tools/judge_check.cjs, tools/qa/code_mutation.cjs, evidence/qa/code-mutation.json, docs/changelog.json
+- 확인: 판정 사례 298/298, 코드 변이 15개 중 14개 잡음 + 동등 1 (점수 0.467 → 1.0), pytest
+- 기능: 없음(검증)
+- 백업: backup/20261002-1451-rental (서비스 코드 변경 없음)
+
 ## 2026-10-02 14:52 · v1.40.0 공공임대 규칙 (MASTER QA QA-02·03)
 - 요청: MASTER QA 결정 1 — 임대 공고는 '임대 규칙 따로 만들기'
 - 원인(분석): 청약홈 RENT_SECD_NM(분양/임대)을 저장만 하고 안 써서 2025000645 공공건설임대 임차인모집이 '일반분양'으로, 2026000307 6년 분양전환공공임대가 공공분양 규칙으로 판정됨. 청약홈 공급금액은 임대보증금(원문 임대조건 표 55A 85,614,000원).

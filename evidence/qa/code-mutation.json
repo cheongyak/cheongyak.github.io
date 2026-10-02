@@ -1,10 +1,11 @@
 {
  "date": "2026-10-02",
  "mutations": 15,
- "killed": 7,
- "survived": 8,
+ "killed": 14,
+ "survived": 0,
  "not_testable": 0,
- "score": 0.467,
+ "equivalent": 1,
+ "score": 1,
  "results": [
   {
    "name": "(변이 없음 — 기준선)",
@@ -24,8 +25,8 @@
   },
   {
    "name": "60㎡ 경계 > → >= (공공 소득·자산 없음 판단)",
-   "status": "SURVIVED",
-   "judge_fail": 0,
+   "status": "KILLED",
+   "judge_fail": 1,
    "display_fail": 0,
    "status_fail": 0,
    "page_errors": 0
@@ -39,8 +40,8 @@
    "page_errors": 0
   },
   {
-   "name": "소득 기준 <= → < (공공 일반공급)",
-   "status": "SURVIVED",
+   "name": "소득 기준 <= → < (공공 일반공급) [동등]",
+   "status": "EQUIVALENT",
    "judge_fail": 0,
    "display_fail": 0,
    "status_fail": 0,
@@ -56,48 +57,48 @@
   },
   {
    "name": "혼인 7년 → 8년 (신혼희망타운)",
-   "status": "SURVIVED",
-   "judge_fail": 0,
+   "status": "KILLED",
+   "judge_fail": 2,
    "display_fail": 0,
    "status_fail": 0,
    "page_errors": 0
   },
   {
    "name": "자녀 만 6세 경계 하루 이동",
-   "status": "SURVIVED",
-   "judge_fail": 0,
+   "status": "KILLED",
+   "judge_fail": 1,
    "display_fail": 0,
    "status_fail": 0,
    "page_errors": 0
   },
   {
    "name": "거주기간 기준일 <= → <",
-   "status": "SURVIVED",
-   "judge_fail": 0,
+   "status": "KILLED",
+   "judge_fail": 2,
    "display_fail": 0,
    "status_fail": 0,
    "page_errors": 0
   },
   {
    "name": "통장 가입기간: 규제지역 24 → 12개월",
-   "status": "SURVIVED",
-   "judge_fail": 0,
+   "status": "KILLED",
+   "judge_fail": 2,
    "display_fail": 0,
    "status_fail": 0,
    "page_errors": 0
   },
   {
    "name": "예치금 85㎡ 구간 <= → <",
-   "status": "SURVIVED",
-   "judge_fail": 0,
+   "status": "KILLED",
+   "judge_fail": 1,
    "display_fail": 0,
    "status_fail": 0,
    "page_errors": 0
   },
   {
    "name": "판정 묶음: 확인 필요를 가능으로",
-   "status": "SURVIVED",
-   "judge_fail": 0,
+   "status": "KILLED",
+   "judge_fail": 1,
    "display_fail": 0,
    "status_fail": 0,
    "page_errors": 0
