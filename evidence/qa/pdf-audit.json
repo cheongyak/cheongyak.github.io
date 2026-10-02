@@ -2,9 +2,9 @@
  "date": "2026-10-02",
  "page_cap": 300,
  "notices": 50,
- "with_problem": 4,
+ "with_problem": 3,
  "kinds": {
-  "PDF 를 하나도 받지 못함": 3,
+  "PDF 를 하나도 받지 못함": 2,
   "글자가 거의 없는 쪽 N개 (스캔 이미지·표 그림 추정)": 1
  },
  "errors": [],
@@ -750,20 +750,60 @@
    "name": "힐스테이트 고덕엘리스트 A65BL 공공분양주택",
    "url": "https://www.applyhome.co.kr/ai/aia/selectAPTLttotPblancDetail.do?houseManageNo=2026000438&pblancNo=2026000438",
    "attachments": 1,
-   "pdfs": 0,
+   "pdfs": 1,
    "attachment_list": [
     {
      "url": "https://static.applyhome.co.kr/ai/aia/getAtchmnfl.do?houseManageNo=2026000438&pblancNo=2026000438&atchmnflSeqNo=1973016&atchmnflSn=5",
-     "error": "PDF 아님 (200, 59바이트)"
-    },
-    {
-     "url": "LH청약플러스",
-     "error": "LH청약플러스에서 같은 공고를 못 찾음 (검색 0건)"
+     "bytes": 1152965,
+     "pages": 93,
+     "chars": 184469,
+     "head": "- 1 - 구분 변경 전 변경 후 품목 타입 (약식표기) 페이지 품목 타입 (약식표기) 페이지 다이닝 컬렉션 1 주방 평면 변화 + 벽체/상판 "
     }
    ],
-   "problem": [
-    "PDF 를 하나도 받지 못함"
-   ]
+   "chosen": "https://static.applyhome.co.kr/ai/aia/getAtchmnfl.do?houseManageNo=2026000438&pblancNo=2026000438&atchmnflSeqNo=1973016&atchmnflSn=5",
+   "pages": 93,
+   "pages_read": 93,
+   "chars_read": 184561,
+   "empty_pages": [],
+   "chars_per_page_min": 458,
+   "fields": {
+    "price_cap": true,
+    "residence_duty": 3,
+    "rewin_years": 10,
+    "account_months": 12,
+    "deposit_count": 12,
+    "residence": {
+     "area": "경기도 평택시",
+     "months": 12,
+     "since": "2025-09-11"
+    }
+   },
+   "fields_merged": {
+    "price_cap": true,
+    "residence_duty": 3,
+    "rewin_years": 10,
+    "account_months": 12,
+    "deposit_count": 12,
+    "residence": {
+     "area": "경기도 평택시",
+     "months": 12,
+     "since": "2025-09-11"
+    }
+   },
+   "fields_pdfium": {
+    "price_cap": true,
+    "residence_duty": 3,
+    "rewin_years": 10,
+    "account_months": 12,
+    "deposit_count": 12,
+    "residence": {
+     "area": "경기도 평택시",
+     "months": 12,
+     "since": "2025-09-11"
+    }
+   },
+   "pdfium_chars": 184389,
+   "problem": []
   },
   {
    "notice": "2026000437",
@@ -1808,64 +1848,73 @@
    "name": "오남역 서희스타힐스 여의재 1단지",
    "url": "https://www.applyhome.co.kr/ai/aia/selectAPTRemndrLttotPblancDetailView.do?houseManageNo=2026910253&pblancNo=2026910253",
    "attachments": 1,
-   "pdfs": 1,
-   "attachment_list": [
-    {
-     "url": "https://static.applyhome.co.kr/ai/aia/getAtchmnfl.do?houseManageNo=2026910253&pblancNo=2026910253&atchmnflSeqNo=1988120&atchmnflSn=3",
-     "bytes": 245618,
-     "pages": 12,
-     "chars": 15235,
-     "head": "- 1 - ※ 본 입주자모집공고의 내용을 숙지한 후 청약 및 계약에 응하시기 바라며, 미숙지로 인한 착오 행위 등에 대하여 청약자 및 계약자 본"
-    }
-   ],
-   "chosen": "https://static.applyhome.co.kr/ai/aia/getAtchmnfl.do?houseManageNo=2026910253&pblancNo=2026910253&atchmnflSeqNo=1988120&atchmnflSn=3",
-   "pages": 12,
-   "pages_read": 12,
-   "chars_read": 15246,
-   "empty_pages": [],
-   "chars_per_page_min": 620,
-   "fields": {
-    "need_head": false,
-    "residence": {
-     "area": null,
-     "months": 0,
-     "since": null
-    }
-   },
-   "fields_merged": {
-    "need_head": false,
-    "residence": {
-     "area": null,
-     "months": 0,
-     "since": null
-    }
-   },
-   "fields_pdfium": {
-    "need_head": false,
-    "residence": {
-     "area": null,
-     "months": 0,
-     "since": null
-    }
-   },
-   "pdfium_chars": 15442,
-   "problem": []
-  },
-  {
-   "notice": "2026910250",
-   "name": "신림스카이아파트(20차)",
-   "url": "https://www.applyhome.co.kr/ai/aia/selectAPTRemndrLttotPblancDetailView.do?houseManageNo=2026910250&pblancNo=2026910250",
-   "attachments": 1,
    "pdfs": 0,
    "attachment_list": [
     {
-     "url": "https://static.applyhome.co.kr/ai/aia/getAtchmnfl.do?houseManageNo=2026910250&pblancNo=2026910250&atchmnflSeqNo=1978039&atchmnflSn=2",
+     "url": "https://static.applyhome.co.kr/ai/aia/getAtchmnfl.do?houseManageNo=2026910253&pblancNo=2026910253&atchmnflSeqNo=1988120&atchmnflSn=3",
      "error": "PDF 아님 (200, 59바이트)"
     }
    ],
    "problem": [
     "PDF 를 하나도 받지 못함"
    ]
+  },
+  {
+   "notice": "2026910250",
+   "name": "신림스카이아파트(20차)",
+   "url": "https://www.applyhome.co.kr/ai/aia/selectAPTRemndrLttotPblancDetailView.do?houseManageNo=2026910250&pblancNo=2026910250",
+   "attachments": 1,
+   "pdfs": 1,
+   "attachment_list": [
+    {
+     "url": "https://static.applyhome.co.kr/ai/aia/getAtchmnfl.do?houseManageNo=2026910250&pblancNo=2026910250&atchmnflSeqNo=1978039&atchmnflSn=2",
+     "bytes": 235192,
+     "pages": 9,
+     "chars": 13277,
+     "head": "- 1 - ※ 단지 주요정보 (분양문의) 02-877-9273 주택유형 규제지역여부 무순위(사후) 자격요건 민영 투기과열지구/청약과열지역 무순위"
+    }
+   ],
+   "chosen": "https://static.applyhome.co.kr/ai/aia/getAtchmnfl.do?houseManageNo=2026910250&pblancNo=2026910250&atchmnflSeqNo=1978039&atchmnflSn=2",
+   "pages": 9,
+   "pages_read": 9,
+   "chars_read": 13285,
+   "empty_pages": [],
+   "chars_per_page_min": 519,
+   "fields": {
+    "need_head": false,
+    "price_cap": false,
+    "residence_duty": 0,
+    "rewin_years": 10,
+    "residence": {
+     "area": "서울특별시",
+     "months": 0,
+     "since": null
+    }
+   },
+   "fields_merged": {
+    "need_head": false,
+    "price_cap": false,
+    "residence_duty": 0,
+    "rewin_years": 10,
+    "residence": {
+     "area": "서울특별시",
+     "months": 0,
+     "since": null
+    }
+   },
+   "fields_pdfium": {
+    "need_head": false,
+    "price_cap": false,
+    "residence_duty": 0,
+    "rewin_years": 10,
+    "residence": {
+     "area": "서울특별시",
+     "months": 0,
+     "since": null
+    }
+   },
+   "pdfium_chars": 13102,
+   "problem": []
   },
   {
    "notice": "2026910249",
@@ -1923,45 +1972,27 @@
    "name": "충정로역자이르네",
    "url": "https://www.applyhome.co.kr/ai/aia/selectAPTRemndrLttotPblancDetailView.do?houseManageNo=2026910251&pblancNo=2026910251",
    "attachments": 1,
-   "pdfs": 0,
-   "attachment_list": [
-    {
-     "url": "https://static.applyhome.co.kr/ai/aia/getAtchmnfl.do?houseManageNo=2026910251&pblancNo=2026910251&atchmnflSeqNo=1986036&atchmnflSn=2",
-     "error": "PDF 아님 (200, 59바이트)"
-    }
-   ],
-   "problem": [
-    "PDF 를 하나도 받지 못함"
-   ]
-  },
-  {
-   "notice": "2026930040",
-   "name": "강변역 센트럴 아이파크",
-   "url": "https://www.applyhome.co.kr/ai/aia/selectAPTRemndrLttotPblancDetailView.do?houseManageNo=2026930040&pblancNo=2026930040",
-   "attachments": 1,
    "pdfs": 1,
    "attachment_list": [
     {
-     "url": "https://static.applyhome.co.kr/ai/aia/getAtchmnfl.do?houseManageNo=2026930040&pblancNo=2026930040&atchmnflSeqNo=1982993&atchmnflSn=5",
-     "bytes": 367120,
-     "pages": 12,
-     "chars": 26160,
-     "head": "- 1 - ※ 단지 주요정보 (분양문의)1551-3560 주택유형 규제지역여부 거주요건 재당첨제한 민영 투기과열지구/청약과열지역 서울특별시 거주"
+     "url": "https://static.applyhome.co.kr/ai/aia/getAtchmnfl.do?houseManageNo=2026910251&pblancNo=2026910251&atchmnflSeqNo=1986036&atchmnflSn=2",
+     "bytes": 1782710,
+     "pages": 16,
+     "chars": 44807,
+     "head": "- 1 - 견본주택에 주차가 불가하오니 대중교통을 이용하시기 바랍니다, .※ ※ 청약 전 유의사항 분양문의( ) 1660-1245 구분 내용 재"
     }
    ],
-   "chosen": "https://static.applyhome.co.kr/ai/aia/getAtchmnfl.do?houseManageNo=2026930040&pblancNo=2026930040&atchmnflSeqNo=1982993&atchmnflSn=5",
-   "pages": 12,
-   "pages_read": 12,
-   "chars_read": 26171,
+   "chosen": "https://static.applyhome.co.kr/ai/aia/getAtchmnfl.do?houseManageNo=2026910251&pblancNo=2026910251&atchmnflSeqNo=1986036&atchmnflSn=2",
+   "pages": 16,
+   "pages_read": 16,
+   "chars_read": 44822,
    "empty_pages": [],
-   "chars_per_page_min": 666,
+   "chars_per_page_min": 1567,
    "fields": {
-    "need_head": true,
+    "need_head": false,
     "price_cap": false,
     "residence_duty": 0,
     "rewin_years": 10,
-    "balance": "2026-11-30",
-    "ext": 0.2178,
     "residence": {
      "area": "서울특별시",
      "months": 0,
@@ -1969,12 +2000,10 @@
     }
    },
    "fields_merged": {
-    "need_head": true,
+    "need_head": false,
     "price_cap": false,
     "residence_duty": 0,
     "rewin_years": 10,
-    "balance": "2026-11-30",
-    "ext": 0.2178,
     "residence": {
      "area": "서울특별시",
      "months": 0,
@@ -1982,20 +2011,34 @@
     }
    },
    "fields_pdfium": {
-    "need_head": true,
+    "need_head": false,
     "price_cap": false,
     "residence_duty": 0,
     "rewin_years": 10,
-    "balance": "2026-11-30",
-    "ext": 0.2178,
     "residence": {
      "area": "서울특별시",
      "months": 0,
      "since": null
     }
    },
-   "pdfium_chars": 25652,
+   "pdfium_chars": 45093,
    "problem": []
+  },
+  {
+   "notice": "2026930040",
+   "name": "강변역 센트럴 아이파크",
+   "url": "https://www.applyhome.co.kr/ai/aia/selectAPTRemndrLttotPblancDetailView.do?houseManageNo=2026930040&pblancNo=2026930040",
+   "attachments": 1,
+   "pdfs": 0,
+   "attachment_list": [
+    {
+     "url": "https://static.applyhome.co.kr/ai/aia/getAtchmnfl.do?houseManageNo=2026930040&pblancNo=2026930040&atchmnflSeqNo=1982993&atchmnflSn=5",
+     "error": "PDF 아님 (200, 59바이트)"
+    }
+   ],
+   "problem": [
+    "PDF 를 하나도 받지 못함"
+   ]
   },
   {
    "notice": "2026930037",
