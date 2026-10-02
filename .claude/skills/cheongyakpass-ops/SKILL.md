@@ -98,6 +98,8 @@ description: 청약패스(cheongyakpass.kr, 저장소 cheongyak/cheongyak.github
 - 교차 규칙 검사 `node tools/qa/cross_rule.cjs`(규칙·근거·의존 그래프: evidence/qa/CROSS_RULES.md). 새 기능·새 필드를 만들면 '이 결과를 무효화할 수 있는 조건'을 규칙으로 추가한다(완료 조건).
 - pytest 가 docs/chat-notice/*.json 을 다시 쓴다 — ship.sh 가 되돌리게 했지만, 손으로 커밋할 때도 pull 전에 `git checkout -- docs/chat-notice`.
 
+- 입력값을 거르는 코드(cleanProfile 등)는 '나쁜 값이 지워지는지'뿐 아니라 '정상 값이 남는지'를 같이 검사한다 — 개수 칸을 0~30 으로 묶어 납입 인정 회차 170회가 새로고침 때 지워졌다 (2026-10-02). `node tools/qa/profile_keep.cjs`
+
 ## 5. 자주 하는 답
 
 - "자동으로 돌아가?" → 수집은 GitHub Actions 가 매일 05:30, 사이트는 GitHub Pages. Claude 세션과 무관하게 돈다. 실패·불일치는 이슈로 메일이 간다.

@@ -1,0 +1,14 @@
+{
+ "date": "2026-10-02",
+ "checked": 301,
+ "fails": 6,
+ "examples": [
+  "새로고침: acctCount 600 → null",
+  "새로고침: acctCount 31 → null",
+  "새로고침: acctCount 170 → null",
+  "새로고침: acctCount 240 → null",
+  "새로고침: acctCount 1200 → null",
+  "입력 화면: 납입 인정 회차 170 넣고 새로고침 → null"
+ ],
+ "pageErrors": []
+}

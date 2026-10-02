@@ -4,6 +4,18 @@
 2026-09-29 12:55 이전 항목은 규칙을 만들기 전 작업을 커밋 기록으로 정리한 것이라 백업 브랜치가 없어요.
 그 시점으로 되돌릴 때는 해당 커밋 번호로 `git revert` 를 써요.
 
+## 2026-10-02 18:45 · v1.42.5 납입 인정 회차가 새로고침 때 지워지던 것 (사용자 제보)
+- 요청: 내 조건 '납입 인정 회차'가 저장되지 않음 — 새로고침하면 리셋 (가입일 2012.05.05, 예치금·인정 금액 1,570만원)
+- 원인: v1.41.1 profile_clean 의 cleanProfile 이 개수 칸(P_COUNT)을 모두 0~30 정수로만 정상으로 봄 → 납입 인정 회차 31회 이상(2012년 가입이면 약 170회)은 불러올 때 기본값(null)으로 바뀜. 내 실수.
+  놓친 이유: 퍼징(e2e.cjs)은 '나쁜 값이 지워지는지'만 보고 '정상 값이 남는지'는 안 봄, 판정 사례 조건은 납입 30회 이하뿐
+- 변경: 칸별 최댓값 P_MAX(acctCount 1200), 나머지 개수 칸은 그대로 30. 새 검사 tools/qa/profile_keep.cjs — 판정 사례 조건 292개 + 현실적인 큰 값(납입 0·1·30·31·170·240·600·1200회, 자산 수십억, 1950년생 등) 저장·새로고침 뒤 칸마다 같은지 + 질문 칸(fieldHtml)에 170 입력 → 새로고침 → 170.
+  collect·verify Actions, verify-status qa.profile_keep_fails. 스킬 함정 추가
+- 파일: docs/index.html, tools/qa/profile_keep.cjs, evidence/qa/profile-keep.json, .github/workflows/{collect,verify}.yml, tools/verify_status.py, docs/changelog.json, VERSIONS.md, .claude/skills/cheongyakpass-ops/SKILL.md
+- 확인: profile_keep 고치기 전 화면 6칸 지워짐(31·170·240·600·1200회, 입력 화면 170) → 고친 뒤 0, 판정 사례 349/349, engine_lock 그대로, 판정 일치 7,680 다름 0, pytest
+- 기능: 없음(수정)
+- 버전: v1.42.5
+- 백업: backup/20261002-1845-acct
+
 ## 2026-10-02 18:34 · 공고문 받기 실패 때 저장해 둔 원문 사본으로 읽기 (정답 불일치 해결)
 - 요청: 올린 뒤 확인 (CLAUDE.md 4항 3) — v1.42.3 수집에서 [검증·정답 불일치] 힐스테이트 고덕엘리스트 A65BL 84A·84B residence_duty 수집값 None ≠ 공고문 3
 - 원인: 이번 수집에서 2026000438 공고문 PDF 받기 실패(청약홈 'The requested URL was not found') → 예전 읽기 규칙(PARSER_VERSION 15)으로 보관한 값을 그대로 씀 → 거주의무 모름이 남음. 정답 데이터가 잡아 verify-status ok=false

@@ -18,6 +18,7 @@ on:
       - "tools/qa/consistency.cjs"
       - "tools/qa/sp_text.cjs"
       - "tools/qa/cross_rule.cjs"
+      - "tools/qa/profile_keep.cjs"
       - ".github/workflows/verify.yml"
 concurrency:
   group: collect          # 수집과 겹치지 않게 같은 줄에 선다
@@ -55,6 +56,7 @@ jobs:
           node tools/qa/consistency.cjs | head -1 | tee -a docs/run-log.txt
           node tools/qa/sp_text.cjs | head -1 | tee -a docs/run-log.txt
           node tools/qa/cross_rule.cjs | head -1 | tee -a docs/run-log.txt   # 교차 규칙 모순 (evidence/qa/CROSS_RULES.md)
+          node tools/qa/profile_keep.cjs | head -1 | tee -a docs/run-log.txt   # 저장한 내 조건이 새로고침 뒤 그대로인지
       - name: 정적 문서·가이드 페이지 다시 만들기 (검색엔진·광고 심사용)
         continue-on-error: true
         run: |
@@ -67,7 +69,7 @@ jobs:
           rc=$?
           git config user.name "cheongyak-bot"
           git config user.email "actions@users.noreply.github.com"
-          git add -A -- docs/verify-status.json docs/judge-status.json evidence/qa/supply-type.json evidence/qa/invariants.json evidence/qa/filter-check.json evidence/qa/consistency.json evidence/qa/sp-text.json evidence/qa/cross-rule.json docs/sitemap.xml $(for d in docs/story docs/about docs/terms docs/privacy docs/updates docs/guide docs/notice; do [ -e "$d" ] || git ls-files --error-unmatch "$d" >/dev/null 2>&1 && echo "$d"; done)
+          git add -A -- docs/verify-status.json docs/judge-status.json evidence/qa/supply-type.json evidence/qa/invariants.json evidence/qa/filter-check.json evidence/qa/consistency.json evidence/qa/sp-text.json evidence/qa/cross-rule.json evidence/qa/profile-keep.json docs/sitemap.xml $(for d in docs/story docs/about docs/terms docs/privacy docs/updates docs/guide docs/notice; do [ -e "$d" ] || git ls-files --error-unmatch "$d" >/dev/null 2>&1 && echo "$d"; done)
           git diff --cached --quiet || (git commit -m "판정 검증 결과 $(date +%Y-%m-%d)" && (git push || (git pull --rebase -X theirs origin main && git push)))
           exit $rc
       - name: 실패하면 운영자 알림 (이슈)

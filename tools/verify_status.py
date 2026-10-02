@@ -34,7 +34,7 @@ def build() -> dict:
     def qa(name):
         f = ROOT / "evidence" / "qa" / name
         return json.loads(f.read_text(encoding="utf-8")) if f.exists() else None
-    st, inv, flt, con, spt, mkc, crx = qa("supply-type.json"), qa("invariants.json"), qa("filter-check.json"), qa("consistency.json"), qa("sp-text.json"), qa("market-check.json"), qa("cross-rule.json")
+    st, inv, flt, con, spt, mkc, crx, pkp = qa("supply-type.json"), qa("invariants.json"), qa("filter-check.json"), qa("consistency.json"), qa("sp-text.json"), qa("market-check.json"), qa("cross-rule.json"), qa("profile-keep.json")
     st_bad = len(st["fails"]) if st else None
     inv_bad = sum(v["count"] for s in ("live", "archive") for v in inv[s]["violations"].values()) if inv else None
     flt_bad = (flt["filter_fails"] + len(flt["search_fails"])) if flt else None
@@ -42,13 +42,14 @@ def build() -> dict:
     spt_bad = (spt["fails"] + len(spt.get("pageErrors") or [])) if spt else None   # 특별공급 칸 뽑는 방식·단계 세대수 문구 (2026-10-02)
     mkc_bad = mkc["fails"] if mkc else None   # 시세·근거 거래 ↔ 국토부 실거래가 원자료 (tools/qa/market_check.py, 2026-10-02)
     crx_bad = (crx["severity"]["CRITICAL"] + crx["severity"]["HIGH"] + len(crx.get("pageErrors") or [])) if crx else None   # 교차 규칙 CRITICAL·HIGH (evidence/qa/CROSS_RULES.md, 2026-10-02)
-    qa_ok = not gate or (st_bad == 0 and inv_bad == 0 and flt_bad in (0, None) and con_bad in (0, None) and spt_bad in (0, None) and mkc_bad in (0, None) and crx_bad in (0, None))   # 필터 검사는 결과 파일이 있을 때만 (2026-10-02 추가)
+    pkp_bad = (pkp["fails"] + len(pkp.get("pageErrors") or [])) if pkp else None   # 저장한 내 조건 유지 (2026-10-02 납입 인정 회차 제보)
+    qa_ok = not gate or (st_bad == 0 and inv_bad == 0 and flt_bad in (0, None) and con_bad in (0, None) and spt_bad in (0, None) and mkc_bad in (0, None) and crx_bad in (0, None) and pkp_bad in (0, None))   # 필터 검사는 결과 파일이 있을 때만 (2026-10-02 추가)
     ok = bool(judge) and not judge["failed"] and not judge.get("pageErrors") and not cc_bad and not gold_bad and (cc_sum is not None or not cc_on) and qa_ok
     kst = timezone(timedelta(hours=9))
     return {"at": datetime.now(kst).strftime("%Y-%m-%d %H:%M"), "ok": ok, "collect_run": run_at,
             "judge": {"total": judge["total"], "passed": judge["passed"], "failed": [f["id"] for f in judge["failed"]]} if judge else None,
             "crosscheck": {"summary": cc_sum, "mismatches": cc_bad[:30]}, "golden": {"mismatches": gold_bad[:30]},
-            "qa": {"gate": gate, "supply_type_fails": st_bad, "invariant_violations": inv_bad, "filter_fails": flt_bad, "consistency_fails": con_bad, "sp_text_fails": spt_bad, "market_fails": mkc_bad, "cross_rule_fails": crx_bad, "cross_rule_checks": crx and crx.get("checks"), "market_at": mkc and mkc.get("date"), "supply_type_at": st and st.get("date"), "invariants_at": inv and inv.get("date")}}
+            "qa": {"gate": gate, "supply_type_fails": st_bad, "invariant_violations": inv_bad, "filter_fails": flt_bad, "consistency_fails": con_bad, "sp_text_fails": spt_bad, "market_fails": mkc_bad, "cross_rule_fails": crx_bad, "profile_keep_fails": pkp_bad, "cross_rule_checks": crx and crx.get("checks"), "market_at": mkc and mkc.get("date"), "supply_type_at": st and st.get("date"), "invariants_at": inv and inv.get("date")}}
 
 
 if __name__ == "__main__":
