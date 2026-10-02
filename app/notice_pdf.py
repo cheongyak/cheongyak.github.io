@@ -361,7 +361,8 @@ def parse_residence(text: str) -> Optional[dict]:
         yrs = re.search(r"(\d{1,2})\s*년\s*이상|년\s*이상\s*거주자\s*(\d)", hpart)
         mos = re.search(r"(\d{1,2})\s*개월\s*이상", hpart)
         months = int(yrs.group(1) or yrs.group(2)) * 12 if yrs else (int(mos.group(1)) if mos else 0)
-        sd = re.search(r"\((\d{4})\.(\d{1,2})\.(\d{1,2})\.?\s*\)?(?:\s*이전부터)?", hpart)
+        # 괄호 안 날짜 앞에 설명이 붙은 공고도 있다: '(공고일로부터 1년 전, 2025.02.12. 이전부터 계속 거주)' (2026000018 제주, 2026-10-02 MASTER QA)
+        sd = re.search(r"\((?:[^()\d]{0,30}\d?[^()\d]{0,10},\s*)?(\d{4})\.(\d{1,2})\.(\d{1,2})\.?\s*\)?(?:\s*이전부터)?", hpart)
         out = {"area": area, "months": months, "since": _ymd(*sd.groups()) if (sd and months) else None}
         if m.group(1):   # 기타경기 칸
             g = re.search(r"경기도 (\d+)개월 이상 거주자 ?\((\d{4})\.(\d{1,2})\.(\d{1,2})", rest)

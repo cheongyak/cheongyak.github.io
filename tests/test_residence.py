@@ -46,7 +46,7 @@ def test_residence_quotes_in_originals():
 def test_every_evidence_notice_reads_or_none():
     """모아 둔 공고문 56건 모두 오류 없이 읽고, 읽은 값은 형식이 맞다 (못 읽으면 None — 추측하지 않음)."""
     n = 0
-    for f in sorted((ROOT / "evidence" / "notices").glob("*.txt")):
+    for f in sorted([*(ROOT / "evidence" / "notices").glob("*.txt"), *(ROOT / "evidence" / "qa" / "notices").glob("*.txt")]):   # 지난 공고 원문도 (2026-10-02)
         r = notice_pdf.parse_residence(f.read_text(encoding="utf-8"))
         if r is None:
             continue
@@ -278,3 +278,8 @@ def test_town_supply_stages_in_originals():
         t = re.sub(r"\s+", "", text(no))
         assert "1단계우선공급" in t and "2단계일반공급" in t and "3단계추첨공급" in t, no
         assert re.search(r"주택형(\(타입\))?별공급량의30%", t) and re.search(r"주택형(\(타입\))?별공급량의60%", t), no
+
+
+def test_since_with_explanation_in_parens():
+    """'(공고일로부터 1년 전, 2025.02.12. 이전부터 계속 거주)' — 괄호 안 설명 뒤 날짜도 읽는다 (2026000018, MASTER QA 원문 대조)."""
+    assert notice_pdf.parse_residence(text("2026000018")) == GOLD["2026000018"]["fields"]["residence"]

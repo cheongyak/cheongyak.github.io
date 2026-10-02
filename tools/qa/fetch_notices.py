@@ -3,7 +3,9 @@ evidence/qa/notices/<번호>.txt 로 남긴다(이미 있으면 건너뜀). 서�
 import json
 from pathlib import Path
 
-from app import notice_pdf
+import httpx
+
+from app import lh, notice_pdf
 
 ROOT = Path(__file__).resolve().parents[2]
 IDS = ROOT / "evidence" / "qa" / "notice-ids.txt"
@@ -29,6 +31,14 @@ def main() -> None:
             log.append(f"{no} 보관함에 없음")
             continue
         text, msg, pdf = notice_pdf.fetch_notice_text(x["url"])
+        if not text and x.get("house_dtl") == "국민":   # LH 공고는 청약홈에 PDF 가 없어 LH청약플러스에서 받는다 (app/lh.py, 2026-10-02)
+            try:
+                with httpx.Client(timeout=httpx.Timeout(30, connect=10), follow_redirects=True, headers=notice_pdf.UA) as http:
+                    raw, msg2, pdf = lh.fetch_lh_notice(x["name"].strip(), http)
+                text = notice_pdf.pdf_text(raw) if raw else None
+                msg = msg2 if not raw else msg
+            except Exception as e:
+                msg = f"LH 실패 {e.__class__.__name__}"
         if not text:
             log.append(f"{no} 실패 {msg[:80]}")
             continue
