@@ -4,6 +4,16 @@
 2026-09-29 12:55 이전 항목은 규칙을 만들기 전 작업을 커밋 기록으로 정리한 것이라 백업 브랜치가 없어요.
 그 시점으로 되돌릴 때는 해당 커밋 번호로 `git revert` 를 써요.
 
+## 2026-10-02 20:47 · v1.44.0 새 공고 알림 — 10월 9일 시행일에 저절로 공개
+- 요청: 미뤄 둔 일 1번 — 10-09 방침·약관 시행일에 새 공고 알림 공개 (청약봇은 chat_off 로 운영자가 끈 상태라 이번엔 알림만, 청약봇은 운영자 확인 뒤)
+- 변경: 화면 pushDateOk() — push_legal_date 가 있으면 그날 0시(한국) 전에는 web_push 스위치가 켜져 있어도 공개하지 않음(미리보기 기기는 그대로). config web_push true, push_legal_date "2026-10-09", push_preview 는 시행일 뒤 정리.
+  보내기(수집 pipeline)는 원래 web_push 또는 push_preview 로 보냄 — 시행일 전 구독자는 미리보기 기기뿐
+- 파일: docs/index.html, docs/config.json, docs/changelog.json, VERSIONS.md
+- 확인: 시계 고정 브라우저 390px 라이트·다크 — 10-08 12:00 pushOn false·알림 탭 없음, 10-09 00:30 pushOn true·알림 탭 보임, 화면 오류 0. 판정 사례 365/365, engine_lock 그대로, pytest
+- 기능: web_push
+- 버전: v1.44.0
+- 백업: backup/20261002-2047-pushdate
+
 ## 2026-10-02 20:45 · 주간 블라인드 표본 예약 작업
 - 요청: 주간 블라인드 표본을 매주 자동으로 (사용자 '그렇게 진행해')
 - 변경: 예약 작업 '청약패스 주간 블라인드 표본' — 매주 월 09:59(한국), 새 세션이 저장소를 받아 blind_sample pick → 블라인드 서브 에이전트 → compare → 일치 값 golden 추가·커밋 → 운영자에게 보고(앱 오류는 고치지 않고 보고만). HANDOFF 갱신

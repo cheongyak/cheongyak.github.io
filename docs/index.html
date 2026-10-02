@@ -3573,8 +3573,10 @@ function vMe(){
    아이폰은 iOS 16.4 이상에서 홈 화면에 추가한 앱으로 열었을 때만 웹 푸시를 받을 수 있다. */
 /* 미리보기 (push_preview): 스위치를 켜기 전에 운영자가 실제 휴대폰으로 확인하는 용도. ?push=preview 로 연 기기에서만 알림 화면이 보인다 (?push=off 로 해제) */
 try { const q = new URLSearchParams(location.search).get('push'); if (q === 'preview') localStorage.setItem('cy-push-preview', '1'); else if (q === 'off') localStorage.removeItem('cy-push-preview'); } catch(e) {}
-const pushPreview = () => { try { return !!CONFIG.push_preview && !on('web_push') && localStorage.getItem('cy-push-preview') === '1'; } catch(e) { return false; } };
-const pushOn = () => LEGAL_AS || (!!CONFIG.push_api && (on('web_push') || pushPreview()));
+/* 시행일 (push_legal_date): 방침·약관 개정 시행일 전에는 스위치(web_push)가 켜져 있어도 모두에게 보이지 않는다 — 시행일 0시(한국)부터 저절로 공개 (2026-10-02, 시행 2026-10-09) */
+const pushDateOk = () => !CONFIG.push_legal_date || TODAY >= CONFIG.push_legal_date;
+const pushPreview = () => { try { return !!CONFIG.push_preview && !(on('web_push') && pushDateOk()) && localStorage.getItem('cy-push-preview') === '1'; } catch(e) { return false; } };
+const pushOn = () => LEGAL_AS || (!!CONFIG.push_api && ((on('web_push') && pushDateOk()) || pushPreview()));
 /* 청약봇 '이 공고 물어보기' (기능: chatbot) — 방침·약관 문구는 이 값이 참일 때만 들어간다 */
 /* 서버 상태 (운영자 '!오픈'·'!점검'): 방침 시행일(chat_legal_date)이 지났고 서버가 열려 있으면 스위치와 상관없이 켠다. 점검 중이면 이용자에게는 버튼을 숨긴다 */
 let CHAT_HEALTH = null;
