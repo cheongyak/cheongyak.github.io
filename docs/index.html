@@ -3434,7 +3434,7 @@ function chatRender(){
     const last = [...CHAT.msgs].reverse().find(m => m.ans), asking = last && last.ans.ask;
     body = `<div class="chatlog" id="chatlog">${empty}${msgs}${wait}</div>
       <form class="chatform"><textarea id="chatq" rows="1" maxlength="300" placeholder="${asking ? '되물음에 답해 주세요' : FAB ? '청약에 대해 물어보세요' : '이 공고에 대해 물어보세요'}" ${CHAT.busy ? 'disabled' : ''}></textarea><button class="btn sm" type="submit" ${CHAT.busy ? 'disabled' : ''}>보내기</button></form>
-      <p class="small muted chatfoot">${CHAT.remaining != null ? '오늘 남은 질문 ' + CHAT.remaining + '번 · ' : '하루 2번까지 · '}되물음에 답하는 건 세지 않아요 · 대화는 저장하지 않아요</p>`;
+      <p class="small muted chatfoot">${chatPreview() && chatCode() ? '운영자 · 질문 제한 없음 · ' : CHAT.remaining != null ? '오늘 남은 질문 ' + CHAT.remaining + '번 · ' : '하루 2번까지 · '}되물음에 답하는 건 세지 않아요 · 대화는 저장하지 않아요</p>`;
   }
   el.innerHTML = `<div class="chatdim" data-chat="close"></div><section class="chatpanel" role="dialog" aria-modal="true" aria-label="이 공고 물어보기">${head}${body}</section>`;
   const log = el.querySelector('#chatlog'); if (log) log.scrollTop = log.scrollHeight;

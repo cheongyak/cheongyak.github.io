@@ -250,6 +250,17 @@ test('!무료: 운영자 질문만 AI 안 부르고 횟수 제한 없음, !AI �
   assert.ok(calls > 0, '!AI 뒤에는 운영자도 AI');
 });
 
+test('운영자는 AI 모드에서도 하루 질문 제한 없음, 다른 기기는 그대로 2번', async () => {
+  const kv = new MemKV(), env = { CHAT_PREVIEW_CODE: 'op-code-123', CHAT_OPEN: '1' };
+  for (let i = 0; i < 5; i++) {
+    const r = await handleChat(env, input('kakao-mom-1', { preview: 'op-code-123', conversation_id: 'op' + i, ip: '1.1.1.1' }), { kv, evidence: index });
+    assert.equal(r.status, 200, '운영자 ' + i);
+  }
+  let ok = 0;
+  for (let i = 0; i < 4; i++) { const r = await handleChat(env, input('kakao-mom-1', { anon_id: 'user-abcd-1', conversation_id: 'u' + i, ip: '2.2.2.2' }), { kv, evidence: index }); if (r.status === 200) ok++; }
+  assert.equal(ok, 2, '일반 이용자는 하루 2번');
+});
+
 test('같은 인터넷 주소는 기기 번호를 바꿔도 하루 3번까지', async () => {
   const kv = new MemKV(); let ok = 0;
   for (let i = 0; i < 5; i++) { const r = await handleChat(OPEN, input('kakao-mom-1', { anon_id: 'device-' + i + '-xxxx', conversation_id: 'cv' + i }), { kv, evidence: index }); if (r.status === 200) ok++; }

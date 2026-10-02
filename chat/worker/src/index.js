@@ -45,13 +45,13 @@ export async function handleChat(env, input, deps = {}) {
   const mode = kv ? await kv.get('mode') : null;   // 'maint' | 'open' | null — 운영자가 '!점검'·'!오픈'으로 바꾼다
   // 운영자 명령 (미리보기 코드가 맞을 때만): !점검 = 점검 모드(모두에게 멈춤), !오픈 = 다시 켜기(공개 열기). 질문 횟수에 세지 않는다
   const cmd = question.trim();
-  // !무료 = 운영자 시험 모드(운영자 질문만 AI 를 부르지 않고 고정 문구로 답, 하루 횟수 제한 없음), !AI = 운영자도 실제 AI·횟수 제한으로 돌아감
+  // !무료 = 운영자 시험 모드(운영자 질문만 AI 를 부르지 않고 고정 문구로 답, 하루 횟수 제한 없음), !AI = 운영자도 실제 AI (운영자는 횟수 제한 없음)
   const lc = cmd.toLowerCase();
   if (isOp && (cmd === '!무료' || lc === '!ai' || cmd === '!유료')) {
     // 무료 모드 여부는 서버(KV)에 두지 않고 운영자 기기가 기억해 질문마다 free 로 보낸다 — KV 는 지운 값을 최대 60초 동안 다시 읽을 수 있어 !AI 직후 질문이 무료로 처리되던 문제(10-02)
     return { status: 200, body: { kind: 'admin', mode: mode || 'preview', opfree: cmd === '!무료', message: cmd === '!무료'
       ? '운영자 무료 시험 모드예요. 내 질문은 AI 를 부르지 않고(토큰 0) 기본 답으로, 횟수 제한 없이 받아요. 다른 이용자에게는 영향 없어요. 실제 AI 로 돌아가려면 !AI'
-      : '운영자도 실제 AI 답으로 돌아왔어요(토큰 사용, 하루 2건 제한). 무료 시험은 !무료' } };
+      : '운영자도 실제 AI 답으로 돌아왔어요(토큰 사용, 운영자는 횟수 제한 없음). 무료 시험은 !무료' } };
   }
   const opFree = isOp && input.free === true;
   if (isOp && (cmd === '!점검' || cmd === '!오픈' || cmd === '!상태')) {
@@ -66,7 +66,8 @@ export async function handleChat(env, input, deps = {}) {
   // 공개 전(CHAT_OPEN 이 '1' 도 아니고 !오픈 도 안 함)에는 미리보기 코드를 아는 운영자만
   if (env.CHAT_OPEN !== '1' && mode !== 'open' && !isOp) return { status: 403, body: { closed: true, message: '아직 준비 중인 기능이에요.' } };
 
-  const lim = opFree ? { ok: true, followUp: false, followN: 0, remaining: null } : await checkLimit(kv, { anonId: anon_id, ip: ip || '', conversationId: conversation_id, salt: env.CHAT_STATS_TOKEN || '' });
+  // 운영자(미리보기 코드가 맞는 기기)는 하루 질문 제한을 받지 않는다 (10-02 사용자 요청). AI 비용은 월 한도(CHAT_MONTH_USD)로만 막는다
+  const lim = isOp ? { ok: true, followUp: false, followN: 0, remaining: null } : await checkLimit(kv, { anonId: anon_id, ip: ip || '', conversationId: conversation_id, salt: env.CHAT_STATS_TOKEN || '' });
   if (!lim.ok) { await bump(kv, { ['limited_' + lim.reason]: true }); return { status: 429, body: { limited: lim.reason, message: LIMIT_TEXT[lim.reason] } }; }
 
   const q = redact(question);
