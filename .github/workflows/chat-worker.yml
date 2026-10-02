@@ -32,6 +32,8 @@ jobs:
           node-version: "22"
       - name: 청약봇 검증 (검사기·제한·가림·잠금 시험, 골든셋)
         working-directory: chat
+        env:
+          ANTHROPIC_API_KEY: ""   # 배포 때 골든셋 270문항을 실제 Claude 로 돌리지 않는다(비용·시간). 실제 답 시험은 chat-probe.yml
         run: |
           node --test test/chat.test.mjs
           node golden/eval.mjs
