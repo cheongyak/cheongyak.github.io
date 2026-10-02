@@ -93,6 +93,11 @@ description: 청약패스(cheongyakpass.kr, 저장소 cheongyak/cheongyak.github
 - 공공임대 공고는 공고문 <표4> 금액이 공공분양 '3인 이하' 표와 다르다 — 금액은 공고문 표 그대로(pub_limits.amounts·sp), 공통 표(spBase)를 쓰지 않는다. 정답 데이터는 <표5> 퍼센트 표에서 따로 계산해 대조.
 - 원자료(국토부·청약홈)는 작업 환경에서 받을 수 없다. 원자료 대조 도구(market_check)는 Actions 에서만 돈다 — 로컬은 원자료 XML 모양 테스트로 계산만 확인.
 
+- **모름(null)을 거짓으로 읽지 않는다** (2026-10-02 과천 벨라르테: `L.residenceDuty ? … : '실거주 의무 없음'` 이 null 을 '없음'으로, 다른 곳은 '있을 수 있음'으로 — 한 값이 세 가지 사실이 됨).
+  화면에서 사실 필드는 `== null`(모름) · `=== 0/false`(없음) · 값(있음)을 따로 쓰고, 모름은 결과(전세·자금·판정)까지 '확인 필요'로 전파한다.
+- 교차 규칙 검사 `node tools/qa/cross_rule.cjs`(규칙·근거·의존 그래프: evidence/qa/CROSS_RULES.md). 새 기능·새 필드를 만들면 '이 결과를 무효화할 수 있는 조건'을 규칙으로 추가한다(완료 조건).
+- pytest 가 docs/chat-notice/*.json 을 다시 쓴다 — ship.sh 가 되돌리게 했지만, 손으로 커밋할 때도 pull 전에 `git checkout -- docs/chat-notice`.
+
 ## 5. 자주 하는 답
 
 - "자동으로 돌아가?" → 수집은 GitHub Actions 가 매일 05:30, 사이트는 GitHub Pages. Claude 세션과 무관하게 돈다. 실패·불일치는 이슈로 메일이 간다.

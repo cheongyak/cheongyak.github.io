@@ -4,6 +4,17 @@
 2026-09-29 12:55 이전 항목은 규칙을 만들기 전 작업을 커밋 기록으로 정리한 것이라 백업 브랜치가 없어요.
 그 시점으로 되돌릴 때는 해당 커밋 번호로 `git revert` 를 써요.
 
+## 2026-10-02 18:15 · v1.42.4 교차 규칙(Cross-Rule) 모순 검사
+- 요청: 사용자 추가 MASTER QA 'CROSS-RULE CONSISTENCY' — 값마다가 아니라 값·규칙·계산·화면 문구가 함께 모순되지 않는지 검사 체계
+- 변경: tools/qa/cross_rule.cjs — 지금 공고 + 판정 사례 고정 공고 201주택형 × 판정 사례 조건 40 + 유주택 2, 규칙 20개(LEASE·DUTY·FUND·ELIG·UI·STATUS), 위반마다 rule_id·심각도·조건·실제·기대·충돌 필드·근거.
+  공고 상태 NORMAL/WARNING/CONFLICT/UNKNOWN. evidence/qa/CROSS_RULES.md — 기존 QA 가 못 잡은 이유(A~G)·구조 원인 4가지·두 계층·규칙 표·전세 의존 요소(근거)·의존 그래프·모순 행렬·회귀 ID REG-CROSS-001~010·출시 차단·새 기능 완료 조건·못 하는 것.
+  collect·verify Actions 에 넣고 verify-status qa.cross_rule_fails(CRITICAL·HIGH)로 차단. ship.sh 가 pytest 뒤 docs/chat-notice 를 되돌림(pull 멈춤). HANDOFF·스킬 갱신
+- 파일: tools/qa/cross_rule.cjs, evidence/qa/{CROSS_RULES.md,cross-rule.json}, .github/workflows/{collect,verify}.yml, tools/verify_status.py, tools/qa/ship.sh, docs/changelog.json, VERSIONS.md, HANDOFF.md, .claude/skills/cheongyakpass-ops/SKILL.md
+- 확인: v1.42.2 화면으로 돌리면 1,048건(LEASE-001 76 · STATUS-001 972) 잡음, v1.42.3 화면 0건(검사 60,888회, UNKNOWN 38 = 거주의무 아직 모름 — 수집이 새 규칙으로 다시 읽으면 줄어듦), verify_status 통과
+- 기능: 없음(수정)
+- 버전: v1.42.4
+- 백업: backup/20261002-1759-duty
+
 ## 2026-10-02 17:59 · v1.42.3 실거주 의무 '모름'을 '없음'으로 보이던 것·마감 공고 상세 (사용자 제보)
 - 요청: 과천 푸르지오 벨라르테 99B 자금 플랜 — 칩 '분양가상한제'·'실거주 의무 없음' + 주의 '실거주 의무가 있을 수 있어요' + '전세 조건부'. 서로 모순 (사용자 추가 MASTER QA 'Cross-Rule Consistency' 첨부)
 - 원문: 2026930037 1쪽 단지 주요정보 표 '전매제한 거주의무기간 분양가상한제 택지유형 / … 현재 전매제한 도과 · 없음 · 적용 · 공공택지' → 거주의무기간 없음(최초 공고 2020.07).

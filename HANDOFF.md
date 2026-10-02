@@ -53,6 +53,10 @@ GitHub Secrets (이름만): `DATA_GO_KR_KEY`, `NCP_MAPS_CLIENT_ID`, `NCP_MAPS_CL
 
 ## 진행 중인 일 (2026-10-02 기준, 최신이 위)
 
+-6. **교차 규칙(Cross-Rule) 검증 (2026-10-02 저녁, 사용자 추가 명세 + 과천 푸르지오 벨라르테 제보)** — v1.42.3 고침(거주의무 모름 → '확인 필요' 전파, 공고문 단지 주요정보 표 거주의무기간, 마감 공고 상세 '접수 마감', 카드 '자금 가능(전제)'),
+   v1.42.4 tools/qa/cross_rule.cjs(공고 201 × 조건 42, 6만 회, CRITICAL·HIGH 있으면 verify-status 실패) · evidence/qa/CROSS_RULES.md(기존 QA 한계 분석·규칙 표·의존 그래프·모순 행렬·회귀 ID·완료 조건).
+   **사용자가 MASTER QA 결과 피드백을 따로 주기로 함 — 기다리는 중.** 남은 것: 챗봇·지난 공고 화면은 교차 검사 밖(CROSS_RULES.md 10항), 거주의무 모름 공고(UNKNOWN 38 → 수집 뒤 줄어드는지 확인).
+
 -5. **MASTER QA (2026-10-02, 사용자가 첨부한 45항 QA 명세) — 끝난 것과 남은 것**
    - 올린 것: v1.39.0 지난 공고(참고용)·v1.39.1 1년 보관(tools/history/window.py)·v1.40.0 공공임대 일반공급(rental_rules)·v1.40.1 화면마다 다른 판정 통일(verdict_one, 사용자 제보 과천 84D)·
      v1.41.0 재공급 특별공급(resupply_special)·v1.41.1 깨진 저장 조건 정리(profile_clean)·v1.42.0 공공임대 특별공급(rental_special)·v1.42.2 특공 뽑는 방식·단계 세대수 표시(자체 점검). v1.42.1 은 번호만 건너뜀(VERSIONS.md).
