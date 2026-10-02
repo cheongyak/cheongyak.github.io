@@ -341,3 +341,14 @@ def test_pdf_text_reads_all_pages_with_both_tools():
     data = (Path(__file__).parent.parent / "evidence" / "law" / "byeolpyo_1.pdf").read_bytes()
     a, b = notice_pdf.pdf_text(data), notice_pdf.pdf_text_alt(data)
     assert notice_pdf.PAGE_CAP >= 200 and len(a) > 500 and (b is None or len(b) > 500)
+
+
+def test_pdf_text_alt_is_safe_from_many_threads():
+    """수집은 공고문을 6개 스레드로 받는다. pypdfium2 는 동시에 쓰면 깨져(2026-10-02 수집 실패) 잠금으로 한 번에 하나씩 — 여러 스레드에서 같은 결과."""
+    from concurrent.futures import ThreadPoolExecutor
+    from pathlib import Path
+    data = (Path(__file__).parent.parent / "evidence" / "law" / "byeolpyo_1.pdf").read_bytes()
+    if notice_pdf.pdf_text_alt(data) is None:
+        return
+    with ThreadPoolExecutor(8) as ex:
+        assert len(set(ex.map(lambda _: notice_pdf.pdf_text_alt(data), range(60)))) == 1

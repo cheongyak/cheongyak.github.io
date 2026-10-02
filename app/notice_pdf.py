@@ -42,6 +42,8 @@ def find_pdf_links(html: str, base: str) -> list[str]:
 
 PAGE_CAP = 300   # 예전 80쪽 — 고덕 A12BL·A65BL 93쪽·두정역 83쪽 공고문 뒤쪽(최대 13쪽 2만여 자)이 빠졌다 (2026-10-02 tools/qa/pdf_audit)
 ALT_TEXT: dict[str, str] = {}   # PDF 주소 → 두 번째 도구(pypdfium2)로 읽은 글 (pipeline 이 값 보완·대조에 씀)
+import threading
+_PDFIUM_LOCK = threading.Lock()   # pypdfium2(PDFium)는 여러 스레드에서 동시에 쓰면 프로세스가 죽는다 — 수집은 공고문을 6개 스레드로 받는다 (2026-10-02 수집 실패)
 
 
 def pdf_text(data: bytes) -> str:
@@ -57,11 +59,15 @@ def pdf_text_alt(data: bytes) -> Optional[str]:
         import pypdfium2 as pdfium
     except Exception:
         return None
-    try:
-        doc = pdfium.PdfDocument(data)
-        return "\n".join((doc[i].get_textpage().get_text_range() or "") for i in range(min(len(doc), PAGE_CAP)))
-    except Exception:
-        return None
+    with _PDFIUM_LOCK:
+        try:
+            doc = pdfium.PdfDocument(data)
+            try:
+                return "\n".join((doc[i].get_textpage().get_text_range() or "") for i in range(min(len(doc), PAGE_CAP)))
+            finally:
+                doc.close()
+        except Exception:
+            return None
 
 
 def fetch_notice_text(page_url: str, client: Optional[httpx.Client] = None) -> tuple[Optional[str], str, Optional[str]]:
