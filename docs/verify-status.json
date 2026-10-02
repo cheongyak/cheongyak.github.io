@@ -1,10 +1,10 @@
 {
- "at": "2026-10-02 14:23",
+ "at": "2026-10-02 15:23",
  "ok": true,
  "collect_run": "2026-10-02 · 공고 192건",
  "judge": {
-  "total": 261,
-  "passed": 261,
+  "total": 298,
+  "passed": 298,
   "failed": []
  },
  "crosscheck": {
@@ -13,5 +13,12 @@
  },
  "golden": {
   "mismatches": []
+ },
+ "qa": {
+  "gate": true,
+  "supply_type_fails": 0,
+  "invariant_violations": 0,
+  "supply_type_at": "2026-10-02",
+  "invariants_at": "2026-10-02"
  }
 }
