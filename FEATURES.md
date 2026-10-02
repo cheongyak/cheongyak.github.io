@@ -143,7 +143,7 @@
 | `profile_clean` | 기기에 저장된 내 조건의 깨진 값(형식 틀린 날짜·숫자 아닌 금액 등)을 읽을 때 정리 | 화면 전체 | 끄면 저장값 그대로(깨진 값이면 멈춤·NaN 가능) | 81baae0 | backup/20261002-1630-clean |
 | `rental_special` | 공공임대 특별공급 유형별 소득표(공고문 <표4> 금액 그대로, notice_pdf._rental_sp_table)와 총자산 기준으로 신혼부부·신생아·생애최초·노부모부양·다자녀 판정 | 수집·특별공급 칸·카드·상세 | 끄면 공공임대 특공은 확인 필요 | c9032ad | backup/20261002-1720-rentsp |
 | `judge_scope` | 판정 지원 범위 full/partial/none — none(임대인데 자격표 못 읽음·국민/민영 구분 없음 등)이면 분양 규칙의 가능·불가를 확정으로 쓰지 않고 확인 필요 + 이유 | 카드·상세·체크리스트·특별공급 | 끄면 분양 규칙 결과를 그대로 씀 | 52fc78b | backup/20261002-1903-scope |
-| `pdf_dual_read` | 공고문 PDF 를 pypdf 와 pypdfium2 두 도구로 읽어 한쪽이 놓친 값을 채우고, 둘이 다르면 데이터 확인 필요(conflicts) | 수집 | 끄면 pypdf 하나로만 | (커밋 후 기입) | backup/20261002-2007-pdf2 |
+| `pdf_dual_read` | 공고문 PDF 를 pypdf 와 pypdfium2 두 도구로 읽어 한쪽이 놓친 값을 채우고, 둘이 다르면 데이터 확인 필요(conflicts) | 수집 | 끄면 pypdf 하나로만 | 8aaa323 | backup/20261002-2007-pdf2 |
 
 `naver_map`·`nearby`·`analytics` 는 한 커밋(147fa99)에 함께 들어갔다. 이 셋 중 하나만 없애려면 revert 대신 스위치로 끄거나,
 해당 부분만 지우는 새 커밋을 만든다.
