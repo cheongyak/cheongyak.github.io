@@ -4,6 +4,14 @@
 2026-09-29 12:55 이전 항목은 규칙을 만들기 전 작업을 커밋 기록으로 정리한 것이라 백업 브랜치가 없어요.
 그 시점으로 되돌릴 때는 해당 커밋 번호로 `git revert` 를 써요.
 
+## 2026-10-02 20:51 · E2E·스냅샷을 매 수집·화면 변경 검사에 넣음
+- 요청: 미뤄둔 일 8번 — E2E·스냅샷을 CI에 넣기
+- 변경: collect.yml·verify.yml 에 `tools/qa/snapshot.cjs`(화면 글자 스냅샷, 고정 공고·고정 날짜)와 `tools/qa/e2e.cjs`(사용자 흐름 32개 + 저장 조건 퍼징) 단계 추가, 결과 evidence/qa/snapshot.json·e2e.json 커밋. verify_status 가 snapshot diffs·e2e fail 을 qa_ok 에 넣음(하나라도 있으면 Actions 실패·이슈). 시간 제한 collect 30→40분, verify 15→25분. verify.yml 실행 조건에 두 도구·tests/qa/** 추가
+- 파일: .github/workflows/collect.yml, .github/workflows/verify.yml, tools/verify_status.py, evidence/qa/snapshot.json
+- 확인: 로컬 스냅샷 차이 0, E2E 32개 PASS 32·FAIL 0, pytest 통과
+- 백업: backup/20261002-2051-e2eci
+- 기능: 없음(수정)
+
 ## 2026-10-02 20:49 · v1.45.0 주택형 칩 면적대 줄 나누기
 - 요청: 미뤄 둔 일 4번 — 주택형 칩이 많은 공고(7개 이상) 면적대 묶음
 - 변경: typeChips — 주택형 7개 이상이고 면적대가 둘 이상이면 '60㎡ 이하 · 60~85㎡ · 85㎡ 초과' 줄마다 칩(줄마다 옆으로 넘김, 줄 앞에 면적대·개수). 경계 60·85㎡는 청약 규칙이 갈리는 면적(공공 소득 기준·민영 가점제 비율). 목록 묶음 카드·상세 주택형 고르기 둘 다. 스위치 type_bands
