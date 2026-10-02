@@ -70,6 +70,8 @@ GitHub Secrets (이름만): `DATA_GO_KR_KEY`, `NCP_MAPS_CLIENT_ID`, `NCP_MAPS_CL
    근거 = docs/chat-law.json(규칙 조문·별표, chat/tools/build_law.py) + docs/chat-notice/<번호>.json(공고문 전체 조각, 수집 때 저장 — chatbot_notice). 서버 retrieve.js 가 낱말·핵심 조문으로 고름, 프롬프트 v2.
    사용자 지적: '서류 질문에 공고문 참고하라'는 답 금지 → 공고문 조각에서 서류 이름을 정리. 실제 AI 답 품질은 사용자 미리보기로 확인 중 — 이상하면 retrieve.js(SYN·PIN)·prompt.js 를 고치고 chat.test·chatflow 로 확인.
 -3. **청약봇 미리보기 연결됨 (2026-10-02, v1.36.2)** — 서버 https://cheongyakpass-chat.ckwlsgur.workers.dev (chat/deployed.json, AI 키 있음), config chat_api 설정, 스위치 chatbot false.
+   **10-02 막힘: Claude 호출 400(키가 워크스페이스에 속하지 않음).** 사용자가 Console 워크스페이스에서 새 키를 만들어 Secret ANTHROPIC_API_KEY 교체 → chat-worker 재배포 → chat-probe(chat/probe_questions.json 고치면 실행)로 diag.attempts ok 확인.
+   다음 할 일 후보: '신청 가능한 공고 찾아줘' 류 질문은 서버에 공고 목록이 없어 답 못 함 → 화면 판정 요약(내 조건 기준 신청 가능 공고)을 함께 보내는 안 제안함.
    사용자는 휴대폰에서 cheongyakpass.kr/?chat=preview → 공고 상세 '이 공고 물어보기' → 미리보기 코드 입력. 운영 명령(미리보기 코드 기기에서 대화창에): !점검(모두 멈춤) · !오픈(서버 열기, 방침 시행일 chat_legal_date 이후면 모두에게 버튼) · !상태. · !무료(운영자 질문만 AI 안 부름·토큰 0·횟수 제한 없음, 10-02 사용자가 켜 둘 예정) · !AI(운영자도 실제 AI·하루 2건으로 복귀).
    제한: 기기 2번·IP 3번/일, 사이트 100번/일, 서버 월 추정 $18(CHAT_MONTH_USD) 넘으면 AI 없이 기본 답. 사용자 콘솔 월 한도 $20 (Anthropic 쪽, 여기서 확인 불가).
    10-09 이후 공개하려면: config chat_legal_date "2026-10-09" 넣고 미리보기에서 !오픈 (또는 스위치 chatbot true). 하루 합계는 run-log [청약봇].

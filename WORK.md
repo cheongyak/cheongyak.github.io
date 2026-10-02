@@ -4,6 +4,16 @@
 2026-09-29 12:55 이전 항목은 규칙을 만들기 전 작업을 커밋 기록으로 정리한 것이라 백업 브랜치가 없어요.
 그 시점으로 되돌릴 때는 해당 커밋 번호로 `git revert` 를 써요.
 
+## 2026-10-02 09:12 · 청약봇 AI 답이 안 나가던 진짜 원인 확인 (키 설정)
+- 요청: AI 모드로 물어도 법령 원문만 나옴
+- 원인: chat-probe 실제 시험 결과 Claude 호출이 매번 400 — "This API key is not scoped to a workspace, so this request must include the anthropic-workspace-id header".
+  등록된 ANTHROPIC_API_KEY 가 워크스페이스에 속하지 않은 키라 호출이 거절됨 → 모든 답이 기본 답(법령 원문)으로 대체. 지금까지 AI 토큰 사용 0
+- 변경: llm.js 가 실패 시 Anthropic 오류 종류·문구를 진단에 남김(키 없음). 조치는 사용자: Console 워크스페이스 안에서 새 API 키 → GitHub Secret ANTHROPIC_API_KEY 교체 → 재배포
+- 파일: chat/worker/src/llm.js, chat/probe_questions.json, evidence/chat-probe/latest.json(Actions)
+- 확인: node --test chat 37개, chat-probe 결과
+- 기능: 없음(수정·운영 도구)
+- 백업: backup/20261002-0859-chatdiag
+
 ## 2026-10-02 09:05 · 청약봇 !AI 직후에도 무료로 답하던 문제 고침
 - 요청: 무료 모드·AI 모드로 같은 질문을 했는데 답이 똑같다
 - 원인: 운영자 무료 모드를 서버 KV(opfree)에 저장했는데, Cloudflare KV 는 지운 값을 최대 60초 동안 다시 읽을 수 있음 → !AI 바로 뒤 질문도 무료(AI 안 부름)로 처리.
