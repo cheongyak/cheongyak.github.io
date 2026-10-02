@@ -28,6 +28,8 @@ def listing_checks(L: Listing, today: date) -> list[str]:
     for (k1, v1), (k2, v2) in zip(seq, seq[1:]):
         if v1 > v2:
             out.append(f"날짜 순서가 이상해요 ({k1} {v1} > {k2} {v2})")
+    for c in getattr(L, "notice_conflicts", None) or []:   # 공고문 안 두 곳의 값이 다름 (notice_pdf.parse_notice conflicts)
+        out.append("공고문 안에서 값이 서로 달라요 — " + c)
     # 공공분양 전용 60㎡ 이하 일반공급은 소득·자산 기준이 있다. 공고문에서 못 읽으면 화면은 '확인 필요'로 둔다 (기능: pub_general_limits)
     if getattr(L, "rental", False) and not getattr(L, "pub_limits", None):   # 공공임대는 면적과 관계없이 소득·총자산 기준이 있다 (기능: rental_rules)
         out.append("공공임대 일반공급 소득·총자산 기준을 공고문에서 읽지 못했어요 (화면은 확인 필요)")

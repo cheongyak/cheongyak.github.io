@@ -4,6 +4,19 @@
 2026-09-29 12:55 이전 항목은 규칙을 만들기 전 작업을 커밋 기록으로 정리한 것이라 백업 브랜치가 없어요.
 그 시점으로 되돌릴 때는 해당 커밋 번호로 `git revert` 를 써요.
 
+## 2026-10-02 20:07 · v1.43.1 공고문 읽기 보강 — 두 도구 읽기·쪽수 상한·두 곳 값 대조·주간 블라인드 표본
+- 요청: 공고문에서 짧게 가져오는 등 잘못 가져오는 경우 점검 (제안 1~4단계 진행)
+- 점검 결과(pdf_audit, Actions 실제 PDF 50공고): ① 쪽수 상한 80쪽 — 고덕 A12BL·A65BL 93쪽(뒤 13쪽 2만여 자)·두정역 83쪽 잘림 ② pypdf 가 글자 순서를 뒤섞어 값을 놓침 — 과천 벨라르테·라비엔오 '재당첨제한 10년'을 pypdfium2 는 읽음
+  ③ 도구 오탐: LH 공고 6건 'PDF 없음'(수집은 LH청약플러스에서 받음), 확장비 차이(여러 주택형 공고는 원래 안 씀) → 점검 도구 고침. 첨부 고르기 문제·필수 단원 누락 0
+- 변경: notice_pdf PAGE_CAP 300, pdf_text_alt(pypdfium2) + merge_alt — 한쪽만 읽힌 값은 채우고 둘 다 다르면 conflicts(데이터 확인 필요), run-log [공고문·보완]. 스위치 pdf_dual_read. requirements pypdfium2.
+  공고문 두 곳 대조: 1쪽 '단지 주요정보' 표 ↔ 본문(거주의무·분양가상한제·재당첨) 다르면 conflicts → Listing.notice_conflicts → validate '공고문 안에서 값이 서로 달라요'(원문 101건 지금 0건). PARSER_VERSION 19.
+  tools/qa/pdf_audit.py 보강(LH 경로, 확장비 오탐 제외, 수집과 같은 두 도구 합친 값으로 비교). tools/qa/blind_sample.py(pick·compare) + 2026-W40 표본 5개(민영·공공·신혼희망타운·무순위·재공급) — 앱 값을 보지 않은 검토자 답 38개: 읽기 오류 0, 표기 차이 3(도구 정규화), 정의 차이 1(신혼희망타운 본청약 78을 특공으로 보는지 — 청약홈 SPSPLY 값, 오류 아님)
+- 파일: app/notice_pdf.py, app/pipeline.py, app/models.py, app/validate.py, requirements.txt, docs/config.json, tests/test_notice_and_notify.py, tests/test_residence.py, tests/golden/notices.json(블라인드 일치 값 13개, 930036·930037 재당첨 10년), tools/qa/pdf_audit.py, tools/qa/blind_sample.py, evidence/qa/blind/{2026-W40.json,report.json}, docs/changelog.json, VERSIONS.md
+- 확인: pytest 168, 정답 데이터 ↔ 지금 수집 값 불일치 0(930036·937 재당첨은 이 커밋 수집에서 두 도구 읽기로 채워져야 함 — 확인 예정)
+- 기능: pdf_dual_read
+- 버전: v1.43.1
+- 백업: backup/20261002-2007-pdf2
+
 ## 2026-10-02 19:57 · 공고문 PDF 읽기 점검 도구 (pdf_audit)
 - 요청: 공고문에서 짧게 가져오는 등 잘못 가져오는 경우가 있는 것 같다 — 제대로 파싱하는지 점검 (제안한 점검 1·2단계)
 - 변경: tools/qa/pdf_audit.py — 지금 공고마다 공고 화면의 PDF 첨부를 모두 받아 (1) 수집이 고르는 첨부(앞에서 첫 500자 넘는 PDF)보다 긴 모집공고문이 있는지

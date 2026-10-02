@@ -67,6 +67,7 @@ class Listing(BaseModel):
     price_cap: bool = False
     residence_duty: Optional[int] = 0        # 년. None 이면 공고문 확인 필요
     duty_from: Optional[str] = None           # 최초 입주가능일 (공고문에 날짜가 있을 때, 거주의무 시작 기한 계산)
+    notice_conflicts: list[str] = []          # 공고문 두 곳(1쪽 표·본문)의 값이 서로 다름 (사람 확인 필요, 2026-10-02)
     duty_silent: bool = False                # 공고문을 읽었지만 거주의무를 아예 적지 않음 (모름의 이유, 2026-10-02)
     jeonse_weak: bool = False
     unregistered: bool = True                # 입주 직후 등기 전

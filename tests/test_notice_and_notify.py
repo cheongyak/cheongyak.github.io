@@ -324,3 +324,20 @@ def test_apply_notice_reads_archived_text_when_download_fails(monkeypatch):
     apply_notice([x], log, cache={"2026930037": {"found": {"need_head": True}, "v": 1}})
     assert x.residence_duty == 0 and "실거주 의무" in x.from_notice
     assert any("원문 사본" in l for l in log)
+
+
+def test_merge_alt_fills_missing_and_flags_disagreement():
+    """두 읽기 도구 합치기 (기능 pdf_dual_read, 2026-10-02 pdf_audit: 과천 벨라르테 '재당첨제한 10년'을 pypdf 는 못 읽고 pypdfium2 는 읽음)."""
+    found = {"price_cap": True, "residence_duty": None, "duty_silent": True, "account_months": 6}
+    notes = notice_pdf.merge_alt(found, {"price_cap": True, "rewin_years": 10, "residence_duty": 0, "account_months": 12, "residence": {"area": {"name": "과천시"}}})
+    assert found["rewin_years"] == 10 and found["residence_duty"] == 0 and "duty_silent" not in found and found["residence"]["area"]["name"] == "과천시"
+    assert found["account_months"] == 6 and any("account_months" in c for c in found["conflicts"])   # 둘 다 읽혔는데 다르면 첫 값 유지 + 사람 확인
+    assert len(notes) == 3
+
+
+def test_pdf_text_reads_all_pages_with_both_tools():
+    """쪽수 상한(예전 80쪽)과 두 번째 도구 — 법령 별표 PDF 로 두 도구가 모두 글을 읽는지만 본다 (공고문 PDF 는 작업 환경에서 받을 수 없음)."""
+    from pathlib import Path
+    data = (Path(__file__).parent.parent / "evidence" / "law" / "byeolpyo_1.pdf").read_bytes()
+    a, b = notice_pdf.pdf_text(data), notice_pdf.pdf_text_alt(data)
+    assert notice_pdf.PAGE_CAP >= 200 and len(a) > 500 and (b is None or len(b) > 500)

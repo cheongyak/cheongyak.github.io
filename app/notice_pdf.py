@@ -40,10 +40,28 @@ def find_pdf_links(html: str, base: str) -> list[str]:
     return uniq
 
 
+PAGE_CAP = 300   # 예전 80쪽 — 고덕 A12BL·A65BL 93쪽·두정역 83쪽 공고문 뒤쪽(최대 13쪽 2만여 자)이 빠졌다 (2026-10-02 tools/qa/pdf_audit)
+ALT_TEXT: dict[str, str] = {}   # PDF 주소 → 두 번째 도구(pypdfium2)로 읽은 글 (pipeline 이 값 보완·대조에 씀)
+
+
 def pdf_text(data: bytes) -> str:
     from pypdf import PdfReader
     reader = PdfReader(io.BytesIO(data))
-    return "\n".join((p.extract_text() or "") for p in reader.pages[:80])   # 공고문 일반공급 자격표가 45쪽 넘게 있는 경우가 있음 (2026-09-30 고덕 A65BL)
+    return "\n".join((p.extract_text() or "") for p in reader.pages[:PAGE_CAP])
+
+
+def pdf_text_alt(data: bytes) -> Optional[str]:
+    """두 번째 읽기 도구. pypdf 가 글자 순서를 뒤섞어 값을 놓치는 공고문이 있다 — 과천 푸르지오 벨라르테·라비엔오 '재당첨제한 10년'을 pypdf 로는 못 읽고
+    pypdfium2 로는 읽음 (2026-10-02 pdf_audit). 설치돼 있지 않으면 None"""
+    try:
+        import pypdfium2 as pdfium
+    except Exception:
+        return None
+    try:
+        doc = pdfium.PdfDocument(data)
+        return "\n".join((doc[i].get_textpage().get_text_range() or "") for i in range(min(len(doc), PAGE_CAP)))
+    except Exception:
+        return None
 
 
 def fetch_notice_text(page_url: str, client: Optional[httpx.Client] = None) -> tuple[Optional[str], str, Optional[str]]:
@@ -81,7 +99,10 @@ def fetch_notice_text(page_url: str, client: Optional[httpx.Client] = None) -> t
             except Exception as e:
                 return None, f"PDF 해석 실패: {e.__class__.__name__}", None
             if len(text) > 500:
-                return text, f"PDF 읽음 ({len(text)}자): {link}", link
+                alt = pdf_text_alt(p.content)
+                if alt:
+                    ALT_TEXT[link] = alt
+                return text, f"PDF 읽음 ({len(text)}자{', 두 번째 도구 ' + str(len(alt)) + '자' if alt else ''}): {link}", link
             last = f"글자를 못 읽는 PDF(스캔 이미지 추정, 글자 {len(text)}자)"   # 2026-10-02: 예전엔 '형식 아님'으로만 남아 원인을 몰랐다
         elif p.status_code == 200:
             head = p.content[:8]
@@ -212,6 +233,25 @@ def parse_notice(text: str) -> dict:
         won = amts.pop()
         if 1_000_000 <= won <= 200_000_000:
             out["ext"] = round(won / 100_000_000, 4)
+
+    # 같은 값이 공고문 두 곳(1쪽 '단지 주요정보' 표와 본문 문장)에 있으면 서로 같은지 — 다르면 어느 쪽이 맞는지 사람이 봐야 한다
+    # (2026-10-02 사용자 '공고문에서 은근히 잘못 가져오는 경우'. 원문 101건에서는 다른 경우 0 — 앞으로 생기면 [공고문·불일치]·데이터 확인 필요)
+    conf, quotes = [], {}
+    if tbl:
+        quotes["거주의무·분양가상한제(1쪽 표)"] = tbl.get("quote", "")
+        sd = re.search(r"거주의무기간(?:은|는)((?:(?!전매|재당첨|거주의무).){0,40}?)([1-5])년(?:간)?(?:적용|동안|거주)", flat) or re.search(r"거주의무가([1-5])년적용", flat)
+        sv = int(sd.groups()[-1][0]) if sd else 0 if re.search(r"거주의무가적용되지않", flat) else None
+        if sv is not None and sv != tbl["residence_duty"]:
+            conf.append(f"거주의무: 1쪽 표 {tbl['residence_duty'] or '없음'}{'년' if tbl['residence_duty'] else ''} ↔ 본문 '{sd.group(0) if sd else '거주의무가 적용되지 않습니다'}'")
+        if re.search(r"분양가상한제(?:가)?미적용", flat) and tbl["price_cap"]:
+            conf.append("분양가상한제: 1쪽 표 '적용' ↔ 본문 '미적용'")
+        tr = re.search(r"재당첨제한\s*전매제한\s*거주의무기간\s*분양가상한제\s*택지유형\s*(없음|\d{1,2}\s*년)", text)
+        if tr and out.get("rewin_years") is not None:
+            tv = 0 if tr.group(1) == "없음" else int(re.sub(r"\D", "", tr.group(1)))
+            if tv != out["rewin_years"]:
+                conf.append(f"재당첨 제한: 1쪽 표 {tr.group(1).replace(' ', '')} ↔ 본문에서 읽은 {out['rewin_years']}년")
+    if conf:
+        out["conflicts"] = conf
 
     res = parse_residence(text)
     if res:
@@ -615,7 +655,7 @@ def _summary_table(text: str) -> Optional[dict]:
     if not m:
         return None
     d = m.group(2).replace(" ", "")
-    return {"residence_duty": 0 if d == "없음" else int(d[0]), "price_cap": m.group(3) == "적용"}
+    return {"residence_duty": 0 if d == "없음" else int(d[0]), "price_cap": m.group(3) == "적용", "quote": re.sub(r"\s+", " ", m.group(0))[:160]}
 
 # ---- 공공임대 특별공급 유형별 소득 기준 (기능: rental_special, 2026-10-02 MASTER QA 남은 일) ----
 # 2026000307 <표4> (표4-2) 2인 · (표4-3) 3~8인: 유형 머리글('신혼부부특별공급' 등) 아래 단계마다
@@ -769,3 +809,28 @@ def single_status(c: Optional[dict]) -> str:
     if h is not None and h < 100:
         return "maybe"
     return "unknown"
+
+
+# ---- 두 읽기 도구 결과 합치기 (2026-10-02 사용자 '공고문에서 은근히 잘못 가져오는 경우' · tools/qa/pdf_audit) ----
+MERGE_SCALAR = ("need_head", "price_cap", "residence_duty", "rewin_years", "account_months", "deposit_count", "balance")
+MERGE_STRUCT = ("residence", "mc_quota", "schedule", "pub_limits", "score_ratio", "sp_table", "duty_from")
+
+
+def merge_alt(found: dict, alt: dict) -> list[str]:
+    """pypdf 로 읽은 값(found)에 두 번째 도구 값(alt)을 더한다. 한쪽만 읽힌 값은 채우고, 둘 다 읽혔는데 다르면 found 값을 두고 conflicts 에 남긴다
+    (어느 쪽이 맞는지 사람이 원문을 봐야 함 → 데이터 확인 필요). 반환: 기록할 문장"""
+    notes = []
+    for k in MERGE_SCALAR:
+        a, b = found.get(k), alt.get(k)
+        if a is None and b is not None:
+            found[k] = b
+            notes.append(f"{k}={b!r} (첫 도구는 못 읽음)")
+            if k == "residence_duty":
+                found.pop("duty_silent", None)
+        elif a is not None and b is not None and a != b:
+            found.setdefault("conflicts", []).append(f"읽기 도구에 따라 {k} 값이 달라요: {a!r} ↔ {b!r}")
+    for k in MERGE_STRUCT:
+        if not found.get(k) and alt.get(k):
+            found[k] = alt[k]
+            notes.append(f"{k} (첫 도구는 못 읽음)")
+    return notes

@@ -309,3 +309,13 @@ def test_duty_silent_only_when_notice_never_mentions_duty():
         assert p.get("residence_duty") is None and p.get("duty_silent") is True, no
     for no in ("2026000414", "2026000437", "2026910236", "2026930037"):
         assert not notice_pdf.parse_notice(text(no)).get("duty_silent"), no
+
+
+def test_notice_conflicts_between_summary_table_and_body():
+    """1쪽 '단지 주요정보' 표와 본문이 다르면 conflicts 로 남긴다(사람 확인). 원문 전부에서는 다른 경우가 없다 (2026-10-02)."""
+    import glob
+    for f in sorted(glob.glob(str(ROOT / "evidence" / "notices" / "*.txt")) + glob.glob(str(ROOT / "evidence" / "qa" / "notices" / "*.txt"))):
+        assert not notice_pdf.parse_notice(open(f, encoding="utf-8").read()).get("conflicts"), f
+    t = text("2026000437")   # 1쪽 표 '10년 3년 3년 적용 공공택지', 본문 '거주의무가 3년 적용됩니다'
+    bad = t.replace("거주의무가 3년 적용됩니다", "거주의무가 5년 적용됩니다", 1)
+    assert any("거주의무" in c for c in notice_pdf.parse_notice(bad).get("conflicts", []))

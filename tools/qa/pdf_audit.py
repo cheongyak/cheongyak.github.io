@@ -70,7 +70,7 @@ def summarize(fields: dict) -> dict:
     return o
 
 
-def audit_notice(http: httpx.Client, url: str, listing: dict, cap: int) -> dict:
+def audit_notice(http: httpx.Client, url: str, listing: dict, cap: int, n_types: int = 1) -> dict:
     r = http.get(url)
     links = notice_pdf.find_pdf_links(r.text, str(r.url)) if r.status_code == 200 else []
     atts = []
@@ -90,6 +90,17 @@ def audit_notice(http: httpx.Client, url: str, listing: dict, cap: int) -> dict:
             continue
         atts.append({"url": link, "bytes": len(p.content), "pages": len(pp), "chars": sum(map(len, pp)),
                      "head": re.sub(r"\s+", " ", "".join(pp[:1]))[:80], "_data": p.content, "_pp": pp})
+    if not any("pages" in a for a in atts) and listing.get("house_dtl") == "국민":   # LH 공공분양은 청약홈 화면에 PDF 가 없어 수집도 LH청약플러스에서 받는다 (pipeline._fetch_text)
+        from app import lh
+        try:
+            data, m2, url2 = lh.fetch_lh_notice(listing["name"], http)
+            if data:
+                pp = pages_pypdf(data)
+                atts.append({"url": url2, "bytes": len(data), "pages": len(pp), "chars": sum(map(len, pp)), "head": re.sub(r"\s+", " ", "".join(pp[:1]))[:80], "_data": data, "_pp": pp, "via": "LH청약플러스"})
+            else:
+                atts.append({"url": "LH청약플러스", "error": m2})
+        except Exception as e:
+            atts.append({"url": "LH청약플러스", "error": e.__class__.__name__})
     pdfs = [a for a in atts if "pages" in a]
     out = {"notice": listing["id"].split("-")[0], "name": listing["name"], "url": url, "attachments": len(links), "pdfs": len(pdfs),
            "attachment_list": [{k: v for k, v in a.items() if not k.startswith("_")} for a in atts]}
@@ -124,6 +135,10 @@ def audit_notice(http: httpx.Client, url: str, listing: dict, cap: int) -> dict:
     pdfium = pages_pdfium(chosen["_data"])
     b = summarize(notice_pdf.parse_notice("\n".join(pdfium))) if pdfium else None
     out["fields"] = a
+    if b is not None:   # 수집이 하는 것처럼 두 도구 값을 합친 결과 (기능 pdf_dual_read)
+        merged = notice_pdf.parse_notice(text_read)
+        notice_pdf.merge_alt(merged, notice_pdf.parse_notice("\n".join(pdfium)))
+        out["fields_merged"] = summarize(merged)
     if full != a:
         out["fields_full"] = full
         probs.append("전체 쪽을 읽으면 값이 달라짐: " + ", ".join(sorted(k for k in set(a) | set(full) if a.get(k) != full.get(k))))
@@ -133,10 +148,18 @@ def audit_notice(http: httpx.Client, url: str, listing: dict, cap: int) -> dict:
         out["pdfium_chars"] = sum(map(len, pdfium))
         if diff:
             out["tool_diff"] = {k: [a.get(k), b.get(k)] for k in diff}
-            probs.append("읽기 도구에 따라 값이 다름: " + ", ".join(f"{k} {a.get(k)!r}↔{b.get(k)!r}"[:80] for k in diff))
+            both = [k for k in diff if a.get(k) is not None and b.get(k) is not None]
+            one = [k for k in diff if k not in both]
+            if both:   # 둘 다 읽었는데 다름 → 수집은 데이터 확인 필요로 표시 (merge_alt conflicts)
+                probs.append("읽기 도구에 따라 값이 다름: " + ", ".join(f"{k} {a.get(k)!r}↔{b.get(k)!r}"[:80] for k in both))
+            if one:    # 한 도구만 읽음 → 수집은 다른 도구 값으로 채움 (정보)
+                out["filled_by_second_tool"] = one
     # 지금 수집 값과
-    live = {k: listing.get(k) for k in KEYS if k in a and k in listing}
-    gap = {k: [listing.get(k), a.get(k)] for k in live if listing.get(k) != a.get(k) and not (k == "residence_duty" and listing.get("price_cap") is False)}
+    ref = out.get("fields_merged") or a   # 수집과 같은 방식(두 도구 합침)으로 읽은 값과 비교
+    live = {k: listing.get(k) for k in KEYS if k in ref and k in listing}
+    gap = {k: [listing.get(k), ref.get(k)] for k in live if listing.get(k) != ref.get(k) and not (k == "residence_duty" and listing.get("price_cap") is False)
+           and not (k == "ext" and n_types > 1)}   # 확장비는 주택형이 하나인 공고에만 쓴다 (pipeline) — 여러 주택형 공고의 차이는 정상
+    gap = {k: v for k, v in gap.items() if v[0] != v[1]}
     if gap:
         out["live_gap"] = gap
         probs.append("지금 수집 값과 다시 읽은 값이 다름: " + ", ".join(f"{k} {v[0]!r}→{v[1]!r}" for k, v in gap.items()))
@@ -165,7 +188,7 @@ def main() -> int:
             res.append({"notice": x["id"].split("-")[0], "name": x["name"], "skipped": "시간 제한"})
             continue
         try:
-            res.append(audit_notice(http, url, x, cap))
+            res.append(audit_notice(http, url, x, cap, sum(1 for y in rows if y.get('url') == url)))
         except Exception as e:
             res.append({"notice": x["id"].split("-")[0], "name": x["name"], "error": f"{e.__class__.__name__}: {str(e)[:120]}"})
     bad = [r for r in res if r.get("problem")]

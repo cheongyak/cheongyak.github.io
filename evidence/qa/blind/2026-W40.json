@@ -1,0 +1,163 @@
+{
+ "week": "2026-W40",
+ "made": "2026-10-02",
+ "how": "앱 화면·docs/listings.json 을 보지 않고 원문만 읽고 answers 를 채운다. 원문 위치: source. 근거 문장은 quotes 에.",
+ "questions": {
+  "need_head": "청약 신청자가 세대주여야 하나요? (true/false)",
+  "price_cap": "분양가상한제 적용 주택인가요? (true/false)",
+  "residence_duty": "거주의무 기간(년). 없으면 0, 공고문에 아예 없으면 \"없음\"",
+  "rewin_years": "당첨 시 재당첨 제한 기간(년). 없으면 0",
+  "account_months": "일반공급 1순위 청약통장 가입기간(개월)",
+  "residence_area": "해당지역(우선공급) 이름 (예: 서울특별시, 과천시)",
+  "residence_months": "해당지역 최소 거주기간(개월). 기간 조건이 없으면 0",
+  "balance": "잔금일 또는 입주지정기간 종료일 (YYYY-MM-DD)",
+  "special_total": "이 주택형 특별공급 세대수 합계"
+ },
+ "samples": [
+  {
+   "group": "민영 일반",
+   "id": "2026000448-069.7032 ",
+   "name": "숭의역 노르웨이숲 더 스카이",
+   "unit": "69",
+   "source": "evidence/notices/2026000448.txt",
+   "answers": {
+    "need_head": false,
+    "price_cap": false,
+    "residence_duty": 0,
+    "rewin_years": 0,
+    "account_months": 12,
+    "residence_area": "인천광역시",
+    "residence_months": 0,
+    "balance": null,
+    "special_total": 7
+   },
+   "quotes": {
+    "need_head": "세대주 요건 - - - 필요 - - - - (일반 1순위·2순위 '-'; 노부모부양만 필요)",
+    "price_cap": "재당첨제한 전매제한 거주의무기간 분양가상한제 택지유형 / 없음 1년 없음 미적용 민간택지",
+    "residence_duty": "거주의무기간 … 없음 (단지 주요정보 표)",
+    "rewin_years": "분양가상한제 미적용 민영주택으로, 당첨자로 선정되더라도 「주택공급에 관한 규칙」 제54조에 따른 재당첨 제한을 적용받지 않으며",
+    "account_months": "주택청약종합저축 : 주택청약종합저축에 가입하여 12개월이 경과하고, 지역별·면적별 예치금액 이상인 분",
+    "residence_area": "①지역 : 해당지역 거주자(인천광역시 거주자) → 기타지역 거주자(서울특별시, 경기도 거주자)",
+    "residence_months": "입주자모집공고일 현재 인천광역시에 거주하거나 수도권(서울특별시, 경기도)에 거주하는 만19세 이상인 분",
+    "balance": "입주시기 : 2030년 05월 예정(정확한 입주일자는 추후 통보함)",
+    "special_total": "01 069.7032 69 … 13 1 1 2 - 1 2 7 6 1 (기관1·다자녀1·신혼2·노부모-·생애1·신생아2 계7)"
+   }
+  },
+  {
+   "group": "공공 일반",
+   "id": "2026000438-084.0000A",
+   "name": "힐스테이트 고덕엘리스트 A65BL 공공분양주택",
+   "unit": "84A",
+   "source": "evidence/notices/2026000438.txt",
+   "answers": {
+    "need_head": false,
+    "price_cap": true,
+    "residence_duty": 3,
+    "rewin_years": 10,
+    "account_months": 12,
+    "residence_area": "평택시",
+    "residence_months": 12,
+    "balance": null,
+    "special_total": 558
+   },
+   "quotes": {
+    "need_head": "입주자모집공고일 현재 무주택세대구성원으로서 입주자저축에 가입한 분(주택공급 신청은 무주택세대구성원 중 1인만 가능합니다.)",
+    "price_cap": "재당첨제한 전매제한 거주의무기간 분양가상한제 택지유형 / 10년 3년 3년 적용 공공택지",
+    "residence_duty": "「주택법 시행령」 제60조의 2에 의거 거주의무가 3년 적용됩니다.",
+    "rewin_years": "재당첨제한 당첨자 발표일 10년 「공공주택 특별법」, 「주택공급에 관한 규칙」 제54조",
+    "account_months": "1순위 - 입주자저축에 가입하여 12개월이 경과된 분으로서 매월 약정납입일에 월 납입금을 12회 이상 납입한 분",
+    "residence_area": "① 해당 주택건설지역(평택시) 30% ㆍ공고일 현재 평택시 1년 이상 계속 거주자",
+    "residence_months": "경기도 평택시 1년 이상 계속 거주자 (2025.09.11. 이전부터 계속 거주)",
+    "balance": "입주시기 : 2029년 6월 예정(정확한 입주일자는 추후 통보함)",
+    "special_total": "084.0000A … 655 65 33 66 66 98 33 131 66 558 97 27 (특별공급 계 558, 84A+84A1 합산)"
+   }
+  },
+  {
+   "group": "신혼희망타운",
+   "id": "2026820010-055.9000A",
+   "name": "인천계양 A17블록 신혼희망타운(공공분양)(본청약)",
+   "unit": "55A",
+   "source": "evidence/notices/2026820010.txt",
+   "answers": {
+    "need_head": false,
+    "price_cap": true,
+    "residence_duty": 0,
+    "rewin_years": 10,
+    "account_months": 6,
+    "residence_area": "인천광역시",
+    "residence_months": 0,
+    "balance": null,
+    "special_total": 0
+   },
+   "quotes": {
+    "need_head": "혼인기간이 7년 이내 … 또는 6세 이하의 자녀 … 를 둔 무주택세대구성원",
+    "price_cap": "국민주택(전용 85㎡ 이하 주택)이며, 분양가상한제 적용주택으로",
+    "residence_duty": "거주의무 - 없음 「주택법」제57조의2,「주택법 시행령」 제60조의2",
+    "rewin_years": "재당첨제한 당첨자 발표일 10년 「공공주택 특별법」,「주택공급에 관한 규칙」제54조",
+    "account_months": "② 입주자저축에 가입하여 6개월이 경과되고, 매월 약정납입일에 월납입금을 6회 이상 납입한 분",
+    "residence_area": "① 해당 주택건설지역 (인천광역시) 50% ․ 공고일 현재 인천광역시 거주자",
+    "residence_months": "공고일 현재 인천광역시 거주자 (거주기간 요건 없음)",
+    "balance": "입주예정 시기는 ‘29년 11월입니다.",
+    "special_total": "055.9000A 55A … 205 59 78 68 15 9 (사전청약당첨자59·본청약78; 특별공급 구분 열 없음)"
+   }
+  },
+  {
+   "group": "무순위",
+   "id": "2026910249-084.9165A",
+   "name": "세종 우미 린 센터파크(행정중심복합도시 5-2생활권 S1블록, 글미마을 9단지)",
+   "unit": "84A",
+   "source": "evidence/notices/2026910249.txt",
+   "answers": {
+    "need_head": false,
+    "price_cap": true,
+    "residence_duty": 0,
+    "rewin_years": 0,
+    "account_months": null,
+    "residence_area": "세종특별자치시",
+    "residence_months": 0,
+    "balance": null,
+    "special_total": 0
+   },
+   "quotes": {
+    "need_head": "무순위(사후) 입주자모집공고일 현재 세종특별자치시에 거주하는 무주택세대구성원",
+    "price_cap": "재당첨제한 전매제한 거주의무기간 분양가상한제 / 없음 최초 당첨자발표일(2026.08.19.)로부터 1년 없음 적용",
+    "residence_duty": "거주의무기간 … 없음 (단지 주요정보 표)",
+    "rewin_years": "재당첨제한 … 없음 (단지 주요정보 표)",
+    "account_months": "청약통장 가입여부와 무관하게 신청가능",
+    "residence_area": "입주자모집공고일 현재 세종특별자치시에 거주하는 무주택세대구성원",
+    "residence_months": "입주자모집공고일 현재 세종특별자치시에 거주 (기간 요건 없음)",
+    "balance": "입주시기 : 2029년 3월 예정(정확한 입주일자는 추후 통보함)",
+    "special_total": "01 084.9165A 84A 2 904동 102호, 801호 (무순위 잔여 2세대, 특별공급 없음)"
+   }
+  },
+  {
+   "group": "재공급",
+   "id": "2026930032-084.7646 ",
+   "name": "태화강 에피트",
+   "unit": "84",
+   "source": "evidence/notices/2026930032.txt",
+   "answers": {
+    "need_head": true,
+    "price_cap": true,
+    "residence_duty": 0,
+    "rewin_years": 10,
+    "account_months": null,
+    "residence_area": "울산광역시",
+    "residence_months": 0,
+    "balance": null,
+    "special_total": 0
+   },
+   "quotes": {
+    "need_head": "해당 주택건설지역인 울산광역시에 거주하는 무주택세대주(무주택세대의 세대주)",
+    "price_cap": "공공택지에서 공급하는 분양가상한제 적용 민영주택으로",
+    "residence_duty": "전매제한 거주의무기간 분양가상한제 택지유형 / … (현재 전매 가능) 없음 적용 공공택지",
+    "rewin_years": "분양가상한제 적용주택(제1항제3호) 10년",
+    "account_months": "본 입주자모집공고는 청약통장 가입여부와 관계없이 청약신청 가능합니다.",
+    "residence_area": "민영 비규제지역 울산광역시 거주자 10년",
+    "residence_months": "입주자모집공고일 현재 해당 주택건설지역인 울산광역시에 거주하는 무주택세대주",
+    "balance": "입주시기 : 2027년 07월 예정 / 잔금 '입주예정일' (날짜 미기재)",
+    "special_total": "01 084.7646 84 … 61.2209 1 1 (총공급1·일반공급1)"
+   }
+  }
+ ]
+}
