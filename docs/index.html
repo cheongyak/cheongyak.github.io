@@ -3343,7 +3343,7 @@ let CHAT_HEALTH = null;
 function chatHealthLoad(){ if (CHAT_HEALTH !== null || !CONFIG.chat_api) return; CHAT_HEALTH = false;
   fetch(CONFIG.chat_api.replace(/\/$/, '') + '/health', { cache: 'no-store' }).then(r => r.ok ? r.json() : null).then(j => { const was = chatOn(); CHAT_HEALTH = j || false; if (chatOn() !== was) render(); }).catch(() => {}); }
 const chatServerOpen = () => !!(CHAT_HEALTH && CHAT_HEALTH.open && !CHAT_HEALTH.maint && CONFIG.chat_legal_date && TODAY >= CONFIG.chat_legal_date);
-const chatOn = () => LEGAL_AS || (!!CONFIG.chat_api && (((on('chatbot') || chatServerOpen()) && !(CHAT_HEALTH && CHAT_HEALTH.maint)) || chatPreview()));
+const chatOn = () => CONFIG.chat_off !== true && (LEGAL_AS || (!!CONFIG.chat_api && (((on('chatbot') || chatServerOpen()) && !(CHAT_HEALTH && CHAT_HEALTH.maint)) || chatPreview())));   // chat_off: 운영자 미리보기까지 모두 끔 (10-02 사용자 '챗봇 기능 꺼 주고 다시 개발')
 /* ---------- 청약봇 '이 공고 물어보기' (기능: chatbot, 2026-10-01) ----------
    판정은 하지 않는다. 지금 화면의 판정 함수(cpExplain·myScore·grade·itemBasis)를 읽기만 해서 그 결과와 질문을 청약봇 서버(chat/worker, Cloudflare Workers)로 보내고,
    서버가 공고문 근거를 붙여 Claude 에게 설명만 맡긴 뒤 검사기(판정 불일치·지어낸 숫자·금지 표현·근거 없는 규정)를 통과한 답만 받는다.
