@@ -4,6 +4,14 @@
 2026-09-29 12:55 이전 항목은 규칙을 만들기 전 작업을 커밋 기록으로 정리한 것이라 백업 브랜치가 없어요.
 그 시점으로 되돌릴 때는 해당 커밋 번호로 `git revert` 를 써요.
 
+## 2026-10-02 14:30 · MASTER QA: 원문 대조용 공고문 받기 도구
+- 요청: 출시 전 MASTER QA 요구서 (5·37항 공식 공고문 기준·사람 원문 대조 30건)
+- 변경: tools/qa/fetch_notices.py — evidence/qa/notice-ids.txt 의 공고(위험군 14 + 원문 대조 30)를 evidence/notices/ 로 받음. 근거 자료 모으기(probe.yml)에 단계 추가(실패해도 계속). 작업 환경에서는 청약홈 접속이 막혀 Actions 에서 받음
+- 파일: tools/qa/fetch_notices.py, evidence/qa/notice-ids.txt, .github/workflows/probe.yml
+- 확인: 실행 뒤 evidence/qa/fetch-notices.log
+- 기능: 없음(검사 도구)
+- 백업: backup/20261002-1421-badge (직전 백업, 서비스 코드 변경 없음)
+
 ## 2026-10-02 14:21 · v1.39.2 불법행위 재공급 카드 배지 '무순위' 오표시 (MASTER QA 중 발견)
 - 요청: 출시 전 MASTER QA 요구서 — '불법행위 재공급 → 무순위' 같은 공급유형 오분류를 전체에서 찾고 재발 방지
 - 원인: v1.38.3 에서 상세 '일반공급 칸 이름'(genLabel)만 '재공급'으로 고치고, 목록 카드 배지(cardBadges)는 category === 'remainder' 면 무조건 '무순위'로 남아 있었음 (표시 단계, 데이터·판정은 맞음)

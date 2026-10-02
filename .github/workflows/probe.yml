@@ -28,6 +28,9 @@ jobs:
           python-version: "3.12"
       - run: pip install -r requirements.txt
       - run: python -m tools.rules_probe
+      - name: MASTER QA 원문 대조용 공고문 (실패해도 계속)
+        continue-on-error: true
+        run: python -m tools.qa.fetch_notices
       - name: 저장
         run: |
           git config user.name "cheongyak-bot"
