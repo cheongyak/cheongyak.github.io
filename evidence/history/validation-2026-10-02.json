@@ -3,10 +3,10 @@
   "date": "2026-10-02",
   "seed": 20261002,
   "fresh": false,
-  "dataset": "archive/2026.json built 2026-10-02 (544공고·2092주택형)",
+  "dataset": "archive/past.json built 2026-10-02 (544공고·2092주택형)",
   "population_notices": 544,
   "sample_size": 120,
-  "seconds": 353.6
+  "seconds": 403.8
  },
  "tally": {
   "D1": {
@@ -21,24 +21,24 @@
    "PASS": 120
   },
   "N1": {
-   "PASS": 115,
-   "FAIL": 5
+   "PASS": 116,
+   "FAIL": 4
   },
   "N2": {
-   "PASS": 114,
-   "UNCERTAIN": 6
+   "PASS": 115,
+   "UNCERTAIN": 5
   },
   "N3": {
-   "PASS": 107,
-   "UNCERTAIN": 13
+   "PASS": 108,
+   "UNCERTAIN": 12
   },
   "N4": {
-   "N/A": 107,
+   "N/A": 108,
    "PASS": 8
   }
  },
  "errors": {
-  "SOURCE_ERROR": 15,
+  "SOURCE_ERROR": 12,
   "PARSING_ERROR": 9,
   "EXPECTED_DIFFERENCE": 4
  },
@@ -4722,19 +4722,24 @@
     ""
    ],
    "N1": [
-    "FAIL",
-    "SOURCE_ERROR",
-    "PDF 받기 실패(PDF가 아닌 파일(알 수 없음, text/html, 59바이트: The requested URL was not found on this server.<br><br><br>)): https://st"
+    "PASS",
+    null,
+    ""
    ],
    "N2": [
-    "UNCERTAIN",
-    "SOURCE_ERROR",
-    "공고문을 못 받음"
+    "PASS",
+    null,
+    ""
    ],
    "N3": [
-    "UNCERTAIN",
-    "SOURCE_ERROR",
-    "공고문을 못 받음"
+    "PASS",
+    null,
+    "1308세대·14개동"
+   ],
+   "N4": [
+    "N/A",
+    null,
+    "정답 데이터 없는 공고"
    ],
    "name": "오남역 서희스타힐스 여의재 1단지",
    "category": "remainder",
