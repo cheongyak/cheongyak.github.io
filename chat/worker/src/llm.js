@@ -1,4 +1,4 @@
-// Claude 호출. 키는 Worker 비밀값(ANTHROPIC_API_KEY)에서만 읽는다.
+// Claude 호출. 키는 Worker 비밀값(ANTHROPIC_API_KEY)에서만 읽는다. 키는 Console 워크스페이스 안에서 만든 것이어야 함(아니면 400, 10-02).
 export const MODEL = 'claude-haiku-4-5-20251001';
 
 export async function callClaude({ apiKey, system, user, fetchImpl = fetch, maxTokens = 1400 }) {
