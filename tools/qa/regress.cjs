@@ -35,7 +35,7 @@ async function collect(url){
      const items=e.items.map(i=>i.k+'='+i.s+':'+i.v).join(';');
      const sp=spTypesFor(L).map(t=>{const r=spJudge(L,P,t);return t+':'+r.s+':'+(r.stage&&r.stage[0])+':'+r.fail.join('/')+':'+r.warn.join('/')}).join(',');
      const sc=myScore(L,P);const m=grade(L);
-     out[k]={verdict:(e.ok?(e.unsure?'U':'OK'):e.rank2?'R2':'NO'),items,sp,score:sc.total+'/'+sc.parts.map(x=>x.v).join(','),margin:[m.g,m.lo==null?null:m.lo.toFixed(6),m.hi==null?null:m.hi.toFixed(6),m.tax.toFixed(6)].join(','),status:statusOf(L)};});});
+     out[k]={verdict:(e.ok?(e.unsure?'U':'OK'):e.rank2?'R2':'NO'),items,sp,score:sc.total+'/'+sc.parts.map(x=>x.v).join(','),margin:[m.g,m.lo==null?null:m.lo.toFixed(6),m.hi==null?null:m.hi.toFixed(6),m.tax.toFixed(6)].join(','),status:statusOf(L),bucket:eligBucket(L,P)};});});
   return out;},PROFILES);
  await b.close();return {r,errs};}
 const rich = { homeSido:'경기', homeSigun:'성남시', sidoOwnSince:'2010-01-01', areaSince:'2025-06-01', sidoSince:'2010-01-01', household:'head', headSince:'2015-01-01', selfOwn:false, married:true, spouseOwn:false, marriedOn:'2022-05-01', income:9500, spouseIncome:9500, spouseLoan:0, cash:30000, liquid:5000, deposit:10000, loanMonthly:50,
@@ -67,6 +67,8 @@ await b.close(); return errs.length + bad.length;}
   if(a.items!==b.items) diff.items++;
   if(a.verdict!==b.verdict){diff.verdict.push(k+' '+a.verdict+'→'+b.verdict);}
  }
+ const bch={};for(const k of keys){const a=A.r[k],b=B.r[k];if(b&&a.bucket!==b.bucket){const key=k.split('|')[1]+' '+a.bucket+'→'+b.bucket;bch[key]=(bch[key]||0)+1;}}   // 목록 판정(eligBucket) 변화 — 의도한 변경인지 사람이 본다
+ console.log('bucket changes',Object.keys(bch).length?bch:'0');
  console.log('combos',keys.length,'score',diff.score,'margin',diff.margin,'status',diff.status,'sp',diff.sp,'items',diff.items,'verdict changes',diff.verdict.length);
  // classify verdict changes
  const cls={};diff.verdict.forEach(v=>{const [pi,id]=v.split(' ')[0].split('|');const L=id.slice(0,10);const key=pi+' '+L+' '+v.split(' ').slice(1).join(' ');cls[key]=(cls[key]||0)+1;});console.log(cls);

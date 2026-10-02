@@ -1451,6 +1451,9 @@ function profileLine(p){
 }
 function meLine(L){
   if (!hasProfile()) return '<span class="muted">내 조건을 넣으면 자격·자금을 판정해요</span>';
+  if (genNone(L)) { const b = genNoneBucket(L, S.profile), u = L.specialUnits, none = u && u.total != null && !u.total;   // 기능: gen_none — 일반공급 없는 주택형은 특별공급 판정으로
+    return none ? '<span class="st-fail">공급 세대 없음</span><span class="muted">· 이번 공고에서 이 주택형은 공급하지 않아요</span>'
+      : '<span class="' + (b === 'ok' ? 'st-ok' : b === 'no' ? 'st-fail' : 'st-warn') + '">' + (b === 'ok' ? '특별공급 신청 가능' : b === 'no' ? '내 자격 불가' : '특별공급 확인 필요') + '</span><span class="muted">· 일반공급 없음 (모두 특별공급)</span>'; }
   const e = eligibility(L, S.profile);
   if (!e.ok) { const f = e.items.find(i => i.s === 'fail'); return '<span class="' + (e.rank2 ? 'st-warn' : 'st-fail') + '">' + (e.rank2 ? (e.rank2Need ? '1순위 불가 · 2순위 확인 필요' : '2순위만 가능') : '내 자격 불가') + '</span><span class="muted">· ' + esc(f.k) + ' ' + esc(f.v) + '</span>'; }
   const f = funding(L, S.profile, planOpt(L)), gap = bestGap(f, planOpt(L));
@@ -1679,7 +1682,7 @@ function watchBtn(L){
 }
 /* 내 판정으로 거르기 (기능: elig_filter). 내 조건 카드의 숫자와 같은 기준: eligibility() 결과 그대로 */
 const ELIG_NAME = { ok:'신청 가능', unsure:'확인 필요', r2:'2순위만', no:'불가' };
-function eligBucket(L, p){ const e = eligibility(L, p); return e.ok && !e.unsure ? 'ok' : e.ok ? 'unsure' : e.rank2 ? (e.rank2Need ? 'unsure' : 'r2') : 'no'; }
+function eligBucket(L, p){ if (genNone(L)) return genNoneBucket(L, p); const e = eligibility(L, p); return e.ok && !e.unsure ? 'ok' : e.ok ? 'unsure' : e.rank2 ? (e.rank2Need ? 'unsure' : 'r2') : 'no'; }
 function feedList(){
   return LISTINGS.filter(L => matches(L, S.f) && (!on('new_tabs') || !S.newDays || isNew(L, S.newDays))).map(L => ({ L, m: grade(L) }))
     .filter(x => S.filter === 'all' || (S.filter === 'watch' ? WATCH.has(x.L.id) : x.m.g === S.filter))
@@ -2883,8 +2886,21 @@ function genUnits(L){
   if (!g) return { n, sub: '모두 추첨제' };
   return { n, g, l: n - g, sub: '가점제 ' + g + '세대 · 추첨제 ' + (n - g) + '세대', calc: true };
 }
+/* 일반공급 물량이 없는 주택형 (기능: gen_none, 2026-10-02 사용자 지적 '일반물량이 0세대면 일반공급이 아닌 거 아니야?').
+   청약홈 일반공급 세대수가 0 이면 일반공급 판정(eligibility)을 쓰지 않는다. eligibility 는 그대로 두고(특별공급 공통 조건으로 계속 보여줌),
+   목록 판정(eligBucket)은 특별공급 판정 중 가장 좋은 것: 하나라도 가능 → 가능, 확인 필요 → 확인 필요, 모두 불가 → 불가.
+   특별공급 세대수를 모르면(무순위·재공급, 청약홈이 유형별 세대수를 안 줌) 확인 필요, 특별공급도 0 이면 불가(공급 세대 없음 — 수집에서도 뺀다) */
+function genNone(L){ return on('gen_none') && !L.sample && L.households === 0 && !isNewlywedTown(L); }
+function genNoneBucket(L, p){
+  const u = L.specialUnits;
+  if (u && u.total != null && !u.total) return 'no';
+  const types = spTypesFor(L);
+  if (!types.length) return 'unsure';
+  const ss = types.map(t => spJudge(L, p, t).s);
+  return ss.includes('ok') ? 'ok' : ss.includes('warn') ? 'unsure' : 'no';
+}
 const genUnitsTop = L => { const u = genUnits(L); return u ? `<span class="small muted">전체 ${u.n}세대</span>` : ''; };   // 특별공급 줄의 '전체 N세대'와 같은 모양
-const genUnitsHtml = L => { const u = genUnits(L); return u && u.sub ? `<div class="small genunits">${esc(u.sub)}${u.calc ? ' <span class="muted">· 1순위 기준 추정, 가점제 몫 소수점 올림(주택공급규칙 제28조)</span>' : ''}</div>` : ''; };
+const genUnitsHtml = L => { const u = genUnits(L); return u && u.sub && !genNone(L) ? `<div class="small genunits">${esc(u.sub)}${u.calc ? ' <span class="muted">· 1순위 기준 추정, 가점제 몫 소수점 올림(주택공급규칙 제28조)</span>' : ''}</div>` : ''; };
 function supplySummary(L, p, e){
   if (!on('supply_summary') || !hasProfile()) return '';
   const cls = { ok:'st-ok', warn:'st-warn', fail:'st-fail' };
@@ -2928,12 +2944,16 @@ function checklistV2(L, p, e){
   const warnItem = i => `<div class="ckwarn"><div class="ck-top"><span>${esc(i.k)}</span><span class="st-warn">${esc(i.v)}</span></div>
     ${i.note ? `<div class="small muted">${esc(i.note)}</div>` : ''}${on('unsure_actions') ? warnActBtn(L, i) : i.edit && visibleSteps().find(s2 => stepKey(s2) === i.edit) ? `<button class="linkbtn small" data-edit="${esc(i.edit)}" style="align-self:flex-start">${esc(i.editLabel || '정보 넣기')}</button>` : ''}<div class="ck-src">${itemSrc(L, i.k)}</div></div>`;
   const SS = on('supply_split');   /* 기능: supply_split — 자격 체크리스트 = 일반공급 카드 (판정 표시 + 참고: 뽑는 방식과 내 위치 + 조건 목록) */
-  const gv = !hasProfile() ? ['', '판정 전'] : e.ok ? (e.unsure ? ['warn', '확인 필요'] : ['ok', '신청 가능']) : e.rank2 ? ['warn', e.rank2Need ? '확인 필요' : '2순위만 가능'] : ['fail', '신청 불가'];
-  const gref = SS && on('special_position') ? (on('special_plain') ? generalRowPlain(L, p) : generalRowV2(L, p)).replace(/<span class="sp-top"><b>[^<]*<\/b><span class="small muted">[^<]*<\/span>/, '<span class="sp-top"><b>참고 · 뽑는 방식과 내 위치</b>').replace(/<span class="pill[^"]*">[^<]*<\/span>/, '').replace('<details class="sprow base">', '<details class="sprow base gsref">') : '';
+  const GN = genNone(L);   // 기능: gen_none — 일반공급 물량 0: 판정 대신 '일반공급 없음', 아래 조건은 특별공급 공통 조건으로
+  const gv = GN ? ['', '일반공급 없음'] : !hasProfile() ? ['', '판정 전'] : e.ok ? (e.unsure ? ['warn', '확인 필요'] : ['ok', '신청 가능']) : e.rank2 ? ['warn', e.rank2Need ? '확인 필요' : '2순위만 가능'] : ['fail', '신청 불가'];
+  if (GN) { tone = 'info'; title = '이 주택형은 ' + genLabel(L) + ' 물량이 없어요';
+    sub = (L.specialUnits && L.specialUnits.total ? '모두 특별공급이에요. 신청 자격은 특별공급 칸에서 보세요. ' : L.specialUnits && L.specialUnits.total != null ? '이번 공고에서 이 주택형은 공급하는 세대가 없어요. ' : '특별공급 세대수와 자격은 모집공고문에서 확인하세요. ')
+      + '아래 조건(거주지·무주택 등)은 특별공급에도 공통으로 쓰여요.'; }
+  const gref = !GN && SS && on('special_position') ? (on('special_plain') ? generalRowPlain(L, p) : generalRowV2(L, p)).replace(/<span class="sp-top"><b>[^<]*<\/b><span class="small muted">[^<]*<\/span>/, '<span class="sp-top"><b>참고 · 뽑는 방식과 내 위치</b>').replace(/<span class="pill[^"]*">[^<]*<\/span>/, '').replace('<details class="sprow base">', '<details class="sprow base gsref">') : '';
   return `<section class="card ckcard">${SS ? `<div class="row"><span class="gu-top"><h2>${esc(genLabel(L))}</h2>${genUnitsTop(L)}</span><span class="pill ${gv[0]} gvpill">${gv[1]}</span></div>${genUnitsHtml(L)}` : '<h2>자격 체크리스트</h2>'}
     ${on('detail_tidy') || SS ? '' : supplySummary(L, p, e)}
     <div class="spsum" style="margin:4px 0 0">${on('supply_summary') && hasProfile() && !SS ? `<span class="small muted" style="align-self:center">${genLabel(L)} 조건</span>` : ''}${count}</div>
-    <div class="note ${tone} ckverdict"><b>${on('supply_summary') && hasProfile() && !SS ? (genLabel(L) + ' · ') : ''}${esc(title)}</b>${sub ? `<div class="small">${esc(sub)}</div>` : ''}${e.fix ? `<div class="small" style="margin-top:4px"><b>다음 공고에 신청하려면</b> · ${esc(e.fix)}</div>` : ''}</div>
+    <div class="note ${tone} ckverdict"><b>${on('supply_summary') && hasProfile() && !SS ? (genLabel(L) + ' · ') : ''}${esc(title)}</b>${sub ? `<div class="small">${esc(sub)}</div>` : ''}${e.fix && !GN ? `<div class="small" style="margin-top:4px"><b>다음 공고에 신청하려면</b> · ${esc(e.fix)}</div>` : ''}</div>
     ${fixPanel(L, p, 'gen')}
     ${gref ? `<div class="splist gsref-wrap">${gref}</div>` : ''}
     <!--GEN_EXTRA-->

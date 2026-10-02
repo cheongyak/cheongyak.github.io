@@ -531,6 +531,28 @@ def main() -> None:
     g(fn="pubgen", listing="2026000414-059.8400A", profile=dict(pub_base, hhIncomeYear=None, income=3000, household="parents", parentsOwn=False, parents60=True), expect={"소득": "warn"},
       basis="2026000414 '무주택세대구성원 전원(…)의 소득을 합산' — 같은 등본 부모님 소득 미입력")
 
+    # ---------- 10) 일반공급 물량 0 주택형 (기능: gen_none, 2026-10-02 사용자 지적) ----------
+    # 2026000414 인천계양 A6 공고문 공급표: 59G 일반 0·특별공급 6(신생아1·신혼1·생애최초1·다자녀1·기관 등2), 59C 총 15세대 전부 사전청약 당첨자 몫(이번 공급 0).
+    # 2026930036 과천 푸르지오 라비엔오 84D 불법행위 재공급: 공급규모 '불법행위재공급 주택 2세대 [특별공급 2세대(신혼부부 1, 노부모부양 1)]', 청약홈 일반 세대수 0, 유형별 특공 세대수 없음.
+    # 기대값: 일반공급이 없으면 일반공급 판정을 쓰지 않고 특별공급 판정 중 가장 좋은 것 (oracle sp_expect, 위 2) 공공 특별공급 소득 단계 표)
+    def best(types, p):
+        ss = [sp_expect(True, t, p, 3)["s"] for t in types]
+        return "ok" if "ok" in ss else "unsure" if "warn" in ss else "no"
+    g59 = ["newborn", "newlywed", "first", "multichild"]
+    p = dict(pub_base, hhIncomeYear=3000, income=3000)
+    g(fn="bucket", listing="2026000414-059.9700G", profile=p, expect={"b": best(g59, p)},
+      basis="2026000414 공급표 59G 일반공급 0세대 — 특별공급(신생아 소득 100% 이하 우선공급)으로 신청 가능")
+    p = dict(pub_base, hhIncomeYear=30000, income=30000)
+    assert best(g59, p) == "no"
+    g(fn="bucket", listing="2026000414-059.9700G", profile=p, expect={"b": "no"},
+      basis="2026000414 공급표 59G 일반공급 0세대 — 특별공급 4유형 모두 소득 기준(<표4>·<표5> 최대 200%+완화 20%p) 초과")
+    g(fn="bucket", listing="2026000414-SPELDER", profile=dict(pub_base, hhIncomeYear=3000, income=3000, elder65=False), expect={"b": "no"},
+      basis="일반 0세대·노부모부양 특별공급만 있는 주택형(2026000414 59G 변형) — 규칙 제46조 '65세 이상 직계존속을 3년 이상 계속 부양' 미충족이면 신청할 공급이 없음 (일반공급 요건을 다 갖춰도)")
+    g(fn="bucket", listing="2026000414-059.8300C", profile=dict(pub_base, hhIncomeYear=3000, income=3000), expect={"b": "no"},
+      basis="2026000414 공급표 59C 총공급 15세대 = 사전청약 당첨자 15 → 이번 공고 공급 0세대 (일반 0·특별 0)")
+    g(fn="bucket", listing="2026930036-084.7450D", profile=dict(pub_base, homeSido="경기", homeSigun="과천시", hhIncomeYear=3000, income=3000), expect={"b": "unsure"},
+      basis="2026930036 공급규모 '특별공급 2세대(신혼부부 1, 노부모부양 1)' · 청약홈 일반 세대수 0 · 유형별 특공 세대수 자료 없음 → 확인 필요")
+
     OUT.parent.mkdir(parents=True, exist_ok=True)
     OUT.write_text(json.dumps(cases, ensure_ascii=False, indent=1) + "\n", encoding="utf-8")
     print(f"{len(cases)}건 → {OUT}")

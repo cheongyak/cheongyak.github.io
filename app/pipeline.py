@@ -374,6 +374,15 @@ def restore_missing_category(out: list, prev_rows: list, today: date, log: list[
     return restored
 
 
+def no_supply(raw: dict) -> bool:
+    """이번 공고에서 공급하는 세대가 0인 주택형 (기능: gen_none, 2026-10-02). 청약홈 일반공급 세대수 0 이고 특별공급 합계도 0 이면 신청할 세대가 없다
+    (예: 2026000414 인천계양 A6 59C·77C — 공고문 공급표상 전 세대가 사전청약 당첨자 몫). 특별공급 세대수를 모르는 공고(무순위·재공급)는 빼지 않는다."""
+    if not feature_on("gen_none") or raw.get("category") != "general":
+        return False
+    sp = raw.get("special_units") or {}
+    return raw.get("households") == 0 and sp.get("total") == 0
+
+
 def run(dry_run: bool = False, today: Optional[date] = None, read_notices: bool = True) -> list[Listing]:
     today = today or date.today()
     since = (today - timedelta(days=60)).isoformat()
@@ -395,6 +404,9 @@ def run(dry_run: bool = False, today: Optional[date] = None, read_notices: bool 
     for msg, n in pf.get("errors", []):
         log.append(f"[실거래 오류] {n}건: {msg}")
     for raw in raws:
+        if no_supply(raw):
+            log.append(f"[제외] {raw.get('name')} {raw.get('house_ty') or raw.get('unit')}: 이번 공고 공급 세대 0 (일반 0·특별 0) — 목록에서 뺌")
+            continue
         try:
             L = build_listing(raw, rt, today, lawd_cache)
         except Exception as e:  # 한 공고가 실패해도 나머지는 진행
