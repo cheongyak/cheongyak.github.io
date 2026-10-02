@@ -4,6 +4,15 @@
 2026-09-29 12:55 이전 항목은 규칙을 만들기 전 작업을 커밋 기록으로 정리한 것이라 백업 브랜치가 없어요.
 그 시점으로 되돌릴 때는 해당 커밋 번호로 `git revert` 를 써요.
 
+## 2026-10-02 12:12 · 과거 공고(2026) 실험 2단계: 보관함 데이터 만들기 (화면 미연결)
+- 요청: 과거 데이터까지 넣어 보기 (1단계 측정: 2026 공고 544건 — 일반분양 249·무순위 295, 주택형 약 1,400개 추정, 개요 호출 26회 10초)
+- 변경: tools/history/build.py — 2026-01-01 이후 공고 개요+주택형을 docs/archive/2026.json 에 주택형 단위로(청약홈 값만: 공고명·주소·시도/시군구·유형·면적·분양가·세대수·특공·일정·상태·링크). 마감된 주택형은 locked_at 을 찍고 다음 실행에서 다시 받지 않음(덮어쓰지 않음).
+  매일 수집(app/pipeline)·listings.json·화면은 그대로 — 아직 아무 화면도 이 파일을 읽지 않음. history.yml 에 build 단계 추가
+- 파일: tools/history/build.py, .github/workflows/history.yml
+- 확인: Actions 실행 후 evidence/history/build.json(건수·호출 수·시간·파일 크기)
+- 기능: historical (실험)
+- 백업: backup/20261002-1208-pre-historical
+
 ## 2026-10-02 12:08 · 과거 공고(2026) 실험 1단계: 규모 측정
 - 요청: 현재 상태를 백업하고 2026 과거 공고까지 넣어 보되, 활용도가 없거나 느리거나 못 쓸 정도면 폐기하고 백업으로 되돌린다
 - 변경: 실험 시작점 백업 backup/20261002-1208-pre-historical. tools/history/probe.py + .github/workflows/history.yml — 청약홈 API 로 2026-01-01 이후 공고 개요 건수·월별·유형·이름 표시(정정·취소 등)·필드·주택형 평균 수·예상 호출 수를 evidence/history/probe.json 에 기록. 서비스 데이터(docs/)·매일 수집은 그대로
