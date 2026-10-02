@@ -11,6 +11,7 @@ for (const x of rows) { const n = x.id.split('-')[0]; if (x.geo && x.geo.precisi
 const dests = [PLACES['판교역'], PLACES['의왕역']];
 const out = { at: new Date().toISOString(), keys: { naver: !!(keys.ncpId && keys.ncpSecret), kakao: !!keys.kakao }, kakao_local: null, pairs: [] };
 out.kakao_local = await kakaoKeyword('판교역', { key: keys.kakao });
+out.kakao_local_more = await Promise.all(['구로구', '마포구', '가산디지털단지역', '삼성전자 수원사업장'].map(async w => ({ q: w, ...(await kakaoKeyword(w, { key: keys.kakao })) })));   // 직장 위치 말투 그대로 (2026-10-02 카카오맵 켠 뒤)
 for (const s of sites) for (const d of dests) {
   const [n, k] = await Promise.all([carNaver(s, d, { id: keys.ncpId, secret: keys.ncpSecret }), carKakao(s, d, { key: keys.kakao })]);
   out.pairs.push({ from: s.name, to: d.name, naver_car: n, kakao_car: k });

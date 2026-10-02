@@ -8,10 +8,11 @@ export function data(opts = {}) {
   return CACHE.D;
 }
 // 키가 환경 변수에 있으면 출퇴근 시간을 실제로 조회 (Actions·서버). 로컬에 키가 없으면 직선거리만
-import { carTime } from './commute.mjs';
+import { carTime, kakaoKeyword } from './commute.mjs';
 const KEYS = { ncpId: process.env.NCP_MAPS_CLIENT_ID, ncpSecret: process.env.NCP_MAPS_CLIENT_SECRET, kakao: process.env.KAKAO_REST_KEY };
 export async function ask({ today = null, dataOpts = {}, ...rest }) {
   const commute = rest.commute !== undefined ? rest.commute : (KEYS.ncpId || KEYS.kakao ? (a, b) => carTime(a, b, KEYS) : null);
-  return askWith({ D: data({ today, ...dataOpts }), ...rest, commute });
+  const geocode = rest.geocode !== undefined ? rest.geocode : (KEYS.kakao ? w => kakaoKeyword(w, { key: KEYS.kakao }) : null);
+  return askWith({ D: data({ today, ...dataOpts }), ...rest, commute, geocode });
 }
 export { loadData };

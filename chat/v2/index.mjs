@@ -9,7 +9,8 @@ import { SP_LABEL } from './lexicon.mjs';
 // llm: async ({system, user}) => text  (없으면 AI 없이). profile: 청약패스 '내 조건'(브라우저 저장값) 그대로. state: 지난 질문의 조건(대화 중 조건 유지)
 // D: 데이터 묶음 (Node: node.mjs, 브라우저: browser.mjs fromScreen). 이 파일은 Node·브라우저 어디서나 돈다 (fs·네트워크 안 씀)
 // commute: async (from{lat,lng}, to{lat,lng}) => {min, km, src, at} | {error}  (서버에서만 — commute.mjs carTime). 없으면 직선거리만
-export async function ask({ D, question, profile = null, state = null, llm = null, updated = '', commute = null }) {
+// geocode: async (장소 이름) => {name, lat, lng} | {error} — 표에 없는 직장 위치를 실제 장소로 (서버에서만, 카카오 장소 검색)
+export async function ask({ D, question, profile = null, state = null, llm = null, updated = '', commute = null, geocode = null }) {
   const t0 = Date.now(), steps = [];
   // 1. 조건 추출 — 규칙 해석을 먼저, AI 가 있으면 AI 해석을 쓰되 형식 검사를 통과한 것만
   let C = state ? applyDelta(state, question) : extract(question), via = 'rules';
@@ -21,6 +22,10 @@ export async function ask({ D, question, profile = null, state = null, llm = nul
     } catch (e) { steps.push('AI 조건 해석 실패: ' + String(e.message || e).slice(0, 80)); }
   }
   C.today = D.today;
+  if (geocode) for (const c of C.conds.filter(c => c.key === 'commute' && c.value.approx)) {   // '구로구 (중심 근사)' → 실제 장소 (예: 구로구청)
+    const word = c.value.place.replace(/ \(중심 근사\)/, ''), g = await geocode(word);
+    if (g && !g.error) { Object.assign(c.value, { place: word, lat: g.lat, lng: g.lng, approx: false, found: g.name }); c.text = (c.value.who ? c.value.who + ' ' : '') + '직장 ' + word + '(' + g.name + ' 기준)'; }
+  }
   steps.push('조건 ' + C.conds.length + '개 (' + via + ')');
   // 2~6. 검색·걸러내기·자격·점수
   let mode = C.intent === 'compare' && C.targets.length >= 2 ? 'compare' : C.intent === 'explain' ? 'explain' : 'search';
