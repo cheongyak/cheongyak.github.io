@@ -1,13 +1,10 @@
 {
  "date": "2026-10-02",
- "page_cap": 80,
+ "page_cap": 300,
  "notices": 50,
- "with_problem": 14,
+ "with_problem": 4,
  "kinds": {
-  "PDF 를 하나도 받지 못함": 6,
-  "지금 수집 값과 다시 읽은 값이 다름": 2,
-  "읽기 도구에 따라 값이 다름": 3,
-  "N쪽 중 N쪽까지만 읽음 — 뒤 N쪽 N자 빠짐": 3,
+  "PDF 를 하나도 받지 못함": 3,
   "글자가 거의 없는 쪽 N개 (스캔 이미지·표 그림 추정)": 1
  },
  "errors": [],
@@ -17,22 +14,128 @@
    "name": "인천계양 A17블록 신혼희망타운(공공분양)(본청약)",
    "url": "https://www.applyhome.co.kr/ai/aia/selectAPTLttotPblancDetail.do?houseManageNo=2026820010&pblancNo=2026820010",
    "attachments": 0,
-   "pdfs": 0,
-   "attachment_list": [],
-   "problem": [
-    "PDF 를 하나도 받지 못함"
-   ]
+   "pdfs": 1,
+   "attachment_list": [
+    {
+     "url": "https://apply.lh.or.kr/lhapply/lhFile.do?fileid=68807314",
+     "bytes": 1035877,
+     "pages": 31,
+     "chars": 108055,
+     "head": "- 1 - 인천계양 인천계양 인천계양 인천계양 인천계양 인천계양 인천계양 인천계양 인천계양 인천계양 인천계양 인천계양 인천계양 인천계양 인천계양",
+     "via": "LH청약플러스"
+    }
+   ],
+   "chosen": "https://apply.lh.or.kr/lhapply/lhFile.do?fileid=68807314",
+   "pages": 31,
+   "pages_read": 31,
+   "chars_read": 108085,
+   "empty_pages": [],
+   "chars_per_page_min": 972,
+   "fields": {
+    "price_cap": true,
+    "residence_duty": 0,
+    "rewin_years": 10,
+    "account_months": 6,
+    "deposit_count": 6,
+    "residence": {
+     "area": "인천광역시",
+     "months": 0,
+     "since": null
+    },
+    "pub_limits_kind": "town"
+   },
+   "fields_merged": {
+    "price_cap": true,
+    "residence_duty": 0,
+    "rewin_years": 10,
+    "account_months": 6,
+    "deposit_count": 6,
+    "residence": {
+     "area": "인천광역시",
+     "months": 0,
+     "since": null
+    },
+    "pub_limits_kind": "town"
+   },
+   "fields_pdfium": {
+    "price_cap": true,
+    "residence_duty": 0,
+    "rewin_years": 10,
+    "account_months": 6,
+    "deposit_count": 6,
+    "residence": {
+     "area": "인천광역시",
+     "months": 0,
+     "since": null
+    },
+    "pub_limits_kind": "town"
+   },
+   "pdfium_chars": 106813,
+   "problem": []
   },
   {
    "notice": "2026820011",
    "name": "시흥하중지구 A-4블록 신혼희망타운(공공분양) 추가입주자모집",
    "url": "https://www.applyhome.co.kr/ai/aia/selectAPTLttotPblancDetail.do?houseManageNo=2026820011&pblancNo=2026820011",
    "attachments": 0,
-   "pdfs": 0,
-   "attachment_list": [],
-   "problem": [
-    "PDF 를 하나도 받지 못함"
-   ]
+   "pdfs": 1,
+   "attachment_list": [
+    {
+     "url": "https://apply.lh.or.kr/lhapply/lhFile.do?fileid=68663246",
+     "bytes": 917230,
+     "pages": 21,
+     "chars": 90573,
+     "head": "- 1 - 시흥하중지구 시흥하중지구 시흥하중지구 시흥하중지구 시흥하중지구 시흥하중지구 시흥하중지구 시흥하중지구 시흥하중지구 시흥하중지구 시흥하중",
+     "via": "LH청약플러스"
+    }
+   ],
+   "chosen": "https://apply.lh.or.kr/lhapply/lhFile.do?fileid=68663246",
+   "pages": 21,
+   "pages_read": 21,
+   "chars_read": 90593,
+   "empty_pages": [],
+   "chars_per_page_min": 2802,
+   "fields": {
+    "price_cap": true,
+    "duty_silent": true,
+    "rewin_years": 10,
+    "account_months": 6,
+    "deposit_count": 6,
+    "residence": {
+     "area": "시흥시",
+     "months": 12,
+     "since": "2025-09-18"
+    },
+    "pub_limits_kind": "town"
+   },
+   "fields_merged": {
+    "price_cap": true,
+    "duty_silent": true,
+    "rewin_years": 10,
+    "account_months": 6,
+    "deposit_count": 6,
+    "residence": {
+     "area": "시흥시",
+     "months": 12,
+     "since": "2025-09-18"
+    },
+    "pub_limits_kind": "town"
+   },
+   "fields_pdfium": {
+    "price_cap": true,
+    "duty_silent": true,
+    "rewin_years": 10,
+    "account_months": 6,
+    "deposit_count": 6,
+    "residence": {
+     "area": "시흥시",
+     "months": 12,
+     "since": "2025-09-18"
+    },
+    "pub_limits_kind": "town"
+   },
+   "pdfium_chars": 88064,
+   "problem": []
   },
   {
    "notice": "2026000453",
@@ -56,6 +159,18 @@
    "empty_pages": [],
    "chars_per_page_min": 383,
    "fields": {
+    "need_head": false,
+    "price_cap": false,
+    "residence_duty": 0,
+    "rewin_years": 10,
+    "account_months": 24,
+    "residence": {
+     "area": "경기도 광명시",
+     "months": 24,
+     "since": "2024-09-18"
+    }
+   },
+   "fields_merged": {
     "need_head": false,
     "price_cap": false,
     "residence_duty": 0,
@@ -104,6 +219,18 @@
    "empty_pages": [],
    "chars_per_page_min": 380,
    "fields": {
+    "need_head": false,
+    "price_cap": false,
+    "residence_duty": 0,
+    "rewin_years": 0,
+    "account_months": 12,
+    "residence": {
+     "area": "인천광역시",
+     "months": 0,
+     "since": null
+    }
+   },
+   "fields_merged": {
     "need_head": false,
     "price_cap": false,
     "residence_duty": 0,
@@ -164,6 +291,19 @@
      "since": "2025-09-18"
     }
    },
+   "fields_merged": {
+    "need_head": false,
+    "price_cap": false,
+    "residence_duty": 0,
+    "rewin_years": 0,
+    "account_months": 6,
+    "ext": 0.0125,
+    "residence": {
+     "area": "경상남도 진주시",
+     "months": 12,
+     "since": "2025-09-18"
+    }
+   },
    "fields_pdfium": {
     "need_head": false,
     "price_cap": false,
@@ -178,15 +318,7 @@
     }
    },
    "pdfium_chars": 147428,
-   "live_gap": {
-    "ext": [
-     0.0,
-     0.0125
-    ]
-   },
-   "problem": [
-    "지금 수집 값과 다시 읽은 값이 다름: ext 0.0→0.0125"
-   ]
+   "problem": []
   },
   {
    "notice": "2026000445",
@@ -210,6 +342,18 @@
    "empty_pages": [],
    "chars_per_page_min": 439,
    "fields": {
+    "need_head": false,
+    "price_cap": false,
+    "residence_duty": 0,
+    "rewin_years": 0,
+    "account_months": 6,
+    "residence": {
+     "area": "전주시",
+     "months": 12,
+     "since": "2025-09-18"
+    }
+   },
+   "fields_merged": {
     "need_head": false,
     "price_cap": false,
     "residence_duty": 0,
@@ -269,6 +413,18 @@
      "since": null
     }
    },
+   "fields_merged": {
+    "need_head": false,
+    "price_cap": true,
+    "residence_duty": 0,
+    "rewin_years": 10,
+    "account_months": 6,
+    "residence": {
+     "area": "부산광역시",
+     "months": 0,
+     "since": null
+    }
+   },
    "fields_pdfium": {
     "need_head": false,
     "price_cap": true,
@@ -317,6 +473,18 @@
      "since": "2025-09-18"
     }
    },
+   "fields_merged": {
+    "need_head": false,
+    "price_cap": false,
+    "residence_duty": 0,
+    "rewin_years": 0,
+    "account_months": 6,
+    "residence": {
+     "area": "울산광역시",
+     "months": 12,
+     "since": "2025-09-18"
+    }
+   },
    "fields_pdfium": {
     "need_head": false,
     "price_cap": false,
@@ -335,9 +503,10 @@
      null
     ]
    },
-   "problem": [
-    "읽기 도구에 따라 값이 다름: account_months 6↔None"
-   ]
+   "filled_by_second_tool": [
+    "account_months"
+   ],
+   "problem": []
   },
   {
    "notice": "2026000424",
@@ -361,6 +530,18 @@
    "empty_pages": [],
    "chars_per_page_min": 541,
    "fields": {
+    "need_head": false,
+    "price_cap": false,
+    "residence_duty": 0,
+    "rewin_years": 0,
+    "account_months": 6,
+    "residence": {
+     "area": "부산광역시",
+     "months": 12,
+     "since": "2025-09-18"
+    }
+   },
+   "fields_merged": {
     "need_head": false,
     "price_cap": false,
     "residence_duty": 0,
@@ -419,6 +600,17 @@
      "since": null
     }
    },
+   "fields_merged": {
+    "price_cap": false,
+    "residence_duty": 0,
+    "rewin_years": 0,
+    "account_months": 6,
+    "residence": {
+     "area": "충청남도 천안시",
+     "months": 0,
+     "since": null
+    }
+   },
    "fields_pdfium": {
     "price_cap": false,
     "residence_duty": 0,
@@ -455,6 +647,18 @@
    "empty_pages": [],
    "chars_per_page_min": 1077,
    "fields": {
+    "need_head": false,
+    "price_cap": false,
+    "residence_duty": 0,
+    "rewin_years": 0,
+    "account_months": 12,
+    "residence": {
+     "area": "경기도 수원시",
+     "months": 0,
+     "since": null
+    }
+   },
+   "fields_merged": {
     "need_head": false,
     "price_cap": false,
     "residence_duty": 0,
@@ -514,6 +718,18 @@
      "since": "2025-09-11"
     }
    },
+   "fields_merged": {
+    "need_head": false,
+    "price_cap": false,
+    "residence_duty": 0,
+    "rewin_years": 0,
+    "account_months": 6,
+    "residence": {
+     "area": "울산광역시",
+     "months": 12,
+     "since": "2025-09-11"
+    }
+   },
    "fields_pdfium": {
     "need_head": false,
     "price_cap": false,
@@ -534,49 +750,19 @@
    "name": "힐스테이트 고덕엘리스트 A65BL 공공분양주택",
    "url": "https://www.applyhome.co.kr/ai/aia/selectAPTLttotPblancDetail.do?houseManageNo=2026000438&pblancNo=2026000438",
    "attachments": 1,
-   "pdfs": 1,
+   "pdfs": 0,
    "attachment_list": [
     {
      "url": "https://static.applyhome.co.kr/ai/aia/getAtchmnfl.do?houseManageNo=2026000438&pblancNo=2026000438&atchmnflSeqNo=1973016&atchmnflSn=5",
-     "bytes": 1152965,
-     "pages": 93,
-     "chars": 184469,
-     "head": "- 1 - 구분 변경 전 변경 후 품목 타입 (약식표기) 페이지 품목 타입 (약식표기) 페이지 다이닝 컬렉션 1 주방 평면 변화 + 벽체/상판 "
+     "error": "PDF 아님 (200, 59바이트)"
+    },
+    {
+     "url": "LH청약플러스",
+     "error": "LH청약플러스에서 같은 공고를 못 찾음 (검색 0건)"
     }
    ],
-   "chosen": "https://static.applyhome.co.kr/ai/aia/getAtchmnfl.do?houseManageNo=2026000438&pblancNo=2026000438&atchmnflSeqNo=1973016&atchmnflSn=5",
-   "pages": 93,
-   "pages_read": 80,
-   "chars_read": 163274,
-   "empty_pages": [],
-   "chars_per_page_min": 458,
-   "fields": {
-    "price_cap": true,
-    "residence_duty": 3,
-    "rewin_years": 10,
-    "account_months": 12,
-    "deposit_count": 12,
-    "residence": {
-     "area": "경기도 평택시",
-     "months": 12,
-     "since": "2025-09-11"
-    }
-   },
-   "fields_pdfium": {
-    "price_cap": true,
-    "residence_duty": 3,
-    "rewin_years": 10,
-    "account_months": 12,
-    "deposit_count": 12,
-    "residence": {
-     "area": "경기도 평택시",
-     "months": 12,
-     "since": "2025-09-11"
-    }
-   },
-   "pdfium_chars": 184389,
    "problem": [
-    "93쪽 중 80쪽까지만 읽음 — 뒤 13쪽 21274자 빠짐"
+    "PDF 를 하나도 받지 못함"
    ]
   },
   {
@@ -596,11 +782,23 @@
    ],
    "chosen": "https://static.applyhome.co.kr/ai/aia/getAtchmnfl.do?houseManageNo=2026000437&pblancNo=2026000437&atchmnflSeqNo=1971201&atchmnflSn=6",
    "pages": 93,
-   "pages_read": 80,
-   "chars_read": 165265,
+   "pages_read": 93,
+   "chars_read": 186337,
    "empty_pages": [],
    "chars_per_page_min": 431,
    "fields": {
+    "price_cap": true,
+    "residence_duty": 3,
+    "rewin_years": 10,
+    "account_months": 12,
+    "deposit_count": 12,
+    "residence": {
+     "area": "경기도 평택시",
+     "months": 12,
+     "since": "2025-09-11"
+    }
+   },
+   "fields_merged": {
     "price_cap": true,
     "residence_duty": 3,
     "rewin_years": 10,
@@ -625,9 +823,7 @@
     }
    },
    "pdfium_chars": 186313,
-   "problem": [
-    "93쪽 중 80쪽까지만 읽음 — 뒤 13쪽 21059자 빠짐"
-   ]
+   "problem": []
   },
   {
    "notice": "2026000103",
@@ -651,6 +847,18 @@
    "empty_pages": [],
    "chars_per_page_min": 1221,
    "fields": {
+    "need_head": false,
+    "price_cap": false,
+    "residence_duty": 0,
+    "rewin_years": 10,
+    "account_months": 24,
+    "residence": {
+     "area": "경기도 성남시",
+     "months": 24,
+     "since": "2024-09-11"
+    }
+   },
+   "fields_merged": {
     "need_head": false,
     "price_cap": false,
     "residence_duty": 0,
@@ -710,6 +918,18 @@
      "since": null
     }
    },
+   "fields_merged": {
+    "need_head": false,
+    "price_cap": false,
+    "residence_duty": 0,
+    "rewin_years": 0,
+    "account_months": 12,
+    "residence": {
+     "area": "경기도 부천시",
+     "months": 0,
+     "since": null
+    }
+   },
    "fields_pdfium": {
     "need_head": false,
     "price_cap": false,
@@ -747,6 +967,18 @@
    "empty_pages": [],
    "chars_per_page_min": 760,
    "fields": {
+    "need_head": false,
+    "price_cap": false,
+    "residence_duty": 0,
+    "rewin_years": 0,
+    "account_months": 12,
+    "residence": {
+     "area": "경기도 남양주시",
+     "months": 0,
+     "since": null
+    }
+   },
+   "fields_merged": {
     "need_head": false,
     "price_cap": false,
     "residence_duty": 0,
@@ -806,6 +1038,18 @@
      "since": null
     }
    },
+   "fields_merged": {
+    "need_head": false,
+    "price_cap": false,
+    "residence_duty": 0,
+    "rewin_years": 0,
+    "account_months": 6,
+    "residence": {
+     "area": "충청남도 천안시",
+     "months": 0,
+     "since": null
+    }
+   },
    "fields_pdfium": {
     "need_head": false,
     "price_cap": false,
@@ -838,11 +1082,23 @@
    ],
    "chosen": "https://static.applyhome.co.kr/ai/aia/getAtchmnfl.do?houseManageNo=2026000423&pblancNo=2026000423&atchmnflSeqNo=1963212&atchmnflSn=3",
    "pages": 83,
-   "pages_read": 80,
-   "chars_read": 166287,
+   "pages_read": 83,
+   "chars_read": 170680,
    "empty_pages": [],
    "chars_per_page_min": 852,
    "fields": {
+    "need_head": false,
+    "price_cap": false,
+    "residence_duty": 0,
+    "rewin_years": 0,
+    "account_months": 6,
+    "residence": {
+     "area": "충청남도 천안시",
+     "months": 0,
+     "since": null
+    }
+   },
+   "fields_merged": {
     "need_head": false,
     "price_cap": false,
     "residence_duty": 0,
@@ -867,9 +1123,7 @@
     }
    },
    "pdfium_chars": 171216,
-   "problem": [
-    "83쪽 중 80쪽까지만 읽음 — 뒤 3쪽 4390자 빠짐"
-   ]
+   "problem": []
   },
   {
    "notice": "2026000422",
@@ -893,6 +1147,18 @@
    "empty_pages": [],
    "chars_per_page_min": 143,
    "fields": {
+    "need_head": false,
+    "price_cap": false,
+    "residence_duty": 0,
+    "rewin_years": 0,
+    "account_months": 6,
+    "residence": {
+     "area": "충청남도 천안시",
+     "months": 0,
+     "since": null
+    }
+   },
+   "fields_merged": {
     "need_head": false,
     "price_cap": false,
     "residence_duty": 0,
@@ -952,6 +1218,18 @@
      "since": null
     }
    },
+   "fields_merged": {
+    "need_head": false,
+    "price_cap": false,
+    "residence_duty": 0,
+    "rewin_years": 0,
+    "account_months": 6,
+    "residence": {
+     "area": "울산광역시",
+     "months": 0,
+     "since": null
+    }
+   },
    "fields_pdfium": {
     "need_head": false,
     "price_cap": false,
@@ -989,6 +1267,18 @@
    "empty_pages": [],
    "chars_per_page_min": 181,
    "fields": {
+    "need_head": false,
+    "price_cap": false,
+    "residence_duty": 0,
+    "rewin_years": 0,
+    "account_months": 12,
+    "residence": {
+     "area": "경기도 시흥시",
+     "months": 12,
+     "since": "2025-09-04"
+    }
+   },
+   "fields_merged": {
     "need_head": false,
     "price_cap": false,
     "residence_duty": 0,
@@ -1048,6 +1338,18 @@
      "since": null
     }
    },
+   "fields_merged": {
+    "need_head": false,
+    "price_cap": false,
+    "residence_duty": 0,
+    "rewin_years": 0,
+    "account_months": 12,
+    "residence": {
+     "area": "경기도 여주시",
+     "months": 0,
+     "since": null
+    }
+   },
    "fields_pdfium": {
     "need_head": false,
     "price_cap": false,
@@ -1085,6 +1387,18 @@
    "empty_pages": [],
    "chars_per_page_min": 1487,
    "fields": {
+    "need_head": false,
+    "price_cap": false,
+    "residence_duty": 0,
+    "rewin_years": 0,
+    "account_months": 6,
+    "residence": {
+     "area": "광주광역시",
+     "months": 12,
+     "since": "2025-09-02"
+    }
+   },
+   "fields_merged": {
     "need_head": false,
     "price_cap": false,
     "residence_duty": 0,
@@ -1145,6 +1459,19 @@
      "since": "2025-09-02"
     }
    },
+   "fields_merged": {
+    "need_head": false,
+    "price_cap": false,
+    "residence_duty": 0,
+    "rewin_years": 0,
+    "account_months": 6,
+    "ext": 0.2,
+    "residence": {
+     "area": "울산광역시",
+     "months": 12,
+     "since": "2025-09-02"
+    }
+   },
    "fields_pdfium": {
     "need_head": false,
     "price_cap": false,
@@ -1159,110 +1486,386 @@
     }
    },
    "pdfium_chars": 159825,
-   "live_gap": {
-    "ext": [
-     0.0,
-     0.2
-    ]
-   },
-   "problem": [
-    "지금 수집 값과 다시 읽은 값이 다름: ext 0.0→0.2"
-   ]
+   "problem": []
   },
   {
    "notice": "2026000414",
    "name": "인천계양지구 A6블록 공공분양주택(본청약)",
    "url": "https://www.applyhome.co.kr/ai/aia/selectAPTLttotPblancDetail.do?houseManageNo=2026000414&pblancNo=2026000414",
    "attachments": 0,
-   "pdfs": 0,
-   "attachment_list": [],
-   "problem": [
-    "PDF 를 하나도 받지 못함"
-   ]
+   "pdfs": 1,
+   "attachment_list": [
+    {
+     "url": "https://apply.lh.or.kr/lhapply/lhFile.do?fileid=68595376",
+     "bytes": 1620040,
+     "pages": 47,
+     "chars": 179892,
+     "head": "- 1 - 인천계양지구 인천계양지구 인천계양지구 인천계양지구 인천계양지구 인천계양지구 인천계양지구 인천계양지구 인천계양지구 인천계양지구 인천계양",
+     "via": "LH청약플러스"
+    }
+   ],
+   "chosen": "https://apply.lh.or.kr/lhapply/lhFile.do?fileid=68595376",
+   "pages": 47,
+   "pages_read": 47,
+   "chars_read": 179938,
+   "empty_pages": [],
+   "chars_per_page_min": 445,
+   "fields": {
+    "need_head": false,
+    "price_cap": true,
+    "residence_duty": 0,
+    "rewin_years": 10,
+    "account_months": 12,
+    "deposit_count": 12,
+    "residence": {
+     "area": "인천광역시",
+     "months": 0,
+     "since": null
+    },
+    "pub_limits_kind": null,
+    "schedule": {
+     "pre": [
+      "2026-09-17",
+      "2026-09-18"
+     ],
+     "special": [
+      "2026-09-30",
+      "2026-09-30"
+     ],
+     "general": [
+      "2026-10-01",
+      "2026-10-02"
+     ]
+    }
+   },
+   "fields_merged": {
+    "need_head": false,
+    "price_cap": true,
+    "residence_duty": 0,
+    "rewin_years": 10,
+    "account_months": 12,
+    "deposit_count": 12,
+    "residence": {
+     "area": "인천광역시",
+     "months": 0,
+     "since": null
+    },
+    "pub_limits_kind": null,
+    "schedule": {
+     "pre": [
+      "2026-09-17",
+      "2026-09-18"
+     ],
+     "special": [
+      "2026-09-30",
+      "2026-09-30"
+     ],
+     "general": [
+      "2026-10-01",
+      "2026-10-02"
+     ]
+    }
+   },
+   "fields_pdfium": {
+    "need_head": false,
+    "price_cap": true,
+    "residence_duty": 0,
+    "rewin_years": 10,
+    "account_months": 12,
+    "deposit_count": 12,
+    "residence": {
+     "area": "인천광역시",
+     "months": 0,
+     "since": null
+    },
+    "pub_limits_kind": null,
+    "schedule": {
+     "pre": [
+      "2026-09-17",
+      "2026-09-18"
+     ],
+     "special": [
+      "2026-09-30",
+      "2026-09-30"
+     ],
+     "general": [
+      "2026-10-01",
+      "2026-10-02"
+     ]
+    }
+   },
+   "pdfium_chars": 178388,
+   "problem": []
   },
   {
    "notice": "2026000416",
    "name": "양주회천지구 A-26블록 공공분양주택",
    "url": "https://www.applyhome.co.kr/ai/aia/selectAPTLttotPblancDetail.do?houseManageNo=2026000416&pblancNo=2026000416",
    "attachments": 0,
-   "pdfs": 0,
-   "attachment_list": [],
-   "problem": [
-    "PDF 를 하나도 받지 못함"
-   ]
+   "pdfs": 1,
+   "attachment_list": [
+    {
+     "url": "https://apply.lh.or.kr/lhapply/lhFile.do?fileid=68440094",
+     "bytes": 1538447,
+     "pages": 45,
+     "chars": 161643,
+     "head": "- 1 - 양주회천지구 양주회천지구 양주회천지구 양주회천지구 양주회천지구 양주회천지구 양주회천지구 양주회천지구 양주회천지구 양주회천지구 양주회천",
+     "via": "LH청약플러스"
+    }
+   ],
+   "chosen": "https://apply.lh.or.kr/lhapply/lhFile.do?fileid=68440094",
+   "pages": 45,
+   "pages_read": 45,
+   "chars_read": 161687,
+   "empty_pages": [],
+   "chars_per_page_min": 1035,
+   "fields": {
+    "need_head": false,
+    "price_cap": true,
+    "duty_silent": true,
+    "rewin_years": 10,
+    "account_months": 12,
+    "deposit_count": 12,
+    "residence": {
+     "area": "양주시",
+     "months": 12,
+     "since": "2025-08-27"
+    },
+    "pub_limits_kind": null,
+    "schedule": {
+     "special": [
+      "2026-09-14",
+      "2026-09-15"
+     ],
+     "general": [
+      "2026-09-16",
+      "2026-09-17"
+     ]
+    }
+   },
+   "fields_merged": {
+    "need_head": false,
+    "price_cap": true,
+    "duty_silent": true,
+    "rewin_years": 10,
+    "account_months": 12,
+    "deposit_count": 12,
+    "residence": {
+     "area": "양주시",
+     "months": 12,
+     "since": "2025-08-27"
+    },
+    "pub_limits_kind": null,
+    "schedule": {
+     "special": [
+      "2026-09-14",
+      "2026-09-15"
+     ],
+     "general": [
+      "2026-09-16",
+      "2026-09-17"
+     ]
+    }
+   },
+   "fields_pdfium": {
+    "need_head": false,
+    "price_cap": true,
+    "duty_silent": true,
+    "rewin_years": 10,
+    "account_months": 12,
+    "deposit_count": 12,
+    "residence": {
+     "area": "양주시",
+     "months": 12,
+     "since": "2025-08-27"
+    },
+    "pub_limits_kind": null,
+    "schedule": {
+     "special": [
+      "2026-09-14",
+      "2026-09-15"
+     ],
+     "general": [
+      "2026-09-16",
+      "2026-09-17"
+     ]
+    }
+   },
+   "pdfium_chars": 158419,
+   "problem": []
   },
   {
    "notice": "2026000409",
    "name": "의정부우정 A2블록 공공분양주택(본청약)",
    "url": "https://www.applyhome.co.kr/ai/aia/selectAPTLttotPblancDetail.do?houseManageNo=2026000409&pblancNo=2026000409",
    "attachments": 0,
-   "pdfs": 0,
-   "attachment_list": [],
-   "problem": [
-    "PDF 를 하나도 받지 못함"
-   ]
+   "pdfs": 1,
+   "attachment_list": [
+    {
+     "url": "https://apply.lh.or.kr/lhapply/lhFile.do?fileid=68307467",
+     "bytes": 1426059,
+     "pages": 41,
+     "chars": 149722,
+     "head": "- 1 - 의정부우정지구 의정부우정지구 의정부우정지구 의정부우정지구 의정부우정지구 의정부우정지구 의정부우정지구 의정부우정지구 의정부우정지구 의정",
+     "via": "LH청약플러스"
+    }
+   ],
+   "chosen": "https://apply.lh.or.kr/lhapply/lhFile.do?fileid=68307467",
+   "pages": 41,
+   "pages_read": 41,
+   "chars_read": 149762,
+   "empty_pages": [],
+   "chars_per_page_min": 1267,
+   "fields": {
+    "need_head": false,
+    "price_cap": true,
+    "duty_silent": true,
+    "rewin_years": 10,
+    "account_months": 12,
+    "deposit_count": 12,
+    "residence": {
+     "area": "의정부시",
+     "months": 0,
+     "since": null
+    },
+    "pub_limits_kind": null,
+    "schedule": {
+     "pre": [
+      "2026-09-07",
+      "2026-09-08"
+     ],
+     "special": [
+      "2026-09-14",
+      "2026-09-15"
+     ],
+     "general": [
+      "2026-09-16",
+      "2026-09-17"
+     ]
+    }
+   },
+   "fields_merged": {
+    "need_head": false,
+    "price_cap": true,
+    "duty_silent": true,
+    "rewin_years": 10,
+    "account_months": 12,
+    "deposit_count": 12,
+    "residence": {
+     "area": "의정부시",
+     "months": 0,
+     "since": null
+    },
+    "pub_limits_kind": null,
+    "schedule": {
+     "pre": [
+      "2026-09-07",
+      "2026-09-08"
+     ],
+     "special": [
+      "2026-09-14",
+      "2026-09-15"
+     ],
+     "general": [
+      "2026-09-16",
+      "2026-09-17"
+     ]
+    }
+   },
+   "fields_pdfium": {
+    "need_head": false,
+    "price_cap": true,
+    "duty_silent": true,
+    "rewin_years": 10,
+    "account_months": 12,
+    "deposit_count": 12,
+    "residence": {
+     "area": "의정부시",
+     "months": 0,
+     "since": null
+    },
+    "pub_limits_kind": null,
+    "schedule": {
+     "pre": [
+      "2026-09-07",
+      "2026-09-08"
+     ],
+     "special": [
+      "2026-09-14",
+      "2026-09-15"
+     ],
+     "general": [
+      "2026-09-16",
+      "2026-09-17"
+     ]
+    }
+   },
+   "pdfium_chars": 149078,
+   "problem": []
   },
   {
    "notice": "2026910253",
    "name": "오남역 서희스타힐스 여의재 1단지",
    "url": "https://www.applyhome.co.kr/ai/aia/selectAPTRemndrLttotPblancDetailView.do?houseManageNo=2026910253&pblancNo=2026910253",
    "attachments": 1,
-   "pdfs": 0,
-   "attachment_list": [
-    {
-     "url": "https://static.applyhome.co.kr/ai/aia/getAtchmnfl.do?houseManageNo=2026910253&pblancNo=2026910253&atchmnflSeqNo=1988120&atchmnflSn=3",
-     "error": "PDF 아님 (200, 59바이트)"
-    }
-   ],
-   "problem": [
-    "PDF 를 하나도 받지 못함"
-   ]
-  },
-  {
-   "notice": "2026910250",
-   "name": "신림스카이아파트(20차)",
-   "url": "https://www.applyhome.co.kr/ai/aia/selectAPTRemndrLttotPblancDetailView.do?houseManageNo=2026910250&pblancNo=2026910250",
-   "attachments": 1,
    "pdfs": 1,
    "attachment_list": [
     {
-     "url": "https://static.applyhome.co.kr/ai/aia/getAtchmnfl.do?houseManageNo=2026910250&pblancNo=2026910250&atchmnflSeqNo=1978039&atchmnflSn=2",
-     "bytes": 235192,
-     "pages": 9,
-     "chars": 13277,
-     "head": "- 1 - ※ 단지 주요정보 (분양문의) 02-877-9273 주택유형 규제지역여부 무순위(사후) 자격요건 민영 투기과열지구/청약과열지역 무순위"
+     "url": "https://static.applyhome.co.kr/ai/aia/getAtchmnfl.do?houseManageNo=2026910253&pblancNo=2026910253&atchmnflSeqNo=1988120&atchmnflSn=3",
+     "bytes": 245618,
+     "pages": 12,
+     "chars": 15235,
+     "head": "- 1 - ※ 본 입주자모집공고의 내용을 숙지한 후 청약 및 계약에 응하시기 바라며, 미숙지로 인한 착오 행위 등에 대하여 청약자 및 계약자 본"
     }
    ],
-   "chosen": "https://static.applyhome.co.kr/ai/aia/getAtchmnfl.do?houseManageNo=2026910250&pblancNo=2026910250&atchmnflSeqNo=1978039&atchmnflSn=2",
-   "pages": 9,
-   "pages_read": 9,
-   "chars_read": 13285,
+   "chosen": "https://static.applyhome.co.kr/ai/aia/getAtchmnfl.do?houseManageNo=2026910253&pblancNo=2026910253&atchmnflSeqNo=1988120&atchmnflSn=3",
+   "pages": 12,
+   "pages_read": 12,
+   "chars_read": 15246,
    "empty_pages": [],
-   "chars_per_page_min": 519,
+   "chars_per_page_min": 620,
    "fields": {
     "need_head": false,
-    "price_cap": false,
-    "residence_duty": 0,
-    "rewin_years": 10,
     "residence": {
-     "area": "서울특별시",
+     "area": null,
+     "months": 0,
+     "since": null
+    }
+   },
+   "fields_merged": {
+    "need_head": false,
+    "residence": {
+     "area": null,
      "months": 0,
      "since": null
     }
    },
    "fields_pdfium": {
     "need_head": false,
-    "price_cap": false,
-    "residence_duty": 0,
-    "rewin_years": 10,
     "residence": {
-     "area": "서울특별시",
+     "area": null,
      "months": 0,
      "since": null
     }
    },
-   "pdfium_chars": 13102,
+   "pdfium_chars": 15442,
    "problem": []
+  },
+  {
+   "notice": "2026910250",
+   "name": "신림스카이아파트(20차)",
+   "url": "https://www.applyhome.co.kr/ai/aia/selectAPTRemndrLttotPblancDetailView.do?houseManageNo=2026910250&pblancNo=2026910250",
+   "attachments": 1,
+   "pdfs": 0,
+   "attachment_list": [
+    {
+     "url": "https://static.applyhome.co.kr/ai/aia/getAtchmnfl.do?houseManageNo=2026910250&pblancNo=2026910250&atchmnflSeqNo=1978039&atchmnflSn=2",
+     "error": "PDF 아님 (200, 59바이트)"
+    }
+   ],
+   "problem": [
+    "PDF 를 하나도 받지 못함"
+   ]
   },
   {
    "notice": "2026910249",
@@ -1294,6 +1897,15 @@
      "since": null
     }
    },
+   "fields_merged": {
+    "need_head": false,
+    "price_cap": true,
+    "residence": {
+     "area": "세종특별자치시",
+     "months": 0,
+     "since": null
+    }
+   },
    "fields_pdfium": {
     "need_head": false,
     "price_cap": true,
@@ -1311,46 +1923,16 @@
    "name": "충정로역자이르네",
    "url": "https://www.applyhome.co.kr/ai/aia/selectAPTRemndrLttotPblancDetailView.do?houseManageNo=2026910251&pblancNo=2026910251",
    "attachments": 1,
-   "pdfs": 1,
+   "pdfs": 0,
    "attachment_list": [
     {
      "url": "https://static.applyhome.co.kr/ai/aia/getAtchmnfl.do?houseManageNo=2026910251&pblancNo=2026910251&atchmnflSeqNo=1986036&atchmnflSn=2",
-     "bytes": 1782710,
-     "pages": 16,
-     "chars": 44807,
-     "head": "- 1 - 견본주택에 주차가 불가하오니 대중교통을 이용하시기 바랍니다, .※ ※ 청약 전 유의사항 분양문의( ) 1660-1245 구분 내용 재"
+     "error": "PDF 아님 (200, 59바이트)"
     }
    ],
-   "chosen": "https://static.applyhome.co.kr/ai/aia/getAtchmnfl.do?houseManageNo=2026910251&pblancNo=2026910251&atchmnflSeqNo=1986036&atchmnflSn=2",
-   "pages": 16,
-   "pages_read": 16,
-   "chars_read": 44822,
-   "empty_pages": [],
-   "chars_per_page_min": 1567,
-   "fields": {
-    "need_head": false,
-    "price_cap": false,
-    "residence_duty": 0,
-    "rewin_years": 10,
-    "residence": {
-     "area": "서울특별시",
-     "months": 0,
-     "since": null
-    }
-   },
-   "fields_pdfium": {
-    "need_head": false,
-    "price_cap": false,
-    "residence_duty": 0,
-    "rewin_years": 10,
-    "residence": {
-     "area": "서울특별시",
-     "months": 0,
-     "since": null
-    }
-   },
-   "pdfium_chars": 45093,
-   "problem": []
+   "problem": [
+    "PDF 를 하나도 받지 못함"
+   ]
   },
   {
    "notice": "2026930040",
@@ -1374,6 +1956,19 @@
    "empty_pages": [],
    "chars_per_page_min": 666,
    "fields": {
+    "need_head": true,
+    "price_cap": false,
+    "residence_duty": 0,
+    "rewin_years": 10,
+    "balance": "2026-11-30",
+    "ext": 0.2178,
+    "residence": {
+     "area": "서울특별시",
+     "months": 0,
+     "since": null
+    }
+   },
+   "fields_merged": {
     "need_head": true,
     "price_cap": false,
     "residence_duty": 0,
@@ -1435,6 +2030,17 @@
      "since": null
     }
    },
+   "fields_merged": {
+    "need_head": true,
+    "price_cap": true,
+    "residence_duty": 0,
+    "rewin_years": 10,
+    "residence": {
+     "area": "과천시",
+     "months": 0,
+     "since": null
+    }
+   },
    "fields_pdfium": {
     "need_head": true,
     "price_cap": true,
@@ -1453,9 +2059,11 @@
      10
     ]
    },
+   "filled_by_second_tool": [
+    "rewin_years"
+   ],
    "problem": [
-    "글자가 거의 없는 쪽 1개 (스캔 이미지·표 그림 추정): [14]",
-    "읽기 도구에 따라 값이 다름: rewin_years None↔10"
+    "글자가 거의 없는 쪽 1개 (스캔 이미지·표 그림 추정): [14]"
    ]
   },
   {
@@ -1488,6 +2096,16 @@
      "since": null
     }
    },
+   "fields_merged": {
+    "price_cap": true,
+    "residence_duty": 0,
+    "rewin_years": 10,
+    "residence": {
+     "area": "과천시",
+     "months": 0,
+     "since": null
+    }
+   },
    "fields_pdfium": {
     "price_cap": true,
     "residence_duty": 0,
@@ -1505,9 +2123,10 @@
      10
     ]
    },
-   "problem": [
-    "읽기 도구에 따라 값이 다름: rewin_years None↔10"
-   ]
+   "filled_by_second_tool": [
+    "rewin_years"
+   ],
+   "problem": []
   },
   {
    "notice": "2026910220",
@@ -1531,6 +2150,17 @@
    "empty_pages": [],
    "chars_per_page_min": 351,
    "fields": {
+    "need_head": false,
+    "price_cap": false,
+    "residence_duty": 0,
+    "rewin_years": 10,
+    "residence": {
+     "area": null,
+     "months": 0,
+     "since": null
+    }
+   },
+   "fields_merged": {
     "need_head": false,
     "price_cap": false,
     "residence_duty": 0,
@@ -1584,6 +2214,14 @@
      "since": null
     }
    },
+   "fields_merged": {
+    "need_head": false,
+    "residence": {
+     "area": null,
+     "months": 0,
+     "since": null
+    }
+   },
    "fields_pdfium": {
     "need_head": false,
     "residence": {
@@ -1617,6 +2255,16 @@
    "empty_pages": [],
    "chars_per_page_min": 938,
    "fields": {
+    "need_head": false,
+    "price_cap": false,
+    "residence_duty": 0,
+    "residence": {
+     "area": "청주시",
+     "months": 0,
+     "since": null
+    }
+   },
+   "fields_merged": {
     "need_head": false,
     "price_cap": false,
     "residence_duty": 0,
@@ -1668,6 +2316,14 @@
      "since": null
     }
    },
+   "fields_merged": {
+    "need_head": false,
+    "residence": {
+     "area": "충청북도",
+     "months": 0,
+     "since": null
+    }
+   },
    "fields_pdfium": {
     "need_head": false,
     "residence": {
@@ -1708,6 +2364,14 @@
      "since": null
     }
    },
+   "fields_merged": {
+    "need_head": false,
+    "residence": {
+     "area": null,
+     "months": 0,
+     "since": null
+    }
+   },
    "fields_pdfium": {
     "need_head": false,
     "residence": {
@@ -1741,6 +2405,17 @@
    "empty_pages": [],
    "chars_per_page_min": 527,
    "fields": {
+    "need_head": false,
+    "price_cap": false,
+    "residence_duty": 0,
+    "rewin_years": 10,
+    "residence": {
+     "area": "경기도 광명시",
+     "months": 0,
+     "since": null
+    }
+   },
+   "fields_merged": {
     "need_head": false,
     "price_cap": false,
     "residence_duty": 0,
@@ -1797,6 +2472,17 @@
      "since": null
     }
    },
+   "fields_merged": {
+    "need_head": false,
+    "price_cap": true,
+    "residence_duty": 2,
+    "rewin_years": 10,
+    "residence": {
+     "area": "경기도",
+     "months": 0,
+     "since": null
+    }
+   },
    "fields_pdfium": {
     "need_head": false,
     "price_cap": true,
@@ -1833,6 +2519,16 @@
    "empty_pages": [],
    "chars_per_page_min": 525,
    "fields": {
+    "need_head": false,
+    "price_cap": true,
+    "residence_duty": 0,
+    "residence": {
+     "area": null,
+     "months": 0,
+     "since": null
+    }
+   },
+   "fields_merged": {
     "need_head": false,
     "price_cap": true,
     "residence_duty": 0,
@@ -1886,6 +2582,16 @@
      "since": null
     }
    },
+   "fields_merged": {
+    "need_head": false,
+    "price_cap": false,
+    "residence_duty": 0,
+    "residence": {
+     "area": null,
+     "months": 0,
+     "since": null
+    }
+   },
    "fields_pdfium": {
     "need_head": false,
     "price_cap": false,
@@ -1921,6 +2627,18 @@
    "empty_pages": [],
    "chars_per_page_min": 357,
    "fields": {
+    "need_head": true,
+    "price_cap": true,
+    "residence_duty": 0,
+    "rewin_years": 10,
+    "ext": 0.0454,
+    "residence": {
+     "area": "울산광역시",
+     "months": 0,
+     "since": null
+    }
+   },
+   "fields_merged": {
     "need_head": true,
     "price_cap": true,
     "residence_duty": 0,
@@ -1979,6 +2697,17 @@
      "since": null
     }
    },
+   "fields_merged": {
+    "need_head": false,
+    "price_cap": false,
+    "residence_duty": 0,
+    "rewin_years": 10,
+    "residence": {
+     "area": null,
+     "months": 0,
+     "since": null
+    }
+   },
    "fields_pdfium": {
     "need_head": false,
     "price_cap": false,
@@ -2022,6 +2751,14 @@
      "since": null
     }
    },
+   "fields_merged": {
+    "need_head": false,
+    "residence": {
+     "area": "강원특별자치도",
+     "months": 0,
+     "since": null
+    }
+   },
    "fields_pdfium": {
     "need_head": false,
     "residence": {
@@ -2055,6 +2792,15 @@
    "empty_pages": [],
    "chars_per_page_min": 606,
    "fields": {
+    "need_head": false,
+    "ext": 0.0137,
+    "residence": {
+     "area": null,
+     "months": 0,
+     "since": null
+    }
+   },
+   "fields_merged": {
     "need_head": false,
     "ext": 0.0137,
     "residence": {
@@ -2104,6 +2850,14 @@
      "since": null
     }
    },
+   "fields_merged": {
+    "need_head": false,
+    "residence": {
+     "area": null,
+     "months": 0,
+     "since": null
+    }
+   },
    "fields_pdfium": {
     "need_head": false,
     "residence": {
@@ -2137,6 +2891,15 @@
    "empty_pages": [],
    "chars_per_page_min": 1111,
    "fields": {
+    "need_head": false,
+    "ext": 0.3,
+    "residence": {
+     "area": null,
+     "months": 0,
+     "since": null
+    }
+   },
+   "fields_merged": {
     "need_head": false,
     "ext": 0.3,
     "residence": {
