@@ -47,6 +47,7 @@ def main() -> None:
                 if L:
                     out.append(L)
     cache = json.loads(CACHE.read_text(encoding="utf-8")) if CACHE.exists() else {}
+    PL.NOTICE_BUDGET_SEC = 1500   # 매일 수집은 300초로 끊지만(그래서 첫 실행에서 154건 중 29건만 읽힘, 2026-10-02) 여기는 한 번에 끝까지 읽는다 — 보관 기록이 있어 다음엔 새 공고만
     PL.apply_notice(out, log, cache=cache)
     CACHE.parent.mkdir(parents=True, exist_ok=True)
     CACHE.write_text(json.dumps(cache, ensure_ascii=False, separators=(",", ":"), sort_keys=True) + "\n", encoding="utf-8")
