@@ -1788,7 +1788,7 @@ function pastJudgeHtml(gr){
 }
 function vPast(){
   loadPast();
-  const head = `<div class="top"><button class="back" data-go="feed">${chev}공고</button></div><div class="top"><div><div class="brand">2026년 지난 공고</div><span class="small muted">청약홈 분양정보 · 2026.01.01 이후 공고 · 실험 중</span></div></div>`;
+  const head = `<div class="top"><button class="back" data-go="feed">${chev}공고</button></div><div class="top"><div><div class="brand">2026년 지난 공고</div><span class="small muted">청약홈 분양정보 · 2026.01.01 이후 공고 · 참고용</span></div></div>`;
   if (!PAST) return head + `<div class="card empty"><b>${PAST_ERR ? esc(PAST_ERR) : '불러오는 중…'}</b></div>`;
   const all = pastGroups(), q = (S.pq || '').trim(), cat = S.pcat || 'all', sido = S.psido || '';
   const hit = gr => (!q || [gr.name, gr.sido, gr.district].some(v => (v || '').includes(q))) && (cat === 'all' || gr.cat === cat) && (!sido || gr.sido === sido);

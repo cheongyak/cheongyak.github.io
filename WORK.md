@@ -4,6 +4,15 @@
 2026-09-29 12:55 이전 항목은 규칙을 만들기 전 작업을 커밋 기록으로 정리한 것이라 백업 브랜치가 없어요.
 그 시점으로 되돌릴 때는 해당 커밋 번호로 `git revert` 를 써요.
 
+## 2026-10-02 13:53 · v1.39.0 2026년 지난 공고 + '그때 넣었다면' 켬
+- 요청: 과거 청약은 이 정도면 충분, 참고용으로 쓸 만하니 추가 (사용자 결정 — 실험 유지, 폐기 안 함)
+- 변경: 스위치 historical_search·historical_judge 켬, 지난 공고 머리말 '실험 중' → '참고용', FEATURES 에 historical_judge 줄, changelog·VERSIONS v1.39.0
+- 파일: docs/config.json, docs/index.html, docs/changelog.json, VERSIONS.md, FEATURES.md
+- 확인: 미리보기 표시 없이 390px 라이트·다크 — 목록 아래 '지난 공고 전체 보기' → 지난 공고 화면 → '그때 넣었다면' 판정, 스크립트 오류 0. 판정 사례 261/261, regress 0건, 엔진 잠금 그대로, pytest
+- 기능: historical_search, historical_judge
+- 버전: v1.39.0
+- 백업: backup/20261002-1353-pastlaunch
+
 ## 2026-10-02 13:31 · 과거 공고 판정: 다시 읽기 결과 + 막 마감된 공고도 판정
 - 요청: '그때 넣었다면'이 거의 확인 필요 — 한 달 전 공고문을 왜 못 읽나 (이어서)
 - 확인 결과: 시간 제한 1500초로 다시 실행(Actions 36963905425, 공고문 읽기 353초) → 154건 중 154건 읽음.
