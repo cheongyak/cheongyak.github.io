@@ -1,6 +1,6 @@
 {
- "at": "2026-10-02 18:32",
- "ok": false,
+ "at": "2026-10-02 18:36",
+ "ok": true,
  "collect_run": "2026-10-02 · 공고 192건",
  "judge": {
   "total": 349,
@@ -12,10 +12,7 @@
   "mismatches": []
  },
  "golden": {
-  "mismatches": [
-   "[검증·정답 불일치] 힐스테이트 고덕엘리스트 A65BL 공공분양주택 84A · residence_duty: 수집값 None ≠ 공고문 3",
-   "[검증·정답 불일치] 힐스테이트 고덕엘리스트 A65BL 공공분양주택 84B · residence_duty: 수집값 None ≠ 공고문 3"
-  ]
+  "mismatches": []
  },
  "qa": {
   "gate": true,

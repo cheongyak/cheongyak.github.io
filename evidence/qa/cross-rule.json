@@ -11,30 +11,12 @@
  },
  "rules": {},
  "states": {
-  "UNKNOWN": 38,
-  "WARNING": 65,
-  "NORMAL": 98
+  "NORMAL": 111,
+  "UNKNOWN": 17,
+  "WARNING": 73
  },
  "examples": [],
  "unknown": [
-  {
-   "id": "2026820010-055.9000A",
-   "name": "인천계양 A17블록 신혼희망타운(공공분양)(본청약)",
-   "duty": "UNKNOWN",
-   "priceCap": "CONFIRMED"
-  },
-  {
-   "id": "2026820010-055.8800B",
-   "name": "인천계양 A17블록 신혼희망타운(공공분양)(본청약)",
-   "duty": "UNKNOWN",
-   "priceCap": "CONFIRMED"
-  },
-  {
-   "id": "2026820010-055.7600C",
-   "name": "인천계양 A17블록 신혼희망타운(공공분양)(본청약)",
-   "duty": "UNKNOWN",
-   "priceCap": "CONFIRMED"
-  },
   {
    "id": "2026820011-055.0000O",
    "name": "시흥하중지구 A-4블록 신혼희망타운(공공분양) 추가입주자모집",
@@ -44,102 +26,6 @@
   {
    "id": "2026820011-056.0000O",
    "name": "시흥하중지구 A-4블록 신혼희망타운(공공분양) 추가입주자모집",
-   "duty": "UNKNOWN",
-   "priceCap": "CONFIRMED"
-  },
-  {
-   "id": "2026000438-084.0000A",
-   "name": "힐스테이트 고덕엘리스트 A65BL 공공분양주택",
-   "duty": "UNKNOWN",
-   "priceCap": "CONFIRMED"
-  },
-  {
-   "id": "2026000438-084.0000B",
-   "name": "힐스테이트 고덕엘리스트 A65BL 공공분양주택",
-   "duty": "UNKNOWN",
-   "priceCap": "CONFIRMED"
-  },
-  {
-   "id": "2026000437-084.0000A",
-   "name": "힐스테이트 고덕엘리스트 A12BL 공공분양주택",
-   "duty": "UNKNOWN",
-   "priceCap": "CONFIRMED"
-  },
-  {
-   "id": "2026000437-084.0000B",
-   "name": "힐스테이트 고덕엘리스트 A12BL 공공분양주택",
-   "duty": "UNKNOWN",
-   "priceCap": "CONFIRMED"
-  },
-  {
-   "id": "2026000437-084.9500C",
-   "name": "힐스테이트 고덕엘리스트 A12BL 공공분양주택",
-   "duty": "UNKNOWN",
-   "priceCap": "CONFIRMED"
-  },
-  {
-   "id": "2026000414-059.8400A",
-   "name": "인천계양지구 A6블록 공공분양주택(본청약)",
-   "duty": "UNKNOWN",
-   "priceCap": "CONFIRMED"
-  },
-  {
-   "id": "2026000414-059.8100B",
-   "name": "인천계양지구 A6블록 공공분양주택(본청약)",
-   "duty": "UNKNOWN",
-   "priceCap": "CONFIRMED"
-  },
-  {
-   "id": "2026000414-059.7100D",
-   "name": "인천계양지구 A6블록 공공분양주택(본청약)",
-   "duty": "UNKNOWN",
-   "priceCap": "CONFIRMED"
-  },
-  {
-   "id": "2026000414-059.7200E",
-   "name": "인천계양지구 A6블록 공공분양주택(본청약)",
-   "duty": "UNKNOWN",
-   "priceCap": "CONFIRMED"
-  },
-  {
-   "id": "2026000414-059.9700G",
-   "name": "인천계양지구 A6블록 공공분양주택(본청약)",
-   "duty": "UNKNOWN",
-   "priceCap": "CONFIRMED"
-  },
-  {
-   "id": "2026000414-059.8200H",
-   "name": "인천계양지구 A6블록 공공분양주택(본청약)",
-   "duty": "UNKNOWN",
-   "priceCap": "CONFIRMED"
-  },
-  {
-   "id": "2026000414-069.8200P",
-   "name": "인천계양지구 A6블록 공공분양주택(본청약)",
-   "duty": "UNKNOWN",
-   "priceCap": "CONFIRMED"
-  },
-  {
-   "id": "2026000414-074.9300O",
-   "name": "인천계양지구 A6블록 공공분양주택(본청약)",
-   "duty": "UNKNOWN",
-   "priceCap": "CONFIRMED"
-  },
-  {
-   "id": "2026000414-077.4100A",
-   "name": "인천계양지구 A6블록 공공분양주택(본청약)",
-   "duty": "UNKNOWN",
-   "priceCap": "CONFIRMED"
-  },
-  {
-   "id": "2026000414-084.7800A",
-   "name": "인천계양지구 A6블록 공공분양주택(본청약)",
-   "duty": "UNKNOWN",
-   "priceCap": "CONFIRMED"
-  },
-  {
-   "id": "2026000414-084.9900B",
-   "name": "인천계양지구 A6블록 공공분양주택(본청약)",
    "duty": "UNKNOWN",
    "priceCap": "CONFIRMED"
   },
@@ -182,18 +68,6 @@
   {
    "id": "2026000409-059.9600B",
    "name": "의정부우정 A2블록 공공분양주택(본청약)",
-   "duty": "UNKNOWN",
-   "priceCap": "CONFIRMED"
-  },
-  {
-   "id": "2026930037-099.9842B",
-   "name": "과천 푸르지오 벨라르테",
-   "duty": "UNKNOWN",
-   "priceCap": "CONFIRMED"
-  },
-  {
-   "id": "2026930036-084.7450D",
-   "name": "과천 푸르지오 라비엔오",
    "duty": "UNKNOWN",
    "priceCap": "CONFIRMED"
   },
