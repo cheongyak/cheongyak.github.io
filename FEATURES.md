@@ -140,7 +140,7 @@
 | `qa_gate` | 출시 게이트에 MASTER QA 검사 포함: 공급유형 표시 전수(tools/qa/supply_type.cjs)·데이터 불변식(tools/qa/invariants.py) 위반이 있으면 verify-status ok=false | 수집·판정 검증 Actions, 검증 현황 | 끄면 검사 결과만 남고 통과 여부에 안 넣음 | f0a24e9 | backup/20261002-1451-rental |
 | `verdict_one` | 일반 0세대 주택형 판정을 카드·필터·상세에서 같게: 거주지·재당첨 공통 조건이 불가면 특별공급도 불가, 모르면 확인 필요. 칸 머리 '일반 몫 0세대' | 목록 카드·상세 맨 위·일반공급 칸 | 끄면 예전처럼 카드는 특별공급만 보고 판정 | 42ca48e | backup/20261002-1552-verdict |
 | `resupply_special` | 불법행위 재공급 주택형별 특별공급 세대수를 공고문 공급대상 표에서 읽고(notice_pdf.parse_sp_table) 그 유형 자격 판정, 재공급 특공은 청약통장 안 봄 | 수집·특별공급 칸·카드·상세 | 끄면 재공급 특공은 확인 필요 | 09b98dd | backup/20261002-1617-resupply |
-| `profile_clean` | 기기에 저장된 내 조건의 깨진 값(형식 틀린 날짜·숫자 아닌 금액 등)을 읽을 때 정리 | 화면 전체 | 끄면 저장값 그대로(깨진 값이면 멈춤·NaN 가능) | (커밋 후 기입) | backup/20261002-1630-clean |
+| `profile_clean` | 기기에 저장된 내 조건의 깨진 값(형식 틀린 날짜·숫자 아닌 금액 등)을 읽을 때 정리 | 화면 전체 | 끄면 저장값 그대로(깨진 값이면 멈춤·NaN 가능) | 81baae0 | backup/20261002-1630-clean |
 
 `naver_map`·`nearby`·`analytics` 는 한 커밋(147fa99)에 함께 들어갔다. 이 셋 중 하나만 없애려면 revert 대신 스위치로 끄거나,
 해당 부분만 지우는 새 커밋을 만든다.
