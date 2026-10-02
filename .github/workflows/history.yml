@@ -1,0 +1,35 @@
+name: 과거 공고 실험
+# 2026 과거 공고 실험 (기능: historical). 서비스 데이터(docs/listings.json)는 건드리지 않고 evidence/history/ 에만 쓴다. 손으로 실행하거나 tools/history 가 바뀔 때.
+on:
+  workflow_dispatch:
+  push:
+    branches: [main]
+    paths:
+      - "tools/history/**"
+      - ".github/workflows/history.yml"
+permissions:
+  contents: write
+concurrency:
+  group: history
+  cancel-in-progress: true
+jobs:
+  history:
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    env:
+      DATA_GO_KR_KEY: ${{ secrets.DATA_GO_KR_KEY }}
+      TZ: Asia/Seoul
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - run: pip install -r requirements.txt
+      - run: python -m tools.history.probe
+      - name: 저장
+        if: always()
+        run: |
+          git config user.name "cheongyak-bot"
+          git config user.email "actions@users.noreply.github.com"
+          git add evidence/history || true
+          git diff --cached --quiet || (git commit -m "과거 공고 실험 기록 $(date +%Y-%m-%d)" && (git push || (git pull --rebase -X theirs origin main && git push)))
