@@ -52,22 +52,37 @@ def pdf_text(data: bytes) -> str:
     return "\n".join((p.extract_text() or "") for p in reader.pages[:PAGE_CAP])
 
 
+_ALT_SCRIPT = r"""
+import sys, pypdfium2 as pdfium
+data = sys.stdin.buffer.read(); cap = int(sys.argv[1]); out = []
+doc = pdfium.PdfDocument(data)
+for i in range(min(len(doc), cap)):
+    page = doc[i]; tp = page.get_textpage()
+    out.append(tp.get_text_range() or ""); tp.close(); page.close()
+doc.close()
+sys.stdout.buffer.write("\n".join(out).encode("utf-8"))
+"""
+
+
 def pdf_text_alt(data: bytes) -> Optional[str]:
     """두 번째 읽기 도구. pypdf 가 글자 순서를 뒤섞어 값을 놓치는 공고문이 있다 — 과천 푸르지오 벨라르테·라비엔오 '재당첨제한 10년'을 pypdf 로는 못 읽고
-    pypdfium2 로는 읽음 (2026-10-02 pdf_audit). 설치돼 있지 않으면 None"""
+    pypdfium2 로는 읽음 (2026-10-02 pdf_audit). 설치돼 있지 않거나 실패하면 None.
+    PDFium 은 C 라이브러리라 잘못되면 프로세스째 죽는다(2026-10-02 21:24 수집 exit 139 — 잠금을 걸어도 페이지 객체가 다른 스레드에서 정리되며 죽음).
+    그래서 따로 띄운 파이썬 프로세스에서 읽는다 — 그쪽이 죽어도 수집은 첫 도구 값으로 계속한다"""
+    import subprocess
+    import sys
     try:
-        import pypdfium2 as pdfium
+        import pypdfium2  # noqa: F401
     except Exception:
         return None
-    with _PDFIUM_LOCK:
+    with _PDFIUM_LOCK:   # 한 번에 하나씩 (메모리)
         try:
-            doc = pdfium.PdfDocument(data)
-            try:
-                return "\n".join((doc[i].get_textpage().get_text_range() or "") for i in range(min(len(doc), PAGE_CAP)))
-            finally:
-                doc.close()
+            r = subprocess.run([sys.executable, "-c", _ALT_SCRIPT, str(PAGE_CAP)], input=data, capture_output=True, timeout=90)
         except Exception:
             return None
+    if r.returncode != 0:
+        return None
+    return r.stdout.decode("utf-8", "replace")
 
 
 def fetch_notice_text(page_url: str, client: Optional[httpx.Client] = None) -> tuple[Optional[str], str, Optional[str]]:

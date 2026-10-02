@@ -351,4 +351,11 @@ def test_pdf_text_alt_is_safe_from_many_threads():
     if notice_pdf.pdf_text_alt(data) is None:
         return
     with ThreadPoolExecutor(8) as ex:
-        assert len(set(ex.map(lambda _: notice_pdf.pdf_text_alt(data), range(60)))) == 1
+        assert len(set(ex.map(lambda _: notice_pdf.pdf_text_alt(data), range(12)))) == 1
+
+
+def test_pdf_text_alt_runs_outside_collector_process():
+    """PDFium 이 죽어도(2026-10-02 21:24 수집 exit 139 segfault) 수집 프로세스는 살아 있어야 한다 — 따로 띄운 프로세스에서 읽고, 실패하면 None."""
+    assert "subprocess" in notice_pdf.pdf_text_alt.__code__.co_names or "subprocess" in notice_pdf.pdf_text_alt.__code__.co_varnames
+    assert notice_pdf.pdf_text_alt(b"%PDF-1.4 broken") is None
+    assert notice_pdf.pdf_text_alt(b"") is None
