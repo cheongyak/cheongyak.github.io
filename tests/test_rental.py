@@ -36,6 +36,10 @@ def test_is_rental():
     assert pipeline.is_rental({"name": "이천시 장호원읍 5년 공공건설임대주택(카사펠리스이천) 임차인모집"})          # 2025000645 원문 '임차인모집'
     assert not pipeline.is_rental({"name": "마곡지구 17단지 토지임대부(본청약)"})                                # 토지임대부는 분양 (2026000041)
     assert not pipeline.is_rental({"name": "인천계양지구 A6블록 공공분양주택(본청약)"})
+    for n in ("행복주택 ○○지구 입주자모집", "국민임대 잔여세대", "통합공공임대 추가모집", "장기전세주택 예비입주자", "공공지원민간임대 무순위"):   # 무순위(이름만) — 임대 유형 이름
+        assert pipeline.is_rental({"name": n}), n
+    for n in ("덕진 거제의 봄 우선분양전환 후 공가세대", "울산 우정혁신도시 B1블록(골드클래스) 분양전환 후 잔여세대"):   # 분양전환 후 잔여세대는 분양
+        assert not pipeline.is_rental({"name": n}), n
 
 
 def test_rental_listing_has_no_margin(monkeypatch):

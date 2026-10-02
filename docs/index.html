@@ -1288,6 +1288,22 @@ function pubGeneralItems(L, p){
   }
   return out;
 }
+/* 판정 지원 범위 (기능: judge_scope, 2026-10-02 사용자 QA '임대 → 분양', '지원하지 않는 유형 → 가능' 방지).
+   full = 이 서비스 규칙으로 판정 · partial = 일부 항목만(공공임대: 공고문 소득·총자산 표를 읽은 경우) · none = 판정하지 않음.
+   none 이면 판정 결과가 '가능'이나 '불가'로 확정되지 않게(분양 규칙의 '불가'도 '확인 필요'로) 맨 위에 이유를 보인다.
+   임대 여부는 수집의 rental(청약홈 RENT_SECD_NM, 없으면 공고명) 또는 rentSecd 로 본다 — 공공임대 규칙 스위치(rental_rules)를 꺼도 분양으로 판정하지 않게 */
+function judgeScope(L){
+  if (!on('judge_scope') || !L || L.sample) return { level:'full' };
+  const rental = isRental(L) || !!L.rental || /임대/.test(L.rentSecd || '');
+  if (rental) {
+    const pl = L.pubLimits;
+    if (!(isRental(L) && pl && pl.kind === 'total')) return { level:'none', why:'공공임대 공고예요. 이 공고의 임차인 자격 기준(소득·자산 표)을 모집공고문에서 읽지 못해, 분양 규칙으로 대신 판정하지 않아요. 모집공고문의 신청자격을 확인하세요.' };
+    return { level:'partial', why:'공공임대 일반공급의 소득·총자산은 이 공고문 표로 판정해요. 특별공급은 공고문 표를 읽은 유형만 판정해요.' };
+  }
+  if (L.category === 'general' && !['국민', '민영'].includes(L.houseDtl)) return { level:'none', why:'국민주택·민영주택 구분이 청약홈 자료에 없어 적용할 청약 규칙을 정할 수 없어요. 모집공고문의 신청자격을 확인하세요.' };
+  if (!['general', 'remainder'].includes(L.category)) return { level:'none', why:'이 서비스가 판정하지 않는 공급 구분이에요. 모집공고문의 신청자격을 확인하세요.' };
+  return { level:'full' };
+}
 function eligibility(L, p){
   p = optDefaults(p);   // 기능: optional_inputs
   const items = [];
@@ -1357,6 +1373,11 @@ function eligibility(L, p){
   else if (L.target === '신혼부부' && p.married == null) items.push({ k:'신혼부부 전용', s:'warn', v:'입력 필요', note:'혼인 여부를 넣으면 판정해요' });
   else if (L.target === '신혼부부') items.push({ k:'신혼부부 전용', s: p.married ? 'ok' : 'fail', v: p.married ? '충족' : '미충족', note: p.married ? '혼인 기간 등 공고문 요건 확인' : '혼인신고를 한 신혼부부만 신청할 수 있어요' });
   else if (L.target) items.push({ k: L.target + ' 전용', s:'warn', v:'확인 필요', note:'공고문의 대상 요건을 확인하세요' });
+  const scope = judgeScope(L);
+  if (scope.level === 'none') {   // 판정하지 않는 유형: 분양 규칙의 결과를 확정으로 쓰지 않는다 (기능: judge_scope)
+    items.forEach(i => { if (i.s === 'fail' || i.s === 'ok') { if (i.s === 'fail') i.v = '(분양 기준으로 보면) ' + (i.v || '미충족'); i.s = i.s === 'fail' ? 'warn' : i.s; i.r1 = false; } });
+    items.unshift({ k:'판정 범위', s:'warn', v:'이 공고는 판정하지 않아요', note: scope.why, scope:true });
+  }
   const fails = items.filter(i => i.s === 'fail'), warns = items.filter(i => i.s === 'warn');
   let reason = '', fix = '';
   if (fails.length) {
@@ -1518,6 +1539,7 @@ function meLine(L){
     return none ? '<span class="st-fail">공급 세대 없음</span><span class="muted">· 이번 공고에서 이 주택형은 공급하지 않아요</span>'
       : '<span class="' + (b === 'ok' ? 'st-ok' : b === 'no' ? 'st-fail' : 'st-warn') + '">' + (b === 'ok' ? '특별공급 신청 가능' : b === 'no' ? '내 자격 불가' : '특별공급 확인 필요') + '</span><span class="muted">· ' + (b === 'no' && on('verdict_one') && spCommonFail(L, S.profile).length ? esc(spCommonFail(L, S.profile)[0].k) + ' ' + esc(spCommonFail(L, S.profile)[0].v) : '일반공급 없음 (모두 특별공급)') + '</span>'; }
   const e = eligibility(L, S.profile);
+  if (judgeScope(L).level === 'none') return '<span class="st-warn">판정하지 않는 공고</span><span class="muted">· ' + (isRental(L) || L.rental ? '공공임대 · ' : '') + '모집공고문 신청자격 확인</span>';   // 기능: judge_scope
   if (!e.ok) { const f = e.items.find(i => i.s === 'fail'); return '<span class="' + (e.rank2 ? 'st-warn' : 'st-fail') + '">' + (e.rank2 ? (e.rank2Need ? '1순위 불가 · 2순위 확인 필요' : '2순위만 가능') : '내 자격 불가') + '</span><span class="muted">· ' + esc(f.k) + ' ' + esc(f.v) + '</span>'; }
   if (isRental(L)) return (e.unsure ? '<span class="st-warn">자격 확인 필요</span>' : '<span class="st-ok">기본 요건 충족</span>') + '<span class="muted">· 임대 자금은 공고문 확인</span>';
   const f = funding(L, S.profile, planOpt(L)), gap = bestGap(f, planOpt(L));
@@ -2412,6 +2434,8 @@ function spJudge(L, p, type){
       else { stage = ['추첨 (미혼·무자녀)', '추첨 물량']; if (p.hhSize == null && p.household !== 'parents' && (L.area || 0) > 60) warn.push('가구원수 입력 필요 (혼자 사는 세대주는 전용 60㎡ 이하만)'); }
     }
   }
+  const SC = judgeScope(L);
+  if (SC.level === 'none' && !isRental(L)) { warn.unshift(SC.why); fail.splice(0).forEach(x => warn.push('(분양 기준으로 보면) ' + x)); }   // 판정하지 않는 유형 (기능: judge_scope)
   if (isRental(L) && !RS) { warn.unshift('공공임대 특별공급은 유형별 소득·총자산 기준이 공고문 표에 따로 있어요. 이 서비스는 아직 판정하지 않아요 — 모집공고문의 특별공급 자격표를 확인하세요'); fail.splice(0).forEach(x => warn.push('(공공분양 기준으로 보면) ' + x)); }
   const s = fail.length ? 'fail' : warn.length ? 'warn' : 'ok';
   const how = type === 'multichild' ? '다자녀 배점표(100점)로 선정' : type === 'elder' && !pub ? '일반공급 가점(84점)으로 선정' : stage ? stage[0] + (stage[1] ? ' (' + stage[1] + ')' : '') + ' 대상' : '';
@@ -3166,7 +3190,7 @@ function checklistV2(L, p, e){
     ${fails.length ? `<div class="ckgroup"><div class="ck-h ${e.rank2 ? 'st-warn' : 'st-fail'}">${e.rank2 ? (e.rank2Need ? '1순위만 막는 조건' : '1순위만 막는 조건 (2순위는 신청 가능)') : '문제가 있는 조건'} ${fails.length}개</div>${fails.map(failItem).join('')}</div>` : ''}
     ${nWarn ? `<div class="ckgroup"><div class="ck-h st-warn"><span>확인이 필요한 조건 ${nWarn}</span>${needInput ? '<button class="linkbtn small" data-action="restart">내 조건 입력하기</button>' : ''}</div>
       <div class="ckwarns">${acctPrompt ? `<div class="ckwarn"><div class="ck-top"><span>청약통장 1순위 요건</span><span class="st-warn">입력 필요</span></div><div class="small muted">가입일·예치금(공공은 납입 횟수)을 넣으면 청약통장 1순위 요건을 판정해요</div>${on('inline_fix') ? fixBtn('청약통장', '바로 답하기 · 청약통장') : on('unsure_actions') && stepWithField('acctType') ? `<button class="linkbtn small" data-edit="${esc(stepKey(stepWithField('acctType')))}" style="align-self:flex-start">청약통장 정보 넣기</button>` : ''}<div class="ck-src">${src('supplyRule')}</div></div>` : ''}${warns.map(warnItem).join('')}</div></div>` : ''}
-    ${oks.length ? `<details class="ckmore"><summary>충족한 조건 ${oks.length}개</summary>
+    ${oks.length ? `<details class="ckmore"><summary>${judgeScope(L).level === 'none' ? '분양 기준으로 보면 맞는 조건 ' + oks.length + '개 (참고 · 이 공고 판정 아님)' : '충족한 조건 ' + oks.length + '개'}</summary>
       ${oks.map(i => `<div class="ckok"><span class="st-ok" aria-hidden="true">${i.s === 'na' ? '–' : '✓'}</span><span><b>${esc(i.k)}</b> <span class="muted">${esc(i.v)}</span>${i.note ? `<br><span class="small muted">${esc(i.note)}</span>` : ''}<br>${itemSrc(L, i.k)}</span></div>`).join('')}</details>` : ''}
     ${pend.some(pendAsk) ? `<details class="ckmore" open><summary>답하면 바로 판정되는 질문 ${pend.filter(pendAsk).length}개</summary><div class="ckwarns" style="margin-top:6px">${pendHtml(L, pend.filter(pendAsk))}</div></details>` : ''}
     ${pend.some(x => !pendAsk(x)) ? `<details class="ckmore"${pend.some(x => !pendAsk(x) && !(PEND_INFO[x] || {}).sp) ? ' open' : ''}><summary>직접 확인할 것 ${pend.filter(x => !pendAsk(x)).length}개 <span class="muted small">· 이 서비스가 판정하지 않는 항목</span></summary><div class="ckwarns" style="margin-top:6px">${pendHtml(L, pend.filter(x => !pendAsk(x)))}</div><div class="small muted">판정하지 않은 항목은 '충족'으로 세지 않았어요. 신청 전 모집공고문으로 확인하세요. ${noticeSrc(L)}</div></details>` : ''}
@@ -3302,7 +3326,7 @@ function vDetail(){
     /* 마감된 공고는 판정을 '지금 신청 가능'처럼 보이지 않게 맨 위를 '접수 마감'으로, 판정은 참고로 아래에 (2026-10-02 교차 규칙 STATUS-001: 마감 162주택형 상세가 '신청 가능'만 보임).
        판정 색(t-*)은 목록 카드·필터와 같게 둔다 — 같은 조건이면 같은 결론 (consistency.cjs) */
     const closed = statusOf(L) === '마감' && !L.sample;
-    return `<section class="rhero t-${st[0]}" aria-label="내 판정"><span class="rlabel">${closed ? '접수가 끝난 공고예요 · ' + esc((L.applyEnd || L.apply || '').slice(5).replace('-', '.')) + ' 마감' : '내 판정 · 내가 넣은 정보 기준'}</span><span class="rbig">${closed ? '접수 마감' : st[1]}</span>${closed ? `<span class="rsub">내 조건으로 보면 ${esc(st[1])} — 참고용이에요. 이 공고에는 더 이상 신청할 수 없어요.</span>` : ''}${wk.length ? `<span class="rsub">확인할 것: ${esc(wk.join(', '))} · 아래 ${on('supply_split') ? '일반공급 칸' : '자격 체크리스트'}에서 바로 답하면 판정돼요</span>` : ''}${on('detail_tidy') && hasProfile() ? (() => {   /* 기능: detail_tidy — 가운데 타일 3개(자격·마진·자금)를 여기로 합침 */
+    return `<section class="rhero t-${st[0]}" aria-label="내 판정"><span class="rlabel">${closed ? '접수가 끝난 공고예요 · ' + esc((L.applyEnd || L.apply || '').slice(5).replace('-', '.')) + ' 마감' : '내 판정 · 내가 넣은 정보 기준'}</span><span class="rbig">${closed ? '접수 마감' : st[1]}</span>${closed ? `<span class="rsub">내 조건으로 보면 ${esc(st[1])} — 참고용이에요. 이 공고에는 더 이상 신청할 수 없어요.</span>` : ''}${judgeScope(L).level === 'none' && hasProfile() ? `<span class="rsub">이 공고는 판정하지 않아요 — ${esc(judgeScope(L).why)}</span>` : wk.length ? `<span class="rsub">확인할 것: ${esc(wk.join(', '))} · 아래 ${on('supply_split') ? '일반공급 칸' : '자격 체크리스트'}에서 바로 답하면 판정돼요</span>` : ''}${on('detail_tidy') && hasProfile() ? (() => {   /* 기능: detail_tidy — 가운데 타일 3개(자격·마진·자금)를 여기로 합침 */
       const spR = spTypesFor(L).map(t => spJudge(L, p, t).s), spOk = spR.filter(x => x === 'ok').length, spW = spR.filter(x => x === 'warn').length;
       const cell = (k, v, cls, attr) => `<button class="rstat" ${attr}><span>${k}</span><b class="${cls}">${v}</b></button>`;
       const sc = on('score') && L.houseDtl !== '국민' && L.needAccount ? myScore(L, p) : null;   /* 마진은 바로 아래 가격 비교 카드에 크게 있으니 여기엔 가점을. 무순위는 가점이 안 쓰여 '뽑는 방식: 추첨' */

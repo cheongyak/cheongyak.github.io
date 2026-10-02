@@ -697,6 +697,22 @@ def main() -> None:
        basis="2026000453 '경기도 광명시 거주자 / 서울·경기·인천 거주자' — 부산 거주자는 민영 신혼부부 특별공급도 불가")
 
     OUT.parent.mkdir(parents=True, exist_ok=True)
+    # ---------- 14) 판정 범위 밖 공고는 '가능'·'불가'로 확정하지 않음 (기능 judge_scope, 2026-10-02 사용자 QA '임대 → 분양' · '지원하지 않는 유형 → 가능') ----------
+    # 2025000645 이천 5년 공공건설임대 임차인모집: 청약홈 RENT_SECD_NM '분양전환 가능임대', 원문 '신청자격 / 청약통장 자격요건 / 소득 또는 자산기준' 표가 있으나 이 서비스가 읽지 못함(pub_limits 없음)
+    #  → 분양 규칙(국민주택 1순위 등)으로 판정하면 안 됨: 조건이 아무리 좋아도·유주택이어도 '확인 필요'.
+    # 2026000307 소득·총자산 표를 못 읽은 경우(-NOLIM, 받기 실패 가정)도 같음. 표를 읽은 2026000307 은 위 11) 처럼 판정한다.
+    i = 0
+    good = dict(pub_base, homeSido="경기", homeSigun="이천시", sidoSince="2010-01-01", areaSince="2010-01-01", acctCount=60, acctSince="2015-01-01",
+                hhIncomeYear=3000, income=3000, realEstate=0, carValue=0, cash=0, liquid=0, deposit=0, townInsurance=0, townFinOther=0, townOtherAsset=0, townDebt=0)
+    for lid, why in (("2025000645-052.9256C", "2025000645 5년 공공건설임대 — 임차인 자격표 못 읽음"), ("2026000307-055.0000A-NOLIM", "2026000307 분양전환공공임대 — 소득·총자산 표 못 읽음")):
+        for nm, pr in (("조건 좋음", good), ("유주택", dict(good, selfOwn=True, hhHomes="1", hhNeverOwned=False)), ("통장 없음", dict(good, acctType="none")),
+                       ("다른 지역", dict(good, homeSido="부산", homeSigun="해운대구"))):
+            add(id=f"scope-{i:02d}", fn="bucket", listing=lid, profile=pr, expect={"b": "unsure"},
+                basis=f"{why} → 분양 규칙으로 '가능'·'불가'를 확정하지 않음 ({nm}). 판정 범위 밖은 확인 필요"); i += 1
+            for t in ("newlywed", "first"):
+                if lid.startswith("2026000307"):
+                    add(id=f"scope-{i:02d}", fn="sp", type=t, listing=lid, profile=pr, expect={"s": "warn"}, basis=f"{why} — 특별공급도 판정하지 않음 ({nm})"); i += 1
+
     OUT.write_text(json.dumps(cases, ensure_ascii=False, indent=1) + "\n", encoding="utf-8")
     print(f"{len(cases)}건 → {OUT}")
 
