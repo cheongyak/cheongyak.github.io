@@ -54,6 +54,10 @@ UNKNOWN 이 중요한 결과에 영향을 주면 결과도 '확인 필요'가 �
 | ELIG-004 | 특공 '가능' | 자산 ≤ 최대 기준(<표3> 완화 포함) | 넘는데 가능 | CRITICAL | 공고문 <표2>·<표3> | cross_rule.cjs, 판정 사례 |
 | UI-001 | 같은 공고·같은 조건 | 카드 결론 = 판정 묶음 | 다름 | HIGH | — | cross_rule.cjs, consistency.cjs |
 | UI-002 | 상세 맨 위 결론 | 같은 화면 문구가 반대 결론을 말하지 않음 | '신청 불가' + '자격과 자금 모두 가능' 등 | HIGH | — | cross_rule.cjs |
+| SCOPE-001 | 판정 범위 밖(judgeScope none: 임대인데 자격표 못 읽음, 국민/민영 구분 없음, 지원 밖 공급 구분) | 일반·특별공급 모두 '확인 필요' + 이유 | '가능' 또는 분양 규칙의 '불가' | CRITICAL | 사용자 QA 2026-10-02 · 2025000645 | cross_rule.cjs, 판정 사례 scope-* |
+| RENT-001 | 임대(RENT_SECD_NM '…임대' 또는 공고명) | '공공임대' 배지, 금액은 임대보증금(시세 차익 없음), 판정 범위 partial/none | 분양처럼 표시·full 판정 | CRITICAL | 청약홈 RENT_SECD_NM · 모집공고문 임대조건 | cross_rule.cjs, tests/test_rental.py |
+| MONO-001 | 내 조건 칸·공고 조건 하나를 모르게 함 | 결과가 '가능'으로 새로 바뀌지 않음 (모순 입력 해소는 예외) | 모르는데 '가능'(확인 필요 → 가능) | CRITICAL | 원칙: 모르는 것을 가능하다고 말하지 않음 | monotonic.cjs |
+| MONO-002 | 소득·자산↑ / 통장 기간·횟수·예치금·저축액·거주기간↑ / 혼인기간·막내 나이↑ | 결과가 한 방향으로만 바뀜 | 경계 앞뒤에서 되돌아감 | HIGH | 공고문 기준표(이하·초과) | monotonic.cjs |
 | STATUS-001 | 접수 마감 | 상세에 '접수 마감', 판정은 참고로 | '신청 가능'만 보임 | CRITICAL | 청약홈 일정 | cross_rule.cjs |
 | TYPE-001 | 불법행위 재공급·무순위 등 원천 유형 | 화면 표시 유형 = 원천 | 다른 유형 표시 | CRITICAL | 청약홈 HOUSE_SECD | supply_type.cjs |
 | TYPE-002 | 공급 구분 | 국민/민영·무순위·공급유형 상호배타 | 동시에 둘 | CRITICAL | 청약홈 | invariants.py |

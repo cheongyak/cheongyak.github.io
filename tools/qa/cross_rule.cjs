@@ -38,6 +38,11 @@ const ROOT = join(__dirname, '../..'), DOCS = join(ROOT, 'docs');
       checks += 2;
       if (L.residenceDuty > 0 && !(L.capital && L.priceCap)) v('DUTY-001', 'MEDIUM', L, '거주의무 CONFIRMED', '수도권 분양가상한제 아님', '거주의무는 수도권 분양가상한제 주택만', ['residenceDuty', 'capital', 'priceCap'], '주택법 제57조의2');
       if (L.priceCap === false && L.residenceDuty == null) v('DUTY-002', 'MEDIUM', L, '분양가상한제 NOT_APPLICABLE', '거주의무 UNKNOWN', '거주의무 NOT_APPLICABLE', ['priceCap', 'residenceDuty'], '주택법 제57조의2');
+      // RENT-001: 임대(청약홈 RENT_SECD_NM 또는 공고명)는 분양처럼 보이면 안 됨 — 카드에 '공공임대', 금액은 '임대보증금', 시세 차익 없음
+      if (L.rental || /임대/.test(L.rentSecd || '')) { checks += 3; const card = document.createElement('div'); card.innerHTML = cardBadges(L) + ' ' + (typeof kindOf === 'function' ? kindOf(L) : '');
+        if (!/공공임대/.test(card.textContent)) v('RENT-001', 'CRITICAL', L, '임대 공고', '카드에 공공임대 표시 없음', "'공공임대' 배지", ['rental', 'cardBadges'], '청약홈 RENT_SECD_NM');
+        if (L.mktBase != null || L.mktLow != null) v('RENT-001', 'CRITICAL', L, '임대 공고', '시세·마진 계산됨', '시세 차익 없음 (금액은 임대보증금)', ['rental', 'mktBase'], '모집공고문 임대조건');
+        if (on('judge_scope') && judgeScope(L).level === 'full') v('RENT-001', 'CRITICAL', L, '임대 공고', '분양 규칙으로 전부 판정(full)', 'partial 또는 none', ['rental', 'judgeScope'], '공고 유형'); }
       if (isRental(L) || !L.price) continue;
       delete S.plan[L.id];
       const jc = jeonseCheck(L), o = planOpt(L), f = funding(L, S.profile, o);
@@ -84,6 +89,10 @@ const ROOT = join(__dirname, '../..'), DOCS = join(ROOT, 'docs');
         if (common.length && bucket === 'ok') v('ELIG-002', 'CRITICAL', L, common.map(i => i.k).join('·') + ' 불가', '판정 가능', '불가', ['commonCondition', 'bucket'], '공고문 신청자격', pi);
         // UI-001: 카드 결론 = 판정 묶음 (같은 사실을 다르게 말하지 않음)
         if (cc !== B[bucket]) v('UI-001', 'HIGH', L, '판정 ' + bucket, '카드 ' + cc, B[bucket], ['meLine', 'eligBucket'], '목록 카드', pi);
+        // SCOPE-001: 판정 범위 밖(임대인데 자격표 못 읽음 등) → '가능'·'불가'로 확정 금지 (2026-10-02 사용자 QA '임대 → 분양', '지원하지 않는 유형 → 가능')
+        const sc = judgeScope(L); checks++;
+        if (sc.level === 'none' && bucket !== 'unsure') v('SCOPE-001', 'CRITICAL', L, '판정 범위 밖: ' + sc.why.slice(0, 30), '판정 ' + bucket, '확인 필요', ['judgeScope', 'bucket'], '공고 유형', pi);
+        if (sc.level === 'none' && spTypesFor(L).some(t => spJudge(L, S.profile, t).s !== 'warn')) v('SCOPE-001', 'CRITICAL', L, '판정 범위 밖', '특별공급 가능/불가 확정', '확인 필요', ['judgeScope', 'spResult'], '공고 유형', pi);
         // FUND-005: 카드 '자금 가능'인데 계획 기준 부족분 > 0
         if (/자금 가능/.test(card)) { const o = planOpt(L), f = funding(L, S.profile, o); if (bestGap(f, o) > 1e-9) v('FUND-005', 'CRITICAL', L, '부족분 ' + fmt(bestGap(f, o)), "카드 '자금 가능'", "카드 '자금 N 부족'", ['gap', 'meLine'], '목록 카드', pi);
           if (o.mode === 'jeonse' && ['no', 'check'].includes(jeonseCheck(L).status)) v('FUND-006', 'HIGH', L, '전세 ' + jeonseCheck(L).status, "카드 '자금 가능'(전세 계획)", '전세 없이 계산', ['jeonseStatus', 'meLine'], '목록 카드', pi); }

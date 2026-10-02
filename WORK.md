@@ -4,6 +4,19 @@
 2026-09-29 12:55 이전 항목은 규칙을 만들기 전 작업을 커밋 기록으로 정리한 것이라 백업 브랜치가 없어요.
 그 시점으로 되돌릴 때는 해당 커밋 번호로 `git revert` 를 써요.
 
+## 2026-10-02 19:30 · 단조성 검사(monotonic.cjs) + 교차 규칙 SCOPE·RENT
+- 요청: 사용자 QA 피드백 — '임대 → 분양' · '확인 필요 → 가능' · '지원하지 않는 유형 → 가능'이 다시 생기면 자동으로 잡는 검사
+- 변경: tools/qa/monotonic.cjs — 실제 공고 93개(공고마다 면적 양끝) × 판정 사례 조건 6개. A 정보 단조성: 내 조건 칸(46개)·공고 조건(13개) 하나를 모르게 하면 '가능'이 새로 생기면 위반(21,096회).
+  B 값 단조성: 소득·부동산·자동차·금융자산↑ 나빠지기만, 통장 가입기간·납입 횟수·예치금·저축액·거주기간(공고일 전)↑ 좋아지기만, 혼인기간·막내 나이↑ 신혼·신생아 나빠지기만(128,619점).
+  첫 실행 310건 → 원인 가림: 302건은 검사 가정 오류(공고일 뒤 전입은 '그때 주소 모름'이 맞음 → 공고일 전 날짜만), 18건은 모순 입력 해소(노부모 '3년 같은 등본 부양 예' + '같은 등본 부모 0명' — 질문 자체가 등본 요건을 물어 예외로 문서화). 판정 오류 0.
+  일부러 넣은 오류: '확인 필요 1개면 가능' 148건 · 소득 경계 구간 뒤집기 82건 · 통장 기간 계산 오류 69건 모두 잡음.
+  cross_rule.cjs SCOPE-001(판정 범위 밖 → 확인 필요만)·RENT-001(임대 → 공공임대 배지·시세 차익 없음·full 판정 금지, judge_scope 켰을 때). CROSS_RULES.md 에 SCOPE·RENT·MONO 규칙.
+  collect·verify Actions, verify-status qa.monotonic_violations. HANDOFF·스킬 갱신
+- 파일: tools/qa/monotonic.cjs, evidence/qa/{monotonic.json,cross-rule.json,CROSS_RULES.md,profile-keep.json}, tools/qa/cross_rule.cjs, .github/workflows/{collect,verify}.yml, tools/verify_status.py, HANDOFF.md, .claude/skills/cheongyakpass-ops/SKILL.md
+- 확인: 단조성 위반 0, 교차 규칙 69,957회 충돌 0(judge_scope 끄면 RENT-001 3건), 저장 유지 0
+- 기능: 없음(수정)
+- 백업: backup/20261002-1903-scope
+
 ## 2026-10-02 19:03 · v1.43.0 판정 범위(judge_scope) — 판정하지 않는 공고를 분양 규칙으로 확정하지 않기
 - 요청: 사용자 QA 피드백 — 임대/분양 오분류 방지, 지원하지 않는 유형·확인 필요 → 가능 과신 금지, 경계값, 2025000645·2026000307 재확인, 기존 기능 보호, 스위치
 - 분석: evidence/qa/SUPPLY_SCOPE.md. 두 공고 모두 수집에서 rental=true(RENT_SECD_NM '분양전환 가능임대')로 이미 맞게 분류. 2026000307 은 공고문 표로 판정(partial). 2025000645 형(자격표 못 읽음)은 '가능' 0 이었지만 우연(소득·총자산 확인 필요 항목 하나)에 기댐 + 분양 규칙 '불가' 31/296 을 확정으로 씀.
