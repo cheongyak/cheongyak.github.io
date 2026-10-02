@@ -60,6 +60,8 @@ GitHub Secrets (이름만): `DATA_GO_KR_KEY`, `NCP_MAPS_CLIENT_ID`, `NCP_MAPS_CL
    - 8 E2E·스냅샷 CI: collect·verify 에 snapshot.cjs·e2e.cjs (시간 제한 40·25분), verify_status snapshot_diffs·e2e_fails.
    - 9 값마다 원문 문장: v1.46.0 notice_quotes (PARSER_VERSION 20, Listing.notice_quotes, 화면 '공고문 문장'). 수집 뒤 listings.json 에 notice_quotes 가 채워졌는지 확인.
    - 10 지난 공고·청약봇 교차 검사: v1.46.2 tools/qa/past_chat.cjs(CI) — 청약봇 요약이 일반 물량 없는 주택형에서 화면과 반대 결론이던 것 고침(chatVerdict), chat/tools/engine_payload.cjs 는 화면 함수를 그대로 부름.
+   - 21:24 수집이 exit 139(PDFium 세그폴트)로 죽음 → pdf_text_alt 를 따로 띄운 프로세스로(7a6248c). 21:49 수집 성공·verify ok·192주택형 모두 notice_quotes.
+     공고문 전부 다시 읽기는 300초 제한에 걸려 8건이 저장해 둔 원문 사본으로 읽힘(값은 같음). 실행 실패 원인은 check-run annotations API 로 볼 수 있음(로그는 인증 필요).
    - 남은 것(사용자와 상의): 2 청약봇 답 품질, 5 민간 공공건설임대 자격표, 6 청년 특별공급, 7 LH 임대. 3 '내 가점' 탭은 사용자가 패스.
 
 -8. **공고문 읽기 점검 (2026-10-02 밤, 사용자 '공고문에서 은근히 잘못 가져온다')** — v1.43.1 두 도구 읽기(pdf_dual_read: pypdf + pypdfium2, pdfium 은 스레드 잠금 필수), 쪽수 상한 80→300, 1쪽 표↔본문 값 대조(notice_conflicts).
