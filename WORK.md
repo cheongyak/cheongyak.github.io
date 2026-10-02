@@ -4,6 +4,15 @@
 2026-09-29 12:55 이전 항목은 규칙을 만들기 전 작업을 커밋 기록으로 정리한 것이라 백업 브랜치가 없어요.
 그 시점으로 되돌릴 때는 해당 커밋 번호로 `git revert` 를 써요.
 
+## 2026-10-02 12:56 · 과거 공고 5단계: '그때 넣었다면' 판정용 데이터 (6/15 이후 마감 공고)
+- 요청: 과거 공고도 판정 — 규칙 개정(2026-06-15) 이후 공고만, 백업·켜고 끄기 가능하게
+- 변경: tools/history/enrich.py — 6/15 이후 공고 중 마감(지금 목록에 없는 것)만 매일 수집과 같은 코드(build_listing·apply_notice, 공고일 기준)로 공고 조건을 만들어 docs/archive/2026-judge.json.
+  시세·경쟁률·위치·청약봇 조각은 쓰지 않음. 공고문 읽은 값은 docs/archive/2026-notice-cache.json 에 보관해 다음 주간 실행에서 이어 읽음. history.yml 에 단계 추가(실패해도 계속, 제한 45분)
+- 파일: tools/history/enrich.py, .github/workflows/history.yml
+- 확인: build_listing(시세 없이) 로컬 실행, Actions 결과 evidence/history/enrich.json
+- 기능: historical_judge (화면 연결은 다음 커밋)
+- 백업: backup/20261002-1256-pastjudge
+
 ## 2026-10-02 12:50 · 과거 공고(2026) 실험 4단계: 랜덤 검증 120공고 (seed 저장)
 - 요청: 2026 공고를 검증 모집단으로, 랜덤 100개 이상, seed·샘플 ID 저장, PASS/FAIL/UNCERTAIN·오류 분류, 실제 결과만
 - 변경: tools/history/validate_sample.py — 보관함 공고를 유형(일반/무순위)×권역(수도권/지방) 층화 랜덤(seed 기본 = 날짜, --fresh 새 seed). 검사 D1 일정 순서·D2 세대수 합(본청약은 사전청약 몫 → EXPECTED_DIFFERENCE)·
