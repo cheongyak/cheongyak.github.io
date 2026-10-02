@@ -13,7 +13,11 @@ export async function callClaude({ apiKey, system, user, fetchImpl = fetch, maxT
       messages: [{ role: 'user', content: user }],
     }),
   });
-  if (!res.ok) throw new Error('claude ' + res.status);
+  if (!res.ok) {   // 실패 이유(Anthropic 오류 종류·문구)를 남긴다. 키는 들어가지 않음
+    let why = '';
+    try { const e = await res.json(); why = ((e.error && e.error.type) || '') + ': ' + ((e.error && e.error.message) || ''); } catch (x) {}
+    throw new Error('claude ' + res.status + (why ? ' ' + why.slice(0, 160) : ''));
+  }
   const j = await res.json();
   const text = (j.content || []).filter(c => c.type === 'text').map(c => c.text).join('');
   return { text, usage: j.usage || null };
