@@ -4,6 +4,16 @@
 2026-09-29 12:55 이전 항목은 규칙을 만들기 전 작업을 커밋 기록으로 정리한 것이라 백업 브랜치가 없어요.
 그 시점으로 되돌릴 때는 해당 커밋 번호로 `git revert` 를 써요.
 
+## 2026-10-02 09:05 · 청약봇 !AI 직후에도 무료로 답하던 문제 고침
+- 요청: 무료 모드·AI 모드로 같은 질문을 했는데 답이 똑같다
+- 원인: 운영자 무료 모드를 서버 KV(opfree)에 저장했는데, Cloudflare KV 는 지운 값을 최대 60초 동안 다시 읽을 수 있음 → !AI 바로 뒤 질문도 무료(AI 안 부름)로 처리.
+  Actions 실제 시험(evidence/chat-probe/latest.json)에서 diag.opFree=true·AI 시도 0 으로 확인
+- 변경: 무료 모드는 운영자 기기(localStorage cy-chat-free)가 기억하고 질문마다 free:true 로 보냄. 서버는 미리보기 코드가 맞을 때만 따름(코드 없이 free 를 보내면 무시). KV opfree 안 씀
+- 파일: chat/worker/src/index.js, chat/test/chat.test.mjs, docs/index.html, .github/workflows/chat-probe.yml
+- 확인: node --test chat 37개(코드 없는 free 무시 포함), JS 문법, chatflow 실패 0, pytest, 배포 뒤 chat-probe 로 실제 AI 답 확인
+- 기능: 없음(수정·운영 도구)
+- 백업: backup/20261002-0859-chatdiag
+
 ## 2026-10-02 08:59 · 청약봇 운영자 진단 표시 + 실제 답 시험 워크플로
 - 요청: 무료 모드·AI 모드로 같은 질문('신혼부부, 자금 5억, 신청 가능한 공고')을 했는데 두 답이 똑같이 법령 원문 붙여넣기 — 왜 이런지
 - 원인(1차): AI 모드 답에도 'AI 요약 없이 원문 일부' 문구 → AI 답이 나가지 못하고 기본 답으로 대체됨. 서버가 거절 이유를 밖으로 안 내서 원인 확인 불가

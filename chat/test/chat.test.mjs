@@ -236,16 +236,16 @@ test('!무료: 운영자 질문만 AI 안 부르고 횟수 제한 없음, !AI �
   const no = await handleChat(env, input('kakao-mom-1', { question: '!무료' }), { kv, evidence: index, llm });
   assert.equal(no.status, 403); assert.equal(kv.m.get('opfree'), undefined, '코드 없으면 안 됨');
   const m = await handleChat(env, input('kakao-mom-1', { question: '!무료', preview: 'op-code-123' }), { kv, evidence: index, llm });
-  assert.equal(m.body.kind, 'admin'); assert.equal(kv.m.get('opfree'), '1');
+  assert.equal(m.body.kind, 'admin'); assert.equal(m.body.opfree, true, '기기가 기억할 값');
   for (let i = 0; i < 6; i++) {
-    const r = await handleChat(env, input('kakao-mom-1', { preview: 'op-code-123', conversation_id: 'f' + i }), { kv, evidence: index, llm });
+    const r = await handleChat(env, input('kakao-mom-1', { preview: 'op-code-123', free: true, conversation_id: 'f' + i }), { kv, evidence: index, llm });
     assert.equal(r.status, 200, '제한 없음 ' + i); assert.equal(r.body.fallback, true);
   }
   assert.equal(calls, 0, 'AI 호출 0');
   const pub = await handleChat({ ...env, CHAT_OPEN: '1' }, input('kakao-mom-1', { anon_id: 'someone-1234', ip: '8.8.8.8' }), { kv, evidence: index, llm });
   assert.ok(calls > 0, '다른 이용자는 그대로 AI'); calls = 0;
-  await handleChat(env, input('kakao-mom-1', { question: '!AI', preview: 'op-code-123' }), { kv, evidence: index, llm });
-  assert.equal(kv.m.get('opfree'), undefined);
+  const back = await handleChat(env, input('kakao-mom-1', { question: '!AI', preview: 'op-code-123' }), { kv, evidence: index, llm });
+  assert.equal(back.body.opfree, false);
   await handleChat(env, input('kakao-mom-1', { preview: 'op-code-123', conversation_id: 'g1' }), { kv, evidence: index, llm });
   assert.ok(calls > 0, '!AI 뒤에는 운영자도 AI');
 });

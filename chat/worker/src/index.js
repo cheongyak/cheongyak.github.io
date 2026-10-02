@@ -48,12 +48,12 @@ export async function handleChat(env, input, deps = {}) {
   // !무료 = 운영자 시험 모드(운영자 질문만 AI 를 부르지 않고 고정 문구로 답, 하루 횟수 제한 없음), !AI = 운영자도 실제 AI·횟수 제한으로 돌아감
   const lc = cmd.toLowerCase();
   if (isOp && (cmd === '!무료' || lc === '!ai' || cmd === '!유료')) {
-    if (cmd === '!무료') await kv.put('opfree', '1'); else await kv.delete('opfree');
-    return { status: 200, body: { kind: 'admin', mode: mode || 'preview', message: cmd === '!무료'
+    // 무료 모드 여부는 서버(KV)에 두지 않고 운영자 기기가 기억해 질문마다 free 로 보낸다 — KV 는 지운 값을 최대 60초 동안 다시 읽을 수 있어 !AI 직후 질문이 무료로 처리되던 문제(10-02)
+    return { status: 200, body: { kind: 'admin', mode: mode || 'preview', opfree: cmd === '!무료', message: cmd === '!무료'
       ? '운영자 무료 시험 모드예요. 내 질문은 AI 를 부르지 않고(토큰 0) 기본 답으로, 횟수 제한 없이 받아요. 다른 이용자에게는 영향 없어요. 실제 AI 로 돌아가려면 !AI'
       : '운영자도 실제 AI 답으로 돌아왔어요(토큰 사용, 하루 2건 제한). 무료 시험은 !무료' } };
   }
-  const opFree = isOp && kv ? (await kv.get('opfree')) === '1' : false;
+  const opFree = isOp && input.free === true;
   if (isOp && (cmd === '!점검' || cmd === '!오픈' || cmd === '!상태')) {
     if (cmd === '!점검') await kv.put('mode', 'maint');
     if (cmd === '!오픈') await kv.put('mode', 'open');

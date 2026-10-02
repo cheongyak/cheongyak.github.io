@@ -32,7 +32,7 @@ jobs:
           qs = json.load(open('chat/probe_questions.json'))
           out = []
           for i, q in enumerate(qs):
-              body = {'question': q['question'], 'anon_id': 'probe-actions-%d' % int(time.time()), 'conversation_id': 'probe-%d-%d' % (int(time.time()), i), 'preview': os.environ.get('CODE', '')}
+              body = {'question': q['question'], 'anon_id': 'probe-actions-%d' % int(time.time()), 'conversation_id': 'probe-%d-%d' % (int(time.time()), i), 'preview': os.environ.get('CODE', ''), 'free': bool(q.get('free'))}
               if q.get('listing_id'): body['listing_id'] = q['listing_id']
               req = urllib.request.Request(url, data=json.dumps(body).encode(), headers={'content-type': 'application/json', 'origin': 'https://cheongyakpass.kr', 'user-agent': 'Mozilla/5.0 (cheongyakpass probe)'})
               try:

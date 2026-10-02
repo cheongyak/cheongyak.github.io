@@ -3317,6 +3317,7 @@ let CHAT = null;   // { lid, cid, msgs:[{role, text, ans, res, fb}], busy, remai
 const chatId = () => { try { let a = localStorage.getItem('cy-chat-id'); if (!a) { a = (crypto.randomUUID ? crypto.randomUUID() : String(Math.random()).slice(2) + Date.now()); localStorage.setItem('cy-chat-id', a); } return a; } catch(e) { return 'anon-' + Date.now(); } };
 const chatConsent = () => { try { return localStorage.getItem('cy-chat-consent') === (CONFIG.chat_legal_date || 'preview'); } catch(e) { return false; } };
 const chatCode = () => { try { return localStorage.getItem('cy-chat-code') || ''; } catch(e) { return ''; } };
+const chatFree = () => { try { return localStorage.getItem('cy-chat-free') === '1'; } catch(e) { return false; } };   // 운영자 !무료 (이 기기만)
 /* 브라우저가 보낼 판정 결과 — 판정 함수를 읽기만 한다 (chat/tools/engine_payload.cjs 와 같은 모양) */
 function chatEnginePayload(L, p){
   const x = cpExplain(L.id, p), s = myScore(L, p), g = grade(L), r2 = v => v == null ? null : Math.round(v * 100) / 100;
@@ -3406,10 +3407,10 @@ async function chatSend(q0){
   try {
     const engine = L && hasProfile() ? chatEnginePayload(L, S.profile) : null;   // 판정은 내 조건이 있을 때만 · 공고 밖이면 청약 전반 질문
     const resp = await fetch(CONFIG.chat_api.replace(/\/$/, '') + '/chat', { method: 'POST', headers: { 'content-type': 'application/json' },
-      body: JSON.stringify({ question: r.text, engine, listing_id: L ? L.id : undefined, listing: L ? { name: L.name, unit: L.unit, kind: L.kind } : undefined, anon_id: chatId(), conversation_id: CHAT.cid, history, preview: chatPreview() ? chatCode() : undefined }) });
+      body: JSON.stringify({ question: r.text, engine, listing_id: L ? L.id : undefined, listing: L ? { name: L.name, unit: L.unit, kind: L.kind } : undefined, anon_id: chatId(), conversation_id: CHAT.cid, history, preview: chatPreview() ? chatCode() : undefined, free: chatPreview() && chatFree() ? true : undefined }) });
     res = await resp.json().catch(() => ({}));
     if (!CHAT) return;
-    if (res.kind === 'admin') CHAT.msgs.push({ role: 'bot', text: '운영자 명령 · ' + res.message });   // !점검·!오픈·!상태
+    if (res.kind === 'admin') { if (res.opfree != null) { try { res.opfree ? localStorage.setItem('cy-chat-free', '1') : localStorage.removeItem('cy-chat-free'); } catch(e) {} } CHAT.msgs.push({ role: 'bot', text: '운영자 명령 · ' + res.message }); }   // !점검·!오픈·!상태
     else if (resp.status === 503 && res.maint) CHAT.msgs.push({ role: 'bot', text: res.message });
     else if (resp.status === 403 && res.closed) { try { localStorage.removeItem('cy-chat-code'); } catch(e) {} CHAT.msgs.push({ role: 'bot', text: chatPreview() ? '미리보기 코드가 맞지 않아요. 창을 닫고 다시 열어 코드를 넣어 주세요.' : res.message || '아직 준비 중인 기능이에요.' }); }
     else if (resp.status === 429) { CHAT.msgs.push({ role: 'bot', text: res.message || '오늘 질문을 모두 쓰셨어요.' }); CHAT.remaining = 0; }
