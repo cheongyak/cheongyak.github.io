@@ -3,6 +3,8 @@
 // 값마다 상태를 붙인다: 확인(청약홈·모집공고문·판정 엔진) / 추정(시세·직선거리) / 확인 불가(데이터 없음) — 지어내지 않는다.
 import { DISTRICTS, AREAS, SP_LABEL, distKm } from './lexicon.mjs';
 
+// 받침에 맞는 조사 ('송파구가', '광명시가', '철산동이') — AI 심사 회차 3: '송파구이 아님' 어색
+export const josa = (w, a, b) => { const c = String(w).replace(/[^가-힣]+$/, '').slice(-1); if (!c) return w + a; const code = c.charCodeAt(0) - 0xac00; return w + (code >= 0 && code % 28 ? a : b); };
 const ELIG_RANK = { ok: 3, unsure: 2, r2: 1, no: 0 };
 const ELIG_WORD = { ok: '신청 가능', unsure: '확인 필요', r2: '2순위만', no: '신청 불가' };
 const GRADE_RANK = { lotto: 4, consider: 3, flat: 2, pass: 1, unknown: 0 };
@@ -50,12 +52,12 @@ function inRegion(f, r) {
 export function evalCond(D, row, f, c, ctx) {
   const v = c.value;
   switch (c.key) {
-    case 'region_in': return v.some(r => inRegion(f, r)) ? ['pass'] : ['fail', '지역이 ' + v.map(r => r.label).join('·') + '이 아님'];
+    case 'region_in': return v.some(r => inRegion(f, r)) ? ['pass'] : ['fail', josa(v.map(r => r.label).join('·'), '이', '가') + ' 아닌 곳'];
     case 'region_out': return v.some(r => inRegion(f, r)) ? ['fail', v.map(r => r.label).join('·') + ' 제외'] : ['pass'];
     case 'price_max': return f.price.v == null ? ['unknown', '분양가 없음'] : f.price.v <= v + 1e-9 ? ['pass'] : ['fail', '예산 초과(' + v + '억)'];
     case 'price_min': return f.price.v == null ? ['unknown'] : f.price.v >= v ? ['pass'] : ['fail', v + '억 미만'];
     case 'price_range': return f.price.v == null ? ['unknown'] : f.price.v >= v[0] && f.price.v < v[1] ? ['pass'] : ['fail', '가격대가 ' + v[0] + '억대가 아님'];
-    case 'area': return f.area.v == null ? ['unknown'] : f.area.v >= v.min && f.area.v <= v.max ? ['pass'] : ['fail', '면적이 ' + v.label + '이 아님'];
+    case 'area': return f.area.v == null ? ['unknown'] : f.area.v >= v.min && f.area.v <= v.max ? ['pass'] : ['fail', '면적이 ' + v.label.replace(/\(.*\)/, '') + ' 밖'];
     case 'households_min': return f.complex.state !== '확인' ? ['unknown', '단지 규모 확인 필요'] : f.complex.households >= v ? ['pass'] : ['fail', '단지 ' + v + '세대 미만'];
     case 'not_single': return f.complex.single === 'no' ? ['pass'] : f.complex.single === 'maybe' ? ['fail', '나홀로일 가능성'] : ['unknown', '단지 규모 확인 필요'];
     case 'rooms': return ['unknown', '방·욕실 구조 확인 필요'];

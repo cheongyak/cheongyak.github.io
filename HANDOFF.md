@@ -60,7 +60,7 @@ GitHub Secrets (이름만): `DATA_GO_KR_KEY`, `NCP_MAPS_CLIENT_ID`, `NCP_MAPS_CL
    10-02 23:40 사용자가 네이버 Directions 5 켜고 KAKAO_REST_KEY 넣음 → chat/v2/commute.mjs, chat-v2-probe.yml: 자동차 네이버 10/10·카카오 10/10. 답에 '자동차 약 N분(조회 시각)' 붙음(evidence/chat-v2/sample-commute.txt).
      카카오 장소 검색은 403 'disabled OPEN_MAP_AND_LOCAL' — 사용자가 카카오 앱에서 '카카오맵' 사용 설정을 켜야 함(요청함). 카카오 지도·로컬 결과는 저장 금지·실시간만. 대중교통은 미정(ODsay 2안). 시간은 조회 시각 교통이라 밤에는 짧게 나옴.
    10-03 답 품질 순환(chat/v2/QUALITY.md): 슬롯 F1·JGA, CheckList INV/DIR, 근거 충실도, 채점표 7차원, AI 심사(G-Eval·짝 비교·Bradley-Terry, ai-run.json round 올릴 때만 — 비용), 사용자 👎 이유.
-     `node chat/v2/quality/run.mjs [--ratchet]`, 기준선 chat/v2/quality/baseline.json (CI chat-v2.yml 이 기준선보다 낮으면 실패). AI 회차는 아직 안 돌림(round 0) — 사용자 OK 받고.
+     `node chat/v2/quality/run.mjs [--ratchet]`, 기준선 chat/v2/quality/baseline.json (CI chat-v2.yml 이 기준선보다 낮으면 실패). AI 회차: 10-03 사용자 '진행' → 회차 1~3 (비용 약 2~3달러). 챔피언 = 설명 프롬프트 v2-0.2(sonnet-5 심사 7승 3패 10무, 절대 평가 3.69→3.99/5). 기록은 QUALITY.md 표.
    다음: 실제 AI 연결(/v2/llm, 운영자 미리보기), 화면에 심기(chatbot_v2 스위치), STEP 0-4 방·욕실·0-5 좌표·0-8 인접 지역 표, 대중교통.
 
 -9. **미뤄둔 일 정리 (2026-10-02 21시, 사용자 '1·4·8·9·10 진행, 3 패스' → 4는 21:08 '헷갈린다'로 원복)**

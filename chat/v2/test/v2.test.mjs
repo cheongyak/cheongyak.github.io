@@ -81,7 +81,7 @@ test('결과 없을 때: 없다고 분명히, 이유·완화안·알림', async 
 test('비교: 찾은 단지는 지표 카드, 못 찾은 단지는 이유를 말함', async () => {
   const a = await ask({ question: '은빛 1,2단지 vs 도봉 한신 vs 방학 청구 비교해주고 급지 및 호재 비교해줘', today: TODAY, dataOpts: DO });
   assert.equal(a.mode, 'compare');
-  assert.match(a.text, /찾지 못했어요/);
+  assert.match(a.text, /비교해 드릴 수 없어요/); assert.match(a.text, /실거래가 공개시스템/);
   assert.match(a.text, /급지·호재.*데이터가 없어/);
   const b = await ask({ question: '광명 시티프라디움 에듀하임 vs 강변역 센트럴 아이파크 어디가 나아?', today: TODAY, dataOpts: DO });
   assert.match(b.text, /광명 시티프라디움 에듀하임 \(/); assert.match(b.text, /강변역 센트럴 아이파크 \(/);

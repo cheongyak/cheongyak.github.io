@@ -158,7 +158,9 @@ function noResult(C, r, U) {
   if (r.relax.length) parts.push('조건을 이렇게 바꾸면 생겨요:\n' + r.relax.map(o => '  [' + o.label + ' (' + o.count + '곳)]').join('\n'));
   const alt = r.relax.find(o => /인접 지역/.test(o.label)) || r.relax.find(o => !/지난 공고/.test(o.label));
   if (!(alt && alt.groups && alt.groups.length) && r.closest && r.closest.length) parts.push('[조건에 가장 가까운 곳 · 조건 ' + r.closest[0].misses.length + '개만 아쉬워요]\n\n' + r.closest.map(x => card(x, { profile: r.profile, C }) + '\n아쉬운 점: ' + x.misses.join(', ') + (x.km != null ? ' · 말씀하신 지역에서 직선 약 ' + x.km + 'km' : '')).join('\n\n'));
-  if (alt && alt.groups && alt.groups.length) parts.push('[대신 눈여겨볼 곳 · ' + alt.label + ']\n\n' + alt.groups.slice(0, 3).map(g => card(g.best, { profile: r.profile, C })).join('\n\n'));
+  const regs = C.conds.filter(c => c.key === 'region_in').flatMap(c => c.value).filter(v => v.lat);
+  const whyHere = it => { if (!regs.length || !it.f.geo) return ''; const d = Math.min(...regs.map(v => distKmA(it.f.geo, v))); return '\n왜 여기: 말씀하신 ' + regs.map(v => v.label).join('·') + '에서 직선 약 ' + Math.round(d) + 'km'; };   // 대안을 왜 골랐는지 (AI 심사 회차 3)
+  if (alt && alt.groups && alt.groups.length) parts.push('[대신 눈여겨볼 곳 · ' + alt.label + ']\n\n' + alt.groups.slice(0, 3).map(g => card(g.best, { profile: r.profile, C }) + whyHere(g.best)).join('\n\n'));
   if (r.explore && r.explore.nearby.length) parts.push('가까운 지역에는 지금 공고가 있어요 (좌표 거리 기준): ' + r.explore.nearby.map(x => x.label + ' ' + x.count + '개(' + x.of + '에서 약 ' + x.km + 'km)').join(', '));
   parts.push('기다리신다면 [이 조건으로 새 공고 알림 받기]로 공고가 올라오는 날 알려 드릴게요.');
   return parts.join('\n');
@@ -207,7 +209,7 @@ export function buildCompare(D, targets, C, { profile = null } = {}) {
 function compareBlocks(cmp, { profile }) {
   const out = [], blocks = [];
   for (const t of cmp) {
-    if (!t.found) { blocks.push(`'${t.query}' — 청약패스 공고(지금·지난 1년)에서 찾지 못했어요.`); continue; }
+    if (!t.found) continue;
     for (const n of t.notices) blocks.push(card(n.pick, { profile }) + (n.all.length > 1 ? '\n(주택형 ' + n.all.length + '개: ' + n.all.sort((a, b) => a.area - b.area).map(a => a.unit + ' ' + fmtEok(a.price)).join(' · ') + ')' : ''));
   }
   const found = cmp.filter(t => t.found).flatMap(t => t.notices.map(n => n.pick));
@@ -216,6 +218,9 @@ function compareBlocks(cmp, { profile }) {
     const bestM = found.slice().sort((a, b) => (b.f.margin.lo ?? -99) - (a.f.margin.lo ?? -99))[0], cheap = found.slice().sort((a, b) => a.f.price.v - b.f.price.v)[0];
     out.push('결론부터 말씀드리면, 시세 차익(추정)은 ' + bestM.f.name + ' ' + bestM.f.unit + '이 가장 크고, 분양가는 ' + cheap.f.name + ' ' + cheap.f.unit + '이 가장 낮아요.' + (found.some(x => x.elig) ? ' 내 자격은 아래 지표의 \'내 자격\' 줄을 보세요.' : ''));
   }
+  const nf = cmp.filter(t => !t.found).map(t => t.query);
+  if (nf.length && found.length) blocks.unshift('청약패스 공고(지금·지난 1년)에 없는 단지: ' + nf.join(', ') + ' — 이미 지어진 아파트는 비교하지 못해요.');   // 한 번에 묶어서 (AI 심사 회차 3: '찾지 못했어요' 세 번 반복)
+  if (!blocks.length) return out;
   out.push('[단지별 핵심 지표' + (cmp.some(t => t.found && t.notices.some(n => n.big)) ? ' · 가장 큰 주택형 기준' : ' · 84㎡에 가까운 주택형 기준') + ']\n\n' + blocks.join('\n\n'));
   return out;
 }
