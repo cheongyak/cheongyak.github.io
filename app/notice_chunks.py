@@ -35,3 +35,14 @@ def write(nid: str, name: str, pdf, text: str) -> int:
 
 def has(nid: str) -> bool:
     return (DIR / f"{nid}.json").exists()
+
+
+def text_of(nid: str) -> str:
+    """저장해 둔 공고문 조각을 이어 원문 글로 (조각 사이 줄바꿈). 없으면 빈 글."""
+    f = DIR / f"{nid}.json"
+    if not f.exists():
+        return ""
+    try:
+        return "\n".join(c["t"] for c in json.loads(f.read_text(encoding="utf-8")).get("chunks", []))
+    except Exception:
+        return ""

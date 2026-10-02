@@ -4,6 +4,17 @@
 2026-09-29 12:55 이전 항목은 규칙을 만들기 전 작업을 커밋 기록으로 정리한 것이라 백업 브랜치가 없어요.
 그 시점으로 되돌릴 때는 해당 커밋 번호로 `git revert` 를 써요.
 
+## 2026-10-02 11:17 · 청약봇 V2 STEP 0-2 단지 총세대·동 수·나홀로 3상태 (모집공고문 '공급규모')
+- 요청: STEP 0 데이터 보강 — 단지 총세대수·동 수·나홀로 여부 (동 수=1 만으로 단정하지 말고 3상태)
+- 변경: notice_pdf.parse_complex — '공급(\s)규모' 뒤 260자에서 '총 N세대'/'블록 N세대'/공공 'N개동 … N세대' 와 'N개동'. 글자 순서가 흐트러진 PDF('지하 층 지상 층 개동 총 세대')는 읽지 않음(확인 불가).
+  single_status: no(동 2개 이상)·maybe(동 1개, 또는 동 모름·100세대 미만)·unknown. Listing.complex = {households, buildings, single, status 확인/확인 불가, src, quote}.
+  새로 받은 공고문은 원문에서, 보관 기록으로 읽은 공고는 청약봇 공고문 조각(notice_chunks.text_of)에서 읽음. PARSER_VERSION 은 그대로(다시 받지 않음)
+- 정답 데이터: tests/golden/notices.json 에 11건 complex 추가 — 공고문 원문 '공급규모' 문장을 직접 읽고 넣음(103·314·409·414·448·820011·910227·910244·910250·930031, 930036 은 흐트러진 숫자 → 확인 불가)
+- 파일: app/notice_pdf.py, app/notice_chunks.py, app/models.py, app/pipeline.py, docs/config.json, tests/test_complex.py, tests/golden/notices.json
+- 확인: evidence 원문 60건 추출 결과 전부 문장과 대조(읽음 52·확인 불가 8), pytest 143(새 4: 정답 11건·흐트러진 숫자·공공/신희타 문장·3상태 경계), 올린 뒤 수집 실행에서 listings.json complex 확인
+- 기능: complex_size
+- 백업: backup/20261002-1117-complex
+
 ## 2026-10-02 11:17 · 청약봇 V2 STEP 0-1 데이터 사전
 - 요청: 청약봇 V2 STEP 0부터 진행 — 확보/추가 데이터와 상태(확인·외부·추정·확인 불가) 확정
 - 변경: chat/DATA.md — 청약봇이 쓰는 필드별 값·상태 규칙·출처·비고, 나홀로·방/욕실 3상태 규칙, 판정은 화면 엔진만 쓴다는 원칙

@@ -546,3 +546,41 @@ def notice_facts(text: str, prices_man: Optional[dict] = None) -> dict:
         if man:
             seen[ty] = any(f"{v:,}" in flat for v in (man * 10, man, man * 10000))
     return {"income_rows": rows, "deposit_rows": dep, "asset_thousand": assets, "price_seen": seen}
+
+
+# ---- 단지 규모 (기능: complex_size, 2026-10-02 청약봇 V2 STEP 0-2) ----
+# 모집공고문 '공급규모' 문장에서 단지 총세대수·동 수를 읽는다. 예: '아파트 지하 2층, 지상 22층 6개동 총 426세대 중 일반분양 426세대'(2026000453),
+# 공공 '공공분양주택 19∼20층 6개동 전용면적 60㎡ 이하 463세대'(2026000409), 신혼희망타운 '시흥하중 A-4블록 신혼희망타운 총 584세대 중 … 11개동'(2026820011).
+# PDF 글자 순서가 흐트러져 숫자만 뒤에 모인 공고문('지하 층 지상 층 개동 총 세대 중 : 3 , 30~38 , 7 1,191', 2026910243)은 읽지 않는다(확인 불가) — 추측하지 않는다.
+def parse_complex(text: str) -> Optional[dict]:
+    if not text:
+        return None
+    t = re.sub(r"\s+", " ", text)
+    for m in re.finditer(r"공급\s?규모", t):
+        w = t[m.end():m.end() + 260]
+        if re.search(r"지하\s*층\s*지상\s*층", w) or re.search(r"개동\s*총\s*세대", w):
+            continue   # 숫자가 문장 밖으로 빠진 공고문
+        hh = re.search(r"총\s*([\d,]{2,6})\s*세대", w) or re.search(r"블록\s*([\d,]{2,6})\s*세대", w) \
+            or re.search(r"\d\s*개\s*동[^세]{0,40}?([\d,]{2,6})\s*세대", w)
+        bd = re.search(r"(\d{1,3})\s*개\s*동", w)
+        if not hh:
+            continue
+        h = int(hh.group(1).replace(",", ""))
+        b = int(bd.group(1)) if bd else None
+        if not (10 <= h <= 20000) or (b is not None and not (1 <= b <= 100 and b <= h)):
+            continue
+        return {"households": h, "buildings": b, "quote": w[:120].strip()}
+    return None
+
+
+def single_status(c: Optional[dict]) -> str:
+    """나홀로 아파트 3상태: 'no'(동 2개 이상 확인) · 'maybe'(동 1개 확인, 또는 동 수를 모르고 총 100세대 미만) · 'unknown'(판단 근거 없음).
+    동 1개라도 주상복합 대단지처럼 사정이 다를 수 있어 '가능성 있음'으로만 둔다."""
+    if not c:
+        return "unknown"
+    b, h = c.get("buildings"), c.get("households")
+    if b is not None:
+        return "no" if b >= 2 else "maybe"
+    if h is not None and h < 100:
+        return "maybe"
+    return "unknown"

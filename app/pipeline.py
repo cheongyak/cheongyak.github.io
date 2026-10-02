@@ -263,6 +263,10 @@ def apply_notice(listings: list[Listing], log: list[str], client=None, previous:
                 except Exception as e:
                     text, msg, pdf = None, f"읽기 실패: {e.__class__.__name__}", None
             found = notice_pdf.parse_notice(text) if text else {}
+            if text and feature_on("complex_size"):
+                cx = notice_pdf.parse_complex(text)
+                if cx:
+                    found["complex"] = cx
             log.append(f"[공고문] {Ls[0].name}: {msg} → {found or '추출 없음'}")
             if text:   # 공고문 대조용 원문 숫자 (기능: notice_crosscheck) — 판정에는 쓰지 않는다
                 found["facts"] = notice_pdf.notice_facts(text, {L.id.split("-", 1)[1].strip(): round((L.price or 0) * 10000) for L in Ls})
@@ -289,6 +293,13 @@ def apply_notice(listings: list[Listing], log: list[str], client=None, previous:
                 if key not in found:
                     for sn in notice_pdf.snippets(text, word):
                         log.append(f"[공고문·원문] {Ls[0].name} ({word}): …{sn}…")
+        if feature_on("complex_size") and "complex" not in found:   # 보관 기록으로 읽은 공고(새로 받지 않음)는 청약봇 공고문 조각 글에서 읽는다
+            from . import notice_chunks
+            cx = notice_pdf.parse_complex(text or notice_chunks.text_of(nid))
+            if cx:
+                found["complex"] = cx
+                if nid in cache:
+                    cache[nid].setdefault("found", {})["complex"] = cx
         NOTICE_FACTS[nid] = found.get("facts")
         labels = {"need_head": "세대주 요건", "price_cap": "분양가상한제", "residence_duty": "실거주 의무",
                   "balance": "잔금일", "ext": "발코니 확장비", "rewin_years": "재당첨 제한",
@@ -325,6 +336,10 @@ def apply_notice(listings: list[Listing], log: list[str], client=None, previous:
                 L.mc_quota = found["mc_quota"]
             if "pub_limits" in found and feature_on("pub_general_limits"):
                 L.pub_limits = found["pub_limits"]
+            if feature_on("complex_size"):   # 단지 총세대·동 수·나홀로 3상태 (청약봇 V2 STEP 0-2). 못 읽으면 '확인 불가'로 남긴다
+                c = found.get("complex")
+                L.complex = ({**{k: c[k] for k in ("households", "buildings")}, "single": notice_pdf.single_status(c), "status": "확인", "src": "모집공고문 공급규모", "quote": c.get("quote")}
+                             if c else {"households": None, "buildings": None, "single": "unknown", "status": "확인 불가", "src": None})
             if "score_ratio" in found and feature_on("region_first_score"):
                 L.score_ratio = found["score_ratio"]
             if "schedule" in found and feature_on("notice_schedule"):
