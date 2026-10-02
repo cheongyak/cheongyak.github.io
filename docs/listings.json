@@ -62193,10 +62193,10 @@
     "name": "서울특별시",
     "sido": "서울"
    },
-   "equal": true,
    "months": 0,
+   "since": null,
    "others": [],
-   "since": null
+   "equal": true
   },
   "special_units": null,
   "notice": "2026-10-01",
@@ -62290,9 +62290,9 @@
   "from_notice": [
    "세대주 요건",
    "분양가상한제",
-   "거주 지역 요건",
    "실거주 의무",
-   "재당첨 제한"
+   "재당첨 제한",
+   "거주 지역 요건"
   ],
   "checks": [],
   "geo": {
@@ -62427,10 +62427,10 @@
     "name": "서울특별시",
     "sido": "서울"
    },
-   "equal": true,
    "months": 0,
+   "since": null,
    "others": [],
-   "since": null
+   "equal": true
   },
   "special_units": null,
   "notice": "2026-10-01",
@@ -62524,9 +62524,9 @@
   "from_notice": [
    "세대주 요건",
    "분양가상한제",
-   "거주 지역 요건",
    "실거주 의무",
-   "재당첨 제한"
+   "재당첨 제한",
+   "거주 지역 요건"
   ],
   "checks": [],
   "geo": {
@@ -62661,10 +62661,10 @@
     "name": "서울특별시",
     "sido": "서울"
    },
-   "equal": true,
    "months": 0,
+   "since": null,
    "others": [],
-   "since": null
+   "equal": true
   },
   "special_units": null,
   "notice": "2026-10-01",
@@ -62712,9 +62712,9 @@
   "from_notice": [
    "세대주 요건",
    "분양가상한제",
-   "거주 지역 요건",
    "실거주 의무",
-   "재당첨 제한"
+   "재당첨 제한",
+   "거주 지역 요건"
   ],
   "checks": [],
   "geo": {
@@ -62849,10 +62849,10 @@
     "name": "세종특별자치시",
     "sido": "세종"
    },
-   "equal": true,
    "months": 0,
+   "since": null,
    "others": [],
-   "since": null
+   "equal": true
   },
   "special_units": null,
   "notice": "2026-10-01",
@@ -63139,10 +63139,10 @@
     "name": "세종특별자치시",
     "sido": "세종"
    },
-   "equal": true,
    "months": 0,
+   "since": null,
    "others": [],
-   "since": null
+   "equal": true
   },
   "special_units": null,
   "notice": "2026-10-01",
@@ -63429,10 +63429,10 @@
     "name": "세종특별자치시",
     "sido": "세종"
    },
-   "equal": true,
    "months": 0,
+   "since": null,
    "others": [],
-   "since": null
+   "equal": true
   },
   "special_units": null,
   "notice": "2026-10-01",
@@ -64371,10 +64371,10 @@
     "name": "서울특별시",
     "sido": "서울"
    },
+   "equal": true,
    "months": 0,
-   "since": null,
    "others": [],
-   "equal": true
+   "since": null
   },
   "special_units": null,
   "notice": "2026-09-23",
@@ -64543,13 +64543,13 @@
   "url": "https://www.applyhome.co.kr/ai/aia/selectAPTRemndrLttotPblancDetailView.do?houseManageNo=2026930040&pblancNo=2026930040",
   "notice_pdf": "https://static.applyhome.co.kr/ai/aia/getAtchmnfl.do?houseManageNo=2026930040&pblancNo=2026930040&atchmnflSeqNo=1982993&atchmnflSn=5",
   "from_notice": [
-   "세대주 요건",
-   "분양가상한제",
-   "실거주 의무",
-   "재당첨 제한",
    "잔금일",
    "발코니 확장비",
-   "거주 지역 요건"
+   "세대주 요건",
+   "분양가상한제",
+   "거주 지역 요건",
+   "실거주 의무",
+   "재당첨 제한"
   ],
   "checks": [],
   "geo": {
@@ -64804,7 +64804,18 @@
    "others": [],
    "equal": true
   },
-  "special_units": null,
+  "special_units": {
+   "newborn": 0,
+   "newlywed": 1,
+   "first": 0,
+   "multichild": 0,
+   "elder": 1,
+   "agency": 0,
+   "relocated": 0,
+   "youth": 0,
+   "etc": 0,
+   "total": 2
+  },
   "notice": "2026-09-23",
   "apply": "2026-09-28",
   "apply_end": "2026-09-28",
@@ -64950,7 +64961,8 @@
   "notice_pdf": "https://static.applyhome.co.kr/ai/aia/getAtchmnfl.do?houseManageNo=2026930036&pblancNo=2026930036&atchmnflSeqNo=1980253&atchmnflSn=4",
   "from_notice": [
    "분양가상한제",
-   "거주 지역 요건"
+   "거주 지역 요건",
+   "특별공급 세대수 (재공급)"
   ],
   "checks": [
    "세대주 요건을 공고문에서 확인하지 못해 규제지역 기준으로 추정했어요",
@@ -65771,7 +65783,18 @@
    "others": [],
    "equal": true
   },
-  "special_units": null,
+  "special_units": {
+   "newborn": 0,
+   "newlywed": 1,
+   "first": 0,
+   "multichild": 0,
+   "elder": 0,
+   "agency": 0,
+   "relocated": 0,
+   "youth": 0,
+   "etc": 0,
+   "total": 1
+  },
   "notice": "2026-09-21",
   "apply": "2026-09-28",
   "apply_end": "2026-09-28",
@@ -65930,7 +65953,8 @@
    "세대주 요건",
    "분양가상한제",
    "실거주 의무",
-   "거주 지역 요건"
+   "거주 지역 요건",
+   "특별공급 세대수 (재공급)"
   ],
   "checks": [
    "시세 근거 거래가 2건뿐이에요"
@@ -66012,7 +66036,18 @@
    "others": [],
    "equal": true
   },
-  "special_units": null,
+  "special_units": {
+   "newborn": 0,
+   "newlywed": 0,
+   "first": 0,
+   "multichild": 1,
+   "elder": 0,
+   "agency": 0,
+   "relocated": 0,
+   "youth": 0,
+   "etc": 0,
+   "total": 1
+  },
   "notice": "2026-09-21",
   "apply": "2026-09-28",
   "apply_end": "2026-09-28",
@@ -66116,7 +66151,8 @@
    "세대주 요건",
    "분양가상한제",
    "실거주 의무",
-   "거주 지역 요건"
+   "거주 지역 요건",
+   "특별공급 세대수 (재공급)"
   ],
   "checks": [
    "시세 근거 거래가 2건뿐이에요"
@@ -66638,12 +66674,12 @@
   "schedule": null,
   "residence": {
    "area": null,
-   "equal": true,
    "months": 0,
+   "since": null,
    "others": [
     "전국"
    ],
-   "since": null
+   "equal": true
   },
   "special_units": null,
   "notice": "2026-09-18",
@@ -66900,12 +66936,12 @@
   "schedule": null,
   "residence": {
    "area": null,
-   "equal": true,
    "months": 0,
+   "since": null,
    "others": [
     "전국"
    ],
-   "since": null
+   "equal": true
   },
   "special_units": null,
   "notice": "2026-09-18",
@@ -67162,12 +67198,12 @@
   "schedule": null,
   "residence": {
    "area": null,
-   "equal": true,
    "months": 0,
+   "since": null,
    "others": [
     "전국"
    ],
-   "since": null
+   "equal": true
   },
   "special_units": null,
   "notice": "2026-09-18",
@@ -67424,12 +67460,12 @@
   "schedule": null,
   "residence": {
    "area": null,
-   "equal": true,
    "months": 0,
+   "since": null,
    "others": [
     "전국"
    ],
-   "since": null
+   "equal": true
   },
   "special_units": null,
   "notice": "2026-09-18",
@@ -67655,12 +67691,12 @@
   "schedule": null,
   "residence": {
    "area": null,
-   "equal": true,
    "months": 0,
+   "since": null,
    "others": [
     "전국"
    ],
-   "since": null
+   "equal": true
   },
   "special_units": null,
   "notice": "2026-09-18",
@@ -67890,12 +67926,23 @@
     "sido": "경기",
     "sigungu": "광명시"
    },
-   "equal": true,
    "months": 0,
+   "since": null,
    "others": [],
-   "since": null
+   "equal": true
   },
-  "special_units": null,
+  "special_units": {
+   "newborn": 0,
+   "newlywed": 0,
+   "first": 1,
+   "multichild": 0,
+   "elder": 0,
+   "agency": 0,
+   "relocated": 0,
+   "youth": 0,
+   "etc": 0,
+   "total": 1
+  },
   "notice": "2026-09-17",
   "apply": "2026-09-22",
   "apply_end": "2026-09-23",
@@ -68042,9 +68089,10 @@
   "from_notice": [
    "세대주 요건",
    "분양가상한제",
-   "거주 지역 요건",
    "실거주 의무",
-   "재당첨 제한"
+   "재당첨 제한",
+   "거주 지역 요건",
+   "특별공급 세대수 (재공급)"
   ],
   "checks": [
    "시세 근거 거래가 1건뿐이에요"
@@ -68182,12 +68230,23 @@
     "sido": "경기",
     "sigungu": "광명시"
    },
-   "equal": true,
    "months": 0,
+   "since": null,
    "others": [],
-   "since": null
+   "equal": true
   },
-  "special_units": null,
+  "special_units": {
+   "newborn": 0,
+   "newlywed": 0,
+   "first": 0,
+   "multichild": 0,
+   "elder": 0,
+   "agency": 0,
+   "relocated": 0,
+   "youth": 0,
+   "etc": 0,
+   "total": 0
+  },
   "notice": "2026-09-17",
   "apply": "2026-09-22",
   "apply_end": "2026-09-23",
@@ -68334,9 +68393,10 @@
   "from_notice": [
    "세대주 요건",
    "분양가상한제",
-   "거주 지역 요건",
    "실거주 의무",
-   "재당첨 제한"
+   "재당첨 제한",
+   "거주 지역 요건",
+   "특별공급 세대수 (재공급)"
   ],
   "checks": [
    "시세 근거 거래가 1건뿐이에요"
@@ -68473,10 +68533,10 @@
     "name": "경기도",
     "sido": "경기"
    },
-   "equal": true,
    "months": 0,
+   "since": null,
    "others": [],
-   "since": null
+   "equal": true
   },
   "special_units": null,
   "notice": "2026-09-17",
@@ -68647,8 +68707,8 @@
   "from_notice": [
    "세대주 요건",
    "분양가상한제",
-   "거주 지역 요건",
-   "재당첨 제한"
+   "재당첨 제한",
+   "거주 지역 요건"
   ],
   "checks": [],
   "geo": {
@@ -68760,10 +68820,10 @@
     "name": "경기도",
     "sido": "경기"
    },
-   "equal": true,
    "months": 0,
+   "since": null,
    "others": [],
-   "since": null
+   "equal": true
   },
   "special_units": null,
   "notice": "2026-09-17",
@@ -68934,8 +68994,8 @@
   "from_notice": [
    "세대주 요건",
    "분양가상한제",
-   "거주 지역 요건",
-   "재당첨 제한"
+   "재당첨 제한",
+   "거주 지역 요건"
   ],
   "checks": [],
   "geo": {
@@ -69043,12 +69103,12 @@
   "schedule": null,
   "residence": {
    "area": null,
-   "equal": true,
    "months": 0,
+   "since": null,
    "others": [
     "전국"
    ],
-   "since": null
+   "equal": true
   },
   "special_units": null,
   "notice": "2026-09-16",
@@ -69357,12 +69417,12 @@
   "schedule": null,
   "residence": {
    "area": null,
-   "equal": true,
    "months": 0,
+   "since": null,
    "others": [
     "전국"
    ],
-   "since": null
+   "equal": true
   },
   "special_units": null,
   "notice": "2026-09-16",
@@ -69671,12 +69731,12 @@
   "schedule": null,
   "residence": {
    "area": null,
-   "equal": true,
    "months": 0,
+   "since": null,
    "others": [
     "전국"
    ],
-   "since": null
+   "equal": true
   },
   "special_units": null,
   "notice": "2026-09-16",
@@ -69985,12 +70045,12 @@
   "schedule": null,
   "residence": {
    "area": null,
-   "equal": true,
    "months": 0,
+   "since": null,
    "others": [
     "전국"
    ],
-   "since": null
+   "equal": true
   },
   "special_units": null,
   "notice": "2026-09-16",
@@ -70299,12 +70359,12 @@
   "schedule": null,
   "residence": {
    "area": null,
-   "equal": true,
    "months": 0,
+   "since": null,
    "others": [
     "전국"
    ],
-   "since": null
+   "equal": true
   },
   "special_units": null,
   "notice": "2026-09-16",
@@ -70614,14 +70674,14 @@
   "schedule": null,
   "residence": {
    "area": null,
-   "equal": true,
    "months": 0,
+   "since": null,
    "others": [
     "서울",
     "경기",
     "인천"
    ],
-   "since": null
+   "equal": true
   },
   "special_units": null,
   "notice": "2026-09-16",
@@ -70669,8 +70729,8 @@
   "from_notice": [
    "세대주 요건",
    "분양가상한제",
-   "거주 지역 요건",
-   "실거주 의무"
+   "실거주 의무",
+   "거주 지역 요건"
   ],
   "checks": [],
   "geo": {
@@ -70774,10 +70834,10 @@
     "name": "울산광역시",
     "sido": "울산"
    },
-   "equal": true,
    "months": 0,
+   "since": null,
    "others": [],
-   "since": null
+   "equal": true
   },
   "special_units": null,
   "notice": "2026-09-15",
@@ -70990,11 +71050,11 @@
   "url": "https://www.applyhome.co.kr/ai/aia/selectAPTRemndrLttotPblancDetailView.do?houseManageNo=2026930032&pblancNo=2026930032",
   "notice_pdf": "https://static.applyhome.co.kr/ai/aia/getAtchmnfl.do?houseManageNo=2026930032&pblancNo=2026930032&atchmnflSeqNo=1976997&atchmnflSn=3",
   "from_notice": [
-   "발코니 확장비",
    "세대주 요건",
    "분양가상한제",
-   "거주 지역 요건",
-   "재당첨 제한"
+   "재당첨 제한",
+   "발코니 확장비",
+   "거주 지역 요건"
   ],
   "checks": [],
   "geo": {
@@ -71075,12 +71135,12 @@
   "schedule": null,
   "residence": {
    "area": null,
-   "equal": true,
    "months": 0,
+   "since": null,
    "others": [
     "전국"
    ],
-   "since": null
+   "equal": true
   },
   "special_units": null,
   "notice": "2026-09-15",
@@ -71306,9 +71366,9 @@
   "from_notice": [
    "세대주 요건",
    "분양가상한제",
-   "거주 지역 요건",
    "실거주 의무",
-   "재당첨 제한"
+   "재당첨 제한",
+   "거주 지역 요건"
   ],
   "checks": [],
   "geo": {
@@ -71420,10 +71480,10 @@
     "name": "강원특별자치도",
     "sido": "강원"
    },
-   "equal": true,
    "months": 0,
+   "since": null,
    "others": [],
-   "since": null
+   "equal": true
   },
   "special_units": null,
   "notice": "2026-09-15",
@@ -71717,10 +71777,10 @@
     "name": "강원특별자치도",
     "sido": "강원"
    },
-   "equal": true,
    "months": 0,
+   "since": null,
    "others": [],
-   "since": null
+   "equal": true
   },
   "special_units": null,
   "notice": "2026-09-15",
@@ -72011,12 +72071,12 @@
   "schedule": null,
   "residence": {
    "area": null,
-   "equal": true,
    "months": 0,
+   "since": null,
    "others": [
     "전국"
    ],
-   "since": null
+   "equal": true
   },
   "special_units": null,
   "notice": "2026-09-10",
@@ -72240,8 +72300,8 @@
   "url": "https://www.applyhome.co.kr/ai/aia/selectAPTRemndrLttotPblancDetailView.do?houseManageNo=2026910242&pblancNo=2026910242",
   "notice_pdf": "https://static.applyhome.co.kr/ai/aia/getAtchmnfl.do?houseManageNo=2026910242&pblancNo=2026910242&atchmnflSeqNo=1972087&atchmnflSn=2",
   "from_notice": [
-   "발코니 확장비",
    "세대주 요건",
+   "발코니 확장비",
    "거주 지역 요건"
   ],
   "checks": [],
@@ -72335,14 +72395,14 @@
   "schedule": null,
   "residence": {
    "area": null,
-   "equal": true,
    "months": 0,
+   "since": null,
    "others": [
     "부산",
     "울산",
     "경남"
    ],
-   "since": null
+   "equal": true
   },
   "special_units": null,
   "notice": "2026-09-10",
@@ -72676,14 +72736,14 @@
   "schedule": null,
   "residence": {
    "area": null,
-   "equal": true,
    "months": 0,
+   "since": null,
    "others": [
     "부산",
     "울산",
     "경남"
    ],
-   "since": null
+   "equal": true
   },
   "special_units": null,
   "notice": "2026-09-10",
@@ -73017,14 +73077,14 @@
   "schedule": null,
   "residence": {
    "area": null,
-   "equal": true,
    "months": 0,
+   "since": null,
    "others": [
     "서울",
     "경기",
     "인천"
    ],
-   "since": null
+   "equal": true
   },
   "special_units": null,
   "notice": "2026-09-10",
@@ -73127,8 +73187,8 @@
   "url": "https://www.applyhome.co.kr/ai/aia/selectAPTRemndrLttotPblancDetailView.do?houseManageNo=2026910238&pblancNo=2026910238",
   "notice_pdf": "https://static.applyhome.co.kr/ai/aia/getAtchmnfl.do?houseManageNo=2026910238&pblancNo=2026910238&atchmnflSeqNo=1970993&atchmnflSn=3",
   "from_notice": [
-   "발코니 확장비",
    "세대주 요건",
+   "발코니 확장비",
    "거주 지역 요건"
   ],
   "checks": [
