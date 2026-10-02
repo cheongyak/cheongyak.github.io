@@ -51,7 +51,17 @@ npm i --no-save playwright@1.56.0          # 화면 검사용. 크로미움이 /
 
 GitHub Secrets (이름만): `DATA_GO_KR_KEY`, `NCP_MAPS_CLIENT_ID`, `NCP_MAPS_CLIENT_SECRET`, `CLOUDFLARE_API_TOKEN`, `CLOUDFLARE_ACCOUNT_ID`, `PUSH_SEND_TOKEN`, `LAW_OC`(법제처 API, 2026-10-01 사용자 등록)
 
-## 진행 중인 일 (2026-10-01 기준, 최신이 위)
+## 진행 중인 일 (2026-10-02 기준, 최신이 위)
+
+-5. **MASTER QA (2026-10-02, 사용자가 첨부한 45항 QA 명세) — 끝난 것과 남은 것**
+   - 올린 것: v1.39.0 지난 공고(참고용)·v1.39.1 1년 보관(tools/history/window.py)·v1.40.0 공공임대 일반공급(rental_rules)·v1.40.1 화면마다 다른 판정 통일(verdict_one, 사용자 제보 과천 84D)·
+     v1.41.0 재공급 특별공급(resupply_special)·v1.41.1 깨진 저장 조건 정리(profile_clean)·v1.42.0 공공임대 특별공급(rental_special)·v1.42.2 특공 뽑는 방식·단계 세대수 표시(자체 점검). v1.42.1 은 번호만 건너뜀(VERSIONS.md).
+   - 검사 도구(수집·verify Actions 에서 매번, 다르면 verify-status ok=false): supply_type·invariants·filter_check·consistency(카드·상세·묶음 판정 일치 7,680)·sp_text(특공 문구 768칸)·market_check(시세 ↔ 국토부 원자료, 공고 8개씩).
+     로컬 전용(느림): e2e.cjs(흐름 30 + 퍼징 390), snapshot.cjs(화면 글자 기준 tests/qa/snapshots.json — 일부러 바꾸면 --update), code_mutation.cjs, audit/audit_verdict.cjs(블라인드 36건).
+   - 보고서: Claude 문서 '청약패스 MASTER QA — 1차 분석 보고서'(최종 QA 보고서 칸 포함).
+   - 남은 일: ① market_check 첫 실제 결과 확인(run-log '[QA 시세 원자료]') — 다름이 나오면 원자료와 수집 중 어느 쪽이 맞는지 가린다(수집과 검사 사이 새 거래 등록일 수도).
+     ② 청년 특별공급(공공임대·공공분양)은 판정하지 않음 — 유형 목록에 없음(스스로 판단 필요). 규칙: 19~39세 미혼, 본인 소득 140%, 본인·부모 총자산 각각(2026000307 '청년 특별공급').
+     ③ e2e·snapshot 을 CI 에 넣을지(실행 3~4분) 사용자와 상의. ④ 공공임대 공고가 새로 올라오면 pub_limits.sp 를 읽었는지 run-log·화면으로 확인(지금 진행 중인 임대 공고 0건, 지난 공고 16주택형).
 
 -2. **화면 개선 5가지 (2026-10-01 밤, 사용자 휴대폰 캡처 요청)** — v1.21.0 money_echo(금액 칸 아래 '= 2억 1,550만원'), v1.22.0 date_select(날짜를 년·월·일 드롭다운),
    v1.23.0 score_lottery_split(일반공급을 1순위 가점제 N%·추첨제 M% 두 줄로, 가점 낮아도 추첨 물량 있으면 '추첨제 가능'; 무주택 우선 75%는 규제지역·수도권·광역시만 — 공고문 25건 대조),

@@ -87,6 +87,12 @@ description: 청약패스(cheongyakpass.kr, 저장소 cheongyak/cheongyak.github
 - 원문 대조로 '틀렸다'고 보이면 고치기 전에 필드의 뜻부터 확인한다 (need_head = 공급 전체 대상이 세대주. 투기과열 1순위 세대주는 규제지역 규칙) — 판정 사례가 잘못된 수정을 잡아 줌.
 - MASTER QA 검사 묶음(기능 qa_gate, 매 수집·화면 변경): supply_type.cjs · invariants.py · filter_check.cjs · consistency.cjs → verify-status. 손으로: code_mutation.cjs(판정 코드 바꿀 때), spotcheck_compare.py(원문 대조).
 
+- 같은 판정을 여러 문장(spHeadPlain·spHeadline·spHowPlain·spPosition·spMinePlain·wsPlan)이 따로 말한다 — 뽑는 방식·세대수 문구를 고치면 전부 같이 고치고 `node tools/qa/sp_text.cjs` (2026-10-02: 공공 신혼 2단계를 한 줄 요약만 '점수 순', 노부모 90%를 70%로).
+- `ship.sh … | tail && release.sh` 처럼 파이프 뒤에 && 를 붙이면 테스트가 실패해도 release 가 돈다 (release/v1.42.1 이 이전 상태로 만들어짐, 원격 브랜치 삭제는 막혀 있음). ship 결과는 파일로 받고 종료 코드를 본 뒤 release.
+- evidence/pages·evidence/notices 일부는 Actions(근거 자료 모으기)가 매일 새로 받는다 — 테스트는 고정본(tests/qa/pages/)을 읽게 한다 (2026-10-02 LH 목록에서 계양 A6 가 밀려 수집 Actions 의 pytest 가 실패).
+- 공공임대 공고는 공고문 <표4> 금액이 공공분양 '3인 이하' 표와 다르다 — 금액은 공고문 표 그대로(pub_limits.amounts·sp), 공통 표(spBase)를 쓰지 않는다. 정답 데이터는 <표5> 퍼센트 표에서 따로 계산해 대조.
+- 원자료(국토부·청약홈)는 작업 환경에서 받을 수 없다. 원자료 대조 도구(market_check)는 Actions 에서만 돈다 — 로컬은 원자료 XML 모양 테스트로 계산만 확인.
+
 ## 5. 자주 하는 답
 
 - "자동으로 돌아가?" → 수집은 GitHub Actions 가 매일 05:30, 사이트는 GitHub Pages. Claude 세션과 무관하게 돈다. 실패·불일치는 이슈로 메일이 간다.
