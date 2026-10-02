@@ -57,7 +57,9 @@ GitHub Secrets (이름만): `DATA_GO_KR_KEY`, `NCP_MAPS_CLIENT_ID`, `NCP_MAPS_CL
    질문 → 조건 추출(규칙, AI 는 두 번까지) → 필수/선호/탐색 → 실제 데이터 검색(지금 공고 + 지난 1년) → 걸러내기(빠진 이유·확인 필요 후보) → 내 자격(화면 판정 함수 그대로) → 추천·관점별 1등·완화안·비교 → 기본 답 + AI 설명 검사기.
    시험: `node --test chat/v2/test/v2.test.mjs`(Actions chat-v2.yml, 배포 없음), CLI `node chat/v2/cli.mjs "질문" --profile chat/v2/test/profile-newlywed.json`.
    사용자가 준 품질 예시 2개(다른 서비스의 아파트 매매 상담 답)는 저장소에 옮기지 않고 원칙만 STYLE.md 로. 사용자는 질문/답 샘플을 더 줄 수 있다고 함 → 오면 golden 에 넣기.
-   다음: 실제 AI 연결(/v2/llm, 운영자 미리보기), 화면에 심기(chatbot_v2 스위치), STEP 0-4 방·욕실·0-5 좌표·0-7 출퇴근(사용자: KAKAO_REST_KEY Secret·네이버 Directions 5 켜기 필요)·0-8 인접 지역 표.
+   10-02 23:40 사용자가 네이버 Directions 5 켜고 KAKAO_REST_KEY 넣음 → chat/v2/commute.mjs, chat-v2-probe.yml: 자동차 네이버 10/10·카카오 10/10. 답에 '자동차 약 N분(조회 시각)' 붙음(evidence/chat-v2/sample-commute.txt).
+     카카오 장소 검색은 403 'disabled OPEN_MAP_AND_LOCAL' — 사용자가 카카오 앱에서 '카카오맵' 사용 설정을 켜야 함(요청함). 카카오 지도·로컬 결과는 저장 금지·실시간만. 대중교통은 미정(ODsay 2안). 시간은 조회 시각 교통이라 밤에는 짧게 나옴.
+   다음: 실제 AI 연결(/v2/llm, 운영자 미리보기), 화면에 심기(chatbot_v2 스위치), STEP 0-4 방·욕실·0-5 좌표·0-8 인접 지역 표, 대중교통.
 
 -9. **미뤄둔 일 정리 (2026-10-02 21시, 사용자 '1·4·8·9·10 진행, 3 패스' → 4는 21:08 '헷갈린다'로 원복)**
    - 1 알림 공개: v1.44.0 push_legal_date 2026-10-09 — 그날부터 화면이 저절로 알림을 공개. 10-09 09:20 KST send_later(trig_015RcJsB1VaWPd3W5QbpSN8W)가 이 세션에 확인을 맡김(공개 확인·push_preview 정리).
