@@ -547,6 +547,9 @@ def _parse_rental_limits(t: str) -> Optional[dict]:
     amt = _rental_income_table(f)
     if amt:
         out["amounts"] = amt
+    sp = _rental_sp_table(f)
+    if sp:
+        out["sp"] = sp
     return out
 
 
@@ -579,6 +582,47 @@ def _rental_income_table(f: str) -> Optional[dict]:
     elig = {"1": [o, None], "2": e2, **{str(n): [e3[0][n - 3], e3[1][n - 3]] for n in range(3, 9)}}
     pri = {"1": [o, None], "2": p2, **{str(n): [p3[0][n - 3], p3[1][n - 3]] for n in range(3, 9)}}
     return {"elig": elig, "pri": pri}
+
+
+# ---- 공공임대 특별공급 유형별 소득 기준 (기능: rental_special, 2026-10-02 MASTER QA 남은 일) ----
+# 2026000307 <표4> (표4-2) 2인 · (표4-3) 3~8인: 유형 머리글('신혼부부특별공급' 등) 아래 단계마다
+#  '우선공급(70%) 도시근로자 … 월평균소득액의 100% 8,168,429 … 도시근로자 … 의 120% (본인 및 배우자가 모두 소득이 있는 경우) 9,802,115 …'.
+# 금액을 그대로 읽는다(공공분양 공통 표 spBase 와 1·2·3인 기준액이 다름). 단계 비율 합이 100이 아니거나 2인·3인 표의 단계가 다르면 그 유형은 읽지 않는다.
+# 결과 {유형: {'tiers': [[단계, 비율, 3인+ 외벌이 %, 맞벌이 %]], 'pct2': [[2인 외벌이 %, 맞벌이 %]], 'amt': {'2'~'8': [[외벌이 원, 맞벌이 원] 단계별]}}}
+RENT_SP = {"다자녀가구특별공급": "multichild", "노부모부양특별공급": "elder", "생애최초특별공급": "first", "신혼부부특별공급": "newlywed", "신생아특별공급": "newborn"}
+_RENT_TIER = (r"(우선공급|일반공급|추첨공급)\((\d{1,2})%\)도시근로자가구원수별가구당월평균소득액의(\d{2,3})%((?:\d{1,2},\d{3},\d{3})+)"
+              r"도시근로자가구원수별가구당월평균소득액의(\d{2,3})%\(본인및배우자가모두소득이있는경우\)((?:\d{1,2},\d{3},\d{3})+)")
+
+
+def _rental_sp_blocks(seg: str) -> dict:
+    pos = sorted((m.start(), m.end(), RENT_SP[m.group(0)]) for m in re.finditer("|".join(RENT_SP), seg))
+    out = {}
+    for i, (_, e, k) in enumerate(pos):
+        body = seg[e: pos[i + 1][0] if i + 1 < len(pos) else len(seg)]
+        out[k] = [(m.group(1), int(m.group(2)), int(m.group(3)), _nums(m.group(4)), int(m.group(5)), _nums(m.group(6))) for m in re.finditer(_RENT_TIER, body)]
+    return out
+
+
+def _rental_sp_table(f: str) -> Optional[dict]:
+    i2, i3 = f.find("(표4-2)"), f.find("(표4-3)")
+    i5 = f.find("<표5>", i3) if i3 >= 0 else -1
+    if not (0 <= i2 < i3 < i5):
+        return None
+    b2, b3 = _rental_sp_blocks(f[i2:i3]), _rental_sp_blocks(f[i3:i5])
+    out = {}
+    for k, t3 in b3.items():
+        if not t3 or any(len(x[3]) != 6 or len(x[5]) != 6 for x in t3) or sum(x[1] for x in t3) != 100:
+            continue
+        t2 = b2.get(k) or []
+        if t2 and ([x[:2] for x in t2] != [x[:2] for x in t3] or any(len(x[3]) != 1 or len(x[5]) != 1 for x in t2)):
+            continue   # 2인 표와 3인 이상 표의 단계가 다르면 읽지 않는다 (추측 금지)
+        row = {"tiers": [[x[0], x[1], x[2], x[4]] for x in t3],
+               "amt": {str(n): [[x[3][n - 3], x[5][n - 3]] for x in t3] for n in range(3, 9)}}
+        if t2:
+            row["pct2"] = [[x[2], x[4]] for x in t2]
+            row["amt"]["2"] = [[x[3][0], x[5][0]] for x in t2]
+        out[k] = row
+    return out or None
 
 
 # ---- 재공급 공고 주택형별 특별공급 세대수 (기능: resupply_special, 2026-10-02 블라인드 감사에서 '확인 필요'만 나오던 문제) ----

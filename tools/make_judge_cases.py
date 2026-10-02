@@ -152,6 +152,49 @@ def sp_expect(pub: bool, t: str, p: dict, n: int) -> dict:
     return {"s": "ok", "stage": "추첨"} if p.get("realEstate", 0) <= 33100 else {"s": "fail"}
 
 
+# 공공임대 특별공급 (2026000307 군포대야미 A-1, 기능 rental_special) — 원문을 손으로 옮긴 표. 화면 코드와 따로.
+#  <표5> 가구원수별 퍼센트 금액 (1인~8인, 원). 200% 는 원문 표4 금액이 100%의 2배(3인 16,336,858 = 8,168,429 × 2)
+R_T5 = {100: [3813363, 5866270, 8168429, 8802202, 9326985, 9906263, 10485541, 11064819],
+        110: [4194699, 6452897, 8985272, 9682422, 10259684, 10896889, 11534095, 12171301],
+        120: [4576036, 7039524, 9802115, 10562642, 11192382, 11887516, 12582649, 13277783],
+        130: [4957372, 7626151, 10618958, 11442863, 12125081, 12878142, 13631203, 14384265],
+        140: [5338708, 8212778, 11435801, 12323083, 13057779, 13868768, 14679757, 15490747],
+        150: [5720045, 8799405, 12252644, 13203303, 13990478, 14859395, 15728312, 16597229],
+        160: [6101381, 9386032, 13069486, 14083523, 14923176, 15850021, 16776866, 17703710]}
+R_T5[200] = [2 * v for v in R_T5[100]]
+r_amt = lambda pct, n: R_T5[pct][n - 1]
+#  <표4> (표4-3) 3인 이상 [단계, 비율, 외벌이 %, 맞벌이 %] · (표4-2) 2인 [외벌이 %, 맞벌이 %]
+R_SP = {"multichild": ([("우선공급 (배점순)", 90, 120, 130), ("추첨", 10, 120, 200)], None),
+        "elder": ([("우선공급", 90, 120, 130), ("추첨", 10, 120, 200)], [(130, 140), (130, 200)]),
+        "first": ([("우선공급", 70, 100, 120), ("일반공급", 20, 130, 140), ("추첨", 10, 130, 200)], [(110, 130), (140, 150), (140, 200)]),
+        "newlywed": ([("우선공급", 70, 100, 120), ("일반공급", 20, 130, 140), ("추첨", 10, 130, 200)], [(110, 130), (140, 150), (140, 200)]),
+        "newborn": ([("우선공급", 70, 100, 120), ("일반공급", 20, 140, 150), ("추첨", 10, 140, 200)], [(110, 130), (150, 160), (150, 200)])}
+R_KID = {"옛자녀": {"youngestBirth": "2019-01-01"}, "신생아1": {"youngestBirth": "2025-06-01"},
+         "새2명옛": {"kidsMinor": 2, "kidsOnDeed": 2, "hhSize": 4, "dependents": 3, "youngestBirth": "2019-01-01"},
+         "2인": {"dependents": 1, "kidsMinor": 0, "kidsOnDeed": 0, "youngestBirth": "", "pregnant": False, "hhSize": 2}}
+
+
+def rental_sp_expect(t: str, p: dict, n: int) -> dict:
+    """2026000307: 단계별 소득 기준(첫 단계부터) + 총자산 362,000천원(출산 1명 397,000 · 2명 이상 431,000천원). 소득이 마지막 단계도 넘으면
+    출산가구 완화(<표5>, +10·20%p) 가능성이 있으면 '확인 필요', 아니면 '불가'. 총자산은 부동산+금융+기타+자동차−부채."""
+    mon = p["hhIncomeYear"] * 10000 / 12
+    dual = bool(p.get("married") and p.get("income", 0) > 0 and p.get("spouseIncome", 0) > 0) and n > 1
+    names = [x[0] for x in R_SP[t][0]]
+    pcts = R_SP[t][1] if n == 2 else [(a, b) for _, _, a, b in R_SP[t][0]]
+    stage = next((nm for nm, (a, b) in zip(names, pcts) if mon <= r_amt(b if dual else a, n)), None)
+    tot = sum(p.get(k) or 0 for k in ("realEstate", "carValue", "cash", "liquid", "deposit", "townInsurance", "townFinOther", "townOtherAsset")) - (p.get("townDebt") or 0)
+    ra = relax_add(p)
+    if tot > 36200:
+        if ra == 0 or tot > 43100:
+            return {"s": "fail"}
+        if not (ra and tot <= 39700):
+            return {"s": "warn"}
+    if stage is None:
+        top = pcts[-1][1 if dual else 0]
+        return {"s": "warn"} if ra != 0 and mon <= r_amt(100, n) * (top + 20) / 100 else {"s": "fail"}
+    return {"s": "ok", "stage": stage}
+
+
 def main() -> None:
     cases = []
     add = lambda **c: cases.append(c)
@@ -584,9 +627,23 @@ def main() -> None:
         p = dict(r_base, **kidvars[kv], hhIncomeYear=3000, income=3000, realEstate=re_v, cash=cash)
         add(id=f"rental-{i:02d}", fn="item", item="총자산 (공공임대 일반공급)", listing=RL, profile=p, expect={"s": exp},
             basis="2026000307 <표2> 총자산 362,000천원 이하 · <표3> '23.3.28 이후 출생 자녀 1명 397,000천원"); i += 1
-    for t in ("newlywed", "first", "newborn"):
-        add(id=f"rental-{i:02d}", fn="sp", type=t, listing=RL, profile=dict(r_base, hhIncomeYear=3000, income=3000), expect={"s": "warn"},
-            basis="2026000307 특별공급은 유형별 소득표(표4-1~3)·총자산 기준이 공공분양과 달라 이 서비스는 판정하지 않음 → 확인 필요 (가능·불가로 단정하지 않음)"); i += 1
+    # 공공임대 특별공급 (기능 rental_special): 원문 <표4> 유형별 단계·퍼센트와 <표5> 가구원수별 퍼센트 금액을 이 파일에 따로 옮겨 적는다 (화면·파서 값을 쓰지 않음)
+    for t, kv, n, dual in [("newlywed", "옛자녀", 3, False), ("newlywed", "옛자녀", 3, True), ("newlywed", "2인", 2, False), ("newlywed", "2인", 2, True),
+                           ("newborn", "신생아1", 3, False), ("first", "옛자녀", 3, False), ("elder", "옛자녀", 3, False), ("multichild", "새2명옛", 4, False)]:
+        tiers = R_SP[t][1] if n == 2 else [(a, b) for _, _, a, b in R_SP[t][0]]
+        for k, (a, b) in enumerate(tiers):
+            lim = r_amt(b if dual else a, n)
+            for side in ("le", "gt"):
+                y = lim * 12 // 10000 + (0 if side == "le" else 1)
+                p = dict(r_base, **R_KID[kv], hhIncomeYear=y, income=(y // 2 if dual else y), spouseIncome=(y - y // 2 if dual else 0))
+                if t == "elder":
+                    p.update(eldersOnDeed=None)
+                add(id=f"rental-{i:02d}", fn="sp", type=t, listing=RL, profile=p, expect=rental_sp_expect(t, p, n),
+                    basis=f"2026000307 <표4> 공공임대 {t} {n}인{' 맞벌이' if dual else ''} {k + 1}단계 {b if dual else a}% 월 {lim:,}원 {'이하' if side == 'le' else '초과'} (<표5> 금액)"); i += 1
+    for kv, re_v in [("옛자녀", 36200), ("옛자녀", 36201), ("신생아1", 39700), ("신생아1", 39701), ("신생아1", 43101)]:
+        p = dict(r_base, **R_KID[kv], hhIncomeYear=3000, income=3000, realEstate=re_v)
+        add(id=f"rental-{i:02d}", fn="sp", type="newlywed", listing=RL, profile=p, expect=rental_sp_expect("newlywed", p, 3),
+            basis="2026000307 '3. 총자산보유기준 적용대상: … 신혼부부 … 특별공급' <표2> 362,000천원 · <표3> 출산 1명 397,000천원 · 2명 이상 431,000천원"); i += 1
 
     # ---------- 12) 경계값 보강 (2026-10-02 MASTER QA 코드 변이 검사에서 못 잡던 규칙, evidence/qa/code-mutation.json) ----------
     i = 0

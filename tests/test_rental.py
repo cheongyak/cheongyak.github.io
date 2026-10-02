@@ -53,3 +53,20 @@ def test_rental_listing_has_no_margin(monkeypatch):
     monkeypatch.setattr(pipeline, "feature_on", lambda n: n != "rental_rules")
     L2 = pipeline.build_listing(raw, None, date(2026, 7, 1), {})
     assert not L2.rental
+
+
+def test_rental_sp_table_only_when_consistent():
+    """공공임대 특별공급 소득표 (기능: rental_special). 원문 2026000307 은 5개 유형을 모두 읽고(정답은 golden pub_limits.sp),
+    단계 비율 합이 100이 아니거나 금액 칸 수가 맞지 않으면 그 유형은 읽지 않는다 (추측 금지). 공공분양·민영 공고문에는 이 표가 없다."""
+    import re
+    t = (ROOT / "evidence" / "qa" / "notices" / "2026000307.txt").read_text(encoding="utf-8")
+    f = re.sub(r"\s+", "", t)
+    sp = notice_pdf._rental_sp_table(f)
+    assert set(sp) == {"newlywed", "newborn", "first", "elder", "multichild"}
+    assert "2" not in sp["multichild"]["amt"]   # 다자녀는 2인 표에 없음
+    broken = f.replace("신혼부부특별공급우선공급(70%)", "신혼부부특별공급우선공급(60%)")   # 비율 합 90
+    assert "newlywed" not in (notice_pdf._rental_sp_table(broken) or {})
+    cut = f.replace("11,064,819도시근로자가구원수별가구당월평균소득액의120%", "도시근로자가구원수별가구당월평균소득액의120%", 1)   # 8인 칸 하나 빠짐
+    assert notice_pdf._rental_sp_table(cut) != sp
+    for g in sorted((ROOT / "evidence" / "notices").glob("*.txt")):
+        assert notice_pdf._rental_sp_table(re.sub(r"\s+", "", g.read_text(encoding="utf-8"))) is None, g.stem

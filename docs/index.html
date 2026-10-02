@@ -2322,7 +2322,7 @@ function spJudge(L, p, type){
     const noKid = !(kids > 0) && p.pregnant !== true && p.kidsOnDeed === 0, kidUnknown = kids == null || (!(kids > 0) && p.kidsOnDeed == null);
     if (p.married == null) warn.push('혼인 여부 입력 필요');
     else if (!p.married && kidUnknown) warn.push('자녀 정보 입력 필요 (생애최초는 혼인 중이거나 자녀가 있어야 하고, 아니면 추첨 물량만)');
-    else if (!p.married && noKid && pub) fail.push('공공분양 생애최초는 혼인 중이거나 미혼 자녀가 있어야 해요 (1인 가구 불가 · 공고문)');
+    else if (!p.married && noKid && pub) fail.push((isRental(L) && on('rental_special') ? '공공임대' : '공공분양') + ' 생애최초는 혼인 중이거나 미혼 자녀가 있어야 해요 (1인 가구 불가 · 공고문)');   // 공공임대 2026000307 생애최초 ③ 같은 요건
   } else if (type === 'multichild') {
     need(kids == null ? null : kids >= 2, '미성년 자녀 ' + (kids || 0) + '명', '미성년 자녀 2명 미만', '미성년 자녀 수 입력 필요');
   } else if (type === 'elder') {
@@ -2339,7 +2339,30 @@ function spJudge(L, p, type){
   // 완화 여부를 모르면(자녀 정보 없음) 기준을 넘는 사람에게 '불가' 대신 '확인 필요'를 준다 — 가능으로 단정하지 않는다
   const BR = on('sp_birth_relax') && pub ? birthRelax(p) : null, addK = BR && BR.add ? BR.add : 0;
   let relaxUsed = false;
-  if (R.income && !fail.length) {
+  /* 공공임대 특별공급 (기능: rental_special). 공고문 <표4> 유형별 소득표(수집 pub_limits.sp — 금액을 그대로 읽음, 1·2·3인 기준액이 공공분양 공통 표와 달라 spBase 를 쓰지 않음)와
+     <표2>·<표3> 총자산. 2026000307 각 특별공급 '무주택세대구성원 전원의 월평균소득이 … 이하' · '3. 총자산보유기준 적용대상 : 청년·다자녀·신혼부부·생애최초·노부모부양·신생아 특별공급'.
+     출산가구 소득 완화(<표5> +10·20%p)는 금액을 계산해 '가능'으로 단정하지 않고 '확인 필요'로만 둔다 */
+  const RS = isRental(L) && on('rental_special') && L.pubLimits && L.pubLimits.sp ? L.pubLimits.sp[type] : null;
+  let rsRows = null;
+  if (RS && !fail.length) {
+    const inc = spIncome(p), n = p.hhSize, dual = inc.dual && n > 1;
+    if (!n) warn.push('가구원수 입력 필요');
+    else if (incomeNeedsHh(p)) warn.push('세대 소득 입력 필요 (같은 등본 세대원 소득 합산)');
+    else if (!RS.amt[String(n)] || (n === 2 && !RS.pct2)) warn.push(n + '인 가구 소득 기준을 공고문 표에서 읽지 못했어요 (모집공고문 <표4> 확인)');
+    else {
+      const A = RS.amt[String(n)], P = n === 2 ? RS.pct2 : RS.tiers.map(t => [t[2], t[3]]);
+      rsRows = RS.tiers.map((t, i) => [t[0] === '추첨공급' ? '추첨' : type === 'multichild' && t[0] === '우선공급' ? '우선공급 (배점순)' : t[0], t[1] + '%', P[i][dual ? 1 : 0], A[i][dual ? 1 : 0]]);   // 단계 이름은 공공분양과 같게 (뽑는 방식 안내가 같음: 2026000307 신혼부부 1단계 우선 70% 순위·가점 → 2단계 일반 20% → 3단계 추첨)
+      const hit = rsRows.find(r => inc.monthly <= r[3]), top = rsRows[rsRows.length - 1];
+      stageNote = '월평균 ' + won(inc.monthly) + (inc.est ? ' (본인+배우자 소득으로 추정)' : '') + ' · ' + n + '인 가구' + (dual ? ' · 맞벌이' : '');
+      if (hit) stage = [hit[0], hit[1], hit[2]];
+      else if (birthRelax(p).add !== 0 && inc.monthly <= top[3] / top[2] * (top[2] + 20)) warn.push('소득이 공고문 상한(' + top[2] + '%, 월 ' + won(top[3]) + ')을 넘지만 출산가구 완화(2023.3.28 이후 출생 자녀·태아 1명 +10%p, 2명 이상 +20%p)를 받으면 될 수도 있어요 — 모집공고문 <표5> 확인 필요');
+      else fail.push('소득 기준 초과 (공공임대 ' + SP_NAME[type] + ' 상한 ' + top[2] + '%, 월 ' + won(top[3]) + ')');
+    }
+    const ba = birthRelax(p).add, a = parentHouseMissing(p) ? { s:'warn', v:'부동산에 부모님 집 넣기 필요' } : townAssetItem(L.pubLimits, p, ba === 0 ? 0 : ba ? 1 : null);
+    if (a.s === 'fail') { fail.push('총자산 기준 초과 (' + a.note + ')'); stage = null; }
+    else if (a.s === 'warn') warn.push('총자산 · ' + a.v);
+    else ok.push('총자산 ' + a.v + ' (' + manW(L.pubLimits.total_asset) + ' 이하' + (a.v.includes('완화') ? ' · 출산가구 완화' : '') + ')');
+  } else if (R.income && !fail.length) {
     const inc = spIncome(p), n = p.hhSize;
     if (!n) warn.push('가구원수 입력 필요');
     else if (incomeNeedsHh(p)) warn.push('세대 소득 입력 필요 (같은 등본 세대원 소득 합산)');   // 감사 H3
@@ -2376,10 +2399,10 @@ function spJudge(L, p, type){
       else { stage = ['추첨 (미혼·무자녀)', '추첨 물량']; if (p.hhSize == null && p.household !== 'parents' && (L.area || 0) > 60) warn.push('가구원수 입력 필요 (혼자 사는 세대주는 전용 60㎡ 이하만)'); }
     }
   }
-  if (isRental(L)) { warn.unshift('공공임대 특별공급은 유형별 소득·총자산 기준이 공고문 표에 따로 있어요. 이 서비스는 아직 판정하지 않아요 — 모집공고문의 특별공급 자격표를 확인하세요'); fail.splice(0).forEach(x => warn.push('(공공분양 기준으로 보면) ' + x)); }
+  if (isRental(L) && !RS) { warn.unshift('공공임대 특별공급은 유형별 소득·총자산 기준이 공고문 표에 따로 있어요. 이 서비스는 아직 판정하지 않아요 — 모집공고문의 특별공급 자격표를 확인하세요'); fail.splice(0).forEach(x => warn.push('(공공분양 기준으로 보면) ' + x)); }
   const s = fail.length ? 'fail' : warn.length ? 'warn' : 'ok';
   const how = type === 'multichild' ? '다자녀 배점표(100점)로 선정' : type === 'elder' && !pub ? '일반공급 가점(84점)으로 선정' : stage ? stage[0] + (stage[1] ? ' (' + stage[1] + ')' : '') + ' 대상' : '';
-  return { type, s, v: s === 'fail' ? '불가' : s === 'warn' ? '확인 필요' : '가능', how, fail, warn, ok, stageNote, cite: R.cite, pub, stage, hhN: hh ? hh.n : null, hhWhy: hh ? hh.why : '' };
+  return { type, s, v: s === 'fail' ? '불가' : s === 'warn' ? '확인 필요' : '가능', how, fail, warn, ok, stageNote, cite: RS ? '공고문 <표4> 공공임대 ' + SP_NAME[type] + ' 특별공급 소득 기준 · <표2>·<표3> 총자산' : R.cite, pub, stage, hhN: hh ? hh.n : null, hhWhy: hh ? hh.why : '', rsRows };
 }
 /* 다자녀가구 배점 (100점, 기능: multichild_score). 근거: 「다자녀가구 및 노부모부양 주택 특별공급 운용지침」 [별표1]
    (더샵 분당하이스트 2026000103 배점 기준표, LH 의정부우정 2026000409 도 같음). 무주택기간·거주기간은 만 19세(성년)부터 */
@@ -2606,6 +2629,16 @@ const spPlain = t => { for (const [re, to] of SP_PLAIN_RULES) if (re.test(t)) re
 const STAGE_PLAIN = { '우선공급':'소득 1구간(우선공급)', '일반공급':'소득 2구간(일반공급)', '추첨':'추첨 몫', '우선공급 (배점순)':'우선공급(배점 순)', '추첨 (1인 가구)':'추첨 몫(1인 가구)' };
 /* 소득: spJudge 와 같은 값(spIncome·spBase·spAmt·SP_RULES 단계)으로 '어느 구간인지'를 문장과 사다리로 */
 function spIncomePlain(L, p, r){
+  if (r.rsRows) {   // 공공임대 특별공급: 공고문 표 금액 그대로 (기능: rental_special)
+    const inc = spIncome(p), n = r.hhN || p.hhSize;
+    const rows = r.rsRows.map(([nm, share, pct, amt]) => `<div class="spl-row${r.stage && r.stage[0] === nm ? ' here' : ''}"><span>${STAGE_PLAIN[nm] || nm}<span class="muted"> · 물량 ${share}</span></span><span>월 ${man(amt)} 이하 (${pct}%)${r.stage && r.stage[0] === nm ? ' <b class="st-ok">← 나</b>' : ''}</span></div>`).join('')
+      + `<div class="spl-row me${r.stage ? '' : ' over'}"><span><b>우리 집</b></span><span><b>월 ${man(inc.monthly)}</b></span></div>`;
+    return `<div class="sp-sub"><span class="sp-lbl2">소득 기준과 비교하면</span>
+      <div class="small">우리 집 월평균 소득 <b>${man(inc.monthly)}</b> · ${n}인 가구${inc.est ? ' <span class="muted">(세대 소득을 넣지 않아 본인+배우자 소득으로 추정)</span>' : ''}${inc.dual && n > 1 ? ' · 맞벌이 기준' : ''}</div>
+      ${r.stage ? `<div class="small"><b>${esc(STAGE_PLAIN[r.stage[0]] || r.stage[0])} 기준 안이에요.</b></div>` : ''}
+      <div class="spl-ladder" aria-label="소득 구간">${rows}</div>
+      <div class="small muted">공공임대 특별공급 소득 기준 = 이 공고 모집공고문 &lt;표4&gt; 금액 그대로예요 (공공분양과 1·2·3인 기준액이 달라요).</div></div>`;
+  }
   const R = SP_RULES[r.pub ? 'public' : 'minyoung'][r.type];
   if (!R.income || !(r.hhN || p.hhSize) || !r.stageNote) return '';
   const inc = spIncome(p), n = r.hhN || p.hhSize, dual = R.dual && inc.dual, pct = Math.round(inc.monthly / spBase(n) * 100);
@@ -4285,7 +4318,12 @@ function spWhyHtml(L, p, r){
   if (!on('ws_why')) return '';
   const R = SP_RULES[r.pub ? 'public' : 'minyoung'][r.type], parts = [];
   // 소득 구간
-  if (R.income && R.stages) {
+  if (r.rsRows) {   // 공공임대 특별공급 (기능: rental_special)
+    const st = r.stage && r.stage[0], rows = r.rsRows.map(([nm, share, pct, amt]) => `<tr${st === nm ? ' class="why-me"' : ''}><td>${esc(STAGE_PLAIN[nm] || nm)}</td><td>${esc(share)}</td><td>${pct}% 이하<br><span class="muted">월 ${won(amt)}</span></td><td>${st === nm ? '← 나' : ''}</td></tr>`).join('');
+    parts.push(`<h4>소득 구간은 이렇게 정했어요</h4><p>${esc(r.stageNote || '')}. 모집공고문 &lt;표4&gt; 공공임대 ${esc(SP_NAME[r.type])} 특별공급 금액으로, 첫 구간부터 맞는 곳에 들어가요.</p>
+      <div style="overflow-x:auto"><table class="ws-tbl"><thead><tr><th>구간</th><th>물량</th><th>소득 기준</th><th></th></tr></thead><tbody>${rows}</tbody></table></div>`);
+  } else if (isRental(L) && on('rental_special') && L.pubLimits && L.pubLimits.sp) parts.push('<h4>소득 구간</h4><p>가구원수와 세대 소득을 넣으면 이 공고문 표로 구간을 정해요.</p>');
+  else if (R.income && R.stages) {
     const hh = hhCount(L, p, r.type), n = hh ? hh.n : p.hhSize, inc = spIncome(p), dual = R.dual && inc.dual, st = r.stage && r.stage[0];
     if (n) {
       const pct = Math.round(inc.monthly / spBase(n) * 100), br = on('sp_birth_relax') && r.pub ? birthRelax(p) : null, add = br && br.add ? br.add : 0;
