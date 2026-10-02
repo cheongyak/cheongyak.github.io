@@ -4,6 +4,17 @@
 2026-09-29 12:55 이전 항목은 규칙을 만들기 전 작업을 커밋 기록으로 정리한 것이라 백업 브랜치가 없어요.
 그 시점으로 되돌릴 때는 해당 커밋 번호로 `git revert` 를 써요.
 
+## 2026-10-02 15:40 · MASTER QA: 사람 원문 대조 30건 (블라인드)
+- 요청: MASTER QA 37항 — 공고 30건 이상을 원문과 직접 비교
+- 방법: 앱 데이터를 보지 않은 검토자 3명(별도 에이전트)이 원문(evidence/qa/notices)만 읽고 값을 적음 → evidence/qa/spotcheck-blind.json. tools/qa/spotcheck_compare.py 로 보관함(청약홈 값)·판정 자료(공고문에서 읽은 값)와 대조 → evidence/qa/spotcheck-result.json
+- 결과: 공급 구분 30/30, 주택형 128/128, 일반 세대수 128/128, 특공 세대수 96/96(+무순위 32 해당 없음), 최고 분양가 128/128, 접수 시작·끝·발표 30/30 ×3, 1순위 세대주 5/5, 재당첨 8/8, 1순위 가입기간 5/5 (6/15 전 공고 22건은 판정 자료가 없어 NOT_TESTABLE). FAIL 0
+- 검토 중 확인한 것: 2026000241·453·399·103 원문 요약표 1순위 세대주 '필요' ↔ 앱 need_head false. 처음엔 오류로 보고 요약표를 먼저 읽게 고쳤으나 판정 사례 3건(rank2-00·01·audit-051)이 실패 —
+  need_head 는 '공급 전체 대상이 세대주'이고 투기과열 1순위 세대주는 규제지역 규칙으로 판정(세대원도 2순위 가능)하는 구조라 앱이 맞았음. 고친 것을 되돌리고, 뜻을 정답 데이터 notes 와 tests/test_need_head.py 로 고정
+- 파일: tools/qa/spotcheck_compare.py, evidence/qa/spotcheck-blind.json, evidence/qa/spotcheck-result.json, tests/test_need_head.py, tests/golden/notices.json(need_head 4건 + 설명)
+- 확인: pytest, 판정 사례 298/298
+- 기능: 없음(검증)
+- 백업: backup/20261002-1526-needhead (서비스 코드 변경 없음)
+
 ## 2026-10-02 15:35 · MASTER QA: 출시 게이트에 공급유형 표시·데이터 불변식 연결 (QA-08)
 - 요청: MASTER QA 31·32항 — 매 수집·화면 변경마다 자동 검사, 실패하면 막기
 - 변경: tools/qa/invariants.py (지금 공고·보관함: ID 중복, 공급유형↔구분 상호배타, 무순위인데 국민/민영, 금액·면적·세대수 범위, 특공 합계, 날짜 순서, 시·도, 공공임대 조건, 보관 기간 지난 공고가 목록에 남음 — 신혼희망타운 특공 합계만은 예상된 차이),
