@@ -20190,11 +20190,6 @@
   "mc_quota": {
    "buckets": [
     {
-     "name": "경기도",
-     "pct": 50,
-     "regions": [
-      "경기"
-     ],
      "first": {
       "area": {
        "name": "평택시",
@@ -20203,6 +20198,11 @@
       "months": 12,
       "since": "2025-09-11"
      },
+     "name": "경기도",
+     "pct": 50,
+     "regions": [
+      "경기"
+     ],
      "rest_months": 6
     },
     {
@@ -20223,15 +20223,15 @@
     "sido": "경기",
     "sigungu": "평택시"
    },
-   "months": 12,
-   "since": "2025-09-11",
    "gyeonggi": {
     "months": 6,
     "since": "2026-03-11"
    },
+   "months": 12,
    "others": [
     "전국"
-   ]
+   ],
+   "since": "2025-09-11"
   },
   "special_units": {
    "newborn": 131,
@@ -20466,13 +20466,13 @@
   "url": "https://www.applyhome.co.kr/ai/aia/selectAPTLttotPblancDetail.do?houseManageNo=2026000438&pblancNo=2026000438",
   "notice_pdf": "https://static.applyhome.co.kr/ai/aia/getAtchmnfl.do?houseManageNo=2026000438&pblancNo=2026000438&atchmnflSeqNo=1973016&atchmnflSn=5",
   "from_notice": [
-   "분양가상한제",
-   "실거주 의무",
-   "재당첨 제한",
    "1순위 가입기간",
    "납입 인정 횟수",
+   "다자녀 지역 배정",
+   "분양가상한제",
    "거주 지역 요건",
-   "다자녀 지역 배정"
+   "실거주 의무",
+   "재당첨 제한"
   ],
   "checks": [],
   "geo": null,
@@ -20735,11 +20735,6 @@
   "mc_quota": {
    "buckets": [
     {
-     "name": "경기도",
-     "pct": 50,
-     "regions": [
-      "경기"
-     ],
      "first": {
       "area": {
        "name": "평택시",
@@ -20748,6 +20743,11 @@
       "months": 12,
       "since": "2025-09-11"
      },
+     "name": "경기도",
+     "pct": 50,
+     "regions": [
+      "경기"
+     ],
      "rest_months": 6
     },
     {
@@ -20768,15 +20768,15 @@
     "sido": "경기",
     "sigungu": "평택시"
    },
-   "months": 12,
-   "since": "2025-09-11",
    "gyeonggi": {
     "months": 6,
     "since": "2026-03-11"
    },
+   "months": 12,
    "others": [
     "전국"
-   ]
+   ],
+   "since": "2025-09-11"
   },
   "special_units": {
    "newborn": 36,
@@ -21011,13 +21011,13 @@
   "url": "https://www.applyhome.co.kr/ai/aia/selectAPTLttotPblancDetail.do?houseManageNo=2026000438&pblancNo=2026000438",
   "notice_pdf": "https://static.applyhome.co.kr/ai/aia/getAtchmnfl.do?houseManageNo=2026000438&pblancNo=2026000438&atchmnflSeqNo=1973016&atchmnflSn=5",
   "from_notice": [
-   "분양가상한제",
-   "실거주 의무",
-   "재당첨 제한",
    "1순위 가입기간",
    "납입 인정 횟수",
+   "다자녀 지역 배정",
+   "분양가상한제",
    "거주 지역 요건",
-   "다자녀 지역 배정"
+   "실거주 의무",
+   "재당첨 제한"
   ],
   "checks": [],
   "geo": null,
@@ -62214,10 +62214,10 @@
     "name": "서울특별시",
     "sido": "서울"
    },
-   "equal": true,
    "months": 0,
+   "since": null,
    "others": [],
-   "since": null
+   "equal": true
   },
   "special_units": null,
   "notice": "2026-10-01",
@@ -62311,9 +62311,9 @@
   "from_notice": [
    "세대주 요건",
    "분양가상한제",
-   "거주 지역 요건",
    "실거주 의무",
-   "재당첨 제한"
+   "재당첨 제한",
+   "거주 지역 요건"
   ],
   "checks": [],
   "geo": {
@@ -62448,10 +62448,10 @@
     "name": "서울특별시",
     "sido": "서울"
    },
-   "equal": true,
    "months": 0,
+   "since": null,
    "others": [],
-   "since": null
+   "equal": true
   },
   "special_units": null,
   "notice": "2026-10-01",
@@ -62545,9 +62545,9 @@
   "from_notice": [
    "세대주 요건",
    "분양가상한제",
-   "거주 지역 요건",
    "실거주 의무",
-   "재당첨 제한"
+   "재당첨 제한",
+   "거주 지역 요건"
   ],
   "checks": [],
   "geo": {
@@ -62682,10 +62682,10 @@
     "name": "서울특별시",
     "sido": "서울"
    },
-   "equal": true,
    "months": 0,
+   "since": null,
    "others": [],
-   "since": null
+   "equal": true
   },
   "special_units": null,
   "notice": "2026-10-01",
@@ -62733,9 +62733,9 @@
   "from_notice": [
    "세대주 요건",
    "분양가상한제",
-   "거주 지역 요건",
    "실거주 의무",
-   "재당첨 제한"
+   "재당첨 제한",
+   "거주 지역 요건"
   ],
   "checks": [],
   "geo": {
@@ -63739,10 +63739,10 @@
     "name": "서울특별시",
     "sido": "서울"
    },
+   "equal": true,
    "months": 0,
-   "since": null,
    "others": [],
-   "equal": true
+   "since": null
   },
   "special_units": null,
   "notice": "2026-09-28",
@@ -63946,9 +63946,9 @@
   "from_notice": [
    "세대주 요건",
    "분양가상한제",
+   "거주 지역 요건",
    "실거주 의무",
-   "재당첨 제한",
-   "거주 지역 요건"
+   "재당첨 제한"
   ],
   "checks": [],
   "geo": {
@@ -64065,10 +64065,10 @@
     "name": "서울특별시",
     "sido": "서울"
    },
+   "equal": true,
    "months": 0,
-   "since": null,
    "others": [],
-   "equal": true
+   "since": null
   },
   "special_units": null,
   "notice": "2026-09-28",
@@ -64272,9 +64272,9 @@
   "from_notice": [
    "세대주 요건",
    "분양가상한제",
+   "거주 지역 요건",
    "실거주 의무",
-   "재당첨 제한",
-   "거주 지역 요건"
+   "재당첨 제한"
   ],
   "checks": [],
   "geo": {
