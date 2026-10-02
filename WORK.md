@@ -4,6 +4,18 @@
 2026-09-29 12:55 이전 항목은 규칙을 만들기 전 작업을 커밋 기록으로 정리한 것이라 백업 브랜치가 없어요.
 그 시점으로 되돌릴 때는 해당 커밋 번호로 `git revert` 를 써요.
 
+## 2026-10-02 16:30 · v1.41.1 저장된 조건 값 정리 + E2E·퍼징·화면 스냅샷
+- 요청: MASTER QA 남은 일 — 사용자 흐름 E2E, 입력 퍼징, 화면 회귀
+- 감사: tools/qa/e2e.cjs — 공고 6종 × 조건 5가지 = 30 흐름(카드→상세 결론이 eligBucket 과 같은지, 자금 계획→뒤로→새로고침→뒤로, #/detail/id 바로가기) + 검색·지난 공고 흐름 + 저장 조건 퍼징 39칸 × 이상값 10 = 390.
+  퍼징에서 실제 오류 발견: 저장된 acctSince 가 숫자(-1)면 'a.split is not a function' 으로 화면 멈춤, 금액 칸 'abc' 면 NaN 표시
+- 변경: cleanProfile — 설정을 읽은 뒤 저장된 조건을 정리(날짜는 YYYY-MM-DD 아니면 빈칸, 인원 0~30 정수, 금액 0~1억 유한수 아니면 기본값, 너무 긴 글자 초기화, 참/거짓 칸은 그대로). 스위치 profile_clean.
+  tools/qa/snapshot.cjs — 고정 공고·고정 날짜(2026-10-02)·조건 3가지로 카드·상세 결론·일반·특공 칸 글자를 tests/qa/snapshots.json 과 비교 (화면 사진은 evidence/qa/shots)
+- 파일: docs/index.html, docs/config.json, tools/qa/e2e.cjs, tools/qa/snapshot.cjs, tests/qa/snapshots.json, evidence/qa/{e2e.json,snapshot.json,shots/}, docs/changelog.json, VERSIONS.md
+- 확인: E2E 32/32(스위치 끄면 퍼징 실패 → 막는 것 확인), 스냅샷 다름 0·화면 오류 0, 판정 사례 303/303(사례 조건 303개는 정리 전후 같음), 판정 일치 다름 0, regress 0, engine_lock 그대로, pytest
+- 기능: profile_clean
+- 버전: v1.41.1
+- 백업: backup/20261002-1630-clean
+
 ## 2026-10-02 16:17 · v1.41.0 재공급 특별공급 판정 + 변경분 블라인드 감사
 - 요청: MASTER QA 남은 일 — 변경분(일반 0세대 공통 조건·공공임대) 블라인드 판정 감사
 - 감사: tools/qa/audit/audit_verdict.cjs — 공고 6개(414 59G·84B, 930036 84D, 930035 84A, 930031 59A, 307 55A) × 설계한 조건 6개 = 36건. 앱을 보지 않은 검토자 2명이 원문만으로 '어떤 공급으로든 신청 가능한가' 판정 (evidence/audit/2026-10-02-verdict).

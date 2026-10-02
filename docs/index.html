@@ -657,6 +657,23 @@ const DEFAULT_PROFILE = { seoul:null, household:'', parents60:null, parentsOwn:n
   cash:0, liquid:0, deposit:0, income:0, loanMonthly:0, firstTime:null,
   kidsUnder6:null, gen3:null, homeSido:'', sidoSince:'', sidoOwnSince:'', kidsOnDeed:null, eldersOnDeed:null, elders1y:null, fetusCount:null, homeSigun:'', areaSince:'', kidsMinor:null, youngestBirth:'', pregnant:null, hhSize:null, hhIncomeYear:null, realEstate:null, carValue:null, townType:null, townInsurance:null, townFinOther:null, townOtherAsset:null, townDebt:null, ownExc:null, spouseSoldOn:'', winSpecial:null, winScore2y:null, hhNeverOwned:null, everWin:null, taxYears5:null, elder65:null };
 
+/* 저장된 내 조건 정리 (기능: profile_clean, 2026-10-02 MASTER QA 입력 퍼징): 기기에 저장된 값이 깨져 있으면(숫자 자리에 글자, 날짜 자리에 숫자 등)
+   화면이 멈추거나 'NaN'이 보였다. 불러올 때 칸마다 형식을 맞추고, 맞지 않으면 '안 넣음'으로 돌린다 (추측해서 채우지 않음) */
+const P_DATE = /(Since|On|^birth|Birth)$/, P_MONEY = ['hhIncomeYear', 'realEstate', 'carValue', 'townInsurance', 'townFinOther', 'townOtherAsset', 'townDebt', 'acctPaid'], P_COUNT = ['dependents', 'kidsMinor', 'kidsOnDeed', 'eldersOnDeed', 'hhSize', 'acctCount', 'fetusCount', 'elders1y'];
+function cleanProfile(p){
+  if (!on('profile_clean')) return p;
+  const out = Object.assign({}, p);
+  for (const k of Object.keys(out)) {
+    const v = out[k], d = DEFAULT_PROFILE[k];
+    if (P_DATE.test(k)) { if (v != null && v !== '' && !(typeof v === 'string' && /^(19|20)\d\d-(0[1-9]|1[0-2])-(0[1-9]|[12]\d|3[01])$/.test(v))) out[k] = ''; }
+    else if (P_COUNT.includes(k) && typeof v !== 'boolean') { if (v != null && v !== '' && !(Number.isInteger(+v) && +v >= 0 && +v <= 30)) out[k] = d === undefined ? null : d; else if (v !== null && v !== '') out[k] = +v; }
+    else if (P_MONEY.includes(k) && d == null) { if (v != null && v !== '' && !(isFinite(+v) && +v >= 0 && +v <= 1e8 && typeof v !== 'boolean')) out[k] = null; else if (v != null && v !== '') out[k] = +v; }
+    else if (typeof d === 'number') { if (!(typeof v === 'number' || (typeof v === 'string' && v.trim() !== '' && isFinite(+v))) || !isFinite(+v) || +v < 0 || +v > 1e8) out[k] = d; else out[k] = +v; }
+    else if (typeof d === 'string' && typeof v !== 'string') out[k] = v == null ? d : String(v);
+    if (typeof out[k] === 'string' && out[k].length > 200) out[k] = d == null ? '' : d;
+  }
+  return out;
+}
 const store = {
   get(k){ try{ const v = localStorage.getItem(k); return v ? JSON.parse(v) : null; }catch(e){ return null; } },
   set(k,v){ try{ localStorage.setItem(k, JSON.stringify(v)); }catch(e){} }
@@ -4908,6 +4925,7 @@ try { navPending = navParse(location.hash); if (!(history.state && history.state
 if (navPending && !NAV_ID_VIEWS.includes(navPending.v) && on('history_nav') && S.view !== 'onboard') { navApply(navPending); try { history.replaceState({ nav:1, v: S.view, id: null, y: 0 }, ''); } catch(e) {} navPending = null; }
 fetch('config.json', { cache:'no-store' }).then(r => r.ok ? r.json() : null).then(c => {
   if (c) CONFIG = Object.assign(CONFIG, c);
+  S.profile = cleanProfile(S.profile);   // 기능: profile_clean — 설정을 읽은 뒤 (스위치를 끄면 예전처럼 그대로)
   if (!on('data_fail_ui') && !DATA_SOURCE.live && DATA_SOURCE.samples) LISTINGS = DATA_SOURCE.samples;   // 기능 data_fail_ui 를 끄면 예전처럼 예시 공고로
   syncHome(S.profile);   // 설정을 읽은 뒤 예전 '서울 거주' 답을 사는 곳으로 옮김 (기기에만 반영, 저장은 다음 입력 때)
   if (on('analytics')) { if (CONFIG.cf_beacon) initCF(CONFIG.cf_beacon); else initGC(CONFIG.goatcounter); }
