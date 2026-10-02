@@ -2632,7 +2632,11 @@ function specialCardV2(L, rs, p){
   const missing = p.kidsMinor == null || (!p.hhSize && !(on('hh_count') && p.kidsOnDeed != null && p.eldersOnDeed != null)) || rs.some(r => r.warn.some(t => /입력 필요|미입력/.test(t)) || (r.s === 'ok' && spHeadline(L, p, r).partial));
   const POS = on('special_position');
   const SS = on('supply_split');   // 기능: supply_split — 이 카드는 특별공급만 (일반공급은 위 일반공급 카드로)
-  return `<section class="card spcard"><div class="row"><h2>${SS ? '특별공급' : POS ? '공급 유형별 내 자격과 위치' : '특별공급 자격'}</h2><span class="small muted">${rs[0].pub ? '공공' : '민영'} · 추정</span></div>
+  // 기능: general_units — 일반공급 카드처럼 제목 옆 '전체 N세대'(청약홈 특별공급 합계). 아래 유형 줄에 없는 몫(기관추천·이전기관 등)은 한 줄로
+  const U = on('general_units') && SS && L.specialUnits && L.specialUnits.total ? L.specialUnits : null;
+  const uOther = U ? U.total - Object.keys(SP_NAME).reduce((n, k) => n + (U[k] || 0), 0) : 0;
+  return `<section class="card spcard"><div class="row"><span class="gu-top"><h2>${SS ? '특별공급' : POS ? '공급 유형별 내 자격과 위치' : '특별공급 자격'}</h2>${U ? `<span class="small muted">전체 ${U.total}세대</span>` : ''}</span><span class="small muted">${rs[0].pub ? '공공' : '민영'} · 추정</span></div>
+    ${uOther > 0 ? `<div class="small muted genunits">아래 유형 ${U.total - uOther}세대 + 기관추천·이전기관 등 ${uOther}세대 (이 서비스는 판정하지 않음)</div>` : ''}
     <div class="spsum" role="group" aria-label="판정 요약">${[['ok','가능'],['warn','확인 필요'],['fail','불가']].filter(([k]) => n(k)).map(([k, t]) => `<span class="pill ${k}">${t} ${n(k)}</span>`).join('')}</div>
     ${missing ? `<div class="note warn sp-need"><span class="small">비어 있는 정보가 있어 일부는 판정·점수가 빠졌어요.</span>${on('inline_fix') ? `<button class="linkbtn small" data-fix="sp:all">바로 답하기</button>` : '<button class="linkbtn small" data-action="sp-input">입력하기</button>'}</div>` : ''}
     ${fixPanel(L, p, 'sp')}
@@ -2869,7 +2873,7 @@ function fixPanel(L, p, where){
 /* 신청할 수 있는 공급 요약 (기능: supply_summary). 일반공급 = eligibility() 결과, 특별공급 = spJudge() 결과, 지역 순서 = 거주지 판정 — 그대로 모아 보여준다 */
 /* 신혼희망타운은 주택형 공급 전체가 신혼부부·예비신혼부부·한부모가족 대상 공급이고(청약홈은 특별공급으로 집계, 일반공급 0),
    누구나 넣는 일반공급이나 따로 고르는 특별공급 유형이 없다 — 2026820010 「1단계 우선공급 30% · 2단계 일반공급 60% · 3단계 추첨공급」 모두 신혼부부 등 대상 */
-const genLabel = L => !L.needAccount ? '무순위' : isNewlywedTown(L) ? '신혼희망타운' : '일반공급';
+const genLabel = L => !L.needAccount ? (on('general_units') && /재공급/.test(L.kind || '') ? '재공급' : '무순위') : isNewlywedTown(L) ? '신혼희망타운' : '일반공급';
 /* 일반공급·무순위 세대수와 가점제·추첨제 몫 (기능: general_units, 2026-10-02 사용자 요청 — 특별공급은 '전체 N세대'가 보이는데 일반은 안 보여서).
    세대수는 청약홈 공고의 일반공급 세대수(households). 민영 85㎡ 이하·초과의 가점제 몫은 1순위 일반공급 세대수 × 공고문 가점제 비율(L.scoreRatio),
    소수점 이하 올림, 나머지는 추첨제 (주택공급에 관한 규칙 제28조 ②·④). 판정은 바꾸지 않는 표기. 공공(국민)은 가점·추첨 구분 없이 세대수만 */
@@ -2945,8 +2949,8 @@ function checklistV2(L, p, e){
     ${i.note ? `<div class="small muted">${esc(i.note)}</div>` : ''}${on('unsure_actions') ? warnActBtn(L, i) : i.edit && visibleSteps().find(s2 => stepKey(s2) === i.edit) ? `<button class="linkbtn small" data-edit="${esc(i.edit)}" style="align-self:flex-start">${esc(i.editLabel || '정보 넣기')}</button>` : ''}<div class="ck-src">${itemSrc(L, i.k)}</div></div>`;
   const SS = on('supply_split');   /* 기능: supply_split — 자격 체크리스트 = 일반공급 카드 (판정 표시 + 참고: 뽑는 방식과 내 위치 + 조건 목록) */
   const GN = genNone(L);   // 기능: gen_none — 일반공급 물량 0: 판정 대신 '일반공급 없음', 아래 조건은 특별공급 공통 조건으로
-  const gv = GN ? ['', '일반공급 없음'] : !hasProfile() ? ['', '판정 전'] : e.ok ? (e.unsure ? ['warn', '확인 필요'] : ['ok', '신청 가능']) : e.rank2 ? ['warn', e.rank2Need ? '확인 필요' : '2순위만 가능'] : ['fail', '신청 불가'];
-  if (GN) { tone = 'info'; title = '이 주택형은 ' + genLabel(L) + ' 물량이 없어요';
+  const gv = GN ? ['', genLabel(L) === '일반공급' ? '일반공급 없음' : '일반 물량 없음'] : !hasProfile() ? ['', '판정 전'] : e.ok ? (e.unsure ? ['warn', '확인 필요'] : ['ok', '신청 가능']) : e.rank2 ? ['warn', e.rank2Need ? '확인 필요' : '2순위만 가능'] : ['fail', '신청 불가'];
+  if (GN) { tone = 'info'; title = '이 주택형은 ' + (genLabel(L) === '일반공급' ? '일반공급' : '일반') + ' 물량이 없어요';
     sub = (L.specialUnits && L.specialUnits.total ? '모두 특별공급이에요. 신청 자격은 특별공급 칸에서 보세요. ' : L.specialUnits && L.specialUnits.total != null ? '이번 공고에서 이 주택형은 공급하는 세대가 없어요. ' : '특별공급 세대수와 자격은 모집공고문에서 확인하세요. ')
       + '아래 조건(거주지·무주택 등)은 특별공급에도 공통으로 쓰여요.'; }
   const gref = !GN && SS && on('special_position') ? (on('special_plain') ? generalRowPlain(L, p) : generalRowV2(L, p)).replace(/<span class="sp-top"><b>[^<]*<\/b><span class="small muted">[^<]*<\/span>/, '<span class="sp-top"><b>참고 · 뽑는 방식과 내 위치</b>').replace(/<span class="pill[^"]*">[^<]*<\/span>/, '').replace('<details class="sprow base">', '<details class="sprow base gsref">') : '';
