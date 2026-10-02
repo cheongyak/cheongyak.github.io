@@ -485,6 +485,7 @@ dl.kv{margin:0;display:grid;grid-template-columns:auto 1fr;gap:8px 16px;font-siz
 dl.kv dt{color:var(--muted)} dl.kv dd{margin:0;text-align:right;font-weight:600}
 .gu-top{display:flex;align-items:baseline;gap:8px;flex-wrap:wrap}.gu-top h2{margin:0}
 .genunits{margin-top:2px}
+.pj{margin-top:6px;padding-top:6px;border-top:1px dashed var(--line,#ddd)} .pjrow{gap:8px} .pjrow>span:first-child{font-weight:600}
 </style>
 </head>
 <body>
@@ -1757,6 +1758,33 @@ function pastGroups(){
   (PAST ? PAST.items : []).forEach(x => { const k = x.notice_no; (g[k] = g[k] || { no:k, name:x.name.trim(), sido:x.sido, district:x.district, kind:x.kind, cat:x.category, notice:x.notice, end:x.apply_end || x.apply, status:x.status, url:x.url, rows:[] }).rows.push(x); });
   return Object.values(g);
 }
+/* 지난 공고 '그때 넣었다면' 판정 (기능: historical_judge, 2026-10-02). 주택공급규칙 개정 시행일(2026-06-15) 이후 마감 공고만
+   docs/archive/2026-judge.json(tools/history/enrich.py — 매일 수집과 같은 코드로 만든 공고 조건)을 눌렀을 때 불러와 화면 판정 엔진(eligBucket·spJudge)을 그대로 돌린다.
+   마감 공고라 '신청할 수 있어요'가 아니라 '그때였다면 ~였어요'로만 쓴다. 시세·경쟁률은 없다 */
+const pjOn = () => pastOn() && (on('historical_judge') || (() => { try { return localStorage.getItem('cy-past') === '1'; } catch(e) { return false; } })());
+let PJ = null, PJ_ERR = null, PJ_BY = null;
+function loadPastJudge(){
+  if (PJ || PJ_ERR) return;
+  fetch('archive/2026-judge.json').then(r => r.ok ? r.json() : Promise.reject(r.status)).then(d => { PJ = d; PJ_BY = {}; d.items.forEach(x => { const k = x.id.split('-')[0]; (PJ_BY[k] = PJ_BY[k] || []).push(x); }); if (S.view === 'past') render(); })
+    .catch(e => { PJ_ERR = '판정 자료를 불러오지 못했어요 (' + e + ')'; if (S.view === 'past') render(); });
+}
+const PJ_WORD = { ok:['ok', '신청 가능했어요'], unsure:['warn', '확인 필요'], r2:['warn', '2순위만 가능했어요'], no:['fail', '신청할 수 없었어요'] };
+function pastJudgeHtml(gr){
+  if (!pjOn()) return '';
+  if ((gr.notice || '') < '2026-06-15') return '<div class="small muted pj">주택공급규칙 개정(2026.6.15) 전 공고라 지금 규칙으로는 판정하지 않아요</div>';
+  if (gr.status !== '마감') return '';
+  const open = S.pjOpen && S.pjOpen[gr.no];
+  if (!open) return `<button class="linkbtn small" data-pj="${esc(gr.no)}">그때 넣었다면? · 내 조건으로 보기</button>`;
+  if (!PJ) { loadPastJudge(); return `<div class="small muted pj">${PJ_ERR ? esc(PJ_ERR) : '판정 자료 불러오는 중…'}</div>`; }
+  const rows = PJ_BY[gr.no];
+  if (!rows) return '<div class="small muted pj">이 공고는 판정 자료가 아직 없어요 (매주 월요일에 더해져요)</div>';
+  if (!hasProfile()) return '<div class="small muted pj">내 조건을 넣으면 공고일 기준으로 판정해요</div>';
+  const p = S.profile, Ls = rows.map(x => fromApi(x));
+  const line = L => { const b = eligBucket(L, p), w = PJ_WORD[b] || ['', b], sp = spTypesFor(L).map(t => spJudge(L, p, t)), spOk = sp.filter(r => r.s === 'ok').length;
+    return `<div class="row small pjrow"><span>${esc(L.unit.split(' · ')[0])}</span><span><span class="st-${w[0]}">${w[1]}</span>${sp.length ? ` <span class="muted">· 특공 ${spOk ? spOk + '유형 가능' : '가능 없음'}</span>` : ''}</span></div>`; };
+  return `<div class="pj"><div class="small"><b>그때 넣었다면</b> <span class="muted">(공고일 ${esc((gr.notice || '').replace(/-/g, '.'))} 기준, 내 지금 조건)</span></div>${Ls.map(line).join('')}
+    <div class="small muted">마감된 공고예요. 공고 조건은 모집공고문${rows.some(x => !x.notice_read) ? '(일부 못 읽음 — 확인 필요가 늘 수 있어요)' : ''}에서 읽었고, 판정은 지금 화면과 같은 엔진이에요. 시세·경쟁률은 없어요.</div></div>`;
+}
 function vPast(){
   loadPast();
   const head = `<div class="top"><button class="back" data-go="feed">${chev}공고</button></div><div class="top"><div><div class="brand">2026년 지난 공고</div><span class="small muted">청약홈 분양정보 · 2026.01.01 이후 공고 · 실험 중</span></div></div>`;
@@ -1773,6 +1801,7 @@ function vPast(){
     return `<div class="card pastcard"><div class="row"><b>${esc(gr.name)}</b><span class="pill ${gr.status === '마감' ? '' : 'ok'}">${esc(st)}</span></div>
       <div class="small muted">${esc([gr.sido, gr.district].filter(Boolean).join(' '))} · ${esc(gr.cat === 'remainder' ? gr.kind || '무순위' : gr.kind === '신혼희망타운' ? '신혼희망타운' : '일반분양')} · 공고 ${esc((gr.notice || '').replace(/-/g, '.'))}</div>
       <div class="small">주택형 ${gr.rows.length}개 (${esc(gr.rows.map(r => r.unit.trim()).slice(0, 6).join(' · '))}${gr.rows.length > 6 ? ' …' : ''})${lo != null ? ` · 분양가 ${fmt(lo)}${hi !== lo ? '~' + fmt(hi) : ''}` : ''} · 일반 ${gen}세대${sp ? ' · 특공 ' + sp + '세대' : ''}</div>
+      ${pastJudgeHtml(gr)}
       ${gr.url ? `<a class="linkbtn small" href="${esc(gr.url)}" target="_blank" rel="noopener">청약홈 공고 ↗</a>` : ''}</div>`; };
   return head + `<section class="card"><div class="search" role="search"><input id="pq" data-pq type="search" enterkeyhint="search" autocomplete="off" placeholder="단지명·지역 (예: 송파)" value="${esc(S.pq || '')}"></div>
     <div class="chips" role="group" aria-label="공급 유형">${[['all','전체'],['general','일반분양'],['remainder','무순위·재공급']].map(([k, t]) => `<button class="chip sm" data-pcat="${k}" aria-pressed="${cat === k}">${t}</button>`).join('')}</div>
@@ -4673,6 +4702,7 @@ document.addEventListener('click', ev => {
   const t = ev.target.closest('button,a'); if (!t) return;
   if (t.dataset.ev) { const L = S.id && LISTINGS.find(x => x.id === S.id); track({ path: 'click-' + t.dataset.ev, title: L ? L.name : '', event: true }); }
   if (t.dataset.feedmode) { S.feedMode = t.dataset.feedmode; S.mapPick = null; render(); return; }
+  if (t.dataset.pj) { S.pjOpen = Object.assign({}, S.pjOpen, { [t.dataset.pj]: !(S.pjOpen && S.pjOpen[t.dataset.pj]) }); loadPastJudge(); const y = window.scrollY; render(); window.scrollTo(0, y); return; }   // 기능: historical_judge
   if (t.dataset.pcat !== undefined) { S.pcat = t.dataset.pcat; S.pn = 30; render(); return; }   // 기능: historical_search
   if (t.dataset.psido !== undefined) { S.psido = t.dataset.psido; S.pn = 30; render(); return; }
   if (t.dataset.go) { go(t.dataset.go); return; }
