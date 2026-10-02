@@ -14,11 +14,16 @@ const CFG = JSON.parse(readFileSync(join(HERE, 'ai-run.json'), 'utf8'));
 const KEY = process.env.ANTHROPIC_API_KEY;
 if (!CFG.round) { console.log('[AI 품질] round 0 — 운영자가 회차를 시작하기 전이라 건너뜀 (ai-run.json 의 round 를 올리면 돈다)'); process.exit(0); }
 if (!KEY) { console.log('[AI 품질] ANTHROPIC_API_KEY 없음 — 건너뜀'); process.exit(0); }
-const usage = { in: 0, out: 0, calls: 0 };
+const usage = { in: 0, out: 0, calls: 0 }, FALLBACK = { done: false, why: '' };
 const call = model => async ({ system, user, purpose }) => {
+  if (FALLBACK.done && model !== CFG.explain_model) model = CFG.explain_model;
   const r = await fetch('https://api.anthropic.com/v1/messages', { method: 'POST', headers: { 'content-type': 'application/json', 'x-api-key': KEY, 'anthropic-version': '2023-06-01' },
     body: JSON.stringify({ model, max_tokens: purpose === 'explain' ? 1800 : 500, temperature: 0, system, messages: [{ role: 'user', content: user }] }) });
-  if (!r.ok) throw new Error('claude ' + r.status);
+  if (!r.ok) {
+    if ((r.status === 404 || r.status === 400) && model !== CFG.explain_model && !FALLBACK.done) { FALLBACK.done = true; FALLBACK.why = model + ' ' + r.status; console.log('[AI 품질] 심사 모델을 못 써서 ' + CFG.explain_model + ' 로 바꿈: ' + FALLBACK.why); }
+    if (FALLBACK.done && model !== CFG.explain_model) return call(CFG.explain_model)({ system, user, purpose });
+    throw new Error('claude ' + r.status);
+  }
   const j = await r.json(); usage.in += (j.usage || {}).input_tokens || 0; usage.out += (j.usage || {}).output_tokens || 0; usage.calls++;
   return (j.content || []).filter(c => c.type === 'text').map(c => c.text).join('');
 };
@@ -45,7 +50,7 @@ const bt = bradleyTerry(games);
 // 고칠 점 모으기: 심사위원이 '가장 먼저 고칠 점'으로 꼽은 말을 그대로 모은다 → 다음 회차 고칠 목록
 const fixes = rows.flatMap(r => [r.template && r.template.fix, r.ai && r.ai.fix]).filter(Boolean);
 const out = { at: new Date().toISOString(), cfg: CFG, prompt: PROMPT_VERSION, n: rows.length, template: mean('template'), ai: mean('ai'), ai_used: rows.filter(r => r.ai_used).length,
-  bt, wins: Object.fromEntries(['template', 'ai-' + PROMPT_VERSION, 'tie'].map(k => [k, games.filter(g => g.winner === k).length])), usage, fixes, rows };
+  judge_fallback: FALLBACK.why || null, bt, wins: Object.fromEntries(['template', 'ai-' + PROMPT_VERSION, 'tie'].map(k => [k, games.filter(g => g.winner === k).length])), usage, fixes, rows };
 mkdirSync(join(ROOT, 'evidence/chat-v2'), { recursive: true });
 writeFileSync(join(ROOT, 'evidence/chat-v2/ai-quality.json'), JSON.stringify(out, null, 1) + '\n');
 writeFileSync(join(ROOT, 'evidence/chat-v2/ai-quality-report.md'), [`# 청약봇 AI 품질 회차 (${out.at.slice(0, 16)} UTC, 프롬프트 ${PROMPT_VERSION})`, '',
