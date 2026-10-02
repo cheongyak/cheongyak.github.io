@@ -78,3 +78,10 @@ def test_grade_skip_name(tmp_path, monkeypatch):
     assert E.grade_name("pass") == "비추천" and E.grade_name("lotto") == "로또"
     cfg.write_text('{"features": {"grade_skip": false}}', encoding="utf-8")
     assert E.grade_name("pass") == "패스"
+
+
+def test_jeonse_unknown_duty_is_check_not_cond():
+    """실거주 의무를 모르면(None) 전세 '조건부'가 아니라 '확인 필요' — 모르는 사실로 가능·조건부를 단정하지 않는다 (2026-10-02 과천 벨라르테)."""
+    u = GANGBYEON.model_copy(update={"residence_duty": None, "price_cap": True})
+    j = jeonse_check(u)
+    assert j["status"] == "check" and any("확인하지 못했어요" in r["t"] for r in j["reasons"])

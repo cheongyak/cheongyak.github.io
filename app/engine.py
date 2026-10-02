@@ -147,13 +147,13 @@ def jeonse_check(L: Listing) -> dict:
     def add(lvl: str, t: str):
         nonlocal status
         reasons.append({"lvl": lvl, "t": t})
-        if lvl == "no":
-            status = "no"
-        elif lvl == "cond" and status == "ok":
-            status = "cond"
+        rank = {"ok": 0, "cond": 1, "check": 2, "no": 3}   # 모르는 사실이 있으면 '조건부'가 아니라 '확인 필요' (화면 jeonseCheck 와 같게, 2026-10-02)
+        if rank.get(lvl, 0) > rank[status]:
+            status = lvl
 
     if L.residence_duty is None:
-        add("cond", "분양가상한제 단지라 실거주 의무가 있을 수 있어요. 공고문에서 거주의무 기간을 확인하세요.")
+        add("check", ("분양가상한제 단지라 " if L.price_cap else "") + "실거주 의무가 있는지 공고문에서 확인하지 못했어요. 거주의무가 있으면 전세를 한 번만 주거나 "
+                     "못 줄 수 있어요 — 공고문 첫 쪽 '단지 주요정보'의 거주의무기간을 확인하세요.")
     elif L.residence_duty > 0:
         add("cond", f"실거주 의무 {L.residence_duty}년이 있어요. 최초 입주가능일부터 {R.DUTY_DEFERRAL_YEARS}년 안에만 "
                     "들어가 살면 돼서 전세는 한 번(2년)만 줄 수 있어요. 그때 돌려줄 보증금을 따로 마련해야 해요.")

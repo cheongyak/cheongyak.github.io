@@ -123,15 +123,26 @@ def parse_notice(text: str) -> dict:
     elif "무주택세대주(무주택세대의세대주)를대상으로" in flat:
         out["need_head"] = True
 
+    # 청약홈 공고문 첫 쪽 '단지 주요정보' 표: 머리글 '… 전매제한 거주의무기간 분양가상한제 택지유형' 다음 줄의 마지막 세 칸이 [거주의무기간] [적용|미적용] [공공택지|민간택지]
+    #  2026930037 '전매제한 거주의무기간 분양가상한제 택지유형 … 현재 전매제한 도과3 없음 적용 공공택지', 2026000437 '… 10년 3년 3년 적용 공공택지(대규모 택지개발지구)'.
+    #  예전에는 이 표를 못 읽어 거주의무가 '모름'으로 남았고 화면이 '실거주 의무 없음'과 '있을 수 있어요'를 함께 보였다 (2026-10-02 사용자 제보 과천 푸르지오 벨라르테)
+    tbl = _summary_table(text)
+
     # 분양가상한제
     if re.search(r"분양가상한제(?:가)?미적용", flat):
         out["price_cap"] = False
     elif re.search(r"분양가상한제(?:가|를)?적용(?:되는|받는|주택)", flat):
         out["price_cap"] = True
+    elif tbl:
+        out["price_cap"] = tbl["price_cap"]
 
     # 실거주 의무 (법상 수도권 분양가상한제 주택만 해당, 1~5년). 표 머리글에 섞인 '재당첨제한 10년' 등은 거른다.
-    duty = None
-    for m in re.finditer(r"거주의무기간(?:은|:|：)?(\d)년|(\d)년(?:간)?(?:의)?거주의무", flat):
+    duty = tbl["residence_duty"] if tbl else None
+    if duty is None:   # LH 공고문 '구분 기준일 기간 관련 법령' 표: '거주의무 거주의무 개시일 3년 「주택법」제57조의2' · '거주의무 - 없음 「주택법」제57조의2' (2026820008·820010)
+        m = re.search(r"거주의무(?:거주의무개시일|-)(없음|[1-5]년)「주택법」제57조의2", flat) or re.search(r"거주의무가([1-5]년)적용", flat)
+        if m:
+            duty = 0 if m.group(1) == "없음" else int(m.group(1)[0])
+    for m in ([] if duty is not None else re.finditer(r"거주의무기간(?:은|:|：)?(\d)년|(\d)년(?:간)?(?:의)?거주의무", flat)):
         v = int(m.group(1) or m.group(2))
         if 1 <= v <= 5:
             duty = v
@@ -583,6 +594,17 @@ def _rental_income_table(f: str) -> Optional[dict]:
     pri = {"1": [o, None], "2": p2, **{str(n): [p3[0][n - 3], p3[1][n - 3]] for n in range(3, 9)}}
     return {"elig": elig, "pri": pri}
 
+
+_SUMMARY = re.compile(r"전매제한\s*거주의무기간\s*분양가상한제\s*택지유형(.{0,400}?)(없음|[1-5]\s*년)\s*(?:\([^)]{0,60}\)\s*)?(적용|미적용)\s+(공공택지|민간택지)", re.S)
+
+
+def _summary_table(text: str) -> Optional[dict]:
+    """'단지 주요정보' 표의 거주의무기간·분양가상한제. 값 칸이 표 모양대로 이어지지 않으면(머리글 뒤 400자 안에 없으면) 읽지 않는다"""
+    m = _SUMMARY.search(text)
+    if not m:
+        return None
+    d = m.group(2).replace(" ", "")
+    return {"residence_duty": 0 if d == "없음" else int(d[0]), "price_cap": m.group(3) == "적용"}
 
 # ---- 공공임대 특별공급 유형별 소득 기준 (기능: rental_special, 2026-10-02 MASTER QA 남은 일) ----
 # 2026000307 <표4> (표4-2) 2인 · (표4-3) 3~8인: 유형 머리글('신혼부부특별공급' 등) 아래 단계마다

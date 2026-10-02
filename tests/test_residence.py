@@ -283,3 +283,20 @@ def test_town_supply_stages_in_originals():
 def test_since_with_explanation_in_parens():
     """'(공고일로부터 1년 전, 2025.02.12. 이전부터 계속 거주)' — 괄호 안 설명 뒤 날짜도 읽는다 (2026000018, MASTER QA 원문 대조)."""
     assert notice_pdf.parse_residence(text("2026000018")) == GOLD["2026000018"]["fields"]["residence"]
+
+
+def test_golden_residence_duty_from_summary_table():
+    """실거주 의무 (2026-10-02 사용자 제보 과천 푸르지오 벨라르테): 공고문 첫 쪽 '단지 주요정보' 표의 거주의무기간을 읽는다.
+    정답은 원문을 읽고 넣은 값(tests/golden). 표가 있는 공고문은 모두 거주의무기간을 '모름'으로 남기지 않는다."""
+    import re
+    gold = {k: v["fields"] for k, v in GOLD.items() if "residence_duty" in v["fields"] and k in ("2026930037", "2026930036", "2026000437", "2026000438", "2026000414", "2026820008", "2026820010")}
+    assert len(gold) == 7
+    for no, f in gold.items():
+        p = notice_pdf.parse_notice(text(no))
+        assert p["residence_duty"] == f["residence_duty"], no
+        if "price_cap" in f:
+            assert p["price_cap"] == f["price_cap"], no
+    for f in sorted([*(ROOT / "evidence" / "notices").glob("*.txt"), *(ROOT / "evidence" / "qa" / "notices").glob("*.txt")]):
+        t = f.read_text(encoding="utf-8")
+        if re.search(r"전매제한\s*거주의무기간\s*분양가상한제\s*택지유형", t) and notice_pdf._summary_table(t):
+            assert notice_pdf.parse_notice(t)["residence_duty"] is not None, f.stem
