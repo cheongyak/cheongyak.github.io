@@ -135,11 +135,39 @@ def snippets(text: str, word: str, n: int = 2, width: int = 90) -> list[str]:
     return out
 
 
+def _flat_pos(text: str) -> list[int]:
+    """공백을 뺀 글(flat)의 i번째 글자가 원문 몇 번째 글자인지."""
+    return [i for i, ch in enumerate(text) if not ch.isspace()]
+
+
+def _quote_at(text: str, pos: list[int], s: int, e: int, before: int = 12, after: int = 30, cap: int = 170) -> str:
+    """flat 에서 찾은 [s, e) 를 원문 문장으로 되돌린다 (값마다 '공고문 문장'으로 보여 주는 근거, 기능 notice_quotes).
+    앞뒤로 조금 더 붙이고 공백을 한 칸으로. PDF 글자 순서가 뒤섞인 공고문은 원문도 뒤섞여 보인다 — 고치지 않고 그대로 둔다."""
+    if not pos or s >= len(pos):
+        return ""
+    a, b = pos[max(0, s - before)], pos[min(len(pos), e + after) - 1] + 1
+    core_a = pos[s]
+    if a > 0 and not text[a - 1].isspace():          # 앞쪽 잘린 낱말은 버린다 (찾은 부분은 남김)
+        sp = re.search(r"\s", text[a:core_a])
+        a = a + sp.end() if sp else a
+    if b < len(text) and not text[b].isspace():      # 뒤쪽 잘린 낱말도
+        sp = max((m.start() for m in re.finditer(r"\s", text[pos[e - 1] + 1:b])), default=None)
+        b = pos[e - 1] + 1 + sp if sp is not None else b
+    q = re.sub(r"\s+", " ", text[a:b]).strip()
+    q = (q[:cap] + "…") if len(q) > cap else q
+    return ("…" if a > 0 else "") + q + ("…" if b < len(text) and not q.endswith("…") else "")
+
+
 def parse_notice(text: str) -> dict:
     """공고문 텍스트 → 판정에 쓰는 값. 확실하지 않은 항목은 넣지 않는다."""
     t = re.sub(r"[ \t]+", " ", text)
     flat = re.sub(r"\s+", "", text)
     out: dict = {}
+    pos = _flat_pos(text)
+    q: dict = {}   # 값마다 근거 원문 문장 (기능 notice_quotes · 2026-10-02 미뤄둔 일 9번)
+    def cite(key, m, **kw):
+        if m is not None and key not in q:
+            q[key] = _quote_at(text, pos, m.start(), m.end(), **kw)
 
     # 신청 대상: "…에 거주하는 무주택세대의 세대주" / "…무주택세대구성원"
     # 2026-10-01 감사: 2026000436 은 노부모부양 특별공급 대상자 문장('…거주하는 무주택세대주')이 먼저 걸려 일반공급에 세대주 요건이 붙었다 → 노부모부양 칸 문장은 건너뛴다
@@ -147,8 +175,10 @@ def parse_notice(text: str) -> dict:
               if "노부모부양" not in flat[max(0, x.start() - 120):x.start()]), None)
     if m:
         out["need_head"] = "세대주" in m.group(1)
+        cite("need_head", m, before=30)
     elif "무주택세대주(무주택세대의세대주)를대상으로" in flat:
         out["need_head"] = True
+        cite("need_head", re.search(r"무주택세대주\(무주택세대의세대주\)를대상으로", flat))
 
     # 청약홈 공고문 첫 쪽 '단지 주요정보' 표: 머리글 '… 전매제한 거주의무기간 분양가상한제 택지유형' 다음 줄의 마지막 세 칸이 [거주의무기간] [적용|미적용] [공공택지|민간택지]
     #  2026930037 '전매제한 거주의무기간 분양가상한제 택지유형 … 현재 전매제한 도과3 없음 적용 공공택지', 2026000437 '… 10년 3년 3년 적용 공공택지(대규모 택지개발지구)'.
@@ -156,27 +186,35 @@ def parse_notice(text: str) -> dict:
     tbl = _summary_table(text)
 
     # 분양가상한제
-    if re.search(r"분양가상한제(?:가)?미적용", flat):
+    if (m := re.search(r"분양가상한제(?:가)?미적용", flat)):
         out["price_cap"] = False
-    elif re.search(r"분양가상한제(?:가|를)?적용(?:되는|받는|주택)", flat):
+        cite("price_cap", m)
+    elif (m := re.search(r"분양가상한제(?:가|를)?적용(?:되는|받는|주택)", flat)):
         out["price_cap"] = True
+        cite("price_cap", m)
     elif tbl:
         out["price_cap"] = tbl["price_cap"]
+        q["price_cap"] = "(1쪽 단지 주요정보 표) " + tbl.get("quote", "")
 
     # 실거주 의무 (법상 수도권 분양가상한제 주택만 해당, 1~5년). 표 머리글에 섞인 '재당첨제한 10년' 등은 거른다.
     duty = tbl["residence_duty"] if tbl else None
+    if tbl:
+        q["residence_duty"] = "(1쪽 단지 주요정보 표) " + tbl.get("quote", "")
     if duty is None:   # LH 공고문 '구분 기준일 기간 관련 법령' 표: '거주의무 거주의무 개시일 3년 「주택법」제57조의2' · '거주의무 - 없음 「주택법」제57조의2' (2026820008·820010)
         m = re.search(r"거주의무(?:거주의무개시일|-)(없음|[1-5]년)「주택법」제57조의2", flat) or re.search(r"거주의무가([1-5]년)적용", flat)
         if m:
             duty = 0 if m.group(1) == "없음" else int(m.group(1)[0])
+            cite("residence_duty", m)
     if duty is None:   # '본 아파트의 거주의무기간은 최초 입주가능일(2025.05.30.)로부터 2년간 적용됩니다' (2026910236 철산자이 더 헤리티지 — 날짜가 끼어 위 규칙이 못 읽음, 2026-10-02 사용자 제보)
         m = re.search(r"거주의무기간(?:은|는)((?:(?!전매|재당첨|거주의무).){0,40}?)([1-5])년(?:간)?(?:적용|동안|거주)", flat)
         if m:
             duty = int(m.group(2))
+            cite("residence_duty", m)
     for m in ([] if duty is not None else re.finditer(r"거주의무기간(?:은|:|：)?(\d)년|(\d)년(?:간)?(?:의)?거주의무", flat)):
         v = int(m.group(1) or m.group(2))
         if 1 <= v <= 5:
             duty = v
+            cite("residence_duty", m)
             break
     if duty is None and not re.search(r"거주의무|거주의무기간", flat) and re.search(r"전매제한", flat):
         out["duty_silent"] = True   # 공고문을 읽었지만 거주의무를 아예 적지 않음 (LH 2026000409·416·820011 제한사항 표에 재당첨·전매제한만). 값은 모름 그대로 — 없음으로 추측하지 않는다
@@ -187,12 +225,20 @@ def parse_notice(text: str) -> dict:
         md = re.search(r"최초입주가능일\(?(20\d\d)\.(\d{1,2})\.(\d{1,2})\.?\)?로부터[1-5]년", flat)
         if duty and md:
             out["duty_from"] = f"{md.group(1)}-{int(md.group(2)):02d}-{int(md.group(3)):02d}"
-    elif re.search(r"거주의무(?:기간)?(?:[:：]|은|는)?없음", flat) or out.get("price_cap") is False:
+            cite("duty_from", md, before=20)
+    elif (m := re.search(r"거주의무(?:기간)?(?:[:：]|은|는)?없음", flat)) or out.get("price_cap") is False:
         out["residence_duty"] = 0
+        if m:
+            cite("residence_duty", m)
+        elif "price_cap" in q:
+            q["residence_duty"] = "(분양가상한제 미적용 → 거주의무 없음) " + q["price_cap"]
+    if "residence_duty" not in out:
+        q.pop("residence_duty", None)
 
     # 재당첨 제한 (1~10년). "재당첨제한을 적용받지 않음" 이면 0
-    if re.search(r"재당첨제한(?:을|이|은)?(?:적용받지|적용되지)않", flat):
+    if (m := re.search(r"재당첨제한(?:을|이|은)?(?:적용받지|적용되지)않", flat)):
         out["rewin_years"] = 0
+        cite("rewin_years", m)
     else:
         # PDF 글자 순서가 뒤섞여 나오는 경우도 있다 (2026-09-29 충정로역자이르네 원문: "재당첨제한 년 적용10", "년간 재당첨 10 제한을")
         for pat in (r"재당첨제한(?:기간)?\D{0,40}?(\d{1,2})년",
@@ -201,6 +247,7 @@ def parse_notice(text: str) -> dict:
             m = re.search(pat, flat)
             if m and 1 <= int(m.group(1)) <= 10:
                 out["rewin_years"] = int(m.group(1))
+                cite("rewin_years", m)
                 break
 
     # 1순위 청약통장 가입기간 (개월): 투기과열·청약과열 24, 수도권 12, 그 밖 6 이 보통이지만 공고문 문장을 우선한다
@@ -211,6 +258,7 @@ def parse_notice(text: str) -> dict:
         m = re.search(pat, flat)
         if m and int(m.group(1)) in (6, 12, 24):
             out["account_months"] = int(m.group(1))
+            cite("account_months", m, before=0)
             break
 
     # 국민주택(공공분양) 일반공급 1순위: '1순위 입주자저축에 가입하여 1년(12개월)이 경과된 분으로서 매월 약정납입일에 월 납입금을 12회 이상 납입한 분'
@@ -220,18 +268,25 @@ def parse_notice(text: str) -> dict:
         months = int(m.group(3)) if m.group(3) else int(m.group(1)) * (12 if m.group(2) == "년" else 1)
         out["account_months"] = months
         out["deposit_count"] = int(m.group(4))
+        q.pop("account_months", None)
+        s0 = flat.find("1순위", m.start(), m.end())
+        q["account_months"] = q["deposit_count"] = _quote_at(text, pos, s0, m.end(), before=0, after=10)
     elif "신혼희망타운" in flat[:3000]:
         # 신혼희망타운: '입주자저축에 가입하여 6개월이 경과되고, 매월 약정납입일에 월납입금을 6회 이상 납입한 분'
         m = re.search(r"신청자격.{0,400}?입주자저축에가입하여(\d+)개월이경과되고,?매월약정납입일에월납입금을(\d+)회이상납입한분", flat)
         if m:
             out["account_months"] = int(m.group(1))
             out["deposit_count"] = int(m.group(2))
+            q.pop("account_months", None)
+            s0 = flat.rfind("입주자저축에가입하여", m.start(), m.end())
+            q["account_months"] = q["deposit_count"] = _quote_at(text, pos, s0, m.end(), before=0, after=10)
 
     # 잔금일: "입주지정기간 : 2026년 9월 7일~2026년 11월 30일" 또는 "입주지정기간 종료일(2026.11.30.)"
     m = re.search(r"입주지정기간[:：]?\d{4}년\d{1,2}월\d{1,2}일~(\d{4})년(\d{1,2})월(\d{1,2})일", flat) \
         or re.search(r"입주지정기간종료일\(?(\d{4})\.(\d{1,2})\.(\d{1,2})", flat)
     if m:
         out["balance"] = _date(*m.groups())
+        cite("balance", m, before=0, after=20)
 
     # 발코니 확장비: 금액이 한 가지뿐일 때만 (주택형별로 다르면 건너뜀)
     amts = {int(a.replace(",", "")) for a in re.findall(r"발코니\s*확장[^\n]{0,60}?(\d{1,3}(?:,\d{3}){2,})", t)}
@@ -258,6 +313,9 @@ def parse_notice(text: str) -> dict:
                 conf.append(f"재당첨 제한: 1쪽 표 {tr.group(1).replace(' ', '')} ↔ 본문에서 읽은 {out['rewin_years']}년")
     if conf:
         out["conflicts"] = conf
+    q = {k: v for k, v in q.items() if k in out and v}
+    if q:
+        out["quotes"] = q
 
     res = parse_residence(text)
     if res:
@@ -830,6 +888,8 @@ def merge_alt(found: dict, alt: dict) -> list[str]:
         a, b = found.get(k), alt.get(k)
         if a is None and b is not None:
             found[k] = b
+            if (alt.get("quotes") or {}).get(k):   # 두 번째 도구로 읽은 값은 그 도구가 본 문장을 근거로
+                found.setdefault("quotes", {})[k] = alt["quotes"][k]
             notes.append(f"{k}={b!r} (첫 도구는 못 읽음)")
             if k == "residence_duty":
                 found.pop("duty_silent", None)

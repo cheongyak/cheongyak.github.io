@@ -117,6 +117,7 @@ body.chat-open{overflow:hidden}
 .chatref{display:inline-block;font-size:11px;font-weight:600;padding:0 5px;border-radius:5px;background:var(--sunk);color:var(--muted);vertical-align:1px}
 .chatsrc a{color:var(--link)} .chatsrc details{margin:2px 0 4px}
 body.ta details.chatq:not(.sprow):not(.scitem):not(.menudet)>summary{display:inline-flex;min-height:36px;padding:4px 10px;margin-top:4px;font-size:12px}
+details.nq{display:block;margin-top:2px}details.nq>summary{cursor:pointer;color:var(--muted);font-size:12px}details.nq>div{margin-top:4px;font-size:12px;line-height:1.55;word-break:keep-all;overflow-wrap:anywhere;border-left:2px solid var(--line);padding-left:8px}
 .chatask{margin-top:10px;padding:9px 11px;border-radius:10px;background:var(--consider-soft);color:var(--fg)} .chatask b{color:var(--consider-ink)}
 .chatdisc{margin:10px 0 0;border-top:1px solid var(--line);padding-top:8px}
 .chatfb{display:flex;align-items:center;gap:6px;flex-wrap:wrap;margin-top:8px} .chatfb .chips{margin-top:4px} .chatfbdone{margin:8px 0 0}
@@ -1581,6 +1582,13 @@ function src(key, over){ // over: [label, url]
 const naverSearch = q => 'https://search.naver.com/search.naver?query=' + encodeURIComponent(q);
 const noticeSrc = L => L.noticePdf ? src(null, ['모집공고문 PDF', L.noticePdf]) : (L.sources && L.sources[0] ? src(null, ['청약홈 공고', L.sources[0][1]]) : src('applyhome'));
 const fromNotice = (L, label) => (L.fromNotice || []).includes(label);
+/* 값마다 근거 원문 문장 (기능 notice_quotes, 2026-10-02 미뤄둔 일 9번) — 출처 링크 옆에 '공고문 문장'을 펼쳐 보면 앱이 그 값을 읽은 원문이 보인다.
+   PDF 글자 순서가 뒤섞인 공고문은 원문도 뒤섞여 보인다(고치지 않고 그대로). 수집이 문장을 남기지 않은 값은 아무것도 붙이지 않는다 */
+const nq = (L, ...labels) => {
+  if (!on('notice_quotes') || !L.noticeQuotes) return '';
+  const qs = labels.map(l => [l, L.noticeQuotes[l]]).filter(x => x[1]);
+  return qs.length ? `<details class="small chatq nq"><summary>공고문 문장</summary>${qs.map(([l, q]) => `<div class="muted">${qs.length > 1 ? `<b>${esc(l)}</b> ` : ''}“${esc(q)}”</div>`).join('')}</details>` : '';
+};
 /* 공급유형별 접수 일정 (기능: notice_schedule). 공고문 '신청일정' 표에서 읽은 날짜 — LH 공공분양처럼 특별공급·일반공급 날짜가 다른 공고 */
 function scheduleText(L){
   const s = on('notice_schedule') && L.schedule; if (!s || !s.special) return '';
@@ -2144,20 +2152,21 @@ function cpExplain(id, profile){
 }
 window.cpExplain = cpExplain;
 function itemSrc(L, k){
-  if (k === '세대주') return fromNotice(L, '세대주 요건') ? noticeSrc(L) : src(null, ['이 서비스 추정(규제지역 기준) · 공고문에서 확인하세요', null]);
+  if (k === '세대주') return fromNotice(L, '세대주 요건') ? noticeSrc(L) + nq(L, '세대주 요건') : src(null, ['이 서비스 추정(규제지역 기준) · 공고문에서 확인하세요', null]);
   if (k.startsWith('거주지')) return noticeSrc(L);
   if (k.includes('(공공 일반공급)') || k.includes('(신혼희망타운)')) return noticeSrc(L);
   if (k.endsWith('전용')) return noticeSrc(L);
   if (k.startsWith('재당첨 제한 (내 이력)')) return src('user');
   if (k.includes('(규제지역 1순위)')) return noticeSrc(L);
-  if (k === '청약통장 가입기간') return fromNotice(L, '1순위 가입기간') ? noticeSrc(L) : src(null, ['지역 기준 추정 · 공고문 확인', null]);
+  if (k === '청약통장 가입기간') return fromNotice(L, '1순위 가입기간') ? noticeSrc(L) + nq(L, '1순위 가입기간') : src(null, ['지역 기준 추정 · 공고문 확인', null]);
   if (k === '예치금 (민영)') return src(null, ['공고문 예치금 표 · 주택공급에 관한 규칙 별표2', L.noticePdf]);
-  if (k.startsWith('통장 종류') || k.startsWith('납입 인정') || k.startsWith('당첨자 선정')) return fromNotice(L, '납입 인정 횟수') || !k.startsWith('납입 인정') ? noticeSrc(L) : src(null, ['지역 기준 추정 · 공고문 확인', null]);
+  if (k.startsWith('통장 종류') || k.startsWith('납입 인정') || k.startsWith('당첨자 선정')) return fromNotice(L, '납입 인정 횟수') || !k.startsWith('납입 인정') ? noticeSrc(L) + (k.startsWith('납입 인정') ? nq(L, '납입 인정 횟수') : '') : src(null, ['지역 기준 추정 · 공고문 확인', null]);
   return src('supplyRule');
 }
 function limitSrc(L, k){
-  if (k === '실거주 의무') return fromNotice(L, '실거주 의무') ? noticeSrc(L) : src('housingLaw');
-  if (k === '재당첨 제한') return fromNotice(L, '재당첨 제한') ? noticeSrc(L) : src(null, ['이 서비스 추정(규제지역 기준) · 공고문에서 확인하세요', null]);
+  if (k === '실거주 의무') return fromNotice(L, '실거주 의무') ? noticeSrc(L) + nq(L, '실거주 의무', '실거주 의무 기준일') : src('housingLaw');
+  if (k === '분양가상한제') return fromNotice(L, '분양가상한제') ? noticeSrc(L) + nq(L, '분양가상한제') : noticeSrc(L);
+  if (k === '재당첨 제한') return fromNotice(L, '재당첨 제한') ? noticeSrc(L) + nq(L, '재당첨 제한') : src(null, ['이 서비스 추정(규제지역 기준) · 공고문에서 확인하세요', null]);
   if (k.includes('1순위 제한')) return src('supplyRule');
   return noticeSrc(L);
 }
@@ -3441,7 +3450,7 @@ function vPlan(){
     <div class="rows" style="font-size:13px">
       ${jc.reasons.map(r => `<div style="display:flex;gap:8px"><span class="${r.lvl === 'no' ? 'st-fail' : r.lvl === 'cond' || r.lvl === 'check' ? 'st-warn' : 'st-na'}" style="flex:none">${r.lvl === 'no' ? '불가' : r.lvl === 'check' ? '확인' : r.lvl === 'cond' ? '주의' : '참고'}</span><span>${esc(r.t)}</span></div>`).join('')}
     </div>
-    <div class="srcs">${src('p1015')}${src('p627')}${fromNotice(L, '실거주 의무') ? noticeSrc(L) : src('housingLaw')}</div>
+    <div class="srcs">${src('p1015')}${src('p627')}${fromNotice(L, '실거주 의무') ? noticeSrc(L) : src('housingLaw')}</div>${nq(L, '실거주 의무', '실거주 의무 기준일', '분양가상한제')}
   </section>
 
   <section class="card"><h2>이 공고에 대한 질문</h2>
@@ -3456,7 +3465,7 @@ function vPlan(){
 
   <section class="card"><h2>납부 일정</h2><div class="timeline">
     <div class="tl ${f.contractOk ? 'dot-ok' : 'dot-fail'}"><div class="dot"><i></i><b></b></div><div class="body"><div class="row" style="font-weight:600;font-size:14px"><span>${d(L.contract)} 계약금<br>${L.contract ? src(null, ['청약홈 공고', L.sources && L.sources[0] ? L.sources[0][1] : SRC.applyhome[1]]) : ''}</span><span>${fmt(f.contractAmt)}</span></div><div class="small muted">${f.contractOk ? '예금으로 낼 수 있어요' : '예금이 ' + fmt(f.contractAmt - eok(p.cash)) + ' 모자라요. 계약금은 대출이 안 돼요'}</div></div></div>
-    <div class="tl ${bestGap(f,o) > 0 ? 'dot-fail' : 'dot-ok'}"><div class="dot"><i></i><b></b></div><div class="body"><div class="row" style="font-weight:600;font-size:14px"><span>${L.midRate ? '입주 때 (중도금 + 잔금)' : d(L.balance) + ' 잔금'}<br>${fromNotice(L, '잔금일') ? noticeSrc(L) : src(null, [L.midRate ? '중도금 60% 가정 (이 서비스 추정)' : '공고문 확인', null])}</span><span>${fmt((L.price + L.ext) - f.contractAmt)}</span></div><div class="small muted">${L.midRate ? '중도금 ' + Math.round(L.midRate*100) + '%는 보통 집단대출로 내고, 입주 때 잔금대출이나 전세로 갚아요' : '중도금 없이 한 번에 내야 해요'}</div></div></div>
+    <div class="tl ${bestGap(f,o) > 0 ? 'dot-fail' : 'dot-ok'}"><div class="dot"><i></i><b></b></div><div class="body"><div class="row" style="font-weight:600;font-size:14px"><span>${L.midRate ? '입주 때 (중도금 + 잔금)' : d(L.balance) + ' 잔금'}<br>${fromNotice(L, '잔금일') ? noticeSrc(L) + nq(L, '잔금일') : src(null, [L.midRate ? '중도금 60% 가정 (이 서비스 추정)' : '공고문 확인', null])}</span><span>${fmt((L.price + L.ext) - f.contractAmt)}</span></div><div class="small muted">${L.midRate ? '중도금 ' + Math.round(L.midRate*100) + '%는 보통 집단대출로 내고, 입주 때 잔금대출이나 전세로 갚아요' : '중도금 없이 한 번에 내야 해요'}</div></div></div>
     <div class="tl"><div class="dot"><i></i></div><div class="body"><div class="row" style="font-weight:600;font-size:14px"><span>잔금 후 60일 내 취득세<br>${src('localTax')}</span><span>${fmt(f.tax)}</span></div><div class="small muted">추정치 · 세무 확인 필요</div></div></div>
   </div></section>
 
@@ -5018,7 +5027,7 @@ function fromApi(x){
     region:x.region, kind:x.kind, target:x.target,
     sido:x.sido || null, district:x.district || null, supplyType:x.supply_type || x.kind,
     mktComps:x.mkt_comps || [], mktCount:x.mkt_count || 0, mktDirectExcluded:x.mkt_direct_excluded || 0, mktBasis:x.mkt_basis || null, jeonseComps:x.jeonse_comps || [],
-    noticePdf:x.notice_pdf || null, category:x.category || null, area:x.area || null, accountMonths:x.account_months || null, depositCount:x.deposit_count || null, competition:x.competition || null, areaComps:Array.isArray(x.area_comps) ? x.area_comps : null, spCompetition:x.sp_competition || null, areaSp:Array.isArray(x.area_sp) ? x.area_sp : null, unitName:x.unit, address:x.address || '', geo:x.geo || null, nearby:Array.isArray(x.nearby) ? x.nearby : null, mapQuery:x.map_query || null, fromNotice:x.from_notice || [], checks:x.checks || [],
+    noticePdf:x.notice_pdf || null, noticeQuotes:x.notice_quotes || null, category:x.category || null, area:x.area || null, accountMonths:x.account_months || null, depositCount:x.deposit_count || null, competition:x.competition || null, areaComps:Array.isArray(x.area_comps) ? x.area_comps : null, spCompetition:x.sp_competition || null, areaSp:Array.isArray(x.area_sp) ? x.area_sp : null, unitName:x.unit, address:x.address || '', geo:x.geo || null, nearby:Array.isArray(x.nearby) ? x.nearby : null, mapQuery:x.map_query || null, fromNotice:x.from_notice || [], checks:x.checks || [],
     specialApply:x.special_apply || null, houseDtl:x.house_dtl || null, rentSecd:x.rent_secd || null, rental:!!x.rental, applyEnd:x.apply_end || null, unit:x.unit + (x.households ? ' · ' + x.households + '세대' : ''), households:x.households || 0, specialUnits:x.special_units || null, residence:x.residence || null, mcQuota:x.mc_quota || null, schedule:x.schedule || null, pubLimits:x.pub_limits || null, scoreRatio:x.score_ratio || null,
     notice:x.notice, apply:x.apply, winner:x.winner, contract:x.contract, balance:x.balance,
     price:x.price, ext:x.ext || 0, contractRate:x.contract_rate || 0.1, midRate:x.mid_rate || 0,

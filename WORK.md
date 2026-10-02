@@ -4,6 +4,15 @@
 2026-09-29 12:55 이전 항목은 규칙을 만들기 전 작업을 커밋 기록으로 정리한 것이라 백업 브랜치가 없어요.
 그 시점으로 되돌릴 때는 해당 커밋 번호로 `git revert` 를 써요.
 
+## 2026-10-02 21:04 · 공고문에서 읽은 값마다 근거 원문 문장 저장·표시
+- 요청: 미뤄둔 일 9번 — 값마다 원문 문장 저장 (지금까지는 1쪽 표 문장만)
+- 변경: parse_notice 가 세대주 요건·분양가상한제·거주의무·거주의무 기준일·재당첨 제한·1순위 가입기간·납입 횟수·잔금일을 읽을 때 찾은 위치를 공백 없는 글에서 원문 위치로 되돌려 앞뒤 문장을 quotes 에 남김(_flat_pos·_quote_at, 잘린 낱말은 버리고 … 표시). 두 번째 읽기 도구로 채운 값은 그 도구 문장, 지난 실행 값을 되살릴 때는 지난 문장도 되살림. 수집이 Listing.notice_quotes(화면 이름 기준)로 내보내고, 화면은 출처 링크 옆 '공고문 문장'(펼침)으로 보여 줌 — 자격 체크리스트(세대주·가입기간·납입 인정), 당첨되면 걸리는 제약(실거주·재당첨), 자금 플랜 '지역 규제와 전세' 카드, 잔금 단계. 판정은 그대로(표기만). PARSER_VERSION 20 (모든 공고문을 다시 읽어 문장을 채움)
+- 파일: app/notice_pdf.py, app/pipeline.py, app/models.py, docs/index.html, docs/config.json, tests/test_notice_quotes.py, tools/engine_lock.json(fromApi 필드 추가)
+- 확인: 원문 60건 전부 — 읽은 값 280여 개마다 문장이 있고 그 문장에 실제로 그 값(숫자·'세대주' 등)이 들어 있음(test_every_read_value_has_a_quote_containing_it). 정답 2026910236 철산자이 '거주의무기간은 최초 입주가능일(2025.05.30.)로부터 2년간 적용됩니다' 문장 고정. pytest 179 통과, 판정 사례 365/365, 스냅샷 차이 0, 스크립트 문법 OK, 390px 밝은·어두운 화면 상세·자금 플랜 확인(가로 넘침 없음)
+- 백업: backup/20261002-2104-nquote
+- 기능: notice_quotes
+- 버전: v1.46.0
+
 ## 2026-10-02 20:51 · E2E·스냅샷을 매 수집·화면 변경 검사에 넣음
 - 요청: 미뤄둔 일 8번 — E2E·스냅샷을 CI에 넣기
 - 변경: collect.yml·verify.yml 에 `tools/qa/snapshot.cjs`(화면 글자 스냅샷, 고정 공고·고정 날짜)와 `tools/qa/e2e.cjs`(사용자 흐름 32개 + 저장 조건 퍼징) 단계 추가, 결과 evidence/qa/snapshot.json·e2e.json 커밋. verify_status 가 snapshot diffs·e2e fail 을 qa_ok 에 넣음(하나라도 있으면 Actions 실패·이슈). 시간 제한 collect 30→40분, verify 15→25분. verify.yml 실행 조건에 두 도구·tests/qa/** 추가
