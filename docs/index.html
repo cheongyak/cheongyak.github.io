@@ -3360,6 +3360,7 @@ function chatAnswerHtml(m, k){
     ${srcs ? `<div class="chatsec"><b>출처</b><ul class="chatsrc">${srcs}</ul></div>` : ''}
     ${a.ask ? `<div class="chatask"><b>되물어 볼게요</b> ${esc(a.ask)}<span class="small muted"> 여기에 답해 주시면 질문 횟수를 세지 않아요.</span></div>` : ''}
     <p class="small muted chatdisc">${esc(r.notice || '참고용이에요. 신청 전 모집공고문과 청약홈에서 꼭 확인하세요.')} AI가 만든 설명이라 틀릴 수 있어요${r.fallback ? ' · 이번 답은 AI 없이 판정 결과만으로 만든 기본 답이에요' : ''}.</p>
+    ${r.diag ? `<p class="small muted chatdisc">운영자 진단 · ${r.diag.opFree ? '무료 시험 모드(AI 안 부름)' : r.diag.overBudget ? '월 한도 초과' : !r.diag.key ? '서버에 AI 키 없음' : r.diag.attempts.length ? r.diag.attempts.map((x, i) => `시도${i + 1} ${x.ok ? '통과' : '막힘'}${x.tokens ? ' (토큰 ' + x.tokens + ')' : ''}${x.flags.length ? ': ' + esc(x.flags.join(', ')) : ''}`).join(' / ') : 'AI 호출 없음'} · 근거 ${r.diag.evidence}조각</p>` : ''}
     ${fb}</div>`;
 }
 function chatRender(){

@@ -125,6 +125,8 @@ export async function handleChat(env, input, deps = {}) {
       kind: 'answer', verdict: engine ? engine.verdict : null, answer, sources,
       notice: '참고용이에요. 신청 전 모집공고문과 청약홈에서 꼭 확인하세요.',
       pii: q.found, follow_up: lim.followUp, remaining: lim.remaining, fallback: usedFallback, log,
+      // 운영자에게만: AI 시도별 결과(검사기 거절 이유·호출 실패 코드). 키·개인정보는 들어가지 않는다
+      diag: isOp ? { opFree, overBudget, key: !!apiKey, evidence: evidence.length, attempts: attempts.map(a => ({ ok: a.ok, flags: a.flags, tokens: a.usage ? (a.usage.input_tokens || 0) + '/' + (a.usage.output_tokens || 0) : null })) } : undefined,
     },
   };
 }
