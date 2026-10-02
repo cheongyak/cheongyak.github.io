@@ -193,10 +193,12 @@
 시세 부족 중동역 다채로움 더원 84C · 부천시 · 분양가 7.96억  · 세대구성원
 시세 부족 진주 판문지구 레이크써밋 웰가 182 · 지방 · 분양가 13.95억  · 세대구성원
 
-[시간] 공고 194건 11초 · 실거래 요청 630건 44초 (성공 630, 실패 0, 시간 초과로 생략 0)
+[시간] 공고 194건 12초 · 실거래 요청 630건 600초 (성공 0, 실패 120, 시간 초과로 생략 510)
+[실거래 오류] 120건: ConnectTimeout: timed out
 [제외] 인천계양지구 A6블록 공공분양주택(본청약) 059.8300C: 이번 공고 공급 세대 0 (일반 0·특별 0) — 목록에서 뺌
 [제외] 인천계양지구 A6블록 공공분양주택(본청약) 077.4100C: 이번 공고 공급 세대 0 (일반 0·특별 0) — 목록에서 뺌
-[시간] 공고문 50건 중 새로 읽기 50건 280초 (보관 기록 사용 0건)
+[경고·시세] 실거래가 조회 실패 192건 → 지난 조회값 사용 192건, 시세 없음 0건
+[시간] 공고문 50건 중 새로 읽기 50건 170초 (보관 기록 사용 0건)
 [공고문] 인천계양 A17블록 신혼희망타운(공공분양)(본청약): PDF 읽음 (108085자, LH청약플러스 '인천계양 A17블록 신혼희망타운(공공분양) 입주자모집공고' 첨부 인천계양A17블록신혼희망타운(공공분양)입주자모집공고문_0930.pdf): https://apply.lh.or.kr/lhapply/lhFile.do?fileid=68807314 → {'price_cap': True, 'rewin_years': 10, 'account_months': 6, 'deposit_count': 6, 'residence': {'area': {'name': '인천광역시', 'sido': '인천'}, 'months': 0, 'since': None, 'quota': {'해당': 50, '기타': 50}, 'others': ['서울', '경기']}, 'pub_limits': {'kind': 'town', 'cap': [130, 140], 'total_asset': 36200, 'eligible': [130, 200], 'total_asset_relax': [39700, 43100]}, 'complex': {'households': 463, 'buildings': 8, 'quote': '․공급대상 및 공급가격 등 1. 공급규모 ■ 인천계양 테크노밸리 공공주택지구 A17블록 463세대 중 신혼희망타운(공공분양) 최고층 기준 지상13~15층 8개동 전용면적 60㎡ 이하 309세대 2. 공급대상 블록 주'}}
 [공고문·원문] 인천계양 A17블록 신혼희망타운(공공분양)(본청약) (무주택세대): …결정하므로, 본 공고문의 신청자격(무주택세대구성원여부, 거주지역, 재당첨제한여부, 주택소유여부 및 소득·자산 등), 유의사항 등을 사전에 정확하게 확인하시기 바라며, 청약자격 미숙지, 착오 신청…
 [공고문·원문] 인천계양 A17블록 신혼희망타운(공공분양)(본청약) (무주택세대): …내 또는 6세 이하 자녀를 둔 경우 무주택세대구성원(Ⅱ.신청기준 참조) 예비신혼부부 혼인을 계획 중이며, 입주 전까지 혼인사실을 증명할 수 있는 자 (단, 입주 전에 해당 주택을 전매하려는 경우에는…
@@ -403,7 +405,7 @@
 [응답 예시] 경쟁률(무순위): CMPET_RATE=71.00, HOUSE_MANAGE_NO=2026910220, HOUSE_TY=140.8560P, PBLANC_NO=2026910220, REMNDR_HSHLD_PBLANC_TYCD=01, REQ_CNT=213, SUPLY_HSHLDCO=3
 [특별공급 신청] 특별공급 접수가 끝난 공고 25건 중 22건에 유형별 신청 건수가 있어요
 [지난 경쟁률] 특별공급 신청현황 이번에 0건 조회 · 유형별 신청 건수가 있는 기록 84건
-[지난 경쟁률] 시·군·구 21곳 · 이번에 0건 조회 (결과 있음 0, 비어 있음 0) · 기록 237건 · 4초
+[지난 경쟁률] 시·군·구 21곳 · 이번에 0건 조회 (결과 있음 0, 비어 있음 0) · 기록 237건 · 3초
 [위치] 힐스테이트 고덕엘리스트 A65BL 공공분양주택: 못 찾음 ← '경기도 평택시 고덕동 고덕면' 0건
 [위치] 힐스테이트 고덕엘리스트 A12BL 공공분양주택: 못 찾음 ← '경기도 평택시 고덕동 고덕면' 0건
 [위치] 과천 푸르지오 벨라르테: 못 찾음 ← 검색어를 만들지 못했어요
@@ -411,7 +413,8 @@
 [지역코드·대조] 인천 미추홀구: 표 28177 / 역지오코딩 28177 일치
 [지역코드·대조] 경기 수원시 권선구: 표 41113 / 역지오코딩 41113 일치
 [지역코드·대조] 경기 성남시 분당구: 표 41135 / 역지오코딩 41135 일치
-[위치] 공고 50건: 정확 36 · 동 기준 10 · 못 찾음 4 (지난 값 재사용 46) · 주변 입지 46건 · 좌표 2초, 전체 3초
+[위치] 공고 50건: 정확 36 · 동 기준 10 · 못 찾음 4 (지난 값 재사용 46) · 주변 입지 46건 · 좌표 1초, 전체 3초
+[실거래가 경고] 시간 제한으로 이번 실행에서는 조회하지 못했어요
 [응답 필드] general 개요: BSNS_MBY_NM, CNSTRCT_ENTRPS_NM, CNTRCT_CNCLS_BGNDE, CNTRCT_CNCLS_ENDDE, GNRL_RNK1_CRSPAREA_ENDDE, GNRL_RNK1_CRSPAREA_RCPTDE, GNRL_RNK1_ETC_AREA_ENDDE, GNRL_RNK1_ETC_AREA_RCPTDE, GNRL_RNK1_ETC_GG_ENDDE, GNRL_RNK1_ETC_GG_RCPTDE, GNRL_RNK2_CRSPAREA_ENDDE, GNRL_RNK2_CRSPAREA_RCPTDE, GNRL_RNK2_ETC_AREA_ENDDE, GNRL_RNK2_ETC_AREA_RCPTDE, GNRL_RNK2_ETC_GG_ENDDE, GNRL_RNK2_ETC_GG_RCPTDE, HMPG_ADRES, HOUSE_DTL_SECD, HOUSE_DTL_SECD_NM, HOUSE_MANAGE_NO, HOUSE_NM, HOUSE_SECD, HOUSE_SECD_NM, HSSPLY_ADRES, HSSPLY_ZIP, IMPRMN_BSNS_AT, LRSCL_BLDLND_AT, MDAT_TRGET_AREA_SECD, MDHS_TELNO, MVN_PREARNGE_YM, NPLN_PRVOPR_PUBLIC_HOUSE_AT, NSPRC_NM, PARCPRC_ULS_AT, PBLANC_NO, PBLANC_URL, PRZWNER_PRESNATN_DE, PUBLIC_HOUSE_EARTH_AT, PUBLIC_HOUSE_SPCLW_APPLC_AT, RCEPT_BGNDE, RCEPT_ENDDE, RCRIT_PBLANC_DE, RENT_SECD, RENT_SECD_NM, SPECLT_RDN_EARTH_AT, SPSPLY_RCEPT_BGNDE, SPSPLY_RCEPT_ENDDE, SUBSCRPT_AREA_CODE, SUBSCRPT_AREA_CODE_NM, TOT_SUPLY_HSHLDCO
 [응답 필드] general 주택형: ETC_HSHLDCO, HOUSE_MANAGE_NO, HOUSE_TY, INSTT_RECOMEND_HSHLDCO, LFE_FRST_HSHLDCO, LTTOT_TOP_AMOUNT, MNYCH_HSHLDCO, MODEL_NO, NWBB_HSHLDCO, NWWDS_HSHLDCO, OLD_PARNTS_SUPORT_HSHLDCO, PBLANC_NO, SPSPLY_HSHLDCO, SUPLY_AR, SUPLY_HSHLDCO, TRANSR_INSTT_ENFSN_HSHLDCO, YGMN_HSHLDCO
 [응답 필드] remainder 개요: BSNS_MBY_NM, CNTRCT_CNCLS_BGNDE, CNTRCT_CNCLS_ENDDE, GNRL_RCEPT_BGNDE, GNRL_RCEPT_ENDDE, HMPG_ADRES, HOUSE_MANAGE_NO, HOUSE_NM, HOUSE_SECD, HOUSE_SECD_NM, HSSPLY_ADRES, HSSPLY_ZIP, MDHS_TELNO, MVN_PREARNGE_YM, NSPRC_NM, PBLANC_NO, PBLANC_URL, PRZWNER_PRESNATN_DE, RCRIT_PBLANC_DE, SPSPLY_RCEPT_BGNDE, SPSPLY_RCEPT_ENDDE, SUBSCRPT_AREA_CODE, SUBSCRPT_AREA_CODE_NM, SUBSCRPT_RCEPT_BGNDE, SUBSCRPT_RCEPT_ENDDE, TOT_SUPLY_HSHLDCO
@@ -470,10 +473,3 @@
 [검증·공고문] 공고문 50건 대조 · 기준표 245줄 · 분양가 192/192 일치 · 불일치 공고 0건
 [알림·웹푸시] 코드 변경으로 돈 실행이라 접수 전날 알림은 건너뜀 (매일 새벽 실행에서만 보냄)
 [알림·웹푸시] 보낼 이벤트 없음
-[청약봇] 2026-10-01 질문 0건(되물음 0) · AI 호출 0 · 검사기 거절 0 · 고정 문구 대체 0 · 개인정보 가림 0 · 제한 0/0 · 👍0 👎0 · 7일 질문 19건 · 7일 추정 비용 $0.02
-[판정 검증] 사례 303건 중 303건 일치
-[QA 공급유형] 원천 유형 → 화면 글자 920곳 검사 · 위반 0건
-[QA 불변식] 지금 192주택형 · 보관 2092주택형 · 위반 0건
-[QA 필터] 조합 232개 · 다름 0 · 검색 이상 없음
-[QA 판정 일치] 공고×조건 7680개 · 카드·상세·묶음 다름 0건
-[검증 요약] 통과 · 판정 사례 303/303 · [검증·공고문] 공고문 50건 대조 · 기준표 245줄 · 분양가 192/192 일치 · 불일치 공고 0건 · 정답 불일치 0건 · QA 공급유형 0 · 불변식 0
