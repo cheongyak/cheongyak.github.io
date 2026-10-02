@@ -51,7 +51,12 @@ npm i --no-save playwright@1.56.0          # 화면 검사용. 크로미움이 /
 
 GitHub Secrets (이름만): `DATA_GO_KR_KEY`, `NCP_MAPS_CLIENT_ID`, `NCP_MAPS_CLIENT_SECRET`, `CLOUDFLARE_API_TOKEN`, `CLOUDFLARE_ACCOUNT_ID`, `PUSH_SEND_TOKEN`, `LAW_OC`(법제처 API, 2026-10-01 사용자 등록)
 
-## 진행 중인 일 (2026-10-02 기준, 최신이 위)
+## 진행 중인 일 (2026-10-03 기준, 최신이 위)
+
+-11. **받은 알림함 v1.47.0 (2026-10-03 07:45, 기능 `push_inbox`, 커밋 e13242d)** — 사용자가 앱 아이콘 배지 '1'을 보고 '확인하는 기능' 요청.
+   sw.js 가 받은 푸시를 기기 IndexedDB(cp-inbox) 최근 30개 저장 + setAppBadge, 알림 탭 맨 위 '받은 알림' 목록(이전에 받아 알림창에 남은 것은 getNotifications 로), 아래 알림 탭 빨간 숫자, 탭을 열면 읽음·알림창 닫기·clearAppBadge.
+   검사: `NODE_PATH=$(npm root -g) node tools/qa/push_inbox.cjs [스크린샷 폴더]` (CDP 로 실제 푸시 전달). 사용자 기기는 sw.js 가 새로 받아져야 저장이 시작됨 — 이번 배지 1 알림은 알림창에 남아 있으면 목록에 보이고, 알림창에서 지웠으면 안 보임(그 전엔 저장하지 않았음).
+   알림 탭은 push_legal_date(10-09) 전에는 ?push=preview 기기에서만 보임. 10-09 점검(send_later)때 함께 확인.
 
 -10. **청약봇 V2 엔진 (2026-10-02 22시~, 사용자 '지금 청약패스에 영향 없이 먼저 개발, 나중에 심을 수 있게')** — `chat/v2/` (README.md·STYLE.md).
    질문 → 조건 추출(규칙, AI 는 두 번까지) → 필수/선호/탐색 → 실제 데이터 검색(지금 공고 + 지난 1년) → 걸러내기(빠진 이유·확인 필요 후보) → 내 자격(화면 판정 함수 그대로) → 추천·관점별 1등·완화안·비교 → 기본 답 + AI 설명 검사기.
