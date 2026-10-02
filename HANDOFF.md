@@ -130,7 +130,9 @@ GitHub Secrets (이름만): `DATA_GO_KR_KEY`, `NCP_MAPS_CLIENT_ID`, `NCP_MAPS_CL
    - 10-02 사용자가 '청약봇 V2 완전 재설계' 요구서를 줌 → 분석 보고서(Claude 문서 '청약봇 V2 설계 분석 보고서') 작성: 브라우저 판정 엔진 + 서버 2회 AI(조건 해석·설명) + 코드 검색·점수, 도구 11개, 0~3단계. 사용자 결정 대기: 출퇴근 API(ODsay/네이버), 방·욕실 면적 추정 표시 여부, 0·1단계 착수, 공개 시기. 결정 전 코드 수정 금지(요구서 43항).
    - **10-02 MASTER QA (사용자 요구서, 45항)**: 1차 분석 보고서 = Claude 문서 '청약패스 MASTER QA — 1차 분석 보고서 (STEP 1~5)'. v1.39.2 재공급 배지 고침.
      도구: tools/qa/supply_type.cjs(공급유형 표시 전수), code_mutation.cjs(코드 변이 15개, 점수 0.467), fetch_notices.py(원문 받기, probe.yml).
-     사용자 결정: C 임대 규칙 → v1.40.0 rental_rules (일반공급 판정, 특별공급은 확인 필요 — 공공임대 특공 규칙은 아직 안 만듦). 원문 대조용 지난 공고문은 evidence/qa/notices/. 다음: 판정 사례 경계값 보강 → CI 연결 → 원문 대조 30건 → 블라인드 감사 → 최종 보고서.
+     사용자 결정: C 임대 규칙 → v1.40.0 rental_rules (일반공급 판정, 특별공급은 확인 필요 — 공공임대 특공 규칙은 아직 안 만듦). 원문 대조용 지난 공고문은 evidence/qa/notices/.
+     10-02 16:00 진행 결과(문서 '최종 QA 보고서' 절): 판정 사례 298, 코드 변이 1.0, 블라인드 원문 대조 30건 FAIL 0(tools/qa/spotcheck_compare.py), 검색·필터 232조합, 불변식, 공급유형 전수 — 모두 qa_gate 로 매 수집·화면 변경 때 검사.
+     남은 것(사용자 요청 시): 공공임대 특별공급 규칙, 제주형 거주 요건 기준일 파싱(2026000018), LH 공고문 4건 받기, 클릭 E2E 30시나리오·스크린샷 회귀·입력 퍼징, 변경분 블라인드 판정 감사, 시세 원자료 대조. need_head 는 '공급 전체 대상' 뜻(1순위 세대주는 규제지역 규칙) — tests/test_need_head.py
    - 10-02 12:08 과거 공고(2026) 실험 시작 — 시작점 backup/20261002-1208-pre-historical. 사용자 방침: 활용도 낮거나 느리면 폐기하고 이 백업으로 되돌림. 1단계 측정(tools/history/probe.py, history.yml).
      현재(10-02 13:40): 보관함 docs/archive/past.json(1년치 — 10-02 이름 바꿈, 옛 2026.json) + 지난 공고 화면(historical_search, 꺼짐·미리보기 ?past=1) + '그때 넣었다면' 판정(historical_judge, 꺼짐·미리보기 localStorage cy-past=1).
      판정 자료 docs/archive/past-judge.json = 6/15 이후 마감 154공고, 공고문 154/154 읽음(처음엔 300초 제한에 걸려 29건만 → enrich 만 1500초로). 막 마감돼 listings.json 에 남은 공고는 그 목록으로 판정.
