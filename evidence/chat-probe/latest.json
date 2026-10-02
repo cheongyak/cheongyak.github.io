@@ -1,5 +1,5 @@
 {
- "at": "2026-10-02 09:10",
+ "at": "2026-10-02 09:12",
  "results": [
   {
    "question": "내가 신혼부부고 자금이 약 5억잇는데 신청가능한 청약공고잇는지 알아봐줘",
@@ -14,7 +14,7 @@
      {
       "ok": false,
       "flags": [
-       "호출 실패: claude 400"
+       "호출 실패: claude 400 invalid_request_error: This API key is not scoped to a workspace, so this request must include the anthropic-workspace-id header with the ID of the workspace to"
       ],
       "tokens": null
      }
@@ -65,7 +65,7 @@
      {
       "ok": false,
       "flags": [
-       "호출 실패: claude 400"
+       "호출 실패: claude 400 invalid_request_error: This API key is not scoped to a workspace, so this request must include the anthropic-workspace-id header with the ID of the workspace to"
       ],
       "tokens": null
      }
@@ -104,7 +104,7 @@
    "message": null
   },
   {
-   "question": "가점제랑 추첨제는 어떻게 달라요",
+   "question": "가점제랑 추첨제는 어떻게 달라요?",
    "status": 200,
    "fallback": true,
    "diag": {
@@ -116,7 +116,7 @@
      {
       "ok": false,
       "flags": [
-       "호출 실패: claude 400"
+       "호출 실패: claude 400 invalid_request_error: This API key is not scoped to a workspace, so this request must include the anthropic-workspace-id header with the ID of the workspace to"
       ],
       "tokens": null
      }
