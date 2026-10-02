@@ -85,7 +85,10 @@ def golden_mismatches(listings: list[Listing]) -> list[str]:
         actual = {**L.model_dump(), "rewin_years": (int(rewin[:-1]) if rewin and rewin.endswith("년") else 0 if rewin == "없음" else None)}
         for k, want in g["fields"].items():
             have = actual.get(k)
-            if isinstance(want, float) and isinstance(have, (int, float)):
+            if k == "complex" and isinstance(want, dict):   # 단지 규모 정답은 총세대·동 수만 (수집값에는 상태·출처·원문이 더 붙는다, 기능 complex_size)
+                have = {kk: (have or {}).get(kk) for kk in want}
+                ok = want == have
+            elif isinstance(want, float) and isinstance(have, (int, float)):
                 ok = abs(want - have) < 0.0001
             else:
                 ok = want == have

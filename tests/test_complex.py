@@ -39,3 +39,17 @@ def test_single_status_three_states():
     assert s({"households": 100, "buildings": None}) == "unknown"
     assert s({"households": 448, "buildings": None}) == "unknown"
     assert s(None) == "unknown"
+
+
+def test_golden_compare_uses_households_and_buildings_only():
+    """수집값 complex 에는 상태·출처·원문이 더 붙어도 총세대·동 수가 같으면 정답 일치 (2026-10-02 첫 수집에서 거짓 불일치)."""
+    import json as _j
+    from app import validate
+    from app.models import Listing
+    rows = _j.loads((ROOT / "docs" / "listings.json").read_text(encoding="utf-8"))
+    rows = rows["listings"] if isinstance(rows, dict) else rows
+    x = next(r for r in rows if r["id"].startswith("2026000448"))
+    L = Listing(**{**x, "complex": {"households": 324, "buildings": 3, "single": "no", "status": "확인", "src": "모집공고문 공급규모", "quote": "…"}})
+    assert not [m for m in validate.golden_mismatches([L]) if "complex" in m]
+    L2 = Listing(**{**x, "complex": {"households": 325, "buildings": 3, "single": "no", "status": "확인"}})
+    assert [m for m in validate.golden_mismatches([L2]) if "complex" in m]
