@@ -1740,9 +1740,51 @@ function feedMapBlock(list){
   <div id="mappick">${pick ? listingCard(pick.L, pick.m) : '<p class="small muted" style="margin:0">지도의 표시를 누르면 공고가 보여요.</p>'}</div>
   <p class="foot">색은 판정 등급이에요. 점선 표시는 공고 주소에 지번이 없어 동 중심에 놓은 대략 위치예요.${noGeo ? ' 위치를 찾지 못한 공고 ' + noGeo + '건은 목록에서 보세요.' : ''} 위치 ${src(null, ['네이버 클라우드 플랫폼 Geocoding', null])}${withGeo.length ? '' : ' · 조건에 맞는 공고 중 위치가 있는 공고가 없어요.'}</p>`;
 }
+/* 2026 지난 공고 (기능: historical_search, 2026-10-02 실험 — 사용자 '과거 데이터까지 넣어 보고 활용도 없거나 느리면 폐기').
+   docs/archive/2026.json(tools/history/build.py, 청약홈 값만)을 이 화면을 열 때만 불러온다. 마감 공고는 '과거 공고 · YYYY.MM 마감'으로만 보여 주고
+   신청 가능처럼 보이게 하지 않는다. 판정·시세는 붙이지 않는다(1차). 미리보기: ?past=1 (끄기 ?past=off) */
+try { const q = new URLSearchParams(location.search).get('past'); if (q === '1') localStorage.setItem('cy-past', '1'); else if (q === 'off') localStorage.removeItem('cy-past'); } catch(e) {}
+const pastOn = () => on('historical_search') || (() => { try { return localStorage.getItem('cy-past') === '1'; } catch(e) { return false; } })();
+let PAST = null, PAST_ERR = null, PAST_MS = null;
+function loadPast(){
+  if (PAST || PAST_ERR) return;
+  const t0 = performance.now();
+  fetch('archive/2026.json').then(r => r.ok ? r.json() : Promise.reject(r.status)).then(d => { PAST = d; PAST_MS = Math.round(performance.now() - t0); metric('past/load'); if (S.view === 'past') render(); })
+    .catch(e => { PAST_ERR = '지난 공고를 불러오지 못했어요 (' + e + ')'; if (S.view === 'past') render(); });
+}
+function pastGroups(){
+  const g = {};
+  (PAST ? PAST.items : []).forEach(x => { const k = x.notice_no; (g[k] = g[k] || { no:k, name:x.name.trim(), sido:x.sido, district:x.district, kind:x.kind, cat:x.category, notice:x.notice, end:x.apply_end || x.apply, status:x.status, url:x.url, rows:[] }).rows.push(x); });
+  return Object.values(g);
+}
+function vPast(){
+  loadPast();
+  const head = `<div class="top"><button class="back" data-go="feed">${chev}공고</button></div><div class="top"><div><div class="brand">2026년 지난 공고</div><span class="small muted">청약홈 분양정보 · 2026.01.01 이후 공고 · 실험 중</span></div></div>`;
+  if (!PAST) return head + `<div class="card empty"><b>${PAST_ERR ? esc(PAST_ERR) : '불러오는 중…'}</b></div>`;
+  const all = pastGroups(), q = (S.pq || '').trim(), cat = S.pcat || 'all', sido = S.psido || '';
+  const hit = gr => (!q || [gr.name, gr.sido, gr.district].some(v => (v || '').includes(q))) && (cat === 'all' || gr.cat === cat) && (!sido || gr.sido === sido);
+  const list = all.filter(hit).sort((a, b) => (b.notice || '').localeCompare(a.notice || ''));
+  const shown = list.slice(0, S.pn || 30);
+  const sidos = SIDO_ORDER.filter(k => all.some(g => g.sido === k));
+  const ym = d => d ? d.slice(0, 7).replace('-', '.') : '';
+  const card = gr => { const ps = gr.rows.map(r => r.price).filter(v => v != null), lo = ps.length ? Math.min(...ps) : null, hi = ps.length ? Math.max(...ps) : null;
+    const gen = gr.rows.reduce((n, r) => n + (r.households || 0), 0), sp = gr.rows.reduce((n, r) => n + ((r.special_units && r.special_units.total) || 0), 0);
+    const st = gr.status === '마감' ? `과거 공고 · ${ym(gr.end)} 마감` : gr.status;
+    return `<div class="card pastcard"><div class="row"><b>${esc(gr.name)}</b><span class="pill ${gr.status === '마감' ? '' : 'ok'}">${esc(st)}</span></div>
+      <div class="small muted">${esc([gr.sido, gr.district].filter(Boolean).join(' '))} · ${esc(gr.cat === 'remainder' ? gr.kind || '무순위' : gr.kind === '신혼희망타운' ? '신혼희망타운' : '일반분양')} · 공고 ${esc((gr.notice || '').replace(/-/g, '.'))}</div>
+      <div class="small">주택형 ${gr.rows.length}개 (${esc(gr.rows.map(r => r.unit.trim()).slice(0, 6).join(' · '))}${gr.rows.length > 6 ? ' …' : ''})${lo != null ? ` · 분양가 ${fmt(lo)}${hi !== lo ? '~' + fmt(hi) : ''}` : ''} · 일반 ${gen}세대${sp ? ' · 특공 ' + sp + '세대' : ''}</div>
+      ${gr.url ? `<a class="linkbtn small" href="${esc(gr.url)}" target="_blank" rel="noopener">청약홈 공고 ↗</a>` : ''}</div>`; };
+  return head + `<section class="card"><div class="search" role="search"><input id="pq" data-pq type="search" enterkeyhint="search" autocomplete="off" placeholder="단지명·지역 (예: 송파)" value="${esc(S.pq || '')}"></div>
+    <div class="chips" role="group" aria-label="공급 유형">${[['all','전체'],['general','일반분양'],['remainder','무순위·재공급']].map(([k, t]) => `<button class="chip sm" data-pcat="${k}" aria-pressed="${cat === k}">${t}</button>`).join('')}</div>
+    <div class="chips" role="group" aria-label="시·도">${['', ...sidos].map(k => `<button class="chip sm" data-psido="${esc(k)}" aria-pressed="${sido === k}">${k || '전국'}</button>`).join('')}</div>
+    <p class="small muted" style="margin:6px 0 0">${list.length}건 · 마감 공고는 지금 신청할 수 없어요. 분양가·세대수는 공고 당시 청약홈 값이에요.</p></section>
+    ${shown.map(card).join('') || '<div class="card empty"><b>조건에 맞는 지난 공고가 없어요</b></div>'}
+    ${list.length > shown.length ? `<button class="btn ghost" data-action="past-more">더 보기 (${list.length - shown.length}건 남음)</button>` : ''}
+    <p class="foot">${src(null, ['청약홈 분양정보', 'https://www.applyhome.co.kr'])} · ${esc(PAST.meta.built)} 기준 공고 ${PAST.meta.notices}건 · 주택형 ${PAST.meta.count}개${PAST_MS != null ? ' · 불러오기 ' + PAST_MS + 'ms' : ''}</p>`;
+}
 function closedToggle(n){
-  if (!n || S.f.status === '마감') return '';
-  return `<button class="btn ghost" data-action="toggle-closed">${S.showClosed ? '마감된 공고 숨기기' : '마감된 공고 ' + n + '건 보기 (경쟁률·당첨 가점 확인)'}</button>`;
+  if (!n || S.f.status === '마감') return pastOn() ? '<button class="btn ghost" data-go="past">2026년 지난 공고 전체 보기 ›</button>' : '';
+  return `<button class="btn ghost" data-action="toggle-closed">${S.showClosed ? '마감된 공고 숨기기' : '마감된 공고 ' + n + '건 보기 (경쟁률·당첨 가점 확인)'}</button>` + (pastOn() ? '<button class="btn ghost" data-go="past">2026년 지난 공고 전체 보기 ›</button>' : '');
 }
 /* 데이터가 오래됐을 때 경고 (기능: stale_warning). updated.txt 는 한국 시각 'YYYY-MM-DD HH:MM' */
 function staleDays(){
@@ -4537,7 +4579,7 @@ function privacyBody(){
 
 /* ---------- 라우팅 & 이벤트 ---------- */
 const app = document.getElementById('app'), tabbar = document.getElementById('tabbar');
-const VIEWS = { feed:vFeed, detail:vDetail, plan:vPlan, grades:vGrades, me:vMe, onboard:vOnboard, alerts:vAlerts, about:vAbout, compare:vCompare, trend:vTrend, story:vStory, terms:vTerms, privacy:vPrivacy, updates:vUpdates };
+const VIEWS = { feed:vFeed, detail:vDetail, plan:vPlan, grades:vGrades, me:vMe, onboard:vOnboard, alerts:vAlerts, about:vAbout, compare:vCompare, trend:vTrend, past:vPast, story:vStory, terms:vTerms, privacy:vPrivacy, updates:vUpdates };
 let lastView = null;
 function render(){
   chatFab();   // 기능: chat_fab
@@ -4557,7 +4599,7 @@ function render(){
   app.innerHTML = VIEWS[S.view]();
   if (S.view === 'feed' || S.view === 'detail') adsAfterRender();   // 기능: ads
   tabbar.hidden = S.view === 'onboard';
-  const tab = { feed:'feed', detail:'feed', plan:'feed', alerts: on('alerts_tab') && pushOn() ? 'alerts' : 'feed', grades:'grades', me:'me', about: on('about_tab') ? 'about' : 'me', story: on('about_tab') ? 'about' : 'me', terms: on('about_tab') ? 'about' : 'me', privacy: on('about_tab') ? 'about' : 'me', updates: on('about_tab') ? 'about' : 'me', compare:'feed', trend:'trend' }[S.view];
+  const tab = { feed:'feed', detail:'feed', plan:'feed', past:'feed', alerts: on('alerts_tab') && pushOn() ? 'alerts' : 'feed', grades:'grades', me:'me', about: on('about_tab') ? 'about' : 'me', story: on('about_tab') ? 'about' : 'me', terms: on('about_tab') ? 'about' : 'me', privacy: on('about_tab') ? 'about' : 'me', updates: on('about_tab') ? 'about' : 'me', compare:'feed', trend:'trend' }[S.view];
   tabbar.querySelectorAll('button').forEach(b => { if (b.dataset.go === tab) b.setAttribute('aria-current','page'); else b.removeAttribute('aria-current'); });
   if (lastView !== S.view) window.scrollTo(0, 0);
   const key = S.view + '|' + (S.view === 'detail' || S.view === 'plan' ? S.id : '') + '|' + (S.view === 'feed' ? S.feedMode : '');
@@ -4631,6 +4673,8 @@ document.addEventListener('click', ev => {
   const t = ev.target.closest('button,a'); if (!t) return;
   if (t.dataset.ev) { const L = S.id && LISTINGS.find(x => x.id === S.id); track({ path: 'click-' + t.dataset.ev, title: L ? L.name : '', event: true }); }
   if (t.dataset.feedmode) { S.feedMode = t.dataset.feedmode; S.mapPick = null; render(); return; }
+  if (t.dataset.pcat !== undefined) { S.pcat = t.dataset.pcat; S.pn = 30; render(); return; }   // 기능: historical_search
+  if (t.dataset.psido !== undefined) { S.psido = t.dataset.psido; S.pn = 30; render(); return; }
   if (t.dataset.go) { go(t.dataset.go); return; }
   if (t.dataset.newdays != null) { S.newDays = Number(t.dataset.newdays); track({ path:'new-' + S.newDays, event:true }); render(); return; }
   if (t.dataset.watch) { const id = t.dataset.watch; if (WATCH.has(id)) WATCH.delete(id); else WATCH.add(id); saveWatch(); track({ path:'watch', event:true }); render(); return; }
@@ -4659,6 +4703,7 @@ document.addEventListener('click', ev => {
   if (t.dataset.mode) { planOpt(LISTINGS.find(x => x.id === S.id)).mode = t.dataset.mode; render(); return; }
   const a = t.dataset.action;
   if (a === 'toggle-closed') { S.showClosed = !S.showClosed; render(); return; }
+  if (a === 'past-more') { S.pn = (S.pn || 30) + 30; const y = window.scrollY; render(); window.scrollTo(0, y); return; }   // 기능: historical_search
   if (a === 'toggle-filters') { S.showFilters = !S.showFilters; render(); return; }
   if (a === 'beta-hide') { store.set('cy-beta-hide', true); metric('beta/hide', true); render(); return; }   // 기능: dismiss_notes
   if (a === 'legal-hide') { const n = CONFIG.legal_notice; if (n) store.set('cy-legal-hide', n.date); render(); return; }
@@ -4708,6 +4753,7 @@ document.addEventListener('input', ev => {
   { const el = ev.target, me = on('money_echo') && el.closest && el.closest('.money') && !el.dataset.count && el.closest('.field') && el.closest('.field').querySelector('.mecho');   // 기능: money_echo
     if (me) { const n = Number(String(el.value).replace(/[^0-9]/g, '')) || 0; me.textContent = n ? '= ' + korMoney(n) : ''; } }
   const el = ev.target;
+  if (el.dataset.pq !== undefined) { S.pq = el.value; S.pn = 30; clearTimeout(qTimer); qTimer = setTimeout(() => { render(); const p = app.querySelector('#pq'); if (p) { refocus(p); try { p.setSelectionRange(p.value.length, p.value.length); } catch(e) {} } }, 200); return; }   // 기능: historical_search
   if (el.dataset.q !== undefined && el.id === 'q') {
     S.q = el.value; clearTimeout(qTimer); qTimer = setTimeout(renderKeepSearch, 150);
     if (!qTracked && S.q.trim()) { qTracked = true; track({ path:'search', event:true }); }   // 검색어 내용은 보내지 않음

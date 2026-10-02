@@ -2,6 +2,8 @@ name: 과거 공고 실험
 # 2026 과거 공고 실험 (기능: historical). 서비스 데이터(docs/listings.json)는 건드리지 않고 evidence/history/ 에만 쓴다. 손으로 실행하거나 tools/history 가 바뀔 때.
 on:
   workflow_dispatch:
+  schedule:
+    - cron: "40 21 * * 0"   # 매주 월요일 06:40 (한국) — 새로 마감된 공고를 보관함에 더한다
   push:
     branches: [main]
     paths:
