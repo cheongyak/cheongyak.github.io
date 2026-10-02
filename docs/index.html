@@ -1903,7 +1903,7 @@ function vPast(){
       <div class="small">주택형 ${gr.rows.length}개 (${esc(gr.rows.map(r => r.unit.trim()).slice(0, 6).join(' · '))}${gr.rows.length > 6 ? ' …' : ''})${lo != null ? ` · ${on('rental_rules') && gr.rental ? '임대보증금' : '분양가'} ${fmt(lo)}${hi !== lo ? '~' + fmt(hi) : ''}` : ''} · 일반 ${gen}세대${sp ? ' · 특공 ' + sp + '세대' : ''}</div>
       ${pastJudgeHtml(gr)}
       ${gr.url ? `<a class="linkbtn small" href="${esc(gr.url)}" target="_blank" rel="noopener">청약홈 공고 ↗</a>` : ''}</div>`; };
-  return head + `<section class="card"><div class="search" role="search"><input id="pq" data-pq type="search" enterkeyhint="search" autocomplete="off" placeholder="단지명·지역 (예: 송파)" value="${esc(S.pq || '')}"></div>
+  return head + `<section class="card"><div class="search" id="pqwrap" role="search"><input id="pq" data-pq type="search" enterkeyhint="search" autocomplete="off" placeholder="단지명·지역 (예: 송파)" value="${esc(S.pq || '')}"></div>
     <div class="chips" role="group" aria-label="공급 유형">${[['all','전체'],['general','일반분양'],['remainder','무순위·재공급']].map(([k, t]) => `<button class="chip sm" data-pcat="${k}" aria-pressed="${cat === k}">${t}</button>`).join('')}</div>
     <div class="chips" role="group" aria-label="시·도">${['', ...sidos].map(k => `<button class="chip sm" data-psido="${esc(k)}" aria-pressed="${sido === k}">${k || '전국'}</button>`).join('')}</div>
     <p class="small muted" style="margin:6px 0 0">${list.length}건 · 마감 공고는 지금 신청할 수 없어요. 분양가·세대수는 공고 당시 청약홈 값이에요.</p></section>
@@ -4950,11 +4950,14 @@ document.addEventListener('click', ev => {
 });
 /* 검색어를 칠 때는 검색창은 그대로 두고 나머지만 다시 그린다 (다시 만들면 폰 키보드가 닫히고 커서가 튄다) */
 let qTimer = null, qTracked = false;
-function renderKeepSearch(){
-  const wrap = app.querySelector('#searchwrap');
-  if (S.view !== 'feed' || !wrap) { render(); return; }
-  const tmp = document.createElement('div'); tmp.innerHTML = VIEWS.feed();
-  const nw = tmp.querySelector('#searchwrap'); if (!nw) { render(); return; }
+function renderKeepSearch(){ if (renderKeep('feed', '#searchwrap')) { const c = app.querySelector('#searchwrap .qclear'); if (c) c.hidden = !S.q; } }
+/* 검색창 하나만 그대로 두고 나머지를 새로 그린다 — 지난 공고 검색(#pqwrap)도 같은 방식 (2026-10-03 사용자 제보: 지난 공고 검색에 'ㅊ ㅓㄴㅇ ㅏㄴ'처럼 한글이 안 모아짐 —
+   입력 중에 화면 전체를 다시 그려 입력칸이 새로 만들어지면서 한글 조합이 끊겼다) */
+function renderKeep(view, sel){
+  const wrap = app.querySelector(sel);
+  if (S.view !== view || !wrap) { render(); return false; }
+  const tmp = document.createElement('div'); tmp.innerHTML = VIEWS[view]();
+  const nw = tmp.querySelector(sel); if (!nw) { render(); return false; }
   // 검색창에서 app 까지 올라가며 층마다 검색창(또는 그 조상)만 남기고 형제를 새것으로 바꾼다 (검색창이 묶음 안에 있어도 됨)
   let node = wrap, fresh = nw;
   while (node !== app) {
@@ -4966,14 +4969,15 @@ function renderKeepSearch(){
     while (fresh.nextSibling) par.appendChild(fresh.nextSibling);
     node = par; fresh = npar;
   }
-  const c = wrap.querySelector('.qclear'); if (c) c.hidden = !S.q;
   afterRender();
+  return true;
 }
+document.addEventListener('compositionend', ev => { const el = ev.target; if (el && el.dataset && el.dataset.pq !== undefined) { S.pq = el.value; S.pn = 30; clearTimeout(qTimer); qTimer = setTimeout(() => renderKeep('past', '#pqwrap'), 200); } });
 document.addEventListener('input', ev => {
   { const el = ev.target, me = on('money_echo') && el.closest && el.closest('.money') && !el.dataset.count && el.closest('.field') && el.closest('.field').querySelector('.mecho');   // 기능: money_echo
     if (me) { const n = Number(String(el.value).replace(/[^0-9]/g, '')) || 0; me.textContent = n ? '= ' + korMoney(n) : ''; } }
   const el = ev.target;
-  if (el.dataset.pq !== undefined) { S.pq = el.value; S.pn = 30; clearTimeout(qTimer); qTimer = setTimeout(() => { render(); const p = app.querySelector('#pq'); if (p) { refocus(p); try { p.setSelectionRange(p.value.length, p.value.length); } catch(e) {} } }, 200); return; }   // 기능: historical_search
+  if (el.dataset.pq !== undefined) { S.pq = el.value; S.pn = 30; clearTimeout(qTimer); qTimer = setTimeout(() => renderKeep('past', '#pqwrap'), 200); return; }   // 다시 그릴 때 입력칸은 그대로 둬서 한글 조합이 끊기지 않게 (compositionend 에서도 한 번 더)   // 기능: historical_search
   if (el.dataset.q !== undefined && el.id === 'q') {
     S.q = el.value; clearTimeout(qTimer); qTimer = setTimeout(renderKeepSearch, 150);
     if (!qTracked && S.q.trim()) { qTracked = true; track({ path:'search', event:true }); }   // 검색어 내용은 보내지 않음
