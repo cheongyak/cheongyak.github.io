@@ -1,0 +1,780 @@
+{
+ "about": "청약봇 V2 시험지 1차 (2026-10-02). 기대값은 사람이 질문을 읽고 정한 조건 해석이다 — 코드 결과를 옮겨 적지 않는다. conds 는 '있어야 하는 조건'(key·weight·value 일부), not 은 '있으면 안 되는 조건'. 검색 결과는 oracle.mjs(따로 옮긴 계산)로 검산한다.",
+ "items": [
+  {
+   "id": "v2-ex-1",
+   "src": "V2 요구서 예시",
+   "q": "송파에 살고 싶은데 송파 아니어도 괜찮아. 분당은 제외하고, 20억 이하, 280세대 이상, 나홀로는 싫어. 방3화2 필수, 초등학교 도보면 좋겠고 판교나 의왕으로 출퇴근해",
+   "expect": {
+    "intent": "search",
+    "conds": [
+     {
+      "key": "region_in",
+      "weight": "preferred",
+      "label": "송파구",
+      "explore_ok": true
+     },
+     {
+      "key": "region_out",
+      "weight": "required",
+      "label": "분당"
+     },
+     {
+      "key": "price_max",
+      "weight": "required",
+      "value": 20
+     },
+     {
+      "key": "households_min",
+      "weight": "required",
+      "value": 280
+     },
+     {
+      "key": "not_single",
+      "weight": "required"
+     },
+     {
+      "key": "rooms",
+      "weight": "required",
+      "bed": 3,
+      "bath": 2
+     },
+     {
+      "key": "school_walk",
+      "weight": "preferred"
+     },
+     {
+      "key": "commute",
+      "weight": "explore",
+      "place": "판교역"
+     },
+     {
+      "key": "commute",
+      "weight": "explore",
+      "place": "의왕역"
+     }
+    ]
+   },
+   "behavior": [
+    "rooms_unknown_group",
+    "commute_no_time",
+    "explore_nearby"
+   ]
+  },
+  {
+   "id": "v2-ex-2",
+   "src": "사용자 예시 2 (매매 질문을 청약으로)",
+   "q": "자녀 1명(2세) 키우고 남편 직장 구로, 아내 마포예요. 8-10억으로 광명 철산동이나 구로 개봉동, 고척동 청약 추천해줘",
+   "expect": {
+    "intent": "search",
+    "assume": {
+     "kids": 1
+    },
+    "conds": [
+     {
+      "key": "region_in",
+      "weight": "required",
+      "label": "철산동"
+     },
+     {
+      "key": "region_in",
+      "weight": "required",
+      "label": "개봉동"
+     },
+     {
+      "key": "region_in",
+      "weight": "required",
+      "label": "고척동"
+     },
+     {
+      "key": "price_max",
+      "weight": "required",
+      "value": 10
+     },
+     {
+      "key": "commute",
+      "weight": "explore",
+      "who": "남편"
+     },
+     {
+      "key": "commute",
+      "weight": "explore",
+      "who": "아내"
+     }
+    ],
+    "not": [
+     {
+      "key": "region_in",
+      "label": "구로구"
+     },
+     {
+      "key": "region_in",
+      "label": "마포구"
+     },
+     {
+      "key": "price_min"
+     }
+    ]
+   },
+   "behavior": [
+    "no_result_with_alternatives",
+    "ask_birthday"
+   ]
+  },
+  {
+   "id": "v2-ex-3",
+   "src": "사용자 예시 1 (비교)",
+   "q": "은빛 1,2단지 vs 도봉 한신 vs 방학 청구 비교해주고 급지 및 호재, 앞으로 상승여력 비교해줘",
+   "expect": {
+    "intent": "compare",
+    "targets": 3,
+    "unsupported_has": "급지",
+    "not": [
+     {
+      "key": "region_in"
+     }
+    ]
+   },
+   "behavior": [
+    "compare_not_found_explained",
+    "unsupported_said"
+   ]
+  },
+  {
+   "id": "v2-cmp-1",
+   "q": "과천 푸르지오 벨라르테랑 철산자이 비교해줘",
+   "expect": {
+    "intent": "compare",
+    "targets": 2
+   },
+   "behavior": [
+    "compare_found"
+   ]
+  },
+  {
+   "id": "v2-cmp-2",
+   "q": "광명 시티프라디움 에듀하임 vs 강변역 센트럴 아이파크 어디가 나아?",
+   "expect": {
+    "intent": "compare",
+    "targets": 2
+   },
+   "behavior": [
+    "compare_found"
+   ]
+  },
+  {
+   "id": "v2-reg-1",
+   "q": "송파 청약 있어?",
+   "expect": {
+    "conds": [
+     {
+      "key": "region_in",
+      "weight": "required",
+      "label": "송파구"
+     }
+    ]
+   },
+   "behavior": [
+    "no_result_with_alternatives"
+   ]
+  },
+  {
+   "id": "v2-reg-2",
+   "q": "서울에 지금 넣을 수 있는 청약",
+   "expect": {
+    "conds": [
+     {
+      "key": "region_in",
+      "label": "서울"
+     },
+     {
+      "key": "status",
+      "value": [
+       "접수 중"
+      ]
+     }
+    ]
+   }
+  },
+  {
+   "id": "v2-reg-3",
+   "q": "경기도 30평대 9억 이하 무순위 있어?",
+   "expect": {
+    "conds": [
+     {
+      "key": "region_in",
+      "label": "경기"
+     },
+     {
+      "key": "area"
+     },
+     {
+      "key": "price_max",
+      "value": 9
+     },
+     {
+      "key": "supply",
+      "value": "remainder"
+     }
+    ]
+   }
+  },
+  {
+   "id": "v2-reg-4",
+   "q": "인천 국평 역세권 생애최초 특공으로 넣을만한 곳",
+   "expect": {
+    "conds": [
+     {
+      "key": "region_in",
+      "label": "인천"
+     },
+     {
+      "key": "area"
+     },
+     {
+      "key": "station_walk",
+      "weight": "preferred"
+     },
+     {
+      "key": "supply",
+      "value": "sp:first"
+     }
+    ]
+   }
+  },
+  {
+   "id": "v2-reg-5",
+   "q": "강남3구 말고 서울에서 15억 이하",
+   "expect": {
+    "conds": [
+     {
+      "key": "region_out",
+      "label": "강남3구"
+     },
+     {
+      "key": "region_in",
+      "label": "서울"
+     },
+     {
+      "key": "price_max",
+      "value": 15
+     }
+    ]
+   }
+  },
+  {
+   "id": "v2-reg-6",
+   "q": "수도권 신혼희망타운 알려줘",
+   "expect": {
+    "conds": [
+     {
+      "key": "region_in",
+      "label": "수도권"
+     },
+     {
+      "key": "supply",
+      "value": "town"
+     }
+    ]
+   }
+  },
+  {
+   "id": "v2-reg-7",
+   "q": "분당 빼고 경기 남부 대단지",
+   "expect": {
+    "conds": [
+     {
+      "key": "region_out",
+      "label": "분당"
+     },
+     {
+      "key": "households_min",
+      "value": 1000
+     }
+    ]
+   }
+  },
+  {
+   "id": "v2-price-1",
+   "q": "5억대 아파트 청약",
+   "expect": {
+    "conds": [
+     {
+      "key": "price_range"
+     }
+    ]
+   }
+  },
+  {
+   "id": "v2-price-2",
+   "q": "7억 5천 이하로 살 수 있는 곳",
+   "expect": {
+    "conds": [
+     {
+      "key": "price_max",
+      "value": 7.5
+     }
+    ]
+   }
+  },
+  {
+   "id": "v2-price-3",
+   "q": "현금 2억 있는데 6억 정도 아파트",
+   "expect": {
+    "assume": {
+     "cash": 2
+    },
+    "conds": [
+     {
+      "key": "price_max",
+      "weight": "preferred",
+      "value": 6
+     }
+    ]
+   }
+  },
+  {
+   "id": "v2-area-1",
+   "q": "전용 59 타입만 보고 싶어",
+   "expect": {
+    "conds": [
+     {
+      "key": "area"
+     }
+    ]
+   }
+  },
+  {
+   "id": "v2-area-2",
+   "q": "소형 평수 무순위",
+   "expect": {
+    "conds": [
+     {
+      "key": "area"
+     },
+     {
+      "key": "supply",
+      "value": "remainder"
+     }
+    ]
+   }
+  },
+  {
+   "id": "v2-size-1",
+   "q": "나홀로 아파트는 빼고 500세대 이상",
+   "expect": {
+    "conds": [
+     {
+      "key": "not_single",
+      "weight": "required"
+     },
+     {
+      "key": "households_min",
+      "value": 500
+     }
+    ]
+   }
+  },
+  {
+   "id": "v2-room-1",
+   "q": "방 3개 화장실 2개 꼭 있어야 해",
+   "expect": {
+    "conds": [
+     {
+      "key": "rooms",
+      "weight": "required",
+      "bed": 3,
+      "bath": 2
+     }
+    ]
+   },
+   "behavior": [
+    "rooms_unknown_group"
+   ]
+  },
+  {
+   "id": "v2-school-1",
+   "q": "초품아 위주로 찾아줘",
+   "expect": {
+    "conds": [
+     {
+      "key": "school_walk"
+     }
+    ]
+   }
+  },
+  {
+   "id": "v2-commute-1",
+   "q": "판교로 출퇴근하기 좋은 청약",
+   "expect": {
+    "conds": [
+     {
+      "key": "commute",
+      "weight": "explore",
+      "place": "판교역"
+     }
+    ],
+    "not": [
+     {
+      "key": "region_in"
+     }
+    ]
+   },
+   "behavior": [
+    "commute_no_time"
+   ]
+  },
+  {
+   "id": "v2-commute-2",
+   "q": "회사가 강남역이라 40분 안에 갈 수 있는 곳",
+   "expect": {
+    "conds": [
+     {
+      "key": "commute",
+      "place": "강남역"
+     }
+    ]
+   }
+  },
+  {
+   "id": "v2-sp-1",
+   "q": "신혼부부 특공으로 넣을 수 있는 곳 있어?",
+   "expect": {
+    "conds": [
+     {
+      "key": "supply",
+      "value": "sp:newlywed"
+     }
+    ]
+   }
+  },
+  {
+   "id": "v2-sp-2",
+   "q": "신생아 특공 되는 공고",
+   "expect": {
+    "conds": [
+     {
+      "key": "supply",
+      "value": "sp:newborn"
+     }
+    ]
+   }
+  },
+  {
+   "id": "v2-sp-3",
+   "q": "다자녀 특별공급 있는 곳",
+   "expect": {
+    "conds": [
+     {
+      "key": "supply",
+      "value": "sp:multichild"
+     }
+    ]
+   }
+  },
+  {
+   "id": "v2-elig-1",
+   "q": "신혼부부인데 현금 5억 있어요. 신청 가능한 공고 알려줘",
+   "expect": {
+    "assume": {
+     "married": true,
+     "cash": 5
+    },
+    "conds": [
+     {
+      "key": "eligible_only",
+      "weight": "required"
+     }
+    ]
+   }
+  },
+  {
+   "id": "v2-elig-2",
+   "q": "나도 넣을 수 있는 청약 있어?",
+   "expect": {
+    "conds": [
+     {
+      "key": "eligible_only"
+     }
+    ]
+   },
+   "behavior": [
+    "no_profile_says_so"
+   ]
+  },
+  {
+   "id": "v2-elig-3",
+   "q": "유주택자인데 넣을 수 있는 곳",
+   "expect": {
+    "assume": {
+     "homeless": false
+    },
+    "conds": [
+     {
+      "key": "eligible_only"
+     }
+    ]
+   }
+  },
+  {
+   "id": "v2-margin-1",
+   "q": "시세차익 큰 로또 청약 추천",
+   "expect": {
+    "conds": [
+     {
+      "key": "margin",
+      "weight": "preferred"
+     }
+    ],
+    "perspectives": [
+     "margin"
+    ]
+   }
+  },
+  {
+   "id": "v2-margin-2",
+   "q": "당첨 확률 높은 곳 알려줘",
+   "expect": {
+    "perspectives": [
+     "chance"
+    ]
+   }
+  },
+  {
+   "id": "v2-status-1",
+   "q": "다음 달 접수 예정인 공고",
+   "expect": {
+    "conds": [
+     {
+      "key": "status",
+      "value": [
+       "접수 예정"
+      ]
+     }
+    ]
+   }
+  },
+  {
+   "id": "v2-past-1",
+   "q": "송파 지난 청약 당첨선 알려줘",
+   "expect": {
+    "scope_past": true,
+    "conds": [
+     {
+      "key": "region_in",
+      "label": "송파구"
+     }
+    ]
+   },
+   "behavior": [
+    "past_marked"
+   ]
+  },
+  {
+   "id": "v2-past-2",
+   "q": "과천 최근 마감된 공고 경쟁률",
+   "expect": {
+    "scope_past": true
+   },
+   "behavior": [
+    "past_marked"
+   ]
+  },
+  {
+   "id": "v2-pub-1",
+   "q": "공공분양만 보여줘",
+   "expect": {
+    "conds": [
+     {
+      "key": "supply",
+      "value": "public"
+     }
+    ]
+   }
+  },
+  {
+   "id": "v2-pub-2",
+   "q": "민영 아파트 중에 서울",
+   "expect": {
+    "conds": [
+     {
+      "key": "supply",
+      "value": "private"
+     },
+     {
+      "key": "region_in",
+      "label": "서울"
+     }
+    ]
+   }
+  },
+  {
+   "id": "v2-uns-1",
+   "q": "남향에 주차 넉넉한 곳",
+   "expect": {
+    "unsupported_has": "주차"
+   },
+   "behavior": [
+    "unsupported_said"
+   ]
+  },
+  {
+   "id": "v2-uns-2",
+   "q": "학군 좋은 동네 청약",
+   "expect": {
+    "unsupported_has": "학군"
+   }
+  },
+  {
+   "id": "v2-uns-3",
+   "q": "급매 아파트 추천해줘",
+   "expect": {
+    "unsupported_has": "매매"
+   }
+  },
+  {
+   "id": "v2-explain-1",
+   "q": "가점제랑 추첨제 차이가 뭐야?",
+   "expect": {
+    "intent": "explain"
+   }
+  },
+  {
+   "id": "v2-mix-1",
+   "q": "의왕이나 군포에서 8억 이하 84타입, 역세권이면 좋겠어",
+   "expect": {
+    "conds": [
+     {
+      "key": "region_in",
+      "label": "의왕시"
+     },
+     {
+      "key": "region_in",
+      "label": "군포시"
+     },
+     {
+      "key": "price_max",
+      "value": 8
+     },
+     {
+      "key": "area"
+     },
+     {
+      "key": "station_walk",
+      "weight": "preferred"
+     }
+    ]
+   }
+  },
+  {
+   "id": "v2-mix-2",
+   "q": "위례나 미사 쪽 신혼희망타운",
+   "expect": {
+    "conds": [
+     {
+      "key": "region_in",
+      "label": "위례"
+     },
+     {
+      "key": "region_in",
+      "label": "미사"
+     },
+     {
+      "key": "supply",
+      "value": "town"
+     }
+    ]
+   }
+  },
+  {
+   "id": "v2-num-1",
+   "q": "서울 경기 8.7억 이하, 1,000세대 이상",
+   "expect": {
+    "conds": [
+     {
+      "key": "price_max",
+      "value": 8.7
+     },
+     {
+      "key": "households_min",
+      "value": 1000
+     },
+     {
+      "key": "region_in",
+      "label": "서울"
+     },
+     {
+      "key": "region_in",
+      "label": "경기"
+     }
+    ]
+   }
+  },
+  {
+   "id": "v2-num-2",
+   "q": "9억5천 이하 국평",
+   "expect": {
+    "conds": [
+     {
+      "key": "price_max",
+      "value": 9.5
+     },
+     {
+      "key": "area"
+     }
+    ]
+   }
+  }
+ ],
+ "deltas": [
+  {
+   "id": "v2-delta-1",
+   "first": "송파에서 20억 이하 방3화2",
+   "then": "송파 포기할게",
+   "expect_not": [
+    {
+     "key": "region_in",
+     "label": "송파구"
+    }
+   ],
+   "expect": [
+    {
+     "key": "price_max",
+     "value": 20
+    },
+    {
+     "key": "rooms"
+    }
+   ]
+  },
+  {
+   "id": "v2-delta-2",
+   "first": "경기 9억 이하 84타입",
+   "then": "10억으로",
+   "expect": [
+    {
+     "key": "price_max",
+     "value": 10
+    },
+    {
+     "key": "region_in",
+     "label": "경기"
+    }
+   ]
+  },
+  {
+   "id": "v2-delta-3",
+   "first": "인천 국평",
+   "then": "나홀로는 빼줘",
+   "expect": [
+    {
+     "key": "not_single"
+    },
+    {
+     "key": "region_in",
+     "label": "인천"
+    }
+   ]
+  }
+ ]
+}

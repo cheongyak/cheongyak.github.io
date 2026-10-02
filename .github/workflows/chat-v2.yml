@@ -1,0 +1,23 @@
+name: 청약봇 V2 시험 (개발 중 — 배포 없음)
+# chat/v2 는 아직 화면·서버와 연결돼 있지 않다. 시험만 돌린다 (조건 해석 시험지·검색 검산·판정 = 화면 엔진·검사기).
+on:
+  push:
+    branches: [main]
+    paths:
+      - "chat/v2/**"
+      - "docs/index.html"
+      - ".github/workflows/chat-v2.yml"
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "22"
+      - name: 청약봇 V2 시험
+        run: node --test chat/v2/test/v2.test.mjs

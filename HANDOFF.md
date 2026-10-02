@@ -53,6 +53,12 @@ GitHub Secrets (이름만): `DATA_GO_KR_KEY`, `NCP_MAPS_CLIENT_ID`, `NCP_MAPS_CL
 
 ## 진행 중인 일 (2026-10-02 기준, 최신이 위)
 
+-10. **청약봇 V2 엔진 (2026-10-02 22시~, 사용자 '지금 청약패스에 영향 없이 먼저 개발, 나중에 심을 수 있게')** — `chat/v2/` (README.md·STYLE.md).
+   질문 → 조건 추출(규칙, AI 는 두 번까지) → 필수/선호/탐색 → 실제 데이터 검색(지금 공고 + 지난 1년) → 걸러내기(빠진 이유·확인 필요 후보) → 내 자격(화면 판정 함수 그대로) → 추천·관점별 1등·완화안·비교 → 기본 답 + AI 설명 검사기.
+   시험: `node --test chat/v2/test/v2.test.mjs`(Actions chat-v2.yml, 배포 없음), CLI `node chat/v2/cli.mjs "질문" --profile chat/v2/test/profile-newlywed.json`.
+   사용자가 준 품질 예시 2개(다른 서비스의 아파트 매매 상담 답)는 저장소에 옮기지 않고 원칙만 STYLE.md 로. 사용자는 질문/답 샘플을 더 줄 수 있다고 함 → 오면 golden 에 넣기.
+   다음: 실제 AI 연결(/v2/llm, 운영자 미리보기), 화면에 심기(chatbot_v2 스위치), STEP 0-4 방·욕실·0-5 좌표·0-7 출퇴근(사용자: KAKAO_REST_KEY Secret·네이버 Directions 5 켜기 필요)·0-8 인접 지역 표.
+
 -9. **미뤄둔 일 정리 (2026-10-02 21시, 사용자 '1·4·8·9·10 진행, 3 패스' → 4는 21:08 '헷갈린다'로 원복)**
    - 1 알림 공개: v1.44.0 push_legal_date 2026-10-09 — 그날부터 화면이 저절로 알림을 공개. 10-09 09:20 KST send_later(trig_015RcJsB1VaWPd3W5QbpSN8W)가 이 세션에 확인을 맡김(공개 확인·push_preview 정리).
      **청약봇 공개는 사용자가 미리보기로 답 품질을 확인하고 OK 한 뒤에만** (지금 chat_off true).
@@ -62,7 +68,7 @@ GitHub Secrets (이름만): `DATA_GO_KR_KEY`, `NCP_MAPS_CLIENT_ID`, `NCP_MAPS_CL
    - 10 지난 공고·청약봇 교차 검사: v1.46.2 tools/qa/past_chat.cjs(CI) — 청약봇 요약이 일반 물량 없는 주택형에서 화면과 반대 결론이던 것 고침(chatVerdict), chat/tools/engine_payload.cjs 는 화면 함수를 그대로 부름.
    - 21:24 수집이 exit 139(PDFium 세그폴트)로 죽음 → pdf_text_alt 를 따로 띄운 프로세스로(7a6248c). 21:49 수집 성공·verify ok·192주택형 모두 notice_quotes.
      공고문 전부 다시 읽기는 300초 제한에 걸려 8건이 저장해 둔 원문 사본으로 읽힘(값은 같음). 실행 실패 원인은 check-run annotations API 로 볼 수 있음(로그는 인증 필요).
-   - 남은 것(사용자와 상의): 2 청약봇 답 품질, 5 민간 공공건설임대 자격표, 6 청년 특별공급, 7 LH 임대. 3 '내 가점' 탭은 사용자가 패스.
+   - 남은 것(사용자와 상의): 2 청약봇 답 품질(→ -10 청약봇 V2 로 진행 중), 5 민간 공공건설임대 자격표, 6 청년 특별공급, 7 LH 임대. 3 '내 가점' 탭은 사용자가 패스.
 
 -8. **공고문 읽기 점검 (2026-10-02 밤, 사용자 '공고문에서 은근히 잘못 가져온다')** — v1.43.1 두 도구 읽기(pdf_dual_read: pypdf + pypdfium2, pdfium 은 스레드 잠금 필수), 쪽수 상한 80→300, 1쪽 표↔본문 값 대조(notice_conflicts).
    tools/qa/pdf_audit.py(probe.yml, 실제 PDF: 첨부 고르기·잘림·빈 쪽·필수 단원·도구 차이·수집 값 차이 → evidence/qa/pdf-audit.json) — 첫 점검에서 80쪽 잘림 3·재당첨 못 읽음 2 발견, 고친 뒤 0.
