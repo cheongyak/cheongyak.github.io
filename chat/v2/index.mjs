@@ -8,7 +8,8 @@ import { SP_LABEL } from './lexicon.mjs';
 
 // llm: async ({system, user}) => text  (없으면 AI 없이). profile: 청약패스 '내 조건'(브라우저 저장값) 그대로. state: 지난 질문의 조건(대화 중 조건 유지)
 // D: 데이터 묶음 (Node: node.mjs, 브라우저: browser.mjs fromScreen). 이 파일은 Node·브라우저 어디서나 돈다 (fs·네트워크 안 씀)
-export async function ask({ D, question, profile = null, state = null, llm = null, updated = '' }) {
+// commute: async (from{lat,lng}, to{lat,lng}) => {min, km, src, at} | {error}  (서버에서만 — commute.mjs carTime). 없으면 직선거리만
+export async function ask({ D, question, profile = null, state = null, llm = null, updated = '', commute = null }) {
   const t0 = Date.now(), steps = [];
   // 1. 조건 추출 — 규칙 해석을 먼저, AI 가 있으면 AI 해석을 쓰되 형식 검사를 통과한 것만
   let C = state ? applyDelta(state, question) : extract(question), via = 'rules';
@@ -35,6 +36,16 @@ export async function ask({ D, question, profile = null, state = null, llm = nul
     }
   }
   if (r.explore) r.explore.nearby.sort((a, b) => a.km - b.km);
+  // 출퇴근 시간: 보여 줄 후보(상위 5곳·대안·확인 필요)만 실시간 조회 — 저장하지 않는다(카카오 이용 조건). 순서는 시간으로 다시 매긴다
+  const cms = C.conds.filter(c => c.key === 'commute');
+  if (commute && cms.length) {
+    const its = [...r.groups.slice(0, 5).map(g => g.best), ...r.unsure.slice(0, 4), ...(r.relax || []).flatMap(o => (o.groups || []).map(g => g.best)), ...(r.nearMiss || []).map(g => g.best)].filter(it => it.f.geo);
+    await Promise.all(its.map(async it => { it.f.commute = await Promise.all(cms.map(async c => ({ place: c.value.place, who: c.value.who || '', ...(await commute(it.f.geo, c.value)) }))); }));
+    r.commuted = its.some(it => it.f.commute.some(x => x.min != null));
+    const avg = it => { const t = (it.f.commute || []).filter(x => x.min != null); return t.length ? t.reduce((a, b) => a + b.min, 0) / t.length : 999; };
+    if (r.commuted) r.groups.sort((a, b) => (b.best.elig ? { ok: 3, unsure: 2, r2: 1, no: 0 }[b.best.elig] : 0) - (a.best.elig ? { ok: 3, unsure: 2, r2: 1, no: 0 }[a.best.elig] : 0) || avg(a.best) - avg(b.best));
+    steps.push('출퇴근 조회 ' + its.length + '곳');
+  }
   steps.push('후보 ' + r.ok.length + ' · 확인 필요 ' + r.unsure.length + ' · 제외 ' + Object.values(r.excluded).reduce((a, b) => a + b, 0));
   // 7. 설명 — 기본 답은 항상 만든다(AI 실패·한도 초과 때 그대로 나감)
   const base = mode === 'explain' ? null : compose(C, r, { profile: !!profile, updated: updated || D.today, mode, compare });

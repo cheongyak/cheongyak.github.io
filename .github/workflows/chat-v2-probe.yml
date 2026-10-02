@@ -6,6 +6,8 @@ on:
     paths:
       - "chat/v2/commute.mjs"
       - "chat/v2/tools/commute_probe.mjs"
+      - "chat/v2/node.mjs"
+      - "chat/v2/index.mjs"
       - ".github/workflows/chat-v2-probe.yml"
   workflow_dispatch:
 permissions:
@@ -27,10 +29,13 @@ jobs:
         with:
           node-version: "22"
       - name: 출퇴근 조회 확인
-        run: node chat/v2/tools/commute_probe.mjs
+        run: |
+          node chat/v2/tools/commute_probe.mjs
+          # 실제 출퇴근 시간이 들어간 답 샘플 (시험용 신혼부부 조건)
+          node chat/v2/cli.mjs --profile chat/v2/test/profile-newlywed.json "자녀 1명(2세) 키우고 남편 직장 구로, 아내 마포예요. 10억 이하로 수도권 청약 추천해줘" > evidence/chat-v2/sample-commute.txt
       - name: 결과 저장
         run: |
           git config user.name "cheongyak-bot"
           git config user.email "actions@users.noreply.github.com"
-          git add evidence/chat-v2/commute-probe.json
+          git add evidence/chat-v2/commute-probe.json evidence/chat-v2/sample-commute.txt
           git diff --cached --quiet || (git commit -m "청약봇 V2 출퇴근 조회 확인 $(date +%Y-%m-%d)" && (git push || (git pull --rebase -X theirs origin main && git push)))

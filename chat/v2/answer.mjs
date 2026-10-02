@@ -54,7 +54,9 @@ export function card(it, { profile, C = null }) {
   L.push('· 역  ' + (f.station.state === '추정' ? f.station.name + ' 도보 약 ' + f.station.walk + '분(직선 ' + f.station.m + 'm, 추정)' : '확인 불가' + (f.station.why ? ' (' + f.station.why + ')' : '')));
   L.push('· 초등학교  ' + (f.school.state === '추정' ? f.school.name + ' 도보 약 ' + f.school.walk + '분(직선 ' + f.school.m + 'm, 추정)' : '확인 불가' + (f.school.why ? ' (' + f.school.why + ')' : '')));
   const cm = C ? C.conds.filter(c => c.key === 'commute') : [];
-  if (cm.length) L.push('· 출퇴근  ' + (f.geo ? cm.map(c => (c.value.who ? c.value.who + ' ' : '') + c.value.place.replace(/ \(중심 근사\)/, '') + '까지 직선 약 ' + Math.round(distKmA(f.geo, c.value)) + 'km').join(' · ') + ' (시간은 경로 조회 연결 뒤)' : '확인 불가 (단지 좌표 없음)'));
+  if (cm.length) L.push('· 출퇴근  ' + (!f.geo ? '확인 불가 (단지 좌표 없음)' : cm.map(c => { const nm = (c.value.who ? c.value.who + ' ' : '') + c.value.place.replace(/ \(중심 근사\)/, '');
+    const t = (f.commute || []).find(x => x.place === c.value.place && x.who === (c.value.who || ''));
+    return t && t.min != null ? nm + '까지 자동차 약 ' + t.min + '분(' + t.km + 'km, ' + t.src.replace(/ \(.*\)$/, '') + ' ' + t.at.slice(11, 16).replace(/^(\d\d)/, h => String((+h + 9) % 24).padStart(2, '0')) + ' 조회)' : nm + '까지 직선 약 ' + Math.round(distKmA(f.geo, c.value)) + 'km(시간 확인 불가)'; }).join(' · ') + (f.geo && !f.geo.precise ? ' — 단지 좌표가 동 단위라 대략이에요' : '')));
   if (f.competition) L.push('· 경쟁률  ' + f.competition.rows.slice(0, 2).map(r => r.rank + '순위 ' + r.reside + ' ' + r.rate + ':1').join(' · ') + ' (청약홈)');
   if (it.unknown && it.unknown.length) L.push('· 확인 필요  ' + [...new Set(it.unknown)].join(', '));
   L.push(f.link);
@@ -138,7 +140,7 @@ function noResult(C, r, U) {
 function missing(C, r) {
   const m = [...(C.unsupported || []).map(u => u + ' — 청약패스에 이 데이터가 없어 답하지 않았어요')];
   if (C.conds.some(c => c.key === 'rooms')) m.push('방·욕실 수 — 아직 공고문에서 모으지 않아, 해당 후보는 \'구조 확인 필요\'로 따로 뒀어요');
-  for (const c of C.conds.filter(c => c.key === 'commute')) m.push(c.value.place + ' 출퇴근 시간 — 경로 조회를 아직 연결하지 않아, 직선거리로만 순서를 봤어요(시간으로 바꾸지 않음)');
+  for (const c of C.conds.filter(c => c.key === 'commute')) m.push(r.commuted ? c.value.place + ' 대중교통 시간 — 아직 연결하지 않았어요(자동차 시간만, 조회 시각의 교통 기준)' : c.value.place + ' 출퇴근 시간 — 경로 조회를 아직 연결하지 않아, 직선거리로만 순서를 봤어요(시간으로 바꾸지 않음)');
   if (C.conds.some(c => c.key === 'eligible_only') && !r.profile) m.push('내 자격 — 내 조건을 넣지 않아 판정하지 못했어요');
   return m;
 }

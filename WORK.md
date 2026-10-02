@@ -4,6 +4,15 @@
 2026-09-29 12:55 이전 항목은 규칙을 만들기 전 작업을 커밋 기록으로 정리한 것이라 백업 브랜치가 없어요.
 그 시점으로 되돌릴 때는 해당 커밋 번호로 `git revert` 를 써요.
 
+## 2026-10-02 23:45 · 청약봇 V2 답에 실제 자동차 출퇴근 시간
+- 요청: (이어서) 출퇴근 키 확인 결과 반영
+- 확인 결과(chat-v2-probe 첫 실행): 네이버 Directions 5 자동차 10/10, 카카오모빌리티 자동차 10/10 (두 곳 시간 차이 2~35분, 거리 거의 같음). 카카오 장소 검색(로컬)은 403 'App disabled OPEN_MAP_AND_LOCAL service' — 카카오 앱에서 '카카오맵' 사용 설정이 꺼져 있음 → 사용자에게 켜 달라고 요청
+- 변경: ask(commute) — 보여 줄 후보(상위 5·확인 필요·대안)만 실시간 조회(저장 안 함), 카드 '남편 구로구까지 자동차 약 N분(km, 출처 조회 시각)', 조회되면 자격 다음 순서를 평균 시간으로. 대중교통은 아직 '확인 불가'. node.mjs 는 환경 변수에 키가 있으면 조회. 시험(가짜 응답) 추가. 워크플로가 실제 시간이 들어간 답 샘플을 evidence/chat-v2/sample-commute.txt 로
+- 파일: chat/v2/index.mjs, chat/v2/answer.mjs, chat/v2/llm.mjs, chat/v2/node.mjs, chat/v2/test/v2.test.mjs, .github/workflows/chat-v2-probe.yml, evidence/chat-v2/commute-probe.json
+- 확인: V2 시험 57/57, pytest. 올린 뒤 sample-commute.txt 확인
+- 백업: backup/20261002-2345-commute2
+- 기능: 없음(개발 중)
+
 ## 2026-10-02 23:42 · 청약봇 V2 출퇴근 조회 코드 + 실제 확인 워크플로
 - 요청: 사용자가 네이버 Directions 5 켜고 GitHub Secret KAKAO_REST_KEY 넣음 ("했다잉")
 - 변경: chat/v2/commute.mjs — 자동차 네이버 Directions 5(trafast) → 실패하면 카카오모빌리티 길찾기, 결과 {분·km·출처·조회 시각}, 실패는 오류로(직선거리로 시간을 만들지 않음). 카카오 장소 검색으로 키 확인. 대중교통은 미정(카카오 공개 REST 경로 미확인 — 카카오 지도·로컬 결과는 저장 금지·실시간 호출만, devtalk 151435). chat/v2/tools/commute_probe.mjs + .github/workflows/chat-v2-probe.yml — 좌표 정확한 단지 5곳 × 판교역·의왕역을 실제로 조회해 evidence/chat-v2/commute-probe.json (키 값은 안 씀)

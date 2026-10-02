@@ -141,3 +141,12 @@ test('출퇴근 조회: 네이버 실패하면 카카오, 둘 다 없으면 오�
   const c = await carTime(A, B, {}, naverOk);
   assert.ok(c.error && c.min === undefined);
 });
+
+test('출퇴근 시간이 오면 카드에 자동차 시간, 순서도 시간으로', async () => {
+  const fake = async (a, b) => ({ min: Math.round(Math.hypot(a.lat - b.lat, a.lng - b.lng) * 100), km: 10, src: '네이버 Directions 5 (실시간 교통)', at: '2026-10-02T14:00:00.000Z' });
+  const a = await ask({ question: '자녀 1명 키우고 남편 직장 구로, 아내 마포예요. 수도권 10억 이하 청약 추천해줘', today: TODAY, dataOpts: DO, profile: PROFILE, commute: fake });
+  assert.match(a.text, /남편 구로구?까지 자동차 약 \d+분/);
+  assert.ok(checkAnswer(a.text, a.facts).ok, checkAnswer(a.text, a.facts).flags.join('/'));
+  const b = await ask({ question: '자녀 1명 키우고 남편 직장 구로, 아내 마포예요. 수도권 10억 이하 청약 추천해줘', today: TODAY, dataOpts: DO, profile: PROFILE, commute: null });
+  assert.doesNotMatch(b.text, /자동차 약 \d+분/);
+});
