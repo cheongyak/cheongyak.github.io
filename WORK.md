@@ -4,6 +4,15 @@
 2026-09-29 12:55 이전 항목은 규칙을 만들기 전 작업을 커밋 기록으로 정리한 것이라 백업 브랜치가 없어요.
 그 시점으로 되돌릴 때는 해당 커밋 번호로 `git revert` 를 써요.
 
+## 2026-10-02 12:50 · 과거 공고(2026) 실험 4단계: 랜덤 검증 120공고 (seed 저장)
+- 요청: 2026 공고를 검증 모집단으로, 랜덤 100개 이상, seed·샘플 ID 저장, PASS/FAIL/UNCERTAIN·오류 분류, 실제 결과만
+- 변경: tools/history/validate_sample.py — 보관함 공고를 유형(일반/무순위)×권역(수도권/지방) 층화 랜덤(seed 기본 = 날짜, --fresh 새 seed). 검사 D1 일정 순서·D2 세대수 합(본청약은 사전청약 몫 → EXPECTED_DIFFERENCE)·
+  D3 지역·N1 공고문 받기·N2 분양가 원문 대조·N3 공급규모·N4 정답 데이터. 결과 evidence/history/validation-<날짜>.json. history.yml 에 단계 추가(실패해도 서비스 영향 없음)
+- 파일: tools/history/validate_sample.py, .github/workflows/history.yml
+- 확인: 로컬 — 같은 seed 두 번 같은 120공고(일반 55·무순위 65, 수도권 72·지방 48), D1 120 PASS, D2 51 PASS·65 N/A·4 → 본청약 사전청약 몫(EXPECTED_DIFFERENCE), D3 120 PASS. 공고문 검사(N1~N4)는 Actions 실행 결과로
+- 기능: historical (실험)
+- 백업: backup/20261002-1233-pastui
+
 ## 2026-10-02 12:33 · 과거 공고(2026) 실험 3단계: '2026년 지난 공고' 화면 (미리보기만)
 - 요청: 과거 공고 실험 진행 — 활용도·속도를 보고 폐기 여부 결정
 - 변경: 새 화면 past(vPast) — docs/archive/2026.json 을 이 화면을 열 때만 불러옴(첫 화면 영향 없음). 공고 단위 카드(이름·지역·유형·공고일·주택형·분양가 범위·일반/특공 세대·청약홈 링크),

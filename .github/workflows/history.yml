@@ -29,6 +29,9 @@ jobs:
       - run: pip install -r requirements.txt
       - run: python -m tools.history.probe
       - run: python -m tools.history.build
+      - name: 랜덤 검증 (고정 seed = 날짜, 실패해도 계속)
+        continue-on-error: true
+        run: python -m tools.history.validate_sample --size 120
       - name: 저장
         if: always()
         run: |
