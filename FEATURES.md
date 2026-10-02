@@ -134,7 +134,7 @@
 | `general_units` | 상세 일반공급(무순위) 칸에 전체 세대수와 가점제·추첨제 몫(민영은 세대수×공고문 비율 올림 추정) | 상세 일반공급 카드 | - | 8479db0 | backup/20261002-0940-genunits |
 | `gen_none` | 일반공급 세대수 0 주택형은 일반공급 판정 대신 '일반공급 없음'·목록은 특공 기준, 공급 0 주택형은 수집에서 제외 | 목록 판정·상세 일반공급 칸·수집 | 끄면 예전처럼 일반공급 자격으로 판정 | 1a4494e | backup/20261002-1012-gennone |
 | `complex_size` | 모집공고문 공급규모에서 단지 총세대·동 수, 나홀로 3상태(아님·가능성 있음·판단 불가) — 청약봇 V2 데이터 | 수집(listings.json complex) | 끄면 complex 필드 안 만듦 | fe09320 | backup/20261002-1117-complex |
-| `historical_search` | 2026년 지난 공고 화면(보관함 docs/archive/2026.json, 열 때만 불러옴) — 실험 | 공고 목록 아래 버튼·past 화면 | 끄면 버튼·화면 없음(?past=1 미리보기만) | (커밋 후 기입) | backup/20261002-1208-pre-historical |
+| `historical_search` | 2026년 지난 공고 화면(보관함 docs/archive/2026.json, 열 때만 불러옴) — 실험 | 공고 목록 아래 버튼·past 화면 | 끄면 버튼·화면 없음(?past=1 미리보기만) | 1003e81 | backup/20261002-1208-pre-historical |
 
 `naver_map`·`nearby`·`analytics` 는 한 커밋(147fa99)에 함께 들어갔다. 이 셋 중 하나만 없애려면 revert 대신 스위치로 끄거나,
 해당 부분만 지우는 새 커밋을 만든다.
