@@ -23,7 +23,7 @@ export async function ask({ D, question, profile = null, state = null, llm = nul
   }
   C.today = D.today;
   if (geocode) for (const c of C.conds.filter(c => c.key === 'commute' && c.value.approx)) {   // '구로구 (중심 근사)' → 실제 장소 (예: 구로구청)
-    const word = c.value.place.replace(/ \(중심 근사\)/, ''), g = await geocode(word);
+    const word = c.value.place.replace(/ \(중심 근사\)/, ''), q = /(구|시|군)$/.test(word) ? word + '청' : word, g = await geocode(q);   // '구로구'만 찾으면 구 안의 아무 장소(푸른수목원)가 나와 구청으로 찾는다 (2026-10-02 확인)
     if (g && !g.error) { Object.assign(c.value, { place: word, lat: g.lat, lng: g.lng, approx: false, found: g.name }); c.text = (c.value.who ? c.value.who + ' ' : '') + '직장 ' + word + '(' + g.name + ' 기준)'; }
   }
   steps.push('조건 ' + C.conds.length + '개 (' + via + ')');
