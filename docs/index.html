@@ -1776,14 +1776,15 @@ function pastJudgeHtml(gr){
   const open = S.pjOpen && S.pjOpen[gr.no];
   if (!open) return `<button class="linkbtn small" data-pj="${esc(gr.no)}">그때 넣었다면? · 내 조건으로 보기</button>`;
   if (!PJ) { loadPastJudge(); return `<div class="small muted pj">${PJ_ERR ? esc(PJ_ERR) : '판정 자료 불러오는 중…'}</div>`; }
-  const rows = PJ_BY[gr.no];
+  /* 막 마감돼 아직 매일 수집 목록(listings.json)에 남은 공고는 보관 판정 자료에서 빠지므로(enrich 가 건너뜀) 그 목록의 공고 조건을 그대로 쓴다 */
+  const live = PJ_BY[gr.no] ? null : LISTINGS.filter(L => L.id.split('-')[0] === gr.no), rows = PJ_BY[gr.no] || (live && live.length ? live : null);
   if (!rows) return '<div class="small muted pj">이 공고는 판정 자료가 아직 없어요 (매주 월요일에 더해져요)</div>';
   if (!hasProfile()) return '<div class="small muted pj">내 조건을 넣으면 공고일 기준으로 판정해요</div>';
-  const p = S.profile, Ls = rows.map(x => fromApi(x));
+  const p = S.profile, Ls = live ? rows : rows.map(x => fromApi(x));
   const line = L => { const b = eligBucket(L, p), w = PJ_WORD[b] || ['', b], sp = spTypesFor(L).map(t => spJudge(L, p, t)), spOk = sp.filter(r => r.s === 'ok').length;
     return `<div class="row small pjrow"><span>${esc(L.unit.split(' · ')[0])}</span><span><span class="st-${w[0]}">${w[1]}</span>${sp.length ? ` <span class="muted">· 특공 ${spOk ? spOk + '유형 가능' : '가능 없음'}</span>` : ''}</span></div>`; };
   return `<div class="pj"><div class="small"><b>그때 넣었다면</b> <span class="muted">(공고일 ${esc((gr.notice || '').replace(/-/g, '.'))} 기준, 내 지금 조건)</span></div>${Ls.map(line).join('')}
-    <div class="small muted">마감된 공고예요. 공고 조건은 모집공고문${rows.some(x => !x.notice_read) ? '(일부 못 읽음 — 확인 필요가 늘 수 있어요)' : ''}에서 읽었고, 판정은 지금 화면과 같은 엔진이에요. 시세·경쟁률은 없어요.</div></div>`;
+    <div class="small muted">마감된 공고예요. 공고 조건은 모집공고문${!live && rows.some(x => !x.notice_read) ? '(일부 못 읽음 — 확인 필요가 늘 수 있어요)' : ''}에서 읽었고, 판정은 지금 화면과 같은 엔진이에요. 시세·경쟁률은 없어요.</div></div>`;
 }
 function vPast(){
   loadPast();
