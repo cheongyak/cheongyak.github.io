@@ -1694,7 +1694,7 @@ function feedList(){
 function cardBadges(L){
   if (!on('card_badges') || L.sample) return '';
   const lim = k => (L.limits || []).find(x => x[0] === k), re = lim('재당첨 제한'), live = lim('실거주 의무'), b = [];
-  if (L.category === 'remainder') b.push(['무순위', 'hot']);
+  if (L.category === 'remainder') b.push([on('general_units') && /재공급/.test(L.supplyType || L.kind || '') ? '재공급' : '무순위', 'hot']);   // 불법행위 재공급을 '무순위'로 보이던 문제(2026-10-02 MASTER QA, tools/qa/supply_type.cjs)
   if (L.specialApply) b.push(['특별공급', '']);
   if (L.regulated) b.push(['규제지역', 'warn']);
   if (L.priceCap) b.push(['분양가상한제', '']);

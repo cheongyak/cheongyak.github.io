@@ -4,6 +4,18 @@
 2026-09-29 12:55 이전 항목은 규칙을 만들기 전 작업을 커밋 기록으로 정리한 것이라 백업 브랜치가 없어요.
 그 시점으로 되돌릴 때는 해당 커밋 번호로 `git revert` 를 써요.
 
+## 2026-10-02 14:21 · v1.39.2 불법행위 재공급 카드 배지 '무순위' 오표시 (MASTER QA 중 발견)
+- 요청: 출시 전 MASTER QA 요구서 — '불법행위 재공급 → 무순위' 같은 공급유형 오분류를 전체에서 찾고 재발 방지
+- 원인: v1.38.3 에서 상세 '일반공급 칸 이름'(genLabel)만 '재공급'으로 고치고, 목록 카드 배지(cardBadges)는 category === 'remainder' 면 무조건 '무순위'로 남아 있었음 (표시 단계, 데이터·판정은 맞음)
+- 전수 검사: tools/qa/supply_type.cjs 새로 만듦 — 원천 유형(청약홈 category·HOUSE_SECD_NM) → 목록 카드·일반공급 칸 이름·지난 공고 카드 글자를 공고 전부 대조, 기대값은 원천 유형 표(EXPECT)로 정함.
+  고치기 전: 목록 카드 불법행위 재공급 8건 중 8건 FAIL, 나머지(지금 192주택형 × 2곳, 지난 공고 536공고) PASS. 상세 화면 본문에 '무순위' 없음(8건 확인)
+- 변경: cardBadges 가 재공급이면 '재공급' 배지 (스위치 general_units 를 따름)
+- 파일: docs/index.html, tools/qa/supply_type.cjs, evidence/qa/supply-type.json, docs/changelog.json, VERSIONS.md
+- 확인: supply_type.cjs 위반 0, 판정 사례 261/261, regress 0, 엔진 잠금 그대로, pytest
+- 기능: 없음(수정)
+- 버전: v1.39.2
+- 백업: backup/20261002-1421-badge
+
 ## 2026-10-02 14:04 · v1.39.1 지난 공고 1년치로 운영
 - 요청: 마감된 것은 과거 공고로 넘기고 26년부터 쌓다가 1년 넘은 공고는 차례로 삭제 — 과거 공고는 1년치만
 - 변경: tools/history/window.py(마감일 기준 365일, 시작 2026-01-01). build.py 는 기간 밖 주택형 삭제·새로 받을 때도 거름(meta.pruned), enrich.py 는 기간 밖 공고 제외·공고문 기록(cache)도 삭제(meta.cache_pruned).
