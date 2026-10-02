@@ -4,6 +4,15 @@
 2026-09-29 12:55 이전 항목은 규칙을 만들기 전 작업을 커밋 기록으로 정리한 것이라 백업 브랜치가 없어요.
 그 시점으로 되돌릴 때는 해당 커밋 번호로 `git revert` 를 써요.
 
+## 2026-10-02 21:13 · 지난 공고·청약봇 판정 교차 검사 + 청약봇 판정 요약을 화면과 맞춤
+- 요청: 미뤄둔 일 10번 — 교차 검사 밖인 청약봇 답변·지난 공고 화면
+- 변경: tools/qa/past_chat.cjs 추가 (대표 조건 3개). A 지난 공고: 판정 줄 글자 ↔ 엔진(eligBucket·spJudge), 마감 카드에 'D-·신청 가능해요·넣어도 돼요' 없음, 2026.6.15 전 공고는 판정 줄 없음, 판정 범위 밖이 '신청 가능했어요' 아님. B 청약봇: 보내는 verdict ↔ 상세 맨 위 판정, 마감·판정 범위 밖이면 요약에 그 사실, 브라우저 요약 ↔ 시험용 Node 요약. 찾은 것: ① 일반 물량 없는 주택형(2026000414 인천계양 A6 59G·84B)은 화면이 특별공급 기준(verdict_one)인데 청약봇 요약은 일반공급 기준 → '화면 신청 불가 · 청약봇 가능' (인천 1인 세대원). chatVerdict() 로 화면과 같은 결론·이유('특별공급 결과로 판정', '판정하지 않아요', '접수가 끝난 공고')를 보냄 ② chat/tools/engine_payload.cjs 가 요약을 따로 옮겨 적어 화면과 갈라질 수 있었음 → 화면 함수 chatEnginePayload 를 그대로 부르게 함. collect.yml·verify.yml 에 단계 추가, verify_status past_chat_fails
+- 파일: tools/qa/past_chat.cjs, evidence/qa/past-chat.json, docs/index.html, chat/tools/engine_payload.cjs, tools/verify_status.py, .github/workflows/collect.yml, .github/workflows/verify.yml, docs/changelog.json, VERSIONS.md
+- 확인: past_chat 지난 공고 카드 1,608 · 판정 줄 1,713 · 청약봇 요약 576 · 위반 0 (고치기 전 4건). 청약봇 시험 38/38, 골든셋 270/270(AI 없음). 판정 사례 365/365, 엔진 잠금 그대로, 스냅샷 차이 0, 스크립트 문법 OK, pytest 통과
+- 백업: backup/20261002-2113-pastchat
+- 기능: 없음(수정)
+- 버전: v1.46.2
+
 ## 2026-10-02 21:08 · 주택형 칩 면적대 줄 나누기(type_bands) 되돌림
 - 요청: "4번은 원복해야될거같아. 너무헷갈려 공고마다 표기도 다다르고"
 - 변경: v1.45.0 커밋 2e74dca 의 화면 코드(typeChips 면적대 줄·.tbands CSS)를 git revert 로 되돌리고 config 스위치 type_bands 삭제. 기록(WORK·FEATURES·VERSIONS·changelog)은 남기고 FEATURES 줄에 되돌림 표시

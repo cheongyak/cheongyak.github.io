@@ -12,7 +12,7 @@ function loadEngine(DOCS, listingsPath) {
     localStorage: { getItem: k => store[k] ?? null, setItem: (k, v) => { store[k] = String(v); }, removeItem: k => { delete store[k]; } },
     matchMedia: () => ({ matches: false, addEventListener() {} }), addEventListener() {}, removeEventListener() {}, scrollTo() {}, requestAnimationFrame() {}, setTimeout, clearTimeout, confirm: () => false, fetch: () => new Promise(() => {}) };
   ctx.window = ctx; ctx.globalThis = ctx; vm.createContext(ctx);
-  vm.runInContext(src + `\n;globalThis.__E = { cpExplain, itemBasis, myScore, grade, fromApi, DEFAULT_PROFILE, statusOf, syncHome, syncV2, setListings: r => { LISTINGS = r; }, setConfig: c => { CONFIG = Object.assign(CONFIG, c); } };`, ctx, { filename: 'index.html' });
+  vm.runInContext(src + `\n;globalThis.__E = { chatEnginePayload, cpExplain, itemBasis, myScore, grade, fromApi, DEFAULT_PROFILE, statusOf, syncHome, syncV2, setListings: r => { LISTINGS = r; }, setConfig: c => { CONFIG = Object.assign(CONFIG, c); } };`, ctx, { filename: 'index.html' });
   const E = ctx.__E;
   E.setConfig(JSON.parse(fs.readFileSync(DOCS + '/config.json', 'utf8')));
   const LS = JSON.parse(fs.readFileSync(listingsPath || DOCS + '/listings.json', 'utf8')).map(E.fromApi);
@@ -28,19 +28,8 @@ function buildEngine(eng, listingId, profileIn) {
   const L = LS.find(x => x.id === listingId);
   if (!L) throw new Error('공고 없음: ' + listingId);
   const p = E.syncV2(E.syncHome(Object.assign({}, E.DEFAULT_PROFILE, profileIn || {})));
-  const x = E.cpExplain(L.id, p), s = E.myScore(L, p), g = E.grade(L);
-  const r2 = v => v == null ? null : Math.round(v * 100) / 100;
-  return {
-    data_updated: updated,
-    listing: { id: L.id, name: L.name, unit: L.unit, sido: L.sido, district: L.district, kind: L.kind, dtl: L.houseDtl || null, status: E.statusOf(L),
-      price: L.price, regulated: !!L.regulated, dates: { notice: L.notice, special: L.specialApply, apply: L.apply, applyEnd: L.applyEnd, winner: L.winner },
-      link: 'https://cheongyakpass.kr/#/detail/' + encodeURIComponent(L.id), pdf: L.noticePdf || null },
-    verdict: x.verdict, reason: x.reason || '',
-    items: x.items.map(i => { const b = E.itemBasis(L, i.k) || {}; return { k: i.k, s: i.s, v: i.v == null ? '' : String(i.v), cause: i.cause || null, note: i.note || '', basis: b.kind || null }; }),
-    special: (x.special || []).map(r => ({ type: r.type, v: r.v, stage: r.stage || null, fail: r.fail || [], warn: r.warn || [] })),
-    score: { total: s.total, parts: (s.parts || []).map(x => x.v), miss: s.miss || [] },
-    grade: { lo: r2(g.lo), hi: r2(g.hi) },
-  };
+  // 화면이 실제로 보내는 함수(chatEnginePayload)를 그대로 쓴다 — 따로 옮겨 적으면 둘이 갈라진다 (2026-10-02 tools/qa/past_chat.cjs B3)
+  return Object.assign(E.chatEnginePayload(L, p), { data_updated: updated });
 }
 
 module.exports = { loadEngine, buildEngine };
