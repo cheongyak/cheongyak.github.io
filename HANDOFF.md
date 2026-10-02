@@ -53,6 +53,11 @@ GitHub Secrets (이름만): `DATA_GO_KR_KEY`, `NCP_MAPS_CLIENT_ID`, `NCP_MAPS_CL
 
 ## 진행 중인 일 (2026-10-02 기준, 최신이 위)
 
+-8. **공고문 읽기 점검 (2026-10-02 밤, 사용자 '공고문에서 은근히 잘못 가져온다')** — v1.43.1 두 도구 읽기(pdf_dual_read: pypdf + pypdfium2, pdfium 은 스레드 잠금 필수), 쪽수 상한 80→300, 1쪽 표↔본문 값 대조(notice_conflicts).
+   tools/qa/pdf_audit.py(probe.yml, 실제 PDF: 첨부 고르기·잘림·빈 쪽·필수 단원·도구 차이·수집 값 차이 → evidence/qa/pdf-audit.json) — 첫 점검에서 80쪽 잘림 3·재당첨 못 읽음 2 발견, 고친 뒤 0.
+   주간 블라인드 표본 tools/qa/blind_sample.py pick → 앱 값 안 보는 검토자(서브 에이전트)가 evidence/qa/blind/<주>.json 채움 → compare → 일치 값은 golden 으로. 2026-W40: 답 38개 읽기 오류 0.
+   남은 것: 매주 표본을 자동으로 돌릴지(예약 작업) 사용자 결정, 값마다 원문 문장 저장은 1쪽 표만(quote) — 나머지 항목은 다음.
+
 -7. **판정 범위·과신 방지 (2026-10-02 밤, 사용자 QA 피드백 2차)** — v1.43.0 judge_scope(판정하지 않는 공고는 확인 필요 + 이유; 임대인데 자격표 못 읽음 등), 임대 이름 보강,
    tools/qa/monotonic.cjs(정보 줄이면 '가능' 생기면 위반·값 방향 단조성, 일부러 넣은 오류 3종 모두 잡음), 교차 규칙 SCOPE-001·RENT-001. 분석·지원 범위·우선순위: evidence/qa/SUPPLY_SCOPE.md.
    다음 후보(사용자와 상의): 민간 5·10년 공공건설임대 자격표 파서(다음 공고 오면), 청년 특별공급(입력 질문 필요), LH 임대(수집 원천부터).

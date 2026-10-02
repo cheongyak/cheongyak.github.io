@@ -106,6 +106,9 @@ description: 청약패스(cheongyakpass.kr, 저장소 cheongyak/cheongyak.github
 - 판정 범위 밖(judgeScope none)은 분양 규칙의 '불가'도 확정으로 쓰지 않는다. 새 공급유형·새 임대 유형을 받으면 먼저 judgeScope 에 넣고, 공고문 표를 읽어 정답 데이터를 만든 뒤 partial/full 로 올린다.
 - `node tools/qa/monotonic.cjs` — 판정 코드를 바꾸면 돌린다. 위반이 나오면 먼저 검사 가정(예: 공고일 뒤 전입은 '모름'이 맞음, 모순 입력 해소)인지 판정 오류인지 가린다.
 
+- 공고문 PDF 는 작업 환경에서 받을 수 없다 — 실제 PDF 점검은 probe.yml 의 tools/qa/pdf_audit.py 결과(evidence/qa/pdf-audit.json)로 본다. pypdfium2 는 여러 스레드에서 동시에 쓰면 깨진다(잠금 _PDFIUM_LOCK).
+- Actions 작업 로그는 인증 없이 못 읽는다 — 실패하면 단계 이름과 로컬 재현으로 원인을 찾는다.
+
 ## 5. 자주 하는 답
 
 - "자동으로 돌아가?" → 수집은 GitHub Actions 가 매일 05:30, 사이트는 GitHub Pages. Claude 세션과 무관하게 돈다. 실패·불일치는 이슈로 메일이 간다.
