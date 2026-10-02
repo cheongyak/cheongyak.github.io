@@ -481,6 +481,12 @@ body.tcmp .betaline{margin-bottom:4px}
 .topbtns{display:inline-flex;align-items:center;gap:8px;flex:none} .top+.search{margin:-4px 0 10px} .srchbtn{width:44px;height:44px;flex:none;display:inline-flex;align-items:center;justify-content:center;border-radius:22px;border:1px solid var(--line);background:var(--surface);color:var(--fg);cursor:pointer} .srchbtn svg{width:20px;height:20px} .srchbtn.on{background:var(--btn);color:var(--btn-fg);border-color:var(--btn)}
 .bell{display:inline-flex;align-items:center;gap:6px;min-height:44px;padding:0 14px;border-radius:22px;border:1px solid var(--line);background:var(--surface);font-weight:600;font-size:14px;cursor:pointer} .bell[hidden]{display:none}
 .bell svg{width:18px;height:18px} .bell.on{background:var(--lotto-soft);border-color:transparent;color:var(--lotto-ink)}
+/* 받은 알림함 (기능: push_inbox) */
+.ibxl{list-style:none;margin:0;padding:0;display:grid;gap:6px} .ibx{display:grid;gap:3px;padding:10px 12px;border:1px solid var(--line);border-radius:12px;color:var(--fg);text-decoration:none}
+.ibx.new{border-color:var(--lotto-ink);background:var(--lotto-soft)} .ibx-h{display:flex;align-items:baseline;gap:6px;flex-wrap:wrap} .ibx-h .muted{margin-left:auto}
+.ibx-n{font-size:11px;font-weight:700;padding:1px 6px;border-radius:8px;background:var(--lotto-ink);color:var(--surface)}
+[data-go="alerts"].unread{position:relative} [data-go="alerts"].unread::after{content:attr(data-unread);position:absolute;top:8px;right:calc(50% - 26px);min-width:16px;height:16px;padding:0 4px;border-radius:8px;background:#e5484d;color:#fff;font-size:10.5px;font-weight:700;line-height:16px;text-align:center}
+.bell[data-go="alerts"].unread::after{top:-4px;right:-4px}
 .steps{margin:0;padding-left:20px;display:flex;flex-direction:column;gap:6px;font-size:14px}
 dl.kv{margin:0;display:grid;grid-template-columns:auto 1fr;gap:8px 16px;font-size:14px}
 dl.kv dt{color:var(--muted)} dl.kv dd{margin:0;text-align:right;font-weight:600}
@@ -649,6 +655,7 @@ function afterRender(){
   const sh = document.querySelector('.sheet'); if (sh) { const b = sh.querySelector('.sheet-item') || sh.querySelector('button'); if (b) b.focus({ preventScroll:true }); }
   const f = document.getElementById('feedmap'); if (f) initFeedMap(f, feedList());
   const d = document.getElementById('detailmap'); if (d) initDetailMap(d, LISTINGS.find(x => x.id === S.id));
+  if (on('push_inbox')) { inboxDot(); if (S.view === 'alerts' && INBOX.loaded && !INBOX.seeing) { INBOX.seeing = true; inboxSeen().finally(() => setTimeout(() => { INBOX.seeing = false; }, 4500)); } }
 }
 
 /* ---------- 내 조건 (대화에서 알려주신 값으로 시작) ---------- */
@@ -3838,6 +3845,60 @@ if (typeof navigator !== 'undefined' && 'serviceWorker' in navigator) navigator.
   if (st && navApply(st, false)) { try { history.pushState({ nav:1, v: st.v, id: st.id, y:0 }, '', '#/' + st.v + (st.id ? '/' + encodeURIComponent(st.id) : '')); } catch(e) {} }
   else go('feed');
 });
+/* 받은 알림함 (기능: push_inbox) — 서비스 워커가 이 기기 IndexedDB(cp-inbox)에 둔 알림과, 아직 알림창에 남아 있는 알림(이 기능 전에 받은 것 포함)을 알림 탭에 보여준다.
+   알림 탭을 열면 읽음으로 바꾸고, 알림창의 청약패스 알림을 닫고, 앱 아이콘 숫자 배지를 지운다. 이 기기 안에서만 다룬다 */
+const INBOX = { items: [], loaded: false };
+function inboxDB(){ return new Promise((ok, no) => { if (!('indexedDB' in window)) return no(new Error('idb')); const r = indexedDB.open('cp-inbox', 1);
+  r.onupgradeneeded = () => r.result.createObjectStore('items', { keyPath:'id', autoIncrement:true }); r.onsuccess = () => ok(r.result); r.onerror = () => no(r.error); }); }
+async function inboxLoad(){
+  if (!on('push_inbox') || !pushOn()) return;
+  let items = [];
+  try { const db = await inboxDB(); items = await new Promise(ok => { const g = db.transaction('items').objectStore('items').getAll(); g.onsuccess = () => ok(g.result || []); g.onerror = () => ok([]); }); } catch(e) {}
+  const reg = 'serviceWorker' in navigator ? await pushReg() : null;
+  const tray = reg && reg.getNotifications ? await reg.getNotifications().catch(() => []) : [];
+  tray.forEach(n => { if (!items.some(x => x.title === n.title && x.body === n.body)) items.push({ title: n.title, body: n.body, url: (n.data && n.data.url) || '/', at: (n.data && n.data.at) || n.timestamp || 0, read: false, tray: true }); });
+  INBOX.items = items.sort((a, b) => (b.at || 0) - (a.at || 0) || (b.id || 0) - (a.id || 0)).slice(0, 30); INBOX.loaded = true;
+  inboxDot();
+}
+const inboxUnread = () => INBOX.items.filter(x => !x.read).length;
+function inboxDot(){
+  const n = on('push_inbox') ? inboxUnread() : 0;
+  document.querySelectorAll('[data-go="alerts"]').forEach(b => { b.classList.toggle('unread', n > 0); if (n > 0) b.dataset.unread = n > 9 ? '9+' : String(n); else delete b.dataset.unread; });
+}
+async function inboxSeen(){
+  if (!on('push_inbox') || !inboxUnread()) { if (on('push_inbox') && navigator.clearAppBadge) navigator.clearAppBadge().catch(() => {}); return; }
+  try { const db = await inboxDB(); await new Promise(ok => { const t = db.transaction('items', 'readwrite'), st = t.objectStore('items'), g = st.getAll();
+    g.onsuccess = () => (g.result || []).forEach(x => { if (!x.read) { x.read = true; st.put(x); } }); t.oncomplete = ok; t.onerror = ok; }); } catch(e) {}
+  const reg = 'serviceWorker' in navigator ? await pushReg() : null;
+  if (reg && reg.getNotifications) (await reg.getNotifications().catch(() => [])).forEach(n => n.close());
+  if (navigator.clearAppBadge) navigator.clearAppBadge().catch(() => {});
+  setTimeout(() => { INBOX.items.forEach(x => x.read = true); inboxDot(); }, 4000);   // '새' 표시는 잠깐 보여 준 뒤 지운다
+}
+function inboxWhen(t){
+  if (!t) return '';
+  const d = new Date(t), now = new Date(), md = (d.getMonth() + 1) + '월 ' + d.getDate() + '일', hm = String(d.getHours()).padStart(2, '0') + ':' + String(d.getMinutes()).padStart(2, '0');
+  return d.toDateString() === now.toDateString() ? '오늘 ' + hm : md + ' ' + hm;
+}
+function vInbox(){
+  if (!on('push_inbox')) return '';
+  if (!INBOX.loaded) { inboxLoad().then(() => { if (S.view === 'alerts') { render(); inboxSeen(); } }); return `<section class="card"><h2>받은 알림</h2><p class="small muted" style="margin:0">불러오는 중…</p></section>`; }
+  const row = x => `<li><a href="${esc(x.url && x.url.startsWith('/') ? x.url : '/')}" data-inbox-go class="ibx${x.read ? '' : ' new'}"><span class="ibx-h">${x.read ? '' : '<span class="ibx-n">새</span>'}<b>${esc(x.title || '청약패스')}</b><span class="small muted">${inboxWhen(x.at)}</span></span><span class="small">${esc(x.body || '').replace(/\n/g, '<br>')}</span></a></li>`;
+  return `<section class="card"><h2>받은 알림</h2>
+    ${INBOX.items.length ? `<ul class="ibxl">${INBOX.items.map(row).join('')}</ul><p class="small muted" style="margin:8px 0 0">이 기기에서 받은 최근 30개만 이 기기에 보관해요. 누르면 해당 공고로 가요.</p>`
+      : `<p class="small muted" style="margin:0">아직 받은 알림이 없어요.${PUSH.state === 'on' ? ' 새 공고가 올라오면 여기에도 쌓여요.' : ''}</p>`}</section>`;
+}
+if (typeof navigator !== 'undefined' && 'serviceWorker' in navigator) navigator.serviceWorker.addEventListener('message', ev => {
+  if ((ev.data || {}).type !== 'cp-inbox' || !on('push_inbox')) return;
+  inboxLoad().then(() => { if (S.view === 'alerts') { render(); inboxSeen(); } });
+});
+document.addEventListener('click', e => {
+  const a = e.target.closest('[data-inbox-go]'); if (!a) return;
+  e.preventDefault();
+  const st = navParse(new URL(a.getAttribute('href'), location.href).hash);
+  if (st && navApply(st, false)) { try { history.pushState({ nav:1, v: st.v, id: st.id, y:0 }, '', '#/' + st.v + (st.id ? '/' + encodeURIComponent(st.id) : '')); } catch(x) {} }
+  else go('feed');
+});
+setTimeout(() => { if (on('push_inbox') && pushOn()) inboxLoad(); }, 1600);
 function vPush(){
   if (PUSH.state === 'init') { pushInit().then(render); }
   const P = PUSH.prefs || { regions:[], good:false, remind:true }, st = PUSH.state, dis = PUSH.busy ? ' disabled' : '';
@@ -3856,6 +3917,7 @@ function vPush(){
   <div class="stack" style="gap:6px"><h1>새 공고 알림 ${betaTag()}</h1>
   <p class="muted" style="margin:0;font-size:14px">매일 새벽 수집이 끝나면, 고른 지역에 <b>새 공고</b>가 올라왔을 때와 <b>접수 전날</b>에 휴대폰 알림을 보내요. 하루 한 통으로 묶어 보내요.</p></div>
   ${why}
+  ${vInbox()}
   ${st === 'init' ? `<p class="small muted" role="status" style="margin:0">알림 상태를 확인하고 있어요…</p>` : ''}
   ${st === 'on' ? `<div class="note ok"><b>알림이 켜져 있어요</b><div>${P.regions.length ? esc(P.regions.join('·')) : '전국'} · ${P.good ? '로또·고려 등급만' : '모든 공고'}${P.remind ? ' · 접수 전날 알림' : ''}</div></div>` : ''}
   ${PUSH.msg ? `<p class="small" role="status" style="margin:0">${esc(PUSH.msg)}</p>` : ''}
