@@ -4,6 +4,20 @@
 2026-09-29 12:55 이전 항목은 규칙을 만들기 전 작업을 커밋 기록으로 정리한 것이라 백업 브랜치가 없어요.
 그 시점으로 되돌릴 때는 해당 커밋 번호로 `git revert` 를 써요.
 
+## 2026-10-02 15:52 · v1.40.1 판정 표시 불일치 (과천 84D, 사용자 제보)
+- 요청: 과천 푸르지오 라비엔오 84D — 카드 '특별공급 확인 필요' · 상세 '신청 불가' · 칸 '재공급 전체 0세대'·거주지 불가. 잘못된 정보인지, 왜 놓쳤는지, 검증 강화
+- 원문: 2026930036 '본 입주자모집공고의 특별공급은 해당 주택건설지역 거주자 중 …', '경기도 과천시 거주자' → 서울 거주자는 특별공급도 불가. 상세 '신청 불가'가 맞고 카드가 틀림
+- 원인: gen_none(v1.38.2)이 카드·필터용 genNoneBucket 을 새로 만들면서 특별공급 판정만 보고 공통 조건(거주지)을 안 봄. 상세 맨 위는 기존 eligibility 를 써서 화면마다 결론이 달랐음.
+  같은 결론인지 확인하는 검사가 없었음: 판정 사례는 함수 하나씩, 과천 84D 사례는 '과천 거주자'만, 10-01 블라인드 감사는 gen_none 이전, MASTER QA 원문 대조는 데이터 값만 비교
+- 전수 확인: 새 검사 tools/qa/consistency.cjs (지금 공고 192 × 조건 40 = 7,680조합) — 고치기 전 119건 다름(카드 확인 필요/상세 불가 102 등 6종), 고친 뒤 0
+- 변경: genNoneBucket 이 거주지·재당첨 '불가'면 불가, 공통 조건 '확인 필요'면 '가능' 대신 확인 필요. 상세 맨 위·카드 문구를 같은 판정으로. 일반 0세대 칸 머리 '전체 0세대' → '일반 몫 0세대', 공통 조건 불가면 첫 안내부터 '특별공급도 신청할 수 없어요'.
+  스위치 verdict_one. 판정 사례 common-00~04(과천 84D 서울 거주 → 불가 등), 코드 변이 1개 추가, consistency 를 qa_gate·Actions 에 연결, 운영 스킬에 함정 기록
+- 파일: docs/index.html, docs/config.json, tools/qa/consistency.cjs, tools/qa/code_mutation.cjs, tools/make_judge_cases.py, tests/judge/cases.json, tools/verify_status.py, .github/workflows/{collect,verify}.yml, tools/engine_lock.json, .claude/skills/cheongyakpass-ops/SKILL.md, evidence/qa/consistency.json, docs/changelog.json, VERSIONS.md
+- 확인: 판정 사례 303/303(새 사례는 고치기 전 코드에서 실패 확인), 판정 일치 7,680 다름 0, 코드 변이 16개 중 15 잡음 + 동등 1, regress 0, pytest, 390px 라이트·다크(카드 '내 자격 불가 · 거주지 신청 불가' · 상세 '신청 불가' · 칸 안내)
+- 기능: verdict_one
+- 버전: v1.40.1
+- 백업: backup/20261002-1552-verdict
+
 ## 2026-10-02 15:55 · MASTER QA: 검색·필터 일치 검사 + 게이트 연결
 - 요청: MASTER QA 23항 — 검색·필터 결과가 실제 데이터와 맞는지
 - 변경: tools/qa/filter_check.cjs — 원자료(listings.json) 필드로 따로 계산한 기대 집합과 화면 matches() 결과를 단일 필터 32개 + 무작위 조합 200개(시드 고정)로 비교, 검색어 '서울'(다른 시·도 섞임)·'무순위'(다른 유형)·'재공급/불법행위'(누락) 확인.

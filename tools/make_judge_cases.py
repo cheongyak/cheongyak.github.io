@@ -621,6 +621,22 @@ def main() -> None:
     b(fn="bucket", listing="2026000414-059.8400A", profile=dict(pub_base, hhIncomeYear=None, income=0, spouseIncome=0), expect={"b": "unsure"},
       basis="2026000414 60㎡ 이하 공공분양 일반공급은 세대 소득 기준이 있어 소득을 모르면 판정할 수 없음 → 확인 필요 (가짜 '가능' 금지)")
 
+    # ---------- 13) 거주 요건은 특별공급에도 공통 (2026-10-02 사용자 지적: 과천 84D 카드 '특별공급 확인 필요' ↔ 상세 '신청 불가') ----------
+    i = 0
+    def v1(**c):
+        nonlocal i
+        add(id=f"common-{i:02d}", **c); i += 1
+    v1(fn="bucket", listing="2026930036-084.7450D", profile=dict(pub_base, homeSido="서울", homeSigun="", sidoOwnSince="2015-01-01", hhIncomeYear=3000, income=3000), expect={"b": "no"},
+       basis="2026930036 '본 입주자모집공고의 특별공급은 해당 주택건설지역 거주자 중 …'·'경기도 과천시 거주자' — 서울 거주자는 일반 0세대 주택형의 특별공급도 신청 불가")
+    v1(fn="bucket", listing="2026000414-059.9700G", profile=dict(pub_base, homeSido="충남", homeSigun="천안시", sidoOwnSince="2015-01-01", sidoSince="2015-01-01", areaSince="2015-01-01", hhIncomeYear=3000, income=3000), expect={"b": "no"},
+       basis="2026000414 '입주자모집공고일 현재 수도권 거주' — 충남 거주자는 59G(일반 0세대)의 특별공급도 신청 불가")
+    v1(fn="bucket", listing="2026000414-059.9700G", profile=dict(pub_base, homeSido="", homeSigun="", hhIncomeYear=3000, income=3000), expect={"b": "unsure"},
+       basis="2026000414 수도권 거주 요건 — 사는 곳을 모르면 특별공급 소득이 맞아도 '가능'으로 단정하지 않음")
+    v1(fn="sp", type="newborn", listing="2026000414-059.8400A", profile=dict(pub_base, homeSido="충남", homeSigun="천안시", sidoOwnSince="2015-01-01", sidoSince="2015-01-01", areaSince="2015-01-01", hhIncomeYear=3000, income=3000), expect={"s": "fail"},
+       basis="2026000414 수도권 거주 요건은 특별공급(신생아)에도 적용 — 충남 거주자는 불가")
+    v1(fn="sp", type="newlywed", listing="2026000453-059.9742A", profile=dict(pub_base, homeSido="부산", homeSigun="", sidoOwnSince="2015-01-01", sidoSince="2015-01-01", areaSince="2015-01-01", hhIncomeYear=3000, income=3000), expect={"s": "fail"},
+       basis="2026000453 '경기도 광명시 거주자 / 서울·경기·인천 거주자' — 부산 거주자는 민영 신혼부부 특별공급도 불가")
+
     OUT.parent.mkdir(parents=True, exist_ok=True)
     OUT.write_text(json.dumps(cases, ensure_ascii=False, indent=1) + "\n", encoding="utf-8")
     print(f"{len(cases)}건 → {OUT}")

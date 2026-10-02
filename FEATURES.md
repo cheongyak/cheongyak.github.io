@@ -138,6 +138,7 @@
 | `historical_judge` | 지난 공고 중 6/15 이후 마감 공고에 '그때 넣었다면' 판정(docs/archive/past-judge.json, tools/history/enrich.py) | 지난 공고 카드 버튼 | 끄면 버튼 없음(localStorage cy-past=1 미리보기만) | b250e27 | backup/20261002-1256-pastjudge |
 | `rental_rules` | 공공임대 공고(청약홈 RENT_SECD_NM '…임대', 없으면 이름) 구분: '공공임대' 배지·임대보증금 표시·마진/자금 계산 안 함, 일반공급은 공고문 총자산형 기준(pub_limits kind total, <표4> 가구원수별 금액), 특별공급은 확인 필요 | 수집(시세 건너뜀·kind)·카드·상세·판정·지난 공고 | 끄면 예전처럼 일반분양으로 보고 공공분양 규칙 | 891099a | backup/20261002-1451-rental |
 | `qa_gate` | 출시 게이트에 MASTER QA 검사 포함: 공급유형 표시 전수(tools/qa/supply_type.cjs)·데이터 불변식(tools/qa/invariants.py) 위반이 있으면 verify-status ok=false | 수집·판정 검증 Actions, 검증 현황 | 끄면 검사 결과만 남고 통과 여부에 안 넣음 | f0a24e9 | backup/20261002-1451-rental |
+| `verdict_one` | 일반 0세대 주택형 판정을 카드·필터·상세에서 같게: 거주지·재당첨 공통 조건이 불가면 특별공급도 불가, 모르면 확인 필요. 칸 머리 \x27일반 몫 0세대\x27 | 목록 카드·상세 맨 위·일반공급 칸 | 끄면 예전처럼 카드는 특별공급만 보고 판정 | (커밋 후 기입) | backup/20261002-1552-verdict |
 
 `naver_map`·`nearby`·`analytics` 는 한 커밋(147fa99)에 함께 들어갔다. 이 셋 중 하나만 없애려면 revert 대신 스위치로 끄거나,
 해당 부분만 지우는 새 커밋을 만든다.

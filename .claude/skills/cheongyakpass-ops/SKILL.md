@@ -81,6 +81,12 @@ description: 청약패스(cheongyakpass.kr, 저장소 cheongyak/cheongyak.github
   - 판정 사례 기본 프로필에 everWin:'none' 이 있어야 재당첨 '입력 필요'가 안 생긴다. 테스트용 규제지역 변형 공고는 tests/judge/listings.json 의 '-REG'.
   - 변이 검사(tools/qa/mutation.cjs)의 허용 예외: 생애최초 단독세대 60㎡ (세대원이 되면 풀리는 게 규칙대로).
 
+- 판정을 보여주는 곳이 여러 개다 (2026-10-02 과천 84D: 카드 '특별공급 확인 필요' ↔ 상세 '신청 불가'): 목록 카드 meLine·필터 eligBucket·상세 맨 위 rhero·
+  지난 공고 '그때 넣었다면'·주택형 점. 새 판정 경로(예: gen_none)를 만들면 **모든 표시가 같은 함수(eligBucket)를 쓰게** 하고 `node tools/qa/consistency.cjs`(지금 공고 × 조건 40개) 로 확인한다.
+  판정 사례는 '해당하는 사람'만이 아니라 '공통 조건(거주지·재당첨)에서 떨어지는 사람'도 넣는다.
+- 원문 대조로 '틀렸다'고 보이면 고치기 전에 필드의 뜻부터 확인한다 (need_head = 공급 전체 대상이 세대주. 투기과열 1순위 세대주는 규제지역 규칙) — 판정 사례가 잘못된 수정을 잡아 줌.
+- MASTER QA 검사 묶음(기능 qa_gate, 매 수집·화면 변경): supply_type.cjs · invariants.py · filter_check.cjs · consistency.cjs → verify-status. 손으로: code_mutation.cjs(판정 코드 바꿀 때), spotcheck_compare.py(원문 대조).
+
 ## 5. 자주 하는 답
 
 - "자동으로 돌아가?" → 수집은 GitHub Actions 가 매일 05:30, 사이트는 GitHub Pages. Claude 세션과 무관하게 돈다. 실패·불일치는 이슈로 메일이 간다.

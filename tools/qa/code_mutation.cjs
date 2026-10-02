@@ -20,6 +20,7 @@ const M = [   // [이름, 찾을 글, 바꿀 글]
   ['예치금 85㎡ 구간 <= → <', "ACCOUNT_DEPOSIT[g][a <= 85 ? 0 :", "ACCOUNT_DEPOSIT[g][a < 85 ? 0 :"],
   ['판정 묶음: 확인 필요를 가능으로', "return e.ok && !e.unsure ? 'ok' : e.ok ? 'unsure'", "return e.ok ? 'ok' : e.ok ? 'unsure'"],
   ['일반 0세대: 특공 0이면 불가 → 확인 필요', "if (u && u.total != null && !u.total) return 'no';", "if (u && u.total != null && !u.total) return 'unsure';"],
+  ['일반 0세대: 거주지 불가를 무시 (2026-10-02 과천 84D)', "if (on('verdict_one') && spCommonFail(L, p).length) return 'no';", ''],
   ['마감일 하루 이동', "if (end && TODAY > end) return '마감';", "if (end && TODAY >= end) return '마감';"],
   ['공급유형: 재공급 배지를 무순위로', "/재공급/.test(L.supplyType || L.kind || '') ? '재공급' : '무순위'", "'무순위'"],
   ['공급유형: 일반공급 칸 재공급을 무순위로', "/재공급/.test(L.kind || '') ? '재공급' : '무순위'", "'무순위'"],

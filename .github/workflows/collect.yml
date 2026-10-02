@@ -92,6 +92,7 @@ jobs:
           node tools/qa/supply_type.cjs | tail -1 | tee -a docs/run-log.txt
           python -m tools.qa.invariants | tee -a docs/run-log.txt
           node tools/qa/filter_check.cjs | head -1 | tee -a docs/run-log.txt
+          node tools/qa/consistency.cjs | head -1 | tee -a docs/run-log.txt
       - name: 검증 요약 저장
         id: verify
         if: always()
@@ -99,7 +100,7 @@ jobs:
           set +e
           python -m tools.verify_status | tee -a docs/run-log.txt
           rc=${PIPESTATUS[0]}
-          git add docs/verify-status.json docs/judge-status.json docs/run-log.txt evidence/qa/supply-type.json evidence/qa/invariants.json evidence/qa/filter-check.json
+          git add docs/verify-status.json docs/judge-status.json docs/run-log.txt evidence/qa/supply-type.json evidence/qa/invariants.json evidence/qa/filter-check.json evidence/qa/consistency.json
           git diff --cached --quiet || (git commit -m "검증 결과 $(date +%Y-%m-%d)" && (git push || (git pull --rebase -X theirs origin main && git push)))
           exit $rc
       - name: 경고가 있으면 운영자 알림 (이슈)

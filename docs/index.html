@@ -1487,7 +1487,7 @@ function meLine(L){
   if (!hasProfile()) return '<span class="muted">내 조건을 넣으면 자격·자금을 판정해요</span>';
   if (genNone(L)) { const b = genNoneBucket(L, S.profile), u = L.specialUnits, none = u && u.total != null && !u.total;   // 기능: gen_none — 일반공급 없는 주택형은 특별공급 판정으로
     return none ? '<span class="st-fail">공급 세대 없음</span><span class="muted">· 이번 공고에서 이 주택형은 공급하지 않아요</span>'
-      : '<span class="' + (b === 'ok' ? 'st-ok' : b === 'no' ? 'st-fail' : 'st-warn') + '">' + (b === 'ok' ? '특별공급 신청 가능' : b === 'no' ? '내 자격 불가' : '특별공급 확인 필요') + '</span><span class="muted">· 일반공급 없음 (모두 특별공급)</span>'; }
+      : '<span class="' + (b === 'ok' ? 'st-ok' : b === 'no' ? 'st-fail' : 'st-warn') + '">' + (b === 'ok' ? '특별공급 신청 가능' : b === 'no' ? '내 자격 불가' : '특별공급 확인 필요') + '</span><span class="muted">· ' + (b === 'no' && on('verdict_one') && spCommonFail(L, S.profile).length ? esc(spCommonFail(L, S.profile)[0].k) + ' ' + esc(spCommonFail(L, S.profile)[0].v) : '일반공급 없음 (모두 특별공급)') + '</span>'; }
   const e = eligibility(L, S.profile);
   if (!e.ok) { const f = e.items.find(i => i.s === 'fail'); return '<span class="' + (e.rank2 ? 'st-warn' : 'st-fail') + '">' + (e.rank2 ? (e.rank2Need ? '1순위 불가 · 2순위 확인 필요' : '2순위만 가능') : '내 자격 불가') + '</span><span class="muted">· ' + esc(f.k) + ' ' + esc(f.v) + '</span>'; }
   if (isRental(L)) return (e.unsure ? '<span class="st-warn">자격 확인 필요</span>' : '<span class="st-ok">기본 요건 충족</span>') + '<span class="muted">· 임대 자금은 공고문 확인</span>';
@@ -3007,15 +3007,22 @@ function genUnits(L){
    목록 판정(eligBucket)은 특별공급 판정 중 가장 좋은 것: 하나라도 가능 → 가능, 확인 필요 → 확인 필요, 모두 불가 → 불가.
    특별공급 세대수를 모르면(무순위·재공급, 청약홈이 유형별 세대수를 안 줌) 확인 필요, 특별공급도 0 이면 불가(공급 세대 없음 — 수집에서도 뺀다) */
 function genNone(L){ return on('gen_none') && !L.sample && L.households === 0 && !isNewlywedTown(L); }
+/* 특별공급에도 공통으로 걸리는 조건 (2026-10-02 사용자 지적: 과천 84D — 카드는 '특별공급 확인 필요', 상세는 '신청 불가'·'공고일 현재 과천시 거주자만').
+   거주 지역·재당첨 제한은 공급 종류와 관계없이 신청 자격이라, 이 중 하나가 '불가'면 특별공급도 불가다 (상세 일반공급 칸 안내 '아래 조건(거주지·무주택 등)은 특별공급에도 공통') */
+const SP_COMMON = ['거주지', '재당첨 제한 (내 이력)'];   // 무주택은 특별공급 유형별 규칙(spJudge)이 따로 본다
+function spCommonFail(L, p){ return eligibility(L, p).items.filter(i => SP_COMMON.includes(i.k) && i.s === 'fail'); }
 function genNoneBucket(L, p){
   const u = L.specialUnits;
   if (u && u.total != null && !u.total) return 'no';
+  if (on('verdict_one') && spCommonFail(L, p).length) return 'no';
   const types = spTypesFor(L);
   if (!types.length) return 'unsure';
   const ss = types.map(t => spJudge(L, p, t).s);
-  return ss.includes('ok') ? 'ok' : ss.includes('warn') ? 'unsure' : 'no';
+  const r = ss.includes('ok') ? 'ok' : ss.includes('warn') ? 'unsure' : 'no';
+  // 공통 조건(거주지·무주택·재당첨)을 아직 모르면 특별공급도 '가능'으로 단정하지 않는다
+  return r === 'ok' && on('verdict_one') && eligibility(L, p).items.some(i => SP_COMMON.includes(i.k) && i.s === 'warn') ? 'unsure' : r;
 }
-const genUnitsTop = L => { const u = genUnits(L); return u ? `<span class="small muted">전체 ${u.n}세대</span>` : ''; };   // 특별공급 줄의 '전체 N세대'와 같은 모양
+const genUnitsTop = L => { const u = genUnits(L); return u ? `<span class="small muted">${u.n === 0 && on('verdict_one') ? '일반 몫 0세대' : '전체 ' + u.n + '세대'}</span>` : ''; };   // 일반 0세대를 '재공급 전체 0세대'로 읽지 않게 (2026-10-02)   // 특별공급 줄의 '전체 N세대'와 같은 모양
 const genUnitsHtml = L => { const u = genUnits(L); return u && u.sub && !genNone(L) ? `<div class="small genunits">${esc(u.sub)}${u.calc ? ' <span class="muted">· 1순위 기준 추정, 가점제 몫 소수점 올림(주택공급규칙 제28조)</span>' : ''}</div>` : ''; };
 function supplySummary(L, p, e){
   if (!on('supply_summary') || !hasProfile()) return '';
@@ -3064,7 +3071,9 @@ function checklistV2(L, p, e){
   const gv = GN ? ['', genLabel(L) === '일반공급' ? '일반공급 없음' : '일반 물량 없음'] : !hasProfile() ? ['', '판정 전'] : e.ok ? (e.unsure ? ['warn', '확인 필요'] : ['ok', '신청 가능']) : e.rank2 ? ['warn', e.rank2Need ? '확인 필요' : '2순위만 가능'] : ['fail', '신청 불가'];
   if (GN) { tone = 'info'; title = '이 주택형은 ' + (genLabel(L) === '일반공급' ? '일반공급' : '일반') + ' 물량이 없어요';
     sub = (L.specialUnits && L.specialUnits.total ? '모두 특별공급이에요. 신청 자격은 특별공급 칸에서 보세요. ' : L.specialUnits && L.specialUnits.total != null ? '이번 공고에서 이 주택형은 공급하는 세대가 없어요. ' : '특별공급 세대수와 자격은 모집공고문에서 확인하세요. ')
-      + '아래 조건(거주지·무주택 등)은 특별공급에도 공통으로 쓰여요.'; }
+      + '아래 조건(거주지·무주택 등)은 특별공급에도 공통으로 쓰여요.';
+    const cf = on('verdict_one') && hasProfile() ? spCommonFail(L, p) : [];   // 공통 조건이 불가면 첫 안내부터 '신청할 수 없어요' (기능 verdict_one — 카드·상세 맨 위와 같은 결론)
+    if (cf.length) { tone = 'fail'; title = '일반 물량이 없고, 특별공급도 신청할 수 없어요'; sub = cf.map(i => i.k + ' ' + i.v).join(', ') + ' — 이 조건은 특별공급에도 똑같이 적용돼요.'; } }
   const gref = !GN && SS && on('special_position') ? (on('special_plain') ? generalRowPlain(L, p) : generalRowV2(L, p)).replace(/<span class="sp-top"><b>[^<]*<\/b><span class="small muted">[^<]*<\/span>/, '<span class="sp-top"><b>참고 · 뽑는 방식과 내 위치</b>').replace(/<span class="pill[^"]*">[^<]*<\/span>/, '').replace('<details class="sprow base">', '<details class="sprow base gsref">') : '';
   return `<section class="card ckcard">${SS ? `<div class="row"><span class="gu-top"><h2>${esc(genLabel(L))}</h2>${genUnitsTop(L)}</span><span class="pill ${gv[0]} gvpill">${gv[1]}</span></div>${genUnitsHtml(L)}` : '<h2>자격 체크리스트</h2>'}
     ${on('detail_tidy') || SS ? '' : supplySummary(L, p, e)}
@@ -3206,7 +3215,8 @@ function vDetail(){
   ${on('detail_tidy') && on('detail_cta') && !L.sample ? '' : on('tap_targets') ? `<div class="actbar">${L.noticePdf ? `<a class="btn ghost sm" href="${esc(L.noticePdf)}" target="_blank" rel="noopener">모집공고문 PDF</a>` : ''}<a class="btn ghost sm" href="${esc(L.sources && L.sources[0] ? L.sources[0][1] : SRC.applyhome[1])}" target="_blank" rel="noopener">청약홈 공고</a>${L.sample || !on('naver_map') ? '' : `<a class="btn ghost sm" href="${esc(naverMapUrl(L))}" target="_blank" rel="noopener" data-ev="naver-map">네이버 지도</a>`}</div>`   /* 기능: tap_targets — 자주 누르는 공고 링크는 버튼으로 */
   : `<div class="srcs">${L.sources && L.sources[0] ? src(null, ['청약홈 공고', L.sources[0][1]]) : src('applyhome')}${L.noticePdf ? src(null, ['모집공고문 PDF', L.noticePdf]) : ''}${L.sample || !on('naver_map') ? '' : `<a class="src" href="${esc(naverMapUrl(L))}" target="_blank" rel="noopener" data-ev="naver-map">네이버 지도${ARROW}</a>`}</div>`}
   ${on('detail_result_first') ? (() => {   /* 기능: detail_result_first — 맨 위에 '내 판정'을 가장 크게, 마진 등급은 그 아래 작게 (2026-10-01, Von Restorff) */
-    const st = !hasProfile() ? ['info', '판정 전'] : !e.ok ? (e.rank2 ? ['warn', e.rank2Need ? '2순위 확인 필요' : '2순위만 가능'] : ['fail', '신청 불가']) : e.unsure ? ['warn', '확인 필요'] : ['ok', '신청 가능'];
+    const gb = on('verdict_one') && hasProfile() && genNone(L) ? genNoneBucket(L, p) : null;   // 일반 물량 없는 주택형은 목록 카드와 같은 판정 (기능: verdict_one)
+    const st = !hasProfile() ? ['info', '판정 전'] : gb ? (gb === 'ok' ? ['ok', '특별공급 신청 가능'] : gb === 'no' ? ['fail', '신청 불가'] : ['warn', '특별공급 확인 필요']) : !e.ok ? (e.rank2 ? ['warn', e.rank2Need ? '2순위 확인 필요' : '2순위만 가능'] : ['fail', '신청 불가']) : e.unsure ? ['warn', '확인 필요'] : ['ok', '신청 가능'];
     const wk = hasProfile() && e.ok && e.unsure ? e.items.filter(i => i.s === 'warn').map(i => i.k.replace(/ \(.*\)/, '')) : [];
     return `<section class="rhero t-${st[0]}" aria-label="내 판정"><span class="rlabel">내 판정 · 내가 넣은 정보 기준</span><span class="rbig">${st[1]}</span>${wk.length ? `<span class="rsub">확인할 것: ${esc(wk.join(', '))} · 아래 ${on('supply_split') ? '일반공급 칸' : '자격 체크리스트'}에서 바로 답하면 판정돼요</span>` : ''}${on('detail_tidy') && hasProfile() ? (() => {   /* 기능: detail_tidy — 가운데 타일 3개(자격·마진·자금)를 여기로 합침 */
       const spR = spTypesFor(L).map(t => spJudge(L, p, t).s), spOk = spR.filter(x => x === 'ok').length, spW = spR.filter(x => x === 'warn').length;

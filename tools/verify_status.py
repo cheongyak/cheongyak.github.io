@@ -34,17 +34,18 @@ def build() -> dict:
     def qa(name):
         f = ROOT / "evidence" / "qa" / name
         return json.loads(f.read_text(encoding="utf-8")) if f.exists() else None
-    st, inv, flt = qa("supply-type.json"), qa("invariants.json"), qa("filter-check.json")
+    st, inv, flt, con = qa("supply-type.json"), qa("invariants.json"), qa("filter-check.json"), qa("consistency.json")
     st_bad = len(st["fails"]) if st else None
     inv_bad = sum(v["count"] for s in ("live", "archive") for v in inv[s]["violations"].values()) if inv else None
     flt_bad = (flt["filter_fails"] + len(flt["search_fails"])) if flt else None
-    qa_ok = not gate or (st_bad == 0 and inv_bad == 0 and flt_bad in (0, None))   # 필터 검사는 결과 파일이 있을 때만 (2026-10-02 추가)
+    con_bad = (con["fails"] + len(con.get("pageErrors") or [])) if con else None   # 카드·상세·필터 판정 일치 (2026-10-02 과천 84D)
+    qa_ok = not gate or (st_bad == 0 and inv_bad == 0 and flt_bad in (0, None) and con_bad in (0, None))   # 필터 검사는 결과 파일이 있을 때만 (2026-10-02 추가)
     ok = bool(judge) and not judge["failed"] and not judge.get("pageErrors") and not cc_bad and not gold_bad and (cc_sum is not None or not cc_on) and qa_ok
     kst = timezone(timedelta(hours=9))
     return {"at": datetime.now(kst).strftime("%Y-%m-%d %H:%M"), "ok": ok, "collect_run": run_at,
             "judge": {"total": judge["total"], "passed": judge["passed"], "failed": [f["id"] for f in judge["failed"]]} if judge else None,
             "crosscheck": {"summary": cc_sum, "mismatches": cc_bad[:30]}, "golden": {"mismatches": gold_bad[:30]},
-            "qa": {"gate": gate, "supply_type_fails": st_bad, "invariant_violations": inv_bad, "filter_fails": flt_bad, "supply_type_at": st and st.get("date"), "invariants_at": inv and inv.get("date")}}
+            "qa": {"gate": gate, "supply_type_fails": st_bad, "invariant_violations": inv_bad, "filter_fails": flt_bad, "consistency_fails": con_bad, "supply_type_at": st and st.get("date"), "invariants_at": inv and inv.get("date")}}
 
 
 if __name__ == "__main__":
