@@ -218,9 +218,11 @@ export function findTargets(D, names, { past = true } = {}) {
   const toks = s => String(s).replace(/\(.*?\)|아파트|단지|\d+,\d+단지/g, ' ').split(/[\s·,]+/).filter(w => w.length >= 2);
   return names.map(n => {
     const ws = toks(n);
-    const scored = rows.map(r => ({ r, s: ws.filter(w => norm(r.L.name).includes(norm(w))).length / Math.max(1, ws.length) })).filter(x => x.s >= 0.5);
+    // 낱말이 모두 이름(또는 주소 — '도봉 한신'의 '도봉')에 있어야 같은 단지로 본다. 하나라도 없으면 다른 단지 ('도봉 한신' ≠ '의왕역 한신더휴')
+    const scored = rows.map(r => ({ r, s: ws.filter(w => norm(r.L.name).includes(norm(w)) || norm((r.raw && r.raw.address) || '').includes(norm(w))).length / Math.max(1, ws.length), n: ws.filter(w => norm(r.L.name).includes(norm(w))).length })).filter(x => x.s === 1 && x.n >= 1);
     const best = Math.max(0, ...scored.map(x => x.s));
-    const hit = scored.filter(x => x.s === best).map(x => x.r);
+    let hit = scored.filter(x => x.s === best).map(x => x.r);
+    if (hit.some(r => !r.past)) hit = hit.filter(r => !r.past);   // 지금 공고가 있으면 같은 이름의 지난 공고는 빼고 (지난 공고는 지금 공고가 없을 때만)
     return { query: n, rows: hit, found: hit.length > 0 };
   });
 }

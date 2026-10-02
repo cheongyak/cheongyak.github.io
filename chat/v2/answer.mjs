@@ -75,7 +75,7 @@ export function compose(C, r, { profile = false, updated = '', mode = 'search', 
   const U = understood(C), out = [];
   out.push(opening(C, r, mode));
   out.push('[이렇게 이해했어요]\n' + [U.required.length && '· 꼭: ' + U.required.join(', '), U.preferred.length && '· 되면 좋음: ' + U.preferred.join(', '), U.explore.length && '· 넓혀 보기: ' + U.explore.join(', '),
-    U.assume.length && '· 이번 질문만의 가정: ' + U.assume.join(', ') + ' (저장된 내 조건은 바꾸지 않아요)', U.past && '· 지난 공고까지 포함'].filter(Boolean).join('\n') || '· 조건 없이 지금 접수 중·예정인 공고 전체');
+    U.assume.length && '· 이번 질문만의 가정: ' + U.assume.join(', ') + ' (저장된 내 조건은 바꾸지 않아요)', U.past && '· 지난 공고까지 포함', mode === 'compare' && '· 비교할 단지: ' + (C.targets || []).join(', ') + (/(큰 평수|가장 큰|대형|넓은)/.test(C.q || '') ? ' (가장 큰 주택형 기준)' : ''), U.unsupported.length && mode === 'compare' && '· 데이터가 없어 답하지 않는 것: ' + U.unsupported.join(', ')].filter(Boolean).join('\n') || '· 조건 없이 지금 접수 중·예정인 공고 전체');
   if (mode === 'compare' && compare) out.push(...compareBlocks(compare, { profile }));
   else if (r.ok.length) {
     out.push(conclusion(r, C, U));
@@ -85,6 +85,10 @@ export function compose(C, r, { profile = false, updated = '', mode = 'search', 
   } else {
     out.push(noResult(C, r, U));
   }
+  if (mode === 'compare') { const miss = missing(C, r); if (miss.length) out.push('[확인하지 못한 것]\n' + miss.map(m => '· ' + m).join('\n'));
+    out.push('[다음에 해볼 것]\n' + ['[두 곳 중 내 자격으로 특별공급까지 되는 곳만 보기]', '[이 지역 지난 공고 경쟁률 보기]', '[이 조건으로 새 공고 알림 받기]'].map(x => '· ' + x).join('\n'));
+    out.push('판정은 청약패스 화면과 같은 엔진으로, ' + (updated || '오늘') + ' 데이터 기준이에요. 시세·거리는 추정이고, 신청 전에 모집공고문을 꼭 확인하세요.');
+    return out.filter(Boolean).join('\n\n'); }
   if (r.unsure && r.unsure.length) {
     const g = groupBy(r.unsure);
     out.push('[확인이 필요한 후보 ' + g.length + '곳]\n' + g.slice(0, 4).map(x => '· ' + x[0].f.name + ' ' + x[0].f.unit + ' — ' + [...new Set(x[0].unknown)].join(', ') + (x[0].elig ? ' · ' + genWord(x[0]) + ' ' + ELIG_WORD[x[0].elig] : '') + '\n  ' + x[0].f.link).join('\n'));

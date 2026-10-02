@@ -195,7 +195,12 @@ export function extract(question) {
   }
   C.conds = C.conds.filter(c => !c._drop);
   if (C.intent === 'compare') C.conds = C.conds.filter(c => c.key !== 'region_in');   // 비교할 단지 이름 속 지명은 지역 조건이 아니다
-  if (C.intent === 'compare') C.targets = q.replace(/(비교|해\s?줘|해주세요|부탁|중에\s?(뭐|어디).*$|어디가.*$|\?|!)/g, ' ').split(/\s+(?:vs\.?|VS|대)\s+|\s?(?:랑|이랑|하고|와|과)\s+/).map(s => s.trim()).filter(s => s.length >= 2);
+  if (C.intent === 'compare') {   // 'A vs B vs C 비교해주고 급지…' → 마지막 이름 뒤의 요청 문장은 자른다
+    const marks = [...q.matchAll(/\s+(?:vs\.?|VS|대)\s+|\s?(?:이랑|랑|하고|와|과)\s+/g)], last = marks.length ? marks[marks.length - 1].index + marks[marks.length - 1][0].length : 0;
+    const tail = q.slice(last).search(/\s?(비교|해\s?주|해줘|중에|어디가|어느|,\s|\.\s|\?|!)/);
+    const body = tail >= 0 ? q.slice(0, last + tail) : q;
+    C.targets = body.split(/\s+(?:vs\.?|VS|대)\s+|\s?(?:이랑|랑|하고|와|과)\s+/).map(s => s.trim()).filter(s => s.length >= 2);
+  }
   // 같은 key 가 여러 번이면 마지막(더 구체적인) 것만, 지역은 합침
   const seen = {};
   C.conds = C.conds.filter((c, i) => {
