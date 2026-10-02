@@ -2447,6 +2447,21 @@ function mcScoreHtml(L, p){
 /* 공급 유형별 '내 위치' (기능: special_position). 유형마다 뽑는 방식이 달라 같은 줄에 비교할 수 있게 한 줄로 요약한다.
    공공 신혼부부·신생아 점수표: LH 의정부우정 2026000409 (신혼 가.소득1 나.자녀3 다.거주3 라.납입3 마.혼인기간3 / 신생아 가~라, 최대 10점) */
 const SP_SHARE = { minyoung: { '우선공급':0.5, '일반공급':0.2 }, public: { '우선공급':0.7, '일반공급':0.2, '우선공급 (배점순)':0.9 } };
+/* 단계 물량 비율: 판정 단계에 적힌 비율('90%')을 쓴다 — 공공 노부모부양 우선공급은 90%(2026000409 '우선공급(90%)')인데 이름표(SP_SHARE '우선공급' 70%)로 찾아 약 세대수가 작게 나오던 것 (2026-10-02 수정) */
+/* 그 단계 세대수 — wsPlan 과 같은 배분: 공공은 '주택형별 공급량의 70%(소수점 이하는 올림)'(2026000409·414), 앞 단계가 먼저 가져가고 마지막 단계는 잔여물량.
+   민영은 공고마다 달라 반올림 '약'. 단계마다 따로 반올림하던 것(공공 3세대 70% → 2세대로 표시, 실제 3세대)을 고침 (2026-10-02) */
+function spStageUnits(L, r){
+  const u = L.specialUnits && L.specialUnits[r.type], R = SP_RULES[r.pub ? 'public' : 'minyoung'][r.type], stages = R && R.stages;
+  if (!u || !r.stage || !stages || !stages.length) return null;
+  const i = stages.findIndex(x => x[0] === (r.stage[0] === '추첨 (1인 가구)' ? '추첨' : r.stage[0])); if (i < 0) return null;
+  let left = u;
+  for (let k = 0; k < stages.length; k++) { const m = /(\d+)%/.exec(stages[k][1]);
+    const v = k === stages.length - 1 || !m ? left : Math.min(left, r.pub ? Math.ceil(u * m[1] / 100) : Math.round(u * m[1] / 100));
+    if (k === i) return Math.max(0, v); left -= v; }
+  return null;
+}
+const spUnitsTxt = (L, r) => { const v = spStageUnits(L, r); return v == null ? '' : v + '세대' + (v === 0 ? '(앞 단계에서 남는 물량만)' : ''); };
+const spShare = r => { if (!r.stage) return null; const t = SP_SHARE[r.pub ? 'public' : 'minyoung'][r.stage[0]]; if (t == null) return null; const m = /^(\d+)%$/.exec(r.stage[1] || ''); return m ? +m[1] / 100 : t; };
 /* 공공 신혼부부·신생아 '해당 주택건설지역 연속 거주기간': 주택이 건설되는 특별시·광역시·특별자치시·특별자치도 또는 시·군
    (2026000409 「주택이 건설되는 특별시·광역시·특별자치시·특별자치도 또는 시·군의 행정구역」, 3년 이상 3 · 1~3년 2 · 1년 미만 1 · 미거주 0) */
 const METRO_SIDO = ['서울', '부산', '대구', '인천', '광주', '대전', '울산', '세종', '제주'];
@@ -2480,8 +2495,8 @@ function pubPoints(L, p, type){
            text: parts.filter(x => x[1] != null).map(x => x[0] + ' ' + x[1]).join(' · ') };
 }
 function spPosition(L, p, r){
-  const u = L.specialUnits && L.specialUnits[r.type], share = r.stage && SP_SHARE[r.pub ? 'public' : 'minyoung'][r.stage[0]];
-  const units = u && share ? ' · 이 주택형 ' + u + '세대 중 약 ' + Math.max(1, Math.round(u * share)) + '세대' : '';
+  const u = L.specialUnits && L.specialUnits[r.type], share = spShare(r);
+  const units = u && share ? ' · 이 주택형 ' + u + '세대 중 약 ' + spUnitsTxt(L, r) : '';
   if (r.s === 'fail') return '';
   if (r.type === 'multichild') { const m = on('multichild_score') ? mcScore(L, p) : null;
     return m && m.total != null ? '배점 <b>' + m.total + '점</b> / 100 · 점수 높은 순' : '배점 순 (100점) · 입력하면 계산'; }
@@ -2519,14 +2534,14 @@ function spHeadline(L, p, r){   // 접힌 상태에서 보이는 한 줄: 가능
   const pos = stripTags(spPosition(L, p, r));
   if (r.type === 'multichild' && on('multichild_score') && mcScore(L, p).total == null) return { text:'배점 순 (100점)', kind:'ok', partial:true, note:'배점 정보 미입력' };
   if (r.type === 'multichild' || r.type === 'elder') return { text: pos.replace(/ · 점수 높은 순| · 배우자 통장 점수 빼고/g, ''), kind:'ok' };
-  if (r.pub && (r.type === 'newlywed' || r.type === 'newborn') && r.stage && r.stage[0] !== '추첨') {
+  if (r.pub && (r.type === 'newlywed' || r.type === 'newborn') && r.stage && r.stage[0] !== '추첨' && !(r.type === 'newlywed' && r.stage[0] !== '우선공급')) {   // 공공 신혼부부 2단계는 순위·추첨 (spPosition 과 같게)
     const pp = pubPoints(L, p, r.type);
     return { text: '점수 ' + (pp.hi === pp.sum ? pp.sum : pp.sum + '~' + pp.hi) + ' / ' + pp.max + ' · ' + r.stage[0], kind:'ok', partial: pp.hi !== pp.sum, note: pp.hi !== pp.sum ? '거주기간 미입력' : '' };
   }
   if (r.stage) {
-    const u = L.specialUnits && L.specialUnits[r.type], share = SP_SHARE[r.pub ? 'public' : 'minyoung'][r.stage[0]];
-    const rank = r.type === 'newlywed' && !r.pub ? (p.kidsMinor > 0 || p.pregnant ? ' · 1순위' : ' · 2순위') : '';
-    return { text: r.stage[0] + (u && share ? ' · 약 ' + Math.max(1, Math.round(u * share)) + '세대' : '') + rank + ' · 추첨', kind:'ok' };
+    const u = L.specialUnits && L.specialUnits[r.type], share = spShare(r);
+    const rank = r.type === 'newlywed' && (!r.pub || !/추첨/.test(r.stage[0])) ? (p.kidsMinor > 0 || p.pregnant ? ' · 1순위' : p.kidsMinor == null && p.pregnant == null ? '' : ' · 2순위') : '';
+    return { text: r.stage[0] + (u && share ? ' · 약 ' + spUnitsTxt(L, r) : '') + rank + ' · 추첨', kind:'ok' };
   }
   return { text: r.how || '가능', kind:'ok' };
 }
@@ -2668,6 +2683,7 @@ function spHowPlain(L, p, r){
   if (t === 'multichild') return (r.pub ? '' : '공고 지역에 사는 사람이 먼저이고, 그 안에서 ') + '다자녀 배점표(100점) 점수가 높은 순으로 뽑아요. 점수가 같으면 미성년 자녀 수 → 신청자 나이 → 추첨 순이에요.';
   if (t === 'elder' && !r.pub) return '일반공급과 같은 청약 가점(84점) 높은 순이에요. 공고 지역 거주자가 먼저이고, 점수가 같으면 청약통장 가입기간 → 추첨 순이에요.';
   if (t === 'elder') return (st && /추첨/.test(st) ? '소득이 우선공급 기준보다 높아 추첨 물량(10%) 대상이에요.' : '청약통장에 모은 금액(인정 금액)이 많은 순으로 뽑아요.');
+  if (r.pub && t === 'newlywed' && st && !/추첨/.test(st) && st !== '우선공급') return '같은 소득 구간 안에서 선정순위(혼인 중 자녀·임신·입양이 있으면 1순위)가 먼저이고, 같은 순위 안에서는 추첨이에요. 점수는 상관없어요.';   // 2026000409 신혼부부 2단계 「선정순위에 따라 … 경쟁이 있는 경우 추첨」
   if (r.pub && (t === 'newlywed' || t === 'newborn') && st && !/추첨/.test(st)) return `소득 구간 안에서 점수(최대 ${t === 'newlywed' ? 13 : 10}점)가 높은 순으로 뽑아요. 점수는 소득·자녀 수·청약통장 납입 횟수·거주기간${t === 'newlywed' ? '·혼인기간' : ''}으로 매겨요.`;
   if (st && /추첨/.test(st)) return '추첨으로만 뽑아요. 가점이나 점수는 상관없어요.';
   if (t === 'newlywed' && !r.pub) return '같은 소득 구간 안에서 ① 자녀(임신 포함)가 있는 신혼부부(1순위)가 먼저, ② 공고 지역에 사는 사람이 먼저, ③ 미성년 자녀가 많은 순, ④ 같으면 추첨이에요. 가점은 상관없어요.';
@@ -2677,9 +2693,9 @@ function spHowPlain(L, p, r){
 /* 내 위치: spPosition 과 같은 값 */
 function spMinePlain(L, p, r){
   if (r.s === 'fail') return '';
-  const u = L.specialUnits && L.specialUnits[r.type], share = r.stage && SP_SHARE[r.pub ? 'public' : 'minyoung'][r.stage[0]];
+  const u = L.specialUnits && L.specialUnits[r.type], share = spShare(r);
   const out = [];
-  if (u && share) out.push(`이 주택형 ${SP_NAME[r.type]} 물량 ${u}세대 중 ${STAGE_PLAIN[r.stage[0]] || r.stage[0]}은 약 <b>${Math.max(1, Math.round(u * share))}세대</b>예요.`);
+  if (u && share) out.push(`이 주택형 ${SP_NAME[r.type]} 물량 ${u}세대 중 ${STAGE_PLAIN[r.stage[0]] || r.stage[0]}은 약 <b>${spUnitsTxt(L, r)}</b>예요.`);
   if (r.type === 'newlywed' && !r.pub && r.stage && !/추첨/.test(r.stage[0])) out.push(p.kidsMinor > 0 || p.pregnant ? '자녀(임신 포함)가 있어 <b>1순위</b>예요. 자녀 없는 신혼부부(2순위)보다 먼저 뽑혀요.' : '자녀가 없어 <b>2순위</b>예요. 자녀가 있는 신혼부부(1순위)가 먼저 뽑히고 남으면 기회가 와요.');
   if (r.type === 'multichild') { const m = on('multichild_score') ? mcScore(L, p) : null;
     out.push(m && m.total != null ? `내 배점은 <b>${m.total}점</b> / 100이에요. 높을수록 먼저 뽑혀요.` : '배점표 항목을 넣으면 내 점수를 계산해 드려요.'); }
@@ -2719,6 +2735,7 @@ function spHeadPlain(L, p, r){   // 접힌 상태 한 줄: 결론 + 뽑히는 �
   if (r.type === 'multichild') { const m = on('multichild_score') ? mcScore(L, p) : null; return { t: '배점 순으로 뽑아요' + (m && m.total != null ? ` (내 배점 ${m.total}점 / 100점)` : ' (점수 계산하려면 정보 입력)'), k:'ok' }; }
   if (r.type === 'elder' && !r.pub) { const sc = on('score') ? myScore(L, Object.assign({}, p, { spouseAcctSince:'' })) : null; return { t: '가점 순으로 뽑아요' + (sc && sc.total != null ? ` (내 가점 ${sc.total}점 / 84점)` : ''), k:'ok' }; }
   if (r.type === 'elder') return { t: st && /추첨/.test(st) ? '추첨 물량 대상이에요' : '청약통장에 모은 금액이 많은 순이에요', k:'ok' };
+  if (r.pub && r.type === 'newlywed' && st && !/추첨/.test(st) && st !== '우선공급') return { t: `${STAGE_PLAIN[st] || st}에서 순위 → 추첨` + (p.kidsMinor > 0 || p.pregnant ? ' (자녀가 있어 1순위)' : p.kidsMinor == null && p.pregnant == null ? '' : ' (자녀가 없어 2순위)'), k:'ok' };   // 점수 아님 (spPosition·spMinePlain 과 같게)
   if (r.pub && (r.type === 'newlywed' || r.type === 'newborn') && st && !/추첨/.test(st)) { const pp = pubPoints(L, p, r.type);
     return { t: `${STAGE_PLAIN[st] || st}에서 점수 순 (내 ${pp.hi === pp.sum ? pp.sum : pp.sum + '~' + pp.hi}점 / ${pp.max}점)`, k:'ok' }; }
   if (st && /추첨/.test(st)) return { t: '소득이 구간 기준을 넘어 추첨 물량 대상이에요', k:'ok' };
@@ -4136,8 +4153,8 @@ function cutBar(lows, mine){
    (ws_reco_v2 가 켜져 있으면 아래 wsRecV2 가 대신한다 — 선정 방식·지역 몫·단계별 재도전으로 비교) */
 function wsSpecial(L, p, r){
   const u = (L.specialUnits && L.specialUnits[r.type]) || null, st = r.stage && r.stage[0];
-  const share = st && SP_SHARE[r.pub ? 'public' : 'minyoung'][st];
-  const mine = u ? (share ? Math.max(1, Math.round(u * share)) : u) : null;
+  const share = spShare(r);
+  const mine = u ? (share ? spStageUnits(L, r) : u) : null;
   let score = null, max = null, method = '추첨';
   if (r.type === 'multichild') { const m = on('multichild_score') ? mcScore(L, p) : null; score = m && m.total != null ? m.total : null; max = 100; method = '배점 순'; }
   else if (r.type === 'elder' && !r.pub) { const sc = on('score') ? myScore(L, Object.assign({}, p, { spouseAcctSince:'' })) : null; score = sc && sc.total != null ? sc.total : null; max = 84; method = '가점 순'; }

@@ -30,7 +30,7 @@ def test_private_notice_has_no_deposit_count():
 
 
 def test_lh_pick_notice_from_real_list():
-    html = (ROOT / "evidence" / "pages" / "lh-list-1027.html").read_text(encoding="utf-8")
+    html = (ROOT / "tests" / "qa" / "pages" / "lh-list-1027-20261002.html").read_text(encoding="utf-8")   # 고정본 — evidence/pages 는 Actions 가 매일 새 목록으로 바꿔, 계양 A6 정정공고가 목록에서 밀려나면 실패했다 (2026-10-02)
     rows = lh._ROW.findall(html)
     p = lh.pick_notice("인천계양지구 A6블록 공공분양주택(본청약)", rows)
     assert p and "인천계양 A6블록 공공분양주택" in p[4] and "정정" in p[4]          # 정정공고 우선
