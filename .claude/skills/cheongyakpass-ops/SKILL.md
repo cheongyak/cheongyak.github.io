@@ -86,3 +86,4 @@ description: 청약패스(cheongyakpass.kr, 저장소 cheongyak/cheongyak.github
 - "자동으로 돌아가?" → 수집은 GitHub Actions 가 매일 05:30, 사이트는 GitHub Pages. Claude 세션과 무관하게 돈다. 실패·불일치는 이슈로 메일이 간다.
 - "경쟁률·숫자 출처?" → 청약홈 화면(경쟁률 팝업·특별공급 접수 현황)과 모집공고문. 링크는 숫자가 보이는 화면으로.
 - 오픈카톡 청약봇 질문 답변은 별도 스킬(cheongyak-bot-answer)이 있으면 그것을 따른다.
+- 청약홈 일반공급 세대수(households)가 0 인 주택형이 있다: 신혼희망타운(전 물량이 특공 칸), 특공만 있는 주택형, 사전청약 당첨자 몫으로 이번 공급 0, 재공급(특공만). 일반공급 자격만 보고 '신청 가능'을 내면 틀림 → genNone/no_supply(기능 gen_none). 판정 바꿀 때 regress 의 'bucket changes' 로 목록 판정 변화를 본다.
