@@ -4,6 +4,15 @@
 2026-09-29 12:55 이전 항목은 규칙을 만들기 전 작업을 커밋 기록으로 정리한 것이라 백업 브랜치가 없어요.
 그 시점으로 되돌릴 때는 해당 커밋 번호로 `git revert` 를 써요.
 
+## 2026-10-02 15:55 · MASTER QA: 검색·필터 일치 검사 + 게이트 연결
+- 요청: MASTER QA 23항 — 검색·필터 결과가 실제 데이터와 맞는지
+- 변경: tools/qa/filter_check.cjs — 원자료(listings.json) 필드로 따로 계산한 기대 집합과 화면 matches() 결과를 단일 필터 32개 + 무작위 조합 200개(시드 고정)로 비교, 검색어 '서울'(다른 시·도 섞임)·'무순위'(다른 유형)·'재공급/불법행위'(누락) 확인.
+  collect·verify Actions 의 MASTER QA 단계에 추가, verify_status 게이트(qa_gate)에 포함. supply_type.cjs 는 한 줄 요약만 실행 기록에 남김
+- 파일: tools/qa/filter_check.cjs, tools/qa/supply_type.cjs, tools/verify_status.py, .github/workflows/collect.yml, .github/workflows/verify.yml, evidence/qa/filter-check.json
+- 확인: 필터 232개 조합 다름 0, 검색 이상 없음, 변화 방향 검사(mutation.cjs 프로필 300개 4,261변경) 위반 0, verify_status 통과
+- 기능: qa_gate
+- 백업: backup/20261002-1526-needhead (서비스 코드 변경 없음)
+
 ## 2026-10-02 15:40 · MASTER QA: 사람 원문 대조 30건 (블라인드)
 - 요청: MASTER QA 37항 — 공고 30건 이상을 원문과 직접 비교
 - 방법: 앱 데이터를 보지 않은 검토자 3명(별도 에이전트)이 원문(evidence/qa/notices)만 읽고 값을 적음 → evidence/qa/spotcheck-blind.json. tools/qa/spotcheck_compare.py 로 보관함(청약홈 값)·판정 자료(공고문에서 읽은 값)와 대조 → evidence/qa/spotcheck-result.json

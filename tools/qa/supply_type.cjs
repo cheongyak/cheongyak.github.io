@@ -52,5 +52,7 @@ const srcType = x => x.category === 'remainder' ? (x.supply_type || x.kind) : (/
   console.log(JSON.stringify(tally, null, 1));
   bad.slice(0, 20).forEach(r => console.log('FAIL', r.join(' | ')));
   writeFileSync(join(ROOT, 'evidence/qa/supply-type.json'), JSON.stringify({ date: new Date().toISOString().slice(0, 10), tally, fails: bad }, null, 1) + '\n');
+  const n = res.length;
+  console.log(`[QA 공급유형] 원천 유형 → 화면 글자 ${n}곳 검사 · 위반 ${bad.length}건`);
   process.exit(bad.length ? 1 : 0);
 })();
