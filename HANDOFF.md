@@ -59,7 +59,8 @@ GitHub Secrets (이름만): `DATA_GO_KR_KEY`, `NCP_MAPS_CLIENT_ID`, `NCP_MAPS_CL
    - 검사 도구(수집·verify Actions 에서 매번, 다르면 verify-status ok=false): supply_type·invariants·filter_check·consistency(카드·상세·묶음 판정 일치 7,680)·sp_text(특공 문구 768칸)·market_check(시세 ↔ 국토부 원자료, 공고 8개씩).
      로컬 전용(느림): e2e.cjs(흐름 30 + 퍼징 390), snapshot.cjs(화면 글자 기준 tests/qa/snapshots.json — 일부러 바꾸면 --update), code_mutation.cjs, audit/audit_verdict.cjs(블라인드 36건).
    - 보고서: Claude 문서 '청약패스 MASTER QA — 1차 분석 보고서'(최종 QA 보고서 칸 포함).
-   - 남은 일: ① market_check 첫 실제 결과 확인(run-log '[QA 시세 원자료]') — 다름이 나오면 원자료와 수집 중 어느 쪽이 맞는지 가린다(수집과 검사 사이 새 거래 등록일 수도).
+   - market_check 첫 실제 결과(10-02 17:51 수집): 공고 8개·근거 거래 46건 원자료와 다름 0. 이후 다름이 나오면 원자료와 수집 중 어느 쪽이 맞는지 가린다(수집과 검사 사이 새 거래 등록일 수도).
+   - 남은 일:
      ② 청년 특별공급(공공임대·공공분양)은 판정하지 않음 — 유형 목록에 없음(스스로 판단 필요). 규칙: 19~39세 미혼, 본인 소득 140%, 본인·부모 총자산 각각(2026000307 '청년 특별공급').
      ③ e2e·snapshot 을 CI 에 넣을지(실행 3~4분) 사용자와 상의. ④ 공공임대 공고가 새로 올라오면 pub_limits.sp 를 읽었는지 run-log·화면으로 확인(지금 진행 중인 임대 공고 0건, 지난 공고 16주택형).
 
