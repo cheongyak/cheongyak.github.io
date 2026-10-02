@@ -4,6 +4,15 @@
 2026-09-29 12:55 이전 항목은 규칙을 만들기 전 작업을 커밋 기록으로 정리한 것이라 백업 브랜치가 없어요.
 그 시점으로 되돌릴 때는 해당 커밋 번호로 `git revert` 를 써요.
 
+## 2026-10-02 15:35 · MASTER QA: 출시 게이트에 공급유형 표시·데이터 불변식 연결 (QA-08)
+- 요청: MASTER QA 31·32항 — 매 수집·화면 변경마다 자동 검사, 실패하면 막기
+- 변경: tools/qa/invariants.py (지금 공고·보관함: ID 중복, 공급유형↔구분 상호배타, 무순위인데 국민/민영, 금액·면적·세대수 범위, 특공 합계, 날짜 순서, 시·도, 공공임대 조건, 보관 기간 지난 공고가 목록에 남음 — 신혼희망타운 특공 합계만은 예상된 차이),
+  collect.yml·verify.yml 에 supply_type.cjs + invariants 단계(실패해도 다음 단계 진행, 결과 evidence/qa/*.json 저장), verify_status 가 둘을 읽어 하나라도 위반이면 ok=false → 기존처럼 Actions 실패·이슈. 스위치 qa_gate(끄면 결과만 남김)
+- 파일: tools/qa/invariants.py, tests/test_qa_invariants.py, tools/verify_status.py, .github/workflows/collect.yml, .github/workflows/verify.yml, docs/config.json, FEATURES.md
+- 확인: 일부러 망가뜨린 데이터 13종을 모두 잡는 테스트, 지금 데이터 위반 0, verify_status 통과, pytest
+- 기능: qa_gate
+- 백업: backup/20261002-1451-rental (서비스 화면·판정 변경 없음)
+
 ## 2026-10-02 15:20 · MASTER QA: 판정 사례 경계값 보강 (QA-04·05)
 - 요청: MASTER QA — 코드 변이 검사에서 못 잡던 규칙을 테스트로 지키기
 - 변경: make_judge_cases.py 12) 경계값 16건 (60.00/60.01㎡ 공공 소득·자산, 85.00/85.01㎡ 예치금, 규제지역 통장 24개월 ±1일, 거주 기준일 당일/다음 날, 신혼희망타운 혼인 7년 ±1일·한부모 자녀 만 6세 ±1일, 소득 미입력이면 '확인 필요'),

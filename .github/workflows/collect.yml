@@ -85,6 +85,12 @@ jobs:
           npm i --no-save --no-package-lock playwright@1.56.0 >/dev/null 2>&1
           npx playwright install --with-deps chromium >/dev/null 2>&1
           node tools/judge_check.cjs | tee -a docs/run-log.txt
+      - name: MASTER QA 검사 (공급유형 표시 전수 · 데이터 불변식, 기능 qa_gate)
+        if: always()
+        continue-on-error: true
+        run: |
+          node tools/qa/supply_type.cjs | tail -3 | sed 's/^/[QA 공급유형] /' | tee -a docs/run-log.txt
+          python -m tools.qa.invariants | tee -a docs/run-log.txt
       - name: 검증 요약 저장
         id: verify
         if: always()
@@ -92,7 +98,7 @@ jobs:
           set +e
           python -m tools.verify_status | tee -a docs/run-log.txt
           rc=${PIPESTATUS[0]}
-          git add docs/verify-status.json docs/judge-status.json docs/run-log.txt
+          git add docs/verify-status.json docs/judge-status.json docs/run-log.txt evidence/qa/supply-type.json evidence/qa/invariants.json
           git diff --cached --quiet || (git commit -m "검증 결과 $(date +%Y-%m-%d)" && (git push || (git pull --rebase -X theirs origin main && git push)))
           exit $rc
       - name: 경고가 있으면 운영자 알림 (이슈)
