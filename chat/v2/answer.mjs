@@ -83,7 +83,7 @@ function conclusion(r, C, U) {
   if (top.best.elig) why.push(genWord(top.best) + ' ' + ELIG_WORD[top.best.elig]);
   if (top.best.f.margin.g !== 'unknown' && !top.best.f.rental) why.push('시세 차익 ' + top.best.f.margin.name + '(추정)');
   if (top.best.f.status && !top.best.f.past) why.push(top.best.f.status);
-  return `결론부터 말씀드리면, 조건에 맞는 곳은 ${nG}곳(주택형 ${r.ok.length}개)이고 가장 먼저 볼 곳은 ${top.name} ${top.best.f.unit}이에요${why.length ? ' — ' + why.join(' · ') : ''}.`;
+  return `결론부터 말씀드리면, 조건에 맞는 곳은 ${nG}곳(주택형 ${r.ok.length}개)${nG > (r.limit || 3) ? '이고, 그중 먼저 볼 ' + (r.limit || 3) + '곳을 골랐어요. 1순위는' : '이고 가장 먼저 볼 곳은'} ${top.name} ${top.best.f.unit}이에요${why.length ? ' — ' + why.join(' · ') : ''}.`;
 }
 
 export function compose(C, r0, { profile = false, updated = '', mode = 'search', compare = null } = {}) {
@@ -105,12 +105,12 @@ export function compose(C, r0, { profile = false, updated = '', mode = 'search',
       out.push(`결론부터 말씀드리면, 확실히 맞는 곳은 아직 없지만 ${why.join(', ')}만 확인하면 되는 곳이 ${g.length}곳(주택형 ${r.unsure.length}개) 있어요. 청약패스에 그 데이터가 아직 없어서 모집공고문 평면도·공급표로 확인해 주세요.`);
       out.push('[확인하면 되는 후보]\n\n' + g.slice(0, r.limit || 5).map(x => card(x[0], { profile, C })).join('\n\n'));
       r = { ...r, unsure: [] };
-    } else out.push(noResult(C, r, U));
+    } else { const nr = noResult(C, r, U).split('\n'); out.push(nr[0]); out.push(nr.slice(1).join('\n')); }
   }
   if (mode === 'compare') { const miss = missing(C, r); if (miss.length) out.push('[확인하지 못한 것]\n' + miss.map(m => '· ' + m).join('\n'));
-    out.push('[다음에 해볼 것]\n' + ['가격·시세 차익·당첨 가능성 중 무엇을 가장 중요하게 보시는지 알려 주시면 한 곳으로 좁혀 드릴게요', '[두 곳 중 내 자격으로 특별공급까지 되는 곳만 보기]', '[이 지역 지난 공고 경쟁률 보기]', '[이 조건으로 새 공고 알림 받기]'].map(x => '· ' + x).join('\n'));
+    out.push('[다음에 해볼 것]\n' + [compare && compare.some(t => t.found) ? '가격·시세 차익·당첨 가능성 중 무엇을 가장 중요하게 보시는지 알려 주시면 한 곳으로 좁혀 드릴게요' : '이 동네 이름으로 청약 공고를 찾아 드릴까요? 예산과 원하는 평수를 같이 알려 주시면 더 좁혀 드릴게요', compare && compare.some(t => t.found) ? '[두 곳 중 내 자격으로 특별공급까지 되는 곳만 보기]' : '[이 동네 지난 청약 공고 보기]', '[이 지역 지난 공고 경쟁률 보기]', '[이 조건으로 새 공고 알림 받기]'].map(x => '· ' + x).join('\n'));
     out.push('판정은 청약패스 화면과 같은 엔진으로, ' + (updated || '오늘') + ' 데이터 기준이에요. 시세·거리는 추정이고, 신청 전에 모집공고문을 꼭 확인하세요.');
-    return out.filter(Boolean).join('\n\n'); }
+    return reorder(out).filter(Boolean).join('\n\n'); }
   if (r.unsure && r.unsure.length) {
     const g = groupBy(r.unsure);
     out.push('[확인이 필요한 후보 ' + g.length + '곳]\n' + g.slice(0, 4).map(x => '· ' + x[0].f.name + ' ' + x[0].f.unit + ' — ' + [...new Set(x[0].unknown)].join(', ') + (x[0].elig ? ' · ' + genWord(x[0]) + ' ' + ELIG_WORD[x[0].elig] : '') + '\n  ' + x[0].f.link).join('\n'));
@@ -120,7 +120,13 @@ export function compose(C, r0, { profile = false, updated = '', mode = 'search',
   if (miss.length) out.push('[확인하지 못한 것]\n' + miss.map(m => '· ' + m).join('\n'));
   out.push('[다음에 해볼 것]\n' + nextSteps(C, r, profile).map(s => '· ' + s).join('\n'));
   out.push('판정은 청약패스 화면과 같은 엔진으로, ' + (updated ? updated + ' 수집 데이터' : '오늘 데이터') + ' 기준이에요. 시세·거리는 추정이고, 신청 전에 모집공고문을 꼭 확인하세요.');
-  return out.filter(Boolean).join('\n\n');
+  return reorder(out).filter(Boolean).join('\n\n');
+}
+// 결론을 '이렇게 이해했어요' 앞으로 (AI 심사 회차 2: '없어요'를 먼저 분명히 말한 뒤 이해한 조건·대안 순서가 낫다)
+function reorder(out) {
+  const u = out.findIndex(x => typeof x === 'string' && x.startsWith('[이렇게 이해했어요]')), c = out.findIndex(x => typeof x === 'string' && /^(결론부터 말씀드리면|.*청약은 없어요\.$)/.test(x));
+  if (u >= 0 && c > u) { const [blk] = out.splice(u, 1); out.splice(c, 0, blk); }
+  return out;
 }
 
 // 질문 받기: 질문자의 상황(아이·맞벌이 출퇴근·예산)을 한 번 되짚고, 무엇을 기준으로 따졌는지 말한다 (사용자 예시 2026-10-02)
@@ -201,10 +207,11 @@ export function buildCompare(D, targets, C, { profile = null } = {}) {
 function compareBlocks(cmp, { profile }) {
   const out = [], blocks = [];
   for (const t of cmp) {
-    if (!t.found) { blocks.push(`'${t.query}' — 청약패스 공고(지금·지난 1년)에서 찾지 못했어요. 청약패스는 새 분양 공고만 다뤄서, 이미 지어진 아파트 매매 비교는 아직 못 해요.`); continue; }
+    if (!t.found) { blocks.push(`'${t.query}' — 청약패스 공고(지금·지난 1년)에서 찾지 못했어요.`); continue; }
     for (const n of t.notices) blocks.push(card(n.pick, { profile }) + (n.all.length > 1 ? '\n(주택형 ' + n.all.length + '개: ' + n.all.sort((a, b) => a.area - b.area).map(a => a.unit + ' ' + fmtEok(a.price)).join(' · ') + ')' : ''));
   }
   const found = cmp.filter(t => t.found).flatMap(t => t.notices.map(n => n.pick));
+  if (!found.length) out.push('결론부터 말씀드리면, 말씀하신 단지들은 청약패스에서 비교해 드릴 수 없어요. 청약패스는 새 분양(청약) 공고만 다루고, 이미 지어진 아파트의 매매·전세 시세는 갖고 있지 않아요. 단지별 실거래가는 국토교통부 실거래가 공개시스템(rt.molit.go.kr)에서 볼 수 있어요. 대신 같은 동네에 새 청약 공고가 나오면 자격·분양가·시세 차익까지 따져 드릴게요.');
   if (found.length >= 2) {
     const bestM = found.slice().sort((a, b) => (b.f.margin.lo ?? -99) - (a.f.margin.lo ?? -99))[0], cheap = found.slice().sort((a, b) => a.f.price.v - b.f.price.v)[0];
     out.push('결론부터 말씀드리면, 시세 차익(추정)은 ' + bestM.f.name + ' ' + bestM.f.unit + '이 가장 크고, 분양가는 ' + cheap.f.name + ' ' + cheap.f.unit + '이 가장 낮아요.' + (found.some(x => x.elig) ? ' 내 자격은 아래 지표의 \'내 자격\' 줄을 보세요.' : ''));
