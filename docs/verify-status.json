@@ -1,10 +1,10 @@
 {
- "at": "2026-10-02 19:12",
+ "at": "2026-10-02 19:38",
  "ok": true,
  "collect_run": "2026-10-02 · 공고 192건",
  "judge": {
-  "total": 349,
-  "passed": 349,
+  "total": 365,
+  "passed": 365,
   "failed": []
  },
  "crosscheck": {
@@ -24,7 +24,8 @@
   "market_fails": 0,
   "cross_rule_fails": 0,
   "profile_keep_fails": 0,
-  "cross_rule_checks": 60890,
+  "monotonic_violations": 0,
+  "cross_rule_checks": 69957,
   "market_at": "2026-10-02",
   "supply_type_at": "2026-10-02",
   "invariants_at": "2026-10-02"
