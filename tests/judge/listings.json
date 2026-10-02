@@ -4850,5 +4850,253 @@
    }
   ],
   "sample": false
+ },
+ {
+  "id": "2026000307-055.0000A",
+  "name": "군포대야미지구 A-1블록 6년 분양전환공공임대주택(본청약)",
+  "address": "경기도 군포시 대야미동, 속달동, 둔대동 일원 군포대야미 공공주택지구내 A1블록",
+  "region": "경기",
+  "sigungu": "군포시",
+  "sido": "경기",
+  "district": "군포시",
+  "supply_type": "APT",
+  "house_secd": "01",
+  "house_dtl": "국민",
+  "rent_secd": "분양전환 가능임대",
+  "special_apply": "2026-07-22",
+  "special_apply_end": "2026-07-23",
+  "kind": "일반분양 (특별공급·1순위)",
+  "category": "general",
+  "target": null,
+  "unit": "55A",
+  "area": 55.0,
+  "households": 1,
+  "complex": {
+   "households": 378,
+   "buildings": 5,
+   "single": "no",
+   "status": "확인",
+   "src": "모집공고문 공급규모",
+   "quote": "․공급대상 및 임대조건 등 1. 공급규모 ■ 군포대야미지구 A-1블록 : 6년 분양전환공공임대주택 12~27층 5개동 전용면적 60㎡이하 378세대 (사전청약 229세대, 일반공급 7세대, 특별공급 141세대) 2."
+  },
+  "mc_quota": {
+   "buckets": [
+    {
+     "first": {
+      "area": {
+       "name": "군포시",
+       "sigungu": "군포시"
+      },
+      "months": 12,
+      "since": null
+     },
+     "name": "경기도",
+     "pct": 50,
+     "regions": [
+      "경기"
+     ],
+     "rest_months": 0
+    },
+    {
+     "name": "기타지역(수도권)",
+     "pct": 50,
+     "regions": [
+      "서울",
+      "인천"
+     ]
+    }
+   ]
+  },
+  "score_ratio": null,
+  "pub_limits": {
+   "kind": "total",
+   "eligible": {
+    "base": [
+     100,
+     200
+    ],
+    "one": 120,
+    "two": [
+     110,
+     200
+    ]
+   },
+   "total_asset": 36200,
+   "area_max": null,
+   "priority": {
+    "base": [
+     100,
+     140
+    ],
+    "one": 120,
+    "two": [
+     110,
+     150
+    ]
+   },
+   "total_asset_relax": [
+    39700,
+    43100
+   ],
+   "amounts": {
+    "elig": {
+     "1": [
+      4576036,
+      null
+     ],
+     "2": [
+      6452897,
+      11732540
+     ],
+     "3": [
+      8168429,
+      16336858
+     ],
+     "4": [
+      8802202,
+      17604404
+     ],
+     "5": [
+      9326985,
+      18653970
+     ],
+     "6": [
+      9906263,
+      19812526
+     ],
+     "7": [
+      10485541,
+      20971082
+     ],
+     "8": [
+      11064819,
+      22129638
+     ]
+    },
+    "pri": {
+     "1": [
+      4576036,
+      null
+     ],
+     "2": [
+      6452897,
+      8799405
+     ],
+     "3": [
+      8168429,
+      11435801
+     ],
+     "4": [
+      8802202,
+      12323083
+     ],
+     "5": [
+      9326985,
+      13057779
+     ],
+     "6": [
+      9906263,
+      13868768
+     ],
+     "7": [
+      10485541,
+      14679757
+     ],
+     "8": [
+      11064819,
+      15490747
+     ]
+    }
+   }
+  },
+  "schedule": {
+   "general": [
+    "2026-07-24",
+    "2026-07-24"
+   ],
+   "pre": [
+    "2026-07-13",
+    "2026-07-14"
+   ],
+   "special": [
+    "2026-07-22",
+    "2026-07-23"
+   ]
+  },
+  "residence": {
+   "area": {
+    "name": "군포시",
+    "sigungu": "군포시"
+   },
+   "months": 12,
+   "others": [
+    "서울",
+    "인천",
+    "경기"
+   ],
+   "quota": {
+    "기타": 0,
+    "해당": 100
+   },
+   "since": "2025-06-30"
+  },
+  "special_units": {
+   "newborn": 7,
+   "newlywed": 2,
+   "first": 2,
+   "multichild": 2,
+   "elder": 1,
+   "agency": 3,
+   "relocated": 0,
+   "youth": 4,
+   "etc": 0,
+   "total": 21
+  },
+  "notice": "2026-06-30",
+  "apply": "2026-07-13",
+  "apply_end": "2026-07-24",
+  "winner": "2026-08-07",
+  "contract": "2026-11-12",
+  "balance": null,
+  "move_in": "2029-12",
+  "price": 0.8561,
+  "ext": 0.0,
+  "contract_rate": 0.1,
+  "mid_rate": 0.6,
+  "capital": true,
+  "regulated": false,
+  "land_permit": false,
+  "price_cap": true,
+  "residence_duty": null,
+  "jeonse_weak": false,
+  "unregistered": true,
+  "need_head": false,
+  "need_account": true,
+  "limits": [
+   [
+    "재당첨 제한",
+    "5년"
+   ],
+   [
+    "실거주 의무",
+    "공고문 확인"
+   ]
+  ],
+  "url": "https://www.applyhome.co.kr/ai/aia/selectAPTLttotPblancDetail.do?houseManageNo=2026000307&pblancNo=2026000307",
+  "notice_pdf": "https://static.applyhome.co.kr/ai/aia/getAtchmnfl.do?houseManageNo=2026000307&pblancNo=2026000307&atchmnflSeqNo=1876017&atchmnflSn=3",
+  "from_notice": [
+   "1순위 가입기간",
+   "납입 인정 횟수",
+   "다자녀 지역 배정",
+   "분양가상한제",
+   "거주 지역 요건",
+   "재당첨 제한",
+   "접수 일정"
+  ],
+  "account_months": 12,
+  "deposit_count": 12,
+  "map_query": null,
+  "rental": true,
+  "_basis": "2026000307 군포대야미 A-1 6년 분양전환공공임대 (공고일 2026-06-30) — 지난 공고 판정 자료 + 공고문에서 읽은 pub_limits(kind total)·rental"
  }
 ]

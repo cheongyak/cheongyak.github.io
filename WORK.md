@@ -4,6 +4,19 @@
 2026-09-29 12:55 이전 항목은 규칙을 만들기 전 작업을 커밋 기록으로 정리한 것이라 백업 브랜치가 없어요.
 그 시점으로 되돌릴 때는 해당 커밋 번호로 `git revert` 를 써요.
 
+## 2026-10-02 14:52 · v1.40.0 공공임대 규칙 (MASTER QA QA-02·03)
+- 요청: MASTER QA 결정 1 — 임대 공고는 '임대 규칙 따로 만들기'
+- 원인(분석): 청약홈 RENT_SECD_NM(분양/임대)을 저장만 하고 안 써서 2025000645 공공건설임대 임차인모집이 '일반분양'으로, 2026000307 6년 분양전환공공임대가 공공분양 규칙으로 판정됨. 청약홈 공급금액은 임대보증금(원문 임대조건 표 55A 85,614,000원).
+  원문 대조 중 추가 발견: 이 임대 공고의 소득표는 1인 4,576,036(120%)·2인 6,452,897(110%)·3인 8,168,429(100%)로, 공공분양 '3인 이하 7,533,763'과 기준액이 다름 → 금액을 공고문 표 그대로 씀
+- 변경: 수집 is_rental(RENT_SECD_NM, 없으면 이름; 토지임대부·분양전환 후 잔여세대는 분양) → rental, 시세 조회 건너뜀, 종류 '공공임대'. notice_pdf._parse_rental_limits(kind total: 자격·우선공급 %·<표4> 금액·총자산·출산 완화), PARSER_VERSION 12.
+  화면: '공공임대' 배지·'임대보증금'·임대 조건 카드(마진·자금 플랜 대신), totalGeneralItems(가구원수별 금액·총자산), 특별공급은 확인 필요, 지난 공고 카드. validate: 임대인데 기준 못 읽으면 [검증]. 지난 공고 보관함에 rent_secd 칸(잠긴 공고는 개요 값으로 칸만 채움)
+  원문 대조용 지난 공고문은 evidence/qa/notices/ 로 옮김(evidence/notices 전체를 도는 테스트가 지금 공고 기준이라 섞이면 깨짐)
+- 파일: app/notice_pdf.py, app/pipeline.py, app/models.py, app/validate.py, docs/index.html, docs/config.json, tools/history/build.py, tools/qa/fetch_notices.py, tools/make_judge_cases.py, tests/judge/{cases,listings}.json, tests/golden/notices.json(2026000307), tests/test_rental.py, tests/test_residence.py, evidence/qa/notices/*, tools/engine_lock.json, docs/changelog.json, VERSIONS.md, FEATURES.md
+- 확인: 정답 데이터 2026000307(원문 직접 읽음) 일치, 다른 공고문 60건 파싱 결과 변화 없음, 판정 사례 282/282(공공임대 21건 추가 — 1·2·3·4인 외벌이/맞벌이 경계 ±1만원, 총자산 ±1만원, 특별공급 확인 필요), pytest, regress 0, 공급유형 표시 검사 0, 390px 라이트·다크(카드·상세·자금 플랜)
+- 기능: rental_rules
+- 버전: v1.40.0
+- 백업: backup/20261002-1451-rental
+
 ## 2026-10-02 14:55 · MASTER QA 1차 분석 (STEP 1~5) + 코드 변이 검사 도구
 - 요청: 출시 전 MASTER QA 요구서 — 분석부터, 코드는 고치지 않고 (치명 오류만 먼저)
 - 결과: 보고서 Claude 문서 '청약패스 MASTER QA — 1차 분석 보고서 (STEP 1~5)'. 치명 1건(QA-01 재공급 배지)은 v1.39.2 로 고침.

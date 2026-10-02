@@ -24,6 +24,7 @@
 
 | 버전 | 날짜 | 바뀐 것 | 기능 스위치 | 되돌리기 브랜치 |
 |---|---|---|---|---|
+| v1.40.0 | 2026-10-02 | 공공임대 공고 구분·임대보증금 표시·일반공급 소득·총자산 판정 | rental_rules | backup/20261002-1451-rental |
 | v1.39.2 | 2026-10-02 | 불법행위 재공급 카드 배지 '무순위' → '재공급' | general_units | backup/20261002-1421-badge |
 | v1.39.1 | 2026-10-02 | 지난 공고를 마감 공고·최근 1년치로 (매주 오래된 것 삭제) | historical_search, historical_judge | backup/20261002-1404-pastwindow |
 | v1.39.0 | 2026-10-02 | 2026년 지난 공고 찾기 + '그때 넣었다면' 판정 켬 | historical_search, historical_judge | backup/20261002-1353-pastlaunch |

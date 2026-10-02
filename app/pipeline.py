@@ -9,6 +9,7 @@ from __future__ import annotations
 
 import argparse
 import json
+import re
 import sys
 from datetime import date, timedelta
 from pathlib import Path
@@ -45,6 +46,19 @@ def kind_label(raw: dict) -> str:
     if raw["category"] == "general":
         return "일반분양 (특별공급·1순위)" if k in ("", "APT", "민영", "국민") else f"일반분양 · {k}"
     return k or "무순위·잔여세대"
+
+
+RENTAL_NAME = re.compile(r"공공임대|건설임대|임대주택|임차인\s*모집")
+
+
+def is_rental(raw: dict) -> bool:
+    """공공임대 공고인지 (기능: rental_rules, 2026-10-02 MASTER QA QA-02). 청약홈 RENT_SECD_NM('분양주택' / '분양전환 가능임대' 등)이 있으면 그것으로,
+    없으면(무순위 등) 공고 이름으로. 토지임대부·'우선분양전환 후 잔여세대'는 분양이라 임대가 아니다 (2026000041·274 원문)."""
+    rs = raw.get("rent_secd") or ""
+    if rs:
+        return "임대" in rs
+    name = raw.get("name") or ""
+    return bool(RENTAL_NAME.search(name)) and "토지임대부" not in name
 
 
 def target_of(name: str) -> Optional[str]:
@@ -105,7 +119,10 @@ def build_listing(raw: dict, rtms: Optional[RtmsClient], today: date, lawd_cache
 
     mk = {"mkt_low": None, "mkt_base": None, "mkt_note": "시군구 코드를 아직 확인하지 못해 시세를 조회하지 못했어요 (지도 좌표로 확인되면 다음 수집부터 조회)."}
     js = {"jeonse": None, "jeonse_note": "", "jeonse_weak": False}
-    if rtms and lawd:
+    rental = feature_on("rental_rules") and is_rental(raw)
+    if rental:   # 청약홈 공급금액이 분양가가 아니라 임대보증금이라(2026000307 원문 '임대보증금 85,614,000') 시세 차익을 계산하지 않는다
+        mk["mkt_note"] = "임대주택이라 금액은 임대보증금이에요. 분양가와 시세 차이를 계산하지 않아요."
+    if rtms and lawd and not rental:
         months = months_back(today, R.MARKET_MONTHS)
 
         def safe(kind):
@@ -137,9 +154,9 @@ def build_listing(raw: dict, rtms: Optional[RtmsClient], today: date, lawd_cache
         name=raw["name"], address=addr, region=reg, sigungu=sg,
         sido=RG.sido_of(addr) or raw.get("area_code_nm"), district=RG.sigungu_any(RG.main_address(addr)),
         supply_type=raw.get("supply_type"), house_secd=raw.get("house_secd"), house_dtl=raw.get("house_dtl"),
-        rent_secd=raw.get("rent_secd"), special_apply=raw.get("special_apply"),
+        rent_secd=raw.get("rent_secd"), rental=rental, special_apply=raw.get("special_apply"),
         special_apply_end=raw.get("special_apply_end"),
-        kind=kind_label(raw), category=raw["category"], target=target_of(raw["name"]), unit=raw["unit"], area=raw["area"],
+        kind=kind_label(raw).replace("일반분양", "공공임대") if rental else kind_label(raw), category=raw["category"], target=target_of(raw["name"]), unit=raw["unit"], area=raw["area"],
         households=raw.get("households"),
         special_units=raw.get("special_units") if feature_on("special_counts") else None,
         notice=raw["notice"], apply=raw["apply"], apply_end=raw["apply_end"], winner=raw["winner"],
@@ -194,7 +211,7 @@ def _from_previous(prev: dict) -> tuple[dict, Optional[str]]:
 
 
 NOTICE_CACHE = ROOT / "docs" / "notice-cache.json"
-PARSER_VERSION = 11   # 11: 세대주 문장에서 노부모부양 칸 제외·신혼희망타운 자격 소득 상한(eligible) · 10: 민영 1순위 가점제·추첨제 비율(score_ratio) · 9: 공고문 대조용 원문 숫자(facts) · 8: 신혼희망타운 소득·총자산(pub_limits kind=town) · 7: 공공분양 일반공급 소득·자산(pub_limits) · 6: 공급유형별 접수 일정(schedule) · 5: 다자녀 지역 배정(mc_quota) · 4: 거주 지역 요건(residence) 추가 · parse_notice 규칙을 바꾸면 올린다 → 모든 공고문을 다시 읽는다   # 공고문에서 읽은 값 보관 (공고문은 한 번 나오면 바뀌지 않는다)
+PARSER_VERSION = 12   # 12: 총자산형 일반공급 소득·총자산(pub_limits kind=total, 공공임대 2026000307) · 11: 세대주 문장에서 노부모부양 칸 제외·신혼희망타운 자격 소득 상한(eligible) · 10: 민영 1순위 가점제·추첨제 비율(score_ratio) · 9: 공고문 대조용 원문 숫자(facts) · 8: 신혼희망타운 소득·총자산(pub_limits kind=town) · 7: 공공분양 일반공급 소득·자산(pub_limits) · 6: 공급유형별 접수 일정(schedule) · 5: 다자녀 지역 배정(mc_quota) · 4: 거주 지역 요건(residence) 추가 · parse_notice 규칙을 바꾸면 올린다 → 모든 공고문을 다시 읽는다   # 공고문에서 읽은 값 보관 (공고문은 한 번 나오면 바뀌지 않는다)
 
 
 def _load_cache(path: Path) -> dict:

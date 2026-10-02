@@ -687,6 +687,11 @@ function acqTax(base){ // 1주택 취득세 + 지방교육세 (85㎡ 이하 가�
   let r = base <= 6 ? 0.01 : base <= 9 ? (base*2/3 - 3)/100 : 0.03;
   return base * r * 1.1;
 }
+/* 공공임대 공고 (기능: rental_rules, 2026-10-02 MASTER QA QA-02·03). 수집이 청약홈 RENT_SECD_NM('분양전환 가능임대' 등)으로 정한 L.rental.
+   청약홈 공급금액은 분양가가 아니라 임대보증금이라(2026000307 원문) 마진·자금 계산을 하지 않고, 일반공급은 공고문의 총자산형 기준(pubLimits.kind 'total')으로 판정한다 */
+const isRental = L => on('rental_rules') && !!(L && L.rental);
+const priceWord = L => isRental(L) ? '임대보증금' : '분양가';
+const kindOf = L => isRental(L) ? String(L.kind || '').replace('일반분양', '공공임대') : L.kind;
 function grade(L){
   const base = L.price + L.ext, tax = acqTax(base), cost = base + tax;
   if (L.mktLow == null || L.mktBase == null) return { g:'unknown', lo:null, hi:null, rate:null, cost, tax, base };
@@ -1191,11 +1196,39 @@ function townItems(L, p){
   }
   return out;
 }
+/* 총자산형 일반공급 (기능: rental_rules). 공고문 원문 2026000307 '8. 일반공급 신청자격 ③'·'2단계 우선공급(1순위자)'·'<표2>·<표3> 총자산':
+   자격 소득 = 가구원수별 기준의 base[외벌이] %(맞벌이 base[1]), 1인 가구 one %, 2인 가구 two[외벌이]/two[맞벌이] %. 우선공급(priority)을 넘으면 3단계 추첨만.
+   총자산 = 부동산 + 금융 + 기타 + 자동차 − 부채 ≤ total_asset (출산가구 완화 total_asset_relax). 소득 출산가구 완화는 이 공고 일반공급 자격에 없다 */
+function totalIncPct(t, n, dual){ if (!t) return null; if (n === 1) return t.one; if (n === 2) return t.two[dual ? 1 : 0]; return t.base[dual ? 1 : 0]; }
+function totalGeneralItems(L, p, pl){
+  const out = [], K = isRental(L) ? '공공임대 일반공급' : '공공 일반공급';
+  if (pl.area_max && L.area == null) return [{ k:'소득·총자산 (' + K + ')', s:'warn', v:'확인 필요', note:'전용 ' + pl.area_max + '㎡ 이하 주택형만 기준이 있어요. 이 주택형의 전용면적을 확인하세요.' }];
+  if (pl.area_max && L.area > pl.area_max) return [];
+  const hc = hhCount(L, p, 'general'), n = hc ? hc.n : p.hhSize, hasHh = p.hhIncomeYear != null && p.hhIncomeYear !== '';
+  const inc = spIncome(p), known = hasHh || (p.income > 0) || (p.married && p.spouseIncome > 0);
+  if (!n) out.push({ k:'소득 (' + K + ')', s:'warn', v:'가구원수 입력 필요', cause:'A', note:'세대 월평균소득 기준은 가구원수에 따라 달라요' });
+  else if (!known || incomeNeedsHh(p)) out.push({ k:'소득 (' + K + ')', s:'warn', v:'세대 소득 입력 필요', cause:'A', note:'세대원 전원(같은 등본의 부모님 등 포함)의 작년 세전 소득을 합쳐 넣으면 판정해요 (소득이 없으면 0)' });
+  else {
+    /* 금액은 공고문 <표4> 가구원수별 표 그대로 (pl.amounts) — 이 공고는 1·2·3인 기준액이 공공분양 '3인 이하'와 달라 공통 표(spBase)를 쓰지 않는다. 표가 없거나 9인 이상이면 확인 필요 */
+    const dual = inc.dual && n > 1, cap = totalIncPct(pl.eligible, n, dual), pri = totalIncPct(pl.priority, n, dual), m = inc.monthly;
+    const A = pl.amounts, ea = A && A.elig[String(n)] ? A.elig[String(n)][dual ? 1 : 0] : null, pa = A && A.pri[String(n)] ? A.pri[String(n)][dual ? 1 : 0] : null;
+    const base = '월평균 ' + won(m) + (inc.est ? ' (본인+배우자 소득으로 추정)' : '') + ' · ' + n + '인 가구 상한 ' + (ea ? won(ea) + ' (' + cap + '%' + (dual ? ', 맞벌이' : '') + ')' : cap + '%');
+    if (ea == null) out.push({ k:'소득 (' + K + ')', s:'warn', v:'확인 필요', cause:'E', note: base + ' · 이 가구원수의 금액을 공고문 표에서 읽지 못했어요. 공고문의 소득 기준표를 확인하세요' });
+    else if (m <= ea) out.push({ k:'소득 (' + K + ')', s:'ok', v: pa != null && m > pa ? '충족 · 추첨공급만' : '충족', note: base + (pa != null && m > pa ? ' · 우선공급 상한 ' + won(pa) + '(' + pri + '%)를 넘어 3단계 추첨공급만 해당' : '') });
+    else out.push({ k:'소득 (' + K + ')', s:'fail', v:'기준 초과', note: base });
+  }
+  const relax = p.pregnant === true || (p.youngestBirth && p.youngestBirth >= '2023-03-28') ? 1 : (p.kidsMinor === 0 && p.pregnant === false) || (p.kidsMinor > 0 && p.youngestBirth && p.pregnant === false) ? 0 : null;
+  const a = parentHouseMissing(p) ? { k:'총자산', s:'warn', cause:'A', v:'부동산에 부모님 집 넣기 필요', note: PARENT_HOUSE_NOTE } : townAssetItem(pl, p, relax);
+  out.push(Object.assign({}, a, { k:'총자산 (' + K + ')' }));
+  return out;
+}
 function pubGeneralItems(L, p){
   p = optDefaults(p);   // 기능: optional_inputs
   if (!on('pub_general_limits') || L.houseDtl !== '국민' || L.category !== 'general' || !L.needAccount) return [];
   if (isNewlywedTown(L)) return on('town_rules') ? townItems(L, p) : [{ k:'소득·총자산 (신혼희망타운)', s:'warn', v:'확인 필요', note:'신혼희망타운은 세대 월평균소득과 총자산(부동산·자동차·금융자산에서 부채를 뺀 금액) 기준이 있어요. 이 서비스는 총자산을 판정하지 않아요. 공고문의 기준을 확인하세요.' }];
   const pl = L.pubLimits;
+  if (on('rental_rules') && pl && pl.kind === 'total') return totalGeneralItems(L, p, pl);
+  if (!pl && isRental(L)) return [{ k:'소득·총자산 (공공임대 일반공급)', s:'warn', v:'확인 필요', cause:'E', note:'공공임대 일반공급은 면적과 관계없이 세대 소득·총자산 기준이 있어요. 이 공고문에서 기준을 읽지 못해 판정하지 않았어요. 공고문을 확인하세요.' }];
   if (!pl) return (L.area != null && L.area > 60) ? [] : [{ k:'소득·자산 (공공 일반공급)', s:'warn', v:'확인 필요', note:'전용 60㎡ 이하 공공분양 일반공급은 세대 소득·자산 기준이 있어요. 이 공고문에서 기준을 읽지 못해 판정하지 않았어요. 공고문을 확인하세요.' }];
   if (pl.area_max && L.area == null) return [{ k:'소득·자산 (공공 일반공급)', s:'warn', v:'확인 필요', note:'전용 ' + pl.area_max + '㎡ 이하 주택형만 소득·자산 기준이 있어요. 이 주택형의 전용면적을 확인하세요.' }];
   if (pl.area_max && L.area > pl.area_max) return [];
@@ -1457,6 +1490,7 @@ function meLine(L){
       : '<span class="' + (b === 'ok' ? 'st-ok' : b === 'no' ? 'st-fail' : 'st-warn') + '">' + (b === 'ok' ? '특별공급 신청 가능' : b === 'no' ? '내 자격 불가' : '특별공급 확인 필요') + '</span><span class="muted">· 일반공급 없음 (모두 특별공급)</span>'; }
   const e = eligibility(L, S.profile);
   if (!e.ok) { const f = e.items.find(i => i.s === 'fail'); return '<span class="' + (e.rank2 ? 'st-warn' : 'st-fail') + '">' + (e.rank2 ? (e.rank2Need ? '1순위 불가 · 2순위 확인 필요' : '2순위만 가능') : '내 자격 불가') + '</span><span class="muted">· ' + esc(f.k) + ' ' + esc(f.v) + '</span>'; }
+  if (isRental(L)) return (e.unsure ? '<span class="st-warn">자격 확인 필요</span>' : '<span class="st-ok">기본 요건 충족</span>') + '<span class="muted">· 임대 자금은 공고문 확인</span>';
   const f = funding(L, S.profile, planOpt(L)), gap = bestGap(f, planOpt(L));
   const el = e.unsure ? '<span class="st-warn">자격 확인 필요</span>' : on('eligibility_caution') ? '<span class="st-ok">기본 요건 충족</span>' : '<span class="st-ok">내 자격 가능</span>';
   return el + (gap > 0 ? '<span class="muted">· 자금 ' + fmt(gap) + ' 부족</span>' : '<span class="muted">· 자금 가능</span>');
@@ -1694,6 +1728,7 @@ function feedList(){
 function cardBadges(L){
   if (!on('card_badges') || L.sample) return '';
   const lim = k => (L.limits || []).find(x => x[0] === k), re = lim('재당첨 제한'), live = lim('실거주 의무'), b = [];
+  if (isRental(L)) b.push(['공공임대', 'warn']);
   if (L.category === 'remainder') b.push([on('general_units') && /재공급/.test(L.supplyType || L.kind || '') ? '재공급' : '무순위', 'hot']);   // 불법행위 재공급을 '무순위'로 보이던 문제(2026-10-02 MASTER QA, tools/qa/supply_type.cjs)
   if (L.specialApply) b.push(['특별공급', '']);
   if (L.regulated) b.push(['규제지역', 'warn']);
@@ -1729,9 +1764,9 @@ function listingCard(L, m){
 }
 function listingInner(L, m){
   return `
-      <div class="row"><div><div class="meta">${on('watchlist') && WATCH.has(L.id) ? '<span class="star" aria-label="관심 공고">★</span> ' : ''}${esc(L.kind)} · ${esc(L.unit)}</div><div class="name">${esc(L.name)}${L.sample ? '<span class="sample">샘플</span>' : ''}</div><div class="meta">${esc(L.loc)}</div></div><span class="dstack"><span class="dday ${ddayCls(L)}">${ddayOf(L)}</span>${on('competition') && compHead(L.competition) ? `<span class="dday d-comp">경쟁 ${esc(rateText(compHead(L.competition)))}</span>` : ''}</span></div>
+      <div class="row"><div><div class="meta">${on('watchlist') && WATCH.has(L.id) ? '<span class="star" aria-label="관심 공고">★</span> ' : ''}${esc(kindOf(L))} · ${esc(L.unit)}</div><div class="name">${esc(L.name)}${L.sample ? '<span class="sample">샘플</span>' : ''}</div><div class="meta">${esc(L.loc)}</div></div><span class="dstack"><span class="dday ${ddayCls(L)}">${ddayOf(L)}</span>${on('competition') && compHead(L.competition) ? `<span class="dday d-comp">경쟁 ${esc(rateText(compHead(L.competition)))}</span>` : ''}</span></div>
       ${cardBadges(L)}
-      <div class="band"><span class="bcol"><span class="badge">${GNAME[m.g]}</span>${on('card_badges') && m.rate != null ? `<span class="brate">${m.rate >= 0 ? '+' : ''}${Math.round(m.rate * 100)}%</span>` : ''}</span><div><div class="mg">${marginText(m)}</div><div class="small">분양가 ${fmt(L.price)} · ${m.g === 'unknown' ? '주변 거래 부족' : '시세 ' + fmt(L.mktLow) + '~' + fmt(L.mktBase)}</div></div></div>
+      <div class="band"><span class="bcol"><span class="badge">${isRental(L) ? '임대' : GNAME[m.g]}</span>${on('card_badges') && m.rate != null ? `<span class="brate">${m.rate >= 0 ? '+' : ''}${Math.round(m.rate * 100)}%</span>` : ''}</span><div><div class="mg">${isRental(L) ? '마진 계산 안 함' : marginText(m)}</div><div class="small">${priceWord(L)} ${fmt(L.price)} · ${isRental(L) ? '공공임대주택' : m.g === 'unknown' ? '주변 거래 부족' : '시세 ' + fmt(L.mktLow) + '~' + fmt(L.mktBase)}</div></div></div>
       <div class="me-line">${meLine(L)}</div>`;
 }
 function feedMapBlock(list){
@@ -1758,7 +1793,7 @@ function loadPast(){
 }
 function pastGroups(){
   const g = {};
-  (PAST ? PAST.items : []).forEach(x => { const k = x.notice_no; (g[k] = g[k] || { no:k, name:x.name.trim(), sido:x.sido, district:x.district, kind:x.kind, cat:x.category, notice:x.notice, end:x.apply_end || x.apply, status:x.status, url:x.url, rows:[] }).rows.push(x); });
+  (PAST ? PAST.items : []).forEach(x => { const k = x.notice_no; (g[k] = g[k] || { no:k, rental: /임대/.test(x.rent_secd || '') || (!x.rent_secd && /공공임대|건설임대|임대주택|임차인\s*모집/.test(x.name) && !/토지임대부/.test(x.name)), name:x.name.trim(), sido:x.sido, district:x.district, kind:x.kind, cat:x.category, notice:x.notice, end:x.apply_end || x.apply, status:x.status, url:x.url, rows:[] }).rows.push(x); });
   const today = kstToday(), cut = pastCutoff();
   return Object.values(g).filter(gr => gr.end && gr.end < today && gr.end >= cut).map(gr => Object.assign(gr, { status:'마감' }));
 }
@@ -1804,8 +1839,8 @@ function vPast(){
     const gen = gr.rows.reduce((n, r) => n + (r.households || 0), 0), sp = gr.rows.reduce((n, r) => n + ((r.special_units && r.special_units.total) || 0), 0);
     const st = gr.status === '마감' ? `과거 공고 · ${ym(gr.end)} 마감` : gr.status;
     return `<div class="card pastcard"><div class="row"><b>${esc(gr.name)}</b><span class="pill ${gr.status === '마감' ? '' : 'ok'}">${esc(st)}</span></div>
-      <div class="small muted">${esc([gr.sido, gr.district].filter(Boolean).join(' '))} · ${esc(gr.cat === 'remainder' ? gr.kind || '무순위' : gr.kind === '신혼희망타운' ? '신혼희망타운' : '일반분양')} · 공고 ${esc((gr.notice || '').replace(/-/g, '.'))}</div>
-      <div class="small">주택형 ${gr.rows.length}개 (${esc(gr.rows.map(r => r.unit.trim()).slice(0, 6).join(' · '))}${gr.rows.length > 6 ? ' …' : ''})${lo != null ? ` · 분양가 ${fmt(lo)}${hi !== lo ? '~' + fmt(hi) : ''}` : ''} · 일반 ${gen}세대${sp ? ' · 특공 ' + sp + '세대' : ''}</div>
+      <div class="small muted">${esc([gr.sido, gr.district].filter(Boolean).join(' '))} · ${esc(gr.cat === 'remainder' ? gr.kind || '무순위' : gr.kind === '신혼희망타운' ? '신혼희망타운' : on('rental_rules') && gr.rental ? '공공임대' : '일반분양')} · 공고 ${esc((gr.notice || '').replace(/-/g, '.'))}</div>
+      <div class="small">주택형 ${gr.rows.length}개 (${esc(gr.rows.map(r => r.unit.trim()).slice(0, 6).join(' · '))}${gr.rows.length > 6 ? ' …' : ''})${lo != null ? ` · ${on('rental_rules') && gr.rental ? '임대보증금' : '분양가'} ${fmt(lo)}${hi !== lo ? '~' + fmt(hi) : ''}` : ''} · 일반 ${gen}세대${sp ? ' · 특공 ' + sp + '세대' : ''}</div>
       ${pastJudgeHtml(gr)}
       ${gr.url ? `<a class="linkbtn small" href="${esc(gr.url)}" target="_blank" rel="noopener">청약홈 공고 ↗</a>` : ''}</div>`; };
   return head + `<section class="card"><div class="search" role="search"><input id="pq" data-pq type="search" enterkeyhint="search" autocomplete="off" placeholder="단지명·지역 (예: 송파)" value="${esc(S.pq || '')}"></div>
@@ -2323,6 +2358,7 @@ function spJudge(L, p, type){
       else { stage = ['추첨 (미혼·무자녀)', '추첨 물량']; if (p.hhSize == null && p.household !== 'parents' && (L.area || 0) > 60) warn.push('가구원수 입력 필요 (혼자 사는 세대주는 전용 60㎡ 이하만)'); }
     }
   }
+  if (isRental(L)) { warn.unshift('공공임대 특별공급은 유형별 소득·총자산 기준이 공고문 표에 따로 있어요. 이 서비스는 아직 판정하지 않아요 — 모집공고문의 특별공급 자격표를 확인하세요'); fail.splice(0).forEach(x => warn.push('(공공분양 기준으로 보면) ' + x)); }
   const s = fail.length ? 'fail' : warn.length ? 'warn' : 'ok';
   const how = type === 'multichild' ? '다자녀 배점표(100점)로 선정' : type === 'elder' && !pub ? '일반공급 가점(84점)으로 선정' : stage ? stage[0] + (stage[1] ? ' (' + stage[1] + ')' : '') + ' 대상' : '';
   return { type, s, v: s === 'fail' ? '불가' : s === 'warn' ? '확인 필요' : '가능', how, fail, warn, ok, stageNote, cite: R.cite, pub, stage, hhN: hh ? hh.n : null, hhWhy: hh ? hh.why : '' };
@@ -3070,6 +3106,12 @@ function typeRank(L, p, inline){
     ${rows.length > shown.length ? `<details class="tr-more"><summary>주택형 ${rows.length}개 모두 보기</summary><div class="tr-list">${rows.filter(r => !shown.includes(r)).map(row).join('')}</div></details>` : ''}
     <div class="small muted">마진은 보수 시세 − 실매입가 · 점 색은 내 판정 · 누르면 그 주택형으로 바뀌어요</div></section>`;
 }
+function rentalCard(L){
+  const ps = L.sources && L.sources[0] ? src(null, ['청약홈 공고 (공급금액)', L.sources[0][1]]) : noticeSrc(L);
+  return `<section class="card" aria-label="임대 조건"><div class="row"><span class="eyebrow">공공임대 · 임대 조건</span></div>
+    <div class="rows"><div class="row"><span>임대보증금 (주택형 최고가)<br>${ps}</span><span>${fmt(L.price)}</span></div></div>
+    <p class="small muted" style="margin:6px 0 0">공공임대주택이라 청약홈 금액은 분양가가 아니라 임대보증금이에요. 월임대료·분양전환 가격과 계약금·잔금 일정은 모집공고문에 있어요. 시세 차익(마진)과 자금 계획은 계산하지 않아요. ${noticeSrc(L)}</p></section>`;
+}
 function priceCompare(L, m){
   const unknown = m.g === 'unknown', sgn = v => (v >= 0 ? '+' : '−') + fmt(Math.abs(v));
   const priceSrc = L.sample ? src('estimate', ['샘플 값', null]) : (L.sources && L.sources[0] ? src(null, ['청약홈 공고 (공급금액)', L.sources[0][1]]) : noticeSrc(L));
@@ -3159,7 +3201,7 @@ function vDetail(){
   <div class="top"><button class="back" data-go="feed">${chev}공고</button>${watchBtn(L)}</div>
   ${dNav()}
   ${betaBanner('detail')}
-  <div class="stack" style="gap:4px"><div class="meta">${esc(L.kind)} · 접수 ${scheduleText(L) ? esc(scheduleText(L)) + ' <span class="muted">(모집공고문)</span>' : L.apply ? L.apply.replace(/-/g,'.') : '샘플'}</div><h1>${esc(L.name)}${L.sample ? '<span class="sample">샘플</span>' : ''}</h1><div class="meta">${esc(L.loc)} · ${esc(L.unit)}</div></div>
+  <div class="stack" style="gap:4px"><div class="meta">${esc(kindOf(L))} · 접수 ${scheduleText(L) ? esc(scheduleText(L)) + ' <span class="muted">(모집공고문)</span>' : L.apply ? L.apply.replace(/-/g,'.') : '샘플'}</div><h1>${esc(L.name)}${L.sample ? '<span class="sample">샘플</span>' : ''}</h1><div class="meta">${esc(L.loc)} · ${esc(L.unit)}</div></div>
   ${(() => { if (!on('type_group')) return ''; const sib = LISTINGS.filter(x => tgNid(x.id) === tgNid(L.id)).map(x => ({ L: x })); return sib.length > 1 ? `<div class="tpick"><span class="small muted">주택형 ${sib.length}개 · 눌러서 바꿔 보기${hasProfile() ? ' · 점 색은 내 판정' : ''}</span>${typeChips(sib, L.id, 'data-topen')}</div>` : ''; })()}
   ${on('detail_tidy') && on('detail_cta') && !L.sample ? '' : on('tap_targets') ? `<div class="actbar">${L.noticePdf ? `<a class="btn ghost sm" href="${esc(L.noticePdf)}" target="_blank" rel="noopener">모집공고문 PDF</a>` : ''}<a class="btn ghost sm" href="${esc(L.sources && L.sources[0] ? L.sources[0][1] : SRC.applyhome[1])}" target="_blank" rel="noopener">청약홈 공고</a>${L.sample || !on('naver_map') ? '' : `<a class="btn ghost sm" href="${esc(naverMapUrl(L))}" target="_blank" rel="noopener" data-ev="naver-map">네이버 지도</a>`}</div>`   /* 기능: tap_targets — 자주 누르는 공고 링크는 버튼으로 */
   : `<div class="srcs">${L.sources && L.sources[0] ? src(null, ['청약홈 공고', L.sources[0][1]]) : src('applyhome')}${L.noticePdf ? src(null, ['모집공고문 PDF', L.noticePdf]) : ''}${L.sample || !on('naver_map') ? '' : `<a class="src" href="${esc(naverMapUrl(L))}" target="_blank" rel="noopener" data-ev="naver-map">네이버 지도${ARROW}</a>`}</div>`}
@@ -3170,9 +3212,9 @@ function vDetail(){
       const spR = spTypesFor(L).map(t => spJudge(L, p, t).s), spOk = spR.filter(x => x === 'ok').length, spW = spR.filter(x => x === 'warn').length;
       const cell = (k, v, cls, attr) => `<button class="rstat" ${attr}><span>${k}</span><b class="${cls}">${v}</b></button>`;
       const sc = on('score') && L.houseDtl !== '국민' && L.needAccount ? myScore(L, p) : null;   /* 마진은 바로 아래 가격 비교 카드에 크게 있으니 여기엔 가점을. 무순위는 가점이 안 쓰여 '뽑는 방식: 추첨' */
-      return `<div class="rstats">${!L.needAccount ? cell('뽑는 방식', '추첨 (가점 없음)', '', 'data-sec="elig"') : ''}${sc ? cell('내 가점', sc.total == null ? '입력 필요' : sc.total + '점', sc.total == null ? 'st-warn' : '', on('score_in_general') && on('supply_split') ? 'data-sec="elig"' : 'data-sec="score"') : ''}${cell('자금 (' + (o.mode === 'live' ? '대출' : '전세') + ')', gap > 0 ? fmt(gap) + ' 부족' : '가능', gap > 0 ? 'st-warn' : 'st-ok', 'data-go="plan"')}${spR.length ? cell('특별공급', spOk ? '가능 ' + spOk : spW ? '확인 ' + spW : '불가', spOk ? 'st-ok' : spW ? 'st-warn' : 'st-fail', on('supply_split') ? 'data-sec="sp"' : 'data-sec="elig"') : ''}</div>`; })() : mine}</section>`; })() : ''}
+      return `<div class="rstats">${!L.needAccount ? cell('뽑는 방식', '추첨 (가점 없음)', '', 'data-sec="elig"') : ''}${sc ? cell('내 가점', sc.total == null ? '입력 필요' : sc.total + '점', sc.total == null ? 'st-warn' : '', on('score_in_general') && on('supply_split') ? 'data-sec="elig"' : 'data-sec="score"') : ''}${isRental(L) ? cell('자금', '공고문 확인', 'st-warn', 'data-sec="elig"') : cell('자금 (' + (o.mode === 'live' ? '대출' : '전세') + ')', gap > 0 ? fmt(gap) + ' 부족' : '가능', gap > 0 ? 'st-warn' : 'st-ok', 'data-go="plan"')}${spR.length ? cell('특별공급', spOk ? '가능 ' + spOk : spW ? '확인 ' + spW : '불가', spOk ? 'st-ok' : spW ? 'st-warn' : 'st-fail', on('supply_split') ? 'data-sec="sp"' : 'data-sec="elig"') : ''}</div>`; })() : mine}</section>`; })() : ''}
   ${chatEntry(L)}
-  ${on('price_compare') ? priceCompare(L, m) : `  <div class="hero g-${m.g}${on('detail_result_first') ? ' hero-sm' : ''}">
+  ${isRental(L) ? rentalCard(L) : on('price_compare') ? priceCompare(L, m) : `  <div class="hero g-${m.g}${on('detail_result_first') ? ' hero-sm' : ''}">
     <div class="row"><span class="small" style="font-weight:600;opacity:.85">${on('detail_result_first') ? '마진 등급' : '청약 판정'}</span><button class="linkbtn small" data-go="grades" style="color:inherit">등급 기준</button></div>
     <div style="display:flex;align-items:baseline;gap:12px;flex-wrap:wrap"><span class="big">${GNAME[m.g]}</span><span class="amt">${marginText(m).replace('마진 ','')}</span></div>
     <p>${m.g === 'unknown' ? '실매입가 ' + fmt(m.cost) + '. ' + esc(L.mktNote) : '실매입가 ' + fmt(m.cost) + ' 대비 시세 ' + fmt(L.mktLow) + '~' + fmt(L.mktBase) + '. 보수적 시세 기준 마진율 ' + Math.round(m.rate*100) + '%예요.'}</p>
@@ -3245,6 +3287,7 @@ function detailCta(L){
 
 function vPlan(){
   const L = LISTINGS.find(x => x.id === S.id), p = S.profile, o = planOpt(L), f = funding(L, p, o), jc = jeonseCheck(L);
+  if (isRental(L)) return `<div class="top"><button class="back" data-go="detail">${chev}공고</button></div><section class="card"><h2>자금 플랜</h2><p class="small">공공임대주택이라 자금 플랜을 계산하지 않아요. 임대보증금·월임대료·계약금 일정은 모집공고문에서 확인하세요. ${noticeSrc(L)}</p></section>`;
   const d = s => s ? s.slice(5).replace('-','.') : '날짜 미정';
   const scen = (key, title, rows, gap, note, blocked) => `
     <section class="card scen ${o.mode === key ? 'mine' : ''}">
@@ -4287,7 +4330,7 @@ function wsCard(L, p){
   }
   const st = statusOf(L);
   return `<section class="card ws-card ${st === '마감' ? 'dim' : ''}">
-    <div class="row" style="align-items:flex-start"><div><div class="meta">${esc(L.kind)} · ${esc(L.unit)}</div><div class="name">${esc(L.name)}</div></div><span class="dday ${ddayCls(L)}">${esc(ddayOf(L))}</span></div>
+    <div class="row" style="align-items:flex-start"><div><div class="meta">${esc(kindOf(L))} · ${esc(L.unit)}</div><div class="name">${esc(L.name)}</div></div><span class="dday ${ddayCls(L)}">${esc(ddayOf(L))}</span></div>
     ${rec ? `<div class="note info ws-rec"><b class="small">어느 쪽이 유리할까</b><div>${rec}</div></div>` : ''}
     <div class="ws-list">${gen}${spRows}</div>
     <div class="row small"><span class="muted">추정 · ${src(null, ['모집공고문 기준 이 서비스 판정', L.noticePdf || null])}</span><button class="linkbtn small" data-open="${esc(L.id)}">공고 보기</button></div>
@@ -4841,7 +4884,7 @@ function fromApi(x){
     sido:x.sido || null, district:x.district || null, supplyType:x.supply_type || x.kind,
     mktComps:x.mkt_comps || [], mktCount:x.mkt_count || 0, mktDirectExcluded:x.mkt_direct_excluded || 0, mktBasis:x.mkt_basis || null, jeonseComps:x.jeonse_comps || [],
     noticePdf:x.notice_pdf || null, category:x.category || null, area:x.area || null, accountMonths:x.account_months || null, depositCount:x.deposit_count || null, competition:x.competition || null, areaComps:Array.isArray(x.area_comps) ? x.area_comps : null, spCompetition:x.sp_competition || null, areaSp:Array.isArray(x.area_sp) ? x.area_sp : null, unitName:x.unit, address:x.address || '', geo:x.geo || null, nearby:Array.isArray(x.nearby) ? x.nearby : null, mapQuery:x.map_query || null, fromNotice:x.from_notice || [], checks:x.checks || [],
-    specialApply:x.special_apply || null, houseDtl:x.house_dtl || null, rentSecd:x.rent_secd || null, applyEnd:x.apply_end || null, unit:x.unit + (x.households ? ' · ' + x.households + '세대' : ''), households:x.households || 0, specialUnits:x.special_units || null, residence:x.residence || null, mcQuota:x.mc_quota || null, schedule:x.schedule || null, pubLimits:x.pub_limits || null, scoreRatio:x.score_ratio || null,
+    specialApply:x.special_apply || null, houseDtl:x.house_dtl || null, rentSecd:x.rent_secd || null, rental:!!x.rental, applyEnd:x.apply_end || null, unit:x.unit + (x.households ? ' · ' + x.households + '세대' : ''), households:x.households || 0, specialUnits:x.special_units || null, residence:x.residence || null, mcQuota:x.mc_quota || null, schedule:x.schedule || null, pubLimits:x.pub_limits || null, scoreRatio:x.score_ratio || null,
     notice:x.notice, apply:x.apply, winner:x.winner, contract:x.contract, balance:x.balance,
     price:x.price, ext:x.ext || 0, contractRate:x.contract_rate || 0.1, midRate:x.mid_rate || 0,
     mktLow:x.mkt_low, mktBase:x.mkt_base, mktNote:x.mkt_note || '', jeonse:x.jeonse, jeonseNote:x.jeonse_note || '',

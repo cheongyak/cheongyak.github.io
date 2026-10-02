@@ -12,6 +12,7 @@
   - 예치금: 2026000453 '전용 85㎡ 이하 300·250·200만원' (특별시·부산 / 그 밖의 광역시 / 그 외)
   - 공공 일반공급 60㎡ 이하: 2026000414 '100% 이하(맞벌이 200%)', 2단계 '100%(맞벌이 140%)', 부동산 215,500천원·자동차 45,420천원
   - 신혼희망타운: 2026820010 130%(맞벌이 140%), 총자산 362,000천원(출산 397,000·431,000천원)
+  - 공공임대 일반공급: 2026000307 <표4> 가구원수별 금액(1인 4,576,036 · 2인 6,452,897/11,732,540 · 3인 8,168,429/16,336,858 …), 총자산 362,000천원(출산 397,000천원)
   - 거주지: 2026000453 '경기도 광명시 2년 이상 계속 거주자 → 기타지역(수도권)', 2026000414 '인천광역시 → 기타지역(수도권)'
 실행: python -m tools.make_judge_cases   (사례를 바꾸면 다시 만들고, tools/judge_check.mjs 로 화면 엔진과 대조)
 """
@@ -552,6 +553,38 @@ def main() -> None:
       basis="2026000414 공급표 59C 총공급 15세대 = 사전청약 당첨자 15 → 이번 공고 공급 0세대 (일반 0·특별 0)")
     g(fn="bucket", listing="2026930036-084.7450D", profile=dict(pub_base, homeSido="경기", homeSigun="과천시", hhIncomeYear=3000, income=3000), expect={"b": "unsure"},
       basis="2026930036 공급규모 '특별공급 2세대(신혼부부 1, 노부모부양 1)' · 청약홈 일반 세대수 0 · 유형별 특공 세대수 자료 없음 → 확인 필요")
+
+    # ---------- 11) 공공임대 일반공급 (군포대야미 A-1 6년 분양전환공공임대 2026000307, 공고일 2026-06-30) — 기능 rental_rules ----------
+    # 원문 <표4> 금액을 이 파일에 따로 옮겨 적는다 (화면·파서 값을 쓰지 않음):
+    #  (표4-1) 1인 일반공급 120% 4,576,036 · (표4-2) 2인 추첨공급 110% 6,452,897 / 맞벌이 200% 11,732,540, 우선공급1순위자 맞벌이 150% 8,799,405
+    #  (표4-3) 3인 이상 추첨공급 100% 8,168,429 · 8,802,202 · … / 맞벌이 200% 16,336,858 · 17,604,404 · …
+    #  <표2> 총자산 362,000천원 · <표3> 출산 1명 397,000천원
+    RL = "2026000307-055.0000A"
+    R_ELIG = {1: (4576036, None), 2: (6452897, 11732540), 3: (8168429, 16336858), 4: (8802202, 17604404)}
+    r_base = dict(pub_base, homeSido="경기", homeSigun="군포시", acctCount=30, realEstate=0, carValue=0, cash=0, liquid=0, deposit=0,
+                  townInsurance=0, townFinOther=0, townOtherAsset=0, townDebt=0)
+    shape = {1: dict(married=False, marriedOn="", dependents=0, kidsMinor=0, kidsOnDeed=0, youngestBirth="", pregnant=False, hhSize=1),
+             2: dict(married=True, dependents=1, kidsMinor=0, kidsOnDeed=0, youngestBirth="", pregnant=False, hhSize=2),
+             3: dict(youngestBirth="2019-01-01"),
+             4: dict(kidsMinor=2, kidsOnDeed=2, hhSize=4, dependents=3, youngestBirth="2019-01-01")}
+    i = 0
+    for n, (single, dual_amt) in R_ELIG.items():
+        for dual, lim in ((False, single), (True, dual_amt)):
+            if lim is None:
+                continue
+            le = lim * 12 // 10000                 # 만원/년 — 월평균이 기준 이하가 되는 가장 큰 값
+            for y, exp in ((le, "ok"), (le + 1, "fail")):
+                p = dict(r_base, **shape[n], hhIncomeYear=y, income=(y // 2 if dual else y), spouseIncome=(y - y // 2 if dual else 0))
+                assert (y * 10000 / 12 <= lim) == (exp == "ok")
+                add(id=f"rental-{i:02d}", fn="pubgen", listing=RL, profile=p, expect={"소득": exp},
+                    basis=f"2026000307 일반공급 신청자격 ③ · <표4> {n}인{' 맞벌이' if dual else ''} 상한 월 {lim:,}원 (공공분양 '3인 이하' 표와 다름)"); i += 1
+    for re_v, cash, kv, exp in [(30000, 6200, "옛자녀", "ok"), (30000, 6201, "옛자녀", "fail"), (30000, 9700, "신생아1", "ok"), (30000, 9701, "신생아1", "warn")]:
+        p = dict(r_base, **kidvars[kv], hhIncomeYear=3000, income=3000, realEstate=re_v, cash=cash)
+        add(id=f"rental-{i:02d}", fn="item", item="총자산 (공공임대 일반공급)", listing=RL, profile=p, expect={"s": exp},
+            basis="2026000307 <표2> 총자산 362,000천원 이하 · <표3> '23.3.28 이후 출생 자녀 1명 397,000천원"); i += 1
+    for t in ("newlywed", "first", "newborn"):
+        add(id=f"rental-{i:02d}", fn="sp", type=t, listing=RL, profile=dict(r_base, hhIncomeYear=3000, income=3000), expect={"s": "warn"},
+            basis="2026000307 특별공급은 유형별 소득표(표4-1~3)·총자산 기준이 공공분양과 달라 이 서비스는 판정하지 않음 → 확인 필요 (가능·불가로 단정하지 않음)"); i += 1
 
     OUT.parent.mkdir(parents=True, exist_ok=True)
     OUT.write_text(json.dumps(cases, ensure_ascii=False, indent=1) + "\n", encoding="utf-8")

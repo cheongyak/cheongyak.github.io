@@ -15,7 +15,10 @@ RES = {k: v for k, v in GOLD.items() if "residence" in v["fields"]}
 
 
 def text(no):
-    return (ROOT / "evidence" / "notices" / f"{no}.txt").read_text(encoding="utf-8")
+    f = ROOT / "evidence" / "notices" / f"{no}.txt"
+    if not f.exists():   # 지난 공고 원문 (tools/qa/fetch_notices.py, 정답 데이터 2026000307 등)
+        f = ROOT / "evidence" / "qa" / "notices" / f"{no}.txt"
+    return f.read_text(encoding="utf-8")
 
 
 def test_golden_residence_from_real_notices():

@@ -250,7 +250,7 @@ def parse_pub_limits(text: str) -> Optional[dict]:
     re_ = re.search(r"부동산\s*\(건물\s*\+\s*토지\)\s*([\d,]+)천원 이하", t)
     car = re.search(r"자동차\s*([\d,]+)천원 이하", t)
     if not (cap and re_ and car):
-        return None
+        return _parse_rental_limits(t)
     out = {"cap": [int(cap.group(1)), int(cap.group(2))],
            "real_estate": int(re_.group(1).replace(",", "")) // 10,   # 천원 → 만원
            "car": int(car.group(1).replace(",", "")) // 10}
@@ -503,6 +503,78 @@ def _parse_town_limits(t: str) -> Optional[dict]:
         out["total_asset_relax"] = amts[1:3]
     return out
 
+
+
+# ---- 총자산형 일반공급 소득·총자산 (공공임대 등, 기능: rental_rules, 2026-10-02 MASTER QA QA-02·03) ----
+# 부동산·자동차 따로가 아니라 '총자산(부동산+금융+기타+자동차−부채)' 기준을 쓰는 공고. 공고 종류(임대 여부)는 청약홈 RENT_SECD_NM 으로 가르고, 여기서는 원문 문장만 읽는다.
+# 원문 2026000307 (군포대야미 A-1 6년 분양전환공공임대, 공고일 2026-06-30):
+#  '8. 일반공급 ■ 신청자격 … ③ 무주택세대구성원 전원의 월평균소득이 … 100%[본인 및 배우자가 모두 소득이 있는 경우 200%, 가구원 수가
+#   1명인 경우에는 120%, 가구원수가 2명인 경우에는 110%(본인 및 배우자가 모두 소득이 있는 경우에는 200%)]이하인 분'  → eligible (자격 상한)
+#  '2단계 우선공급(1순위자) … 100%[… 140%, … 1명인 경우에는 120%, … 2명인 경우에는 110%(… 150%)] 이하인 자'      → priority (넘으면 3단계 추첨만)
+#  '<표2> … 총자산보유기준 세부내역 … 합계액에서 ⑤를 차감한 금액이 362,000천원 이하', '<표3> 출산가구 총자산보유기준 완화 … 397,000천원 … 431,000천원'
+# 공백 없이 맞춘다 (PDF 글에 '본 인'처럼 글자 사이 공백이 끼어 있음)
+_RENT_INC = (r"(\d{2,3})%\[본인및배우자가모두소득이있는경우(\d{2,3})%,가구원수가1명인경우에는(\d{2,3})%,"
+             r"가구원수가2명인경우에는(\d{2,3})%\(본인및배우자가모두소득이있는경우에는(\d{2,3})%\)\]이하")
+
+
+def _inc(m) -> dict:
+    return {"base": [int(m.group(1)), int(m.group(2))], "one": int(m.group(3)), "two": [int(m.group(4)), int(m.group(5))]}
+
+
+def _parse_rental_limits(t: str) -> Optional[dict]:
+    f = re.sub(r"\s+", "", t)
+    gi = f.find("일반공급■신청자격")
+    el = re.search(_RENT_INC, f[gi:gi + 2500]) if gi >= 0 else None
+    pi = f.find("2단계우선공급(1순위자)-")
+    pri = re.search(_RENT_INC, f[pi:pi + 1200]) if pi >= 0 else None
+    rel = re.search(r"출산가구총자산보유기준완화.{0,400}?차감한금액이([\d,]+)천원이하.{0,200}?차감한금액이([\d,]+)천원이하", f)
+    relax = {rel.group(1), rel.group(2)} if rel else set()
+    # 표 순서가 공고마다 달라(2026000307 은 <표3> 완화표가 <표2> 앞) 완화 금액이 아닌 첫 '차감한 금액'을 기본 기준으로 본다
+    base = next((m.group(1) for m in re.finditer(r"차감한금액이([\d,]+)천원이하", f) if m.group(1) not in relax), None)
+    if not (el and base):
+        return None
+    k = lambda g: int(g.replace(",", "")) // 10   # 천원 → 만원
+    out = {"kind": "total", "eligible": _inc(el), "total_asset": k(base),
+           "area_max": 60 if re.search(r"전용면적60㎡이하일반공급|일반공급\(60㎡이하\)|60㎡이하만적용", f) else None}
+    if pri:
+        out["priority"] = _inc(pri)
+    if rel:
+        out["total_asset_relax"] = [k(rel.group(1)), k(rel.group(2))]
+    amt = _rental_income_table(f)
+    if amt:
+        out["amounts"] = amt
+    return out
+
+
+def _nums(s: str) -> list[int]:
+    return [int(x.replace(",", "")) for x in re.findall(r"\d{1,2},\d{3},\d{3}", s)]
+
+
+def _rental_income_table(f: str) -> Optional[dict]:
+    """공고문 <표4> 가구원수별 금액(원)을 그대로 읽는다 — 이 공고는 1인·2인·3인 기준액이 공공분양의 '3인 이하'와 다르다
+    (2026000307: 1인 120% 4,576,036 · 2인 110% 6,452,897 · 3인 100% 8,168,429). {'elig'|'pri': {'1':[외벌이, 맞벌이|None], '2':[…], '3'~'8':[…]}}"""
+    one = re.search(r"\(표4-1\).{0,200}?1인일반공급도시근로자가구원수별가구당월평균소득액의\d+%([\d,]+)", f)
+    i2, i3 = f.find("(표4-2)"), f.find("(표4-3)")
+    if not (one and i2 >= 0 and i3 > i2):
+        return None
+    t2, t3 = f[i2:i3], f[i3:i3 + 4000]
+    def two(label):
+        m = re.search(label + r".{0,60}?의\d+%([\d,]+).{0,80}?의\d+%\(본인및배우자가모두소득이있는경우\)([\d,]+)", t2)
+        return [int(m.group(1).replace(",", "")), int(m.group(2).replace(",", ""))] if m else None
+    def many(label):
+        m = re.search(label + r".{0,60}?의\d+%((?:[\d,]{9,10}){6}).{0,80}?의\d+%\(본인및배우자가모두소득이있는경우\)((?:[\d,]{9,10}){6})", t3)
+        if not m:
+            return None
+        a, b = _nums(m.group(1)), _nums(m.group(2))
+        return (a, b) if len(a) == 6 and len(b) == 6 else None
+    e2, p2 = two(r"추첨공급\(20%\)"), two(r"우선공급1순위자\(30%\)")
+    e3, p3 = many(r"추첨공급\(20%\)"), many(r"우선공급\(1순위자\)\(30%\)")
+    if not (e2 and p2 and e3 and p3):
+        return None
+    o = int(one.group(1).replace(",", ""))
+    elig = {"1": [o, None], "2": e2, **{str(n): [e3[0][n - 3], e3[1][n - 3]] for n in range(3, 9)}}
+    pri = {"1": [o, None], "2": p2, **{str(n): [p3[0][n - 3], p3[1][n - 3]] for n in range(3, 9)}}
+    return {"elig": elig, "pri": pri}
 
 
 # ---- 공고문 대조용 사실 (기능: notice_crosscheck) ----

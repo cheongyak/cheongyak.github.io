@@ -15,7 +15,7 @@ from tools.history import window as W
 ROOT = Path(__file__).resolve().parents[2]
 OUT = ROOT / "docs" / "archive" / "past.json"
 KEEP = ("notice_no", "name", "address", "kind", "category", "unit", "area", "price", "households", "special_units",
-        "total_households", "notice", "apply", "apply_end", "winner", "url", "house_dtl")
+        "total_households", "notice", "apply", "apply_end", "winner", "url", "house_dtl", "rent_secd")
 
 
 def status_of(r: dict, today: str) -> str:
@@ -46,6 +46,10 @@ def main() -> None:
                 continue
             if any(k.startswith(no + "-") and v.get("locked_at") for k, v in old.items()):
                 skipped += 1          # 마감 확정된 공고는 다시 받지 않는다
+                rs = pick(d, "rent_secd")   # 다만 나중에 더한 칸(분양/임대 구분, 2026-10-02)이 없으면 개요 값으로만 채운다 — 이미 있는 값은 바꾸지 않음
+                for k, v in items.items():
+                    if k.startswith(no + "-") and "rent_secd" not in v:
+                        items[k] = {**v, "rent_secd": rs}
                 continue
             ms = ah.models(cat, no)
             calls += 1
