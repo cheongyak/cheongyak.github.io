@@ -1,14 +1,14 @@
 {
- "at": "2026-10-03 01:23",
+ "at": "2026-10-03 06:02",
  "ok": true,
- "collect_run": "2026-10-02 · 공고 192건",
+ "collect_run": "2026-10-03 · 공고 226건",
  "judge": {
   "total": 365,
   "passed": 365,
   "failed": []
  },
  "crosscheck": {
-  "summary": "[검증·공고문] 공고문 50건 대조 · 기준표 245줄 · 분양가 192/192 일치 · 불일치 공고 0건",
+  "summary": "[검증·공고문] 공고문 53건 대조 · 기준표 261줄 · 분양가 209/209 일치 · 불일치 공고 0건",
   "mismatches": []
  },
  "golden": {
@@ -28,9 +28,9 @@
   "snapshot_diffs": 0,
   "e2e_fails": 0,
   "past_chat_fails": 0,
-  "cross_rule_checks": 69957,
+  "cross_rule_checks": 81839,
   "market_at": "2026-10-02",
   "supply_type_at": "2026-10-02",
-  "invariants_at": "2026-10-02"
+  "invariants_at": "2026-10-03"
  }
 }
