@@ -211,7 +211,7 @@ def _from_previous(prev: dict) -> tuple[dict, Optional[str]]:
 
 
 NOTICE_CACHE = ROOT / "docs" / "notice-cache.json"
-PARSER_VERSION = 16   # 16: 단지 주요정보 표의 거주의무기간·분양가상한제(_summary_table) · 15: 공공임대 특별공급 유형별 소득표(pub_limits.sp) · 14: 재공급 주택형별 특별공급 세대수(sp_table) · 13: 거주 기준일 괄호 안 설명 허용(2026000018 제주) · 12: 총자산형 일반공급 소득·총자산(pub_limits kind=total, 공공임대 2026000307) · 11: 세대주 문장에서 노부모부양 칸 제외·신혼희망타운 자격 소득 상한(eligible) · 10: 민영 1순위 가점제·추첨제 비율(score_ratio) · 9: 공고문 대조용 원문 숫자(facts) · 8: 신혼희망타운 소득·총자산(pub_limits kind=town) · 7: 공공분양 일반공급 소득·자산(pub_limits) · 6: 공급유형별 접수 일정(schedule) · 5: 다자녀 지역 배정(mc_quota) · 4: 거주 지역 요건(residence) 추가 · parse_notice 규칙을 바꾸면 올린다 → 모든 공고문을 다시 읽는다   # 공고문에서 읽은 값 보관 (공고문은 한 번 나오면 바뀌지 않는다)
+PARSER_VERSION = 17   # 17: 거주의무기간은 …(날짜)… N년간 적용 · 거주의무 언급 없음(duty_silent) · 16: 단지 주요정보 표의 거주의무기간·분양가상한제(_summary_table) · 15: 공공임대 특별공급 유형별 소득표(pub_limits.sp) · 14: 재공급 주택형별 특별공급 세대수(sp_table) · 13: 거주 기준일 괄호 안 설명 허용(2026000018 제주) · 12: 총자산형 일반공급 소득·총자산(pub_limits kind=total, 공공임대 2026000307) · 11: 세대주 문장에서 노부모부양 칸 제외·신혼희망타운 자격 소득 상한(eligible) · 10: 민영 1순위 가점제·추첨제 비율(score_ratio) · 9: 공고문 대조용 원문 숫자(facts) · 8: 신혼희망타운 소득·총자산(pub_limits kind=town) · 7: 공공분양 일반공급 소득·자산(pub_limits) · 6: 공급유형별 접수 일정(schedule) · 5: 다자녀 지역 배정(mc_quota) · 4: 거주 지역 요건(residence) 추가 · parse_notice 규칙을 바꾸면 올린다 → 모든 공고문을 다시 읽는다   # 공고문에서 읽은 값 보관 (공고문은 한 번 나오면 바뀌지 않는다)
 
 
 def _load_cache(path: Path) -> dict:
@@ -344,6 +344,8 @@ def apply_notice(listings: list[Listing], log: list[str], client=None, previous:
                 L.residence_duty = found["residence_duty"]
             elif L.residence_duty == 0:
                 L.residence_duty = None
+            L.duty_silent = bool(found.get("duty_silent")) and L.residence_duty is None   # 모름의 이유: 공고문에 거주의무가 아예 없음
+            L.duty_from = found.get("duty_from") if (L.residence_duty or 0) > 0 else None
             if "balance" in found:
                 L.balance = found["balance"]
             if "ext" in found and len(Ls) == 1:

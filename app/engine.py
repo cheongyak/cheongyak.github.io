@@ -153,7 +153,7 @@ def jeonse_check(L: Listing) -> dict:
 
     if L.residence_duty is None:
         add("check", ("분양가상한제 단지라 " if L.price_cap else "") + "실거주 의무가 있는지 공고문에서 확인하지 못했어요. 거주의무가 있으면 전세를 한 번만 주거나 "
-                     "못 줄 수 있어요 — 공고문 첫 쪽 '단지 주요정보'의 거주의무기간을 확인하세요.")
+                     "못 줄 수 있어요 — " + ("공고문에 거주의무 기간이 적혀 있지 않아 공급자(사업주체)에 확인하세요." if L.duty_silent else "모집공고문의 거주의무 안내를 확인하세요."))
     elif L.residence_duty > 0:
         add("cond", f"실거주 의무 {L.residence_duty}년이 있어요. 최초 입주가능일부터 {R.DUTY_DEFERRAL_YEARS}년 안에만 "
                     "들어가 살면 돼서 전세는 한 번(2년)만 줄 수 있어요. 그때 돌려줄 보증금을 따로 마련해야 해요.")

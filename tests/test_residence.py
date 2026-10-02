@@ -289,8 +289,8 @@ def test_golden_residence_duty_from_summary_table():
     """실거주 의무 (2026-10-02 사용자 제보 과천 푸르지오 벨라르테): 공고문 첫 쪽 '단지 주요정보' 표의 거주의무기간을 읽는다.
     정답은 원문을 읽고 넣은 값(tests/golden). 표가 있는 공고문은 모두 거주의무기간을 '모름'으로 남기지 않는다."""
     import re
-    gold = {k: v["fields"] for k, v in GOLD.items() if "residence_duty" in v["fields"] and k in ("2026930037", "2026930036", "2026000437", "2026000438", "2026000414", "2026820008", "2026820010")}
-    assert len(gold) == 7
+    gold = {k: v["fields"] for k, v in GOLD.items() if "residence_duty" in v["fields"] and k in ("2026930037", "2026930036", "2026000437", "2026000438", "2026000414", "2026820008", "2026820010", "2026910236")}
+    assert len(gold) == 8
     for no, f in gold.items():
         p = notice_pdf.parse_notice(text(no))
         assert p["residence_duty"] == f["residence_duty"], no
@@ -300,3 +300,12 @@ def test_golden_residence_duty_from_summary_table():
         t = f.read_text(encoding="utf-8")
         if re.search(r"전매제한\s*거주의무기간\s*분양가상한제\s*택지유형", t) and notice_pdf._summary_table(t):
             assert notice_pdf.parse_notice(t)["residence_duty"] is not None, f.stem
+
+
+def test_duty_silent_only_when_notice_never_mentions_duty():
+    """거주의무를 아예 적지 않은 공고문(LH 409·416)은 모름 + 이유(duty_silent). 적혀 있는 공고문에는 붙지 않는다."""
+    for no in ("2026000409", "2026000416"):
+        p = notice_pdf.parse_notice(text(no))
+        assert p.get("residence_duty") is None and p.get("duty_silent") is True, no
+    for no in ("2026000414", "2026000437", "2026910236", "2026930037"):
+        assert not notice_pdf.parse_notice(text(no)).get("duty_silent"), no

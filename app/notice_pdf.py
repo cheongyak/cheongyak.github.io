@@ -142,13 +142,24 @@ def parse_notice(text: str) -> dict:
         m = re.search(r"거주의무(?:거주의무개시일|-)(없음|[1-5]년)「주택법」제57조의2", flat) or re.search(r"거주의무가([1-5]년)적용", flat)
         if m:
             duty = 0 if m.group(1) == "없음" else int(m.group(1)[0])
+    if duty is None:   # '본 아파트의 거주의무기간은 최초 입주가능일(2025.05.30.)로부터 2년간 적용됩니다' (2026910236 철산자이 더 헤리티지 — 날짜가 끼어 위 규칙이 못 읽음, 2026-10-02 사용자 제보)
+        m = re.search(r"거주의무기간(?:은|는)((?:(?!전매|재당첨|거주의무).){0,40}?)([1-5])년(?:간)?(?:적용|동안|거주)", flat)
+        if m:
+            duty = int(m.group(2))
     for m in ([] if duty is not None else re.finditer(r"거주의무기간(?:은|:|：)?(\d)년|(\d)년(?:간)?(?:의)?거주의무", flat)):
         v = int(m.group(1) or m.group(2))
         if 1 <= v <= 5:
             duty = v
             break
+    if duty is None and not re.search(r"거주의무|거주의무기간", flat) and re.search(r"전매제한", flat):
+        out["duty_silent"] = True   # 공고문을 읽었지만 거주의무를 아예 적지 않음 (LH 2026000409·416·820011 제한사항 표에 재당첨·전매제한만). 값은 모름 그대로 — 없음으로 추측하지 않는다
     if duty is not None:
         out["residence_duty"] = duty
+        # 이미 지어진 단지의 재공급·무순위는 '최초 입주가능일'이 지났을 수 있다 — 입주 기한(그날부터 3년)이 가까우면 전세를 2년 못 줄 수 있어 날짜를 둔다
+        # 2026910236 '거주의무기간은 최초 입주가능일(2025.05.30.)로부터 2년간 적용' (2026-10-02)
+        md = re.search(r"최초입주가능일\(?(20\d\d)\.(\d{1,2})\.(\d{1,2})\.?\)?로부터[1-5]년", flat)
+        if duty and md:
+            out["duty_from"] = f"{md.group(1)}-{int(md.group(2)):02d}-{int(md.group(3)):02d}"
     elif re.search(r"거주의무(?:기간)?(?:[:：]|은|는)?없음", flat) or out.get("price_cap") is False:
         out["residence_duty"] = 0
 

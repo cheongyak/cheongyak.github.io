@@ -1414,11 +1414,17 @@ function jeonseCheck(L){
      모르는 값을 '없음'이나 '조건부 가능'으로 보이지 않는다 (2026-10-02 사용자 제보: 과천 푸르지오 벨라르테 칩 '실거주 의무 없음' + 주의 '있을 수 있어요' + '전세 조건부') */
   const RANK = { ok:0, cond:1, check:2, no:3 };
   const add = (lvl, t) => { R.push({ lvl, t }); const k = lvl === 'info' ? 'ok' : lvl; if (RANK[k] > RANK[status]) status = k; };
-  if (L.residenceDuty == null) add('check', (L.priceCap ? '분양가상한제 단지라 ' : '') + '실거주 의무가 있는지 공고문에서 확인하지 못했어요. 거주의무가 있으면 전세를 한 번만 주거나 못 줄 수 있어요 — 공고문 첫 쪽 \'단지 주요정보\'의 거주의무기간을 확인하세요.');
+  if (L.residenceDuty == null) add('check', L.dutySilent   // 왜 모르는지를 나눠 말한다: 공고문에 아예 안 적힘(LH 제한사항 표에 재당첨·전매제한만) / 못 읽음 (2026-10-02 사용자 질문)
+    ? '모집공고문을 읽었지만 거주의무 기간이 적혀 있지 않아요 (제한사항 표에 재당첨·전매제한만 있어요). ' + (L.priceCap ? '분양가상한제 주택이라 ' : '') + '거주의무가 있으면 전세를 한 번만 주거나 못 줄 수 있으니 공급자(사업주체)에 확인하세요.'
+    : (L.priceCap ? '분양가상한제 단지라 ' : '') + '실거주 의무가 있는지 공고문에서 확인하지 못했어요. 거주의무가 있으면 전세를 한 번만 주거나 못 줄 수 있어요 — 모집공고문의 거주의무 안내를 확인하세요.');
   else if (L.residenceDuty === 0 && L.priceCap && L.capital) add('info', '분양가상한제 단지지만 이 공고문의 거주의무기간은 \'없음\'이에요 (예: 최초 공고가 거주의무 시행 전). 그래서 실거주 의무 때문에 전세가 막히지는 않아요.');   // 상한제 칩과 '실거주 의무 없음' 칩이 함께 보일 때 왜인지 (교차 규칙 LEASE-003)
   if (L.jeonse == null) add('cond', '주변 전세 거래가 부족해 보증금을 추정하지 못했어요. 아래에 직접 입력해 주세요.');
   if (L.residenceDuty > 0) {
-    add('cond', '실거주 의무 ' + L.residenceDuty + '년이 있어요. 최초 입주가능일부터 ' + RULES.dutyDeferralYears + '년 안에만 들어가 살면 돼서 전세는 한 번(2년)만 줄 수 있어요. 그때 돌려줄 보증금을 따로 마련해야 해요.');
+    /* 최초 입주가능일이 공고문에 있으면 입주 기한(그날부터 3년)을 계산 — 이미 지어진 단지의 재공급은 기한이 가까워 전세 2년을 못 채울 수 있다 (2026910236 철산자이, 2026-10-02) */
+    const due = L.dutyFrom ? addYears(L.dutyFrom, RULES.dutyDeferralYears) : null, start = L.balance && L.balance > TODAY ? L.balance : TODAY;
+    if (due && due <= start) add('no', '실거주 의무 ' + L.residenceDuty + '년 · 최초 입주가능일(' + L.dutyFrom.replace(/-/g, '.') + ')부터 ' + RULES.dutyDeferralYears + '년인 입주 기한(' + due.replace(/-/g, '.') + ')이 이미 지났거나 잔금 때라 바로 들어가 살아야 해요. 전세를 줄 수 없어요 (공고문 확인).');
+    else if (due && due < addYears(start, 2)) add('cond', '실거주 의무 ' + L.residenceDuty + '년 · 최초 입주가능일(' + L.dutyFrom.replace(/-/g, '.') + ')부터 ' + RULES.dutyDeferralYears + '년 안(' + due.replace(/-/g, '.') + '까지)에 들어가 살아야 해요. 잔금 뒤 전세를 2년 다 줄 수 없어요 — 약 ' + Math.max(0, Math.floor(monthsBetween(start, due))) + '개월만 가능해요. 그때 돌려줄 보증금을 따로 마련해야 해요.');
+    else add('cond', '실거주 의무 ' + L.residenceDuty + '년이 있어요. 최초 입주가능일부터 ' + RULES.dutyDeferralYears + '년 안에만 들어가 살면 돼서 전세는 한 번(2년)만 줄 수 있어요. 그때 돌려줄 보증금을 따로 마련해야 해요.');
   }
   if (L.regulated && L.capital) add('cond', '수도권 규제지역이라 세입자가 소유권이전 조건부 전세대출을 쓰기 어려워요. 보증금을 현금으로 낼 수 있는 세입자만 받을 수 있어서 보증금을 낮게 잡는 게 안전해요.');
   else if (L.unregistered) add('info', '입주 직후엔 등기 전이라 세입자 전세대출 심사가 까다로울 수 있어요. 은행에 미리 확인하세요.');
@@ -4982,7 +4988,7 @@ function fromApi(x){
     notice:x.notice, apply:x.apply, winner:x.winner, contract:x.contract, balance:x.balance,
     price:x.price, ext:x.ext || 0, contractRate:x.contract_rate || 0.1, midRate:x.mid_rate || 0,
     mktLow:x.mkt_low, mktBase:x.mkt_base, mktNote:x.mkt_note || '', jeonse:x.jeonse, jeonseNote:x.jeonse_note || '',
-    capital:x.capital, regulated:x.regulated, landPermit:x.land_permit, priceCap:x.price_cap, residenceDuty:x.residence_duty,
+    capital:x.capital, regulated:x.regulated, landPermit:x.land_permit, priceCap:x.price_cap, residenceDuty:x.residence_duty, dutySilent:!!x.duty_silent, dutyFrom:x.duty_from || null,
     jeonseWeak:x.jeonse_weak, unregistered:x.unregistered, needHead:x.need_head, needAccount:x.need_account,
     limits:(x.limits || []).map(l => [l[0], l[1]]), sources: x.url ? [['모집공고 (청약홈)', x.url]] : [] };
 }

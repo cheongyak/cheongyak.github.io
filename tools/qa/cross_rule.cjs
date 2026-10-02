@@ -49,6 +49,9 @@ const ROOT = join(__dirname, '../..'), DOCS = join(ROOT, 'docs');
       if (L.residenceDuty == null && /실거주 의무 없음/.test(t)) v('LEASE-001', 'HIGH', L, '거주의무 UNKNOWN', "화면 '실거주 의무 없음'", "'실거주 의무 확인 필요'", ['residenceDuty', 'chip'], '자금 플랜 지역 규제 칩');
       // LEASE-002: 거주의무 확인 → 전세 '가능' 단정 금지, 기간 표시
       if (L.residenceDuty > 0 && (jc.status === 'ok' || !new RegExp('실거주 의무 ' + L.residenceDuty + '년').test(t))) v('LEASE-002', 'HIGH', L, '거주의무 ' + L.residenceDuty + '년 CONFIRMED', '전세 ' + jc.status + ' · 칩 ' + (/실거주 의무 \d년/.test(t) ? '있음' : '없음'), '전세 조건부 이상 · 실거주 의무 N년 표시', ['residenceDuty', 'jeonseStatus'], '공고문 거주의무기간');
+      // LEASE-006: 최초 입주가능일 + 3년(입주 기한)이 잔금 + 2년보다 이르면 '전세 2년'을 그대로 안내하면 안 됨 (2026910236 철산자이: 입주가능일 2025.05.30)
+      if (L.residenceDuty > 0 && L.dutyFrom) { checks++; const due = addYears(L.dutyFrom, RULES.dutyDeferralYears), st0 = L.balance && L.balance > TODAY ? L.balance : TODAY;
+        if (due < addYears(st0, 2) && jc.reasons.some(r => /전세는 한 번\(2년\)만/.test(r.t))) v('LEASE-006', 'HIGH', L, '입주 기한 ' + due, "'전세 한 번(2년)' 안내", '남은 기간만큼만 전세 가능 또는 불가', ['dutyFrom', 'balance', 'jeonseReasons'], '공고문 최초 입주가능일 · 주택법 제57조의2'); }
       // LEASE-003: 거주의무 없음 확인 → '있을 수 있어요'·'확인하지 못했어요' 같은 모름 문구가 없어야
       if (L.residenceDuty === 0 && /실거주 의무가 (있을 수|있는지)|실거주 의무 확인 필요/.test(t)) v('LEASE-003', 'HIGH', L, '거주의무 NOT_APPLICABLE', '화면이 거주의무를 모른다고 함', '거주의무 없음으로 일관', ['residenceDuty', 'jeonseReasons'], '공고문 거주의무기간 없음');
       // LEASE-004·005: 전세 불가·확인 필요인데 전세를 기본 계획으로 쓰거나 막지 않음
