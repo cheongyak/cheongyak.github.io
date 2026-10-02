@@ -2168,7 +2168,7 @@ const SP_RULES = {
 };
 const SP_NAME = { newborn:'신생아', newlywed:'신혼부부', first:'생애최초', multichild:'다자녀', elder:'노부모부양' };
 function spTypesFor(L){
-  if (!on('special_eligibility') || L.sample || L.category !== 'general' || isNewlywedTown(L)) return [];
+  if (!on('special_eligibility') || L.sample || (L.category !== 'general' && !(on('resupply_special') && L.specialUnits && L.specialUnits.total != null)) || isNewlywedTown(L)) return [];   // 재공급은 공고문 공급대상 표에서 읽은 유형만 (기능 resupply_special)
   const u = L.specialUnits;
   if (u && u.total != null) return Object.keys(SP_NAME).filter(k => u[k] > 0);
   return L.specialApply ? Object.keys(SP_NAME) : [];
@@ -2255,8 +2255,9 @@ function spJudge(L, p, type){
   // 세대주
   const isHead = p.household === 'head' && !(L.notice && p.headSince && p.headSince > L.notice);
   if (R.head === 'yes' || (R.head === 'reg' && L.regulated)) need(p.household ? isHead : null, '세대주', '세대주가 아님' + (R.head === 'reg' ? ' (규제지역은 세대주만)' : ''), '세대 구성 입력 필요');
-  // 청약통장
-  if (!p.acctType) warn.push('청약통장 정보 입력 필요');
+  // 청약통장 — 무순위·재공급은 '청약통장 가입여부와 관계없이 청약신청 가능'(2026930036 등)이라 보지 않는다 (기능 resupply_special)
+  if (L.category === 'remainder' && on('resupply_special')) {}
+  else if (!p.acctType) warn.push('청약통장 정보 입력 필요');
   else if (p.acctType === 'none') fail.push('청약통장 없음');
   else if (!pub && p.acctType === 'saving') fail.push('청약저축으로는 민영주택에 신청할 수 없어요');   // 통장 종류 (감사 SP-05)
   else if (!pub && p.acctType === 'bugeum' && (L.area || 0) > 85) fail.push('청약부금은 전용 85㎡ 이하만');
@@ -2753,7 +2754,7 @@ function specialCardV2(L, rs, p){
     ${missing ? `<div class="note warn sp-need"><span class="small">비어 있는 정보가 있어 일부는 판정·점수가 빠졌어요.</span>${on('inline_fix') ? `<button class="linkbtn small" data-fix="sp:all">바로 답하기</button>` : '<button class="linkbtn small" data-action="sp-input">입력하기</button>'}</div>` : ''}
     ${fixPanel(L, p, 'sp')}
     ${on('special_plain') ? spIntroPlain(rs) : '<p class="small muted" style="margin:2px 0 6px">유형을 누르면 판정 근거와 계산 내역이 보여요.</p>'}
-    ${SS ? '<p class="small muted" style="margin:0 0 4px">특별공급 1개와 일반공급 1개는 함께 신청할 수 있어요. 둘 다 당첨되면 특별공급만 인정돼요. 거주지·무주택·재당첨 같은 공통 조건은 위 일반공급 카드에 있어요.</p>' : ''}
+    ${SS ? '<p class="small muted" style="margin:0 0 4px">' + (genNone(L) ? '이 주택형은 일반 물량이 없어 특별공급으로만 신청해요. ' : '특별공급 1개와 일반공급 1개는 함께 신청할 수 있어요. 둘 다 당첨되면 특별공급만 인정돼요. ') + '거주지·무주택·재당첨 같은 공통 조건은 위 일반공급 카드에 있어요.</p>' : ''}
     <div class="splist">${POS && !SS ? (on('special_plain') ? generalRowPlain(L, p) : generalRowV2(L, p)) : ''}${sorted.map(r => on('special_plain') ? spRowPlain(L, p, r) : spRowV2(L, p, r)).join('')}</div>
     <details class="spbasis"><summary class="small">판정 기준과 출처</summary><div class="small muted">
       ${POS ? '<p>유형마다 뽑는 방식이 달라요. 추첨 유형은 가점과 상관없고, 점수·배점 유형은 높은 순이에요. 특별공급과 일반공급은 함께 신청할 수 있지만 둘 다 당첨되면 특별공급만 인정돼요.</p>' : ''}

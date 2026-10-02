@@ -1,0 +1,21 @@
+{
+ "date": "2026-10-02",
+ "cases": 36,
+ "method": "설계한 조건 6개 × 공고 6개(일반 0세대 주택형 5·공공임대 1). 검토자 2명(앱을 보지 않음)이 원문만으로 '어떤 공급으로든 신청 가능한가' 판정",
+ "before_resupply_special": {
+  "검토자 ok / 앱 ok": 4,
+  "검토자 no / 앱 no": 14,
+  "검토자 unsure / 앱 unsure": 6,
+  "검토자 ok / 앱 unsure": 5,
+  "검토자 no / 앱 unsure": 7
+ },
+ "after_resupply_special": {
+  "검토자 ok / 앱 ok": 9,
+  "검토자 no / 앱 no": 21,
+  "검토자 unsure / 앱 unsure": 6
+ },
+ "false_positive": 0,
+ "false_negative": 0,
+ "false_uncertainty_before": 12,
+ "false_uncertainty_after": 0
+}

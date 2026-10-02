@@ -551,8 +551,10 @@ def main() -> None:
       basis="일반 0세대·노부모부양 특별공급만 있는 주택형(2026000414 59G 변형) — 규칙 제46조 '65세 이상 직계존속을 3년 이상 계속 부양' 미충족이면 신청할 공급이 없음 (일반공급 요건을 다 갖춰도)")
     g(fn="bucket", listing="2026000414-059.8300C", profile=dict(pub_base, hhIncomeYear=3000, income=3000), expect={"b": "no"},
       basis="2026000414 공급표 59C 총공급 15세대 = 사전청약 당첨자 15 → 이번 공고 공급 0세대 (일반 0·특별 0)")
-    g(fn="bucket", listing="2026930036-084.7450D", profile=dict(pub_base, homeSido="경기", homeSigun="과천시", hhIncomeYear=3000, income=3000), expect={"b": "unsure"},
-      basis="2026930036 공급규모 '특별공급 2세대(신혼부부 1, 노부모부양 1)' · 청약홈 일반 세대수 0 · 유형별 특공 세대수 자료 없음 → 확인 필요")
+    p36 = dict(pub_base, homeSido="경기", homeSigun="과천시", hhIncomeYear=3000, income=3000)
+    nw = sp_expect(False, "newlywed", p36, 3)["s"]   # 민영 신혼부부 특별공급 oracle (위 3) 2026000453 표)
+    g(fn="bucket", listing="2026930036-084.7450D", profile=p36, expect={"b": "ok" if nw == "ok" else "unsure"},
+      basis="2026930036 공급대상 표 84D 특별공급 2세대(노부모부양 1, 신혼부부 1, 기능 resupply_special) · 과천시 거주·혼인 3년·2025년생·월소득 100% 이하 → 신혼부부 특별공급 가능 (블라인드 감사 V13 'ok')")
 
     # ---------- 11) 공공임대 일반공급 (군포대야미 A-1 6년 분양전환공공임대 2026000307, 공고일 2026-06-30) — 기능 rental_rules ----------
     # 원문 <표4> 금액을 이 파일에 따로 옮겨 적는다 (화면·파서 값을 쓰지 않음):

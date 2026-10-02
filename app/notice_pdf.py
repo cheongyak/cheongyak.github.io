@@ -206,6 +206,9 @@ def parse_notice(text: str) -> dict:
     sr = parse_score_ratio(text)
     if sr:
         out["score_ratio"] = sr
+    st = parse_sp_table(text)
+    if st:
+        out["sp_table"] = st   # 재공급(무순위) 주택형에만 쓴다 — 일반분양 공고 표는 머리글이 달라 쓰지 않음 (pipeline)
     return out
 
 
@@ -576,6 +579,38 @@ def _rental_income_table(f: str) -> Optional[dict]:
     elig = {"1": [o, None], "2": e2, **{str(n): [e3[0][n - 3], e3[1][n - 3]] for n in range(3, 9)}}
     pri = {"1": [o, None], "2": p2, **{str(n): [p3[0][n - 3], p3[1][n - 3]] for n in range(3, 9)}}
     return {"elig": elig, "pri": pri}
+
+
+# ---- 재공급 공고 주택형별 특별공급 세대수 (기능: resupply_special, 2026-10-02 블라인드 감사에서 '확인 필요'만 나오던 문제) ----
+# 청약홈은 무순위·재공급 주택형에 특별공급 세대수를 주지 않는다. 공고문 공급대상 표를 읽는다:
+#  2026930036 '… 총공급 세대수 특별공급 세대수 주거 전용면적 … 소계 노부모부양 신혼부부 계 2026930036 01 084.7450D 84D 84.7450 25.5789 110.3239 53.6674 163.9913 55.1901 2 1 1 2'
+#  2026930031 '… 일반공급 세대수 … 생애최초 계 … 01 059.9979A 59A 59.9979 21.3074 81.3053 42.2340 123.5393 30.5725 1 1 1 -'
+#  행 = 면적 6개(전용·공용·소계·기타공용·계약·대지지분) → 총공급 → 머리글 순서의 유형별 세대 → 계 → (일반공급)
+SP_NAMES = {"다자녀가구": "multichild", "다자녀": "multichild", "신혼부부": "newlywed", "노부모부양": "elder", "생애최초": "first", "신생아": "newborn", "기관추천": "agency"}
+
+
+def parse_sp_table(text: str) -> Optional[dict]:
+    t = re.sub(r"\s+", " ", text)
+    h = re.search(r"특별공급 세대수(.{0,200}?)(20\d{8}) 01 ", t)
+    if not h:
+        return None
+    heads = [SP_NAMES[w] for w in re.findall("|".join(sorted(SP_NAMES, key=len, reverse=True)), h.group(1))]
+    if not heads or len(set(heads)) != len(heads):
+        return None
+    out = {}
+    for m in re.finditer(r"\b0\d (\d{2,3}\.\d{4}[A-Z]{0,2}) \S+ ((?:(?!0\d \d{2,3}\.\d{4})[\d.,]+ |- ){7,14})", t[h.start():h.start() + 3000]):
+        nums = m.group(2).split()
+        vals = nums[6:]
+        if len(vals) < len(heads) + 2:
+            continue
+        cnt = lambda v: 0 if v == "-" else int(v) if v.isdigit() else None
+        total, per, sp_sum = cnt(vals[0]), [cnt(v) for v in vals[1:1 + len(heads)]], cnt(vals[1 + len(heads)])
+        if None in per or sp_sum is None or sum(per) != sp_sum or total is None or sp_sum > total:
+            continue   # 표 숫자가 맞지 않으면 읽지 않는다 (추측 금지)
+        row = dict(zip(heads, per))
+        row["total"] = sp_sum
+        out[m.group(1)] = row
+    return out or None
 
 
 # ---- 공고문 대조용 사실 (기능: notice_crosscheck) ----

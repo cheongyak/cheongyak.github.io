@@ -4,6 +4,18 @@
 2026-09-29 12:55 이전 항목은 규칙을 만들기 전 작업을 커밋 기록으로 정리한 것이라 백업 브랜치가 없어요.
 그 시점으로 되돌릴 때는 해당 커밋 번호로 `git revert` 를 써요.
 
+## 2026-10-02 16:17 · v1.41.0 재공급 특별공급 판정 + 변경분 블라인드 감사
+- 요청: MASTER QA 남은 일 — 변경분(일반 0세대 공통 조건·공공임대) 블라인드 판정 감사
+- 감사: tools/qa/audit/audit_verdict.cjs — 공고 6개(414 59G·84B, 930036 84D, 930035 84A, 930031 59A, 307 55A) × 설계한 조건 6개 = 36건. 앱을 보지 않은 검토자 2명이 원문만으로 '어떤 공급으로든 신청 가능한가' 판정 (evidence/audit/2026-10-02-verdict).
+  결과: 가짜 '가능' 0, 가짜 '불가' 0, 검토자는 결론을 냈는데 앱은 '확인 필요' 12건 — 전부 불법행위 재공급 0세대 주택형. 청약홈이 재공급 주택형의 특별공급 세대수를 안 줘서 특공 유형을 몰랐음
+- 변경: notice_pdf.parse_sp_table — 공고문 공급대상 표에서 주택형별 특별공급 유형·세대수(합이 안 맞으면 읽지 않음), 재공급 주택형에만 special_units 로 씀(PARSER_VERSION 14).
+  화면: 재공급도 공고문에서 읽은 유형은 특별공급 판정(spTypesFor), 재공급 특공은 청약통장을 보지 않음('청약통장 가입여부와 관계없이'), 일반 0세대 주택형의 특공 칸 안내 문구. 스위치 resupply_special
+- 파일: app/notice_pdf.py, app/pipeline.py, docs/index.html, docs/config.json, tests/test_resupply_special.py, tests/golden/notices.json(930036·035·031 공급표 — 원문·검토자 값), tests/judge/{cases,listings}.json, tools/make_judge_cases.py(audit-083 기대값: 자료 생김 → 신혼부부 oracle), tools/qa/audit/audit_verdict.cjs, evidence/audit/2026-10-02-verdict/*, tools/engine_lock.json, docs/changelog.json, VERSIONS.md
+- 확인: 감사 36건 다시 비교 36/36 일치(evidence/audit/2026-10-02-verdict/metrics.json), 판정 사례 303/303, 판정 일치 7,680 다름 0, regress 0, 공급유형 0, pytest, 390px 라이트·다크(과천 84D 과천 거주 신혼 — 카드·상세 '특별공급 신청 가능', 특공 칸 신혼부부 가능·노부모 불가)
+- 기능: resupply_special
+- 버전: v1.41.0
+- 백업: backup/20261002-1617-resupply
+
 ## 2026-10-02 16:15 · MASTER QA 남은 일 1·2: 제주형 거주 기준일, LH 공고문 받기
 - 요청: 남은 일 진행
 - 원인·변경: (1) 거주 요건 기준일 괄호 안에 설명이 있으면('(공고일로부터 1년 전, 2025.02.12. 이전부터 계속 거주)', 2026000018 제주) 기준일을 못 읽어 '1년 이상'만 남던 것 — 정규식이 설명을 건너뛰게. 원문 60+41건 재파싱 결과 바뀐 것은 이 1건뿐. PARSER_VERSION 13.
