@@ -1,4 +1,4 @@
-// 과거 공고 '그때 넣었다면' 판정 분포 확인 (기능: historical_judge). docs/archive/2026-judge.json 을 화면 엔진(eligBucket·spJudge)으로 돌려
+// 과거 공고 '그때 넣었다면' 판정 분포 확인 (기능: historical_judge). docs/archive/past-judge.json 을 화면 엔진(eligBucket·spJudge)으로 돌려
 // 몇 가지 대표 조건별로 신청 가능/확인 필요/2순위/불가 개수와, 확인 필요가 나온 이유(공고문 읽음 여부)를 센다.
 // 사용: NODE_PATH=$(npm root -g) node tools/qa/pastjudge.cjs
 const { chromium } = require('playwright');
@@ -17,7 +17,7 @@ await page.route('**/*', route => {
   route.fulfill({ status: 200, body: readFileSync(f), contentType: { '.html':'text/html', '.json':'application/json' }[extname(f)] || 'application/octet-stream' });
 });
 await page.goto('http://judge.local/', { waitUntil: 'networkidle' });
-const PJ = JSON.parse(readFileSync(join(DOCS, 'archive/2026-judge.json'), 'utf8'));
+const PJ = JSON.parse(readFileSync(join(DOCS, 'archive/past-judge.json'), 'utf8'));
 const cases = JSON.parse(readFileSync(join(__dirname, '../../tests/judge/cases.json'), 'utf8'));
 const profiles = [...new Map(cases.map(c => [JSON.stringify(c.profile), c.profile])).values()].slice(0, 6);
 const out = await page.evaluate(({ items, profiles }) => profiles.map(pr => {

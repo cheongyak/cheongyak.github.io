@@ -1,6 +1,6 @@
 """2026 과거 공고 랜덤 검증 (기능: historical 실험 4단계). 서비스 데이터는 바꾸지 않고 evidence/history/ 에만 쓴다.
 
-모집단 = docs/archive/2026.json 의 공고(주택형 묶음). 층화 랜덤(유형 일반분양/무순위 × 수도권/지방)으로 공고를 뽑는다.
+모집단 = docs/archive/past.json 의 공고(주택형 묶음). 층화 랜덤(유형 일반분양/무순위 × 수도권/지방)으로 공고를 뽑는다.
 같은 seed·같은 보관함 버전이면 같은 샘플이 나온다. 결과는 PASS / FAIL / UNCERTAIN / N/A(해당 없음) 로만 세고 비율을 지어내지 않는다.
 
 검사 (사람이 고른 사례 없음):
@@ -24,7 +24,7 @@ from pathlib import Path
 from app import notice_pdf
 
 ROOT = Path(__file__).resolve().parents[2]
-ARCHIVE = ROOT / "docs" / "archive" / "2026.json"
+ARCHIVE = ROOT / "docs" / "archive" / "past.json"
 GOLD = ROOT / "tests" / "golden" / "notices.json"
 OUT_DIR = ROOT / "evidence" / "history"
 CAPITAL = {"서울", "경기", "인천"}
@@ -139,7 +139,7 @@ def main() -> None:
             tally[k][st] += 1
             if cls and st != "PASS":
                 errs[cls] = errs.get(cls, 0) + 1
-    meta = {"date": today, "seed": seed, "fresh": a.fresh, "dataset": f"archive/2026.json built {arc['meta']['built']} ({arc['meta']['notices']}공고·{arc['meta']['count']}주택형)",
+    meta = {"date": today, "seed": seed, "fresh": a.fresh, "dataset": f"archive/past.json built {arc['meta']['built']} ({arc['meta']['notices']}공고·{arc['meta']['count']}주택형)",
             "population_notices": len(g), "sample_size": len(ids), "seconds": round(time.monotonic() - t0, 1)}
     rep = {"meta": meta, "tally": tally, "errors": dict(sorted(errs.items(), key=lambda x: -x[1])), "sample": ids,
            "results": {no: {k: list(v) for k, v in c.items()} | {"name": g[no][0]["name"].strip(), "category": g[no][0]["category"], "sido": g[no][0].get("sido")} for no, c in res.items()}}

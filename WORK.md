@@ -4,6 +4,17 @@
 2026-09-29 12:55 이전 항목은 규칙을 만들기 전 작업을 커밋 기록으로 정리한 것이라 백업 브랜치가 없어요.
 그 시점으로 되돌릴 때는 해당 커밋 번호로 `git revert` 를 써요.
 
+## 2026-10-02 14:04 · v1.39.1 지난 공고 1년치로 운영
+- 요청: 마감된 것은 과거 공고로 넘기고 26년부터 쌓다가 1년 넘은 공고는 차례로 삭제 — 과거 공고는 1년치만
+- 변경: tools/history/window.py(마감일 기준 365일, 시작 2026-01-01). build.py 는 기간 밖 주택형 삭제·새로 받을 때도 거름(meta.pruned), enrich.py 는 기간 밖 공고 제외·공고문 기록(cache)도 삭제(meta.cache_pruned).
+  보관 파일 이름을 연도 없는 이름으로: archive/2026.json → past.json, 2026-judge.json → past-judge.json, 2026-notice-cache.json → past-notice-cache.json.
+  화면: 마감된 공고만(오늘 날짜로 다시 계산, 보관함은 주 1회라), 마감 1년 지난 공고 제외, 제목 '지난 공고 · 최근 1년 마감 공고', 버튼 '지난 1년 공고 보기', 아래 건수는 화면에 보이는 마감 공고 수
+- 파일: tools/history/{window,build,enrich,validate_sample}.py, tests/test_history_window.py, tools/qa/pastjudge.cjs, docs/index.html, docs/archive/*, docs/changelog.json, VERSIONS.md, FEATURES.md, HANDOFF.md
+- 확인: pytest(경계 — 마감일 = 기준일 남김·하루 전 삭제), 실제 보관함으로 오늘 2092/2092 · 2027-03-01 가정 1832 · 2027-09-01 가정 270 남음. 390px 라이트·다크: 예정 공고 빠지고 536건(마감만), 판정 그대로, 오류 0. 판정 사례 261/261, regress 0, 엔진 잠금 그대로
+- 기능: historical_search, historical_judge
+- 버전: v1.39.1
+- 백업: backup/20261002-1404-pastwindow
+
 ## 2026-10-02 13:53 · v1.39.0 2026년 지난 공고 + '그때 넣었다면' 켬
 - 요청: 과거 청약은 이 정도면 충분, 참고용으로 쓸 만하니 추가 (사용자 결정 — 실험 유지, 폐기 안 함)
 - 변경: 스위치 historical_search·historical_judge 켬, 지난 공고 머리말 '실험 중' → '참고용', FEATURES 에 historical_judge 줄, changelog·VERSIONS v1.39.0

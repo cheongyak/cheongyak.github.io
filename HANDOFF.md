@@ -129,9 +129,9 @@ GitHub Secrets (이름만): `DATA_GO_KR_KEY`, `NCP_MAPS_CLIENT_ID`, `NCP_MAPS_CL
    - **10-02 10:45 챗봇 끔(config chat_off: true)** — 사용자: 법령 설명만 길고 판정 엔진 결과가 안 나와 설계부터 다시. 새 설계 합의 전까지 켜지 않음.
    - 10-02 사용자가 '청약봇 V2 완전 재설계' 요구서를 줌 → 분석 보고서(Claude 문서 '청약봇 V2 설계 분석 보고서') 작성: 브라우저 판정 엔진 + 서버 2회 AI(조건 해석·설명) + 코드 검색·점수, 도구 11개, 0~3단계. 사용자 결정 대기: 출퇴근 API(ODsay/네이버), 방·욕실 면적 추정 표시 여부, 0·1단계 착수, 공개 시기. 결정 전 코드 수정 금지(요구서 43항).
    - 10-02 12:08 과거 공고(2026) 실험 시작 — 시작점 backup/20261002-1208-pre-historical. 사용자 방침: 활용도 낮거나 느리면 폐기하고 이 백업으로 되돌림. 1단계 측정(tools/history/probe.py, history.yml).
-     현재(10-02 13:40): 보관함 docs/archive/2026.json(544공고) + 지난 공고 화면(historical_search, 꺼짐·미리보기 ?past=1) + '그때 넣었다면' 판정(historical_judge, 꺼짐·미리보기 localStorage cy-past=1).
-     판정 자료 docs/archive/2026-judge.json = 6/15 이후 마감 154공고, 공고문 154/154 읽음(처음엔 300초 제한에 걸려 29건만 → enrich 만 1500초로). 막 마감돼 listings.json 에 남은 공고는 그 목록으로 판정.
-     분포 확인: NODE_PATH=$(npm root -g) node tools/qa/pastjudge.cjs. **10-02 13:53 사용자 결정: 참고용으로 유지 → v1.39.0 으로 두 스위치 켬.** 보관함·판정 자료는 history.yml 이 매주 월요일 더함. (제안만 함, 미결정) 판정 줄마다 '왜?' 한 줄 이유.
+     현재(10-02 13:40): 보관함 docs/archive/past.json(1년치 — 10-02 이름 바꿈, 옛 2026.json) + 지난 공고 화면(historical_search, 꺼짐·미리보기 ?past=1) + '그때 넣었다면' 판정(historical_judge, 꺼짐·미리보기 localStorage cy-past=1).
+     판정 자료 docs/archive/past-judge.json = 6/15 이후 마감 154공고, 공고문 154/154 읽음(처음엔 300초 제한에 걸려 29건만 → enrich 만 1500초로). 막 마감돼 listings.json 에 남은 공고는 그 목록으로 판정.
+     분포 확인: NODE_PATH=$(npm root -g) node tools/qa/pastjudge.cjs. **10-02 13:53 사용자 결정: 참고용으로 유지 → v1.39.0 으로 두 스위치 켬.** 보관함·판정 자료는 history.yml 이 매주 월요일 더하고, 마감 1년 지난 공고는 지움(tools/history/window.py KEEP_DAYS=365, 사용자 10-02 '1년치만 운영'). 화면도 오늘 날짜로 마감·1년을 다시 거름. (제안만 함, 미결정) 판정 줄마다 '왜?' 한 줄 이유.
    - 청약봇 V2 STEP 0: 0-1 데이터 사전(chat/DATA.md)·0-2 단지 규모(complex_size) 끝. 다음 0-4 방·욕실, 0-5 좌표, 0-7 출퇴근(키 필요: KAKAO_REST_KEY, NCP Directions 5).
    - (보류) 챗봇 답변 개선 — 청약 핵심 설명집(쉬운 말, 화면 설명·판정 기준에서) + 정답 시험지(꼭 들어갈 사실·틀린 말) + 검사기 규칙. 사용자 승인됨(10-02).
    - 서치 콘솔: 확인 메타 추가·소유 확인·`sitemap.xml` 제출 끝(10-02, 애드센스와 다른 구글 아이디로 등록 — 사용자가 그대로 두기로 함). 네이버 서치어드바이저도 확인 메타·소유확인·사이트맵 제출 끝(10-02).
