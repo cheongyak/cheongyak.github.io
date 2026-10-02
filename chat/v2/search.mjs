@@ -92,7 +92,7 @@ export function mergeRegions(C) {
   return { ...C, conds: out };
 }
 
-export function search(D, C0, { profile = null, limit = 5, inner = false } = {}) {
+export function search(D, C0, { profile = null, limit = 3, inner = false } = {}) {   // 카드는 3곳까지 (AI 심사 회차 1: 5곳은 정보 과다 — 나머지는 한 줄 목록)
   const C = mergeRegions(C0);
   const p = profile ? D.profileOf(Object.assign({}, profile, assumeToProfile(C.assume || {}))) : null;   // 저장된 내 조건이 없으면 판정하지 않는다 — 질문 속 가정(신혼부부 등)만으로는 자격을 단정할 수 없음
   const eligCache = new Map();
@@ -156,12 +156,12 @@ function assumeToProfile(a) {
 function prefScore(item, C) {
   let s = 0;
   for (const x of item.pref) {
-    const w = x.key === 'region_in' ? 4 : x.key === 'margin' ? 2 : x.key === 'commute' ? 0 : 1.5;
+    const w = x.key === 'region_in' ? 4 : x.key === 'margin' ? 2 : x.key === 'commute' ? 0 : 3;   // 질문에 적은 선호(초품아·역세권)는 시세 차익보다 앞 (AI 심사 회차 1: '초품아 위주'인데 조건 안 맞는 곳이 위에)
     s += x.s === 'pass' ? w : x.s === 'fail' ? -w : 0;
   }
   const g = item.f.margin.g; s += { lotto: 1.5, consider: 1, flat: 0, pass: -0.5, unknown: 0 }[g] || 0;
   const cm = C.conds.filter(c => c.key === 'commute');   // 출퇴근지까지 직선거리(참고) — 시간 아님. 여럿이면 평균. 출퇴근이 주된 조건이면 거리가 순서를 정한다
-  if (cm.length) { const ds = item.f.geo ? cm.map(c => distKm(item.f.geo, c.value)) : null; s -= ds ? Math.min(8, ds.reduce((a, b) => a + b, 0) / ds.length / 4) : 4; }
+  if (cm.length) { const ds = item.f.geo ? cm.map(c => distKm(item.f.geo, c.value)) : null; const avgKm = ds ? ds.reduce((a, b) => a + b, 0) / ds.length : null; s -= avgKm == null ? 6 : Math.min(12, avgKm / 4) + (avgKm > 40 ? 6 : 0); item.far = avgKm != null && avgKm > 40; }   // 직장에서 40km 넘으면 뒤로 (회차 1: 판교 출퇴근인데 세종·인천이 위에)
   if (item.f.dates.applyEnd) s += 0.01;
   return Math.round(s * 100) / 100;
 }

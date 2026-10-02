@@ -20,7 +20,7 @@ const call = model => async ({ system, user, purpose }) => {
   const r = await fetch('https://api.anthropic.com/v1/messages', { method: 'POST', headers: { 'content-type': 'application/json', 'x-api-key': KEY, 'anthropic-version': '2023-06-01' },
     body: JSON.stringify({ model, max_tokens: purpose === 'explain' ? 1800 : 500, temperature: 0, system, messages: [{ role: 'user', content: user }] }) });
   if (!r.ok) {
-    if ((r.status === 404 || r.status === 400) && model !== CFG.explain_model && !FALLBACK.done) { FALLBACK.done = true; FALLBACK.why = model + ' ' + r.status; console.log('[AI 품질] 심사 모델을 못 써서 ' + CFG.explain_model + ' 로 바꿈: ' + FALLBACK.why); }
+    if ((r.status === 404 || r.status === 400) && model !== CFG.explain_model && !FALLBACK.done) { FALLBACK.done = true; FALLBACK.why = model + ' ' + r.status + ' ' + (await r.text()).slice(0, 160); console.log('[AI 품질] 심사 모델을 못 써서 ' + CFG.explain_model + ' 로 바꿈: ' + FALLBACK.why); }
     if (FALLBACK.done && model !== CFG.explain_model) return call(CFG.explain_model)({ system, user, purpose });
     throw new Error('claude ' + r.status);
   }

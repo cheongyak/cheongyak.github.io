@@ -4,6 +4,15 @@
 2026-09-29 12:55 이전 항목은 규칙을 만들기 전 작업을 커밋 기록으로 정리한 것이라 백업 브랜치가 없어요.
 그 시점으로 되돌릴 때는 해당 커밋 번호로 `git revert` 를 써요.
 
+## 2026-10-03 00:40 · 청약봇 V2 AI 품질 회차 1 결과 반영 + 회차 2
+- 요청: (이어서) AI 심사 회차 결과로 고치기
+- 회차 1 결과(evidence/chat-v2/ai-quality-report.md): 짝 비교 기본 답 6승 · AI 다듬은 답(프롬프트 v2-0.1) 3승 · 무 11 → AI 다듬기는 채택하지 않음(챔피언=기본 답). 심사 모델 claude-sonnet-5 는 400 으로 막혀 haiku 로 대신 심사. 절대 평가는 JSON 을 못 읽어 2/20만 집계(고침)
+- 심사위원이 찾은 결함을 고침: 물어본 특공 유형(생애최초 등)을 카드에 따로 한 줄, '특공 가능 없음'처럼 엇갈려 보이는 말 → '가능 … / 확인 필요 …', 카드 5→3곳 + 나머지 한 줄 목록('N곳 중 먼저 볼 3곳' — 개수 안 맞던 것), 원하신 선호 조건이 안 맞으면 '아쉬운 점' 줄, 질문에 적은 선호(초품아·역세권)를 시세 차익보다 앞에 정렬, 직장에서 40km 넘는 곳은 뒤로, 이유 줄이 지표 줄 숫자를 되풀이하지 않게. 설명 프롬프트 v2-0.2(카드·줄은 그대로, 첫머리와 '왜 이곳'만 다듬기, 표 금지)로 회차 2 (ai-run.json round 2)
+- 파일: chat/v2/search.mjs, chat/v2/answer.mjs, chat/v2/llm.mjs, chat/v2/quality/judge.mjs, chat/v2/quality/run_ai.mjs, chat/v2/quality/ai-run.json, chat/v2/quality/baseline.json, evidence/chat-v2/quality*.{json,md}
+- 확인: V2 시험 60/60, 코드 품질 99.8·치명 0(기준선 유지), pytest
+- 백업: backup/20261003-0040-airound2
+- 기능: 없음(개발 중)
+
 ## 2026-10-03 00:29 · 청약봇 V2 AI 품질 회차 1 시작
 - 요청: "진행해줘" — AI 심사 회차(질문 20개, 약 0.5~1달러) 돌리기
 - 변경: ai-run.json round 0→1 (chat-v2-quality-ai.yml 이 한 번 돎). 심사 모델(claude-sonnet-5)을 못 쓰면 설명 모델(haiku)로 바꿔 기록

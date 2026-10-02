@@ -19,8 +19,9 @@ export function absolutePrompt(question, answer) {
 숫자가 맞는지는 따로 검사하니 신경 쓰지 말고, 위 항목만 본다. 답은 JSON 하나: {"scores":{"이해":n,...},"best":"가장 잘한 점 한 줄","fix":"가장 먼저 고칠 점 한 줄"}`;
   return { system, user: `질문: ${question}\n\n답:\n${answer}` };
 }
+const jsonOf = t => { const m = String(t).match(/\{[\s\S]*\}/); return JSON.parse(m ? m[0] : String(t)); };   // 앞뒤 설명·```json 감싸기가 있어도 (회차 1: 절대 평가 18/20 못 읽음)
 export function parseAbsolute(text) {
-  try { const j = JSON.parse(String(text).replace(/^```(json)?|```$/g, '').trim()); const sc = j.scores || {};
+  try { const j = jsonOf(text); const sc = j.scores || {};
     if (!Object.keys(CRITERIA).every(k => Number.isFinite(sc[k]) && sc[k] >= 1 && sc[k] <= 5)) return null;
     return { scores: sc, mean: Object.values(sc).reduce((a, b) => a + b, 0) / Object.keys(CRITERIA).length, best: j.best || '', fix: j.fix || '' };
   } catch (e) { return null; }
@@ -31,7 +32,7 @@ export function pairPrompt(question, a, b) {
 기준: ${Object.entries(CRITERIA).map(([k, v]) => k + '(' + v + ')').join(' / ')}. 길이가 길다고 더 좋은 것이 아니다. 답은 JSON 하나: {"winner":"A"|"B"|"tie","why":"한 줄"}`;
   return { system, user: `질문: ${question}\n\n[답 A]\n${a}\n\n[답 B]\n${b}` };
 }
-const winnerOf = t => { try { const j = JSON.parse(String(t).replace(/^```(json)?|```$/g, '').trim()); return ['A', 'B', 'tie'].includes(j.winner) ? j : null; } catch (e) { return null; } };
+const winnerOf = t => { try { const j = jsonOf(t); return ['A', 'B', 'tie'].includes(j.winner) ? j : null; } catch (e) { return null; } };
 
 // 자리를 바꿔 두 번 묻는다. 두 번 다 같은 답을 고르면 그 답이 이김, 엇갈리면 무승부 (자리 편향 제거)
 export async function pairwise(llm, question, x, y) {

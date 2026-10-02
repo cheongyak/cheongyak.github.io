@@ -24,8 +24,8 @@ function reasons(it, C) {
   if (it.elig === 'ok') r.push(genWord(it) + ' 신청 가능' + ((it.sp || []).some(s => s.s === 'ok') ? '에 ' + it.sp.filter(s => s.s === 'ok').map(s => s.label).join('·') + ' 특별공급도 노려 볼 수 있어요' : '해요'));
   else if (it.elig === 'unsure') r.push(genWord(it) + ' 자격은 몇 가지 확인이 필요해요');
   if (f.margin.g === 'lotto' || f.margin.g === 'consider') r.push('주변 시세보다 ' + signed(f.margin.lo) + ' 이상 싸게 나온 편(추정)이에요');
-  if (f.school.state === '추정' && f.school.walk <= 5) r.push('초등학교가 도보 ' + f.school.walk + '분(직선)' + (C && ((C.assume || {}).kids || C.conds.some(c => c.key === 'school_walk')) ? '이라 아이 키우기에 좋아요' : '이에요'));
-  if (f.station.state === '추정' && f.station.walk <= 7) r.push(f.station.name + ' 도보 ' + f.station.walk + '분(직선) 역세권이에요');
+  if (f.school.state === '추정' && f.school.walk <= 5) r.push('초등학교가 가까워요' + (C && ((C.assume || {}).kids || C.conds.some(c => c.key === 'school_walk')) ? ' 아이 키우기에 좋아요' : ''));
+  if (f.station.state === '추정' && f.station.walk <= 7) r.push(f.station.name + ' 역세권이에요');
   if (f.complex.state === '확인' && f.complex.households >= 1000) r.push(f.complex.households.toLocaleString('ko-KR') + '세대 대단지예요');
   const cm = C ? C.conds.filter(c => c.key === 'commute') : [];
   if (cm.length && f.geo) { const near = cm.map(c => [c, distKmA(f.geo, c.value)]).sort((a, b) => a[1] - b[1])[0]; if (near[1] <= 8) r.push((near[0].value.who ? near[0].value.who + ' ' : '') + '직장과 가까워요(직선 약 ' + Math.round(near[1]) + 'km)'); }
@@ -39,6 +39,9 @@ function reasons(it, C) {
   return r.length ? '→ ' + r.slice(0, 3).join(', ') + '.' : null;
 }
 
+// 특공 요약: '가능 없음'처럼 물어본 유형 줄과 엇갈려 보이는 말 대신 가능·확인 필요·불가를 나눠 쓴다 (AI 심사 회차 1)
+const spLine = sp => { const by = k => sp.filter(s => s.s === k).map(s => s.label); const ok = by('ok'), w = by('warn');
+  return ' · 특공 ' + [ok.length && '가능 ' + ok.join('·'), w.length && '확인 필요 ' + w.join('·'), !ok.length && !w.length && '모두 어려움'].filter(Boolean).join(' / '); };
 function statusLine(f) {
   if (f.past) return '마감된 과거 공고 · 공고 ' + d(f.dates.notice) + ' (청약홈)';
   const sp = f.dates.special ? '특공 ' + d(f.dates.special) + ' · ' : '';
@@ -54,7 +57,9 @@ export function card(it, { profile, C = null }) {
   L.push('· ' + f.price.label + '  ' + fmtEok(f.price.v) + ' (청약홈)');
   if (!f.rental) L.push('· 시세 차익  ' + (f.margin.g === 'unknown' ? '확인 불가 (주변 거래 부족)' : signed(f.margin.lo) + '~' + signed(f.margin.hi) + ' · ' + f.margin.name + ' (추정, 근거 거래 ' + f.margin.count + '건)'));
   if (f.jeonse.state === '추정') L.push('· 전세  약 ' + fmtEok(f.jeonse.v) + ' (추정, 입주장 할인 반영)');
-  if (it.elig) L.push('· 내 자격  ' + (f.past ? '그때 넣었다면 ' : '') + genWord(it) + ' ' + ELIG_WORD[it.elig] + ((it.sp || []).length ? ' · 특공 ' + (it.sp.filter(s => s.s === 'ok').map(s => s.label).join('·') || '가능 없음') + (it.sp.some(s => s.s === 'ok') ? ' 가능' : '') : '') + ' (청약패스 판정)');
+  const askSp = C ? C.conds.filter(c => c.key === 'supply' && /^sp:/.test(c.value)).map(c => c.value.slice(3)) : [];
+  for (const t of askSp) { const x = (it.sp || []).find(s => s.type === t); L.push('· ' + SP_LABEL[t] + ' 특공  ' + (!it.elig && !x ? '내 조건을 넣으면 판정해요' : x ? { ok: '신청 가능', warn: '확인 필요', fail: '신청 불가' }[x.s] + ' (청약패스 판정)' : '이 주택형에는 없어요')); }   // 물어본 특공 유형은 따로 한 줄 (회차 1: '생애최초'를 물었는데 '특공 가능 없음'만)
+  if (it.elig) L.push('· 내 자격  ' + (f.past ? '그때 넣었다면 ' : '') + genWord(it) + ' ' + ELIG_WORD[it.elig] + ((it.sp || []).length ? spLine(it.sp)  : '') + ' (청약패스 판정)');
   else if (!profile) L.push('· 내 자격  내 조건을 넣으면 판정해요');
   else if (it.row && it.row.noJudge) L.push('· 내 자격  지난 공고 개요만 있어 판정하지 않아요');
   L.push('· 역  ' + (f.station.state === '추정' ? f.station.name + ' 도보 약 ' + f.station.walk + '분(직선 ' + f.station.m + 'm, 추정)' : '확인 불가' + (f.station.why ? ' (' + f.station.why + ')' : '')));
@@ -65,6 +70,8 @@ export function card(it, { profile, C = null }) {
     return t && t.min != null ? nm + '까지 자동차 약 ' + t.min + '분(' + t.km + 'km, ' + t.src.replace(/ \(.*\)$/, '') + ' ' + t.at.slice(11, 16).replace(/^(\d\d)/, h => String((+h + 9) % 24).padStart(2, '0')) + ' 조회)' : nm + '까지 직선 약 ' + Math.round(distKmA(f.geo, c.value)) + 'km(시간 확인 불가)'; }).join(' · ') + (f.geo && !f.geo.precise ? ' — 단지 좌표가 동 단위라 대략이에요' : '')));
   if (f.competition) L.push('· 경쟁률  ' + f.competition.rows.slice(0, 2).map(r => r.rank + '순위 ' + r.reside + ' ' + r.rate + ':1').join(' · ') + ' (청약홈)');
   if (it.unknown && it.unknown.length) L.push('· 확인 필요  ' + [...new Set(it.unknown)].join(', '));
+  const miss = (it.pref || []).filter(x => x.s === 'fail' && x.key !== 'region_in' && x.key !== 'margin').map(x => x.why);
+  if (miss.length) L.push('· 아쉬운 점  ' + miss.join(', '));   // 원하신 조건 중 안 맞는 것 (회차 1: 초품아 위주인데 안 맞는 곳을 말하지 않음)
   L.push(f.link);
   return L.join('\n');
 }
@@ -88,7 +95,8 @@ export function compose(C, r0, { profile = false, updated = '', mode = 'search',
   if (mode === 'compare' && compare) out.push(...compareBlocks(compare, { profile }));
   else if (r.ok.length) {
     out.push(conclusion(r, C, U));
-    out.push('[후보별 핵심 지표]\n\n' + r.groups.slice(0, r.limit).map(g => card(g.best, { profile, C }) + (g.types.length > 1 ? '\n(같은 공고 다른 주택형 ' + (g.types.length - 1) + '개: ' + g.types.slice(1, 6).map(t => t.f.unit + ' ' + fmtEok(t.f.price.v)).join(' · ') + (g.types.length > 6 ? ' …' : '') + ')' : '')).join('\n\n'));
+    out.push('[후보별 핵심 지표' + (r.groups.length > r.limit ? ' · ' + r.groups.length + '곳 중 먼저 볼 ' + r.limit + '곳' : '') + ']\n\n' + r.groups.slice(0, r.limit).map(g => card(g.best, { profile, C }) + (g.types.length > 1 ? '\n(같은 공고 다른 주택형 ' + (g.types.length - 1) + '개: ' + g.types.slice(1, 6).map(t => t.f.unit + ' ' + fmtEok(t.f.price.v)).join(' · ') + (g.types.length > 6 ? ' …' : '') + ')' : '')).join('\n\n'));
+    if (r.groups.length > r.limit) out.push('[나머지 ' + (r.groups.length - r.limit) + '곳]\n' + r.groups.slice(r.limit).map(g => '· ' + g.name + ' ' + g.best.f.unit + ' — ' + g.best.f.price.label + ' ' + fmtEok(g.best.f.price.v) + (g.best.elig ? ' · ' + genWord(g.best) + ' ' + ELIG_WORD[g.best.elig] : '') + (g.best.far ? ' · 직장에서 멀어요' : '') + '\n  ' + g.best.f.link).join('\n'));
     if (r.nearMiss && r.nearMiss.length) out.push('[함께 눈여겨볼 곳 · 예산을 조금 넘어요]\n' + r.nearMiss.map(g => '· ' + g.name + ' ' + g.best.f.unit + ' — 분양가 ' + fmtEok(g.best.f.price.v) + (g.best.elig ? ', ' + genWord(g.best) + ' ' + ELIG_WORD[g.best.elig] : '') + (g.best.f.margin.g !== 'unknown' ? ', 시세 차익 ' + g.best.f.margin.name + '(추정)' : '') + '. 관심 단지로만 체크해 두세요.\n  ' + g.best.f.link).join('\n'));
     out.push(scenarios(r));
   } else {
