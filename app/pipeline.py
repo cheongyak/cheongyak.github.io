@@ -279,6 +279,11 @@ def apply_notice(listings: list[Listing], log: list[str], client=None, previous:
                     text, msg, pdf = f.result()
                 except Exception as e:
                     text, msg, pdf = None, f"읽기 실패: {e.__class__.__name__}", None
+            if not text:   # 받기 실패(청약홈 첨부 주소가 바뀌는 등)면 저장해 둔 원문 사본으로 읽는다 — 같은 공고문을 앞서 받아 옮긴 글 (2026-10-02 2026000438 'URL was not found')
+                arch = next((d / f"{nid}.txt" for d in (ROOT / "evidence" / "notices", ROOT / "evidence" / "qa" / "notices") if (d / f"{nid}.txt").exists()), None)
+                if arch:
+                    text, msg = arch.read_text(encoding="utf-8"), f"{msg[:120]} → 저장해 둔 원문 사본({arch.relative_to(ROOT)})으로 읽음"
+                    pdf = pdf or (cache.get(nid) or {}).get("notice_pdf") or Ls[0].notice_pdf
             found = notice_pdf.parse_notice(text) if text else {}
             if text and feature_on("complex_size"):
                 cx = notice_pdf.parse_complex(text)

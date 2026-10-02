@@ -4,6 +4,15 @@
 2026-09-29 12:55 이전 항목은 규칙을 만들기 전 작업을 커밋 기록으로 정리한 것이라 백업 브랜치가 없어요.
 그 시점으로 되돌릴 때는 해당 커밋 번호로 `git revert` 를 써요.
 
+## 2026-10-02 18:34 · 공고문 받기 실패 때 저장해 둔 원문 사본으로 읽기 (정답 불일치 해결)
+- 요청: 올린 뒤 확인 (CLAUDE.md 4항 3) — v1.42.3 수집에서 [검증·정답 불일치] 힐스테이트 고덕엘리스트 A65BL 84A·84B residence_duty 수집값 None ≠ 공고문 3
+- 원인: 이번 수집에서 2026000438 공고문 PDF 받기 실패(청약홈 'The requested URL was not found') → 예전 읽기 규칙(PARSER_VERSION 15)으로 보관한 값을 그대로 씀 → 거주의무 모름이 남음. 정답 데이터가 잡아 verify-status ok=false
+- 변경: app/pipeline.apply_notice — 받기 실패·시간 초과면 evidence/notices 또는 evidence/qa/notices 의 원문 사본(같은 공고문을 앞서 받아 옮긴 글)이 있을 때 그것을 새 규칙으로 읽음, run-log 에 '저장해 둔 원문 사본(…)으로 읽음'
+- 파일: app/pipeline.py, tests/test_notice_and_notify.py(사본으로 읽는 테스트 추가, 기존 '지난 실행 값 유지' 테스트는 사본 없는 공고 번호로)
+- 확인: pytest 164. 실제 결과는 이 커밋으로 도는 수집에서 [검증·정답 불일치] 0 인지 확인
+- 기능: 없음(수정)
+- 백업: backup/20261002-1834-arch
+
 ## 2026-10-02 18:15 · v1.42.4 교차 규칙(Cross-Rule) 모순 검사
 - 요청: 사용자 추가 MASTER QA 'CROSS-RULE CONSISTENCY' — 값마다가 아니라 값·규칙·계산·화면 문구가 함께 모순되지 않는지 검사 체계
 - 변경: tools/qa/cross_rule.cjs — 지금 공고 + 판정 사례 고정 공고 201주택형 × 판정 사례 조건 40 + 유주택 2, 규칙 20개(LEASE·DUTY·FUND·ELIG·UI·STATUS), 위반마다 rule_id·심각도·조건·실제·기대·충돌 필드·근거.

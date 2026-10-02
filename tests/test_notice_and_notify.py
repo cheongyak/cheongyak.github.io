@@ -144,7 +144,7 @@ def test_rewin_scrambled_pdf_text():
 
 def test_apply_notice_keeps_previous_when_download_fails(monkeypatch):
     monkeypatch.setattr(notice_pdf, "fetch_notice_text", lambda url, client=None: (None, "PDF 받기 실패(ReadTimeout)", None))
-    x = L(need_head=False)
+    x = L(need_head=False, id="2026939999-084.9811C")   # 원문 사본(evidence/notices)이 없는 공고 — 사본이 있으면 사본으로 읽는다(아래 테스트)
     prev = {x.id: {"from_notice": ["세대주 요건", "잔금일", "발코니 확장비", "재당첨 제한", "분양가상한제", "실거주 의무"],
                    "need_head": True, "price_cap": False, "residence_duty": 0, "balance": "2026-11-30", "ext": 0.2178,
                    "limits": [["재당첨 제한", "10년"], ["실거주 의무", "없음"]], "notice_pdf": "https://static.applyhome.co.kr/x.pdf"}}
@@ -313,3 +313,14 @@ def test_notice_chunks_keep_document_section():
     ch = chunk_text(text)
     assert any("주민등록표등본" in c["t"] and "자격검증서류" in c["h"] for c in ch)
     assert not any("- 12 -" in c["t"] for c in ch)
+
+
+def test_apply_notice_reads_archived_text_when_download_fails(monkeypatch):
+    """받기 실패면 저장해 둔 원문 사본(evidence/notices)으로 읽는다 — 읽기 규칙을 바꾼 뒤 옛 보관 값(거주의무 모름)이 남지 않게 (2026-10-02 2026000438 'URL was not found')."""
+    monkeypatch.setattr(notice_pdf, "fetch_notice_text", lambda url, client=None: (None, "PDF 받기 실패(PDF가 아닌 파일)", None))
+    x = L(id="2026930037-099.9842B", name="과천 푸르지오 벨라르테", address="경기도 과천시", region="경기", sigungu="과천시", unit="99B",
+          capital=True, price_cap=True, residence_duty=None)
+    log = []
+    apply_notice([x], log, cache={"2026930037": {"found": {"need_head": True}, "v": 1}})
+    assert x.residence_duty == 0 and "실거주 의무" in x.from_notice
+    assert any("원문 사본" in l for l in log)
