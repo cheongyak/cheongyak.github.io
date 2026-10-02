@@ -25,20 +25,24 @@ jobs:
       - name: 질문 보내기
         run: |
           python3 - <<'PY'
-          import json, os, urllib.request, time
+          import json, os, urllib.request, urllib.error, time
+          os.makedirs('evidence/chat-probe', exist_ok=True)
+          if not os.environ.get('CODE'): print('CHAT_PREVIEW_CODE 비밀값 없음')
           url = json.load(open('chat/deployed.json'))['url'] + '/chat'
           qs = json.load(open('chat/probe_questions.json'))
           out = []
           for i, q in enumerate(qs):
-              body = {'question': q['question'], 'anon_id': 'probe-actions-%d' % int(time.time()), 'conversation_id': 'probe-%d-%d' % (int(time.time()), i), 'preview': os.environ['CODE']}
+              body = {'question': q['question'], 'anon_id': 'probe-actions-%d' % int(time.time()), 'conversation_id': 'probe-%d-%d' % (int(time.time()), i), 'preview': os.environ.get('CODE', '')}
               if q.get('listing_id'): body['listing_id'] = q['listing_id']
-              req = urllib.request.Request(url, data=json.dumps(body).encode(), headers={'content-type': 'application/json', 'origin': 'https://cheongyakpass.kr'})
+              req = urllib.request.Request(url, data=json.dumps(body).encode(), headers={'content-type': 'application/json', 'origin': 'https://cheongyakpass.kr', 'user-agent': 'Mozilla/5.0 (cheongyakpass probe)'})
               try:
-                  with urllib.request.urlopen(req, timeout=60) as r: st, res = r.status, json.loads(r.read())
-              except urllib.error.HTTPError as e: st, res = e.code, json.loads(e.read() or b'{}')
+                  with urllib.request.urlopen(req, timeout=60) as r: st, raw = r.status, r.read()
+              except urllib.error.HTTPError as e: st, raw = e.code, e.read()
+              except Exception as e: st, raw = 0, repr(e).encode()
+              try: res = json.loads(raw)
+              except Exception: res = {'message': raw.decode('utf-8', 'replace')[:300]}
               out.append({'question': q['question'], 'status': st, 'fallback': res.get('fallback'), 'diag': res.get('diag'), 'answer': res.get('answer'), 'message': res.get('message')})
-              print(st, q['question'][:30], json.dumps(res.get('diag'), ensure_ascii=False))
-          os.makedirs('evidence/chat-probe', exist_ok=True)
+              print(st, q['question'][:30], json.dumps(res.get('diag'), ensure_ascii=False), res.get('message'))
           json.dump({'at': time.strftime('%Y-%m-%d %H:%M'), 'results': out}, open('evidence/chat-probe/latest.json', 'w'), ensure_ascii=False, indent=1)
           PY
       - name: 저장
