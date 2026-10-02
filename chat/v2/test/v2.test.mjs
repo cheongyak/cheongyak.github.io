@@ -127,3 +127,17 @@ test('AI 가 있으면 두 번만 부르고, 거절되면 기본 답으로', asy
   assert.equal(a.how, 'template');
   assert.ok(a.steps.some(s => /거절/.test(s)));
 });
+
+test('출퇴근 조회: 네이버 실패하면 카카오, 둘 다 없으면 오류(시간을 지어내지 않음)', async () => {
+  const { carTime } = await import('../commute.mjs');
+  const A = { lat: 37.47, lng: 126.86 }, B = { lat: 37.39, lng: 127.11 };
+  const naverOk = async () => ({ ok: true, status: 200, json: async () => ({ route: { trafast: [{ summary: { duration: 1860000, distance: 24500 } }] } }) });
+  const fail = async () => ({ ok: false, status: 401, json: async () => ({ message: 'unauthorized' }) });
+  const kakaoOk = async (u) => /kakaomobility/.test(u) ? { ok: true, status: 200, json: async () => ({ routes: [{ result_code: 0, summary: { duration: 1500, distance: 22000 } }] }) } : fail();
+  const a = await carTime(A, B, { ncpId: 'x', ncpSecret: 'y', kakao: 'z' }, naverOk);
+  assert.equal(a.min, 31); assert.equal(a.km, 24.5); assert.match(a.src, /네이버/);
+  const b = await carTime(A, B, { ncpId: 'x', ncpSecret: 'y', kakao: 'z' }, kakaoOk);
+  assert.equal(b.min, 25); assert.match(b.src, /카카오/);
+  const c = await carTime(A, B, {}, naverOk);
+  assert.ok(c.error && c.min === undefined);
+});

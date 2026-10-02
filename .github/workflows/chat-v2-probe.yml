@@ -1,0 +1,36 @@
+name: 청약봇 V2 출퇴근 조회 확인
+# 출퇴근 경로 API(네이버 Directions 5·카카오)가 실제로 답하는지 고정 10쌍으로 확인한다. 키는 Secrets 에서만, 결과 파일에 키는 없다.
+on:
+  push:
+    branches: [main]
+    paths:
+      - "chat/v2/commute.mjs"
+      - "chat/v2/tools/commute_probe.mjs"
+      - ".github/workflows/chat-v2-probe.yml"
+  workflow_dispatch:
+permissions:
+  contents: write
+concurrency:
+  group: collect
+  cancel-in-progress: false
+jobs:
+  probe:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    env:
+      NCP_MAPS_CLIENT_ID: ${{ secrets.NCP_MAPS_CLIENT_ID }}
+      NCP_MAPS_CLIENT_SECRET: ${{ secrets.NCP_MAPS_CLIENT_SECRET }}
+      KAKAO_REST_KEY: ${{ secrets.KAKAO_REST_KEY }}
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "22"
+      - name: 출퇴근 조회 확인
+        run: node chat/v2/tools/commute_probe.mjs
+      - name: 결과 저장
+        run: |
+          git config user.name "cheongyak-bot"
+          git config user.email "actions@users.noreply.github.com"
+          git add evidence/chat-v2/commute-probe.json
+          git diff --cached --quiet || (git commit -m "청약봇 V2 출퇴근 조회 확인 $(date +%Y-%m-%d)" && (git push || (git pull --rebase -X theirs origin main && git push)))
