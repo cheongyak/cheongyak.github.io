@@ -1,0 +1,31 @@
+name: 청약봇 V2 AI 품질 회차 (비용 있음 — 운영자가 ai-run.json 을 바꿀 때만)
+on:
+  push:
+    branches: [main]
+    paths:
+      - "chat/v2/quality/ai-run.json"
+  workflow_dispatch:
+permissions:
+  contents: write
+concurrency:
+  group: chat-v2-ai
+  cancel-in-progress: false
+jobs:
+  ai:
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    env:
+      ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "22"
+      - name: AI 품질 회차
+        run: node chat/v2/quality/run_ai.mjs
+      - name: 결과 저장
+        run: |
+          git config user.name "cheongyak-bot"
+          git config user.email "actions@users.noreply.github.com"
+          git add evidence/chat-v2/ai-quality.json evidence/chat-v2/ai-quality-report.md 2>/dev/null || true
+          git diff --cached --quiet || (git commit -m "청약봇 V2 AI 품질 회차 $(date +%Y-%m-%d)" && (git push || (git pull --rebase -X theirs origin main && git push)))

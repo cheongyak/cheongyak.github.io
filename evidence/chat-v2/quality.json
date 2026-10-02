@@ -1,0 +1,429 @@
+{
+ "summary": {
+  "slot_f1": 100,
+  "jga": 100,
+  "jga_n": 120,
+  "inv": 99.3,
+  "inv_n": 982,
+  "dir": 100,
+  "dir_n": 97,
+  "at": "2026-10-02T15:20:00.356Z",
+  "answers": 324,
+  "questions": 163,
+  "score": 99.8,
+  "golden": 99.3,
+  "generated": 99.9,
+  "dims": {
+   "정확": 100,
+   "이해": 99.1,
+   "완결": 100,
+   "개인화": 100,
+   "정직": 100,
+   "실용": 99.7,
+   "읽기": 99.2
+  },
+  "hard_fails": 0
+ },
+ "inv_fail": [
+  {
+   "para": "국평 → 84타입",
+   "n": 2,
+   "q": "무주택 4인 가족이에요. 강남3구 말고 수도권 84타입 신혼희망타운, 나홀로는 빼고 넣을 만한 곳 있어?",
+   "want": "area:required:area ; not_single:required:true ; region_in:preferred:수도권|수도권|수도권 ; region_out:required:강남3구|강남3구|강남3구 ; supply:required:\"town\" || homeless=true",
+   "got": "area:required:area ; not_single:required:true ; region_in:required:수도권|수도권|수도권 ; region_out:required:강남3구|강남3구|강남3구 ; supply:required:\"town\" || homeless=true"
+  },
+  {
+   "para": "국평 → 전용 84",
+   "n": 2,
+   "q": "무주택 4인 가족이에요. 강남3구 말고 수도권 전용 84 신혼희망타운, 나홀로는 빼고 넣을 만한 곳 있어?",
+   "want": "area:required:area ; not_single:required:true ; region_in:preferred:수도권|수도권|수도권 ; region_out:required:강남3구|강남3구|강남3구 ; supply:required:\"town\" || homeless=true",
+   "got": "area:required:area ; not_single:required:true ; region_in:required:수도권|수도권|수도권 ; region_out:required:강남3구|강남3구|강남3구 ; supply:required:\"town\" || homeless=true"
+  },
+  {
+   "para": "국평 → 84㎡",
+   "n": 2,
+   "q": "무주택 4인 가족이에요. 강남3구 말고 수도권 84㎡ 신혼희망타운, 나홀로는 빼고 넣을 만한 곳 있어?",
+   "want": "area:required:area ; not_single:required:true ; region_in:preferred:수도권|수도권|수도권 ; region_out:required:강남3구|강남3구|강남3구 ; supply:required:\"town\" || homeless=true",
+   "got": "area:required:area ; not_single:required:true ; region_in:required:수도권|수도권|수도권 ; region_out:required:강남3구|강남3구|강남3구 ; supply:required:\"town\" || homeless=true"
+  },
+  {
+   "para": "경기도 → 경기",
+   "n": 1,
+   "q": "신혼부부인데 강남3구 말고 경기 12억까지 소형 신혼희망타운, 500세대 이상 청약 추천해줘",
+   "want": "area:required:area ; households_min:required:500 ; price_max:preferred:12 ; region_in:required:경기 ; region_out:required:강남3구|강남3구|강남3구 ; supply:required:\"town\" || married=true",
+   "got": "area:required:area ; households_min:required:500 ; price_max:required:12 ; region_in:required:경기 ; region_out:required:강남3구|강남3구|강남3구 ; supply:required:\"town\" || married=true"
+  }
+ ],
+ "dir_fail": [],
+ "backlog": [
+  {
+   "dim": "이해",
+   "id": "echo",
+   "n": 6,
+   "loss": 0.9,
+   "ex": [
+    {
+     "q": "남향에 주차 넉넉한 곳",
+     "profile": "조건 없음",
+     "why": "'이렇게 이해했어요'에 이해한 조건이 없음"
+    },
+    {
+     "q": "남향에 주차 넉넉한 곳",
+     "profile": "신혼부부",
+     "why": "'이렇게 이해했어요'에 이해한 조건이 없음"
+    },
+    {
+     "q": "학군 좋은 동네 청약",
+     "profile": "조건 없음",
+     "why": "'이렇게 이해했어요'에 이해한 조건이 없음"
+    }
+   ]
+  },
+  {
+   "dim": "읽기",
+   "id": "dup",
+   "n": 38,
+   "loss": 0.632,
+   "ex": [
+    {
+     "q": "아이 둘 키우는 분당은 빼고 광명 철산동 공공분양, 나홀로는 빼고 넣을 만한 곳 있어?",
+     "profile": "조건 없음",
+     "why": "같은 줄 반복 1개"
+    },
+    {
+     "q": "아이 둘 키우는 분당은 빼고 광명 철산동 공공분양, 나홀로는 빼고 넣을 만한 곳 있어?",
+     "profile": "신혼부부",
+     "why": "같은 줄 반복 1개"
+    },
+    {
+     "q": "자녀 1명(3세) 키우고 있고 부산 7억 5천 이하로 소형 신혼부부 특공으로, 방3화2 꼭 공고 찾아줘",
+     "profile": "조건 없음",
+     "why": "같은 줄 반복 2개"
+    }
+   ]
+  },
+  {
+   "dim": "실용",
+   "id": "conclusion-early",
+   "n": 2,
+   "loss": 0.2,
+   "ex": [
+    {
+     "q": "은빛 1,2단지 vs 도봉 한신 vs 방학 청구 비교해주고 급지 및 호재, 앞으로 상승여력 비교해줘",
+     "profile": "조건 없음",
+     "why": "결론이 너무 아래(12줄 뒤)"
+    },
+    {
+     "q": "은빛 1,2단지 vs 도봉 한신 vs 방학 청구 비교해주고 급지 및 호재, 앞으로 상승여력 비교해줘",
+     "profile": "신혼부부",
+     "why": "결론이 너무 아래(12줄 뒤)"
+    }
+   ]
+  }
+ ],
+ "residue": [
+  [
+   "무주택",
+   35
+  ],
+  [
+   "4인",
+   35
+  ],
+  [
+   "자녀",
+   24
+  ],
+  [
+   "1명",
+   24
+  ],
+  [
+   "8-10억으로",
+   24
+  ],
+  [
+   "특공으로",
+   24
+  ],
+  [
+   "특공",
+   22
+  ],
+  [
+   "초품아",
+   19
+  ],
+  [
+   "현금",
+   18
+  ],
+  [
+   "방3화2",
+   16
+  ],
+  [
+   "3억",
+   16
+  ],
+  [
+   "아이",
+   15
+  ],
+  [
+   "신혼부부인데",
+   14
+  ],
+  [
+   "역세권이면",
+   13
+  ],
+  [
+   "광명",
+   10
+  ],
+  [
+   "의왕이나",
+   9
+  ],
+  [
+   "vs",
+   2
+  ],
+  [
+   "좋은",
+   2
+  ],
+  [
+   "살고",
+   1
+  ],
+  [
+   "아니어도",
+   1
+  ],
+  [
+   "제외하고",
+   1
+  ],
+  [
+   "싫어",
+   1
+  ],
+  [
+   "필수",
+   1
+  ],
+  [
+   "철산동이나",
+   1
+  ],
+  [
+   "비교해주고",
+   1
+  ],
+  [
+   "급지",
+   1
+  ],
+  [
+   "호재",
+   1
+  ],
+  [
+   "앞으로",
+   1
+  ],
+  [
+   "상승여력",
+   1
+  ],
+  [
+   "벨라르테랑",
+   1
+  ]
+ ],
+ "worst": [
+  {
+   "q": "남향에 주차 넉넉한 곳",
+   "profile": "조건 없음",
+   "total": 92.5,
+   "hard": [],
+   "top": [
+    {
+     "dim": "이해",
+     "id": "echo",
+     "s": 0,
+     "why": "'이렇게 이해했어요'에 이해한 조건이 없음",
+     "hard": false
+    }
+   ]
+  },
+  {
+   "q": "남향에 주차 넉넉한 곳",
+   "profile": "신혼부부",
+   "total": 92.5,
+   "hard": [],
+   "top": [
+    {
+     "dim": "이해",
+     "id": "echo",
+     "s": 0,
+     "why": "'이렇게 이해했어요'에 이해한 조건이 없음",
+     "hard": false
+    }
+   ]
+  },
+  {
+   "q": "학군 좋은 동네 청약",
+   "profile": "조건 없음",
+   "total": 92.5,
+   "hard": [],
+   "top": [
+    {
+     "dim": "이해",
+     "id": "echo",
+     "s": 0,
+     "why": "'이렇게 이해했어요'에 이해한 조건이 없음",
+     "hard": false
+    }
+   ]
+  },
+  {
+   "q": "학군 좋은 동네 청약",
+   "profile": "신혼부부",
+   "total": 92.5,
+   "hard": [],
+   "top": [
+    {
+     "dim": "이해",
+     "id": "echo",
+     "s": 0,
+     "why": "'이렇게 이해했어요'에 이해한 조건이 없음",
+     "hard": false
+    }
+   ]
+  },
+  {
+   "q": "급매 아파트 추천해줘",
+   "profile": "조건 없음",
+   "total": 92.5,
+   "hard": [],
+   "top": [
+    {
+     "dim": "이해",
+     "id": "echo",
+     "s": 0,
+     "why": "'이렇게 이해했어요'에 이해한 조건이 없음",
+     "hard": false
+    }
+   ]
+  },
+  {
+   "q": "급매 아파트 추천해줘",
+   "profile": "신혼부부",
+   "total": 92.5,
+   "hard": [],
+   "top": [
+    {
+     "dim": "이해",
+     "id": "echo",
+     "s": 0,
+     "why": "'이렇게 이해했어요'에 이해한 조건이 없음",
+     "hard": false
+    }
+   ]
+  },
+  {
+   "q": "은빛 1,2단지 vs 도봉 한신 vs 방학 청구 비교해주고 급지 및 호재, 앞으로 상승여력 비교해줘",
+   "profile": "조건 없음",
+   "total": 95,
+   "hard": [],
+   "top": [
+    {
+     "dim": "실용",
+     "id": "conclusion-early",
+     "s": 0,
+     "why": "결론이 너무 아래(12줄 뒤)",
+     "hard": false
+    }
+   ]
+  },
+  {
+   "q": "은빛 1,2단지 vs 도봉 한신 vs 방학 청구 비교해주고 급지 및 호재, 앞으로 상승여력 비교해줘",
+   "profile": "신혼부부",
+   "total": 95,
+   "hard": [],
+   "top": [
+    {
+     "dim": "실용",
+     "id": "conclusion-early",
+     "s": 0,
+     "why": "결론이 너무 아래(12줄 뒤)",
+     "hard": false
+    }
+   ]
+  },
+  {
+   "q": "자녀 1명(3세) 키우고 있고 부산 7억 5천 이하로 소형 신혼부부 특공으로, 방3화2 꼭 공고 찾아줘",
+   "profile": "조건 없음",
+   "total": 99.5,
+   "hard": [],
+   "top": [
+    {
+     "dim": "읽기",
+     "id": "dup",
+     "s": 0.5,
+     "why": "같은 줄 반복 2개",
+     "hard": false
+    }
+   ]
+  },
+  {
+   "q": "자녀 1명(3세) 키우고 있고 부산 7억 5천 이하로 소형 신혼부부 특공으로, 방3화2 꼭 공고 찾아줘",
+   "profile": "신혼부부",
+   "total": 99.5,
+   "hard": [],
+   "top": [
+    {
+     "dim": "읽기",
+     "id": "dup",
+     "s": 0.5,
+     "why": "같은 줄 반복 2개",
+     "hard": false
+    }
+   ]
+  },
+  {
+   "q": "신혼부부인데 분당은 빼고 부산 30평대 무순위, 500세대 이상 청약 추천해줘",
+   "profile": "조건 없음",
+   "total": 99.5,
+   "hard": [],
+   "top": [
+    {
+     "dim": "읽기",
+     "id": "dup",
+     "s": 0.47,
+     "why": "같은 줄 반복 2개",
+     "hard": false
+    }
+   ]
+  },
+  {
+   "q": "신혼부부인데 분당은 빼고 부산 30평대 무순위, 500세대 이상 청약 추천해줘",
+   "profile": "신혼부부",
+   "total": 99.5,
+   "hard": [],
+   "top": [
+    {
+     "dim": "읽기",
+     "id": "dup",
+     "s": 0.47,
+     "why": "같은 줄 반복 2개",
+     "hard": false
+    }
+   ]
+  }
+ ],
+ "hard": []
+}

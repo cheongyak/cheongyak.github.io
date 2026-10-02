@@ -1,6 +1,7 @@
 // AI 두 번: ① 조건 해석(질문 → 정해진 JSON) ② 설명(도구 결과만 받아 자연어로). 검색·판정·점수는 코드가 한다.
 // AI 결과는 형식·내용 검사를 통과해야 쓰고, 막히면 규칙 해석·기본 답을 그대로 쓴다. 호출 함수(llm)는 밖에서 넣는다 — 나중에 chat/worker/src/llm.js callClaude.
 import { understood } from './answer.mjs';
+import { distKm } from './lexicon.mjs';
 
 export const PROMPT_VERSION = 'v2-0.1';
 const KEYS = ['region_in', 'region_out', 'price_max', 'price_min', 'price_range', 'area', 'households_min', 'not_single', 'rooms', 'station_walk', 'school_walk', 'commute', 'supply', 'status', 'eligible_only', 'margin', 'new_build'];
@@ -41,10 +42,11 @@ export function factsForLLM(C, r, compare, { profile }) {
     margin: it.f.margin.g === 'unknown' ? null : { grade: it.f.margin.name, lo: round(it.f.margin.lo), hi: round(it.f.margin.hi), state: '추정' }, jeonse: it.f.jeonse.v ? round(it.f.jeonse.v) : null,
     complex: it.f.complex.state === '확인' ? { households: it.f.complex.households, buildings: it.f.complex.buildings } : null, station: it.f.station.state === '추정' ? { name: it.f.station.name, walk: it.f.station.walk, m: it.f.station.m } : null,
     school: it.f.school.state === '추정' ? { name: it.f.school.name, walk: it.f.school.walk, m: it.f.school.m } : null, elig: it.elig || null, sp_ok: (it.sp || []).filter(s => s.s === 'ok').map(s => s.label),
-    competition: it.f.competition ? it.f.competition.rows : null, commute: (it.f.commute || []).filter(x => x.min != null).map(x => ({ to: x.place, who: x.who, car_min: x.min, km: x.km, src: x.src })), dates: it.f.dates, unknown: it.unknown || [], link: it.f.link } : null;
-  return { understood: understood(C), profile, candidates: r.groups.slice(0, 5).map(g => ({ ...pick(g.best), others: g.types.slice(1).map(t => ({ unit: t.f.unit, price: t.f.price.v })) })), unsure: r.unsure.slice(0, 5).map(pick), excluded: r.excluded, relax: r.relax.map(o => ({ label: o.label, count: o.count })),
+    competition: it.f.competition ? it.f.competition.rows : null, budget_slack: (() => { const pm = C.conds.find(c => c.key === 'price_max'); return pm && it.f.price.v != null ? round(pm.value - it.f.price.v) : null; })(), units: { general: it.f.units.general, special: it.f.units.special, total: it.f.units.general + it.f.units.special }, line_km: it.f.geo ? C.conds.filter(c => c.key === 'commute').map(c => ({ to: c.value.place, km: Math.round(distKm(it.f.geo, c.value)) })) : [], commute: (it.f.commute || []).filter(x => x.min != null).map(x => ({ to: x.place, who: x.who, car_min: x.min, km: x.km, src: x.src })), dates: it.f.dates, unknown: it.unknown || [], link: it.f.link } : null;
+  return { understood: understood(C), cond_values: C.conds.filter(c => typeof c.value === 'number' || (c.value && (c.value.min != null || c.value.bed != null))).map(c => ({ key: c.key, value: c.value })), profile, candidates: r.groups.slice(0, 5).map(g => ({ ...pick(g.best), others: g.types.slice(1).map(t => ({ unit: t.f.unit, price: t.f.price.v })) })), unsure: (() => { const m = new Map(); r.unsure.forEach(x => { if (!m.has(x.f.nid)) m.set(x.f.nid, x); }); return [...m.values()].slice(0, 8).map(pick); })(), excluded: r.excluded, relax: r.relax.map(o => ({ label: o.label, count: o.count })),
     explore: r.explore, perspectives: r.perspectives, compare: compare ? compare.map(t => ({ query: t.query, found: t.found, picks: (t.notices || []).map(n => ({ ...pick(n.pick), others: n.all })) })) : null,
-    alternatives: (r.relax || []).flatMap(o => (o.groups || []).map(g => pick(g.best))).concat((r.nearMiss || []).map(g => pick(g.best))), total: r.total };
+    alternatives: (r.relax || []).flatMap(o => (o.groups || []).map(g => pick(g.best))).concat((r.nearMiss || []).map(g => pick(g.best))).concat((r.closest || []).map(x => ({ ...pick(x), near_km: x.km, misses: x.misses }))), total: r.total,
+    constants: { size_hint_m2: [59, 84], newborn_age: 2, max_cards: 5 } };   // 답 틀에 늘 들어가는 고정 숫자 (20평대=전용 59㎡ 안내, 신생아 특공 2세 미만)
 }
 const round = v => v == null ? null : Math.round(v * 100) / 100;
 
@@ -64,7 +66,7 @@ DRAFT 는 같은 사실로 만든 기본 답이다. 사실은 DRAFT 와 같게 �
 
 // 설명 검사: 단지명·숫자·판정·과거 표시가 FACTS 와 같은지, 데이터 없는 주제를 단정하지 않는지
 export function checkAnswer(ans, facts) {
-  const flags = [], a = String(ans || '');
+  const flags = [], a = String(ans || '').replace(/https?:\/\/\S+/g, ' ');   // 링크 속 숫자(%20 등)는 검사하지 않음
   if (a.length < 40) flags.push('답이 너무 짧음');
   const all = [...(facts.candidates || []), ...(facts.unsure || []), ...((facts.compare || []).flatMap(t => t.picks || []))].filter(Boolean);
   const blob = JSON.stringify(facts);

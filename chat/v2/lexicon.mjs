@@ -60,7 +60,7 @@ export const PLACES = {
   삼성전자: { name: '삼성전자 수원사업장(근사)', lat: 37.2575, lng: 127.0530 }, 기흥: { name: '기흥역', lat: 37.2756, lng: 127.1159 }, 평택: { name: '평택역', lat: 36.9907, lng: 127.0855 },
 };
 
-export const SP_WORDS = { 신혼: 'newlywed', 신혼부부: 'newlywed', 생애최초: 'first', 생초: 'first', 신생아: 'newborn', 다자녀: 'multichild', 노부모: 'elder', 노부모부양: 'elder' };
+export const SP_WORDS = { 신혼: 'newlywed', 신특: 'newlywed', 신혼부부: 'newlywed', 생애최초: 'first', 생초: 'first', 신생아: 'newborn', 다자녀: 'multichild', 노부모: 'elder', 노부모부양: 'elder' };
 export const SP_LABEL = { newlywed: '신혼부부', first: '생애최초', newborn: '신생아', multichild: '다자녀', elder: '노부모부양' };
 
 // 말투 → 조건 무게. 같은 문장(절)에 있으면 그 조건에 붙인다

@@ -22,7 +22,14 @@ function clauses(q) {
   // 절 나누기: 문장부호·줄바꿈·'그리고'·'~고 '·'~인데'·'~이면서'
   return q.replace(/\s+/g, ' ').split(/[!?\n·;]|(?<!\d),|,(?!\d)|(?<!\d)\.|\.(?!\d)|그리고|그런데|하고 |이고 |인데 |은데 |는데 |이면서 |면서 |지만 |(?<=겠)고 |(?<=좋)고 /).map(s => s.trim()).filter(Boolean);
 }
+// 무게는 그 조건 낱말 가까이(앞 6자·뒤 14자)에 있는 말로 정한다. 같은 절의 다른 조건 말('분당은 빼고')이 번지지 않게 (2026-10-03 CheckList INV)
+function weightNear(clause, key, text) {
+  const i = text ? clause.indexOf(String(text).split(/[·(]/)[0].trim()) : -1;
+  if (i < 0) return weightOf(clause, key);
+  return weightOf(clause.slice(Math.max(0, i - 6), i + String(text).length + 8), key);
+}
 function weightOf(clause, key) {
+  clause = clause.replace(/신혼희망타운|신희타|넣을\s?만한|살\s?만한/g, ' ');   // '희망'·'만'이 말투로 잘못 읽히지 않게
   const has = ws => ws.some(w => clause.includes(w));
   if (/(제외|빼고|말고|싫|안\s?돼|절대|꼭|반드시|필수|무조건|여야)/.test(clause) && !/(아니어도|상관없|괜찮)/.test(clause)) return 'required';
   if (has(EXPLORE_WORDS)) return 'explore';
@@ -65,10 +72,16 @@ function placeOf(w) {
   return d ? { name: d[1] + ' (중심 근사)', lat: d[2], lng: d[3], approx: true } : null;
 }
 
+// 같은 뜻 다른 표기를 먼저 맞춘다 (CheckList INV 실패에서 찾은 것 — 표가 늘수록 해석기가 자란다)
+const NORM = [[/생애\s최초/g, '생애최초'], [/신특/g, '신혼부부 특공'], [/생초/g, '생애최초'], [/국민\s?평형|34평형?/g, '국평'], [/(\d+)\s?억\s?밑으로/g, '$1억 이하로'], [/최대\s?(\d+(?:\.\d+)?\s?억)/g, '$1 이하'],
+  [/(\d+(?:\.\d+)?\s?억)\s?넘지\s?않게/g, '$1 이하'], [/(최소|적어도)\s?(\d[\d,]*)\s?세대/g, '$2세대 이상'], [/(\d[\d,]*)\s?세대\s?넘는/g, '$1세대 이상'], [/역에서 가까|지하철역\s?가까|역\s?근처/g, '역세권'],
+  [/초등학교 가까운 곳|초등학교 도보권|초등학교\s?가까/g, '초품아'], [/결혼\s?\d+\s?년\s?차|신혼(?=인데|이에요|이고|이라)/g, '신혼부부'], [/(아이|자녀|애)가\s?(둘|셋|하나)(인|이에요|있)/g, '$1 $2 $3'], [/줍줍/g, '무순위'], [/잔여세대/g, '무순위']];
+export function normalize(q) { let t = String(q || ''); for (const [re, to] of NORM) t = t.replace(re, to); return t; }
+
 export function extract(question) {
-  const q = String(question || '').trim();
+  const q = normalize(String(question || '').trim());
   const C = { intent: 'search', targets: [], conds: [], assume: {}, perspectives: [], unsupported: [], scope: { past: false }, q };
-  const add = (key, value, clause, text, weight) => C.conds.push({ key, value, weight: weight || weightOf(clause, key), text: text || clause });
+  const add = (key, value, clause, text, weight) => C.conds.push({ key, value, weight: weight || weightNear(clause, key, text), text: text || clause });
   const cls = clauses(q);
 
   // 비교: 'A vs B', 'A랑 B 비교', 'A와 B 중'
@@ -90,7 +103,7 @@ export function extract(question) {
       clR = clR.replace(m[0], ' ');
     }
     // '강남3구 말고 서울에서' — 제외 낱말 앞의 지역만 제외, 뒤는 포함
-    const ex = clR.match(/^(.*?)(제외|빼고|말고)(.*)$/), exA = ex ? findRegions(ex[1]) : [], exB = ex ? findRegions(ex[3]) : [];
+    const ex = clR.match(/^(.*?)(제외|빼고|말고|싫고|싫어|싫은데)(.*)$/), exA = ex ? findRegions(ex[1]) : [], exB = ex ? findRegions(ex[3]) : [];
     if (exA.length && exB.length) {
       add('region_out', exA, cl, exA.map(r => r.label).filter((x, i, y) => y.indexOf(x) === i).join('·') + ' 제외', 'required');
       add('region_in', exB, ex[3], exB.map(r => r.label).filter((x, i, y) => y.indexOf(x) === i).join('·'));
@@ -121,7 +134,7 @@ export function extract(question) {
     if (m) C.assume.income = /억/.test(m[2]) ? eok(m[2]) * 10000 : num(m[2]);
     // 면적
     if (/국평|국민평형/.test(cl)) add('area', { min: 75, max: 86, label: '국민평형(전용 84㎡)' }, cl, '국평');
-    m = cl.match(/(?:전용\s?)?(\d{2,3}(?:\.\d+)?)\s?(㎡|m2|제곱미터|타입|형)(?!\s?세대)/);
+    m = cl.match(/(?:전용\s?)?(\d{2,3}(?:\.\d+)?)\s?(㎡|m2|제곱미터|타입|형)(?!\s?세대)/) || cl.match(/전용\s?(\d{2,3}(?:\.\d+)?)(?![\d억만세])/);
     if (m) { const a = num(m[1]); add('area', { min: a - 3, max: a + 3, label: '전용 ' + a + '㎡ 안팎' }, cl, m[0]); }
     m = cl.match(/(\d{2})\s?평\s?(대|이상|이하)?/);
     if (m && !/㎡/.test(cl)) { const p = num(m[1]); const supply2ex = x => Math.round(x * 3.3058 * 0.76);   // 공급면적 평 → 전용 근사(전용률 76%)
@@ -136,7 +149,7 @@ export function extract(question) {
     if (/나홀로/.test(cl)) add('not_single', true, cl, '나홀로 제외', 'required');
     // 방·욕실
     m = cl.match(/방\s?(\d)\s?(?:개)?\s?(?:,|\s)?\s?(?:화|화장실|욕실)\s?(\d)/) || cl.match(/방\s?(\d)\s?(?:개)?/) || cl.match(/(쓰리|투)룸/);
-    if (m) { const bed = m[1] === '쓰리' ? 3 : m[1] === '투' ? 2 : +m[1], bath = m[2] ? +m[2] : null; add('rooms', { bed, bath }, cl, m[0]); }
+    if (m) { const bed = m[1] === '쓰리' ? 3 : m[1] === '투' ? 2 : +m[1], bath = m[2] ? +m[2] : null; add('rooms', { bed, bath }, cl, '방' + bed + (bath ? '·욕실' + bath : '')); }
     // 역·학교
     if (/역세권|역\s?(가까|도보|근처)|지하철\s?(가까|도보)/.test(cl)) { const w = cl.match(/(\d{1,2})\s?분/); add('station_walk', w ? +w[1] : 10, cl, w ? '역 도보 ' + w[1] + '분' : '역세권(도보 약 10분)'); }
     if (/초품아|초등학교|초등|학교\s?(가까|도보|근처)/.test(cl)) { const w = cl.match(/(\d{1,2})\s?분/); add('school_walk', { kind: '초등학교', min: w ? +w[1] : 10 }, cl, w ? '초등학교 도보 ' + w[1] + '분' : '초등학교 가까이(도보 약 10분)'); }
@@ -159,9 +172,11 @@ export function extract(question) {
     if (/(내가|제가|저도|나도|우리).{0,10}(넣을|신청|당첨될|자격|가능)|자격\s?(되는|있는|맞는)|신청\s?가능한|넣을\s?수\s?있는/.test(cl)) add('eligible_only', true, cl, '내 자격으로 신청 가능한 곳', 'required');
     // 이번만의 가정 (내 조건 칸과 따로)
     if (/(신혼부부|결혼\s?\d년|예비\s?신혼|결혼했)/.test(cl) && /(신혼부부|결혼\s?\d년|예비\s?신혼|결혼했)\s?(이에요|입니다|인데|이고|예요|라|이라|이야|임|$)/.test(q)) C.assume.married = true;
-    if (/(무주택)(이에요|입니다|인데|이고|이라|자)/.test(cl)) C.assume.homeless = true;
+    if (/무주택(이에요|입니다|인데|이고|이라|자|\s?\d인|\s?가족|\s?세대|\s?가구|$)/.test(cl) && !/무주택세대구성원|무주택\s?기간/.test(cl)) C.assume.homeless = true;   // '무주택 4인 가족' (2026-10-03 품질 검사 JGA)
     if (/(유주택|집이 있|1주택)/.test(cl)) C.assume.homeless = false;
-    m = cl.match(/(아이|자녀|애|아기)\s?(\d)\s?(명|둘|셋)?/); if (m) C.assume.kids = +m[2];
+    m = cl.match(/(아이|자녀|애|아기|아들|딸)\s?(\d|한|하나|둘|두|셋|세|넷|네)\s?(명|둘|셋)?/);   // '아이 둘', '자녀 2명', '아이 한 명' (2026-10-03 품질 검사 JGA)
+    if (m) { const K = { 한: 1, 하나: 1, 둘: 2, 두: 2, 셋: 3, 세: 3, 넷: 4, 네: 4 }; C.assume.kids = K[m[2]] || +m[2]; }
+    else if (/(외동|아이 하나|애 하나)/.test(cl)) C.assume.kids = 1;
     m = cl.match(/(\d{1,2})\s?(세|살|개월)/); if (m && /(아이|자녀|애|아기|양육|키우)/.test(cl)) C.assume.youngest = m[1] + m[2];   // 생일을 모르니 판정에 넣지 않고 되묻는다
     // 관점
     if (/(시세\s?차익|마진|로또|안전마진|싸게)/.test(cl)) { add('margin', 'consider', cl, '시세 차익(마진)', 'preferred'); C.perspectives.push('margin'); }

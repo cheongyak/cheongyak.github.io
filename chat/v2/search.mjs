@@ -103,10 +103,12 @@ export function search(D, C0, { profile = null, limit = 5, inner = false } = {})
   const live = pool.filter(r => r.past || hasStatus || ['접수 중', '접수 예정'].includes(facts.get(r.L.id).status));
   const req = C.conds.filter(c => c.weight === 'required'), pref = C.conds.filter(c => c.weight !== 'required');
   const out = { total: live.length, excluded: {}, ok: [], unsure: [], refused: [] };
+  const near = [];   // 필수 조건 몇 개만 어긋난 곳 — 결과가 없을 때 '조건에 가장 가까운 곳'
   for (const r of live) {
     const f = facts.get(r.L.id), res = req.map(c => [c, ...evalCond(D, r, f, c, ctx)]);
     const fail = res.find(x => x[1] === 'fail');
-    if (fail) { out.excluded[fail[2] || fail[0].key] = (out.excluded[fail[2] || fail[0].key] || 0) + 1; continue; }
+    if (fail) { out.excluded[fail[2] || fail[0].key] = (out.excluded[fail[2] || fail[0].key] || 0) + 1;
+      near.push({ row: r, f, misses: res.filter(x => x[1] === 'fail').map(x => x[2] || x[0].key), unknown: res.filter(x => x[1] === 'unknown').map(x => x[2] || x[0].key) }); continue; }
     const unk = res.filter(x => x[1] === 'unknown');
     const prefRes = pref.map(c => [c, ...evalCond(D, r, f, c, ctx)]);
     const item = { row: r, f, unknown: unk.map(x => x[2] || x[0].key), pref: prefRes.map(([c, s, why]) => ({ key: c.key, text: c.text, s, why })), score: 0 };
@@ -122,6 +124,14 @@ export function search(D, C0, { profile = null, limit = 5, inner = false } = {})
   out.perspectives = perspectives(out.ok, C);
   if (inner) return out;
   out.relax = out.ok.length ? [] : relaxOptions(D, C, profile);
+  if (!out.ok.length && !out.unsure.length) {   // 하나씩 늦춰도 안 생기면: 어긋난 조건이 가장 적은 곳 (공고당 1개, 거리 가까운 순) — '없어요'로 끝내지 않는다
+    const m = Math.min(...near.map(x => x.misses.length));
+    const cand = near.filter(x => x.misses.length === m && !x.row.past);
+    const regs = C.conds.filter(c => c.key === 'region_in').flatMap(c => c.value).filter(v => v.lat);
+    const d = x => regs.length && x.f.geo ? Math.min(...regs.map(v => distKm(x.f.geo, v))) : 999;
+    const seen = new Set(); out.closest = cand.sort((a, b) => d(a) - d(b) || (a.f.price.v || 99) - (b.f.price.v || 99)).filter(x => !seen.has(x.f.nid) && seen.add(x.f.nid)).slice(0, 3)
+      .map(x => ({ ...x, km: d(x) < 999 ? Math.round(d(x)) : null, elig: ctx.profile && !x.row.noJudge ? ctx.elig(x.row) : undefined, genNone: D.E.genNone(x.row.L) }));
+  }
   // 예산을 조금(10%) 넘는 곳 — '관심 단지로만' 보여 준다 (사용자 예시: 예산을 다소 넘어 관심 단지로만 체크)
   const pm = C.conds.find(c => c.key === 'price_max' && c.weight === 'required');
   if (out.ok.length && pm) { const C2 = JSON.parse(JSON.stringify(C)); C2.conds.find(c => c.key === 'price_max').value = Math.round(pm.value * 1.1 * 100) / 100;
@@ -180,7 +190,7 @@ function perspectives(items, C) {
 // 결과가 없을 때: 필수 조건을 하나씩 한 단계 늦췄을 때 생기는 후보 수 (0곳이면 버튼을 만들지 않음)
 function relaxOptions(D, C, profile) {
   const opts = [];
-  const tryC = (label, mut) => { const C2 = JSON.parse(JSON.stringify(C)); mut(C2); const r = search(D, C2, { profile, inner: true }); const n = new Set(r.ok.map(x => x.f.nid)).size; if (n) opts.push({ label, count: n, conds: C2.conds, groups: groupByNotice(r.ok).slice(0, 3) }); };
+  const tryC = (label, mut) => { const C2 = JSON.parse(JSON.stringify(C)); mut(C2); const r = search(D, C2, { profile, inner: true }); const all = r.ok.concat(r.unsure), n = new Set(all.map(x => x.f.nid)).size; if (n) opts.push({ label, count: n, conds: C2.conds, groups: groupByNotice(all).slice(0, 3) }); };   // 확인 필요 후보도 센다 (내 조건이 없어 자격만 모르는 곳 등)
   for (const c of C.conds.filter(c => c.weight === 'required')) {
     const i = C.conds.indexOf(c);
     if (c.key === 'price_max') tryC(c.value + '억 → ' + Math.round(c.value * 1.1 * 10) / 10 + '억', X => { X.conds[i].value = Math.round(c.value * 1.1 * 10) / 10; });

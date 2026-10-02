@@ -150,3 +150,32 @@ test('출퇴근 시간이 오면 카드에 자동차 시간, 순서도 시간으
   const b = await ask({ question: '자녀 1명 키우고 남편 직장 구로, 아내 마포예요. 수도권 10억 이하 청약 추천해줘', today: TODAY, dataOpts: DO, profile: PROFILE, commute: null });
   assert.doesNotMatch(b.text, /자동차 약 \d+분/);
 });
+
+test('품질 채점기: 지어낸 숫자·과장은 0점, 정상 답은 높은 점수', async () => {
+  const { score } = await import('../quality/rubric.mjs');
+  const a = await ask({ question: '신혼부부인데 현금 3억 있어요. 수도권에서 10억 이하로 신청 가능한 공고 추천해줘', profile: PROFILE, today: TODAY, dataOpts: DO, commute: null, geocode: null });
+  a.profileGiven = true;
+  assert.ok(score({ q: 'x', a }).total >= 90);
+  assert.equal(score({ q: 'x', a: { ...a, text: a.text + '\n분양가 3.33억짜리도 있어요' } }).total, 0);
+  assert.equal(score({ q: 'x', a: { ...a, text: a.text + '\n이 곳은 무조건 당첨이에요' } }).total, 0);
+});
+
+test('AI 심사: 자리 바꿔 두 번 물어 엇갈리면 무승부, Bradley-Terry 는 이긴 쪽이 높음', async () => {
+  const { pairwise, bradleyTerry } = await import('../quality/judge.mjs');
+  const alwaysA = async () => '{"winner":"A","why":"자리 편향"}';
+  const g1 = await pairwise(alwaysA, 'q', { id: 'x', text: '1' }, { id: 'y', text: '2' });
+  assert.equal(g1.winner, 'tie');
+  const prefersLong = async ({ user }) => { const a = user.split('[답 A]\n')[1].split('\n\n[답 B]')[0], b = user.split('[답 B]\n')[1]; return JSON.stringify({ winner: a.length > b.length ? 'A' : 'B', why: '' }); };
+  const g2 = await pairwise(prefersLong, 'q', { id: 'x', text: '길고 자세한 답입니다 정말로' }, { id: 'y', text: '짧음' });
+  assert.equal(g2.winner, 'x');
+  const bt = bradleyTerry([{ a: 'x', b: 'y', winner: 'x' }, { a: 'x', b: 'y', winner: 'x' }, { a: 'x', b: 'y', winner: 'tie' }]);
+  assert.ok(bt.x.elo > bt.y.elo);
+});
+
+test('CheckList: 말 바꾸기 표는 대부분 같은 해석, 조건을 더하면 후보가 늘지 않음', async () => {
+  const { runINV, runDIR } = await import('../quality/checklist.mjs');
+  const { generate } = await import('../quality/generate.mjs');
+  const qs = generate(60);
+  const inv = runINV(qs); assert.ok(inv.filter(r => r.ok).length / inv.length >= 0.97, 'INV ' + inv.filter(r => !r.ok).slice(0, 3).map(r => r.from + '→' + r.to).join(', '));
+  const dir = runDIR(D, qs); assert.ok(dir.every(r => r.ok), dir.filter(r => !r.ok).slice(0, 2).map(r => r.why).join(' / '));
+});

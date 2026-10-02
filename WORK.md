@@ -4,6 +4,14 @@
 2026-09-29 12:55 이전 항목은 규칙을 만들기 전 작업을 커밋 기록으로 정리한 것이라 백업 브랜치가 없어요.
 그 시점으로 되돌릴 때는 해당 커밋 번호로 `git revert` 를 써요.
 
+## 2026-10-03 00:09 · 청약봇 V2 답 품질 측정·진화 순환
+- 요청: "답변품질 체크하는 검증 알고리즘 짜서 품질 검증하고, 더 높일 방법 보고, 지속적으로 진화시키는 알고리즘으로" + "챗봇·LLM 만들 때 많이 쓰는 유명한 알고리즘이면 그 방식 적용"
+- 변경: chat/v2/quality/ — rubric.mjs(7차원 채점표, 치명 검사는 0점, 슬롯 F1·Joint Goal Accuracy), generate.mjs(조각을 섞어 정답을 아는 질문 생성), checklist.mjs(CheckList INV 말 바꾸기 15묶음·DIR 조건 더하기), run.mjs(시험지+생성 질문 × 내 조건 2종 324답 채점, 약점 순위·말 바꾸면 깨지는 표현·못 읽은 낱말, 기준선 래칫, 사용자 👎 이유 반영 자리), judge.mjs·run_ai.mjs·ai-run.json(AI 심사 G-Eval 절대 평가 + 자리 바꾼 짝 비교 + Bradley-Terry, round 0 이라 안 돎), QUALITY.md. 첫 회차에서 찾은 것을 고침 — 해석: '무주택 4인 가족'·'아이 둘'(JGA 57.5→100%), 같은 뜻 다른 표기 정규화 표(NORM)와 무게를 조건 가까이에서만 판정(INV 77.7→99.3%); 답: 방3화2만 물으면 '없어요'라고 하던 것 → 확인하면 되는 후보, 결과 없을 때 '조건에 가장 가까운 곳', 좁혀 줄 질문을 늘 하나, 이유 한 줄 보강(예산 여유 등), 아이 언급 없을 때 '아이 키우기에 좋아요' 안 씀, 비교 답에 좁혀 줄 질문; 검사기: 링크 속 숫자 무시, 사실 묶음에 직선거리·예산 여유·조건 값·공급 세대 추가. chat-v2.yml 에 품질 게이트, chat-v2-quality-ai.yml
+- 파일: chat/v2/quality/*, chat/v2/QUALITY.md, chat/v2/extract.mjs, chat/v2/lexicon.mjs, chat/v2/search.mjs, chat/v2/answer.mjs, chat/v2/llm.mjs, chat/v2/test/v2.test.mjs, .github/workflows/chat-v2.yml, .github/workflows/chat-v2-quality-ai.yml, evidence/chat-v2/quality.json, evidence/chat-v2/quality-report.md, HANDOFF.md
+- 확인: V2 시험 60/60, 품질 324답 평균 99.8·치명 0·JGA 100%·INV 99.3%·DIR 100%, 기준선 저장, pytest
+- 백업: backup/20261003-0009-quality
+- 기능: 없음(개발 중)
+
 ## 2026-10-02 23:53 · 청약봇 V2 직장 위치: 구 이름은 구청으로 찾기
 - 요청: (자체 확인) 카카오 장소 검색이 켜진 뒤 첫 확인에서 '구로구' → 푸른수목원, '마포구' → 홍대걷고싶은거리처럼 구 안의 아무 장소가 잡힘. 판교역·가산디지털단지역·삼성전자 수원사업장은 정확
 - 변경: 직장 위치가 구·시·군 이름뿐이면 '구로구청'처럼 구청·시청으로 검색
