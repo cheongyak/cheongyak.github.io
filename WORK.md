@@ -4,6 +4,15 @@
 2026-09-29 12:55 이전 항목은 규칙을 만들기 전 작업을 커밋 기록으로 정리한 것이라 백업 브랜치가 없어요.
 그 시점으로 되돌릴 때는 해당 커밋 번호로 `git revert` 를 써요.
 
+## 2026-10-03 10:41 · 판정 검증·청약봇 V2 점검이 수집을 취소하던 문제 고침 (대기 줄 분리)
+- 요청: (재시도 보고 때 알린 남은 문제) "이것도 진행해"
+- 원인: verify.yml(판정 검증)·chat-v2-probe.yml 이 수집과 같은 concurrency 묶음(collect)이었음. GitHub 은 한 묶음에 대기 실행을 하나만 두므로, 코드를 올려 수집과 판정 검증이 같이 생기면 대기 중이던 수집이 취소됨(10-02 1bf91b2, 10-03 d6aaa8d 수집 cancelled)
+- 변경: 판정 검증은 묶음 verify 로 나누고, 시작할 때 수집이 돌거나 대기 중이면 끝날 때까지(최대 45분) 기다린 뒤 최신 main 을 받아 검사(tools/qa/wait_collect.sh, 권한 actions: read). 청약봇 V2 점검은 공고 데이터를 안 쓰니 묶음만 분리. 공고문 재시도도 같은 스크립트로. 이제 collect 묶음에는 수집만 있음
+- 파일: .github/workflows/verify.yml, .github/workflows/chat-v2-probe.yml, .github/workflows/notice-retry.yml, tools/qa/wait_collect.sh
+- 확인: YAML 문법 4개, 올린 뒤 수집과 판정 검증을 같이 띄워 수집이 취소되지 않고 판정 검증이 기다렸다 도는지 확인
+- 백업: backup/20261003-1041-queue
+- 기능: 없음(수정)
+
 ## 2026-10-03 10:30 · 공고문 재시도가 수집 실행을 취소하던 문제 고침
 - 요청: (위 재시도 작업의 올린 뒤 확인)
 - 원인: notice-retry.yml 을 수집과 같은 concurrency 묶음(collect)에 뒀더니, 손으로 띄운 재시도가 대기 중이던 수집(d6aaa8d 코드 반영 실행)을 밀어내 취소시킴 (GitHub 은 한 묶음에 대기 실행을 하나만 둠)

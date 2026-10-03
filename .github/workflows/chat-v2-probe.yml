@@ -12,9 +12,9 @@ on:
   workflow_dispatch:
 permissions:
   contents: write
-concurrency:
-  group: collect
-  cancel-in-progress: false
+concurrency:               # 수집 묶음(collect)에 두면 대기 중인 수집을 밀어내 취소시킨다(2026-10-03) — 공고 데이터를 쓰지 않으니 따로 둔다
+  group: chat-v2-probe
+  cancel-in-progress: true
 jobs:
   probe:
     runs-on: ubuntu-latest

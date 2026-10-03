@@ -26,20 +26,27 @@ on:
       - "chat/tools/engine_payload.cjs"
       - "tests/qa/**"
       - ".github/workflows/verify.yml"
-concurrency:
-  group: collect          # 수집과 겹치지 않게 같은 줄에 선다
-  cancel-in-progress: false
+concurrency:               # 수집과 같은 묶음이면 대기 중인 수집이 밀려 취소된다(2026-10-03) → 따로 두고 시작할 때 수집이 끝나길 기다린다 (tools/qa/wait_collect.sh)
+  group: verify
+  cancel-in-progress: true
 permissions:
   contents: write
   issues: write
+  actions: read
 jobs:
   verify:
     runs-on: ubuntu-latest
-    timeout-minutes: 25
+    timeout-minutes: 70
     steps:
       - uses: actions/checkout@v4
         with:
           ref: main
+      - name: 수집이 돌고 있으면 끝날 때까지 기다리기
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          bash tools/qa/wait_collect.sh 45
+          git pull -q --ff-only origin main   # 기다리는 동안 수집이 올린 최신 데이터에서 시작
       - uses: actions/setup-python@v5
         with:
           python-version: "3.12"

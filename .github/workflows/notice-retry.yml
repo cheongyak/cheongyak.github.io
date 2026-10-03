@@ -19,19 +19,15 @@ jobs:
     env:
       TZ: Asia/Seoul
     steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: main
       - name: 수집이 돌고 있으면 끝날 때까지 기다리기 (최대 45분)
         env:
           GH_TOKEN: ${{ github.token }}
         run: |
-          for i in $(seq 1 45); do
-            n=$(gh api "repos/${{ github.repository }}/actions/workflows/collect.yml/runs?per_page=5" --jq '[.workflow_runs[] | select(.status=="in_progress" or .status=="queued" or .status=="pending" or .status=="waiting")] | length' || echo 0)
-            [ "$n" = "0" ] && exit 0
-            echo "수집 실행 중 ($n) — 1분 뒤 다시 확인"; sleep 60
-          done
-          echo "수집이 45분 넘게 이어져 이번 재시도는 건너뜀"; exit 1
-      - uses: actions/checkout@v4
-        with:
-          ref: main
+          bash tools/qa/wait_collect.sh 45
+          git pull -q --ff-only origin main   # 기다리는 동안 수집이 올린 최신 데이터에서 시작
       - name: 못 받은 공고가 있는지
         id: need
         run: |
