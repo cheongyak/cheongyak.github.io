@@ -44,7 +44,7 @@ _ADMIN_END = re.compile(r"(동|읍|면|리|\d가)$")
 
 def address_queries(address: str) -> list[tuple[str, str]]:
     """공고 주소 → [(검색어, 정밀도)] (정확한 것부터)."""
-    s = re.sub(r"\([^)]*\)", " ", RG.main_address(address))
+    s = re.sub(r"\([^)]*\)", " ", RG.norm_city(RG.main_address(address)))   # '화성특례시' → '화성시' (네이버 지오코딩이 특례시 이름을 못 찾음)
     s = s.split(" 및 ")[0].split(",")[0]
     area: list[str] = []
     lot = None

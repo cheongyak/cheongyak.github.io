@@ -13,7 +13,14 @@ _GYEONGGI_CITIES_WITH_GU = {
     "안산시": ["상록구", "단원구"],
     "고양시": ["덕양구", "일산동구", "일산서구"],
     "용인시": ["처인구", "기흥구", "수지구"],
+    "화성시": ["만세구", "효행구", "병점구", "동탄구"],   # 2026-02 일반구 설치 (실거래가 코드 확인: evidence/qa/lawd-probe.txt)
 }
+
+
+def norm_city(address: str) -> str:
+    """'화성특례시'·'수원특례시' → '화성시'·'수원시'. 특례시는 명칭이고 법정 이름·법정동코드·지도 검색은 '…시'로 찾는다
+    (2026-10-03 향남역 그로브 스위첸 '경기도 화성특례시 만세구' — 표에서 못 찾고 네이버 지오코딩도 0건이던 것)."""
+    return re.sub(r"([가-힣]+)특례시", r"\1시", address or "")
 
 
 # 주소 첫 단어 → 시·도 짧은 이름 (17개)
@@ -53,7 +60,7 @@ def sigungu_any(address: str) -> Optional[str]:
     known = sigungu_of(address)
     if known:
         return known.replace("인천 ", "")
-    parts = (address or "").split()
+    parts = norm_city(address).split()
     if len(parts) < 2 or sido_of(address) == "세종":
         return None
     a = parts[1]
@@ -76,7 +83,7 @@ def region_of(address: str) -> str:
 
 
 def sigungu_of(address: str) -> Optional[str]:
-    a = address or ""
+    a = norm_city(address)
     reg = region_of(a)
     if reg == "서울":
         for gu in R.SEOUL_LAWD:
