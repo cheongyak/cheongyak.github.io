@@ -236,15 +236,19 @@ def test_golden_score_ratio_from_real_notices():
     nos = [k for k, v in gold.items() if "score_ratio" in v["fields"]]
     assert len(nos) >= 4
     for no in nos:
-        text = (root / "evidence" / "notices" / f"{no}.txt").read_text(encoding="utf-8")
+        f = root / "evidence" / "notices" / f"{no}.txt"
+        f = f if f.exists() else root / "evidence" / "qa" / "notices" / f"{no}.txt"   # 지난 공고 원문
+        text = f.read_text(encoding="utf-8")
         assert notice_pdf.parse_notice(text).get("score_ratio") == gold[no]["fields"]["score_ratio"], no
 
 
 def test_score_ratio_unknown_and_absent():
     import pathlib
     root = pathlib.Path(__file__).resolve().parent.parent / "evidence" / "notices"
-    # 2026000436: 표 글자가 뒤섞여 추출돼 비율을 확실히 못 읽는다 → 추측하지 않고 unknown
-    assert notice_pdf.parse_score_ratio((root / "2026000436.txt").read_text(encoding="utf-8")) == {"unknown": True}
+    # 2026000436: 표 글자가 뒤섞여도 줄마다 면적·비율이 맞고 줄이 이어지면 읽는다 (2026-10-03, 정답 데이터에 있음)
+    assert notice_pdf.parse_score_ratio((root / "2026000436.txt").read_text(encoding="utf-8")) == {"rows": [{"over": 60, "upto": 85, "score": 40, "lottery": 60}]}
+    # 뒤섞인 줄을 잘못 짝지어 면적이 이어지지 않으면 추측하지 않고 unknown
+    assert notice_pdf.parse_score_ratio("전용면적별 1순위 가점제/추첨제 적용비율 구분 가점제 추첨제 전용면적 60㎡ 이하 40% 60% 전용면적 85㎡ 초과 80% 20%") == {"unknown": True}
     # 공공분양(국민주택) 공고문에는 표가 없다
     assert notice_pdf.parse_score_ratio((root / "2026000409.txt").read_text(encoding="utf-8")) is None
     # 합이 100% 가 아니면 못 읽은 것으로 본다
@@ -359,3 +363,22 @@ def test_pdf_text_alt_runs_outside_collector_process():
     assert "subprocess" in notice_pdf.pdf_text_alt.__code__.co_names or "subprocess" in notice_pdf.pdf_text_alt.__code__.co_varnames
     assert notice_pdf.pdf_text_alt(b"%PDF-1.4 broken") is None
     assert notice_pdf.pdf_text_alt(b"") is None
+
+
+def test_every_saved_original_score_ratio_reads():
+    """모아 둔 민영 공고문 원문의 가점제·추첨제 비율 표는 모두 읽는다 (2026-10-03 사용자 '원인 찾아봐' — 못 읽음 7건 → 0)."""
+    import pathlib
+    root = pathlib.Path(__file__).resolve().parent.parent / "evidence"
+    miss = [f.name for f in sorted([*(root / "notices").glob("*.txt"), *(root / "qa" / "notices").glob("*.txt")])
+            if notice_pdf.parse_score_ratio(f.read_text(encoding="utf-8")) == {"unknown": True}]
+    assert miss == []
+
+
+def test_merge_alt_fills_unknown_struct():
+    """첫 도구가 '못 읽음' 표시만 남겼으면 두 번째 도구 값으로 채운다 (예전엔 표시가 막았다)."""
+    found = {"score_ratio": {"unknown": True}}
+    notice_pdf.merge_alt(found, {"score_ratio": {"rows": [{"over": 60, "upto": 85, "score": 40, "lottery": 60}]}})
+    assert found["score_ratio"]["rows"][0]["score"] == 40
+    found = {"score_ratio": {"rows": [{"over": 0, "upto": 60, "score": 40, "lottery": 60}]}}
+    notice_pdf.merge_alt(found, {"score_ratio": {"unknown": True}})
+    assert found["score_ratio"]["rows"][0]["upto"] == 60

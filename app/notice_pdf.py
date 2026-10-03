@@ -370,21 +370,43 @@ def parse_notice(text: str) -> dict:
 #   '전용면적 85㎡ 초과 - 100%' (2026000453·403·103·454 원문). 2026000454 는 칸에 주택형 '84A / 84B' 가 끼어 있다.
 # 표가 있는 것 같은데 못 읽으면 {'unknown': True}, 흔적이 없으면 None (추측하지 않음). 가점제+추첨제가 100% 가 아니면 못 읽은 것으로 본다.
 def parse_score_ratio(text: str) -> Optional[dict]:
+    """민영 '전용면적별 1순위 가점제/추첨제 적용비율' 표 → {'rows': [{'over','upto','score','lottery'}]}, 표 문구는 있는데 못 읽으면 {'unknown': True}, 표가 없으면 None.
+    2026-10-03 보강 (사용자 제보 화면 '가점제·추첨제 비율 표를 읽지 못했어요'):
+      ① 주택형을 쉼표로 나열한 줄 '전용면적 60㎡ 초과 85㎡ 이하 71, 84A, 84B 40% 60%' (2026000463 향남역 그로브 스위첸)
+      ② 첫 도구가 글자 순서를 뒤섞은 표 '적용비율 - 1 / 구분 가점제 추첨제 전용면적 초과 이하60 85㎡ ㎡ 40% 60%' (2026000498·0444·0436) —
+         줄은 '전용면적'으로 나뉘어 각 줄의 면적·비율이 그 줄 안에 있다. 줄마다 초과·이하와 면적 수가 맞고 합 100%, 줄끼리 면적이 빈틈없이 이어질 때만 읽는다
+      ③ 낱말 사이 공백 '추 첨제'·'전용 면적'·'초 과' (2026000354)"""
     t = re.sub(r"\s+", " ", text)
-    m = re.search(r"전용면적별 1순위 가점제\s?[/·]\s?추첨제 적용\s?비율 ?구분 ?가점제 ?추첨제", t)
+    for a_, b_ in ((r"추 ?첨 ?제", "추첨제"), (r"전용 ?면적", "전용면적"), (r"초 ?과", "초과"), (r"이 ?하", "이하")):   # '추 첨제'·'전용 면적'·'초 과' (2026000354)
+        t = re.sub(a_, b_, t)
+    m = re.search(r"전용면적별 1?\s?순위 가점제\s?[/·]?\s?추첨제 적용\s?비율(?: ?- ?1 ?/)? ?구분 ?가점제 ?추첨제", t)
     if not m:
         return {"unknown": True} if re.search(r"가점제 ?[/·]? ?추첨제 ?적용 ?비율", t) else None
+    seg = re.split(r"가점 ?산정 ?기준|■|※", t[m.end():m.end() + 320])[0]
+    pieces = list(re.finditer(r"전용면적(.*?)(?<![\dA-Za-z])(-|\d{1,3}) ?%? ?(-|\d{1,3}) ?%", seg))
     rows = []
-    for r in re.finditer(r"전용면적 (?:(\d{2,3})\s?㎡ ?초과 ?~? ?)?(?:(\d{2,3})\s?㎡ ?이하)? ?(?:\d{2,3}[A-Z]{0,2} ?/? ?)*?(-|\d{1,3}) ?%? ?(-|\d{1,3}) ?%",
-                         t[m.end():m.end() + 260]):
-        lo, hi = r.group(1), r.group(2)
-        if not lo and not hi:
-            continue
-        a = 0 if r.group(3) == "-" else int(r.group(3))
-        b = 0 if r.group(4) == "-" else int(r.group(4))
+    for r in pieces:
+        body = r.group(1)
+        sizes = [int(x) for x in re.findall(r"(\d{2,3})\s?㎡", body)] + [int(x) for x in re.findall(r"(?:초과|이하)(\d{2,3})(?![\dA-Za-z])", body)]
+        sizes = sorted(set(sizes))
+        over_w, upto_w = "초과" in body, "이하" in body
+        if over_w and upto_w and len(sizes) == 2:
+            lo, hi = sizes
+        elif upto_w and not over_w and len(sizes) == 1:
+            lo, hi = 0, sizes[0]
+        elif over_w and not upto_w and len(sizes) == 1:
+            lo, hi = sizes[0], None
+        else:
+            return {"unknown": True}
+        a = 0 if r.group(2) == "-" else int(r.group(2))
+        b = 0 if r.group(3) == "-" else int(r.group(3))
         if a + b != 100:
             return {"unknown": True}
-        rows.append({"over": int(lo) if lo else 0, "upto": int(hi) if hi else None, "score": a, "lottery": b})
+        rows.append({"over": lo, "upto": hi, "score": a, "lottery": b})
+    # 줄끼리 면적이 빈틈없이 이어져야 한다 (예: 60 이하 → 60 초과 85 이하 → 85 초과). 아니면 뒤섞인 글을 잘못 짝지은 것일 수 있어 unknown
+    for x, y in zip(rows, rows[1:]):
+        if x["upto"] is None or y["over"] != x["upto"]:
+            return {"unknown": True}
     return {"rows": rows} if rows else {"unknown": True}
 
 
@@ -935,7 +957,8 @@ def merge_alt(found: dict, alt: dict) -> list[str]:
         elif a is not None and b is not None and a != b:
             found.setdefault("conflicts", []).append(f"읽기 도구에 따라 {k} 값이 달라요: {a!r} ↔ {b!r}")
     for k in MERGE_STRUCT:
-        if not found.get(k) and alt.get(k):
+        # '못 읽음' 표시({'unknown': True})는 값이 없는 것으로 본다 — 예전엔 이 표시가 두 번째 도구의 값을 막았다 (2026-10-03 가점제·추첨제 비율)
+        if (not found.get(k) or found.get(k) == {"unknown": True}) and alt.get(k) and alt.get(k) != {"unknown": True}:
             found[k] = alt[k]
             notes.append(f"{k} (첫 도구는 못 읽음)")
     return notes
