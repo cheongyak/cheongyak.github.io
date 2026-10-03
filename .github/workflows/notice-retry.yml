@@ -5,19 +5,30 @@ on:
   schedule:
     - cron: "20 1-13/2,23 * * *"   # 한국 08:20 · 10:20 · … · 22:20
   workflow_dispatch:
-concurrency:               # 새벽 수집과 겹치지 않게 같은 묶음에서 차례로 돈다
-  group: collect
-  cancel-in-progress: false
+concurrency:               # 수집(collect)과 같은 묶음에 두면 대기 중인 수집이 취소된다(2026-10-03 확인) → 따로 두고, 수집이 돌고 있으면 끝날 때까지 기다린다
+  group: notice-retry
+  cancel-in-progress: true
 permissions:
   contents: write
   issues: write
+  actions: read
 jobs:
   retry:
     runs-on: ubuntu-latest
-    timeout-minutes: 20
+    timeout-minutes: 70
     env:
       TZ: Asia/Seoul
     steps:
+      - name: 수집이 돌고 있으면 끝날 때까지 기다리기 (최대 45분)
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          for i in $(seq 1 45); do
+            n=$(gh api "repos/${{ github.repository }}/actions/workflows/collect.yml/runs?per_page=5" --jq '[.workflow_runs[] | select(.status=="in_progress" or .status=="queued" or .status=="pending" or .status=="waiting")] | length' || echo 0)
+            [ "$n" = "0" ] && exit 0
+            echo "수집 실행 중 ($n) — 1분 뒤 다시 확인"; sleep 60
+          done
+          echo "수집이 45분 넘게 이어져 이번 재시도는 건너뜀"; exit 1
       - uses: actions/checkout@v4
         with:
           ref: main
@@ -46,7 +57,8 @@ jobs:
           python -m tools.verify_status || true
           git add docs/listings.json docs/notice-cache.json docs/run-log.txt docs/verify-status.json docs/sitemap.xml
           for d in docs/notice docs/chat-notice; do [ -e "$d" ] && git add -A -- "$d"; done
-          git diff --cached --quiet || (git commit -m "공고문 재시도 $(date +%Y-%m-%d\ %H:%M)" && (git push || (git pull --rebase -X theirs origin main && git push)))
+          # 그사이 수집이 먼저 올렸으면 덮어쓰지 않고 버린다(새 수집 결과가 우선, 다음 재시도에서 다시 받음)
+          git diff --cached --quiet || (git commit -m "공고문 재시도 $(date +%Y-%m-%d\ %H:%M)" && (git push || echo "다른 실행이 먼저 올려 이번 재시도 결과는 올리지 않음 — 다음 재시도에서 다시 받아요"))
       - name: 하루 마지막 재시도에도 못 받으면 운영자 알림 (이슈)
         if: steps.need.outputs.go == '1' && github.event_name == 'schedule'
         continue-on-error: true
