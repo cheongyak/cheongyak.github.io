@@ -53,6 +53,12 @@ GitHub Secrets (이름만): `DATA_GO_KR_KEY`, `NCP_MAPS_CLIENT_ID`, `NCP_MAPS_CL
 
 ## 진행 중인 일 (2026-10-03 기준, 최신이 위)
 
+-12. **공고문 받기·거주 요건 읽기 v1.47.1~2 (2026-10-03 08:46, 사용자 제보 '거주지 공고문에서 못 읽었어요')** — 원인 둘.
+   ① 받기: 새 공고 첨부 링크(static.applyhome.co.kr)가 200·59바이트 '찾을 수 없음'을 줌 → 같은 주소 www.applyhome.co.kr 로 받기(_with_mirrors). 점검 도구 `python -m tools.qa.pdf_fetch_probe [번호]`(근거 자료 모으기에서 실행, evidence/qa/pdf-fetch-probe.txt).
+   ② 읽기: 표 변형 6가지(년 이상 계속 거주자N·국민·규제 지역 여부·국민주택(임대)·SH 표2·국내 거주) → PARSER 21. 모아 둔 원문 109건 모두 읽기 테스트(test_every_saved_original_has_residence), 정답 10건.
+   10:00 수집 결과: 226건 모두 공고문 PDF 읽음·거주 요건 있음, 정답 불일치 0, verify ok.
+   (제안만 함, 미결정) 받기가 그래도 실패하면 다음 날 새벽까지 '확인 필요' — 실패 공고만 몇 시간 뒤 다시 받는 재시도 실행을 둘지 사용자 결정 필요.
+
 -11. **받은 알림함 v1.47.0 (2026-10-03 07:45, 기능 `push_inbox`, 커밋 e13242d)** — 사용자가 앱 아이콘 배지 '1'을 보고 '확인하는 기능' 요청.
    sw.js 가 받은 푸시를 기기 IndexedDB(cp-inbox) 최근 30개 저장 + setAppBadge, 알림 탭 맨 위 '받은 알림' 목록(이전에 받아 알림창에 남은 것은 getNotifications 로), 아래 알림 탭 빨간 숫자, 탭을 열면 읽음·알림창 닫기·clearAppBadge.
    검사: `NODE_PATH=$(npm root -g) node tools/qa/push_inbox.cjs [스크린샷 폴더]` (CDP 로 실제 푸시 전달). 사용자 기기는 sw.js 가 새로 받아져야 저장이 시작됨 — 이번 배지 1 알림은 알림창에 남아 있으면 목록에 보이고, 알림창에서 지웠으면 안 보임(그 전엔 저장하지 않았음).
