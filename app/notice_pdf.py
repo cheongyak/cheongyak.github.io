@@ -504,7 +504,8 @@ def parse_residence(text: str) -> Optional[dict]:
      'gyeonggi': {'months','since'} (대규모 택지의 경기도 몫), 'others': 기타지역 시·도 목록(['전국'] 가능), 'quota': {'해당':%,'경기':%,'기타':%}}"""
     t = re.sub(r"\s+", " ", text)
     # 1) 민영·국민 요약 표
-    m = re.search(r"해당지역 (기타경기 )?기타지역 규제지역 ?여부 (?:민영(?:주택)?|국민주택 ?\(공공분양\)|국민주택|공공분양) (.+?) " + _REG_END, t)
+    # 표 머리 변형 (2026-10-03 원문 대조 evidence/qa/notices): '규제 지역 여부'(2026000185 거제) · '국민'(2026000081 광주) · '국민주택 (5년공공건설임대)'(2025000645 이천)
+    m = re.search(r"해당지역 (기타경기 )?기타지역 규제 ?지역 ?여부 (?:민영(?:주택)?|국민주택 ?\([^)]{1,20}\)|국민주택|공공분양|국민) (.+?) " + _REG_END, t)
     if m and len(m.group(2)) < 400:
         mid = m.group(2)
         a = re.match(r"(?:입주자모집공고일 현재 )?(?:기존 )?((?:[가-힣]+(?:특별시|광역시|특별자치시|특별자치도|도))?(?: ?[가-힣]+(?:시|군))?)", mid)
@@ -514,7 +515,7 @@ def parse_residence(text: str) -> Optional[dict]:
         head = re.search(r"거주자\s*(?:\d\s*)?(?:\([^)]*\)|이전부터 계속 ?거주\s*\([^)]*\))?", mid)
         hpart = mid[:head.end()] if head else mid
         rest = mid[head.end():] if head else ""
-        yrs = re.search(r"(\d{1,2})\s*년\s*이상|년\s*이상\s*거주자\s*(\d)", hpart)
+        yrs = re.search(r"(\d{1,2})\s*년\s*이상|년\s*이상\s*(?:계속\s*)?거주자\s*(\d)", hpart)   # '년 이상 계속 거주자1': 숫자가 뒤로 밀린 글 (2026000444 제주 아이린8차, 2026-10-03 사용자 제보)
         mos = re.search(r"(\d{1,2})\s*개월\s*이상", hpart)
         months = int(yrs.group(1) or yrs.group(2)) * 12 if yrs else (int(mos.group(1)) if mos else 0)
         # 괄호 안 날짜 앞에 설명이 붙은 공고도 있다: '(공고일로부터 1년 전, 2025.02.12. 이전부터 계속 거주)' (2026000018 제주, 2026-10-02 MASTER QA)
@@ -550,12 +551,23 @@ def parse_residence(text: str) -> Optional[dict]:
         else:
             out["others"] = []
         return out
+    # 2-2) SH 공고의 <표2> 지역우선 공급기준 (2026000041 마곡지구 17단지 토지임대부, 2026-10-03 원문 대조)
+    #   "지역우선 공급기준 기준일 우선공급비율 지역구분 해당지역(서울) 기타지역(수도권) … 입주자모집공고일 (2026.02.27.) 100% 0%
+    #    ● 입주자모집공고일 현재 서울특별시 2년 이상 계속 거주자 ● 입주자모집공고일 현재 서울특별시 2년 미만 거주자 ● 입주자모집공고일 현재 경기도, 인천광역시 거주자 ※"
+    m = re.search(r"지역우선 공급기준 기준일 .{0,120}?해당지역\([^)]+\) 기타지역\([^)]+\).{0,120}?\((\d{4})\.(\d{1,2})\.(\d{1,2})\.?\) (\d{1,3}) ?% (\d{1,3}) ?%"
+                  r" ● 입주자모집공고일 현재 ([가-힣]+(?: [가-힣]+(?:시|군))?) (\d{1,2})년 이상 (?:계속 )?거주자 (.{0,200})", t)
+    if m:
+        y, mo, d = (int(x) for x in m.groups()[:3])
+        n = int(m.group(7))
+        rest = m.group(8).split("※")[0]
+        return {"area": _area(m.group(6)), "months": n * 12, "since": _date(y - n, mo, d),
+                "quota": {"해당": int(m.group(4)), "기타": int(m.group(5))}, "others": _regions(rest)}
     # 3) 무순위·재공급·취소분: 대상자 문장 (기간 요건 없음). 지역이 여럿이면 우선순위 없이 모두 신청 가능(equal)
     #    예: "입주자모집공고일 현재 부산광역시 및 울산광역시, 경상남도에 거주하는 무주택세대구성원",
     #        "모집공고일 현재 과천시에 거주 주민등록표등본 기준 하는 무주택세대구성원", "현재 ( ) 충청북도에 거주하는 무주택"
     for m in re.finditer(r"공고일 ?현재 (?:\( ?\) )?(?:해당 주택건설지역인 )?([^.■※]{2,70}?)에 ?거주(?:하거나 ([^.■※]{2,80}?)에 ?거주)?[^.■]{0,30}?무주택", t):
         first, more = m.group(1).strip(), (m.group(2) or "")
-        if "전국" in first:
+        if "전국" in first or first == "국내":   # '공고일 현재 국내에 거주하는 무주택세대구성원' (2025910266 청계 노르웨이숲 무순위)
             return {"area": None, "months": 0, "since": None, "others": ["전국"], "equal": True}
         regs = _regions(first + " " + more)
         single = _area(first)

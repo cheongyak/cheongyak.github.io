@@ -319,3 +319,11 @@ def test_notice_conflicts_between_summary_table_and_body():
     t = text("2026000437")   # 1쪽 표 '10년 3년 3년 적용 공공택지', 본문 '거주의무가 3년 적용됩니다'
     bad = t.replace("거주의무가 3년 적용됩니다", "거주의무가 5년 적용됩니다", 1)
     assert any("거주의무" in c for c in notice_pdf.parse_notice(bad).get("conflicts", []))
+
+
+def test_every_saved_original_has_residence():
+    """모아 둔 공고문 원문은 모두 거주 지역 요건을 읽는다 (2026-10-03 사용자 '못 읽는 게 없어야 정상 서비스').
+    새 형식이 나와 못 읽으면 여기서 걸린다 → 원문을 읽고 규칙과 정답(tests/golden/notices.json)을 더한다."""
+    miss = [f.name for f in sorted([*(ROOT / "evidence" / "notices").glob("*.txt"), *(ROOT / "evidence" / "qa" / "notices").glob("*.txt")])
+            if notice_pdf.parse_residence(f.read_text(encoding="utf-8")) is None]
+    assert miss == []
