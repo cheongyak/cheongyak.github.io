@@ -4413,9 +4413,9 @@
   "name": "향남역 그로브 스위첸",
   "address": "경기도 화성특례시 만세구 향남읍 하길리 404-2번지 일원",
   "region": "경기",
-  "sigungu": null,
+  "sigungu": "화성시 만세구",
   "sido": "경기",
-  "district": "화성특례시 만세구",
+  "district": "화성시 만세구",
   "supply_type": "APT",
   "house_secd": "01",
   "house_dtl": "민영",
@@ -4482,16 +4482,194 @@
   "ext": 0.0,
   "contract_rate": 0.1,
   "mid_rate": 0.6,
-  "mkt_low": null,
-  "mkt_base": null,
-  "mkt_note": "시군구 코드를 아직 확인하지 못해 시세를 조회하지 못했어요 (지도 좌표로 확인되면 다음 수집부터 조회).",
-  "mkt_basis": null,
-  "mkt_count": 0,
-  "mkt_direct_excluded": 0,
-  "mkt_comps": [],
-  "jeonse": null,
-  "jeonse_note": "",
-  "jeonse_comps": [],
+  "mkt_low": 3.73,
+  "mkt_base": 4.78,
+  "mkt_note": "같은 구 준공 10년 이내 같은 평형 매매 26건 기준 (최근 6개월)",
+  "mkt_basis": "district_newbuild",
+  "mkt_count": 26,
+  "mkt_direct_excluded": 2,
+  "mkt_comps": [
+   {
+    "apt": "송산신도시대방노블랜드리버스위트2차",
+    "umd": "새솔동",
+    "area": 73.9069,
+    "floor": 9.0,
+    "dong": "",
+    "amount": 5.03,
+    "date": "2026-09-30",
+    "kind": "매매",
+    "direct": false
+   },
+   {
+    "apt": "양우내안애2차에듀타운아파트",
+    "umd": "남양읍 남양리",
+    "area": 74.258,
+    "floor": 20.0,
+    "dong": "",
+    "amount": 3.75,
+    "date": "2026-09-08",
+    "kind": "매매",
+    "direct": false
+   },
+   {
+    "apt": "모아미래도에듀파크서봉마을4단지",
+    "umd": "향남읍 하길리",
+    "area": 73.9805,
+    "floor": 3.0,
+    "dong": "",
+    "amount": 3.7,
+    "date": "2026-09-07",
+    "kind": "매매",
+    "direct": false
+   },
+   {
+    "apt": "송산신도시대방노블랜드더센트럴3차",
+    "umd": "새솔동",
+    "area": 73.9069,
+    "floor": 22.0,
+    "dong": "",
+    "amount": 5.3,
+    "date": "2026-08-30",
+    "kind": "매매",
+    "direct": false
+   },
+   {
+    "apt": "더펠리체휴먼빌",
+    "umd": "새솔동",
+    "area": 70.593,
+    "floor": 8.0,
+    "dong": "",
+    "amount": 4.8,
+    "date": "2026-08-29",
+    "kind": "매매",
+    "direct": false
+   },
+   {
+    "apt": "송산신도시대방노블랜드리버스위트2차",
+    "umd": "새솔동",
+    "area": 73.9706,
+    "floor": 13.0,
+    "dong": "",
+    "amount": 5.04,
+    "date": "2026-08-28",
+    "kind": "매매",
+    "direct": false
+   },
+   {
+    "apt": "송산신도시대방노블랜드더센트럴3차",
+    "umd": "새솔동",
+    "area": 73.9706,
+    "floor": 15.0,
+    "dong": "",
+    "amount": 5.3,
+    "date": "2026-08-11",
+    "kind": "매매",
+    "direct": false
+   },
+   {
+    "apt": "양우내안애2차에듀타운아파트",
+    "umd": "남양읍 남양리",
+    "area": 74.258,
+    "floor": 12.0,
+    "dong": "",
+    "amount": 3.68,
+    "date": "2026-07-27",
+    "kind": "매매",
+    "direct": false
+   }
+  ],
+  "jeonse": 2.61,
+  "jeonse_note": "같은 구 준공 10년 이내 전세 22건 중앙값에서 입주장 할인 9%",
+  "jeonse_comps": [
+   {
+    "apt": "송산신도시대방노블랜드리버스위트2차",
+    "umd": "새솔동",
+    "area": 73.9069,
+    "floor": 17.0,
+    "dong": "",
+    "amount": 3.43,
+    "date": "2026-09-09",
+    "kind": "전세",
+    "direct": false
+   },
+   {
+    "apt": "송산신도시대방노블랜드리버스위트2차",
+    "umd": "새솔동",
+    "area": 73.9706,
+    "floor": 16.0,
+    "dong": "",
+    "amount": 3.5,
+    "date": "2026-08-28",
+    "kind": "전세",
+    "direct": false
+   },
+   {
+    "apt": "송산그린시티반도유보라아이비파크",
+    "umd": "새솔동",
+    "area": 74.4096,
+    "floor": 18.0,
+    "dong": "",
+    "amount": 3.5,
+    "date": "2026-08-27",
+    "kind": "전세",
+    "direct": false
+   },
+   {
+    "apt": "양우내안애2차에듀타운아파트",
+    "umd": "남양읍 남양리",
+    "area": 74.258,
+    "floor": 18.0,
+    "dong": "",
+    "amount": 2.6,
+    "date": "2026-07-21",
+    "kind": "전세",
+    "direct": false
+   },
+   {
+    "apt": "모아미래도에듀파크서봉마을4단지",
+    "umd": "향남읍 하길리",
+    "area": 73.9805,
+    "floor": 5.0,
+    "dong": "",
+    "amount": 2.2,
+    "date": "2026-07-12",
+    "kind": "전세",
+    "direct": false
+   },
+   {
+    "apt": "양우내안애2차에듀타운아파트",
+    "umd": "남양읍 남양리",
+    "area": 74.258,
+    "floor": 11.0,
+    "dong": "",
+    "amount": 2.8,
+    "date": "2026-07-09",
+    "kind": "전세",
+    "direct": false
+   },
+   {
+    "apt": "양우내안애2차에듀타운아파트",
+    "umd": "남양읍 남양리",
+    "area": 74.258,
+    "floor": 7.0,
+    "dong": "",
+    "amount": 2.9,
+    "date": "2026-07-06",
+    "kind": "전세",
+    "direct": false
+   },
+   {
+    "apt": "양우내안애2차에듀타운아파트",
+    "umd": "남양읍 남양리",
+    "area": 74.258,
+    "floor": 7.0,
+    "dong": "",
+    "amount": 2.9,
+    "date": "2026-07-06",
+    "kind": "전세",
+    "direct": false
+   }
+  ],
   "capital": true,
   "regulated": false,
   "land_permit": false,
@@ -4536,15 +4714,55 @@
   "checks": [
    "가점제·추첨제 비율 표를 공고문에서 읽지 못했어요 (화면은 비율 없이 안내)"
   ],
-  "geo": null,
+  "geo": {
+   "lat": 37.110358,
+   "lng": 126.914372,
+   "precision": "exact",
+   "query": "경기도 화성시 만세구 향남읍 하길리 404-2",
+   "matched": "경기도 화성시 만세구 향남읍 하길리 404-2",
+   "source": "네이버 클라우드 플랫폼 Geocoding"
+  },
   "account_months": 12,
   "deposit_count": null,
   "competition": null,
   "area_comps": [],
   "sp_competition": null,
-  "area_sp": null,
-  "map_query": "경기도 화성특례시 만세구 향남읍 하길리 404-2",
-  "nearby": null,
+  "area_sp": [],
+  "map_query": "경기도 화성시 만세구 향남읍 하길리 404-2",
+  "nearby": [
+   {
+    "kind": "역",
+    "name": "향남역",
+    "m": 1402,
+    "lat": 37.122899,
+    "lng": 126.9127815,
+    "walk": 27
+   },
+   {
+    "kind": "초등학교",
+    "name": "화원초등학교",
+    "m": 443,
+    "lat": 37.1115979,
+    "lng": 126.9191172,
+    "walk": 9
+   },
+   {
+    "kind": "중학교",
+    "name": "하길중학교",
+    "m": 510,
+    "lat": 37.1121533,
+    "lng": 126.9090757,
+    "walk": 10
+   },
+   {
+    "kind": "고등학교",
+    "name": "하길고등학교",
+    "m": 390,
+    "lat": 37.1117798,
+    "lng": 126.9103564,
+    "walk": 8
+   }
+  ],
   "sample": false
  },
  {
@@ -4552,9 +4770,9 @@
   "name": "향남역 그로브 스위첸",
   "address": "경기도 화성특례시 만세구 향남읍 하길리 404-2번지 일원",
   "region": "경기",
-  "sigungu": null,
+  "sigungu": "화성시 만세구",
   "sido": "경기",
-  "district": "화성특례시 만세구",
+  "district": "화성시 만세구",
   "supply_type": "APT",
   "house_secd": "01",
   "house_dtl": "민영",
@@ -4621,16 +4839,194 @@
   "ext": 0.0,
   "contract_rate": 0.1,
   "mid_rate": 0.6,
-  "mkt_low": null,
-  "mkt_base": null,
-  "mkt_note": "시군구 코드를 아직 확인하지 못해 시세를 조회하지 못했어요 (지도 좌표로 확인되면 다음 수집부터 조회).",
-  "mkt_basis": null,
-  "mkt_count": 0,
-  "mkt_direct_excluded": 0,
-  "mkt_comps": [],
-  "jeonse": null,
-  "jeonse_note": "",
-  "jeonse_comps": [],
+  "mkt_low": 4.2,
+  "mkt_base": 4.96,
+  "mkt_note": "같은 구 준공 10년 이내 같은 평형 매매 142건 기준 (최근 6개월)",
+  "mkt_basis": "district_newbuild",
+  "mkt_count": 142,
+  "mkt_direct_excluded": 6,
+  "mkt_comps": [
+   {
+    "apt": "송산그린시티반도유보라아이비파크",
+    "umd": "새솔동",
+    "area": 84.9585,
+    "floor": 9.0,
+    "dong": "",
+    "amount": 5.05,
+    "date": "2026-09-29",
+    "kind": "매매",
+    "direct": false
+   },
+   {
+    "apt": "화성남양시티프라디움3차아파트",
+    "umd": "남양읍 남양리",
+    "area": 82.1672,
+    "floor": 4.0,
+    "dong": "",
+    "amount": 4.2,
+    "date": "2026-09-22",
+    "kind": "매매",
+    "direct": false
+   },
+   {
+    "apt": "송산신도시대방노블랜드더센트럴3차",
+    "umd": "새솔동",
+    "area": 84.9692,
+    "floor": 19.0,
+    "dong": "",
+    "amount": 5.8,
+    "date": "2026-09-22",
+    "kind": "매매",
+    "direct": false
+   },
+   {
+    "apt": "모아미래도에듀포레",
+    "umd": "새솔동",
+    "area": 84.9974,
+    "floor": 2.0,
+    "dong": "",
+    "amount": 4.83,
+    "date": "2026-09-20",
+    "kind": "매매",
+    "direct": false
+   },
+   {
+    "apt": "모아미래도에듀포레",
+    "umd": "새솔동",
+    "area": 84.9974,
+    "floor": 18.0,
+    "dong": "",
+    "amount": 5.3,
+    "date": "2026-09-20",
+    "kind": "매매",
+    "direct": false
+   },
+   {
+    "apt": "송산신도시대방노블랜드더센트럴3차",
+    "umd": "새솔동",
+    "area": 84.9191,
+    "floor": 10.0,
+    "dong": "",
+    "amount": 5.88,
+    "date": "2026-09-19",
+    "kind": "매매",
+    "direct": false
+   },
+   {
+    "apt": "더펠리체휴먼빌",
+    "umd": "새솔동",
+    "area": 84.9699,
+    "floor": 9.0,
+    "dong": "",
+    "amount": 5.27,
+    "date": "2026-09-19",
+    "kind": "매매",
+    "direct": false
+   },
+   {
+    "apt": "송산신도시대방노블랜드더퍼스티지1차",
+    "umd": "새솔동",
+    "area": 84.9914,
+    "floor": 7.0,
+    "dong": "",
+    "amount": 5.3,
+    "date": "2026-09-16",
+    "kind": "매매",
+    "direct": false
+   }
+  ],
+  "jeonse": 1.95,
+  "jeonse_note": "같은 구 준공 10년 이내 전세 470건 중앙값에서 입주장 할인 9%",
+  "jeonse_comps": [
+   {
+    "apt": "화성향남언덕마을사랑으로부영17단지",
+    "umd": "향남읍 상신리",
+    "area": 84.9933,
+    "floor": 24.0,
+    "dong": "",
+    "amount": 1.75,
+    "date": "2026-10-02",
+    "kind": "전세",
+    "direct": false
+   },
+   {
+    "apt": "화성향남언덕마을사랑으로부영17단지",
+    "umd": "향남읍 상신리",
+    "area": 84.9933,
+    "floor": 15.0,
+    "dong": "",
+    "amount": 1.75,
+    "date": "2026-10-02",
+    "kind": "전세",
+    "direct": false
+   },
+   {
+    "apt": "서봉마을사랑으로부영6단지",
+    "umd": "향남읍 하길리",
+    "area": 84.6553,
+    "floor": 14.0,
+    "dong": "",
+    "amount": 2.2,
+    "date": "2026-10-01",
+    "kind": "전세",
+    "direct": false
+   },
+   {
+    "apt": "서봉마을사랑으로부영6단지",
+    "umd": "향남읍 하길리",
+    "area": 84.9933,
+    "floor": 16.0,
+    "dong": "",
+    "amount": 2.17,
+    "date": "2026-10-01",
+    "kind": "전세",
+    "direct": false
+   },
+   {
+    "apt": "화성시청역센트럴파크스타힐스2단지",
+    "umd": "남양읍 신남리",
+    "area": 84.8005,
+    "floor": 11.0,
+    "dong": "",
+    "amount": 3.4,
+    "date": "2026-10-01",
+    "kind": "전세",
+    "direct": false
+   },
+   {
+    "apt": "화성남양시티프라디움4차",
+    "umd": "남양읍 남양리",
+    "area": 84.6434,
+    "floor": 17.0,
+    "dong": "",
+    "amount": 2.6,
+    "date": "2026-09-30",
+    "kind": "전세",
+    "direct": false
+   },
+   {
+    "apt": "화성향남서봉마을사랑으로부영7단지",
+    "umd": "향남읍 하길리",
+    "area": 84.52,
+    "floor": 14.0,
+    "dong": "",
+    "amount": 2.14,
+    "date": "2026-09-30",
+    "kind": "전세",
+    "direct": false
+   },
+   {
+    "apt": "송산신도시대방노블랜드더퍼스티지1차",
+    "umd": "새솔동",
+    "area": 84.9556,
+    "floor": 16.0,
+    "dong": "",
+    "amount": 3.7,
+    "date": "2026-09-29",
+    "kind": "전세",
+    "direct": false
+   }
+  ],
   "capital": true,
   "regulated": false,
   "land_permit": false,
@@ -4675,15 +5071,55 @@
   "checks": [
    "가점제·추첨제 비율 표를 공고문에서 읽지 못했어요 (화면은 비율 없이 안내)"
   ],
-  "geo": null,
+  "geo": {
+   "lat": 37.110358,
+   "lng": 126.914372,
+   "precision": "exact",
+   "query": "경기도 화성시 만세구 향남읍 하길리 404-2",
+   "matched": "경기도 화성시 만세구 향남읍 하길리 404-2",
+   "source": "네이버 클라우드 플랫폼 Geocoding"
+  },
   "account_months": 12,
   "deposit_count": null,
   "competition": null,
   "area_comps": [],
   "sp_competition": null,
-  "area_sp": null,
-  "map_query": "경기도 화성특례시 만세구 향남읍 하길리 404-2",
-  "nearby": null,
+  "area_sp": [],
+  "map_query": "경기도 화성시 만세구 향남읍 하길리 404-2",
+  "nearby": [
+   {
+    "kind": "역",
+    "name": "향남역",
+    "m": 1402,
+    "lat": 37.122899,
+    "lng": 126.9127815,
+    "walk": 27
+   },
+   {
+    "kind": "초등학교",
+    "name": "화원초등학교",
+    "m": 443,
+    "lat": 37.1115979,
+    "lng": 126.9191172,
+    "walk": 9
+   },
+   {
+    "kind": "중학교",
+    "name": "하길중학교",
+    "m": 510,
+    "lat": 37.1121533,
+    "lng": 126.9090757,
+    "walk": 10
+   },
+   {
+    "kind": "고등학교",
+    "name": "하길고등학교",
+    "m": 390,
+    "lat": 37.1117798,
+    "lng": 126.9103564,
+    "walk": 8
+   }
+  ],
   "sample": false
  },
  {
@@ -4691,9 +5127,9 @@
   "name": "향남역 그로브 스위첸",
   "address": "경기도 화성특례시 만세구 향남읍 하길리 404-2번지 일원",
   "region": "경기",
-  "sigungu": null,
+  "sigungu": "화성시 만세구",
   "sido": "경기",
-  "district": "화성특례시 만세구",
+  "district": "화성시 만세구",
   "supply_type": "APT",
   "house_secd": "01",
   "house_dtl": "민영",
@@ -4760,16 +5196,194 @@
   "ext": 0.0,
   "contract_rate": 0.1,
   "mid_rate": 0.6,
-  "mkt_low": null,
-  "mkt_base": null,
-  "mkt_note": "시군구 코드를 아직 확인하지 못해 시세를 조회하지 못했어요 (지도 좌표로 확인되면 다음 수집부터 조회).",
-  "mkt_basis": null,
-  "mkt_count": 0,
-  "mkt_direct_excluded": 0,
-  "mkt_comps": [],
-  "jeonse": null,
-  "jeonse_note": "",
-  "jeonse_comps": [],
+  "mkt_low": 4.2,
+  "mkt_base": 4.96,
+  "mkt_note": "같은 구 준공 10년 이내 같은 평형 매매 142건 기준 (최근 6개월)",
+  "mkt_basis": "district_newbuild",
+  "mkt_count": 142,
+  "mkt_direct_excluded": 6,
+  "mkt_comps": [
+   {
+    "apt": "송산그린시티반도유보라아이비파크",
+    "umd": "새솔동",
+    "area": 84.9585,
+    "floor": 9.0,
+    "dong": "",
+    "amount": 5.05,
+    "date": "2026-09-29",
+    "kind": "매매",
+    "direct": false
+   },
+   {
+    "apt": "화성남양시티프라디움3차아파트",
+    "umd": "남양읍 남양리",
+    "area": 82.1672,
+    "floor": 4.0,
+    "dong": "",
+    "amount": 4.2,
+    "date": "2026-09-22",
+    "kind": "매매",
+    "direct": false
+   },
+   {
+    "apt": "송산신도시대방노블랜드더센트럴3차",
+    "umd": "새솔동",
+    "area": 84.9692,
+    "floor": 19.0,
+    "dong": "",
+    "amount": 5.8,
+    "date": "2026-09-22",
+    "kind": "매매",
+    "direct": false
+   },
+   {
+    "apt": "모아미래도에듀포레",
+    "umd": "새솔동",
+    "area": 84.9974,
+    "floor": 2.0,
+    "dong": "",
+    "amount": 4.83,
+    "date": "2026-09-20",
+    "kind": "매매",
+    "direct": false
+   },
+   {
+    "apt": "모아미래도에듀포레",
+    "umd": "새솔동",
+    "area": 84.9974,
+    "floor": 18.0,
+    "dong": "",
+    "amount": 5.3,
+    "date": "2026-09-20",
+    "kind": "매매",
+    "direct": false
+   },
+   {
+    "apt": "송산신도시대방노블랜드더센트럴3차",
+    "umd": "새솔동",
+    "area": 84.9191,
+    "floor": 10.0,
+    "dong": "",
+    "amount": 5.88,
+    "date": "2026-09-19",
+    "kind": "매매",
+    "direct": false
+   },
+   {
+    "apt": "더펠리체휴먼빌",
+    "umd": "새솔동",
+    "area": 84.9699,
+    "floor": 9.0,
+    "dong": "",
+    "amount": 5.27,
+    "date": "2026-09-19",
+    "kind": "매매",
+    "direct": false
+   },
+   {
+    "apt": "송산신도시대방노블랜드더퍼스티지1차",
+    "umd": "새솔동",
+    "area": 84.9914,
+    "floor": 7.0,
+    "dong": "",
+    "amount": 5.3,
+    "date": "2026-09-16",
+    "kind": "매매",
+    "direct": false
+   }
+  ],
+  "jeonse": 1.95,
+  "jeonse_note": "같은 구 준공 10년 이내 전세 470건 중앙값에서 입주장 할인 9%",
+  "jeonse_comps": [
+   {
+    "apt": "화성향남언덕마을사랑으로부영17단지",
+    "umd": "향남읍 상신리",
+    "area": 84.9933,
+    "floor": 24.0,
+    "dong": "",
+    "amount": 1.75,
+    "date": "2026-10-02",
+    "kind": "전세",
+    "direct": false
+   },
+   {
+    "apt": "화성향남언덕마을사랑으로부영17단지",
+    "umd": "향남읍 상신리",
+    "area": 84.9933,
+    "floor": 15.0,
+    "dong": "",
+    "amount": 1.75,
+    "date": "2026-10-02",
+    "kind": "전세",
+    "direct": false
+   },
+   {
+    "apt": "서봉마을사랑으로부영6단지",
+    "umd": "향남읍 하길리",
+    "area": 84.6553,
+    "floor": 14.0,
+    "dong": "",
+    "amount": 2.2,
+    "date": "2026-10-01",
+    "kind": "전세",
+    "direct": false
+   },
+   {
+    "apt": "서봉마을사랑으로부영6단지",
+    "umd": "향남읍 하길리",
+    "area": 84.9933,
+    "floor": 16.0,
+    "dong": "",
+    "amount": 2.17,
+    "date": "2026-10-01",
+    "kind": "전세",
+    "direct": false
+   },
+   {
+    "apt": "화성시청역센트럴파크스타힐스2단지",
+    "umd": "남양읍 신남리",
+    "area": 84.8005,
+    "floor": 11.0,
+    "dong": "",
+    "amount": 3.4,
+    "date": "2026-10-01",
+    "kind": "전세",
+    "direct": false
+   },
+   {
+    "apt": "화성남양시티프라디움4차",
+    "umd": "남양읍 남양리",
+    "area": 84.6434,
+    "floor": 17.0,
+    "dong": "",
+    "amount": 2.6,
+    "date": "2026-09-30",
+    "kind": "전세",
+    "direct": false
+   },
+   {
+    "apt": "화성향남서봉마을사랑으로부영7단지",
+    "umd": "향남읍 하길리",
+    "area": 84.52,
+    "floor": 14.0,
+    "dong": "",
+    "amount": 2.14,
+    "date": "2026-09-30",
+    "kind": "전세",
+    "direct": false
+   },
+   {
+    "apt": "송산신도시대방노블랜드더퍼스티지1차",
+    "umd": "새솔동",
+    "area": 84.9556,
+    "floor": 16.0,
+    "dong": "",
+    "amount": 3.7,
+    "date": "2026-09-29",
+    "kind": "전세",
+    "direct": false
+   }
+  ],
   "capital": true,
   "regulated": false,
   "land_permit": false,
@@ -4814,15 +5428,55 @@
   "checks": [
    "가점제·추첨제 비율 표를 공고문에서 읽지 못했어요 (화면은 비율 없이 안내)"
   ],
-  "geo": null,
+  "geo": {
+   "lat": 37.110358,
+   "lng": 126.914372,
+   "precision": "exact",
+   "query": "경기도 화성시 만세구 향남읍 하길리 404-2",
+   "matched": "경기도 화성시 만세구 향남읍 하길리 404-2",
+   "source": "네이버 클라우드 플랫폼 Geocoding"
+  },
   "account_months": 12,
   "deposit_count": null,
   "competition": null,
   "area_comps": [],
   "sp_competition": null,
-  "area_sp": null,
-  "map_query": "경기도 화성특례시 만세구 향남읍 하길리 404-2",
-  "nearby": null,
+  "area_sp": [],
+  "map_query": "경기도 화성시 만세구 향남읍 하길리 404-2",
+  "nearby": [
+   {
+    "kind": "역",
+    "name": "향남역",
+    "m": 1402,
+    "lat": 37.122899,
+    "lng": 126.9127815,
+    "walk": 27
+   },
+   {
+    "kind": "초등학교",
+    "name": "화원초등학교",
+    "m": 443,
+    "lat": 37.1115979,
+    "lng": 126.9191172,
+    "walk": 9
+   },
+   {
+    "kind": "중학교",
+    "name": "하길중학교",
+    "m": 510,
+    "lat": 37.1121533,
+    "lng": 126.9090757,
+    "walk": 10
+   },
+   {
+    "kind": "고등학교",
+    "name": "하길고등학교",
+    "m": 390,
+    "lat": 37.1117798,
+    "lng": 126.9103564,
+    "walk": 8
+   }
+  ],
   "sample": false
  },
  {
@@ -4830,9 +5484,9 @@
   "name": "향남역 그로브 스위첸",
   "address": "경기도 화성특례시 만세구 향남읍 하길리 404-2번지 일원",
   "region": "경기",
-  "sigungu": null,
+  "sigungu": "화성시 만세구",
   "sido": "경기",
-  "district": "화성특례시 만세구",
+  "district": "화성시 만세구",
   "supply_type": "APT",
   "house_secd": "01",
   "house_dtl": "민영",
@@ -4899,16 +5553,194 @@
   "ext": 0.0,
   "contract_rate": 0.1,
   "mid_rate": 0.6,
-  "mkt_low": null,
-  "mkt_base": null,
-  "mkt_note": "시군구 코드를 아직 확인하지 못해 시세를 조회하지 못했어요 (지도 좌표로 확인되면 다음 수집부터 조회).",
-  "mkt_basis": null,
-  "mkt_count": 0,
-  "mkt_direct_excluded": 0,
-  "mkt_comps": [],
-  "jeonse": null,
-  "jeonse_note": "",
-  "jeonse_comps": [],
+  "mkt_low": 4.2,
+  "mkt_base": 4.96,
+  "mkt_note": "같은 구 준공 10년 이내 같은 평형 매매 142건 기준 (최근 6개월)",
+  "mkt_basis": "district_newbuild",
+  "mkt_count": 142,
+  "mkt_direct_excluded": 6,
+  "mkt_comps": [
+   {
+    "apt": "송산그린시티반도유보라아이비파크",
+    "umd": "새솔동",
+    "area": 84.9585,
+    "floor": 9.0,
+    "dong": "",
+    "amount": 5.05,
+    "date": "2026-09-29",
+    "kind": "매매",
+    "direct": false
+   },
+   {
+    "apt": "화성남양시티프라디움3차아파트",
+    "umd": "남양읍 남양리",
+    "area": 82.1672,
+    "floor": 4.0,
+    "dong": "",
+    "amount": 4.2,
+    "date": "2026-09-22",
+    "kind": "매매",
+    "direct": false
+   },
+   {
+    "apt": "송산신도시대방노블랜드더센트럴3차",
+    "umd": "새솔동",
+    "area": 84.9692,
+    "floor": 19.0,
+    "dong": "",
+    "amount": 5.8,
+    "date": "2026-09-22",
+    "kind": "매매",
+    "direct": false
+   },
+   {
+    "apt": "모아미래도에듀포레",
+    "umd": "새솔동",
+    "area": 84.9974,
+    "floor": 2.0,
+    "dong": "",
+    "amount": 4.83,
+    "date": "2026-09-20",
+    "kind": "매매",
+    "direct": false
+   },
+   {
+    "apt": "모아미래도에듀포레",
+    "umd": "새솔동",
+    "area": 84.9974,
+    "floor": 18.0,
+    "dong": "",
+    "amount": 5.3,
+    "date": "2026-09-20",
+    "kind": "매매",
+    "direct": false
+   },
+   {
+    "apt": "송산신도시대방노블랜드더센트럴3차",
+    "umd": "새솔동",
+    "area": 84.9191,
+    "floor": 10.0,
+    "dong": "",
+    "amount": 5.88,
+    "date": "2026-09-19",
+    "kind": "매매",
+    "direct": false
+   },
+   {
+    "apt": "더펠리체휴먼빌",
+    "umd": "새솔동",
+    "area": 84.9699,
+    "floor": 9.0,
+    "dong": "",
+    "amount": 5.27,
+    "date": "2026-09-19",
+    "kind": "매매",
+    "direct": false
+   },
+   {
+    "apt": "송산신도시대방노블랜드더퍼스티지1차",
+    "umd": "새솔동",
+    "area": 84.9914,
+    "floor": 7.0,
+    "dong": "",
+    "amount": 5.3,
+    "date": "2026-09-16",
+    "kind": "매매",
+    "direct": false
+   }
+  ],
+  "jeonse": 1.95,
+  "jeonse_note": "같은 구 준공 10년 이내 전세 470건 중앙값에서 입주장 할인 9%",
+  "jeonse_comps": [
+   {
+    "apt": "화성향남언덕마을사랑으로부영17단지",
+    "umd": "향남읍 상신리",
+    "area": 84.9933,
+    "floor": 24.0,
+    "dong": "",
+    "amount": 1.75,
+    "date": "2026-10-02",
+    "kind": "전세",
+    "direct": false
+   },
+   {
+    "apt": "화성향남언덕마을사랑으로부영17단지",
+    "umd": "향남읍 상신리",
+    "area": 84.9933,
+    "floor": 15.0,
+    "dong": "",
+    "amount": 1.75,
+    "date": "2026-10-02",
+    "kind": "전세",
+    "direct": false
+   },
+   {
+    "apt": "서봉마을사랑으로부영6단지",
+    "umd": "향남읍 하길리",
+    "area": 84.6553,
+    "floor": 14.0,
+    "dong": "",
+    "amount": 2.2,
+    "date": "2026-10-01",
+    "kind": "전세",
+    "direct": false
+   },
+   {
+    "apt": "서봉마을사랑으로부영6단지",
+    "umd": "향남읍 하길리",
+    "area": 84.9933,
+    "floor": 16.0,
+    "dong": "",
+    "amount": 2.17,
+    "date": "2026-10-01",
+    "kind": "전세",
+    "direct": false
+   },
+   {
+    "apt": "화성시청역센트럴파크스타힐스2단지",
+    "umd": "남양읍 신남리",
+    "area": 84.8005,
+    "floor": 11.0,
+    "dong": "",
+    "amount": 3.4,
+    "date": "2026-10-01",
+    "kind": "전세",
+    "direct": false
+   },
+   {
+    "apt": "화성남양시티프라디움4차",
+    "umd": "남양읍 남양리",
+    "area": 84.6434,
+    "floor": 17.0,
+    "dong": "",
+    "amount": 2.6,
+    "date": "2026-09-30",
+    "kind": "전세",
+    "direct": false
+   },
+   {
+    "apt": "화성향남서봉마을사랑으로부영7단지",
+    "umd": "향남읍 하길리",
+    "area": 84.52,
+    "floor": 14.0,
+    "dong": "",
+    "amount": 2.14,
+    "date": "2026-09-30",
+    "kind": "전세",
+    "direct": false
+   },
+   {
+    "apt": "송산신도시대방노블랜드더퍼스티지1차",
+    "umd": "새솔동",
+    "area": 84.9556,
+    "floor": 16.0,
+    "dong": "",
+    "amount": 3.7,
+    "date": "2026-09-29",
+    "kind": "전세",
+    "direct": false
+   }
+  ],
   "capital": true,
   "regulated": false,
   "land_permit": false,
@@ -4953,15 +5785,55 @@
   "checks": [
    "가점제·추첨제 비율 표를 공고문에서 읽지 못했어요 (화면은 비율 없이 안내)"
   ],
-  "geo": null,
+  "geo": {
+   "lat": 37.110358,
+   "lng": 126.914372,
+   "precision": "exact",
+   "query": "경기도 화성시 만세구 향남읍 하길리 404-2",
+   "matched": "경기도 화성시 만세구 향남읍 하길리 404-2",
+   "source": "네이버 클라우드 플랫폼 Geocoding"
+  },
   "account_months": 12,
   "deposit_count": null,
   "competition": null,
   "area_comps": [],
   "sp_competition": null,
-  "area_sp": null,
-  "map_query": "경기도 화성특례시 만세구 향남읍 하길리 404-2",
-  "nearby": null,
+  "area_sp": [],
+  "map_query": "경기도 화성시 만세구 향남읍 하길리 404-2",
+  "nearby": [
+   {
+    "kind": "역",
+    "name": "향남역",
+    "m": 1402,
+    "lat": 37.122899,
+    "lng": 126.9127815,
+    "walk": 27
+   },
+   {
+    "kind": "초등학교",
+    "name": "화원초등학교",
+    "m": 443,
+    "lat": 37.1115979,
+    "lng": 126.9191172,
+    "walk": 9
+   },
+   {
+    "kind": "중학교",
+    "name": "하길중학교",
+    "m": 510,
+    "lat": 37.1121533,
+    "lng": 126.9090757,
+    "walk": 10
+   },
+   {
+    "kind": "고등학교",
+    "name": "하길고등학교",
+    "m": 390,
+    "lat": 37.1117798,
+    "lng": 126.9103564,
+    "walk": 8
+   }
+  ],
   "sample": false
  },
  {
@@ -4969,9 +5841,9 @@
   "name": "향남역 그로브 스위첸",
   "address": "경기도 화성특례시 만세구 향남읍 하길리 404-2번지 일원",
   "region": "경기",
-  "sigungu": null,
+  "sigungu": "화성시 만세구",
   "sido": "경기",
-  "district": "화성특례시 만세구",
+  "district": "화성시 만세구",
   "supply_type": "APT",
   "house_secd": "01",
   "house_dtl": "민영",
@@ -5038,16 +5910,194 @@
   "ext": 0.0,
   "contract_rate": 0.1,
   "mid_rate": 0.6,
-  "mkt_low": null,
-  "mkt_base": null,
-  "mkt_note": "시군구 코드를 아직 확인하지 못해 시세를 조회하지 못했어요 (지도 좌표로 확인되면 다음 수집부터 조회).",
-  "mkt_basis": null,
-  "mkt_count": 0,
-  "mkt_direct_excluded": 0,
-  "mkt_comps": [],
-  "jeonse": null,
-  "jeonse_note": "",
-  "jeonse_comps": [],
+  "mkt_low": 4.2,
+  "mkt_base": 4.96,
+  "mkt_note": "같은 구 준공 10년 이내 같은 평형 매매 142건 기준 (최근 6개월)",
+  "mkt_basis": "district_newbuild",
+  "mkt_count": 142,
+  "mkt_direct_excluded": 6,
+  "mkt_comps": [
+   {
+    "apt": "송산그린시티반도유보라아이비파크",
+    "umd": "새솔동",
+    "area": 84.9585,
+    "floor": 9.0,
+    "dong": "",
+    "amount": 5.05,
+    "date": "2026-09-29",
+    "kind": "매매",
+    "direct": false
+   },
+   {
+    "apt": "화성남양시티프라디움3차아파트",
+    "umd": "남양읍 남양리",
+    "area": 82.1672,
+    "floor": 4.0,
+    "dong": "",
+    "amount": 4.2,
+    "date": "2026-09-22",
+    "kind": "매매",
+    "direct": false
+   },
+   {
+    "apt": "송산신도시대방노블랜드더센트럴3차",
+    "umd": "새솔동",
+    "area": 84.9692,
+    "floor": 19.0,
+    "dong": "",
+    "amount": 5.8,
+    "date": "2026-09-22",
+    "kind": "매매",
+    "direct": false
+   },
+   {
+    "apt": "모아미래도에듀포레",
+    "umd": "새솔동",
+    "area": 84.9974,
+    "floor": 2.0,
+    "dong": "",
+    "amount": 4.83,
+    "date": "2026-09-20",
+    "kind": "매매",
+    "direct": false
+   },
+   {
+    "apt": "모아미래도에듀포레",
+    "umd": "새솔동",
+    "area": 84.9974,
+    "floor": 18.0,
+    "dong": "",
+    "amount": 5.3,
+    "date": "2026-09-20",
+    "kind": "매매",
+    "direct": false
+   },
+   {
+    "apt": "송산신도시대방노블랜드더센트럴3차",
+    "umd": "새솔동",
+    "area": 84.9191,
+    "floor": 10.0,
+    "dong": "",
+    "amount": 5.88,
+    "date": "2026-09-19",
+    "kind": "매매",
+    "direct": false
+   },
+   {
+    "apt": "더펠리체휴먼빌",
+    "umd": "새솔동",
+    "area": 84.9699,
+    "floor": 9.0,
+    "dong": "",
+    "amount": 5.27,
+    "date": "2026-09-19",
+    "kind": "매매",
+    "direct": false
+   },
+   {
+    "apt": "송산신도시대방노블랜드더퍼스티지1차",
+    "umd": "새솔동",
+    "area": 84.9914,
+    "floor": 7.0,
+    "dong": "",
+    "amount": 5.3,
+    "date": "2026-09-16",
+    "kind": "매매",
+    "direct": false
+   }
+  ],
+  "jeonse": 1.95,
+  "jeonse_note": "같은 구 준공 10년 이내 전세 470건 중앙값에서 입주장 할인 9%",
+  "jeonse_comps": [
+   {
+    "apt": "화성향남언덕마을사랑으로부영17단지",
+    "umd": "향남읍 상신리",
+    "area": 84.9933,
+    "floor": 24.0,
+    "dong": "",
+    "amount": 1.75,
+    "date": "2026-10-02",
+    "kind": "전세",
+    "direct": false
+   },
+   {
+    "apt": "화성향남언덕마을사랑으로부영17단지",
+    "umd": "향남읍 상신리",
+    "area": 84.9933,
+    "floor": 15.0,
+    "dong": "",
+    "amount": 1.75,
+    "date": "2026-10-02",
+    "kind": "전세",
+    "direct": false
+   },
+   {
+    "apt": "서봉마을사랑으로부영6단지",
+    "umd": "향남읍 하길리",
+    "area": 84.6553,
+    "floor": 14.0,
+    "dong": "",
+    "amount": 2.2,
+    "date": "2026-10-01",
+    "kind": "전세",
+    "direct": false
+   },
+   {
+    "apt": "서봉마을사랑으로부영6단지",
+    "umd": "향남읍 하길리",
+    "area": 84.9933,
+    "floor": 16.0,
+    "dong": "",
+    "amount": 2.17,
+    "date": "2026-10-01",
+    "kind": "전세",
+    "direct": false
+   },
+   {
+    "apt": "화성시청역센트럴파크스타힐스2단지",
+    "umd": "남양읍 신남리",
+    "area": 84.8005,
+    "floor": 11.0,
+    "dong": "",
+    "amount": 3.4,
+    "date": "2026-10-01",
+    "kind": "전세",
+    "direct": false
+   },
+   {
+    "apt": "화성남양시티프라디움4차",
+    "umd": "남양읍 남양리",
+    "area": 84.6434,
+    "floor": 17.0,
+    "dong": "",
+    "amount": 2.6,
+    "date": "2026-09-30",
+    "kind": "전세",
+    "direct": false
+   },
+   {
+    "apt": "화성향남서봉마을사랑으로부영7단지",
+    "umd": "향남읍 하길리",
+    "area": 84.52,
+    "floor": 14.0,
+    "dong": "",
+    "amount": 2.14,
+    "date": "2026-09-30",
+    "kind": "전세",
+    "direct": false
+   },
+   {
+    "apt": "송산신도시대방노블랜드더퍼스티지1차",
+    "umd": "새솔동",
+    "area": 84.9556,
+    "floor": 16.0,
+    "dong": "",
+    "amount": 3.7,
+    "date": "2026-09-29",
+    "kind": "전세",
+    "direct": false
+   }
+  ],
   "capital": true,
   "regulated": false,
   "land_permit": false,
@@ -5092,15 +6142,55 @@
   "checks": [
    "가점제·추첨제 비율 표를 공고문에서 읽지 못했어요 (화면은 비율 없이 안내)"
   ],
-  "geo": null,
+  "geo": {
+   "lat": 37.110358,
+   "lng": 126.914372,
+   "precision": "exact",
+   "query": "경기도 화성시 만세구 향남읍 하길리 404-2",
+   "matched": "경기도 화성시 만세구 향남읍 하길리 404-2",
+   "source": "네이버 클라우드 플랫폼 Geocoding"
+  },
   "account_months": 12,
   "deposit_count": null,
   "competition": null,
   "area_comps": [],
   "sp_competition": null,
-  "area_sp": null,
-  "map_query": "경기도 화성특례시 만세구 향남읍 하길리 404-2",
-  "nearby": null,
+  "area_sp": [],
+  "map_query": "경기도 화성시 만세구 향남읍 하길리 404-2",
+  "nearby": [
+   {
+    "kind": "역",
+    "name": "향남역",
+    "m": 1402,
+    "lat": 37.122899,
+    "lng": 126.9127815,
+    "walk": 27
+   },
+   {
+    "kind": "초등학교",
+    "name": "화원초등학교",
+    "m": 443,
+    "lat": 37.1115979,
+    "lng": 126.9191172,
+    "walk": 9
+   },
+   {
+    "kind": "중학교",
+    "name": "하길중학교",
+    "m": 510,
+    "lat": 37.1121533,
+    "lng": 126.9090757,
+    "walk": 10
+   },
+   {
+    "kind": "고등학교",
+    "name": "하길고등학교",
+    "m": 390,
+    "lat": 37.1117798,
+    "lng": 126.9103564,
+    "walk": 8
+   }
+  ],
   "sample": false
  },
  {
@@ -5108,9 +6198,9 @@
   "name": "향남역 그로브 스위첸",
   "address": "경기도 화성특례시 만세구 향남읍 하길리 404-2번지 일원",
   "region": "경기",
-  "sigungu": null,
+  "sigungu": "화성시 만세구",
   "sido": "경기",
-  "district": "화성특례시 만세구",
+  "district": "화성시 만세구",
   "supply_type": "APT",
   "house_secd": "01",
   "house_dtl": "민영",
@@ -5179,13 +6269,13 @@
   "mid_rate": 0.6,
   "mkt_low": null,
   "mkt_base": null,
-  "mkt_note": "시군구 코드를 아직 확인하지 못해 시세를 조회하지 못했어요 (지도 좌표로 확인되면 다음 수집부터 조회).",
+  "mkt_note": "비교할 거래가 부족해요. 시세를 직접 확인하세요.",
   "mkt_basis": null,
   "mkt_count": 0,
   "mkt_direct_excluded": 0,
   "mkt_comps": [],
   "jeonse": null,
-  "jeonse_note": "",
+  "jeonse_note": "전세 거래가 부족해 추정하지 못했어요.",
   "jeonse_comps": [],
   "capital": true,
   "regulated": false,
@@ -5202,7 +6292,7 @@
   },
   "notice_conflicts": [],
   "duty_silent": false,
-  "jeonse_weak": false,
+  "jeonse_weak": true,
   "unregistered": true,
   "need_head": false,
   "need_account": true,
@@ -5231,15 +6321,55 @@
   "checks": [
    "가점제·추첨제 비율 표를 공고문에서 읽지 못했어요 (화면은 비율 없이 안내)"
   ],
-  "geo": null,
+  "geo": {
+   "lat": 37.110358,
+   "lng": 126.914372,
+   "precision": "exact",
+   "query": "경기도 화성시 만세구 향남읍 하길리 404-2",
+   "matched": "경기도 화성시 만세구 향남읍 하길리 404-2",
+   "source": "네이버 클라우드 플랫폼 Geocoding"
+  },
   "account_months": 12,
   "deposit_count": null,
   "competition": null,
   "area_comps": [],
   "sp_competition": null,
-  "area_sp": null,
-  "map_query": "경기도 화성특례시 만세구 향남읍 하길리 404-2",
-  "nearby": null,
+  "area_sp": [],
+  "map_query": "경기도 화성시 만세구 향남읍 하길리 404-2",
+  "nearby": [
+   {
+    "kind": "역",
+    "name": "향남역",
+    "m": 1402,
+    "lat": 37.122899,
+    "lng": 126.9127815,
+    "walk": 27
+   },
+   {
+    "kind": "초등학교",
+    "name": "화원초등학교",
+    "m": 443,
+    "lat": 37.1115979,
+    "lng": 126.9191172,
+    "walk": 9
+   },
+   {
+    "kind": "중학교",
+    "name": "하길중학교",
+    "m": 510,
+    "lat": 37.1121533,
+    "lng": 126.9090757,
+    "walk": 10
+   },
+   {
+    "kind": "고등학교",
+    "name": "하길고등학교",
+    "m": 390,
+    "lat": 37.1117798,
+    "lng": 126.9103564,
+    "walk": 8
+   }
+  ],
   "sample": false
  },
  {
@@ -5247,9 +6377,9 @@
   "name": "향남역 그로브 스위첸",
   "address": "경기도 화성특례시 만세구 향남읍 하길리 404-2번지 일원",
   "region": "경기",
-  "sigungu": null,
+  "sigungu": "화성시 만세구",
   "sido": "경기",
-  "district": "화성특례시 만세구",
+  "district": "화성시 만세구",
   "supply_type": "APT",
   "house_secd": "01",
   "house_dtl": "민영",
@@ -5318,13 +6448,13 @@
   "mid_rate": 0.6,
   "mkt_low": null,
   "mkt_base": null,
-  "mkt_note": "시군구 코드를 아직 확인하지 못해 시세를 조회하지 못했어요 (지도 좌표로 확인되면 다음 수집부터 조회).",
+  "mkt_note": "비교할 거래가 부족해요. 시세를 직접 확인하세요.",
   "mkt_basis": null,
   "mkt_count": 0,
   "mkt_direct_excluded": 0,
   "mkt_comps": [],
   "jeonse": null,
-  "jeonse_note": "",
+  "jeonse_note": "전세 거래가 부족해 추정하지 못했어요.",
   "jeonse_comps": [],
   "capital": true,
   "regulated": false,
@@ -5341,7 +6471,7 @@
   },
   "notice_conflicts": [],
   "duty_silent": false,
-  "jeonse_weak": false,
+  "jeonse_weak": true,
   "unregistered": true,
   "need_head": false,
   "need_account": true,
@@ -5370,15 +6500,55 @@
   "checks": [
    "가점제·추첨제 비율 표를 공고문에서 읽지 못했어요 (화면은 비율 없이 안내)"
   ],
-  "geo": null,
+  "geo": {
+   "lat": 37.110358,
+   "lng": 126.914372,
+   "precision": "exact",
+   "query": "경기도 화성시 만세구 향남읍 하길리 404-2",
+   "matched": "경기도 화성시 만세구 향남읍 하길리 404-2",
+   "source": "네이버 클라우드 플랫폼 Geocoding"
+  },
   "account_months": 12,
   "deposit_count": null,
   "competition": null,
   "area_comps": [],
   "sp_competition": null,
-  "area_sp": null,
-  "map_query": "경기도 화성특례시 만세구 향남읍 하길리 404-2",
-  "nearby": null,
+  "area_sp": [],
+  "map_query": "경기도 화성시 만세구 향남읍 하길리 404-2",
+  "nearby": [
+   {
+    "kind": "역",
+    "name": "향남역",
+    "m": 1402,
+    "lat": 37.122899,
+    "lng": 126.9127815,
+    "walk": 27
+   },
+   {
+    "kind": "초등학교",
+    "name": "화원초등학교",
+    "m": 443,
+    "lat": 37.1115979,
+    "lng": 126.9191172,
+    "walk": 9
+   },
+   {
+    "kind": "중학교",
+    "name": "하길중학교",
+    "m": 510,
+    "lat": 37.1121533,
+    "lng": 126.9090757,
+    "walk": 10
+   },
+   {
+    "kind": "고등학교",
+    "name": "하길고등학교",
+    "m": 390,
+    "lat": 37.1117798,
+    "lng": 126.9103564,
+    "walk": 8
+   }
+  ],
   "sample": false
  },
  {
@@ -5386,9 +6556,9 @@
   "name": "향남역 그로브 스위첸",
   "address": "경기도 화성특례시 만세구 향남읍 하길리 404-2번지 일원",
   "region": "경기",
-  "sigungu": null,
+  "sigungu": "화성시 만세구",
   "sido": "경기",
-  "district": "화성특례시 만세구",
+  "district": "화성시 만세구",
   "supply_type": "APT",
   "house_secd": "01",
   "house_dtl": "민영",
@@ -5457,13 +6627,13 @@
   "mid_rate": 0.6,
   "mkt_low": null,
   "mkt_base": null,
-  "mkt_note": "시군구 코드를 아직 확인하지 못해 시세를 조회하지 못했어요 (지도 좌표로 확인되면 다음 수집부터 조회).",
+  "mkt_note": "비교할 거래가 부족해요. 시세를 직접 확인하세요.",
   "mkt_basis": null,
   "mkt_count": 0,
   "mkt_direct_excluded": 0,
   "mkt_comps": [],
   "jeonse": null,
-  "jeonse_note": "",
+  "jeonse_note": "전세 거래가 부족해 추정하지 못했어요.",
   "jeonse_comps": [],
   "capital": true,
   "regulated": false,
@@ -5480,7 +6650,7 @@
   },
   "notice_conflicts": [],
   "duty_silent": false,
-  "jeonse_weak": false,
+  "jeonse_weak": true,
   "unregistered": true,
   "need_head": false,
   "need_account": true,
@@ -5509,15 +6679,55 @@
   "checks": [
    "가점제·추첨제 비율 표를 공고문에서 읽지 못했어요 (화면은 비율 없이 안내)"
   ],
-  "geo": null,
+  "geo": {
+   "lat": 37.110358,
+   "lng": 126.914372,
+   "precision": "exact",
+   "query": "경기도 화성시 만세구 향남읍 하길리 404-2",
+   "matched": "경기도 화성시 만세구 향남읍 하길리 404-2",
+   "source": "네이버 클라우드 플랫폼 Geocoding"
+  },
   "account_months": 12,
   "deposit_count": null,
   "competition": null,
   "area_comps": [],
   "sp_competition": null,
-  "area_sp": null,
-  "map_query": "경기도 화성특례시 만세구 향남읍 하길리 404-2",
-  "nearby": null,
+  "area_sp": [],
+  "map_query": "경기도 화성시 만세구 향남읍 하길리 404-2",
+  "nearby": [
+   {
+    "kind": "역",
+    "name": "향남역",
+    "m": 1402,
+    "lat": 37.122899,
+    "lng": 126.9127815,
+    "walk": 27
+   },
+   {
+    "kind": "초등학교",
+    "name": "화원초등학교",
+    "m": 443,
+    "lat": 37.1115979,
+    "lng": 126.9191172,
+    "walk": 9
+   },
+   {
+    "kind": "중학교",
+    "name": "하길중학교",
+    "m": 510,
+    "lat": 37.1121533,
+    "lng": 126.9090757,
+    "walk": 10
+   },
+   {
+    "kind": "고등학교",
+    "name": "하길고등학교",
+    "m": 390,
+    "lat": 37.1117798,
+    "lng": 126.9103564,
+    "walk": 8
+   }
+  ],
   "sample": false
  },
  {
