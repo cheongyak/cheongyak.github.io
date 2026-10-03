@@ -121,3 +121,4 @@ description: 청약패스(cheongyakpass.kr, 저장소 cheongyak/cheongyak.github
 - 청약홈 일반공급 세대수(households)가 0 인 주택형이 있다: 신혼희망타운(전 물량이 특공 칸), 특공만 있는 주택형, 사전청약 당첨자 몫으로 이번 공급 0, 재공급(특공만). 일반공급 자격만 보고 '신청 가능'을 내면 틀림 → genNone/no_supply(기능 gen_none). 판정 바꿀 때 regress 의 'bucket changes' 로 목록 판정 변화를 본다.
 - Actions 실패 원인: 로그는 인증이 필요하지만 `curl https://api.github.com/repos/cheongyak/cheongyak.github.io/check-runs/<job id>/annotations` 로 exit code 를 볼 수 있다(139 = 세그폴트). job id 는 runs/<run id>/jobs.
 - C 라이브러리(pypdfium2 등)는 수집 프로세스 안에서 부르지 않는다 — 죽으면 수집 전체가 멈춘다. 따로 띄운 프로세스로.
+- Actions concurrency: 수집(collect) 묶음에 다른 워크플로를 넣지 않는다 — 대기 실행이 하나만 남아 수집이 취소된다(2026-10-03). 데이터를 쓰는 워크플로는 자기 묶음 + `tools/qa/wait_collect.sh` 로 수집이 끝나길 기다린다.
