@@ -19,6 +19,13 @@ def main() -> None:
     arc = {}
     for x in json.loads(ARC.read_text(encoding="utf-8"))["items"]:
         arc.setdefault(x["notice_no"], x)
+    cur = {}
+    try:
+        d = json.loads((ROOT / "docs" / "listings.json").read_text(encoding="utf-8"))
+        for L in (d["listings"] if isinstance(d, dict) else d):
+            cur.setdefault(L["id"].split("-")[0], {**L, "notice_no": L["id"].split("-")[0]})
+    except Exception:
+        pass
     OUT.mkdir(parents=True, exist_ok=True)
     log = []
     for no in ids:
@@ -26,7 +33,7 @@ def main() -> None:
         if f.exists() or (LIVE / f"{no}.txt").exists():
             log.append(f"{no} 있음")
             continue
-        x = arc.get(no)
+        x = arc.get(no) or cur.get(no)   # 지금 공고도 받는다 (2026-10-03 사용자 제보 공고 원문 대조)
         if not x or not x.get("url"):
             log.append(f"{no} 보관함에 없음")
             continue
