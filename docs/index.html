@@ -3796,6 +3796,7 @@ async function pushPost(path, body){
 }
 async function pushSubscribe(){
   if (PUSH.busy) return;
+  if (on('push_consent') && !PUSH.agree) { PUSH.msg = '알림 켜기 전 확인 내용에 동의해 주세요.'; render(); return; }   // 기능: push_consent
   if (!PUSH.prefs.regions.length && !confirm('지역을 고르지 않으면 전국 공고 알림을 받아요. 그대로 켤까요?')) return;
   PUSH.busy = true; PUSH.msg = ''; render();
   try {
@@ -3810,6 +3811,7 @@ async function pushSubscribe(){
     if (sub && cur && (cur.length !== want.length || cur.some((b, i) => b !== want[i]))) { await sub.unsubscribe(); sub = null; }   // 서버 키가 바뀌었으면 다시 구독
     if (!sub) sub = await reg.pushManager.subscribe({ userVisibleOnly:true, applicationServerKey: want });
     await pushPost('/subscribe', { sub: sub.toJSON(), prefs: PUSH.prefs });
+    if (on('push_consent')) { try { localStorage.setItem('cy-push-consent', TODAY); } catch(e) {} }   // 동의한 날짜 (이 기기에만)
     store.set('cy-push', PUSH.prefs); PUSH.state = 'on'; setPushLit(true); PUSH.msg = '알림을 켰어요. 확인 알림을 하나 보냈어요.';
     track({ path:'push-on', event:true });
   } catch(e) { PUSH.msg = '알림을 켜지 못했어요. 잠시 뒤 다시 해 주세요. (' + (e && e.message || e) + ')'; await pushInit(); }
@@ -3899,6 +3901,20 @@ document.addEventListener('click', e => {
   else go('feed');
 });
 setTimeout(() => { if (on('push_inbox') && pushOn()) inboxLoad(); }, 1600);
+/* 알림 켜기 전 동의 (기능: push_consent, 2026-10-03) — 방침 개정(4-2항 처리 위탁·국외 이전) 시행일(10-09) 전에 알림을 공개하면서, 켜는 사람에게 같은 내용을 보여 주고 동의를 받는다.
+   동의한 날짜는 이 기기에만(cy-push-consent) 남긴다. 알림 서버로는 보내지 않는다 */
+function pushConsentBox(){
+  if (!on('push_consent')) return '';
+  return `<section class="card pushconsent"><h2>알림 켜기 전에 확인해 주세요</h2>
+    <p class="small" style="margin:2px 0 8px">새 공고 알림을 보내려면 이 브라우저의 <b>알림 주소·알림 암호화 키, 고른 지역·종류, 구독한 날짜</b>를 알림 서버에 맡겨요.</p>
+    <ul class="small" style="margin:0 0 8px;padding-left:18px">
+      <li>받는 곳: Cloudflare, Inc. (미국 등 데이터센터가 있는 나라로 옮겨져요)</li>
+      <li>목적: 알림 구독 보관과 알림 발송</li>
+      <li>보관: 알림을 끄거나 구독이 만료될 때까지 (끄면 바로 지워요)</li>
+      <li>이름·연락처·인터뷰에 입력한 소득·자산·통장 정보는 보내지 않아요</li></ul>
+    <p class="small muted" style="margin:0 0 8px">동의하지 않으면 알림을 켤 수 없지만, 다른 기능은 그대로 쓸 수 있어요. <a href="#/privacy" data-go="privacy">개인정보처리방침</a></p>
+    <button class="pushopt" data-action="push-agree" aria-pressed="${!!PUSH.agree}"${PUSH.busy ? ' disabled' : ''}><span class="box" aria-hidden="true">${PUSH.agree ? '✓' : ''}</span><span><b>위 내용(처리 위탁·국외 이전)에 동의해요</b><span class="small muted">필수</span></span></button></section>`;
+}
 function vPush(){
   if (PUSH.state === 'init') { pushInit().then(render); }
   const P = PUSH.prefs || { regions:[], good:false, remind:true }, st = PUSH.state, dis = PUSH.busy ? ' disabled' : '';
@@ -3927,7 +3943,7 @@ function vPush(){
     ${tog('good', '로또·고려 등급만', '시세보다 싼 공고만 받아요. 끄면 고른 지역의 모든 새 공고를 받아요.')}
     ${tog('remind', '접수 전날 알림', '접수 시작(특별공급이 있으면 특별공급) 전날과 마감 전날에 알려줘요.')}</section>
   ${st === 'on' ? `<button class="btn" data-action="push-save"${dis}>${PUSH.busy ? '저장 중…' : '설정 저장'}</button><button class="btn ghost" data-action="push-off"${dis}>알림 끄기</button>`
-    : `<button class="btn" data-action="push-on"${dis || (st === 'init' ? ' disabled' : '')}>${PUSH.busy ? '켜는 중…' : st === 'init' ? '확인 중…' : '알림 켜기'}</button>`}` : ''}
+    : `${pushConsentBox()}<button class="btn" data-action="push-on"${dis || (st === 'init' || (on('push_consent') && !PUSH.agree) ? ' disabled' : '')}>${PUSH.busy ? '켜는 중…' : st === 'init' ? '확인 중…' : '알림 켜기'}</button>`}` : ''}
   <section class="card"><h2>알아 두세요</h2><ul class="small" style="margin:0;padding-left:18px">
     <li>알림 서버에는 이 브라우저의 <b>알림 주소와 고른 지역·종류만</b> 보내요. 인터뷰에 입력한 소득·자산·통장 정보는 보내지 않아요.</li>
     <li>그래서 알림은 <b>내 자격과 상관없이</b> 지역·등급으로만 골라 보내요. 내 판정은 알림을 눌러 공고 화면에서 확인하세요.</li>
@@ -4997,6 +5013,7 @@ document.addEventListener('click', ev => {
   if (a === 'clear-q') { S.q = ''; render(); const q = app.querySelector('#q'); if (q) refocus(q); return; }
   if (t.dataset.pushsido && PUSH.prefs) { const r = PUSH.prefs.regions, x = t.dataset.pushsido; PUSH.prefs.regions = r.includes(x) ? r.filter(v => v !== x) : SIDO_ORDER.filter(v => v === x || r.includes(v)); PUSH.msg = ''; render(); return; }   // 기능: web_push
   if (t.dataset.pushopt && PUSH.prefs) { PUSH.prefs[t.dataset.pushopt] = !PUSH.prefs[t.dataset.pushopt]; PUSH.msg = ''; render(); return; }
+  if (a === 'push-agree') { PUSH.agree = !PUSH.agree; render(); return; }
   if (a === 'push-on') { pushSubscribe(); return; }
   if (a === 'push-save') { pushSave(); return; }
   if (a === 'push-off') { pushUnsubscribe(); return; }

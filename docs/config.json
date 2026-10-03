@@ -65,6 +65,7 @@
     "web_push": true,
     "push_inbox": true,
     "notice_retry": true,
+    "push_consent": true,
     "version_label": true,
     "usage_metrics": true,
     "notice_pages": true,
@@ -150,7 +151,7 @@
   "ads_legal_date": "",
   "push_api": "https://cheongyakpass-push.ckwlsgur.workers.dev",
   "push_preview": true,
-  "push_legal_date": "2026-10-09",
+  "push_legal_date": "2026-10-03",
   "chat_api": "https://cheongyakpass-chat.ckwlsgur.workers.dev",
   "chat_legal_date": "",
   "legal_notice": {
