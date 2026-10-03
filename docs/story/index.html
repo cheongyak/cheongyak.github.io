@@ -466,6 +466,12 @@ body.tcmp .betaline{margin-bottom:4px}
 .topbtns{display:inline-flex;align-items:center;gap:8px;flex:none} .top+.search{margin:-4px 0 10px} .srchbtn{width:44px;height:44px;flex:none;display:inline-flex;align-items:center;justify-content:center;border-radius:22px;border:1px solid var(--line);background:var(--surface);color:var(--fg);cursor:pointer} .srchbtn svg{width:20px;height:20px} .srchbtn.on{background:var(--btn);color:var(--btn-fg);border-color:var(--btn)}
 .bell{display:inline-flex;align-items:center;gap:6px;min-height:44px;padding:0 14px;border-radius:22px;border:1px solid var(--line);background:var(--surface);font-weight:600;font-size:14px;cursor:pointer} .bell[hidden]{display:none}
 .bell svg{width:18px;height:18px} .bell.on{background:var(--lotto-soft);border-color:transparent;color:var(--lotto-ink)}
+/* 받은 알림함 (기능: push_inbox) */
+.ibxl{list-style:none;margin:0;padding:0;display:grid;gap:6px} .ibx{display:grid;gap:3px;padding:10px 12px;border:1px solid var(--line);border-radius:12px;color:var(--fg);text-decoration:none}
+.ibx.new{border-color:var(--lotto-ink);background:var(--lotto-soft)} .ibx-h{display:flex;align-items:baseline;gap:6px;flex-wrap:wrap} .ibx-h .muted{margin-left:auto}
+.ibx-n{font-size:11px;font-weight:700;padding:1px 6px;border-radius:8px;background:var(--lotto-ink);color:var(--surface)}
+[data-go="alerts"].unread{position:relative} [data-go="alerts"].unread::after{content:attr(data-unread);position:absolute;top:8px;right:calc(50% - 26px);min-width:16px;height:16px;padding:0 4px;border-radius:8px;background:#e5484d;color:#fff;font-size:10.5px;font-weight:700;line-height:16px;text-align:center}
+.bell[data-go="alerts"].unread::after{top:-4px;right:-4px}
 .steps{margin:0;padding-left:20px;display:flex;flex-direction:column;gap:6px;font-size:14px}
 dl.kv{margin:0;display:grid;grid-template-columns:auto 1fr;gap:8px 16px;font-size:14px}
 dl.kv dt{color:var(--muted)} dl.kv dd{margin:0;text-align:right;font-weight:600}
@@ -489,7 +495,7 @@ dl.kv dt{color:var(--muted)} dl.kv dd{margin:0;text-align:right;font-weight:600}
     <p>공고문, 실거래가, 경쟁률은 모두 공개돼 있어요.<br>흩어져 있을 뿐이에요.</p>
   </section>
   <section class="card doc"><div class="eyebrow">이 도구의 토대</div>
-    <div class="sumbar" style="margin:6px 0 0"><div><b>50개</b><span>공고 · 주택형 194개</span></div><div><b>12개</b><span>시·도의 공고</span></div><div><b>매일</b><span>새벽 청약홈·국토부 동기화</span></div></div>
+    <div class="sumbar" style="margin:6px 0 0"><div><b>56개</b><span>공고 · 주택형 226개</span></div><div><b>14개</b><span>시·도의 공고</span></div><div><b>매일</b><span>새벽 청약홈·국토부 동기화</span></div></div>
     <p class="foot" style="margin-top:6px">지금 화면에 있는 공고 기준 (마감 후 발표 전 공고 포함).</p></section>
   <section class="card doc"><div class="eyebrow">01 · The decision</div><h2>한 번 넣으면 되돌리기 어려워요</h2>
     <p>당첨되면 재당첨 제한이 걸리고, 계약을 포기해도 당첨자로 관리돼요. 자격이 안 되는데 당첨되면 부적격 처리되어 한동안 다른 청약에 당첨될 수 없어요.</p>
