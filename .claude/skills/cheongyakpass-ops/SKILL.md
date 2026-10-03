@@ -122,3 +122,6 @@ description: 청약패스(cheongyakpass.kr, 저장소 cheongyak/cheongyak.github
 - Actions 실패 원인: 로그는 인증이 필요하지만 `curl https://api.github.com/repos/cheongyak/cheongyak.github.io/check-runs/<job id>/annotations` 로 exit code 를 볼 수 있다(139 = 세그폴트). job id 는 runs/<run id>/jobs.
 - C 라이브러리(pypdfium2 등)는 수집 프로세스 안에서 부르지 않는다 — 죽으면 수집 전체가 멈춘다. 따로 띄운 프로세스로.
 - Actions concurrency: 수집(collect) 묶음에 다른 워크플로를 넣지 않는다 — 대기 실행이 하나만 남아 수집이 취소된다(2026-10-03). 데이터를 쓰는 워크플로는 자기 묶음 + `tools/qa/wait_collect.sh` 로 수집이 끝나길 기다린다.
+- 이전 정상값 지키기 (2026-10-03 사용자 '최신 수정이 이전 정상값에 영향을 주지 않게'):
+  ① 공고문 읽기 규칙(app/notice_pdf.py)을 고치면 tests/test_parse_snapshot.py 가 원문 109건+ 읽기 결과를 기준(tests/qa/parse_snapshot.json)과 비교 — 다르면 실패. `python -m tools.qa.parse_snapshot` 로 바뀐 값을 보고, 원문과 대조해 모두 의도한 변경일 때만 `--update` 하고 WORK.md 에 바뀐 공고·값을 적는다.
+  ② 수집·지역·시세·판정에 닿는 변경을 올린 뒤에는 `git show <수정 전 데이터 커밋>:docs/listings.json > /tmp/base.json && NODE_PATH=$(npm root -g) node tools/qa/verdict_diff.cjs /tmp/base.json` — 주택형×판정 사례 내 조건 전부의 판정 전후 비교, 데이터가 그대로인데 판정이 바뀐 곳(예상 밖)이 0이어야 한다.

@@ -1,0 +1,967 @@
+{
+ "at": "2026-10-03T14:44:43.492Z",
+ "base": "/tmp/base.json",
+ "profiles": 296,
+ "checked": 66896,
+ "changed": 4029,
+ "unexpected": 0,
+ "by_notice": {
+  "2026000386": {
+   "name": "용인 양지 서희스타힐스 하이뷰 (조합원 취소분)",
+   "rows": 1896,
+   "bucket_changes": 112,
+   "inputs": [
+    "complex",
+    "mc_quota",
+    "score_ratio",
+    "residence",
+    "mkt_low",
+    "mkt_base",
+    "mkt_basis",
+    "mkt_count",
+    "mkt_direct_excluded",
+    "jeonse",
+    "from_notice",
+    "account_months"
+   ]
+  },
+  "2026000444": {
+   "name": "제주시 이도이동 아이린8차 아파트",
+   "rows": 1185,
+   "bucket_changes": 1165,
+   "inputs": [
+    "score_ratio",
+    "residence",
+    "mkt_low",
+    "mkt_base",
+    "mkt_basis",
+    "mkt_count",
+    "jeonse",
+    "from_notice",
+    "account_months"
+   ]
+  },
+  "2026000494": {
+   "name": "더샵 동인센트리체",
+   "rows": 948,
+   "bucket_changes": 932,
+   "inputs": [
+    "complex",
+    "score_ratio",
+    "residence",
+    "mkt_low",
+    "mkt_base",
+    "mkt_basis",
+    "mkt_count",
+    "mkt_direct_excluded",
+    "jeonse",
+    "from_notice",
+    "account_months"
+   ]
+  }
+ },
+ "unexpected_rows": [],
+ "sample_changes": [
+  {
+   "id": "2026000494-084.2551A",
+   "name": "더샵 동인센트리체",
+   "profile": 41,
+   "bucket": "unsure → no",
+   "items": [
+    "거주지: warn:확인 필요 → fail:신청 불가"
+   ],
+   "changed_inputs": [
+    "complex",
+    "score_ratio",
+    "residence",
+    "mkt_low",
+    "mkt_base",
+    "mkt_basis",
+    "mkt_count",
+    "mkt_direct_excluded",
+    "jeonse",
+    "from_notice",
+    "account_months"
+   ]
+  },
+  {
+   "id": "2026000494-084.8158B",
+   "name": "더샵 동인센트리체",
+   "profile": 41,
+   "bucket": "unsure → no",
+   "items": [
+    "거주지: warn:확인 필요 → fail:신청 불가"
+   ],
+   "changed_inputs": [
+    "complex",
+    "score_ratio",
+    "residence",
+    "mkt_low",
+    "mkt_base",
+    "mkt_basis",
+    "mkt_count",
+    "mkt_direct_excluded",
+    "jeonse",
+    "from_notice",
+    "account_months"
+   ]
+  },
+  {
+   "id": "2026000494-084.6092C",
+   "name": "더샵 동인센트리체",
+   "profile": 41,
+   "bucket": "unsure → no",
+   "items": [
+    "거주지: warn:확인 필요 → fail:신청 불가"
+   ],
+   "changed_inputs": [
+    "complex",
+    "score_ratio",
+    "residence",
+    "mkt_low",
+    "mkt_base",
+    "mkt_basis",
+    "mkt_count",
+    "mkt_direct_excluded",
+    "jeonse",
+    "from_notice",
+    "account_months"
+   ]
+  },
+  {
+   "id": "2026000494-084.3643D",
+   "name": "더샵 동인센트리체",
+   "profile": 41,
+   "bucket": "unsure → no",
+   "items": [
+    "거주지: warn:확인 필요 → fail:신청 불가"
+   ],
+   "changed_inputs": [
+    "complex",
+    "score_ratio",
+    "residence",
+    "mkt_low",
+    "mkt_base",
+    "mkt_basis",
+    "mkt_count",
+    "mkt_direct_excluded",
+    "jeonse",
+    "from_notice",
+    "account_months"
+   ]
+  },
+  {
+   "id": "2026000444-084.4900A",
+   "name": "제주시 이도이동 아이린8차 아파트",
+   "profile": 41,
+   "bucket": "unsure → no",
+   "items": [
+    "거주지: warn:확인 필요 → fail:신청 불가"
+   ],
+   "changed_inputs": [
+    "score_ratio",
+    "residence",
+    "mkt_low",
+    "mkt_base",
+    "mkt_basis",
+    "mkt_count",
+    "jeonse",
+    "from_notice",
+    "account_months"
+   ]
+  },
+  {
+   "id": "2026000444-084.1200B",
+   "name": "제주시 이도이동 아이린8차 아파트",
+   "profile": 41,
+   "bucket": "unsure → no",
+   "items": [
+    "거주지: warn:확인 필요 → fail:신청 불가"
+   ],
+   "changed_inputs": [
+    "score_ratio",
+    "residence",
+    "mkt_low",
+    "mkt_base",
+    "mkt_basis",
+    "mkt_count",
+    "jeonse",
+    "from_notice",
+    "account_months"
+   ]
+  },
+  {
+   "id": "2026000444-084.1100C",
+   "name": "제주시 이도이동 아이린8차 아파트",
+   "profile": 41,
+   "bucket": "unsure → no",
+   "items": [
+    "거주지: warn:확인 필요 → fail:신청 불가"
+   ],
+   "changed_inputs": [
+    "score_ratio",
+    "residence",
+    "mkt_low",
+    "mkt_base",
+    "mkt_basis",
+    "mkt_count",
+    "jeonse",
+    "from_notice",
+    "account_months"
+   ]
+  },
+  {
+   "id": "2026000444-084.4800D",
+   "name": "제주시 이도이동 아이린8차 아파트",
+   "profile": 41,
+   "bucket": "unsure → no",
+   "items": [
+    "거주지: warn:확인 필요 → fail:신청 불가"
+   ],
+   "changed_inputs": [
+    "score_ratio",
+    "residence",
+    "mkt_low",
+    "mkt_base",
+    "mkt_basis",
+    "mkt_count",
+    "jeonse",
+    "from_notice",
+    "account_months"
+   ]
+  },
+  {
+   "id": "2026000444-084.1200E",
+   "name": "제주시 이도이동 아이린8차 아파트",
+   "profile": 41,
+   "bucket": "unsure → no",
+   "items": [
+    "거주지: warn:확인 필요 → fail:신청 불가"
+   ],
+   "changed_inputs": [
+    "score_ratio",
+    "residence",
+    "mkt_low",
+    "mkt_base",
+    "mkt_basis",
+    "mkt_count",
+    "jeonse",
+    "from_notice",
+    "account_months"
+   ]
+  },
+  {
+   "id": "2026000386-059.9671A",
+   "name": "용인 양지 서희스타힐스 하이뷰 (조합원 취소분)",
+   "profile": 41,
+   "bucket": "unsure",
+   "items": [
+    "거주지: warn:확인 필요 → ok:기타지역 (해당지역 다음)"
+   ],
+   "changed_inputs": [
+    "complex",
+    "mc_quota",
+    "score_ratio",
+    "residence",
+    "mkt_low",
+    "mkt_base",
+    "mkt_basis",
+    "mkt_count",
+    "mkt_direct_excluded",
+    "jeonse",
+    "from_notice",
+    "account_months"
+   ]
+  },
+  {
+   "id": "2026000386-059.9960B",
+   "name": "용인 양지 서희스타힐스 하이뷰 (조합원 취소분)",
+   "profile": 41,
+   "bucket": "unsure",
+   "items": [
+    "거주지: warn:확인 필요 → ok:기타지역 (해당지역 다음)"
+   ],
+   "changed_inputs": [
+    "complex",
+    "mc_quota",
+    "score_ratio",
+    "residence",
+    "mkt_low",
+    "mkt_base",
+    "mkt_basis",
+    "mkt_count",
+    "mkt_direct_excluded",
+    "jeonse",
+    "from_notice",
+    "account_months"
+   ]
+  },
+  {
+   "id": "2026000386-059.9759C",
+   "name": "용인 양지 서희스타힐스 하이뷰 (조합원 취소분)",
+   "profile": 41,
+   "bucket": "unsure",
+   "items": [
+    "거주지: warn:확인 필요 → ok:기타지역 (해당지역 다음)"
+   ],
+   "changed_inputs": [
+    "complex",
+    "mc_quota",
+    "score_ratio",
+    "residence",
+    "mkt_low",
+    "mkt_base",
+    "mkt_basis",
+    "mkt_count",
+    "mkt_direct_excluded",
+    "jeonse",
+    "from_notice",
+    "account_months"
+   ]
+  },
+  {
+   "id": "2026000386-069.9865A",
+   "name": "용인 양지 서희스타힐스 하이뷰 (조합원 취소분)",
+   "profile": 41,
+   "bucket": "unsure",
+   "items": [
+    "거주지: warn:확인 필요 → ok:기타지역 (해당지역 다음)"
+   ],
+   "changed_inputs": [
+    "complex",
+    "mc_quota",
+    "score_ratio",
+    "residence",
+    "mkt_low",
+    "mkt_base",
+    "mkt_basis",
+    "mkt_count",
+    "jeonse",
+    "from_notice",
+    "account_months"
+   ]
+  },
+  {
+   "id": "2026000386-074.9936A",
+   "name": "용인 양지 서희스타힐스 하이뷰 (조합원 취소분)",
+   "profile": 41,
+   "bucket": "unsure",
+   "items": [
+    "거주지: warn:확인 필요 → ok:기타지역 (해당지역 다음)"
+   ],
+   "changed_inputs": [
+    "complex",
+    "mc_quota",
+    "score_ratio",
+    "residence",
+    "mkt_low",
+    "mkt_base",
+    "mkt_basis",
+    "mkt_count",
+    "mkt_direct_excluded",
+    "jeonse",
+    "from_notice",
+    "account_months"
+   ]
+  },
+  {
+   "id": "2026000386-074.9980B",
+   "name": "용인 양지 서희스타힐스 하이뷰 (조합원 취소분)",
+   "profile": 41,
+   "bucket": "unsure",
+   "items": [
+    "거주지: warn:확인 필요 → ok:기타지역 (해당지역 다음)"
+   ],
+   "changed_inputs": [
+    "complex",
+    "mc_quota",
+    "score_ratio",
+    "residence",
+    "mkt_low",
+    "mkt_base",
+    "mkt_basis",
+    "mkt_count",
+    "mkt_direct_excluded",
+    "jeonse",
+    "from_notice",
+    "account_months"
+   ]
+  },
+  {
+   "id": "2026000386-084.9999A",
+   "name": "용인 양지 서희스타힐스 하이뷰 (조합원 취소분)",
+   "profile": 41,
+   "bucket": "unsure",
+   "items": [
+    "거주지: warn:확인 필요 → ok:기타지역 (해당지역 다음)"
+   ],
+   "changed_inputs": [
+    "complex",
+    "mc_quota",
+    "score_ratio",
+    "residence",
+    "mkt_low",
+    "mkt_base",
+    "mkt_basis",
+    "mkt_count",
+    "mkt_direct_excluded",
+    "jeonse",
+    "from_notice",
+    "account_months"
+   ]
+  },
+  {
+   "id": "2026000386-084.9989B",
+   "name": "용인 양지 서희스타힐스 하이뷰 (조합원 취소분)",
+   "profile": 41,
+   "bucket": "unsure",
+   "items": [
+    "거주지: warn:확인 필요 → ok:기타지역 (해당지역 다음)"
+   ],
+   "changed_inputs": [
+    "complex",
+    "mc_quota",
+    "score_ratio",
+    "residence",
+    "mkt_low",
+    "mkt_base",
+    "mkt_basis",
+    "mkt_count",
+    "mkt_direct_excluded",
+    "jeonse",
+    "from_notice",
+    "account_months"
+   ]
+  },
+  {
+   "id": "2026000494-084.2551A",
+   "name": "더샵 동인센트리체",
+   "profile": 42,
+   "bucket": "unsure → no",
+   "items": [
+    "거주지: warn:확인 필요 → fail:신청 불가"
+   ],
+   "changed_inputs": [
+    "complex",
+    "score_ratio",
+    "residence",
+    "mkt_low",
+    "mkt_base",
+    "mkt_basis",
+    "mkt_count",
+    "mkt_direct_excluded",
+    "jeonse",
+    "from_notice",
+    "account_months"
+   ]
+  },
+  {
+   "id": "2026000494-084.8158B",
+   "name": "더샵 동인센트리체",
+   "profile": 42,
+   "bucket": "unsure → no",
+   "items": [
+    "거주지: warn:확인 필요 → fail:신청 불가"
+   ],
+   "changed_inputs": [
+    "complex",
+    "score_ratio",
+    "residence",
+    "mkt_low",
+    "mkt_base",
+    "mkt_basis",
+    "mkt_count",
+    "mkt_direct_excluded",
+    "jeonse",
+    "from_notice",
+    "account_months"
+   ]
+  },
+  {
+   "id": "2026000494-084.6092C",
+   "name": "더샵 동인센트리체",
+   "profile": 42,
+   "bucket": "unsure → no",
+   "items": [
+    "거주지: warn:확인 필요 → fail:신청 불가"
+   ],
+   "changed_inputs": [
+    "complex",
+    "score_ratio",
+    "residence",
+    "mkt_low",
+    "mkt_base",
+    "mkt_basis",
+    "mkt_count",
+    "mkt_direct_excluded",
+    "jeonse",
+    "from_notice",
+    "account_months"
+   ]
+  },
+  {
+   "id": "2026000494-084.3643D",
+   "name": "더샵 동인센트리체",
+   "profile": 42,
+   "bucket": "unsure → no",
+   "items": [
+    "거주지: warn:확인 필요 → fail:신청 불가"
+   ],
+   "changed_inputs": [
+    "complex",
+    "score_ratio",
+    "residence",
+    "mkt_low",
+    "mkt_base",
+    "mkt_basis",
+    "mkt_count",
+    "mkt_direct_excluded",
+    "jeonse",
+    "from_notice",
+    "account_months"
+   ]
+  },
+  {
+   "id": "2026000444-084.4900A",
+   "name": "제주시 이도이동 아이린8차 아파트",
+   "profile": 42,
+   "bucket": "unsure → no",
+   "items": [
+    "거주지: warn:확인 필요 → fail:신청 불가"
+   ],
+   "changed_inputs": [
+    "score_ratio",
+    "residence",
+    "mkt_low",
+    "mkt_base",
+    "mkt_basis",
+    "mkt_count",
+    "jeonse",
+    "from_notice",
+    "account_months"
+   ]
+  },
+  {
+   "id": "2026000444-084.1200B",
+   "name": "제주시 이도이동 아이린8차 아파트",
+   "profile": 42,
+   "bucket": "unsure → no",
+   "items": [
+    "거주지: warn:확인 필요 → fail:신청 불가"
+   ],
+   "changed_inputs": [
+    "score_ratio",
+    "residence",
+    "mkt_low",
+    "mkt_base",
+    "mkt_basis",
+    "mkt_count",
+    "jeonse",
+    "from_notice",
+    "account_months"
+   ]
+  },
+  {
+   "id": "2026000444-084.1100C",
+   "name": "제주시 이도이동 아이린8차 아파트",
+   "profile": 42,
+   "bucket": "unsure → no",
+   "items": [
+    "거주지: warn:확인 필요 → fail:신청 불가"
+   ],
+   "changed_inputs": [
+    "score_ratio",
+    "residence",
+    "mkt_low",
+    "mkt_base",
+    "mkt_basis",
+    "mkt_count",
+    "jeonse",
+    "from_notice",
+    "account_months"
+   ]
+  },
+  {
+   "id": "2026000444-084.4800D",
+   "name": "제주시 이도이동 아이린8차 아파트",
+   "profile": 42,
+   "bucket": "unsure → no",
+   "items": [
+    "거주지: warn:확인 필요 → fail:신청 불가"
+   ],
+   "changed_inputs": [
+    "score_ratio",
+    "residence",
+    "mkt_low",
+    "mkt_base",
+    "mkt_basis",
+    "mkt_count",
+    "jeonse",
+    "from_notice",
+    "account_months"
+   ]
+  },
+  {
+   "id": "2026000444-084.1200E",
+   "name": "제주시 이도이동 아이린8차 아파트",
+   "profile": 42,
+   "bucket": "unsure → no",
+   "items": [
+    "거주지: warn:확인 필요 → fail:신청 불가"
+   ],
+   "changed_inputs": [
+    "score_ratio",
+    "residence",
+    "mkt_low",
+    "mkt_base",
+    "mkt_basis",
+    "mkt_count",
+    "jeonse",
+    "from_notice",
+    "account_months"
+   ]
+  },
+  {
+   "id": "2026000386-059.9671A",
+   "name": "용인 양지 서희스타힐스 하이뷰 (조합원 취소분)",
+   "profile": 42,
+   "bucket": "unsure",
+   "items": [
+    "거주지: warn:확인 필요 → ok:기타지역 (해당지역 다음)"
+   ],
+   "changed_inputs": [
+    "complex",
+    "mc_quota",
+    "score_ratio",
+    "residence",
+    "mkt_low",
+    "mkt_base",
+    "mkt_basis",
+    "mkt_count",
+    "mkt_direct_excluded",
+    "jeonse",
+    "from_notice",
+    "account_months"
+   ]
+  },
+  {
+   "id": "2026000386-059.9960B",
+   "name": "용인 양지 서희스타힐스 하이뷰 (조합원 취소분)",
+   "profile": 42,
+   "bucket": "unsure",
+   "items": [
+    "거주지: warn:확인 필요 → ok:기타지역 (해당지역 다음)"
+   ],
+   "changed_inputs": [
+    "complex",
+    "mc_quota",
+    "score_ratio",
+    "residence",
+    "mkt_low",
+    "mkt_base",
+    "mkt_basis",
+    "mkt_count",
+    "mkt_direct_excluded",
+    "jeonse",
+    "from_notice",
+    "account_months"
+   ]
+  },
+  {
+   "id": "2026000386-059.9759C",
+   "name": "용인 양지 서희스타힐스 하이뷰 (조합원 취소분)",
+   "profile": 42,
+   "bucket": "unsure",
+   "items": [
+    "거주지: warn:확인 필요 → ok:기타지역 (해당지역 다음)"
+   ],
+   "changed_inputs": [
+    "complex",
+    "mc_quota",
+    "score_ratio",
+    "residence",
+    "mkt_low",
+    "mkt_base",
+    "mkt_basis",
+    "mkt_count",
+    "mkt_direct_excluded",
+    "jeonse",
+    "from_notice",
+    "account_months"
+   ]
+  },
+  {
+   "id": "2026000386-069.9865A",
+   "name": "용인 양지 서희스타힐스 하이뷰 (조합원 취소분)",
+   "profile": 42,
+   "bucket": "unsure",
+   "items": [
+    "거주지: warn:확인 필요 → ok:기타지역 (해당지역 다음)"
+   ],
+   "changed_inputs": [
+    "complex",
+    "mc_quota",
+    "score_ratio",
+    "residence",
+    "mkt_low",
+    "mkt_base",
+    "mkt_basis",
+    "mkt_count",
+    "jeonse",
+    "from_notice",
+    "account_months"
+   ]
+  },
+  {
+   "id": "2026000386-074.9936A",
+   "name": "용인 양지 서희스타힐스 하이뷰 (조합원 취소분)",
+   "profile": 42,
+   "bucket": "unsure",
+   "items": [
+    "거주지: warn:확인 필요 → ok:기타지역 (해당지역 다음)"
+   ],
+   "changed_inputs": [
+    "complex",
+    "mc_quota",
+    "score_ratio",
+    "residence",
+    "mkt_low",
+    "mkt_base",
+    "mkt_basis",
+    "mkt_count",
+    "mkt_direct_excluded",
+    "jeonse",
+    "from_notice",
+    "account_months"
+   ]
+  },
+  {
+   "id": "2026000386-074.9980B",
+   "name": "용인 양지 서희스타힐스 하이뷰 (조합원 취소분)",
+   "profile": 42,
+   "bucket": "unsure",
+   "items": [
+    "거주지: warn:확인 필요 → ok:기타지역 (해당지역 다음)"
+   ],
+   "changed_inputs": [
+    "complex",
+    "mc_quota",
+    "score_ratio",
+    "residence",
+    "mkt_low",
+    "mkt_base",
+    "mkt_basis",
+    "mkt_count",
+    "mkt_direct_excluded",
+    "jeonse",
+    "from_notice",
+    "account_months"
+   ]
+  },
+  {
+   "id": "2026000386-084.9999A",
+   "name": "용인 양지 서희스타힐스 하이뷰 (조합원 취소분)",
+   "profile": 42,
+   "bucket": "unsure",
+   "items": [
+    "거주지: warn:확인 필요 → ok:기타지역 (해당지역 다음)"
+   ],
+   "changed_inputs": [
+    "complex",
+    "mc_quota",
+    "score_ratio",
+    "residence",
+    "mkt_low",
+    "mkt_base",
+    "mkt_basis",
+    "mkt_count",
+    "mkt_direct_excluded",
+    "jeonse",
+    "from_notice",
+    "account_months"
+   ]
+  },
+  {
+   "id": "2026000386-084.9989B",
+   "name": "용인 양지 서희스타힐스 하이뷰 (조합원 취소분)",
+   "profile": 42,
+   "bucket": "unsure",
+   "items": [
+    "거주지: warn:확인 필요 → ok:기타지역 (해당지역 다음)"
+   ],
+   "changed_inputs": [
+    "complex",
+    "mc_quota",
+    "score_ratio",
+    "residence",
+    "mkt_low",
+    "mkt_base",
+    "mkt_basis",
+    "mkt_count",
+    "mkt_direct_excluded",
+    "jeonse",
+    "from_notice",
+    "account_months"
+   ]
+  },
+  {
+   "id": "2026000494-084.2551A",
+   "name": "더샵 동인센트리체",
+   "profile": 43,
+   "bucket": "unsure → no",
+   "items": [
+    "거주지: warn:확인 필요 → fail:신청 불가"
+   ],
+   "changed_inputs": [
+    "complex",
+    "score_ratio",
+    "residence",
+    "mkt_low",
+    "mkt_base",
+    "mkt_basis",
+    "mkt_count",
+    "mkt_direct_excluded",
+    "jeonse",
+    "from_notice",
+    "account_months"
+   ]
+  },
+  {
+   "id": "2026000494-084.8158B",
+   "name": "더샵 동인센트리체",
+   "profile": 43,
+   "bucket": "unsure → no",
+   "items": [
+    "거주지: warn:확인 필요 → fail:신청 불가"
+   ],
+   "changed_inputs": [
+    "complex",
+    "score_ratio",
+    "residence",
+    "mkt_low",
+    "mkt_base",
+    "mkt_basis",
+    "mkt_count",
+    "mkt_direct_excluded",
+    "jeonse",
+    "from_notice",
+    "account_months"
+   ]
+  },
+  {
+   "id": "2026000494-084.6092C",
+   "name": "더샵 동인센트리체",
+   "profile": 43,
+   "bucket": "unsure → no",
+   "items": [
+    "거주지: warn:확인 필요 → fail:신청 불가"
+   ],
+   "changed_inputs": [
+    "complex",
+    "score_ratio",
+    "residence",
+    "mkt_low",
+    "mkt_base",
+    "mkt_basis",
+    "mkt_count",
+    "mkt_direct_excluded",
+    "jeonse",
+    "from_notice",
+    "account_months"
+   ]
+  },
+  {
+   "id": "2026000494-084.3643D",
+   "name": "더샵 동인센트리체",
+   "profile": 43,
+   "bucket": "unsure → no",
+   "items": [
+    "거주지: warn:확인 필요 → fail:신청 불가"
+   ],
+   "changed_inputs": [
+    "complex",
+    "score_ratio",
+    "residence",
+    "mkt_low",
+    "mkt_base",
+    "mkt_basis",
+    "mkt_count",
+    "mkt_direct_excluded",
+    "jeonse",
+    "from_notice",
+    "account_months"
+   ]
+  },
+  {
+   "id": "2026000444-084.4900A",
+   "name": "제주시 이도이동 아이린8차 아파트",
+   "profile": 43,
+   "bucket": "unsure → no",
+   "items": [
+    "거주지: warn:확인 필요 → fail:신청 불가"
+   ],
+   "changed_inputs": [
+    "score_ratio",
+    "residence",
+    "mkt_low",
+    "mkt_base",
+    "mkt_basis",
+    "mkt_count",
+    "jeonse",
+    "from_notice",
+    "account_months"
+   ]
+  },
+  {
+   "id": "2026000444-084.1200B",
+   "name": "제주시 이도이동 아이린8차 아파트",
+   "profile": 43,
+   "bucket": "unsure → no",
+   "items": [
+    "거주지: warn:확인 필요 → fail:신청 불가"
+   ],
+   "changed_inputs": [
+    "score_ratio",
+    "residence",
+    "mkt_low",
+    "mkt_base",
+    "mkt_basis",
+    "mkt_count",
+    "jeonse",
+    "from_notice",
+    "account_months"
+   ]
+  }
+ ],
+ "transitions": [
+  [
+   "2026000386 unsure",
+   1752
+  ],
+  [
+   "2026000444 unsure → no",
+   1165
+  ],
+  [
+   "2026000494 unsure → no",
+   932
+  ],
+  [
+   "2026000386 unsure → no",
+   112
+  ],
+  [
+   "2026000386 no",
+   32
+  ],
+  [
+   "2026000444 no",
+   20
+  ],
+  [
+   "2026000494 no",
+   16
+  ]
+ ],
+ "errors": []
+}
