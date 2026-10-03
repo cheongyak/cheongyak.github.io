@@ -85,6 +85,18 @@ def pdf_text_alt(data: bytes) -> Optional[str]:
     return r.stdout.decode("utf-8", "replace")
 
 
+def _with_mirrors(links: list[str]) -> list[str]:
+    """첨부 서버(static.applyhome.co.kr)가 새 공고 파일을 아직 못 받아 '찾을 수 없음' 글(200, 59바이트)을 돌려줄 때가 있다.
+    같은 주소를 청약홈 본 서버(www.applyhome.co.kr)로 받으면 PDF 가 온다 (2026-10-03 더샵 동인센트리체·제주 아이린8차·용인 양지 서희 —
+    tools/qa/pdf_fetch_probe, evidence/qa/pdf-fetch-probe.txt). 그래서 링크마다 본 서버 주소를 바로 뒤에 붙여 차례로 시도한다."""
+    out: list[str] = []
+    for u in links:
+        out.append(u)
+        if "//static.applyhome.co.kr/" in u:
+            out.append(u.replace("//static.applyhome.co.kr/", "//www.applyhome.co.kr/"))
+    return out
+
+
 def fetch_notice_text(page_url: str, client: Optional[httpx.Client] = None) -> tuple[Optional[str], str, Optional[str]]:
     """(공고문 텍스트, 기록용 메시지, PDF 주소)."""
     http = client or httpx.Client(timeout=httpx.Timeout(20, connect=10), follow_redirects=True, headers=UA)
@@ -98,7 +110,7 @@ def fetch_notice_text(page_url: str, client: Optional[httpx.Client] = None) -> t
     if not links:
         return None, f"PDF 링크 못 찾음 (페이지 {len(r.text)}자)", None
     last = ""
-    for link in links[:4]:
+    for link in _with_mirrors(links[:4]):
         p = None
         for attempt in range(2):          # 일시적인 실패가 있어 한 번 더 시도한다
             try:
