@@ -2,9 +2,9 @@
  "date": "2026-10-03",
  "page_cap": 300,
  "notices": 56,
- "with_problem": 3,
+ "with_problem": 2,
  "kinds": {
-  "PDF 를 하나도 받지 못함": 2,
+  "PDF 를 하나도 받지 못함": 1,
   "글자가 거의 없는 쪽 N개 (스캔 이미지·표 그림 추정)": 1
  },
  "errors": [],
@@ -131,38 +131,22 @@
    "name": "쌍용 더 플래티넘 한강",
    "url": "https://www.applyhome.co.kr/ai/aia/selectAPTLttotPblancDetail.do?houseManageNo=2026000468&pblancNo=2026000468",
    "attachments": 1,
-   "pdfs": 0,
-   "attachment_list": [
-    {
-     "url": "https://static.applyhome.co.kr/ai/aia/getAtchmnfl.do?houseManageNo=2026000468&pblancNo=2026000468&atchmnflSeqNo=1990183&atchmnflSn=2",
-     "error": "PDF 아님 (200, 59바이트)"
-    }
-   ],
-   "problem": [
-    "PDF 를 하나도 받지 못함"
-   ]
-  },
-  {
-   "notice": "2026000463",
-   "name": "향남역 그로브 스위첸",
-   "url": "https://www.applyhome.co.kr/ai/aia/selectAPTLttotPblancDetail.do?houseManageNo=2026000463&pblancNo=2026000463",
-   "attachments": 1,
    "pdfs": 1,
    "attachment_list": [
     {
-     "url": "https://static.applyhome.co.kr/ai/aia/getAtchmnfl.do?houseManageNo=2026000463&pblancNo=2026000463&atchmnflSeqNo=1978209&atchmnflSn=5",
-     "bytes": 1171753,
-     "pages": 94,
-     "chars": 193886,
-     "head": "- 1 - ※ 본 입주자 모집공고의 내용을 숙지한 후 청약 및 계약에 응하시기 바라며, 미숙지로 인한 착오 행위 등에 대하여는 청약자 및 계약자"
+     "url": "https://static.applyhome.co.kr/ai/aia/getAtchmnfl.do?houseManageNo=2026000468&pblancNo=2026000468&atchmnflSeqNo=1990183&atchmnflSn=2",
+     "bytes": 1050066,
+     "pages": 62,
+     "chars": 160769,
+     "head": "- 1 - ※ 단지 주요정보 (분양문의) 1866-0333 주택유형 해당지역 기타지역 규제지역여부 민영 경기도 양평군 거주자 경기도 및 서울특별"
     }
    ],
-   "chosen": "https://static.applyhome.co.kr/ai/aia/getAtchmnfl.do?houseManageNo=2026000463&pblancNo=2026000463&atchmnflSeqNo=1978209&atchmnflSn=5",
-   "pages": 94,
-   "pages_read": 94,
-   "chars_read": 193979,
+   "chosen": "https://static.applyhome.co.kr/ai/aia/getAtchmnfl.do?houseManageNo=2026000468&pblancNo=2026000468&atchmnflSeqNo=1990183&atchmnflSn=2",
+   "pages": 62,
+   "pages_read": 62,
+   "chars_read": 160830,
    "empty_pages": [],
-   "chars_per_page_min": 785,
+   "chars_per_page_min": 533,
    "fields": {
     "need_head": false,
     "price_cap": false,
@@ -170,7 +154,7 @@
     "rewin_years": 0,
     "account_months": 12,
     "residence": {
-     "area": "경기도 화성특례시",
+     "area": "경기도 양평군",
      "months": 0,
      "since": null
     }
@@ -182,7 +166,7 @@
     "rewin_years": 0,
     "account_months": 12,
     "residence": {
-     "area": "경기도 화성특례시",
+     "area": "경기도 양평군",
      "months": 0,
      "since": null
     }
@@ -194,13 +178,29 @@
     "rewin_years": 0,
     "account_months": 12,
     "residence": {
-     "area": "경기도 화성특례시",
+     "area": "경기도 양평군",
      "months": 0,
      "since": null
     }
    },
-   "pdfium_chars": 192924,
+   "pdfium_chars": 161003,
    "problem": []
+  },
+  {
+   "notice": "2026000463",
+   "name": "향남역 그로브 스위첸",
+   "url": "https://www.applyhome.co.kr/ai/aia/selectAPTLttotPblancDetail.do?houseManageNo=2026000463&pblancNo=2026000463",
+   "attachments": 1,
+   "pdfs": 0,
+   "attachment_list": [
+    {
+     "url": "https://static.applyhome.co.kr/ai/aia/getAtchmnfl.do?houseManageNo=2026000463&pblancNo=2026000463&atchmnflSeqNo=1978209&atchmnflSn=5",
+     "error": "PDF 아님 (200, 59바이트)"
+    }
+   ],
+   "problem": [
+    "PDF 를 하나도 받지 못함"
+   ]
   },
   {
    "notice": "2026000444",
@@ -230,8 +230,8 @@
     "account_months": 6,
     "residence": {
      "area": "제주특별자치도",
-     "months": 0,
-     "since": null
+     "months": 12,
+     "since": "2025-10-02"
     }
    },
    "fields_merged": {
@@ -241,8 +241,8 @@
     "account_months": 6,
     "residence": {
      "area": "제주특별자치도",
-     "months": 0,
-     "since": null
+     "months": 12,
+     "since": "2025-10-02"
     }
    },
    "fields_pdfium": {
@@ -251,8 +251,8 @@
     "rewin_years": 0,
     "residence": {
      "area": "제주특별자치도",
-     "months": 0,
-     "since": null
+     "months": 12,
+     "since": "2025-10-02"
     }
    },
    "pdfium_chars": 56926,
@@ -272,16 +272,60 @@
    "name": "용인 양지 서희스타힐스 하이뷰 (조합원 취소분)",
    "url": "https://www.applyhome.co.kr/ai/aia/selectAPTLttotPblancDetail.do?houseManageNo=2026000386&pblancNo=2026000386",
    "attachments": 1,
-   "pdfs": 0,
+   "pdfs": 1,
    "attachment_list": [
     {
      "url": "https://static.applyhome.co.kr/ai/aia/getAtchmnfl.do?houseManageNo=2026000386&pblancNo=2026000386&atchmnflSeqNo=1961129&atchmnflSn=6",
-     "error": "PDF 아님 (200, 59바이트)"
+     "bytes": 1490237,
+     "pages": 58,
+     "chars": 145145,
+     "head": "- 1 - ※ 본 아파트 입주자모집공고의 내용을 충분히 숙지한 후 청약 및 계약에 응하시기 바라며, 미숙지로 인한 착오행위 등에 대하여는 청약자"
     }
    ],
-   "problem": [
-    "PDF 를 하나도 받지 못함"
-   ]
+   "chosen": "https://static.applyhome.co.kr/ai/aia/getAtchmnfl.do?houseManageNo=2026000386&pblancNo=2026000386&atchmnflSeqNo=1961129&atchmnflSn=6",
+   "pages": 58,
+   "pages_read": 58,
+   "chars_read": 145202,
+   "empty_pages": [],
+   "chars_per_page_min": 227,
+   "fields": {
+    "need_head": false,
+    "price_cap": false,
+    "residence_duty": 0,
+    "rewin_years": 0,
+    "account_months": 12,
+    "residence": {
+     "area": "경기도 용인시",
+     "months": 0,
+     "since": null
+    }
+   },
+   "fields_merged": {
+    "need_head": false,
+    "price_cap": false,
+    "residence_duty": 0,
+    "rewin_years": 0,
+    "account_months": 12,
+    "residence": {
+     "area": "경기도 용인시",
+     "months": 0,
+     "since": null
+    }
+   },
+   "fields_pdfium": {
+    "need_head": false,
+    "price_cap": false,
+    "residence_duty": 0,
+    "rewin_years": 0,
+    "account_months": 12,
+    "residence": {
+     "area": "경기도 용인시",
+     "months": 0,
+     "since": null
+    }
+   },
+   "pdfium_chars": 144366,
+   "problem": []
   },
   {
    "notice": "2026820010",
