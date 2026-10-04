@@ -48,7 +48,8 @@ export function factsForLLM(C, r, compare, { profile }) {
     explore: r.explore, perspectives: r.perspectives, compare: compare ? compare.map(t => ({ query: t.query, found: t.found, picks: (t.notices || []).map(n => ({ ...pick(n.pick), others: n.all })) })) : null,
     alternatives: (r.relax || []).flatMap(o => (o.groups || []).map(g => ({ ...pick(g.best), from_region_km: (() => { const regs = C.conds.filter(c => c.key === 'region_in').flatMap(c => c.value).filter(v => v.lat); return regs.length && g.best.f.geo ? Math.round(Math.min(...regs.map(v => distKm(g.best.f.geo, v)))) : null; })() }))).concat((r.nearMiss || []).map(g => pick(g.best))).concat((r.closest || []).map(x => ({ ...pick(x), near_km: x.km, misses: x.misses }))), total: r.total,
     outside: r.outside ? { base: r.outside.base, total: r.outside.total, picks: r.outside.groups.map(g => ({ ...pick(g.best), from_region_km: g.best.km })) } : null,   // 'A 말고도 같은 조건으로' 블록 (샘플 3)
-    rail_lines: r.lineInfo || [], plan: C.plan || null,   // 노선 역세권 공고 현황 (샘플 4)
+    rail_lines: r.lineInfo || [], plan: C.plan || null,
+    question_numbers: [...new Set((String(C.q || '').match(/\d+(?:\.\d+)?/g) || []).map(Number))],   // 질문자가 직접 말한 숫자(예산 17.5억 등)는 답에 다시 써도 된다 (AI 회차 6: 'FACTS 에 없는 숫자 17.5'로 막힘)   // 노선 역세권 공고 현황 (샘플 4)
     constants: { size_hint_m2: [59, 84], newborn_age: 2, max_cards: 5, line_m: [1000, 3000] } };   // 답 틀에 늘 들어가는 고정 숫자 (20평대=전용 59㎡ 안내, 신생아 특공 2세 미만)
 }
 const round = v => v == null ? null : Math.round(v * 100) / 100;
