@@ -39,15 +39,15 @@ function weightOf(clause, key) {
 
 function findRegions(cl) {
   const out = [];
-  for (const [g, ds] of Object.entries(REGION_SETS)) if (cl.includes(g)) ds.forEach(d => { const x = DISTRICTS.find(z => z[1] === d); out.push({ sido: '경기', district: d, label: g, lat: x ? x[2] : null, lng: x ? x[3] : null }); });
+  for (const [g, ds] of Object.entries(REGION_SETS)) if (cl.includes(g)) ds.forEach(d => { const x = DISTRICTS.find(z => z[1] === d && (g.startsWith('경기') || g === '구성남' ? z[0] === '경기' : z[0] === '서울')) || DISTRICTS.find(z => z[1] === d); out.push({ sido: x ? x[0] : '경기', district: d, label: g, lat: x ? x[2] : null, lng: x ? x[3] : null }); });
   for (const [g, ds] of Object.entries(GROUPS)) if (cl.includes(g)) ds.forEach(d => out.push({ sido: '서울', district: d, label: g }));
   for (const [name, a] of Object.entries(AREAS)) if (cl.includes(name) && !Object.keys(GROUPS).some(g => g.startsWith(name) && cl.includes(g)) && !new RegExp(name + '\\s?(역|까지|으로|로)?\\s?(출퇴근|출근|통근)').test(cl) && !new RegExp(name + '(역)?\\s?까지').test(cl)) out.push({ sido: a.sido, district: a.district || null, words: a.words, label: name, lat: a.lat, lng: a.lng });
   for (const [sd, dn, lat, lng] of DISTRICTS) {
     const short = dn.replace(/(특례시|시|군|구)$/, '');
-    const re = new RegExp('(^|[^가-힣])(' + dn + (short.length >= 2 ? '|' + short + '(?=[^가-힣]|$|에|에서|쪽|권|이나|나|이|가|은|는|도|만|을|를|면|랑|하고|으로|로|동네|근처|살)' : '') + ')');
+    const re = new RegExp('(^|[^가-힣])(' + dn + (short.length >= 2 ? '|' + short + '(?=[^가-힣]|$|에|에서|쪽|권|이나|나|이|가|은|는|도|만|을|를|면|랑|하고|으로|로|동네|근처|살|까지|권|·)' : '') + ')');
     if (re.test(cl) && !out.some(o => o.district === dn || o.label === short)) out.push({ sido: sd, district: dn, label: dn, lat, lng });
   }
-  for (const [k, full] of Object.entries(SIDO)) if (new RegExp('(^|[^가-힣])(' + k + '|' + full + ')(?![가-힣]*구)').test(cl) && !out.some(o => o.sido === k)) out.push({ sido: k, district: null, label: k });
+  for (const [k, full] of Object.entries(SIDO)) if (new RegExp('(^|[^가-힣])(' + k + '|' + full + ')(?![가-힣]*구)(?=$|[^가-힣]|시|에|은|는|이|도|권|내|쪽|만|안|서|의|과|와|랑|하고|역|아파트|지역|전역|전체)').test(cl) && !out.some(o => o.sido === k)) out.push({ sido: k, district: null, label: k });   // '서울성모병원'·'서울대'는 시·도가 아님
   for (const [a, k] of Object.entries(SIDO_ALIAS)) if (cl.includes(a)) {
     if (k === null) ['서울', '경기', '인천'].forEach(s => { if (!out.some(o => o.sido === s && !o.district)) out.push({ sido: s, district: null, label: '수도권' }); });
     else if (!out.some(o => o.sido === k)) out.push({ sido: k, district: null, label: k });
@@ -67,17 +67,27 @@ function findRegions(cl) {
 }
 
 // '구로' '마포' '판교' → 출퇴근 목적지 좌표. 역 이름이 없으면 시·군·구 중심(근사)을 쓰고 '가정'으로 표시
+const ALIAS = { 오포: '광주시', 동탄: '화성시' };   // 읍·생활권 이름 → 시 중심(근사, '가정'으로 표시)
 function placeOf(w) {
   if (PLACES[w]) return PLACES[w];
+  if (ALIAS[w]) { const d0 = DISTRICTS.find(x => x[1] === ALIAS[w] && x[0] === '경기'); if (d0) return { name: w + ' (' + ALIAS[w] + ' 중심 근사)', lat: d0[2], lng: d0[3], approx: true }; }
+  if (/역$/.test(w) && w.length >= 3) return PLACES[w.replace(/역$/, '')] || { name: w, lat: null, lng: null, station: true };   // 좌표는 search.resolvePlaces 가 chat/v2/data/lines.json 에서 (기억으로 적지 않음)
   const d = DISTRICTS.find(x => x[1] === w || x[1].replace(/(특례시|시|구|군)$/, '') === w);
   return d ? { name: d[1] + ' (중심 근사)', lat: d[2], lng: d[3], approx: true } : null;
 }
 
 // 같은 뜻 다른 표기를 먼저 맞춘다 (CheckList INV 실패에서 찾은 것 — 표가 늘수록 해석기가 자란다)
-const NORM = [[/생애\s최초/g, '생애최초'], [/신특/g, '신혼부부 특공'], [/생초/g, '생애최초'], [/국민\s?평형|34평형?/g, '국평'], [/(\d+)\s?억\s?밑으로/g, '$1억 이하로'], [/최대\s?(\d+(?:\.\d+)?\s?억)/g, '$1 이하'],
-  [/(\d+(?:\.\d+)?\s?억)\s?넘지\s?않게/g, '$1 이하'], [/(최소|적어도)\s?(\d[\d,]*)\s?세대/g, '$2세대 이상'], [/(\d[\d,]*)\s?세대\s?넘는/g, '$1세대 이상'], [/역에서 가까|지하철역\s?가까|역\s?근처/g, '역세권'],
+const NORM = [[/생애\s최초/g, '생애최초'], [/신특/g, '신혼부부 특공'], [/생초/g, '생애최초'], [/국민\s?평형|(?<![~\-∼]\s?)(?<!\d)34평형?(?!\s?[~\-∼대])/g, '국평'], [/(\d+)\s?억\s?밑으로/g, '$1억 이하로'], [/최대\s?(\d+(?:\.\d+)?\s?억(?:\s?\d+(?:,\d{3})?\s?(?:천\s?만?|만))?)\s?(?:원)?/g, '$1 이하'],
+  [/(\d+(?:\.\d+)?\s?억)\s?넘지\s?않게/g, '$1 이하'], [/(\d+(?:\.\d+)?\s?억(?:\s?\d+(?:,\d{3})?\s?(?:천\s?만?|만))?)\s?(?:원)?\s?(?:의\s?)?예산/g, '$1 이하 예산'], [/대출\s?포함\s?(\d+(?:\.\d+)?\s?억)(?!\s?[~\-])/g, '$1 이하'],
+  [/예산\s?(?:은|는|이|:|：)?\s?(?:최대\s?|총\s?)?(\d{1,2}(?:\.\d+)?)(?!\s?(?:억|만|천|[~\-\d.]))/g, '예산 $1억 이하'], [/([동서])([남북])\s?\/\s?([남북])권/g, '$1$2권 $1$3권'],
+  [/(\d+(?:\.\d+)?)\s?억\s?(?:원)?\s?대\s?(까지|이하|이내|안에서|안쪽)/g, (m, a) => (Math.round((+a + 0.99) * 100) / 100) + '억 이하'], [/(최소|적어도)\s?(\d[\d,]*)\s?세대/g, '$2세대 이상'], [/(\d[\d,]*)\s?세대\s?넘는/g, '$1세대 이상'], [/역에서 가까|지하철역\s?가까|역\s?근처/g, '역세권'],
   [/초등학교 가까운 곳|초등학교 도보권|초등학교\s?가까/g, '초품아'], [/결혼\s?\d+\s?년\s?차|신혼(?=인데|이에요|이고|이라)/g, '신혼부부'], [/(아이|자녀|애)가\s?(둘|셋|하나)(인|이에요|있)/g, '$1 $2 $3'], [/줍줍/g, '무순위'], [/잔여세대/g, '무순위']];
-export function normalize(q) { let t = String(q || ''); for (const [re, to] of NORM) t = t.replace(re, to); return t; }
+export function normalize(q) {
+  let t = String(q || '');
+  // '1.10억~10억5천 2.59타입 3.서울' 처럼 번호를 매긴 목록이면 번호를 지운다 (1. 을 금액 1.10억으로 읽던 것)
+  const nums = [...t.matchAll(/(?:^|\s)([1-9])\.(?=\s?[가-힣0-9])/g)].map(m => +m[1]);
+  if (nums.length >= 2 && nums.slice(1).every((n, i) => n >= nums[i])) t = t.replace(/(^|\s)[1-9]\.(?=\s?[가-힣0-9])/g, '$1');
+  for (const [re, to] of NORM) t = t.replace(re, to); return t; }
 
 export function extract(question) {
   const q = normalize(String(question || '').trim());
@@ -87,22 +97,33 @@ export function extract(question) {
 
   // 비교: 'A vs B', 'A랑 B 비교', 'A와 B 중'
   const vs = q.split(/\s*(?:vs\.?|VS|대|와|과|랑|하고)\s+(?=\S)/);
-  if (/(vs|VS|비교|중에\s?(뭐|어디)|어디가 (나아|좋아|낫))/.test(q)) C.intent = 'compare';
-  if (/(가점|점수).*(몇|얼마|계산)|내 가점/.test(q)) C.intent = C.intent === 'compare' ? 'compare' : 'score';
+  if (/(vs|VS|비교(?!적)|중에\s?(뭐|어디)|어디가 (나아|좋아|낫))/.test(q)) C.intent = 'compare';
+  // 'X역과 Y역 비교해서 추천 단지 알려줘', '…찾아줘 … 3. 환금성 비교' — 이름 대 이름 비교가 아니라 찾기 (카톡 실제 질문 2026-10-04)
+  if (C.intent === 'compare' && !/(vs|VS)/.test(q) && /(추천|찾아|뽑아|골라|추려|리스트|목록)/.test(q) && !/(중에\s?(뭐|어디)|어디가 (나아|좋아|낫))/.test(q)) C.intent = 'search';
+  // 몇 곳 ('top5', '탑5', '5곳만 추천', '5개 후보') — 10곳까지
+  { const lm = q.match(/(?:top|TOP|Top|탑|톱)\s?(\d{1,2})|(\d{1,2})\s?(?:곳|개\s?(?:단지|후보)?)\s?(?:만|정도|씩|이상)?\s?(?:으로|을|를)?\s?(?:추천|뽑|골라|추려|알려|리스트)/); if (lm) C.limit = Math.min(10, +(lm[1] || lm[2])); }
+  // 곧 태어날 아이·신생아 (출산 가구 — 특공 자격은 출생일이 필요해 되묻는다)
+  if (/(곧\s?태어날|태어날\s?(?:아기|아이)|신생아|임신|출산\s?예정|뱃속)/.test(q)) C.assume.newborn = true;
+  if (/(가점|점수).*(몇|얼마|계산)|내 가점/.test(q) && !/(매물|단지|아파트)\S{0,4}\s?(?:을|를)?\s?(찾아|추천|뽑아|골라)/.test(q)) C.intent = C.intent === 'compare' ? 'compare' : 'score';
   if (/(뭐야|뭔가요|무엇|설명|차이가 뭐|란\??$|이란)/.test(q) && !/(추천|찾아|알려줘.*(공고|단지))/.test(q)) C.intent = 'explain';
 
   // '마포구 말고도 같은 조건으로' — 제외가 아니라 '그 지역 + 다른 지역도' (2026-10-04 사용자 샘플 3: '말고도'를 '마포구 제외'로 읽어 모순 조건이 됐음)
-  const EXPAND = /(말고도|외에도|이외에도|밖에도|뿐\s?아니라|말고\s?다른\s?(?:곳|데|지역|동네)|(?:동일한|같은)\s?조건으로)/;
+  const EXPAND = /(말고도|외에도|이외에도|밖에도|뿐\s?아니라|말고\s?다른\s?(?:곳|데|지역|동네)|(?:동일한|같은)\s?조건으로|다른\s?(?:지역|곳|동네|데)도\s?(?:추천|봐|보고|알려|찾아|있))/;
   // '학군지 필요없어' — 학교를 장점으로 내세우지 않는다
   if (/(학군|학교|초품아|학원가)\S{0,3}\s?(?:은|는|도)?\s?(필요\s?(?:없|업)|상관\s?없|안\s?중요|안\s?봐|관심\s?없|신경\s?안)/.test(q)) C.assume.no_school = true;
+  // '셔틀버스가 양재역~강남역, 사당역~이수역 …' — 그 문장의 역들은 셔틀 정류장(출퇴근 목적지)
+  const shuttleSet = new Set((q.split(/[.?!？\n]/).find(x => /셔틀(?:버스)?\s?(?:가|이|은|는|노선|정류장)/.test(x)) || '').match(/[가-힣]{2,8}역/g) || []);
+  // 'X 접근성' (을지로 접근성) — 역 이름 낱말이 아니어도 출퇴근 목적지로 (좌표는 실행할 때 그 이름으로 시작하는 역들)
   for (const cl of cls) {
     // 지역 (포함/제외)
     const expandHere = EXPAND.test(cl);
     if (expandHere) C.scope.expand = true;
-    const excl = !expandHere && /(제외|빼고|말고|싫|아니어도|아닌)/.test(cl);
+    const clX = cl.replace(/(한정|국한)\s?(?:하지|짓지|하지는)?\s?말고/g, ' ');   // '특정 지역에 한정하지 말고 서울 전역에서' — 제외가 아님
+    const excl = !expandHere && /(제외|빼고|말고|싫|아니어도|아닌)/.test(clX);
+    const listItem = (cl.match(/전용\s?\d{2,3}/g) || []).length >= 2;   // '유원강변 전용84 옥수극동그린 전용84 …' — 내가 찾아본 단지 목록: 지역·면적 조건으로 읽지 않음
     // 직장 위치 ('남편 직장 구로', '아내 마포', '회사는 판교') — 지역 조건이 아니라 출퇴근 목적지
     const WP = /(남편|아내|와이프|신랑|배우자|제|저|내|나|우리)?\s?(?:의\s?)?(직장|회사|근무지|출근지|일터)?\s?(?:은|는|이|가)?\s?([가-힣]{2,6}?)(?:역)?\s?(?:이고|이에요|예요|이며|에서 일|으로 출근|로 출근|에 다녀|에 있어|,|$)/;
-    let clR = expandHere ? cl.replace(/(말고도|외에도|이외에도|밖에도|뿐\s?아니라)/g, ' ').replace(/말고(?=\s?다른)/g, ' ') : cl;
+    let clR = expandHere ? cl.replace(/(말고도|외에도|이외에도|밖에도|뿐\s?아니라)/g, ' ').replace(/말고(?=\s?다른)/g, ' ') : clX;
     for (const m of cl.matchAll(new RegExp(WP.source, 'g'))) {
       if (!m[1] && !m[2]) continue;
       const place = placeOf(m[3]); if (!place) continue;
@@ -113,13 +134,57 @@ export function extract(question) {
     for (const lm of cl.matchAll(LINE_RE)) { const ln = normLine(lm[1]);
       if (!C.conds.some(c => c.key === 'line' && c.value.line === ln)) add('line', { line: ln, m: 1000 }, cl, ln + ' 역세권(가장 가까운 ' + ln + ' 역까지 직선 1km 이내)'); }
     clR = clR.replace(LINE_RE, ' ');
+    // 지금 사는 곳 ('거주지: 성남시 중원구', '현재 방이동 전세 거주') — 찾을 지역이 아니라 해당지역 판정에 쓰는 내 정보 (카톡 실제 질문 2026-10-04)
+    const hm = clR.match(/(?:거주지|사는\s?곳|현\s?거주지|현재\s?거주지?)\s*(?:은|는|:|：)?\s*([가-힣]+(?:특별시|광역시|도|시)?\s?[가-힣]*(?:시|구|군|동))/) || clR.match(/(?:현재|지금)\s?([가-힣]{2,8}(?:동|구|시))\s?(?:에서\s?|에\s?)?(?:전세|월세|자가)?\s?(?:로\s?)?(?:거주|살고|사는)/);
+    if (hm) { C.assume.home = hm[1].trim(); clR = clR.replace(hm[0], ' '); }
+    const sellM = clR.match(/([가-힣]{2,8})\s?(?:아파트|집)?\s?(?:을|를)?\s?(?:매도|팔고|처분)/);   // '동탄 아파트 매도 후' — 팔 집은 찾을 지역이 아님
+    if (sellM && findRegions(sellM[1]).length) clR = clR.replace(sellM[1], ' ');
+    // 직장·출근지 목록 ('여자 마포 출근, 남자 정자역 출근', '직장은 군자역, 이천(셔틀)', '자차 출근지역2(부천 or 광명)') — 지역 조건에서 빼고 출퇴근 목적지로
+    { const names = [...new Set([...Object.keys(PLACES), ...Object.keys(AREAS), ...DISTRICTS.flatMap(d => [d[1], d[1].replace(/(특례시|시|군|구)$/, '')]).filter(x => x.length >= 2)])].sort((a, b) => b.length - a.length);
+      const esc = x => x.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+      const tok = new RegExp('([가-힣]{2,8}역(?!세권)|[가-힣]{2,5}동(?=\\s?[)）])|' + [...names, ...Object.keys(ALIAS)].map(esc).join('|') + '|[가-힣]{2,6}(?=\\s?접근성))', 'g');
+      const AFTER = /^\s?(?:역)?\s?[)）]?\s?[(（]?\s?(?:으로|로|에|까지|에서)?\s?(?:출근|출퇴근|통근|근무|셔틀|직장|회사|다녀|접근성)/, BEFORE = /(직장|근무지|회사|출근지역?\s?\d?|출근지|일터|출근)\s?(?:위치)?\s?(?:은|는|이|가|:|：)?\s?[(（]?\s?$/;
+      const WHO = /(예비\s?와이프|예비\s?남편|남편|아내|와이프|신랑|배우자|여자|남자|본인|제|저|내|나)\s?(?:의\s?)?(?:직장|회사|근무지)?\s?(?:위치)?\s?(?:은|는|이|가)?\s?[(（]?\s?$/;
+      const JOIN = /^\s?[)）]?\s?(?:,|및|와|과|랑|이랑|or|OR|또는|\/|·)?\s?[(（]?\s?$/;
+      const shuttle = shuttleSet.size >= 2 && [...shuttleSet].some(x => clR.includes(x));   // '셔틀버스가 양재역~강남역, 사당역~이수역' — 정류장 역들이 출퇴근 목적지
+      const toks = [...clR.matchAll(tok)].filter(m => !/세권$/.test(clR.slice(m.index, m.index + m[1].length + 2))).map(m => {
+        const nm = m[1], at = m.index, before = clR.slice(Math.max(0, at - 16), at), after = clR.slice(at + nm.length, at + nm.length + 14);
+        return { nm, at, end: at + nm.length, before, after, work: AFTER.test(after) || BEFORE.test(before) || (shuttle && shuttleSet.has(nm)), acc: /^\s?(?:역)?\s?접근성/.test(after) };
+      });
+      for (let i = 1; i < toks.length; i++) if (toks[i - 1].work && !toks[i].work && JOIN.test(clR.slice(toks[i - 1].end, toks[i].at).replace(/\([^)]*\)/g, '').replace(/~|-/g, ''))) toks[i].work = true;   // 앞이 직장이면 나열된 다음 것도
+      for (let i = toks.length - 2; i >= 0; i--) if (toks[i + 1].work && !toks[i].work && /^\s?(?:,|및|와|과|랑|이랑|or|또는|\/|·)\s?$/.test(clR.slice(toks[i].end, toks[i + 1].at))) toks[i].work = true;   // '교대역과 판교 출퇴근' — 뒤가 직장이면 앞도
+      const spans = [];
+      for (const t of toks) {
+        if (!t.work) continue;
+        let place = placeOf(t.nm) || placeOf(t.nm.replace(/역$/, ''));
+        if (!place && /동$/.test(t.nm)) place = { name: t.nm.replace(/동$/, '') + '역', lat: null, lng: null, station: true, approx: true };   // '양재동' — 그 동 이름의 역으로 근사(가정)
+        if (!place && t.acc && !/(학원가|학원|학교|교통|지하철|전철|직장|회사|마트|백화점|공원|상권|인프라|도로|고속도로|병원|편의시설|생활)$/.test(t.nm)) place = { name: t.nm, lat: null, lng: null, station: true, approx: true, prefix: true };
+        if (!place) continue;
+        const who = shuttle && shuttleSet.has(t.nm) ? '셔틀 정류장' : (t.before.match(WHO) || [])[1] || '';
+        const mm = clR.slice(t.end, t.end + 30).match(/^[^,]*?(\d{1,3})\s?분|^[^,]*?(\d)\s?시간/), max_min = shuttle ? ((q.match(/(\d{1,3})\s?분\s?(?:이내|안|내)/) || [])[1] ? +q.match(/(\d{1,3})\s?분\s?(?:이내|안|내)/)[1] : null) : mm ? (mm[1] ? +mm[1] : +mm[2] * 60) : null;
+        if (!C.conds.some(c => c.key === 'commute' && c.value.place === place.name)) add('commute', { place: place.name, lat: place.lat, lng: place.lng, max_min, who, approx: place.approx, station: place.station || undefined, prefix: place.prefix || undefined }, cl, t.acc ? place.name + ' 접근성' : (who ? who + ' ' : '') + (who === '셔틀 정류장' ? '' : '직장 ') + place.name + (place.approx ? '(가정)' : '') + (max_min ? ' ' + (max_min % 60 ? max_min + '분' : max_min / 60 + '시간') + ' 안' : ''), 'explore');
+        spans.push([t.at, t.nm.length]);
+      }
+      // '서울성모병원 출퇴근' — 이름만 있는 곳(좌표 모름)도 출퇴근 목적지로 적고 거리는 '확인 불가'
+      for (const hm2 of clR.matchAll(/([가-힣A-Za-z]{2,12}(?:병원|대학교|캠퍼스|사업장|공단|산업단지|청사))\s?(?:으로|로|까지)?\s?(?:출퇴근|출근|통근)/g)) if (!C.conds.some(c => c.key === 'commute' && c.value.place === hm2[1])) { add('commute', { place: hm2[1], lat: null, lng: null, max_min: null, who: '', unknown: true }, cl, hm2[1] + ' 출퇴근(위치 자료 없음)', 'explore'); spans.push([hm2.index, hm2[1].length]); }
+      for (const [a, n] of spans.reverse()) clR = clR.slice(0, a) + ' '.repeat(n) + clR.slice(a + n);
+    }
+    // 역 주변 ('길음역 - 미아사거리 쪽', '산본역 주변', '산본역과 상갈역 비교해서') — 그 역에서 직선 1.5km 안 (역 좌표는 실행할 때 노선 자료에서)
+    if (/(주변|근처|인근|쪽|일대|생활권|부근|임장|비교|진입|역세권\s?아파트)/.test(clR) && !/(나홀로|같은|처럼)/.test(clR)) {
+      const st = [...clR.matchAll(/([가-힣]{2,8})역(?!세권)(?:\s?[-~]\s?([가-힣]{2,8}?)(?:역)?(?=\s?(?:쪽|주변|근처|인근|일대|$|\s)))?/g)].flatMap(m => [m[1], m[2]]).filter(x => x && !/^(지하철|전철|기차)$/.test(x));
+      const prevNs = C.conds.find(c => c.key === 'near_station'); if (prevNs) { st.unshift(...prevNs.value.names); C.conds = C.conds.filter(c => c !== prevNs); }
+      if (st.length) { add('near_station', { names: [...new Set(st)], m: 1500 }, cl, [...new Set(st)].map(x => x + '역').join('·') + ' 주변(역에서 직선 1.5km 안)', 'required'); clR = clR.replace(/[가-힣]{2,8}역(?!세권)(\s?[-~]\s?[가-힣]{2,8}(?:역)?)?/g, ' '); }
+    }
+    // '수색/증산 뉴타운', '신길 뉴타운' — 그 동 이름(주소 낱말)으로 찾는다
+    for (const nt of clR.matchAll(/([가-힣]{2,3})(?:\s?\/\s?([가-힣]{2,3}))?\s?뉴타운/g)) { const ws = [nt[1], nt[2]].filter(Boolean).map(x => x + '동');
+      add('region_in', ws.map(w => ({ sido: null, district: null, words: [w], label: w.replace(/동$/, '') + ' 뉴타운' })), cl, ws.map(w => w.replace(/동$/, '')).join('·') + ' 뉴타운(' + ws.join('·') + ')'); clR = clR.replace(nt[0], ' '); }
     // '강남3구 말고 서울에서' — 제외 낱말 앞의 지역만 제외, 뒤는 포함
     const ex = expandHere ? null : clR.match(/^(.*?)(제외|빼고|말고|싫고|싫어|싫은데)(.*)$/), exA = ex ? findRegions(ex[1]) : [], exB = ex ? findRegions(ex[3]) : [];
     if (exA.length && exB.length) {
       add('region_out', exA, cl, exA.map(r => r.label).filter((x, i, y) => y.indexOf(x) === i).join('·') + ' 제외', 'required');
       add('region_in', exB, ex[3], exB.map(r => r.label).filter((x, i, y) => y.indexOf(x) === i).join('·'));
     }
-    const regs = exA.length && exB.length ? [] : findRegions(clR);
+    const regs = exA.length && exB.length || listItem ? [] : findRegions(clR);
     if (regs.length) {
       if (excl && /(제외|빼고|말고|싫)/.test(clR)) add('region_out', regs, cl, regs.map(r => r.label).filter((x, i, a) => a.indexOf(x) === i).join('·') + ' 제외', 'required');
       else if (/아니어도|상관없|괜찮|근처|주변|인접/.test(cl)) add('region_in', regs, cl, regs.map(r => r.label).filter((x, i, a) => a.indexOf(x) === i).join('·') + (/(근처|주변|인접)/.test(cl) ? ' 근처' : ' (아니어도 됨)'), 'explore');
@@ -127,28 +192,42 @@ export function extract(question) {
         if (rs.length) add('region_in', rs, cl, rs.map(r => r.label).filter((x, i, a) => a.indexOf(x) === i).join('·')); }
     }
     // 예산·분양가
-    let m = cl.match(/(\d+(?:\.\d+)?\s?억(?:\s?\d+(?:,\d{3})?\s?(?:천|만)?)?|\d+(?:,\d{3})*\s?만\s?원?)\s?(?:원)?\s?(이하|이내|까지|미만|안쪽|아래|넘지|선에서|정도|내외|이상|넘는|부터|초과|대)/);
-    if (m && !/(현금|자금|모은|보유|가지고|있어|연봉|소득|전세금)/.test(cl.slice(0, cl.indexOf(m[0])))) {
+    const ownMoney = pre => /(현금|자금|모은|보유|가지고|있어|연봉|소득|전세금|자본금)/.test(pre) && !/(예산|대출\s?포함|매수|가격)/.test(pre);   // '가용 자금과 대출을 고려해 예산은 최대 6억 4천만' 은 예산
+    let m = cl.match(/(\d+(?:\.\d+)?\s?억(?:\s?\d+(?:,\d{3})?\s?(?:천\s?만?|만)?)?|\d+(?:,\d{3})*\s?만\s?원?)\s?(?:원)?\s?(이하|이내|까지|미만|안쪽|아래|넘지|선에서|정도|내외|이상|넘는|부터|초과|대)/);
+    if (m && !ownMoney(cl.slice(0, cl.indexOf(m[0])))) {
       const v = eok(m[1]);
       if (v != null) {
         if (/이상|넘는|부터|초과/.test(m[2])) add('price_min', v, cl, m[0]);
+        else if (m[2] === '대' && /(예산|자금|가용|총)\S*\s?(?:은|는|이|:)?\s?(?:총\s?)?$/.test(cl.slice(0, cl.indexOf(m[0])))) add('price_max', Math.round((v + 0.99) * 100) / 100, cl, m[0] + '(최대 ' + (Math.round((v + 0.99) * 100) / 100) + '억)', 'required');   // '총예산 10억 대' — 예산 상한 (가격대 범위가 아님)
         else if (m[2] === '대') add('price_range', [v, v + (v >= 10 ? 1 : 1)], cl, m[0], weightOf(cl, 'price_max'));
         else add('price_max', v, cl, m[0], /정도|내외|선에서/.test(m[2]) ? 'preferred' : undefined);
       }
     }
-    const rg = cl.match(/(\d+(?:\.\d+)?)\s?(?:억)?\s?[-~∼에서]\s?(\d+(?:\.\d+)?)\s?억\s?(?:원)?\s?(?:사이|대|까지|정도|으로|로|이내|안쪽)?/);
-    if (rg && !/(현금|자금|모은|보유|연봉|소득)/.test(cl.slice(0, cl.indexOf(rg[0]))) && +rg[1] < +rg[2]) { C.conds = C.conds.filter(c => !/^price_/.test(c.key)); add('price_max', +rg[2], cl, rg[1] + '~' + rg[2] + '억(최대 ' + rg[2] + '억)', 'required'); }   // 예산 범위는 위쪽만 거른다 — 더 싼 곳을 빼지 않음
+    const rg = cl.match(/(\d+(?:\.\d+)?)\s?(?:억)?(?:\s?\d\s?천)?\s?(?:원)?\s?[-~∼에서]\s?(\d+(?:\.\d+)?\s?억(?:\s?\d(?:,\d{3})?\s?천\s?만?)?)\s?(?:원)?\s?(?:사이|대|까지|정도|으로|로|이내|안쪽|내외)?/);
+    if (rg && !ownMoney(cl.slice(0, cl.indexOf(rg[0]))) && num(rg[1]) < eok(rg[2])) { const hi = eok(rg[2]), hs = String(rg[2]).replace(/\s/g, ''); C.conds = C.conds.filter(c => !/^price_/.test(c.key)); add('price_max', hi, cl, rg[1] + '~' + hs + '(최대 ' + hs.replace(/억$/, '') + (/억$/.test(hs) ? '억' : '') + ')', 'required'); }   // 예산 범위는 위쪽만 거른다 — 더 싼 곳을 빼지 않음
     // 내 돈 (이번만의 가정)
     m = cl.match(/(현금|자금|모은\s?돈|가용\s?자금|보유\s?자금|가진\s?돈|자기자본)\s?(?:이|은|는)?\s?(\d+(?:\.\d+)?\s?억(?:\s?\d+(?:,\d{3})?\s?(?:천|만)?)?|\d+(?:,\d{3})*\s?만)/);
     if (m) C.assume.cash = eok(m[2]);
     m = cl.match(/(연봉|소득|월급)\s?(?:이|은|는)?\s?(\d+(?:,\d{3})*|\d+(?:\.\d+)?억)\s?(만)?/);
     if (m) C.assume.income = /억/.test(m[2]) ? eok(m[2]) * 10000 : num(m[2]);
     // 면적
-    if (/국평|국민평형/.test(cl)) add('area', { min: 75, max: 86, label: '국민평형(전용 84㎡)' }, cl, '국평');
+    let areaHit = listItem;
+    { const ar = !listItem && cl.match(/(?:전용\s?)?(\d{2,3})\s?(?:㎡|m2|타입)?\s?[~\-∼]\s?(\d{2,3})\s?(㎡|m2|타입|평)/);   // '59㎡ ~ 74㎡', '25~34평', '30평~40평'
+      const ar2 = !listItem && !ar && cl.match(/(\d{2})\s?평\s?[~\-∼]\s?(\d{2})\s?평/);
+      const R = ar || (ar2 && [ar2[0], ar2[1], ar2[2], '평']);
+      if (R && +R[1] < +R[2]) { areaHit = true; const sx = x => Math.round(x * 3.3058 * 0.76);
+        if (R[3] === '평') add('area', { min: sx(+R[1]) - 6, max: sx(+R[2]) + 6, label: R[1] + '~' + R[2] + '평(전용 약 ' + (sx(+R[1]) - 6) + '~' + (sx(+R[2]) + 6) + '㎡, 평은 공급면적 기준 근사)', approx: true }, cl, R[0], 'required');
+        else add('area', { min: +R[1] - 3, max: +R[2] + 3, label: '전용 ' + R[1] + '~' + R[2] + '㎡' }, cl, R[0], 'required'); }
+      const up = !listItem && !areaHit && cl.match(/전용\s?(\d{2,3})\s?(?:㎡|m2|타입)?\s?(이상|이하)/);
+      if (up) { areaHit = true; const a = +up[1]; add('area', up[2] === '이상' ? { min: a, max: 400, label: '전용 ' + a + '㎡ 이상' } : { min: 0, max: a + 0.99, label: '전용 ' + a + '㎡ 이하' }, cl, up[0], 'required'); } }
+    if (!areaHit && /국평|국민평형/.test(cl)) add('area', { min: 75, max: 86, label: '국민평형(전용 84㎡)' }, cl, '국평');
     m = cl.match(/(?:전용\s?)?(\d{2,3}(?:\.\d+)?)\s?(㎡|m2|제곱미터|타입|형)(?!\s?세대)/) || cl.match(/전용\s?(\d{2,3}(?:\.\d+)?)(?![\d억만세])/);
-    if (m) { const a = num(m[1]); add('area', { min: a - 3, max: a + 3, label: '전용 ' + a + '㎡ 안팎' }, cl, m[0]); }
+    if (m && !areaHit) { const a = num(m[1]); add('area', { min: a - 3, max: a + 3, label: '전용 ' + a + '㎡ 안팎' }, cl, m[0]); }
     m = cl.match(/(\d{2})\s?평\s?(대|이상|이하)?/);
-    if (m && !/㎡/.test(cl)) { const p = num(m[1]); const supply2ex = x => Math.round(x * 3.3058 * 0.76);   // 공급면적 평 → 전용 근사(전용률 76%)
+    const m2 = cl.match(/(\d{2})\s?평대\s?[(（]?\s?(?:조건이\s?되면|여유가?\s?되면|가능하면|되면|최대)\s?(\d{2})\s?평대/);   // '20평대(조건이 되면 30평대)'
+    if (m2 && !areaHit && +m2[1] < +m2[2]) { areaHit = true; const sx = x => Math.round(x * 3.3058 * 0.76), lo = sx(+m2[1]), hi = sx(+m2[2] + 10);
+      add('area', { min: lo, max: hi, label: m2[1] + '평대(되면 ' + m2[2] + '평대, 전용 약 ' + lo + '~' + hi + '㎡, 평은 공급면적 기준 근사)', approx: true }, cl, m2[1] + '평대(되면 ' + m2[2] + '평대)', 'required'); }
+    if (m && !areaHit && !/㎡/.test(cl)) { const p = num(m[1]); const supply2ex = x => Math.round(x * 3.3058 * 0.76);   // 공급면적 평 → 전용 근사(전용률 76%)
       const lo = m[2] === '대' ? supply2ex(Math.floor(p / 10) * 10) : m[2] === '이하' ? 0 : supply2ex(p) - 6, hi = m[2] === '대' ? supply2ex(Math.floor(p / 10) * 10 + 10) : m[2] === '이상' ? 400 : supply2ex(p) + 6;
       add('area', { min: lo, max: hi, label: m[0].replace(/\s/g, '') + '(전용 약 ' + lo + '~' + hi + '㎡, 평은 공급면적 기준 근사)', approx: true }, cl, m[0]); }
     if (/(소형|작은 평수)/.test(cl)) add('area', { min: 0, max: 60, label: '전용 60㎡ 이하' }, cl, '소형');
@@ -163,32 +242,34 @@ export function extract(question) {
     if (m) { const bed = m[1] === '쓰리' ? 3 : m[1] === '투' ? 2 : +m[1], bath = m[2] ? +m[2] : null; add('rooms', { bed, bath }, cl, '방' + bed + (bath ? '·욕실' + bath : '')); }
     // 역·학교 (노선 역세권이면 노선 조건이 대신함)
     if (/역세권|역\s?(가까|도보|근처)|지하철\s?(가까|도보)/.test(cl) && !C.conds.some(c => c.key === 'line')) { const w = cl.match(/(\d{1,2})\s?분/); add('station_walk', w ? +w[1] : 10, cl, w ? '역 도보 ' + w[1] + '분' : '역세권(도보 약 10분)'); }
-    if (!C.assume.no_school && /초품아|초등학교|초등|학교\s?(가까|도보|근처)/.test(cl)) { const w = cl.match(/(\d{1,2})\s?분/); add('school_walk', { kind: '초등학교', min: w ? +w[1] : 10 }, cl, w ? '초등학교 도보 ' + w[1] + '분' : '초등학교 가까이(도보 약 10분)'); }
+    if (!C.assume.no_school && /초품아|초등학교|초등|초중고|학교\s?(가까|도보|근처|인접)/.test(cl)) { const w = cl.match(/(\d{1,2})\s?분/); add('school_walk', { kind: '초등학교', min: w ? +w[1] : 10 }, cl, w ? '초등학교 도보 ' + w[1] + '분' : '초등학교 가까이(도보 약 10분)'); }
     // 출퇴근
     if (/(출퇴근|출근|통근|직장|회사)/.test(cl)) for (const [k, p] of Object.entries(PLACES)) {   // '판교나 의왕으로 출퇴근' — 그 절의 장소 모두
-      if (new RegExp(k + '(?![가-힣]*구)').test(cl) && !C.conds.some(c => c.key === 'commute' && c.value.place === p.name)) { const w = cl.match(/(\d{1,3})\s?분/); add('commute', { place: p.name, lat: p.lat, lng: p.lng, max_min: w ? +w[1] : null }, cl, p.name + ' 출퇴근' + (w ? ' ' + w[1] + '분' : '')); }
+      if (new RegExp(k + '(?![가-힣]*구)').test(clR) && !C.conds.some(c => c.key === 'commute' && (c.value.place === p.name || c.value.place.includes(k)))) { const w = cl.match(/(\d{1,3})\s?분/); add('commute', { place: p.name, lat: p.lat, lng: p.lng, max_min: w ? +w[1] : null }, cl, p.name + ' 출퇴근' + (w ? ' ' + w[1] + '분' : '')); }
     }
     // 공급 유형
-    for (const [w, t] of Object.entries(SP_WORDS)) if (new RegExp(w + '\\s?(특공|특별공급|으로|로|자격|전형)').test(cl) && !C.conds.some(c => c.key === 'supply' && c.value === 'sp:' + t)) add('supply', 'sp:' + t, cl, w + ' 특별공급', 'preferred');
+    if (!/(확률이?\s?낮|불가능|어렵|안\s?될|안\s?돼)/.test(cl)) for (const [w, t] of Object.entries(SP_WORDS)) if (new RegExp(w + '\\s?(특공|특별공급|으로|로|자격|전형)').test(cl) && !C.conds.some(c => c.key === 'supply' && c.value === 'sp:' + t)) add('supply', 'sp:' + t, cl, w + ' 특별공급', 'preferred');
     if (/(무순위|줍줍|잔여세대|청약통장 없이)/.test(cl)) add('supply', 'remainder', cl, '무순위(줍줍)');
     if (/신혼희망타운|신희타/.test(cl)) add('supply', 'town', cl, '신혼희망타운');
     if (/공공분양|국민주택/.test(cl)) add('supply', 'public', cl, '공공분양');
     if (/민영|민간분양/.test(cl)) add('supply', 'private', cl, '민영');
     if (/(임대)/.test(cl) && !/(토지임대)/.test(cl)) add('supply', 'rental', cl, '공공임대');
     // 상태
-    if (/(지난|과거|마감된|예전|작년|최근 \d+년|당첨선|당첨 가점|커트라인|컷)/.test(cl)) C.scope.past = true;
-    if (/(접수\s?중|지금 넣을|오늘|이번 주)/.test(cl)) add('status', ['접수 중'], cl, '접수 중');
-    else if (/(예정|다가오는|곧|다음 달|앞으로)/.test(cl) && !/(상승|오를)/.test(cl)) add('status', ['접수 예정'], cl, '접수 예정');
+    if (/(지난|과거|마감된|예전|작년|최근 \d+년|당첨선|당첨 가점|커트라인|(?:가점|점수|당첨)\S*\s?컷|컷\s?라인)/.test(cl) && !/(하락장|실거래|최저점)/.test(cl)) C.scope.past = true;   // '대중교통 30분 컷'은 지난 공고가 아님 (카톡 실제 질문)
+    const subs = /(공고|청약|분양|접수|모집|넣을|신청)/.test(cl);   // '오늘 기준 노원구 역세권 아파트', '곧 태어날 아기', '입학예정' 은 접수 상태가 아님
+    if (subs && /(접수\s?중|지금 넣을|오늘|이번 주)/.test(cl)) add('status', ['접수 중'], cl, '접수 중');
+    else if (subs && /(예정|다가오는|곧|다음 달|앞으로)/.test(cl) && !/(상승|오를)/.test(cl)) add('status', ['접수 예정'], cl, '접수 예정');
     // 내 자격으로 거르기
     if (/(내가|제가|저도|나도|우리).{0,10}(넣을|신청|당첨될|자격|가능)|자격\s?(되는|있는|맞는)|신청\s?가능한|넣을\s?수\s?있는/.test(cl)) add('eligible_only', true, cl, '내 자격으로 신청 가능한 곳', 'required');
     // 이번만의 가정 (내 조건 칸과 따로)
-    if (/(신혼부부|결혼\s?\d년|예비\s?신혼|결혼했)/.test(cl) && /(신혼부부|결혼\s?\d년|예비\s?신혼|결혼했)\s?(이에요|입니다|인데|이고|예요|라|이라|이야|임|$)/.test(q)) C.assume.married = true;
+    if (/(신혼부부|결혼\s?\d년|예비\s?신혼|결혼했)/.test(cl) && /(신혼부부|결혼\s?\d년|예비\s?신혼|결혼했)\s?(이에요|입니다|인데|이고|예요|라|이라|이야|임|이며|라서|,|$)|신혼부부\s(?=직장|맞벌이|부부|이고|인데)/.test(q)) C.assume.married = true;
     if (/무주택(이에요|입니다|인데|이고|이라|자|\s?\d인|\s?가족|\s?세대|\s?가구|$)/.test(cl) && !/무주택세대구성원|무주택\s?기간/.test(cl)) C.assume.homeless = true;   // '무주택 4인 가족' (2026-10-03 품질 검사 JGA)
     if (/(유주택|집이 있|1주택)/.test(cl)) C.assume.homeless = false;
-    m = cl.match(/(아이|자녀|애|아기|아들|딸)\s?(\d|한|하나|둘|두|셋|세|넷|네)\s?(명|둘|셋)?/);   // '아이 둘', '자녀 2명', '아이 한 명' (2026-10-03 품질 검사 JGA)
+    m = cl.match(/(아이|자녀|애|아기|아들|딸|여아|남아)\s?(\d|한|하나|둘|두|셋|세|넷|네)\s?(명|둘|셋)?/);   // '아이 둘', '자녀 2명', '아이 한 명' (2026-10-03 품질 검사 JGA)
     if (m) { const K = { 한: 1, 하나: 1, 둘: 2, 두: 2, 셋: 3, 세: 3, 넷: 4, 네: 4 }; C.assume.kids = K[m[2]] || +m[2]; }
     else if (/(외동|아이 하나|애 하나)/.test(cl)) C.assume.kids = 1;
-    m = cl.match(/(\d{1,2})\s?(세|살|개월)/); if (m && /(아이|자녀|애|아기|양육|키우)/.test(cl)) C.assume.youngest = m[1] + m[2];   // 생일을 모르니 판정에 넣지 않고 되묻는다
+    { const ages = [...cl.matchAll(/(?:만\s?)?(\d{1,2})\s?(세|살|개월)/g)].map(x => [x[2] === '개월' ? +x[1] / 12 : +x[1], x[1] + x[2]]);   // '초2-9세, 유치원-6세' → 막내 6세
+      if (ages.length && /(아이|자녀|애|아기|양육|키우|유치원|초\d|초등)/.test(cl)) { const y = ages.sort((a, b) => a[0] - b[0])[0]; if (!C.assume.youngest || y[0] < parseFloat(C.assume.youngest)) C.assume.youngest = y[1]; } }   // 생일을 모르니 판정에 넣지 않고 되묻는다
     // 생활 조건을 청약패스 데이터로 바꿔 읽는다 — 무엇으로 봤는지 text 에 그대로 적는다 (샘플 3)
     if (/교통\s?(?:이|은|도)?\s?(좋|편|편리|괜찮)|대중교통|지하철\s?(?:이|은)?\s?(좋|편)/.test(cl) && !C.conds.some(c => c.key === 'station_walk')) add('station_walk', 10, cl, '교통 → 지하철역 도보 약 10분 이내로 봐요', 'preferred');
     if (/(실거주\s?만족|거주\s?만족|살기\s?좋|주거\s?환경|살기\s?편)/.test(cl)) { C.perspectives.push('livability'); if (!C.conds.some(c => c.key === 'households_min')) add('households_min', 500, cl, '실거주 만족도 → 500세대 이상 단지·역 거리로 봐요', 'preferred'); }
@@ -206,16 +287,19 @@ export function extract(question) {
     // 관점
     if (/(시세\s?차익|마진|로또|안전마진|싸게)/.test(cl)) { add('margin', 'consider', cl, '시세 차익(마진)', 'preferred'); C.perspectives.push('margin'); }
     if (/(당첨\s?(가능성|확률|될|되는)|경쟁률\s?(낮|적))/.test(cl)) C.perspectives.push('chance');
-    if (/(가격(?!\s?(?:이\s?)?(?:상승|오를))|저렴|싼|가성비)/.test(cl)) C.perspectives.push('price');   // '가격 상승력'은 가격 우선이 아님
+    if (/(가격(?!\s?(?:이\s?)?(?:상승|오를|방어|하락|상승률))|저렴|싼|가성비)/.test(cl)) C.perspectives.push('price');   // '가격 상승력'은 가격 우선이 아님
     if (/(신축|새 아파트|새아파트)/.test(cl)) add('new_build', true, cl, '신축', 'preferred');
     // 아직 못 보는 조건 — 지어내지 않고 '확인 불가'로 돌려준다
-    for (const [re, label] of [[/((?<!상)급지|호재)/, '급지·호재(청약패스 데이터 없음)'], [/(환금성|하방\s?(?:방어|경직)|투자\s?수익|거래\s?회전)/, '환금성·하방 방어 — 이미 지어진 단지의 거래 지표라 청약패스에 없어요(새 분양은 분양가와 주변 시세 차이로 대신 봐요)'], [/(상승\s?여력|상승\s?력|오를|투자\s?가치|미래\s?가치)/, '앞으로의 가격 상승 — 예측하지 않아요(대신 분양가와 주변 시세 차이를 보여 드려요)'], [/(주차)/, '주차 대수(데이터 없음)'], [/(학군|학원가|명문)/, '학군·학원가(데이터 없음 — 학교 거리만 있음)'],
-      [/(향|남향|뷰|조망)|(?<!저|고|최하|1)층/, '층·향·조망(데이터 없음)'], [/(커뮤니티|헬스장|수영장)/, '커뮤니티 시설(데이터 없음)'], [/(구축|재건축|매매|매물|급매)/, '기존 아파트 매매(청약패스는 새 분양 공고만)']]) {
+    for (const [re, label] of [[/((?<!상)급지|호재)/, '급지·호재(청약패스 데이터 없음)'], [/(환금성|하방\s?(?:방어|경직)|투자\s?수익|거래\s?회전)/, '환금성·하방 방어 — 이미 지어진 단지의 거래 지표라 청약패스에 데이터가 없어요(새 분양은 분양가와 주변 시세 차이로 대신 봐요)'], [/(상승\s?여력|상승\s?력|오를|투자\s?가치|미래\s?가치)/, '앞으로의 가격 상승 — 예측하지 않아요(대신 분양가와 주변 시세 차이를 보여 드려요)'], [/(주차)/, '주차 대수(데이터 없음)'], [/(학군|학원가|명문)/, '학군·학원가(데이터 없음 — 학교 거리만 있음)'],
+      [/(향|남향|뷰|조망)|(?<!저|고|최하|1)층/, '층·향·조망(데이터 없음)'], [/(커뮤니티|헬스장|수영장)/, '커뮤니티 시설(데이터 없음)'], [/(구축|재건축|매매|매물|급매)/, '기존 아파트 매매(청약패스는 새 분양 공고만)'],
+      [/(영끌|대출\s?(?:을\s?)?더|무리해서).{0,24}(나을지|좋을지|맞을지|나은지|괜찮을지)/, '얼마까지 대출을 받을지 — 개인 재무 판단이라 정해 드리지 않아요(예산별 후보와 분양가는 보여 드려요)'], [/([sS]급|호가|실매물)/, '매물 등급·호가 — 중개 매물 데이터가 없어요(청약패스는 새 분양 공고만)'], [/(기다리면|내려갈까|떨어질까|하락할까|지금\s?사야|매수\s?(?:타이밍|시점)|바닥\s?(?:일까|인가|대비))/, '사고팔 시점 — 집값이 언제 오르내릴지는 예측하지 않아요']]) {
       if (/^학군/.test(label) && C.assume.no_school) continue;
       if (re.test(cl) && !C.unsupported.includes(label)) C.unsupported.push(label);
     }
   }
   C.perspectives = [...new Set(C.perspectives)];
+  // 셔틀로 출근하면 직장(평택) 자체가 아니라 셔틀 정류장까지의 거리로 본다
+  if (C.conds.some(c => c.key === 'commute' && c.value.who === '셔틀 정류장')) C.conds.forEach(c => { if (c.key === 'commute' && c.value.who !== '셔틀 정류장' && shuttleSet.size) { c.value.via_shuttle = true; c.text += ' (셔틀로 출근 — 거리는 정류장 기준)'; } });
   // 여러 절의 지역(포함)은 '또는'으로 한 조건에
   { const out = [], seen = {};
     for (const c of C.conds) { if (c.key !== 'region_in') { out.push(c); continue; } const k = c.weight + (c.explore_ok ? '+' : '');
@@ -229,6 +313,10 @@ export function extract(question) {
     for (const [sd, dn, lat, lng] of DISTRICTS) { const sh = dn.replace(/(특례시|시|구|군)$/, ''); if (sh.length < 2) continue; const i = q.lastIndexOf(sh, at); if (i >= 0 && i < at && (!best || i > best.i)) best = { i, sd, dn, lat, lng }; }
     if (best) Object.assign(v, { sido: best.sd, parent: best.dn, lat: best.lat, lng: best.lng });
   }
+  // '광교, 수지 근처로' — 앞 절의 지역과 같은 목록이면 '근처' 지역도 같은 무게로 합친다 (카톡 실제 질문: 수지만 '넓혀 보기'로 빠졌음)
+  { const req0 = C.conds.find(c => c.key === 'region_in' && c.weight === 'required');
+    if (req0) for (const c of C.conds.filter(c => c.key === 'region_in' && c.weight === 'explore' && / 근처$/.test(c.text))) { req0.value = req0.value.concat(c.value.filter(v => !req0.value.some(w => w.label === v.label))); req0.text = [...new Set(req0.value.map(v => v.label))].join('·') + ' (근처 포함)'; c._drop = true; }
+    C.conds = C.conds.filter(c => !c._drop); }
   // '송파에 살고 싶은데 송파 아니어도 괜찮아' → 송파는 선호, 다른 지역도 탐색
   const rin = C.conds.filter(c => c.key === 'region_in');
   for (const c of rin) if (c.weight === 'explore') {
@@ -236,13 +324,16 @@ export function extract(question) {
     if (same) { same.weight = 'preferred'; same.explore_ok = true; c._drop = true; }
   }
   C.conds = C.conds.filter(c => !c._drop);
-  if (C.intent === 'compare') C.conds = C.conds.filter(c => c.key !== 'region_in');   // 비교할 단지 이름 속 지명은 지역 조건이 아니다
+  if (C.intent === 'compare') C.conds = C.conds.filter(c => c.key !== 'region_in' && c.key !== 'line' && c.key !== 'near_station');   // '9호선 연장/급행' 은 비교 관점   // 비교할 단지 이름 속 지명은 지역 조건이 아니다
   if (C.intent === 'compare') {   // 'A vs B vs C 비교해주고 급지…' → 마지막 이름 뒤의 요청 문장은 자른다
-    const q1 = q.split(/[?？!]|(?<!\d)\.(?!\d)/)[0];   // 첫 문장 안에서만 이름을 찾는다 (샘플 5: 뒤 문장의 '생각하고 있어'의 '하고'를 구분 말로 읽었음)
+    const q1 = q.split(/[?？!]|(?<!\d)\.(?!\d)/)[0].split(/\s중\s?(?:에|고민|어디|뭐|어느|에서)|\s중$|고민/)[0];   // '…84㎡(18.5억) 중 고민하고 있어' — '고민하고'의 '하고'를 구분 말로 읽지 않게   // 첫 문장 안에서만 이름을 찾는다 (샘플 5: 뒤 문장의 '생각하고 있어'의 '하고'를 구분 말로 읽었음)
     const marks = [...q1.matchAll(/\s+(?:vs\.?|VS|대)\s+|\s?(?:이랑|랑|하고|와|과)\s+/g)], last = marks.length ? marks[marks.length - 1].index + marks[marks.length - 1][0].length : 0;
     const tail = q1.slice(last).search(/\s?(비교|해\s?주|해줘|중에|어디가|어느|,\s|\.\s|\?|!)/);
     const body = tail >= 0 ? q1.slice(0, last + tail) : q1;
-    C.targets = body.split(/\s+(?:vs\.?|VS|대)\s+|\s?(?:이랑|랑|하고|와|과)\s+/).map(s => s.trim().split(/\s(?=\d{2}\s?평|국평|같은|어디|어느|중에|비교|이라면|라면|기준)/)[0].trim()).filter(s => s.length >= 2 && s.length <= 24);   // 이름 뒤 '20평대 같은 금액이라면…' 자르기
+    const raw = body.split(/\s+(?:vs\.?|VS|대)\s+|\s?(?:이랑|랑|하고|와|과)\s+/).map(s => s.trim()).filter(s => s.length >= 2);
+    const ta = raw.map(s => { const x = s.match(/(\d{2,3})(?:\.\d+)?\s?(?:㎡|m2|타입|형)/); return x ? +x[1] : null; });   // '강동헤리티지자이 59㎡ vs 고덕풍경채 84㎡' — 단지마다 말한 주택형
+    if (ta.filter(Boolean).length >= 2) { C.targetArea = ta; C.conds = C.conds.filter(c => c.key !== 'area'); }
+    C.targets = body.split(/\s+(?:vs\.?|VS|대)\s+|\s?(?:이랑|랑|하고|와|과)\s+/).map(s => s.trim().replace(/\s?[(（][^)）]*[)）]/g, '').replace(/\s?\d{2,3}(?:\.\d+)?\s?(?:㎡|m2|타입|형)$/, '').split(/\s(?=\d{2}\s?평|국평|같은|어디|어느|중에|비교|이라면|라면|기준)/)[0].trim()).filter(s => s.length >= 2 && s.length <= 24);   // 이름 뒤 '20평대 같은 금액이라면…' 자르기
   }
   // 같은 key 가 여러 번이면 마지막(더 구체적인) 것만, 지역은 합침
   const seen = {};

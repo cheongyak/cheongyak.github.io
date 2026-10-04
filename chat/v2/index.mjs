@@ -1,7 +1,7 @@
 // 청약봇 V2 한 바퀴: 질문 → 조건 추출(규칙, 있으면 AI) → 필수/선호/탐색 → 실제 데이터 검색 → 후보 → 걸러내기 → 추천·비교 → 설명(기본 답, 있으면 AI).
 // 지금 청약패스 화면·서버와 연결돼 있지 않다. 나중에 청약봇 서버(chat/worker)가 ask() 를 부르고 스위치 chatbot_v2 로 켠다 (README.md).
 import { extract, applyDelta } from './extract.mjs';
-import { search, findTargets, factsOf } from './search.mjs';
+import { search, findTargets, factsOf, resolvePlaces } from './search.mjs';
 import { compose, buildCompare, understood } from './answer.mjs';
 import { extractPrompt, parseExtraction, explainPrompt, factsForLLM, checkAnswer } from './llm.mjs';
 import { SP_LABEL } from './lexicon.mjs';
@@ -22,8 +22,9 @@ export async function ask({ D, question, profile = null, state = null, llm = nul
     } catch (e) { steps.push('AI 조건 해석 실패: ' + String(e.message || e).slice(0, 80)); }
   }
   C.today = D.today;
-  if (geocode) for (const c of C.conds.filter(c => c.key === 'commute' && c.value.approx)) {   // '구로구 (중심 근사)' → 실제 장소 (예: 구로구청)
-    const word = c.value.place.replace(/ \(중심 근사\)/, ''), q = /(구|시|군)$/.test(word) ? word + '청' : word, g = await geocode(q);   // '구로구'만 찾으면 구 안의 아무 장소(푸른수목원)가 나와 구청으로 찾는다 (2026-10-02 확인)
+  resolvePlaces(D, C);   // '정자역'·'군자역' 같은 역 이름 출퇴근지 좌표는 노선 자료(OpenStreetMap)에서
+  if (geocode) for (const c of C.conds.filter(c => c.key === 'commute' && (c.value.approx || c.value.lat == null))) {   // '구로구 (중심 근사)' → 실제 장소 (예: 구로구청)
+    const word = c.value.place.replace(/\s?\([^)]*중심 근사\)/, ''), q = /(구|시|군)$/.test(word) ? word + '청' : word, g = await geocode(q);   // '구로구'만 찾으면 구 안의 아무 장소(푸른수목원)가 나와 구청으로 찾는다 (2026-10-02 확인)
     if (g && !g.error) { Object.assign(c.value, { place: word, lat: g.lat, lng: g.lng, approx: false, found: g.name }); c.text = (c.value.who ? c.value.who + ' ' : '') + '직장 ' + word + '(' + g.name + ' 기준)'; }
   }
   steps.push('조건 ' + C.conds.length + '개 (' + via + ')');
@@ -42,7 +43,7 @@ export async function ask({ D, question, profile = null, state = null, llm = nul
   }
   if (r.explore) r.explore.nearby.sort((a, b) => a.km - b.km);
   // 출퇴근 시간: 보여 줄 후보(상위 5곳·대안·확인 필요)만 실시간 조회 — 저장하지 않는다(카카오 이용 조건). 순서는 시간으로 다시 매긴다
-  const cms = C.conds.filter(c => c.key === 'commute');
+  const cms = C.conds.filter(c => c.key === 'commute' && c.value.lat != null && !c.value.via_shuttle);
   if (commute && cms.length) {
     const its = [...r.groups.slice(0, 5).map(g => g.best), ...r.unsure.slice(0, 4), ...(r.relax || []).flatMap(o => (o.groups || []).map(g => g.best)), ...(r.nearMiss || []).map(g => g.best)].filter(it => it.f.geo);
     await Promise.all(its.map(async it => { it.f.commute = await Promise.all(cms.map(async c => ({ place: c.value.place, who: c.value.who || '', ...(await commute(it.f.geo, c.value)) }))); }));

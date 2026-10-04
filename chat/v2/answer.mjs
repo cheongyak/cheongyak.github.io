@@ -15,6 +15,7 @@ export function understood(C) {
   const a = C.assume || {}, as = [];
   if (a.married) as.push('신혼부부'); if (a.cash != null) as.push('현금 ' + fmtEok(a.cash)); if (a.income != null) as.push('연 소득 ' + a.income.toLocaleString('ko-KR') + '만원');
   if (a.homeless === true) as.push('무주택'); if (a.homeless === false) as.push('집 있음'); if (a.kids != null) as.push('자녀 ' + a.kids + '명');
+  if (a.newborn) as.push('곧 태어날 아이(출산 가구 — 특별공급 자격은 출생 뒤 판정)'); if (a.home) as.push('지금 사는 곳 ' + a.home + '(해당지역 판단용 — 찾을 지역은 아님)');
   if (a.family) as.push(a.family + '인 가족'); if (a.no_school) as.push('학군은 안 따짐');
   const P = C.plan || {}, plan = [P.sell_after && P.sell_after + '년 뒤 팔고 갈아타기', P.long_hold && P.long_hold + '년 이상 장기 보유', P.live && P.invest ? '실거주와 투자 둘 다' : P.live ? '실거주' : P.invest ? '투자' : ''].filter(Boolean);
   return { required: by('required'), preferred: by('preferred'), explore: by('explore'), assume: as, unsupported: C.unsupported || [], past: !!(C.scope && C.scope.past), plan };
@@ -31,13 +32,13 @@ function reasons(it, C) {
   const wantsTransit = C && C.conds.some(c => c.key === 'station_walk'), wantsLive = C && (C.perspectives || []).includes('livability');
   if (f.station.state === '추정' && f.station.walk <= (wantsTransit ? 10 : 7)) r.push(f.station.name + ' 도보 약 ' + f.station.walk + '분이라 ' + (wantsTransit ? '교통이 편해요' : '역세권이에요'));
   if (f.complex.state === '확인' && f.complex.households >= (wantsLive ? 500 : 1000)) r.push(f.complex.households.toLocaleString('ko-KR') + '세대 ' + (f.complex.households >= 1000 ? '대단지' : '단지') + (wantsLive ? '라 생활 편의시설을 기대할 만해요' : '예요'));
-  const cm = C ? C.conds.filter(c => c.key === 'commute') : [];
-  if (cm.length && f.geo) { const near = cm.map(c => [c, distKmA(f.geo, c.value)]).sort((a, b) => a[1] - b[1])[0]; if (near[1] <= 8) r.push((near[0].value.who ? near[0].value.who + ' ' : '') + '직장과 가까워요(직선 약 ' + Math.round(near[1]) + 'km)'); }
+  const cm = C ? C.conds.filter(c => c.key === 'commute' && c.value.lat != null && !c.value.via_shuttle) : [];
+  if (cm.length && f.geo) { const near = cm.map(c => [c, distKmA(f.geo, c.value)]).sort((a, b) => a[1] - b[1])[0]; if (near[1] <= 8) r.push(near[0].value.who === '셔틀 정류장' ? '셔틀 정류장 ' + near[0].value.place + '과 가까워요(직선 약 ' + Math.round(near[1]) + 'km)' : (near[0].value.who ? near[0].value.who + ' ' : '') + '직장과 가까워요(직선 약 ' + Math.round(near[1]) + 'km)'); }
   if (!f.past && f.dates.applyEnd && f.status === '접수 중' && f.dates.applyEnd <= (C && C.today || '')) r.push('오늘 접수가 끝나요');
   if (r.length < 2 && C) {   // 눈에 띄는 점이 없으면 질문 조건과 이어지는 사실 하나 (예산 여유·면적)
     const pm = C.conds.find(c => c.key === 'price_max');
     if (pm && f.price.v != null && pm.value - f.price.v >= 0.3) r.push('예산(' + pm.value + '억)보다 ' + fmtEok(Math.round((pm.value - f.price.v) * 100) / 100) + ' 여유 있어요');
-    else if (f.complex.state === '확인' && f.complex.single === 'no' && f.complex.households >= 500) r.push(f.complex.households.toLocaleString('ko-KR') + '세대 단지예요');
+    else if (f.complex.state === '확인' && f.complex.single === 'no' && f.complex.households >= 500 && !r.some(x => /세대/.test(x))) r.push(f.complex.households.toLocaleString('ko-KR') + '세대 단지예요');
     else if (f.units.general + f.units.special > 0 && !r.length) r.push('이 주택형 공급 ' + (f.units.general + f.units.special) + '세대(일반 ' + f.units.general + '·특공 ' + f.units.special + ')예요');
   }
   return r.length ? '→ ' + r.slice(0, 3).join(', ') + '.' : null;
@@ -86,8 +87,10 @@ export function card(it, { profile, C = null }) {
     L.push('· ' + c.value.line + '  ' + (n ? n.name + '역 직선 ' + (n.m >= 1000 ? (Math.round(n.m / 100) / 10) + 'km' : n.m + 'm') + ' (역 위치 OpenStreetMap, 추정)' : '확인 불가 (단지 좌표 또는 역 정보 없음)')); }
   L.push('· 역  ' + (f.station.state === '추정' ? f.station.name + ' 도보 약 ' + f.station.walk + '분(직선 ' + f.station.m + 'm, 추정)' : '확인 불가' + (f.station.why ? ' (' + f.station.why + ')' : '')));
   if (!(C && (C.assume || {}).no_school)) L.push('· 초등학교  ' + (f.school.state === '추정' ? f.school.name + ' 도보 약 ' + f.school.walk + '분(직선 ' + f.school.m + 'm, 추정)' : '확인 불가' + (f.school.why ? ' (' + f.school.why + ')' : '')));
-  const cm = C ? C.conds.filter(c => c.key === 'commute') : [];
-  if (cm.length) L.push('· 출퇴근  ' + (!f.geo ? '확인 불가 (단지 좌표 없음)' : cm.map(c => { const nm = (c.value.who ? c.value.who + ' ' : '') + c.value.place.replace(/ \(중심 근사\)/, '');
+  if (f.nearSt) L.push('· 역 주변  ' + f.nearSt.name + ' 직선 ' + (f.nearSt.m >= 1000 ? (Math.round(f.nearSt.m / 100) / 10) + 'km' : f.nearSt.m + 'm') + ' (역 위치 OpenStreetMap, 추정)');
+  const cm = C ? C.conds.filter(c => c.key === 'commute' && !c.value.via_shuttle) : [];
+  if (cm.length) L.push('· 출퇴근  ' + (!f.geo ? '확인 불가 (단지 좌표 없음)' : cm.map(c => { const nm = (c.value.who ? c.value.who + ' ' : '') + c.value.place.replace(/\s?\([^)]*중심 근사\)/, '');
+    if (c.value.lat == null) return nm + ' — 위치 자료가 없어 거리 확인 불가';
     const t = (f.commute || []).find(x => x.place === c.value.place && x.who === (c.value.who || ''));
     return t && t.min != null ? nm + '까지 자동차 약 ' + t.min + '분(' + t.km + 'km, ' + t.src.replace(/ \(.*\)$/, '') + ' ' + t.at.slice(11, 16).replace(/^(\d\d)/, h => String((+h + 9) % 24).padStart(2, '0')) + ' 조회)' : nm + '까지 직선 약 ' + Math.round(distKmA(f.geo, c.value)) + 'km(시간 확인 불가)'; }).join(' · ') + (f.geo && !f.geo.precise ? ' — 단지 좌표가 동 단위라 대략이에요' : '')));
   const pl = planLine(f, C); if (pl) L.push(pl);
@@ -114,13 +117,13 @@ export function compose(C, r0, { profile = false, updated = '', mode = 'search',
   const U = understood(C), out = [];
   out.push(opening(C, r, mode));
   out.push('[이렇게 이해했어요]\n' + [U.required.length && '· 꼭: ' + U.required.join(', '), U.preferred.length && '· 되면 좋음: ' + U.preferred.join(', '), U.explore.length && '· 넓혀 보기: ' + U.explore.join(', '),
-    U.assume.length && '· 이번 질문만의 가정: ' + U.assume.join(', ') + ' (저장된 내 조건은 바꾸지 않아요)', U.past && '· 지난 공고까지 포함', U.plan.length && '· 보유 계획: ' + U.plan.join(' / ') + ' — 청약이면 실거주 의무·재당첨 제한·전매제한이 이 계획에 걸리는지 함께 봐요', ...Object.keys(REGION_SETS).filter(k => C.conds.some(c => c.key === 'region_in' && c.value.some(v => v.label === k))).map(k => '· ' + k + '는 이렇게 봤어요: ' + REGION_SETS[k].map(x => x.replace(/(시|군)$/, '')).join('·') + ' (한강 ' + (k === '경기남부' ? '남쪽' : '북쪽') + ' 경기 시·군)'), U.unsupported.some(u => /^층 고르기/.test(u)) && '· 따를 수 없는 것: 저층 제외 — 청약은 당첨 뒤 동·호수를 추첨으로 정해요', mode === 'compare' && '· 비교할 단지: ' + (C.targets || []).join(', ') + (/(큰 평수|가장 큰|대형|넓은)/.test(C.q || '') ? ' (가장 큰 주택형 기준)' : ''), U.unsupported.length && mode === 'compare' && '· 데이터가 없어 답하지 않는 것: ' + U.unsupported.join(', '), (C.perspectives || []).length && '· 중요하게 보는 것: ' + C.perspectives.map(p => ({ margin: '시세 차익', chance: '당첨 가능성', price: '가격', growth: '가격 상승력(시세 차익으로 봄)', livability: '실거주 만족도' }[p] || p)).join(', ')].filter(Boolean).join('\n') || '· 조건 없이 지금 접수 중·예정인 공고 전체');
+    U.assume.length && '· 이번 질문만의 가정: ' + U.assume.join(', ') + ' (저장된 내 조건은 바꾸지 않아요)', U.past && '· 지난 공고까지 포함', U.plan.length && '· 보유 계획: ' + U.plan.join(' / ') + ' — 청약이면 실거주 의무·재당첨 제한·전매제한이 이 계획에 걸리는지 함께 봐요', ...Object.keys(REGION_SETS).filter(k => C.conds.some(c => c.key === 'region_in' && c.value.some(v => v.label === k))).map(k => '· ' + k + ((k.charCodeAt(k.length - 1) - 0xAC00) % 28 ? '은' : '는') + ' 이렇게 봤어요: ' + REGION_SETS[k].map(x => x.replace(/(시|군)$/, '')).join('·') + ' (' + ({ 경기남부: '한강 남쪽 경기 시·군', 경기북부: '한강 북쪽 경기 시·군', 구성남: '성남 원도심 — 분당구 제외' }[k] || '서울시 생활권 구분') + ')'), U.unsupported.some(u => /^층 고르기/.test(u)) && '· 따를 수 없는 것: 저층 제외 — 청약은 당첨 뒤 동·호수를 추첨으로 정해요', mode === 'compare' && '· 비교할 단지: ' + (C.targets || []).join(', ') + (/(큰 평수|가장 큰|대형|넓은)/.test(C.q || '') ? ' (가장 큰 주택형 기준)' : ''), U.unsupported.length && mode === 'compare' && '· 데이터가 없어 답하지 않는 것: ' + U.unsupported.join(', '), (C.perspectives || []).length && '· 중요하게 보는 것: ' + C.perspectives.map(p => ({ margin: '시세 차익', chance: '당첨 가능성', price: '가격', growth: '가격 상승력(시세 차익으로 봄)', livability: '실거주 만족도' }[p] || p)).join(', ')].filter(Boolean).join('\n') || '· 조건 없이 지금 접수 중·예정인 공고 전체');
   for (const li of (r.lineInfo || [])) out.push(li.missing ? '· ' + li.line + ' 역 위치 자료가 아직 없어 노선 조건은 확인하지 못했어요.' : '[' + li.line + ' 역세권 공고 현황]\n' + (li.notices ? '지금 접수 중·예정인 공고 중 ' + li.line + ' 역까지 직선 ' + (li.m / 1000) + 'km 안은 ' + li.notices + '곳(주택형 ' + li.types + '개, ' + li.stations.join('·') + '역 주변)이고, 가장 싼 주택형이 ' + fmtEok(li.minPrice) + '이에요.' : '지금 접수 중·예정인 공고 중 ' + li.line + ' 역까지 직선 ' + (li.m / 1000) + 'km 안에 있는 곳은 없어요. 새 공고가 이 노선에 뜨면 알려 드릴게요.'));
   if (mode === 'compare' && compare) out.push(...compareBlocks(compare, { profile, C }));
   else if (r.ok.length) {
     out.push(conclusion(r, C, U));
     out.push('[후보별 핵심 지표' + (r.groups.length > r.limit ? ' · ' + r.groups.length + '곳 중 먼저 볼 ' + r.limit + '곳' : '') + ']\n\n' + r.groups.slice(0, r.limit).map(g => card(g.best, { profile, C }) + (g.types.length > 1 ? '\n(같은 공고 다른 주택형 ' + (g.types.length - 1) + '개: ' + g.types.slice(1, 6).map(t => t.f.unit + ' ' + fmtEok(t.f.price.v)).join(' · ') + (g.types.length > 6 ? ' …' : '') + ')' : '')).join('\n\n'));
-    if (r.groups.length > r.limit) out.push('[나머지 ' + (r.groups.length - r.limit) + '곳]\n' + r.groups.slice(r.limit).map(g => '· ' + g.name + ' ' + g.best.f.unit + ' — ' + g.best.f.price.label + ' ' + fmtEok(g.best.f.price.v) + (g.best.elig ? ' · ' + genWord(g.best) + ' ' + ELIG_WORD[g.best.elig] : '') + (g.best.far ? ' · 직장에서 멀어요' : '') + '\n  ' + g.best.f.link).join('\n'));
+    if (r.groups.length > r.limit) out.push('[나머지 ' + (r.groups.slice(r.limit, r.want || undefined).length) + '곳' + (r.want && r.groups.length > r.want ? ' · 요청하신 ' + r.want + '곳까지 (조건에 맞는 곳은 모두 ' + r.groups.length + '곳)' : '') + ']\n' + r.groups.slice(r.limit, r.want || undefined).map(g => '· ' + g.name + ' ' + g.best.f.unit + ' — ' + g.best.f.price.label + ' ' + fmtEok(g.best.f.price.v) + (g.best.elig ? ' · ' + genWord(g.best) + ' ' + ELIG_WORD[g.best.elig] : '') + (g.best.far ? ' · 직장에서 멀어요' : '') + '\n  ' + g.best.f.link).join('\n'));
     if (r.nearMiss && r.nearMiss.length) out.push('[함께 눈여겨볼 곳 · 예산을 조금 넘어요]\n' + r.nearMiss.map(g => '· ' + g.name + ' ' + g.best.f.unit + ' — 분양가 ' + fmtEok(g.best.f.price.v) + (g.best.elig ? ', ' + genWord(g.best) + ' ' + ELIG_WORD[g.best.elig] : '') + (g.best.f.margin.g !== 'unknown' ? ', 시세 차익 ' + g.best.f.margin.name + '(추정)' : '') + '. 관심 단지로만 체크해 두세요.\n  ' + g.best.f.link).join('\n'));
     out.push(scenarios(r));
     out.push(planScenarios(r.groups.slice(0, 5).map(g => g.best), C));
@@ -203,13 +206,15 @@ function reorder(out) {
 // 질문 받기: 질문자의 상황(아이·맞벌이 출퇴근·예산)을 한 번 되짚고, 무엇을 기준으로 따졌는지 말한다 (사용자 예시 2026-10-02)
 function opening(C, r, mode) {
   if (mode === 'compare') return '좁혀 오신 단지들을 같은 기준으로 나란히 놓고 볼게요.';
-  const a = C.assume || {}, who = C.conds.filter(c => c.key === 'commute' && c.value.who).map(c => c.value.who + ' ' + c.value.place.replace(/ \(중심 근사\)/, '').replace(/구$/, ''));
-  const life = [a.kids ? '아이' + (a.youngest ? '(' + a.youngest + ')' : '') + '를 키우시면서' : '', who.length >= 2 ? '두 분 출퇴근(' + who.join(', ') + ')까지 챙기셔야 하니' : who.length ? who[0] + ' 출퇴근을 챙기셔야 하니' : ''].filter(Boolean);
+  const a = C.assume || {}, who = C.conds.filter(c => c.key === 'commute' && c.value.who && c.value.who !== '셔틀 정류장').map(c => c.value.who + (c.value.via_shuttle ? ' 직장 ' : ' ') + c.value.place.replace(/\s?\([^)]*중심 근사\)/, '').replace(/구$/, '') + (c.value.via_shuttle ? '(셔틀 출근)' : ''));
+  const shut = C.conds.filter(c => c.key === 'commute' && c.value.who === '셔틀 정류장').map(c => c.value.place);
+  if (shut.length && who.length < 2) who.push('셔틀 정류장 ' + shut.join('·'));   // '내 직장 평택 · 셔틀 정류장 양재역·강남역…' — 정류장을 사람처럼 '두 분'으로 세지 않게
+  const life = [a.kids ? '아이' + (a.youngest ? '(' + a.youngest + ')' : '') + '를 키우시면서' : '', who.length >= 2 && !shut.length ? '두 분 출퇴근(' + who.join(', ') + ')까지 챙기셔야 하니' : who.length ? who.join(' · ') + ' 출퇴근을 챙기셔야 하니' : ''].filter(Boolean);
   const price = C.conds.find(c => /^price/.test(c.key));
   // 질문자의 상황·우선순위를 한 문장으로 되짚는다 (샘플 3 '4인 가족이 함께 거주하면서 … 30평대를 찾고 계시네요')
   const reg = C.conds.filter(c => c.key === 'region_in' && c.weight === 'required').flatMap(c => c.value.map(v => v.label)), ar = C.conds.find(c => c.key === 'area');
   const pri = [(C.perspectives || []).includes('growth') && '가격 상승력', C.conds.some(c => c.key === 'station_walk') && '교통', (C.perspectives || []).includes('livability') && '실거주 만족도', C.conds.some(c => c.key === 'school_walk') && '아이 통학', (C.perspectives || []).includes('margin') && '시세 차익'].filter(Boolean);
-  const sit = (a.family || reg.length || ar) && pri.length ? (a.family ? a.family + '인 가족이 ' : '') + (reg.length ? [...new Set(reg)].join('·') + '에서 ' : '') + (ar ? String(ar.text).replace(/\(.*\)/, '') + ' 집에 ' : '') + '실거주하시면서 ' + pri.join('·') + '까지 챙기고 싶으시군요.' : '';
+  const sit = (a.family || reg.length || ar) && pri.length ? (a.family ? a.family + '인 가족이 ' : '') + (reg.length ? [...new Set(reg)].join('·') + '에서 ' : '') + (ar ? String(ar.text).replace(/\(.*\)/, '') + ' 집에 ' : '') + (((C.plan || {}).live || (C.perspectives || []).includes('livability') || a.family) ? '실거주하시면서 ' : '찾으시면서 ') + pri.join('·') + '까지 챙기고 싶으시군요.' : '';
   const head = life.length ? life.join(' ') + ' 고민이 깊으셨을 것 같아요.' : sit || (C.conds.length >= 4 ? '조건을 꼼꼼하게 주셨네요.' : '');
   const basis = [C.conds.some(c => /^region/.test(c.key)) && '지역', C.conds.some(c => c.key === 'rooms') && '방 구조', C.conds.some(c => c.key === 'area') && '면적', price && '예산(' + price.text.replace(/\(.*\)/, '') + ')', C.conds.some(c => c.key === 'commute') && '출퇴근 거리', a.kids && '아이 키우기(초등학교 거리)', r.profile && '내 자격'].filter(Boolean);
   const resale = (C.unsupported || []).some(u => /^기존 아파트 매매/.test(u));   // '매물도 추천해줘' — 왜 매매 추천이 없는지 처음에 (AI 회차 4 심사)
@@ -246,7 +251,10 @@ function noResult(C, r, U) {
 function missing(C, r) {
   const m = [...(C.unsupported || []).map(u => / — /.test(u) ? u : u + ' — 청약패스에 이 데이터가 없어 답하지 않았어요')];   // 이미 이유를 적은 항목은 덧붙이지 않음
   if (C.conds.some(c => c.key === 'rooms')) m.push('방·욕실 수 — 아직 공고문에서 모으지 않아, 해당 후보는 \'구조 확인 필요\'로 따로 뒀어요');
-  for (const c of C.conds.filter(c => c.key === 'commute')) m.push(r.commuted ? c.value.place + ' 대중교통 시간 — 아직 연결하지 않았어요(자동차 시간만, 조회 시각의 교통 기준)' : c.value.place + ' 출퇴근 시간 — 경로 조회를 아직 연결하지 않아, 직선거리로만 순서를 봤어요(시간으로 바꾸지 않음)');
+  { const cs = C.conds.filter(c => c.key === 'commute' && !c.value.via_shuttle), nm = c => c.value.place.replace(/\s?\([^)]*중심 근사\)/, '');   // 여러 곳이면 한 줄로 (카톡 실제 질문: 셔틀 정류장 6곳이 6줄)
+    const ok = cs.filter(c => c.value.lat != null), no = cs.filter(c => c.value.lat == null);
+    if (ok.length) m.push(ok.map(nm).join('·') + (r.commuted ? ' 대중교통 시간 — 아직 연결하지 않았어요(자동차 시간만, 조회 시각의 교통 기준)' : ' 출퇴근 시간 — 경로 조회를 아직 연결하지 않아, 직선거리로만 순서를 봤어요(시간으로 바꾸지 않음)'));
+    if (no.length) m.push(no.map(nm).join('·') + ' — 위치 자료가 없어 출퇴근 거리·시간 확인 불가(역 이름이나 동 이름으로 알려 주시면 따져 드려요)'); }
   if (C.conds.some(c => c.key === 'eligible_only') && !r.profile) m.push('내 자격 — 내 조건을 넣지 않아 판정하지 못했어요');
   return m;
 }
@@ -273,11 +281,12 @@ function nextSteps(C, r, profile) {
 // ---- 비교 ----
 export function buildCompare(D, targets, C, { profile = null } = {}) {
   const p = profile ? D.profileOf(profile) : null, big = /(큰 평수|가장 큰|대형|넓은)/.test(C.q || '');
-  return targets.map(t => {
+  return targets.map((t, ti) => {
     if (!t.found) return { query: t.query, found: false };
+    const want = (C.targetArea || [])[ti] || 84;   // 단지마다 말한 주택형(59㎡·84㎡)이 있으면 그 면적에 가까운 것
     const byN = new Map(); t.rows.forEach(r => { const k = r.L.id.split('-')[0]; if (!byN.has(k)) byN.set(k, []); byN.get(k).push(r); });
     return { query: t.query, found: true, notices: [...byN.values()].map(rows => {
-      const pick = rows.slice().sort((a, b) => big ? (b.L.area - a.L.area) : Math.abs(a.L.area - 84) - Math.abs(b.L.area - 84))[0];
+      const pick = rows.slice().sort((a, b) => big ? (b.L.area - a.L.area) : Math.abs(a.L.area - want) - Math.abs(b.L.area - want))[0];
       const it = { row: pick, f: null, unknown: [] };
       return { rows, pick: it, all: rows.map(r => ({ unit: String(r.L.unitName || r.L.unit).trim(), price: r.L.price, area: r.L.area })), p, big };
     }) };
@@ -299,6 +308,6 @@ function compareBlocks(cmp, { profile, C = null }) {
   const nf = cmp.filter(t => !t.found).map(t => t.query);
   if (nf.length && found.length) blocks.unshift('청약패스 공고(지금·지난 1년)에 없는 단지: ' + nf.join(', ') + ' — 이미 지어진 아파트는 비교하지 못해요.');   // 한 번에 묶어서 (AI 심사 회차 3: '찾지 못했어요' 세 번 반복)
   if (!blocks.length) return out;
-  out.push('[단지별 핵심 지표' + (cmp.some(t => t.found && t.notices.some(n => n.big)) ? ' · 가장 큰 주택형 기준' : ' · 84㎡에 가까운 주택형 기준') + ']\n\n' + blocks.join('\n\n'));
+  out.push('[단지별 핵심 지표' + (cmp.some(t => t.found && t.notices.some(n => n.big)) ? ' · 가장 큰 주택형 기준' : (C.targetArea && C.targetArea.some(Boolean) ? ' · 말씀하신 주택형(' + C.targetArea.filter(Boolean).map(x => x + '㎡').join('·') + ')에 가까운 것 기준' : ' · 84㎡에 가까운 주택형 기준')) + ']\n\n' + blocks.join('\n\n'));
   return out;
 }

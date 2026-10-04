@@ -86,8 +86,32 @@ export function evalCond(D, row, f, c, ctx) {
       const near = nearestOn(st, f.geo); f.line = f.line || {}; f.line[v.line] = near;
       return near.m <= v.m ? ['pass'] : ['fail', v.line + ' 역에서 ' + (v.m / 1000) + 'km 넘음'];   // 거리는 카드 노선 줄에 (빠진 이유를 거리마다 따로 세지 않게)
     }
+    case 'near_station': {   // 'X역 주변': 그 역(들) 중 하나에서 직선 v.m 안 (역 좌표: OpenStreetMap 노선 자료)
+      const pts = (v.names || []).map(n => stationPoint(D, n)).filter(Boolean);
+      if (!pts.length) return ['unknown', (v.names || []).join('·') + '역 위치 자료 없음'];
+      if (!f.geo) return ['unknown', '단지 좌표 없음'];
+      const best = pts.map(x => ({ name: x.name, m: Math.round(distKm(f.geo, x) * 1000) })).sort((a, b) => a.m - b.m)[0]; f.nearSt = best;
+      return best.m <= v.m ? ['pass'] : ['fail', (v.names || []).join('·') + '역에서 ' + (v.m / 1000) + 'km 넘음'];
+    }
     default: return ['unknown'];
   }
+}
+
+// 역 이름 → 좌표 (노선 자료의 같은 이름 역 평균). prefix 면 그 이름으로 시작하는 역들 평균 ('을지로' → 을지로입구·을지로3가·을지로4가) — 기억으로 적지 않음
+export function stationPoint(D, name, prefix = false) {
+  const L = D.lines && D.lines.lines; if (!L) return null;
+  const n = String(name).replace(/역$/, '').replace(/^DMC$/i, '디지털미디어시티'), hit = [];
+  for (const st of Object.values(L)) for (const x of st) if (x.name === n || (prefix && x.name.startsWith(n))) hit.push(x);
+  if (!hit.length) return null;
+  return { name: n + '역', lat: hit.reduce((a, x) => a + x.lat, 0) / hit.length, lng: hit.reduce((a, x) => a + x.lng, 0) / hit.length, approx: prefix && new Set(hit.map(x => x.name)).size > 1 };
+}
+// 출퇴근지 중 좌표가 없는 역 이름('정자역', '군자역')을 노선 자료로 채운다. 못 찾으면 거리 계산에서 뺀다 (unresolved)
+export function resolvePlaces(D, C) {
+  for (const c of C.conds) if (c.key === 'commute' && c.value.lat == null) {
+    const p = c.value.station || c.value.prefix ? stationPoint(D, c.value.place, !!c.value.prefix) : null;
+    if (p) Object.assign(c.value, { lat: p.lat, lng: p.lng, src: 'OpenStreetMap 노선 자료', approx: c.value.approx || p.approx }); else c.value.unresolved = true;
+  }
+  return C;
 }
 
 export function nearestOn(stations, geo) {
@@ -110,7 +134,7 @@ export function mergeRegions(C) {
 }
 
 export function search(D, C0, { profile = null, limit = 3, inner = false } = {}) {   // 카드는 3곳까지 (AI 심사 회차 1: 5곳은 정보 과다 — 나머지는 한 줄 목록)
-  const C = mergeRegions(C0);
+  const C = resolvePlaces(D, mergeRegions(JSON.parse(JSON.stringify(C0))));
   const p = profile ? D.profileOf(Object.assign({}, profile, assumeToProfile(C.assume || {}))) : null;   // 저장된 내 조건이 없으면 판정하지 않는다 — 질문 속 가정(신혼부부 등)만으로는 자격을 단정할 수 없음
   const eligCache = new Map();
   const ctx = { profile: p, elig: row => { if (!eligCache.has(row.L.id)) eligCache.set(row.L.id, D.E.eligBucket(row.L, p)); return eligCache.get(row.L.id); } };
@@ -144,7 +168,10 @@ export function search(D, C0, { profile = null, limit = 3, inner = false } = {})
   if (!out.ok.length && !out.unsure.length) {   // 하나씩 늦춰도 안 생기면: 어긋난 조건이 가장 적은 곳 (공고당 1개, 거리 가까운 순) — '없어요'로 끝내지 않는다
     const m = Math.min(...near.map(x => x.misses.length));
     const cand = near.filter(x => x.misses.length === m && !x.row.past);
-    const regs = C.conds.filter(c => c.key === 'region_in').flatMap(c => c.value).filter(v => v.lat);
+    const sidoPt = v => { const ds = DISTRICTS.filter(z => z[0] === v.sido); return ds.length ? { lat: ds.reduce((a, z) => a + z[2], 0) / ds.length, lng: ds.reduce((a, z) => a + z[3], 0) / ds.length } : null; };   // '서울' 처럼 시·도만이면 그 시·도 구·시 중심 평균
+    let regs = C.conds.filter(c => c.key === 'region_in').flatMap(c => c.value).map(v => v.lat ? v : v.sido && !v.district ? sidoPt(v) : null).filter(Boolean)
+      .concat(C.conds.filter(c => c.key === 'near_station').flatMap(c => c.value.names.map(n => stationPoint(D, n)).filter(Boolean)));
+    if (!regs.length) regs = C.conds.filter(c => c.key === 'commute' && c.value.lat != null && !c.value.via_shuttle).map(c => c.value);   // 지역을 안 말했으면 직장에서 가까운 순 (카톡 실제 질문: 마곡·양재 출퇴근인데 아산이 1순위)   // 역 주변 조건이면 그 역에서 가까운 순 (카톡 실제 질문: 길음역 주변인데 아산이 1순위)
     const d = x => regs.length && x.f.geo ? Math.min(...regs.map(v => distKm(x.f.geo, v))) : 999;
     const er = x => ctx.profile && !x.row.noJudge ? ELIG_RANK[ctx.elig(x.row)] || 0 : 0;   // 신청할 수 있는 곳을 먼저 (샘플 3 점검: 신청 불가 곳이 맨 위)
     const seen = new Set(); out.closest = cand.sort((a, b) => er(b) - er(a) || d(a) - d(b) || (a.f.price.v || 99) - (b.f.price.v || 99)).filter(x => !seen.has(x.f.nid) && seen.add(x.f.nid)).slice(0, 3)
@@ -175,7 +202,7 @@ export function search(D, C0, { profile = null, limit = 3, inner = false } = {})
     pool3.sort((a, b) => near30(b) - near30(a) || (b.elig != null ? ELIG_RANK[b.elig] : 0) - (a.elig != null ? ELIG_RANK[a.elig] : 0) || b.rank3 - a.rank3 || (a.f.price.v || 99) - (b.f.price.v || 99));
     out.outside = { base: [...new Set(regs.map(v => v.label))], groups: groupByNotice(pool3).slice(0, limit), total: new Set(pool3.map(x => x.f.nid)).size, unsure: !r3.ok.length };
   }
-  out.profile = !!p; out.limit = limit;
+  out.profile = !!p; out.limit = limit; if (C.limit) out.want = C.limit;   // 'top5' — 카드는 3곳, 나머지는 한 줄 목록으로 요청한 수까지
   return out;
 }
 
@@ -198,7 +225,7 @@ function prefScore(item, C) {
     s += x.s === 'pass' ? w : x.s === 'fail' ? -w : 0;
   }
   const g = item.f.margin.g; s += { lotto: 1.5, consider: 1, flat: 0, pass: -0.5, unknown: 0 }[g] || 0;
-  const cm = C.conds.filter(c => c.key === 'commute');   // 출퇴근지까지 직선거리(참고) — 시간 아님. 여럿이면 평균. 출퇴근이 주된 조건이면 거리가 순서를 정한다
+  const cm = C.conds.filter(c => c.key === 'commute' && c.value.lat != null && !c.value.via_shuttle);   // 출퇴근지까지 직선거리(참고) — 시간 아님. 여럿이면 평균. 출퇴근이 주된 조건이면 거리가 순서를 정한다
   if (cm.length) { const ds = item.f.geo ? cm.map(c => distKm(item.f.geo, c.value)) : null; const avgKm = ds ? ds.reduce((a, b) => a + b, 0) / ds.length : null; s -= avgKm == null ? 6 : Math.min(12, avgKm / 4) + (avgKm > 40 ? 6 : 0); item.far = avgKm != null && avgKm > 40; }   // 직장에서 40km 넘으면 뒤로 (회차 1: 판교 출퇴근인데 세종·인천이 위에)
   if (item.f.dates.applyEnd) s += 0.01;
   return Math.round(s * 100) / 100;
@@ -218,7 +245,7 @@ function perspectives(items, C) {
     by('시세 차익 우선(추정)', (a, b) => (GRADE_RANK[b.f.margin.g] - GRADE_RANK[a.f.margin.g]) || ((b.f.margin.lo || -99) - (a.f.margin.lo || -99)), x => x.f.margin.g === 'unknown' ? '시세 확인 불가' : '마진 ' + signed(x.f.margin.lo) + '~' + signed(x.f.margin.hi) + ' 추정'),
   ];
   if (items.some(x => x.elig)) out.unshift(by('당첨 길 우선', (a, b) => (ELIG_RANK[b.elig] - ELIG_RANK[a.elig]) || ((b.sp || []).filter(s => s.s === 'ok').length - (a.sp || []).filter(s => s.s === 'ok').length), x => (x.f.town ? '신혼희망타운' : x.f.category === 'remainder' ? '무순위' : x.genNone ? '특별공급 기준' : '일반공급') + ' ' + ELIG_WORD[x.elig] + ((x.sp || []).some(s => s.s === 'ok') ? ' · 특공 ' + x.sp.filter(s => s.s === 'ok').map(s => s.label).join('·') + ' 가능' : '')));
-  for (const c of C.conds.filter(c => c.key === 'commute')) {
+  for (const c of C.conds.filter(c => c.key === 'commute' && c.value.lat != null && !c.value.via_shuttle)) {
     const xs = items.filter(x => x.f.geo); if (!xs.length) continue;
     out.push(by(c.value.place + ' 가까운 순', (a, b) => (a.f.geo ? distKm(a.f.geo, c.value) : 999) - (b.f.geo ? distKm(b.f.geo, c.value) : 999), x => x.f.geo ? c.value.place + '까지 직선 약 ' + Math.round(distKm(x.f.geo, c.value)) + 'km (시간은 확인 불가)' : '좌표 없음'));
   }
@@ -236,6 +263,7 @@ function relaxOptions(D, C, profile) {
     else if (c.key === 'region_in') tryC(c.value.map(r => r.label).join('·') + ' → 인접 지역 포함', X => { X.conds[i].value = widen(c.value); });
     else if (c.key === 'area') tryC(c.value.label + ' → 면적 조건 넓히기', X => { X.conds[i].value = { min: c.value.min - 15, max: c.value.max + 15, label: '전용 ' + Math.max(0, c.value.min - 15) + '~' + (c.value.max + 15) + '㎡' }; });
     else if (c.key === 'status') tryC('접수 중·예정 모두', X => { X.conds.splice(i, 1); });
+    else if (c.key === 'near_station') tryC(c.value.names.join('·') + '역 주변 ' + (c.value.m / 1000) + 'km → 3km', X => { X.conds[i].value = { ...c.value, m: 3000 }; });
     else if (c.key === 'line') tryC(c.value.line + ' 역까지 직선 ' + (c.value.m / 1000) + 'km → 3km', X => { X.conds[i].value = { ...c.value, m: 3000 }; });
     else if (['supply', 'eligible_only', 'not_single', 'rooms', 'region_out'].includes(c.key)) tryC((c.text || c.key) + ' 조건 빼기', X => { X.conds.splice(i, 1); });
   }

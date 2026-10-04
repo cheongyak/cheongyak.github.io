@@ -22,6 +22,8 @@ const PROFILE = JSON.parse(readFileSync(join(HERE, 'profile-newlywed.json'), 'ut
 
 const has = (C, e) => C.conds.some(c => c.key === e.key && (!e.weight || c.weight === e.weight) && (e.value === undefined || JSON.stringify(c.value) === JSON.stringify(e.value))
   && (!e.label || (Array.isArray(c.value) && c.value.some(v => v.label === e.label))) && (!e.place || c.value.place === e.place) && (!e.who || c.value.who === e.who)
+  && (e.min === undefined || c.value.min === e.min) && (e.max === undefined || c.value.max === e.max) && (e.max_min === undefined || c.value.max_min === e.max_min) && (e.via_shuttle === undefined || !!c.value.via_shuttle === e.via_shuttle)
+  && (e.names === undefined || JSON.stringify(c.value.names) === JSON.stringify(e.names)) && (e.text_has === undefined || String(c.text).includes(e.text_has))
   && (e.bed === undefined || c.value.bed === e.bed) && (e.bath === undefined || c.value.bath === e.bath) && (e.explore_ok === undefined || !!c.explore_ok === e.explore_ok));
 
 for (const g of G.items) test('조건 해석 ' + g.id + ' — ' + g.q.slice(0, 30), () => {
@@ -32,11 +34,19 @@ for (const g of G.items) test('조건 해석 ' + g.id + ' — ' + g.q.slice(0, 3
   for (const [k, v] of Object.entries(e.assume || {})) assert.equal(C.assume[k], v, 'assume.' + k);
   if (e.targets) assert.equal(C.targets.length, e.targets);
   if (e.unsupported_has) assert.ok(C.unsupported.some(u => u.includes(e.unsupported_has)), '형식 밖 조건 표시 없음: ' + e.unsupported_has);
-  if (e.scope_past) assert.equal(C.scope.past, true);
+  if (e.scope_past !== undefined) assert.equal(!!C.scope.past, e.scope_past, '지난 공고 포함');
+  if (e.limit !== undefined) assert.equal(C.limit, e.limit, '몇 곳(top N)');
+  if (e.target_area) assert.deepEqual(C.targetArea, e.target_area, '단지별 주택형');
   for (const [k, v] of Object.entries(e.plan || {})) assert.equal((C.plan || {})[k], v, 'plan.' + k);
   if (e.not_unsupported) assert.ok(!C.unsupported.some(u => u.includes(e.not_unsupported)), '없어야 할 형식 밖 표시: ' + e.not_unsupported);
   if (e.scope_expand !== undefined) assert.equal(!!C.scope.expand, e.scope_expand, '넓혀 보기(말고도)');
   for (const p of e.perspectives || []) assert.ok(C.perspectives.includes(p));
+});
+
+test('병원·대학 이름 속 시·도는 지역이 아님 (카톡 실제 질문: 서울성모병원 출퇴근)', () => {
+  const C = extract('11억 이하 30평대, 서울성모병원 출퇴근 시간 최소화');
+  assert.ok(!C.conds.some(c => c.key === 'region_in'), JSON.stringify(C.conds.map(c => c.text)));
+  assert.ok(C.conds.some(c => c.key === 'commute' && c.value.place === '서울성모병원'));
 });
 
 for (const g of G.deltas) test('후속 질문 ' + g.id, () => {
