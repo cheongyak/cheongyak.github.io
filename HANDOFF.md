@@ -51,7 +51,10 @@ npm i --no-save playwright@1.56.0          # 화면 검사용. 크로미움이 /
 
 GitHub Secrets (이름만): `DATA_GO_KR_KEY`, `NCP_MAPS_CLIENT_ID`, `NCP_MAPS_CLIENT_SECRET`, `CLOUDFLARE_API_TOKEN`, `CLOUDFLARE_ACCOUNT_ID`, `PUSH_SEND_TOKEN`, `LAW_OC`(법제처 API, 2026-10-01 사용자 등록)
 
-## 진행 중인 일 (2026-10-03 기준, 최신이 위)
+## 진행 중인 일 (2026-10-04 기준, 최신이 위)
+
+-19. **수집 예비 예약 (2026-10-04 08:55, 커밋 59e08c3)** — 10-04 05:30 예약 수집이 GitHub 쪽에서 아예 실행되지 않음 → 08:56 손 실행(성공, 새 공고 0·알림 보낼 것 없음, verify ok 09:05).
+   collect.yml 예약 05:30·06:50·08:50, gate 작업이 docs/daily-run.txt(그날 예약·손 실행 날짜)를 보고 이미 돌았으면 건너뜀. 내일 새벽 gate 동작 확인할 것.
 
 -18. **이전 정상값 지키기 (2026-10-03 23:44, 커밋 6df57ce·다음)** — 사용자 '최신 수정이 이전 정상값에 영향 주지 않게'. 오늘 수정 전수 대조: 판정 66,896건 중 바뀐 곳은 새벽에 공고문 못 받던 3곳뿐, 예상 밖 0.
    상시 장치: tests/test_parse_snapshot.py(원문 109건 읽기 결과 고정, 원문 글 지문 같은 것만 비교 — 바뀌면 `python -m tools.qa.parse_snapshot` 로 보고 원문 대조 뒤 --update), tools/qa/verdict_diff.cjs(두 시점 판정 전후 비교). 운영 스킬에 쓰는 법.
