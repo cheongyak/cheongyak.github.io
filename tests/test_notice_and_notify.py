@@ -420,3 +420,17 @@ def test_resale_cell_conflict_and_garbled():
     assert r["resale"]["months"] == 6 and any("전매제한" in c for c in r.get("conflicts", []))
     # 숫자 뒤 쪽 번호('3 공급대상')를 기간으로 붙여 읽지 않는다 (2026000436 '로부터개월63')
     assert notice_pdf.parse_resale("전매제한기간당첨자발표일로부터개월63공급대상")["months"] == 6
+
+
+def test_golden_youth_from_real_notices():
+    """청년 특별공급 소득(1인 140%)·총자산(본인·부모) 기준을 원문과 같게 읽는다 (기능: youth_special)."""
+    import json, pathlib
+    root = pathlib.Path(__file__).resolve().parent.parent
+    gold = json.loads((root / "tests" / "golden" / "notices.json").read_text(encoding="utf-8"))
+    nos = [k for k, v in gold.items() if "youth" in v["fields"]]
+    assert len(nos) >= 3
+    for no in nos:
+        f = root / "evidence" / "notices" / f"{no}.txt"
+        f = f if f.exists() else root / "evidence" / "qa" / "notices" / f"{no}.txt"
+        assert notice_pdf.parse_notice(f.read_text(encoding="utf-8")).get("youth") == gold[no]["fields"]["youth"], no
+    assert notice_pdf.parse_youth("신혼부부특별공급 140% 5,338,708") is None   # 청년 특별공급이 없는 공고

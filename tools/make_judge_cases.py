@@ -713,6 +713,72 @@ def main() -> None:
                 if lid.startswith("2026000307"):
                     add(id=f"scope-{i:02d}", fn="sp", type=t, listing=lid, profile=pr, expect={"s": "warn"}, basis=f"{why} — 특별공급도 판정하지 않음 ({nm})"); i += 1
 
+    # ---------- 15) 청년 특별공급 (기능 youth_special, 2026-10-05) ----------
+    # 공공주택 특별법 시행규칙 [별표 6의6] 가목, 모집공고문 2026000313(LH 고양창릉 S-3) 신청자격 ①~④ — 금액은 원문에서 이 파일에 따로 옮겨 적는다(화면·파서 값을 쓰지 않음):
+    #  <표4> '청년 특별공급 소득기준 1인 도시근로자 가구원수별 가구당 월평균소득액의 140% 5,338,708', <표2> '(청년 특별공급은 신청자 본인 276,000천원 이하 및 부모 1,035,000천원 이하)',
+    #  <표3> 출산가구 '청년 특별공급의 경우, 본인 311,000천원 이하(+10%p) · 345,000천원 이하(+20%p)'. 시험 공고는 인천계양 A6(2026000414, 공고일 2026-08-31)에 이 금액을 붙인 것.
+    YL, YREF, Y_INC, Y_SELF, Y_PAR, Y_SELF20 = "2026000414-YOUTH", "2026-08-31", 5338708, 27600, 103500, 34500
+    y_base = dict(pub_base, married=False, marriedOn="", dependents=0, kidsMinor=0, kidsOnDeed=0, youngestBirth="", pregnant=False, hhSize=1,
+                  birth="1995-05-01", selfEverOwned=False, youthAsset=10000, parentsAsset=50000, income=4000, hhIncomeYear=None, taxYears5=True)
+
+    def youth_expect(p: dict) -> dict:
+        fail = warn = False
+        b = p.get("birth") or ""
+        if not b:
+            warn = True
+        elif b > add_years(YREF, -19) or b <= add_years(YREF, -40):
+            fail = True
+        if p.get("married") is True:
+            fail = True
+        elif p.get("married") is None:
+            warn = True
+        if p.get("selfOwn") is True or p.get("selfEverOwned") is True:
+            fail = True
+        elif p.get("selfEverOwned") is None and p.get("hhNeverOwned") is not True:
+            warn = True
+        if months(p["acctSince"], YREF) < 6 or (p.get("acctCount") or 0) < 6:
+            fail = True
+        ra = relax_add(p)
+        if (p.get("income") or 0) * 10000 / 12 > Y_INC:
+            fail, warn = (fail, True) if ra != 0 else (True, warn)
+        ya, pa = p.get("youthAsset"), p.get("parentsAsset")
+        if ya is None:
+            warn = True
+        elif ya > Y_SELF:
+            if ra != 0 and ya <= Y_SELF20:
+                warn = True
+            else:
+                fail = True
+        if pa is None:
+            warn = True
+        elif pa > Y_PAR:
+            fail = True
+        if fail:
+            return {"s": "fail"}
+        if warn:
+            return {"s": "warn"}
+        return {"s": "ok", "stage": "우선공급 (배점순)" if p.get("taxYears5") is True else "추첨"}
+
+    i = 0
+    inc_le = Y_INC * 12 // 10000
+    for nm, ch in [("기본", {}), ("만 19세 되는 날", {"birth": add_years(YREF, -19)}), ("만 19세 하루 전", {"birth": "2007-09-01"}),
+                   ("만 39세 마지막 날", {"birth": "1986-09-01"}), ("만 40세 되는 날", {"birth": add_years(YREF, -40)}), ("생일 모름", {"birth": ""}),
+                   ("혼인 중", {"married": True, "marriedOn": "2024-01-01"}), ("혼인 모름", {"married": None}),
+                   ("본인 집 있음", {"selfOwn": True}), ("본인 집 가진 적 있음", {"selfEverOwned": True}),
+                   ("이력 모름", {"selfEverOwned": None, "hhNeverOwned": None}), ("이력 모름·세대 이력 없음", {"selfEverOwned": None, "hhNeverOwned": True}),
+                   ("세대원(부모) 집 있음", {"household": "parents", "parentsOwn": True, "parents60": False, "hhHomes": "1", "hhOwner": "other", "hhNeverOwned": False}),
+                   ("통장 5회", {"acctCount": 5}), ("통장 5개월", {"acctSince": "2026-03-01"}), ("통장 6개월", {"acctSince": "2026-02-28"}),
+                   ("소득 140% 이하", {"income": inc_le}), ("소득 140% 초과", {"income": inc_le + 1}),
+                   ("소득 초과·출산 완화 가능", {"income": inc_le + 1, "kidsMinor": 1, "youngestBirth": "2025-01-01", "kidsOnDeed": 1, "hhSize": 2}),
+                   ("본인 자산 2억7,600만", {"youthAsset": Y_SELF}), ("본인 자산 초과", {"youthAsset": Y_SELF + 1}),
+                   ("본인 자산 초과·출산 완화", {"youthAsset": Y_SELF + 1, "kidsMinor": 1, "youngestBirth": "2025-01-01", "kidsOnDeed": 1, "hhSize": 2}),
+                   ("본인 자산 +20% 초과", {"youthAsset": Y_SELF20 + 1, "kidsMinor": 1, "youngestBirth": "2025-01-01", "kidsOnDeed": 1, "hhSize": 2}),
+                   ("부모 자산 10억3,500만", {"parentsAsset": Y_PAR}), ("부모 자산 초과", {"parentsAsset": Y_PAR + 1}),
+                   ("본인 자산 모름", {"youthAsset": None}), ("부모 자산 모름", {"parentsAsset": None}), ("소득세 5년 미만", {"taxYears5": False})]:
+        p = dict(y_base, **ch)
+        add(id=f"youth-{i:02d}", fn="sp", type="youth", listing=YL, profile=p, expect=youth_expect(p),
+            basis=f"2026000313 청년 특별공급 신청자격 ①~④·<표2>·<표4> (공공주택 특별법 시행규칙 [별표 6의6] 가목) — {nm}"); i += 1
+
     OUT.write_text(json.dumps(cases, ensure_ascii=False, indent=1) + "\n", encoding="utf-8")
     print(f"{len(cases)}건 → {OUT}")
 

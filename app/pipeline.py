@@ -207,6 +207,8 @@ def _from_previous(prev: dict) -> tuple[dict, Optional[str]]:
         found["schedule"] = prev["schedule"]
     if "공공 일반공급 소득·자산" in got and prev.get("pub_limits"):
         found["pub_limits"] = prev["pub_limits"]
+    if "청년 특별공급 기준" in got and prev.get("youth"):
+        found["youth"] = prev["youth"]
     if "전매 제한" in got and prev.get("resale"):
         found["resale"] = prev["resale"]
     if "가점제·추첨제 비율" in got and prev.get("score_ratio"):
@@ -225,7 +227,7 @@ QUOTE_LABELS = {"need_head": "세대주 요건", "price_cap": "분양가상한�
 
 
 NOTICE_CACHE = ROOT / "docs" / "notice-cache.json"
-PARSER_VERSION = 23   # 23: 전매제한(resale, 기능 resale_limit) · 22: 가점제·추첨제 비율 표 변형(주택형 쉼표·뒤섞인 줄·낱말 공백)·두 도구 합칠 때 못 읽음 표시 무시 · 21: 거주 요건 표 변형(년 이상 계속 거주자N·국민·규제 지역 여부·국민주택(임대)·SH 표2·국내 거주) · 20: 값마다 근거 원문 문장(quotes, 기능 notice_quotes) · 19: 두 도구로 읽기(pdf_dual_read)·쪽수 상한 300 · 18: 공고문 두 곳 값 대조(conflicts) · 17: 거주의무기간은 …(날짜)… N년간 적용 · 거주의무 언급 없음(duty_silent) · 16: 단지 주요정보 표의 거주의무기간·분양가상한제(_summary_table) · 15: 공공임대 특별공급 유형별 소득표(pub_limits.sp) · 14: 재공급 주택형별 특별공급 세대수(sp_table) · 13: 거주 기준일 괄호 안 설명 허용(2026000018 제주) · 12: 총자산형 일반공급 소득·총자산(pub_limits kind=total, 공공임대 2026000307) · 11: 세대주 문장에서 노부모부양 칸 제외·신혼희망타운 자격 소득 상한(eligible) · 10: 민영 1순위 가점제·추첨제 비율(score_ratio) · 9: 공고문 대조용 원문 숫자(facts) · 8: 신혼희망타운 소득·총자산(pub_limits kind=town) · 7: 공공분양 일반공급 소득·자산(pub_limits) · 6: 공급유형별 접수 일정(schedule) · 5: 다자녀 지역 배정(mc_quota) · 4: 거주 지역 요건(residence) 추가 · parse_notice 규칙을 바꾸면 올린다 → 모든 공고문을 다시 읽는다   # 공고문에서 읽은 값 보관 (공고문은 한 번 나오면 바뀌지 않는다)
+PARSER_VERSION = 24   # 24: 청년 특별공급 소득·자산 기준(youth, 기능 youth_special) · 23: 전매제한(resale, 기능 resale_limit) · 22: 가점제·추첨제 비율 표 변형(주택형 쉼표·뒤섞인 줄·낱말 공백)·두 도구 합칠 때 못 읽음 표시 무시 · 21: 거주 요건 표 변형(년 이상 계속 거주자N·국민·규제 지역 여부·국민주택(임대)·SH 표2·국내 거주) · 20: 값마다 근거 원문 문장(quotes, 기능 notice_quotes) · 19: 두 도구로 읽기(pdf_dual_read)·쪽수 상한 300 · 18: 공고문 두 곳 값 대조(conflicts) · 17: 거주의무기간은 …(날짜)… N년간 적용 · 거주의무 언급 없음(duty_silent) · 16: 단지 주요정보 표의 거주의무기간·분양가상한제(_summary_table) · 15: 공공임대 특별공급 유형별 소득표(pub_limits.sp) · 14: 재공급 주택형별 특별공급 세대수(sp_table) · 13: 거주 기준일 괄호 안 설명 허용(2026000018 제주) · 12: 총자산형 일반공급 소득·총자산(pub_limits kind=total, 공공임대 2026000307) · 11: 세대주 문장에서 노부모부양 칸 제외·신혼희망타운 자격 소득 상한(eligible) · 10: 민영 1순위 가점제·추첨제 비율(score_ratio) · 9: 공고문 대조용 원문 숫자(facts) · 8: 신혼희망타운 소득·총자산(pub_limits kind=town) · 7: 공공분양 일반공급 소득·자산(pub_limits) · 6: 공급유형별 접수 일정(schedule) · 5: 다자녀 지역 배정(mc_quota) · 4: 거주 지역 요건(residence) 추가 · parse_notice 규칙을 바꾸면 올린다 → 모든 공고문을 다시 읽는다   # 공고문에서 읽은 값 보관 (공고문은 한 번 나오면 바뀌지 않는다)
 
 
 def _load_cache(path: Path) -> dict:
@@ -348,7 +350,7 @@ def apply_notice(listings: list[Listing], log: list[str], client=None, previous:
         NOTICE_FACTS[nid] = found.get("facts")
         labels = {"need_head": "세대주 요건", "price_cap": "분양가상한제", "residence_duty": "실거주 의무",
                   "balance": "잔금일", "ext": "발코니 확장비", "rewin_years": "재당첨 제한",
-                  "account_months": "1순위 가입기간", "deposit_count": "납입 인정 횟수", "residence": "거주 지역 요건", "mc_quota": "다자녀 지역 배정", "schedule": "접수 일정", "pub_limits": "공공 일반공급 소득·자산", "score_ratio": "가점제·추첨제 비율", "resale": "전매 제한"}
+                  "account_months": "1순위 가입기간", "deposit_count": "납입 인정 횟수", "residence": "거주 지역 요건", "mc_quota": "다자녀 지역 배정", "schedule": "접수 일정", "pub_limits": "공공 일반공급 소득·자산", "score_ratio": "가점제·추첨제 비율", "resale": "전매 제한", "youth": "청년 특별공급 기준"}
         for L in Ls:
             L.notice_pdf = pdf
             L.from_notice = [labels[k] for k in found if k in labels and not (k == "ext" and len(Ls) != 1)
@@ -357,7 +359,8 @@ def apply_notice(listings: list[Listing], log: list[str], client=None, previous:
                              and not (k == "schedule" and not feature_on("notice_schedule"))
                              and not (k == "pub_limits" and not feature_on("pub_general_limits"))
                              and not (k == "score_ratio" and not feature_on("region_first_score"))
-                             and not (k == "resale" and not feature_on("resale_limit"))]
+                             and not (k == "resale" and not feature_on("resale_limit"))
+                             and not (k == "youth" and not (feature_on("youth_special") and not (found["youth"] or {}).get("partial")))]
             if "need_head" in found:
                 L.need_head = found["need_head"]
             if "price_cap" in found:
@@ -412,6 +415,8 @@ def apply_notice(listings: list[Listing], log: list[str], client=None, previous:
             L.limits = [x for x in L.limits if x[0] != "실거주 의무"]
             duty = L.residence_duty
             L.limits.append(("실거주 의무", "공고문 확인" if duty is None else (f"{duty}년" if duty else "없음")))
+            if "youth" in found and feature_on("youth_special") and not found["youth"].get("partial"):   # 소득·자산 둘 다 읽은 것만
+                L.youth = found["youth"]
             if "resale" in found and feature_on("resale_limit"):   # 전매제한 (2026-10-05 사용자 '6 진행') — 꺼지면 이전처럼 줄 없음
                 L.resale = found["resale"]
                 L.limits = [x for x in L.limits if x[0] != "전매 제한"]

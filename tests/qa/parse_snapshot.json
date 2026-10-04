@@ -281,7 +281,12 @@
 },
 "since": "2024-02-27"
 },
-"rewin_years": 10
+"rewin_years": 10,
+"youth": {
+"income": 5338708,
+"parent_asset": 1035000000,
+"self_asset": 276000000
+}
 },
 "sha": "f48d828fb21a0922"
 },
@@ -1754,6 +1759,15 @@ null
 "2026-07-22",
 "2026-07-23"
 ]
+},
+"youth": {
+"income": 5338708,
+"parent_asset": 1035000000,
+"self_asset": 276000000,
+"self_asset_relax": [
+311000000,
+345000000
+]
 }
 },
 "sha": "7e4a44a4e8b776bc"
@@ -1875,6 +1889,15 @@ null
 "special": [
 "2026-07-27",
 "2026-07-27"
+]
+},
+"youth": {
+"income": 5338708,
+"parent_asset": 1035000000,
+"self_asset": 276000000,
+"self_asset_relax": [
+311000000,
+345000000
 ]
 }
 },

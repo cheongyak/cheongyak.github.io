@@ -271,6 +271,10 @@ def parse_notice(text: str) -> dict:
         if rc is not None and rs.get("months") is not None and not rs.get("until_reg") and not rs.get("passed") and rc != rs["months"]:
             out.setdefault("_conf_resale", f"전매제한: 1쪽 표 {rc}개월 ↔ 본문 {rs['months']}개월")
 
+    yt = parse_youth(flat)   # 청년 특별공급 소득·자산 기준 (기능 youth_special)
+    if yt:
+        out["youth"] = yt
+
     # 재당첨 제한 (1~10년). "재당첨제한을 적용받지 않음" 이면 0
     if (m := re.search(r"재당첨제한(?:을|이|은)?(?:적용받지|적용되지)않", flat)):
         out["rewin_years"] = 0
@@ -847,6 +851,34 @@ def parse_resale(flat: str) -> Optional[dict]:
         if (m := re.search(pat, flat)):
             return {"months": None, "base": None, "registration": False, "until_reg": False, "passed": False, "none": False, "forbidden": False, **fn(m), "m": m}
     return None
+
+
+# ---- 청년 특별공급 기준 (기능 youth_special, 2026-10-05 사용자 '7 진행') ----
+# 부모 기준은 부모(두 분)가 가진 자산 합계 — 2026000041 '② 신청자의 부모가 소유하고 있는 부동산·자동차·금융자산·일반자산가액의 총합에서 부채를 차감한 금액을 각각(본인·부모) 검증'.
+# 공공주택 특별법 시행규칙 [별표 6의6] 가목 (이익공유형·토지임대부) 등: 19~39세·혼인 중 아님·과거 주택 소유 없음·무주택자(청년 본인, 세대원 집은 상관없음),
+# 통장 6개월·6회, '제13조제3항에 따른 자산요건'(국토부 기준 — 공고문 <표2>), 본인 월평균소득 140% 이하. 금액은 공고문 표 그대로 읽는다:
+#  2026000313·307 '(청년 특별공급은 신청자 본인 276,000천원 이하 및 부모 1,035,000천원 이하)', 출산가구 완화 '청년 특별공급의 경우, 본인 311,000천원 이하, 부모 …'(+10%p) · 345,000(+20%p),
+#  '청년 특별공급 소득기준 1인 도시근로자 … 140% 5,338,708' (2026000041 '1인 청년 도시근로자 … 140% 5,338,708원')
+def parse_youth(flat: str) -> Optional[dict]:
+    if "청년특별공급" not in flat:
+        return None
+    out = {}
+    m = re.search(r"청년특별공급(?:소득기준)?(?:1인)?도시근로자가구원수별가구당월평균소득액의140%(\d{1,2},\d{3},\d{3})", flat) or \
+        re.search(r"1인청년(?:특별공급)?도시근로자가구원수별가구당월평균소득액의140%(\d{1,2},\d{3},\d{3})", flat)
+    if m:
+        out["income"] = int(m.group(1).replace(",", ""))
+    m = re.search(r"청년특별공급은신청자본인(\d{2,3},\d{3})천원이하및부모(\d{1,2},\d{3},\d{3})천원이하", flat) or \
+        re.search(r"\(본인\)(\d{2,3},\d{3})천원이하\(부모\)(\d{1,2},\d{3},\d{3})천원이하", flat)
+    if m:
+        out["self_asset"] = int(m.group(1).replace(",", "")) * 1000
+        out["parent_asset"] = int(m.group(2).replace(",", "")) * 1000
+    elif (m := re.search(r"청년(?:계층|특별공급)은신청자본인(\d{3})백만원이하및부모(\d{1,2},\d{3}|\d{3})백만원이하", flat)):   # SH 2026000041 '(청년계층은 신청자 본인 276백만원 이하 및 부모 1,035백만원 이하)'
+        out["self_asset"] = int(m.group(1)) * 1_000_000
+        out["parent_asset"] = int(m.group(2).replace(",", "")) * 1_000_000
+    rx = [int(x.replace(",", "")) * 1000 for x in re.findall(r"청년특별공급의경우,본인(\d{2,3},\d{3})천원이하,부모\d{1,2},\d{3},\d{3}천원이하", flat)]
+    if len(rx) == 2 and out.get("self_asset") and out["self_asset"] < rx[0] < rx[1]:
+        out["self_asset_relax"] = rx   # 출산가구 +10%p, +20%p
+    return out if ("income" in out and "self_asset" in out) else ({**out, "partial": True} if out else None)
 
 
 def resale_cell(flat: str) -> Optional[int]:

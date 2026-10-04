@@ -7518,5 +7518,391 @@
   "map_query": null,
   "rental": true,
   "_basis": "2026000307 군포대야미 A-1 6년 분양전환공공임대 (공고일 2026-06-30) — 지난 공고 판정 자료 + 공고문에서 읽은 pub_limits(kind total)·rental"
+ },
+ {
+  "id": "2026000414-YOUTH",
+  "name": "인천계양지구 A6블록 공공분양주택(본청약)",
+  "address": "인천광역시 계양구 귤현동, 동양동, 박촌동, 병방동, 상야동 및 경기도 부천시 대장동, 서울특별시 강서구 오곡동 일원 인천계양 테크노밸리 공공주택지구 내 A6블록",
+  "region": "인천",
+  "sigungu": "인천 계양구",
+  "sido": "인천",
+  "district": "계양구",
+  "supply_type": "APT",
+  "house_secd": "01",
+  "house_dtl": "국민",
+  "rent_secd": "분양주택",
+  "special_apply": "2026-09-30",
+  "special_apply_end": "2026-09-30",
+  "kind": "일반분양 (특별공급·1순위)",
+  "category": "general",
+  "target": null,
+  "unit": "59A",
+  "area": 59.84,
+  "households": 13,
+  "mc_quota": {
+   "buckets": [
+    {
+     "name": "해당 주택건설지역",
+     "pct": 50,
+     "regions": [
+      "인천"
+     ]
+    },
+    {
+     "name": "기타지역(수도권)",
+     "pct": 50,
+     "regions": [
+      "서울",
+      "경기"
+     ]
+    }
+   ]
+  },
+  "pub_limits": {
+   "area_max": 60,
+   "cap": [
+    100,
+    200
+   ],
+   "car": 4542,
+   "priority": [
+    100,
+    140
+   ],
+   "real_estate": 21550
+  },
+  "schedule": {
+   "general": [
+    "2026-10-01",
+    "2026-10-02"
+   ],
+   "pre": [
+    "2026-09-17",
+    "2026-09-18"
+   ],
+   "special": [
+    "2026-09-30",
+    "2026-09-30"
+   ]
+  },
+  "residence": {
+   "area": {
+    "name": "인천광역시",
+    "sido": "인천"
+   },
+   "months": 0,
+   "others": [
+    "서울",
+    "경기"
+   ],
+   "quota": {
+    "기타": 50,
+    "해당": 50
+   },
+   "since": null
+  },
+  "special_units": {
+   "newborn": 21,
+   "newlywed": 10,
+   "first": 15,
+   "multichild": 10,
+   "elder": 5,
+   "agency": 17,
+   "relocated": 0,
+   "youth": 9,
+   "etc": 12,
+   "total": 99
+  },
+  "notice": "2026-08-31",
+  "apply": "2026-09-17",
+  "apply_end": "2026-10-02",
+  "winner": "2026-10-21",
+  "contract": "2026-12-15",
+  "balance": null,
+  "move_in": "2029-06",
+  "price": 5.3736,
+  "ext": 0.0,
+  "contract_rate": 0.1,
+  "mid_rate": 0.6,
+  "mkt_low": 4.33,
+  "mkt_base": 4.69,
+  "mkt_note": "같은 구 준공 10년 이내 같은 평형 매매 74건 기준 (최근 6개월)",
+  "mkt_basis": "district_newbuild",
+  "mkt_count": 74,
+  "mkt_direct_excluded": 3,
+  "mkt_comps": [
+   {
+    "apt": "인천계양코아루센트럴파크",
+    "umd": "용종동",
+    "area": 59.99,
+    "floor": 11.0,
+    "dong": "",
+    "amount": 4.8,
+    "date": "2026-09-29",
+    "kind": "매매",
+    "direct": false
+   },
+   {
+    "apt": "작전역베네하임더윈",
+    "umd": "작전동",
+    "area": 59.7995,
+    "floor": 9.0,
+    "dong": "",
+    "amount": 3.75,
+    "date": "2026-09-19",
+    "kind": "매매",
+    "direct": false
+   },
+   {
+    "apt": "e편한세상 계양 더프리미어",
+    "umd": "효성동",
+    "area": 59.8883,
+    "floor": 4.0,
+    "dong": "",
+    "amount": 4.94,
+    "date": "2026-09-16",
+    "kind": "매매",
+    "direct": false
+   },
+   {
+    "apt": "힐스테이트자이계양",
+    "umd": "작전동",
+    "area": 59.79,
+    "floor": 5.0,
+    "dong": "",
+    "amount": 6.5,
+    "date": "2026-09-13",
+    "kind": "매매",
+    "direct": false
+   },
+   {
+    "apt": "힐스테이트자이계양",
+    "umd": "작전동",
+    "area": 59.79,
+    "floor": 26.0,
+    "dong": "",
+    "amount": 6.47,
+    "date": "2026-09-13",
+    "kind": "매매",
+    "direct": false
+   },
+   {
+    "apt": "효성동메트하임",
+    "umd": "효성동",
+    "area": 59.8047,
+    "floor": 10.0,
+    "dong": "",
+    "amount": 2.77,
+    "date": "2026-09-12",
+    "kind": "매매",
+    "direct": false
+   },
+   {
+    "apt": "e편한세상 계양 더프리미어",
+    "umd": "효성동",
+    "area": 59.8883,
+    "floor": 5.0,
+    "dong": "",
+    "amount": 4.9,
+    "date": "2026-09-09",
+    "kind": "매매",
+    "direct": false
+   },
+   {
+    "apt": "e편한세상 계양 더프리미어",
+    "umd": "효성동",
+    "area": 59.8883,
+    "floor": 26.0,
+    "dong": "",
+    "amount": 4.98,
+    "date": "2026-09-07",
+    "kind": "매매",
+    "direct": false
+   }
+  ],
+  "jeonse": 2.88,
+  "jeonse_note": "같은 구 준공 10년 이내 전세 45건 중앙값에서 입주장 할인 9%",
+  "jeonse_comps": [
+   {
+    "apt": "계양산파크트루엘",
+    "umd": "계산동",
+    "area": 59.99,
+    "floor": 3.0,
+    "dong": "",
+    "amount": 3.1,
+    "date": "2026-09-29",
+    "kind": "전세",
+    "direct": false
+   },
+   {
+    "apt": "조이너스계산",
+    "umd": "계산동",
+    "area": 59.43,
+    "floor": 9.0,
+    "dong": "",
+    "amount": 2.0,
+    "date": "2026-09-22",
+    "kind": "전세",
+    "direct": false
+   },
+   {
+    "apt": "힐스테이트자이계양",
+    "umd": "작전동",
+    "area": 59.86,
+    "floor": 29.0,
+    "dong": "",
+    "amount": 3.78,
+    "date": "2026-09-19",
+    "kind": "전세",
+    "direct": false
+   },
+   {
+    "apt": "효성동메트하임",
+    "umd": "효성동",
+    "area": 59.7694,
+    "floor": 4.0,
+    "dong": "",
+    "amount": 2.5,
+    "date": "2026-09-11",
+    "kind": "전세",
+    "direct": false
+   },
+   {
+    "apt": "계양산파크트루엘",
+    "umd": "계산동",
+    "area": 59.99,
+    "floor": 3.0,
+    "dong": "",
+    "amount": 3.1,
+    "date": "2026-09-08",
+    "kind": "전세",
+    "direct": false
+   },
+   {
+    "apt": "계양효성해링턴플레이스",
+    "umd": "서운동",
+    "area": 59.977,
+    "floor": 23.0,
+    "dong": "",
+    "amount": 3.2,
+    "date": "2026-09-07",
+    "kind": "전세",
+    "direct": false
+   },
+   {
+    "apt": "계양효성해링턴플레이스",
+    "umd": "서운동",
+    "area": 59.977,
+    "floor": 23.0,
+    "dong": "",
+    "amount": 3.2,
+    "date": "2026-09-07",
+    "kind": "전세",
+    "direct": false
+   },
+   {
+    "apt": "계양효성해링턴플레이스",
+    "umd": "서운동",
+    "area": 59.977,
+    "floor": 11.0,
+    "dong": "",
+    "amount": 3.5,
+    "date": "2026-09-05",
+    "kind": "전세",
+    "direct": false
+   }
+  ],
+  "capital": true,
+  "regulated": false,
+  "land_permit": false,
+  "price_cap": true,
+  "residence_duty": null,
+  "jeonse_weak": false,
+  "unregistered": true,
+  "need_head": false,
+  "need_account": true,
+  "limits": [
+   [
+    "재당첨 제한",
+    "10년"
+   ],
+   [
+    "실거주 의무",
+    "공고문 확인"
+   ]
+  ],
+  "url": "https://www.applyhome.co.kr/ai/aia/selectAPTLttotPblancDetail.do?houseManageNo=2026000414&pblancNo=2026000414",
+  "notice_pdf": "https://apply.lh.or.kr/lhapply/lhFile.do?fileid=68595376",
+  "from_notice": [
+   "1순위 가입기간",
+   "납입 인정 횟수",
+   "다자녀 지역 배정",
+   "세대주 요건",
+   "분양가상한제",
+   "공공 일반공급 소득·자산",
+   "거주 지역 요건",
+   "재당첨 제한",
+   "접수 일정"
+  ],
+  "checks": [],
+  "geo": {
+   "lat": 37.5668,
+   "lng": 126.7505,
+   "precision": "dong",
+   "query": "인천광역시 계양구 귤현동",
+   "matched": "인천광역시 계양구 귤현동",
+   "source": "네이버 클라우드 플랫폼 Geocoding"
+  },
+  "account_months": 12,
+  "deposit_count": 12,
+  "competition": null,
+  "area_comps": [],
+  "sp_competition": null,
+  "area_sp": [],
+  "map_query": "인천광역시 계양구 귤현동",
+  "nearby": [
+   {
+    "kind": "역",
+    "name": "귤현역",
+    "m": 693,
+    "lat": 37.5663544,
+    "lng": 126.7426554,
+    "walk": 13
+   },
+   {
+    "kind": "역",
+    "name": "계양역",
+    "m": 1367,
+    "lat": 37.571767,
+    "lng": 126.736311,
+    "walk": 27
+   },
+   {
+    "kind": "초등학교",
+    "name": "인천귤현초등학교",
+    "m": 349,
+    "lat": 37.5684242,
+    "lng": 126.7471176,
+    "walk": 7
+   },
+   {
+    "kind": "중학교",
+    "name": "계양중학교",
+    "m": 1034,
+    "lat": 37.5690991,
+    "lng": 126.7391329,
+    "walk": 20
+   }
+  ],
+  "sample": false,
+  "youth": {
+   "income": 5338708,
+   "self_asset": 276000000,
+   "parent_asset": 1035000000,
+   "self_asset_relax": [
+    311000000,
+    345000000
+   ]
+  }
  }
 ]
