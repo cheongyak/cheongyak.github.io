@@ -125,3 +125,9 @@ description: 청약패스(cheongyakpass.kr, 저장소 cheongyak/cheongyak.github
 - 이전 정상값 지키기 (2026-10-03 사용자 '최신 수정이 이전 정상값에 영향을 주지 않게'):
   ① 공고문 읽기 규칙(app/notice_pdf.py)을 고치면 tests/test_parse_snapshot.py 가 원문 109건+ 읽기 결과를 기준(tests/qa/parse_snapshot.json)과 비교 — 다르면 실패. `python -m tools.qa.parse_snapshot` 로 바뀐 값을 보고, 원문과 대조해 모두 의도한 변경일 때만 `--update` 하고 WORK.md 에 바뀐 공고·값을 적는다.
   ② 수집·지역·시세·판정에 닿는 변경을 올린 뒤에는 `git show <수정 전 데이터 커밋>:docs/listings.json > /tmp/base.json && NODE_PATH=$(npm root -g) node tools/qa/verdict_diff.cjs /tmp/base.json` — 주택형×판정 사례 내 조건 전부의 판정 전후 비교, 데이터가 그대로인데 판정이 바뀐 곳(예상 밖)이 0이어야 한다.
+- notice_pdf.py 안에 같은 이름 도우미가 이미 있을 수 있다(_ymd 는 parse_residence 가 씀) — 새 도우미는 접두어를 붙인다(_rs_ymd). 새 parse_* 를 넣으면 parse_notice 전체를 원문 109건에 한 번 돌려 본다.
+- ship.sh 는 추적하지 않는 새 파일(??)이 있어도 pull --rebase 에서 멈춘다 — 다른 작업 파일은 `git stash push -u -- <파일>` 로 치운 뒤 올리고 `git stash pop`.
+- 화면 '당첨되면 걸리는 제약' 값 칸은 좁다(390px) — 값은 '6개월 (~27.03.22)'처럼 짧게, 자세한 문장은 공고문 문장(notice_quotes)으로.
+- 모델에 새 필드를 넣으면 test_notice_retry 의 '다른 공고 한 글자도 안 바뀜'이 새 칸(null) 때문에 깨진다 — 그 시험은 원래 있던 칸만 비교하게 고쳐 둠.
+- 법령: 주택공급에 관한 규칙은 evidence/law/, 공공주택 특별법 시행규칙(청년·공공임대 자격 별표 6의2~6의6 등)은 evidence/law/public/ (법령 원문 받기 Actions). rule.xml 은 CDATA 를 먼저 벗겨야 본문이 보인다.
+
