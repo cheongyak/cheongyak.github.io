@@ -94,7 +94,7 @@ export function compose(C, r0, { profile = false, updated = '', mode = 'search',
   const U = understood(C), out = [];
   out.push(opening(C, r, mode));
   out.push('[이렇게 이해했어요]\n' + [U.required.length && '· 꼭: ' + U.required.join(', '), U.preferred.length && '· 되면 좋음: ' + U.preferred.join(', '), U.explore.length && '· 넓혀 보기: ' + U.explore.join(', '),
-    U.assume.length && '· 이번 질문만의 가정: ' + U.assume.join(', ') + ' (저장된 내 조건은 바꾸지 않아요)', U.past && '· 지난 공고까지 포함', mode === 'compare' && '· 비교할 단지: ' + (C.targets || []).join(', ') + (/(큰 평수|가장 큰|대형|넓은)/.test(C.q || '') ? ' (가장 큰 주택형 기준)' : ''), U.unsupported.length && mode === 'compare' && '· 데이터가 없어 답하지 않는 것: ' + U.unsupported.join(', '), (C.perspectives || []).length && '· 중요하게 보는 것: ' + C.perspectives.map(p => ({ margin: '시세 차익', chance: '당첨 가능성', price: '가격', growth: '가격 상승력(시세 차익으로 봄)', livability: '실거주 만족도' }[p] || p)).join(', ')].filter(Boolean).join('\n') || '· 조건 없이 지금 접수 중·예정인 공고 전체');
+    U.assume.length && '· 이번 질문만의 가정: ' + U.assume.join(', ') + ' (저장된 내 조건은 바꾸지 않아요)', U.past && '· 지난 공고까지 포함', U.unsupported.some(u => /^층 고르기/.test(u)) && '· 따를 수 없는 것: 저층 제외 — 청약은 당첨 뒤 동·호수를 추첨으로 정해요', mode === 'compare' && '· 비교할 단지: ' + (C.targets || []).join(', ') + (/(큰 평수|가장 큰|대형|넓은)/.test(C.q || '') ? ' (가장 큰 주택형 기준)' : ''), U.unsupported.length && mode === 'compare' && '· 데이터가 없어 답하지 않는 것: ' + U.unsupported.join(', '), (C.perspectives || []).length && '· 중요하게 보는 것: ' + C.perspectives.map(p => ({ margin: '시세 차익', chance: '당첨 가능성', price: '가격', growth: '가격 상승력(시세 차익으로 봄)', livability: '실거주 만족도' }[p] || p)).join(', ')].filter(Boolean).join('\n') || '· 조건 없이 지금 접수 중·예정인 공고 전체');
   if (mode === 'compare' && compare) out.push(...compareBlocks(compare, { profile }));
   else if (r.ok.length) {
     out.push(conclusion(r, C, U));
@@ -170,7 +170,9 @@ function opening(C, r, mode) {
   const sit = (a.family || reg.length || ar) && pri.length ? (a.family ? a.family + '인 가족이 ' : '') + (reg.length ? [...new Set(reg)].join('·') + '에서 ' : '') + (ar ? String(ar.text).replace(/\(.*\)/, '') + ' 집에 ' : '') + '실거주하시면서 ' + pri.join('·') + '까지 챙기고 싶으시군요.' : '';
   const head = life.length ? life.join(' ') + ' 고민이 깊으셨을 것 같아요.' : sit || (C.conds.length >= 4 ? '조건을 꼼꼼하게 주셨네요.' : '');
   const basis = [C.conds.some(c => /^region/.test(c.key)) && '지역', C.conds.some(c => c.key === 'rooms') && '방 구조', C.conds.some(c => c.key === 'area') && '면적', price && '예산(' + price.text.replace(/\(.*\)/, '') + ')', C.conds.some(c => c.key === 'commute') && '출퇴근 거리', a.kids && '아이 키우기(초등학교 거리)', r.profile && '내 자격'].filter(Boolean);
-  return (head ? head + '\n' : '') + (basis.length ? basis.join(', ') + ' 기준으로' : '말씀하신 조건으로') + ' 지금 청약패스에 있는 공고를 따져 봤어요.';
+  const resale = (C.unsupported || []).some(u => /^기존 아파트 매매/.test(u));   // '매물도 추천해줘' — 왜 매매 추천이 없는지 처음에 (AI 회차 4 심사)
+  return (head ? head + '\n' : '') + (basis.length ? basis.join(', ') + ' 기준으로' : '말씀하신 조건으로') + ' 지금 청약패스에 있는 공고를 따져 봤어요.'
+    + (resale ? '\n말씀하신 매물(이미 지어진 아파트 매매)은 청약패스가 다루지 않아서, 같은 조건의 새 분양(청약) 공고로 찾아봤어요. 기존 아파트 실거래가는 국토교통부 실거래가 공개시스템(rt.molit.go.kr)에서 볼 수 있어요.' : '');
 }
 // 관점별 '이런 분께' — 사용자 예시의 '방장의 솔직한 생각'처럼 우선순위마다 다른 답을 준다 (판정·숫자는 위 지표 그대로)
 function scenarios(r) {
