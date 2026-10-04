@@ -37,6 +37,8 @@ export function factsOf(D, row) {
     competition: comp.length ? { rows: comp.map(r => ({ rank: r.rank, reside: r.reside, rate: r.rate_num })), state: '확인', src: '청약홈 경쟁률' } : null,
     dates: { notice: L.notice, special: L.specialApply, apply: L.apply, applyEnd: L.applyEnd, winner: L.winner },
     geo: raw.geo && raw.geo.lat ? { lat: raw.geo.lat, lng: raw.geo.lng, precise: raw.geo.precision === 'exact' } : null,
+    // 보유 계획(5년 후 갈아타기·장기보유)에 걸리는 제한 — 모집공고문에서 읽은 값 (샘플 5). 전매제한은 아직 모으지 않아 '공고문 확인'
+    limits: { duty: L.residenceDuty == null ? null : +L.residenceDuty, rewin: (() => { const x = (L.limits || []).find(l => l[0] === '재당첨 제한'); return x ? (x[1] === '없음' ? 0 : parseInt(x[1], 10) || null) : null; })(), priceCap: L.priceCap == null ? null : !!L.priceCap, src: '모집공고문' },
     link: SITE + '/#/detail/' + encodeURIComponent(L.id), pdf: L.noticePdf || null,
   };
 }

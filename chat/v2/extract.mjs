@@ -196,13 +196,20 @@ export function extract(question) {
     m = cl.match(/(\d|두|세|네|다섯)\s?(?:인|식구)\s?(?:가족|가구|식구)?|(\d|두|세|네|다섯)\s?명\s?(?:가족|식구)/);
     if (m) { const K = { 두: 2, 세: 3, 네: 4, 다섯: 5 }; const v = m[1] || m[2]; C.assume.family = K[v] || +v; }
     if (/(저층|1층|낮은\s?층)\s?(?:은|는|도)?\s?(빼|제외|싫|말고|피하)|고층\s?(?:만|으로|위주|원해)/.test(cl) && !C.unsupported.some(u => /^층 고르기/.test(u))) C.unsupported.push('층 고르기 — 청약은 당첨된 뒤 동·호수를 추첨으로 정해서 저층을 미리 뺄 수 없어요');
+    // 보유 계획 — 청약이면 실거주 의무·재당첨 제한·전매제한이 이 계획에 걸리는지 따진다 (샘플 5 '5년 후 상급지 갈아타기 vs 10년 이상 장기보유')
+    m = cl.match(/(\d{1,2})\s?년\s?(?:후|뒤|쯤|안에|내|정도\s?살고)\s?.{0,14}?(갈아타|매도|팔|이사|상급지|옮기)/);
+    if (m) (C.plan = C.plan || {}).sell_after = +m[1];
+    m = cl.match(/(\d{1,2})\s?년\s?(?:이상)?\s?(?:장기\s?)?(?:보유|들고|묻어|거주)|장기\s?보유|오래\s?(?:보유|들고)/);
+    if (m && !/(후|뒤)\s?.{0,6}(갈아타|팔|매도)/.test(cl.slice(cl.indexOf(m[0])))) (C.plan = C.plan || {}).long_hold = m[1] ? +m[1] : 10;
+    if (/실거주/.test(cl)) (C.plan = C.plan || {}).live = true;
+    if (/투자/.test(cl) && !/투자\s?가치/.test(cl)) (C.plan = C.plan || {}).invest = true;
     // 관점
     if (/(시세\s?차익|마진|로또|안전마진|싸게)/.test(cl)) { add('margin', 'consider', cl, '시세 차익(마진)', 'preferred'); C.perspectives.push('margin'); }
     if (/(당첨\s?(가능성|확률|될|되는)|경쟁률\s?(낮|적))/.test(cl)) C.perspectives.push('chance');
     if (/(가격(?!\s?(?:이\s?)?(?:상승|오를))|저렴|싼|가성비)/.test(cl)) C.perspectives.push('price');   // '가격 상승력'은 가격 우선이 아님
     if (/(신축|새 아파트|새아파트)/.test(cl)) add('new_build', true, cl, '신축', 'preferred');
     // 아직 못 보는 조건 — 지어내지 않고 '확인 불가'로 돌려준다
-    for (const [re, label] of [[/(급지|호재)/, '급지·호재(청약패스 데이터 없음)'], [/(상승\s?여력|상승\s?력|오를|투자\s?가치|미래\s?가치)/, '앞으로의 가격 상승 — 예측하지 않아요(대신 분양가와 주변 시세 차이를 보여 드려요)'], [/(주차)/, '주차 대수(데이터 없음)'], [/(학군|학원가|명문)/, '학군·학원가(데이터 없음 — 학교 거리만 있음)'],
+    for (const [re, label] of [[/((?<!상)급지|호재)/, '급지·호재(청약패스 데이터 없음)'], [/(환금성|하방\s?(?:방어|경직)|투자\s?수익|거래\s?회전)/, '환금성·하방 방어 — 이미 지어진 단지의 거래 지표라 청약패스에 없어요(새 분양은 분양가와 주변 시세 차이로 대신 봐요)'], [/(상승\s?여력|상승\s?력|오를|투자\s?가치|미래\s?가치)/, '앞으로의 가격 상승 — 예측하지 않아요(대신 분양가와 주변 시세 차이를 보여 드려요)'], [/(주차)/, '주차 대수(데이터 없음)'], [/(학군|학원가|명문)/, '학군·학원가(데이터 없음 — 학교 거리만 있음)'],
       [/(향|남향|뷰|조망)|(?<!저|고|최하|1)층/, '층·향·조망(데이터 없음)'], [/(커뮤니티|헬스장|수영장)/, '커뮤니티 시설(데이터 없음)'], [/(구축|재건축|매매|매물|급매)/, '기존 아파트 매매(청약패스는 새 분양 공고만)']]) {
       if (/^학군/.test(label) && C.assume.no_school) continue;
       if (re.test(cl) && !C.unsupported.includes(label)) C.unsupported.push(label);
@@ -231,10 +238,11 @@ export function extract(question) {
   C.conds = C.conds.filter(c => !c._drop);
   if (C.intent === 'compare') C.conds = C.conds.filter(c => c.key !== 'region_in');   // 비교할 단지 이름 속 지명은 지역 조건이 아니다
   if (C.intent === 'compare') {   // 'A vs B vs C 비교해주고 급지…' → 마지막 이름 뒤의 요청 문장은 자른다
-    const marks = [...q.matchAll(/\s+(?:vs\.?|VS|대)\s+|\s?(?:이랑|랑|하고|와|과)\s+/g)], last = marks.length ? marks[marks.length - 1].index + marks[marks.length - 1][0].length : 0;
-    const tail = q.slice(last).search(/\s?(비교|해\s?주|해줘|중에|어디가|어느|,\s|\.\s|\?|!)/);
-    const body = tail >= 0 ? q.slice(0, last + tail) : q;
-    C.targets = body.split(/\s+(?:vs\.?|VS|대)\s+|\s?(?:이랑|랑|하고|와|과)\s+/).map(s => s.trim()).filter(s => s.length >= 2);
+    const q1 = q.split(/[?？!]|(?<!\d)\.(?!\d)/)[0];   // 첫 문장 안에서만 이름을 찾는다 (샘플 5: 뒤 문장의 '생각하고 있어'의 '하고'를 구분 말로 읽었음)
+    const marks = [...q1.matchAll(/\s+(?:vs\.?|VS|대)\s+|\s?(?:이랑|랑|하고|와|과)\s+/g)], last = marks.length ? marks[marks.length - 1].index + marks[marks.length - 1][0].length : 0;
+    const tail = q1.slice(last).search(/\s?(비교|해\s?주|해줘|중에|어디가|어느|,\s|\.\s|\?|!)/);
+    const body = tail >= 0 ? q1.slice(0, last + tail) : q1;
+    C.targets = body.split(/\s+(?:vs\.?|VS|대)\s+|\s?(?:이랑|랑|하고|와|과)\s+/).map(s => s.trim().split(/\s(?=\d{2}\s?평|국평|같은|어디|어느|중에|비교|이라면|라면|기준)/)[0].trim()).filter(s => s.length >= 2 && s.length <= 24);   // 이름 뒤 '20평대 같은 금액이라면…' 자르기
   }
   // 같은 key 가 여러 번이면 마지막(더 구체적인) 것만, 지역은 합침
   const seen = {};

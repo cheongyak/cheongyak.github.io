@@ -33,6 +33,8 @@ for (const g of G.items) test('조건 해석 ' + g.id + ' — ' + g.q.slice(0, 3
   if (e.targets) assert.equal(C.targets.length, e.targets);
   if (e.unsupported_has) assert.ok(C.unsupported.some(u => u.includes(e.unsupported_has)), '형식 밖 조건 표시 없음: ' + e.unsupported_has);
   if (e.scope_past) assert.equal(C.scope.past, true);
+  for (const [k, v] of Object.entries(e.plan || {})) assert.equal((C.plan || {})[k], v, 'plan.' + k);
+  if (e.not_unsupported) assert.ok(!C.unsupported.some(u => u.includes(e.not_unsupported)), '없어야 할 형식 밖 표시: ' + e.not_unsupported);
   if (e.scope_expand !== undefined) assert.equal(!!C.scope.expand, e.scope_expand, '넓혀 보기(말고도)');
   for (const p of e.perspectives || []) assert.ok(C.perspectives.includes(p));
 });
@@ -208,4 +210,20 @@ test('샘플 4 — 노선 역세권 판정·노선 현황·경기남부 정의',
   const a = await ask({ question: G.items.find(x => x.id === 'v2-sample4').q, today: TODAY, dataOpts: DO, profile: PROFILE });
   assert.ok(/경기남부는 이렇게 봤어요: 수원·성남·용인/.test(a.text), '경기남부 범위를 밝히지 않음');
   assert.ok(/신분당선 역세권/.test(a.text) && !/분당 ·/.test(a.text), "'신분당선'을 분당 지역으로 읽음");
+});
+
+
+// 사용자 샘플 5 (2026-10-04): 보유 계획 — 실거주 의무가 '몇 년 뒤 팔기'보다 길면 어렵다, 재당첨 제한이 있으면 청약으로 갈아타기 어렵다
+test('샘플 5 — 보유 계획과 실거주 의무·재당첨 제한', async () => {
+  const { planLine } = await import('../answer.mjs');
+  const C = { plan: { sell_after: 5 } };
+  assert.match(planLine({ limits: { duty: 0, rewin: 0 } }, C), /걸리지 않아요/);
+  assert.match(planLine({ limits: { duty: 3, rewin: 10 } }, C), /그 안에 끝나요.*10년 동안 다른 청약 당첨이 막혀/);
+  assert.match(planLine({ limits: { duty: 5, rewin: 0 } }, { plan: { sell_after: 3 } }), /실거주 의무\(5년\)가 더 길어/);
+  assert.match(planLine({ limits: { duty: null, rewin: null } }, C), /공고문에서 확인/);
+  assert.equal(planLine({ limits: {} }, {}), null);
+  const a = await ask({ question: G.items.find(x => x.id === 'v2-sample5').q, today: TODAY, dataOpts: DO, profile: PROFILE });
+  assert.ok(/비교할 단지: 프라이어팰리스, 고덕센트럴푸르지오, 삼익그린2차$/m.test(a.text), '단지 이름 자르기');
+  assert.ok(/보유 계획\(5년 뒤 갈아타기 \/ 10년 이상 장기 보유\)/.test(a.text), '보유 계획을 받아 주지 않음');
+  assert.ok(!/급지·호재/.test(a.text), "'상급지'를 급지로 읽음");
 });

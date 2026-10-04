@@ -16,7 +16,8 @@ export function understood(C) {
   if (a.married) as.push('신혼부부'); if (a.cash != null) as.push('현금 ' + fmtEok(a.cash)); if (a.income != null) as.push('연 소득 ' + a.income.toLocaleString('ko-KR') + '만원');
   if (a.homeless === true) as.push('무주택'); if (a.homeless === false) as.push('집 있음'); if (a.kids != null) as.push('자녀 ' + a.kids + '명');
   if (a.family) as.push(a.family + '인 가족'); if (a.no_school) as.push('학군은 안 따짐');
-  return { required: by('required'), preferred: by('preferred'), explore: by('explore'), assume: as, unsupported: C.unsupported || [], past: !!(C.scope && C.scope.past) };
+  const P = C.plan || {}, plan = [P.sell_after && P.sell_after + '년 뒤 팔고 갈아타기', P.long_hold && P.long_hold + '년 이상 장기 보유', P.live && P.invest ? '실거주와 투자 둘 다' : P.live ? '실거주' : P.invest ? '투자' : ''].filter(Boolean);
+  return { required: by('required'), preferred: by('preferred'), explore: by('explore'), assume: as, unsupported: C.unsupported || [], past: !!(C.scope && C.scope.past), plan };
 }
 
 // 이 후보를 보는 이유 한두 문장 — 위 지표에서만 뽑는다 (AI 설명이 살을 붙임)
@@ -40,6 +41,22 @@ function reasons(it, C) {
     else if (f.units.general + f.units.special > 0 && !r.length) r.push('이 주택형 공급 ' + (f.units.general + f.units.special) + '세대(일반 ' + f.units.general + '·특공 ' + f.units.special + ')예요');
   }
   return r.length ? '→ ' + r.slice(0, 3).join(', ') + '.' : null;
+}
+
+// 보유 계획과 제한 (샘플 5): 실거주 의무가 '몇 년 뒤 팔기'보다 길면 그 전에 팔기 어렵고, 재당첨 제한이 있으면 그 기간 다른 청약 당첨이 막혀 '청약으로 갈아타기'가 어렵다
+export function planLine(f, C) {
+  const P = C && C.plan; if (!P || !(P.sell_after || P.long_hold) || f.past) return null;
+  const l = f.limits || {}, bits = [], verdict = [];
+  bits.push('실거주 의무 ' + (l.duty == null ? '공고문 확인' : l.duty ? l.duty + '년' : '없음'));
+  bits.push('재당첨 제한 ' + (l.rewin == null ? '공고문 확인' : l.rewin ? l.rewin + '년' : '없음'));
+  if (P.sell_after) {
+    if (l.duty == null) verdict.push(P.sell_after + '년 뒤 팔기: 실거주 의무를 공고문에서 확인해야 해요');
+    else if (l.duty > P.sell_after) verdict.push(P.sell_after + '년 뒤 팔기: 실거주 의무(' + l.duty + '년)가 더 길어 그 전엔 어려워요');
+    else verdict.push(P.sell_after + '년 뒤 팔기: 실거주 의무는 ' + (l.duty ? '그 안에 끝나요' : '걸리지 않아요') + '(전매제한은 공고문 확인)');
+    if (l.rewin) verdict.push('당첨되면 ' + l.rewin + '년 동안 다른 청약 당첨이 막혀 청약으로 갈아타기는 어려워요');
+  }
+  if (P.long_hold && !P.sell_after) verdict.push(P.long_hold + '년 이상 보유: 실거주 의무' + (l.duty ? '(' + l.duty + '년)도 그 안에 채워요' : '는 부담이 없어요'));
+  return '· 보유 계획  ' + bits.join(' · ') + ' (모집공고문) → ' + verdict.join(' · ');
 }
 
 // 특공 요약: '가능 없음'처럼 물어본 유형 줄과 엇갈려 보이는 말 대신 가능·확인 필요·불가를 나눠 쓴다 (AI 심사 회차 1)
@@ -73,6 +90,7 @@ export function card(it, { profile, C = null }) {
   if (cm.length) L.push('· 출퇴근  ' + (!f.geo ? '확인 불가 (단지 좌표 없음)' : cm.map(c => { const nm = (c.value.who ? c.value.who + ' ' : '') + c.value.place.replace(/ \(중심 근사\)/, '');
     const t = (f.commute || []).find(x => x.place === c.value.place && x.who === (c.value.who || ''));
     return t && t.min != null ? nm + '까지 자동차 약 ' + t.min + '분(' + t.km + 'km, ' + t.src.replace(/ \(.*\)$/, '') + ' ' + t.at.slice(11, 16).replace(/^(\d\d)/, h => String((+h + 9) % 24).padStart(2, '0')) + ' 조회)' : nm + '까지 직선 약 ' + Math.round(distKmA(f.geo, c.value)) + 'km(시간 확인 불가)'; }).join(' · ') + (f.geo && !f.geo.precise ? ' — 단지 좌표가 동 단위라 대략이에요' : '')));
+  const pl = planLine(f, C); if (pl) L.push(pl);
   if (f.competition) L.push('· 경쟁률  ' + f.competition.rows.slice(0, 2).map(r => r.rank + '순위 ' + r.reside + ' ' + r.rate + ':1').join(' · ') + ' (청약홈)');
   if (it.unknown && it.unknown.length) L.push('· 확인 필요  ' + [...new Set(it.unknown)].join(', '));
   const miss = (it.pref || []).filter(x => x.s === 'fail' && x.key !== 'region_in' && x.key !== 'margin').map(x => x.why);
@@ -96,15 +114,16 @@ export function compose(C, r0, { profile = false, updated = '', mode = 'search',
   const U = understood(C), out = [];
   out.push(opening(C, r, mode));
   out.push('[이렇게 이해했어요]\n' + [U.required.length && '· 꼭: ' + U.required.join(', '), U.preferred.length && '· 되면 좋음: ' + U.preferred.join(', '), U.explore.length && '· 넓혀 보기: ' + U.explore.join(', '),
-    U.assume.length && '· 이번 질문만의 가정: ' + U.assume.join(', ') + ' (저장된 내 조건은 바꾸지 않아요)', U.past && '· 지난 공고까지 포함', ...Object.keys(REGION_SETS).filter(k => C.conds.some(c => c.key === 'region_in' && c.value.some(v => v.label === k))).map(k => '· ' + k + '는 이렇게 봤어요: ' + REGION_SETS[k].map(x => x.replace(/(시|군)$/, '')).join('·') + ' (한강 ' + (k === '경기남부' ? '남쪽' : '북쪽') + ' 경기 시·군)'), U.unsupported.some(u => /^층 고르기/.test(u)) && '· 따를 수 없는 것: 저층 제외 — 청약은 당첨 뒤 동·호수를 추첨으로 정해요', mode === 'compare' && '· 비교할 단지: ' + (C.targets || []).join(', ') + (/(큰 평수|가장 큰|대형|넓은)/.test(C.q || '') ? ' (가장 큰 주택형 기준)' : ''), U.unsupported.length && mode === 'compare' && '· 데이터가 없어 답하지 않는 것: ' + U.unsupported.join(', '), (C.perspectives || []).length && '· 중요하게 보는 것: ' + C.perspectives.map(p => ({ margin: '시세 차익', chance: '당첨 가능성', price: '가격', growth: '가격 상승력(시세 차익으로 봄)', livability: '실거주 만족도' }[p] || p)).join(', ')].filter(Boolean).join('\n') || '· 조건 없이 지금 접수 중·예정인 공고 전체');
+    U.assume.length && '· 이번 질문만의 가정: ' + U.assume.join(', ') + ' (저장된 내 조건은 바꾸지 않아요)', U.past && '· 지난 공고까지 포함', U.plan.length && '· 보유 계획: ' + U.plan.join(' / ') + ' — 청약이면 실거주 의무·재당첨 제한·전매제한이 이 계획에 걸리는지 함께 봐요', ...Object.keys(REGION_SETS).filter(k => C.conds.some(c => c.key === 'region_in' && c.value.some(v => v.label === k))).map(k => '· ' + k + '는 이렇게 봤어요: ' + REGION_SETS[k].map(x => x.replace(/(시|군)$/, '')).join('·') + ' (한강 ' + (k === '경기남부' ? '남쪽' : '북쪽') + ' 경기 시·군)'), U.unsupported.some(u => /^층 고르기/.test(u)) && '· 따를 수 없는 것: 저층 제외 — 청약은 당첨 뒤 동·호수를 추첨으로 정해요', mode === 'compare' && '· 비교할 단지: ' + (C.targets || []).join(', ') + (/(큰 평수|가장 큰|대형|넓은)/.test(C.q || '') ? ' (가장 큰 주택형 기준)' : ''), U.unsupported.length && mode === 'compare' && '· 데이터가 없어 답하지 않는 것: ' + U.unsupported.join(', '), (C.perspectives || []).length && '· 중요하게 보는 것: ' + C.perspectives.map(p => ({ margin: '시세 차익', chance: '당첨 가능성', price: '가격', growth: '가격 상승력(시세 차익으로 봄)', livability: '실거주 만족도' }[p] || p)).join(', ')].filter(Boolean).join('\n') || '· 조건 없이 지금 접수 중·예정인 공고 전체');
   for (const li of (r.lineInfo || [])) out.push(li.missing ? '· ' + li.line + ' 역 위치 자료가 아직 없어 노선 조건은 확인하지 못했어요.' : '[' + li.line + ' 역세권 공고 현황]\n' + (li.notices ? '지금 접수 중·예정인 공고 중 ' + li.line + ' 역까지 직선 ' + (li.m / 1000) + 'km 안은 ' + li.notices + '곳(주택형 ' + li.types + '개, ' + li.stations.join('·') + '역 주변)이고, 가장 싼 주택형이 ' + fmtEok(li.minPrice) + '이에요.' : '지금 접수 중·예정인 공고 중 ' + li.line + ' 역까지 직선 ' + (li.m / 1000) + 'km 안에 있는 곳은 없어요. 새 공고가 이 노선에 뜨면 알려 드릴게요.'));
-  if (mode === 'compare' && compare) out.push(...compareBlocks(compare, { profile }));
+  if (mode === 'compare' && compare) out.push(...compareBlocks(compare, { profile, C }));
   else if (r.ok.length) {
     out.push(conclusion(r, C, U));
     out.push('[후보별 핵심 지표' + (r.groups.length > r.limit ? ' · ' + r.groups.length + '곳 중 먼저 볼 ' + r.limit + '곳' : '') + ']\n\n' + r.groups.slice(0, r.limit).map(g => card(g.best, { profile, C }) + (g.types.length > 1 ? '\n(같은 공고 다른 주택형 ' + (g.types.length - 1) + '개: ' + g.types.slice(1, 6).map(t => t.f.unit + ' ' + fmtEok(t.f.price.v)).join(' · ') + (g.types.length > 6 ? ' …' : '') + ')' : '')).join('\n\n'));
     if (r.groups.length > r.limit) out.push('[나머지 ' + (r.groups.length - r.limit) + '곳]\n' + r.groups.slice(r.limit).map(g => '· ' + g.name + ' ' + g.best.f.unit + ' — ' + g.best.f.price.label + ' ' + fmtEok(g.best.f.price.v) + (g.best.elig ? ' · ' + genWord(g.best) + ' ' + ELIG_WORD[g.best.elig] : '') + (g.best.far ? ' · 직장에서 멀어요' : '') + '\n  ' + g.best.f.link).join('\n'));
     if (r.nearMiss && r.nearMiss.length) out.push('[함께 눈여겨볼 곳 · 예산을 조금 넘어요]\n' + r.nearMiss.map(g => '· ' + g.name + ' ' + g.best.f.unit + ' — 분양가 ' + fmtEok(g.best.f.price.v) + (g.best.elig ? ', ' + genWord(g.best) + ' ' + ELIG_WORD[g.best.elig] : '') + (g.best.f.margin.g !== 'unknown' ? ', 시세 차익 ' + g.best.f.margin.name + '(추정)' : '') + '. 관심 단지로만 체크해 두세요.\n  ' + g.best.f.link).join('\n'));
     out.push(scenarios(r));
+    out.push(planScenarios(r.groups.slice(0, 5).map(g => g.best), C));
     if (r.outside && r.outside.groups.length) out.push(outsideBlock(r, C, profile));
   } else if (r.outside && r.outside.groups.length && !(r.unsure && r.unsure.length)) {   // 그 지역엔 없고 다른 지역에는 같은 조건이 있다 — '없어요'로 끝내지 않고 넓힌 결과를 본론으로
     const o = r.outside, top = o.groups[0];
@@ -153,6 +172,21 @@ function priorityPicks(items, C) {
   if (pr && lines.length < 3) { const x = pick((a, b) => a.f.price.v - b.f.price.v, x => x.f.price.v != null); if (x) lines.push('예산 여유를 가장 크게 남기시려면 ' + x.f.name + ' — 분양가 ' + fmtEok(x.f.price.v) + ', 예산보다 ' + fmtEok(Math.round((pr.value - x.f.price.v) * 100) / 100) + ' 여유'); }
   const uniq = [...new Set(lines)];
   return uniq.length >= 2 ? '\n\n[우선순위별로 먼저 볼 곳]\n' + uniq.map(x => '· ' + x).join('\n') : '';
+}
+
+// 보유 계획별 순위 (샘플 5 '시나리오 A: 5년 실거주 후 갈아타기 / B: 10년 이상 장기보유') — 위 지표(실거주 의무·재당첨 제한·시세 차익·단지 규모)만으로
+function planScenarios(items, C) {
+  const P = C.plan || {}; if (!(P.sell_after && P.long_hold) || items.length < 2) return null;
+  const mg = x => x.f.margin.lo ?? -99, hh = x => x.f.complex.state === '확인' ? x.f.complex.households : 0;
+  const okShort = x => x.f.limits.duty != null && x.f.limits.duty <= P.sell_after;
+  const A = items.slice().sort((a, b) => (okShort(b) - okShort(a)) || ((a.f.limits.rewin || 0) - (b.f.limits.rewin || 0)) || (mg(b) - mg(a))).slice(0, 3);
+  const B = items.slice().sort((a, b) => (mg(b) - mg(a)) || (hh(b) - hh(a))).slice(0, 3);
+  const line = (x, i, why) => (i + 1) + '위 ' + x.f.name + ' ' + x.f.unit + ' — ' + why(x);
+  const same = new Set(A.map(x => x.f.limits.duty + '|' + x.f.limits.rewin)).size === 1;   // 제한이 모두 같으면 억지 순위를 만들지 않는다
+  const shortTxt = same ? '세 곳 모두 실거주 의무 ' + (A[0].f.limits.duty == null ? '공고문 확인' : A[0].f.limits.duty ? A[0].f.limits.duty + '년' : '없음') + ' · 재당첨 제한 ' + (A[0].f.limits.rewin ? A[0].f.limits.rewin + '년' : A[0].f.limits.rewin === 0 ? '없음' : '공고문 확인') + '이라 이 기준으로는 순위가 갈리지 않아요.' : null;
+  return '[보유 계획별로 보면]\n' + P.sell_after + '년 뒤 팔고 갈아타기라면 (실거주 의무가 계획 안에 끝나고, 재당첨 제한이 짧은 곳 먼저)\n' + (shortTxt ? shortTxt.replace('세 곳', A.length + '곳') : A.map((x, i) => line(x, i, y => '실거주 의무 ' + (y.f.limits.duty == null ? '공고문 확인' : y.f.limits.duty ? y.f.limits.duty + '년' : '없음') + ' · 재당첨 제한 ' + (y.f.limits.rewin ? y.f.limits.rewin + '년' : y.f.limits.rewin === 0 ? '없음' : '공고문 확인'))).join('\n'))
+    + '\n' + P.long_hold + '년 이상 오래 보유한다면 (분양가가 주변 시세보다 싼 곳·큰 단지 먼저)\n' + B.map((x, i) => line(x, i, y => (y.f.margin.g === 'unknown' ? '시세 확인 불가' : '시세 차익 ' + signed(y.f.margin.lo) + '~' + signed(y.f.margin.hi) + '(추정)') + (hh(y) ? ' · ' + hh(y).toLocaleString('ko-KR') + '세대' : ''))).join('\n')
+    + '\n전매제한은 아직 모으지 않아 모집공고문에서 확인해 주세요.';
 }
 
 // 결론을 '이렇게 이해했어요' 앞으로 (AI 심사 회차 2: '없어요'를 먼저 분명히 말한 뒤 이해한 조건·대안 순서가 낫다)
@@ -249,7 +283,7 @@ export function buildCompare(D, targets, C, { profile = null } = {}) {
     }) };
   });
 }
-function compareBlocks(cmp, { profile }) {
+function compareBlocks(cmp, { profile, C = null }) {
   const out = [], blocks = [];
   for (const t of cmp) {
     if (!t.found) continue;
@@ -257,6 +291,7 @@ function compareBlocks(cmp, { profile }) {
   }
   const found = cmp.filter(t => t.found).flatMap(t => t.notices.map(n => n.pick));
   if (!found.length) out.push('결론부터 말씀드리면, 말씀하신 단지들은 청약패스에서 비교해 드릴 수 없어요. 청약패스는 새 분양(청약) 공고만 다루고, 이미 지어진 아파트의 매매·전세 시세는 갖고 있지 않아요. 단지별 실거래가는 국토교통부 실거래가 공개시스템(rt.molit.go.kr)에서 볼 수 있어요. 대신 같은 동네에 새 청약 공고가 나오면 자격·분양가·시세 차익까지 따져 드릴게요.');
+  if (!found.length && C && C.plan && (C.plan.sell_after || C.plan.long_hold)) out.push('보유 계획(' + [C.plan.sell_after && C.plan.sell_after + '년 뒤 갈아타기', C.plan.long_hold && C.plan.long_hold + '년 이상 장기 보유'].filter(Boolean).join(' / ') + ')에 따라 답이 달라진다는 생각은 맞는 방향이에요. 다만 이 단지들은 이미 지어진 아파트라 청약패스에 거래 데이터가 없어 순위를 매기지 못해요. 청약으로 들어갈 곳이라면 같은 계획으로 실거주 의무·재당첨 제한·전매제한이 걸리는지까지 따져 드릴게요 — 지역과 예산을 알려 주세요.');   // 샘플 5: 질문자의 가설을 받아 주되, 데이터 없는 순위는 만들지 않는다
   if (found.length >= 2) {
     const bestM = found.slice().sort((a, b) => (b.f.margin.lo ?? -99) - (a.f.margin.lo ?? -99))[0], cheap = found.slice().sort((a, b) => a.f.price.v - b.f.price.v)[0];
     out.push('결론부터 말씀드리면, 시세 차익(추정)은 ' + bestM.f.name + ' ' + bestM.f.unit + '이 가장 크고, 분양가는 ' + cheap.f.name + ' ' + cheap.f.unit + '이 가장 낮아요.' + (found.some(x => x.elig) ? ' 내 자격은 아래 지표의 \'내 자격\' 줄을 보세요.' : ''));
