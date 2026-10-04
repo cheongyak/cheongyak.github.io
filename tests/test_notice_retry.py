@@ -40,7 +40,8 @@ def test_retry_fills_only_failed_notice(tmp_path, monkeypatch):
     mine = [r for r in after if r["id"].startswith(nid)]
     assert all(r["notice_pdf"] and r["residence"]["area"]["sido"] == "대구" for r in mine)
     others = {r["id"]: r for r in rows if not r["id"].startswith(nid)}
-    assert all(r == others[r["id"]] for r in after if r["id"] in others)   # 다른 공고는 한 글자도 안 바뀜
+    assert all({k: r.get(k) for k in others[r["id"]]} == others[r["id"]] for r in after if r["id"] in others)   # 다른 공고는 한 글자도 안 바뀜 (모델에 새로 생긴 칸은 빈 값으로 붙음)
+    assert all(r.get(k) is None for r in after if r["id"] in others for k in set(r) - set(others[r["id"]]))
     assert nid in json.loads(cf.read_text(encoding="utf-8"))               # 다음 새벽 수집이 쓰도록 보관 기록에
     assert "[공고문·재시도]" in rl.read_text(encoding="utf-8") and any("읽음 1건" in x for x in log)
 

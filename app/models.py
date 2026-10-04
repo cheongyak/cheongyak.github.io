@@ -31,6 +31,7 @@ class Listing(BaseModel):
     households: Optional[int] = None
     complex: Optional[dict] = None           # 단지 규모 {households, buildings, single, status, src, quote} (기능 complex_size, 모집공고문 '공급규모')
     mc_quota: Optional[dict] = None          # 다자녀 특별공급 지역별 배정 {buckets:[{name,pct,regions,first,rest_months}]} 또는 {unknown:true} (기능: mc_quota)
+    resale: Optional[dict] = None           # 전매제한 {months, base, registration, until_reg, passed, none, forbidden} (기능: resale_limit, 모집공고문)
     score_ratio: Optional[dict] = None       # 민영 1순위 전용면적별 가점제·추첨제 비율 {rows:[{over,upto,score,lottery}]} 또는 {unknown:true} (기능: region_first_score)
     pub_limits: Optional[dict] = None        # 공공분양 일반공급 소득·자산 기준 {cap, priority, real_estate, car, area_max} (기능: pub_general_limits)
     schedule: Optional[dict] = None          # 공고문의 공급유형별 접수 일정 {pre?, special, general: [시작, 끝]} (기능: notice_schedule)

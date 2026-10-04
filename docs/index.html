@@ -2164,6 +2164,7 @@ function itemSrc(L, k){
 function limitSrc(L, k){
   if (k === '실거주 의무') return fromNotice(L, '실거주 의무') ? noticeSrc(L) + nq(L, '실거주 의무', '실거주 의무 기준일') : src('housingLaw');
   if (k === '분양가상한제') return fromNotice(L, '분양가상한제') ? noticeSrc(L) + nq(L, '분양가상한제') : noticeSrc(L);
+  if (k === '전매 제한') return fromNotice(L, '전매 제한') ? noticeSrc(L) + nq(L, '전매 제한') : noticeSrc(L);   /* 기능 resale_limit */
   if (k === '재당첨 제한') return fromNotice(L, '재당첨 제한') ? noticeSrc(L) + nq(L, '재당첨 제한') : src(null, ['이 서비스 추정(규제지역 기준) · 공고문에서 확인하세요', null]);
   if (k.includes('1순위 제한')) return src('supplyRule');
   return noticeSrc(L);
@@ -5115,7 +5116,7 @@ function fromApi(x){
     mktLow:x.mkt_low, mktBase:x.mkt_base, mktNote:x.mkt_note || '', jeonse:x.jeonse, jeonseNote:x.jeonse_note || '',
     capital:x.capital, regulated:x.regulated, landPermit:x.land_permit, priceCap:x.price_cap, residenceDuty:x.residence_duty, dutySilent:!!x.duty_silent, dutyFrom:x.duty_from || null,
     jeonseWeak:x.jeonse_weak, unregistered:x.unregistered, needHead:x.need_head, needAccount:x.need_account,
-    limits:(x.limits || []).map(l => [l[0], l[1]]), sources: x.url ? [['모집공고 (청약홈)', x.url]] : [] };
+    limits:(x.limits || []).filter(l => on('resale_limit') || l[0] !== '전매 제한').map(l => [l[0], l[1]]), sources: x.url ? [['모집공고 (청약홈)', x.url]] : [] };
 }
 render();
 try { navPending = navParse(location.hash); if (!(history.state && history.state.nav)) history.replaceState({ nav:1, v: S.view, id: null, y: 0 }, ''); } catch(e) {}   // 기능: history_nav

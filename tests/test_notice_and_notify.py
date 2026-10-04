@@ -382,3 +382,41 @@ def test_merge_alt_fills_unknown_struct():
     found = {"score_ratio": {"rows": [{"over": 0, "upto": 60, "score": 40, "lottery": 60}]}}
     notice_pdf.merge_alt(found, {"score_ratio": {"unknown": True}})
     assert found["score_ratio"]["rows"][0]["upto"] == 60
+
+
+def test_golden_resale_from_real_notices():
+    """전매제한 기간을 원문과 같게 읽는다 (기능: resale_limit). 정답은 원문 문장을 읽고 적은 칸만 비교."""
+    import json, pathlib
+    root = pathlib.Path(__file__).resolve().parent.parent
+    gold = json.loads((root / "tests" / "golden" / "notices.json").read_text(encoding="utf-8"))
+    nos = [k for k, v in gold.items() if "resale" in v["fields"]]
+    assert len(nos) >= 20
+    for no in nos:
+        f = root / "evidence" / "notices" / f"{no}.txt"
+        f = f if f.exists() else root / "evidence" / "qa" / "notices" / f"{no}.txt"
+        got = notice_pdf.parse_notice(f.read_text(encoding="utf-8")).get("resale") or {}
+        want = gold[no]["fields"]["resale"]
+        assert {k: got.get(k) for k in want} == want, (no, got)
+
+
+def test_every_saved_original_resale_reads():
+    """모아 둔 분양 공고문은 전매제한을 모두 읽는다 — 못 읽는 것은 원문에 전매제한이 아예 없는 공고(공공임대 2026000307, 2025000645)뿐"""
+    import pathlib, re
+    root = pathlib.Path(__file__).resolve().parent.parent
+    seen, miss = set(), []
+    for d in (root / "evidence" / "notices", root / "evidence" / "qa" / "notices"):
+        for f in sorted(d.glob("*.txt")):
+            if f.stem in seen:
+                continue
+            seen.add(f.stem)
+            if notice_pdf.parse_resale(re.sub(r"\s+", "", f.read_text(encoding="utf-8"))) is None:
+                miss.append(f.stem)
+    assert set(miss) <= {"2026000307", "2025000645"}, miss
+
+
+def test_resale_cell_conflict_and_garbled():
+    flat = "재당첨제한전매제한거주의무기간분양가상한제택지유형없음1년없음미적용민간택지 본주택의전매제한은최초당첨자발표일로부터적용되며기간은아래와같습니다.구분특별공급일반공급전매제한기간당첨자발표일로부터6개월"
+    r = notice_pdf.parse_notice(flat)
+    assert r["resale"]["months"] == 6 and any("전매제한" in c for c in r.get("conflicts", []))
+    # 숫자 뒤 쪽 번호('3 공급대상')를 기간으로 붙여 읽지 않는다 (2026000436 '로부터개월63')
+    assert notice_pdf.parse_resale("전매제한기간당첨자발표일로부터개월63공급대상")["months"] == 6

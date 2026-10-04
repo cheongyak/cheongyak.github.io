@@ -262,6 +262,15 @@ def parse_notice(text: str) -> dict:
     if "residence_duty" not in out:
         q.pop("residence_duty", None)
 
+    # 전매제한 (기능 resale_limit, 2026-10-05 사용자 '6 진행') — 본문 문장을 먼저, 없으면 1쪽 '단지 주요정보' 표 칸
+    rs = parse_resale(flat)
+    if rs:
+        out["resale"] = {k: v for k, v in rs.items() if k not in ("m",)}
+        cite("resale", rs["m"])
+        rc = resale_cell(flat)   # 1쪽 표와 본문이 다르면 사람이 봐야 한다 (conflicts)
+        if rc is not None and rs.get("months") is not None and not rs.get("until_reg") and not rs.get("passed") and rc != rs["months"]:
+            out.setdefault("_conf_resale", f"전매제한: 1쪽 표 {rc}개월 ↔ 본문 {rs['months']}개월")
+
     # 재당첨 제한 (1~10년). "재당첨제한을 적용받지 않음" 이면 0
     if (m := re.search(r"재당첨제한(?:을|이|은)?(?:적용받지|적용되지)않", flat)):
         out["rewin_years"] = 0
@@ -338,6 +347,8 @@ def parse_notice(text: str) -> dict:
             tv = 0 if tr.group(1) == "없음" else int(re.sub(r"\D", "", tr.group(1)))
             if tv != out["rewin_years"]:
                 conf.append(f"재당첨 제한: 1쪽 표 {tr.group(1).replace(' ', '')} ↔ 본문에서 읽은 {out['rewin_years']}년")
+    if out.get("_conf_resale"):
+        conf.append(out.pop("_conf_resale"))
     if conf:
         out["conflicts"] = conf
     q = {k: v for k, v in q.items() if k in out and v}
@@ -769,6 +780,86 @@ def _rental_income_table(f: str) -> Optional[dict]:
     elig = {"1": [o, None], "2": e2, **{str(n): [e3[0][n - 3], e3[1][n - 3]] for n in range(3, 9)}}
     pri = {"1": [o, None], "2": p2, **{str(n): [p3[0][n - 3], p3[1][n - 3]] for n in range(3, 9)}}
     return {"elig": elig, "pri": pri}
+
+
+# ---- 전매제한 (기능 resale_limit) ----
+# 민영 표준 문장 '■ 본 주택의 전매제한은 최초 당첨자발표일로부터 적용되며 기간은 아래와 같습니다. 구분 특별공급 일반공급 전매제한기간 [당첨자발표일(2026.09.22.)로부터] 6개월|1년|3년|없음|소유권이전등기시까지|
+#   소유권이전등기일까지(다만, 그 기간이 3년을 초과하는 경우 3년)' (2026000103·202·314·386·403·422·443·444·022),
+# LH 제한사항 표 '전매제한 (최초)당첨자발표일 3년' (2026000409·820008·820009), LH 문장 '입주자로 선정된 날(2026.10.08)로부터 3년간 전매가 금지',
+# 재공급·무순위 '전매제한은 최초 입주자모집공고의 당첨자발표일(2023.01.04.)로부터 3년간 (단, 3년 내 소유권이전등기 시 해제) 적용(되어 현재 전매제한 기간이 도과)'
+#   (2026910220·232·236·930032·930036·930039), 1쪽 표 '현재 전매제한 도과'·'(현재 전매 가능)', '본 주택의 전매제한은 없습니다'(2026000185).
+# 결과 {months: 개월(모르면 None), base: '당첨자 발표일'|'YYYY-MM-DD'(최초 당첨자발표일), registration: 그 안에 등기하면 풀림, until_reg: 등기 때까지(기간 상한 없음), passed: 이미 지남, none: 없음}
+_D = r"\(?(?:최초당첨자발표일\()?[‘’']?((?:20)?\d\d)\.(\d{1,2})\.(\d{1,2})\.?(?:\([월화수목금토일]\))?\)?\)?"
+
+
+def _rs_ymd(m, i: int) -> str:
+    y = m.group(i)
+    return f"{'20' + y if len(y) == 2 else y}-{int(m.group(i + 1)):02d}-{int(m.group(i + 2)):02d}"
+
+
+def parse_resale(flat: str) -> Optional[dict]:
+    """전매제한 기간. 본문 문장 → LH 표·문장 → 1쪽 '단지 주요정보' 표 순서. PDF 글자 순서가 뒤섞여 숫자가 뒤로 밀린 꼴('로부터개월6', '년(2025.12.10.)1')도 읽는다.
+    확실하지 않으면 None (없음으로 추측하지 않는다)."""
+    def mon(n, unit):
+        return int(n) * (12 if unit == "년" else 1)
+    reg = r"(\(?단,?\d{1,2}년내소유권이전등기시해제\)?|\(단,소유권이전등기를완료한경우소유권이전등기를완료한때까지\))?"
+    gone = r"(적용되어현재전매제한기간이도과|경과하여현재전매제한기간이도과|적용되어,?본입주자모집공고일현재해당전매제한기간은이미경과|이경과하여현재전매가가?능|적용)"
+    head = r"전매제한(?:기간)?은?(?:최초)?입주자모집공고의당첨자발표일"
+    pats = [
+        # 재공급·무순위 문장
+        (head + _D + r"(?:로부터|부터)(\d{1,2})(년|개월)(?:간)?" + reg + gone,
+         lambda m: {"months": mon(m.group(4), m.group(5)), "base": _rs_ymd(m, 1), "registration": bool(m.group(6)), "passed": m.group(7) != "적용"}),
+        (head + _D + r"(?:로부터|부터)년간적용되어현재전매제한기간이도과",   # 2026930036·037 숫자가 빠짐 — 기간은 모르지만 지났다는 것은 확실
+         lambda m: {"months": None, "base": _rs_ymd(m, 1), "passed": True}),
+        (head + r"로부터" + _D + r"년간적용됩니다\(?단,?년내소유권이전등기시해제(\d{1,2})",   # 2026910246 뒤섞임
+         lambda m: {"months": mon(m.group(4), "년"), "base": _rs_ymd(m, 1), "registration": True, "passed": False}),
+        (r"전매제한은■?최초입주자모집공고의당첨자발표일로부터년간\(?단,?년내소유권이전등기시해제\)?적용됩니다" + _D + r"(\d{1,2})",   # 2026910251 뒤섞임
+         lambda m: {"months": mon(m.group(4), "년"), "base": _rs_ymd(m, 1), "registration": True, "passed": False}),
+        # 민영 표준 표 '전매제한기간 …'
+        (r"전매제한기간(?:은|:)?(?:해당주택의입주자로선정된날로부터|(?:최초)?당첨자발표일" + _D + r"(?:로부터)?|(?:최초)?당첨자발표일(?:로부터)?)?(\d{1,2})(년|개월)" + reg,
+         lambda m: {"months": mon(m.group(4), m.group(5)), "base": _rs_ymd(m, 1) if m.group(1) else "당첨자 발표일", "registration": bool(m.group(6))}),
+        (r"전매제한기간(?:최초)?당첨자발표일로부터(개월|년)(\d)",   # 2026000436·146 '로부터개월6'
+         lambda m: {"months": mon(m.group(2), m.group(1)), "base": "당첨자 발표일"}),
+        (r"전매제한기간최초당첨자발표일로부터년" + _D + r"(\d)",   # 2026910006 '년(2025.12.10.)1'
+         lambda m: {"months": mon(m.group(4), "년"), "base": _rs_ymd(m, 1)}),
+        (r"전매제한은최초당첨자발표일로부터(개월|년)적용됩니다" + _D + r"(\d)",   # 2026000046
+         lambda m: {"months": mon(m.group(5), m.group(1)), "base": _rs_ymd(m, 2)}),
+        (r"전매제한기간소유권이전등기일까지,?\(?다만,?그기간이(\d{1,2})?년을초과하는경우(?:\d{1,2}년\)|년\(,(\d)\d\))",
+         lambda m: {"months": mon(m.group(1) or m.group(2), "년"), "base": "당첨자 발표일", "registration": True}),
+        (r"전매제한기간소유권이전등기(?:시|일)까지|전매제한재당첨제한거주의무기간분양가상한제택지유형소유권이전등기시까지",
+         lambda m: {"months": None, "base": "당첨자 발표일", "until_reg": True}),
+        (r"전매제한기간(?:전매)?(?:제한)?(?:해당)?없음|본주택의전매제한은없습니다|규정에의거전매제한에해당되지않습니다|재당첨제한전매제한거주의무기간분양가상한제(?:택지유형)?(?:없음|\d{1,2}년)없음(?:없음|[1-5]년)(?:적용|미적용)",
+         lambda m: {"months": 0, "none": True}),
+        (r"전매(?:행위)?\(부부공동명의포함\)가불가",   # 이익공유형 분양주택(공공주택 특별법 제49조의10) — 전매 대신 공공에 되팔기(환매)
+         lambda m: {"months": None, "forbidden": True}),
+        # LH 표·문장
+        (r"전매제한(?:최초)?당첨자발표일(\d{1,2})(년|개월)",
+         lambda m: {"months": mon(m.group(1), m.group(2)), "base": "당첨자 발표일"}),
+        (r"입주자로선정된날" + _D + r"로부터(\d{1,2})(년|개월)간?전매가금지",
+         lambda m: {"months": mon(m.group(4), m.group(5)), "base": _rs_ymd(m, 1)}),
+        (r"전매제한이(\d{1,2})(년|개월)적용",
+         lambda m: {"months": mon(m.group(1), m.group(2)), "base": "당첨자 발표일"}),
+        # 1쪽 표만 있는 무순위 '최초당첨자발표일(21.10.22.)로부터 3년간 적용되어 현재 전매제한기간 도과'
+        (r"최초당[첨점]자발표일" + _D + r"로부터(\d{1,2})(년|개월)간?(적용되어현재전매제한기간도과|적용)?",
+         lambda m: {"months": mon(m.group(4), m.group(5)), "base": _rs_ymd(m, 1), "passed": bool(m.group(6) and "도과" in m.group(6))}),
+    ]
+    for pat, fn in pats:
+        if (m := re.search(pat, flat)):
+            return {"months": None, "base": None, "registration": False, "until_reg": False, "passed": False, "none": False, "forbidden": False, **fn(m), "m": m}
+    return None
+
+
+def resale_cell(flat: str) -> Optional[int]:
+    """1쪽 '단지 주요정보' 표의 전매제한 칸(개월). 칸이 '없음·N년·N개월'로 깔끔할 때만 — 본문과 대조하는 데 쓴다"""
+    v = r"(없음|해당없음|\d{1,2}년|년\d{1,2}|\d{1,2}개월|개월\d{1,2})"
+    m = re.search(r"재당첨제한전매제한거주의무기간분양가상한제(?:택지유형)?" + v + v + v + r"(?:적용|미적용|해당없음)", flat)
+    if not m:
+        return None
+    c = m.group(2)
+    if "없음" in c:
+        return 0
+    n = int(re.sub(r"\D", "", c))
+    return n * (1 if "개월" in c else 12)
 
 
 _SUMMARY = re.compile(r"전매제한\s*거주의무기간\s*분양가상한제\s*택지유형(.{0,400}?)(없음|[1-5]\s*년)\s*(?:\([^)]{0,60}\)\s*)?(적용|미적용)\s+(공공택지|민간택지)", re.S)
