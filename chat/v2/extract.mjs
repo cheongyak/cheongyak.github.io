@@ -1,9 +1,9 @@
 // 질문 → 조건 (규칙 해석). AI 해석(llm.mjs)이 실패하거나 없을 때 쓰고, AI 결과를 검사할 때 기준으로도 쓴다.
 // 모든 조건은 { key, value, weight: required|preferred|explore, text } — text 는 질문 속 근거 낱말(답의 '이렇게 이해했어요'에 그대로 보임).
 // 형식 밖 조건은 unsupported 로 돌려주고 지어내지 않는다.
-import { SIDO, SIDO_ALIAS, DISTRICTS, AREAS, GROUPS, PLACES, SP_WORDS, REQUIRED_WORDS, PREFER_WORDS, EXPLORE_WORDS } from './lexicon.mjs';
+import { SIDO, SIDO_ALIAS, DISTRICTS, AREAS, GROUPS, REGION_SETS, LINE_RE, normLine, PLACES, SP_WORDS, REQUIRED_WORDS, PREFER_WORDS, EXPLORE_WORDS } from './lexicon.mjs';
 
-const WEIGHT_DEFAULT = { region_in: 'required', region_out: 'required', price_max: 'required', price_min: 'preferred', area: 'required', households_min: 'required',
+const WEIGHT_DEFAULT = { line: 'required', region_in: 'required', region_out: 'required', price_max: 'required', price_min: 'preferred', area: 'required', households_min: 'required',
   not_single: 'required', rooms: 'required', station_walk: 'preferred', school_walk: 'preferred', commute: 'explore', supply: 'required', status: 'required',
   eligible_only: 'required', margin: 'preferred', new_build: 'preferred' };
 
@@ -39,6 +39,7 @@ function weightOf(clause, key) {
 
 function findRegions(cl) {
   const out = [];
+  for (const [g, ds] of Object.entries(REGION_SETS)) if (cl.includes(g)) ds.forEach(d => { const x = DISTRICTS.find(z => z[1] === d); out.push({ sido: '경기', district: d, label: g, lat: x ? x[2] : null, lng: x ? x[3] : null }); });
   for (const [g, ds] of Object.entries(GROUPS)) if (cl.includes(g)) ds.forEach(d => out.push({ sido: '서울', district: d, label: g }));
   for (const [name, a] of Object.entries(AREAS)) if (cl.includes(name) && !Object.keys(GROUPS).some(g => g.startsWith(name) && cl.includes(g)) && !new RegExp(name + '\\s?(역|까지|으로|로)?\\s?(출퇴근|출근|통근)').test(cl) && !new RegExp(name + '(역)?\\s?까지').test(cl)) out.push({ sido: a.sido, district: a.district || null, words: a.words, label: name, lat: a.lat, lng: a.lng });
   for (const [sd, dn, lat, lng] of DISTRICTS) {
@@ -108,6 +109,10 @@ export function extract(question) {
       if (!C.conds.some(c => c.key === 'commute' && c.value.place === place.name && c.value.who === (m[1] || ''))) add('commute', { place: place.name, lat: place.lat, lng: place.lng, max_min: null, who: m[1] || '', approx: place.approx }, cl, (m[1] ? m[1] + ' ' : '') + '직장 ' + place.name + (place.approx ? '(가정)' : ''), 'explore');
       clR = clR.replace(m[0], ' ');
     }
+    // 전철 노선 ('신분당선 라인', '9호선 역세권') — 지역 이름으로 읽지 않게 지운 뒤 노선 조건으로 (샘플 4: '신분당선'의 '분당'을 성남 분당으로 읽었음)
+    for (const lm of cl.matchAll(LINE_RE)) { const ln = normLine(lm[1]);
+      if (!C.conds.some(c => c.key === 'line' && c.value.line === ln)) add('line', { line: ln, m: 1000 }, cl, ln + ' 역세권(가장 가까운 ' + ln + ' 역까지 직선 1km 이내)'); }
+    clR = clR.replace(LINE_RE, ' ');
     // '강남3구 말고 서울에서' — 제외 낱말 앞의 지역만 제외, 뒤는 포함
     const ex = expandHere ? null : clR.match(/^(.*?)(제외|빼고|말고|싫고|싫어|싫은데)(.*)$/), exA = ex ? findRegions(ex[1]) : [], exB = ex ? findRegions(ex[3]) : [];
     if (exA.length && exB.length) {
@@ -156,8 +161,8 @@ export function extract(question) {
     // 방·욕실
     m = cl.match(/방\s?(\d)\s?(?:개)?\s?(?:,|\s)?\s?(?:화|화장실|욕실)\s?(\d)/) || cl.match(/방\s?(\d)\s?(?:개)?/) || cl.match(/(쓰리|투)룸/);
     if (m) { const bed = m[1] === '쓰리' ? 3 : m[1] === '투' ? 2 : +m[1], bath = m[2] ? +m[2] : null; add('rooms', { bed, bath }, cl, '방' + bed + (bath ? '·욕실' + bath : '')); }
-    // 역·학교
-    if (/역세권|역\s?(가까|도보|근처)|지하철\s?(가까|도보)/.test(cl)) { const w = cl.match(/(\d{1,2})\s?분/); add('station_walk', w ? +w[1] : 10, cl, w ? '역 도보 ' + w[1] + '분' : '역세권(도보 약 10분)'); }
+    // 역·학교 (노선 역세권이면 노선 조건이 대신함)
+    if (/역세권|역\s?(가까|도보|근처)|지하철\s?(가까|도보)/.test(cl) && !C.conds.some(c => c.key === 'line')) { const w = cl.match(/(\d{1,2})\s?분/); add('station_walk', w ? +w[1] : 10, cl, w ? '역 도보 ' + w[1] + '분' : '역세권(도보 약 10분)'); }
     if (!C.assume.no_school && /초품아|초등학교|초등|학교\s?(가까|도보|근처)/.test(cl)) { const w = cl.match(/(\d{1,2})\s?분/); add('school_walk', { kind: '초등학교', min: w ? +w[1] : 10 }, cl, w ? '초등학교 도보 ' + w[1] + '분' : '초등학교 가까이(도보 약 10분)'); }
     // 출퇴근
     if (/(출퇴근|출근|통근|직장|회사)/.test(cl)) for (const [k, p] of Object.entries(PLACES)) {   // '판교나 의왕으로 출퇴근' — 그 절의 장소 모두
@@ -234,7 +239,7 @@ export function extract(question) {
   // 같은 key 가 여러 번이면 마지막(더 구체적인) 것만, 지역은 합침
   const seen = {};
   C.conds = C.conds.filter((c, i) => {
-    if (c.key === 'region_in' || c.key === 'region_out' || c.key === 'supply' || c.key === 'commute') return true;
+    if (c.key === 'region_in' || c.key === 'region_out' || c.key === 'supply' || c.key === 'commute' || c.key === 'line') return true;
     const last = C.conds.map(x => x.key).lastIndexOf(c.key); return last === i;
   });
   void seen; void vs;

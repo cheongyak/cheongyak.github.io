@@ -28,6 +28,10 @@ out body qt;
 
 
 def norm_line(tags: dict) -> str | None:
+    whole = " ".join(tags.get(k) or "" for k in ("name", "name:ko", "network", "operator"))
+    m = re.search(r"인천.*?([12])\s?호선|([12])\s?호선.*인천", whole)   # '인천 도시철도 2호선' 이 서울 2호선으로 섞이던 것 (2026-10-04)
+    if m:
+        return "인천" + (m.group(1) or m.group(2)) + "호선"
     for k in ("name", "ref", "name:ko", "description"):
         m = LINE_RE.search(tags.get(k) or "")
         if m:

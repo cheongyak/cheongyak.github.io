@@ -193,3 +193,19 @@ test('샘플 3 — 넓혀 보기·학군 안 따짐·층 설명', async () => {
   assert.ok(!/마포구 제외/.test(a.text), "'말고도'를 제외로 읽음");
   assert.ok(/4인 가족/.test(a.text.split('\n')[0]), '첫 줄에 상황 되짚기 없음');
 });
+
+
+// 사용자 샘플 4 (2026-10-04): 노선 조건 — 단지 좌표에서 그 노선 가장 가까운 역까지 직선거리. 역 좌표는 OpenStreetMap(chat/v2/data/lines.json), 시험은 고정 역으로
+test('샘플 4 — 노선 역세권 판정·노선 현황·경기남부 정의', async () => {
+  const { evalCond, nearestOn } = await import('../search.mjs');
+  const st = [{ name: '가', lat: 37.5, lng: 127.0 }, { name: '나', lat: 37.6, lng: 127.1 }];
+  assert.deepEqual(nearestOn(st, { lat: 37.5005, lng: 127.0 }), { name: '가', m: 56 });
+  const D2 = { lines: { lines: { 신분당선: st } } }, c = { key: 'line', value: { line: '신분당선', m: 1000 } };
+  assert.equal(evalCond(D2, {}, { geo: { lat: 37.503, lng: 127.0 } }, c, {})[0], 'pass');
+  assert.equal(evalCond(D2, {}, { geo: { lat: 37.55, lng: 127.05 } }, c, {})[0], 'fail');
+  assert.equal(evalCond(D2, {}, { geo: null }, c, {})[0], 'unknown');
+  assert.equal(evalCond({ lines: null }, {}, { geo: { lat: 37.5, lng: 127 } }, c, {})[0], 'unknown');
+  const a = await ask({ question: G.items.find(x => x.id === 'v2-sample4').q, today: TODAY, dataOpts: DO, profile: PROFILE });
+  assert.ok(/경기남부는 이렇게 봤어요: 수원·성남·용인/.test(a.text), '경기남부 범위를 밝히지 않음');
+  assert.ok(/신분당선 역세권/.test(a.text) && !/분당 ·/.test(a.text), "'신분당선'을 분당 지역으로 읽음");
+});

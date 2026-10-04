@@ -1,5 +1,6 @@
 .env
-data/
+# 수집 결과(루트 data/)만 뺀다. chat/v2/data(노선 역 좌표)는 올린다 (2026-10-04)
+/data/
 __pycache__/
 .venv/
 .pytest_cache/

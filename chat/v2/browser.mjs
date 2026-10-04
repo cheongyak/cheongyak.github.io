@@ -3,12 +3,12 @@
 // AI 두 번(조건 해석·설명)만 청약봇 서버(chat/worker)로 보낸다: llm = ({system, user, purpose}) => fetch(CONFIG.chat_api + '/v2/llm', …)
 import { ask as askWith } from './index.mjs';
 
-export function fromScreen(W = globalThis, { raw = null, past = [] } = {}) {
+export function fromScreen(W = globalThis, { raw = null, past = [], lines = null } = {}) {   // lines: chat/v2/data/lines.json (노선 조건)
   const names = ['fromApi', 'eligBucket', 'eligibility', 'spJudge', 'spTypesFor', 'SP_NAME', 'ELIG_NAME', 'myScore', 'grade', 'GNAME', 'marginText', 'funding', 'statusOf', 'judgeScope', 'genNone', 'isRental', 'isNewlywedTown', 'kindOf', 'regionScore', 'DEFAULT_PROFILE', 'syncHome', 'syncV2'];
   const E = Object.fromEntries(names.map(n => [n, W[n]]));
   const rawById = Object.fromEntries((raw || []).map(x => [x.id, x]));   // docs/listings.json 원자료 (complex·geo·nearby 는 fromApi 가 옮기지 않음)
   const rows = W.LISTINGS.filter(L => !L.sample).map(L => ({ L, raw: rawById[L.id] || {}, past: false }))
     .concat(past.map(x => ({ L: E.fromApi(x), raw: x, past: true, noJudge: !x.notice_read })));
-  return { E, rows, today: W.TODAY, profileOf: p => (p ? E.syncV2(E.syncHome(Object.assign({}, E.DEFAULT_PROFILE, p))) : null) };
+  return { E, rows, lines, today: W.TODAY, profileOf: p => (p ? E.syncV2(E.syncHome(Object.assign({}, E.DEFAULT_PROFILE, p))) : null) };
 }
 export const ask = askWith;

@@ -26,6 +26,8 @@ export function loadData({ docs = DOCS, today = null, listings = null, past = tr
       .map(x => ({ L: eng.E.fromApi(Object.assign({ special_units: null }, x)), raw: x, past: true, noJudge: true })));
   }
   const live = eng.LS.map(L => ({ L, raw: rawById[L.id] || {}, past: false }));
-  return { eng, E: eng.E, today: eng.today, rows: live.concat(pastRows), profileOf: eng.profileOf };
+  const lf = join(HERE, 'data/lines.json');   // 노선별 역 좌표 (OpenStreetMap, tools/subway_lines.py) — 없으면 노선 조건은 '확인 불가'
+  const lines = existsSync(lf) ? JSON.parse(readFileSync(lf, 'utf8')) : null;
+  return { eng, E: eng.E, today: eng.today, rows: live.concat(pastRows), profileOf: eng.profileOf, lines };
 }
 

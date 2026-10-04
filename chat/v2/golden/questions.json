@@ -846,6 +846,76 @@
     ],
     "unsupported_has": "앞으로의 가격 상승"
    }
+  },
+  {
+   "id": "v2-sample4",
+   "q": "경기남부 신분당선 라인에 20평대 9억 이하로 진입 가능한 단지 있음?",
+   "src": "사용자 샘플 4 (2026-10-04, 다른 서비스 매매 상담 질문 — 원칙만)",
+   "expect": {
+    "conds": [
+     {
+      "key": "line",
+      "weight": "required"
+     },
+     {
+      "key": "region_in",
+      "label": "경기남부",
+      "weight": "required"
+     },
+     {
+      "key": "price_max",
+      "value": 9,
+      "weight": "required"
+     },
+     {
+      "key": "area",
+      "weight": "required"
+     }
+    ],
+    "not": [
+     {
+      "key": "region_in",
+      "label": "분당"
+     }
+    ]
+   }
+  },
+  {
+   "id": "v2-line-2",
+   "q": "9호선 역세권 서울 15억 이하",
+   "expect": {
+    "conds": [
+     {
+      "key": "line"
+     },
+     {
+      "key": "region_in",
+      "label": "서울"
+     }
+    ],
+    "not": [
+     {
+      "key": "station_walk"
+     }
+    ]
+   }
+  },
+  {
+   "id": "v2-line-3",
+   "q": "분당 국평 10억 이하",
+   "expect": {
+    "conds": [
+     {
+      "key": "region_in",
+      "label": "분당"
+     }
+    ],
+    "not": [
+     {
+      "key": "line"
+     }
+    ]
+   }
   }
  ],
  "deltas": [

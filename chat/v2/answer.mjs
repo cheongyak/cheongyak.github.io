@@ -2,7 +2,7 @@
 // 답 모양 (사용자 예시 2026-10-02 '단지 비교' 답을 본뜸): 질문 받기 한 줄 → 이렇게 이해했어요 → 결론부터 → [후보별 핵심 지표] → [관점별로 보면] → [확인하지 못한 것] → [다음에 해볼 것].
 // 지표 줄마다 상태(확인·추정·확인 불가)와 출처를 붙이고, 데이터가 없는 것(급지·호재·주차·학군)은 지어내지 않고 '청약패스에 데이터가 없어요'라고 쓴다.
 import { fmtEok, signed, ELIG_WORD, SITE } from './search.mjs';
-import { SP_LABEL, distKm as distKmA } from './lexicon.mjs';
+import { SP_LABEL, REGION_SETS, distKm as distKmA } from './lexicon.mjs';
 
 // 화면과 같은 이름: 신혼희망타운은 '신혼희망타운', 무순위는 '무순위', 일반 물량 없는 주택형은 '특별공급 기준' (docs/index.html genLabel·verdict_one)
 export const genWord = it => it.f.town ? '신혼희망타운' : it.f.category === 'remainder' ? '무순위' : it.genNone ? '특별공급 기준' : '일반공급';
@@ -65,6 +65,8 @@ export function card(it, { profile, C = null }) {
   if (it.elig) L.push('· 내 자격  ' + (f.past ? '그때 넣었다면 ' : '') + genWord(it) + ' ' + ELIG_WORD[it.elig] + ((it.sp || []).length ? spLine(it.sp)  : '') + ' (청약패스 판정)');
   else if (!profile) L.push('· 내 자격  내 조건을 넣으면 판정해요');
   else if (it.row && it.row.noJudge) L.push('· 내 자격  지난 공고 개요만 있어 판정하지 않아요');
+  for (const c of (C ? C.conds.filter(c => c.key === 'line') : [])) { const n = f.line && f.line[c.value.line];   // 노선 조건이면 그 노선 가장 가까운 역 (샘플 4)
+    L.push('· ' + c.value.line + '  ' + (n ? n.name + '역 직선 ' + (n.m >= 1000 ? (Math.round(n.m / 100) / 10) + 'km' : n.m + 'm') + ' (역 위치 OpenStreetMap, 추정)' : '확인 불가 (단지 좌표 또는 역 정보 없음)')); }
   L.push('· 역  ' + (f.station.state === '추정' ? f.station.name + ' 도보 약 ' + f.station.walk + '분(직선 ' + f.station.m + 'm, 추정)' : '확인 불가' + (f.station.why ? ' (' + f.station.why + ')' : '')));
   if (!(C && (C.assume || {}).no_school)) L.push('· 초등학교  ' + (f.school.state === '추정' ? f.school.name + ' 도보 약 ' + f.school.walk + '분(직선 ' + f.school.m + 'm, 추정)' : '확인 불가' + (f.school.why ? ' (' + f.school.why + ')' : '')));
   const cm = C ? C.conds.filter(c => c.key === 'commute') : [];
@@ -94,7 +96,8 @@ export function compose(C, r0, { profile = false, updated = '', mode = 'search',
   const U = understood(C), out = [];
   out.push(opening(C, r, mode));
   out.push('[이렇게 이해했어요]\n' + [U.required.length && '· 꼭: ' + U.required.join(', '), U.preferred.length && '· 되면 좋음: ' + U.preferred.join(', '), U.explore.length && '· 넓혀 보기: ' + U.explore.join(', '),
-    U.assume.length && '· 이번 질문만의 가정: ' + U.assume.join(', ') + ' (저장된 내 조건은 바꾸지 않아요)', U.past && '· 지난 공고까지 포함', U.unsupported.some(u => /^층 고르기/.test(u)) && '· 따를 수 없는 것: 저층 제외 — 청약은 당첨 뒤 동·호수를 추첨으로 정해요', mode === 'compare' && '· 비교할 단지: ' + (C.targets || []).join(', ') + (/(큰 평수|가장 큰|대형|넓은)/.test(C.q || '') ? ' (가장 큰 주택형 기준)' : ''), U.unsupported.length && mode === 'compare' && '· 데이터가 없어 답하지 않는 것: ' + U.unsupported.join(', '), (C.perspectives || []).length && '· 중요하게 보는 것: ' + C.perspectives.map(p => ({ margin: '시세 차익', chance: '당첨 가능성', price: '가격', growth: '가격 상승력(시세 차익으로 봄)', livability: '실거주 만족도' }[p] || p)).join(', ')].filter(Boolean).join('\n') || '· 조건 없이 지금 접수 중·예정인 공고 전체');
+    U.assume.length && '· 이번 질문만의 가정: ' + U.assume.join(', ') + ' (저장된 내 조건은 바꾸지 않아요)', U.past && '· 지난 공고까지 포함', ...Object.keys(REGION_SETS).filter(k => C.conds.some(c => c.key === 'region_in' && c.value.some(v => v.label === k))).map(k => '· ' + k + '는 이렇게 봤어요: ' + REGION_SETS[k].map(x => x.replace(/(시|군)$/, '')).join('·') + ' (한강 ' + (k === '경기남부' ? '남쪽' : '북쪽') + ' 경기 시·군)'), U.unsupported.some(u => /^층 고르기/.test(u)) && '· 따를 수 없는 것: 저층 제외 — 청약은 당첨 뒤 동·호수를 추첨으로 정해요', mode === 'compare' && '· 비교할 단지: ' + (C.targets || []).join(', ') + (/(큰 평수|가장 큰|대형|넓은)/.test(C.q || '') ? ' (가장 큰 주택형 기준)' : ''), U.unsupported.length && mode === 'compare' && '· 데이터가 없어 답하지 않는 것: ' + U.unsupported.join(', '), (C.perspectives || []).length && '· 중요하게 보는 것: ' + C.perspectives.map(p => ({ margin: '시세 차익', chance: '당첨 가능성', price: '가격', growth: '가격 상승력(시세 차익으로 봄)', livability: '실거주 만족도' }[p] || p)).join(', ')].filter(Boolean).join('\n') || '· 조건 없이 지금 접수 중·예정인 공고 전체');
+  for (const li of (r.lineInfo || [])) out.push(li.missing ? '· ' + li.line + ' 역 위치 자료가 아직 없어 노선 조건은 확인하지 못했어요.' : '[' + li.line + ' 역세권 공고 현황]\n' + (li.notices ? '지금 접수 중·예정인 공고 중 ' + li.line + ' 역까지 직선 ' + (li.m / 1000) + 'km 안은 ' + li.notices + '곳(주택형 ' + li.types + '개, ' + li.stations.join('·') + '역 주변)이고, 가장 싼 주택형이 ' + fmtEok(li.minPrice) + '이에요.' : '지금 접수 중·예정인 공고 중 ' + li.line + ' 역까지 직선 ' + (li.m / 1000) + 'km 안에 있는 곳은 없어요. 새 공고가 이 노선에 뜨면 알려 드릴게요.'));
   if (mode === 'compare' && compare) out.push(...compareBlocks(compare, { profile }));
   else if (r.ok.length) {
     out.push(conclusion(r, C, U));
@@ -111,7 +114,8 @@ export function compose(C, r0, { profile = false, updated = '', mode = 'search',
   } else {
     if (r.unsure && r.unsure.length) {   // 조건 일부를 데이터로 확인 못 해 '확인 필요'로 남은 곳만 있다 — '없다'고 하지 않는다 (2026-10-03 품질 검사: 방3화2 질문에 '청약은 없어요')
       const g = groupBy(r.unsure), why = [...new Set(r.unsure.flatMap(x => x.unknown.map(u => u.replace(/\s?확인 (필요|불가)$/, ''))))];
-      out.push(`결론부터 말씀드리면, 확실히 맞는 곳은 아직 없지만 ${why.join(', ')}만 확인하면 되는 곳이 ${g.length}곳(주택형 ${r.unsure.length}개) 있어요. 청약패스에 그 데이터가 아직 없어서 모집공고문 평면도·공급표로 확인해 주세요.`);
+      const how = why.some(w => /방|욕실|구조/.test(w)) ? '청약패스에 그 데이터가 아직 없어서 모집공고문 평면도·공급표로 확인해 주세요.' : '청약패스에 그 데이터가 아직 없어 확인하지 못했어요.';   // 이유에 맞는 안내 (샘플 4 점검: 노선 정보 없음에도 평면도 안내가 나왔음)
+      out.push(`결론부터 말씀드리면, 확실히 맞는 곳은 아직 없지만 ${why.join(', ')}만 확인하면 되는 곳이 ${g.length}곳(주택형 ${r.unsure.length}개) 있어요. ${how}`);
       out.push('[확인하면 되는 후보]\n\n' + g.slice(0, r.limit || 5).map(x => card(x[0], { profile, C })).join('\n\n'));
       r = { ...r, unsure: [] };
     } else { const nr = noResult(C, r, U).split('\n'); out.push(nr[0]); out.push(nr.slice(1).join('\n')); }

@@ -77,8 +77,21 @@ export function evalCond(D, row, f, c, ctx) {
     case 'eligible_only': { if (row.noJudge) return ['unknown', '지난 공고 개요만 있어 그때 자격은 판정하지 않음']; if (!ctx.profile) return ['unknown', '내 조건을 넣지 않아 자격 판정 전']; const b = ctx.elig(row); return b === 'ok' ? ['pass'] : b === 'unsure' ? ['unknown', '자격 확인 필요'] : ['fail', '내 자격으로 ' + ELIG_WORD[b]]; }
     case 'margin': return f.margin.g === 'unknown' ? ['unknown', '시세 확인 불가'] : GRADE_RANK[f.margin.g] >= GRADE_RANK.consider ? ['pass'] : ['fail', '시세 차익 작음(추정)'];
     case 'new_build': return ['pass'];
+    case 'line': {   // 노선 역세권: 단지 좌표에서 그 노선 역 중 가장 가까운 역까지 직선거리 (역 좌표: OpenStreetMap)
+      const st = D.lines && D.lines.lines && D.lines.lines[v.line];
+      if (!st || !st.length) return ['unknown', v.line + ' 역 정보 없음'];
+      if (!f.geo) return ['unknown', '단지 좌표 없음'];
+      const near = nearestOn(st, f.geo); f.line = f.line || {}; f.line[v.line] = near;
+      return near.m <= v.m ? ['pass'] : ['fail', v.line + ' 역에서 멀어요(' + near.name + '역 직선 ' + (near.m >= 1000 ? (Math.round(near.m / 100) / 10) + 'km' : near.m + 'm') + ')'];
+    }
     default: return ['unknown'];
   }
+}
+
+export function nearestOn(stations, geo) {
+  let best = null;
+  for (const x of stations) { const m = Math.round(distKm(geo, x) * 1000); if (!best || m < best.m) best = { name: x.name, m }; }
+  return best;
 }
 
 // ---- 검색 한 번 ----
@@ -140,6 +153,13 @@ export function search(D, C0, { profile = null, limit = 3, inner = false } = {})
   if (out.ok.length && pm) { const C2 = JSON.parse(JSON.stringify(C)); C2.conds.find(c => c.key === 'price_max').value = Math.round(pm.value * 1.1 * 100) / 100;
     const have = new Set(out.ok.map(x => x.f.nid)); out.nearMiss = groupByNotice(search(D, C2, { profile, inner: true }).ok.filter(x => !have.has(x.f.nid))).slice(0, 2); }
   out.explore = exploreNearby(D, C, live, facts);
+  // 노선 조건이면: 그 노선 역세권 공고가 지금 몇 곳이고 가장 싼 곳이 얼마인지 — '판교·분당권은 예산 안에 닿지 않아요' 같은 판단의 근거 (샘플 4)
+  out.lineInfo = C.conds.filter(c => c.key === 'line').map(c => {
+    const st = D.lines && D.lines.lines && D.lines.lines[c.value.line]; if (!st) return { line: c.value.line, missing: true };
+    const near = live.filter(r => !r.past).map(r => ({ r, f: facts.get(r.L.id) })).filter(x => x.f.geo).map(x => ({ ...x, st: nearestOn(st, x.f.geo) })).filter(x => x.st.m <= c.value.m);
+    const nids = new Set(near.map(x => x.f.nid)), prices = near.map(x => x.f.price.v).filter(v => v != null);
+    return { line: c.value.line, m: c.value.m, notices: nids.size, types: near.length, minPrice: prices.length ? Math.min(...prices) : null, stations: [...new Set(near.map(x => x.st.name))] };
+  });
   // '마포구 말고도 같은 조건으로' (scope.expand): 지역만 풀고 나머지 조건은 그대로 — 그 지역 밖 후보를 따로 (2026-10-04 사용자 샘플 3)
   const regC = C.conds.filter(c => c.key === 'region_in' && c.weight === 'required');
   if (C.scope && C.scope.expand && regC.length) {
@@ -214,6 +234,7 @@ function relaxOptions(D, C, profile) {
     else if (c.key === 'region_in') tryC(c.value.map(r => r.label).join('·') + ' → 인접 지역 포함', X => { X.conds[i].value = widen(c.value); });
     else if (c.key === 'area') tryC(c.value.label + ' → 면적 조건 넓히기', X => { X.conds[i].value = { min: c.value.min - 15, max: c.value.max + 15, label: '전용 ' + Math.max(0, c.value.min - 15) + '~' + (c.value.max + 15) + '㎡' }; });
     else if (c.key === 'status') tryC('접수 중·예정 모두', X => { X.conds.splice(i, 1); });
+    else if (c.key === 'line') tryC(c.value.line + ' 역까지 직선 ' + (c.value.m / 1000) + 'km → 3km', X => { X.conds[i].value = { ...c.value, m: 3000 }; });
     else if (['supply', 'eligible_only', 'not_single', 'rooms', 'region_out'].includes(c.key)) tryC((c.text || c.key) + ' 조건 빼기', X => { X.conds.splice(i, 1); });
   }
   if (!C.scope || !C.scope.past) tryC('최근 마감된 지난 공고 보기', X => { X.scope = { past: true }; X.conds.push({ key: 'status', value: ['마감(과거 공고)'], weight: 'required', text: '지난 공고' }); });
