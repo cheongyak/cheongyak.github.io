@@ -90,12 +90,18 @@ export function extract(question) {
   if (/(가점|점수).*(몇|얼마|계산)|내 가점/.test(q)) C.intent = C.intent === 'compare' ? 'compare' : 'score';
   if (/(뭐야|뭔가요|무엇|설명|차이가 뭐|란\??$|이란)/.test(q) && !/(추천|찾아|알려줘.*(공고|단지))/.test(q)) C.intent = 'explain';
 
+  // '마포구 말고도 같은 조건으로' — 제외가 아니라 '그 지역 + 다른 지역도' (2026-10-04 사용자 샘플 3: '말고도'를 '마포구 제외'로 읽어 모순 조건이 됐음)
+  const EXPAND = /(말고도|외에도|이외에도|밖에도|뿐\s?아니라|말고\s?다른\s?(?:곳|데|지역|동네)|(?:동일한|같은)\s?조건으로)/;
+  // '학군지 필요없어' — 학교를 장점으로 내세우지 않는다
+  if (/(학군|학교|초품아|학원가)\S{0,3}\s?(?:은|는|도)?\s?(필요\s?(?:없|업)|상관\s?없|안\s?중요|안\s?봐|관심\s?없|신경\s?안)/.test(q)) C.assume.no_school = true;
   for (const cl of cls) {
     // 지역 (포함/제외)
-    const excl = /(제외|빼고|말고|싫|아니어도|아닌)/.test(cl);
+    const expandHere = EXPAND.test(cl);
+    if (expandHere) C.scope.expand = true;
+    const excl = !expandHere && /(제외|빼고|말고|싫|아니어도|아닌)/.test(cl);
     // 직장 위치 ('남편 직장 구로', '아내 마포', '회사는 판교') — 지역 조건이 아니라 출퇴근 목적지
     const WP = /(남편|아내|와이프|신랑|배우자|제|저|내|나|우리)?\s?(?:의\s?)?(직장|회사|근무지|출근지|일터)?\s?(?:은|는|이|가)?\s?([가-힣]{2,6}?)(?:역)?\s?(?:이고|이에요|예요|이며|에서 일|으로 출근|로 출근|에 다녀|에 있어|,|$)/;
-    let clR = cl;
+    let clR = expandHere ? cl.replace(/(말고도|외에도|이외에도|밖에도|뿐\s?아니라)/g, ' ').replace(/말고(?=\s?다른)/g, ' ') : cl;
     for (const m of cl.matchAll(new RegExp(WP.source, 'g'))) {
       if (!m[1] && !m[2]) continue;
       const place = placeOf(m[3]); if (!place) continue;
@@ -103,14 +109,14 @@ export function extract(question) {
       clR = clR.replace(m[0], ' ');
     }
     // '강남3구 말고 서울에서' — 제외 낱말 앞의 지역만 제외, 뒤는 포함
-    const ex = clR.match(/^(.*?)(제외|빼고|말고|싫고|싫어|싫은데)(.*)$/), exA = ex ? findRegions(ex[1]) : [], exB = ex ? findRegions(ex[3]) : [];
+    const ex = expandHere ? null : clR.match(/^(.*?)(제외|빼고|말고|싫고|싫어|싫은데)(.*)$/), exA = ex ? findRegions(ex[1]) : [], exB = ex ? findRegions(ex[3]) : [];
     if (exA.length && exB.length) {
       add('region_out', exA, cl, exA.map(r => r.label).filter((x, i, y) => y.indexOf(x) === i).join('·') + ' 제외', 'required');
       add('region_in', exB, ex[3], exB.map(r => r.label).filter((x, i, y) => y.indexOf(x) === i).join('·'));
     }
     const regs = exA.length && exB.length ? [] : findRegions(clR);
     if (regs.length) {
-      if (excl && /(제외|빼고|말고|싫)/.test(cl)) add('region_out', regs, cl, regs.map(r => r.label).filter((x, i, a) => a.indexOf(x) === i).join('·') + ' 제외', 'required');
+      if (excl && /(제외|빼고|말고|싫)/.test(clR)) add('region_out', regs, cl, regs.map(r => r.label).filter((x, i, a) => a.indexOf(x) === i).join('·') + ' 제외', 'required');
       else if (/아니어도|상관없|괜찮|근처|주변|인접/.test(cl)) add('region_in', regs, cl, regs.map(r => r.label).filter((x, i, a) => a.indexOf(x) === i).join('·') + (/(근처|주변|인접)/.test(cl) ? ' 근처' : ' (아니어도 됨)'), 'explore');
       else { const rs = regs.filter(r => !(/(출퇴근|출근|통근|직장|회사)/.test(cl) && (PLACES[r.label] || PLACES[String(r.label).replace(/(시|구)$/, '')])));
         if (rs.length) add('region_in', rs, cl, rs.map(r => r.label).filter((x, i, a) => a.indexOf(x) === i).join('·')); }
@@ -152,7 +158,7 @@ export function extract(question) {
     if (m) { const bed = m[1] === '쓰리' ? 3 : m[1] === '투' ? 2 : +m[1], bath = m[2] ? +m[2] : null; add('rooms', { bed, bath }, cl, '방' + bed + (bath ? '·욕실' + bath : '')); }
     // 역·학교
     if (/역세권|역\s?(가까|도보|근처)|지하철\s?(가까|도보)/.test(cl)) { const w = cl.match(/(\d{1,2})\s?분/); add('station_walk', w ? +w[1] : 10, cl, w ? '역 도보 ' + w[1] + '분' : '역세권(도보 약 10분)'); }
-    if (/초품아|초등학교|초등|학교\s?(가까|도보|근처)/.test(cl)) { const w = cl.match(/(\d{1,2})\s?분/); add('school_walk', { kind: '초등학교', min: w ? +w[1] : 10 }, cl, w ? '초등학교 도보 ' + w[1] + '분' : '초등학교 가까이(도보 약 10분)'); }
+    if (!C.assume.no_school && /초품아|초등학교|초등|학교\s?(가까|도보|근처)/.test(cl)) { const w = cl.match(/(\d{1,2})\s?분/); add('school_walk', { kind: '초등학교', min: w ? +w[1] : 10 }, cl, w ? '초등학교 도보 ' + w[1] + '분' : '초등학교 가까이(도보 약 10분)'); }
     // 출퇴근
     if (/(출퇴근|출근|통근|직장|회사)/.test(cl)) for (const [k, p] of Object.entries(PLACES)) {   // '판교나 의왕으로 출퇴근' — 그 절의 장소 모두
       if (new RegExp(k + '(?![가-힣]*구)').test(cl) && !C.conds.some(c => c.key === 'commute' && c.value.place === p.name)) { const w = cl.match(/(\d{1,3})\s?분/); add('commute', { place: p.name, lat: p.lat, lng: p.lng, max_min: w ? +w[1] : null }, cl, p.name + ' 출퇴근' + (w ? ' ' + w[1] + '분' : '')); }
@@ -178,15 +184,24 @@ export function extract(question) {
     if (m) { const K = { 한: 1, 하나: 1, 둘: 2, 두: 2, 셋: 3, 세: 3, 넷: 4, 네: 4 }; C.assume.kids = K[m[2]] || +m[2]; }
     else if (/(외동|아이 하나|애 하나)/.test(cl)) C.assume.kids = 1;
     m = cl.match(/(\d{1,2})\s?(세|살|개월)/); if (m && /(아이|자녀|애|아기|양육|키우)/.test(cl)) C.assume.youngest = m[1] + m[2];   // 생일을 모르니 판정에 넣지 않고 되묻는다
+    // 생활 조건을 청약패스 데이터로 바꿔 읽는다 — 무엇으로 봤는지 text 에 그대로 적는다 (샘플 3)
+    if (/교통\s?(?:이|은|도)?\s?(좋|편|편리|괜찮)|대중교통|지하철\s?(?:이|은)?\s?(좋|편)/.test(cl) && !C.conds.some(c => c.key === 'station_walk')) add('station_walk', 10, cl, '교통 → 지하철역 도보 약 10분 이내로 봐요', 'preferred');
+    if (/(실거주\s?만족|거주\s?만족|살기\s?좋|주거\s?환경|살기\s?편)/.test(cl)) { C.perspectives.push('livability'); if (!C.conds.some(c => c.key === 'households_min')) add('households_min', 500, cl, '실거주 만족도 → 500세대 이상 단지·역 거리로 봐요', 'preferred'); }
+    if (/(상승\s?(?:력|여력|률|세)|가격\s?(?:이\s?)?(?:상승|오를)|오를\s?(?:곳|만한|여지)|미래\s?가치|투자\s?가치)/.test(cl)) { C.perspectives.push('growth'); if (!C.conds.some(c => c.key === 'margin')) add('margin', 'consider', cl, '가격 상승력 → 미래 가격은 예측하지 않고, 분양가가 주변 시세보다 싼 정도(시세 차익)로 봐요', 'preferred'); }
+    m = cl.match(/(\d|두|세|네|다섯)\s?(?:인|식구)\s?(?:가족|가구|식구)?|(\d|두|세|네|다섯)\s?명\s?(?:가족|식구)/);
+    if (m) { const K = { 두: 2, 세: 3, 네: 4, 다섯: 5 }; const v = m[1] || m[2]; C.assume.family = K[v] || +v; }
+    if (/(저층|1층|낮은\s?층)\s?(?:은|는|도)?\s?(빼|제외|싫|말고|피하)|고층\s?(?:만|으로|위주|원해)/.test(cl) && !C.unsupported.some(u => /^층 고르기/.test(u))) C.unsupported.push('층 고르기 — 청약은 당첨된 뒤 동·호수를 추첨으로 정해서 저층을 미리 뺄 수 없어요');
     // 관점
     if (/(시세\s?차익|마진|로또|안전마진|싸게)/.test(cl)) { add('margin', 'consider', cl, '시세 차익(마진)', 'preferred'); C.perspectives.push('margin'); }
     if (/(당첨\s?(가능성|확률|될|되는)|경쟁률\s?(낮|적))/.test(cl)) C.perspectives.push('chance');
-    if (/(가격|저렴|싼|가성비|예산)/.test(cl)) C.perspectives.push('price');
+    if (/(가격(?!\s?(?:이\s?)?(?:상승|오를))|저렴|싼|가성비)/.test(cl)) C.perspectives.push('price');   // '가격 상승력'은 가격 우선이 아님
     if (/(신축|새 아파트|새아파트)/.test(cl)) add('new_build', true, cl, '신축', 'preferred');
     // 아직 못 보는 조건 — 지어내지 않고 '확인 불가'로 돌려준다
-    for (const [re, label] of [[/(급지|호재|상승\s?여력|오를|투자\s?가치|미래\s?가치)/, '급지·호재·상승 여력(청약패스 데이터 없음)'], [/(주차)/, '주차 대수(데이터 없음)'], [/(학군|학원가|명문)/, '학군·학원가(데이터 없음 — 학교 거리만 있음)'],
-      [/(층|향|남향|뷰|조망)/, '층·향·조망(데이터 없음)'], [/(커뮤니티|헬스장|수영장)/, '커뮤니티 시설(데이터 없음)'], [/(구축|재건축|매매|매물|급매)/, '기존 아파트 매매(청약패스는 새 분양 공고만)']])
+    for (const [re, label] of [[/(급지|호재)/, '급지·호재(청약패스 데이터 없음)'], [/(상승\s?여력|상승\s?력|오를|투자\s?가치|미래\s?가치)/, '앞으로의 가격 상승 — 예측하지 않아요(대신 분양가와 주변 시세 차이를 보여 드려요)'], [/(주차)/, '주차 대수(데이터 없음)'], [/(학군|학원가|명문)/, '학군·학원가(데이터 없음 — 학교 거리만 있음)'],
+      [/(향|남향|뷰|조망)|(?<!저|고|최하|1)층/, '층·향·조망(데이터 없음)'], [/(커뮤니티|헬스장|수영장)/, '커뮤니티 시설(데이터 없음)'], [/(구축|재건축|매매|매물|급매)/, '기존 아파트 매매(청약패스는 새 분양 공고만)']]) {
+      if (/^학군/.test(label) && C.assume.no_school) continue;
       if (re.test(cl) && !C.unsupported.includes(label)) C.unsupported.push(label);
+    }
   }
   C.perspectives = [...new Set(C.perspectives)];
   // 여러 절의 지역(포함)은 '또는'으로 한 조건에

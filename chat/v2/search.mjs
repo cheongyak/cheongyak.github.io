@@ -131,7 +131,8 @@ export function search(D, C0, { profile = null, limit = 3, inner = false } = {})
     const cand = near.filter(x => x.misses.length === m && !x.row.past);
     const regs = C.conds.filter(c => c.key === 'region_in').flatMap(c => c.value).filter(v => v.lat);
     const d = x => regs.length && x.f.geo ? Math.min(...regs.map(v => distKm(x.f.geo, v))) : 999;
-    const seen = new Set(); out.closest = cand.sort((a, b) => d(a) - d(b) || (a.f.price.v || 99) - (b.f.price.v || 99)).filter(x => !seen.has(x.f.nid) && seen.add(x.f.nid)).slice(0, 3)
+    const er = x => ctx.profile && !x.row.noJudge ? ELIG_RANK[ctx.elig(x.row)] || 0 : 0;   // 신청할 수 있는 곳을 먼저 (샘플 3 점검: 신청 불가 곳이 맨 위)
+    const seen = new Set(); out.closest = cand.sort((a, b) => er(b) - er(a) || d(a) - d(b) || (a.f.price.v || 99) - (b.f.price.v || 99)).filter(x => !seen.has(x.f.nid) && seen.add(x.f.nid)).slice(0, 3)
       .map(x => ({ ...x, km: d(x) < 999 ? Math.round(d(x)) : null, elig: ctx.profile && !x.row.noJudge ? ctx.elig(x.row) : undefined, genNone: D.E.genNone(x.row.L) }));
   }
   // 예산을 조금(10%) 넘는 곳 — '관심 단지로만' 보여 준다 (사용자 예시: 예산을 다소 넘어 관심 단지로만 체크)
@@ -139,6 +140,19 @@ export function search(D, C0, { profile = null, limit = 3, inner = false } = {})
   if (out.ok.length && pm) { const C2 = JSON.parse(JSON.stringify(C)); C2.conds.find(c => c.key === 'price_max').value = Math.round(pm.value * 1.1 * 100) / 100;
     const have = new Set(out.ok.map(x => x.f.nid)); out.nearMiss = groupByNotice(search(D, C2, { profile, inner: true }).ok.filter(x => !have.has(x.f.nid))).slice(0, 2); }
   out.explore = exploreNearby(D, C, live, facts);
+  // '마포구 말고도 같은 조건으로' (scope.expand): 지역만 풀고 나머지 조건은 그대로 — 그 지역 밖 후보를 따로 (2026-10-04 사용자 샘플 3)
+  const regC = C.conds.filter(c => c.key === 'region_in' && c.weight === 'required');
+  if (C.scope && C.scope.expand && regC.length) {
+    const C3 = JSON.parse(JSON.stringify(C)); C3.conds = C3.conds.filter(c => c.key !== 'region_in'); C3.scope = { ...C3.scope, expand: false };
+    const r3 = search(D, C3, { profile, inner: true });
+    const regs = regC.flatMap(c => c.value), inside = x => regs.some(v => inRegion(x.f, v));
+    const pts = regs.filter(v => v.lat), dist = x => pts.length && x.f.geo ? Math.min(...pts.map(v => distKm(x.f.geo, v))) : 999;
+    const pool3 = (r3.ok.length ? r3.ok : r3.unsure).filter(x => !inside(x));
+    pool3.forEach(x => { x.km = dist(x) < 999 ? Math.round(dist(x)) : null; x.rank3 = x.score - (dist(x) < 999 ? Math.min(6, dist(x) / 8) : 4); });   // 그 지역에서 멀수록 조금 뒤로 (생활권)
+    const near30 = x => x.km != null && x.km <= 30 ? 1 : 0;   // 생활권(직선 30km) 안을 먼저 — 샘플 3 점검: 50km 떨어진 곳이 30km 곳보다 앞
+    pool3.sort((a, b) => near30(b) - near30(a) || (b.elig != null ? ELIG_RANK[b.elig] : 0) - (a.elig != null ? ELIG_RANK[a.elig] : 0) || b.rank3 - a.rank3 || (a.f.price.v || 99) - (b.f.price.v || 99));
+    out.outside = { base: [...new Set(regs.map(v => v.label))], groups: groupByNotice(pool3).slice(0, limit), total: new Set(pool3.map(x => x.f.nid)).size, unsure: !r3.ok.length };
+  }
   out.profile = !!p; out.limit = limit;
   return out;
 }

@@ -724,6 +724,128 @@
      }
     ]
    }
+  },
+  {
+   "id": "v2-sample3",
+   "q": "마포구 30평대 4인가족 거주할 거야. 가격 상승력 높고, 교통 좋고, 실거주 만족도 높은 곳으로 저층은 빼고 21억 까지 찾아줘. 학군지 필요없어. 또, 마포구 말고도 동일한 조건으로 매물도 추천해줘.",
+   "src": "사용자 샘플 3 (2026-10-04, 다른 서비스 매매 상담 질문 — 원칙만)",
+   "expect": {
+    "conds": [
+     {
+      "key": "region_in",
+      "label": "마포구",
+      "weight": "required"
+     },
+     {
+      "key": "area",
+      "weight": "required"
+     },
+     {
+      "key": "price_max",
+      "value": 21,
+      "weight": "required"
+     },
+     {
+      "key": "station_walk",
+      "weight": "preferred"
+     },
+     {
+      "key": "households_min",
+      "weight": "preferred"
+     },
+     {
+      "key": "margin",
+      "weight": "preferred"
+     }
+    ],
+    "not": [
+     {
+      "key": "region_out"
+     },
+     {
+      "key": "school_walk"
+     }
+    ],
+    "assume": {
+     "family": 4,
+     "no_school": true
+    },
+    "unsupported_has": "층 고르기",
+    "perspectives": [
+     "growth",
+     "livability"
+    ],
+    "scope_expand": true
+   }
+  },
+  {
+   "id": "v2-expand-1",
+   "q": "송파 말고 다른 곳도 같이 보여줘 국평 15억 이하",
+   "expect": {
+    "conds": [
+     {
+      "key": "region_in",
+      "label": "송파구"
+     }
+    ],
+    "not": [
+     {
+      "key": "region_out"
+     }
+    ],
+    "scope_expand": true
+   }
+  },
+  {
+   "id": "v2-expand-2",
+   "q": "강남3구 말고 서울에서 국평",
+   "expect": {
+    "conds": [
+     {
+      "key": "region_out"
+     },
+     {
+      "key": "region_in",
+      "label": "서울"
+     }
+    ]
+   }
+  },
+  {
+   "id": "v2-noschool",
+   "q": "학군 상관없고 교통 좋은 곳 위주로 경기 10억 이하",
+   "expect": {
+    "conds": [
+     {
+      "key": "station_walk",
+      "weight": "preferred"
+     }
+    ],
+    "not": [
+     {
+      "key": "school_walk"
+     }
+    ],
+    "assume": {
+     "no_school": true
+    }
+   }
+  },
+  {
+   "id": "v2-growth",
+   "q": "가격 상승 여력 큰 곳으로 서울 국평 추천해줘",
+   "expect": {
+    "conds": [
+     {
+      "key": "margin",
+      "weight": "preferred"
+     }
+    ],
+    "perspectives": [
+     "growth"
+    ],
+    "unsupported_has": "앞으로의 가격 상승"
+   }
   }
  ],
  "deltas": [

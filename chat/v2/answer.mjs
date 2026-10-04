@@ -15,6 +15,7 @@ export function understood(C) {
   const a = C.assume || {}, as = [];
   if (a.married) as.push('신혼부부'); if (a.cash != null) as.push('현금 ' + fmtEok(a.cash)); if (a.income != null) as.push('연 소득 ' + a.income.toLocaleString('ko-KR') + '만원');
   if (a.homeless === true) as.push('무주택'); if (a.homeless === false) as.push('집 있음'); if (a.kids != null) as.push('자녀 ' + a.kids + '명');
+  if (a.family) as.push(a.family + '인 가족'); if (a.no_school) as.push('학군은 안 따짐');
   return { required: by('required'), preferred: by('preferred'), explore: by('explore'), assume: as, unsupported: C.unsupported || [], past: !!(C.scope && C.scope.past) };
 }
 
@@ -24,9 +25,11 @@ function reasons(it, C) {
   if (it.elig === 'ok') r.push(genWord(it) + ' 신청 가능' + ((it.sp || []).some(s => s.s === 'ok') ? '에 ' + it.sp.filter(s => s.s === 'ok').map(s => s.label).join('·') + ' 특별공급도 노려 볼 수 있어요' : '해요'));
   else if (it.elig === 'unsure') r.push(genWord(it) + ' 자격은 몇 가지 확인이 필요해요');
   if (f.margin.g === 'lotto' || f.margin.g === 'consider') r.push('주변 시세보다 ' + signed(f.margin.lo) + ' 이상 싸게 나온 편(추정)이에요');
-  if (f.school.state === '추정' && f.school.walk <= 5) r.push('초등학교가 가까워요' + (C && ((C.assume || {}).kids || C.conds.some(c => c.key === 'school_walk')) ? ' 아이 키우기에 좋아요' : ''));
-  if (f.station.state === '추정' && f.station.walk <= 7) r.push(f.station.name + ' 역세권이에요');
-  if (f.complex.state === '확인' && f.complex.households >= 1000) r.push(f.complex.households.toLocaleString('ko-KR') + '세대 대단지예요');
+  const noSchool = C && (C.assume || {}).no_school;   // '학군지 필요없어' — 학교를 장점으로 내세우지 않는다 (샘플 3)
+  if (!noSchool && f.school.state === '추정' && f.school.walk <= 5) r.push('초등학교가 가까워요' + (C && ((C.assume || {}).kids || C.conds.some(c => c.key === 'school_walk')) ? ' 아이 키우기에 좋아요' : ''));
+  const wantsTransit = C && C.conds.some(c => c.key === 'station_walk'), wantsLive = C && (C.perspectives || []).includes('livability');
+  if (f.station.state === '추정' && f.station.walk <= (wantsTransit ? 10 : 7)) r.push(f.station.name + ' 도보 약 ' + f.station.walk + '분이라 ' + (wantsTransit ? '교통이 편해요' : '역세권이에요'));
+  if (f.complex.state === '확인' && f.complex.households >= (wantsLive ? 500 : 1000)) r.push(f.complex.households.toLocaleString('ko-KR') + '세대 ' + (f.complex.households >= 1000 ? '대단지' : '단지') + (wantsLive ? '라 생활 편의시설을 기대할 만해요' : '예요'));
   const cm = C ? C.conds.filter(c => c.key === 'commute') : [];
   if (cm.length && f.geo) { const near = cm.map(c => [c, distKmA(f.geo, c.value)]).sort((a, b) => a[1] - b[1])[0]; if (near[1] <= 8) r.push((near[0].value.who ? near[0].value.who + ' ' : '') + '직장과 가까워요(직선 약 ' + Math.round(near[1]) + 'km)'); }
   if (!f.past && f.dates.applyEnd && f.status === '접수 중' && f.dates.applyEnd <= (C && C.today || '')) r.push('오늘 접수가 끝나요');
@@ -55,7 +58,7 @@ export function card(it, { profile, C = null }) {
   if (why) L.push(why);
   L.push('· 일정  ' + statusLine(f));
   L.push('· ' + f.price.label + '  ' + fmtEok(f.price.v) + ' (청약홈)');
-  if (!f.rental) L.push('· 시세 차익  ' + (f.margin.g === 'unknown' ? '확인 불가 (주변 거래 부족)' : signed(f.margin.lo) + '~' + signed(f.margin.hi) + ' · ' + f.margin.name + ' (추정, 근거 거래 ' + f.margin.count + '건)'));
+  if (!f.rental) L.push('· 시세 차익  ' + (f.margin.g === 'unknown' ? '확인 불가 (주변 거래 부족)' : signed(f.margin.lo) + '~' + signed(f.margin.hi) + ' · ' + f.margin.name + ' (추정, 근거 거래 ' + f.margin.count + '건' + (f.margin.count < 5 ? ' — 거래가 적어 참고만' : '') + ')'));   // 근거가 얇으면 바로 옆에 (샘플 3 '중개사 1곳 — 확인 필요')
   if (f.jeonse.state === '추정') L.push('· 전세  약 ' + fmtEok(f.jeonse.v) + ' (추정, 입주장 할인 반영)');
   const askSp = C ? C.conds.filter(c => c.key === 'supply' && /^sp:/.test(c.value)).map(c => c.value.slice(3)) : [];
   for (const t of askSp) { const x = (it.sp || []).find(s => s.type === t); L.push('· ' + SP_LABEL[t] + ' 특공  ' + (!it.elig && !x ? '내 조건을 넣으면 판정해요' : x ? { ok: '신청 가능', warn: '확인 필요', fail: '신청 불가' }[x.s] + ' (청약패스 판정)' : '이 주택형에는 없어요')); }   // 물어본 특공 유형은 따로 한 줄 (회차 1: '생애최초'를 물었는데 '특공 가능 없음'만)
@@ -63,7 +66,7 @@ export function card(it, { profile, C = null }) {
   else if (!profile) L.push('· 내 자격  내 조건을 넣으면 판정해요');
   else if (it.row && it.row.noJudge) L.push('· 내 자격  지난 공고 개요만 있어 판정하지 않아요');
   L.push('· 역  ' + (f.station.state === '추정' ? f.station.name + ' 도보 약 ' + f.station.walk + '분(직선 ' + f.station.m + 'm, 추정)' : '확인 불가' + (f.station.why ? ' (' + f.station.why + ')' : '')));
-  L.push('· 초등학교  ' + (f.school.state === '추정' ? f.school.name + ' 도보 약 ' + f.school.walk + '분(직선 ' + f.school.m + 'm, 추정)' : '확인 불가' + (f.school.why ? ' (' + f.school.why + ')' : '')));
+  if (!(C && (C.assume || {}).no_school)) L.push('· 초등학교  ' + (f.school.state === '추정' ? f.school.name + ' 도보 약 ' + f.school.walk + '분(직선 ' + f.school.m + 'm, 추정)' : '확인 불가' + (f.school.why ? ' (' + f.school.why + ')' : '')));
   const cm = C ? C.conds.filter(c => c.key === 'commute') : [];
   if (cm.length) L.push('· 출퇴근  ' + (!f.geo ? '확인 불가 (단지 좌표 없음)' : cm.map(c => { const nm = (c.value.who ? c.value.who + ' ' : '') + c.value.place.replace(/ \(중심 근사\)/, '');
     const t = (f.commute || []).find(x => x.place === c.value.place && x.who === (c.value.who || ''));
@@ -91,7 +94,7 @@ export function compose(C, r0, { profile = false, updated = '', mode = 'search',
   const U = understood(C), out = [];
   out.push(opening(C, r, mode));
   out.push('[이렇게 이해했어요]\n' + [U.required.length && '· 꼭: ' + U.required.join(', '), U.preferred.length && '· 되면 좋음: ' + U.preferred.join(', '), U.explore.length && '· 넓혀 보기: ' + U.explore.join(', '),
-    U.assume.length && '· 이번 질문만의 가정: ' + U.assume.join(', ') + ' (저장된 내 조건은 바꾸지 않아요)', U.past && '· 지난 공고까지 포함', mode === 'compare' && '· 비교할 단지: ' + (C.targets || []).join(', ') + (/(큰 평수|가장 큰|대형|넓은)/.test(C.q || '') ? ' (가장 큰 주택형 기준)' : ''), U.unsupported.length && mode === 'compare' && '· 데이터가 없어 답하지 않는 것: ' + U.unsupported.join(', '), (C.perspectives || []).length && '· 중요하게 보는 것: ' + C.perspectives.map(p => ({ margin: '시세 차익', chance: '당첨 가능성', price: '가격' }[p] || p)).join(', ')].filter(Boolean).join('\n') || '· 조건 없이 지금 접수 중·예정인 공고 전체');
+    U.assume.length && '· 이번 질문만의 가정: ' + U.assume.join(', ') + ' (저장된 내 조건은 바꾸지 않아요)', U.past && '· 지난 공고까지 포함', mode === 'compare' && '· 비교할 단지: ' + (C.targets || []).join(', ') + (/(큰 평수|가장 큰|대형|넓은)/.test(C.q || '') ? ' (가장 큰 주택형 기준)' : ''), U.unsupported.length && mode === 'compare' && '· 데이터가 없어 답하지 않는 것: ' + U.unsupported.join(', '), (C.perspectives || []).length && '· 중요하게 보는 것: ' + C.perspectives.map(p => ({ margin: '시세 차익', chance: '당첨 가능성', price: '가격', growth: '가격 상승력(시세 차익으로 봄)', livability: '실거주 만족도' }[p] || p)).join(', ')].filter(Boolean).join('\n') || '· 조건 없이 지금 접수 중·예정인 공고 전체');
   if (mode === 'compare' && compare) out.push(...compareBlocks(compare, { profile }));
   else if (r.ok.length) {
     out.push(conclusion(r, C, U));
@@ -99,6 +102,12 @@ export function compose(C, r0, { profile = false, updated = '', mode = 'search',
     if (r.groups.length > r.limit) out.push('[나머지 ' + (r.groups.length - r.limit) + '곳]\n' + r.groups.slice(r.limit).map(g => '· ' + g.name + ' ' + g.best.f.unit + ' — ' + g.best.f.price.label + ' ' + fmtEok(g.best.f.price.v) + (g.best.elig ? ' · ' + genWord(g.best) + ' ' + ELIG_WORD[g.best.elig] : '') + (g.best.far ? ' · 직장에서 멀어요' : '') + '\n  ' + g.best.f.link).join('\n'));
     if (r.nearMiss && r.nearMiss.length) out.push('[함께 눈여겨볼 곳 · 예산을 조금 넘어요]\n' + r.nearMiss.map(g => '· ' + g.name + ' ' + g.best.f.unit + ' — 분양가 ' + fmtEok(g.best.f.price.v) + (g.best.elig ? ', ' + genWord(g.best) + ' ' + ELIG_WORD[g.best.elig] : '') + (g.best.f.margin.g !== 'unknown' ? ', 시세 차익 ' + g.best.f.margin.name + '(추정)' : '') + '. 관심 단지로만 체크해 두세요.\n  ' + g.best.f.link).join('\n'));
     out.push(scenarios(r));
+    if (r.outside && r.outside.groups.length) out.push(outsideBlock(r, C, profile));
+  } else if (r.outside && r.outside.groups.length && !(r.unsure && r.unsure.length)) {   // 그 지역엔 없고 다른 지역에는 같은 조건이 있다 — '없어요'로 끝내지 않고 넓힌 결과를 본론으로
+    const o = r.outside, top = o.groups[0];
+    out.push(`결론부터 말씀드리면, ${o.base.join('·')} 안에는 지금 이 조건(${[...U.required].filter(x => !o.base.includes(x)).join(' · ')})에 맞는 접수 중·예정 청약이 없어요. 같은 조건으로 ${o.base.join('·')} 밖까지 넓히면 ${o.total}곳이 있고, 먼저 볼 곳은 ${top.name} ${top.best.f.unit}이에요${top.best.km != null ? '(' + o.base.join('·') + '에서 직선 약 ' + top.best.km + 'km)' : ''}.`);
+    out.push(outsideBlock(r, C, profile));
+    if (r.relax && r.relax.length) out.push('조건을 이렇게 바꿔도 볼 수 있어요:\n' + r.relax.filter(x => !/인접 지역/.test(x.label)).map(o => '  [' + o.label + ' (' + o.count + '곳)]').join('\n'));
   } else {
     if (r.unsure && r.unsure.length) {   // 조건 일부를 데이터로 확인 못 해 '확인 필요'로 남은 곳만 있다 — '없다'고 하지 않는다 (2026-10-03 품질 검사: 방3화2 질문에 '청약은 없어요')
       const g = groupBy(r.unsure), why = [...new Set(r.unsure.flatMap(x => x.unknown.map(u => u.replace(/\s?확인 (필요|불가)$/, ''))))];
@@ -122,6 +131,26 @@ export function compose(C, r0, { profile = false, updated = '', mode = 'search',
   out.push('판정은 청약패스 화면과 같은 엔진으로, ' + (updated ? updated + ' 수집 데이터' : '오늘 데이터') + ' 기준이에요. 시세·거리는 추정이고, 신청 전에 모집공고문을 꼭 확인하세요.');
   return reorder(out).filter(Boolean).join('\n\n');
 }
+// '마포구 말고도 같은 조건으로' — 그 지역 밖 후보 (지역만 풀고 다른 조건은 그대로). 왜 골랐는지: 거리 + 질문의 우선순위와 맞는 점 (샘플 3)
+function outsideBlock(r, C, profile) {
+  const o = r.outside;
+  const head = '[' + o.base.join('·') + ' 밖 · 같은 조건' + (o.unsure ? ' (일부 확인 필요)' : '') + ']\n같은 예산·면적 조건으로 ' + o.base.join('·') + ' 밖에서 고른 곳이에요. 신청할 수 있는 곳, 말씀하신 우선순위에 맞는 곳, ' + o.base.join('·') + '에서 가까운 곳 순이에요.';
+  return head + '\n\n' + o.groups.map(g => card(g.best, { profile, C }) + (g.best.km != null ? '\n왜 여기: ' + o.base.join('·') + '에서 직선 약 ' + g.best.km + 'km' : '')).join('\n\n') + (o.total > o.groups.length ? '\n\n(같은 조건으로 ' + (o.total - o.groups.length) + '곳 더 있어요 — [더 보기])' : '') + priorityPicks(o.groups.map(g => g.best), C);
+}
+// 우선순위별 '먼저 볼 곳' — 질문에서 말한 우선순위마다 위 지표에서 가장 나은 곳 (샘플 3 결론 '…을 최우선으로 보신다면 A, … 를 더 선호하신다면 B')
+function priorityPicks(items, C) {
+  if (items.length < 2) return '';
+  const P = C.perspectives || [], lines = [];
+  const pick = (fn, ok) => items.filter(ok).sort(fn)[0];
+  if (P.includes('growth') || P.includes('margin')) { const x = pick((a, b) => (b.f.margin.lo ?? -99) - (a.f.margin.lo ?? -99), x => x.f.margin.g !== 'unknown'); if (x) lines.push('가격 상승력(시세 차익)을 가장 크게 보시면 ' + x.f.name + ' — 주변 시세보다 ' + signed(x.f.margin.lo) + '~' + signed(x.f.margin.hi) + ' (추정' + (x.f.margin.count < 5 ? ', 거래 ' + x.f.margin.count + '건이라 참고만' : '') + ')'); }
+  if (C.conds.some(c => c.key === 'station_walk')) { const x = pick((a, b) => a.f.station.walk - b.f.station.walk, x => x.f.station.state === '추정'); if (x) lines.push('교통을 먼저 보시면 ' + x.f.name + ' — ' + x.f.station.name + ' 도보 약 ' + x.f.station.walk + '분'); }
+  if (P.includes('livability')) { const x = pick((a, b) => b.f.complex.households - a.f.complex.households, x => x.f.complex.state === '확인'); if (x) lines.push('단지 규모·생활 편의를 먼저 보시면 ' + x.f.name + ' — ' + x.f.complex.households.toLocaleString('ko-KR') + '세대'); }
+  const pr = C.conds.find(c => c.key === 'price_max');
+  if (pr && lines.length < 3) { const x = pick((a, b) => a.f.price.v - b.f.price.v, x => x.f.price.v != null); if (x) lines.push('예산 여유를 가장 크게 남기시려면 ' + x.f.name + ' — 분양가 ' + fmtEok(x.f.price.v) + ', 예산보다 ' + fmtEok(Math.round((pr.value - x.f.price.v) * 100) / 100) + ' 여유'); }
+  const uniq = [...new Set(lines)];
+  return uniq.length >= 2 ? '\n\n[우선순위별로 먼저 볼 곳]\n' + uniq.map(x => '· ' + x).join('\n') : '';
+}
+
 // 결론을 '이렇게 이해했어요' 앞으로 (AI 심사 회차 2: '없어요'를 먼저 분명히 말한 뒤 이해한 조건·대안 순서가 낫다)
 function reorder(out) {
   const u = out.findIndex(x => typeof x === 'string' && x.startsWith('[이렇게 이해했어요]')), c = out.findIndex(x => typeof x === 'string' && /^(결론부터 말씀드리면|.*청약은 없어요\.$)/.test(x));
@@ -135,7 +164,11 @@ function opening(C, r, mode) {
   const a = C.assume || {}, who = C.conds.filter(c => c.key === 'commute' && c.value.who).map(c => c.value.who + ' ' + c.value.place.replace(/ \(중심 근사\)/, '').replace(/구$/, ''));
   const life = [a.kids ? '아이' + (a.youngest ? '(' + a.youngest + ')' : '') + '를 키우시면서' : '', who.length >= 2 ? '두 분 출퇴근(' + who.join(', ') + ')까지 챙기셔야 하니' : who.length ? who[0] + ' 출퇴근을 챙기셔야 하니' : ''].filter(Boolean);
   const price = C.conds.find(c => /^price/.test(c.key));
-  const head = life.length ? life.join(' ') + ' 고민이 깊으셨을 것 같아요.' : C.conds.length >= 4 ? '조건을 꼼꼼하게 주셨네요.' : '';
+  // 질문자의 상황·우선순위를 한 문장으로 되짚는다 (샘플 3 '4인 가족이 함께 거주하면서 … 30평대를 찾고 계시네요')
+  const reg = C.conds.filter(c => c.key === 'region_in' && c.weight === 'required').flatMap(c => c.value.map(v => v.label)), ar = C.conds.find(c => c.key === 'area');
+  const pri = [(C.perspectives || []).includes('growth') && '가격 상승력', C.conds.some(c => c.key === 'station_walk') && '교통', (C.perspectives || []).includes('livability') && '실거주 만족도', C.conds.some(c => c.key === 'school_walk') && '아이 통학', (C.perspectives || []).includes('margin') && '시세 차익'].filter(Boolean);
+  const sit = (a.family || reg.length || ar) && pri.length ? (a.family ? a.family + '인 가족이 ' : '') + (reg.length ? [...new Set(reg)].join('·') + '에서 ' : '') + (ar ? String(ar.text).replace(/\(.*\)/, '') + ' 집에 ' : '') + '실거주하시면서 ' + pri.join('·') + '까지 챙기고 싶으시군요.' : '';
+  const head = life.length ? life.join(' ') + ' 고민이 깊으셨을 것 같아요.' : sit || (C.conds.length >= 4 ? '조건을 꼼꼼하게 주셨네요.' : '');
   const basis = [C.conds.some(c => /^region/.test(c.key)) && '지역', C.conds.some(c => c.key === 'rooms') && '방 구조', C.conds.some(c => c.key === 'area') && '면적', price && '예산(' + price.text.replace(/\(.*\)/, '') + ')', C.conds.some(c => c.key === 'commute') && '출퇴근 거리', a.kids && '아이 키우기(초등학교 거리)', r.profile && '내 자격'].filter(Boolean);
   return (head ? head + '\n' : '') + (basis.length ? basis.join(', ') + ' 기준으로' : '말씀하신 조건으로') + ' 지금 청약패스에 있는 공고를 따져 봤어요.';
 }
@@ -167,7 +200,7 @@ function noResult(C, r, U) {
 }
 
 function missing(C, r) {
-  const m = [...(C.unsupported || []).map(u => u + ' — 청약패스에 이 데이터가 없어 답하지 않았어요')];
+  const m = [...(C.unsupported || []).map(u => / — /.test(u) ? u : u + ' — 청약패스에 이 데이터가 없어 답하지 않았어요')];   // 이미 이유를 적은 항목은 덧붙이지 않음
   if (C.conds.some(c => c.key === 'rooms')) m.push('방·욕실 수 — 아직 공고문에서 모으지 않아, 해당 후보는 \'구조 확인 필요\'로 따로 뒀어요');
   for (const c of C.conds.filter(c => c.key === 'commute')) m.push(r.commuted ? c.value.place + ' 대중교통 시간 — 아직 연결하지 않았어요(자동차 시간만, 조회 시각의 교통 기준)' : c.value.place + ' 출퇴근 시간 — 경로 조회를 아직 연결하지 않아, 직선거리로만 순서를 봤어요(시간으로 바꾸지 않음)');
   if (C.conds.some(c => c.key === 'eligible_only') && !r.profile) m.push('내 자격 — 내 조건을 넣지 않아 판정하지 못했어요');

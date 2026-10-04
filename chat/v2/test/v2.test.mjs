@@ -33,6 +33,7 @@ for (const g of G.items) test('조건 해석 ' + g.id + ' — ' + g.q.slice(0, 3
   if (e.targets) assert.equal(C.targets.length, e.targets);
   if (e.unsupported_has) assert.ok(C.unsupported.some(u => u.includes(e.unsupported_has)), '형식 밖 조건 표시 없음: ' + e.unsupported_has);
   if (e.scope_past) assert.equal(C.scope.past, true);
+  if (e.scope_expand !== undefined) assert.equal(!!C.scope.expand, e.scope_expand, '넓혀 보기(말고도)');
   for (const p of e.perspectives || []) assert.ok(C.perspectives.includes(p));
 });
 
@@ -178,4 +179,17 @@ test('CheckList: 말 바꾸기 표는 대부분 같은 해석, 조건을 더하�
   const qs = generate(60);
   const inv = runINV(qs); assert.ok(inv.filter(r => r.ok).length / inv.length >= 0.97, 'INV ' + inv.filter(r => !r.ok).slice(0, 3).map(r => r.from + '→' + r.to).join(', '));
   const dir = runDIR(D, qs); assert.ok(dir.every(r => r.ok), dir.filter(r => !r.ok).slice(0, 2).map(r => r.why).join(' / '));
+});
+
+
+// 사용자 샘플 3 (2026-10-04): '마포구 말고도 같은 조건으로' → 그 지역 밖 후보 블록, '학군지 필요없어' → 학교 줄·학교 장점 없음, 이유를 이미 적은 확인 불가 항목에 말 덧붙이지 않음
+test('샘플 3 — 넓혀 보기·학군 안 따짐·층 설명', async () => {
+  const q = G.items.find(x => x.id === 'v2-sample3').q;
+  const a = await ask({ question: q, today: TODAY, dataOpts: DO, profile: PROFILE });
+  assert.ok(/밖 · 같은 조건\]/.test(a.text), '그 지역 밖 블록 없음');
+  assert.ok(!/· 초등학교 /.test(a.text) && !/초등학교가 가까워요/.test(a.text), '학군 필요 없다는데 학교를 내세움');
+  assert.ok(/동·호수를 추첨/.test(a.text), '저층 제외를 못 하는 이유 설명 없음');
+  assert.ok(!/추첨으로 정해서 저층을 미리 뺄 수 없어요 — 청약패스에 이 데이터가/.test(a.text), '이유 뒤에 말 덧붙임');
+  assert.ok(!/마포구 제외/.test(a.text), "'말고도'를 제외로 읽음");
+  assert.ok(/4인 가족/.test(a.text.split('\n')[0]), '첫 줄에 상황 되짚기 없음');
 });

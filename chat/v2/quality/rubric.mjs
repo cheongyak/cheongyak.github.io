@@ -56,7 +56,7 @@ export function score({ q, a, expect = null }) {
     if (m.jga != null) add('이해', 'jga', m.jga, '조건을 전부 맞히지 못함' + (m.assumeOk ? '' : ' (가정 틀림)')); }
   add('이해', 'echo', has(t, /\[이렇게 이해했어요\]\n·/) ? 1 : 0, "'이렇게 이해했어요'에 이해한 조건이 없음");
   const asked = (C.unsupported || []).length;
-  add('이해', 'unsupported-said', asked ? (has(t, /데이터가 없어/) ? 1 : 0) : 1, '못 보는 조건(급지·주차 등)을 언급하지 않음');
+  add('이해', 'unsupported-said', asked ? (has(t, /데이터가 없어|예측하지 않아요|미리 뺄 수 없어요/) ? 1 : 0) : 1, '못 보는 조건(급지·주차 등)을 언급하지 않음');
 
   // ---- 완결 ----
   add('완결', 'conclusion', mode === 'compare' ? (has(t, /결론부터|찾지 못했어요/) ? 1 : 0) : (has(t, /결론부터 말씀드리면|청약은 없어요/) ? 1 : 0), '결론 문장이 없음');
