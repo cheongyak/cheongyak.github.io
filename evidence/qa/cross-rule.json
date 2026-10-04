@@ -1,8 +1,8 @@
 {
  "date": "2026-10-04",
- "listings": 237,
+ "listings": 238,
  "profiles": 42,
- "checks": 82259,
+ "checks": 82636,
  "conflicts": 0,
  "severity": {
   "CRITICAL": 0,
@@ -13,7 +13,7 @@
  "states": {
   "NORMAL": 141,
   "WARNING": 81,
-  "UNKNOWN": 15
+  "UNKNOWN": 16
  },
  "examples": [],
  "unknown": [
@@ -103,6 +103,12 @@
   },
   {
    "id": "2026000414-A6001",
+   "name": "인천계양지구 A6블록 공공분양주택(본청약)",
+   "duty": "UNKNOWN",
+   "priceCap": "CONFIRMED"
+  },
+  {
+   "id": "2026000414-YOUTH",
    "name": "인천계양지구 A6블록 공공분양주택(본청약)",
    "duty": "UNKNOWN",
    "priceCap": "CONFIRMED"
