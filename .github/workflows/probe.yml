@@ -31,6 +31,9 @@ jobs:
       - name: MASTER QA 원문 대조용 공고문 (실패해도 계속)
         continue-on-error: true
         run: python -m tools.qa.fetch_notices
+      - name: 수도권 노선별 역 좌표 (청약봇 V2 노선 조건, 실패해도 계속)
+        continue-on-error: true
+        run: python -m tools.subway_lines
       - name: 시군구 코드 못 찾은 공고 점검 (실패해도 계속)
         continue-on-error: true
         run: python -m tools.qa.lawd_probe
@@ -46,5 +49,5 @@ jobs:
         run: |
           git config user.name "cheongyak-bot"
           git config user.email "actions@users.noreply.github.com"
-          git add evidence docs/rules-evidence.txt
+          git add evidence docs/rules-evidence.txt; [ -d chat/v2/data ] && git add chat/v2/data || true
           git diff --cached --quiet || (git commit -m "근거 자료 갱신 $(date +%Y-%m-%d)" && (git push || (git pull --rebase -X theirs origin main && git push)))
