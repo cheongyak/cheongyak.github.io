@@ -148,5 +148,52 @@ def main() -> int:
     return 0
 
 
+# 공공주택 특별법 시행규칙 — 청년 특별공급 등 공공분양 특별공급 기준(별표 6의2 등) 원문 (2026-10-05 사용자 '7 청년 특별공급 판정 진행')
+PUBLIC = "공공주택 특별법 시행규칙"
+
+
+def public_rule() -> list[str]:
+    oc = os.environ.get("LAW_OC", "").strip()
+    out = OUT / "public"
+    out.mkdir(parents=True, exist_ok=True)
+    log = [f"받은 시각: {NOW}", f"법령: {PUBLIC}"]
+    if not oc:
+        return log + ["LAW_OC 없음"]
+    http = httpx.Client(timeout=60, follow_redirects=True, headers={"User-Agent": "cheongyakpass-law-probe", "Referer": "https://cheongyakpass.kr/"})
+    r = http.get(f"{BASE}/lawSearch.do", params={"OC": oc, "target": "law", "type": "XML", "query": PUBLIC.replace(" ", ""), "display": 20})
+    try:
+        root = ET.fromstring(r.content)
+    except ET.ParseError:
+        return log + ["[검색] XML 아님: " + re.sub(r"\s+", " ", scrub(r.text, oc)[:200])]
+    hit = next((x for x in root.iter("law") if txt(x, "법령명한글").replace(" ", "") == PUBLIC.replace(" ", "")), None)
+    if hit is None:
+        return log + ["[검색] 같은 이름 법령 없음"]
+    mst = txt(hit, "법령일련번호")
+    log.append(f"[검색] 법령일련번호 {mst} · 시행일자 {txt(hit, '시행일자')} · 공포일자 {txt(hit, '공포일자')}")
+    r = http.get(f"{BASE}/lawService.do", params={"OC": oc, "target": "law", "type": "XML", "MST": mst})
+    (out / "rule.xml").write_text(scrub(r.text, oc), encoding="utf-8")
+    log.append(f"[본문] HTTP {r.status_code} · {len(r.text)}자")
+    try:
+        doc = ET.fromstring(r.content)
+    except ET.ParseError:
+        return log + ["[본문] XML 아님"]
+    for b in doc.iter("별표단위"):
+        if txt(b, "별표구분") != "별표":
+            continue
+        no, gaji, title, content = txt(b, "별표번호"), txt(b, "별표가지번호"), txt(b, "별표제목"), txt(b, "별표내용")
+        name = f"byeolpyo_{int(no) if no.isdigit() else no}" + (f"_{int(gaji)}" if gaji and gaji.isdigit() and int(gaji) else "")
+        (out / f"{name}.txt").write_text(f"{title}\n\n{content}\n", encoding="utf-8")
+        log.append(f"[별표] {name} · {title} · {len(content)}자")
+    return log
+
+
 if __name__ == "__main__":
-    raise SystemExit(main())
+    code = main()
+    try:
+        lines = public_rule()
+    except Exception as e:
+        lines = [f"[공공주택 특별법 시행규칙] 실패: {e}"]
+    (OUT / "public" ).mkdir(parents=True, exist_ok=True)
+    (OUT / "public" / "README.txt").write_text("\n".join(lines) + "\n", encoding="utf-8")
+    print("\n".join(lines))
+    raise SystemExit(code)
