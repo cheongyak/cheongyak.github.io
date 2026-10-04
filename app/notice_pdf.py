@@ -369,6 +369,11 @@ def parse_notice(text: str) -> dict:
     if sc:
         out["schedule"] = sc
     pl = parse_pub_limits(text)
+    if not pl and (m := re.search(r"국민주택\((?:5|10|6)년공공건설임대\)", flat)) and (m2 := re.search(r"소득또는자산기준-{5}(?!-)", flat)):
+        # 민간 5·10년 공공건설임대(국민주택): 신청자격 표의 '소득 또는 자산기준' 칸이 모두 '-' — 소득·자산 기준이 없다 (기능 rent_noincome,
+        # 2025000645 이천 카사펠리스 '국민주택(5년 공공건설임대) … 신청자격 … 소득 또는 자산기준 - - - - -'). 표가 다르면 읽지 않는다(판정 범위 밖 그대로)
+        pl = {"kind": "none"}
+        cite("pub_limits", m2, before=200)
     if pl:
         out["pub_limits"] = pl
     sr = parse_score_ratio(text)

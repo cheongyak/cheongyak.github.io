@@ -15062,7 +15062,7 @@
   "basis": "2026000453 '경기도 광명시 거주자 / 서울·경기·인천 거주자' — 부산 거주자는 민영 신혼부부 특별공급도 불가"
  },
  {
-  "id": "scope-00",
+  "id": "rent5-00",
   "fn": "bucket",
   "listing": "2025000645-052.9256C",
   "profile": {
@@ -15111,12 +15111,67 @@
    "townDebt": 0
   },
   "expect": {
-   "b": "unsure"
+   "b": "ok"
   },
-  "basis": "2025000645 5년 공공건설임대 — 임차인 자격표 못 읽음 → 분양 규칙으로 '가능'·'불가'를 확정하지 않음 (조건 좋음). 판정 범위 밖은 확인 필요"
+  "basis": "2025000645 국민주택(5년 공공건설임대) 신청자격 — 이천시·수도권 거주 무주택세대구성원, 1순위 12개월·12회, 소득·자산기준 없음('-') (조건 좋음)"
  },
  {
-  "id": "scope-01",
+  "id": "rent5-01",
+  "fn": "sp",
+  "type": "newlywed",
+  "listing": "2025000645-052.9256C",
+  "profile": {
+   "homeSido": "경기",
+   "homeSigun": "이천시",
+   "sidoOwnSince": "2015-01-01",
+   "sidoSince": "2010-01-01",
+   "areaSince": "2010-01-01",
+   "household": "head",
+   "headSince": "2015-01-01",
+   "selfOwn": false,
+   "married": true,
+   "marriedOn": "2023-05-01",
+   "spouseOwn": false,
+   "acctType": "all",
+   "acctSince": "2015-01-01",
+   "acctAmount": 1500,
+   "acctCount": 60,
+   "acctPaid": 1500,
+   "hhHomes": "0",
+   "win5y": false,
+   "recentWin": false,
+   "everWin": "none",
+   "birth": "1990-03-01",
+   "dependents": 2,
+   "kidsMinor": 1,
+   "youngestBirth": "2025-06-01",
+   "pregnant": false,
+   "hhSize": 3,
+   "kidsOnDeed": 1,
+   "eldersOnDeed": 0,
+   "spouseIncome": 0,
+   "realEstate": 0,
+   "carValue": 0,
+   "hhNeverOwned": true,
+   "taxYears5": true,
+   "elder65": true,
+   "hhIncomeYear": 3000,
+   "income": 3000,
+   "cash": 0,
+   "liquid": 0,
+   "deposit": 0,
+   "townInsurance": 0,
+   "townFinOther": 0,
+   "townOtherAsset": 0,
+   "townDebt": 0
+  },
+  "expect": {
+   "s": "warn"
+  },
+  "basis": "2025000645 공공임대 특별공급은 판정하지 않음 — 확인 필요 (조건 좋음)"
+ },
+ {
+  "id": "rent5-02",
   "fn": "bucket",
   "listing": "2025000645-052.9256C",
   "profile": {
@@ -15165,12 +15220,67 @@
    "townDebt": 0
   },
   "expect": {
-   "b": "unsure"
+   "b": "no"
   },
-  "basis": "2025000645 5년 공공건설임대 — 임차인 자격표 못 읽음 → 분양 규칙으로 '가능'·'불가'를 확정하지 않음 (유주택). 판정 범위 밖은 확인 필요"
+  "basis": "2025000645 국민주택(5년 공공건설임대) 신청자격 — 이천시·수도권 거주 무주택세대구성원, 1순위 12개월·12회, 소득·자산기준 없음('-') (유주택)"
  },
  {
-  "id": "scope-02",
+  "id": "rent5-03",
+  "fn": "sp",
+  "type": "newlywed",
+  "listing": "2025000645-052.9256C",
+  "profile": {
+   "homeSido": "경기",
+   "homeSigun": "이천시",
+   "sidoOwnSince": "2015-01-01",
+   "sidoSince": "2010-01-01",
+   "areaSince": "2010-01-01",
+   "household": "head",
+   "headSince": "2015-01-01",
+   "selfOwn": true,
+   "married": true,
+   "marriedOn": "2023-05-01",
+   "spouseOwn": false,
+   "acctType": "all",
+   "acctSince": "2015-01-01",
+   "acctAmount": 1500,
+   "acctCount": 60,
+   "acctPaid": 1500,
+   "hhHomes": "1",
+   "win5y": false,
+   "recentWin": false,
+   "everWin": "none",
+   "birth": "1990-03-01",
+   "dependents": 2,
+   "kidsMinor": 1,
+   "youngestBirth": "2025-06-01",
+   "pregnant": false,
+   "hhSize": 3,
+   "kidsOnDeed": 1,
+   "eldersOnDeed": 0,
+   "spouseIncome": 0,
+   "realEstate": 0,
+   "carValue": 0,
+   "hhNeverOwned": false,
+   "taxYears5": true,
+   "elder65": true,
+   "hhIncomeYear": 3000,
+   "income": 3000,
+   "cash": 0,
+   "liquid": 0,
+   "deposit": 0,
+   "townInsurance": 0,
+   "townFinOther": 0,
+   "townOtherAsset": 0,
+   "townDebt": 0
+  },
+  "expect": {
+   "s": "warn"
+  },
+  "basis": "2025000645 공공임대 특별공급은 판정하지 않음 — 확인 필요 (유주택)"
+ },
+ {
+  "id": "rent5-04",
   "fn": "bucket",
   "listing": "2025000645-052.9256C",
   "profile": {
@@ -15219,12 +15329,67 @@
    "townDebt": 0
   },
   "expect": {
-   "b": "unsure"
+   "b": "no"
   },
-  "basis": "2025000645 5년 공공건설임대 — 임차인 자격표 못 읽음 → 분양 규칙으로 '가능'·'불가'를 확정하지 않음 (통장 없음). 판정 범위 밖은 확인 필요"
+  "basis": "2025000645 국민주택(5년 공공건설임대) 신청자격 — 이천시·수도권 거주 무주택세대구성원, 1순위 12개월·12회, 소득·자산기준 없음('-') (통장 없음)"
  },
  {
-  "id": "scope-03",
+  "id": "rent5-05",
+  "fn": "sp",
+  "type": "newlywed",
+  "listing": "2025000645-052.9256C",
+  "profile": {
+   "homeSido": "경기",
+   "homeSigun": "이천시",
+   "sidoOwnSince": "2015-01-01",
+   "sidoSince": "2010-01-01",
+   "areaSince": "2010-01-01",
+   "household": "head",
+   "headSince": "2015-01-01",
+   "selfOwn": false,
+   "married": true,
+   "marriedOn": "2023-05-01",
+   "spouseOwn": false,
+   "acctType": "none",
+   "acctSince": "2015-01-01",
+   "acctAmount": 1500,
+   "acctCount": 60,
+   "acctPaid": 1500,
+   "hhHomes": "0",
+   "win5y": false,
+   "recentWin": false,
+   "everWin": "none",
+   "birth": "1990-03-01",
+   "dependents": 2,
+   "kidsMinor": 1,
+   "youngestBirth": "2025-06-01",
+   "pregnant": false,
+   "hhSize": 3,
+   "kidsOnDeed": 1,
+   "eldersOnDeed": 0,
+   "spouseIncome": 0,
+   "realEstate": 0,
+   "carValue": 0,
+   "hhNeverOwned": true,
+   "taxYears5": true,
+   "elder65": true,
+   "hhIncomeYear": 3000,
+   "income": 3000,
+   "cash": 0,
+   "liquid": 0,
+   "deposit": 0,
+   "townInsurance": 0,
+   "townFinOther": 0,
+   "townOtherAsset": 0,
+   "townDebt": 0
+  },
+  "expect": {
+   "s": "warn"
+  },
+  "basis": "2025000645 공공임대 특별공급은 판정하지 않음 — 확인 필요 (통장 없음)"
+ },
+ {
+  "id": "rent5-06",
   "fn": "bucket",
   "listing": "2025000645-052.9256C",
   "profile": {
@@ -15273,12 +15438,67 @@
    "townDebt": 0
   },
   "expect": {
-   "b": "unsure"
+   "b": "no"
   },
-  "basis": "2025000645 5년 공공건설임대 — 임차인 자격표 못 읽음 → 분양 규칙으로 '가능'·'불가'를 확정하지 않음 (다른 지역). 판정 범위 밖은 확인 필요"
+  "basis": "2025000645 국민주택(5년 공공건설임대) 신청자격 — 이천시·수도권 거주 무주택세대구성원, 1순위 12개월·12회, 소득·자산기준 없음('-') (다른 지역)"
  },
  {
-  "id": "scope-04",
+  "id": "rent5-07",
+  "fn": "sp",
+  "type": "newlywed",
+  "listing": "2025000645-052.9256C",
+  "profile": {
+   "homeSido": "부산",
+   "homeSigun": "해운대구",
+   "sidoOwnSince": "2015-01-01",
+   "sidoSince": "2010-01-01",
+   "areaSince": "2010-01-01",
+   "household": "head",
+   "headSince": "2015-01-01",
+   "selfOwn": false,
+   "married": true,
+   "marriedOn": "2023-05-01",
+   "spouseOwn": false,
+   "acctType": "all",
+   "acctSince": "2015-01-01",
+   "acctAmount": 1500,
+   "acctCount": 60,
+   "acctPaid": 1500,
+   "hhHomes": "0",
+   "win5y": false,
+   "recentWin": false,
+   "everWin": "none",
+   "birth": "1990-03-01",
+   "dependents": 2,
+   "kidsMinor": 1,
+   "youngestBirth": "2025-06-01",
+   "pregnant": false,
+   "hhSize": 3,
+   "kidsOnDeed": 1,
+   "eldersOnDeed": 0,
+   "spouseIncome": 0,
+   "realEstate": 0,
+   "carValue": 0,
+   "hhNeverOwned": true,
+   "taxYears5": true,
+   "elder65": true,
+   "hhIncomeYear": 3000,
+   "income": 3000,
+   "cash": 0,
+   "liquid": 0,
+   "deposit": 0,
+   "townInsurance": 0,
+   "townFinOther": 0,
+   "townOtherAsset": 0,
+   "townDebt": 0
+  },
+  "expect": {
+   "s": "warn"
+  },
+  "basis": "2025000645 공공임대 특별공급은 판정하지 않음 — 확인 필요 (다른 지역)"
+ },
+ {
+  "id": "scope-00",
   "fn": "bucket",
   "listing": "2026000307-055.0000A-NOLIM",
   "profile": {
@@ -15332,7 +15552,7 @@
   "basis": "2026000307 분양전환공공임대 — 소득·총자산 표 못 읽음 → 분양 규칙으로 '가능'·'불가'를 확정하지 않음 (조건 좋음). 판정 범위 밖은 확인 필요"
  },
  {
-  "id": "scope-05",
+  "id": "scope-01",
   "fn": "sp",
   "type": "newlywed",
   "listing": "2026000307-055.0000A-NOLIM",
@@ -15387,7 +15607,7 @@
   "basis": "2026000307 분양전환공공임대 — 소득·총자산 표 못 읽음 — 특별공급도 판정하지 않음 (조건 좋음)"
  },
  {
-  "id": "scope-06",
+  "id": "scope-02",
   "fn": "sp",
   "type": "first",
   "listing": "2026000307-055.0000A-NOLIM",
@@ -15442,7 +15662,7 @@
   "basis": "2026000307 분양전환공공임대 — 소득·총자산 표 못 읽음 — 특별공급도 판정하지 않음 (조건 좋음)"
  },
  {
-  "id": "scope-07",
+  "id": "scope-03",
   "fn": "bucket",
   "listing": "2026000307-055.0000A-NOLIM",
   "profile": {
@@ -15496,7 +15716,7 @@
   "basis": "2026000307 분양전환공공임대 — 소득·총자산 표 못 읽음 → 분양 규칙으로 '가능'·'불가'를 확정하지 않음 (유주택). 판정 범위 밖은 확인 필요"
  },
  {
-  "id": "scope-08",
+  "id": "scope-04",
   "fn": "sp",
   "type": "newlywed",
   "listing": "2026000307-055.0000A-NOLIM",
@@ -15551,7 +15771,7 @@
   "basis": "2026000307 분양전환공공임대 — 소득·총자산 표 못 읽음 — 특별공급도 판정하지 않음 (유주택)"
  },
  {
-  "id": "scope-09",
+  "id": "scope-05",
   "fn": "sp",
   "type": "first",
   "listing": "2026000307-055.0000A-NOLIM",
@@ -15606,7 +15826,7 @@
   "basis": "2026000307 분양전환공공임대 — 소득·총자산 표 못 읽음 — 특별공급도 판정하지 않음 (유주택)"
  },
  {
-  "id": "scope-10",
+  "id": "scope-06",
   "fn": "bucket",
   "listing": "2026000307-055.0000A-NOLIM",
   "profile": {
@@ -15660,7 +15880,7 @@
   "basis": "2026000307 분양전환공공임대 — 소득·총자산 표 못 읽음 → 분양 규칙으로 '가능'·'불가'를 확정하지 않음 (통장 없음). 판정 범위 밖은 확인 필요"
  },
  {
-  "id": "scope-11",
+  "id": "scope-07",
   "fn": "sp",
   "type": "newlywed",
   "listing": "2026000307-055.0000A-NOLIM",
@@ -15715,7 +15935,7 @@
   "basis": "2026000307 분양전환공공임대 — 소득·총자산 표 못 읽음 — 특별공급도 판정하지 않음 (통장 없음)"
  },
  {
-  "id": "scope-12",
+  "id": "scope-08",
   "fn": "sp",
   "type": "first",
   "listing": "2026000307-055.0000A-NOLIM",
@@ -15770,7 +15990,7 @@
   "basis": "2026000307 분양전환공공임대 — 소득·총자산 표 못 읽음 — 특별공급도 판정하지 않음 (통장 없음)"
  },
  {
-  "id": "scope-13",
+  "id": "scope-09",
   "fn": "bucket",
   "listing": "2026000307-055.0000A-NOLIM",
   "profile": {
@@ -15824,7 +16044,7 @@
   "basis": "2026000307 분양전환공공임대 — 소득·총자산 표 못 읽음 → 분양 규칙으로 '가능'·'불가'를 확정하지 않음 (다른 지역). 판정 범위 밖은 확인 필요"
  },
  {
-  "id": "scope-14",
+  "id": "scope-10",
   "fn": "sp",
   "type": "newlywed",
   "listing": "2026000307-055.0000A-NOLIM",
@@ -15879,7 +16099,7 @@
   "basis": "2026000307 분양전환공공임대 — 소득·총자산 표 못 읽음 — 특별공급도 판정하지 않음 (다른 지역)"
  },
  {
-  "id": "scope-15",
+  "id": "scope-11",
   "fn": "sp",
   "type": "first",
   "listing": "2026000307-055.0000A-NOLIM",

@@ -1255,6 +1255,7 @@ function pubGeneralItems(L, p){
   if (!on('pub_general_limits') || L.houseDtl !== '국민' || L.category !== 'general' || !L.needAccount) return [];
   if (isNewlywedTown(L)) return on('town_rules') ? townItems(L, p) : [{ k:'소득·총자산 (신혼희망타운)', s:'warn', v:'확인 필요', note:'신혼희망타운은 세대 월평균소득과 총자산(부동산·자동차·금융자산에서 부채를 뺀 금액) 기준이 있어요. 이 서비스는 총자산을 판정하지 않아요. 공고문의 기준을 확인하세요.' }];
   const pl = L.pubLimits;
+  if (pl && pl.kind === 'none') return on('rent_noincome') ? [{ k:'소득·총자산 (공공임대 일반공급)', s:'ok', v:'기준 없음', note:'모집공고문 신청자격 표의 소득·자산기준 칸이 모두 \'-\'예요 (국민주택 5·10년 공공건설임대). 무주택·청약통장 순위·거주지로 판정해요' }] : [{ k:'소득·총자산 (공공임대 일반공급)', s:'warn', v:'확인 필요', cause:'E', note:'모집공고문 신청자격 표를 확인하세요' }];   /* 소득·자산 기준이 없는 공공건설임대 (기능 rent_noincome) */
   if (on('rental_rules') && pl && pl.kind === 'total') return totalGeneralItems(L, p, pl);
   if (!pl && isRental(L)) return [{ k:'소득·총자산 (공공임대 일반공급)', s:'warn', v:'확인 필요', cause:'E', note:'공공임대 일반공급은 면적과 관계없이 세대 소득·총자산 기준이 있어요. 이 공고문에서 기준을 읽지 못해 판정하지 않았어요. 공고문을 확인하세요.' }];
   if (!pl) return (L.area != null && L.area > 60) ? [] : [{ k:'소득·자산 (공공 일반공급)', s:'warn', v:'확인 필요', note:'전용 60㎡ 이하 공공분양 일반공급은 세대 소득·자산 기준이 있어요. 이 공고문에서 기준을 읽지 못해 판정하지 않았어요. 공고문을 확인하세요.' }];
@@ -1306,6 +1307,7 @@ function judgeScope(L){
   const rental = isRental(L) || !!L.rental || /임대/.test(L.rentSecd || '');
   if (rental) {
     const pl = L.pubLimits;
+    if (isRental(L) && pl && pl.kind === 'none' && on('rent_noincome')) return { level:'partial', why:'소득·자산 기준이 없는 공공건설임대(국민주택)예요. 일반공급은 무주택·청약통장 순위·거주지로 판정하고, 특별공급은 판정하지 않아요 (모집공고문 신청자격 표).' };   /* 기능 rent_noincome — 2025000645 '국민주택(5년 공공건설임대)' 신청자격 표 소득·자산기준 '-' */
     if (!(isRental(L) && pl && pl.kind === 'total')) return { level:'none', why:'공공임대 공고예요. 이 공고의 임차인 자격 기준(소득·자산 표)을 모집공고문에서 읽지 못해, 분양 규칙으로 대신 판정하지 않아요. 모집공고문의 신청자격을 확인하세요.' };
     return { level:'partial', why:'공공임대 일반공급의 소득·총자산은 이 공고문 표로 판정해요. 특별공급은 공고문 표를 읽은 유형만 판정해요.' };
   }
@@ -2153,7 +2155,7 @@ window.cpExplain = cpExplain;
 function itemSrc(L, k){
   if (k === '세대주') return fromNotice(L, '세대주 요건') ? noticeSrc(L) + nq(L, '세대주 요건') : src(null, ['이 서비스 추정(규제지역 기준) · 공고문에서 확인하세요', null]);
   if (k.startsWith('거주지')) return noticeSrc(L);
-  if (k.includes('(공공 일반공급)') || k.includes('(신혼희망타운)')) return noticeSrc(L);
+  if (k.includes('(공공 일반공급)') || k.includes('(신혼희망타운)') || k.includes('(공공임대 일반공급)')) return noticeSrc(L);   /* 공공임대 소득·총자산도 공고문 표 (2026-10-05) */
   if (k.endsWith('전용')) return noticeSrc(L);
   if (k.startsWith('재당첨 제한 (내 이력)')) return src('user');
   if (k.includes('(규제지역 1순위)')) return noticeSrc(L);

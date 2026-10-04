@@ -177,7 +177,8 @@ def test_golden_pub_limits_from_real_notices():
     pl = {k: v for k, v in GOLD.items() if "pub_limits" in v["fields"]}
     assert len(pl) >= 3
     for no, g in pl.items():
-        assert notice_pdf.parse_pub_limits(text(no)) == g["fields"]["pub_limits"], no
+        if g["fields"]["pub_limits"].get("kind") != "none":   # 'none'(소득·자산 기준 없는 공공건설임대)은 parse_notice 가 신청자격 표로 정한다 (기능 rent_noincome)
+            assert notice_pdf.parse_pub_limits(text(no)) == g["fields"]["pub_limits"], no
         assert notice_pdf.parse_notice(text(no)).get("pub_limits") == g["fields"]["pub_limits"], no
     # 60㎡ 초과만 있어 일반공급 소득 기준이 '해당 없음'인 공고, 민영, 신혼희망타운(총자산 기준)은 읽지 않는다
     for no in ("2026000437", "2026000438", "2026000453"):

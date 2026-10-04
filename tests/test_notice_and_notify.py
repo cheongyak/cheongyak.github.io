@@ -434,3 +434,14 @@ def test_golden_youth_from_real_notices():
         f = f if f.exists() else root / "evidence" / "qa" / "notices" / f"{no}.txt"
         assert notice_pdf.parse_notice(f.read_text(encoding="utf-8")).get("youth") == gold[no]["fields"]["youth"], no
     assert notice_pdf.parse_youth("신혼부부특별공급 140% 5,338,708") is None   # 청년 특별공급이 없는 공고
+
+
+def test_rent_noincome_reads_only_matching_table():
+    """민간 5년 공공건설임대(국민주택) — 신청자격 표의 소득·자산기준이 모두 '-'면 kind 'none' (기능 rent_noincome). 분양전환 후 잔여세대(2026000022)는 아님"""
+    import pathlib
+    root = pathlib.Path(__file__).resolve().parent.parent
+    t = (root / "evidence" / "qa" / "notices" / "2025000645.txt").read_text(encoding="utf-8")
+    assert notice_pdf.parse_notice(t).get("pub_limits") == {"kind": "none"}
+    f = root / "evidence" / "notices" / "2026000022.txt"
+    f = f if f.exists() else root / "evidence" / "qa" / "notices" / "2026000022.txt"
+    assert (notice_pdf.parse_notice(f.read_text(encoding="utf-8")).get("pub_limits") or {}).get("kind") != "none"

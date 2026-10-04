@@ -4,6 +4,16 @@
 2026-09-29 12:55 이전 항목은 규칙을 만들기 전 작업을 커밋 기록으로 정리한 것이라 백업 브랜치가 없어요.
 그 시점으로 되돌릴 때는 해당 커밋 번호로 `git revert` 를 써요.
 
+## 2026-10-05 02:04 · 소득·자산 기준 없는 공공건설임대 일반공급 판정 (v1.52.0)
+- 요청: (남은 일 8번) 민간 5·10년 공공건설임대 자격표 파서
+- 근거: 2025000645 이천 카사펠리스 임차인모집공고 — 단지 주요정보 '국민주택(5년공공건설임대)', 신청자격 표 '소득 또는 자산기준' 다섯 칸 모두 '-', '이천시 또는 수도권(서울·경기·인천)에 거주 … 무주택세대구성원', 1순위 '12개월 경과·월납입금 12회 이상', 2순위 '가입', 1순위 경쟁 시 ①지역-②순차-③추첨
+- 변경: 수집 — 위 두 표현이 모두 있으면 pub_limits {kind:'none'} (분양전환 후 잔여세대 2026000022 등 다른 공고는 그대로), PARSER_VERSION 25. 화면 — 판정 범위 '부분'(일반공급은 국민주택 규칙: 무주택·통장 순위·거주지, 특별공급은 확인 필요 그대로), 체크리스트에 '소득·총자산 (공공임대 일반공급) 기준 없음' 줄(출처 모집공고문). 공공임대 소득·총자산 항목 출처를 모집공고문으로
+- 파일: app/notice_pdf.py, app/pipeline.py, docs/index.html, docs/config.json, docs/changelog.json, VERSIONS.md, tools/make_judge_cases.py, tests/judge/cases.json, tests/judge/listings.json, tests/golden/notices.json, tests/test_notice_and_notify.py, tests/test_residence.py, tests/qa/parse_snapshot.json, tools/engine_lock.json
+- 확인: 공고문 읽기 고정 바뀐 값은 2025000645 pub_limits 하나, 정답 데이터 추가, 판정 사례 397/397(2025000645: 조건 좋음 가능·유주택·통장 없음·다른 지역 불가, 특별공급 확인 필요 — 원래 '판정 범위 밖' 사례 8건을 바꿈), pytest 194, 회귀 판정 차이 0·화면 오류 0, 판정 일치 0건, 교차 규칙 충돌 0, 시험 공고로 390px 밝은·어두운 화면 확인
+- 백업: backup/20261005-0204-rental
+- 기능: rent_noincome
+- 버전: v1.52.0
+
 ## 2026-10-05 02:04 · LH 임대 공고 받기 점검 도구
 - 요청: (남은 일 8번) LH 임대 범위 넓히기 — 수집 원천부터
 - 변경: tools/qa/lh_probe.py — 공공데이터포털 '한국토지주택공사_분양임대공고문 조회 서비스'(B552555/lhLeaseNoticeInfo1)를 같은 인증키로 불러 응답 코드·건수·필드 이름만 evidence/qa/lh-probe.txt 에 남김(인증키는 지움). 근거 자료 모으기(probe.yml)에서 실행

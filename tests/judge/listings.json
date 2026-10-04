@@ -7314,9 +7314,23 @@
   },
   "mc_quota": null,
   "score_ratio": null,
-  "pub_limits": null,
+  "pub_limits": {
+   "kind": "none"
+  },
   "schedule": null,
-  "residence": null,
+  "residence": {
+   "area": {
+    "name": "이천시",
+    "sigungu": "이천시"
+   },
+   "months": 0,
+   "since": null,
+   "others": [
+    "서울",
+    "경기",
+    "인천"
+   ]
+  },
   "special_units": {
    "newborn": 0,
    "newlywed": 0,

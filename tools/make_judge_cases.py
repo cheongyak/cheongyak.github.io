@@ -704,7 +704,16 @@ def main() -> None:
     i = 0
     good = dict(pub_base, homeSido="경기", homeSigun="이천시", sidoSince="2010-01-01", areaSince="2010-01-01", acctCount=60, acctSince="2015-01-01",
                 hhIncomeYear=3000, income=3000, realEstate=0, carValue=0, cash=0, liquid=0, deposit=0, townInsurance=0, townFinOther=0, townOtherAsset=0, townDebt=0)
-    for lid, why in (("2025000645-052.9256C", "2025000645 5년 공공건설임대 — 임차인 자격표 못 읽음"), ("2026000307-055.0000A-NOLIM", "2026000307 분양전환공공임대 — 소득·총자산 표 못 읽음")):
+    # 2025000645 는 '국민주택(5년 공공건설임대)' 신청자격 표의 '소득 또는 자산기준' 칸이 모두 '-'(기준 없음)라 수집이 pub_limits {kind:'none'} 으로 읽는다 (기능 rent_noincome, 2026-10-05)
+    #  → 원문 '이천시 또는 수도권(서울·경기·인천)에 거주하는 … 무주택세대구성원', 일반공급 1순위 '12개월 경과, 월납입금 12회 이상', 2순위 '가입'으로 판정. 특별공급은 판정하지 않음(확인 필요)
+    i2 = 0
+    for nm, pr, exp in (("조건 좋음", good, "ok"), ("유주택", dict(good, selfOwn=True, hhHomes="1", hhNeverOwned=False), "no"),
+                        ("통장 없음", dict(good, acctType="none"), "no"), ("다른 지역", dict(good, homeSido="부산", homeSigun="해운대구"), "no")):
+        add(id=f"rent5-{i2:02d}", fn="bucket", listing="2025000645-052.9256C", profile=pr, expect={"b": exp},
+            basis=f"2025000645 국민주택(5년 공공건설임대) 신청자격 — 이천시·수도권 거주 무주택세대구성원, 1순위 12개월·12회, 소득·자산기준 없음('-') ({nm})"); i2 += 1
+        add(id=f"rent5-{i2:02d}", fn="sp", type="newlywed", listing="2025000645-052.9256C", profile=pr, expect={"s": "warn"},
+            basis=f"2025000645 공공임대 특별공급은 판정하지 않음 — 확인 필요 ({nm})"); i2 += 1
+    for lid, why in (("2026000307-055.0000A-NOLIM", "2026000307 분양전환공공임대 — 소득·총자산 표 못 읽음"),):
         for nm, pr in (("조건 좋음", good), ("유주택", dict(good, selfOwn=True, hhHomes="1", hhNeverOwned=False)), ("통장 없음", dict(good, acctType="none")),
                        ("다른 지역", dict(good, homeSido="부산", homeSigun="해운대구"))):
             add(id=f"scope-{i:02d}", fn="bucket", listing=lid, profile=pr, expect={"b": "unsure"},
