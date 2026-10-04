@@ -82,7 +82,7 @@ export function evalCond(D, row, f, c, ctx) {
       if (!st || !st.length) return ['unknown', v.line + ' 역 정보 없음'];
       if (!f.geo) return ['unknown', '단지 좌표 없음'];
       const near = nearestOn(st, f.geo); f.line = f.line || {}; f.line[v.line] = near;
-      return near.m <= v.m ? ['pass'] : ['fail', v.line + ' 역에서 멀어요(' + near.name + '역 직선 ' + (near.m >= 1000 ? (Math.round(near.m / 100) / 10) + 'km' : near.m + 'm') + ')'];
+      return near.m <= v.m ? ['pass'] : ['fail', v.line + ' 역에서 ' + (v.m / 1000) + 'km 넘음'];   // 거리는 카드 노선 줄에 (빠진 이유를 거리마다 따로 세지 않게)
     }
     default: return ['unknown'];
   }

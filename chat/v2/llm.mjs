@@ -4,15 +4,16 @@ import { understood } from './answer.mjs';
 import { distKm } from './lexicon.mjs';
 
 export const PROMPT_VERSION = 'v2-0.2';   // 0.2: DRAFT 의 카드·줄 순서를 그대로 두고 첫머리와 '왜 이곳'만 다듬기 (AI 품질 회차 1: 0.1 은 기본 답에 3승 6패 11무 — 후보를 빼거나 같은 말을 반복)
-const KEYS = ['region_in', 'region_out', 'price_max', 'price_min', 'price_range', 'area', 'households_min', 'not_single', 'rooms', 'station_walk', 'school_walk', 'commute', 'supply', 'status', 'eligible_only', 'margin', 'new_build'];
+const KEYS = ['region_in', 'region_out', 'price_max', 'price_min', 'price_range', 'area', 'households_min', 'not_single', 'rooms', 'station_walk', 'school_walk', 'commute', 'supply', 'status', 'eligible_only', 'margin', 'new_build', 'line'];
 const WEIGHTS = ['required', 'preferred', 'explore'];
 
 export function extractPrompt(question, ruleC) {
   const system = `너는 청약 질문을 검색 조건 JSON 으로 바꾸는 해석기다. 답은 JSON 하나만 쓴다.
-형식: {"intent":"search|compare|explain|score","targets":[단지 이름],"conds":[{"key":..,"value":..,"weight":"required|preferred|explore","text":"질문 속 근거 낱말"}],"assume":{"married":bool,"cash":억,"income":만원,"homeless":bool,"kids":수},"perspectives":["price|margin|chance"],"unsupported":["형식 밖 조건"],"scope":{"past":bool}}
+형식: {"intent":"search|compare|explain|score","targets":[단지 이름],"conds":[{"key":..,"value":..,"weight":"required|preferred|explore","text":"질문 속 근거 낱말"}],"assume":{"married":bool,"cash":억,"income":만원,"homeless":bool,"kids":수,"family":가족 수,"no_school":bool},"perspectives":["price|margin|chance"],"unsupported":["형식 밖 조건"],"scope":{"past":bool,"expand":bool}}
 key 는 ${KEYS.join(', ')} 만 쓴다. 형식 밖 조건(급지·호재·학군·주차·층·향 등)은 conds 에 넣지 말고 unsupported 에 그대로 적는다.
 weight: '꼭·반드시·필수·제외·싫어' = required, '좋겠다·선호·가능하면' = preferred, '아니어도 돼·고려·잘 몰라·근처' = explore.
 지역 value 는 [{"sido":"서울","district":"송파구","label":"송파"}] 모양. 금액은 억 단위 숫자. 면적은 {"min":㎡,"max":㎡,"label":".."}.
+노선(신분당선·9호선 등)은 지역이 아니다 — key "line", value {"line":"신분당선","m":1000}. '신분당선'의 '분당'을 지역으로 읽지 않는다. 'A 말고도·같은 조건으로'는 제외가 아니라 scope.expand=true.
 아래 '규칙 해석'이 이미 찾은 조건을 기준으로, 빠진 조건·잘못 나눈 무게만 고친다. 질문에 없는 조건을 만들지 않는다.`;
   const user = `질문: ${question}\n규칙 해석: ${JSON.stringify({ intent: ruleC.intent, targets: ruleC.targets, conds: ruleC.conds, assume: ruleC.assume, unsupported: ruleC.unsupported, scope: ruleC.scope })}`;
   return { system, user };
@@ -32,7 +33,7 @@ export function parseExtraction(text, ruleC) {
   }
   for (const c of ruleC.conds.filter(c => c.weight === 'required' && ['region_out', 'price_max', 'not_single', 'eligible_only'].includes(c.key)))
     if (!j.conds.some(x => x.key === c.key)) return { ok: false, why: '규칙 해석의 필수 조건을 지움: ' + c.key };
-  const C = { intent: j.intent || ruleC.intent, targets: j.targets || ruleC.targets, conds: j.conds, assume: j.assume || {}, perspectives: j.perspectives || [], unsupported: j.unsupported || [], scope: j.scope || { past: false }, q: ruleC.q };
+  const C = { intent: j.intent || ruleC.intent, targets: j.targets || ruleC.targets, conds: j.conds, assume: { ...(ruleC.assume || {}), ...(j.assume || {}) }, perspectives: [...new Set([...(ruleC.perspectives || []), ...(j.perspectives || [])])], unsupported: j.unsupported || [], scope: { ...(ruleC.scope || {}), ...(j.scope || {}) }, q: ruleC.q };   // 규칙이 찾은 넓혀 보기·가족 수·학군 안 따짐을 AI 가 빠뜨려도 남김
   return { ok: true, C };
 }
 
@@ -42,11 +43,13 @@ export function factsForLLM(C, r, compare, { profile }) {
     margin: it.f.margin.g === 'unknown' ? null : { grade: it.f.margin.name, lo: round(it.f.margin.lo), hi: round(it.f.margin.hi), state: '추정' }, jeonse: it.f.jeonse.v ? round(it.f.jeonse.v) : null,
     complex: it.f.complex.state === '확인' ? { households: it.f.complex.households, buildings: it.f.complex.buildings } : null, station: it.f.station.state === '추정' ? { name: it.f.station.name, walk: it.f.station.walk, m: it.f.station.m } : null,
     school: it.f.school.state === '추정' ? { name: it.f.school.name, walk: it.f.school.walk, m: it.f.school.m } : null, elig: it.elig || null, sp_ok: (it.sp || []).filter(s => s.s === 'ok').map(s => s.label),
-    competition: it.f.competition ? it.f.competition.rows : null, budget_slack: (() => { const pm = C.conds.find(c => c.key === 'price_max'); return pm && it.f.price.v != null ? round(pm.value - it.f.price.v) : null; })(), units: { general: it.f.units.general, special: it.f.units.special, total: it.f.units.general + it.f.units.special }, line_km: it.f.geo ? C.conds.filter(c => c.key === 'commute').map(c => ({ to: c.value.place, km: Math.round(distKm(it.f.geo, c.value)) })) : [], commute: (it.f.commute || []).filter(x => x.min != null).map(x => ({ to: x.place, who: x.who, car_min: x.min, km: x.km, src: x.src })), dates: it.f.dates, unknown: it.unknown || [], link: it.f.link } : null;
+    competition: it.f.competition ? it.f.competition.rows : null, budget_slack: (() => { const pm = C.conds.find(c => c.key === 'price_max'); return pm && it.f.price.v != null ? round(pm.value - it.f.price.v) : null; })(), units: { general: it.f.units.general, special: it.f.units.special, total: it.f.units.general + it.f.units.special }, line_km: it.f.geo ? C.conds.filter(c => c.key === 'commute').map(c => ({ to: c.value.place, km: Math.round(distKm(it.f.geo, c.value)) })) : [], rail_line: it.f.line ? Object.entries(it.f.line).map(([ln, n]) => ({ line: ln, station: n.name, m: n.m, km: Math.round(n.m / 100) / 10 })) : [], commute: (it.f.commute || []).filter(x => x.min != null).map(x => ({ to: x.place, who: x.who, car_min: x.min, km: x.km, src: x.src })), dates: it.f.dates, unknown: it.unknown || [], link: it.f.link } : null;
   return { understood: understood(C), cond_values: C.conds.filter(c => typeof c.value === 'number' || (c.value && (c.value.min != null || c.value.bed != null))).map(c => ({ key: c.key, value: c.value })), profile, candidates: r.groups.slice(0, 5).map(g => ({ ...pick(g.best), others: g.types.slice(1).map(t => ({ unit: t.f.unit, price: t.f.price.v })) })), rest: r.groups.slice(5, 15).map(g => ({ name: g.name, unit: g.best.f.unit, price: g.best.f.price.v, elig: g.best.elig || null })), unsure: (() => { const m = new Map(); r.unsure.forEach(x => { if (!m.has(x.f.nid)) m.set(x.f.nid, x); }); return [...m.values()].slice(0, 8).map(pick); })(), excluded: r.excluded, relax: r.relax.map(o => ({ label: o.label, count: o.count })),
     explore: r.explore, perspectives: r.perspectives, compare: compare ? compare.map(t => ({ query: t.query, found: t.found, picks: (t.notices || []).map(n => ({ ...pick(n.pick), others: n.all })) })) : null,
     alternatives: (r.relax || []).flatMap(o => (o.groups || []).map(g => ({ ...pick(g.best), from_region_km: (() => { const regs = C.conds.filter(c => c.key === 'region_in').flatMap(c => c.value).filter(v => v.lat); return regs.length && g.best.f.geo ? Math.round(Math.min(...regs.map(v => distKm(g.best.f.geo, v)))) : null; })() }))).concat((r.nearMiss || []).map(g => pick(g.best))).concat((r.closest || []).map(x => ({ ...pick(x), near_km: x.km, misses: x.misses }))), total: r.total,
-    constants: { size_hint_m2: [59, 84], newborn_age: 2, max_cards: 5 } };   // 답 틀에 늘 들어가는 고정 숫자 (20평대=전용 59㎡ 안내, 신생아 특공 2세 미만)
+    outside: r.outside ? { base: r.outside.base, total: r.outside.total, picks: r.outside.groups.map(g => ({ ...pick(g.best), from_region_km: g.best.km })) } : null,   // 'A 말고도 같은 조건으로' 블록 (샘플 3)
+    rail_lines: r.lineInfo || [],   // 노선 역세권 공고 현황 (샘플 4)
+    constants: { size_hint_m2: [59, 84], newborn_age: 2, max_cards: 5, line_m: [1000, 3000] } };   // 답 틀에 늘 들어가는 고정 숫자 (20평대=전용 59㎡ 안내, 신생아 특공 2세 미만)
 }
 const round = v => v == null ? null : Math.round(v * 100) / 100;
 

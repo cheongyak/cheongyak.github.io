@@ -159,6 +159,10 @@ function priorityPicks(items, C) {
 function reorder(out) {
   const u = out.findIndex(x => typeof x === 'string' && x.startsWith('[이렇게 이해했어요]')), c = out.findIndex(x => typeof x === 'string' && /^(결론부터 말씀드리면|.*청약은 없어요\.$)/.test(x));
   if (u >= 0 && c > u) { const [blk] = out.splice(u, 1); out.splice(c, 0, blk); }
+  // 노선 현황은 결론 바로 뒤 (샘플 4: 결론 → 기준·권역 설명 순서)
+  const li = out.map((x, i) => typeof x === 'string' && /^(\[.+ 역세권 공고 현황\]|· .+ 역 위치 자료가)/.test(x) ? i : -1).filter(i => i >= 0);
+  if (li.length) { const blocks = li.map(i => out[i]); for (const i of li.slice().reverse()) out.splice(i, 1);
+    const c2 = out.findIndex(x => typeof x === 'string' && /^(결론부터 말씀드리면|.*청약은 없어요\.$)/.test(x)); out.splice(c2 >= 0 ? c2 + 1 : 1, 0, ...blocks); }
   return out;
 }
 
