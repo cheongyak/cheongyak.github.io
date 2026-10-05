@@ -4,6 +4,17 @@
 2026-09-29 12:55 이전 항목은 규칙을 만들기 전 작업을 커밋 기록으로 정리한 것이라 백업 브랜치가 없어요.
 그 시점으로 되돌릴 때는 해당 커밋 번호로 `git revert` 를 써요.
 
+## 2026-10-05 20:07 · 불법행위 재공급 특별공급 '계' 칸 없는 공급대상 표 읽기 (장항 노부모부양 3세대)
+- 요청: "여기서 남은 문제들 해결부탁해" — 주간 블라인드 W41 에서 남은 '장항 재공급 노부모 특공 3세대를 앱이 모름'
+- 원인: 재공급 특공 세대수는 공고문 공급대상 표에서 읽는데(기능 resupply_special), 고양 장항 아테라(2026930038) 표는 머리글이 '총공급 세대수 / 노부모 부양 특별공급 / 일반공급'으로 '특별공급 세대수'·'계' 칸이 없어 못 읽음 → 특공 판정이 빠지고 일반 1세대만 판정
+- 변경: notice_pdf._sp_table_no_sum — 이 형식을 읽고 '총공급 = 특공 합 + 일반공급'일 때만 받음. PARSER_VERSION 26(모든 공고문 다시 읽기). 원문 109건 읽기 고정 비교에서 바뀐 값은 2026930038 sp_table 하나(의도). 블라인드 비교 도구에 신혼희망타운 특공 정의(청약홈 SPSPLY = 전체 물량) 반영
+- 정답 데이터: tests/golden/notices.json 2026930038 sp_table(84A 노부모 3·84B 노부모 1, 원문 공급규모 문장·표 인용, 블라인드 검토자 값과 같음). 판정 사례 fixture 에 장항 84A 추가(사례는 다음 커밋 make_judge_cases)
+- 파일: app/notice_pdf.py, app/pipeline.py, tests/golden/notices.json, tests/test_resupply_special.py, tests/qa/parse_snapshot.json, tests/judge/listings.json, tests/qa/snapshots.json, tools/qa/blind_sample.py, evidence/qa/blind/report.json, docs/changelog.json, VERSIONS.md
+- 확인: test_resupply_special(새 형식·합이 안 맞으면 거부), parse_snapshot 바뀐 값 1(의도), snapshot 바뀐 곳 = 새로 넣은 장항 고정 공고뿐(기준 갱신), regress 조합 1,130 변화 0
+- 백업: backup/20261005-2007-lhrest
+- 기능: resupply_special
+- 버전: v1.52.1
+
 ## 2026-10-05 19:17 · LH 임대 QA 를 일반분양 수준으로 — 데이터 불변식·교차 규칙·e2e·문구 훑기·주간 블라인드 표본·검증 현황
 - 요청: "응 qa 일반분양 수준처럼 돌려줘"
 - 변경: ① tools/qa/lh_invariants.py 새 도구(일정 순서·보증금/월세 범위·계층 못 읽음·소득%·자산·자동차 범위·소득 100% 표=앱 고정값·정답 데이터 대조 → evidence/qa/lh-invariants.json, '[검증·LH]' 줄) + tests/test_lh_invariants.py ② cross_rule.cjs 에 LH 규칙(LH-ELIG-001 소득·002 자동차·총자산·003 거주 지역·004 나이·성년, LH-HOME-001, LH-MONO-001, LH-UI-001)과 CROSS_RULES.md 표 ③ e2e.cjs 'LH 임대 흐름'(#/rental·#/rdetail 바로 열기·새로고침·뒤로·없는 번호·스위치 꺼짐)·'LH 임대 입력 퍼징'(답하기 칸 18개 × 이상한 값 10개, 답하기 창 전부 열기), E2E_ONLY=lh ④ textsweep.cjs 에 임대 목록·상세·답하기 창 ⑤ blind_sample.py 에 LH 표본 2건(lh_samples·LH_QUESTIONS)과 비교, 분양 비교에 정의가 같은 경우 2가지(규제지역 1순위 세대주는 따로 판정, 청약통장 불필요=0개월) ⑥ verify_status.py 가 lh-invariants·lh-qa·lh-screen 을 모아 ok 에 반영, verify.yml·lh-rental.yml 에서 매번 실행 ⑦ lh_qa.cjs 답하기 값에 세대 주택 수·등본 부모 수

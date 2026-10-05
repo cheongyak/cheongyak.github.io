@@ -139,6 +139,8 @@ def compare() -> int:
                     same = same or str(a).replace(" ", "").endswith(str(v).replace(" ", "")) or str(v).replace(" ", "").endswith(str(a).replace(" ", ""))
                 if k == "need_head" and v is True and a is False and x.get("regulated") and x.get("category") == "general":   # 신청 대상은 세대구성원, 규제지역 1순위 세대주는 따로 판정(regulated_rules) — 2026-W41 광명
                     same = True
+                if k == "special_total" and v == 0 and "신혼희망타운" in (x.get("name") or ""):   # 청약홈은 신혼희망타운 물량 전체를 특별공급 칸(SPSPLY)에 줌 — 화면은 신혼희망타운에 특별공급 판정을 따로 띄우지 않음(같은 뜻), W40·W41
+                    same = True
                 if k == "account_months" and a is None and v == 0 and x.get("need_account") is False:   # 청약통장 필요 없음(need_account false) = 0개월 — 2026-W41 무순위·재공급
                     same = True
                 if k == "special_total" and a is None and v == 0 and x.get("category") == "remainder":   # 무순위·재공급은 특공 자료가 없으면 None — 특공 없음과 같은 뜻

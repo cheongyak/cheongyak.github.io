@@ -963,7 +963,7 @@ def parse_sp_table(text: str) -> Optional[dict]:
     t = re.sub(r"\s+", " ", text)
     h = re.search(r"특별공급 세대수(.{0,200}?)(20\d{8}) 01 ", t)
     if not h:
-        return None
+        return _sp_table_no_sum(t)
     heads = [SP_NAMES[w] for w in re.findall("|".join(sorted(SP_NAMES, key=len, reverse=True)), h.group(1))]
     if not heads or len(set(heads)) != len(heads):
         return None
@@ -979,6 +979,32 @@ def parse_sp_table(text: str) -> Optional[dict]:
             continue   # 표 숫자가 맞지 않으면 읽지 않는다 (추측 금지)
         row = dict(zip(heads, per))
         row["total"] = sp_sum
+        out[m.group(1)] = row
+    return out or None
+
+
+def _sp_table_no_sum(t: str) -> Optional[dict]:
+    """특공 '계' 칸이 없는 공급대상 표 (2026-10-05 주간 블라인드 표본 W41: 고양 장항 아테라 2026930038 불법행위 재공급)
+    '… 총공급 세대수 노부모 부양 특별공급 일반공급 … 2026930038 01 084.9958A 84A 84.9958 24.3167 109.3125 51.6380 160.9505 53.0747 4 3 1'
+    행 = 면적 6개 → 총공급 → 머리글 순서의 특공 유형별 세대 → 일반공급. 총공급 = 특공 합 + 일반공급 일 때만 받는다(추측 금지)."""
+    h = re.search(r"총공급 ?세대수 ((?:(?:다자녀 ?가구|다자녀|신혼 ?부부|노부모 ?부양|생애 ?최초|신생아|기관 ?추천) ?)+)특별공급 ?일반공급(.{0,120}?)(20\d{8}) 01 ", t)
+    if not h:
+        return None
+    head = h.group(1).replace(" ", "")
+    heads = [SP_NAMES[w] for w in re.findall("|".join(sorted(SP_NAMES, key=len, reverse=True)), head)]
+    if not heads or len(set(heads)) != len(heads):
+        return None
+    out = {}
+    for m in re.finditer(r"\b0\d (\d{2,3}\.\d{4}[A-Z]{0,2}) \S+ ((?:(?!0\d \d{2,3}\.\d{4})[\d.,]+ |- ){7,14})", t[h.start():h.start() + 3000]):
+        vals = m.group(2).split()[6:]
+        if len(vals) != len(heads) + 2:
+            continue
+        cnt = lambda v: 0 if v == "-" else int(v) if v.isdigit() else None
+        total, per, gen = cnt(vals[0]), [cnt(v) for v in vals[1:1 + len(heads)]], cnt(vals[-1])
+        if None in per or gen is None or total is None or sum(per) + gen != total:
+            continue
+        row = dict(zip(heads, per))
+        row["total"] = sum(per)
         out[m.group(1)] = row
     return out or None
 
