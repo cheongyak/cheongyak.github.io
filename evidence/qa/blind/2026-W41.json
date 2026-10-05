@@ -1,0 +1,163 @@
+{
+ "week": "2026-W41",
+ "made": "2026-10-05",
+ "how": "앱 화면·docs/listings.json 을 보지 않고 원문만 읽고 answers 를 채운다. 원문 위치: source. 근거 문장은 quotes 에.",
+ "questions": {
+  "need_head": "청약 신청자가 세대주여야 하나요? (true/false)",
+  "price_cap": "분양가상한제 적용 주택인가요? (true/false)",
+  "residence_duty": "거주의무 기간(년). 없으면 0, 공고문에 아예 없으면 \"없음\"",
+  "rewin_years": "당첨 시 재당첨 제한 기간(년). 없으면 0",
+  "account_months": "일반공급 1순위 청약통장 가입기간(개월)",
+  "residence_area": "해당지역(우선공급) 이름 (예: 서울특별시, 과천시)",
+  "residence_months": "해당지역 최소 거주기간(개월). 기간 조건이 없으면 0",
+  "balance": "잔금일 또는 입주지정기간 종료일 (YYYY-MM-DD)",
+  "special_total": "이 주택형 특별공급 세대수 합계"
+ },
+ "samples": [
+  {
+   "group": "민영 일반",
+   "id": "2026000453-084.9648B",
+   "name": "광명 시티프라디움 에듀하임",
+   "unit": "84B",
+   "source": "evidence/notices/2026000453.txt",
+   "answers": {
+    "need_head": true,
+    "price_cap": false,
+    "residence_duty": 0,
+    "rewin_years": 10,
+    "account_months": 24,
+    "residence_area": "광명시",
+    "residence_months": 24,
+    "balance": null,
+    "special_total": 11
+   },
+   "quotes": {
+    "need_head": "세대주 요건 - - - 필요 필요 필요 필요 - (1순위 '필요') / 1순위: - 세대주일 것",
+    "price_cap": "민간택지에서 공급하는 분양가상한제 미적용 민영주택으로",
+    "residence_duty": "재당첨제한 전매제한 거주의무기간 분양가상한제 택지유형 10년 3년 없음 미적용 민간택지",
+    "rewin_years": "투기과열지구에서 공급되는 주택(제1항 제6호) 10년",
+    "account_months": "※ 1순위 : 입주자저축에 가입하여 가입기간이 24개월이 경과하고 지역별·면적별 예치금액 이상 납입한 분",
+    "residence_area": "민영 경기도 광명시 2년 이상 계속 거주자 (2024.09.18. 이전부터 계속 거주)",
+    "residence_months": "경기도 광명시 2년 이상 거주자가(2024.09.18. 이전부터 계속 거주) 우선합니다.",
+    "balance": "■ 입주예정일 : 2029년 03월 예정 (일자 없음)",
+    "special_total": "구분 59A 59B 84A 84B ... 합   계 11 45 50 11 61 11 47 236 (84B=11)"
+   }
+  },
+  {
+   "group": "공공 일반",
+   "id": "2026000437-084.0000B",
+   "name": "힐스테이트 고덕엘리스트 A12BL 공공분양주택",
+   "unit": "84B",
+   "source": "evidence/notices/2026000437.txt",
+   "answers": {
+    "need_head": false,
+    "price_cap": true,
+    "residence_duty": 3,
+    "rewin_years": 10,
+    "account_months": 12,
+    "residence_area": "평택시",
+    "residence_months": 12,
+    "balance": null,
+    "special_total": 171
+   },
+   "quotes": {
+    "need_head": "세대주여부 해당 없음 ... [1순위자] 해당 없음 (일반공급 1순위 세대주 요건 없음, 비규제지역)",
+    "price_cap": "재당첨제한 전매제한 거주의무기간 분양가상한제 택지유형 10년 3년 3년 적용 공공택지",
+    "residence_duty": "「주택법 시행령」 제60조의 2에 의거 거주의무가 3년 적용됩니다.",
+    "rewin_years": "분양가상한제 적용주택으로 「주택공급에 관한 규칙」 제54조에 따라 재당첨제한은 10년 적용되고",
+    "account_months": "1순위 - 입주자저축에 가입하여 12개월이 경과된 분으로서 매월 약정납입일에 월 납입금을 12회 이상 납입한 분",
+    "residence_area": "경기도 평택시 1년 이상 계속 거주자 (2025.09.11. 이전부터 계속 거주)",
+    "residence_months": "경기도 평택시 1년 이상 계속 거주자 (2025.09.11. 이전부터 계속 거주)",
+    "balance": "※ 입주예정 시기는 2029년 06월로 예정되어 있으나 (일자 없음)",
+    "special_total": "084.0000B 84B ... 201 21 10 20 20 30 10 40 20 171 30 9 (특별공급 계 171, 84B+84B1)"
+   }
+  },
+  {
+   "group": "신혼희망타운",
+   "id": "2026820011-055.0000O",
+   "name": "시흥하중지구 A-4블록 신혼희망타운(공공분양) 추가입주자모집",
+   "unit": "55O",
+   "source": "evidence/notices/2026820011.txt",
+   "answers": {
+    "need_head": false,
+    "price_cap": true,
+    "residence_duty": "없음",
+    "rewin_years": 10,
+    "account_months": 6,
+    "residence_area": "시흥시",
+    "residence_months": 12,
+    "balance": null,
+    "special_total": 0
+   },
+   "quotes": {
+    "need_head": "수도권에 거주하면서 아래 조건(①~④)을 모두 갖춘 신혼부부 ① ... 무주택세대구성원 (세대주 요건 없음)",
+    "price_cap": "과밀억제권역의  분양가상한제 적용주택으로 「주택공급에 관한 규칙」제54조에 따라 재당첨제한은 10년 적용",
+    "residence_duty": "(공고문에 거주의무 관련 문구 없음; 재당첨제한·전매제한 표만 있음)",
+    "rewin_years": "재당첨제한 당첨자발표일 10년 「공공주택 특별법」,「수도권정비계획법」제6조제1항",
+    "account_months": "② 입주자저축에 가입하여 6개월이 경과되고, 매월 약정납입일에 월납입금을 6회 이상 납입한 분",
+    "residence_area": "시흥시 1년 이상(2025.09.18.이전) 거주하는 신청자가 시흥시 1년 미만 거주자 및 수도권 ... 거주신청자보다 우선",
+    "residence_months": "시흥시 1년 이상(2025.09.18.이전) 거주하는 신청자가 ... 우선하며",
+    "balance": "입주 예정 시기 ’28.07. (일자 없음)",
+    "special_total": "055.0000O 55A ... 502 307 1 194 25 - (금회 공공분양 추가모집 1세대, 별도 특별공급 구분 없음)"
+   }
+  },
+  {
+   "group": "무순위",
+   "id": "2026910244-059.8400A",
+   "name": "더 리치먼드 미아(3차)",
+   "unit": "59A",
+   "source": "evidence/notices/2026910244.txt",
+   "answers": {
+    "need_head": false,
+    "price_cap": false,
+    "residence_duty": 0,
+    "rewin_years": 10,
+    "account_months": 0,
+    "residence_area": "전국",
+    "residence_months": 0,
+    "balance": null,
+    "special_total": 0
+   },
+   "quotes": {
+    "need_head": "무순위(사후) 입주자모집공고일 현재 전국에 거주하는 무주택세대구성원",
+    "price_cap": "민간택지에서 공급하는 분양가상한제 미적용 민영주택으로",
+    "residence_duty": "재당첨제한 전매제한 거주의무기간 분양가상한제 10년 ...로부터 3년 없음 미적용",
+    "rewin_years": "- 투기과열지구에서 공급되는 주택(제1항제6호) 10년",
+    "account_months": "■ 청약통장 가입여부와 무관하게 신청가능",
+    "residence_area": "■ 무순위(사후) 입주자모집공고일 현재 전국에 거주하는 무주택세대구성원",
+    "residence_months": "입주자모집공고일 현재 전국에 거주하는 무주택세대구성원 (기간 조건 없음)",
+    "balance": "■ 입주시기 : 2028년 9월 예정(정확한 입주일자는 추후 통보함)",
+    "special_total": "01 059.8400A 59A 14 ... (무순위 잔여 14세대, 특별공급 없음)"
+   }
+  },
+  {
+   "group": "재공급",
+   "id": "2026930038-084.9958A",
+   "name": "고양 장항 아테라",
+   "unit": "84A",
+   "source": "evidence/notices/2026930038.txt",
+   "answers": {
+    "need_head": true,
+    "price_cap": true,
+    "residence_duty": 5,
+    "rewin_years": 10,
+    "account_months": 0,
+    "residence_area": "고양시",
+    "residence_months": 0,
+    "balance": null,
+    "special_total": 3
+   },
+   "quotes": {
+    "need_head": "일반공급은 해당 주택건설지역 거주자 중 무주택세대주(무주택세대의 세대주)를 대상으로 추첨의 방법으로 공급",
+    "price_cap": "공공주택지구에서 공급하는 분양가상한제 적용 민영주택으로",
+    "residence_duty": "전매제한 거주의무기간 분양가상한제 택지유형 최초 당첨자발표일 (2024.08.13.)로부터 3년간 적용 5년 적용 공공택지",
+    "rewin_years": "분양가상한제 적용주택(제1항제3호) 10년",
+    "account_months": "■ 본 입주자모집공고는 청약통장 가입여부와 관계없이 청약신청 가능합니다.",
+    "residence_area": "입주자모집공고일 현재 해당 주택건설지역인 경기도 고양시에 거주하는 무주택세대주",
+    "residence_months": "공고일 현재 경기도 고양시에 거주(주민등록표등본 기준)하는 만19세 이상인 분 (기간 조건 없음)",
+    "balance": "■ 입주시기 : 2027년 5월 예정(정확한 입주일자는 추후 통보함)",
+    "special_total": "01 084.9958A 84A ... 4 3 1 (총4, 노부모부양 특별공급 3, 일반 1)"
+   }
+  }
+ ]
+}
