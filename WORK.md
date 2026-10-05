@@ -4,6 +4,15 @@
 2026-09-29 12:55 이전 항목은 규칙을 만들기 전 작업을 커밋 기록으로 정리한 것이라 백업 브랜치가 없어요.
 그 시점으로 되돌릴 때는 해당 커밋 번호로 `git revert` 를 써요.
 
+## 2026-10-05 14:57 · LH 임대 화면·자격 판정 (스위치 꺼짐, 미리보기 ?lh=preview)
+- 요청: "어 진행해줘" (LH 임대 목록 + 자격 판정, 기존 청약 판정 영향 없게 / 일반청약·공공임대·청년주택으로 나눠 보기)
+- 변경: 화면에 LH 임대 목록·상세와 계층별 자격 판정(rentalJudge, 분양 판정 함수는 부르지도 바꾸지도 않음). 공고 탭 맨 위 '분양 청약 · 공공임대 · 청년 주택' 버튼(스위치 켜질 때만). 판정 규칙: 공공주택 특별법 시행규칙 별표 3·4·5·5의2 + 공고문 금액(청년 19~39세·미혼·본인 무주택, 고령자 65세 이상, 신혼 7년·6세 이하 자녀, 소득 1인·2인·3인 이상 퍼센트, 총자산·자동차 한도, 출산가구 가산은 확인 필요). 소득 100% 금액 RENT_URBAN_2025(2025 도시근로자) 를 공고문 표와 대조하는 시험·수집 기록 추가. 같은 이름 함수 겹침 검사(test_index_names) 추가
+- 판정 사례: lhrent-01~64 (make_judge_cases 16절, 공고 조건은 tests/judge/lh_notices.json = 정답 데이터에서 만듦, 기대값은 생성기가 규칙을 따로 옮겨 계산) → judge_check 461/461
+- 파일: docs/index.html, app/lh_terms.py, app/lh_rental.py, tools/make_judge_cases.py, tools/judge_check.cjs, tests/judge/cases.json, tests/judge/lh_notices.json, tests/test_lh_terms.py, tests/test_index_names.py, tools/qa/lh_rental.cjs, HANDOFF.md, FEATURES.md, .claude/skills/cheongyakpass-ops/SKILL.md
+- 확인: pytest 전체, 스크립트 문법, judge_check 461/461, regress(기존 판정 변화 0·화면 오류 0), snapshot 바뀐 곳 0, consistency·monotonic·cross_rule·sp_text 0건, 엔진 잠금 그대로, tools/qa/lh_rental.cjs(스위치 꺼짐: 버튼 없음 / 켜짐: 390px 밝은·어두운 목록·청년·상세 30건 가로 넘침·오류·NaN 0, 뒤로 가기) 스크린샷 직접 확인
+- 백업: backup/20261005-1457-lhscreen
+- 기능: lh_rental
+
 ## 2026-10-05 14:36 · LH 임대 공고문 자격 조건 읽기 + 정답 데이터 27건
 - 요청: "어 진행해줘" (LH 임대 목록 + 자격 판정, 기존 청약 판정 영향 없게)
 - 변경: app/lh_terms.py(새 파일, 분양 공고문 읽기 app/notice_pdf.py 와 분리) — 임대 공고문에서 자격 완화 여부, 무주택 요건 완화(주택건설지역·연접지역 무주택), 계층별(대학생·청년·신혼부부·한부모·고령자·주거급여수급자·일반) 무주택 범위·소득 퍼센트(또는 배제)·총자산·자동차 한도(만원 또는 배제)·소득 100% 금액표를 읽음. 수집(app/lh_rental.py)이 공고마다 terms 로 저장. 못 읽은 값은 None(화면은 공고문 확인)

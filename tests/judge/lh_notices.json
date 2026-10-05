@@ -1,0 +1,319 @@
+[
+ {
+  "id": "LH-2015122300020818",
+  "type": "영구임대",
+  "posted": "2026-09-22",
+  "name": "부산광역시 영구임대주택 예비입주자 모집 (2026년 하반기, 모집공고일 2026.09.22, 주택관리번호 미기재)",
+  "schedule": [],
+  "units": [],
+  "files": [],
+  "terms": {
+   "relaxed": false,
+   "homeless_relaxed": false,
+   "income_basis": "도시근로자 월평균소득",
+   "income_table_100": null,
+   "groups": [
+    {
+     "key": "일반",
+     "name": "일반",
+     "homeless": "household",
+     "income_pct": {
+      "1": 70,
+      "2": 60,
+      "3+": 50
+     },
+     "asset_manwon": 24500,
+     "car_manwon": 4542,
+     "age_min": null,
+     "age_max": null
+    }
+   ]
+  },
+  "_from": "tests/golden/lh_rental.json (공고문 원문 확인값) — 파서 결과가 아님"
+ },
+ {
+  "id": "LH-2015122300020740",
+  "type": "국민임대",
+  "posted": "2026-09-15",
+  "name": "원주태장4 국민임대주택 예비입주자 모집 (모집공고일 2026.09.15, 주택관리번호 2026-000427)",
+  "schedule": [],
+  "units": [],
+  "files": [],
+  "terms": {
+   "relaxed": false,
+   "homeless_relaxed": false,
+   "income_basis": "도시근로자 월평균소득",
+   "income_table_100": null,
+   "groups": [
+    {
+     "key": "일반",
+     "name": "일반",
+     "homeless": "household",
+     "income_pct": {
+      "1": 90,
+      "2": 80,
+      "3+": 70
+     },
+     "asset_manwon": 34500,
+     "car_manwon": 4542,
+     "age_min": null,
+     "age_max": null
+    }
+   ]
+  },
+  "_from": "tests/golden/lh_rental.json (공고문 원문 확인값) — 파서 결과가 아님"
+ },
+ {
+  "id": "LH-2015122300020726",
+  "type": "국민임대",
+  "posted": "2026-09-15",
+  "name": "아산신창소화, 아산인주 국민임대주택 예비입주자 모집 [소득·자산 배제] (모집공고일 2026.09.15, 주택관리번호 2026-000427)",
+  "schedule": [],
+  "units": [],
+  "files": [],
+  "terms": {
+   "relaxed": true,
+   "homeless_relaxed": false,
+   "income_basis": "도시근로자 월평균소득",
+   "income_table_100": null,
+   "groups": [
+    {
+     "key": "일반",
+     "name": "일반",
+     "homeless": "household",
+     "income_pct": "excluded",
+     "asset_manwon": "excluded",
+     "car_manwon": 4542,
+     "age_min": null,
+     "age_max": null
+    }
+   ]
+  },
+  "_from": "tests/golden/lh_rental.json (공고문 원문 확인값) — 파서 결과가 아님"
+ },
+ {
+  "id": "LH-2015122300020806",
+  "type": "행복주택",
+  "posted": "2026-09-22",
+  "name": "부산문현2 1블록 행복주택 입주자 모집 (모집공고일 2026.09.22, 주택관리번호 2026-000493)",
+  "schedule": [],
+  "units": [],
+  "files": [],
+  "terms": {
+   "relaxed": false,
+   "homeless_relaxed": false,
+   "income_basis": "도시근로자 월평균소득",
+   "income_table_100": null,
+   "groups": [
+    {
+     "key": "대학생",
+     "name": "대학생",
+     "homeless": "self",
+     "income_pct": {
+      "1": 120,
+      "2": 110,
+      "3+": 100
+     },
+     "asset_manwon": 10800,
+     "car_manwon": 0,
+     "age_min": null,
+     "age_max": null
+    },
+    {
+     "key": "청년",
+     "name": "청년",
+     "homeless": "self",
+     "income_pct": {
+      "1": 120,
+      "2": 110,
+      "3+": 100
+     },
+     "asset_manwon": 25100,
+     "car_manwon": 4542,
+     "age_min": 19,
+     "age_max": 39
+    },
+    {
+     "key": "신혼부부·한부모",
+     "name": "신혼부부·한부모가족",
+     "homeless": "household",
+     "income_pct": {
+      "1": null,
+      "2": 110,
+      "3+": 100
+     },
+     "asset_manwon": 34500,
+     "car_manwon": 4542,
+     "age_min": null,
+     "age_max": null
+    },
+    {
+     "key": "고령자",
+     "name": "고령자",
+     "homeless": "household",
+     "income_pct": {
+      "1": 120,
+      "2": 110,
+      "3+": 100
+     },
+     "asset_manwon": 34500,
+     "car_manwon": 4542,
+     "age_min": 65,
+     "age_max": null
+    },
+    {
+     "key": "주거급여수급자",
+     "name": "주거급여수급자",
+     "homeless": "household",
+     "income_pct": null,
+     "asset_manwon": null,
+     "car_manwon": null,
+     "age_min": null,
+     "age_max": null
+    }
+   ]
+  },
+  "_from": "tests/golden/lh_rental.json (공고문 원문 확인값) — 파서 결과가 아님"
+ },
+ {
+  "id": "LH-2015122300020855",
+  "type": "통합공공임대",
+  "posted": "2026-09-30",
+  "name": "대구연호 A-2BL 통합공공임대주택 입주자 모집공고 (lh-rental 이름: 대구연호 A-2BL, A-3BL 통합공공임대주택 입주자 모집) (모집공고일 2026.09.30, 주택관리번호 2026-000489)",
+  "schedule": [],
+  "units": [],
+  "files": [],
+  "terms": {
+   "relaxed": false,
+   "homeless_relaxed": false,
+   "income_basis": "기준 중위소득",
+   "income_table_100": {
+    "1": 2564238,
+    "2": 4199292,
+    "3": 5359036,
+    "4": 6494738,
+    "5": 7556719,
+    "6": 8555952,
+    "7": 9515150,
+    "8": 10474348
+   },
+   "groups": [
+    {
+     "key": "청년",
+     "name": "청년",
+     "homeless": "self",
+     "income_pct": {
+      "1": 170,
+      "2": 160,
+      "3+": 150
+     },
+     "asset_manwon": 34500,
+     "car_manwon": 4542,
+     "age_min": 18,
+     "age_max": 39
+    },
+    {
+     "key": "신혼부부·한부모",
+     "name": "신혼부부·한부모가족",
+     "homeless": "household",
+     "income_pct": {
+      "1": null,
+      "2": 160,
+      "3+": 150
+     },
+     "asset_manwon": 34500,
+     "car_manwon": 4542,
+     "age_min": null,
+     "age_max": null
+    },
+    {
+     "key": "고령자",
+     "name": "고령자",
+     "homeless": "household",
+     "income_pct": {
+      "1": 170,
+      "2": 160,
+      "3+": 150
+     },
+     "asset_manwon": 34500,
+     "car_manwon": 4542,
+     "age_min": 65,
+     "age_max": null
+    },
+    {
+     "key": "일반",
+     "name": "일반",
+     "homeless": "household",
+     "income_pct": {
+      "1": 170,
+      "2": 160,
+      "3+": 150
+     },
+     "asset_manwon": 34500,
+     "car_manwon": 4542,
+     "age_min": null,
+     "age_max": null
+    }
+   ]
+  },
+  "_from": "tests/golden/lh_rental.json (공고문 원문 확인값) — 파서 결과가 아님"
+ },
+ {
+  "id": "LH-2015122300020870",
+  "type": "행복주택",
+  "posted": "2026-10-02",
+  "name": "익산인화 행복주택 입주자격완화 예비입주자 모집 (모집공고일 2026.10.02, 주택관리번호 미표기)",
+  "schedule": [],
+  "units": [],
+  "files": [],
+  "terms": {
+   "relaxed": true,
+   "homeless_relaxed": true,
+   "income_basis": "도시근로자 월평균소득",
+   "income_table_100": null,
+   "groups": [
+    {
+     "key": "대학생",
+     "name": "대학생",
+     "homeless": "self",
+     "income_pct": "excluded",
+     "asset_manwon": "excluded",
+     "car_manwon": 0,
+     "age_min": null,
+     "age_max": null
+    },
+    {
+     "key": "청년",
+     "name": "청년",
+     "homeless": "self",
+     "income_pct": "excluded",
+     "asset_manwon": "excluded",
+     "car_manwon": 4542,
+     "age_min": 19,
+     "age_max": 39
+    },
+    {
+     "key": "고령자",
+     "name": "고령자",
+     "homeless": "household",
+     "income_pct": "excluded",
+     "asset_manwon": "excluded",
+     "car_manwon": 4542,
+     "age_min": 65,
+     "age_max": null
+    },
+    {
+     "key": "주거급여수급자",
+     "name": "주거급여수급자",
+     "homeless": "household",
+     "income_pct": null,
+     "asset_manwon": null,
+     "car_manwon": null,
+     "age_min": null,
+     "age_max": null
+    }
+   ]
+  },
+  "_from": "tests/golden/lh_rental.json (공고문 원문 확인값) — 파서 결과가 아님"
+ }
+]

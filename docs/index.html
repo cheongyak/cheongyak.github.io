@@ -493,6 +493,7 @@ dl.kv dt{color:var(--muted)} dl.kv dd{margin:0;text-align:right;font-weight:600}
 .gu-top{display:flex;align-items:baseline;gap:8px;flex-wrap:wrap}.gu-top h2{margin:0}
 .genunits{margin-top:2px}
 .pj{margin-top:6px;padding-top:6px;border-top:1px dashed var(--line,#ddd)} .pjrow{gap:8px} .pjrow>span:first-child{font-weight:600}
+.rseg{margin:0 0 10px} .rcard{width:100%;text-align:left;font:inherit;color:inherit;cursor:pointer;gap:6px} .rcard .rname{font-size:16px;line-height:1.4} .rtable{display:flex;flex-direction:column;gap:10px} .rrow{display:flex;flex-direction:column;gap:2px;border-top:1px solid var(--line);padding-top:8px} .rrow:first-child{border-top:0;padding-top:0}
 </style>
 </head>
 <body>
@@ -2045,6 +2046,7 @@ function vFeedV2(){
   return `
   <div class="top"><div><div class="brand">청약패스${betaTag()}</div><span class="small muted sub-line">${DATA_SOURCE.live ? '청약홈 ' + esc(String(DATA_SOURCE.updated || '').slice(5).replace('-', '.')) + ' 갱신' : '샘플 데이터'}${on('disclaimer_banner') && !on('beta_notice') ? ' · 참고용 추정' + (on('about_page') ? ' <button class="linkbtn small" data-go="about">자세히</button>' : '') : ''}</span></div>
     ${on('search_icon') && on('search') ? `<span class="topbtns">${searchBtn()}${bellBtn()}</span>` : bellBtn()}</div>
+  ${rentalSeg('sale')}
   ${on('search_icon') ? searchBox() : ''}${topFilters()}${staleNote()}
   ${betaBanner('feed')}${legalLine()}
   ${myCondCard()}
@@ -2095,6 +2097,7 @@ function vFeed(){
   return `
   <div class="top"><div><div class="brand">청약패스</div><span class="small muted">${DATA_SOURCE.live ? '청약홈 · ' + esc(DATA_SOURCE.updated) + ' 갱신' : '샘플 데이터'}</span></div>
     ${on('search_icon') && on('search') ? `<span class="topbtns">${searchBtn()}${bellBtn()}</span>` : bellBtn()}</div>
+  ${rentalSeg('sale')}
   ${on('search_icon') ? searchBox() : ''}${topFilters()}${staleNote()}
   ${betaBanner('feed')}${legalLine()}
   ${summaryBar()}
@@ -4952,7 +4955,227 @@ function privacyBody(){
 
 /* ---------- 라우팅 & 이벤트 ---------- */
 const app = document.getElementById('app'), tabbar = document.getElementById('tabbar');
-const VIEWS = { feed:vFeed, detail:vDetail, plan:vPlan, grades:vGrades, me:vMe, onboard:vOnboard, alerts:vAlerts, about:vAbout, compare:vCompare, trend:vTrend, past:vPast, story:vStory, terms:vTerms, privacy:vPrivacy, updates:vUpdates };
+/* ---------- LH 임대 (기능: lh_rental, 2026-10-05 사용자 'LH 임대 목록 + 자격 판정, 지금 청약 판정에는 영향 없게') ----------
+   분양 청약 판정(eligibility·spJudge 등)과 완전히 따로 둔다 — 그 함수들을 부르지도 바꾸지도 않는다.
+   데이터: lh-rental.json (app/lh_rental.py, 매일 06:40) · 자격 조건은 공고문에서 읽은 terms (app/lh_terms.py, 정답 데이터 tests/golden/lh_rental.json)
+   판정 규칙 근거: 공공주택 특별법 시행규칙 별표 3(영구임대)·4(국민임대)·5(행복주택)·5의2(통합공공임대) + 각 모집공고문의 금액.
+   판정 사례: tests/judge/cases.json 의 lhrent-* (tools/make_judge_cases.py 가 같은 규칙을 따로 옮겨 기대값을 계산) */
+const RENT_URBAN_2025 = [3813363, 5866270, 8168429, 8802202, 9326985, 9906263, 10485541, 11064819];   // 2025년 도시근로자 가구원수별 월평균소득 100% (1~8인, 원). 행복주택 공고문 표(3~6인) + 국민·영구임대 공고문 70%·90% 열에서 확인 (tests/test_lh_terms.py)
+const RENT_BIRTH_FROM = '2023-03-28';   // 출산가구 소득·자산 가산 기준일 (별표 4·5 비고, 공고문)
+const RENT_CAT = [['sale', '분양 청약'], ['rent', '공공임대'], ['youth', '청년 주택']];
+const RENT_TYPES = ['국민임대', '영구임대', '행복주택', '통합공공임대', '공공임대'];
+const RG_NAME = { '일반': '일반', '대학생': '대학생', '청년': '청년', '신혼부부·한부모': '신혼부부·한부모', '고령자': '고령자(65세 이상)', '주거급여수급자': '주거급여 수급자' };
+let RENTAL = null, RENTAL_STATE = '';
+/* 미리보기: 스위치를 켜기 전에 운영자가 ?lh=preview 로 연 기기에서만 보인다 (?lh=off 로 해제) */
+try { const q = new URLSearchParams(location.search).get('lh'); if (q === 'preview') localStorage.setItem('cy-lh-preview', '1'); else if (q === 'off') localStorage.removeItem('cy-lh-preview'); } catch(e) {}
+const lhOn = () => { if (on('lh_rental')) return true; try { return localStorage.getItem('cy-lh-preview') === '1'; } catch(e) { return false; } };
+function loadRental(){
+  if (RENTAL_STATE) return;
+  RENTAL_STATE = 'loading';
+  fetch('lh-rental.json', { cache:'no-store' }).then(r => r.ok ? r.json() : Promise.reject(r.status)).then(d => { RENTAL = d; RENTAL_STATE = 'ok'; if (['rental', 'rdetail'].includes(S.view)) render(); })
+    .catch(() => { RENTAL_STATE = 'error'; if (['rental', 'rdetail'].includes(S.view)) render(); });
+}
+function rentalSeg(cur){
+  if (!lhOn()) return '';
+  return `<div class="segs rseg" role="group" aria-label="공고 종류">${RENT_CAT.map(([k, t]) => `<button class="chip" data-rcat="${k}" aria-pressed="${cur === k}">${t}</button>`).join('')}</div>`;
+}
+const rAge = (birth, ref) => { if (!birth || !ref) return null; const [by, bm, bd] = birth.split('-').map(Number), [ry, rm, rd] = ref.split('-').map(Number); return ry - by - ((rm < bm || (rm === bm && rd < bd)) ? 1 : 0); };
+const rIncomeBase = (N, n) => {
+  const t = N.terms || {};
+  if (t.income_basis === '기준 중위소득') return t.income_table_100 && t.income_table_100[String(n)] ? Number(t.income_table_100[String(n)]) : null;
+  return n >= 1 && n <= 8 ? RENT_URBAN_2025[n - 1] : null;
+};
+const rBirthKid = p => !!((p.youngestBirth && p.youngestBirth >= RENT_BIRTH_FROM) || p.pregnant === true);
+/* 계층 하나 판정 → { s: 'ok'|'no'|'check'|'na', items:[{s,t}] } */
+function rentalGroup(N, g, p){
+  const ref = N.posted || (N.schedule && N.schedule[0] && N.schedule[0].apply_start) || null, it = [], T = N.terms || {};
+  const add = (s, t) => it.push({ s, t });
+  const age = rAge(p.birth, ref);
+  let na = false;
+  /* 1) 계층 자격 */
+  if (g.key === '청년') {
+    if (age == null) add('check', '생년월일 입력 필요');
+    else if (age < (g.age_min || 19) || age > (g.age_max || 39)) { na = true; add('no', `만 ${g.age_min || 19}~${g.age_max || 39}세가 아님 (공고일 만 ${age}세)`); }
+    else add('ok', `만 ${age}세`);
+    if (p.married === true) { na = true; add('no', '혼인 중이면 청년 계층 아님'); } else if (p.married == null) add('check', '혼인 여부 입력 필요');
+  } else if (g.key === '대학생') {
+    add('check', '대학생(재학·입학·복학 예정, 졸업·중퇴 2년 이내)인지 공고문 확인');
+    if (p.married === true) { na = true; add('no', '혼인 중이면 대학생 계층 아님'); }
+  } else if (g.key === '고령자') {
+    if (age == null) add('check', '생년월일 입력 필요');
+    else if (age < (g.age_min || 65)) { na = true; add('no', `만 65세 미만 (공고일 만 ${age}세)`); }
+    else add('ok', `만 ${age}세`);
+  } else if (g.key === '신혼부부·한부모') {
+    const in7 = p.marriedOn && ref ? p.marriedOn > addYears(ref, -7) : null, kid6 = p.youngestBirth && ref ? p.youngestBirth > addYears(ref, -7) : null;
+    if (p.married === true) {
+      if (in7 === true || kid6 === true) add('ok', in7 ? '혼인 7년 이내' : '6세 이하 자녀');
+      else if (in7 == null && kid6 !== true) add('check', '혼인신고일 입력 필요');
+      else if (kid6 == null && (p.kidsMinor || 0) > 0) add('check', '막내 자녀 생일 입력 필요 (6세 이하 자녀가 있으면 신청 가능)');
+      else { na = true; add('no', '혼인 7년 초과이고 6세 이하 자녀 없음'); }
+    } else if (p.married === false) {
+      if ((p.kidsMinor || 0) > 0) add('check', '한부모가족(6세 이하 자녀)이면 신청 가능 — 공고문 확인');
+      else { na = true; add('no', '혼인 중(예비신혼부부 포함)이나 한부모가족이 아님'); }
+    } else add('check', '혼인 여부 입력 필요');
+  } else if (g.key === '주거급여수급자') {
+    add('check', '주거급여 수급자인지 확인 (이 서비스는 묻지 않아요)');
+  }
+  /* 2) 무주택 */
+  if (g.homeless === 'self') {
+    if (p.selfOwn === true) add(T.homeless_relaxed ? 'check' : 'no', T.homeless_relaxed ? '본인 집이 있어도 주택건설지역·연접지역 밖이면 신청 가능 — 공고문 확인' : '본인이 집을 가지고 있음 (본인 무주택이어야 함)');
+    else if (p.selfOwn === false) add('ok', '본인 무주택');
+    else add('check', '본인 집 소유 여부 입력 필요');
+  } else if (g.homeless === 'household') {
+    const own = p.selfOwn === true || (p.married === true && p.spouseOwn === true) || (p.household === 'parents' && p.parentsOwn === true);
+    const none = p.selfOwn === false && (p.married !== true || p.spouseOwn === false) && (p.household !== 'parents' || p.parentsOwn === false);
+    if (own) add(T.homeless_relaxed ? 'check' : 'no', T.homeless_relaxed ? '세대에 집이 있어도 주택건설지역·연접지역 밖이면 신청 가능 — 공고문 확인' : '세대에 집이 있음 (세대원 전원 무주택이어야 함)');
+    else if (none && p.married != null) add('ok', '세대 무주택');
+    else add('check', '세대원 집 소유 여부 입력 필요');
+  }
+  /* 3) 소득 */
+  if (g.income_pct === 'excluded') add('ok', '소득 기준 이번 공고 미적용');
+  else if (g.key !== '대학생' && g.key !== '주거급여수급자') {
+    const youthMember = g.key === '청년' && p.household === 'parents';
+    const n = youthMember ? 1 : (p.hhSize == null || p.hhSize === '' ? null : Number(p.hhSize));
+    const pct = g.income_pct && n ? g.income_pct[n === 1 ? '1' : n === 2 ? '2' : '3+'] : null;
+    const base = n ? rIncomeBase(N, n) : null;
+    if (!g.income_pct) add('check', '소득 기준 공고문 확인');
+    else if (!n) add('check', '가구원 수 입력 필요');
+    else if (pct == null || base == null) add('check', '이 가구원 수의 소득 기준 공고문 확인');
+    else {
+      const dual = g.key === '신혼부부·한부모' && p.married === true && p.income > 0 && p.spouseIncome > 0;
+      const lim = base * (pct + (dual ? (N.type === '통합공공임대' ? 30 : 20) : 0)) / 100;
+      const est = !youthMember && (p.hhIncomeYear == null || p.hhIncomeYear === '');
+      const yearMan = youthMember ? (p.income || 0) : est ? (p.income || 0) + (p.married ? (p.spouseIncome || 0) : 0) : Number(p.hhIncomeYear);
+      const m = yearMan * 10000 / 12, txt = `월 ${won(m)} / 기준 ${won(lim)} (${n}인 ${pct + (dual ? (N.type === '통합공공임대' ? 30 : 20) : 0)}%${dual ? ', 맞벌이' : ''})`;
+      if (est) add('check', '세대 소득 입력 필요 — 본인·배우자 소득으로 추정하면 ' + txt);
+      else if (m <= lim) add('ok', '소득 ' + txt);
+      else if (rBirthKid(p) && m <= base * (pct + 20 + (dual ? (N.type === '통합공공임대' ? 30 : 20) : 0)) / 100) add('check', '소득 기준 초과 · 출산가구 가산(+10~20%p) 확인 필요 — ' + txt);
+      else add('no', '소득 기준 초과 — ' + txt);
+    }
+  }
+  /* 4) 총자산 */
+  if (g.asset_manwon === 'excluded') add('ok', '총자산 기준 이번 공고 미적용');
+  else if (g.key !== '주거급여수급자') {
+    const lim = g.asset_manwon;
+    const selfOnly = g.key === '대학생' || (g.key === '청년' && p.household === 'parents');
+    if (lim == null) add('check', '총자산 기준 공고문 확인');
+    else if (selfOnly) {
+      if (p.youthAsset == null || p.youthAsset === '') add('check', '본인 총자산 입력 필요');
+      else if (Number(p.youthAsset) <= lim) add('ok', `본인 총자산 ${manW(p.youthAsset)} / 기준 ${manW(lim)}`);
+      else if (rBirthKid(p) && Number(p.youthAsset) <= lim * 1.2) add('check', `본인 총자산 기준 초과 · 출산가구 가산 확인 필요 (${manW(p.youthAsset)} / ${manW(lim)})`);
+      else add('no', `본인 총자산 기준 초과 (${manW(p.youthAsset)} / ${manW(lim)})`);
+    } else if (p.realEstate == null || p.realEstate === '' || p.carValue == null || p.carValue === '') add('check', '총자산(부동산·자동차·금융자산) 입력 필요');
+    else {
+      const a = townAssetParts(p), tot = a.total, extraMiss = ['townInsurance', 'townFinOther', 'townOtherAsset'].some(k => p[k] == null || p[k] === ''), debtMiss = p.townDebt == null || p.townDebt === '';
+      const txt = `${manW(Math.max(0, tot))} / 기준 ${manW(lim)}`;
+      if (tot <= lim && extraMiss) add('check', '총자산 일부 미입력(보험·그 밖의 금융·기타 자산) — 입력한 값으로는 ' + txt);
+      else if (tot > lim && debtMiss) add('check', '총자산 기준 초과로 보임 · 부채 입력 필요 — ' + txt);
+      else if (tot <= lim) add('ok', '총자산 ' + txt);
+      else if (rBirthKid(p) && tot <= lim * 1.2) add('check', '총자산 기준 초과 · 출산가구 가산 확인 필요 — ' + txt);
+      else add('no', '총자산 기준 초과 — ' + txt);
+    }
+  }
+  /* 5) 자동차 */
+  if (g.car_manwon === 'excluded') add('ok', '자동차 기준 이번 공고 미적용');
+  else if (g.key !== '주거급여수급자') {
+    const lim = g.car_manwon;
+    if (lim == null) add('check', '자동차 기준 공고문 확인');
+    else if (p.carValue == null || p.carValue === '') add('check', '자동차가액 입력 필요');
+    else if (lim === 0) add(Number(p.carValue) > 0 ? 'no' : 'ok', Number(p.carValue) > 0 ? '대학생 계층은 자동차를 가질 수 없음' : '자동차 없음');
+    else if (Number(p.carValue) <= lim) add('ok', `자동차 ${manW(p.carValue)} / 기준 ${manW(lim)}`);
+    else if (rBirthKid(p) && Number(p.carValue) <= Math.round(lim * 1.2)) add('check', `자동차 기준 초과 · 출산가구 가산 확인 필요 (${manW(p.carValue)} / ${manW(lim)})`);
+    else add('no', `자동차 기준 초과 (${manW(p.carValue)} / ${manW(lim)})`);
+  }
+  const s = na ? 'na' : it.some(x => x.s === 'no') ? 'no' : it.some(x => x.s === 'check') ? 'check' : 'ok';
+  return { key: g.key, name: RG_NAME[g.key] || g.name, s, items: it };
+}
+const R_ORDER = { ok: 0, check: 1, no: 2, na: 3 };
+function rentalJudge(N, p){
+  const T = N.terms;
+  if (!T || !T.groups || !T.groups.length) return { s: 'unknown', groups: [] };
+  const groups = T.groups.map(g => rentalGroup(N, g, p));
+  const main = groups.filter(g => !['대학생', '주거급여수급자'].includes(g.key) || groups.every(x => ['대학생', '주거급여수급자'].includes(x.key)));
+  const best = main.slice().sort((a, b) => R_ORDER[a.s] - R_ORDER[b.s])[0];
+  return { s: best ? best.s : 'unknown', best, groups };
+}
+const R_HEAD = { ok: ['ok', '신청 가능해 보여요'], check: ['warn', '확인 필요'], no: ['fail', '조건 밖'], na: ['fail', '해당 계층 없음'], unknown: ['info', '공고문 확인'] };
+const rStatus = N => { const t = new Date(Date.now() + 9 * 3600e3).toISOString().slice(0, 10), st = N.schedule || [];
+  const s0 = st.map(x => x.apply_start).filter(Boolean).sort()[0], e0 = st.map(x => x.apply_end).filter(Boolean).sort().slice(-1)[0] || N.close;
+  return s0 && t < s0 ? '접수 예정' : e0 && t > e0 ? '마감' : '접수 중'; };
+const rPeriod = N => { const st = (N.schedule || []).filter(x => x.apply_start); if (!st.length) return N.close ? '마감 ' + N.close.slice(5).replace('-', '.') : '';
+  const a = st.map(x => x.apply_start).sort()[0], b = st.map(x => x.apply_end).filter(Boolean).sort().slice(-1)[0]; return a.slice(5).replace('-', '.') + (b && b !== a ? '~' + b.slice(5).replace('-', '.') : ''); };
+const rIsYouth = N => !!(N.terms && N.terms.groups && N.terms.groups.some(g => g.key === '청년' || g.key === '대학생')) || /청년|대학생/.test(N.name || '');
+function rentalList(){
+  if (!RENTAL) return [];
+  return RENTAL.notices.filter(N => (S.rcat !== 'youth' || rIsYouth(N)) && (!S.rtype || N.type === S.rtype) && (!S.rsido || (N.region || '').startsWith(S.rsido)));
+}
+function lhCard(N){
+  const J = hasProfile() ? rentalJudge(N, S.profile) : null, h = J ? R_HEAD[J.s] : null;
+  return `<button class="card rcard" data-ropen="${esc(N.id)}">
+    <span class="row" style="gap:6px;justify-content:flex-start;flex-wrap:wrap"><span class="pill info">${esc(N.type || '임대')}</span>${N.terms && N.terms.relaxed ? '<span class="pill warn">자격 완화</span>' : ''}<span class="small muted">${esc(N.region || '')} · ${esc(rStatus(N))}</span></span>
+    <b class="rname">${esc(N.name || '')}</b>
+    <span class="small muted">접수 ${esc(rPeriod(N))}${N.units && N.units.length ? ' · 전용 ' + esc(rAreaRange(N)) : ''}</span>
+    ${h ? `<span class="small"><span class="pill ${h[0]}">${h[1]}</span>${J.best && J.s !== 'na' ? ' ' + esc(J.best.name) + ' 기준' : ''}</span>` : ''}
+  </button>`;
+}
+const rAreaRange = N => { const a = (N.units || []).map(u => u.area).filter(x => x); if (!a.length) return ''; const lo = Math.min(...a), hi = Math.max(...a); return (lo === hi ? lo : lo + '~' + hi) + '㎡'; };
+function vRental(){
+  if (!lhOn()) { S.view = 'feed'; return vFeed(); }
+  loadRental();
+  const list = rentalList(), sidos = RENTAL ? [...new Set(RENTAL.notices.map(N => (N.region || '').replace(/(특별자치도|특별자치시|광역시|특별시|도)$/, '')).filter(Boolean))] : [];
+  const tchip = (k, t) => `<button class="chip" data-rtype="${k}" aria-pressed="${(S.rtype || '') === k}">${t}</button>`;
+  return `<div class="top"><div><div class="brand">청약패스${betaTag()}</div><span class="small muted sub-line">LH 임대 공고${RENTAL ? ' · ' + esc(String(RENTAL.updated || '').slice(5).replace('-', '.')) + ' 갱신' : ''}</span></div></div>
+  ${rentalSeg(S.rcat === 'youth' ? 'youth' : 'rent')}
+  <p class="small muted" style="margin:0 0 8px">LH 청약플러스 임대 공고예요. 자격은 공고문의 계층별 기준(무주택·소득·총자산·자동차)으로 따로 판정하고, 분양 청약 판정과는 섞지 않아요.${S.rcat === 'youth' ? ' 청년·대학생 계층이 있는 공고만 보여요.' : ''}</p>
+  <div class="chips" role="group" aria-label="임대 유형">${tchip('', '전체')}${RENT_TYPES.map(t => tchip(t, t)).join('')}</div>
+  ${sidos.length > 1 ? `<div class="chips" role="group" aria-label="지역" style="margin-top:6px">${['', ...sidos].map(s => `<button class="chip sm" data-rsido="${esc(s)}" aria-pressed="${(S.rsido || '') === s}">${s || '전국'}</button>`).join('')}</div>` : ''}
+  ${!hasProfile() ? `<div class="profile-bar"><span class="muted">내 조건을 넣으면 임대 자격도 판정해요</span><button class="linkbtn" data-action="restart">입력하기</button></div>` : ''}
+  ${RENTAL_STATE === 'error' ? '<div class="card empty"><b>임대 공고를 불러오지 못했어요</b><span class="small muted">잠시 뒤 다시 열어 주세요.</span></div>'
+    : !RENTAL ? '<div class="card"><span class="small muted">임대 공고를 불러오는 중이에요…</span></div>'
+    : list.length ? `<p class="small muted">${list.length}건</p>` + list.map(lhCard).join('') : '<div class="card empty"><b>조건에 맞는 임대 공고가 없어요</b></div>'}
+  <p class="foot">임대 공고 출처: LH 청약플러스(공공데이터포털 한국토지주택공사 분양임대공고 조회) · 자격 기준: 각 모집공고문, 공공주택 특별법 시행규칙 별표 3·4·5·5의2. 판정은 참고용이며 신청 전 공고문을 꼭 확인하세요.</p>`;
+}
+function vRDetail(){
+  if (!lhOn()) { S.view = 'feed'; return vFeed(); }
+  loadRental();
+  const N = RENTAL && RENTAL.notices.find(x => x.id === S.rid);
+  if (!N) return vRental();
+  const T = N.terms, J = hasProfile() ? rentalJudge(N, S.profile) : null, h = J ? R_HEAD[J.s] : null;
+  const pdf = N.notice_pdf ? src(null, ['모집공고문 PDF', N.notice_pdf]) : src(null, ['모집공고문 (LH 청약플러스)', null]);
+  const pdfs = (N.files || []).filter(f => f.kind && /PDF/i.test(f.kind) && /공고/.test(f.kind));
+  const lim = v => v === 'excluded' ? '이번 공고 미적용' : v == null ? '공고문 확인' : v === 0 ? '자동차 소유 불가' : manW(v) + ' 이하';
+  const pctTxt = v => v === 'excluded' ? '이번 공고 미적용' : !v ? '공고문 확인' : ['1', '2', '3+'].map(k => v[k] == null ? null : `${k === '3+' ? '3인 이상' : k + '인'} ${v[k]}%`).filter(Boolean).join(' · ');
+  const sIcon = { ok: '<span class="pill ok">충족</span>', no: '<span class="pill fail">미충족</span>', check: '<span class="pill warn">확인</span>' };
+  return `<div class="top"><div><button class="linkbtn" data-rcat="${S.rcat === 'youth' ? 'youth' : 'rent'}">← 임대 공고</button></div></div>
+  <section class="card">
+    <span class="row" style="gap:6px;justify-content:flex-start;flex-wrap:wrap"><span class="pill info">${esc(N.type || '')}</span>${T && T.relaxed ? '<span class="pill warn">자격 완화 공고</span>' : ''}<span class="small muted">${esc(N.region || '')} · ${esc(rStatus(N))}</span></span>
+    <h1 style="font-size:19px;margin:0">${esc(N.name || '')}</h1>
+    <span class="small muted">공고일 ${esc(N.posted || '')} · 출처: LH 청약플러스 공고</span>
+    ${h ? `<div><span class="pill ${h[0]}">${h[1]}</span>${J.best && J.s !== 'na' ? ` <span class="small">${esc(J.best.name)} 계층 기준</span>` : ''}</div>` : `<div class="profile-bar"><span class="muted">내 조건을 넣으면 자격을 판정해요</span><button class="linkbtn" data-action="restart">입력하기</button></div>`}
+    ${N.type === '영구임대' ? '<p class="small muted" style="margin:0">일반 신청자(2순위) 기준으로 판정해요. 생계·의료급여 수급자, 국가유공자, 한부모가족 등 1순위 자격은 공고문을 확인하세요.</p>' : ''}
+    ${pdfs.length > 1 ? `<p class="small muted" style="margin:0">이 공고에는 공고문이 ${pdfs.length}개 있어요. 자격 기준은 첫 번째 공고문(${esc((pdfs[0].name || '').slice(0, 40))}) 기준이에요.</p>` : ''}
+  </section>
+  ${J && J.groups.length ? `<section class="card"><h2 style="margin:0">내 자격 (계층별)</h2>${J.groups.map(g => `<details class="sprow"${g === J.best ? ' open' : ''}><summary><span class="sp-top"><b>${esc(g.name)}</b><span class="pill ${R_HEAD[g.s][0]}">${g.s === 'na' ? '해당 안 됨' : R_HEAD[g.s][1]}</span></span></summary>
+      <ul class="cl-ul">${g.items.map(i => `<li>${sIcon[i.s] || ''}<span>${esc(i.t)}</span></li>`).join('')}</ul></details>`).join('')}
+    <span class="small muted">내 조건: ${src('user')} · 기준: ${pdf}</span><button class="linkbtn small" data-go="me">내 조건 고치기</button></section>` : ''}
+  ${T && T.groups && T.groups.length ? `<section class="card"><h2 style="margin:0">신청 자격 기준</h2>
+    ${T.homeless_relaxed ? '<p class="small" style="margin:0">무주택 요건 완화: 주택건설지역·연접지역에 집이 없으면 신청할 수 있어요(소형·저가주택 허용 등, 공고문 확인).</p>' : ''}
+    <div class="rtable">${T.groups.map(g => `<div class="rrow"><b>${esc(RG_NAME[g.key] || g.name)}</b>
+      <span class="small">무주택: ${g.homeless === 'self' ? '본인' : g.homeless === 'household' ? '세대원 전원' : '공고문 확인'}${g.age_min ? ` · 나이: 만 ${g.age_min}세 이상${g.age_max ? ' ' + g.age_max + '세 이하' : ''}` : ''}</span>
+      ${g.key === '주거급여수급자' ? '<span class="small">소득·자산: 주거급여 수급자 자격으로 판단</span>' : `<span class="small">소득(${esc(T.income_basis || '')}): ${esc(pctTxt(g.income_pct))}</span>
+      <span class="small">총자산: ${esc(lim(g.asset_manwon))} · 자동차: ${esc(lim(g.car_manwon))}</span>`}</div>`).join('')}</div>
+    <span class="small muted">출산가구('23.3.28 이후 출생 자녀·태아)는 소득·자산 기준에 10~20%p를 더해요. ${pdf}</span></section>`
+    : `<section class="card"><h2 style="margin:0">신청 자격 기준</h2><p class="small" style="margin:0">이 공고문의 계층별 기준을 아직 읽지 못했어요. 공고문을 확인하세요.</p>${pdf}</section>`}
+  <section class="card"><h2 style="margin:0">일정</h2>${(N.schedule || []).map(s => `<div class="small"><b>${esc(s.complex || '')}</b><br>접수 ${esc(s.apply_start || '')}${s.apply_end && s.apply_end !== s.apply_start ? ' ~ ' + esc(s.apply_end) : ''}${s.docs_target ? ' · 서류 제출 대상 발표 ' + esc(s.docs_target) : ''}${s.winner ? ' · 당첨자 발표 ' + esc(s.winner) : ''}</div>`).join('') || '<span class="small muted">공고문 확인</span>'}
+    <span class="small muted">출처: LH 청약플러스 공고</span></section>
+  <section class="card"><h2 style="margin:0">주택형</h2>${(N.units || []).map(u => `<div class="row small" style="justify-content:space-between;gap:8px"><span>${esc(u.complex || '')} ${esc(u.type || '')}</span><span>전용 ${u.area || '-'}㎡ · ${u.now_households != null ? '이번 ' + u.now_households + '세대' : ''}</span></div>`).join('') || '<span class="small muted">공고문 확인</span>'}
+    <span class="small">보증금·월 임대료: 공고문 확인 (LH 자료에 '공고문 참조'로 나와요)</span>
+    <span class="small muted">출처: LH 청약플러스 공고 · ${pdf}</span></section>
+  ${(N.complexes || []).length ? `<section class="card"><h2 style="margin:0">단지</h2>${N.complexes.map(c => `<div class="small"><b>${esc(c.name || '')}</b><br>${esc(c.address || '')}${c.households ? ' · ' + c.households + '세대' : ''}${c.move_in ? ' · 입주 ' + esc(c.move_in) : ''}</div>`).join('')}</section>` : ''}
+  <p class="foot">신청은 LH 청약플러스(apply.lh.or.kr)에서 해요${N.office && N.office.tel ? ' · 문의 ' + esc(N.office.tel) : ''}. 판정은 내가 입력한 값으로 계산한 참고용이에요.</p>`;
+}
+
+const VIEWS = { feed:vFeed, detail:vDetail, plan:vPlan, grades:vGrades, me:vMe, onboard:vOnboard, alerts:vAlerts, about:vAbout, compare:vCompare, trend:vTrend, past:vPast, story:vStory, terms:vTerms, privacy:vPrivacy, updates:vUpdates, rental:vRental, rdetail:vRDetail };
 let lastView = null;
 function render(){
   chatFab();   // 기능: chat_fab
@@ -4972,7 +5195,7 @@ function render(){
   app.innerHTML = VIEWS[S.view]();
   if (S.view === 'feed' || S.view === 'detail') adsAfterRender();   // 기능: ads
   tabbar.hidden = S.view === 'onboard';
-  const tab = { feed:'feed', detail:'feed', plan:'feed', past:'feed', alerts: on('alerts_tab') && pushOn() ? 'alerts' : 'feed', grades:'grades', me:'me', about: on('about_tab') ? 'about' : 'me', story: on('about_tab') ? 'about' : 'me', terms: on('about_tab') ? 'about' : 'me', privacy: on('about_tab') ? 'about' : 'me', updates: on('about_tab') ? 'about' : 'me', compare:'feed', trend:'trend' }[S.view];
+  const tab = { rental:'feed', rdetail:'feed', feed:'feed', detail:'feed', plan:'feed', past:'feed', alerts: on('alerts_tab') && pushOn() ? 'alerts' : 'feed', grades:'grades', me:'me', about: on('about_tab') ? 'about' : 'me', story: on('about_tab') ? 'about' : 'me', terms: on('about_tab') ? 'about' : 'me', privacy: on('about_tab') ? 'about' : 'me', updates: on('about_tab') ? 'about' : 'me', compare:'feed', trend:'trend' }[S.view];
   tabbar.querySelectorAll('button').forEach(b => { if (b.dataset.go === tab) b.setAttribute('aria-current','page'); else b.removeAttribute('aria-current'); });
   if (lastView !== S.view) window.scrollTo(0, 0);
   const key = S.view + '|' + (S.view === 'detail' || S.view === 'plan' ? S.id : '') + '|' + (S.view === 'feed' ? S.feedMode : '');
@@ -4994,7 +5217,7 @@ function go(v){
 /* 뒤로가기·주소 (기능: history_nav). 화면을 바꿀 때 브라우저 기록에 남겨 뒤로가기가 사이트 안에서 이전 화면으로 돌아가게 한다.
    주소: 목록 = 사이트 주소 그대로, 공고 = #/detail/<주택형 id>, 그 밖 = #/<화면>. 새로고침·공유 링크는 데이터를 읽은 뒤 그 화면을 연다 */
 const NAV_ID_VIEWS = ['detail', 'plan'];
-const NAV_VIEWS = ['feed', 'detail', 'plan', 'grades', 'me', 'about', 'story', 'terms', 'privacy', 'trend', 'alerts', 'compare', 'updates'];
+const NAV_VIEWS = ['rental', 'rdetail', 'feed', 'detail', 'plan', 'grades', 'me', 'about', 'story', 'terms', 'privacy', 'trend', 'alerts', 'compare', 'updates'];
 let navPopping = false, navPending = null;
 function navUrl(v){ return v === 'feed' ? location.pathname + location.search : '#/' + v + (NAV_ID_VIEWS.includes(v) && S.id ? '/' + encodeURIComponent(S.id) : ''); }
 function navPush(prevY){
@@ -5049,6 +5272,10 @@ document.addEventListener('click', ev => {
   if (t.dataset.pj) { S.pjOpen = Object.assign({}, S.pjOpen, { [t.dataset.pj]: !(S.pjOpen && S.pjOpen[t.dataset.pj]) }); loadPastJudge(); const y = window.scrollY; render(); window.scrollTo(0, y); return; }   // 기능: historical_judge
   if (t.dataset.pcat !== undefined) { S.pcat = t.dataset.pcat; S.pn = 30; render(); return; }   // 기능: historical_search
   if (t.dataset.psido !== undefined) { S.psido = t.dataset.psido; S.pn = 30; render(); return; }
+  if (t.dataset.rcat) { if (t.dataset.rcat === 'sale') go('feed'); else { S.rcat = t.dataset.rcat; go('rental'); } return; }   // 기능: lh_rental
+  if (t.dataset.rtype !== undefined) { S.rtype = t.dataset.rtype; render(); return; }
+  if (t.dataset.rsido !== undefined) { S.rsido = t.dataset.rsido; render(); return; }
+  if (t.dataset.ropen) { S.rid = t.dataset.ropen; go('rdetail'); return; }
   if (t.dataset.go) { go(t.dataset.go); return; }
   if (t.dataset.newdays != null) { S.newDays = Number(t.dataset.newdays); track({ path:'new-' + S.newDays, event:true }); render(); return; }
   if (t.dataset.watch) { const id = t.dataset.watch; if (WATCH.has(id)) WATCH.delete(id); else WATCH.add(id); saveWatch(); track({ path:'watch', event:true }); render(); return; }

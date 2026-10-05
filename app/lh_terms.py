@@ -13,6 +13,9 @@ from __future__ import annotations
 import re
 from typing import Optional
 
+# 2025년 도시근로자 가구원수별 월평균소득 100% (1~8인, 원) — 화면 RENT_URBAN_2025 와 같아야 한다(tests/test_lh_terms.py). 수집이 공고문 표와 대조해 다르면 기록한다.
+URBAN_2025 = {1: 3813363, 2: 5866270, 3: 8168429, 4: 8802202, 5: 9326985, 6: 9906263, 7: 10485541, 8: 11064819}
+
 GROUP_KEYS = ("대학생", "청년", "신혼부부·한부모", "고령자", "주거급여수급자", "일반")
 
 

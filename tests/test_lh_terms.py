@@ -54,3 +54,22 @@ def test_parsed_groups_exist_in_golden():
         names = {_key(x["name"]) for x in g["groups"]}
         for x in _parsed(g)["groups"]:
             assert x["key"] in names, (g["id"], x["key"])
+
+
+def test_urban_income_constant_matches_notices():
+    """판정에 쓰는 도시근로자 소득 100% 금액(화면 RENT_URBAN_2025, 수집 URBAN_2025) ↔ 공고문 표 (CLAUDE.md 4-6)"""
+    from app.lh_terms import URBAN_2025
+    html = (ROOT / "docs/index.html").read_text(encoding="utf-8")
+    m = re.search(r"const RENT_URBAN_2025 = \[([\d, ]+)\]", html)
+    assert m and [int(x) for x in m.group(1).split(",")] == [URBAN_2025[n] for n in range(1, 9)]
+    # 행복주택 공고문 100% 열 (3~6인)
+    for g in GOLD:
+        if g["type"] == "행복주택" and g.get("income_table_100"):
+            for k, v in g["income_table_100"].items():
+                assert URBAN_2025[int(k)] == v, (g["id"], k)
+    # 국민임대 원주태장4(740) 70%·80%·90% 표: 1인 90%, 2인 80%, 3~8인 70% 금액 = 100% × 비율 (원 단위 반올림 차이 1원 이내)
+    t = re.sub(r"\s+", " ", (ROOT / "evidence/lh/2015122300020740.txt").read_text(encoding="utf-8"))
+    for n in range(1, 9):
+        row = re.search(rf"{n}인 ([\d,]+) ([\d,]+) ([\d,]+)", t)
+        v70, v80, v90 = (int(x.replace(",", "")) for x in row.groups())
+        assert abs(URBAN_2025[n] * 0.7 - v70) < 1 and abs(URBAN_2025[n] * 0.8 - v80) < 1 and abs(URBAN_2025[n] * 0.9 - v90) < 1, n

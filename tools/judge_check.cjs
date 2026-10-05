@@ -10,6 +10,7 @@ const ROOT = join(__dirname, '..');
 const DOCS = join(ROOT, 'docs');
 const cases = JSON.parse(readFileSync(join(ROOT, 'tests/judge/cases.json'), 'utf8'));
 const listings = JSON.parse(readFileSync(join(ROOT, 'tests/judge/listings.json'), 'utf8'));
+const lhNotices = existsSync(join(ROOT, 'tests/judge/lh_notices.json')) ? JSON.parse(readFileSync(join(ROOT, 'tests/judge/lh_notices.json'), 'utf8')) : [];   // 기능 lh_rental — 정답 데이터에서 만든 임대 공고 조건
 const exe = process.argv.includes('--chromium') ? process.argv[process.argv.indexOf('--chromium') + 1] : (existsSync('/opt/pw-browsers/chromium') ? '/opt/pw-browsers/chromium' : undefined);
 const TYPES = { '.html':'text/html', '.json':'application/json', '.js':'text/javascript', '.png':'image/png', '.webmanifest':'application/manifest+json', '.txt':'text/plain' };
 
@@ -27,7 +28,8 @@ await page.route('**/*', route => {
 await page.goto('http://judge.local/', { waitUntil: 'networkidle' });
 await page.waitForTimeout(500);
 
-const results = await page.evaluate(({ cases, listings }) => {
+const results = await page.evaluate(({ cases, listings, lhNotices }) => {
+  const lhById = Object.fromEntries(lhNotices.map(x => [x.id, x]));
   const byId = Object.fromEntries(listings.map(x => [x.id, fromApi(x)]));
   const out = [];
   for (const c of cases) {
@@ -44,12 +46,13 @@ const results = await page.evaluate(({ cases, listings }) => {
       else if (c.fn === 'bucket') got = { b: eligBucket(L, p) };
       else if (c.fn === 'item') { const it = c.item === '거주지' ? residenceItem(L, p) : eligibility(L, p).items.find(i => i.k === c.item); got = { s: it ? it.s : 'none' }; }
       else if (c.fn === 'home') { const it = eligibility(L, p).items.find(i => i.k === '무주택 세대') || {}; got = { s: it.s }; }
+      else if (c.fn === 'lhrent') { const r = rentalJudge(lhById[c.notice], p); got = {}; for (const k of Object.keys(c.expect)) got[k] = (r.groups.find(g => g.key === k) || {}).s; }
       else if (c.fn === 'residence') { const r = residenceItem(L, p); got = { s: r.s, v: r.v.startsWith(c.expect.v) ? c.expect.v : r.v }; }
     } catch (e) { got = { error: e.message }; }
     out.push({ id: c.id, ok: JSON.stringify(got) === JSON.stringify(c.expect), got, expect: c.expect, basis: c.basis });
   }
   return out;
-}, { cases, listings });
+}, { cases, listings, lhNotices });
 
 const bad = results.filter(r => !r.ok);
 const status = { at: new Date().toISOString(), total: results.length, passed: results.length - bad.length, failed: bad.map(r => ({ id: r.id, expect: r.expect, got: r.got, basis: r.basis })), pageErrors: errors };

@@ -224,6 +224,12 @@ def main() -> int:
                 from app.lh_terms import parse_lh_terms
                 rec["terms"] = parse_lh_terms(txt_path.read_text(encoding="utf-8"), rec["type"], rec["name"] or "")
                 g = rec["terms"]["groups"]
+                from app.lh_terms import URBAN_2025
+                tb = rec["terms"].get("income_table_100") or {}
+                if rec["terms"].get("income_basis") == "도시근로자 월평균소득":
+                    diff = [f"{k}인 공고문 {v:,} ≠ 앱 {URBAN_2025.get(int(k), 0):,}" for k, v in tb.items() if URBAN_2025.get(int(k)) != v]
+                    if diff:
+                        log.append(f"[검증·공고문 불일치] {rec['id']} 소득 100% 금액: " + ", ".join(diff))
                 msg += f" · 자격 계층 {len(g)}" + ("" if g else " (계층을 읽지 못함 — 화면은 공고문 확인)")
             except Exception as e:   # 읽기 실패는 기록만 하고 수집은 계속
                 rec["terms"] = None

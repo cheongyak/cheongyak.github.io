@@ -788,6 +788,168 @@ def main() -> None:
         add(id=f"youth-{i:02d}", fn="sp", type="youth", listing=YL, profile=p, expect=youth_expect(p),
             basis=f"2026000313 청년 특별공급 신청자격 ①~④·<표2>·<표4> (공공주택 특별법 시행규칙 [별표 6의6] 가목) — {nm}"); i += 1
 
+
+    # ---------- 16) LH 임대 자격 (기능 lh_rental, 2026-10-05) ----------
+    # 분양 판정과 따로 도는 rentalJudge. 공고 조건은 tests/judge/lh_notices.json — 정답 데이터(tests/golden/lh_rental.json, 공고문 원문 확인값)에서 만든 것(파서 결과 아님).
+    # 규칙(공공주택 특별법 시행규칙 별표 3·4·5·5의2 + 공고문): 계층 자격(청년 만19~39세(통합 18~39)·미혼 / 고령자 만65세 이상 / 신혼 혼인 7년 이내 또는 6세 이하 자녀 /
+    # 대학생·주거급여수급자는 이 서비스가 묻지 않아 확인), 무주택(본인 또는 세대 전원), 소득 = 세대 월평균소득 ≤ 기준×퍼센트(1인·2인·3인 이상),
+    # 총자산(부동산+금융+기타+자동차−부채) ≤ 한도, 자동차 ≤ 한도. 출산가구('23.3.28 이후 출생·태아)는 +20%p 안이면 확인 필요.
+    # 도시근로자 2025 월평균소득 100%(원): 국민·영구임대 공고문 70%·90% 열(1인 90% 3,432,027 → 3,813,363 / 2인 80% 4,693,016 → 5,866,270 / 3인 70% 5,717,900 → 8,168,429 /
+    # 4인 6,161,541 → 8,802,202 / 5인 6,528,890 → 9,326,985 / 6인 6,934,384 → 9,906,263 / 7인 7,339,879 → 10,485,541 / 8인 7,745,373 → 11,064,819, 원주태장4 2015122300020740)
+    URB = {1: 3813363, 2: 5866270, 3: 8168429, 4: 8802202, 5: 9326985, 6: 9906263, 7: 10485541, 8: 11064819}
+    LHN = {n["id"]: n for n in json.loads((ROOT / "tests/judge/lh_notices.json").read_text(encoding="utf-8"))}
+
+    def lh_group(N, g, p):
+        T, ref, st, na = N["terms"], N["posted"], [], False
+        b = p.get("birth") or ""
+        age = None
+        if b:
+            y, m, d = map(int, b.split("-")); ry, rm, rd = map(int, ref.split("-"))
+            age = ry - y - (1 if (rm, rd) < (m, d) else 0)
+        k = g["key"]
+        if k == "청년":
+            if age is None: st.append("check")
+            elif age < g["age_min"] or age > g["age_max"]: na = True
+            if p.get("married") is True: na = True
+            elif p.get("married") is None: st.append("check")
+        elif k == "대학생":
+            st.append("check")
+            if p.get("married") is True: na = True
+        elif k == "고령자":
+            if age is None: st.append("check")
+            elif age < 65: na = True
+        elif k == "신혼부부·한부모":
+            lim7 = add_years(ref, -7)
+            in7 = (p["marriedOn"] > lim7) if p.get("marriedOn") else None
+            kid6 = (p["youngestBirth"] > lim7) if p.get("youngestBirth") else None
+            if p.get("married") is True:
+                if in7 is True or kid6 is True: pass
+                elif in7 is None and kid6 is not True: st.append("check")
+                elif kid6 is None and (p.get("kidsMinor") or 0) > 0: st.append("check")
+                else: na = True
+            elif p.get("married") is False:
+                if (p.get("kidsMinor") or 0) > 0: st.append("check")
+                else: na = True
+            else: st.append("check")
+        elif k == "주거급여수급자":
+            st.append("check")
+        # 무주택
+        if g["homeless"] == "self":
+            st.append(("check" if T["homeless_relaxed"] else "no") if p.get("selfOwn") is True else "ok" if p.get("selfOwn") is False else "check")
+        else:
+            own = p.get("selfOwn") is True or (p.get("married") is True and p.get("spouseOwn") is True) or (p.get("household") == "parents" and p.get("parentsOwn") is True)
+            none = p.get("selfOwn") is False and (p.get("married") is not True or p.get("spouseOwn") is False) and (p.get("household") != "parents" or p.get("parentsOwn") is False)
+            st.append(("check" if T["homeless_relaxed"] else "no") if own else "ok" if (none and p.get("married") is not None) else "check")
+        kid = bool((p.get("youngestBirth") or "") >= "2023-03-28" or p.get("pregnant") is True)
+        # 소득
+        if g["income_pct"] != "excluded" and k not in ("대학생", "주거급여수급자"):
+            member = k == "청년" and p.get("household") == "parents"
+            n = 1 if member else p.get("hhSize")
+            pct = None if (not g["income_pct"] or not n) else g["income_pct"]["1" if n == 1 else "2" if n == 2 else "3+"]
+            if T["income_basis"] == "기준 중위소득":
+                base = int(T["income_table_100"][str(n)]) if n and T["income_table_100"] and str(n) in T["income_table_100"] else None
+            else:
+                base = URB.get(n) if n else None
+            if not g["income_pct"] or not n or pct is None or base is None: st.append("check")
+            else:
+                dual = k == "신혼부부·한부모" and p.get("married") is True and (p.get("income") or 0) > 0 and (p.get("spouseIncome") or 0) > 0
+                add_ = (30 if N["type"] == "통합공공임대" else 20) if dual else 0
+                est = (not member) and p.get("hhIncomeYear") in (None, "")
+                year = (p.get("income") or 0) if member else ((p.get("income") or 0) + ((p.get("spouseIncome") or 0) if p.get("married") else 0)) if est else p["hhIncomeYear"]
+                mon = year * 10000 / 12
+                if est: st.append("check")
+                elif mon <= base * (pct + add_) / 100: st.append("ok")
+                elif kid and mon <= base * (pct + add_ + 20) / 100: st.append("check")
+                else: st.append("no")
+        # 총자산
+        if g["asset_manwon"] != "excluded" and k != "주거급여수급자":
+            lim = g["asset_manwon"]
+            self_only = k == "대학생" or (k == "청년" and p.get("household") == "parents")
+            if lim is None: st.append("check")
+            elif self_only:
+                v = p.get("youthAsset")
+                st.append("check" if v in (None, "") else "ok" if v <= lim else "check" if (kid and v <= lim * 1.2) else "no")
+            elif p.get("realEstate") in (None, "") or p.get("carValue") in (None, ""): st.append("check")
+            else:
+                f = lambda x: p.get(x) or 0
+                tot = f("realEstate") + f("cash") + f("liquid") + f("townInsurance") + f("townFinOther") + f("deposit") + f("townOtherAsset") + f("carValue") - f("townDebt")
+                extra_miss = any(p.get(x) in (None, "") for x in ("townInsurance", "townFinOther", "townOtherAsset"))
+                debt_miss = p.get("townDebt") in (None, "")
+                if tot <= lim and extra_miss: st.append("check")
+                elif tot > lim and debt_miss: st.append("check")
+                elif tot <= lim: st.append("ok")
+                elif kid and tot <= lim * 1.2: st.append("check")
+                else: st.append("no")
+        # 자동차
+        if g["car_manwon"] != "excluded" and k != "주거급여수급자":
+            lim, v = g["car_manwon"], p.get("carValue")
+            if lim is None or v in (None, ""): st.append("check")
+            elif lim == 0: st.append("no" if v > 0 else "ok")
+            elif v <= lim: st.append("ok")
+            elif kid and v <= round(lim * 1.2): st.append("check")
+            else: st.append("no")
+        return "na" if na else "no" if "no" in st else "check" if "check" in st else "ok"
+
+    lh_base = {"household": "head", "selfOwn": False, "spouseOwn": False, "married": False, "marriedOn": "", "birth": "1995-03-01", "hhSize": 1,
+               "hhIncomeYear": 3000, "income": 3000, "spouseIncome": 0, "realEstate": 0, "carValue": 1000, "cash": 2000, "liquid": 0, "deposit": 0,
+               "townInsurance": 0, "townFinOther": 0, "townOtherAsset": 0, "townDebt": 0, "youthAsset": 3000, "kidsMinor": 0, "youngestBirth": "", "pregnant": False}
+    yr = lambda won_m: int(won_m * 12 // 10000)       # 월 기준금액(원) 이하가 되는 가장 큰 연소득(만 원)
+    i = 0
+    def lh_add(nid, keys, nm, ch, basis):
+        nonlocal_i[0] += 1
+        N = LHN[nid]; p = dict(lh_base, **ch)
+        exp = {g["key"]: lh_group(N, g, p) for g in N["terms"]["groups"] if g["key"] in keys}
+        add(id=f"lhrent-{nonlocal_i[0]:02d}", fn="lhrent", notice=nid, profile=p, expect=exp, basis=f"{basis} — {nm}")
+    nonlocal_i = [0]
+    E, K, R, H, U, B = "LH-2015122300020818", "LH-2015122300020740", "LH-2015122300020726", "LH-2015122300020806", "LH-2015122300020855", "LH-2015122300020870"
+    bE = "부산 영구임대 2015122300020818 소득 및 자산 보유기준(차목 일반 50%, 1인 70%·2인 60%, 총자산 24,500만원·자동차 4,542만원)"
+    for nm, ch in [("1인 70% 이하", {"hhIncomeYear": yr(URB[1] * 0.7)}), ("1인 70% 초과", {"hhIncomeYear": yr(URB[1] * 0.7) + 1}),
+                   ("2인 60% 이하", {"hhSize": 2, "hhIncomeYear": yr(URB[2] * 0.6)}), ("2인 60% 초과", {"hhSize": 2, "hhIncomeYear": yr(URB[2] * 0.6) + 1}),
+                   ("3인 50% 이하", {"hhSize": 3, "hhIncomeYear": yr(URB[3] * 0.5)}), ("3인 50% 초과", {"hhSize": 3, "hhIncomeYear": yr(URB[3] * 0.5) + 1}),
+                   ("3인 초과·출산가구", {"hhSize": 3, "hhIncomeYear": yr(URB[3] * 0.5) + 1, "youngestBirth": "2024-05-01", "kidsMinor": 1}),
+                   ("총자산 한도", {"realEstate": 24500 - 3000}), ("총자산 1만원 초과", {"realEstate": 24500 - 3000 + 1}),
+                   ("총자산 초과·부채 모름", {"realEstate": 30000, "townDebt": None}), ("총자산 일부 모름", {"townInsurance": None}),
+                   ("자동차 4,542만", {"carValue": 4542, "realEstate": 0}), ("자동차 4,543만", {"carValue": 4543}),
+                   ("세대에 집", {"selfOwn": True}), ("집 소유 모름", {"selfOwn": None}), ("가구원 수 모름", {"hhSize": None}),
+                   ("세대 소득 모름(추정)", {"hhIncomeYear": None}), ("부동산 모름", {"realEstate": None})]:
+        lh_add(E, ["일반"], nm, ch, bE)
+    bK = "원주태장4 국민임대 2015122300020740 소득 및 자산보유 기준(70%·80%·90% 표 + 1인 20%p·2인 10%p 가산, 총자산 345백만원·자동차 4,542만원)"
+    for nm, ch in [("1인 90% 이하", {"hhIncomeYear": yr(URB[1] * 0.9)}), ("1인 90% 초과", {"hhIncomeYear": yr(URB[1] * 0.9) + 1}),
+                   ("4인 70% 이하", {"hhSize": 4, "hhIncomeYear": yr(URB[4] * 0.7)}), ("4인 70% 초과", {"hhSize": 4, "hhIncomeYear": yr(URB[4] * 0.7) + 1}),
+                   ("9인(표 밖)", {"hhSize": 9}), ("총자산 3억4,500만", {"realEstate": 34500 - 3000}), ("총자산 초과", {"realEstate": 34500 - 3000 + 1})]:
+        lh_add(K, ["일반"], nm, ch, bK)
+    bR = "아산 국민임대 2015122300020726 입주자격 완화(소득·총자산 적용 배제, 자동차 4,542만원 이하)"
+    for nm, ch in [("소득 높음", {"hhIncomeYear": 20000}), ("총자산 높음", {"realEstate": 90000}), ("자동차 초과", {"carValue": 5000}),
+                   ("세대에 집", {"selfOwn": True}), ("배우자 집", {"married": True, "marriedOn": "2020-01-01", "spouseOwn": True})]:
+        lh_add(R, ["일반"], nm, ch, bR)
+    bH = "부산문현2 행복주택 2015122300020806 계층별 신청자격(대학생 본인 자산 10,800만원·차량 미소유, 청년 19~39세 120/110/100%·25,100만원, 신혼 100%(2인 110%), 고령자 65세 이상)"
+    HK = ["대학생", "청년", "신혼부부·한부모", "고령자"]
+    for nm, ch in [("기본(31세 미혼 1인)", {}), ("만 39세 마지막 날", {"birth": "1986-09-23"}), ("만 40세 되는 날", {"birth": "1986-09-22"}),
+                   ("만 19세 되는 날", {"birth": "2007-09-22"}), ("만 19세 하루 전", {"birth": "2007-09-23"}), ("생일 모름", {"birth": ""}),
+                   ("혼인 중", {"married": True, "marriedOn": "2022-01-01", "hhSize": 2, "hhIncomeYear": 6000}), ("혼인 7년 초과·자녀 없음", {"married": True, "marriedOn": "2018-01-01", "hhSize": 2}),
+                   ("혼인 7년 초과·6세 자녀", {"married": True, "marriedOn": "2015-01-01", "hhSize": 3, "kidsMinor": 1, "youngestBirth": "2020-01-01", "hhIncomeYear": 8000}),
+                   ("혼인일 모름", {"married": True, "marriedOn": "", "hhSize": 2}), ("미혼·자녀 있음(한부모?)", {"kidsMinor": 1, "youngestBirth": "2022-01-01", "hhSize": 2}),
+                   ("맞벌이 2인 130% 이하", {"married": True, "marriedOn": "2022-01-01", "hhSize": 2, "income": 3000, "spouseIncome": 3000, "hhIncomeYear": yr(URB[2] * 1.3)}),
+                   ("맞벌이 2인 130% 초과", {"married": True, "marriedOn": "2022-01-01", "hhSize": 2, "income": 3000, "spouseIncome": 3000, "hhIncomeYear": yr(URB[2] * 1.3) + 1}),
+                   ("청년 1인 120% 초과", {"hhIncomeYear": yr(URB[1] * 1.2) + 1, "income": yr(URB[1] * 1.2) + 1}),
+                   ("청년 세대원(본인 소득)", {"household": "parents", "parentsOwn": True, "hhSize": 4, "hhIncomeYear": 20000, "income": yr(URB[1] * 1.2)}),
+                   ("청년 세대원 본인 자산 초과", {"household": "parents", "parentsOwn": False, "hhSize": 4, "income": 3000, "youthAsset": 25101}),
+                   ("본인 집 있음", {"selfOwn": True}), ("자동차 없음", {"carValue": 0}), ("고령자 65세", {"birth": "1961-09-22", "hhIncomeYear": 2000, "income": 2000}),
+                   ("고령자 64세", {"birth": "1961-09-23"}), ("청년 총자산 2억5,100만", {"realEstate": 25100 - 3000}), ("청년 총자산 초과", {"realEstate": 25100 - 3000 + 1})]:
+        lh_add(H, HK, nm, ch, bH)
+    bU = "대구연호 통합공공임대 2015122300020855 일반공급 신청자격(기준 중위소득 150%, 1인 170%·2인 160%, 신혼 맞벌이 +30%p, 청년 18~39세, 총자산 3억4,500만원·자동차 4,542만원, 2026 기준 중위소득 표)"
+    MED = {int(k): v for k, v in LHN[U]["terms"]["income_table_100"].items()}
+    for nm, ch in [("1인 170% 이하", {"hhIncomeYear": yr(MED[1] * 1.7)}), ("1인 170% 초과", {"hhIncomeYear": yr(MED[1] * 1.7) + 1}),
+                   ("만 18세", {"birth": "2008-09-30", "hhIncomeYear": 1000, "income": 1000}), ("만 18세 하루 전", {"birth": "2008-10-01"}),
+                   ("3인 150% 이하", {"hhSize": 3, "married": True, "marriedOn": "2024-01-01", "hhIncomeYear": yr(MED[3] * 1.5)}),
+                   ("3인 맞벌이 180% 이하", {"hhSize": 3, "married": True, "marriedOn": "2024-01-01", "income": 4000, "spouseIncome": 4000, "hhIncomeYear": yr(MED[3] * 1.8)}),
+                   ("3인 맞벌이 180% 초과", {"hhSize": 3, "married": True, "marriedOn": "2024-01-01", "income": 4000, "spouseIncome": 4000, "hhIncomeYear": yr(MED[3] * 1.8) + 1}),
+                   ("1인 신혼 기준 없음", {"married": True, "marriedOn": "2024-01-01", "hhSize": 1})]:
+        lh_add(U, ["청년", "신혼부부·한부모", "고령자", "일반"], nm, ch, bU)
+    bB = "익산인화 행복주택 2015122300020870 입주자격 완화(소득·총자산 배제, 자동차 4,542만원, 대학생 차량 미소유, 주택건설지역·연접지역 무주택이면 신청 가능)"
+    for nm, ch in [("기본", {}), ("본인 집 있음(무주택 완화)", {"selfOwn": True}), ("자동차 초과", {"carValue": 4543}), ("소득 높음", {"hhIncomeYear": 20000})]:
+        lh_add(B, ["대학생", "청년", "고령자"], nm, ch, bB)
+
     OUT.write_text(json.dumps(cases, ensure_ascii=False, indent=1) + "\n", encoding="utf-8")
     print(f"{len(cases)}건 → {OUT}")
 

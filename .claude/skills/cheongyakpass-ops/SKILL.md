@@ -130,4 +130,6 @@ description: 청약패스(cheongyakpass.kr, 저장소 cheongyak/cheongyak.github
 - 화면 '당첨되면 걸리는 제약' 값 칸은 좁다(390px) — 값은 '6개월 (~27.03.22)'처럼 짧게, 자세한 문장은 공고문 문장(notice_quotes)으로.
 - 모델에 새 필드를 넣으면 test_notice_retry 의 '다른 공고 한 글자도 안 바뀜'이 새 칸(null) 때문에 깨진다 — 그 시험은 원래 있던 칸만 비교하게 고쳐 둠.
 - 법령: 주택공급에 관한 규칙은 evidence/law/, 공공주택 특별법 시행규칙(청년·공공임대 자격 별표 6의2~6의6 등)은 evidence/law/public/ (법령 원문 받기 Actions). rule.xml 은 CDATA 를 먼저 벗겨야 본문이 보인다.
+- index.html 은 한 스크립트라 같은 이름 함수를 다시 선언하면 오류 없이 앞의 것을 덮는다(2026-10-05 rentalCard 충돌 — 스냅샷 검사가 잡음). 새 함수는 접두어(lh…)를 붙이고 tests/test_index_names.py 가 겹침을 본다.
+- LH 임대(기능 lh_rental)는 분양과 완전히 따로: 수집 app/lh_rental.py·읽기 app/lh_terms.py·화면 rentalJudge. 공고문 정답은 tests/golden/lh_rental.json, 판정 사례 lhrent-*. LH 첨부(apply.lh.or.kr)는 작업 환경에서 못 받는다 — Actions 가 받은 글(evidence/lh/)로 작업.
 
