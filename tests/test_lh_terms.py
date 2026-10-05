@@ -9,7 +9,7 @@ from app.lh_terms import parse_lh_terms
 
 ROOT = Path(__file__).resolve().parents[1]
 GOLD = json.loads((ROOT / "tests/golden/lh_rental.json").read_text(encoding="utf-8"))["notices"]
-KEYS = [("대학생", "대학생"), ("신혼부부·한부모", "신혼|한부모"), ("청년", "청년"), ("고령자", "고령자"), ("주거급여수급자", "주거급여"), ("일반", "일반")]
+KEYS = [("장기종사자", "장기종사자"), ("대학생", "대학생"), ("신혼부부·한부모", "신혼|한부모"), ("청년", "청년"), ("고령자", "고령자"), ("주거급여수급자", "주거급여"), ("일반", "일반")]
 
 
 def _key(name):
@@ -31,6 +31,9 @@ def test_golden_lh_terms_never_wrong():
         r = _parsed(g)
         assert r["relaxed"] == g["relaxed"], (g["id"], "relaxed")
         assert r["homeless_relaxed"] == g["homeless_relaxed"], (g["id"], "homeless_relaxed")
+        for k in ("regions", "account"):     # 공공임대: 거주지역·청약통장 순위
+            if k in g:
+                assert r.get(k) == g[k], (g["id"], k, r.get(k))
         P = {x["key"]: x for x in r["groups"]}
         for gg in g["groups"]:
             p = P.get(_key(gg["name"]))

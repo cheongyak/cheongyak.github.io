@@ -315,5 +315,110 @@
    ]
   },
   "_from": "tests/golden/lh_rental.json (공고문 원문 확인값) — 파서 결과가 아님"
+ },
+ {
+  "id": "LH-2015122300020765",
+  "type": "공공임대",
+  "posted": "2026-09-28",
+  "name": "마산삼계2공임50년 예비입주자 모집공고문 (모집공고일 2026.09.28)",
+  "schedule": [],
+  "units": [],
+  "files": [],
+  "terms": {
+   "relaxed": false,
+   "homeless_relaxed": false,
+   "income_basis": null,
+   "income_table_100": null,
+   "regions": [
+    "경남",
+    "부산",
+    "울산"
+   ],
+   "account": {
+    "months": 6,
+    "count": 6,
+    "rank2_any": true
+   },
+   "groups": [
+    {
+     "key": "일반",
+     "name": "일반",
+     "homeless": "household",
+     "income_pct": "excluded",
+     "asset_manwon": "excluded",
+     "car_manwon": "excluded",
+     "age_min": null,
+     "age_max": null
+    }
+   ]
+  },
+  "_from": "tests/golden/lh_rental.json (공고문 원문 확인값)"
+ },
+ {
+  "id": "LH-0000061176",
+  "type": "공공임대",
+  "posted": "2026-09-29",
+  "name": "대전천동3 5블록 10년 분양전환공공임대주택 예비입주자 모집공고 (모집공고일 2026.09.29)",
+  "schedule": [],
+  "units": [],
+  "files": [],
+  "terms": {
+   "relaxed": false,
+   "homeless_relaxed": false,
+   "income_basis": null,
+   "income_table_100": null,
+   "regions": [],
+   "account": "none",
+   "groups": [
+    {
+     "key": "일반",
+     "name": "일반",
+     "homeless": "household",
+     "income_pct": "excluded",
+     "asset_manwon": "excluded",
+     "car_manwon": "excluded",
+     "age_min": null,
+     "age_max": null
+    }
+   ]
+  },
+  "_from": "tests/golden/lh_rental.json (공고문 원문 확인값)"
+ },
+ {
+  "id": "LH-2015122300020780",
+  "type": "행복주택",
+  "posted": "2026-09-16",
+  "name": "인천논현 LH16단지 (인천논현4 1블록) 창업지원주택 입주자 모집 [인정업종 확대·선착순동호지정·선계약후검증] (모집공고일 2026.09.16, 주택관리번호 미표기)",
+  "schedule": [],
+  "units": [],
+  "files": [],
+  "terms": {
+   "relaxed": false,
+   "homeless_relaxed": false,
+   "income_basis": "도시근로자 월평균소득",
+   "income_table_100": null,
+   "groups": [
+    {
+     "key": "청년",
+     "name": "청년 창업인",
+     "homeless": "self_or_household",
+     "income_pct": {
+      "1": 120,
+      "2": 110,
+      "3+": 100
+     },
+     "asset_manwon": 34500,
+     "car_manwon": 4542,
+     "age_min": 19,
+     "age_max": 39,
+     "dual_add": 20,
+     "notes": [
+      "남동구 창업인(예비창업인) 추천 자격이 필요해요 — 공고문 확인"
+     ],
+     "married_ok": true
+    }
+   ]
+  },
+  "_from": "tests/golden/lh_rental.json + 공고문 '맞벌이 부부는 120% 이하(2인 130%)'·'남동구의 창업인 추천자격'"
  }
 ]

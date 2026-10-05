@@ -72,9 +72,13 @@ def _general_terms(t: str, kind: str) -> tuple[dict, dict]:
         elif kind == "영구임대" and (m := re.search(r"월평균\s?소득\s?50%(?:\s?\(1인\s?70%,\s?2인\s?60%\))?\s?이하\s?:\s?차목", sec)):
             if re.search(r"1인\s?(?:가구\s?)?20%p?,?\s?2인\s?(?:가구\s?)?10%p?", sec) or "1인 70%, 2인 60%" in m.group(0):
                 income, q["income"] = {"1": 70, "2": 60, "3+": 50}, _q(sec, m, 10, 120)
-        elif kind == "국민임대" and (m := re.search(r"월평균\s?소득\s?\(원\)\s?70%\s?80%\s?90%", sec)):
+        elif kind == "국민임대" and (m := re.search(r"월평균\s?소득\s?(?:\(원\)|원\s?2025\s?\(\s?\))\s?70%\s?80%\s?90%", sec)):
             if (m2 := re.search(r"1인\s?가구\s?20%p?\s?가산,\s?2인\s?가구\s?10%p?\s?가산", sec)):
                 income, q["income"] = {"1": 90, "2": 80, "3+": 70}, _q(sec, m, 10, 10) + " … " + m2.group(0)
+            else:
+                # 표 머리글이 70%·80%·90% 뿐이고 가산 문장이 없는 공고문(태백철암1 735): 가장 낮은 열 70% 가 기준이고
+                # 1인 +20%p·2인 +10%p 는 공공주택 특별법 시행규칙 [별표 4] 제1호 표('가구원 수가 1명인 경우에는 90퍼센트, 2명인 경우에는 80퍼센트')
+                income, q["income"] = {"1": 90, "2": 80, "3+": 70}, _q(sec, m, 10, 10) + " … (1인·2인 가산: 시행규칙 [별표 4])"
     # 총자산
     asset = None
     m = (re.search(r"총자산가액\s?(?:\(금회 배제\)|금회\s?자산배제|•\s?자산\s?기준\s?적용하지\s?아니함)", sec)
@@ -159,6 +163,36 @@ def _happy_groups(t: str) -> tuple[list[dict], dict]:
         elif key == "대학생" and (m := re.search(r"자동차가액\s?산출대상\s?자동차를\s?소유하고\s?있지\s?않을\s?것", whole)):
             g["car_manwon"], q["car"] = 0, _q(whole, m, 20, 0)
         groups.append(g); quotes[key] = q
+    # 입주자격 완화 공고의 '■ 입주자격완화 내용(금회 모집에 한하여 적용)' 표는 모든 계층에 적용된다 — PDF 글 순서가 섞여 계층 절에서 못 읽은 값을 채운다(익산인화 870 고령자)
+    mr = re.search(r"입주자격\s?완화\s?내용[^■]{0,40}소득\s?요건\s?·?\s?소득요건\s?배제[^■]{0,40}자산\s?요건\s?·?\s?자산요건\s?배제\(단,\s?자산\s?중\s?자동차가액은\s?([\d,]+)만원\s?이하", t)
+    if mr:
+        for g in groups:
+            if g["key"] == "주거급여수급자":
+                continue
+            q = quotes.setdefault(g["key"], {})
+            if g["income_pct"] is None:
+                g["income_pct"], q["income"] = "excluded", _q(t, mr, 0, 0)[:200]
+            if g["asset_manwon"] is None:
+                g["asset_manwon"], q["asset"] = "excluded", _q(t, mr, 0, 0)[:200]
+            if g["car_manwon"] is None:
+                g["car_manwon"], q["car"] = (0 if g["key"] == "대학생" else _int(mr.group(1))), _q(t, mr, 0, 0)[:200]
+    if not groups and (mc := re.search(r"창업지원\(행복\)주택\s?입주자격", t)):
+        seg = t[mc.start(): mc.start() + 6000]
+        g = {"key": "청년", "name": "청년 창업인", "homeless": "self_or_household", "income_pct": None, "asset_manwon": None, "car_manwon": None,
+             "age_min": None, "age_max": None, "notes": [], "married_ok": True}   # 창업지원주택 청년은 혼인 중이어도 신청 가능(무주택 범위만 달라짐)
+        q = {}
+        if (ma := re.search(r"만\s?(\d{2})세\s?이상\s?만\s?(\d{2})세\s?이하", seg)):
+            g["age_min"], g["age_max"] = int(ma.group(1)), int(ma.group(2))
+        if (mi := re.search(r"월평균소득\s?의\s?(\d{2,3})%\s?이\s?하[^※]{0,40}※\s?단,\s?가구원수가\s?1인인\s?경우에는\s?(\d{2,3})%,\s?2인인\s?경우에는\s?(\d{2,3})%", seg)):
+            g["income_pct"], q["income"] = {"1": int(mi.group(2)), "2": int(mi.group(3)), "3+": int(mi.group(1))}, _q(seg, mi, 10, 10)
+        if (mt := re.search(r"총\s?자산가액\s?합산기준\s?([\d,]+)만원\s?이하,\s?총\s?자산\s?중\s?자동차가액이\s?([\d,]+)만원\s?이하", seg)):
+            g["asset_manwon"], g["car_manwon"] = _int(mt.group(1)), _int(mt.group(2))
+            q["asset"] = q["car"] = _q(seg, mt, 10, 10)
+        if re.search(r"맞\s?벌\s?이\s?부\s?부\s?는\s?120%", seg):
+            g["dual_add"] = 20        # '맞벌이 부부는 120% 이하 … 맞벌이 2인가구인 경우에는 130%'
+        if (mk := re.search(r"(\S{1,6})의\s?창업인\s?추천자격", seg)):
+            g["notes"].append(f"{mk.group(1)} 창업인(예비창업인) 추천 자격이 필요해요 — 공고문 확인")
+        groups.append(g); quotes["청년"] = q
     return groups, quotes
 
 
@@ -172,6 +206,22 @@ def _integrated_groups(t: str) -> tuple[list[dict], dict]:
             (m := re.search(r"총자산가액\s?([\d,]+)원\s?이하\s?[\d,]+원\s?이하\s?[\d,]+원\s?이하\s?자동차가액\s?([\d,]+)원\s?이하", t)):
         asset, car = _int(m.group(1)) // 10000, _int(m.group(2)) // 10000
         qa = {"asset": _q(t, m, 10, 10), "car": _q(t, m, 10, 10)}
+    if (mb := re.search(r"■\s?신분기준\s?구분\s?신분기준", t)) and (mi := re.search(r"1인\s?\(\+20%p\)\s?(\d{3})%[^가-힣]{0,20}2인\s?\(\+10%p\)\s?(\d{3})%[^가-힣]{0,20}3인\s?이상\s?\(\+0%p\)\s?(\d{3})%", t)):
+        # 일자리연계형 지원주택(전주동서학 742): 직업기준 + 신분기준 ❶ 청년 ❷ 신혼부부 ❸ 한부모가족 ❹ 장기종사자, 자산·소득기준은 공통
+        seg = t[mb.start(): mb.start() + 2500]
+        pct = {"1": int(mi.group(1)), "2": int(mi.group(2)), "3+": int(mi.group(3))}
+        note = ["직업기준(지역전략산업 종사자 등) 충족이 필요해요 — 공고문 확인"] if re.search(r"■\s?직업기준", t) else []
+        qi = _q(t, mi, 10, 10)
+        for key, pat in (("청년", r"❶\s?청년"), ("신혼부부·한부모", r"❷\s?신혼부부"), ("장기종사자", r"❹\s?장기종사자")):
+            if not re.search(pat, seg):
+                continue
+            g = {"key": key, "name": {"신혼부부·한부모": "신혼부부·한부모가족"}.get(key, key), "homeless": "self" if key == "청년" else "household",
+                 "income_pct": dict(pct), "asset_manwon": asset, "car_manwon": car,
+                 "age_min": None, "age_max": None, "notes": list(note) + (["미성년 자녀 포함 3인 이상 세대·장기 종사 요건 — 공고문 확인"] if key == "장기종사자" else [])}
+            if key == "청년" and (ma := re.search(r"❶\s?청년\s?(\d{2})세\s?이상\s?(\d{2})세\s?이하", seg)):
+                g["age_min"], g["age_max"] = int(ma.group(1)), int(ma.group(2))
+            groups.append(g); quotes[key] = dict(qa, income=qi)
+        return groups, quotes
     m0 = re.search(r"일반공급\s?■\s?신청가능\s?소득ㆍ?·?자산기준", t)
     start = m0.start() if m0 else 0
     for key, pat in (("청년", r"청년"), ("신혼부부·한부모", r"신혼부부\s?[ㆍ·]\s?한부모가족"), ("고령자", r"고령자"), ("일반", r"일반")):
@@ -216,6 +266,43 @@ def income_table(t: str) -> Optional[dict]:
     return None
 
 
+SIDO_SHORT = {"서울특별시": "서울", "부산광역시": "부산", "대구광역시": "대구", "인천광역시": "인천", "광주광역시": "광주", "대전광역시": "대전", "울산광역시": "울산",
+              "세종특별자치시": "세종", "경기도": "경기", "강원특별자치도": "강원", "강원도": "강원", "충청북도": "충북", "충청남도": "충남", "전북특별자치도": "전북",
+              "전라북도": "전북", "전라남도": "전남", "경상북도": "경북", "경상남도": "경남", "제주특별자치도": "제주"}
+
+
+def _public_terms(t: str) -> tuple[list[dict], dict, dict]:
+    """공공임대(50년 공공임대·10년 분양전환 공공임대 예비입주자) — 신청자격 절에서 무주택·거주지역·청약통장 순위·소득자산 기준 유무를 읽는다."""
+    m = re.search(r"\d\.\s?신청자격\s?(?:■\s?)?입주자모집공고일\s?\([\d.]+\)\s?현재", t)
+    if not m:
+        return [], {}, {}
+    sec = t[m.start(): m.start() + 6000]
+    end = re.search(r"\d\.\s?모집일정|\d\.\s?신청\s?방법|\d\.\s?공급일정", sec)
+    sec = sec[: end.start()] if end else sec
+    extra, q = {}, {}
+    if (mr := re.search(r"주택건설지역\(([^)]*(?:\([^)]*\))?[^)]*)\)(?:에\s?거주하는)?\s?무주택세대구성원", sec)):
+        names = re.sub(r"\s", "", mr.group(1))
+        extra["regions"] = sorted({v for k, v in SIDO_SHORT.items() if re.sub(r"\s", "", k) in names})
+        q["region"] = _q(sec, mr, 0, 10)
+    elif re.search(r"국내에\s?거주하는\s?성년자인\s?무주택세대구성원", sec):
+        extra["regions"] = []
+    if (ma := re.search(r"청약저축\s?포함\)에\s?가입하여\s?(\d+)개월이\s?지난\s?자로서[^.]{0,40}?(\d+)회\s?이상\s?납입한\s?자", sec)):
+        extra["account"] = {"months": int(ma.group(1)), "count": int(ma.group(2)), "rank2_any": bool(re.search(r"2순위[^■]{0,120}?가입되어\s?있고", sec))}
+        q["account"] = _q(sec, ma, 30, 10)
+    if (mn := re.search(r"청약저축\s?가입여부,\s?과거당첨사실여부,\s?소득\s?및\s?자산요건\s?충족\s?여부와\s?관계없이", t)):
+        extra["account"] = "none"
+        inc = asset = car = "excluded"
+        q["income"] = q["asset"] = _q(t, mn, 10, 20)
+    elif not re.search(r"소득|자산", sec):
+        inc = asset = car = "excluded"     # 신청자격 절에 소득·자산 기준이 없음 (50년 공공임대)
+        q["income"] = q["asset"] = "신청자격 절에 소득·자산 기준 없음: " + sec[:160]
+    else:
+        inc = asset = car = None
+    g = {"key": "일반", "name": "일반", "homeless": "household" if re.search(r"무주택세대구성원", sec) else None,
+         "income_pct": inc, "asset_manwon": asset, "car_manwon": car, "age_min": None, "age_max": None}
+    return [g], {"일반": q}, extra
+
+
 def parse_lh_terms(text: str, kind: str, name: str = "") -> dict:
     t = flat(text)
     res = {"relaxed": is_relaxed(t, name), "homeless_relaxed": bool(re.search(r"연접\s?지역에\s?주택(?:이|을)?\s?(?:없|소유하지)", t)),
@@ -232,6 +319,9 @@ def parse_lh_terms(text: str, kind: str, name: str = "") -> dict:
         res["groups"], res["quotes"] = _integrated_groups(t)
         res["income_basis"] = "기준 중위소득"
         res["income_table_100"] = income_table(t)
+    elif kind == "공공임대":
+        res["groups"], res["quotes"], extra = _public_terms(t)
+        res.update(extra)
     return res
 
 
@@ -304,7 +394,7 @@ def parse_lh_rents(text: str, unit_types: list[str]) -> list[dict]:
         lbl_t = re.sub(r"[\d.]+\s?%|\d{4}[.\-]\d{1,2}[.\-]\d{1,2}|-\s?\d{1,2}\s?-", " ", lbl)
         lbl_t = re.sub(r"(\d)\s+([A-Z]{1,2})(?![a-z])", r"\1\2", lbl_t)        # '【 31 A 】' → 31A
         hits = [m for m in re.finditer(r"(?<![\d.,])(\d{2,3}(?:\.\d{1,4})?(?:[A-Z]{1,2}\d?)?)(?!\d|,\d{3})", lbl_t)
-                if 10 <= float(re.match(r"[\d.]+", m.group(1)).group(0)) <= 200]   # 주택형(전용면적) 범위 — 천원 단위 계약금 '300' 같은 금액은 뺀다
+                if not m.group(1).startswith("0") and 10 <= float(re.match(r"[\d.]+", m.group(1)).group(0)) <= 200]   # 주택형(전용면적) 범위 — 천원 단위 계약금 '300' 같은 금액은 뺀다
         hit = None
         if hits:
             cl = [hits[-1]]

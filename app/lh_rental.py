@@ -31,7 +31,7 @@ LIST = f"{API}/lhLeaseNoticeInfo1/lhLeaseNoticeInfo1"
 DTL = f"{API}/lhLeaseNoticeDtlInfo1/getLeaseNoticeDtlInfo1"
 SPL = f"{API}/lhLeaseNoticeSplInfo1/getLeaseNoticeSplInfo1"
 # 자격 판정을 만들 유형 (공공주택 특별법 시행규칙 별표 3·4·5·5의2). 그 밖의 임대(공공임대 분양전환·전세임대 등)는 목록만.
-JUDGE_TYPES = ("행복주택", "국민임대", "영구임대", "통합공공임대")
+JUDGE_TYPES = ("행복주택", "국민임대", "영구임대", "통합공공임대", "공공임대")   # 공공임대(50년·10년 분양전환 예비입주자)는 2026-10-05 추가
 SKIP_TYPES = ("가정어린이집", "상가", "토지", "주거복지동")
 LOOKBACK_DAYS = 90
 UA = {"User-Agent": "Mozilla/5.0 (cheongyak-bot; +https://github.com/cheongyak/cheongyak.github.io)"}
