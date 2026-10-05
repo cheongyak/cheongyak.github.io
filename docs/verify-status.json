@@ -1,10 +1,10 @@
 {
- "at": "2026-10-05 18:12",
+ "at": "2026-10-05 19:34",
  "ok": true,
  "collect_run": "2026-10-05 · 공고 226건",
  "judge": {
-  "total": 520,
-  "passed": 520,
+  "total": 532,
+  "passed": 532,
   "failed": []
  },
  "crosscheck": {
@@ -28,7 +28,11 @@
   "snapshot_diffs": 0,
   "e2e_fails": 0,
   "past_chat_fails": 0,
-  "cross_rule_checks": 82636,
+  "lh_invariant_violations": 0,
+  "lh_judge_qa_fails": 0,
+  "lh_screen_fails": 0,
+  "lh_data_at": "2026-10-05 18:02",
+  "cross_rule_checks": 140428,
   "market_at": "2026-10-05",
   "supply_type_at": "2026-10-05",
   "invariants_at": "2026-10-05"
