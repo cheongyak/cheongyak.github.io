@@ -48,7 +48,7 @@ jobs:
         env:
           GH_TOKEN: ${{ github.token }}
         run: |
-          bash tools/qa/wait_collect.sh 45
+          bash tools/qa/wait_collect.sh 45 lh   # 청약 수집 + LH 임대 수집이 끝난 뒤 (LH 데이터 검사가 수집 전 옛 데이터를 보지 않게)
           git pull -q --ff-only origin main   # 기다리는 동안 수집이 올린 최신 데이터에서 시작
       - uses: actions/setup-python@v5
         with:
