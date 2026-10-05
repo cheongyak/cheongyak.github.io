@@ -1,0 +1,34 @@
+name: LH 임대 원천 점검
+# LH 임대 공고 목록·상세·공급정보 API 응답을 evidence/qa/lh/ 에 남긴다 (tools/qa/lh_probe.py). 수집·판정과 따로 — 손으로 실행하거나 도구가 바뀔 때만.
+on:
+  workflow_dispatch:
+  push:
+    branches: [main]
+    paths:
+      - "tools/qa/lh_probe.py"
+      - ".github/workflows/lh-probe.yml"
+permissions:
+  contents: write
+concurrency:
+  group: lh-probe
+  cancel-in-progress: true
+jobs:
+  probe:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    env:
+      DATA_GO_KR_KEY: ${{ secrets.DATA_GO_KR_KEY }}
+      TZ: Asia/Seoul
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - run: pip install -q httpx
+      - run: python -m tools.qa.lh_probe
+      - name: 저장
+        run: |
+          git config user.name "cheongyak-bot"
+          git config user.email "actions@users.noreply.github.com"
+          git add evidence/qa/lh evidence/qa/lh-probe.txt
+          git diff --cached --quiet || (git commit -m "LH 임대 원천 점검 $(date +%Y-%m-%d)" && (git push || (git pull --rebase -X theirs origin main && git push)))
