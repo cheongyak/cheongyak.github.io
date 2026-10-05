@@ -87,8 +87,10 @@ const VIEW_BAD = /\bNaN\b|\bundefined\b|\[object Object\]|\bnull\b(?!\s*값)/;
     const d3 = await open({ ...BASE }, '?lh=preview#/rdetail/zzz-none'); await d3.page.evaluate(() => loadRental()); await lhOk(d3.page); await d3.page.waitForTimeout(300);
     if (await d3.page.evaluate(() => S.view === 'rdetail' && !document.querySelector('[data-ropen]'))) fail.push('없는 공고 번호: 빈 화면');
     if (d3.errs.length) fail.push('없는 공고 번호 화면 오류: ' + d3.errs[0]); await d3.page.close();
-    const d4 = await open({ ...BASE }, '#/rental'); await d4.page.waitForTimeout(300);   // 스위치 꺼짐·미리보기 아님 → 일반 목록
-    if (await d4.page.evaluate(() => S.view) !== 'feed') fail.push('기능 꺼졌는데 임대 화면 열림'); await d4.page.close();
+    const d4 = await open({ ...BASE }, '#/rental'); await d4.page.waitForTimeout(300);   // 미리보기 아님: 스위치 꺼짐 → 일반 목록, 켜짐(10-06 공개) → 임대 목록
+    { const r4 = await d4.page.evaluate(() => ({ v: S.view, on: on('lh_rental') }));
+      if (r4.on ? r4.v !== 'rental' : r4.v !== 'feed') fail.push(r4.on ? '기능 켜졌는데 주소로 임대 화면이 안 열림' : '기능 꺼졌는데 임대 화면 열림'); }
+    await d4.page.close();
     if (errs.length) fail.push('화면 오류: ' + errs[0]); res.push({ name, id: N0.id, status: fail.length ? 'FAIL' : 'PASS', fail }); await page.close(); }
   // 2-2) LH 임대 입력 퍼징: 답하기로 저장되는 칸(lh*·homeSigun·eldersOnDeed 등) × 이상한 값 → 임대 목록·상세 오류·이상한 글자 없음
   { const name = 'LH 임대 입력 퍼징', fail = []; let n = 0; const { page, errs } = await open(null, '?lh=preview');

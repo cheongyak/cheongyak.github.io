@@ -4,6 +4,16 @@
 2026-09-29 12:55 이전 항목은 규칙을 만들기 전 작업을 커밋 기록으로 정리한 것이라 백업 브랜치가 없어요.
 그 시점으로 되돌릴 때는 해당 커밋 번호로 `git revert` 를 써요.
 
+## 2026-10-06 08:43 · LH 공공임대·청년 주택 공개 (lh_rental 켬)
+- 요청: "이제 일반사람도 볼수잇게 오픈해줘"
+- 변경: docs/config.json lh_rental false → true (미리보기 없이 모두에게 공고 탭 맨 위 '분양 청약 · 공공임대 · 청년 주택'). changelog v1.53.0, VERSIONS. e2e 'LH 임대 흐름'의 '스위치 꺼짐이면 임대 화면 안 열림' 검사를 스위치 상태에 맞게(켜짐이면 주소로 임대 목록이 열려야 함)
+- 파일: docs/config.json, docs/changelog.json, VERSIONS.md, tools/qa/e2e.cjs, WORK.md, HANDOFF.md
+- 확인: 켠 설정으로 pytest 197, judge 606/606, lh_invariants 0, lh_qa 문제 0, lh_rental.cjs(밝은·어두운 390px 목록·청년·상세 30건·하단 버튼) 문제 없음, cross_rule 0, e2e(고친 뒤 LH 2/2, 나머지 32 통과), code_mutation 못 잡음 0, consistency·monotonic·profile_keep·filter·sp_text·snapshot 0, regress 분양 판정 1,125조합 변화 0·화면 1,401 오류 0
+- 되돌리기: docs/config.json 의 lh_rental 을 false 로 (화면에서 임대가 사라지고 분양은 그대로)
+- 백업: backup/20261006-0843-lhopen
+- 기능: lh_rental
+- 버전: v1.53.0
+
 ## 2026-10-06 06:02 · LH 임대 공고 상세 하단 고정 버튼 (신청 바로가기)
 - 요청: "공공임대 청년주택도 공고드가면 신청할수잇게 청약홈이든 어디든 일반분양처럼 아래에 이거 나오게 변경해줘" (분양 상세 하단 '모집공고문 · 자금 플랜 · 청약홈 공고 ↗' 화면 캡처)
 - 변경: 임대 공고 상세(rdetail) 하단에 분양과 같은 고정 버튼 줄 — 모집공고문(PDF) · 문의 전화(공고 문의처에서 전화번호를 찾았을 때, tel:) · LH 청약플러스 공고 ↗. 주소는 LH 분양임대공고 API 의 상세 주소(DTL_URL_MOB, 없으면 DTL_URL)를 그대로 씀. 접수처가 관리사무소·주민센터인 공고가 있어 안내 문구는 '신청은 LH 청약플러스·공고문 접수처에서'. 맨 아래 안내에 접수처 주소 추가. 버튼만큼 아래 여백·청약 도우미 버튼 위치도 분양 상세와 같게
