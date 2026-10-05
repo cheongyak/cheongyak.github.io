@@ -51,6 +51,21 @@ const BAD = /\bNaN\b|\bundefined\b|\[object Object\]/;
       if (!SHOT || i > 2) continue;
     }
     if (scheme === 'light') console.log('판정 분포: ' + JSON.stringify(judged.reduce((a, [, s]) => (a[s] = (a[s] || 0) + 1, a), {})));
+    // 공고 화면 '답하기' (사용자 10-05 17시): 세대 소득을 비우고 → 확인 항목의 답하기 → 입력·저장 → 판정이 바뀌고 내 조건에 저장되는지
+    if (scheme === 'light') {
+      const nid = await page.evaluate(() => { S.profile.hhIncomeYear = null; save(); const N = RENTAL.notices.find(N => N.type === '국민임대' && N.terms && N.terms.groups[0].income_pct && N.terms.groups[0].income_pct !== 'excluded'); S.rid = N.id; S.rq = null; S.view = 'rdetail'; render(); return N.id; });
+      const before = await page.evaluate(id => rentalJudge(RENTAL.notices.find(N => N.id === id), S.profile).s, nid);
+      const btn = page.locator('[data-rq]').first();
+      if (!(await btn.count())) fails.push('답하기 버튼 없음');
+      else {
+        await btn.click(); await page.waitForTimeout(200);
+        if (SHOT) await page.screenshot({ path: join(SHOT, 'answer-open.png'), fullPage: false });
+        await page.fill('[data-rqk="hhIncomeYear"]', '3000'); await page.click('[data-action="rq-save"]'); await page.waitForTimeout(200);
+        const r = await page.evaluate(id => ({ s: rentalJudge(RENTAL.notices.find(N => N.id === id), S.profile).s, stored: JSON.parse(localStorage.getItem('cy-profile')).hhIncomeYear }), nid);
+        if (before !== 'check' || r.s !== 'ok' || r.stored !== 3000) fails.push(`답하기 흐름: 전 ${before} → 후 ${r.s}, 저장 ${r.stored}`);
+        await check(page, errs, 'answer-saved');
+      }
+    }
     // 뒤로 가기: 상세 → 임대 목록
     await page.evaluate(() => { S.rcat = 'rent'; S.view = 'rental'; render(); });
     await page.click('[data-ropen]'); await page.waitForTimeout(200); await page.goBack(); await page.waitForTimeout(300);

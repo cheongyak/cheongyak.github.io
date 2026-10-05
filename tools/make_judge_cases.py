@@ -806,6 +806,7 @@ def main() -> None:
         if b:
             y, m, d = map(int, b.split("-")); ry, rm, rd = map(int, ref.split("-"))
             age = ry - y - (1 if (rm, rd) < (m, d) else 0)
+        yn = lambda v: "ok" if v is True else "no" if v is False else "check"     # 공고 화면에서 묻는 예/아니요(내 답)
         k = g["key"]
         if k == "청년":
             if age is None: st.append("check")
@@ -814,7 +815,8 @@ def main() -> None:
             elif p.get("married") is True: na = True
             elif p.get("married") is None: st.append("check")
         elif k == "대학생":
-            st.append("check")
+            if p.get("lhStudent") is False: na = True
+            else: st.append(yn(p.get("lhStudent")))
             if p.get("married") is True: na = True
         elif k == "고령자":
             if age is None: st.append("check")
@@ -828,13 +830,20 @@ def main() -> None:
                 elif in7 is None and kid6 is not True: st.append("check")
                 elif kid6 is None and (p.get("kidsMinor") or 0) > 0: st.append("check")
                 else: na = True
-            elif p.get("married") is False:
-                if (p.get("kidsMinor") or 0) > 0: st.append("check")
+            elif p.get("married") is False:                   # 한부모가족(6세 이하 자녀) — 공고 화면에서 묻는다
+                if (p.get("kidsMinor") or 0) > 0 and p.get("lhSingleParent") is not False:
+                    if p.get("lhSingleParent") is not True: st.append("check")
+                    elif kid6 is True: pass
+                    elif kid6 is None: st.append("check")
+                    else: na = True
                 else: na = True
             else: st.append("check")
         elif k == "주거급여수급자":
-            st.append("check")
-        st += ["check"] * len(g.get("notes") or [])          # 공고문에만 있는 추가 요건은 확인
+            if p.get("lhHousingBenefit") is False: na = True
+            else: st.append(yn(p.get("lhHousingBenefit")))
+        for nt in g.get("notes") or []:                        # 공고문에만 있는 추가 요건 — 내 답(창업인 추천·직업기준·장기종사)
+            nk = "lhStartupRec" if "창업인" in nt else "lhJobCriteria" if "직업기준" in nt else "lhLongWorker" if ("장기 종사" in nt or "장기종사" in nt) else None
+            st.append(yn(p.get(nk)) if nk else "check")
         hl = g["homeless"]
         if hl == "self_or_household":                         # 혼인 중이면 세대원 전원, 아니면 본인 (창업지원주택 공고문 ②)
             hl = "household" if p.get("married") is True else "self" if p.get("married") is False else None
@@ -842,11 +851,11 @@ def main() -> None:
         # 무주택
         if hl is None: pass
         elif hl == "self":
-            st.append(("check" if T["homeless_relaxed"] else "no") if p.get("selfOwn") is True else "ok" if p.get("selfOwn") is False else "check")
+            st.append((yn(p.get("lhHomeOutside")) if T["homeless_relaxed"] else "no") if p.get("selfOwn") is True else "ok" if p.get("selfOwn") is False else "check")
         else:
             own = p.get("selfOwn") is True or (p.get("married") is True and p.get("spouseOwn") is True) or (p.get("household") == "parents" and p.get("parentsOwn") is True)
             none = p.get("selfOwn") is False and (p.get("married") is not True or p.get("spouseOwn") is False) and (p.get("household") != "parents" or p.get("parentsOwn") is False)
-            st.append(("check" if T["homeless_relaxed"] else "no") if own else "ok" if (none and p.get("married") is not None) else "check")
+            st.append((yn(p.get("lhHomeOutside")) if T["homeless_relaxed"] else "no") if own else "ok" if (none and p.get("married") is not None) else "check")
         kid = bool((p.get("youngestBirth") or "") >= "2023-03-28" or p.get("pregnant") is True)
         # 거주지역·청약통장 (공공임대 신청자격: 주택건설지역 거주, 1순위 가입 6개월·6회, 2순위 가입)
         if T.get("regions"):
@@ -860,7 +869,9 @@ def main() -> None:
             elif not p.get("acctSince") or p.get("acctCount") in (None, ""): st.append("ok" if A["rank2_any"] else "check")
             elif months(p["acctSince"], ref) >= A["months"] and p["acctCount"] >= A["count"]: st.append("ok")
             else: st.append("ok" if A["rank2_any"] else "no")
-        # 소득
+        # 소득 (대학생은 본인+부모 소득 합계 — 공고 화면에서 기준 이하인지 묻는다)
+        if g["income_pct"] != "excluded" and k == "대학생":
+            st.append(yn(p.get("lhStudentIncome")))
         if g["income_pct"] != "excluded" and k not in ("대학생", "주거급여수급자"):
             member = k == "청년" and p.get("household") == "parents" and not g.get("married_ok")
             n = 1 if member else p.get("hhSize")
@@ -986,6 +997,18 @@ def main() -> None:
                    ("외벌이 2인 110% 초과", {"married": True, "marriedOn": "2024-01-01", "hhSize": 2, "income": 6000, "spouseIncome": 0, "hhIncomeYear": yr(URB[2] * 1.1) + 1}),
                    ("만 40세", {"birth": "1986-09-16"})]:
         lh_add(CY, ["청년"], nm, ch, bC)
+    # 공고 화면 '답하기'로 받는 예/아니요 자격 (사용자 10-05 17시 '확인필요 내용은 해당 공고에서 바로 묻고 저장해서 판정')
+    for nm, ch in [("창업인 추천 예", {"lhStartupRec": True}), ("창업인 추천 아니요", {"lhStartupRec": False})]:
+        lh_add(CY, ["청년"], nm, ch, bC)
+    for nm, ch in [("대학생 예·소득 이하·차 없음", {"lhStudent": True, "lhStudentIncome": True, "carValue": 0, "youthAsset": 5000}),
+                   ("대학생 아니요", {"lhStudent": False}), ("대학생 예·소득 초과", {"lhStudent": True, "lhStudentIncome": False, "carValue": 0}),
+                   ("대학생 예·소득 모름", {"lhStudent": True, "carValue": 0}), ("주거급여 예", {"lhHousingBenefit": True}), ("주거급여 아니요", {"lhHousingBenefit": False}),
+                   ("미혼·자녀·한부모 예·4세", {"kidsMinor": 1, "youngestBirth": "2022-05-01", "lhSingleParent": True, "hhSize": 2, "hhIncomeYear": 5000}),
+                   ("미혼·자녀·한부모 아니요", {"kidsMinor": 1, "youngestBirth": "2022-05-01", "lhSingleParent": False, "hhSize": 2}),
+                   ("미혼·자녀·한부모 예·8세", {"kidsMinor": 1, "youngestBirth": "2018-01-01", "lhSingleParent": True, "hhSize": 2})]:
+        lh_add(H, ["대학생", "신혼부부·한부모", "주거급여수급자"], nm, ch, bH)
+    for nm, ch in [("본인 집·지역 밖 예", {"selfOwn": True, "lhHomeOutside": True}), ("본인 집·지역 밖 아니요", {"selfOwn": True, "lhHomeOutside": False})]:
+        lh_add(B, ["청년", "고령자"], nm, ch, bB)
 
     OUT.write_text(json.dumps(cases, ensure_ascii=False, indent=1) + "\n", encoding="utf-8")
     print(f"{len(cases)}건 → {OUT}")
