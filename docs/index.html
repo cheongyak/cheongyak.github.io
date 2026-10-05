@@ -4764,7 +4764,7 @@ function verifyCard(){
       <dt>판정 검증 사례</dt><dd>${v.judge ? v.judge.passed + ' / ' + v.judge.total + '건 일치' : '-'}</dd>
       <dt>공고문 원문 대조</dt><dd>${esc(cc)}</dd>
       <dt>정답 데이터</dt><dd>${v.golden && v.golden.mismatches.length ? v.golden.mismatches.length + '건 다름' : '모두 일치'}</dd>
-      ${lhOn() && v.qa && v.qa.lh_invariant_violations != null ? `<dt>LH 임대 검사</dt><dd>${(v.qa.lh_invariant_violations || 0) + (v.qa.lh_judge_qa_fails || 0) + (v.qa.lh_screen_fails || 0) === 0 ? '모두 통과' : '문제 ' + ((v.qa.lh_invariant_violations || 0) + (v.qa.lh_judge_qa_fails || 0) + (v.qa.lh_screen_fails || 0)) + '건 · 확인 중'}</dd>` : ''}</dl>
+      ${lhOn() && v.qa && v.qa.lh_invariant_violations != null ? `<dt>LH 임대 검사</dt><dd>${(v.qa.lh_invariant_violations || 0) + (v.qa.lh_judge_qa_fails || 0) + (v.qa.lh_screen_fails || 0) + (v.qa.lh_pdf_merged_wrong || 0) === 0 ? '모두 통과' : '문제 ' + ((v.qa.lh_invariant_violations || 0) + (v.qa.lh_judge_qa_fails || 0) + (v.qa.lh_screen_fails || 0) + (v.qa.lh_pdf_merged_wrong || 0)) + '건 · 확인 중'}</dd>` : ''}</dl>
     <p class="small muted" style="margin:6px 0 0">판정 검증 사례는 공고문·법령 표로 기대값을 정한 사례를 화면 판정과 맞춰 본 것이고, 공고문 대조는 매일 수집한 모집공고문의 소득 기준표·예치금·자산 기준·분양가를 앱 수치와 맞춰 본 거예요.${v.ok ? '' : ' 차이가 난 공고는 공고 화면에 \'데이터 확인 필요\'로 표시돼요.'}</p></section>`;
 }
 function docLinks(){
@@ -5324,6 +5324,7 @@ function vRDetail(){
     ${T.local ? `<p class="small" style="margin:0">거주 요건: 공고일 현재 ${esc(T.local.name)}에 사는 사람만 신청할 수 있어요</p>` : ''}
     ${Array.isArray(T.regions) ? `<p class="small" style="margin:0">거주지역: ${T.regions.length ? esc(T.regions.join('·')) + '에 사는 무주택세대구성원' : '국내 거주 성년 무주택세대구성원'}</p>` : ''}
     ${T.account === 'none' ? '<p class="small" style="margin:0">청약통장: 필요 없음 (가입 여부·당첨 이력·소득·자산 불문)</p>' : T.account ? `<p class="small" style="margin:0">청약통장: 1순위 가입 ${T.account.months}개월·${T.account.count}회 이상${T.account.rank2_any ? ', 2순위 가입만' : ''}</p>` : ''}
+    ${on('lh_pdf_multi') && N.read && (N.read.conflicts || []).length ? `<p class="small" style="margin:0">데이터 확인 필요: 공고문 PDF 를 ${N.read.tools.length}가지 방법으로 읽었더니 ${N.read.conflicts.length}개 값이 서로 달라요. 그 값은 판정에 쓰지 않고 '공고문 확인'으로 보여요.</p>` : ''}
     <span class="small muted">${N.type === '공공임대' ? '' : "출산가구('23.3.28 이후 출생 자녀·태아)는 소득·자산 기준에 10~20%p를 더해요. "}${pdf}</span></section>`
     : `<section class="card"><h2 style="margin:0">신청 자격 기준</h2><p class="small" style="margin:0">이 공고문의 계층별 기준을 아직 읽지 못했어요. 공고문을 확인하세요.</p>${pdf}</section>`}
   <section class="card"><h2 style="margin:0">일정</h2>${(N.schedule || []).map(s => `<div class="small"><b>${esc(s.complex || '')}</b><br>접수 ${esc(s.apply_start || '')}${s.apply_end && s.apply_end !== s.apply_start ? ' ~ ' + esc(s.apply_end) : ''}${s.docs_target ? ' · 서류 제출 대상 발표 ' + esc(s.docs_target) : ''}${s.winner ? ' · 당첨자 발표 ' + esc(s.winner) : ''}</div>`).join('') || '<span class="small muted">공고문 확인</span>'}

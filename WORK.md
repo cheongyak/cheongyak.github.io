@@ -4,6 +4,15 @@
 2026-09-29 12:55 이전 항목은 규칙을 만들기 전 작업을 커밋 기록으로 정리한 것이라 백업 브랜치가 없어요.
 그 시점으로 되돌릴 때는 해당 커밋 번호로 `git revert` 를 써요.
 
+## 2026-10-05 21:02 · LH 임대 공고문 세 도구 읽기 합치기 (2단계)
+- 요청: "임대/청년주택도 pdf를 잘못읽는 경우가 많으니, 일반분양처럼 pdf 읽는 방법을 여러가지로 해서 보완해줄수있게 만들어줘"
+- 변경: app/lh_pdf_merge.py — 1단계에서 Actions 가 만든 세 도구 글(pypdf·pypdfium2·pdfplumber)을 같은 읽기 규칙으로 읽고 합침. 칸마다 같으면 그 값, 한 도구만 읽으면 채움, 다르면 과반, 과반 없으면 비워서 화면이 '공고문 확인'으로 묻고 [공고문·불일치] 기록 + 상세에 '데이터 확인 필요' 문구. 완화 문장 등은 하나라도 찾으면 참. 소득 100% 표는 앱 고정값과 맞는 도구 값 또는 pdfplumber 칸 단위 표. 임대조건 표는 한 도구에서 통째로(줄 단위로 섞으면 도구마다 주택형·구분·단지 이름이 달라 다른 줄끼리 짝지어지는 것을 확인 — 818·726). 수집(app/lh_rental.py)이 스위치 lh_pdf_multi 가 켜져 있으면 합친 값을 씀
+- QA: tools/qa/lh_pdf_tools.py — 정답 30공고에서 도구별 맞음·틀림·못 읽음: pypdf 330/0/24(못 읽음 24 = 국민·영구임대 등 표를 안 읽는 소득표 칸), pypdfium2 330/0/24, pdfplumber 314/2/38, 합친 값 330/0/24, 임대조건 150/150. pdfplumber 가 틀린 2칸(453 총자산 배제, 856 2순위)은 과반으로 걸러짐. 고치기 전 기준 중위소득 읽기 규칙을 되살려도 합친 값은 pypdfium2·칸 단위 표 값으로 맞음(회귀 시험). 지금 30건은 합쳐도 판정 값 변화 0·도구끼리 다름 0. Actions LH 수집·판정 검증에서 매번 실행, verify-status qa.lh_pdf_merged_wrong, 화면 검증 현황 LH 줄에 합산
+- 파일: app/lh_pdf_merge.py, app/lh_rental.py, tools/qa/lh_pdf_tools.py, tests/test_lh_pdf_merge.py, evidence/qa/lh-pdf-tools.json, tools/verify_status.py, docs/index.html, .github/workflows/lh-rental.yml, .github/workflows/verify.yml, FEATURES.md, HANDOFF.md, .claude/skills/cheongyakpass-ops/SKILL.md
+- 확인: pytest 193 통과(test_pipeline 은 Actions), 스크립트 문법, judge 549/549, lh_invariants 0, lh_qa 문제 0, lh_rental.cjs 0, cross_rule 충돌 0, e2e 34/34, code_mutation 못 잡음 0, consistency·monotonic·profile_keep·filter·sp_text·snapshot 0, regress 변화 0·화면 1,407 오류 0, 390px 화면에서 도구끼리 다를 때 문구 확인
+- 백업: backup/20261005-2102-lhpdf
+- 기능: lh_pdf_multi
+
 ## 2026-10-05 21:02 · LH 임대 공고문을 세 도구로 읽어 저장 (1단계: 저장만)
 - 요청: "임대/청년주택도 pdf를 잘못읽는 경우가 많으니, 일반분양처럼 pdf 읽는 방법을 여러가지로 해서 보완해줄수있게 만들어줘"
 - 변경: LH 수집이 공고문 PDF 를 pypdf(기존, evidence/lh/<id>.txt) 외에 pypdfium2(evidence/lh/pdfium/<id>.txt, 일반분양 pdf_dual_read 와 같은 두 번째 도구)와 pdfplumber(evidence/lh/plumber/<id>.txt + 칸 단위 표 <id>.tables.json)로도 읽어 저장. 예전에 첫 도구로만 읽은 공고문은 한 번 다시 받아 만든다. 각 도구는 따로 띄운 프로세스에서 읽음(죽어도 수집 계속), 못 읽으면 빈 파일. 판정에는 아직 쓰지 않음 — LH 첨부는 이 작업 환경에서 받을 수 없어(403) Actions 가 만든 글로 도구별 정확도를 정답 데이터와 비교한 뒤 2단계에서 합치는 규칙을 넣는다

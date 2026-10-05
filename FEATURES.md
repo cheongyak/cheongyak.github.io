@@ -153,7 +153,7 @@
 | `youth_special` | 공공분양 청년 특별공급(만 19~39세 미혼) 판정 — 공고문의 1인 140% 소득·본인/부모 총자산 기준, 새 질문 3개(본인 주택 이력·본인 총자산·부모님 총자산), 소득세 5년이면 1단계 배점 | 수집(공고문 읽기)·특별공급 판정·내 조건 | 끄면 청년 특별공급을 판정하지 않음(이전과 같음) | fa05fdd | backup/20261005-0138-youth |
 | `rent_noincome` | 모집공고문 신청자격 표에 소득·자산 기준이 없는 민간 5·10년 공공건설임대(국민주택)는 일반공급을 무주택·청약통장 순위·거주지로 판정 (특별공급은 확인 필요) | 수집(공고문 읽기)·일반공급 판정 | 끄면 이전처럼 판정 범위 밖(확인 필요) | eaf0689 | backup/20261005-0204-rental |
 | `lh_rental` | LH 임대 공고(행복주택·국민임대·영구임대·통합공공임대 등) 목록과 계층별 자격 판정 — 기존 청약 판정과 완전히 분리. 공고 탭 맨 위 '분양 청약·공공임대·청년 주택'. 미리보기 ?lh=preview | 수집(app/lh_rental.py·app/lh_terms.py, 별도 워크플로)·화면(rentalJudge) | 끄면 화면에 LH 임대가 보이지 않음(수집 파일은 계속 만들어짐, 판정 영향 없음) | e5b7486 | backup/20261005-1412-lh |
-| `lh_pdf_multi` | LH 임대 공고문 PDF 를 pypdf·pypdfium2·pdfplumber(글+칸 단위 표) 세 도구로 읽어 evidence/lh/pdfium·plumber 에 저장하고, 한 도구가 못 읽은 값은 채우고 서로 다르면 확인 필요(일반분양 pdf_dual_read 와 같은 방식) | 수집(app/lh_rental.py, app/lh_pdf_merge.py) | 끄면 첫 도구(pypdf) 글만 씀 | (커밋 후 기입) | backup/20261005-2102-lhpdf |
+| `lh_pdf_multi` | LH 임대 공고문 PDF 를 pypdf·pypdfium2·pdfplumber(글+칸 단위 표) 세 도구로 읽어 evidence/lh/pdfium·plumber 에 저장하고, 한 도구가 못 읽은 값은 채우고 서로 다르면 확인 필요(일반분양 pdf_dual_read 와 같은 방식) | 수집(app/lh_rental.py, app/lh_pdf_merge.py) | 끄면 첫 도구(pypdf) 글만 씀 | ba2debb1, (이 커밋) | backup/20261005-2102-lhpdf |
 
 `naver_map`·`nearby`·`analytics` 는 한 커밋(147fa99)에 함께 들어갔다. 이 셋 중 하나만 없애려면 revert 대신 스위치로 끄거나,
 해당 부분만 지우는 새 커밋을 만든다.

@@ -277,10 +277,29 @@ def main() -> int:
                     msg += " · 다른 읽기 도구 " + save_alt_texts(rec["id"], data)
         else:
             msg += " · 공고문 PDF 첨부 없음(" + ", ".join(f["kind"] or "?" for f in rec["files"][:4]) + ")"
+        merged = None
+        if multi and txt_path.exists():   # 세 도구 글을 같은 규칙으로 읽고 합친다 (app/lh_pdf_merge, 기능 lh_pdf_multi)
+            try:
+                from app.lh_pdf_merge import read_all
+                P = alt_paths(rec["id"])
+                texts = {"pypdf": txt_path.read_text(encoding="utf-8")}
+                for k in ("pdfium", "plumber"):
+                    if P[k].exists():
+                        texts[k] = P[k].read_text(encoding="utf-8")
+                tables = json.loads(P["tables"].read_text(encoding="utf-8")) if P["tables"].exists() else []
+                merged = read_all(texts, rec["type"], rec["name"] or "", rec["region"], [u["type"] for u in rec["units"]], bool(rec["judge_type"]), tables)
+                rec["read"] = {"tools": merged["tools"], "conflicts": merged["conflicts"]}
+                for n_ in merged["notes"]:
+                    log.append(f"[공고문·보완] {rec['id']} {n_}")
+                for c_ in merged["conflicts"]:
+                    log.append(f"[공고문·불일치] {rec['id']} {c_} — 원문을 사람이 확인해야 해요(화면은 공고문 확인)")
+            except Exception as e:
+                merged = None
+                msg += f" · 여러 도구 합치기 실패 {e.__class__.__name__}"
         if rec["judge_type"] and txt_path.exists():
             try:
                 from app.lh_terms import parse_lh_terms
-                rec["terms"] = parse_lh_terms(txt_path.read_text(encoding="utf-8"), rec["type"], rec["name"] or "", rec["region"])
+                rec["terms"] = merged["terms"] if merged and merged["terms"] else parse_lh_terms(txt_path.read_text(encoding="utf-8"), rec["type"], rec["name"] or "", rec["region"])
                 g = rec["terms"]["groups"]
                 from app.lh_terms import URBAN_2025
                 tb = rec["terms"].get("income_table_100") or {}
@@ -305,7 +324,7 @@ def main() -> int:
         if txt_path.exists():
             try:
                 from app.lh_terms import parse_lh_rents
-                rec["rents"] = parse_lh_rents(txt_path.read_text(encoding="utf-8"), [u["type"] for u in rec["units"]])
+                rec["rents"] = merged["rents"] if merged else parse_lh_rents(txt_path.read_text(encoding="utf-8"), [u["type"] for u in rec["units"]])
                 msg += f" · 임대조건 {len(rec['rents'])}줄"
             except Exception as e:
                 rec["rents"] = []

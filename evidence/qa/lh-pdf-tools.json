@@ -1,0 +1,58 @@
+{
+ "date": "2026-10-05 21:19",
+ "golden_notices": 30,
+ "stat": {
+  "pypdf": {
+   "ok": 330,
+   "wrong": 0,
+   "missing": 24,
+   "rent_ok": 150,
+   "rent_wrong": 0,
+   "rent_missing": 0,
+   "notices": 30
+  },
+  "pdfium": {
+   "ok": 330,
+   "wrong": 0,
+   "missing": 24,
+   "rent_ok": 150,
+   "rent_wrong": 0,
+   "rent_missing": 0,
+   "notices": 30
+  },
+  "plumber": {
+   "ok": 314,
+   "wrong": 2,
+   "missing": 38,
+   "rent_ok": 136,
+   "rent_wrong": 0,
+   "rent_missing": 14,
+   "notices": 30
+  },
+  "merged": {
+   "ok": 330,
+   "wrong": 0,
+   "missing": 24,
+   "rent_ok": 150,
+   "rent_wrong": 0,
+   "rent_missing": 0,
+   "notices": 30
+  }
+ },
+ "merged_wrong": 0,
+ "coverage": {
+  "pypdf": 30,
+  "pdfium": 30,
+  "plumber": 30,
+  "notices": 30
+ },
+ "wrong": [
+  "plumber 2015122300020453 일반.asset_manwon: 읽음 34500 ≠ 정답 'excluded'",
+  "plumber 2015122300020856 account: 읽음 {'months': 6, 'count': 6, 'rank2_any': False} ≠ 정답 {'months': 6, 'count': 6, 'rank2_any': True}"
+ ],
+ "merge_notes": [
+  "2015122300020453 일반.asset_manwon: majority pypdf='excluded', pdfium='excluded', plumber=34500",
+  "2015122300020856 account: majority pypdf={'months': 6, 'count': 6, 'rank2_any': True}, pdfium={'months': 6, 'count': 6, 'rank2_any': True}, plumber={'months': 6, 'count': 6, 'rank2_any': False}"
+ ],
+ "conflicts": []
+}

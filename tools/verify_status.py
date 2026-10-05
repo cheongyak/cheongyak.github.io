@@ -40,6 +40,8 @@ def build() -> dict:
     lhi_bad = lhi["count"] if lhi else None
     lhq_bad = (len(lhq["fuzzBad"]) + len(lhq["monoBad"]) + len(lhq["loopBad"]) + len(lhq["cardBad"]) + len(lhq.get("pageErrors") or [])) if lhq else None
     lhs_bad = len(lhs["fails"]) if lhs else None
+    lhp = qa("lh-pdf-tools.json")   # LH 공고문 여러 도구 읽기 (기능 lh_pdf_multi): 합친 값이 정답과 다른 칸 수
+    lhp_bad = lhp["merged_wrong"] if lhp else None
     st_bad = len(st["fails"]) if st else None
     inv_bad = sum(v["count"] for s in ("live", "archive") for v in inv[s]["violations"].values()) if inv else None
     flt_bad = (flt["filter_fails"] + len(flt["search_fails"])) if flt else None
@@ -52,13 +54,13 @@ def build() -> dict:
     snap_bad = snap["diffs"] if snap else None   # 화면 글자 스냅샷 (일부러 바꾸면 tools/qa/snapshot.cjs --update)
     e2e_bad = e2e["fail"] if e2e else None       # 사용자 흐름·퍼징
     pch_bad = (pch["violations"] + len(pch.get("pageErrors") or [])) if pch else None   # 지난 공고 판정 줄·청약봇 판정 요약 ↔ 화면 (tools/qa/past_chat.cjs, 2026-10-02)
-    qa_ok = not gate or (st_bad == 0 and inv_bad == 0 and flt_bad in (0, None) and con_bad in (0, None) and spt_bad in (0, None) and mkc_bad in (0, None) and crx_bad in (0, None) and pkp_bad in (0, None) and mono_bad in (0, None) and snap_bad in (0, None) and e2e_bad in (0, None) and pch_bad in (0, None) and lhi_bad in (0, None) and lhq_bad in (0, None) and lhs_bad in (0, None))   # 필터 검사는 결과 파일이 있을 때만 (2026-10-02 추가)
+    qa_ok = not gate or (st_bad == 0 and inv_bad == 0 and flt_bad in (0, None) and con_bad in (0, None) and spt_bad in (0, None) and mkc_bad in (0, None) and crx_bad in (0, None) and pkp_bad in (0, None) and mono_bad in (0, None) and snap_bad in (0, None) and e2e_bad in (0, None) and pch_bad in (0, None) and lhi_bad in (0, None) and lhq_bad in (0, None) and lhs_bad in (0, None) and lhp_bad in (0, None))   # 필터 검사는 결과 파일이 있을 때만 (2026-10-02 추가)
     ok = bool(judge) and not judge["failed"] and not judge.get("pageErrors") and not cc_bad and not gold_bad and (cc_sum is not None or not cc_on) and qa_ok
     kst = timezone(timedelta(hours=9))
     return {"at": datetime.now(kst).strftime("%Y-%m-%d %H:%M"), "ok": ok, "collect_run": run_at,
             "judge": {"total": judge["total"], "passed": judge["passed"], "failed": [f["id"] for f in judge["failed"]]} if judge else None,
             "crosscheck": {"summary": cc_sum, "mismatches": cc_bad[:30]}, "golden": {"mismatches": gold_bad[:30]},
-            "qa": {"gate": gate, "supply_type_fails": st_bad, "invariant_violations": inv_bad, "filter_fails": flt_bad, "consistency_fails": con_bad, "sp_text_fails": spt_bad, "market_fails": mkc_bad, "cross_rule_fails": crx_bad, "profile_keep_fails": pkp_bad, "monotonic_violations": mono_bad, "snapshot_diffs": snap_bad, "e2e_fails": e2e_bad, "past_chat_fails": pch_bad, "lh_invariant_violations": lhi_bad, "lh_judge_qa_fails": lhq_bad, "lh_screen_fails": lhs_bad, "lh_data_at": lhi and lhi.get("data_updated"), "cross_rule_checks": crx and crx.get("checks"), "market_at": mkc and mkc.get("date"), "supply_type_at": st and st.get("date"), "invariants_at": inv and inv.get("date")}}
+            "qa": {"gate": gate, "supply_type_fails": st_bad, "invariant_violations": inv_bad, "filter_fails": flt_bad, "consistency_fails": con_bad, "sp_text_fails": spt_bad, "market_fails": mkc_bad, "cross_rule_fails": crx_bad, "profile_keep_fails": pkp_bad, "monotonic_violations": mono_bad, "snapshot_diffs": snap_bad, "e2e_fails": e2e_bad, "past_chat_fails": pch_bad, "lh_invariant_violations": lhi_bad, "lh_judge_qa_fails": lhq_bad, "lh_screen_fails": lhs_bad, "lh_pdf_merged_wrong": lhp_bad, "lh_data_at": lhi and lhi.get("data_updated"), "cross_rule_checks": crx and crx.get("checks"), "market_at": mkc and mkc.get("date"), "supply_type_at": st and st.get("date"), "invariants_at": inv and inv.get("date")}}
 
 
 if __name__ == "__main__":
