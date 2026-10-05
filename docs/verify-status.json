@@ -1,14 +1,14 @@
 {
- "at": "2026-10-05 21:41",
- "ok": true,
- "collect_run": "2026-10-05 · 공고 226건",
+ "at": "2026-10-06 00:09",
+ "ok": false,
+ "collect_run": "2026-10-06 · 공고 0건 받음 → 지난 결과 226건 유지",
  "judge": {
-  "total": 549,
-  "passed": 549,
+  "total": 601,
+  "passed": 601,
   "failed": []
  },
  "crosscheck": {
-  "summary": "[검증·공고문] 공고문 56건 대조 · 기준표 277줄 · 분양가 226/226 일치 · 불일치 공고 0건",
+  "summary": null,
   "mismatches": []
  },
  "golden": {
@@ -17,7 +17,7 @@
  "qa": {
   "gate": true,
   "supply_type_fails": 0,
-  "invariant_violations": 0,
+  "invariant_violations": 1,
   "filter_fails": 0,
   "consistency_fails": 0,
   "sp_text_fails": 0,
@@ -28,14 +28,14 @@
   "snapshot_diffs": 0,
   "e2e_fails": 0,
   "past_chat_fails": 0,
-  "lh_invariant_violations": 0,
+  "lh_invariant_violations": 1,
   "lh_judge_qa_fails": 0,
   "lh_screen_fails": 0,
   "lh_pdf_merged_wrong": 0,
-  "lh_data_at": "2026-10-05 21:03",
-  "cross_rule_checks": 144460,
-  "market_at": "2026-10-05",
+  "lh_data_at": "2026-10-05 21:30",
+  "cross_rule_checks": 158572,
+  "market_at": "2026-10-06",
   "supply_type_at": "2026-10-05",
-  "invariants_at": "2026-10-05"
+  "invariants_at": "2026-10-06"
  }
 }
