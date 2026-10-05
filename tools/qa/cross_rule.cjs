@@ -146,7 +146,7 @@ const ROOT = join(__dirname, '../..'), DOCS = join(ROOT, 'docs');
           // LH-ELIG-004: 나이 범위 밖인데 가능 (청년·고령자), 미성년인데 가능(대학생·청년 외)
           if (age != null && G.key === '청년' && !G.married_ok && (age < (G.age_min || 19) || age > (G.age_max || 39))) v('LH-ELIG-004', 'CRITICAL', L, '청년 나이 ' + age, '가능', '해당 없음', ['birth'], '공고문 청년 계층', null);
           if (age != null && G.key === '고령자' && age < 65) v('LH-ELIG-004', 'CRITICAL', L, '고령자 나이 ' + age, '가능', '해당 없음', ['birth'], '공고문 고령자 계층', null);
-          if (age != null && age < 19 && !['대학생', '청년'].includes(G.key)) v('LH-ELIG-004', 'CRITICAL', L, '미성년 ' + age, '가능', '불가(성년자)', ['birth'], '공고문 신청자격', null);
+          if (age != null && age < 19 && !['대학생', '청년'].includes(G.key) && !(p.household === 'head' && p.lhMinorHead === true)) v('LH-ELIG-004', 'CRITICAL', L, '미성년 ' + age, '가능', '불가(성년자)', ['birth'], '공고문 신청자격', null);
           // LH-HOME-001: 무주택 완화 없는 공고에서 집이 있는데 가능
           const own = G.homeless === 'self' ? p.selfOwn === true : (p.selfOwn === true || (p.married === true && p.spouseOwn === true));
           if (own && !T.homeless_relaxed) v('LH-HOME-001', 'CRITICAL', L, G.key + ' 주택 소유', '가능', '불가', ['selfOwn', 'spouseOwn'], '공고문 무주택 요건', null);

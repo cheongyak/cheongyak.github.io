@@ -4,7 +4,7 @@ docs/lh-rental.json 을 검사한다. 걸린 것은 '[검증·LH]' 줄로 출력
  - 일정: 접수 시작 ≤ 접수 끝 ≤ 서류 대상 발표 ≤ 당첨자 발표 (있는 값끼리)
  - 임대조건: 보증금 100만~5억 원, 월 임대료 1만~300만 원, 보증금 > 월 임대료
  - 자격: 판정 유형인데 계층을 못 읽음 / 소득 % 50~250 / 총자산 5천만~6억(만원 5,000~60,000) / 자동차 0~1억 / 1인·2인·3인 이상 % 순서(1인 ≥ 2인 ≥ 3인 이상)
- - 소득 100% 표(도시근로자) ↔ 앱 고정값 URBAN_2025
+ - 소득 100% 표(도시근로자) ↔ 앱 고정값 URBAN_2025, 기준 중위소득 표 ↔ MEDIAN_2026(2026 고시)·8인 초과 1인당 금액
  - 정답 데이터(tests/golden/lh_rental.json)에 있는 공고는 읽은 값이 정답과 같아야 함(못 읽은 값은 허용 — 화면은 '공고문 확인')
 실행: python -m tools.qa.lh_invariants  (종료 코드: 위반 있으면 1)"""
 from __future__ import annotations
@@ -18,7 +18,7 @@ from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[2]
 sys.path.insert(0, str(ROOT))
-from app.lh_terms import URBAN_2025  # noqa: E402
+from app.lh_terms import MEDIAN_2026, MEDIAN_ADD_2026, URBAN_2025  # noqa: E402
 
 KEYS = [("장기종사자", "장기종사자"), ("대학생", "대학생"), ("신혼부부·한부모", "신혼|한부모"), ("청년", "청년"), ("고령자", "고령자"), ("주거급여수급자", "주거급여"), ("일반", "일반")]
 
@@ -67,6 +67,15 @@ def check(data: dict, golden: list) -> dict:
             for k, val in (T.get("income_table_100") or {}).items():
                 if URBAN_2025.get(int(k)) != val:
                     v["urban_table"].append(f"{nid} {k}인 공고문 {val} ≠ 앱 {URBAN_2025.get(int(k))}")
+        if T and T.get("income_basis") == "기준 중위소득":
+            tb = T.get("income_table_100") or {}
+            if not tb:
+                v["median_table"].append(f"{nid} 기준 중위소득 표를 읽지 못함")
+            for k, val in tb.items():
+                if MEDIAN_2026.get(int(k)) != val:
+                    v["median_table"].append(f"{nid} {k}인 읽은 값 {val} ≠ 2026 기준 중위소득 {MEDIAN_2026.get(int(k))}")
+            if T.get("income_add_per") not in (None, MEDIAN_ADD_2026):
+                v["median_table"].append(f"{nid} 8인 초과 1인당 {T.get('income_add_per')} ≠ {MEDIAN_ADD_2026}")
         g0 = G.get(nid)
         if g0 and T:
             P = {x["key"]: x for x in T.get("groups", [])}
@@ -77,7 +86,7 @@ def check(data: dict, golden: list) -> dict:
                         continue
                     if p[f] != gg[f]:
                         v["golden"].append(f"{nid} {gg['name']} {f}: 수집 {p[f]} ≠ 정답 {gg[f]}")
-            for f in ("relaxed", "homeless_relaxed", "homeless_max1", "regions", "account"):
+            for f in ("relaxed", "homeless_relaxed", "homeless_max1", "regions", "account", "income_table_100", "income_add_per"):
                 if f in g0 and T.get(f) is not None and T.get(f) != g0[f]:
                     v["golden"].append(f"{nid} {f}: 수집 {T.get(f)} ≠ 정답 {g0[f]}")
             if "local" in g0:

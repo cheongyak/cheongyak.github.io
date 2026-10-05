@@ -231,6 +231,16 @@ def main() -> int:
                     diff = [f"{k}인 공고문 {v:,} ≠ 앱 {URBAN_2025.get(int(k), 0):,}" for k, v in tb.items() if URBAN_2025.get(int(k)) != v]
                     if diff:
                         log.append(f"[검증·공고문 불일치] {rec['id']} 소득 100% 금액: " + ", ".join(diff))
+                if rec["terms"].get("income_basis") == "기준 중위소득":   # 2026 기준 중위소득 고시와 같은지 (숫자가 붙어 칸이 밀리면 여기서 걸린다)
+                    from app.lh_terms import MEDIAN_2026, MEDIAN_ADD_2026
+                    diff = [f"{k}인 읽은 값 {v:,} ≠ 2026 기준 중위소득 {MEDIAN_2026.get(int(k), 0):,}" for k, v in tb.items() if MEDIAN_2026.get(int(k)) != v]
+                    if not tb:
+                        diff.append("기준 중위소득 표를 읽지 못함")
+                    ap = rec["terms"].get("income_add_per")
+                    if ap is not None and ap != MEDIAN_ADD_2026:
+                        diff.append(f"8인 초과 1인당 {ap:,} ≠ {MEDIAN_ADD_2026:,}")
+                    if diff:
+                        log.append(f"[검증·공고문 불일치] {rec['id']} 기준 중위소득 100%: " + ", ".join(diff))
                 msg += f" · 자격 계층 {len(g)}" + ("" if g else " (계층을 읽지 못함 — 화면은 공고문 확인)")
             except Exception as e:   # 읽기 실패는 기록만 하고 수집은 계속
                 rec["terms"] = None

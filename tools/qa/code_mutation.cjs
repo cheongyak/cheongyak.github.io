@@ -44,6 +44,9 @@ const M = [   // [이름, 찾을 글, 바꿀 글]
   ['LH: 9인 이상 가산 무시', "(n - 8) * 579278", "(n - 8) * 0"],
   ['LH: 장기종사자 자녀 0 허용', "if (p.kidsMinor === 0) { na = true;", "if (false) { na = true;"],
   ['LH: 대학생 아니요 무시', "if (p.lhStudent === false) { na = true;", "if (false) { na = true;"],
+  ['LH: 미성년 세대원 허용', "if (p.household && p.household !== 'head') add('no', '미성년 세대원", "if (false) add('no', '미성년 세대원"],
+  ['LH: 청약예금 공공임대 허용', "add('no', '청약예금·부금으로는 신청 불가", "add('ok', '청약예금·부금으로는 신청 불가"],
+  ['LH: 9인 이상 중위소득 가산 2배', "(n - 8) * Number(t.income_add_per)", "(n - 8) * 2 * Number(t.income_add_per)"],
   ['LH: 자격 완화 소득 배제 무시', "g.income_pct === 'excluded') add('ok'", "g.income_pct === 'never') add('ok'"],
 ];
 (async () => {

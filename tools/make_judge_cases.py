@@ -599,6 +599,14 @@ def main() -> None:
     nw = sp_expect(False, "newlywed", p36, 3)["s"]   # 민영 신혼부부 특별공급 oracle (위 3) 2026000453 표)
     g(fn="bucket", listing="2026930036-084.7450D", profile=p36, expect={"b": "ok" if nw == "ok" else "unsure"},
       basis="2026930036 공급대상 표 84D 특별공급 2세대(노부모부양 1, 신혼부부 1, 기능 resupply_special) · 과천시 거주·혼인 3년·2025년생·월소득 100% 이하 → 신혼부부 특별공급 가능 (블라인드 감사 V13 'ok')")
+    # 2026930038 고양 장항 아테라 84A 불법행위 재공급 (2026-10-05 주간 블라인드 W41): 공급대상 표 '총공급 4 · 노부모 부양 특별공급 3 · 일반공급 1'(특공 계 칸 없음),
+    # 신청자격 '경기도 고양시에 거주하는 무주택세대주', '청약통장 가입여부와 관계없이 청약신청 가능'. 노부모부양 = 규칙 제46조 '65세 이상 직계존속을 3년 이상 계속 부양'.
+    p38 = dict(pub_base, homeSido="경기", homeSigun="고양시", acctType="none", hhIncomeYear=3000, income=3000)
+    bJ = "2026930038 공급대상 표 84A 노부모 부양 특별공급 3세대(기능 resupply_special) · '고양시에 거주하는 무주택세대주' · '청약통장 가입여부와 관계없이' · 규칙 제46조 65세 이상 직계존속 3년 부양"
+    g(fn="sp", listing="2026930038-084.9958A", type="elder", profile=dict(p38, elder65=True, eldersOnDeed=1), expect={"s": "ok"}, basis=bJ + " → 충족(통장 없어도)")
+    g(fn="sp", listing="2026930038-084.9958A", type="elder", profile=dict(p38, elder65=False), expect={"s": "fail"}, basis=bJ + " → 65세 이상 직계존속 부양 아님")
+    g(fn="sp", listing="2026930038-084.9958A", type="elder", profile=dict(p38, elder65=True, eldersOnDeed=1, homeSido="서울", homeSigun="마포구"), expect={"s": "fail"}, basis=bJ + " → 고양시 거주 아님")
+    g(fn="sp", listing="2026930038-084.9958A", type="elder", profile=dict(p38, elder65=True, eldersOnDeed=1, household="parents", parentsOwn=False), expect={"s": "fail"}, basis=bJ + " → 세대주 아님")
 
     # ---------- 11) 공공임대 일반공급 (군포대야미 A-1 6년 분양전환공공임대 2026000307, 공고일 2026-06-30) — 기능 rental_rules ----------
     # 원문 <표4> 금액을 이 파일에 따로 옮겨 적는다 (화면·파서 값을 쓰지 않음):
@@ -848,7 +856,8 @@ def main() -> None:
             nk = "lhStartupRec" if "창업인" in nt else "lhJobCriteria" if "직업기준" in nt else "lhLongWorker" if ("장기 종사" in nt or "장기종사" in nt) else None
             st.append(yn(p.get(nk)) if nk else "check")
         if age is not None and age < 19 and k not in ("대학생", "청년"):   # 성년자 요건 (대학생·청년은 미성년 가능)
-            st.append("check" if (p.get("kidsMinor") or 0) > 0 and p.get("household") == "head" else "no")
+            # 공고문 '성년자' 예외는 모두 미성년 '세대주'(자녀 양육·형제자매 부양·외국인 부모 한부모) → 세대원이면 불가, 세대주면 내 답
+            st.append("no" if p.get("household") not in (None, "", "head") else "check" if not p.get("household") else yn(p.get("lhMinorHead")))
         hl = g["homeless"]
         if hl == "self_or_household":                         # 혼인 중이면 세대원 전원, 아니면 본인 (창업지원주택 공고문 ②)
             hl = "household" if p.get("married") is True else "self" if p.get("married") is False else None
@@ -888,7 +897,7 @@ def main() -> None:
             elif p["hhSize"] < g["min_family"] or p["kidsMinor"] < 1: na = True
         if g.get("account_by_movein"):                         # 입주 전까지 주택청약종합저축 가입 증명
             at = p.get("acctType")
-            if at == "none" or not at or at == "unknown": st.append("check")
+            if at in ("none", "deposit", "bugeum") or not at or at == "unknown": st.append("check")   # 청약예금·부금은 종합저축이 아님 → 입주 전 전환(공고문 806 '종전 통장(청약저축, 청약예금, 청약부금)에서 주택청약종합저축으로 전환')
         # 거주지역·청약통장 (공공임대 신청자격: 주택건설지역 거주, 1순위 가입 6개월·6회, 2순위 가입)
         if T.get("regions"):
             st.append("check" if not p.get("homeSido") else "ok" if p["homeSido"] in T["regions"] else "no")
@@ -897,7 +906,7 @@ def main() -> None:
             at = p.get("acctType")
             if at == "none": st.append("no")
             elif not at or at == "unknown": st.append("check")
-            elif at in ("deposit", "bugeum"): st.append("check")
+            elif at in ("deposit", "bugeum"): st.append("no")   # 공고문 765 순위: 1·2순위 모두 '주택청약종합저축(청약저축 포함)에 가입'
             elif not p.get("acctSince") or p.get("acctCount") in (None, ""): st.append("ok" if A["rank2_any"] else "check")
             elif months(p["acctSince"], ref) >= A["months"] and p["acctCount"] >= A["count"]: st.append("ok")
             else: st.append("ok" if A["rank2_any"] else "no")
@@ -909,7 +918,8 @@ def main() -> None:
             n = 1 if member else p.get("hhSize")
             pct = None if (not g["income_pct"] or not n) else g["income_pct"]["1" if n == 1 else "2" if n == 2 else "3+"]
             if T["income_basis"] == "기준 중위소득":
-                base = int(T["income_table_100"][str(n)]) if n and T["income_table_100"] and str(n) in T["income_table_100"] else None
+                tb = T["income_table_100"] or {}
+                base = int(tb[str(n)]) if n and str(n) in tb else (int(tb["8"]) + (n - 8) * int(T["income_add_per"])) if n and n > 8 and "8" in tb and T.get("income_add_per") else None   # 8인 초과: 공고문 1인당 증가액
             else:
                 base = (URB.get(n) if n <= 8 else URB[8] + (n - 8) * 579278) if n else None   # 9인 이상: 1인당 579,278원 가산
             if not g["income_pct"] or not n or pct is None or base is None: st.append("check")
@@ -1012,6 +1022,10 @@ def main() -> None:
                    ("3인 맞벌이 180% 초과", {"hhSize": 3, "married": True, "marriedOn": "2024-01-01", "income": 4000, "spouseIncome": 4000, "hhIncomeYear": yr(MED[3] * 1.8) + 1}),
                    ("1인 신혼 기준 없음", {"married": True, "marriedOn": "2024-01-01", "hhSize": 1})]:
         lh_add(U, ["청년", "신혼부부·한부모", "고령자", "일반"], nm, ch, bU)
+    ADD = LHN[U]["terms"]["income_add_per"]   # 공고문 '8인을 초과하는 가구의 기준 중위소득(100%)은 1인 증가 시마다, 959,198원씩 증가'
+    for nm, ch in [("9인 150% 이하", {"hhSize": 9, "hhIncomeYear": yr((MED[8] + ADD) * 1.5)}), ("9인 150% 초과", {"hhSize": 9, "hhIncomeYear": yr((MED[8] + ADD) * 1.5) + 1}),
+                   ("10인 150% 이하", {"hhSize": 10, "hhIncomeYear": yr((MED[8] + 2 * ADD) * 1.5)}), ("10인 150% 초과", {"hhSize": 10, "hhIncomeYear": yr((MED[8] + 2 * ADD) * 1.5) + 1})]:
+        lh_add(U, ["일반"], nm, ch, bU + " · 8인 초과 가구 기준 중위소득 = 8인 10,474,348원 + 1인당 959,198원(공고문 표 아래)")
     bB = "익산인화 행복주택 2015122300020870 입주자격 완화(소득·총자산 배제, 자동차 4,542만원, 대학생 차량 미소유, 주택건설지역·연접지역 무주택이면 신청 가능)"
     for nm, ch in [("기본", {}), ("본인 집 있음(무주택 완화)", {"selfOwn": True}), ("자동차 초과", {"carValue": 4543}), ("소득 높음", {"hhIncomeYear": 20000})]:
         lh_add(B, ["대학생", "청년", "고령자"], nm, ch, bB)
@@ -1020,7 +1034,7 @@ def main() -> None:
     acc = {"homeSido": "경남", "acctType": "all", "acctSince": "2020-01-01", "acctCount": 30}
     for nm, ch in [("경남·1순위", acc), ("부산 거주", dict(acc, homeSido="부산")), ("서울 거주", dict(acc, homeSido="서울")), ("사는 곳 모름", dict(acc, homeSido="")),
                    ("통장 없음", dict(acc, acctType="none")), ("가입 5개월(2순위)", dict(acc, acctSince="2026-04-29", acctCount=5)), ("가입 6개월·6회", dict(acc, acctSince="2026-03-28", acctCount=6)),
-                   ("청약예금", dict(acc, acctType="deposit")), ("통장 종류 모름", dict(acc, acctType="")), ("세대에 집", dict(acc, selfOwn=True)), ("소득 높음", dict(acc, hhIncomeYear=30000, realEstate=90000))]:
+                   ("청약예금", dict(acc, acctType="deposit")), ("청약부금", dict(acc, acctType="bugeum")), ("청약저축(1순위)", dict(acc, acctType="saving")), ("통장 종류 모름", dict(acc, acctType="")), ("세대에 집", dict(acc, selfOwn=True)), ("소득 높음", dict(acc, hhIncomeYear=30000, realEstate=90000))]:
         lh_add(P5, ["일반"], nm, ch, bP)
     bQ = "대전천동3 10년 분양전환 공공임대 0000061176 신청자격(국내 거주 성년 무주택세대구성원, 청약저축 가입여부·소득·자산 불문)"
     for nm, ch in [("통장 없음", {"acctType": "none"}), ("세대에 집", {"selfOwn": True}), ("서울 거주·소득 높음", {"homeSido": "서울", "hhIncomeYear": 30000})]:
@@ -1075,6 +1089,11 @@ def main() -> None:
     # 2차 블라인드 감사(evidence/audit/2026-10-05-lh)에서 고친 것: 같은 등본 부모 주택·미성년자·1인 단독세대 소득·무주택 완화 2호 이상 제외
     for nm, ch in [("세대주·같은 등본 부모 집", {"eldersOnDeed": 2, "parentsOwn": True}), ("세대주·같은 등본 부모 집 모름", {"eldersOnDeed": 1, "parentsOwn": None}),
                    ("만 17세", {"birth": "2009-01-01"}), ("만 17세·자녀 부양 세대주", {"birth": "2009-01-01", "kidsMinor": 1, "hhSize": 2}),
+                   ("만 17세·세대주·예외 해당(내 답)", {"birth": "2009-01-01", "kidsMinor": 1, "hhSize": 2, "lhMinorHead": True}),
+                   ("만 17세·세대주·예외 아님(내 답)", {"birth": "2009-01-01", "lhMinorHead": False}),
+                   ("만 17세·세대원", {"birth": "2009-01-01", "household": "parents", "parentsOwn": False, "lhMinorHead": True}),
+                   ("만 19세 되는 날(공고일 2026-09-22 → 2007-09-22 출생)", {"birth": "2007-09-22"}),
+                   ("만 19세 하루 전(2007-09-23 출생)", {"birth": "2007-09-23", "lhMinorHead": False}),
                    ("1인 단독세대주·세대 소득 미입력", {"hhIncomeYear": None, "income": 3000}), ("1인 세대원·세대 소득 미입력", {"hhIncomeYear": None, "household": "parents", "parentsOwn": False})]:
         lh_add(E, ["일반"], nm, ch, bE + " · 신청자격(성년자인 무주택세대구성원, 세대구성원 = 같은 등본 직계존속 포함)")
     R5 = "LH-2015122300020581"
@@ -1086,7 +1105,7 @@ def main() -> None:
     for nm, ch in [("혼인신고 정확히 7년 전(공고일 2026-09-22 → 2019-09-22)", {"married": True, "marriedOn": "2019-09-22", "hhSize": 2, "hhIncomeYear": 5000}),
                    ("혼인신고 7년 하루 넘음(2019-09-21)", {"married": True, "marriedOn": "2019-09-21", "hhSize": 2, "hhIncomeYear": 5000})]:
         lh_add(H, ["신혼부부·한부모"], nm, ch, bH + " · 신혼부부 '혼인기간이 7년 이내'(공고일 기준)")
-    for nm, ch in [("청약통장 없음(입주 전 가입)", {"acctType": "none"}), ("청약통장 종류 모름", {"acctType": ""})]:
+    for nm, ch in [("청약통장 없음(입주 전 가입)", {"acctType": "none"}), ("청약통장 종류 모름", {"acctType": ""}), ("청약예금(입주 전 종합저축 전환)", {"acctType": "deposit"}), ("청약저축(종합저축에 포함)", {"acctType": "saving"})]:
         lh_add(H, ["청년"], nm, ch, bH + " · 청년 ⑤ '본인 입주전까지 주택청약종합저축 가입사실을 증명'")
 
     OUT.write_text(json.dumps(cases, ensure_ascii=False, indent=1) + "\n", encoding="utf-8")

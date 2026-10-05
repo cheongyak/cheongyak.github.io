@@ -63,6 +63,26 @@ def test_golden_lh_terms_never_wrong():
     assert known / total >= 0.85, (known, total)
 
 
+def test_golden_income_table_100():
+    """소득 100% 금액표·8인 초과 1인당 금액 = 원문 (2026-10-05: 기준 중위소득 표에서 붙은 숫자 때문에 칸이 밀려 110%·120% 열을 읽던 오류)"""
+    from app.lh_terms import MEDIAN_2026, MEDIAN_ADD_2026
+    n = 0
+    for g in GOLD:
+        r = _parsed(g)
+        if g.get("income_table_100") and (r.get("income_table_100") or g["type"] in ("통합공공임대", "행복주택")):   # 국민·영구임대는 표를 읽지 않음(고정값 URBAN_2025 로 판정)
+            n += 1
+            mine = {k: v for k, v in (r.get("income_table_100") or {}).items() if k in g["income_table_100"]}   # 행복주택 3~6인 표만 정답에 있음
+            assert mine == g["income_table_100"], (g["id"], r.get("income_table_100"))
+        if "income_add_per" in g:
+            assert r.get("income_add_per") == g["income_add_per"], (g["id"], "income_add_per")
+        if g["type"] == "통합공공임대" and g.get("income_table_100"):
+            assert {int(k): v for k, v in g["income_table_100"].items()} == MEDIAN_2026, g["id"]
+            assert g.get("income_add_per") == MEDIAN_ADD_2026, g["id"]
+    assert n >= 4
+    html = (ROOT / "docs/index.html").read_text(encoding="utf-8")
+    assert "income_add_per" in html   # 화면이 9인 이상에 8인 초과 금액을 쓴다
+
+
 def test_parsed_groups_exist_in_golden():
     """정답에 없는 계층을 만들어 내지 않는다"""
     for g in GOLD:

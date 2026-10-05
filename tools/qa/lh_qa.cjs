@@ -29,14 +29,14 @@ const ROOT = join(__dirname, '../..'), DOCS = join(ROOT, 'docs'), NF = Number(pr
     const gen = () => ({ birth: maybe(pick(['1955-01-01', '1961-09-01', '1986-09-15', '1990-06-01', '1995-03-01', '2004-04-01', '2007-09-30', '2008-10-01'])),
       married: maybe(pick([true, false])), marriedOn: pick(['', '2016-01-01', '2020-05-01', '2024-01-01']), spouseOwn: pick([true, false]),
       selfOwn: maybe(pick([true, false, false])), household: pick(['head', 'parents', 'spouse', 'other']), parentsOwn: maybe(pick([true, false])),
-      hhSize: maybe(pick([1, 2, 3, 4, 5, 9])), hhIncomeYear: maybe(Math.floor(rnd() * 12000)), income: Math.floor(rnd() * 8000), spouseIncome: pick([0, 0, 3000]),
+      hhSize: maybe(pick([1, 2, 3, 4, 5, 9, 10])), hhIncomeYear: maybe(Math.floor(rnd() * 12000)), income: Math.floor(rnd() * 8000), spouseIncome: pick([0, 0, 3000]),
       realEstate: maybe(Math.floor(rnd() * 50000)), carValue: maybe(pick([0, 1000, 4542, 4543, 6000])), cash: Math.floor(rnd() * 10000), liquid: 0, deposit: pick([0, 5000]),
       townInsurance: maybe(0, 0.3), townFinOther: maybe(0, 0.3), townOtherAsset: maybe(0, 0.3), townDebt: maybe(pick([0, 3000]), 0.3), youthAsset: maybe(Math.floor(rnd() * 30000)),
       kidsMinor: maybe(pick([0, 1, 2])), youngestBirth: pick(['', '2018-01-01', '2022-05-01', '2024-06-01']), pregnant: pick([false, false, true]),
       homeSido: maybe(pick(SIDOS)), homeSigun: pick(['', '창원시', '김해시', '군산시', '남원시', '전주시', '양주시', '마포구']),
-      acctType: maybe(pick(['all', 'saving', 'deposit', 'none', ''])), acctSince: pick(['', '2015-01-01', '2026-06-01']), acctCount: maybe(pick([0, 5, 6, 60])),
+      acctType: maybe(pick(['all', 'saving', 'deposit', 'bugeum', 'none', ''])), acctSince: pick(['', '2015-01-01', '2026-06-01']), acctCount: maybe(pick([0, 5, 6, 60])),
       lhStudent: maybe(pick([true, false]), 0.5), lhStudentIncome: maybe(pick([true, false]), 0.5), lhHousingBenefit: maybe(pick([true, false]), 0.5), lhSingleParent: maybe(pick([true, false]), 0.5),
-      lhHomeOutside: maybe(pick([true, false]), 0.5), lhStartupRec: maybe(pick([true, false]), 0.5), lhJobCriteria: maybe(pick([true, false]), 0.5), lhLongWorker: maybe(pick([true, false]), 0.5) });
+      lhHomeOutside: maybe(pick([true, false]), 0.5), lhStartupRec: maybe(pick([true, false]), 0.5), lhJobCriteria: maybe(pick([true, false]), 0.5), lhLongWorker: maybe(pick([true, false]), 0.5), lhMinorHead: maybe(pick([true, false]), 0.5) });
     const BAD = /\bNaN\b|\bundefined\b|\[object Object\]|\bnull\b/;
     const ORD = { ok: 0, check: 1, no: 2, na: 3 };
     const NS = RENTAL.notices;

@@ -15,6 +15,10 @@ from typing import Optional
 
 # 2025년 도시근로자 가구원수별 월평균소득 100% (1~8인, 원) — 화면 RENT_URBAN_2025 와 같아야 한다(tests/test_lh_terms.py). 수집이 공고문 표와 대조해 다르면 기록한다.
 URBAN_2025 = {1: 3813363, 2: 5866270, 3: 8168429, 4: 8802202, 5: 9326985, 6: 9906263, 7: 10485541, 8: 11064819}
+# 2026년 기준 중위소득 100% (보건복지부 고시 제2025-135호, 1~8인, 원/월) — 통합공공임대 공고문 '가구원수별 기준 중위소득' 표 ~100% 열(855·742 원문 확인).
+# 8인 초과는 1인마다 959,198원 (공고문 표 아래 문장). 수집이 공고문 표와 대조해 다르면 '[검증·공고문 불일치]' (2026-10-05: 숫자가 붙어 칸이 밀려 110%·120% 열을 읽던 오류를 이것으로 잡는다)
+MEDIAN_2026 = {1: 2564238, 2: 4199292, 3: 5359036, 4: 6494738, 5: 7556719, 6: 8555952, 7: 9515150, 8: 10474348}
+MEDIAN_ADD_2026 = 959198
 
 GROUP_KEYS = ("대학생", "청년", "신혼부부·한부모", "고령자", "주거급여수급자", "일반")
 
@@ -267,13 +271,24 @@ def income_table(t: str) -> Optional[dict]:
         return out
     m = re.search(r"소득구간\s?~30%\s?~50%\s?~70%\s?~100%", t)
     if m:
+        # 2026-10-05: PDF 글에서 앞 칸 숫자가 붙어 나옴('2인 1,259,7882,099,646 …') → 공백으로 나누면 칸이 밀려 110%·120% 열을 읽었다(742·855).
+        # 천 단위 쉼표 규칙(\d{1,3}(,\d{3})+)으로 숫자를 하나씩 떼고, 4번째(~100%) 칸을 쓴다. 30% 칸 ÷ 0.3 과 1% 안에서 같아야 받는다.
         seg = t[m.end(): m.end() + 1500]
         for n in range(1, 9):
-            r = re.search(rf"{n}인\s?([\d,]+)\s([\d,]+)\s([\d,]+)\s([\d,]+)\s", seg)
-            if r:
-                out[str(n)] = _int(r.group(4))
+            r = re.search(rf"(?<![\d,]){n}인\s?([\d, ]+)", seg)
+            if not r:
+                continue
+            nums = [_int(x) for x in re.findall(r"\d{1,3}(?:,\d{3})+", r.group(1))]
+            if len(nums) >= 4 and abs(nums[0] / 0.3 - nums[3]) <= nums[3] * 0.01:
+                out[str(n)] = nums[3]
         return out or None
     return None
+
+
+def income_add_per(t: str) -> Optional[int]:
+    """기준 중위소득 표의 8인 초과 가구: '8인을 초과하는 가구의 기준 중위소득(100%)은 1인 증가 시마다, 959,198원씩 증가'"""
+    m = re.search(r"8인을\s?초과하는\s?가구의\s?기준\s?중위소득\s?\(100%\)\s?은\s?1인\s?증가\s?시마다,?\s?([\d,]+)\s?원", t)
+    return _int(m.group(1)) if m else None
 
 
 SIDO_SHORT = {"서울특별시": "서울", "부산광역시": "부산", "대구광역시": "대구", "인천광역시": "인천", "광주광역시": "광주", "대전광역시": "대전", "울산광역시": "울산",
@@ -347,6 +362,7 @@ def parse_lh_terms(text: str, kind: str, name: str = "", region: Optional[str] =
         res["groups"], res["quotes"] = _integrated_groups(t)
         res["income_basis"] = "기준 중위소득"
         res["income_table_100"] = income_table(t)
+        res["income_add_per"] = income_add_per(t)   # 8인 초과 1인당 (공고문 표 아래 문장)
     elif kind == "공공임대":
         res["groups"], res["quotes"], extra = _public_terms(t)
         res.update(extra)

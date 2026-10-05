@@ -665,7 +665,7 @@ const DEFAULT_PROFILE = { seoul:null, household:'', parents60:null, parentsOwn:n
   selfOwn:null, married:null, spouseOwn:false, spouseIncome:0, spouseLoan:0, account:'unknown', recentWin:false, birth:'', marriedOn:'', homeSoldOn:'', dependents:null, spouseAcctSince:'', hhHomes:'', hhOwner:'', win5y:null, acctType:'', acctSince:'', acctAmount:0, acctCount:null, acctPaid:null, homeArea:'',
   cash:0, liquid:0, deposit:0, income:0, loanMonthly:0, firstTime:null,
   selfEverOwned:null, youthAsset:null, parentsAsset:null,   /* 청년 특별공급 (기능 youth_special) */
-  lhStudent:null, lhStudentIncome:null, lhHousingBenefit:null, lhSingleParent:null, lhHomeOutside:null, lhStartupRec:null, lhJobCriteria:null, lhLongWorker:null, lhBirthKids:null,   /* LH 임대 공고 화면에서만 묻는 칸 (기능 lh_rental) */
+  lhStudent:null, lhStudentIncome:null, lhHousingBenefit:null, lhSingleParent:null, lhHomeOutside:null, lhStartupRec:null, lhJobCriteria:null, lhLongWorker:null, lhBirthKids:null, lhMinorHead:null,   /* LH 임대 공고 화면에서만 묻는 칸 (기능 lh_rental) */
   kidsUnder6:null, gen3:null, homeSido:'', sidoSince:'', sidoOwnSince:'', kidsOnDeed:null, eldersOnDeed:null, elders1y:null, fetusCount:null, homeSigun:'', areaSince:'', kidsMinor:null, youngestBirth:'', pregnant:null, hhSize:null, hhIncomeYear:null, realEstate:null, carValue:null, townType:null, townInsurance:null, townFinOther:null, townOtherAsset:null, townDebt:null, ownExc:null, spouseSoldOn:'', winSpecial:null, winScore2y:null, hhNeverOwned:null, everWin:null, taxYears5:null, elder65:null };
 
 /* 저장된 내 조건 정리 (기능: profile_clean, 2026-10-02 MASTER QA 입력 퍼징): 기기에 저장된 값이 깨져 있으면(숫자 자리에 글자, 날짜 자리에 숫자 등)
@@ -4984,7 +4984,12 @@ function rentalSeg(cur){
 const rAge = (birth, ref) => { if (!birth || !ref) return null; const [by, bm, bd] = birth.split('-').map(Number), [ry, rm, rd] = ref.split('-').map(Number); return ry - by - ((rm < bm || (rm === bm && rd < bd)) ? 1 : 0); };
 const rIncomeBase = (N, n) => {
   const t = N.terms || {};
-  if (t.income_basis === '기준 중위소득') return t.income_table_100 && t.income_table_100[String(n)] ? Number(t.income_table_100[String(n)]) : null;
+  if (t.income_basis === '기준 중위소득') {
+    const tb = t.income_table_100 || {};
+    if (tb[String(n)]) return Number(tb[String(n)]);
+    if (n > 8 && tb['8'] && t.income_add_per) return Number(tb['8']) + (n - 8) * Number(t.income_add_per);   /* 공고문 '8인을 초과하는 가구의 기준 중위소득(100%)은 1인 증가 시마다 959,198원씩 증가' */
+    return null;
+  }
   return rUrban(n);
 };
 const rBirthKid = p => !!((p.youngestBirth && p.youngestBirth >= RENT_BIRTH_FROM) || p.pregnant === true || Number(p.lhBirthKids) > 0);
@@ -5011,6 +5016,7 @@ const LH_Q = {   /* 확인 항목 '답하기'에서 묻는 칸: [질문, 형식,
   lhHomeOutside: ['가진 집이 공고문의 주택건설지역·연접지역 밖에 있거나 소형·저가주택(전용 60㎡ 이하·공시가 1억, 수도권 1억6천 이하)인가요?', 'yn'],
   lhStartupRec: ['이 공고가 요구하는 창업인(예비창업인) 추천 자격이 있나요?', 'yn'], lhJobCriteria: ['이 공고의 직업기준(지역전략산업 종사자 등)에 해당하나요?', 'yn'],
   lhLongWorker: ['이 공고의 장기종사자 요건(중소기업 3년·동일기업 5년 근속 등)에 해당하나요?', 'yn'],
+  lhMinorHead: ['자녀를 키우거나(같은 등본), 부모님 사망·실종 등으로 형제자매를 부양하는 세대주인가요? (외국인 부모 한부모가족의 내국인 자녀 세대주 포함)', 'yn'],
   lhBirthKids: ['2023년 3월 28일 이후 태어난 미성년 자녀 수(태아·입양 포함, 명)', 'count']
 };
 function lhQPanel(keys){
@@ -5092,8 +5098,10 @@ function rentalGroup(N, g, p){
     yn(p[k], '추가 요건 충족: ' + base, '추가 요건 미충족: ' + base + ' (내 답)', base + ' — 해당하는지 답해 주세요', [k]); });
   /* 1-1) 성년자 (민법상 만 19세) — 대학생·청년(통합 18세~)은 미성년도 가능(별표 5·5의2), 그 밖의 계층은 자녀 부양 미성년 세대주 등 예외만 */
   if (age != null && age < 19 && !['대학생', '청년'].includes(g.key)) {
-    if ((Number(p.kidsMinor) || 0) > 0 && p.household === 'head') add('check', '미성년자 — 자녀를 부양하는 미성년 세대주 등 예외에 해당하는지 공고문 확인');
-    else add('no', '미성년자는 신청할 수 없음 (만 19세 이상)');
+    /* 공고문 '성년자' 예외(모든 공고 같음): ① 자녀가 있는(같은 등본) 미성년 세대주 ② 직계존속 사망·실종·행방불명으로 형제자매를 부양하는 미성년 세대주 ③ 외국인 부모 한부모가족의 내국인 미성년 자녀 세대주 — 모두 세대주 */
+    if (p.household && p.household !== 'head') add('no', '미성년 세대원은 신청할 수 없음 (예외는 모두 미성년 세대주)');
+    else if (!p.household) add('check', '미성년자는 예외(자녀 양육·형제자매 부양 세대주 등)만 신청 가능 — 세대주인지와 예외 해당 여부를 답해 주세요', ['household', 'lhMinorHead']);
+    else yn(p.lhMinorHead, '미성년 세대주 예외(자녀 양육·형제자매 부양 등)', '미성년자 — 예외(자녀 양육·형제자매 부양 세대주 등)에 해당하지 않음', '미성년자는 자녀를 키우거나 형제자매를 부양하는 세대주 등 예외만 신청 가능 — 해당하는지 답해 주세요', ['lhMinorHead']);
   }
   /* 2) 무주택 — 'self_or_household' = 혼인 중이면 세대원 전원, 아니면 본인 (창업지원주택) */
   const hl = g.homeless === 'self_or_household' ? (p.married === true ? 'household' : p.married === false ? 'self' : null) : g.homeless;
@@ -5135,6 +5143,7 @@ function rentalGroup(N, g, p){
   if (g.account_by_movein) {
     if (p.acctType === 'none') add('check', '입주 전까지 주택청약종합저축(청약저축 포함)에 가입해야 해요 (가입 못 하면 당첨 취소)', ['acctType']);
     else if (!p.acctType || p.acctType === 'unknown') add('check', '청약통장 종류 입력 필요 (입주 전까지 주택청약종합저축 가입 증명)', ['acctType']);
+    else if (p.acctType === 'deposit' || p.acctType === 'bugeum') add('check', '청약예금·부금은 주택청약종합저축이 아니에요 — 입주 전까지 주택청약종합저축으로 전환해야 해요 (못 하면 당첨 취소)', ['acctType']);
   }
   /* 2-1) 거주지역·청약통장 (공공임대: 50년 공공임대·10년 분양전환 예비입주자 공고의 신청자격) */
   if (Array.isArray(T.regions) && T.regions.length) {
@@ -5146,7 +5155,7 @@ function rentalGroup(N, g, p){
     const A = T.account, mo = p.acctSince && ref ? monthsBetween(p.acctSince, ref) : null;
     if (p.acctType === 'none') add('no', '주택청약종합저축(청약저축 포함) 가입 필요');
     else if (!p.acctType || p.acctType === 'unknown') add('check', '청약통장 종류 입력 필요', ['acctType', 'acctSince', 'acctCount']);
-    else if (p.acctType === 'deposit' || p.acctType === 'bugeum') add('check', '청약예금·부금은 주택청약종합저축·청약저축이 아니어서 해당하지 않을 수 있어요 — 공고문 확인');
+    else if (p.acctType === 'deposit' || p.acctType === 'bugeum') add('no', '청약예금·부금으로는 신청 불가 — 1·2순위 모두 주택청약종합저축(청약저축 포함) 가입자만 (공고일 전날까지 전환해야 인정)');
     else if (mo == null || p.acctCount == null || p.acctCount === '') add(A.rank2_any ? 'ok' : 'check', A.rank2_any ? '청약통장 가입 (1순위 여부는 가입일·납입 횟수 입력 필요)' : '청약통장 가입일·납입 횟수 입력 필요', ['acctSince', 'acctCount']);
     else if (mo >= A.months && Number(p.acctCount) >= A.count) add('ok', `청약통장 1순위 (가입 ${mo}개월 · ${p.acctCount}회)`);
     else add(A.rank2_any ? 'ok' : 'no', A.rank2_any ? `청약통장 2순위 (1순위는 ${A.months}개월·${A.count}회 이상)` : `청약통장 ${A.months}개월·${A.count}회 미달`);

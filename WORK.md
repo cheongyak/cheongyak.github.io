@@ -4,6 +4,18 @@
 2026-09-29 12:55 이전 항목은 규칙을 만들기 전 작업을 커밋 기록으로 정리한 것이라 백업 브랜치가 없어요.
 그 시점으로 되돌릴 때는 해당 커밋 번호로 `git revert` 를 써요.
 
+## 2026-10-05 20:07 · LH 임대 남은 확인 3가지 해결 + 기준 중위소득 표를 110%·120% 칸으로 읽던 오류
+- 요청: "여기서 남은 문제들 해결부탁해" (미성년 세대주 예외·9인 이상 소득표·청약예금·부금)
+- 찾은 오류(중요): 통합공공임대(전주동서학 742·대구연호 855) '가구원수별 기준 중위소득' 표가 PDF 글에서 앞 칸 숫자가 붙어 나와('2인 1,259,7882,099,646 …') 공백으로 칸을 세던 코드가 2~6인은 110% 열, 742 의 7·8인은 120% 열을 100% 로 읽었음 → 소득 기준이 10~20% 높게 잡혀 넘는 사람도 '가능'(예: 3인 100% 5,359,036원을 5,894,940원으로). 정답 데이터에는 맞는 값이 있었지만 테스트가 표를 비교하지 않아 놓침
+- 변경: ① 표 숫자를 천 단위 쉼표 규칙으로 떼고 4번째(~100%) 칸, 30% 칸÷0.3 과 1% 안일 때만 받음 ② 8인 초과 = 8인 + 공고문 '1인 증가 시마다 959,198원'(income_add_per) → 9인 이상도 판정 ③ 2026 기준 중위소득(보건복지부 고시 제2025-135호) MEDIAN_2026 과 매 수집 대조 → 다르면 [검증·공고문 불일치], lh_invariants median_table, 정답 대조에 income_table_100·income_add_per ④ 미성년자: 공고문 '성년자' 예외(자녀가 있는 미성년 세대주·형제자매 부양 미성년 세대주·외국인 부모 한부모가족의 내국인 자녀 세대주 — 모든 공고 같음, 모두 세대주) → 세대원이면 불가, 세대주면 '답하기' 예/아니요(lhMinorHead) ⑤ 청약예금·부금: 공공임대(765·856) 1·2순위 모두 '주택청약종합저축(청약저축 포함)에 가입' → 불가(확정), 행복주택 '입주 전까지 주택청약종합저축(청약저축 포함) 가입 증명'은 예금·부금이면 '전환 필요' 확인(전에는 그냥 통과)
+- 결과: lh_qa '답할 칸 없는 확인' 3종류 → 0종류
+- 정답 데이터: 742·855 income_add_per 959,198 원문 확인. 판정 사례 lhrent 미성년 5(세대주 예/아니요·세대원·만 19세 되는 날·하루 전)·9인/10인 150% 경계 4·청약예금/부금/청약저축 4 + 장항 노부모부양 특별공급 sp 4(앞 커밋 fixture) → 549/549
+- QA: code_mutation 변이 37(새 3: 미성년 세대원 허용·청약예금 허용·9인 가산 2배) 잡음 34 못 잡음 0, cross_rule LH-ELIG-004 에 미성년 세대주 예외 반영 → 충돌 0, lh_qa·e2e LH 퍼징에 새 칸
+- 파일: docs/index.html, app/lh_terms.py, app/lh_rental.py, tests/golden/lh_rental.json, tests/test_lh_terms.py, tests/judge/lh_notices.json, tools/make_judge_cases.py, tests/judge/cases.json, tools/qa/lh_invariants.py, tools/qa/code_mutation.cjs, tools/qa/lh_qa.cjs, tools/qa/e2e.cjs, tools/qa/cross_rule.cjs, evidence/qa/CROSS_RULES.md, evidence/qa/(code-mutation·lh-qa·e2e·cross-rule·lh-invariants·lh-screen).json, HANDOFF.md, .claude/skills/cheongyakpass-ops/SKILL.md
+- 확인: pytest 183 통과(test_pipeline 은 fastapi 를 이 환경에 설치할 수 없어 Actions 에서), 스크립트 문법, judge_check 549/549, lh_invariants 0(고친 읽기로 다시 만든 데이터 — 지금 올라간 데이터로는 median_table 14건을 잡는 것 확인), lh_qa 문제 0, lh_rental.cjs 0, cross_rule 144,460회 충돌 0, e2e 34/34, consistency·monotonic·profile_keep·filter·sp_text 0, snapshot 0, regress 변화 0·화면 1,407 오류 0, 390px 밝은(미성년 답하기 창)·어두운(9인 기준 17,150,319원) 화면
+- 백업: backup/20261005-2007-lhrest
+- 기능: lh_rental
+
 ## 2026-10-05 20:07 · 불법행위 재공급 특별공급 '계' 칸 없는 공급대상 표 읽기 (장항 노부모부양 3세대)
 - 요청: "여기서 남은 문제들 해결부탁해" — 주간 블라인드 W41 에서 남은 '장항 재공급 노부모 특공 3세대를 앱이 모름'
 - 원인: 재공급 특공 세대수는 공고문 공급대상 표에서 읽는데(기능 resupply_special), 고양 장항 아테라(2026930038) 표는 머리글이 '총공급 세대수 / 노부모 부양 특별공급 / 일반공급'으로 '특별공급 세대수'·'계' 칸이 없어 못 읽음 → 특공 판정이 빠지고 일반 1세대만 판정

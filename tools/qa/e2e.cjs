@@ -95,7 +95,7 @@ const VIEW_BAD = /\bNaN\b|\bundefined\b|\[object Object\]|\bnull\b(?!\s*값)/;
     await page.evaluate(() => loadRental()); await page.waitForFunction(() => RENTAL || RENTAL_STATE === 'error', null, { timeout: 15000 }).catch(() => {});
     const ids = await page.evaluate(() => { const ns = RENTAL.notices, pick = f => (ns.find(f) || {}).id;
       return [pick(N => N.terms && N.terms.local), pick(N => N.terms && N.terms.groups && N.terms.groups.some(g => g.key === '청년')), pick(N => N.terms && N.terms.groups && N.terms.groups.length > 3), pick(N => !N.terms), pick(N => (N.rents || []).length)].filter(Boolean); });
-    const LK = ['lhStudent', 'lhStudentIncome', 'lhHousingBenefit', 'lhSingleParent', 'lhHomeOutside', 'lhStartupRec', 'lhJobCriteria', 'lhLongWorker', 'lhBirthKids', 'homeSigun', 'homeSido', 'eldersOnDeed', 'hhHomes', 'kidsMinor', 'hhSize', 'hhIncomeYear', 'carValue', 'birth'];
+    const LK = ['lhMinorHead', 'acctType', 'lhStudent', 'lhStudentIncome', 'lhHousingBenefit', 'lhSingleParent', 'lhHomeOutside', 'lhStartupRec', 'lhJobCriteria', 'lhLongWorker', 'lhBirthKids', 'homeSigun', 'homeSido', 'eldersOnDeed', 'hhHomes', 'kidsMinor', 'hhSize', 'hhIncomeYear', 'carValue', 'birth'];
     for (const k of LK) for (const v of BAD) { n++;
       const r = await page.evaluate(({ k, v, ids, base }) => { try { S.profile = Object.assign({}, DEFAULT_PROFILE, base, { [k]: v }); const out = [];
           S.rcat = 'rent'; S.view = 'rental'; render(); out.push(document.body.innerText);

@@ -1,7 +1,7 @@
 {
  "date": "2026-10-05",
- "mutations": 34,
- "killed": 31,
+ "mutations": 37,
+ "killed": 34,
  "survived": 0,
  "not_testable": 0,
  "equivalent": 3,
@@ -162,7 +162,7 @@
   {
    "name": "LH: 소득 기준 +1%",
    "status": "KILLED",
-   "judge_fail": 14,
+   "judge_fail": 16,
    "display_fail": 0,
    "status_fail": 0,
    "page_errors": 0
@@ -194,7 +194,7 @@
   {
    "name": "LH: 1인 가산 퍼센트 무시",
    "status": "KILLED",
-   "judge_fail": 18,
+   "judge_fail": 20,
    "display_fail": 0,
    "status_fail": 0,
    "page_errors": 0
@@ -250,7 +250,7 @@
   {
    "name": "LH: 미성년 19 → 18",
    "status": "KILLED",
-   "judge_fail": 1,
+   "judge_fail": 2,
    "display_fail": 0,
    "status_fail": 0,
    "page_errors": 0
@@ -275,6 +275,30 @@
    "name": "LH: 대학생 아니요 무시",
    "status": "KILLED",
    "judge_fail": 1,
+   "display_fail": 0,
+   "status_fail": 0,
+   "page_errors": 0
+  },
+  {
+   "name": "LH: 미성년 세대원 허용",
+   "status": "KILLED",
+   "judge_fail": 1,
+   "display_fail": 0,
+   "status_fail": 0,
+   "page_errors": 0
+  },
+  {
+   "name": "LH: 청약예금 공공임대 허용",
+   "status": "KILLED",
+   "judge_fail": 2,
+   "display_fail": 0,
+   "status_fail": 0,
+   "page_errors": 0
+  },
+  {
+   "name": "LH: 9인 이상 중위소득 가산 2배",
+   "status": "KILLED",
+   "judge_fail": 2,
    "display_fail": 0,
    "status_fail": 0,
    "page_errors": 0

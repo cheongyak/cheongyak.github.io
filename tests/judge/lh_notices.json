@@ -261,7 +261,8 @@
      "age_min": null,
      "age_max": null
     }
-   ]
+   ],
+   "income_add_per": 959198
   },
   "_from": "tests/golden/lh_rental.json (공고문 원문 확인값) — 파서 결과가 아님"
  },
@@ -516,7 +517,8 @@
       "전북"
      ]
     }
-   ]
+   ],
+   "income_add_per": 959198
   },
   "_from": "tests/golden/lh_rental.json + 공고문 신분기준 ❹ '미성년자녀 1명 이상을 포함한 3명 이상으로 구성된 세대의 세대구성원'"
  },
