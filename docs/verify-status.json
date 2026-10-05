@@ -1,5 +1,5 @@
 {
- "at": "2026-10-06 00:18",
+ "at": "2026-10-06 00:31",
  "ok": false,
  "collect_run": "2026-10-06 · 공고 0건 받음 → 지난 결과 226건 유지",
  "judge": {
@@ -17,7 +17,7 @@
  "qa": {
   "gate": true,
   "supply_type_fails": 0,
-  "invariant_violations": 0,
+  "invariant_violations": 1,
   "filter_fails": 0,
   "consistency_fails": 0,
   "sp_text_fails": 0,
@@ -36,6 +36,6 @@
   "cross_rule_checks": 158572,
   "market_at": "2026-10-06",
   "supply_type_at": "2026-10-05",
-  "invariants_at": "2026-10-05"
+  "invariants_at": "2026-10-06"
  }
 }
