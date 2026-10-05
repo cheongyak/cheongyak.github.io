@@ -1,5 +1,5 @@
 {
- "at": "2026-10-06 00:09",
+ "at": "2026-10-06 00:18",
  "ok": false,
  "collect_run": "2026-10-06 · 공고 0건 받음 → 지난 결과 226건 유지",
  "judge": {
@@ -17,7 +17,7 @@
  "qa": {
   "gate": true,
   "supply_type_fails": 0,
-  "invariant_violations": 1,
+  "invariant_violations": 0,
   "filter_fails": 0,
   "consistency_fails": 0,
   "sp_text_fails": 0,
@@ -28,14 +28,14 @@
   "snapshot_diffs": 0,
   "e2e_fails": 0,
   "past_chat_fails": 0,
-  "lh_invariant_violations": 1,
+  "lh_invariant_violations": 0,
   "lh_judge_qa_fails": 0,
   "lh_screen_fails": 0,
   "lh_pdf_merged_wrong": 0,
-  "lh_data_at": "2026-10-05 21:30",
+  "lh_data_at": "2026-10-06 00:02",
   "cross_rule_checks": 158572,
   "market_at": "2026-10-06",
   "supply_type_at": "2026-10-05",
-  "invariants_at": "2026-10-06"
+  "invariants_at": "2026-10-05"
  }
 }
