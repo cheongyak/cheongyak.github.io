@@ -5,6 +5,9 @@ docs/lh-rental.json 을 검사한다. 걸린 것은 '[검증·LH]' 줄로 출력
  - 임대조건: 보증금 100만~5억 원, 월 임대료 1만~300만 원, 보증금 > 월 임대료
  - 자격: 판정 유형인데 계층을 못 읽음 / 소득 % 50~250 / 총자산 5천만~6억(만원 5,000~60,000) / 자동차 0~1억 / 1인·2인·3인 이상 % 순서(1인 ≥ 2인 ≥ 3인 이상)
  - 소득 100% 표(도시근로자) ↔ 앱 고정값 URBAN_2025, 기준 중위소득 표 ↔ MEDIAN_2026(2026 고시)·8인 초과 1인당 금액
+ - 안전(2026-10-05): 맞벌이 가산 0~50%p · 공공임대 '소득·자산 미적용'은 무주택·거주지역·청약통장을 함께 읽었을 때만
+   참고(위반 아님, 화면은 '확인 필요'): 소득·자산·자동차 '미적용'인데 완화 문장 없음(공공임대 외) · 모르는 계층(unknown_groups) ·
+   신혼부부 계층 원문에 '맞벌이'가 있는데 가산을 못 읽음
  - 정답 데이터(tests/golden/lh_rental.json)에 있는 공고는 읽은 값이 정답과 같아야 함(못 읽은 값은 허용 — 화면은 '공고문 확인')
 실행: python -m tools.qa.lh_invariants  (종료 코드: 위반 있으면 1)"""
 from __future__ import annotations
@@ -29,6 +32,7 @@ def _key(name):
 
 def check(data: dict, golden: list) -> dict:
     v = defaultdict(list)
+    info = defaultdict(list)
     G = {g["id"]: g for g in golden}
     for N in data.get("notices", []):
         nid = N["id"]
@@ -48,6 +52,22 @@ def check(data: dict, golden: list) -> dict:
         if N.get("judge_type"):
             if not T or not T.get("groups"):
                 v["terms_unread"].append(f"{nid} {N.get('type')} {N.get('name', '')[:30]}")
+        if T:
+            if T.get("unknown_groups"):
+                info["unknown_groups"].append(f"{nid} {T['unknown_groups']}")
+            for g in T.get("groups", []):
+                ex = [f for f in ("income_pct", "asset_manwon", "car_manwon") if g.get(f) == "excluded"]
+                if ex and N.get("type") != "공공임대" and not T.get("relaxed"):
+                    info["excluded_unrelaxed"].append(f"{nid} {g['key']} {ex}")
+                if ex and N.get("type") == "공공임대" and not (g.get("homeless") and T.get("regions") is not None and T.get("account")):
+                    v["public_excluded_unsure"].append(f"{nid} {g['key']} 근거 없이 소득·자산 미적용")
+                da = g.get("dual_add")
+                if da is not None and not (0 <= da <= 50):
+                    v["dual_add_range"].append(f"{nid} {g['key']} {da}")
+                if g["key"] == "신혼부부·한부모" and da is None and isinstance(g.get("income_pct"), (dict, int)):
+                    q = " ".join(str(x) for x in (T.get("quotes", {}).get(g["key"]) or {}).values())
+                    if "맞벌이" in q:
+                        info["dual_unread"].append(f"{nid}")
         for g in (T or {}).get("groups", []):
             ip = g.get("income_pct")
             if isinstance(ip, dict):
@@ -98,7 +118,9 @@ def check(data: dict, golden: list) -> dict:
             for r in N.get("rents") or []:
                 if gold_pairs and (r["deposit"], r["rent"]) not in gold_pairs:
                     v["golden"].append(f"{nid} 임대조건 정답에 없는 줄 {r}")
-    return {k: {"count": len(x), "examples": x[:10]} for k, x in v.items()}
+    res = {k: {"count": len(x), "examples": x[:10]} for k, x in v.items()}
+    check.info = {k: {"count": len(x), "examples": x[:10]} for k, x in info.items()}
+    return res
 
 
 def main() -> int:
@@ -108,13 +130,16 @@ def main() -> int:
     total = sum(x["count"] for x in viol.values())
     kst = timezone(timedelta(hours=9))
     out = {"date": datetime.now(kst).strftime("%Y-%m-%d %H:%M"), "data_updated": data.get("updated"), "notices": len(data.get("notices", [])),
-           "violations": viol, "count": total}
+           "violations": viol, "count": total, "info": getattr(check, "info", {})}
     (ROOT / "evidence/qa/lh-invariants.json").write_text(json.dumps(out, ensure_ascii=False, indent=1) + "\n", encoding="utf-8")
     print(f"[검증·LH] 임대 공고 {out['notices']}건 · 불변식 위반 {total}건" + (" · " + ", ".join(f"{k} {x['count']}" for k, x in viol.items()) if viol else ""))
     for k, x in viol.items():
         tag = "[검증·LH 정답 불일치]" if k == "golden" else "[검증·LH]"
         for e in x["examples"]:
             print(f"{tag} {k}: {e}")
+    for k, x in out["info"].items():
+        for e in x["examples"]:
+            print(f"[검증·LH 참고] {k}: {e} (화면은 확인 필요)")
     return 1 if total else 0
 
 

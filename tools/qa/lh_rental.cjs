@@ -6,7 +6,8 @@ const { readFileSync, existsSync, mkdirSync } = require('node:fs');
 const { join, extname } = require('node:path');
 const ROOT = join(__dirname, '../..'), DOCS = join(ROOT, 'docs'), SHOT = process.argv[2];
 const P = { household:'head', selfOwn:false, spouseOwn:false, married:false, birth:'1995-03-01', hhSize:1, hhIncomeYear:3600, income:3600, realEstate:0, carValue:1000,
-  cash:2000, liquid:0, deposit:0, townInsurance:0, townFinOther:0, townOtherAsset:0, townDebt:0, youthAsset:3000, kidsMinor:0, everWin:'none', homeSido:'경기', homeSigun:'수원시' };
+  cash:2000, liquid:0, deposit:0, townInsurance:0, townFinOther:0, townOtherAsset:0, townDebt:0, youthAsset:3000, kidsMinor:0, everWin:'none', homeSido:'경기', homeSigun:'수원시', hhHomes:'0', pregnant:false,
+  _set:['spouseOwn', 'income', 'spouseIncome', 'cash', 'liquid', 'deposit'] };   // 기본값 0·false 칸도 '입력함' (2026-10-05 입력 여부 구분)
 const BAD = /\bNaN\b|\bundefined\b|\[object Object\]/;
 (async () => {
   const b = await chromium.launch({ executablePath: existsSync('/opt/pw-browsers/chromium') ? '/opt/pw-browsers/chromium' : undefined });
@@ -55,7 +56,7 @@ const BAD = /\bNaN\b|\bundefined\b|\[object Object\]/;
     if (scheme === 'light') {
       const nid = await page.evaluate(() => { S.profile.hhIncomeYear = null; S.profile.household = 'parents'; S.profile.parentsOwn = false; save(); const N = RENTAL.notices.find(N => N.type === '국민임대' && N.terms && N.terms.groups[0].income_pct && N.terms.groups[0].income_pct !== 'excluded'); S.rid = N.id; S.rq = null; S.view = 'rdetail'; render(); return N.id; });
       const before = await page.evaluate(id => rentalJudge(RENTAL.notices.find(N => N.id === id), S.profile).s, nid);
-      const btn = page.locator('[data-rq]').first();
+      const btn = page.locator('li', { hasText: '세대 소득 입력 필요' }).locator('[data-rq]').first();
       if (!(await btn.count())) fails.push('답하기 버튼 없음');
       else {
         await btn.click(); await page.waitForTimeout(200);

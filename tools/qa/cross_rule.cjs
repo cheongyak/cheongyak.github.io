@@ -141,7 +141,10 @@ const ROOT = join(__dirname, '../..'), DOCS = join(ROOT, 'docs');
           if (typeof G.asset_manwon === 'number' && !['대학생'].includes(G.key) && !(G.key === '청년' && p.household === 'parents') && p.realEstate != null && p.carValue != null && townAssetParts(p).total > G.asset_manwon * 1.2 + 1) v('LH-ELIG-002', 'CRITICAL', L, G.key + ' 총자산 ' + townAssetParts(p).total, '계층 가능', '불가', ['totalAsset', 'terms.asset_manwon'], '공고문 자산 기준', null);
           // LH-ELIG-003: 신청자격 거주 요건 밖인데 가능
           if (T.local && T.local.sido && p.homeSido && p.homeSido !== T.local.sido) v('LH-ELIG-003', 'CRITICAL', L, G.key + ' 거주 ' + p.homeSido, '계층 가능', '불가(' + T.local.name + ' 거주자만)', ['homeSido', 'terms.local'], '공고문 신청자격', null);
-          if (T.local && T.local.sigun && p.homeSigun && bareArea(sigunOf(p.homeSigun)) !== bareArea(T.local.sigun)) v('LH-ELIG-003', 'CRITICAL', L, G.key + ' 거주 ' + p.homeSigun, '계층 가능', '불가(' + T.local.name + ' 거주자만)', ['homeSigun', 'terms.local'], '공고문 신청자격', null);
+          // 사는 시·군 자유 입력('경남 창원시 마산회원구' 등)에서 시·군 낱말을 찾아 비교 — 시·군 낱말이 없으면(구만) 가능이면 안 됨
+          const sgw = !(T.local && T.local.sigun) ? [] : String(p.homeSigun || '').split(/[\s,·]+/).filter(w => /(시|군)$/.test(w) && !/(특별시|광역시|특별자치시)$/.test(w)).map(w => w.replace(/(시|군)$/, ''));
+          const sgOne = !!(T.local && T.local.sigun) && String(p.homeSigun || '').trim().split(/\s+/).length === 1 && String(p.homeSigun).trim().replace(/(시|군)$/, '') === bareArea(T.local.sigun);
+          if (T.local && T.local.sigun && p.homeSigun && !sgw.includes(bareArea(T.local.sigun)) && !sgOne) v('LH-ELIG-003', 'CRITICAL', L, G.key + ' 거주 ' + p.homeSigun, '계층 가능', '불가(' + T.local.name + ' 거주자만)', ['homeSigun', 'terms.local'], '공고문 신청자격', null);
           if (Array.isArray(T.regions) && T.regions.length && p.homeSido && !T.regions.includes(p.homeSido)) v('LH-ELIG-003', 'CRITICAL', L, G.key + ' 거주 ' + p.homeSido, '계층 가능', '불가', ['homeSido', 'terms.regions'], '공고문 신청자격', null);
           // LH-ELIG-004: 나이 범위 밖인데 가능 (청년·고령자), 미성년인데 가능(대학생·청년 외)
           if (age != null && G.key === '청년' && !G.married_ok && (age < (G.age_min || 19) || age > (G.age_max || 39))) v('LH-ELIG-004', 'CRITICAL', L, '청년 나이 ' + age, '가능', '해당 없음', ['birth'], '공고문 청년 계층', null);
@@ -155,6 +158,13 @@ const ROOT = join(__dirname, '../..'), DOCS = join(ROOT, 'docs');
           if (G.income_pct && G.income_pct !== 'excluded' && G.key !== '대학생' && (p.hhSize == null || p.hhSize === '')) unk.push('hhSize');
           if (typeof G.car_manwon === 'number' && (p.carValue == null || p.carValue === '')) unk.push('carValue');
           if ((G.key === '청년' || G.key === '고령자') && !p.birth) unk.push('birth');
+          // 2026-10-05 R3~R5: 기본값 0·false 칸은 '입력함'(_set) 표시가 있어야 값으로 본다
+          const ent = k => p[k] != null && p[k] !== '' && !((DEFAULT_PROFILE[k] === 0 || DEFAULT_PROFILE[k] === false) && p[k] === DEFAULT_PROFILE[k] && !(p._set || []).includes(k));
+          const ymember = G.key === '청년' && p.household === 'parents' && !G.married_ok;
+          if (G.income_pct && G.income_pct !== 'excluded' && !['대학생', '주거급여수급자'].includes(G.key) && (ymember ? !ent('income') : (p.hhIncomeYear == null || p.hhIncomeYear === '') && !ent('income'))) unk.push('income');
+          if (typeof G.asset_manwon === 'number' && !['대학생', '주거급여수급자'].includes(G.key) && !ymember && ['realEstate', 'carValue', 'cash', 'liquid', 'deposit'].some(k => !ent(k))) unk.push('asset');
+          if (G.homeless === 'household' && !T.homeless_relaxed && p.hhHomes !== '0' && !(Number(p.hhSize) === 1 && p.married === false && p.selfOwn === false && !(p.eldersOnDeed > 0) && p.household !== 'parents')) unk.push('hhHomes');
+          if (!['대학생', '청년'].includes(G.key) && !p.birth) unk.push('birth(성년)');
           if (unk.length) v('LH-MONO-001', 'CRITICAL', L, G.key + ' 모름 ' + unk.join(','), '가능', '확인 필요', unk, '불확실성 전파', null);
         });
         // LH-UI-001: 공고 결론 = 계층 중 가장 좋은 결론 (대학생·주거급여만 있는 공고 제외)

@@ -1,7 +1,7 @@
 {
  "date": "2026-10-05",
- "mutations": 37,
- "killed": 34,
+ "mutations": 50,
+ "killed": 47,
  "survived": 0,
  "not_testable": 0,
  "equivalent": 3,
@@ -170,7 +170,7 @@
   {
    "name": "LH: 총자산 기준 +1만원",
    "status": "KILLED",
-   "judge_fail": 3,
+   "judge_fail": 1,
    "display_fail": 0,
    "status_fail": 0,
    "page_errors": 0
@@ -186,7 +186,7 @@
   {
    "name": "LH: 대학생 자동차 소유 허용",
    "status": "KILLED",
-   "judge_fail": 22,
+   "judge_fail": 32,
    "display_fail": 0,
    "status_fail": 0,
    "page_errors": 0
@@ -194,7 +194,7 @@
   {
    "name": "LH: 1인 가산 퍼센트 무시",
    "status": "KILLED",
-   "judge_fail": 20,
+   "judge_fail": 34,
    "display_fail": 0,
    "status_fail": 0,
    "page_errors": 0
@@ -208,9 +208,9 @@
    "page_errors": 0
   },
   {
-   "name": "LH: 거주 시·군 비교 항상 일치",
+   "name": "LH: 거주 시·군 판단 불가를 일치로",
    "status": "KILLED",
-   "judge_fail": 1,
+   "judge_fail": 2,
    "display_fail": 0,
    "status_fail": 0,
    "page_errors": 0
@@ -306,7 +306,111 @@
   {
    "name": "LH: 자격 완화 소득 배제 무시",
    "status": "KILLED",
-   "judge_fail": 18,
+   "judge_fail": 24,
+   "display_fail": 0,
+   "status_fail": 0,
+   "page_errors": 0
+  },
+  {
+   "name": "LH 안전: 미입력 기본값 0·false 를 입력으로 봄",
+   "status": "KILLED",
+   "judge_fail": 5,
+   "display_fail": 0,
+   "status_fail": 0,
+   "page_errors": 0
+  },
+  {
+   "name": "LH 안전: 빈 글자를 모름으로 보지 않음",
+   "status": "KILLED",
+   "judge_fail": 1,
+   "display_fail": 0,
+   "status_fail": 0,
+   "page_errors": 0
+  },
+  {
+   "name": "LH 안전: 세대 주택 수 없이 무주택 확정",
+   "status": "KILLED",
+   "judge_fail": 5,
+   "display_fail": 0,
+   "status_fail": 0,
+   "page_errors": 0
+  },
+  {
+   "name": "LH 안전: 완화 아닌 미적용을 믿음",
+   "status": "KILLED",
+   "judge_fail": 2,
+   "display_fail": 0,
+   "status_fail": 0,
+   "page_errors": 0
+  },
+  {
+   "name": "LH 안전: 모르는 계층도 판정",
+   "status": "KILLED",
+   "judge_fail": 4,
+   "display_fail": 0,
+   "status_fail": 0,
+   "page_errors": 0
+  },
+  {
+   "name": "LH 안전: 맞벌이 가산 기본값 30",
+   "status": "KILLED",
+   "judge_fail": 1,
+   "display_fail": 0,
+   "status_fail": 0,
+   "page_errors": 0
+  },
+  {
+   "name": "LH 안전: 예비신혼부부를 공고문 확인 없이",
+   "status": "KILLED",
+   "judge_fail": 1,
+   "display_fail": 0,
+   "status_fail": 0,
+   "page_errors": 0
+  },
+  {
+   "name": "LH 안전: 출산 여부 모름을 아님으로",
+   "status": "KILLED",
+   "judge_fail": 3,
+   "display_fail": 0,
+   "status_fail": 0,
+   "page_errors": 0
+  },
+  {
+   "name": "LH 안전: 2호 이상 주택 수 모름 통과",
+   "status": "KILLED",
+   "judge_fail": 3,
+   "display_fail": 0,
+   "status_fail": 0,
+   "page_errors": 0
+  },
+  {
+   "name": "LH 안전: 입력 어긋남(0채인데 집) 무시",
+   "status": "KILLED",
+   "judge_fail": 1,
+   "display_fail": 0,
+   "status_fail": 0,
+   "page_errors": 0
+  },
+  {
+   "name": "LH 안전: 나이 기준 한쪽만 읽어도 통과",
+   "status": "KILLED",
+   "judge_fail": 1,
+   "display_fail": 0,
+   "status_fail": 0,
+   "page_errors": 0
+  },
+  {
+   "name": "LH 안전: 총자산 빠진 칸 무시",
+   "status": "KILLED",
+   "judge_fail": 2,
+   "display_fail": 0,
+   "status_fail": 0,
+   "page_errors": 0
+  },
+  {
+   "name": "LH 안전: 소득 미입력을 본인 소득 0으로",
+   "status": "KILLED",
+   "judge_fail": 1,
    "display_fail": 0,
    "status_fail": 0,
    "page_errors": 0

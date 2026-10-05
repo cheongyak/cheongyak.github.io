@@ -27,32 +27,47 @@ const M = [   // [이름, 찾을 글, 바꿀 글]
   // LH 임대 판정 (기능 lh_rental, 2026-10-05 사용자 '일반분양 수준 QA') — 판정 사례 lhrent-* 가 잡아야 한다
   // [동등] 표시: 일반 0세대 거주지 — spJudge 가 거주지·재당첨을 직접 본다(기능 supply_summary, 10-02 뒤) → 이 줄은 이중 안전장치라 빼도 결과가 같다.
   //            LH 통장 1순위 개월 — 지금 공공임대 공고 2건 모두 2순위(가입만)도 신청 가능해 1순위 경계가 자격 결론(ok)을 바꾸지 않는다(문구만 1순위/2순위).
-  ['LH: 청년 39세 상한 +1', "age > (g.age_max || 39)", "age > (g.age_max || 39) + 1"],
-  ['LH: 고령자 65 → 64', "else if (age < (g.age_min || 65))", "else if (age < (g.age_min || 65) - 1)"],
+  ['LH: 청년 39세 상한 +1', "(g.age_max != null && age > g.age_max)", "(g.age_max != null && age > g.age_max + 1)"],
+  ['LH: 고령자 65 → 64', "else if (age < g.age_min) { na = true;", "else if (age < g.age_min - 1) { na = true;"],
   ['LH: 소득 기준 +1%', "else if (m <= lim) add('ok', '소득 ' + txt);", "else if (m <= lim * 1.01) add('ok', '소득 ' + txt);"],
   ['LH: 총자산 기준 +1만원', "else if (tot <= lim) add('ok', '총자산 ' + txt);", "else if (tot <= lim + 1) add('ok', '총자산 ' + txt);"],
   ['LH: 자동차 <= → <', "else if (Number(p.carValue) <= lim) add('ok'", "else if (Number(p.carValue) < lim) add('ok'"],
   ['LH: 대학생 자동차 소유 허용', "add(Number(p.carValue) > 0 ? 'no' : 'ok'", "add('ok'"],
   ['LH: 1인 가산 퍼센트 무시', "g.income_pct[n === 1 ? '1' : n === 2 ? '2' : '3+']", "g.income_pct[n === 2 ? '2' : '3+']"],
   ['LH: 신청자격 거주 시·도 무시', "else if (L0.sido && p.homeSido !== L0.sido) add('no'", "else if (false) add('no'"],
-  ['LH: 거주 시·군 비교 항상 일치', "else if (bareArea(sigunOf(p.homeSigun)) === bareArea(L0.sigun))", "else if (true)"],
+  ['LH: 거주 시·군 판단 불가를 일치로', "else if (sg === true) add('ok'", "else if (sg !== false) add('ok'"],
   ['LH: 출산 1명+형제 20 → 10', "Number(p.lhBirthKids) === 1 ? ((Number(p.kidsMinor) || 0) >= 2 ? 20 : 10) : 0", "Number(p.lhBirthKids) === 1 ? 10 : 0"],
   ['LH: 혼인 7년 → 8년', "in7 = p.marriedOn && ref ? p.marriedOn >= addYears(ref, -7)", "in7 = p.marriedOn && ref ? p.marriedOn >= addYears(ref, -8)"],
-  ['LH: 맞벌이 가산 무시', "const dual = dualAdd > 0 && p.married === true", "const dual = false && p.married === true"],
+  ['LH: 맞벌이 가산 무시', "const dualAdd = dual && g.dual_add != null ? g.dual_add : 0;", "const dualAdd = 0;"],
   ['LH: 통장 1순위 개월 -1 [동등]', "mo >= A.months && Number(p.acctCount) >= A.count", "mo >= A.months - 1 && Number(p.acctCount) >= A.count"],
-  ['LH: 미성년 19 → 18', "if (age != null && age < 19 && !['대학생', '청년'].includes(g.key))", "if (age != null && age < 18 && !['대학생', '청년'].includes(g.key))"],
+  ['LH: 미성년 19 → 18', "    else if (age < 19) {", "    else if (age < 18) {"],
   ['LH: 9인 이상 가산 무시', "(n - 8) * 579278", "(n - 8) * 0"],
   ['LH: 장기종사자 자녀 0 허용', "if (p.kidsMinor === 0) { na = true;", "if (false) { na = true;"],
   ['LH: 대학생 아니요 무시', "if (p.lhStudent === false) { na = true;", "if (false) { na = true;"],
   ['LH: 미성년 세대원 허용', "if (p.household && p.household !== 'head') add('no', '미성년 세대원", "if (false) add('no', '미성년 세대원"],
   ['LH: 청약예금 공공임대 허용', "add('no', '청약예금·부금으로는 신청 불가", "add('ok', '청약예금·부금으로는 신청 불가"],
   ['LH: 9인 이상 중위소득 가산 2배', "(n - 8) * Number(t.income_add_per)", "(n - 8) * 2 * Number(t.income_add_per)"],
-  ['LH: 자격 완화 소득 배제 무시', "g.income_pct === 'excluded') add('ok'", "g.income_pct === 'never') add('ok'"],
+  ['LH: 자격 완화 소득 배제 무시', "if (g.income_pct === 'excluded') { if (exclOk)", "if (g.income_pct === 'never') { if (exclOk)"],
+  // 2026-10-05 안전성 점검(R3~R5): 모르는 것을 '가능'으로 만드는 경로를 되살리면 판정 사례가 잡아야 한다
+  ['LH 안전: 미입력 기본값 0·false 를 입력으로 봄', "if (ZERO_KEYS.includes(k) && v === DEFAULT_PROFILE[k]) return Array.isArray(p._set) && p._set.includes(k);", ""],
+  ['LH 안전: 빈 글자를 모름으로 보지 않음', "p = Object.fromEntries(Object.entries(p || {}).map(([k, v]) => [k, v === '' ? null : v]));", ""],
+  ['LH 안전: 세대 주택 수 없이 무주택 확정', "else if (solo1) add('ok'", "else if (true) add('ok'"],
+  ['LH 안전: 완화 아닌 미적용을 믿음', "const exclOk = T.relaxed === true || N.type === '공공임대';", "const exclOk = true;"],
+  ['LH 안전: 모르는 계층도 판정', "} else if (!['일반', '장기종사자'].includes(g.key)) {", "} else if (false) {"],
+  ['LH 안전: 맞벌이 가산 기본값 30', "const dualAdd = dual && g.dual_add != null ? g.dual_add : 0;", "const dualAdd = dual ? (g.dual_add ?? 30) : 0;"],
+  ['LH 안전: 예비신혼부부를 공고문 확인 없이', "else if (T.prewed_ok && p.lhPreWed === true) add('ok'", "else if (p.lhPreWed === true) add('ok'"],
+  ['LH 안전: 출산 여부 모름을 아님으로', "const kidMaybe = rBirthKid(p) || !birthKnown;", "const kidMaybe = rBirthKid(p);"],
+  ['LH 안전: 2호 이상 주택 수 모름 통과', "someoneOwns && T.homeless_relaxed && T.homeless_max1 && p.hhHomes !== '1') {", "someoneOwns && T.homeless_relaxed && T.homeless_max1 && p.hhHomes === '2+') {"],
+  ['LH 안전: 입력 어긋남(0채인데 집) 무시', "if (p.hhHomes === '0' && owners > 0) add('check'", "if (false) add('check'"],
+  ['LH 안전: 나이 기준 한쪽만 읽어도 통과', "else if (g.age_min == null || g.age_max == null) add('check', `청년 나이 기준 일부", "else if (false) add('check', `청년 나이 기준 일부"],
+  ['LH 안전: 총자산 빠진 칸 무시', "else if (miss.length) add('check', '총자산 입력 필요", "else if (false) add('check', '총자산 입력 필요"],
+  ['LH 안전: 소득 미입력을 본인 소득 0으로', "const yearMan = youthMember ? inc : hhInc != null ? hhInc : solo ? inc : null;", "const yearMan = youthMember ? (inc || 0) : hhInc != null ? hhInc : solo ? (inc || 0) : null;"],
 ];
 (async () => {
   const cases = JSON.parse(readFileSync(join(ROOT, 'tests/judge/cases.json'), 'utf8'));
   const listings = JSON.parse(readFileSync(join(ROOT, 'tests/judge/listings.json'), 'utf8'));
   const lhNotices = existsSync(join(ROOT, 'tests/judge/lh_notices.json')) ? JSON.parse(readFileSync(join(ROOT, 'tests/judge/lh_notices.json'), 'utf8')) : [];
+    lhNotices.push(...(existsSync(join(ROOT, 'tests/judge/lh_synthetic.json')) ? JSON.parse(readFileSync(join(ROOT, 'tests/judge/lh_synthetic.json'), 'utf8')) : []));   // 공고문을 잘못 읽은 경우 모의 (make_judge_cases)
   const b = await chromium.launch({ executablePath: existsSync('/opt/pw-browsers/chromium') ? '/opt/pw-browsers/chromium' : undefined });
   const out = [];
   for (const [name, find, repl] of [['(변이 없음 — 기준선)', '', ''], ...M]) {

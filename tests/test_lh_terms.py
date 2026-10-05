@@ -131,3 +131,49 @@ def test_golden_lh_rents():
         extra = [r for r in rows if (r["deposit"], r["rent"]) not in gold_pairs]
         assert not extra, (g["id"], extra)
     assert total >= 140
+
+
+def test_golden_dual_add():
+    """맞벌이 가산(dual_add) = 정답 데이터 income_dual_pct − income_pct (원문 확인값). 여러 도구를 합친 값으로 본다 (742 는 pypdf 글에 문장이 빠짐).
+    정답에 맞벌이 기준이 없는 계층은 가산을 지어내면 안 된다 (2026-10-05: 화면이 유형별 기본 가산을 쓰던 것을 없앰)."""
+    from app.lh_pdf_merge import read_all
+    from tools.qa.lh_pdf_tools import texts_of
+    seen = 0
+    for g in GOLD:
+        m = read_all(texts_of(g["id"]), g["type"], g.get("verified_from", ""), REGION.get(g["id"]), [], True)
+        P = {x["key"]: x for x in (m["terms"] or {}).get("groups", [])}
+        for gg in g["groups"]:
+            p = P.get(_key(gg["name"])) or {}
+            dp, ip = gg.get("income_dual_pct"), gg.get("income_pct")
+            if dp and isinstance(ip, dict) and ip.get("3+"):
+                seen += 1
+                assert p.get("dual_add") == dp["3+"] - ip["3+"], (g["id"], gg["name"], p.get("dual_add"))
+            elif p.get("dual_add") is not None and not any(_key(o["name"]) == _key(gg["name"]) and o.get("income_dual_pct") for o in g["groups"]):
+                # (742 는 신혼부부·한부모가족을 한 계층으로 읽는다. 한부모는 배우자가 없어 화면이 맞벌이를 적용하지 않는다)
+                assert False, (g["id"], gg["name"], "정답에 없는 맞벌이 가산", p.get("dual_add"))
+    assert seen >= 4
+
+
+def test_prewed_and_unknown_groups():
+    from app.lh_terms import unknown_happy_groups
+    assert unknown_happy_groups("3-1. 대학생 계층 … 3-2. 청년 계층 … 3-6. 산업단지 근로자 계층 신청자격") == ["산업단지 근로자"]
+    assert unknown_happy_groups("3-1. 대학생 계층 3-2. 청년 계층 3-3. 신혼부부ㆍ한부모가족 계층 3-4. 고령자 계층 3-5. 주거급여수급자 계층") == []
+    for g in GOLD:
+        if any("신혼" in x["name"] for x in g["groups"]):
+            t = (ROOT / "evidence/lh" / f"{g['id']}.txt").read_text(encoding="utf-8", errors="replace")
+            assert _parsed(g).get("prewed_ok") == bool(re.search(r"예비\s?신혼부부", t)), g["id"]
+
+
+def test_public_excluded_needs_evidence():
+    """공공임대 신청자격 절에 '소득' 글자가 없다는 이유로 소득·자산을 미적용으로 보는 것은, 그 절을 제대로 찾았다는 근거(무주택·거주지역·
+    청약통장)가 함께 읽혔을 때만 (절을 잘못 잡으면 소득·자산을 보지 않고 '가능'이 될 수 있다)."""
+    for g in GOLD:
+        if g["type"] != "공공임대":
+            continue
+        r = _parsed(g)
+        for x in r["groups"]:
+            if x.get("income_pct") == "excluded":
+                assert x.get("homeless") and r.get("regions") is not None and r.get("account"), g["id"]
+    bare = "신청자격 입주자모집공고일 현재 무주택세대구성원 으로서 아래 요건을 갖춘 분 " * 20
+    r = parse_lh_terms(bare, "공공임대")
+    assert all(x.get("income_pct") != "excluded" for x in r["groups"]), r["groups"]

@@ -42,6 +42,20 @@ const BIG = { acctCount: 600, acctPaid: 15000, acctAmount: 1570, acctSince: '199
     if (typed === 'no-input') fails.push('입력 화면에서 납입 인정 회차 칸을 못 찾음');
     else { await page.waitForTimeout(300); await page.reload({ waitUntil: 'domcontentloaded' }); await ready(); await page.waitForTimeout(200);
       const v = await page.evaluate(() => S.profile.acctCount); if (v !== 170) fails.push(`입력 화면: 납입 인정 회차 170 넣고 새로고침 → ${JSON.stringify(v)}`); } }
+  // 3) 입력 여부(_set, 2026-10-05 R3~R5): 소득 칸에 0 을 넣으면 '0원이라고 답함'으로 저장되고, 지우면 '입력 안 함'으로 돌아가야 한다
+  { n++; await page.evaluate(() => { localStorage.setItem('cy-profile', JSON.stringify(Object.assign({}, DEFAULT_PROFILE, { birth: '1995-03-01' }))); });
+    await page.reload({ waitUntil: 'domcontentloaded' }); await ready();
+    const typeIt = v => page.evaluate(v => { app.innerHTML = fieldHtml({ k:'income', type:'money', l:'본인 소득', h:'' }, S.profile);
+      const i = document.querySelector('[data-field="income"]'); if (!i) return 'no-input'; i.value = v; i.dispatchEvent(new Event('input', { bubbles: true })); return 'ok'; }, v);
+    const before = await page.evaluate(() => entered(S.profile, 'income'));
+    if (before) fails.push('입력 여부: 새 내 조건인데 소득이 입력된 것으로 보임');
+    if (await typeIt('0') === 'no-input') fails.push('입력 화면에서 본인 소득 칸을 못 찾음');
+    else { await page.waitForTimeout(300); await page.reload({ waitUntil: 'domcontentloaded' }); await ready(); await page.waitForTimeout(200);
+      const r = await page.evaluate(() => ({ v: S.profile.income, e: entered(S.profile, 'income') }));
+      if (r.v !== 0 || !r.e) fails.push(`입력 여부: 소득 0 넣고 새로고침 → 값 ${JSON.stringify(r.v)} 입력함 ${r.e}`);
+      await typeIt(''); await page.waitForTimeout(300); await page.reload({ waitUntil: 'domcontentloaded' }); await ready(); await page.waitForTimeout(200);
+      const r2 = await page.evaluate(() => entered(S.profile, 'income'));
+      if (r2) fails.push('입력 여부: 소득 칸을 지웠는데 여전히 입력함으로 보임'); } }
   await b.close();
   writeFileSync(join(ROOT, 'evidence/qa/profile-keep.json'), JSON.stringify({ date: new Date().toISOString().slice(0, 10), checked: n, fails: fails.length, examples: fails.slice(0, 30), pageErrors: errs.slice(0, 5) }, null, 1) + '\n');
   console.log(`[QA 저장 유지] 내 조건 ${n}개를 저장·새로고침 · 바뀐 칸 ${fails.length}개${errs.length ? ' · 화면 오류 ' + errs.length : ''}`);

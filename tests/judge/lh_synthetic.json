@@ -1,0 +1,206 @@
+[
+ {
+  "id": "LH-SYN-EXCL",
+  "type": "국민임대",
+  "posted": "2026-09-15",
+  "name": "모의: 원주태장4(740) 소득·자산·자동차를 '미적용'으로 잘못 읽음(완화 공고 아님)",
+  "schedule": [],
+  "units": [],
+  "files": [],
+  "terms": {
+   "relaxed": false,
+   "homeless_relaxed": false,
+   "income_basis": "도시근로자 월평균소득",
+   "income_table_100": null,
+   "groups": [
+    {
+     "key": "일반",
+     "name": "일반",
+     "homeless": "household",
+     "income_pct": "excluded",
+     "asset_manwon": "excluded",
+     "car_manwon": "excluded",
+     "age_min": null,
+     "age_max": null
+    }
+   ]
+  },
+  "_from": "tests/golden/lh_rental.json (공고문 원문 확인값) — 파서 결과가 아님"
+ },
+ {
+  "id": "LH-SYN-NULL",
+  "type": "행복주택",
+  "posted": "2026-09-22",
+  "name": "모의: 부산문현2(806) 기준을 못 읽음(나이·무주택 범위·소득·맞벌이 가산·예비신혼부부) + 모르는 계층",
+  "schedule": [],
+  "units": [],
+  "files": [],
+  "terms": {
+   "relaxed": false,
+   "homeless_relaxed": false,
+   "income_basis": "도시근로자 월평균소득",
+   "income_table_100": null,
+   "groups": [
+    {
+     "key": "대학생",
+     "name": "대학생",
+     "homeless": null,
+     "income_pct": {
+      "1": 120,
+      "2": 110,
+      "3+": 100
+     },
+     "asset_manwon": 10800,
+     "car_manwon": 0,
+     "age_min": null,
+     "age_max": null
+    },
+    {
+     "key": "청년",
+     "name": "청년",
+     "homeless": null,
+     "income_pct": null,
+     "asset_manwon": 25100,
+     "car_manwon": 4542,
+     "age_min": null,
+     "age_max": null,
+     "account_by_movein": true
+    },
+    {
+     "key": "신혼부부·한부모",
+     "name": "신혼부부·한부모가족",
+     "homeless": null,
+     "income_pct": null,
+     "asset_manwon": 34500,
+     "car_manwon": 4542,
+     "age_min": null,
+     "age_max": null,
+     "account_by_movein": true
+    },
+    {
+     "key": "고령자",
+     "name": "고령자",
+     "homeless": null,
+     "income_pct": null,
+     "asset_manwon": 34500,
+     "car_manwon": 4542,
+     "age_min": null,
+     "age_max": null
+    },
+    {
+     "key": "주거급여수급자",
+     "name": "주거급여수급자",
+     "homeless": null,
+     "income_pct": null,
+     "asset_manwon": null,
+     "car_manwon": null,
+     "age_min": null,
+     "age_max": null
+    },
+    {
+     "key": "산업단지 근로자",
+     "name": "산업단지 근로자",
+     "homeless": "household",
+     "income_pct": {
+      "1": 120,
+      "2": 110,
+      "3+": 100
+     },
+     "asset_manwon": 34500,
+     "car_manwon": 4542
+    }
+   ],
+   "unknown_groups": [
+    "산업단지 근로자"
+   ]
+  },
+  "_from": "tests/golden/lh_rental.json (공고문 원문 확인값) — 파서 결과가 아님"
+ },
+ {
+  "id": "LH-SYN-NODUAL",
+  "type": "행복주택",
+  "posted": "2026-09-22",
+  "name": "모의: 부산문현2(806) 신혼 맞벌이 가산·청년 나이 상한을 못 읽음",
+  "schedule": [],
+  "units": [],
+  "files": [],
+  "terms": {
+   "relaxed": false,
+   "homeless_relaxed": false,
+   "income_basis": "도시근로자 월평균소득",
+   "income_table_100": null,
+   "groups": [
+    {
+     "key": "대학생",
+     "name": "대학생",
+     "homeless": "self",
+     "income_pct": {
+      "1": 120,
+      "2": 110,
+      "3+": 100
+     },
+     "asset_manwon": 10800,
+     "car_manwon": 0,
+     "age_min": null,
+     "age_max": null
+    },
+    {
+     "key": "청년",
+     "name": "청년",
+     "homeless": "self",
+     "income_pct": {
+      "1": 120,
+      "2": 110,
+      "3+": 100
+     },
+     "asset_manwon": 25100,
+     "car_manwon": 4542,
+     "age_min": 19,
+     "age_max": null,
+     "account_by_movein": true
+    },
+    {
+     "key": "신혼부부·한부모",
+     "name": "신혼부부·한부모가족",
+     "homeless": "household",
+     "income_pct": {
+      "1": null,
+      "2": 110,
+      "3+": 100
+     },
+     "asset_manwon": 34500,
+     "car_manwon": 4542,
+     "age_min": null,
+     "age_max": null,
+     "account_by_movein": true
+    },
+    {
+     "key": "고령자",
+     "name": "고령자",
+     "homeless": "household",
+     "income_pct": {
+      "1": 120,
+      "2": 110,
+      "3+": 100
+     },
+     "asset_manwon": 34500,
+     "car_manwon": 4542,
+     "age_min": 65,
+     "age_max": null
+    },
+    {
+     "key": "주거급여수급자",
+     "name": "주거급여수급자",
+     "homeless": "household",
+     "income_pct": null,
+     "asset_manwon": null,
+     "car_manwon": null,
+     "age_min": null,
+     "age_max": null
+    }
+   ],
+   "prewed_ok": true
+  },
+  "_from": "tests/golden/lh_rental.json (공고문 원문 확인값) — 파서 결과가 아님"
+ }
+]

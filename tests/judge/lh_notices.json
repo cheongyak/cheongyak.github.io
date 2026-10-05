@@ -152,7 +152,8 @@
      "car_manwon": 4542,
      "age_min": null,
      "age_max": null,
-     "account_by_movein": true
+     "account_by_movein": true,
+     "dual_add": 20
     },
     {
      "key": "고령자",
@@ -178,7 +179,8 @@
      "age_min": null,
      "age_max": null
     }
-   ]
+   ],
+   "prewed_ok": true
   },
   "_from": "tests/golden/lh_rental.json (공고문 원문 확인값) — 파서 결과가 아님"
  },
@@ -231,12 +233,13 @@
      "asset_manwon": 34500,
      "car_manwon": 4542,
      "age_min": null,
-     "age_max": null
+     "age_max": null,
+     "dual_add": 30
     },
     {
      "key": "고령자",
      "name": "고령자",
-     "homeless": "household",
+     "homeless": "household_or_single_self",
      "income_pct": {
       "1": 170,
       "2": 160,
@@ -262,7 +265,8 @@
      "age_max": null
     }
    ],
-   "income_add_per": 959198
+   "income_add_per": 959198,
+   "prewed_ok": true
   },
   "_from": "tests/golden/lh_rental.json (공고문 원문 확인값) — 파서 결과가 아님"
  },

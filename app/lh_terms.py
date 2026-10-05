@@ -118,6 +118,24 @@ def _general_terms(t: str, kind: str) -> tuple[dict, dict]:
 _HH = [("대학생", r"대학생"), ("청년", r"청년(?:\s?창업인)?"), ("신혼부부·한부모", r"신혼부부\s?[·ㆍ]\s?한부모가족"), ("고령자", r"고령자"), ("주거급여수급자", r"주거급여\s?수급자")]
 
 
+# 행복주택 계층 절 제목 중 이 서비스가 읽지 못하는 계층 (예: '3-6. 산업단지 근로자 계층') — 판정하지 않고 화면에 '일부 계층 판정 못 함'으로 알린다.
+_HH_SPECIAL = r"산업단지\s?근로자|산단\s?근로자|예술인|소상공인|장애인|국가유공자|북한이탈주민|창업인"
+
+
+def unknown_happy_groups(t: str) -> list[str]:
+    known = "|".join(p for _, p in _HH)
+    out = []
+    for m in re.finditer(r"\b\d-\d\.\s?([가-힣ㆍ·\s]{2,20}?)\s?계층", t):
+        nm = re.sub(r"\s+", " ", m.group(1)).strip()
+        if not re.fullmatch(r"(?:" + known + r")(?:\s?[ㆍ·]\s?\S+)?", nm) and nm not in out:
+            out.append(nm)
+    for m in re.finditer(r"\b\d-\d\.\s?(" + _HH_SPECIAL + r")", t):
+        nm = re.sub(r"\s+", " ", m.group(1)).strip()
+        if nm not in out and not re.search(r"청년\s?창업인", t[max(0, m.start() - 6): m.end()]):
+            out.append(nm)
+    return out
+
+
 def _happy_groups(t: str) -> tuple[list[dict], dict]:
     heads = []
     for key, pat in _HH:
@@ -168,6 +186,10 @@ def _happy_groups(t: str) -> tuple[list[dict], dict]:
             g["car_manwon"], q["car"] = 0, _q(whole, m, 20, 0)
         if re.search(r"입주\s?전까지[^.]{0,40}주택청약종합저축", seg_main):
             g["account_by_movein"] = True   # 본인(또는 배우자) 입주 전까지 주택청약종합저축(청약저축 포함) 가입사실 증명
+        if key == "신혼부부·한부모" and isinstance(g["income_pct"], dict) and g["income_pct"].get("3+") and \
+                (md := re.search(r"맞\s?벌\s?이\s?(?:부부|신혼부부)\s?(?:는\s?)?(\d{3})\s?(?:퍼센트|%)", seg_main)):
+            g["dual_add"] = int(md.group(1)) - g["income_pct"]["3+"]   # '(맞벌이 부부 120퍼센트 이하)' — 공고문에서 읽은 가산 (못 읽으면 화면은 가산 없이 판정하고 가산 구간은 확인)
+            q["dual"] = _q(seg_main, md, 20, 20)
         groups.append(g); quotes[key] = q
     # 입주자격 완화 공고의 '■ 입주자격완화 내용(금회 모집에 한하여 적용)' 표는 모든 계층에 적용된다 — PDF 글 순서가 섞여 계층 절에서 못 읽은 값을 채운다(익산인화 870 고령자)
     mr = re.search(r"입주자격\s?완화\s?내용[^■]{0,40}소득\s?요건\s?·?\s?소득요건\s?배제[^■]{0,40}자산\s?요건\s?·?\s?자산요건\s?배제\(단,\s?자산\s?중\s?자동차가액은\s?([\d,]+)만원\s?이하", t)
@@ -230,6 +252,8 @@ def _integrated_groups(t: str) -> tuple[list[dict], dict]:
                  "age_min": None, "age_max": None, "notes": list(note) + (["장기 종사 요건 — 공고문 확인"] if key == "장기종사자" else [])}
             if key == "장기종사자":
                 g["min_family"] = 3       # 미성년자녀 1명 이상을 포함한 3명 이상으로 구성된 세대의 세대구성원
+            if key == "신혼부부·한부모" and (md := re.search(r"모두가\s?소득[^.]{0,60}?상기\s?비율에\s?(\d{2})\s?%p를?\s?추가", t)):
+                g["dual_add"] = int(md.group(1))   # '(예비)신혼부부 … 신청자 및 배우자 모두가 소득이 있는 경우에는 상기 비율에 30%p를 추가 우대' (742 — pypdf 글에는 이 문장이 빠져 다른 도구 글에서 읽힘)
             if job_regions:
                 g["job_regions"] = job_regions     # 직업기준의 주민등록 요건 (예: 무형유산 종사자 '전북특별자치도', 예술인 '전주시') — 둘 중 하나
             if key == "청년" and (ma := re.search(r"❶\s?청년\s?(\d{2})세\s?이상\s?(\d{2})세\s?이하", seg)):
@@ -258,6 +282,12 @@ def _integrated_groups(t: str) -> tuple[list[dict], dict]:
                 g["income_pct"] = None   # 가산 문장을 확인하지 못하면 퍼센트를 만들지 않는다
         if key == "청년" and (ma := re.search(r"(\d{2})세\s?이상\s?(\d{2})세\s?이하", seg)):
             g["age_min"], g["age_max"] = int(ma.group(1)), int(ma.group(2))
+        if key == "고령자" and re.search(r"혼인\s?중이\s?아닌\s?경우로서\s?단독세대주로\s?입주하려는\s?사람의\s?경우에는\s?무주택자", seg):
+            g["homeless"] = "household_or_single_self"   # '무주택세대구성원(혼인 중이 아닌 경우로서 단독세대주로 입주하려는 사람의 경우에는 무주택자)' (855, 3차 블라인드 감사)
+            q["homeless"] = "무주택세대구성원(혼인 중이 아닌 경우로서 단독세대주로 입주하려는 사람의 경우에는 무주택자)"
+        if key == "신혼부부·한부모" and (md := re.search(r"신혼부부\s?맞벌이\s?우대비율\s?:\s?(\d{2})\s?%p\s?가산", t)):
+            g["dual_add"] = int(md.group(1))   # '① 신혼부부 맞벌이 우대비율 : 30%p 가산' (855)
+            q["dual"] = _q(t, md, 0, 20)
         groups.append(g); quotes[key] = q
     return groups, quotes
 
@@ -318,8 +348,10 @@ def _public_terms(t: str) -> tuple[list[dict], dict, dict]:
         extra["account"] = "none"
         inc = asset = car = "excluded"
         q["income"] = q["asset"] = _q(t, mn, 10, 20)
-    elif not re.search(r"소득|자산", sec):
-        inc = asset = car = "excluded"     # 신청자격 절에 소득·자산 기준이 없음 (50년 공공임대)
+    elif not re.search(r"소득|자산", sec) and re.search(r"무주택세대구성원", sec) and extra.get("regions") is not None and extra.get("account"):
+        # 신청자격 절에 소득·자산 기준이 없음 (50년 공공임대). '글자가 없다'는 추론이라, 그 절을 제대로 찾았다는 근거(무주택·거주지역·청약통장 문장)가
+        # 모두 있을 때만 배제로 본다 — 절 경계를 잘못 잡아 글자를 못 찾으면 소득·자산을 보지 않고 '가능'이 될 수 있어서 (2026-10-05 안전성 점검)
+        inc = asset = car = "excluded"
         q["income"] = q["asset"] = "신청자격 절에 소득·자산 기준 없음: " + sec[:160]
     else:
         inc = asset = car = None
@@ -363,6 +395,10 @@ def parse_lh_terms(text: str, kind: str, name: str = "", region: Optional[str] =
         res["income_basis"] = "기준 중위소득"
         res["income_table_100"] = income_table(t)
         res["income_add_per"] = income_add_per(t)   # 8인 초과 1인당 (공고문 표 아래 문장)
+    if any(g.get("key") == "신혼부부·한부모" for g in res["groups"]):
+        res["prewed_ok"] = bool(re.search(r"예비\s?신혼부부", t))   # 신혼부부 계층에 예비신혼부부 포함 — 공고문에 있을 때만 화면이 묻는다
+    if kind == "행복주택":
+        res["unknown_groups"] = unknown_happy_groups(t)
     elif kind == "공공임대":
         res["groups"], res["quotes"], extra = _public_terms(t)
         res.update(extra)

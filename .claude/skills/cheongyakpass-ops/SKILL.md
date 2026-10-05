@@ -113,6 +113,14 @@ description: 청약패스(cheongyakpass.kr, 저장소 cheongyak/cheongyak.github
 - 공고문 PDF 는 작업 환경에서 받을 수 없다 — 실제 PDF 점검은 probe.yml 의 tools/qa/pdf_audit.py 결과(evidence/qa/pdf-audit.json)로 본다. pypdfium2 는 여러 스레드에서 동시에 쓰면 깨진다(잠금 _PDFIUM_LOCK).
 - Actions 작업 로그는 인증 없이 못 읽는다 — 실패하면 단계 이름과 로컬 재현으로 원인을 찾는다.
 
+- **LH 임대: 기본값 0·false 칸은 '입력 안 함'일 수 있다 (2026-10-05 R3~R5)**: DEFAULT_PROFILE 의 소득·배우자 소득·현금·금융·보증금·배우자 주택(spouseOwn) 등은 0/false 로 시작해
+  저장값만으로는 '0원이라고 답함'과 구분이 안 된다 → 입력 경로(data-field·data-set·날짜·답하기)가 `markSet` 으로 `_set` 에 적고, 임대 판정은 `entered()/pv()` 로만 읽는다(분양은 그대로).
+  새 입력 경로를 만들면 markSet 을 꼭 부를 것(profile_keep.cjs 3번이 소득 칸으로 확인). 임대 판정에 새 칸을 쓰면 `pv()` 로 읽고, 모르면 check.
+- **LH 임대 안전 검사**: `node tools/qa/lh_qa.cjs` 5번 '정보 감소 안전성'(내 조건 칸을 지우거나 공고문 기준을 못 읽은 것으로 바꿔도 새로 '가능'이 생기면 실패).
+  세대 무주택은 hhHomes '0' 또는 1인 미혼 세대일 때만 확정, 무주택 완화 '2호 이상 제외'는 주택 수 '1'을 알아야 함, 완화 아닌 공고의 '미적용'은 믿지 않음, 모르는 계층은 판정 안 함(check).
+  판정 사례 기본 프로필(lh_base)은 hhHomes '0' — 집이 있다고 한 사례는 생성기가 hhHomes '1' 로 맞춘다(어긋난 입력은 check). 파서 실패 모의는 tests/judge/lh_synthetic.json(생성기가 만듦).
+  파서를 고친 뒤 화면 검사를 새 데이터로 돌리려면 `python -m tools.qa.lh_reparse`(docs/lh-rental.json 을 다시 만듦 — 끝나면 `git checkout docs/lh-rental.json`).
+
 ## 5. 자주 하는 답
 
 - "자동으로 돌아가?" → 수집은 GitHub Actions 가 매일 05:30, 사이트는 GitHub Pages. Claude 세션과 무관하게 돈다. 실패·불일치는 이슈로 메일이 간다.

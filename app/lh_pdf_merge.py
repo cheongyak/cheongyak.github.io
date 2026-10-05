@@ -25,7 +25,8 @@ from app.lh_terms import MEDIAN_2026, URBAN_2025, parse_lh_rents, parse_lh_terms
 
 TOOLS = ("pypdf", "pdfium", "plumber")
 NOTICE_KEYS = ("local", "regions", "account", "income_add_per")
-PHRASE_KEYS = ("relaxed", "homeless_relaxed", "homeless_max1")
+PHRASE_KEYS = ("relaxed", "homeless_relaxed", "homeless_max1", "prewed_ok")
+UNION_KEYS = ("unknown_groups",)   # 모르는 계층: 한 도구라도 찾으면 넣는다 (판정하지 않고 '일부 계층 판정 못 함'으로 알리는 쪽이 안전)
 GROUP_SKIP = ("key", "name")
 
 
@@ -100,14 +101,17 @@ def merge_terms(parsed: dict, cell_table: Optional[dict] = None) -> tuple[dict, 
     conflicts: list[str] = []
     for k in PHRASE_KEYS:
         vs = {t: p.get(k) for t, p in parsed.items()}
+        if k not in base and not any(k in p for p in parsed.values()):
+            continue
         if any(vs.values()):
             out[k] = True
             if not all(vs.values()):
                 notes.append(f"{k}: {', '.join(t for t, v in vs.items() if v)} 만 찾음 → 참")
+    for k in UNION_KEYS:
+        if any(k in p for p in parsed.values()):
+            out[k] = list(dict.fromkeys(x for p in parsed.values() for x in (p.get(k) or [])))
     for k in NOTICE_KEYS:
         vs = {t: p.get(k) for t, p in parsed.items()}
-        if k == "account":   # 'none'(불문)도 읽은 값
-            pass
         v, st = _vote(vs)
         if st in ("fill", "majority"):
             notes.append(f"{k}: {st} {', '.join(f'{t}={_canon(x)!r}' for t, x in vs.items())}")

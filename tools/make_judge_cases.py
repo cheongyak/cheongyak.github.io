@@ -808,7 +808,33 @@ def main() -> None:
     URB = {1: 3813363, 2: 5866270, 3: 8168429, 4: 8802202, 5: 9326985, 6: 9906263, 7: 10485541, 8: 11064819}
     LHN = {n["id"]: n for n in json.loads((ROOT / "tests/judge/lh_notices.json").read_text(encoding="utf-8"))}
 
+    # 2026-10-05 안전성 점검(외부 QA R3~R5): 확실히 충족만 ok, 확실히 미충족만 no, 모르는 것(내 조건 미입력·공고문 기준 못 읽음)은 check.
+    # 기본값이 0·false 인 칸(본인·배우자 소득, 현금·금융자산·보증금, 배우자 주택)은 사용자가 넣었다고 표시(_set)했을 때만 값으로 본다.
+    ZK = {"spouseOwn": False, "spouseIncome": 0, "spouseLoan": 0, "recentWin": False, "acctAmount": 0, "cash": 0, "liquid": 0, "deposit": 0, "income": 0, "loanMonthly": 0}
+
+    def ent(p, k):
+        v = p.get(k)
+        if v is None or v == "":
+            return False
+        if k in ZK and type(v) is type(ZK[k]) and v == ZK[k]:
+            return k in (p.get("_set") or [])
+        return True
+    pv = lambda p, k: p.get(k) if ent(p, k) else None
+
+    def sigun_match(inp, sigun):   # 사는 시·군(자유 입력) ↔ 공고문 시·군: True/False/None(판단 불가: 구 이름만·알 수 없는 표기)
+        bare_ = lambda x: re.sub(r"(시|군)$", "", re.sub(r"\s", "", x or ""))
+        SIDO = ("서울", "부산", "대구", "인천", "광주", "대전", "울산", "세종", "경기", "강원", "충북", "충남", "전북", "전남", "경북", "경남", "제주")
+        big = ("특별시", "광역시", "특별자치시")
+        ws = [w for w in re.split(r"[\s,·]+", inp or "") if w]
+        ws = [w for w in ws if not w.startswith(SIDO) or (w.endswith(("시", "군")) and not w.endswith(big + ("도",)))]
+        sg = [w for w in ws if w.endswith(("시", "군")) and not w.endswith(big)]
+        if sg: return any(bare_(w) == bare_(sigun) for w in sg)
+        if any(w.endswith("구") for w in ws): return None
+        if len(ws) == 1: return True if bare_(ws[0]) == bare_(sigun) else None
+        return None
+
     def lh_group(N, g, p):
+        p = {k: (None if v == "" else v) for k, v in p.items()}   # 빈 글자 = 모름
         T, ref, st, na = N["terms"], N["posted"], [], False
         b = p.get("birth") or ""
         age = None
@@ -818,8 +844,10 @@ def main() -> None:
         yn = lambda v: "ok" if v is True else "no" if v is False else "check"     # 공고 화면에서 묻는 예/아니요(내 답)
         k = g["key"]
         if k == "청년":
-            if age is None: st.append("check")
-            elif age < g["age_min"] or age > g["age_max"]: na = True
+            if g.get("age_min") is None and g.get("age_max") is None: st.append("check")   # 나이 기준을 못 읽음
+            elif age is None: st.append("check")
+            elif (g.get("age_min") is not None and age < g["age_min"]) or (g.get("age_max") is not None and age > g["age_max"]): na = True
+            elif g.get("age_min") is None or g.get("age_max") is None: st.append("check")   # 한쪽 기준만 읽음
             if g.get("married_ok"): pass
             elif p.get("married") is True: na = True
             elif p.get("married") is None: st.append("check")
@@ -827,9 +855,10 @@ def main() -> None:
             if p.get("lhStudent") is False: na = True
             else: st.append(yn(p.get("lhStudent")))
             if p.get("married") is True: na = True
+            elif p.get("married") is None: st.append("check")   # 대학생 계층은 미혼
         elif k == "고령자":
-            if age is None: st.append("check")
-            elif age < 65: na = True
+            if g.get("age_min") is None or age is None: st.append("check")
+            elif age < g["age_min"]: na = True
         elif k == "신혼부부·한부모":
             lim7 = add_years(ref, -7)
             in7 = (p["marriedOn"] >= lim7) if p.get("marriedOn") else None   # '혼인기간 7년 이내' — 정확히 7년 포함
@@ -837,7 +866,7 @@ def main() -> None:
             if p.get("married") is True:
                 if in7 is True or kid6 is True: pass
                 elif in7 is None and kid6 is not True: st.append("check")
-                elif kid6 is None and (p.get("kidsMinor") or 0) > 0: st.append("check")
+                elif kid6 is None and (p.get("kidsMinor") is None or p["kidsMinor"] > 0): st.append("check")   # 자녀 수 모름도 확인
                 else: na = True
             elif p.get("married") is False:                   # 한부모가족(6세 이하 자녀) — 공고 화면에서 묻는다
                 if (p.get("kidsMinor") or 0) > 0 and p.get("lhSingleParent") is not False:
@@ -845,37 +874,56 @@ def main() -> None:
                     elif kid6 is True: pass
                     elif kid6 is None: st.append("check")
                     else: na = True
+                elif T.get("prewed_ok") and p.get("lhPreWed") is True: pass   # 예비신혼부부(공고문에 있을 때만, 내 답)
                 else: na = True
             else: st.append("check")
         elif k == "주거급여수급자":
             if p.get("lhHousingBenefit") is False: na = True
             else: st.append(yn(p.get("lhHousingBenefit")))
+        elif k not in ("일반", "장기종사자"): return "check"   # 이 서비스가 판정하지 않는 계층 — 다른 칸을 보지 않고 확인
+        mar = p.get("married") is True or (k == "신혼부부·한부모" and p.get("married") is False and bool(T.get("prewed_ok")) and p.get("lhPreWed") is True)
         if g.get("job_sidos"):                                 # 직업기준 주민등록 요건 (시·도)
             st.append("check" if not p.get("homeSido") else "no" if p["homeSido"] not in g["job_sidos"] else "ok")
         for nt in g.get("notes") or []:                        # 공고문에만 있는 추가 요건 — 내 답(창업인 추천·직업기준·장기종사)
             nk = "lhStartupRec" if "창업인" in nt else "lhJobCriteria" if "직업기준" in nt else "lhLongWorker" if ("장기 종사" in nt or "장기종사" in nt) else None
             st.append(yn(p.get(nk)) if nk else "check")
-        if age is not None and age < 19 and k not in ("대학생", "청년"):   # 성년자 요건 (대학생·청년은 미성년 가능)
-            # 공고문 '성년자' 예외는 모두 미성년 '세대주'(자녀 양육·형제자매 부양·외국인 부모 한부모) → 세대원이면 불가, 세대주면 내 답
-            st.append("no" if p.get("household") not in (None, "", "head") else "check" if not p.get("household") else yn(p.get("lhMinorHead")))
+        if k not in ("대학생", "청년"):                        # 성년자 요건 (대학생·청년은 미성년 가능)
+            if age is None: st.append("check")                 # 생일 모름 → 성년자인지 모름
+            elif age < 19:
+                # 공고문 '성년자' 예외는 모두 미성년 '세대주'(자녀 양육·형제자매 부양·외국인 부모 한부모) → 세대원이면 불가, 세대주면 내 답
+                st.append("no" if p.get("household") not in (None, "", "head") else "check" if not p.get("household") else yn(p.get("lhMinorHead")))
         hl = g["homeless"]
-        if hl == "self_or_household":                         # 혼인 중이면 세대원 전원, 아니면 본인 (창업지원주택 공고문 ②)
+        if hl not in ("self", "household", "self_or_household", "household_or_single_self"): st.append("check"); hl = None   # 무주택 범위를 못 읽음
+        elif hl == "household_or_single_self":                # 855 고령자: 혼인 중이 아닌 단독세대주(1인 세대)는 본인 무주택, 그 밖에는 세대
+            alone = p.get("married") is False and p.get("household") == "head" and p.get("hhSize") == 1 and not (p.get("eldersOnDeed") or 0) > 0 and not (p.get("kidsOnDeed") or 0) > 0
+            hl = "self" if alone else None if (p.get("married") is None or p.get("hhSize") is None or not p.get("household")) else "household"
+            if hl is None: st.append("check")
+        elif hl == "self_or_household":                       # 혼인 중이면 세대원 전원, 아니면 본인 (창업지원주택 공고문 ②)
             hl = "household" if p.get("married") is True else "self" if p.get("married") is False else None
             if hl is None: st.append("check")
-        # 무주택
-        if hl is None: pass
+        s_own, sp_own = p.get("selfOwn"), pv(p, "spouseOwn")
+        if hl == "self" and s_own is True and T["homeless_relaxed"] and T.get("homeless_max1") and p.get("hhHomes") != "1":
+            st.append("no" if p.get("hhHomes") == "2+" else "check")   # 2호 이상 제외 — 주택 수를 알아야 함
         elif hl == "self":
-            st.append((yn(p.get("lhHomeOutside")) if T["homeless_relaxed"] else "no") if p.get("selfOwn") is True else "ok" if p.get("selfOwn") is False else "check")
-        else:
+            st.append((yn(p.get("lhHomeOutside")) if T["homeless_relaxed"] else "no") if s_own is True else "ok" if s_own is False else "check")
+        elif hl == "household":
+            # 세대구성원 = 본인·배우자·같은 등본 직계존비속 … → 일부만 묻는 칸(본인·배우자·부모)으로는 '전원 무주택'을 확정하지 않는다.
+            # 확정은 '세대 전체 주택 수 0채'(+ 배우자 따로 확인) 또는 1인 미혼 세대일 때만.
             pin = p.get("household") == "parents" or (p.get("eldersOnDeed") or 0) > 0     # 같은 등본 부모님도 세대구성원 (임대는 60세 예외 없음)
-            own = p.get("selfOwn") is True or (p.get("married") is True and p.get("spouseOwn") is True) or (pin and p.get("parentsOwn") is True)
-            none = p.get("selfOwn") is False and (p.get("married") is not True or p.get("spouseOwn") is False) and (not pin or p.get("parentsOwn") is False)
-            owners = sum([p.get("selfOwn") is True, p.get("married") is True and p.get("spouseOwn") is True, pin and p.get("parentsOwn") is True])
-            if own and T["homeless_relaxed"] and T.get("homeless_max1") and (p.get("hhHomes") == "2+" or (owners >= 2 and p.get("hhHomes") != "1")):
-                st.append("no" if p.get("hhHomes") == "2+" else "check")   # 무주택 완화여도 2호 이상 제외
-            else:
-                st.append((yn(p.get("lhHomeOutside")) if T["homeless_relaxed"] else "no") if own else "ok" if (none and p.get("married") is not None) else "check")
+            owners = sum([s_own is True, mar and sp_own is True, pin and p.get("parentsOwn") is True])
+            hh = p.get("hhHomes")
+            some = owners > 0 or hh in ("1", "2+")
+            if hh == "0" and owners > 0: st.append("check")   # 세대 0채라 했는데 집 있는 세대원이 있음 — 입력이 서로 다름
+            elif some and T["homeless_relaxed"] and T.get("homeless_max1") and hh != "1":   # 무주택 완화 '2호 이상 제외' — 집이 있으면 세대 전체 주택 수가 1채라고 확인돼야 함
+                st.append("no" if hh == "2+" else "check")     # 무주택 완화여도 2호 이상 제외
+            elif some: st.append(yn(p.get("lhHomeOutside")) if T["homeless_relaxed"] else "no")
+            elif hh == "0" and s_own is not True and (not mar or sp_own is False): st.append("ok")
+            elif hh == "0" and mar and sp_own is None: st.append("check")
+            elif p.get("hhSize") == 1 and not pin and not (p.get("kidsOnDeed") or 0) > 0 and s_own is False and p.get("married") is False and not mar: st.append("ok")   # 1인 미혼 세대 (등본 부모·자녀 입력과 어긋나면 아님)
+            else: st.append("check")
         kid = bool((p.get("youngestBirth") or "") >= "2023-03-28" or p.get("pregnant") is True or (p.get("lhBirthKids") or 0) > 0)
+        known = p.get("lhBirthKids") not in (None, "") or ((bool(p.get("youngestBirth")) or p.get("kidsMinor") == 0) and p.get("pregnant") is not None)   # 출산 자녀 수를 답했거나 자녀·임신 여부를 모두 앎
+        kid = kid or not known                                 # 출산가구 여부를 모르면 가산 가능성을 열어 둔다(불가로 단정하지 않음)
         bk = p.get("lhBirthKids")
         bonus = None if bk in (None, "") else 20 if bk >= 2 else (20 if (p.get("kidsMinor") or 0) >= 2 else 10) if bk == 1 else 0   # 출산가구 가산 %p
         def bcheck(v, lim):                                    # 총자산·자동차 출산가구 가산
@@ -885,12 +933,14 @@ def main() -> None:
         # 신청자격 거주 요건 ('공고일 현재 ○○시에 거주하는 성년자인 무주택세대구성원')
         Lc = T.get("local")
         if Lc:
-            bare = lambda x: re.sub(r"(시|군)$", "", re.sub(r"\s", "", (x or "").strip().split(" ")[0] if x else ""))
             if not p.get("homeSido"): st.append("check")
             elif Lc["sido"] and p["homeSido"] != Lc["sido"]: st.append("no")
+            elif not Lc["sido"] and not Lc["sigun"]: st.append("check")
             elif not Lc["sigun"]: st.append("ok")
             elif not p.get("homeSigun"): st.append("check")
-            else: st.append("ok" if bare(p["homeSigun"]) == bare(Lc["sigun"]) else "no")
+            else:
+                mt = sigun_match(p["homeSigun"], Lc["sigun"])
+                st.append("ok" if mt is True else "no" if mt is False else "check")
         if g.get("min_family"):                                # 장기종사자: 미성년 자녀 포함 3명 이상 세대
             if p.get("kidsMinor") == 0: na = True
             elif p.get("hhSize") in (None, "") or p.get("kidsMinor") is None: st.append("check")
@@ -910,10 +960,14 @@ def main() -> None:
             elif not p.get("acctSince") or p.get("acctCount") in (None, ""): st.append("ok" if A["rank2_any"] else "check")
             elif months(p["acctSince"], ref) >= A["months"] and p["acctCount"] >= A["count"]: st.append("ok")
             else: st.append("ok" if A["rank2_any"] else "no")
+        # '미적용(excluded)'은 입주자격 완화 공고이거나 공공임대(신청자격에 소득·자산 기준 없음)일 때만 믿는다
+        excl_ok = T.get("relaxed") is True or N["type"] == "공공임대"
         # 소득 (대학생은 본인+부모 소득 합계 — 공고 화면에서 기준 이하인지 묻는다)
-        if g["income_pct"] != "excluded" and k == "대학생":
+        if g["income_pct"] == "excluded":
+            if not excl_ok: st.append("check")
+        elif k == "대학생":
             st.append(yn(p.get("lhStudentIncome")))
-        if g["income_pct"] != "excluded" and k not in ("대학생", "주거급여수급자"):
+        elif k != "주거급여수급자":
             member = k == "청년" and p.get("household") == "parents" and not g.get("married_ok")
             n = 1 if member else p.get("hhSize")
             pct = None if (not g["income_pct"] or not n) else g["income_pct"]["1" if n == 1 else "2" if n == 2 else "3+"]
@@ -924,39 +978,49 @@ def main() -> None:
                 base = (URB.get(n) if n <= 8 else URB[8] + (n - 8) * 579278) if n else None   # 9인 이상: 1인당 579,278원 가산
             if not g["income_pct"] or not n or pct is None or base is None: st.append("check")
             else:
-                dadd = g["dual_add"] if g.get("dual_add") is not None else ((30 if N["type"] == "통합공공임대" else 20) if k == "신혼부부·한부모" else 0)
-                dual = dadd > 0 and p.get("married") is True and (p.get("income") or 0) > 0 and (p.get("spouseIncome") or 0) > 0
-                add_ = dadd if dual else 0
-                solo = n == 1 and p.get("married") is not True and p.get("household") == "head" and not (p.get("eldersOnDeed") or 0) > 0 and not (p.get("kidsMinor") or 0) > 0
-                est = (not member) and (not solo) and p.get("hhIncomeYear") in (None, "")
-                year = (p.get("income") or 0) if (member or (solo and p.get("hhIncomeYear") in (None, ""))) else ((p.get("income") or 0) + ((p.get("spouseIncome") or 0) if p.get("married") else 0)) if est else p["hhIncomeYear"]
-                mon = year * 10000 / 12
-                if est: st.append("check")
-                elif mon <= base * (pct + add_) / 100: st.append("ok")
-                elif kid and mon <= base * (pct + add_ + 20) / 100:
-                    st.append("check" if bonus is None else "ok" if mon <= base * (pct + add_ + bonus) / 100 else "no")
-                else: st.append("no")
+                inc, sinc = pv(p, "income"), pv(p, "spouseIncome")
+                da = g.get("dual_add")                           # 공고문에서 읽은 맞벌이 가산만 (못 읽으면 가산 없이, 가산이 있어야 되는 구간은 확인)
+                cand = mar and (k == "신혼부부·한부모" or da is not None)
+                dual = cand and (inc or 0) > 0 and (sinc or 0) > 0
+                add_ = da if (dual and da is not None) else 0
+                solo = n == 1 and p.get("married") is False and p.get("household") == "head"
+                year = inc if member else p["hhIncomeYear"] if p.get("hhIncomeYear") not in (None, "") else inc if solo else None
+                if year is None: st.append("check")
+                else:
+                    mon = year * 10000 / 12
+                    if mon <= base * (pct + add_) / 100: st.append("ok")
+                    elif dual and da is None and mon <= base * (pct + 30) / 100: st.append("check")
+                    elif cand and not dual and (inc is None or sinc is None) and da is not None and mon <= base * (pct + da) / 100: st.append("check")
+                    elif kid and mon <= base * (pct + 20 + add_) / 100:
+                        st.append("check" if bonus is None else "ok" if mon <= base * (pct + bonus + add_) / 100 else "no")
+                    else: st.append("no")
         # 총자산
-        if g["asset_manwon"] != "excluded" and k != "주거급여수급자":
+        if g["asset_manwon"] == "excluded":
+            if not excl_ok: st.append("check")
+        elif k != "주거급여수급자":
             lim = g["asset_manwon"]
             self_only = k == "대학생" or (k == "청년" and p.get("household") == "parents" and not g.get("married_ok"))
             if lim is None: st.append("check")
             elif self_only:
                 v = p.get("youthAsset")
                 st.append("check" if v in (None, "") else "ok" if v <= lim else bcheck(v, lim) if (kid and v <= lim * 1.2) else "no")
-            elif p.get("realEstate") in (None, "") or p.get("carValue") in (None, ""): st.append("check")
             else:
                 f = lambda x: p.get(x) or 0
                 tot = f("realEstate") + f("cash") + f("liquid") + f("townInsurance") + f("townFinOther") + f("deposit") + f("townOtherAsset") + f("carValue") - f("townDebt")
+                miss = [x for x in ("realEstate", "carValue", "cash", "liquid", "deposit") if not ent(p, x)]
                 extra_miss = any(p.get(x) in (None, "") for x in ("townInsurance", "townFinOther", "townOtherAsset"))
                 debt_miss = p.get("townDebt") in (None, "")
-                if tot <= lim and extra_miss: st.append("check")
+                # 빠진 칸은 더할수록 총자산이 커진다 → 부채를 넣었고 넣은 값만으로 한도(출산가구 가능성 있으면 +20%)를 넘으면 확실히 초과
+                if tot > lim and not debt_miss and (not kid or tot > lim * 1.2): st.append("no")
+                elif miss: st.append("check")
+                elif tot <= lim and extra_miss: st.append("check")
                 elif tot > lim and debt_miss: st.append("check")
                 elif tot <= lim: st.append("ok")
-                elif kid and tot <= lim * 1.2: st.append(bcheck(tot, lim))
-                else: st.append("no")
+                else: st.append(bcheck(tot, lim))
         # 자동차
-        if g["car_manwon"] != "excluded" and k != "주거급여수급자":
+        if g["car_manwon"] == "excluded":
+            if not excl_ok: st.append("check")
+        elif k != "주거급여수급자":
             lim, v = g["car_manwon"], p.get("carValue")
             if lim is None or v in (None, ""): st.append("check")
             elif lim == 0: st.append("no" if v > 0 else "ok")
@@ -968,12 +1032,17 @@ def main() -> None:
     lh_base = {"household": "head", "selfOwn": False, "spouseOwn": False, "married": False, "marriedOn": "", "birth": "1995-03-01", "hhSize": 1,
                "hhIncomeYear": 3000, "income": 3000, "spouseIncome": 0, "realEstate": 0, "carValue": 1000, "cash": 2000, "liquid": 0, "deposit": 0,
                "townInsurance": 0, "townFinOther": 0, "townOtherAsset": 0, "townDebt": 0, "youthAsset": 3000, "kidsMinor": 0, "youngestBirth": "", "pregnant": False,
-               "homeSido": "부산", "homeSigun": "", "acctType": "all"}   # 부산 영구임대 818 은 '부산시에 거주하는' 요건 — 기본은 부산 거주
+               "homeSido": "부산", "homeSigun": "", "acctType": "all", "hhHomes": "0"}   # 부산 영구임대 818 은 '부산시에 거주하는' 요건 — 기본은 부산 거주
+    # 기본 프로필은 모든 칸을 '사용자가 넣은 값'으로 둔다(_set). 미입력 사례는 ch 에 "_set" 을 따로 주거나 값을 None 으로 둔다.
     yr = lambda won_m: int(won_m * 12 // 10000)       # 월 기준금액(원) 이하가 되는 가장 큰 연소득(만 원)
     i = 0
     def lh_add(nid, keys, nm, ch, basis):
         nonlocal_i[0] += 1
         N = LHN[nid]; p = dict(lh_base, **ch)
+        if "hhHomes" not in ch and (p.get("selfOwn") is True or p.get("spouseOwn") is True or p.get("parentsOwn") is True):
+            p["hhHomes"] = "1"   # 기본 '세대 0채'와 어긋나지 않게 (집이 있다고 한 사례는 세대 1채)
+        if "_set" not in ch:
+            p["_set"] = sorted(x for x in ZK if x in p and p[x] is not None)
         exp = {g["key"]: lh_group(N, g, p) for g in N["terms"]["groups"] if g["key"] in keys}
         add(id=f"lhrent-{nonlocal_i[0]:02d}", fn="lhrent", notice=nid, profile=p, expect=exp, basis=f"{basis} — {nm}")
     nonlocal_i = [0]
@@ -986,7 +1055,7 @@ def main() -> None:
                    ("총자산 한도", {"realEstate": 24500 - 3000}), ("총자산 1만원 초과", {"realEstate": 24500 - 3000 + 1}),
                    ("총자산 초과·부채 모름", {"realEstate": 30000, "townDebt": None}), ("총자산 일부 모름", {"townInsurance": None}),
                    ("자동차 4,542만", {"carValue": 4542, "realEstate": 0}), ("자동차 4,543만", {"carValue": 4543}),
-                   ("세대에 집", {"selfOwn": True}), ("집 소유 모름", {"selfOwn": None}), ("가구원 수 모름", {"hhSize": None}),
+                   ("세대에 집", {"selfOwn": True}), ("집 소유 모름", {"selfOwn": None, "hhHomes": ""}), ("본인 칸 모름·세대 주택 0채라 답함", {"selfOwn": None}), ("가구원 수 모름", {"hhSize": None}),
                    ("세대 소득 모름(추정)", {"hhIncomeYear": None}), ("부동산 모름", {"realEstate": None})]:
         lh_add(E, ["일반"], nm, ch, bE)
     bK = "원주태장4 국민임대 2015122300020740 소득 및 자산보유 기준(70%·80%·90% 표 + 1인 20%p·2인 10%p 가산, 총자산 345백만원·자동차 4,542만원)"
@@ -1015,6 +1084,10 @@ def main() -> None:
         lh_add(H, HK, nm, ch, bH)
     bU = "대구연호 통합공공임대 2015122300020855 일반공급 신청자격(기준 중위소득 150%, 1인 170%·2인 160%, 신혼 맞벌이 +30%p, 청년 18~39세, 총자산 3억4,500만원·자동차 4,542만원, 2026 기준 중위소득 표)"
     MED = {int(k): v for k, v in LHN[U]["terms"]["income_table_100"].items()}
+    for nm, ch in [("고령자 미혼 단독세대주·세대 주택 수 모름(본인 무주택)", {"birth": "1955-01-01", "hhHomes": "", "hhIncomeYear": 1000, "income": 1000}),
+                   ("고령자 미혼 2인 세대·세대 주택 수 모름", {"birth": "1955-01-01", "hhHomes": "", "hhSize": 2, "hhIncomeYear": 1000}),
+                   ("고령자 혼인 여부 모름", {"birth": "1955-01-01", "married": None, "hhIncomeYear": 1000})]:
+        lh_add(U, ["고령자"], nm, ch, bU + " · 고령자 '무주택세대구성원(혼인 중이 아닌 경우로서 단독세대주로 입주하려는 사람의 경우에는 무주택자)'")
     for nm, ch in [("1인 170% 이하", {"hhIncomeYear": yr(MED[1] * 1.7)}), ("1인 170% 초과", {"hhIncomeYear": yr(MED[1] * 1.7) + 1}),
                    ("만 18세", {"birth": "2008-09-30", "hhIncomeYear": 1000, "income": 1000}), ("만 18세 하루 전", {"birth": "2008-10-01"}),
                    ("3인 150% 이하", {"hhSize": 3, "married": True, "marriedOn": "2024-01-01", "hhIncomeYear": yr(MED[3] * 1.5)}),
@@ -1087,7 +1160,7 @@ def main() -> None:
                    ("9인 가구 50% 이하", {"hhSize": 9, "hhIncomeYear": yr((URB[8] + 579278) * 0.5)}), ("9인 가구 50% 초과", {"hhSize": 9, "hhIncomeYear": yr((URB[8] + 579278) * 0.5) + 1})]:
         lh_add(E, ["일반"], nm, ch, bB2)
     # 2차 블라인드 감사(evidence/audit/2026-10-05-lh)에서 고친 것: 같은 등본 부모 주택·미성년자·1인 단독세대 소득·무주택 완화 2호 이상 제외
-    for nm, ch in [("세대주·같은 등본 부모 집", {"eldersOnDeed": 2, "parentsOwn": True}), ("세대주·같은 등본 부모 집 모름", {"eldersOnDeed": 1, "parentsOwn": None}),
+    for nm, ch in [("세대주·같은 등본 부모 집", {"eldersOnDeed": 2, "parentsOwn": True}), ("세대주·같은 등본 부모 집 모름", {"eldersOnDeed": 1, "parentsOwn": None, "hhHomes": ""}),
                    ("만 17세", {"birth": "2009-01-01"}), ("만 17세·자녀 부양 세대주", {"birth": "2009-01-01", "kidsMinor": 1, "hhSize": 2}),
                    ("만 17세·세대주·예외 해당(내 답)", {"birth": "2009-01-01", "kidsMinor": 1, "hhSize": 2, "lhMinorHead": True}),
                    ("만 17세·세대주·예외 아님(내 답)", {"birth": "2009-01-01", "lhMinorHead": False}),
@@ -1100,13 +1173,82 @@ def main() -> None:
     for nm, ch in [("배우자·부모 집(2채 이상)", {"married": True, "marriedOn": "2015-01-01", "spouseOwn": True, "eldersOnDeed": 1, "parentsOwn": True, "hhHomes": "2+", "hhSize": 3}),
                    ("배우자·부모 집(공동 1채)", {"married": True, "marriedOn": "2015-01-01", "spouseOwn": True, "eldersOnDeed": 1, "parentsOwn": True, "hhHomes": "1", "hhSize": 3, "lhHomeOutside": True}),
                    ("배우자·부모 집(주택 수 모름)", {"married": True, "marriedOn": "2015-01-01", "spouseOwn": True, "eldersOnDeed": 1, "parentsOwn": True, "hhSize": 3}),
-                   ("본인 집 1채·지역 밖", {"selfOwn": True, "hhHomes": "1", "lhHomeOutside": True})]:
+                   ("본인 집 1채·지역 밖", {"selfOwn": True, "hhHomes": "1", "lhHomeOutside": True}),
+                   ("본인 집·배우자 집 있음이라 했지만 혼인 여부 모름·주택 수 모름", {"selfOwn": True, "married": None, "spouseOwn": True, "hhHomes": "", "lhHomeOutside": True}),
+                   ("본인 집·배우자 칸 모름(기혼)·주택 수 모름", {"selfOwn": True, "married": True, "marriedOn": "2015-01-01", "spouseOwn": None, "hhHomes": "", "hhSize": 2, "lhHomeOutside": True}),
+                   ("본인 집·미혼 1인·주택 수 모름", {"selfOwn": True, "hhHomes": "", "lhHomeOutside": True}),
+                   ("세대 0채라 했지만 본인 집 있음(입력 어긋남)", {"selfOwn": True, "hhHomes": "0"})]:
         lh_add(R5, ["일반"], nm, ch, "삼척도계 국민임대 2015122300020581 입주자격 완화 ① 무주택요건 완화('해당지역 및 연접지역에 주택이 없으면 입주허용 및 소형·저가주택 허용 (단, 2호 이상의 주택 또는 분양권을 소유하고 있는 사람은 제외 (세대원 전원 기준))')")
     for nm, ch in [("혼인신고 정확히 7년 전(공고일 2026-09-22 → 2019-09-22)", {"married": True, "marriedOn": "2019-09-22", "hhSize": 2, "hhIncomeYear": 5000}),
                    ("혼인신고 7년 하루 넘음(2019-09-21)", {"married": True, "marriedOn": "2019-09-21", "hhSize": 2, "hhIncomeYear": 5000})]:
         lh_add(H, ["신혼부부·한부모"], nm, ch, bH + " · 신혼부부 '혼인기간이 7년 이내'(공고일 기준)")
     for nm, ch in [("청약통장 없음(입주 전 가입)", {"acctType": "none"}), ("청약통장 종류 모름", {"acctType": ""}), ("청약예금(입주 전 종합저축 전환)", {"acctType": "deposit"}), ("청약저축(종합저축에 포함)", {"acctType": "saving"})]:
         lh_add(H, ["청년"], nm, ch, bH + " · 청년 ⑤ '본인 입주전까지 주택청약종합저축 가입사실을 증명'")
+
+    # ---------- 17) LH 임대 안전성 (2026-10-05 외부 QA R3~R5 · 정보가 없으면 '가능'이 되지 않는다) ----------
+    # 예전에 저장된 내 조건(_set 없음): 기본값 0·false 는 '입력 안 함'이다. 0 이 아닌 값은 입력한 값.
+    legacy = lambda **kw: dict(kw, _set=[])
+    for nm, ch in [("R3 미혼 1인 세대주·본인·세대 소득 빈칸(기본값 0)", legacy(hhIncomeYear=None, income=0)),
+                   ("R3 대조: 본인 소득 0원이라고 넣음", dict(hhIncomeYear=None, income=0, _set=["income", "cash", "liquid", "deposit", "spouseOwn", "spouseIncome"])),
+                   ("R5 현금·금융·보증금 빈칸(기본값 0)", legacy(cash=0, liquid=0, deposit=0)),
+                   ("R5 대조: 현금·금융·보증금 0원이라고 넣음", dict(cash=0, liquid=0, deposit=0, _set=["income", "cash", "liquid", "deposit", "spouseOwn", "spouseIncome"])),
+                   ("R5 현금 빈칸·부동산만으로 한도 초과(부채 0)", legacy(cash=0, liquid=0, deposit=0, realEstate=30000)),
+                   ("생일 빈칸(성년자 확인)", {"birth": ""}),
+                   ("세대 주택 수 빈칸·2인 세대", {"hhHomes": "", "hhSize": 2, "hhIncomeYear": 3000}),
+                   ("세대 주택 수 0채·2인 세대", {"hhHomes": "0", "hhSize": 2, "hhIncomeYear": 3000}),
+                   ("1인인데 같은 등본 부모 있음·주택 수 빈칸", {"hhHomes": "", "eldersOnDeed": 1}),
+                   ("세대 0채라 했지만 본인 집 있음(입력 어긋남)", {"hhHomes": "0", "selfOwn": True})]:
+        lh_add(E, ["일반"], nm, ch, bE + " · 입력하지 않은 칸은 충족으로 보지 않음(2026-10-05 안전성 점검)")
+    for nm, ch in [("R4 청년 세대원·본인 소득 빈칸(기본값 0)", legacy(household="parents", parentsOwn=False, hhSize=3, income=0, hhIncomeYear=9000)),
+                   ("R4 대조: 청년 세대원·본인 소득 0원이라고 넣음", dict(household="parents", parentsOwn=False, hhSize=3, income=0, hhIncomeYear=9000, _set=["income", "cash", "liquid", "deposit", "spouseOwn", "spouseIncome"])),
+                   ("기혼·배우자 주택 빈칸(기본값 false)·세대 0채", legacy(married=True, marriedOn="2023-01-01", hhSize=2, hhIncomeYear=5000, spouseOwn=False, cash=2000, carValue=1000)),
+                   ("기혼·배우자 주택 없음이라고 넣음·세대 0채", dict(married=True, marriedOn="2023-01-01", hhSize=2, hhIncomeYear=5000)),
+                   ("기혼·혼인 7년 초과·자녀 수 모름", {"married": True, "marriedOn": "2015-01-01", "hhSize": 2, "kidsMinor": None, "hhIncomeYear": 5000}),
+                   ("기혼·혼인 7년 초과·자녀 0명", {"married": True, "marriedOn": "2015-01-01", "hhSize": 2, "kidsMinor": 0, "hhIncomeYear": 5000}),
+                   ("맞벌이 2인 120% 초과 130% 이하·배우자 소득 빈칸", legacy(married=True, marriedOn="2022-01-01", hhSize=2, income=3000, spouseIncome=0, hhIncomeYear=yr(URB[2] * 1.3), cash=2000)),
+                   ("맞벌이 2인 120% 초과 130% 이하·배우자 소득 0원이라고 넣음(외벌이)", dict(married=True, marriedOn="2022-01-01", hhSize=2, income=3000, spouseIncome=0, hhIncomeYear=yr(URB[2] * 1.3), pregnant=False, kidsMinor=0)),
+                   ("예비신혼부부 예(미혼)·세대 0채", {"lhPreWed": True, "hhSize": 2, "hhIncomeYear": 5000, "spouseOwn": None}),
+                   ("예비신혼부부 예·예비 배우자 집 없음", {"lhPreWed": True, "hhSize": 2, "hhIncomeYear": 5000, "spouseOwn": False}),
+                   ("예비신혼부부 아니요(미혼)", {"lhPreWed": False}), ("예비신혼부부 모름(미혼)", {"lhPreWed": None}),
+                   ("대학생 예·혼인 여부 모름", {"lhStudent": True, "lhStudentIncome": True, "carValue": 0, "married": None}),
+                   ("고령자 생일 빈칸", {"birth": ""}),
+                   ("출산 여부 모름·청년 1인 120% 초과 140% 이하", {"hhIncomeYear": yr(URB[1] * 1.4), "income": yr(URB[1] * 1.4), "pregnant": None, "kidsMinor": None}),
+                   ("임신 여부만 모름·자녀 0명·청년 1인 120% 초과 140% 이하", {"hhIncomeYear": yr(URB[1] * 1.4), "income": yr(URB[1] * 1.4), "pregnant": None}),
+                   ("출산 없음 확인·청년 1인 120% 초과", {"hhIncomeYear": yr(URB[1] * 1.4), "income": yr(URB[1] * 1.4), "kidsMinor": 0})]:
+        lh_add(H, HK, nm, ch, bH + " · 입력하지 않은 칸은 충족으로 보지 않음(2026-10-05 안전성 점검)")
+    for nm, ch in [("경남 창원시 마산회원구", {"homeSido": "경남", "homeSigun": "창원시 마산회원구"}), ("경남 마산회원구(구만)", {"homeSido": "경남", "homeSigun": "마산회원구"}),
+                   ("경남 '창원'", {"homeSido": "경남", "homeSigun": "창원"}), ("경남 '경남 창원시'", {"homeSido": "경남", "homeSigun": "경남 창원시"}), ("경남 '김해'", {"homeSido": "경남", "homeSigun": "김해"})]:
+        lh_add(E2, ["일반"], nm, ch, bE2 + " · 사는 시·군 입력 표기(구만 쓰면 판단 불가)")
+    # 공고문을 잘못 읽은 경우 모의(tests/judge/lh_synthetic.json — 정답 공고를 복사해 기준 칸을 비우거나 '미적용'으로 바꾼 것. 실제 공고 아님)
+    import copy
+    syn = []
+    sx = copy.deepcopy(LHN[K]); sx["id"] = "LH-SYN-EXCL"; sx["name"] = "모의: 원주태장4(740) 소득·자산·자동차를 '미적용'으로 잘못 읽음(완화 공고 아님)"
+    for g in sx["terms"]["groups"]: g["income_pct"] = g["asset_manwon"] = g["car_manwon"] = "excluded"
+    sn = copy.deepcopy(LHN[H]); sn["id"] = "LH-SYN-NULL"; sn["name"] = "모의: 부산문현2(806) 기준을 못 읽음(나이·무주택 범위·소득·맞벌이 가산·예비신혼부부) + 모르는 계층"
+    for g in sn["terms"]["groups"]:
+        g["income_pct"] = None if g["key"] != "대학생" else g["income_pct"]; g.pop("dual_add", None); g["homeless"] = None
+        if "age_min" in g: g["age_min"] = g["age_max"] = None
+    sn["terms"].pop("prewed_ok", None)
+    sn["terms"]["groups"].append({"key": "산업단지 근로자", "name": "산업단지 근로자", "homeless": "household", "income_pct": {"1": 120, "2": 110, "3+": 100}, "asset_manwon": 34500, "car_manwon": 4542})
+    sn["terms"]["unknown_groups"] = ["산업단지 근로자"]
+    sd = copy.deepcopy(LHN[H]); sd["id"] = "LH-SYN-NODUAL"; sd["name"] = "모의: 부산문현2(806) 신혼 맞벌이 가산·청년 나이 상한을 못 읽음"
+    for g in sd["terms"]["groups"]:
+        g.pop("dual_add", None)
+        if g["key"] == "청년": g["age_max"] = None
+    syn += [sx, sn, sd]
+    (ROOT / "tests/judge/lh_synthetic.json").write_text(json.dumps(syn, ensure_ascii=False, indent=1) + "\n", encoding="utf-8")
+    LHN.update({x["id"]: x for x in syn})
+    for nm, ch in [("소득·자산 낮음", {}), ("소득·자산 높음", {"hhIncomeYear": 30000, "realEstate": 90000, "carValue": 9000})]:
+        lh_add("LH-SYN-EXCL", ["일반"], nm, ch, "모의 공고: 완화 공고가 아닌데 기준을 '미적용'으로 읽으면 판정하지 않음(확인)")
+    for nm, ch in [("기본", {}), ("혼인 중·맞벌이", {"married": True, "marriedOn": "2024-01-01", "hhSize": 2, "income": 3000, "spouseIncome": 3000, "hhIncomeYear": yr(URB[2] * 1.3)}),
+                   ("65세", {"birth": "1950-01-01"}), ("예비신혼부부 예", {"lhPreWed": True, "hhSize": 2})]:
+        lh_add("LH-SYN-NULL", ["청년", "신혼부부·한부모", "고령자", "산업단지 근로자"], nm, ch, "모의 공고: 기준을 못 읽은 칸·모르는 계층은 '가능'이 될 수 없음")
+    for nm, ch in [("31세 미혼(상한 못 읽음)", {}), ("맞벌이 2인 110% 초과 140% 이하(가산 못 읽음)", {"married": True, "marriedOn": "2024-01-01", "hhSize": 2, "income": 3000, "spouseIncome": 3000, "hhIncomeYear": yr(URB[2] * 1.3)}),
+                   ("외벌이 2인 110% 이하", {"married": True, "marriedOn": "2024-01-01", "hhSize": 2, "income": 3000, "spouseIncome": 0, "hhIncomeYear": yr(URB[2] * 1.1)})]:
+        lh_add("LH-SYN-NODUAL", ["청년", "신혼부부·한부모"], nm, ch, "모의 공고: 맞벌이 가산을 못 읽으면 가산 없이 판정하고 가산이 있어야 되는 구간은 확인 · 나이 한쪽 기준만 읽으면 확인")
+    for nm, ch in [("총자산 1만원 초과·출산 여부 모름", {"realEstate": 24500 - 3000 + 1, "pregnant": None, "kidsMinor": None}), ("혼인 여부 빈 글자", {"married": ""})]:
+        lh_add(E, ["일반"], nm, ch, bE + " · 모르는 칸")
+    lh_add(H, ["대학생", "청년"], "혼인 여부 빈 글자·대학생 예", {"married": "", "lhStudent": True, "lhStudentIncome": True, "carValue": 0}, bH + " · 모르는 칸")
 
     OUT.write_text(json.dumps(cases, ensure_ascii=False, indent=1) + "\n", encoding="utf-8")
     print(f"{len(cases)}건 → {OUT}")

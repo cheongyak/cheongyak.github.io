@@ -95,9 +95,10 @@ const VIEW_BAD = /\bNaN\b|\bundefined\b|\[object Object\]|\bnull\b(?!\s*값)/;
     await page.evaluate(() => loadRental()); await page.waitForFunction(() => RENTAL || RENTAL_STATE === 'error', null, { timeout: 15000 }).catch(() => {});
     const ids = await page.evaluate(() => { const ns = RENTAL.notices, pick = f => (ns.find(f) || {}).id;
       return [pick(N => N.terms && N.terms.local), pick(N => N.terms && N.terms.groups && N.terms.groups.some(g => g.key === '청년')), pick(N => N.terms && N.terms.groups && N.terms.groups.length > 3), pick(N => !N.terms), pick(N => (N.rents || []).length)].filter(Boolean); });
-    const LK = ['lhMinorHead', 'acctType', 'lhStudent', 'lhStudentIncome', 'lhHousingBenefit', 'lhSingleParent', 'lhHomeOutside', 'lhStartupRec', 'lhJobCriteria', 'lhLongWorker', 'lhBirthKids', 'homeSigun', 'homeSido', 'eldersOnDeed', 'hhHomes', 'kidsMinor', 'hhSize', 'hhIncomeYear', 'carValue', 'birth'];
+    const LK = ['lhMinorHead', 'acctType', 'lhStudent', 'lhStudentIncome', 'lhHousingBenefit', 'lhSingleParent', 'lhHomeOutside', 'lhStartupRec', 'lhJobCriteria', 'lhLongWorker', 'lhBirthKids', 'homeSigun', 'homeSido', 'eldersOnDeed', 'hhHomes', 'kidsMinor', 'hhSize', 'hhIncomeYear', 'carValue', 'birth', 'income', 'spouseIncome', 'lhPreWed', 'spouseOwn', 'selfOwn', 'married', 'cash', '_set'];
     for (const k of LK) for (const v of BAD) { n++;
       const r = await page.evaluate(({ k, v, ids, base }) => { try { S.profile = Object.assign({}, DEFAULT_PROFILE, base, { [k]: v }); const out = [];
+          ids.forEach(id => rentalJudge(RENTAL.notices.find(N => N.id === id), S.profile));   // 화면은 rentalJudgeSafe 로 오류를 감추므로 판정 함수를 직접 불러 오류를 잡는다
           S.rcat = 'rent'; S.view = 'rental'; render(); out.push(document.body.innerText);
           ids.forEach(id => { S.rid = id; S.view = 'rdetail'; render(); out.push(document.body.innerText); [...document.querySelectorAll('[data-rq]')].map(b => b.dataset.rq).forEach(q => { S.rq = q; render(); out.push(document.body.innerText); }); S.rq = null; });
           return { ok: true, txt: out.join('\n') }; } catch (e) { return { ok: false, err: e.message }; } }, { k, v, ids, base: { ...BASE, homeSido:'경남', homeSigun:'창원시' } });

@@ -10,7 +10,9 @@ const dir = process.cwd() + '/docs', D = process.argv[2], OUT = process.argv[3] 
   await p.goto('http://site.local/', { waitUntil: 'networkidle' });
   await p.evaluate(() => new Promise(res => { loadRental(); const t = setInterval(() => { if (RENTAL) { clearInterval(t); res(); } }, 50); }));
   const cases = JSON.parse(readFileSync(join(D, 'cases.json')));
-  const app = await p.evaluate(cases => cases.map(c => { const N = RENTAL.notices.find(x => x.id === c.notice_id); const J = rentalJudge(N, Object.assign({}, DEFAULT_PROFILE, c.profile));
+  const app = await p.evaluate(cases => cases.map(c => { const N = RENTAL.notices.find(x => x.id === c.notice_id); const P = Object.assign({}, DEFAULT_PROFILE, c.profile), U = c.profile._unknown || [];   // 3차(sparse): 모름 칸은 앱에 '입력 안 함'으로
+    U.forEach(k => { P[k] = ZERO_KEYS.includes(k) ? DEFAULT_PROFILE[k] : (typeof DEFAULT_PROFILE[k] === 'string' ? '' : null); }); P._set = ZERO_KEYS.filter(k => !U.includes(k)); delete P._unknown;
+    const J = rentalJudge(N, P);
     return { id: c.id, groups: J.groups.map(g => ({ group: g.key, s: g.s, items: g.items.map(x => x.s + ':' + x.t) })) }; }), cases);
   writeFileSync(join(D, OUT), JSON.stringify(app, null, 1)); console.log(app.length); await b.close();
 })();
