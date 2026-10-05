@@ -1,5 +1,5 @@
 {
- "updated": "2026-10-05 14:11",
+ "updated": "2026-10-05 14:37",
  "source": "LH 청약플러스 임대 공고 (공공데이터포털 한국토지주택공사 분양임대공고 조회)",
  "count": 30,
  "notices": [
@@ -82,6 +82,31 @@
    },
    "notice_pdf": "https://apply.lh.or.kr/lhapply/lhFile.do?fileid=68728314",
    "notice_text": 45424,
+   "terms": {
+    "relaxed": true,
+    "homeless_relaxed": false,
+    "income_basis": "도시근로자 월평균소득",
+    "groups": [
+     {
+      "key": "일반",
+      "name": "일반",
+      "homeless": "household",
+      "income_pct": "excluded",
+      "asset_manwon": "excluded",
+      "car_manwon": 4542,
+      "age_min": null,
+      "age_max": null
+     }
+    ],
+    "quotes": {
+     "일반": {
+      "income": "소득·총자산 배제)하는 모집으로 입주자격 해당자만 신청접수 가능합니다. 구분 입주자격 완화 내용 주택요건 무주택 세대구성원 소득요건 소득요건 배제 총자산 요건 총자산 요건 배제 (단, 자동차가액 4,542만원 이하 요건 적용) ▪ 소득 및 총자산 완화모집으로 입주한 경우",
+      "asset": "입주자격 완화 내용 주택요건 무주택 세대구성원 소득요건 소득요건 배제 총자산 요건 총자산 요건 배제 (단, 자동차가액 4,542만원 이하 요건 적용) ▪ 소득 및 총자산 완화모집으로 입주한 경우 1회차 한하여 재계약이 가능하나 2회차부터는 소",
+      "car": "이 보유하고 있는 개별 자동차가액 (4,542)만원 이하 * 총자산 기준과"
+     }
+    },
+    "income_table_100": null
+   },
    "api": {
     "CCR_CNNT_SYS_DS_CD": "03",
     "SPL_INF_TP_CD": "062",
@@ -157,6 +182,35 @@
    },
    "notice_pdf": "https://apply.lh.or.kr/lhapply/lhFile.do?fileid=68568850",
    "notice_text": 67474,
+   "terms": {
+    "relaxed": false,
+    "homeless_relaxed": false,
+    "income_basis": "도시근로자 월평균소득",
+    "groups": [
+     {
+      "key": "일반",
+      "name": "일반",
+      "homeless": "household",
+      "income_pct": {
+       "1": 90,
+       "2": 80,
+       "3+": 70
+      },
+      "asset_manwon": 34500,
+      "car_manwon": 4542,
+      "age_min": null,
+      "age_max": null
+     }
+    ],
+    "quotes": {
+     "일반": {
+      "income": "가구원수별 가구당 월평균 소득(원) 70% 80% 90% 참고사항 1인 2 … 1인 가구 20% 가산, 2인 가구 10% 가산",
+      "asset": "58,337 자산 총자산가액 세대구성원 전원이 보유하고 있는 총자산가액 합산기준 ( 345 )백만원 이하 자동차가액 세대구",
+      "car": "이 보유하고 있는 개별 자동차가액 ( 4,542 )만원 이하 • 소득기준 가산"
+     }
+    },
+    "income_table_100": null
+   },
    "api": {
     "CCR_CNNT_SYS_DS_CD": "03",
     "SPL_INF_TP_CD": "062",
@@ -309,6 +363,19 @@
    },
    "notice_pdf": "https://apply.lh.or.kr/lhapply/lhFile.do?fileid=68623552",
    "notice_text": 48958,
+   "terms": {
+    "relaxed": false,
+    "homeless_relaxed": false,
+    "income_basis": "도시근로자 월평균소득",
+    "groups": [],
+    "quotes": {},
+    "income_table_100": {
+     "3": 8168429,
+     "4": 8802202,
+     "5": 9326985,
+     "6": 9906263
+    }
+   },
    "api": {
     "CCR_CNNT_SYS_DS_CD": "03",
     "SPL_INF_TP_CD": "063",
@@ -463,6 +530,23 @@
    },
    "notice_pdf": "https://apply.lh.or.kr/lhapply/lhFile.do?fileid=68573530",
    "notice_text": 70629,
+   "terms": {
+    "relaxed": false,
+    "homeless_relaxed": false,
+    "income_basis": "기준 중위소득",
+    "groups": [],
+    "quotes": {},
+    "income_table_100": {
+     "1": 2564238,
+     "2": 4619221,
+     "3": 5894940,
+     "4": 7144212,
+     "5": 8312391,
+     "6": 9411547,
+     "7": 11418180,
+     "8": 12569218
+    }
+   },
    "api": {
     "CCR_CNNT_SYS_DS_CD": "03",
     "SPL_INF_TP_CD": "062",
@@ -549,6 +633,35 @@
    },
    "notice_pdf": "https://apply.lh.or.kr/lhapply/lhFile.do?fileid=68624241",
    "notice_text": 45368,
+   "terms": {
+    "relaxed": false,
+    "homeless_relaxed": false,
+    "income_basis": "도시근로자 월평균소득",
+    "groups": [
+     {
+      "key": "일반",
+      "name": "일반",
+      "homeless": "household",
+      "income_pct": {
+       "1": 70,
+       "2": 60,
+       "3+": 50
+      },
+      "asset_manwon": 24500,
+      "car_manwon": 4542,
+      "age_min": null,
+      "age_max": null
+     }
+    ],
+    "quotes": {
+     "일반": {
+      "income": "지시설퇴소자) - 월평균 소득 50%이하 : 차목(일반입주자) 2. 월평균 소득기준 우대비율 적용대상(적용비율 가산항목 적용대상) - 가구원수별 가산비율 : 1인 가구 20%p, 2인 가구 10%p - 출생자녀별 가산비율 : 1명 10%p, 2명 이상 20%p ※",
+      "asset": "위 장애인) 2. 총자산 기준 세대구성원 전원이 보유하고 있는 총 자산(부동산, 자동차, 금융자산(부채반영), 일반자산) 가액 합산 기준 ( 24,500 )만원 이하 3. 자동차 기준",
+      "car": "이 보유하고 있는 개별 자동차가액 ( 4,542 )만원 이하 * 총자산 기준과"
+     }
+    },
+    "income_table_100": null
+   },
    "api": {
     "CCR_CNNT_SYS_DS_CD": "03",
     "SPL_INF_TP_CD": "062",
@@ -721,6 +834,108 @@
    },
    "notice_pdf": "https://apply.lh.or.kr/lhapply/lhFile.do?fileid=68703985",
    "notice_text": 91742,
+   "terms": {
+    "relaxed": false,
+    "homeless_relaxed": false,
+    "income_basis": "도시근로자 월평균소득",
+    "groups": [
+     {
+      "key": "대학생",
+      "name": "대학생",
+      "homeless": "self",
+      "income_pct": {
+       "1": 120,
+       "2": 110,
+       "3+": 100
+      },
+      "asset_manwon": 10800,
+      "car_manwon": 0,
+      "age_min": null,
+      "age_max": null
+     },
+     {
+      "key": "청년",
+      "name": "청년",
+      "homeless": "self",
+      "income_pct": {
+       "1": 120,
+       "2": 110,
+       "3+": 100
+      },
+      "asset_manwon": 25100,
+      "car_manwon": 4542,
+      "age_min": 19,
+      "age_max": 39
+     },
+     {
+      "key": "신혼부부·한부모",
+      "name": "신혼부부·한부모",
+      "homeless": "household",
+      "income_pct": {
+       "1": null,
+       "2": 110,
+       "3+": 100
+      },
+      "asset_manwon": 34500,
+      "car_manwon": 4542,
+      "age_min": null,
+      "age_max": null
+     },
+     {
+      "key": "고령자",
+      "name": "고령자",
+      "homeless": "household",
+      "income_pct": {
+       "1": 120,
+       "2": 110,
+       "3+": 100
+      },
+      "asset_manwon": 34500,
+      "car_manwon": 4542,
+      "age_min": 65,
+      "age_max": null
+     },
+     {
+      "key": "주거급여수급자",
+      "name": "주거급여수급자",
+      "homeless": "household",
+      "income_pct": null,
+      "asset_manwon": null,
+      "car_manwon": null,
+      "age_min": null,
+      "age_max": null
+     }
+    ],
+    "quotes": {
+     "대학생": {
+      "income": "가구원수별 가구당 월평균소득의 100퍼센트 이하 ※ 단, 가구원 수가 1인인 경우에는 120퍼센트, 2인인 경우에는 110퍼센트 이하일 것 * 이",
+      "asset": "579,278원을 합산하여 산정 ④ 신청자 본인의 총 자산가액 합산기준이 10,800만원 이하이고, 자동차가액",
+      "car": "산기준이 10,800만원 이하이고, 자동차가액 산출대상 자동차를 소유하고 있지 않을 것"
+     },
+     "청년": {
+      "income": "가구원수별 가구당 월평균소득의 100퍼센트 이하 ※ 단, 가구원수가 1인인 경우에는 120퍼센트, 2인인 경우에는 110퍼센트 이하일 것 * 7",
+      "asset": "278원을 합산하여 산정 ④ 해당세대가 보유하고 있는 총 자산가액이 25,100만원 이하이고 총 자산 중",
+      "car": "5,100만원 이하이고 총 자산 중 자동차가액이 4,542만원 이하 ⑤ 본인 입주전까"
+     },
+     "신혼부부·한부모": {
+      "income": "가구원수별 가구당 월평균소득의 100퍼센트 이하(맞벌이 부부 120퍼센트 이하)일 것 ※ 단, 가구원 수가 2인인 경우에는 110퍼센트, 맞벌이 2인 가",
+      "asset": "예비신혼부부는 혼인으로 구성될 세대)가 보유하고 있는 총 자산가액 합산기준 34,500만원 이하이고, 총 자산 중",
+      "car": ",500만원 이하이고, 총 자산 중 자동차가액이 4,542만원 이하 일 것 ⑤ 본인"
+     },
+     "고령자": {
+      "income": "가구원수별 가구당 월평균소득의 100퍼센트 이하 ※ 단, 가구원수가 1인인 경우에는 120퍼센트, 2인인 경우에는 110퍼센트 이하일 것 가구원",
+      "asset": "78원을 합산하여 산정 ② 해당 세대가 보유하고 있는 총 자산가액이 34,500만원 이하이고 총 자산 중",
+      "car": "4,500만원 이하이고 총 자산 중 자동차가액이 4,542만원 이하 《 고령자 계층"
+     },
+     "주거급여수급자": {}
+    },
+    "income_table_100": {
+     "3": 8168429,
+     "4": 8802202,
+     "5": 9326985,
+     "6": 9906263
+    }
+   },
    "api": {
     "CCR_CNNT_SYS_DS_CD": "03",
     "SPL_INF_TP_CD": "063",
@@ -942,6 +1157,35 @@
    },
    "notice_pdf": "https://apply.lh.or.kr/lhapply/lhFile.do?fileid=68709214",
    "notice_text": 47485,
+   "terms": {
+    "relaxed": false,
+    "homeless_relaxed": false,
+    "income_basis": "도시근로자 월평균소득",
+    "groups": [
+     {
+      "key": "일반",
+      "name": "일반",
+      "homeless": "household",
+      "income_pct": {
+       "1": 70,
+       "2": 60,
+       "3+": 50
+      },
+      "asset_manwon": 24500,
+      "car_manwon": 4542,
+      "age_min": null,
+      "age_max": null
+     }
+    ],
+    "quotes": {
+     "일반": {
+      "income": "지시설퇴소자) - 월평균 소득 50%이하 : 차목(일반입주자) 2. 월평균 소득기준 우대비율 적용대상(적용비율 가산항목 적용대상) - 가구원수별 가산비율 : 1인 가구 20%p, 2인 가구 10%p - 출생자녀별 가산비율 : 1명 10%p, 2명 이상 20%p ※",
+      "asset": "위 장애인) 2. 총자산 기준 세대구성원 전원이 보유하고 있는 총 자산(부동산, 자동차, 금융자산(부채반영), 일반자산) 가액 합산 기준 ( 24,500 )만원 이하 3. 자동차 기준",
+      "car": "이 보유하고 있는 개별 자동차가액 ( 4,542 )만원 이하 * 총자산 기준과"
+     }
+    },
+    "income_table_100": null
+   },
    "api": {
     "CCR_CNNT_SYS_DS_CD": "03",
     "SPL_INF_TP_CD": "062",
@@ -1017,6 +1261,35 @@
    },
    "notice_pdf": "https://apply.lh.or.kr/lhapply/lhFile.do?fileid=68738765",
    "notice_text": 43213,
+   "terms": {
+    "relaxed": true,
+    "homeless_relaxed": false,
+    "income_basis": "도시근로자 월평균소득",
+    "groups": [
+     {
+      "key": "일반",
+      "name": "일반",
+      "homeless": "household",
+      "income_pct": {
+       "1": 150,
+       "2": 150,
+       "3+": 150
+      },
+      "asset_manwon": 24500,
+      "car_manwon": 4542,
+      "age_min": null,
+      "age_max": null
+     }
+    ],
+    "quotes": {
+     "일반": {
+      "income": "소득기준을 완화(도시근로자 전년도 월평균소득의 150% 이하)하는 모집으로, 입주자격 해당자만 신청가능 합니다. (3.신청자격 확인) ▪ 소득 완화모집으로 입주한 경우 재계약이 가능하나 소득이 초과할 경",
+      "asset": "위 장애인) 2. 총자산 기준 세대구성원 전원이 보유하고 있는 총 자산(부동산, 자동차, 금융자산(부채반영), 일반자산) 가액 합산 기준 ( 24,500 )만원 이하 3. 자동차 기준",
+      "car": "이 보유하고 있는 개별 자동차가액 (4,542)만원 이하 * 총자산 기준과"
+     }
+    },
+    "income_table_100": null
+   },
    "api": {
     "CCR_CNNT_SYS_DS_CD": "03",
     "SPL_INF_TP_CD": "062",
@@ -1092,6 +1365,7 @@
    },
    "notice_pdf": "https://apply.lh.or.kr/lhapply/lhFile.do?fileid=68609771",
    "notice_text": 29385,
+   "terms": null,
    "api": {
     "CCR_CNNT_SYS_DS_CD": "03",
     "SPL_INF_TP_CD": "061",
@@ -1167,6 +1441,68 @@
    },
    "notice_pdf": "https://apply.lh.or.kr/lhapply/lhFile.do?fileid=68836771",
    "notice_text": 51872,
+   "terms": {
+    "relaxed": true,
+    "homeless_relaxed": true,
+    "income_basis": "도시근로자 월평균소득",
+    "groups": [
+     {
+      "key": "대학생",
+      "name": "대학생",
+      "homeless": "self",
+      "income_pct": "excluded",
+      "asset_manwon": "excluded",
+      "car_manwon": 0,
+      "age_min": null,
+      "age_max": null
+     },
+     {
+      "key": "청년",
+      "name": "청년",
+      "homeless": "self",
+      "income_pct": "excluded",
+      "asset_manwon": "excluded",
+      "car_manwon": 4542,
+      "age_min": 19,
+      "age_max": 39
+     },
+     {
+      "key": "고령자",
+      "name": "고령자",
+      "homeless": "household",
+      "income_pct": null,
+      "asset_manwon": null,
+      "car_manwon": null,
+      "age_min": 65,
+      "age_max": null
+     },
+     {
+      "key": "주거급여수급자",
+      "name": "주거급여수급자",
+      "homeless": "household",
+      "income_pct": null,
+      "asset_manwon": null,
+      "car_manwon": null,
+      "age_min": null,
+      "age_max": null
+     }
+    ],
+    "quotes": {
+     "대학생": {
+      "income": "혼인 중이 아닐 것 ③ 【완화조건】 소득요건 배제 ④ 【완화조건】",
+      "asset": "건】 소득요건 배제 ④ 【완화조건】 총 자산가액 배제(단, 신청자 본인이 자동차가액 산출대",
+      "car": "자산가액 배제(단, 신청자 본인이 자동차가액 산출대상 자동차를 소유하고 있지 않을 것"
+     },
+     "청년": {
+      "income": "혼인 중이 아닐 것 ③ 【완화조건】 소득요건 배제 ④ 【완화조건】",
+      "asset": "건】 소득요건 배제 ④ 【완화조건】 총 자산가액 배제(단, 해당세대가",
+      "car": "당세대가 보유하고 있는 총 자산 중 자동차 가액이 4,542만원 이하일 것) ⑤ 【완화"
+     },
+     "고령자": {},
+     "주거급여수급자": {}
+    },
+    "income_table_100": null
+   },
    "api": {
     "CCR_CNNT_SYS_DS_CD": "03",
     "SPL_INF_TP_CD": "063",
@@ -1526,6 +1862,31 @@
    },
    "notice_pdf": "https://apply.lh.or.kr/lhapply/lhFile.do?fileid=68593190",
    "notice_text": 48678,
+   "terms": {
+    "relaxed": true,
+    "homeless_relaxed": false,
+    "income_basis": "도시근로자 월평균소득",
+    "groups": [
+     {
+      "key": "일반",
+      "name": "일반",
+      "homeless": "household",
+      "income_pct": "excluded",
+      "asset_manwon": "excluded",
+      "car_manwon": 4542,
+      "age_min": null,
+      "age_max": null
+     }
+    ],
+    "quotes": {
+     "일반": {
+      "income": "입주자격 완화 주요내용 ▪ 금회 공고는 예비입주자를 모집하는 공고로서 입주자격 요건을 아래와 같이 완화하여 모집합니다. 일반조건 완화조건 ① 소득 기준 가구원수별 소득기준 적용 → 적용 배제 ② 총자산 기준 34,50",
+      "asset": "및 자산보유 기준 구분 소득 및 자산보유 기준 소득 금회 소득배제 자산 총자산가액 금회 자산배제 자동차가액 세대구성원 전원이 보유하고 있는 개별 자동차가액중 높은 차량가액이 ( 4,542 )만원 이하 ■ 소득․자산 산정방법 소득 및 자산",
+      "car": "이 보유하고 있는 개별 자동차가액중 높은 차량가액이 ( 4,542 )만원 이하 ■ 소득․자산 산"
+     }
+    },
+    "income_table_100": null
+   },
    "api": {
     "CCR_CNNT_SYS_DS_CD": "03",
     "SPL_INF_TP_CD": "062",
@@ -1617,6 +1978,35 @@
    },
    "notice_pdf": "https://apply.lh.or.kr/lhapply/lhFile.do?fileid=68585259",
    "notice_text": 42326,
+   "terms": {
+    "relaxed": true,
+    "homeless_relaxed": false,
+    "income_basis": "도시근로자 월평균소득",
+    "groups": [
+     {
+      "key": "일반",
+      "name": "일반",
+      "homeless": "household",
+      "income_pct": {
+       "1": 150,
+       "2": 150,
+       "3+": 150
+      },
+      "asset_manwon": 34500,
+      "car_manwon": 4542,
+      "age_min": null,
+      "age_max": null
+     }
+    ],
+    "quotes": {
+     "일반": {
+      "income": "% 가산, 출산자녀 1인 10% 가산 가구원수 기본조건 금회 모집공고시 소득완화 조건 소득기준 월평균소득기준 소득기준 월평균소득기준 1인가구 90% 3,432,026원이하 150% 5,720,045원 이하 2인가구 80% 4,693,016원이하 8,799,405원 이하 3인가구 70% 5,717,900원이하 12,252,",
+      "asset": "95원 이하 자산 총자산가액 및 자동차가액 세대구성원 전원이 보유하고 있는 총자산가액 합산기준 34,500만원 이하, 세대구성원 전원",
+      "car": "이 보유하고 있는 개별자동차가액 4,542만원 이하 출산자녀 수 총자"
+     }
+    },
+    "income_table_100": null
+   },
    "api": {
     "CCR_CNNT_SYS_DS_CD": "03",
     "SPL_INF_TP_CD": "062",
@@ -1708,6 +2098,35 @@
    },
    "notice_pdf": "https://apply.lh.or.kr/lhapply/lhFile.do?fileid=68686560",
    "notice_text": 42326,
+   "terms": {
+    "relaxed": true,
+    "homeless_relaxed": false,
+    "income_basis": "도시근로자 월평균소득",
+    "groups": [
+     {
+      "key": "일반",
+      "name": "일반",
+      "homeless": "household",
+      "income_pct": {
+       "1": 150,
+       "2": 150,
+       "3+": 150
+      },
+      "asset_manwon": 34500,
+      "car_manwon": 4542,
+      "age_min": null,
+      "age_max": null
+     }
+    ],
+    "quotes": {
+     "일반": {
+      "income": "% 가산, 출산자녀 1인 10% 가산 가구원수 기본조건 금회 모집공고시 소득완화 조건 소득기준 월평균소득기준 소득기준 월평균소득기준 1인가구 90% 3,432,026원이하 150% 5,720,045원 이하 2인가구 80% 4,693,016원이하 8,799,405원 이하 3인가구 70% 5,717,900원이하 12,252,",
+      "asset": "95원 이하 자산 총자산가액 및 자동차가액 세대구성원 전원이 보유하고 있는 총자산가액 합산기준 34,500만원 이하, 세대구성원 전원",
+      "car": "이 보유하고 있는 개별자동차가액 4,542만원 이하 출산자녀 수 총자"
+     }
+    },
+    "income_table_100": null
+   },
    "api": {
     "CCR_CNNT_SYS_DS_CD": "03",
     "SPL_INF_TP_CD": "062",
@@ -1863,6 +2282,108 @@
    },
    "notice_pdf": "https://apply.lh.or.kr/lhapply/lhFile.do?fileid=68798818",
    "notice_text": 74239,
+   "terms": {
+    "relaxed": false,
+    "homeless_relaxed": false,
+    "income_basis": "도시근로자 월평균소득",
+    "groups": [
+     {
+      "key": "대학생",
+      "name": "대학생",
+      "homeless": "self",
+      "income_pct": {
+       "1": 120,
+       "2": 110,
+       "3+": 100
+      },
+      "asset_manwon": 10800,
+      "car_manwon": 0,
+      "age_min": null,
+      "age_max": null
+     },
+     {
+      "key": "청년",
+      "name": "청년",
+      "homeless": "self",
+      "income_pct": {
+       "1": 120,
+       "2": 110,
+       "3+": 100
+      },
+      "asset_manwon": 25100,
+      "car_manwon": 4542,
+      "age_min": 19,
+      "age_max": 39
+     },
+     {
+      "key": "신혼부부·한부모",
+      "name": "신혼부부·한부모",
+      "homeless": "household",
+      "income_pct": {
+       "1": null,
+       "2": 110,
+       "3+": 100
+      },
+      "asset_manwon": 34500,
+      "car_manwon": 4542,
+      "age_min": null,
+      "age_max": null
+     },
+     {
+      "key": "고령자",
+      "name": "고령자",
+      "homeless": "household",
+      "income_pct": {
+       "1": 120,
+       "2": 110,
+       "3+": 100
+      },
+      "asset_manwon": 34500,
+      "car_manwon": 4542,
+      "age_min": 65,
+      "age_max": null
+     },
+     {
+      "key": "주거급여수급자",
+      "name": "주거급여수급자",
+      "homeless": "household",
+      "income_pct": null,
+      "asset_manwon": null,
+      "car_manwon": null,
+      "age_min": null,
+      "age_max": null
+     }
+    ],
+    "quotes": {
+     "대학생": {
+      "income": "가구원수별 가구당 월평균소득의 100퍼센트 이하 ※ 단, 가구원 수가 1인인 경우에는 120퍼센트, 2인인 경우에는 110퍼센트 이하일 것 * 이",
+      "asset": "579,278원을 합산하여 산정 ④ 신청자 본인의 총 자산가액 합산기준이 10,800만원 이하이고, 자동차가액",
+      "car": "산기준이 10,800만원 이하이고, 자동차가액 산출대상 자동차를 소유하고 있지 않을 것"
+     },
+     "청년": {
+      "income": "가구원수별 가구당 월평균소득의 100퍼센트 이하 ※ 단, 가구원수가 1인인 경우에는 120퍼센트, 2인인 경우에는 110퍼센트 이하일 것 공급",
+      "asset": "278원을 합산하여 산정 ④ 해당세대가 보유하고 있는 총 자산가액이 25,100만원 이하이고 총 자산 중",
+      "car": "5,100만원 이하이고 총 자산 중 자동차가액이 4,542만원 이하 일 것 ⑤ 본인"
+     },
+     "신혼부부·한부모": {
+      "income": "가구원수별 가구당 월평균소득의 100퍼센트 이하(맞벌이 부부 120퍼센트 이하)일 것 ※ 단, 가구원 수가 2인인 경우에는 110퍼센트, 맞벌이 2인 가",
+      "asset": "예비신혼부부는 혼인으로 구성될 세대)가 보유하고 있는 총 자산 합산가액이 34,500만원 이하이고, 총 자산 중",
+      "car": ",500만원 이하이고, 총 자산 중 자동차가액이 4,542만원 이하 일 것 ⑤ 본인"
+     },
+     "고령자": {
+      "income": "가구원수별 가구당 월평균소득의 100퍼센트 이하 ※ 단, 가구원수가 1인인 경우에는 120퍼센트, 2인인 경우에는 110퍼센트 이하일 것 가구원",
+      "asset": "78원을 합산하여 산정 ② 해당 세대가 보유하고 있는 총 자산가액이 34,500만원 이하이고 총 자산 중",
+      "car": "4,500만원 이하이고 총 자산 중 자동차가액이 4,542만원 이하 일 것 《 고령자"
+     },
+     "주거급여수급자": {}
+    },
+    "income_table_100": {
+     "3": 8168429,
+     "4": 8802202,
+     "5": 9326985,
+     "6": 9906263
+    }
+   },
    "api": {
     "CCR_CNNT_SYS_DS_CD": "03",
     "SPL_INF_TP_CD": "063",
@@ -1938,6 +2459,35 @@
    },
    "notice_pdf": "https://apply.lh.or.kr/lhapply/lhFile.do?fileid=68817739",
    "notice_text": 46858,
+   "terms": {
+    "relaxed": false,
+    "homeless_relaxed": false,
+    "income_basis": "도시근로자 월평균소득",
+    "groups": [
+     {
+      "key": "일반",
+      "name": "일반",
+      "homeless": "household",
+      "income_pct": {
+       "1": 70,
+       "2": 60,
+       "3+": 50
+      },
+      "asset_manwon": 24500,
+      "car_manwon": 4542,
+      "age_min": null,
+      "age_max": null
+     }
+    ],
+    "quotes": {
+     "일반": {
+      "income": "지시설퇴소자) - 월평균 소득 50%이하 : 차목(일반입주자) 2. 월평균 소득기준 우대비율 적용대상(적용비율 가산항목 적용대상) - 가구원수별 가산비율 : 1인 가구 20%p, 2인 가구 10%p - 출생자녀별 가산비율 : 1명 10%p, 2명 이상 20%p ※",
+      "asset": "위 장애인) 2. 총자산 기준 세대구성원 전원이 보유하고 있는 총 자산(부동산, 자동차, 금융자산(부채반영), 일반자산) 가액 합산 기준 ( 24,500 )만원 이하 3. 자동차 기준",
+      "car": "이 보유하고 있는 개별 자동차가액 ( 4,542 )만원 이하 * 총자산 기준과"
+     }
+    },
+    "income_table_100": null
+   },
    "api": {
     "CCR_CNNT_SYS_DS_CD": "03",
     "SPL_INF_TP_CD": "062",
@@ -2013,6 +2563,46 @@
    },
    "notice_pdf": "https://apply.lh.or.kr/lhapply/lhFile.do?fileid=68836774",
    "notice_text": 52846,
+   "terms": {
+    "relaxed": true,
+    "homeless_relaxed": true,
+    "income_basis": "도시근로자 월평균소득",
+    "groups": [
+     {
+      "key": "대학생",
+      "name": "대학생",
+      "homeless": "self",
+      "income_pct": "excluded",
+      "asset_manwon": "excluded",
+      "car_manwon": 0,
+      "age_min": null,
+      "age_max": null
+     },
+     {
+      "key": "청년",
+      "name": "청년",
+      "homeless": "self",
+      "income_pct": "excluded",
+      "asset_manwon": "excluded",
+      "car_manwon": 4542,
+      "age_min": 19,
+      "age_max": 39
+     }
+    ],
+    "quotes": {
+     "대학생": {
+      "income": "혼인 중이 아닐 것 ③ 【완화조건】 소득요건 배제 ④ 【완화조건】",
+      "asset": "건】 소득요건 배제 ④ 【완화조건】 총 자산가액 배제(단, 신청자 본인이 자동차가액 산출대",
+      "car": "자산가액 배제(단, 신청자 본인이 자동차가액 산출대상 자동차를 소유하고 있지 않을 것"
+     },
+     "청년": {
+      "income": "혼인 중이 아닐 것 ③ 【완화조건】 소득요건 배제 ④ 【완화조건】",
+      "asset": "건】 소득요건 배제 ④ 【완화조건】 총 자산가액 배제(단, 해당세대가",
+      "car": "당세대가 보유하고 있는 총 자산 중 자동차 가액이 4,542만원 이하일 것) ⑤ 【완화"
+     }
+    },
+    "income_table_100": null
+   },
    "api": {
     "CCR_CNNT_SYS_DS_CD": "03",
     "SPL_INF_TP_CD": "063",
@@ -2086,6 +2676,7 @@
    },
    "notice_pdf": "https://apply.lh.or.kr/lhapply/lhFile.do?fileid=68683434",
    "notice_text": 28017,
+   "terms": null,
    "api": {
     "CCR_CNNT_SYS_DS_CD": "02",
     "SPL_INF_TP_CD": "060",
@@ -2161,6 +2752,35 @@
    },
    "notice_pdf": "https://apply.lh.or.kr/lhapply/lhFile.do?fileid=68702589",
    "notice_text": 46815,
+   "terms": {
+    "relaxed": false,
+    "homeless_relaxed": false,
+    "income_basis": "도시근로자 월평균소득",
+    "groups": [
+     {
+      "key": "일반",
+      "name": "일반",
+      "homeless": "household",
+      "income_pct": {
+       "1": 70,
+       "2": 60,
+       "3+": 50
+      },
+      "asset_manwon": 24500,
+      "car_manwon": 4542,
+      "age_min": null,
+      "age_max": null
+     }
+    ],
+    "quotes": {
+     "일반": {
+      "income": "지시설퇴소자) - 월평균 소득 50%이하 : 차목(일반입주자) 2. 월평균 소득기준 우대비율 적용대상(적용비율 가산항목 적용대상) - 가구원수별 가산비율 : 1인 가구 20%p, 2인 가구 10%p - 출생자녀별 가산비율 : 1명 10%p, 2명 이상 20%p ※",
+      "asset": "위 장애인) 2. 총자산 기준 세대구성원 전원이 보유하고 있는 총 자산(부동산, 자동차, 금융자산(부채반영), 일반자산) 가액 합산 기준 ( 24,500 )만원 이하 3. 자동차 기준",
+      "car": "이 보유하고 있는 개별 자동차가액 ( 4,542 )만원 이하 * 총자산 기준과"
+     }
+    },
+    "income_table_100": null
+   },
    "api": {
     "CCR_CNNT_SYS_DS_CD": "03",
     "SPL_INF_TP_CD": "062",
@@ -2257,6 +2877,35 @@
    },
    "notice_pdf": "https://apply.lh.or.kr/lhapply/lhFile.do?fileid=68648567",
    "notice_text": 54439,
+   "terms": {
+    "relaxed": false,
+    "homeless_relaxed": false,
+    "income_basis": "도시근로자 월평균소득",
+    "groups": [
+     {
+      "key": "일반",
+      "name": "일반",
+      "homeless": "household",
+      "income_pct": {
+       "1": 70,
+       "2": 60,
+       "3+": 50
+      },
+      "asset_manwon": 24500,
+      "car_manwon": 4542,
+      "age_min": null,
+      "age_max": null
+     }
+    ],
+    "quotes": {
+     "일반": {
+      "income": "지시설퇴소자) - 월평균 소득 50%(1인 70%, 2인 60%)이하 : 차목(일반입주자) . 월평균 소득기준 우대비율 적용대상(가구원수별, 출생자녀별 가산항목 동시 적용) - 가구원수별 가산비율: 1인 가구 20%p, 2인 가구 10%p - 출생자녀(입양 및 태아 포함)*별 가산비율 * 출",
+      "asset": "위 장애인) 2. 총자산 기준 세대구성원 전원이 보유하고 있는 총 자산(부동산, 자동차, 금융자산(부채반영), 일반자산) 가액 합 산 기준 24,500만원 이하 3. 자동차 기준",
+      "car": "이 보유하고 있는 개별 자동차가액 4,542만원 이하 * 자동차는 총"
+     }
+    },
+    "income_table_100": null
+   },
    "api": {
     "CCR_CNNT_SYS_DS_CD": "03",
     "SPL_INF_TP_CD": "062",
@@ -2470,6 +3119,101 @@
    },
    "notice_pdf": "https://apply.lh.or.kr/lhapply/lhFile.do?fileid=68787450",
    "notice_text": 91766,
+   "terms": {
+    "relaxed": false,
+    "homeless_relaxed": false,
+    "income_basis": "기준 중위소득",
+    "groups": [
+     {
+      "key": "청년",
+      "name": "청년",
+      "homeless": "self",
+      "income_pct": {
+       "1": 170,
+       "2": 160,
+       "3+": 150
+      },
+      "asset_manwon": 34500,
+      "car_manwon": 4542,
+      "age_min": 18,
+      "age_max": 39
+     },
+     {
+      "key": "신혼부부·한부모",
+      "name": "신혼부부·한부모",
+      "homeless": "household",
+      "income_pct": {
+       "1": null,
+       "2": 160,
+       "3+": 150
+      },
+      "asset_manwon": 34500,
+      "car_manwon": 4542,
+      "age_min": null,
+      "age_max": null
+     },
+     {
+      "key": "고령자",
+      "name": "고령자",
+      "homeless": "household",
+      "income_pct": {
+       "1": 170,
+       "2": 160,
+       "3+": 150
+      },
+      "asset_manwon": 34500,
+      "car_manwon": 4542,
+      "age_min": 65,
+      "age_max": null
+     },
+     {
+      "key": "일반",
+      "name": "일반",
+      "homeless": "household",
+      "income_pct": {
+       "1": 170,
+       "2": 160,
+       "3+": 150
+      },
+      "asset_manwon": 34500,
+      "car_manwon": 4542,
+      "age_min": null,
+      "age_max": null
+     }
+    ],
+    "quotes": {
+     "청년": {
+      "asset": "이하 동일) • 자산기준 : 총자산 345,000,000원 및 자동차 45,420,000원 이하 + @% 출산자녀",
+      "car": "이하 동일) • 자산기준 : 총자산 345,000,000원 및 자동차 45,420,000원 이하 + @% 출산자녀",
+      "income": "균소득이 「국민기초생활 보장법」 제2조제11호에 따른 기준 중위소득의 150퍼센트(1~2인 가구 및 출산가구의 경우에는 우대비율을 가산) 이하일 것 ㉯ 18세 이상 39세 이하일 것 (출생"
+     },
+     "신혼부부·한부모": {
+      "asset": "이하 동일) • 자산기준 : 총자산 345,000,000원 및 자동차 45,420,000원 이하 + @% 출산자녀",
+      "car": "이하 동일) • 자산기준 : 총자산 345,000,000원 및 자동차 45,420,000원 이하 + @% 출산자녀",
+      "income": "인으로 구성될 세대의 세대구성원 월평균소득의 합계)이 기준 중위소득의 150퍼센트(맞벌이, 2인 가구 및 출산가구의 경우에는 우대비율을 가산) 이하일 것 ● 고령자 【유의사항】 혼인 중이"
+     },
+     "고령자": {
+      "asset": "이하 동일) • 자산기준 : 총자산 345,000,000원 및 자동차 45,420,000원 이하 + @% 출산자녀",
+      "car": "이하 동일) • 자산기준 : 총자산 345,000,000원 및 자동차 45,420,000원 이하 + @% 출산자녀",
+      "income": "요건을 모두 갖춘 사람 ㉮ 해당 세대의 월평균소득이 기준 중위소득의 150퍼센트(1~2인 가구 및 출산가구의 경우에는 우대비율을 가산) 이하일 것 ㉯ 65세 이상(1961.09.30 이전"
+     },
+     "일반": {
+      "asset": "이하 동일) • 자산기준 : 총자산 345,000,000원 및 자동차 45,420,000원 이하 + @% 출산자녀",
+      "car": "이하 동일) • 자산기준 : 총자산 345,000,000원 및 자동차 45,420,000원 이하 + @% 출산자녀",
+      "income": "반 • 무주택세대구성원으로서 해당 세대의 월평균소득이 기준 중위소득의 150퍼센트(1~2인 가구 및 출산가구의 경우에는 우대 비율을 가산) 이하일 것 - 26 - 6. 신청서류 ■ 기본 제"
+     }
+    },
+    "income_table_100": {
+     "1": 2564238,
+     "2": 4619221,
+     "3": 5894940,
+     "4": 7144212,
+     "5": 8312391,
+     "6": 9411547,
+     "7": 10466665,
+     "8": 11521783
+    }
+   },
    "api": {
     "CCR_CNNT_SYS_DS_CD": "03",
     "SPL_INF_TP_CD": "062",
@@ -2545,6 +3289,7 @@
    },
    "notice_pdf": "https://apply.lh.or.kr/lhapply/lhFile.do?fileid=68788606",
    "notice_text": 29095,
+   "terms": null,
    "api": {
     "CCR_CNNT_SYS_DS_CD": "03",
     "SPL_INF_TP_CD": "061",
@@ -2620,6 +3365,35 @@
    },
    "notice_pdf": "https://apply.lh.or.kr/lhapply/lhFile.do?fileid=68663137",
    "notice_text": 39668,
+   "terms": {
+    "relaxed": false,
+    "homeless_relaxed": false,
+    "income_basis": "도시근로자 월평균소득",
+    "groups": [
+     {
+      "key": "일반",
+      "name": "일반",
+      "homeless": "household",
+      "income_pct": {
+       "1": 70,
+       "2": 60,
+       "3+": 50
+      },
+      "asset_manwon": 24500,
+      "car_manwon": 4542,
+      "age_min": null,
+      "age_max": null
+     }
+    ],
+    "quotes": {
+     "일반": {
+      "income": "지시설퇴소자) - 월평균 소득 50%이하 : 차목(일반입주자) 2. 월평균 소득기준 우대비율 적용대상(적용비율 가산항목 적용대상) - 가구원수별 가산비율 : 1인 가구 20%p, 2인 가구 10%p - 출생자녀별 가산비율 : 1명 10%p, 2명 이상 20%p ※",
+      "asset": "위 장애인) 2. 총자산 기준 세대구성원 전원이 보유하고 있는 총 자산(부동산, 자동차, 금융자산(부채반영), 일반자산) 가액 합산 기준 ( 24,500 )만원 이하 3. 자동차 기준",
+      "car": "이 보유하고 있는 개별 자동차가액 ( 4,542 )만원 이하 * 총자산 기준과"
+     }
+    },
+    "income_table_100": null
+   },
    "api": {
     "CCR_CNNT_SYS_DS_CD": "03",
     "SPL_INF_TP_CD": "062",
@@ -2717,6 +3491,30 @@
    },
    "notice_pdf": "https://apply.lh.or.kr/lhapply/lhFile.do?fileid=68567319",
    "notice_text": 50781,
+   "terms": {
+    "relaxed": false,
+    "homeless_relaxed": false,
+    "income_basis": "도시근로자 월평균소득",
+    "groups": [
+     {
+      "key": "일반",
+      "name": "일반",
+      "homeless": "household",
+      "income_pct": null,
+      "asset_manwon": 34500,
+      "car_manwon": 4542,
+      "age_min": null,
+      "age_max": null
+     }
+    ],
+    "quotes": {
+     "일반": {
+      "asset": "이 보유하고 있는 총자산가액 합산기준 백만원 이하 ( 345 ) 자동차가액 세대구",
+      "car": "이 보유하고 있는 개별 자동차가액 만원 이하 ( 4,542 ) 소득 자산 산정방"
+     }
+    },
+    "income_table_100": null
+   },
    "api": {
     "CCR_CNNT_SYS_DS_CD": "03",
     "SPL_INF_TP_CD": "062",
@@ -2797,6 +3595,35 @@
    },
    "notice_pdf": "https://apply.lh.or.kr/lhapply/lhFile.do?fileid=68635057",
    "notice_text": 43793,
+   "terms": {
+    "relaxed": false,
+    "homeless_relaxed": false,
+    "income_basis": "도시근로자 월평균소득",
+    "groups": [
+     {
+      "key": "일반",
+      "name": "일반",
+      "homeless": "household",
+      "income_pct": {
+       "1": 90,
+       "2": 80,
+       "3+": 70
+      },
+      "asset_manwon": 34500,
+      "car_manwon": 4542,
+      "age_min": null,
+      "age_max": null
+     }
+    ],
+    "quotes": {
+     "일반": {
+      "income": "가구원수별 가구당 월평균 소득(원) 70% 80% 90% 참고사항 1인 2 … 1인 가구 20%p 가산, 2인 가구 10%p 가산",
+      "asset": "58,337 자산 총자산가액 세대구성원 전원이 보유하고 있는 총자산가액 합산기준 ( 345 )백만원 이하 자동차가액 세대구",
+      "car": "이 보유하고 있는 개별 자동차가액 ( 4,542 )만원 이하 • 소득기준 가산"
+     }
+    },
+    "income_table_100": null
+   },
    "api": {
     "CCR_CNNT_SYS_DS_CD": "03",
     "SPL_INF_TP_CD": "062",
@@ -2872,6 +3699,31 @@
    },
    "notice_pdf": "https://apply.lh.or.kr/lhapply/lhFile.do?fileid=68741283",
    "notice_text": 23138,
+   "terms": {
+    "relaxed": true,
+    "homeless_relaxed": false,
+    "income_basis": "도시근로자 월평균소득",
+    "groups": [
+     {
+      "key": "일반",
+      "name": "일반",
+      "homeless": "household",
+      "income_pct": "excluded",
+      "asset_manwon": "excluded",
+      "car_manwon": 4542,
+      "age_min": null,
+      "age_max": null
+     }
+    ],
+    "quotes": {
+     "일반": {
+      "income": "준(소득 · 총자산은 최초 계약 시 미적용) 구분 소득 및 자산보유 기준 소득 • 소득 기준 적용하지 아니함 자산 총자산가액 • 자산 기준 적용하지 아니함 자동차가액 • 4,542만원 이하 • 입주자격 중 주택소유 산정시점은 각 신청자별 신청일이며,",
+      "asset": "구분 소득 및 자산보유 기준 소득 • 소득 기준 적용하지 아니함 자산 총자산가액 • 자산 기준 적용하지 아니함 자동차가액 • 4,542만원 이하 • 입주자격 중 주택소유 산정시점은 각 신청자별 신청일이며, 산정시점은 조사기준일로 합니다. 다만, 사업주체",
+      "car": "적용하지 아니함 자동차가액 • 4,542만원 이하 • 입주자격 중"
+     }
+    },
+    "income_table_100": null
+   },
    "api": {
     "CCR_CNNT_SYS_DS_CD": "03",
     "SPL_INF_TP_CD": "062",
@@ -3010,6 +3862,92 @@
    },
    "notice_pdf": "https://apply.lh.or.kr/lhapply/lhFile.do?fileid=68835600",
    "notice_text": 53997,
+   "terms": {
+    "relaxed": true,
+    "homeless_relaxed": true,
+    "income_basis": "도시근로자 월평균소득",
+    "groups": [
+     {
+      "key": "대학생",
+      "name": "대학생",
+      "homeless": "self",
+      "income_pct": "excluded",
+      "asset_manwon": "excluded",
+      "car_manwon": 0,
+      "age_min": null,
+      "age_max": null
+     },
+     {
+      "key": "청년",
+      "name": "청년",
+      "homeless": "self",
+      "income_pct": "excluded",
+      "asset_manwon": "excluded",
+      "car_manwon": 4542,
+      "age_min": 19,
+      "age_max": 39
+     },
+     {
+      "key": "신혼부부·한부모",
+      "name": "신혼부부·한부모",
+      "homeless": "household",
+      "income_pct": "excluded",
+      "asset_manwon": "excluded",
+      "car_manwon": 4542,
+      "age_min": null,
+      "age_max": null
+     },
+     {
+      "key": "고령자",
+      "name": "고령자",
+      "homeless": "household",
+      "income_pct": "excluded",
+      "asset_manwon": "excluded",
+      "car_manwon": 4542,
+      "age_min": 65,
+      "age_max": null
+     },
+     {
+      "key": "주거급여수급자",
+      "name": "주거급여수급자",
+      "homeless": "household",
+      "income_pct": null,
+      "asset_manwon": null,
+      "car_manwon": null,
+      "age_min": null,
+      "age_max": null
+     }
+    ],
+    "quotes": {
+     "대학생": {
+      "income": "로 간주 ② 혼인 중이 아닐 것 ③ 소득요건 배제 [일반요건 : 신",
+      "asset": "579,278원을 합산하여 산정 ④ 총자산요건 배제 (단, 신청자 본인이 자동차가액 산출대",
+      "car": "자산요건 배제 (단, 신청자 본인이 자동차가액 산출대상 자동차를 소유하고 있지 않을 것"
+     },
+     "청년": {
+      "income": "예술인 ② 혼인 중이 아닐 것 ③ 소득요건 배제 - 9 - ※ 소",
+      "asset": "579,278원을 합산하여 산정 ④ 총자산요건 배제 (단, 해당세대가",
+      "car": "당세대가 보유하고 있는 총 자산 중 자동차가액은 4,542만원 이하 일 것) * 가산"
+     },
+     "신혼부부·한부모": {
+      "income": "이하) 자녀(태아포함)를 둔 자 ③ 소득요건 배제 [일반요건: 해당",
+      "asset": "579,278원을 합산하여 산정 ④ 총자산요건 배제 (단, 해당세대가",
+      "car": "당세대가 보유하고 있는 총 자산 중 자동차가액은 4,542만원 이하 일 것) * 가산"
+     },
+     "고령자": {
+      "income": "을 모두 갖춘 65세 이상인 자 ① 소득요건 배제 [일반요건 : 해",
+      "asset": "579,278원을 합산하여 산정 ② 총자산요건 배제 (단, 해당세대가",
+      "car": "당세대가 보유하고 있는 총 자산 중 자동차가액은 4,542만원 이하 일 것)) * 가"
+     },
+     "주거급여수급자": {}
+    },
+    "income_table_100": {
+     "3": 8168429,
+     "4": 8802202,
+     "5": 9326985,
+     "6": 9906263
+    }
+   },
    "api": {
     "CCR_CNNT_SYS_DS_CD": "03",
     "SPL_INF_TP_CD": "063",
@@ -3096,6 +4034,31 @@
    },
    "notice_pdf": "https://apply.lh.or.kr/lhapply/lhFile.do?fileid=68365443",
    "notice_text": 42812,
+   "terms": {
+    "relaxed": true,
+    "homeless_relaxed": false,
+    "income_basis": "도시근로자 월평균소득",
+    "groups": [
+     {
+      "key": "일반",
+      "name": "일반",
+      "homeless": "household",
+      "income_pct": "excluded",
+      "asset_manwon": "excluded",
+      "car_manwon": 4542,
+      "age_min": null,
+      "age_max": null
+     }
+    ],
+    "quotes": {
+     "일반": {
+      "income": "소득·총자산 배제)하는 모집으로 입주자격 해당자만 신청접수 가능합니다. 구분 입주자격 완화 내용 주택요건 무주택 세대구성원 소득요건 소득요건 배제 총자산 요건 총자산 요건 배제 (단, 자동차가액 4,542만원 이하 요건 적용) ▪ 소득 및 총자산 완화모집으로 입주한 경우",
+      "asset": "목(아동복지시설퇴소자), 차목(일반입주자), 타목(2순위 장애인) 2. 총자산 기준(총자산 배제) 세대구성원 전원이 보유하고 있는 총 자산(부동산, 자동차, 금융자산(부채반영), 일반자산) 가액 합산 기준 ( 24,500 )만원 이하 3.",
+      "car": "이 보유하고 있는 개별 자동차가액 (4,542)만원 이하 * 총자산 기준과"
+     }
+    },
+    "income_table_100": null
+   },
    "api": {
     "CCR_CNNT_SYS_DS_CD": "03",
     "SPL_INF_TP_CD": "062",
@@ -3181,6 +4144,35 @@
    },
    "notice_pdf": "https://apply.lh.or.kr/lhapply/lhFile.do?fileid=68561929",
    "notice_text": 43504,
+   "terms": {
+    "relaxed": true,
+    "homeless_relaxed": false,
+    "income_basis": "도시근로자 월평균소득",
+    "groups": [
+     {
+      "key": "고령자",
+      "name": "고령자(만65세 이상)",
+      "homeless": "household",
+      "income_pct": {
+       "1": 150,
+       "2": 150,
+       "3+": 150
+      },
+      "asset_manwon": 34500,
+      "car_manwon": 4542,
+      "age_min": 65,
+      "age_max": null
+     }
+    ],
+    "quotes": {
+     "고령자": {
+      "income": "일반조건 완화조건 ① 소득완화 전년도 월평균소득 70% 이하 ☞ 전년도 월평균소득의 150% 이하 * 완화조건 내용은 4. 신청자격 - 소득 및 자산보유기준(7쪽) 참조 ▪ 본 공고에 따른 입주자격 완화 입주자는 「공공주택 업무처리지침」 제",
+      "asset": ")원 이하 자산 총자산가액 세대구성원 전원이 보유하고 있는 총자산가액 합산기준 ( 345 )백만원 이하 자동차가액 세대구",
+      "car": "이 보유하고 있는 개별 자동차가액 ( 4,542 )만원 이하 • 소득기준 가산"
+     }
+    },
+    "income_table_100": null
+   },
    "api": {
     "CCR_CNNT_SYS_DS_CD": "03",
     "SPL_INF_TP_CD": "062",
@@ -3325,6 +4317,31 @@
    },
    "notice_pdf": "https://apply.lh.or.kr/lhapply/lhFile.do?fileid=68195754",
    "notice_text": 46352,
+   "terms": {
+    "relaxed": true,
+    "homeless_relaxed": true,
+    "income_basis": "도시근로자 월평균소득",
+    "groups": [
+     {
+      "key": "일반",
+      "name": "일반",
+      "homeless": "household",
+      "income_pct": "excluded",
+      "asset_manwon": "excluded",
+      "car_manwon": 4542,
+      "age_min": null,
+      "age_max": null
+     }
+    ],
+    "quotes": {
+     "일반": {
+      "income": "입주자격 완화 주요내용 】 ▪ 금회 공고는 예비입주자를 모집하는 공고로서 입주자격 요건을 아래와 같이 완화하여 모집합니다. 일반조건 완화조건 ① 무주택요건 완화 세대원 전원 무주택 ☞ - 해당지역 및 연접지역에 주택",
+      "asset": "별 자동차가액 4,542만원 이하 완화 대상자 필독 ▪ 본 공고에 따른 소득 및 총자산 완화 입주자는 「공공주택 업무처리지침」 94조에 따라 재계약을 1회에 한해 허용 하며(소득 이외 다른 요건은 충족해야하며, 소득 총자산 초과시 비율에 따른",
+      "car": "이 보유하고 있는 개별 자동차가액 4,542만원 이하 완화 대상자 필독"
+     }
+    },
+    "income_table_100": null
+   },
    "api": {
     "CCR_CNNT_SYS_DS_CD": "03",
     "SPL_INF_TP_CD": "062",
@@ -3619,6 +4636,31 @@
    },
    "notice_pdf": "https://apply.lh.or.kr/lhapply/lhFile.do?fileid=67837147",
    "notice_text": 45448,
+   "terms": {
+    "relaxed": true,
+    "homeless_relaxed": true,
+    "income_basis": "도시근로자 월평균소득",
+    "groups": [
+     {
+      "key": "일반",
+      "name": "일반",
+      "homeless": "household",
+      "income_pct": "excluded",
+      "asset_manwon": "excluded",
+      "car_manwon": 4542,
+      "age_min": null,
+      "age_max": null
+     }
+    ],
+    "quotes": {
+     "일반": {
+      "income": "항 - 소득 및 자산 요건 완화 관련 재계약 허용 여부 - 주택 보유 요건 완화 관련 재계약 허용 여부 기준초과자의 1회차 재계약 기준초과자의 2회차 재계약 소득‧총자산 요건 미충족 시에도 재계약 허용(임대조건 할증 X) 예비자가 없",
+      "asset": "987 8인 7,745,373 8,851,855 9,958,337 자산 총자산가액 (금회 배제) 세대구성원 전원이 보유하고 있는 총자산가액 합산기준 ( 34,500 )만원 이하 자동차가액 (금회 적용) 세대구성원 전원이 보유하고 있는 개별",
+      "car": "이 보유하고 있는 개별 자동차가액 ( 4,542 )만원 이하 • 소득기준 가산"
+     }
+    },
+    "income_table_100": null
+   },
    "api": {
     "CCR_CNNT_SYS_DS_CD": "03",
     "SPL_INF_TP_CD": "062",
