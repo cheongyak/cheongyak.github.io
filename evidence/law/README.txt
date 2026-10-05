@@ -1,4 +1,4 @@
-받은 시각: 2026-10-05 01:39
+받은 시각: 2026-10-05 09:51
 법령: 주택공급에 관한 규칙
 [인증키] 길이 17자 (앞뒤 공백 없음) · 영문/숫자만 예 · @ 포함 아니오
 [검색 시도] Referer 없음 · https://www.law.go.kr/DRF/lawSearch.do?OC=***&target=law&type=XML&query=%EC%A3%BC%ED%83%9D%EA%B3%B5%EA%B8%89%EC%97%90%EA%B4%80%ED%95%9C%EA%B7%9C%EC%B9%99 · HTTP 200 · <?xml version="1.0" encoding="UTF-8"?> <Response> <result>필수입력요소 검증에 실패하였습니다.</result> <msg>필수 입력값이 존재하지 않습니다. 요청 URL을 확인해 주세요.</msg> </
