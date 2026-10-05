@@ -1,9 +1,176 @@
-{
- "OpenAPI_ServiceResponse": {
-  "cmmMsgHeader": {
-   "errMsg": "SERVICE_KEY_IS_NOT_REGISTERED_ERROR",
-   "returnAuthMsg": "등록되지 않은 서비스키",
-   "returnReasonCode": "30"
-  }
+[
+ {
+  "dsSch": [
+   {
+    "PAN_ID": "2015122300020864",
+    "CCR_CNNT_SYS_DS_CD": "03",
+    "SPL_INF_TP_CD": "062",
+    "UPP_AIS_TP_CD": "06",
+    "AIS_TP_CD": "09"
+   }
+  ]
+ },
+ {
+  "dsSplScdl": [
+   {
+    "PPR_SBM_OPE_ANC_DT": "",
+    "PPR_ACP_CLSG_DT": "",
+    "PZWR_ANC_DT": "2026.12.21",
+    "CTRT_ED_DT": "",
+    "SBD_LGO_NM": "",
+    "SBSC_ACP_ST_DT": "2026.10.14",
+    "ACP_DTTM": "~",
+    "SBSC_ACP_CLSG_DT": "2026.10.15",
+    "CTRT_ST_DT": "",
+    "PPR_ACP_ST_DT": ""
+   }
+  ],
+  "dsSbdAhflNm": [
+   {
+    "LCC_NT_NM": "단지명",
+    "AHFL_URL": "다운로드",
+    "LS_SPL_INF_UPL_FL_DS_CD_NM": "파일구분명",
+    "CMN_AHFL_NM": "첨부파일명"
+   }
+  ],
+  "dsSbdNm": [
+   {
+    "LGDN_ADR": "단지주소",
+    "LGDN_DTL_ADR": "단지상세주소",
+    "HSH_CNT": "총세대수",
+    "HTN_FMLA_DESC": "난방방식",
+    "LCC_NT_NM": "단지명",
+    "DDO_AR": "전용면적",
+    "SPL_INF_GUD_FCTS": "안내사항",
+    "MVIN_XPC_YM": "입주예정월"
+   }
+  ],
+  "dsEtcInfo": [
+   {
+    "ETC_CTS": "* 해당 공고는 예비입주자 모집 공고로 실제 입주까지는 상당 기간이 소요될 수 있으며, 선호하지 않는 동호가 배정될 수 있습니다.\n* 청약자격 미숙지, 착오신청 등에 대해서는 청약자 본인에게 책임이 있으니 불이익이 없도록 반드시 공고문을 읽어보신 후 신청하시기 바랍니다.",
+    "CRC_RSN": ""
+   }
+  ],
+  "dsAhflInfo": [
+   {
+    "AHFL_URL": "https://apply.lh.or.kr/lhapply/lhFile.do?fileid=68817738",
+    "SL_PAN_AHFL_DS_CD_NM": "공고문(hwp)",
+    "CMN_AHFL_NM": "26.10.02.(영구임대)남해창선예비자입주자모집공고문.hwpx"
+   },
+   {
+    "AHFL_URL": "https://apply.lh.or.kr/lhapply/lhFile.do?fileid=68817739",
+    "SL_PAN_AHFL_DS_CD_NM": "공고문(PDF)",
+    "CMN_AHFL_NM": "26.10.02.(영구임대)남해창선예비자입주자모집공고문.pdf"
+   }
+  ],
+  "dsSbd": [
+   {
+    "LGDN_ADR": "경상남도 남해군 창선면 창선로 54(창선누리타운)",
+    "LGDN_DTL_ADR": "",
+    "HSH_CNT": "64",
+    "HTN_FMLA_DESC": "개별난방",
+    "LCC_NT_NM": "남해창선(고령자복지) 1BL",
+    "DDO_AR": "26.7~36.35",
+    "SPL_INF_GUD_FCTS": "",
+    "MVIN_XPC_YM": "2024.04"
+   }
+  ],
+  "dsSbdAhfl": [
+   {
+    "LCC_NT_NM": "남해창선(고령자복지) 1BL",
+    "AHFL_URL": "https://apply.lh.or.kr/lhapply/lhImageView2.do?fileid=49903085",
+    "LS_SPL_INF_UPL_FL_DS_CD_NM": "단지조감도",
+    "CMN_AHFL_NM": "남해창선영구임대단지조감도.jpg"
+   },
+   {
+    "LCC_NT_NM": "남해창선(고령자복지) 1BL",
+    "AHFL_URL": "https://apply.lh.or.kr/lhapply/lhImageView2.do?fileid=49903086",
+    "LS_SPL_INF_UPL_FL_DS_CD_NM": "동호배치도",
+    "CMN_AHFL_NM": "남해창선영구임대동호배치도.jpg"
+   },
+   {
+    "LCC_NT_NM": "남해창선(고령자복지) 1BL",
+    "AHFL_URL": "https://apply.lh.or.kr/lhapply/lhImageView2.do?fileid=49903088",
+    "LS_SPL_INF_UPL_FL_DS_CD_NM": "호실사진",
+    "CMN_AHFL_NM": "남해창선영구임대평면도_26B.jpg"
+   },
+   {
+    "LCC_NT_NM": "남해창선(고령자복지) 1BL",
+    "AHFL_URL": "https://apply.lh.or.kr/lhapply/lhImageView2.do?fileid=58315633",
+    "LS_SPL_INF_UPL_FL_DS_CD_NM": "호실사진",
+    "CMN_AHFL_NM": "남해창선영구임대평면도_26C.jpg"
+   },
+   {
+    "LCC_NT_NM": "남해창선(고령자복지) 1BL",
+    "AHFL_URL": "https://apply.lh.or.kr/lhapply/lhImageView2.do?fileid=49903171",
+    "LS_SPL_INF_UPL_FL_DS_CD_NM": "호실사진",
+    "CMN_AHFL_NM": "남해창선영구임대평면도_36A.jpg"
+   },
+   {
+    "LCC_NT_NM": "남해창선(고령자복지) 1BL",
+    "AHFL_URL": "https://apply.lh.or.kr/lhapply/lhImageView2.do?fileid=49903172",
+    "LS_SPL_INF_UPL_FL_DS_CD_NM": "호실사진",
+    "CMN_AHFL_NM": "남해창선영구임대평면도_36B.jpg"
+   },
+   {
+    "LCC_NT_NM": "남해창선(고령자복지) 1BL",
+    "AHFL_URL": "https://apply.lh.or.kr/lhapply/lhImageView2.do?fileid=49903087",
+    "LS_SPL_INF_UPL_FL_DS_CD_NM": "호실사진",
+    "CMN_AHFL_NM": "남해창선영구임대평면도_26A.jpg"
+   }
+  ],
+  "dsCtrtPlcNm": [
+   {
+    "CTRT_PLC_DTL_ADR": "접수처소재지상세주소",
+    "SIL_OFC_GUD_FCTS": "접수처안내사항",
+    "CTRT_PLC_ADR": "접수처소재지주소",
+    "TSK_ST_DTTM": "운영기간시작일시",
+    "TSK_ED_DTTM": "운영기간종료일시",
+    "SIL_OFC_TLNO": "전화번호"
+   }
+  ],
+  "dsEtcInfoNm": [
+   {
+    "ETC_CTS": "기타사항",
+    "CRC_RSN": "정정/취소사유"
+   }
+  ],
+  "dsAhflInfoNm": [
+   {
+    "AHFL_URL": "다운로드",
+    "SL_PAN_AHFL_DS_CD_NM": "파일구분명",
+    "CMN_AHFL_NM": "첨부파일명"
+   }
+  ],
+  "dsCtrtPlc": [
+   {
+    "CTRT_PLC_DTL_ADR": "",
+    "SIL_OFC_GUD_FCTS": "남해군 관내 거주지 행정복지센터에서 접수합니다.(현장접수)",
+    "CTRT_PLC_ADR": "",
+    "TSK_ST_DTTM": "2026.10.14",
+    "TSK_ED_DTTM": "2026.10.15",
+    "SIL_OFC_TLNO": "1600-1004"
+   }
+  ],
+  "dsSplScdlNm": [
+   {
+    "PPR_SBM_OPE_ANC_DT": "서류제출대상자발표일",
+    "PPR_ACP_CLSG_DT": "서류접수기간종료일",
+    "PZWR_ANC_DT": "당첨자발표일",
+    "CTRT_ED_DT": "계약기간종료일",
+    "SBD_LGO_NM": "단지명",
+    "SBSC_ACP_ST_DT": "접수기간시작일",
+    "ACP_DTTM": "신청일시",
+    "SBSC_ACP_CLSG_DT": "접수기간종료일",
+    "CTRT_ST_DT": "계약기간시작일",
+    "PPR_ACP_ST_DT": "서류접수기간시작일"
+   }
+  ],
+  "resHeader": [
+   {
+    "RS_DTTM": "20261005012029",
+    "SS_CODE": "Y"
+   }
+  ]
  }
-}
+]

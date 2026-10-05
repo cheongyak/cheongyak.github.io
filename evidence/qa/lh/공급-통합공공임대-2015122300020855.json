@@ -1,9 +1,125 @@
-{
- "OpenAPI_ServiceResponse": {
-  "cmmMsgHeader": {
-   "errMsg": "SERVICE_KEY_IS_NOT_REGISTERED_ERROR",
-   "returnAuthMsg": "등록되지 않은 서비스키",
-   "returnReasonCode": "30"
-  }
+[
+ {
+  "dsSch": [
+   {
+    "PAN_ID": "2015122300020855",
+    "CCR_CNNT_SYS_DS_CD": "03",
+    "SPL_INF_TP_CD": "062",
+    "UPP_AIS_TP_CD": "06",
+    "AIS_TP_CD": "48"
+   }
+  ]
+ },
+ {
+  "dsList01Nm": [
+   {
+    "RFE": "월임대료(원)",
+    "NOW_HSH_CNT": "금회공급 세대수",
+    "HSH_CNT": "세대수",
+    "HTY_NNA": "주택형",
+    "LS_GMY": "임대보증금(원)",
+    "SBD_LGO_NM": "단지명",
+    "DDO_AR": "전용면적(㎡)",
+    "SPL_AR": "공급면적"
+   }
+  ],
+  "resHeader": [
+   {
+    "RS_DTTM": "20261005012036",
+    "SS_CODE": "Y"
+   }
+  ],
+  "dsList01": [
+   {
+    "RFE": "공고문 참조",
+    "NOW_HSH_CNT": "262",
+    "HSH_CNT": "262",
+    "HTY_NNA": "31A",
+    "LS_GMY": "공고문 참조",
+    "SBD_LGO_NM": "대구연호 A-2블록 통합공공임대",
+    "DDO_AR": "31.86",
+    "SPL_AR": "48.9736"
+   },
+   {
+    "RFE": "공고문 참조",
+    "NOW_HSH_CNT": "144",
+    "HSH_CNT": "144",
+    "HTY_NNA": "41A",
+    "LS_GMY": "공고문 참조",
+    "SBD_LGO_NM": "대구연호 A-2블록 통합공공임대",
+    "DDO_AR": "41.96",
+    "SPL_AR": "64.4989"
+   },
+   {
+    "RFE": "공고문 참조",
+    "NOW_HSH_CNT": "12",
+    "HSH_CNT": "12",
+    "HTY_NNA": "41B",
+    "LS_GMY": "공고문 참조",
+    "SBD_LGO_NM": "대구연호 A-2블록 통합공공임대",
+    "DDO_AR": "41.96",
+    "SPL_AR": "64.4989"
+   },
+   {
+    "RFE": "공고문 참조",
+    "NOW_HSH_CNT": "104",
+    "HSH_CNT": "104",
+    "HTY_NNA": "55A",
+    "LS_GMY": "공고문 참조",
+    "SBD_LGO_NM": "대구연호 A-2블록 통합공공임대",
+    "DDO_AR": "55.89",
+    "SPL_AR": "85.9114"
+   },
+   {
+    "RFE": "공고문 참조",
+    "NOW_HSH_CNT": "68",
+    "HSH_CNT": "68",
+    "HTY_NNA": "31A",
+    "LS_GMY": "공고문 참조",
+    "SBD_LGO_NM": "대구연호 A-3블록 통합공공임대",
+    "DDO_AR": "31.96",
+    "SPL_AR": "48.1174"
+   },
+   {
+    "RFE": "공고문 참조",
+    "NOW_HSH_CNT": "12",
+    "HSH_CNT": "12",
+    "HTY_NNA": "31AS",
+    "LS_GMY": "공고문 참조",
+    "SBD_LGO_NM": "대구연호 A-3블록 통합공공임대",
+    "DDO_AR": "31.96",
+    "SPL_AR": "48.1174"
+   },
+   {
+    "RFE": "공고문 참조",
+    "NOW_HSH_CNT": "158",
+    "HSH_CNT": "158",
+    "HTY_NNA": "36A",
+    "LS_GMY": "공고문 참조",
+    "SBD_LGO_NM": "대구연호 A-3블록 통합공공임대",
+    "DDO_AR": "36.68",
+    "SPL_AR": "55.2236"
+   },
+   {
+    "RFE": "공고문 참조",
+    "NOW_HSH_CNT": "16",
+    "HSH_CNT": "16",
+    "HTY_NNA": "36AS",
+    "LS_GMY": "공고문 참조",
+    "SBD_LGO_NM": "대구연호 A-3블록 통합공공임대",
+    "DDO_AR": "36.68",
+    "SPL_AR": "55.2236"
+   },
+   {
+    "RFE": "공고문 참조",
+    "NOW_HSH_CNT": "72",
+    "HSH_CNT": "72",
+    "HTY_NNA": "46A",
+    "LS_GMY": "공고문 참조",
+    "SBD_LGO_NM": "대구연호 A-3블록 통합공공임대",
+    "DDO_AR": "46.89",
+    "SPL_AR": "70.5953"
+   }
+  ]
  }
-}
+]
