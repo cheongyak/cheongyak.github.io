@@ -51,7 +51,16 @@ npm i --no-save playwright@1.56.0          # 화면 검사용. 크로미움이 /
 
 GitHub Secrets (이름만): `DATA_GO_KR_KEY`, `NCP_MAPS_CLIENT_ID`, `NCP_MAPS_CLIENT_SECRET`, `CLOUDFLARE_API_TOKEN`, `CLOUDFLARE_ACCOUNT_ID`, `PUSH_SEND_TOKEN`, `LAW_OC`(법제처 API, 2026-10-01 사용자 등록)
 
-## 진행 중인 일 (2026-10-04 기준, 최신이 위)
+## 진행 중인 일 (2026-10-05 기준, 최신이 위)
+
+-25. **LH 임대 목록 + 자격 판정 (2026-10-05 13:23~, 사용자 '2번으로 하는데, 현재 청약판정에는 영향없도록' + '나중에 일반청약/공공임대/청년주택으로 나눠 보기')**
+   - 원천: 공공데이터포털 LH 분양임대공고 3종 모두 승인·HTTP 200 (10-05 13:20 lh-probe). 목록 lhLeaseNoticeInfo1(UPP_AIS_TP_CD=06, 최근 공고 198건: 국민임대·행복주택·영구임대·공공임대·통합공공임대 등),
+     상세 getLeaseNoticeDtlInfo1(단지별 접수일·서류제출 대상 발표·당첨자 발표, 단지 주소·세대수·입주 예정월, 공고문 PDF/HWP 첨부 AHFL_URL, 기타사항 ETC_CTS), 공급 getLeaseNoticeSplInfo1(주택형·전용면적·세대수·임대보증금·월임대료 — '공고문 참조'로 비어 있는 경우 있음).
+     응답 원본 evidence/qa/lh/. 같은 DATA_GO_KR_KEY 사용.
+   - 설계(아직 코드 없음): app/lh_rental.py → docs/lh-rental.json (매일, collect.yml 별도 단계 continue-on-error, 실패해도 기존 수집 영향 없음). 스위치 `lh_rental`(검증 전 false).
+     화면 판정은 기존 spJudge/일반공급과 완전히 분리된 rentalJudge, 유형별 규칙은 공공주택 특별법 시행규칙 별표 3(영구)·4(국민)·5(행복)·5의2(통합) + 공고문 PDF. 임대료가 '공고문 참조'면 공고문 PDF 에서 읽고 못 읽으면 '공고문 확인'.
+     화면은 공고 분류 탭 '일반청약 / 공공임대 / 청년주택'. 기존 판정 regress 변화 0건을 올리기 조건으로.
+   - 다음: 공고문 PDF 몇 건 받아 임대 조건·자격 문장 읽기 → 정답 데이터 → 수집기 → 판정 사례 → 화면.
 
 -24. **남은 일 6·7·8 (2026-10-05 01:18~, 사용자 '6,7,8 진행해줘')**
    - 6 전매제한 v1.50.0 (기능 `resale_limit`, e72109f): notice_pdf.parse_resale(본문 문장 → LH 표·문장 → 1쪽 표, PDF 글자 뒤섞임 포함) → L.resale·제약 줄 '6개월 (~27.03.22)'·'3년(등기 시 풀림)'·'없음'·'이미 지남'. 원문 107/109 읽음(나머지 2건은 원문에 전매제한 없음), 정답 22건. 수집 결과 226주택형 모두 전매 제한 줄.
@@ -117,7 +126,7 @@ GitHub Secrets (이름만): `DATA_GO_KR_KEY`, `NCP_MAPS_CLIENT_ID`, `NCP_MAPS_CL
    시험: `node --test chat/v2/test/v2.test.mjs`(Actions chat-v2.yml, 배포 없음), CLI `node chat/v2/cli.mjs "질문" --profile chat/v2/test/profile-newlywed.json`.
    사용자가 준 품질 예시 2개(다른 서비스의 아파트 매매 상담 답)는 저장소에 옮기지 않고 원칙만 STYLE.md 로. 사용자는 질문/답 샘플을 더 줄 수 있다고 함 → 오면 golden 에 넣기.
    10-02 23:40 사용자가 네이버 Directions 5 켜고 KAKAO_REST_KEY 넣음 → chat/v2/commute.mjs, chat-v2-probe.yml: 자동차 네이버 10/10·카카오 10/10. 답에 '자동차 약 N분(조회 시각)' 붙음(evidence/chat-v2/sample-commute.txt).
-     카카오 장소 검색은 403 'disabled OPEN_MAP_AND_LOCAL' — 사용자가 카카오 앱에서 '카카오맵' 사용 설정을 켜야 함(요청함). 카카오 지도·로컬 결과는 저장 금지·실시간만. 대중교통은 미정(ODsay 2안). 시간은 조회 시각 교통이라 밤에는 짧게 나옴.
+     카카오 장소 검색: 카카오맵 사용 설정 켜져 있음(10-04 commute-probe 에서 kakao_local 정상, 사용자 화면 확인). 카카오 지도·로컬 결과는 저장 금지·실시간만. 대중교통은 미정(ODsay 2안). 시간은 조회 시각 교통이라 밤에는 짧게 나옴.
    10-03 답 품질 순환(chat/v2/QUALITY.md): 슬롯 F1·JGA, CheckList INV/DIR, 근거 충실도, 채점표 7차원, AI 심사(G-Eval·짝 비교·Bradley-Terry, ai-run.json round 올릴 때만 — 비용), 사용자 👎 이유.
      `node chat/v2/quality/run.mjs [--ratchet]`, 기준선 chat/v2/quality/baseline.json (CI chat-v2.yml 이 기준선보다 낮으면 실패). AI 회차: 10-03 사용자 '진행' → 회차 1~3 (비용 약 2~3달러). 챔피언 = 설명 프롬프트 v2-0.2(sonnet-5 심사 7승 3패 10무, 절대 평가 3.69→3.99/5). 기록은 QUALITY.md 표.
    다음: 실제 AI 연결(/v2/llm, 운영자 미리보기), 화면에 심기(chatbot_v2 스위치), STEP 0-4 방·욕실·0-5 좌표·0-8 인접 지역 표, 대중교통.
