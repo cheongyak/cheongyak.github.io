@@ -5115,9 +5115,21 @@ function lhCard(N){
     <span class="row" style="gap:6px;justify-content:flex-start;flex-wrap:wrap"><span class="pill info">${esc(N.type || '임대')}</span>${N.terms && N.terms.relaxed ? '<span class="pill warn">자격 완화</span>' : ''}<span class="small muted">${esc(N.region || '')} · ${esc(rStatus(N))}</span></span>
     <b class="rname">${esc(N.name || '')}</b>
     <span class="small muted">접수 ${esc(rPeriod(N))}${N.units && N.units.length ? ' · 전용 ' + esc(rAreaRange(N)) : ''}</span>
+    ${lhRentFrom(N) ? `<span class="small">${esc(lhRentFrom(N))}</span>` : ''}
     ${h ? `<span class="small"><span class="pill ${h[0]}">${h[1]}</span>${J.best && J.s !== 'na' ? ' ' + esc(J.best.name) + ' 기준' : ''}</span>` : ''}
   </button>`;
 }
+/* 보증금·월세 (공고문 임대조건 표, app/lh_terms.parse_lh_rents). 계층·소득구간마다 다르면 줄을 나눠 보여준다 */
+const lhMan = v => { const m = v / 10000; return (m >= 10000 ? (Math.floor(m / 10000) + '억' + (m % 10000 ? ' ' + Math.round(m % 10000).toLocaleString() + '만' : '')) : (Math.round(m * 10) / 10).toLocaleString() + '만') + '원'; };
+function lhRentTable(N){
+  const R = N.rents || [];
+  if (!R.length) return '<p class="small" style="margin:0">공고문에서 임대조건 표를 읽지 못했어요. 공고문을 확인하세요.</p>';
+  const by = {};
+  R.forEach(r => { const k = (r.complex ? r.complex + ' ' : '') + r.type; (by[k] = by[k] || []).push(r); });
+  return `<div class="rtable">${Object.entries(by).map(([k, rows]) => `<div class="rrow"><b>${esc(k)}</b>${rows.map(r => `<div class="small" style="display:flex;flex-direction:column;margin-top:4px">${r.group ? `<span class="muted">${esc(r.group)}</span>` : ''}<span>보증금 ${Math.round(r.deposit).toLocaleString()}원 · 월 ${Math.round(r.rent).toLocaleString()}원</span></div>`).join('')}</div>`).join('')}</div>`;
+}
+const lhRentFrom = N => { const R = (N.rents || []).filter(r => !/가군|상한|주거급여/.test(r.group || '')); if (!R.length) return '';
+  const d = Math.min(...R.map(r => r.deposit)), m = Math.min(...R.map(r => r.rent)); return `보증금 ${lhMan(d)}~ · 월 ${lhMan(m)}~`; };
 const rAreaRange = N => { const a = (N.units || []).map(u => u.area).filter(x => x); if (!a.length) return ''; const lo = Math.min(...a), hi = Math.max(...a); return (lo === hi ? lo : lo + '~' + hi) + '㎡'; };
 function vRental(){
   if (!lhOn()) { S.view = 'feed'; return vFeed(); }
@@ -5157,7 +5169,7 @@ function vRDetail(){
   </section>
   ${J && J.groups.length ? `<section class="card"><h2 style="margin:0">내 자격 (계층별)</h2>${J.groups.map(g => `<details class="sprow"${g === J.best ? ' open' : ''}><summary><span class="sp-top"><b>${esc(g.name)}</b><span class="pill ${R_HEAD[g.s][0]}">${g.s === 'na' ? '해당 안 됨' : R_HEAD[g.s][1]}</span></span></summary>
       <ul class="cl-ul">${g.items.map(i => `<li>${sIcon[i.s] || ''}<span>${esc(i.t)}</span></li>`).join('')}</ul></details>`).join('')}
-    <span class="small muted">내 조건: ${src('user')} · 기준: ${pdf}</span><button class="linkbtn small" data-go="me">내 조건 고치기</button></section>` : ''}
+    <span class="small muted">${src('user')} · ${pdf}</span><button class="linkbtn small" data-go="me">내 조건 고치기</button></section>` : ''}
   ${T && T.groups && T.groups.length ? `<section class="card"><h2 style="margin:0">신청 자격 기준</h2>
     ${T.homeless_relaxed ? '<p class="small" style="margin:0">무주택 요건 완화: 주택건설지역·연접지역에 집이 없으면 신청할 수 있어요(소형·저가주택 허용 등, 공고문 확인).</p>' : ''}
     <div class="rtable">${T.groups.map(g => `<div class="rrow"><b>${esc(RG_NAME[g.key] || g.name)}</b>
@@ -5169,8 +5181,9 @@ function vRDetail(){
   <section class="card"><h2 style="margin:0">일정</h2>${(N.schedule || []).map(s => `<div class="small"><b>${esc(s.complex || '')}</b><br>접수 ${esc(s.apply_start || '')}${s.apply_end && s.apply_end !== s.apply_start ? ' ~ ' + esc(s.apply_end) : ''}${s.docs_target ? ' · 서류 제출 대상 발표 ' + esc(s.docs_target) : ''}${s.winner ? ' · 당첨자 발표 ' + esc(s.winner) : ''}</div>`).join('') || '<span class="small muted">공고문 확인</span>'}
     <span class="small muted">출처: LH 청약플러스 공고</span></section>
   <section class="card"><h2 style="margin:0">주택형</h2>${(N.units || []).map(u => `<div class="row small" style="justify-content:space-between;gap:8px"><span>${esc(u.complex || '')} ${esc(u.type || '')}</span><span>전용 ${u.area || '-'}㎡ · ${u.now_households != null ? '이번 ' + u.now_households + '세대' : ''}</span></div>`).join('') || '<span class="small muted">공고문 확인</span>'}
-    <span class="small">보증금·월 임대료: 공고문 확인 (LH 자료에 '공고문 참조'로 나와요)</span>
-    <span class="small muted">출처: LH 청약플러스 공고 · ${pdf}</span></section>
+    <span class="small muted">주택형·세대수 출처: LH 청약플러스 공고</span></section>
+  <section class="card"><h2 style="margin:0">보증금·월 임대료</h2>${lhRentTable(N)}
+    <span class="small muted">${pdf} (임대조건 표) · 공고일 기준이고 계약 때 바뀔 수 있어요. 보증금과 월 임대료는 서로 바꿀 수 있어요(전환).</span></section>
   ${(N.complexes || []).length ? `<section class="card"><h2 style="margin:0">단지</h2>${N.complexes.map(c => `<div class="small"><b>${esc(c.name || '')}</b><br>${esc(c.address || '')}${c.households ? ' · ' + c.households + '세대' : ''}${c.move_in ? ' · 입주 ' + esc(c.move_in) : ''}</div>`).join('')}</section>` : ''}
   <p class="foot">신청은 LH 청약플러스(apply.lh.or.kr)에서 해요${N.office && N.office.tel ? ' · 문의 ' + esc(N.office.tel) : ''}. 판정은 내가 입력한 값으로 계산한 참고용이에요.</p>`;
 }

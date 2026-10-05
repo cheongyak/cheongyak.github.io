@@ -233,3 +233,124 @@ def parse_lh_terms(text: str, kind: str, name: str = "") -> dict:
         res["income_basis"] = "기준 중위소득"
         res["income_table_100"] = income_table(t)
     return res
+
+
+# ── 임대조건 (보증금·월 임대료) ─────────────────────────────────────────────
+# LH API 는 보증금·월세를 '공고문 참조'로만 준다. 공고문 임대조건 표의 한 줄은 '임대보증금 계 · 계약금 · 잔금 · 월 임대료' 순서라
+# 계 = 계약금 + 잔금 이 맞는 네 숫자만 받는다(맞지 않으면 버림 — 추측하지 않음). 계약금 칸이 합쳐진 표(익산제3일반산단)는 앞줄 계약금으로 같은 검사를 한다.
+_NUM = re.compile(r"\d{1,3}(?:,\d{3})+|\d+")
+
+
+def _norm_type(s: str) -> str:
+    return re.sub(r"\s|형|㎡", "", s or "")
+
+
+def _rent_group(lbl: str) -> Optional[str]:
+    l = re.sub(r"\s", "", lbl)
+    for pat, name in ((r"「?가」?군", "가군"), (r"「?나」?군", "나군")):
+        if re.search(pat, l):
+            return name
+    if (m := re.search(r"(\d)구간", l)):
+        return f"{m.group(1)}구간"
+    if re.search(r"청년\(?소득(?:無|X|없)", l):
+        return "대학생·청년(소득 없음)" if "대학생" in l else "청년(소득 없음)"
+    if re.search(r"소득\)?\s?(?:有|O|있)", l):
+        return "청년(소득 있음)"
+    if re.search(r"소득\)?\s?(?:無|X|없)", l):
+        return "청년(소득 없음)"
+    for pat, name in ((r"신혼부부", "신혼부부·한부모"), (r"주거급여", "주거급여수급자"), (r"고령자", "고령자"), (r"대학생", "대학생"), (r"청년", "청년")):
+        if re.search(pat, l):
+            return name
+    return None
+
+
+def parse_lh_rents(text: str, unit_types: list[str]) -> list[dict]:
+    t = flat(text)
+    types = sorted({_norm_type(u) for u in unit_types if u}, key=len, reverse=True)
+    toks = [(m.start(), m.end(), int(m.group(0).replace(",", ""))) for m in _NUM.finditer(t)]
+    rows, seen = [], set()
+    cur_type, cur_complex, last_end, last_quad, last_contract = None, None, 0, None, None
+    i = 0
+    while i < len(toks) - 2:
+        s0, e0, a = toks[i]
+        found = None
+        if i + 3 < len(toks):
+            b, c, d = toks[i + 1][2], toks[i + 2][2], toks[i + 3][2]
+            if a == b + c and b > 0 and c > 0:
+                found = (a, b, d, toks[i + 3][1], 4)
+        if not found and last_contract and toks[i + 1][2] and a == toks[i + 1][2] + last_contract and i + 2 < len(toks):
+            found = (a, last_contract, toks[i + 2][2], toks[i + 2][1], 3)
+        if not found:
+            i += 1
+            continue
+        dep, contract, rent, end, used = found
+        thousand = dep < 1_000_000 and "천원" in t[max(0, s0 - 3000): s0]   # 금액 단위가 천원인 표(군산 7개 단지·양산 삼성파크빌)
+        dep_won = dep * 1000 if thousand else dep
+        if not (1_000_000 <= dep_won <= 500_000_000 and 10_000 <= rent <= 3_000_000 and contract < dep):
+            i += 1
+            continue
+        # 앞 줄과 이 줄 사이 글자에서 주택형·계층을 찾는다 (금액 숫자는 빼고)
+        lbl_raw = t[last_end:s0] if last_end else t[max(0, s0 - 400):s0]
+        lbl = re.sub(r"\(\s?[+\-−]\s?\)\s?[\d,]+|[\d]{1,3}(?:,\d{3})+", " ", lbl_raw)
+        lbl_ns = re.sub(r"\s", "", lbl)
+        lbl_full = lbl
+        cut0 = max(lbl.rfind("잔금"), lbl.rfind("월임대료"), lbl.rfind("월 임대료"))
+        if cut0 >= 0 and ("임대보증금" in lbl or "계약금" in lbl):
+            lbl = lbl[cut0 + 2:]                 # 표 머리글 앞의 글(앞 표의 면적 등)은 먼저 보지 않는다
+        if not re.search(r"(?<![\d.,])\d{2,3}(?:\.\d{1,4})?(?:\s?[A-Z]{1,2}\d?)?(?![\d,])", re.sub(r"[\d.]+\s?%", " ", lbl)):
+            m_h = [x for x in re.findall(r"【([^】]{1,40})】", lbl_full) if re.search(r"\d", x)]   # 통합공공임대 '【 31 A 】 구간별 임대조건' 머리글의 주택형
+            if m_h:
+                lbl = m_h[-1] + " " + lbl
+        lbl_t = re.sub(r"[\d.]+\s?%|\d{4}[.\-]\d{1,2}[.\-]\d{1,2}|-\s?\d{1,2}\s?-", " ", lbl)
+        lbl_t = re.sub(r"(\d)\s+([A-Z]{1,2})(?![a-z])", r"\1\2", lbl_t)        # '【 31 A 】' → 31A
+        hits = [m for m in re.finditer(r"(?<![\d.,])(\d{2,3}(?:\.\d{1,4})?(?:[A-Z]{1,2}\d?)?)(?!\d|,\d{3})", lbl_t)
+                if 10 <= float(re.match(r"[\d.]+", m.group(1)).group(0)) <= 200]   # 주택형(전용면적) 범위 — 천원 단위 계약금 '300' 같은 금액은 뺀다
+        hit = None
+        if hits:
+            cl = [hits[-1]]
+            for m in reversed(hits[:-1]):          # '25A 25B' · '31A, 31AS, 31B' 처럼 붙어 있는 주택형은 한 줄로 묶는다
+                if re.fullmatch(r"[\s,/·]*", lbl_t[m.end(): cl[0].start()]):
+                    cl.insert(0, m)
+                else:
+                    break
+            hit = (cl[0].start(), "/".join(m.group(1) for m in cl))
+            gw = re.search(r"대학생|청년|신혼|고령자|주거급여|[가나]」?\s?군|\d구간", lbl_t)
+            before = [m for m in hits if gw and m.end() <= gw.start()]
+            if gw and before and hits[-1].start() > gw.start():      # '16 대학생 180'(180 = 예비자 수) → 계층 앞의 16
+                hit = (before[-1].start(), before[-1].group(1))
+        if hit:
+            cur_type = hit[1]
+            pre = re.sub(r"[()（）\[\]【】:]", " ", lbl_t[:hit[0]])
+            mc = re.search(r"([가-힣][가-힣0-9·\- ]{0,24}[가-힣0-9])\s*$", pre)
+            name = mc.group(1).strip() if mc else ""
+            name = re.split(r"입주\s?시|계약\s?시|잔\s?금|계약금|임\s?대\s?료|보\s?증\s?금|\(원\)|\b원\b", name)[-1].strip()
+            if re.fullmatch(r"(?:[가-힣0-9]\s)+[가-힣0-9]+", name):      # '삼 성 파 크 빌' 처럼 글자마다 띄운 표
+                name = name.replace(" ", "")
+            if name and not re.search(r"원$|단위|구간|주택형|공급|형별|천원|대상|계층|군$|주거약자|^원\s|최대|전환", name) and _rent_group(name) is None:
+                cur_complex = name
+        elif cur_type is None and len(types) == 1:
+            cur_type = types[0]
+        cut = max(lbl.rfind("잔금"), lbl.rfind("월임대료"), lbl.rfind("월 임대료"))   # 표 머리글(가군·나군 이름이 다 들어 있음)은 계층 판단에서 뺀다
+        grp = _rent_group(lbl[cut + 2:] if cut >= 0 and ("임대보증금" in lbl or "계약금" in lbl) else lbl)
+        ga_na = bool(re.search(r"가\s?군[^.]{0,80}나\s?군", t[max(0, s0 - 3000):s0]))   # 영구임대 가군·나군 표 — 계층은 가군·나군만
+        if ga_na and grp not in ("가군", "나군"):
+            grp = None
+        back = t[max(0, s0 - 2500): s0]
+        if back.rfind("상한 임대조건") > max(back.rfind("구간별 임대조건"), back.rfind("구간별임대조건")):
+            grp = "생계·의료급여 수급자 등 상한"   # 통합공공임대 '[주거급여 수급자가 아닌 경우] 상한 임대조건' 표
+        if grp is None and last_quad and last_quad["group"] == "가군" and last_quad["type"] == cur_type and not hit:
+            grp = "나군"
+        if grp is None and hit and ga_na:
+            grp = "가군"
+        if cur_type is None:
+            i += 1
+            continue
+        key = (cur_complex, cur_type, grp, dep_won, rent)
+        row = {"complex": cur_complex, "type": cur_type, "group": grp, "deposit": dep_won, "rent": rent}
+        if key not in seen:
+            seen.add(key)
+            rows.append(row)
+        last_quad = row
+        last_end, last_contract = end, contract
+        i += used
+    return rows

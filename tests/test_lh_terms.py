@@ -73,3 +73,26 @@ def test_urban_income_constant_matches_notices():
         row = re.search(rf"{n}인 ([\d,]+) ([\d,]+) ([\d,]+)", t)
         v70, v80, v90 = (int(x.replace(",", "")) for x in row.groups())
         assert abs(URBAN_2025[n] * 0.7 - v70) < 1 and abs(URBAN_2025[n] * 0.8 - v80) < 1 and abs(URBAN_2025[n] * 0.9 - v90) < 1, n
+
+
+def _num_type(s):
+    m = re.match(r"\d+(?:\.\d+)?", re.sub(r"\s", "", s or ""))
+    return float(m.group(0)) if m else None
+
+
+def test_golden_lh_rents():
+    """보증금·월세(공고문 임대조건 표) ↔ 정답. 정답의 모든 줄을 같은 주택형(면적 숫자)으로 읽어야 하고, 정답에 없는 줄을 만들지 않는다.
+    읽기 규칙: 임대보증금 계 = 계약금 + 잔금 인 네 숫자만 받는다(app/lh_terms.parse_lh_rents)."""
+    from app.lh_terms import parse_lh_rents
+    lst = {n["id"]: n["types"] for n in json.loads((ROOT / "tests/qa/lh/rental_units.json").read_text(encoding="utf-8"))}   # 공급 API 주택형 (2026-10-05 수집 고정본)
+    total = 0
+    for g in GOLD:
+        text = (ROOT / "evidence/lh" / f"{g['id']}.txt").read_text(encoding="utf-8", errors="replace")
+        rows = parse_lh_rents(text, lst[g["id"]])
+        for gr in g["rents"]:
+            total += 1
+            assert any((r["deposit"], r["rent"]) == (gr["deposit"], gr["rent"]) and _num_type(r["type"]) == _num_type(gr["type"]) for r in rows), (g["id"], gr)
+        gold_pairs = {(x["deposit"], x["rent"]) for x in g["rents"]}
+        extra = [r for r in rows if (r["deposit"], r["rent"]) not in gold_pairs]
+        assert not extra, (g["id"], extra)
+    assert total >= 140

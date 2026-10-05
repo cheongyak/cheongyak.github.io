@@ -28,7 +28,7 @@ const BAD = /\bNaN\b|\bundefined\b|\[object Object\]/;
     if (r.over > 1) fails.push(`${name}: 가로 넘침 ${r.over}px`);
     const m = BAD.exec(r.text); if (m) fails.push(`${name}: 이상한 글자 '${m[0]}'`);
     if (errs.length) fails.push(`${name}: 화면 오류 ${errs.join(' | ')}`);
-    if (SHOT) { mkdirSync(SHOT, { recursive: true }); await page.screenshot({ path: join(SHOT, name + '.png'), fullPage: false }); }
+    if (SHOT) { mkdirSync(SHOT, { recursive: true }); await page.screenshot({ path: join(SHOT, name + '.png'), fullPage: /detail-(1|5)$/.test(name) }); }
   };
   { const { page, errs } = await open(false, 'light');
     if (await page.locator('[data-rcat]').count()) fails.push('스위치 꺼짐: 공공임대 버튼이 보임');

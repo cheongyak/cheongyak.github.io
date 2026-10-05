@@ -123,6 +123,7 @@ def notice_record(row: dict, dtl, spl) -> dict:
         "office": office,
         "notice_pdf": next((f["url"] for f in files if f["kind"] and "PDF" in f["kind"].upper() and "공고" in f["kind"]), None),
         "notice_text": None,      # evidence/lh/<id>.txt 를 읽었으면 글자 수
+        "rents": [],              # app/lh_terms.parse_lh_rents — 공고문 임대조건 표 (보증금 계 = 계약금 + 잔금 검사 통과한 줄만)
         "terms": None,            # app/lh_terms.parse_lh_terms — 계층별 무주택·소득·자산·자동차 기준
         "api": {k: row.get(k) for k in ("CCR_CNNT_SYS_DS_CD", "SPL_INF_TP_CD", "UPP_AIS_TP_CD", "AIS_TP_CD")},
     }
@@ -234,6 +235,14 @@ def main() -> int:
             except Exception as e:   # 읽기 실패는 기록만 하고 수집은 계속
                 rec["terms"] = None
                 msg += f" · 자격 읽기 실패 {e.__class__.__name__}"
+        if txt_path.exists():
+            try:
+                from app.lh_terms import parse_lh_rents
+                rec["rents"] = parse_lh_rents(txt_path.read_text(encoding="utf-8"), [u["type"] for u in rec["units"]])
+                msg += f" · 임대조건 {len(rec['rents'])}줄"
+            except Exception as e:
+                rec["rents"] = []
+                msg += f" · 임대조건 읽기 실패 {e.__class__.__name__}"
         log.append(f"[공고] {rec['type']} {rec['id']} {rec['name'][:50]} · 단지 {len(rec['complexes'])} · 주택형 {len(rec['units'])} · {msg}")
         notices.append(rec)
         time.sleep(0.3)
