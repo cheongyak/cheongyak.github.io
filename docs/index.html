@@ -4763,7 +4763,8 @@ function verifyCard(){
     <dl class="kv"><dt>마지막 검증</dt><dd>${esc(v.at || '-')}</dd>
       <dt>판정 검증 사례</dt><dd>${v.judge ? v.judge.passed + ' / ' + v.judge.total + '건 일치' : '-'}</dd>
       <dt>공고문 원문 대조</dt><dd>${esc(cc)}</dd>
-      <dt>정답 데이터</dt><dd>${v.golden && v.golden.mismatches.length ? v.golden.mismatches.length + '건 다름' : '모두 일치'}</dd></dl>
+      <dt>정답 데이터</dt><dd>${v.golden && v.golden.mismatches.length ? v.golden.mismatches.length + '건 다름' : '모두 일치'}</dd>
+      ${lhOn() && v.qa && v.qa.lh_invariant_violations != null ? `<dt>LH 임대 검사</dt><dd>${(v.qa.lh_invariant_violations || 0) + (v.qa.lh_judge_qa_fails || 0) + (v.qa.lh_screen_fails || 0) === 0 ? '모두 통과' : '문제 ' + ((v.qa.lh_invariant_violations || 0) + (v.qa.lh_judge_qa_fails || 0) + (v.qa.lh_screen_fails || 0)) + '건 · 확인 중'}</dd>` : ''}</dl>
     <p class="small muted" style="margin:6px 0 0">판정 검증 사례는 공고문·법령 표로 기대값을 정한 사례를 화면 판정과 맞춰 본 것이고, 공고문 대조는 매일 수집한 모집공고문의 소득 기준표·예치금·자산 기준·분양가를 앱 수치와 맞춰 본 거예요.${v.ok ? '' : ' 차이가 난 공고는 공고 화면에 \'데이터 확인 필요\'로 표시돼요.'}</p></section>`;
 }
 function docLinks(){
@@ -4998,8 +4999,8 @@ const LH_Q = {   /* 확인 항목 '답하기'에서 묻는 칸: [질문, 형식,
   birth: ['생년월일', 'date'], married: ['혼인 중인가요?', 'yn'], marriedOn: ['혼인신고일', 'date'], youngestBirth: ['막내 자녀 생일', 'date'],
   selfOwn: ['본인 명의 집(분양권 포함)이 있나요?', 'yn'], spouseOwn: ['배우자 명의 집이 있나요?', 'yn'],
   household: ['세대에서 내 위치', 'choice', [['head', '내가 세대주'], ['parents', '부모님 세대의 세대원'], ['spouse', '배우자 세대의 세대원'], ['other', '기타']]], parentsOwn: ['같은 등본의 부모님께 집이 있나요?', 'yn'],
-  homeSido: ['사는 곳(시·도)', 'sido'], homeSigun: ['사는 시·군·구 (예: 창원시, 마포구)', 'text'], kidsMinor: ['미성년 자녀 수(명)', 'count'], acctType: ['청약통장 종류', 'choice', [['all', '주택청약종합저축'], ['saving', '청약저축'], ['deposit', '청약예금'], ['bugeum', '청약부금'], ['none', '없어요']]],
-  acctSince: ['청약통장 가입일', 'date'], acctCount: ['납입 인정 횟수(회)', 'count'], hhSize: ['가구원 수(태아 포함, 명)', 'count'],
+  homeSido: ['사는 곳(시·도)', 'sido'], homeSigun: ['사는 시·군·구 (예: 창원시, 마포구)', 'text'], eldersOnDeed: ['나·배우자와 같은 등본에 있는 부모·조부모 수(명)', 'count'], kidsMinor: ['미성년 자녀 수(명)', 'count'], acctType: ['청약통장 종류', 'choice', [['all', '주택청약종합저축'], ['saving', '청약저축'], ['deposit', '청약예금'], ['bugeum', '청약부금'], ['none', '없어요']]],
+  acctSince: ['청약통장 가입일', 'date'], acctCount: ['납입 인정 횟수(회)', 'count'], hhSize: ['가구원 수(태아 포함, 명)', 'count'], hhHomes: ['세대 전체가 가진 주택 수(분양권 포함)', 'choice', [['0', '없음'], ['1', '1채'], ['2+', '2채 이상']]],
   hhIncomeYear: ['세대 전원 작년 세전 소득 합계(만원/년)', 'money'], youthAsset: ['본인 총자산(만원)', 'money'],
   realEstate: ['부동산(만원)', 'money'], carValue: ['자동차가액(만원, 없으면 0)', 'money'], cash: ['현금·예금(만원)', 'money'], liquid: ['주식 등 금융자산(만원)', 'money'],
   deposit: ['전·월세 보증금(만원)', 'money'], townInsurance: ['보험 해약환급금(만원)', 'money'], townFinOther: ['그 밖의 금융자산(만원)', 'money'],
@@ -5062,7 +5063,7 @@ function rentalGroup(N, g, p){
     else if (age < (g.age_min || 65)) { na = true; add('no', `만 65세 미만 (공고일 만 ${age}세)`); }
     else add('ok', `만 ${age}세`);
   } else if (g.key === '신혼부부·한부모') {
-    const in7 = p.marriedOn && ref ? p.marriedOn > addYears(ref, -7) : null, kid6 = p.youngestBirth && ref ? p.youngestBirth > addYears(ref, -7) : null;
+    const in7 = p.marriedOn && ref ? p.marriedOn >= addYears(ref, -7) : null, kid6 = p.youngestBirth && ref ? p.youngestBirth > addYears(ref, -7) : null;
     if (p.married === true) {
       if (in7 === true || kid6 === true) add('ok', in7 ? '혼인 7년 이내' : '6세 이하 자녀');
       else if (in7 == null && kid6 !== true) add('check', '혼인신고일 입력 필요', ['marriedOn', 'youngestBirth']);
@@ -5089,6 +5090,11 @@ function rentalGroup(N, g, p){
   (g.notes || []).forEach(t => { const k = lhNoteKey(t); if (!k) return add('check', t);   /* 공고문에만 있는 추가 요건 — 내 답으로 판정 */
     const base = t.replace(/ — 공고문 확인$/, '');
     yn(p[k], '추가 요건 충족: ' + base, '추가 요건 미충족: ' + base + ' (내 답)', base + ' — 해당하는지 답해 주세요', [k]); });
+  /* 1-1) 성년자 (민법상 만 19세) — 대학생·청년(통합 18세~)은 미성년도 가능(별표 5·5의2), 그 밖의 계층은 자녀 부양 미성년 세대주 등 예외만 */
+  if (age != null && age < 19 && !['대학생', '청년'].includes(g.key)) {
+    if ((Number(p.kidsMinor) || 0) > 0 && p.household === 'head') add('check', '미성년자 — 자녀를 부양하는 미성년 세대주 등 예외에 해당하는지 공고문 확인');
+    else add('no', '미성년자는 신청할 수 없음 (만 19세 이상)');
+  }
   /* 2) 무주택 — 'self_or_household' = 혼인 중이면 세대원 전원, 아니면 본인 (창업지원주택) */
   const hl = g.homeless === 'self_or_household' ? (p.married === true ? 'household' : p.married === false ? 'self' : null) : g.homeless;
   if (g.homeless === 'self_or_household' && hl == null) add('check', '혼인 여부 입력 필요 (혼인 중이면 세대원 전원, 아니면 본인 무주택)', ['married']);
@@ -5097,11 +5103,17 @@ function rentalGroup(N, g, p){
     else if (p.selfOwn === false) add('ok', '본인 무주택');
     else add('check', '본인 집 소유 여부 입력 필요', ['selfOwn']);
   } else if (hl === 'household') {
-    const own = p.selfOwn === true || (p.married === true && p.spouseOwn === true) || (p.household === 'parents' && p.parentsOwn === true);
-    const none = p.selfOwn === false && (p.married !== true || p.spouseOwn === false) && (p.household !== 'parents' || p.parentsOwn === false);
-    if (own) { if (T.homeless_relaxed) yn(p.lhHomeOutside, '집이 주택건설지역·연접지역 밖이거나 소형·저가주택', '세대의 집이 주택건설지역·연접지역 안에 있음', '세대의 집이 주택건설지역·연접지역 밖에 있거나 소형·저가주택이면 신청 가능 — 답해 주세요', ['lhHomeOutside']); else add('no', '세대에 집이 있음 (세대원 전원 무주택이어야 함)'); }
+    const parentsIn = p.household === 'parents' || Number(p.eldersOnDeed) > 0;   /* 같은 등본의 부모님(직계존속)도 세대구성원 — 임대는 60세 이상 예외 없음 */
+    const own = p.selfOwn === true || (p.married === true && p.spouseOwn === true) || (parentsIn && p.parentsOwn === true);
+    const none = p.selfOwn === false && (p.married !== true || p.spouseOwn === false) && (!parentsIn || p.parentsOwn === false);
+    const owners = [p.selfOwn === true, p.married === true && p.spouseOwn === true, parentsIn && p.parentsOwn === true].filter(Boolean).length;
+    if (own && T.homeless_relaxed && T.homeless_max1 && (p.hhHomes === '2+' || (owners >= 2 && p.hhHomes !== '1'))) {
+      if (p.hhHomes === '2+') add('no', '세대가 집을 2채 이상 가짐 (무주택 완화도 2호 이상은 제외)');
+      else add('check', '세대원 여러 명이 집을 가짐 — 세대 전체 주택 수가 2채 이상이면 신청 불가 (공동 소유 1채면 가능)', ['hhHomes']);
+    }
+    else if (own) { if (T.homeless_relaxed) yn(p.lhHomeOutside, '집이 주택건설지역·연접지역 밖이거나 소형·저가주택', '세대의 집이 주택건설지역·연접지역 안에 있음', '세대의 집이 주택건설지역·연접지역 밖에 있거나 소형·저가주택이면 신청 가능 — 답해 주세요', ['lhHomeOutside']); else add('no', '세대에 집이 있음 (세대원 전원 무주택이어야 함)'); }
     else if (none && p.married != null) add('ok', '세대 무주택');
-    else add('check', '세대원 집 소유 여부 입력 필요', ['married', 'selfOwn', 'spouseOwn', 'household', 'parentsOwn']);
+    else add('check', '세대원 집 소유 여부 입력 필요', ['married', 'selfOwn', 'spouseOwn', 'household', 'parentsOwn', 'eldersOnDeed']);
   }
   /* 2-0) 신청자격 거주 요건 — '모집공고일 현재 ○○시에 거주하는(주민등록이 등재된) 성년자인 무주택세대구성원'(영구임대 등). 순위용 거주는 보지 않음 */
   if (T.local) {
@@ -5159,8 +5171,9 @@ function rentalGroup(N, g, p){
       const dualAdd = g.dual_add != null ? g.dual_add : g.key === '신혼부부·한부모' ? (N.type === '통합공공임대' ? 30 : 20) : 0;
       const dual = dualAdd > 0 && p.married === true && p.income > 0 && p.spouseIncome > 0;
       const lim = base * (pct + (dual ? dualAdd : 0)) / 100;
-      const est = !youthMember && (p.hhIncomeYear == null || p.hhIncomeYear === '');
-      const yearMan = youthMember ? (p.income || 0) : est ? (p.income || 0) + (p.married ? (p.spouseIncome || 0) : 0) : Number(p.hhIncomeYear);
+      const solo = n === 1 && p.married !== true && p.household === 'head' && !(Number(p.eldersOnDeed) > 0) && !(Number(p.kidsMinor) > 0);   /* 1인 단독세대주: 본인 소득 = 세대 소득 */
+      const est = !youthMember && !solo && (p.hhIncomeYear == null || p.hhIncomeYear === '');
+      const yearMan = youthMember || (solo && (p.hhIncomeYear == null || p.hhIncomeYear === '')) ? (p.income || 0) : est ? (p.income || 0) + (p.married ? (p.spouseIncome || 0) : 0) : Number(p.hhIncomeYear);
       const m = yearMan * 10000 / 12, txt = `월 ${won(m)} / 기준 ${won(lim)} (${n}인 ${pct + (dual ? dualAdd : 0)}%${dual ? ', 맞벌이' : ''})`;
       if (est) add('check', '세대 소득 입력 필요 — 본인·배우자 소득으로 추정하면 ' + txt, ['hhIncomeYear']);
       else if (m <= lim) add('ok', '소득 ' + txt);
@@ -5202,7 +5215,7 @@ function rentalGroup(N, g, p){
     if (lim == null) add('check', '자동차 기준 공고문 확인');
     else if (p.carValue == null || p.carValue === '') add('check', '자동차가액 입력 필요', ['carValue']);
     else if (lim === 0) add(Number(p.carValue) > 0 ? 'no' : 'ok', Number(p.carValue) > 0 ? '대학생 계층은 자동차를 가질 수 없음' : '자동차 없음');
-    else if (Number(p.carValue) <= lim) add('ok', `자동차 ${manW(p.carValue)} / 기준 ${manW(lim)}`);
+    else if (Number(p.carValue) <= lim) add('ok', Number(p.carValue) === 0 ? `자동차 없음 (기준 ${manW(lim)} 이하)` : `자동차 ${manW(p.carValue)} / 기준 ${manW(lim)}`);
     else if (rBirthKid(p) && Number(p.carValue) <= Math.round(lim * 1.2)) lhBonusCheck(add, rBonus(p), Number(p.carValue), lim, `자동차 기준 초과 (${manW(p.carValue)} / ${manW(lim)})`);
     else add('no', `자동차 기준 초과 (${manW(p.carValue)} / ${manW(lim)})`);
   }
@@ -5358,19 +5371,19 @@ function go(v){
 const NAV_ID_VIEWS = ['detail', 'plan'];
 const NAV_VIEWS = ['rental', 'rdetail', 'feed', 'detail', 'plan', 'grades', 'me', 'about', 'story', 'terms', 'privacy', 'trend', 'alerts', 'compare', 'updates'];
 let navPopping = false, navPending = null;
-function navUrl(v){ return v === 'feed' ? location.pathname + location.search : '#/' + v + (NAV_ID_VIEWS.includes(v) && S.id ? '/' + encodeURIComponent(S.id) : ''); }
+function navUrl(v){ const id = v === 'rdetail' ? S.rid : NAV_ID_VIEWS.includes(v) ? S.id : null; return v === 'feed' ? location.pathname + location.search : '#/' + v + (id ? '/' + encodeURIComponent(id) : ''); }   /* LH 임대 상세는 공고 번호(S.rid)를 주소에 — 새로고침·주소로 바로 열기 (기능 lh_rental) */
 function navPush(prevY){
   if (!on('history_nav') || navPopping) return;
   try {
     history.replaceState(Object.assign({}, history.state || {}, { y: prevY }), '');   // 돌아왔을 때 목록 스크롤 위치
-    history.pushState({ nav:1, v: S.view, id: S.id || null, y: 0 }, '', navUrl(S.view));
+    history.pushState({ nav:1, v: S.view, id: (S.view === 'rdetail' ? S.rid : S.id) || null, y: 0 }, '', navUrl(S.view));
   } catch(e) {}
 }
 function navParse(h){ const m = /^#\/([a-z]+)(?:\/(.+))?$/.exec(h || ''); return m && NAV_VIEWS.includes(m[1]) ? { v: m[1], id: m[2] ? decodeURIComponent(m[2]) : null } : null; }
 function navApply(st, fromPop){
   const L = st.id ? LISTINGS.find(x => x.id === st.id) : null;
   if (NAV_ID_VIEWS.includes(st.v) && !L) return false;
-  navPopping = true; S.sheet = null; if (L) S.id = L.id; S.view = st.v; render(); navPopping = false;
+  navPopping = true; S.sheet = null; if (L) S.id = L.id; if (st.v === 'rdetail') { S.rid = st.id; S.rq = null; } S.view = st.v; render(); navPopping = false;
   if (fromPop && st.y) requestAnimationFrame(() => window.scrollTo(0, st.y));
   return true;
 }
@@ -5564,7 +5577,7 @@ function fromApi(x){
 }
 render();
 try { navPending = navParse(location.hash); if (!(history.state && history.state.nav)) history.replaceState({ nav:1, v: S.view, id: null, y: 0 }, ''); } catch(e) {}   // 기능: history_nav
-if (navPending && !NAV_ID_VIEWS.includes(navPending.v) && on('history_nav') && S.view !== 'onboard') { navApply(navPending); try { history.replaceState({ nav:1, v: S.view, id: null, y: 0 }, ''); } catch(e) {} navPending = null; }
+if (navPending && !NAV_ID_VIEWS.includes(navPending.v) && on('history_nav') && S.view !== 'onboard') { navApply(navPending); try { history.replaceState({ nav:1, v: S.view, id: S.view === 'rdetail' ? S.rid : null, y: 0 }, ''); } catch(e) {} navPending = null; }
 fetch('config.json', { cache:'no-store' }).then(r => r.ok ? r.json() : null).then(c => {
   if (c) CONFIG = Object.assign(CONFIG, c);
   S.profile = cleanProfile(S.profile);   // 기능: profile_clean — 설정을 읽은 뒤 (스위치를 끄면 예전처럼 그대로)

@@ -1,10 +1,10 @@
 {
- "date": "2026-10-02",
- "mutations": 16,
- "killed": 15,
+ "date": "2026-10-05",
+ "mutations": 34,
+ "killed": 31,
  "survived": 0,
  "not_testable": 0,
- "equivalent": 1,
+ "equivalent": 3,
  "score": 1,
  "results": [
   {
@@ -18,7 +18,7 @@
   {
    "name": "무주택: 본인 주택을 무시",
    "status": "KILLED",
-   "judge_fail": 3,
+   "judge_fail": 4,
    "display_fail": 0,
    "status_fail": 0,
    "page_errors": 0
@@ -98,7 +98,7 @@
   {
    "name": "판정 묶음: 확인 필요를 가능으로",
    "status": "KILLED",
-   "judge_fail": 1,
+   "judge_fail": 5,
    "display_fail": 0,
    "status_fail": 0,
    "page_errors": 0
@@ -112,9 +112,9 @@
    "page_errors": 0
   },
   {
-   "name": "일반 0세대: 거주지 불가를 무시 (2026-10-02 과천 84D)",
-   "status": "KILLED",
-   "judge_fail": 1,
+   "name": "일반 0세대: 거주지 불가를 무시 (2026-10-02 과천 84D) [동등]",
+   "status": "EQUIVALENT",
+   "judge_fail": 0,
    "display_fail": 0,
    "status_fail": 0,
    "page_errors": 0
@@ -131,7 +131,7 @@
    "name": "공급유형: 재공급 배지를 무순위로",
    "status": "KILLED",
    "judge_fail": 0,
-   "display_fail": 8,
+   "display_fail": 12,
    "status_fail": 0,
    "page_errors": 0
   },
@@ -139,7 +139,151 @@
    "name": "공급유형: 일반공급 칸 재공급을 무순위로",
    "status": "KILLED",
    "judge_fail": 0,
-   "display_fail": 8,
+   "display_fail": 12,
+   "status_fail": 0,
+   "page_errors": 0
+  },
+  {
+   "name": "LH: 청년 39세 상한 +1",
+   "status": "KILLED",
+   "judge_fail": 2,
+   "display_fail": 0,
+   "status_fail": 0,
+   "page_errors": 0
+  },
+  {
+   "name": "LH: 고령자 65 → 64",
+   "status": "KILLED",
+   "judge_fail": 1,
+   "display_fail": 0,
+   "status_fail": 0,
+   "page_errors": 0
+  },
+  {
+   "name": "LH: 소득 기준 +1%",
+   "status": "KILLED",
+   "judge_fail": 14,
+   "display_fail": 0,
+   "status_fail": 0,
+   "page_errors": 0
+  },
+  {
+   "name": "LH: 총자산 기준 +1만원",
+   "status": "KILLED",
+   "judge_fail": 3,
+   "display_fail": 0,
+   "status_fail": 0,
+   "page_errors": 0
+  },
+  {
+   "name": "LH: 자동차 <= → <",
+   "status": "KILLED",
+   "judge_fail": 1,
+   "display_fail": 0,
+   "status_fail": 0,
+   "page_errors": 0
+  },
+  {
+   "name": "LH: 대학생 자동차 소유 허용",
+   "status": "KILLED",
+   "judge_fail": 22,
+   "display_fail": 0,
+   "status_fail": 0,
+   "page_errors": 0
+  },
+  {
+   "name": "LH: 1인 가산 퍼센트 무시",
+   "status": "KILLED",
+   "judge_fail": 18,
+   "display_fail": 0,
+   "status_fail": 0,
+   "page_errors": 0
+  },
+  {
+   "name": "LH: 신청자격 거주 시·도 무시",
+   "status": "KILLED",
+   "judge_fail": 2,
+   "display_fail": 0,
+   "status_fail": 0,
+   "page_errors": 0
+  },
+  {
+   "name": "LH: 거주 시·군 비교 항상 일치",
+   "status": "KILLED",
+   "judge_fail": 1,
+   "display_fail": 0,
+   "status_fail": 0,
+   "page_errors": 0
+  },
+  {
+   "name": "LH: 출산 1명+형제 20 → 10",
+   "status": "KILLED",
+   "judge_fail": 1,
+   "display_fail": 0,
+   "status_fail": 0,
+   "page_errors": 0
+  },
+  {
+   "name": "LH: 혼인 7년 → 8년",
+   "status": "KILLED",
+   "judge_fail": 1,
+   "display_fail": 0,
+   "status_fail": 0,
+   "page_errors": 0
+  },
+  {
+   "name": "LH: 맞벌이 가산 무시",
+   "status": "KILLED",
+   "judge_fail": 3,
+   "display_fail": 0,
+   "status_fail": 0,
+   "page_errors": 0
+  },
+  {
+   "name": "LH: 통장 1순위 개월 -1 [동등]",
+   "status": "EQUIVALENT",
+   "judge_fail": 0,
+   "display_fail": 0,
+   "status_fail": 0,
+   "page_errors": 0
+  },
+  {
+   "name": "LH: 미성년 19 → 18",
+   "status": "KILLED",
+   "judge_fail": 1,
+   "display_fail": 0,
+   "status_fail": 0,
+   "page_errors": 0
+  },
+  {
+   "name": "LH: 9인 이상 가산 무시",
+   "status": "KILLED",
+   "judge_fail": 1,
+   "display_fail": 0,
+   "status_fail": 0,
+   "page_errors": 0
+  },
+  {
+   "name": "LH: 장기종사자 자녀 0 허용",
+   "status": "KILLED",
+   "judge_fail": 2,
+   "display_fail": 0,
+   "status_fail": 0,
+   "page_errors": 0
+  },
+  {
+   "name": "LH: 대학생 아니요 무시",
+   "status": "KILLED",
+   "judge_fail": 1,
+   "display_fail": 0,
+   "status_fail": 0,
+   "page_errors": 0
+  },
+  {
+   "name": "LH: 자격 완화 소득 배제 무시",
+   "status": "KILLED",
+   "judge_fail": 18,
+   "display_fail": 0,
    "status_fail": 0,
    "page_errors": 0
   }

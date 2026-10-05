@@ -333,6 +333,7 @@ def parse_local(t: str, region: Optional[str]) -> Optional[dict]:
 def parse_lh_terms(text: str, kind: str, name: str = "", region: Optional[str] = None) -> dict:
     t = flat(text)
     res = {"relaxed": is_relaxed(t, name), "homeless_relaxed": bool(re.search(r"연접\s?지역에\s?주택(?:이|을)?\s?(?:없|소유하지)", t)),
+           "homeless_max1": bool(re.search(r"2호\s?이상의\s?주택\s?또는\s?분양권을\s?소유하고\s?있는\s?사람은\s?제외", t)),   # 무주택 완화여도 2호 이상은 제외(삼척도계 581)
            "income_basis": None, "groups": [], "quotes": {}, "income_table_100": None}
     if kind in ("국민임대", "영구임대"):
         g, q = _general_terms(t, kind)

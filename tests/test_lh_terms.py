@@ -34,6 +34,8 @@ def test_golden_lh_terms_never_wrong():
         r = _parsed(g)
         assert r["relaxed"] == g["relaxed"], (g["id"], "relaxed")
         assert r["homeless_relaxed"] == g["homeless_relaxed"], (g["id"], "homeless_relaxed")
+        if "homeless_max1" in g:
+            assert r["homeless_max1"] == g["homeless_max1"], (g["id"], "homeless_max1")
         for k in ("regions", "account"):     # 공공임대: 거주지역·청약통장 순위
             if k in g:
                 assert r.get(k) == g[k], (g["id"], k, r.get(k))

@@ -519,5 +519,35 @@
    ]
   },
   "_from": "tests/golden/lh_rental.json + 공고문 신분기준 ❹ '미성년자녀 1명 이상을 포함한 3명 이상으로 구성된 세대의 세대구성원'"
+ },
+ {
+  "id": "LH-2015122300020581",
+  "type": "국민임대",
+  "posted": "2026-08-25",
+  "name": "심착도계·정선신동 국민임대주택 예비입주자 상시모집 [소득 및 총자산적용 배제 · 무주택요건 완화] (lh-rental: 삼척도계·정선신동 국민임대주택 예비입주자 입주자격완화 공고; 모집공고일 2026.08.25, 주택관리번호 미기재)",
+  "schedule": [],
+  "units": [],
+  "files": [],
+  "terms": {
+   "relaxed": true,
+   "homeless_relaxed": true,
+   "homeless_max1": true,
+   "income_basis": "도시근로자 월평균소득",
+   "income_table_100": null,
+   "local": null,
+   "groups": [
+    {
+     "key": "일반",
+     "name": "일반",
+     "homeless": "household",
+     "income_pct": "excluded",
+     "asset_manwon": "excluded",
+     "car_manwon": 4542,
+     "age_min": null,
+     "age_max": null
+    }
+   ]
+  },
+  "_from": "tests/golden/lh_rental.json + 완화조건 ①(2호 이상 제외)"
  }
 ]

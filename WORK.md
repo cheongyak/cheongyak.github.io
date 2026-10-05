@@ -4,6 +4,17 @@
 2026-09-29 12:55 이전 항목은 규칙을 만들기 전 작업을 커밋 기록으로 정리한 것이라 백업 브랜치가 없어요.
 그 시점으로 되돌릴 때는 해당 커밋 번호로 `git revert` 를 써요.
 
+## 2026-10-05 19:17 · LH 임대 판정 — 2차 블라인드 감사로 찾은 4가지 고침 + 새로고침하면 공고 상세가 사라지던 것
+- 요청: "응 qa 일반분양 수준처럼 돌려줘" (일반분양과 같은 방식의 QA)
+- QA: 2차 블라인드 감사(evidence/audit/2026-10-05-lh/README.md) — 무작위 40사례·24공고를 앱 코드를 보지 않은 검토자가 공고문·별표만으로 판정 → 75건 중 64 일치
+- 찾은 오류·조치: ① 1인 단독세대주가 세대 소득을 비우면 '확인' → 본인 소득 = 세대 소득으로 판정 ② 같은 등본 부모님(직계존속) 집을 세대 주택으로 안 셈 → 반영(임대는 60세 이상 예외 없음), 답하기에 '같은 등본 부모·조부모 수' ③ 무주택 완화 공고의 '2호 이상 주택 소유자 제외'(삼척도계 581) → 공고문에서 읽고 세대 주택 수로 판정(답하기 '세대 전체 주택 수') ④ 성년자(만 19세) 요건 → 대학생·청년 외 계층은 미성년 불가 ⑤ 코드 변이 검사에서 혼인 7년 경계가 하루 어긋남(7년째 되는 날을 빼던 것) → 포함으로(분양 2026000409 와 같은 기준) ⑥ 화면 e2e 에서 찾음: 임대 공고 상세 주소에 공고 번호가 없어 새로고침·주소로 열기 하면 목록이 나옴 → '#/rdetail/<번호>' ⑦ 자동차 0원은 '자동차 없음'으로 표시
+- 결과: 고친 뒤 67/75 일치, 남은 8건은 원문 대조로 앱이 맞거나(대학생 차량 보유, 계층 밖 '해당 없음') 사례 생성기 오류(고침) 또는 표시 방침(청년 청약통장 입주 전 가입)
+- 정답 데이터: 581 homeless_max1 원문 인용 확인 후 추가. 판정 사례 lhrent-122~133 (단독세대주 소득, 부모님 집, 2호 이상, 미성년, 혼인 7년 경계 당일·하루 전) → judge_check 532/532
+- 파일: docs/index.html, app/lh_terms.py, tests/golden/lh_rental.json, tests/test_lh_terms.py, tests/judge/cases.json, tests/judge/lh_notices.json, tools/make_judge_cases.py, tools/qa/code_mutation.cjs, evidence/qa/code-mutation.json, tools/qa/audit/(audit_gen_lh.cjs·brief_lh.md·audit_cmp_lh.py·rejudge_lh.cjs), evidence/audit/2026-10-05-lh/, tools/qa/lh_qa.cjs, evidence/qa/lh-qa.json
+- 확인: pytest 181 통과(test_pipeline 은 이 작업 환경에 fastapi 를 설치할 수 없어 Actions 에서 확인), 스크립트 문법, judge_check 532/532, code_mutation 변이 34 · 잡음 31 · 못 잡음 0(동등 3), lh_qa 문제 0, lh_rental.cjs 문제 0, regress 조합 1,130 변화 0·화면 1,407 오류 0, snapshot 0, consistency 0, monotonic 0, profile_keep 0, filter 0, sp_text 0, 390px 밝은·어두운 화면(새로고침 뒤 상세 유지) 확인. 분양 판정은 그대로(regress 변화 0)
+- 백업: backup/20261005-1917-lhqa2
+- 기능: lh_rental
+
 ## 2026-10-05 18:01 · LH 임대 QA — 블라인드 감사로 찾은 빠진 요건 고침 + 임대 QA 도구
 - 요청: "저것들도 제대로 된건지 qa한번돌려서 오류확인한번 해야될꺼같아"
 - QA: (1) 블라인드 감사 — 앱 코드를 보지 않은 검토자가 공고문·별표만으로 10공고×8조건 184건 판정 → 처음 164건 일치 (2) tools/qa/lh_qa.cjs 새 도구 — 무작위 조건 300개×30공고 퍼징, 소득·자산·자동차 단조성 39,420회, 답하기 해소(같은 질문 고리), 목록 카드=상세

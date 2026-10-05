@@ -824,7 +824,7 @@ def main() -> None:
             elif age < 65: na = True
         elif k == "신혼부부·한부모":
             lim7 = add_years(ref, -7)
-            in7 = (p["marriedOn"] > lim7) if p.get("marriedOn") else None
+            in7 = (p["marriedOn"] >= lim7) if p.get("marriedOn") else None   # '혼인기간 7년 이내' — 정확히 7년 포함
             kid6 = (p["youngestBirth"] > lim7) if p.get("youngestBirth") else None
             if p.get("married") is True:
                 if in7 is True or kid6 is True: pass
@@ -847,6 +847,8 @@ def main() -> None:
         for nt in g.get("notes") or []:                        # 공고문에만 있는 추가 요건 — 내 답(창업인 추천·직업기준·장기종사)
             nk = "lhStartupRec" if "창업인" in nt else "lhJobCriteria" if "직업기준" in nt else "lhLongWorker" if ("장기 종사" in nt or "장기종사" in nt) else None
             st.append(yn(p.get(nk)) if nk else "check")
+        if age is not None and age < 19 and k not in ("대학생", "청년"):   # 성년자 요건 (대학생·청년은 미성년 가능)
+            st.append("check" if (p.get("kidsMinor") or 0) > 0 and p.get("household") == "head" else "no")
         hl = g["homeless"]
         if hl == "self_or_household":                         # 혼인 중이면 세대원 전원, 아니면 본인 (창업지원주택 공고문 ②)
             hl = "household" if p.get("married") is True else "self" if p.get("married") is False else None
@@ -856,9 +858,14 @@ def main() -> None:
         elif hl == "self":
             st.append((yn(p.get("lhHomeOutside")) if T["homeless_relaxed"] else "no") if p.get("selfOwn") is True else "ok" if p.get("selfOwn") is False else "check")
         else:
-            own = p.get("selfOwn") is True or (p.get("married") is True and p.get("spouseOwn") is True) or (p.get("household") == "parents" and p.get("parentsOwn") is True)
-            none = p.get("selfOwn") is False and (p.get("married") is not True or p.get("spouseOwn") is False) and (p.get("household") != "parents" or p.get("parentsOwn") is False)
-            st.append((yn(p.get("lhHomeOutside")) if T["homeless_relaxed"] else "no") if own else "ok" if (none and p.get("married") is not None) else "check")
+            pin = p.get("household") == "parents" or (p.get("eldersOnDeed") or 0) > 0     # 같은 등본 부모님도 세대구성원 (임대는 60세 예외 없음)
+            own = p.get("selfOwn") is True or (p.get("married") is True and p.get("spouseOwn") is True) or (pin and p.get("parentsOwn") is True)
+            none = p.get("selfOwn") is False and (p.get("married") is not True or p.get("spouseOwn") is False) and (not pin or p.get("parentsOwn") is False)
+            owners = sum([p.get("selfOwn") is True, p.get("married") is True and p.get("spouseOwn") is True, pin and p.get("parentsOwn") is True])
+            if own and T["homeless_relaxed"] and T.get("homeless_max1") and (p.get("hhHomes") == "2+" or (owners >= 2 and p.get("hhHomes") != "1")):
+                st.append("no" if p.get("hhHomes") == "2+" else "check")   # 무주택 완화여도 2호 이상 제외
+            else:
+                st.append((yn(p.get("lhHomeOutside")) if T["homeless_relaxed"] else "no") if own else "ok" if (none and p.get("married") is not None) else "check")
         kid = bool((p.get("youngestBirth") or "") >= "2023-03-28" or p.get("pregnant") is True or (p.get("lhBirthKids") or 0) > 0)
         bk = p.get("lhBirthKids")
         bonus = None if bk in (None, "") else 20 if bk >= 2 else (20 if (p.get("kidsMinor") or 0) >= 2 else 10) if bk == 1 else 0   # 출산가구 가산 %p
@@ -910,8 +917,9 @@ def main() -> None:
                 dadd = g["dual_add"] if g.get("dual_add") is not None else ((30 if N["type"] == "통합공공임대" else 20) if k == "신혼부부·한부모" else 0)
                 dual = dadd > 0 and p.get("married") is True and (p.get("income") or 0) > 0 and (p.get("spouseIncome") or 0) > 0
                 add_ = dadd if dual else 0
-                est = (not member) and p.get("hhIncomeYear") in (None, "")
-                year = (p.get("income") or 0) if member else ((p.get("income") or 0) + ((p.get("spouseIncome") or 0) if p.get("married") else 0)) if est else p["hhIncomeYear"]
+                solo = n == 1 and p.get("married") is not True and p.get("household") == "head" and not (p.get("eldersOnDeed") or 0) > 0 and not (p.get("kidsMinor") or 0) > 0
+                est = (not member) and (not solo) and p.get("hhIncomeYear") in (None, "")
+                year = (p.get("income") or 0) if (member or (solo and p.get("hhIncomeYear") in (None, ""))) else ((p.get("income") or 0) + ((p.get("spouseIncome") or 0) if p.get("married") else 0)) if est else p["hhIncomeYear"]
                 mon = year * 10000 / 12
                 if est: st.append("check")
                 elif mon <= base * (pct + add_) / 100: st.append("ok")
@@ -1064,6 +1072,20 @@ def main() -> None:
                    ("자동차 초과·출산 0명", {"carValue": 4600, "youngestBirth": "2024-05-01", "kidsMinor": 1, "lhBirthKids": 0}),
                    ("9인 가구 50% 이하", {"hhSize": 9, "hhIncomeYear": yr((URB[8] + 579278) * 0.5)}), ("9인 가구 50% 초과", {"hhSize": 9, "hhIncomeYear": yr((URB[8] + 579278) * 0.5) + 1})]:
         lh_add(E, ["일반"], nm, ch, bB2)
+    # 2차 블라인드 감사(evidence/audit/2026-10-05-lh)에서 고친 것: 같은 등본 부모 주택·미성년자·1인 단독세대 소득·무주택 완화 2호 이상 제외
+    for nm, ch in [("세대주·같은 등본 부모 집", {"eldersOnDeed": 2, "parentsOwn": True}), ("세대주·같은 등본 부모 집 모름", {"eldersOnDeed": 1, "parentsOwn": None}),
+                   ("만 17세", {"birth": "2009-01-01"}), ("만 17세·자녀 부양 세대주", {"birth": "2009-01-01", "kidsMinor": 1, "hhSize": 2}),
+                   ("1인 단독세대주·세대 소득 미입력", {"hhIncomeYear": None, "income": 3000}), ("1인 세대원·세대 소득 미입력", {"hhIncomeYear": None, "household": "parents", "parentsOwn": False})]:
+        lh_add(E, ["일반"], nm, ch, bE + " · 신청자격(성년자인 무주택세대구성원, 세대구성원 = 같은 등본 직계존속 포함)")
+    R5 = "LH-2015122300020581"
+    for nm, ch in [("배우자·부모 집(2채 이상)", {"married": True, "marriedOn": "2015-01-01", "spouseOwn": True, "eldersOnDeed": 1, "parentsOwn": True, "hhHomes": "2+", "hhSize": 3}),
+                   ("배우자·부모 집(공동 1채)", {"married": True, "marriedOn": "2015-01-01", "spouseOwn": True, "eldersOnDeed": 1, "parentsOwn": True, "hhHomes": "1", "hhSize": 3, "lhHomeOutside": True}),
+                   ("배우자·부모 집(주택 수 모름)", {"married": True, "marriedOn": "2015-01-01", "spouseOwn": True, "eldersOnDeed": 1, "parentsOwn": True, "hhSize": 3}),
+                   ("본인 집 1채·지역 밖", {"selfOwn": True, "hhHomes": "1", "lhHomeOutside": True})]:
+        lh_add(R5, ["일반"], nm, ch, "삼척도계 국민임대 2015122300020581 입주자격 완화 ① 무주택요건 완화('해당지역 및 연접지역에 주택이 없으면 입주허용 및 소형·저가주택 허용 (단, 2호 이상의 주택 또는 분양권을 소유하고 있는 사람은 제외 (세대원 전원 기준))')")
+    for nm, ch in [("혼인신고 정확히 7년 전(공고일 2026-09-22 → 2019-09-22)", {"married": True, "marriedOn": "2019-09-22", "hhSize": 2, "hhIncomeYear": 5000}),
+                   ("혼인신고 7년 하루 넘음(2019-09-21)", {"married": True, "marriedOn": "2019-09-21", "hhSize": 2, "hhIncomeYear": 5000})]:
+        lh_add(H, ["신혼부부·한부모"], nm, ch, bH + " · 신혼부부 '혼인기간이 7년 이내'(공고일 기준)")
     for nm, ch in [("청약통장 없음(입주 전 가입)", {"acctType": "none"}), ("청약통장 종류 모름", {"acctType": ""})]:
         lh_add(H, ["청년"], nm, ch, bH + " · 청년 ⑤ '본인 입주전까지 주택청약종합저축 가입사실을 증명'")
 

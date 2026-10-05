@@ -43,7 +43,7 @@ const ROOT = join(__dirname, '../..'), DOCS = join(ROOT, 'docs'), NF = Number(pr
     const judge = (N, p) => rentalJudge(N, Object.assign({}, DEFAULT_PROFILE, p));
     // 답하기에서 넣을 '그럴듯한' 값
     const FILL = { birth: '1993-05-01', married: false, marriedOn: '2022-01-01', youngestBirth: '2021-01-01', selfOwn: false, spouseOwn: false, household: 'head', parentsOwn: false,
-      homeSido: '경남', homeSigun: '창원시', acctType: 'all', acctSince: '2015-01-01', acctCount: 60, hhSize: 2, kidsMinor: 1, hhIncomeYear: 3000, youthAsset: 1000,
+      homeSido: '경남', homeSigun: '창원시', hhHomes: '1', eldersOnDeed: 0, acctType: 'all', acctSince: '2015-01-01', acctCount: 60, hhSize: 2, kidsMinor: 1, hhIncomeYear: 3000, youthAsset: 1000,
       realEstate: 0, carValue: 0, cash: 1000, liquid: 0, deposit: 0, townInsurance: 0, townFinOther: 0, townOtherAsset: 0, townDebt: 0 };
     for (let i = 0; i < NF; i++) {
       const p = gen();

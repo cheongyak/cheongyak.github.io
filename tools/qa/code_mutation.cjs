@@ -20,14 +20,36 @@ const M = [   // [이름, 찾을 글, 바꿀 글]
   ['예치금 85㎡ 구간 <= → <', "ACCOUNT_DEPOSIT[g][a <= 85 ? 0 :", "ACCOUNT_DEPOSIT[g][a < 85 ? 0 :"],
   ['판정 묶음: 확인 필요를 가능으로', "return e.ok && !e.unsure ? 'ok' : e.ok ? 'unsure'", "return e.ok ? 'ok' : e.ok ? 'unsure'"],
   ['일반 0세대: 특공 0이면 불가 → 확인 필요', "if (u && u.total != null && !u.total) return 'no';", "if (u && u.total != null && !u.total) return 'unsure';"],
-  ['일반 0세대: 거주지 불가를 무시 (2026-10-02 과천 84D)', "if (on('verdict_one') && spCommonFail(L, p).length) return 'no';", ''],
+  ['일반 0세대: 거주지 불가를 무시 (2026-10-02 과천 84D) [동등]', "if (on('verdict_one') && spCommonFail(L, p).length) return 'no';", ''],
   ['마감일 하루 이동', "if (end && TODAY > end) return '마감';", "if (end && TODAY >= end) return '마감';"],
   ['공급유형: 재공급 배지를 무순위로', "/재공급/.test(L.supplyType || L.kind || '') ? '재공급' : '무순위'", "'무순위'"],
   ['공급유형: 일반공급 칸 재공급을 무순위로', "/재공급/.test(L.kind || '') ? '재공급' : '무순위'", "'무순위'"],
+  // LH 임대 판정 (기능 lh_rental, 2026-10-05 사용자 '일반분양 수준 QA') — 판정 사례 lhrent-* 가 잡아야 한다
+  // [동등] 표시: 일반 0세대 거주지 — spJudge 가 거주지·재당첨을 직접 본다(기능 supply_summary, 10-02 뒤) → 이 줄은 이중 안전장치라 빼도 결과가 같다.
+  //            LH 통장 1순위 개월 — 지금 공공임대 공고 2건 모두 2순위(가입만)도 신청 가능해 1순위 경계가 자격 결론(ok)을 바꾸지 않는다(문구만 1순위/2순위).
+  ['LH: 청년 39세 상한 +1', "age > (g.age_max || 39)", "age > (g.age_max || 39) + 1"],
+  ['LH: 고령자 65 → 64', "else if (age < (g.age_min || 65))", "else if (age < (g.age_min || 65) - 1)"],
+  ['LH: 소득 기준 +1%', "else if (m <= lim) add('ok', '소득 ' + txt);", "else if (m <= lim * 1.01) add('ok', '소득 ' + txt);"],
+  ['LH: 총자산 기준 +1만원', "else if (tot <= lim) add('ok', '총자산 ' + txt);", "else if (tot <= lim + 1) add('ok', '총자산 ' + txt);"],
+  ['LH: 자동차 <= → <', "else if (Number(p.carValue) <= lim) add('ok'", "else if (Number(p.carValue) < lim) add('ok'"],
+  ['LH: 대학생 자동차 소유 허용', "add(Number(p.carValue) > 0 ? 'no' : 'ok'", "add('ok'"],
+  ['LH: 1인 가산 퍼센트 무시', "g.income_pct[n === 1 ? '1' : n === 2 ? '2' : '3+']", "g.income_pct[n === 2 ? '2' : '3+']"],
+  ['LH: 신청자격 거주 시·도 무시', "else if (L0.sido && p.homeSido !== L0.sido) add('no'", "else if (false) add('no'"],
+  ['LH: 거주 시·군 비교 항상 일치', "else if (bareArea(sigunOf(p.homeSigun)) === bareArea(L0.sigun))", "else if (true)"],
+  ['LH: 출산 1명+형제 20 → 10', "Number(p.lhBirthKids) === 1 ? ((Number(p.kidsMinor) || 0) >= 2 ? 20 : 10) : 0", "Number(p.lhBirthKids) === 1 ? 10 : 0"],
+  ['LH: 혼인 7년 → 8년', "in7 = p.marriedOn && ref ? p.marriedOn >= addYears(ref, -7)", "in7 = p.marriedOn && ref ? p.marriedOn >= addYears(ref, -8)"],
+  ['LH: 맞벌이 가산 무시', "const dual = dualAdd > 0 && p.married === true", "const dual = false && p.married === true"],
+  ['LH: 통장 1순위 개월 -1 [동등]', "mo >= A.months && Number(p.acctCount) >= A.count", "mo >= A.months - 1 && Number(p.acctCount) >= A.count"],
+  ['LH: 미성년 19 → 18', "if (age != null && age < 19 && !['대학생', '청년'].includes(g.key))", "if (age != null && age < 18 && !['대학생', '청년'].includes(g.key))"],
+  ['LH: 9인 이상 가산 무시', "(n - 8) * 579278", "(n - 8) * 0"],
+  ['LH: 장기종사자 자녀 0 허용', "if (p.kidsMinor === 0) { na = true;", "if (false) { na = true;"],
+  ['LH: 대학생 아니요 무시', "if (p.lhStudent === false) { na = true;", "if (false) { na = true;"],
+  ['LH: 자격 완화 소득 배제 무시', "g.income_pct === 'excluded') add('ok'", "g.income_pct === 'never') add('ok'"],
 ];
 (async () => {
   const cases = JSON.parse(readFileSync(join(ROOT, 'tests/judge/cases.json'), 'utf8'));
   const listings = JSON.parse(readFileSync(join(ROOT, 'tests/judge/listings.json'), 'utf8'));
+  const lhNotices = existsSync(join(ROOT, 'tests/judge/lh_notices.json')) ? JSON.parse(readFileSync(join(ROOT, 'tests/judge/lh_notices.json'), 'utf8')) : [];
   const b = await chromium.launch({ executablePath: existsSync('/opt/pw-browsers/chromium') ? '/opt/pw-browsers/chromium' : undefined });
   const out = [];
   for (const [name, find, repl] of [['(변이 없음 — 기준선)', '', ''], ...M]) {
@@ -40,8 +62,9 @@ const M = [   // [이름, 찾을 글, 바꿀 글]
       const f = join(DOCS, decodeURIComponent(u.pathname.slice(1))); if (!existsSync(f)) return r.fulfill({ status: 404, body: '' });
       r.fulfill({ status: 200, body: readFileSync(f), contentType: { '.json':'application/json' }[extname(f)] || 'application/octet-stream' }); });
     await page.goto('http://qa.local/', { waitUntil: 'networkidle' });
-    const r = await page.evaluate(({ cases, listings }) => {
+    const r = await page.evaluate(({ cases, listings, lhNotices }) => {
       const byId = Object.fromEntries(listings.map(x => [x.id, fromApi(x)])); let bad = 0;
+      const lhById = Object.fromEntries(lhNotices.map(x => [x.id, x]));
       for (const c of cases) { const L = byId[c.listing]; S.profile = Object.assign({}, DEFAULT_PROFILE, c.profile); save(); const p = S.profile; let got;
         try {
           if (c.fn === 'score') got = { parts: myScore(L, p).parts.map(x => x.v) };
@@ -53,6 +76,7 @@ const M = [   // [이름, 찾을 글, 바꿀 글]
           else if (c.fn === 'item') { const it = c.item === '거주지' ? residenceItem(L, p) : eligibility(L, p).items.find(i => i.k === c.item); got = { s: it ? it.s : 'none' }; }
           else if (c.fn === 'home') { const it = eligibility(L, p).items.find(i => i.k === '무주택 세대') || {}; got = { s: it.s }; }
           else if (c.fn === 'residence') { const q = residenceItem(L, p); got = { s: q.s, v: q.v.startsWith(c.expect.v) ? c.expect.v : q.v }; }
+          else if (c.fn === 'lhrent') { const q = rentalJudge(lhById[c.notice], p); got = {}; for (const k of Object.keys(c.expect)) got[k] = (q.groups.find(g => g.key === k) || {}).s; }
         } catch (e) { got = { error: e.message }; }
         if (JSON.stringify(got) !== JSON.stringify(c.expect)) bad++; }
       // 공급유형 표시: 불법행위 재공급 주택형의 카드 배지·일반공급 칸 이름에 '무순위'가 나오면 잡힌 것
@@ -61,7 +85,7 @@ const M = [   // [이름, 찾을 글, 바꿀 글]
       // 마감 상태: 접수 끝 날짜 = 오늘인 공고는 '접수 중'이어야 한다
       const st = statusOf({ apply: TODAY, applyEnd: TODAY }) === '접수 중' ? 0 : 1;
       return { bad, disp, st };
-    }, { cases, listings });
+    }, { cases, listings, lhNotices });
     await page.close();
     const caught = r.bad + r.disp + r.st + errs.length;
     out.push({ name, status: find ? (caught ? 'KILLED' : name.includes('[동등]') ? 'EQUIVALENT' : 'SURVIVED') : (caught ? 'BASELINE_FAIL' : 'BASELINE_OK'), judge_fail: r.bad, display_fail: r.disp, status_fail: r.st, page_errors: errs.length });
