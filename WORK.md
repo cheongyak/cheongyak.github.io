@@ -4,6 +4,15 @@
 2026-09-29 12:55 이전 항목은 규칙을 만들기 전 작업을 커밋 기록으로 정리한 것이라 백업 브랜치가 없어요.
 그 시점으로 되돌릴 때는 해당 커밋 번호로 `git revert` 를 써요.
 
+## 2026-10-05 19:17 · LH 임대 QA 를 일반분양 수준으로 — 데이터 불변식·교차 규칙·e2e·문구 훑기·주간 블라인드 표본·검증 현황
+- 요청: "응 qa 일반분양 수준처럼 돌려줘"
+- 변경: ① tools/qa/lh_invariants.py 새 도구(일정 순서·보증금/월세 범위·계층 못 읽음·소득%·자산·자동차 범위·소득 100% 표=앱 고정값·정답 데이터 대조 → evidence/qa/lh-invariants.json, '[검증·LH]' 줄) + tests/test_lh_invariants.py ② cross_rule.cjs 에 LH 규칙(LH-ELIG-001 소득·002 자동차·총자산·003 거주 지역·004 나이·성년, LH-HOME-001, LH-MONO-001, LH-UI-001)과 CROSS_RULES.md 표 ③ e2e.cjs 'LH 임대 흐름'(#/rental·#/rdetail 바로 열기·새로고침·뒤로·없는 번호·스위치 꺼짐)·'LH 임대 입력 퍼징'(답하기 칸 18개 × 이상한 값 10개, 답하기 창 전부 열기), E2E_ONLY=lh ④ textsweep.cjs 에 임대 목록·상세·답하기 창 ⑤ blind_sample.py 에 LH 표본 2건(lh_samples·LH_QUESTIONS)과 비교, 분양 비교에 정의가 같은 경우 2가지(규제지역 1순위 세대주는 따로 판정, 청약통장 불필요=0개월) ⑥ verify_status.py 가 lh-invariants·lh-qa·lh-screen 을 모아 ok 에 반영, verify.yml·lh-rental.yml 에서 매번 실행 ⑦ lh_qa.cjs 답하기 값에 세대 주택 수·등본 부모 수
+- 결과: 불변식 위반 0, 교차 규칙 검사 140,428회 충돌 0(LH 판정에 오류를 일부러 넣은 변이 3개 — 소득·시도 거주·시군 거주·세대 집 — 모두 잡음), e2e 34/34(처음엔 상세 새로고침 오류를 잡아 앞 커밋에서 고침), 문구 훑기 임대 문장 431틀 이상 글자 0, 블라인드 W41: LH 2공고 답 전부 일치, 분양 5공고 다름 5 → 정의 차이 2개는 비교 도구에 반영, 남은 3(신혼희망타운 특공 정의 2·장항 재공급 노부모 특공 세대수 없음 1)은 HANDOFF 에 적음
+- 파일: tools/qa/lh_invariants.py, tests/test_lh_invariants.py, tools/qa/cross_rule.cjs, evidence/qa/CROSS_RULES.md, evidence/qa/cross-rule.json, tools/qa/e2e.cjs, evidence/qa/e2e.json, tools/qa/textsweep.cjs, tools/qa/blind_sample.py, evidence/qa/blind/2026-W41.json, evidence/qa/blind/report.json, tools/verify_status.py, tools/qa/lh_rental.cjs, evidence/qa/lh-invariants.json, evidence/qa/lh-screen.json, .github/workflows/verify.yml, .github/workflows/lh-rental.yml, HANDOFF.md, .claude/skills/cheongyakpass-ops/SKILL.md
+- 확인: 앞 커밋과 같은 검사 묶음 전부 통과, lh_invariants 0, verify_status 실행
+- 백업: backup/20261005-1917-lhqa2
+- 기능: lh_rental
+
 ## 2026-10-05 19:17 · LH 임대 판정 — 2차 블라인드 감사로 찾은 4가지 고침 + 새로고침하면 공고 상세가 사라지던 것
 - 요청: "응 qa 일반분양 수준처럼 돌려줘" (일반분양과 같은 방식의 QA)
 - QA: 2차 블라인드 감사(evidence/audit/2026-10-05-lh/README.md) — 무작위 40사례·24공고를 앱 코드를 보지 않은 검토자가 공고문·별표만으로 판정 → 75건 중 64 일치

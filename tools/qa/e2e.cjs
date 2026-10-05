@@ -28,7 +28,8 @@ const VIEW_BAD = /\bNaN\b|\bundefined\b|\[object Object\]|\bnull\b(?!\s*값)/;
   const profiles = { '서울 신혼': { homeSido:'서울', homeSigun:'마포구' }, '경기 신혼': { homeSido:'경기', homeSigun:'수원시' }, '부산 1인': { homeSido:'부산', homeSigun:'해운대구', married:false, marriedOn:'', dependents:0, kidsMinor:0, kidsOnDeed:0, youngestBirth:'', hhSize:1, income:4000, hhIncomeYear:4000 },
     '유주택': { homeSido:'서울', homeSigun:'강남구', selfOwn:true, hhHomes:'1', hhNeverOwned:false, realEstate:40000 }, '조건 없음': null };
   // 1) 시나리오 6 종류 × 조건 5 = 30: 카드 → 상세 → 자금 플랜 → 뒤로 → 뒤로, 주소로 바로 열기, 새로고침
-  for (const [pk, pf] of Object.entries(pickers)) for (const [prn, pr] of Object.entries(profiles)) {
+  const ONLY = process.env.E2E_ONLY;   // E2E_ONLY=lh 이면 LH 임대 시나리오만 (빠른 확인용)
+  if (ONLY !== 'lh') for (const [pk, pf] of Object.entries(pickers)) for (const [prn, pr] of Object.entries(profiles)) {
     const name = `${pk} · ${prn}`, fail = [];
     const { page, errs } = await open(pr ? { ...BASE, ...pr } : null);
     const id = await page.evaluate(src => { const f = eval('(' + src + ')'); const L = LISTINGS.find(x => !x.sample && f(x)); return L ? L.id : null; }, pf.toString());
@@ -59,13 +60,51 @@ const VIEW_BAD = /\bNaN\b|\bundefined\b|\[object Object\]|\bnull\b(?!\s*값)/;
     if (errs.length || dl.errs.length) fail.push('화면 오류: ' + [...errs, ...dl.errs].slice(0, 2).join(' | '));
     res.push({ name, id, status: fail.length ? 'FAIL' : 'PASS', fail });
   }
-  // 2) 검색 → 지난 공고 → 그때 넣었다면
+  if (ONLY !== 'lh') { // 2) 검색 → 지난 공고 → 그때 넣었다면
   { const name = '검색·지난 공고 흐름', fail = []; const { page, errs } = await open({ ...BASE, homeSido:'서울', homeSigun:'마포구' });
     if (await page.locator('#q').count()) await page.fill('#q', '서울'); else await page.evaluate(() => { S.q = '서울'; render(); }); await page.waitForTimeout(300);
     const bad = await page.evaluate(() => [...document.querySelectorAll('[data-open]')].map(e => LISTINGS.find(L => L.id === e.dataset.open)).filter(L => L && L.sido !== '서울').length); if (bad) fail.push('서울 검색에 다른 지역 ' + bad);
     await page.evaluate(() => { S.q = ''; S.view = 'past'; render(); }); await page.waitForTimeout(800);
     const pj = page.locator('[data-pj]').first(); if (await pj.count()) { await pj.click(); await page.waitForTimeout(800); if (!(await page.locator('.pjrow').count())) fail.push('그때 넣었다면 판정 안 나옴'); } else fail.push('지난 공고 판정 버튼 없음');
-    if (errs.length) fail.push('화면 오류: ' + errs[0]); res.push({ name, status: fail.length ? 'FAIL' : 'PASS', fail }); await page.close(); }
+    if (errs.length) fail.push('화면 오류: ' + errs[0]); res.push({ name, status: fail.length ? 'FAIL' : 'PASS', fail }); await page.close(); } }
+  // 2-1) LH 임대 (기능 lh_rental, 2026-10-05 '일반분양 수준 QA'): 주소로 바로 열기·새로고침·뒤로·없는 공고 번호·이상한 입력
+  { const lhOk = async page => page.waitForFunction(() => typeof RENTAL !== 'undefined' && (RENTAL || RENTAL_STATE === 'error'), null, { timeout: 15000 }).catch(() => {});
+    const name = 'LH 임대 흐름', fail = []; const { page, errs } = await open({ ...BASE, homeSido:'경남', homeSigun:'창원시', married:false, marriedOn:'', hhSize:1, kidsMinor:0, kidsOnDeed:0, youngestBirth:'', dependents:0 }, '?lh=preview#/rental');
+    await page.evaluate(() => loadRental()); await lhOk(page); await page.waitForTimeout(300);
+    if (await page.evaluate(() => S.view) !== 'rental') fail.push('#/rental 바로 열기: 화면 ' + await page.evaluate(() => S.view));
+    const nCards = await page.locator('[data-ropen]').count(); if (!nCards) fail.push('임대 목록 카드 0');
+    const N0 = await page.evaluate(() => { const id = document.querySelector('[data-ropen]').dataset.ropen; return { id, name: RENTAL.notices.find(x => x.id === id).name }; });
+    const key = N0.name.slice(0, 12);
+    await page.locator(`[data-ropen="${N0.id}"]`).first().click(); await page.waitForTimeout(400);
+    const h1 = await page.evaluate(() => location.hash); if (!h1.startsWith('#/rdetail')) fail.push('상세 주소 아님 ' + h1);
+    if (!(await page.evaluate(k => !document.querySelector('[data-ropen]') && document.body.innerText.includes(k), key))) fail.push('상세가 아님(목록 카드가 보임) 또는 공고명 없음');
+    await page.reload({ waitUntil: 'networkidle' }); await lhOk(page); await page.waitForTimeout(400);
+    if (!(await page.evaluate(k => S.view === 'rdetail' && !document.querySelector('[data-ropen]') && document.body.innerText.includes(k), key))) fail.push('상세에서 새로고침하면 그 공고가 아님 (화면 ' + await page.evaluate(() => S.view) + ', 주소 ' + await page.evaluate(() => location.hash) + ')');
+    await page.goBack(); await page.waitForTimeout(400); if (await page.evaluate(() => S.view) !== 'rental') fail.push('뒤로 → 임대 목록 아님: ' + await page.evaluate(() => S.view));
+    const d2 = await open({ ...BASE }, '?lh=preview#/rdetail/' + encodeURIComponent(N0.id)); await d2.page.evaluate(() => loadRental()); await lhOk(d2.page); await d2.page.waitForTimeout(400);
+    if (!(await d2.page.evaluate(k => S.view === 'rdetail' && !document.querySelector('[data-ropen]') && document.body.innerText.includes(k), key))) fail.push('주소로 상세 바로 열기 실패 (화면 ' + await d2.page.evaluate(() => S.view) + ')');
+    if (d2.errs.length) fail.push('화면 오류: ' + d2.errs[0]); await d2.page.close();
+    const d3 = await open({ ...BASE }, '?lh=preview#/rdetail/zzz-none'); await d3.page.evaluate(() => loadRental()); await lhOk(d3.page); await d3.page.waitForTimeout(300);
+    if (await d3.page.evaluate(() => S.view === 'rdetail' && !document.querySelector('[data-ropen]'))) fail.push('없는 공고 번호: 빈 화면');
+    if (d3.errs.length) fail.push('없는 공고 번호 화면 오류: ' + d3.errs[0]); await d3.page.close();
+    const d4 = await open({ ...BASE }, '#/rental'); await d4.page.waitForTimeout(300);   // 스위치 꺼짐·미리보기 아님 → 일반 목록
+    if (await d4.page.evaluate(() => S.view) !== 'feed') fail.push('기능 꺼졌는데 임대 화면 열림'); await d4.page.close();
+    if (errs.length) fail.push('화면 오류: ' + errs[0]); res.push({ name, id: N0.id, status: fail.length ? 'FAIL' : 'PASS', fail }); await page.close(); }
+  // 2-2) LH 임대 입력 퍼징: 답하기로 저장되는 칸(lh*·homeSigun·eldersOnDeed 등) × 이상한 값 → 임대 목록·상세 오류·이상한 글자 없음
+  { const name = 'LH 임대 입력 퍼징', fail = []; let n = 0; const { page, errs } = await open(null, '?lh=preview');
+    await page.evaluate(() => loadRental()); await page.waitForFunction(() => RENTAL || RENTAL_STATE === 'error', null, { timeout: 15000 }).catch(() => {});
+    const ids = await page.evaluate(() => { const ns = RENTAL.notices, pick = f => (ns.find(f) || {}).id;
+      return [pick(N => N.terms && N.terms.local), pick(N => N.terms && N.terms.groups && N.terms.groups.some(g => g.key === '청년')), pick(N => N.terms && N.terms.groups && N.terms.groups.length > 3), pick(N => !N.terms), pick(N => (N.rents || []).length)].filter(Boolean); });
+    const LK = ['lhStudent', 'lhStudentIncome', 'lhHousingBenefit', 'lhSingleParent', 'lhHomeOutside', 'lhStartupRec', 'lhJobCriteria', 'lhLongWorker', 'lhBirthKids', 'homeSigun', 'homeSido', 'eldersOnDeed', 'hhHomes', 'kidsMinor', 'hhSize', 'hhIncomeYear', 'carValue', 'birth'];
+    for (const k of LK) for (const v of BAD) { n++;
+      const r = await page.evaluate(({ k, v, ids, base }) => { try { S.profile = Object.assign({}, DEFAULT_PROFILE, base, { [k]: v }); const out = [];
+          S.rcat = 'rent'; S.view = 'rental'; render(); out.push(document.body.innerText);
+          ids.forEach(id => { S.rid = id; S.view = 'rdetail'; render(); out.push(document.body.innerText); [...document.querySelectorAll('[data-rq]')].map(b => b.dataset.rq).forEach(q => { S.rq = q; render(); out.push(document.body.innerText); }); S.rq = null; });
+          return { ok: true, txt: out.join('\n') }; } catch (e) { return { ok: false, err: e.message }; } }, { k, v, ids, base: { ...BASE, homeSido:'경남', homeSigun:'창원시' } });
+      if (!r.ok) fail.push(`${k}=${JSON.stringify(v).slice(0, 20)} → 오류 ${r.err}`); else { const m = r.txt.match(VIEW_BAD); if (m) fail.push(`${k}=${JSON.stringify(v).slice(0, 20)} → '${m[0]}' 표시`); } }
+    if (errs.length) fail.push('화면 오류: ' + errs.slice(0, 3).join(' | '));
+    res.push({ name: `${name} (${LK.length}칸 × ${BAD.length}값 = ${n}, 공고 ${ids.length})`, status: fail.length ? 'FAIL' : 'PASS', fail: fail.slice(0, 15) }); await page.close(); }
+  if (ONLY !== 'lh') {
   // 3) 퍼징: 내 조건 칸마다 이상한 값 10종 → 목록·상세 몇 개를 그려도 오류·이상한 글자 없음
   const keys = Object.keys(BASE).concat(['homeSido', 'homeSigun', 'acctType', 'townType']);
   let fz = 0; const fzFail = [];
@@ -81,7 +120,7 @@ const VIEW_BAD = /\bNaN\b|\bundefined\b|\[object Object\]|\bnull\b(?!\s*값)/;
       if (!r.ok) fzFail.push(`${k}=${JSON.stringify(v).slice(0, 20)} → 오류 ${r.err}`); else { const m = r.txt.match(VIEW_BAD); if (m) fzFail.push(`${k}=${JSON.stringify(v).slice(0, 20)} → '${m[0]}' 표시`); } }
     if (errs.length) fzFail.push('화면 오류: ' + errs.slice(0, 3).join(' | '));
     await page.close(); }
-  res.push({ name: `입력 퍼징 (${keys.length}칸 × ${BAD.length}값 = ${fz})`, status: fzFail.length ? 'FAIL' : 'PASS', fail: fzFail.slice(0, 15) });
+  res.push({ name: `입력 퍼징 (${keys.length}칸 × ${BAD.length}값 = ${fz})`, status: fzFail.length ? 'FAIL' : 'PASS', fail: fzFail.slice(0, 15) }); }
   await b.close();
   const n = s => res.filter(r => r.status === s).length;
   writeFileSync(join(ROOT, 'evidence/qa/e2e.json'), JSON.stringify({ date: new Date().toISOString().slice(0, 10), pass: n('PASS'), fail: n('FAIL'), not_testable: n('NOT_TESTABLE'), results: res }, null, 1) + '\n');

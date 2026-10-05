@@ -11,7 +11,8 @@ const T = { '.html':'text/html', '.json':'application/json', '.js':'text/javascr
   await p.route('**/*', r => { const u = new URL(r.request().url()); if (u.hostname !== 'site.local') return r.abort();
     const f = join(dir, u.pathname === '/' ? 'index.html' : decodeURIComponent(u.pathname.slice(1)));
     if (!existsSync(f)) return r.fulfill({ status: 404, body: '' }); r.fulfill({ status: 200, body: readFileSync(f), contentType: T[extname(f)] || 'application/octet-stream' }); });
-  await p.goto('http://site.local/', { waitUntil: 'networkidle' }); await p.waitForTimeout(800);
+  await p.goto('http://site.local/?lh=preview', { waitUntil: 'networkidle' }); await p.waitForTimeout(800);   // ?lh=preview: LH 임대 화면도 훑음 (기능 lh_rental)
+  await p.evaluate(() => new Promise(res => { loadRental(); const t = setInterval(() => { if (RENTAL || RENTAL_STATE === 'error') { clearInterval(t); res(); } }, 50); }));
   const res = await p.evaluate(([N, SEED]) => {
     let s = SEED; const rnd = () => (s = (s * 1103515245 + 12345) % 2147483648) / 2147483648;
     const pick = a => a[Math.floor(rnd() * a.length)], int = (a, b2) => a + Math.floor(rnd() * (b2 - a + 1));
@@ -35,11 +36,15 @@ const T = { '.html':'text/html', '.json':'application/json', '.js':'text/javascr
         line.split(/(?<=[.?!요다])\s+(?=[가-힣A-Z(])/).forEach(sen => { const k = sen.replace(/\d[\d,.]*/g, '#'); const v = bag.get(k) || { n:0, ex:sen, at:where }; v.n++; bag.set(k, v); }); }); };
     const LS = LISTINGS.filter(L => !L.sample);
     profiles.forEach((pr, pi) => {
-      try { localStorage.clear(); } catch (e) {}
+      try { localStorage.clear(); localStorage.setItem('cy-lh-preview', '1'); } catch (e) {}
       S.profile = Object.assign({}, DEFAULT_PROFILE, pr || {}); if (pr) { syncHome(S.profile); save(); }
       for (const v of ['feed', 'grades', 'me', 'about', 'alerts', 'updates', 'compare', 'trend']) { try { S.id = null; go(v); take(pi + '|' + v); } catch (e) {} }
       const sample = pi < 2 ? LS : LS.filter(() => rnd() < 0.35);
       for (const L of sample) { S.id = L.id; try { go('detail'); take(pi + '|detail|' + L.id); go('plan'); take(pi + '|plan|' + L.id); } catch (e) {} }
+      // LH 임대: 분류 탭 3개 목록, 공고 상세(앞 2개 조건은 전부, 나머지는 일부), 답하기 창
+      for (const c of ['rent', 'youth']) { try { S.rcat = c; go('rental'); take(pi + '|rental|' + c); } catch (e) {} }
+      for (const N of ((RENTAL && RENTAL.notices) || []).filter(() => pi < 2 || rnd() < 0.35)) { try { S.rid = N.id; S.rq = null; go('rdetail'); take(pi + '|rdetail|' + N.id);
+        [...document.querySelectorAll('[data-rq]')].map(x => x.dataset.rq).forEach(q => { S.rq = q; render(); take(pi + '|rq|' + N.id); }); S.rq = null; } catch (e) {} }
       if (pi === 2) { try { visibleSteps().forEach((st, i) => { S.step = i; go('onboard'); take('onboard|' + stepKey(st)); }); } catch (e) {} }
     });
     return [...bag.entries()].map(([k, v]) => ({ t: k, n: v.n, ex: v.ex, at: v.at }));

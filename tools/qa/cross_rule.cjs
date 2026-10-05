@@ -20,7 +20,14 @@ const ROOT = join(__dirname, '../..'), DOCS = join(ROOT, 'docs');
     const f = join(DOCS, u.pathname === '/' ? 'index.html' : decodeURIComponent(u.pathname.slice(1))); if (!existsSync(f)) return r.fulfill({ status: 404, body: '' });
     r.fulfill({ status: 200, body: readFileSync(f), contentType: { '.html':'text/html', '.json':'application/json' }[extname(f)] || 'application/octet-stream' }); });
   await page.goto('http://qa.local/', { waitUntil: 'networkidle' }); await page.waitForTimeout(400);
-  const out = await page.evaluate(([profiles, fx]) => {
+  await page.evaluate(() => new Promise(res => { loadRental(); const t = setInterval(() => { if (RENTAL || RENTAL_STATE === 'error') { clearInterval(t); res(); } }, 50); }));   // LH 임대 (기능 lh_rental)
+  const lhProfiles = [...new Map(cases.filter(c => c.fn === 'lhrent').map(c => [JSON.stringify(c.profile), c.profile])).values()];
+  // 다른 조건은 모두 충족하는 사람 × 사는 곳(시·도·시군) — 거주 요건 규칙이 실제로 걸릴 수 있게 (변이 검사에서 놓친 것 보완)
+  const LH_OK = { birth: '1994-03-01', married: false, selfOwn: false, household: 'head', hhSize: 1, hhIncomeYear: 1500, income: 1500, spouseIncome: 0, realEstate: 0, carValue: 0, cash: 500, liquid: 0, deposit: 0,
+    townInsurance: 0, townFinOther: 0, townOtherAsset: 0, townDebt: 0, youthAsset: 500, kidsMinor: 0, eldersOnDeed: 0, hhHomes: '0', acctType: 'all', acctSince: '2015-01-01', acctCount: 60, lhBirthKids: 0 };
+  for (const [sido, sigun] of [['서울', '마포구'], ['부산', '해운대구'], ['경남', '창원시'], ['경남', '김해시'], ['전북', '군산시'], ['전북', '전주시'], ['경기', '양주시'], ['경기', '수원시'], ['강원', '춘천시']])
+    lhProfiles.push(Object.assign({}, LH_OK, { homeSido: sido, homeSigun: sigun }));
+  const out = await page.evaluate(([profiles, fx, lhProfiles]) => {
     const seen = new Set(LISTINGS.map(L => L.id));
     fx.forEach(x => { if (!seen.has(x.id)) { const L = fromApi(x); L._fixture = true; LISTINGS.push(L); } });
     const txt = () => document.querySelector('#app') ? document.querySelector('#app').innerText : document.body.innerText;
@@ -115,9 +122,50 @@ const ROOT = join(__dirname, '../..'), DOCS = join(ROOT, 'docs');
         // STATUS-001: 마감 공고는 상세에서도 마감을 알려야 (신청 가능처럼 보이면 안 됨)
         if (statusOf(L) === '마감' && !/마감/.test(t)) v('STATUS-001', 'CRITICAL', L, '접수 마감 ' + (L.applyEnd || L.apply), '상세에 마감 표시 없음', "'마감' 표시", ['applyEnd', 'detail'], '청약홈 일정', pi * 7); }
     });
+    // ---------- LH 임대 (기능 lh_rental, 2026-10-05): 공고문 조건(terms) ↔ 계층별 판정 ↔ 목록 카드 ----------
+    const lhNotices = (RENTAL && RENTAL.notices || []).filter(N => N.terms && N.terms.groups && N.terms.groups.length);
+    const ORDR = { ok: 0, check: 1, no: 2, na: 3 };
+    for (const pr0 of lhProfiles.concat(profiles)) {
+      const p = Object.assign({}, DEFAULT_PROFILE, pr0);
+      for (const N of lhNotices) {
+        const J = rentalJudge(N, p), T = N.terms, ref = N.posted, age = rAge(p.birth, ref), L = { id: 'LH-' + N.id, name: N.name };
+        J.groups.forEach((g, gi) => { const G = T.groups[gi]; checks += 6; if (g.s !== 'ok') return;
+          // LH-ELIG-001: 가능인데 소득이 그 계층 최대 기준(1인·2인 가산 + 맞벌이 + 출산 20%p)을 넘음
+          if (G.income_pct && G.income_pct !== 'excluded' && p.hhIncomeYear != null && p.hhIncomeYear !== '' && p.hhSize && !(G.key === '청년' && p.household === 'parents') && G.key !== '대학생') {
+            const n = Number(p.hhSize), pct = G.income_pct[n === 1 ? '1' : n === 2 ? '2' : '3+'], base = rIncomeBase(N, n);
+            if (pct != null && base && Number(p.hhIncomeYear) * 10000 / 12 > base * (pct + 20 + 30) / 100 + 1) v('LH-ELIG-001', 'CRITICAL', L, G.key + ' 소득 월 ' + Math.round(Number(p.hhIncomeYear) * 10000 / 12), '계층 가능', '불가', ['hhIncomeYear', 'terms.income_pct'], '공고문 소득 기준표', null);
+          }
+          // LH-ELIG-002: 가능인데 자동차·총자산이 한도(+출산 20%)를 넘음
+          if (typeof G.car_manwon === 'number' && p.carValue != null && p.carValue !== '' && Number(p.carValue) > G.car_manwon * 1.2 + 1) v('LH-ELIG-002', 'CRITICAL', L, G.key + ' 자동차 ' + p.carValue, '계층 가능', '불가', ['carValue', 'terms.car_manwon'], '공고문 자산 기준', null);
+          if (typeof G.car_manwon === 'number' && G.car_manwon === 0 && Number(p.carValue) > 0) v('LH-ELIG-002', 'CRITICAL', L, G.key + ' 자동차 소유', '계층 가능', '불가(자동차 소유 불가)', ['carValue'], '공고문 대학생 계층', null);
+          if (typeof G.asset_manwon === 'number' && !['대학생'].includes(G.key) && !(G.key === '청년' && p.household === 'parents') && p.realEstate != null && p.carValue != null && townAssetParts(p).total > G.asset_manwon * 1.2 + 1) v('LH-ELIG-002', 'CRITICAL', L, G.key + ' 총자산 ' + townAssetParts(p).total, '계층 가능', '불가', ['totalAsset', 'terms.asset_manwon'], '공고문 자산 기준', null);
+          // LH-ELIG-003: 신청자격 거주 요건 밖인데 가능
+          if (T.local && T.local.sido && p.homeSido && p.homeSido !== T.local.sido) v('LH-ELIG-003', 'CRITICAL', L, G.key + ' 거주 ' + p.homeSido, '계층 가능', '불가(' + T.local.name + ' 거주자만)', ['homeSido', 'terms.local'], '공고문 신청자격', null);
+          if (T.local && T.local.sigun && p.homeSigun && bareArea(sigunOf(p.homeSigun)) !== bareArea(T.local.sigun)) v('LH-ELIG-003', 'CRITICAL', L, G.key + ' 거주 ' + p.homeSigun, '계층 가능', '불가(' + T.local.name + ' 거주자만)', ['homeSigun', 'terms.local'], '공고문 신청자격', null);
+          if (Array.isArray(T.regions) && T.regions.length && p.homeSido && !T.regions.includes(p.homeSido)) v('LH-ELIG-003', 'CRITICAL', L, G.key + ' 거주 ' + p.homeSido, '계층 가능', '불가', ['homeSido', 'terms.regions'], '공고문 신청자격', null);
+          // LH-ELIG-004: 나이 범위 밖인데 가능 (청년·고령자), 미성년인데 가능(대학생·청년 외)
+          if (age != null && G.key === '청년' && !G.married_ok && (age < (G.age_min || 19) || age > (G.age_max || 39))) v('LH-ELIG-004', 'CRITICAL', L, '청년 나이 ' + age, '가능', '해당 없음', ['birth'], '공고문 청년 계층', null);
+          if (age != null && G.key === '고령자' && age < 65) v('LH-ELIG-004', 'CRITICAL', L, '고령자 나이 ' + age, '가능', '해당 없음', ['birth'], '공고문 고령자 계층', null);
+          if (age != null && age < 19 && !['대학생', '청년'].includes(G.key)) v('LH-ELIG-004', 'CRITICAL', L, '미성년 ' + age, '가능', '불가(성년자)', ['birth'], '공고문 신청자격', null);
+          // LH-HOME-001: 무주택 완화 없는 공고에서 집이 있는데 가능
+          const own = G.homeless === 'self' ? p.selfOwn === true : (p.selfOwn === true || (p.married === true && p.spouseOwn === true));
+          if (own && !T.homeless_relaxed) v('LH-HOME-001', 'CRITICAL', L, G.key + ' 주택 소유', '가능', '불가', ['selfOwn', 'spouseOwn'], '공고문 무주택 요건', null);
+          // LH-MONO-001: 모르는 칸이 있는데 가능 (그 기준이 적용되는 경우)
+          const unk = [];
+          if (G.income_pct && G.income_pct !== 'excluded' && G.key !== '대학생' && (p.hhSize == null || p.hhSize === '')) unk.push('hhSize');
+          if (typeof G.car_manwon === 'number' && (p.carValue == null || p.carValue === '')) unk.push('carValue');
+          if ((G.key === '청년' || G.key === '고령자') && !p.birth) unk.push('birth');
+          if (unk.length) v('LH-MONO-001', 'CRITICAL', L, G.key + ' 모름 ' + unk.join(','), '가능', '확인 필요', unk, '불확실성 전파', null);
+        });
+        // LH-UI-001: 공고 결론 = 계층 중 가장 좋은 결론 (대학생·주거급여만 있는 공고 제외)
+        checks++;
+        const main = J.groups.filter(g => !['대학생', '주거급여수급자'].includes(g.key));
+        if (main.length && J.s !== main.slice().sort((a, b) => ORDR[a.s] - ORDR[b.s])[0].s) v('LH-UI-001', 'HIGH', L, '계층 ' + main.map(g => g.s).join(','), '공고 결론 ' + J.s, '가장 좋은 계층 결론', ['rentalJudge'], '화면', null);
+      }
+    }
     V.forEach(x => { if (stat[x.id] && x.severity !== 'MEDIUM') stat[x.id].state = 'CONFLICT'; });
     return { checks, V, stat, nListings: real.length, nProfiles: profiles.length };
-  }, [profiles, fx]);
+  }, [profiles, fx, lhProfiles]);
   await b.close();
   const sev = { CRITICAL: 0, HIGH: 0, MEDIUM: 0 }, rules = {};
   out.V.forEach(x => { sev[x.severity]++; rules[x.rule_id] = (rules[x.rule_id] || 0) + 1; });

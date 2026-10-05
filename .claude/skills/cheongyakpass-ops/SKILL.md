@@ -132,5 +132,6 @@ description: 청약패스(cheongyakpass.kr, 저장소 cheongyak/cheongyak.github
 - 법령: 주택공급에 관한 규칙은 evidence/law/, 공공주택 특별법 시행규칙(청년·공공임대 자격 별표 6의2~6의6 등)은 evidence/law/public/ (법령 원문 받기 Actions). rule.xml 은 CDATA 를 먼저 벗겨야 본문이 보인다.
 - index.html 은 한 스크립트라 같은 이름 함수를 다시 선언하면 오류 없이 앞의 것을 덮는다(2026-10-05 rentalCard 충돌 — 스냅샷 검사가 잡음). 새 함수는 접두어(lh…)를 붙이고 tests/test_index_names.py 가 겹침을 본다.
 - LH 임대(기능 lh_rental)는 분양과 완전히 따로: 수집 app/lh_rental.py·읽기 app/lh_terms.py·화면 rentalJudge. 공고문 정답은 tests/golden/lh_rental.json, 판정 사례 lhrent-*. LH 첨부(apply.lh.or.kr)는 작업 환경에서 못 받는다 — Actions 가 받은 글(evidence/lh/)로 작업.
+- LH 임대 QA 묶음(일반분양과 같은 수준): lh_invariants.py · lh_qa.cjs · lh_rental.cjs · cross_rule.cjs(LH-*) · `E2E_ONLY=lh node tools/qa/e2e.cjs`(빠른 LH 흐름만) · textsweep · blind_sample(lh_samples). 함정: ① 임대 상세는 S.id 가 아니라 S.rid — 주소·history 에 따로 넣어야 새로고침이 됨 ② textsweep 처럼 localStorage.clear() 하면 미리보기(cy-lh-preview)도 꺼져 임대 화면이 안 그려진다 ③ e2e 에서 '공고명이 보이면 상세'로 보면 안 됨 — 목록 카드에도 이름이 있다(상세 = [data-ropen] 없음) ④ 교차 규칙은 '가능'일 때만 보므로, 다른 조건은 다 충족하는 프로필을 넣어야 규칙이 실제로 걸린다(변이로 확인)
 - LH 임대 판정을 고치면 `node tools/qa/lh_qa.cjs`(퍼징·단조성·답하기 고리·카드=상세)와 judge_check 를 돌린다. 새 요건은 블라인드 감사(evidence/qa/lh-audit/README.md 방식: 공고문·별표만 읽는 검토자)로 확인 — 10-05 감사에서 영구임대 신청자격 거주 요건('○○시에 거주하는 성년자인'), 지원주택 직업기준 주민등록 같은 빠진 요건이 나왔다.
 - 임대 '확인' 항목은 q(답할 칸)를 붙여야 화면에서 '답하기'가 생긴다. q 없이 남는 확인은 lh_qa 의 '답할 칸 없는 확인' 목록에 나온다.

@@ -53,7 +53,7 @@ const BAD = /\bNaN\b|\bundefined\b|\[object Object\]/;
     if (scheme === 'light') console.log('판정 분포: ' + JSON.stringify(judged.reduce((a, [, s]) => (a[s] = (a[s] || 0) + 1, a), {})));
     // 공고 화면 '답하기' (사용자 10-05 17시): 세대 소득을 비우고 → 확인 항목의 답하기 → 입력·저장 → 판정이 바뀌고 내 조건에 저장되는지
     if (scheme === 'light') {
-      const nid = await page.evaluate(() => { S.profile.hhIncomeYear = null; save(); const N = RENTAL.notices.find(N => N.type === '국민임대' && N.terms && N.terms.groups[0].income_pct && N.terms.groups[0].income_pct !== 'excluded'); S.rid = N.id; S.rq = null; S.view = 'rdetail'; render(); return N.id; });
+      const nid = await page.evaluate(() => { S.profile.hhIncomeYear = null; S.profile.household = 'parents'; S.profile.parentsOwn = false; save(); const N = RENTAL.notices.find(N => N.type === '국민임대' && N.terms && N.terms.groups[0].income_pct && N.terms.groups[0].income_pct !== 'excluded'); S.rid = N.id; S.rq = null; S.view = 'rdetail'; render(); return N.id; });
       const before = await page.evaluate(id => rentalJudge(RENTAL.notices.find(N => N.id === id), S.profile).s, nid);
       const btn = page.locator('[data-rq]').first();
       if (!(await btn.count())) fails.push('답하기 버튼 없음');
@@ -73,6 +73,7 @@ const BAD = /\bNaN\b|\bundefined\b|\[object Object\]/;
     await page.close();
   }
   await b.close();
+  require('node:fs').writeFileSync(join(ROOT, 'evidence/qa/lh-screen.json'), JSON.stringify({ date: new Date().toISOString(), fails }, null, 1) + '\n');
   console.log(fails.length ? '[LH 임대 화면] 문제 ' + fails.length + '건\n' + fails.join('\n') : '[LH 임대 화면] 문제 없음');
   process.exit(fails.length ? 1 : 0);
 })();

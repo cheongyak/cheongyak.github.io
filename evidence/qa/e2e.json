@@ -1,6 +1,6 @@
 {
  "date": "2026-10-05",
- "pass": 32,
+ "pass": 34,
  "fail": 0,
  "not_testable": 0,
  "results": [
@@ -186,6 +186,17 @@
   },
   {
    "name": "검색·지난 공고 흐름",
+   "status": "PASS",
+   "fail": []
+  },
+  {
+   "name": "LH 임대 흐름",
+   "id": "2015122300020822",
+   "status": "PASS",
+   "fail": []
+  },
+  {
+   "name": "LH 임대 입력 퍼징 (18칸 × 10값 = 180, 공고 4)",
    "status": "PASS",
    "fail": []
   },

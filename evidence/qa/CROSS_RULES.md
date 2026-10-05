@@ -64,6 +64,15 @@ UNKNOWN 이 중요한 결과에 영향을 주면 결과도 '확인 필요'가 �
 | HIST-001 | 지난 공고 보관(1년) | 보관 기간·잠금 규칙 | 기간 지난 공고가 목록에 남음 | HIGH | tools/history/window.py | invariants.py, tests/test_history_window.py |
 | SP-TEXT-001 | 특공 단계 | 뽑는 방식·'약 N세대'가 공고문 배분과 같음 | 다름 | HIGH | 공고문 당첨자 선정방법 | sp_text.cjs |
 | MKT-001 | 시세·근거 거래 | 국토부 원자료로 따로 계산한 값과 같음 | 다름 | HIGH | 국토부 실거래가 | market_check.py |
+| LH-ELIG-001 | LH 임대 계층 '가능' (기능 lh_rental) | 세대 월소득 ≤ 그 계층·가구원 수 최대 기준(맞벌이·출산 가산 포함) | 소득이 넘는데 가능 | CRITICAL | 공고문 소득 기준표 · 도시근로자 월평균소득 | cross_rule.cjs, 판정 사례 lhrent-* |
+| LH-ELIG-002 | LH 계층 '가능' | 자동차·총자산 ≤ 한도(출산 완화 포함), 대학생 계층은 자동차 0 | 넘는데 가능 | CRITICAL | 공고문 자산 기준 | cross_rule.cjs, 판정 사례 |
+| LH-ELIG-003 | 공고문 신청자격에 거주 지역(시·도·시군, 권역) | 그 지역 밖에 살면 불가 | 다른 곳에 사는데 가능 | CRITICAL | 공고문 '모집공고일 현재 ○○시에 거주하는' | cross_rule.cjs (사는 곳만 바꾼 충족 조건 9개로 변이 검사 확인) |
+| LH-ELIG-004 | 청년·고령자 계층, 성년자 요건 | 나이 범위 안, 대학생·청년 외는 19세 이상 | 범위 밖인데 가능 | CRITICAL | 공고문 계층별 자격 | cross_rule.cjs |
+| LH-HOME-001 | 무주택 완화 없는 공고 | 본인(또는 세대) 집이 있으면 불가 | 집이 있는데 가능 | CRITICAL | 공고문 무주택 요건 | cross_rule.cjs |
+| LH-MONO-001 | 계층에 필요한 칸(가구원 수·자동차·생년월일) 모름 | '확인 필요' | 모르는데 가능 | CRITICAL | 불확실성 전파 | cross_rule.cjs, lh_qa.cjs |
+| LH-MONO-002 | 소득·자산·자동차↑ | 계층 결과가 좋아지지 않음 | 좋아짐 | HIGH | 공고문 기준표(이하·초과) | lh_qa.cjs |
+| LH-UI-001 | 같은 공고·같은 조건 | 공고 결론 = 계층 중 가장 좋은 결론, 목록 카드 = 상세 | 다름 | HIGH | — | cross_rule.cjs, lh_qa.cjs |
+| LH-DATA-001 | 임대 공고 수집 | 일정 순서·보증금/월세 범위·소득%·자산 범위, 소득 100% 표 = 앱 고정값, 정답 데이터와 같음 | 어긋남 | HIGH | 공고문 원문 · tests/golden/lh_rental.json | lh_invariants.py (매 수집) |
 
 ## 4. 전세 가능 여부의 의존 요소 (4항)
 
