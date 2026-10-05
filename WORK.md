@@ -4,6 +4,14 @@
 2026-09-29 12:55 이전 항목은 규칙을 만들기 전 작업을 커밋 기록으로 정리한 것이라 백업 브랜치가 없어요.
 그 시점으로 되돌릴 때는 해당 커밋 번호로 `git revert` 를 써요.
 
+## 2026-10-06 06:02 · LH 임대: 필수 요건 문장을 못 찾으면 '요건 없음'이 아니라 확인
+- 요청: "2번해주고" (안전성 점검의 남은 위험 — 공고문에서 거주 요건·청약통장 요건 문장을 못 찾으면 그 요건이 없는 것으로 판정)
+- 변경: 공고문 읽기(app/lh_terms.py)가 신청자격의 '공고일 현재 ○○에 거주하는 성년자/무주택세대구성원' 문장을 따로 찾아, 지역을 읽지 못했으면 local_unread 로 남김(세 도구 합칠 때 거주 요건을 어느 도구도 못 읽었을 때만). 화면은 local_unread 면 거주 요건 '확인', 공공임대는 거주지역(regions)·청약통장(account) 중 하나라도 못 읽으면 '확인'. 불변식 참고 항목(local_unread·public_unread)
+- 파일: app/lh_terms.py, app/lh_pdf_merge.py, docs/index.html, tools/make_judge_cases.py, tests/judge/(cases·lh_synthetic).json, tests/test_lh_terms.py, tools/qa/(lh_qa·code_mutation).cjs, tools/qa/lh_invariants.py, docs/judge-status.json, evidence/qa/*.json
+- 확인: 거주 문장 찾기를 지금 공고 30건에 돌려 거주 요건을 읽은 공고와 정확히 겹침(못 읽은 공고 0, '국내 거주'는 제외), 정답 공고에서 local_unread 0(test_local_unread_failsafe), 파서 실패 모의 공고 3개(거주 요건 못 읽음·공공임대 거주지역+통장·통장만) 판정 사례 606/606, lh_qa 공고문 기준 정보 감소 28,875회 새로 '가능' 0(거주 요건 못 읽음·공공임대 거주지역/통장 못 읽음 추가), code_mutation 52개 못 잡음 0, pytest 197, cross_rule·e2e 34/34·consistency·monotonic·profile_keep·filter·sp_text·snapshot 0, regress 1,125조합 변화 0·화면 1,401 오류 0
+- 백업: backup/20261006-0602-lhcta
+- 기능: 없음(수정 — lh_rental 안, 스위치 꺼짐이라 버전 올리지 않음)
+
 ## 2026-10-05 23:59 · LH 임대 판정 안전성 점검 — 모르는 값이 '가능'이 되지 않게 (외부 QA R3~R5)
 - 요청: 첨부 지시서 "공공임대/청년주택 판정에서 '실제로 자격을 충족한다'와 '현재 입력된 정보만으로는 판단할 수 없다'를 절대로 혼동하지 않도록 … R3/R4/R5 수정, 같은 패턴 전수 점검, 정보 감소 안전성 테스트, 블라인드 재감사"
 - 원인: ① 내 조건 기본값이 0·false 인 칸(본인·배우자 소득, 현금·금융·보증금, 배우자 주택)을 '0원·없음이라고 답함'과 구분할 수 없었음 → R3(1인 세대주 소득 빈칸 → 0원으로 가능)·R4(청년 세대원 본인 소득 빈칸)·R5(현금·금융·보증금 빈칸 → 총자산 가능)

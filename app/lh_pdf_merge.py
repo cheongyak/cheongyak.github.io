@@ -119,6 +119,12 @@ def merge_terms(parsed: dict, cell_table: Optional[dict] = None) -> tuple[dict, 
             conflicts.append(f"{k} 값이 읽기 도구마다 달라요: " + ", ".join(f"{t}={_canon(x)!r}" for t, x in vs.items()))
         if v is not None or st == "conflict":
             out[k] = v
+    # 거주 요건 문장은 보이는데 어디인지 못 읽음: 합친 결과에도 거주 요건이 없을 때만 남긴다 (화면 '확인')
+    out.pop("local_unread", None)
+    if not out.get("local"):
+        lu = next((p["local_unread"] for p in parsed.values() if p.get("local_unread")), None)
+        if lu:
+            out["local_unread"] = lu
     # 소득 100% 금액표: 고정값과 맞는 도구
     basis = base.get("income_basis")
     tbs = {t: p.get("income_table_100") for t, p in parsed.items()}

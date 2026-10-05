@@ -202,5 +202,103 @@
    "prewed_ok": true
   },
   "_from": "tests/golden/lh_rental.json (공고문 원문 확인값) — 파서 결과가 아님"
+ },
+ {
+  "id": "LH-SYN-LOCAL",
+  "type": "영구임대",
+  "posted": "2026-09-22",
+  "name": "모의: 부산 영구임대(818) 거주 요건 문장은 있는데 지역을 못 읽음",
+  "schedule": [],
+  "units": [],
+  "files": [],
+  "terms": {
+   "relaxed": false,
+   "homeless_relaxed": false,
+   "income_basis": "도시근로자 월평균소득",
+   "income_table_100": null,
+   "groups": [
+    {
+     "key": "일반",
+     "name": "일반",
+     "homeless": "household",
+     "income_pct": {
+      "1": 70,
+      "2": 60,
+      "3+": 50
+     },
+     "asset_manwon": 24500,
+     "car_manwon": 4542,
+     "age_min": null,
+     "age_max": null
+    }
+   ],
+   "local": null,
+   "local_unread": "현재 부산시에 거주하는 성년자"
+  },
+  "_from": "tests/golden/lh_rental.json (공고문 원문 확인값) — 파서 결과가 아님"
+ },
+ {
+  "id": "LH-SYN-PUBLIC",
+  "type": "공공임대",
+  "posted": "2026-09-28",
+  "name": "모의: 마산삼계2 공공임대(765) 거주지역·청약통장 요건을 못 읽음",
+  "schedule": [],
+  "units": [],
+  "files": [],
+  "terms": {
+   "relaxed": false,
+   "homeless_relaxed": false,
+   "income_basis": null,
+   "income_table_100": null,
+   "regions": null,
+   "account": null,
+   "groups": [
+    {
+     "key": "일반",
+     "name": "일반",
+     "homeless": "household",
+     "income_pct": "excluded",
+     "asset_manwon": "excluded",
+     "car_manwon": "excluded",
+     "age_min": null,
+     "age_max": null
+    }
+   ]
+  },
+  "_from": "tests/golden/lh_rental.json (공고문 원문 확인값)"
+ },
+ {
+  "id": "LH-SYN-ACCOUNT",
+  "type": "공공임대",
+  "posted": "2026-09-28",
+  "name": "모의: 마산삼계2 공공임대(765) 청약통장 요건만 못 읽음",
+  "schedule": [],
+  "units": [],
+  "files": [],
+  "terms": {
+   "relaxed": false,
+   "homeless_relaxed": false,
+   "income_basis": null,
+   "income_table_100": null,
+   "regions": [
+    "경남",
+    "부산",
+    "울산"
+   ],
+   "account": null,
+   "groups": [
+    {
+     "key": "일반",
+     "name": "일반",
+     "homeless": "household",
+     "income_pct": "excluded",
+     "asset_manwon": "excluded",
+     "car_manwon": "excluded",
+     "age_min": null,
+     "age_max": null
+    }
+   ]
+  },
+  "_from": "tests/golden/lh_rental.json (공고문 원문 확인값)"
  }
 ]

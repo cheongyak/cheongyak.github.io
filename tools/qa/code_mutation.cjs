@@ -61,6 +61,8 @@ const M = [   // [이름, 찾을 글, 바꿀 글]
   ['LH 안전: 입력 어긋남(0채인데 집) 무시', "if (p.hhHomes === '0' && owners > 0) add('check'", "if (false) add('check'"],
   ['LH 안전: 나이 기준 한쪽만 읽어도 통과', "else if (g.age_min == null || g.age_max == null) add('check', `청년 나이 기준 일부", "else if (false) add('check', `청년 나이 기준 일부"],
   ['LH 안전: 총자산 빠진 칸 무시', "else if (miss.length) add('check', '총자산 입력 필요", "else if (false) add('check', '총자산 입력 필요"],
+  ['LH 안전: 거주 요건 못 읽음 무시', "if (!T.local && T.local_unread) add('check'", "if (false) add('check'"],
+  ['LH 안전: 공공임대 통장 요건 못 읽음 무시', "if (N.type === '공공임대' && T.account == null) add('check'", "if (false) add('check'"],
   ['LH 안전: 소득 미입력을 본인 소득 0으로', "const yearMan = youthMember ? inc : hhInc != null ? hhInc : solo ? inc : null;", "const yearMan = youthMember ? (inc || 0) : hhInc != null ? hhInc : solo ? (inc || 0) : null;"],
 ];
 (async () => {

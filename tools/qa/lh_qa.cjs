@@ -119,6 +119,8 @@ const ROOT = join(__dirname, '../..'), DOCS = join(ROOT, 'docs'), NF = Number(pr
           if (g.income_pct && typeof g.income_pct === 'object') muts.push([`${g.key}.income_pct 1인 칸 없음`, M => { M.terms.groups[gi].income_pct = Object.assign({}, g.income_pct, { '1': null, '2': null }); }]);
         });
         if (N.terms.prewed_ok) muts.push(['prewed_ok=없음', M => { delete M.terms.prewed_ok; }]);
+        if (N.terms.local) muts.push(['거주 요건 못 읽음', M => { M.terms.local_unread = '현재 ' + N.terms.local.name + '에 거주하는 성년자'; M.terms.local = null; }]);
+        if (N.type === '공공임대') { muts.push(['거주지역 못 읽음', M => { M.terms.regions = null; }]); muts.push(['청약통장 요건 못 읽음', M => { M.terms.account = null; }]); }
         if (N.terms.income_table_100) muts.push(['소득 100% 표 없음', M => { M.terms.income_table_100 = null; }]);
         muts.push(['모르는 계층 추가', M => { M.terms.groups.push({ key: '산업단지 근로자', name: '산업단지 근로자', homeless: 'household', income_pct: { '1': 200, '2': 200, '3+': 200 }, asset_manwon: 99999, car_manwon: 9999 }); M.terms.unknown_groups = ['산업단지 근로자']; }]);
         for (const [why, f] of muts) { R.tred++; const M = clone(N); f(M); const B = rentalJudge(M, p);

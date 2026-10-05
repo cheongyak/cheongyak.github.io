@@ -932,6 +932,8 @@ def main() -> None:
             return "check" if v <= lim * (1 + bonus / 100) else "no"
         # 신청자격 거주 요건 ('공고일 현재 ○○시에 거주하는 성년자인 무주택세대구성원')
         Lc = T.get("local")
+        if not Lc and T.get("local_unread"): st.append("check")   # 거주 요건 문장은 있는데 어디인지 못 읽음
+        if N["type"] == "공공임대" and (T.get("regions") is None or T.get("account") is None): st.append("check")   # 공공임대 신청자격(거주지역·통장)을 못 읽음
         if Lc:
             if not p.get("homeSido"): st.append("check")
             elif Lc["sido"] and p["homeSido"] != Lc["sido"]: st.append("no")
@@ -1235,9 +1237,20 @@ def main() -> None:
     for g in sd["terms"]["groups"]:
         g.pop("dual_add", None)
         if g["key"] == "청년": g["age_max"] = None
-    syn += [sx, sn, sd]
+    sl = copy.deepcopy(LHN[E]); sl["id"] = "LH-SYN-LOCAL"; sl["name"] = "모의: 부산 영구임대(818) 거주 요건 문장은 있는데 지역을 못 읽음"
+    sl["terms"]["local"] = None; sl["terms"]["local_unread"] = "현재 부산시에 거주하는 성년자"
+    sp = copy.deepcopy(LHN["LH-2015122300020765"]); sp["id"] = "LH-SYN-PUBLIC"; sp["name"] = "모의: 마산삼계2 공공임대(765) 거주지역·청약통장 요건을 못 읽음"
+    sp["terms"]["regions"] = None; sp["terms"]["account"] = None
+    sa = copy.deepcopy(LHN["LH-2015122300020765"]); sa["id"] = "LH-SYN-ACCOUNT"; sa["name"] = "모의: 마산삼계2 공공임대(765) 청약통장 요건만 못 읽음"
+    sa["terms"]["account"] = None
+    syn += [sx, sn, sd, sl, sp, sa]
     (ROOT / "tests/judge/lh_synthetic.json").write_text(json.dumps(syn, ensure_ascii=False, indent=1) + "\n", encoding="utf-8")
     LHN.update({x["id"]: x for x in syn})
+    for nm, ch in [("부산 거주", {}), ("서울 거주", {"homeSido": "서울"})]:
+        lh_add("LH-SYN-LOCAL", ["일반"], nm, ch, "모의 공고: 거주 요건 문장을 못 읽으면 거주 요건을 '확인'으로(요건 없음으로 보지 않음)")
+    for nm, ch in [("경남·청약통장 있음", {"homeSido": "경남", "acctSince": "2020-01-01", "acctCount": 30}), ("통장 없음", {"homeSido": "경남", "acctType": "none"})]:
+        lh_add("LH-SYN-PUBLIC", ["일반"], nm, ch, "모의 공고: 공공임대 거주지역·청약통장 요건을 못 읽으면 확인")
+    lh_add("LH-SYN-ACCOUNT", ["일반"], "경남·통장 없음", {"homeSido": "경남", "acctType": "none"}, "모의 공고: 공공임대 청약통장 요건만 못 읽어도 확인")
     for nm, ch in [("소득·자산 낮음", {}), ("소득·자산 높음", {"hhIncomeYear": 30000, "realEstate": 90000, "carValue": 9000})]:
         lh_add("LH-SYN-EXCL", ["일반"], nm, ch, "모의 공고: 완화 공고가 아닌데 기준을 '미적용'으로 읽으면 판정하지 않음(확인)")
     for nm, ch in [("기본", {}), ("혼인 중·맞벌이", {"married": True, "marriedOn": "2024-01-01", "hhSize": 2, "income": 3000, "spouseIncome": 3000, "hhIncomeYear": yr(URB[2] * 1.3)}),

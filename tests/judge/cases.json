@@ -26648,6 +26648,238 @@
  {
   "id": "lhrent-189",
   "fn": "lhrent",
+  "notice": "LH-SYN-LOCAL",
+  "profile": {
+   "household": "head",
+   "selfOwn": false,
+   "spouseOwn": false,
+   "married": false,
+   "marriedOn": "",
+   "birth": "1995-03-01",
+   "hhSize": 1,
+   "hhIncomeYear": 3000,
+   "income": 3000,
+   "spouseIncome": 0,
+   "realEstate": 0,
+   "carValue": 1000,
+   "cash": 2000,
+   "liquid": 0,
+   "deposit": 0,
+   "townInsurance": 0,
+   "townFinOther": 0,
+   "townOtherAsset": 0,
+   "townDebt": 0,
+   "youthAsset": 3000,
+   "kidsMinor": 0,
+   "youngestBirth": "",
+   "pregnant": false,
+   "homeSido": "부산",
+   "homeSigun": "",
+   "acctType": "all",
+   "hhHomes": "0",
+   "_set": [
+    "cash",
+    "deposit",
+    "income",
+    "liquid",
+    "spouseIncome",
+    "spouseOwn"
+   ]
+  },
+  "expect": {
+   "일반": "check"
+  },
+  "basis": "모의 공고: 거주 요건 문장을 못 읽으면 거주 요건을 '확인'으로(요건 없음으로 보지 않음) — 부산 거주"
+ },
+ {
+  "id": "lhrent-190",
+  "fn": "lhrent",
+  "notice": "LH-SYN-LOCAL",
+  "profile": {
+   "household": "head",
+   "selfOwn": false,
+   "spouseOwn": false,
+   "married": false,
+   "marriedOn": "",
+   "birth": "1995-03-01",
+   "hhSize": 1,
+   "hhIncomeYear": 3000,
+   "income": 3000,
+   "spouseIncome": 0,
+   "realEstate": 0,
+   "carValue": 1000,
+   "cash": 2000,
+   "liquid": 0,
+   "deposit": 0,
+   "townInsurance": 0,
+   "townFinOther": 0,
+   "townOtherAsset": 0,
+   "townDebt": 0,
+   "youthAsset": 3000,
+   "kidsMinor": 0,
+   "youngestBirth": "",
+   "pregnant": false,
+   "homeSido": "서울",
+   "homeSigun": "",
+   "acctType": "all",
+   "hhHomes": "0",
+   "_set": [
+    "cash",
+    "deposit",
+    "income",
+    "liquid",
+    "spouseIncome",
+    "spouseOwn"
+   ]
+  },
+  "expect": {
+   "일반": "check"
+  },
+  "basis": "모의 공고: 거주 요건 문장을 못 읽으면 거주 요건을 '확인'으로(요건 없음으로 보지 않음) — 서울 거주"
+ },
+ {
+  "id": "lhrent-191",
+  "fn": "lhrent",
+  "notice": "LH-SYN-PUBLIC",
+  "profile": {
+   "household": "head",
+   "selfOwn": false,
+   "spouseOwn": false,
+   "married": false,
+   "marriedOn": "",
+   "birth": "1995-03-01",
+   "hhSize": 1,
+   "hhIncomeYear": 3000,
+   "income": 3000,
+   "spouseIncome": 0,
+   "realEstate": 0,
+   "carValue": 1000,
+   "cash": 2000,
+   "liquid": 0,
+   "deposit": 0,
+   "townInsurance": 0,
+   "townFinOther": 0,
+   "townOtherAsset": 0,
+   "townDebt": 0,
+   "youthAsset": 3000,
+   "kidsMinor": 0,
+   "youngestBirth": "",
+   "pregnant": false,
+   "homeSido": "경남",
+   "homeSigun": "",
+   "acctType": "all",
+   "hhHomes": "0",
+   "acctSince": "2020-01-01",
+   "acctCount": 30,
+   "_set": [
+    "cash",
+    "deposit",
+    "income",
+    "liquid",
+    "spouseIncome",
+    "spouseOwn"
+   ]
+  },
+  "expect": {
+   "일반": "check"
+  },
+  "basis": "모의 공고: 공공임대 거주지역·청약통장 요건을 못 읽으면 확인 — 경남·청약통장 있음"
+ },
+ {
+  "id": "lhrent-192",
+  "fn": "lhrent",
+  "notice": "LH-SYN-PUBLIC",
+  "profile": {
+   "household": "head",
+   "selfOwn": false,
+   "spouseOwn": false,
+   "married": false,
+   "marriedOn": "",
+   "birth": "1995-03-01",
+   "hhSize": 1,
+   "hhIncomeYear": 3000,
+   "income": 3000,
+   "spouseIncome": 0,
+   "realEstate": 0,
+   "carValue": 1000,
+   "cash": 2000,
+   "liquid": 0,
+   "deposit": 0,
+   "townInsurance": 0,
+   "townFinOther": 0,
+   "townOtherAsset": 0,
+   "townDebt": 0,
+   "youthAsset": 3000,
+   "kidsMinor": 0,
+   "youngestBirth": "",
+   "pregnant": false,
+   "homeSido": "경남",
+   "homeSigun": "",
+   "acctType": "none",
+   "hhHomes": "0",
+   "_set": [
+    "cash",
+    "deposit",
+    "income",
+    "liquid",
+    "spouseIncome",
+    "spouseOwn"
+   ]
+  },
+  "expect": {
+   "일반": "check"
+  },
+  "basis": "모의 공고: 공공임대 거주지역·청약통장 요건을 못 읽으면 확인 — 통장 없음"
+ },
+ {
+  "id": "lhrent-193",
+  "fn": "lhrent",
+  "notice": "LH-SYN-ACCOUNT",
+  "profile": {
+   "household": "head",
+   "selfOwn": false,
+   "spouseOwn": false,
+   "married": false,
+   "marriedOn": "",
+   "birth": "1995-03-01",
+   "hhSize": 1,
+   "hhIncomeYear": 3000,
+   "income": 3000,
+   "spouseIncome": 0,
+   "realEstate": 0,
+   "carValue": 1000,
+   "cash": 2000,
+   "liquid": 0,
+   "deposit": 0,
+   "townInsurance": 0,
+   "townFinOther": 0,
+   "townOtherAsset": 0,
+   "townDebt": 0,
+   "youthAsset": 3000,
+   "kidsMinor": 0,
+   "youngestBirth": "",
+   "pregnant": false,
+   "homeSido": "경남",
+   "homeSigun": "",
+   "acctType": "none",
+   "hhHomes": "0",
+   "_set": [
+    "cash",
+    "deposit",
+    "income",
+    "liquid",
+    "spouseIncome",
+    "spouseOwn"
+   ]
+  },
+  "expect": {
+   "일반": "check"
+  },
+  "basis": "모의 공고: 공공임대 청약통장 요건만 못 읽어도 확인 — 경남·통장 없음"
+ },
+ {
+  "id": "lhrent-194",
+  "fn": "lhrent",
   "notice": "LH-SYN-EXCL",
   "profile": {
    "household": "head",
@@ -26692,7 +26924,7 @@
   "basis": "모의 공고: 완화 공고가 아닌데 기준을 '미적용'으로 읽으면 판정하지 않음(확인) — 소득·자산 낮음"
  },
  {
-  "id": "lhrent-190",
+  "id": "lhrent-195",
   "fn": "lhrent",
   "notice": "LH-SYN-EXCL",
   "profile": {
@@ -26738,7 +26970,7 @@
   "basis": "모의 공고: 완화 공고가 아닌데 기준을 '미적용'으로 읽으면 판정하지 않음(확인) — 소득·자산 높음"
  },
  {
-  "id": "lhrent-191",
+  "id": "lhrent-196",
   "fn": "lhrent",
   "notice": "LH-SYN-NULL",
   "profile": {
@@ -26787,7 +27019,7 @@
   "basis": "모의 공고: 기준을 못 읽은 칸·모르는 계층은 '가능'이 될 수 없음 — 기본"
  },
  {
-  "id": "lhrent-192",
+  "id": "lhrent-197",
   "fn": "lhrent",
   "notice": "LH-SYN-NULL",
   "profile": {
@@ -26836,7 +27068,7 @@
   "basis": "모의 공고: 기준을 못 읽은 칸·모르는 계층은 '가능'이 될 수 없음 — 혼인 중·맞벌이"
  },
  {
-  "id": "lhrent-193",
+  "id": "lhrent-198",
   "fn": "lhrent",
   "notice": "LH-SYN-NULL",
   "profile": {
@@ -26885,7 +27117,7 @@
   "basis": "모의 공고: 기준을 못 읽은 칸·모르는 계층은 '가능'이 될 수 없음 — 65세"
  },
  {
-  "id": "lhrent-194",
+  "id": "lhrent-199",
   "fn": "lhrent",
   "notice": "LH-SYN-NULL",
   "profile": {
@@ -26935,7 +27167,7 @@
   "basis": "모의 공고: 기준을 못 읽은 칸·모르는 계층은 '가능'이 될 수 없음 — 예비신혼부부 예"
  },
  {
-  "id": "lhrent-195",
+  "id": "lhrent-200",
   "fn": "lhrent",
   "notice": "LH-SYN-NODUAL",
   "profile": {
@@ -26982,7 +27214,7 @@
   "basis": "모의 공고: 맞벌이 가산을 못 읽으면 가산 없이 판정하고 가산이 있어야 되는 구간은 확인 · 나이 한쪽 기준만 읽으면 확인 — 31세 미혼(상한 못 읽음)"
  },
  {
-  "id": "lhrent-196",
+  "id": "lhrent-201",
   "fn": "lhrent",
   "notice": "LH-SYN-NODUAL",
   "profile": {
@@ -27029,7 +27261,7 @@
   "basis": "모의 공고: 맞벌이 가산을 못 읽으면 가산 없이 판정하고 가산이 있어야 되는 구간은 확인 · 나이 한쪽 기준만 읽으면 확인 — 맞벌이 2인 110% 초과 140% 이하(가산 못 읽음)"
  },
  {
-  "id": "lhrent-197",
+  "id": "lhrent-202",
   "fn": "lhrent",
   "notice": "LH-SYN-NODUAL",
   "profile": {
@@ -27076,7 +27308,7 @@
   "basis": "모의 공고: 맞벌이 가산을 못 읽으면 가산 없이 판정하고 가산이 있어야 되는 구간은 확인 · 나이 한쪽 기준만 읽으면 확인 — 외벌이 2인 110% 이하"
  },
  {
-  "id": "lhrent-198",
+  "id": "lhrent-203",
   "fn": "lhrent",
   "notice": "LH-2015122300020818",
   "profile": {
@@ -27122,7 +27354,7 @@
   "basis": "부산 영구임대 2015122300020818 소득 및 자산 보유기준(차목 일반 50%, 1인 70%·2인 60%, 총자산 24,500만원·자동차 4,542만원) · 모르는 칸 — 총자산 1만원 초과·출산 여부 모름"
  },
  {
-  "id": "lhrent-199",
+  "id": "lhrent-204",
   "fn": "lhrent",
   "notice": "LH-2015122300020818",
   "profile": {
@@ -27168,7 +27400,7 @@
   "basis": "부산 영구임대 2015122300020818 소득 및 자산 보유기준(차목 일반 50%, 1인 70%·2인 60%, 총자산 24,500만원·자동차 4,542만원) · 모르는 칸 — 혼인 여부 빈 글자"
  },
  {
-  "id": "lhrent-200",
+  "id": "lhrent-205",
   "fn": "lhrent",
   "notice": "LH-2015122300020806",
   "profile": {

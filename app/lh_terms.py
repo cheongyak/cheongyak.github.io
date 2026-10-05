@@ -363,6 +363,9 @@ def _public_terms(t: str) -> tuple[list[dict], dict, dict]:
 METRO = {"서울": "서울", "부산": "부산", "대구": "대구", "인천": "인천", "광주": "광주", "대전": "대전", "울산": "울산", "세종": "세종"}
 
 
+_LOCAL_HINT = re.compile(r"현재\s?[^.\n]{0,40}?(?:에|에서)\s?거주하(?:는|고\s?있는)[^.\n]{0,30}?(?:성년자|무주택\s?세대구성원)")
+
+
 def parse_local(t: str, region: Optional[str]) -> Optional[dict]:
     """신청자격 첫 문장의 거주 요건 — '입주자 모집공고일(…) 현재 부산시에 거주하는 성년자인 무주택세대구성원'(영구임대 등).
     순위(1순위 해당 시 거주)는 자격이 아니라 읽지 않는다. region = 공고의 시·도(API CNP_CD_NM)."""
@@ -405,6 +408,10 @@ def parse_lh_terms(text: str, kind: str, name: str = "", region: Optional[str] =
     loc = parse_local(t, region)
     if loc:
         res["local"] = loc
+    elif (ml := _LOCAL_HINT.search(t)) and not re.search(r"국내", ml.group(0)):
+        # 신청자격에 '공고일 현재 ○○에 거주하는 성년자' 같은 거주 요건 문장이 보이는데 어디인지 읽지 못함 → 화면은 거주 요건을 '확인'으로
+        # (요건 문장을 못 찾으면 요건이 없는 것으로 판정되는 경로를 막는다, 2026-10-06 안전성 점검 후속)
+        res["local_unread"] = ml.group(0)[:80]
     for g in res["groups"]:          # 직업기준 주민등록 요건 → 시·도 (시·군 이름이면 공고의 시·도)
         if g.get("job_regions"):
             g["job_sidos"] = sorted({SIDO_SHORT.get(n) or SIDO_SHORT.get(region or "") for n in g["job_regions"]} - {None})

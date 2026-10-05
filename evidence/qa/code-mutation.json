@@ -1,7 +1,7 @@
 {
  "date": "2026-10-05",
- "mutations": 50,
- "killed": 47,
+ "mutations": 52,
+ "killed": 49,
  "survived": 0,
  "not_testable": 0,
  "equivalent": 3,
@@ -194,7 +194,7 @@
   {
    "name": "LH: 1인 가산 퍼센트 무시",
    "status": "KILLED",
-   "judge_fail": 34,
+   "judge_fail": 36,
    "display_fail": 0,
    "status_fail": 0,
    "page_errors": 0
@@ -306,7 +306,7 @@
   {
    "name": "LH: 자격 완화 소득 배제 무시",
    "status": "KILLED",
-   "judge_fail": 24,
+   "judge_fail": 27,
    "display_fail": 0,
    "status_fail": 0,
    "page_errors": 0
@@ -403,6 +403,22 @@
    "name": "LH 안전: 총자산 빠진 칸 무시",
    "status": "KILLED",
    "judge_fail": 2,
+   "display_fail": 0,
+   "status_fail": 0,
+   "page_errors": 0
+  },
+  {
+   "name": "LH 안전: 거주 요건 못 읽음 무시",
+   "status": "KILLED",
+   "judge_fail": 2,
+   "display_fail": 0,
+   "status_fail": 0,
+   "page_errors": 0
+  },
+  {
+   "name": "LH 안전: 공공임대 통장 요건 못 읽음 무시",
+   "status": "KILLED",
+   "judge_fail": 1,
    "display_fail": 0,
    "status_fail": 0,
    "page_errors": 0

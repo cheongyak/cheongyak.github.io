@@ -5171,6 +5171,10 @@ function rentalGroup(N, g, p){
     else add('check', '세대원 전원(같은 등본의 부모·자녀 포함)의 집(분양권·입주권 포함) 수 입력 필요', ['hhHomes', 'selfOwn', 'married', 'hhSize']);
   }
   /* 2-0) 신청자격 거주 요건 — '모집공고일 현재 ○○시에 거주하는(주민등록이 등재된) 성년자인 무주택세대구성원'(영구임대 등). 순위용 거주는 보지 않음 */
+  /* 요건 문장은 보이는데 어디인지 못 읽었거나(local_unread), 공공임대인데 거주지역·청약통장 요건을 못 읽었으면 '요건 없음'으로 보지 않는다 */
+  if (!T.local && T.local_unread) add('check', `거주 요건('${T.local_unread}')을 정확히 읽지 못함 — 공고문 확인`);
+  if (N.type === '공공임대' && T.regions == null) add('check', '신청 가능 거주지역을 공고문에서 읽지 못함 — 공고문 확인');
+  if (N.type === '공공임대' && T.account == null) add('check', '청약통장 요건을 공고문에서 읽지 못함 — 공고문 확인');
   if (T.local) {
     const L0 = T.local, sg = L0.sigun ? lhSigunMatch(p.homeSigun, L0.sigun) : null;
     if (!p.homeSido) add('check', `사는 곳 입력 필요 (${L0.name} 거주자만 신청 가능)`, ['homeSido', 'homeSigun']);

@@ -177,3 +177,14 @@ def test_public_excluded_needs_evidence():
     bare = "신청자격 입주자모집공고일 현재 무주택세대구성원 으로서 아래 요건을 갖춘 분 " * 20
     r = parse_lh_terms(bare, "공공임대")
     assert all(x.get("income_pct") != "excluded" for x in r["groups"]), r["groups"]
+
+
+def test_local_unread_failsafe():
+    """신청자격 거주 요건 문장('공고일 현재 ○○에 거주하는 성년자')이 보이는데 지역을 읽지 못하면 local_unread 로 남겨 화면이 '확인'으로 둔다.
+    정답 공고에서는 생기면 안 된다(거주 요건을 읽었거나 요건이 없는 공고)."""
+    for g in GOLD:
+        assert not _parsed(g).get("local_unread"), g["id"]
+    r = parse_lh_terms("3. 신청자격 모집공고일 현재 갈말읍에 거주하는 성년자인 무주택세대구성원으로서 " * 3, "영구임대", "", "강원특별자치도")
+    assert r.get("local") is None and r.get("local_unread")
+    r = parse_lh_terms("신청자격 공고일 현재 국내에 거주하는 성년자인 무주택세대구성원 " * 3, "영구임대", "", None)
+    assert not r.get("local_unread")

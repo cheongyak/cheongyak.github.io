@@ -53,6 +53,10 @@ def check(data: dict, golden: list) -> dict:
             if not T or not T.get("groups"):
                 v["terms_unread"].append(f"{nid} {N.get('type')} {N.get('name', '')[:30]}")
         if T:
+            if T.get("local_unread"):
+                info["local_unread"].append(f"{nid} {T['local_unread']}")
+            if N.get("type") == "공공임대" and N.get("judge_type") and (T.get("regions") is None or T.get("account") is None):
+                info["public_unread"].append(f"{nid} regions={T.get('regions')} account={T.get('account')}")
             if T.get("unknown_groups"):
                 info["unknown_groups"].append(f"{nid} {T['unknown_groups']}")
             for g in T.get("groups", []):
