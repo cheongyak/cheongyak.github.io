@@ -27,7 +27,12 @@
      "age_min": null,
      "age_max": null
     }
-   ]
+   ],
+   "local": {
+    "name": "부산시",
+    "sido": "부산",
+    "sigun": null
+   }
   },
   "_from": "tests/golden/lh_rental.json (공고문 원문 확인값) — 파서 결과가 아님"
  },
@@ -131,7 +136,8 @@
      "asset_manwon": 25100,
      "car_manwon": 4542,
      "age_min": 19,
-     "age_max": 39
+     "age_max": 39,
+     "account_by_movein": true
     },
     {
      "key": "신혼부부·한부모",
@@ -145,7 +151,8 @@
      "asset_manwon": 34500,
      "car_manwon": 4542,
      "age_min": null,
-     "age_max": null
+     "age_max": null,
+     "account_by_movein": true
     },
     {
      "key": "고령자",
@@ -290,7 +297,8 @@
      "asset_manwon": "excluded",
      "car_manwon": 4542,
      "age_min": 19,
-     "age_max": 39
+     "age_max": 39,
+     "account_by_movein": true
     },
     {
      "key": "고령자",
@@ -415,10 +423,101 @@
      "notes": [
       "남동구 창업인(예비창업인) 추천 자격이 필요해요 — 공고문 확인"
      ],
-     "married_ok": true
+     "married_ok": true,
+     "account_by_movein": true
     }
    ]
   },
   "_from": "tests/golden/lh_rental.json + 공고문 '맞벌이 부부는 120% 이하(2인 130%)'·'남동구의 창업인 추천자격'"
+ },
+ {
+  "id": "LH-2015122300020692",
+  "type": "영구임대",
+  "posted": "2026-10-01",
+  "name": "마산중리1 영구임대주택 예비입주자 모집 (모집공고일 2026.10.01, 주택관리번호 미기재)",
+  "schedule": [],
+  "units": [],
+  "files": [],
+  "terms": {
+   "relaxed": false,
+   "homeless_relaxed": false,
+   "income_basis": "도시근로자 월평균소득",
+   "income_table_100": null,
+   "local": {
+    "name": "창원시",
+    "sido": "경남",
+    "sigun": "창원시"
+   },
+   "groups": [
+    {
+     "key": "일반",
+     "name": "일반",
+     "homeless": "household",
+     "income_pct": {
+      "1": 70,
+      "2": 60,
+      "3+": 50
+     },
+     "asset_manwon": 24500,
+     "car_manwon": 4542,
+     "age_min": null,
+     "age_max": null
+    }
+   ]
+  },
+  "_from": "tests/golden/lh_rental.json (공고문 원문 확인값)"
+ },
+ {
+  "id": "LH-2015122300020742",
+  "type": "통합공공임대",
+  "posted": "2026-09-14",
+  "name": "전주동서학 통합공공임대 일자리연계형 지원주택 입주자 모집공고 (모집공고일 2026.09.14, 주택관리번호 미기재)",
+  "schedule": [],
+  "units": [],
+  "files": [],
+  "terms": {
+   "relaxed": false,
+   "homeless_relaxed": false,
+   "income_basis": "기준 중위소득",
+   "income_table_100": {
+    "1": 2564238,
+    "2": 4199292,
+    "3": 5359036,
+    "4": 6494738,
+    "5": 7556719,
+    "6": 8555952,
+    "7": 9515150,
+    "8": 10474348
+   },
+   "groups": [
+    {
+     "key": "장기종사자",
+     "name": "장기종사자",
+     "homeless": "household",
+     "income_pct": {
+      "1": 170,
+      "2": 160,
+      "3+": 150
+     },
+     "asset_manwon": 34500,
+     "car_manwon": 4542,
+     "age_min": null,
+     "age_max": null,
+     "min_family": 3,
+     "notes": [
+      "직업기준(지역전략산업 종사자 등) 충족이 필요해요 — 공고문 확인",
+      "장기 종사 요건 — 공고문 확인"
+     ],
+     "job_regions": [
+      "전북특별자치도",
+      "전주시"
+     ],
+     "job_sidos": [
+      "전북"
+     ]
+    }
+   ]
+  },
+  "_from": "tests/golden/lh_rental.json + 공고문 신분기준 ❹ '미성년자녀 1명 이상을 포함한 3명 이상으로 구성된 세대의 세대구성원'"
  }
 ]

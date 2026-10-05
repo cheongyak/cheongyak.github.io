@@ -223,7 +223,7 @@ def main() -> int:
         if rec["judge_type"] and txt_path.exists():
             try:
                 from app.lh_terms import parse_lh_terms
-                rec["terms"] = parse_lh_terms(txt_path.read_text(encoding="utf-8"), rec["type"], rec["name"] or "")
+                rec["terms"] = parse_lh_terms(txt_path.read_text(encoding="utf-8"), rec["type"], rec["name"] or "", rec["region"])
                 g = rec["terms"]["groups"]
                 from app.lh_terms import URBAN_2025
                 tb = rec["terms"].get("income_table_100") or {}

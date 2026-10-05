@@ -162,6 +162,8 @@ def _happy_groups(t: str) -> tuple[list[dict], dict]:
             g["car_manwon"], q["car"] = _int(m.group(1)), _q(seg_main, m, 20, 10)
         elif key == "대학생" and (m := re.search(r"자동차가액\s?산출대상\s?자동차를\s?소유하고\s?있지\s?않을\s?것", whole)):
             g["car_manwon"], q["car"] = 0, _q(whole, m, 20, 0)
+        if re.search(r"입주\s?전까지[^.]{0,40}주택청약종합저축", seg_main):
+            g["account_by_movein"] = True   # 본인(또는 배우자) 입주 전까지 주택청약종합저축(청약저축 포함) 가입사실 증명
         groups.append(g); quotes[key] = q
     # 입주자격 완화 공고의 '■ 입주자격완화 내용(금회 모집에 한하여 적용)' 표는 모든 계층에 적용된다 — PDF 글 순서가 섞여 계층 절에서 못 읽은 값을 채운다(익산인화 870 고령자)
     mr = re.search(r"입주자격\s?완화\s?내용[^■]{0,40}소득\s?요건\s?·?\s?소득요건\s?배제[^■]{0,40}자산\s?요건\s?·?\s?자산요건\s?배제\(단,\s?자산\s?중\s?자동차가액은\s?([\d,]+)만원\s?이하", t)
@@ -188,6 +190,8 @@ def _happy_groups(t: str) -> tuple[list[dict], dict]:
         if (mt := re.search(r"총\s?자산가액\s?합산기준\s?([\d,]+)만원\s?이하,\s?총\s?자산\s?중\s?자동차가액이\s?([\d,]+)만원\s?이하", seg)):
             g["asset_manwon"], g["car_manwon"] = _int(mt.group(1)), _int(mt.group(2))
             q["asset"] = q["car"] = _q(seg, mt, 10, 10)
+        if re.search(r"입주\s?전까지[^.]{0,40}주택청약종합저축", seg):
+            g["account_by_movein"] = True
         if re.search(r"맞\s?벌\s?이\s?부\s?부\s?는\s?120%", seg):
             g["dual_add"] = 20        # '맞벌이 부부는 120% 이하 … 맞벌이 2인가구인 경우에는 130%'
         if (mk := re.search(r"(\S{1,6})의\s?창업인\s?추천자격", seg)):
@@ -211,13 +215,19 @@ def _integrated_groups(t: str) -> tuple[list[dict], dict]:
         seg = t[mb.start(): mb.start() + 2500]
         pct = {"1": int(mi.group(1)), "2": int(mi.group(2)), "3+": int(mi.group(3))}
         note = ["직업기준(지역전략산업 종사자 등) 충족이 필요해요 — 공고문 확인"] if re.search(r"■\s?직업기준", t) else []
+        mj = re.search(r"■\s?직업기준", t)
+        job_regions = sorted(set(re.findall(r"모집공고일\s?기준\s?([가-힣]{2,10})에\s?주민등록이\s?되어\s?있는\s?사람", t[mj.start(): mj.start() + 3000]))) if mj else []
         qi = _q(t, mi, 10, 10)
         for key, pat in (("청년", r"❶\s?청년"), ("신혼부부·한부모", r"❷\s?신혼부부"), ("장기종사자", r"❹\s?장기종사자")):
             if not re.search(pat, seg):
                 continue
             g = {"key": key, "name": {"신혼부부·한부모": "신혼부부·한부모가족"}.get(key, key), "homeless": "self" if key == "청년" else "household",
                  "income_pct": dict(pct), "asset_manwon": asset, "car_manwon": car,
-                 "age_min": None, "age_max": None, "notes": list(note) + (["미성년 자녀 포함 3인 이상 세대·장기 종사 요건 — 공고문 확인"] if key == "장기종사자" else [])}
+                 "age_min": None, "age_max": None, "notes": list(note) + (["장기 종사 요건 — 공고문 확인"] if key == "장기종사자" else [])}
+            if key == "장기종사자":
+                g["min_family"] = 3       # 미성년자녀 1명 이상을 포함한 3명 이상으로 구성된 세대의 세대구성원
+            if job_regions:
+                g["job_regions"] = job_regions     # 직업기준의 주민등록 요건 (예: 무형유산 종사자 '전북특별자치도', 예술인 '전주시') — 둘 중 하나
             if key == "청년" and (ma := re.search(r"❶\s?청년\s?(\d{2})세\s?이상\s?(\d{2})세\s?이하", seg)):
                 g["age_min"], g["age_max"] = int(ma.group(1)), int(ma.group(2))
             groups.append(g); quotes[key] = dict(qa, income=qi)
@@ -303,7 +313,24 @@ def _public_terms(t: str) -> tuple[list[dict], dict, dict]:
     return [g], {"일반": q}, extra
 
 
-def parse_lh_terms(text: str, kind: str, name: str = "") -> dict:
+METRO = {"서울": "서울", "부산": "부산", "대구": "대구", "인천": "인천", "광주": "광주", "대전": "대전", "울산": "울산", "세종": "세종"}
+
+
+def parse_local(t: str, region: Optional[str]) -> Optional[dict]:
+    """신청자격 첫 문장의 거주 요건 — '입주자 모집공고일(…) 현재 부산시에 거주하는 성년자인 무주택세대구성원'(영구임대 등).
+    순위(1순위 해당 시 거주)는 자격이 아니라 읽지 않는다. region = 공고의 시·도(API CNP_CD_NM)."""
+    m = re.search(r"신청자격\s?입주자\s?모집공고일\s?\([\d.\s]+\)\s?현재\s?([가-힣]{1,10}?)(?:에\s?거주하는|에\s?주민등록이\s?등재된)\s?성년자인\s?무주택세대구성원", t)
+    if not m:
+        return None
+    nm = m.group(1)
+    base = re.sub(r"(광역시|특별시|특별자치시|시)$", "", nm)
+    if base in METRO:
+        return {"name": nm, "sido": METRO[base], "sigun": None, "quote": _q(t, m, 0, 0)}
+    sido = SIDO_SHORT.get(region or "") if region else None
+    return {"name": nm, "sido": sido, "sigun": nm, "quote": _q(t, m, 0, 0)}
+
+
+def parse_lh_terms(text: str, kind: str, name: str = "", region: Optional[str] = None) -> dict:
     t = flat(text)
     res = {"relaxed": is_relaxed(t, name), "homeless_relaxed": bool(re.search(r"연접\s?지역에\s?주택(?:이|을)?\s?(?:없|소유하지)", t)),
            "income_basis": None, "groups": [], "quotes": {}, "income_table_100": None}
@@ -322,6 +349,12 @@ def parse_lh_terms(text: str, kind: str, name: str = "") -> dict:
     elif kind == "공공임대":
         res["groups"], res["quotes"], extra = _public_terms(t)
         res.update(extra)
+    loc = parse_local(t, region)
+    if loc:
+        res["local"] = loc
+    for g in res["groups"]:          # 직업기준 주민등록 요건 → 시·도 (시·군 이름이면 공고의 시·도)
+        if g.get("job_regions"):
+            g["job_sidos"] = sorted({SIDO_SHORT.get(n) or SIDO_SHORT.get(region or "") for n in g["job_regions"]} - {None})
     return res
 
 

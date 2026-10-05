@@ -16,9 +16,12 @@ def _key(name):
     return next((k for k, p in KEYS if re.search(p, name)), name)
 
 
+REGION = {n["id"]: n.get("region") for n in json.loads((ROOT / "tests/qa/lh/rental_units.json").read_text(encoding="utf-8"))}
+
+
 def _parsed(g):
     text = (ROOT / "evidence/lh" / f"{g['id']}.txt").read_text(encoding="utf-8", errors="replace")
-    return parse_lh_terms(text, g["type"], g.get("verified_from", ""))
+    return parse_lh_terms(text, g["type"], g.get("verified_from", ""), REGION.get(g["id"]))
 
 
 def test_golden_count():
@@ -34,9 +37,16 @@ def test_golden_lh_terms_never_wrong():
         for k in ("regions", "account"):     # 공공임대: 거주지역·청약통장 순위
             if k in g:
                 assert r.get(k) == g[k], (g["id"], k, r.get(k))
+        if "local" in g:                      # 신청자격 거주 요건 (영구임대 '○○시에 거주하는 성년자인 무주택세대구성원')
+            loc = r.get("local")
+            assert (loc and {k: loc[k] for k in ("name", "sido", "sigun")}) == (g["local"] or None), (g["id"], "local", loc)
+        if "account_by_movein_groups" in g:   # 행복주택 청년·신혼부부 '입주 전까지 주택청약종합저축 가입 증명'
+            assert sorted(x["key"] for x in r["groups"] if x.get("account_by_movein")) == g["account_by_movein_groups"], (g["id"], "account_by_movein")
         P = {x["key"]: x for x in r["groups"]}
         for gg in g["groups"]:
             p = P.get(_key(gg["name"]))
+            if gg.get("job_regions"):
+                assert p and p.get("job_regions") == gg["job_regions"], (g["id"], gg["name"], "job_regions")
             for f in ("homeless", "income_pct", "asset_manwon", "car_manwon"):
                 if gg[f] is None:
                     continue
