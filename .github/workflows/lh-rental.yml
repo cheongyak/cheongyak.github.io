@@ -1,0 +1,42 @@
+name: LH 임대 수집
+# LH 임대 공고(행복주택·국민임대·영구임대·통합공공임대 등)를 docs/lh-rental.json 으로, 공고문 글을 evidence/lh/ 로 (app/lh_rental.py).
+# 기존 청약 수집(collect.yml)·판정과 완전히 따로 돈다 — 실패해도 docs/listings.json 에 영향 없음. 화면 표시는 스위치 lh_rental.
+on:
+  schedule:
+    - cron: "40 21 * * *"   # 매일 06:40 (KST) — 청약 수집(05:30) 뒤
+  workflow_dispatch:
+  push:
+    branches: [main]
+    paths:
+      - "app/lh_rental.py"
+      - ".github/workflows/lh-rental.yml"
+permissions:
+  contents: write
+  actions: read
+concurrency:
+  group: lh-rental
+  cancel-in-progress: false
+jobs:
+  collect:
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    env:
+      DATA_GO_KR_KEY: ${{ secrets.DATA_GO_KR_KEY }}
+      TZ: Asia/Seoul
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - run: pip install -q -r requirements.txt
+      - run: python -m app.lh_rental
+      - name: 수집이 끝나길 기다림
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: bash tools/qa/wait_collect.sh 30 || true
+      - name: 저장
+        run: |
+          git config user.name "cheongyak-bot"
+          git config user.email "actions@users.noreply.github.com"
+          git add docs/lh-rental.json evidence/lh evidence/qa/lh-rental-log.txt
+          git diff --cached --quiet || (git commit -m "LH 임대 수집 $(date +%Y-%m-%d)" && (git push || (git pull --rebase -X theirs origin main && git push)))
