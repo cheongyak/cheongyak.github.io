@@ -49,6 +49,12 @@ const BAD = /\bNaN\b|\bundefined\b|\[object Object\]/;
     for (const [i, id] of ids.entries()) {
       await page.evaluate(id => { S.rid = id; S.view = 'rdetail'; render(); }, id);
       await check(page, errs, `${scheme}-detail-${i}`);
+      // 하단 고정 버튼 (기능 lh_cta): LH 청약플러스 공고 주소(API 상세 주소)·모집공고문
+      const cta = await page.evaluate(() => { const N = RENTAL.notices.find(x => x.id === S.rid); const a = document.querySelector('.dcta [data-ev="lh-cta-apply"]'), pdf = document.querySelector('.dcta [data-ev="lh-cta-pdf"]');
+        return { want: !!(N.url_mobile || N.url), href: a && a.getAttribute('href'), url: N.url_mobile || N.url, pdf: !!pdf, wantPdf: !!N.notice_pdf, pad: document.body.classList.contains('has-cta') }; });
+      if (cta.want && cta.href !== cta.url) fails.push(`${scheme}-detail-${i}: 하단 LH 청약플러스 공고 버튼 주소 ${cta.href} ≠ ${cta.url}`);
+      if (cta.wantPdf && !cta.pdf) fails.push(`${scheme}-detail-${i}: 하단 모집공고문 버튼 없음`);
+      if (!cta.pad) fails.push(`${scheme}-detail-${i}: 하단 버튼 여백(has-cta) 없음`);
       if (!SHOT || i > 2) continue;
     }
     if (scheme === 'light') console.log('판정 분포: ' + JSON.stringify(judged.reduce((a, [, s]) => (a[s] = (a[s] || 0) + 1, a), {})));

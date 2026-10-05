@@ -3731,7 +3731,7 @@ function chatFab(){   /* 기능: chat_fab (2026-10-02 사용자 요청) — 화�
   const show = on('chat_fab') && chatOn() && !LEGAL_AS && S.view !== 'onboard';
   if (!show) { if (el) el.remove(); return; }
   if (!el) { el = document.createElement('button'); el.id = 'chatfab'; el.className = 'chatfab'; el.dataset.chat = 'open'; el.setAttribute('aria-label', '청약 도우미에게 물어보기'); el.innerHTML = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 12a8 8 0 0 1-11.6 7.1L4 20l1-4.6A8 8 0 1 1 21 12Z"/><path d="M8.5 11h.01M12 11h.01M15.5 11h.01"/></svg>'; document.body.appendChild(el); }
-  el.classList.toggle('up', on('detail_cta') && S.view === 'detail');
+  el.classList.toggle('up', (on('detail_cta') && S.view === 'detail') || (on('lh_cta') && S.view === 'rdetail'));
 }
 function chatOpen(){ CHAT = { lid: S.view === 'detail' || S.view === 'plan' ? S.id : null, useL: true, cid: 'c' + Date.now().toString(36) + Math.random().toString(36).slice(2, 6), msgs: [], busy: false, remaining: null }; metric('chat/open'); chatRender(); document.body.classList.add('chat-open'); }
 function chatClose(){ CHAT = null; chatRender(); document.body.classList.remove('chat-open'); }
@@ -5382,6 +5382,15 @@ function vRental(){
     : list.length ? `<p class="small muted">${list.length}건</p>` + list.map(lhCard).join('') : '<div class="card empty"><b>조건에 맞는 임대 공고가 없어요</b></div>'}
   <p class="foot">임대 공고 출처: LH 청약플러스(공공데이터포털 한국토지주택공사 분양임대공고 조회) · 자격 기준: 각 모집공고문, 공공주택 특별법 시행규칙 별표 3·4·5·5의2. 판정은 참고용이며 신청 전 공고문을 꼭 확인하세요.</p>`;
 }
+/* 임대 공고 상세 하단 고정 버튼 (기능: lh_cta, 2026-10-06 사용자 '공공임대 청년주택도 공고 들어가면 신청할 수 있게 일반분양처럼 아래에 나오게').
+   LH 청약플러스 공고 화면 주소는 LH API 의 상세 주소(DTL_URL_MOB·DTL_URL)를 그대로 쓴다. 접수처가 관리사무소·주민센터인 공고도 있어 문구는 '공고문 접수처' 를 함께 안내 */
+function rentalCta(N){
+  if (!on('lh_cta')) return '';
+  const url = N.url_mobile || N.url, tel = ((N.office && N.office.tel) || '').match(/\d{2,4}-?\d{3,4}-?\d{4}/);
+  if (!url && !N.notice_pdf) return '';
+  return `<div class="dcta" role="region" aria-label="공고 바로가기"><span class="small muted">신청은 LH 청약플러스·공고문 접수처에서 · 모집공고문을 꼭 확인하세요</span>
+    <div class="dcta-row">${N.notice_pdf ? `<a class="btn ghost" href="${esc(N.notice_pdf)}" target="_blank" rel="noopener" data-ev="lh-cta-pdf">모집공고문</a>` : ''}${tel ? `<a class="btn ghost" href="tel:${esc(tel[0].replace(/-/g, ''))}" data-ev="lh-cta-tel">문의 전화</a>` : ''}${url ? `<a class="btn dcta-main" href="${esc(url)}" target="_blank" rel="noopener" data-ev="lh-cta-apply">LH 청약플러스 공고 ↗</a>` : ''}</div></div>`;
+}
 function vRDetail(){
   if (!lhOn()) { S.view = 'feed'; return vFeed(); }
   loadRental();
@@ -5432,7 +5441,7 @@ function vRDetail(){
   <section class="card"><h2 style="margin:0">보증금·월 임대료</h2>${lhRentTable(N)}
     <span class="small muted">${pdf} (임대조건 표) · 공고일 기준이고 계약 때 바뀔 수 있어요. 보증금과 월 임대료는 서로 바꿀 수 있어요(전환). 임대조건은 당첨 뒤 내는 금액이고 신청 자격과는 따로예요.</span></section>
   ${(N.complexes || []).length ? `<section class="card"><h2 style="margin:0">단지</h2>${N.complexes.map(c => `<div class="small"><b>${esc(c.name || '')}</b><br>${esc(c.address || '')}${c.households ? ' · ' + c.households + '세대' : ''}${c.move_in ? ' · 입주 ' + esc(c.move_in) : ''}</div>`).join('')}</section>` : ''}
-  <p class="foot">신청은 LH 청약플러스(apply.lh.or.kr)에서 해요${N.office && N.office.tel ? ' · 문의 ' + esc(N.office.tel) : ''}. 판정은 내가 입력한 값으로 계산한 참고용이에요.</p>`;
+  <p class="foot">신청은 LH 청약플러스(apply.lh.or.kr)에서 해요${N.office && N.office.place ? ' · 접수처 ' + esc(N.office.place) : ''}${N.office && N.office.tel ? ' · 문의 ' + esc(N.office.tel) : ''}. 판정은 내가 입력한 값으로 계산한 참고용이에요.</p>${rentalCta(N)}`;
 }
 
 const VIEWS = { feed:vFeed, detail:vDetail, plan:vPlan, grades:vGrades, me:vMe, onboard:vOnboard, alerts:vAlerts, about:vAbout, compare:vCompare, trend:vTrend, past:vPast, story:vStory, terms:vTerms, privacy:vPrivacy, updates:vUpdates, rental:vRental, rdetail:vRDetail };
@@ -5441,7 +5450,7 @@ function render(){
   chatFab();   // 기능: chat_fab
   document.body.classList.toggle('tcmp', on('top_compact'));   // 기능: top_compact
   document.body.classList.toggle('gm', on('grade_medal'));   // 기능: grade_medal — 목록 카드 등급을 원형 배지로
-  document.body.classList.toggle('has-cta', on('detail_cta') && S.view === 'detail');   // 기능: detail_cta — 아래 고정 버튼만큼 여백
+  document.body.classList.toggle('has-cta', (on('detail_cta') && S.view === 'detail') || (on('lh_cta') && S.view === 'rdetail'));   // 기능: lh_cta — 임대 상세도   // 기능: detail_cta — 아래 고정 버튼만큼 여백
   if (CHAT && !on('chat_fab') && (S.view !== 'detail' || S.id !== CHAT.lid)) chatClose();   // 기능: chatbot — 다른 화면으로 가면 대화창을 닫는다 (대화는 저장하지 않음)
   document.body.classList.toggle('gname-v2', on('grade_skip'));
   document.body.classList.toggle('tt', on('tap_targets'));
