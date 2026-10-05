@@ -4,7 +4,7 @@
 2026-09-29 12:55 이전 항목은 규칙을 만들기 전 작업을 커밋 기록으로 정리한 것이라 백업 브랜치가 없어요.
 그 시점으로 되돌릴 때는 해당 커밋 번호로 `git revert` 를 써요.
 
-## 2026-10-05 14:12 · LH 임대 공고 수집 (따로 도는 수집, 화면 스위치 꺼짐)
+## 2026-10-05 14:10 · LH 임대 공고 수집 (따로 도는 수집, 화면 스위치 꺼짐)
 - 요청: "2번으로 하는데, 현재 청약판정에는 영향없도록 해줘" → "어 진행해줘"
 - 변경: app/lh_rental.py — LH 목록·상세·공급 API 로 지금 공고(마감 전) 임대 공고를 docs/lh-rental.json 에, 공고문 PDF 글을 evidence/lh/<공고ID>.txt 에 저장. 기존 수집·판정 코드는 손대지 않음(따로 워크플로 'LH 임대 수집' lh-rental.yml, 매일 06:40). API 에 '공고문 참조'로 온 보증금·월임대료는 비워 둠(공고문에서 읽을 예정). 스위치 lh_rental 추가(false — 화면은 아직 없음)
 - 파일: app/lh_rental.py, .github/workflows/lh-rental.yml, tests/test_lh_rental.py, tests/qa/lh/, docs/config.json
