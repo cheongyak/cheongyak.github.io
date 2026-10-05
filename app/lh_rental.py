@@ -129,17 +129,66 @@ def notice_record(row: dict, dtl, spl) -> dict:
     }
 
 
-def fetch_pdf_text(http: httpx.Client, url: str, referer: Optional[str]) -> tuple[Optional[str], str]:
-    """LH 첨부 PDF → 글. 기존 notice_pdf 의 읽기 도구(pypdf)를 그대로 쓴다. 실패해도 예외를 밖으로 내지 않는다."""
-    from app.notice_pdf import pdf_text
+def feature_on(name: str) -> bool:
+    """기능 스위치 (docs/config.json features, 적혀 있지 않으면 켜짐). pipeline 을 불러오지 않으려고 따로 읽는다."""
+    try:
+        return bool(json.loads((ROOT / "docs" / "config.json").read_text(encoding="utf-8")).get("features", {}).get(name, True))
+    except Exception:
+        return True
+
+
+# 여러 도구로 읽은 공고문 글 (기능 lh_pdf_multi). 첫 도구(pypdf) 글은 evidence/lh/<id>.txt 그대로, 나머지는 도구별 폴더.
+#  pdfium/<id>.txt  — pypdfium2 (일반분양 pdf_dual_read 와 같은 두 번째 도구)
+#  plumber/<id>.txt · plumber/<id>.tables.json — pdfplumber 글과 칸 단위 표
+# 한 번 저장하면 다시 쓰지 않는다. 그 도구가 못 읽었으면 빈 파일(다음 실행에 다시 받지 않게) — 길이 500자 미만은 '못 읽음'으로 본다.
+ALT_DIRS = {"pdfium": TEXT_DIR / "pdfium", "plumber": TEXT_DIR / "plumber"}
+
+
+def alt_paths(nid: str) -> dict:
+    return {"pdfium": ALT_DIRS["pdfium"] / f"{nid}.txt", "plumber": ALT_DIRS["plumber"] / f"{nid}.txt", "tables": ALT_DIRS["plumber"] / f"{nid}.tables.json"}
+
+
+def save_alt_texts(nid: str, data: bytes) -> str:
+    """두 번째·세 번째 도구로 읽어 저장 → 기록용 문장"""
+    from app.notice_pdf import pdf_text_alt, pdf_text_plumber
+    P = alt_paths(nid)
+    for d in ALT_DIRS.values():
+        d.mkdir(parents=True, exist_ok=True)
+    out = []
+    if not P["pdfium"].exists():
+        t = pdf_text_alt(data) or ""
+        P["pdfium"].write_text(t if len(t) >= 500 else "", encoding="utf-8")
+        out.append(f"pdfium {len(t)}자" if len(t) >= 500 else "pdfium 못 읽음")
+    if not P["plumber"].exists():
+        r = pdf_text_plumber(data) or {}
+        t = r.get("text") or ""
+        P["plumber"].write_text(t if len(t) >= 500 else "", encoding="utf-8")
+        P["tables"].write_text(json.dumps(r.get("tables") or [], ensure_ascii=False) + "\n", encoding="utf-8")
+        out.append(f"pdfplumber {len(t)}자·표 {len(r.get('tables') or [])}개" if len(t) >= 500 else "pdfplumber 못 읽음")
+    return ", ".join(out)
+
+
+def fetch_pdf(http: httpx.Client, url: str, referer: Optional[str]) -> tuple[Optional[bytes], str]:
     try:
         r = http.get(url, headers={**UA, **({"Referer": referer} if referer else {})})
     except Exception as e:
         return None, f"받기 실패 {e.__class__.__name__}"
     if r.status_code != 200 or r.content[:4] != b"%PDF":
         return None, f"PDF 아님(HTTP {r.status_code}, {len(r.content)}바이트, {r.headers.get('content-type', '')})"
+    return r.content, "받음"
+
+
+def fetch_pdf_text(http: httpx.Client, url: str, referer: Optional[str]) -> tuple[Optional[str], str]:
+    """LH 첨부 PDF → 글 (첫 도구 pypdf). 실패해도 예외를 밖으로 내지 않는다."""
+    data, m = fetch_pdf(http, url, referer)
+    return pdf_to_text(data) if data is not None else (None, m)
+
+
+def pdf_to_text(data: bytes) -> tuple[Optional[str], str]:
+    """기존 notice_pdf 의 읽기 도구(pypdf)를 그대로 쓴다."""
+    from app.notice_pdf import pdf_text
     try:
-        t = pdf_text(r.content)
+        t = pdf_text(data)
     except Exception as e:
         return None, f"PDF 해석 실패 {e.__class__.__name__}"
     if len(t) < 500:
@@ -209,15 +258,23 @@ def main() -> int:
         rec = notice_record(r, dtl, spl)
         msg = f"상세 {st1}/공급 {st2}"
         txt_path = TEXT_DIR / f"{rec['id']}.txt"
+        multi = feature_on("lh_pdf_multi")
+        need_alt = multi and rec["notice_pdf"] and not all(p.exists() for k, p in alt_paths(rec["id"]).items() if k != "tables")
         if txt_path.exists():
             rec["notice_text"] = len(txt_path.read_text(encoding="utf-8"))
             msg += " · 공고문 저장본"
+            if need_alt:   # 예전에 첫 도구로만 읽은 공고문 — 한 번 더 받아 다른 도구 글을 만든다
+                data, m = fetch_pdf(http, rec["notice_pdf"], rec["url"])
+                msg += " · 다른 읽기 도구 " + (save_alt_texts(rec["id"], data) if data else m)
         elif rec["notice_pdf"]:
-            t, m = fetch_pdf_text(http, rec["notice_pdf"], rec["url"])
+            data, m = fetch_pdf(http, rec["notice_pdf"], rec["url"])
+            t, m = pdf_to_text(data) if data else (None, m)
             msg += f" · 공고문 {m}"
             if t:
                 txt_path.write_text(t, encoding="utf-8")
                 rec["notice_text"] = len(t)
+                if need_alt:
+                    msg += " · 다른 읽기 도구 " + save_alt_texts(rec["id"], data)
         else:
             msg += " · 공고문 PDF 첨부 없음(" + ", ".join(f["kind"] or "?" for f in rec["files"][:4]) + ")"
         if rec["judge_type"] and txt_path.exists():

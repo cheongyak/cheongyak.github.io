@@ -4,6 +4,14 @@
 2026-09-29 12:55 이전 항목은 규칙을 만들기 전 작업을 커밋 기록으로 정리한 것이라 백업 브랜치가 없어요.
 그 시점으로 되돌릴 때는 해당 커밋 번호로 `git revert` 를 써요.
 
+## 2026-10-05 21:02 · LH 임대 공고문을 세 도구로 읽어 저장 (1단계: 저장만)
+- 요청: "임대/청년주택도 pdf를 잘못읽는 경우가 많으니, 일반분양처럼 pdf 읽는 방법을 여러가지로 해서 보완해줄수있게 만들어줘"
+- 변경: LH 수집이 공고문 PDF 를 pypdf(기존, evidence/lh/<id>.txt) 외에 pypdfium2(evidence/lh/pdfium/<id>.txt, 일반분양 pdf_dual_read 와 같은 두 번째 도구)와 pdfplumber(evidence/lh/plumber/<id>.txt + 칸 단위 표 <id>.tables.json)로도 읽어 저장. 예전에 첫 도구로만 읽은 공고문은 한 번 다시 받아 만든다. 각 도구는 따로 띄운 프로세스에서 읽음(죽어도 수집 계속), 못 읽으면 빈 파일. 판정에는 아직 쓰지 않음 — LH 첨부는 이 작업 환경에서 받을 수 없어(403) Actions 가 만든 글로 도구별 정확도를 정답 데이터와 비교한 뒤 2단계에서 합치는 규칙을 넣는다
+- 파일: app/notice_pdf.py(pdf_text_plumber, 분양 수집은 쓰지 않음), app/lh_rental.py, requirements.txt(pdfplumber), docs/config.json(lh_pdf_multi), FEATURES.md, .github/workflows/lh-rental.yml(제한 55분)
+- 확인: pytest 통과(test_pipeline 제외 — 이 환경에 fastapi 없음, Actions 에서), 세 도구 읽기·저장·두 번 읽지 않음을 로컬 PDF 로 시험
+- 백업: backup/20261005-2102-lhpdf
+- 기능: lh_pdf_multi
+
 ## 2026-10-05 20:45 · 판정 검증이 LH 임대 수집을 기다리게 (올린 뒤 순서 때문에 난 실패)
 - 요청: "여기서 남은 문제들 해결부탁해" 작업을 올린 뒤 확인 중 발견
 - 원인: 판정 검증(verify.yml)은 청약 공고 수집만 기다리고 LH 임대 수집은 기다리지 않음 → 고친 읽기로 LH 데이터가 다시 만들어지기 전에 lh_invariants 가 옛 데이터(기준 중위소득 110%·120% 열)를 보고 14건 위반 → '검증 요약 저장' 실패, 이슈 #3 (판정 사례는 549/549 일치). 검사가 옛 오류를 정확히 잡은 것

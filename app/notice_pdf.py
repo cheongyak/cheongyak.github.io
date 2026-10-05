@@ -85,6 +85,46 @@ def pdf_text_alt(data: bytes) -> Optional[str]:
     return r.stdout.decode("utf-8", "replace")
 
 
+_PLUMBER_SCRIPT = r"""
+import sys, io, json, pdfplumber
+data = sys.stdin.buffer.read(); cap = int(sys.argv[1]); out = []; tables = []
+with pdfplumber.open(io.BytesIO(data)) as pdf:
+    for i, page in enumerate(pdf.pages[:cap]):
+        out.append(page.extract_text(x_tolerance=1.5, y_tolerance=3) or "")
+        try:
+            for tb in page.extract_tables():
+                tables.append({"page": i + 1, "rows": [[(c or "").replace("\n", " ").strip() for c in row] for row in tb]})
+        except Exception:
+            pass
+        page.flush_cache()
+sys.stdout.buffer.write(json.dumps({"text": "\n".join(out), "tables": tables}, ensure_ascii=False).encode("utf-8"))
+"""
+
+
+def pdf_text_plumber(data: bytes, cap: int = 150) -> Optional[dict]:
+    """세 번째 읽기 도구 pdfplumber (LH 임대, 기능 lh_pdf_multi, 2026-10-05 사용자 '임대/청년주택도 pdf 를 잘못 읽는 경우가 많으니 여러 방법으로 보완').
+    글자 사이 간격으로 낱말을 나눠(x_tolerance 1.5) pypdf 처럼 표 숫자가 붙어 나오는 일('1,259,7882,099,646')이 적고, 표를 칸 단위로도 뽑는다.
+    → {"text": 글, "tables": [{"page", "rows"}]}. pypdfium2 와 같은 이유로 따로 띄운 프로세스에서 읽는다. 설치돼 있지 않거나 실패하면 None."""
+    import json as _json
+    import subprocess
+    import sys
+    try:
+        import pdfplumber  # noqa: F401
+    except Exception:
+        return None
+    with _PDFIUM_LOCK:
+        try:
+            r = subprocess.run([sys.executable, "-c", _PLUMBER_SCRIPT, str(cap)], input=data, capture_output=True, timeout=240)
+        except Exception:
+            return None
+    if r.returncode != 0:
+        return None
+    try:
+        return _json.loads(r.stdout.decode("utf-8", "replace"))
+    except Exception:
+        return None
+
+
 def _with_mirrors(links: list[str]) -> list[str]:
     """첨부 서버(static.applyhome.co.kr)가 새 공고 파일을 아직 못 받아 '찾을 수 없음' 글(200, 59바이트)을 돌려줄 때가 있다.
     같은 주소를 청약홈 본 서버(www.applyhome.co.kr)로 받으면 PDF 가 온다 (2026-10-03 더샵 동인센트리체·제주 아이린8차·용인 양지 서희 —

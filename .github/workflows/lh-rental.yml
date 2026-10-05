@@ -10,6 +10,7 @@ on:
     paths:
       - "app/lh_rental.py"
       - "app/lh_terms.py"
+      - "app/lh_pdf_merge.py"
       - ".github/workflows/lh-rental.yml"
 permissions:
   contents: write
@@ -20,7 +21,7 @@ concurrency:
 jobs:
   collect:
     runs-on: ubuntu-latest
-    timeout-minutes: 30
+    timeout-minutes: 55   # 처음 한 번 기존 공고문을 다른 도구로 다시 읽는다 (기능 lh_pdf_multi)
     env:
       DATA_GO_KR_KEY: ${{ secrets.DATA_GO_KR_KEY }}
       TZ: Asia/Seoul
