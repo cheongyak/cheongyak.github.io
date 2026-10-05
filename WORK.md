@@ -21,6 +21,7 @@
 - 확인: pytest 196 통과(test_pipeline 은 Actions), 스크립트 문법, judge 601/601, lh_pdf_tools 합친 값 틀림 0, lh_invariants(새로 읽은 데이터) 0, lh_qa 문제 0·정보 감소 새로 가능 0, lh_rental.cjs 0, cross_rule 0, e2e 34/34, code_mutation 50개 못 잡음 0, consistency·monotonic·profile_keep·filter·sp_text·snapshot 0, regress 판정 1,130조합 변화 0·화면 1,407 오류 0(분양 regression 없음), 390px 밝은·어두운 화면 확인
 - 백업: backup/20261005-2359-lhsafe
 - 기능: 없음(수정 — lh_rental 안, 스위치 꺼짐·미리보기만이라 버전 올리지 않음)
+- 올린 뒤: LH 수집 lh_invariants 0 · 판정 검증 601/601. 청약 공고 수집은 청약홈이 한밤에 0건을 줘(이 변경과 무관, 09-30 과 같은 현상) 지난 결과 유지 → verify ok=false·이슈 #4, 다음 정기 수집으로 확인
 
 ## 2026-10-05 21:02 · LH 임대 공고문 세 도구 읽기 합치기 (2단계)
 - 요청: "임대/청년주택도 pdf를 잘못읽는 경우가 많으니, 일반분양처럼 pdf 읽는 방법을 여러가지로 해서 보완해줄수있게 만들어줘"
