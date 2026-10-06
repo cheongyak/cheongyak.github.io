@@ -108,10 +108,10 @@ def main() -> int:
                 log.append(f"[상세] {x['seq']} 실패 {e.__class__.__name__}: {str(e)[:160]}")
         # 첨부 내려받기: 화면 a 태그는 existFile('n') 자바스크립트라 주소가 없다 → 스크립트 파일에서 함수를 찾고, initParam.downList(brdId·seq·fileSeq·oriFileNm)로 후보 주소를 시험
         try:
-            for js in ("/app/js/sh/cms-common.js", "/app/lib/js/common.js", "/app/lib/js/front.js?v=02", "/app/lib/js/sub.js"):
+            for js in ("/app/js/sh/board-common.js", "/app/inno/common/innorix.config.js", "/app/js/sh/cms-common.js", "/app/lib/js/common.js"):
                 r = c.get(BASE + js)
                 for m in re.finditer(r"function\s+(existFile|fn_?[Ff]ile[Dd]own\w*|[Ff]ile[Dd]own\w*|download\w*)\s*\([^)]*\)\s*\{", r.text):
-                    log.append(f"[스크립트] {js} {m.group(1)}: " + re.sub(r"\s+", " ", r.text[m.start(): m.start() + 900]))
+                    log.append(f"[스크립트] {js} {m.group(1)}: " + re.sub(r"\s+", " ", r.text[m.start(): m.start() + 1800]))
                 for m in re.finditer(r"[\"'](/[^\"']*(?:[Dd]own|[Ff]ile)[^\"']*\.do)[\"']", r.text):
                     log.append(f"[스크립트] {js} 주소 {m.group(1)}")
         except Exception as e:
