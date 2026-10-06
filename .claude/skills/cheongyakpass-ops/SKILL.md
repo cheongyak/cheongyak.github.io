@@ -121,6 +121,9 @@ description: 청약패스(cheongyakpass.kr, 저장소 cheongyak/cheongyak.github
   판정 사례 기본 프로필(lh_base)은 hhHomes '0' — 집이 있다고 한 사례는 생성기가 hhHomes '1' 로 맞춘다(어긋난 입력은 check). 파서 실패 모의는 tests/judge/lh_synthetic.json(생성기가 만듦).
   파서를 고친 뒤 화면 검사를 새 데이터로 돌리려면 `python -m tools.qa.lh_reparse`(docs/lh-rental.json 을 다시 만듦 — 끝나면 `git checkout docs/lh-rental.json`).
 
+- **SH 공고(sh_rental)**: 게시판 첨부는 자바스크립트라 주소가 화면에 없다 — initParam.downList + /com/file/innoFD.do 로 받는다(tools/qa/sh_probe.py). 공고문 일정은 표(공고 ▶ 주택공개 ▶ 청약접수 …)로 된 것이 많아 '접수' 뒤 첫 날짜를 잡으면 틀린다 — 물결표 바로 앞 날짜만, 애매하면 비우고 정답(tests/golden/sh_rental.json)으로 고정. 작업 환경 WebFetch 는 innoFD 주소를 못 열어서 링크 확인은 Actions(sh_links.py)로.
+- 로컬 전체 QA(e2e·변이 등)는 10분을 넘으니 백그라운드로 돌리고 기다린다. 끝나면 evidence/qa·docs/judge-status.json 바뀐 것은 되돌리고 커밋한다(결과물은 Actions 가 만든다).
+
 ## 5. 자주 하는 답
 
 - "자동으로 돌아가?" → 수집은 GitHub Actions 가 매일 05:30, 사이트는 GitHub Pages. Claude 세션과 무관하게 돈다. 실패·불일치는 이슈로 메일이 간다.
