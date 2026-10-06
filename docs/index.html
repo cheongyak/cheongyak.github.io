@@ -435,7 +435,7 @@ body.sheet-open{overflow:hidden}
 .search input::-webkit-search-cancel-button{display:none}
 .search input:focus{outline:2px solid var(--fg);outline-offset:1px}
 .search .qclear{position:absolute;right:6px;width:32px;height:32px;border:0;border-radius:16px;background:transparent;color:var(--muted);font-size:18px;cursor:pointer}
-.filterbar .count{flex:1;min-width:0;font-size:13px;color:var(--muted)}
+.filterbar .count{flex:1 0 auto;white-space:nowrap;font-size:13px;color:var(--muted)}   /* 결과 N곳 · 주택형 N 이 글자 사이에서 꺾이지 않게 — 자리가 모자라면 옆 버튼이 다음 줄로 (2026-10-06 사용자 제보) */
 .filterbar .count b{color:var(--fg)}
 .fpanel{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px;padding:14px;background:var(--surface);border:1px solid var(--line);border-radius:14px}
 .fpanel .full{grid-column:1 / -1}
