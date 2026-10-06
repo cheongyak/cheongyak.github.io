@@ -5339,9 +5339,45 @@ const rStatus = N => { const t = new Date(Date.now() + 9 * 3600e3).toISOString()
 const rPeriod = N => { const st = (N.schedule || []).filter(x => x.apply_start); if (!st.length) return N.close ? '마감 ' + N.close.slice(5).replace('-', '.') : '';
   const a = st.map(x => x.apply_start).sort()[0], b = st.map(x => x.apply_end).filter(Boolean).sort().slice(-1)[0]; return a.slice(5).replace('-', '.') + (b && b !== a ? '~' + b.slice(5).replace('-', '.') : ''); };
 const rIsYouth = N => !!(N.terms && N.terms.groups && N.terms.groups.some(g => g.key === '청년' || g.key === '대학생')) || /청년|대학생/.test(N.name || '');
-function rentalList(){
+function rentalBase(){
   if (!RENTAL) return [];
   return RENTAL.notices.filter(N => (S.rcat !== 'youth' || rIsYouth(N)) && (!S.rtype || N.type === S.rtype) && (!S.rsido || (N.region || '').startsWith(S.rsido)));
+}
+/* 임대 목록 맨 위 요약 (기능: lh_summary, 2026-10-06 사용자 '임대랑 청년주택도 일반분양처럼 접수중이랑 내조건에 신청가능 확인필요 넣을수있니').
+   일정 묶음(접수 중·새 공고 7일·이번 주 마감)과 판정 묶음(신청 가능·확인 필요·조건 밖)은 숫자를 누르면 그 공고만 목록에 보인다(다시 누르면 해제) */
+const rKst = () => new Date(Date.now() + 9 * 3600e3).toISOString().slice(0, 10);
+const rEnd = N => (N.schedule || []).map(x => x.apply_end).filter(Boolean).sort().slice(-1)[0] || N.close || '';
+const R_SUM = { now: ['접수 중', N => rStatus(N) === '접수 중'], fresh: ['새 공고 7일', N => !!N.posted && N.posted >= addDays(rKst(), -7)],
+  closing: ['이번 주 마감', N => rStatus(N) !== '마감' && !!rEnd(N) && rEnd(N) >= rKst() && rEnd(N) <= addDays(rKst(), 7)] };
+/* 판정 묶음: 가능 = ok · 확인 필요 = 확인·일부 계층 판정 못 함·공고문 확인·판정 미지원 · 조건 밖 = 불가·해당 계층 없음 (모르는 것을 '조건 밖'에 넣지 않는다) */
+const rBucket = s => s === 'ok' ? 'ok' : s === 'no' || s === 'na' ? 'no' : 'check';
+const R_ELIG = { ok: ['ok', '신청 가능'], check: ['warn', '확인 필요'], no: ['fail', '조건 밖'] };
+function rentalList(){
+  let L = rentalBase();
+  if (on('lh_summary')) {
+    if (S.rsum && R_SUM[S.rsum]) L = L.filter(R_SUM[S.rsum][1]);
+    if (S.relig && hasProfile()) L = L.filter(N => rStatus(N) !== '마감' && rBucket(rentalJudgeSafe(N, S.profile).s) === S.relig);
+  }
+  return L;
+}
+function rentalSummary(){
+  if (!on('lh_summary') || !RENTAL) return '';
+  const base = rentalBase(), p = S.profile;
+  const cell = k => { const n = base.filter(R_SUM[k][1]).length, t = R_SUM[k][0];
+    return n ? `<button type="button" data-rsum="${k}" aria-pressed="${S.rsum === k}" aria-label="${t} ${n}건만 보기"><b>${n}</b><span>${t}${S.rsum === k ? ' ✓' : ' ›'}</span></button>` : `<div><b>0</b><span>${t}</span></div>`; };
+  const bar = `<div class="sumbar" role="group" aria-label="임대 공고 요약">${cell('now')}${cell('fresh')}${cell('closing')}</div>`;
+  if (!hasProfile()) return bar;
+  const open = base.filter(N => rStatus(N) !== '마감'), c = { ok: 0, check: 0, no: 0 };
+  open.forEach(N => c[rBucket(rentalJudgeSafe(N, p).s)]++);
+  const hh = { head: '세대주', parents: '세대원', spouse: '세대원', other: '세대원' }[p.household];
+  const line = [p.homeSido ? p.homeSido + (p.homeSigun ? ' ' + p.homeSigun : '') : '사는 곳 미입력', p.selfOwn == null ? '집 미입력' : p.selfOwn ? '유주택' : '무주택', hh || '세대 미입력',
+    p.hhSize ? p.hhSize + '인 가구' : '가구원 수 미입력', p.hhIncomeYear != null && p.hhIncomeYear !== '' ? '세대 소득 ' + Number(p.hhIncomeYear).toLocaleString() + '만원' : '세대 소득 미입력'].join(' · ');
+  const vb = k => c[k] ? `<button type="button" class="${R_ELIG[k][0]}" data-relig="${k}" aria-pressed="${S.relig === k}" aria-label="${R_ELIG[k][1]} ${c[k]}건만 보기">${R_ELIG[k][1]} <b>${c[k]}</b></button>` : `<span class="${R_ELIG[k][0]}">${R_ELIG[k][1]} <b>0</b></span>`;
+  return `<section class="mycond mc-compact" aria-label="내 조건과 임대 판정">
+    <div class="mcc-row"><span class="mcc-txt"><b>내 조건</b> <span class="muted">${esc(line)}</span></span><button class="linkbtn small" data-go="me">수정</button></div>
+    ${open.length ? `<div class="mc-verdict" aria-label="마감 전 ${open.length}건 판정">${vb('ok')}${vb('check')}${vb('no')}</div>` : ''}
+    <span class="small muted">마감 전 ${open.length}건 · 입력한 조건 기준${S.relig ? ` · 지금 <b>${R_ELIG[S.relig][1]}</b>만 보는 중` : ''}. 확인 필요는 공고에 들어가 '답하기'로 채울 수 있어요</span>
+  </section>${bar}`;
 }
 function lhCard(N){
   const J = hasProfile() ? rentalJudgeSafe(N, S.profile) : null, h = J ? R_HEAD[J.s] : null;
@@ -5369,17 +5405,20 @@ function vRental(){
   if (!lhOn()) { S.view = 'feed'; return vFeed(); }
   loadRental();
   const list = rentalList(), sidos = RENTAL ? [...new Set(RENTAL.notices.map(N => (N.region || '').replace(/(특별자치도|특별자치시|광역시|특별시|도)$/, '')).filter(Boolean))] : [];
+  const intro = `<p class="small muted" style="margin:0 0 8px">LH 청약플러스 임대 공고예요. 자격은 공고문의 계층별 기준(무주택·소득·총자산·자동차)에 <b>입력한 조건</b>을 대어 판정해요(분양 청약 판정과 따로). 입력하지 않은 칸은 충족으로 보지 않고 '확인 필요'로 보여요.${S.rcat === 'youth' ? ' <b>청년 주택</b>은 아래 LH 임대 공고 중 청년·대학생 계층이 있는 공고만 골라 보여 주는 거름망이에요.' : ''}</p>
+  <p class="small muted" style="margin:0 0 8px">아직 다루지 않는 공고: SH·GH 등 지방 공사 공고, 청년안심주택(역세권 청년주택), 장기전세, LH 매입임대·전세임대. 이 공고들은 각 기관 공고문을 확인하세요.</p>`;   /* 기능 lh_summary 가 켜지면 목록 아래로 (분양 목록처럼 거르기·내 조건·요약이 먼저 보이게) */
   const tchip = (k, t) => `<button class="chip" data-rtype="${k}" aria-pressed="${(S.rtype || '') === k}">${t}</button>`;
   return `<div class="top"><div><div class="brand">청약패스${betaTag()}</div><span class="small muted sub-line">LH 임대 공고${RENTAL ? ' · ' + esc(String(RENTAL.updated || '').slice(5).replace('-', '.')) + ' 갱신' : ''}</span></div></div>
   ${rentalSeg(S.rcat === 'youth' ? 'youth' : 'rent')}
-  <p class="small muted" style="margin:0 0 8px">LH 청약플러스 임대 공고예요. 자격은 공고문의 계층별 기준(무주택·소득·총자산·자동차)에 <b>입력한 조건</b>을 대어 판정해요(분양 청약 판정과 따로). 입력하지 않은 칸은 충족으로 보지 않고 '확인 필요'로 보여요.${S.rcat === 'youth' ? ' <b>청년 주택</b>은 아래 LH 임대 공고 중 청년·대학생 계층이 있는 공고만 골라 보여 주는 거름망이에요.' : ''}</p>
-  <p class="small muted" style="margin:0 0 8px">아직 다루지 않는 공고: SH·GH 등 지방 공사 공고, 청년안심주택(역세권 청년주택), 장기전세, LH 매입임대·전세임대. 이 공고들은 각 기관 공고문을 확인하세요.</p>
+  ${on('lh_summary') ? (S.rcat === 'youth' ? '<p class="small muted" style="margin:0 0 8px">LH 임대 공고 중 청년·대학생 계층이 있는 공고만 보여요</p>' : '') : intro}
   <div class="chips" role="group" aria-label="임대 유형">${tchip('', '전체')}${RENT_TYPES.map(t => tchip(t, t)).join('')}</div>
   ${sidos.length > 1 ? `<div class="chips" role="group" aria-label="지역" style="margin-top:6px">${['', ...sidos].map(s => `<button class="chip sm" data-rsido="${esc(s)}" aria-pressed="${(S.rsido || '') === s}">${s || '전국'}</button>`).join('')}</div>` : ''}
+  ${rentalSummary()}
   ${!hasProfile() ? `<div class="profile-bar"><span class="muted">내 조건을 넣으면 임대 자격도 판정해요</span><button class="linkbtn" data-action="restart">입력하기</button></div>` : ''}
   ${RENTAL_STATE === 'error' ? '<div class="card empty"><b>임대 공고를 불러오지 못했어요</b><span class="small muted">잠시 뒤 다시 열어 주세요.</span></div>'
     : !RENTAL ? '<div class="card"><span class="small muted">임대 공고를 불러오는 중이에요…</span></div>'
-    : list.length ? `<p class="small muted">${list.length}건</p>` + list.map(lhCard).join('') : '<div class="card empty"><b>조건에 맞는 임대 공고가 없어요</b></div>'}
+    : list.length ? `<p class="small muted">${list.length}건${on('lh_summary') && (S.rsum || S.relig) ? ` · <button class="linkbtn small" data-rclear="1">거르기 풀기</button>` : ''}</p>` + list.map(lhCard).join('') : `<div class="card empty"><b>조건에 맞는 임대 공고가 없어요</b>${on('lh_summary') && (S.rsum || S.relig) ? '<button class="linkbtn" data-rclear="1">거르기 풀기</button>' : ''}</div>`}
+  ${on('lh_summary') ? '<div style="margin-top:12px">' + intro + '</div>' : ''}
   <p class="foot">임대 공고 출처: LH 청약플러스(공공데이터포털 한국토지주택공사 분양임대공고 조회) · 자격 기준: 각 모집공고문, 공공주택 특별법 시행규칙 별표 3·4·5·5의2. 판정은 참고용이며 신청 전 공고문을 꼭 확인하세요.</p>`;
 }
 /* 임대 공고 상세 하단 고정 버튼 (기능: lh_cta, 2026-10-06 사용자 '공공임대 청년주택도 공고 들어가면 신청할 수 있게 일반분양처럼 아래에 나오게').
@@ -5544,6 +5583,9 @@ document.addEventListener('click', ev => {
   if (t.dataset.rcat) { if (t.dataset.rcat === 'sale') go('feed'); else { S.rcat = t.dataset.rcat; go('rental'); } return; }   // 기능: lh_rental
   if (t.dataset.rtype !== undefined) { S.rtype = t.dataset.rtype; render(); return; }
   if (t.dataset.rsido !== undefined) { S.rsido = t.dataset.rsido; render(); return; }
+  if (t.dataset.rsum) { S.rsum = S.rsum === t.dataset.rsum ? null : t.dataset.rsum; metric('lh/sum-' + (S.rsum || 'off')); render(); return; }   // 기능: lh_summary
+  if (t.dataset.relig) { S.relig = S.relig === t.dataset.relig ? null : t.dataset.relig; metric('lh/elig-' + (S.relig || 'off')); render(); return; }
+  if (t.dataset.rclear) { S.rsum = S.relig = null; render(); return; }
   if (t.dataset.ropen) { S.rid = t.dataset.ropen; S.rq = null; go('rdetail'); return; }
   if (t.dataset.rq) { S.rq = S.rq === t.dataset.rq ? null : t.dataset.rq; const y = window.scrollY; render(); window.scrollTo(0, y); const pn = app.querySelector('#rqpanel'); if (pn) { const f = pn.querySelector('select,input'); try { f && f.focus({ preventScroll:true }); } catch(e) {} } return; }
   if (t.dataset.action === 'rq-save') { lhQSave(); return; }

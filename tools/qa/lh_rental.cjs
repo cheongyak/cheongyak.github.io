@@ -58,6 +58,26 @@ const BAD = /\bNaN\b|\bundefined\b|\[object Object\]/;
       if (!SHOT || i > 2) continue;
     }
     if (scheme === 'light') console.log('판정 분포: ' + JSON.stringify(judged.reduce((a, [, s]) => (a[s] = (a[s] || 0) + 1, a), {})));
+    // 목록 요약 (기능 lh_summary): 숫자를 누르면 목록 건수가 그 숫자와 같고, 판정 묶음 합 = 마감 전 공고 수, 다시 누르면 해제
+    if (scheme === 'light') {
+      const r = await page.evaluate(() => { S.rcat = 'rent'; S.rtype = ''; S.rsido = ''; S.rsum = S.relig = null; S.view = 'rental'; render();
+        const out = { bad: [] }, nOf = () => document.querySelectorAll('[data-ropen]').length;
+        const all = nOf(); out.all = all;
+        [...document.querySelectorAll('[data-rsum]')].map(b => b.dataset.rsum).forEach(k => { const q = () => document.querySelector(`[data-rsum="${k}"]`);   // 누를 때마다 다시 찾는다(다시 그리면 버튼이 바뀜)
+          const want = Number(q().querySelector('b').textContent); q().click(); if (nOf() !== want) out.bad.push(`요약 ${k} ${want} ≠ 목록 ${nOf()}`);
+          q().click(); if (nOf() !== all) out.bad.push(`요약 ${k} 해제 뒤 ${nOf()} ≠ ${all}`); });
+        const open = rentalBase().filter(N => rStatus(N) !== '마감').length; let sum = 0;
+        [...document.querySelectorAll('.mc-verdict [data-relig], .mc-verdict span b')].forEach(x => { const b = x.matches('b') ? x : x.querySelector('b'); sum += Number(b.textContent); });
+        if (hasProfile() && sum !== open) out.bad.push(`판정 묶음 합 ${sum} ≠ 마감 전 ${open}`);
+        [...document.querySelectorAll('[data-relig]')].map(b => [b.dataset.relig, Number(b.querySelector('b').textContent)]).forEach(([k, want]) => {
+          document.querySelector(`[data-relig="${k}"]`).click(); const got = nOf();
+          const ok = [...document.querySelectorAll('[data-ropen]')].every(c => rBucket(rentalJudge(RENTAL.notices.find(N => N.id === c.dataset.ropen), S.profile).s) === k);
+          if (got !== want || !ok) out.bad.push(`판정 ${k} ${want} → 목록 ${got}${ok ? '' : ' (다른 판정 섞임)'}`);
+          document.querySelector(`[data-relig="${k}"]`).click(); });
+        return out; });
+      r.bad.forEach(x => fails.push('요약: ' + x));
+      if (SHOT) { await page.evaluate(() => { S.rsum = S.relig = null; render(); window.scrollTo(0, 0); }); await page.screenshot({ path: join(SHOT, 'summary.png') }); }
+    }
     // 공고 화면 '답하기' (사용자 10-05 17시): 세대 소득을 비우고 → 확인 항목의 답하기 → 입력·저장 → 판정이 바뀌고 내 조건에 저장되는지
     if (scheme === 'light') {
       const nid = await page.evaluate(() => { S.profile.hhIncomeYear = null; S.profile.household = 'parents'; S.profile.parentsOwn = false; save(); const N = RENTAL.notices.find(N => N.type === '국민임대' && N.terms && N.terms.groups[0].income_pct && N.terms.groups[0].income_pct !== 'excluded'); S.rid = N.id; S.rq = null; S.view = 'rdetail'; render(); return N.id; });
