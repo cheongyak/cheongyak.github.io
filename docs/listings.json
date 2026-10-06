@@ -61998,13 +61998,13 @@
   "mc_quota": null,
   "youth": null,
   "resale": {
-   "months": 6,
    "base": "2024-08-14",
-   "registration": false,
-   "until_reg": false,
-   "passed": false,
+   "forbidden": false,
+   "months": 6,
    "none": false,
-   "forbidden": false
+   "passed": false,
+   "registration": false,
+   "until_reg": false
   },
   "score_ratio": null,
   "pub_limits": null,
@@ -62014,10 +62014,10 @@
     "name": "대전광역시",
     "sido": "대전"
    },
+   "equal": true,
    "months": 0,
-   "since": null,
    "others": [],
-   "equal": true
+   "since": null
   },
   "special_units": null,
   "notice": "2026-10-06",
@@ -62031,16 +62031,117 @@
   "ext": 0.0,
   "contract_rate": 0.1,
   "mid_rate": 0.6,
-  "mkt_low": null,
-  "mkt_base": null,
-  "mkt_note": "시군구 코드를 아직 확인하지 못해 시세를 조회하지 못했어요 (지도 좌표로 확인되면 다음 수집부터 조회).",
-  "mkt_basis": null,
-  "mkt_count": 0,
+  "mkt_low": 5.07,
+  "mkt_base": 5.64,
+  "mkt_note": "같은 단지 같은 평형 거래 1건 기준 (최근 6개월)",
+  "mkt_basis": "same_complex",
+  "mkt_count": 1,
   "mkt_direct_excluded": 0,
-  "mkt_comps": [],
-  "jeonse": null,
-  "jeonse_note": "",
-  "jeonse_comps": [],
+  "mkt_comps": [
+   {
+    "apt": "도안 푸르지오 디아델 31블록",
+    "umd": "용계동",
+    "area": 59.98,
+    "floor": 18.0,
+    "dong": "",
+    "amount": 5.64,
+    "date": "2026-05-02",
+    "kind": "분양권",
+    "direct": false
+   }
+  ],
+  "jeonse": 1.83,
+  "jeonse_note": "같은 구 준공 10년 이내 전세 207건 중앙값에서 입주장 할인 9%",
+  "jeonse_comps": [
+   {
+    "apt": "유성둔곡지구A1BL서한이다음",
+    "umd": "둔곡동",
+    "area": 59.6595,
+    "floor": 23.0,
+    "dong": "",
+    "amount": 2.4,
+    "date": "2026-09-30",
+    "kind": "전세",
+    "direct": false
+   },
+   {
+    "apt": "유성둔곡지구A1BL서한이다음",
+    "umd": "둔곡동",
+    "area": 59.6595,
+    "floor": 18.0,
+    "dong": "",
+    "amount": 2.4,
+    "date": "2026-09-21",
+    "kind": "전세",
+    "direct": false
+   },
+   {
+    "apt": "유성둔곡지구A1BL서한이다음",
+    "umd": "둔곡동",
+    "area": 59.6595,
+    "floor": 10.0,
+    "dong": "",
+    "amount": 2.4,
+    "date": "2026-09-19",
+    "kind": "전세",
+    "direct": false
+   },
+   {
+    "apt": "유성둔곡지구A1BL서한이다음",
+    "umd": "둔곡동",
+    "area": 59.6595,
+    "floor": 3.0,
+    "dong": "",
+    "amount": 2.26,
+    "date": "2026-09-18",
+    "kind": "전세",
+    "direct": false
+   },
+   {
+    "apt": "한화포레나유성",
+    "umd": "학하동",
+    "area": 59.9943,
+    "floor": 15.0,
+    "dong": "",
+    "amount": 2.03,
+    "date": "2026-09-17",
+    "kind": "전세",
+    "direct": false
+   },
+   {
+    "apt": "도룡에스케이뷰",
+    "umd": "도룡동",
+    "area": 59.9964,
+    "floor": 7.0,
+    "dong": "",
+    "amount": 4.4,
+    "date": "2026-09-15",
+    "kind": "전세",
+    "direct": false
+   },
+   {
+    "apt": "도룡에스케이뷰",
+    "umd": "도룡동",
+    "area": 59.9964,
+    "floor": 7.0,
+    "dong": "",
+    "amount": 4.4,
+    "date": "2026-09-15",
+    "kind": "전세",
+    "direct": false
+   },
+   {
+    "apt": "도룡에스케이뷰",
+    "umd": "도룡동",
+    "area": 59.9964,
+    "floor": 10.0,
+    "dong": "",
+    "amount": 3.3,
+    "date": "2026-09-14",
+    "kind": "전세",
+    "direct": false
+   }
+  ],
   "capital": false,
   "regulated": false,
   "land_permit": false,
@@ -62050,8 +62151,8 @@
   "notice_quotes": {
    "세대주 요건": "…대상자 ■ 입주자모집공고일 현재 해당 주택건설지역인 대전광역시에 거주하는 무주택세대구성원 ■ 생애최초로 주택을 구입하는 분 - 모든 세대구성원이 과거 주택을…",
    "분양가상한제": "…민간택지에서 공급하는 분양가상한제 미적용 민영주택으로, 당첨자로 선정되더라도 「주택공급에 관한 규칙」…",
-   "실거주 의무": "(1쪽 단지 주요정보 표) 전매제한 거주의무기간 분양가상한제 택지유형 없음 (최초 당첨자발표일(‘24.08.14.)로부터 6개월, 현재 전매제한기간 도과) 없음 미적용 민간택지",
    "전매 제한": "…택지유형 없음 (최초 당첨자발표일(‘24.08.14.)로부터 6개월, 현재 전매제한기간 도과) 없음 미적용 민간택지 구분…",
+   "실거주 의무": "(1쪽 단지 주요정보 표) 전매제한 거주의무기간 분양가상한제 택지유형 없음 (최초 당첨자발표일(‘24.08.14.)로부터 6개월, 현재 전매제한기간 도과) 없음 미적용 민간택지",
    "재당첨 제한": "…관한 규칙」 제54조에 따 른 재당첨 제한을 적용받지 않으며, 기존 주택 당첨으로 인해 재당첨 제한 기간 내에 있는 분 및 그 세대에…"
   },
   "notice_conflicts": [],
@@ -62079,12 +62180,14 @@
   "from_notice": [
    "세대주 요건",
    "분양가상한제",
-   "실거주 의무",
    "전매 제한",
-   "재당첨 제한",
-   "거주 지역 요건"
+   "거주 지역 요건",
+   "실거주 의무",
+   "재당첨 제한"
   ],
-  "checks": [],
+  "checks": [
+   "시세 근거 거래가 1건뿐이에요"
+  ],
   "geo": {
    "lat": 36.326513,
    "lng": 127.334546,
@@ -62100,7 +62203,32 @@
   "sp_competition": null,
   "area_sp": null,
   "map_query": "대전광역시 유성구 용계동 73-48",
-  "nearby": null,
+  "nearby": [
+   {
+    "kind": "초등학교",
+    "name": "흥도초등학교",
+    "m": 910,
+    "lat": 36.334015,
+    "lng": 127.338601,
+    "walk": 18
+   },
+   {
+    "kind": "중학교",
+    "name": "원신흥중학교",
+    "m": 1211,
+    "lat": 36.3330951,
+    "lng": 127.3453141,
+    "walk": 23
+   },
+   {
+    "kind": "고등학교",
+    "name": "도안고등학교",
+    "m": 1183,
+    "lat": 36.3369067,
+    "lng": 127.3373803,
+    "walk": 23
+   }
+  ],
   "sample": false
  },
  {
@@ -62135,13 +62263,13 @@
   "mc_quota": null,
   "youth": null,
   "resale": {
-   "months": 6,
    "base": "2024-08-14",
-   "registration": false,
-   "until_reg": false,
-   "passed": false,
+   "forbidden": false,
+   "months": 6,
    "none": false,
-   "forbidden": false
+   "passed": false,
+   "registration": false,
+   "until_reg": false
   },
   "score_ratio": null,
   "pub_limits": null,
@@ -62151,10 +62279,10 @@
     "name": "대전광역시",
     "sido": "대전"
    },
+   "equal": true,
    "months": 0,
-   "since": null,
    "others": [],
-   "equal": true
+   "since": null
   },
   "special_units": null,
   "notice": "2026-10-06",
@@ -62168,16 +62296,128 @@
   "ext": 0.0,
   "contract_rate": 0.1,
   "mid_rate": 0.6,
-  "mkt_low": null,
-  "mkt_base": null,
-  "mkt_note": "시군구 코드를 아직 확인하지 못해 시세를 조회하지 못했어요 (지도 좌표로 확인되면 다음 수집부터 조회).",
-  "mkt_basis": null,
-  "mkt_count": 0,
+  "mkt_low": 6.66,
+  "mkt_base": 7.4,
+  "mkt_note": "같은 단지 같은 평형 거래 2건 기준 (최근 6개월)",
+  "mkt_basis": "same_complex",
+  "mkt_count": 2,
   "mkt_direct_excluded": 0,
-  "mkt_comps": [],
-  "jeonse": null,
-  "jeonse_note": "",
-  "jeonse_comps": [],
+  "mkt_comps": [
+   {
+    "apt": "도안 푸르지오 디아델 31블록",
+    "umd": "용계동",
+    "area": 84.94,
+    "floor": 9.0,
+    "dong": "",
+    "amount": 7.67,
+    "date": "2026-08-29",
+    "kind": "분양권",
+    "direct": false
+   },
+   {
+    "apt": "도안 푸르지오 디아델 31블록",
+    "umd": "용계동",
+    "area": 84.94,
+    "floor": 2.0,
+    "dong": "",
+    "amount": 7.13,
+    "date": "2026-08-21",
+    "kind": "분양권",
+    "direct": false
+   }
+  ],
+  "jeonse": 3.6,
+  "jeonse_note": "같은 구 준공 10년 이내 전세 254건 중앙값에서 입주장 할인 9%",
+  "jeonse_comps": [
+   {
+    "apt": "도안우미린트리쉐이드",
+    "umd": "용계동",
+    "area": 84.9558,
+    "floor": 31.0,
+    "dong": "",
+    "amount": 4.3,
+    "date": "2026-10-03",
+    "kind": "전세",
+    "direct": false
+   },
+   {
+    "apt": "도안우미린트리쉐이드",
+    "umd": "용계동",
+    "area": 84.9558,
+    "floor": 3.0,
+    "dong": "",
+    "amount": 4.0,
+    "date": "2026-10-03",
+    "kind": "전세",
+    "direct": false
+   },
+   {
+    "apt": "도안우미린트리쉐이드",
+    "umd": "용계동",
+    "area": 84.9558,
+    "floor": 19.0,
+    "dong": "",
+    "amount": 4.0,
+    "date": "2026-10-03",
+    "kind": "전세",
+    "direct": false
+   },
+   {
+    "apt": "대전아이파크시티1단지",
+    "umd": "상대동",
+    "area": 84.8389,
+    "floor": 15.0,
+    "dong": "",
+    "amount": 4.5,
+    "date": "2026-09-30",
+    "kind": "전세",
+    "direct": false
+   },
+   {
+    "apt": "도안우미린트리쉐이드",
+    "umd": "용계동",
+    "area": 84.9558,
+    "floor": 19.0,
+    "dong": "",
+    "amount": 3.7,
+    "date": "2026-09-30",
+    "kind": "전세",
+    "direct": false
+   },
+   {
+    "apt": "대전아이파크시티2단지",
+    "umd": "상대동",
+    "area": 84.8389,
+    "floor": 20.0,
+    "dong": "",
+    "amount": 5.0,
+    "date": "2026-09-29",
+    "kind": "전세",
+    "direct": false
+   },
+   {
+    "apt": "유성대광로제비앙아파트",
+    "umd": "봉산동",
+    "area": 84.9147,
+    "floor": 1.0,
+    "dong": "",
+    "amount": 3.3,
+    "date": "2026-09-28",
+    "kind": "전세",
+    "direct": false
+   },
+   {
+    "apt": "한화포레나유성",
+    "umd": "학하동",
+    "area": 84.9688,
+    "floor": 25.0,
+    "dong": "",
+    "amount": 3.1,
+    "date": "2026-09-28",
+    "kind": "전세",
+    "direct": false
+   }
+  ],
   "capital": false,
   "regulated": false,
   "land_permit": false,
@@ -62187,8 +62427,8 @@
   "notice_quotes": {
    "세대주 요건": "…대상자 ■ 입주자모집공고일 현재 해당 주택건설지역인 대전광역시에 거주하는 무주택세대구성원 ■ 생애최초로 주택을 구입하는 분 - 모든 세대구성원이 과거 주택을…",
    "분양가상한제": "…민간택지에서 공급하는 분양가상한제 미적용 민영주택으로, 당첨자로 선정되더라도 「주택공급에 관한 규칙」…",
-   "실거주 의무": "(1쪽 단지 주요정보 표) 전매제한 거주의무기간 분양가상한제 택지유형 없음 (최초 당첨자발표일(‘24.08.14.)로부터 6개월, 현재 전매제한기간 도과) 없음 미적용 민간택지",
    "전매 제한": "…택지유형 없음 (최초 당첨자발표일(‘24.08.14.)로부터 6개월, 현재 전매제한기간 도과) 없음 미적용 민간택지 구분…",
+   "실거주 의무": "(1쪽 단지 주요정보 표) 전매제한 거주의무기간 분양가상한제 택지유형 없음 (최초 당첨자발표일(‘24.08.14.)로부터 6개월, 현재 전매제한기간 도과) 없음 미적용 민간택지",
    "재당첨 제한": "…관한 규칙」 제54조에 따 른 재당첨 제한을 적용받지 않으며, 기존 주택 당첨으로 인해 재당첨 제한 기간 내에 있는 분 및 그 세대에…"
   },
   "notice_conflicts": [],
@@ -62216,12 +62456,14 @@
   "from_notice": [
    "세대주 요건",
    "분양가상한제",
-   "실거주 의무",
    "전매 제한",
-   "재당첨 제한",
-   "거주 지역 요건"
+   "거주 지역 요건",
+   "실거주 의무",
+   "재당첨 제한"
   ],
-  "checks": [],
+  "checks": [
+   "시세 근거 거래가 2건뿐이에요"
+  ],
   "geo": {
    "lat": 36.326513,
    "lng": 127.334546,
@@ -62237,7 +62479,32 @@
   "sp_competition": null,
   "area_sp": null,
   "map_query": "대전광역시 유성구 용계동 73-48",
-  "nearby": null,
+  "nearby": [
+   {
+    "kind": "초등학교",
+    "name": "흥도초등학교",
+    "m": 910,
+    "lat": 36.334015,
+    "lng": 127.338601,
+    "walk": 18
+   },
+   {
+    "kind": "중학교",
+    "name": "원신흥중학교",
+    "m": 1211,
+    "lat": 36.3330951,
+    "lng": 127.3453141,
+    "walk": 23
+   },
+   {
+    "kind": "고등학교",
+    "name": "도안고등학교",
+    "m": 1183,
+    "lat": 36.3369067,
+    "lng": 127.3373803,
+    "walk": 23
+   }
+  ],
   "sample": false
  },
  {
@@ -62272,13 +62539,13 @@
   "mc_quota": null,
   "youth": null,
   "resale": {
-   "months": 6,
    "base": "2024-08-14",
-   "registration": false,
-   "until_reg": false,
-   "passed": false,
+   "forbidden": false,
+   "months": 6,
    "none": false,
-   "forbidden": false
+   "passed": false,
+   "registration": false,
+   "until_reg": false
   },
   "score_ratio": null,
   "pub_limits": null,
@@ -62288,10 +62555,10 @@
     "name": "대전광역시",
     "sido": "대전"
    },
+   "equal": true,
    "months": 0,
-   "since": null,
    "others": [],
-   "equal": true
+   "since": null
   },
   "special_units": null,
   "notice": "2026-10-06",
@@ -62305,16 +62572,117 @@
   "ext": 0.0,
   "contract_rate": 0.1,
   "mid_rate": 0.6,
-  "mkt_low": null,
-  "mkt_base": null,
-  "mkt_note": "시군구 코드를 아직 확인하지 못해 시세를 조회하지 못했어요 (지도 좌표로 확인되면 다음 수집부터 조회).",
-  "mkt_basis": null,
-  "mkt_count": 0,
+  "mkt_low": 10.1,
+  "mkt_base": 11.23,
+  "mkt_note": "같은 단지 같은 평형 거래 1건 기준 (최근 6개월)",
+  "mkt_basis": "same_complex",
+  "mkt_count": 1,
   "mkt_direct_excluded": 0,
-  "mkt_comps": [],
-  "jeonse": null,
-  "jeonse_note": "",
-  "jeonse_comps": [],
+  "mkt_comps": [
+   {
+    "apt": "도안 푸르지오 디아델 31블록",
+    "umd": "용계동",
+    "area": 124.0,
+    "floor": 24.0,
+    "dong": "",
+    "amount": 11.23,
+    "date": "2026-08-10",
+    "kind": "분양권",
+    "direct": false
+   }
+  ],
+  "jeonse": 5.71,
+  "jeonse_note": "같은 구 준공 10년 이내 전세 12건 중앙값에서 입주장 할인 9%",
+  "jeonse_comps": [
+   {
+    "apt": "도안우미린트리쉐이드",
+    "umd": "용계동",
+    "area": 123.6901,
+    "floor": 9.0,
+    "dong": "",
+    "amount": 6.0,
+    "date": "2026-09-28",
+    "kind": "전세",
+    "direct": false
+   },
+   {
+    "apt": "도안우미린트리쉐이드",
+    "umd": "용계동",
+    "area": 123.6901,
+    "floor": 24.0,
+    "dong": "",
+    "amount": 5.5,
+    "date": "2026-09-12",
+    "kind": "전세",
+    "direct": false
+   },
+   {
+    "apt": "대전아이파크시티2단지",
+    "umd": "상대동",
+    "area": 122.8894,
+    "floor": 10.0,
+    "dong": "",
+    "amount": 7.0,
+    "date": "2026-08-19",
+    "kind": "전세",
+    "direct": false
+   },
+   {
+    "apt": "대전아이파크시티2단지",
+    "umd": "상대동",
+    "area": 122.8894,
+    "floor": 10.0,
+    "dong": "",
+    "amount": 7.0,
+    "date": "2026-08-19",
+    "kind": "전세",
+    "direct": false
+   },
+   {
+    "apt": "대전아이파크시티2단지",
+    "umd": "상대동",
+    "area": 122.8894,
+    "floor": 21.0,
+    "dong": "",
+    "amount": 7.0,
+    "date": "2026-08-15",
+    "kind": "전세",
+    "direct": false
+   },
+   {
+    "apt": "대전아이파크시티2단지",
+    "umd": "상대동",
+    "area": 122.8894,
+    "floor": 15.0,
+    "dong": "",
+    "amount": 6.9,
+    "date": "2026-08-05",
+    "kind": "전세",
+    "direct": false
+   },
+   {
+    "apt": "대전아이파크시티2단지",
+    "umd": "상대동",
+    "area": 122.8894,
+    "floor": 22.0,
+    "dong": "",
+    "amount": 6.4,
+    "date": "2026-08-01",
+    "kind": "전세",
+    "direct": false
+   },
+   {
+    "apt": "도안우미린트리쉐이드",
+    "umd": "용계동",
+    "area": 123.6901,
+    "floor": 4.0,
+    "dong": "",
+    "amount": 3.0,
+    "date": "2026-07-20",
+    "kind": "전세",
+    "direct": false
+   }
+  ],
   "capital": false,
   "regulated": false,
   "land_permit": false,
@@ -62324,8 +62692,8 @@
   "notice_quotes": {
    "세대주 요건": "…대상자 ■ 입주자모집공고일 현재 해당 주택건설지역인 대전광역시에 거주하는 무주택세대구성원 ■ 생애최초로 주택을 구입하는 분 - 모든 세대구성원이 과거 주택을…",
    "분양가상한제": "…민간택지에서 공급하는 분양가상한제 미적용 민영주택으로, 당첨자로 선정되더라도 「주택공급에 관한 규칙」…",
-   "실거주 의무": "(1쪽 단지 주요정보 표) 전매제한 거주의무기간 분양가상한제 택지유형 없음 (최초 당첨자발표일(‘24.08.14.)로부터 6개월, 현재 전매제한기간 도과) 없음 미적용 민간택지",
    "전매 제한": "…택지유형 없음 (최초 당첨자발표일(‘24.08.14.)로부터 6개월, 현재 전매제한기간 도과) 없음 미적용 민간택지 구분…",
+   "실거주 의무": "(1쪽 단지 주요정보 표) 전매제한 거주의무기간 분양가상한제 택지유형 없음 (최초 당첨자발표일(‘24.08.14.)로부터 6개월, 현재 전매제한기간 도과) 없음 미적용 민간택지",
    "재당첨 제한": "…관한 규칙」 제54조에 따 른 재당첨 제한을 적용받지 않으며, 기존 주택 당첨으로 인해 재당첨 제한 기간 내에 있는 분 및 그 세대에…"
   },
   "notice_conflicts": [],
@@ -62353,12 +62721,14 @@
   "from_notice": [
    "세대주 요건",
    "분양가상한제",
-   "실거주 의무",
    "전매 제한",
-   "재당첨 제한",
-   "거주 지역 요건"
+   "거주 지역 요건",
+   "실거주 의무",
+   "재당첨 제한"
   ],
-  "checks": [],
+  "checks": [
+   "시세 근거 거래가 1건뿐이에요"
+  ],
   "geo": {
    "lat": 36.326513,
    "lng": 127.334546,
@@ -62374,7 +62744,32 @@
   "sp_competition": null,
   "area_sp": null,
   "map_query": "대전광역시 유성구 용계동 73-48",
-  "nearby": null,
+  "nearby": [
+   {
+    "kind": "초등학교",
+    "name": "흥도초등학교",
+    "m": 910,
+    "lat": 36.334015,
+    "lng": 127.338601,
+    "walk": 18
+   },
+   {
+    "kind": "중학교",
+    "name": "원신흥중학교",
+    "m": 1211,
+    "lat": 36.3330951,
+    "lng": 127.3453141,
+    "walk": 23
+   },
+   {
+    "kind": "고등학교",
+    "name": "도안고등학교",
+    "m": 1183,
+    "lat": 36.3369067,
+    "lng": 127.3373803,
+    "walk": 23
+   }
+  ],
   "sample": false
  },
  {
@@ -62409,13 +62804,13 @@
   "mc_quota": null,
   "youth": null,
   "resale": {
-   "months": 6,
    "base": "2024-08-13",
-   "registration": false,
-   "until_reg": false,
-   "passed": false,
+   "forbidden": false,
+   "months": 6,
    "none": false,
-   "forbidden": false
+   "passed": false,
+   "registration": false,
+   "until_reg": false
   },
   "score_ratio": null,
   "pub_limits": null,
@@ -62425,10 +62820,10 @@
     "name": "대전광역시",
     "sido": "대전"
    },
+   "equal": true,
    "months": 0,
-   "since": null,
    "others": [],
-   "equal": true
+   "since": null
   },
   "special_units": null,
   "notice": "2026-10-06",
@@ -62442,16 +62837,194 @@
   "ext": 0.0,
   "contract_rate": 0.1,
   "mid_rate": 0.6,
-  "mkt_low": null,
-  "mkt_base": null,
-  "mkt_note": "시군구 코드를 아직 확인하지 못해 시세를 조회하지 못했어요 (지도 좌표로 확인되면 다음 수집부터 조회).",
-  "mkt_basis": null,
-  "mkt_count": 0,
+  "mkt_low": 9.91,
+  "mkt_base": 10.02,
+  "mkt_note": "같은 단지 같은 평형 거래 10건 기준 (최근 6개월)",
+  "mkt_basis": "same_complex",
+  "mkt_count": 10,
   "mkt_direct_excluded": 0,
-  "mkt_comps": [],
-  "jeonse": null,
-  "jeonse_note": "",
-  "jeonse_comps": [],
+  "mkt_comps": [
+   {
+    "apt": "도안 푸르지오 디아델 29블록",
+    "umd": "용계동",
+    "area": 106.95,
+    "floor": 9.0,
+    "dong": "",
+    "amount": 9.8,
+    "date": "2026-09-20",
+    "kind": "분양권",
+    "direct": false
+   },
+   {
+    "apt": "도안 푸르지오 디아델 29블록",
+    "umd": "용계동",
+    "area": 106.96,
+    "floor": 9.0,
+    "dong": "",
+    "amount": 10.02,
+    "date": "2026-09-15",
+    "kind": "분양권",
+    "direct": false
+   },
+   {
+    "apt": "도안 푸르지오 디아델 29블록",
+    "umd": "용계동",
+    "area": 106.95,
+    "floor": 24.0,
+    "dong": "",
+    "amount": 9.88,
+    "date": "2026-08-28",
+    "kind": "분양권",
+    "direct": false
+   },
+   {
+    "apt": "도안 푸르지오 디아델 29블록",
+    "umd": "용계동",
+    "area": 106.96,
+    "floor": 10.0,
+    "dong": "",
+    "amount": 9.87,
+    "date": "2026-08-26",
+    "kind": "분양권",
+    "direct": false
+   },
+   {
+    "apt": "도안 푸르지오 디아델 29블록",
+    "umd": "용계동",
+    "area": 106.95,
+    "floor": 16.0,
+    "dong": "",
+    "amount": 9.99,
+    "date": "2026-08-12",
+    "kind": "분양권",
+    "direct": false
+   },
+   {
+    "apt": "도안 푸르지오 디아델 29블록",
+    "umd": "용계동",
+    "area": 106.96,
+    "floor": 28.0,
+    "dong": "",
+    "amount": 10.06,
+    "date": "2026-07-16",
+    "kind": "분양권",
+    "direct": false
+   },
+   {
+    "apt": "도안 푸르지오 디아델 29블록",
+    "umd": "용계동",
+    "area": 106.95,
+    "floor": 22.0,
+    "dong": "",
+    "amount": 10.05,
+    "date": "2026-06-20",
+    "kind": "분양권",
+    "direct": false
+   },
+   {
+    "apt": "도안 푸르지오 디아델 29블록",
+    "umd": "용계동",
+    "area": 106.95,
+    "floor": 24.0,
+    "dong": "",
+    "amount": 10.09,
+    "date": "2026-06-04",
+    "kind": "분양권",
+    "direct": false
+   }
+  ],
+  "jeonse": 5.13,
+  "jeonse_note": "같은 구 준공 10년 이내 전세 15건 중앙값에서 입주장 할인 9%",
+  "jeonse_comps": [
+   {
+    "apt": "대전아이파크시티2단지",
+    "umd": "상대동",
+    "area": 104.9571,
+    "floor": 3.0,
+    "dong": "",
+    "amount": 6.0,
+    "date": "2026-09-11",
+    "kind": "전세",
+    "direct": false
+   },
+   {
+    "apt": "도안우미린트리쉐이드",
+    "umd": "용계동",
+    "area": 104.8399,
+    "floor": 14.0,
+    "dong": "",
+    "amount": 5.1,
+    "date": "2026-08-31",
+    "kind": "전세",
+    "direct": false
+   },
+   {
+    "apt": "대전아이파크시티2단지",
+    "umd": "상대동",
+    "area": 104.6659,
+    "floor": 27.0,
+    "dong": "",
+    "amount": 5.6,
+    "date": "2026-08-31",
+    "kind": "전세",
+    "direct": false
+   },
+   {
+    "apt": "대전아이파크시티1단지",
+    "umd": "상대동",
+    "area": 104.6659,
+    "floor": 6.0,
+    "dong": "",
+    "amount": 5.7,
+    "date": "2026-08-26",
+    "kind": "전세",
+    "direct": false
+   },
+   {
+    "apt": "대전아이파크시티2단지",
+    "umd": "상대동",
+    "area": 104.6659,
+    "floor": 10.0,
+    "dong": "",
+    "amount": 5.7,
+    "date": "2026-08-23",
+    "kind": "전세",
+    "direct": false
+   },
+   {
+    "apt": "도안우미린트리쉐이드",
+    "umd": "용계동",
+    "area": 104.8399,
+    "floor": 15.0,
+    "dong": "",
+    "amount": 4.9,
+    "date": "2026-08-13",
+    "kind": "전세",
+    "direct": false
+   },
+   {
+    "apt": "대전아이파크시티2단지",
+    "umd": "상대동",
+    "area": 104.6659,
+    "floor": 31.0,
+    "dong": "",
+    "amount": 6.15,
+    "date": "2026-07-30",
+    "kind": "전세",
+    "direct": false
+   },
+   {
+    "apt": "대전아이파크시티1단지",
+    "umd": "상대동",
+    "area": 104.6659,
+    "floor": 33.0,
+    "dong": "",
+    "amount": 5.4,
+    "date": "2026-07-15",
+    "kind": "전세",
+    "direct": false
+   }
+  ],
   "capital": false,
   "regulated": false,
   "land_permit": false,
@@ -62461,8 +63034,8 @@
   "notice_quotes": {
    "세대주 요건": "…해당 주택건설지역 거주자 중 무주택세대주(무주택세대의 세대주)를 대상으로 추첨의 방법으로 공급합니다. ■ 2018.12.11. 시행된…",
    "분양가상한제": "…민간택지에서 공급하는 분양가상한제 미적용 민영주택으로, 당첨자로 선정되더라도 「주택공급에 관한 규칙」…",
-   "실거주 의무": "(1쪽 단지 주요정보 표) 전매제한 거주의무기간 분양가상한제 택지유형 없음 (최초 당첨자발표일(‘24.08.13.)로부터 6개월, 현재 전매기간 도과) 없음 미적용 민간택지",
    "전매 제한": "…택지유형 없음 (최초 당첨자발표일(‘24.08.13.)로부터 6개월, 현재 전매기간 도과) 없음 미적용 민간택지 구분 입주자모집공고일…",
+   "실거주 의무": "(1쪽 단지 주요정보 표) 전매제한 거주의무기간 분양가상한제 택지유형 없음 (최초 당첨자발표일(‘24.08.13.)로부터 6개월, 현재 전매기간 도과) 없음 미적용 민간택지",
    "재당첨 제한": "…관한 규칙」 제54조에 따 른 재당첨 제한을 적용받지 않으며, 기존 주택 당첨으로 인해 재당첨 제한 기간 내에 있는 분 및 그 세대에…"
   },
   "notice_conflicts": [],
@@ -62490,10 +63063,10 @@
   "from_notice": [
    "세대주 요건",
    "분양가상한제",
-   "실거주 의무",
    "전매 제한",
-   "재당첨 제한",
-   "거주 지역 요건"
+   "거주 지역 요건",
+   "실거주 의무",
+   "재당첨 제한"
   ],
   "checks": [],
   "geo": {
@@ -62555,13 +63128,13 @@
   "mc_quota": null,
   "youth": null,
   "resale": {
-   "months": 6,
    "base": "2024-08-13",
-   "registration": false,
-   "until_reg": false,
-   "passed": false,
+   "forbidden": false,
+   "months": 6,
    "none": false,
-   "forbidden": false
+   "passed": false,
+   "registration": false,
+   "until_reg": false
   },
   "score_ratio": null,
   "pub_limits": null,
@@ -62571,10 +63144,10 @@
     "name": "대전광역시",
     "sido": "대전"
    },
+   "equal": true,
    "months": 0,
-   "since": null,
    "others": [],
-   "equal": true
+   "since": null
   },
   "special_units": null,
   "notice": "2026-10-06",
@@ -62588,16 +63161,161 @@
   "ext": 0.0,
   "contract_rate": 0.1,
   "mid_rate": 0.6,
-  "mkt_low": null,
-  "mkt_base": null,
-  "mkt_note": "시군구 코드를 아직 확인하지 못해 시세를 조회하지 못했어요 (지도 좌표로 확인되면 다음 수집부터 조회).",
-  "mkt_basis": null,
-  "mkt_count": 0,
+  "mkt_low": 11.19,
+  "mkt_base": 11.23,
+  "mkt_note": "같은 단지 같은 평형 거래 5건 기준 (최근 6개월)",
+  "mkt_basis": "same_complex",
+  "mkt_count": 5,
   "mkt_direct_excluded": 0,
-  "mkt_comps": [],
-  "jeonse": null,
-  "jeonse_note": "",
-  "jeonse_comps": [],
+  "mkt_comps": [
+   {
+    "apt": "도안 푸르지오 디아델 29블록",
+    "umd": "용계동",
+    "area": 124.0,
+    "floor": 16.0,
+    "dong": "",
+    "amount": 11.25,
+    "date": "2026-08-12",
+    "kind": "분양권",
+    "direct": false
+   },
+   {
+    "apt": "도안 푸르지오 디아델 29블록",
+    "umd": "용계동",
+    "area": 124.98,
+    "floor": 16.0,
+    "dong": "",
+    "amount": 11.26,
+    "date": "2026-06-19",
+    "kind": "분양권",
+    "direct": false
+   },
+   {
+    "apt": "도안 푸르지오 디아델 29블록",
+    "umd": "용계동",
+    "area": 124.98,
+    "floor": 10.0,
+    "dong": "",
+    "amount": 11.19,
+    "date": "2026-05-28",
+    "kind": "분양권",
+    "direct": false
+   },
+   {
+    "apt": "도안 푸르지오 디아델 29블록",
+    "umd": "용계동",
+    "area": 124.98,
+    "floor": 18.0,
+    "dong": "",
+    "amount": 11.23,
+    "date": "2026-05-26",
+    "kind": "분양권",
+    "direct": false
+   },
+   {
+    "apt": "도안 푸르지오 디아델 29블록",
+    "umd": "용계동",
+    "area": 124.98,
+    "floor": 9.0,
+    "dong": "",
+    "amount": 10.98,
+    "date": "2026-05-18",
+    "kind": "분양권",
+    "direct": false
+   }
+  ],
+  "jeonse": 5.71,
+  "jeonse_note": "같은 구 준공 10년 이내 전세 12건 중앙값에서 입주장 할인 9%",
+  "jeonse_comps": [
+   {
+    "apt": "도안우미린트리쉐이드",
+    "umd": "용계동",
+    "area": 123.6901,
+    "floor": 9.0,
+    "dong": "",
+    "amount": 6.0,
+    "date": "2026-09-28",
+    "kind": "전세",
+    "direct": false
+   },
+   {
+    "apt": "도안우미린트리쉐이드",
+    "umd": "용계동",
+    "area": 123.6901,
+    "floor": 24.0,
+    "dong": "",
+    "amount": 5.5,
+    "date": "2026-09-12",
+    "kind": "전세",
+    "direct": false
+   },
+   {
+    "apt": "대전아이파크시티2단지",
+    "umd": "상대동",
+    "area": 122.8894,
+    "floor": 10.0,
+    "dong": "",
+    "amount": 7.0,
+    "date": "2026-08-19",
+    "kind": "전세",
+    "direct": false
+   },
+   {
+    "apt": "대전아이파크시티2단지",
+    "umd": "상대동",
+    "area": 122.8894,
+    "floor": 10.0,
+    "dong": "",
+    "amount": 7.0,
+    "date": "2026-08-19",
+    "kind": "전세",
+    "direct": false
+   },
+   {
+    "apt": "대전아이파크시티2단지",
+    "umd": "상대동",
+    "area": 122.8894,
+    "floor": 21.0,
+    "dong": "",
+    "amount": 7.0,
+    "date": "2026-08-15",
+    "kind": "전세",
+    "direct": false
+   },
+   {
+    "apt": "대전아이파크시티2단지",
+    "umd": "상대동",
+    "area": 122.8894,
+    "floor": 15.0,
+    "dong": "",
+    "amount": 6.9,
+    "date": "2026-08-05",
+    "kind": "전세",
+    "direct": false
+   },
+   {
+    "apt": "대전아이파크시티2단지",
+    "umd": "상대동",
+    "area": 122.8894,
+    "floor": 22.0,
+    "dong": "",
+    "amount": 6.4,
+    "date": "2026-08-01",
+    "kind": "전세",
+    "direct": false
+   },
+   {
+    "apt": "도안우미린트리쉐이드",
+    "umd": "용계동",
+    "area": 123.6901,
+    "floor": 4.0,
+    "dong": "",
+    "amount": 3.0,
+    "date": "2026-07-20",
+    "kind": "전세",
+    "direct": false
+   }
+  ],
   "capital": false,
   "regulated": false,
   "land_permit": false,
@@ -62607,8 +63325,8 @@
   "notice_quotes": {
    "세대주 요건": "…해당 주택건설지역 거주자 중 무주택세대주(무주택세대의 세대주)를 대상으로 추첨의 방법으로 공급합니다. ■ 2018.12.11. 시행된…",
    "분양가상한제": "…민간택지에서 공급하는 분양가상한제 미적용 민영주택으로, 당첨자로 선정되더라도 「주택공급에 관한 규칙」…",
-   "실거주 의무": "(1쪽 단지 주요정보 표) 전매제한 거주의무기간 분양가상한제 택지유형 없음 (최초 당첨자발표일(‘24.08.13.)로부터 6개월, 현재 전매기간 도과) 없음 미적용 민간택지",
    "전매 제한": "…택지유형 없음 (최초 당첨자발표일(‘24.08.13.)로부터 6개월, 현재 전매기간 도과) 없음 미적용 민간택지 구분 입주자모집공고일…",
+   "실거주 의무": "(1쪽 단지 주요정보 표) 전매제한 거주의무기간 분양가상한제 택지유형 없음 (최초 당첨자발표일(‘24.08.13.)로부터 6개월, 현재 전매기간 도과) 없음 미적용 민간택지",
    "재당첨 제한": "…관한 규칙」 제54조에 따 른 재당첨 제한을 적용받지 않으며, 기존 주택 당첨으로 인해 재당첨 제한 기간 내에 있는 분 및 그 세대에…"
   },
   "notice_conflicts": [],
@@ -62636,10 +63354,10 @@
   "from_notice": [
    "세대주 요건",
    "분양가상한제",
-   "실거주 의무",
    "전매 제한",
-   "재당첨 제한",
-   "거주 지역 요건"
+   "거주 지역 요건",
+   "실거주 의무",
+   "재당첨 제한"
   ],
   "checks": [],
   "geo": {
@@ -62701,27 +63419,27 @@
   "mc_quota": null,
   "youth": null,
   "resale": {
-   "months": 12,
    "base": "2026-09-01",
-   "registration": false,
-   "until_reg": false,
-   "passed": false,
+   "forbidden": false,
+   "months": 12,
    "none": false,
-   "forbidden": false
+   "passed": false,
+   "registration": false,
+   "until_reg": false
   },
   "score_ratio": null,
   "pub_limits": null,
   "schedule": null,
   "residence": {
    "area": null,
+   "equal": true,
    "months": 0,
-   "since": null,
    "others": [
     "서울",
     "경기",
     "인천"
    ],
-   "equal": true
+   "since": null
   },
   "special_units": null,
   "notice": "2026-10-06",
@@ -62926,27 +63644,27 @@
   "mc_quota": null,
   "youth": null,
   "resale": {
-   "months": 12,
    "base": "2026-09-01",
-   "registration": false,
-   "until_reg": false,
-   "passed": false,
+   "forbidden": false,
+   "months": 12,
    "none": false,
-   "forbidden": false
+   "passed": false,
+   "registration": false,
+   "until_reg": false
   },
   "score_ratio": null,
   "pub_limits": null,
   "schedule": null,
   "residence": {
    "area": null,
+   "equal": true,
    "months": 0,
-   "since": null,
    "others": [
     "서울",
     "경기",
     "인천"
    ],
-   "equal": true
+   "since": null
   },
   "special_units": null,
   "notice": "2026-10-06",
@@ -63151,27 +63869,27 @@
   "mc_quota": null,
   "youth": null,
   "resale": {
-   "months": 12,
    "base": "2026-09-01",
-   "registration": false,
-   "until_reg": false,
-   "passed": false,
+   "forbidden": false,
+   "months": 12,
    "none": false,
-   "forbidden": false
+   "passed": false,
+   "registration": false,
+   "until_reg": false
   },
   "score_ratio": null,
   "pub_limits": null,
   "schedule": null,
   "residence": {
    "area": null,
+   "equal": true,
    "months": 0,
-   "since": null,
    "others": [
     "서울",
     "경기",
     "인천"
    ],
-   "equal": true
+   "since": null
   },
   "special_units": null,
   "notice": "2026-10-06",
@@ -63376,27 +64094,27 @@
   "mc_quota": null,
   "youth": null,
   "resale": {
-   "months": 12,
    "base": "2026-09-01",
-   "registration": false,
-   "until_reg": false,
-   "passed": false,
+   "forbidden": false,
+   "months": 12,
    "none": false,
-   "forbidden": false
+   "passed": false,
+   "registration": false,
+   "until_reg": false
   },
   "score_ratio": null,
   "pub_limits": null,
   "schedule": null,
   "residence": {
    "area": null,
+   "equal": true,
    "months": 0,
-   "since": null,
    "others": [
     "서울",
     "경기",
     "인천"
    ],
-   "equal": true
+   "since": null
   },
   "special_units": null,
   "notice": "2026-10-06",
@@ -63601,27 +64319,27 @@
   "mc_quota": null,
   "youth": null,
   "resale": {
-   "months": 12,
    "base": "2026-09-01",
-   "registration": false,
-   "until_reg": false,
-   "passed": false,
+   "forbidden": false,
+   "months": 12,
    "none": false,
-   "forbidden": false
+   "passed": false,
+   "registration": false,
+   "until_reg": false
   },
   "score_ratio": null,
   "pub_limits": null,
   "schedule": null,
   "residence": {
    "area": null,
+   "equal": true,
    "months": 0,
-   "since": null,
    "others": [
     "서울",
     "경기",
     "인천"
    ],
-   "equal": true
+   "since": null
   },
   "special_units": null,
   "notice": "2026-10-06",
@@ -63826,27 +64544,27 @@
   "mc_quota": null,
   "youth": null,
   "resale": {
-   "months": 12,
    "base": "2026-09-01",
-   "registration": false,
-   "until_reg": false,
-   "passed": false,
+   "forbidden": false,
+   "months": 12,
    "none": false,
-   "forbidden": false
+   "passed": false,
+   "registration": false,
+   "until_reg": false
   },
   "score_ratio": null,
   "pub_limits": null,
   "schedule": null,
   "residence": {
    "area": null,
+   "equal": true,
    "months": 0,
-   "since": null,
    "others": [
     "서울",
     "경기",
     "인천"
    ],
-   "equal": true
+   "since": null
   },
   "special_units": null,
   "notice": "2026-10-06",
@@ -64051,27 +64769,27 @@
   "mc_quota": null,
   "youth": null,
   "resale": {
-   "months": 12,
    "base": "2026-09-01",
-   "registration": false,
-   "until_reg": false,
-   "passed": false,
+   "forbidden": false,
+   "months": 12,
    "none": false,
-   "forbidden": false
+   "passed": false,
+   "registration": false,
+   "until_reg": false
   },
   "score_ratio": null,
   "pub_limits": null,
   "schedule": null,
   "residence": {
    "area": null,
+   "equal": true,
    "months": 0,
-   "since": null,
    "others": [
     "서울",
     "경기",
     "인천"
    ],
-   "equal": true
+   "since": null
   },
   "special_units": null,
   "notice": "2026-10-06",
