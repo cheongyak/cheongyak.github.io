@@ -677,6 +677,8 @@ const DEFAULT_PROFILE = { seoul:null, household:'', parents60:null, parentsOwn:n
    예전에 저장된 내 조건에는 _set 이 없으므로 0·false 값은 임대에서 한 번 더 묻는다(보수적). 0 이 아닌 값은 사용자가 넣은 값으로 본다. */
 const ZERO_KEYS = Object.keys(DEFAULT_PROFILE).filter(k => DEFAULT_PROFILE[k] === 0 || DEFAULT_PROFILE[k] === false);
 function markSet(p, k, yes){ try { if (!p || !k || !(k in DEFAULT_PROFILE)) return; const s = new Set(Array.isArray(p._set) ? p._set : []); if (yes) s.add(k); else s.delete(k); p._set = [...s]; } catch(e) {} }
+/* 내 조건 한 줄 요약의 현금: 현금·금융자산·보증금을 하나도 넣지 않았으면 '0원'이 아니라 '미입력' (빠른 시작은 묻지 않음, 2026-10-06) */
+const cashTxt = p => ['cash', 'liquid', 'deposit'].some(k => entered(p, k)) ? '현금 ' + fmt(eok((p.cash || 0) + (p.liquid || 0) + (p.deposit || 0))) : '현금 미입력';
 function entered(p, k){ const v = p[k]; if (v == null || v === '') return false; if (ZERO_KEYS.includes(k) && v === DEFAULT_PROFILE[k]) return Array.isArray(p._set) && p._set.includes(k); return true; }
 const pv = (p, k) => entered(p, k) ? p[k] : null;
 /* 저장된 내 조건 정리 (기능: profile_clean, 2026-10-02 MASTER QA 입력 퍼징): 기기에 저장된 값이 깨져 있으면(숫자 자리에 글자, 날짜 자리에 숫자 등)
@@ -850,9 +852,9 @@ function accountItems(L, p){ // 청약통장 1순위 요건 (기능: account_rul
     // 2순위도 '청약예금·청약부금·주택청약종합저축'만 (2026000453) → 1순위만의 요건(r1)이 아니다 (2026-10-01 감사 F6)
     if (p.acctType === 'saving') out.push({ k:'통장 종류 (민영)', s:'fail', v:'청약저축', note:'청약저축으로는 민영주택에 1·2순위 모두 넣을 수 없어요. 공고 전일까지 청약예금으로 전환하면 가능해요', src:'notice' });
     else if (p.acctType === 'bugeum' && (L.area || 0) > 85) out.push({ k:'통장 종류 (민영)', s:'fail', v:'청약부금', note:'청약부금은 전용 85㎡ 이하 주택형만 넣을 수 있어요', src:'notice' });
-    const d = depositNeed(L, p);
-    out.push({ k:'예치금 (민영)', r1:true, s: !d ? 'warn' : (p.acctAmount || 0) >= d.need ? 'ok' : 'fail',
-      v: !d ? '거주 지역 입력 필요' : '내 ' + (p.acctAmount || 0).toLocaleString() + '만 · ' + d.need.toLocaleString() + '만 필요',
+    const d = depositNeed(L, p), amt = pv(p, 'acctAmount');   /* 예치금 칸을 비워 두면(기본값 0, 입력 표시 없음) '0원'이 아니라 '모름' — 빠른 시작은 예치금을 건너뛸 수 있다 (2026-10-06 사용자 제보) */
+    out.push({ k:'예치금 (민영)', r1:true, s: !d || amt == null ? 'warn' : amt >= d.need ? 'ok' : 'fail',
+      v: !d ? '거주 지역 입력 필요' : amt == null ? '예치금 입력 필요 · ' + d.need.toLocaleString() + '만 필요' : '내 ' + amt.toLocaleString() + '만 · ' + d.need.toLocaleString() + '만 필요',
       note: d ? '전용 ' + Math.round(d.a) + '㎡ · ' + HOME_AREA[d.g] + ' 거주 기준 · 예치금은 공고일까지 채우면 돼요' : '', src:'deposit' });
   } else if (on('public_deposit')) {
     out.push(...publicItems(L, p));
@@ -1556,7 +1558,7 @@ function ddayOf(L){ // 모집 상태와 같은 기준으로 표시: 예정이면
 }
 function profileLine(p){
   const hh = { head:'세대주', parents:'세대원', spouse:'세대원', other:'기타' }[p.household] || '세대 미입력';
-  return (on('residence_v2') ? (homeLabel(p) || '사는 곳 미입력') : p.seoul == null ? '지역 미입력' : p.seoul ? '서울' : '서울 외') + ' · ' + (p.selfOwn == null ? '주택 미입력' : p.selfOwn ? '유주택' : '무주택') + ' · ' + hh + ' · 현금 ' + fmt(eok(p.cash + p.liquid + p.deposit));
+  return (on('residence_v2') ? (homeLabel(p) || '사는 곳 미입력') : p.seoul == null ? '지역 미입력' : p.seoul ? '서울' : '서울 외') + ' · ' + (p.selfOwn == null ? '주택 미입력' : p.selfOwn ? '유주택' : '무주택') + ' · ' + hh + ' · ' + cashTxt(p);
 }
 function meLine(L){
   if (!hasProfile()) return '<span class="muted">내 조건을 넣으면 자격·자금을 판정해요</span>';
@@ -2024,7 +2026,7 @@ function myCondCard(){
   const tags = [tag(where, '사는 곳'), tag(p.selfOwn == null ? '' : p.selfOwn ? '유주택' : '무주택', '집'), tag(hh, '세대'),
     `<span class="mc-tag">현금 ${fmt(eok(p.cash + p.liquid + p.deposit))}</span>`].join('');
   if (on('feed_compact')) {   /* 기능: feed_compact — 조건을 넣은 사람에게는 한 줄로 접어 첫 화면에 공고가 보이게 (2026-10-01, Hick·Von Restorff) */
-    const line = [where || '사는 곳 미입력', p.selfOwn == null ? '집 미입력' : p.selfOwn ? '유주택' : '무주택', hh || '세대 미입력', '현금 ' + fmt(eok(p.cash + p.liquid + p.deposit))].join(' · ');
+    const line = [where || '사는 곳 미입력', p.selfOwn == null ? '집 미입력' : p.selfOwn ? '유주택' : '무주택', hh || '세대 미입력', cashTxt(p)].join(' · ');
     const gp = profileGaps(p), op = LISTINGS.filter(L => !L.sample && statusOf(L) !== '마감');
     let o = 0, u = 0, r = 0, n = 0; op.forEach(L => { const b = eligBucket(L, p); if (b === 'ok') o++; else if (b === 'unsure') u++; else if (b === 'r2') r++; else n++; });
     const EF = on('elig_filter'), vb = (k, cls, label, c) => EF && c ? `<button type="button" class="${cls}" data-elig="${k}" aria-pressed="${S.elig === k}" aria-label="${label} ${c}건만 보기">${label} <b>${c}</b></button>` : `<span class="${cls}">${label} <b>${c}</b></span>`;
@@ -2414,7 +2416,7 @@ function spJudge(L, p, type){
   else { const m = monthsBetween(p.acctSince, ref), nm = R.acct === '12x12' ? 12 : 6;
     need(m == null ? null : m >= nm, '통장 ' + nm + '개월 경과', '통장 가입 ' + nm + '개월 미만', '통장 가입일 입력 필요');
     if (pub) need(p.acctCount == null ? null : p.acctCount >= nm, '납입 ' + nm + '회 이상', '납입 인정 ' + nm + '회 미만');
-    else { const d = depositNeed(L, p); need(!d ? null : (p.acctAmount || 0) >= d.need, '예치금 충족', '예치금 부족', '거주 지역 입력 필요 (예치금)'); } }
+    else { const d = depositNeed(L, p), amt = pv(p, 'acctAmount'); need(!d || amt == null ? null : amt >= d.need, '예치금 충족', '예치금 부족', !d ? '거주 지역 입력 필요 (예치금)' : '예치금 입력 필요'); } }
   // 공공 생애최초 '제27조제1항의 1순위에 해당하는 무주택세대구성원으로서 저축액이 선납금을 포함하여 600만원 이상' (규칙 제43조①1호) — 1순위는 위 r1 경로(규제지역 24회·세대주 포함, 감사 SP-03)
   if (pub && type === 'first' && p.acctType && p.acctType !== 'none') need(p.acctPaid == null ? null : p.acctPaid >= 600, '저축액 600만원 이상', '저축액 600만원 미만');
   // 유형별 대상 요건
@@ -3654,7 +3656,7 @@ function vMe(){
     ${p.household === 'head' ? `<dt>세대주가 된 날</dt><dd>${p.headSince || '미입력'}</dd>` : ''}
     <dt>본인 주택</dt><dd>${p.selfOwn == null ? '미입력' : p.selfOwn ? '있음' : '없음'}</dd><dt>혼인신고</dt><dd>${p.married == null ? '미입력' : p.married ? '했음' : '안 했음'}</dd>
     ${on('account_rules') && p.acctType ? `<dt>청약통장</dt><dd>${{all:'주택청약종합저축',deposit:'청약예금',bugeum:'청약부금',saving:'청약저축',none:'없음'}[p.acctType]}</dd>
-      <dt>가입일</dt><dd>${p.acctSince || '미입력'}</dd><dt>예치금</dt><dd>${(p.acctAmount || 0).toLocaleString()}만</dd>
+      <dt>가입일</dt><dd>${p.acctSince || '미입력'}</dd><dt>예치금</dt><dd>${pv(p, 'acctAmount') == null ? '미입력' : p.acctAmount.toLocaleString() + '만'}</dd>
       ${on('public_deposit') ? `<dt>납입 인정 회차</dt><dd>${p.acctCount == null ? '미입력' : p.acctCount + '회'}</dd><dt>납입 인정 금액</dt><dd>${p.acctPaid == null ? '미입력' : p.acctPaid.toLocaleString() + '만'}</dd>` : ''}
       ${p.seoul ? '' : `<dt>거주 지역</dt><dd>${HOME_AREA[p.homeArea] || '미입력'}</dd>`}`
       + (on('score') ? `<dt>생년월일</dt><dd>${p.birth || '미입력'}</dd><dt>부양가족</dt><dd>${p.dependents == null ? '미입력' : p.dependents + '명'}</dd>${p.homeSoldOn ? `<dt>주택 처분일</dt><dd>${p.homeSoldOn}</dd>` : ''}` : '')

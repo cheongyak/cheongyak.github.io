@@ -668,6 +668,11 @@ def main() -> None:
     for lid, amount, exp in [("2026000453-A85", 200, "ok"), ("2026000453-A8501", 200, "fail"), ("2026000453-A8501", 300, "ok")]:
         b(fn="acct", listing=lid, profile={"acctType": "all", "acctSince": "2014-01-01", "acctAmount": amount, "homeSido": "경기", "household": "head"},
           expect={"가입기간": "ok", "예치금": exp}, basis="2026000453 예치금 표 — 경기(광역시 외) 85㎡ 이하 200만원, 102㎡ 이하 300만원 (85.00㎡ 는 85㎡ 이하)")
+    # 예치금 칸을 비워 둠(기본값 0, 입력 표시 _set 없음 — 빠른 시작에서 건너뜀) = 모름 → 확인. 0원이라고 넣었으면 미충족 (2026-10-06 사용자 제보: 빈칸을 0원으로 보고 '1순위 미충족·2순위만')
+    for nm, prof, exp in [("예치금 비워 둠", {"acctAmount": 0, "_set": []}, "warn"), ("예치금 0원이라고 넣음", {"acctAmount": 0, "_set": ["acctAmount"]}, "fail"),
+                          ("예치금 200만 넣음", {"acctAmount": 200, "_set": ["acctAmount"]}, "ok"), ("예치금 199만 넣음", {"acctAmount": 199}, "fail")]:
+        b(fn="acct", listing="2026000453-A85", profile=dict({"acctType": "all", "acctSince": "2014-01-01", "homeSido": "경기", "household": "head"}, **prof),
+          expect={"가입기간": "ok", "예치금": exp}, basis="2026000453 예치금 표 경기 85㎡ 이하 200만원 — " + nm + " (입력하지 않은 칸은 충족·미충족으로 단정하지 않음)")
     # 투기과열지구 1순위 가입기간 24개월 (2026000453 '가입기간 24개월 경과'). 공고문에서 못 읽은 규제지역 공고(2026000414-REG)도 24개월로 본다
     for since, exp in [("2024-08-31", "ok"), ("2024-09-01", "fail"), ("2025-08-31", "fail")]:
         assert (months(since, "2026-08-31") >= 24) == (exp == "ok")

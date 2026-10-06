@@ -64,6 +64,7 @@ const M = [   // [이름, 찾을 글, 바꿀 글]
   ['LH 안전: 거주 요건 못 읽음 무시', "if (!T.local && T.local_unread) add('check'", "if (false) add('check'"],
   ['LH 안전: 공공임대 통장 요건 못 읽음 무시', "if (N.type === '공공임대' && T.account == null) add('check'", "if (false) add('check'"],
   ['LH 안전: 소득 미입력을 본인 소득 0으로', "const yearMan = youthMember ? inc : hhInc != null ? hhInc : solo ? inc : null;", "const yearMan = youthMember ? (inc || 0) : hhInc != null ? hhInc : solo ? (inc || 0) : null;"],
+  ['예치금 빈칸을 0원으로 (2026-10-06 제보)', "const d = depositNeed(L, p), amt = pv(p, 'acctAmount');", "const d = depositNeed(L, p), amt = p.acctAmount || 0;"],
   // SH 임대 자격 (기능 sh_judge, 2026-10-06) — 공고문 날짜 하한·출산가구 표·면제·세대 소득
   ['SH: 신생아가구 출생일 하한 하루 밀림', "else if (p.youngestBirth && p.youngestBirth >= bf) add('ok'", "else if (p.youngestBirth && p.youngestBirth > bf) add('ok'"],
   ['SH: 혼인신고일 하한 하루 밀림', "const in7 = p.marriedOn && ref && wf ? p.marriedOn >= wf : null", "const in7 = p.marriedOn && ref && wf ? p.marriedOn > wf : null"],

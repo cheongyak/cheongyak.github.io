@@ -19,7 +19,7 @@ const E = ctx.__E;
 E.setConfig(JSON.parse(fs.readFileSync(DOCS + '/config.json', 'utf8')));
 const LS = JSON.parse(fs.readFileSync(DOCS + '/listings.json', 'utf8')).map(E.fromApi); E.setListings(LS);
 let upd = ''; for (const f of ['data-updated.txt', 'updated.txt']) { try { upd = fs.readFileSync(DOCS + '/' + f, 'utf8').trim(); if (upd) break; } catch (e) {} }
-const p = E.syncV2(E.syncHome(Object.assign({}, E.DEFAULT_PROFILE, JSON.parse(PJSON))));
+const p = E.syncV2(E.syncHome(Object.assign({}, E.DEFAULT_PROFILE, JSON.parse(PJSON)))); p._set = Object.keys(JSON.parse(PJSON));   // 질문에 적힌 칸만 '입력함' — 예치금 0원이라고 말했으면 0원, 말하지 않았으면 모름 (2026-10-06)
 if (opt.rental) {   // LH 임대: 입력하지 않은 칸은 '모름'(기본값 0·false 를 입력으로 보지 않음) — 조건 JSON 에 적은 칸만 입력한 것으로 표시
   const given = JSON.parse(PJSON), q = Object.assign({}, E.DEFAULT_PROFILE, given); q._set = Object.keys(given);
   const R = JSON.parse(fs.readFileSync(DOCS + '/lh-rental.json', 'utf8'));
