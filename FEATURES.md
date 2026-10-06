@@ -159,7 +159,7 @@
 | `lh_ui_v2` | 임대 화면 정리(2026-10-06 사용자 'ui/ux 가 정신없는데 최적화'): 목록 유형·지역은 고르기 칸 2개, 카드는 분양처럼(유형·지역 | 일정 배지 · 이름 · 전용·보증금·월세 · 판정), 상세는 판정 크게(접수·보증금·계층 타일) → 내 자격 → 공고 한눈에(일정·주택형·보증금) → 접은 자격 기준·단지 | 화면(lhCard·vRental·vRDetail·rDday) | 끄면 이전 화면(버튼 줄 거르기·카드 여러 개 상세) | 5a166673 | backup/20261006-1141-lhux |
 | `lh_sheet` | 임대 목록 요약 숫자(접수 중·새 공고 7일·이번 주 마감)를 누르면 분양 summary_sheet 처럼 아래에서 올라오는 공고 목록 창(판정·일정 배지, 누르면 상세). 목록은 걸러지지 않음 | 화면(rentalSheet) | 끄면 숫자를 누를 때 목록을 거르기(lh_summary 이전 동작) | 265fc4f1 | backup/20261006-1309-lhsheet |
 | `sh_rental` | SH(서울주택도시공사) 임대 모집공고를 공공임대·청년 주택 목록에 함께 보여 줌(SH 표시·유형·공고일·접수 기간(공고문에서 확실히 읽힌 것만)·공고문·SH 공고 화면 버튼). 자격은 판정하지 않음('판정 미지원' + 공고문 확인). 수집 app/sh_rental.py → docs/sh-rental.json(매일 06:50 'SH 임대 수집'), 정답 tests/golden/sh_rental.json | 수집(sh_rental.py)·화면(loadRental·lhCard·vRDetail·rentalCta) | 끄면 sh-rental.json 을 부르지 않고 LH 공고만(이전과 같음). 수집은 계속 돎 | e3d77ed9·b7669903·87b179d8 | backup/20261006-1458-sh |
-| `sh_judge` | SH 신혼·신생아 매입임대(Ⅰ·Ⅱ)·청년 매입임대 공고의 계층별 자격 판정(신생아가구·지원대상 한부모가족·신혼부부 등·혼인가구·청년). 기준은 공고문에서 읽음(app/sh_terms.py, 정답 tests/golden/sh_rental.json terms). 그 밖의 SH 유형은 '판정 미지원' | 수집(sh_terms)·화면(rentalGroup·loadRental) | 끄면 SH 공고 모두 '판정 미지원'(sh_rental 1단계와 같음) | (커밋 후 채움) | backup/20261006-1725-shjudge |
+| `sh_judge` | SH 신혼·신생아 매입임대(Ⅰ·Ⅱ)·청년 매입임대 공고의 계층별 자격 판정(신생아가구·지원대상 한부모가족·신혼부부 등·혼인가구·청년). 기준은 공고문에서 읽음(app/sh_terms.py, 정답 tests/golden/sh_rental.json terms). 그 밖의 SH 유형은 '판정 미지원' | 수집(sh_terms)·화면(rentalGroup·loadRental) | 끄면 SH 공고 모두 '판정 미지원'(sh_rental 1단계와 같음) | 9991d08c | backup/20261006-1725-shjudge |
 
 `naver_map`·`nearby`·`analytics` 는 한 커밋(147fa99)에 함께 들어갔다. 이 셋 중 하나만 없애려면 revert 대신 스위치로 끄거나,
 해당 부분만 지우는 새 커밋을 만든다.

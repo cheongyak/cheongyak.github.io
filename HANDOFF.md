@@ -58,7 +58,11 @@ GitHub Secrets (이름만): `DATA_GO_KR_KEY`, `NCP_MAPS_CLIENT_ID`, `NCP_MAPS_CL
    - 수집: app/sh_rental.py → docs/sh-rental.json + evidence/sh/<글번호>.txt(한 번 저장), 기록 evidence/qa/sh-rental-log.txt. 워크플로 'SH 임대 수집'(sh-rental.yml, 매일 06:50). 최근 60일·6쪽, 제목에 '모집' 있고 발표·결과·계약·심사·재계약·경쟁률 등은 제외. 종류는 제목 낱말, 청년 = 제목에 청년·대학생
    - 접수 기간: 공고문 '청약(신청)접수·신청접수·서류접수·인터넷접수·접수기간' 뒤 물결표(~) 바로 앞 날짜만. 화살표 일정표·우편/방문 접수·사이에 다른 날짜가 끼면 비움(→ 화면 '일정 공고문 확인'). 정답 tests/golden/sh_rental.json 12건(원문 확인, 표 형식 5건은 비워도 됨)
    - 화면: 공공임대·청년 주택 목록에 LH 와 공고일 순으로 섞음. 접수 기간이 지난 것, 기간 모르고 30일 넘은 것은 안 실음. 판정 = unsupported('판정 미지원 · 공고문 확인', 요약에선 '확인 필요'로 셈). 하단 'SH 공고 ↗'·모집공고문. 점검 tools/qa/sh_screen.cjs
-   - **2단계(다음 할 일)**: 종류별 자격 판정 — 청년 매입임대·신혼·신생아 매입임대부터(공고문 소득·자산 표 읽기 → 정답 데이터 → 판정 사례·블라인드 감사 → 스위치). 표 형식 일정(310673·310258형) 접수 기간 읽기도 2단계에서 표 단위로
+   - **2단계 완료 (10-06 17:51, 사용자 '2단계진행해줘')** — 기능 `sh_judge` (true, v1.58.0): 신혼·신생아 매입임대 Ⅰ·Ⅱ, 청년(특화형) 매입임대 계층별 판정.
+     읽기 app/sh_terms.py(소득표 금액을 도시근로자 2025 × % 와 대조, 틀리면 소득 비움), 정답 tests/golden/sh_rental.json terms 5건, 판정 사례 make_judge_cases 18) 67건(조건 tests/judge/sh_notices.json),
+     블라인드 evidence/audit/2026-10-06-sh(다름 0), 변이 SH 8개. 엔진은 rentalGroup 을 그대로 쓰고 SH 만의 칸(born_from·wed_from·kid6_from·exempt·birth_bonus·asset_bonus·car_bonus·car 'none'·income_household·hh_home_scan)이 있을 때만 다르게 동작.
+     애매해서 '확인'으로 둔 것: 청년 공고 '무주택자(본인)' vs Ⅷ '세대구성원 전원 주택소유 조회' → 세대(부모님)에 집이 있으면 확인. 수급자·차상위 소득·자산 검증 면제는 묻지 않음(지원대상 한부모가족만 면제 반영)
+   - **다음 후보(사용자 확인 필요)**: SH 장기전세·청년안심주택·행복주택·사회주택 판정, 표 형식 일정(310673·310258형) 접수 기간 읽기. 새 SH 공고가 다른 문구면 sh_terms 가 못 읽어 terms=None('판정 미지원') — 수집 기록 '자격' 줄과 [검증] 줄을 볼 것
    - 볼 것: 매일 SH 수집 기록의 '접수 못 읽음' 비율, 사용자 제보 시 CLAUDE.md 4항 절차(정답 tests/golden/sh_rental.json 추가)
 -25. **LH 임대 목록 + 자격 판정 (2026-10-05 13:23~, 사용자 '2번으로 하는데, 현재 청약판정에는 영향없도록' + '나중에 일반청약/공공임대/청년주택으로 나눠 보기' → 14:08 '어 진행해줘')** — 기능 `lh_rental` (**true — 10-06 08:43 사용자 '일반사람도 볼수잇게 오픈' 으로 공개, v1.53.0**. 끄면 미리보기 `?lh=preview` 로만)
    - 수집: app/lh_rental.py → docs/lh-rental.json + 공고문 글 evidence/lh/<공고ID>.txt (한 번 저장하면 다시 쓰지 않음). 워크플로 'LH 임대 수집'(lh-rental.yml, 매일 06:40, 청약 수집과 별개). 기록 evidence/qa/lh-rental-log.txt
