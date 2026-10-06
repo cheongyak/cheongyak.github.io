@@ -1,7 +1,7 @@
 {
- "updated": "2026-10-06 15:00",
+ "updated": "2026-10-06 15:09",
  "source": "SH 인터넷청약시스템 공고 및 공지 > 주택임대 (서울주택도시개발공사)",
- "count": 19,
+ "count": 18,
  "notices": [
   {
    "id": "SH-311005",
@@ -44,11 +44,21 @@
    "judge_type": false,
    "region": "서울특별시",
    "posted": "2026-10-02",
-   "close": null,
+   "close": "2026-10-03",
    "status": null,
    "url": "https://www.i-sh.co.kr/main/lay2/program/S1T294C297/www/brd/m_247/view.do?multi_itm_seq=2&seq=310950",
    "url_mobile": "https://www.i-sh.co.kr/app/lay2/program/S48T1581C563/www/brd/m_247/view.do?multi_itm_seq=2&seq=310950",
-   "schedule": [],
+   "schedule": [
+    {
+     "complex": null,
+     "apply_start": "2026-10-02",
+     "apply_end": "2026-10-03",
+     "docs_target": null,
+     "winner": null,
+     "rank1": false,
+     "quote": "서류접수 26.10.02 ~26.10.03"
+    }
+   ],
    "complexes": [],
    "units": [],
    "rents": [],
@@ -87,6 +97,7 @@
      "apply_end": "2026-10-15",
      "docs_target": null,
      "winner": null,
+     "rank1": false,
      "quote": "신청접수 (온라인) 2026. 10. 13.(화) 10:00 ~ 10. 15."
     }
    ],
@@ -153,6 +164,7 @@
      "apply_end": "2026-10-15",
      "docs_target": null,
      "winner": null,
+     "rank1": false,
      "quote": "신청접수 (온라인) 2026. 10. 13.(화) 10:00 ~ 10. 15."
     }
    ],
@@ -240,20 +252,11 @@
    "judge_type": false,
    "region": "서울특별시",
    "posted": "2026-09-23",
-   "close": "2026-10-07",
+   "close": null,
    "status": null,
    "url": "https://www.i-sh.co.kr/main/lay2/program/S1T294C297/www/brd/m_247/view.do?multi_itm_seq=2&seq=310673",
    "url_mobile": "https://www.i-sh.co.kr/app/lay2/program/S48T1581C563/www/brd/m_247/view.do?multi_itm_seq=2&seq=310673",
-   "schedule": [
-    {
-     "complex": null,
-     "apply_start": "2026-10-06",
-     "apply_end": "2026-10-07",
-     "docs_target": null,
-     "winner": null,
-     "quote": "신청접수 일정 신청방법신청자격 · 우선공급(소득 70%이하, 90%이하) · 일반공급(소득 70%이하) 2026. 10. 6.(화) 10:00 ~ 2026. 10. 7."
-    }
-   ],
+   "schedule": [],
    "complexes": [],
    "units": [],
    "rents": [],
@@ -292,7 +295,8 @@
      "apply_end": "2026-09-30",
      "docs_target": null,
      "winner": null,
-     "quote": "접수 2026.09.21(월) ~ 2026.09.30"
+     "rank1": false,
+     "quote": "신청서 접수 2026.09.21(월) ~ 2026.09.30"
     }
    ],
    "complexes": [],
@@ -393,38 +397,6 @@
    }
   },
   {
-   "id": "SH-310343",
-   "org": "SH",
-   "name": "2026년 2차 행복주택 입주자 모집(2026.08.28.공고) 최종 청약 경쟁률 게시",
-   "type": "행복주택",
-   "youth": false,
-   "judge_type": false,
-   "region": "서울특별시",
-   "posted": "2026-09-16",
-   "close": null,
-   "status": null,
-   "url": "https://www.i-sh.co.kr/main/lay2/program/S1T294C297/www/brd/m_247/view.do?multi_itm_seq=2&seq=310343",
-   "url_mobile": "https://www.i-sh.co.kr/app/lay2/program/S48T1581C563/www/brd/m_247/view.do?multi_itm_seq=2&seq=310343",
-   "schedule": [],
-   "complexes": [],
-   "units": [],
-   "rents": [],
-   "terms": null,
-   "files": [
-    {
-     "kind": "PDF 공고문",
-     "name": "2026년 2차 행복주택 청약 접수 결과(게시).pdf",
-     "url": "https://www.i-sh.co.kr/com/file/innoFD.do?brdId=GS0401&seq=310343&fileSeq=1&fileTp=A"
-    }
-   ],
-   "notice_pdf": "https://www.i-sh.co.kr/com/file/innoFD.do?brdId=GS0401&seq=310343&fileSeq=1&fileTp=A",
-   "notice_text": 7203,
-   "office": {
-    "place": null,
-    "tel": null
-   }
-  },
-  {
    "id": "SH-310300",
    "org": "SH",
    "name": "[토지임대부 사회주택] 옥류서원 입주자 모집 공고문",
@@ -444,7 +416,8 @@
      "apply_end": "2026-09-20",
      "docs_target": null,
      "winner": null,
-     "quote": "접수 2026.09.15(화) ~ 2026.09.20"
+     "rank1": false,
+     "quote": "신청서 접수 2026.09.15(화) ~ 2026.09.20"
     }
    ],
    "complexes": [],
@@ -490,7 +463,8 @@
      "apply_end": "2026-09-11",
      "docs_target": null,
      "winner": null,
-     "quote": "접수 2026.09.10. ~2026.09.11."
+     "rank1": false,
+     "quote": "서류접수 2026.09.10. ~2026.09.11."
     }
    ],
    "complexes": [],
@@ -531,7 +505,8 @@
      "apply_end": "2026-10-02",
      "docs_target": null,
      "winner": null,
-     "quote": "접수를 위해 인터넷 신청(공동인증서 및 금융인증서, 간편인증서 활용)을 이용해 주시기 바랍니다. ■ 신청방법 ㅇ 인터넷 청약 방법 - 인터넷청약기간 : 2026. 9. 29.(화) ~ 2026. 10. 2."
+     "rank1": true,
+     "quote": "청약신청 접수 1순위 '26.9.29.(화) ~26.10.2."
     }
    ],
    "complexes": [],
@@ -604,7 +579,8 @@
      "apply_end": "2026-09-13",
      "docs_target": null,
      "winner": null,
-     "quote": "접수 2026.09.07(월) ~ 2026.09.13"
+     "rank1": false,
+     "quote": "신청서 접수 2026.09.07(월) ~ 2026.09.13"
     }
    ],
    "complexes": [],
@@ -639,11 +615,21 @@
    "judge_type": false,
    "region": "서울특별시",
    "posted": "2026-09-07",
-   "close": null,
+   "close": "2026-09-08",
    "status": null,
    "url": "https://www.i-sh.co.kr/main/lay2/program/S1T294C297/www/brd/m_247/view.do?multi_itm_seq=2&seq=309807",
    "url_mobile": "https://www.i-sh.co.kr/app/lay2/program/S48T1581C563/www/brd/m_247/view.do?multi_itm_seq=2&seq=309807",
-   "schedule": [],
+   "schedule": [
+    {
+     "complex": null,
+     "apply_start": "2026-09-07",
+     "apply_end": "2026-09-08",
+     "docs_target": null,
+     "winner": null,
+     "rank1": false,
+     "quote": "서류접수 26.09.07 ~26.09.08"
+    }
+   ],
    "complexes": [],
    "units": [],
    "rents": [],
@@ -708,20 +694,11 @@
    "judge_type": false,
    "region": "서울특별시",
    "posted": "2026-08-31",
-   "close": "2026-09-15",
+   "close": null,
    "status": null,
    "url": "https://www.i-sh.co.kr/main/lay2/program/S1T294C297/www/brd/m_247/view.do?multi_itm_seq=2&seq=309467",
    "url_mobile": "https://www.i-sh.co.kr/app/lay2/program/S48T1581C563/www/brd/m_247/view.do?multi_itm_seq=2&seq=309467",
-   "schedule": [
-    {
-     "complex": null,
-     "apply_start": "2026-09-14",
-     "apply_end": "2026-09-15",
-     "docs_target": null,
-     "winner": null,
-     "quote": "접수일에 신청 전용면적 자격요건 60㎡ 이하 •가구원수별 가구당 월평균소득 105% 이하(맞벌이 140% 이하)이면서 •우선공급 요건을 갖춘 자 (p.29) 2026.09.14.(월) 10:00 ~ 2026.09.15."
-    }
-   ],
+   "schedule": [],
    "complexes": [],
    "units": [],
    "rents": [],
@@ -760,6 +737,7 @@
      "apply_end": "2026-09-30",
      "docs_target": null,
      "winner": null,
+     "rank1": false,
      "quote": "신청접수 2026. 9. 28.(월) 10:00 ~ 2026. 9. 30."
     }
    ],
