@@ -1,4 +1,4 @@
-SH 임대 원천 점검 2026-10-06 14:46
+SH 임대 원천 점검 2026-10-06 14:50
 [목록] https://www.i-sh.co.kr/app/lay2/program/S48T1581C563/www/brd/m_247/list.do?multi_itm_seq=2 → 200 114527B text/html; charset=UTF-8
   뽑은 줄 10
    - 311005 2026-10-02 [토지지원 사회주택]에어스페이스 신림3호점_어울리 입주자 모집 공고
@@ -41,6 +41,17 @@ SH 임대 원천 점검 2026-10-06 14:46
    · 미리보기 | https://www.i-sh.co.kr/app/com/util/htmlConverter.do?brd_id=GS0401&seq=310650&data_tp=A&file_seq=4
    · 미리보기 | https://www.i-sh.co.kr/app/com/util/htmlConverter.do?brd_id=GS0401&seq=310650&data_tp=A&file_seq=7
    · 미리보기 | https://www.i-sh.co.kr/app/com/util/htmlConverter.do?brd_id=GS0401&seq=310650&data_tp=A&file_seq=8
+[스크립트] /app/inno/common/innorix.config.js existFile: function existFile(num){ // 2022. 01. 10. change by Brian. // HTML5 모드로 변경 if(!checkInstallInno()){ if(confirm('IE브라우저에서 파일을 다운받기 위해서는 다운로드 프로그램을 설치하셔야합니다.\n설치하시겠습니까?')){ alert('잠시후 설치페이지로 이동합니다.'); location.href = "/install/install.html"; return; }else{ alert('설치를 하지않으시면 파일을 다운받으실수 없습니다.'); rmLoading(); return; } }; var existFileInfo = initParam.downList[num]; // var url = "/com/file/existFile.do"; var url = "/com/file/existFile.do"; var dataParam; if(innoType=="ETC"){ dataParam = {fileNm : existFileInfo.fileNm}; } else { dataParam = { brdId : existFileInfo.brdId , seq : existFileInfo.seq , fileSeq : existFileInfo.fileSeq , fileTp : existFileInfo.fileTp }; } f_block(); $.ajax({ cache : false , data : dataParam , url : url , type : 'POST' , success : function(resData) { rmLoading(); var msg; if (resData.resultCode == "0") { msg = "파일이 존재하지 않습니다."; alert(msg); return; } else if (resData.resultCode == "2"){ msg = "비정상적인 접근입니다."; alert(msg); return; } singleDownload(num); } , error : function(e) { alert("시스템에 문제가 생겼습니다."); rmLoading(); } }); } //멀티파일 업로드 function MultifileUpload_N(totalCnt, ext, fsize){ //파라미터에서 뽑아쓰는걸로. var allow_ext = ""; // var url = "/com/file/innoDS.do"; var url = "/com/file/innoDS.do"; var winname = "winfile"; var w = "550"; var h = "320"; var scrollopt = "no"; var wl = (window.screen.width / 2) - (w / 2 + 10); var wt = (window.screen.height / 2) - (h / 2 + 50); var opts = "status=no,height=" + h + ",width=" + w + ",resizable=no,left=" + wl + ",top=" + wt + ",screenX=" + wl + ",screenY=" 
+[스크립트] /app/inno/common/innorix.config.js 주소 /com/file/innoFD.do
+[스크립트] /app/inno/common/innorix.config.js 주소 /com/file/existFile.do
+[스크립트] /app/inno/common/innorix.config.js 주소 /com/file/existFile.do
+[스크립트] /app/inno/common/innorix.config.js 주소 /com/file/innoDS.do
+[스크립트] /app/inno/common/innorix.config.js 주소 /com/file/innoDS.do
+[스크립트] /app/inno/common/innorix.config.js 주소 /com/file/innoDS.do
+[스크립트] /app/inno/common/innorix.config.js 주소 /app/com/file/innoDsUpload.do
+[스크립트] /app/inno/common/innorix.config.js 주소 /app/com/file/innoDS.do
+[스크립트] /app/inno/common/innorix.config.js 주소 /com/file/innoDS.do
+[스크립트] /app/inno/common/innorix.config.js 주소 /app/com/file/innoDsUpload.do
 [첨부 목록] 311005 1:1_어울리_에어스페이스_신림3호점_입주자추가모집_202호_공고문.pdf
 [내려받기 시험] GET https://www.i-sh.co.kr/app/com/util/fileDown.do → 404 2361B PDF=False text/html; charset=UTF-8
 [내려받기 시험] POST https://www.i-sh.co.kr/app/com/util/fileDown.do → 404 2361B PDF=False text/html; charset=UTF-8
