@@ -9,7 +9,7 @@
 - 조사: 공공데이터포털·서울 열린데이터광장에 SH 임대 '모집공고' API 없음(서울 열린데이터 OA-12918 은 국민임대 공급계획 연간 파일). SH 인터넷청약시스템 '공고 및 공지 > 주택임대' 게시판은 공개(작업 환경 WebFetch 로 목록 확인: 신혼·신생아 매입임대, 청년안심주택, 장기전세 등)
 - 변경: tools/qa/sh_probe.py + 워크플로 'SH 임대 원천 점검'(sh-probe.yml, 손으로·도구 바뀔 때만) — Actions 서버에서 목록·상세·첨부 PDF 를 받을 수 있는지, 목록 구조와 첨부 이름, PDF 글자를 evidence/qa/sh/ 에 남김. 화면·수집·판정은 바꾸지 않음
 - 파일: tools/qa/sh_probe.py, .github/workflows/sh-probe.yml
-- 확인: 파이썬 문법. 올린 뒤 Actions 실행 결과로 판단
+- 확인(Actions 'SH 임대 원천 점검' 4회, evidence/qa/sh-probe.txt): ① 목록 list.do 200 — 글은 <a onclick="getDetailView('310653')"> 형식, 줄마다 글번호·제목·날짜 읽힘(10건) ② 상세 view.do?multi_itm_seq=2&seq=<글번호> GET 200, 첨부 목록은 initParam.downList(brdId·seq·fileSeq·oriFileNm) ③ 첨부 내려받기: innorix.config.js 의 existFile → POST /com/file/existFile.do(resultCode 1) → GET /com/file/innoFD.do?brdId&seq&fileSeq&fileTp=A 로 PDF(1.38MB, 19쪽) 받음, pypdf 로 글 읽힘(소득 기준·보증금·월세 표). 미리보기(htmlConverter)는 글이 없어 못 씀
 - 백업: backup/20261006-1439-shprobe
 - 기능: 없음(조사 도구)
 
