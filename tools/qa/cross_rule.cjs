@@ -79,6 +79,10 @@ const ROOT = join(__dirname, '../..'), DOCS = join(ROOT, 'docs');
       document.querySelectorAll('.scen').forEach(sc => { const p = (sc.querySelector('.pill') || {}).textContent || '', gapTxt = sc.innerText;
         if (p === '가능' && /부족분/.test(gapTxt)) v('FUND-003', 'CRITICAL', L, '시나리오 부족분 있음', "'가능'", "'N억 부족'", ['gap', 'scenarioPill'], '자금 플랜 시나리오'); });
       if (jc.status === 'check' && [...document.querySelectorAll('.scen')].some(sc => /전세/.test((sc.querySelector('h2') || {}).textContent || '') && ((sc.querySelector('.pill') || {}).textContent === '가능'))) v('FUND-004', 'HIGH', L, '거주의무 UNKNOWN', "전세 시나리오 '가능'", "전세 시나리오 '확인 필요'", ['residenceDuty', 'scenarioPill'], '자금 플랜 시나리오');
+      // FUND-006 (2026-10-07 사용자 제보 'LTV 70%인데 대출 0원'): 시세가 없어도 집값 기준(LTV) 대출이 0원이면 안 됨, 전세 시세가 없으면 0원으로 계산하지 않고 '입력 필요'
+      checks += 2;
+      if (L.price > 0 && !(f.loanLtv > 0)) v('FUND-006', 'CRITICAL', L, '시세 ' + (L.mktBase == null ? '없음' : L.mktBase), 'LTV 대출 ' + f.loanLtv, '시세 없으면 분양가 기준 LTV', ['mktBase', 'loanLtv'], '자금 플랜 잔금대출');
+      if (f.jeonseUnk && [...document.querySelectorAll('.scen')].some(sc => /전세/.test((sc.querySelector('h2') || {}).textContent || '') && (/부족분|여유분/.test(sc.innerText) || !/입력 필요|불가/.test((sc.querySelector('.pill') || {}).textContent || '')))) v('FUND-006', 'HIGH', L, '전세 시세 없음', '전세 0원으로 계산', "'전세 보증금 입력 필요'", ['jeonse', 'scenarioPill'], '자금 플랜 전세 시나리오');
       if (L.residenceDuty == null || L.priceCap == null) stat[L.id].state = 'UNKNOWN';
       else if (jc.status !== 'ok') stat[L.id].state = 'WARNING';
     }

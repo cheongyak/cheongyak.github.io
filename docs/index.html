@@ -1464,16 +1464,20 @@ function funding(L, p, opt){
   const monthly = Math.max(0, income * RULES.dsr - existing) / 12;
   const loanDsr = monthly * (1 - Math.pow(1 + r, -n)) / r;
   const ltvRate = L.regulated ? RULES.ltvRegulated : RULES.ltvOther;
-  const loanLtv = Math.min(L.price, L.mktBase) * ltvRate;
-  const cap = L.regulated ? RULES.loanCapRegulated.find(c => L.mktBase <= c[0])[1] : L.capital ? RULES.loanCapCapital : Infinity;
+  /* 시세를 못 구한 공고(mktBase 없음): 예전에는 Math.min(분양가, null)=0 이라 LTV 대출이 0원이었다 (2026-10-07 사용자 제보 'LTV 70%인데 대출 0원').
+     시세를 모르면 분양가 기준으로 계산하고(ltvEst), 시세가 더 낮으면 대출이 줄 수 있어 '자금 가능'으로 단정하지 않는다 */
+  const ltvEst = !(L.mktBase > 0), ltvBase = ltvEst ? L.price : Math.min(L.price, L.mktBase);
+  const loanLtv = ltvBase * ltvRate;
+  const cap = L.regulated ? RULES.loanCapRegulated.find(c => (ltvEst ? L.price : L.mktBase) <= c[0])[1] : L.capital ? RULES.loanCapCapital : Infinity;
   const loan = Math.min(loanDsr, loanLtv, cap);
   const limitBy = loan === loanDsr ? 'DSR(소득)' : loan === cap ? '한도 ' + cap + '억' : '집값의 ' + ltvRate*100 + '%';
-  const jeonse = opt.jeonse != null ? eok(opt.jeonse) : (L.jeonse || 0);
+  const jeonseUnk = !(Number(opt.jeonse) > 0) && L.jeonse == null;   /* 주변 전세 시세도 없고 직접 넣지도 않음 → 보증금 0원으로 계산하지 않는다 (2026-10-07) */
+  const jeonse = Number(opt.jeonse) > 0 ? eok(opt.jeonse) : (L.jeonse || 0);
   /* 현금·금융·보증금을 하나도 넣지 않았거나 소득을 넣지 않았으면(기본값 0) 자금 '부족'으로 단정하지 않는다 — 빠른 시작은 묻지 않음 (2026-10-06 점검).
      0 으로 계산해도 가능하면 그대로 가능(더 넣으면 좋아지기만 함) */
   const cashUnk = !['cash', 'liquid', 'deposit'].some(k => entered(p, k)), incUnk = !entered(p, 'income') && !(p.married && entered(p, 'spouseIncome') && p.spouseIncome > 0);
   const need = [cashUnk ? '현금·예금' : '', incUnk ? '소득' : ''].filter(Boolean).join('·');
-  return { total, contractAmt, contractOk: cashNow >= contractAmt ? true : cashUnk ? null : false, cashUnk, incUnk, unk: cashUnk || incUnk, need, available, loan, loanDsr, loanLtv, ltvRate, cap, limitBy, jeonse,
+  return { total, contractAmt, contractOk: cashNow >= contractAmt ? true : cashUnk ? null : false, cashUnk, incUnk, unk: cashUnk || incUnk, need, ltvEst, jeonseUnk, available, loan, loanDsr, loanLtv, ltvRate, cap, limitBy, jeonse,
     gapLive: total - loan - available, gapJeonse: total - jeonse - available, tax: m.tax };
 }
 
@@ -1505,10 +1509,17 @@ function jeonseCheck(L){
   return { status, reasons: R };
 }
 function planOpt(L){
-  if (!S.plan[L.id]) S.plan[L.id] = { mode: ['no', 'check'].includes(jeonseCheck(L).status) ? 'live' : 'jeonse', family:0, jeonse: Math.round((L.jeonse || 0)*10000) };
+  if (!S.plan[L.id]) S.plan[L.id] = { mode: ['no', 'check'].includes(jeonseCheck(L).status) || L.jeonse == null ? 'live' : 'jeonse', family:0, jeonse: L.jeonse == null ? 0 : Math.round(L.jeonse*10000) };   /* 전세 시세가 없으면 실거주 계획이 기본 */
   return S.plan[L.id];
 }
 function bestGap(f, o){ return o.mode === 'live' ? f.gapLive : f.gapJeonse; }
+/* 자금 결과를 단정할 수 없는 이유 (없으면 ''): 현금·소득 미입력(부족일 때), 전세 시세 없음(전세 계획), 시세 미확인으로 분양가 기준 LTV(가능일 때 — 시세가 낮으면 대출이 줄어 부족해질 수 있음) */
+function fundUnsure(f, mode, gap){
+  if (mode !== 'live' && f.jeonseUnk) return '전세 보증금 입력 필요';
+  if (gap > 0 && f.unk) return f.need + ' 입력 필요';
+  if (mode === 'live' && f.ltvEst && gap <= 0 && /^집값/.test(f.limitBy)) return '시세 확인 필요';
+  return '';
+}
 
 /* ---------- 화면 ---------- */
 const esc = s => String(s).replace(/[&<>"]/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
@@ -1594,7 +1605,8 @@ function meLine(L){
   const f = funding(L, S.profile, planOpt(L)), gap = bestGap(f, planOpt(L));
   const el = e.unsure ? '<span class="st-warn">자격 확인 필요</span>' : on('eligibility_caution') ? '<span class="st-ok">기본 요건 충족</span>' : '<span class="st-ok">내 자격 가능</span>';
   const via = planOpt(L).mode === 'live' ? '잔금대출 포함' : jeonseCheck(L).status === 'cond' ? '전세 조건부' : '전세 활용';   // '자금 가능'이 대출·전세를 전제로 한 결과임을 함께 (교차 규칙 FUND-005·006, 2026-10-02)
-  return el + (gap > 0 ? (f.unk ? '<span class="muted">· 자금은 ' + f.need + ' 입력 필요</span>' : '<span class="muted">· 자금 ' + fmt(gap) + ' 부족</span>') : '<span class="muted">· 자금 가능(' + via + ')</span>');
+  const fu = fundUnsure(f, planOpt(L).mode, gap);
+  return el + (fu ? '<span class="muted">· 자금' + (/입력/.test(fu) ? '은 ' + fu : ' 확인 필요(시세 미확인)') + '</span>' : gap > 0 ? '<span class="muted">· 자금 ' + fmt(gap) + ' 부족' + (f.ltvEst && planOpt(L).mode === 'live' ? ' (시세 미확인·분양가 기준)' : '') + '</span>' : '<span class="muted">· 자금 가능(' + via + ')</span>');
 }
 
 /* ---------- 출처 (화면의 모든 숫자에 붙인다) ---------- */
@@ -3456,6 +3468,7 @@ function vDetail(){
   else if (!e.ok) mine = `<div class="note ${e.rank2 ? 'warn' : 'fail'}"><b${on('detail_result_first') ? ' hidden' : ''}>${e.rank2 ? (e.rank2Need ? (m.g === 'lotto' || m.g === 'consider' ? '하지만 1순위로는 신청할 수 없어요 · 2순위는 청약통장 확인 필요' : '1순위로는 신청할 수 없어요 · 2순위는 청약통장 확인 필요') : m.g === 'lotto' || m.g === 'consider' ? '하지만 2순위로만 신청할 수 있어요' : '2순위로만 신청할 수 있어요') : m.g === 'lotto' || m.g === 'consider' ? '하지만 나는 이번 공고 신청 불가' : '나는 이번 공고 신청 불가'}</b><div>${esc(e.reason)}</div>${e.rank2 ? '<div style="margin-top:4px">' + (e.rank2Need ? '2순위는 청약통장(청약예금·청약부금·주택청약종합저축)에 가입돼 있으면 신청할 수 있어요. 청약통장 정보를 넣으면 판정해요.' : '2순위는 1순위 신청자가 공급 물량보다 적을 때만 접수해요. 1순위에서 마감되면 2순위 차례는 오지 않아요.') + '</div>' : ''}${e.fix ? `<div class="inner"><b style="font-size:13px">다음 공고에 신청하려면</b><br>${esc(e.fix)}</div>` : ''}</div>`;
   else if (m.g === 'unknown') mine = `<div class="note warn"><b>${okWord} 시세를 확인해야 해요</b><div>${esc(L.mktNote)}</div></div>`;
   else if (m.g === 'pass' || m.g === 'flat') mine = `<div class="note warn"><b>${okWord} ${m.g === 'pass' ? '시세보다 비싸요' : '마진이 거의 없어요'}</b><div>${on('margin_caveat') ? '당첨되면 재당첨 제한이 걸려 한동안 다른 청약에 당첨될 수 없어요.' : '당첨되면 재당첨 제한이 걸려요. 실거주 목적이 아니면 통장을 아끼세요.'}</div></div>`;
+  else if (fundUnsure(f, o.mode, gap) && !(gap > 0 && f.unk)) mine = `<div class="note info"><b>${okWord} 자금은 ${fundUnsure(f, o.mode, gap) === '시세 확인 필요' ? '시세를 확인해야 해요' : '전세 보증금을 넣어야 계산해요'}</b><div>${fundUnsure(f, o.mode, gap) === '시세 확인 필요' ? '주변 시세를 못 구해 잔금대출을 분양가 기준으로 계산했어요. 시세가 분양가보다 낮으면 대출이 줄어요.' : '주변 전세 거래가 부족해 보증금을 추정하지 못했어요. 자금 플랜에서 예상 보증금을 넣어 주세요.'}</div></div>`;
   else if (gap > 0 && f.unk) mine = `<div class="note info"><b>${okWord} 자금은 ${f.need}을 넣어야 계산해요</b><div>지금은 ${f.need}을 0원으로 보고 계산한 값이라 부족액이 실제보다 커요. 내 조건에서 넣어 주세요.</div><div style="margin-top:6px"><button class="btn sm" data-go="me">내 조건 넣기</button></div></div>`;
   else if (gap > 0) mine = `<div class="note warn"><b>${okWord} 자금 ${fmt(gap)} 부족</b><div>${o.mode === 'live' ? '잔금대출' : '전세 활용'} 기준이에요. 부족분 조달처를 확보한 뒤 신청하세요.</div></div>`;
   else if (on('eligibility_caution')) {   // 판정하지 않은 항목이 없으면 '확인 필요'라고 하지 않는다 (2026-09-30 문구 수정)
@@ -3566,10 +3579,12 @@ function vPlan(){
   const d = s => s ? s.slice(5).replace('-','.') : '날짜 미정';
   const scen = (key, title, rows, gap, note, blocked, unsure) => `
     <section class="card scen ${o.mode === key ? 'mine' : ''}">
-      <div class="row"><h2 style="font-size:15px">${title}${o.mode === key ? ' <span class="small muted">· 내 계획</span>' : ''}</h2>${blocked ? '<span class="pill fail">이 단지는 불가</span>' : `<span class="pill ${gap > 0 ? (f.unk ? 'warn' : gap > 3 ? 'fail' : 'warn') : unsure ? 'warn' : 'ok'}">${gap > 0 ? (f.unk ? f.need + ' 입력 필요' : fmt(gap) + ' 부족') : unsure ? '확인 필요' : '가능'}</span>`}</div>
+      <div class="row"><h2 style="font-size:15px">${title}${o.mode === key ? ' <span class="small muted">· 내 계획</span>' : ''}</h2>${blocked ? '<span class="pill fail">이 단지는 불가</span>' : `<span class="pill ${fundUnsure(f, key, gap) ? 'warn' : gap > 0 ? (gap > 3 ? 'fail' : 'warn') : unsure ? 'warn' : 'ok'}">${fundUnsure(f, key, gap) || (gap > 0 ? fmt(gap) + ' 부족' : unsure ? '확인 필요' : '가능')}</span>`}</div>
       ${gap > 0 && f.unk && !blocked ? `<div class="small" style="margin:0">${f.need}을 넣지 않아 0원으로 계산했어요 — 넣으면 부족분이 줄어요</div>` : ''}
+      ${key === 'live' && f.ltvEst && /^집값/.test(f.limitBy) && !blocked ? '<div class="small" style="margin:0">주변 시세를 못 구해 잔금대출을 분양가 기준으로 계산했어요 — 시세가 분양가보다 낮으면 대출이 줄어요</div>' : ''}
+      ${key !== 'live' && f.jeonseUnk && !blocked ? '<div class="small" style="margin:0">주변 전세 거래가 부족해 보증금을 추정하지 못했어요 — 위 예상 전세 보증금에 넣으면 계산해요</div>' : ''}
       ${blocked ? '' : `<div class="rows">${rows.map(r => `<div class="row"><span>${r[0]}</span><span>${r[1]}</span></div>`).join('')}
-        <div class="row total"><span>${gap > 0 ? '부족분' : '여유분'}</span><span>${fmt(Math.abs(gap))}</span></div></div>`}
+        ${key !== 'live' && f.jeonseUnk ? '' : `<div class="row total"><span>${gap > 0 ? '부족분' : '여유분'}</span><span>${fmt(Math.abs(gap))}</span></div>`}</div>`}
       <div class="small muted">${note}</div>
     </section>`;
   const JS = { ok:['ok','전세 가능'], cond:['warn','전세 조건부'], check:['warn','전세 확인 필요'], no:['fail','전세 불가'] }[jc.status];
@@ -3599,24 +3614,24 @@ function vPlan(){
     <div class="field"><label for="pl-family">가족 지원 (증여·차용)</label>
       <div class="money"><input id="pl-family" inputmode="numeric" data-plan="family" value="${o.family || ''}" placeholder="0"><span>만원</span></div>${mEcho(o.family)}</div>
     ${o.mode === 'jeonse' ? `<div class="field"><label for="pl-jeonse">예상 전세 보증금</label>
-      <div class="money"><input id="pl-jeonse" inputmode="numeric" data-plan="jeonse" value="${o.jeonse}"><span>만원</span></div>${mEcho(o.jeonse)}<span class="hint">${esc(L.jeonseNote)}${/입주장 할인 \d+%$/.test(L.jeonseNote || '') ? '를 뺐어요 (입주장: 새 아파트 입주 시기에 전세 물량이 몰려 보증금이 낮아지는 때).' : ''} ${L.sample ? '' : src('rtms')}</span>
+      <div class="money"><input id="pl-jeonse" inputmode="numeric" data-plan="jeonse" value="${o.jeonse || ''}" placeholder="${L.jeonse == null ? '주변 전세 시세 없음 · 직접 입력' : ''}"><span>만원</span></div>${mEcho(o.jeonse)}<span class="hint">${esc(L.jeonseNote)}${/입주장 할인 \d+%$/.test(L.jeonseNote || '') ? '를 뺐어요 (입주장: 새 아파트 입주 시기에 전세 물량이 몰려 보증금이 낮아지는 때).' : ''} ${L.sample ? '' : src('rtms')}</span>
       ${L.jeonseComps && L.jeonseComps.length ? `<details><summary class="small" style="cursor:pointer;min-height:32px">전세 근거 거래 ${L.jeonseComps.length}건 보기</summary><div class="comps">${L.jeonseComps.map(c => compRow(c, L)).join('')}</div></details>` : ''}</div>` : ''}
   </section>
 
   <section class="card"><h2>납부 일정</h2><div class="timeline">
     <div class="tl ${f.contractOk ? 'dot-ok' : f.contractOk === false ? 'dot-fail' : ''}"><div class="dot"><i></i><b></b></div><div class="body"><div class="row" style="font-weight:600;font-size:14px"><span>${d(L.contract)} 계약금<br>${L.contract ? src(null, ['청약홈 공고', L.sources && L.sources[0] ? L.sources[0][1] : SRC.applyhome[1]]) : ''}</span><span>${fmt(f.contractAmt)}</span></div><div class="small muted">${f.contractOk ? '예금으로 낼 수 있어요' : f.contractOk == null ? '현금·예금을 넣으면 낼 수 있는지 계산해요 (계약금은 대출이 안 돼요)' : '예금이 ' + fmt(f.contractAmt - eok(p.cash)) + ' 모자라요. 계약금은 대출이 안 돼요'}</div></div></div>
-    <div class="tl ${bestGap(f,o) > 0 ? (f.unk ? '' : 'dot-fail') : 'dot-ok'}"><div class="dot"><i></i><b></b></div><div class="body"><div class="row" style="font-weight:600;font-size:14px"><span>${L.midRate ? '입주 때 (중도금 + 잔금)' : d(L.balance) + ' 잔금'}<br>${fromNotice(L, '잔금일') ? noticeSrc(L) + nq(L, '잔금일') : src(null, [L.midRate ? '중도금 60% 가정 (이 서비스 추정)' : '공고문 확인', null])}</span><span>${fmt((L.price + L.ext) - f.contractAmt)}</span></div><div class="small muted">${L.midRate ? '중도금 ' + Math.round(L.midRate*100) + '%는 보통 집단대출로 내고, 입주 때 잔금대출이나 전세로 갚아요' : '중도금 없이 한 번에 내야 해요'}</div></div></div>
+    <div class="tl ${fundUnsure(f, o.mode, bestGap(f, o)) ? '' : bestGap(f,o) > 0 ? 'dot-fail' : 'dot-ok'}"><div class="dot"><i></i><b></b></div><div class="body"><div class="row" style="font-weight:600;font-size:14px"><span>${L.midRate ? '입주 때 (중도금 + 잔금)' : d(L.balance) + ' 잔금'}<br>${fromNotice(L, '잔금일') ? noticeSrc(L) + nq(L, '잔금일') : src(null, [L.midRate ? '중도금 60% 가정 (이 서비스 추정)' : '공고문 확인', null])}</span><span>${fmt((L.price + L.ext) - f.contractAmt)}</span></div><div class="small muted">${L.midRate ? '중도금 ' + Math.round(L.midRate*100) + '%는 보통 집단대출로 내고, 입주 때 잔금대출이나 전세로 갚아요' : '중도금 없이 한 번에 내야 해요'}</div></div></div>
     <div class="tl"><div class="dot"><i></i></div><div class="body"><div class="row" style="font-weight:600;font-size:14px"><span>잔금 후 60일 내 취득세<br>${src('localTax')}</span><span>${fmt(f.tax)}</span></div><div class="small muted">추정치 · 세무 확인 필요</div></div></div>
   </div></section>
 
-  ${scen('jeonse', L.residenceDuty ? '전세 2년 후 직접 입주' : '전세 끼고 잔금', [['전세 보증금', fmt(f.jeonse)], ['내 자금', fmt(f.available)]].concat(dutyRow), f.gapJeonse,
+  ${scen('jeonse', L.residenceDuty ? '전세 2년 후 직접 입주' : '전세 끼고 잔금', [['전세 보증금', f.jeonseUnk ? '시세 없음' : fmt(f.jeonse)], ['내 자금', fmt(f.available)]].concat(dutyRow), f.gapJeonse,
      jc.status === 'no' ? '이 단지는 규제 때문에 전세로 잔금을 치를 수 없어요.'
      : L.residenceDuty == null ? '실거주 의무를 확인하지 못해 이 계산이 맞는지 아직 몰라요. 거주의무가 있으면 전세를 한 번만 주거나 못 줄 수 있어요 — 공고문에서 거주의무기간을 확인하세요.'
      : L.residenceDuty ? '2년 뒤 보증금을 돌려주고 들어가 살려면 그때 잔금대출이나 현금이 다시 필요해요.'
      : L.regulated && L.capital ? '세입자 전세대출이 막혀 현금 세입자만 받을 수 있어요. 입주장 공실 위험도 감안하세요.'
      : '입주장에 전세 물량이 몰리면 보증금이 내려가요.', jc.status === 'no', jc.status === 'check')}
-  ${scen('live', '잔금대출로 실거주', [['잔금대출 (' + f.limitBy + ' 기준)', fmt(f.loan)], ['내 자금', fmt(f.available)]], f.gapLive,
-     '집값 기준(LTV) ' + (f.ltvRate*100) + '% ' + fmt(f.loanLtv) + (isFinite(f.cap) ? ' · 한도 ' + f.cap + '억' : '') + ' · 소득 기준(DSR) ' + fmt(f.loanDsr) + ' 중 더 작은 값이에요.' + (L.regulated ? ' 규제지역이라 6개월 안에 전입해야 해요.' : '') + ' 실제 한도는 은행 심사로 확인하세요.<div class="srcs">' + src('p1015') + src('p627') + '</div>')}
+  ${scen('live', '잔금대출로 실거주', [['잔금대출 (' + f.limitBy + (f.ltvEst && /^집값/.test(f.limitBy) ? ', 분양가 기준' : '') + ' 기준)', fmt(f.loan)], ['내 자금', fmt(f.available)]], f.gapLive,
+     '집값 기준(LTV) ' + (f.ltvRate*100) + '% ' + fmt(f.loanLtv) + (f.ltvEst ? '(시세 미확인 · 분양가 기준)' : '') + (isFinite(f.cap) ? ' · 한도 ' + f.cap + '억' : '') + ' · 소득 기준(DSR) ' + fmt(f.loanDsr) + ' 중 더 작은 값이에요.' + (L.regulated ? ' 규제지역이라 6개월 안에 전입해야 해요.' : '') + ' 실제 한도는 은행 심사로 확인하세요.<div class="srcs">' + src('p1015') + src('p627') + '</div>')}
 
   <section class="note info"><b>부족분 메우는 방법</b>
     <div><b style="font-size:13px">가족 차용</b> · 차용증과 이자 지급 기록이 있어야 증여로 보지 않아요</div>
@@ -4394,7 +4409,7 @@ function vCompare(){
     ${row('실매입가', c => fmt(c.m.cost), '취득세 포함')}
     ${row('시세', c => c.L.mktLow == null ? '-' : fmt(c.L.mktLow) + '~' + fmt(c.L.mktBase), '추정')}
     ${row('계약금', c => c.f.contractOk == null ? `<span class="st-warn">${fmt(c.f.contractAmt)} · 현금 입력 필요</span>` : tone(c.f.contractOk, fmt(c.f.contractAmt) + (c.f.contractOk ? '' : ' 부족')), '내 현금 기준')}
-    ${row('잔금 (실거주)', c => c.f.gapLive > 0 ? (c.f.unk ? `<span class="st-warn">${c.f.need} 입력 필요</span>` : tone(false, fmt(c.f.gapLive) + ' 부족')) : tone(true, '가능'), '내 입력 기준')}
+    ${row('잔금 (실거주)', c => fundUnsure(c.f, 'live', c.f.gapLive) ? `<span class="st-warn">${fundUnsure(c.f, 'live', c.f.gapLive)}</span>` : c.f.gapLive > 0 ? tone(false, fmt(c.f.gapLive) + ' 부족') : tone(true, '가능'), '내 입력 기준')}
     ${row('내 자격', c => c.e.ok ? `<span class="${c.e.unsure ? 'st-warn' : 'st-ok'}">${c.e.unsure ? '확인 필요' : '기본 충족'}</span>` : c.e.rank2 ? `<span class="st-warn">${c.e.rank2Need ? '확인 필요' : '2순위만'}</span>` : tone(false, '불가'))}
     ${row('접수', c => `${esc(ddayOf(c.L))}<br><span class="small muted">${scheduleText(c.L) ? esc(scheduleText(c.L)) : c.L.apply ? c.L.apply.slice(5).replace('-', '.') : '-'}</span>`)}
     ${row('당첨 발표', c => c.L.winner ? c.L.winner.slice(5).replace('-', '.') : '-')}
