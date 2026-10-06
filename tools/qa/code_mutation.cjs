@@ -64,11 +64,21 @@ const M = [   // [이름, 찾을 글, 바꿀 글]
   ['LH 안전: 거주 요건 못 읽음 무시', "if (!T.local && T.local_unread) add('check'", "if (false) add('check'"],
   ['LH 안전: 공공임대 통장 요건 못 읽음 무시', "if (N.type === '공공임대' && T.account == null) add('check'", "if (false) add('check'"],
   ['LH 안전: 소득 미입력을 본인 소득 0으로', "const yearMan = youthMember ? inc : hhInc != null ? hhInc : solo ? inc : null;", "const yearMan = youthMember ? (inc || 0) : hhInc != null ? hhInc : solo ? (inc || 0) : null;"],
+  // SH 임대 자격 (기능 sh_judge, 2026-10-06) — 공고문 날짜 하한·출산가구 표·면제·세대 소득
+  ['SH: 신생아가구 출생일 하한 하루 밀림', "else if (p.youngestBirth && p.youngestBirth >= bf) add('ok'", "else if (p.youngestBirth && p.youngestBirth > bf) add('ok'"],
+  ['SH: 혼인신고일 하한 하루 밀림', "const in7 = p.marriedOn && ref && wf ? p.marriedOn >= wf : null", "const in7 = p.marriedOn && ref && wf ? p.marriedOn > wf : null"],
+  ['SH: 출산가구 표 금액 무시', "else if (tbl && tbl[String(bo)] != null) {", "else if (false) {"],
+  ['SH: 지원대상 한부모 검증 면제 무시', "N.type === '공공임대' || g.exempt === true;", "N.type === '공공임대';"],
+  ['SH: 소득에 출산가구 가산 적용', "else if (kidMaybe && !T.birth_bonus && m <=", "else if (kidMaybe && m <="],
+  ['SH: 청년 세대 소득 대신 본인 소득', "&& !g.married_ok && !g.income_household;   /* SH 청년", "&& !g.married_ok;   /* SH 청년"],
+  ['SH: 청년 세대 주택 조회 무시', "else if (sOwn === false && g.hh_home_scan && ((p.household", "else if (false && ((p.household"],
+  ['SH: 6세 이하 자녀 하한 하루 밀림', "T.sh ? (g.kid6_from ? d >= g.kid6_from : null)", "T.sh ? (g.kid6_from ? d > g.kid6_from : null)"],
 ];
 (async () => {
   const cases = JSON.parse(readFileSync(join(ROOT, 'tests/judge/cases.json'), 'utf8'));
   const listings = JSON.parse(readFileSync(join(ROOT, 'tests/judge/listings.json'), 'utf8'));
   const lhNotices = existsSync(join(ROOT, 'tests/judge/lh_notices.json')) ? JSON.parse(readFileSync(join(ROOT, 'tests/judge/lh_notices.json'), 'utf8')) : [];
+    lhNotices.push(...(existsSync(join(ROOT, 'tests/judge/sh_notices.json')) ? JSON.parse(readFileSync(join(ROOT, 'tests/judge/sh_notices.json'), 'utf8')) : []));   // 기능 sh_judge
     lhNotices.push(...(existsSync(join(ROOT, 'tests/judge/lh_synthetic.json')) ? JSON.parse(readFileSync(join(ROOT, 'tests/judge/lh_synthetic.json'), 'utf8')) : []));   // 공고문을 잘못 읽은 경우 모의 (make_judge_cases)
   const b = await chromium.launch({ executablePath: existsSync('/opt/pw-browsers/chromium') ? '/opt/pw-browsers/chromium' : undefined });
   const out = [];

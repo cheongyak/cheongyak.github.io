@@ -19,14 +19,14 @@ const SH = SH_ALL.filter(N => shEnd(N) ? shEnd(N) >= KST : N.posted >= D30);   /
 (async () => {
   const b = await chromium.launch({ executablePath: existsSync('/opt/pw-browsers/chromium') ? '/opt/pw-browsers/chromium' : undefined });
   const fails = [];
-  async function open(sh, scheme){
+  async function open(sh, scheme, judge){
     const page = await b.newPage({ viewport: { width: 390, height: 844 }, colorScheme: scheme });
     const errs = [], asked = []; page.on('pageerror', e => errs.push(e.message));
     await page.route('**/*', r => { const u = new URL(r.request().url()); if (u.hostname !== 'qa.local') return r.abort();
       asked.push(u.pathname);
       const f = join(DOCS, u.pathname === '/' ? 'index.html' : decodeURIComponent(u.pathname.slice(1))); if (!existsSync(f)) return r.fulfill({ status: 404, body: '' });
       let body = readFileSync(f);
-      if (u.pathname === '/config.json') { const c = JSON.parse(body); c.features = Object.assign({}, c.features, { lh_rental: true, sh_rental: sh }); body = JSON.stringify(c); }
+      if (u.pathname === '/config.json') { const c = JSON.parse(body); c.features = Object.assign({}, c.features, { lh_rental: true, sh_rental: sh, sh_judge: !!judge }); body = JSON.stringify(c); }
       r.fulfill({ status: 200, body, contentType: { '.html':'text/html', '.json':'application/json' }[extname(f)] || 'application/octet-stream' }); });
     await page.addInitScript(p => localStorage.setItem('cy-profile', JSON.stringify(p)), P);
     await page.goto('http://qa.local/', { waitUntil: 'networkidle' }); await page.waitForTimeout(600);
@@ -47,15 +47,15 @@ const SH = SH_ALL.filter(N => shEnd(N) ? shEnd(N) >= KST : N.posted >= D30);   /
     if (asked.includes('/sh-rental.json')) fails.push('꺼짐: sh-rental.json 을 불러옴');
     if (await page.locator('text=SH 공고').count()) fails.push("꺼짐: 'SH 공고' 문구가 보임");
     await check(page, errs, 'off-rental'); await page.close(); }
-  for (const scheme of ['light', 'dark']) {
-    const { page, errs } = await open(true, scheme);
+  for (const [scheme, judge] of [['light', false], ['light', true], ['dark', true]]) {   // 기능 sh_judge 꺼짐·켜짐
+    const { page, errs } = await open(true, scheme, judge);
     await page.click('[data-rcat="rent"]'); await page.waitForTimeout(800);
     const ids = await page.evaluate(() => RENTAL.notices.filter(N => N.org === 'SH').map(N => N.id));
     if (ids.length !== SH.length) fails.push(`${scheme}: SH 공고 ${ids.length}건 ≠ 마감 전 ${SH.length}건`);
     for (const N of SH_ALL.filter(N => !SH.includes(N))) if (ids.includes(N.id)) fails.push(`${scheme}: 마감된 SH 공고 ${N.id} 가 목록에 있음`);
     const cards = await page.locator('.rcard', { hasText: 'SH' }).count();
     if (!cards) fails.push(`${scheme}: 목록에 SH 카드가 없음`);
-    await check(page, errs, `${scheme}-rental`, true);
+    await check(page, errs, `${scheme}${judge ? '-judge' : ''}-rental`, true);
     // 유형 거르기에 SH 유형이 들어 있는지
     const opts = await page.evaluate(() => [...document.querySelectorAll('[data-rsel="type"] option')].map(o => o.value));
     for (const t of new Set(SH.map(N => N.type))) if (!opts.includes(t)) fails.push(`${scheme}: 유형 거르기에 '${t}' 없음`);
@@ -63,17 +63,22 @@ const SH = SH_ALL.filter(N => shEnd(N) ? shEnd(N) >= KST : N.posted >= D30);   /
     await page.click('[data-rcat="youth"]'); await page.waitForTimeout(300);
     const yIds = await page.evaluate(() => [...document.querySelectorAll('[data-ropen]')].map(e => e.dataset.ropen));
     for (const N of SH.filter(N => N.youth)) if (!yIds.includes(N.id)) fails.push(`${scheme}: 청년 대상 SH 공고 ${N.id} 가 청년 주택에 없음`);
-    await check(page, errs, `${scheme}-youth`);
+    await check(page, errs, `${scheme}${judge ? '-judge' : ''}-youth`);
     // 상세
     for (const N of SH) {
       await page.evaluate(id => { S.rid = id; S.view = 'rdetail'; render(); }, N.id);
       const r = await page.evaluate(() => { const a = document.querySelector('.dcta [data-ev="sh-cta-apply"]'), pdf = document.querySelector('.dcta [data-ev="sh-cta-pdf"]'), hero = document.querySelector('.rhero');
         return { href: a && a.getAttribute('href'), label: a && a.textContent, pdf: pdf && pdf.getAttribute('href'), hero: hero ? hero.innerText : '', dd: (document.querySelector('.rd2-head .dday') || {}).textContent, text: document.getElementById('app').innerText }; });
-      const name = `${scheme}-detail-${N.id}`;
+      const name = `${scheme}${judge ? '-judge' : ''}-detail-${N.id}`;
       if (r.href !== N.url_mobile) fails.push(`${name}: SH 공고 버튼 주소 ${r.href} ≠ ${N.url_mobile}`);
       if (!/SH 공고/.test(r.label || '')) fails.push(`${name}: 버튼 이름 '${r.label}'`);
       if (N.notice_pdf && r.pdf !== N.notice_pdf) fails.push(`${name}: 모집공고문 버튼 주소 다름`);
-      if (!/판정 미지원/.test(r.hero) || !/공고문을 확인/.test(r.hero)) fails.push(`${name}: 판정이 '판정 미지원 + 공고문 확인'이 아님 (${r.hero.slice(0, 60)})`);
+      if (judge && N.terms) {   // 자격을 읽은 SH 공고: 계층별 판정이 보여야 한다
+        if (/판정 미지원/.test(r.hero)) fails.push(`${name}: 자격을 읽은 공고인데 '판정 미지원'`);
+        if (!/내 자격/.test(r.text)) fails.push(`${name}: '내 자격(계층별)' 칸 없음`);
+        for (const g of N.terms.groups) if (!r.text.includes(g.name)) fails.push(`${name}: 계층 '${g.name}' 이 안 보임`);
+        if (!/공고문 자격 기준 보기/.test(r.text)) fails.push(`${name}: 자격 기준 접힘 칸 없음`);
+      } else if (!/판정 미지원/.test(r.hero) || !/공고문을 확인/.test(r.hero)) fails.push(`${name}: 판정이 '판정 미지원 + 공고문 확인'이 아님 (${r.hero.slice(0, 60)})`);
       if (/LH 청약플러스/.test(r.text)) fails.push(`${name}: SH 공고 상세에 'LH 청약플러스' 문구`);
       const st = (N.schedule || [])[0];
       if (!st && r.dd !== '일정 공고문 확인') fails.push(`${name}: 접수 기간을 못 읽었는데 배지 '${r.dd}'`);

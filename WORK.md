@@ -4,6 +4,23 @@
 2026-09-29 12:55 이전 항목은 규칙을 만들기 전 작업을 커밋 기록으로 정리한 것이라 백업 브랜치가 없어요.
 그 시점으로 되돌릴 때는 해당 커밋 번호로 `git revert` 를 써요.
 
+## 2026-10-06 17:25 · SH 2단계 — 신혼·신생아 매입임대·청년 매입임대 자격 판정 (sh_judge, 아직 꺼짐)
+- 요청: "2단계진행해줘" (SH 공고 종류별 자격 판정 — 청년 매입임대·신혼·신생아 매입임대부터, 정답 데이터·감사·스위치)
+- 원문 확인: 신혼·신생아 매입임대Ⅰ(310650)·Ⅱ(310653), 청년 특화형 매입임대(310950·309807·309802) 공고문의 신청자격·소득 및 자산 기준 절을 직접 읽음. Ⅰ 소득 70%(배우자 소득 있으면 90%)·2인 +10%p, 총자산 34,500만(출산 1명 37,900·2명 41,300), 자동차 4,542만(4,996·5,451), 신생아가구 '24.10.1. 이후 출생·태아(혼인 무관), 신혼 혼인신고일 '19.10.1.~, 6세 이하 자녀 '19.10.1. 이후 출생, 지원대상 한부모가족 소득·자산검증 불필요 / Ⅱ 130%(200%)·총자산 36,200만(39,600·43,100)·자동차 개별 기준 없음·혼인가구 / 청년 만19~39세·미혼·본인 무주택·세대 소득 100%(1인 120%·2인 110%)·세대 총자산 34,500만·자동차 4,542만, 출산 가산 없음. 공고문 소득표 금액 = 앱 도시근로자 2025(RENT_URBAN_2025) × 퍼센트 확인
+- 변경:
+  - app/sh_terms.py(새): 공고문에서 위 기준을 읽음. 소득표 금액을 도시근로자 2025 × 퍼센트와 대조해 다르면 소득 기준을 비움(→ '공고문 확인'), 면제 문장을 못 찾으면 면제로 안 봄
+  - app/sh_rental.py: 신혼·신생아·청년 매입임대 공고에 terms·judge_type, 수집 기록에 계층·[검증·정답 불일치]
+  - docs/index.html(판정 엔진, LH 공고에는 영향 없음 — 새 칸이 있을 때만 동작): 계층 신생아가구·지원대상 한부모가족·혼인가구, 신혼 날짜 하한(wed_from·kid6_from), 검증 면제(exempt), 출산가구 표 금액(asset_bonus·car_bonus)으로 바로 판정·소득 출산 가산 없음(birth_bonus), 자동차 개별 기준 없음, 청년 세대 소득·자산(income_household), 답하기 칸 '임신 중'·'지원대상 한부모가족'. 상세 '공고문 자격 기준'에 SH 기준 줄. 스위치 sh_judge 가 꺼져 있으면 SH 는 모두 '판정 미지원'(1단계와 같음)
+  - 애매한 곳은 '확인': 청년 공고는 자격을 '무주택자(본인)'로 적지만 Ⅷ 에서 '세대구성원 전원을 대상으로 주택소유 여부를 확인' → 같은 세대(부모님)에 집이 있으면 판정하지 않음(블라인드 검토자가 짚은 점)
+- 정답: tests/golden/sh_rental.json 에 terms 5건(원문 인용 포함), 309807 추가. tests/test_sh_terms.py(정답 일치·소득표 어긋나면 비움·면제 문장 없으면 면제 아님·미혼 문장)
+- 판정 사례: tools/make_judge_cases.py 18) SH — 67건(경계값: 소득 2인 80%/100%·140%/210%·3인 70%/130% 이하·초과, 혼인신고 2019-10-01/09-30, 6세 자녀 출생 2019-10-01/09-30, 신생아 2024-10-01/09-30, 총자산·자동차 한도·출산 표 금액 ±1만, 청년 1986-10-03/02·2007-10-02/03 출생, 세대 소득·세대 집). 조건은 tests/judge/sh_notices.json(정답 데이터에서 생성). 사례 673건 전부 일치
+- 블라인드 감사: evidence/audit/2026-10-06-sh — 코드를 보지 않은 별도 검토자가 공고문만 읽고 12개 조건 × 계층 31칸 판정(blind.json) ↔ 앱(compare.cjs) 다름 0
+- 검사 도구: lh_qa 답하기 채우기에 sh*·pregnant, cross_rule LH-ELIG-001 맞벌이 상한을 공고문 dual_add(+70%p)까지, code_mutation SH 변이 8개(모두 잡힘), sh_screen 에 sh_judge 켬/끔
+- 파일: app/sh_terms.py, app/sh_rental.py, docs/index.html, docs/config.json(sh_judge:false), tests/golden/sh_rental.json, tests/test_sh_terms.py, tests/judge/cases.json, tests/judge/sh_notices.json, tools/make_judge_cases.py, tools/judge_check.cjs, tools/qa/{lh_qa,cross_rule,code_mutation,sh_screen}.cjs, evidence/audit/2026-10-06-sh/
+- 확인(로컬, sh_judge 켠 설정 + 저장된 공고문으로 다시 만든 sh-rental.json): pytest 207 통과(test_pipeline 은 fastapi 없음 — 기존과 같음), 판정 사례 673/673, lh_qa(퍼징·단조성·답하기 고리 0·정보 감소 새 '가능' 0), cross 0, e2e 34/34, 변이 60(못 잡음 0), consistency·monotonic·profile_keep·filter·sptext·snapshot·regress 0, sh_screen 통과, 390px 상세 화면 확인
+- 백업: backup/20261006-1725-shjudge
+- 기능: sh_judge
+
 ## 2026-10-06 16:04 · 판정 검증 실패(이슈 #6) 고침 — LH QA 카드 글자 비교
 - 요청: (자체) v1.57.0 을 올린 뒤 '판정 검증' Actions 가 '검증 요약 저장'에서 실패, 이슈 #6
 - 원인: tools/qa/lh_qa.cjs 의 '카드 = 판정' 비교가 옛 이름표(R_HEAD '판정 미지원 유형')로 비교 — 화면은 sh_rental 이 켜지면 '판정 미지원 · 공고문 확인'(rHead). SH 공고 8건이 '다름'으로 잡혀 lh_judge_qa_fails 8 → verify-status ok false. 화면·판정 오류가 아니라 검사 도구가 화면의 이름표 함수를 쓰지 않은 것

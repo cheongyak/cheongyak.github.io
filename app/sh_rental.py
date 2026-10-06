@@ -20,6 +20,8 @@ from pathlib import Path
 from typing import Optional
 from urllib.parse import urlencode
 
+from app.sh_terms import parse_sh_terms
+
 import httpx
 
 ROOT = Path(__file__).resolve().parents[1]
@@ -143,17 +145,43 @@ def apply_period(text: str, posted: Optional[str]) -> Optional[dict]:
     return None
 
 
+def terms_note(rec: dict) -> str:
+    T = rec.get("terms")
+    if not T:
+        return ""
+    return f" · 자격 {'·'.join(g['key'] for g in T['groups'])}" + (f" · [검증] 자격 읽기 문제: {'; '.join(T['issues'])}" if T.get("issues") else "")
+
+
+def golden_check(notices: list[dict]) -> list[str]:
+    """정답 데이터(tests/golden/sh_rental.json terms)와 이번에 읽은 자격이 다르면 [검증·정답 불일치]"""
+    gp = ROOT / "tests" / "golden" / "sh_rental.json"
+    if not gp.exists():
+        return []
+    strip = lambda T: {**{k: v for k, v in T.items() if k not in ("quote", "issues")}, "groups": [{k: v for k, v in g.items() if k != "name"} for g in T["groups"]]}
+    by = {n["id"]: n for n in notices}
+    out = []
+    for g in json.loads(gp.read_text(encoding="utf-8"))["notices"]:
+        N = by.get("SH-" + g["seq"])
+        if N is None or "terms" not in g:
+            continue
+        if not N.get("terms") or strip(N["terms"]) != strip(g["terms"]):
+            out.append(f"[검증·정답 불일치] SH-{g['seq']} 신청자격이 정답 데이터와 다름")
+    return out
+
+
 def notice_record(row: dict, files: list[dict], text: Optional[str]) -> dict:
     title = row["title"]
     f = pick_pdf(files)
     per = apply_period(text or "", row.get("date"))
+    kind = kind_of(title)
+    terms = parse_sh_terms(text or "", kind)   # 2단계(기능 sh_judge): 신혼·신생아 매입임대·청년 매입임대만 신청자격을 읽는다
     return {
         "id": "SH-" + row["seq"],
         "org": "SH",
         "name": title,
-        "type": kind_of(title),
+        "type": kind,
         "youth": bool(re.search(r"청년|대학생", title)),
-        "judge_type": False,          # 1단계: 자격 판정 안 함 (화면 '판정 미지원 유형 · 공고문 확인')
+        "judge_type": terms is not None,   # 자격을 읽은 종류만 판정 (화면은 스위치 sh_judge 가 꺼져 있으면 모두 '판정 미지원')
         "region": "서울특별시",
         "posted": row.get("date"),
         "close": per["apply_end"] if per else None,
@@ -161,7 +189,7 @@ def notice_record(row: dict, files: list[dict], text: Optional[str]) -> dict:
         "url": VIEW_PUBLIC.format(seq=row["seq"]),
         "url_mobile": BRD + f"view.do?multi_itm_seq=2&seq={row['seq']}",
         "schedule": [{"complex": None, "apply_start": per["apply_start"], "apply_end": per["apply_end"], "docs_target": None, "winner": None, "rank1": per.get("rank1", False), "quote": per["quote"]}] if per else [],
-        "complexes": [], "units": [], "rents": [], "terms": None,
+        "complexes": [], "units": [], "rents": [], "terms": terms,
         "files": [{"kind": "PDF 공고문" if f2 is f else "첨부", "name": f2.get("oriFileNm"), "url": file_url(f2)} for f2 in files],
         "notice_pdf": file_url(f) if f else None,
         "notice_text": len(text) if text else None,
@@ -208,7 +236,7 @@ def main() -> int:
                     rec = notice_record(x, files, tp.read_text(encoding="utf-8"))
                     rec["files"], rec["notice_pdf"] = prev[nid].get("files", []), prev[nid].get("notice_pdf")
                     notices.append(rec)
-                    log.append(f"[공고] {nid} {x['title'][:40]} · 이전 글 · 접수 {rec['schedule'][0]['apply_start'] + '~' + rec['schedule'][0]['apply_end'] if rec['schedule'] else '못 읽음'}")
+                    log.append(f"[공고] {nid} {x['title'][:40]} · 이전 글 · 접수 {rec['schedule'][0]['apply_start'] + '~' + rec['schedule'][0]['apply_end'] if rec['schedule'] else '못 읽음'}{terms_note(rec)}")
                     continue
                 v = c.get(BRD + f"view.do?multi_itm_seq=2&seq={x['seq']}")
                 files = downlist(v.text)
@@ -229,7 +257,7 @@ def main() -> int:
                     tp.write_text(text, encoding="utf-8")
                 rec = notice_record(x, files, text)
                 notices.append(rec)
-                log.append(f"[공고] {nid} {x['title'][:40]} · {rec['type']} · 첨부 {len(files)} · {msg} · 접수 {rec['schedule'][0]['apply_start'] + '~' + rec['schedule'][0]['apply_end'] if rec['schedule'] else '못 읽음'}")
+                log.append(f"[공고] {nid} {x['title'][:40]} · {rec['type']} · 첨부 {len(files)} · {msg} · 접수 {rec['schedule'][0]['apply_start'] + '~' + rec['schedule'][0]['apply_end'] if rec['schedule'] else '못 읽음'}{terms_note(rec)}")
                 time.sleep(0.5)
             except Exception as e:   # 한 공고가 실패해도 계속
                 log.append(f"[공고] {nid} 실패 {e.__class__.__name__}: {str(e)[:120]}")
@@ -238,6 +266,8 @@ def main() -> int:
         LOG.write_text("\n".join(log) + "\n", encoding="utf-8")
         print("\n".join(log))
         return 0
+    gm = golden_check(notices)
+    log += gm or [f"[검증] 신청자격 정답 데이터 대조 일치 (자격 읽은 공고 {sum(1 for n in notices if n.get('terms'))}건)"]
     out = {"updated": now.strftime("%Y-%m-%d %H:%M"), "source": "SH 인터넷청약시스템 공고 및 공지 > 주택임대 (서울주택도시개발공사)", "count": len(notices), "notices": notices}
     OUT.write_text(json.dumps(out, ensure_ascii=False, indent=1) + "\n", encoding="utf-8")
     LOG.write_text("\n".join(log) + "\n", encoding="utf-8")

@@ -78,7 +78,7 @@ const ROOT = join(__dirname, '../..'), DOCS = join(ROOT, 'docs'), NF = Number(pr
           if (!asks.length) break;
           R.loops++;
           const next = Object.assign({}, cur);
-          for (const [, it] of asks) for (const k of it.q) next[k] = k.startsWith('lh') ? (k === 'lhBirthKids' ? 1 : true) : FILL[k];   // 사용자가 답하기에서 고친 값
+          for (const [, it] of asks) for (const k of it.q) next[k] = k.startsWith('lh') || k.startsWith('sh') ? (k === 'lhBirthKids' ? 1 : true) : k === 'pregnant' ? false : FILL[k];   /* sh*: SH 예/아니요 칸, pregnant: 임신 여부 (기능 sh_judge) */   // 사용자가 답하기에서 고친 값
           next._set = [...new Set([...(next._set || []), ...asks.flatMap(([, it]) => it.q)])];
           if (round === 3) { const J3 = judge(N, next); J3.groups.forEach(g => g.items.forEach(it => { if (it.s === 'check' && it.q) R.loopBad.push([N.id, g.key, it.t, it.q.join(',')]); })); }
           cur = next;

@@ -1,5 +1,5 @@
 {
- "note": "SH 임대 모집공고 정답 데이터 — 공고문 원문(evidence/sh/<글번호>.txt, SH 인터넷청약시스템 첨부 공고문 PDF)을 사람이 읽고 확인한 접수 기간. expect_read=false 는 읽기 규칙이 일부러 읽지 않는 형식(일정표·우편접수 섞임) — 읽지 않거나(화면 '공고문 확인') 읽으면 정답과 같아야 한다.",
+ "note": "SH 임대 모집공고 정답 데이터 — 공고문 원문(evidence/sh/<글번호>.txt, SH 인터넷청약시스템 첨부 공고문 PDF)을 사람이 읽고 확인한 접수 기간. expect_read=false 는 읽기 규칙이 일부러 읽지 않는 형식(일정표·우편접수 섞임) — 읽지 않거나(화면 '공고문 확인') 읽으면 정답과 같아야 한다. terms = 신청자격(계층·무주택·소득 퍼센트·총자산·자동차·출산가구 표·날짜 하한)을 공고문에서 직접 읽은 값(SH 2단계, 기능 sh_judge).",
  "verified_at": "2026-10-06",
  "notices": [
   {
@@ -12,7 +12,33 @@
     "apply_end": "2026-10-03"
    },
    "expect_read": true,
-   "verified_from": "Ⅴ. 신청절차 '서류접수 26.10.02 ~26.10.03'"
+   "verified_from": "Ⅴ. 신청절차 '서류접수 26.10.02 ~26.10.03'",
+   "terms": {
+    "income_basis": "도시근로자 월평균소득",
+    "relaxed": false,
+    "homeless_relaxed": false,
+    "sh": true,
+    "birth_bonus": "none",
+    "groups": [
+     {
+      "key": "청년",
+      "age_min": 19,
+      "age_max": 39,
+      "homeless": "self",
+      "income_household": true,
+      "income_pct": {
+       "1": 120,
+       "2": 110,
+       "3+": 100
+      },
+      "asset_manwon": 34500,
+      "car_manwon": 4542,
+      "hh_home_scan": true
+     }
+    ],
+    "quote": "자격요건 ① 만 19세 이상 만 39세 이하 ② 혼인 중이 아닐 것 ③ 세대 월평균소득 100% 이하(1인 4,576,036 20% 가산·2인 6,452,897 10% 가산·3인 8,168,429) ④ 행복주택 자산기준 — 총자산 34,500만원(세대 전원)·개별 자동차가액 4,542만원 · '공고일 현재 무주택자(본인)인 미혼 청년으로서 소득 및 자산 요건은 세대구성원 모두 충족' · Ⅷ '세대구성원 전원을 대상으로 … 모집공고일 이후 주택소유 여부를 확인'"
+   },
+   "terms_verified": "2026-10-06 공고문 원문(evidence/sh/310950.txt) 신청자격·소득 및 자산 기준 절을 직접 읽음"
   },
   {
    "seq": "310653",
@@ -24,7 +50,75 @@
     "apply_end": "2026-10-15"
    },
    "expect_read": true,
-   "verified_from": "공급 진행일정 '신청접수 (온라인) 2026. 10. 13.(화) 10:00 ~ 10. 15.(목) 17:00'"
+   "verified_from": "공급 진행일정 '신청접수 (온라인) 2026. 10. 13.(화) 10:00 ~ 10. 15.(목) 17:00'",
+   "terms": {
+    "income_basis": "도시근로자 월평균소득",
+    "relaxed": false,
+    "homeless_relaxed": false,
+    "sh": true,
+    "birth_bonus": "table",
+    "prewed_ok": true,
+    "groups": [
+     {
+      "key": "신생아가구",
+      "born_from": "2024-10-01",
+      "homeless": "household",
+      "income_pct": {
+       "2": 140,
+       "3+": 130
+      },
+      "dual_add": 70,
+      "asset_manwon": 36200,
+      "car_manwon": "none",
+      "asset_bonus": {
+       "10": 39600,
+       "20": 43100
+      }
+     },
+     {
+      "key": "지원대상한부모",
+      "exempt": true,
+      "homeless": "household",
+      "income_pct": "excluded",
+      "asset_manwon": "excluded",
+      "car_manwon": "excluded"
+     },
+     {
+      "key": "신혼부부·한부모",
+      "wed_from": "2019-10-01",
+      "kid6_from": "2019-10-01",
+      "homeless": "household",
+      "income_pct": {
+       "2": 140,
+       "3+": 130
+      },
+      "dual_add": 70,
+      "asset_manwon": 36200,
+      "car_manwon": "none",
+      "asset_bonus": {
+       "10": 39600,
+       "20": 43100
+      }
+     },
+     {
+      "key": "혼인가구",
+      "homeless": "household",
+      "income_pct": {
+       "2": 140,
+       "3+": 130
+      },
+      "dual_add": 70,
+      "asset_manwon": 36200,
+      "car_manwon": "none",
+      "asset_bonus": {
+       "10": 39600,
+       "20": 43100
+      }
+     }
+    ],
+    "quote": "Ⅱ: Ⅰ 유형 + 혼인가구(‘26.9.30. 현재 혼인신고 완료) · 소득 130% 이하(배우자 소득 있는 경우 200%), 2인 +10%p(표 2인 130% 8,212,778) · 총자산 36,200만원(396,000,000원·431,000,000원) · 자동차는 총자산에 합산(개별 기준 없음) · 지원대상 한부모가족 소득·자산검증 불필요"
+   },
+   "terms_verified": "2026-10-06 공고문 원문(evidence/sh/310653.txt) 신청자격·소득 및 자산 기준 절을 직접 읽음"
   },
   {
    "seq": "310650",
@@ -36,7 +130,68 @@
     "apply_end": "2026-10-15"
    },
    "expect_read": true,
-   "verified_from": "공급 진행일정 '신청접수 (온라인) 2026. 10. 13.(화) 10:00 ~ 10. 15.(목) 17:00'"
+   "verified_from": "공급 진행일정 '신청접수 (온라인) 2026. 10. 13.(화) 10:00 ~ 10. 15.(목) 17:00'",
+   "terms": {
+    "income_basis": "도시근로자 월평균소득",
+    "relaxed": false,
+    "homeless_relaxed": false,
+    "sh": true,
+    "birth_bonus": "table",
+    "prewed_ok": true,
+    "groups": [
+     {
+      "key": "신생아가구",
+      "born_from": "2024-10-01",
+      "homeless": "household",
+      "income_pct": {
+       "2": 80,
+       "3+": 70
+      },
+      "dual_add": 20,
+      "asset_manwon": 34500,
+      "car_manwon": 4542,
+      "asset_bonus": {
+       "10": 37900,
+       "20": 41300
+      },
+      "car_bonus": {
+       "10": 4996,
+       "20": 5451
+      }
+     },
+     {
+      "key": "지원대상한부모",
+      "exempt": true,
+      "homeless": "household",
+      "income_pct": "excluded",
+      "asset_manwon": "excluded",
+      "car_manwon": "excluded"
+     },
+     {
+      "key": "신혼부부·한부모",
+      "wed_from": "2019-10-01",
+      "kid6_from": "2019-10-01",
+      "homeless": "household",
+      "income_pct": {
+       "2": 80,
+       "3+": 70
+      },
+      "dual_add": 20,
+      "asset_manwon": 34500,
+      "car_manwon": 4542,
+      "asset_bonus": {
+       "10": 37900,
+       "20": 41300
+      },
+      "car_bonus": {
+       "10": 4996,
+       "20": 5451
+      }
+     }
+    ],
+    "quote": "세부 신청자격: 신생아가구(‘24.10.1. 이후 출생 자녀 및 태아)·지원대상 한부모가족·신혼부부(혼인신고일 ‘19.10.1.~’26.9.30.)·예비신혼부부·6세 이하 자녀 한부모가족/혼인가구(‘19.10.1. 이후 출생) · 소득 70% 이하(배우자 소득 있는 경우 90%), 2인가구 기준금액 10%p 가산(표 2인 70% 4,693,016) · 총자산 34,500만원(출산 1명 379,000,000원·2명 413,000,000원) · 자동차 4,542만원(49,960,000원·54,510,000원) · 수급자·지원대상 한부모가족(증명서)·차상위계층 소득·자산검증 불필요"
+   },
+   "terms_verified": "2026-10-06 공고문 원문(evidence/sh/310650.txt) 신청자격·소득 및 자산 기준 절을 직접 읽음"
   },
   {
    "seq": "310629",
@@ -60,7 +215,33 @@
     "apply_end": "2026-09-11"
    },
    "expect_read": true,
-   "verified_from": "Ⅴ. 신청절차 '서류접수 2026.09.10. ~2026.09.11.'"
+   "verified_from": "Ⅴ. 신청절차 '서류접수 2026.09.10. ~2026.09.11.'",
+   "terms": {
+    "income_basis": "도시근로자 월평균소득",
+    "relaxed": false,
+    "homeless_relaxed": false,
+    "sh": true,
+    "birth_bonus": "none",
+    "groups": [
+     {
+      "key": "청년",
+      "age_min": 19,
+      "age_max": 39,
+      "homeless": "self",
+      "income_household": true,
+      "income_pct": {
+       "1": 120,
+       "2": 110,
+       "3+": 100
+      },
+      "asset_manwon": 34500,
+      "car_manwon": 4542,
+      "hh_home_scan": true
+     }
+    ],
+    "quote": "자격요건 ① 만 19세 이상 만 39세 이하 ② 혼인 중이 아닐 것 ③ 세대 월평균소득 100% 이하(1인 4,576,036 20% 가산·2인 6,452,897 10% 가산·3인 8,168,429) ④ 행복주택 자산기준 — 총자산 34,500만원(세대 전원)·개별 자동차가액 4,542만원 · '공고일 현재 무주택자(본인)인 미혼 청년으로서 소득 및 자산 요건은 세대구성원 모두 충족' · Ⅷ '세대구성원 전원을 대상으로 … 모집공고일 이후 주택소유 여부를 확인'"
+   },
+   "terms_verified": "2026-10-06 공고문 원문(evidence/sh/309802.txt) 신청자격·소득 및 자산 기준 절을 직접 읽음"
   },
   {
    "seq": "310041",
@@ -142,6 +323,44 @@
    "apply": null,
    "expect_read": false,
    "verified_from": "공고문에 접수 기간 날짜 없음(모집 개요·세대표만)"
+  },
+  {
+   "seq": "309807",
+   "title": "[청년형] 특화형 매입임대주택 입주자 모집 공고(운영기관 : 한지붕 협동조합)",
+   "type": "청년 매입임대",
+   "posted": "2026-09-07",
+   "apply": {
+    "apply_start": "2026-09-07",
+    "apply_end": "2026-09-08"
+   },
+   "expect_read": true,
+   "verified_from": "Ⅴ. 신청절차 '서류접수 26.09.07 ~26.09.08'",
+   "terms": {
+    "income_basis": "도시근로자 월평균소득",
+    "relaxed": false,
+    "homeless_relaxed": false,
+    "sh": true,
+    "birth_bonus": "none",
+    "groups": [
+     {
+      "key": "청년",
+      "age_min": 19,
+      "age_max": 39,
+      "homeless": "self",
+      "income_household": true,
+      "income_pct": {
+       "1": 120,
+       "2": 110,
+       "3+": 100
+      },
+      "asset_manwon": 34500,
+      "car_manwon": 4542,
+      "hh_home_scan": true
+     }
+    ],
+    "quote": "자격요건 ① 만 19세 이상 만 39세 이하 ② 혼인 중이 아닐 것 ③ 세대 월평균소득 100% 이하(1인 4,576,036 20% 가산·2인 6,452,897 10% 가산·3인 8,168,429) ④ 행복주택 자산기준 — 총자산 34,500만원(세대 전원)·개별 자동차가액 4,542만원 · '공고일 현재 무주택자(본인)인 미혼 청년으로서 소득 및 자산 요건은 세대구성원 모두 충족' · Ⅷ '세대구성원 전원을 대상으로 … 모집공고일 이후 주택소유 여부를 확인'"
+   },
+   "terms_verified": "2026-10-06 공고문 원문(evidence/sh/309807.txt) 신청자격·소득 및 자산 기준 절을 직접 읽음 (출생일 1986.09.08.~2007.09.07.)"
   }
  ]
 }

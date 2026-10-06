@@ -11,6 +11,7 @@ const DOCS = join(ROOT, 'docs');
 const cases = JSON.parse(readFileSync(join(ROOT, 'tests/judge/cases.json'), 'utf8'));
 const listings = JSON.parse(readFileSync(join(ROOT, 'tests/judge/listings.json'), 'utf8'));
 const lhNotices = existsSync(join(ROOT, 'tests/judge/lh_notices.json')) ? JSON.parse(readFileSync(join(ROOT, 'tests/judge/lh_notices.json'), 'utf8')) : [];   // 기능 lh_rental — 정답 데이터에서 만든 임대 공고 조건
+  lhNotices.push(...(existsSync(join(ROOT, 'tests/judge/sh_notices.json')) ? JSON.parse(readFileSync(join(ROOT, 'tests/judge/sh_notices.json'), 'utf8')) : []));   // 기능 sh_judge — SH 정답 데이터에서 만든 공고 조건
   lhNotices.push(...(existsSync(join(ROOT, 'tests/judge/lh_synthetic.json')) ? JSON.parse(readFileSync(join(ROOT, 'tests/judge/lh_synthetic.json'), 'utf8')) : []));   // 공고문을 잘못 읽은 경우 모의 (make_judge_cases)
 const exe = process.argv.includes('--chromium') ? process.argv[process.argv.indexOf('--chromium') + 1] : (existsSync('/opt/pw-browsers/chromium') ? '/opt/pw-browsers/chromium' : undefined);
 const TYPES = { '.html':'text/html', '.json':'application/json', '.js':'text/javascript', '.png':'image/png', '.webmanifest':'application/manifest+json', '.txt':'text/plain' };

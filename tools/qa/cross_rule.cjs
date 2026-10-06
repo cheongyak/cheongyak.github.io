@@ -130,10 +130,10 @@ const ROOT = join(__dirname, '../..'), DOCS = join(ROOT, 'docs');
       for (const N of lhNotices) {
         const J = rentalJudge(N, p), T = N.terms, ref = N.posted, age = rAge(p.birth, ref), L = { id: 'LH-' + N.id, name: N.name };
         J.groups.forEach((g, gi) => { const G = T.groups[gi]; checks += 6; if (g.s !== 'ok') return;
-          // LH-ELIG-001: 가능인데 소득이 그 계층 최대 기준(1인·2인 가산 + 맞벌이 + 출산 20%p)을 넘음
+          // LH-ELIG-001: 가능인데 소득이 그 계층 최대 기준(1인·2인 가산 + 맞벌이(30%p 또는 공고문 dual_add) + 출산 20%p)을 넘음
           if (G.income_pct && G.income_pct !== 'excluded' && p.hhIncomeYear != null && p.hhIncomeYear !== '' && p.hhSize && !(G.key === '청년' && p.household === 'parents') && G.key !== '대학생') {
             const n = Number(p.hhSize), pct = G.income_pct[n === 1 ? '1' : n === 2 ? '2' : '3+'], base = rIncomeBase(N, n);
-            if (pct != null && base && Number(p.hhIncomeYear) * 10000 / 12 > base * (pct + 20 + 30) / 100 + 1) v('LH-ELIG-001', 'CRITICAL', L, G.key + ' 소득 월 ' + Math.round(Number(p.hhIncomeYear) * 10000 / 12), '계층 가능', '불가', ['hhIncomeYear', 'terms.income_pct'], '공고문 소득 기준표', null);
+            if (pct != null && base && Number(p.hhIncomeYear) * 10000 / 12 > base * (pct + 20 + Math.max(30, Number(G.dual_add) || 0)) / 100 + 1)   /* 맞벌이 가산은 공고문 값(SH 신혼·신생아 Ⅱ +70%p)이 30%p 보다 크면 그 값 */ v('LH-ELIG-001', 'CRITICAL', L, G.key + ' 소득 월 ' + Math.round(Number(p.hhIncomeYear) * 10000 / 12), '계층 가능', '불가', ['hhIncomeYear', 'terms.income_pct'], '공고문 소득 기준표', null);
           }
           // LH-ELIG-002: 가능인데 자동차·총자산이 한도(+출산 20%)를 넘음
           if (typeof G.car_manwon === 'number' && p.carValue != null && p.carValue !== '' && Number(p.carValue) > G.car_manwon * 1.2 + 1) v('LH-ELIG-002', 'CRITICAL', L, G.key + ' 자동차 ' + p.carValue, '계층 가능', '불가', ['carValue', 'terms.car_manwon'], '공고문 자산 기준', null);
