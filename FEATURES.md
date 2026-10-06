@@ -156,6 +156,7 @@
 | `lh_pdf_multi` | LH 임대 공고문 PDF 를 pypdf·pypdfium2·pdfplumber(글+칸 단위 표) 세 도구로 읽어 evidence/lh/pdfium·plumber 에 저장하고, 한 도구가 못 읽은 값은 채우고 서로 다르면 확인 필요(일반분양 pdf_dual_read 와 같은 방식) | 수집(app/lh_rental.py, app/lh_pdf_merge.py) | 끄면 첫 도구(pypdf) 글만 씀 | ba2debb1, (이 커밋) | backup/20261005-2102-lhpdf |
 | `lh_cta` | LH 임대 공고 상세 하단 고정 버튼(분양 detail_cta 와 같은 모양): 모집공고문 · 문의 전화(공고 문의처 번호가 있을 때) · LH 청약플러스 공고 ↗(LH API 상세 주소) | 화면(rentalCta) | 끄면 하단 버튼 없이 이전처럼 맨 아래 글로만 안내 | 8b88adc3 | backup/20261006-0602-lhcta |
 | `lh_summary` | 임대·청년 주택 목록 위 '내 조건' 판정 개수(신청 가능·확인 필요·조건 밖, 마감 전 공고)와 접수 중·새 공고 7일·이번 주 마감 숫자 — 누르면 그 공고만 목록에(다시 누르면 해제). 안내 글은 목록 아래로 | 화면(rentalSummary·rentalList) | 끄면 요약 없이 이전 목록(안내 글 위) | 1d298fe9 | backup/20261006-1042-lhsum |
+| `lh_ui_v2` | 임대 화면 정리(2026-10-06 사용자 'ui/ux 가 정신없는데 최적화'): 목록 유형·지역은 고르기 칸 2개, 카드는 분양처럼(유형·지역 | 일정 배지 · 이름 · 전용·보증금·월세 · 판정), 상세는 판정 크게(접수·보증금·계층 타일) → 내 자격 → 공고 한눈에(일정·주택형·보증금) → 접은 자격 기준·단지 | 화면(lhCard·vRental·vRDetail·rDday) | 끄면 이전 화면(버튼 줄 거르기·카드 여러 개 상세) | (이 커밋) | backup/20261006-1141-lhux |
 
 `naver_map`·`nearby`·`analytics` 는 한 커밋(147fa99)에 함께 들어갔다. 이 셋 중 하나만 없애려면 revert 대신 스위치로 끄거나,
 해당 부분만 지우는 새 커밋을 만든다.
