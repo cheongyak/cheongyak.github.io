@@ -110,7 +110,7 @@ def main() -> int:
         try:
             for js in ("/app/js/sh/board-common.js", "/app/inno/common/innorix.config.js", "/app/js/sh/cms-common.js", "/app/lib/js/common.js"):
                 r = c.get(BASE + js)
-                for m in re.finditer(r"function\s+(existFile|fn_?[Ff]ile[Dd]own\w*|[Ff]ile[Dd]own\w*|download\w*)\s*\([^)]*\)\s*\{", r.text):
+                for m in re.finditer(r"function\s+(singleDownload|existFile|fn_?[Ff]ile[Dd]own\w*|[Ff]ile[Dd]own\w*|download\w*)\s*\([^)]*\)\s*\{", r.text):
                     log.append(f"[스크립트] {js} {m.group(1)}: " + re.sub(r"\s+", " ", r.text[m.start(): m.start() + 1800]))
                 for m in re.finditer(r"[\"'](/[^\"']*(?:[Dd]own|[Ff]ile)[^\"']*\.do)[\"']", r.text):
                     log.append(f"[스크립트] {js} 주소 {m.group(1)}")
@@ -124,8 +124,15 @@ def main() -> int:
             log.append(f"[첨부 목록] {x['seq']} " + "; ".join(f"{d.get('fileSeq')}:{d.get('oriFileNm')}" for d in dl))
             f0 = next((d for d in dl if str(d.get("oriFileNm", "")).lower().endswith(".pdf")), None)
             if f0:
-                cands = [f"{BASE}/app/com/util/fileDown.do", f"{BASE}/app/com/util/fileDownload.do", f"{BASE}/app/com/util/download.do", f"{BASE}/main/com/util/fileDown.do"]
-                prm = {"brd_id": f0["brdId"], "seq": f0["seq"], "data_tp": f0.get("fileTp", "A"), "file_seq": f0["fileSeq"]}
+                # innorix.config.js: existFile → POST /com/file/existFile.do {brdId, seq, fileSeq, fileTp} → singleDownload(num) (주소 /com/file/innoFD.do)
+                for u in (f"{BASE}/com/file/existFile.do", f"{BASE}/app/com/file/existFile.do"):
+                    try:
+                        r = c.post(u, data={"brdId": f0["brdId"], "seq": f0["seq"], "fileSeq": f0["fileSeq"], "fileTp": f0.get("fileTp", "A")}, headers={**UA, "Referer": x["url"], "X-Requested-With": "XMLHttpRequest"})
+                        log.append(f"[존재 확인] {u} → {r.status_code} {r.text[:120]!r}")
+                    except Exception as e:
+                        log.append(f"[존재 확인] {u} 실패 {e.__class__.__name__}")
+                cands = [f"{BASE}/com/file/innoFD.do", f"{BASE}/app/com/file/innoFD.do", f"{BASE}/main/com/file/innoFD.do"]
+                prm = {"brdId": f0["brdId"], "seq": f0["seq"], "fileSeq": f0["fileSeq"], "fileTp": f0.get("fileTp", "A")}
                 for u in cands:
                     for meth in ("GET", "POST"):
                         try:
