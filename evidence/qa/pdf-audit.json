@@ -2,8 +2,9 @@
  "date": "2026-10-06",
  "page_cap": 300,
  "notices": 55,
- "with_problem": 1,
+ "with_problem": 4,
  "kinds": {
+  "PDF 를 하나도 받지 못함": 3,
   "글자가 거의 없는 쪽 N개 (스캔 이미지·표 그림 추정)": 1
  },
  "errors": [],
@@ -1111,60 +1112,20 @@
    "name": "힐스테이트 고덕엘리스트 A65BL 공공분양주택",
    "url": "https://www.applyhome.co.kr/ai/aia/selectAPTLttotPblancDetail.do?houseManageNo=2026000438&pblancNo=2026000438",
    "attachments": 1,
-   "pdfs": 1,
+   "pdfs": 0,
    "attachment_list": [
     {
      "url": "https://static.applyhome.co.kr/ai/aia/getAtchmnfl.do?houseManageNo=2026000438&pblancNo=2026000438&atchmnflSeqNo=1973016&atchmnflSn=5",
-     "bytes": 1152965,
-     "pages": 93,
-     "chars": 184469,
-     "head": "- 1 - 구분 변경 전 변경 후 품목 타입 (약식표기) 페이지 품목 타입 (약식표기) 페이지 다이닝 컬렉션 1 주방 평면 변화 + 벽체/상판 "
+     "error": "PDF 아님 (200, 59바이트)"
+    },
+    {
+     "url": "LH청약플러스",
+     "error": "LH청약플러스에서 같은 공고를 못 찾음 (검색 0건)"
     }
    ],
-   "chosen": "https://static.applyhome.co.kr/ai/aia/getAtchmnfl.do?houseManageNo=2026000438&pblancNo=2026000438&atchmnflSeqNo=1973016&atchmnflSn=5",
-   "pages": 93,
-   "pages_read": 93,
-   "chars_read": 184561,
-   "empty_pages": [],
-   "chars_per_page_min": 458,
-   "fields": {
-    "price_cap": true,
-    "residence_duty": 3,
-    "rewin_years": 10,
-    "account_months": 12,
-    "deposit_count": 12,
-    "residence": {
-     "area": "경기도 평택시",
-     "months": 12,
-     "since": "2025-09-11"
-    }
-   },
-   "fields_merged": {
-    "price_cap": true,
-    "residence_duty": 3,
-    "rewin_years": 10,
-    "account_months": 12,
-    "deposit_count": 12,
-    "residence": {
-     "area": "경기도 평택시",
-     "months": 12,
-     "since": "2025-09-11"
-    }
-   },
-   "fields_pdfium": {
-    "price_cap": true,
-    "residence_duty": 3,
-    "rewin_years": 10,
-    "account_months": 12,
-    "deposit_count": 12,
-    "residence": {
-     "area": "경기도 평택시",
-     "months": 12,
-     "since": "2025-09-11"
-    }
-   },
-   "pdfium_chars": 184389,
-   "problem": []
+   "problem": [
+    "PDF 를 하나도 받지 못함"
+   ]
   },
   {
    "notice": "2026000437",
@@ -2428,51 +2389,16 @@
    "name": "세종 우미 린 센터파크(행정중심복합도시 5-2생활권 S1블록, 글미마을 9단지)",
    "url": "https://www.applyhome.co.kr/ai/aia/selectAPTRemndrLttotPblancDetailView.do?houseManageNo=2026910249&pblancNo=2026910249",
    "attachments": 1,
-   "pdfs": 1,
+   "pdfs": 0,
    "attachment_list": [
     {
      "url": "https://static.applyhome.co.kr/ai/aia/getAtchmnfl.do?houseManageNo=2026910249&pblancNo=2026910249&atchmnflSeqNo=1988068&atchmnflSn=3",
-     "bytes": 292842,
-     "pages": 13,
-     "chars": 22256,
-     "head": "- 1 - ※ 단지 주요정보 (분양문의) 044-866-3666 주택유형 규제지역여부 무순위(사후) 자격요건 민영 비규제지역 무순위(사후) 입주"
+     "error": "PDF 아님 (200, 59바이트)"
     }
    ],
-   "chosen": "https://static.applyhome.co.kr/ai/aia/getAtchmnfl.do?houseManageNo=2026910249&pblancNo=2026910249&atchmnflSeqNo=1988068&atchmnflSn=3",
-   "pages": 13,
-   "pages_read": 13,
-   "chars_read": 22268,
-   "empty_pages": [],
-   "chars_per_page_min": 686,
-   "fields": {
-    "need_head": false,
-    "price_cap": true,
-    "residence": {
-     "area": "세종특별자치시",
-     "months": 0,
-     "since": null
-    }
-   },
-   "fields_merged": {
-    "need_head": false,
-    "price_cap": true,
-    "residence": {
-     "area": "세종특별자치시",
-     "months": 0,
-     "since": null
-    }
-   },
-   "fields_pdfium": {
-    "need_head": false,
-    "price_cap": true,
-    "residence": {
-     "area": "세종특별자치시",
-     "months": 0,
-     "since": null
-    }
-   },
-   "pdfium_chars": 21991,
-   "problem": []
+   "problem": [
+    "PDF 를 하나도 받지 못함"
+   ]
   },
   {
    "notice": "2026910251",
@@ -3267,57 +3193,16 @@
    "name": "더 리치먼드 미아(3차)",
    "url": "https://www.applyhome.co.kr/ai/aia/selectAPTRemndrLttotPblancDetailView.do?houseManageNo=2026910244&pblancNo=2026910244",
    "attachments": 1,
-   "pdfs": 1,
+   "pdfs": 0,
    "attachment_list": [
     {
      "url": "https://static.applyhome.co.kr/ai/aia/getAtchmnfl.do?houseManageNo=2026910244&pblancNo=2026910244&atchmnflSeqNo=1971189&atchmnflSn=3",
-     "bytes": 344968,
-     "pages": 15,
-     "chars": 29538,
-     "head": "- 1 - ※ 해당 주택건설지역인 서울특별시 강북구는 2025. 10. 16. 투기과열지구로 지정되어, 토지거래허가규제 대상이나, 본 주택은 근"
+     "error": "PDF 아님 (200, 59바이트)"
     }
    ],
-   "chosen": "https://static.applyhome.co.kr/ai/aia/getAtchmnfl.do?houseManageNo=2026910244&pblancNo=2026910244&atchmnflSeqNo=1971189&atchmnflSn=3",
-   "pages": 15,
-   "pages_read": 15,
-   "chars_read": 29552,
-   "empty_pages": [],
-   "chars_per_page_min": 1327,
-   "fields": {
-    "need_head": false,
-    "price_cap": false,
-    "residence_duty": 0,
-    "rewin_years": 10,
-    "residence": {
-     "area": null,
-     "months": 0,
-     "since": null
-    }
-   },
-   "fields_merged": {
-    "need_head": false,
-    "price_cap": false,
-    "residence_duty": 0,
-    "rewin_years": 10,
-    "residence": {
-     "area": null,
-     "months": 0,
-     "since": null
-    }
-   },
-   "fields_pdfium": {
-    "need_head": false,
-    "price_cap": false,
-    "residence_duty": 0,
-    "rewin_years": 10,
-    "residence": {
-     "area": null,
-     "months": 0,
-     "since": null
-    }
-   },
-   "pdfium_chars": 28532,
-   "problem": []
+   "problem": [
+    "PDF 를 하나도 받지 못함"
+   ]
   },
   {
    "notice": "2026910240",
