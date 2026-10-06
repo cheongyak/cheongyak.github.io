@@ -63,6 +63,13 @@ const BAD = /\bNaN\b|\bundefined\b|\[object Object\]/;
       const r = await page.evaluate(() => { S.rcat = 'rent'; S.rtype = ''; S.rsido = ''; S.rsum = S.relig = null; S.view = 'rental'; render();
         const out = { bad: [] }, nOf = () => document.querySelectorAll('[data-ropen]').length;
         const all = nOf(); out.all = all;
+        // 기능 lh_sheet: 숫자를 누르면 아래 목록 창(거르기 아님) — 창의 공고 수 = 숫자, 목록은 그대로, 닫으면 창이 사라짐
+        [...document.querySelectorAll('[data-rsheet]')].map(b => b.dataset.rsheet).forEach(k => { const q = () => document.querySelector(`[data-rsheet="${k}"]`);
+          const want = Number(q().querySelector('b').textContent); q().click();
+          const got = document.querySelectorAll('.sheet [data-ropen]').length; if (got !== want) out.bad.push(`목록 창 ${k} ${want} ≠ 창 ${got}`);
+          if (nOf() - got !== all) out.bad.push(`목록 창 ${k}: 뒤 목록이 걸러짐 ${nOf() - got} ≠ ${all}`);
+          document.querySelector('[data-action="rsheet-close"]').click(); if (document.querySelector('.sheet')) out.bad.push(`목록 창 ${k} 닫히지 않음`); });
+        if (on('lh_sheet') && !document.querySelector('[data-rsheet]')) out.bad.push('목록 창 버튼 없음');
         [...document.querySelectorAll('[data-rsum]')].map(b => b.dataset.rsum).forEach(k => { const q = () => document.querySelector(`[data-rsum="${k}"]`);   // 누를 때마다 다시 찾는다(다시 그리면 버튼이 바뀜)
           const want = Number(q().querySelector('b').textContent); q().click(); if (nOf() !== want) out.bad.push(`요약 ${k} ${want} ≠ 목록 ${nOf()}`);
           q().click(); if (nOf() !== all) out.bad.push(`요약 ${k} 해제 뒤 ${nOf()} ≠ ${all}`); });

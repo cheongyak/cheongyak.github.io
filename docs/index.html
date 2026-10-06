@@ -462,7 +462,7 @@ body.gm .listing .bcol{gap:4px} body.gm .listing .bcol .badge{width:54px;min-wid
 body.gm .listing.g-flat .bcol .badge,body.gm .listing.g-unknown .bcol .badge{font-size:12px} body.gm .listing .brate{font-size:13px}
 /* 기능: detail_tidy */
 .sr-only{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap} .rfilt{display:flex;gap:8px;align-items:center;margin-bottom:8px} .rsel{position:relative;flex:1;min-width:0;max-width:200px} .rsel select{width:100%;height:40px;padding:0 30px 0 14px;border-radius:20px;border:1px solid var(--line);background:var(--surface);color:var(--fg);font:inherit;font-size:14px;font-weight:600;appearance:none;-webkit-appearance:none} .rsel::after{content:'';position:absolute;right:14px;top:50%;width:7px;height:7px;border-right:2px solid var(--muted);border-bottom:2px solid var(--muted);transform:translateY(-70%) rotate(45deg);pointer-events:none}
-.rc2{gap:8px;text-align:left} .rc2 .rname{font-size:16px;line-height:1.35} .rd2-head{gap:8px}
+.rsi .si-main b{white-space:normal;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden} .rc2{gap:8px;text-align:left} .rc2 .rname{font-size:16px;line-height:1.35} .rd2-head{gap:8px}
 .rfold{margin-top:0} .rfold>summary{list-style:none;cursor:pointer;display:flex;justify-content:space-between;align-items:center;min-height:48px;padding:10px 16px;border:1px solid var(--line);border-radius:14px;background:var(--surface);font-weight:600;font-size:14px} .rfold>summary::-webkit-details-marker{display:none} .rfold>summary::after{content:'';width:8px;height:8px;border-right:2px solid currentColor;border-bottom:2px solid currentColor;transform:rotate(45deg);margin-top:-4px} .rfold[open]>summary::after{transform:rotate(-135deg);margin-top:4px} .rfold-in{display:flex;flex-direction:column;gap:10px;padding:12px 4px 0}
 .rstats{display:grid;grid-template-columns:repeat(auto-fit,minmax(0,1fr));gap:6px;margin-top:10px} .rstat{display:flex;flex-direction:column;align-items:flex-start;gap:2px;padding:8px 10px;border-radius:10px;border:0;background:var(--surface);color:var(--fg);font:inherit;text-align:left;cursor:pointer;min-width:0}
 .rstat span{font-size:12px;color:var(--muted)} .rstat b{font-size:15px;white-space:nowrap} .pc-rank{display:flex;flex-direction:column;gap:4px;border-top:1px solid var(--line);padding-top:8px} .pc-more .tr-list{margin-top:6px} .mgbare{display:flex;flex-direction:column;gap:10px;margin-top:6px}
@@ -655,7 +655,7 @@ function initDetailMap(el, L){
   }).catch(() => showMapFail(el));
 }
 function afterRender(){
-  document.body.classList.toggle('sheet-open', !!(S.sheet && S.view === 'feed'));
+  document.body.classList.toggle('sheet-open', !!(S.sheet && S.view === 'feed') || !!(S.rsheet && S.view === 'rental'));
   const sh = document.querySelector('.sheet'); if (sh) { const b = sh.querySelector('.sheet-item') || sh.querySelector('button'); if (b) b.focus({ preventScroll:true }); }
   const f = document.getElementById('feedmap'); if (f) initFeedMap(f, feedList());
   const d = document.getElementById('detailmap'); if (d) initDetailMap(d, LISTINGS.find(x => x.id === S.id));
@@ -5371,10 +5371,27 @@ function rentalList(){
   }
   return L;
 }
+/* 임대 요약 숫자를 누르면 아래에서 올라오는 공고 목록 (기능 lh_sheet, 2026-10-06 사용자 '접수중 거기 란도 일반분양처럼 누르면 팝업처럼, 필터처럼 걸리게 하지 말고').
+   목록 거르기(유형·지역)는 그대로 따르고, 공고를 누르면 그 공고 상세로 */
+function rentalSheet(){
+  if (!on('lh_sheet') || !S.rsheet || !R_SUM[S.rsheet] || !RENTAL) return '';
+  const t = R_SUM[S.rsheet][0], L = rentalBase().filter(R_SUM[S.rsheet][1]);
+  L.sort((a, b) => S.rsheet === 'fresh' ? String(b.posted || '').localeCompare(String(a.posted || '')) : rEnd(a).localeCompare(rEnd(b)));
+  const where = [S.rcat === 'youth' ? '청년 주택' : '공공임대', S.rtype, S.rsido || '전국'].filter(Boolean).join(' · ');
+  return `<div class="sheet-bg" data-action="rsheet-close"></div>
+  <div class="sheet" role="dialog" aria-modal="true" aria-label="${esc(t)} 임대 공고 ${L.length}건">
+    <div class="sheet-grip" aria-hidden="true"></div>
+    <div class="row"><h2 style="margin:0">${esc(t)} <span class="muted" style="font-weight:500">${L.length}건 · ${esc(where)}</span></h2><button class="linkbtn" data-action="rsheet-close" aria-label="닫기">닫기</button></div>
+    <div class="sheet-list">${L.map(N => { const J = hasProfile() ? rentalJudgeSafe(N, S.profile) : null, h = J ? R_HEAD[J.s] : null, dd = rDday(N);
+      return `<button class="sheet-item rsi" data-ropen="${esc(N.id)}"><span class="si-main"><b>${esc(N.name || '')}</b><span class="small muted">${esc(N.type || '')} · ${esc((N.region || '').replace(/(특별자치도|특별자치시|광역시|특별시)$/, ''))}${h ? ` · <span class="st-${h[0] === 'info' ? 'warn' : h[0]}">${h[1]}</span>` : ''}</span></span><span class="dday ${dd[1]}">${esc(dd[0].replace(/^접수 중 · /, ''))}</span></button>`; }).join('')}</div>
+    <p class="foot">판정은 입력한 조건 기준이에요. 누르면 그 공고 상세로 가요.</p>
+  </div>`;
+}
 function rentalSummary(){
   if (!on('lh_summary') || !RENTAL) return '';
   const base = rentalBase(), p = S.profile;
   const cell = k => { const n = base.filter(R_SUM[k][1]).length, t = R_SUM[k][0];
+    if (n && on('lh_sheet')) return `<button type="button" data-rsheet="${k}" aria-haspopup="dialog" aria-label="${t} ${n}건 목록 보기"><b>${n}</b><span>${t} ›</span></button>`;   /* 기능 lh_sheet — 분양처럼 아래에서 올라오는 목록(거르기 아님) */
     return n ? `<button type="button" data-rsum="${k}" aria-pressed="${S.rsum === k}" aria-label="${t} ${n}건만 보기"><b>${n}</b><span>${t}${S.rsum === k ? ' ✓' : ' ›'}</span></button>` : `<div><b>0</b><span>${t}</span></div>`; };
   const bar = `<div class="sumbar" role="group" aria-label="임대 공고 요약">${cell('now')}${cell('fresh')}${cell('closing')}</div>`;
   if (!hasProfile()) return bar;
@@ -5445,6 +5462,7 @@ function vRental(){
     : !RENTAL ? '<div class="card"><span class="small muted">임대 공고를 불러오는 중이에요…</span></div>'
     : list.length ? `<p class="small muted">${list.length}건${on('lh_summary') && (S.rsum || S.relig) ? ` · <button class="linkbtn small" data-rclear="1">거르기 풀기</button>` : ''}</p>` + list.map(lhCard).join('') : `<div class="card empty"><b>조건에 맞는 임대 공고가 없어요</b>${on('lh_summary') && (S.rsum || S.relig) ? '<button class="linkbtn" data-rclear="1">거르기 풀기</button>' : ''}</div>`}
   ${on('lh_summary') ? '<div style="margin-top:12px">' + intro + '</div>' : ''}
+  ${rentalSheet()}
   <p class="foot">임대 공고 출처: LH 청약플러스(공공데이터포털 한국토지주택공사 분양임대공고 조회) · 자격 기준: 각 모집공고문, 공공주택 특별법 시행규칙 별표 3·4·5·5의2. 판정은 참고용이며 신청 전 공고문을 꼭 확인하세요.</p>`;
 }
 /* 임대 공고 상세 하단 고정 버튼 (기능: lh_cta, 2026-10-06 사용자 '공공임대 청년주택도 공고 들어가면 신청할 수 있게 일반분양처럼 아래에 나오게').
@@ -5620,25 +5638,27 @@ function syncV2(p){
 }
 function save(){ store.set('cy-profile', syncV2(syncHome(S.profile))); }
 
-document.addEventListener('keydown', ev => { if (ev.key === 'Escape' && S.sheet) { S.sheet = null; render(); } });
+document.addEventListener('keydown', ev => { if (ev.key === 'Escape' && (S.sheet || S.rsheet)) { S.sheet = null; S.rsheet = null; render(); } });
 document.addEventListener('click', ev => {
-  if (ev.target.classList && ev.target.classList.contains('sheet-bg')) { S.sheet = null; render(); return; }
+  if (ev.target.classList && ev.target.classList.contains('sheet-bg')) { S.sheet = null; S.rsheet = null; render(); return; }
   const t = ev.target.closest('button,a'); if (!t) return;
   if (t.dataset.ev) { const L = S.id && LISTINGS.find(x => x.id === S.id); track({ path: 'click-' + t.dataset.ev, title: L ? L.name : '', event: true }); }
   if (t.dataset.feedmode) { S.feedMode = t.dataset.feedmode; S.mapPick = null; render(); return; }
   if (t.dataset.pj) { S.pjOpen = Object.assign({}, S.pjOpen, { [t.dataset.pj]: !(S.pjOpen && S.pjOpen[t.dataset.pj]) }); loadPastJudge(); const y = window.scrollY; render(); window.scrollTo(0, y); return; }   // 기능: historical_judge
   if (t.dataset.pcat !== undefined) { S.pcat = t.dataset.pcat; S.pn = 30; render(); return; }   // 기능: historical_search
   if (t.dataset.psido !== undefined) { S.psido = t.dataset.psido; S.pn = 30; render(); return; }
-  if (t.dataset.rcat) { if (t.dataset.rcat === 'sale') go('feed'); else { const same = S.view === 'rental'; S.rcat = t.dataset.rcat; go('rental');
+  if (t.dataset.rcat) { S.rsheet = null; if (t.dataset.rcat === 'sale') go('feed'); else { const same = S.view === 'rental'; S.rcat = t.dataset.rcat; go('rental');
     if (same && on('history_nav')) try { history.replaceState({ nav:1, v:'rental', id: navId('rental'), y: 0 }, '', navUrl('rental')); } catch(e) {} } return; }   // 공공임대↔청년 주택 탭은 주소만 바꿈(새로고침해도 그 탭)   // 기능: lh_rental
   if (t.dataset.rtype !== undefined) { S.rtype = t.dataset.rtype; render(); return; }
   if (t.dataset.rsido !== undefined) { S.rsido = t.dataset.rsido; render(); return; }
+  if (t.dataset.rsheet) { S.rsheet = t.dataset.rsheet; metric('lh/sheet-' + S.rsheet); render(); return; }   // 기능 lh_sheet
+  if (t.dataset.action === 'rsheet-close') { S.rsheet = null; render(); return; }
   if (t.dataset.rsum) { S.rsum = S.rsum === t.dataset.rsum ? null : t.dataset.rsum; metric('lh/sum-' + (S.rsum || 'off')); render(); return; }   // 기능: lh_summary
   if (t.dataset.relig) { S.relig = S.relig === t.dataset.relig ? null : t.dataset.relig; metric('lh/elig-' + (S.relig || 'off')); render(); return; }
   if (t.dataset.rclear) { S.rsum = S.relig = null; render(); return; }
   if (t.dataset.rfreset) { S.rtype = S.rsido = ''; render(); return; }
   if (t.dataset.rsec) { const el = document.getElementById('rsec-' + t.dataset.rsec); if (el) el.scrollIntoView({ behavior: 'smooth', block: 'start' }); return; }
-  if (t.dataset.ropen) { S.rid = t.dataset.ropen; S.rq = null; go('rdetail'); return; }
+  if (t.dataset.ropen) { S.rid = t.dataset.ropen; S.rq = null; S.rsheet = null; go('rdetail'); return; }
   if (t.dataset.rq) { S.rq = S.rq === t.dataset.rq ? null : t.dataset.rq; const y = window.scrollY; render(); window.scrollTo(0, y); const pn = app.querySelector('#rqpanel'); if (pn) { const f = pn.querySelector('select,input'); try { f && f.focus({ preventScroll:true }); } catch(e) {} } return; }
   if (t.dataset.action === 'rq-save') { lhQSave(); return; }
   if (t.dataset.action === 'rq-close') { S.rq = null; const y = window.scrollY; render(); window.scrollTo(0, y); return; }
