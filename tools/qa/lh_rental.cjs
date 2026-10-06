@@ -43,14 +43,14 @@ const BAD = /\bNaN\b|\bundefined\b|\[object Object\]/;
     if (!n) fails.push(`${scheme}: 임대 목록 0건`);
     await check(page, errs, `${scheme}-rental`);
     const judged = await page.evaluate(() => RENTAL.notices.map(N => [N.id, rentalJudge(N, S.profile).s]));
-    if (judged.some(([, s]) => !['ok', 'check', 'no', 'na', 'unknown'].includes(s))) fails.push('판정 값 이상');
+    if (judged.some(([, s]) => !['ok', 'check', 'no', 'na', 'unknown', 'partial', 'unsupported'].includes(s))) fails.push('판정 값 이상');
     await page.click('[data-rcat="youth"]'); await page.waitForTimeout(300); await check(page, errs, `${scheme}-youth`);
     const ids = await page.evaluate(() => RENTAL.notices.map(N => N.id));
     for (const [i, id] of ids.entries()) {
       await page.evaluate(id => { S.rid = id; S.view = 'rdetail'; render(); }, id);
       await check(page, errs, `${scheme}-detail-${i}`);
       // 하단 고정 버튼 (기능 lh_cta): LH 청약플러스 공고 주소(API 상세 주소)·모집공고문
-      const cta = await page.evaluate(() => { const N = RENTAL.notices.find(x => x.id === S.rid); const a = document.querySelector('.dcta [data-ev="lh-cta-apply"]'), pdf = document.querySelector('.dcta [data-ev="lh-cta-pdf"]');
+      const cta = await page.evaluate(() => { const N = RENTAL.notices.find(x => x.id === S.rid); const a = document.querySelector('.dcta [data-ev$="-cta-apply"]'), pdf = document.querySelector('.dcta [data-ev$="-cta-pdf"]');   /* lh- 또는 sh- (기능 sh_rental) */
         return { want: !!(N.url_mobile || N.url), href: a && a.getAttribute('href'), url: N.url_mobile || N.url, pdf: !!pdf, wantPdf: !!N.notice_pdf, pad: document.body.classList.contains('has-cta') }; });
       if (cta.want && cta.href !== cta.url) fails.push(`${scheme}-detail-${i}: 하단 LH 청약플러스 공고 버튼 주소 ${cta.href} ≠ ${cta.url}`);
       if (cta.wantPdf && !cta.pdf) fails.push(`${scheme}-detail-${i}: 하단 모집공고문 버튼 없음`);

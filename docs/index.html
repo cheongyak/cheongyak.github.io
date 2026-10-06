@@ -4988,7 +4988,12 @@ const lhOn = () => { if (on('lh_rental')) return true; try { return localStorage
 function loadRental(){
   if (RENTAL_STATE) return;
   RENTAL_STATE = 'loading';
-  fetch('lh-rental.json', { cache:'no-store' }).then(r => r.ok ? r.json() : Promise.reject(r.status)).then(d => { RENTAL = d; RENTAL_STATE = 'ok'; if (['rental', 'rdetail'].includes(S.view)) render(); })
+  /* 기능 sh_rental: SH 임대 모집공고(sh-rental.json, app/sh_rental.py)를 함께 불러 공고일 순으로 섞는다. SH 를 못 불러도 LH 는 그대로 */
+  const sh = on('sh_rental') ? fetch('sh-rental.json', { cache:'no-store' }).then(r => r.ok ? r.json() : null).catch(() => null) : Promise.resolve(null);
+  Promise.all([fetch('lh-rental.json', { cache:'no-store' }).then(r => r.ok ? r.json() : Promise.reject(r.status)), sh]).then(([d, s]) => {
+    /* 접수 기간이 지난 SH 공고, 접수 기간을 못 읽었고 공고일이 30일 넘게 지난 SH 공고는 싣지 않는다 (대부분 접수가 끝났는데 '일정 확인'으로 남지 않게) */
+    if (s && Array.isArray(s.notices) && s.notices.length) { d.notices = d.notices.concat(s.notices.filter(N => N.org === 'SH' && rStatus(N) !== '마감' && !(rStatus(N) === '일정 확인' && String(N.posted || '') < addDays(rKst(), -30)))).sort((a, b) => String(b.posted || '').localeCompare(String(a.posted || ''))); d.sh_updated = s.updated; }
+    RENTAL = d; RENTAL_STATE = 'ok'; if (['rental', 'rdetail'].includes(S.view)) render(); })
     .catch(() => { RENTAL_STATE = 'error'; if (['rental', 'rdetail'].includes(S.view)) render(); });
 }
 function rentalSeg(cur){
@@ -5340,16 +5345,23 @@ const R_HEAD = { ok: ['ok', '신청 가능해 보여요'], check: ['warn', '확�
   partial: ['info', '일부 계층 판정 못 함'], unsupported: ['info', '판정 미지원 유형'] };
 const rStatus = N => { const t = new Date(Date.now() + 9 * 3600e3).toISOString().slice(0, 10), st = N.schedule || [];
   const s0 = st.map(x => x.apply_start).filter(Boolean).sort()[0], e0 = st.map(x => x.apply_end).filter(Boolean).sort().slice(-1)[0] || N.close;
+  if (N.org === 'SH' && !s0 && !e0) return '일정 확인';   /* 기능 sh_rental: 공고문에서 접수 기간을 확실히 읽지 못한 SH 공고 — 접수 중으로 단정하지 않는다 */
   return s0 && t < s0 ? '접수 예정' : e0 && t > e0 ? '마감' : '접수 중'; };
 /* 목록·상세의 일정 배지 (기능 lh_ui_v2) — 분양 카드의 dday 와 같은 색: 접수 중(빨강) · 3일 안(주황) · 7일 안(파랑) · 그 뒤(회색) · 마감(흐리게) */
 const rDday = N => { const t = rKst(), st = (N.schedule || []).map(x => x.apply_start).filter(Boolean).sort()[0], e = rEnd(N), S0 = rStatus(N);
   if (S0 === '마감') return ['마감', 'd-closed'];
+  if (S0 === '일정 확인') return ['일정 공고문 확인', ''];
   if (S0 === '접수 중') return e && e > t ? ['접수 중 · ~' + e.slice(5).replace('-', '.'), 'd-now'] : ['오늘 마감', 'd-now'];
   const n = st ? Math.round((new Date(st) - new Date(t)) / 864e5) : null;
   return n == null ? ['접수 예정', ''] : ['D-' + n + ' · ' + st.slice(5).replace('-', '.'), n <= 3 ? 'd-soon' : n <= 7 ? 'd-week' : '']; };
 const rPeriod = N => { const st = (N.schedule || []).filter(x => x.apply_start); if (!st.length) return N.close ? '마감 ' + N.close.slice(5).replace('-', '.') : '';
   const a = st.map(x => x.apply_start).sort()[0], b = st.map(x => x.apply_end).filter(Boolean).sort().slice(-1)[0]; return a.slice(5).replace('-', '.') + (b && b !== a ? '~' + b.slice(5).replace('-', '.') : ''); };
-const rIsYouth = N => !!(N.terms && N.terms.groups && N.terms.groups.some(g => g.key === '청년' || g.key === '대학생')) || /청년|대학생/.test(N.name || '');
+const rIsYouth = N => N.youth === true || !!(N.terms && N.terms.groups && N.terms.groups.some(g => g.key === '청년' || g.key === '대학생')) || /청년|대학생/.test(N.name || '');
+/* 기능 sh_rental: 기관 이름·출처·판정 머리말. SH 공고는 아직 자격을 판정하지 않는다(judge_type false → unsupported) */
+const rIsSH = N => N.org === 'SH';
+const rSrc = N => rIsSH(N) ? 'SH 인터넷청약시스템' : 'LH 청약플러스';
+const rHead = s => s === 'unsupported' && on('sh_rental') ? ['info', '판정 미지원 · 공고문 확인'] : R_HEAD[s];
+const rTypes = () => on('sh_rental') && RENTAL ? [...new Set([...RENT_TYPES, ...RENTAL.notices.map(N => N.type).filter(Boolean)])] : RENT_TYPES;
 function rentalBase(){
   if (!RENTAL) return [];
   return RENTAL.notices.filter(N => (S.rcat !== 'youth' || rIsYouth(N)) && (!S.rtype || N.type === S.rtype) && (!S.rsido || (N.region || '').startsWith(S.rsido)));
@@ -5382,8 +5394,8 @@ function rentalSheet(){
   <div class="sheet" role="dialog" aria-modal="true" aria-label="${esc(t)} 임대 공고 ${L.length}건">
     <div class="sheet-grip" aria-hidden="true"></div>
     <div class="row"><h2 style="margin:0">${esc(t)} <span class="muted" style="font-weight:500">${L.length}건 · ${esc(where)}</span></h2><button class="linkbtn" data-action="rsheet-close" aria-label="닫기">닫기</button></div>
-    <div class="sheet-list">${L.map(N => { const J = hasProfile() ? rentalJudgeSafe(N, S.profile) : null, h = J ? R_HEAD[J.s] : null, dd = rDday(N);
-      return `<button class="sheet-item rsi" data-ropen="${esc(N.id)}"><span class="si-main"><b>${esc(N.name || '')}</b><span class="small muted">${esc(N.type || '')} · ${esc((N.region || '').replace(/(특별자치도|특별자치시|광역시|특별시)$/, ''))}${h ? ` · <span class="st-${h[0] === 'info' ? 'warn' : h[0]}">${h[1]}</span>` : ''}</span></span><span class="dday ${dd[1]}">${esc(dd[0].replace(/^접수 중 · /, ''))}</span></button>`; }).join('')}</div>
+    <div class="sheet-list">${L.map(N => { const J = hasProfile() ? rentalJudgeSafe(N, S.profile) : null, h = J ? rHead(J.s) : null, dd = rDday(N);
+      return `<button class="sheet-item rsi" data-ropen="${esc(N.id)}"><span class="si-main"><b>${esc(N.name || '')}</b><span class="small muted">${rIsSH(N) ? 'SH · ' : ''}${esc(N.type || '')} · ${esc((N.region || '').replace(/(특별자치도|특별자치시|광역시|특별시)$/, ''))}${h ? ` · <span class="st-${h[0] === 'info' ? 'warn' : h[0]}">${h[1]}</span>` : ''}</span></span><span class="dday ${dd[1]}">${esc(dd[0].replace(/^접수 중 · /, ''))}</span></button>`; }).join('')}</div>
     <p class="foot">판정은 입력한 조건 기준이에요. 누르면 그 공고 상세로 가요.</p>
   </div>`;
 }
@@ -5408,11 +5420,11 @@ function rentalSummary(){
   </section>${bar}`;
 }
 function lhCard(N){
-  const J = hasProfile() ? rentalJudgeSafe(N, S.profile) : null, h = J ? R_HEAD[J.s] : null;
+  const J = hasProfile() ? rentalJudgeSafe(N, S.profile) : null, h = J ? rHead(J.s) : null;
   if (on('lh_ui_v2')) {   /* 분양 카드처럼: 위 줄(유형·지역 | 일정 배지) · 이름 · 한 줄 요약(전용·보증금·월세) · 판정 */
     const dd = rDday(N), rf = lhRentFrom(N), ar = N.units && N.units.length ? '전용 ' + rAreaRange(N) : '';
     return `<button class="card rcard rc2" data-ropen="${esc(N.id)}">
-    <span class="row" style="align-items:flex-start;gap:8px"><span class="small muted">${esc(N.type || '임대')} · ${esc((N.region || '').replace(/(특별자치도|특별자치시|광역시|특별시)$/, ''))}${N.terms && N.terms.relaxed ? ' · 자격 완화' : ''}</span><span class="dday ${dd[1]}">${esc(dd[0])}</span></span>
+    <span class="row" style="align-items:flex-start;gap:8px"><span class="small muted">${rIsSH(N) ? '<b>SH</b> · ' : ''}${esc(N.type || '임대')} · ${esc((N.region || '').replace(/(특별자치도|특별자치시|광역시|특별시)$/, ''))}${N.terms && N.terms.relaxed ? ' · 자격 완화' : ''}</span><span class="dday ${dd[1]}">${esc(dd[0])}</span></span>
     <b class="rname">${esc(N.name || '')}</b>
     ${ar || rf ? `<span class="small">${[ar, rf].filter(Boolean).map(esc).join(' · ')}</span>` : ''}
     ${h ? `<span class="small"><span class="pill ${h[0]}">${h[1]}</span>${J.best && J.s !== 'na' && J.s !== 'partial' ? ' <span class="muted">' + esc(J.best.name) + ' 계층</span>' : ''}</span>` : ''}
@@ -5447,12 +5459,13 @@ function vRental(){
   loadRental();
   const list = rentalList(), sidos = RENTAL ? [...new Set(RENTAL.notices.map(N => (N.region || '').replace(/(특별자치도|특별자치시|광역시|특별시|도)$/, '')).filter(Boolean))] : [];
   const intro = `<p class="small muted" style="margin:0 0 8px">LH 청약플러스 임대 공고예요. 자격은 공고문의 계층별 기준(무주택·소득·총자산·자동차)에 <b>입력한 조건</b>을 대어 판정해요(분양 청약 판정과 따로). 입력하지 않은 칸은 충족으로 보지 않고 '확인 필요'로 보여요.${S.rcat === 'youth' ? ' <b>청년 주택</b>은 아래 LH 임대 공고 중 청년·대학생 계층이 있는 공고만 골라 보여 주는 거름망이에요.' : ''}</p>
-  <p class="small muted" style="margin:0 0 8px">아직 다루지 않는 공고: SH·GH 등 지방 공사 공고, 청년안심주택(역세권 청년주택), 장기전세, LH 매입임대·전세임대. 이 공고들은 각 기관 공고문을 확인하세요.</p>`;   /* 기능 lh_summary 가 켜지면 목록 아래로 (분양 목록처럼 거르기·내 조건·요약이 먼저 보이게) */
+  ${on('sh_rental') ? `<p class="small muted" style="margin:0 0 8px"><b>SH 공고</b>(서울주택도시공사 — 청년안심주택·장기전세·매입임대·사회주택 등)는 목록·접수 기간·공고문만 보여 주고 자격은 아직 판정하지 않아요. 접수 기간은 공고문에서 확실히 읽힌 것만 보여요.</p>
+  <p class="small muted" style="margin:0 0 8px">아직 다루지 않는 공고: GH 등 다른 지방 공사 공고, LH 매입임대·전세임대. 이 공고들은 각 기관 공고문을 확인하세요.</p>` : `<p class="small muted" style="margin:0 0 8px">아직 다루지 않는 공고: SH·GH 등 지방 공사 공고, 청년안심주택(역세권 청년주택), 장기전세, LH 매입임대·전세임대. 이 공고들은 각 기관 공고문을 확인하세요.</p>`}`;   /* 기능 lh_summary 가 켜지면 목록 아래로 (분양 목록처럼 거르기·내 조건·요약이 먼저 보이게) */
   const tchip = (k, t) => `<button class="chip" data-rtype="${k}" aria-pressed="${(S.rtype || '') === k}">${t}</button>`;
-  return `<div class="top"><div><div class="brand">청약패스${betaTag()}</div><span class="small muted sub-line">LH 임대 공고${RENTAL ? ' · ' + esc(String(RENTAL.updated || '').slice(5).replace('-', '.')) + ' 갱신' : ''}</span></div></div>
+  return `<div class="top"><div><div class="brand">청약패스${betaTag()}</div><span class="small muted sub-line">${on('sh_rental') ? 'LH·SH' : 'LH'} 임대 공고${RENTAL ? ' · ' + esc(String(RENTAL.updated || '').slice(5).replace('-', '.')) + ' 갱신' : ''}</span></div></div>
   ${rentalSeg(S.rcat === 'youth' ? 'youth' : 'rent')}
-  ${on('lh_summary') ? (S.rcat === 'youth' ? '<p class="small muted" style="margin:0 0 8px">LH 임대 공고 중 청년·대학생 계층이 있는 공고만 보여요</p>' : '') : intro}
-  ${on('lh_ui_v2') ? `<div class="rfilt" role="group" aria-label="임대 거르기"><label class="rsel"><span class="sr-only">임대 유형</span><select data-rsel="type">${['', ...RENT_TYPES].map(t => `<option value="${esc(t)}"${(S.rtype || '') === t ? ' selected' : ''}>${t || '유형 전체'}</option>`).join('')}</select></label>
+  ${on('lh_summary') ? (S.rcat === 'youth' ? `<p class="small muted" style="margin:0 0 8px">${on('sh_rental') ? 'LH 임대 공고 중 청년·대학생 계층이 있는 공고와 SH 청년 대상 공고만' : 'LH 임대 공고 중 청년·대학생 계층이 있는 공고만'} 보여요</p>` : '') : intro}
+  ${on('lh_ui_v2') ? `<div class="rfilt" role="group" aria-label="임대 거르기"><label class="rsel"><span class="sr-only">임대 유형</span><select data-rsel="type">${['', ...rTypes()].map(t => `<option value="${esc(t)}"${(S.rtype || '') === t ? ' selected' : ''}>${t || '유형 전체'}</option>`).join('')}</select></label>
     <label class="rsel"><span class="sr-only">지역</span><select data-rsel="sido">${['', ...sidos].map(t => `<option value="${esc(t)}"${(S.rsido || '') === t ? ' selected' : ''}>${t || '전국'}</option>`).join('')}</select></label>${S.rtype || S.rsido ? '<button class="linkbtn small" data-rfreset="1">초기화</button>' : ''}</div>` : `
   <div class="chips" role="group" aria-label="임대 유형">${tchip('', '전체')}${RENT_TYPES.map(t => tchip(t, t)).join('')}</div>`}
   ${sidos.length > 1 && !on('lh_ui_v2') ? `<div class="chips" role="group" aria-label="지역" style="margin-top:6px">${['', ...sidos].map(s => `<button class="chip sm" data-rsido="${esc(s)}" aria-pressed="${(S.rsido || '') === s}">${s || '전국'}</button>`).join('')}</div>` : ''}
@@ -5463,7 +5476,7 @@ function vRental(){
     : list.length ? `<p class="small muted">${list.length}건${on('lh_summary') && (S.rsum || S.relig) ? ` · <button class="linkbtn small" data-rclear="1">거르기 풀기</button>` : ''}</p>` + list.map(lhCard).join('') : `<div class="card empty"><b>조건에 맞는 임대 공고가 없어요</b>${on('lh_summary') && (S.rsum || S.relig) ? '<button class="linkbtn" data-rclear="1">거르기 풀기</button>' : ''}</div>`}
   ${on('lh_summary') ? '<div style="margin-top:12px">' + intro + '</div>' : ''}
   ${rentalSheet()}
-  <p class="foot">임대 공고 출처: LH 청약플러스(공공데이터포털 한국토지주택공사 분양임대공고 조회) · 자격 기준: 각 모집공고문, 공공주택 특별법 시행규칙 별표 3·4·5·5의2. 판정은 참고용이며 신청 전 공고문을 꼭 확인하세요.</p>`;
+  <p class="foot">임대 공고 출처: LH 청약플러스(공공데이터포털 한국토지주택공사 분양임대공고 조회)${on('sh_rental') ? ' · SH 인터넷청약시스템 공고 및 공지(주택임대)와 각 모집공고문' : ''} · 자격 기준: 각 모집공고문, 공공주택 특별법 시행규칙 별표 3·4·5·5의2. 판정은 참고용이며 신청 전 공고문을 꼭 확인하세요.</p>`;
 }
 /* 임대 공고 상세 하단 고정 버튼 (기능: lh_cta, 2026-10-06 사용자 '공공임대 청년주택도 공고 들어가면 신청할 수 있게 일반분양처럼 아래에 나오게').
    LH 청약플러스 공고 화면 주소는 LH API 의 상세 주소(DTL_URL_MOB·DTL_URL)를 그대로 쓴다. 접수처가 관리사무소·주민센터인 공고도 있어 문구는 '공고문 접수처' 를 함께 안내 */
@@ -5471,16 +5484,17 @@ function rentalCta(N){
   if (!on('lh_cta')) return '';
   const url = N.url_mobile || N.url, tel = ((N.office && N.office.tel) || '').match(/\d{2,4}-?\d{3,4}-?\d{4}/);
   if (!url && !N.notice_pdf) return '';
-  return `<div class="dcta" role="region" aria-label="공고 바로가기"><span class="small muted">신청은 LH 청약플러스·공고문 접수처에서 · 모집공고문을 꼭 확인하세요</span>
-    <div class="dcta-row">${N.notice_pdf ? `<a class="btn ghost" href="${esc(N.notice_pdf)}" target="_blank" rel="noopener" data-ev="lh-cta-pdf">모집공고문</a>` : ''}${tel ? `<a class="btn ghost" href="tel:${esc(tel[0].replace(/-/g, ''))}" data-ev="lh-cta-tel">문의 전화</a>` : ''}${url ? `<a class="btn dcta-main" href="${esc(url)}" target="_blank" rel="noopener" data-ev="lh-cta-apply">LH 청약플러스 공고 ↗</a>` : ''}</div></div>`;
+  const sh = rIsSH(N), ev = sh ? 'sh' : 'lh';   /* 기능 sh_rental: SH 공고는 SH 인터넷청약시스템 공고 화면으로 */
+  return `<div class="dcta" role="region" aria-label="공고 바로가기"><span class="small muted">신청은 ${sh ? 'SH 인터넷청약시스템' : 'LH 청약플러스'}·공고문 접수처에서 · 모집공고문을 꼭 확인하세요</span>
+    <div class="dcta-row">${N.notice_pdf ? `<a class="btn ghost" href="${esc(N.notice_pdf)}" target="_blank" rel="noopener" data-ev="${ev}-cta-pdf">모집공고문</a>` : ''}${tel ? `<a class="btn ghost" href="tel:${esc(tel[0].replace(/-/g, ''))}" data-ev="${ev}-cta-tel">문의 전화</a>` : ''}${url ? `<a class="btn dcta-main" href="${esc(url)}" target="_blank" rel="noopener" data-ev="${ev}-cta-apply">${sh ? 'SH 공고' : 'LH 청약플러스 공고'} ↗</a>` : ''}</div></div>`;
 }
 function vRDetail(){
   if (!lhOn()) { S.view = 'feed'; return vFeed(); }
   loadRental();
   const N = RENTAL && RENTAL.notices.find(x => x.id === S.rid);
   if (!N) return vRental();
-  const T = N.terms, J = hasProfile() ? rentalJudgeSafe(N, S.profile) : null, h = J ? R_HEAD[J.s] : null;
-  const pdf = N.notice_pdf ? src(null, ['모집공고문 PDF', N.notice_pdf]) : src(null, ['모집공고문 (LH 청약플러스)', null]);
+  const T = N.terms, J = hasProfile() ? rentalJudgeSafe(N, S.profile) : null, h = J ? rHead(J.s) : null;
+  const pdf = N.notice_pdf ? src(null, ['모집공고문 PDF', N.notice_pdf]) : src(null, [`모집공고문 (${rSrc(N)})`, null]);
   const pdfs = (N.files || []).filter(f => f.kind && /PDF/i.test(f.kind) && /공고/.test(f.kind));
   const ex = N.type === '공공임대' ? '기준 없음' : '이번 공고 미적용';
   const lim = v => v === 'excluded' ? ex : v == null ? '공고문 확인' : v === 0 ? '자동차 소유 불가' : manW(v) + ' 이하';
@@ -5489,12 +5503,12 @@ function vRDetail(){
   /* 확인 항목의 이유: 내 조건이 비어 있음(입력 필요) · 자기 신고가 필요한 자격(답 필요) · 공고문 기준을 읽지 못함(공고문 확인) */
   const cIcon = i => i.s !== 'check' ? (sIcon[i.s] || '') : i.why === 'notice' ? '<span class="pill warn">공고문 확인</span>' : i.why === 'self' ? '<span class="pill warn">답 필요</span>' : '<span class="pill warn">입력 필요</span>';
   const why = { partial: '이 공고에는 이 서비스가 판정하지 않는 계층이 있어요 — 아는 계층으로는 조건 밖이지만, 다른 계층 자격은 공고문을 확인하세요.',
-    unknown: '공고문의 계층별 자격 기준을 읽지 못해 판정하지 않았어요 — 공고문을 확인하세요.', unsupported: '이 임대 유형은 아직 자격을 판정하지 않아요 — 공고문을 확인하세요.' };
+    unknown: '공고문의 계층별 자격 기준을 읽지 못해 판정하지 않았어요 — 공고문을 확인하세요.', unsupported: rIsSH(N) ? 'SH 공고는 아직 자격을 판정하지 않아요(목록·접수 기간·공고문만) — 신청 자격·소득·자산 기준은 공고문을 확인하세요.' : '이 임대 유형은 아직 자격을 판정하지 않아요 — 공고문을 확인하세요.' };
   const secTop = `<div class="top"><div><button class="linkbtn" data-rcat="${S.rcat === 'youth' ? 'youth' : 'rent'}">← 임대 공고</button></div></div>`;
   const secHead = `  <section class="card">
     <span class="row" style="gap:6px;justify-content:flex-start;flex-wrap:wrap"><span class="pill info">${esc(N.type || '')}</span>${T && T.relaxed ? '<span class="pill warn">자격 완화 공고</span>' : ''}<span class="small muted">${esc(N.region || '')} · ${esc(rStatus(N))}</span></span>
     <h1 style="font-size:19px;margin:0">${esc(N.name || '')}</h1>
-    <span class="small muted">공고일 ${esc(N.posted || '')} · 출처: LH 청약플러스 공고</span>
+    <span class="small muted">공고일 ${esc(N.posted || '')} · 출처: ${esc(rSrc(N))} 공고</span>
     ${h ? `<div><span class="pill ${h[0]}">${h[1]}</span>${J.best && J.s !== 'na' && J.s !== 'partial' ? ` <span class="small">${esc(J.best.name)} 계층 기준</span>` : ''} <span class="small muted">· 입력한 조건 기준</span></div>${why[J.s] ? `<p class="small" style="margin:0">${why[J.s]}</p>` : ''}` : `<div class="profile-bar"><span class="muted">내 조건을 넣으면 자격을 판정해요</span><button class="linkbtn" data-action="restart">입력하기</button></div>`}
     ${N.type === '영구임대' ? '<p class="small muted" style="margin:0">일반 신청자(2순위) 기준으로 판정해요. 생계·의료급여 수급자, 국가유공자, 한부모가족 등 1순위 자격은 공고문을 확인하세요.</p>' : ''}
     ${pdfs.length > 1 ? `<p class="small muted" style="margin:0">이 공고에는 공고문이 ${pdfs.length}개 있어요. 자격 기준은 첫 번째 공고문(${esc((pdfs[0].name || '').slice(0, 40))}) 기준이에요.</p>` : ''}
@@ -5516,15 +5530,15 @@ function vRDetail(){
     ${T.account === 'none' ? '<p class="small" style="margin:0">청약통장: 필요 없음 (가입 여부·당첨 이력·소득·자산 불문)</p>' : T.account ? `<p class="small" style="margin:0">청약통장: 1순위 가입 ${T.account.months}개월·${T.account.count}회 이상${T.account.rank2_any ? ', 2순위 가입만' : ''}</p>` : ''}
     ${on('lh_pdf_multi') && N.read && (N.read.conflicts || []).length ? `<p class="small" style="margin:0">데이터 확인 필요: 공고문 PDF 를 ${N.read.tools.length}가지 방법으로 읽었더니 ${N.read.conflicts.length}개 값이 서로 달라요. 그 값은 판정에 쓰지 않고 '공고문 확인'으로 보여요.</p>` : ''}
     <span class="small muted">${N.type === '공공임대' ? '' : "출산가구('23.3.28 이후 출생 자녀·태아)는 소득·자산 기준에 10~20%p를 더해요. "}${pdf}</span></section>`
-    : `<section class="card"><h2 style="margin:0">신청 자격 기준</h2><p class="small" style="margin:0">이 공고문의 계층별 기준을 아직 읽지 못했어요. 공고문을 확인하세요.</p>${pdf}</section>`}`;
+    : `<section class="card"><h2 style="margin:0">신청 자격 기준</h2><p class="small" style="margin:0">${rIsSH(N) ? 'SH 공고의 자격 기준은 아직 읽지 않아요. 공고문을 확인하세요.' : '이 공고문의 계층별 기준을 아직 읽지 못했어요. 공고문을 확인하세요.'}</p>${pdf}</section>`}`;
   const secSched = `  <section class="card"><h2 style="margin:0">일정</h2>${(N.schedule || []).map(s => `<div class="small"><b>${esc(s.complex || '')}</b><br>접수 ${esc(s.apply_start || '')}${s.apply_end && s.apply_end !== s.apply_start ? ' ~ ' + esc(s.apply_end) : ''}${s.docs_target ? ' · 서류 제출 대상 발표 ' + esc(s.docs_target) : ''}${s.winner ? ' · 당첨자 발표 ' + esc(s.winner) : ''}</div>`).join('') || '<span class="small muted">공고문 확인</span>'}
-    <span class="small muted">출처: LH 청약플러스 공고</span></section>`;
+    <span class="small muted">출처: ${esc(rSrc(N))} 공고${rIsSH(N) ? '문' : ''}</span></section>`;
   const secUnits = `  <section class="card"><h2 style="margin:0">주택형</h2>${(N.units || []).map(u => `<div class="row small" style="justify-content:space-between;gap:8px"><span>${esc(u.complex || '')} ${esc(u.type || '')}</span><span>전용 ${u.area || '-'}㎡ · ${u.now_households != null ? '이번 ' + u.now_households + '세대' : ''}</span></div>`).join('') || '<span class="small muted">공고문 확인</span>'}
     <span class="small muted">주택형·세대수 출처: LH 청약플러스 공고</span></section>`;
   const secRents = `  <section class="card"><h2 style="margin:0">보증금·월 임대료</h2>${lhRentTable(N)}
     <span class="small muted">${pdf} (임대조건 표) · 공고일 기준이고 계약 때 바뀔 수 있어요. 보증금과 월 임대료는 서로 바꿀 수 있어요(전환). 임대조건은 당첨 뒤 내는 금액이고 신청 자격과는 따로예요.</span></section>`;
   const secCx = `  ${(N.complexes || []).length ? `<section class="card"><h2 style="margin:0">단지</h2>${N.complexes.map(c => `<div class="small"><b>${esc(c.name || '')}</b><br>${esc(c.address || '')}${c.households ? ' · ' + c.households + '세대' : ''}${c.move_in ? ' · 입주 ' + esc(c.move_in) : ''}</div>`).join('')}</section>` : ''}`;
-  const secFoot = `  <p class="foot">신청은 LH 청약플러스(apply.lh.or.kr)에서 해요${N.office && N.office.place ? ' · 접수처 ' + esc(N.office.place) : ''}${N.office && N.office.tel ? ' · 문의 ' + esc(N.office.tel) : ''}. 판정은 내가 입력한 값으로 계산한 참고용이에요.</p>${rentalCta(N)}`;
+  const secFoot = `  <p class="foot">신청은 ${rIsSH(N) ? 'SH 인터넷청약시스템(i-sh.co.kr) 또는 공고문의 접수처' : 'LH 청약플러스(apply.lh.or.kr)'}에서 해요${N.office && N.office.place ? ' · 접수처 ' + esc(N.office.place) : ''}${N.office && N.office.tel ? ' · 문의 ' + esc(N.office.tel) : ''}. 판정은 내가 입력한 값으로 계산한 참고용이에요.</p>${rentalCta(N)}`;
   if (!on('lh_ui_v2')) return secTop + secHead + secJudge + secCrit + secSched + secUnits + secRents + secCx + secFoot;
   /* 기능 lh_ui_v2 (2026-10-06 사용자 '공공임대랑 청년주택 ui/ux 가 정신없는데 최적화'): 분양 상세처럼 맨 위에 판정 한 덩어리(큰 글자 + 접수·보증금·계층 타일),
      그 아래 내 자격(계층별), 공고 한눈에(일정·주택형·보증금 한 카드), 자격 기준·단지는 접어 둔다. 판정·숫자는 같은 함수 */
@@ -5534,17 +5548,18 @@ function vRDetail(){
   const hero = `<section class="card rd2-head">
     <div class="row" style="align-items:flex-start;gap:8px"><span class="small muted">${esc(N.type || '임대')} · ${esc(N.region || '')}${T && T.relaxed ? ' · 자격 완화' : ''}</span><span class="dday ${dd[1]}">${esc(dd[0])}</span></div>
     <h1 style="font-size:20px;margin:0">${esc(N.name || '')}</h1>
-    <span class="small muted">공고일 ${esc(N.posted || '')} · 출처: LH 청약플러스 공고</span></section>
-  ${h ? `<section class="rhero ${tone}" aria-label="내 판정"><span class="rlabel">내 판정 · 입력한 조건 기준</span><span class="rbig">${esc(h[1])}</span>
+    <span class="small muted">공고일 ${esc(N.posted || '')} · 출처: ${esc(rSrc(N))} 공고</span></section>
+  ${h ? `<section class="rhero ${tone}" aria-label="내 판정"><span class="rlabel">내 판정 · 입력한 조건 기준</span><span class="rbig">${esc(J.s === 'unsupported' ? h[1].split(' · ')[0] : h[1])}</span>
     ${why[J.s] ? `<span class="rsub">${why[J.s]}</span>` : J.best && J.s !== 'na' ? `<span class="rsub">${esc(J.best.name)} 계층 기준</span>` : ''}
     <div class="rstats">${tile('접수', esc(rPeriod(N) || '공고문 확인'), 'data-rsec="sum"')}${tile('보증금·월', rMin(N) || '공고문 확인', 'data-rsec="sum"')}${J.groups.length ? tile('계층', okN ? '가능 ' + okN : ckN ? '확인 ' + ckN : '없음', 'data-rsec="elig"') : ''}</div></section>`
     : `<div class="profile-bar"><span class="muted">내 조건을 넣으면 자격을 판정해요</span><button class="linkbtn" data-action="restart">입력하기</button></div>`}
   ${N.type === '영구임대' ? '<p class="small muted" style="margin:0">일반 신청자(2순위) 기준으로 판정해요. 생계·의료급여 수급자, 국가유공자, 한부모가족 등 1순위 자격은 공고문을 확인하세요.</p>' : ''}`;
   const sumCard = `<section class="card" id="rsec-sum"><h2 style="margin:0">공고 한눈에</h2>
-    <div class="rows">${(N.schedule || []).map(s => `<div class="row small"><span>${esc(s.complex || '접수')}</span><span>${esc((s.apply_start || '').slice(5).replace('-', '.'))}${s.apply_end && s.apply_end !== s.apply_start ? '~' + esc(s.apply_end.slice(5).replace('-', '.')) : ''}</span></div>${s.docs_target ? `<div class="row small muted"><span>서류 제출 대상 발표</span><span>${esc(s.docs_target.slice(5).replace('-', '.'))}</span></div>` : ''}${s.winner ? `<div class="row small muted"><span>당첨자 발표</span><span>${esc(s.winner)}</span></div>` : ''}`).join('') || '<span class="small muted">일정은 공고문 확인</span>'}</div>
+    <div class="rows">${(N.schedule || []).map(s => `<div class="row small"><span>${esc(s.complex || '접수')}${s.rank1 ? ' (1순위)' : ''}</span><span>${esc((s.apply_start || '').slice(5).replace('-', '.'))}${s.apply_end && s.apply_end !== s.apply_start ? '~' + esc(s.apply_end.slice(5).replace('-', '.')) : ''}</span></div>${s.docs_target ? `<div class="row small muted"><span>서류 제출 대상 발표</span><span>${esc(s.docs_target.slice(5).replace('-', '.'))}</span></div>` : ''}${s.winner ? `<div class="row small muted"><span>당첨자 발표</span><span>${esc(s.winner)}</span></div>` : ''}`).join('') || '<span class="small muted">일정은 공고문 확인</span>'}</div>
     ${(N.units || []).length ? `<div class="rows" style="margin-top:4px">${N.units.map(u => `<div class="row small"><span>${esc(u.complex || '')} ${esc(u.type || '')}</span><span>전용 ${u.area || '-'}㎡${u.now_households != null ? ' · ' + u.now_households + '세대' : ''}</span></div>`).join('')}</div>` : ''}
-    <h3 style="margin:6px 0 0;font-size:15px">보증금·월 임대료</h3>${lhRentTable(N)}
-    <span class="small muted">일정·주택형 출처: LH 청약플러스 공고 · 보증금·월세 ${pdf} (임대조건 표). 계약 때 바뀔 수 있고 보증금과 월세는 서로 바꿀 수 있어요(전환). 임대조건은 당첨 뒤 내는 금액이고 신청 자격과는 따로예요.</span></section>`;
+    ${rIsSH(N) ? `<p class="small" style="margin:4px 0 0">보증금·월 임대료와 주택 목록은 공고문을 확인하세요.</p>
+    <span class="small muted">접수 기간 · ${pdf}</span></section>` : `<h3 style="margin:6px 0 0;font-size:15px">보증금·월 임대료</h3>${lhRentTable(N)}
+    <span class="small muted">일정·주택형 출처: LH 청약플러스 공고 · 보증금·월세 ${pdf} (임대조건 표). 계약 때 바뀔 수 있고 보증금과 월세는 서로 바꿀 수 있어요(전환). 임대조건은 당첨 뒤 내는 금액이고 신청 자격과는 따로예요.</span></section>`}`;
   const fold = (t, body) => body ? `<details class="rfold"><summary>${t}</summary>${body.replace(/^\s*<section class="card">(<h2[^>]*>[^<]*<\/h2>)?/, '<div class="rfold-in">').replace(/<\/section>\s*$/, '</div>')}</details>` : '';
   return secTop + hero + secJudge.replace('<section class="card">', '<section class="card" id="rsec-elig">') + sumCard + fold('공고문 자격 기준 보기', secCrit.trim()) + fold('단지 정보', secCx.trim()) + secFoot;
 }
