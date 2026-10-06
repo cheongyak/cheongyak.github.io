@@ -53,6 +53,7 @@ GitHub Secrets (이름만): `DATA_GO_KR_KEY`, `NCP_MAPS_CLIENT_ID`, `NCP_MAPS_CL
 
 ## 진행 중인 일 (2026-10-05 기준, 최신이 위)
 
+-27. **이용약관 운영자 표기 (10-06 18:07, v1.58.1)** — 사용자 '이용약관에 차진혁으로 되어있는 곳 청약패스 운영자로'. 약관 제1조·운영 정보만 '청약패스 운영자'. 개인정보처리방침의 보호책임자 실명(config privacy_officer)은 그대로 둠 — 바꾸라고 하면 보호책임자는 성명 또는 담당 부서·연락처가 필요하다는 점을 알리고 정할 것
 -26. **SH 임대 공고 1단계 (2026-10-06 14:39~15:50, 사용자 '이어서 할일은 3번' → '응 너가 추천하는방향으로 진행해줘')** — 기능 `sh_rental` (**true, v1.57.0**)
    - 원천: SH 인터넷청약시스템 '공고 및 공지 > 주택임대' 게시판(API 없음). 목록 list.do(글 = onclick getDetailView('글번호')), 상세 view.do?multi_itm_seq=2&seq=, 첨부 = initParam.downList → POST /com/file/existFile.do → GET /com/file/innoFD.do(바로 열어도 PDF, evidence/qa/sh-links.txt). 조사 도구 tools/qa/sh_probe.py·sh_links.py(워크플로 'SH 임대 원천 점검', 손으로)
    - 수집: app/sh_rental.py → docs/sh-rental.json + evidence/sh/<글번호>.txt(한 번 저장), 기록 evidence/qa/sh-rental-log.txt. 워크플로 'SH 임대 수집'(sh-rental.yml, 매일 06:50). 최근 60일·6쪽, 제목에 '모집' 있고 발표·결과·계약·심사·재계약·경쟁률 등은 제외. 종류는 제목 낱말, 청년 = 제목에 청년·대학생
