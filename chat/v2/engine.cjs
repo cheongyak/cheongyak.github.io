@@ -30,7 +30,8 @@ function loadEngine({ docs = path.join(__dirname, '../../docs'), listings = null
   const rows = Array.isArray(raw) ? raw : raw.items;
   const LS = rows.filter(x => !x.sample).map(E.fromApi);
   E.setListings(LS);
-  const profileOf = p => (p ? E.syncV2(E.syncHome(Object.assign({}, E.DEFAULT_PROFILE, p))) : null);
+  /* 받은 조건에 적힌 칸 = 사용자가 넣은 칸(_set) — 빈칸은 '모름'으로 보는 판정(2026-10-06 v1.58.3)에서 배우자 집 '없음' 등을 빈칸으로 보지 않게 (2026-10-07) */
+  const profileOf = p => (p ? E.syncV2(E.syncHome(Object.assign({}, E.DEFAULT_PROFILE, p, Array.isArray(p._set) ? {} : { _set: Object.keys(p) }))) : null);
   return { E, LS, raw: rows, today: E.TODAY, profileOf };
 }
 

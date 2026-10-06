@@ -9,6 +9,6 @@ export function fromScreen(W = globalThis, { raw = null, past = [], lines = null
   const rawById = Object.fromEntries((raw || []).map(x => [x.id, x]));   // docs/listings.json 원자료 (complex·geo·nearby 는 fromApi 가 옮기지 않음)
   const rows = W.LISTINGS.filter(L => !L.sample).map(L => ({ L, raw: rawById[L.id] || {}, past: false }))
     .concat(past.map(x => ({ L: E.fromApi(x), raw: x, past: true, noJudge: !x.notice_read })));
-  return { E, rows, lines, today: W.TODAY, profileOf: p => (p ? E.syncV2(E.syncHome(Object.assign({}, E.DEFAULT_PROFILE, p))) : null) };
+  return { E, rows, lines, today: W.TODAY, profileOf: p => (p ? E.syncV2(E.syncHome(Object.assign({}, E.DEFAULT_PROFILE, p, Array.isArray(p._set) ? {} : { _set: Object.keys(p) }))) : null)   /* 적힌 칸 = 넣은 칸 (2026-10-07) */ };
 }
 export const ask = askWith;
