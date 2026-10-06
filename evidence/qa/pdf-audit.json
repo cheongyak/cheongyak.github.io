@@ -2,8 +2,9 @@
  "date": "2026-10-06",
  "page_cap": 300,
  "notices": 55,
- "with_problem": 1,
+ "with_problem": 4,
  "kinds": {
+  "PDF 를 하나도 받지 못함": 3,
   "글자가 거의 없는 쪽 N개 (스캔 이미지·표 그림 추정)": 1
  },
  "errors": [],
@@ -130,60 +131,16 @@
    "name": "쌍용 더 플래티넘 한강",
    "url": "https://www.applyhome.co.kr/ai/aia/selectAPTLttotPblancDetail.do?houseManageNo=2026000468&pblancNo=2026000468",
    "attachments": 1,
-   "pdfs": 1,
+   "pdfs": 0,
    "attachment_list": [
     {
      "url": "https://static.applyhome.co.kr/ai/aia/getAtchmnfl.do?houseManageNo=2026000468&pblancNo=2026000468&atchmnflSeqNo=1990183&atchmnflSn=2",
-     "bytes": 1050066,
-     "pages": 62,
-     "chars": 160769,
-     "head": "- 1 - ※ 단지 주요정보 (분양문의) 1866-0333 주택유형 해당지역 기타지역 규제지역여부 민영 경기도 양평군 거주자 경기도 및 서울특별"
+     "error": "PDF 아님 (200, 59바이트)"
     }
    ],
-   "chosen": "https://static.applyhome.co.kr/ai/aia/getAtchmnfl.do?houseManageNo=2026000468&pblancNo=2026000468&atchmnflSeqNo=1990183&atchmnflSn=2",
-   "pages": 62,
-   "pages_read": 62,
-   "chars_read": 160830,
-   "empty_pages": [],
-   "chars_per_page_min": 533,
-   "fields": {
-    "need_head": false,
-    "price_cap": false,
-    "residence_duty": 0,
-    "rewin_years": 0,
-    "account_months": 12,
-    "residence": {
-     "area": "경기도 양평군",
-     "months": 0,
-     "since": null
-    }
-   },
-   "fields_merged": {
-    "need_head": false,
-    "price_cap": false,
-    "residence_duty": 0,
-    "rewin_years": 0,
-    "account_months": 12,
-    "residence": {
-     "area": "경기도 양평군",
-     "months": 0,
-     "since": null
-    }
-   },
-   "fields_pdfium": {
-    "need_head": false,
-    "price_cap": false,
-    "residence_duty": 0,
-    "rewin_years": 0,
-    "account_months": 12,
-    "residence": {
-     "area": "경기도 양평군",
-     "months": 0,
-     "since": null
-    }
-   },
-   "pdfium_chars": 161003,
-   "problem": []
+   "problem": [
+    "PDF 를 하나도 받지 못함"
+   ]
   },
   {
    "notice": "2026000463",
@@ -2266,105 +2223,32 @@
    "name": "고양 장항 아테라",
    "url": "https://www.applyhome.co.kr/ai/aia/selectAPTRemndrLttotPblancDetailView.do?houseManageNo=2026930038&pblancNo=2026930038",
    "attachments": 1,
-   "pdfs": 1,
+   "pdfs": 0,
    "attachment_list": [
     {
      "url": "https://static.applyhome.co.kr/ai/aia/getAtchmnfl.do?houseManageNo=2026930038&pblancNo=2026930038&atchmnflSeqNo=1990056&atchmnflSn=4",
-     "bytes": 333715,
-     "pages": 18,
-     "chars": 29804,
-     "head": "- 1 - ※ 본 아파트 입주자모집공고의 내용을 충분히 숙지한 후 청약 및 계약에 응하시기 바라며, 미숙지로 인한 착오행위 등에 대하여는 청약자"
+     "error": "PDF 아님 (200, 59바이트)"
     }
    ],
-   "chosen": "https://static.applyhome.co.kr/ai/aia/getAtchmnfl.do?houseManageNo=2026930038&pblancNo=2026930038&atchmnflSeqNo=1990056&atchmnflSn=4",
-   "pages": 18,
-   "pages_read": 18,
-   "chars_read": 29821,
-   "empty_pages": [],
-   "chars_per_page_min": 717,
-   "fields": {
-    "need_head": true,
-    "price_cap": true,
-    "residence_duty": 5,
-    "rewin_years": 10,
-    "residence": {
-     "area": "경기도 고양시",
-     "months": 0,
-     "since": null
-    }
-   },
-   "fields_merged": {
-    "need_head": true,
-    "price_cap": true,
-    "residence_duty": 5,
-    "rewin_years": 10,
-    "residence": {
-     "area": "경기도 고양시",
-     "months": 0,
-     "since": null
-    }
-   },
-   "fields_pdfium": {
-    "need_head": true,
-    "price_cap": true,
-    "residence_duty": 5,
-    "rewin_years": 10,
-    "residence": {
-     "area": "경기도 고양시",
-     "months": 0,
-     "since": null
-    }
-   },
-   "pdfium_chars": 29610,
-   "problem": []
+   "problem": [
+    "PDF 를 하나도 받지 못함"
+   ]
   },
   {
    "notice": "2026910253",
    "name": "오남역 서희스타힐스 여의재 1단지",
    "url": "https://www.applyhome.co.kr/ai/aia/selectAPTRemndrLttotPblancDetailView.do?houseManageNo=2026910253&pblancNo=2026910253",
    "attachments": 1,
-   "pdfs": 1,
+   "pdfs": 0,
    "attachment_list": [
     {
      "url": "https://static.applyhome.co.kr/ai/aia/getAtchmnfl.do?houseManageNo=2026910253&pblancNo=2026910253&atchmnflSeqNo=1988120&atchmnflSn=3",
-     "bytes": 245618,
-     "pages": 12,
-     "chars": 15235,
-     "head": "- 1 - ※ 본 입주자모집공고의 내용을 숙지한 후 청약 및 계약에 응하시기 바라며, 미숙지로 인한 착오 행위 등에 대하여 청약자 및 계약자 본"
+     "error": "PDF 아님 (200, 59바이트)"
     }
    ],
-   "chosen": "https://static.applyhome.co.kr/ai/aia/getAtchmnfl.do?houseManageNo=2026910253&pblancNo=2026910253&atchmnflSeqNo=1988120&atchmnflSn=3",
-   "pages": 12,
-   "pages_read": 12,
-   "chars_read": 15246,
-   "empty_pages": [],
-   "chars_per_page_min": 620,
-   "fields": {
-    "need_head": false,
-    "residence": {
-     "area": null,
-     "months": 0,
-     "since": null
-    }
-   },
-   "fields_merged": {
-    "need_head": false,
-    "residence": {
-     "area": null,
-     "months": 0,
-     "since": null
-    }
-   },
-   "fields_pdfium": {
-    "need_head": false,
-    "residence": {
-     "area": null,
-     "months": 0,
-     "since": null
-    }
-   },
-   "pdfium_chars": 15442,
-   "problem": []
+   "problem": [
+    "PDF 를 하나도 받지 못함"
+   ]
   },
   {
    "notice": "2026910250",
