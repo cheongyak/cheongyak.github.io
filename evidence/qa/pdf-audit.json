@@ -1,9 +1,10 @@
 {
- "date": "2026-10-06",
+ "date": "2026-10-07",
  "page_cap": 300,
  "notices": 55,
- "with_problem": 1,
+ "with_problem": 2,
  "kinds": {
+  "PDF 를 하나도 받지 못함": 1,
   "글자가 거의 없는 쪽 N개 (스캔 이미지·표 그림 추정)": 1
  },
  "errors": [],
@@ -2479,57 +2480,16 @@
    "name": "충정로역자이르네",
    "url": "https://www.applyhome.co.kr/ai/aia/selectAPTRemndrLttotPblancDetailView.do?houseManageNo=2026910251&pblancNo=2026910251",
    "attachments": 1,
-   "pdfs": 1,
+   "pdfs": 0,
    "attachment_list": [
     {
      "url": "https://static.applyhome.co.kr/ai/aia/getAtchmnfl.do?houseManageNo=2026910251&pblancNo=2026910251&atchmnflSeqNo=1986036&atchmnflSn=2",
-     "bytes": 1782710,
-     "pages": 16,
-     "chars": 44807,
-     "head": "- 1 - 견본주택에 주차가 불가하오니 대중교통을 이용하시기 바랍니다, .※ ※ 청약 전 유의사항 분양문의( ) 1660-1245 구분 내용 재"
+     "error": "PDF 아님 (200, 59바이트)"
     }
    ],
-   "chosen": "https://static.applyhome.co.kr/ai/aia/getAtchmnfl.do?houseManageNo=2026910251&pblancNo=2026910251&atchmnflSeqNo=1986036&atchmnflSn=2",
-   "pages": 16,
-   "pages_read": 16,
-   "chars_read": 44822,
-   "empty_pages": [],
-   "chars_per_page_min": 1567,
-   "fields": {
-    "need_head": false,
-    "price_cap": false,
-    "residence_duty": 0,
-    "rewin_years": 10,
-    "residence": {
-     "area": "서울특별시",
-     "months": 0,
-     "since": null
-    }
-   },
-   "fields_merged": {
-    "need_head": false,
-    "price_cap": false,
-    "residence_duty": 0,
-    "rewin_years": 10,
-    "residence": {
-     "area": "서울특별시",
-     "months": 0,
-     "since": null
-    }
-   },
-   "fields_pdfium": {
-    "need_head": false,
-    "price_cap": false,
-    "residence_duty": 0,
-    "rewin_years": 10,
-    "residence": {
-     "area": "서울특별시",
-     "months": 0,
-     "since": null
-    }
-   },
-   "pdfium_chars": 45093,
-   "problem": []
+   "problem": [
+    "PDF 를 하나도 받지 못함"
+   ]
   },
   {
    "notice": "2026930040",
