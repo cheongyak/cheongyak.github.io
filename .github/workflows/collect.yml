@@ -118,6 +118,7 @@ jobs:
           node tools/qa/cross_rule.cjs | head -1 | tee -a docs/run-log.txt   # 교차 규칙 모순 (evidence/qa/CROSS_RULES.md)
           node tools/qa/profile_keep.cjs | head -1 | tee -a docs/run-log.txt   # 저장한 내 조건이 새로고침 뒤 그대로인지
           node tools/qa/monotonic.cjs | head -1 | tee -a docs/run-log.txt   # 모르는데 가능·경계값 되돌아감 (정보·값 단조성)
+          node tools/qa/zero_default.cjs | head -1 | tee -a docs/run-log.txt   # 비워 둔 기본값 0 칸을 값으로 본 판정 (2026-10-06)
           node tools/qa/snapshot.cjs | head -1 | tee -a docs/run-log.txt   # 화면 글자 스냅샷 (고정 공고·고정 날짜) — 일부러 바꾸면 --update 로 기준 갱신
           node tools/qa/e2e.cjs | head -1 | tee -a docs/run-log.txt   # 사용자 흐름 30개 + 저장 조건 퍼징 390개 (3~4분)
           node tools/qa/past_chat.cjs | head -1 | tee -a docs/run-log.txt   # 지난 공고 판정 줄·청약봇 판정 요약이 화면과 같은지
@@ -129,7 +130,7 @@ jobs:
           set +e
           python -m tools.verify_status | tee -a docs/run-log.txt
           rc=${PIPESTATUS[0]}
-          git add docs/verify-status.json docs/judge-status.json docs/run-log.txt evidence/qa/supply-type.json evidence/qa/invariants.json evidence/qa/filter-check.json evidence/qa/consistency.json evidence/qa/sp-text.json evidence/qa/cross-rule.json evidence/qa/profile-keep.json evidence/qa/monotonic.json evidence/qa/snapshot.json evidence/qa/e2e.json evidence/qa/past-chat.json evidence/qa/market-check.json
+          git add docs/verify-status.json docs/judge-status.json docs/run-log.txt evidence/qa/supply-type.json evidence/qa/invariants.json evidence/qa/filter-check.json evidence/qa/consistency.json evidence/qa/sp-text.json evidence/qa/cross-rule.json evidence/qa/profile-keep.json evidence/qa/monotonic.json evidence/qa/zero-default.json evidence/qa/snapshot.json evidence/qa/e2e.json evidence/qa/past-chat.json evidence/qa/market-check.json
           git diff --cached --quiet || (git commit -m "검증 결과 $(date +%Y-%m-%d)" && (git push || (git pull --rebase -X theirs origin main && git push)))
           exit $rc
       - name: 경고가 있으면 운영자 알림 (이슈)

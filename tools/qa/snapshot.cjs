@@ -21,7 +21,7 @@ const PROFILES = {
       if (u.pathname === '/listings.json') return r.fulfill({ status: 200, body: JSON.stringify(fixtures), contentType: 'application/json' });
       const f = join(DOCS, u.pathname === '/' ? 'index.html' : decodeURIComponent(u.pathname.slice(1))); if (!existsSync(f)) return r.fulfill({ status: 404, body: '' });
       r.fulfill({ status: 200, body: readFileSync(f), contentType: { '.html':'text/html', '.json':'application/json' }[extname(f)] || 'application/octet-stream' }); });
-    if (pr) await page.addInitScript(p => localStorage.setItem('cy-profile', JSON.stringify(p)), pr);
+    if (pr) await page.addInitScript(p => localStorage.setItem('cy-profile', JSON.stringify(p)), '_set' in pr ? pr : Object.assign({}, pr, { _set: Object.keys(pr) }));   // 적어 둔 칸 = 넣은 칸 (2026-10-06)
     await page.goto('http://qa.local/', { waitUntil: 'networkidle' }); await page.clock.runFor(1500);
     const out = await page.evaluate(fx => { LISTINGS = fx.map(x => fromApi(x)); const r = {};
       const T = el => el ? el.innerText.replace(/\s+/g, ' ').trim() : '';

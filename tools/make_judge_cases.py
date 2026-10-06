@@ -198,7 +198,14 @@ def rental_sp_expect(t: str, p: dict, n: int) -> dict:
 
 def main() -> None:
     cases = []
-    add = lambda **c: cases.append(c)
+    # 분양 판정 사례의 조건은 '모든 칸을 사용자가 넣은 상태'로 본다 — 기본값 0·아니요 칸(배우자 집·소득, 현금 등)도 넣은 값(_set).
+    # 비워 둔 칸을 보는 사례는 profile 에 _set 을 직접 준다 (2026-10-06 기본값 0 칸 점검: 빈칸은 '모름'). 임대(lhrent)는 lh_add 가 따로 정한다
+    ZERO_ALL = ["spouseOwn", "spouseIncome", "spouseLoan", "recentWin", "acctAmount", "cash", "liquid", "deposit", "income", "loanMonthly"]
+    def add(**c):
+        pr = c.get("profile")
+        if c.get("fn") != "lhrent" and isinstance(pr, dict) and "_set" not in pr:
+            c["profile"] = dict(pr, _set=ZERO_ALL)
+        cases.append(c)
 
     # ---------- 1) 가점 45건 (광명 시티프라디움 2026000453, 공고일 2026-09-18) ----------
     REF = "2026-09-18"
@@ -691,7 +698,7 @@ def main() -> None:
         b(fn="item", item="신청 유형 (신혼희망타운)", listing="2026820010-055.8800B", profile=dict(tb12, married=False, marriedOn="", townType="single", youngestBirth=yb), expect={"s": exp},
           basis="2026820010 한부모가족 '만 6세 이하 자녀' — 2019-09-30 출생은 공고일(2026-09-30)에 만 7세라 제외, 2019-10-01 출생은 만 6세")
     # 판정 묶음: 자격은 되지만 확인할 항목(세대 소득 미입력)이 있으면 '확인 필요' — '신청 가능'으로 올리지 않는다
-    b(fn="bucket", listing="2026000414-059.8400A", profile=dict(pub_base, hhIncomeYear=None, income=0, spouseIncome=0), expect={"b": "unsure"},
+    b(fn="bucket", listing="2026000414-059.8400A", profile=dict(pub_base, hhIncomeYear=None, income=0, spouseIncome=0, _set=[k for k in ZERO_ALL if k not in ("income", "spouseIncome")]), expect={"b": "unsure"},   # 소득 칸을 넣지 않음(기본값 0)
       basis="2026000414 60㎡ 이하 공공분양 일반공급은 세대 소득 기준이 있어 소득을 모르면 판정할 수 없음 → 확인 필요 (가짜 '가능' 금지)")
 
     # ---------- 13) 거주 요건은 특별공급에도 공통 (2026-10-02 사용자 지적: 과천 84D 카드 '특별공급 확인 필요' ↔ 상세 '신청 불가') ----------
@@ -1368,6 +1375,33 @@ def main() -> None:
     for nm, ch in [("총자산 1만원 초과·출산 여부 모름", {"realEstate": 24500 - 3000 + 1, "pregnant": None, "kidsMinor": None}), ("혼인 여부 빈 글자", {"married": ""})]:
         lh_add(E, ["일반"], nm, ch, bE + " · 모르는 칸")
     lh_add(H, ["대학생", "청년"], "혼인 여부 빈 글자·대학생 예", {"married": "", "lhStudent": True, "lhStudentIncome": True, "carValue": 0}, bH + " · 모르는 칸")
+
+    # ---------- 19) 비워 둔 기본값 0 칸 (2026-10-06 사용자 '예치금 빈칸 0원' 제보 뒤 전부 점검, tools/qa/zero_default.cjs) ----------
+    # 원칙(CLAUDE.md 4 · 2026-10-05 안전성 점검과 같음): 넣지 않은 칸은 '0원·없음'으로 단정하지 않는다. 넣은 값에 따라 결과가 달라지면 '확인 필요'.
+    #  ① 혼인 중·배우자 명의 주택을 답하지 않음 → 무주택 세대 확인 (규칙 제2조제4호 무주택세대구성원 = 배우자(분리 배우자 포함) 포함)
+    #  ② 혼인 중·배우자 소득을 넣지 않음 → 외벌이 기준으로 '불가'여도 맞벌이 기준(2026000414 신혼부부 200%·공공 일반 200%, 2026820010 신혼희망타운 200%) 안이면 확인.
+    #     세대 소득도 넣지 않았으면 소득 자체를 모름 → 확인
+    #  ③ 현금·예금·주식·전세보증금을 하나도 넣지 않음 → 총자산(신혼희망타운 '부동산+금융자산+기타자산+자동차−부채') 확인
+    byid = {c["id"]: c for c in cases}
+    def zv(src, cid, ch, unset, exp, basis):
+        c = byid[src]; pr = dict(c["profile"], **ch); pr["_set"] = [k for k in ZERO_ALL if k not in unset]
+        add(**{k: v for k, v in c.items() if k not in ("id", "profile", "expect", "basis")}, id=cid, profile=pr, expect=exp, basis=basis)
+    zv("home-00", "zero-00", {}, ["spouseOwn"], {"s": "warn"}, "① 혼인 중·배우자 명의 주택을 답하지 않음 → 무주택 세대 확인 필요")
+    zv("home-00", "zero-01", {}, [], {"s": "ok"}, "① 대조: 배우자 명의 주택 '없어요'라고 답함 → 무주택 충족")
+    zv("home-00", "zero-02", {"spouseOwn": True, "hhHomes": "1"}, [], {"s": "fail"}, "① 대조: 배우자 명의 주택 '있어요' → 무주택 아님")
+    zv("pub-009", "zero-03", {}, ["spouseIncome"], {"s": "warn"}, "② 2026000414 신혼부부 외벌이 140%(+출산 10%p) 초과 · 배우자 소득을 넣지 않음 → 맞벌이 200% 안이면 확인")
+    zv("pub-009", "zero-04", {}, [], {"s": "fail"}, "② 대조: 배우자 소득 0원이라고 넣음(외벌이) → 기준 초과")
+    zv("pub-009", "zero-05", {"hhIncomeYear": None}, ["spouseIncome"], {"s": "warn"}, "② 세대 소득·배우자 소득 모두 넣지 않음 → 세대 소득을 모름(본인 소득만으로 추정하지 않음)")
+    zv("pub-006", "zero-10", {"hhIncomeYear": None}, ["spouseIncome"], {"s": "warn"}, "② 세대 소득·배우자 소득을 넣지 않음 · 본인 소득만으로는 100% 이하 → 세대 소득을 모르니 '가능'으로 단정하지 않음")
+    zv("pubgen-01", "zero-06", {}, ["spouseIncome"], {"소득": "warn"}, "② 2026000414 공공 일반공급(60㎡ 이하) 100% 초과 · 배우자 소득을 넣지 않음 → 맞벌이 200% 안이면 확인")
+    zv("pubgen-01", "zero-07", {}, [], {"소득": "fail"}, "② 대조: 배우자 소득 0원이라고 넣음 → 기준 초과")
+    # 민영 특별공급의 청약통장 요건(6개월·지역별 예치금, 규칙 제40조 등) — 예치금을 넣지 않으면 '확인' (넣은 1,500만이면 원래 사례대로)
+    for src, cid in [(next(c["id"] for c in cases if c["fn"] == "sp" and c["listing"].startswith("2026000453") and c.get("type") == tp and c["expect"].get("s") == "ok"), f"zero-sp-{tp}") for tp in ("newlywed", "newborn", "first", "elder")]:
+        zv(src, cid, {"acctAmount": 0}, ["acctAmount"], {"s": "warn"} if byid[src]["expect"].get("stage") is None else {"s": "warn", "stage": byid[src]["expect"]["stage"]},
+           "민영 특별공급 청약통장 요건(예치금) · 예치금을 넣지 않음 → 확인 필요 (" + src + " 조건에서 예치금만 비움)")
+    tz = [c for c in cases if c["id"].startswith("town-") and c["expect"].get("총자산") == "ok"][0]["id"]
+    zv(tz, "zero-08", {"cash": 0, "liquid": 0, "deposit": 0}, ["cash", "liquid", "deposit"], {"총자산": "warn"}, "③ 2026820010 신혼희망타운 총자산 · 현금·예금·주식·보증금을 하나도 넣지 않음 → 총자산 확인")
+    zv(tz, "zero-09", {"cash": 0, "liquid": 0, "deposit": 0}, [], {"총자산": "ok"}, "③ 대조: 현금 등 0원이라고 넣음 → 총자산 충족")
 
     OUT.write_text(json.dumps(cases, ensure_ascii=False, indent=1) + "\n", encoding="utf-8")
     print(f"{len(cases)}건 → {OUT}")

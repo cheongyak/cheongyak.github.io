@@ -126,6 +126,8 @@ description: 청약패스(cheongyakpass.kr, 저장소 cheongyak/cheongyak.github
 
 - **SH 자격 판정(sh_judge)**: 엔진은 LH 의 rentalGroup 을 그대로 쓰고 SH 만의 칸이 있을 때만 다르게 돈다 — 새 규칙을 넣을 때 LH 공고 결과가 바뀌지 않게 '칸이 있을 때만' 조건으로. 판정 사례 생성기(make_judge_cases 18)도 같은 칸을 따로 옮겨야 하고, 검사 도구(lh_qa 답하기 채우기·cross_rule 소득 상한)도 새 질문·새 가산을 알아야 한다(모르면 '고리'·'충돌'로 거짓 경보). 애매한 공고 문장은 블라인드 검토자에게 원문만 주고 판정시켜 대조(evidence/audit/2026-10-06-sh/compare.cjs).
 
+- **빈칸 = 모름(2026-10-06)**: 기본값이 0·false 인 칸(ZERO_KEYS)은 entered()/pv() 로만 값으로 본다(_set). 새 판정 규칙에서 `p.x || 0`·`p.x > 0` 으로 쓰면 빈칸을 값으로 보게 된다 → tools/qa/zero_default.cjs 가 잡음. 판정 사례·QA 고정 조건은 '모두 입력함'(_set)으로 만들고, 빈칸을 보는 사례만 _set 을 빼서 준다.
+
 ## 5. 자주 하는 답
 
 - "자동으로 돌아가?" → 수집은 GitHub Actions 가 매일 05:30, 사이트는 GitHub Pages. Claude 세션과 무관하게 돈다. 실패·불일치는 이슈로 메일이 간다.

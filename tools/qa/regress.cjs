@@ -30,7 +30,7 @@ async function collect(url){
  const b=await chromium.launch(EXE);const p=await b.newPage();await serve(p,url);const errs=[];p.on('pageerror',x=>errs.push(x.message));
  await p.goto('http://site.local/',{waitUntil:'networkidle'});await p.waitForTimeout(600);
  const r=await p.evaluate(PROFILES=>{const out={};
-  PROFILES.forEach((pr,pi)=>{const P=Object.assign({},DEFAULT_PROFILE,pr);syncHome(P);
+  PROFILES.forEach((pr,pi)=>{const P=Object.assign({},DEFAULT_PROFILE,pr);if(!('_set' in pr))P._set=Object.keys(pr);syncHome(P);   /* 적어 둔 칸 = 사용자가 넣은 칸 (2026-10-06 빈칸은 모름) */
    LISTINGS.forEach(L=>{const e=eligibility(L,P);const k=pi+'|'+L.id;
      const items=e.items.map(i=>i.k+'='+i.s+':'+i.v).join(';');
      const sp=spTypesFor(L).map(t=>{const r=spJudge(L,P,t);return t+':'+r.s+':'+(r.stage&&r.stage[0])+':'+r.fail.join('/')+':'+r.warn.join('/')}).join(',');
