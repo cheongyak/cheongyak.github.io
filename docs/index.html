@@ -5527,19 +5527,20 @@ function go(v){
 const NAV_ID_VIEWS = ['detail', 'plan'];
 const NAV_VIEWS = ['rental', 'rdetail', 'feed', 'detail', 'plan', 'grades', 'me', 'about', 'story', 'terms', 'privacy', 'trend', 'alerts', 'compare', 'updates'];
 let navPopping = false, navPending = null;
-function navUrl(v){ const id = v === 'rdetail' ? S.rid : NAV_ID_VIEWS.includes(v) ? S.id : null; return v === 'feed' ? location.pathname + location.search : '#/' + v + (id ? '/' + encodeURIComponent(id) : ''); }   /* LH 임대 상세는 공고 번호(S.rid)를 주소에 — 새로고침·주소로 바로 열기 (기능 lh_rental) */
+const navId = v => v === 'rdetail' ? S.rid : v === 'rental' ? (S.rcat === 'youth' ? 'youth' : null) : NAV_ID_VIEWS.includes(v) ? S.id : null;   /* 임대 목록은 청년 주택 탭이면 #/rental/youth (2026-10-06 사용자 '청년주택에서 새로고침하면 공공임대로') */
+function navUrl(v){ const id = navId(v); return v === 'feed' ? location.pathname + location.search : '#/' + v + (id ? '/' + encodeURIComponent(id) : ''); }   /* LH 임대 상세는 공고 번호(S.rid)를 주소에 — 새로고침·주소로 바로 열기 (기능 lh_rental) */
 function navPush(prevY){
   if (!on('history_nav') || navPopping) return;
   try {
     history.replaceState(Object.assign({}, history.state || {}, { y: prevY }), '');   // 돌아왔을 때 목록 스크롤 위치
-    history.pushState({ nav:1, v: S.view, id: (S.view === 'rdetail' ? S.rid : S.id) || null, y: 0 }, '', navUrl(S.view));
+    history.pushState({ nav:1, v: S.view, id: navId(S.view) || null, y: 0 }, '', navUrl(S.view));
   } catch(e) {}
 }
 function navParse(h){ const m = /^#\/([a-z]+)(?:\/(.+))?$/.exec(h || ''); return m && NAV_VIEWS.includes(m[1]) ? { v: m[1], id: m[2] ? decodeURIComponent(m[2]) : null } : null; }
 function navApply(st, fromPop){
   const L = st.id ? LISTINGS.find(x => x.id === st.id) : null;
   if (NAV_ID_VIEWS.includes(st.v) && !L) return false;
-  navPopping = true; S.sheet = null; if (L) S.id = L.id; if (st.v === 'rdetail') { S.rid = st.id; S.rq = null; } S.view = st.v; render(); navPopping = false;
+  navPopping = true; S.sheet = null; if (L) S.id = L.id; if (st.v === 'rdetail') { S.rid = st.id; S.rq = null; } if (st.v === 'rental') S.rcat = st.id === 'youth' ? 'youth' : 'rent'; S.view = st.v; render(); navPopping = false;
   if (fromPop && st.y) requestAnimationFrame(() => window.scrollTo(0, st.y));
   return true;
 }
@@ -5580,7 +5581,8 @@ document.addEventListener('click', ev => {
   if (t.dataset.pj) { S.pjOpen = Object.assign({}, S.pjOpen, { [t.dataset.pj]: !(S.pjOpen && S.pjOpen[t.dataset.pj]) }); loadPastJudge(); const y = window.scrollY; render(); window.scrollTo(0, y); return; }   // 기능: historical_judge
   if (t.dataset.pcat !== undefined) { S.pcat = t.dataset.pcat; S.pn = 30; render(); return; }   // 기능: historical_search
   if (t.dataset.psido !== undefined) { S.psido = t.dataset.psido; S.pn = 30; render(); return; }
-  if (t.dataset.rcat) { if (t.dataset.rcat === 'sale') go('feed'); else { S.rcat = t.dataset.rcat; go('rental'); } return; }   // 기능: lh_rental
+  if (t.dataset.rcat) { if (t.dataset.rcat === 'sale') go('feed'); else { const same = S.view === 'rental'; S.rcat = t.dataset.rcat; go('rental');
+    if (same && on('history_nav')) try { history.replaceState({ nav:1, v:'rental', id: navId('rental'), y: 0 }, '', navUrl('rental')); } catch(e) {} } return; }   // 공공임대↔청년 주택 탭은 주소만 바꿈(새로고침해도 그 탭)   // 기능: lh_rental
   if (t.dataset.rtype !== undefined) { S.rtype = t.dataset.rtype; render(); return; }
   if (t.dataset.rsido !== undefined) { S.rsido = t.dataset.rsido; render(); return; }
   if (t.dataset.rsum) { S.rsum = S.rsum === t.dataset.rsum ? null : t.dataset.rsum; metric('lh/sum-' + (S.rsum || 'off')); render(); return; }   // 기능: lh_summary
@@ -5736,7 +5738,7 @@ function fromApi(x){
 }
 render();
 try { navPending = navParse(location.hash); if (!(history.state && history.state.nav)) history.replaceState({ nav:1, v: S.view, id: null, y: 0 }, ''); } catch(e) {}   // 기능: history_nav
-if (navPending && !NAV_ID_VIEWS.includes(navPending.v) && on('history_nav') && S.view !== 'onboard') { navApply(navPending); try { history.replaceState({ nav:1, v: S.view, id: S.view === 'rdetail' ? S.rid : null, y: 0 }, ''); } catch(e) {} navPending = null; }
+if (navPending && !NAV_ID_VIEWS.includes(navPending.v) && on('history_nav') && S.view !== 'onboard') { navApply(navPending); try { history.replaceState({ nav:1, v: S.view, id: navId(S.view) || null, y: 0 }, ''); } catch(e) {} navPending = null; }
 fetch('config.json', { cache:'no-store' }).then(r => r.ok ? r.json() : null).then(c => {
   if (c) CONFIG = Object.assign(CONFIG, c);
   S.profile = cleanProfile(S.profile);   // 기능: profile_clean — 설정을 읽은 뒤 (스위치를 끄면 예전처럼 그대로)

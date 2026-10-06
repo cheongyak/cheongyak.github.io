@@ -87,6 +87,18 @@ const VIEW_BAD = /\bNaN\b|\bundefined\b|\[object Object\]|\bnull\b(?!\s*값)/;
     const d3 = await open({ ...BASE }, '?lh=preview#/rdetail/zzz-none'); await d3.page.evaluate(() => loadRental()); await lhOk(d3.page); await d3.page.waitForTimeout(300);
     if (await d3.page.evaluate(() => S.view === 'rdetail' && !document.querySelector('[data-ropen]'))) fail.push('없는 공고 번호: 빈 화면');
     if (d3.errs.length) fail.push('없는 공고 번호 화면 오류: ' + d3.errs[0]); await d3.page.close();
+    // 청년 주택 탭 새로고침 (2026-10-06 사용자 '청년주택에서 새로고침하면 공공임대로'): 탭 → 주소 #/rental/youth → 새로고침 → 그대로 청년 주택
+    { const d5 = await open({ ...BASE }, '?lh=preview#/rental'); await d5.page.evaluate(() => loadRental()); await lhOk(d5.page); await d5.page.waitForTimeout(300);
+      await d5.page.click('[data-rcat="youth"]'); await d5.page.waitForTimeout(200);
+      const h1 = await d5.page.evaluate(() => location.hash);
+      await d5.page.reload({ waitUntil: 'networkidle' }); await lhOk(d5.page); await d5.page.waitForTimeout(400);
+      const r5 = await d5.page.evaluate(() => ({ v: S.view, c: S.rcat, h: location.hash }));
+      if (h1 !== '#/rental/youth' || r5.v !== 'rental' || r5.c !== 'youth') fail.push(`청년 주택 새로고침: 주소 ${h1} → ${r5.v}/${r5.c}`);
+      await d5.page.click('[data-rcat="rent"]'); await d5.page.waitForTimeout(200);
+      if (await d5.page.evaluate(() => location.hash) !== '#/rental') fail.push('공공임대 탭으로 바꿔도 주소가 청년 주택');
+      await d5.page.click('[data-ropen]'); await d5.page.waitForTimeout(200); await d5.page.goBack(); await d5.page.waitForTimeout(300);
+      if (await d5.page.evaluate(() => S.rcat) !== 'rent') fail.push('상세에서 뒤로 가면 탭이 바뀜');
+      if (d5.errs.length) fail.push('청년 주택 새로고침 화면 오류: ' + d5.errs[0]); await d5.page.close(); }
     const d4 = await open({ ...BASE }, '#/rental'); await d4.page.waitForTimeout(300);   // 미리보기 아님: 스위치 꺼짐 → 일반 목록, 켜짐(10-06 공개) → 임대 목록
     { const r4 = await d4.page.evaluate(() => ({ v: S.view, on: on('lh_rental') }));
       if (r4.on ? r4.v !== 'rental' : r4.v !== 'feed') fail.push(r4.on ? '기능 켜졌는데 주소로 임대 화면이 안 열림' : '기능 꺼졌는데 임대 화면 열림'); }
