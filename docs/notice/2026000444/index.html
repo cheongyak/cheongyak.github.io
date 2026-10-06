@@ -191,7 +191,7 @@ body.ta .scitem .sc-row{align-items:center} body.ta .scitem .sc-row>b{margin-lef
 body.ta .sp-top::after{border-color:var(--link);width:9px;height:9px}
 .optag{display:inline-block;margin-left:6px;padding:1px 7px;border-radius:999px;background:var(--line);color:var(--muted);font-size:12px;font-weight:500;vertical-align:1px;white-space:nowrap}
 .fixneed{border:2px solid var(--pass-ink);border-radius:12px;padding:10px;background:var(--surface)} .fixneed::before{content:'이 칸을 넣으면 판정돼요';display:block;color:var(--pass-ink);font-size:12px;font-weight:700;margin-bottom:6px}
-.fixneed input:focus{outline:2px solid var(--pass-ink);outline-offset:1px} .fixflash{animation:fixflash 1.6s ease-out} @keyframes fixflash{0%,40%{box-shadow:0 0 0 3px var(--consider)}100%{box-shadow:0 0 0 0 transparent}}
+.calcneed::before{content:'이 칸을 넣으면 가점을 계산해요'} .fixneed input:focus{outline:2px solid var(--pass-ink);outline-offset:1px} .fixflash{animation:fixflash 1.6s ease-out} @keyframes fixflash{0%,40%{box-shadow:0 0 0 3px var(--consider)}100%{box-shadow:0 0 0 0 transparent}}
 .mc-unsure{display:flex;flex-wrap:wrap;gap:6px;align-items:center;padding:8px 10px;border-radius:10px;background:var(--warn-soft)} .mc-unsure .btn.sm{font-size:13px}
 .ckitem{border:1px solid var(--line);border-left-width:3px;border-radius:10px;padding:8px 10px;background:var(--bg);display:flex;flex-direction:column;gap:3px}
 .ckitem.fail{border-left-color:var(--pass)} .ckitem.warn{border-left-color:var(--warn-ink)}
