@@ -124,6 +124,8 @@ description: 청약패스(cheongyakpass.kr, 저장소 cheongyak/cheongyak.github
 - **SH 공고(sh_rental)**: 게시판 첨부는 자바스크립트라 주소가 화면에 없다 — initParam.downList + /com/file/innoFD.do 로 받는다(tools/qa/sh_probe.py). 공고문 일정은 표(공고 ▶ 주택공개 ▶ 청약접수 …)로 된 것이 많아 '접수' 뒤 첫 날짜를 잡으면 틀린다 — 물결표 바로 앞 날짜만, 애매하면 비우고 정답(tests/golden/sh_rental.json)으로 고정. 작업 환경 WebFetch 는 innoFD 주소를 못 열어서 링크 확인은 Actions(sh_links.py)로.
 - 로컬 전체 QA(e2e·변이 등)는 10분을 넘으니 백그라운드로 돌리고 기다린다. 끝나면 evidence/qa·docs/judge-status.json 바뀐 것은 되돌리고 커밋한다(결과물은 Actions 가 만든다).
 
+- **SH 자격 판정(sh_judge)**: 엔진은 LH 의 rentalGroup 을 그대로 쓰고 SH 만의 칸이 있을 때만 다르게 돈다 — 새 규칙을 넣을 때 LH 공고 결과가 바뀌지 않게 '칸이 있을 때만' 조건으로. 판정 사례 생성기(make_judge_cases 18)도 같은 칸을 따로 옮겨야 하고, 검사 도구(lh_qa 답하기 채우기·cross_rule 소득 상한)도 새 질문·새 가산을 알아야 한다(모르면 '고리'·'충돌'로 거짓 경보). 애매한 공고 문장은 블라인드 검토자에게 원문만 주고 판정시켜 대조(evidence/audit/2026-10-06-sh/compare.cjs).
+
 ## 5. 자주 하는 답
 
 - "자동으로 돌아가?" → 수집은 GitHub Actions 가 매일 05:30, 사이트는 GitHub Pages. Claude 세션과 무관하게 돈다. 실패·불일치는 이슈로 메일이 간다.
