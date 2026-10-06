@@ -1,4 +1,4 @@
-SH 임대 원천 점검 2026-10-06 14:50
+SH 임대 원천 점검 2026-10-06 14:54
 [목록] https://www.i-sh.co.kr/app/lay2/program/S48T1581C563/www/brd/m_247/list.do?multi_itm_seq=2 → 200 114527B text/html; charset=UTF-8
   뽑은 줄 10
    - 311005 2026-10-02 [토지지원 사회주택]에어스페이스 신림3호점_어울리 입주자 모집 공고
@@ -41,6 +41,7 @@ SH 임대 원천 점검 2026-10-06 14:50
    · 미리보기 | https://www.i-sh.co.kr/app/com/util/htmlConverter.do?brd_id=GS0401&seq=310650&data_tp=A&file_seq=4
    · 미리보기 | https://www.i-sh.co.kr/app/com/util/htmlConverter.do?brd_id=GS0401&seq=310650&data_tp=A&file_seq=7
    · 미리보기 | https://www.i-sh.co.kr/app/com/util/htmlConverter.do?brd_id=GS0401&seq=310650&data_tp=A&file_seq=8
+[스크립트] /app/inno/common/innorix.config.js singleDownload: function singleDownload(num){ forceLoading(); // 2022. 01. 10. change by Brian. // 신규 이노릭스 메소드로 변경 /*var downFileInfo = innorix.api.getAllFiles(initParam.controlId, 'download'); innorix.api.singleDownload(initParam.controlId, {downloadUrl : downFileInfo[num].downloadUrl, //다운로드 url fileSize : downFileInfo[num].size, // 대상 파일 사이즈 printFileName : downFileInfo[num].name // 출력 파일명 });*/ console.log("##### singleDownload index : " + num); /*for(var i=0; i<control.getFileCount(); i++) { control.getAllFiles()[i].selected = false; } control.getAllFiles()[num].selected = true; control.downloadSelectedFiles();*/ location.href = control.getAllFiles()[num].downloadUrl; rmLoading(); } function getContextPath() { var hostIndex = location.href.indexOf( location.host ) + location.host.length; return location.href.substring( hostIndex, location.href.indexOf('/', hostIndex + 1) ); }; function existFile(num){ // 2022. 01. 10. change by Brian. // HTML5 모드로 변경 if(!checkInstallInno()){ if(confirm('IE브라우저에서 파일을 다운받기 위해서는 다운로드 프로그램을 설치하셔야합니다.\n설치하시겠습니까?')){ alert('잠시후 설치페이지로 이동합니다.'); location.href = "/install/install.html"; return; }else{ alert('설치를 하지않으시면 파일을 다운받으실수 없습니다.'); rmLoading(); return; } }; var existFileInfo = initParam.downList[num]; // var url = "/com/file/existFile.do"; var url = "/com/file/existFile.do"; var dataParam; if(innoType=="ETC"){ dataParam = {fileNm : existFileInfo.fileNm}; } else { dataParam = { brdId : existFileInfo.brdId , seq : existFileInfo.seq , fileSeq : existFileInfo.fileSeq , fileTp : existFileInfo.fileTp }; } f_block(); $.ajax({ cache : false , data : dataPara
 [스크립트] /app/inno/common/innorix.config.js existFile: function existFile(num){ // 2022. 01. 10. change by Brian. // HTML5 모드로 변경 if(!checkInstallInno()){ if(confirm('IE브라우저에서 파일을 다운받기 위해서는 다운로드 프로그램을 설치하셔야합니다.\n설치하시겠습니까?')){ alert('잠시후 설치페이지로 이동합니다.'); location.href = "/install/install.html"; return; }else{ alert('설치를 하지않으시면 파일을 다운받으실수 없습니다.'); rmLoading(); return; } }; var existFileInfo = initParam.downList[num]; // var url = "/com/file/existFile.do"; var url = "/com/file/existFile.do"; var dataParam; if(innoType=="ETC"){ dataParam = {fileNm : existFileInfo.fileNm}; } else { dataParam = { brdId : existFileInfo.brdId , seq : existFileInfo.seq , fileSeq : existFileInfo.fileSeq , fileTp : existFileInfo.fileTp }; } f_block(); $.ajax({ cache : false , data : dataParam , url : url , type : 'POST' , success : function(resData) { rmLoading(); var msg; if (resData.resultCode == "0") { msg = "파일이 존재하지 않습니다."; alert(msg); return; } else if (resData.resultCode == "2"){ msg = "비정상적인 접근입니다."; alert(msg); return; } singleDownload(num); } , error : function(e) { alert("시스템에 문제가 생겼습니다."); rmLoading(); } }); } //멀티파일 업로드 function MultifileUpload_N(totalCnt, ext, fsize){ //파라미터에서 뽑아쓰는걸로. var allow_ext = ""; // var url = "/com/file/innoDS.do"; var url = "/com/file/innoDS.do"; var winname = "winfile"; var w = "550"; var h = "320"; var scrollopt = "no"; var wl = (window.screen.width / 2) - (w / 2 + 10); var wt = (window.screen.height / 2) - (h / 2 + 50); var opts = "status=no,height=" + h + ",width=" + w + ",resizable=no,left=" + wl + ",top=" + wt + ",screenX=" + wl + ",screenY=" 
 [스크립트] /app/inno/common/innorix.config.js 주소 /com/file/innoFD.do
 [스크립트] /app/inno/common/innorix.config.js 주소 /com/file/existFile.do
@@ -53,12 +54,8 @@ SH 임대 원천 점검 2026-10-06 14:50
 [스크립트] /app/inno/common/innorix.config.js 주소 /com/file/innoDS.do
 [스크립트] /app/inno/common/innorix.config.js 주소 /app/com/file/innoDsUpload.do
 [첨부 목록] 311005 1:1_어울리_에어스페이스_신림3호점_입주자추가모집_202호_공고문.pdf
-[내려받기 시험] GET https://www.i-sh.co.kr/app/com/util/fileDown.do → 404 2361B PDF=False text/html; charset=UTF-8
-[내려받기 시험] POST https://www.i-sh.co.kr/app/com/util/fileDown.do → 404 2361B PDF=False text/html; charset=UTF-8
-[내려받기 시험] GET https://www.i-sh.co.kr/app/com/util/fileDownload.do → 404 2361B PDF=False text/html; charset=UTF-8
-[내려받기 시험] POST https://www.i-sh.co.kr/app/com/util/fileDownload.do → 404 2361B PDF=False text/html; charset=UTF-8
-[내려받기 시험] GET https://www.i-sh.co.kr/app/com/util/download.do → 404 2361B PDF=False text/html; charset=UTF-8
-[내려받기 시험] POST https://www.i-sh.co.kr/app/com/util/download.do → 404 2361B PDF=False text/html; charset=UTF-8
-[내려받기 시험] GET https://www.i-sh.co.kr/main/com/util/fileDown.do → 404 2370B PDF=False text/html; charset=UTF-8
-[내려받기 시험] POST https://www.i-sh.co.kr/main/com/util/fileDown.do → 404 2370B PDF=False text/html; charset=UTF-8
+[존재 확인] https://www.i-sh.co.kr/com/file/existFile.do → 200 '{"resultCode":"1","menuvo":{"level":0,"reg_date":null,"cur_url":null,"cur_menu_seq":0,"ip":null,"menu_nm":"","site_id":"'
+[존재 확인] https://www.i-sh.co.kr/app/com/file/existFile.do → 200 '{"resultCode":"1","menuvo":{"srchTp":"","srchWord":"","srchUseYN":"","page":1,"pitem":null,"psize":10,"findex":1,"lindex'
+[내려받기 시험] GET https://www.i-sh.co.kr/com/file/innoFD.do → 200 1384909B PDF=True application/octet-stream;charset=UTF-8
+  쪽수 19 · 앞 8쪽 글자 4043 · 소득 있음 · 자산 없음
 [미리보기] https://www.i-sh.co.kr/app/com/util/htmlConverter.do?brd_id=GS0401&seq=311005&data_tp=A&file_seq=1 → 200 28818B 글자 147 · 소득 없음 · 앞: Document Viewer ( 0 ) % px 6 8 9 10 12 14 18 20 24 26 28 36 48 72 * 본 문서는 공문서로서의 법적 효력은 없으며, 위조·변조·도용 등 불법적 활용으로 인하여 발생된 모든 책임은 불법적으로 활용한 자에게 있습니다.
