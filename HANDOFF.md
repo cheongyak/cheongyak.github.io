@@ -53,6 +53,13 @@ GitHub Secrets (이름만): `DATA_GO_KR_KEY`, `NCP_MAPS_CLIENT_ID`, `NCP_MAPS_CL
 
 ## 진행 중인 일 (2026-10-05 기준, 최신이 위)
 
+-26. **SH 임대 공고 1단계 (2026-10-06 14:39~15:50, 사용자 '이어서 할일은 3번' → '응 너가 추천하는방향으로 진행해줘')** — 기능 `sh_rental` (**true, v1.57.0**)
+   - 원천: SH 인터넷청약시스템 '공고 및 공지 > 주택임대' 게시판(API 없음). 목록 list.do(글 = onclick getDetailView('글번호')), 상세 view.do?multi_itm_seq=2&seq=, 첨부 = initParam.downList → POST /com/file/existFile.do → GET /com/file/innoFD.do(바로 열어도 PDF, evidence/qa/sh-links.txt). 조사 도구 tools/qa/sh_probe.py·sh_links.py(워크플로 'SH 임대 원천 점검', 손으로)
+   - 수집: app/sh_rental.py → docs/sh-rental.json + evidence/sh/<글번호>.txt(한 번 저장), 기록 evidence/qa/sh-rental-log.txt. 워크플로 'SH 임대 수집'(sh-rental.yml, 매일 06:50). 최근 60일·6쪽, 제목에 '모집' 있고 발표·결과·계약·심사·재계약·경쟁률 등은 제외. 종류는 제목 낱말, 청년 = 제목에 청년·대학생
+   - 접수 기간: 공고문 '청약(신청)접수·신청접수·서류접수·인터넷접수·접수기간' 뒤 물결표(~) 바로 앞 날짜만. 화살표 일정표·우편/방문 접수·사이에 다른 날짜가 끼면 비움(→ 화면 '일정 공고문 확인'). 정답 tests/golden/sh_rental.json 12건(원문 확인, 표 형식 5건은 비워도 됨)
+   - 화면: 공공임대·청년 주택 목록에 LH 와 공고일 순으로 섞음. 접수 기간이 지난 것, 기간 모르고 30일 넘은 것은 안 실음. 판정 = unsupported('판정 미지원 · 공고문 확인', 요약에선 '확인 필요'로 셈). 하단 'SH 공고 ↗'·모집공고문. 점검 tools/qa/sh_screen.cjs
+   - **2단계(다음 할 일)**: 종류별 자격 판정 — 청년 매입임대·신혼·신생아 매입임대부터(공고문 소득·자산 표 읽기 → 정답 데이터 → 판정 사례·블라인드 감사 → 스위치). 표 형식 일정(310673·310258형) 접수 기간 읽기도 2단계에서 표 단위로
+   - 볼 것: 매일 SH 수집 기록의 '접수 못 읽음' 비율, 사용자 제보 시 CLAUDE.md 4항 절차(정답 tests/golden/sh_rental.json 추가)
 -25. **LH 임대 목록 + 자격 판정 (2026-10-05 13:23~, 사용자 '2번으로 하는데, 현재 청약판정에는 영향없도록' + '나중에 일반청약/공공임대/청년주택으로 나눠 보기' → 14:08 '어 진행해줘')** — 기능 `lh_rental` (**true — 10-06 08:43 사용자 '일반사람도 볼수잇게 오픈' 으로 공개, v1.53.0**. 끄면 미리보기 `?lh=preview` 로만)
    - 수집: app/lh_rental.py → docs/lh-rental.json + 공고문 글 evidence/lh/<공고ID>.txt (한 번 저장하면 다시 쓰지 않음). 워크플로 'LH 임대 수집'(lh-rental.yml, 매일 06:40, 청약 수집과 별개). 기록 evidence/qa/lh-rental-log.txt
      (`[검증·공고문 불일치]` = 공고문 소득 100% 표 ≠ 앱 RENT_URBAN_2025). 공공데이터포털 LH 목록·상세·공급 API 3종 모두 승인(같은 DATA_GO_KR_KEY). 보증금·월세는 API 가 '공고문 참조'만 줘서 비어 있음.
