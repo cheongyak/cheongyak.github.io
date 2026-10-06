@@ -133,7 +133,7 @@ const ROOT = join(__dirname, '../..'), DOCS = join(ROOT, 'docs'), NF = Number(pr
     S.profile = Object.assign({}, DEFAULT_PROFILE, gen(), { birth: '1995-03-01', married: false }); save();
     S.rcat = 'rent'; S.view = 'rental'; render();
     for (const N of NS) { R.card++; const el = document.querySelector(`[data-ropen="${N.id}"] .pill.ok, [data-ropen="${N.id}"] .pill.warn, [data-ropen="${N.id}"] .pill.fail, [data-ropen="${N.id}"] .pill:not(.info):not(.warn)`);
-      const J = rentalJudge(N, S.profile), want = R_HEAD[J.s][1], card = document.querySelector(`[data-ropen="${N.id}"]`);
+      const J = rentalJudge(N, S.profile), want = (typeof rHead === "function" ? rHead(J.s) : R_HEAD[J.s])[1], card = document.querySelector(`[data-ropen="${N.id}"]`);
       if (!card || !card.innerText.includes(want)) R.cardBad.push([N.id, want]); }
     return R;
   }, NF);

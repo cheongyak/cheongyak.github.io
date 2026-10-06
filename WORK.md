@@ -4,6 +4,15 @@
 2026-09-29 12:55 이전 항목은 규칙을 만들기 전 작업을 커밋 기록으로 정리한 것이라 백업 브랜치가 없어요.
 그 시점으로 되돌릴 때는 해당 커밋 번호로 `git revert` 를 써요.
 
+## 2026-10-06 16:04 · 판정 검증 실패(이슈 #6) 고침 — LH QA 카드 글자 비교
+- 요청: (자체) v1.57.0 을 올린 뒤 '판정 검증' Actions 가 '검증 요약 저장'에서 실패, 이슈 #6
+- 원인: tools/qa/lh_qa.cjs 의 '카드 = 판정' 비교가 옛 이름표(R_HEAD '판정 미지원 유형')로 비교 — 화면은 sh_rental 이 켜지면 '판정 미지원 · 공고문 확인'(rHead). SH 공고 8건이 '다름'으로 잡혀 lh_judge_qa_fails 8 → verify-status ok false. 화면·판정 오류가 아니라 검사 도구가 화면의 이름표 함수를 쓰지 않은 것
+- 변경: lh_qa.cjs 가 화면의 rHead 로 비교(없으면 R_HEAD)
+- 파일: tools/qa/lh_qa.cjs
+- 확인: 켠 설정으로 lh_qa 카드 38 다름 0, past_chat·supply_type·lh_pdf_tools 0, verify_status 통과. 바로 앞 커밋(8d9a189f 운영 스킬에 SH 함정 기록)은 이 항목으로 기록을 대신함
+- 백업: backup/20261006-1604-lhqa
+- 기능: 없음(수정)
+
 ## 2026-10-06 15:50 · SH 임대 공고 공개 (sh_rental 켬, v1.57.0)
 - 요청: "응 너가 추천하는방향으로 진행해줘" — SH 공고 1단계 마무리(검증 뒤 켜기)
 - 변경: docs/config.json sh_rental true. 업데이트 내역 v1.57.0
