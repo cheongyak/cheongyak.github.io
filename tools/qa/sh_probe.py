@@ -106,6 +106,53 @@ def main() -> int:
                                 log.append(f"[첨부] {a['name']} 실패 {e.__class__.__name__}: {str(e)[:160]}")
             except Exception as e:
                 log.append(f"[상세] {x['seq']} 실패 {e.__class__.__name__}: {str(e)[:160]}")
+        # 첨부 내려받기: 화면 a 태그는 existFile('n') 자바스크립트라 주소가 없다 → 스크립트 파일에서 함수를 찾고, initParam.downList(brdId·seq·fileSeq·oriFileNm)로 후보 주소를 시험
+        try:
+            for js in ("/app/js/sh/cms-common.js", "/app/lib/js/common.js", "/app/lib/js/front.js?v=02", "/app/lib/js/sub.js"):
+                r = c.get(BASE + js)
+                for m in re.finditer(r"function\s+(existFile|fn_?[Ff]ile[Dd]own\w*|[Ff]ile[Dd]own\w*|download\w*)\s*\([^)]*\)\s*\{", r.text):
+                    log.append(f"[스크립트] {js} {m.group(1)}: " + re.sub(r"\s+", " ", r.text[m.start(): m.start() + 900]))
+                for m in re.finditer(r"[\"'](/[^\"']*(?:[Dd]own|[Ff]ile)[^\"']*\.do)[\"']", r.text):
+                    log.append(f"[스크립트] {js} 주소 {m.group(1)}")
+        except Exception as e:
+            log.append(f"[스크립트] 실패 {e}")
+        x = next((x for x in pick if x.get("attachments")), None)
+        if x:
+            pg = (RAW / f"view-{x['seq']}.html").read_text(encoding="utf-8")
+            m = re.search(r"downList\s*=\s*(\[.*?\]);", pg, re.S)
+            dl = json.loads(m.group(1)) if m else []
+            log.append(f"[첨부 목록] {x['seq']} " + "; ".join(f"{d.get('fileSeq')}:{d.get('oriFileNm')}" for d in dl))
+            f0 = next((d for d in dl if str(d.get("oriFileNm", "")).lower().endswith(".pdf")), None)
+            if f0:
+                cands = [f"{BASE}/app/com/util/fileDown.do", f"{BASE}/app/com/util/fileDownload.do", f"{BASE}/app/com/util/download.do", f"{BASE}/main/com/util/fileDown.do"]
+                prm = {"brd_id": f0["brdId"], "seq": f0["seq"], "data_tp": f0.get("fileTp", "A"), "file_seq": f0["fileSeq"]}
+                for u in cands:
+                    for meth in ("GET", "POST"):
+                        try:
+                            r = c.request(meth, u, params=prm if meth == "GET" else None, data=prm if meth == "POST" else None, headers={**UA, "Referer": x["url"]})
+                            log.append(f"[내려받기 시험] {meth} {u} → {r.status_code} {len(r.content)}B PDF={r.content[:5] == b'%PDF-'} {r.headers.get('content-type')}")
+                            if r.content[:5] == b"%PDF-":
+                                from pypdf import PdfReader
+                                rd = PdfReader(io.BytesIO(r.content)); txt = "\n".join((pg_.extract_text() or "") for pg_ in rd.pages[:8])
+                                (RAW / f"pdf-{x['seq']}.txt").write_text(txt[:40000], encoding="utf-8")
+                                log.append(f"  쪽수 {len(rd.pages)} · 앞 8쪽 글자 {len(txt)} · 소득 {'있음' if '소득' in txt else '없음'} · 자산 {'있음' if '자산' in txt else '없음'}")
+                                raise StopIteration
+                        except StopIteration:
+                            break
+                        except Exception as e:
+                            log.append(f"[내려받기 시험] {meth} {u} 실패 {e.__class__.__name__}")
+                    else:
+                        continue
+                    break
+            # 미리보기(htmlConverter): 공고문을 HTML 로 바꿔 보여 주는 주소 — 글을 여기서 뽑을 수 있는지
+            try:
+                pv = f"{BASE}/app/com/util/htmlConverter.do?brd_id=GS0401&seq={x['seq']}&data_tp=A&file_seq={(f0 or {}).get('fileSeq', 1)}"
+                r = c.get(pv, headers={**UA, "Referer": x["url"]})
+                body = strip(re.sub(r"(?s)<(script|style).*?</\1>", " ", r.text))
+                (RAW / f"preview-{x['seq']}.txt").write_text(body[:40000], encoding="utf-8")
+                log.append(f"[미리보기] {pv} → {r.status_code} {len(r.content)}B 글자 {len(body)} · 소득 {'있음' if '소득' in body else '없음'} · 앞: {body[:160]}")
+            except Exception as e:
+                log.append(f"[미리보기] 실패 {e}")
     (RAW / "rows.json").write_text(json.dumps(rows, ensure_ascii=False, indent=1) + "\n", encoding="utf-8")
     OUT.write_text("\n".join(log) + "\n", encoding="utf-8")
     print("\n".join(log))
