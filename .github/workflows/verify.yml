@@ -78,6 +78,7 @@ jobs:
           node tools/qa/zero_default.cjs | head -1 | tee -a docs/run-log.txt   # 비워 둔 기본값 0 칸(배우자 집·소득·현금 등)을 값으로 본 판정 (2026-10-06)
           node tools/qa/spouse_fix.cjs | tail -1 | tee -a docs/run-log.txt   # 배우자 집 '바로 답하기' 커서·답 반영 (2026-10-06 제보)
           node tools/qa/score_input.cjs | tail -1 | tee -a docs/run-log.txt   # 가점 '입력하기' → 빠진 칸으로 (2026-10-06 제보)
+          node tools/qa/input_nav.cjs docs 40 | head -1 | tee -a docs/run-log.txt   # 입력 버튼 전수: 누르면 그 판정을 바꾸는 칸으로 가는지 (공고 40개, 2026-10-06)
           node tools/qa/snapshot.cjs | head -1 | tee -a docs/run-log.txt   # 화면 글자 스냅샷 (고정 공고·고정 날짜) — 일부러 바꾸면 --update 로 기준 갱신
           node tools/qa/e2e.cjs | head -1 | tee -a docs/run-log.txt   # 사용자 흐름 30개 + 저장 조건 퍼징 390개 (3~4분)
           node tools/qa/past_chat.cjs | head -1 | tee -a docs/run-log.txt   # 지난 공고 판정 줄·청약봇 판정 요약이 화면과 같은지
@@ -97,7 +98,7 @@ jobs:
           rc=$?
           git config user.name "cheongyak-bot"
           git config user.email "actions@users.noreply.github.com"
-          git add -A -- docs/verify-status.json docs/judge-status.json evidence/qa/supply-type.json evidence/qa/invariants.json evidence/qa/filter-check.json evidence/qa/consistency.json evidence/qa/sp-text.json evidence/qa/cross-rule.json evidence/qa/profile-keep.json evidence/qa/monotonic.json evidence/qa/zero-default.json evidence/qa/snapshot.json evidence/qa/e2e.json evidence/qa/past-chat.json evidence/qa/lh-invariants.json evidence/qa/lh-pdf-tools.json evidence/qa/lh-qa.json evidence/qa/lh-screen.json docs/sitemap.xml $(for d in docs/story docs/about docs/terms docs/privacy docs/updates docs/guide docs/notice; do [ -e "$d" ] || git ls-files --error-unmatch "$d" >/dev/null 2>&1 && echo "$d"; done)
+          git add -A -- docs/verify-status.json docs/judge-status.json evidence/qa/supply-type.json evidence/qa/invariants.json evidence/qa/filter-check.json evidence/qa/consistency.json evidence/qa/sp-text.json evidence/qa/cross-rule.json evidence/qa/profile-keep.json evidence/qa/monotonic.json evidence/qa/zero-default.json evidence/qa/input-nav.json evidence/qa/snapshot.json evidence/qa/e2e.json evidence/qa/past-chat.json evidence/qa/lh-invariants.json evidence/qa/lh-pdf-tools.json evidence/qa/lh-qa.json evidence/qa/lh-screen.json docs/sitemap.xml $(for d in docs/story docs/about docs/terms docs/privacy docs/updates docs/guide docs/notice; do [ -e "$d" ] || git ls-files --error-unmatch "$d" >/dev/null 2>&1 && echo "$d"; done)
           git diff --cached --quiet || (git commit -m "판정 검증 결과 $(date +%Y-%m-%d)" && (git push || (git pull --rebase -X theirs origin main && git push)))
           exit $rc
       - name: 실패하면 운영자 알림 (이슈)

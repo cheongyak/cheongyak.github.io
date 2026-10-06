@@ -1,0 +1,1495 @@
+{
+ "clicks": 3885,
+ "byKind": {
+  "score": 282,
+  "fix": 1891,
+  "edit": 112,
+  "restart": 7,
+  "rq": 1369,
+  "go": 224
+ },
+ "problems": {},
+ "notes": {
+  "단계로만 이동(커서 없음) home": {
+   "n": 4,
+   "ex": [
+    {
+     "profile": "빠른 시작(미혼)",
+     "scene": "목록",
+     "button": "edit:home \"빈 항목 21개 채우기\"",
+     "ctx": "내 조건 서울 · 무주택 · 세대주 · 현금 미입력 수정 신청 가능 7 확인 필요 22 불가 21 빈 항목 21개 채우기",
+     "p": {
+      "homeSido": "서울",
+      "homeArea": "seoul",
+      "household": "head",
+      "headSince": "2019-01-01",
+      "selfOwn": false,
+      "married": false,
+      "acctType": "all",
+      "acctSince": "",
+      "hhHomes": "0",
+      "everWin": "none"
+     },
+     "landed": "onboard:home",
+     "focus": null,
+     "reds": []
+    },
+    {
+     "profile": "빠른 시작(기혼·배우자 미답)",
+     "scene": "목록",
+     "button": "edit:home \"빈 항목 21개 채우기\"",
+     "ctx": "내 조건 경기 광명시 · 무주택 · 세대주 · 현금 미입력 수정 신청 가능 0 확인 필요 26 불가 24 빈 항목 21개 채우기",
+     "p": {
+      "homeSido": "경기",
+      "homeSigun": "광명시",
+      "homeArea": "capital",
+      "household": "head",
+      "headSince": "2019-01-01",
+      "selfOwn": false,
+      "married": true,
+      "marriedOn": "2022-01-01",
+      "acctType": "all",
+      "acctSince": "2016-01-01",
+      "hhHomes": "0",
+      "everWin": "none"
+     },
+     "landed": "onboard:home",
+     "focus": null,
+     "reds": []
+    },
+    {
+     "profile": "부모님 세대 청년",
+     "scene": "목록",
+     "button": "edit:home \"빈 항목 21개 채우기\"",
+     "ctx": "내 조건 인천 · 무주택 · 세대원 (부모님 세대) · 현금 미입력 수정 신청 가능 17 확인 필요 1 2순위만 5 불가 27 빈 항목 21개 채우기",
+     "p": {
+      "homeSido": "인천",
+      "homeSigun": "계양구",
+      "household": "parents",
+      "selfOwn": false,
+      "married": false,
+      "acctType": "all",
+      "acctSince": "2020-01-01",
+      "acctAmount": 300,
+      "birth": "1999-01-01"
+     },
+     "landed": "onboard:home",
+     "focus": null,
+     "reds": []
+    }
+   ]
+  },
+  "내 조건 수정 → 그 단계 열기 home": {
+   "n": 7,
+   "ex": [
+    {
+     "profile": "빠른 시작(미혼)",
+     "scene": "내 조건",
+     "button": "edit:home \"수정\"",
+     "ctx": "사는 곳 입력 필요 1 수정 지금 사는 시·도 서울 그 시·도로 전입한 날 미입력",
+     "p": {
+      "homeSido": "서울",
+      "homeArea": "seoul",
+      "household": "head",
+      "headSince": "2019-01-01",
+      "selfOwn": false,
+      "married": false,
+      "acctType": "all",
+      "acctSince": "",
+      "hhHomes": "0",
+      "everWin": "none"
+     },
+     "landed": "onboard:home",
+     "focus": null,
+     "reds": []
+    },
+    {
+     "profile": "빠른 시작(기혼·배우자 미답)",
+     "scene": "내 조건",
+     "button": "edit:home \"수정\"",
+     "ctx": "사는 곳 입력 필요 2 수정 지금 사는 시·도 경기 사는 시·군 광명시 그 시·도로 전입한 날 미입력 그 시·군으로 전입한 날 미입력",
+     "p": {
+      "homeSido": "경기",
+      "homeSigun": "광명시",
+      "homeArea": "capital",
+      "household": "head",
+      "headSince": "2019-01-01",
+      "selfOwn": false,
+      "married": true,
+      "marriedOn": "2022-01-01",
+      "acctType": "all",
+      "acctSince": "2016-01-01",
+      "hhHomes": "0",
+      "everWin": "none"
+     },
+     "landed": "onboard:home",
+     "focus": null,
+     "reds": []
+    },
+    {
+     "profile": "부모님 세대 청년",
+     "scene": "내 조건",
+     "button": "edit:home \"수정\"",
+     "ctx": "사는 곳 입력 필요 1 수정 지금 사는 시·도 인천 그 시·도로 전입한 날 미입력",
+     "p": {
+      "homeSido": "인천",
+      "homeSigun": "계양구",
+      "household": "parents",
+      "selfOwn": false,
+      "married": false,
+      "acctType": "all",
+      "acctSince": "2020-01-01",
+      "acctAmount": 300,
+      "birth": "1999-01-01"
+     },
+     "landed": "onboard:home",
+     "focus": null,
+     "reds": []
+    }
+   ]
+  },
+  "내 조건 수정 → 그 단계 열기 세대 구성": {
+   "n": 7,
+   "ex": [
+    {
+     "profile": "빠른 시작(미혼)",
+     "scene": "내 조건",
+     "button": "edit:세대 구성 \"수정\"",
+     "ctx": "세대 구성 수정 세대 구성 내가 세대주예요",
+     "p": {
+      "homeSido": "서울",
+      "homeArea": "seoul",
+      "household": "head",
+      "headSince": "2019-01-01",
+      "selfOwn": false,
+      "married": false,
+      "acctType": "all",
+      "acctSince": "",
+      "hhHomes": "0",
+      "everWin": "none"
+     },
+     "landed": "onboard:세대 구성",
+     "focus": null,
+     "reds": []
+    },
+    {
+     "profile": "빠른 시작(기혼·배우자 미답)",
+     "scene": "내 조건",
+     "button": "edit:세대 구성 \"수정\"",
+     "ctx": "세대 구성 수정 세대 구성 내가 세대주예요",
+     "p": {
+      "homeSido": "경기",
+      "homeSigun": "광명시",
+      "homeArea": "capital",
+      "household": "head",
+      "headSince": "2019-01-01",
+      "selfOwn": false,
+      "married": true,
+      "marriedOn": "2022-01-01",
+      "acctType": "all",
+      "acctSince": "2016-01-01",
+      "hhHomes": "0",
+      "everWin": "none"
+     },
+     "landed": "onboard:세대 구성",
+     "focus": null,
+     "reds": []
+    },
+    {
+     "profile": "부모님 세대 청년",
+     "scene": "내 조건",
+     "button": "edit:세대 구성 \"수정\"",
+     "ctx": "세대 구성 수정 세대 구성 부모님 세대의 세대원이에요",
+     "p": {
+      "homeSido": "인천",
+      "homeSigun": "계양구",
+      "household": "parents",
+      "selfOwn": false,
+      "married": false,
+      "acctType": "all",
+      "acctSince": "2020-01-01",
+      "acctAmount": 300,
+      "birth": "1999-01-01"
+     },
+     "landed": "onboard:세대 구성",
+     "focus": null,
+     "reds": []
+    }
+   ]
+  },
+  "내 조건 수정 → 그 단계 열기 세대주가 된 날": {
+   "n": 6,
+   "ex": [
+    {
+     "profile": "빠른 시작(미혼)",
+     "scene": "내 조건",
+     "button": "edit:세대주가 된 날 \"수정\"",
+     "ctx": "세대주가 된 날 수정 세대주가 된 날 2019-01-01",
+     "p": {
+      "homeSido": "서울",
+      "homeArea": "seoul",
+      "household": "head",
+      "headSince": "2019-01-01",
+      "selfOwn": false,
+      "married": false,
+      "acctType": "all",
+      "acctSince": "",
+      "hhHomes": "0",
+      "everWin": "none"
+     },
+     "landed": "onboard:세대주가 된 날",
+     "focus": null,
+     "reds": []
+    },
+    {
+     "profile": "빠른 시작(기혼·배우자 미답)",
+     "scene": "내 조건",
+     "button": "edit:세대주가 된 날 \"수정\"",
+     "ctx": "세대주가 된 날 수정 세대주가 된 날 2019-01-01",
+     "p": {
+      "homeSido": "경기",
+      "homeSigun": "광명시",
+      "homeArea": "capital",
+      "household": "head",
+      "headSince": "2019-01-01",
+      "selfOwn": false,
+      "married": true,
+      "marriedOn": "2022-01-01",
+      "acctType": "all",
+      "acctSince": "2016-01-01",
+      "hhHomes": "0",
+      "everWin": "none"
+     },
+     "landed": "onboard:세대주가 된 날",
+     "focus": null,
+     "reds": []
+    },
+    {
+     "profile": "다 넣은 신혼",
+     "scene": "내 조건",
+     "button": "edit:세대주가 된 날 \"수정\"",
+     "ctx": "세대주가 된 날 수정 세대주가 된 날 2016-01-01",
+     "p": {
+      "homeSido": "경기",
+      "homeSigun": "광명시",
+      "homeArea": "capital",
+      "sidoOwnSince": "2015-01-01",
+      "sidoSince": "2015-01-01",
+      "areaSince": "2015-01-01",
+      "household": "head",
+      "headSince": "2016-01-01",
+      "selfOwn": false,
+      "married": true,
+      "marriedOn": "2022-05-01",
+      "spouseOwn": false,
+      "acctType": "all",
+      "acctSince": "2014-01-01",
+      "acctAmount": 1500,
+      "acctCount": 60,
+      "acctPaid": 1500,
+      "hhHomes": "0",
+      "everWin": "none",
+      "win5y": false,
+      "recentWin": false,
+      "birth": "1990-01-01",
+      "dependents": 2,
+      "kidsMinor": 1,
+      "youngestBirth": "2025-01-01",
+      "pregnant": false,
+      "hhSize": 3,
+      "kidsOnDeed": 1,
+      "eldersOnDeed": 0,
+      "income": 5000,
+      "spouseIncome": 3000,
+      "hhIncomeYear": 8000,
+      "realEstate": 0,
+      "carValue": 1500,
+      "hhNeverOwned": true,
+      "taxYears5": true,
+      "elder65": false,
+      "cash": 20000,
+      "liquid": 0,
+      "deposit": 0
+     },
+     "landed": "onboard:세대주가 된 날",
+     "focus": null,
+     "reds": []
+    }
+   ]
+  },
+  "내 조건 수정 → 그 단계 열기 집과 혼인": {
+   "n": 7,
+   "ex": [
+    {
+     "profile": "빠른 시작(미혼)",
+     "scene": "내 조건",
+     "button": "edit:집과 혼인 \"수정\"",
+     "ctx": "집과 혼인 수정 본인 명의 주택이나 분양권이 있나요? 없어요 혼인신고를 했나요? 안 했어요",
+     "p": {
+      "homeSido": "서울",
+      "homeArea": "seoul",
+      "household": "head",
+      "headSince": "2019-01-01",
+      "selfOwn": false,
+      "married": false,
+      "acctType": "all",
+      "acctSince": "",
+      "hhHomes": "0",
+      "everWin": "none"
+     },
+     "landed": "onboard:집과 혼인",
+     "focus": null,
+     "reds": []
+    },
+    {
+     "profile": "빠른 시작(기혼·배우자 미답)",
+     "scene": "내 조건",
+     "button": "edit:집과 혼인 \"수정\"",
+     "ctx": "집과 혼인 수정 본인 명의 주택이나 분양권이 있나요? 없어요 혼인신고를 했나요? 했어요",
+     "p": {
+      "homeSido": "경기",
+      "homeSigun": "광명시",
+      "homeArea": "capital",
+      "household": "head",
+      "headSince": "2019-01-01",
+      "selfOwn": false,
+      "married": true,
+      "marriedOn": "2022-01-01",
+      "acctType": "all",
+      "acctSince": "2016-01-01",
+      "hhHomes": "0",
+      "everWin": "none"
+     },
+     "landed": "onboard:집과 혼인",
+     "focus": null,
+     "reds": []
+    },
+    {
+     "profile": "부모님 세대 청년",
+     "scene": "내 조건",
+     "button": "edit:집과 혼인 \"수정\"",
+     "ctx": "집과 혼인 수정 본인 명의 주택이나 분양권이 있나요? 없어요 혼인신고를 했나요? 안 했어요",
+     "p": {
+      "homeSido": "인천",
+      "homeSigun": "계양구",
+      "household": "parents",
+      "selfOwn": false,
+      "married": false,
+      "acctType": "all",
+      "acctSince": "2020-01-01",
+      "acctAmount": 300,
+      "birth": "1999-01-01"
+     },
+     "landed": "onboard:집과 혼인",
+     "focus": null,
+     "reds": []
+    }
+   ]
+  },
+  "내 조건 수정 → 그 단계 열기 청약통장": {
+   "n": 7,
+   "ex": [
+    {
+     "profile": "빠른 시작(미혼)",
+     "scene": "내 조건",
+     "button": "edit:청약통장 \"수정\"",
+     "ctx": "청약통장 입력 필요 4 수정 통장 종류 주택청약종합저축 가입일 미입력 통장 잔액 미입력 납입 인정 회차 미입력 납입 인정 금액 미입력",
+     "p": {
+      "homeSido": "서울",
+      "homeArea": "seoul",
+      "household": "head",
+      "headSince": "2019-01-01",
+      "selfOwn": false,
+      "married": false,
+      "acctType": "all",
+      "acctSince": "",
+      "hhHomes": "0",
+      "everWin": "none"
+     },
+     "landed": "onboard:청약통장",
+     "focus": null,
+     "reds": []
+    },
+    {
+     "profile": "빠른 시작(기혼·배우자 미답)",
+     "scene": "내 조건",
+     "button": "edit:청약통장 \"수정\"",
+     "ctx": "청약통장 입력 필요 3 수정 통장 종류 주택청약종합저축 가입일 2016-01-01 통장 잔액 미입력 납입 인정 회차 미입력 납입 인정 금액 미입력",
+     "p": {
+      "homeSido": "경기",
+      "homeSigun": "광명시",
+      "homeArea": "capital",
+      "household": "head",
+      "headSince": "2019-01-01",
+      "selfOwn": false,
+      "married": true,
+      "marriedOn": "2022-01-01",
+      "acctType": "all",
+      "acctSince": "2016-01-01",
+      "hhHomes": "0",
+      "everWin": "none"
+     },
+     "landed": "onboard:청약통장",
+     "focus": null,
+     "reds": []
+    },
+    {
+     "profile": "부모님 세대 청년",
+     "scene": "내 조건",
+     "button": "edit:청약통장 \"수정\"",
+     "ctx": "청약통장 입력 필요 2 수정 통장 종류 주택청약종합저축 가입일 2020-01-01 통장 잔액 300만 납입 인정 회차 미입력 납입 인정 금액 미입력",
+     "p": {
+      "homeSido": "인천",
+      "homeSigun": "계양구",
+      "household": "parents",
+      "selfOwn": false,
+      "married": false,
+      "acctType": "all",
+      "acctSince": "2020-01-01",
+      "acctAmount": 300,
+      "birth": "1999-01-01"
+     },
+     "landed": "onboard:청약통장",
+     "focus": null,
+     "reds": []
+    }
+   ]
+  },
+  "내 조건 수정 → 그 단계 열기 가점 계산": {
+   "n": 7,
+   "ex": [
+    {
+     "profile": "빠른 시작(미혼)",
+     "scene": "내 조건",
+     "button": "edit:가점 계산 \"수정\"",
+     "ctx": "가점 계산 입력 필요 2 수정 생년월일 미입력 집을 가졌다가 처분한 적이 있다면 그날 없음 부양가족 수 미입력",
+     "p": {
+      "homeSido": "서울",
+      "homeArea": "seoul",
+      "household": "head",
+      "headSince": "2019-01-01",
+      "selfOwn": false,
+      "married": false,
+      "acctType": "all",
+      "acctSince": "",
+      "hhHomes": "0",
+      "everWin": "none"
+     },
+     "landed": "onboard:가점 계산",
+     "focus": null,
+     "reds": []
+    },
+    {
+     "profile": "빠른 시작(기혼·배우자 미답)",
+     "scene": "내 조건",
+     "button": "edit:가점 계산 \"수정\"",
+     "ctx": "가점 계산 입력 필요 2 수정 생년월일 미입력 집을 가졌다가 처분한 적이 있다면 그날 없음 부양가족 수 미입력",
+     "p": {
+      "homeSido": "경기",
+      "homeSigun": "광명시",
+      "homeArea": "capital",
+      "household": "head",
+      "headSince": "2019-01-01",
+      "selfOwn": false,
+      "married": true,
+      "marriedOn": "2022-01-01",
+      "acctType": "all",
+      "acctSince": "2016-01-01",
+      "hhHomes": "0",
+      "everWin": "none"
+     },
+     "landed": "onboard:가점 계산",
+     "focus": null,
+     "reds": []
+    },
+    {
+     "profile": "부모님 세대 청년",
+     "scene": "내 조건",
+     "button": "edit:가점 계산 \"수정\"",
+     "ctx": "가점 계산 입력 필요 1 수정 생년월일 1999-01-01 집을 가졌다가 처분한 적이 있다면 그날 없음 부양가족 수 미입력",
+     "p": {
+      "homeSido": "인천",
+      "homeSigun": "계양구",
+      "household": "parents",
+      "selfOwn": false,
+      "married": false,
+      "acctType": "all",
+      "acctSince": "2020-01-01",
+      "acctAmount": 300,
+      "birth": "1999-01-01"
+     },
+     "landed": "onboard:가점 계산",
+     "focus": null,
+     "reds": []
+    }
+   ]
+  },
+  "내 조건 수정 → 그 단계 열기 sp1": {
+   "n": 7,
+   "ex": [
+    {
+     "profile": "빠른 시작(미혼)",
+     "scene": "내 조건",
+     "button": "edit:sp1 \"수정\"",
+     "ctx": "자녀와 가구 입력 필요 3 수정 만 19세 미만 자녀 수 미입력 지금 임신 중인가요? 아니요 (안 적음) 나·배우자와 같은 등본에 있는 자녀 수 미입력 나·배우자",
+     "p": {
+      "homeSido": "서울",
+      "homeArea": "seoul",
+      "household": "head",
+      "headSince": "2019-01-01",
+      "selfOwn": false,
+      "married": false,
+      "acctType": "all",
+      "acctSince": "",
+      "hhHomes": "0",
+      "everWin": "none"
+     },
+     "landed": "onboard:sp1",
+     "focus": null,
+     "reds": []
+    },
+    {
+     "profile": "빠른 시작(기혼·배우자 미답)",
+     "scene": "내 조건",
+     "button": "edit:sp1 \"수정\"",
+     "ctx": "자녀와 가구 입력 필요 3 수정 만 19세 미만 자녀 수 미입력 지금 임신 중인가요? 아니요 (안 적음) 나·배우자와 같은 등본에 있는 자녀 수 미입력 나·배우자",
+     "p": {
+      "homeSido": "경기",
+      "homeSigun": "광명시",
+      "homeArea": "capital",
+      "household": "head",
+      "headSince": "2019-01-01",
+      "selfOwn": false,
+      "married": true,
+      "marriedOn": "2022-01-01",
+      "acctType": "all",
+      "acctSince": "2016-01-01",
+      "hhHomes": "0",
+      "everWin": "none"
+     },
+     "landed": "onboard:sp1",
+     "focus": null,
+     "reds": []
+    },
+    {
+     "profile": "부모님 세대 청년",
+     "scene": "내 조건",
+     "button": "edit:sp1 \"수정\"",
+     "ctx": "자녀와 가구 입력 필요 3 수정 만 19세 미만 자녀 수 미입력 지금 임신 중인가요? 아니요 (안 적음) 나·배우자와 같은 등본에 있는 자녀 수 미입력 나·배우자",
+     "p": {
+      "homeSido": "인천",
+      "homeSigun": "계양구",
+      "household": "parents",
+      "selfOwn": false,
+      "married": false,
+      "acctType": "all",
+      "acctSince": "2020-01-01",
+      "acctAmount": 300,
+      "birth": "1999-01-01"
+     },
+     "landed": "onboard:sp1",
+     "focus": null,
+     "reds": []
+    }
+   ]
+  },
+  "내 조건 수정 → 그 단계 열기 sp5": {
+   "n": 7,
+   "ex": [
+    {
+     "profile": "빠른 시작(미혼)",
+     "scene": "내 조건",
+     "button": "edit:sp5 \"수정\"",
+     "ctx": "수도권 거주 시작일 입력 필요 1 수정 서울·경기·인천에 계속 살기 시작한 날 미입력",
+     "p": {
+      "homeSido": "서울",
+      "homeArea": "seoul",
+      "household": "head",
+      "headSince": "2019-01-01",
+      "selfOwn": false,
+      "married": false,
+      "acctType": "all",
+      "acctSince": "",
+      "hhHomes": "0",
+      "everWin": "none"
+     },
+     "landed": "onboard:sp5",
+     "focus": null,
+     "reds": []
+    },
+    {
+     "profile": "빠른 시작(기혼·배우자 미답)",
+     "scene": "내 조건",
+     "button": "edit:sp5 \"수정\"",
+     "ctx": "수도권 거주 시작일 입력 필요 1 수정 서울·경기·인천에 계속 살기 시작한 날 미입력",
+     "p": {
+      "homeSido": "경기",
+      "homeSigun": "광명시",
+      "homeArea": "capital",
+      "household": "head",
+      "headSince": "2019-01-01",
+      "selfOwn": false,
+      "married": true,
+      "marriedOn": "2022-01-01",
+      "acctType": "all",
+      "acctSince": "2016-01-01",
+      "hhHomes": "0",
+      "everWin": "none"
+     },
+     "landed": "onboard:sp5",
+     "focus": null,
+     "reds": []
+    },
+    {
+     "profile": "부모님 세대 청년",
+     "scene": "내 조건",
+     "button": "edit:sp5 \"수정\"",
+     "ctx": "수도권 거주 시작일 입력 필요 1 수정 서울·경기·인천에 계속 살기 시작한 날 미입력",
+     "p": {
+      "homeSido": "인천",
+      "homeSigun": "계양구",
+      "household": "parents",
+      "selfOwn": false,
+      "married": false,
+      "acctType": "all",
+      "acctSince": "2020-01-01",
+      "acctAmount": 300,
+      "birth": "1999-01-01"
+     },
+     "landed": "onboard:sp5",
+     "focus": null,
+     "reds": []
+    }
+   ]
+  },
+  "내 조건 수정 → 그 단계 열기 sp2": {
+   "n": 7,
+   "ex": [
+    {
+     "profile": "빠른 시작(미혼)",
+     "scene": "내 조건",
+     "button": "edit:sp2 \"수정\"",
+     "ctx": "세대 소득·자산 입력 필요 1 수정 본인 세전 연소득 미입력 세대원 전원의 작년 세전 소득 합계 입력 안 함 세대가 가진 부동산 가액 입력 안 함 자동차 가액 입",
+     "p": {
+      "homeSido": "서울",
+      "homeArea": "seoul",
+      "household": "head",
+      "headSince": "2019-01-01",
+      "selfOwn": false,
+      "married": false,
+      "acctType": "all",
+      "acctSince": "",
+      "hhHomes": "0",
+      "everWin": "none"
+     },
+     "landed": "onboard:sp2",
+     "focus": null,
+     "reds": []
+    },
+    {
+     "profile": "빠른 시작(기혼·배우자 미답)",
+     "scene": "내 조건",
+     "button": "edit:sp2 \"수정\"",
+     "ctx": "세대 소득·자산 입력 필요 1 수정 본인 세전 연소득 미입력 세대원 전원의 작년 세전 소득 합계 입력 안 함 세대가 가진 부동산 가액 입력 안 함 자동차 가액 입",
+     "p": {
+      "homeSido": "경기",
+      "homeSigun": "광명시",
+      "homeArea": "capital",
+      "household": "head",
+      "headSince": "2019-01-01",
+      "selfOwn": false,
+      "married": true,
+      "marriedOn": "2022-01-01",
+      "acctType": "all",
+      "acctSince": "2016-01-01",
+      "hhHomes": "0",
+      "everWin": "none"
+     },
+     "landed": "onboard:sp2",
+     "focus": null,
+     "reds": []
+    },
+    {
+     "profile": "부모님 세대 청년",
+     "scene": "내 조건",
+     "button": "edit:sp2 \"수정\"",
+     "ctx": "세대 소득·자산 입력 필요 1 수정 본인 세전 연소득 미입력 세대원 전원의 작년 세전 소득 합계 입력 안 함 세대가 가진 부동산 가액 입력 안 함 자동차 가액 입",
+     "p": {
+      "homeSido": "인천",
+      "homeSigun": "계양구",
+      "household": "parents",
+      "selfOwn": false,
+      "married": false,
+      "acctType": "all",
+      "acctSince": "2020-01-01",
+      "acctAmount": 300,
+      "birth": "1999-01-01"
+     },
+     "landed": "onboard:sp2",
+     "focus": null,
+     "reds": []
+    }
+   ]
+  },
+  "내 조건 수정 → 그 단계 열기 sp6": {
+   "n": 4,
+   "ex": [
+    {
+     "profile": "빠른 시작(미혼)",
+     "scene": "내 조건",
+     "button": "edit:sp6 \"수정\"",
+     "ctx": "청년 특별공급 입력 필요 3 수정 본인 이름으로 집을 가진 적이 있나요? 미입력 본인 총자산 미입력 부모님 두 분 총자산 합계 미입력",
+     "p": {
+      "homeSido": "서울",
+      "homeArea": "seoul",
+      "household": "head",
+      "headSince": "2019-01-01",
+      "selfOwn": false,
+      "married": false,
+      "acctType": "all",
+      "acctSince": "",
+      "hhHomes": "0",
+      "everWin": "none"
+     },
+     "landed": "onboard:sp6",
+     "focus": null,
+     "reds": []
+    },
+    {
+     "profile": "부모님 세대 청년",
+     "scene": "내 조건",
+     "button": "edit:sp6 \"수정\"",
+     "ctx": "청년 특별공급 입력 필요 3 수정 본인 이름으로 집을 가진 적이 있나요? 미입력 본인 총자산 미입력 부모님 두 분 총자산 합계 미입력",
+     "p": {
+      "homeSido": "인천",
+      "homeSigun": "계양구",
+      "household": "parents",
+      "selfOwn": false,
+      "married": false,
+      "acctType": "all",
+      "acctSince": "2020-01-01",
+      "acctAmount": 300,
+      "birth": "1999-01-01"
+     },
+     "landed": "onboard:sp6",
+     "focus": null,
+     "reds": []
+    },
+    {
+     "profile": "무작위 2",
+     "scene": "내 조건",
+     "button": "edit:sp6 \"수정\"",
+     "ctx": "청년 특별공급 입력 필요 3 수정 본인 이름으로 집을 가진 적이 있나요? 미입력 본인 총자산 미입력 부모님 두 분 총자산 합계 미입력",
+     "p": {
+      "homeSido": "경기",
+      "homeSigun": "광명시",
+      "sidoOwnSince": "2015-01-01",
+      "sidoSince": "2015-01-01",
+      "areaSince": "2015-01-01",
+      "household": "head",
+      "headSince": "2016-01-01",
+      "marriedOn": "2022-05-01",
+      "spouseOwn": false,
+      "acctType": "all",
+      "acctSince": "2014-01-01",
+      "acctAmount": 1500,
+      "acctPaid": 1500,
+      "win5y": false,
+      "dependents": 2,
+      "kidsMinor": 1,
+      "kidsOnDeed": 1,
+      "spouseIncome": 3000,
+      "realEstate": 0,
+      "carValue": 1500,
+      "hhNeverOwned": true,
+      "taxYears5": true,
+      "cash": 20000,
+      "liquid": 0
+     },
+     "landed": "onboard:sp6",
+     "focus": null,
+     "reds": []
+    }
+   ]
+  },
+  "내 조건 수정 → 그 단계 열기 sp3": {
+   "n": 7,
+   "ex": [
+    {
+     "profile": "빠른 시작(미혼)",
+     "scene": "내 조건",
+     "button": "edit:sp3 \"수정\"",
+     "ctx": "주택 이력·부양 입력 필요 2 수정 세대원 모두 지금까지 집을 가진 적이 없나요? 미입력 본인이 소득세를 5년 이상 냈나요? 미입력 만 65세 이상 부모님(배우자",
+     "p": {
+      "homeSido": "서울",
+      "homeArea": "seoul",
+      "household": "head",
+      "headSince": "2019-01-01",
+      "selfOwn": false,
+      "married": false,
+      "acctType": "all",
+      "acctSince": "",
+      "hhHomes": "0",
+      "everWin": "none"
+     },
+     "landed": "onboard:sp3",
+     "focus": null,
+     "reds": []
+    },
+    {
+     "profile": "빠른 시작(기혼·배우자 미답)",
+     "scene": "내 조건",
+     "button": "edit:sp3 \"수정\"",
+     "ctx": "주택 이력·부양 입력 필요 2 수정 세대원 모두 지금까지 집을 가진 적이 없나요? 미입력 본인이 소득세를 5년 이상 냈나요? 미입력 만 65세 이상 부모님(배우자",
+     "p": {
+      "homeSido": "경기",
+      "homeSigun": "광명시",
+      "homeArea": "capital",
+      "household": "head",
+      "headSince": "2019-01-01",
+      "selfOwn": false,
+      "married": true,
+      "marriedOn": "2022-01-01",
+      "acctType": "all",
+      "acctSince": "2016-01-01",
+      "hhHomes": "0",
+      "everWin": "none"
+     },
+     "landed": "onboard:sp3",
+     "focus": null,
+     "reds": []
+    },
+    {
+     "profile": "부모님 세대 청년",
+     "scene": "내 조건",
+     "button": "edit:sp3 \"수정\"",
+     "ctx": "주택 이력·부양 입력 필요 2 수정 세대원 모두 지금까지 집을 가진 적이 없나요? 미입력 본인이 소득세를 5년 이상 냈나요? 미입력 만 65세 이상 부모님(배우자",
+     "p": {
+      "homeSido": "인천",
+      "homeSigun": "계양구",
+      "household": "parents",
+      "selfOwn": false,
+      "married": false,
+      "acctType": "all",
+      "acctSince": "2020-01-01",
+      "acctAmount": 300,
+      "birth": "1999-01-01"
+     },
+     "landed": "onboard:sp3",
+     "focus": null,
+     "reds": []
+    }
+   ]
+  },
+  "내 조건 수정 → 그 단계 열기 세대 주택·당첨 이력": {
+   "n": 7,
+   "ex": [
+    {
+     "profile": "빠른 시작(미혼)",
+     "scene": "내 조건",
+     "button": "edit:세대 주택·당첨 이력 \"수정\"",
+     "ctx": "세대 주택·당첨 이력 수정 세대 전체가 가진 주택 수 없어요 나 또는 세대원이 청약에 당첨된 적이 있나요? 없어요",
+     "p": {
+      "homeSido": "서울",
+      "homeArea": "seoul",
+      "household": "head",
+      "headSince": "2019-01-01",
+      "selfOwn": false,
+      "married": false,
+      "acctType": "all",
+      "acctSince": "",
+      "hhHomes": "0",
+      "everWin": "none"
+     },
+     "landed": "onboard:세대 주택·당첨 이력",
+     "focus": null,
+     "reds": []
+    },
+    {
+     "profile": "빠른 시작(기혼·배우자 미답)",
+     "scene": "내 조건",
+     "button": "edit:세대 주택·당첨 이력 \"수정\"",
+     "ctx": "세대 주택·당첨 이력 수정 세대 전체가 가진 주택 수 없어요 나 또는 세대원이 청약에 당첨된 적이 있나요? 없어요",
+     "p": {
+      "homeSido": "경기",
+      "homeSigun": "광명시",
+      "homeArea": "capital",
+      "household": "head",
+      "headSince": "2019-01-01",
+      "selfOwn": false,
+      "married": true,
+      "marriedOn": "2022-01-01",
+      "acctType": "all",
+      "acctSince": "2016-01-01",
+      "hhHomes": "0",
+      "everWin": "none"
+     },
+     "landed": "onboard:세대 주택·당첨 이력",
+     "focus": null,
+     "reds": []
+    },
+    {
+     "profile": "부모님 세대 청년",
+     "scene": "내 조건",
+     "button": "edit:세대 주택·당첨 이력 \"수정\"",
+     "ctx": "세대 주택·당첨 이력 입력 필요 1 수정 세대 전체가 가진 주택 수 미입력 나 또는 세대원이 청약에 당첨된 적이 있나요? 없음 (안 적음)",
+     "p": {
+      "homeSido": "인천",
+      "homeSigun": "계양구",
+      "household": "parents",
+      "selfOwn": false,
+      "married": false,
+      "acctType": "all",
+      "acctSince": "2020-01-01",
+      "acctAmount": 300,
+      "birth": "1999-01-01"
+     },
+     "landed": "onboard:세대 주택·당첨 이력",
+     "focus": null,
+     "reds": []
+    }
+   ]
+  },
+  "내 조건 수정 → 그 단계 열기 바로 쓸 수 있는 돈": {
+   "n": 7,
+   "ex": [
+    {
+     "profile": "빠른 시작(미혼)",
+     "scene": "내 조건",
+     "button": "edit:바로 쓸 수 있는 돈 \"수정\"",
+     "ctx": "바로 쓸 수 있는 돈 입력 필요 3 수정 예금·현금 미입력 주식·펀드·적금 미입력 돌려받을 전세보증금 미입력",
+     "p": {
+      "homeSido": "서울",
+      "homeArea": "seoul",
+      "household": "head",
+      "headSince": "2019-01-01",
+      "selfOwn": false,
+      "married": false,
+      "acctType": "all",
+      "acctSince": "",
+      "hhHomes": "0",
+      "everWin": "none"
+     },
+     "landed": "onboard:바로 쓸 수 있는 돈",
+     "focus": null,
+     "reds": []
+    },
+    {
+     "profile": "빠른 시작(기혼·배우자 미답)",
+     "scene": "내 조건",
+     "button": "edit:바로 쓸 수 있는 돈 \"수정\"",
+     "ctx": "바로 쓸 수 있는 돈 입력 필요 3 수정 예금·현금 미입력 주식·펀드·적금 미입력 돌려받을 전세보증금 미입력",
+     "p": {
+      "homeSido": "경기",
+      "homeSigun": "광명시",
+      "homeArea": "capital",
+      "household": "head",
+      "headSince": "2019-01-01",
+      "selfOwn": false,
+      "married": true,
+      "marriedOn": "2022-01-01",
+      "acctType": "all",
+      "acctSince": "2016-01-01",
+      "hhHomes": "0",
+      "everWin": "none"
+     },
+     "landed": "onboard:바로 쓸 수 있는 돈",
+     "focus": null,
+     "reds": []
+    },
+    {
+     "profile": "부모님 세대 청년",
+     "scene": "내 조건",
+     "button": "edit:바로 쓸 수 있는 돈 \"수정\"",
+     "ctx": "바로 쓸 수 있는 돈 입력 필요 3 수정 예금·현금 미입력 주식·펀드·적금 미입력 돌려받을 전세보증금 미입력",
+     "p": {
+      "homeSido": "인천",
+      "homeSigun": "계양구",
+      "household": "parents",
+      "selfOwn": false,
+      "married": false,
+      "acctType": "all",
+      "acctSince": "2020-01-01",
+      "acctAmount": 300,
+      "birth": "1999-01-01"
+     },
+     "landed": "onboard:바로 쓸 수 있는 돈",
+     "focus": null,
+     "reds": []
+    }
+   ]
+  },
+  "내 조건 수정 → 그 단계 열기 town": {
+   "n": 7,
+   "ex": [
+    {
+     "profile": "빠른 시작(미혼)",
+     "scene": "내 조건",
+     "button": "edit:town \"수정\"",
+     "ctx": "신혼희망타운 총자산 수정 혼인 전이라면 어디에 해당하나요? 해당 없음 (안 적음) 보험·연금보험 해약환급금 합계 입력 안 함 그 밖의 금융자산 입력 안 함 기타 ",
+     "p": {
+      "homeSido": "서울",
+      "homeArea": "seoul",
+      "household": "head",
+      "headSince": "2019-01-01",
+      "selfOwn": false,
+      "married": false,
+      "acctType": "all",
+      "acctSince": "",
+      "hhHomes": "0",
+      "everWin": "none"
+     },
+     "landed": "onboard:town",
+     "focus": null,
+     "reds": []
+    },
+    {
+     "profile": "빠른 시작(기혼·배우자 미답)",
+     "scene": "내 조건",
+     "button": "edit:town \"수정\"",
+     "ctx": "신혼희망타운 총자산 수정 보험·연금보험 해약환급금 합계 입력 안 함 그 밖의 금융자산 입력 안 함 기타 자산 입력 안 함 부채 입력 안 함",
+     "p": {
+      "homeSido": "경기",
+      "homeSigun": "광명시",
+      "homeArea": "capital",
+      "household": "head",
+      "headSince": "2019-01-01",
+      "selfOwn": false,
+      "married": true,
+      "marriedOn": "2022-01-01",
+      "acctType": "all",
+      "acctSince": "2016-01-01",
+      "hhHomes": "0",
+      "everWin": "none"
+     },
+     "landed": "onboard:town",
+     "focus": null,
+     "reds": []
+    },
+    {
+     "profile": "부모님 세대 청년",
+     "scene": "내 조건",
+     "button": "edit:town \"수정\"",
+     "ctx": "신혼희망타운 총자산 수정 혼인 전이라면 어디에 해당하나요? 해당 없음 (안 적음) 보험·연금보험 해약환급금 합계 입력 안 함 그 밖의 금융자산 입력 안 함 기타 ",
+     "p": {
+      "homeSido": "인천",
+      "homeSigun": "계양구",
+      "household": "parents",
+      "selfOwn": false,
+      "married": false,
+      "acctType": "all",
+      "acctSince": "2020-01-01",
+      "acctAmount": 300,
+      "birth": "1999-01-01"
+     },
+     "landed": "onboard:town",
+     "focus": null,
+     "reds": []
+    }
+   ]
+  },
+  "내 조건 수정 → 그 단계 열기 소득과 대출": {
+   "n": 7,
+   "ex": [
+    {
+     "profile": "빠른 시작(미혼)",
+     "scene": "내 조건",
+     "button": "edit:소득과 대출 \"수정\"",
+     "ctx": "소득과 대출 입력 필요 1 수정 기존 대출 월 상환액 미입력",
+     "p": {
+      "homeSido": "서울",
+      "homeArea": "seoul",
+      "household": "head",
+      "headSince": "2019-01-01",
+      "selfOwn": false,
+      "married": false,
+      "acctType": "all",
+      "acctSince": "",
+      "hhHomes": "0",
+      "everWin": "none"
+     },
+     "landed": "onboard:소득과 대출",
+     "focus": null,
+     "reds": []
+    },
+    {
+     "profile": "빠른 시작(기혼·배우자 미답)",
+     "scene": "내 조건",
+     "button": "edit:소득과 대출 \"수정\"",
+     "ctx": "소득과 대출 입력 필요 2 수정 기존 대출 월 상환액 미입력 배우자 대출 월 상환액 미입력",
+     "p": {
+      "homeSido": "경기",
+      "homeSigun": "광명시",
+      "homeArea": "capital",
+      "household": "head",
+      "headSince": "2019-01-01",
+      "selfOwn": false,
+      "married": true,
+      "marriedOn": "2022-01-01",
+      "acctType": "all",
+      "acctSince": "2016-01-01",
+      "hhHomes": "0",
+      "everWin": "none"
+     },
+     "landed": "onboard:소득과 대출",
+     "focus": null,
+     "reds": []
+    },
+    {
+     "profile": "부모님 세대 청년",
+     "scene": "내 조건",
+     "button": "edit:소득과 대출 \"수정\"",
+     "ctx": "소득과 대출 입력 필요 1 수정 기존 대출 월 상환액 미입력",
+     "p": {
+      "homeSido": "인천",
+      "homeSigun": "계양구",
+      "household": "parents",
+      "selfOwn": false,
+      "married": false,
+      "acctType": "all",
+      "acctSince": "2020-01-01",
+      "acctAmount": 300,
+      "birth": "1999-01-01"
+     },
+     "landed": "onboard:소득과 대출",
+     "focus": null,
+     "reds": []
+    }
+   ]
+  },
+  "내 조건 화면으로만 이동 (내 조건 고치기)": {
+   "n": 224,
+   "ex": [
+    {
+     "profile": "빠른 시작(미혼)",
+     "scene": "임대 2015122300020870",
+     "button": "go:me \"내 조건 고치기\"",
+     "ctx": "내 자격 (계층별 · 입력한 조건 기준) 대학생 확인 필요 답 필요 대학생(재학·입학·복학 예정, 졸업·중퇴 2년 이내)인지 답해 주세요 답하기 충족 본인 무주택",
+     "p": {
+      "homeSido": "서울",
+      "homeArea": "seoul",
+      "household": "head",
+      "headSince": "2019-01-01",
+      "selfOwn": false,
+      "married": false,
+      "acctType": "all",
+      "acctSince": "",
+      "hhHomes": "0",
+      "everWin": "none"
+     },
+     "landed": "me",
+     "focus": null,
+     "reds": []
+    },
+    {
+     "profile": "빠른 시작(미혼)",
+     "scene": "임대 2015122300020864",
+     "button": "go:me \"내 조건 고치기\"",
+     "ctx": "내 자격 (계층별 · 입력한 조건 기준) 일반 조건 밖 입력 필요 생년월일 입력 필요 (성년자인지 확인) 답하기 충족 세대 무주택 (세대 전체 주택 0채) 미충족",
+     "p": {
+      "homeSido": "서울",
+      "homeArea": "seoul",
+      "household": "head",
+      "headSince": "2019-01-01",
+      "selfOwn": false,
+      "married": false,
+      "acctType": "all",
+      "acctSince": "",
+      "hhHomes": "0",
+      "everWin": "none"
+     },
+     "landed": "me",
+     "focus": null,
+     "reds": []
+    },
+    {
+     "profile": "빠른 시작(미혼)",
+     "scene": "임대 2015122300020871",
+     "button": "go:me \"내 조건 고치기\"",
+     "ctx": "내 자격 (계층별 · 입력한 조건 기준) 대학생 확인 필요 답 필요 대학생(재학·입학·복학 예정, 졸업·중퇴 2년 이내)인지 답해 주세요 답하기 충족 본인 무주택",
+     "p": {
+      "homeSido": "서울",
+      "homeArea": "seoul",
+      "household": "head",
+      "headSince": "2019-01-01",
+      "selfOwn": false,
+      "married": false,
+      "acctType": "all",
+      "acctSince": "",
+      "hhHomes": "0",
+      "everWin": "none"
+     },
+     "landed": "me",
+     "focus": null,
+     "reds": []
+    }
+   ]
+  },
+  "내 조건 수정 → 그 단계 열기 배우자": {
+   "n": 3,
+   "ex": [
+    {
+     "profile": "빠른 시작(기혼·배우자 미답)",
+     "scene": "내 조건",
+     "button": "edit:배우자 \"수정\"",
+     "ctx": "배우자 입력 필요 2 수정 배우자 명의 주택이나 분양권이 있나요? 미입력 혼인신고일 2022-01-01 배우자 세전 연소득 미입력 배우자 청약통장 가입일 없음 배",
+     "p": {
+      "homeSido": "경기",
+      "homeSigun": "광명시",
+      "homeArea": "capital",
+      "household": "head",
+      "headSince": "2019-01-01",
+      "selfOwn": false,
+      "married": true,
+      "marriedOn": "2022-01-01",
+      "acctType": "all",
+      "acctSince": "2016-01-01",
+      "hhHomes": "0",
+      "everWin": "none"
+     },
+     "landed": "onboard:배우자",
+     "focus": null,
+     "reds": []
+    },
+    {
+     "profile": "다 넣은 신혼",
+     "scene": "내 조건",
+     "button": "edit:배우자 \"수정\"",
+     "ctx": "배우자 수정 배우자 명의 주택이나 분양권이 있나요? 없어요 혼인신고일 2022-05-01 배우자 세전 연소득 3,000만 배우자 청약통장 가입일 없음 배우자가 집",
+     "p": {
+      "homeSido": "경기",
+      "homeSigun": "광명시",
+      "homeArea": "capital",
+      "sidoOwnSince": "2015-01-01",
+      "sidoSince": "2015-01-01",
+      "areaSince": "2015-01-01",
+      "household": "head",
+      "headSince": "2016-01-01",
+      "selfOwn": false,
+      "married": true,
+      "marriedOn": "2022-05-01",
+      "spouseOwn": false,
+      "acctType": "all",
+      "acctSince": "2014-01-01",
+      "acctAmount": 1500,
+      "acctCount": 60,
+      "acctPaid": 1500,
+      "hhHomes": "0",
+      "everWin": "none",
+      "win5y": false,
+      "recentWin": false,
+      "birth": "1990-01-01",
+      "dependents": 2,
+      "kidsMinor": 1,
+      "youngestBirth": "2025-01-01",
+      "pregnant": false,
+      "hhSize": 3,
+      "kidsOnDeed": 1,
+      "eldersOnDeed": 0,
+      "income": 5000,
+      "spouseIncome": 3000,
+      "hhIncomeYear": 8000,
+      "realEstate": 0,
+      "carValue": 1500,
+      "hhNeverOwned": true,
+      "taxYears5": true,
+      "elder65": false,
+      "cash": 20000,
+      "liquid": 0,
+      "deposit": 0
+     },
+     "landed": "onboard:배우자",
+     "focus": null,
+     "reds": []
+    },
+    {
+     "profile": "무작위 1",
+     "scene": "내 조건",
+     "button": "edit:배우자 \"수정\"",
+     "ctx": "배우자 수정 배우자 명의 주택이나 분양권이 있나요? 없어요 혼인신고일 2022-05-01 배우자 세전 연소득 3,000만 배우자 청약통장 가입일 없음 배우자가 집",
+     "p": {
+      "homeSigun": "광명시",
+      "sidoSince": "2015-01-01",
+      "areaSince": "2015-01-01",
+      "household": "head",
+      "headSince": "2016-01-01",
+      "married": true,
+      "marriedOn": "2022-05-01",
+      "spouseOwn": false,
+      "acctType": "all",
+      "acctPaid": 1500,
+      "win5y": false,
+      "dependents": 2,
+      "kidsMinor": 1,
+      "pregnant": false,
+      "kidsOnDeed": 1,
+      "income": 5000,
+      "spouseIncome": 3000,
+      "realEstate": 0,
+      "carValue": 1500,
+      "cash": 20000,
+      "liquid": 0,
+      "homeSido": "서울"
+     },
+     "landed": "onboard:배우자",
+     "focus": null,
+     "reds": []
+    }
+   ]
+  },
+  "내 조건 수정 → 그 단계 열기 부모님": {
+   "n": 1,
+   "ex": [
+    {
+     "profile": "부모님 세대 청년",
+     "scene": "내 조건",
+     "button": "edit:부모님 \"수정\"",
+     "ctx": "부모님 입력 필요 2 수정 두 분 모두 만 60세 이상인가요? 미입력 부모님 명의 주택이 있나요? 미입력",
+     "p": {
+      "homeSido": "인천",
+      "homeSigun": "계양구",
+      "household": "parents",
+      "selfOwn": false,
+      "married": false,
+      "acctType": "all",
+      "acctSince": "2020-01-01",
+      "acctAmount": 300,
+      "birth": "1999-01-01"
+     },
+     "landed": "onboard:부모님",
+     "focus": null,
+     "reds": []
+    }
+   ]
+  },
+  "단계로만 이동(커서 없음) 소득과 대출": {
+   "n": 1,
+   "ex": [
+    {
+     "profile": "다 넣은 신혼",
+     "scene": "목록",
+     "button": "edit:소득과 대출 \"빈 항목 2개 채우기\"",
+     "ctx": "내 조건 경기 광명시 · 무주택 · 세대주 · 현금 2억 수정 신청 가능 26 확인 필요 0 불가 24 빈 항목 2개 채우기",
+     "p": {
+      "homeSido": "경기",
+      "homeSigun": "광명시",
+      "homeArea": "capital",
+      "sidoOwnSince": "2015-01-01",
+      "sidoSince": "2015-01-01",
+      "areaSince": "2015-01-01",
+      "household": "head",
+      "headSince": "2016-01-01",
+      "selfOwn": false,
+      "married": true,
+      "marriedOn": "2022-05-01",
+      "spouseOwn": false,
+      "acctType": "all",
+      "acctSince": "2014-01-01",
+      "acctAmount": 1500,
+      "acctCount": 60,
+      "acctPaid": 1500,
+      "hhHomes": "0",
+      "everWin": "none",
+      "win5y": false,
+      "recentWin": false,
+      "birth": "1990-01-01",
+      "dependents": 2,
+      "kidsMinor": 1,
+      "youngestBirth": "2025-01-01",
+      "pregnant": false,
+      "hhSize": 3,
+      "kidsOnDeed": 1,
+      "eldersOnDeed": 0,
+      "income": 5000,
+      "spouseIncome": 3000,
+      "hhIncomeYear": 8000,
+      "realEstate": 0,
+      "carValue": 1500,
+      "hhNeverOwned": true,
+      "taxYears5": true,
+      "elder65": false,
+      "cash": 20000,
+      "liquid": 0,
+      "deposit": 0
+     },
+     "landed": "onboard:소득과 대출",
+     "focus": null,
+     "reds": []
+    }
+   ]
+  },
+  "단계로만 이동(커서 없음) 집과 혼인": {
+   "n": 2,
+   "ex": [
+    {
+     "profile": "무작위 2",
+     "scene": "목록",
+     "button": "edit:집과 혼인 \"빈 항목 12개 채우기\"",
+     "ctx": "내 조건 경기 광명시 · 집 미입력 · 세대주 · 현금 2억 수정 신청 가능 0 확인 필요 26 불가 24 빈 항목 12개 채우기",
+     "p": {
+      "homeSido": "경기",
+      "homeSigun": "광명시",
+      "sidoOwnSince": "2015-01-01",
+      "sidoSince": "2015-01-01",
+      "areaSince": "2015-01-01",
+      "household": "head",
+      "headSince": "2016-01-01",
+      "marriedOn": "2022-05-01",
+      "spouseOwn": false,
+      "acctType": "all",
+      "acctSince": "2014-01-01",
+      "acctAmount": 1500,
+      "acctPaid": 1500,
+      "win5y": false,
+      "dependents": 2,
+      "kidsMinor": 1,
+      "kidsOnDeed": 1,
+      "spouseIncome": 3000,
+      "realEstate": 0,
+      "carValue": 1500,
+      "hhNeverOwned": true,
+      "taxYears5": true,
+      "cash": 20000,
+      "liquid": 0
+     },
+     "landed": "onboard:집과 혼인",
+     "focus": null,
+     "reds": []
+    },
+    {
+     "profile": "무작위 3",
+     "scene": "목록",
+     "button": "edit:집과 혼인 \"빈 항목 13개 채우기\"",
+     "ctx": "내 조건 인천 · 무주택 · 세대주 · 현금 0원 수정 신청 가능 0 확인 필요 26 불가 24 빈 항목 13개 채우기",
+     "p": {
+      "homeSido": "인천",
+      "homeArea": "capital",
+      "sidoOwnSince": "2015-01-01",
+      "areaSince": "2015-01-01",
+      "household": "head",
+      "headSince": "2016-01-01",
+      "selfOwn": false,
+      "marriedOn": "2022-05-01",
+      "spouseOwn": false,
+      "acctSince": "2014-01-01",
+      "acctAmount": 1500,
+      "kidsMinor": 1,
+      "pregnant": false,
+      "kidsOnDeed": 1,
+      "income": 5000,
+      "hhIncomeYear": 8000,
+      "hhNeverOwned": true,
+      "taxYears5": true,
+      "liquid": 0,
+      "deposit": 0
+     },
+     "landed": "onboard:집과 혼인",
+     "focus": null,
+     "reds": []
+    }
+   ]
+  }
+ },
+ "date": "2026-10-06",
+ "pageErrors": []
+}

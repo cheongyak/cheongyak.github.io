@@ -38,6 +38,8 @@ def build() -> dict:
     pch = qa("past-chat.json")
     zd = qa("zero-default.json")   # 빈칸(기본값 0·아니요)을 값으로 본 판정 (tools/qa/zero_default.cjs, 2026-10-06 예치금 제보 뒤 전부 점검)
     zd_bad = (len(zd["violations"]) + len(zd.get("pageErrors") or [])) if zd else None
+    inav = qa("input-nav.json")   # 입력 버튼이 판정을 바꾸는 칸으로 가는지 (tools/qa/input_nav.cjs, 2026-10-06)
+    inav_bad = (len(inav["problems"]) + len(inav.get("pageErrors") or [])) if inav else None
     lhi, lhq, lhs = qa("lh-invariants.json"), qa("lh-qa.json"), qa("lh-screen.json")   # LH 임대 (기능 lh_rental, 2026-10-05): 데이터 불변식·정답 대조 / 판정 퍼징·단조성·답하기 / 화면
     lhi_bad = lhi["count"] if lhi else None
     lhq_bad = (len(lhq["fuzzBad"]) + len(lhq["monoBad"]) + len(lhq["loopBad"]) + len(lhq["cardBad"]) + len(lhq.get("pageErrors") or [])) if lhq else None
@@ -56,13 +58,13 @@ def build() -> dict:
     snap_bad = snap["diffs"] if snap else None   # 화면 글자 스냅샷 (일부러 바꾸면 tools/qa/snapshot.cjs --update)
     e2e_bad = e2e["fail"] if e2e else None       # 사용자 흐름·퍼징
     pch_bad = (pch["violations"] + len(pch.get("pageErrors") or [])) if pch else None   # 지난 공고 판정 줄·청약봇 판정 요약 ↔ 화면 (tools/qa/past_chat.cjs, 2026-10-02)
-    qa_ok = not gate or (st_bad == 0 and inv_bad == 0 and flt_bad in (0, None) and con_bad in (0, None) and spt_bad in (0, None) and mkc_bad in (0, None) and crx_bad in (0, None) and pkp_bad in (0, None) and mono_bad in (0, None) and zd_bad in (0, None) and snap_bad in (0, None) and e2e_bad in (0, None) and pch_bad in (0, None) and lhi_bad in (0, None) and lhq_bad in (0, None) and lhs_bad in (0, None) and lhp_bad in (0, None))   # 필터 검사는 결과 파일이 있을 때만 (2026-10-02 추가)
+    qa_ok = not gate or (st_bad == 0 and inv_bad == 0 and flt_bad in (0, None) and con_bad in (0, None) and spt_bad in (0, None) and mkc_bad in (0, None) and crx_bad in (0, None) and pkp_bad in (0, None) and mono_bad in (0, None) and zd_bad in (0, None) and inav_bad in (0, None) and snap_bad in (0, None) and e2e_bad in (0, None) and pch_bad in (0, None) and lhi_bad in (0, None) and lhq_bad in (0, None) and lhs_bad in (0, None) and lhp_bad in (0, None))   # 필터 검사는 결과 파일이 있을 때만 (2026-10-02 추가)
     ok = bool(judge) and not judge["failed"] and not judge.get("pageErrors") and not cc_bad and not gold_bad and (cc_sum is not None or not cc_on) and qa_ok
     kst = timezone(timedelta(hours=9))
     return {"at": datetime.now(kst).strftime("%Y-%m-%d %H:%M"), "ok": ok, "collect_run": run_at,
             "judge": {"total": judge["total"], "passed": judge["passed"], "failed": [f["id"] for f in judge["failed"]]} if judge else None,
             "crosscheck": {"summary": cc_sum, "mismatches": cc_bad[:30]}, "golden": {"mismatches": gold_bad[:30]},
-            "qa": {"gate": gate, "supply_type_fails": st_bad, "invariant_violations": inv_bad, "filter_fails": flt_bad, "consistency_fails": con_bad, "sp_text_fails": spt_bad, "market_fails": mkc_bad, "cross_rule_fails": crx_bad, "profile_keep_fails": pkp_bad, "monotonic_violations": mono_bad, "zero_default_violations": zd_bad, "snapshot_diffs": snap_bad, "e2e_fails": e2e_bad, "past_chat_fails": pch_bad, "lh_invariant_violations": lhi_bad, "lh_judge_qa_fails": lhq_bad, "lh_screen_fails": lhs_bad, "lh_pdf_merged_wrong": lhp_bad, "lh_data_at": lhi and lhi.get("data_updated"), "cross_rule_checks": crx and crx.get("checks"), "market_at": mkc and mkc.get("date"), "supply_type_at": st and st.get("date"), "invariants_at": inv and inv.get("date")}}
+            "qa": {"gate": gate, "supply_type_fails": st_bad, "invariant_violations": inv_bad, "filter_fails": flt_bad, "consistency_fails": con_bad, "sp_text_fails": spt_bad, "market_fails": mkc_bad, "cross_rule_fails": crx_bad, "profile_keep_fails": pkp_bad, "monotonic_violations": mono_bad, "zero_default_violations": zd_bad, "input_nav_problems": inav_bad, "snapshot_diffs": snap_bad, "e2e_fails": e2e_bad, "past_chat_fails": pch_bad, "lh_invariant_violations": lhi_bad, "lh_judge_qa_fails": lhq_bad, "lh_screen_fails": lhs_bad, "lh_pdf_merged_wrong": lhp_bad, "lh_data_at": lhi and lhi.get("data_updated"), "cross_rule_checks": crx and crx.get("checks"), "market_at": mkc and mkc.get("date"), "supply_type_at": st and st.get("date"), "invariants_at": inv and inv.get("date")}}
 
 
 if __name__ == "__main__":

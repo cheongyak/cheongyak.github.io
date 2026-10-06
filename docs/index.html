@@ -1121,13 +1121,13 @@ function residenceItem(L, p){
   if (inA) {
     if (!R.months) return { k, s:'ok', v:'해당지역', note: areaName + ' 거주자 우선 (거주기간 요건 없음).' + quota };
     const since = R.area.sigungu ? p.areaSince : p.sidoOwnSince;
-    if (!since) return { k, s:'warn', v:'해당지역 · 전입일 입력 필요', note:'해당지역 우선 대상은 ' + areaName + ' ' + R.months / 12 + '년 이상 거주자(' + shortDate(R.since) + ' 이전부터 계속 거주)예요.' + quota };
+    if (!since) return { k, s:'warn', v:'해당지역 · 전입일 입력 필요', fk: R.area.sigungu ? 'areaSince' : 'sidoOwnSince', note:'해당지역 우선 대상은 ' + areaName + ' ' + R.months / 12 + '년 이상 거주자(' + shortDate(R.since) + ' 이전부터 계속 거주)예요.' + quota };
     if (!R.since || since <= R.since) return { k, s:'ok', v:'해당지역 (' + R.months / 12 + '년 이상)', note: areaName + ' ' + shortDate(since) + '부터 거주 · 기준 ' + shortDate(R.since) + ' 이전.' + quota };
     short = areaName + ' 거주기간이 ' + R.months / 12 + '년에 못 미쳐요 (' + shortDate(R.since) + ' 이전 전입이어야 해당지역). ';
   }
   if (R.gyeonggi && p.homeSido === '경기') {
     const g = R.gyeonggi, since = p.sidoOwnSince;
-    if (!since) return { k, s:'warn', v:'경기 거주 · 전입일 입력 필요', note: short + '경기도 ' + g.months + '개월 이상 거주자(' + shortDate(g.since) + ' 이전부터)는 경기 몫으로 먼저 뽑아요.' + quota };
+    if (!since) return { k, s:'warn', v:'경기 거주 · 전입일 입력 필요', fk:'sidoOwnSince', note: short + '경기도 ' + g.months + '개월 이상 거주자(' + shortDate(g.since) + ' 이전부터)는 경기 몫으로 먼저 뽑아요.' + quota };
     if (since <= g.since) return { k, s:'ok', v:'기타경기 (경기 ' + g.months + '개월 이상)', note: short + '해당지역 다음으로 경기도 거주자 몫에서 뽑아요.' + quota };
   }
   if (inOther || inA) return { k, s:'ok', v:'기타지역 (해당지역 다음)', note: short + '같은 순위에서 해당지역 거주자가 먼저예요. 경쟁이 있으면 기회가 적어요. 기타지역: ' + otherTxt + '.' + quota };
@@ -1406,8 +1406,9 @@ function eligibility(L, p){
   items.push(...regulatedItems(L, p));
   const caution = on('eligibility_caution');   // 세부 통장 요건을 아직 판정하지 않으므로 '충족'으로 단정하지 않는다
   if (!acct) items.push({ k:'청약통장', s: !L.needAccount ? 'na' : p.account === 'yes' ? (caution ? 'warn' : 'ok') : p.account === 'no' ? 'fail' : 'warn',
-    v: !L.needAccount ? '불필요' : p.account === 'yes' ? (caution ? '보유 · 세부 확인 필요' : '충족') : p.account === 'no' ? '미충족' : '확인 필요',
-    note: L.needAccount && caution ? '가입기간, 예치금(민영) 또는 납입 인정 횟수·금액(국민)은 아직 판정하지 않아요' : '' });
+    v: !L.needAccount ? '불필요' : p.account === 'yes' ? (caution ? '보유 · 세부 확인 필요' : '충족') : p.account === 'no' ? '미충족' : on('account_rules') && !p.acctType ? '통장 정보 입력 필요' : '확인 필요',
+    note: L.needAccount && on('account_rules') && !p.acctType ? '통장 종류를 고르면 1순위 요건(가입기간·' + (L.houseDtl === '국민' ? '횟수' : '금액') + ')을 판정해요'   /* 통장 종류가 비면 그 칸으로 (2026-10-06 입력 버튼 전수검사: 민영인데 '납입 회차'로 커서가 가던 것) */
+      : L.needAccount && caution ? '가입기간, 예치금(민영) 또는 납입 인정 횟수·금액(국민)은 아직 판정하지 않아요' : '' });
   // 공고의 재당첨 제한(당첨되면 걸리는 기간)과 헷갈리지 않게 '내 이력'으로 부른다
   if (!rewinTarget(L)) items.push({ k:'재당첨 제한 (내 이력)', s:'ok', v: p.recentWin ? '제한 중 · 이 공고는 대상 아님' : '해당 없음', note:'투기과열지구·청약과열지역이 아닌 곳의 민영주택은 재당첨 제한을 받지 않아요 (주택공급에 관한 규칙 제54조①)' });
   else if (on('onboard_v2') && p.everWin === 'yes' && p.recentWin == null) items.push({ k:'재당첨 제한 (내 이력)', s:'warn', v:'입력 필요', note:'당첨 이력이 있다고 해서, 지금 재당첨 제한 기간인지 넣어 주세요' });
@@ -2981,7 +2982,8 @@ function spIntroPlain(rs){
 function specialCardV2(L, rs, p){
   const n = s => rs.filter(r => r.s === s).length, order = { ok:0, warn:1, fail:2 };
   const sorted = rs.slice().sort((a, b) => order[a.s] - order[b.s]);
-  const missing = p.kidsMinor == null || (!p.hhSize && !(on('hh_count') && p.kidsOnDeed != null && p.eldersOnDeed != null)) || rs.some(r => r.warn.some(t => /입력 필요|미입력/.test(t)) || (r.s === 'ok' && spHeadline(L, p, r).partial));
+  const anyOpen = rs.some(r => r.s !== 'fail');   /* 모든 유형이 이미 '불가'로 판정됐으면 더 넣어도 바뀌지 않으니 '비어 있는 정보' 안내를 띄우지 않는다 (2026-10-06 전수검사) */
+  const missing = anyOpen && (p.kidsMinor == null || (!p.hhSize && !(on('hh_count') && p.kidsOnDeed != null && p.eldersOnDeed != null))) || rs.some(r => r.warn.some(t => /입력 필요|미입력/.test(t)) || (r.s === 'ok' && spHeadline(L, p, r).partial));
   const POS = on('special_position');
   const SS = on('supply_split');   // 기능: supply_split — 이 카드는 특별공급만 (일반공급은 위 일반공급 카드로)
   // 기능: general_units — 일반공급 카드처럼 제목 옆 '전체 N세대'(청약홈 특별공급 합계). 아래 유형 줄에 없는 몫(기관추천·이전기관 등)은 한 줄로
@@ -3191,18 +3193,27 @@ const fixBtn = (k, label) => on('inline_fix') ? `<button class="linkbtn small" d
 /* 바로 답하기에서 '확인 필요' 문구가 가리키는 칸 (기능: fix_focus, 2026-10-01 사용자 요청: 누르면 그 질문이 빨갛게 표시되고 커서가 그 칸으로).
    문구 → 질문 키. 값이 이미 들어 있어도(예: 부동산 0) 그 칸을 맨 위로 올려 표시한다 */
 const FIX_TARGETS = [[/부모님 집/, ['realEstate']], [/세대 소득/, ['hhIncomeYear']], [/자녀 생일|자녀가 있는지/, ['youngestBirth']], [/임신/, ['pregnant']],
-  [/특별공급이었는지|특별공급으로 당첨/, ['winSpecial']], [/당첨 이력/, ['everWin']], [/재당첨 제한 기간인지/, ['recentWin']], [/세대 주택 수/, ['hhHomes']], [/누구 명의|명의는 아니에요|세대원 명의면/, ['hhOwner']],
-  [/배우자 명의 주택/, ['spouseOwn']], [/배우자 소득/, ['spouseIncome']], [/현금·예금·주식·전세보증금/, ['cash', 'liquid', 'deposit']],   /* 2026-10-06 빈칸 확인 문구 (예전 /명의/ 는 '배우자 명의 주택'에도 걸려 숨은 질문으로 커서가 갔음 — 사용자 제보) */
+  [/특별공급이었는지|특별공급으로 당첨/, ['winSpecial']], [/당첨 이력/, ['everWin']], [/재당첨 제한 기간인지/, ['recentWin']], [/세대 주택 수/, ['hhHomes']], [/누구 명의|명의는 아니에요|세대원 명의면/, ['hhOwner']], [/집 보유/, ['selfOwn']],
+  [/배우자 명의 주택/, ['spouseOwn']], [/배우자 소득/, ['spouseIncome']], [/가구원수 입력|가구원수를|가구원수 산정/, ['kidsOnDeed', 'eldersOnDeed', 'elders1y', 'hhSize']],   /* 2026-10-06 빈칸 확인 문구 (예전 /명의/ 는 '배우자 명의 주택'에도 걸려 숨은 질문으로 커서가 갔음 — 사용자 제보) */
   [/예외 해당/, ['ownExc']], [/예비신혼|한부모/, ['townType']], [/혼인신고일/, ['marriedOn']], [/혼인 여부/, ['married']], [/전입일|공고일 뒤 전입/, ['sidoOwnSince', 'areaSince']],
   [/시·군 입력/, ['homeSigun']], [/사는 곳|거주 지역 입력/, ['homeSido']], [/자동차/, ['carValue']], [/부동산 자산 입력|부동산·자동차 입력|부동산 입력/, ['realEstate']],
   [/보험 해약환급금/, ['townInsurance']], [/그 밖의 금융자산/, ['townFinOther']], [/기타 자산/, ['townOtherAsset']], [/세대 구성/, ['household']],
   [/출산가구 완화/, ['youngestBirth', 'kidsMinor', 'pregnant']], [/(^|[\s,])부동산(?=[\s,]|$)/, ['realEstate']],
-  [/가입일/, ['acctSince']], [/예치금/, ['acctAmount']], [/납입/, ['acctCount']], [/저축액/, ['acctPaid']], [/통장 정보/, ['acctType']]];
+  [/통장 정보/, ['acctType']], [/가입일/, ['acctSince']], [/예치금/, ['acctAmount']], [/납입/, ['acctCount']], [/저축액/, ['acctPaid']], [/현금·예금·주식·전세보증금/, ['cash', 'liquid', 'deposit']]];   /* 통장 종류가 먼저 (2026-10-06) */
 function fixTargets(L, p){
   if (!on('fix_focus') || !S.fix) return [];
   let text = '';
-  if (/^sp:/.test(S.fix.k)) { const types = S.fix.k === 'sp:all' ? spTypesFor(L) : [S.fix.k.slice(3)]; text = types.map(t => spJudge(L, p, t).warn.join(' ')).join(' '); }
-  else { const it = eligibility(L, p).items.find(i => i.k === S.fix.k); if (it && it.s === 'warn') text = it.v + ' ' + (it.note || ''); }
+  if (/^sp:/.test(S.fix.k)) {   /* 특별공급: 확인 문구 순서대로 그 문구의 칸 (2026-10-06 전수검사 — 무주택 확인인데 전입일로 커서가 가던 것) */
+    const types = S.fix.k === 'sp:all' ? spTypesFor(L) : [S.fix.k.slice(3)], out = [], push = k => { if (!out.includes(k)) out.push(k); };
+    const ri = eligibility(L, p).items.find(i => /^거주지/.test(i.k) && i.s === 'warn' && i.fk);
+    types.flatMap(t => spJudge(L, p, t).warn).forEach(w => {
+      if (/무주택/.test(w)) ['selfOwn', ...(p.married ? ['spouseOwn'] : []), 'hhHomes', 'household'].forEach(push);
+      if (ri && /전입|거주/.test(w)) push(ri.fk);
+      FIX_TARGETS.forEach(([re, ks]) => { if (re.test(w)) ks.forEach(push); }); });
+    return out; }
+  else if (S.fix.k === '특별공급 가구원수 산정') return ['kidsOnDeed', 'eldersOnDeed', 'elders1y'];   /* 가구원수 산정에 필요한 칸 (pendingChecks·hhCount) — 2026-10-06 전수검사: '미성년 자녀 수'로 커서가 가던 것 */
+  else { const it = eligibility(L, p).items.find(i => i.k === S.fix.k); if (it && it.s === 'warn' && it.fk) return [it.fk];   /* 항목이 판정에 쓰는 칸을 직접 알려 줌(fk) — 해당지역은 시·군 또는 시·도 전입일 (2026-10-06 전수검사) */
+    if (it && it.s === 'warn') text = it.v + ' ' + (it.note || ''); }
   if (S.fix.k === '총자산 (신혼희망타운)') { const it = eligibility(L, p).items.find(i => i.k === S.fix.k); text = it && it.s === 'warn' ? it.v + ' ' + (((it.note || '').match(/아직 넣지 않은 값: ([^(]*)/) || [])[1] || '') : ''; }   // 총자산 안내문에는 모든 항목 이름이 있어 '부족한 값'(v)만 본다
   const out = [];
   FIX_TARGETS.forEach(([re, ks]) => { if (re.test(text)) ks.forEach(k => { if (!out.includes(k)) out.push(k); }); });
@@ -3211,12 +3222,15 @@ function fixTargets(L, p){
 function fixPanel(L, p, where){
   if (!on('inline_fix') || !S.fix || S.fix.id !== L.id || (where === 'sp') !== /^sp:/.test(S.fix.k)) return '';
   if (/^sp:/.test(S.fix.k)) S.fix.keys = Array.from(new Set([...S.fix.keys, ...spFixKeys(L, p, S.fix.k)]));   // 답하면 새로 필요한 질문이 생길 수 있음
-  const seen = new Set(), need = [], done = [];   // 아직 안 넣은 질문을 위에, 이미 넣은 값은 접어 둔다
-  const tg = fixTargets(L, p), mark = h => h.replace('<div class="field"', '<div class="field fixneed" data-fixneed="1"');   // 기능: fix_focus — 지금 판정에 필요한 칸을 빨갛게
+  const seen = new Set(), need = [], done = [], hits = [];   // 아직 안 넣은 질문을 위에, 이미 넣은 값은 접어 둔다
+  let tg = fixTargets(L, p); const tgMiss = tg.filter(k => { const fd = fieldVariants(k).find(f => !f.show || f.show(p)); return fd && (fieldValue(fd, p).miss || p[k] == null || p[k] === ''); });   /* 선택 칸(비우면 '입력 안 함')도 문구가 가리키면 빈칸 */
+  if (tgMiss.length) tg = tgMiss;   /* 가리키는 칸 중 아직 안 넣은 칸만 빨갛게·커서 (이미 넣은 '세대 구성'으로 가지 않게, 2026-10-06 전수검사) */
+  const mark = h => h.replace('<div class="field"', '<div class="field fixneed" data-fixneed="1"');   // 기능: fix_focus — 지금 판정에 필요한 칸을 빨갛게
   if (tg.length) S.fix.keys = Array.from(new Set([...tg, ...S.fix.keys]));
   S.fix.keys.forEach(k => { const fd = fieldVariants(k).find(f => !f.show || f.show(p)); if (fd && !seen.has(fd.k)) { seen.add(fd.k);
     const miss = fieldValue(fd, p).miss, hit = tg.includes(fd.k);
-    if (hit) need.unshift(mark(fieldHtml(fd, p))); else if (miss) need.push(on('fix_focus') && !tg.length ? mark(fieldHtml(fd, p)) : fieldHtml(fd, p)); else done.push(fieldHtml(fd, p)); } });   /* 판정을 가르는 질문을 알면(tg) 그 칸만 빨갛게 — 나머지 빈칸은 표시 없이 아래에 (2026-10-06 배우자 집 제보) */
+    if (hit) hits[tg.indexOf(fd.k)] = mark(fieldHtml(fd, p)); else if (miss) need.push(on('fix_focus') && !tg.length ? mark(fieldHtml(fd, p)) : fieldHtml(fd, p)); else done.push(fieldHtml(fd, p)); } });   /* 판정을 가르는 질문을 알면(tg) 그 칸만 빨갛게 — 나머지 빈칸은 표시 없이 아래에 (2026-10-06 배우자 집 제보) */
+  need.unshift(...hits.filter(Boolean));   /* 가리키는 칸을 맨 위에, 가리킨 순서대로 */
   const html = [...need, done.length ? `<details class="fixdone"${need.length ? '' : ' open'}><summary class="small">이미 넣은 값 ${done.length}개 · 고치기</summary>${done.join('')}</details>` : ''].filter(Boolean);
   const pendK = !!PEND_FIX[S.fix.k], it = pendK ? null : eligibility(L, p).items.find(i => i.k === S.fix.k);
   const st = /^sp:/.test(S.fix.k) ? spFixState(L, p, S.fix.k) : pendK ? (pendingChecks(L, p).includes(S.fix.k) ? ['warn', '아직 판정 전이에요'] : ['ok', '판정됐어요 · 아래 특별공급 칸에 반영됐어요'])
@@ -3661,7 +3675,8 @@ function fieldValue(fd, p){
   if (fd.type === 'text') return v ? { t:v } : { t:'미입력', miss:true };
   if (fd.type === 'count') return v == null ? { t:'미입력', miss:true } : { t:v + '회' };
   if (fd.opt) return v == null ? { t:'입력 안 함' } : { t:fmt(eok(v)) };
-  return { t:fmt(eok(v || 0)) };
+  if (v == null || v === '') return { t:'미입력', miss:true };   /* 금액 칸을 비워 두면 '0원'이 아니라 미입력 (2026-10-06 전수검사: 바로 답하기가 빈 자동차·부동산 칸을 건너뜀, 내 조건에 '부동산 0원') */
+  return { t:fmt(eok(v)) };
 }
 const fieldLabel = (fd, st) => (fd.l || st.n || st.t).replace(/\s*\([^)]*\)\s*$/, '');
 function vMeSections(){
@@ -5763,7 +5778,8 @@ document.addEventListener('click', ev => {
   if (t.dataset.rfreset) { S.rtype = S.rsido = ''; render(); return; }
   if (t.dataset.rsec) { const el = document.getElementById('rsec-' + t.dataset.rsec); if (el) el.scrollIntoView({ behavior: 'smooth', block: 'start' }); return; }
   if (t.dataset.ropen) { S.rid = t.dataset.ropen; S.rq = null; S.rsheet = null; go('rdetail'); return; }
-  if (t.dataset.rq) { S.rq = S.rq === t.dataset.rq ? null : t.dataset.rq; const y = window.scrollY; render(); window.scrollTo(0, y); const pn = app.querySelector('#rqpanel'); if (pn) { const f = pn.querySelector('select,input'); try { f && f.focus({ preventScroll:true }); } catch(e) {} } return; }
+  if (t.dataset.rq) { S.rq = S.rq === t.dataset.rq ? null : t.dataset.rq; const y = window.scrollY; render(); window.scrollTo(0, y); const pn = app.querySelector('#rqpanel'); if (pn) { const all = [...pn.querySelectorAll('select,input')], f = all.find(x => x.value === '') || all[0];   /* 아직 안 넣은 첫 칸으로 커서 (2026-10-06 전수검사: 이미 답한 '혼인 여부'로 가던 것) */
+    try { f && f.focus({ preventScroll:true }); } catch(e) {} } return; }
   if (t.dataset.action === 'rq-save') { lhQSave(); return; }
   if (t.dataset.action === 'rq-close') { S.rq = null; const y = window.scrollY; render(); window.scrollTo(0, y); return; }
   if (t.dataset.go) { go(t.dataset.go); return; }

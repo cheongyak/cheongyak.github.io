@@ -128,6 +128,8 @@ description: 청약패스(cheongyakpass.kr, 저장소 cheongyak/cheongyak.github
 
 - **빈칸 = 모름(2026-10-06)**: 기본값이 0·false 인 칸(ZERO_KEYS)은 entered()/pv() 로만 값으로 본다(_set). 새 판정 규칙에서 `p.x || 0`·`p.x > 0` 으로 쓰면 빈칸을 값으로 보게 된다 → tools/qa/zero_default.cjs 가 잡음. 판정 사례·QA 고정 조건은 '모두 입력함'(_set)으로 만들고, 빈칸을 보는 사례만 _set 을 빼서 준다.
 
+- **입력 버튼 → 칸 (2026-10-07)**: '입력하기·바로 답하기'는 확인 문구 낱말로 칸을 고른다(FIX_TARGETS). 문구에 다른 칸 이름이 섞이면(예: '배우자 명의'→명의, '집 보유와 세대 구성'→세대 구성) 엉뚱한 칸으로 간다. 판정 칸이 정해져 있으면 항목에 fk 를 달 것. 확인은 tools/qa/input_nav.cjs.
+
 ## 5. 자주 하는 답
 
 - "자동으로 돌아가?" → 수집은 GitHub Actions 가 매일 05:30, 사이트는 GitHub Pages. Claude 세션과 무관하게 돈다. 실패·불일치는 이슈로 메일이 간다.
