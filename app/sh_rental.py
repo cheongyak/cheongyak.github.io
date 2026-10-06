@@ -36,7 +36,7 @@ UA = {"User-Agent": "Mozilla/5.0 (cheongyak-bot; +https://github.com/cheongyak/c
 
 # 입주자 모집공고만 (당첨자·예비자 발표, 계약 안내, 심사 결과, 재계약 등은 뺀다)
 WANT = re.compile(r"모집")
-SKIP = re.compile(r"발표|결과|당첨|계약\s?안내|심사|재계약|설명회|서류\s?제출|안내문|연기|취소")
+SKIP = re.compile(r"발표|결과|당첨|계약\s?안내|심사|재계약|설명회|서류\s?제출|안내문|연기|취소|경쟁률|게시")
 # 공고 종류 (제목 낱말, 앞에서부터 처음 맞는 것)
 KINDS = [
     (r"청년\s?안심\s?주택|역세권\s?청년", "청년안심주택"),
@@ -90,8 +90,10 @@ def file_url(f: dict) -> str:
     return BASE + "/com/file/innoFD.do?" + urlencode({"brdId": f.get("brdId"), "seq": f.get("seq"), "fileSeq": f.get("fileSeq"), "fileTp": f.get("fileTp") or "A"})
 
 
-_D = r"(20\d\d)\s?[.\-년]\s?(\d{1,2})\s?[.\-월]\s?(\d{1,2})\s?\.?\s?일?"
-_D2 = r"(?:(20\d\d)\s?[.\-년]\s?)?(\d{1,2})\s?[.\-월]\s?(\d{1,2})\s?\.?\s?일?"
+# 연도는 4자리 또는 '26. 처럼 2자리(SH 공고문 일정표: '26.10.1. (목) 10:00 ~ 10.2. (금))
+_D = r"[‘'’]?(20\d\d|\d\d)\s?[.\-년]\s?(\d{1,2})\s?[.\-월]\s?(\d{1,2})\s?\.?\s?일?"
+_D2 = r"(?:[‘'’]?(20\d\d|\d\d)\s?[.\-년]\s?)?(\d{1,2})\s?[.\-월]\s?(\d{1,2})\s?\.?\s?일?"
+_Y = lambda y: int(y) + 2000 if len(y) == 2 else int(y)
 
 
 def apply_period(text: str, posted: Optional[str]) -> Optional[dict]:
@@ -101,28 +103,43 @@ def apply_period(text: str, posted: Optional[str]) -> Optional[dict]:
         return None
     t = re.sub(r"\s+", " ", text)
     p0 = date.fromisoformat(posted) if posted else None
-    for m in re.finditer(r"(?:청약\s?접수|신청\s?접수|접수\s?기간|인터넷\s?접수|모바일\s?접수|신청\s?기간|접수\s?일정|접\s?수)", t):
-        seg = t[m.end(): m.end() + 140]
-        r = re.search(_D + r"[^~∼～\-]{0,25}?[~∼～\-]\s?" + _D2, seg)
-        if not r:
-            continue
-        y1, m1, d1 = int(r.group(1)), int(r.group(2)), int(r.group(3))
-        y2 = int(r.group(4)) if r.group(4) else y1
-        m2, d2 = int(r.group(5)), int(r.group(6))
-        try:
-            a, b = date(y1, m1, d1), date(y2, m2, d2)
-        except ValueError:
-            continue
-        if b < a and not r.group(4):
+    # 접수를 뜻하는 분명한 낱말만 (맨 '접수'·'신청기간'은 일정표·동시접수·서류 접수 안내와 섞여 틀린 날짜를 잡았음 — 2026-10-06 310258·310672·310673 원문 대조)
+    for m in re.finditer(r"(?:청약\s?신청\s?접수|청약\s?접수|신청\s?접수|서류\s?접수|신청서\s?접수|인터넷\s?접수|접수\s?기간)", t):
+        if re.search(r"우편\s?접수|방문\s?접수", t[max(0, m.start() - 300): m.start()]) or re.search(r"(?:동시|우편|방문|이메일|추가)\s?$", t[max(0, m.start() - 6): m.start()]):
+            continue   # 우편·방문 접수 안내(인터넷 청약과 기간이 다름)는 쓰지 않는다
+        seg = t[m.end(): m.end() + 160]
+        # 접수 낱말 바로 뒤(40자 안)에 나오는 범위만. 범위 기호(~) 바로 앞의 날짜가 시작일 — 일정표는 '공고일 접수시작 ~ 접수끝'처럼 날짜가 줄지어 있어 그 앞 날짜(공고일)를 시작으로 잡지 않게 (2026-10-06 310258·310673)
+        for tl in re.finditer(r"[~∼～]", seg):
+            before = list(re.finditer(_D, seg[max(0, tl.start() - 40): tl.start()]))
+            r2 = re.match(r"\s?" + _D2, seg[tl.end():])
+            if not before or not r2:
+                continue
+            r1 = before[-1]
+            s1 = max(0, tl.start() - 40) + r1.start()   # 시작 날짜의 seg 안 위치
+            # 표 머리(단계 이름 ▶ ⇨ ➤ 로 이어진 줄) 뒤에 날짜가 줄지어 있으면 어느 날짜가 접수인지 모른다 (310673: 공고 ▶ 사전 주택공개 ▶ 청약접수 → 9.29~9.30 은 주택공개) → 읽지 않음
+            if s1 > 40 or re.search(r"[▶⇨➤→►]", seg[:s1]):
+                break
+            gap = seg[max(0, tl.start() - 40) + r1.end(): tl.start()]
+            if re.search(r"\d{1,2}\s?[.\-월]\s?\d{1,2}", gap) or len(gap) > 25:   # 사이에 다른 날짜가 끼었거나 너무 멀면 아님
+                continue
+            y1, m1, d1 = _Y(r1.group(1)), int(r1.group(2)), int(r1.group(3))
+            y2 = _Y(r2.group(1)) if r2.group(1) else y1
+            m2, d2 = int(r2.group(2)), int(r2.group(3))
             try:
-                b = date(y1 + 1, m2, d2)
+                a, b = date(y1, m1, d1), date(y2, m2, d2)
             except ValueError:
                 continue
-        if a > b or (b - a).days > 60:
-            continue
-        if p0 and not (p0 - timedelta(days=3) <= a <= p0 + timedelta(days=120)):
-            continue
-        return {"apply_start": a.isoformat(), "apply_end": b.isoformat(), "quote": (t[m.start(): m.end()] + seg[: r.end()]).strip()[:160]}
+            if b < a and not r2.group(1):
+                try:
+                    b = date(y1 + 1, m2, d2)
+                except ValueError:
+                    continue
+            if a > b or (b - a).days > 60:
+                continue
+            if p0 and not (p0 - timedelta(days=3) <= a <= p0 + timedelta(days=120)):
+                continue
+            q = (t[m.start(): m.end()] + seg[: tl.end() + r2.end()]).strip()
+            return {"apply_start": a.isoformat(), "apply_end": b.isoformat(), "rank1": bool(re.search(r"1\s?순위", q)), "quote": q[-160:]}
     return None
 
 
@@ -143,7 +160,7 @@ def notice_record(row: dict, files: list[dict], text: Optional[str]) -> dict:
         "status": None,
         "url": VIEW_PUBLIC.format(seq=row["seq"]),
         "url_mobile": BRD + f"view.do?multi_itm_seq=2&seq={row['seq']}",
-        "schedule": [{"complex": None, "apply_start": per["apply_start"], "apply_end": per["apply_end"], "docs_target": None, "winner": None, "quote": per["quote"]}] if per else [],
+        "schedule": [{"complex": None, "apply_start": per["apply_start"], "apply_end": per["apply_end"], "docs_target": None, "winner": None, "rank1": per.get("rank1", False), "quote": per["quote"]}] if per else [],
         "complexes": [], "units": [], "rents": [], "terms": None,
         "files": [{"kind": "PDF 공고문" if f2 is f else "첨부", "name": f2.get("oriFileNm"), "url": file_url(f2)} for f2 in files],
         "notice_pdf": file_url(f) if f else None,

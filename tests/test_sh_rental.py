@@ -34,11 +34,15 @@ def test_kind_and_filter():
 
 
 def test_apply_period_rules():
-    assert apply_period("■ 청약접수 : 2026. 10. 13.(월) ~ 10. 15.(수) 10:00~17:00", "2026-09-30") == {"apply_start": "2026-10-13", "apply_end": "2026-10-15", "quote": "청약접수 : 2026. 10. 13.(월) ~ 10. 15."}
+    r = apply_period("■ 청약접수 : 2026. 10. 13.(월) ~ 10. 15.(수) 10:00~17:00", "2026-09-30")
+    assert (r["apply_start"], r["apply_end"], r["rank1"]) == ("2026-10-13", "2026-10-15", False)
+    assert apply_period("공고 ▶ 사전 주택공개 ▶ 인터넷 청약접수 ▶ 서류심사 26. 9. 23. (수) 26. 9. 29.(화)~ 9. 30.(수) 26. 10. 6.(화) ~10. 8.(목)", "2026-09-23") is None   # 일정표: 어느 날짜가 접수인지 모름
+    assert apply_period("<우편접수 신청서류> ■ 접수기간 : 2026. 10. 2.(금) ~ 10. 6.(화)", "2026-09-23") is None   # 우편접수 안내
+    assert apply_period("청약신청 접수 1순위 '26.9.29.(화) ~26.10.2.(금) 2순위 '26.10.8.(목)", "2026-09-09")["rank1"] is True
     assert apply_period("인터넷 접수기간 2026.10.20 ~ 2026.10.22", "2026-10-01")["apply_end"] == "2026-10-22"
     assert apply_period("신청접수 2026년 12월 29일 ~ 1월 2일", "2026-12-10")["apply_end"] == "2027-01-02"   # 해를 넘김
     assert apply_period("접수기간 2025.10.13 ~ 2025.10.15", "2026-09-30") is None   # 등록일보다 한참 전 (지난 공고 인용)
-    assert apply_period("접수 2026.10.13 ~ 2026.12.31", "2026-09-30") is None        # 60일 넘는 범위는 접수 기간으로 보지 않음
+    assert apply_period("신청접수 2026.10.13 ~ 2026.12.31", "2026-09-30") is None    # 60일 넘는 범위는 접수 기간으로 보지 않음
     assert apply_period("모집 세대 10세대", "2026-09-30") is None
 
 
@@ -50,5 +54,9 @@ def test_golden_sh():
     for g in json.loads(gp.read_text(encoding="utf-8"))["notices"]:
         t = (ROOT / "evidence/sh" / f"{g['seq']}.txt").read_text(encoding="utf-8")
         got = apply_period(t, g["posted"])
-        assert (got and {k: got[k] for k in ("apply_start", "apply_end")}) == (g["apply"] or None), (g["seq"], got)
+        got = got and {k: got[k] for k in ("apply_start", "apply_end")}
+        if g["expect_read"]:
+            assert got == g["apply"], (g["seq"], got)
+        else:
+            assert got is None or got == g["apply"], (g["seq"], got)   # 읽지 않거나, 읽으면 맞아야 함 (틀린 날짜 금지)
         assert kind_of(g["title"]) == g["type"], g["seq"]
