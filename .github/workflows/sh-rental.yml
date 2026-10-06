@@ -1,0 +1,36 @@
+name: SH 임대 수집
+# SH(서울주택도시개발공사) 임대 입주자 모집공고를 docs/sh-rental.json 으로, 공고문 글을 evidence/sh/ 로 (app/sh_rental.py, 1단계: 목록·접수 기간·공고문 연결, 판정 없음).
+# 청약 수집·LH 임대 수집과 완전히 따로 돈다 — 실패해도 다른 데이터에 영향 없음. 화면 표시는 스위치 sh_rental.
+on:
+  schedule:
+    - cron: "50 21 * * *"   # 매일 06:50 (KST) — LH 임대 수집(06:40) 뒤
+  workflow_dispatch:
+  push:
+    branches: [main]
+    paths:
+      - "app/sh_rental.py"
+      - ".github/workflows/sh-rental.yml"
+permissions:
+  contents: write
+concurrency:
+  group: sh-rental
+  cancel-in-progress: false
+jobs:
+  collect:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    env:
+      TZ: Asia/Seoul
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - run: pip install -q -r requirements.txt
+      - run: python -m app.sh_rental
+      - name: 저장
+        run: |
+          git config user.name "cheongyak-bot"
+          git config user.email "actions@users.noreply.github.com"
+          git add docs/sh-rental.json evidence/sh evidence/qa/sh-rental-log.txt
+          git diff --cached --quiet || (git commit -m "SH 임대 수집 $(date +%Y-%m-%d)" && (git push || (git pull --rebase -X theirs origin main && git push)))
