@@ -40,12 +40,14 @@ def rows_from(page: str, url: str) -> list[dict]:
         d = re.search(r"(20\d\d[-.]\d\d[-.]\d\d)", tail)
         out.append({"seq": seq, "title": txt[:120], "date": d.group(1) if d else None, "url": urljoin(url, html.unescape(href))})
     if not out:   # 자바스크립트로 여는 목록(onclick="fn_view('290219')")
-        for m in re.finditer(r"(?:fn_?[a-zA-Z]*|goView|view)\(\s*'?(\d{5,})'?[^)]*\)[^>]*>(.*?)</a>", page, re.S):
+        # SH 게시판: <a href="#" onclick="javascript:getDetailView('310653');..."> 제목 </a> … <td class="num"> 2026-09-30 </td> (view.do 에 seq 를 POST, GET 주소도 열림)
+        for m in re.finditer(r"[A-Za-z_]*[Vv]iew\(\s*'?(\d{5,})'?[^)]*\)[^>]*>(.*?)</a>", page, re.S):
             seq, txt = m.group(1), strip(m.group(2))
             if seq in seen or not txt:
                 continue
             seen.add(seq)
-            out.append({"seq": seq, "title": txt[:120], "date": None, "url": re.sub(r"list\.do", "view.do", url) + f"&seq={seq}"})
+            d = re.search(r"(20\d\d-\d\d-\d\d)", page[m.end(): m.end() + 1500])
+            out.append({"seq": seq, "title": txt[:120], "date": d.group(1) if d else None, "url": url.split("list.do")[0] + "view.do?multi_itm_seq=2&seq=" + seq})
     return out
 
 
@@ -75,7 +77,8 @@ def main() -> int:
             except Exception as e:
                 log.append(f"[목록] {u} 실패 {e.__class__.__name__}: {str(e)[:160]}")
         pdf_done = False
-        for x in rows[:4]:
+        pick = [x for x in rows if re.search(r"모집", x["title"]) and not re.search(r"발표|결과|안내", x["title"])] or rows   # 입주자 모집공고 먼저
+        for x in pick[:4]:
             try:
                 r = c.get(x["url"], headers={**UA, "Referer": used})
                 (RAW / f"view-{x['seq']}.html").write_text(r.text[:200000], encoding="utf-8")
