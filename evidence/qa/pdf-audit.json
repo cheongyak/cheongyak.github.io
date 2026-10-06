@@ -14,16 +14,57 @@
    "name": "천안 아이파크 시티 2단지(2회차)",
    "url": "https://www.applyhome.co.kr/ai/aia/selectAPTLttotPblancDetail.do?houseManageNo=2026000498&pblancNo=2026000498",
    "attachments": 1,
-   "pdfs": 0,
+   "pdfs": 1,
    "attachment_list": [
     {
      "url": "https://static.applyhome.co.kr/ai/aia/getAtchmnfl.do?houseManageNo=2026000498&pblancNo=2026000498&atchmnflSeqNo=1991055&atchmnflSn=1",
-     "error": "PDF 아님 (200, 59바이트)"
+     "bytes": 1490824,
+     "pages": 64,
+     "chars": 141005,
+     "head": "- 1 - ※ 단지 주요정보 분양문의 1551-6013 주택유형 해당지역 기타지역 규제지역여부 민영주택 충청남도 천안시 거주자 충청남도 천안시 "
     }
    ],
-   "problem": [
-    "PDF 를 하나도 받지 못함"
-   ]
+   "chosen": "https://static.applyhome.co.kr/ai/aia/getAtchmnfl.do?houseManageNo=2026000498&pblancNo=2026000498&atchmnflSeqNo=1991055&atchmnflSn=1",
+   "pages": 64,
+   "pages_read": 64,
+   "chars_read": 141068,
+   "empty_pages": [],
+   "chars_per_page_min": 335,
+   "fields": {
+    "need_head": false,
+    "price_cap": false,
+    "residence_duty": 0,
+    "account_months": 6,
+    "residence": {
+     "area": "충청남도 천안시",
+     "months": 0,
+     "since": null
+    }
+   },
+   "fields_merged": {
+    "need_head": false,
+    "price_cap": false,
+    "residence_duty": 0,
+    "account_months": 6,
+    "residence": {
+     "area": "충청남도 천안시",
+     "months": 0,
+     "since": null
+    }
+   },
+   "fields_pdfium": {
+    "need_head": false,
+    "price_cap": false,
+    "residence_duty": 0,
+    "account_months": 6,
+    "residence": {
+     "area": "충청남도 천안시",
+     "months": 0,
+     "since": null
+    }
+   },
+   "pdfium_chars": 143947,
+   "problem": []
   },
   {
    "notice": "2026000494",
@@ -1731,60 +1772,16 @@
    "name": "올 뉴 챔피언스시티 1차",
    "url": "https://www.applyhome.co.kr/ai/aia/selectAPTLttotPblancDetail.do?houseManageNo=2026000419&pblancNo=2026000419",
    "attachments": 1,
-   "pdfs": 1,
+   "pdfs": 0,
    "attachment_list": [
     {
      "url": "https://static.applyhome.co.kr/ai/aia/getAtchmnfl.do?houseManageNo=2026000419&pblancNo=2026000419&atchmnflSeqNo=1966064&atchmnflSn=3",
-     "bytes": 1734575,
-     "pages": 65,
-     "chars": 277962,
-     "head": "- 1 - ※ 입주자모집공고의 자격 제한 및 유의 사항을 숙지한 후 청약에 응하시기 바라며, 미숙지로 인한 착오행위 등에 대해서는 청약자 본인에"
+     "error": "ConnectError"
     }
    ],
-   "chosen": "https://static.applyhome.co.kr/ai/aia/getAtchmnfl.do?houseManageNo=2026000419&pblancNo=2026000419&atchmnflSeqNo=1966064&atchmnflSn=3",
-   "pages": 65,
-   "pages_read": 65,
-   "chars_read": 278026,
-   "empty_pages": [],
-   "chars_per_page_min": 1487,
-   "fields": {
-    "need_head": false,
-    "price_cap": false,
-    "residence_duty": 0,
-    "rewin_years": 0,
-    "account_months": 6,
-    "residence": {
-     "area": "광주광역시",
-     "months": 12,
-     "since": "2025-09-02"
-    }
-   },
-   "fields_merged": {
-    "need_head": false,
-    "price_cap": false,
-    "residence_duty": 0,
-    "rewin_years": 0,
-    "account_months": 6,
-    "residence": {
-     "area": "광주광역시",
-     "months": 12,
-     "since": "2025-09-02"
-    }
-   },
-   "fields_pdfium": {
-    "need_head": false,
-    "price_cap": false,
-    "residence_duty": 0,
-    "rewin_years": 0,
-    "account_months": 6,
-    "residence": {
-     "area": "광주광역시",
-     "months": 12,
-     "since": "2025-09-02"
-    }
-   },
-   "pdfium_chars": 277948,
-   "problem": []
+   "problem": [
+    "PDF 를 하나도 받지 못함"
+   ]
   },
   {
    "notice": "2026000403",
