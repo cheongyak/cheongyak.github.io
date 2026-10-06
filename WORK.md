@@ -4,6 +4,21 @@
 2026-09-29 12:55 이전 항목은 규칙을 만들기 전 작업을 커밋 기록으로 정리한 것이라 백업 브랜치가 없어요.
 그 시점으로 되돌릴 때는 해당 커밋 번호로 `git revert` 를 써요.
 
+## 2026-10-06 21:47 · 입력 버튼이 엉뚱한 곳으로 가던 것 고침 — 배우자 집·가점 입력하기 (v1.58.5)
+- 요청: "배우자집 공고에서 입력할 때 제대로 입력이 안되거나 커서가 이상한 곳으로 가는데 확인 좀 해줘" · (21:56, 화면 2장) "통장가입일을 눌러도 이상한 곳이 떠" — 가점 칸 '통장 가입일을 넣으면 계산해요 · 입력하기' → 내 조건 1/15 '어디에 살고 계세요?'
+- 재현(고치기 전 사이트, tools/qa/spouse_fix.cjs · score_input.cjs):
+  ① 배우자 집 답하기 → 커서가 '두 분 모두 만 60세 이상인가요?'(parents60), 빨간 표시 2개, 배우자 질문은 '없어요'가 고른 상태로 '이미 넣은 값'에 접혀 누를 수 없음 → 판정 그대로 '배우자 명의 주택 입력 필요'.
+     원인: 바로 답하기가 기본값 false 를 '답함'으로 봄(fieldValue·fieldHtml), 안내 문구의 '명의'가 다른 질문(hhOwner, 숨김)으로 연결
+  ② 가점 '입력하기'(scoreCardV2·mcScore 칸·가점 컷 화면)와 1순위 요건 '입력하기'가 data-action=restart(처음부터 입력) → 늘 1단계
+  ③ (점검 중 발견) 특별공급 바로 답하기의 무주택 질문 목록에 배우자 집이 없어 답해도 '무주택 확인 필요'가 남음(fixflow 1085개 중 140개)
+- 변경: docs/index.html — fieldValue/fieldHtml: 넣지 않은 기본값 0·아니요 칸은 '미입력'·안 고른 상태. FIX_TARGETS: '배우자 명의 주택'→spouseOwn, '배우자 소득'→spouseIncome, '현금·예금·주식·전세보증금'→cash 등, hhOwner 는 '누구 명의·명의는 아니에요'일 때만. 판정을 가르는 칸을 알면 그 칸만 빨갛게. missEditBtn: 빠진 첫 항목(통장 가입일·생년월일·부양가족 등)이 있는 단계로 가서 그 칸에 커서·'이 칸을 넣으면 가점을 계산해요' 표시. SP_FIX 무주택에 married·spouseOwn
+- 검사: tools/qa/spouse_fix.cjs(새), tools/qa/score_input.cjs(새) — verify.yml 에 추가. tools/qa/fixflow.cjs 자동 답이 기본값 칸도 채우게
+- 파일: docs/index.html, tools/qa/spouse_fix.cjs, tools/qa/score_input.cjs, tools/qa/fixflow.cjs, .github/workflows/verify.yml, docs/changelog.json, VERSIONS.md, WORK.md
+- 확인: spouse_fix 고치기 전 5건 문제 → 고친 뒤 통과(커서·빨간 표시 1개·없어요 → 충족), score_input 고치기 전 3가지 모두 1단계 → 고친 뒤 청약통장/가점 계산 단계의 그 칸, fixflow 1085개 모두 답하면 판정, fixlink 0, 판정 사례 692/692, e2e 34/34, 변이 66(못 잡음 0), consistency·monotonic·profile_keep·filter·sptext·snapshot·zero_default·sh_screen·회귀 0, pytest 207 통과
+- 백업: backup/20261006-2147-spfix (가점 부분은 backup/20261006-2157-scorefix 이후 같은 커밋)
+- 기능: 없음(수정)
+- 버전: v1.58.5
+
 ## 2026-10-06 19:47 · 이용약관에 오픈카톡방 링크 (v1.58.4)
 - 요청: "https://open.kakao.com/o/pKX5Z5Qi 이용약관에 오픈카톡 링크도 추가해서 연결되게끔해줘"
 - 변경: docs/config.json open_chat_url = 사용자가 준 주소. docs/index.html 이용약관 제1조 운영 정보 표에 '오픈카톡 · 청약패스 오픈카톡방'(새 창, data-ev open-chat-terms) — 지금 약관과 10월 9일 바뀐 뒤 전문 모두. 약관 줄은 스위치와 관계없이 주소가 있으면 보임. 주소가 들어가면서 이미 만들어 둔 기능 community_link(true) 자리(이용 안내 오픈카톡방 카드·내 조건 줄)에도 나타남 — 끄려면 community_link false(약관 줄은 남음)

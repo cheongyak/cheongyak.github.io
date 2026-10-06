@@ -206,7 +206,7 @@ body.ta .scitem .sc-row{align-items:center} body.ta .scitem .sc-row>b{margin-lef
 body.ta .sp-top::after{border-color:var(--link);width:9px;height:9px}
 .optag{display:inline-block;margin-left:6px;padding:1px 7px;border-radius:999px;background:var(--line);color:var(--muted);font-size:12px;font-weight:500;vertical-align:1px;white-space:nowrap}
 .fixneed{border:2px solid var(--pass-ink);border-radius:12px;padding:10px;background:var(--surface)} .fixneed::before{content:'이 칸을 넣으면 판정돼요';display:block;color:var(--pass-ink);font-size:12px;font-weight:700;margin-bottom:6px}
-.fixneed input:focus{outline:2px solid var(--pass-ink);outline-offset:1px} .fixflash{animation:fixflash 1.6s ease-out} @keyframes fixflash{0%,40%{box-shadow:0 0 0 3px var(--consider)}100%{box-shadow:0 0 0 0 transparent}}
+.calcneed::before{content:'이 칸을 넣으면 가점을 계산해요'} .fixneed input:focus{outline:2px solid var(--pass-ink);outline-offset:1px} .fixflash{animation:fixflash 1.6s ease-out} @keyframes fixflash{0%,40%{box-shadow:0 0 0 3px var(--consider)}100%{box-shadow:0 0 0 0 transparent}}
 .mc-unsure{display:flex;flex-wrap:wrap;gap:6px;align-items:center;padding:8px 10px;border-radius:10px;background:var(--warn-soft)} .mc-unsure .btn.sm{font-size:13px}
 .ckitem{border:1px solid var(--line);border-left-width:3px;border-radius:10px;padding:8px 10px;background:var(--bg);display:flex;flex-direction:column;gap:3px}
 .ckitem.fail{border-left-color:var(--pass)} .ckitem.warn{border-left-color:var(--warn-ink)}
@@ -1006,6 +1006,16 @@ const splitPill = (L, p) => ({ ok: ['신청 가능', 'ok'], unsure: ['확인 필
 /* ---------- 내 청약 가점 v2 (기능: score_v2) — 화면 구성만. 점수는 myScore()·scoreTarget() 결과 그대로 ----------
    총점과 0~84 눈금(내 점수·당첨 최저·평균) → 당첨 사례 비교 → 항목별 점수(최대까지 남은 점수) → 접힌 계산 근거·방법·출처 */
 const SCORE_GROW = { '무주택기간':'1년마다 +2점', '부양가족':'1명마다 +5점', '청약통장 가입기간':'1년마다 +1점' };
+/* 가점·배점 '입력하기' → 처음부터가 아니라 빠진 첫 항목이 있는 입력 단계로 가서 그 칸에 커서 (2026-10-06 사용자 제보: '통장 가입일 입력하기를 눌러도 이상한 곳(사는 곳 1단계)이 떠') */
+const MISS_FIELD = [[/통장 가입일/, 'acctSince'], [/생년월일/, 'birth'], [/부양가족/, 'dependents'], [/세대 주택 명의/, 'hhOwner'], [/만 6세 미만 자녀/, 'kidsUnder6'], [/미성년 자녀/, 'kidsMinor'],
+  [/세대구성/, 'gen3'], [/사는 시·도|거주 시작일/, 'sidoSince']];
+function missEditBtn(miss, label){
+  const p = S.profile, steps = (() => { const q = S.quick; S.quick = false; const v = visibleSteps(); S.quick = q; return v; })();
+  for (const m of miss || []) { const hit = MISS_FIELD.find(([re]) => re.test(m)); if (!hit) continue;
+    const st = steps.find(s => s.f.some(fd => fd.k === hit[1] && (!fd.show || fd.show(p))));
+    if (st) return `<button style="white-space:nowrap" class="linkbtn small" data-edit="${esc(stepKey(st))}" data-focus="${hit[1]}">${label || '입력하기'}</button>`; }
+  return `<button style="white-space:nowrap" class="linkbtn small" data-action="restart">${label || '입력하기'}</button>`;
+}
 function scoreCardV2(L, p, r, t){
   const pct = v => Math.max(0, Math.min(100, v / 84 * 100)).toFixed(1) + '%';
   if (on('region_first_score') && hasProfile() && L.houseDtl !== '국민') { const rs0 = regionScore(L, p); if (rs0) t = rs0.t; }
@@ -1039,7 +1049,7 @@ function scoreCardV2(L, p, r, t){
   return `<section class="card sccard"><div class="row"><h2>내 청약 가점</h2><span class="small muted">추정 · 민영 1순위 가점제</span></div>
     <div class="sctotal">${has ? `<b>${r.total}</b><span class="muted">점 / 84</span>` : '<b style="font-size:22px">계산 전</b><span class="muted">/ 84점</span>'}</div>
     ${scale}${cmp}
-    ${r.miss.length ? `<div class="note warn sp-need"><span class="small">${esc(eulReul(r.miss.join(', ')))} 넣으면 계산해요.</span><button class="linkbtn small" data-action="restart">입력하기</button></div>` : ''}
+    ${r.miss.length ? `<div class="note warn sp-need"><span class="small">${esc(eulReul(r.miss.join(', ')))} 넣으면 계산해요.</span>${missEditBtn(r.miss)}</div>` : ''}
     <div class="small" style="margin:10px 0 4px"><b>항목별 점수</b> <span class="muted">· 누르면 계산 근거</span></div>
     <div class="scitems">${items}</div>
     <details class="ckmore"><summary>계산 방법과 출처</summary><div class="small" style="display:flex;flex-direction:column;gap:6px;margin-top:6px">
@@ -1063,7 +1073,7 @@ function scoreCard(L){
   }
   return `<section class="card"><div class="row"><h2>내 청약 가점 (추정)</h2><b style="font-size:20px">${r.total == null ? '-' : r.total + '점'}<span class="small muted"> / 84</span></b></div>
     <div class="rows">${rows}</div>${cmp}
-    ${r.miss.length ? `<div class="row small"><span class="muted">${eulReul(r.miss.join(', '))} 넣으면 계산해요.</span><button class="linkbtn small" data-action="restart">입력하기</button></div>` : ''}
+    ${r.miss.length ? `<div class="row small"><span class="muted">${eulReul(r.miss.join(', '))} 넣으면 계산해요.</span>${missEditBtn(r.miss)}</div>` : ''}
     <details class="more"><summary>계산 방법</summary><div class="small" style="display:flex;flex-direction:column;gap:6px">
       <div><b>무주택기간 (최대 32점)</b> · 만 30세가 된 날부터 공고일까지 집이 없던 기간. 만 30세 전에 혼인했으면 혼인신고일부터, 집을 가졌다가 처분했으면 처분일부터 세요. 1년 미만 2점, 1년마다 2점씩 더해 15년 이상 32점. 만 30세 미만 미혼이거나 지금 집이 있으면 0점.</div>
       <div><b>부양가족 (최대 35점)</b> · 0명 5점, 1명마다 5점씩 더해 6명 이상 35점. 본인은 빼고 세요.</div>
@@ -3139,7 +3149,7 @@ const SP_FIX = [
   [/주택 소유 이력/, ['hhNeverOwned']],
   [/소득세/, ['taxYears5']],
   [/혼인/, ['married', 'marriedOn']],
-  [/세대 주택|무주택/, ['selfOwn', 'household', 'parents60', 'parentsOwn', 'hhHomes', 'hhOwner']],
+  [/세대 주택|무주택/, ['selfOwn', 'married', 'spouseOwn', 'household', 'parents60', 'parentsOwn', 'hhHomes', 'hhOwner']],   /* 배우자 명의 집(혼인 중) — 2026-10-06 빈칸 확인 */
   [/예비신혼|한부모/, ['married', 'townType', 'kidsMinor', 'youngestBirth', 'pregnant']],
   [/당첨 이력|특별공급이었는지|특별공급으로 당첨/, ['everWin', 'win5y', 'recentWin', 'winSpecial']],
   [/예외 해당/, ['ownExc']],
@@ -3181,7 +3191,8 @@ const fixBtn = (k, label) => on('inline_fix') ? `<button class="linkbtn small" d
 /* 바로 답하기에서 '확인 필요' 문구가 가리키는 칸 (기능: fix_focus, 2026-10-01 사용자 요청: 누르면 그 질문이 빨갛게 표시되고 커서가 그 칸으로).
    문구 → 질문 키. 값이 이미 들어 있어도(예: 부동산 0) 그 칸을 맨 위로 올려 표시한다 */
 const FIX_TARGETS = [[/부모님 집/, ['realEstate']], [/세대 소득/, ['hhIncomeYear']], [/자녀 생일|자녀가 있는지/, ['youngestBirth']], [/임신/, ['pregnant']],
-  [/특별공급이었는지|특별공급으로 당첨/, ['winSpecial']], [/당첨 이력/, ['everWin']], [/재당첨 제한 기간인지/, ['recentWin']], [/세대 주택 수/, ['hhHomes']], [/명의/, ['hhOwner']],
+  [/특별공급이었는지|특별공급으로 당첨/, ['winSpecial']], [/당첨 이력/, ['everWin']], [/재당첨 제한 기간인지/, ['recentWin']], [/세대 주택 수/, ['hhHomes']], [/누구 명의|명의는 아니에요|세대원 명의면/, ['hhOwner']],
+  [/배우자 명의 주택/, ['spouseOwn']], [/배우자 소득/, ['spouseIncome']], [/현금·예금·주식·전세보증금/, ['cash', 'liquid', 'deposit']],   /* 2026-10-06 빈칸 확인 문구 (예전 /명의/ 는 '배우자 명의 주택'에도 걸려 숨은 질문으로 커서가 갔음 — 사용자 제보) */
   [/예외 해당/, ['ownExc']], [/예비신혼|한부모/, ['townType']], [/혼인신고일/, ['marriedOn']], [/혼인 여부/, ['married']], [/전입일|공고일 뒤 전입/, ['sidoOwnSince', 'areaSince']],
   [/시·군 입력/, ['homeSigun']], [/사는 곳|거주 지역 입력/, ['homeSido']], [/자동차/, ['carValue']], [/부동산 자산 입력|부동산·자동차 입력|부동산 입력/, ['realEstate']],
   [/보험 해약환급금/, ['townInsurance']], [/그 밖의 금융자산/, ['townFinOther']], [/기타 자산/, ['townOtherAsset']], [/세대 구성/, ['household']],
@@ -3205,7 +3216,7 @@ function fixPanel(L, p, where){
   if (tg.length) S.fix.keys = Array.from(new Set([...tg, ...S.fix.keys]));
   S.fix.keys.forEach(k => { const fd = fieldVariants(k).find(f => !f.show || f.show(p)); if (fd && !seen.has(fd.k)) { seen.add(fd.k);
     const miss = fieldValue(fd, p).miss, hit = tg.includes(fd.k);
-    if (hit) need.unshift(mark(fieldHtml(fd, p))); else if (miss) need.push(on('fix_focus') ? mark(fieldHtml(fd, p)) : fieldHtml(fd, p)); else done.push(fieldHtml(fd, p)); } });
+    if (hit) need.unshift(mark(fieldHtml(fd, p))); else if (miss) need.push(on('fix_focus') && !tg.length ? mark(fieldHtml(fd, p)) : fieldHtml(fd, p)); else done.push(fieldHtml(fd, p)); } });   /* 판정을 가르는 질문을 알면(tg) 그 칸만 빨갛게 — 나머지 빈칸은 표시 없이 아래에 (2026-10-06 배우자 집 제보) */
   const html = [...need, done.length ? `<details class="fixdone"${need.length ? '' : ' open'}><summary class="small">이미 넣은 값 ${done.length}개 · 고치기</summary>${done.join('')}</details>` : ''].filter(Boolean);
   const pendK = !!PEND_FIX[S.fix.k], it = pendK ? null : eligibility(L, p).items.find(i => i.k === S.fix.k);
   const st = /^sp:/.test(S.fix.k) ? spFixState(L, p, S.fix.k) : pendK ? (pendingChecks(L, p).includes(S.fix.k) ? ['warn', '아직 판정 전이에요'] : ['ok', '판정됐어요 · 아래 특별공급 칸에 반영됐어요'])
@@ -3478,7 +3489,7 @@ function vDetail(){
     <div class="tile"><span class="small muted">자금 (${o.mode === 'live' ? '대출' : '전세'})</span><span class="v ${gap > 0 ? 'st-warn' : 'st-ok'}">${gap > 0 ? fmt(gap) + ' 부족' : '가능'}</span></div>
   </div>`}
   ${(() => {   /* 기능: detail_nav — 내 판정 바로 아래에 자격(일반·특별공급), 그다음 가점·경쟁률 순서로 묶는다 (Proximity) */
-    const A = { comp: L.sample ? '' : compCard(L), score: scoreCard(L), check: on('checklist_v2') ? checklistV2(L, p, e) : `<section class="card"><h2>자격 체크리스트</h2>${on('eligibility_caution') ? `<div class="note info" style="padding:10px 12px"><b style="font-size:13px">기본 요건만 확인했어요</b><div class="small">아직 판정하지 않는 것: ${pendingChecks(L, p).join(', ')}. 이 항목들은 순서대로 추가하고 있어요.</div></div>` : ''}${on('account_rules') && !p.acctType && L.needAccount ? `<div class="row small"><span class="muted">청약통장 가입일·예치금을 넣으면 1순위 요건을 판정해요.</span><button class="linkbtn small" data-action="restart">입력하기</button></div>` : ''}<div class="rows">
+    const A = { comp: L.sample ? '' : compCard(L), score: scoreCard(L), check: on('checklist_v2') ? checklistV2(L, p, e) : `<section class="card"><h2>자격 체크리스트</h2>${on('eligibility_caution') ? `<div class="note info" style="padding:10px 12px"><b style="font-size:13px">기본 요건만 확인했어요</b><div class="small">아직 판정하지 않는 것: ${pendingChecks(L, p).join(', ')}. 이 항목들은 순서대로 추가하고 있어요.</div></div>` : ''}${on('account_rules') && !p.acctType && L.needAccount ? `<div class="row small"><span class="muted">청약통장 가입일·예치금을 넣으면 1순위 요건을 판정해요.</span>${missEditBtn(['통장 가입일'])}</div>` : ''}<div class="rows">
     ${e.items.map(i => `<div class="row"><span>${esc(i.k)}${i.note ? `<br><span class="small muted">${esc(i.note)}</span>` : ''}<br>${itemSrc(L, i.k)}</span><span class="${stCls(i.s)}">${esc(i.v)}</span></div>`).join('')}
   </div>
   <div class="small muted">내 조건 ${src('user')} · 판정 기준 ${src('supplyRule')}</div></section>`, sp: specialCard(L), inel: ineligCard(L, p, e), spc: specialCountCard(L) };
@@ -3644,6 +3655,7 @@ const stepKey = st => st.id || st.n || st.t;
 const optDate = fd => /비워두세요/.test(fd.l || '');
 function fieldValue(fd, p){
   const v = p[fd.k];
+  if (ZERO_KEYS.includes(fd.k) && !entered(p, fd.k)) return { t:'미입력', miss:true };   /* 기본값 0·아니요 칸을 넣지 않았으면 '없어요/0원'이 아니라 미입력 (2026-10-06 사용자 제보: 배우자 집 바로 답하기) */
   if (fd.type === 'choice') { const o = fd.o.find(([x]) => JSON.stringify(x) === JSON.stringify(v)); return o ? { t:o[1] } : fd.skip && on('optional_inputs') ? { t: fd.skip + ' (안 적음)' } : { t:'미입력', miss:true }; }
   if (fd.type === 'date') return v ? { t:v } : optDate(fd) ? { t:'없음' } : { t:'미입력', miss:true };
   if (fd.type === 'text') return v ? { t:v } : { t:'미입력', miss:true };
@@ -4234,7 +4246,7 @@ function dateSelChange(el){
 function fieldHtml(fd, p, groupLabel){   // 인터뷰 질문 한 칸 (vOnboard·바로 답하기 inline_fix 공용)
   if (fd.type === 'choice') {
     const optTag = fd.skip && on('optional_inputs') ? ` <span class="optag">해당하는 분만 · 안 고르면 ${esc(fd.skip)}</span>` : '';   // 기능: optional_inputs
-    const opts = fd.o.map(([v, t]) => { const on = p[fd.k] === v; return `<button class="opt" role="radio" aria-checked="${on}" data-set="${fd.k}" data-val='${JSON.stringify(v)}'>${t}${on ? '<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 6 9 17l-5-5"/></svg>' : ''}</button>`; }).join('');
+    const opts = fd.o.map(([v, t]) => { const on = p[fd.k] === v && (!ZERO_KEYS.includes(fd.k) || entered(p, fd.k));   /* 넣지 않은 기본값(배우자 집 '없어요' 등)은 고른 것처럼 보이지 않게 */ return `<button class="opt" role="radio" aria-checked="${on}" data-set="${fd.k}" data-val='${JSON.stringify(v)}'>${t}${on ? '<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 6 9 17l-5-5"/></svg>' : ''}</button>`; }).join('');
     return `<div class="field">${fd.l ? `<span class="lbl" id="l-${fd.k}">${fd.l}${optTag}</span>` : ''}<div role="radiogroup" ${fd.l ? `aria-labelledby="l-${fd.k}"` : `aria-label="${esc(groupLabel || fd.l || '')}"`} class="${fd.two ? 'opts-2' : 'stack'}">${opts}</div></div>`;
   }
   if (fd.type === 'text') return `<div class="field"><label for="f-${fd.k}">${fd.l}</label><input type="text" id="f-${fd.k}" data-field="${fd.k}" value="${esc(p[fd.k] || '')}"></div>`;
@@ -4707,7 +4719,7 @@ function vTrend(){
   const sgKeys = Object.keys(bySg).sort((a, b) => median(bySg[b].map(r => r.low)) - median(bySg[a].map(r => r.low)));
   return head + watchScores() + `
   <section class="card"><div class="row"><h2>내 가점</h2><b style="font-size:20px">${mine != null ? mine + '점' : '-'}<span class="small muted"> / 84 (추정)</span></b></div>
-    ${mine == null ? `<div class="row small"><span class="muted">${sc && sc.miss && sc.miss.length ? esc(eulReul(sc.miss.join(', '))) + ' 넣으면 계산해요.' : '가점 계산에 필요한 정보를 넣어 주세요.'}</span><button style="white-space:nowrap" class="linkbtn small" data-action="restart">입력하기</button></div>` : '<p class="small muted" style="margin:4px 0 0">오늘 기준 추정이에요. 막대의 세로선이 내 가점이에요.</p>'}</section>
+    ${mine == null ? `<div class="row small"><span class="muted">${sc && sc.miss && sc.miss.length ? esc(eulReul(sc.miss.join(', '))) + ' 넣으면 계산해요.' : '가점 계산에 필요한 정보를 넣어 주세요.'}</span>${missEditBtn(sc && sc.miss)}</div>` : '<p class="small muted" style="margin:4px 0 0">오늘 기준 추정이에요. 막대의 세로선이 내 가점이에요.</p>'}</section>
   <section class="card"><h2>시·도별 (${from}~${to} 공고)</h2>
     <div class="cutlegend small muted"><span><i class="rng"></i>최저 당첨 가점 범위</span><span><i class="md"></i>중간값</span>${mine != null ? '<span><i class="me"></i>내 가점</span>' : ''}<span>0~84점</span></div>
     ${sidoKeys.map(k => line(k, bySido[k])).join('')}</section>
@@ -5778,7 +5790,10 @@ document.addEventListener('click', ev => {
     else if (fp) fp.scrollIntoView({ behavior:'smooth', block:'start' }); return; }   // 기능: inline_fix
   if (t.dataset.action === 'fix-close') { S.fix = null; render(); return; }
   if (t.dataset.action === 'fix-save') { fixSave(); return; }
-  if (t.dataset.edit) { S.quick = false; const i = visibleSteps().findIndex(x => stepKey(x) === t.dataset.edit); S.step = Math.max(0, i); S.fromMe = true; go('onboard'); window.scrollTo(0, 0); return; }   // 그 단계부터 이어서 입력, 단계마다 저장하고 나가기
+  if (t.dataset.edit) { S.quick = false; const i = visibleSteps().findIndex(x => stepKey(x) === t.dataset.edit); S.step = Math.max(0, i); S.fromMe = true; go('onboard'); window.scrollTo(0, 0);
+    const fk = t.dataset.focus; if (fk) requestAnimationFrame(() => { const el = app.querySelector(`[data-field="${fk}"],[data-dk="${fk}"],[data-set="${fk}"]`);   /* 가점 '입력하기': 빠진 칸으로 커서 */
+      if (el) { const f = el.closest('.field') || el; f.scrollIntoView({ block:'center' }); f.classList.add('fixneed', 'calcneed'); try { el.focus({ preventScroll:true }); } catch(e) {} } });
+    return; }   // 그 단계부터 이어서 입력, 단계마다 저장하고 나가기   // 그 단계부터 이어서 입력, 단계마다 저장하고 나가기
   if (t.dataset.mode) { planOpt(LISTINGS.find(x => x.id === S.id)).mode = t.dataset.mode; render(); return; }
   const a = t.dataset.action;
   if (a === 'toggle-closed') { S.showClosed = !S.showClosed; render(); return; }

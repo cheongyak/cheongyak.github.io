@@ -76,6 +76,8 @@ jobs:
           node tools/qa/profile_keep.cjs | head -1 | tee -a docs/run-log.txt   # 저장한 내 조건이 새로고침 뒤 그대로인지
           node tools/qa/monotonic.cjs | head -1 | tee -a docs/run-log.txt   # 모르는데 가능·경계값 되돌아감 (정보·값 단조성)
           node tools/qa/zero_default.cjs | head -1 | tee -a docs/run-log.txt   # 비워 둔 기본값 0 칸(배우자 집·소득·현금 등)을 값으로 본 판정 (2026-10-06)
+          node tools/qa/spouse_fix.cjs | tail -1 | tee -a docs/run-log.txt   # 배우자 집 '바로 답하기' 커서·답 반영 (2026-10-06 제보)
+          node tools/qa/score_input.cjs | tail -1 | tee -a docs/run-log.txt   # 가점 '입력하기' → 빠진 칸으로 (2026-10-06 제보)
           node tools/qa/snapshot.cjs | head -1 | tee -a docs/run-log.txt   # 화면 글자 스냅샷 (고정 공고·고정 날짜) — 일부러 바꾸면 --update 로 기준 갱신
           node tools/qa/e2e.cjs | head -1 | tee -a docs/run-log.txt   # 사용자 흐름 30개 + 저장 조건 퍼징 390개 (3~4분)
           node tools/qa/past_chat.cjs | head -1 | tee -a docs/run-log.txt   # 지난 공고 판정 줄·청약봇 판정 요약이 화면과 같은지

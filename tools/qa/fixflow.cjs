@@ -29,8 +29,8 @@ const dir = join(__dirname, '../../docs'), N = +process.argv[2] || 8, SEED = +pr
         S.profile = Object.assign({}, DEFAULT_PROFILE, pr); syncHome(S.profile); save();
         S.fix = { id:L.id, k, keys: fixKeysFor(k, L, S.profile) }; render(); out.opened++;
         for (let round = 0; round < 6; round++) {   // 답하면 새 질문이 열릴 수 있어 여러 번
-          const fds = []; S.fix.keys.forEach(kk => { const fd = fieldVariants(kk).find(f => !f.show || f.show(S.profile)); if (fd && (S.profile[fd.k] == null || S.profile[fd.k] === '')) fds.push(fd); });
-          if (!fds.length) break; fds.forEach(fd => { S.profile[fd.k] = answer(fd); }); save(); render();
+          const fds = []; S.fix.keys.forEach(kk => { const fd = fieldVariants(kk).find(f => !f.show || f.show(S.profile)); if (fd && (S.profile[fd.k] == null || S.profile[fd.k] === '' || !entered(S.profile, fd.k))) fds.push(fd); });   // 기본값 0·아니요 칸도 넣지 않았으면 답함 (2026-10-06)
+          if (!fds.length) break; fds.forEach(fd => { S.profile[fd.k] = answer(fd); markSet(S.profile, fd.k, true); }); save(); render();
         }
         if (!document.querySelector('#fixpanel .field') && !document.querySelector('#fixpanel .muted')) (out.noField[k] = (out.noField[k] || 0) + 1);
         const st = document.querySelector('#fixpanel .fixstat'); const txt = st ? st.innerText : '';
