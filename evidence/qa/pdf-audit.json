@@ -2,9 +2,8 @@
  "date": "2026-10-06",
  "page_cap": 300,
  "notices": 55,
- "with_problem": 2,
+ "with_problem": 1,
  "kinds": {
-  "PDF 를 하나도 받지 못함": 1,
   "글자가 거의 없는 쪽 N개 (스캔 이미지·표 그림 추정)": 1
  },
  "errors": [],
@@ -1772,16 +1771,60 @@
    "name": "올 뉴 챔피언스시티 1차",
    "url": "https://www.applyhome.co.kr/ai/aia/selectAPTLttotPblancDetail.do?houseManageNo=2026000419&pblancNo=2026000419",
    "attachments": 1,
-   "pdfs": 0,
+   "pdfs": 1,
    "attachment_list": [
     {
      "url": "https://static.applyhome.co.kr/ai/aia/getAtchmnfl.do?houseManageNo=2026000419&pblancNo=2026000419&atchmnflSeqNo=1966064&atchmnflSn=3",
-     "error": "ConnectError"
+     "bytes": 1734575,
+     "pages": 65,
+     "chars": 277962,
+     "head": "- 1 - ※ 입주자모집공고의 자격 제한 및 유의 사항을 숙지한 후 청약에 응하시기 바라며, 미숙지로 인한 착오행위 등에 대해서는 청약자 본인에"
     }
    ],
-   "problem": [
-    "PDF 를 하나도 받지 못함"
-   ]
+   "chosen": "https://static.applyhome.co.kr/ai/aia/getAtchmnfl.do?houseManageNo=2026000419&pblancNo=2026000419&atchmnflSeqNo=1966064&atchmnflSn=3",
+   "pages": 65,
+   "pages_read": 65,
+   "chars_read": 278026,
+   "empty_pages": [],
+   "chars_per_page_min": 1487,
+   "fields": {
+    "need_head": false,
+    "price_cap": false,
+    "residence_duty": 0,
+    "rewin_years": 0,
+    "account_months": 6,
+    "residence": {
+     "area": "광주광역시",
+     "months": 12,
+     "since": "2025-09-02"
+    }
+   },
+   "fields_merged": {
+    "need_head": false,
+    "price_cap": false,
+    "residence_duty": 0,
+    "rewin_years": 0,
+    "account_months": 6,
+    "residence": {
+     "area": "광주광역시",
+     "months": 12,
+     "since": "2025-09-02"
+    }
+   },
+   "fields_pdfium": {
+    "need_head": false,
+    "price_cap": false,
+    "residence_duty": 0,
+    "rewin_years": 0,
+    "account_months": 6,
+    "residence": {
+     "area": "광주광역시",
+     "months": 12,
+     "since": "2025-09-02"
+    }
+   },
+   "pdfium_chars": 277948,
+   "problem": []
   },
   {
    "notice": "2026000403",
