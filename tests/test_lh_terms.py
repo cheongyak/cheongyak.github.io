@@ -188,3 +188,11 @@ def test_local_unread_failsafe():
     assert r.get("local") is None and r.get("local_unread")
     r = parse_lh_terms("신청자격 공고일 현재 국내에 거주하는 성년자인 무주택세대구성원 " * 3, "영구임대", "", None)
     assert not r.get("local_unread")
+
+
+def test_median_table_label_after_number():
+    """대구연호 A-2·A-3 통합공공임대 [정정공고] (2015122300020878, 2026-10-06 공고): 표 행 이름이 '인1 … 인8'로 나옴.
+    원문 '~100%' 열(2026 기준 중위소득)을 읽어야 한다 — 5인 줄은 숫자 사이 공백이 두 칸."""
+    from app.lh_terms import income_table, MEDIAN_2026
+    t = (ROOT / "evidence/lh/2015122300020878.txt").read_text(encoding="utf-8")
+    assert {int(k): v for k, v in income_table(re.sub(r"\s+", " ", t)).items()} == MEDIAN_2026

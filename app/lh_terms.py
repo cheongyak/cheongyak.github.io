@@ -305,7 +305,8 @@ def income_table(t: str) -> Optional[dict]:
         # 천 단위 쉼표 규칙(\d{1,3}(,\d{3})+)으로 숫자를 하나씩 떼고, 4번째(~100%) 칸을 쓴다. 30% 칸 ÷ 0.3 과 1% 안에서 같아야 받는다.
         seg = t[m.end(): m.end() + 1500]
         for n in range(1, 9):
-            r = re.search(rf"(?<![\d,]){n}인\s?([\d, ]+)", seg)
+            # 2026-10-07 대구연호(2015122300020878): PDF 글에서 행 이름이 '인1 769,271 …'처럼 '인'이 숫자 앞에 나옴 → 두 순서를 다 받는다
+            r = re.search(rf"(?:(?<![\d,]){n}인|(?<![가-힣])인{n}(?!\d))\s?([\d, ]+)", seg)
             if not r:
                 continue
             nums = [_int(x) for x in re.findall(r"\d{1,3}(?:,\d{3})+", r.group(1))]
