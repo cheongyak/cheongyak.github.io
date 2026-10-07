@@ -9,7 +9,7 @@ GOLD = json.loads((ROOT / "tests/golden/sh_rental.json").read_text(encoding="utf
 
 
 def _text(seq):
-    return (ROOT / "evidence/sh" / f"{seq}.txt").read_text(encoding="utf-8")
+    return (ROOT / "evidence/sh" / f"{seq}.txt").read_bytes().decode("utf-8", "replace")
 
 
 def _strip(t):
@@ -26,7 +26,8 @@ def test_golden_sh_terms():
             continue
         got = parse_sh_terms(_text(g["seq"]), g["type"])
         assert got is not None, g["seq"]
-        assert got["issues"] == [], (g["seq"], got["issues"])
+        if g["type"] != "사회주택":   # 사회주택은 일부 기준을 일부러 비운 공고가 있어(읽기 문제 목록 있음) 값만 비교
+            assert got["issues"] == [], (g["seq"], got["issues"])
         assert _strip(got) == _strip(g["terms"]), g["seq"]
         n += 1
     assert n >= 5
@@ -34,7 +35,7 @@ def test_golden_sh_terms():
 
 def test_unsupported_kinds_have_no_terms():
     for g in GOLD:
-        if g["type"] not in ("신혼·신생아 매입임대", "청년 매입임대", "장기전세"):
+        if g["type"] not in ("신혼·신생아 매입임대", "청년 매입임대", "장기전세", "사회주택"):
             assert parse_sh_terms(_text(g["seq"]), g["type"]) is None, g["seq"]
 
 
@@ -85,3 +86,20 @@ def test_mirinae_not_read_as_jeonse():
     """미리내집(장기전세Ⅱ)은 신혼·출산 가구 대상이라 기준이 달라 읽지 않는다"""
     from app.sh_terms import parse_jeonse
     assert parse_jeonse("미리내집(장기전세주택Ⅱ) 입주자 모집 " + _text("309467")) is None
+
+
+def test_social_unread_notices_stay_unsupported():
+    """사회주택 중 형식이 섞이거나 기준이 둘인 공고는 읽지 않는다(→ 화면 '판정 미지원') — 정답 데이터 social_unread"""
+    from app.sh_terms import parse_social
+    d = json.loads((ROOT / "tests/golden/sh_rental.json").read_text(encoding="utf-8"))
+    for seq in d["social_unread"]:
+        assert parse_social(_text(seq)) is None, seq
+
+
+def test_social_wrong_income_table_blanks_income():
+    """사회주택 소득표가 도시근로자 2025 × % 와 다르면(지난해 표·다른 비율) 소득을 비운다 — 310037 표를 1천원 바꾸면 비움"""
+    from app.sh_terms import parse_social
+    r = parse_social(_text("310037").replace("7,039천원", "7,139천원"))
+    assert all(g["income_pct"] is None for g in r["groups"])
+    r = parse_social(_text("310037").replace("세대 구성원 전원의 세전소득", "본인의 세전소득"))
+    assert all(g["income_pct"] is None for g in r["groups"])

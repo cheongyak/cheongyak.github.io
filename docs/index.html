@@ -5055,7 +5055,7 @@ const RENT_URBAN_2025 = [3813363, 5866270, 8168429, 8802202, 9326985, 9906263, 1
 const RENT_BIRTH_FROM = '2023-03-28';   // 출산가구 소득·자산 가산 기준일 (별표 4·5 비고, 공고문)
 const RENT_CAT = [['sale', '분양 청약'], ['rent', '공공임대'], ['youth', '청년 주택']];
 const RENT_TYPES = ['국민임대', '영구임대', '행복주택', '통합공공임대', '공공임대'];
-const RG_NAME = { '신생아가구': '신생아가구', '지원대상한부모': '지원대상 한부모가족', '혼인가구': '혼인가구',   /* SH 신혼·신생아 매입임대 (기능 sh_judge) */
+const RG_NAME = { '신생아가구': '신생아가구', '지원대상한부모': '지원대상 한부모가족', '혼인가구': '혼인가구', '신혼부부': '신혼부부', '1인가구': '1인 가구',   /* SH 신혼·신생아 매입임대 (기능 sh_judge) */
   '장기종사자': '장기종사자', '일반': '일반', '대학생': '대학생', '청년': '청년', '신혼부부·한부모': '신혼부부·한부모', '고령자': '고령자(65세 이상)', '주거급여수급자': '주거급여 수급자' };
 let RENTAL = null, RENTAL_STATE = '';
 /* 미리보기: 스위치를 켜기 전에 운영자가 ?lh=preview 로 연 기기에서만 보인다 (?lh=off 로 해제) */
@@ -5068,7 +5068,7 @@ function loadRental(){
   const sh = on('sh_rental') ? fetch('sh-rental.json', { cache:'no-store' }).then(r => r.ok ? r.json() : null).catch(() => null) : Promise.resolve(null);
   Promise.all([fetch('lh-rental.json', { cache:'no-store' }).then(r => r.ok ? r.json() : Promise.reject(r.status)), sh]).then(([d, s]) => {
     /* 접수 기간이 지난 SH 공고, 접수 기간을 못 읽었고 공고일이 30일 넘게 지난 SH 공고는 싣지 않는다 (대부분 접수가 끝났는데 '일정 확인'으로 남지 않게) */
-    if (s && Array.isArray(s.notices) && s.notices.length) { d.notices = d.notices.concat(s.notices.filter(N => N.org === 'SH' && rStatus(N) !== '마감' && !(rStatus(N) === '일정 확인' && String(N.posted || '') < addDays(rKst(), -30))).map(N => on('sh_judge') && (N.type !== '장기전세' || on('sh_jeonse')) ? N : Object.assign({}, N, { judge_type: false })))   /* 기능 sh_judge 가 꺼져 있으면 SH 는 모두 판정 미지원, sh_jeonse 가 꺼져 있으면 장기전세만 판정 미지원 */.sort((a, b) => String(b.posted || '').localeCompare(String(a.posted || ''))); d.sh_updated = s.updated; }
+    if (s && Array.isArray(s.notices) && s.notices.length) { d.notices = d.notices.concat(s.notices.filter(N => N.org === 'SH' && rStatus(N) !== '마감' && !(rStatus(N) === '일정 확인' && String(N.posted || '') < addDays(rKst(), -30))).map(N => on('sh_judge') && (N.type !== '장기전세' || on('sh_jeonse')) && (N.type !== '사회주택' || on('sh_social')) ? N : Object.assign({}, N, { judge_type: false })))   /* 기능 sh_judge 가 꺼져 있으면 SH 는 모두 판정 미지원, sh_jeonse 가 꺼져 있으면 장기전세만 판정 미지원 */.sort((a, b) => String(b.posted || '').localeCompare(String(a.posted || ''))); d.sh_updated = s.updated; }
     RENTAL = d; RENTAL_STATE = 'ok'; if (['rental', 'rdetail'].includes(S.view)) render(); })
     .catch(() => { RENTAL_STATE = 'error'; if (['rental', 'rdetail'].includes(S.view)) render(); });
 }
@@ -5157,6 +5157,10 @@ function shCritNote(T, g){
   if (g.key === '청년' && g.income_household) L.push('미혼 · 본인 무주택 · 소득과 자산은 세대 전원 기준');
   const two = g.income_pct && typeof g.income_pct === 'object' && !g.income_pct['1'] && g.income_pct['2'] != null && g.income_pct['2'] !== g.income_pct['3+'];
   const inc = [two ? '2인 가구는 10%p 가산(공고문)' : '', g.dual_add ? `배우자도 소득이 있으면 +${g.dual_add}%p` : '', T.income_birth ? '2023.3.28 이후 출생 자녀(태아 포함) 1명 +10%p · 2명 이상(또는 1명+그 전 미성년 자녀) +20%p (맞벌이 가산과 중복 안 됨)' : ''].filter(Boolean);
+  if (T.kind === '사회주택') { if (T.local) L.push(`공고일 현재 서울 거주${T.local.others_check ? ' (' + T.local.others_check + ')' : ''}`);
+    if (g.key === '신혼부부' && g.wed_years) L.push(`혼인신고일로부터 ${g.wed_years}년 이내${g.prewed ? ' · 예비신혼부부 포함' : ''}`);
+    if (g.key === '1인가구') L.push('가구원 1명');
+    if (!g.income_pct) L.push('소득: 공고문 소득표가 올해 기준(도시근로자 2025)과 달라 판정하지 않아요 — 공고문 확인'); }
   if (T.kind === '장기전세') { L.push(`공고일 현재 서울특별시 거주 · 무주택세대구성원${T.local && T.local.extra ? ' (' + T.local.extra + ')' : ''}`);
     if (g.income_pct && g.income_pct['3+'] != null) L.push(`소득: ${g.name} ${g.income_pct['3+']}% 이하 — 어느 순위로든 신청할 수 있는 기준`);
     if (T.rank_note && g.key === '일반·60이하') L.push(T.rank_note); }
@@ -5171,7 +5175,7 @@ function rentalGroup(N, g, p){
      기본값이 0·false 인 칸은 pv()/entered() 로 '입력했는지'를 본다(미입력 0원·없음을 충족으로 보지 않음). */
   /* 빈 글자('')는 모두 '모름'(null)으로 본다 — 예/아니요 칸이 ''이면 true 도 false 도 아니어서 확인 없이 지나가던 경로를 막는다 */
   p = Object.fromEntries(Object.entries(p || {}).map(([k, v]) => [k, v === '' ? null : v]));
-  const ref = N.posted || (N.schedule && N.schedule[0] && N.schedule[0].apply_start) || null, it = [], T = N.terms || {};
+  const ref = (N.terms && N.terms.ref_date) || N.posted || (N.schedule && N.schedule[0] && N.schedule[0].apply_start) || null, it = [], T = N.terms || {};   /* ref_date: 공고문의 모집 공고일 (SH 사회주택, 기능 sh_social) */
   const add = (s, t, q, why) => it.push(s === 'check' ? Object.assign({ s, t, why: why || (q ? 'input' : 'notice') }, q ? { q } : {}) : { s, t });   /* q: 이 확인 항목을 풀어 줄 내 조건 칸 — 화면에서 '답하기'로 바로 묻는다 (기능 lh_rental) */
   const yn = (v, okT, noT, askT, q) => v === true ? add('ok', okT + ' (내 답)') : v === false ? add('no', noT) : add('check', askT, q, 'self');
   const age = rAge(p.birth, ref);
@@ -5244,6 +5248,15 @@ function rentalGroup(N, g, p){
   } else if (g.key === '주거급여수급자') {
     if (p.lhHousingBenefit === false) { na = true; add('no', '주거급여 수급자가 아님 (내 답)'); }
     else yn(p.lhHousingBenefit, '주거급여 수급자', '', '주거급여 수급자(수급권자)인지 답해 주세요', ['lhHousingBenefit']);
+  } else if (g.key === '신혼부부') {   /* SH 사회주택 (기능 sh_social): 혼인신고일로부터 wed_years 년 이내 · 예비신혼부부(공고문에 있을 때) — 한부모 계층은 없음 */
+    const in7 = p.marriedOn && ref && g.wed_years ? p.marriedOn >= addYears(ref, -g.wed_years) : null;
+    if (p.married === true) { if (!g.wed_years) add('check', '신혼부부 혼인 기간 기준을 공고문에서 읽지 못함 — 공고문 확인'); else if (in7 === true) add('ok', `혼인 ${g.wed_years}년 이내`); else if (in7 == null) add('check', '혼인신고일 입력 필요', ['marriedOn']); else { na = true; add('no', `혼인 ${g.wed_years}년 초과`); } }
+    else if (p.married === false) { if (g.prewed && p.lhPreWed === true) add('ok', '예비신혼부부 (내 답 — 입주 전까지 혼인신고)'); else if (g.prewed && p.lhPreWed == null) add('check', '결혼할 예정(예비신혼부부)이면 신청할 수 있어요 — 답해 주세요', ['lhPreWed'], 'self'); else { na = true; add('no', '혼인 중(예비신혼부부 포함)이 아님'); } }
+    else add('check', '혼인 여부 입력 필요', ['married']);
+  } else if (g.key === '1인가구') {   /* SH 사회주택: 가구원 1명 */
+    if (p.hhSize == null || p.hhSize === '') add('check', '가구원 수 입력 필요 (1인 가구만)', ['hhSize']);
+    else if (Number(p.hhSize) !== 1) { na = true; add('no', '1인 가구가 아님'); }
+    else add('ok', '1인 가구');
   } else if (!['일반', '장기종사자', '일반·60이하', '일반·60초과'].includes(g.key)) {   /* 일반·60이하/60초과: SH 장기전세 면적 묶음 (기능 sh_jeonse) */   /* 이 서비스가 모르는 계층: 공고문에서 읽은 칸이 있어도 판정하지 않는다(계층 미지원) */
     add('check', `이 서비스가 판정하지 않는 계층(${g.name || g.key}) — 공고문 확인`);
     return { key: g.key, name: RG_NAME[g.key] || g.name, s: 'check', items: it };
@@ -5313,6 +5326,7 @@ function rentalGroup(N, g, p){
     if (!p.homeSido) add('check', `사는 곳 입력 필요 (${L0.name} 거주자만 신청 가능)`, ['homeSido', 'homeSigun']);
     else if (L0.sido && p.homeSido !== L0.sido && L0.extra && /([가-힣]+시) 거주자/.test(L0.extra) && p.homeSido === '경기' && lhSigunMatch(p.homeSigun, L0.extra.match(/([가-힣]+시) 거주자/)[1]) !== false)
       add('check', `${L0.name} 거주자만 신청 가능 — 단 공고문 '${L0.extra}' (그 지구만 신청 가능 · 사는 시·군 확인)`, p.homeSigun ? null : ['homeSigun']);   /* 장기전세: 상계장암지구는 의정부시 거주자 포함 (기능 sh_jeonse) */
+    else if (L0.sido && p.homeSido !== L0.sido && L0.others_check) add('check', `${L0.name}에 살지 않음 — ${L0.others_check} (공고문 확인)`, null, 'self');   /* SH 사회주택 (기능 sh_social) */
     else if (L0.sido && p.homeSido !== L0.sido) add('no', `${L0.name}에 살지 않음 (공고일 현재 ${L0.name} 거주자만 신청 가능)`);
     else if (!L0.sido && !L0.sigun) add('check', `거주 요건(${L0.name})을 정확히 읽지 못함 — 공고문 확인`);
     else if (!L0.sigun) add('ok', `${L0.name} 거주`);
@@ -5631,7 +5645,7 @@ function vRDetail(){
   /* 확인 항목의 이유: 내 조건이 비어 있음(입력 필요) · 자기 신고가 필요한 자격(답 필요) · 공고문 기준을 읽지 못함(공고문 확인) */
   const cIcon = i => i.s !== 'check' ? (sIcon[i.s] || '') : i.why === 'notice' ? '<span class="pill warn">공고문 확인</span>' : i.why === 'self' ? '<span class="pill warn">답 필요</span>' : '<span class="pill warn">입력 필요</span>';
   const why = { partial: '이 공고에는 이 서비스가 판정하지 않는 계층이 있어요 — 아는 계층으로는 조건 밖이지만, 다른 계층 자격은 공고문을 확인하세요.',
-    unknown: '공고문의 계층별 자격 기준을 읽지 못해 판정하지 않았어요 — 공고문을 확인하세요.', unsupported: rIsSH(N) ? (on('sh_judge') ? '이 SH 공고 유형은 아직 자격을 판정하지 않아요(신혼·신생아 매입임대·청년 매입임대' + (on('sh_jeonse') ? '·장기전세' : '') + '만 판정) — 신청 자격·소득·자산 기준은 공고문을 확인하세요.' : 'SH 공고는 아직 자격을 판정하지 않아요(목록·접수 기간·공고문만) — 신청 자격·소득·자산 기준은 공고문을 확인하세요.') : '이 임대 유형은 아직 자격을 판정하지 않아요 — 공고문을 확인하세요.' };
+    unknown: '공고문의 계층별 자격 기준을 읽지 못해 판정하지 않았어요 — 공고문을 확인하세요.', unsupported: rIsSH(N) ? (on('sh_judge') ? '이 SH 공고 유형은 아직 자격을 판정하지 않아요(신혼·신생아 매입임대·청년 매입임대' + (on('sh_jeonse') ? '·장기전세' : '') + (on('sh_social') ? '·사회주택(공고문에서 확실히 읽힌 것)' : '') + '만 판정) — 신청 자격·소득·자산 기준은 공고문을 확인하세요.' : 'SH 공고는 아직 자격을 판정하지 않아요(목록·접수 기간·공고문만) — 신청 자격·소득·자산 기준은 공고문을 확인하세요.') : '이 임대 유형은 아직 자격을 판정하지 않아요 — 공고문을 확인하세요.' };
   const secTop = `<div class="top"><div><button class="linkbtn" data-rcat="${S.rcat === 'youth' ? 'youth' : 'rent'}">← 임대 공고</button></div></div>`;
   const secHead = `  <section class="card">
     <span class="row" style="gap:6px;justify-content:flex-start;flex-wrap:wrap"><span class="pill info">${esc(N.type || '')}</span>${T && T.relaxed ? '<span class="pill warn">자격 완화 공고</span>' : ''}<span class="small muted">${esc(N.region || '')} · ${esc(rStatus(N))}</span></span>

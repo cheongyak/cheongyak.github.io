@@ -251,6 +251,96 @@ def jeonse_schedule(text: str, posted: str | None) -> list[dict]:
     return out
 
 
+def _eok(a: str, b: str | None) -> int | None:
+    """'2억 5,100만' → 25100 (만원). 만 단위가 1만 이상이면(오타 '2억5,4000만') 믿지 않음"""
+    m = _num(b) if b else 0
+    return None if m >= 10000 else int(a) * 10000 + m
+
+
+def parse_social(text: str, posted: str | None = None) -> dict | None:
+    """SH 사회주택(토지임대부·토지지원) 입주자 모집 공고 (기능 sh_social, 2026-10-07).
+    공고문은 운영기관마다 형식이 다르고 소득표를 지난해 값이나 다른 비율로 적은 곳이 있어(310575·310672), 아래처럼 확실한 것만 읽는다 — 나머지는 비워 '확인':
+      소득: '월평균소득의 N% 이하' 한 가지 비율 + 1~3인 표가 도시근로자 2025 × N% 와 같고(천원 단위면 1천원 안), 세대 전원 소득 문장이 있을 때만
+      무주택: '무주택세대구성원 … 적용' → 세대 전원, 청년 예외('직계존속이 주택을 소유해도 본인이 무주택자' · '본인 명의로 가진 주택이 아닐 경우 무주택자') → 청년은 본인
+      거주: 서울 거주(비거주자도 입주 후 전입·서울 소재 직장·학교면 신청 가능하다는 문장이 있으면 서울 밖은 '확인')
+      계층: 총자산 표의 '청년 N억 M만원' · '신혼부부, (고령자,) 1인가구 N억 M만원' — 고령자는 나이 기준이 없어 판정하지 않음(모르는 계층)
+      자동차: 'N만원 이하 공공임대주택 자동차가액' 한 값"""
+    t = _flat(text).replace("\x00", "")
+    if not re.search(r"사회주택", t):
+        return None
+    issues: list[str] = []
+    # 소득
+    pcts = sorted({int(x) for x in re.findall(r"월평균 ?소득의? ?(\d{2,3})% ?이하", t)})
+    income = None
+    if len(pcts) != 1:
+        issues.append(f"소득 비율이 하나가 아님 {pcts}")
+    elif re.search(r"본인의 세전소득|입주예정자 본인", t):
+        issues.append("소득을 본인 소득으로 산정 — 판정 안 함")
+    elif not re.search(r"세대 ?구성원 전원의 (?:세전)?소득|세대 ?구성원 전원의 월평균소득", t):
+        issues.append("세대 전원 소득 문장 못 찾음")
+    else:
+        pct = pcts[0]
+        m = re.search(rf"{pct}% ?이하 ?([\d,]+) ?(천원|원) ?이하 ?([\d,]+) ?(?:천원|원) ?이하 ?([\d,]+) ?(?:천원|원)", t)
+        if not m:
+            issues.append("소득 표 못 읽음")
+        else:
+            unit = 1000 if m.group(2) == "천원" else 1
+            bad = [f"{n}인 {v}" for n, v in zip((1, 2, 3), (m.group(1), m.group(3), m.group(4)))
+                   if abs(_num(v) * unit - URBAN_2025[n] * pct / 100) >= (1000 if unit == 1000 else 2)]
+            if bad:
+                issues.append(f"소득 표가 도시근로자 2025 × {pct}% 와 다름: " + ", ".join(bad))
+            else:
+                income = {"1": pct, "2": pct, "3+": pct}
+    # 무주택
+    hh = bool(re.search(r"무주택 ?세대 ?구성원 (?:전부|전원)에게 적용|무주택 ?세대 ?구성원으로서", t))
+    youth_self = bool(re.search(r"청년[^.]{0,30}직계존속이 주택을 소유해도 본인이 무주택자|본인 명의로 가진 주택.{0,10}아닐 경우 무주택자", t))
+    if not hh and not youth_self:
+        issues.append("무주택 범위(본인·세대) 못 읽음")
+    # 거주
+    loc = None
+    if re.search(r"서울시에 거주|서울특별시에 거주|서울시에 주소지", t):
+        loc = {"sido": "서울", "sigun": None, "name": "서울시"}
+        if re.search(r"비거주자|예비서울시민|거주하지 않거나|거주하지 않지만|거주하지 않으나", t):
+            loc["others_check"] = "서울에 살지 않아도 서울 소재 직장·학교 등 조건(입주 후 전입)으로 신청할 수 있어요"
+    # 자동차
+    cars = sorted({_num(x) for x in re.findall(r"([\d,]{4,6}) ?만 ?원 이하 ?공공임대주택 자동차", t)})
+    car = cars[0] if len(cars) == 1 else None
+    if car is None:
+        issues.append(f"자동차 기준 못 읽음 {cars}")
+    # 계층(총자산 표)
+    groups = []
+    ym = re.search(r"청 ?년 ?(\d) ?억 ?([\d,]{1,6})? ?만 ?원 이하", t)
+    om = re.search(r"(신혼부부[ ,·]*(?:고령자[ ,·]*)?(?:일반 ?)?(?:1인 ?가구)?) ?(\d) ?억 ?([\d,]{1,6})? ?만 ?원 이하", t)
+    age = re.search(r"만 ?19 ?세 이상 ?[~\-–] ?만 ?39 ?세 이하|만 ?19 ?~ ?39 ?세", t)
+    if ym:
+        a = _eok(ym.group(1), ym.group(2))
+        if a is None:
+            issues.append("청년 총자산 금액 이상(만 단위 1만 이상)")
+        g = dict(key="청년", name="청년", age_min=19 if age else None, age_max=39 if age else None, homeless="self" if youth_self else "household" if hh else None,
+                 income_pct=income, asset_manwon=a, car_manwon=car)
+        if not re.search(r"청 ?년[^.]{0,40}미혼|미혼의 청년", t):
+            g["married_ok"] = True   # 미혼 요건이 없으면 혼인 여부를 보지 않음
+        groups.append(g)
+    unknown = []
+    if om:
+        a = _eok(om.group(2), om.group(3))
+        lab = om.group(1)
+        hl = "household" if hh else None
+        if "신혼부부" in lab:
+            groups.append(dict(key="신혼부부", name="신혼부부(혼인 7년 이내·예비)", homeless=hl, income_pct=income, asset_manwon=a, car_manwon=car,
+                               wed_years=7 if re.search(r"혼인신고일로부터(?:\(재혼 포함\))? ?7년 이내|혼인 7년 이내", t) else None,
+                               prewed=bool(re.search(r"예비 ?신혼부부", t))))
+        if re.search(r"1인 ?가구", lab):
+            groups.append(dict(key="1인가구", name="1인 가구", homeless=hl, income_pct=income, asset_manwon=a, car_manwon=car))   # 가구원 1명만 (화면 rentalGroup)
+        if "고령자" in lab:
+            unknown.append("고령자")
+    if not groups:
+        return None
+    rm = re.search(r"모집 ?공고일 ?\(? ?(20\d\d) ?[년.] ?(\d{1,2}) ?[월.] ?(\d{1,2})", t)   # 나이·혼인 기간 기준일 = 공고문의 모집 공고일 (게시일과 다를 수 있음: 310037 공고일 09-04 · 게시 09-09)
+    return {"sh": True, "kind": "사회주택", "ref_date": _date(*rm.groups()) if rm else None, "income_basis": "도시근로자 월평균소득", "birth_bonus": "none", "relaxed": False, "homeless_relaxed": False,
+            "local": loc, "groups": groups, "unknown_groups": unknown, "issues": issues}
+
+
 def parse_sh_terms(text: str, kind: str) -> dict | None:
     if kind == "신혼·신생아 매입임대":
         return parse_newlywed(text)
@@ -258,4 +348,6 @@ def parse_sh_terms(text: str, kind: str) -> dict | None:
         return parse_youth(text)
     if kind == "장기전세":
         return parse_jeonse(text)
+    if kind == "사회주택":
+        return parse_social(text)
     return None

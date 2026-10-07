@@ -847,7 +847,7 @@ def main() -> None:
 
     def lh_group(N, g, p):
         p = {k: (None if v == "" else v) for k, v in p.items()}   # 빈 글자 = 모름
-        T, ref, st, na = N["terms"], N["posted"], [], False
+        T, ref, st, na = N["terms"], N["terms"].get("ref_date") or N["posted"], [], False   # 사회주택: 공고문의 모집 공고일
         b = p.get("birth") or ""
         age = None
         if b:
@@ -914,6 +914,20 @@ def main() -> None:
         elif k == "주거급여수급자":
             if p.get("lhHousingBenefit") is False: na = True
             else: st.append(yn(p.get("lhHousingBenefit")))
+        elif k == "신혼부부":                                  # SH 사회주택: 혼인 N년 이내·예비신혼부부 (한부모 없음)
+            if p.get("married") is True:
+                if not g.get("wed_years"): st.append("check")
+                elif not p.get("marriedOn"): st.append("check")
+                elif p["marriedOn"] >= f"{int(ref[:4]) - g['wed_years']}{ref[4:]}": pass
+                else: na = True
+            elif p.get("married") is False:
+                if g.get("prewed") and p.get("lhPreWed") is True: pass
+                elif g.get("prewed") and p.get("lhPreWed") is None: st.append("check")
+                else: na = True
+            else: st.append("check")
+        elif k == "1인가구":                                   # SH 사회주택: 가구원 1명
+            if p.get("hhSize") in (None, ""): st.append("check")
+            elif p["hhSize"] != 1: na = True
         elif k not in ("일반", "장기종사자", "일반·60이하", "일반·60초과"): return "check"   # 이 서비스가 판정하지 않는 계층 — 다른 칸을 보지 않고 확인
         mar = p.get("married") is True or (k == "신혼부부·한부모" and p.get("married") is False and bool(T.get("prewed_ok")) and p.get("lhPreWed") is True)
         if g.get("job_sidos"):                                 # 직업기준 주민등록 요건 (시·도)
@@ -974,6 +988,7 @@ def main() -> None:
         if N["type"] == "공공임대" and (T.get("regions") is None or T.get("account") is None): st.append("check")   # 공공임대 신청자격(거주지역·통장)을 못 읽음
         if Lc:
             if not p.get("homeSido"): st.append("check")
+            elif Lc["sido"] and p["homeSido"] != Lc["sido"] and Lc.get("others_check"): st.append("check")   # 사회주택: 서울 밖도 직장·학교 조건으로 신청 가능
             elif Lc["sido"] and p["homeSido"] != Lc["sido"]:
                 ex = re.search(r"([가-힣]+시) 거주자", Lc.get("extra") or "")   # 장기전세 '상계장암지구는 의정부시 거주자 포함' — 그 지구만 신청 가능해 확인
                 st.append("check" if ex and p["homeSido"] == "경기" and sigun_match(p.get("homeSigun") or "", ex.group(1)) is not False else "no")
@@ -1370,6 +1385,39 @@ def main() -> None:
                    ("세대에 집", {"selfOwn": True}), ("배우자 집", {"spouseOwn": True}), ("만 18세 세대원", {"birth": "2008-09-01", "married": False, "marriedOn": "", "household": "parents", "hhSize": 3}),
                    ("가구원 수 모름", {"hhSize": None})]:
         lh_add(SJ, KJ, nm, dict(sh_j, **ch), bJ)
+    # 사회주택 (기능 sh_social, 2026-10-07): 공고문에서 확실히 읽힌 기준만 — 함께주택4호(310037, 공고일 2026-09-04 · 게시 09-09) 서울 거주(비거주자도 전입 조건)·무주택(청년은 본인, 그 밖 세대)·
+    # 세대 소득 120%·총자산 청년 25,100만·신혼부부·1인가구 34,500만·자동차 4,542만·신혼 혼인 7년·예비신혼 / 망우(310672) 소득·무주택·청년 자산은 공고문 오기·불명확이라 판정 안 함,
+    # 신혼부부·1인가구 33,700만·자동차 4,563만·청년 미혼 / 쌍문생활(310575) 청년 본인 무주택·총자산 25,400만·자동차 3,803만(소득은 지난해 표라 판정 안 함)
+    SC1, SC2, SC3 = "SH-310037", "SH-310672", "SH-310575"
+    bS1 = "SH 토지지원 사회주택 함께주택4호 '6 신청자격'(모집 공고일 2026-09-04)"
+    bS2 = "SH 토지지원 사회주택 유니버설디자인하우스_망우 '02 입주신청 자격'(공고일 2026-09-28)"
+    bS3 = "SH 토지임대부 사회주택 쌍문생활 '입주 신청 자격'·Q&A(공고일 2026-09-21)"
+    KS = ["청년", "신혼부부", "1인가구"]
+    sh_s = {"married": False, "marriedOn": "", "birth": "1996-05-01", "hhSize": 1, "income": 3000, "hhIncomeYear": 3000, "homeSido": "서울", "household": "head",
+            "realEstate": 0, "carValue": 0, "cash": 3000, "lhPreWed": False}
+    for nm, ch in [("1인 120% 이하", {"income": yr(URB[1] * 1.2), "hhIncomeYear": yr(URB[1] * 1.2)}), ("1인 120% 초과", {"income": yr(URB[1] * 1.2) + 1, "hhIncomeYear": yr(URB[1] * 1.2) + 1}),
+                   ("만 39세(1986-09-05 출생, 공고일 09-04)", {"birth": "1986-09-05"}), ("만 40세(1986-09-04 출생)", {"birth": "1986-09-04"}),
+                   ("부모님 세대 3인·부모님 집 있음(청년은 본인 무주택)", {"household": "parents", "parentsOwn": True, "hhHomes": "1", "hhSize": 3, "income": 2000, "hhIncomeYear": yr(URB[3] * 1.2)}),
+                   ("부모님 세대 3인 120% 초과", {"household": "parents", "parentsOwn": False, "hhSize": 3, "income": 2000, "hhIncomeYear": yr(URB[3] * 1.2) + 1}),
+                   ("신혼 2인 혼인 2019-09-04(7년 경계)", {"married": True, "marriedOn": "2019-09-04", "hhSize": 2, "spouseIncome": 0, "spouseOwn": False, "hhIncomeYear": 5000}),
+                   ("신혼 2인 혼인 2019-09-03(7년 초과)", {"married": True, "marriedOn": "2019-09-03", "hhSize": 2, "spouseIncome": 0, "spouseOwn": False, "hhIncomeYear": 5000}),
+                   ("신혼 2인 120% 초과", {"married": True, "marriedOn": "2024-01-01", "hhSize": 2, "spouseIncome": 0, "spouseOwn": False, "hhIncomeYear": yr(URB[2] * 1.2) + 1}),
+                   ("예비신혼부부 예", {"lhPreWed": True}), ("예비신혼부부 모름", {"lhPreWed": None}),
+                   ("총자산 25,100만", {"realEstate": 25100 - 3000}), ("총자산 25,101만", {"realEstate": 25100 - 3000 + 1}),
+                   ("총자산 34,500만", {"realEstate": 34500 - 3000}), ("총자산 34,501만", {"realEstate": 34500 - 3000 + 1}),
+                   ("자동차 4,542만", {"carValue": 4542}), ("자동차 4,543만", {"carValue": 4543}),
+                   ("경기 거주(서울 직장 조건)", {"homeSido": "경기", "homeSigun": "성남시"}), ("본인 집 있음", {"selfOwn": True}),
+                   ("2인 가구 미혼(1인가구 아님)", {"hhSize": 2, "household": "head", "kidsMinor": 1, "kidsOnDeed": 1, "hhIncomeYear": 4000}), ("가구원 수 모름", {"hhSize": None})]:
+        lh_add(SC1, KS, nm, dict(sh_s, **ch), bS1)
+    for nm, ch in [("미혼 1인(소득표 오기라 확인)", {}), ("혼인 중 청년", {"married": True, "marriedOn": "2024-01-01", "hhSize": 2, "spouseOwn": False, "hhIncomeYear": 5000}),
+                   ("총자산 33,700만", {"realEstate": 33700 - 3000}), ("총자산 33,701만", {"realEstate": 33700 - 3000 + 1}),
+                   ("자동차 4,563만", {"carValue": 4563}), ("자동차 4,564만", {"carValue": 4564}), ("부산 거주(예비서울시민 가능)", {"homeSido": "부산"})]:
+        lh_add(SC2, KS, nm, dict(sh_s, **ch), bS2)
+    for nm, ch in [("기본(소득 지난해 표라 확인)", {}), ("부모님 집 있음(본인 무주택)", {"household": "parents", "parentsOwn": True, "hhHomes": "1", "hhSize": 3}),
+                   ("본인 집", {"selfOwn": True}), ("혼인 중(미혼 요건 없음)", {"married": True, "marriedOn": "2024-01-01", "hhSize": 2, "spouseOwn": False}),
+                   ("총자산 25,400만", {"realEstate": 25400 - 3000}), ("총자산 25,401만", {"realEstate": 25400 - 3000 + 1}),
+                   ("자동차 3,803만", {"carValue": 3803}), ("자동차 3,804만", {"carValue": 3804}), ("만 40세", {"birth": "1986-09-20"})]:
+        lh_add(SC3, ["청년"], nm, dict(sh_s, **ch), bS3)
 
     # 공고문을 잘못 읽은 경우 모의(tests/judge/lh_synthetic.json — 정답 공고를 복사해 기준 칸을 비우거나 '미적용'으로 바꾼 것. 실제 공고 아님)
     import copy
