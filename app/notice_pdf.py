@@ -375,6 +375,46 @@ def parse_notice(text: str) -> dict:
         if 1_000_000 <= won <= 200_000_000:
             out["ext"] = round(won / 100_000_000, 4)
 
+    # 계약금·중도금·잔금 비율 (기능 contract_from_notice, 2026-10-07 인스타 작업 중 제보 '계약금 10% 고정'): 공급금액 표 머리 '계약금(5%) 중도금(60%) 잔금(35%)'.
+    # 잔금 % 가 줄바꿈으로 떨어지거나 빠지면(2026000463 '잔금\n(35%)') 100 − 계약금 − 중도금. 표마다 비율이 다르면 읽지 않는다
+    # 맨 처음 나오는 분양대금 표 머리(앞 40자에 공급금액·분양가격, 앞 300자에 확장·옵션·선택품목·유상 없음)를 쓴다 — 발코니 확장·추가 선택품목 표('계약금(10%) 잔금(90%)')는
+    # 분양대금이 아니다(2026000468). 뒤에 대지비·건축비가 이어지는 다른 분양대금 표가 다른 비율이면(면적별로 다름 등) 읽지 않는다
+    rat, rm0, main = set(), None, None
+    for m in re.finditer(r"계약금\((\d{1,2})%\)(?:중도금\((\d{1,2})%\))?잔금(?:\((\d{1,3})%\))?", flat):
+        c, mi = int(m.group(1)), int(m.group(2) or 0)
+        b = int(m.group(3)) if m.group(3) else 100 - c - mi
+        if not (c + mi + b == 100 and 0 < c <= 30):
+            continue
+        pre, post = flat[max(0, m.start() - 40): m.start()], flat[m.end(): m.end() + 80]
+        supply = (bool(re.search(r"공급금액|분양가격?|분양금액|공급가격?", pre)) and not re.search(r"확장|옵션|선택품목|유상", re.sub(r"\(?발코니확장(?:금액|비|공사비)?별도\)?", "", flat[max(0, m.start() - 300): m.start()]))
+                  and not re.search(r"설치위치|제조사|품목", pre))   # 2026000020 가구·가전 표 '설치위치 공급금액 계약금(10%) 중도금(80%)'는 옵션, 본 표는 '공급가 계약금(5%)' · 2026000437 본 표 제목 '공급금액(발코니확장금액별도)'의 '확장'은 빼고 본다
+        if main is None and supply:
+            main, rm0 = (c, mi, b), m
+            rat.add(main)
+        elif main is not None and re.search(r"대지비|건축비", post):
+            rat.add((c, mi, b))
+    if main and len(rat) == 1:
+        c, mi, b = main
+        out["pay_ratio"] = {"contract": c / 100, "mid": mi / 100, "balance": b / 100}
+        q["pay_ratio"] = _quote_at(text, pos, rm0.start(), rm0.end(), before=10, after=20)
+        # 계약금이 '계약 시 정액 + 계약 후 N일 이내 나머지'로 나뉘는지 (2026910256 '계약시 / 30일 이내' 10,000,000 + 66,350,000):
+        # 표의 각 줄에서 공급금액 합계 T 다음 두 금액 a, b 가 a + b = T × 계약금% 이고 a < T × 계약금% 이면 나뉜 것. 모든 줄의 a 가 같을 때만 정액으로 본다
+        N3 = r"(\d{1,3}(?:,\d{3}){2,})"
+        fixed, whole = [], 0
+        for r in re.finditer(r"(?<![\d,])(?=" + N3 + r" +" + N3 + r" +" + N3 + r")", t):   # 겹치게 찾는다 (대지비·건축비·합계 다음 줄 금액까지)
+            T_, a_, b_ = (int(x.replace(",", "")) for x in r.groups())
+            want = T_ * c / 100
+            if T_ < 50_000_000:
+                continue
+            if abs(a_ - want) <= 10:
+                whole += 1
+            elif 0 < a_ < want * 0.9 and abs(a_ + b_ - want) <= 10:
+                fixed.append(a_)
+        days = re.search(r"(\d{1,3})(일|개월)이?내", flat[rm0.end(): rm0.end() + 400])   # '30일 이내' · '1개월 이내' · '1개월내' (2026000431·453)
+        # 겹쳐 찾으면 건축비·부가세(10%) 짝이 '나뉘지 않은 계약금 10%'처럼 보일 수 있어(2026000403) 나뉜 줄이 2배 이상 많을 때만 나뉜 것으로 본다
+        if fixed and len(set(fixed)) == 1 and len(fixed) >= 2 * whole:
+            out["contract_split"] = {"first_won": fixed[0], "rest_within": days.group(1) + days.group(2) if days else None, "rows": len(fixed)}
+
     # 같은 값이 공고문 두 곳(1쪽 '단지 주요정보' 표와 본문 문장)에 있으면 서로 같은지 — 다르면 어느 쪽이 맞는지 사람이 봐야 한다
     # (2026-10-02 사용자 '공고문에서 은근히 잘못 가져오는 경우'. 원문 101건에서는 다른 경우 0 — 앞으로 생기면 [공고문·불일치]·데이터 확인 필요)
     conf, quotes = [], {}

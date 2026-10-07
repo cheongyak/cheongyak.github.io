@@ -49,6 +49,8 @@ class Listing(BaseModel):
 
     price: float                             # 분양가 (억)
     ext: float = 0.0                         # 발코니 확장 등 필수 추가비 (억)
+    pay_ratio: Optional[dict] = None         # 공고문 분양대금 비율 {contract, mid, balance} (기능 contract_from_notice, 2026-10-08)
+    contract_split: Optional[dict] = None    # 계약금이 계약 시 정액 + N일(개월) 이내 나머지로 나뉨 {first_won, rest_within, rows}
     contract_rate: float = 0.10
     mid_rate: float = 0.0                    # 중도금 비율 (일반분양 보통 0.6, 준공 후 재공급은 0)
 

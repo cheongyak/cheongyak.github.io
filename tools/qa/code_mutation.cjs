@@ -78,6 +78,8 @@ const M = [   // [이름, 찾을 글, 바꿀 글]
   ['SH: 소득에 출산가구 가산 적용', "else if (kidMaybe && (!T.birth_bonus || (T.income_birth && !dual)) && m <=", "else if (kidMaybe && m <="],
   ['SH 장기전세: 출산가구 소득 가산 무시', "(!T.birth_bonus || (T.income_birth && !dual))", "!T.birth_bonus"],
   ['SH 장기전세: 의정부시 거주 예외 무시', "else if (L0.sido && p.homeSido !== L0.sido && L0.extra", "else if (false && L0.extra"],
+  ['계약금: 공고문 비율 무시', "contractRate:on('contract_from_notice') && x.pay_ratio ? x.pay_ratio.contract :", "contractRate:false ? 0 :"],
+  ['계약금: 같은 금액을 부족으로', "contractOk: cashNow >= contractAmt - 1e-9", "contractOk: cashNow > contractAmt"],
   ['SH 사회주택: 서울 밖 신청 가능 문장 무시', "else if (L0.sido && p.homeSido !== L0.sido && L0.others_check)", "else if (false && L0.others_check)"],
   ['SH 사회주택: 1인 가구 가구원 수 무시', "else if (Number(p.hhSize) !== 1) { na = true;", "else if (false) { na = true;"],
   ['SH 사회주택: 공고문 모집 공고일 대신 게시일', "const ref = (N.terms && N.terms.ref_date) || N.posted", "const ref = N.posted"],
@@ -119,6 +121,8 @@ const M = [   // [이름, 찾을 글, 바꿀 글]
           else if (c.fn === 'item') { const it = c.item === '거주지' ? residenceItem(L, p) : eligibility(L, p).items.find(i => i.k === c.item); got = { s: it ? it.s : 'none' }; }
           else if (c.fn === 'home') { const it = eligibility(L, p).items.find(i => i.k === '무주택 세대') || {}; got = { s: it.s }; }
           else if (c.fn === 'residence') { const q = residenceItem(L, p); got = { s: q.s, v: q.v.startsWith(c.expect.v) ? c.expect.v : q.v }; }
+          else if (c.fn === 'contract') { const F0 = CONFIG.features; CONFIG.features = Object.assign({}, F0, { contract_from_notice: c.feature });
+            try { const L2 = fromApi(c.raw), f = funding(L2, p, planOpt(L2)); got = { amt: Math.round(f.contractAmt * 10000), ok: f.contractOk, mid: L2.midRate }; } finally { CONFIG.features = F0; } }
           else if (c.fn === 'lhrent') { const q = rentalJudge(lhById[c.notice], p); got = {}; for (const k of Object.keys(c.expect)) got[k] = (q.groups.find(g => g.key === k) || {}).s; }
         } catch (e) { got = { error: e.message }; }
         if (JSON.stringify(got) !== JSON.stringify(c.expect)) bad++; }

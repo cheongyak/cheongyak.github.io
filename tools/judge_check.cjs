@@ -49,6 +49,9 @@ const results = await page.evaluate(({ cases, listings, lhNotices }) => {
       else if (c.fn === 'item') { const it = c.item === '거주지' ? residenceItem(L, p) : eligibility(L, p).items.find(i => i.k === c.item); got = { s: it ? it.s : 'none' }; }
       else if (c.fn === 'home') { const it = eligibility(L, p).items.find(i => i.k === '무주택 세대') || {}; got = { s: it.s }; }
       else if (c.fn === 'lhrent') { const r = rentalJudge(lhById[c.notice], p); got = {}; for (const k of Object.keys(c.expect)) got[k] = (r.groups.find(g => g.key === k) || {}).s; }
+      else if (c.fn === 'contract') {   /* 기능 contract_from_notice: 공고문 분양대금 비율로 계약금·준비 여부 (사례에 공고 원자료와 스위치 값을 함께 둔다) */
+        const F0 = CONFIG.features; CONFIG.features = Object.assign({}, F0, { contract_from_notice: c.feature });
+        try { const L2 = fromApi(c.raw), f = funding(L2, p, planOpt(L2)); got = { amt: Math.round(f.contractAmt * 10000), ok: f.contractOk, mid: L2.midRate }; } finally { CONFIG.features = F0; } }
       else if (c.fn === 'residence') { const r = residenceItem(L, p); got = { s: r.s, v: r.v.startsWith(c.expect.v) ? c.expect.v : r.v }; }
     } catch (e) { got = { error: e.message }; }
     out.push({ id: c.id, ok: JSON.stringify(got) === JSON.stringify(c.expect), got, expect: c.expect, basis: c.basis });

@@ -1284,6 +1284,43 @@ def main() -> None:
     for nm, ch in [("경남 창원시 마산회원구", {"homeSido": "경남", "homeSigun": "창원시 마산회원구"}), ("경남 마산회원구(구만)", {"homeSido": "경남", "homeSigun": "마산회원구"}),
                    ("경남 '창원'", {"homeSido": "경남", "homeSigun": "창원"}), ("경남 '경남 창원시'", {"homeSido": "경남", "homeSigun": "경남 창원시"}), ("경남 '김해'", {"homeSido": "경남", "homeSigun": "김해"})]:
         lh_add(E2, ["일반"], nm, ch, bE2 + " · 사는 시·군 입력 표기(구만 쓰면 판단 불가)")
+    # ---------- 17-1) 계약금 비율 (기능 contract_from_notice, 2026-10-08 제보 '계약금 10% 고정') ----------
+    # 공고문 공급금액 표 '계약금(5%) 중도금(60%) 잔금(35%)' (정답 tests/golden/notices.json pay_ratio). 계약금 = (분양가 + 확장비) × 계약금 비율, 준비 여부 = 현금 ≥ 계약금.
+    # 공고 원자료는 docs/listings.json 의 그 주택형(2026-10-08 수집)에 공고문 비율만 붙인 것 — 스위치가 꺼지면 예전처럼 10%.
+    from decimal import Decimal, ROUND_HALF_UP
+    CF = ROOT / "tests/judge/contract_listings.json"   # 공고 원자료 고정본 (처음 한 번 docs/listings.json 에서 떠 둠 — 공고가 마감돼 빠져도 사례가 그대로)
+    if not CF.exists():
+        src = {x["id"].strip(): x for x in json.loads((ROOT / "docs/listings.json").read_text(encoding="utf-8"))}
+        keep = [v for k, v in src.items() if k.startswith(("2026910256-084.9199A", "2026000463-107.9722A", "2026000468-074.9845", "2026000386-059.9671A", "2026000409-059.9200A"))]
+        CF.write_text(json.dumps(keep, ensure_ascii=False, indent=1) + "\n", encoding="utf-8")
+    LST = {x["id"].strip(): x for x in json.loads(CF.read_text(encoding="utf-8"))}
+    GN = json.loads((ROOT / "tests/golden/notices.json").read_text(encoding="utf-8"))
+    def man(eok_): return int((Decimal(str(eok_)) * Decimal(10000)).quantize(Decimal(1), ROUND_HALF_UP))   # 억 → 만원 (반올림)
+    ci = 0
+    for lid, nid in [("2026910256-084.9199A", "2026910256"), ("2026000463-107.9722A", "2026000463"), ("2026000468-074.9845", "2026000468"), ("2026000386-059.9671A", "2026000386")]:
+        raw = LST.get(lid) or next((v for k, v in LST.items() if k.startswith(nid)), None)
+        if raw is None:
+            continue
+        pr = GN[nid]["fields"]["pay_ratio"]
+        raw = {**{k: v for k, v in raw.items() if k not in ("pay_ratio", "contract_split")}, "pay_ratio": pr, "contract_split": GN[nid]["fields"].get("contract_split")}
+        cbase = Decimal(str(raw["price"])) + Decimal(str(raw.get("ext") or 0))
+        a_on = man(cbase * Decimal(str(pr["contract"])))
+        a_off = man(cbase * Decimal(str(raw.get("contract_rate") or 0.1)))
+        cb = f"{GN[nid]['verified_from']} — 계약금 {int(pr['contract'] * 100)}% · 중도금 {int(pr['mid'] * 100)}%"
+        for nm, feat, cash, want_amt, mid in [("공고문 비율 · 현금 = 계약금", True, a_on, a_on, pr["mid"]), ("공고문 비율 · 현금 1만원 모자람", True, a_on - 1, a_on, pr["mid"]),
+                                         ("스위치 꺼짐(예전 10%) · 같은 현금", False, a_on, a_off, raw.get("mid_rate") or 0)]:
+            ci += 1
+            add(id=f"contract-{ci:02d}", fn="contract", listing=None, raw=raw, feature=feat, profile={"cash": cash, "liquid": 0, "deposit": 0, "income": 5000, "_set": ["cash", "liquid", "deposit", "income"]},
+                expect={"amt": want_amt, "ok": cash >= want_amt, "mid": mid}, basis=f"{cb} — {nm}")
+    # 공고문에서 비율을 못 읽은 공고: 스위치를 켜도 수집값(10%) 그대로
+    lh = next((v for k, v in LST.items() if k.startswith("2026000409")), None)
+    if lh:
+        raw = {k: v for k, v in lh.items() if k not in ("pay_ratio", "contract_split")}
+        want_amt = man((Decimal(str(raw["price"])) + Decimal(str(raw.get("ext") or 0))) * Decimal(str(raw.get("contract_rate") or 0.1)))
+        ci += 1
+        add(id=f"contract-{ci:02d}", fn="contract", listing=None, raw=raw, feature=True, profile={"cash": want_amt, "liquid": 0, "deposit": 0, "income": 5000, "_set": ["cash", "liquid", "deposit", "income"]},
+            expect={"amt": want_amt, "ok": True, "mid": raw.get("mid_rate") or 0}, basis="의정부우정 A2 2026000409 — LH 표('계약금10%' 괄호 없음)는 읽지 않음 → 수집값 10% 그대로")
+
     # ---------- 18) SH 임대 자격 (기능 sh_judge, 2026-10-06 SH 2단계) ----------
     # 공고 조건은 tests/judge/sh_notices.json — 정답 데이터(tests/golden/sh_rental.json terms, 공고문 원문을 직접 읽은 값)에서 만든 것(파서 결과 아님).
     # 같은 rentalJudge 규칙 + SH 공고문 규칙: 신혼·신생아 매입임대 Ⅰ(310650) 소득 70%(배우자 소득 있으면 90%)·2인 +10%p, 총자산 34,500만원(출산 1명 37,900·2명 41,300),
