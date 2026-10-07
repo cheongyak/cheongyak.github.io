@@ -42,12 +42,19 @@ def _num(v) -> Optional[float]:
 
 
 def parse_items(xml_text: str) -> list[dict]:
+    return parse_page(xml_text)[0]
+
+
+def parse_page(xml_text: str) -> tuple[list[dict], int]:
+    """(해제 거래를 뺀 거래 목록, 응답에 들어 있던 원래 건수). 다음 쪽이 있는지는 원래 건수로 판단한다
+    (2026-10-07: 해제 거래를 뺀 건수로 판단해 1,000건이 꽉 찬 쪽 다음을 안 받던 버그 — 남양주 매매 몇~십여 건 누락, evidence/qa/market-check.json)."""
     root = ET.fromstring(xml_text)
     code = root.findtext(".//resultCode")
     if code not in (None, "00", "000"):
         raise RtmsError(f"실거래가 API 오류 {code}: {root.findtext('.//resultMsg')}")
-    rows = []
+    rows, n = [], 0
     for it in root.iter("item"):
+        n += 1
         r = {c.tag: (c.text or "").strip() for c in it}
         if r.get("cdealType", "").upper() == "O":   # 해제된 거래 제외
             continue
@@ -65,7 +72,7 @@ def parse_items(xml_text: str) -> list[dict]:
             "kind": r.get("ownershipGbn", ""),              # 분양권 / 입주권
             "deal_type": r.get("dealingGbn", ""),           # 중개거래 / 직거래
         })
-    return rows
+    return rows, n
 
 
 class RtmsClient:
@@ -118,9 +125,9 @@ class RtmsClient:
         self.stats["requests"] += 1
         rows: list[dict] = []
         for page in range(1, 20):
-            batch = self._get_page(kind, lawd, ym, page)
+            batch, n_raw = self._get_page(kind, lawd, ym, page)
             rows.extend(batch)
-            if len(batch) < 1000:
+            if n_raw < 1000:   # 해제 거래를 빼기 전 건수로 (빼고 세면 꽉 찬 쪽 다음을 놓친다)
                 break
         self._cache[key] = rows
         return rows
@@ -139,7 +146,7 @@ class RtmsClient:
                     raise RtmsError(f"{kind} API 응답 {r.status_code}")
                 r.raise_for_status()
                 try:
-                    return parse_items(r.text)
+                    return parse_page(r.text)
                 except ET.ParseError:
                     raise RtmsError(f"{kind} API 가 XML 이 아닌 응답을 보냄: {r.text[:80]!r}")
             except RtmsError as e:

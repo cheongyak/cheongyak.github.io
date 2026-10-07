@@ -4,6 +4,16 @@
 2026-09-29 12:55 이전 항목은 규칙을 만들기 전 작업을 커밋 기록으로 정리한 것이라 백업 브랜치가 없어요.
 그 시점으로 되돌릴 때는 해당 커밋 번호로 `git revert` 를 써요.
 
+## 2026-10-07 13:34 · 실거래가 쪽 넘기기 버그 고침 — 시세 원자료 대조 불일치 4건 (v1.60.2)
+- 요청: (사진) 베타 상자 '최근 자동 검증에서 공고문과 다른 값이 발견돼 확인 중이에요' → "다른값 발견되어 확인중인거부터 해결해줘"
+- 원인: verify-status qa.market_fails 4 (13:24 판정 검증). evidence/qa/market-check.json — 남양주(41360) 2026000431 4개 주택형의 시세·근거 거래 수가 원자료와 다름(예: 84㎡ 666건 vs 원자료 678건, 9.45억 vs 9.46억). app/sources/rtms.py 가 한 쪽(1,000건)에서 해제 거래를 뺀 뒤 1,000건 미만이면 마지막 쪽으로 보고 다음 쪽을 받지 않음 → 한 달 1,000건 넘는 지역에서 다음 쪽 거래 누락. 독립 대조 도구는 해제 포함 건수로 쪽을 넘겨 차이가 드러남 (이번 작업 A 와 무관한 예전 버그)
+- 변경: parse_page 가 (거래 목록, 응답 원래 건수)를 돌려주고 fetch 는 원래 건수로 다음 쪽 판단. parse_items 는 그대로
+- 파일: app/sources/rtms.py, tests/test_rtms_paging.py, docs/changelog.json, VERSIONS.md
+- 확인: 새 시험 test_rtms_paging(고치기 전 코드에서 실패 재현 → 고친 뒤 통과), pytest 213 통과. 올린 뒤 수집 → 판정 검증 market_fails 0·verify-status ok 확인
+- 백업: backup/20261007-1334-rtmspage
+- 기능: 없음(수정)
+- 버전: v1.60.2
+
 ## 2026-10-07 13:33 · '추첨으로 노릴 곳' 되돌림 (v1.60.1)
 - 요청: "일단 미안한 이거 추첨으로 노릴곳 이거는 다시원복해줘. 엄청복잡해보여"
 - 변경: 1e16c519(draw_path)·a1aee405(FEATURES 커밋 번호)를 git revert — docs/index.html·docs/config.json·tools/engine_lock.json·tools/qa/cross_rule.cjs 가 v1.59.0(624b8c1d)과 같아짐(차이 0 확인). 기록(WORK·changelog·VERSIONS·FEATURES)은 남김. cross_rule 의 FUND-007 번호(기존 FUND-006 과 겹치지 않게)는 다시 넣음
