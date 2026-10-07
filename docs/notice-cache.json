@@ -7,6 +7,11 @@
     "households": 1149,
     "quote": "및 내역 : 아파트 지하 4층 ~ 지상 26층, 17개동, 총 1,149세대 중 일반분양 143세대 및 부대복리시설 ▌ 특별공급 77세대 [ 기관추천 : 14세대, 다자녀가구 : 14세대, 신혼부부 : 21세대,"
    },
+   "contract_split": {
+    "first_won": 50000000,
+    "rest_within": "1개월",
+    "rows": 39
+   },
    "facts": {
     "asset_thousand": {
      "부동산": [],
@@ -141,7 +146,7 @@
   },
   "name": "더샵 분당하이스트",
   "notice_pdf": "https://static.applyhome.co.kr/ai/aia/getAtchmnfl.do?houseManageNo=2026000103&pblancNo=2026000103&atchmnflSeqNo=1797255&atchmnflSn=9",
-  "v": 27
+  "v": 28
  },
  "2026000314": {
   "found": {
@@ -154,7 +159,7 @@
    "contract_split": {
     "first_won": 10000000,
     "rest_within": "30일",
-    "rows": 30
+    "rows": 20
    },
    "facts": {
     "asset_thousand": {
@@ -301,7 +306,7 @@
   },
   "name": "중동역 다채로움 더원",
   "notice_pdf": "https://static.applyhome.co.kr/ai/aia/getAtchmnfl.do?houseManageNo=2026000314&pblancNo=2026000314&atchmnflSeqNo=1870113&atchmnflSn=10",
-  "v": 27
+  "v": 28
  },
  "2026000386": {
   "found": {
@@ -314,7 +319,7 @@
    "contract_split": {
     "first_won": 10000000,
     "rest_within": "30일",
-    "rows": 33
+    "rows": 31
    },
    "facts": {
     "asset_thousand": {
@@ -453,8 +458,8 @@
    }
   },
   "name": "용인 양지 서희스타힐스 하이뷰 (조합원 취소분)",
-  "notice_pdf": "https://www.applyhome.co.kr/ai/aia/getAtchmnfl.do?houseManageNo=2026000386&pblancNo=2026000386&atchmnflSeqNo=1961129&atchmnflSn=6",
-  "v": 27
+  "notice_pdf": "https://static.applyhome.co.kr/ai/aia/getAtchmnfl.do?houseManageNo=2026000386&pblancNo=2026000386&atchmnflSeqNo=1961129&atchmnflSn=6",
+  "v": 28
  },
  "2026000409": {
   "found": {
@@ -685,7 +690,7 @@
   },
   "name": "의정부우정 A2블록 공공분양주택(본청약)",
   "notice_pdf": "https://apply.lh.or.kr/lhapply/lhFile.do?fileid=68307467",
-  "v": 27
+  "v": 28
  },
  "2026000414": {
   "found": {
@@ -849,6 +854,11 @@
     ]
    },
    "need_head": false,
+   "pay_ratio": {
+    "balance": 0.3,
+    "contract": 0.1,
+    "mid": 0.6
+   },
    "price_cap": true,
    "pub_limits": {
     "area_max": 60,
@@ -867,6 +877,7 @@
     "account_months": "…1순위 입주자저축에 가입하여 1년(12개월)이 경과된 분으로서 매월 약정납입일에 월 납입금을 12회 이상 납입한 분 2순위…",
     "deposit_count": "…1순위 입주자저축에 가입하여 1년(12개월)이 경과된 분으로서 매월 약정납입일에 월 납입금을 12회 이상 납입한 분 2순위…",
     "need_head": "…「주택공급에 관한 규칙」제4조제3항에 따른 지역을 말함)에 거주하는 무주택세대구성원으로서, 「주택공급에 관한 규칙」 제42조에 따라 지역균형발전 시책…",
+    "pay_ratio": "…층별 구분 주택가격 계약금 10% 1차 중도금 10% 2차 중도금 10% 3차 중도금 10% 4차 중도금 10% 5차 중도금 10% 6차 중도금 10% 잔금 융자금 (주택도시기금) 계약시…",
     "price_cap": "…85㎡이하 주택)이며, 분양가상한제 적용주택으로 「주택공급에 관한 규칙」 제54조에 따라 재당첨제한은 10년…",
     "resale": "…관한 규칙」제54조 전매제한 당첨자 발표일 3년 「주택법」제64조,「주택법 시행령」제73조 제1항 별표3…",
     "residence_duty": "…제1항 별표3 거주의무 - 없음 「주택법」제57조의2,「주택법 시행령」 제60조의2 구 분 사전청약 당첨자 특별공급…",
@@ -916,7 +927,7 @@
   },
   "name": "인천계양지구 A6블록 공공분양주택(본청약)",
   "notice_pdf": "https://apply.lh.or.kr/lhapply/lhFile.do?fileid=68595376",
-  "v": 27
+  "v": 28
  },
  "2026000416": {
   "found": {
@@ -1085,6 +1096,11 @@
     ]
    },
    "need_head": false,
+   "pay_ratio": {
+    "balance": 0.3,
+    "contract": 0.1,
+    "mid": 0.6
+   },
    "price_cap": true,
    "pub_limits": {
     "area_max": 60,
@@ -1103,6 +1119,7 @@
     "account_months": "…1순위 입주자저축에 가입하여 1년(12개월)이 경과된 분으로서 매월 약정납입일에 월 납입금을 12회 이상 납입한 분. 2순위…",
     "deposit_count": "…1순위 입주자저축에 가입하여 1년(12개월)이 경과된 분으로서 매월 약정납입일에 월 납입금을 12회 이상 납입한 분. 2순위…",
     "need_head": "…「주택공급에 관한 규칙」 제4조제3항에 따른 지역을 말함)에 거주하는 무주택세대구성원으로서, 「주택 공급에 관한 규칙」 제42조에 따라 지역균형발전 시책…",
+    "pay_ratio": "…타입 층별 구분 주택가격 계약금 10% 1차 중도금 15% 2차 중도금 15% 3차 중도금 15% 4차 중도금 15% 잔금 융자금 (주택도시기금) 계약시…",
     "price_cap": "…85㎡이하 주택)이며, 분양가상한제 적용주택으로 「주택공급에 관한 규칙」제54조에 따라 재당첨제한은 10년…",
     "resale": "…관한 규칙」제54조 전매제한 당첨자 발표일 3년 「주택법」제64조,「주택법 시행령」제73조 제1항 별표3 ■…",
     "rewin_years": "…관한 규칙」제54조에 따라 재당첨제한은 10년 적용되고, 「주택법 시행령」 제73조에 의해 전매제한이 3년…"
@@ -1152,7 +1169,7 @@
   },
   "name": "양주회천지구 A-26블록 공공분양주택",
   "notice_pdf": "https://apply.lh.or.kr/lhapply/lhFile.do?fileid=68440094",
-  "v": 27
+  "v": 28
  },
  "2026000424": {
   "found": {
@@ -1291,7 +1308,7 @@
   },
   "name": "쌍용 더 플래티넘 센텀",
   "notice_pdf": "https://static.applyhome.co.kr/ai/aia/getAtchmnfl.do?houseManageNo=2026000424&pblancNo=2026000424&atchmnflSeqNo=1970054&atchmnflSn=6",
-  "v": 27
+  "v": 28
  },
  "2026000431": {
   "found": {
@@ -1463,7 +1480,7 @@
   },
   "name": "오남역 서희스타힐스 여의재 3단지 (조합원 취소분)",
   "notice_pdf": "https://static.applyhome.co.kr/ai/aia/getAtchmnfl.do?houseManageNo=2026000431&pblancNo=2026000431&atchmnflSeqNo=1959146&atchmnflSn=5",
-  "v": 27
+  "v": 28
  },
  "2026000436": {
   "found": {
@@ -1485,10 +1502,16 @@
     }
    },
    "need_head": false,
+   "pay_ratio": {
+    "balance": 0.3,
+    "contract": 0.1,
+    "mid": 0.6
+   },
    "price_cap": false,
    "quotes": {
     "account_months": "…입주자저축에 가입하여 가입기간이 개월6 이 경과하고 지역별 면적별 · 예치금액 이상 납입한 분 순위 입주자저축에…",
     "need_head": "…현재 울산광역시에 거주하거나 부산광역시 경상남도에 거주하는 무주택세대구성원, ■ 생애최초로 주택을 구입하는 분 모든 세대구성원이 과거 주택을…",
+    "pay_ratio": "…해당 세대수 공급금액 계약금(10%) 중도금 이자후불제 대출( 60% ) 잔금(30%) 대지비 건축비 계 계약시 회1 (10%) 회2…",
     "price_cap": "…민간택지에서 공급하는 분양가상한제 미적용 민영주택으로 당첨자로 선정되더라도 주택공급에 관한 규칙, 「 」 제…",
     "resale": "…. 구분 특별공급 일반공급 전매제한기간 당첨자발표일로부터 개월6 3 공급대상 및 공급금액 - 6 - ■ 주택공급에 관한 규칙 제 조의 규정에…",
     "residence_duty": "(1쪽 단지 주요정보 표) 전매제한 거주의무기간 분양가상한제 택지유형 없음 개월 6 없음 미적용 민간택지",
@@ -1548,7 +1571,7 @@
   },
   "name": "더샵 시에르네(조합원취소분)(2회차)",
   "notice_pdf": "https://static.applyhome.co.kr/ai/aia/getAtchmnfl.do?houseManageNo=2026000436&pblancNo=2026000436&atchmnflSeqNo=1966021&atchmnflSn=9",
-  "v": 27
+  "v": 28
  },
  "2026000437": {
   "found": {
@@ -1756,7 +1779,7 @@
   },
   "name": "힐스테이트 고덕엘리스트 A12BL 공공분양주택",
   "notice_pdf": "https://static.applyhome.co.kr/ai/aia/getAtchmnfl.do?houseManageNo=2026000437&pblancNo=2026000437&atchmnflSeqNo=1971201&atchmnflSn=6",
-  "v": 27
+  "v": 28
  },
  "2026000438": {
   "found": {
@@ -1962,8 +1985,8 @@
    "rewin_years": 10
   },
   "name": "힐스테이트 고덕엘리스트 A65BL 공공분양주택",
-  "notice_pdf": "https://www.applyhome.co.kr/ai/aia/getAtchmnfl.do?houseManageNo=2026000438&pblancNo=2026000438&atchmnflSeqNo=1973016&atchmnflSn=5",
-  "v": 27
+  "notice_pdf": "https://static.applyhome.co.kr/ai/aia/getAtchmnfl.do?houseManageNo=2026000438&pblancNo=2026000438&atchmnflSeqNo=1973016&atchmnflSn=5",
+  "v": 28
  },
  "2026000441": {
   "found": {
@@ -1976,7 +1999,7 @@
    "contract_split": {
     "first_won": 5000000,
     "rest_within": "30일",
-    "rows": 51
+    "rows": 26
    },
    "facts": {
     "asset_thousand": {
@@ -2109,7 +2132,7 @@
   },
   "name": "문수로 비스타 더파크",
   "notice_pdf": "https://static.applyhome.co.kr/ai/aia/getAtchmnfl.do?houseManageNo=2026000441&pblancNo=2026000441&atchmnflSeqNo=1973044&atchmnflSn=2",
-  "v": 27
+  "v": 28
  },
  "2026000443": {
   "found": {
@@ -2122,7 +2145,7 @@
    "contract_split": {
     "first_won": 5000000,
     "rest_within": "30일",
-    "rows": 25
+    "rows": 18
    },
    "facts": {
     "asset_thousand": {
@@ -2230,7 +2253,7 @@
   },
   "name": "에코델타시티 금강펜테리움 에코리버",
   "notice_pdf": "https://static.applyhome.co.kr/ai/aia/getAtchmnfl.do?houseManageNo=2026000443&pblancNo=2026000443&atchmnflSeqNo=1980180&atchmnflSn=3",
-  "v": 27
+  "v": 28
  },
  "2026000444": {
   "found": {
@@ -2299,8 +2322,8 @@
    }
   },
   "name": "제주시 이도이동 아이린8차 아파트",
-  "notice_pdf": "https://www.applyhome.co.kr/ai/aia/getAtchmnfl.do?houseManageNo=2026000444&pblancNo=2026000444&atchmnflSeqNo=1988268&atchmnflSn=1",
-  "v": 27
+  "notice_pdf": "https://static.applyhome.co.kr/ai/aia/getAtchmnfl.do?houseManageNo=2026000444&pblancNo=2026000444&atchmnflSeqNo=1988268&atchmnflSn=1",
+  "v": 28
  },
  "2026000445": {
   "found": {
@@ -2449,7 +2472,7 @@
   },
   "name": "삼천 하늘채 라비엘",
   "notice_pdf": "https://static.applyhome.co.kr/ai/aia/getAtchmnfl.do?houseManageNo=2026000445&pblancNo=2026000445&atchmnflSeqNo=1978222&atchmnflSn=1",
-  "v": 27
+  "v": 28
  },
  "2026000446": {
   "found": {
@@ -2462,7 +2485,7 @@
    "contract_split": {
     "first_won": 10000000,
     "rest_within": "30일",
-    "rows": 49
+    "rows": 25
    },
    "ext": 0.0125,
    "facts": {
@@ -2604,7 +2627,7 @@
   },
   "name": "진주 판문지구 레이크써밋 웰가",
   "notice_pdf": "https://static.applyhome.co.kr/ai/aia/getAtchmnfl.do?houseManageNo=2026000446&pblancNo=2026000446&atchmnflSeqNo=1971223&atchmnflSn=4",
-  "v": 27
+  "v": 28
  },
  "2026000448": {
   "found": {
@@ -2748,7 +2771,7 @@
   },
   "name": "숭의역 노르웨이숲 더 스카이",
   "notice_pdf": "https://static.applyhome.co.kr/ai/aia/getAtchmnfl.do?houseManageNo=2026000448&pblancNo=2026000448&atchmnflSeqNo=1966343&atchmnflSn=4",
-  "v": 27
+  "v": 28
  },
  "2026000449": {
   "found": {
@@ -2761,7 +2784,7 @@
    "contract_split": {
     "first_won": 5000000,
     "rest_within": "30일",
-    "rows": 98
+    "rows": 26
    },
    "facts": {
     "asset_thousand": {
@@ -2924,7 +2947,7 @@
   },
   "name": "화서역 호수공원 아너스빌",
   "notice_pdf": "https://static.applyhome.co.kr/ai/aia/getAtchmnfl.do?houseManageNo=2026000449&pblancNo=2026000449&atchmnflSeqNo=1971234&atchmnflSn=2",
-  "v": 27
+  "v": 28
  },
  "2026000453": {
   "found": {
@@ -2937,7 +2960,7 @@
    "contract_split": {
     "first_won": 30000000,
     "rest_within": "1개월",
-    "rows": 66
+    "rows": 58
    },
    "facts": {
     "asset_thousand": {
@@ -3092,7 +3115,7 @@
   },
   "name": "광명 시티프라디움 에듀하임",
   "notice_pdf": "https://static.applyhome.co.kr/ai/aia/getAtchmnfl.do?houseManageNo=2026000453&pblancNo=2026000453&atchmnflSeqNo=1971127&atchmnflSn=7",
-  "v": 27
+  "v": 28
  },
  "2026000454": {
   "found": {
@@ -3200,7 +3223,7 @@
   },
   "name": "천안 용곡 두산위브(조합원 취소분)",
   "notice_pdf": "https://static.applyhome.co.kr/ai/aia/getAtchmnfl.do?houseManageNo=2026000454&pblancNo=2026000454&atchmnflSeqNo=1966131&atchmnflSn=7",
-  "v": 27
+  "v": 28
  },
  "2026000463": {
   "found": {
@@ -3355,7 +3378,7 @@
   },
   "name": "향남역 그로브 스위첸",
   "notice_pdf": "https://static.applyhome.co.kr/ai/aia/getAtchmnfl.do?houseManageNo=2026000463&pblancNo=2026000463&atchmnflSeqNo=1978209&atchmnflSn=6",
-  "v": 27
+  "v": 28
  },
  "2026000468": {
   "found": {
@@ -3368,7 +3391,7 @@
    "contract_split": {
     "first_won": 5000000,
     "rest_within": "30일",
-    "rows": 82
+    "rows": 26
    },
    "facts": {
     "asset_thousand": {
@@ -3513,7 +3536,7 @@
   },
   "name": "쌍용 더 플래티넘 한강",
   "notice_pdf": "https://static.applyhome.co.kr/ai/aia/getAtchmnfl.do?houseManageNo=2026000468&pblancNo=2026000468&atchmnflSeqNo=1990183&atchmnflSn=2",
-  "v": 27
+  "v": 28
  },
  "2026000494": {
   "found": {
@@ -3526,7 +3549,7 @@
    "contract_split": {
     "first_won": 10000000,
     "rest_within": "30일",
-    "rows": 35
+    "rows": 25
    },
    "facts": {
     "asset_thousand": {
@@ -3649,8 +3672,8 @@
    }
   },
   "name": "더샵 동인센트리체",
-  "notice_pdf": "https://www.applyhome.co.kr/ai/aia/getAtchmnfl.do?houseManageNo=2026000494&pblancNo=2026000494&atchmnflSeqNo=1988347&atchmnflSn=2",
-  "v": 27
+  "notice_pdf": "https://static.applyhome.co.kr/ai/aia/getAtchmnfl.do?houseManageNo=2026000494&pblancNo=2026000494&atchmnflSeqNo=1988347&atchmnflSn=2",
+  "v": 28
  },
  "2026000498": {
   "found": {
@@ -3732,7 +3755,7 @@
   },
   "name": "천안 아이파크 시티 2단지(2회차)",
   "notice_pdf": "https://static.applyhome.co.kr/ai/aia/getAtchmnfl.do?houseManageNo=2026000498&pblancNo=2026000498&atchmnflSeqNo=1991055&atchmnflSn=1",
-  "v": 27
+  "v": 28
  },
  "2026820010": {
   "found": {
@@ -3862,6 +3885,11 @@
      "055.9000A": true
     }
    },
+   "pay_ratio": {
+    "balance": 0.7,
+    "contract": 0.1,
+    "mid": 0.2
+   },
    "price_cap": true,
    "pub_limits": {
     "cap": [
@@ -3882,6 +3910,7 @@
    "quotes": {
     "account_months": "…입주자저축에 가입하여 6개월이 경과되고, 매월 약정납입일에 월납입금을 6회 이상 납입한 분 ※ 공고일 이후…",
     "deposit_count": "…입주자저축에 가입하여 6개월이 경과되고, 매월 약정납입일에 월납입금을 6회 이상 납입한 분 ※ 공고일 이후…",
+    "pay_ratio": "…층별 구분 주택가격 계약금 10% 1차 중도금 10% 2차 중도금 10% 잔금 융자금 (주택도시기금) 계약시…",
     "price_cap": "…85㎡ 이하 주택)이며, 분양가상한제 적용주택으로 「주택공급에 관한 규칙」제 54조에 따라 재당첨제한은 10년…",
     "resale": "…관한 규칙」제54조 전매제한 당첨자 발표일 3년 「주택법」제64조,「주택법 시행령」제73조 제1항 별표3…",
     "residence_duty": "…제1항 별표3 거주의무 - 없음 「주택법」제57조의2,「주택법 시행령」 제60조의2 ■ 금회 공급되는 주택은 「공공주택…",
@@ -3917,7 +3946,7 @@
   },
   "name": "인천계양 A17블록 신혼희망타운(공공분양)(본청약)",
   "notice_pdf": "https://apply.lh.or.kr/lhapply/lhFile.do?fileid=68807314",
-  "v": 27
+  "v": 28
  },
  "2026820011": {
   "found": {
@@ -4047,6 +4076,11 @@
      "056.0000O": true
     }
    },
+   "pay_ratio": {
+    "balance": 0.7,
+    "contract": 0.1,
+    "mid": 0.2
+   },
    "price_cap": true,
    "pub_limits": {
     "cap": [
@@ -4067,6 +4101,7 @@
    "quotes": {
     "account_months": "…입주자저축에 가입하여 6개월이 경과되고, 매월 약정납입일에 월납입금을 6회 이상 납입한 분 ※ 공고일 이후…",
     "deposit_count": "…입주자저축에 가입하여 6개월이 경과되고, 매월 약정납입일에 월납입금을 6회 이상 납입한 분 ※ 공고일 이후…",
+    "pay_ratio": "…층별 구분 주택가격 계약금 (10%) 1차 중도금 (10%) 2차 중도금 (10%) 잔금 융자금 (주택도시기금) 계약시…",
     "price_cap": "…의한 과밀억제권역의 분양가상한제 적용주택으로 「주택공급에 관한 규칙」제54조에 따라 재당첨제한은 10년…",
     "resale": "…시행령」 제73조에 의해 전매제한이 3년 적용됩니다. 구분 기준일(~로부터) 기간 관련 법령 재당첨제한…",
     "rewin_years": "…관한 규칙」제54조에 따라 재당첨제한은 10년 적용되고, 「주택법 시행령」 제73조에 의해 전매제한이 3년…"
@@ -4101,7 +4136,7 @@
   },
   "name": "시흥하중지구 A-4블록 신혼희망타운(공공분양) 추가입주자모집",
   "notice_pdf": "https://apply.lh.or.kr/lhapply/lhFile.do?fileid=68663246",
-  "v": 27
+  "v": 28
  },
  "2026910220": {
   "found": {
@@ -4109,6 +4144,11 @@
     "buildings": 10,
     "households": 987,
     "quote": ": 공동주택(아파트) 지하 4층, 지상 29층, 10개동 총 987세대(조합원 522세대, 임대 172세대, 보류지 8세대 포함) 중 일반분양 285세대의 잔여 3세대 ■ 입주시기 : 2029년 08월 예정(정확한"
+   },
+   "contract_split": {
+    "first_won": 100000000,
+    "rest_within": null,
+    "rows": 2
    },
    "facts": {
     "asset_thousand": {
@@ -4160,7 +4200,7 @@
   },
   "name": "아크로 리버스카이(2차)",
   "notice_pdf": "https://static.applyhome.co.kr/ai/aia/getAtchmnfl.do?houseManageNo=2026910220&pblancNo=2026910220&atchmnflSeqNo=1953024&atchmnflSn=5",
-  "v": 27
+  "v": 28
  },
  "2026910236": {
   "found": {
@@ -4223,7 +4263,7 @@
   },
   "name": "철산자이 더 헤리티지",
   "notice_pdf": "https://static.applyhome.co.kr/ai/aia/getAtchmnfl.do?houseManageNo=2026910236&pblancNo=2026910236&atchmnflSeqNo=1977031&atchmnflSn=2",
-  "v": 27
+  "v": 28
  },
  "2026910240": {
   "found": {
@@ -4246,8 +4286,14 @@
     }
    },
    "need_head": false,
+   "pay_ratio": {
+    "balance": 0.9,
+    "contract": 0.1,
+    "mid": 0.0
+   },
    "quotes": {
     "need_head": "…비규제지역 무순위(사후) 입주자모집공고일 현재 강원특별자치도에 거주하는 무주택세대구성원 재당첨제한 전매제한 거주의무기간 분양가상한제 없음 없음 없음 미적용…",
+    "pay_ratio": "…확장, 옵션) 계약금(10%) 잔금(90%) 대지비 건축비(공급가) 부가세 합계 계약 시…",
     "resale": "…거주하는 무주택세대구성원 재당첨제한 전매제한 거주의무기간 분양가상한제 없음 없음 없음 미적용 구분 최초 입주자모집공고일 무순위(사후) 입주자모집공고일…"
    },
    "resale": {
@@ -4272,7 +4318,7 @@
   },
   "name": "아야진 라메르 데시앙",
   "notice_pdf": "https://static.applyhome.co.kr/ai/aia/getAtchmnfl.do?houseManageNo=2026910240&pblancNo=2026910240&atchmnflSeqNo=1966398&atchmnflSn=4",
-  "v": 27
+  "v": 28
  },
  "2026910241": {
   "found": {
@@ -4280,6 +4326,11 @@
     "buildings": 7,
     "households": 1728,
     "quote": ": 공동주택(아파트) 지하 8층, 지상 49층, 7개동 총 1,728세대(조합원 409세대, 임대 144세대, 보류지 17세대 포함) 중 일반분양 1,158세대의 잔여 229세대 및 부대복리시설 ■ 입주시기 : 2"
+   },
+   "contract_split": {
+    "first_won": 10000000,
+    "rest_within": null,
+    "rows": 7
    },
    "facts": {
     "asset_thousand": {
@@ -4294,9 +4345,15 @@
     }
    },
    "need_head": false,
+   "pay_ratio": {
+    "balance": 0.35,
+    "contract": 0.05,
+    "mid": 0.6
+   },
    "price_cap": false,
    "quotes": {
     "need_head": "…현재 수도권(경기도, 서울특별시, 인천광역시)에 거주하는 무주택세대구성원인 성년자 재당첨제한 전매제한 거주의무기간 분양가상한제 없음 최초…",
+    "pay_ratio": "…층 해당 세대수 공급금액 계약금(5%) 중도금(60%) 잔금(35%) 대지비 건축비 계 1차 2차 1차(10%)…",
     "price_cap": "…수 있습니다. • 본 아파트는 분양가상한제 미적용 주택으로 분양가 자율화에 따라 공급총액 범위 내에서 주택형별, 층별…",
     "resale": "…분양가상한제 없음 최초 당첨자 발표일(2026.08.28.)로부터 1년 없음 미적용 1 공통 유의사항 두산위브더제니스 부천 무순위(사후)…",
     "residence_duty": "(분양가상한제 미적용 → 거주의무 없음) …수 있습니다. • 본 아파트는 분양가상한제 미적용 주택으로 분양가 자율화에 따라 공급총액 범위 내에서 주택형별, 층별…"
@@ -4325,7 +4382,7 @@
   },
   "name": "두산위브더제니스 부천",
   "notice_pdf": "https://static.applyhome.co.kr/ai/aia/getAtchmnfl.do?houseManageNo=2026910241&pblancNo=2026910241&atchmnflSeqNo=1978005&atchmnflSn=4",
-  "v": 27
+  "v": 28
  },
  "2026910243": {
   "found": {
@@ -4343,8 +4400,14 @@
     }
    },
    "need_head": false,
+   "pay_ratio": {
+    "balance": 0.9,
+    "contract": 0.1,
+    "mid": 0.0
+   },
    "quotes": {
     "need_head": "…비규제지역 무순위 사후 입주자모집공고일 현재 ( ) 충청북도에 거주하는 무주택세대구성원 재당첨제한 전매제한 거주의무기간 분양가상한제 없음 없음 없음 미적용…",
+    "pay_ratio": "…약식표기 동 호 공급금액 계약금(10%) 잔금(90%) 대지비 건축비 부가세 계 계약시…",
     "resale": "…거주하는 무주택세대구성원 재당첨제한 전매제한 거주의무기간 분양가상한제 없음 없음 없음 미적용 구분 최초 입주자모집공고일 무순위 사후 입주자모집공고일( ) 무순위…"
    },
    "resale": {
@@ -4369,7 +4432,7 @@
   },
   "name": "더샵 청주그리니티",
   "notice_pdf": "https://static.applyhome.co.kr/ai/aia/getAtchmnfl.do?houseManageNo=2026910243&pblancNo=2026910243&atchmnflSeqNo=1979012&atchmnflSn=3",
-  "v": 27
+  "v": 28
  },
  "2026910244": {
   "found": {
@@ -4432,15 +4495,15 @@
    "rewin_years": 10
   },
   "name": "더 리치먼드 미아(3차)",
-  "notice_pdf": "https://www.applyhome.co.kr/ai/aia/getAtchmnfl.do?houseManageNo=2026910244&pblancNo=2026910244&atchmnflSeqNo=1971189&atchmnflSn=3",
-  "v": 27
+  "notice_pdf": "https://static.applyhome.co.kr/ai/aia/getAtchmnfl.do?houseManageNo=2026910244&pblancNo=2026910244&atchmnflSeqNo=1971189&atchmnflSn=3",
+  "v": 28
  },
  "2026910246": {
   "found": {
    "contract_split": {
     "first_won": 5000000,
     "rest_within": null,
-    "rows": 32
+    "rows": 22
    },
    "facts": {
     "asset_thousand": {
@@ -4494,7 +4557,7 @@
   },
   "name": "용인반도체클러스터 동일하이빌 파크밸리(D1-1블록)",
   "notice_pdf": "https://static.applyhome.co.kr/ai/aia/getAtchmnfl.do?houseManageNo=2026910246&pblancNo=2026910246&atchmnflSeqNo=1974992&atchmnflSn=3",
-  "v": 27
+  "v": 28
  },
  "2026910247": {
   "found": {
@@ -4551,7 +4614,7 @@
   },
   "name": "신천역 에피트(2차)",
   "notice_pdf": "https://static.applyhome.co.kr/ai/aia/getAtchmnfl.do?houseManageNo=2026910247&pblancNo=2026910247&atchmnflSeqNo=1978093&atchmnflSn=8",
-  "v": 27
+  "v": 28
  },
  "2026910248": {
   "found": {
@@ -4610,7 +4673,7 @@
   },
   "name": "제일풍경채 첨단3지구(A6BL)",
   "notice_pdf": "https://static.applyhome.co.kr/ai/aia/getAtchmnfl.do?houseManageNo=2026910248&pblancNo=2026910248&atchmnflSeqNo=1982008&atchmnflSn=1",
-  "v": 27
+  "v": 28
  },
  "2026910249": {
   "found": {
@@ -4668,7 +4731,7 @@
   },
   "name": "세종 우미 린 센터파크(행정중심복합도시 5-2생활권 S1블록, 글미마을 9단지)",
   "notice_pdf": "https://static.applyhome.co.kr/ai/aia/getAtchmnfl.do?houseManageNo=2026910249&pblancNo=2026910249&atchmnflSeqNo=1988068&atchmnflSn=3",
-  "v": 27
+  "v": 28
  },
  "2026910250": {
   "found": {
@@ -4730,7 +4793,7 @@
   },
   "name": "신림스카이아파트(20차)",
   "notice_pdf": "https://static.applyhome.co.kr/ai/aia/getAtchmnfl.do?houseManageNo=2026910250&pblancNo=2026910250&atchmnflSeqNo=1978039&atchmnflSn=2",
-  "v": 27
+  "v": 28
  },
  "2026910251": {
   "found": {
@@ -4791,7 +4854,7 @@
   },
   "name": "충정로역자이르네",
   "notice_pdf": "https://static.applyhome.co.kr/ai/aia/getAtchmnfl.do?houseManageNo=2026910251&pblancNo=2026910251&atchmnflSeqNo=1986036&atchmnflSn=2",
-  "v": 27
+  "v": 28
  },
  "2026910253": {
   "found": {
@@ -4849,7 +4912,7 @@
   },
   "name": "오남역 서희스타힐스 여의재 1단지",
   "notice_pdf": "https://static.applyhome.co.kr/ai/aia/getAtchmnfl.do?houseManageNo=2026910253&pblancNo=2026910253&atchmnflSeqNo=1988120&atchmnflSn=3",
-  "v": 27
+  "v": 28
  },
  "2026910256": {
   "found": {
@@ -4861,7 +4924,7 @@
    "contract_split": {
     "first_won": 10000000,
     "rest_within": "30일",
-    "rows": 72
+    "rows": 24
    },
    "facts": {
     "asset_thousand": {
@@ -4915,7 +4978,7 @@
   },
   "name": "상동역 롯데캐슬 시그니처",
   "notice_pdf": "https://static.applyhome.co.kr/ai/aia/getAtchmnfl.do?houseManageNo=2026910256&pblancNo=2026910256&atchmnflSeqNo=1991039&atchmnflSn=2",
-  "v": 27
+  "v": 28
  },
  "2026930031": {
   "found": {
@@ -4947,9 +5010,15 @@
     }
    },
    "need_head": false,
+   "pay_ratio": {
+    "balance": 0.9,
+    "contract": 0.1,
+    "mid": 0.0
+   },
    "price_cap": false,
    "quotes": {
     "need_head": "…대상자 ■ 입주자모집공고일 현재 해당 주택건설지역인 경기도 광명시에 거주하는 무주택세대구성원 ■ 생애최초로 주택을 구입하는 분 - 모든 세대구성원이 과거 주택을…",
+    "pay_ratio": "…동 호 아파트 총 공급금액 계약금(10%) 잔금(90%) 아파트 분양가(A) 추가 부대경비(B)…",
     "price_cap": "…민간택지에서 공급하는 분양가상한제 미적용 민영주택으로, 당첨자로 선정 시 「주택공급에 관한 규칙」 제54조에…",
     "resale": "…바랍니다. ■ 본 주택의 전매제한은 최초입주자모집공고의 당첨자발표일(2023.11.07.)로부터 3년간 적용됩니다.(단, 소유권이전등기를 완료한 경우…",
     "residence_duty": "(1쪽 단지 주요정보 표) 전매제한 거주의무기간 분양가상한제 택지유형 최초 당첨자발표일 (2023.11.07.)로부터 3년간 적용 없음 미적용 민간택지",
@@ -4990,7 +5059,7 @@
   },
   "name": "철산자이 브리에르",
   "notice_pdf": "https://static.applyhome.co.kr/ai/aia/getAtchmnfl.do?houseManageNo=2026930031&pblancNo=2026930031&atchmnflSeqNo=1979029&atchmnflSn=3",
-  "v": 27
+  "v": 28
  },
  "2026930032": {
   "found": {
@@ -5045,7 +5114,7 @@
   },
   "name": "태화강 에피트",
   "notice_pdf": "https://static.applyhome.co.kr/ai/aia/getAtchmnfl.do?houseManageNo=2026930032&pblancNo=2026930032&atchmnflSeqNo=1976997&atchmnflSn=3",
-  "v": 27
+  "v": 28
  },
  "2026930033": {
   "found": {
@@ -5106,7 +5175,7 @@
   },
   "name": "도안 푸르지오 디아델 29블록",
   "notice_pdf": "https://static.applyhome.co.kr/ai/aia/getAtchmnfl.do?houseManageNo=2026930033&pblancNo=2026930033&atchmnflSeqNo=1988251&atchmnflSn=2",
-  "v": 27
+  "v": 28
  },
  "2026930034": {
   "found": {
@@ -5139,9 +5208,15 @@
     }
    },
    "need_head": false,
+   "pay_ratio": {
+    "balance": 0.3,
+    "contract": 0.1,
+    "mid": 0.6
+   },
    "price_cap": false,
    "quotes": {
     "need_head": "…대상자 ■ 입주자모집공고일 현재 해당 주택건설지역인 대전광역시에 거주하는 무주택세대구성원 ■ 생애최초로 주택을 구입하는 분 - 모든 세대구성원이 과거 주택을…",
+    "pay_ratio": "…약식 표기 동 층 공급금액 계약금(10%) 중도금(60%) 잔금(30%) 대지비 건축비 부가 가치세 계 계약시…",
     "price_cap": "…민간택지에서 공급하는 분양가상한제 미적용 민영주택으로, 당첨자로 선정되더라도 「주택공급에 관한 규칙」…",
     "resale": "…택지유형 없음 (최초 당첨자발표일(‘24.08.14.)로부터 6개월, 현재 전매제한기간 도과) 없음 미적용 민간택지 구분…",
     "residence_duty": "(1쪽 단지 주요정보 표) 전매제한 거주의무기간 분양가상한제 택지유형 없음 (최초 당첨자발표일(‘24.08.14.)로부터 6개월, 현재 전매제한기간 도과) 없음 미적용 민간택지",
@@ -5171,7 +5246,7 @@
   },
   "name": "도안 푸르지오 디아델 31블록",
   "notice_pdf": "https://static.applyhome.co.kr/ai/aia/getAtchmnfl.do?houseManageNo=2026930034&pblancNo=2026930034&atchmnflSeqNo=1990217&atchmnflSn=1",
-  "v": 27
+  "v": 28
  },
  "2026930035": {
   "found": {
@@ -5189,9 +5264,15 @@
     }
    },
    "need_head": false,
+   "pay_ratio": {
+    "balance": 0.9,
+    "contract": 0.1,
+    "mid": 0.0
+   },
    "price_cap": false,
    "quotes": {
     "need_head": "…대상자 ■ 금회 입주자모집공고일 현재 해당 주택건설지역인 청주시에 거주하는 무주택세대구성원 과거 주택을 소유하였더라도 입주자모집공고일 현재…",
+    "pay_ratio": "…약식표기 동 호 공급금액 계약금(10%) 잔금(90%) 분양가 추가부대경비 합계 계약시…",
     "price_cap": "…민간택지에서 공급하는 분양가상한제 미적용 민영주택으로 당첨자로 선정되더라도 주택공급에 관한 규칙 제 조에 따른…",
     "resale": "…합계 2 1 1 2 구분 특별공급 전매제한기간 없음 - 5 - ■ 공급금액 및 납부일정 ※ 상기 공급금액은 최초 입주자모집공고…",
     "residence_duty": "(1쪽 단지 주요정보 표) 전매제한 거주의무기간 분양가상한제 택지유형 없음 없음 미적용 민간택지"
@@ -5231,7 +5312,7 @@
   },
   "name": "더샵 청주그리니티",
   "notice_pdf": "https://static.applyhome.co.kr/ai/aia/getAtchmnfl.do?houseManageNo=2026930035&pblancNo=2026930035&atchmnflSeqNo=1978104&atchmnflSn=3",
-  "v": 27
+  "v": 28
  },
  "2026930036": {
   "found": {
@@ -5291,7 +5372,7 @@
   },
   "name": "과천 푸르지오 라비엔오",
   "notice_pdf": "https://static.applyhome.co.kr/ai/aia/getAtchmnfl.do?houseManageNo=2026930036&pblancNo=2026930036&atchmnflSeqNo=1980253&atchmnflSn=4",
-  "v": 27
+  "v": 28
  },
  "2026930037": {
   "found": {
@@ -5346,7 +5427,7 @@
   },
   "name": "과천 푸르지오 벨라르테",
   "notice_pdf": "https://static.applyhome.co.kr/ai/aia/getAtchmnfl.do?houseManageNo=2026930037&pblancNo=2026930037&atchmnflSeqNo=1980252&atchmnflSn=3",
-  "v": 27
+  "v": 28
  },
  "2026930038": {
   "found": {
@@ -5418,7 +5499,7 @@
   },
   "name": "고양 장항 아테라",
   "notice_pdf": "https://static.applyhome.co.kr/ai/aia/getAtchmnfl.do?houseManageNo=2026930038&pblancNo=2026930038&atchmnflSeqNo=1990056&atchmnflSn=4",
-  "v": 27
+  "v": 28
  },
  "2026930039": {
   "found": {
@@ -5479,7 +5560,7 @@
   },
   "name": "탕정 푸르지오 리버파크",
   "notice_pdf": "https://static.applyhome.co.kr/ai/aia/getAtchmnfl.do?houseManageNo=2026930039&pblancNo=2026930039&atchmnflSeqNo=1988277&atchmnflSn=3",
-  "v": 27
+  "v": 28
  },
  "2026930040": {
   "found": {
@@ -5542,6 +5623,67 @@
   },
   "name": "강변역 센트럴 아이파크",
   "notice_pdf": "https://static.applyhome.co.kr/ai/aia/getAtchmnfl.do?houseManageNo=2026930040&pblancNo=2026930040&atchmnflSeqNo=1982993&atchmnflSn=5",
-  "v": 27
+  "v": 28
+ },
+ "2026930041": {
+  "found": {
+   "complex": {
+    "buildings": 3,
+    "households": 343,
+    "quote": ": 아파트 지하 2층, 지상 37층 3개동 총 343세대 중 불법행위재공급 1세대 [특별공급 1세대(다자녀가구 1세대)] 및 부대복리시설 ■ 입주시기 : 본 주택은 2021년 01월 준공된 아파트로 금회 공급하는"
+   },
+   "ext": 0.109,
+   "facts": {
+    "asset_thousand": {
+     "부동산": [],
+     "부동산_만원": [],
+     "자동차": []
+    },
+    "deposit_rows": {},
+    "income_rows": {},
+    "price_seen": {
+     "084.9649D": true
+    }
+   },
+   "need_head": false,
+   "pay_ratio": {
+    "balance": 0.8,
+    "contract": 0.2,
+    "mid": 0.0
+   },
+   "price_cap": true,
+   "quotes": {
+    "need_head": "…■ 입주자모집공고일 현재 해당 주택건설지역인 세종특별자치시에 거주하는 무주택세대구성원 - 과거 주택을 소유하였더라도 입주자모집공고일 현재…",
+    "pay_ratio": "…동 호수 공급금액 계약금(20%) 잔금 (80%) 대지비 건축비 부가가치세 합계 계약시…",
+    "price_cap": "…분양가상한제 적용주택(제1항제3호) 10년 ■ 10년 이상 장기복무 중인 군인은 해당…",
+    "resale": "…같습니다. 구분 특별공급 전매제한기간 최초 당첨자발표일로부터 1년간 적용되어 현재 전매제한기간 도과 3 공급대상 및 공급금액 ■…",
+    "residence_duty": "(1쪽 단지 주요정보 표) 전매제한 거주의무기간 분양가상한제 택지유형 최초 당첨자발표일부터 1년간 적용되어 현재 전매제한기간 도과 없음 적용 공공택지",
+    "rewin_years": "…규제지역여부 거주요건 재당첨제한 민영 비규제지역 세종특별자치시 거주자 10년 전매제한 거주의무기간 분양가상한제 택지유형 최초 당첨자발표일부터…"
+   },
+   "resale": {
+    "base": "당첨자 발표일",
+    "forbidden": false,
+    "months": 12,
+    "none": false,
+    "passed": false,
+    "registration": false,
+    "until_reg": false
+   },
+   "residence": {
+    "area": {
+     "name": "세종특별자치시",
+     "sido": "세종"
+    },
+    "equal": true,
+    "months": 0,
+    "others": [],
+    "since": null
+   },
+   "residence_duty": 0,
+   "rewin_years": 10
+  },
+  "name": "세종 리더스포레 나릿재마을 1단지",
+  "notice_pdf": "https://static.applyhome.co.kr/ai/aia/getAtchmnfl.do?houseManageNo=2026930041&pblancNo=2026930041&atchmnflSeqNo=1994169&atchmnflSn=8",
+  "v": 28
  }
 }
