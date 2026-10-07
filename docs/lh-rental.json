@@ -1,348 +1,8 @@
 {
- "updated": "2026-10-07 07:53",
+ "updated": "2026-10-08 06:51",
  "source": "LH 청약플러스 임대 공고 (공공데이터포털 한국토지주택공사 분양임대공고 조회)",
  "count": 35,
  "notices": [
-  {
-   "id": "2015122300020740",
-   "name": "원주태장4 국민임대주택 예비입주자 모집공고(2026.09.15)",
-   "type": "국민임대",
-   "type_code": "07",
-   "judge_type": true,
-   "region": "강원특별자치도",
-   "posted": "2026-09-15",
-   "close": "2026-10-07",
-   "status": "공고중",
-   "url": "https://apply.lh.or.kr/lhapply/apply/wt/wrtanc/selectWrtancInfo.do?panId=2015122300020740&ccrCnntSysDsCd=03&uppAisTpCd=06&aisTpCd=07&mi=1026",
-   "url_mobile": "https://apply.lh.or.kr/lhapply/apply/wt/wrtanc/selectWrtancInfo.do?panId=2015122300020740&ccrCnntSysDsCd=03&uppAisTpCd=06&aisTpCd=07&mi=1026",
-   "schedule": [
-    {
-     "complex": null,
-     "apply_start": "2026-10-07",
-     "apply_end": "2026-10-07",
-     "apply_time": "2026.10.07 10:00 ~ 2026.10.07 16:10",
-     "docs_target": "2026-10-28",
-     "docs_start": "2026-10-29",
-     "docs_end": "2026-11-05",
-     "winner": "2027-02-17",
-     "contract_start": null,
-     "contract_end": null
-    }
-   ],
-   "complexes": [
-    {
-     "name": "원주태장4",
-     "address": "강원특별자치도 원주시 흥양로51번길 20(태장동,원주태장4주공아파트)",
-     "households": 584,
-     "area": "51.93~59.88",
-     "move_in": "2008.05",
-     "heating": "개별가스난방"
-    }
-   ],
-   "units": [
-    {
-     "complex": "원주태장4",
-     "type": "21평",
-     "area": 51.93,
-     "supply_area": 71.532,
-     "households": 330,
-     "now_households": 90,
-     "deposit": null,
-     "rent": null,
-     "money_note": "공고문 참조"
-    }
-   ],
-   "files": [
-    {
-     "kind": "공고문(hwp)",
-     "name": "(26.09.15)원주태장4국민임대예비입주자모집공고문.hwpx",
-     "url": "https://apply.lh.or.kr/lhapply/lhFile.do?fileid=68568847"
-    },
-    {
-     "kind": "공고문(PDF)",
-     "name": "(26.09.15)원주태장4국민임대예비입주자모집공고문.pdf",
-     "url": "https://apply.lh.or.kr/lhapply/lhFile.do?fileid=68568850"
-    }
-   ],
-   "etc": "□ 금회 공고중인 국민임대주택은 1인가구도 신청 가능합니다.\n□ 금회 모집 예비입주자는 현재 공가 및 향후 해약이 발생할 경우를 대비하여 모집하는 것으로,예비입주자로 선정되어도 예비순번에 따라 실제 입주 시까지는 상당기간이 소요될 수 있습니다.\n□ 본 모집공고문의 모집대상 주택에 대하여 1세대 1주택만 신청가능하며, 중복신청하는 경우 전부 무효처리 합니다.\n□ 전화문의는 장시간 접속지연 및 통화대기 등의 불편이 있을 수 있으니,예비입주자 모집 신청과 관련한 내용은 공고문을 참고하여 주시기 바랍니다.",
-   "office": {
-    "place": "강원특별자치도 원주시 흥양로51번길 20(태장동,원주태장4주공아파트) 원주태장4단지아파트 관리사무소",
-    "tel": "033-748-2677"
-   },
-   "notice_pdf": "https://apply.lh.or.kr/lhapply/lhFile.do?fileid=68568850",
-   "notice_text": 67474,
-   "rents": [
-    {
-     "complex": "원주태장4",
-     "type": "51",
-     "group": null,
-     "deposit": 25874000,
-     "rent": 211070
-    }
-   ],
-   "terms": {
-    "relaxed": false,
-    "homeless_relaxed": false,
-    "homeless_max1": false,
-    "income_basis": "도시근로자 월평균소득",
-    "groups": [
-     {
-      "key": "일반",
-      "name": "일반",
-      "homeless": "household",
-      "income_pct": {
-       "1": 90,
-       "2": 80,
-       "3+": 70
-      },
-      "asset_manwon": 34500,
-      "car_manwon": 4542,
-      "age_min": null,
-      "age_max": null
-     }
-    ],
-    "quotes": {
-     "일반": {
-      "income": "가구원수별 가구당 월평균 소득(원) 70% 80% 90% 참고사항 1인 2 … 1인 가구 20% 가산, 2인 가구 10% 가산",
-      "asset": "58,337 자산 총자산가액 세대구성원 전원이 보유하고 있는 총자산가액 합산기준 ( 345 )백만원 이하 자동차가액 세대구",
-      "car": "이 보유하고 있는 개별 자동차가액 ( 4,542 )만원 이하 • 소득기준 가산"
-     }
-    },
-    "income_table_100": null
-   },
-   "api": {
-    "CCR_CNNT_SYS_DS_CD": "03",
-    "SPL_INF_TP_CD": "062",
-    "UPP_AIS_TP_CD": "06",
-    "AIS_TP_CD": "07"
-   },
-   "read": {
-    "tools": [
-     "pypdf",
-     "pdfium",
-     "plumber"
-    ],
-    "conflicts": []
-   }
-  },
-  {
-   "id": "2015122300020780",
-   "name": "인천논현 LH16단지 (인천논현4 1블록) 창업지원주택 입주자 모집[인정업종 확대, 선착순동호지정, 선계약후검증](입주자모집공고일 : 2026.09.16.)",
-   "type": "행복주택",
-   "type_code": "10",
-   "judge_type": true,
-   "region": "인천광역시",
-   "posted": "2026-09-16",
-   "close": "2026-10-07",
-   "status": "공고중",
-   "url": "https://apply.lh.or.kr/lhapply/apply/wt/wrtanc/selectWrtancInfo.do?panId=2015122300020780&ccrCnntSysDsCd=03&uppAisTpCd=06&aisTpCd=10&mi=1026",
-   "url_mobile": "https://apply.lh.or.kr/lhapply/apply/wt/wrtanc/selectWrtancInfo.do?panId=2015122300020780&ccrCnntSysDsCd=03&uppAisTpCd=06&aisTpCd=10&mi=1026",
-   "schedule": [
-    {
-     "complex": null,
-     "apply_start": "2026-10-07",
-     "apply_end": "2026-10-07",
-     "apply_time": "~",
-     "docs_target": null,
-     "docs_start": null,
-     "docs_end": null,
-     "winner": "2027-01-29",
-     "contract_start": null,
-     "contract_end": null
-    }
-   ],
-   "complexes": [
-    {
-     "name": "인천논현4 1블록 창업지원주택(행복)",
-     "address": "인천광역시 남동구 은봉로 297(논현동)",
-     "households": 238,
-     "area": "25.77~44.51",
-     "move_in": "2022.07",
-     "heating": "지역난방"
-    }
-   ],
-   "units": [
-    {
-     "complex": "인천논현4 1블록 창업지원주택(행복)",
-     "type": "25A/A1 창업인",
-     "area": 25.77,
-     "supply_area": 37.73,
-     "households": 194,
-     "now_households": 60,
-     "deposit": null,
-     "rent": null,
-     "money_note": "공고문 참조"
-    },
-    {
-     "complex": "인천논현4 1블록 창업지원주택(행복)",
-     "type": "25B/B1 창업인(주거약자용)",
-     "area": 25.77,
-     "supply_area": 37.73,
-     "households": 20,
-     "now_households": 5,
-     "deposit": null,
-     "rent": null,
-     "money_note": "공고문 참조"
-    },
-    {
-     "complex": "인천논현4 1블록 창업지원주택(행복)",
-     "type": "44A/A1 창업인",
-     "area": 44.51,
-     "supply_area": 65.1674,
-     "households": 24,
-     "now_households": 3,
-     "deposit": null,
-     "rent": null,
-     "money_note": "공고문 참조"
-    }
-   ],
-   "files": [
-    {
-     "kind": "공고문(hwp)",
-     "name": "[공고문]인천논현LH16단지(인천논현41블록)창업지원주택입주자모집(`26.09.16.공고).hwpx",
-     "url": "https://apply.lh.or.kr/lhapply/lhFile.do?fileid=68623547"
-    },
-    {
-     "kind": "공고문(PDF)",
-     "name": "[공고문]인천논현LH16단지(인천논현41블록)창업지원주택입주자모집(`26.09.16.공고).pdf",
-     "url": "https://apply.lh.or.kr/lhapply/lhFile.do?fileid=68623552"
-    },
-    {
-     "kind": "카탈로그",
-     "name": "[동호배치도]인천논현LH16단지창업지원주택(`26.09.16.공고).pdf",
-     "url": "https://apply.lh.or.kr/lhapply/lhFile.do?fileid=68623756"
-    },
-    {
-     "kind": "기타 첨부파일",
-     "name": "[양식1-1]입주추천신청서.hwpx",
-     "url": "https://apply.lh.or.kr/lhapply/lhFile.do?fileid=68623716"
-    },
-    {
-     "kind": "기타 첨부파일",
-     "name": "[양식1-2]개인정보수집·이용및제3자제공동의서(남동구양식).hwpx",
-     "url": "https://apply.lh.or.kr/lhapply/lhFile.do?fileid=68623717"
-    },
-    {
-     "kind": "기타 첨부파일",
-     "name": "[양식1-3]사업계획서(예비창업인).hwpx",
-     "url": "https://apply.lh.or.kr/lhapply/lhFile.do?fileid=68623718"
-    },
-    {
-     "kind": "기타 첨부파일",
-     "name": "[양식2-1]선계약후검증확약서.hwpx",
-     "url": "https://apply.lh.or.kr/lhapply/lhFile.do?fileid=68623719"
-    },
-    {
-     "kind": "기타 첨부파일",
-     "name": "[양식2-2]공급신청서및신청자격자가검증체크리스트.hwpx",
-     "url": "https://apply.lh.or.kr/lhapply/lhFile.do?fileid=68623720"
-    },
-    {
-     "kind": "기타 첨부파일",
-     "name": "[양식2-3]개인정보수집이용및제3자제공동의서(LH양식).hwpx",
-     "url": "https://apply.lh.or.kr/lhapply/lhFile.do?fileid=68623721"
-    },
-    {
-     "kind": "기타 첨부파일",
-     "name": "[양식2-4]금융정보등(금융,신용,보험정보)제공동의서.hwpx",
-     "url": "https://apply.lh.or.kr/lhapply/lhFile.do?fileid=68623722"
-    },
-    {
-     "kind": "기타 첨부파일",
-     "name": "[양식2-5]자산보유사실확인서.hwpx",
-     "url": "https://apply.lh.or.kr/lhapply/lhFile.do?fileid=68623723"
-    },
-    {
-     "kind": "기타 첨부파일",
-     "name": "[양식3]위임장양식(대리인신청용).hwpx",
-     "url": "https://apply.lh.or.kr/lhapply/lhFile.do?fileid=68623724"
-    },
-    {
-     "kind": "카탈로그",
-     "name": "[팜플렛]인천논현LH16단지창업지원주택.pdf",
-     "url": "https://apply.lh.or.kr/lhapply/lhFile.do?fileid=68623725"
-    }
-   ],
-   "etc": "※ 상기 공급일정에 적힌 당첨자발표일은 확정된 사항이 아니며, 자세한 일정은 입주자모집 공고문을 확인하여 주시기 바랍니다.\n\n* 금회 모집공고는 인천논현 LH16단지 주택 잔여세대에 대한, 선착순동호지정, 선계약후검증 모집공고입니다.\n* 샘플하우스 동호개방 일정 : 2026.10.03.(토) 10:00 ~ 16:00 [12:00~13:00 점심시간 제외]\n* 동호지정, 계약체결 : 2026.10.07.(수) 10:00 ~ 15:00\n* 동호개방, 동호지정, 계약체결 등 자세한 사항은 입주자모집 공고문을 반드시 확인하여 주시기 바랍니다.",
-   "office": {
-    "place": "인천광역시 남동구 논현로46번길 23(논현동) LH 인천지역본부 별관 1층 접수처",
-    "tel": "1600-1004"
-   },
-   "notice_pdf": "https://apply.lh.or.kr/lhapply/lhFile.do?fileid=68623552",
-   "notice_text": 48958,
-   "rents": [
-    {
-     "complex": null,
-     "type": "25A",
-     "group": null,
-     "deposit": 34920000,
-     "rent": 162960
-    },
-    {
-     "complex": null,
-     "type": "44A",
-     "group": null,
-     "deposit": 60480000,
-     "rent": 282240
-    }
-   ],
-   "terms": {
-    "relaxed": false,
-    "homeless_relaxed": false,
-    "homeless_max1": false,
-    "income_basis": "도시근로자 월평균소득",
-    "groups": [
-     {
-      "key": "청년",
-      "name": "청년 창업인",
-      "homeless": "self_or_household",
-      "income_pct": {
-       "1": 120,
-       "2": 110,
-       "3+": 100
-      },
-      "asset_manwon": 34500,
-      "car_manwon": 4542,
-      "age_min": 19,
-      "age_max": 39,
-      "notes": [
-       "남동구 창업인(예비창업인) 추천 자격이 필요해요 — 공고문 확인"
-      ],
-      "married_ok": true,
-      "account_by_movein": true,
-      "dual_add": 20
-     }
-    ],
-    "quotes": {
-     "청년": {
-      "income": "도시근로자 가구당 월평균소득 의 100% 이 하, 맞 벌 이 부 부 는 120% 이 하일 것 ※ 단, 가구원수가 1인인 경우에는 120%, 2인인 경우에는 110%, 맞벌이 2인가구",
-      "asset": "가 보유하고 있는 총 자산가액 합산기준 34,500만원 이하, 총 자산 중 자동차가액이 4,542만원 이하일 것 ⑤ 본인 또",
-      "car": "가 보유하고 있는 총 자산가액 합산기준 34,500만원 이하, 총 자산 중 자동차가액이 4,542만원 이하일 것 ⑤ 본인 또"
-     }
-    },
-    "income_table_100": {
-     "3": 8168429,
-     "4": 8802202,
-     "5": 9326985,
-     "6": 9906263
-    },
-    "unknown_groups": []
-   },
-   "api": {
-    "CCR_CNNT_SYS_DS_CD": "03",
-    "SPL_INF_TP_CD": "063",
-    "UPP_AIS_TP_CD": "06",
-    "AIS_TP_CD": "10"
-   },
-   "read": {
-    "tools": [
-     "pypdf",
-     "pdfium",
-     "plumber"
-    ],
-    "conflicts": []
-   }
-  },
   {
    "id": "2015122300020742",
    "name": "전주동서학 통합공공임대(일자리연계형 지원주택) 최초 입주자 모집",
@@ -2115,7 +1775,7 @@
      "complex": "아산탕정 2-A15BL 국민임대",
      "apply_start": "2026-10-12",
      "apply_end": "2026-10-14",
-     "apply_time": "~",
+     "apply_time": "2026.10.12 10:00 ~ 2026.10.14 16:30",
      "docs_target": "2026-11-18",
      "docs_start": "2026-11-18",
      "docs_end": "2026-11-25",
@@ -2151,7 +1811,7 @@
      "complex": "아산탕정2-A7BL 국민임대",
      "apply_start": "2026-10-12",
      "apply_end": "2026-10-14",
-     "apply_time": "~",
+     "apply_time": "2026.10.12 10:00 ~ 2026.10.14 16:30",
      "docs_target": "2026-11-18",
      "docs_start": "2026-11-18",
      "docs_end": "2026-11-25",
@@ -5085,6 +4745,283 @@
    }
   },
   {
+   "id": "2015122300020854",
+   "name": "창녕영산 1BL 행복주택 예비입주자 모집 공고 ('26.10.07. 공고)",
+   "type": "행복주택",
+   "type_code": "10",
+   "judge_type": true,
+   "region": "경상남도",
+   "posted": "2026-10-07",
+   "close": "2026-10-21",
+   "status": "공고중",
+   "url": "https://apply.lh.or.kr/lhapply/apply/wt/wrtanc/selectWrtancInfo.do?panId=2015122300020854&ccrCnntSysDsCd=03&uppAisTpCd=06&aisTpCd=10&mi=1026",
+   "url_mobile": "https://apply.lh.or.kr/lhapply/apply/wt/wrtanc/selectWrtancInfo.do?panId=2015122300020854&ccrCnntSysDsCd=03&uppAisTpCd=06&aisTpCd=10&mi=1026",
+   "schedule": [
+    {
+     "complex": null,
+     "apply_start": "2026-10-19",
+     "apply_end": "2026-10-21",
+     "apply_time": "2026.10.19 10:00 ~ 2026.10.21 17:10",
+     "docs_target": "2026-11-02",
+     "docs_start": "2026-11-03",
+     "docs_end": "2026-11-05",
+     "winner": "2027-01-14",
+     "contract_start": null,
+     "contract_end": null
+    }
+   ],
+   "complexes": [
+    {
+     "name": "창녕영산 1BL 행복주택",
+     "address": "경상남도 창녕군 영산면 영산계성로 61",
+     "households": 150,
+     "area": "25.94~44.98",
+     "move_in": "2025.10",
+     "heating": "개별난방"
+    }
+   ],
+   "units": [
+    {
+     "complex": "창녕영산 1BL 행복주택",
+     "type": "25A(대학생, 청년)",
+     "area": 25.94,
+     "supply_area": 40.3562,
+     "households": 68,
+     "now_households": 30,
+     "deposit": null,
+     "rent": null,
+     "money_note": "공고문 참조"
+    },
+    {
+     "complex": "창녕영산 1BL 행복주택",
+     "type": "25A(주거급여수급자)",
+     "area": 25.94,
+     "supply_area": 40.3562,
+     "households": 68,
+     "now_households": 10,
+     "deposit": null,
+     "rent": null,
+     "money_note": "공고문 참조"
+    },
+    {
+     "complex": "창녕영산 1BL 행복주택",
+     "type": "25B(고령자)",
+     "area": 25.96,
+     "supply_area": 40.3873,
+     "households": 8,
+     "now_households": 30,
+     "deposit": null,
+     "rent": null,
+     "money_note": "공고문 참조"
+    },
+    {
+     "complex": "창녕영산 1BL 행복주택",
+     "type": "44A(신혼부부 한부모가족)",
+     "area": 44.98,
+     "supply_area": 69.9777,
+     "households": 46,
+     "now_households": 30,
+     "deposit": null,
+     "rent": null,
+     "money_note": "공고문 참조"
+    }
+   ],
+   "files": [
+    {
+     "kind": "카탈로그",
+     "name": "(게시용)창녕영산행복주택팸플릿_최종.pdf",
+     "url": "https://apply.lh.or.kr/lhapply/lhFile.do?fileid=68786997"
+    },
+    {
+     "kind": "기타 첨부파일",
+     "name": "(해당자만제출)복학각서및예비신혼부부확인서등.hwpx",
+     "url": "https://apply.lh.or.kr/lhapply/lhFile.do?fileid=68861409"
+    },
+    {
+     "kind": "공고문(hwp)",
+     "name": "20261007창녕영산1BL행복주택예비자모집공고문_게시용.hwpx",
+     "url": "https://apply.lh.or.kr/lhapply/lhFile.do?fileid=68861043"
+    },
+    {
+     "kind": "공고문(PDF)",
+     "name": "20261007창녕영산1BL행복주택예비자모집공고문_게시용.pdf",
+     "url": "https://apply.lh.or.kr/lhapply/lhFile.do?fileid=68861052"
+    },
+    {
+     "kind": "기타 첨부파일",
+     "name": "공통제출서류.hwpx",
+     "url": "https://apply.lh.or.kr/lhapply/lhFile.do?fileid=68861058"
+    }
+   ],
+   "etc": "※ 반드시 공고문을 확인 후 청약하시기 바랍니다.",
+   "office": {
+    "place": "경상남도 창녕군 영산면 로터리길 15 2층, 회의실",
+    "tel": "1600-1004, 1670-0003"
+   },
+   "notice_pdf": "https://apply.lh.or.kr/lhapply/lhFile.do?fileid=68861052",
+   "notice_text": 56631,
+   "rents": [
+    {
+     "complex": null,
+     "type": "25A",
+     "group": "대학생",
+     "deposit": 14620000,
+     "rent": 74190
+    },
+    {
+     "complex": null,
+     "type": "10",
+     "group": "청년",
+     "deposit": 15480000,
+     "rent": 78560
+    },
+    {
+     "complex": null,
+     "type": "10",
+     "group": "주거급여수급자",
+     "deposit": 12900000,
+     "rent": 65460
+    },
+    {
+     "complex": null,
+     "type": "25B",
+     "group": "고령자",
+     "deposit": 16340000,
+     "rent": 82920
+    },
+    {
+     "complex": null,
+     "type": "44A",
+     "group": "신혼부부·한부모",
+     "deposit": 30000000,
+     "rent": 152250
+    }
+   ],
+   "terms": {
+    "relaxed": false,
+    "homeless_relaxed": false,
+    "homeless_max1": false,
+    "income_basis": "도시근로자 월평균소득",
+    "groups": [
+     {
+      "key": "대학생",
+      "name": "대학생",
+      "homeless": "self",
+      "income_pct": {
+       "1": 120,
+       "2": 110,
+       "3+": 100
+      },
+      "asset_manwon": 10800,
+      "car_manwon": 0,
+      "age_min": null,
+      "age_max": null
+     },
+     {
+      "key": "청년",
+      "name": "청년",
+      "homeless": "self",
+      "income_pct": {
+       "1": 120,
+       "2": 110,
+       "3+": 100
+      },
+      "asset_manwon": 25100,
+      "car_manwon": 4542,
+      "age_min": 19,
+      "age_max": 39,
+      "account_by_movein": true
+     },
+     {
+      "key": "신혼부부·한부모",
+      "name": "신혼부부·한부모",
+      "homeless": "household",
+      "income_pct": {
+       "1": null,
+       "2": 110,
+       "3+": 100
+      },
+      "asset_manwon": 34500,
+      "car_manwon": 4542,
+      "age_min": null,
+      "age_max": null,
+      "account_by_movein": true,
+      "dual_add": 20
+     },
+     {
+      "key": "고령자",
+      "name": "고령자",
+      "homeless": "household",
+      "income_pct": {
+       "1": 120,
+       "2": 110,
+       "3+": 100
+      },
+      "asset_manwon": 34500,
+      "car_manwon": 4542,
+      "age_min": 65,
+      "age_max": null
+     },
+     {
+      "key": "주거급여수급자",
+      "name": "주거급여수급자",
+      "homeless": "household",
+      "income_pct": null,
+      "asset_manwon": null,
+      "car_manwon": null,
+      "age_min": null,
+      "age_max": null
+     }
+    ],
+    "quotes": {
+     "대학생": {
+      "income": "가구원수별 가구당 월평균소득의 100퍼센트 이하 ※ 단, 가구원 수가 1인인 경우에는 120퍼센트, 2인인 경우에는 110퍼센트 이하일 것 가구원",
+      "asset": "579,278원을 합산하여 산정 ④ 신청자 본인의 총 자산가액 합산기준이 10,800만원 이하이고, 자동차가액",
+      "car": "산기준이 10,800만원 이하이고, 자동차가액 산출대상 자동차를 소유하고 있지 않을 것"
+     },
+     "청년": {
+      "income": "가구원수별 가구당 월평균소득의 100퍼센트 이하 ※ 단, 가구원수가 1인인 경우에는 120퍼센트, 2인인 경우에는 110퍼센트 이하일 것 * 7",
+      "asset": "278원을 합산하여 산정 ④ 해당세대가 보유하고 있는 총 자산가액이 25,100만원 이하이고 총 자산 중",
+      "car": "5,100만원 이하이고 총 자산 중 자동차가액이 4,542만원 이하 ⑤ 본인 입주전까"
+     },
+     "신혼부부·한부모": {
+      "income": "가구원수별 가구당 월평균소득의 100퍼센트 이하(맞벌이 부부 120퍼센트 이하)일 것 ※ 단, 가구원 수가 2인인 경우에는 110퍼센트, 맞벌이 2인 가",
+      "asset": "예비신혼부부는 혼인으로 구성될 세대)가 보유하고 있는 총 자산가액 합산기준 34,500만원 이하이고, 총 자산 중",
+      "car": ",500만원 이하이고, 총 자산 중 자동차가액이 4,542만원 이하 일 것 ⑤ 본인",
+      "dual": "구당 월평균소득의 100퍼센트 이하(맞벌이 부부 120퍼센트 이하)일 것 ※ 단, 가구원 수가"
+     },
+     "고령자": {
+      "income": "가구원수별 가구당 월평균소득의 100퍼센트 이하 ※ 단, 가구원수가 1인인 경우에는 120퍼센트, 2인인 경우에는 110퍼센트 이하일 것 가구원",
+      "asset": "78원을 합산하여 산정 ② 해당 세대가 보유하고 있는 총 자산가액이 34,500만원 이하이고 총 자산 중",
+      "car": "4,500만원 이하이고 총 자산 중 자동차가액이 4,542만원 이하 ※ ‘고령자‘의"
+     },
+     "주거급여수급자": {}
+    },
+    "income_table_100": {
+     "3": 8168429,
+     "4": 8802202,
+     "5": 9326985,
+     "6": 9906263
+    },
+    "prewed_ok": true,
+    "unknown_groups": []
+   },
+   "api": {
+    "CCR_CNNT_SYS_DS_CD": "03",
+    "SPL_INF_TP_CD": "063",
+    "UPP_AIS_TP_CD": "06",
+    "AIS_TP_CD": "10"
+   },
+   "read": {
+    "tools": [
+     "pypdf",
+     "pdfium",
+     "plumber"
+    ],
+    "conflicts": []
+   }
+  },
+  {
    "id": "2015122300020863",
    "name": "대전광역시 영구임대주택 예비입주자 모집(2026.10.06)",
    "type": "영구임대",
@@ -5093,7 +5030,7 @@
    "region": "대전광역시",
    "posted": "2026-10-06",
    "close": "2026-10-22",
-   "status": "공고중",
+   "status": "정정공고중",
    "url": "https://apply.lh.or.kr/lhapply/apply/wt/wrtanc/selectWrtancInfo.do?panId=2015122300020863&ccrCnntSysDsCd=03&uppAisTpCd=06&aisTpCd=09&mi=1026",
    "url_mobile": "https://apply.lh.or.kr/lhapply/apply/wt/wrtanc/selectWrtancInfo.do?panId=2015122300020863&ccrCnntSysDsCd=03&uppAisTpCd=06&aisTpCd=09&mi=1026",
    "schedule": [
@@ -5806,6 +5743,615 @@
      }
     },
     "income_table_100": null
+   },
+   "api": {
+    "CCR_CNNT_SYS_DS_CD": "03",
+    "SPL_INF_TP_CD": "062",
+    "UPP_AIS_TP_CD": "06",
+    "AIS_TP_CD": "09"
+   },
+   "read": {
+    "tools": [
+     "pypdf",
+     "pdfium",
+     "plumber"
+    ],
+    "conflicts": []
+   }
+  },
+  {
+   "id": "2015122300020881",
+   "name": "[정정공고]대전광역시 영구임대주택 예비입주자 모집(2026.10.06)",
+   "type": "영구임대",
+   "type_code": "09",
+   "judge_type": true,
+   "region": "대전광역시",
+   "posted": "2026-10-07",
+   "close": "2026-10-22",
+   "status": "공고중",
+   "url": "https://apply.lh.or.kr/lhapply/apply/wt/wrtanc/selectWrtancInfo.do?panId=2015122300020881&ccrCnntSysDsCd=03&uppAisTpCd=06&aisTpCd=09&mi=1026",
+   "url_mobile": "https://apply.lh.or.kr/lhapply/apply/wt/wrtanc/selectWrtancInfo.do?panId=2015122300020881&ccrCnntSysDsCd=03&uppAisTpCd=06&aisTpCd=09&mi=1026",
+   "schedule": [
+    {
+     "complex": "대전판암4 영구임대",
+     "apply_start": "2026-10-20",
+     "apply_end": "2026-10-22",
+     "apply_time": "~",
+     "docs_target": null,
+     "docs_start": null,
+     "docs_end": null,
+     "winner": "2027-02-26",
+     "contract_start": null,
+     "contract_end": null
+    },
+    {
+     "complex": "대전둔산1 영구임대",
+     "apply_start": "2026-10-20",
+     "apply_end": "2026-10-22",
+     "apply_time": "~",
+     "docs_target": null,
+     "docs_start": null,
+     "docs_end": null,
+     "winner": "2027-02-26",
+     "contract_start": null,
+     "contract_end": null
+    },
+    {
+     "complex": "대전둔산3 영구임대",
+     "apply_start": "2026-10-20",
+     "apply_end": "2026-10-22",
+     "apply_time": "~",
+     "docs_target": null,
+     "docs_start": null,
+     "docs_end": null,
+     "winner": "2027-02-26",
+     "contract_start": null,
+     "contract_end": null
+    },
+    {
+     "complex": "대전중촌2 영구임대",
+     "apply_start": "2026-10-20",
+     "apply_end": "2026-10-22",
+     "apply_time": "~",
+     "docs_target": null,
+     "docs_start": null,
+     "docs_end": null,
+     "winner": "2027-02-26",
+     "contract_start": null,
+     "contract_end": null
+    },
+    {
+     "complex": "대전판암3 영구임대",
+     "apply_start": "2026-10-20",
+     "apply_end": "2026-10-22",
+     "apply_time": "~",
+     "docs_target": null,
+     "docs_start": null,
+     "docs_end": null,
+     "winner": "2027-02-26",
+     "contract_start": null,
+     "contract_end": null
+    },
+    {
+     "complex": "대전산내 영구임대",
+     "apply_start": "2026-10-20",
+     "apply_end": "2026-10-22",
+     "apply_time": "~",
+     "docs_target": null,
+     "docs_start": null,
+     "docs_end": null,
+     "winner": "2027-02-26",
+     "contract_start": null,
+     "contract_end": null
+    },
+    {
+     "complex": "대전중촌2 증축 영구임대주택(주거복지동)",
+     "apply_start": "2026-10-20",
+     "apply_end": "2026-10-22",
+     "apply_time": "~",
+     "docs_target": null,
+     "docs_start": null,
+     "docs_end": null,
+     "winner": "2027-02-26",
+     "contract_start": null,
+     "contract_end": null
+    },
+    {
+     "complex": "대전관저5 천년나무 1단지 영구임대주택",
+     "apply_start": "2026-10-20",
+     "apply_end": "2026-10-22",
+     "apply_time": "~",
+     "docs_target": null,
+     "docs_start": null,
+     "docs_end": null,
+     "winner": "2027-02-26",
+     "contract_start": null,
+     "contract_end": null
+    },
+    {
+     "complex": "대전법동3 영구임대",
+     "apply_start": "2026-10-20",
+     "apply_end": "2026-10-22",
+     "apply_time": "~",
+     "docs_target": null,
+     "docs_start": null,
+     "docs_end": null,
+     "winner": "2027-02-26",
+     "contract_start": null,
+     "contract_end": null
+    }
+   ],
+   "complexes": [
+    {
+     "name": "대전관저5 천년나무 1단지 영구임대주택",
+     "address": "대전광역시 서구 구봉산북로 212(관저동) 관저5지구 LH천년나무1단지",
+     "households": 1106,
+     "area": "21.97~26.9",
+     "move_in": "2016.01",
+     "heating": "지역난방"
+    },
+    {
+     "name": "대전산내 영구임대",
+     "address": "대전광역시 동구 산내로 1352-25(낭월동,주공아파트)",
+     "households": 624,
+     "area": "39.3~39.69",
+     "move_in": "1990.12",
+     "heating": "개별가스난방"
+    },
+    {
+     "name": "대전중촌2 영구임대",
+     "address": "대전광역시 중구 대전천서로 695(중촌동,주공아파트2단지)",
+     "households": 948,
+     "area": "26.37~40.32",
+     "move_in": "1991.11",
+     "heating": "중앙가스난방"
+    },
+    {
+     "name": "대전둔산3 영구임대",
+     "address": "대전광역시 서구 월평북로 11(월평동,주공아파트)",
+     "households": 1386,
+     "area": "26.37~52.74",
+     "move_in": "1993.07",
+     "heating": "중앙가스난방"
+    },
+    {
+     "name": "대전둔산1 영구임대",
+     "address": "대전광역시 서구 월평북로 11(월평동,주공아파트)",
+     "households": 1485,
+     "area": "26.37~52.74",
+     "move_in": "1993.07",
+     "heating": "중앙난방"
+    },
+    {
+     "name": "대전법동3 영구임대",
+     "address": "대전광역시 대덕구 계족로663번길 34(법동,주공아파트)",
+     "households": 1488,
+     "area": "26.37~40.32",
+     "move_in": "1990.12",
+     "heating": "중앙가스난방"
+    },
+    {
+     "name": "대전판암4 영구임대",
+     "address": "대전광역시 동구 동부로 56-8(판암동,주공아파트4단지)",
+     "households": 2359,
+     "area": "26.37~52.74",
+     "move_in": "1992.08",
+     "heating": "중앙난방"
+    },
+    {
+     "name": "대전판암3 영구임대",
+     "address": "대전광역시 동구 옥천로 152-9(판암동,주공아파트)",
+     "households": 768,
+     "area": "26.37~40.32",
+     "move_in": "1991.08",
+     "heating": "중앙난방"
+    },
+    {
+     "name": "대전중촌2 증축 영구임대주택(주거복지동)",
+     "address": "대전광역시 중구 대전천서로 695(중촌동,주공아파트2단지)",
+     "households": 112,
+     "area": "19.91~26.84",
+     "move_in": "2019.06",
+     "heating": "개별난방"
+    }
+   ],
+   "units": [
+    {
+     "complex": "대전관저5 천년나무 1단지 영구임대주택",
+     "type": "26",
+     "area": 26.9,
+     "supply_area": 40.6644,
+     "households": 168,
+     "now_households": 30,
+     "deposit": null,
+     "rent": null,
+     "money_note": "공고문 참조"
+    },
+    {
+     "complex": "대전관저5 천년나무 1단지 영구임대주택",
+     "type": "26D",
+     "area": 26.9,
+     "supply_area": 40.8544,
+     "households": 12,
+     "now_households": 5,
+     "deposit": null,
+     "rent": null,
+     "money_note": "공고문 참조"
+    },
+    {
+     "complex": "대전산내 영구임대",
+     "type": "39.30/39.69",
+     "area": 39.3,
+     "supply_area": 48.96,
+     "households": 624,
+     "now_households": 70,
+     "deposit": null,
+     "rent": null,
+     "money_note": "공고문 참조"
+    },
+    {
+     "complex": "대전중촌2 영구임대",
+     "type": "39.8500",
+     "area": 26.37,
+     "supply_area": 36.8763,
+     "households": 588,
+     "now_households": 50,
+     "deposit": null,
+     "rent": null,
+     "money_note": "공고문 참조"
+    },
+    {
+     "complex": "대전중촌2 영구임대",
+     "type": "44.1500",
+     "area": 31.32,
+     "supply_area": 43.7984,
+     "households": 180,
+     "now_households": 30,
+     "deposit": null,
+     "rent": null,
+     "money_note": "공고문 참조"
+    },
+    {
+     "complex": "대전둔산3 영구임대",
+     "type": "39.9300",
+     "area": 26.37,
+     "supply_area": 39.27,
+     "households": 1031,
+     "now_households": 200,
+     "deposit": null,
+     "rent": null,
+     "money_note": "공고문 참조"
+    },
+    {
+     "complex": "대전둔산1 영구임대",
+     "type": "39.9300",
+     "area": 26.37,
+     "supply_area": 39.14,
+     "households": 1160,
+     "now_households": 200,
+     "deposit": null,
+     "rent": null,
+     "money_note": "공고문 참조"
+    },
+    {
+     "complex": "대전법동3 영구임대",
+     "type": "39.8500",
+     "area": 26.37,
+     "supply_area": 39.85,
+     "households": 588,
+     "now_households": 105,
+     "deposit": null,
+     "rent": null,
+     "money_note": "공고문 참조"
+    },
+    {
+     "complex": "대전법동3 영구임대",
+     "type": "44.1500",
+     "area": 31.32,
+     "supply_area": 44.15,
+     "households": 450,
+     "now_households": 55,
+     "deposit": null,
+     "rent": null,
+     "money_note": "공고문 참조"
+    },
+    {
+     "complex": "대전법동3 영구임대",
+     "type": "56.8300",
+     "area": 40.32,
+     "supply_area": 56.83,
+     "households": 450,
+     "now_households": 65,
+     "deposit": null,
+     "rent": null,
+     "money_note": "공고문 참조"
+    },
+    {
+     "complex": "대전판암4 영구임대",
+     "type": "39.9300",
+     "area": 26.37,
+     "supply_area": 39.93,
+     "households": 1805,
+     "now_households": 200,
+     "deposit": null,
+     "rent": null,
+     "money_note": "공고문 참조"
+    },
+    {
+     "complex": "대전판암3 영구임대",
+     "type": "44.1500",
+     "area": 31.32,
+     "supply_area": 44.15,
+     "households": 90,
+     "now_households": 5,
+     "deposit": null,
+     "rent": null,
+     "money_note": "공고문 참조"
+    },
+    {
+     "complex": "대전중촌2 증축 영구임대주택(주거복지동)",
+     "type": "19A(주거약자용)",
+     "area": 19.91,
+     "supply_area": 27.8425,
+     "households": 84,
+     "now_households": 11,
+     "deposit": null,
+     "rent": null,
+     "money_note": "공고문 참조"
+    }
+   ],
+   "files": [
+    {
+     "kind": "공고문(hwp)",
+     "name": "대전광역시영구임대주택예비입주자모집공고문(2026.10.06.).hwpx",
+     "url": "https://apply.lh.or.kr/lhapply/lhFile.do?fileid=68873409"
+    },
+    {
+     "kind": "공고문(PDF)",
+     "name": "대전광역시영구임대주택예비입주자모집공고문(2026.10.06.).pdf",
+     "url": "https://apply.lh.or.kr/lhapply/lhFile.do?fileid=68873408"
+    }
+   ],
+   "etc": "<예비입주자 선정 세부 절차>\n1. 신청 및 접수 : 거주지 행정복지센터(구,주민센터)\n2. 당첨자 선정(입주자격 전산검색) : 대전광역시\n3. 예비입주자 당첨자 발표 : LH 및 주택관리공단 홈페이지\n4. 예비입주자 계약체결 : 추후 해당 단지 상황에 따라 개별 계약안내",
+   "office": {
+    "place": null,
+    "tel": null
+   },
+   "notice_pdf": "https://apply.lh.or.kr/lhapply/lhFile.do?fileid=68873408",
+   "notice_text": 55512,
+   "rents": [
+    {
+     "complex": "대전판암3",
+     "type": "31",
+     "group": "가군",
+     "deposit": 3328000,
+     "rent": 66210
+    },
+    {
+     "complex": "대전판암3",
+     "type": "31",
+     "group": "나군",
+     "deposit": 7706000,
+     "rent": 106460
+    },
+    {
+     "complex": "대전판암4",
+     "type": "26",
+     "group": "가군",
+     "deposit": 2801000,
+     "rent": 55750
+    },
+    {
+     "complex": "대전판암4",
+     "type": "26",
+     "group": "나군",
+     "deposit": 6488000,
+     "rent": 89640
+    },
+    {
+     "complex": "대전법동3",
+     "type": "26",
+     "group": "가군",
+     "deposit": 2801000,
+     "rent": 55750
+    },
+    {
+     "complex": "대전법동3",
+     "type": "26",
+     "group": "나군",
+     "deposit": 6488000,
+     "rent": 89640
+    },
+    {
+     "complex": "대전법동3",
+     "type": "31",
+     "group": "가군",
+     "deposit": 3328000,
+     "rent": 66210
+    },
+    {
+     "complex": "대전법동3",
+     "type": "31",
+     "group": "나군",
+     "deposit": 7706000,
+     "rent": 106460
+    },
+    {
+     "complex": "대전법동3",
+     "type": "40",
+     "group": "가군",
+     "deposit": 4285000,
+     "rent": 85250
+    },
+    {
+     "complex": "대전법동3",
+     "type": "40",
+     "group": "나군",
+     "deposit": 9920000,
+     "rent": 137060
+    },
+    {
+     "complex": "대전둔산1",
+     "type": "26",
+     "group": "가군",
+     "deposit": 2801000,
+     "rent": 55750
+    },
+    {
+     "complex": "대전둔산1",
+     "type": "26",
+     "group": "나군",
+     "deposit": 6488000,
+     "rent": 89640
+    },
+    {
+     "complex": "대전둔산3",
+     "type": "26",
+     "group": "가군",
+     "deposit": 2801000,
+     "rent": 55750
+    },
+    {
+     "complex": "대전둔산3",
+     "type": "26",
+     "group": "나군",
+     "deposit": 6488000,
+     "rent": 89640
+    },
+    {
+     "complex": "대전중촌2",
+     "type": "19",
+     "group": "가군",
+     "deposit": 2079000,
+     "rent": 40620
+    },
+    {
+     "complex": "대전중촌2",
+     "type": "19",
+     "group": "나군",
+     "deposit": 4818000,
+     "rent": 65310
+    },
+    {
+     "complex": "대전중촌2",
+     "type": "26",
+     "group": "가군",
+     "deposit": 2801000,
+     "rent": 55750
+    },
+    {
+     "complex": "대전중촌2",
+     "type": "26",
+     "group": "나군",
+     "deposit": 6488000,
+     "rent": 89640
+    },
+    {
+     "complex": "대전중촌2",
+     "type": "31",
+     "group": "가군",
+     "deposit": 3328000,
+     "rent": 66210
+    },
+    {
+     "complex": "대전중촌2",
+     "type": "31",
+     "group": "나군",
+     "deposit": 7706000,
+     "rent": 106460
+    },
+    {
+     "complex": "대전산내",
+     "type": "39",
+     "group": "가군",
+     "deposit": 4176000,
+     "rent": 83080
+    },
+    {
+     "complex": "대전산내",
+     "type": "39",
+     "group": "나군",
+     "deposit": 9669000,
+     "rent": 133590
+    },
+    {
+     "complex": "대전산내",
+     "type": "39",
+     "group": null,
+     "deposit": 4217000,
+     "rent": 83910
+    },
+    {
+     "complex": "대전산내",
+     "type": "39",
+     "group": null,
+     "deposit": 9765000,
+     "rent": 134920
+    },
+    {
+     "complex": "대전관저5 천년나무1",
+     "type": "21A",
+     "group": "가군",
+     "deposit": 2315000,
+     "rent": 46130
+    },
+    {
+     "complex": "대전관저5 천년나무1",
+     "type": "21A",
+     "group": "나군",
+     "deposit": 11333000,
+     "rent": 98650
+    },
+    {
+     "complex": "대전관저5 천년나무1",
+     "type": "26D",
+     "group": "가군",
+     "deposit": 2833000,
+     "rent": 56470
+    },
+    {
+     "complex": "대전관저5 천년나무1",
+     "type": "26D",
+     "group": "나군",
+     "deposit": 13737000,
+     "rent": 119740
+    }
+   ],
+   "terms": {
+    "relaxed": false,
+    "homeless_relaxed": false,
+    "homeless_max1": false,
+    "income_basis": "도시근로자 월평균소득",
+    "groups": [
+     {
+      "key": "일반",
+      "name": "일반",
+      "homeless": "household",
+      "income_pct": {
+       "1": 70,
+       "2": 60,
+       "3+": 50
+      },
+      "asset_manwon": 24500,
+      "car_manwon": 4542,
+      "age_min": null,
+      "age_max": null
+     }
+    ],
+    "quotes": {
+     "일반": {
+      "income": "지시설퇴소자) - 월평균 소득 50%이하 : 차목(일반입주자) 2. 월평균 소득기준 우대비율 적용대상(가구원수별, 출생자녀별 가산항목 동시 적용) - 가구원수별 가산비율 : 1인 가구 20%p, 2인 가구 10%p - 출생자녀별 가산비율 : 1명 10%p, 2명",
+      "asset": "위 장애인) 2. 총자산 기준 세대구성원 전원이 보유하고 있는 총 자산(부동산, 자동차, 금융자산(부채반영), 일반자산) 가액 합산 기준 ( 24,500 )만원 이하 3. 자동차 기준",
+      "car": "이 보유하고 있는 개별 자동차가액 ( 4,542 )만원 이하 * 총자산 기준과"
+     }
+    },
+    "income_table_100": null,
+    "local": {
+     "name": "대전광역시",
+     "sido": "대전",
+     "sigun": null,
+     "quote": "신청자격 입주자 모집공고일(2026.10.06.) 현재 대전광역시에 거주하는 성년자인 무주택세대구성원"
+    }
    },
    "api": {
     "CCR_CNNT_SYS_DS_CD": "03",
