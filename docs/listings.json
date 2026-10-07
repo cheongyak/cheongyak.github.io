@@ -43470,9 +43470,9 @@
   "name": "중동역 다채로움 더원",
   "address": "경기도 부천시 소사구 송내동 365-1번지 일원",
   "region": "경기",
-  "sigungu": "부천시",
+  "sigungu": "부천시 소사구",
   "sido": "경기",
-  "district": "부천시",
+  "district": "부천시 소사구",
   "supply_type": "APT",
   "house_secd": "01",
   "house_dtl": "민영",
@@ -43562,13 +43562,13 @@
   "mid_rate": 0.6,
   "mkt_low": null,
   "mkt_base": null,
-  "mkt_note": "비교할 거래가 부족해요. 시세를 직접 확인하세요.",
+  "mkt_note": "시군구 코드를 아직 확인하지 못해 시세를 조회하지 못했어요 (지도 좌표로 확인되면 다음 수집부터 조회).",
   "mkt_basis": null,
   "mkt_count": 0,
   "mkt_direct_excluded": 0,
   "mkt_comps": [],
   "jeonse": null,
-  "jeonse_note": "전세 거래가 부족해 추정하지 못했어요.",
+  "jeonse_note": "",
   "jeonse_comps": [],
   "capital": true,
   "regulated": false,
@@ -43586,7 +43586,7 @@
   },
   "notice_conflicts": [],
   "duty_silent": false,
-  "jeonse_weak": true,
+  "jeonse_weak": false,
   "unregistered": true,
   "need_head": false,
   "need_account": true,
@@ -43688,129 +43688,7 @@
     "other": 0
    }
   },
-  "area_sp": [
-   {
-    "name": "두산위브더제니스 부천",
-    "notice": "2026-08-12",
-    "apply": "2026-08-19",
-    "url": "https://www.applyhome.co.kr/ai/aia/selectAPTLttotPblancDetail.do?houseManageNo=2026000382&pblancNo=2026000382",
-    "unit": "59A",
-    "area": 59.94,
-    "sp": {
-     "elder": {
-      "local": 0,
-      "other": 0,
-      "req": 0,
-      "sido": 0,
-      "u": 9
-     },
-     "first": {
-      "local": 31,
-      "other": 117,
-      "req": 148,
-      "sido": 0,
-      "u": 23
-     },
-     "multichild": {
-      "local": 0,
-      "other": 0,
-      "req": 1,
-      "sido": 1,
-      "u": 32
-     },
-     "newborn": {
-      "local": 2,
-      "other": 18,
-      "req": 20,
-      "sido": 0,
-      "u": 32
-     },
-     "newlywed": {
-      "local": 0,
-      "other": 24,
-      "req": 24,
-      "sido": 0,
-      "u": 48
-     }
-    }
-   },
-   {
-    "name": "오정 해모로 스마트시티(조합원 취소분)",
-    "notice": "2026-05-19",
-    "apply": "2026-05-29",
-    "url": "https://www.applyhome.co.kr/ai/aia/selectAPTLttotPblancDetail.do?houseManageNo=2026000122&pblancNo=2026000122",
-    "unit": "59",
-    "area": 59.9026,
-    "sp": {
-     "elder": {
-      "local": 0,
-      "other": 0,
-      "req": 0,
-      "sido": 0,
-      "u": 1
-     },
-     "first": {
-      "local": 2,
-      "other": 5,
-      "req": 7,
-      "sido": 0,
-      "u": 3
-     },
-     "multichild": {
-      "local": 0,
-      "other": 0,
-      "req": 0,
-      "sido": 0,
-      "u": 2
-     },
-     "newlywed": {
-      "local": 0,
-      "other": 0,
-      "req": 0,
-      "sido": 0,
-      "u": 9
-     }
-    }
-   },
-   {
-    "name": "엘리프 역곡",
-    "notice": "2026-05-14",
-    "apply": "2026-05-26",
-    "url": "https://www.applyhome.co.kr/ai/aia/selectAPTLttotPblancDetail.do?houseManageNo=2026000187&pblancNo=2026000187",
-    "unit": "59",
-    "area": 59.95,
-    "sp": {
-     "elder": {
-      "local": 0,
-      "other": 0,
-      "req": 0,
-      "sido": 0,
-      "u": 1
-     },
-     "first": {
-      "local": 11,
-      "other": 30,
-      "req": 41,
-      "sido": 0,
-      "u": 2
-     },
-     "multichild": {
-      "local": 0,
-      "other": 0,
-      "req": 0,
-      "sido": 0,
-      "u": 2
-     },
-     "newlywed": {
-      "local": 1,
-      "other": 10,
-      "req": 11,
-      "sido": 0,
-      "u": 4
-     }
-    }
-   }
-  ],
+  "area_sp": [],
   "map_query": "경기도 부천시 소사구 송내동 365-1",
   "nearby": [
    {
@@ -43861,9 +43739,9 @@
   "name": "중동역 다채로움 더원",
   "address": "경기도 부천시 소사구 송내동 365-1번지 일원",
   "region": "경기",
-  "sigungu": "부천시",
+  "sigungu": "부천시 소사구",
   "sido": "경기",
-  "district": "부천시",
+  "district": "부천시 소사구",
   "supply_type": "APT",
   "house_secd": "01",
   "house_dtl": "민영",
@@ -43953,13 +43831,13 @@
   "mid_rate": 0.6,
   "mkt_low": null,
   "mkt_base": null,
-  "mkt_note": "비교할 거래가 부족해요. 시세를 직접 확인하세요.",
+  "mkt_note": "시군구 코드를 아직 확인하지 못해 시세를 조회하지 못했어요 (지도 좌표로 확인되면 다음 수집부터 조회).",
   "mkt_basis": null,
   "mkt_count": 0,
   "mkt_direct_excluded": 0,
   "mkt_comps": [],
   "jeonse": null,
-  "jeonse_note": "전세 거래가 부족해 추정하지 못했어요.",
+  "jeonse_note": "",
   "jeonse_comps": [],
   "capital": true,
   "regulated": false,
@@ -43977,7 +43855,7 @@
   },
   "notice_conflicts": [],
   "duty_silent": false,
-  "jeonse_weak": true,
+  "jeonse_weak": false,
   "unregistered": true,
   "need_head": false,
   "need_account": true,
@@ -44065,129 +43943,7 @@
     "other": 1
    }
   },
-  "area_sp": [
-   {
-    "name": "두산위브더제니스 부천",
-    "notice": "2026-08-12",
-    "apply": "2026-08-19",
-    "url": "https://www.applyhome.co.kr/ai/aia/selectAPTLttotPblancDetail.do?houseManageNo=2026000382&pblancNo=2026000382",
-    "unit": "59B",
-    "area": 59.98,
-    "sp": {
-     "elder": {
-      "local": 0,
-      "other": 0,
-      "req": 0,
-      "sido": 0,
-      "u": 5
-     },
-     "first": {
-      "local": 8,
-      "other": 37,
-      "req": 45,
-      "sido": 0,
-      "u": 12
-     },
-     "multichild": {
-      "local": 0,
-      "other": 0,
-      "req": 0,
-      "sido": 0,
-      "u": 17
-     },
-     "newborn": {
-      "local": 1,
-      "other": 0,
-      "req": 1,
-      "sido": 0,
-      "u": 17
-     },
-     "newlywed": {
-      "local": 0,
-      "other": 1,
-      "req": 1,
-      "sido": 0,
-      "u": 25
-     }
-    }
-   },
-   {
-    "name": "오정 해모로 스마트시티(조합원 취소분)",
-    "notice": "2026-05-19",
-    "apply": "2026-05-29",
-    "url": "https://www.applyhome.co.kr/ai/aia/selectAPTLttotPblancDetail.do?houseManageNo=2026000122&pblancNo=2026000122",
-    "unit": "59",
-    "area": 59.9026,
-    "sp": {
-     "elder": {
-      "local": 0,
-      "other": 0,
-      "req": 0,
-      "sido": 0,
-      "u": 1
-     },
-     "first": {
-      "local": 2,
-      "other": 5,
-      "req": 7,
-      "sido": 0,
-      "u": 3
-     },
-     "multichild": {
-      "local": 0,
-      "other": 0,
-      "req": 0,
-      "sido": 0,
-      "u": 2
-     },
-     "newlywed": {
-      "local": 0,
-      "other": 0,
-      "req": 0,
-      "sido": 0,
-      "u": 9
-     }
-    }
-   },
-   {
-    "name": "엘리프 역곡",
-    "notice": "2026-05-14",
-    "apply": "2026-05-26",
-    "url": "https://www.applyhome.co.kr/ai/aia/selectAPTLttotPblancDetail.do?houseManageNo=2026000187&pblancNo=2026000187",
-    "unit": "59",
-    "area": 59.95,
-    "sp": {
-     "elder": {
-      "local": 0,
-      "other": 0,
-      "req": 0,
-      "sido": 0,
-      "u": 1
-     },
-     "first": {
-      "local": 11,
-      "other": 30,
-      "req": 41,
-      "sido": 0,
-      "u": 2
-     },
-     "multichild": {
-      "local": 0,
-      "other": 0,
-      "req": 0,
-      "sido": 0,
-      "u": 2
-     },
-     "newlywed": {
-      "local": 1,
-      "other": 10,
-      "req": 11,
-      "sido": 0,
-      "u": 4
-     }
-    }
-   }
-  ],
+  "area_sp": [],
   "map_query": "경기도 부천시 소사구 송내동 365-1",
   "nearby": [
    {
@@ -44238,9 +43994,9 @@
   "name": "중동역 다채로움 더원",
   "address": "경기도 부천시 소사구 송내동 365-1번지 일원",
   "region": "경기",
-  "sigungu": "부천시",
+  "sigungu": "부천시 소사구",
   "sido": "경기",
-  "district": "부천시",
+  "district": "부천시 소사구",
   "supply_type": "APT",
   "house_secd": "01",
   "house_dtl": "민영",
@@ -44330,13 +44086,13 @@
   "mid_rate": 0.6,
   "mkt_low": null,
   "mkt_base": null,
-  "mkt_note": "비교할 거래가 부족해요. 시세를 직접 확인하세요.",
+  "mkt_note": "시군구 코드를 아직 확인하지 못해 시세를 조회하지 못했어요 (지도 좌표로 확인되면 다음 수집부터 조회).",
   "mkt_basis": null,
   "mkt_count": 0,
   "mkt_direct_excluded": 0,
   "mkt_comps": [],
   "jeonse": null,
-  "jeonse_note": "전세 거래가 부족해 추정하지 못했어요.",
+  "jeonse_note": "",
   "jeonse_comps": [],
   "capital": true,
   "regulated": false,
@@ -44354,7 +44110,7 @@
   },
   "notice_conflicts": [],
   "duty_silent": false,
-  "jeonse_weak": true,
+  "jeonse_weak": false,
   "unregistered": true,
   "need_head": false,
   "need_account": true,
@@ -44463,129 +44219,7 @@
     "other": 0
    }
   },
-  "area_sp": [
-   {
-    "name": "두산위브더제니스 부천",
-    "notice": "2026-08-12",
-    "apply": "2026-08-19",
-    "url": "https://www.applyhome.co.kr/ai/aia/selectAPTLttotPblancDetail.do?houseManageNo=2026000382&pblancNo=2026000382",
-    "unit": "59B",
-    "area": 59.98,
-    "sp": {
-     "elder": {
-      "local": 0,
-      "other": 0,
-      "req": 0,
-      "sido": 0,
-      "u": 5
-     },
-     "first": {
-      "local": 8,
-      "other": 37,
-      "req": 45,
-      "sido": 0,
-      "u": 12
-     },
-     "multichild": {
-      "local": 0,
-      "other": 0,
-      "req": 0,
-      "sido": 0,
-      "u": 17
-     },
-     "newborn": {
-      "local": 1,
-      "other": 0,
-      "req": 1,
-      "sido": 0,
-      "u": 17
-     },
-     "newlywed": {
-      "local": 0,
-      "other": 1,
-      "req": 1,
-      "sido": 0,
-      "u": 25
-     }
-    }
-   },
-   {
-    "name": "오정 해모로 스마트시티(조합원 취소분)",
-    "notice": "2026-05-19",
-    "apply": "2026-05-29",
-    "url": "https://www.applyhome.co.kr/ai/aia/selectAPTLttotPblancDetail.do?houseManageNo=2026000122&pblancNo=2026000122",
-    "unit": "59",
-    "area": 59.9026,
-    "sp": {
-     "elder": {
-      "local": 0,
-      "other": 0,
-      "req": 0,
-      "sido": 0,
-      "u": 1
-     },
-     "first": {
-      "local": 2,
-      "other": 5,
-      "req": 7,
-      "sido": 0,
-      "u": 3
-     },
-     "multichild": {
-      "local": 0,
-      "other": 0,
-      "req": 0,
-      "sido": 0,
-      "u": 2
-     },
-     "newlywed": {
-      "local": 0,
-      "other": 0,
-      "req": 0,
-      "sido": 0,
-      "u": 9
-     }
-    }
-   },
-   {
-    "name": "엘리프 역곡",
-    "notice": "2026-05-14",
-    "apply": "2026-05-26",
-    "url": "https://www.applyhome.co.kr/ai/aia/selectAPTLttotPblancDetail.do?houseManageNo=2026000187&pblancNo=2026000187",
-    "unit": "59",
-    "area": 59.95,
-    "sp": {
-     "elder": {
-      "local": 0,
-      "other": 0,
-      "req": 0,
-      "sido": 0,
-      "u": 1
-     },
-     "first": {
-      "local": 11,
-      "other": 30,
-      "req": 41,
-      "sido": 0,
-      "u": 2
-     },
-     "multichild": {
-      "local": 0,
-      "other": 0,
-      "req": 0,
-      "sido": 0,
-      "u": 2
-     },
-     "newlywed": {
-      "local": 1,
-      "other": 10,
-      "req": 11,
-      "sido": 0,
-      "u": 4
-     }
-    }
-   }
-  ],
+  "area_sp": [],
   "map_query": "경기도 부천시 소사구 송내동 365-1",
   "nearby": [
    {
@@ -44636,9 +44270,9 @@
   "name": "중동역 다채로움 더원",
   "address": "경기도 부천시 소사구 송내동 365-1번지 일원",
   "region": "경기",
-  "sigungu": "부천시",
+  "sigungu": "부천시 소사구",
   "sido": "경기",
-  "district": "부천시",
+  "district": "부천시 소사구",
   "supply_type": "APT",
   "house_secd": "01",
   "house_dtl": "민영",
@@ -44728,13 +44362,13 @@
   "mid_rate": 0.6,
   "mkt_low": null,
   "mkt_base": null,
-  "mkt_note": "비교할 거래가 부족해요. 시세를 직접 확인하세요.",
+  "mkt_note": "시군구 코드를 아직 확인하지 못해 시세를 조회하지 못했어요 (지도 좌표로 확인되면 다음 수집부터 조회).",
   "mkt_basis": null,
   "mkt_count": 0,
   "mkt_direct_excluded": 0,
   "mkt_comps": [],
   "jeonse": null,
-  "jeonse_note": "전세 거래가 부족해 추정하지 못했어요.",
+  "jeonse_note": "",
   "jeonse_comps": [],
   "capital": true,
   "regulated": false,
@@ -44752,7 +44386,7 @@
   },
   "notice_conflicts": [],
   "duty_silent": false,
-  "jeonse_weak": true,
+  "jeonse_weak": false,
   "unregistered": true,
   "need_head": false,
   "need_account": true,
@@ -44832,115 +44466,7 @@
   },
   "area_comps": null,
   "sp_competition": null,
-  "area_sp": [
-   {
-    "name": "상동역 롯데캐슬 시그니처",
-    "notice": "2026-08-14",
-    "apply": "2026-08-24",
-    "url": "https://www.applyhome.co.kr/ai/aia/selectAPTLttotPblancDetail.do?houseManageNo=2026000354&pblancNo=2026000354",
-    "unit": "84C",
-    "area": 84.9874,
-    "sp": {
-     "elder": {
-      "local": 1,
-      "other": 0,
-      "req": 1,
-      "sido": 0,
-      "u": 11
-     },
-     "first": {
-      "local": 10,
-      "other": 6,
-      "req": 16,
-      "sido": 0,
-      "u": 25
-     },
-     "multichild": {
-      "local": 7,
-      "other": 2,
-      "req": 11,
-      "sido": 2,
-      "u": 35
-     },
-     "newborn": {
-      "local": 7,
-      "other": 3,
-      "req": 10,
-      "sido": 0,
-      "u": 35
-     },
-     "newlywed": {
-      "local": 2,
-      "other": 6,
-      "req": 8,
-      "sido": 0,
-      "u": 53
-     }
-    }
-   },
-   {
-    "name": "두산위브더제니스 부천",
-    "notice": "2026-08-12",
-    "apply": "2026-08-19",
-    "url": "https://www.applyhome.co.kr/ai/aia/selectAPTLttotPblancDetail.do?houseManageNo=2026000382&pblancNo=2026000382",
-    "unit": "84A",
-    "area": 84.95,
-    "sp": {
-     "elder": {
-      "local": 0,
-      "other": 0,
-      "req": 0,
-      "sido": 0,
-      "u": 3
-     },
-     "first": {
-      "local": 1,
-      "other": 4,
-      "req": 5,
-      "sido": 0,
-      "u": 7
-     },
-     "multichild": {
-      "local": 0,
-      "other": 0,
-      "req": 1,
-      "sido": 1,
-      "u": 10
-     },
-     "newborn": {
-      "local": 0,
-      "other": 1,
-      "req": 1,
-      "sido": 0,
-      "u": 10
-     },
-     "newlywed": {
-      "local": 1,
-      "other": 2,
-      "req": 3,
-      "sido": 0,
-      "u": 16
-     }
-    }
-   },
-   {
-    "name": "오정 해모로 스마트시티(조합원 취소분)",
-    "notice": "2026-05-19",
-    "apply": "2026-05-29",
-    "url": "https://www.applyhome.co.kr/ai/aia/selectAPTLttotPblancDetail.do?houseManageNo=2026000122&pblancNo=2026000122",
-    "unit": "71",
-    "area": 71.97,
-    "sp": {
-     "multichild": {
-      "local": 0,
-      "other": 0,
-      "req": 1,
-      "sido": 1,
-      "u": 2
-     }
-    }
-   }
-  ],
+  "area_sp": [],
   "map_query": "경기도 부천시 소사구 송내동 365-1",
   "nearby": [
    {
@@ -44991,9 +44517,9 @@
   "name": "중동역 다채로움 더원",
   "address": "경기도 부천시 소사구 송내동 365-1번지 일원",
   "region": "경기",
-  "sigungu": "부천시",
+  "sigungu": "부천시 소사구",
   "sido": "경기",
-  "district": "부천시",
+  "district": "부천시 소사구",
   "supply_type": "APT",
   "house_secd": "01",
   "house_dtl": "민영",
@@ -45083,13 +44609,13 @@
   "mid_rate": 0.6,
   "mkt_low": null,
   "mkt_base": null,
-  "mkt_note": "비교할 거래가 부족해요. 시세를 직접 확인하세요.",
+  "mkt_note": "시군구 코드를 아직 확인하지 못해 시세를 조회하지 못했어요 (지도 좌표로 확인되면 다음 수집부터 조회).",
   "mkt_basis": null,
   "mkt_count": 0,
   "mkt_direct_excluded": 0,
   "mkt_comps": [],
   "jeonse": null,
-  "jeonse_note": "전세 거래가 부족해 추정하지 못했어요.",
+  "jeonse_note": "",
   "jeonse_comps": [],
   "capital": true,
   "regulated": false,
@@ -45107,7 +44633,7 @@
   },
   "notice_conflicts": [],
   "duty_silent": false,
-  "jeonse_weak": true,
+  "jeonse_weak": false,
   "unregistered": true,
   "need_head": false,
   "need_account": true,
@@ -45216,115 +44742,7 @@
     "other": 0
    }
   },
-  "area_sp": [
-   {
-    "name": "상동역 롯데캐슬 시그니처",
-    "notice": "2026-08-14",
-    "apply": "2026-08-24",
-    "url": "https://www.applyhome.co.kr/ai/aia/selectAPTLttotPblancDetail.do?houseManageNo=2026000354&pblancNo=2026000354",
-    "unit": "84F",
-    "area": 84.9928,
-    "sp": {
-     "elder": {
-      "local": 3,
-      "other": 0,
-      "req": 3,
-      "sido": 0,
-      "u": 14
-     },
-     "first": {
-      "local": 20,
-      "other": 13,
-      "req": 33,
-      "sido": 0,
-      "u": 32
-     },
-     "multichild": {
-      "local": 19,
-      "other": 2,
-      "req": 22,
-      "sido": 1,
-      "u": 45
-     },
-     "newborn": {
-      "local": 15,
-      "other": 15,
-      "req": 30,
-      "sido": 0,
-      "u": 45
-     },
-     "newlywed": {
-      "local": 14,
-      "other": 16,
-      "req": 30,
-      "sido": 0,
-      "u": 66
-     }
-    }
-   },
-   {
-    "name": "두산위브더제니스 부천",
-    "notice": "2026-08-12",
-    "apply": "2026-08-19",
-    "url": "https://www.applyhome.co.kr/ai/aia/selectAPTLttotPblancDetail.do?houseManageNo=2026000382&pblancNo=2026000382",
-    "unit": "84A",
-    "area": 84.95,
-    "sp": {
-     "elder": {
-      "local": 0,
-      "other": 0,
-      "req": 0,
-      "sido": 0,
-      "u": 3
-     },
-     "first": {
-      "local": 1,
-      "other": 4,
-      "req": 5,
-      "sido": 0,
-      "u": 7
-     },
-     "multichild": {
-      "local": 0,
-      "other": 0,
-      "req": 1,
-      "sido": 1,
-      "u": 10
-     },
-     "newborn": {
-      "local": 0,
-      "other": 1,
-      "req": 1,
-      "sido": 0,
-      "u": 10
-     },
-     "newlywed": {
-      "local": 1,
-      "other": 2,
-      "req": 3,
-      "sido": 0,
-      "u": 16
-     }
-    }
-   },
-   {
-    "name": "오정 해모로 스마트시티(조합원 취소분)",
-    "notice": "2026-05-19",
-    "apply": "2026-05-29",
-    "url": "https://www.applyhome.co.kr/ai/aia/selectAPTLttotPblancDetail.do?houseManageNo=2026000122&pblancNo=2026000122",
-    "unit": "71",
-    "area": 71.97,
-    "sp": {
-     "multichild": {
-      "local": 0,
-      "other": 0,
-      "req": 1,
-      "sido": 1,
-      "u": 2
-     }
-    }
-   }
-  ],
+  "area_sp": [],
   "map_query": "경기도 부천시 소사구 송내동 365-1",
   "nearby": [
    {
@@ -45375,9 +44793,9 @@
   "name": "중동역 다채로움 더원",
   "address": "경기도 부천시 소사구 송내동 365-1번지 일원",
   "region": "경기",
-  "sigungu": "부천시",
+  "sigungu": "부천시 소사구",
   "sido": "경기",
-  "district": "부천시",
+  "district": "부천시 소사구",
   "supply_type": "APT",
   "house_secd": "01",
   "house_dtl": "민영",
@@ -45467,13 +44885,13 @@
   "mid_rate": 0.6,
   "mkt_low": null,
   "mkt_base": null,
-  "mkt_note": "비교할 거래가 부족해요. 시세를 직접 확인하세요.",
+  "mkt_note": "시군구 코드를 아직 확인하지 못해 시세를 조회하지 못했어요 (지도 좌표로 확인되면 다음 수집부터 조회).",
   "mkt_basis": null,
   "mkt_count": 0,
   "mkt_direct_excluded": 0,
   "mkt_comps": [],
   "jeonse": null,
-  "jeonse_note": "전세 거래가 부족해 추정하지 못했어요.",
+  "jeonse_note": "",
   "jeonse_comps": [],
   "capital": true,
   "regulated": false,
@@ -45491,7 +44909,7 @@
   },
   "notice_conflicts": [],
   "duty_silent": false,
-  "jeonse_weak": true,
+  "jeonse_weak": false,
   "unregistered": true,
   "need_head": false,
   "need_account": true,
@@ -45600,115 +45018,7 @@
     "other": 0
    }
   },
-  "area_sp": [
-   {
-    "name": "상동역 롯데캐슬 시그니처",
-    "notice": "2026-08-14",
-    "apply": "2026-08-24",
-    "url": "https://www.applyhome.co.kr/ai/aia/selectAPTLttotPblancDetail.do?houseManageNo=2026000354&pblancNo=2026000354",
-    "unit": "84C",
-    "area": 84.9874,
-    "sp": {
-     "elder": {
-      "local": 1,
-      "other": 0,
-      "req": 1,
-      "sido": 0,
-      "u": 11
-     },
-     "first": {
-      "local": 10,
-      "other": 6,
-      "req": 16,
-      "sido": 0,
-      "u": 25
-     },
-     "multichild": {
-      "local": 7,
-      "other": 2,
-      "req": 11,
-      "sido": 2,
-      "u": 35
-     },
-     "newborn": {
-      "local": 7,
-      "other": 3,
-      "req": 10,
-      "sido": 0,
-      "u": 35
-     },
-     "newlywed": {
-      "local": 2,
-      "other": 6,
-      "req": 8,
-      "sido": 0,
-      "u": 53
-     }
-    }
-   },
-   {
-    "name": "두산위브더제니스 부천",
-    "notice": "2026-08-12",
-    "apply": "2026-08-19",
-    "url": "https://www.applyhome.co.kr/ai/aia/selectAPTLttotPblancDetail.do?houseManageNo=2026000382&pblancNo=2026000382",
-    "unit": "84A",
-    "area": 84.95,
-    "sp": {
-     "elder": {
-      "local": 0,
-      "other": 0,
-      "req": 0,
-      "sido": 0,
-      "u": 3
-     },
-     "first": {
-      "local": 1,
-      "other": 4,
-      "req": 5,
-      "sido": 0,
-      "u": 7
-     },
-     "multichild": {
-      "local": 0,
-      "other": 0,
-      "req": 1,
-      "sido": 1,
-      "u": 10
-     },
-     "newborn": {
-      "local": 0,
-      "other": 1,
-      "req": 1,
-      "sido": 0,
-      "u": 10
-     },
-     "newlywed": {
-      "local": 1,
-      "other": 2,
-      "req": 3,
-      "sido": 0,
-      "u": 16
-     }
-    }
-   },
-   {
-    "name": "오정 해모로 스마트시티(조합원 취소분)",
-    "notice": "2026-05-19",
-    "apply": "2026-05-29",
-    "url": "https://www.applyhome.co.kr/ai/aia/selectAPTLttotPblancDetail.do?houseManageNo=2026000122&pblancNo=2026000122",
-    "unit": "71",
-    "area": 71.97,
-    "sp": {
-     "multichild": {
-      "local": 0,
-      "other": 0,
-      "req": 1,
-      "sido": 1,
-      "u": 2
-     }
-    }
-   }
-  ],
+  "area_sp": [],
   "map_query": "경기도 부천시 소사구 송내동 365-1",
   "nearby": [
    {
@@ -63392,9 +62702,9 @@
   "name": "상동역 롯데캐슬 시그니처",
   "address": "경기도 부천시 원미구 상동 540-1번지",
   "region": "경기",
-  "sigungu": "부천시",
+  "sigungu": "부천시 원미구",
   "sido": "경기",
-  "district": "부천시",
+  "district": "부천시 원미구",
   "supply_type": "무순위",
   "house_secd": "04",
   "house_dtl": null,
@@ -63453,16 +62763,194 @@
   "ext": 0.0,
   "contract_rate": 0.1,
   "mid_rate": 0.6,
-  "mkt_low": null,
-  "mkt_base": null,
-  "mkt_note": "비교할 거래가 부족해요. 시세를 직접 확인하세요.",
-  "mkt_basis": null,
-  "mkt_count": 0,
-  "mkt_direct_excluded": 0,
-  "mkt_comps": [],
-  "jeonse": null,
-  "jeonse_note": "전세 거래가 부족해 추정하지 못했어요.",
-  "jeonse_comps": [],
+  "mkt_low": 7.5,
+  "mkt_base": 11.45,
+  "mkt_note": "같은 구 준공 10년 이내 같은 평형 매매 101건 기준 (최근 6개월)",
+  "mkt_basis": "district_newbuild",
+  "mkt_count": 101,
+  "mkt_direct_excluded": 4,
+  "mkt_comps": [
+   {
+    "apt": "부천아이파크",
+    "umd": "약대동",
+    "area": 84.58,
+    "floor": 12.0,
+    "dong": "",
+    "amount": 7.1,
+    "date": "2026-09-30",
+    "kind": "매매",
+    "direct": false
+   },
+   {
+    "apt": "부천아이파크",
+    "umd": "약대동",
+    "area": 84.6,
+    "floor": 5.0,
+    "dong": "",
+    "amount": 6.7,
+    "date": "2026-09-28",
+    "kind": "매매",
+    "direct": false
+   },
+   {
+    "apt": "힐스테이트중동",
+    "umd": "중동",
+    "area": 84.9793,
+    "floor": 11.0,
+    "dong": "",
+    "amount": 11.18,
+    "date": "2026-09-22",
+    "kind": "매매",
+    "direct": false
+   },
+   {
+    "apt": "센트럴파크푸르지오",
+    "umd": "중동",
+    "area": 84.9977,
+    "floor": 23.0,
+    "dong": "",
+    "amount": 14.2,
+    "date": "2026-09-22",
+    "kind": "매매",
+    "direct": false
+   },
+   {
+    "apt": "센트럴파크푸르지오",
+    "umd": "중동",
+    "area": 84.9977,
+    "floor": 37.0,
+    "dong": "",
+    "amount": 13.0,
+    "date": "2026-09-21",
+    "kind": "매매",
+    "direct": false
+   },
+   {
+    "apt": "센트럴파크푸르지오",
+    "umd": "중동",
+    "area": 84.8252,
+    "floor": 10.0,
+    "dong": "",
+    "amount": 11.45,
+    "date": "2026-09-19",
+    "kind": "매매",
+    "direct": false
+   },
+   {
+    "apt": "상동스카이뷰자이",
+    "umd": "상동",
+    "area": 84.9587,
+    "floor": 31.0,
+    "dong": "",
+    "amount": 7.9,
+    "date": "2026-09-19",
+    "kind": "매매",
+    "direct": false
+   },
+   {
+    "apt": "상동스카이뷰자이",
+    "umd": "상동",
+    "area": 84.9985,
+    "floor": 5.0,
+    "dong": "",
+    "amount": 7.2,
+    "date": "2026-09-19",
+    "kind": "매매",
+    "direct": false
+   }
+  ],
+  "jeonse": 5.69,
+  "jeonse_note": "같은 구 준공 10년 이내 전세 68건 중앙값에서 입주장 할인 9%",
+  "jeonse_comps": [
+   {
+    "apt": "힐스테이트중동",
+    "umd": "중동",
+    "area": 84.9436,
+    "floor": 31.0,
+    "dong": "",
+    "amount": 7.2,
+    "date": "2026-10-02",
+    "kind": "전세",
+    "direct": false
+   },
+   {
+    "apt": "센트럴파크푸르지오",
+    "umd": "중동",
+    "area": 84.8951,
+    "floor": 36.0,
+    "dong": "",
+    "amount": 8.5,
+    "date": "2026-09-30",
+    "kind": "전세",
+    "direct": false
+   },
+   {
+    "apt": "힐스테이트중동",
+    "umd": "중동",
+    "area": 84.9597,
+    "floor": 30.0,
+    "dong": "",
+    "amount": 7.5,
+    "date": "2026-09-18",
+    "kind": "전세",
+    "direct": false
+   },
+   {
+    "apt": "힐스테이트중동",
+    "umd": "중동",
+    "area": 84.9824,
+    "floor": 27.0,
+    "dong": "",
+    "amount": 7.0,
+    "date": "2026-09-12",
+    "kind": "전세",
+    "direct": false
+   },
+   {
+    "apt": "부천중동스타팰리움",
+    "umd": "중동",
+    "area": 84.9298,
+    "floor": 8.0,
+    "dong": "",
+    "amount": 4.0,
+    "date": "2026-09-12",
+    "kind": "전세",
+    "direct": false
+   },
+   {
+    "apt": "상동스카이뷰자이",
+    "umd": "상동",
+    "area": 84.9815,
+    "floor": 11.0,
+    "dong": "",
+    "amount": 6.1,
+    "date": "2026-09-11",
+    "kind": "전세",
+    "direct": false
+   },
+   {
+    "apt": "센트럴파크푸르지오",
+    "umd": "중동",
+    "area": 84.8971,
+    "floor": 13.0,
+    "dong": "",
+    "amount": 7.35,
+    "date": "2026-09-09",
+    "kind": "전세",
+    "direct": false
+   },
+   {
+    "apt": "부천아이파크",
+    "umd": "약대동",
+    "area": 84.6,
+    "floor": 6.0,
+    "dong": "",
+    "amount": 5.0,
+    "date": "2026-09-05",
+    "kind": "전세",
+    "direct": false
+   }
+  ],
   "capital": true,
   "regulated": false,
   "land_permit": false,
@@ -63475,7 +62963,7 @@
   },
   "notice_conflicts": [],
   "duty_silent": false,
-  "jeonse_weak": true,
+  "jeonse_weak": false,
   "unregistered": true,
   "need_head": false,
   "need_account": false,
@@ -63500,7 +62988,9 @@
    "전매 제한",
    "거주 지역 요건"
   ],
-  "checks": [],
+  "checks": [
+   "마진율 -55%는 이례적이에요. 시세 근거를 확인하세요"
+  ],
   "geo": {
    "lat": 37.504343,
    "lng": 126.755004,
@@ -63512,59 +63002,7 @@
   "account_months": null,
   "deposit_count": null,
   "competition": null,
-  "area_comps": [
-   {
-    "name": "중동역 다채로움 더원",
-    "notice": "2026-09-10",
-    "apply": "2026-09-21",
-    "url": "https://www.applyhome.co.kr/ai/aia/selectAPTLttotPblancDetail.do?houseManageNo=2026000314&pblancNo=2026000314",
-    "category": "general",
-    "unit": "84A",
-    "area": 84.9888,
-    "rank": "1",
-    "reside": "해당지역",
-    "supply": 2.0,
-    "req": 4.0,
-    "rate": "2.00",
-    "rate_num": 2.0,
-    "low": null,
-    "avg": null
-   },
-   {
-    "name": "상동역 롯데캐슬 시그니처",
-    "notice": "2026-08-14",
-    "apply": "2026-08-24",
-    "url": "https://www.applyhome.co.kr/ai/aia/selectAPTLttotPblancDetail.do?houseManageNo=2026000354&pblancNo=2026000354",
-    "category": "general",
-    "unit": "84A",
-    "area": 84.9199,
-    "rank": "1",
-    "reside": "해당지역",
-    "supply": 174.0,
-    "req": 260.0,
-    "rate": "1.49",
-    "rate_num": 1.49,
-    "low": 36.0,
-    "avg": 41.91
-   },
-   {
-    "name": "두산위브더제니스 부천",
-    "notice": "2026-08-12",
-    "apply": "2026-08-19",
-    "url": "https://www.applyhome.co.kr/ai/aia/selectAPTLttotPblancDetail.do?houseManageNo=2026000382&pblancNo=2026000382",
-    "category": "general",
-    "unit": "84B",
-    "area": 84.94,
-    "rank": "1",
-    "reside": "해당지역",
-    "supply": 218.0,
-    "req": 26.0,
-    "rate": "(△192)",
-    "rate_num": null,
-    "low": null,
-    "avg": null
-   }
-  ],
+  "area_comps": [],
   "sp_competition": null,
   "area_sp": null,
   "map_query": "경기도 부천시 원미구 상동 540-1",
@@ -63617,9 +63055,9 @@
   "name": "상동역 롯데캐슬 시그니처",
   "address": "경기도 부천시 원미구 상동 540-1번지",
   "region": "경기",
-  "sigungu": "부천시",
+  "sigungu": "부천시 원미구",
   "sido": "경기",
-  "district": "부천시",
+  "district": "부천시 원미구",
   "supply_type": "무순위",
   "house_secd": "04",
   "house_dtl": null,
@@ -63678,16 +63116,194 @@
   "ext": 0.0,
   "contract_rate": 0.1,
   "mid_rate": 0.6,
-  "mkt_low": null,
-  "mkt_base": null,
-  "mkt_note": "비교할 거래가 부족해요. 시세를 직접 확인하세요.",
-  "mkt_basis": null,
-  "mkt_count": 0,
-  "mkt_direct_excluded": 0,
-  "mkt_comps": [],
-  "jeonse": null,
-  "jeonse_note": "전세 거래가 부족해 추정하지 못했어요.",
-  "jeonse_comps": [],
+  "mkt_low": 7.5,
+  "mkt_base": 11.45,
+  "mkt_note": "같은 구 준공 10년 이내 같은 평형 매매 101건 기준 (최근 6개월)",
+  "mkt_basis": "district_newbuild",
+  "mkt_count": 101,
+  "mkt_direct_excluded": 4,
+  "mkt_comps": [
+   {
+    "apt": "부천아이파크",
+    "umd": "약대동",
+    "area": 84.58,
+    "floor": 12.0,
+    "dong": "",
+    "amount": 7.1,
+    "date": "2026-09-30",
+    "kind": "매매",
+    "direct": false
+   },
+   {
+    "apt": "부천아이파크",
+    "umd": "약대동",
+    "area": 84.6,
+    "floor": 5.0,
+    "dong": "",
+    "amount": 6.7,
+    "date": "2026-09-28",
+    "kind": "매매",
+    "direct": false
+   },
+   {
+    "apt": "힐스테이트중동",
+    "umd": "중동",
+    "area": 84.9793,
+    "floor": 11.0,
+    "dong": "",
+    "amount": 11.18,
+    "date": "2026-09-22",
+    "kind": "매매",
+    "direct": false
+   },
+   {
+    "apt": "센트럴파크푸르지오",
+    "umd": "중동",
+    "area": 84.9977,
+    "floor": 23.0,
+    "dong": "",
+    "amount": 14.2,
+    "date": "2026-09-22",
+    "kind": "매매",
+    "direct": false
+   },
+   {
+    "apt": "센트럴파크푸르지오",
+    "umd": "중동",
+    "area": 84.9977,
+    "floor": 37.0,
+    "dong": "",
+    "amount": 13.0,
+    "date": "2026-09-21",
+    "kind": "매매",
+    "direct": false
+   },
+   {
+    "apt": "센트럴파크푸르지오",
+    "umd": "중동",
+    "area": 84.8252,
+    "floor": 10.0,
+    "dong": "",
+    "amount": 11.45,
+    "date": "2026-09-19",
+    "kind": "매매",
+    "direct": false
+   },
+   {
+    "apt": "상동스카이뷰자이",
+    "umd": "상동",
+    "area": 84.9587,
+    "floor": 31.0,
+    "dong": "",
+    "amount": 7.9,
+    "date": "2026-09-19",
+    "kind": "매매",
+    "direct": false
+   },
+   {
+    "apt": "상동스카이뷰자이",
+    "umd": "상동",
+    "area": 84.9985,
+    "floor": 5.0,
+    "dong": "",
+    "amount": 7.2,
+    "date": "2026-09-19",
+    "kind": "매매",
+    "direct": false
+   }
+  ],
+  "jeonse": 5.69,
+  "jeonse_note": "같은 구 준공 10년 이내 전세 68건 중앙값에서 입주장 할인 9%",
+  "jeonse_comps": [
+   {
+    "apt": "힐스테이트중동",
+    "umd": "중동",
+    "area": 84.9436,
+    "floor": 31.0,
+    "dong": "",
+    "amount": 7.2,
+    "date": "2026-10-02",
+    "kind": "전세",
+    "direct": false
+   },
+   {
+    "apt": "센트럴파크푸르지오",
+    "umd": "중동",
+    "area": 84.8951,
+    "floor": 36.0,
+    "dong": "",
+    "amount": 8.5,
+    "date": "2026-09-30",
+    "kind": "전세",
+    "direct": false
+   },
+   {
+    "apt": "힐스테이트중동",
+    "umd": "중동",
+    "area": 84.9597,
+    "floor": 30.0,
+    "dong": "",
+    "amount": 7.5,
+    "date": "2026-09-18",
+    "kind": "전세",
+    "direct": false
+   },
+   {
+    "apt": "힐스테이트중동",
+    "umd": "중동",
+    "area": 84.9824,
+    "floor": 27.0,
+    "dong": "",
+    "amount": 7.0,
+    "date": "2026-09-12",
+    "kind": "전세",
+    "direct": false
+   },
+   {
+    "apt": "부천중동스타팰리움",
+    "umd": "중동",
+    "area": 84.9298,
+    "floor": 8.0,
+    "dong": "",
+    "amount": 4.0,
+    "date": "2026-09-12",
+    "kind": "전세",
+    "direct": false
+   },
+   {
+    "apt": "상동스카이뷰자이",
+    "umd": "상동",
+    "area": 84.9815,
+    "floor": 11.0,
+    "dong": "",
+    "amount": 6.1,
+    "date": "2026-09-11",
+    "kind": "전세",
+    "direct": false
+   },
+   {
+    "apt": "센트럴파크푸르지오",
+    "umd": "중동",
+    "area": 84.8971,
+    "floor": 13.0,
+    "dong": "",
+    "amount": 7.35,
+    "date": "2026-09-09",
+    "kind": "전세",
+    "direct": false
+   },
+   {
+    "apt": "부천아이파크",
+    "umd": "약대동",
+    "area": 84.6,
+    "floor": 6.0,
+    "dong": "",
+    "amount": 5.0,
+    "date": "2026-09-05",
+    "kind": "전세",
+    "direct": false
+   }
+  ],
   "capital": true,
   "regulated": false,
   "land_permit": false,
@@ -63700,7 +63316,7 @@
   },
   "notice_conflicts": [],
   "duty_silent": false,
-  "jeonse_weak": true,
+  "jeonse_weak": false,
   "unregistered": true,
   "need_head": false,
   "need_account": false,
@@ -63725,7 +63341,9 @@
    "전매 제한",
    "거주 지역 요건"
   ],
-  "checks": [],
+  "checks": [
+   "마진율 -52%는 이례적이에요. 시세 근거를 확인하세요"
+  ],
   "geo": {
    "lat": 37.504343,
    "lng": 126.755004,
@@ -63737,59 +63355,7 @@
   "account_months": null,
   "deposit_count": null,
   "competition": null,
-  "area_comps": [
-   {
-    "name": "중동역 다채로움 더원",
-    "notice": "2026-09-10",
-    "apply": "2026-09-21",
-    "url": "https://www.applyhome.co.kr/ai/aia/selectAPTLttotPblancDetail.do?houseManageNo=2026000314&pblancNo=2026000314",
-    "category": "general",
-    "unit": "84A",
-    "area": 84.9888,
-    "rank": "1",
-    "reside": "해당지역",
-    "supply": 2.0,
-    "req": 4.0,
-    "rate": "2.00",
-    "rate_num": 2.0,
-    "low": null,
-    "avg": null
-   },
-   {
-    "name": "상동역 롯데캐슬 시그니처",
-    "notice": "2026-08-14",
-    "apply": "2026-08-24",
-    "url": "https://www.applyhome.co.kr/ai/aia/selectAPTLttotPblancDetail.do?houseManageNo=2026000354&pblancNo=2026000354",
-    "category": "general",
-    "unit": "84B",
-    "area": 84.7123,
-    "rank": "1",
-    "reside": "해당지역",
-    "supply": 59.0,
-    "req": 81.0,
-    "rate": "1.37",
-    "rate_num": 1.37,
-    "low": 32.0,
-    "avg": 41.0
-   },
-   {
-    "name": "두산위브더제니스 부천",
-    "notice": "2026-08-12",
-    "apply": "2026-08-19",
-    "url": "https://www.applyhome.co.kr/ai/aia/selectAPTLttotPblancDetail.do?houseManageNo=2026000382&pblancNo=2026000382",
-    "category": "general",
-    "unit": "84B",
-    "area": 84.94,
-    "rank": "1",
-    "reside": "해당지역",
-    "supply": 218.0,
-    "req": 26.0,
-    "rate": "(△192)",
-    "rate_num": null,
-    "low": null,
-    "avg": null
-   }
-  ],
+  "area_comps": [],
   "sp_competition": null,
   "area_sp": null,
   "map_query": "경기도 부천시 원미구 상동 540-1",
@@ -63842,9 +63408,9 @@
   "name": "상동역 롯데캐슬 시그니처",
   "address": "경기도 부천시 원미구 상동 540-1번지",
   "region": "경기",
-  "sigungu": "부천시",
+  "sigungu": "부천시 원미구",
   "sido": "경기",
-  "district": "부천시",
+  "district": "부천시 원미구",
   "supply_type": "무순위",
   "house_secd": "04",
   "house_dtl": null,
@@ -63903,16 +63469,194 @@
   "ext": 0.0,
   "contract_rate": 0.1,
   "mid_rate": 0.6,
-  "mkt_low": null,
-  "mkt_base": null,
-  "mkt_note": "비교할 거래가 부족해요. 시세를 직접 확인하세요.",
-  "mkt_basis": null,
-  "mkt_count": 0,
-  "mkt_direct_excluded": 0,
-  "mkt_comps": [],
-  "jeonse": null,
-  "jeonse_note": "전세 거래가 부족해 추정하지 못했어요.",
-  "jeonse_comps": [],
+  "mkt_low": 7.5,
+  "mkt_base": 11.45,
+  "mkt_note": "같은 구 준공 10년 이내 같은 평형 매매 101건 기준 (최근 6개월)",
+  "mkt_basis": "district_newbuild",
+  "mkt_count": 101,
+  "mkt_direct_excluded": 4,
+  "mkt_comps": [
+   {
+    "apt": "부천아이파크",
+    "umd": "약대동",
+    "area": 84.58,
+    "floor": 12.0,
+    "dong": "",
+    "amount": 7.1,
+    "date": "2026-09-30",
+    "kind": "매매",
+    "direct": false
+   },
+   {
+    "apt": "부천아이파크",
+    "umd": "약대동",
+    "area": 84.6,
+    "floor": 5.0,
+    "dong": "",
+    "amount": 6.7,
+    "date": "2026-09-28",
+    "kind": "매매",
+    "direct": false
+   },
+   {
+    "apt": "힐스테이트중동",
+    "umd": "중동",
+    "area": 84.9793,
+    "floor": 11.0,
+    "dong": "",
+    "amount": 11.18,
+    "date": "2026-09-22",
+    "kind": "매매",
+    "direct": false
+   },
+   {
+    "apt": "센트럴파크푸르지오",
+    "umd": "중동",
+    "area": 84.9977,
+    "floor": 23.0,
+    "dong": "",
+    "amount": 14.2,
+    "date": "2026-09-22",
+    "kind": "매매",
+    "direct": false
+   },
+   {
+    "apt": "센트럴파크푸르지오",
+    "umd": "중동",
+    "area": 84.9977,
+    "floor": 37.0,
+    "dong": "",
+    "amount": 13.0,
+    "date": "2026-09-21",
+    "kind": "매매",
+    "direct": false
+   },
+   {
+    "apt": "센트럴파크푸르지오",
+    "umd": "중동",
+    "area": 84.8252,
+    "floor": 10.0,
+    "dong": "",
+    "amount": 11.45,
+    "date": "2026-09-19",
+    "kind": "매매",
+    "direct": false
+   },
+   {
+    "apt": "상동스카이뷰자이",
+    "umd": "상동",
+    "area": 84.9587,
+    "floor": 31.0,
+    "dong": "",
+    "amount": 7.9,
+    "date": "2026-09-19",
+    "kind": "매매",
+    "direct": false
+   },
+   {
+    "apt": "상동스카이뷰자이",
+    "umd": "상동",
+    "area": 84.9985,
+    "floor": 5.0,
+    "dong": "",
+    "amount": 7.2,
+    "date": "2026-09-19",
+    "kind": "매매",
+    "direct": false
+   }
+  ],
+  "jeonse": 5.69,
+  "jeonse_note": "같은 구 준공 10년 이내 전세 68건 중앙값에서 입주장 할인 9%",
+  "jeonse_comps": [
+   {
+    "apt": "힐스테이트중동",
+    "umd": "중동",
+    "area": 84.9436,
+    "floor": 31.0,
+    "dong": "",
+    "amount": 7.2,
+    "date": "2026-10-02",
+    "kind": "전세",
+    "direct": false
+   },
+   {
+    "apt": "센트럴파크푸르지오",
+    "umd": "중동",
+    "area": 84.8951,
+    "floor": 36.0,
+    "dong": "",
+    "amount": 8.5,
+    "date": "2026-09-30",
+    "kind": "전세",
+    "direct": false
+   },
+   {
+    "apt": "힐스테이트중동",
+    "umd": "중동",
+    "area": 84.9597,
+    "floor": 30.0,
+    "dong": "",
+    "amount": 7.5,
+    "date": "2026-09-18",
+    "kind": "전세",
+    "direct": false
+   },
+   {
+    "apt": "힐스테이트중동",
+    "umd": "중동",
+    "area": 84.9824,
+    "floor": 27.0,
+    "dong": "",
+    "amount": 7.0,
+    "date": "2026-09-12",
+    "kind": "전세",
+    "direct": false
+   },
+   {
+    "apt": "부천중동스타팰리움",
+    "umd": "중동",
+    "area": 84.9298,
+    "floor": 8.0,
+    "dong": "",
+    "amount": 4.0,
+    "date": "2026-09-12",
+    "kind": "전세",
+    "direct": false
+   },
+   {
+    "apt": "상동스카이뷰자이",
+    "umd": "상동",
+    "area": 84.9815,
+    "floor": 11.0,
+    "dong": "",
+    "amount": 6.1,
+    "date": "2026-09-11",
+    "kind": "전세",
+    "direct": false
+   },
+   {
+    "apt": "센트럴파크푸르지오",
+    "umd": "중동",
+    "area": 84.8971,
+    "floor": 13.0,
+    "dong": "",
+    "amount": 7.35,
+    "date": "2026-09-09",
+    "kind": "전세",
+    "direct": false
+   },
+   {
+    "apt": "부천아이파크",
+    "umd": "약대동",
+    "area": 84.6,
+    "floor": 6.0,
+    "dong": "",
+    "amount": 5.0,
+    "date": "2026-09-05",
+    "kind": "전세",
+    "direct": false
+   }
+  ],
   "capital": true,
   "regulated": false,
   "land_permit": false,
@@ -63925,7 +63669,7 @@
   },
   "notice_conflicts": [],
   "duty_silent": false,
-  "jeonse_weak": true,
+  "jeonse_weak": false,
   "unregistered": true,
   "need_head": false,
   "need_account": false,
@@ -63950,7 +63694,9 @@
    "전매 제한",
    "거주 지역 요건"
   ],
-  "checks": [],
+  "checks": [
+   "마진율 -55%는 이례적이에요. 시세 근거를 확인하세요"
+  ],
   "geo": {
    "lat": 37.504343,
    "lng": 126.755004,
@@ -63962,59 +63708,7 @@
   "account_months": null,
   "deposit_count": null,
   "competition": null,
-  "area_comps": [
-   {
-    "name": "중동역 다채로움 더원",
-    "notice": "2026-09-10",
-    "apply": "2026-09-21",
-    "url": "https://www.applyhome.co.kr/ai/aia/selectAPTLttotPblancDetail.do?houseManageNo=2026000314&pblancNo=2026000314",
-    "category": "general",
-    "unit": "84A",
-    "area": 84.9888,
-    "rank": "1",
-    "reside": "해당지역",
-    "supply": 2.0,
-    "req": 4.0,
-    "rate": "2.00",
-    "rate_num": 2.0,
-    "low": null,
-    "avg": null
-   },
-   {
-    "name": "상동역 롯데캐슬 시그니처",
-    "notice": "2026-08-14",
-    "apply": "2026-08-24",
-    "url": "https://www.applyhome.co.kr/ai/aia/selectAPTLttotPblancDetail.do?houseManageNo=2026000354&pblancNo=2026000354",
-    "category": "general",
-    "unit": "84C",
-    "area": 84.9874,
-    "rank": "1",
-    "reside": "해당지역",
-    "supply": 305.0,
-    "req": 220.0,
-    "rate": "(△85)",
-    "rate_num": null,
-    "low": null,
-    "avg": null
-   },
-   {
-    "name": "두산위브더제니스 부천",
-    "notice": "2026-08-12",
-    "apply": "2026-08-19",
-    "url": "https://www.applyhome.co.kr/ai/aia/selectAPTLttotPblancDetail.do?houseManageNo=2026000382&pblancNo=2026000382",
-    "category": "general",
-    "unit": "84A",
-    "area": 84.95,
-    "rank": "1",
-    "reside": "해당지역",
-    "supply": 94.0,
-    "req": 13.0,
-    "rate": "(△81)",
-    "rate_num": null,
-    "low": null,
-    "avg": null
-   }
-  ],
+  "area_comps": [],
   "sp_competition": null,
   "area_sp": null,
   "map_query": "경기도 부천시 원미구 상동 540-1",
@@ -64067,9 +63761,9 @@
   "name": "상동역 롯데캐슬 시그니처",
   "address": "경기도 부천시 원미구 상동 540-1번지",
   "region": "경기",
-  "sigungu": "부천시",
+  "sigungu": "부천시 원미구",
   "sido": "경기",
-  "district": "부천시",
+  "district": "부천시 원미구",
   "supply_type": "무순위",
   "house_secd": "04",
   "house_dtl": null,
@@ -64128,16 +63822,194 @@
   "ext": 0.0,
   "contract_rate": 0.1,
   "mid_rate": 0.6,
-  "mkt_low": null,
-  "mkt_base": null,
-  "mkt_note": "비교할 거래가 부족해요. 시세를 직접 확인하세요.",
-  "mkt_basis": null,
-  "mkt_count": 0,
-  "mkt_direct_excluded": 0,
-  "mkt_comps": [],
-  "jeonse": null,
-  "jeonse_note": "전세 거래가 부족해 추정하지 못했어요.",
-  "jeonse_comps": [],
+  "mkt_low": 7.5,
+  "mkt_base": 11.45,
+  "mkt_note": "같은 구 준공 10년 이내 같은 평형 매매 101건 기준 (최근 6개월)",
+  "mkt_basis": "district_newbuild",
+  "mkt_count": 101,
+  "mkt_direct_excluded": 4,
+  "mkt_comps": [
+   {
+    "apt": "부천아이파크",
+    "umd": "약대동",
+    "area": 84.58,
+    "floor": 12.0,
+    "dong": "",
+    "amount": 7.1,
+    "date": "2026-09-30",
+    "kind": "매매",
+    "direct": false
+   },
+   {
+    "apt": "부천아이파크",
+    "umd": "약대동",
+    "area": 84.6,
+    "floor": 5.0,
+    "dong": "",
+    "amount": 6.7,
+    "date": "2026-09-28",
+    "kind": "매매",
+    "direct": false
+   },
+   {
+    "apt": "힐스테이트중동",
+    "umd": "중동",
+    "area": 84.9793,
+    "floor": 11.0,
+    "dong": "",
+    "amount": 11.18,
+    "date": "2026-09-22",
+    "kind": "매매",
+    "direct": false
+   },
+   {
+    "apt": "센트럴파크푸르지오",
+    "umd": "중동",
+    "area": 84.9977,
+    "floor": 23.0,
+    "dong": "",
+    "amount": 14.2,
+    "date": "2026-09-22",
+    "kind": "매매",
+    "direct": false
+   },
+   {
+    "apt": "센트럴파크푸르지오",
+    "umd": "중동",
+    "area": 84.9977,
+    "floor": 37.0,
+    "dong": "",
+    "amount": 13.0,
+    "date": "2026-09-21",
+    "kind": "매매",
+    "direct": false
+   },
+   {
+    "apt": "센트럴파크푸르지오",
+    "umd": "중동",
+    "area": 84.8252,
+    "floor": 10.0,
+    "dong": "",
+    "amount": 11.45,
+    "date": "2026-09-19",
+    "kind": "매매",
+    "direct": false
+   },
+   {
+    "apt": "상동스카이뷰자이",
+    "umd": "상동",
+    "area": 84.9587,
+    "floor": 31.0,
+    "dong": "",
+    "amount": 7.9,
+    "date": "2026-09-19",
+    "kind": "매매",
+    "direct": false
+   },
+   {
+    "apt": "상동스카이뷰자이",
+    "umd": "상동",
+    "area": 84.9985,
+    "floor": 5.0,
+    "dong": "",
+    "amount": 7.2,
+    "date": "2026-09-19",
+    "kind": "매매",
+    "direct": false
+   }
+  ],
+  "jeonse": 5.69,
+  "jeonse_note": "같은 구 준공 10년 이내 전세 68건 중앙값에서 입주장 할인 9%",
+  "jeonse_comps": [
+   {
+    "apt": "힐스테이트중동",
+    "umd": "중동",
+    "area": 84.9436,
+    "floor": 31.0,
+    "dong": "",
+    "amount": 7.2,
+    "date": "2026-10-02",
+    "kind": "전세",
+    "direct": false
+   },
+   {
+    "apt": "센트럴파크푸르지오",
+    "umd": "중동",
+    "area": 84.8951,
+    "floor": 36.0,
+    "dong": "",
+    "amount": 8.5,
+    "date": "2026-09-30",
+    "kind": "전세",
+    "direct": false
+   },
+   {
+    "apt": "힐스테이트중동",
+    "umd": "중동",
+    "area": 84.9597,
+    "floor": 30.0,
+    "dong": "",
+    "amount": 7.5,
+    "date": "2026-09-18",
+    "kind": "전세",
+    "direct": false
+   },
+   {
+    "apt": "힐스테이트중동",
+    "umd": "중동",
+    "area": 84.9824,
+    "floor": 27.0,
+    "dong": "",
+    "amount": 7.0,
+    "date": "2026-09-12",
+    "kind": "전세",
+    "direct": false
+   },
+   {
+    "apt": "부천중동스타팰리움",
+    "umd": "중동",
+    "area": 84.9298,
+    "floor": 8.0,
+    "dong": "",
+    "amount": 4.0,
+    "date": "2026-09-12",
+    "kind": "전세",
+    "direct": false
+   },
+   {
+    "apt": "상동스카이뷰자이",
+    "umd": "상동",
+    "area": 84.9815,
+    "floor": 11.0,
+    "dong": "",
+    "amount": 6.1,
+    "date": "2026-09-11",
+    "kind": "전세",
+    "direct": false
+   },
+   {
+    "apt": "센트럴파크푸르지오",
+    "umd": "중동",
+    "area": 84.8971,
+    "floor": 13.0,
+    "dong": "",
+    "amount": 7.35,
+    "date": "2026-09-09",
+    "kind": "전세",
+    "direct": false
+   },
+   {
+    "apt": "부천아이파크",
+    "umd": "약대동",
+    "area": 84.6,
+    "floor": 6.0,
+    "dong": "",
+    "amount": 5.0,
+    "date": "2026-09-05",
+    "kind": "전세",
+    "direct": false
+   }
+  ],
   "capital": true,
   "regulated": false,
   "land_permit": false,
@@ -64150,7 +64022,7 @@
   },
   "notice_conflicts": [],
   "duty_silent": false,
-  "jeonse_weak": true,
+  "jeonse_weak": false,
   "unregistered": true,
   "need_head": false,
   "need_account": false,
@@ -64175,7 +64047,9 @@
    "전매 제한",
    "거주 지역 요건"
   ],
-  "checks": [],
+  "checks": [
+   "마진율 -55%는 이례적이에요. 시세 근거를 확인하세요"
+  ],
   "geo": {
    "lat": 37.504343,
    "lng": 126.755004,
@@ -64187,59 +64061,7 @@
   "account_months": null,
   "deposit_count": null,
   "competition": null,
-  "area_comps": [
-   {
-    "name": "중동역 다채로움 더원",
-    "notice": "2026-09-10",
-    "apply": "2026-09-21",
-    "url": "https://www.applyhome.co.kr/ai/aia/selectAPTLttotPblancDetail.do?houseManageNo=2026000314&pblancNo=2026000314",
-    "category": "general",
-    "unit": "84A",
-    "area": 84.9888,
-    "rank": "1",
-    "reside": "해당지역",
-    "supply": 2.0,
-    "req": 4.0,
-    "rate": "2.00",
-    "rate_num": 2.0,
-    "low": null,
-    "avg": null
-   },
-   {
-    "name": "상동역 롯데캐슬 시그니처",
-    "notice": "2026-08-14",
-    "apply": "2026-08-24",
-    "url": "https://www.applyhome.co.kr/ai/aia/selectAPTLttotPblancDetail.do?houseManageNo=2026000354&pblancNo=2026000354",
-    "category": "general",
-    "unit": "84D",
-    "area": 84.9074,
-    "rank": "1",
-    "reside": "해당지역",
-    "supply": 72.0,
-    "req": 56.0,
-    "rate": "(△16)",
-    "rate_num": null,
-    "low": null,
-    "avg": null
-   },
-   {
-    "name": "두산위브더제니스 부천",
-    "notice": "2026-08-12",
-    "apply": "2026-08-19",
-    "url": "https://www.applyhome.co.kr/ai/aia/selectAPTLttotPblancDetail.do?houseManageNo=2026000382&pblancNo=2026000382",
-    "category": "general",
-    "unit": "84B",
-    "area": 84.94,
-    "rank": "1",
-    "reside": "해당지역",
-    "supply": 218.0,
-    "req": 26.0,
-    "rate": "(△192)",
-    "rate_num": null,
-    "low": null,
-    "avg": null
-   }
-  ],
+  "area_comps": [],
   "sp_competition": null,
   "area_sp": null,
   "map_query": "경기도 부천시 원미구 상동 540-1",
@@ -64292,9 +64114,9 @@
   "name": "상동역 롯데캐슬 시그니처",
   "address": "경기도 부천시 원미구 상동 540-1번지",
   "region": "경기",
-  "sigungu": "부천시",
+  "sigungu": "부천시 원미구",
   "sido": "경기",
-  "district": "부천시",
+  "district": "부천시 원미구",
   "supply_type": "무순위",
   "house_secd": "04",
   "house_dtl": null,
@@ -64353,16 +64175,194 @@
   "ext": 0.0,
   "contract_rate": 0.1,
   "mid_rate": 0.6,
-  "mkt_low": null,
-  "mkt_base": null,
-  "mkt_note": "비교할 거래가 부족해요. 시세를 직접 확인하세요.",
-  "mkt_basis": null,
-  "mkt_count": 0,
-  "mkt_direct_excluded": 0,
-  "mkt_comps": [],
-  "jeonse": null,
-  "jeonse_note": "전세 거래가 부족해 추정하지 못했어요.",
-  "jeonse_comps": [],
+  "mkt_low": 7.5,
+  "mkt_base": 11.45,
+  "mkt_note": "같은 구 준공 10년 이내 같은 평형 매매 101건 기준 (최근 6개월)",
+  "mkt_basis": "district_newbuild",
+  "mkt_count": 101,
+  "mkt_direct_excluded": 4,
+  "mkt_comps": [
+   {
+    "apt": "부천아이파크",
+    "umd": "약대동",
+    "area": 84.58,
+    "floor": 12.0,
+    "dong": "",
+    "amount": 7.1,
+    "date": "2026-09-30",
+    "kind": "매매",
+    "direct": false
+   },
+   {
+    "apt": "부천아이파크",
+    "umd": "약대동",
+    "area": 84.6,
+    "floor": 5.0,
+    "dong": "",
+    "amount": 6.7,
+    "date": "2026-09-28",
+    "kind": "매매",
+    "direct": false
+   },
+   {
+    "apt": "힐스테이트중동",
+    "umd": "중동",
+    "area": 84.9793,
+    "floor": 11.0,
+    "dong": "",
+    "amount": 11.18,
+    "date": "2026-09-22",
+    "kind": "매매",
+    "direct": false
+   },
+   {
+    "apt": "센트럴파크푸르지오",
+    "umd": "중동",
+    "area": 84.9977,
+    "floor": 23.0,
+    "dong": "",
+    "amount": 14.2,
+    "date": "2026-09-22",
+    "kind": "매매",
+    "direct": false
+   },
+   {
+    "apt": "센트럴파크푸르지오",
+    "umd": "중동",
+    "area": 84.9977,
+    "floor": 37.0,
+    "dong": "",
+    "amount": 13.0,
+    "date": "2026-09-21",
+    "kind": "매매",
+    "direct": false
+   },
+   {
+    "apt": "센트럴파크푸르지오",
+    "umd": "중동",
+    "area": 84.8252,
+    "floor": 10.0,
+    "dong": "",
+    "amount": 11.45,
+    "date": "2026-09-19",
+    "kind": "매매",
+    "direct": false
+   },
+   {
+    "apt": "상동스카이뷰자이",
+    "umd": "상동",
+    "area": 84.9587,
+    "floor": 31.0,
+    "dong": "",
+    "amount": 7.9,
+    "date": "2026-09-19",
+    "kind": "매매",
+    "direct": false
+   },
+   {
+    "apt": "상동스카이뷰자이",
+    "umd": "상동",
+    "area": 84.9985,
+    "floor": 5.0,
+    "dong": "",
+    "amount": 7.2,
+    "date": "2026-09-19",
+    "kind": "매매",
+    "direct": false
+   }
+  ],
+  "jeonse": 5.69,
+  "jeonse_note": "같은 구 준공 10년 이내 전세 68건 중앙값에서 입주장 할인 9%",
+  "jeonse_comps": [
+   {
+    "apt": "힐스테이트중동",
+    "umd": "중동",
+    "area": 84.9436,
+    "floor": 31.0,
+    "dong": "",
+    "amount": 7.2,
+    "date": "2026-10-02",
+    "kind": "전세",
+    "direct": false
+   },
+   {
+    "apt": "센트럴파크푸르지오",
+    "umd": "중동",
+    "area": 84.8951,
+    "floor": 36.0,
+    "dong": "",
+    "amount": 8.5,
+    "date": "2026-09-30",
+    "kind": "전세",
+    "direct": false
+   },
+   {
+    "apt": "힐스테이트중동",
+    "umd": "중동",
+    "area": 84.9597,
+    "floor": 30.0,
+    "dong": "",
+    "amount": 7.5,
+    "date": "2026-09-18",
+    "kind": "전세",
+    "direct": false
+   },
+   {
+    "apt": "힐스테이트중동",
+    "umd": "중동",
+    "area": 84.9824,
+    "floor": 27.0,
+    "dong": "",
+    "amount": 7.0,
+    "date": "2026-09-12",
+    "kind": "전세",
+    "direct": false
+   },
+   {
+    "apt": "부천중동스타팰리움",
+    "umd": "중동",
+    "area": 84.9298,
+    "floor": 8.0,
+    "dong": "",
+    "amount": 4.0,
+    "date": "2026-09-12",
+    "kind": "전세",
+    "direct": false
+   },
+   {
+    "apt": "상동스카이뷰자이",
+    "umd": "상동",
+    "area": 84.9815,
+    "floor": 11.0,
+    "dong": "",
+    "amount": 6.1,
+    "date": "2026-09-11",
+    "kind": "전세",
+    "direct": false
+   },
+   {
+    "apt": "센트럴파크푸르지오",
+    "umd": "중동",
+    "area": 84.8971,
+    "floor": 13.0,
+    "dong": "",
+    "amount": 7.35,
+    "date": "2026-09-09",
+    "kind": "전세",
+    "direct": false
+   },
+   {
+    "apt": "부천아이파크",
+    "umd": "약대동",
+    "area": 84.6,
+    "floor": 6.0,
+    "dong": "",
+    "amount": 5.0,
+    "date": "2026-09-05",
+    "kind": "전세",
+    "direct": false
+   }
+  ],
   "capital": true,
   "regulated": false,
   "land_permit": false,
@@ -64375,7 +64375,7 @@
   },
   "notice_conflicts": [],
   "duty_silent": false,
-  "jeonse_weak": true,
+  "jeonse_weak": false,
   "unregistered": true,
   "need_head": false,
   "need_account": false,
@@ -64400,7 +64400,9 @@
    "전매 제한",
    "거주 지역 요건"
   ],
-  "checks": [],
+  "checks": [
+   "마진율 -55%는 이례적이에요. 시세 근거를 확인하세요"
+  ],
   "geo": {
    "lat": 37.504343,
    "lng": 126.755004,
@@ -64412,59 +64414,7 @@
   "account_months": null,
   "deposit_count": null,
   "competition": null,
-  "area_comps": [
-   {
-    "name": "중동역 다채로움 더원",
-    "notice": "2026-09-10",
-    "apply": "2026-09-21",
-    "url": "https://www.applyhome.co.kr/ai/aia/selectAPTLttotPblancDetail.do?houseManageNo=2026000314&pblancNo=2026000314",
-    "category": "general",
-    "unit": "84A",
-    "area": 84.9888,
-    "rank": "1",
-    "reside": "해당지역",
-    "supply": 2.0,
-    "req": 4.0,
-    "rate": "2.00",
-    "rate_num": 2.0,
-    "low": null,
-    "avg": null
-   },
-   {
-    "name": "상동역 롯데캐슬 시그니처",
-    "notice": "2026-08-14",
-    "apply": "2026-08-24",
-    "url": "https://www.applyhome.co.kr/ai/aia/selectAPTLttotPblancDetail.do?houseManageNo=2026000354&pblancNo=2026000354",
-    "category": "general",
-    "unit": "84E",
-    "area": 84.9872,
-    "rank": "1",
-    "reside": "해당지역",
-    "supply": 128.0,
-    "req": 397.0,
-    "rate": "3.10",
-    "rate_num": 3.1,
-    "low": 37.0,
-    "avg": 45.5
-   },
-   {
-    "name": "두산위브더제니스 부천",
-    "notice": "2026-08-12",
-    "apply": "2026-08-19",
-    "url": "https://www.applyhome.co.kr/ai/aia/selectAPTLttotPblancDetail.do?houseManageNo=2026000382&pblancNo=2026000382",
-    "category": "general",
-    "unit": "84A",
-    "area": 84.95,
-    "rank": "1",
-    "reside": "해당지역",
-    "supply": 94.0,
-    "req": 13.0,
-    "rate": "(△81)",
-    "rate_num": null,
-    "low": null,
-    "avg": null
-   }
-  ],
+  "area_comps": [],
   "sp_competition": null,
   "area_sp": null,
   "map_query": "경기도 부천시 원미구 상동 540-1",
@@ -64517,9 +64467,9 @@
   "name": "상동역 롯데캐슬 시그니처",
   "address": "경기도 부천시 원미구 상동 540-1번지",
   "region": "경기",
-  "sigungu": "부천시",
+  "sigungu": "부천시 원미구",
   "sido": "경기",
-  "district": "부천시",
+  "district": "부천시 원미구",
   "supply_type": "무순위",
   "house_secd": "04",
   "house_dtl": null,
@@ -64578,16 +64528,194 @@
   "ext": 0.0,
   "contract_rate": 0.1,
   "mid_rate": 0.6,
-  "mkt_low": null,
-  "mkt_base": null,
-  "mkt_note": "비교할 거래가 부족해요. 시세를 직접 확인하세요.",
-  "mkt_basis": null,
-  "mkt_count": 0,
-  "mkt_direct_excluded": 0,
-  "mkt_comps": [],
-  "jeonse": null,
-  "jeonse_note": "전세 거래가 부족해 추정하지 못했어요.",
-  "jeonse_comps": [],
+  "mkt_low": 7.5,
+  "mkt_base": 11.45,
+  "mkt_note": "같은 구 준공 10년 이내 같은 평형 매매 101건 기준 (최근 6개월)",
+  "mkt_basis": "district_newbuild",
+  "mkt_count": 101,
+  "mkt_direct_excluded": 4,
+  "mkt_comps": [
+   {
+    "apt": "부천아이파크",
+    "umd": "약대동",
+    "area": 84.58,
+    "floor": 12.0,
+    "dong": "",
+    "amount": 7.1,
+    "date": "2026-09-30",
+    "kind": "매매",
+    "direct": false
+   },
+   {
+    "apt": "부천아이파크",
+    "umd": "약대동",
+    "area": 84.6,
+    "floor": 5.0,
+    "dong": "",
+    "amount": 6.7,
+    "date": "2026-09-28",
+    "kind": "매매",
+    "direct": false
+   },
+   {
+    "apt": "힐스테이트중동",
+    "umd": "중동",
+    "area": 84.9793,
+    "floor": 11.0,
+    "dong": "",
+    "amount": 11.18,
+    "date": "2026-09-22",
+    "kind": "매매",
+    "direct": false
+   },
+   {
+    "apt": "센트럴파크푸르지오",
+    "umd": "중동",
+    "area": 84.9977,
+    "floor": 23.0,
+    "dong": "",
+    "amount": 14.2,
+    "date": "2026-09-22",
+    "kind": "매매",
+    "direct": false
+   },
+   {
+    "apt": "센트럴파크푸르지오",
+    "umd": "중동",
+    "area": 84.9977,
+    "floor": 37.0,
+    "dong": "",
+    "amount": 13.0,
+    "date": "2026-09-21",
+    "kind": "매매",
+    "direct": false
+   },
+   {
+    "apt": "센트럴파크푸르지오",
+    "umd": "중동",
+    "area": 84.8252,
+    "floor": 10.0,
+    "dong": "",
+    "amount": 11.45,
+    "date": "2026-09-19",
+    "kind": "매매",
+    "direct": false
+   },
+   {
+    "apt": "상동스카이뷰자이",
+    "umd": "상동",
+    "area": 84.9587,
+    "floor": 31.0,
+    "dong": "",
+    "amount": 7.9,
+    "date": "2026-09-19",
+    "kind": "매매",
+    "direct": false
+   },
+   {
+    "apt": "상동스카이뷰자이",
+    "umd": "상동",
+    "area": 84.9985,
+    "floor": 5.0,
+    "dong": "",
+    "amount": 7.2,
+    "date": "2026-09-19",
+    "kind": "매매",
+    "direct": false
+   }
+  ],
+  "jeonse": 5.69,
+  "jeonse_note": "같은 구 준공 10년 이내 전세 68건 중앙값에서 입주장 할인 9%",
+  "jeonse_comps": [
+   {
+    "apt": "힐스테이트중동",
+    "umd": "중동",
+    "area": 84.9436,
+    "floor": 31.0,
+    "dong": "",
+    "amount": 7.2,
+    "date": "2026-10-02",
+    "kind": "전세",
+    "direct": false
+   },
+   {
+    "apt": "센트럴파크푸르지오",
+    "umd": "중동",
+    "area": 84.8951,
+    "floor": 36.0,
+    "dong": "",
+    "amount": 8.5,
+    "date": "2026-09-30",
+    "kind": "전세",
+    "direct": false
+   },
+   {
+    "apt": "힐스테이트중동",
+    "umd": "중동",
+    "area": 84.9597,
+    "floor": 30.0,
+    "dong": "",
+    "amount": 7.5,
+    "date": "2026-09-18",
+    "kind": "전세",
+    "direct": false
+   },
+   {
+    "apt": "힐스테이트중동",
+    "umd": "중동",
+    "area": 84.9824,
+    "floor": 27.0,
+    "dong": "",
+    "amount": 7.0,
+    "date": "2026-09-12",
+    "kind": "전세",
+    "direct": false
+   },
+   {
+    "apt": "부천중동스타팰리움",
+    "umd": "중동",
+    "area": 84.9298,
+    "floor": 8.0,
+    "dong": "",
+    "amount": 4.0,
+    "date": "2026-09-12",
+    "kind": "전세",
+    "direct": false
+   },
+   {
+    "apt": "상동스카이뷰자이",
+    "umd": "상동",
+    "area": 84.9815,
+    "floor": 11.0,
+    "dong": "",
+    "amount": 6.1,
+    "date": "2026-09-11",
+    "kind": "전세",
+    "direct": false
+   },
+   {
+    "apt": "센트럴파크푸르지오",
+    "umd": "중동",
+    "area": 84.8971,
+    "floor": 13.0,
+    "dong": "",
+    "amount": 7.35,
+    "date": "2026-09-09",
+    "kind": "전세",
+    "direct": false
+   },
+   {
+    "apt": "부천아이파크",
+    "umd": "약대동",
+    "area": 84.6,
+    "floor": 6.0,
+    "dong": "",
+    "amount": 5.0,
+    "date": "2026-09-05",
+    "kind": "전세",
+    "direct": false
+   }
+  ],
   "capital": true,
   "regulated": false,
   "land_permit": false,
@@ -64600,7 +64728,7 @@
   },
   "notice_conflicts": [],
   "duty_silent": false,
-  "jeonse_weak": true,
+  "jeonse_weak": false,
   "unregistered": true,
   "need_head": false,
   "need_account": false,
@@ -64625,7 +64753,9 @@
    "전매 제한",
    "거주 지역 요건"
   ],
-  "checks": [],
+  "checks": [
+   "마진율 -55%는 이례적이에요. 시세 근거를 확인하세요"
+  ],
   "geo": {
    "lat": 37.504343,
    "lng": 126.755004,
@@ -64637,59 +64767,7 @@
   "account_months": null,
   "deposit_count": null,
   "competition": null,
-  "area_comps": [
-   {
-    "name": "중동역 다채로움 더원",
-    "notice": "2026-09-10",
-    "apply": "2026-09-21",
-    "url": "https://www.applyhome.co.kr/ai/aia/selectAPTLttotPblancDetail.do?houseManageNo=2026000314&pblancNo=2026000314",
-    "category": "general",
-    "unit": "84B",
-    "area": 84.9933,
-    "rank": "1",
-    "reside": "해당지역",
-    "supply": 2.0,
-    "req": 1.0,
-    "rate": "(△1)",
-    "rate_num": null,
-    "low": null,
-    "avg": null
-   },
-   {
-    "name": "상동역 롯데캐슬 시그니처",
-    "notice": "2026-08-14",
-    "apply": "2026-08-24",
-    "url": "https://www.applyhome.co.kr/ai/aia/selectAPTLttotPblancDetail.do?houseManageNo=2026000354&pblancNo=2026000354",
-    "category": "general",
-    "unit": "84F",
-    "area": 84.9928,
-    "rank": "1",
-    "reside": "해당지역",
-    "supply": 321.0,
-    "req": 633.0,
-    "rate": "1.97",
-    "rate_num": 1.97,
-    "low": 35.0,
-    "avg": 41.88
-   },
-   {
-    "name": "두산위브더제니스 부천",
-    "notice": "2026-08-12",
-    "apply": "2026-08-19",
-    "url": "https://www.applyhome.co.kr/ai/aia/selectAPTLttotPblancDetail.do?houseManageNo=2026000382&pblancNo=2026000382",
-    "category": "general",
-    "unit": "84A",
-    "area": 84.95,
-    "rank": "1",
-    "reside": "해당지역",
-    "supply": 94.0,
-    "req": 13.0,
-    "rate": "(△81)",
-    "rate_num": null,
-    "low": null,
-    "avg": null
-   }
-  ],
+  "area_comps": [],
   "sp_competition": null,
   "area_sp": null,
   "map_query": "경기도 부천시 원미구 상동 540-1",
@@ -64742,9 +64820,9 @@
   "name": "상동역 롯데캐슬 시그니처",
   "address": "경기도 부천시 원미구 상동 540-1번지",
   "region": "경기",
-  "sigungu": "부천시",
+  "sigungu": "부천시 원미구",
   "sido": "경기",
-  "district": "부천시",
+  "district": "부천시 원미구",
   "supply_type": "무순위",
   "house_secd": "04",
   "house_dtl": null,
@@ -64862,25 +64940,7 @@
   "account_months": null,
   "deposit_count": null,
   "competition": null,
-  "area_comps": [
-   {
-    "name": "상동역 롯데캐슬 시그니처",
-    "notice": "2026-08-14",
-    "apply": "2026-08-24",
-    "url": "https://www.applyhome.co.kr/ai/aia/selectAPTLttotPblancDetail.do?houseManageNo=2026000354&pblancNo=2026000354",
-    "category": "general",
-    "unit": "187P",
-    "area": 187.5097,
-    "rank": "1",
-    "reside": "해당지역",
-    "supply": 1.0,
-    "req": 0.0,
-    "rate": "(△1)",
-    "rate_num": null,
-    "low": null,
-    "avg": null
-   }
-  ],
+  "area_comps": [],
   "sp_competition": null,
   "area_sp": null,
   "map_query": "경기도 부천시 원미구 상동 540-1",
@@ -76051,9 +76111,9 @@
   "name": "두산위브더제니스 부천",
   "address": "경기도 부천시 소사구 소사본동 88-39번지 일대",
   "region": "경기",
-  "sigungu": "부천시",
+  "sigungu": "부천시 소사구",
   "sido": "경기",
-  "district": "부천시",
+  "district": "부천시 소사구",
   "supply_type": "무순위",
   "house_secd": "04",
   "house_dtl": null,
@@ -76114,13 +76174,13 @@
   "mid_rate": 0.6,
   "mkt_low": null,
   "mkt_base": null,
-  "mkt_note": "비교할 거래가 부족해요. 시세를 직접 확인하세요.",
+  "mkt_note": "시군구 코드를 아직 확인하지 못해 시세를 조회하지 못했어요 (지도 좌표로 확인되면 다음 수집부터 조회).",
   "mkt_basis": null,
   "mkt_count": 0,
   "mkt_direct_excluded": 0,
   "mkt_comps": [],
   "jeonse": null,
-  "jeonse_note": "전세 거래가 부족해 추정하지 못했어요.",
+  "jeonse_note": "",
   "jeonse_comps": [],
   "capital": true,
   "regulated": false,
@@ -76136,7 +76196,7 @@
   },
   "notice_conflicts": [],
   "duty_silent": false,
-  "jeonse_weak": true,
+  "jeonse_weak": false,
   "unregistered": true,
   "need_head": false,
   "need_account": false,
