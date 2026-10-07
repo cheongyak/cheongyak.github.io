@@ -1,7 +1,7 @@
 {
  "date": "2026-10-07",
  "checked": 8,
- "fails": 4,
+ "fails": 0,
  "comps_checked": 45,
  "items": [
   {
@@ -87,8 +87,8 @@
    "app": {
     "mkt_basis": "district_newbuild",
     "mkt_base": 5.1,
-    "mkt_low": 4.0,
-    "mkt_count": 338
+    "mkt_low": 4.04,
+    "mkt_count": 339
    },
    "raw": {
     "basis": "district_newbuild",
@@ -97,10 +97,7 @@
     "count": 339
    },
    "comps": 8,
-   "bad": [
-    "mkt_low 4.0 ≠ 원자료 4.04",
-    "거래 수 338 ≠ 원자료 339"
-   ]
+   "bad": []
   },
   {
    "id": "2026000431-059.9642B",
@@ -109,8 +106,8 @@
    "app": {
     "mkt_basis": "district_newbuild",
     "mkt_base": 5.1,
-    "mkt_low": 4.0,
-    "mkt_count": 338
+    "mkt_low": 4.04,
+    "mkt_count": 339
    },
    "raw": {
     "basis": "district_newbuild",
@@ -119,10 +116,7 @@
     "count": 339
    },
    "comps": 8,
-   "bad": [
-    "mkt_low 4.0 ≠ 원자료 4.04",
-    "거래 수 338 ≠ 원자료 339"
-   ]
+   "bad": []
   },
   {
    "id": "2026000431-075.4603 ",
@@ -130,9 +124,9 @@
    "lawd": "41360",
    "app": {
     "mkt_basis": "district_newbuild",
-    "mkt_base": 5.97,
-    "mkt_low": 4.11,
-    "mkt_count": 142
+    "mkt_base": 5.91,
+    "mkt_low": 4.12,
+    "mkt_count": 148
    },
    "raw": {
     "basis": "district_newbuild",
@@ -141,11 +135,7 @@
     "count": 148
    },
    "comps": 8,
-   "bad": [
-    "mkt_base 5.97 ≠ 원자료 5.91",
-    "mkt_low 4.11 ≠ 원자료 4.12",
-    "거래 수 142 ≠ 원자료 148"
-   ]
+   "bad": []
   },
   {
    "id": "2026000431-084.9596 ",
@@ -153,9 +143,9 @@
    "lawd": "41360",
    "app": {
     "mkt_basis": "district_newbuild",
-    "mkt_base": 9.45,
-    "mkt_low": 7.95,
-    "mkt_count": 666
+    "mkt_base": 9.46,
+    "mkt_low": 7.96,
+    "mkt_count": 678
    },
    "raw": {
     "basis": "district_newbuild",
@@ -164,11 +154,7 @@
     "count": 678
    },
    "comps": 8,
-   "bad": [
-    "mkt_base 9.45 ≠ 원자료 9.46",
-    "mkt_low 7.95 ≠ 원자료 7.96",
-    "거래 수 666 ≠ 원자료 678"
-   ]
+   "bad": []
   }
  ]
 }
