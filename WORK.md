@@ -4,6 +4,15 @@
 2026-09-29 12:55 이전 항목은 규칙을 만들기 전 작업을 커밋 기록으로 정리한 것이라 백업 브랜치가 없어요.
 그 시점으로 되돌릴 때는 해당 커밋 번호로 `git revert` 를 써요.
 
+## 2026-10-07 13:33 · '추첨으로 노릴 곳' 되돌림 (v1.60.1)
+- 요청: "일단 미안한 이거 추첨으로 노릴곳 이거는 다시원복해줘. 엄청복잡해보여"
+- 변경: 1e16c519(draw_path)·a1aee405(FEATURES 커밋 번호)를 git revert — docs/index.html·docs/config.json·tools/engine_lock.json·tools/qa/cross_rule.cjs 가 v1.59.0(624b8c1d)과 같아짐(차이 0 확인). 기록(WORK·changelog·VERSIONS·FEATURES)은 남김. cross_rule 의 FUND-007 번호(기존 FUND-006 과 겹치지 않게)는 다시 넣음
+- 파일: docs/index.html, docs/config.json, tools/engine_lock.json, tools/qa/cross_rule.cjs, FEATURES.md, docs/changelog.json, VERSIONS.md
+- 확인: 판정 사례 692/692, 스냅샷 0, 엔진 잠금 시험 통과, 문법 검사
+- 백업: backup/20261007-1333-undraw
+- 기능: draw_path 되돌림
+- 버전: v1.60.1
+
 ## 2026-10-07 13:28 · '추첨으로 노릴 곳' 표시·모아 보기 — B (v1.60.0)
 - 요청: "Abc순차로 진행해줘" — B. '가능·추첨만' 카드: 가점이 낮아도 추첨으로 노릴 수 있는 공고를 한눈에
 - 변경(docs/index.html): drawPath(L, p) — 판정 '신청 가능'(eligBucket ok)인 분양 주택형만, 이미 화면에 쓰는 근거로 이유를 고름: 무순위는 전부 추첨 / 규제지역 유주택 → 추첨제만(제28조) / 2년 내 가점제 당첨 → 추첨제만(제28조⑥) / 소득이 우선공급을 넘어 추첨공급만(공공·신혼희망타운 항목) / 공고문 가점제 0% 면적 / 내 가점 < 최근 당첨선이고 공고문 추첨제 비율 > 0 ('가점 N점 부족 · 추첨 M%'). 목록 카드에 '· 추첨으로 노릴 곳 (이유)', 내 조건 요약에 '그중 추첨으로 N'(누르면 그 공고만 — 판정 필터 draw). 판정·등급은 바꾸지 않음

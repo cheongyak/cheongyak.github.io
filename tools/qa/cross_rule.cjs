@@ -107,13 +107,6 @@ const ROOT = join(__dirname, '../..'), DOCS = join(ROOT, 'docs');
         // FUND-005: 카드 '자금 가능'인데 계획 기준 부족분 > 0
         if (/자금 가능/.test(card)) { const o = planOpt(L), f = funding(L, S.profile, o); if (bestGap(f, o) > 1e-9) v('FUND-005', 'CRITICAL', L, '부족분 ' + fmt(bestGap(f, o)), "카드 '자금 가능'", "카드 '자금 N 부족'", ['gap', 'meLine'], '목록 카드', pi);
           if (o.mode === 'jeonse' && ['no', 'check'].includes(jeonseCheck(L).status)) v('FUND-006', 'HIGH', L, '전세 ' + jeonseCheck(L).status, "카드 '자금 가능'(전세 계획)", '전세 없이 계산', ['jeonseStatus', 'meLine'], '목록 카드', pi); }
-        // DRAW-001·002 (기능 draw_path, 2026-10-07): '추첨으로 노릴 곳'은 판정 '신청 가능'일 때만, '가점 N점 부족'이면 실제로 내 가점 < 비교 당첨선이고 추첨 물량이 있어야
-        if (typeof drawPath === 'function') { const dp = drawPath(L, S.profile); checks += 2;
-          if (dp && bucket !== 'ok') v('DRAW-001', 'CRITICAL', L, '판정 ' + bucket, "'추첨으로 노릴 곳'", "판정 '신청 가능'일 때만", ['drawPath', 'bucket'], '목록 카드', pi);
-          const m = /^가점 (\d+)점 부족 · 추첨 (\d+)%$/.exec(dp || '');
-          if (m) { const RS = regionScore(L, S.profile), r = myScore(L, S.profile), low = RS && RS.t ? Math.round(RS.t.low) : null;
-            if (!(r && low != null && low - r.total === +m[1] && RS.ratio && RS.ratio.lottery === +m[2] && m[2] > 0)) v('DRAW-002', 'HIGH', L, '가점 ' + (r && r.total) + ' · 당첨선 ' + low + ' · 추첨 ' + (RS && RS.ratio && RS.ratio.lottery), dp, '가점 차이·추첨 비율 일치', ['myScore', 'scoreTarget', 'scoreRatio'], '공고문 가점제·추첨제 비율', pi); }
-          if (dp && /^무순위/.test(dp) && L.category !== 'remainder') v('DRAW-002', 'HIGH', L, '분류 ' + L.category, dp, '무순위 공고만', ['category'], '청약홈 공급 구분', pi); }
         // ELIG-003·004: 특별공급 '가능'인데 소득·자산이 그 유형 최대 기준(출산 완화 +20%p 포함)을 넘음
         for (const t of spTypesFor(L)) { const r = spJudge(L, S.profile, t); if (r.s !== 'ok') continue; checks += 2;
           const R = SP_RULES[r.pub ? 'public' : 'minyoung'][t], n = r.hhN || S.profile.hhSize, inc = spIncome(S.profile);
