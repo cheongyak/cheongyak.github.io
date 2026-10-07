@@ -736,6 +736,10 @@ function acqTax(base){ // 1주택 취득세 + 지방교육세 (85㎡ 이하 가�
 const isRental = L => on('rental_rules') && !!(L && L.rental);
 const priceWord = L => isRental(L) ? '임대보증금' : '분양가';
 const kindOf = L => isRental(L) ? String(L.kind || '').replace('일반분양', '공공임대') : L.kind;
+/* 시세 계산 방식 한 줄 (기능 mkt_area_fallback: 비슷한 면적 ㎡당 가격으로 추정한 시세는 그렇다고 밝힌다) */
+const mktHow = (L, short) => L.mktBasis === 'district_area_ppa'
+  ? (short ? '보수 시세는 ㎡당 가격 하위 25% 기준' : '같은 평형 거래가 부족해 비슷한 면적 거래의 ㎡당 가격 중앙값(보수 시세는 하위 25%)에 전용면적을 곱한 추정이에요. 층·향·브랜드 차이는 반영하지 못해요.')
+  : (short ? '기준 시세는 중앙값, 보수 시세는 하위 25%' : '기준 시세는 중앙값, 보수 시세는 하위 25% 값이에요.');
 function grade(L){
   const base = L.price + L.ext, tax = acqTax(base), cost = base + tax;
   if (L.mktLow == null || L.mktBase == null) return { g:'unknown', lo:null, hi:null, rate:null, cost, tax, base };
@@ -1679,6 +1683,7 @@ function compRow(c, L){
 function basisTag(L){
   if (L.mktBasis === 'same_complex') return '<span class="tag">같은 단지 거래</span>';
   if (L.mktBasis === 'district_newbuild') return '<span class="tag">같은 구 신축 비교</span>';
+  if (L.mktBasis === 'district_area_ppa') return '<span class="tag">비슷한 면적 ㎡당 추정</span>';   // 기능 mkt_area_fallback (수집 쪽 스위치)
   return '<span class="tag warn">거래 부족</span>';
 }
 
@@ -3404,7 +3409,7 @@ function priceCompare(L, m){
     <div class="pc-row"><span>시세 <span class="small muted">보수 ~ 기준</span></span><b>${unknown ? '확인 필요' : fmt(L.mktLow) + ' ~ ' + fmt(L.mktBase)}</b></div>
     <div class="pc-row"><span>실매입가 <span class="small muted">분양가 ${fmt(L.price)}${L.ext ? ' + 확장 ' + fmt(L.ext) : ''} + 취득세 등 ${fmt(m.tax)}</span></span><b>${fmt(m.cost)}</b></div>
     <div class="pc-diff"><span class="medal g-${m.g}">${GNAME[m.g]}</span><div class="pc-dl"><span class="small">시세 − 실매입가 · ${diffLbl}</span>${unknown ? '<b class="pc-big">—</b>' : `<b class="pc-big">${sgn(Math.min(m.lo, m.hi))} ~ ${sgn(Math.max(m.lo, m.hi))}</b><span class="small">보수 시세 기준 ${m.rate >= 0 ? '+' : ''}${Math.round(m.rate * 100)}%</span>`}</div></div>
-    <div class="pc-why"><span class="pc-lbl">왜 이 시세</span><span class="small">${unknown ? esc(L.mktNote || '주변 거래가 부족해요') : `${esc(L.mktNote || '')}${L.mktCount && !/\d+건/.test(L.mktNote || '') ? ' · 근거 거래 ' + L.mktCount + '건' : ''}${last ? ' · 최근 ' + last.slice(2).replace(/-/g, '.') : ''} · 기준 시세는 중앙값, 보수 시세는 하위 25%`}</span></div>
+    <div class="pc-why"><span class="pc-lbl">왜 이 시세</span><span class="small">${unknown ? esc(L.mktNote || '주변 거래가 부족해요') : `${esc(L.mktNote || '')}${L.mktCount && !/\d+건/.test(L.mktNote || '') ? ' · 근거 거래 ' + L.mktCount + '건' : ''}${last ? ' · 최근 ' + last.slice(2).replace(/-/g, '.') : ''} · ${mktHow(L, true)}`}</span></div>
     ${on('detail_tidy') ? typeRank(L, S.profile, true) + (() => { const bc = L.mktBase ? Math.min(100, m.cost / L.mktBase * 100) : 0, bl = L.mktBase ? Math.max(0, Math.min(100 - bc, m.lo / L.mktBase * 100)) : 0;
       return `<details class="pc-more" id="sec-margin"><summary>마진 계산 자세히</summary>${marginV2(L, m, bc, bl, true)}</details>`; })() : ''}
     <div class="small muted">분양가 ${priceSrc} · 시세 ${L.sample ? src(null, ['샘플 값', null]) : src('rtms')}${on('detail_tidy') ? '' : ' <button class="linkbtn small" data-sec="margin">마진 계산 자세히</button>'}</div>
@@ -3439,7 +3444,7 @@ function marginV2(L, m, barCost, barLo, bare){   // bare: 가격 비교 카드 �
     ${L.mktComps && L.mktComps.length ? `<details class="ckmore"><summary>시세 근거 거래 ${L.mktComps.length}건 보기 <span class="muted">(최근순 · 전체 ${L.mktCount}건)</span></summary>
       <div class="comps">${L.mktComps.map(c => compRow(c, L)).join('')}</div></details>` : ''}
     <details class="ckmore"><summary>시세는 이렇게 계산했어요</summary><div class="small muted mgnote">
-      <p>${esc(L.mktNote)}${L.mktNote && !/[.요]$/.test(L.mktNote) ? '이에요.' : ''}${L.mktBasis ? ' 기준 시세는 중앙값, 보수 시세는 하위 25% 값이에요.' : ''}</p>
+      <p>${esc(L.mktNote)}${L.mktNote && !/[.요]$/.test(L.mktNote) ? '이에요.' : ''}${L.mktBasis ? ' ' + mktHow(L) : ''}</p>
       ${L.mktComps && L.mktComps.length ? `<p>모두 국토부에 신고된 실제 거래예요. 신고 후 해제된 거래${L.mktDirectExcluded ? '와 직거래 ' + L.mktDirectExcluded + '건은' : '와 직거래는'} 시세 계산에서 뺐어요.</p>` : ''}
       <p>실매입가 = 분양가${L.ext ? ' + 발코니 확장' : ''} + 취득세 등(1주택·85㎡ 이하 가정). 마진은 시세에서 실매입가를 뺀 값이에요. 호수는 국토부가 공개하지 않아 표시할 수 없어요.</p></div></details>
     <div class="linkrow">
@@ -3542,7 +3547,7 @@ function vDetail(){
       <div class="row"><span>취득세 등 (추정)<br>${src('localTax')} · 1주택·85㎡ 이하 가정</span><span>${fmt(m.tax)}</span></div>
       <div class="row total"><span>실매입가</span><span>${fmt(m.cost)}</span></div>
       <div class="row"><span>시세 (보수 / 기준)<br>${L.sample ? src(null, ['샘플 값', null]) : src('rtms')} ${L.mktComps && L.mktComps.length ? basisTag(L) : ''}</span><span>${m.g === 'unknown' ? '확인 필요' : fmt(L.mktLow) + ' / ' + fmt(L.mktBase)}</span></div>
-      <div class="small muted">${esc(L.mktNote)}${L.mktNote && !/[.요]$/.test(L.mktNote) ? '이에요.' : ''}${L.mktBasis ? ' 기준 시세는 중앙값, 보수 시세는 하위 25% 값이에요.' : ''} 호수는 국토부가 공개하지 않아 표시할 수 없어요.</div>
+      <div class="small muted">${esc(L.mktNote)}${L.mktNote && !/[.요]$/.test(L.mktNote) ? '이에요.' : ''}${L.mktBasis ? ' ' + mktHow(L) : ''} 호수는 국토부가 공개하지 않아 표시할 수 없어요.</div>
       ${L.mktComps && L.mktComps.length ? `<div class="small muted">모두 국토부에 신고된 실제 거래예요. 신고 후 해제된 거래${L.mktDirectExcluded ? '와 직거래 ' + L.mktDirectExcluded + '건은' : '와 직거래는'} 시세 계산에서 뺐어요.</div>` : ''}
     </div>
     ${L.mktComps && L.mktComps.length ? `<div><h3 style="margin:4px 0 0;font-size:14px">시세 근거 거래 <span class="small muted">(최근순 ${L.mktComps.length}건 / 전체 ${L.mktCount}건)</span></h3>

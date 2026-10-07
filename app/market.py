@@ -70,7 +70,7 @@ def _recent(comps: list[dict]) -> list[dict]:
 
 
 def estimate_market(name: str, area: Optional[float], trades: list[dict], presales: list[dict],
-                    this_year: int) -> dict:
+                    this_year: int, area_fallback: bool = False) -> dict:
     # 실제 시장 거래만 쓴다: 해제 거래는 parse_items 에서 이미 빠지고, 직거래(가족 간 저가 거래 등이 섞임)도 뺀다
     is_direct = lambda r: r.get("deal_type") == "직거래"
     newbuild = lambda r: bool(r.get("build_year")) and r["build_year"] >= this_year - R.NEW_BUILD_YEARS
@@ -78,6 +78,7 @@ def estimate_market(name: str, area: Optional[float], trades: list[dict], presal
     own_direct = sum(1 for r in presales + trades
                      if is_direct(r) and r.get("amount") and same_complex(r["apt"], name) and _in_band(r["area"], area))
     area_direct = sum(1 for r in trades if is_direct(r) and r.get("amount") and _in_band(r["area"], area) and newbuild(r))
+    wide_direct = sum(1 for r in trades if is_direct(r) and r.get("amount") and r.get("area") and area and abs(r["area"] - area) <= R.AREA_BAND_WIDE and newbuild(r))
     trades = [r for r in trades if not is_direct(r)]
     presales = [r for r in presales if not is_direct(r)]
     # 분양권전매 API 의 ownershipGbn 은 '분'(분양권) / '입'(입주권) 약자로 온다 (2026-09-29 실제 응답)
@@ -99,6 +100,18 @@ def estimate_market(name: str, area: Optional[float], trades: list[dict], presal
                 "mkt_comps": _recent([_comp(r, "매매", "amount") for r in comps]),
                 "mkt_direct_excluded": area_direct,
                 "mkt_note": f"같은 구 준공 {R.NEW_BUILD_YEARS}년 이내 같은 평형 매매 {len(comps)}건 기준 (최근 {R.MARKET_MONTHS}개월)"}
+    # 기능 mkt_area_fallback (2026-10-07, evidence/qa/market-probe.txt): 같은 평형 거래가 3건 미만이면 같은 구 준공 10년 이내
+    # 비슷한 면적(±10㎡) 매매의 ㎡당 가격 중앙값(보수: 하위 25%) × 이 주택형 전용면적. 107㎡처럼 거래가 드문 평형용 — '추정'으로 표시
+    wide = [r for r in trades if area_fallback and area and r.get("amount") and r.get("area") and abs(r["area"] - area) <= R.AREA_BAND_WIDE and newbuild(r)]
+    if len(wide) >= R.AREA_FALLBACK_MIN:
+        ppa = [r["amount"] / r["area"] for r in wide]
+        base = statistics.median(ppa) * area / 10000
+        low = _p25(ppa) * area / 10000 if len(ppa) >= 4 else base * R.LOW_DISCOUNT
+        return {"mkt_low": round(low, 2), "mkt_base": round(base, 2), "mkt_basis": "district_area_ppa", "mkt_count": len(wide),
+                "mkt_comps": _recent([_comp(r, "매매", "amount") for r in wide]),
+                "mkt_direct_excluded": wide_direct,
+                "mkt_note": f"같은 평형 거래가 부족해 같은 구 준공 {R.NEW_BUILD_YEARS}년 이내 비슷한 면적(±{R.AREA_BAND_WIDE:g}㎡) 매매 {len(wide)}건의 "
+                            f"㎡당 가격 × 전용 {area:.1f}㎡로 추정 (최근 {R.MARKET_MONTHS}개월)"}
     return {"mkt_low": None, "mkt_base": None, "mkt_basis": None, "mkt_count": len(comps),
             "mkt_comps": _recent([_comp(r, "매매", "amount") for r in comps]),
             "mkt_direct_excluded": area_direct,

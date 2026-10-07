@@ -26,6 +26,7 @@ OUT = ROOT / "evidence" / "qa" / "market-check.json"
 BASE = "https://apis.data.go.kr/1613000"
 EP = {"trade": "/RTMSDataSvcAptTrade/getRTMSDataSvcAptTrade", "presale": "/RTMSDataSvcSilvTrade/getRTMSDataSvcSilvTrade"}
 MONTHS, BAND, NEW_YEARS, LOW_X = 6, 3.0, 10, 0.90
+WIDE, WIDE_MIN = 10.0, 5   # 기능 mkt_area_fallback (app/rules.py AREA_BAND_WIDE·AREA_FALLBACK_MIN 과 같은 값, 따로 적음)
 
 
 def months(today: date, n: int = MONTHS) -> list[str]:
@@ -65,7 +66,7 @@ def p25(xs: list[float]) -> float:
     return xs[i] + (xs[j] - xs[i]) * (k - i)
 
 
-def expect(name: str, area: float, trades: list[dict], presales: list[dict], year: int) -> dict:
+def expect(name: str, area: float, trades: list[dict], presales: list[dict], year: int, fallback: bool = False) -> dict:
     """원자료로 따로 계산한 시세 (억 원, 소수 둘째 자리)"""
     live = lambda r: not r["cancel"] and not r["direct"] and r["amount"]
     band = lambda r: r["area"] is not None and area is not None and abs(r["area"] - area) <= BAND
@@ -74,6 +75,13 @@ def expect(name: str, area: float, trades: list[dict], presales: list[dict], yea
     own = [r for r in presales + trades if live(r) and band(r) and same(r)]
     pool, basis = (own, "same_complex") if own else ([r for r in trades if live(r) and band(r) and r["build"] and r["build"] >= year - NEW_YEARS], "district_newbuild")
     if basis == "district_newbuild" and len(pool) < 3:
+        # 기능 mkt_area_fallback: ±10㎡ 같은 구 신축 매매 5건 이상이면 ㎡당 가격(중앙값·하위 25%) × 면적 — 수집 코드와 따로 옮긴 계산
+        wide = [r for r in trades if fallback and area and live(r) and r["area"] and abs(r["area"] - area) <= WIDE and r["build"] and r["build"] >= year - NEW_YEARS]
+        if len(wide) >= WIDE_MIN:
+            u = sorted(r["amount"] / r["area"] for r in wide)
+            base = statistics.median(u) * area / 10000
+            low = p25(u) * area / 10000 if len(u) >= 4 else base * LOW_X
+            return {"basis": "district_area_ppa", "count": len(wide), "base": round(base, 2), "low": round(low, 2), "rows": wide}
         return {"basis": None, "count": len(pool), "base": None, "low": None, "rows": pool}
     a = [r["amount"] for r in pool]
     base = statistics.median(a) / 10000
@@ -98,10 +106,15 @@ def fetch(http, key: str, kind: str, lawd: str, ym: str) -> list[dict]:
     return out
 
 
-def check(listings: list[dict], today: date, get) -> dict:
+def check(listings: list[dict], today: date, get, fallback: bool | None = None) -> dict:
     """get(kind, lawd, ym) → 원자료 거래 목록. 공고마다 시세·근거 거래를 원자료와 비교"""
     from app import lawd as LC
     cache, res = LC.load(), []
+    if fallback is None:   # 수집과 같은 스위치(docs/config.json features.mkt_area_fallback, 없으면 켜짐)
+        try:
+            fallback = json.loads((ROOT / "docs" / "config.json").read_text(encoding="utf-8")).get("features", {}).get("mkt_area_fallback", True) is not False
+        except Exception:
+            fallback = True
     for L in listings:
         lawd = LC.lawd_for(L.get("address") or "", cache, L.get("sido"))
         if not lawd:
@@ -109,7 +122,7 @@ def check(listings: list[dict], today: date, get) -> dict:
             continue
         tr = [r for ym in months(today) for r in get("trade", lawd, ym)]
         ps = [r for ym in months(today) for r in get("presale", lawd, ym)]
-        e = expect(L["name"], L.get("area"), tr, ps, today.year)
+        e = expect(L["name"], L.get("area"), tr, ps, today.year, fallback=fallback)
         bad = []
         if (L.get("mkt_basis") or None) != e["basis"]:
             bad.append(f"근거 종류 {L.get('mkt_basis')} ≠ 원자료 {e['basis']}")

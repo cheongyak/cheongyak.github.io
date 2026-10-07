@@ -46,3 +46,29 @@ def test_check_flags_wrong_numbers_and_fake_comps():
     assert "mkt_base" in MC.check([bad], date(2026, 10, 2), get)["items"][0]["bad"][0]
     fake = dict(L, mkt_comps=L["mkt_comps"] + [{"apt": "다른신축", "area": 53.0, "floor": 5.0, "amount": 9.99, "date": "2026-06-12"}])   # 해제된 거래를 근거로 쓰면
     assert any("원자료" in b and "없음" in b for b in MC.check([fake], date(2026, 10, 2), get)["items"][0]["bad"])
+
+
+# 기능 mkt_area_fallback (2026-10-07): 같은 평형(±3㎡) 거래가 3건 미만이면 ±10㎡ 같은 구 신축 매매 5건 이상의 ㎡당 가격 × 면적
+WIDE = [row("가신축", 102.66, 53000, "2026-09-30"), row("가신축", 102.66, 49500, "2026-09-08"), row("가신축", 102.66, 55500, "2026-08-20"),
+        row("나신축", 115.14, 73500, "2026-08-04"), row("다신축", 99.0, 51000, "2026-07-10"), row("다신축", 99.0, 52000, "2026-06-10", direct="직거래"),
+        row("옛단지", 108.0, 40000, "2026-07-02", build=2001), row("라신축", 84.9, 60000, "2026-07-01")]
+
+
+def test_area_fallback_off_by_default_and_matches_independent_calc():
+    x = xml(WIDE)
+    app_rows, raw_rows = rtms.parse_items(x), MC.rows_of(x)
+    off = market.estimate_market("향남 새 단지", 107.97, app_rows, [], 2026)
+    assert off["mkt_base"] is None and MC.expect("향남 새 단지", 107.97, raw_rows, [], 2026)["basis"] is None
+    on = market.estimate_market("향남 새 단지", 107.97, app_rows, [], 2026, area_fallback=True)
+    raw = MC.expect("향남 새 단지", 107.97, raw_rows, [], 2026, fallback=True)
+    assert on["mkt_basis"] == raw["basis"] == "district_area_ppa"
+    assert (on["mkt_base"], on["mkt_low"], on["mkt_count"]) == (raw["base"], raw["low"], raw["count"]) and on["mkt_count"] == 5   # 직거래·옛 단지·84㎡ 뺌
+    assert on["mkt_direct_excluded"] == 1 and on["mkt_low"] <= on["mkt_base"]
+    assert all(MC.comp_in(c, raw["rows"]) for c in on["mkt_comps"]) and "추정" in on["mkt_note"]
+
+
+def test_area_fallback_needs_five_and_exact_band_first():
+    x = xml(WIDE[:4])   # ±10㎡ 4건 → 추정하지 않음
+    assert market.estimate_market("향남 새 단지", 107.97, rtms.parse_items(x), [], 2026, area_fallback=True)["mkt_base"] is None
+    x = xml(TRADES)     # 같은 평형 거래가 있으면 예전 방식 그대로
+    assert market.estimate_market("새 단지", 53.0, rtms.parse_items(x), [], 2026, area_fallback=True)["mkt_basis"] == "district_newbuild"

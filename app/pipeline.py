@@ -135,7 +135,7 @@ def build_listing(raw: dict, rtms: Optional[RtmsClient], today: date, lawd_cache
                 return None
         trades, presales, rents = safe("trade"), safe("presale"), safe("rent")
         if trades is not None or presales is not None:
-            mk = estimate_market(raw["name"], raw["area"], trades or [], presales or [], today.year)
+            mk = estimate_market(raw["name"], raw["area"], trades or [], presales or [], today.year, area_fallback=feature_on("mkt_area_fallback"))
         else:
             mk["mkt_note"] = MARKET_FAIL_NOTE
         if rents is not None:
