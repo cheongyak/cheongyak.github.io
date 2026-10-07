@@ -3,50 +3,19 @@
  "listings": 206,
  "profiles": 42,
  "checks": 248920,
- "conflicts": 186,
+ "conflicts": 0,
  "severity": {
   "CRITICAL": 0,
-  "HIGH": 186,
+  "HIGH": 0,
   "MEDIUM": 0
  },
- "rules": {
-  "LH-UI-001": 186
- },
+ "rules": {},
  "states": {
   "NORMAL": 126,
   "WARNING": 64,
   "UNKNOWN": 16
  },
- "examples": [
-  {
-   "rule_id": "LH-UI-001",
-   "severity": "HIGH",
-   "id": "LH-SH-310037",
-   "name": "[토지지원 사회주택]함께주택4호 401-3호 입주자 모집 공고",
-   "profile": null,
-   "condition": "계층 no,no,no",
-   "actual": "공고 결론 partial",
-   "expected": "가장 좋은 계층 결론",
-   "conflicting_fields": [
-    "rentalJudge"
-   ],
-   "evidence": "화면"
-  },
-  {
-   "rule_id": "LH-UI-001",
-   "severity": "HIGH",
-   "id": "LH-SH-310672",
-   "name": "[토지지원 사회주택]유니버설디자인하우스_망우 입주자 모집 공고",
-   "profile": null,
-   "condition": "계층 na,no,na",
-   "actual": "공고 결론 partial",
-   "expected": "가장 좋은 계층 결론",
-   "conflicting_fields": [
-    "rentalJudge"
-   ],
-   "evidence": "화면"
-  }
- ],
+ "examples": [],
  "unknown": [
   {
    "id": "2026820011-055.0000O",
