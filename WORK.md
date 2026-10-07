@@ -4,6 +4,17 @@
 2026-09-29 12:55 이전 항목은 규칙을 만들기 전 작업을 커밋 기록으로 정리한 것이라 백업 브랜치가 없어요.
 그 시점으로 되돌릴 때는 해당 커밋 번호로 `git revert` 를 써요.
 
+## 2026-10-07 13:40 · '추첨으로 노릴 곳' 표시·모아 보기 — B (v1.60.0)
+- 요청: "Abc순차로 진행해줘" — B. '가능·추첨만' 카드: 가점이 낮아도 추첨으로 노릴 수 있는 공고를 한눈에
+- 변경(docs/index.html): drawPath(L, p) — 판정 '신청 가능'(eligBucket ok)인 분양 주택형만, 이미 화면에 쓰는 근거로 이유를 고름: 무순위는 전부 추첨 / 규제지역 유주택 → 추첨제만(제28조) / 2년 내 가점제 당첨 → 추첨제만(제28조⑥) / 소득이 우선공급을 넘어 추첨공급만(공공·신혼희망타운 항목) / 공고문 가점제 0% 면적 / 내 가점 < 최근 당첨선이고 공고문 추첨제 비율 > 0 ('가점 N점 부족 · 추첨 M%'). 목록 카드에 '· 추첨으로 노릴 곳 (이유)', 내 조건 요약에 '그중 추첨으로 N'(누르면 그 공고만 — 판정 필터 draw). 판정·등급은 바꾸지 않음
+- 검사: tools/qa/cross_rule.cjs DRAW-001(신청 가능이 아닌데 표시) CRITICAL, DRAW-002(가점 차이·추첨 비율이 계산과 다름, 무순위 아닌데 무순위 이유) HIGH. 일부러 망가뜨린 코드에서 DRAW-001 10건·DRAW-002 4건 잡힘. 같은 커밋에서 v1.58.7 의 FUND-006(시세 없음 대출 0원)을 기존 FUND-006(전세 카드)과 겹치지 않게 FUND-007 로 바꿈
+- 판정 사례 586개 조건 × 공고 206개에서 이유별 건수: 무순위 9,776 · 가점제 0% 1,886 · 가점 부족 745 · 소득 추첨공급만 204 · 유주택 154 (2년 내 가점 당첨은 사례 조건에 없음)
+- 파일: docs/index.html, docs/config.json, tools/qa/cross_rule.cjs, tools/engine_lock.json, FEATURES.md, docs/changelog.json, VERSIONS.md
+- 확인: pytest 210 통과(엔진 잠금 갱신 — 판정 묶음 이름표에 draw 추가), 판정 사례 692/692, cross 217,144회 충돌 0, 회귀 바뀐 판정 0, 스냅샷 0, e2e 34/34, 변이 66 못 잡음 0, consistency·monotonic·profile_keep·filter·sptext·zero_default·fixflow·fixlink·score_input·spouse_fix·sh_screen·lh_qa 0, 390px 요약 숫자·필터·카드 확인
+- 백업: backup/20261007-1328-draw
+- 기능: draw_path
+- 버전: v1.60.0
+
 ## 2026-10-07 13:03 · 비슷한 면적 ㎡당 가격으로 시세 추정 — 시세 없던 공고 줄이기 A-2 (v1.59.0)
 - 요청: "Abc순차로 진행해줘" — A. 시세 못 구하는 공고 줄이기 (A-1 부천 코드 다음)
 - 근거: evidence/qa/market-probe.txt — 화성 향남역 그로브 스위첸 107A·B 는 같은 구 신축 ±3㎡ 거래 0건, ±10㎡ 12개월 21건(102.7·115.1㎡ 등). 큰 평형은 같은 평형 거래가 드물어 늘 '주변 거래 부족'
@@ -47,7 +58,7 @@
 - 요청: (자금 플랜 화면 사진) "근데 여기는 ltv 70%인데 왜 대출 0원으로 나와??"
 - 원인: 잔금대출 집값 기준(LTV)을 min(분양가, 시세) × 70% 로 계산하는데, 주변 실거래 시세(mktBase)를 못 구한 공고는 시세가 비어 Math.min(분양가, null) = 0 → LTV 대출 0원. 전세 시나리오도 전세 시세가 없으면 보증금 0원으로 계산. 마감 전 분양 공고 52개 중 17개가 해당 — 자금 부족액이 크게 부풀려 보였음
 - 변경(docs/index.html): funding — 시세가 없으면 분양가 기준 LTV(ltvEst), 규제지역 대출 한도 구간도 분양가로. 전세 시세가 없으면 jeonseUnk(0원으로 계산 안 함). fundUnsure: 전세 계획+전세 시세 없음 → '전세 보증금 입력 필요', 시세 미확인으로 LTV 가 한도를 정해 '가능'이면 '시세 확인 필요'(시세가 낮으면 대출이 줄 수 있어 단정 안 함). 목록 카드·상세 요약·납부 일정 점·시나리오 배지·비교표에 반영, LTV 줄에 '시세 미확인 · 분양가 기준' 표시, 전세 보증금 칸 '시세 없음'·부족분 줄 숨김, 전세 시세가 없으면 기본 계획은 잔금대출(실거주)
-- 검사: tools/qa/cross_rule.cjs FUND-006 추가 — 분양가가 있는데 LTV 대출 0원이면 CRITICAL, 전세 시세가 없는데 전세 시나리오가 부족분·여유분을 계산하면 HIGH. 고치기 전 코드에서 CRITICAL 로 잡힘, 고친 뒤 0
+- 검사: tools/qa/cross_rule.cjs FUND-007(처음 FUND-006 으로 넣었다가 기존 번호와 겹쳐 v1.60.0 에서 바꿈) 추가 — 분양가가 있는데 LTV 대출 0원이면 CRITICAL, 전세 시세가 없는데 전세 시나리오가 부족분·여유분을 계산하면 HIGH. 고치기 전 코드에서 CRITICAL 로 잡힘, 고친 뒤 0
 - 사진 사례(2026000463 107.9722A, 현금 5억·소득 6천만): 전 LTV 0원 → 잔금대출 1.9억 부족 / 후 LTV 4.75억(분양가 기준)·대출 3.01억(DSR 기준)·여유 1.11억 가능, 전세 끼고 잔금 = '전세 보증금 입력 필요'
 - 파일: docs/index.html, tools/qa/cross_rule.cjs, tools/engine_lock.json, docs/changelog.json, VERSIONS.md, HANDOFF.md
 - 확인: 판정 사례 692/692, cross 184,258회 충돌 0, 회귀 판정 바뀐 곳 0, 스냅샷 0, e2e 34/34, 변이 66(못 잡음 0), zero_default·consistency·monotonic·profile_keep·filter·sptext·fixflow·fixlink·spouse_fix·score_input·sh_screen·lh_qa 0, pytest 206 통과(엔진 잠금 갱신 전 1건 = 의도한 funding 변경), 390px 자금 플랜 화면 확인
