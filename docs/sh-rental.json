@@ -1,5 +1,5 @@
 {
- "updated": "2026-10-07 15:47",
+ "updated": "2026-10-07 16:07",
  "source": "SH 인터넷청약시스템 공고 및 공지 > 주택임대 (서울주택도시개발공사)",
  "count": 17,
  "notices": [
@@ -411,7 +411,7 @@
    "name": "[토지지원 사회주택]유니버설디자인하우스_망우 입주자 모집 공고",
    "type": "사회주택",
    "youth": false,
-   "judge_type": false,
+   "judge_type": true,
    "region": "서울특별시",
    "posted": "2026-09-28",
    "close": null,
@@ -422,7 +422,59 @@
    "complexes": [],
    "units": [],
    "rents": [],
-   "terms": null,
+   "terms": {
+    "sh": true,
+    "kind": "사회주택",
+    "ref_date": "2026-09-28",
+    "income_basis": "도시근로자 월평균소득",
+    "birth_bonus": "none",
+    "relaxed": false,
+    "homeless_relaxed": false,
+    "local": {
+     "sido": "서울",
+     "sigun": null,
+     "name": "서울시",
+     "others_check": "서울에 살지 않아도 서울 소재 직장·학교 등 조건(입주 후 전입)으로 신청할 수 있어요"
+    },
+    "groups": [
+     {
+      "key": "청년",
+      "name": "청년",
+      "age_min": 19,
+      "age_max": 39,
+      "homeless": null,
+      "income_pct": null,
+      "asset_manwon": null,
+      "car_manwon": 4563
+     },
+     {
+      "key": "신혼부부",
+      "name": "신혼부부(혼인 7년 이내·예비)",
+      "homeless": null,
+      "income_pct": null,
+      "asset_manwon": 33700,
+      "car_manwon": 4563,
+      "wed_years": 7,
+      "prewed": true
+     },
+     {
+      "key": "1인가구",
+      "name": "1인 가구",
+      "homeless": null,
+      "income_pct": null,
+      "asset_manwon": 33700,
+      "car_manwon": 4563
+     }
+    ],
+    "unknown_groups": [
+     "고령자"
+    ],
+    "issues": [
+     "소득 표가 도시근로자 2025 × 120% 와 다름: 2인 6,452,897, 3인 8,168,428",
+     "무주택 범위(본인·세대) 못 읽음",
+     "청년 총자산 금액 이상(만 단위 1만 이상)"
+    ]
+   },
    "files": [
     {
      "kind": "PDF 공고문",
@@ -522,7 +574,7 @@
    "name": "[토지임대부 사회주택] 쌍문생활 302호 입주자 모집 공고문",
    "type": "사회주택",
    "youth": false,
-   "judge_type": false,
+   "judge_type": true,
    "region": "서울특별시",
    "posted": "2026-09-21",
    "close": null,
@@ -533,7 +585,38 @@
    "complexes": [],
    "units": [],
    "rents": [],
-   "terms": null,
+   "terms": {
+    "sh": true,
+    "kind": "사회주택",
+    "ref_date": null,
+    "income_basis": "도시근로자 월평균소득",
+    "birth_bonus": "none",
+    "relaxed": false,
+    "homeless_relaxed": false,
+    "local": {
+     "sido": "서울",
+     "sigun": null,
+     "name": "서울시",
+     "others_check": "서울에 살지 않아도 서울 소재 직장·학교 등 조건(입주 후 전입)으로 신청할 수 있어요"
+    },
+    "groups": [
+     {
+      "key": "청년",
+      "name": "청년",
+      "age_min": 19,
+      "age_max": 39,
+      "homeless": "self",
+      "income_pct": null,
+      "asset_manwon": 25400,
+      "car_manwon": 3803,
+      "married_ok": true
+     }
+    ],
+    "unknown_groups": [],
+    "issues": [
+     "세대 전원 소득 문장 못 찾음"
+    ]
+   },
    "files": [
     {
      "kind": "PDF 공고문",
@@ -752,7 +835,7 @@
    "name": "[토지지원 사회주택]함께주택4호 401-3호 입주자 모집 공고",
    "type": "사회주택",
    "youth": false,
-   "judge_type": false,
+   "judge_type": true,
    "region": "서울특별시",
    "posted": "2026-09-09",
    "close": null,
@@ -763,7 +846,68 @@
    "complexes": [],
    "units": [],
    "rents": [],
-   "terms": null,
+   "terms": {
+    "sh": true,
+    "kind": "사회주택",
+    "ref_date": "2026-09-04",
+    "income_basis": "도시근로자 월평균소득",
+    "birth_bonus": "none",
+    "relaxed": false,
+    "homeless_relaxed": false,
+    "local": {
+     "sido": "서울",
+     "sigun": null,
+     "name": "서울시",
+     "others_check": "서울에 살지 않아도 서울 소재 직장·학교 등 조건(입주 후 전입)으로 신청할 수 있어요"
+    },
+    "groups": [
+     {
+      "key": "청년",
+      "name": "청년",
+      "age_min": 19,
+      "age_max": 39,
+      "homeless": "self",
+      "income_pct": {
+       "1": 120,
+       "2": 120,
+       "3+": 120
+      },
+      "asset_manwon": 25100,
+      "car_manwon": 4542,
+      "married_ok": true
+     },
+     {
+      "key": "신혼부부",
+      "name": "신혼부부(혼인 7년 이내·예비)",
+      "homeless": "household",
+      "income_pct": {
+       "1": 120,
+       "2": 120,
+       "3+": 120
+      },
+      "asset_manwon": 34500,
+      "car_manwon": 4542,
+      "wed_years": 7,
+      "prewed": true
+     },
+     {
+      "key": "1인가구",
+      "name": "1인 가구",
+      "homeless": "household",
+      "income_pct": {
+       "1": 120,
+       "2": 120,
+       "3+": 120
+      },
+      "asset_manwon": 34500,
+      "car_manwon": 4542
+     }
+    ],
+    "unknown_groups": [
+     "고령자"
+    ],
+    "issues": []
+   },
    "files": [
     {
      "kind": "PDF 공고문",
