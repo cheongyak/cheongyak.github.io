@@ -27,6 +27,8 @@ on:
       - "tools/qa/lh_rental.cjs"
       - "tools/qa/lh_invariants.py"
       - "tools/qa/lh_pdf_tools.py"
+      - "tools/qa/pay_audit.py"
+      - "app/notice_pdf.py"
       - "chat/tools/engine_payload.cjs"
       - "tests/qa/**"
       - ".github/workflows/verify.yml"
@@ -69,6 +71,7 @@ jobs:
         run: |
           node tools/qa/supply_type.cjs | tail -1 | tee -a docs/run-log.txt
           python -m tools.qa.invariants | tee -a docs/run-log.txt
+          pip install -q httpx >/dev/null 2>&1; python -m tools.qa.pay_audit | tail -1 | tee -a docs/run-log.txt || true   # 계약금 비율 ↔ 공고문 금액 줄 독립 점검 (실패는 verify_status 가 셈)
           node tools/qa/filter_check.cjs | head -1 | tee -a docs/run-log.txt
           node tools/qa/consistency.cjs | head -1 | tee -a docs/run-log.txt
           node tools/qa/sp_text.cjs | head -1 | tee -a docs/run-log.txt

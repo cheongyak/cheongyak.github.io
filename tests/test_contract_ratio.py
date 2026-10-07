@@ -10,7 +10,8 @@ GOLD = json.loads((ROOT / "tests/golden/notices.json").read_text(encoding="utf-8
 
 
 def _p(n):
-    return parse_notice((ROOT / "evidence/notices" / f"{n}.txt").read_text(encoding="utf-8"))
+    from tools.qa.pay_audit import originals
+    return parse_notice(originals()[n].read_text(encoding="utf-8"))
 
 
 def test_golden_pay_ratio():
@@ -20,12 +21,12 @@ def test_golden_pay_ratio():
         if "pay_ratio" not in f:
             continue
         r = _p(nid)
-        assert r.get("pay_ratio") == f["pay_ratio"], nid
+        assert r.get("pay_ratio") == f["pay_ratio"], (nid, r.get("pay_ratio"))
         cs = r.get("contract_split")
         want = f.get("contract_split")
         assert (cs and {k: cs.get(k) for k in want}) == want if want else cs is None, (nid, cs)
         n += 1
-    assert n >= 4
+    assert n >= 16
 
 
 def test_option_tables_are_not_supply_price():
@@ -35,10 +36,31 @@ def test_option_tables_are_not_supply_price():
 
 def test_split_needs_constant_first_amount():
     """1차 계약금이 줄마다 다르면(정액이 아님) 나뉜 것으로 적지 않는다"""
-    t = (ROOT / "evidence/notices/2026910256.txt").read_text(encoding="utf-8").replace("10,000,000 66,350,000", "11,000,000 65,350,000", 1)
+    t = (ROOT / "evidence/notices/2026910256.txt").read_text(encoding="utf-8").replace("10,000,000 66,350,000", "11,000,000 65,350,000", 1)   # 한 줄만 1차 금액을 바꿈
     assert parse_notice(t).get("contract_split") is None
 
 
 def test_unreadable_header_leaves_default():
     t = (ROOT / "evidence/notices/2026000463.txt").read_text(encoding="utf-8").replace("계약금(5%)", "계약금")
     assert "pay_ratio" not in parse_notice(t)
+
+
+def test_audit_finds_no_mismatch():
+    """독립 점검(tools/qa/pay_audit.py): 읽은 계약금 % 를 공고문 금액 줄이 뒷받침해야 한다 — 머리 글자만 보고 읽는 실수 재발 방지"""
+    from tools.qa import pay_audit as PA
+    from app.notice_pdf import parse_notice as pn
+    bad = []
+    for n, f in PA.originals().items():
+        t = f.read_text(encoding="utf-8", errors="replace")
+        pr = pn(t).get("pay_ratio")
+        if pr and PA.row_rates(t).get(round(pr["contract"] * 100), 0) == 0:
+            bad.append(n)
+    assert not bad, bad
+
+
+def test_header_alone_is_not_enough():
+    """표 머리만 있고 금액 줄이 그 비율과 맞지 않으면 읽지 않는다 (2026000437 발코니 확장 표 '계약금(10%) 중도금(10%) 잔금(80%)' 같은 경우)"""
+    t = "■ 공급금액 및 납부일정 (단위:원) 공급금액 계약금(10%) 중도금(10%) 잔금(80%) 84A 6,953,000 695,300 695,300 5,562,400"
+    assert "pay_ratio" not in parse_notice(t)
+    t2 = "■ 공급금액 및 납부일정 (단위:원) 공급금액 계약금(10%) 중도금(60%) 잔금(30%) 84A 520,000,000 52,000,000 52,000,000 52,000,000"
+    assert parse_notice(t2)["pay_ratio"] == {"contract": 0.1, "mid": 0.6, "balance": 0.3}
