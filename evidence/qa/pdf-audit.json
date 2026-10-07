@@ -2,10 +2,9 @@
  "date": "2026-10-07",
  "page_cap": 300,
  "notices": 52,
- "with_problem": 3,
+ "with_problem": 8,
  "kinds": {
-  "PDF 를 하나도 받지 못함": 2,
-  "글자가 거의 없는 쪽 N개 (스캔 이미지·표 그림 추정)": 1
+  "PDF 를 하나도 받지 못함": 8
  },
  "errors": [],
  "results": [
@@ -624,123 +623,32 @@
    "name": "진주 판문지구 레이크써밋 웰가",
    "url": "https://www.applyhome.co.kr/ai/aia/selectAPTLttotPblancDetail.do?houseManageNo=2026000446&pblancNo=2026000446",
    "attachments": 1,
-   "pdfs": 1,
+   "pdfs": 0,
    "attachment_list": [
     {
      "url": "https://static.applyhome.co.kr/ai/aia/getAtchmnfl.do?houseManageNo=2026000446&pblancNo=2026000446&atchmnflSeqNo=1971223&atchmnflSn=4",
-     "bytes": 1203573,
-     "pages": 59,
-     "chars": 147390,
-     "head": "- 1 - ※ 단지 주요정보 (분양문의) 055-757-7979 주택유형 해당지역 기타지역 규제지역여부 민영 경상남도 진주시 1년이상 거주자 ("
+     "error": "PDF 아님 (200, 59바이트)"
     }
    ],
-   "chosen": "https://static.applyhome.co.kr/ai/aia/getAtchmnfl.do?houseManageNo=2026000446&pblancNo=2026000446&atchmnflSeqNo=1971223&atchmnflSn=4",
-   "pages": 59,
-   "pages_read": 59,
-   "chars_read": 147448,
-   "empty_pages": [],
-   "chars_per_page_min": 508,
-   "fields": {
-    "need_head": false,
-    "price_cap": false,
-    "residence_duty": 0,
-    "rewin_years": 0,
-    "account_months": 6,
-    "ext": 0.0125,
-    "residence": {
-     "area": "경상남도 진주시",
-     "months": 12,
-     "since": "2025-09-18"
-    }
-   },
-   "fields_merged": {
-    "need_head": false,
-    "price_cap": false,
-    "residence_duty": 0,
-    "rewin_years": 0,
-    "account_months": 6,
-    "ext": 0.0125,
-    "residence": {
-     "area": "경상남도 진주시",
-     "months": 12,
-     "since": "2025-09-18"
-    }
-   },
-   "fields_pdfium": {
-    "need_head": false,
-    "price_cap": false,
-    "residence_duty": 0,
-    "rewin_years": 0,
-    "account_months": 6,
-    "ext": 0.0125,
-    "residence": {
-     "area": "경상남도 진주시",
-     "months": 12,
-     "since": "2025-09-18"
-    }
-   },
-   "pdfium_chars": 147428,
-   "problem": []
+   "problem": [
+    "PDF 를 하나도 받지 못함"
+   ]
   },
   {
    "notice": "2026000445",
    "name": "삼천 하늘채 라비엘",
    "url": "https://www.applyhome.co.kr/ai/aia/selectAPTLttotPblancDetail.do?houseManageNo=2026000445&pblancNo=2026000445",
    "attachments": 1,
-   "pdfs": 1,
+   "pdfs": 0,
    "attachment_list": [
     {
      "url": "https://static.applyhome.co.kr/ai/aia/getAtchmnfl.do?houseManageNo=2026000445&pblancNo=2026000445&atchmnflSeqNo=1978222&atchmnflSn=1",
-     "bytes": 902029,
-     "pages": 60,
-     "chars": 146416,
-     "head": "- 1 - 1 단지 주요정보 (분양문의) 1551-8836 주택유형 해당지역 기타지역 규제지역여부 민영 전주시 1년 이상 계속 거주자 (2025"
+     "error": "PDF 아님 (200, 59바이트)"
     }
    ],
-   "chosen": "https://static.applyhome.co.kr/ai/aia/getAtchmnfl.do?houseManageNo=2026000445&pblancNo=2026000445&atchmnflSeqNo=1978222&atchmnflSn=1",
-   "pages": 60,
-   "pages_read": 60,
-   "chars_read": 146475,
-   "empty_pages": [],
-   "chars_per_page_min": 439,
-   "fields": {
-    "need_head": false,
-    "price_cap": false,
-    "residence_duty": 0,
-    "rewin_years": 0,
-    "account_months": 6,
-    "residence": {
-     "area": "전주시",
-     "months": 12,
-     "since": "2025-09-18"
-    }
-   },
-   "fields_merged": {
-    "need_head": false,
-    "price_cap": false,
-    "residence_duty": 0,
-    "rewin_years": 0,
-    "account_months": 6,
-    "residence": {
-     "area": "전주시",
-     "months": 12,
-     "since": "2025-09-18"
-    }
-   },
-   "fields_pdfium": {
-    "need_head": false,
-    "price_cap": false,
-    "residence_duty": 0,
-    "rewin_years": 0,
-    "account_months": 6,
-    "residence": {
-     "area": "전주시",
-     "months": 12,
-     "since": "2025-09-18"
-    }
-   },
-   "pdfium_chars": 146121,
-   "problem": []
+   "problem": [
+    "PDF 를 하나도 받지 못함"
+   ]
   },
   {
    "notice": "2026000443",
@@ -1292,60 +1200,16 @@
    "name": "중동역 다채로움 더원",
    "url": "https://www.applyhome.co.kr/ai/aia/selectAPTLttotPblancDetail.do?houseManageNo=2026000314&pblancNo=2026000314",
    "attachments": 1,
-   "pdfs": 1,
+   "pdfs": 0,
    "attachment_list": [
     {
      "url": "https://static.applyhome.co.kr/ai/aia/getAtchmnfl.do?houseManageNo=2026000314&pblancNo=2026000314&atchmnflSeqNo=1870113&atchmnflSn=10",
-     "bytes": 2509881,
-     "pages": 60,
-     "chars": 114806,
-     "head": "- 1 - ※ 단지 주요정보 (분양문의) 032-613-2355 주택 유형 해당지역 기타지역 규제지역여부 민영 경기도 부천시 거주자 수도권(경기"
+     "error": "PDF 아님 (200, 59바이트)"
     }
    ],
-   "chosen": "https://static.applyhome.co.kr/ai/aia/getAtchmnfl.do?houseManageNo=2026000314&pblancNo=2026000314&atchmnflSeqNo=1870113&atchmnflSn=10",
-   "pages": 60,
-   "pages_read": 60,
-   "chars_read": 114865,
-   "empty_pages": [],
-   "chars_per_page_min": 574,
-   "fields": {
-    "need_head": false,
-    "price_cap": false,
-    "residence_duty": 0,
-    "rewin_years": 0,
-    "account_months": 12,
-    "residence": {
-     "area": "경기도 부천시",
-     "months": 0,
-     "since": null
-    }
-   },
-   "fields_merged": {
-    "need_head": false,
-    "price_cap": false,
-    "residence_duty": 0,
-    "rewin_years": 0,
-    "account_months": 12,
-    "residence": {
-     "area": "경기도 부천시",
-     "months": 0,
-     "since": null
-    }
-   },
-   "fields_pdfium": {
-    "need_head": false,
-    "price_cap": false,
-    "residence_duty": 0,
-    "rewin_years": 0,
-    "account_months": 12,
-    "residence": {
-     "area": "경기도 부천시",
-     "months": 0,
-     "since": null
-    }
-   },
-   "pdfium_chars": 114160,
-   "problem": []
+   "problem": [
+    "PDF 를 하나도 받지 못함"
+   ]
   },
   {
    "notice": "2026000431",
@@ -1472,60 +1336,16 @@
    "name": "시흥 은계 에피트(조합원 취소분)",
    "url": "https://www.applyhome.co.kr/ai/aia/selectAPTLttotPblancDetail.do?houseManageNo=2026000393&pblancNo=2026000393",
    "attachments": 1,
-   "pdfs": 1,
+   "pdfs": 0,
    "attachment_list": [
     {
      "url": "https://static.applyhome.co.kr/ai/aia/getAtchmnfl.do?houseManageNo=2026000393&pblancNo=2026000393&atchmnflSeqNo=1966048&atchmnflSn=9",
-     "bytes": 1408920,
-     "pages": 59,
-     "chars": 113626,
-     "head": "- 1 - 본 입주자모집공고의 내용을 숙지한 후 청약 및 계약에 응하시기 바라며 미숙지로 인한 착오 행위 등에 대하여 청약자 및 계약자 본인에게"
+     "error": "PDF 아님 (200, 59바이트)"
     }
    ],
-   "chosen": "https://static.applyhome.co.kr/ai/aia/getAtchmnfl.do?houseManageNo=2026000393&pblancNo=2026000393&atchmnflSeqNo=1966048&atchmnflSn=9",
-   "pages": 59,
-   "pages_read": 59,
-   "chars_read": 113684,
-   "empty_pages": [],
-   "chars_per_page_min": 181,
-   "fields": {
-    "need_head": false,
-    "price_cap": false,
-    "residence_duty": 0,
-    "rewin_years": 0,
-    "account_months": 12,
-    "residence": {
-     "area": "경기도 시흥시",
-     "months": 12,
-     "since": "2025-09-04"
-    }
-   },
-   "fields_merged": {
-    "need_head": false,
-    "price_cap": false,
-    "residence_duty": 0,
-    "rewin_years": 0,
-    "account_months": 12,
-    "residence": {
-     "area": "경기도 시흥시",
-     "months": 12,
-     "since": "2025-09-04"
-    }
-   },
-   "fields_pdfium": {
-    "need_head": false,
-    "price_cap": false,
-    "residence_duty": 0,
-    "rewin_years": 0,
-    "account_months": 12,
-    "residence": {
-     "area": "경기도 시흥시",
-     "months": 12,
-     "since": "2025-09-04"
-    }
-   },
-   "pdfium_chars": 114810,
-   "problem": []
+   "problem": [
+    "PDF 를 하나도 받지 못함"
+   ]
   },
   {
    "notice": "2026000414",
@@ -1907,19 +1727,19 @@
    "pdfs": 1,
    "attachment_list": [
     {
-     "url": "https://static.applyhome.co.kr/ai/aia/getAtchmnfl.do?houseManageNo=2026930033&pblancNo=2026930033&atchmnflSeqNo=1988251&atchmnflSn=1",
-     "bytes": 616209,
+     "url": "https://static.applyhome.co.kr/ai/aia/getAtchmnfl.do?houseManageNo=2026930033&pblancNo=2026930033&atchmnflSeqNo=1988251&atchmnflSn=2",
+     "bytes": 614490,
      "pages": 20,
-     "chars": 33609,
-     "head": "- 1 - ※ 단지 주요정보 (분양문의) 042-477-6565 주택유형 규제지역여부 거주요건 재당첨제한 민영 비규제지역 대전광역시 거주자 없음"
+     "chars": 33958,
+     "head": "- 1 - ※ 정정공고 안내 (분양문의) 042-477-6565 ‣2026.10.06. 불법행위재공급 입주자모집공고의 내용 중 [3.공급대상 및"
     }
    ],
-   "chosen": "https://static.applyhome.co.kr/ai/aia/getAtchmnfl.do?houseManageNo=2026930033&pblancNo=2026930033&atchmnflSeqNo=1988251&atchmnflSn=1",
+   "chosen": "https://static.applyhome.co.kr/ai/aia/getAtchmnfl.do?houseManageNo=2026930033&pblancNo=2026930033&atchmnflSeqNo=1988251&atchmnflSn=2",
    "pages": 20,
    "pages_read": 20,
-   "chars_read": 33628,
+   "chars_read": 33977,
    "empty_pages": [],
-   "chars_per_page_min": 366,
+   "chars_per_page_min": 166,
    "fields": {
     "need_head": true,
     "price_cap": false,
@@ -1953,7 +1773,7 @@
      "since": null
     }
    },
-   "pdfium_chars": 33527,
+   "pdfium_chars": 33884,
    "problem": []
   },
   {
@@ -2066,32 +1886,105 @@
    "name": "고양 장항 아테라",
    "url": "https://www.applyhome.co.kr/ai/aia/selectAPTRemndrLttotPblancDetailView.do?houseManageNo=2026930038&pblancNo=2026930038",
    "attachments": 1,
-   "pdfs": 0,
+   "pdfs": 1,
    "attachment_list": [
     {
      "url": "https://static.applyhome.co.kr/ai/aia/getAtchmnfl.do?houseManageNo=2026930038&pblancNo=2026930038&atchmnflSeqNo=1990056&atchmnflSn=4",
-     "error": "PDF 아님 (200, 59바이트)"
+     "bytes": 333715,
+     "pages": 18,
+     "chars": 29804,
+     "head": "- 1 - ※ 본 아파트 입주자모집공고의 내용을 충분히 숙지한 후 청약 및 계약에 응하시기 바라며, 미숙지로 인한 착오행위 등에 대하여는 청약자"
     }
    ],
-   "problem": [
-    "PDF 를 하나도 받지 못함"
-   ]
+   "chosen": "https://static.applyhome.co.kr/ai/aia/getAtchmnfl.do?houseManageNo=2026930038&pblancNo=2026930038&atchmnflSeqNo=1990056&atchmnflSn=4",
+   "pages": 18,
+   "pages_read": 18,
+   "chars_read": 29821,
+   "empty_pages": [],
+   "chars_per_page_min": 717,
+   "fields": {
+    "need_head": true,
+    "price_cap": true,
+    "residence_duty": 5,
+    "rewin_years": 10,
+    "residence": {
+     "area": "경기도 고양시",
+     "months": 0,
+     "since": null
+    }
+   },
+   "fields_merged": {
+    "need_head": true,
+    "price_cap": true,
+    "residence_duty": 5,
+    "rewin_years": 10,
+    "residence": {
+     "area": "경기도 고양시",
+     "months": 0,
+     "since": null
+    }
+   },
+   "fields_pdfium": {
+    "need_head": true,
+    "price_cap": true,
+    "residence_duty": 5,
+    "rewin_years": 10,
+    "residence": {
+     "area": "경기도 고양시",
+     "months": 0,
+     "since": null
+    }
+   },
+   "pdfium_chars": 29610,
+   "problem": []
   },
   {
    "notice": "2026910253",
    "name": "오남역 서희스타힐스 여의재 1단지",
    "url": "https://www.applyhome.co.kr/ai/aia/selectAPTRemndrLttotPblancDetailView.do?houseManageNo=2026910253&pblancNo=2026910253",
    "attachments": 1,
-   "pdfs": 0,
+   "pdfs": 1,
    "attachment_list": [
     {
      "url": "https://static.applyhome.co.kr/ai/aia/getAtchmnfl.do?houseManageNo=2026910253&pblancNo=2026910253&atchmnflSeqNo=1988120&atchmnflSn=3",
-     "error": "PDF 아님 (200, 59바이트)"
+     "bytes": 245618,
+     "pages": 12,
+     "chars": 15235,
+     "head": "- 1 - ※ 본 입주자모집공고의 내용을 숙지한 후 청약 및 계약에 응하시기 바라며, 미숙지로 인한 착오 행위 등에 대하여 청약자 및 계약자 본"
     }
    ],
-   "problem": [
-    "PDF 를 하나도 받지 못함"
-   ]
+   "chosen": "https://static.applyhome.co.kr/ai/aia/getAtchmnfl.do?houseManageNo=2026910253&pblancNo=2026910253&atchmnflSeqNo=1988120&atchmnflSn=3",
+   "pages": 12,
+   "pages_read": 12,
+   "chars_read": 15246,
+   "empty_pages": [],
+   "chars_per_page_min": 620,
+   "fields": {
+    "need_head": false,
+    "residence": {
+     "area": null,
+     "months": 0,
+     "since": null
+    }
+   },
+   "fields_merged": {
+    "need_head": false,
+    "residence": {
+     "area": null,
+     "months": 0,
+     "since": null
+    }
+   },
+   "fields_pdfium": {
+    "need_head": false,
+    "residence": {
+     "area": null,
+     "months": 0,
+     "since": null
+    }
+   },
+   "pdfium_chars": 15442,
+   "problem": []
   },
   {
    "notice": "2026910250",
@@ -2263,131 +2156,31 @@
    "name": "강변역 센트럴 아이파크",
    "url": "https://www.applyhome.co.kr/ai/aia/selectAPTRemndrLttotPblancDetailView.do?houseManageNo=2026930040&pblancNo=2026930040",
    "attachments": 1,
-   "pdfs": 1,
+   "pdfs": 0,
    "attachment_list": [
     {
      "url": "https://static.applyhome.co.kr/ai/aia/getAtchmnfl.do?houseManageNo=2026930040&pblancNo=2026930040&atchmnflSeqNo=1982993&atchmnflSn=5",
-     "bytes": 367120,
-     "pages": 12,
-     "chars": 26160,
-     "head": "- 1 - ※ 단지 주요정보 (분양문의)1551-3560 주택유형 규제지역여부 거주요건 재당첨제한 민영 투기과열지구/청약과열지역 서울특별시 거주"
+     "error": "PDF 아님 (200, 59바이트)"
     }
    ],
-   "chosen": "https://static.applyhome.co.kr/ai/aia/getAtchmnfl.do?houseManageNo=2026930040&pblancNo=2026930040&atchmnflSeqNo=1982993&atchmnflSn=5",
-   "pages": 12,
-   "pages_read": 12,
-   "chars_read": 26171,
-   "empty_pages": [],
-   "chars_per_page_min": 666,
-   "fields": {
-    "need_head": true,
-    "price_cap": false,
-    "residence_duty": 0,
-    "rewin_years": 10,
-    "balance": "2026-11-30",
-    "ext": 0.2178,
-    "residence": {
-     "area": "서울특별시",
-     "months": 0,
-     "since": null
-    }
-   },
-   "fields_merged": {
-    "need_head": true,
-    "price_cap": false,
-    "residence_duty": 0,
-    "rewin_years": 10,
-    "balance": "2026-11-30",
-    "ext": 0.2178,
-    "residence": {
-     "area": "서울특별시",
-     "months": 0,
-     "since": null
-    }
-   },
-   "fields_pdfium": {
-    "need_head": true,
-    "price_cap": false,
-    "residence_duty": 0,
-    "rewin_years": 10,
-    "balance": "2026-11-30",
-    "ext": 0.2178,
-    "residence": {
-     "area": "서울특별시",
-     "months": 0,
-     "since": null
-    }
-   },
-   "pdfium_chars": 25652,
-   "problem": []
+   "problem": [
+    "PDF 를 하나도 받지 못함"
+   ]
   },
   {
    "notice": "2026930037",
    "name": "과천 푸르지오 벨라르테",
    "url": "https://www.applyhome.co.kr/ai/aia/selectAPTRemndrLttotPblancDetailView.do?houseManageNo=2026930037&pblancNo=2026930037",
    "attachments": 1,
-   "pdfs": 1,
+   "pdfs": 0,
    "attachment_list": [
     {
      "url": "https://static.applyhome.co.kr/ai/aia/getAtchmnfl.do?houseManageNo=2026930037&pblancNo=2026930037&atchmnflSeqNo=1980252&atchmnflSn=3",
-     "bytes": 396554,
-     "pages": 14,
-     "chars": 23852,
-     "head": "- 1 - ※ 단지 주요정보 분양문의( ) 1670-1000 주택유형 규제지역여부 거주요건 재당첨제한 민영 투기과열지구 청약과열지역 / 경기도 "
+     "error": "PDF 아님 (200, 59바이트)"
     }
-   ],
-   "chosen": "https://static.applyhome.co.kr/ai/aia/getAtchmnfl.do?houseManageNo=2026930037&pblancNo=2026930037&atchmnflSeqNo=1980252&atchmnflSn=3",
-   "pages": 14,
-   "pages_read": 14,
-   "chars_read": 23865,
-   "empty_pages": [
-    14
-   ],
-   "chars_per_page_min": 19,
-   "fields": {
-    "need_head": true,
-    "price_cap": true,
-    "residence_duty": 0,
-    "residence": {
-     "area": "과천시",
-     "months": 0,
-     "since": null
-    }
-   },
-   "fields_merged": {
-    "need_head": true,
-    "price_cap": true,
-    "residence_duty": 0,
-    "rewin_years": 10,
-    "residence": {
-     "area": "과천시",
-     "months": 0,
-     "since": null
-    }
-   },
-   "fields_pdfium": {
-    "need_head": true,
-    "price_cap": true,
-    "residence_duty": 0,
-    "rewin_years": 10,
-    "residence": {
-     "area": "과천시",
-     "months": 0,
-     "since": null
-    }
-   },
-   "pdfium_chars": 23907,
-   "tool_diff": {
-    "rewin_years": [
-     null,
-     10
-    ]
-   },
-   "filled_by_second_tool": [
-    "rewin_years"
    ],
    "problem": [
-    "글자가 거의 없는 쪽 1개 (스캔 이미지·표 그림 추정): [14]"
+    "PDF 를 하나도 받지 못함"
    ]
   },
   {
@@ -2395,119 +2188,32 @@
    "name": "과천 푸르지오 라비엔오",
    "url": "https://www.applyhome.co.kr/ai/aia/selectAPTRemndrLttotPblancDetailView.do?houseManageNo=2026930036&pblancNo=2026930036",
    "attachments": 1,
-   "pdfs": 1,
+   "pdfs": 0,
    "attachment_list": [
     {
      "url": "https://static.applyhome.co.kr/ai/aia/getAtchmnfl.do?houseManageNo=2026930036&pblancNo=2026930036&atchmnflSeqNo=1980253&atchmnflSn=4",
-     "bytes": 505709,
-     "pages": 20,
-     "chars": 34328,
-     "head": "- 1 - ※ 단지 주요정보 분양문의( ) 1670-1000 주택유형 규제지역여부 거주요건 재당첨제한 민영 투기과열지구 청약과열지역 / 경기도 "
+     "error": "PDF 아님 (200, 59바이트)"
     }
    ],
-   "chosen": "https://static.applyhome.co.kr/ai/aia/getAtchmnfl.do?houseManageNo=2026930036&pblancNo=2026930036&atchmnflSeqNo=1980253&atchmnflSn=4",
-   "pages": 20,
-   "pages_read": 20,
-   "chars_read": 34347,
-   "empty_pages": [],
-   "chars_per_page_min": 227,
-   "fields": {
-    "price_cap": true,
-    "residence_duty": 0,
-    "residence": {
-     "area": "과천시",
-     "months": 0,
-     "since": null
-    }
-   },
-   "fields_merged": {
-    "price_cap": true,
-    "residence_duty": 0,
-    "rewin_years": 10,
-    "residence": {
-     "area": "과천시",
-     "months": 0,
-     "since": null
-    }
-   },
-   "fields_pdfium": {
-    "price_cap": true,
-    "residence_duty": 0,
-    "rewin_years": 10,
-    "residence": {
-     "area": "과천시",
-     "months": 0,
-     "since": null
-    }
-   },
-   "pdfium_chars": 34716,
-   "tool_diff": {
-    "rewin_years": [
-     null,
-     10
-    ]
-   },
-   "filled_by_second_tool": [
-    "rewin_years"
-   ],
-   "problem": []
+   "problem": [
+    "PDF 를 하나도 받지 못함"
+   ]
   },
   {
    "notice": "2026910220",
    "name": "아크로 리버스카이(2차)",
    "url": "https://www.applyhome.co.kr/ai/aia/selectAPTRemndrLttotPblancDetailView.do?houseManageNo=2026910220&pblancNo=2026910220",
    "attachments": 1,
-   "pdfs": 1,
+   "pdfs": 0,
    "attachment_list": [
     {
      "url": "https://static.applyhome.co.kr/ai/aia/getAtchmnfl.do?houseManageNo=2026910220&pblancNo=2026910220&atchmnflSeqNo=1953024&atchmnflSn=5",
-     "bytes": 320174,
-     "pages": 16,
-     "chars": 30051,
-     "head": "- 1 - 구분 내용 재당첨제한 10년 적용 ※ 본 입주자모집공고의 당첨자로 선정 시 계약 체결 여부와 관계없이 「주택공급에 관한 규칙」 제2조"
+     "error": "PDF 아님 (200, 59바이트)"
     }
    ],
-   "chosen": "https://static.applyhome.co.kr/ai/aia/getAtchmnfl.do?houseManageNo=2026910220&pblancNo=2026910220&atchmnflSeqNo=1953024&atchmnflSn=5",
-   "pages": 16,
-   "pages_read": 16,
-   "chars_read": 30066,
-   "empty_pages": [],
-   "chars_per_page_min": 351,
-   "fields": {
-    "need_head": false,
-    "price_cap": false,
-    "residence_duty": 0,
-    "rewin_years": 10,
-    "residence": {
-     "area": null,
-     "months": 0,
-     "since": null
-    }
-   },
-   "fields_merged": {
-    "need_head": false,
-    "price_cap": false,
-    "residence_duty": 0,
-    "rewin_years": 10,
-    "residence": {
-     "area": null,
-     "months": 0,
-     "since": null
-    }
-   },
-   "fields_pdfium": {
-    "need_head": false,
-    "price_cap": false,
-    "residence_duty": 0,
-    "rewin_years": 10,
-    "residence": {
-     "area": null,
-     "months": 0,
-     "since": null
-    }
-   },
-   "pdfium_chars": 29512,
-   "problem": []
+   "problem": [
+    "PDF 를 하나도 받지 못함"
+   ]
   },
   {
    "notice": "2026910248",
