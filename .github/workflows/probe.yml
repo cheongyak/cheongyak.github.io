@@ -37,6 +37,9 @@ jobs:
       - name: 시군구 코드 못 찾은 공고 점검 (실패해도 계속)
         continue-on-error: true
         run: python -m tools.qa.lawd_probe
+      - name: 시세 없는 공고 점검 (실거래가 다시 받아 후보 규칙별 건수, 실패해도 계속)
+        continue-on-error: true
+        run: python -m tools.qa.market_probe
       - name: 공고문 PDF 받기 실패 원인 점검 (실패해도 계속)
         continue-on-error: true
         run: python -m tools.qa.pdf_fetch_probe
