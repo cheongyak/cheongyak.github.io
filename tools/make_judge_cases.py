@@ -914,7 +914,7 @@ def main() -> None:
         elif k == "주거급여수급자":
             if p.get("lhHousingBenefit") is False: na = True
             else: st.append(yn(p.get("lhHousingBenefit")))
-        elif k not in ("일반", "장기종사자"): return "check"   # 이 서비스가 판정하지 않는 계층 — 다른 칸을 보지 않고 확인
+        elif k not in ("일반", "장기종사자", "일반·60이하", "일반·60초과"): return "check"   # 이 서비스가 판정하지 않는 계층 — 다른 칸을 보지 않고 확인
         mar = p.get("married") is True or (k == "신혼부부·한부모" and p.get("married") is False and bool(T.get("prewed_ok")) and p.get("lhPreWed") is True)
         if g.get("job_sidos"):                                 # 직업기준 주민등록 요건 (시·도)
             st.append("check" if not p.get("homeSido") else "no" if p["homeSido"] not in g["job_sidos"] else "ok")
@@ -974,7 +974,9 @@ def main() -> None:
         if N["type"] == "공공임대" and (T.get("regions") is None or T.get("account") is None): st.append("check")   # 공공임대 신청자격(거주지역·통장)을 못 읽음
         if Lc:
             if not p.get("homeSido"): st.append("check")
-            elif Lc["sido"] and p["homeSido"] != Lc["sido"]: st.append("no")
+            elif Lc["sido"] and p["homeSido"] != Lc["sido"]:
+                ex = re.search(r"([가-힣]+시) 거주자", Lc.get("extra") or "")   # 장기전세 '상계장암지구는 의정부시 거주자 포함' — 그 지구만 신청 가능해 확인
+                st.append("check" if ex and p["homeSido"] == "경기" and sigun_match(p.get("homeSigun") or "", ex.group(1)) is not False else "no")
             elif not Lc["sido"] and not Lc["sigun"]: st.append("check")
             elif not Lc["sigun"]: st.append("ok")
             elif not p.get("homeSigun"): st.append("check")
@@ -1033,6 +1035,8 @@ def main() -> None:
                     elif cand and not dual and (inc is None or sinc is None) and da is not None and mon <= base * (pct + da) / 100: st.append("check")
                     elif kid and not T.get("birth_bonus") and mon <= base * (pct + 20 + add_) / 100:   # SH(표·없음): 소득 출산 가산 없음
                         st.append("check" if bonus is None else "ok" if mon <= base * (pct + bonus + add_) / 100 else "no")
+                    elif kid and T.get("income_birth") and not dual and mon <= base * (pct + 20) / 100:   # SH 장기전세: 출산 +10/20%p, 맞벌이 가산과 중복 없음 (51차 공고문 23쪽)
+                        st.append("check" if bonus is None else "ok" if mon <= base * (pct + bonus) / 100 else "no")
                     else: st.append("no")
         # 총자산
         if g["asset_manwon"] == "excluded":
@@ -1333,6 +1337,39 @@ def main() -> None:
                    ("총자산 34,501만·출산 자녀 있음(가산 없음)", {"realEstate": 34500 - 3000 + 1, "kidsMinor": 1, "youngestBirth": "2025-01-01", "lhBirthKids": 1, "hhSize": 2}),
                    ("자동차 4,542만", {"carValue": 4542}), ("자동차 4,543만", {"carValue": 4543}), ("생일 모름", {"birth": ""})]:
         lh_add(SY, ["청년"], nm, dict(sh_y, **ch), bY)
+    # 장기전세 (기능 sh_jeonse, 2026-10-07): 제51차 공고문 4. 신청자격 — 서울 거주 성년 무주택세대구성원, 소득 60㎡ 이하 105%(맞벌이 140%)·60㎡ 초과 150%(맞벌이 200%),
+    # 출산가구 +10/20%p(맞벌이와 중복 없음), 총자산 66,200만원(72,800·79,400), 자동차 4,542만원(4,996·5,451), 상계장암지구는 의정부시 거주자 포함
+    SJ = "SH-309467"
+    bJ = "SH 제51차 장기전세주택(2026000432·430) '4. 신청자격' 20~24쪽·소득표(공고일 2026-08-31)"
+    KJ = ["일반·60이하", "일반·60초과"]
+    sh_j = {"married": True, "marriedOn": "2018-01-01", "birth": "1988-01-01", "hhSize": 3, "kidsMinor": 1, "youngestBirth": "2020-01-01", "lhBirthKids": 0, "pregnant": False,
+            "income": 5000, "spouseIncome": 0, "hhIncomeYear": yr(URB[3] * 1.0), "homeSido": "서울", "homeSigun": "", "spouseOwn": False}
+    jk1 = {"youngestBirth": "2024-01-01", "lhBirthKids": 1, "kidsMinor": 1}
+    jk2 = {"youngestBirth": "2024-01-01", "lhBirthKids": 2, "kidsMinor": 2, "hhSize": 4}
+    for nm, ch in [("3인 외벌이 105% 이하", {"hhIncomeYear": yr(URB[3] * 1.05)}), ("3인 외벌이 105% 초과", {"hhIncomeYear": yr(URB[3] * 1.05) + 1}),
+                   ("3인 외벌이 150% 이하", {"hhIncomeYear": yr(URB[3] * 1.5)}), ("3인 외벌이 150% 초과", {"hhIncomeYear": yr(URB[3] * 1.5) + 1}),
+                   ("3인 맞벌이 140% 이하", {"spouseIncome": 3000, "hhIncomeYear": yr(URB[3] * 1.4)}), ("3인 맞벌이 140% 초과", {"spouseIncome": 3000, "hhIncomeYear": yr(URB[3] * 1.4) + 1}),
+                   ("3인 맞벌이 200% 이하", {"spouseIncome": 3000, "hhIncomeYear": yr(URB[3] * 2.0)}), ("3인 맞벌이 200% 초과", {"spouseIncome": 3000, "hhIncomeYear": yr(URB[3] * 2.0) + 1}),
+                   ("3인 맞벌이·배우자 소득 빈칸 140% 이하", {"spouseIncome": 0, "_set": ["cash", "deposit", "income", "liquid", "spouseOwn"], "hhIncomeYear": yr(URB[3] * 1.4)}),
+                   ("출산 1명 3인 115% 이하", dict(jk1, hhIncomeYear=yr(URB[3] * 1.15))), ("출산 1명 3인 115% 초과", dict(jk1, hhIncomeYear=yr(URB[3] * 1.15) + 1)),
+                   ("출산 2명 4인 125% 이하", dict(jk2, hhIncomeYear=yr(URB[4] * 1.25))), ("출산 2명 4인 125% 초과", dict(jk2, hhIncomeYear=yr(URB[4] * 1.25) + 1)),
+                   ("출산 1명+그 전 자녀 4인 125% 이하", {"youngestBirth": "2024-01-01", "lhBirthKids": 1, "kidsMinor": 2, "hhSize": 4, "hhIncomeYear": yr(URB[4] * 1.25)}),
+                   ("출산 자녀 수 모름 3인 110%", {"youngestBirth": "2024-01-01", "lhBirthKids": None, "hhIncomeYear": yr(URB[3] * 1.1)}),
+                   ("출산 2명·맞벌이 4인 141%(가산 중복 없음)", dict(jk2, spouseIncome=3000, hhIncomeYear=yr(URB[4] * 1.41))),
+                   ("출산 2명·맞벌이 4인 170%(60초과: 맞벌이 200% 이내)", dict(jk2, spouseIncome=3000, hhIncomeYear=yr(URB[4] * 1.7))),
+                   ("1인 미혼 105% 이하", {"married": False, "marriedOn": "", "hhSize": 1, "kidsMinor": 0, "youngestBirth": "", "income": yr(URB[1] * 1.05), "hhIncomeYear": yr(URB[1] * 1.05)}),
+                   ("1인 미혼 105% 초과", {"married": False, "marriedOn": "", "hhSize": 1, "kidsMinor": 0, "youngestBirth": "", "income": yr(URB[1] * 1.05) + 1, "hhIncomeYear": yr(URB[1] * 1.05) + 1}),
+                   ("경기 의정부시 거주(상계장암지구만)", {"homeSido": "경기", "homeSigun": "의정부시"}), ("경기 수원시 거주", {"homeSido": "경기", "homeSigun": "수원시"}),
+                   ("경기 사는 시·군 모름", {"homeSido": "경기", "homeSigun": ""}), ("부산 거주", {"homeSido": "부산"}), ("사는 곳 모름", {"homeSido": ""}),
+                   ("총자산 66,200만", {"realEstate": 66200 - 3000}), ("총자산 66,201만", {"realEstate": 66200 - 3000 + 1}),
+                   ("총자산 72,800만·출산 1명", dict(jk1, realEstate=72800 - 3000)), ("총자산 72,801만·출산 1명", dict(jk1, realEstate=72800 - 3000 + 1)),
+                   ("총자산 79,400만·출산 2명", dict(jk2, realEstate=79400 - 3000, hhIncomeYear=yr(URB[4] * 1.0))), ("총자산 79,401만·출산 2명", dict(jk2, realEstate=79400 - 3000 + 1, hhIncomeYear=yr(URB[4] * 1.0))),
+                   ("자동차 4,542만", {"carValue": 4542}), ("자동차 4,543만", {"carValue": 4543}),
+                   ("자동차 4,996만·출산 1명", dict(jk1, carValue=4996)), ("자동차 4,997만·출산 1명", dict(jk1, carValue=4997)),
+                   ("자동차 5,451만·출산 2명", dict(jk2, carValue=5451, hhIncomeYear=yr(URB[4] * 1.0))), ("자동차 5,452만·출산 2명", dict(jk2, carValue=5452, hhIncomeYear=yr(URB[4] * 1.0))),
+                   ("세대에 집", {"selfOwn": True}), ("배우자 집", {"spouseOwn": True}), ("만 18세 세대원", {"birth": "2008-09-01", "married": False, "marriedOn": "", "household": "parents", "hhSize": 3}),
+                   ("가구원 수 모름", {"hhSize": None})]:
+        lh_add(SJ, KJ, nm, dict(sh_j, **ch), bJ)
 
     # 공고문을 잘못 읽은 경우 모의(tests/judge/lh_synthetic.json — 정답 공고를 복사해 기준 칸을 비우거나 '미적용'으로 바꾼 것. 실제 공고 아님)
     import copy

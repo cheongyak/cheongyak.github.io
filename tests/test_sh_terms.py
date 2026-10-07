@@ -34,7 +34,7 @@ def test_golden_sh_terms():
 
 def test_unsupported_kinds_have_no_terms():
     for g in GOLD:
-        if g["type"] not in ("신혼·신생아 매입임대", "청년 매입임대"):
+        if g["type"] not in ("신혼·신생아 매입임대", "청년 매입임대", "장기전세"):
             assert parse_sh_terms(_text(g["seq"]), g["type"]) is None, g["seq"]
 
 
@@ -58,3 +58,30 @@ def test_youth_without_single_sentence_flags_issue():
     t = _text("310950").replace("혼인 중이 아닐 것", "").replace("미혼의 청년", "청년")
     r = parse_youth(t)
     assert "미혼 요건 문장 못 찾음" in r["issues"]
+
+
+def test_jeonse_schedule_golden():
+    """장기전세 순위별 접수일 (기능 sh_jeonse) — 정답 tests/golden/sh_rental.json ranks"""
+    from app.sh_terms import jeonse_schedule
+    n = 0
+    for g in GOLD:
+        if "ranks" in g:
+            assert jeonse_schedule(_text(g["seq"]), g["posted"]) == g["ranks"], g["seq"]
+            n += 1
+    assert n >= 1
+
+
+def test_jeonse_income_table_mismatch_blanks_income():
+    """장기전세 소득표 금액이 도시근로자 2025 × % 와 다르면 소득 기준을 비운다(→ 화면 '공고문 확인')"""
+    from app.sh_terms import parse_jeonse
+    t = _text("309467").replace("8,576,850원", "8,676,850원")
+    r = parse_jeonse(t)
+    assert r["issues"] and all(g["income_pct"] is None for g in r["groups"])
+    t = _text("309467").replace("상기의 출생자녀에 따른 가산과 중복적용되지 않음", "")
+    assert all(g["income_pct"] is None for g in parse_jeonse(t)["groups"])   # 맞벌이·출산 가산 중복 여부를 모르면 소득 판정 안 함
+
+
+def test_mirinae_not_read_as_jeonse():
+    """미리내집(장기전세Ⅱ)은 신혼·출산 가구 대상이라 기준이 달라 읽지 않는다"""
+    from app.sh_terms import parse_jeonse
+    assert parse_jeonse("미리내집(장기전세주택Ⅱ) 입주자 모집 " + _text("309467")) is None

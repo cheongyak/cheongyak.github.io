@@ -20,7 +20,7 @@ from pathlib import Path
 from typing import Optional
 from urllib.parse import urlencode
 
-from app.sh_terms import parse_sh_terms
+from app.sh_terms import jeonse_schedule, parse_sh_terms
 
 import httpx
 
@@ -184,11 +184,13 @@ def notice_record(row: dict, files: list[dict], text: Optional[str]) -> dict:
         "judge_type": terms is not None,   # 자격을 읽은 종류만 판정 (화면은 스위치 sh_judge 가 꺼져 있으면 모두 '판정 미지원')
         "region": "서울특별시",
         "posted": row.get("date"),
-        "close": per["apply_end"] if per else None,
+        "close": per["apply_end"] if per else ((jeonse_schedule(text or "", row.get("date")) or [{}])[-1].get("apply_end") if kind == "장기전세" else None),
         "status": None,
         "url": VIEW_PUBLIC.format(seq=row["seq"]),
         "url_mobile": BRD + f"view.do?multi_itm_seq=2&seq={row['seq']}",
-        "schedule": [{"complex": None, "apply_start": per["apply_start"], "apply_end": per["apply_end"], "docs_target": None, "winner": None, "rank1": per.get("rank1", False), "quote": per["quote"]}] if per else [],
+        "schedule": [{"complex": None, "apply_start": per["apply_start"], "apply_end": per["apply_end"], "docs_target": None, "winner": None, "rank1": per.get("rank1", False), "quote": per["quote"]}] if per
+        else [{"complex": None, "apply_start": r["apply_start"], "apply_end": r["apply_end"], "docs_target": None, "winner": None, "rank1": r["rank"] == "1순위", "quote": r["rank"] + " 접수기간"}
+              for r in (jeonse_schedule(text or "", row.get("date")) if kind == "장기전세" else [])],   # 기능 sh_jeonse: 장기전세 순위별 일정표
         "complexes": [], "units": [], "rents": [], "terms": terms,
         "files": [{"kind": "PDF 공고문" if f2 is f else "첨부", "name": f2.get("oriFileNm"), "url": file_url(f2)} for f2 in files],
         "notice_pdf": file_url(f) if f else None,
