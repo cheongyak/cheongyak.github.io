@@ -1,160 +1,174 @@
 {
  "date": "2026-10-07",
  "checked": 8,
- "fails": 0,
- "comps_checked": 64,
+ "fails": 4,
+ "comps_checked": 45,
  "items": [
   {
-   "id": "2026000463-084.9221C",
-   "name": "향남역 그로브 스위첸",
-   "lawd": "41591",
+   "id": "2026000426-084.9323B",
+   "name": "천안 아이파크 시티 4단지",
+   "lawd": "44133",
+   "app": {
+    "mkt_basis": "same_complex",
+    "mkt_base": 5.73,
+    "mkt_low": 5.65,
+    "mkt_count": 13
+   },
+   "raw": {
+    "basis": "same_complex",
+    "base": 5.73,
+    "low": 5.65,
+    "count": 13
+   },
+   "comps": 8,
+   "bad": []
+  },
+  {
+   "id": "2026000426-102.7602B",
+   "name": "천안 아이파크 시티 4단지",
+   "lawd": "44133",
+   "app": {
+    "mkt_basis": "same_complex",
+    "mkt_base": 7.01,
+    "mkt_low": 6.31,
+    "mkt_count": 1
+   },
+   "raw": {
+    "basis": "same_complex",
+    "base": 7.01,
+    "low": 6.31,
+    "count": 1
+   },
+   "comps": 1,
+   "bad": []
+  },
+  {
+   "id": "2026000426-102.8880A",
+   "name": "천안 아이파크 시티 4단지",
+   "lawd": "44133",
+   "app": {
+    "mkt_basis": "same_complex",
+    "mkt_base": 7.01,
+    "mkt_low": 6.31,
+    "mkt_count": 1
+   },
+   "raw": {
+    "basis": "same_complex",
+    "base": 7.01,
+    "low": 6.31,
+    "count": 1
+   },
+   "comps": 1,
+   "bad": []
+  },
+  {
+   "id": "2026000426-116.8234 ",
+   "name": "천안 아이파크 시티 4단지",
+   "lawd": "44133",
    "app": {
     "mkt_basis": "district_newbuild",
-    "mkt_base": 4.96,
-    "mkt_low": 4.2,
+    "mkt_base": 7.6,
+    "mkt_low": 6.84,
+    "mkt_count": 3
+   },
+   "raw": {
+    "basis": "district_newbuild",
+    "base": 7.6,
+    "low": 6.84,
+    "count": 3
+   },
+   "comps": 3,
+   "bad": []
+  },
+  {
+   "id": "2026000431-059.7153A",
+   "name": "오남역 서희스타힐스 여의재 3단지 (조합원 취소분)",
+   "lawd": "41360",
+   "app": {
+    "mkt_basis": "district_newbuild",
+    "mkt_base": 5.1,
+    "mkt_low": 4.0,
+    "mkt_count": 338
+   },
+   "raw": {
+    "basis": "district_newbuild",
+    "base": 5.1,
+    "low": 4.04,
+    "count": 339
+   },
+   "comps": 8,
+   "bad": [
+    "mkt_low 4.0 ≠ 원자료 4.04",
+    "거래 수 338 ≠ 원자료 339"
+   ]
+  },
+  {
+   "id": "2026000431-059.9642B",
+   "name": "오남역 서희스타힐스 여의재 3단지 (조합원 취소분)",
+   "lawd": "41360",
+   "app": {
+    "mkt_basis": "district_newbuild",
+    "mkt_base": 5.1,
+    "mkt_low": 4.0,
+    "mkt_count": 338
+   },
+   "raw": {
+    "basis": "district_newbuild",
+    "base": 5.1,
+    "low": 4.04,
+    "count": 339
+   },
+   "comps": 8,
+   "bad": [
+    "mkt_low 4.0 ≠ 원자료 4.04",
+    "거래 수 338 ≠ 원자료 339"
+   ]
+  },
+  {
+   "id": "2026000431-075.4603 ",
+   "name": "오남역 서희스타힐스 여의재 3단지 (조합원 취소분)",
+   "lawd": "41360",
+   "app": {
+    "mkt_basis": "district_newbuild",
+    "mkt_base": 5.97,
+    "mkt_low": 4.11,
     "mkt_count": 142
    },
    "raw": {
     "basis": "district_newbuild",
-    "base": 4.96,
-    "low": 4.2,
-    "count": 142
+    "base": 5.91,
+    "low": 4.12,
+    "count": 148
    },
    "comps": 8,
-   "bad": []
+   "bad": [
+    "mkt_base 5.97 ≠ 원자료 5.91",
+    "mkt_low 4.11 ≠ 원자료 4.12",
+    "거래 수 142 ≠ 원자료 148"
+   ]
   },
   {
-   "id": "2026000463-084.9592A",
-   "name": "향남역 그로브 스위첸",
-   "lawd": "41591",
+   "id": "2026000431-084.9596 ",
+   "name": "오남역 서희스타힐스 여의재 3단지 (조합원 취소분)",
+   "lawd": "41360",
    "app": {
     "mkt_basis": "district_newbuild",
-    "mkt_base": 4.96,
-    "mkt_low": 4.2,
-    "mkt_count": 142
+    "mkt_base": 9.45,
+    "mkt_low": 7.95,
+    "mkt_count": 666
    },
    "raw": {
     "basis": "district_newbuild",
-    "base": 4.96,
-    "low": 4.2,
-    "count": 142
+    "base": 9.46,
+    "low": 7.96,
+    "count": 678
    },
    "comps": 8,
-   "bad": []
-  },
-  {
-   "id": "2026000463-084.9767B",
-   "name": "향남역 그로브 스위첸",
-   "lawd": "41591",
-   "app": {
-    "mkt_basis": "district_newbuild",
-    "mkt_base": 4.96,
-    "mkt_low": 4.2,
-    "mkt_count": 142
-   },
-   "raw": {
-    "basis": "district_newbuild",
-    "base": 4.96,
-    "low": 4.2,
-    "count": 142
-   },
-   "comps": 8,
-   "bad": []
-  },
-  {
-   "id": "2026000468-074.9845 ",
-   "name": "쌍용 더 플래티넘 한강",
-   "lawd": "41830",
-   "app": {
-    "mkt_basis": "district_newbuild",
-    "mkt_base": 4.15,
-    "mkt_low": 3.58,
-    "mkt_count": 30
-   },
-   "raw": {
-    "basis": "district_newbuild",
-    "base": 4.15,
-    "low": 3.58,
-    "count": 30
-   },
-   "comps": 8,
-   "bad": []
-  },
-  {
-   "id": "2026000468-084.8542B",
-   "name": "쌍용 더 플래티넘 한강",
-   "lawd": "41830",
-   "app": {
-    "mkt_basis": "district_newbuild",
-    "mkt_base": 4.75,
-    "mkt_low": 4.3,
-    "mkt_count": 45
-   },
-   "raw": {
-    "basis": "district_newbuild",
-    "base": 4.75,
-    "low": 4.3,
-    "count": 45
-   },
-   "comps": 8,
-   "bad": []
-  },
-  {
-   "id": "2026000468-084.8894C",
-   "name": "쌍용 더 플래티넘 한강",
-   "lawd": "41830",
-   "app": {
-    "mkt_basis": "district_newbuild",
-    "mkt_base": 4.75,
-    "mkt_low": 4.3,
-    "mkt_count": 45
-   },
-   "raw": {
-    "basis": "district_newbuild",
-    "base": 4.75,
-    "low": 4.3,
-    "count": 45
-   },
-   "comps": 8,
-   "bad": []
-  },
-  {
-   "id": "2026000468-084.9947A",
-   "name": "쌍용 더 플래티넘 한강",
-   "lawd": "41830",
-   "app": {
-    "mkt_basis": "district_newbuild",
-    "mkt_base": 4.75,
-    "mkt_low": 4.3,
-    "mkt_count": 45
-   },
-   "raw": {
-    "basis": "district_newbuild",
-    "base": 4.75,
-    "low": 4.3,
-    "count": 45
-   },
-   "comps": 8,
-   "bad": []
-  },
-  {
-   "id": "2026000494-084.2551A",
-   "name": "더샵 동인센트리체",
-   "lawd": "27110",
-   "app": {
-    "mkt_basis": "district_newbuild",
-    "mkt_base": 6.0,
-    "mkt_low": 5.55,
-    "mkt_count": 239
-   },
-   "raw": {
-    "basis": "district_newbuild",
-    "base": 6.0,
-    "low": 5.55,
-    "count": 239
-   },
-   "comps": 8,
-   "bad": []
+   "bad": [
+    "mkt_base 9.45 ≠ 원자료 9.46",
+    "mkt_low 7.95 ≠ 원자료 7.96",
+    "거래 수 666 ≠ 원자료 678"
+   ]
   }
  ]
 }
