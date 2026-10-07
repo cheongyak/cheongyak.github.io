@@ -132,7 +132,7 @@ const ROOT = join(__dirname, '../..'), DOCS = join(ROOT, 'docs');
     for (const pr0 of lhProfiles.concat(profiles)) {
       const p = Object.assign({}, DEFAULT_PROFILE, pr0);
       for (const N of lhNotices) {
-        const J = rentalJudge(N, p), T = N.terms, ref = N.posted, age = rAge(p.birth, ref), L = { id: 'LH-' + N.id, name: N.name };
+        const J = rentalJudge(N, p), T = N.terms, ref = (N.terms && N.terms.ref_date) || N.posted, age = rAge(p.birth, ref), L = { id: 'LH-' + N.id, name: N.name };
         J.groups.forEach((g, gi) => { const G = T.groups[gi]; checks += 6; if (g.s !== 'ok') return;
           // LH-ELIG-001: 가능인데 소득이 그 계층 최대 기준(1인·2인 가산 + 맞벌이(30%p 또는 공고문 dual_add) + 출산 20%p)을 넘음
           if (G.income_pct && G.income_pct !== 'excluded' && p.hhIncomeYear != null && p.hhIncomeYear !== '' && p.hhSize && !(G.key === '청년' && p.household === 'parents') && G.key !== '대학생') {
@@ -174,7 +174,9 @@ const ROOT = join(__dirname, '../..'), DOCS = join(ROOT, 'docs');
         // LH-UI-001: 공고 결론 = 계층 중 가장 좋은 결론 (대학생·주거급여만 있는 공고 제외)
         checks++;
         const main = J.groups.filter(g => !['대학생', '주거급여수급자'].includes(g.key));
-        if (main.length && J.s !== main.slice().sort((a, b) => ORDR[a.s] - ORDR[b.s])[0].s) v('LH-UI-001', 'HIGH', L, '계층 ' + main.map(g => g.s).join(','), '공고 결론 ' + J.s, '가장 좋은 계층 결론', ['rentalJudge'], '화면', null);
+        const best0 = main.length ? main.slice().sort((a, b) => ORDR[a.s] - ORDR[b.s])[0].s : null;
+        const want = best0 && ((T || {}).unknown_groups || []).length && ['no', 'na'].includes(best0) ? 'partial' : best0;   /* 판정하지 않는 계층(사회주택 고령자 등)이 있으면 '불가' 대신 '일부 계층 판정 못 함' (rentalJudge) */
+        if (main.length && J.s !== want) v('LH-UI-001', 'HIGH', L, '계층 ' + main.map(g => g.s).join(','), '공고 결론 ' + J.s, '가장 좋은 계층 결론', ['rentalJudge'], '화면', null);
       }
     }
     V.forEach(x => { if (stat[x.id] && x.severity !== 'MEDIUM') stat[x.id].state = 'CONFLICT'; });
