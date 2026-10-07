@@ -27,3 +27,15 @@ def test_unverified_hwaseong_gu_not_guessed():
     assert lawd.lawd_for("경기도 화성시 봉담읍 1", {}) is None
     assert lawd.key_of("경기도 화성특례시 동탄구 오산동 1") == "경기 화성시 동탄구"
     assert lawd.matches(HN, {"names": "경기도 화성시 만세구 향남읍"})
+
+
+def test_bucheon_gu_codes():
+    """부천시는 2024-01 원미구·소사구·오정구로 나뉨. 옛 코드 41190 은 최근 12개월 매매·분양권·전월세 0건, 원미구 41192 는 매매 4,448건(상동 1,373)
+    (evidence/qa/market-probe.txt 2026-10-07, 상동역 롯데캐슬 시그니처 역지오코딩 41192 '경기도 부천시 원미구 상동').
+    소사구·오정구는 실제 조회로 확인하지 않아 표에 두지 않고 역지오코딩 기록을 쓴다."""
+    A = "경기도 부천시 원미구 상동 540-1번지"
+    assert RG.sigungu_of(A) == "부천시 원미구" and lawd.lawd_for(A, {}) == "41192"
+    assert lawd.lawd_for("경기도 부천시 소사구 괴안동 1", {}) is None
+    assert lawd.lawd_for("경기도 부천시 소사구 괴안동 1", {"경기 부천시 소사구": {"code": "41194"}}) == "41194"
+    assert lawd.lawd_for("경기도 부천시 상동 1", {}) is None   # 구가 없는 주소는 옛 코드(41190, 0건)를 쓰지 않고 역지오코딩으로
+    assert "41190" not in RG.R.GYEONGGI_LAWD.values()
