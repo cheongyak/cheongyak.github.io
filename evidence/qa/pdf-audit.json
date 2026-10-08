@@ -1,10 +1,10 @@
 {
  "date": "2026-10-08",
  "page_cap": 300,
- "notices": 52,
- "with_problem": 2,
+ "notices": 51,
+ "with_problem": 5,
  "kinds": {
-  "PDF 를 하나도 받지 못함": 1,
+  "PDF 를 하나도 받지 못함": 4,
   "글자가 거의 없는 쪽 N개 (스캔 이미지·표 그림 추정)": 1
  },
  "errors": [],
@@ -17,19 +17,19 @@
    "pdfs": 1,
    "attachment_list": [
     {
-     "url": "https://static.applyhome.co.kr/ai/aia/getAtchmnfl.do?houseManageNo=2026000498&pblancNo=2026000498&atchmnflSeqNo=1991055&atchmnflSn=1",
-     "bytes": 1490824,
-     "pages": 64,
-     "chars": 141005,
-     "head": "- 1 - ※ 단지 주요정보 분양문의 1551-6013 주택유형 해당지역 기타지역 규제지역여부 민영주택 충청남도 천안시 거주자 충청남도 천안시 "
+     "url": "https://static.applyhome.co.kr/ai/aia/getAtchmnfl.do?houseManageNo=2026000498&pblancNo=2026000498&atchmnflSeqNo=1991055&atchmnflSn=2",
+     "bytes": 1627751,
+     "pages": 65,
+     "chars": 141256,
+     "head": "- 1 - ※ 정정 공고 안내 금 공고한 천안 아이파크 시티 단지 회차 입주자모집공고 중 일부 사항을 목 자로 아래와 같이 정정 공고합니다202"
     }
    ],
-   "chosen": "https://static.applyhome.co.kr/ai/aia/getAtchmnfl.do?houseManageNo=2026000498&pblancNo=2026000498&atchmnflSeqNo=1991055&atchmnflSn=1",
-   "pages": 64,
-   "pages_read": 64,
-   "chars_read": 141068,
+   "chosen": "https://static.applyhome.co.kr/ai/aia/getAtchmnfl.do?houseManageNo=2026000498&pblancNo=2026000498&atchmnflSeqNo=1991055&atchmnflSn=2",
+   "pages": 65,
+   "pages_read": 65,
+   "chars_read": 141320,
    "empty_pages": [],
-   "chars_per_page_min": 335,
+   "chars_per_page_min": 324,
    "fields": {
     "need_head": false,
     "price_cap": false,
@@ -63,7 +63,7 @@
      "since": null
     }
    },
-   "pdfium_chars": 143947,
+   "pdfium_chars": 144209,
    "problem": []
   },
   {
@@ -131,16 +131,60 @@
    "name": "쌍용 더 플래티넘 한강",
    "url": "https://www.applyhome.co.kr/ai/aia/selectAPTLttotPblancDetail.do?houseManageNo=2026000468&pblancNo=2026000468",
    "attachments": 1,
-   "pdfs": 0,
+   "pdfs": 1,
    "attachment_list": [
     {
      "url": "https://static.applyhome.co.kr/ai/aia/getAtchmnfl.do?houseManageNo=2026000468&pblancNo=2026000468&atchmnflSeqNo=1990183&atchmnflSn=2",
-     "error": "PDF 아님 (200, 59바이트)"
+     "bytes": 1050066,
+     "pages": 62,
+     "chars": 160769,
+     "head": "- 1 - ※ 단지 주요정보 (분양문의) 1866-0333 주택유형 해당지역 기타지역 규제지역여부 민영 경기도 양평군 거주자 경기도 및 서울특별"
     }
    ],
-   "problem": [
-    "PDF 를 하나도 받지 못함"
-   ]
+   "chosen": "https://static.applyhome.co.kr/ai/aia/getAtchmnfl.do?houseManageNo=2026000468&pblancNo=2026000468&atchmnflSeqNo=1990183&atchmnflSn=2",
+   "pages": 62,
+   "pages_read": 62,
+   "chars_read": 160830,
+   "empty_pages": [],
+   "chars_per_page_min": 533,
+   "fields": {
+    "need_head": false,
+    "price_cap": false,
+    "residence_duty": 0,
+    "rewin_years": 0,
+    "account_months": 12,
+    "residence": {
+     "area": "경기도 양평군",
+     "months": 0,
+     "since": null
+    }
+   },
+   "fields_merged": {
+    "need_head": false,
+    "price_cap": false,
+    "residence_duty": 0,
+    "rewin_years": 0,
+    "account_months": 12,
+    "residence": {
+     "area": "경기도 양평군",
+     "months": 0,
+     "since": null
+    }
+   },
+   "fields_pdfium": {
+    "need_head": false,
+    "price_cap": false,
+    "residence_duty": 0,
+    "rewin_years": 0,
+    "account_months": 12,
+    "residence": {
+     "area": "경기도 양평군",
+     "months": 0,
+     "since": null
+    }
+   },
+   "pdfium_chars": 161003,
+   "problem": []
   },
   {
    "notice": "2026000463",
@@ -1068,60 +1112,20 @@
    "name": "힐스테이트 고덕엘리스트 A65BL 공공분양주택",
    "url": "https://www.applyhome.co.kr/ai/aia/selectAPTLttotPblancDetail.do?houseManageNo=2026000438&pblancNo=2026000438",
    "attachments": 1,
-   "pdfs": 1,
+   "pdfs": 0,
    "attachment_list": [
     {
      "url": "https://static.applyhome.co.kr/ai/aia/getAtchmnfl.do?houseManageNo=2026000438&pblancNo=2026000438&atchmnflSeqNo=1973016&atchmnflSn=5",
-     "bytes": 1152965,
-     "pages": 93,
-     "chars": 184469,
-     "head": "- 1 - 구분 변경 전 변경 후 품목 타입 (약식표기) 페이지 품목 타입 (약식표기) 페이지 다이닝 컬렉션 1 주방 평면 변화 + 벽체/상판 "
+     "error": "PDF 아님 (200, 59바이트)"
+    },
+    {
+     "url": "LH청약플러스",
+     "error": "LH청약플러스에서 같은 공고를 못 찾음 (검색 0건)"
     }
    ],
-   "chosen": "https://static.applyhome.co.kr/ai/aia/getAtchmnfl.do?houseManageNo=2026000438&pblancNo=2026000438&atchmnflSeqNo=1973016&atchmnflSn=5",
-   "pages": 93,
-   "pages_read": 93,
-   "chars_read": 184561,
-   "empty_pages": [],
-   "chars_per_page_min": 458,
-   "fields": {
-    "price_cap": true,
-    "residence_duty": 3,
-    "rewin_years": 10,
-    "account_months": 12,
-    "deposit_count": 12,
-    "residence": {
-     "area": "경기도 평택시",
-     "months": 12,
-     "since": "2025-09-11"
-    }
-   },
-   "fields_merged": {
-    "price_cap": true,
-    "residence_duty": 3,
-    "rewin_years": 10,
-    "account_months": 12,
-    "deposit_count": 12,
-    "residence": {
-     "area": "경기도 평택시",
-     "months": 12,
-     "since": "2025-09-11"
-    }
-   },
-   "fields_pdfium": {
-    "price_cap": true,
-    "residence_duty": 3,
-    "rewin_years": 10,
-    "account_months": 12,
-    "deposit_count": 12,
-    "residence": {
-     "area": "경기도 평택시",
-     "months": 12,
-     "since": "2025-09-11"
-    }
-   },
-   "pdfium_chars": 184389,
-   "problem": []
+   "problem": [
+    "PDF 를 하나도 받지 못함"
+   ]
   },
   {
    "notice": "2026000437",
@@ -1361,126 +1365,6 @@
     }
    },
    "pdfium_chars": 150466,
-   "problem": []
-  },
-  {
-   "notice": "2026000426",
-   "name": "천안 아이파크 시티 4단지",
-   "url": "https://www.applyhome.co.kr/ai/aia/selectAPTLttotPblancDetail.do?houseManageNo=2026000426&pblancNo=2026000426",
-   "attachments": 1,
-   "pdfs": 1,
-   "attachment_list": [
-    {
-     "url": "https://static.applyhome.co.kr/ai/aia/getAtchmnfl.do?houseManageNo=2026000426&pblancNo=2026000426&atchmnflSeqNo=1966014&atchmnflSn=2",
-     "bytes": 2194372,
-     "pages": 73,
-     "chars": 157136,
-     "head": "- 1 - ※ 단지 주요정보 (분양문의) 1555-5110 주택유형 해당지역 기타지역 규제지역여부 민영 충청남도 천안시 거주자 충청남도(천안시 "
-    }
-   ],
-   "chosen": "https://static.applyhome.co.kr/ai/aia/getAtchmnfl.do?houseManageNo=2026000426&pblancNo=2026000426&atchmnflSeqNo=1966014&atchmnflSn=2",
-   "pages": 73,
-   "pages_read": 73,
-   "chars_read": 157208,
-   "empty_pages": [],
-   "chars_per_page_min": 143,
-   "fields": {
-    "need_head": false,
-    "price_cap": false,
-    "residence_duty": 0,
-    "rewin_years": 0,
-    "account_months": 6,
-    "residence": {
-     "area": "충청남도 천안시",
-     "months": 0,
-     "since": null
-    }
-   },
-   "fields_merged": {
-    "need_head": false,
-    "price_cap": false,
-    "residence_duty": 0,
-    "rewin_years": 0,
-    "account_months": 6,
-    "residence": {
-     "area": "충청남도 천안시",
-     "months": 0,
-     "since": null
-    }
-   },
-   "fields_pdfium": {
-    "need_head": false,
-    "price_cap": false,
-    "residence_duty": 0,
-    "rewin_years": 0,
-    "account_months": 6,
-    "residence": {
-     "area": "충청남도 천안시",
-     "months": 0,
-     "since": null
-    }
-   },
-   "pdfium_chars": 156022,
-   "problem": []
-  },
-  {
-   "notice": "2026000393",
-   "name": "시흥 은계 에피트(조합원 취소분)",
-   "url": "https://www.applyhome.co.kr/ai/aia/selectAPTLttotPblancDetail.do?houseManageNo=2026000393&pblancNo=2026000393",
-   "attachments": 1,
-   "pdfs": 1,
-   "attachment_list": [
-    {
-     "url": "https://static.applyhome.co.kr/ai/aia/getAtchmnfl.do?houseManageNo=2026000393&pblancNo=2026000393&atchmnflSeqNo=1966048&atchmnflSn=9",
-     "bytes": 1408920,
-     "pages": 59,
-     "chars": 113626,
-     "head": "- 1 - 본 입주자모집공고의 내용을 숙지한 후 청약 및 계약에 응하시기 바라며 미숙지로 인한 착오 행위 등에 대하여 청약자 및 계약자 본인에게"
-    }
-   ],
-   "chosen": "https://static.applyhome.co.kr/ai/aia/getAtchmnfl.do?houseManageNo=2026000393&pblancNo=2026000393&atchmnflSeqNo=1966048&atchmnflSn=9",
-   "pages": 59,
-   "pages_read": 59,
-   "chars_read": 113684,
-   "empty_pages": [],
-   "chars_per_page_min": 181,
-   "fields": {
-    "need_head": false,
-    "price_cap": false,
-    "residence_duty": 0,
-    "rewin_years": 0,
-    "account_months": 12,
-    "residence": {
-     "area": "경기도 시흥시",
-     "months": 12,
-     "since": "2025-09-04"
-    }
-   },
-   "fields_merged": {
-    "need_head": false,
-    "price_cap": false,
-    "residence_duty": 0,
-    "rewin_years": 0,
-    "account_months": 12,
-    "residence": {
-     "area": "경기도 시흥시",
-     "months": 12,
-     "since": "2025-09-04"
-    }
-   },
-   "fields_pdfium": {
-    "need_head": false,
-    "price_cap": false,
-    "residence_duty": 0,
-    "rewin_years": 0,
-    "account_months": 12,
-    "residence": {
-     "area": "경기도 시흥시",
-     "months": 12,
-     "since": "2025-09-04"
-    }
-   },
-   "pdfium_chars": 114810,
    "problem": []
   },
   {
@@ -1796,6 +1680,66 @@
     }
    },
    "pdfium_chars": 149078,
+   "problem": []
+  },
+  {
+   "notice": "2026930041",
+   "name": "세종 리더스포레 나릿재마을 1단지",
+   "url": "https://www.applyhome.co.kr/ai/aia/selectAPTRemndrLttotPblancDetailView.do?houseManageNo=2026930041&pblancNo=2026930041",
+   "attachments": 1,
+   "pdfs": 1,
+   "attachment_list": [
+    {
+     "url": "https://static.applyhome.co.kr/ai/aia/getAtchmnfl.do?houseManageNo=2026930041&pblancNo=2026930041&atchmnflSeqNo=1994169&atchmnflSn=8",
+     "bytes": 399115,
+     "pages": 16,
+     "chars": 25343,
+     "head": "- 1 - ※ 단지 주요정보 (분양문의) 044-865-8022 주택유형 규제지역여부 거주요건 재당첨제한 민영 비규제지역 세종특별자치시 거주자 "
+    }
+   ],
+   "chosen": "https://static.applyhome.co.kr/ai/aia/getAtchmnfl.do?houseManageNo=2026930041&pblancNo=2026930041&atchmnflSeqNo=1994169&atchmnflSn=8",
+   "pages": 16,
+   "pages_read": 16,
+   "chars_read": 25358,
+   "empty_pages": [],
+   "chars_per_page_min": 246,
+   "fields": {
+    "need_head": false,
+    "price_cap": true,
+    "residence_duty": 0,
+    "rewin_years": 10,
+    "ext": 0.109,
+    "residence": {
+     "area": "세종특별자치시",
+     "months": 0,
+     "since": null
+    }
+   },
+   "fields_merged": {
+    "need_head": false,
+    "price_cap": true,
+    "residence_duty": 0,
+    "rewin_years": 10,
+    "ext": 0.109,
+    "residence": {
+     "area": "세종특별자치시",
+     "months": 0,
+     "since": null
+    }
+   },
+   "fields_pdfium": {
+    "need_head": false,
+    "price_cap": true,
+    "residence_duty": 0,
+    "rewin_years": 10,
+    "ext": 0.109,
+    "residence": {
+     "area": "세종특별자치시",
+     "months": 0,
+     "since": null
+    }
+   },
+   "pdfium_chars": 25538,
    "problem": []
   },
   {
@@ -2235,120 +2179,32 @@
    "name": "충정로역자이르네",
    "url": "https://www.applyhome.co.kr/ai/aia/selectAPTRemndrLttotPblancDetailView.do?houseManageNo=2026910251&pblancNo=2026910251",
    "attachments": 1,
-   "pdfs": 1,
+   "pdfs": 0,
    "attachment_list": [
     {
      "url": "https://static.applyhome.co.kr/ai/aia/getAtchmnfl.do?houseManageNo=2026910251&pblancNo=2026910251&atchmnflSeqNo=1986036&atchmnflSn=2",
-     "bytes": 1782710,
-     "pages": 16,
-     "chars": 44807,
-     "head": "- 1 - 견본주택에 주차가 불가하오니 대중교통을 이용하시기 바랍니다, .※ ※ 청약 전 유의사항 분양문의( ) 1660-1245 구분 내용 재"
+     "error": "PDF 아님 (200, 59바이트)"
     }
    ],
-   "chosen": "https://static.applyhome.co.kr/ai/aia/getAtchmnfl.do?houseManageNo=2026910251&pblancNo=2026910251&atchmnflSeqNo=1986036&atchmnflSn=2",
-   "pages": 16,
-   "pages_read": 16,
-   "chars_read": 44822,
-   "empty_pages": [],
-   "chars_per_page_min": 1567,
-   "fields": {
-    "need_head": false,
-    "price_cap": false,
-    "residence_duty": 0,
-    "rewin_years": 10,
-    "residence": {
-     "area": "서울특별시",
-     "months": 0,
-     "since": null
-    }
-   },
-   "fields_merged": {
-    "need_head": false,
-    "price_cap": false,
-    "residence_duty": 0,
-    "rewin_years": 10,
-    "residence": {
-     "area": "서울특별시",
-     "months": 0,
-     "since": null
-    }
-   },
-   "fields_pdfium": {
-    "need_head": false,
-    "price_cap": false,
-    "residence_duty": 0,
-    "rewin_years": 10,
-    "residence": {
-     "area": "서울특별시",
-     "months": 0,
-     "since": null
-    }
-   },
-   "pdfium_chars": 45093,
-   "problem": []
+   "problem": [
+    "PDF 를 하나도 받지 못함"
+   ]
   },
   {
    "notice": "2026930040",
    "name": "강변역 센트럴 아이파크",
    "url": "https://www.applyhome.co.kr/ai/aia/selectAPTRemndrLttotPblancDetailView.do?houseManageNo=2026930040&pblancNo=2026930040",
    "attachments": 1,
-   "pdfs": 1,
+   "pdfs": 0,
    "attachment_list": [
     {
      "url": "https://static.applyhome.co.kr/ai/aia/getAtchmnfl.do?houseManageNo=2026930040&pblancNo=2026930040&atchmnflSeqNo=1982993&atchmnflSn=5",
-     "bytes": 367120,
-     "pages": 12,
-     "chars": 26160,
-     "head": "- 1 - ※ 단지 주요정보 (분양문의)1551-3560 주택유형 규제지역여부 거주요건 재당첨제한 민영 투기과열지구/청약과열지역 서울특별시 거주"
+     "error": "PDF 아님 (200, 59바이트)"
     }
    ],
-   "chosen": "https://static.applyhome.co.kr/ai/aia/getAtchmnfl.do?houseManageNo=2026930040&pblancNo=2026930040&atchmnflSeqNo=1982993&atchmnflSn=5",
-   "pages": 12,
-   "pages_read": 12,
-   "chars_read": 26171,
-   "empty_pages": [],
-   "chars_per_page_min": 666,
-   "fields": {
-    "need_head": true,
-    "price_cap": false,
-    "residence_duty": 0,
-    "rewin_years": 10,
-    "balance": "2026-11-30",
-    "ext": 0.2178,
-    "residence": {
-     "area": "서울특별시",
-     "months": 0,
-     "since": null
-    }
-   },
-   "fields_merged": {
-    "need_head": true,
-    "price_cap": false,
-    "residence_duty": 0,
-    "rewin_years": 10,
-    "balance": "2026-11-30",
-    "ext": 0.2178,
-    "residence": {
-     "area": "서울특별시",
-     "months": 0,
-     "since": null
-    }
-   },
-   "fields_pdfium": {
-    "need_head": true,
-    "price_cap": false,
-    "residence_duty": 0,
-    "rewin_years": 10,
-    "balance": "2026-11-30",
-    "ext": 0.2178,
-    "residence": {
-     "area": "서울특별시",
-     "months": 0,
-     "since": null
-    }
-   },
-   "pdfium_chars": 25652,
-   "problem": []
+   "problem": [
+    "PDF 를 하나도 받지 못함"
+   ]
   },
   {
    "notice": "2026930037",
@@ -2855,54 +2711,16 @@
    "name": "용인반도체클러스터 동일하이빌 파크밸리(D1-1블록)",
    "url": "https://www.applyhome.co.kr/ai/aia/selectAPTRemndrLttotPblancDetailView.do?houseManageNo=2026910246&pblancNo=2026910246",
    "attachments": 1,
-   "pdfs": 1,
+   "pdfs": 0,
    "attachment_list": [
     {
      "url": "https://static.applyhome.co.kr/ai/aia/getAtchmnfl.do?houseManageNo=2026910246&pblancNo=2026910246&atchmnflSeqNo=1974992&atchmnflSn=3",
-     "bytes": 229582,
-     "pages": 12,
-     "chars": 22428,
-     "head": "- 1 - ※ 단지 주요정보 분양문의( ) 1533-0589 주택유형 규제지역여부 무순위 사후 자격요건( ) 민영 비규제지역 무순위 사후 입주자"
+     "error": "PDF 아님 (200, 59바이트)"
     }
    ],
-   "chosen": "https://static.applyhome.co.kr/ai/aia/getAtchmnfl.do?houseManageNo=2026910246&pblancNo=2026910246&atchmnflSeqNo=1974992&atchmnflSn=3",
-   "pages": 12,
-   "pages_read": 12,
-   "chars_read": 22439,
-   "empty_pages": [],
-   "chars_per_page_min": 525,
-   "fields": {
-    "need_head": false,
-    "price_cap": true,
-    "residence_duty": 0,
-    "residence": {
-     "area": null,
-     "months": 0,
-     "since": null
-    }
-   },
-   "fields_merged": {
-    "need_head": false,
-    "price_cap": true,
-    "residence_duty": 0,
-    "residence": {
-     "area": null,
-     "months": 0,
-     "since": null
-    }
-   },
-   "fields_pdfium": {
-    "need_head": false,
-    "price_cap": true,
-    "residence_duty": 0,
-    "residence": {
-     "area": null,
-     "months": 0,
-     "since": null
-    }
-   },
-   "pdfium_chars": 22940,
-   "problem": []
+   "problem": [
+    "PDF 를 하나도 받지 못함"
+   ]
   },
   {
    "notice": "2026910241",
