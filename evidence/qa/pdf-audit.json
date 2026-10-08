@@ -2,9 +2,9 @@
  "date": "2026-10-08",
  "page_cap": 300,
  "notices": 51,
- "with_problem": 7,
+ "with_problem": 2,
  "kinds": {
-  "PDF 를 하나도 받지 못함": 6,
+  "PDF 를 하나도 받지 못함": 1,
   "글자가 거의 없는 쪽 N개 (스캔 이미지·표 그림 추정)": 1
  },
  "errors": [],
@@ -71,46 +71,30 @@
    "name": "더샵 동인센트리체",
    "url": "https://www.applyhome.co.kr/ai/aia/selectAPTLttotPblancDetail.do?houseManageNo=2026000494&pblancNo=2026000494",
    "attachments": 1,
-   "pdfs": 0,
-   "attachment_list": [
-    {
-     "url": "https://static.applyhome.co.kr/ai/aia/getAtchmnfl.do?houseManageNo=2026000494&pblancNo=2026000494&atchmnflSeqNo=1988347&atchmnflSn=2",
-     "error": "PDF 아님 (200, 59바이트)"
-    }
-   ],
-   "problem": [
-    "PDF 를 하나도 받지 못함"
-   ]
-  },
-  {
-   "notice": "2026000468",
-   "name": "쌍용 더 플래티넘 한강",
-   "url": "https://www.applyhome.co.kr/ai/aia/selectAPTLttotPblancDetail.do?houseManageNo=2026000468&pblancNo=2026000468",
-   "attachments": 1,
    "pdfs": 1,
    "attachment_list": [
     {
-     "url": "https://static.applyhome.co.kr/ai/aia/getAtchmnfl.do?houseManageNo=2026000468&pblancNo=2026000468&atchmnflSeqNo=1990183&atchmnflSn=2",
-     "bytes": 1050066,
-     "pages": 62,
-     "chars": 160769,
-     "head": "- 1 - ※ 단지 주요정보 (분양문의) 1866-0333 주택유형 해당지역 기타지역 규제지역여부 민영 경기도 양평군 거주자 경기도 및 서울특별"
+     "url": "https://static.applyhome.co.kr/ai/aia/getAtchmnfl.do?houseManageNo=2026000494&pblancNo=2026000494&atchmnflSeqNo=1988347&atchmnflSn=2",
+     "bytes": 816911,
+     "pages": 66,
+     "chars": 131656,
+     "head": "- 1 - ※ 단지 주요정보 (분양문의) 053-751-0152 주택유형 해당지역 기타지역 규제지역여부 민영 대구광역시 거주자 경상북도 거주자 "
     }
    ],
-   "chosen": "https://static.applyhome.co.kr/ai/aia/getAtchmnfl.do?houseManageNo=2026000468&pblancNo=2026000468&atchmnflSeqNo=1990183&atchmnflSn=2",
-   "pages": 62,
-   "pages_read": 62,
-   "chars_read": 160830,
+   "chosen": "https://static.applyhome.co.kr/ai/aia/getAtchmnfl.do?houseManageNo=2026000494&pblancNo=2026000494&atchmnflSeqNo=1988347&atchmnflSn=2",
+   "pages": 66,
+   "pages_read": 66,
+   "chars_read": 131721,
    "empty_pages": [],
-   "chars_per_page_min": 533,
+   "chars_per_page_min": 260,
    "fields": {
     "need_head": false,
     "price_cap": false,
     "residence_duty": 0,
     "rewin_years": 0,
-    "account_months": 12,
+    "account_months": 6,
     "residence": {
-     "area": "경기도 양평군",
+     "area": "대구광역시",
      "months": 0,
      "since": null
     }
@@ -120,9 +104,9 @@
     "price_cap": false,
     "residence_duty": 0,
     "rewin_years": 0,
-    "account_months": 12,
+    "account_months": 6,
     "residence": {
-     "area": "경기도 양평군",
+     "area": "대구광역시",
      "months": 0,
      "since": null
     }
@@ -132,15 +116,31 @@
     "price_cap": false,
     "residence_duty": 0,
     "rewin_years": 0,
-    "account_months": 12,
+    "account_months": 6,
     "residence": {
-     "area": "경기도 양평군",
+     "area": "대구광역시",
      "months": 0,
      "since": null
     }
    },
-   "pdfium_chars": 161003,
+   "pdfium_chars": 132876,
    "problem": []
+  },
+  {
+   "notice": "2026000468",
+   "name": "쌍용 더 플래티넘 한강",
+   "url": "https://www.applyhome.co.kr/ai/aia/selectAPTLttotPblancDetail.do?houseManageNo=2026000468&pblancNo=2026000468",
+   "attachments": 1,
+   "pdfs": 0,
+   "attachment_list": [
+    {
+     "url": "https://static.applyhome.co.kr/ai/aia/getAtchmnfl.do?houseManageNo=2026000468&pblancNo=2026000468&atchmnflSeqNo=1990183&atchmnflSn=2",
+     "error": "PDF 아님 (200, 59바이트)"
+    }
+   ],
+   "problem": [
+    "PDF 를 하나도 받지 못함"
+   ]
   },
   {
    "notice": "2026000463",
@@ -831,16 +831,60 @@
    "name": "쌍용 더 플래티넘 센텀",
    "url": "https://www.applyhome.co.kr/ai/aia/selectAPTLttotPblancDetail.do?houseManageNo=2026000424&pblancNo=2026000424",
    "attachments": 1,
-   "pdfs": 0,
+   "pdfs": 1,
    "attachment_list": [
     {
      "url": "https://static.applyhome.co.kr/ai/aia/getAtchmnfl.do?houseManageNo=2026000424&pblancNo=2026000424&atchmnflSeqNo=1970054&atchmnflSn=6",
-     "error": "PDF 아님 (200, 59바이트)"
+     "bytes": 781839,
+     "pages": 64,
+     "chars": 132914,
+     "head": "- 1 - ※ 정정공고 안내 ▶ 2026.09.18. 최초 입주자모집공고 내용 중 [3. 공급대상 및 공급금액] 중 [공급규모]를 206.09."
     }
    ],
-   "problem": [
-    "PDF 를 하나도 받지 못함"
-   ]
+   "chosen": "https://static.applyhome.co.kr/ai/aia/getAtchmnfl.do?houseManageNo=2026000424&pblancNo=2026000424&atchmnflSeqNo=1970054&atchmnflSn=6",
+   "pages": 64,
+   "pages_read": 64,
+   "chars_read": 132977,
+   "empty_pages": [],
+   "chars_per_page_min": 541,
+   "fields": {
+    "need_head": false,
+    "price_cap": false,
+    "residence_duty": 0,
+    "rewin_years": 0,
+    "account_months": 6,
+    "residence": {
+     "area": "부산광역시",
+     "months": 12,
+     "since": "2025-09-18"
+    }
+   },
+   "fields_merged": {
+    "need_head": false,
+    "price_cap": false,
+    "residence_duty": 0,
+    "rewin_years": 0,
+    "account_months": 6,
+    "residence": {
+     "area": "부산광역시",
+     "months": 12,
+     "since": "2025-09-18"
+    }
+   },
+   "fields_pdfium": {
+    "need_head": false,
+    "price_cap": false,
+    "residence_duty": 0,
+    "rewin_years": 0,
+    "account_months": 6,
+    "residence": {
+     "area": "부산광역시",
+     "months": 12,
+     "since": "2025-09-18"
+    }
+   },
+   "pdfium_chars": 133222,
+   "problem": []
   },
   {
    "notice": "2026000454",
@@ -1024,20 +1068,60 @@
    "name": "힐스테이트 고덕엘리스트 A65BL 공공분양주택",
    "url": "https://www.applyhome.co.kr/ai/aia/selectAPTLttotPblancDetail.do?houseManageNo=2026000438&pblancNo=2026000438",
    "attachments": 1,
-   "pdfs": 0,
+   "pdfs": 1,
    "attachment_list": [
     {
      "url": "https://static.applyhome.co.kr/ai/aia/getAtchmnfl.do?houseManageNo=2026000438&pblancNo=2026000438&atchmnflSeqNo=1973016&atchmnflSn=5",
-     "error": "PDF 아님 (200, 59바이트)"
-    },
-    {
-     "url": "LH청약플러스",
-     "error": "LH청약플러스에서 같은 공고를 못 찾음 (검색 0건)"
+     "bytes": 1152965,
+     "pages": 93,
+     "chars": 184469,
+     "head": "- 1 - 구분 변경 전 변경 후 품목 타입 (약식표기) 페이지 품목 타입 (약식표기) 페이지 다이닝 컬렉션 1 주방 평면 변화 + 벽체/상판 "
     }
    ],
-   "problem": [
-    "PDF 를 하나도 받지 못함"
-   ]
+   "chosen": "https://static.applyhome.co.kr/ai/aia/getAtchmnfl.do?houseManageNo=2026000438&pblancNo=2026000438&atchmnflSeqNo=1973016&atchmnflSn=5",
+   "pages": 93,
+   "pages_read": 93,
+   "chars_read": 184561,
+   "empty_pages": [],
+   "chars_per_page_min": 458,
+   "fields": {
+    "price_cap": true,
+    "residence_duty": 3,
+    "rewin_years": 10,
+    "account_months": 12,
+    "deposit_count": 12,
+    "residence": {
+     "area": "경기도 평택시",
+     "months": 12,
+     "since": "2025-09-11"
+    }
+   },
+   "fields_merged": {
+    "price_cap": true,
+    "residence_duty": 3,
+    "rewin_years": 10,
+    "account_months": 12,
+    "deposit_count": 12,
+    "residence": {
+     "area": "경기도 평택시",
+     "months": 12,
+     "since": "2025-09-11"
+    }
+   },
+   "fields_pdfium": {
+    "price_cap": true,
+    "residence_duty": 3,
+    "rewin_years": 10,
+    "account_months": 12,
+    "deposit_count": 12,
+    "residence": {
+     "area": "경기도 평택시",
+     "months": 12,
+     "since": "2025-09-11"
+    }
+   },
+   "pdfium_chars": 184389,
+   "problem": []
   },
   {
    "notice": "2026000437",
@@ -1224,16 +1308,60 @@
    "name": "오남역 서희스타힐스 여의재 3단지 (조합원 취소분)",
    "url": "https://www.applyhome.co.kr/ai/aia/selectAPTLttotPblancDetail.do?houseManageNo=2026000431&pblancNo=2026000431",
    "attachments": 1,
-   "pdfs": 0,
+   "pdfs": 1,
    "attachment_list": [
     {
      "url": "https://static.applyhome.co.kr/ai/aia/getAtchmnfl.do?houseManageNo=2026000431&pblancNo=2026000431&atchmnflSeqNo=1959146&atchmnflSn=5",
-     "error": "PDF 아님 (200, 59바이트)"
+     "bytes": 960170,
+     "pages": 61,
+     "chars": 151291,
+     "head": "- 1 - ※ 단지 주요정보 (분양문의) 1555-0074 주택유형 해당지역 기타지역 규제지역여부 민영 경기도 남양주시 거주자 수도권(경기도, "
     }
    ],
-   "problem": [
-    "PDF 를 하나도 받지 못함"
-   ]
+   "chosen": "https://static.applyhome.co.kr/ai/aia/getAtchmnfl.do?houseManageNo=2026000431&pblancNo=2026000431&atchmnflSeqNo=1959146&atchmnflSn=5",
+   "pages": 61,
+   "pages_read": 61,
+   "chars_read": 151351,
+   "empty_pages": [],
+   "chars_per_page_min": 760,
+   "fields": {
+    "need_head": false,
+    "price_cap": false,
+    "residence_duty": 0,
+    "rewin_years": 0,
+    "account_months": 12,
+    "residence": {
+     "area": "경기도 남양주시",
+     "months": 0,
+     "since": null
+    }
+   },
+   "fields_merged": {
+    "need_head": false,
+    "price_cap": false,
+    "residence_duty": 0,
+    "rewin_years": 0,
+    "account_months": 12,
+    "residence": {
+     "area": "경기도 남양주시",
+     "months": 0,
+     "since": null
+    }
+   },
+   "fields_pdfium": {
+    "need_head": false,
+    "price_cap": false,
+    "residence_duty": 0,
+    "rewin_years": 0,
+    "account_months": 12,
+    "residence": {
+     "area": "경기도 남양주시",
+     "months": 0,
+     "since": null
+    }
+   },
+   "pdfium_chars": 150466,
+   "problem": []
   },
   {
    "notice": "2026000414",
@@ -1834,16 +1962,57 @@
    "name": "고양 장항 아테라",
    "url": "https://www.applyhome.co.kr/ai/aia/selectAPTRemndrLttotPblancDetailView.do?houseManageNo=2026930038&pblancNo=2026930038",
    "attachments": 1,
-   "pdfs": 0,
+   "pdfs": 1,
    "attachment_list": [
     {
      "url": "https://static.applyhome.co.kr/ai/aia/getAtchmnfl.do?houseManageNo=2026930038&pblancNo=2026930038&atchmnflSeqNo=1990056&atchmnflSn=4",
-     "error": "PDF 아님 (200, 59바이트)"
+     "bytes": 333715,
+     "pages": 18,
+     "chars": 29804,
+     "head": "- 1 - ※ 본 아파트 입주자모집공고의 내용을 충분히 숙지한 후 청약 및 계약에 응하시기 바라며, 미숙지로 인한 착오행위 등에 대하여는 청약자"
     }
    ],
-   "problem": [
-    "PDF 를 하나도 받지 못함"
-   ]
+   "chosen": "https://static.applyhome.co.kr/ai/aia/getAtchmnfl.do?houseManageNo=2026930038&pblancNo=2026930038&atchmnflSeqNo=1990056&atchmnflSn=4",
+   "pages": 18,
+   "pages_read": 18,
+   "chars_read": 29821,
+   "empty_pages": [],
+   "chars_per_page_min": 717,
+   "fields": {
+    "need_head": true,
+    "price_cap": true,
+    "residence_duty": 5,
+    "rewin_years": 10,
+    "residence": {
+     "area": "경기도 고양시",
+     "months": 0,
+     "since": null
+    }
+   },
+   "fields_merged": {
+    "need_head": true,
+    "price_cap": true,
+    "residence_duty": 5,
+    "rewin_years": 10,
+    "residence": {
+     "area": "경기도 고양시",
+     "months": 0,
+     "since": null
+    }
+   },
+   "fields_pdfium": {
+    "need_head": true,
+    "price_cap": true,
+    "residence_duty": 5,
+    "rewin_years": 10,
+    "residence": {
+     "area": "경기도 고양시",
+     "months": 0,
+     "since": null
+    }
+   },
+   "pdfium_chars": 29610,
+   "problem": []
   },
   {
    "notice": "2026910253",
@@ -2006,16 +2175,57 @@
    "name": "충정로역자이르네",
    "url": "https://www.applyhome.co.kr/ai/aia/selectAPTRemndrLttotPblancDetailView.do?houseManageNo=2026910251&pblancNo=2026910251",
    "attachments": 1,
-   "pdfs": 0,
+   "pdfs": 1,
    "attachment_list": [
     {
      "url": "https://static.applyhome.co.kr/ai/aia/getAtchmnfl.do?houseManageNo=2026910251&pblancNo=2026910251&atchmnflSeqNo=1986036&atchmnflSn=2",
-     "error": "PDF 아님 (200, 59바이트)"
+     "bytes": 1782710,
+     "pages": 16,
+     "chars": 44807,
+     "head": "- 1 - 견본주택에 주차가 불가하오니 대중교통을 이용하시기 바랍니다, .※ ※ 청약 전 유의사항 분양문의( ) 1660-1245 구분 내용 재"
     }
    ],
-   "problem": [
-    "PDF 를 하나도 받지 못함"
-   ]
+   "chosen": "https://static.applyhome.co.kr/ai/aia/getAtchmnfl.do?houseManageNo=2026910251&pblancNo=2026910251&atchmnflSeqNo=1986036&atchmnflSn=2",
+   "pages": 16,
+   "pages_read": 16,
+   "chars_read": 44822,
+   "empty_pages": [],
+   "chars_per_page_min": 1567,
+   "fields": {
+    "need_head": false,
+    "price_cap": false,
+    "residence_duty": 0,
+    "rewin_years": 10,
+    "residence": {
+     "area": "서울특별시",
+     "months": 0,
+     "since": null
+    }
+   },
+   "fields_merged": {
+    "need_head": false,
+    "price_cap": false,
+    "residence_duty": 0,
+    "rewin_years": 10,
+    "residence": {
+     "area": "서울특별시",
+     "months": 0,
+     "since": null
+    }
+   },
+   "fields_pdfium": {
+    "need_head": false,
+    "price_cap": false,
+    "residence_duty": 0,
+    "rewin_years": 10,
+    "residence": {
+     "area": "서울특별시",
+     "months": 0,
+     "since": null
+    }
+   },
+   "pdfium_chars": 45093,
+   "problem": []
   },
   {
    "notice": "2026930040",
