@@ -2,9 +2,9 @@
  "date": "2026-10-08",
  "page_cap": 300,
  "notices": 51,
- "with_problem": 5,
+ "with_problem": 7,
  "kinds": {
-  "PDF 를 하나도 받지 못함": 4,
+  "PDF 를 하나도 받지 못함": 6,
   "글자가 거의 없는 쪽 N개 (스캔 이미지·표 그림 추정)": 1
  },
  "errors": [],
@@ -71,60 +71,16 @@
    "name": "더샵 동인센트리체",
    "url": "https://www.applyhome.co.kr/ai/aia/selectAPTLttotPblancDetail.do?houseManageNo=2026000494&pblancNo=2026000494",
    "attachments": 1,
-   "pdfs": 1,
+   "pdfs": 0,
    "attachment_list": [
     {
      "url": "https://static.applyhome.co.kr/ai/aia/getAtchmnfl.do?houseManageNo=2026000494&pblancNo=2026000494&atchmnflSeqNo=1988347&atchmnflSn=2",
-     "bytes": 816911,
-     "pages": 66,
-     "chars": 131656,
-     "head": "- 1 - ※ 단지 주요정보 (분양문의) 053-751-0152 주택유형 해당지역 기타지역 규제지역여부 민영 대구광역시 거주자 경상북도 거주자 "
+     "error": "PDF 아님 (200, 59바이트)"
     }
    ],
-   "chosen": "https://static.applyhome.co.kr/ai/aia/getAtchmnfl.do?houseManageNo=2026000494&pblancNo=2026000494&atchmnflSeqNo=1988347&atchmnflSn=2",
-   "pages": 66,
-   "pages_read": 66,
-   "chars_read": 131721,
-   "empty_pages": [],
-   "chars_per_page_min": 260,
-   "fields": {
-    "need_head": false,
-    "price_cap": false,
-    "residence_duty": 0,
-    "rewin_years": 0,
-    "account_months": 6,
-    "residence": {
-     "area": "대구광역시",
-     "months": 0,
-     "since": null
-    }
-   },
-   "fields_merged": {
-    "need_head": false,
-    "price_cap": false,
-    "residence_duty": 0,
-    "rewin_years": 0,
-    "account_months": 6,
-    "residence": {
-     "area": "대구광역시",
-     "months": 0,
-     "since": null
-    }
-   },
-   "fields_pdfium": {
-    "need_head": false,
-    "price_cap": false,
-    "residence_duty": 0,
-    "rewin_years": 0,
-    "account_months": 6,
-    "residence": {
-     "area": "대구광역시",
-     "months": 0,
-     "since": null
-    }
-   },
-   "pdfium_chars": 132876,
-   "problem": []
+   "problem": [
+    "PDF 를 하나도 받지 못함"
+   ]
   },
   {
    "notice": "2026000468",
@@ -875,60 +831,16 @@
    "name": "쌍용 더 플래티넘 센텀",
    "url": "https://www.applyhome.co.kr/ai/aia/selectAPTLttotPblancDetail.do?houseManageNo=2026000424&pblancNo=2026000424",
    "attachments": 1,
-   "pdfs": 1,
+   "pdfs": 0,
    "attachment_list": [
     {
      "url": "https://static.applyhome.co.kr/ai/aia/getAtchmnfl.do?houseManageNo=2026000424&pblancNo=2026000424&atchmnflSeqNo=1970054&atchmnflSn=6",
-     "bytes": 781839,
-     "pages": 64,
-     "chars": 132914,
-     "head": "- 1 - ※ 정정공고 안내 ▶ 2026.09.18. 최초 입주자모집공고 내용 중 [3. 공급대상 및 공급금액] 중 [공급규모]를 206.09."
+     "error": "PDF 아님 (200, 59바이트)"
     }
    ],
-   "chosen": "https://static.applyhome.co.kr/ai/aia/getAtchmnfl.do?houseManageNo=2026000424&pblancNo=2026000424&atchmnflSeqNo=1970054&atchmnflSn=6",
-   "pages": 64,
-   "pages_read": 64,
-   "chars_read": 132977,
-   "empty_pages": [],
-   "chars_per_page_min": 541,
-   "fields": {
-    "need_head": false,
-    "price_cap": false,
-    "residence_duty": 0,
-    "rewin_years": 0,
-    "account_months": 6,
-    "residence": {
-     "area": "부산광역시",
-     "months": 12,
-     "since": "2025-09-18"
-    }
-   },
-   "fields_merged": {
-    "need_head": false,
-    "price_cap": false,
-    "residence_duty": 0,
-    "rewin_years": 0,
-    "account_months": 6,
-    "residence": {
-     "area": "부산광역시",
-     "months": 12,
-     "since": "2025-09-18"
-    }
-   },
-   "fields_pdfium": {
-    "need_head": false,
-    "price_cap": false,
-    "residence_duty": 0,
-    "rewin_years": 0,
-    "account_months": 6,
-    "residence": {
-     "area": "부산광역시",
-     "months": 12,
-     "since": "2025-09-18"
-    }
-   },
-   "pdfium_chars": 133222,
-   "problem": []
+   "problem": [
+    "PDF 를 하나도 받지 못함"
+   ]
   },
   {
    "notice": "2026000454",
@@ -1312,60 +1224,16 @@
    "name": "오남역 서희스타힐스 여의재 3단지 (조합원 취소분)",
    "url": "https://www.applyhome.co.kr/ai/aia/selectAPTLttotPblancDetail.do?houseManageNo=2026000431&pblancNo=2026000431",
    "attachments": 1,
-   "pdfs": 1,
+   "pdfs": 0,
    "attachment_list": [
     {
      "url": "https://static.applyhome.co.kr/ai/aia/getAtchmnfl.do?houseManageNo=2026000431&pblancNo=2026000431&atchmnflSeqNo=1959146&atchmnflSn=5",
-     "bytes": 960170,
-     "pages": 61,
-     "chars": 151291,
-     "head": "- 1 - ※ 단지 주요정보 (분양문의) 1555-0074 주택유형 해당지역 기타지역 규제지역여부 민영 경기도 남양주시 거주자 수도권(경기도, "
+     "error": "PDF 아님 (200, 59바이트)"
     }
    ],
-   "chosen": "https://static.applyhome.co.kr/ai/aia/getAtchmnfl.do?houseManageNo=2026000431&pblancNo=2026000431&atchmnflSeqNo=1959146&atchmnflSn=5",
-   "pages": 61,
-   "pages_read": 61,
-   "chars_read": 151351,
-   "empty_pages": [],
-   "chars_per_page_min": 760,
-   "fields": {
-    "need_head": false,
-    "price_cap": false,
-    "residence_duty": 0,
-    "rewin_years": 0,
-    "account_months": 12,
-    "residence": {
-     "area": "경기도 남양주시",
-     "months": 0,
-     "since": null
-    }
-   },
-   "fields_merged": {
-    "need_head": false,
-    "price_cap": false,
-    "residence_duty": 0,
-    "rewin_years": 0,
-    "account_months": 12,
-    "residence": {
-     "area": "경기도 남양주시",
-     "months": 0,
-     "since": null
-    }
-   },
-   "fields_pdfium": {
-    "need_head": false,
-    "price_cap": false,
-    "residence_duty": 0,
-    "rewin_years": 0,
-    "account_months": 12,
-    "residence": {
-     "area": "경기도 남양주시",
-     "months": 0,
-     "since": null
-    }
-   },
-   "pdfium_chars": 150466,
-   "problem": []
+   "problem": [
+    "PDF 를 하나도 받지 못함"
+   ]
   },
   {
    "notice": "2026000414",
@@ -1966,57 +1834,16 @@
    "name": "고양 장항 아테라",
    "url": "https://www.applyhome.co.kr/ai/aia/selectAPTRemndrLttotPblancDetailView.do?houseManageNo=2026930038&pblancNo=2026930038",
    "attachments": 1,
-   "pdfs": 1,
+   "pdfs": 0,
    "attachment_list": [
     {
      "url": "https://static.applyhome.co.kr/ai/aia/getAtchmnfl.do?houseManageNo=2026930038&pblancNo=2026930038&atchmnflSeqNo=1990056&atchmnflSn=4",
-     "bytes": 333715,
-     "pages": 18,
-     "chars": 29804,
-     "head": "- 1 - ※ 본 아파트 입주자모집공고의 내용을 충분히 숙지한 후 청약 및 계약에 응하시기 바라며, 미숙지로 인한 착오행위 등에 대하여는 청약자"
+     "error": "PDF 아님 (200, 59바이트)"
     }
    ],
-   "chosen": "https://static.applyhome.co.kr/ai/aia/getAtchmnfl.do?houseManageNo=2026930038&pblancNo=2026930038&atchmnflSeqNo=1990056&atchmnflSn=4",
-   "pages": 18,
-   "pages_read": 18,
-   "chars_read": 29821,
-   "empty_pages": [],
-   "chars_per_page_min": 717,
-   "fields": {
-    "need_head": true,
-    "price_cap": true,
-    "residence_duty": 5,
-    "rewin_years": 10,
-    "residence": {
-     "area": "경기도 고양시",
-     "months": 0,
-     "since": null
-    }
-   },
-   "fields_merged": {
-    "need_head": true,
-    "price_cap": true,
-    "residence_duty": 5,
-    "rewin_years": 10,
-    "residence": {
-     "area": "경기도 고양시",
-     "months": 0,
-     "since": null
-    }
-   },
-   "fields_pdfium": {
-    "need_head": true,
-    "price_cap": true,
-    "residence_duty": 5,
-    "rewin_years": 10,
-    "residence": {
-     "area": "경기도 고양시",
-     "months": 0,
-     "since": null
-    }
-   },
-   "pdfium_chars": 29610,
-   "problem": []
+   "problem": [
+    "PDF 를 하나도 받지 못함"
+   ]
   },
   {
    "notice": "2026910253",
@@ -2195,16 +2022,63 @@
    "name": "강변역 센트럴 아이파크",
    "url": "https://www.applyhome.co.kr/ai/aia/selectAPTRemndrLttotPblancDetailView.do?houseManageNo=2026930040&pblancNo=2026930040",
    "attachments": 1,
-   "pdfs": 0,
+   "pdfs": 1,
    "attachment_list": [
     {
      "url": "https://static.applyhome.co.kr/ai/aia/getAtchmnfl.do?houseManageNo=2026930040&pblancNo=2026930040&atchmnflSeqNo=1982993&atchmnflSn=5",
-     "error": "PDF 아님 (200, 59바이트)"
+     "bytes": 367120,
+     "pages": 12,
+     "chars": 26160,
+     "head": "- 1 - ※ 단지 주요정보 (분양문의)1551-3560 주택유형 규제지역여부 거주요건 재당첨제한 민영 투기과열지구/청약과열지역 서울특별시 거주"
     }
    ],
-   "problem": [
-    "PDF 를 하나도 받지 못함"
-   ]
+   "chosen": "https://static.applyhome.co.kr/ai/aia/getAtchmnfl.do?houseManageNo=2026930040&pblancNo=2026930040&atchmnflSeqNo=1982993&atchmnflSn=5",
+   "pages": 12,
+   "pages_read": 12,
+   "chars_read": 26171,
+   "empty_pages": [],
+   "chars_per_page_min": 666,
+   "fields": {
+    "need_head": true,
+    "price_cap": false,
+    "residence_duty": 0,
+    "rewin_years": 10,
+    "balance": "2026-11-30",
+    "ext": 0.2178,
+    "residence": {
+     "area": "서울특별시",
+     "months": 0,
+     "since": null
+    }
+   },
+   "fields_merged": {
+    "need_head": true,
+    "price_cap": false,
+    "residence_duty": 0,
+    "rewin_years": 10,
+    "balance": "2026-11-30",
+    "ext": 0.2178,
+    "residence": {
+     "area": "서울특별시",
+     "months": 0,
+     "since": null
+    }
+   },
+   "fields_pdfium": {
+    "need_head": true,
+    "price_cap": false,
+    "residence_duty": 0,
+    "rewin_years": 10,
+    "balance": "2026-11-30",
+    "ext": 0.2178,
+    "residence": {
+     "area": "서울특별시",
+     "months": 0,
+     "since": null
+    }
+   },
+   "pdfium_chars": 25652,
+   "problem": []
   },
   {
    "notice": "2026930037",
@@ -2711,16 +2585,54 @@
    "name": "용인반도체클러스터 동일하이빌 파크밸리(D1-1블록)",
    "url": "https://www.applyhome.co.kr/ai/aia/selectAPTRemndrLttotPblancDetailView.do?houseManageNo=2026910246&pblancNo=2026910246",
    "attachments": 1,
-   "pdfs": 0,
+   "pdfs": 1,
    "attachment_list": [
     {
      "url": "https://static.applyhome.co.kr/ai/aia/getAtchmnfl.do?houseManageNo=2026910246&pblancNo=2026910246&atchmnflSeqNo=1974992&atchmnflSn=3",
-     "error": "PDF 아님 (200, 59바이트)"
+     "bytes": 229582,
+     "pages": 12,
+     "chars": 22428,
+     "head": "- 1 - ※ 단지 주요정보 분양문의( ) 1533-0589 주택유형 규제지역여부 무순위 사후 자격요건( ) 민영 비규제지역 무순위 사후 입주자"
     }
    ],
-   "problem": [
-    "PDF 를 하나도 받지 못함"
-   ]
+   "chosen": "https://static.applyhome.co.kr/ai/aia/getAtchmnfl.do?houseManageNo=2026910246&pblancNo=2026910246&atchmnflSeqNo=1974992&atchmnflSn=3",
+   "pages": 12,
+   "pages_read": 12,
+   "chars_read": 22439,
+   "empty_pages": [],
+   "chars_per_page_min": 525,
+   "fields": {
+    "need_head": false,
+    "price_cap": true,
+    "residence_duty": 0,
+    "residence": {
+     "area": null,
+     "months": 0,
+     "since": null
+    }
+   },
+   "fields_merged": {
+    "need_head": false,
+    "price_cap": true,
+    "residence_duty": 0,
+    "residence": {
+     "area": null,
+     "months": 0,
+     "since": null
+    }
+   },
+   "fields_pdfium": {
+    "need_head": false,
+    "price_cap": true,
+    "residence_duty": 0,
+    "residence": {
+     "area": null,
+     "months": 0,
+     "since": null
+    }
+   },
+   "pdfium_chars": 22940,
+   "problem": []
   },
   {
    "notice": "2026910241",
