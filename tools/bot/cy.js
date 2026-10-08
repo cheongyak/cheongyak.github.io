@@ -14,7 +14,7 @@ const ctx = { console, Math, Date, JSON, Intl, Promise, Set, Map, Proxy, Number,
   localStorage: { getItem: k => store[k] ?? null, setItem: (k, v) => { store[k] = String(v); }, removeItem: k => { delete store[k]; } },
   matchMedia: () => ({ matches: false, addEventListener() {} }), addEventListener() {}, removeEventListener() {}, scrollTo() {}, requestAnimationFrame() {}, setTimeout, clearTimeout, confirm: () => false, fetch: () => new Promise(() => {}) };
 ctx.window = ctx; ctx.globalThis = ctx; vm.createContext(ctx);
-vm.runInContext(src + `\n;globalThis.__E = { eligibility, spJudge, spTypesFor, myScore, mcScore, grade, funding, cpExplain, fromApi, DEFAULT_PROFILE, statusOf, syncHome, syncV2, rentalJudge, rStatus, rIsYouth, setListings: r => { LISTINGS = r; }, setConfig: c => { CONFIG = Object.assign(CONFIG, c); } };`, ctx, { filename: 'index.html' });
+vm.runInContext(src + `\n;globalThis.__E = { eligibility, spJudge, spTypesFor, myScore, mcScore, grade, funding, cpExplain, fromApi, DEFAULT_PROFILE, statusOf, syncHome, syncV2, rentalJudge, rStatus, rIsYouth, chatVerdict, genNone, setListings: r => { LISTINGS = r; }, setConfig: c => { CONFIG = Object.assign(CONFIG, c); } };`, ctx, { filename: 'index.html' });
 const E = ctx.__E;
 E.setConfig(JSON.parse(fs.readFileSync(DOCS + '/config.json', 'utf8')));
 const LS = JSON.parse(fs.readFileSync(DOCS + '/listings.json', 'utf8')).map(E.fromApi); E.setListings(LS);
@@ -43,7 +43,8 @@ const out = list.map(L => {
   const x = E.cpExplain(L.id, p), g = E.grade(L), s = E.myScore(L, p), f = E.funding(L, p, { family: 0 });
   return { id: L.id, link: 'https://cheongyakpass.kr/#/detail/' + encodeURIComponent(L.id), name: L.name, unit: L.unit, sido: L.sido, district: L.district, kind: L.kind, dtl: L.houseDtl, status: E.statusOf(L),
     dates: { notice: L.notice, special: L.specialApply, apply: L.apply, applyEnd: L.applyEnd, winner: L.winner }, price: L.price, regulated: L.regulated,
-    verdict: x.verdict, reason: x.reason, notOk: x.items.filter(i => i.s === 'fail' || i.s === 'warn').map(i => ({ k: i.k, s: i.s, v: i.v, cause: i.cause, note: i.note })),
+    ...E.chatVerdict(L, p, x),   // 화면 맨 위 판정과 같은 결론 — 일반 물량이 없는 주택형은 특별공급 결과로 (2026-10-09 세종 리더스포레 2026930041: 다자녀 특공 1세대뿐인데 미혼·무자녀에게 '가능')
+    generalUnits: L.households, specialOnly: E.genNone(L), notOk: x.items.filter(i => i.s === 'fail' || i.s === 'warn').map(i => ({ k: i.k, s: i.s, v: i.v, cause: i.cause, note: i.note })),
     special: x.special.map(r => ({ type: r.type, v: r.v, stage: r.stage, fail: r.fail, warn: r.warn })),
     score: s.total, scoreMiss: s.miss, grade: { g: g.g, lo: r2(g.lo), hi: r2(g.hi), cost: r2(g.cost), mktLow: L.mktLow, mktBase: L.mktBase, mktNote: L.mktNote },
     funding: L.mktBase == null ? '시세 없음 - 자금 계산 생략(엔진 오류 의심 구간)' : { gapLive: r2(f.gapLive), loan: r2(f.loan), limitBy: f.limitBy, gapJeonse: r2(f.gapJeonse) },
