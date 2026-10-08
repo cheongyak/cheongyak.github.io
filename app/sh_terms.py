@@ -398,6 +398,109 @@ def parse_happy(text: str) -> dict | None:
     return out
 
 
+def _bonus_sentence(seg: str) -> dict | None:
+    """출산가구 문장: '… 이후 출생한 자녀가 1명인 경우, 39,600만원 이하 [단, … 43,100만원 이하] ※ … 2명 이상인 경우, 43,100만원 이하' → {'10': 39600, '20': 43100}"""
+    m = re.search(r"이후\s?출생한\s?자녀(?:\([^)]{0,20}\))?가\s?1명인\s?경우,\s?([\d,]+)만원\s?이하\s?\[단,[^\]]{0,80}?([\d,]+)만원\s?이하\]\s?※[^※]{0,80}?2명\s?이상인\s?경우,\s?([\d,]+)만원\s?이하", seg)
+    if not m:
+        return None
+    a, b, c = (_num(x) for x in m.groups())
+    return {"10": a, "20": b} if b == c else None
+
+
+def parse_youth_safe(text: str) -> dict | None:
+    """SH 청년안심주택(공공임대) (기능 sh_youth_safe, 2026-10-08 사용자 'Abc 순차로' A).
+    청년 계층: 만 19~39세·미혼·본인 무주택. 순위마다 소득·자산 기준이 다르다 — 1순위 수급자·차상위·보호대상 한부모(소득·자산 심사 없음),
+      2순위 본인+부모 소득 100%(1인 +20%p·2인 +10%p)·본인+부모 총자산 34,500만원, 3순위 본인 소득 1인 기준 120%·본인 총자산 25,100만원·자동차 4,542만원.
+      판정은 3순위(본인 기준)로 하고, 넘으면 '2·1순위면 가능할 수 있음'으로 확인(self_basis·tier_asset·tier_note). 자동차는 모든 순위 같아 넘으면 미충족.
+    신혼부부 계층: 신혼부부Ⅰ(소득 70%·맞벌이 90%, 34,500만원·자동차 4,542만원)을 충족하면 Ⅱ(130%·200%, 36,200만원, 자동차는 총자산에 합산)도 충족하므로
+      자격은 Ⅱ 기준으로 판정(신생아가구·보호대상 한부모·신혼부부/예비/6세 이하 자녀 가구·혼인가구), 만 19~39세 신청자.
+    공고문 소득표 금액은 도시근로자 2025 × % 와 같을 때만 쓴다(다르면 그 계층 소득 비움)."""
+    t = _flat(text.replace("\x00", " "))
+    if not re.search(r"청년안심주택", t):
+        return None
+    issues: list[str] = []
+    mr = re.search(r"입주자\s?모집\s?공고일\s?\(\s?(20\d\d)\.\s?(\d{1,2})\.\s?(\d{1,2})\.?\s?\)", t)
+    if not mr:
+        issues.append("모집공고일 못 읽음")
+    groups: list[dict] = []
+    # ── 청년 ──
+    i, j = t.find("5-1 청년 계층"), t.find("5-2 신혼부부 계층")
+    ys = t[i:j] if 0 <= i < j else ""
+    if ys:
+        am = re.search(r"(\d{2})세 이상 (\d{2})세 이하인 무주택자,\s?미혼", ys)
+        self_home = bool(re.search(r"무주택\s?요건\s?충족은\s?본인에\s?한하며", ys))
+        m3 = re.search(r"3순위 일반 - 1, 2순위에 해당하지 아니하는 사람 중 본인의 월평균소득이 전년도 도시근로자 가구원수별 가구당 월평균소득의 (\d+)% 이하", ys)
+        a3 = re.search(r"본인의 자산이 행복주택\(청년\)의 자산기준을 충족 \(총자산 ([\d,]+)만원 이하, 개별 자동차 ([\d,]+)만원 이하\)", ys)
+        a2 = re.search(r"본인과 부모의 자산이[^()]{0,80}국민임대 주택의 자산기준을 충족 \(총자산 ([\d,]+)만원 이하, 개별 자동차 ([\d,]+)만원 이하\)", ys)
+        m2 = re.search(r"2순위 일반 - 본인과 부모의 월평균소득이 전년도 도시근로자 가구원수별 가구당 월평균소득의 (\d+)% 이하", ys)
+        tb = re.search(r"1인가구\(\+20%p\) 2인가구\(\+10%p\) 3인가구[^\d]{0,60}50%이하 [\d,]+ [\d,]+ [\d,]+ 100%이하 ([\d,]+) ([\d,]+) ([\d,]+)", ys)
+        inc = None
+        if not (m3 and tb):
+            issues.append("청년 소득 기준(3순위·소득표) 못 읽음")
+        else:
+            bad = [f"청년 소득표 {n}인 {v} ≠ {round(URBAN_2025[n] * (int(m3.group(1)) + ad) / 100):,}" for n, v, ad in zip((1, 2, 3), tb.groups(), (20, 10, 0))
+                   if abs(_num(v) - round(URBAN_2025[n] * (int(m3.group(1)) + ad) / 100)) > 1]
+            issues += bad
+            inc = None if bad else {"1": int(m3.group(1)) + 20}
+        if not am:
+            issues.append("청년 나이·미혼 문장 못 찾음")
+        if not self_home:
+            issues.append("청년 무주택 범위 못 읽음")
+        if not a3:
+            issues.append("청년 3순위 자산 기준 못 읽음")
+        if a2 and a3 and _num(a2.group(2)) != _num(a3.group(2)):
+            issues.append("청년 순위별 자동차 기준이 다름")
+        g = dict(key="청년", name="청년 (3순위: 본인 소득·자산 기준)", age_min=int(am.group(1)) if am else None, age_max=int(am.group(2)) if am else None,
+                 homeless="self" if self_home else None, self_basis=True, birth_bonus="none", income_pct=inc,
+                 asset_manwon=_num(a3.group(1)) if a3 else None, car_manwon=_num(a3.group(2)) if a3 else None)
+        if a2 and m2:
+            g["tier_asset"] = _num(a2.group(1))
+            g["tier_note"] = (f"2순위(본인·부모 소득 합계 {m2.group(1)}% 이하·본인·부모 총자산 {_num(a2.group(1)):,}만원 이하) 또는 "
+                              "1순위(생계·의료·주거급여 수급자·차상위계층 가구·보호대상 한부모가족, 소득·자산 심사 없음)면 신청할 수 있어요 (공고문 확인)")
+        else:
+            issues.append("청년 2순위 기준 못 읽음")
+        groups.append(g)
+    # ── 신혼부부 (Ⅱ 기준) ──
+    i, j = t.find("■ 신혼부부Ⅱ"), t.find("■ 공통사항")
+    ns = t[i:j] if 0 <= i < j else ""
+    if ns:
+        ag = re.search(r"(\d{2})세 이상 (\d{2})세 이하인 무주택세대\s?구성원", ns)
+        mp = re.search(r"월평균\s?소득의 (\d+)% 이하\(배우자가 소득이 있는 경우 (\d+)%\)", ns)
+        pct, dual = (int(mp.group(1)), int(mp.group(2))) if mp else (None, None)
+        add2 = 10 if re.search(r"2인가구는 기준금액에 10%p 가산", ns) else 0
+        bad = ["신혼부부Ⅱ 소득 퍼센트 못 읽음"] if pct is None else [f"신혼부부Ⅱ {x}" for x in _check_income_table(ns, pct, dual, add2)]
+        issues += bad
+        income_pct = None if bad else {"2": pct + add2, "3+": pct}
+        am = re.search(r"총자산가액 ?: ?([\d,]+)만원 이하", ns)
+        car = "none" if re.search(r"자동차가액은 총자산에 합산됨", ns) and not re.search(r"자동차가액 ?[\d,]+만원 이하", ns) else None
+        bm = re.search(r"신생아 가구 ● 공고일로부터 최근 2년 이내 출산한 자녀가 있는 가구 \((20\d\d)\.(\d{2})\.(\d{2})\. 이후 태어난 자녀 및 태아\)", ns)
+        wm = re.search(r"혼인 7년 이내\((20\d\d)\.\s?(\d{2})\.\s?(\d{2})\.\s?~", ns)
+        km = set(re.findall(r"6세 이하 자녀[^()]{0,20}\((20\d\d)\.(\d{2})\.(\d{2})\. 이후 출생한 자녀 및 태아\)", ns))
+        exempt = bool(re.search(r"보호대상 한부모가족, 차상위계층은 소득·자산\s?검증\s?불필요", ns))
+        base = dict(homeless="household", income_pct=income_pct, dual_add=(dual - pct) if (dual and income_pct) else None,
+                    asset_manwon=_num(am.group(1)) if am else None, car_manwon=car,
+                    age_min=int(ag.group(1)) if ag else None, age_max=int(ag.group(2)) if ag else None)
+        if (bo := _bonus_sentence(ns)):
+            base["asset_bonus"] = bo
+        if not ag:
+            issues.append("신혼부부 나이 기준 못 읽음")
+        if car is None:
+            issues.append("신혼부부Ⅱ 자동차 기준 못 읽음")
+        groups.append(dict(key="신생아가구", name="신생아가구", born_from=_date(*bm.groups()) if bm else None, **base))
+        groups.append(dict(key="지원대상한부모", name="보호대상 한부모가족", exempt=True, homeless="household",
+                           income_pct="excluded", asset_manwon="excluded", car_manwon="excluded", age_min=base["age_min"], age_max=base["age_max"])
+                      if exempt else dict(key="지원대상한부모", name="보호대상 한부모가족", exempt=False, **base))
+        groups.append(dict(key="신혼부부·한부모", name="신혼부부·예비신혼부부·6세 이하 자녀 가구", wed_from=_date(*wm.groups()) if wm else None,
+                           kid6_from=_date(*km.pop()) if len(km) == 1 else None, **base))
+        if re.search(r"혼인가구\(5순위\)", ns):
+            groups.append(dict(key="혼인가구", name="혼인가구", **base))
+    if not groups:
+        return None
+    return {"sh": True, "kind": "청년안심주택", "ref_date": _date(*mr.groups()) if mr else None, "income_basis": "도시근로자 월평균소득",
+            "birth_bonus": "table", "prewed_ok": bool(re.search(r"예비신혼부부", ns)), "relaxed": False, "homeless_relaxed": False,
+            "groups": groups, "issues": issues}
+
+
 def parse_sh_terms(text: str, kind: str) -> dict | None:
     if kind == "신혼·신생아 매입임대":
         return parse_newlywed(text)
@@ -409,4 +512,6 @@ def parse_sh_terms(text: str, kind: str) -> dict | None:
         return parse_social(text)
     if kind == "행복주택":
         return parse_happy(text)
+    if kind == "청년안심주택":
+        return parse_youth_safe(text)
     return None

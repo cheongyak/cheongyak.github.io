@@ -35,7 +35,7 @@ def test_golden_sh_terms():
 
 def test_unsupported_kinds_have_no_terms():
     for g in GOLD:
-        if g["type"] not in ("신혼·신생아 매입임대", "청년 매입임대", "장기전세", "사회주택", "행복주택"):
+        if g["type"] not in ("신혼·신생아 매입임대", "청년 매입임대", "장기전세", "사회주택", "행복주택", "청년안심주택"):
             assert parse_sh_terms(_text(g["seq"]), g["type"]) is None, g["seq"]
 
 
@@ -124,3 +124,18 @@ def test_happy_newcomer_and_dual_need_sentence():
     assert not [g for g in r["groups"] if g["key"] == "청년"][0].get("newcomer")
     r = parse_happy(t.replace("맞벌이 신혼부부의 경우 120퍼센트 이하", "").replace("맞벌이 신혼부부의 경우 120", ""))
     assert [g for g in r["groups"] if g["key"] == "신혼부부·한부모"][0].get("dual_add") is None
+
+
+def test_youth_safe_rules():
+    """SH 청년안심주택(기능 sh_youth_safe): 소득표가 올해 기준과 다르면 청년 소득 비움, 2순위 문장이 없으면 3순위만(tier_note 없음 → 넘으면 미충족)"""
+    from app.sh_terms import parse_youth_safe, _flat
+    t = _flat(_text("309925").replace("\x00", " "))
+    r = parse_youth_safe(t.replace("4,576,036", "4,576,999"))
+    assert [g for g in r["groups"] if g["key"] == "청년"][0]["income_pct"] is None and r["issues"]
+    r = parse_youth_safe(t.replace("2순위 일반 - 본인과 부모의", "2순위 일반 - 본인 및 형제의"))
+    y = [g for g in r["groups"] if g["key"] == "청년"][0]
+    assert "tier_note" not in y and "청년 2순위 기준 못 읽음" in r["issues"]
+    r = parse_youth_safe(t.replace("차상위계층은 소득·자산검증 불필요", "차상위계층도 소득·자산검증 필요"))
+    assert [g for g in r["groups"] if g["key"] == "지원대상한부모"][0]["exempt"] is False
+    old = (ROOT / "evidence/qa/sh-archive/298207.txt").read_text(encoding="utf-8", errors="replace")   # 2025년 3차: 지난해 소득표
+    assert [g for g in parse_youth_safe(old)["groups"] if g["key"] == "청년"][0]["income_pct"] is None

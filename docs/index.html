@@ -5068,7 +5068,7 @@ function loadRental(){
   const sh = on('sh_rental') ? fetch('sh-rental.json', { cache:'no-store' }).then(r => r.ok ? r.json() : null).catch(() => null) : Promise.resolve(null);
   Promise.all([fetch('lh-rental.json', { cache:'no-store' }).then(r => r.ok ? r.json() : Promise.reject(r.status)), sh]).then(([d, s]) => {
     /* 접수 기간이 지난 SH 공고, 접수 기간을 못 읽었고 공고일이 30일 넘게 지난 SH 공고는 싣지 않는다 (대부분 접수가 끝났는데 '일정 확인'으로 남지 않게) */
-    if (s && Array.isArray(s.notices) && s.notices.length) { d.notices = d.notices.concat(s.notices.filter(N => N.org === 'SH' && rStatus(N) !== '마감' && !(rStatus(N) === '일정 확인' && String(N.posted || '') < addDays(rKst(), -30))).map(N => on('sh_judge') && (N.type !== '장기전세' || on('sh_jeonse')) && (N.type !== '사회주택' || on('sh_social')) && (N.type !== '행복주택' || on('sh_happy')) ? N : Object.assign({}, N, { judge_type: false })))   /* 기능 sh_judge 가 꺼져 있으면 SH 는 모두 판정 미지원, sh_jeonse 가 꺼져 있으면 장기전세만 판정 미지원, sh_happy 가 꺼져 있으면 행복주택만 */.sort((a, b) => String(b.posted || '').localeCompare(String(a.posted || ''))); d.sh_updated = s.updated; }
+    if (s && Array.isArray(s.notices) && s.notices.length) { d.notices = d.notices.concat(s.notices.filter(N => N.org === 'SH' && rStatus(N) !== '마감' && !(rStatus(N) === '일정 확인' && String(N.posted || '') < addDays(rKst(), -30))).map(N => on('sh_judge') && (N.type !== '장기전세' || on('sh_jeonse')) && (N.type !== '사회주택' || on('sh_social')) && (N.type !== '행복주택' || on('sh_happy')) && (N.type !== '청년안심주택' || on('sh_youth_safe')) ? N : Object.assign({}, N, { judge_type: false })))   /* 기능 sh_judge 가 꺼져 있으면 SH 는 모두 판정 미지원, sh_jeonse 가 꺼져 있으면 장기전세만 판정 미지원, sh_happy 가 꺼져 있으면 행복주택만 */.sort((a, b) => String(b.posted || '').localeCompare(String(a.posted || ''))); d.sh_updated = s.updated; }
     RENTAL = d; RENTAL_STATE = 'ok'; if (['rental', 'rdetail'].includes(S.view)) render(); })
     .catch(() => { RENTAL_STATE = 'error'; if (['rental', 'rdetail'].includes(S.view)) render(); });
 }
@@ -5155,6 +5155,8 @@ function shCritNote(T, g){
   if (g.key === '신혼부부·한부모') L.push(`혼인신고일 ${g.wed_from || '공고문 확인'} 이후 · 예비신혼부부 · 6세 이하 자녀(${g.kid6_from || '공고문 확인'} 이후 출생)가 있는 한부모가족·혼인가구`);
   if (g.key === '혼인가구') L.push('공고일 현재 혼인신고를 마친 가구');
   if (g.key === '청년' && g.income_household) L.push('미혼 · 본인 무주택 · 소득과 자산은 세대 전원 기준');
+  if (g.key === '청년' && g.self_basis) L.push(`만 ${g.age_min ?? '?'}~${g.age_max ?? '?'}세 · 미혼 · 본인 무주택 · 3순위: 본인 소득 1인 가구 기준·본인 총자산${g.tier_note ? ' (2순위: 본인·부모 합산, 1순위: 수급자·차상위·보호대상 한부모)' : ''}`);
+  if (T.kind === '청년안심주택' && g.key !== '청년' && g.age_max != null) L.push(`신청자 만 ${g.age_min ?? '?'}~${g.age_max}세 · 신혼부부Ⅱ 기준(신혼부부Ⅰ 소득 70%·맞벌이 90%·총자산 34,500만원·자동차 4,542만원이면 Ⅰ도 가능)`);
   const two = g.income_pct && typeof g.income_pct === 'object' && !g.income_pct['1'] && g.income_pct['2'] != null && g.income_pct['2'] !== g.income_pct['3+'];
   const inc = [two ? '2인 가구는 10%p 가산(공고문)' : '', g.dual_add ? `배우자도 소득이 있으면 +${g.dual_add}%p` : '', T.income_birth ? '2023.3.28 이후 출생 자녀(태아 포함) 1명 +10%p · 2명 이상(또는 1명+그 전 미성년 자녀) +20%p (맞벌이 가산과 중복 안 됨)' : ''].filter(Boolean);
   if (T.kind === '사회주택') { if (T.local) L.push(`공고일 현재 서울 거주${T.local.others_check ? ' (' + T.local.others_check + ')' : ''}`);
@@ -5265,6 +5267,11 @@ function rentalGroup(N, g, p){
     add('check', `이 서비스가 판정하지 않는 계층(${g.name || g.key}) — 공고문 확인`);
     return { key: g.key, name: RG_NAME[g.key] || g.name, s: 'check', items: it };
   }
+  /* 신청자 나이 범위가 있는 그 밖의 계층 — SH 청년안심주택 신혼부부(만 19~39세, 기능 sh_youth_safe). LH·다른 SH 계층은 age_min·age_max 가 없어 영향 없음 */
+  if (!['청년', '고령자', '대학생'].includes(g.key) && (g.age_min != null || g.age_max != null)) {
+    if (age == null) add('check', '생년월일 입력 필요', ['birth']);
+    else if ((g.age_min != null && age < g.age_min) || (g.age_max != null && age > g.age_max)) { na = true; add('no', `신청자 만 ${g.age_min ?? ''}~${g.age_max ?? ''}세가 아님 (공고일 만 ${age}세)`); }
+  }
   /* 예비신혼부부는 '혼인으로 구성될 세대' — 무주택·맞벌이에서 예비 배우자를 배우자처럼 본다 */
   const mar = p.married === true || (g.key === '신혼부부·한부모' && p.married === false && T.prewed_ok && p.lhPreWed === true);
   if (g.job_sidos && g.job_sidos.length) {   /* 직업기준의 주민등록 요건(전주동서학 742: 무형유산 종사자 전북, 예술인 전주시) */
@@ -5372,7 +5379,7 @@ function rentalGroup(N, g, p){
   const kidMaybe = rBirthKid(p) || !birthKnown;
   /* 3) 소득 */
   const exT = g.exempt === true ? '검증 면제 (한부모가족 증명서 제출 시)' : N.type === '공공임대' ? '신청자격에 없음' : '이번 공고 미적용';
-  const kidB = kidMaybe && T.birth_bonus !== 'none', aTbl = T.birth_bonus === 'table' ? g.asset_bonus : null, cTbl = T.birth_bonus === 'table' ? g.car_bonus : null;   /* 총자산·자동차 출산가구 가산: SH 는 공고문 표 금액 */
+  const kidB = kidMaybe && T.birth_bonus !== 'none' && g.birth_bonus !== 'none', aTbl = T.birth_bonus === 'table' ? g.asset_bonus : null, cTbl = T.birth_bonus === 'table' ? g.car_bonus : null;   /* 총자산·자동차 출산가구 가산: SH 는 공고문 표 금액 */
   const aMax = lim0 => aTbl && aTbl['20'] != null ? aTbl['20'] : lim0 * 1.2;
   if (g.income_pct === 'excluded') { if (exclOk) add('ok', '소득 기준 ' + exT); else add('check', exclTxt); }
   else if (g.key === '대학생') {
@@ -5380,7 +5387,7 @@ function rentalGroup(N, g, p){
     yn(p.lhStudentIncome, `본인·부모 소득 합계 기준 이하`, '본인·부모 소득 합계가 기준 초과 (내 답)', `대학생은 본인과 부모님 월평균소득 합계로 봐요(${pt}) — 기준 이하인지 답해 주세요`, ['lhStudentIncome']);
   }
   else if (g.key !== '주거급여수급자') {
-    const youthMember = g.key === '청년' && p.household === 'parents' && !g.married_ok && !g.income_household;   /* SH 청년 매입임대: '소득 및 자산 요건은 세대구성원 모두 충족' → 세대 소득 */   /* 창업지원주택은 '해당 세대의 월평균소득' */
+    const youthMember = g.key === '청년' && (g.self_basis === true || (p.household === 'parents' && !g.married_ok && !g.income_household));   /* self_basis: SH 청년안심주택 청년 3순위 '본인 소득(1인 가구 기준)' (기능 sh_youth_safe) */   /* SH 청년 매입임대: '소득 및 자산 요건은 세대구성원 모두 충족' → 세대 소득 */   /* 창업지원주택은 '해당 세대의 월평균소득' */
     const n = youthMember ? 1 : (p.hhSize == null || p.hhSize === '' ? null : Number(p.hhSize));
     const pct = g.income_pct && n ? g.income_pct[n === 1 ? '1' : n === 2 ? '2' : '3+'] : null;
     const base = n ? rIncomeBase(N, n) : null;
@@ -5401,7 +5408,7 @@ function rentalGroup(N, g, p){
       const m = yearMan == null ? null : yearMan * 10000 / 12;
       const txt = m == null ? '' : `월 ${won(m)} / 기준 ${won(lim)} (${n}인 ${pct + dualAdd}%${dualAdd ? ', 맞벌이' : ''})`;
       if (m == null) {
-        if (youthMember) add('check', '본인 소득 입력 필요 (부모님 세대의 청년은 본인 소득으로 판정)', ['income']);
+        if (youthMember) add('check', g.self_basis ? '본인 소득 입력 필요 (3순위는 본인 소득을 1인 가구 기준으로 판정)' : '본인 소득 입력 필요 (부모님 세대의 청년은 본인 소득으로 판정)', ['income']);
         else if (solo) add('check', '본인(=세대) 작년 소득 입력 필요', ['hhIncomeYear']);
         else { const e = inc != null ? inc + (mar ? (spInc || 0) : 0) : null;
           add('check', '세대 소득 입력 필요' + (e != null ? ` — 본인·배우자 소득으로 추정하면 월 ${won(e * 10000 / 12)} / 기준 ${won(lim)}` : ''), ['hhIncomeYear']); }
@@ -5415,6 +5422,7 @@ function rentalGroup(N, g, p){
         else if (m <= base * (pct + bo + dA) / 100) add('ok', `소득 출산가구 +${bo}%p 적용 — 월 ${won(m)} / 기준 ${won(base * (pct + bo + dA) / 100)}`);
         else add('no', `소득 기준 초과 (출산가구 +${bo}%p 적용해도) — ` + txt);
       }
+      else if (g.tier_note) add('check', '본인 소득이 3순위 기준 초과 — ' + txt + ' · ' + g.tier_note, null, 'self');   /* SH 청년안심주택: 2순위(본인+부모)·1순위(수급자 등)는 다른 기준 */
       else add('no', '소득 기준 초과 — ' + txt);
     }
   }
@@ -5422,13 +5430,14 @@ function rentalGroup(N, g, p){
   if (g.asset_manwon === 'excluded') { if (exclOk) add('ok', '총자산 기준 ' + exT); else add('check', exclTxt); }
   else if (g.key !== '주거급여수급자') {
     const lim = g.asset_manwon;
-    const selfOnly = g.key === '대학생' || (g.key === '청년' && p.household === 'parents' && !g.married_ok && !g.income_household);
+    const selfOnly = g.key === '대학생' || (g.key === '청년' && (g.self_basis === true || (p.household === 'parents' && !g.married_ok && !g.income_household)));
     const FIN = ['realEstate', 'carValue', 'cash', 'liquid', 'deposit'], miss = FIN.filter(k => !entered(p, k));
     if (lim == null) add('check', '총자산 기준을 공고문에서 읽지 못함 — 공고문 확인');
     else if (selfOnly) {
       if (p.youthAsset == null || p.youthAsset === '') add('check', '본인 총자산 입력 필요', ['youthAsset']);
       else if (Number(p.youthAsset) <= lim) add('ok', `본인 총자산 ${manW(p.youthAsset)} / 기준 ${manW(lim)}`);
       else if (kidB && Number(p.youthAsset) <= aMax(lim)) lhBonusCheck(add, rBonus(p), Number(p.youthAsset), lim, `본인 총자산 기준 초과 (${manW(p.youthAsset)} / ${manW(lim)})`, aTbl);
+      else if (g.tier_note && g.tier_asset != null && Number(p.youthAsset) <= g.tier_asset) add('check', `본인 총자산이 3순위 기준 초과 (${manW(p.youthAsset)} / ${manW(lim)}) · ` + g.tier_note, null, 'self');
       else add('no', `본인 총자산 기준 초과 (${manW(p.youthAsset)} / ${manW(lim)})`);
     } else {
       const a = townAssetParts(p), tot = a.total, extraMiss = ['townInsurance', 'townFinOther', 'townOtherAsset'].some(k => p[k] == null || p[k] === ''), debtMiss = p.townDebt == null || p.townDebt === '';
