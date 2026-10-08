@@ -1,15 +1,17 @@
 {
- "at": "2026-10-08 23:59",
- "ok": true,
- "collect_run": "2026-10-08 · 공고 182건",
+ "at": "2026-10-09 05:54",
+ "ok": false,
+ "collect_run": "2026-10-09 · 공고 225건",
  "judge": {
   "total": 840,
   "passed": 840,
   "failed": []
  },
  "crosscheck": {
-  "summary": "[검증·공고문] 공고문 51건 대조 · 기준표 214줄 · 분양가 182/182 일치 · 불일치 공고 0건",
-  "mismatches": []
+  "summary": "[검증·공고문] 공고문 60건 대조 · 기준표 270줄 · 분양가 225/225 일치 · 불일치 공고 1건",
+  "mismatches": [
+   "[검증·공고문 불일치] 익산 부송에코르 10년 공공임대주택 (2026000402): 공공 부동산 기준: 앱 215,500천원이 공고문에 없음"
+  ]
  },
  "golden": {
   "mismatches": []
@@ -37,9 +39,9 @@
   "pay_audit_bad": 0,
   "pay_audit_read": "106/113",
   "lh_data_at": "2026-10-08 06:51",
-  "cross_rule_checks": 269266,
-  "market_at": "2026-10-08",
+  "cross_rule_checks": 284035,
+  "market_at": "2026-10-09",
   "supply_type_at": "2026-10-08",
-  "invariants_at": "2026-10-08"
+  "invariants_at": "2026-10-09"
  }
 }
