@@ -43,6 +43,8 @@ def check(rows: list, today: str, live: bool) -> dict:
                 f("특공 유형별 합 ≠ 합계", x, f"{parts} ≠ {su['total']}")
             if any(isinstance(v, int) and v < 0 for v in su.values()):
                 f("특공 세대 음수", x)
+        if live and "재공급" in (x.get("kind") or "") and (x.get("households") or 0) == 0 and not (x.get("special_units") or {}).get("total"):
+            f("재공급 일반 0세대인데 특공 세대수 없음", x, "공고문 공급대상 표를 못 읽음 (2026-10-08 머리글 띄어쓰기)")   # 일반·특공 모두 0이면 화면이 '물량 없음'만 보여 줌
         ds = [x.get("notice"), x.get("apply"), x.get("apply_end") or x.get("apply"), x.get("winner")]
         ds = [d for d in ds if d]
         if ds != sorted(ds):

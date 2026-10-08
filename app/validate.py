@@ -61,13 +61,21 @@ def listing_checks(L: Listing, today: date) -> list[str]:
     # 시세
     g = grade(L)
     if g["grade"] != "unknown":
-        if L.mkt_count < 3:
+        # 같은 단지·같은 평형 실거래 2건이 서로 15% 안이면 근거로 충분하다고 본다 (2026-10-08 세종 리더스포레 2026930041 7.9억·8.57억이 '2건뿐'으로 걸림)
+        amts = [c.get("amount") for c in (L.mkt_comps or []) if c.get("amount")]
+        same2 = L.mkt_basis == "same_complex" and L.mkt_count >= 2 and len(amts) >= 2 and (max(amts) - min(amts)) / min(amts) <= 0.15
+        if L.mkt_count < 3 and not same2:
             out.append(f"시세 근거 거래가 {L.mkt_count}건뿐이에요")
-        if g["rate"] is not None and (g["rate"] > 1.0 or g["rate"] < -0.5):
+        # 불법행위·계약취소 재공급은 처음 분양가로 다시 공급해(2026930041: 2017년 분양가 3.43억 · 지금 시세 8.23억) 마진율이 100%를 넘는 게 정상 —
+        # 같은 단지 실거래가 근거일 때는 250% 까지 이례적으로 보지 않는다 (그 밖의 공고·근거는 그대로 100%)
+        hi = 2.5 if ("재공급" in (L.kind or "") and L.mkt_basis == "same_complex") else 1.0
+        if g["rate"] is not None and (g["rate"] > hi or g["rate"] < -0.5):
             out.append(f"마진율 {g['rate']:.0%}는 이례적이에요. 시세 근거를 확인하세요")
         oldest = (today - timedelta(days=31 * R.MARKET_MONTHS + 31)).isoformat()
         if any((c.get("date") or "9999") < oldest for c in L.mkt_comps):
             out.append("시세 근거에 기간을 벗어난 거래가 섞여 있어요")
+    if "재공급" in (L.kind or "") and (L.households or 0) == 0 and not L.special_units:
+        out.append("재공급 물량(특별공급 세대수)을 공고문 공급대상 표에서 읽지 못했어요 — 모집공고문 확인")   # 2026-10-08 머리글 띄어쓰기로 못 읽던 문제 재발 감시
     if not L.sido:
         out.append("주소에서 시·도를 찾지 못했어요")
     if L.geo and not in_korea(L.geo.get("lat", 0), L.geo.get("lng", 0)):
@@ -90,7 +98,7 @@ def golden_mismatches(listings: list[Listing]) -> list[str]:
         for k, want in g["fields"].items():
             have = actual.get(k)
             # 적은 칸만 비교: 전매제한(resale_limit), 단지 규모 총세대·동 수(complex_size), 계약금 나눔 정액·기간(contract_from_notice — 줄 수 rows 는 빼고)
-            if k in ("complex", "resale", "contract_split") and isinstance(want, dict):
+            if k in ("complex", "resale", "contract_split", "special_units") and isinstance(want, dict):   # special_units: 재공급 특공 세대수(유형별 적은 칸만)
                 have = {kk: (have or {}).get(kk) for kk in want}
                 ok = want == have
             elif isinstance(want, float) and isinstance(have, (int, float)):

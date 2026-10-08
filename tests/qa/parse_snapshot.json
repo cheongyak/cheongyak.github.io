@@ -129,17 +129,68 @@
 ]
 },
 "sp_table": {
-"83.8100A": {
+"81.2000H": {
+"elder": 0,
+"first": 1,
 "multichild": 0,
-"total": 0
+"newlywed": 1,
+"total": 2
+},
+"82.2100D": {
+"elder": 0,
+"first": 0,
+"multichild": 1,
+"newlywed": 2,
+"total": 3
+},
+"82.6500G": {
+"elder": 0,
+"first": 1,
+"multichild": 0,
+"newlywed": 1,
+"total": 2
+},
+"83.8100A": {
+"elder": 1,
+"first": 1,
+"multichild": 0,
+"newlywed": 0,
+"total": 2
 },
 "84.1400C": {
+"elder": 0,
+"first": 1,
 "multichild": 0,
-"total": 0
+"newlywed": 0,
+"total": 1
 },
 "84.1400K": {
+"elder": 0,
+"first": 0,
 "multichild": 2,
+"newlywed": 2,
+"total": 4
+},
+"84.2300F": {
+"elder": 0,
+"first": 0,
+"multichild": 0,
+"newlywed": 2,
 "total": 2
+},
+"84.4100E": {
+"elder": 0,
+"first": 0,
+"multichild": 1,
+"newlywed": 2,
+"total": 3
+},
+"84.4900B": {
+"elder": 0,
+"first": 1,
+"multichild": 1,
+"newlywed": 2,
+"total": 4
 }
 }
 },
@@ -220,12 +271,52 @@
 ]
 },
 "sp_table": {
-"115.5582P": {
+"059.3377B": {
+"agency": 2,
+"elder": 1,
+"first": 1,
 "multichild": 0,
+"newlywed": 4,
+"total": 8
+},
+"059.5222A": {
+"agency": 2,
+"elder": 1,
+"first": 1,
+"multichild": 0,
+"newlywed": 14,
+"total": 18
+},
+"074.0928": {
+"agency": 4,
+"elder": 2,
+"first": 4,
+"multichild": 1,
+"newlywed": 34,
+"total": 45
+},
+"106.4081": {
+"agency": 0,
+"elder": 0,
+"first": 0,
+"multichild": 87,
+"newlywed": 0,
+"total": 87
+},
+"115.5582P": {
+"agency": 0,
+"elder": 0,
+"first": 0,
+"multichild": 0,
+"newlywed": 0,
 "total": 0
 },
 "128.3603P": {
+"agency": 0,
+"elder": 0,
+"first": 0,
 "multichild": 0,
+"newlywed": 0,
 "total": 0
 }
 }
@@ -483,9 +574,61 @@
 ]
 },
 "sp_table": {
+"059.8054B": {
+"agency": 0,
+"elder": 0,
+"first": 0,
+"multichild": 2,
+"newlywed": 2,
+"total": 4
+},
 "059.9116A": {
+"agency": 13,
+"elder": 4,
+"first": 12,
 "multichild": 13,
-"total": 13
+"newlywed": 30,
+"total": 72
+},
+"059.9537C": {
+"agency": 1,
+"elder": 0,
+"first": 3,
+"multichild": 2,
+"newlywed": 6,
+"total": 12
+},
+"084.9634A": {
+"agency": 8,
+"elder": 2,
+"first": 6,
+"multichild": 6,
+"newlywed": 15,
+"total": 37
+},
+"084.9712C": {
+"agency": 0,
+"elder": 1,
+"first": 2,
+"multichild": 2,
+"newlywed": 5,
+"total": 10
+},
+"084.9995B": {
+"agency": 9,
+"elder": 3,
+"first": 8,
+"multichild": 10,
+"newlywed": 21,
+"total": 51
+},
+"106.9502A": {
+"agency": 0,
+"elder": 1,
+"first": 0,
+"multichild": 2,
+"newlywed": 0,
+"total": 3
 }
 }
 },
@@ -916,10 +1059,32 @@
 ]
 },
 "sp_table": {
+"084.2259A": {
+"agency": 8,
+"elder": 2,
+"first": 5,
+"multichild": 7,
+"newborn": 7,
+"newlywed": 10,
+"total": 39
+},
+"084.5328B": {
+"agency": 5,
+"elder": 1,
+"first": 4,
+"multichild": 5,
+"newborn": 6,
+"newlywed": 8,
+"total": 29
+},
 "084.8209C": {
+"agency": 1,
+"elder": 1,
+"first": 1,
 "multichild": 1,
 "newborn": 1,
-"total": 2
+"newlywed": 2,
+"total": 7
 }
 }
 },
@@ -1091,6 +1256,35 @@
 "upto": null
 }
 ]
+},
+"sp_table": {
+"084.4626": {
+"agency": 5,
+"elder": 1,
+"first": 3,
+"multichild": 5,
+"newborn": 5,
+"newlywed": 7,
+"total": 26
+},
+"113.4850B": {
+"agency": 0,
+"elder": 1,
+"first": 0,
+"multichild": 2,
+"newborn": 0,
+"newlywed": 0,
+"total": 3
+},
+"113.7696A": {
+"agency": 0,
+"elder": 1,
+"first": 0,
+"multichild": 2,
+"newborn": 0,
+"newlywed": 0,
+"total": 3
+}
 }
 },
 "sha": "e33cd5d6a13b5153"
@@ -2130,15 +2324,53 @@ null
 ]
 },
 "sp_table": {
-"084.9888A": {
+"054.8244": {
+"agency": 1,
+"first": 0,
+"multichild": 1,
+"newborn": 1,
+"newlywed": 1,
+"total": 4
+},
+"059.9935B": {
+"agency": 0,
+"first": 0,
 "multichild": 0,
 "newborn": 0,
+"newlywed": 1,
+"total": 1
+},
+"060.7403": {
+"agency": 1,
+"first": 1,
+"multichild": 1,
+"newborn": 1,
+"newlywed": 1,
+"total": 5
+},
+"084.9888A": {
+"agency": 0,
+"first": 0,
+"multichild": 0,
+"newborn": 0,
+"newlywed": 0,
 "total": 0
 },
 "084.9894C": {
+"agency": 1,
+"first": 1,
 "multichild": 1,
 "newborn": 1,
-"total": 2
+"newlywed": 2,
+"total": 6
+},
+"084.9933B": {
+"agency": 1,
+"first": 1,
+"multichild": 1,
+"newborn": 1,
+"newlywed": 1,
+"total": 5
 }
 }
 },
@@ -2235,9 +2467,67 @@ null
 ]
 },
 "sp_table": {
+"075.4736": {
+"agency": 4,
+"elder": 1,
+"first": 3,
+"multichild": 4,
+"newborn": 4,
+"newlywed": 7,
+"total": 23
+},
+"084.8237C": {
+"agency": 18,
+"elder": 6,
+"first": 13,
+"multichild": 18,
+"newborn": 18,
+"newlywed": 27,
+"total": 100
+},
+"084.9665B": {
+"agency": 17,
+"elder": 5,
+"first": 12,
+"multichild": 17,
+"newborn": 17,
+"newlywed": 26,
+"total": 94
+},
+"084.9796A": {
+"agency": 24,
+"elder": 7,
+"first": 16,
+"multichild": 24,
+"newborn": 24,
+"newlywed": 36,
+"total": 131
+},
+"102.6201": {
+"agency": 0,
+"elder": 1,
+"first": 0,
+"multichild": 4,
+"newborn": 0,
+"newlywed": 0,
+"total": 5
+},
+"124.8692": {
+"agency": 0,
+"elder": 1,
+"first": 0,
+"multichild": 2,
+"newborn": 0,
+"newlywed": 0,
+"total": 3
+},
 "166.2309P": {
+"agency": 0,
+"elder": 0,
+"first": 0,
 "multichild": 0,
 "newborn": 0,
+"newlywed": 0,
 "total": 0
 }
 }
@@ -2429,6 +2719,35 @@ null
 "upto": null
 }
 ]
+},
+"sp_table": {
+"084.7551A": {
+"agency": 94,
+"elder": 28,
+"first": 66,
+"multichild": 94,
+"newborn": 94,
+"newlywed": 141,
+"total": 517
+},
+"084.8937B": {
+"agency": 28,
+"elder": 8,
+"first": 20,
+"multichild": 28,
+"newborn": 28,
+"newlywed": 42,
+"total": 154
+},
+"099.8024": {
+"agency": 0,
+"elder": 3,
+"first": 0,
+"multichild": 8,
+"newborn": 0,
+"newlywed": 0,
+"total": 11
+}
 }
 },
 "sha": "2ee4226382725ced"
@@ -2505,6 +2824,89 @@ null
 "upto": null
 }
 ]
+},
+"sp_table": {
+"084.7123B": {
+"agency": 8,
+"elder": 2,
+"first": 6,
+"multichild": 8,
+"newborn": 8,
+"newlywed": 13,
+"total": 45
+},
+"084.9074D": {
+"agency": 9,
+"elder": 3,
+"first": 6,
+"multichild": 9,
+"newborn": 9,
+"newlywed": 13,
+"total": 49
+},
+"084.9199A": {
+"agency": 22,
+"elder": 7,
+"first": 15,
+"multichild": 22,
+"newborn": 22,
+"newlywed": 33,
+"total": 121
+},
+"084.9872E": {
+"agency": 18,
+"elder": 5,
+"first": 12,
+"multichild": 18,
+"newborn": 18,
+"newlywed": 27,
+"total": 98
+},
+"084.9874C": {
+"agency": 35,
+"elder": 11,
+"first": 25,
+"multichild": 35,
+"newborn": 35,
+"newlywed": 53,
+"total": 194
+},
+"084.9928F": {
+"agency": 45,
+"elder": 14,
+"first": 32,
+"multichild": 45,
+"newborn": 45,
+"newlywed": 66,
+"total": 247
+},
+"113.0705B": {
+"agency": 0,
+"elder": 2,
+"first": 0,
+"multichild": 8,
+"newborn": 0,
+"newlywed": 0,
+"total": 10
+},
+"113.0966A": {
+"agency": 0,
+"elder": 6,
+"first": 0,
+"multichild": 22,
+"newborn": 0,
+"newlywed": 0,
+"total": 28
+},
+"121.5813": {
+"agency": 0,
+"elder": 5,
+"first": 0,
+"multichild": 18,
+"newborn": 0,
+"newlywed": 0,
+"total": 23
+}
 }
 },
 "sha": "98c1f3cf21e4d602"
@@ -2646,34 +3048,76 @@ null
 },
 "sp_table": {
 "039.1570": {
+"agency": 0,
+"elder": 0,
+"first": 0,
 "multichild": 0,
 "newborn": 0,
+"newlywed": 0,
 "total": 0
 },
 "048.8190": {
+"agency": 0,
+"elder": 0,
+"first": 0,
 "multichild": 0,
 "newborn": 0,
+"newlywed": 0,
 "total": 0
 },
 "052.1850A": {
+"agency": 1,
+"elder": 1,
+"first": 1,
 "multichild": 1,
 "newborn": 1,
-"total": 2
+"newlywed": 2,
+"total": 7
 },
 "052.4300C": {
+"agency": 0,
+"elder": 0,
+"first": 0,
 "multichild": 0,
 "newborn": 0,
+"newlywed": 0,
 "total": 0
 },
-"059.0050B": {
+"052.7840B": {
+"agency": 0,
+"elder": 0,
+"first": 0,
 "multichild": 0,
 "newborn": 0,
+"newlywed": 1,
+"total": 1
+},
+"059.0050B": {
+"agency": 0,
+"elder": 0,
+"first": 0,
+"multichild": 0,
+"newborn": 0,
+"newlywed": 0,
 "total": 0
 },
 "059.0570C": {
+"agency": 0,
+"elder": 0,
+"first": 0,
 "multichild": 0,
 "newborn": 0,
+"newlywed": 0,
 "total": 0
+},
+"059.6120A": {
+"agency": 0,
+"elder": 0,
+"first": 0,
+"multichild": 0,
+"newborn": 0,
+"newlywed": 1,
+"total": 1
 }
 }
 },
@@ -2761,6 +3205,35 @@ null
 "upto": 85
 }
 ]
+},
+"sp_table": {
+"084.0452B": {
+"agency": 12,
+"elder": 4,
+"first": 9,
+"multichild": 12,
+"newborn": 12,
+"newlywed": 19,
+"total": 68
+},
+"084.6536A": {
+"agency": 54,
+"elder": 16,
+"first": 38,
+"multichild": 54,
+"newborn": 55,
+"newlywed": 82,
+"total": 299
+},
+"084.8414C": {
+"agency": 2,
+"elder": 1,
+"first": 2,
+"multichild": 4,
+"newborn": 3,
+"newlywed": 4,
+"total": 16
+}
 }
 },
 "sha": "9268bf3e40a7fbf5"
@@ -2849,9 +3322,40 @@ null
 ]
 },
 "sp_table": {
+"059.9293C": {
+"agency": 0,
+"elder": 1,
+"first": 1,
+"multichild": 2,
+"newborn": 2,
+"newlywed": 3,
+"total": 9
+},
+"059.9442A": {
+"agency": 7,
+"elder": 1,
+"first": 2,
+"multichild": 3,
+"newborn": 3,
+"newlywed": 5,
+"total": 21
+},
+"059.9442B": {
+"agency": 0,
+"elder": 0,
+"first": 1,
+"multichild": 1,
+"newborn": 1,
+"newlywed": 2,
+"total": 5
+},
 "074.9610": {
+"agency": 0,
+"elder": 0,
+"first": 0,
 "multichild": 0,
 "newborn": 0,
+"newlywed": 0,
 "total": 0
 }
 }
@@ -2933,6 +3437,71 @@ null
 "upto": null
 }
 ]
+},
+"sp_table": {
+"059.8300A": {
+"agency": 9,
+"elder": 3,
+"first": 6,
+"multichild": 9,
+"newborn": 9,
+"newlywed": 13,
+"total": 49
+},
+"059.9700C": {
+"agency": 5,
+"elder": 2,
+"first": 4,
+"multichild": 5,
+"newborn": 5,
+"newlywed": 8,
+"total": 29
+},
+"059.9900B": {
+"agency": 11,
+"elder": 3,
+"first": 8,
+"multichild": 11,
+"newborn": 11,
+"newlywed": 17,
+"total": 61
+},
+"074.8300": {
+"agency": 14,
+"elder": 4,
+"first": 10,
+"multichild": 14,
+"newborn": 14,
+"newlywed": 21,
+"total": 77
+},
+"084.9000": {
+"agency": 71,
+"elder": 21,
+"first": 50,
+"multichild": 71,
+"newborn": 71,
+"newlywed": 106,
+"total": 390
+},
+"102.5600B": {
+"agency": 0,
+"elder": 1,
+"first": 0,
+"multichild": 2,
+"newborn": 0,
+"newlywed": 0,
+"total": 3
+},
+"102.8800A": {
+"agency": 0,
+"elder": 1,
+"first": 0,
+"multichild": 3,
+"newborn": 0,
+"newlywed": 0,
+"total": 4
+}
 }
 },
 "sha": "1b4c3d1ef7804d86"
@@ -3319,6 +3888,89 @@ null
 "upto": null
 }
 ]
+},
+"sp_table": {
+"084.9479B": {
+"agency": 31,
+"elder": 10,
+"first": 22,
+"multichild": 31,
+"newborn": 31,
+"newlywed": 47,
+"total": 172
+},
+"084.9730A": {
+"agency": 31,
+"elder": 10,
+"first": 22,
+"multichild": 31,
+"newborn": 31,
+"newlywed": 47,
+"total": 172
+},
+"084.9769D": {
+"agency": 53,
+"elder": 17,
+"first": 37,
+"multichild": 53,
+"newborn": 53,
+"newlywed": 80,
+"total": 293
+},
+"084.9809E": {
+"agency": 31,
+"elder": 9,
+"first": 21,
+"multichild": 31,
+"newborn": 30,
+"newlywed": 46,
+"total": 168
+},
+"084.9819C": {
+"agency": 53,
+"elder": 16,
+"first": 37,
+"multichild": 54,
+"newborn": 54,
+"newlywed": 80,
+"total": 294
+},
+"084.9849F": {
+"agency": 54,
+"elder": 16,
+"first": 38,
+"multichild": 53,
+"newborn": 54,
+"newlywed": 80,
+"total": 295
+},
+"103.0590A": {
+"agency": 0,
+"elder": 6,
+"first": 0,
+"multichild": 22,
+"newborn": 0,
+"newlywed": 0,
+"total": 28
+},
+"103.2718B": {
+"agency": 0,
+"elder": 6,
+"first": 0,
+"multichild": 24,
+"newborn": 0,
+"newlywed": 0,
+"total": 30
+},
+"112.3407A": {
+"agency": 0,
+"elder": 3,
+"first": 0,
+"multichild": 13,
+"newborn": 0,
+"newlywed": 0,
+"total": 16
+}
 }
 },
 "sha": "8719ecb1aef67d14"
@@ -3392,10 +4044,59 @@ null
 ]
 },
 "sp_table": {
-"074.9026B": {
+"059.9734B": {
+"agency": 0,
+"elder": 0,
+"first": 0,
 "multichild": 0,
 "newborn": 0,
+"newlywed": 1,
+"total": 1
+},
+"059.9957A": {
+"agency": 2,
+"elder": 0,
+"first": 2,
+"multichild": 2,
+"newborn": 2,
+"newlywed": 2,
+"total": 10
+},
+"074.5847A": {
+"agency": 1,
+"elder": 0,
+"first": 1,
+"multichild": 2,
+"newborn": 1,
+"newlywed": 2,
+"total": 7
+},
+"074.9026B": {
+"agency": 0,
+"elder": 0,
+"first": 0,
+"multichild": 0,
+"newborn": 0,
+"newlywed": 0,
 "total": 0
+},
+"084.4955B": {
+"agency": 1,
+"elder": 1,
+"first": 0,
+"multichild": 1,
+"newborn": 0,
+"newlywed": 1,
+"total": 4
+},
+"084.9350A": {
+"agency": 2,
+"elder": 1,
+"first": 1,
+"multichild": 3,
+"newborn": 3,
+"newlywed": 2,
+"total": 12
 }
 }
 },
@@ -3470,6 +4171,53 @@ null
 "upto": null
 }
 ]
+},
+"sp_table": {
+"084.8786A": {
+"agency": 33,
+"elder": 9,
+"first": 23,
+"multichild": 32,
+"newborn": 32,
+"newlywed": 49,
+"total": 178
+},
+"084.9323B": {
+"agency": 17,
+"elder": 5,
+"first": 12,
+"multichild": 17,
+"newborn": 17,
+"newlywed": 25,
+"total": 93
+},
+"102.7602B": {
+"agency": 0,
+"elder": 0,
+"first": 0,
+"multichild": 1,
+"newborn": 0,
+"newlywed": 0,
+"total": 1
+},
+"102.8880A": {
+"agency": 0,
+"elder": 6,
+"first": 0,
+"multichild": 23,
+"newborn": 0,
+"newlywed": 0,
+"total": 29
+},
+"116.8234": {
+"agency": 0,
+"elder": 3,
+"first": 0,
+"multichild": 10,
+"newborn": 0,
+"newlywed": 0,
+"total": 13
+}
 }
 },
 "sha": "e9f7945c19da34c0"
@@ -3677,6 +4425,53 @@ null
 "upto": null
 }
 ]
+},
+"sp_table": {
+"084.8786A": {
+"agency": 29,
+"elder": 8,
+"first": 20,
+"multichild": 29,
+"newborn": 29,
+"newlywed": 43,
+"total": 158
+},
+"084.9323B": {
+"agency": 17,
+"elder": 5,
+"first": 12,
+"multichild": 17,
+"newborn": 17,
+"newlywed": 25,
+"total": 93
+},
+"102.7602B": {
+"agency": 0,
+"elder": 1,
+"first": 0,
+"multichild": 2,
+"newborn": 0,
+"newlywed": 0,
+"total": 3
+},
+"102.8880A": {
+"agency": 0,
+"elder": 5,
+"first": 0,
+"multichild": 18,
+"newborn": 0,
+"newlywed": 0,
+"total": 23
+},
+"116.8234": {
+"agency": 0,
+"elder": 2,
+"first": 0,
+"multichild": 9,
+"newborn": 0,
+"newlywed": 0,
+"total": 11
+}
 }
 },
 "sha": "408813c853319a43"
@@ -3771,9 +4566,40 @@ null
 ]
 },
 "sp_table": {
-"084.9596": {
+"059.7153A": {
+"agency": 6,
+"elder": 2,
+"first": 4,
+"multichild": 6,
+"newborn": 7,
+"newlywed": 10,
+"total": 35
+},
+"059.9642B": {
+"agency": 5,
+"elder": 1,
+"first": 4,
+"multichild": 5,
+"newborn": 5,
+"newlywed": 8,
+"total": 28
+},
+"075.4603": {
+"agency": 0,
+"elder": 0,
+"first": 0,
 "multichild": 0,
 "newborn": 0,
+"newlywed": 1,
+"total": 1
+},
+"084.9596": {
+"agency": 0,
+"elder": 0,
+"first": 0,
+"multichild": 0,
+"newborn": 0,
+"newlywed": 0,
 "total": 0
 }
 }
@@ -3835,19 +4661,49 @@ null
 },
 "sp_table": {
 "074.9469": {
+"agency": 0,
+"elder": 0,
+"first": 0,
 "multichild": 0,
 "newborn": 0,
+"newlywed": 0,
 "total": 0
 },
 "075.9849": {
+"agency": 0,
+"elder": 0,
+"first": 0,
 "multichild": 0,
 "newborn": 0,
+"newlywed": 0,
 "total": 0
 },
-"084.9650B": {
-"multichild": 0,
+"084.8968C": {
+"agency": 1,
+"elder": 0,
+"first": 1,
+"multichild": 1,
 "newborn": 1,
-"total": 1
+"newlywed": 1,
+"total": 5
+},
+"084.9630A": {
+"agency": 2,
+"elder": 1,
+"first": 1,
+"multichild": 1,
+"newborn": 1,
+"newlywed": 2,
+"total": 8
+},
+"084.9650B": {
+"agency": 0,
+"elder": 0,
+"first": 0,
+"multichild": 1,
+"newborn": 1,
+"newlywed": 1,
+"total": 3
 }
 }
 },
@@ -4079,10 +4935,41 @@ null
 ]
 },
 "sp_table": {
+"068.4720A": {
+"agency": 8,
+"elder": 3,
+"first": 6,
+"multichild": 13,
+"newborn": 9,
+"newlywed": 9,
+"total": 48
+},
 "068.4720B": {
+"agency": 0,
+"elder": 0,
+"first": 0,
 "multichild": 0,
 "newborn": 0,
+"newlywed": 0,
 "total": 0
+},
+"084.9890B": {
+"agency": 20,
+"elder": 6,
+"first": 15,
+"multichild": 31,
+"newborn": 21,
+"newlywed": 21,
+"total": 114
+},
+"084.9937A": {
+"agency": 40,
+"elder": 12,
+"first": 28,
+"multichild": 61,
+"newborn": 40,
+"newlywed": 40,
+"total": 221
 }
 }
 },
@@ -4149,6 +5036,26 @@ null
 "upto": 60
 }
 ]
+},
+"sp_table": {
+"059.9986A": {
+"agency": 19,
+"elder": 5,
+"first": 31,
+"multichild": 18,
+"newborn": 18,
+"newlywed": 28,
+"total": 119
+},
+"059.9992B": {
+"agency": 16,
+"elder": 5,
+"first": 30,
+"multichild": 17,
+"newborn": 18,
+"newlywed": 26,
+"total": 112
+}
 }
 },
 "sha": "05e29472e8aa83e9"
@@ -4273,10 +5180,32 @@ null
 ]
 },
 "sp_table": {
+"059.9831": {
+"agency": 7,
+"elder": 2,
+"first": 5,
+"multichild": 7,
+"newborn": 7,
+"newlywed": 11,
+"total": 39
+},
 "074.9225A": {
+"agency": 0,
+"elder": 0,
+"first": 0,
 "multichild": 0,
 "newborn": 0,
+"newlywed": 0,
 "total": 0
+},
+"074.9823B": {
+"agency": 5,
+"elder": 1,
+"first": 3,
+"multichild": 5,
+"newborn": 5,
+"newlywed": 7,
+"total": 26
 }
 }
 },
@@ -4354,9 +5283,49 @@ null
 ]
 },
 "sp_table": {
+"078.8382": {
+"agency": 13,
+"elder": 4,
+"first": 9,
+"multichild": 13,
+"newborn": 13,
+"newlywed": 20,
+"total": 72
+},
+"084.9115A": {
+"agency": 20,
+"elder": 6,
+"first": 14,
+"multichild": 20,
+"newborn": 21,
+"newlywed": 31,
+"total": 112
+},
+"084.9519B": {
+"agency": 27,
+"elder": 8,
+"first": 19,
+"multichild": 28,
+"newborn": 28,
+"newlywed": 42,
+"total": 152
+},
+"119.6206": {
+"agency": 0,
+"elder": 2,
+"first": 0,
+"multichild": 8,
+"newborn": 0,
+"newlywed": 0,
+"total": 10
+},
 "182.9263": {
+"agency": 0,
+"elder": 0,
+"first": 0,
 "multichild": 0,
 "newborn": 0,
+"newlywed": 0,
 "total": 0
 }
 }
@@ -4428,9 +5397,22 @@ null
 },
 "sp_table": {
 "069.7032": {
+"agency": 1,
+"elder": 0,
+"first": 1,
 "multichild": 1,
-"newborn": 1,
-"total": 2
+"newborn": 2,
+"newlywed": 2,
+"total": 7
+},
+"084.9818": {
+"agency": 2,
+"elder": 1,
+"first": 2,
+"multichild": 2,
+"newborn": 2,
+"newlywed": 3,
+"total": 12
 }
 }
 },
@@ -4526,10 +5508,77 @@ null
 ]
 },
 "sp_table": {
+"084.6391C": {
+"agency": 4,
+"elder": 1,
+"first": 2,
+"multichild": 4,
+"newborn": 4,
+"newlywed": 6,
+"total": 21
+},
+"084.7459A": {
+"agency": 3,
+"elder": 1,
+"first": 2,
+"multichild": 3,
+"newborn": 3,
+"newlywed": 4,
+"total": 16
+},
+"084.8508B": {
+"agency": 8,
+"elder": 3,
+"first": 6,
+"multichild": 8,
+"newborn": 8,
+"newlywed": 12,
+"total": 45
+},
+"084.9663D": {
+"agency": 7,
+"elder": 2,
+"first": 4,
+"multichild": 7,
+"newborn": 7,
+"newlywed": 10,
+"total": 37
+},
 "084.9739E": {
+"agency": 1,
+"elder": 0,
+"first": 1,
 "multichild": 1,
 "newborn": 1,
-"total": 2
+"newlywed": 2,
+"total": 6
+},
+"094.9503A": {
+"agency": 0,
+"elder": 4,
+"first": 0,
+"multichild": 14,
+"newborn": 0,
+"newlywed": 0,
+"total": 18
+},
+"094.9610B": {
+"agency": 0,
+"elder": 0,
+"first": 0,
+"multichild": 1,
+"newborn": 0,
+"newlywed": 0,
+"total": 1
+},
+"099.6774A": {
+"agency": 0,
+"elder": 2,
+"first": 0,
+"multichild": 7,
+"newborn": 0,
+"newlywed": 0,
+"total": 9
 }
 }
 },
@@ -4767,9 +5816,76 @@ null
 ]
 },
 "sp_table": {
+"071.8178": {
+"agency": 5,
+"elder": 1,
+"first": 4,
+"multichild": 5,
+"newborn": 5,
+"newlywed": 8,
+"total": 28
+},
+"084.9140D": {
+"agency": 13,
+"elder": 4,
+"first": 9,
+"multichild": 13,
+"newborn": 13,
+"newlywed": 19,
+"total": 71
+},
+"084.9221C": {
+"agency": 14,
+"elder": 4,
+"first": 10,
+"multichild": 14,
+"newborn": 14,
+"newlywed": 21,
+"total": 77
+},
+"084.9592A": {
+"agency": 38,
+"elder": 11,
+"first": 26,
+"multichild": 38,
+"newborn": 38,
+"newlywed": 56,
+"total": 207
+},
+"084.9767B": {
+"agency": 14,
+"elder": 4,
+"first": 10,
+"multichild": 14,
+"newborn": 14,
+"newlywed": 21,
+"total": 77
+},
+"107.8263B": {
+"agency": 0,
+"elder": 2,
+"first": 0,
+"multichild": 5,
+"newborn": 0,
+"newlywed": 0,
+"total": 7
+},
+"107.9722A": {
+"agency": 0,
+"elder": 2,
+"first": 0,
+"multichild": 6,
+"newborn": 0,
+"newlywed": 0,
+"total": 8
+},
 "147.9931P": {
+"agency": 0,
+"elder": 0,
+"first": 0,
 "multichild": 0,
 "newborn": 0,
+"newlywed": 0,
 "total": 0
 }
 }
@@ -4850,9 +5966,58 @@ null
 ]
 },
 "sp_table": {
+"074.9845": {
+"agency": 7,
+"elder": 2,
+"first": 5,
+"multichild": 7,
+"newborn": 7,
+"newlywed": 10,
+"total": 38
+},
+"084.8542B": {
+"agency": 4,
+"elder": 1,
+"first": 3,
+"multichild": 4,
+"newborn": 4,
+"newlywed": 6,
+"total": 22
+},
+"084.8894C": {
+"agency": 3,
+"elder": 1,
+"first": 2,
+"multichild": 4,
+"newborn": 3,
+"newlywed": 6,
+"total": 19
+},
+"084.9947A": {
+"agency": 15,
+"elder": 4,
+"first": 10,
+"multichild": 14,
+"newborn": 15,
+"newlywed": 22,
+"total": 80
+},
+"123.7781": {
+"agency": 0,
+"elder": 1,
+"first": 0,
+"multichild": 4,
+"newborn": 0,
+"newlywed": 0,
+"total": 5
+},
 "146.8598P": {
+"agency": 0,
+"elder": 0,
+"first": 0,
 "multichild": 0,
 "newborn": 0,
+"newlywed": 0,
 "total": 0
 }
 }
@@ -4919,6 +6084,44 @@ null
 "upto": 85
 }
 ]
+},
+"sp_table": {
+"84.2551A": {
+"agency": 9,
+"elder": 3,
+"first": 6,
+"multichild": 9,
+"newborn": 9,
+"newlywed": 13,
+"total": 49
+},
+"84.3643D": {
+"agency": 10,
+"elder": 3,
+"first": 7,
+"multichild": 10,
+"newborn": 10,
+"newlywed": 14,
+"total": 54
+},
+"84.6092C": {
+"agency": 5,
+"elder": 2,
+"first": 4,
+"multichild": 5,
+"newborn": 5,
+"newlywed": 7,
+"total": 28
+},
+"84.8158B": {
+"agency": 10,
+"elder": 3,
+"first": 7,
+"multichild": 10,
+"newborn": 10,
+"newlywed": 14,
+"total": 54
+}
 }
 },
 "sha": "02796d5c30a7d5c0"
@@ -4982,9 +6185,22 @@ null
 },
 "sp_table": {
 "084.9700B": {
+"agency": 2,
+"elder": 1,
+"first": 1,
 "multichild": 2,
 "newborn": 2,
-"total": 4
+"newlywed": 4,
+"total": 12
+},
+"084.9800A": {
+"agency": 4,
+"elder": 1,
+"first": 3,
+"multichild": 4,
+"newborn": 4,
+"newlywed": 5,
+"total": 21
 }
 }
 },
@@ -7248,7 +8464,17 @@ null
 "since": null
 },
 "residence_duty": 0,
-"rewin_years": 0
+"rewin_years": 0,
+"sp_table": {
+"106.9500A": {
+"elder": 1,
+"total": 1
+},
+"124.0000": {
+"elder": 0,
+"total": 0
+}
+}
 },
 "sha": "b96fb0681cc34a00"
 },
@@ -7294,7 +8520,21 @@ null
 "since": null
 },
 "residence_duty": 0,
-"rewin_years": 0
+"rewin_years": 0,
+"sp_table": {
+"059.9800": {
+"first": 0,
+"total": 0
+},
+"084.9400A": {
+"first": 1,
+"total": 1
+},
+"124.0000": {
+"first": 0,
+"total": 0
+}
+}
 },
 "sha": "f733aa8181cad708"
 },
@@ -7627,7 +8867,18 @@ null
 "since": null
 },
 "residence_duty": 0,
-"rewin_years": 10
+"rewin_years": 10,
+"sp_table": {
+"084.9649D": {
+"agency": 0,
+"elder": 0,
+"first": 0,
+"multichild": 1,
+"newborn": 0,
+"newlywed": 0,
+"total": 1
+}
+}
 },
 "sha": "046c032968d9597a"
 }

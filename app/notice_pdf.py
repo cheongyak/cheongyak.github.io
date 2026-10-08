@@ -1121,7 +1121,8 @@ def parse_sp_table(text: str) -> Optional[dict]:
     h = re.search(r"특별공급 세대수(.{0,200}?)(20\d{8}) 01 ", t)
     if not h:
         return _sp_table_no_sum(t)
-    heads = [SP_NAMES[w] for w in re.findall("|".join(sorted(SP_NAMES, key=len, reverse=True)), h.group(1))]
+    # 머리글 낱말이 띄어 쓰인 공고문('기관 추천 다자녀 가구 신혼 부부 노부모 부양 생애 최초' — 2026930041)도 읽게 공백을 빼고 찾는다
+    heads = [SP_NAMES[w] for w in re.findall("|".join(sorted(SP_NAMES, key=len, reverse=True)), h.group(1).replace(" ", ""))]
     if not heads or len(set(heads)) != len(heads):
         return None
     out = {}
