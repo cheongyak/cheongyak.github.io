@@ -1,6 +1,8 @@
 """SH 임대 수집 1단계(app/sh_rental.py, 기능 sh_rental) — 목록·첨부 읽기는 실제로 받은 화면(evidence/qa/sh/, 2026-10-06 sh_probe)으로,
 접수 기간 읽기는 규칙 시험. 정답 데이터(공고문 원문 확인)는 tests/golden/sh_rental.json."""
 import json
+
+import pytest
 from pathlib import Path
 
 from app.sh_rental import apply_period, downlist, kind_of, pick_pdf, rows_from, SKIP, WANT
@@ -33,10 +35,25 @@ def test_kind_and_filter():
         assert (bool(WANT.search(t)) and not SKIP.search(t)) == ok, t
 
 
+@pytest.fixture(autouse=True)
+def _table_on(monkeypatch):
+    """표 일정 읽기(기능 sh_schedule_table)는 켠 상태로 시험 — 끈 상태는 test_schedule_table_off"""
+    import app.sh_rental as S
+    monkeypatch.setattr(S, "feature_on", lambda n: True)
+
+
+def test_schedule_table_off(monkeypatch):
+    import app.sh_rental as S
+    monkeypatch.setattr(S, "feature_on", lambda n: False)
+    assert S.apply_period("공고 ▶ 사전 주택공개 ▶ 인터넷 청약접수 ▶ 서류심사 26. 9. 23. (수) 26. 9. 29.(화)~ 9. 30.(수) 26. 10. 6.(화) ~10. 8.(목)", "2026-09-23") is None
+    assert S.apply_period("입주 신청서 접수 2026.10.02(금) ~ 2026.10.11(일)", "2026-10-07") is None
+
+
 def test_apply_period_rules():
     r = apply_period("■ 청약접수 : 2026. 10. 13.(월) ~ 10. 15.(수) 10:00~17:00", "2026-09-30")
     assert (r["apply_start"], r["apply_end"], r["rank1"]) == ("2026-10-13", "2026-10-15", False)
-    assert apply_period("공고 ▶ 사전 주택공개 ▶ 인터넷 청약접수 ▶ 서류심사 26. 9. 23. (수) 26. 9. 29.(화)~ 9. 30.(수) 26. 10. 6.(화) ~10. 8.(목)", "2026-09-23") is None   # 일정표: 어느 날짜가 접수인지 모름
+    r = apply_period("공고 ▶ 사전 주택공개 ▶ 인터넷 청약접수 ▶ 서류심사 26. 9. 23. (수) 26. 9. 29.(화)~ 9. 30.(수) 26. 10. 6.(화) ~10. 8.(목)", "2026-09-23")   # 일정표: 단계 차례 = 날짜 차례 (기능 sh_schedule_table)
+    assert (r["apply_start"], r["apply_end"], r["from_table"]) == ("2026-10-06", "2026-10-08", True)
     assert apply_period("<우편접수 신청서류> ■ 접수기간 : 2026. 10. 2.(금) ~ 10. 6.(화)", "2026-09-23") is None   # 우편접수 안내
     assert apply_period("청약신청 접수 1순위 '26.9.29.(화) ~26.10.2.(금) 2순위 '26.10.8.(목)", "2026-09-09")["rank1"] is True
     assert apply_period("인터넷 접수기간 2026.10.20 ~ 2026.10.22", "2026-10-01")["apply_end"] == "2026-10-22"
@@ -60,3 +77,19 @@ def test_golden_sh():
         else:
             assert got is None or got == g["apply"], (g["seq"], got)   # 읽지 않거나, 읽으면 맞아야 함 (틀린 날짜 금지)
         assert kind_of(g["title"]) == g["type"], g["seq"]
+
+
+def test_schedule_table_rules():
+    """표 일정 읽기 (기능 sh_schedule_table, 2026-10-08) — 확실할 때만"""
+    # 접수 단계가 첫째: 첫 날짜 묶음
+    r = apply_period("모집일정 입주신청기간 ⇨ 계약 대상자 발표 ⇨ 주택 열람 ⇨ 계약체결 26.09.28.(월) ~ 26.10.05.(월) 접수마감 26.10.06.(화) 개별 통보", "2026-09-28")
+    assert (r["apply_start"], r["apply_end"]) == ("2026-09-28", "2026-10-05")
+    # 우편 접수 단계는 접수로 보지 않음
+    assert apply_period("공고 ▶ 우편접수 ▶ 서류심사 발표 26. 9. 23. (수) 26. 10. 2.(금) ~ 10. 6.(화) 26. 10. 19.(월)", "2026-09-23") is None
+    # 날짜 묶음이 단계 차례만큼 없으면 안 읽음
+    assert apply_period("공고 ▶ 사전 주택공개 ▶ 인터넷 청약접수 ▶ 서류심사 26. 9. 23. (수) 추후 안내", "2026-09-23") is None
+    # 날짜 차례가 거꾸로면(표를 잘못 짝지음) 안 읽음
+    assert apply_period("공고 ▶ 주택공개 ▶ 청약접수 ▶ 발표 26. 10. 20. (화) 26. 9. 29.(화)~ 9. 30.(수) 26. 10. 6.(화) ~10. 8.(목)", "2026-09-23") is None
+    # 게시판에 늦게 올린 공고: 등록일에 아직 접수 중이면 인정, 이미 끝났으면 아님
+    assert apply_period("입주 신청서 접수 2026.10.02(금) ~ 2026.10.11(일)", "2026-10-07")["apply_end"] == "2026-10-11"
+    assert apply_period("입주 신청서 접수 2026.09.02(수) ~ 2026.09.11(금)", "2026-10-07") is None

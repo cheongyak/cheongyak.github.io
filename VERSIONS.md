@@ -24,6 +24,7 @@
 
 | 버전 | 날짜 | 바뀐 것 | 기능 스위치 | 되돌리기 브랜치 |
 |---|---|---|---|---|
+| v1.63.1 | 2026-10-08 | SH 임대 표 일정에서 접수 기간 읽기 · 늦게 올린 공고 · 공고문 글의 빈 문자 | sh_schedule_table(true) | backup/20261008-2149-shkinds |
 | v1.63.0 | 2026-10-08 | 계약금 비율을 공고문 금액 줄로 확인해 읽기 · 스위치 켬 · 독립 점검(pay_audit) 관문 | contract_from_notice(true) | backup/20261008-0110-payparse |
 | v1.62.1 | 2026-10-08 | 계약금 같은 금액 '부족' 오차 고침 · 계약금 비율 공고문 읽기(contract_from_notice, 꺼둔 채) | contract_from_notice(false) | backup/20261008-0000-contract |
 | v1.62.0 | 2026-10-07 | SH 사회주택 자격 판정(확실히 읽힌 기준만) | sh_social | backup/20261007-1606-social |

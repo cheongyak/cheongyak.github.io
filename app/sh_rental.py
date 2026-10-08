@@ -21,6 +21,7 @@ from typing import Optional
 from urllib.parse import urlencode
 
 from app.sh_terms import jeonse_schedule, parse_sh_terms
+from app.lh_rental import feature_on
 
 import httpx
 
@@ -103,8 +104,85 @@ def apply_period(text: str, posted: Optional[str]) -> Optional[dict]:
     두 날짜가 등록일 이후 120일 안이고 시작 ≤ 끝일 때만 (아니면 None — 화면 '공고문 확인')."""
     if not text:
         return None
-    t = re.sub(r"\s+", " ", text)
+    t = re.sub(r"\s+", " ", text.replace("\x00", " "))   # pypdf 가 낱말 사이에 \x00 을 넣는 공고문(310258) — 공백으로
     p0 = date.fromisoformat(posted) if posted else None
+    r = _plain_period(t, p0)
+    if r is None and feature_on("sh_schedule_table"):
+        r = _arrow_table_period(t, p0)
+    return r
+
+
+def _posted_ok(a: date, b: date, p0: Optional[date]) -> bool:
+    """접수 기간이 등록일과 맞는지: 시작이 등록일 3일 전 ~ 120일 뒤. 게시판에 늦게 올린 공고(310976 접수 10.2~10.11, 등록 10.7)는 등록일 30일 전 시작이라도 등록일에 아직 접수 중이면 인정"""
+    if not p0:
+        return True
+    if p0 - timedelta(days=3) <= a <= p0 + timedelta(days=120):
+        return True
+    return feature_on("sh_schedule_table") and p0 - timedelta(days=30) <= a and b >= p0
+
+
+_STAGE_SEP = r"[▶⇨➤→►]"
+_GROUP = re.compile(r"(" + _D + r"|(?:\d{1,2})\s?월\s?(?:\d{1,2})\s?일)(?:\s?\([^)]{1,3}\))?(?:\s?\d{1,2}:\d{2})?(\s?[~∼～]\s?(?:" + _D2 + r"|\d{1,2}\s?월\s?\d{1,2}\s?일)(?:\s?\([^)]{1,3}\))?(?:\s?\d{1,2}:\d{2})?)?")
+
+
+def _arrow_table_period(t: str, p0: Optional[date]) -> Optional[dict]:
+    """일정 표: '모집공고 ▶ 사전 주택공개 ▶ 인터넷 청약접수 ▶ …' 단계 이름 줄 뒤에 날짜가 같은 차례로 줄지어 나오는 표 (기능 sh_schedule_table, 2026-10-08 사용자 'Abc 순차로' B).
+    접수 단계(청약접수·신청접수·입주신청기간 — 우편·방문·서류제출 아님)의 차례 번호와 같은 차례의 날짜 묶음을 접수 기간으로 쓴다.
+    날짜 묶음 = 날짜 하나 또는 '날짜 ~ 날짜'. 그 앞 묶음들이 날짜 순서대로이고 단계 수 이상 묶음이 있을 때만 (아니면 None)."""
+    for m in re.finditer(r"((?:[^▶⇨➤→►]{1,30}" + _STAGE_SEP + r"){2,}[^▶⇨➤→►\d‘'’`]{1,30})", t):
+        stages = [x.strip() for x in re.split(_STAGE_SEP, m.group(1))]
+        idx = next((i for i, x in enumerate(stages) if re.search(r"청약\s?접수|신청\s?접수|신청\s?기간|접수\s?기간", x) and not re.search(r"우편|방문|서류\s?제출|등기", x)), None)
+        if idx is None:
+            continue
+        rest = t[m.end(): m.end() + 600]
+        groups, pos = [], 0
+        for g in _GROUP.finditer(rest):
+            if g.start() - pos > 40 and groups:   # 표 밖으로 나감
+                break
+            groups.append(g)
+            pos = g.end()
+            if len(groups) > idx:
+                break
+        if len(groups) <= idx:
+            continue
+        def first_date(g):
+            d = re.match(_D, g.group(1))
+            if d:
+                return date(_Y(d.group(1)), int(d.group(2)), int(d.group(3)))
+            mm = re.match(r"(\d{1,2})\s?월\s?(\d{1,2})", g.group(1))
+            return date(p0.year if p0 else date.today().year, int(mm.group(1)), int(mm.group(2)))
+        try:
+            starts = [first_date(g) for g in groups[: idx + 1]]
+        except (ValueError, AttributeError):
+            continue
+        if any(b < a for a, b in zip(starts, starts[1:])):   # 차례가 날짜 순서가 아니면 표를 잘못 짝지은 것
+            continue
+        g = groups[idx]
+        a = starts[-1]
+        b = a
+        if g.group(5) is not None or g.group(0).count("~") or re.search(r"[~∼～]", g.group(0)):
+            tail = re.split(r"[~∼～]", g.group(0), 1)[1]
+            r2 = re.search(_D, tail)
+            if r2:
+                b = date(_Y(r2.group(1)), int(r2.group(2)), int(r2.group(3)))
+            else:
+                r3 = re.search(r"(\d{1,2})\s?[.\-월]\s?(\d{1,2})", tail)
+                if not r3:
+                    continue
+                try:
+                    b = date(a.year, int(r3.group(1)), int(r3.group(2)))
+                except ValueError:
+                    continue
+                if b < a:
+                    b = date(a.year + 1, b.month, b.day)
+        if a > b or (b - a).days > 60 or not _posted_ok(a, b, p0):
+            continue
+        q = (stages[idx] + " … " + g.group(0)).strip()
+        return {"apply_start": a.isoformat(), "apply_end": b.isoformat(), "rank1": False, "quote": q[-160:], "from_table": True}
+    return None
+
+
+def _plain_period(t: str, p0: Optional[date]) -> Optional[dict]:
     # 접수를 뜻하는 분명한 낱말만 (맨 '접수'·'신청기간'은 일정표·동시접수·서류 접수 안내와 섞여 틀린 날짜를 잡았음 — 2026-10-06 310258·310672·310673 원문 대조)
     for m in re.finditer(r"(?:청약\s?신청\s?접수|청약\s?접수|신청\s?접수|서류\s?접수|신청서\s?접수|인터넷\s?접수|접수\s?기간)", t):
         if re.search(r"우편\s?접수|방문\s?접수", t[max(0, m.start() - 300): m.start()]) or re.search(r"(?:동시|우편|방문|이메일|추가)\s?$", t[max(0, m.start() - 6): m.start()]):
@@ -138,7 +216,7 @@ def apply_period(text: str, posted: Optional[str]) -> Optional[dict]:
                     continue
             if a > b or (b - a).days > 60:
                 continue
-            if p0 and not (p0 - timedelta(days=3) <= a <= p0 + timedelta(days=120)):
+            if not _posted_ok(a, b, p0):
                 continue
             q = (t[m.start(): m.end()] + seg[: tl.end() + r2.end()]).strip()
             return {"apply_start": a.isoformat(), "apply_end": b.isoformat(), "rank1": bool(re.search(r"1\s?순위", q)), "quote": q[-160:]}
