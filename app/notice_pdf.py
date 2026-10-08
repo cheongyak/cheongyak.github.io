@@ -1129,6 +1129,15 @@ def parse_sp_table(text: str) -> Optional[dict]:
     for m in re.finditer(r"\b0\d (\d{2,3}\.\d{4}[A-Z]{0,2}) \S+ ((?:(?!0\d \d{2,3}\.\d{4})[\d.,]+ |- ){7,14})", t[h.start():h.start() + 3000]):
         nums = m.group(2).split()
         vals = nums[6:]
+        if len(vals) == len(heads) + 1 and not re.search(r"계|일반공급", h.group(1).split("소계")[-1]):
+            # '계'·'일반공급' 칸이 없는 표 (2026930039 탕정 '총공급 세대수 특별공급 세대수 … 소계 생애최초 · 59A … 2 2') — 모두 특별공급일 때만(총공급 = 특공 합)
+            cnt = lambda v: 0 if v == "-" else int(v) if v.isdigit() else None
+            total, per = cnt(vals[0]), [cnt(v) for v in vals[1:]]
+            if None in per or total is None or sum(per) != total:
+                continue
+            row = dict(zip(heads, per)); row["total"] = total
+            out[m.group(1)] = row
+            continue
         if len(vals) < len(heads) + 2:
             continue
         cnt = lambda v: 0 if v == "-" else int(v) if v.isdigit() else None
