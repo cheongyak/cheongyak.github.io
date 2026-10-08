@@ -1,14 +1,12 @@
 {
  "date": "2026-10-08",
- "notices": 112,
- "read": 103,
+ "notices": 113,
+ "read": 106,
  "bad": 0,
  "flags": {
   "misread": [],
   "dominant": [],
-  "missed": [
-   "2026820009"
-  ]
+  "missed": []
  },
  "items": [
   {
@@ -449,8 +447,8 @@
   },
   {
    "id": "2026000409",
-   "read": null,
-   "mid": null,
+   "read": 10,
+   "mid": 60,
    "rows": {
     "10": 20,
     "5": 20
@@ -701,12 +699,12 @@
   },
   {
    "id": "2026820009",
-   "read": null,
-   "mid": null,
+   "read": 10,
+   "mid": 20,
    "rows": {
     "10": 6
    },
-   "flag": "missed"
+   "flag": null
   },
   {
    "id": "2026820010",
@@ -1022,6 +1020,15 @@
    "mid": 0,
    "rows": {
     "10": 1
+   },
+   "flag": null
+  },
+  {
+   "id": "2026930041",
+   "read": 20,
+   "mid": 0,
+   "rows": {
+    "20": 1
    },
    "flag": null
   }

@@ -285,6 +285,12 @@ def pay_terms(text: str) -> tuple[dict | None, dict | None]:
         uw = flat[u0: u0 + 16] if u0 >= 0 else ""
         unit = 10000 if "만원" in uw or re.search(r"\(만원\)", pre[-150:]) else 1000 if "천원" in uw or re.search(r"\(천원\)", pre[-150:]) else 1   # 열 머리 '주택가격(천원)'(2026000041)
         whole, fixed, Ts = _row_check(seg, c, unit, mi)
+        if whole + len(fixed) == 0 and unit == 1 and re.search(r"주택가격", pre[-60:]):
+            # 단위 표시가 멀리 있는 LH 표(2026820009 신혼희망타운 '주택형 타입 층별 타입별 주택가격 계약금10% 중도금20% 잔금')는 천원 단위 —
+            # 본 표 열 이름 '주택가격'이 바로 앞에 있고, 금액이 모두 천원 단위 집값 크기(5만~200만)이며 3줄 이상 맞을 때만 (원 단위 옵션 표를 천 배로 읽지 않게)
+            w2, f2, T2 = _row_check(seg, c, 1000, mi)
+            if w2 + len(f2) >= 3 and all(50_000_000 <= x <= 2_000_000_000 for x in T2):
+                whole, fixed, Ts = w2, f2, T2
         if whole + len(fixed) == 0:
             continue   # 표 줄 금액이 이 비율과 맞지 않음 → 이 머리는 믿지 않는다
         found.append((m, (c, mi, 100 - c - mi), whole, fixed, Ts, bool(re.search(r"옵션|품목|확장", pre[-40:]))))
@@ -299,6 +305,20 @@ def pay_terms(text: str) -> tuple[dict | None, dict | None]:
             first = (m, key)
         if key == first[1]:
             fixed_all += fixed; whole_all += whole
+    if len(ok_ratios) == 2 and re.search(r"사전청약당첨자대상", flat) and re.search(r"사전청약당첨자외", flat):
+        # 사전청약 당첨자 표와 그 밖의 당첨자 표가 붙어 있어(2026000409) 제목만으로 짝을 모를 때: 공고문에 '사전청약당첨자 외 당첨자 대상'이라고 적힌 표(추가선택품목 납부 안내 등)의
+        # 납부 일정(계약금·중도금 %)과 같은 비율의 본 표를 그 밖의 당첨자 표로 본다 — 새로 청약하는 사람은 '그 밖의 당첨자'
+        gen = set()
+        for g in heads:
+            pre_g = flat[max(0, g.start() - 120): g.start()]
+            if re.search(r"사전청약당첨자외", pre_g[-90:]):
+                gen.add((int(g.group(1)), sum(int(x) for x in re.findall(r"(\d{1,2})%", g.group(2) or ""))))
+        pick = [k for k in ok_ratios if (k[0], k[1]) in gen]
+        if len(pick) == 1:
+            ok_ratios = {pick[0]: ok_ratios[pick[0]]}
+            first = next((h[0], h[1]) for h in keep if h[1] == pick[0])
+            fixed_all = [x for h in keep if h[1] == pick[0] for x in h[3]]
+            whole_all = sum(h[2] for h in keep if h[1] == pick[0])
     if len(ok_ratios) != 1:
         return None, None
     m, (c, mi, b) = first

@@ -26,7 +26,7 @@ def test_golden_pay_ratio():
         want = f.get("contract_split")
         assert (cs and {k: cs.get(k) for k in want}) == want if want else cs is None, (nid, cs)
         n += 1
-    assert n >= 16
+    assert n >= 17
 
 
 def test_option_tables_are_not_supply_price():
@@ -64,3 +64,14 @@ def test_header_alone_is_not_enough():
     assert "pay_ratio" not in parse_notice(t)
     t2 = "■ 공급금액 및 납부일정 (단위:원) 공급금액 계약금(10%) 중도금(60%) 잔금(30%) 84A 520,000,000 52,000,000 52,000,000 52,000,000"
     assert parse_notice(t2)["pay_ratio"] == {"contract": 0.1, "mid": 0.6, "balance": 0.3}
+
+
+def test_thousand_unit_fallback_needs_main_table():
+    """단위 표시가 멀리 있는 천원 표(2026820009)는 '주택가격' 열 바로 뒤 머리이고 3줄 이상 맞을 때만 천원으로 읽는다 — 원 단위 옵션 표를 천 배로 읽지 않게"""
+    rows = " ".join(f"{t:,} {t // 10:,} {t // 10 * 2:,} {t - t // 10 * 3:,}" for t in (384460, 358160, 381030))
+    t = "분양가격 및 납부조건 주택형 타입 층별 주택가격 계약금10% 중도금20% 잔금 " + rows
+    assert parse_notice(t)["pay_ratio"] == {"contract": 0.1, "mid": 0.2, "balance": 0.7}
+    t2 = "■ 발코니확장 공급금액 품목 계약금10% 중도금20% 잔금 " + rows   # 같은 금액이라도 본 표 열 이름이 없으면 천원으로 보지 않음
+    assert "pay_ratio" not in parse_notice(t2)
+    t3 = "분양가격 주택형 주택가격 계약금10% 중도금20% 잔금 384,460 38,446 76,892 268,122"   # 1줄만 맞으면 안 읽음
+    assert "pay_ratio" not in parse_notice(t3)
