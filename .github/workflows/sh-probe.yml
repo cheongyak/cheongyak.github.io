@@ -7,6 +7,7 @@ on:
     paths:
       - "tools/qa/sh_probe.py"
       - "tools/qa/sh_links.py"
+      - "tools/qa/sh_archive.py"
       - ".github/workflows/sh-probe.yml"
 permissions:
   contents: write
@@ -16,7 +17,7 @@ concurrency:
 jobs:
   probe:
     runs-on: ubuntu-latest
-    timeout-minutes: 10
+    timeout-minutes: 30
     env:
       TZ: Asia/Seoul
     steps:
@@ -24,12 +25,13 @@ jobs:
       - uses: actions/setup-python@v5
         with:
           python-version: "3.12"
-      - run: pip install -q httpx pypdf
+      - run: pip install -q -r requirements.txt
       - run: python -m tools.qa.sh_probe
       - run: python -m tools.qa.sh_links
+      - run: python -m tools.qa.sh_archive   # 지난 행복주택·청년안심주택·국민·영구임대 모집공고 원문 (판정 규칙용 정답 준비)
       - name: 저장
         run: |
           git config user.name "cheongyak-bot"
           git config user.email "actions@users.noreply.github.com"
-          git add evidence/qa/sh evidence/qa/sh-probe.txt evidence/qa/sh-links.txt
+          git add evidence/qa/sh evidence/qa/sh-probe.txt evidence/qa/sh-links.txt evidence/qa/sh-archive
           git diff --cached --quiet || (git commit -m "SH 임대 원천 점검 $(date +%Y-%m-%d)" && (git push || (git pull --rebase -X theirs origin main && git push)))
