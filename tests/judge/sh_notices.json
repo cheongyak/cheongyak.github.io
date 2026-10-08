@@ -476,5 +476,94 @@
    "quote": "입주 신청 자격 '1. 현재 서울시에 거주 중인 무주택자 2. 만 19세 이상 - 만 39세 이하', 서울 비거주 직장·대학 재학이면 입주 후 전입 조건, 소득표 4,317천원·6,582천원·9,152천원(2025 기준 120% 아님, 세대 소득 문장 없음 → 판정 안 함), 청년 총자산 2억 5,400만원, 자동차 3,803만원, Q&A '본인 명의로 가진 주택이 아닐 경우 무주택자로 간주'",
    "ref_date": null
   }
+ },
+ {
+  "id": "SH-309337",
+  "org": "SH",
+  "name": "2026년 2차 행복주택 입주자 모집공고 (2026. 8. 28. 공고)",
+  "type": "행복주택",
+  "posted": "2026-08-28",
+  "judge_type": true,
+  "terms": {
+   "kind": "행복주택",
+   "ref_date": "2026-08-28",
+   "income_basis": "도시근로자 월평균소득",
+   "relaxed": false,
+   "homeless_relaxed": false,
+   "groups": [
+    {
+     "key": "대학생",
+     "homeless": "self",
+     "income_pct": {
+      "1": 120,
+      "2": 110,
+      "3+": 100
+     },
+     "asset_manwon": 10800,
+     "car_manwon": 0,
+     "age_min": null,
+     "age_max": null,
+     "name": "대학생"
+    },
+    {
+     "key": "청년",
+     "homeless": "self",
+     "income_pct": {
+      "1": 120,
+      "2": 110,
+      "3+": 100
+     },
+     "asset_manwon": 25100,
+     "car_manwon": 4542,
+     "age_min": 19,
+     "age_max": 39,
+     "account_by_movein": true,
+     "newcomer": true,
+     "name": "청년"
+    },
+    {
+     "key": "신혼부부·한부모",
+     "homeless": "household",
+     "income_pct": {
+      "1": null,
+      "2": 110,
+      "3+": 100
+     },
+     "asset_manwon": 34500,
+     "car_manwon": 4542,
+     "age_min": null,
+     "age_max": null,
+     "account_by_movein": true,
+     "dual_add": 20,
+     "name": "신혼부부·한부모"
+    },
+    {
+     "key": "고령자",
+     "homeless": "household",
+     "income_pct": {
+      "1": 120,
+      "2": 110,
+      "3+": 100
+     },
+     "asset_manwon": 34500,
+     "car_manwon": 4542,
+     "age_min": 65,
+     "age_max": null,
+     "name": "고령자"
+    },
+    {
+     "key": "주거급여수급자",
+     "homeless": "household",
+     "income_pct": null,
+     "asset_manwon": null,
+     "car_manwon": null,
+     "age_min": null,
+     "age_max": null,
+     "name": "주거급여수급자"
+    }
+   ],
+   "unknown_groups": [],
+   "prewed_ok": true
+  }
  }
 ]

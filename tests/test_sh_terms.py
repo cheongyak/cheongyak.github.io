@@ -35,7 +35,7 @@ def test_golden_sh_terms():
 
 def test_unsupported_kinds_have_no_terms():
     for g in GOLD:
-        if g["type"] not in ("신혼·신생아 매입임대", "청년 매입임대", "장기전세", "사회주택"):
+        if g["type"] not in ("신혼·신생아 매입임대", "청년 매입임대", "장기전세", "사회주택", "행복주택"):
             assert parse_sh_terms(_text(g["seq"]), g["type"]) is None, g["seq"]
 
 
@@ -103,3 +103,24 @@ def test_social_wrong_income_table_blanks_income():
     assert all(g["income_pct"] is None for g in r["groups"])
     r = parse_social(_text("310037").replace("세대 구성원 전원의 세전소득", "본인의 세전소득"))
     assert all(g["income_pct"] is None for g in r["groups"])
+
+
+def test_happy_income_table_mismatch_blanks_income():
+    """SH 행복주택(기능 sh_happy): 소득표 100% 줄이 도시근로자 2025 × % 와 다르면(지난해 표) 소득 기준을 비운다 — 2025년 공고(298109)가 그 예"""
+    from app.sh_terms import parse_happy
+    t = _text("309337").replace("4,576,036", "4,576,999")
+    r = parse_happy(t)
+    assert r["issues"] and all(g["income_pct"] is None for g in r["groups"])
+    old = (ROOT / "evidence/qa/sh-archive/298109.txt").read_text(encoding="utf-8", errors="replace")
+    r = parse_happy(old)
+    assert all(g["income_pct"] is None for g in r["groups"]) and any("소득표" in i for i in r["issues"])
+
+
+def test_happy_newcomer_and_dual_need_sentence():
+    """사회초년생·맞벌이 가산은 공고문 문장이 있을 때만"""
+    from app.sh_terms import parse_happy
+    t = _text("309337")
+    r = parse_happy(t.replace("나이에 관계없이", "나이 기준에 맞는"))
+    assert not [g for g in r["groups"] if g["key"] == "청년"][0].get("newcomer")
+    r = parse_happy(t.replace("맞벌이 신혼부부의 경우 120퍼센트 이하", "").replace("맞벌이 신혼부부의 경우 120", ""))
+    assert [g for g in r["groups"] if g["key"] == "신혼부부·한부모"][0].get("dual_add") is None

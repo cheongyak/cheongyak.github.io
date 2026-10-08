@@ -11,7 +11,7 @@ ROOT = Path(__file__).resolve().parents[1]
 
 
 def test_rows_from_real_list():
-    rows = rows_from((ROOT / "evidence/qa/sh/list-app.html").read_text(encoding="utf-8"))
+    rows = rows_from((ROOT / "tests/fixtures/sh-list-app-20261006.html").read_text(encoding="utf-8"))   # 2026-10-06 받은 목록 고정본 (evidence/qa/sh/ 는 원천 점검 때마다 바뀜)
     assert len(rows) == 10
     r = next(x for x in rows if x["seq"] == "310650")
     assert r["date"] == "2026-09-30" and r["title"].startswith("2026년 하반기 신혼·신생아 매입임대주택Ⅰ 입주자 모집공고")

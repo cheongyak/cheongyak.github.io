@@ -858,7 +858,9 @@ def main() -> None:
         if k == "청년":
             if g.get("age_min") is None and g.get("age_max") is None: st.append("check")   # 나이 기준을 못 읽음
             elif age is None: st.append("check")
-            elif (g.get("age_min") is not None and age < g["age_min"]) or (g.get("age_max") is not None and age > g["age_max"]): na = True
+            elif (g.get("age_min") is not None and age < g["age_min"]) or (g.get("age_max") is not None and age > g["age_max"]):
+                if g.get("newcomer"): st.append("check")   # 행복주택 사회초년생(소득 있는 업무 종사 총 5년 이내 등)은 나이 무관 — SH 2026년 2차 행복주택 4-3 ①-㉯
+                else: na = True
             elif g.get("age_min") is None or g.get("age_max") is None: st.append("check")   # 한쪽 기준만 읽음
             if g.get("married_ok"): pass
             elif p.get("married") is True: na = True
@@ -1455,6 +1457,38 @@ def main() -> None:
                    ("총자산 25,400만", {"realEstate": 25400 - 3000}), ("총자산 25,401만", {"realEstate": 25400 - 3000 + 1}),
                    ("자동차 3,803만", {"carValue": 3803}), ("자동차 3,804만", {"carValue": 3804}), ("만 40세", {"birth": "1986-09-20"})]:
         lh_add(SC3, ["청년"], nm, dict(sh_s, **ch), bS3)
+
+    # 행복주택 (기능 sh_happy, 2026-10-08): SH 2026년 2차 행복주택(309337, 공고일 2026-08-28) — LH 행복주택과 같은 법령 기준.
+    # 청년 만 19~39세(1986.8.29.~2007.8.28. 출생, 사회초년생은 나이 무관)·미혼·본인 무주택·해당 세대(세대원이면 본인) 소득 100%(1인 120·2인 110)·총자산 25,100만·자동차 4,542만 /
+    # (예비)신혼부부·한부모 무주택세대구성원·혼인 7년 이내 또는 6세 이하 자녀·소득 100%(2인 110), 맞벌이 120%(2인 130)·34,500만·4,542만 / 고령자 만 65세 이상(1961.8.28. 이전 출생)·34,500만·4,542만 /
+    # 대학생 본인+부모 소득·본인 총자산 10,800만·자동차 소유 불가
+    HP = "SH-309337"
+    bH = "SH 2026년 2차 행복주택(주택관리번호 2026-000428) '4. 신청자격 및 입주자 선정 방법' 4-1~4-6(공고일 2026-08-28)"
+    sh_h = dict(sh_s, birth="1996-05-01")
+    for nm, ch in [("청년 1인 120% 이하", {"income": yr(URB[1] * 1.2), "hhIncomeYear": yr(URB[1] * 1.2)}), ("청년 1인 120% 초과", {"income": yr(URB[1] * 1.2) + 1, "hhIncomeYear": yr(URB[1] * 1.2) + 1}),
+                   ("만 39세(1986-08-29 출생)", {"birth": "1986-08-29"}), ("만 40세(1986-08-28 출생 · 사회초년생이면 가능)", {"birth": "1986-08-28"}),
+                   ("만 18세(2007-08-29 출생 · 사회초년생이면 가능)", {"birth": "2007-08-29"}),
+                   ("부모님 세대원 청년 본인 소득 1인 120% 이하", {"household": "parents", "parentsOwn": True, "hhHomes": "1", "hhSize": 3, "income": yr(URB[1] * 1.2), "hhIncomeYear": 9000, "youthAsset": 3000}),
+                   ("부모님 세대원 청년 본인 소득 1인 120% 초과", {"household": "parents", "parentsOwn": False, "hhSize": 3, "income": yr(URB[1] * 1.2) + 1, "youthAsset": 3000}),
+                   ("부모님 세대원 청년 본인 총자산 25,100만", {"household": "parents", "parentsOwn": False, "hhSize": 3, "youthAsset": 25100}),
+                   ("부모님 세대원 청년 본인 총자산 25,101만", {"household": "parents", "parentsOwn": False, "hhSize": 3, "youthAsset": 25101}),
+                   ("청년 총자산 25,100만", {"realEstate": 25100 - 3000}), ("청년 총자산 25,101만", {"realEstate": 25100 - 3000 + 1}),
+                   ("자동차 4,542만", {"carValue": 4542}), ("자동차 4,543만", {"carValue": 4543}),
+                   ("청약통장 없음(입주 전 가입)", {"acctType": "none"}),
+                   ("신혼 2인 외벌이 110% 이하", {"married": True, "marriedOn": "2024-01-01", "hhSize": 2, "spouseIncome": 0, "spouseOwn": False, "hhIncomeYear": yr(URB[2] * 1.1)}),
+                   ("신혼 2인 외벌이 110% 초과", {"married": True, "marriedOn": "2024-01-01", "hhSize": 2, "spouseIncome": 0, "spouseOwn": False, "hhIncomeYear": yr(URB[2] * 1.1) + 1}),
+                   ("신혼 2인 맞벌이 130% 이하", {"married": True, "marriedOn": "2024-01-01", "hhSize": 2, "income": 3000, "spouseIncome": 3000, "spouseOwn": False, "hhIncomeYear": yr(URB[2] * 1.3)}),
+                   ("신혼 2인 맞벌이 130% 초과", {"married": True, "marriedOn": "2024-01-01", "hhSize": 2, "income": 3000, "spouseIncome": 3000, "spouseOwn": False, "hhIncomeYear": yr(URB[2] * 1.3) + 1}),
+                   ("신혼 혼인 2019-08-28(7년 경계)", {"married": True, "marriedOn": "2019-08-28", "hhSize": 2, "spouseIncome": 0, "spouseOwn": False, "hhIncomeYear": 5000, "kidsMinor": 0}),
+                   ("신혼 혼인 2019-08-27(7년 초과·자녀 없음)", {"married": True, "marriedOn": "2019-08-27", "hhSize": 2, "spouseIncome": 0, "spouseOwn": False, "hhIncomeYear": 5000, "kidsMinor": 0}),
+                   ("신혼 총자산 34,500만", {"married": True, "marriedOn": "2024-01-01", "hhSize": 2, "spouseIncome": 0, "spouseOwn": False, "hhIncomeYear": 5000, "realEstate": 34500 - 3000}),
+                   ("신혼 총자산 34,501만", {"married": True, "marriedOn": "2024-01-01", "hhSize": 2, "spouseIncome": 0, "spouseOwn": False, "hhIncomeYear": 5000, "realEstate": 34500 - 3000 + 1}),
+                   ("예비신혼부부 예", {"lhPreWed": True, "hhSize": 2, "hhIncomeYear": 5000}),
+                   ("고령자 만 65세(1961-08-28 출생)", {"birth": "1961-08-28"}), ("고령자 만 64세(1961-08-29 출생)", {"birth": "1961-08-29"}),
+                   ("대학생 예·자동차 없음", {"lhStudent": True, "lhStudentIncome": True, "youthAsset": 5000, "carValue": 0}),
+                   ("대학생 예·자동차 있음", {"lhStudent": True, "lhStudentIncome": True, "youthAsset": 5000, "carValue": 500}),
+                   ("대학생 본인 총자산 10,801만", {"lhStudent": True, "lhStudentIncome": True, "youthAsset": 10801, "carValue": 0})]:
+        lh_add(HP, ["청년", "신혼부부·한부모", "고령자", "대학생"], nm, dict(sh_h, **ch), bH)
 
     # 공고문을 잘못 읽은 경우 모의(tests/judge/lh_synthetic.json — 정답 공고를 복사해 기준 칸을 비우거나 '미적용'으로 바꾼 것. 실제 공고 아님)
     import copy

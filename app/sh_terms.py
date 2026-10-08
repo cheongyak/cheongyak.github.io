@@ -341,6 +341,63 @@ def parse_social(text: str, posted: str | None = None) -> dict | None:
             "local": loc, "groups": groups, "unknown_groups": unknown, "issues": issues}
 
 
+def _happy_flat(text: str) -> str:
+    """SH 행복주택 공고문 글을 LH 행복주택 읽기 규칙(app/lh_terms._happy_groups)이 읽는 모양으로 맞춘다:
+    절 제목 '4-2 대학생 계층' → '4-2. 대학생 계층', '4-4 (예비)신혼부부 · 한부모가족 계층' → '4-4. 신혼부부·한부모가족 계층', '25,100만 원' → '25,100만원', 가운뎃점 '・ㆍ' → '·'"""
+    from app.lh_terms import flat
+    f = flat(text.replace("\x00", " ")).replace("・", "·").replace("ㆍ", "·")
+    f = re.sub(r"(\d)\s?만\s원", r"\1만원", f)
+    f = re.sub(r"\b(\d)-(\d)\s\(예비\)\s?신혼부부\s?·\s?한부모가족", r"\1-\2. 신혼부부·한부모가족", f)
+    return re.sub(r"\b(\d)-(\d)\s(?=[가-힣])", r"\1-\2. ", f)
+
+
+def parse_happy(text: str) -> dict | None:
+    """SH 행복주택 (기능 sh_happy, 2026-10-08 사용자 'Abc 순차로' A). 행복주택은 LH 와 같은 법령(공공주택 특별법 시행규칙 별표 5의2)이라
+    계층 기준은 LH 행복주택 읽기 규칙을 그대로 쓰고(대학생·청년·신혼부부·한부모·고령자·주거급여수급자), SH 공고문에서 따로 확인하는 것:
+     - 소득표 100퍼센트 줄(1인 +20%p·2인 +10%p 적힌 금액)이 도시근로자 2025 × % 와 같아야 소득 기준을 씀(다르면 소득 비움 → 화면 '공고문 확인')
+     - 맞벌이 '(맞벌이 신혼부부의 경우 120퍼센트 이하)' → 신혼부부·한부모 dual_add
+     - 청년 계층 '사회초년생(나이에 관계없이 … 소득이 있는 업무에 종사한 기간이 총 5년 이내)' → 청년 newcomer (나이 밖이어도 '해당 없음'이 아니라 확인)
+    판정 규칙은 LH 행복주택과 같게(sh 표시 없음 — 혼인 7년·6세 이하 자녀는 공고일 기준 7년)."""
+    from app.lh_terms import _happy_groups, unknown_happy_groups
+    f = _happy_flat(text)
+    if not re.search(r"행복주택", f):
+        return None
+    groups, quotes = _happy_groups(f)
+    if not groups:
+        return None
+    issues: list[str] = []
+    m = re.search(r"월평균소득의\s?100퍼센트\s?공통[^\d]{0,60}?([\d,]{9}) ([\d,]{9}) ([\d,]{9}) ([\d,]{9}) ([\d,]{9})", f)
+    if not m:
+        issues.append("소득표(100퍼센트 줄) 못 읽음")
+    else:
+        for n, v, add in zip((1, 2, 3, 4, 5), m.groups(), (20, 10, 0, 0, 0)):
+            want = round(URBAN_2025[n] * (100 + add) / 100)
+            if abs(_num(v) - want) > 1:
+                issues.append(f"소득표 {n}인 {v} ≠ 도시근로자 2025 × {100 + add}% {want:,}")
+    if issues:
+        for g in groups:
+            if isinstance(g.get("income_pct"), dict):
+                g["income_pct"] = None
+    for g in groups:
+        if g["key"] == "신혼부부·한부모" and isinstance(g.get("income_pct"), dict) and g.get("dual_add") is None:
+            md = re.search(r"맞벌이\s?신혼부부의\s?경우\s?(\d{3})\s?퍼센트\s?이하", f)
+            if md and g["income_pct"].get("3+"):
+                g["dual_add"] = int(md.group(1)) - g["income_pct"]["3+"]
+        if g["key"] == "청년" and re.search(r"사회초년생\)?\s?나이에\s?관계없이", f):
+            g["newcomer"] = True
+        for k in ("asset_manwon", "car_manwon", "income_pct", "homeless"):
+            if g["key"] != "주거급여수급자" and g.get(k) is None:
+                issues.append(f"{g['key']} {k} 못 읽음")
+    md = re.search(r"입주자\s?모집\s?공고일\s?\(\s?(20\d\d)\.\s?(\d{1,2})\.\s?(\d{1,2})\.?\s?\)", f)   # 나이·혼인 7년의 기준일 (게시판 등록일과 다를 수 있음 — 정정 공고)
+    if not md:
+        issues.append("모집공고일 못 읽음")
+    out = {"kind": "행복주택", "ref_date": _date(*md.groups()) if md else None, "income_basis": "도시근로자 월평균소득", "relaxed": False, "homeless_relaxed": False, "groups": groups,
+           "unknown_groups": unknown_happy_groups(f), "issues": issues}
+    if any(g["key"] == "신혼부부·한부모" for g in groups):
+        out["prewed_ok"] = bool(re.search(r"예비\s?신혼부부", f))
+    return out
+
+
 def parse_sh_terms(text: str, kind: str) -> dict | None:
     if kind == "신혼·신생아 매입임대":
         return parse_newlywed(text)
@@ -350,4 +407,6 @@ def parse_sh_terms(text: str, kind: str) -> dict | None:
         return parse_jeonse(text)
     if kind == "사회주택":
         return parse_social(text)
+    if kind == "행복주택":
+        return parse_happy(text)
     return None

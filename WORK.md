@@ -4,6 +4,19 @@
 2026-09-29 12:55 이전 항목은 규칙을 만들기 전 작업을 커밋 기록으로 정리한 것이라 백업 브랜치가 없어요.
 그 시점으로 되돌릴 때는 해당 커밋 번호로 `git revert` 를 써요.
 
+## 2026-10-08 21:49 · SH 행복주택 자격 판정 (v1.64.0)
+- 요청: "Abc 순차로 진행해줘" — A(SH 청년안심주택·행복주택 판정) 중 행복주택
+- 준비: 지금 SH 목록에 행복주택 공고가 없어 tools/qa/sh_archive.py 로 지난 모집공고 원문을 모음(행복주택 6 · 청년안심주택 6 · 국민임대 · 영구임대, evidence/qa/sh-archive/). 다음 행복주택은 보통 12월(2025년 3차 12-31, 2026년 1차 05-28·2차 08-28)
+- 변경: app/sh_terms.parse_happy — SH 행복주택은 LH 와 같은 법령 기준이라 LH 행복주택 읽기 규칙을 그대로 쓰고 SH 모양만 맞춤(절 제목 '4-2 대학생 계층'·'4-4 (예비)신혼부부 · 한부모가족'·'25,100만 원'). SH 에서 따로 확인: 소득표 100% 줄 = 도시근로자 2025 × 120·110·100·100·100%(다르면 소득 비움 — 2025년 공고 4건은 지난해 표라 비워짐), 맞벌이 120%(2인 130%) → dual_add 20, 청년 사회초년생 → newcomer, 모집공고일 → ref_date
+  docs/index.html rentalGroup — 청년 나이 밖이어도 g.newcomer 면 '해당 없음' 대신 확인(사회초년생은 나이 무관). 화면 스위치 sh_happy. app/sh_rental 은 이미 '행복주택' 종류를 제목으로 가려 두었고 terms 가 생기면 판정 대상이 됨
+- 확인: 정답 tests/golden/sh_rental.json 309337(2026년 2차, 4-1~4-6 원문 직접 읽음), 시험 test_happy_income_table_mismatch_blanks_income·test_happy_newcomer_and_dual_need_sentence, 판정 사례 810건 일치(새 28건: 청년 1인 120% 경계·만 39/40세·만 18세·부모님 세대원 본인 소득·자산 25,100 경계·자동차 4,542 경계·통장 없음·신혼 2인 110%/맞벌이 130% 경계·혼인 7년 경계·자산 34,500 경계·예비·고령자 65세 경계·대학생 자동차·자산 10,800 경계), 기존 사례 기대값 바뀐 것 0, 변이 2개(사회초년생 무시·ok 로 봄) 잡음 77/77 중 73 잡음·못 잡음 0, 전체 QA 통과(pytest 228, lh_qa·cross_rule·e2e·consistency·monotonic·sh_screen·regress), 화면: 행복주택 공고를 임시로 넣어 390px 밝은·어두운(만 30세 청년 충족 줄, 만 42세 '사회초년생이면 가능' 확인, 가로 넘침 없음)
+- 함께 고침: tests/test_sh_rental.py 목록 시험이 원천 점검 때마다 바뀌는 evidence/qa/sh/list-app.html 을 읽어 깨짐 → 10-06 받은 목록 고정본 tests/fixtures/sh-list-app-20261006.html
+- 남은 것: LH 행복주택도 사회초년생 문장이 있으면 같은 처리(지금은 LH 파서가 newcomer 를 안 붙임 — 만 40세 이상은 '해당 계층 없음')
+- 파일: app/sh_terms.py, docs/index.html, docs/config.json, evidence/sh/309337.txt(원문), tests/golden/sh_rental.json, tests/test_sh_terms.py, tests/test_sh_rental.py, tests/fixtures/sh-list-app-20261006.html, tests/judge/cases.json, tests/judge/sh_notices.json, tools/make_judge_cases.py, tools/qa/code_mutation.cjs, docs/changelog.json, VERSIONS.md, FEATURES.md, WORK.md
+- 백업: backup/20261008-2149-shkinds
+- 기능: sh_happy
+- 버전: v1.64.0
+
 ## 2026-10-08 21:49 · SH 표 일정에서 접수 기간 읽기 (v1.63.1)
 - 요청: "Abc 순차로 진행해줘" — B(SH 표 형식 일정 접수 기간 읽기)
 - 원인(못 읽던 4건): ① 310673·310672(·309717) 일정이 '단계 ▶ 단계 ▶ …' 줄 뒤에 날짜가 차례로 나오는 표 — 어느 날짜가 접수인지 몰라 안 읽게 해 둠 ② 310258 pypdf 글에 낱말마다 빈 문자(\x00)가 끼어 '접수기간 ◻ 2026.10.1~10.2' 를 못 찾음 ③ 310976 게시판 등록일(10.7)이 접수 시작(10.2)보다 늦어 '등록일 3일 전보다 이른 시작'으로 버림

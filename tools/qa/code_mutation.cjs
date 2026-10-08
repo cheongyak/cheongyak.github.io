@@ -75,6 +75,8 @@ const M = [   // [이름, 찾을 글, 바꿀 글]
   ['SH: 혼인신고일 하한 하루 밀림', "const in7 = p.marriedOn && ref && wf ? p.marriedOn >= wf : null", "const in7 = p.marriedOn && ref && wf ? p.marriedOn > wf : null"],
   ['SH: 출산가구 표 금액 무시', "else if (tbl && tbl[String(bo)] != null) {", "else if (false) {"],
   ['SH: 지원대상 한부모 검증 면제 무시', "N.type === '공공임대' || g.exempt === true;", "N.type === '공공임대';"],
+  ['SH 행복주택: 사회초년생 나이 무관 무시', "      if (g.newcomer) add('check',", "      if (false) add('check',"],
+  ['SH 행복주택: 사회초년생을 나이 안으로 봄', "      if (g.newcomer) add('check', `만", "      if (g.newcomer) add('ok', `만"],
   ['SH: 소득에 출산가구 가산 적용', "else if (kidMaybe && (!T.birth_bonus || (T.income_birth && !dual)) && m <=", "else if (kidMaybe && m <="],
   ['SH 장기전세: 출산가구 소득 가산 무시', "(!T.birth_bonus || (T.income_birth && !dual))", "!T.birth_bonus"],
   ['SH 장기전세: 의정부시 거주 예외 무시', "else if (L0.sido && p.homeSido !== L0.sido && L0.extra", "else if (false && L0.extra"],
