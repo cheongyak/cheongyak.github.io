@@ -2225,7 +2225,7 @@ function cpExplain(id, profile){
 window.cpExplain = cpExplain;
 function itemSrc(L, k){
   if (k === '세대주') return fromNotice(L, '세대주 요건') ? noticeSrc(L) + nq(L, '세대주 요건') : src(null, ['이 서비스 추정(규제지역 기준) · 공고문에서 확인하세요', null]);
-  if (k.startsWith('거주지')) return noticeSrc(L);
+  if (k.startsWith('거주지')) return noticeSrc(L) + (fromNotice(L, '거주 지역 요건') ? nq(L, '거주 지역 요건') : '');   /* 거주 요건 근거 문장 (2026-10-09) */
   if (k.includes('(공공 일반공급)') || k.includes('(신혼희망타운)') || k.includes('(공공임대 일반공급)')) return noticeSrc(L);   /* 공공임대 소득·총자산도 공고문 표 (2026-10-05) */
   if (k.endsWith('전용')) return noticeSrc(L);
   if (k.startsWith('재당첨 제한 (내 이력)')) return src('user');

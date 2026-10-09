@@ -27,6 +27,10 @@ def _has_value(k, v, q):
     if k == "balance":
         y, m, d = v.split("-")
         return y in f and str(int(d)) in f
+    if k == "residence":   # 해당지역 이름(또는 전국·지역 목록)이 문장에 있어야 (2026-10-09)
+        a = v.get("area") or {}
+        names = [a.get("sigungu"), a.get("name"), a.get("sido")] + list(v.get("others") or [])
+        return any(n and n.replace(" ", "") in f for n in names) or "전국" in f or "국내" in f
     if k == "duty_from":
         return v.replace("-", ".")[:7] in f
     return True
@@ -42,7 +46,7 @@ def test_every_read_value_has_a_quote_containing_it():
             if k in out:
                 assert k in qs, f"{p.name} {k}={out[k]!r} 근거 문장 없음"
                 assert _has_value(k, out[k], qs[k]), f"{p.name} {k}={out[k]!r} 문장에 값이 없음: {qs[k]}"
-                assert len(qs[k]) <= 175
+                assert len(qs[k]) <= 175, (p.name, k, len(qs[k]))
                 n += 1
         assert set(qs) <= set(out), f"{p.name} 읽지 않은 값의 문장이 남음"
     assert n > 200

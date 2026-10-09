@@ -572,9 +572,12 @@ def parse_notice(text: str) -> dict:
     if q:
         out["quotes"] = q
 
-    res = parse_residence(text)
+    res = parse_residence(text, quote=True)
     if res:
+        rq = res.pop("_quote", None)
         out["residence"] = res
+        if rq:
+            out.setdefault("quotes", {})["residence"] = rq
     mc = parse_mc_quota(text)
     if mc:
         out["mc_quota"] = mc
@@ -803,7 +806,7 @@ def _ymd(y, m, d) -> str:
     return _date(y + 2000 if y < 100 else y, m, d)
 
 
-def parse_residence(text: str) -> Optional[dict]:
+def _parse_residence(text: str) -> Optional[dict]:
     """공고문의 거주 지역 요건. 못 읽으면 None (추측하지 않음).
     {'area': {'name','sido','sigungu'}, 'months': 해당지역 거주기간(0=기간 없음), 'since': 'YYYY-MM-DD'(이날 이전부터 계속 거주),
      'gyeonggi': {'months','since'} (대규모 택지의 경기도 몫), 'others': 기타지역 시·도 목록(['전국'] 가능), 'quota': {'해당':%,'경기':%,'기타':%}}"""
@@ -834,7 +837,7 @@ def parse_residence(text: str) -> Optional[dict]:
                 out["gyeonggi"] = {"months": int(g.group(1)), "since": _ymd(*g.groups()[1:])}
                 rest = rest[g.end():]
         out["others"] = _regions(rest)
-        return out
+        return _rq(out, t, m)
     # 2) LH 지역우선 공급기준 표
     m = re.search(r"① ?해당 ?주택건설지역 ?\(([^)]+)\) ?(\d{1,3}) ?% ?․? ?(.{0,200})", t)
     if m:
@@ -857,7 +860,7 @@ def parse_residence(text: str) -> Optional[dict]:
             out["others"] = _regions(txt)
         else:
             out["others"] = []
-        return out
+        return _rq(out, t, m)
     # 2-2) SH 공고의 <표2> 지역우선 공급기준 (2026000041 마곡지구 17단지 토지임대부, 2026-10-03 원문 대조)
     #   "지역우선 공급기준 기준일 우선공급비율 지역구분 해당지역(서울) 기타지역(수도권) … 입주자모집공고일 (2026.02.27.) 100% 0%
     #    ● 입주자모집공고일 현재 서울특별시 2년 이상 계속 거주자 ● 입주자모집공고일 현재 서울특별시 2년 미만 거주자 ● 입주자모집공고일 현재 경기도, 인천광역시 거주자 ※"
@@ -867,8 +870,8 @@ def parse_residence(text: str) -> Optional[dict]:
         y, mo, d = (int(x) for x in m.groups()[:3])
         n = int(m.group(7))
         rest = m.group(8).split("※")[0]
-        return {"area": _area(m.group(6)), "months": n * 12, "since": _date(y - n, mo, d),
-                "quota": {"해당": int(m.group(4)), "기타": int(m.group(5))}, "others": _regions(rest)}
+        return _rq({"area": _area(m.group(6)), "months": n * 12, "since": _date(y - n, mo, d),
+                "quota": {"해당": int(m.group(4)), "기타": int(m.group(5))}, "others": _regions(rest)}, t, m)
     # 3) 무순위·재공급·취소분: 대상자 문장 (기간 요건 없음). 지역이 여럿이면 우선순위 없이 모두 신청 가능(equal)
     #    예: "입주자모집공고일 현재 부산광역시 및 울산광역시, 경상남도에 거주하는 무주택세대구성원",
     #        "모집공고일 현재 과천시에 거주 주민등록표등본 기준 하는 무주택세대구성원", "현재 ( ) 충청북도에 거주하는 무주택"
@@ -878,14 +881,28 @@ def parse_residence(text: str) -> Optional[dict]:
         if not more and (o := re.fullmatch(r"([가-힣]+(?:시|군)) 또는 ([가-힣]+(?:특별자치도|도|광역시|특별시|특별자치시))", first)):
             first, more = o.group(1), o.group(2)
         if "전국" in first or first == "국내":   # '공고일 현재 국내에 거주하는 무주택세대구성원' (2025910266 청계 노르웨이숲 무순위)
-            return {"area": None, "months": 0, "since": None, "others": ["전국"], "equal": True}
+            return _rq({"area": None, "months": 0, "since": None, "others": ["전국"], "equal": True}, t, m)
         regs = _regions(first + " " + more)
         single = _area(first)
         if not more and len(regs) <= 1 and (single.get("sido") or single.get("sigungu")):
-            return {"area": single, "months": 0, "since": None, "others": [], "equal": True}
+            return _rq({"area": single, "months": 0, "since": None, "others": [], "equal": True}, t, m)
         if regs:
-            return {"area": _area(first) if more else None, "months": 0, "since": None, "others": regs, "equal": not more}
+            return _rq({"area": _area(first) if more else None, "months": 0, "since": None, "others": regs, "equal": not more}, t, m)
     return None
+
+
+def _rq(out: dict, t: str, m) -> dict:
+    """거주 요건을 읽은 원문 자리 (기능 notice_quotes — 2026-10-09 '최종 판정에서 거꾸로 원문 위치를 찾을 수 있게')"""
+    s = max(0, m.start() - 10)
+    out["_quote"] = "…" + t[s:min(len(t), m.end() + 20, s + 165)].strip() + "…"
+    return out
+
+
+def parse_residence(text: str, quote: bool = False) -> Optional[dict]:
+    r = _parse_residence(text)
+    if r and not quote:
+        r.pop("_quote", None)
+    return r
 
 
 # ---- 다자녀 특별공급 지역별 배정 (기능: mc_quota) ----
