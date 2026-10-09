@@ -4,7 +4,7 @@
 
 ## 방법
 - 대상: 그날 화면에 있던 공고 **60건 전부** (docs/listings.json 의 주택관리번호, 공고문 글 evidence/notices/*.txt 60/60 확보).
-  민영 일반분양 33 · 공공분양(LH) 5 · 신혼희망타운 2 · 분양전환공공임대 1 · 무순위 13 · 불법행위 재공급 11 (조합원 취소분 5 포함, 정정·변경공고 6).
+  민영 일반분양 27(조합원 취소분 5 포함) · 공공분양(LH) 5 · 신혼희망타운 2 · 분양전환공공임대 1 · 무순위 14 · 불법행위 재공급 11 (정정·변경공고 6).
 - 검토자 10명(별도 에이전트, 6건씩)이 **공고문 글만** 보고 14개 항목을 적음 — 앱 코드·데이터·테스트 열람 금지 (brief.md).
   항목마다 값·상태(stated / not_stated / unclear / conflicting)·원문 인용.
 - 대조: `python -m tools.qa.blind.compare_live evidence/audit/2026-10-09-blind` (화면 데이터 ↔ 검토자 값). 결과: summary-before.txt, compare-before.json
