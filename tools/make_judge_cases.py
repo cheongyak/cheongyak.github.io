@@ -643,6 +643,29 @@ def main() -> None:
         p = dict(r_base, **kidvars[kv], hhIncomeYear=3000, income=3000, realEstate=re_v, cash=cash)
         add(id=f"rental-{i:02d}", fn="item", item="총자산 (공공임대 일반공급)", listing=RL, profile=p, expect={"s": exp},
             basis="2026000307 <표2> 총자산 362,000천원 이하 · <표3> '23.3.28 이후 출생 자녀 1명 397,000천원"); i += 1
+    # 공공분양식 기준의 분양전환공공임대 (기능 rental_pub_table, 2026-10-09): 익산 부송에코르 10년 공공임대 2026000402(공고일 2026-10-08)
+    # 원문 (표3) 일반공급 추첨공급(신청 가능 상한) 금액을 이 파일에 따로 옮겨 적는다: 1인 120% 4,576,036 · 2인 110% 6,452,897 / 맞벌이 200% 11,732,540 ·
+    # 3인 100% 8,168,429 / 맞벌이 16,336,858 · 4인 8,802,202 / 17,604,404 — <표2> 부동산(건물+토지) 215,500천원 · 자동차 45,420천원 (총자산형 아님)
+    PL4 = "2026000402-059.9288A"
+    P_ELIG = {1: (4576036, None), 2: (6452897, 11732540), 3: (8168429, 16336858), 4: (8802202, 17604404)}
+    p_base = dict(r_base, homeSido="전북", homeSigun="익산시")
+    for n, (single, dual_amt) in P_ELIG.items():
+        for dual, lim in ((False, single), (True, dual_amt)):
+            if lim is None:
+                continue
+            le = lim * 12 // 10000
+            for y, exp in ((le, "ok"), (le + 1, "fail")):
+                q = dict(p_base, **shape[n], hhIncomeYear=y, income=(y // 2 if dual else y), spouseIncome=(y - y // 2 if dual else 0))
+                assert (y * 10000 / 12 <= lim) == (exp == "ok")
+                add(id=f"rental-{i:02d}", fn="pubgen", listing=PL4, profile=q, expect={"소득": exp},
+                    basis=f"2026000402 (표3) 일반공급 추첨공급 {n}인{' 맞벌이' if dual else ''} 상한 월 {lim:,}원 (1·2인은 공공분양 '3인 이하' 금액과 다름)"); i += 1
+    q = dict(p_base, **kidvars["신생아1"], hhIncomeYear=8168429 * 12 // 10000 + 1, income=8168429 * 12 // 10000 + 1)
+    add(id=f"rental-{i:02d}", fn="pubgen", listing=PL4, profile=q, expect={"소득": "warn"},
+        basis="2026000402 3인 100% 초과 · 2023.3.28 이후 출생 자녀 → 출산가구 소득기준 완화(+10%p, 공고문 <표5>)라 불가로 단정하지 않음"); i += 1
+    for re_v, car_v, exp in [(21550, 0, "ok"), (21551, 0, "fail"), (0, 4542, "ok"), (0, 4543, "fail")]:
+        q = dict(p_base, **shape[1], hhIncomeYear=3000, income=3000, realEstate=re_v, carValue=car_v)
+        add(id=f"rental-{i:02d}", fn="item", item="자산 (공공임대 일반공급)", listing=PL4, profile=q, expect={"s": exp},
+            basis="2026000402 <표2> 부동산(건물+토지) 215,500천원 · 자동차 45,420천원 이하 (자녀 없음 — 완화 없음)"); i += 1
     # 공공임대 특별공급 (기능 rental_special): 원문 <표4> 유형별 단계·퍼센트와 <표5> 가구원수별 퍼센트 금액을 이 파일에 따로 옮겨 적는다 (화면·파서 값을 쓰지 않음)
     for t, kv, n, dual in [("newlywed", "옛자녀", 3, False), ("newlywed", "옛자녀", 3, True), ("newlywed", "2인", 2, False), ("newlywed", "2인", 2, True),
                            ("newborn", "신생아1", 3, False), ("first", "옛자녀", 3, False), ("elder", "옛자녀", 3, False), ("multichild", "새2명옛", 4, False)]:

@@ -605,6 +605,9 @@ def parse_pub_limits(text: str) -> Optional[dict]:
     re_ = re.search(r"부동산\s*\(건물\s*\+\s*토지\)\s*([\d,]+)천원 이하", t)
     car = re.search(r"자동차\s*([\d,]+)천원 이하", t)
     if not (cap and re_ and car):
+        pt = _parse_pub_table(t, re_, car)
+        if pt:
+            return pt
         return _parse_rental_limits(t)
     out = {"cap": [int(cap.group(1)), int(cap.group(2))],
            "real_estate": int(re_.group(1).replace(",", "")) // 10,   # 천원 → 만원
@@ -613,6 +616,53 @@ def parse_pub_limits(text: str) -> Optional[dict]:
         out["priority"] = [int(pri.group(1)), int(pri.group(2))]
     le60 = cap.group(3) or re.search(r"전용면적 60㎡ 이하 일반공급|일반공급\s*\(60㎡ 이하\)", t)
     out["area_max"] = 60 if le60 else None
+    return out
+
+
+def _parse_pub_table(t: str, re_, car) -> Optional[dict]:
+    """공공분양식 기준을 쓰는 분양전환공공임대 (기능 rental_pub_table, 2026-10-09 익산 부송에코르 10년 공공임대 2026000402).
+    신청자격 요약표 대신 '(표3) 전년도 도시근로자 가구원수별 가구당 월평균소득 기준' 표에 일반공급 단계별 가구원수 금액이 있고(1~8인),
+    자산은 '부동산(건물+토지) 215,500천원 이하 · 자동차 45,420천원 이하'(총자산형이 아님).
+      우선공급 (1순위자) (30%) … 100% 1인~8인 … 140% (본인 및 배우자가 모두 소득이 있는 경우) 2인~8인  → priority
+      추첨공급 (20%) … 100% 1인~8인 … 200% (본인 및 배우자가 모두 소득이 있는 경우) 2인~8인            → eligible (신청 가능 상한)
+    금액이 도시근로자 2025 × % (1인 +20%p, 2인 외벌이 +10%p — 공고문 문장)와 1원 단위로 같을 때만 받는다(아니면 None — 화면은 판정하지 않음)."""
+    from app.lh_terms import URBAN_2025 as U
+    if not (re_ and car):
+        return None
+    i = t.find("(표3) 전년도 도시근로자 가구원수별 가구당 월평균소득 기준")
+    if i < 0:
+        return None
+    seg = t[i: i + 2500]
+    seg = seg[: seg.find("다자녀")] if "다자녀" in seg else seg
+    N8, N7 = r"((?:[\d,]{9,10} ){8})", r"((?:[\d,]{9,10} ){7})"
+    def tier(label):
+        m = re.search(label + r" \(\d{1,2}%\) 도시근로자 가구원수별 가구당 월평균소득액의 (\d{2,3})% " + N8 +
+                      r"도시근로자 가구원수별 가구당 월평균소득액의 (\d{2,3})% \(본인 및 배우자가 모두 소득이 있는 경우\) " + N7, seg + " ")
+        if not m:
+            return None
+        one = [int(x.replace(",", "")) for x in m.group(2).split()]
+        two = [int(x.replace(",", "")) for x in m.group(4).split()]
+        return int(m.group(1)), one, int(m.group(3)), two
+    pri, elig = tier(r"우선공급 \(1순위자\)"), tier(r"추첨공급")
+    if not elig:
+        return None
+    def check(tr, dual2):
+        pct, one, dpct, two = tr
+        want1 = [round(U[n] * (pct + (20 if n == 1 else 10 if n == 2 else 0)) / 100) for n in range(1, 9)]
+        want2 = [round(U[n] * (dual2 if n == 2 else dpct) / 100) for n in range(2, 9)]
+        return all(abs(a - b) <= 1 for a, b in zip(one, want1)) and all(abs(a - b) <= 1 for a, b in zip(two, want2))
+    if not check(elig, elig[2]):
+        return None
+    # 2인 맞벌이 우선공급은 150% (공고문 '가구원 수가 2명인 경우에는 110%(본인 및 배우자가 모두 소득이 있는 경우에는 150%)')
+    if pri and not check(pri, 150):
+        pri = None
+    amt = lambda tr: {str(n): [tr[1][n - 1], (tr[3][n - 2] if n >= 2 else None)] for n in range(1, 9)}
+    out = {"kind": "pub_table", "eligible": {"base": [elig[0], elig[2]], "one": elig[0] + 20, "two": [elig[0] + 10, elig[2]]},
+           "amounts": {"elig": amt(elig)}, "real_estate": int(re_.group(1).replace(",", "")) // 10, "car": int(car.group(1).replace(",", "")) // 10,
+           "area_max": 60 if re.search(r"전용면적 60㎡ 이하 일반공급|일반공급\s*\(60㎡ 이하\)|60㎡ 이하만 적용", t) else None}
+    if pri:
+        out["priority"] = {"base": [pri[0], pri[2]], "one": pri[0] + 20, "two": [pri[0] + 10, 150]}
+        out["amounts"]["pri"] = amt(pri)
     return out
 
 

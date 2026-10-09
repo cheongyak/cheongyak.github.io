@@ -4,6 +4,16 @@
 2026-09-29 12:55 이전 항목은 규칙을 만들기 전 작업을 커밋 기록으로 정리한 것이라 백업 브랜치가 없어요.
 그 시점으로 되돌릴 때는 해당 커밋 번호로 `git revert` 를 써요.
 
+## 2026-10-09 11:41 · 익산 부송에코르 10년 공공임대 '판정하지 않아요' → 판정 (v1.66.0)
+- 요청: (상세 화면 사진: '확인 필요 · 이 공고는 판정하지 않아요 — 공공임대 공고예요. 임차인 자격 기준(소득·자산 표)을 모집공고문에서 읽지 못해…') "이건 왜 판정안하고잇니?"
+- 원인: 2026000402 은 10년 분양전환공공임대지만 자격 기준이 공공분양(뉴홈)식 — 일반공급 3단계(신생아 우선 100%/140% · 1순위 우선 100%/140%(2인 150%) · 추첨 100%/200%, 1인 +20%p·2인 +10%p 금액표)와 자산 부동산 215,500천원·자동차 45,420천원. 화면은 공공임대를 총자산형(kind total, 2026000307)으로 읽었을 때만 판정하고, 파서는 이 표 모양(요약표·'1순위자 … 100%[' 문장 없음)을 못 읽어 pub_limits 없음 → judgeScope none
+- 변경: app/notice_pdf._parse_pub_table(pub_limits kind 'pub_table': eligible·priority·amounts(1~8인 외벌이·맞벌이)·real_estate·car, 금액이 도시근로자 2025 × % 와 1원 단위로 같을 때만), docs/index.html pubTableItems(소득 = 표 금액, totalGeneralItems 와 같은 방식 / 자산 = 공공분양 부동산·자동차 / 출산가구 완화 가능하면 불가 대신 확인) · judgeScope partial · 스위치가 꺼지면 예전처럼 확인(공공분양 경로로 빠지면 pl.cap 이 없어 멈추는 것 막음), 불가 이유 문장에 '(공공임대 일반공급)' 줄 추가(없어서 '재당첨 제한 기간이에요'로 나왔음 — 총자산형 2026000307 도 같은 문제). PARSER_VERSION 33
+- 확인: 정답 tests/golden/notices.json 2026000402 pub_limits·residence(원문 (표3)·<표2>·거주 문장 직접 읽음), 판정 사례 859건 일치(새 19건 — 1~4인 외벌이·맞벌이 상한 경계, 출산 자녀 있으면 확인, 부동산 21,550/21,551·자동차 4,542/4,543 경계 — 금액은 원문에서 따로 옮겨 적음), 기존 사례 바뀐 것 0, 변이 3개 추가(85개 모두 잡음), 전체 QA(pytest 241·LH QA·교차 규칙·E2E·판정 일치·단조성·SH 화면·regress 변화 0), 화면 390px(1인·익산 거주·연 5,000만 → 신청 가능, 충족 8, 특별공급 확인 5), 스냅샷 기준 갱신(고정 공고에 2026000402 추가)
+- 파일: app/notice_pdf.py, app/pipeline.py, docs/index.html, docs/config.json, tests/golden/notices.json, tests/judge/cases.json, tests/judge/listings.json, tests/qa/parse_snapshot.json, tests/qa/snapshots.json, evidence/qa/shots/*, tools/engine_lock.json, tools/make_judge_cases.py, tools/qa/code_mutation.cjs, docs/changelog.json, VERSIONS.md, FEATURES.md, WORK.md
+- 백업: backup/20261009-1141-pubtable
+- 기능: rental_pub_table
+- 버전: v1.66.0
+
 ## 2026-10-09 10:44 · 빨간 베타 안내('공고문과 다른 값 발견') 원인 — 대조 도구 오탐 (v1.65.4)
 - 요청: (사이트 첫 화면 사진) "이거 자꾸 왜뜨는거야." — 베타 상자 '최근 자동 검증에서 공고문과 다른 값이 발견돼 확인 중이에요'
 - 원인: verify-status ok false — [검증·공고문 불일치] 익산 부송에코르 10년 공공임대(2026000402, 10-08 새 공고) '앱 215,500천원이 공고문에 없음'. 원문(근거 자료 모으기로 evidence/notices/2026000402.txt 받음)에는 '부동산 (건물+토지) 215,500천원 이하'(<표2>)와 출산가구 완화 표 '237,050 · 258,600 · 215,500천원'이 있음 → 앱 기준은 맞고, notice_facts 가 줄바꿈된 문장을 못 찾고 표는 첫 칸(237,050)만 읽은 대조 도구 오탐(CLAUDE.md 4항 6: 도구가 틀렸으면 도구를 고치고 그 원문으로 시험 추가)
