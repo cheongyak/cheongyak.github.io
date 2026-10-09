@@ -1187,6 +1187,135 @@
 },
 "sha": "b405e070a4f149c7"
 },
+"2026000267": {
+"parse": {
+"account_months": 6,
+"complex": {
+"buildings": 14,
+"households": 1534,
+"quote": ": 아파트 지하 2층, 지상 28층 14개동 총 1,534세대 중 임대분양 154세대를 제외 한 일반분양 1,380세대 [특별공급 716세대(기관추천 128세대, 다자녀가구 138세대, 신혼부부 192세대, 노부모"
+},
+"contract_split": {
+"first_won": 5000000,
+"rest_within": null,
+"rows": 25
+},
+"need_head": false,
+"pay_ratio": {
+"balance": 0.35,
+"contract": 0.05,
+"mid": 0.6
+},
+"price_cap": false,
+"quotes": {
+"account_months": "…1순위 : 입주자저축에 가입하여 가입기간이 6개월이 경과하고 지역별·면적별 예치금액 이상 납입한 분 ※ 2순위 : 입주자저축에…",
+"need_head": "…현재 아산시에 거주하거나 충청남도, 대전광역시, 세종특별자치시에 거주하는 무주택세대구성원 - 과거 주택을 소유하였더라도 입주자모집공고일 현재…",
+"pay_ratio": "…공급 세대수 공급금액 계약금(5%) 중도금(60%) 잔금(35%) 대지비 건축비 부가세 계 1차 2차…",
+"price_cap": "…민간택지에서 공급하는 분양가상한제 미적용 민영주택으로, 당첨자로 선정되더라도 「주택공급에 관한 규칙」…",
+"resale": "…거주자 비규제지역 재당첨제한 전매제한 거주의무기간 분양가상한제 택지유형 없음 없음 없음 미적용 민간택지 구분 입주자모집공고일 특별공급 접수일 일반공급 1순위…",
+"residence_duty": "(1쪽 단지 주요정보 표) 전매제한 거주의무기간 분양가상한제 택지유형 없음 없음 없음 미적용 민간택지",
+"rewin_years": "…관한 규칙」 제54조에 따른 재당첨 제한을 적용 받지 않으며, 기존 주택 당첨으로 인해 재당첨 제한 기간 내에 있는 분 및 그 세대에…"
+},
+"resale": {
+"base": null,
+"forbidden": false,
+"months": 0,
+"none": true,
+"passed": false,
+"registration": false,
+"until_reg": false
+},
+"residence": {
+"area": {
+"name": "충청남도 아산시",
+"sido": "충남",
+"sigungu": "아산시"
+},
+"months": 0,
+"others": [
+"대전",
+"세종",
+"충남"
+],
+"since": null
+},
+"residence_duty": 0,
+"rewin_years": 0,
+"score_ratio": {
+"rows": [
+{
+"lottery": 60,
+"over": 60,
+"score": 40,
+"upto": 85
+},
+{
+"lottery": 100,
+"over": 85,
+"score": 0,
+"upto": null
+}
+]
+},
+"sp_table": {
+"084.7493A": {
+"agency": 56,
+"elder": 17,
+"first": 39,
+"multichild": 57,
+"newborn": 56,
+"newlywed": 84,
+"total": 309
+},
+"084.8936C": {
+"agency": 24,
+"elder": 7,
+"first": 17,
+"multichild": 24,
+"newborn": 24,
+"newlywed": 36,
+"total": 132
+},
+"084.9394B": {
+"agency": 24,
+"elder": 7,
+"first": 17,
+"multichild": 24,
+"newborn": 24,
+"newlywed": 37,
+"total": 133
+},
+"084.9855D": {
+"agency": 24,
+"elder": 7,
+"first": 16,
+"multichild": 23,
+"newborn": 24,
+"newlywed": 35,
+"total": 129
+},
+"103.9213B": {
+"agency": 0,
+"elder": 1,
+"first": 0,
+"multichild": 5,
+"newborn": 0,
+"newlywed": 0,
+"total": 6
+},
+"103.9572A": {
+"agency": 0,
+"elder": 2,
+"first": 0,
+"multichild": 5,
+"newborn": 0,
+"newlywed": 0,
+"total": 7
+}
+}
+},
+"sha": "4a13d3d436ebd43f"
+},
 "2026000272": {
 "parse": {
 "account_months": 6,
@@ -3361,6 +3490,38 @@ null
 }
 },
 "sha": "f5e988f528744a60"
+},
+"2026000402": {
+"parse": {
+"account_months": 6,
+"complex": {
+"buildings": 4,
+"households": 300,
+"quote": "․공급대상 및 공급가격 등 1. 공급규모 ■ 전북특별자치도 익산시 부송동 1421 (익산 부송4지구 A블록) - 10년 분양전환공공임대주택 1~20층 4개동 전용면적 60㎡이하 총 300세대 [특별공급 240세대,"
+},
+"deposit_count": 6,
+"price_cap": true,
+"quotes": {
+"account_months": "…1순위 입주자저축에 가입하여 6개월이 경과된 분으로서 매월 약정납입일에 월 납입금을 6회 이상 납입한 분 2순위…",
+"deposit_count": "…1순위 입주자저축에 가입하여 6개월이 경과된 분으로서 매월 약정납입일에 월 납입금을 6회 이상 납입한 분 2순위…",
+"price_cap": "…과거 재당첨 제한 대상 주택(분양가상한제 적용주택, 분양전환공공임대주택, 토지임대주택, 이전기관 종사자…",
+"rewin_years": "…관한 규칙」 제54조에 따른 재당첨 제한을 3년간 적용받게 되며 기존 주택 당첨으로 인해 재당첨 제한 기간 내에 있는 자 및…"
+},
+"residence": {
+"area": {
+"name": "익산시",
+"sigungu": "익산시"
+},
+"equal": false,
+"months": 0,
+"others": [
+"전북"
+],
+"since": null
+},
+"rewin_years": 3
+},
+"sha": "c4e6c9f2bb866f34"
 },
 "2026000403": {
 "parse": {
@@ -5747,6 +5908,164 @@ null
 },
 "sha": "64133c32d9a75ed8"
 },
+"2026000458": {
+"parse": {
+"account_months": 12,
+"complex": {
+"buildings": 20,
+"households": 2706,
+"quote": ": 아파트 지하 3층, 지상 33층 20개동, 총 2,706세대 중 일반분양 1,289세대(조합원 1,260세대, 보류지 20세대, 임대 137세대 제외) [특별공급 685세대(기관추천 126세대, 다자녀가구 12"
+},
+"contract_split": {
+"first_won": 10000000,
+"rest_within": null,
+"rows": 26
+},
+"mc_quota": {
+"unknown": true
+},
+"need_head": false,
+"pay_ratio": {
+"balance": 0.35,
+"contract": 0.05,
+"mid": 0.6
+},
+"price_cap": false,
+"quotes": {
+"account_months": "…1순위 : 입주자저축에 가입하여 가입기간이 12개월이 경과하고 지역별·면적별 예치금액 이상 납입한 분 ※ 2순위 : 입주자저축에…",
+"need_head": "…현재 인천광역시에 거주하거나 수도권(서울특별시, 경기도)에 거주하는 무주택세대구성원 - 과거 주택을 소유하였더라도 입주자모집공고일 현재…",
+"pay_ratio": "…공급 세대수 공급금액 계약금(5%) 중도금(60%) 잔금(35%) 대지비 건축비 부가가치세 계 1차 2차…",
+"price_cap": "…민간택지에서 공급하는 분양가상한제 미적용 민영주택으로, 당첨자로 선정되더라도 「주택공급에 관한 규칙」…",
+"resale": "…구분 특별공급 일반공급 전매제한기간 최초 당첨자발표일(2026.10.27.)로부터 1년 ※ 단, 「주택법」 및 「주택법 시행령」등 관련 법령 개정에 따라…",
+"residence_duty": "(1쪽 단지 주요정보 표) 전매제한 거주의무기간 분양가상한제 택지유형 없음 1년 없음 미적용 민간택지",
+"rewin_years": "…관한 규칙」 제54조에 따른 재당첨 제한을 적용받지 않으며, 기존 주택 당첨으로 인해 재당첨 제한 기간 내에 있는 분 및 그 세대에…"
+},
+"resale": {
+"base": "2026-10-27",
+"forbidden": false,
+"months": 12,
+"none": false,
+"passed": false,
+"registration": false,
+"until_reg": false
+},
+"residence": {
+"area": {
+"name": "인천광역시",
+"sido": "인천"
+},
+"months": 0,
+"others": [
+"서울",
+"경기",
+"인천"
+],
+"since": null
+},
+"residence_duty": 0,
+"rewin_years": 0,
+"score_ratio": {
+"rows": [
+{
+"lottery": 60,
+"over": 0,
+"score": 40,
+"upto": 60
+},
+{
+"lottery": 60,
+"over": 60,
+"score": 40,
+"upto": 85
+}
+]
+},
+"sp_table": {
+"050.2600A": {
+"agency": 11,
+"elder": 3,
+"first": 7,
+"multichild": 10,
+"newborn": 11,
+"newlywed": 16,
+"total": 58
+},
+"050.2600B": {
+"agency": 4,
+"elder": 1,
+"first": 3,
+"multichild": 4,
+"newborn": 4,
+"newlywed": 6,
+"total": 22
+},
+"059.9300C": {
+"agency": 22,
+"elder": 6,
+"first": 14,
+"multichild": 20,
+"newborn": 21,
+"newlywed": 31,
+"total": 114
+},
+"059.9500A": {
+"agency": 31,
+"elder": 9,
+"first": 21,
+"multichild": 30,
+"newborn": 30,
+"newlywed": 46,
+"total": 167
+},
+"059.9900B": {
+"agency": 33,
+"elder": 10,
+"first": 23,
+"multichild": 32,
+"newborn": 33,
+"newlywed": 50,
+"total": 181
+},
+"075.5600A": {
+"agency": 12,
+"elder": 4,
+"first": 9,
+"multichild": 12,
+"newborn": 13,
+"newlywed": 20,
+"total": 70
+},
+"075.6200B": {
+"agency": 5,
+"elder": 1,
+"first": 4,
+"multichild": 6,
+"newborn": 6,
+"newlywed": 9,
+"total": 31
+},
+"084.9200A": {
+"agency": 1,
+"elder": 0,
+"first": 1,
+"multichild": 2,
+"newborn": 2,
+"newlywed": 3,
+"total": 9
+},
+"084.9800B": {
+"agency": 7,
+"elder": 1,
+"first": 4,
+"multichild": 6,
+"newborn": 6,
+"newlywed": 9,
+"total": 33
+}
+}
+},
+"sha": "dc8d28f5ca8bc926"
+},
 "2026000463": {
 "parse": {
 "account_months": 12,
@@ -5892,6 +6211,221 @@ null
 },
 "sha": "e66e693732426a90"
 },
+"2026000464": {
+"parse": {
+"account_months": 6,
+"complex": {
+"buildings": 14,
+"households": 1963,
+"quote": ": 아파트 지하 7층, 지상 36층 14개동 총 1,963세대 중 1회차 356세대 - 1회차 356세대 [특별공급 185세대(기관추천 33세대, 다자녀가구 36세대, 신혼부부 49세대, 노부모부양 11세대, 생애"
+},
+"contract_split": {
+"first_won": 5000000,
+"rest_within": "30일",
+"rows": 21
+},
+"need_head": false,
+"pay_ratio": {
+"balance": 0.35,
+"contract": 0.05,
+"mid": 0.6
+},
+"price_cap": false,
+"quotes": {
+"account_months": "…1순위 : 입주자저축에 가입하여 가입기간이 6개월이 경과하고 지역별·면적별 예치금액 이상 납입한 분 ※ 2순위 : 입주자저축에…",
+"need_head": "…경상남도 거제시에 거주하거나 경상남도 및 부산광역시, 울산광역시에 거주하는 무주택세대구성원 - 과거 주택을 소유하였더라도 입주자모집공고일 현재…",
+"pay_ratio": "…해당 세대수 공급금액 계약금(5%) 중도금 (60%) 잔금(35%) 대지비 건축비 부가세 계 계약시 30일 내…",
+"price_cap": "…민간택지에서 공급하는 분양가상한제 미적용 민영주택으로, 당첨자로 선정되더라도 「주택공급에 관한 규칙」…",
+"resale": "…거주자 비규제지역 재당첨제한 전매제한 거주의무기간 분양가상한제 택지유형 없음 없음 없음 미적용 민간택지 구분 입주자모집공고일 특별공급 접수일 일반공급 1순위…",
+"residence_duty": "(1쪽 단지 주요정보 표) 전매제한 거주의무기간 분양가상한제 택지유형 없음 없음 없음 미적용 민간택지",
+"rewin_years": "…관한 규칙」 제54조에 따 른 재당첨 제한을 적용받지 않으며, 기존 주택 당첨으로 인해 재당첨 제한 기간 내에 있는 분 및 그 세대에…"
+},
+"resale": {
+"base": null,
+"forbidden": false,
+"months": 0,
+"none": true,
+"passed": false,
+"registration": false,
+"until_reg": false
+},
+"residence": {
+"area": {
+"name": "경상남도 거제시",
+"sido": "경남",
+"sigungu": "거제시"
+},
+"months": 0,
+"others": [
+"부산",
+"울산",
+"경남"
+],
+"since": null
+},
+"residence_duty": 0,
+"rewin_years": 0,
+"score_ratio": {
+"rows": [
+{
+"lottery": 60,
+"over": 60,
+"score": 40,
+"upto": 85
+},
+{
+"lottery": 100,
+"over": 85,
+"score": 0,
+"upto": null
+}
+]
+},
+"sp_table": {
+"084.9469B": {
+"agency": 10,
+"elder": 3,
+"first": 7,
+"multichild": 10,
+"newborn": 10,
+"newlywed": 15,
+"total": 55
+},
+"084.9832A": {
+"agency": 23,
+"elder": 7,
+"first": 16,
+"multichild": 23,
+"newborn": 23,
+"newlywed": 34,
+"total": 126
+},
+"112.9922A": {
+"agency": 0,
+"elder": 1,
+"first": 0,
+"multichild": 2,
+"newborn": 0,
+"newlywed": 0,
+"total": 3
+},
+"132.9820A": {
+"agency": 0,
+"elder": 0,
+"first": 0,
+"multichild": 1,
+"newborn": 0,
+"newlywed": 0,
+"total": 1
+},
+"138.9652P": {
+"agency": 0,
+"elder": 0,
+"first": 0,
+"multichild": 0,
+"newborn": 0,
+"newlywed": 0,
+"total": 0
+},
+"165.9676P": {
+"agency": 0,
+"elder": 0,
+"first": 0,
+"multichild": 0,
+"newborn": 0,
+"newlywed": 0,
+"total": 0
+}
+}
+},
+"sha": "7221527db642bb4b"
+},
+"2026000466": {
+"parse": {
+"account_months": 6,
+"complex": {
+"buildings": 2,
+"households": 58,
+"quote": ": 아파트 지하1층, 지상2~12층 2개동 총 58세대 [특별공급 28세대(기관추천 5세대, 다자녀가구 5세대, 신혼부부 8세대, 노부모부양 1세대, 생애최초 4세대, 신생아 5세대) 포함] 및 부대복리시설 ■ 입"
+},
+"contract_split": {
+"first_won": 5000000,
+"rest_within": "30일",
+"rows": 4
+},
+"need_head": false,
+"pay_ratio": {
+"balance": 0.35,
+"contract": 0.05,
+"mid": 0.6
+},
+"price_cap": false,
+"quotes": {
+"account_months": "…1순위 : 입주자저축에 가입하여 가입기간이 6개월이 경과하고 지역별·면적별 예치금액 이상 납입한 분 ※ 2순위 : 입주자저축에…",
+"need_head": "…현재 기존 전라남도 진도군에 거주하거나 기존 광주광역시에 거주하는 무주택세대구성원 - 과거 주택을 소유하였더라도 입주자모집공고일 현재…",
+"pay_ratio": "…층 세대수 분양금액 계약금(5%) 중도금(60%) 잔금(35%) 1차 2차 1회(10%) 2회(10%)…",
+"price_cap": "…민간택지에서 공급하는 분양가상한제 미적용 민영주택으로, 당첨자로 선정되더라도 「주택공급에 관한 규칙」…",
+"resale": "…거주자 비규제지역 재당첨제한 전매제한 거주의무기간 분양가상한제 택지유형 없음 없음 없음 미적용 민간택지 구분 입주자모집공고일 특별공급 접수일 일반공급 1순위…",
+"residence_duty": "(1쪽 단지 주요정보 표) 전매제한 거주의무기간 분양가상한제 택지유형 없음 없음 없음 미적용 민간택지",
+"rewin_years": "…관한 규칙」 제54조에 따 른 재당첨 제한을 적용받지 않으며, 기존 주택 당첨으로 인해 재당첨 제한 기간 내에 있는 분 및 그 세대에…"
+},
+"resale": {
+"base": null,
+"forbidden": false,
+"months": 0,
+"none": true,
+"passed": false,
+"registration": false,
+"until_reg": false
+},
+"residence": {
+"area": {
+"name": "전라남도 진도군",
+"sido": "전남",
+"sigungu": "진도군"
+},
+"months": 0,
+"others": [
+"광주",
+"전남"
+],
+"since": null
+},
+"residence_duty": 0,
+"rewin_years": 0,
+"score_ratio": {
+"rows": [
+{
+"lottery": 60,
+"over": 60,
+"score": 40,
+"upto": 85
+}
+]
+},
+"sp_table": {
+"084.8714A": {
+"agency": 4,
+"elder": 1,
+"first": 3,
+"multichild": 4,
+"newborn": 4,
+"newlywed": 7,
+"total": 23
+},
+"084.9376B": {
+"agency": 1,
+"elder": 0,
+"first": 1,
+"multichild": 1,
+"newborn": 1,
+"newlywed": 1,
+"total": 5
+}
+}
+},
+"sha": "ad004aba069c7577"
+},
 "2026000468": {
 "parse": {
 "account_months": 12,
@@ -6023,6 +6557,262 @@ null
 }
 },
 "sha": "8383e0720fd92806"
+},
+"2026000469": {
+"parse": {
+"account_months": 6,
+"complex": {
+"buildings": 3,
+"households": 499,
+"quote": ": 아파트 지하4층, 지상43층(101동 43층, 102~103동 42층) 3개동 총 499세대 중 일반분양 459세대(부산시 기부채납 40세대 제외) 및 부대복리시설 [특별공급 232세대(기관추천 42세대, 다자"
+},
+"contract_split": {
+"first_won": 10000000,
+"rest_within": "30일",
+"rows": 25
+},
+"need_head": false,
+"pay_ratio": {
+"balance": 0.35,
+"contract": 0.05,
+"mid": 0.6
+},
+"price_cap": false,
+"quotes": {
+"account_months": "…1순위 : 입주자저축에 가입하여 가입기간이 6개월이 경과하고 지역별·면적별 예치금액 이상 납입한 분 ※ 2순위 : 입주자저축에…",
+"need_head": "…현재 부산광역시에 거주하거나 울산광역시 및 경상남도에 거주하는 무주택세대구성원 - 과거 주택을 소유하였더라도 입주자모집공고일 현재…",
+"pay_ratio": "…해 당 세 대 수 공급금액 계약금(5%) 중도금(60%) 잔금(35%) 대지비 건축비 공급금액 1차 2차…",
+"price_cap": "…민간택지에서 공급하는 분양가상한제 미적용 민영주택으로, 당첨자로 선정되더라도 「주택공급에 관한 규칙」…",
+"resale": "…구분 특별공급 일반공급 전매제한기간 당첨자발표일(2026.10.27.)로부터 6개월 (※단, 향후 관련법 개정에 따라 조정될 수 있습니다.) ■ 자세한…",
+"residence_duty": "(1쪽 단지 주요정보 표) 전매제한 거주의무기간 분양가상한제 택지유형 없음 6개월 없음 미적용 민간택지",
+"rewin_years": "…관한 규칙」 제54조에 따 른 재당첨 제한을 적용받지 않으며, 기존 주택 당첨으로 인해 재당첨 제한 기간 내에 있는 분 및 그 세대에…"
+},
+"resale": {
+"base": "2026-10-27",
+"forbidden": false,
+"months": 6,
+"none": false,
+"passed": false,
+"registration": false,
+"until_reg": false
+},
+"residence": {
+"area": {
+"name": "부산광역시",
+"sido": "부산"
+},
+"months": 12,
+"others": [
+"부산",
+"울산",
+"경남"
+],
+"since": "2025-10-08"
+},
+"residence_duty": 0,
+"rewin_years": 0,
+"score_ratio": {
+"rows": [
+{
+"lottery": 60,
+"over": 60,
+"score": 40,
+"upto": 85
+}
+]
+},
+"sp_table": {
+"084.7933D": {
+"agency": 20,
+"elder": 6,
+"first": 13,
+"multichild": 16,
+"newborn": 20,
+"newlywed": 31,
+"total": 106
+},
+"084.8780C": {
+"agency": 4,
+"elder": 2,
+"first": 3,
+"multichild": 3,
+"newborn": 4,
+"newlywed": 5,
+"total": 21
+},
+"084.9052B": {
+"agency": 9,
+"elder": 3,
+"first": 7,
+"multichild": 8,
+"newborn": 10,
+"newlywed": 16,
+"total": 53
+},
+"084.9587A": {
+"agency": 9,
+"elder": 3,
+"first": 7,
+"multichild": 8,
+"newborn": 10,
+"newlywed": 15,
+"total": 52
+}
+}
+},
+"sha": "5f26628a08b7c9ac"
+},
+"2026000471": {
+"parse": {
+"price_cap": false,
+"quotes": {
+"price_cap": "…민간택지에서 공급하는 분양가상한제 미적용 민영주택 으로 당첨자로 선정되더라도 주택공급에 관한 규칙, 「 」 제…",
+"resale": "….▌ 구분 일반공급 전매제한기간 개월 6 ▌위장전입 및 불법 전매제한 등을 통한 부정한 당첨자는 주택법 제 조 및…",
+"residence_duty": "(1쪽 단지 주요정보 표) 전매제한 거주의무기간 분양가상한제 택지유형 없음 개월 6 없음 미적용 민간택지"
+},
+"resale": {
+"base": "당첨자 발표일",
+"forbidden": false,
+"months": 6,
+"none": false,
+"passed": false,
+"registration": false,
+"until_reg": false
+},
+"residence": {
+"area": {
+"name": "광주광역시",
+"sido": "광주"
+},
+"months": 0,
+"others": [
+"광주",
+"전남"
+],
+"since": null
+},
+"residence_duty": 0,
+"score_ratio": {
+"rows": [
+{
+"lottery": 60,
+"over": 60,
+"score": 40,
+"upto": 85
+},
+{
+"lottery": 100,
+"over": 85,
+"score": 0,
+"upto": null
+}
+]
+}
+},
+"sha": "e22660d29f54a35f"
+},
+"2026000491": {
+"parse": {
+"account_months": 6,
+"complex": {
+"buildings": 4,
+"households": 543,
+"quote": "및 내역 : 지하 2층, 지상 2층~32층 아파트 4개동 총 543세대 및 부대복리시설 [특별공급 169세대(기관추천 40세대, 다자녀가구 53세대, 신혼부부 29세대, 노부모부양 14세대, 생애최초 13세대, 신"
+},
+"need_head": false,
+"pay_ratio": {
+"balance": 0.3,
+"contract": 0.1,
+"mid": 0.6
+},
+"price_cap": false,
+"quotes": {
+"account_months": "…1순위 : 입주자저축에 가입하여 가입기간이 6개월이 경과하고 지역별·면적별 예치금액 이상 납입한 분 ※ 2순위 : 입주자저축에…",
+"need_head": "…: ■ 최초 입주자모집공고일 현재 청주시에 거주하거나 충청북도에 거주하는 무주택세대구성원 - 과거 주택을 소유하였더라도 입주자모집공고일 현재…",
+"pay_ratio": "…해 당 세대수 공급금액 계약금 (10%) 중도금(60%) 잔금 (30%) 대지비 건축비 부가세 계 1차(10%)…",
+"price_cap": "…민간택지에서 공급하는 분양가상한제 미적용 민영주택으로, 당첨자로 선정되더라도 「주택공급에 관한 규칙」…",
+"resale": "…충청북도 거주자 비규제지역 재당첨제한 전매제한 거주의무기간 분양가상한제 택지유형 없음 없음 없음 미적용 민간택지 구분 입주자모집공고일 특별공급 접수일 일반공급 1순위…",
+"residence_duty": "(1쪽 단지 주요정보 표) 전매제한 거주의무기간 분양가상한제 택지유형 없음 없음 없음 미적용 민간택지",
+"rewin_years": "…관한 규칙」 제54조에 따른 재당첨 제한을 적용받지 않으며, 기존 주택 당첨으로 인해 재당첨 제한 기간 내에 있는 분 및 그 세대에…"
+},
+"resale": {
+"base": null,
+"forbidden": false,
+"months": 0,
+"none": true,
+"passed": false,
+"registration": false,
+"until_reg": false
+},
+"residence": {
+"area": {
+"name": "청주시",
+"sigungu": "청주시"
+},
+"months": 0,
+"others": [
+"충북"
+],
+"since": null
+},
+"residence_duty": 0,
+"rewin_years": 0,
+"score_ratio": {
+"rows": [
+{
+"lottery": 60,
+"over": 60,
+"score": 40,
+"upto": 85
+},
+{
+"lottery": 100,
+"over": 85,
+"score": 0,
+"upto": null
+}
+]
+},
+"sp_table": {
+"084.9400B": {
+"agency": 22,
+"elder": 3,
+"first": 7,
+"multichild": 11,
+"newborn": 11,
+"newlywed": 16,
+"total": 70
+},
+"084.9800A": {
+"agency": 18,
+"elder": 2,
+"first": 6,
+"multichild": 9,
+"newborn": 9,
+"newlywed": 13,
+"total": 57
+},
+"102.8500": {
+"agency": 0,
+"elder": 6,
+"first": 0,
+"multichild": 22,
+"newborn": 0,
+"newlywed": 0,
+"total": 28
+},
+"116.7300": {
+"agency": 0,
+"elder": 3,
+"first": 0,
+"multichild": 11,
+"newborn": 0,
+"newlywed": 0,
+"total": 14
+}
+}
+},
+"sha": "a6f5494c80b29aa4"
 },
 "2026000494": {
 "parse": {
@@ -6204,7 +6994,7 @@ null
 }
 }
 },
-"sha": "8e88646963884972"
+"sha": "10588346dc9af217"
 },
 "2026820007": {
 "parse": {

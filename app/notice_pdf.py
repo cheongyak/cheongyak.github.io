@@ -764,8 +764,11 @@ def parse_residence(text: str) -> Optional[dict]:
     # 3) 무순위·재공급·취소분: 대상자 문장 (기간 요건 없음). 지역이 여럿이면 우선순위 없이 모두 신청 가능(equal)
     #    예: "입주자모집공고일 현재 부산광역시 및 울산광역시, 경상남도에 거주하는 무주택세대구성원",
     #        "모집공고일 현재 과천시에 거주 주민등록표등본 기준 하는 무주택세대구성원", "현재 ( ) 충청북도에 거주하는 무주택"
-    for m in re.finditer(r"공고일 ?현재 (?:\( ?\) )?(?:해당 주택건설지역인 )?([^.■※]{2,70}?)에 ?거주(?:하거나 ([^.■※]{2,80}?)에 ?거주)?[^.■]{0,30}?무주택", t):
+    #        "입주자모집공고일 (2026.10.08.) 현재 익산시 또는 전북특별자치도에 거주(주민등록표등본 기준)하는 성년자(만19세 이상)인 무주택" (2026000402 — 공고일 뒤 날짜 괄호, 'A 또는 B' = A 우선·B 도 가능)
+    for m in re.finditer(r"공고일 ?(?:\( ?\d{4}\.\d{1,2}\.\d{1,2}\.? ?\) ?)?현재 (?:\( ?\) )?(?:해당 주택건설지역인 )?([^.■※]{2,70}?)에 ?거주(?:하거나 ([^.■※]{2,80}?)에 ?거주)?[^.■]{0,40}?무주택", t):
         first, more = m.group(1).strip(), (m.group(2) or "")
+        if not more and (o := re.fullmatch(r"([가-힣]+(?:시|군)) 또는 ([가-힣]+(?:특별자치도|도|광역시|특별시|특별자치시))", first)):
+            first, more = o.group(1), o.group(2)
         if "전국" in first or first == "국내":   # '공고일 현재 국내에 거주하는 무주택세대구성원' (2025910266 청계 노르웨이숲 무순위)
             return {"area": None, "months": 0, "since": None, "others": ["전국"], "equal": True}
         regs = _regions(first + " " + more)
@@ -985,6 +988,8 @@ def parse_resale(flat: str) -> Optional[dict]:
         (r"전매제한기간(?:은|:)?(?:해당주택의입주자로선정된날로부터|(?:최초)?당첨자발표일" + _D + r"(?:로부터)?|(?:최초)?당첨자발표일(?:로부터)?)?(\d{1,2})(년|개월)" + reg,
          lambda m: {"months": mon(m.group(4), m.group(5)), "base": _rs_ymd(m, 1) if m.group(1) else "당첨자 발표일", "registration": bool(m.group(6))}),
         (r"전매제한기간(?:최초)?당첨자발표일로부터(개월|년)(\d)",   # 2026000436·146 '로부터개월6'
+         lambda m: {"months": mon(m.group(2), m.group(1)), "base": "당첨자 발표일"}),
+        (r"구분(?:특별공급)?일반공급전매제한기간(개월|년)(\d{1,2})(?![\d,.])",   # 2026000471 표 '구분 일반공급 전매제한기간 개월 6' 뒤섞임 (단지 주요정보 표도 '개월 6')
          lambda m: {"months": mon(m.group(2), m.group(1)), "base": "당첨자 발표일"}),
         (r"전매제한기간최초당첨자발표일로부터년" + _D + r"(\d)",   # 2026910006 '년(2025.12.10.)1'
          lambda m: {"months": mon(m.group(4), "년"), "base": _rs_ymd(m, 1)}),
@@ -1209,8 +1214,14 @@ def notice_facts(text: str, prices_man: Optional[dict] = None) -> dict:
             dep[k] = {keys[i]: vals[i] for i in range(3)}
         else:
             dep[k] = {"seoul_busan": vals[0], "metro": vals[1], "other": vals[2], "order_guess": True}
-    assets = {"부동산": sorted({int(x.replace(",", "")) for x in re.findall(r"부동산[^\n]{0,40}?([\d]{2,3},\d{3})천원\s?이하", t)}),
-              "자동차": sorted({int(x.replace(",", "")) for x in re.findall(r"자동차[^\n]{0,40}?([\d]{2},\d{3})천원\s?이하", t)}),
+    # 기본 규칙(앞 40자 안 첫 금액)에 더해, '부동산(건물+토지)' 바로 뒤에 이어지는 칸들(출산가구 완화 표 한 줄 '237,050천원 이하 258,600천원 이하 215,500천원 이하')과
+    # 줄이 바뀐 '부동산\n(건물+토지)\n215,500천원 이하'도 읽는다 — 첫 칸만 읽어 기본 기준을 놓치고 '앱 기준이 공고문에 없음'으로 잘못 경고했다 (2026-10-09 익산 부송에코르 2026000402)
+    tw = re.sub(r"\s+", " ", text)
+    run = lambda pat: {int(v.replace(",", "")) for m in re.finditer(pat, tw) for v in re.findall(r"([\d,]+)천원", m.group(1))}
+    re_loose = {int(x.replace(",", "")) for x in re.findall(r"부동산[^\n]{0,40}?([\d]{2,3},\d{3})천원\s?이하", t)}
+    car_loose = {int(x.replace(",", "")) for x in re.findall(r"자동차[^\n]{0,40}?([\d]{2},\d{3})천원\s?이하", t)}
+    assets = {"부동산": sorted(re_loose | run(r"부동산\s?\(\s?건물\s?\+\s?토지\s?\)\s?((?:\d{2,3},\d{3}천원\s?이하\s?){1,4})")),
+              "자동차": sorted(car_loose | run(r"자동차\s?((?:\d{2},\d{3}천원\s?이하\s?){1,4})")),
               "부동산_만원": sorted({int(a) * 10000 + int(b.replace(",", "")) for a, b in re.findall(r"부동산가액\s?(\d)억\s?([\d,]{1,5})만원\s?이하", t)})}
     seen = {}
     for ty, man in (prices_man or {}).items():

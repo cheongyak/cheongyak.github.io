@@ -400,7 +400,7 @@ def test_golden_resale_from_real_notices():
 
 
 def test_every_saved_original_resale_reads():
-    """모아 둔 분양 공고문은 전매제한을 모두 읽는다 — 못 읽는 것은 원문에 전매제한이 아예 없는 공고(공공임대 2026000307, 2025000645)뿐"""
+    """모아 둔 분양 공고문은 전매제한을 모두 읽는다 — 못 읽는 것은 원문에 전매제한이 아예 없는 공고(공공임대 2026000307, 2025000645, 2026000402)뿐"""
     import pathlib, re
     root = pathlib.Path(__file__).resolve().parent.parent
     seen, miss = set(), []
@@ -411,7 +411,7 @@ def test_every_saved_original_resale_reads():
             seen.add(f.stem)
             if notice_pdf.parse_resale(re.sub(r"\s+", "", f.read_text(encoding="utf-8"))) is None:
                 miss.append(f.stem)
-    assert set(miss) <= {"2026000307", "2025000645"}, miss
+    assert set(miss) <= {"2026000307", "2025000645", "2026000402"}, miss   # 402: 익산 부송에코르 10년 공공임대 — 원문에 전매제한 문장 없음(2026-10-09 확인)
 
 
 def test_resale_cell_conflict_and_garbled():
