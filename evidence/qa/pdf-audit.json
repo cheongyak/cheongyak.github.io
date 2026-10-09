@@ -2,10 +2,11 @@
  "date": "2026-10-09",
  "page_cap": 300,
  "notices": 60,
- "with_problem": 3,
+ "with_problem": 6,
  "kinds": {
+  "글자가 거의 없는 쪽 N개 (스캔 이미지·표 그림 추정)": 2,
   "PDF 를 하나도 받지 못함": 1,
-  "글자가 거의 없는 쪽 N개 (스캔 이미지·표 그림 추정)": 2
+  "지금 수집 값과 다시 읽은 값이 다름": 3
  },
  "errors": [],
  "results": [
@@ -151,30 +152,33 @@
    "empty_pages": [],
    "chars_per_page_min": 145,
    "fields": {
+    "need_head": false,
     "price_cap": false,
     "residence_duty": 0,
     "residence": {
      "area": "광주광역시",
-     "months": 0,
-     "since": null
+     "months": 12,
+     "since": "2025-10-08"
     }
    },
    "fields_merged": {
+    "need_head": false,
     "price_cap": false,
     "residence_duty": 0,
     "residence": {
      "area": "광주광역시",
-     "months": 0,
-     "since": null
+     "months": 12,
+     "since": "2025-10-08"
     }
    },
    "fields_pdfium": {
+    "need_head": false,
     "price_cap": false,
     "residence_duty": 0,
     "residence": {
      "area": "광주광역시",
-     "months": 0,
-     "since": null
+     "months": 12,
+     "since": "2025-10-08"
     }
    },
    "pdfium_chars": 118010,
@@ -305,16 +309,60 @@
    "name": "힐스테이트 거제시그니처(1회차)",
    "url": "https://www.applyhome.co.kr/ai/aia/selectAPTLttotPblancDetail.do?houseManageNo=2026000464&pblancNo=2026000464",
    "attachments": 1,
-   "pdfs": 0,
+   "pdfs": 1,
    "attachment_list": [
     {
      "url": "https://static.applyhome.co.kr/ai/aia/getAtchmnfl.do?houseManageNo=2026000464&pblancNo=2026000464&atchmnflSeqNo=1997002&atchmnflSn=1",
-     "error": "PDF 아님 (200, 59바이트)"
+     "bytes": 1783260,
+     "pages": 80,
+     "chars": 180284,
+     "head": "- 1 - ※ 단지 주요정보 (분양문의) 1811-1100 주택유형 해당지역 기타지역 규제지역여부 민영 경상남도 거제시 거주자 경상남도 및 부산"
     }
    ],
-   "problem": [
-    "PDF 를 하나도 받지 못함"
-   ]
+   "chosen": "https://static.applyhome.co.kr/ai/aia/getAtchmnfl.do?houseManageNo=2026000464&pblancNo=2026000464&atchmnflSeqNo=1997002&atchmnflSn=1",
+   "pages": 80,
+   "pages_read": 80,
+   "chars_read": 180363,
+   "empty_pages": [],
+   "chars_per_page_min": 686,
+   "fields": {
+    "need_head": false,
+    "price_cap": false,
+    "residence_duty": 0,
+    "rewin_years": 0,
+    "account_months": 6,
+    "residence": {
+     "area": "경상남도 거제시",
+     "months": 0,
+     "since": null
+    }
+   },
+   "fields_merged": {
+    "need_head": false,
+    "price_cap": false,
+    "residence_duty": 0,
+    "rewin_years": 0,
+    "account_months": 6,
+    "residence": {
+     "area": "경상남도 거제시",
+     "months": 0,
+     "since": null
+    }
+   },
+   "fields_pdfium": {
+    "need_head": false,
+    "price_cap": false,
+    "residence_duty": 0,
+    "rewin_years": 0,
+    "account_months": 6,
+    "residence": {
+     "area": "경상남도 거제시",
+     "months": 0,
+     "since": null
+    }
+   },
+   "pdfium_chars": 179800,
+   "problem": []
   },
   {
    "notice": "2026000458",
@@ -400,7 +448,6 @@
    ],
    "chars_per_page_min": 6,
    "fields": {
-    "price_cap": true,
     "rewin_years": 3,
     "account_months": 6,
     "deposit_count": 6,
@@ -412,7 +459,6 @@
     "pub_limits_kind": "pub_table"
    },
    "fields_merged": {
-    "price_cap": true,
     "rewin_years": 3,
     "account_months": 6,
     "deposit_count": 6,
@@ -424,7 +470,6 @@
     "pub_limits_kind": "pub_table"
    },
    "fields_pdfium": {
-    "price_cap": true,
     "rewin_years": 3,
     "account_months": 6,
     "deposit_count": 6,
@@ -462,7 +507,6 @@
    "empty_pages": [],
    "chars_per_page_min": 275,
    "fields": {
-    "need_head": false,
     "price_cap": false,
     "residence_duty": 0,
     "rewin_years": 0,
@@ -474,7 +518,6 @@
     }
    },
    "fields_merged": {
-    "need_head": false,
     "price_cap": false,
     "residence_duty": 0,
     "rewin_years": 0,
@@ -486,7 +529,6 @@
     }
    },
    "fields_pdfium": {
-    "need_head": false,
     "price_cap": false,
     "residence_duty": 0,
     "rewin_years": 0,
@@ -759,6 +801,7 @@
    "empty_pages": [],
    "chars_per_page_min": 700,
    "fields": {
+    "need_head": false,
     "price_cap": false,
     "residence_duty": 0,
     "rewin_years": 0,
@@ -770,6 +813,7 @@
     }
    },
    "fields_merged": {
+    "need_head": false,
     "price_cap": false,
     "residence_duty": 0,
     "rewin_years": 0,
@@ -781,6 +825,7 @@
     }
    },
    "fields_pdfium": {
+    "need_head": false,
     "price_cap": false,
     "residence_duty": 0,
     "rewin_years": 0,
@@ -1443,6 +1488,7 @@
    "empty_pages": [],
    "chars_per_page_min": 1091,
    "fields": {
+    "need_head": false,
     "price_cap": false,
     "residence_duty": 0,
     "rewin_years": 0,
@@ -1454,6 +1500,7 @@
     }
    },
    "fields_merged": {
+    "need_head": false,
     "price_cap": false,
     "residence_duty": 0,
     "rewin_years": 0,
@@ -1465,6 +1512,7 @@
     }
    },
    "fields_pdfium": {
+    "need_head": false,
     "price_cap": false,
     "residence_duty": 0,
     "rewin_years": 0,
@@ -1620,6 +1668,7 @@
    "empty_pages": [],
    "chars_per_page_min": 458,
    "fields": {
+    "need_head": false,
     "price_cap": true,
     "residence_duty": 3,
     "rewin_years": 10,
@@ -1632,6 +1681,7 @@
     }
    },
    "fields_merged": {
+    "need_head": false,
     "price_cap": true,
     "residence_duty": 3,
     "rewin_years": 10,
@@ -1644,6 +1694,7 @@
     }
    },
    "fields_pdfium": {
+    "need_head": false,
     "price_cap": true,
     "residence_duty": 3,
     "rewin_years": 10,
@@ -1680,6 +1731,7 @@
    "empty_pages": [],
    "chars_per_page_min": 431,
    "fields": {
+    "need_head": false,
     "price_cap": true,
     "residence_duty": 3,
     "rewin_years": 10,
@@ -1692,6 +1744,7 @@
     }
    },
    "fields_merged": {
+    "need_head": false,
     "price_cap": true,
     "residence_duty": 3,
     "rewin_years": 10,
@@ -1704,6 +1757,7 @@
     }
    },
    "fields_pdfium": {
+    "need_head": false,
     "price_cap": true,
     "residence_duty": 3,
     "rewin_years": 10,
@@ -2218,60 +2272,16 @@
    "name": "세종 리더스포레 나릿재마을 1단지",
    "url": "https://www.applyhome.co.kr/ai/aia/selectAPTRemndrLttotPblancDetailView.do?houseManageNo=2026930041&pblancNo=2026930041",
    "attachments": 1,
-   "pdfs": 1,
+   "pdfs": 0,
    "attachment_list": [
     {
      "url": "https://static.applyhome.co.kr/ai/aia/getAtchmnfl.do?houseManageNo=2026930041&pblancNo=2026930041&atchmnflSeqNo=1994169&atchmnflSn=8",
-     "bytes": 399115,
-     "pages": 16,
-     "chars": 25343,
-     "head": "- 1 - ※ 단지 주요정보 (분양문의) 044-865-8022 주택유형 규제지역여부 거주요건 재당첨제한 민영 비규제지역 세종특별자치시 거주자 "
+     "error": "PDF 아님 (200, 59바이트)"
     }
    ],
-   "chosen": "https://static.applyhome.co.kr/ai/aia/getAtchmnfl.do?houseManageNo=2026930041&pblancNo=2026930041&atchmnflSeqNo=1994169&atchmnflSn=8",
-   "pages": 16,
-   "pages_read": 16,
-   "chars_read": 25358,
-   "empty_pages": [],
-   "chars_per_page_min": 246,
-   "fields": {
-    "need_head": false,
-    "price_cap": true,
-    "residence_duty": 0,
-    "rewin_years": 10,
-    "ext": 0.109,
-    "residence": {
-     "area": "세종특별자치시",
-     "months": 0,
-     "since": null
-    }
-   },
-   "fields_merged": {
-    "need_head": false,
-    "price_cap": true,
-    "residence_duty": 0,
-    "rewin_years": 10,
-    "ext": 0.109,
-    "residence": {
-     "area": "세종특별자치시",
-     "months": 0,
-     "since": null
-    }
-   },
-   "fields_pdfium": {
-    "need_head": false,
-    "price_cap": true,
-    "residence_duty": 0,
-    "rewin_years": 10,
-    "ext": 0.109,
-    "residence": {
-     "area": "세종특별자치시",
-     "months": 0,
-     "since": null
-    }
-   },
-   "pdfium_chars": 25538,
-   "problem": []
+   "problem": [
+    "PDF 를 하나도 받지 못함"
+   ]
   },
   {
    "notice": "2026930034",
@@ -2295,7 +2305,7 @@
    "empty_pages": [],
    "chars_per_page_min": 166,
    "fields": {
-    "need_head": false,
+    "need_head": true,
     "price_cap": false,
     "residence_duty": 0,
     "rewin_years": 0,
@@ -2306,7 +2316,7 @@
     }
    },
    "fields_merged": {
-    "need_head": false,
+    "need_head": true,
     "price_cap": false,
     "residence_duty": 0,
     "rewin_years": 0,
@@ -2317,7 +2327,7 @@
     }
    },
    "fields_pdfium": {
-    "need_head": false,
+    "need_head": true,
     "price_cap": false,
     "residence_duty": 0,
     "rewin_years": 0,
@@ -2328,7 +2338,15 @@
     }
    },
    "pdfium_chars": 41735,
-   "problem": []
+   "live_gap": {
+    "need_head": [
+     false,
+     true
+    ]
+   },
+   "problem": [
+    "지금 수집 값과 다시 읽은 값이 다름: need_head False→True"
+   ]
   },
   {
    "notice": "2026930033",
@@ -2410,6 +2428,8 @@
    "chars_per_page_min": 1300,
    "fields": {
     "need_head": false,
+    "price_cap": false,
+    "residence_duty": 0,
     "residence": {
      "area": null,
      "months": 0,
@@ -2418,6 +2438,8 @@
    },
    "fields_merged": {
     "need_head": false,
+    "price_cap": false,
+    "residence_duty": 0,
     "residence": {
      "area": null,
      "months": 0,
@@ -2426,6 +2448,8 @@
    },
    "fields_pdfium": {
     "need_head": false,
+    "price_cap": false,
+    "residence_duty": 0,
     "residence": {
      "area": null,
      "months": 0,
@@ -2457,7 +2481,6 @@
    "empty_pages": [],
    "chars_per_page_min": 1358,
    "fields": {
-    "need_head": false,
     "price_cap": true,
     "residence_duty": 0,
     "rewin_years": 10,
@@ -2468,7 +2491,6 @@
     }
    },
    "fields_merged": {
-    "need_head": false,
     "price_cap": true,
     "residence_duty": 0,
     "rewin_years": 10,
@@ -2479,7 +2501,6 @@
     }
    },
    "fields_pdfium": {
-    "need_head": false,
     "price_cap": true,
     "residence_duty": 0,
     "rewin_years": 10,
@@ -2572,6 +2593,8 @@
    "chars_per_page_min": 620,
    "fields": {
     "need_head": false,
+    "price_cap": false,
+    "residence_duty": 0,
     "residence": {
      "area": null,
      "months": 0,
@@ -2580,6 +2603,8 @@
    },
    "fields_merged": {
     "need_head": false,
+    "price_cap": false,
+    "residence_duty": 0,
     "residence": {
      "area": null,
      "months": 0,
@@ -2588,6 +2613,8 @@
    },
    "fields_pdfium": {
     "need_head": false,
+    "price_cap": false,
+    "residence_duty": 0,
     "residence": {
      "area": null,
      "months": 0,
@@ -2678,6 +2705,7 @@
    "fields": {
     "need_head": false,
     "price_cap": true,
+    "residence_duty": 0,
     "residence": {
      "area": "세종특별자치시",
      "months": 0,
@@ -2687,6 +2715,7 @@
    "fields_merged": {
     "need_head": false,
     "price_cap": true,
+    "residence_duty": 0,
     "residence": {
      "area": "세종특별자치시",
      "months": 0,
@@ -2696,6 +2725,7 @@
    "fields_pdfium": {
     "need_head": false,
     "price_cap": true,
+    "residence_duty": 0,
     "residence": {
      "area": "세종특별자치시",
      "months": 0,
@@ -3036,6 +3066,8 @@
    "chars_per_page_min": 1439,
    "fields": {
     "need_head": false,
+    "price_cap": true,
+    "residence_duty": 0,
     "residence": {
      "area": null,
      "months": 0,
@@ -3044,6 +3076,8 @@
    },
    "fields_merged": {
     "need_head": false,
+    "price_cap": true,
+    "residence_duty": 0,
     "residence": {
      "area": null,
      "months": 0,
@@ -3052,6 +3086,8 @@
    },
    "fields_pdfium": {
     "need_head": false,
+    "price_cap": true,
+    "residence_duty": 0,
     "residence": {
      "area": null,
      "months": 0,
@@ -3059,7 +3095,15 @@
     }
    },
    "pdfium_chars": 18528,
-   "problem": []
+   "live_gap": {
+    "price_cap": [
+     false,
+     true
+    ]
+   },
+   "problem": [
+    "지금 수집 값과 다시 읽은 값이 다름: price_cap False→True"
+   ]
   },
   {
    "notice": "2026930035",
@@ -3083,7 +3127,6 @@
    "empty_pages": [],
    "chars_per_page_min": 938,
    "fields": {
-    "need_head": false,
     "price_cap": false,
     "residence_duty": 0,
     "residence": {
@@ -3093,7 +3136,6 @@
     }
    },
    "fields_merged": {
-    "need_head": false,
     "price_cap": false,
     "residence_duty": 0,
     "residence": {
@@ -3103,7 +3145,6 @@
     }
    },
    "fields_pdfium": {
-    "need_head": false,
     "price_cap": false,
     "residence_duty": 0,
     "residence": {
@@ -3138,6 +3179,8 @@
    "chars_per_page_min": 1315,
    "fields": {
     "need_head": false,
+    "price_cap": false,
+    "residence_duty": 0,
     "residence": {
      "area": "충청북도",
      "months": 0,
@@ -3146,6 +3189,8 @@
    },
    "fields_merged": {
     "need_head": false,
+    "price_cap": false,
+    "residence_duty": 0,
     "residence": {
      "area": "충청북도",
      "months": 0,
@@ -3154,6 +3199,8 @@
    },
    "fields_pdfium": {
     "need_head": false,
+    "price_cap": false,
+    "residence_duty": 0,
     "residence": {
      "area": "충청북도",
      "months": 0,
@@ -3186,6 +3233,8 @@
    "chars_per_page_min": 1050,
    "fields": {
     "need_head": false,
+    "price_cap": false,
+    "residence_duty": 0,
     "residence": {
      "area": null,
      "months": 0,
@@ -3194,6 +3243,8 @@
    },
    "fields_merged": {
     "need_head": false,
+    "price_cap": false,
+    "residence_duty": 0,
     "residence": {
      "area": null,
      "months": 0,
@@ -3202,6 +3253,8 @@
    },
    "fields_pdfium": {
     "need_head": false,
+    "price_cap": false,
+    "residence_duty": 0,
     "residence": {
      "area": null,
      "months": 0,
@@ -3233,7 +3286,7 @@
    "empty_pages": [],
    "chars_per_page_min": 527,
    "fields": {
-    "need_head": false,
+    "need_head": true,
     "price_cap": false,
     "residence_duty": 0,
     "rewin_years": 10,
@@ -3244,7 +3297,7 @@
     }
    },
    "fields_merged": {
-    "need_head": false,
+    "need_head": true,
     "price_cap": false,
     "residence_duty": 0,
     "rewin_years": 10,
@@ -3255,7 +3308,7 @@
     }
    },
    "fields_pdfium": {
-    "need_head": false,
+    "need_head": true,
     "price_cap": false,
     "residence_duty": 0,
     "rewin_years": 10,
@@ -3266,7 +3319,15 @@
     }
    },
    "pdfium_chars": 31794,
-   "problem": []
+   "live_gap": {
+    "need_head": [
+     false,
+     true
+    ]
+   },
+   "problem": [
+    "지금 수집 값과 다시 읽은 값이 다름: need_head False→True"
+   ]
   },
   {
    "notice": "2026910236",
@@ -3573,6 +3634,8 @@
    "chars_per_page_min": 452,
    "fields": {
     "need_head": false,
+    "price_cap": false,
+    "residence_duty": 0,
     "residence": {
      "area": "강원특별자치도",
      "months": 0,
@@ -3581,6 +3644,8 @@
    },
    "fields_merged": {
     "need_head": false,
+    "price_cap": false,
+    "residence_duty": 0,
     "residence": {
      "area": "강원특별자치도",
      "months": 0,
@@ -3589,6 +3654,8 @@
    },
    "fields_pdfium": {
     "need_head": false,
+    "price_cap": false,
+    "residence_duty": 0,
     "residence": {
      "area": "강원특별자치도",
      "months": 0,
