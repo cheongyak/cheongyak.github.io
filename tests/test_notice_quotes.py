@@ -13,7 +13,7 @@ NOTICES = sorted((ROOT / "evidence" / "notices").glob("*.txt"))
 def _has_value(k, v, q):
     f = re.sub(r"\s+", "", q)
     if k == "need_head":
-        return ("세대주" in f) if v else ("세대구성원" in f)
+        return ("세대주" in f) if v else ("세대구성원" in f or "세대주요건" in f)   # 민영 신청자격 표 '세대주 요건 - - …' (2026-10-09)
     if k == "price_cap":
         return "분양가상한제" in f
     if k == "residence_duty":

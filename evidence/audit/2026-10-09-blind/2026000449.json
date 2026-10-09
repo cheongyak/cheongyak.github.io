@@ -1,0 +1,17 @@
+{"id": "2026000449", "name": "화서역 호수공원 아너스빌", "fields": {
+"supply_class": {"value": "민영주택", "status": "stated", "quote": "수도권 비투기과열지구 및 비청약과열지역의 민간택지에서 공급하는 분양가상한제 미적용 민영주택으로", "note": ""},
+"supply_kind": {"value": "일반분양", "status": "stated", "quote": "총 476세대 중 일반분양 476세대 [특별공급 153세대 ... 포함]", "note": ""},
+"correction": {"value": null, "status": "not_stated", "quote": "", "note": "정정/변경 공고 문구 없음"},
+"need_head": {"value": false, "status": "stated", "quote": "세대주 요건 - - - 필요 - - - - (노부모부양만 필요) / 수원시에 거주하거나 수도권...거주하는 만19세 이상인 분 또는 세대주인 미성년자", "note": "일반공급 1·2순위 세대주 요건 없음. 노부모부양 특공만 무주택세대주"},
+"price_cap": {"value": false, "status": "stated", "quote": "재당첨제한 전매제한 거주의무기간 분양가상한제 택지유형 / 없음 1년 없음 미적용 민간택지", "note": ""},
+"residence_duty": {"value": 0, "status": "stated", "quote": "거주의무기간 ... 없음", "note": ""},
+"rewin_years": {"value": 0, "status": "stated", "quote": "당첨자로 선정되더라도 「주택공급에 관한 규칙」 제54조에 따른 재당첨 제한을 적용받지 않으며", "note": ""},
+"resale": {"value": {"months": 12, "base": "최초 당첨자발표일(2026.10.01.)"}, "status": "stated", "quote": "전매제한기간 최초 당첨자발표일(2026.10.01.)로부터 1년", "note": "특별공급·일반공급 동일"},
+"account_months": {"value": 12, "status": "stated", "quote": "1순위 : 입주자저축에 가입한 후 12개월이 경과하고 지역별·면적별 예치금액 이상 납입한 분", "note": ""},
+"deposit_count": {"value": null, "status": "not_stated", "quote": "", "note": "민영주택, 예치금 기준"},
+"residence": {"value": {"area": "경기도 수원시", "months": 0, "since": "2026-09-11", "others": ["서울특별시", "경기도(수원시 제외)", "인천광역시"], "equal": false}, "status": "stated", "quote": "①지역 : 해당지역 거주자(수원시 거주자) → 기타지역 거주자(서울특별시, 경기도 및 인천광역시 거주자) / 최초 입주자모집공고일은 2026.09.11.(금)", "note": "해당지역 거주기간 요건 문구 없음"},
+"score_ratio": {"value": [{"over_m2": 60, "upto_m2": 85, "score_pct": 40, "lottery_pct": 60}, {"over_m2": 85, "upto_m2": null, "score_pct": 0, "lottery_pct": 100}], "status": "stated", "quote": "전용면적 60㎡ 초과 85㎡ 이하 40% 60% / 전용면적 85㎡ 초과 - 100%", "note": "추첨제는 무주택자 우선공급(1단계 75%)"},
+"pay_ratio": {"value": {"contract_pct": 5, "mid_pct": 60, "balance_pct": 35}, "status": "stated", "quote": "공급금액 계약금(5%) 중도금(60%) 잔금(35%)", "note": "계약금 1차(계약시)·2차(30일이내)"},
+"mc_quota": {"value": [{"name": "해당 시·도(수원시 및 경기도)", "pct": 50}, {"name": "기타지역(서울특별시, 인천광역시)", "pct": 50}], "status": "stated", "quote": "①지역 : 해당 시·도 거주자 50%(수원시 및 경기도 거주자) → 기타지역 거주자 50%(서울특별시 및 인천광역시 거주자)", "note": "해당 시·도 경쟁 시 수원시 우선"},
+"special_supply": {"value": {"types": {"기관추천": 23, "다자녀가구": 45, "신혼부부": 34, "노부모부양": 13, "생애최초": 15, "신생아": 23}, "special_total": 153, "general_total": 323, "total_units": 476}, "status": "stated", "quote": "총 476세대 중 일반분양 476세대 [특별공급 153세대(기관추천 23세대, 다자녀가구 45세대, 신혼부부 34세대, 노부모부양 13세대, 생애최초 15세대, 신생아 23세대) 포함]", "note": ""}
+}}

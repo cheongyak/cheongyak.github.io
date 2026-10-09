@@ -1,0 +1,17 @@
+{"id": "2026000468", "name": "쌍용 더 플래티넘 한강", "fields": {
+"supply_class": {"value": "민영주택", "status": "stated", "quote": "주택유형 해당지역 기타지역 규제지역여부 민영 경기도 양평군 거주자 경기도 및 서울특별시, 인천광역시 거주자 비규제지역", "note": "민간택지"},
+"supply_kind": {"value": "일반분양", "status": "stated", "quote": "공급규모 : 아파트 지하 2층 ~ 지상 최고 19층, 6개동 총 333세대 [특별공급 164세대(...) 포함]", "note": ""},
+"correction": {"value": null, "status": "not_stated", "quote": "", "note": "정정공고 문구 없음"},
+"need_head": {"value": false, "status": "stated", "quote": "세대주 요건 - - - 필요 - - - - (기관추천 다자녀가구 신혼부부 노부모부양 생애최초 신생아 1순위 2순위)", "note": "노부모부양만 세대주. 일반공급: 만19세 이상인 분 또는 세대주인 미성년자"},
+"price_cap": {"value": false, "status": "stated", "quote": "재당첨제한 전매제한 거주의무기간 분양가상한제 택지유형 없음 6개월 없음 미적용 민간택지", "note": ""},
+"residence_duty": {"value": 0, "status": "stated", "quote": "재당첨제한 전매제한 거주의무기간 분양가상한제 택지유형 없음 6개월 없음 미적용 민간택지", "note": ""},
+"rewin_years": {"value": 0, "status": "stated", "quote": "분양가상한제 미적용 민영주택으로, 당첨자로 선정되더라도 「주택공급에 관한 규칙」 제54조에 따른 재당첨 제한을 적용받지 않으며", "note": ""},
+"resale": {"value": {"months": 6, "base": "당첨자 발표일(2026.10.20.)"}, "status": "stated", "quote": "본 주택의 전매제한은 최초 당첨자발표일로부터 적용되며 ... 전매제한기간 당첨자 발표일로부터 6개월", "note": "특별·일반 공통으로 보임(표 셀 1개만 추출됨)"},
+"account_months": {"value": 12, "status": "stated", "quote": "※ 1순위 : 입주자저축에 가입하여 가입기간이 12개월이 경과하고 지역별·면적별 예치금액 이상 납입한 분", "note": "수도권. 특별공급은 6개월"},
+"deposit_count": {"value": null, "status": "not_stated", "quote": "", "note": "민영주택: 예치금 기준"},
+"residence": {"value": {"area": "경기도 양평군", "months": 0, "since": "2026-10-02", "others": ["경기도", "서울특별시", "인천광역시"], "equal": false}, "status": "stated", "quote": "최초 입주자모집공고일 현재 경기도 양평군에 거주하거나 수도권(경기도, 서울특별시, 인천광역시)에 거주...경쟁이 있을 경우 해당 주택건설지역인 양평군에 거주하는 신청자에게 우선공급합니다.", "note": "거주기간 요건 없음"},
+"score_ratio": {"value": [{"over_m2": 60, "upto_m2": 85, "score_pct": 40, "lottery_pct": 60}, {"over_m2": 85, "upto_m2": null, "score_pct": 0, "lottery_pct": 100}], "status": "stated", "quote": "구분 가점제 추첨제 전용면적 60㎡ 초과 85㎡ 이하 40% 60% 전용면적 85㎡ 초과 - 100%", "note": "85㎡ 초과: 123, 146P"},
+"pay_ratio": {"value": {"contract_pct": 5, "mid_pct": 60, "balance_pct": 35}, "status": "stated", "quote": "공급금액 계약금(5%) 중도금(60%) 잔금(35%) ... 1회(10%) ... 6회(10%)", "note": "계약금 1차 500만원 + 계약후 30일 이내 2차"},
+"mc_quota": {"value": [{"name": "경기도(양평군 우선)", "pct": 50}, {"name": "서울특별시·인천광역시", "pct": 50}], "status": "stated", "quote": "■ ①지역 : 해당시·도 거주자 50%(경기도 양평군 및 경기도 거주자) → 기타지역 거주자 50%(서울특별시 및 인천광역시 거주자)", "note": "50% 내 경쟁 시 양평군 거주자 우선, 낙첨자는 나머지 50%에서 재경쟁"},
+"special_supply": {"value": {"types": {"기관추천": 29, "다자녀가구": 33, "신혼부부": 44, "노부모부양": 9, "생애최초": 20, "신생아": 29}, "special_total": 164, "general_total": 169, "total": 333}, "status": "stated", "quote": "합 계 333 29 33 44 9 20 29 164 169 21", "note": ""}
+}}

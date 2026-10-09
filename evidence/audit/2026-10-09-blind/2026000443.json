@@ -1,0 +1,131 @@
+{
+ "id": "2026000443",
+ "name": "에코델타시티 금강펜테리움 에코리버",
+ "fields": {
+  "supply_class": {
+   "value": "민영주택",
+   "status": "stated",
+   "quote": "주택유형 해당지역 기타지역 규제지역여부 민영주택 부산광역시 거주자 울산광역시 및 경상남도 거주자 비규제지역",
+   "note": ""
+  },
+  "supply_kind": {
+   "value": "일반분양",
+   "status": "stated",
+   "quote": "공급규모 : 아파트 지하 2층, 지상 12~18층 6개동 총 358세대 및 부대복리시설",
+   "note": ""
+  },
+  "correction": {
+   "value": null,
+   "status": "stated",
+   "quote": "",
+   "note": "정정공고 문구 없음"
+  },
+  "need_head": {
+   "value": false,
+   "status": "stated",
+   "quote": "입주자모집공고일 현재 부산광역시에 거주하거나 울산광역시 및 경상남도에 거주하는 만19세 이상인 분 또는 세대주인 미성년자",
+   "note": "신청자격 표: 세대주 요건 노부모부양만 '필요'"
+  },
+  "price_cap": {
+   "value": true,
+   "status": "stated",
+   "quote": "공공택지에서 공급하는 분양가상한제 적용 민영주택으로 / 요약표 분양가상한제 '적용', 택지유형 '공공택지'",
+   "note": ""
+  },
+  "residence_duty": {
+   "value": 0,
+   "status": "stated",
+   "quote": "재당첨제한 전매제한 거주의무기간 분양가상한제 택지유형 10년 1년 없음 적용 공공택지",
+   "note": "요약표 거주의무기간 '없음'(분상제 적용이나 비수도권 공공택지)"
+  },
+  "rewin_years": {
+   "value": 10,
+   "status": "stated",
+   "quote": "당첨된 주택의 구분 적용기간 (당첨일로부터) 분양가상한제 적용주택(「주택공급에 관한 규칙」 제54조제1항제3호) 10년",
+   "note": ""
+  },
+  "resale": {
+   "value": {
+    "months": 12,
+    "base": "당첨자발표일(2026.10.07.)"
+   },
+   "status": "stated",
+   "quote": "전매제한기간 당첨자발표일(2026.10.07.)로부터 1년 (수도권 외 공공택지에서 건설 • 공급되는 주택)",
+   "note": ""
+  },
+  "account_months": {
+   "value": 6,
+   "status": "stated",
+   "quote": "주택청약종합저축 : 주택청약종합저축에 가입하여 6개월이 경과하고, 지역별·면적별 예치금액 이상인 분",
+   "note": ""
+  },
+  "deposit_count": {
+   "value": null,
+   "status": "not_stated",
+   "quote": "",
+   "note": "민영주택, 납입횟수 요건 없음"
+  },
+  "residence": {
+   "value": {
+    "area": "부산광역시",
+    "months": 0,
+    "since": "2026-09-18",
+    "others": [
+     "울산광역시",
+     "경상남도"
+    ],
+    "equal": false
+   },
+   "status": "stated",
+   "quote": "①지역 : 해당지역 거주자(부산광역시 거주자) → 기타지역 거주자(울산광역시 거주자 및 경상남도 거주자)",
+   "note": "'최초 입주자모집공고일 현재 부산광역시에 거주' — 거주기간 요건 문구 없음"
+  },
+  "score_ratio": {
+   "value": [
+    {
+     "over_m2": 0,
+     "upto_m2": 60,
+     "score_pct": 40,
+     "lottery_pct": 60
+    }
+   ],
+   "status": "stated",
+   "quote": "전용면적 60㎡ 이하 40% 60%",
+   "note": "주택형 59A·59B만 공급"
+  },
+  "pay_ratio": {
+   "value": {
+    "contract_pct": 5,
+    "mid_pct": 60,
+    "balance_pct": 35
+   },
+   "status": "stated",
+   "quote": "공급금액 계약금(5%) 중도금(60%) 잔금(35%) ... 계약시 계약 후 30일 이내",
+   "note": ""
+  },
+  "mc_quota": {
+   "value": "비율 배정 없음(해당지역 우선 → 기타지역)",
+   "status": "stated",
+   "quote": "①지역 : 해당지역 거주자(부산광역시 거주자) → 기타지역 거주자(울산광역시 및 경상남도 거주자)",
+   "note": "다자녀 특별공급에 % 지역 배정 문구 없음"
+  },
+  "special_supply": {
+   "value": {
+    "types": [
+     "기관추천",
+     "다자녀가구",
+     "신혼부부",
+     "노부모부양",
+     "생애최초",
+     "신생아"
+    ],
+    "special_total": 231,
+    "general_total": 127,
+    "total_households": 358
+   },
+   "status": "stated",
+   "quote": "총 358세대 [특별공급 231세대(기관추천 35세대, 다자녀가구 35세대, 신혼부부 54세대, 노부모부양 10세대, 생애최초 61세대, 신생아 36세대) 포함]",
+   "note": ""
+  }
+ }
+}

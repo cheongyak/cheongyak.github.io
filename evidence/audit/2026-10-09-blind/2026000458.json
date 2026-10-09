@@ -1,0 +1,17 @@
+{"id": "2026000458", "name": "산곡역자이힐스테이트앤하늘채", "fields": {
+"supply_class": {"value": "민영주택", "status": "stated", "quote": "주택유형 해당지역 기타지역 규제지역여부 민영 입주자모집공고일 현재 인천광역시 거주자", "note": "산곡6 주택재개발정비사업"},
+"supply_kind": {"value": "일반분양", "status": "stated", "quote": "총 2,706세대 중 일반분양 1,289세대(조합원 1,260세대, 보류지 20세대, 임대 137세대 제외)", "note": ""},
+"correction": {"value": null, "status": "not_stated", "quote": "", "note": "정정공고 문구 없음"},
+"need_head": {"value": false, "status": "stated", "quote": "세대주 요건 - - - 필요 - - - - (기관추천 다자녀가구 신혼부부 노부모부양 생애최초 신생아 1순위 2순위)", "note": "노부모부양 특별공급만 세대주 필요. 일반공급 대상자: 만19세 이상인 분 또는 세대주인 미성년자"},
+"price_cap": {"value": false, "status": "stated", "quote": "재당첨제한 전매제한 거주의무기간 분양가상한제 택지유형 없음 1년 없음 미적용 민간택지", "note": ""},
+"residence_duty": {"value": 0, "status": "stated", "quote": "재당첨제한 전매제한 거주의무기간 분양가상한제 택지유형 없음 1년 없음 미적용 민간택지", "note": ""},
+"rewin_years": {"value": 0, "status": "stated", "quote": "당첨자로 선정되더라도 「주택공급에 관한 규칙」 제54조에 따른 재당첨 제한을 적용받지 않으며", "note": ""},
+"resale": {"value": {"months": 12, "base": "최초 당첨자발표일(2026.10.27.)"}, "status": "stated", "quote": "전매제한기간 최초 당첨자발표일(2026.10.27.)로부터 1년", "note": "특별공급·일반공급 동일"},
+"account_months": {"value": 12, "status": "stated", "quote": "③ 주택청약종합저축 : 주택청약종합저축에 가입하여 12개월이 경과하고, 지역별·면적별 예치금액 이상인 분", "note": "예치금: 그 밖의 광역시 85㎡이하 250만원"},
+"deposit_count": {"value": null, "status": "not_stated", "quote": "", "note": "민영주택: 납입횟수 요건 없음(예치금 기준)"},
+"residence": {"value": {"area": "인천광역시", "months": 0, "since": "2026-10-08", "others": ["서울특별시", "경기도"], "equal": false}, "status": "stated", "quote": "최초 입주자모집공고일 현재 인천광역시에 거주하거나 수도권(서울특별시, 경기도)에 거주...경쟁이 있을 경우 해당 주택건설지역인 인천광역시 거주자가 우선합니다.", "note": "거주기간 요건 문구 없음(공고일 현재 거주)"},
+"score_ratio": {"value": [{"over_m2": 0, "upto_m2": 60, "score_pct": 40, "lottery_pct": 60}, {"over_m2": 60, "upto_m2": 85, "score_pct": 40, "lottery_pct": 60}], "status": "stated", "quote": "전용면적 60㎡ 이하 50A / 50B / 59A / 59B / 59C 40% 60% | 전용면적 60㎡ 초과 85㎡ 이하 75A / 75B / 84A / 84B 40% 60%", "note": ""},
+"pay_ratio": {"value": {"contract_pct": 5, "mid_pct": 60, "balance_pct": 35}, "status": "stated", "quote": "계약금(5%) 중도금(60%) 잔금(35%) ... 1차 2차 1회(10%) ... 6회(10%)", "note": "계약금 1차 1,000만원 정액 + 2차 잔액"},
+"mc_quota": {"value": [{"name": "인천광역시", "pct": 50}, {"name": "서울특별시·경기도", "pct": 50}], "status": "stated", "quote": "■ ①지역 : 해당시도 거주자 50% (인천광역시 거주자) → 기타지역 거주자 50% (서울특별시, 경기도 거주자)", "note": ""},
+"special_supply": {"value": {"types": {"기관추천": 126, "다자녀가구": 122, "신혼부부": 190, "노부모부양": 35, "생애최초": 86, "신생아": 126}, "special_total": 685, "general_total": 604, "total": 1289}, "status": "stated", "quote": "합 계 1,289 126 122 190 35 86 126 685 604 88", "note": "88은 최하층 우선배정 세대수"}
+}}

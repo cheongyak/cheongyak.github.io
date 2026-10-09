@@ -53,6 +53,11 @@ def listing_checks(L: Listing, today: date) -> list[str]:
     # 규제·의무
     if L.residence_duty and not (L.capital and L.price_cap):
         out.append("실거주 의무가 수도권 분양가상한제 주택이 아닌데 붙어 있어요")
+    # 조건 ↔ 공급 유형 연결: 일반공급 세대주 요건의 근거 문장이 특별공급 대상자 문장이면 잘못 연결된 것 (2026-10-09 블라인드 대조 재공급 2026930031·034)
+    nq = (getattr(L, "notice_quotes", None) or {}).get("세대주 요건", "")
+    if "세대주 요건" in L.from_notice and nq and "일반공급" not in nq and "세대주 요건" not in nq and "공급신청 자격자" not in nq.replace("공급신청자격자", "공급신청 자격자") \
+            and any(w in nq for w in ("생애최초", "다자녀", "신혼부부", "신생아", "특별공급")):
+        out.append("세대주 요건의 근거 문장이 특별공급 대상자 문장이에요 — 일반공급 조건이 맞는지 원문 확인 필요")
     if L.regulated and "세대주 요건" not in L.from_notice and L.need_head:
         out.append("세대주 요건을 공고문에서 확인하지 못해 규제지역 기준으로 추정했어요")
     if "재당첨 제한" not in L.from_notice and (L.regulated or L.price_cap):

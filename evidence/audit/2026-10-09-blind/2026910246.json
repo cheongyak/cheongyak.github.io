@@ -1,0 +1,17 @@
+{"id": "2026910246", "name": "용인반도체클러스터 동일하이빌 파크밸리(D1-1블록)", "fields": {
+"supply_class": {"value": "민영주택", "status": "stated", "quote": "주택유형 규제지역여부 무순위 사후 자격요건 민영 비규제지역", "note": "택지유형 공공택지"},
+"supply_kind": {"value": "무순위(사후접수)", "status": "stated", "quote": "최초 입주자모집공고 시 1순위 및 2순위 청약 마감단지로 예비입주자를 대상으로 추가입주자를 선정하고 남은 미계약 세대를 공급", "note": "최초 공고 2026.08.07, 최초 주택관리번호 2026000371"},
+"correction": {"value": null, "status": "not_stated", "quote": "", "note": "정정공고 문구 없음. 요약표 무순위 접수일이 '2025.09.21.(월)'로 연도 오기, 본문 일정표는 2026.09.21.(월)"},
+"need_head": {"value": false, "status": "stated", "quote": "무순위 사후 입주자모집공고일 현재 전국에 거주하는 무주택세대구성원", "note": "세대주 요건 없음"},
+"price_cap": {"value": true, "status": "stated", "quote": "재당첨제한 전매제한 거주의무기간 분양가상한제 택지유형 / 없음 ... 3년 ... 없음 적용 공공택지", "note": "요약표에서만 확인(본문 별도 문구 없음)"},
+"residence_duty": {"value": 0, "status": "stated", "quote": "재당첨제한 전매제한 거주의무기간 분양가상한제 택지유형 / 없음 ... 없음 적용 공공택지", "note": "요약표 거주의무기간 칸 '없음'. 표가 풀려 순서로 판단"},
+"rewin_years": {"value": 0, "status": "stated", "quote": "재당첨제한 전매제한 ... / 없음 최초 당첨자발표일로부터 3년(2026.08.27.)", "note": "요약표 재당첨제한 칸 '없음'. 본문에 재당첨 관련 문구 없음. 분양가상한제 적용인데 재당첨 없음으로 표기됨에 유의"},
+"resale": {"value": {"months": 36, "base": "최초 입주자모집공고의 당첨자발표일 2026-08-27 (단, 3년 내 소유권이전등기 시 해제)"}, "status": "stated", "quote": "본 아파트의 전매제한은 최초 입주자모집공고의 당첨자발표일(2026.08.27.)로부터 3년간 적용됩니다.(단, 3년 내 소유권이전등기 시 해제)", "note": ""},
+"account_months": {"value": 0, "status": "stated", "quote": "청약통장 가입여부와 무관하게 신청가능", "note": "무순위라 통장 요건 없음"},
+"deposit_count": {"value": 0, "status": "stated", "quote": "청약통장 가입여부와 무관하게 신청가능", "note": "민영·무순위"},
+"residence": {"value": {"area": "전국", "months": 0, "since": "2026-09-16", "others": [], "equal": true}, "status": "stated", "quote": "본 주택의 무순위(사후) 입주자모집공고일은 2026.09.16.(수)이며(청약자격 요건 중 나이, 거주요건 등의 판단기준일) ... 전국에 거주하는 무주택세대구성원", "note": "지역 우선 없이 주택형별 무작위 추첨"},
+"score_ratio": {"value": [], "status": "stated", "quote": "한국부동산원 입주자 선정 프로그램에 의해 주택형별 무작위 추첨으로 무순위 사후 당첨자 선정", "note": "가점제 없음. 예비입주자 선정 안 함"},
+"pay_ratio": {"value": {"contract_pct": 5, "mid_pct": 60, "balance_pct": 35}, "status": "stated", "quote": "공급금액 계약금(5%) 중도금(60%) 잔금(35%)", "note": "계약금 1차 500만원(계약 시)+2차(계약 후 30일 이내), 중도금 6회 각 10%"},
+"mc_quota": {"value": null, "status": "not_stated", "quote": "", "note": "무순위, 특별공급 없음"},
+"special_supply": {"value": {"types": [], "total_units": 126, "note": "무순위 잔여 126세대(59A 38, 59C 12, 71A 15, 71B 38, 84A 23), 특별공급 없음"}, "status": "stated", "quote": "총 589세대 중 잔여세대 126세대", "note": ""}
+}}

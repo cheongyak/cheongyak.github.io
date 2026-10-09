@@ -1,0 +1,141 @@
+{
+ "id": "2026000448",
+ "name": "숭의역 노르웨이숲 더 스카이",
+ "fields": {
+  "supply_class": {
+   "value": "민영주택",
+   "status": "stated",
+   "quote": "주택유형 해당지역 기타지역 규제지역여부 민영",
+   "note": ""
+  },
+  "supply_kind": {
+   "value": "일반분양",
+   "status": "stated",
+   "quote": "총 324세대(조합 289세대) 중 일반분양 35세대",
+   "note": "조합원분 외 일반분양(최초 입주자모집공고)"
+  },
+  "correction": {
+   "value": null,
+   "status": "stated",
+   "quote": "",
+   "note": "정정공고 문구 없음"
+  },
+  "need_head": {
+   "value": false,
+   "status": "stated",
+   "quote": "입주자모집공고일 현재 인천광역시에 거주하거나 수도권(서울특별시, 경기도)에 거주하는 만19세 이상인 분 또는 세대주인 미성년자",
+   "note": "신청자격 표: 세대주 요건은 노부모부양만 '필요', 1·2순위 '-'"
+  },
+  "price_cap": {
+   "value": false,
+   "status": "stated",
+   "quote": "재당첨제한 전매제한 거주의무기간 분양가상한제 택지유형 없음 1년 없음 미적용 민간택지",
+   "note": ""
+  },
+  "residence_duty": {
+   "value": 0,
+   "status": "stated",
+   "quote": "재당첨제한 전매제한 거주의무기간 분양가상한제 ... 없음 1년 없음 미적용",
+   "note": ""
+  },
+  "rewin_years": {
+   "value": 0,
+   "status": "stated",
+   "quote": "분양가상한제 미적용 민영주택으로, 당첨자로 선정되더라도 「주택공급에 관한 규칙」 제54조에 따른 재당첨 제한을 적용받지 않으며",
+   "note": ""
+  },
+  "resale": {
+   "value": {
+    "months": 12,
+    "base": "최초 당첨자발표일(2026.10.07.)"
+   },
+   "status": "stated",
+   "quote": "본 주택의 전매제한은 최초 당첨자발표일(2026.10.07.)로부터 적용되며 ... 전매 제한 기간 최초 당첨자발표일로부터 1년",
+   "note": ""
+  },
+  "account_months": {
+   "value": 12,
+   "status": "stated",
+   "quote": "주택청약종합저축 : 주택청약종합저축에 가입하여 12개월이 경과하고, 지역별·면적별 예치금액 이상인 분",
+   "note": ""
+  },
+  "deposit_count": {
+   "value": null,
+   "status": "not_stated",
+   "quote": "",
+   "note": "민영주택, 납입횟수 요건 없음(예치금 기준)"
+  },
+  "residence": {
+   "value": {
+    "area": "인천광역시",
+    "months": 0,
+    "since": "2026-09-18",
+    "others": [
+     "서울특별시",
+     "경기도"
+    ],
+    "equal": false
+   },
+   "status": "stated",
+   "quote": "①지역 : 해당지역 거주자(인천광역시 거주자) → 기타지역 거주자(서울특별시, 경기도 거주자)",
+   "note": "해당지역 '입주자모집공고일 현재 인천광역시 거주자' — 거주기간 요건 없음"
+  },
+  "score_ratio": {
+   "value": [
+    {
+     "over_m2": 60,
+     "upto_m2": 85,
+     "score_pct": 40,
+     "lottery_pct": 60
+    }
+   ],
+   "status": "stated",
+   "quote": "전용면적 60㎡ 초과 85㎡ 이하 40% 60%",
+   "note": "주택형 69.7032·84.9818 만 공급"
+  },
+  "pay_ratio": {
+   "value": {
+    "contract_pct": 5,
+    "mid_pct": 60,
+    "balance_pct": 35
+   },
+   "status": "stated",
+   "quote": "공급금액 계약금(5%) 중도금(60%) 잔금 (35%)",
+   "note": "계약금 1차 500만원(계약시)+2차(계약후 30일 이내)"
+  },
+  "mc_quota": {
+   "value": [
+    {
+     "name": "인천광역시(해당시도)",
+     "pct": 50
+    },
+    {
+     "name": "기타지역(서울특별시·경기도)",
+     "pct": 50
+    }
+   ],
+   "status": "stated",
+   "quote": "①지역 : 해당시도 거주자 50%(인천광역시 거주자) → 기타지역 거주자 50%(서울특별시 및 경기도 거주자)",
+   "note": ""
+  },
+  "special_supply": {
+   "value": {
+    "types": [
+     "기관추천",
+     "다자녀가구",
+     "신혼부부",
+     "노부모부양",
+     "생애최초",
+     "신생아"
+    ],
+    "special_total": 19,
+    "general_total": 16,
+    "total_households": 35,
+    "complex_total": 324
+   },
+   "status": "stated",
+   "quote": "총 324세대(조합 289세대) 중 일반분양 35세대 [특별공급 19세대(기관추천 3세대, 다자녀가구 3세대, 신혼부부 5세대, 노부모부양 1세대, 생애최초 3세대, 신생아 4세대) 포함]",
+   "note": ""
+  }
+ }
+}

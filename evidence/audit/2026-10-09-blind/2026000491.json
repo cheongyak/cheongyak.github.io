@@ -1,0 +1,133 @@
+{
+ "id": "2026000491",
+ "name": "청주 가경 아이파크 7단지",
+ "fields": {
+  "supply_class": {
+   "value": "민영주택",
+   "status": "stated",
+   "quote": "주택유형 해당지역 기타지역 규제지역여부 / 민영 ...",
+   "note": ""
+  },
+  "need_head": {
+   "value": false,
+   "status": "stated",
+   "quote": "세대주 요건 - - - 필요 - - - - (기관추천 다자녀가구 신혼부부 노부모부양 생애최초 신생아 1순위 2순위)",
+   "note": "일반공급 1·2순위 세대주 요건 없음(노부모부양 특별공급만 세대주 필요)"
+  },
+  "price_cap": {
+   "value": false,
+   "status": "stated",
+   "quote": "재당첨제한 전매제한 거주의무기간 분양가상한제 택지유형 / 없음 없음 없음 미적용 민간택지",
+   "note": ""
+  },
+  "residence_duty": {
+   "value": 0,
+   "status": "stated",
+   "quote": "재당첨제한 전매제한 거주의무기간 분양가상한제 택지유형 / 없음 없음 없음 미적용 민간택지",
+   "note": ""
+  },
+  "rewin_years": {
+   "value": 0,
+   "status": "stated",
+   "quote": "본 주택은 비수도권 비투기과열지구 및 비청약과열지역의 민간택지에서 공급하는 분양가상한제 미적용 민영주택으로, 당첨자로 선정되더라도 「주택공급에 관한 규칙」 제54조에 따른 재당첨 제한을 적용받지 않으며",
+   "note": ""
+  },
+  "account_months": {
+   "value": 6,
+   "status": "stated",
+   "quote": "1순위 : 입주자저축에 가입하여 가입기간이 6개월이 경과하고 지역별·면적별 예치금액 이상 납입한 분",
+   "note": ""
+  },
+  "deposit_count": {
+   "value": null,
+   "status": "not_stated",
+   "quote": "",
+   "note": "민영주택: 납입횟수 요건 없음(예치금 기준)"
+  },
+  "supply_kind": {
+   "value": "일반분양",
+   "status": "stated",
+   "quote": "입주자 모집공고 (최초 입주자모집공고일 2026.10.08.)",
+   "note": ""
+  },
+  "correction": {
+   "value": null,
+   "status": "stated",
+   "quote": "",
+   "note": "정정/변경공고 문구 없음"
+  },
+  "resale": {
+   "value": "없음",
+   "status": "stated",
+   "quote": "구분 특별공급 일반공급 / 전매제한기간 없음",
+   "note": ""
+  },
+  "residence": {
+   "value": {
+    "area": "청주시",
+    "months": 0,
+    "since": "2026-10-08",
+    "others": [
+     "충청북도"
+    ],
+    "equal": false
+   },
+   "status": "stated",
+   "quote": "최초 입주자모집공고일 현재 청주시에 거주하거나 충청북도에 거주...다만 청약신청자 중 경쟁이 있을 경우 해당 주택건설지역인 청주시 거주자가 우선합니다.",
+   "note": "해당지역 거주기간 요건 없음(공고일 현재 거주). 판단기준일 2026.10.08."
+  },
+  "score_ratio": {
+   "value": [
+    {
+     "over_m2": 60,
+     "upto_m2": 85,
+     "score_pct": 40,
+     "lottery_pct": 60
+    },
+    {
+     "over_m2": 85,
+     "upto_m2": null,
+     "score_pct": 0,
+     "lottery_pct": 100
+    }
+   ],
+   "status": "stated",
+   "quote": "전용면적 60㎡ 초과 85㎡ 이하 40% 60% / 전용면적 85㎡ 초과 - 100%",
+   "note": ""
+  },
+  "pay_ratio": {
+   "value": {
+    "contract_pct": 10,
+    "mid_pct": 60,
+    "balance_pct": 30
+   },
+   "status": "stated",
+   "quote": "계약금(10%) 중도금(60%) 잔금 (30%)",
+   "note": ""
+  },
+  "mc_quota": {
+   "value": [],
+   "status": "not_stated",
+   "quote": "①지역 : 해당지역 거주자(청주시 거주자) → 기타지역 거주자(충청북도 거주자)",
+   "note": "지역별 배정 비율(%) 없음. 해당지역 거주자 우선 후 기타지역 순서만 명시"
+  },
+  "special_supply": {
+   "value": {
+    "types": [
+     "기관추천",
+     "다자녀가구",
+     "신혼부부",
+     "노부모부양",
+     "생애최초",
+     "신생아"
+    ],
+    "total_units": 543,
+    "special_units": 169,
+    "general_units": 374
+   },
+   "status": "stated",
+   "quote": "총 543세대 ... [특별공급 169세대(기관추천 40, 다자녀가구 53, 신혼부부 29, 노부모부양 14, 생애최초 13, 신생아 20세대 포함)]",
+   "note": ""
+  }
+ }
+}

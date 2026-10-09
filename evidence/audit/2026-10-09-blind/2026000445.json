@@ -1,0 +1,134 @@
+{
+ "id": "2026000445",
+ "name": "삼천 하늘채 라비엘",
+ "fields": {
+  "supply_class": {
+   "value": "민영주택",
+   "status": "stated",
+   "quote": "주택유형 해당지역 기타지역 규제지역여부 민영 전주시 1년 이상 계속 거주자",
+   "note": ""
+  },
+  "supply_kind": {
+   "value": "일반분양",
+   "status": "stated",
+   "quote": "총 602세대 중 일반분양 116세대 및 부대복리시설",
+   "note": "조합원분 외 일반분양(최초 공고)"
+  },
+  "correction": {
+   "value": null,
+   "status": "stated",
+   "quote": "",
+   "note": "정정공고 문구 없음"
+  },
+  "need_head": {
+   "value": false,
+   "status": "stated",
+   "quote": "입주자모집공고일 현재 전주시에 거주하거나 전북특별자치도에 거주하는 만19세 이상인 분 또는 세대주인 미성년자",
+   "note": "신청자격 표: 세대주 요건 노부모부양만 '필요'"
+  },
+  "price_cap": {
+   "value": false,
+   "status": "stated",
+   "quote": "재당첨제한 전매제한 거주의무기간 분양가상한제 택지유형 없음 없음 없음 미적용 민간택지",
+   "note": ""
+  },
+  "residence_duty": {
+   "value": 0,
+   "status": "stated",
+   "quote": "재당첨제한 전매제한 거주의무기간 분양가상한제 ... 없음 없음 없음 미적용",
+   "note": ""
+  },
+  "rewin_years": {
+   "value": 0,
+   "status": "stated",
+   "quote": "분양가상한제 미적용 민영주택으로, 당첨자로 선정되더라도 「주택공급에 관한 규칙」 제54조에 따른 재당첨 제한을 적용받지 않으며",
+   "note": ""
+  },
+  "resale": {
+   "value": "없음",
+   "status": "stated",
+   "quote": "구분 특별공급 일반공급 전매제한기간 전매제한 없음",
+   "note": "단, 계약금(10%) 완납 이후 전매 가능(사업주체 별도 통보)"
+  },
+  "account_months": {
+   "value": 6,
+   "status": "stated",
+   "quote": "주택청약종합저축 : 주택청약종합저축에 가입하여 6개월이 경과하고, 지역별·면적별 예치금액 이상인 분",
+   "note": ""
+  },
+  "deposit_count": {
+   "value": null,
+   "status": "not_stated",
+   "quote": "",
+   "note": "민영주택, 납입횟수 요건 없음"
+  },
+  "residence": {
+   "value": {
+    "area": "전주시",
+    "months": 12,
+    "since": "2025-09-18",
+    "others": [
+     "전북특별자치도"
+    ],
+    "equal": false
+   },
+   "status": "stated",
+   "quote": "해당지역 거주자(전주시 1년 이상 계속 거주자) → 기타지역 거주자[전주시 1년 미만 거주자 및 전북특별자치도 거주자] / (2025.09.18. 이전부터 계속 거주)",
+   "note": ""
+  },
+  "score_ratio": {
+   "value": [
+    {
+     "over_m2": 0,
+     "upto_m2": 60,
+     "score_pct": 40,
+     "lottery_pct": 60
+    },
+    {
+     "over_m2": 60,
+     "upto_m2": 85,
+     "score_pct": 40,
+     "lottery_pct": 60
+    }
+   ],
+   "status": "stated",
+   "quote": "전용면적 60㎡ 이하 40% 60% 전용면적 60㎡ 초과 85㎡ 이하 40% 60%",
+   "note": "주택형 59(59.9831)·74A·74B"
+  },
+  "pay_ratio": {
+   "value": {
+    "contract_pct": 10,
+    "mid_pct": 60,
+    "balance_pct": 30
+   },
+   "status": "stated",
+   "quote": "공급금액 계약금(10%) 중도금(60%) 잔금(30%)",
+   "note": "계약금 1차 1,000만원+2차(계약 후 30일 이내)"
+  },
+  "mc_quota": {
+   "value": "비율 배정 없음(해당지역 우선 → 기타지역)",
+   "status": "stated",
+   "quote": "① 지역 : 해당지역 거주자(전주시 1년 이상 계속 거주자) → 기타지역 거주자(전주시 1년 미만 거주자 및 전북특별자치도 거주자)",
+   "note": "다자녀 특별공급에 % 지역 배정 문구 없음"
+  },
+  "special_supply": {
+   "value": {
+    "types": [
+     "기관추천",
+     "다자녀가구",
+     "신혼부부",
+     "노부모부양",
+     "생애최초",
+     "신생아"
+    ],
+    "special_total": 65,
+    "general_total": 51,
+    "total_households": 116,
+    "complex_total": 602
+   },
+   "status": "stated",
+   "quote": "총 602세대 중 일반분양 116세대 [특별공급 65세대(기관추천 12세대, 다자녀가구 12세대, 신혼부부 18세대, 노부모부양 3세대, 생애최초 8세대, 신생아 12세대) 포함]",
+   "note": ""
+  }
+ }
+}

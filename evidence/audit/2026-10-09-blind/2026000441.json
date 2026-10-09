@@ -1,0 +1,17 @@
+{"id": "2026000441", "name": "문수로 비스타 더파크", "fields": {
+"supply_class": {"value": "민영주택", "status": "stated", "quote": "비수도권 비투기과열지구 및 비청약과열지역의 민간택지에서 공급하는 분양가상한제 미적용 민영주택으로", "note": ""},
+"supply_kind": {"value": "일반분양", "status": "stated", "quote": "공급규모 : 아파트 지하 3층, 지상 최고 18층 10개동 총 700세대 [특별공급 383세대 ... 포함]", "note": ""},
+"correction": {"value": null, "status": "not_stated", "quote": "", "note": "정정/변경 공고 문구 없음"},
+"need_head": {"value": false, "status": "stated", "quote": "세대주 요건 - - - 필요 - - - - / 울산광역시에 거주하거나 부산광역시, 경상남도에 거주...하는 만19세 이상인 분 또는 세대주인 미성년자", "note": "일반공급 세대주 요건 없음. 노부모부양 특공만 필요"},
+"price_cap": {"value": false, "status": "stated", "quote": "재당첨제한 전매제한 거주의무기간 분양가상한제 택지유형 / 없음 6개월 없음 미적용 민간택지", "note": ""},
+"residence_duty": {"value": 0, "status": "stated", "quote": "거주의무기간 ... 없음", "note": ""},
+"rewin_years": {"value": 0, "status": "stated", "quote": "당첨자로 선정되더라도 「주택공급에 관한 규칙」 제54조에 따른 재당첨 제한을 적용받지 않으며", "note": ""},
+"resale": {"value": {"months": 6, "base": "최초 당첨자발표일(2026.10.01.)"}, "status": "stated", "quote": "본 주택의 전매제한은 최초 당첨자발표일로부터 적용되며 ... 전매제한기간 당첨자 발표일로부터 6개월", "note": "당첨자발표일 2026.10.01.(일정표)"},
+"account_months": {"value": 6, "status": "stated", "quote": "1순위 : 입주자저축에 가입하여 가입기간이 6개월이 경과하고 지역별·면적별 예치금액 이상 납입한 분", "note": ""},
+"deposit_count": {"value": null, "status": "not_stated", "quote": "", "note": "민영주택, 예치금 기준"},
+"residence": {"value": {"area": "울산광역시", "months": 12, "since": "2025-09-11", "others": ["울산광역시(1년 미만 거주자)", "부산광역시", "경상남도"], "equal": false}, "status": "stated", "quote": "해당지역 울산광역시 1년 이상 거주자 (2025.09.11. 이전부터 계속 거주) / 기타지역 울산광역시 1년 미만 거주자 및 부산광역시, 경상남도 거주자", "note": "since 는 거주 시작 기한(이 날 이전부터 계속 거주). 판단 기준일은 공고일 2026.09.11."},
+"score_ratio": {"value": [{"over_m2": 60, "upto_m2": 85, "score_pct": 40, "lottery_pct": 60}], "status": "stated", "quote": "전용면적 60㎡ 초과 85㎡ 이하 40% 60%", "note": "주택형 68A·68B·84A·84B 모두 60~85㎡"},
+"pay_ratio": {"value": {"contract_pct": 5, "mid_pct": 60, "balance_pct": 35}, "status": "stated", "quote": "공급금액 계약금(5%) 중도금(60%) 잔금(35%)", "note": "계약금(10%) 중도금(20%) 잔금(70%) 표는 발코니/추가선택품목"},
+"mc_quota": {"value": "지역 비율 배정 없음(해당지역 우선 → 기타지역)", "status": "stated", "quote": "①지역 : 해당지역 거주자(울산광역시 1년 이상 계속 거주자) → 기타지역 거주자(울산광역시 1년 미만 거주자 및 부산광역시, 경상남도 거주자)", "note": "50% 등 비율 분할 문구 없음"},
+"special_supply": {"value": {"types": {"기관추천": 68, "다자녀가구": 105, "신혼부부": 70, "노부모부양": 21, "생애최초": 49, "신생아": 70}, "special_total": 383, "total_units": 700}, "status": "stated", "quote": "총 700세대 [특별공급 383세대(기관추천 68세대, 다자녀가구 105세대, 신혼부부 70세대, 노부모부양 21세대, 생애최초 49세대, 신생아 70세대) 포함]", "note": "일반공급 317세대(계산값)"}
+}}

@@ -1,0 +1,128 @@
+{
+ "id": "2026000466",
+ "name": "진도 승원팰리체 더 테라스",
+ "fields": {
+  "supply_class": {
+   "value": "민영주택",
+   "status": "stated",
+   "quote": "주택유형 해당지역 기타지역 규제지역여부 / 민영 ...",
+   "note": ""
+  },
+  "need_head": {
+   "value": false,
+   "status": "stated",
+   "quote": "세대주 요건 - - - 필요 - - - - (기관추천 다자녀가구 신혼부부 노부모부양 생애최초 신생아 1순위 2순위)",
+   "note": "일반공급 1·2순위 세대주 요건 없음(노부모부양 특별공급만 세대주 필요)"
+  },
+  "price_cap": {
+   "value": false,
+   "status": "stated",
+   "quote": "재당첨제한 전매제한 거주의무기간 분양가상한제 택지유형 / 없음 없음 없음 미적용 민간택지",
+   "note": ""
+  },
+  "residence_duty": {
+   "value": 0,
+   "status": "stated",
+   "quote": "재당첨제한 전매제한 거주의무기간 분양가상한제 택지유형 / 없음 없음 없음 미적용 민간택지",
+   "note": ""
+  },
+  "rewin_years": {
+   "value": 0,
+   "status": "stated",
+   "quote": "본 주택은 비수도권 비투기과열지구 및 비청약과열지역의 민간택지에서 공급하는 분양가상한제 미적용 민영주택으로, 당첨자로 선정되더라도 「주택공급에 관한 규칙」 제54조에 따른 재당첨 제한을 적용받지 않으며",
+   "note": ""
+  },
+  "account_months": {
+   "value": 6,
+   "status": "stated",
+   "quote": "1순위 : 입주자저축에 가입하여 가입기간이 6개월이 경과하고 지역별·면적별 예치금액 이상 납입한 분",
+   "note": ""
+  },
+  "deposit_count": {
+   "value": null,
+   "status": "not_stated",
+   "quote": "",
+   "note": "민영주택: 납입횟수 요건 없음(예치금 기준)"
+  },
+  "supply_kind": {
+   "value": "일반분양",
+   "status": "stated",
+   "quote": "진도 승원팰리체 더 테라스 입주자모집공고",
+   "note": ""
+  },
+  "correction": {
+   "value": null,
+   "status": "stated",
+   "quote": "",
+   "note": "정정/변경공고 문구 없음"
+  },
+  "resale": {
+   "value": "없음",
+   "status": "stated",
+   "quote": "본 주택의 전매제한은 최초 당첨자발표일로부터 적용되며 ... 전매제한기간 없음",
+   "note": ""
+  },
+  "residence": {
+   "value": {
+    "area": "기존 전라남도 진도군",
+    "months": 0,
+    "since": "2026-10-08",
+    "others": [
+     "기존 전라남도",
+     "기존 광주광역시"
+    ],
+    "equal": false
+   },
+   "status": "stated",
+   "quote": "최초 입주자모집공고일 현재 기존 광주광역시 및 기존 전라남도에 거주...경쟁이 있을 경우 해당 주택건설지역인 기존 전라남도 진도군 거주자가 우선합니다.",
+   "note": "전남광주통합특별시 출범(26.7.1.) 전 관할구역 기준 적용. 거주기간 요건 없음"
+  },
+  "score_ratio": {
+   "value": [
+    {
+     "over_m2": 60,
+     "upto_m2": 85,
+     "score_pct": 40,
+     "lottery_pct": 60
+    }
+   ],
+   "status": "stated",
+   "quote": "전용면적 60㎡ 초과 85㎡ 이하 40% 60%",
+   "note": "84A·84B만 공급"
+  },
+  "pay_ratio": {
+   "value": {
+    "contract_pct": 5,
+    "mid_pct": 60,
+    "balance_pct": 35
+   },
+   "status": "stated",
+   "quote": "분양금액 계약금(5%) 중도금(60%) 잔금(35%)",
+   "note": "계약금 1차 계약시 500만원 정액 + 2차 계약 후 30일 이내"
+  },
+  "mc_quota": {
+   "value": [],
+   "status": "not_stated",
+   "quote": "①지역 : 해당지역 거주자(기존 전라남도 진도군 거주자) → 기타지역 거주자(기존 전라남도 및 기존 광주광역시 거주자)",
+   "note": "지역별 배정 비율(%) 없음. 해당지역 거주자 우선 후 기타지역 순서만 명시"
+  },
+  "special_supply": {
+   "value": {
+    "types": [
+     "기관추천",
+     "다자녀가구",
+     "신혼부부",
+     "노부모부양",
+     "생애최초",
+     "신생아"
+    ],
+    "total_units": 58,
+    "special_units": 28,
+    "general_units": 30
+   },
+   "status": "stated",
+   "quote": "총 58세대 [특별공급 28세대(기관추천 5세대, 다자녀가구 5세대, 신혼부부 8세대, 노부모부양 1세대, 생애최초 4세대, 신생아 5세대) 포함]",
+   "note": ""
+  }
+ }
+}

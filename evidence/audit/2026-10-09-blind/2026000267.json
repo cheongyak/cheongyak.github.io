@@ -1,0 +1,17 @@
+{"id": "2026000267", "name": "아산 그랑시티필하우스", "fields": {
+"supply_class": {"value": "민영주택", "status": "stated", "quote": "주택유형 해당지역 기타지역 규제지역여부 민영 충청남도 아산시 거주자 충청남도, 대전광역시, 세종특별자치시 거주자 비규제지역", "note": "휴대지구 도시개발사업, 민간택지"},
+"supply_kind": {"value": "일반분양", "status": "stated", "quote": "총 1,534세대 중 임대분양 154세대를 제외 한 일반분양 1,380세대", "note": ""},
+"correction": {"value": null, "status": "not_stated", "quote": "", "note": "정정공고 문구 없음"},
+"need_head": {"value": false, "status": "stated", "quote": "세대주 요건 - - - 필요 - - - (기관추천 다자녀가구 신혼부부 노부모부양 생애최초 신생아 1순위 2순위)", "note": "노부모부양만 세대주. 일반공급 대상자: 만19세 이상인 분 또는 세대주인 미성년자"},
+"price_cap": {"value": false, "status": "stated", "quote": "재당첨제한 전매제한 거주의무기간 분양가상한제 택지유형 없음 없음 없음 미적용 민간택지", "note": ""},
+"residence_duty": {"value": 0, "status": "stated", "quote": "재당첨제한 전매제한 거주의무기간 분양가상한제 택지유형 없음 없음 없음 미적용 민간택지", "note": ""},
+"rewin_years": {"value": 0, "status": "stated", "quote": "당첨자로 선정되더라도 「주택공급에 관한 규칙」 제54조에 따른 재당첨 제한을 적용받지 않으며", "note": ""},
+"resale": {"value": "없음", "status": "stated", "quote": "구분 특별공급 일반공급 전매제한기간 없음 없음", "note": ""},
+"account_months": {"value": 6, "status": "stated", "quote": "③ 주택청약종합저축 : 주택청약종합저축에 가입하여 6개월이 경과하고, 지역별·면적별 예치금액 이상인 분", "note": ""},
+"deposit_count": {"value": null, "status": "not_stated", "quote": "", "note": "민영주택: 예치금 기준"},
+"residence": {"value": {"area": "아산시", "months": 0, "since": "2026-10-08", "others": ["충청남도", "대전광역시", "세종특별자치시"], "equal": false}, "status": "stated", "quote": "경쟁이 있을 경우 해당 주택건설지역인 아산시 거주자가(입주자모집공고일 현재 거주) 우선합니다.", "note": "거주기간 요건 없음(공고일 현재 거주)"},
+"score_ratio": {"value": [{"over_m2": 60, "upto_m2": 85, "score_pct": 40, "lottery_pct": 60}, {"over_m2": 85, "upto_m2": null, "score_pct": 0, "lottery_pct": 100}], "status": "stated", "quote": "전용면적 60㎡ 초과 85㎡ 이하 84A 84B 84C 84D 40% 60% | 전용면적 85㎡ 초과 103A 103B - 100%", "note": "85㎡ 초과 가점제 '-'(0%)"},
+"pay_ratio": {"value": {"contract_pct": 5, "mid_pct": 60, "balance_pct": 35}, "status": "stated", "quote": "공급금액 계약금(5%) 중도금(60%) 잔금(35%)", "note": "계약금 1차 500만원 정액 + 2차"},
+"mc_quota": {"value": [{"name": "아산시", "pct": null}, {"name": "충청남도·대전광역시·세종특별자치시", "pct": null}], "status": "unclear", "quote": "■ ①지역 : 모집공고일 현재 해당지역(아산시) 거주자 → 모집공고일 현재 기타지역(충청남도, 대전광역시, 세종특별자치시) 거주자", "note": "비율 배정 없이 해당지역 우선 순차"},
+"special_supply": {"value": {"types": {"기관추천": 128, "다자녀가구": 138, "신혼부부": 192, "노부모부양": 41, "생애최초": 89, "신생아": 128}, "special_total": 716, "general_total": 664, "total": 1380}, "status": "stated", "quote": "[특별공급 716세대(기관추천 128세대, 다자녀가구 138세대, 신혼부부 192세대, 노부모부양 41세대, 생애최초 89세대, 신생아 128세대) 포함]", "note": "합 계 1,380 ... 716 664 65"}
+}}

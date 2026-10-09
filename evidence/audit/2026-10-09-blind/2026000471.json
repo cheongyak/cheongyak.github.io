@@ -1,0 +1,131 @@
+{
+ "id": "2026000471",
+ "name": "한양립스 에듀포레(조합원 취소분)",
+ "fields": {
+  "supply_class": {
+   "value": "민영주택",
+   "status": "stated",
+   "quote": "주택유형 해당지역 기타지역 규제지역여부 / 민영 ...",
+   "note": ""
+  },
+  "need_head": {
+   "value": false,
+   "status": "stated",
+   "quote": "신청자격 일반공급 순위1 순위2 ... 세대주 요건 - -",
+   "note": ""
+  },
+  "price_cap": {
+   "value": false,
+   "status": "stated",
+   "quote": "재당첨제한 전매제한 거주의무기간 분양가상한제 택지유형 / 없음 개월 6 없음 미적용 민간택지 (원문 글자 순서 뒤섞임: 전매제한 6개월)",
+   "note": ""
+  },
+  "residence_duty": {
+   "value": 0,
+   "status": "stated",
+   "quote": "재당첨제한 전매제한 거주의무기간 분양가상한제 택지유형 / 없음 개월 6 없음 미적용 민간택지 (원문 글자 순서 뒤섞임: 전매제한 6개월)",
+   "note": ""
+  },
+  "rewin_years": {
+   "value": 0,
+   "status": "stated",
+   "quote": "본 주택은 비수도권 비투기과열지구 및 비청약과열지역의 민간택지에서 공급하는 분양가상한제 미적용 민영주택으로, 당첨자로 선정되더라도 「주택공급에 관한 규칙」 제54조에 따른 재당첨 제한을 적용받지 않으며",
+   "note": ""
+  },
+  "account_months": {
+   "value": 6,
+   "status": "stated",
+   "quote": "1순위 : 입주자저축에 가입하여 가입기간이 6개월이 경과하고 지역별·면적별 예치금액 이상 납입한 분",
+   "note": ""
+  },
+  "deposit_count": {
+   "value": null,
+   "status": "not_stated",
+   "quote": "",
+   "note": "민영주택: 납입횟수 요건 없음(예치금 기준)"
+  },
+  "supply_kind": {
+   "value": "조합원 취소분 등 잔여",
+   "status": "stated",
+   "quote": "한양립스 에듀포레 조합원 취소분( ) 입주자모집공고 ... 총 470세대 중 조합원 취소분 19세대",
+   "note": "청약홈 1·2순위 일반공급으로 접수"
+  },
+  "correction": {
+   "value": null,
+   "status": "stated",
+   "quote": "",
+   "note": "정정/변경공고 문구 없음"
+  },
+  "resale": {
+   "value": {
+    "months": 6,
+    "base": "최초 당첨자발표일(2026.10.26.)"
+   },
+   "status": "stated",
+   "quote": "본 주택의 전매제한은 최초 당첨자발표일 로부터 적용되며 기간은 아래와 같습니다(2026.10.26.) / 구분 일반공급 전매제한기간 개월 6",
+   "note": ""
+  },
+  "residence": {
+   "value": {
+    "area": "기존 광주광역시",
+    "months": 12,
+    "since": "2025-10-08",
+    "others": [
+     "기존 광주광역시(1년 미만 거주자)",
+     "기존 전라남도"
+    ],
+    "equal": false
+   },
+   "status": "stated",
+   "quote": "해당 주택건설지역인 기존 광주광역시 년 이상 거주자가1 ( 2025.10.08 이전부터 계속 거주) 우선합니다 / 기타지역 기존 광주광역시 년 미만 거주자 및 기존 전라남도 거주자",
+   "note": "원문 PDF 글자 순서가 뒤섞여 '1년' 이 '년 ...1' 로 풀림"
+  },
+  "score_ratio": {
+   "value": [
+    {
+     "over_m2": 60,
+     "upto_m2": 85,
+     "score_pct": 40,
+     "lottery_pct": 60
+    },
+    {
+     "over_m2": 85,
+     "upto_m2": null,
+     "score_pct": 0,
+     "lottery_pct": 100
+    }
+   ],
+   "status": "stated",
+   "quote": "전용면적 초과 이하60 85㎡ ㎡ 40% 60% / 전용면적 초과85㎡ - 100%",
+   "note": "85㎡ 초과는 89A 1세대"
+  },
+  "pay_ratio": {
+   "value": {
+    "contract_pct": 5,
+    "mid_pct": 60,
+    "balance_pct": 35
+   },
+   "status": "unclear",
+   "quote": "분양가격 계약금(5%) 중 도 금 (60%) 잔 금(35%) / 84A 476,000,000 25,000,000 47,600,000 ×6 165,400,000",
+   "note": "표 머리는 5/60/35지만 계약금이 정액(2,500만원 또는 3,000만원)이라 실제 비율은 약 5.0~5.8%, 잔금은 그만큼 35%보다 적음(예: 84A 2층 165,400,000 = 34.7%). 발코니 표의 계약금30%/잔금70%는 확장비용이라 제외"
+  },
+  "mc_quota": {
+   "value": [],
+   "status": "not_stated",
+   "quote": "",
+   "note": "특별공급 없음(일반공급만)"
+  },
+  "special_supply": {
+   "value": {
+    "types": [],
+    "none": true,
+    "total_units": 19,
+    "special_units": 0,
+    "general_units": 19
+   },
+   "status": "stated",
+   "quote": "공급규모 ... 총 세대 중 조합원 취소분 세대 (470 / 19) / 합 계 19 19 2 / 신청자격 일반공급 순위1 순위2",
+   "note": "특별공급 없음, 일반공급 19세대(최하층 우선배정 2)"
+  }
+ }
+}

@@ -332,6 +332,52 @@ def pay_terms(text: str) -> tuple[dict | None, dict | None]:
     return ratio, split
 
 
+_SP_WORD = r"(?:특별공급|생애최초|신혼부부|다자녀|신생아|노부모부양|기관추천|이전기관)"
+
+
+def _in_special_section(flat: str, pos: int, back: int = 250) -> bool:
+    """pos 가 특별공급 칸(대상자 문장) 안인가 — 앞 back 글자에서 특별공급 낱말이 '일반공급'보다 나중에 나오면 특별공급 칸으로 본다."""
+    w = flat[max(0, pos - back):pos]
+    sp = max((m.end() for m in re.finditer(_SP_WORD, w)), default=-1)
+    gen = max((m.end() for m in re.finditer(r"일반공급", w)), default=-1)
+    return sp > gen
+
+
+def need_head_general(flat: str):
+    """일반공급 신청 대상이 세대주로 한정되는지 (공급 전체 기준. 규제지역 '1순위만 세대주'는 화면의 규제지역 규칙이 따로 본다).
+    1) '일반공급은 … 무주택세대주(…)를 대상으로' / 일반공급 칸 '대상자 ■ … 거주하는 무주택세대주' (재공급·무순위)
+    2) 민영 '신청자격' 표의 '세대주 요건' 줄: 머리 칸(특별공급 유형들 + 1순위 + 2순위) 수와 칸 값 수가 같을 때만 2순위 칸으로
+    둘 다 없으면 None. 돌려주는 값: (True/False, 근거 위치 매치)"""
+    m = re.search(r"일반공급은[^■。]{0,40}?(무주택세대의세대주|무주택세대주|무주택세대구성원)", flat) \
+        or re.search(r"일반공급(?:\([^)]{0,30}\))?구분내용대상자■?(?:금회)?입주자모집공고일현재[^■]{0,80}?거주하는(?:만\d+세이상인)?(?:분|자)?(무주택세대의세대주|무주택세대주|무주택세대구성원)", flat)
+    if m:
+        return "세대주" in m.group(1), m
+    t = re.search(r"신청자격(?:특별공급)?일반공급((?:기관추천|다자녀가구|신혼부부|노부모부양자?|생애최초|신생아|청년)*)(?:1순위2순위|순위1순위2)", flat)
+    if t:
+        n = len(re.findall(r"기관추천|다자녀가구|신혼부부|노부모부양|생애최초|신생아|청년", t.group(1))) + 2
+        c = re.compile(r"세대주요건((?:-|필요|불필요){%d})(?!-|필요|불필요)" % n).search(flat, t.end(), t.end() + 400)
+        if c:
+            cells = re.findall(r"불필요|필요|-", c.group(1))
+            if len(cells) == n:
+                return cells[-1] == "필요", c
+    # 3) LH 공공분양 '일반공급 신청자 ■ 공급신청자격자 • 주택공급신청은 무주택세대구성원 중 1인만 가능 … ※ 단, 노부모부양 특별공급을 신청하는 경우 세대주만'
+    m = re.search(r"일반공급신청자[^■]{0,60}■공급신청자격자[:：]?(?:성년자인무주택세대구성원)?•?주택공급신청은무주택세대구성원중1인만가능", flat)
+    if m:
+        return False, m
+    return None
+
+
+def _price_cap_self(flat: str, x) -> bool:
+    """'분양가상한제 적용주택' 문구가 이 주택 이야기인가 (2026-10-09 블라인드 대조: 2026000402 공공임대가 '분양가상한제 적용주택 등에 이미 당첨되어…'·
+    '재당첨제한 적용주택(이전기관 종사자 특별공급 주택, 분양가상한제 적용주택, …)' 같은 법 설명 문장으로 '적용'이 됐다).
+    이 주택: '…분양가상한제 적용주택으로/입니다', 당첨 시 재당첨 표 '당첨된 주택의 구분 … 분양가상한제 적용주택(제1항제3호)'.
+    법 설명: 뒤가 '등'·','·'의'(분양가 공개·총금액), 앞이 '…주택(' 목록"""
+    after, before = flat[x.end():x.end() + 3], flat[max(0, x.start() - 60):x.start()]
+    if re.match(r"등|,|의|\)", after) or re.search(r"(?:대상주택|적용주택)\($", before[-12:]) or "재당첨제한대상주택(" in before[-30:]:
+        return False
+    return bool(re.match(r"으로|입니다|이며|이므로", after)) or "당첨된주택의구분적용기간" in before
+
+
 def parse_notice(text: str) -> dict:
     """공고문 텍스트 → 판정에 쓰는 값. 확실하지 않은 항목은 넣지 않는다."""
     t = re.sub(r"[ \t]+", " ", text)
@@ -345,9 +391,15 @@ def parse_notice(text: str) -> dict:
 
     # 신청 대상: "…에 거주하는 무주택세대의 세대주" / "…무주택세대구성원"
     # 2026-10-01 감사: 2026000436 은 노부모부양 특별공급 대상자 문장('…거주하는 무주택세대주')이 먼저 걸려 일반공급에 세대주 요건이 붙었다 → 노부모부양 칸 문장은 건너뛴다
-    m = next((x for x in re.finditer(r"거주하는(?:만\d+세이상인)?(?:분|자)?(?:중)?(무주택세대의세대주|무주택세대주|무주택세대구성원)", flat)
-              if "노부모부양" not in flat[max(0, x.start() - 120):x.start()]), None)
-    if m:
+    # 2026-10-09 원문 대조(블라인드 판독 60건): 첫 '거주하는 무주택…' 문장이 대개 특별공급(다자녀·생애최초) 대상자 칸이라, 재공급 2026930031·034 는
+    # '일반공급은 … 무주택세대주를 대상으로'인데 특별공급 문장(무주택세대구성원)을 읽어 세대원에게 일반공급 '가능'이 나왔다 → 일반공급 문장·신청자격 표를 먼저 본다
+    nh = need_head_general(flat)
+    m = None if nh else next((x for x in re.finditer(r"거주하는(?:만\d+세이상인)?(?:분|자)?(?:중)?(무주택세대의세대주|무주택세대주|무주택세대구성원)", flat)
+                              if "노부모부양" not in flat[max(0, x.start() - 120):x.start()] and not _in_special_section(flat, x.start())), None)
+    if nh:
+        out["need_head"] = nh[0]
+        cite("need_head", nh[1], before=30)
+    elif m:
         out["need_head"] = "세대주" in m.group(1)
         cite("need_head", m, before=30)
     elif "무주택세대주(무주택세대의세대주)를대상으로" in flat:
@@ -363,7 +415,7 @@ def parse_notice(text: str) -> dict:
     if (m := re.search(r"분양가상한제(?:가)?미적용", flat)):
         out["price_cap"] = False
         cite("price_cap", m)
-    elif (m := re.search(r"분양가상한제(?:가|를)?적용(?:되는|받는|주택)", flat)):
+    elif (m := next((x for x in re.finditer(r"분양가상한제(?:가|를)?적용(?:되는|받는|주택)", flat) if _price_cap_self(flat, x)), None)):
         out["price_cap"] = True
         cite("price_cap", m)
     elif tbl:
@@ -371,8 +423,9 @@ def parse_notice(text: str) -> dict:
         q["price_cap"] = "(1쪽 단지 주요정보 표) " + tbl.get("quote", "")
 
     # 실거주 의무 (법상 수도권 분양가상한제 주택만 해당, 1~5년). 표 머리글에 섞인 '재당첨제한 10년' 등은 거른다.
-    duty = tbl["residence_duty"] if tbl else None
-    if tbl:
+    mu = bool(tbl and tbl.get("mu"))   # 무순위 1쪽 표(택지유형 칸 없음)는 본문 문장이 없을 때만 거주의무로 쓴다 — 본문 문장이 더 자세함(2026910236 '최초 입주가능일로부터 2년')
+    duty = tbl["residence_duty"] if tbl and not mu else None
+    if tbl and not mu:
         q["residence_duty"] = "(1쪽 단지 주요정보 표) " + tbl.get("quote", "")
     if duty is None:   # LH 공고문 '구분 기준일 기간 관련 법령' 표: '거주의무 거주의무 개시일 3년 「주택법」제57조의2' · '거주의무 - 없음 「주택법」제57조의2' (2026820008·820010)
         m = re.search(r"거주의무(?:거주의무개시일|-)(없음|[1-5]년)「주택법」제57조의2", flat) or re.search(r"거주의무가([1-5]년)적용", flat)
@@ -390,6 +443,9 @@ def parse_notice(text: str) -> dict:
             duty = v
             cite("residence_duty", m)
             break
+    if duty is None and mu:
+        duty = tbl["residence_duty"]
+        q["residence_duty"] = "(1쪽 단지 주요정보 표) " + tbl.get("quote", "")
     if duty is None and not re.search(r"거주의무|거주의무기간", flat) and re.search(r"전매제한", flat):
         out["duty_silent"] = True   # 공고문을 읽었지만 거주의무를 아예 적지 않음 (LH 2026000409·416·820011 제한사항 표에 재당첨·전매제한만). 값은 모름 그대로 — 없음으로 추측하지 않는다
     if duty is not None:
@@ -761,12 +817,14 @@ def parse_residence(text: str) -> Optional[dict]:
         area = _area(a.group(1)) if a and a.group(1) else None
         if not area:
             return None
-        head = re.search(r"거주자\s*(?:\d\s*)?(?:\([^)]*\)|이전부터 계속 ?거주\s*\([^)]*\))?", mid)
+        head = re.search(r"거주자\s*(?:\d\s*)?(?:\([^)]*\)|이전부터 계속 ?거주\s*(?:\d\s*)?\([^)]*\))?", mid)   # '거주자 이전부터 계속 거주1 (2025.10.08. )' 숫자가 뒤로 밀림 (2026000471, 10-09 블라인드 대조)
         hpart = mid[:head.end()] if head else mid
         rest = mid[head.end():] if head else ""
-        yrs = re.search(r"(\d{1,2})\s*년\s*이상|년\s*이상\s*(?:계속\s*)?거주자\s*(\d)", hpart)   # '년 이상 계속 거주자1': 숫자가 뒤로 밀린 글 (2026000444 제주 아이린8차, 2026-10-03 사용자 제보)
+        yrs = re.search(r"(\d{1,2})\s*년\s*이상|년\s*이상\s*(?:계속\s*)?거주자\s*(\d)|년\s*이상\s*(?:계속\s*)?거주자\s*이전부터 계속 ?거주\s*(\d)", hpart)   # '년 이상 계속 거주자1': 숫자가 뒤로 밀린 글 (2026000444 제주 아이린8차, 2026-10-03 사용자 제보)
         mos = re.search(r"(\d{1,2})\s*개월\s*이상", hpart)
-        months = int(yrs.group(1) or yrs.group(2)) * 12 if yrs else (int(mos.group(1)) if mos else 0)
+        if not yrs and not mos and re.search(r"년\s*이상|개월\s*이상", hpart):
+            return None   # 거주기간 요건 낱말은 있는데 숫자를 못 찾음 → '요건 없음(0)'으로 두지 않고 못 읽음 (화면 '확인 필요')
+        months = int(yrs.group(1) or yrs.group(2) or yrs.group(3)) * 12 if yrs else (int(mos.group(1)) if mos else 0)
         # 괄호 안 날짜 앞에 설명이 붙은 공고도 있다: '(공고일로부터 1년 전, 2025.02.12. 이전부터 계속 거주)' (2026000018 제주, 2026-10-02 MASTER QA)
         sd = re.search(r"\((?:[^()\d]{0,30}\d?[^()\d]{0,10},\s*)?(\d{4})\.(\d{1,2})\.(\d{1,2})\.?\s*\)?(?:\s*이전부터)?", hpart)
         out = {"area": area, "months": months, "since": _ymd(*sd.groups()) if (sd and months) else None}
@@ -1066,7 +1124,12 @@ def parse_resale(flat: str) -> Optional[dict]:
     ]
     for pat, fn in pats:
         if (m := re.search(pat, flat)):
-            return {"months": None, "base": None, "registration": False, "until_reg": False, "passed": False, "none": False, "forbidden": False, **fn(m), "m": m}
+            r = {"months": None, "base": None, "registration": False, "until_reg": False, "passed": False, "none": False, "forbidden": False, **fn(m), "m": m}
+            # 재공급·무순위 '구분 특별공급 전매제한기간 최초 당첨자발표일로부터 1년간 적용되어 현재 전매제한기간 도과' (2026930041 — 예전엔 이번 당첨자 발표일부터
+            # 1년으로 계산해 '1년 (~27.10.15)'로 보였다, 10-09 블라인드 대조): 바로 뒤 '도과'면 지남
+            if not r["passed"] and re.match(r"간?(?:적용|부과)?되어,?현재전매(?:제한)?(?:기간|기관)?(?:이)?도과", flat[m.end():m.end() + 30]):
+                r["passed"] = True
+            return r
     return None
 
 
@@ -1114,13 +1177,18 @@ def resale_cell(flat: str) -> Optional[int]:
 _SUMMARY = re.compile(r"전매제한\s*거주의무기간\s*분양가상한제\s*택지유형(.{0,400}?)(없음|[1-5]\s*년)\s*(?:\([^)]{0,60}\)\s*)?(적용|미적용)\s+(공공택지|민간택지)", re.S)
 
 
+# 무순위(사후) 공고 1쪽 표는 '택지유형' 칸이 없다: '재당첨제한 전매제한 거주의무기간 분양가상한제 없음 최초 당첨자발표일(2026.09.01.)로부터 1년 없음 적용 구분'
+# (2026910248 — 예전엔 못 읽어 청약홈 값 '미적용'이 남았다, 10-09 블라인드 대조). 마지막 두 칸(거주의무·분양가상한제) 바로 뒤가 '구분'/'공통'일 때만
+_SUMMARY2 = re.compile(r"재당첨제한\s*전매제한\s*거주의무기간\s*분양가상한제\s+(?!택지유형)(.{0,200}?)\s(없음|[1-5]\s*년)\s+(적용|미적용)\s+(?:구분|\d?\s*공통)", re.S)
+
+
 def _summary_table(text: str) -> Optional[dict]:
     """'단지 주요정보' 표의 거주의무기간·분양가상한제. 값 칸이 표 모양대로 이어지지 않으면(머리글 뒤 400자 안에 없으면) 읽지 않는다"""
-    m = _SUMMARY.search(text)
+    m = _SUMMARY.search(text) or _SUMMARY2.search(text)
     if not m:
         return None
     d = m.group(2).replace(" ", "")
-    return {"residence_duty": 0 if d == "없음" else int(d[0]), "price_cap": m.group(3) == "적용", "quote": re.sub(r"\s+", " ", m.group(0))[:160]}
+    return {"residence_duty": 0 if d == "없음" else int(d[0]), "price_cap": m.group(3) == "적용", "quote": re.sub(r"\s+", " ", m.group(0))[:160], "mu": m.re is _SUMMARY2}
 
 # ---- 공공임대 특별공급 유형별 소득 기준 (기능: rental_special, 2026-10-02 MASTER QA 남은 일) ----
 # 2026000307 <표4> (표4-2) 2인 · (표4-3) 3~8인: 유형 머리글('신혼부부특별공급' 등) 아래 단계마다
