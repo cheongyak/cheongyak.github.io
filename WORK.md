@@ -7,8 +7,8 @@
 ## 2026-10-11 08:11 · 베타 상자 '검증 문제' 경고 — 새 관문의 거짓 경보 고침
 - 요청: "오늘 왜 베타 참고용 알람 떴는지 확인"
 - 원인: 어제(v1.67.2) 넣은 관문 '글이 바뀐 공고문에서 읽은 값이 달라짐'(parse_moved_changes)이 오늘 새벽 수집에서 1건을 셈 — 상동역 롯데캐슬 시그니처 2026910256 의 단지 규모(complex)인데 총세대·동 수는 그대로이고 그 안의 근거 문장(quote)만 달랐음. 근거 문장은 글이 바뀌면 당연히 달라지는데 값으로 셈 → verify ok=false → 화면 베타 상자 경고. 판정·데이터 오류는 없음(판정 사례 917 일치, 정답·공고문 대조 불일치 0)
-- 변경: parse_snapshot.moved_diffs 가 값 안의 quote 칸을 빼고 비교. 글이 바뀐 2건 기준을 새로 씀(값 변화 0 확인), parse-moved.json 0
-- 파일: tools/qa/parse_snapshot.py, tests/test_rental_pub_table_sp.py, tests/qa/parse_snapshot.json, evidence/qa/parse-moved.json, WORK.md
+- 변경: parse_snapshot.moved_diffs 가 값 안의 quote 칸을 빼고 비교. 글이 바뀐 2건 기준을 새로 씀(값 변화 0 확인), parse-moved.json 0. 다시 돌린 판정 검증은 통과했는데 결과 커밋이 근거 자료 갱신 push 와 겹쳐 또 조용히 사라짐(10-09 에도 같은 일) → collect·verify 의 '검증 요약 저장'이 push 를 4번까지 다시 받아 올리고, 끝내 못 올리면 실패로 표시
+- 파일: tools/qa/parse_snapshot.py, tests/test_rental_pub_table_sp.py, tests/qa/parse_snapshot.json, evidence/qa/parse-moved.json, .github/workflows/collect.yml, .github/workflows/verify.yml, WORK.md
 - 확인: 시험(근거 문장만 다르면 세지 않음), pytest 257, 판정 검증 워크플로 다시 돌려 verify ok 확인
 - 백업: backup/20261011-0811-movedfix
 - 기능: 없음(수정)

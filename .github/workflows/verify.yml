@@ -102,7 +102,17 @@ jobs:
           git config user.name "cheongyak-bot"
           git config user.email "actions@users.noreply.github.com"
           git add -A -- docs/verify-status.json docs/judge-status.json evidence/qa/supply-type.json evidence/qa/invariants.json evidence/qa/filter-check.json evidence/qa/consistency.json evidence/qa/sp-text.json evidence/qa/cross-rule.json evidence/qa/profile-keep.json evidence/qa/monotonic.json evidence/qa/zero-default.json evidence/qa/input-nav.json evidence/qa/snapshot.json evidence/qa/e2e.json evidence/qa/past-chat.json evidence/qa/lh-invariants.json evidence/qa/lh-pdf-tools.json evidence/qa/lh-qa.json evidence/qa/lh-screen.json docs/sitemap.xml $(for d in docs/story docs/about docs/terms docs/privacy docs/updates docs/guide docs/notice; do [ -e "$d" ] || git ls-files --error-unmatch "$d" >/dev/null 2>&1 && echo "$d"; done)
-          git diff --cached --quiet || (git commit -m "판정 검증 결과 $(date +%Y-%m-%d)" && (git push || (git pull --rebase -X theirs origin main && git push)))
+          # 다른 작업(근거 자료 모으기 등)과 push 가 겹치면 예전엔 조용히 사라졌다(2026-10-09·11 verify-status 가 갱신 안 됨) → 3번까지 다시 받아 올리고, 끝내 못 올리면 실패로 보이게
+          if ! git diff --cached --quiet; then
+            git commit -m "판정 검증 결과 $(date +%Y-%m-%d)"
+            pushed=0
+            for n in 1 2 3 4; do
+              git push && { pushed=1; break; }
+              git pull --rebase -X theirs origin main || { git rebase --abort; git pull --no-rebase -X theirs --no-edit origin main; }
+              sleep $((n * 7))
+            done
+            [ "$pushed" = 1 ] || { echo "::error::검증 결과를 올리지 못했어요 (push 4번 실패)"; rc=1; }
+          fi
           exit $rc
       - name: 실패하면 운영자 알림 (이슈)
         if: failure()
