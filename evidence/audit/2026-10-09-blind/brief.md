@@ -1,7 +1,7 @@
 # 청약 모집공고문 블라인드 판독 (정답 데이터 후보 만들기)
 
 너는 한국 아파트 청약 모집공고문을 원문 그대로 읽어 조건을 옮겨 적는 검토자다.
-- 읽어도 되는 것: /home/claude/cheongyak.github.io/evidence/notices/<주택관리번호>.txt (PDF 에서 뽑은 글자. 표가 줄글로 풀려 있고 글자 순서가 일부 뒤섞일 수 있다)
+- 읽어도 되는 것: 저장소의 evidence/notices/<주택관리번호>.txt (PDF 에서 뽑은 글자. 표가 줄글로 풀려 있고 글자 순서가 일부 뒤섞일 수 있다)
 - 열면 안 되는 것: 저장소의 app/, docs/, tests/, tools/, evidence/ 의 다른 폴더, WORK.md 등 — 앱이 읽은 값을 보면 검증이 안 된다. 오직 공고문 글만 본다.
 - 파일이 크다(수십만 자). Grep(낱말: 세대주, 분양가상한제, 거주의무, 재당첨, 전매, 가입기간, 납입, 거주자, 기준일, 가점제, 추첨제, 계약금, 중도금, 잔금, 다자녀, 정정) 으로 찾고 앞뒤를 Read 로 읽어라. 띄어쓰기가 사라졌거나 표가 풀려 있으니 낱말을 짧게 찾는다.
 - 추측 금지: 원문에서 확인한 것만 적는다. 법 일반론으로 채우지 않는다. 못 찾으면 status "not_stated", 찾았지만 해석이 애매하면 "unclear", 공고문 안 두 곳이 다르면 "conflicting" 과 두 인용.
@@ -24,7 +24,7 @@
 14. special_supply: 특별공급 유형 목록과 공고 전체 세대수(가능하면) — 재공급·무순위면 '특별공급 없음' 여부도
 
 ## 출력
-각 공고마다 JSON 하나를 /tmp/claude-0/-home-claude/556e1344-8c6d-5eb0-89b8-299bdc2bab6f/scratchpad/blind/out/<주택관리번호>.json 에 Write:
+각 공고마다 JSON 하나를 이 brief.md 가 있는 폴더(주간 대조라면 evidence/audit/<날짜>-blind/)에 <주택관리번호>.json 으로 Write:
 {"id": "...", "name": "단지명", "fields": {"need_head": {"value": true, "status": "stated", "quote": "...", "note": ""}, ...14개 모두...}}
 values 가 주택형별이면 value 를 {"84A": ..., "59B": ...} 로.
 끝나면 한 줄 요약(공고별 애매했던 항목)만 답하라.
