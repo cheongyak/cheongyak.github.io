@@ -666,6 +666,59 @@ def main() -> None:
         q = dict(p_base, **shape[1], hhIncomeYear=3000, income=3000, realEstate=re_v, carValue=car_v)
         add(id=f"rental-{i:02d}", fn="item", item="자산 (공공임대 일반공급)", listing=PL4, profile=q, expect={"s": exp},
             basis="2026000402 <표2> 부동산(건물+토지) 215,500천원 · 자동차 45,420천원 이하 (자녀 없음 — 완화 없음)"); i += 1
+    # 공공분양식 공공임대 특별공급 (기능 rental_pub_table_sp, 2026-10-10): 2026000402 원문 (표3) 특별공급 칸 금액을 이 파일에 따로 옮겨 적는다 (화면·파서 값을 쓰지 않음).
+    #  다자녀 우선공급(90%) 120%/맞벌이 130% · 추첨(10%) 120%/200% — 3인 9,802,115/10,618,958 · 9,802,115/16,336,858, 4인 10,562,642/11,442,863 · 10,562,642/17,604,404
+    #  노부모 우선(90%) 2인 7,626,151/8,212,778 · 3인 9,802,115/10,618,958, 추첨(10%) 2인 7,626,151/11,732,540 · 3인 9,802,115/16,336,858
+    #  생애최초 3인 우선(70%) 8,168,429/9,802,115 · 일반(20%) 10,618,958/11,435,801 · 추첨(10%) 10,618,958/16,336,858
+    #  신생아 3인 우선(70%) 8,168,429/9,802,115 · 일반(20%) 11,435,801/12,252,644 · 추첨(10%) 11,435,801/16,336,858
+    #  신혼부부 칸은 3인 이상 금액이 도시근로자 2025 기준과 맞지 않음(예: 일반공급 맞벌이 140% 3인 10,677,762 ≠ 11,435,801) → 판정하지 않음(확인 필요)
+    #  자산 <표2> 부동산 21,550만·자동차 4,542만, <표3> 출산 자녀 1명 23,705만·4,996만 / 2명 이상 25,860만·5,451만
+    P_SP = {"multichild": [("우선공급 (배점순)", {3: (9802115, 10618958), 4: (10562642, 11442863)}), ("추첨", {3: (9802115, 16336858), 4: (10562642, 17604404)})],
+            "elder": [("우선공급", {2: (7626151, 8212778), 3: (9802115, 10618958)}), ("추첨", {2: (7626151, 11732540), 3: (9802115, 16336858)})],
+            "first": [("우선공급", {3: (8168429, 9802115)}), ("일반공급", {3: (10618958, 11435801)}), ("추첨", {3: (10618958, 16336858)})],
+            "newborn": [("우선공급", {3: (8168429, 9802115), 4: (8802202, 10562642)}), ("일반공급", {3: (11435801, 12252644), 4: (12323083, 13203303)}),
+                        ("추첨", {3: (11435801, 16336858), 4: (12323083, 17604404)})]}   # 신생아 4인: 우선 8,802,202/10,562,642 · 일반 12,323,083/13,203,303 · 추첨 12,323,083/17,604,404
+    P_TOP = {"multichild": (120, 200), "elder": (120, 200), "first": (130, 200), "newborn": (140, 200)}   # 마지막 단계 % (외벌이, 맞벌이) — 출산가구 +20%p 상한 계산용
+
+    def pt_sp_expect(t, q, n, dual):
+        mon = q["hhIncomeYear"] * 10000 / 12
+        stage = next((nm for nm, a in P_SP[t] if mon <= a[n][1 if dual else 0]), None)
+        ra = relax_add(q)
+        re_lim, car_lim = {0: (21550, 4542), 10: (23705, 4996), 20: (25860, 5451)}.get(ra, (21550, 4542))
+        for v, lim, mx in ((q.get("realEstate") or 0, re_lim, 25860), (q.get("carValue") or 0, car_lim, 5451)):
+            if v > lim:
+                return {"s": "warn"} if (ra is None or ra == 10) and v <= mx else {"s": "fail"}
+        if stage is None:
+            top = P_SP[t][-1][1][n][1 if dual else 0]
+            pct = P_TOP[t][1 if dual else 0]
+            return {"s": "warn"} if ra != 0 and mon <= top / pct * (pct + 20) else {"s": "fail"}
+        return {"s": "ok", "stage": stage}
+    pb = dict(p_base)
+    for t, kv, n, dual in [("multichild", "새2명옛", 4, False), ("multichild", "새2명옛", 4, True), ("elder", "옛자녀", 3, False), ("elder", "옛자녀", 3, True), ("elder", "2인", 2, False),
+                           ("first", "옛자녀", 3, False), ("first", "옛자녀", 3, True), ("newborn", "신생아1", 3, False), ("newborn", "신생아1", 3, True)]:
+        for nm, a in P_SP[t]:
+            lim = a[n][1 if dual else 0]
+            for side in ("le", "gt"):
+                y = lim * 12 // 10000 + (0 if side == "le" else 1)
+                q = dict(pb, **R_KID[kv], hhIncomeYear=y, income=(y // 2 if dual else y), spouseIncome=(y - y // 2 if dual else 0))
+                if t == "elder":   # 2026000307 사례와 같게: 부양 부모님 수는 비워 가구원수 그대로 (노부모 가구원수 산정은 hh_count 사례가 따로 봄)
+                    q.update(elder65=True, eldersOnDeed=None)
+                ex = pt_sp_expect(t, q, n, dual)
+                add(id=f"rental-{i:02d}", fn="sp", type=t, listing=PL4, profile=q, expect=ex,
+                    basis=f"2026000402 (표3) {t} {nm} {n}인{' 맞벌이' if dual else ''} 월 {lim:,}원 {'이하' if side == 'le' else '초과'}"); i += 1
+    for kv, re_v, car_v in [("옛자녀", 21550, 0), ("옛자녀", 21551, 0), ("옛자녀", 0, 4543), ("신생아1", 23705, 0), ("신생아1", 23706, 0), ("신생아1", 0, 4996), ("신생아1", 0, 4997), ("신생아1", 25861, 0)]:
+        q = dict(pb, **R_KID[kv], hhIncomeYear=6000, income=6000, realEstate=re_v, carValue=car_v)
+        t = "newborn" if kv == "신생아1" else "first"
+        add(id=f"rental-{i:02d}", fn="sp", type=t, listing=PL4, profile=q, expect={"s": pt_sp_expect(t, q, 3, False)["s"]},
+            basis=f"2026000402 <표2> 부동산 21,550만·자동차 4,542만 / <표3> 출산 자녀 1명 23,705만·4,996만 (부동산 {re_v:,} · 자동차 {car_v:,})"); i += 1
+    new2 = dict(kidsMinor=2, kidsOnDeed=2, hhSize=4, dependents=3, youngestBirth="2025-06-01")   # 2023.3.28 뒤 출생 포함 자녀 2명 → 출산가구 +20%p
+    for re_v, car_v in [(25860, 0), (25861, 0), (0, 5451), (0, 5452), (23706, 0)]:
+        q = dict(pb, **new2, hhIncomeYear=6000, income=6000, realEstate=re_v, carValue=car_v)
+        add(id=f"rental-{i:02d}", fn="sp", type="newborn", listing=PL4, profile=q, expect={"s": pt_sp_expect("newborn", q, 4, False)["s"]},
+            basis=f"2026000402 <표3> 출산 자녀 2명 이상 부동산 25,860만·자동차 5,451만 (부동산 {re_v:,} · 자동차 {car_v:,})"); i += 1
+    q = dict(pb, **R_KID["옛자녀"], married=True, marriedOn="2022-01-01", hhIncomeYear=3000, income=3000)
+    add(id=f"rental-{i:02d}", fn="sp", type="newlywed", listing=PL4, profile=q, expect={"s": "warn"},
+        basis="2026000402 (표3) 신혼부부 칸 금액이 도시근로자 2025 × % 와 다름(3인 일반공급 맞벌이 140% 10,677,762) → 판정하지 않고 확인 필요"); i += 1
     # 공공임대 특별공급 (기능 rental_special): 원문 <표4> 유형별 단계·퍼센트와 <표5> 가구원수별 퍼센트 금액을 이 파일에 따로 옮겨 적는다 (화면·파서 값을 쓰지 않음)
     for t, kv, n, dual in [("newlywed", "옛자녀", 3, False), ("newlywed", "옛자녀", 3, True), ("newlywed", "2인", 2, False), ("newlywed", "2인", 2, True),
                            ("newborn", "신생아1", 3, False), ("first", "옛자녀", 3, False), ("elder", "옛자녀", 3, False), ("multichild", "새2명옛", 4, False)]:

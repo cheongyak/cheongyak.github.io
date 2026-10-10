@@ -7,6 +7,8 @@ const { join, extname } = require('node:path');
 const ROOT = join(__dirname, '../..'), DOCS = join(ROOT, 'docs');
 const HTML = readFileSync(join(DOCS, 'index.html'), 'utf8');
 const M = [   // [이름, 찾을 글, 바꿀 글]
+  ['공공분양식 공공임대 특공: 출산 완화 2명 이상을 1명 금액으로 (2026000402)', "const lim = (base, arr) => add === 20 && RX ? arr[1] :", "const lim = (base, arr) => add === 20 && RX ? arr[0] :"],
+  ['공공분양식 공공임대 특공: 자산 초과를 완화 확인으로 (2026000402)', "const maybe = (v, arr) => (add === null || (add === 10 && RX) || (add && !RX)) && (!RX || v <= arr[1]);", "const maybe = (v, arr) => true;"],
   ['무주택: 본인 주택을 무시', "if (p.selfOwn && !(exc && OWN_EXC_OK.includes(exc))) own.push('본인 명의 주택');", "if (false) own.push('본인 명의 주택');"],
   ['60㎡ 경계 > → >= (공공 소득·자산 없음 판단)', "if (!pl) return (L.area != null && L.area > 60)", "if (!pl) return (L.area != null && L.area >= 60)"],
   ['60㎡ → 59㎡ (생애최초 단독세대)', "if (alone && (L.area || 0) > 60)", "if (alone && (L.area || 0) > 59)"],

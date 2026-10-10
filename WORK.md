@@ -4,6 +4,15 @@
 2026-09-29 12:55 이전 항목은 규칙을 만들기 전 작업을 커밋 기록으로 정리한 것이라 백업 브랜치가 없어요.
 그 시점으로 되돌릴 때는 해당 커밋 번호로 `git revert` 를 써요.
 
+## 2026-10-10 11:43 · 공공분양식 공공임대 특별공급 판정 (v1.67.0)
+- 요청: "Abc순차진행" — A. 익산 부송에코르처럼 '확인 필요'로만 나오던 공공임대 특별공급을 공고문 표대로 판정
+- 변경: app/notice_pdf._pub_table_sp — (표3)의 특별공급 칸(다자녀·노부모 우선90/추첨10, 생애최초·신생아·신혼부부 우선70/일반20/추첨10, 2~8인 외벌이·맞벌이 금액)을 읽고 금액이 도시근로자 2025 × %(2인 +10%p, 200% 칸 제외)와 1원 단위로 같은 유형만 pub_limits.sp 로, 다르면 sp_unread(2026000402 신혼부부: 3인 이상 금액이 다른 해 기준 — 판정 안 함). <표3> 출산가구 자산 완화 금액(pub_limits.relax). 화면 spJudge: 기존 공공임대 특공 경로(rental_special)를 pub_table 에도(스위치 rental_pub_table_sp), 자산은 총자산이 아니라 부동산·자동차(완화는 공고문 <표3> 금액, 모르면 확인), 못 읽은 유형은 이유를 말함. 특공 요약 문장에서 판정하지 않는 유형은 '정보를 더 넣으면'이 아니라 '공고문 확인', 다자녀 추첨 단계 문구는 점수 대신 추첨. PARSER_VERSION 36
+- 파일: app/notice_pdf.py, app/pipeline.py, docs/index.html, docs/config.json, tests/test_rental_pub_table_sp.py, tests/golden/notices.json, tests/judge/listings.json, tests/judge/cases.json, tools/make_judge_cases.py, tools/qa/code_mutation.cjs, tests/qa/parse_snapshot.json, tests/qa/snapshots.json, tools/engine_lock.json, docs/changelog.json, VERSIONS.md, FEATURES.md, HANDOFF.md, WORK.md
+- 확인: 정답(2026000402 pub_limits.sp — 금액마다 원문 유형 칸에 그대로 있는지 대조, 신혼부부 칸 불일치 원문 확인), 판정 사례 917건 일치(새 58건 — 유형·단계별 외벌이/맞벌이 경계, 2인 노부모, 부동산·자동차 기준과 출산 완화 1명·2명 이상 경계, 신혼부부 확인 필요; 금액은 원문에서 따로 옮겨 적음), 변이 2개 추가(87개 모두 잡음), 특공 문구 검사(다자녀 추첨 단계 '점수' 문구 고침), 스냅샷 기준 갱신(402 비거주자 특공 확인 → 불가), pytest 253, 전체 QA, 화면 390px(익산·3인·2025년생·연 4,000만 → 신생아·생애최초 '신청 가능', 신혼부부 '판정하지 않아요' 이유 표시)
+- 백업: backup/20261010-1143-ptsp
+- 기능: rental_pub_table_sp
+- 버전: v1.67.0
+
 ## 2026-10-09 18:18 · 거주 지역 요건에도 공고문 근거 문장 (v1.66.3)
 - 요청: (지시문 3항) 최종 판정에서 거꾸로 '어느 공고문의 어느 부분'인지 확인할 수 있게 — 원문 근거 연결
 - 변경: 거주 지역 요건(해당지역·거주기간·기타지역 — 일반공급 순위와 무순위 신청 가능 여부를 정하는 값)을 읽은 원문 자리를 남김(parse_residence → quotes.residence, 화면 '거주지' 줄 '공고문 문장'). PARSER_VERSION 35

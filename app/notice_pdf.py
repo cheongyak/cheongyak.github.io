@@ -722,7 +722,64 @@ def _parse_pub_table(t: str, re_, car) -> Optional[dict]:
     if pri:
         out["priority"] = {"base": [pri[0], pri[2]], "one": pri[0] + 20, "two": [pri[0] + 10, 150]}
         out["amounts"]["pri"] = amt(pri)
+    # 출산가구 자산 완화 표 '<표3>': 부동산 '237,050천원 이하 258,600천원 이하 215,500천원 이하' · 자동차 '49,960천원 이하 54,510천원 이하 45,420천원 이하' (1명 · 2명 이상 · 해당 없음 순)
+    rx = re.search(r"부동산\s?\(건물\s?\+\s?토지\)\s?([\d,]{7})천원 이하 ([\d,]{7})천원 이하 ([\d,]{7})천원 이하.{0,80}?자동차 ([\d,]{6})천원 이하 ([\d,]{6})천원 이하 ([\d,]{6})천원 이하", t)
+    if rx:
+        v = [int(x.replace(",", "")) // 10 for x in rx.groups()]
+        if v[2] == out["real_estate"] and v[5] == out["car"] and v[2] < v[0] < v[1] and v[5] < v[3] < v[4]:
+            out["relax"] = {"real_estate": [v[0], v[1]], "car": [v[3], v[4]]}
+    sp, bad = _pub_table_sp(t[i:])
+    if sp:
+        out["sp"] = sp
+    if bad:
+        out["sp_unread"] = bad
     return out
+
+
+# 같은 (표3)의 특별공급 칸 (기능 rental_pub_table_sp, 2026-10-10 사용자 'A 공공임대 특별공급 판정'):
+#  '다자녀 가구 특별 공급 우선공급(90%) 도시근로자 … 120% - 9,802,115 … 13,277,783 도시근로자 … 130% (본인 및 배우자가 모두 소득이 있는 경우) - 10,618,958 …
+#   추첨공급(10%) … 120% … 200% (…) …' · '생애 최초 특별 공급 우선공급(70%) … 100% … 120% (…) … 일반공급(20%) … 130% … 140% (…) … 추첨공급(10%) …'
+# 값 칸은 2인~8인 7칸('-' = 그 가구원수 해당 없음). 금액이 도시근로자 2025 × % (2인은 +10%p, 200% 칸은 그대로 — 공고문 일반공급 칸과 같은 규칙)와
+# 1원 단위로 같을 때만 그 유형을 읽는다. 하나라도 다르면 그 유형은 읽지 않고 sp_unread 에 남긴다(2026000402 신혼부부 일반·추첨 칸은 3인 이상 금액이 다른 해 기준 — 판정하지 않음)
+_PT_SP = [("다자녀가구", "multichild"), ("노부모부양", "elder"), ("생애최초", "first"), ("신혼부부", "newlywed"), ("신생아", "newborn")]
+
+
+def _pub_table_sp(t: str) -> tuple[dict, list]:
+    from app.lh_terms import URBAN_2025 as U
+    end = t.find("본인 및 배우자가 모두「소득세법」")
+    seg = t[: end if end > 0 else 6000]
+    seg = re.sub(r"\(본인[^)]{0,40}?\)", "(맞벌이)", seg)
+    heads = []
+    for name, key in _PT_SP:
+        m = re.search(r"\s?".join(name) + r"\s?특\s?별\s?공\s?급\s+(?=우선공급\()", seg)
+        if m:
+            heads.append((m.start(), m.end(), key))
+    heads.sort()
+    V = r"((?:(?:-|\d{1,2},\d{3},\d{3}) ){7})"
+    tier = re.compile(r"(우선공급|일반공급|추첨공급)\((\d{1,2})%\) 도시근로자 가구원수별 가구당 월평균소득액의 (\d{2,3})% " + V +
+                      r"도시근로자 가구원수별 가구당 월평균소득액의 (\d{2,3})% \(맞벌이\) " + V)
+    num = lambda s: [None if x == "-" else int(x.replace(",", "")) for x in s.split()]
+    want = lambda n, pct: round(U[n] * (pct + (10 if n == 2 and pct < 200 else 0)) / 100)
+    sp, bad = {}, []
+    for j, (s, e, key) in enumerate(heads):
+        body = seg[e: heads[j + 1][0] if j + 1 < len(heads) else len(seg)] + " "
+        rows = [(m.group(1), int(m.group(2)), int(m.group(3)), num(m.group(4)), int(m.group(5)), num(m.group(6))) for m in tier.finditer(body)]
+        ok = bool(rows) and sum(r[1] for r in rows) == 100
+        for r in rows:
+            for pct, vals in ((r[2], r[3]), (r[4], r[5])):
+                for n, v in zip(range(2, 9), vals):
+                    if v is not None and abs(v - want(n, pct)) > 1:
+                        ok = False
+        if not ok:
+            bad.append(key)
+            continue
+        row = {"tiers": [[r[0], r[1], r[2], r[4]] for r in rows],
+               "amt": {str(n): [[r[3][n - 2], r[5][n - 2]] for r in rows] for n in range(3, 9) if all(r[3][n - 2] and r[5][n - 2] for r in rows)}}
+        if all(r[3][0] and r[5][0] for r in rows):
+            row["amt"]["2"] = [[r[3][0], r[5][0]] for r in rows]
+            row["pct2"] = [[r[2] + (10 if r[2] < 200 else 0), r[4] + (10 if r[4] < 200 else 0)] for r in rows]
+        sp[key] = row
+    return sp, bad
 
 
 # ---- 공급유형별 접수 일정 (기능: notice_schedule) ----
