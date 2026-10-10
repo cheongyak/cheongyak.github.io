@@ -100,3 +100,13 @@ def test_validate_flags_head_quote_from_special_section():
     msg = "세대주 요건의 근거 문장이 특별공급 대상자 문장"
     assert any(msg in c for c in validate.listing_checks(bad, date(2026, 10, 9)))
     assert not any(msg in c for c in validate.listing_checks(ok, date(2026, 10, 9)))
+
+
+def test_residence_prefers_general_section_sentence():
+    """재공급 거주 요건 근거 문장은 일반공급 칸 문장 (2026-10-10 Abc B — 예전엔 생애최초 특별공급 대상자 문장)"""
+    from app.notice_pdf import section_at
+    for n in ("2026930031", "2026930034", "2026930038"):
+        o = _p(n)
+        assert "무주택세대주" in o["quotes"]["residence"], (n, o["quotes"]["residence"])
+    t = "4-1 생애최초 특별공급(「주택공급에 관한 규칙」 제43조) 구분 내용 대상자 ■ … 5 일반공급 (「주택공급에 관한 규칙」 제47조의3) 구분 내용 대상자 ■ …"
+    assert section_at(t, t.find("4-1") + 40) == "special" and section_at(t, len(t) - 2) == "general" and section_at(t, 2) is None

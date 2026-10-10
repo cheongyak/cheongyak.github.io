@@ -58,6 +58,9 @@ def listing_checks(L: Listing, today: date) -> list[str]:
     if "세대주 요건" in L.from_notice and nq and "일반공급" not in nq and "세대주 요건" not in nq and "공급신청 자격자" not in nq.replace("공급신청자격자", "공급신청 자격자") \
             and any(w in nq for w in ("생애최초", "다자녀", "신혼부부", "신생아", "특별공급")):
         out.append("세대주 요건의 근거 문장이 특별공급 대상자 문장이에요 — 일반공급 조건이 맞는지 원문 확인 필요")
+    rq = (getattr(L, "notice_quotes", None) or {}).get("거주 지역 요건", "")   # 같은 검사를 거주 요건에도 (2026-10-10 Abc B)
+    if rq and (L.households or 0) > 0 and "일반공급" not in rq and any(w in rq for w in ("생애최초로", "다자녀가구 특별", "신혼부부 특별", "신생아 특별", "노부모부양 특별", "특별공급 대상")):
+        out.append("거주 지역 요건의 근거 문장이 특별공급 대상자 문장이에요 — 일반공급 거주 요건이 맞는지 원문 확인 필요")
     if L.regulated and "세대주 요건" not in L.from_notice and L.need_head:
         out.append("세대주 요건을 공고문에서 확인하지 못해 규제지역 기준으로 추정했어요")
     if "재당첨 제한" not in L.from_notice and (L.regulated or L.price_cap):

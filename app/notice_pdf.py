@@ -343,6 +343,18 @@ def _in_special_section(flat: str, pos: int, back: int = 250) -> bool:
     return sp > gen
 
 
+_SEC_HEAD = re.compile(r"(?<![\d-])(\d(?:\s?-\s?\d)?)\s?((?:생애\s?최초|다자녀\s?가구|신혼\s?부부|노부모\s?부양|신생아|기관\s?추천)\s?특별\s?공급|일반\s?공급)\s?\(\s?「\s?주택\s?공급에\s?관한\s?규칙\s?」")
+
+
+def section_at(text: str, pos: int, back: int = 4000) -> Optional[str]:
+    """pos 가 어느 공급 칸 안인가 — 앞쪽 가장 가까운 칸 제목('4-1 생애최초 특별공급(「주택공급에 관한 규칙」 제43조)' · '5 일반공급(「주택공급에 관한 규칙」 제47조의3)').
+    제목이 없으면 None (공통 안내·요약표). 2026-10-10 원문 대조 뒤 거주 요건 문장 고르기에 씀"""
+    hs = list(_SEC_HEAD.finditer(text, max(0, pos - back), pos))
+    if not hs:
+        return None
+    return "general" if "일반" in hs[-1].group(2) else "special"
+
+
 def need_head_general(flat: str):
     """일반공급 신청 대상이 세대주로 한정되는지 (공급 전체 기준. 규제지역 '1순위만 세대주'는 화면의 규제지역 규칙이 따로 본다).
     1) '일반공급은 … 무주택세대주(…)를 대상으로' / 일반공급 칸 '대상자 ■ … 거주하는 무주택세대주' (재공급·무순위)
@@ -598,6 +610,26 @@ def parse_notice(text: str) -> dict:
     st = parse_sp_table(text)
     if st:
         out["sp_table"] = st   # 재공급(무순위) 주택형에만 쓴다 — 일반분양 공고 표는 머리글이 달라 쓰지 않음 (pipeline)
+    # 표에서 읽은 값의 근거 자리 (2026-10-10 Abc B: 판정 관련 값의 근거 문장 86% → 가점제 비율·다자녀 배정·공공 소득·자산까지) — 각 파서가 찾는 표 머리와 같은 글
+    tq = re.sub(r"\s+", " ", text)
+    def tcite(key, pat, n=170):
+        if key in out and (key not in (out.get("quotes") or {})) and (mm := re.search(pat, tq)):
+            out.setdefault("quotes", {})[key] = "…" + tq[mm.start(): mm.start() + n].strip() + "…"
+    if (out.get("score_ratio") or {}).get("rows"):
+        tcite("score_ratio", r"전용\s?면적별 1?\s?순위 가점제\s?[/·]?\s?추\s?첨\s?제 적용\s?비율")
+    if (out.get("mc_quota") or {}).get("buckets"):
+        tcite("mc_quota", r"다자녀가구 특별공급 (?:해당\s?시\s?[,·]?\s?도\s?\(|[가-힣]+ 및 [가-힣]+ ?거주자 ?\()|다자녀(?:가구)? 특별공급 (?:및 일반공급 )?지역 우선공급 기준")
+    k = (out.get("pub_limits") or {}).get("kind")
+    if k == "pub_table":
+        tcite("pub_limits", r"\(표3\) 전년도 도시근로자 가구원수별 가구당 월평균소득 기준")
+    elif k is None and out.get("pub_limits") and out["pub_limits"].get("cap"):   # 요약표 소득 줄의 일반공급 칸 = 마지막 칸 '(세대) 월평균소득 100% 이하 (맞벌이 200%) * 전용면적 60㎡ 이하만 적용'
+        c0, c1 = out["pub_limits"]["cap"]
+        mm = list(re.finditer(rf"\(세대\) ?월평균소득 {c0}% ?이하 ?\(맞 ?벌 ?이\**? ?{c1}%\)", tq))
+        if mm:
+            out.setdefault("quotes", {})["pub_limits"] = "…" + tq[mm[-1].start(): mm[-1].start() + 150].strip() + "…"
+    elif k == "town" and out["pub_limits"].get("eligible"):
+        e0, e1 = out["pub_limits"]["eligible"]
+        tcite("pub_limits", rf"{e0}% ?\(단, ?본인 및 배우자가 모두 소득이 있는 경우에는 {e1}%\) ?이하")
     return out
 
 
@@ -933,7 +965,10 @@ def _parse_residence(text: str) -> Optional[dict]:
     #    예: "입주자모집공고일 현재 부산광역시 및 울산광역시, 경상남도에 거주하는 무주택세대구성원",
     #        "모집공고일 현재 과천시에 거주 주민등록표등본 기준 하는 무주택세대구성원", "현재 ( ) 충청북도에 거주하는 무주택"
     #        "입주자모집공고일 (2026.10.08.) 현재 익산시 또는 전북특별자치도에 거주(주민등록표등본 기준)하는 성년자(만19세 이상)인 무주택" (2026000402 — 공고일 뒤 날짜 괄호, 'A 또는 B' = A 우선·B 도 가능)
-    for m in re.finditer(r"공고일 ?(?:\( ?\d{4}\.\d{1,2}\.\d{1,2}\.? ?\) ?)?현재 (?:\( ?\) )?(?:해당 주택건설지역인 )?([^.■※]{2,70}?)에 ?거주(?:하거나 ([^.■※]{2,80}?)에 ?거주)?[^.■]{0,40}?무주택", t):
+    # 일반공급 칸 문장을 먼저 (2026-10-10: 재공급 2026930031·033·034·038 은 첫 문장이 특별공급 대상자 칸이었다 — 지역은 같았지만 근거가 틀림)
+    ms = list(re.finditer(r"공고일 ?(?:\( ?\d{4}\.\d{1,2}\.\d{1,2}\.? ?\) ?)?현재 (?:\( ?\) )?(?:해당 주택건설지역인 )?([^.■※]{2,70}?)에 ?거주(?:하거나 ([^.■※]{2,80}?)에 ?거주)?[^.■]{0,40}?무주택", t))
+    ms = sorted(ms, key=lambda x: {"general": 0, None: 1, "special": 2}[section_at(t, x.start())])
+    for m in ms:
         first, more = m.group(1).strip(), (m.group(2) or "")
         if not more and (o := re.fullmatch(r"([가-힣]+(?:시|군)) 또는 ([가-힣]+(?:특별자치도|도|광역시|특별시|특별자치시))", first)):
             first, more = o.group(1), o.group(2)

@@ -31,6 +31,13 @@ def _has_value(k, v, q):
         a = v.get("area") or {}
         names = [a.get("sigungu"), a.get("name"), a.get("sido")] + list(v.get("others") or [])
         return any(n and n.replace(" ", "") in f for n in names) or "전국" in f or "국내" in f
+    if k == "score_ratio":
+        return "가점제" in f and all(f"{r['score']}%" in f or r["score"] == 0 for r in v["rows"])
+    if k == "mc_quota":
+        return "다자녀" in f and any(f"{b['pct']}%" in f for b in v["buckets"])
+    if k == "pub_limits":
+        c = v.get("cap") or v.get("eligible") or (v.get("eligible") or {}).get("base")
+        return (f"{c[0]}%" in f) if isinstance(c, list) else ("도시근로자" in f)
     if k == "duty_from":
         return v.replace("-", ".")[:7] in f
     return True
@@ -43,7 +50,9 @@ def test_every_read_value_has_a_quote_containing_it():
         out = notice_pdf.parse_notice(p.read_text(encoding="utf-8"))
         qs = out.get("quotes", {})
         for k in pipeline.QUOTE_LABELS:
-            if k in out:
+            if k in out and not (isinstance(out[k], dict) and out[k].get("unknown")):   # 표 흔적만 있고 못 읽은 값(unknown)은 근거 문장 없음
+                if k == "pub_limits" and out[k].get("kind") in ("none", "total"):
+                    continue   # 소득·자산 기준 없음(none)·총자산형(total, 원문이 evidence/qa 에만)은 따로 시험
                 assert k in qs, f"{p.name} {k}={out[k]!r} 근거 문장 없음"
                 assert _has_value(k, out[k], qs[k]), f"{p.name} {k}={out[k]!r} 문장에 값이 없음: {qs[k]}"
                 assert len(qs[k]) <= 175, (p.name, k, len(qs[k]))

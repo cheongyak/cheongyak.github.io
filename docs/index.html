@@ -979,7 +979,7 @@ function regionScore(L, p){
   const ratioTxt = ratio ? (ratio.score === 0 ? '이 주택형(' + band + ')은 가점제 물량이 없고 1순위를 모두 추첨으로 뽑아요.'
       : '이 주택형(' + band + ')은 1순위 물량의 가점제 ' + ratio.score + '% · 추첨제 ' + ratio.lottery + '%예요. 추첨제 물량은 가점과 상관없이 뽑아요.') : '';
   return { tier, short, order, warn: warn.trim(), t, cmpLabel, ratio, ratioTxt, lotteryOnly: !!(ratio && ratio.score === 0),
-    ratioSrc: ratio ? src(null, ['모집공고문 전용면적별 가점제·추첨제 적용비율', L.noticePdf]) : '' };
+    ratioSrc: ratio ? src(null, ['모집공고문 전용면적별 가점제·추첨제 적용비율', L.noticePdf]) + nq(L, '가점제·추첨제 비율') : '' };   /* 근거 문장 (2026-10-10) */
 }
 /* 일반공급을 가점제·추첨제 물량으로 나눠 보여주기 (기능: score_lottery_split, 2026-10-01 사용자 요청) — '당첨선 미만'만 보이면 신청하면 안 되는 것처럼 읽혀서,
    가점제 몫(가점 비교)과 추첨제 몫(가점 무관)을 따로 줄로 쓴다. 판정 값은 바꾸지 않고 regionScore·myScore·scoreTarget 결과만 쓴다 */
@@ -2226,7 +2226,7 @@ window.cpExplain = cpExplain;
 function itemSrc(L, k){
   if (k === '세대주') return fromNotice(L, '세대주 요건') ? noticeSrc(L) + nq(L, '세대주 요건') : src(null, ['이 서비스 추정(규제지역 기준) · 공고문에서 확인하세요', null]);
   if (k.startsWith('거주지')) return noticeSrc(L) + (fromNotice(L, '거주 지역 요건') ? nq(L, '거주 지역 요건') : '');   /* 거주 요건 근거 문장 (2026-10-09) */
-  if (k.includes('(공공 일반공급)') || k.includes('(신혼희망타운)') || k.includes('(공공임대 일반공급)')) return noticeSrc(L);   /* 공공임대 소득·총자산도 공고문 표 (2026-10-05) */
+  if (k.includes('(공공 일반공급)') || k.includes('(신혼희망타운)') || k.includes('(공공임대 일반공급)')) return noticeSrc(L) + (k.startsWith('소득') && fromNotice(L, '공공 일반공급 소득·자산') ? nq(L, '공공 일반공급 소득·자산') : '');   /* 근거 문장 (2026-10-10) */   /* 공공임대 소득·총자산도 공고문 표 (2026-10-05) */
   if (k.endsWith('전용')) return noticeSrc(L);
   if (k.startsWith('재당첨 제한 (내 이력)')) return src('user');
   if (k.includes('(규제지역 1순위)')) return noticeSrc(L);
@@ -2942,7 +2942,7 @@ function spMinePlain(L, p, r){
     if (ro && /기타/.test(ro)) out.push('지역 순서: 해당지역 거주자가 먼저 뽑히고, 남으면 내 차례예요.');
     else if (ro && /해당지역/.test(ro)) out.push('지역 순서: 해당지역이라 같은 조건이면 먼저 뽑혀요.');
     if (r.type === 'multichild') { const mp = mcPlace(L, p);
-      if (mp) out.push(`다자녀 지역 배정: <b${mp.warn ? ' class="st-warn"' : ''}>${esc(mp.t)}</b>. 공고문의 다자녀 지역별 배정 표 기준이에요.`);
+      if (mp) out.push(`다자녀 지역 배정: <b${mp.warn ? ' class="st-warn"' : ''}>${esc(mp.t)}</b>. 공고문의 다자녀 지역별 배정 표 기준이에요.` + nq(L, '다자녀 지역 배정'));   /* 근거 문장 (2026-10-10) */
       else if (on('mc_quota') && L.residence && !L.mcQuota) out.push('<span class="muted">이 공고는 다자녀 지역별 배정 비율이 따로 없어요. 지역 순서는 다른 유형과 같아요.</span>');
       else out.push('<span class="muted">다자녀는 지역별 배정 비율(예: 해당지역 50% · 기타지역 50%)이 공고문에 따로 있을 수 있어요.</span>'); } }
   return out.map(x => `<div class="small">${x}</div>`).join('');
