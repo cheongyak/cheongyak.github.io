@@ -70,4 +70,7 @@ def test_parse_snapshot_counts_value_changes_when_text_changes():
     old = {"1": {"sha": "a", "parse": {"residence": {"months": 0}, "quotes": {"x": "1"}}}, "2": {"sha": "b", "parse": {"car": 4542}}}
     new = {"1": {"sha": "A", "parse": {"quotes": {"x": "2"}}}, "2": {"sha": "b", "parse": {"car": 4996}}}
     mv = moved_diffs(old, new)
-    assert len(mv) == 1 and mv[0].startswith("1 residence")   # 글이 바뀐 1번만(값 사라짐), 글이 같은 2번은 테스트(diff)가 따로 본다, 근거 문장 차이는 세지 않음
+    assert len(mv) == 1 and mv[0].startswith("1 residence")
+    q_only = moved_diffs({"3": {"sha": "a", "parse": {"complex": {"households": 1859, "quote": "총 1,859세대"}}}},
+                         {"3": {"sha": "B", "parse": {"complex": {"households": 1859, "quote": "총 1,859 세대"}}}})
+    assert q_only == []   # 값 안의 근거 문장만 다르면 세지 않음 (2026-10-11 거짓 경보)   # 글이 바뀐 1번만(값 사라짐), 글이 같은 2번은 테스트(diff)가 따로 본다, 근거 문장 차이는 세지 않음

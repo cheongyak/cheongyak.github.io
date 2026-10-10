@@ -56,11 +56,17 @@ def moved_diffs(old: dict, new: dict) -> list[str]:
     """글이 바뀐 원문(다시 받아 띄어쓰기·줄바꿈이 달라진 PDF 글)에서 읽은 값이 달라진 곳 — 근거 문장(quotes)·대조 메모(conflicts)는 빼고.
     2026-10-10: 근거 자료 갱신으로 58건의 글이 바뀌자 2026000448·458 거주 요건이 사라지고 2026000402 자동차 기준이 49,960 으로 읽혔는데
     '글이 바뀐 원문은 비교 안 함'이라 아무도 몰랐다 → 매 수집에서 세어 verify_status 관문에 건다(수집은 막지 않음)."""
+    def bare(v):   # 값 안의 근거 문장(quote)은 글이 바뀌면 당연히 달라지니 뺀다 (2026-10-11 2026910256 complex.quote 거짓 경보)
+        if isinstance(v, dict):
+            return {k: bare(x) for k, x in v.items() if k != "quote"}
+        if isinstance(v, list):
+            return [bare(x) for x in v]
+        return v
     lines = []
     for no in sorted(old):
         if no not in new or old[no].get("sha") == new[no]["sha"]:
             continue
-        a, b = old[no]["parse"], new[no]["parse"]
+        a, b = bare(old[no]["parse"]), bare(new[no]["parse"])
         for k in sorted(set(a) | set(b)):
             if k in ("quotes", "conflicts"):
                 continue
