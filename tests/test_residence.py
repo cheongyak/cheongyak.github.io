@@ -39,8 +39,8 @@ def test_residence_quotes_in_originals():
         "2026910234": "입주자모집공고일 현재 부산광역시 및 울산광역시, 경상남도에 거주하는 무주택세대구성원",
     }
     import re
-    for no, s in q.items():
-        assert s in re.sub(r"\s+", " ", text(no)), no
+    for no, s in q.items():   # 공백은 빼고 비교 — 같은 PDF 도 글 뽑기마다 띄어쓰기가 달라진다 (2026-10-10 근거 자료 갱신 58건)
+        assert re.sub(r"\s+", "", s) in re.sub(r"\s+", "", text(no)), no
 
 
 def test_every_evidence_notice_reads_or_none():

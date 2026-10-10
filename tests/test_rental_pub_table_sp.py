@@ -34,3 +34,40 @@ def test_other_notices_have_no_pub_table_sp():
             continue
         pl = notice_pdf.parse_pub_limits(g.read_text(encoding="utf-8")) or {}
         assert "sp_unread" not in pl and (pl.get("kind") != "pub_table"), g.stem
+
+
+def test_asset_limits_survive_spacing_changes():
+    """'45,420천원이하'(띄어쓰기 없음)여도 기본 칸을 읽고, 출산가구 완화 줄(49,960 54,510 45,420)의 첫 칸을 기본 기준으로 잡지 않는다
+    (2026-10-10: 다시 받은 2026000402 글에서 자동차 기준이 4,996만으로 읽혀 기준보다 비싼 차도 통과)"""
+    t = ("구분 자산보유기준 부동산 (건물+토지) 215,500천원이하 건축물 … 자동차 45,420천원이하 • 보건복지부장관 … "
+         "부동산(건물+토지) 237,050천원 이하 258,600천원 이하 215,500천원 이하 <표2> 참고 자동차 49,960천원 이하 54,510천원 이하 45,420천원 이하 "
+         "(표3) 전년도 도시근로자 가구원수별 가구당 월평균소득 기준")
+    pl_text = notice_pdf.re.sub(r"(천원|만원)\s?이하", r"\1 이하", t)
+    m_re = next(m for m in notice_pdf.re.finditer(r"부동산\s*\(건물\s*\+\s*토지\)\s*([\d,]+)천원 이하(?! ?[\d,]{6,}천원 이하)", pl_text))
+    m_car = next(m for m in notice_pdf.re.finditer(r"자동차\s*([\d,]+)천원 이하(?! ?[\d,]{5,}천원 이하)", pl_text))
+    assert (m_re.group(1), m_car.group(1)) == ("215,500", "45,420")
+    for rev in ("f7cdc478", None):   # 예전 글·지금 글 모두
+        import subprocess
+        txt = subprocess.run(["git", "show", f"{rev}:evidence/notices/2026000402.txt"], capture_output=True, text=True, cwd=ROOT).stdout if rev else (ROOT / "evidence/notices/2026000402.txt").read_text(encoding="utf-8")
+        if not txt:
+            continue
+        pl = notice_pdf.parse_pub_limits(txt)
+        assert (pl["real_estate"], pl["car"]) == (21550, 4542), rev
+
+
+def test_crosscheck_flags_collected_asset_limit_off_base():
+    from app import crosscheck
+    from app.models import Listing
+    L = Listing(id="2026000402-059.9288A", name="익산 부송에코르", address="전북 익산시", region="지방", kind="공공임대", category="general", unit="59A", price=0.72,
+                apply="2026-10-21", notice="2026-10-08", url="https://x", pub_limits={"kind": "pub_table", "real_estate": 21550, "car": 4996})
+    facts = {"2026000402": {"asset_thousand": {"부동산": [215500, 237050, 258600], "자동차": [45420, 49960, 54510]}}}
+    log = crosscheck.run([L], facts)
+    assert any("수집한 자동차 기준 49,960천원" in x for x in log) and any("자동차" in c for c in L.checks)
+
+
+def test_parse_snapshot_counts_value_changes_when_text_changes():
+    from tools.qa.parse_snapshot import moved_diffs
+    old = {"1": {"sha": "a", "parse": {"residence": {"months": 0}, "quotes": {"x": "1"}}}, "2": {"sha": "b", "parse": {"car": 4542}}}
+    new = {"1": {"sha": "A", "parse": {"quotes": {"x": "2"}}}, "2": {"sha": "b", "parse": {"car": 4996}}}
+    mv = moved_diffs(old, new)
+    assert len(mv) == 1 and mv[0].startswith("1 residence")   # 글이 바뀐 1번만(값 사라짐), 글이 같은 2번은 테스트(diff)가 따로 본다, 근거 문장 차이는 세지 않음

@@ -4,6 +4,16 @@
 2026-09-29 12:55 이전 항목은 규칙을 만들기 전 작업을 커밋 기록으로 정리한 것이라 백업 브랜치가 없어요.
 그 시점으로 되돌릴 때는 해당 커밋 번호로 `git revert` 를 써요.
 
+## 2026-10-10 12:50 · 다시 받은 공고문 글 띄어쓰기 변화로 값이 틀어진 것 수정·재발 관문 (v1.67.2)
+- 요청: (Abc 진행 중 발견) 근거 자료 갱신(12:39)으로 공고문 글 58건이 다시 뽑히며 띄어쓰기가 달라짐 → 익산 부송에코르 2026000402 자동차 기준을 4,542만이 아니라 출산가구 완화 칸 4,996만으로 읽음(기준보다 비싼 차도 통과, P1), 2026000448·458 거주 요건 못 읽음
+- 원인: 읽기 규칙이 '천원 이하'·'현재 인천광역시'의 띄어쓰기에 기대고 있었음('45,420천원이하'·'현재인천광역시'). 원문 스냅샷은 '글이 바뀐 원문은 비교 안 함'이라, 기존 자산 대조(crosscheck)는 앱 고정 수치와 공고문 숫자만 비교해서 못 잡음(정답 비교는 잡음 — 402 정답 불일치 3건)
+- 변경: parse_pub_limits '천원이하' 정규화 + 뒤에 '…천원 이하'가 이어지는 줄(<표3> 완화 줄)은 기본 기준으로 쓰지 않음, 거주 요건 요약표 '현재' 뒤 띄어쓰기 없음 허용. 재발 관문: crosscheck 가 수집한 pub_limits 부동산·자동차 = 공고문 기본 칸(가장 작은 값)인지 대조 → '데이터 확인 필요'·[검증·공고문 불일치]; parse_snapshot --moved-json 이 글이 바뀐 원문에서 값이 달라진 곳을 세어 verify_status(parse_moved_changes) 관문에 건다(collect.yml). 원문 문장 시험은 공백 무시. PARSER_VERSION 38
+- 파일: app/notice_pdf.py, app/pipeline.py, app/crosscheck.py, tools/qa/parse_snapshot.py, tools/verify_status.py, .github/workflows/collect.yml, tests/test_rental_pub_table_sp.py, tests/test_residence.py, tests/qa/parse_snapshot.json, docs/changelog.json, VERSIONS.md, HANDOFF.md, WORK.md, .claude/skills/cheongyakpass-ops/SKILL.md
+- 확인: 글이 바뀐 58건 전후 값 비교(바뀐 곳 402 자동차·448/458 거주뿐 → 고친 뒤 0), 예전 글·지금 글 모두 부동산 21,550·자동차 4,542, crosscheck 가 지금 데이터(4,996)를 잡는지 시험, pytest 256, 판정 사례 917 일치
+- 백업: backup/20261010-1250-assetfix
+- 기능: 없음(수정)
+- 버전: v1.67.2
+
 ## 2026-10-10 12:37 · 주 1회 공고문 원문 대조 예약 (Abc C)
 - 요청: "Abc순차진행" — C. 원문만 읽는 검토자와의 대조를 정기 작업으로
 - 변경: 기존 예약 작업 '청약패스 주간 블라인드 표본'(월 09:59, 공고 5개·항목 4개)을 '청약패스 주간 공고문 원문 대조'로 바꿈 — 지난 대조 뒤 새로 뜬 공고 전부를 검토자(6건씩)가 원문만 읽고 14개 항목을 적고, tools/qa/blind/compare_live.py 로 대조, 다름은 원문으로 가려 README 로 남김, 원문 확인 값만 정답에 추가, 앱 오류는 고치지 않고 보고(P0 즉시 알림). 검토자 지시문 brief.md 를 저장소 경로 기준으로 고침

@@ -92,6 +92,16 @@ def run(listings: list, facts_by_notice: dict, C: dict | None = None) -> list[st
                 log.append(f"[검증·공고문 불일치] {L.name} {L.unit}: 분양가 {L.price}억이 공고문에 없음")
         if nid in bad_notice:
             L.checks = (L.checks or []) + ["공고문 대조: 이 공고문의 소득·자산·예치금 기준이 앱 기준과 달라요 — " + bad_notice[nid][0]]
+        # 수집이 읽은 공공 자산 기준(pub_limits) ↔ 공고문 원문 숫자: 기본 칸은 완화 칸보다 작다 → 원문 숫자 중 가장 작은 값이어야 한다
+        # (2026-10-10 2026000402: 다시 받은 PDF 글에서 '45,420천원이하' 띄어쓰기가 사라져 자동차 기준을 완화 칸 49,960 으로 읽음 — 앱 고정 수치와만 대조해 못 잡았다)
+        pl = getattr(L, "pub_limits", None) or {}
+        a = facts.get("asset_thousand") or {}
+        for key, name in (("real_estate", "부동산"), ("car", "자동차")):
+            vals = a.get(name) or []
+            if pl.get(key) and vals and pl.get("kind") in (None, "pub_table") and pl[key] * 10 != min(vals):
+                msg = f"수집한 {name} 기준 {pl[key] * 10:,}천원이 공고문 기본 칸 {min(vals):,}천원과 달라요"
+                L.checks = (L.checks or []) + ["공고문 대조: " + msg]
+                log.append(f"[검증·공고문 불일치] {L.name} {L.unit}: {msg}")
     for nid, probs in bad_notice.items():
         name = next((L.name for L in listings if L.id.startswith(nid)), nid)
         for p in probs:

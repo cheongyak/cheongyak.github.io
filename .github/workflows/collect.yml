@@ -129,6 +129,7 @@ jobs:
           node tools/qa/e2e.cjs | head -1 | tee -a docs/run-log.txt   # 사용자 흐름 30개 + 저장 조건 퍼징 390개 (3~4분)
           node tools/qa/past_chat.cjs | head -1 | tee -a docs/run-log.txt   # 지난 공고 판정 줄·청약봇 판정 요약이 화면과 같은지
           python -m tools.qa.market_check | head -4 | tee -a docs/run-log.txt   # 시세·근거 거래를 국토부 원자료와 따로 대조 (공고 8개씩 돌아가며)
+          python -m tools.qa.parse_snapshot --moved-json evidence/qa/parse-moved.json | grep "글이 바뀐" | head -6 | tee -a docs/run-log.txt || true   # 다시 받아 글이 바뀐 공고문에서 읽은 값이 달라졌는지 (2026-10-10)
       - name: 검증 요약 저장
         id: verify
         if: always()
@@ -136,7 +137,7 @@ jobs:
           set +e
           python -m tools.verify_status | tee -a docs/run-log.txt
           rc=${PIPESTATUS[0]}
-          git add docs/verify-status.json docs/judge-status.json docs/run-log.txt evidence/qa/supply-type.json evidence/qa/invariants.json evidence/qa/filter-check.json evidence/qa/consistency.json evidence/qa/sp-text.json evidence/qa/cross-rule.json evidence/qa/profile-keep.json evidence/qa/monotonic.json evidence/qa/zero-default.json evidence/qa/snapshot.json evidence/qa/e2e.json evidence/qa/past-chat.json evidence/qa/market-check.json
+          git add docs/verify-status.json docs/judge-status.json docs/run-log.txt evidence/qa/supply-type.json evidence/qa/invariants.json evidence/qa/filter-check.json evidence/qa/consistency.json evidence/qa/sp-text.json evidence/qa/cross-rule.json evidence/qa/profile-keep.json evidence/qa/monotonic.json evidence/qa/zero-default.json evidence/qa/snapshot.json evidence/qa/e2e.json evidence/qa/past-chat.json evidence/qa/market-check.json evidence/qa/parse-moved.json
           git diff --cached --quiet || (git commit -m "검증 결과 $(date +%Y-%m-%d)" && (git push || (git pull --rebase -X theirs origin main && git push)))
           exit $rc
       - name: 경고가 있으면 운영자 알림 (이슈)

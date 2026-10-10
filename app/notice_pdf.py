@@ -688,13 +688,15 @@ def parse_score_ratio(text: str) -> Optional[dict]:
 # 요약표 일반공급 소득 칸이나 자산 금액을 찾지 못하면 None (화면은 60㎡ 이하 공공분양을 '확인 필요'로 둔다)
 def parse_pub_limits(text: str) -> Optional[dict]:
     t = re.sub(r"\s+", " ", text)
+    t = re.sub(r"(천원|만원)\s?이하", r"\1 이하", t)   # '45,420천원이하' — PDF 글 뽑기마다 띄어쓰기가 달라진다 (2026-10-10 2026000402 다시 받은 글: 띄어쓰기가 사라져 자동차 기준을 출산가구 완화 칸 49,960 으로 읽음)
     if "신혼희망타운" in t[:3000]:
         return _parse_town_limits(t)
     cap = re.search(r"월평균소득 (\d{2,3})% 이하 \(맞\s*벌\s*이\**\s*(\d{2,3})%\)(\s*\*\s*전용면적 60㎡ 이하만 적용)?\s*자산", t)
     pri = re.search(r"일반공급 신청자격에 해당되며[^.]{0,80}1순위자로서 무주택세대구성원 전원의 월평균소득이[^.]{0,80}?"
                     r"(\d{2,3})%\s*\(본인 및 배우자가 모두 소득이 있는 경우 (\d{2,3})%\) 이하인 자", t)
-    re_ = re.search(r"부동산\s*\(건물\s*\+\s*토지\)\s*([\d,]+)천원 이하", t)
-    car = re.search(r"자동차\s*([\d,]+)천원 이하", t)
+    # 기본 기준 칸만: 뒤에 '…천원 이하 …천원 이하'가 이어지는 줄은 출산가구 완화 표(<표3>)라 건너뛴다
+    re_ = next((m for m in re.finditer(r"부동산\s*\(건물\s*\+\s*토지\)\s*([\d,]+)천원 이하(?! ?[\d,]{6,}천원 이하)", t)), None)
+    car = next((m for m in re.finditer(r"자동차\s*([\d,]+)천원 이하(?! ?[\d,]{5,}천원 이하)", t)), None)
     if not (cap and re_ and car):
         pt = _parse_pub_table(t, re_, car)
         if pt:
@@ -905,7 +907,7 @@ def _parse_residence(text: str) -> Optional[dict]:
     m = re.search(r"해당지역 (기타경기 )?기타지역 규제 ?지역 ?여부 (?:민영(?:주택)?|국민주택 ?\([^)]{1,20}\)|국민주택|공공분양|국민) (.+?) " + _REG_END, t)
     if m and len(m.group(2)) < 400:
         mid = m.group(2)
-        a = re.match(r"(?:입주자모집공고일 현재 )?(?:기존 )?((?:[가-힣]+(?:특별시|광역시|특별자치시|특별자치도|도))?(?: ?[가-힣]+(?:시|군))?)", mid)
+        a = re.match(r"(?:입주자모집공고일 현재 ?)?(?:기존 ?)?((?:[가-힣]+(?:특별시|광역시|특별자치시|특별자치도|도))?(?: ?[가-힣]+(?:시|군))?)", mid)
         area = _area(a.group(1)) if a and a.group(1) else None
         if not area:
             return None

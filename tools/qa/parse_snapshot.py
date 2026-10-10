@@ -4,7 +4,7 @@ tests/test_parse_snapshot.py 가 매번 같은지 본다. 읽기 규칙을 고�
 바뀐 값이 모두 원문과 대조해 맞는(의도한) 변경일 때만 기준을 새로 쓴다:
   python -m tools.qa.parse_snapshot           # 지금 기준과 다른 곳 보기
   python -m tools.qa.parse_snapshot --update  # 기준 새로 쓰기 (WORK.md 에 바뀐 공고·값을 적는다)
-새로 모인 원문(기준에 없는 파일)과 글이 바뀐 원문(다시 받아 글자가 달라진 파일, 원문 글 지문 sha 로 확인)은 비교하지 않는다 —
+새로 모인 원문(기준에 없는 파일)과 글이 바뀐 원문(다시 받아 글자가 달라진 파일, 원문 글 지문 sha 로 확인)은 테스트로는 비교하지 않는다 (글이 바뀐 원문의 값 변화는 --moved-json 으로 따로 세어 verify_status 관문에 건다, 2026-10-10) —
 읽기 규칙이 아니라 원문이 바뀐 것이라서. 매일 수집 첫 단계의 pytest 를 막지 않게 하려는 것 (--update 때 새 지문으로 기준을 쓴다)."""
 import hashlib
 import json
@@ -52,6 +52,23 @@ def diff(old: dict, new: dict) -> list[str]:
     return lines
 
 
+def moved_diffs(old: dict, new: dict) -> list[str]:
+    """글이 바뀐 원문(다시 받아 띄어쓰기·줄바꿈이 달라진 PDF 글)에서 읽은 값이 달라진 곳 — 근거 문장(quotes)·대조 메모(conflicts)는 빼고.
+    2026-10-10: 근거 자료 갱신으로 58건의 글이 바뀌자 2026000448·458 거주 요건이 사라지고 2026000402 자동차 기준이 49,960 으로 읽혔는데
+    '글이 바뀐 원문은 비교 안 함'이라 아무도 몰랐다 → 매 수집에서 세어 verify_status 관문에 건다(수집은 막지 않음)."""
+    lines = []
+    for no in sorted(old):
+        if no not in new or old[no].get("sha") == new[no]["sha"]:
+            continue
+        a, b = old[no]["parse"], new[no]["parse"]
+        for k in sorted(set(a) | set(b)):
+            if k in ("quotes", "conflicts"):
+                continue
+            if a.get(k) != b.get(k):
+                lines.append(f"{no} {k}: {json.dumps(a.get(k), ensure_ascii=False)[:120]} → {json.dumps(b.get(k), ensure_ascii=False)[:120]}")
+    return lines
+
+
 def main() -> None:
     new = current()
     old = json.loads(SNAP.read_text(encoding="utf-8")) if SNAP.exists() else {}
@@ -61,6 +78,15 @@ def main() -> None:
     print(f"[공고문 읽기 고정] 원문 {len(new)}건 · 기준 {len(old)}건 · 바뀐 값 {len(d)} · 새 원문 {len(added)} · 글이 바뀐 원문(비교 안 함) {len(moved)}")
     for line in d[:200]:
         print("  " + line)
+    mv = moved_diffs(old, new)
+    if mv or moved:
+        print(f"[공고문 읽기 고정] 글이 바뀐 원문 {len(moved)}건 중 읽은 값이 달라진 곳 {len(mv)}")
+        for line in mv[:50]:
+            print("  (글 바뀜) " + line)
+    if "--moved-json" in sys.argv:
+        import datetime
+        Path(sys.argv[sys.argv.index("--moved-json") + 1]).write_text(json.dumps({"date": datetime.date.today().isoformat(), "moved": len(moved), "changed": len(mv), "items": mv[:200]},
+                                                                                 ensure_ascii=False, indent=1) + "\n", encoding="utf-8")
     if "--update" in sys.argv:
         SNAP.parent.mkdir(parents=True, exist_ok=True)
         SNAP.write_text(json.dumps(new, ensure_ascii=False, indent=0, sort_keys=True) + "\n", encoding="utf-8")
