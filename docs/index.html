@@ -5359,8 +5359,9 @@ function rentalGroup(N, g, p){
       else add('check', owners >= 2 ? '세대원 여러 명이 집을 가짐 — 세대 전체 주택 수가 2채 이상이면 신청 불가 (공동 소유 1채면 가능)' : '세대에 집이 있어요 — 세대 전체 주택 수가 2채 이상이면 무주택 완화도 신청 불가 (세대 전체 주택 수 입력 필요)', ['hhHomes']);
     }
     else if (someoneOwns) { if (T.homeless_relaxed) yn(p.lhHomeOutside, '집이 주택건설지역·연접지역 밖이거나 소형·저가주택', '세대의 집이 주택건설지역·연접지역 안에 있음', '세대의 집이 주택건설지역·연접지역 밖에 있거나 소형·저가주택이면 신청 가능 — 답해 주세요', ['lhHomeOutside']); else add('no', '세대에 집이 있음 (세대원 전원 무주택이어야 함)'); }
-    else if (p.hhHomes === '0' && sOwn !== true && (!mar || spOwn === false)) add('ok', '세대 무주택 (세대 전체 주택 0채)');   /* 따로 사는 배우자(분리배우자)는 등본에 없어 배우자 집은 따로 확인 */
+    else if (p.hhHomes === '0' && sOwn !== true && ((!mar && p.married === false) || spOwn === false)) add('ok', '세대 무주택 (세대 전체 주택 0채)');   /* 따로 사는 배우자(분리배우자)는 등본에 없어 배우자 집은 따로 확인 */
     else if (p.hhHomes === '0' && mar && spOwn == null) add('check', '배우자(예비 배우자 포함) 명의 집(분양권·입주권 포함)이 있는지 입력 필요', ['spouseOwn']);
+    else if (p.hhHomes === '0' && p.married == null && spOwn == null) add('check', '혼인 여부 입력 필요 — 혼인 중이면 따로 사는 배우자 명의 집(분양권·입주권 포함)도 세대 주택에 들어가요', ['married', 'spouseOwn']);   /* 혼인 여부를 모르면 세대 0채만으로 확정하지 않음 (2026-10-12 정보 감소 QA) */
     else if (solo1) add('ok', '세대 무주택 (1인 세대)');
     else add('check', '세대원 전원(같은 등본의 부모·자녀 포함)의 집(분양권·입주권 포함) 수 입력 필요', ['hhHomes', 'selfOwn', 'married', 'hhSize']);
   }

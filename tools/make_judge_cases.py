@@ -1049,7 +1049,7 @@ def main() -> None:
             elif some and T["homeless_relaxed"] and T.get("homeless_max1") and hh != "1":   # 무주택 완화 '2호 이상 제외' — 집이 있으면 세대 전체 주택 수가 1채라고 확인돼야 함
                 st.append("no" if hh == "2+" else "check")     # 무주택 완화여도 2호 이상 제외
             elif some: st.append(yn(p.get("lhHomeOutside")) if T["homeless_relaxed"] else "no")
-            elif hh == "0" and s_own is not True and (not mar or sp_own is False): st.append("ok")
+            elif hh == "0" and s_own is not True and ((not mar and p.get("married") is False) or sp_own is False): st.append("ok")   # 혼인 여부를 모르면 확정하지 않음 (2026-10-12)
             elif hh == "0" and mar and sp_own is None: st.append("check")
             elif p.get("hhSize") == 1 and not pin and not (p.get("kidsOnDeed") or 0) > 0 and s_own is False and p.get("married") is False and not mar: st.append("ok")   # 1인 미혼 세대 (등본 부모·자녀 입력과 어긋나면 아님)
             else: st.append("check")
@@ -1194,7 +1194,7 @@ def main() -> None:
         exp = {g["key"]: lh_group(N, g, p) for g in N["terms"]["groups"] if g["key"] in keys}
         add(id=f"lhrent-{nonlocal_i[0]:02d}", fn="lhrent", notice=nid, profile=p, expect=exp, basis=f"{basis} — {nm}")
     nonlocal_i = [0]
-    E, K, R, H, U, B = "LH-2015122300020818", "LH-2015122300020740", "LH-2015122300020726", "LH-2015122300020806", "LH-2015122300020855", "LH-2015122300020870"
+    E, K, R, H, U, B, S = "LH-2015122300020818", "LH-2015122300020740", "LH-2015122300020726", "LH-2015122300020806", "LH-2015122300020855", "LH-2015122300020870", "LH-2015122300020893"
     bE = "부산 영구임대 2015122300020818 소득 및 자산 보유기준(차목 일반 50%, 1인 70%·2인 60%, 총자산 24,500만원·자동차 4,542만원)"
     for nm, ch in [("1인 70% 이하", {"hhIncomeYear": yr(URB[1] * 0.7)}), ("1인 70% 초과", {"hhIncomeYear": yr(URB[1] * 0.7) + 1}),
                    ("2인 60% 이하", {"hhSize": 2, "hhIncomeYear": yr(URB[2] * 0.6)}), ("2인 60% 초과", {"hhSize": 2, "hhIncomeYear": yr(URB[2] * 0.6) + 1}),
@@ -1215,6 +1215,11 @@ def main() -> None:
     for nm, ch in [("소득 높음", {"hhIncomeYear": 20000}), ("총자산 높음", {"realEstate": 90000}), ("자동차 초과", {"carValue": 5000}),
                    ("세대에 집", {"selfOwn": True}), ("배우자 집", {"married": True, "marriedOn": "2020-01-01", "spouseOwn": True})]:
         lh_add(R, ["일반"], nm, ch, bR)
+    bS = "익산한스빌 국민임대 2015122300020893 입주자격 완화(▪ 소득 요건 소득요건 배제 ▪ 총자산 요건 총자산요건 배제, 자동차 4,542만원 이하, 무주택세대구성원·연접지역 무주택 완화)"
+    for nm, ch in [("소득 높음", {"hhIncomeYear": 20000}), ("자동차 4,542만", {"carValue": 4542}), ("자동차 4,543만", {"carValue": 4543}),
+                   ("혼인 여부 모름·세대 0채", {"married": None, "spouseOwn": None}), ("혼인 여부 모름·배우자 집 없음이라 답함", {"married": None, "spouseOwn": False}),
+                   ("혼인·배우자 집 모름", {"married": True, "marriedOn": "2020-01-01", "spouseOwn": None})]:
+        lh_add(S, ["일반"], nm, ch, bS)
     bH = "부산문현2 행복주택 2015122300020806 계층별 신청자격(대학생 본인 자산 10,800만원·차량 미소유, 청년 19~39세 120/110/100%·25,100만원, 신혼 100%(2인 110%), 고령자 65세 이상)"
     HK = ["대학생", "청년", "신혼부부·한부모", "고령자"]
     for nm, ch in [("기본(31세 미혼 1인)", {}), ("만 39세 마지막 날", {"birth": "1986-09-23"}), ("만 40세 되는 날", {"birth": "1986-09-22"}),

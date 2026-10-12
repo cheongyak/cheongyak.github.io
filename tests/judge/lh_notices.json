@@ -555,5 +555,34 @@
    ]
   },
   "_from": "tests/golden/lh_rental.json + 완화조건 ①(2호 이상 제외)"
+ },
+ {
+  "id": "LH-2015122300020893",
+  "type": "국민임대",
+  "posted": "2026-10-08",
+  "name": "익산한스빌 국민임대주택 예비입주자 자격완화 모집 공고 (모집공고일 2026.10.08)",
+  "schedule": [],
+  "units": [],
+  "files": [],
+  "terms": {
+   "relaxed": true,
+   "homeless_relaxed": true,
+   "homeless_max1": false,
+   "income_basis": "도시근로자 월평균소득",
+   "income_table_100": null,
+   "groups": [
+    {
+     "key": "일반",
+     "name": "일반",
+     "homeless": "household",
+     "income_pct": "excluded",
+     "asset_manwon": "excluded",
+     "car_manwon": 4542,
+     "age_min": null,
+     "age_max": null
+    }
+   ]
+  },
+  "_from": "tests/golden/lh_rental.json (공고문 원문 확인값) — 파서 결과가 아님"
  }
 ]
