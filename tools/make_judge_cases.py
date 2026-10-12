@@ -1078,7 +1078,8 @@ def main() -> None:
             elif not p.get("homeSigun"): st.append("check")
             else:
                 mt = sigun_match(p["homeSigun"], Lc["sigun"])
-                st.append("ok" if mt is True else "no" if mt is False else "check")
+                # 같은 시·도 다른 시·군: 공고문 선정순서가 '남은 주택은 다른 지역(익산시 외 전북) 거주자에게 공급'이면 불가가 아니라 확인 (익산부송3 2015122300020895)
+                st.append("ok" if mt is True else ("check" if Lc.get("sigun_others_check") else "no") if mt is False else "check")
         if g.get("min_family"):                                # 장기종사자: 미성년 자녀 포함 3명 이상 세대
             if p.get("kidsMinor") == 0: na = True
             elif p.get("hhSize") in (None, "") or p.get("kidsMinor") is None: st.append("check")
@@ -1265,6 +1266,12 @@ def main() -> None:
     bQ = "대전천동3 10년 분양전환 공공임대 0000061176 신청자격(국내 거주 성년 무주택세대구성원, 청약저축 가입여부·소득·자산 불문)"
     for nm, ch in [("통장 없음", {"acctType": "none"}), ("세대에 집", {"selfOwn": True}), ("서울 거주·소득 높음", {"homeSido": "서울", "hhIncomeYear": 30000})]:
         lh_add(P10, ["일반"], nm, ch, bQ)
+    P50 = "LH-2015122300020895"
+    bI = "익산부송3 50년 공공임대 2015122300020895 4. 신청자격(주택건설지역(익산시) 거주 무주택세대구성원, 1순위 가입 6개월·6회, 2순위 가입, 소득·자산 기준 없음) + 순위 결정기준(남은 주택은 익산시 외 전북 거주자에게 공급)"
+    acc2 = {"homeSido": "전북", "homeSigun": "익산시", "acctType": "all", "acctSince": "2020-01-01", "acctCount": 30}
+    for nm, ch in [("익산시·1순위", acc2), ("전주시(전북 다른 시)", dict(acc2, homeSigun="전주시")), ("서울", dict(acc2, homeSido="서울", homeSigun="마포구")),
+                   ("시·군 모름", dict(acc2, homeSigun="")), ("통장 없음", dict(acc2, acctType="none")), ("세대에 집", dict(acc2, selfOwn=True)), ("소득 높음", dict(acc2, hhIncomeYear=30000))]:
+        lh_add(P50, ["일반"], nm, ch, bI)
     bC = "인천논현 창업지원주택 2015122300020780 창업지원(행복)주택 입주자격 ①~⑤(만19~39세, 혼인 중이면 세대원·아니면 본인 무주택, 소득 100%·1인 120%·2인 110%·맞벌이 +20%p, 총자산 34,500만원·자동차 4,542만원) + 남동구 창업인 추천"
     for nm, ch in [("미혼 1인", {}), ("미혼·부모 집(본인 무주택)", {"household": "parents", "parentsOwn": True, "hhSize": 3, "hhIncomeYear": 9000}),
                    ("혼인·배우자 집", {"married": True, "marriedOn": "2024-01-01", "spouseOwn": True, "hhSize": 2, "hhIncomeYear": 6000}),

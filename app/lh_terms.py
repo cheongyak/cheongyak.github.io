@@ -329,17 +329,33 @@ SIDO_SHORT = {"서울특별시": "서울", "부산광역시": "부산", "대구�
 
 def _public_terms(t: str) -> tuple[list[dict], dict, dict]:
     """공공임대(50년 공공임대·10년 분양전환 공공임대 예비입주자) — 신청자격 절에서 무주택·거주지역·청약통장 순위·소득자산 기준 유무를 읽는다."""
-    m = re.search(r"\d\.\s?신청자격\s?(?:■\s?)?입주자모집공고일\s?\([\d.]+\)\s?현재", t)
+    m = re.search(r"\d\.\s?신청자격\s?(?:■\s?)?입주자모집공고일\s?\([\d.\s]+\)\s?현재", t)   # '(26. 10. 12.)' 띄어 쓴 날짜 (익산부송3 2015122300020895)
     if not m:
-        return [], {}, {}
+        # 무순위 예비입주자(충북혁신4 0000061184): '1. 신청 자격 ■ 입주자저축 가입 여부, 과거당첨사실여부, 당해주택 건설지역 거주여부, 소득 및 자산기준충족여부 등과
+        # 관계없이 신청 가능 … ■ 입주자 모집공고일(…) 현재 무주택세대구성원인 성년자' — 거주지역·청약통장·소득·자산 모두 묻지 않음
+        mu = re.search(r"신청\s?자격\s?■\s?(?:입주자저축|청약저축)\s?가입\s?여부,\s?과거\s?당첨\s?사실\s?여부,\s?당해\s?주택\s?건설\s?지역\s?거주\s?여부,\s?"
+                       r"소득\s?및\s?자산\s?기준\s?충족\s?여부\s?등과\s?관계\s?없이\s?신청\s?가능", t)
+        mh = mu and re.search(r"입주자\s?모집공고일\s?\([\d.\s]+\)\s?현재\s?무주택세대구성원인\s?성년자", t[mu.end(): mu.end() + 800])
+        if not (mu and mh):
+            return [], {}, {}
+        q = {"income": _q(t, mu, 0, 0), "asset": _q(t, mu, 0, 0), "region": _q(t, mu, 0, 0), "account": _q(t, mu, 0, 0), "homeless": mh.group(0)}
+        g = {"key": "일반", "name": "일반", "homeless": "household", "income_pct": "excluded", "asset_manwon": "excluded", "car_manwon": "excluded", "age_min": None, "age_max": None}
+        return [g], {"일반": q}, {"regions": [], "account": "none"}
     sec = t[m.start(): m.start() + 6000]
     end = re.search(r"\d\.\s?모집일정|\d\.\s?신청\s?방법|\d\.\s?공급일정", sec)
     sec = sec[: end.start()] if end else sec
     extra, q = {}, {}
     if (mr := re.search(r"주택건설지역\(([^)]*(?:\([^)]*\))?[^)]*)\)(?:에\s?거주하는)?\s?무주택세대구성원", sec)):
         names = re.sub(r"\s", "", mr.group(1))
-        extra["regions"] = sorted({v for k, v in SIDO_SHORT.items() if re.sub(r"\s", "", k) in names})
+        sidos = sorted({v for k, v in SIDO_SHORT.items() if re.sub(r"\s", "", k) in names})
         q["region"] = _q(sec, mr, 0, 10)
+        if sidos:
+            extra["regions"] = sidos
+        elif re.fullmatch(r"[가-힣]{1,8}(?:시|군)", names):
+            # 시·군 하나만 적힘('주택건설지역(익산시)') — 시·도는 공고의 시·도로 parse_lh_terms 가 정한다. 시·도 이름이 없다고 '어디서나'(빈 목록)로 보지 않는다
+            extra["_local_sigun"] = names
+            if (mo := re.search(r"남은\s?주택이\s?있을\s?경우\s?다른\s?지역\s?\(([^)]{1,40})\)\s?거주자에게\s?공급", t)):
+                extra["_local_others"] = re.sub(r"(시|군)외", r"\1 외 ", re.sub(r"\s", "", mo.group(1)))
     elif re.search(r"국내에\s?거주하는\s?성년자인\s?무주택세대구성원", sec):
         extra["regions"] = []
     if (ma := re.search(r"청약저축\s?포함\)에\s?가입하여\s?(\d+)개월이\s?지난\s?자로서[^.]{0,40}?(\d+)회\s?이상\s?납입한\s?자", sec)):
@@ -349,7 +365,7 @@ def _public_terms(t: str) -> tuple[list[dict], dict, dict]:
         extra["account"] = "none"
         inc = asset = car = "excluded"
         q["income"] = q["asset"] = _q(t, mn, 10, 20)
-    elif not re.search(r"소득|자산", sec) and re.search(r"무주택세대구성원", sec) and extra.get("regions") is not None and extra.get("account"):
+    elif not re.search(r"소득|자산", sec) and re.search(r"무주택세대구성원", sec) and (extra.get("regions") is not None or extra.get("_local_sigun")) and extra.get("account"):
         # 신청자격 절에 소득·자산 기준이 없음 (50년 공공임대). '글자가 없다'는 추론이라, 그 절을 제대로 찾았다는 근거(무주택·거주지역·청약통장 문장)가
         # 모두 있을 때만 배제로 본다 — 절 경계를 잘못 잡아 글자를 못 찾으면 소득·자산을 보지 않고 '가능'이 될 수 있어서 (2026-10-05 안전성 점검)
         inc = asset = car = "excluded"
@@ -405,10 +421,19 @@ def parse_lh_terms(text: str, kind: str, name: str = "", region: Optional[str] =
         res["unknown_groups"] = unknown_happy_groups(t)
     elif kind == "공공임대":
         res["groups"], res["quotes"], extra = _public_terms(t)
+        nm, oth = extra.pop("_local_sigun", None), extra.pop("_local_others", None)
         res.update(extra)
+        sido = SIDO_SHORT.get(region or "")
+        if nm and sido:   # '주택건설지역(익산시)에 거주하는' → 전북 · 익산시 (공고 시·도를 모르면 regions 를 비워 둬 화면은 확인 필요)
+            res["regions"] = [sido]
+            res["local"] = {"name": nm, "sido": sido, "sigun": nm, "quote": res["quotes"].get("일반", {}).get("region")}
+            if oth:   # 공고문 선정순서 '남은 주택이 있을 경우 다른지역(익산시 외 전북특별자치도) 거주자에게 공급' → 같은 시·도 다른 시·군은 '불가'가 아니라 확인
+                res["local"]["sigun_others_check"] = f"남은 주택이 있으면 다른 지역({oth}) 거주자에게도 공급한다고 해요(후순위)"
     loc = parse_local(t, region)
     if loc:
         res["local"] = loc
+    elif "local" in res:
+        pass
     elif (ml := _LOCAL_HINT.search(t)) and not re.search(r"국내", ml.group(0)):
         # 신청자격에 '공고일 현재 ○○에 거주하는 성년자' 같은 거주 요건 문장이 보이는데 어디인지 읽지 못함 → 화면은 거주 요건을 '확인'으로
         # (요건 문장을 못 찾으면 요건이 없는 것으로 판정되는 경로를 막는다, 2026-10-06 안전성 점검 후속)

@@ -584,5 +584,48 @@
    ]
   },
   "_from": "tests/golden/lh_rental.json (공고문 원문 확인값) — 파서 결과가 아님"
+ },
+ {
+  "id": "LH-2015122300020895",
+  "type": "공공임대",
+  "posted": "2026-10-12",
+  "name": "익산부송3단지 50년 공공임대 예비입주자 모집 (모집공고일 2026.10.12, 주택관리번호 2026-000504)",
+  "schedule": [],
+  "units": [],
+  "files": [],
+  "terms": {
+   "relaxed": false,
+   "homeless_relaxed": false,
+   "homeless_max1": false,
+   "income_basis": null,
+   "income_table_100": null,
+   "regions": [
+    "전북"
+   ],
+   "account": {
+    "months": 6,
+    "count": 6,
+    "rank2_any": true
+   },
+   "local": {
+    "name": "익산시",
+    "sido": "전북",
+    "sigun": "익산시",
+    "sigun_others_check": "남은 주택이 있으면 다른 지역(익산시 외 전북특별자치도) 거주자에게도 공급한다고 해요(후순위)"
+   },
+   "groups": [
+    {
+     "key": "일반",
+     "name": "일반",
+     "homeless": "household",
+     "income_pct": "excluded",
+     "asset_manwon": "excluded",
+     "car_manwon": "excluded",
+     "age_min": null,
+     "age_max": null
+    }
+   ]
+  },
+  "_from": "tests/golden/lh_rental.json (공고문 원문 확인값) — 파서 결과가 아님"
  }
 ]
