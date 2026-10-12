@@ -4,8 +4,8 @@
  "notices": 60,
  "with_problem": 4,
  "kinds": {
-  "PDF 를 하나도 받지 못함": 2,
-  "글자가 거의 없는 쪽 N개 (스캔 이미지·표 그림 추정)": 2
+  "글자가 거의 없는 쪽 N개 (스캔 이미지·표 그림 추정)": 2,
+  "PDF 를 하나도 받지 못함": 2
  },
  "errors": [],
  "results": [
@@ -14,16 +14,60 @@
    "name": "청주 가경 아이파크 8단지",
    "url": "https://www.applyhome.co.kr/ai/aia/selectAPTLttotPblancDetail.do?houseManageNo=2026000492&pblancNo=2026000492",
    "attachments": 1,
-   "pdfs": 0,
+   "pdfs": 1,
    "attachment_list": [
     {
      "url": "https://static.applyhome.co.kr/ai/aia/getAtchmnfl.do?houseManageNo=2026000492&pblancNo=2026000492&atchmnflSeqNo=1995082&atchmnflSn=5",
-     "error": "PDF 아님 (200, 59바이트)"
+     "bytes": 2057629,
+     "pages": 75,
+     "chars": 172400,
+     "head": "- 1 - ※ 단지 주요정보 (분양문의) 1533-3767 주택유형 해당지역 기타지역 규제지역여부 민영 청주시 거주자 충청북도 거주자 비규제지역"
     }
    ],
-   "problem": [
-    "PDF 를 하나도 받지 못함"
-   ]
+   "chosen": "https://static.applyhome.co.kr/ai/aia/getAtchmnfl.do?houseManageNo=2026000492&pblancNo=2026000492&atchmnflSeqNo=1995082&atchmnflSn=5",
+   "pages": 75,
+   "pages_read": 75,
+   "chars_read": 172474,
+   "empty_pages": [],
+   "chars_per_page_min": 656,
+   "fields": {
+    "need_head": false,
+    "price_cap": false,
+    "residence_duty": 0,
+    "rewin_years": 0,
+    "account_months": 6,
+    "residence": {
+     "area": "청주시",
+     "months": 0,
+     "since": null
+    }
+   },
+   "fields_merged": {
+    "need_head": false,
+    "price_cap": false,
+    "residence_duty": 0,
+    "rewin_years": 0,
+    "account_months": 6,
+    "residence": {
+     "area": "청주시",
+     "months": 0,
+     "since": null
+    }
+   },
+   "fields_pdfium": {
+    "need_head": false,
+    "price_cap": false,
+    "residence_duty": 0,
+    "rewin_years": 0,
+    "account_months": 6,
+    "residence": {
+     "area": "청주시",
+     "months": 0,
+     "since": null
+    }
+   },
+   "pdfium_chars": 172483,
+   "problem": []
   },
   {
    "notice": "2026000491",
@@ -2284,57 +2328,16 @@
    "name": "도안 푸르지오 디아델 31블록",
    "url": "https://www.applyhome.co.kr/ai/aia/selectAPTRemndrLttotPblancDetailView.do?houseManageNo=2026930034&pblancNo=2026930034",
    "attachments": 1,
-   "pdfs": 1,
+   "pdfs": 0,
    "attachment_list": [
     {
      "url": "https://static.applyhome.co.kr/ai/aia/getAtchmnfl.do?houseManageNo=2026930034&pblancNo=2026930034&atchmnflSeqNo=1990217&atchmnflSn=1",
-     "bytes": 648603,
-     "pages": 25,
-     "chars": 42022,
-     "head": "- 1 - ※ 단지 주요정보 (분양문의) 042-477-6565 주택유형 규제지역여부 거주요건 재당첨제한 민영 비규제지역 대전광역시 거주자 없음"
+     "error": "PDF 아님 (200, 59바이트)"
     }
    ],
-   "chosen": "https://static.applyhome.co.kr/ai/aia/getAtchmnfl.do?houseManageNo=2026930034&pblancNo=2026930034&atchmnflSeqNo=1990217&atchmnflSn=1",
-   "pages": 25,
-   "pages_read": 25,
-   "chars_read": 42046,
-   "empty_pages": [],
-   "chars_per_page_min": 166,
-   "fields": {
-    "need_head": true,
-    "price_cap": false,
-    "residence_duty": 0,
-    "rewin_years": 0,
-    "residence": {
-     "area": "대전광역시",
-     "months": 0,
-     "since": null
-    }
-   },
-   "fields_merged": {
-    "need_head": true,
-    "price_cap": false,
-    "residence_duty": 0,
-    "rewin_years": 0,
-    "residence": {
-     "area": "대전광역시",
-     "months": 0,
-     "since": null
-    }
-   },
-   "fields_pdfium": {
-    "need_head": true,
-    "price_cap": false,
-    "residence_duty": 0,
-    "rewin_years": 0,
-    "residence": {
-     "area": "대전광역시",
-     "months": 0,
-     "since": null
-    }
-   },
-   "pdfium_chars": 41735,
-   "problem": []
+   "problem": [
+    "PDF 를 하나도 받지 못함"
+   ]
   },
   {
    "notice": "2026930033",
@@ -2617,16 +2620,57 @@
    "name": "신림스카이아파트(20차)",
    "url": "https://www.applyhome.co.kr/ai/aia/selectAPTRemndrLttotPblancDetailView.do?houseManageNo=2026910250&pblancNo=2026910250",
    "attachments": 1,
-   "pdfs": 0,
+   "pdfs": 1,
    "attachment_list": [
     {
      "url": "https://static.applyhome.co.kr/ai/aia/getAtchmnfl.do?houseManageNo=2026910250&pblancNo=2026910250&atchmnflSeqNo=1978039&atchmnflSn=2",
-     "error": "PDF 아님 (200, 59바이트)"
+     "bytes": 235192,
+     "pages": 9,
+     "chars": 13256,
+     "head": "- 1 - ※ 단지 주요정보 (분양문의) 02-877-9273 주택유형 규제지역여부 무순위(사후) 자격요건 민영 투기과열지구/청약과열지역 무순위"
     }
    ],
-   "problem": [
-    "PDF 를 하나도 받지 못함"
-   ]
+   "chosen": "https://static.applyhome.co.kr/ai/aia/getAtchmnfl.do?houseManageNo=2026910250&pblancNo=2026910250&atchmnflSeqNo=1978039&atchmnflSn=2",
+   "pages": 9,
+   "pages_read": 9,
+   "chars_read": 13264,
+   "empty_pages": [],
+   "chars_per_page_min": 519,
+   "fields": {
+    "need_head": false,
+    "price_cap": false,
+    "residence_duty": 0,
+    "rewin_years": 10,
+    "residence": {
+     "area": "서울특별시",
+     "months": 0,
+     "since": null
+    }
+   },
+   "fields_merged": {
+    "need_head": false,
+    "price_cap": false,
+    "residence_duty": 0,
+    "rewin_years": 10,
+    "residence": {
+     "area": "서울특별시",
+     "months": 0,
+     "since": null
+    }
+   },
+   "fields_pdfium": {
+    "need_head": false,
+    "price_cap": false,
+    "residence_duty": 0,
+    "rewin_years": 10,
+    "residence": {
+     "area": "서울특별시",
+     "months": 0,
+     "since": null
+    }
+   },
+   "pdfium_chars": 13102,
+   "problem": []
   },
   {
    "notice": "2026910249",
@@ -2744,63 +2788,16 @@
    "name": "강변역 센트럴 아이파크",
    "url": "https://www.applyhome.co.kr/ai/aia/selectAPTRemndrLttotPblancDetailView.do?houseManageNo=2026930040&pblancNo=2026930040",
    "attachments": 1,
-   "pdfs": 1,
+   "pdfs": 0,
    "attachment_list": [
     {
      "url": "https://static.applyhome.co.kr/ai/aia/getAtchmnfl.do?houseManageNo=2026930040&pblancNo=2026930040&atchmnflSeqNo=1982993&atchmnflSn=5",
-     "bytes": 367120,
-     "pages": 12,
-     "chars": 26126,
-     "head": "- 1 - ※ 단지 주요정보 (분양문의)1551-3560 주택유형 규제지역여부 거주요건 재당첨제한 민영 투기과열지구/청약과열지역 서울특별시 거주"
+     "error": "PDF 아님 (200, 59바이트)"
     }
    ],
-   "chosen": "https://static.applyhome.co.kr/ai/aia/getAtchmnfl.do?houseManageNo=2026930040&pblancNo=2026930040&atchmnflSeqNo=1982993&atchmnflSn=5",
-   "pages": 12,
-   "pages_read": 12,
-   "chars_read": 26137,
-   "empty_pages": [],
-   "chars_per_page_min": 666,
-   "fields": {
-    "need_head": true,
-    "price_cap": false,
-    "residence_duty": 0,
-    "rewin_years": 10,
-    "balance": "2026-11-30",
-    "ext": 0.2178,
-    "residence": {
-     "area": "서울특별시",
-     "months": 0,
-     "since": null
-    }
-   },
-   "fields_merged": {
-    "need_head": true,
-    "price_cap": false,
-    "residence_duty": 0,
-    "rewin_years": 10,
-    "balance": "2026-11-30",
-    "ext": 0.2178,
-    "residence": {
-     "area": "서울특별시",
-     "months": 0,
-     "since": null
-    }
-   },
-   "fields_pdfium": {
-    "need_head": true,
-    "price_cap": false,
-    "residence_duty": 0,
-    "rewin_years": 10,
-    "balance": "2026-11-30",
-    "ext": 0.2178,
-    "residence": {
-     "area": "서울특별시",
-     "months": 0,
-     "since": null
-    }
-   },
-   "pdfium_chars": 25652,
-   "problem": []
+   "problem": [
+    "PDF 를 하나도 받지 못함"
+   ]
   },
   {
    "notice": "2026930037",
