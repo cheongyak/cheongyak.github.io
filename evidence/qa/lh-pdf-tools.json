@@ -1,42 +1,42 @@
 {
- "date": "2026-10-12 12:45",
- "golden_notices": 31,
+ "date": "2026-10-12 13:13",
+ "golden_notices": 33,
  "stat": {
   "pypdf": {
-   "ok": 337,
+   "ok": 356,
    "wrong": 0,
-   "missing": 25,
-   "rent_ok": 151,
+   "missing": 27,
+   "rent_ok": 153,
    "rent_wrong": 0,
    "rent_missing": 0,
-   "notices": 31
+   "notices": 33
   },
   "pdfium": {
-   "ok": 337,
+   "ok": 356,
    "wrong": 0,
-   "missing": 25,
-   "rent_ok": 151,
+   "missing": 27,
+   "rent_ok": 153,
    "rent_wrong": 0,
    "rent_missing": 0,
-   "notices": 31
+   "notices": 33
   },
   "plumber": {
-   "ok": 318,
-   "wrong": 2,
-   "missing": 42,
-   "rent_ok": 137,
+   "ok": 336,
+   "wrong": 3,
+   "missing": 44,
+   "rent_ok": 139,
    "rent_wrong": 0,
    "rent_missing": 14,
-   "notices": 31
+   "notices": 33
   },
   "merged": {
-   "ok": 337,
+   "ok": 356,
    "wrong": 0,
-   "missing": 25,
-   "rent_ok": 151,
+   "missing": 27,
+   "rent_ok": 153,
    "rent_wrong": 0,
    "rent_missing": 0,
-   "notices": 31
+   "notices": 33
   }
  },
  "merged_wrong": 0,
@@ -48,11 +48,13 @@
  },
  "wrong": [
   "plumber 2015122300020453 일반.asset_manwon: 읽음 34500 ≠ 정답 'excluded'",
-  "plumber 2015122300020856 account: 읽음 {'months': 6, 'count': 6, 'rank2_any': False} ≠ 정답 {'months': 6, 'count': 6, 'rank2_any': True}"
+  "plumber 2015122300020856 account: 읽음 {'months': 6, 'count': 6, 'rank2_any': False} ≠ 정답 {'months': 6, 'count': 6, 'rank2_any': True}",
+  "plumber 2015122300020895 account: 읽음 {'months': 6, 'count': 6, 'rank2_any': False} ≠ 정답 {'months': 6, 'count': 6, 'rank2_any': True}"
  ],
  "merge_notes": [
   "2015122300020453 일반.asset_manwon: majority pypdf='excluded', pdfium='excluded', plumber=34500",
-  "2015122300020856 account: majority pypdf={'months': 6, 'count': 6, 'rank2_any': True}, pdfium={'months': 6, 'count': 6, 'rank2_any': True}, plumber={'months': 6, 'count': 6, 'rank2_any': False}"
+  "2015122300020856 account: majority pypdf={'months': 6, 'count': 6, 'rank2_any': True}, pdfium={'months': 6, 'count': 6, 'rank2_any': True}, plumber={'months': 6, 'count': 6, 'rank2_any': False}",
+  "2015122300020895 account: majority pypdf={'months': 6, 'count': 6, 'rank2_any': True}, pdfium={'months': 6, 'count': 6, 'rank2_any': True}, plumber={'months': 6, 'count': 6, 'rank2_any': False}"
  ],
  "conflicts": []
 }
