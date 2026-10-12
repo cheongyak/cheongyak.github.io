@@ -65,7 +65,7 @@ def _general_terms(t: str, kind: str) -> tuple[dict, dict]:
     m = (re.search(r"소득\s?(?:\(금회 배제\)|금회\s?소득배제|•\s?적용배제|•?\s?소득\s?기준\s?적용하지\s?아니함)", sec)
          or re.search(r"소득\s?기준\s?:\s?[^.]{0,40}요건\s?배제", sec)
          or re.search(r"소득\s?기준\s?가구원수별\s?소득기준\s?적용\s?(?:→|☞)\s?적용\s?배제", rel)
-         or re.search(r"소득요건\s?소득요건\s?배제", rel))
+         or re.search(r"소득\s?요건\s?소득\s?요건\s?배제", rel))   # '소득 요건 소득요건 배제' (익산한스빌 2015122300020893, 2026-10-12 사용자 제보)
     if m:
         income, q["income"] = "excluded", _q(both, m) if m.re.pattern.find("→") < 0 else _q(rel, m)
     else:

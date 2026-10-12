@@ -2944,6 +2944,46 @@
    "local": null,
    "account_by_movein_groups": [],
    "homeless_max1": false
+  },
+  {
+   "id": "2015122300020893",
+   "type": "국민임대",
+   "verified_from": "익산한스빌 국민임대주택 예비입주자 자격완화 모집 공고 (모집공고일 2026.10.08, LH 청약플러스 panId 2015122300020893)",
+   "verified_at": "2026-10-12",
+   "posted": "2026-10-08",
+   "relaxed": true,
+   "homeless_relaxed": true,
+   "homeless_max1": false,
+   "relax_quote": "입주자격 완화 주요내용 (필독) ▪ 금회 모집하는 익산한스빌 국민임대주택은 입주자격 요건을 완화하여 모집합니다.",
+   "groups": [
+    {
+     "name": "일반",
+     "homeless": "household",
+     "age": null,
+     "income_pct": "excluded",
+     "income_basis": "도시근로자 월평균소득",
+     "income_dual_pct": null,
+     "asset_manwon": "excluded",
+     "car_manwon": 4542,
+     "quotes": {
+      "income": "① 소득 및 총자산 요건 완화 … ▪ 소득 요건 소득요건 배제 (p.7 소득 및 자산보유 기준 표 '자격완화 조건' 칸도 '소득요건 배제')",
+      "asset": "▪ 총자산 요건 총자산요건 배제 (p.7 표: ( 345 )백만원 이하[총자산요건 배제])",
+      "car": "▪ 자동차 가액 완화요건 미적용 (세대구성원 전원이 보유하고 있는 개별 자동차가액 ( 4,542 )만원 이하)",
+      "homeless": "4. 신청자격 … 입주자모집공고일(2026.10.08.) 현재 무주택세대구성원으로서 아래의 '소득 및 자산보유 기준'을 충족하는 사람"
+     }
+    }
+   ],
+   "income_table_100": null,
+   "rents": [
+    {
+     "complex": "익산한스빌",
+     "type": "26A/26B",
+     "group": null,
+     "deposit": 4076000,
+     "rent": 72820
+    }
+   ],
+   "notes": "2026-10-12 사용자 제보(화면 '소득 기준을 공고문에서 읽지 못함'). p.1 완화표 '소득 요건 소득요건 배제'를 띄어쓰기 때문에 못 읽던 것. 3. 임대조건 표: 26A·26B 임대보증금 계 4,076,000 = 계약금 203,800 + 잔금 3,872,200, 월임대료 72,820."
   }
  ]
 }
