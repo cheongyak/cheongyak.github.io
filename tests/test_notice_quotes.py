@@ -30,7 +30,8 @@ def _has_value(k, v, q):
     if k == "residence":   # 해당지역 이름(또는 전국·지역 목록)이 문장에 있어야 (2026-10-09)
         a = v.get("area") or {}
         names = [a.get("sigungu"), a.get("name"), a.get("sido")] + list(v.get("others") or [])
-        return any(n and n.replace(" ", "") in f for n in names) or "전국" in f or "국내" in f
+        cap = {"서울", "경기", "인천"} <= set(v.get("others") or []) and "수도권" in f   # '현재 수도권에 거주하는'(무순위 2026910260, 2026-10-14 매일 수집 실패)
+        return any(n and n.replace(" ", "") in f for n in names) or "전국" in f or "국내" in f or cap
     if k == "score_ratio":
         return "가점제" in f and all(f"{r['score']}%" in f or r["score"] == 0 for r in v["rows"])
     if k == "mc_quota":
