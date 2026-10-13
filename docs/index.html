@@ -5452,6 +5452,12 @@ function rentalGroup(N, g, p){
         else { const e = inc != null ? inc + (mar ? (spInc || 0) : 0) : null;
           add('check', '세대 소득 입력 필요' + (e != null ? ` — 본인·배우자 소득으로 추정하면 월 ${won(e * 10000 / 12)} / 기준 ${won(lim)}` : ''), ['hhIncomeYear']); }
       }
+      else if (g.income_amt && (g.income_amt[n] == null ? m <= lim : m <= Math.max(g.income_amt[n], lim))) {   /* SH 사회주택: 공고문 소득표 금액이 '전년도 도시근로자 N%' 계산과 다름 (기능 sh_social, 2026-10-14) */
+        const a = g.income_amt[n];
+        if (a == null) add('check', `공고문 소득 표에 ${n}인 가구 금액이 없어요(1~3인만) — 공고문 확인 · ` + txt);
+        else if (m <= Math.min(a, lim)) add('ok', `소득 월 ${won(m)} / 기준 ${won(Math.min(a, lim))} (${n}인 공고문 표 금액)`);
+        else add('check', `소득이 공고문 표 금액(${won(a)})보다 많고 '도시근로자 ${pct}%' 계산(${won(lim)}) 이하예요 — 공고문 표와 계산이 달라 운영기관 확인 필요 · 월 ${won(m)}`);
+      }
       else if (m <= lim) add('ok', '소득 ' + txt);
       else if (dual && g.dual_add == null && m <= base * (pct + 30) / 100) add('check', '맞벌이 가산 기준을 공고문에서 읽지 못함 — 가산이 있으면 가능할 수 있어요(공고문 확인) — ' + txt);
       else if (dualCand && !dual && (inc == null || spInc == null) && g.dual_add != null && m <= base * (pct + g.dual_add) / 100) add('check', `맞벌이면 기준 +${g.dual_add}%p — 본인·배우자 소득을 넣어 주세요 — ` + txt, ['income', 'spouseIncome']);

@@ -1127,7 +1127,11 @@ def main() -> None:
                 if year is None: st.append("check")
                 else:
                     mon = year * 10000 / 12
-                    if mon <= base * (pct + add_) / 100: st.append("ok")
+                    ia = g.get("income_amt")                     # SH 사회주택 공고문 표 금액(1~3인)이 'N%' 계산과 다름: 표 금액 이하 충족 · 둘 사이·4인 이상 확인 · N% 초과는 아래 규칙
+                    lim_ = base * (pct + add_) / 100
+                    if ia and (ia.get(str(n)) is None and mon <= lim_ or ia.get(str(n)) is not None and mon <= max(ia[str(n)], lim_)):
+                        st.append("ok" if ia.get(str(n)) is not None and mon <= min(ia[str(n)], lim_) else "check")
+                    elif mon <= base * (pct + add_) / 100: st.append("ok")
                     elif dual and da is None and mon <= base * (pct + 30) / 100: st.append("check")
                     elif cand and not dual and (inc is None or sinc is None) and da is not None and mon <= base * (pct + da) / 100: st.append("check")
                     elif kid and not T.get("birth_bonus") and mon <= base * (pct + 20 + add_) / 100:   # SH(표·없음): 소득 출산 가산 없음
@@ -1523,7 +1527,7 @@ def main() -> None:
     SC1, SC2, SC3 = "SH-310037", "SH-310672", "SH-310575"
     bS1 = "SH 토지지원 사회주택 함께주택4호 '6 신청자격'(모집 공고일 2026-09-04)"
     bS2 = "SH 토지지원 사회주택 유니버설디자인하우스_망우 '02 입주신청 자격'(공고일 2026-09-28)"
-    bS3 = "SH 토지임대부 사회주택 쌍문생활 '입주 신청 자격'·Q&A(공고일 2026-09-21)"
+    bS3 = "SH 토지임대부 사회주택 쌍문생활 '입주 신청 자격'·Q&A·소득기준 '전년도 도시근로자 … 120% 이하' 표 1인 4,317천원·2인 6,582천원·3인 9,152천원(공고일 2026-09-21)"
     KS = ["청년", "신혼부부", "1인가구"]
     sh_s = {"married": False, "marriedOn": "", "birth": "1996-05-01", "hhSize": 1, "income": 3000, "hhIncomeYear": 3000, "homeSido": "서울", "household": "head",
             "realEstate": 0, "carValue": 0, "cash": 3000, "lhPreWed": False}
@@ -1541,11 +1545,17 @@ def main() -> None:
                    ("경기 거주(서울 직장 조건)", {"homeSido": "경기", "homeSigun": "성남시"}), ("본인 집 있음", {"selfOwn": True}),
                    ("2인 가구 미혼(1인가구 아님)", {"hhSize": 2, "household": "head", "kidsMinor": 1, "kidsOnDeed": 1, "hhIncomeYear": 4000}), ("가구원 수 모름", {"hhSize": None})]:
         lh_add(SC1, KS, nm, dict(sh_s, **ch), bS1)
-    for nm, ch in [("미혼 1인(소득표 오기라 확인)", {}), ("혼인 중 청년", {"married": True, "marriedOn": "2024-01-01", "hhSize": 2, "spouseOwn": False, "hhIncomeYear": 5000}),
+    for nm, ch in [("미혼 1인(소득 3,000만)", {}), ("혼인 중 청년", {"married": True, "marriedOn": "2024-01-01", "hhSize": 2, "spouseOwn": False, "hhIncomeYear": 5000}),
                    ("총자산 33,700만", {"realEstate": 33700 - 3000}), ("총자산 33,701만", {"realEstate": 33700 - 3000 + 1}),
                    ("자동차 4,563만", {"carValue": 4563}), ("자동차 4,564만", {"carValue": 4564}), ("부산 거주(예비서울시민 가능)", {"homeSido": "부산"})]:
         lh_add(SC2, KS, nm, dict(sh_s, **ch), bS2)
-    for nm, ch in [("기본(소득 지난해 표라 확인)", {}), ("부모님 집 있음(본인 무주택)", {"household": "parents", "parentsOwn": True, "hhHomes": "1", "hhSize": 3}),
+    for nm, ch in [("기본", {}), ("1인 공고문 표 4,317천원 이하", {"income": yr(4317000), "hhIncomeYear": yr(4317000)}),
+                   ("1인 표 초과·120% 계산 이하(확인)", {"income": yr(4317000) + 1, "hhIncomeYear": yr(4317000) + 1}),
+                   ("1인 120% 계산 초과", {"income": yr(URB[1] * 1.2) + 1, "hhIncomeYear": yr(URB[1] * 1.2) + 1}),
+                   ("3인 표 9,152천원 이하", {"hhSize": 3, "household": "parents", "parentsOwn": False, "hhIncomeYear": yr(9152000)}),
+                   ("4인(표에 없음) 120% 계산 이하", {"hhSize": 4, "household": "parents", "parentsOwn": False, "hhIncomeYear": 5000}),
+                   ("4인 120% 계산 초과", {"hhSize": 4, "household": "parents", "parentsOwn": False, "hhIncomeYear": yr(URB[4] * 1.2) + 1}),
+                   ("부모님 집 있음(본인 무주택)", {"household": "parents", "parentsOwn": True, "hhHomes": "1", "hhSize": 3}),
                    ("본인 집", {"selfOwn": True}), ("혼인 중(미혼 요건 없음)", {"married": True, "marriedOn": "2024-01-01", "hhSize": 2, "spouseOwn": False}),
                    ("총자산 25,400만", {"realEstate": 25400 - 3000}), ("총자산 25,401만", {"realEstate": 25400 - 3000 + 1}),
                    ("자동차 3,803만", {"carValue": 3803}), ("자동차 3,804만", {"carValue": 3804}), ("만 40세", {"birth": "1986-09-20"})]:

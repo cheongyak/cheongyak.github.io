@@ -271,26 +271,32 @@ def parse_social(text: str, posted: str | None = None) -> dict | None:
     issues: list[str] = []
     # 소득
     pcts = sorted({int(x) for x in re.findall(r"월평균 ?소득의? ?(\d{2,3})% ?이하", t)})
-    income = None
+    income, income_amt = None, None
     if len(pcts) != 1:
         issues.append(f"소득 비율이 하나가 아님 {pcts}")
     elif re.search(r"본인의 세전소득|입주예정자 본인", t):
         issues.append("소득을 본인 소득으로 산정 — 판정 안 함")
-    elif not re.search(r"세대 ?구성원 전원의 (?:세전)?소득|세대 ?구성원 전원의 월평균소득", t):
+    elif not re.search(r"세대 ?구성원 전원의 (?:세전)?소득|세대 ?구성원 전원의 월평균소득|가족 ?구성원 전체 합산의 월평균 ?소득", t):   # 310575 신청서 작성 예시 '다인가구일 시 … 가족구성원 전체 합산의 월평균소득 기입'
         issues.append("세대 전원 소득 문장 못 찾음")
     else:
         pct = pcts[0]
-        m = re.search(rf"{pct}% ?이하 ?([\d,]+) ?(천원|원) ?이하 ?([\d,]+) ?(?:천원|원) ?이하 ?([\d,]+) ?(?:천원|원)", t)
+        m = (re.search(rf"{pct}% ?이하 ?([\d,]+) ?(천원|원) ?이하 ?([\d,]+) ?(?:천원|원) ?이하 ?([\d,]+) ?(?:천원|원)", t)
+             or re.search(r"1인 ?가구 ?2인 ?가구 ?3인 ?가구 ?([\d,]+) ?(천원|원) ?이하 ?([\d,]+) ?(?:천원|원) ?이하 ?([\d,]+) ?(?:천원|원) ?이하", t))   # 310575: 머리줄 뒤에 금액
         if not m:
             issues.append("소득 표 못 읽음")
         else:
             unit = 1000 if m.group(2) == "천원" else 1
-            bad = [f"{n}인 {v}" for n, v in zip((1, 2, 3), (m.group(1), m.group(3), m.group(4)))
-                   if abs(_num(v) * unit - URBAN_2025[n] * pct / 100) >= (1000 if unit == 1000 else 2)]
+            amts = {n: _num(v) * unit for n, v in zip((1, 2, 3), (m.group(1), m.group(3), m.group(4)))}
+            bad = [f"{n}인 {a:,}원" for n, a in amts.items() if abs(a - URBAN_2025[n] * pct / 100) >= (1000 if unit == 1000 else 2)]
+            income = {"1": pct, "2": pct, "3+": pct}
             if bad:
                 issues.append(f"소득 표가 도시근로자 2025 × {pct}% 와 다름: " + ", ".join(bad))
-            else:
-                income = {"1": pct, "2": pct, "3+": pct}
+                if all(0 < a < URBAN_2025[n] * pct / 100 + (1000 if unit == 1000 else 2) for n, a in amts.items()):   # 반올림 차이(같은 값)는 낮은 쪽으로 봄
+                    # 표 금액이 모두 '전년도 도시근로자 N%'(2025)보다 낮음 → 어느 쪽으로 읽어도 표 금액 이하면 충족, N% 초과면 미충족.
+                    # 그 사이는 화면이 '확인'(공고문 표와 비율 계산이 다름). 1~3인 표뿐이라 4인 이상도 '확인' (2026-10-14 사용자 '이어서 고쳐줘')
+                    income_amt = {str(n): a for n, a in amts.items()}
+                else:
+                    income = None
     # 무주택
     hh = bool(re.search(r"무주택 ?세대 ?구성원 (?:전부|전원)에게 적용|무주택 ?세대 ?구성원으로서", t))
     youth_self = bool(re.search(r"청년[^.]{0,30}직계존속이 주택을 소유해도 본인이 무주택자|본인 명의로 가진 주택.{0,10}아닐 경우 무주택자", t))
@@ -318,6 +324,8 @@ def parse_social(text: str, posted: str | None = None) -> dict | None:
             issues.append("청년 총자산 금액 이상(만 단위 1만 이상)")
         g = dict(key="청년", name="청년", age_min=19 if age else None, age_max=39 if age else None, homeless="self" if youth_self else "household" if hh else None,
                  income_pct=income, asset_manwon=a, car_manwon=car)
+        if income_amt:
+            g["income_amt"] = income_amt
         if not re.search(r"청 ?년[^.]{0,40}미혼|미혼의 청년", t):
             g["married_ok"] = True   # 미혼 요건이 없으면 혼인 여부를 보지 않음
         groups.append(g)
@@ -330,8 +338,12 @@ def parse_social(text: str, posted: str | None = None) -> dict | None:
             groups.append(dict(key="신혼부부", name="신혼부부(혼인 7년 이내·예비)", homeless=hl, income_pct=income, asset_manwon=a, car_manwon=car,
                                wed_years=7 if re.search(r"혼인신고일로부터(?:\(재혼 포함\))? ?7년 이내|혼인 7년 이내", t) else None,
                                prewed=bool(re.search(r"예비 ?신혼부부", t))))
+            if income_amt:
+                groups[-1]["income_amt"] = income_amt
         if re.search(r"1인 ?가구", lab):
             groups.append(dict(key="1인가구", name="1인 가구", homeless=hl, income_pct=income, asset_manwon=a, car_manwon=car))   # 가구원 1명만 (화면 rentalGroup)
+            if income_amt:
+                groups[-1]["income_amt"] = income_amt
         if "고령자" in lab:
             unknown.append("고령자")
     if not groups:

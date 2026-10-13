@@ -105,6 +105,16 @@ def test_social_wrong_income_table_blanks_income():
     assert all(g["income_pct"] is None for g in r["groups"])
 
 
+def test_social_lower_income_table_kept_as_amounts():
+    """표 금액이 모두 도시근로자 2025 × % 보다 낮으면(쌍문생활 310575 '1인가구 2인가구 3인가구 4,317천원 이하 6,582천원 이하 9,152천원 이하')
+    비율과 표 금액을 함께 둔다 — 화면은 표 이하 충족, 둘 사이 확인 (2026-10-14 사용자 '이어서 고쳐줘')"""
+    from app.sh_terms import parse_social
+    g = parse_social(_text("310575"))["groups"][0]
+    assert g["income_pct"] == {"1": 120, "2": 120, "3+": 120} and g["income_amt"] == {"1": 4317000, "2": 6582000, "3": 9152000}
+    r = parse_social(_text("310575").replace("9,152천원", "9,952천원"))   # 3인 금액이 120% 계산보다 높으면 어느 쪽인지 몰라 비움
+    assert r["groups"][0]["income_pct"] is None
+
+
 def test_happy_income_table_mismatch_blanks_income():
     """SH 행복주택(기능 sh_happy): 소득표 100% 줄이 도시근로자 2025 × % 와 다르면(지난해 표) 소득 기준을 비운다 — 2025년 공고(298109)가 그 예"""
     from app.sh_terms import parse_happy
