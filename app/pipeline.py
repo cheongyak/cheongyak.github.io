@@ -136,7 +136,8 @@ def build_listing(raw: dict, rtms: Optional[RtmsClient], today: date, lawd_cache
                 return None
         trades, presales, rents = safe("trade"), safe("presale"), safe("rent")
         if trades is not None or presales is not None:
-            mk = estimate_market(raw["name"], raw["area"], trades or [], presales or [], today.year, area_fallback=feature_on("mkt_area_fallback"))
+            mk = estimate_market(raw["name"], raw["area"], trades or [], presales or [], today.year, area_fallback=feature_on("mkt_area_fallback"),
+                                 large_fallback=feature_on("mkt_large_fallback"), unit=raw["unit"])
             if mk.get("mkt_low") is None:
                 MARKET_DIAG.append((raw["name"], raw["unit"], raw["area"], lawd, market_diag(raw["name"], raw["area"], trades or [], presales or [], today.year)))
         else:
@@ -197,7 +198,8 @@ def refill_market(out: list, rt, today: date, lawd_cache: dict, log: list[str]) 
         except Exception as e:
             RTMS_ERRORS.add(str(e)[:160])
             continue
-        mk = estimate_market(L.name, L.area, trades, presales, today.year, area_fallback=feature_on("mkt_area_fallback"))
+        mk = estimate_market(L.name, L.area, trades, presales, today.year, area_fallback=feature_on("mkt_area_fallback"),
+                             large_fallback=feature_on("mkt_large_fallback"), unit=L.unit)
         for k, v in mk.items():
             setattr(L, k, v)
         if mk.get("mkt_low") is None:

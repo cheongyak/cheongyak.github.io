@@ -31,6 +31,7 @@ LOW_DISCOUNT = 0.90            # 거래가 적을 때 보수 시세 = 기준 × 
 JEONSE_MOVEIN_DISCOUNT = 0.90  # 입주장 전세 할인
 AREA_BAND_WIDE = 10.0          # 같은 평형(±3㎡) 거래가 3건 미만일 때: ±10㎡ 비슷한 면적의 ㎡당 가격으로 추정 (기능 mkt_area_fallback)
 AREA_FALLBACK_MIN = 5          # 그 추정에 필요한 최소 거래 수
+LARGE_AREA = 100.0             # 큰 평형 추정(기능 mkt_large_fallback): 전용 100㎡ 이상 주택형 ↔ 같은 구 신축 100㎡ 이상 매매의 ㎡당 가격
 
 # ---- 지역 ----
 # 10.15 대책: 서울 25개 구 전역 + 경기 12곳이 투기과열지구·조정대상지역·토지거래허가구역

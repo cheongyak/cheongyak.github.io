@@ -72,3 +72,31 @@ def test_area_fallback_needs_five_and_exact_band_first():
     assert market.estimate_market("향남 새 단지", 107.97, rtms.parse_items(x), [], 2026, area_fallback=True)["mkt_base"] is None
     x = xml(TRADES)     # 같은 평형 거래가 있으면 예전 방식 그대로
     assert market.estimate_market("새 단지", 53.0, rtms.parse_items(x), [], 2026, area_fallback=True)["mkt_basis"] == "district_newbuild"
+
+
+def test_large_fallback_same_complex_and_big_newbuild():
+    """기능 mkt_large_fallback (2026-10-15 시세 부족 원인 분석): 큰 평형은 ① 같은 단지 다른 평형 3건+ ② 같은 구 신축 100㎡ 이상 5건+ 의 ㎡당 가격.
+    펜트하우스(P)는 추정하지 않음. 수집 코드와 독립 대조 도구가 같은 값을 낸다."""
+    own = [row("힐스테이트거제시그니처", a, amt, d) for a, amt, d in ((84.9, 52000, "2026-09-01"), (99.8, 61000, "2026-08-02"), (84.9, 51000, "2026-07-03"), (110.0, 70000, "2026-06-04"))]
+    big = [row(f"신축{i}", 101.0 + i * 3, 70000 + i * 2000, f"2026-0{6 + i % 3}-1{i}") for i in range(6)]
+    for name, area, tr, unit, want in [("힐스테이트 거제시그니처(1회차)", 132.98, own + big, "132A", "same_complex_ppa"),
+                                       ("진주 판문지구 레이크써밋 웰가", 182.93, big, "182", "district_large_ppa"),
+                                       ("상동역 롯데캐슬 시그니처", 187.51, own + big, "187P", None),
+                                       ("작은 단지", 84.0, big[:2], "84A", None)]:
+        x = xml(tr)
+        a = market.estimate_market(name, area, rtms.parse_items(x), [], 2026, area_fallback=True, large_fallback=True, unit=unit)
+        r = MC.expect(name, area, MC.rows_of(x), [], 2026, fallback=True, large=True, unit=unit)
+        assert a["mkt_basis"] == r["basis"] == want, (name, a["mkt_basis"], r["basis"])
+        assert (a["mkt_base"], a["mkt_low"]) == (r["base"], r["low"]), name
+        if want is None and unit.endswith("P"):
+            assert "펜트하우스" in a["mkt_note"]
+    many = big + [row("국평신축", 84.9, 50000, "2026-09-02")] * 10
+    off = market.estimate_market("진주 판문지구 레이크써밋 웰가", 182.93, rtms.parse_items(xml(many)), [], 2026, area_fallback=True, large_fallback=False, unit="182")
+    assert off["mkt_base"] is None and "전용 116㎡까지만" in off["mkt_note"]   # 스위치 끄면 예전처럼 시세 부족 + 이유
+
+
+def test_shortage_reasons():
+    few = rtms.parse_items(xml([row("어느단지", 84.9, 30000, "2026-09-01", build=2010)] * 3))
+    assert "매매가 3건뿐" in market.estimate_market("진도 새단지", 84.9, few, [], 2026)["mkt_note"]
+    old = rtms.parse_items(xml([row("옛단지", 74.0, 130000, "2026-09-01", build=1993)] * 12))
+    assert "준공 10년이 넘은 단지" in market.estimate_market("분당 새단지", 74.0, old, [], 2026)["mkt_note"]

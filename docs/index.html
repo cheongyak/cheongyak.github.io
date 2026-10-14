@@ -737,8 +737,9 @@ const isRental = L => on('rental_rules') && !!(L && L.rental);
 const priceWord = L => isRental(L) ? '임대보증금' : '분양가';
 const kindOf = L => isRental(L) ? String(L.kind || '').replace('일반분양', '공공임대') : L.kind;
 /* 시세 계산 방식 한 줄 (기능 mkt_area_fallback: 비슷한 면적 ㎡당 가격으로 추정한 시세는 그렇다고 밝힌다) */
-const mktHow = (L, short) => L.mktBasis === 'district_area_ppa'
-  ? (short ? '보수 시세는 ㎡당 가격 하위 25% 기준' : '같은 평형 거래가 부족해 비슷한 면적 거래의 ㎡당 가격 중앙값(보수 시세는 하위 25%)에 전용면적을 곱한 추정이에요. 층·향·브랜드 차이는 반영하지 못해요.')
+const MKT_PPA = { district_area_ppa: '비슷한 면적', same_complex_ppa: '같은 단지 다른 평형', district_large_ppa: '같은 구 큰 평형(100㎡ 이상) 신축' };   /* 기능 mkt_large_fallback: 같은 단지 다른 평형·큰 평형 ㎡당 추정 */
+const mktHow = (L, short) => MKT_PPA[L.mktBasis]
+  ? (short ? '보수 시세는 ㎡당 가격 하위 25% 기준' : `같은 평형 거래가 부족해 ${MKT_PPA[L.mktBasis]} 거래의 ㎡당 가격 중앙값(보수 시세는 하위 25%)에 전용면적을 곱한 추정이에요. 층·향·브랜드·평형 차이는 반영하지 못해요.`)
   : (short ? '기준 시세는 중앙값, 보수 시세는 하위 25%' : '기준 시세는 중앙값, 보수 시세는 하위 25% 값이에요.');
 function grade(L){
   const base = L.price + L.ext, tax = acqTax(base), cost = base + tax;
@@ -1698,6 +1699,8 @@ function basisTag(L){
   if (L.mktBasis === 'same_complex') return '<span class="tag">같은 단지 거래</span>';
   if (L.mktBasis === 'district_newbuild') return '<span class="tag">같은 구 신축 비교</span>';
   if (L.mktBasis === 'district_area_ppa') return '<span class="tag">비슷한 면적 ㎡당 추정</span>';   // 기능 mkt_area_fallback (수집 쪽 스위치)
+  if (L.mktBasis === 'same_complex_ppa') return '<span class="tag">같은 단지 다른 평형 ㎡당 추정</span>';   // 기능 mkt_large_fallback (수집 쪽 스위치)
+  if (L.mktBasis === 'district_large_ppa') return '<span class="tag">큰 평형 ㎡당 추정</span>';
   return '<span class="tag warn">거래 부족</span>';
 }
 

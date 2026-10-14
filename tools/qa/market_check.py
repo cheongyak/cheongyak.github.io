@@ -27,6 +27,7 @@ BASE = "https://apis.data.go.kr/1613000"
 EP = {"trade": "/RTMSDataSvcAptTrade/getRTMSDataSvcAptTrade", "presale": "/RTMSDataSvcSilvTrade/getRTMSDataSvcSilvTrade"}
 MONTHS, BAND, NEW_YEARS, LOW_X = 6, 3.0, 10, 0.90
 WIDE, WIDE_MIN = 10.0, 5   # 기능 mkt_area_fallback (app/rules.py AREA_BAND_WIDE·AREA_FALLBACK_MIN 과 같은 값, 따로 적음)
+BIG = 100.0                # 기능 mkt_large_fallback (app/rules.py LARGE_AREA 와 같은 값, 따로 적음)
 
 
 def months(today: date, n: int = MONTHS) -> list[str]:
@@ -66,7 +67,7 @@ def p25(xs: list[float]) -> float:
     return xs[i] + (xs[j] - xs[i]) * (k - i)
 
 
-def expect(name: str, area: float, trades: list[dict], presales: list[dict], year: int, fallback: bool = False) -> dict:
+def expect(name: str, area: float, trades: list[dict], presales: list[dict], year: int, fallback: bool = False, large: bool = False, unit: str = "") -> dict:
     """원자료로 따로 계산한 시세 (억 원, 소수 둘째 자리)"""
     live = lambda r: not r["cancel"] and not r["direct"] and r["amount"]
     band = lambda r: r["area"] is not None and area is not None and abs(r["area"] - area) <= BAND
@@ -82,6 +83,15 @@ def expect(name: str, area: float, trades: list[dict], presales: list[dict], yea
             base = statistics.median(u) * area / 10000
             low = p25(u) * area / 10000 if len(u) >= 4 else base * LOW_X
             return {"basis": "district_area_ppa", "count": len(wide), "base": round(base, 2), "low": round(low, 2), "rows": wide}
+        # 기능 mkt_large_fallback: 펜트하우스(P) 아니면 ① 같은 단지 다른 평형 3건+ ② 전용 100㎡ 이상이면 같은 구 신축 100㎡ 이상 매매 5건+ 의 ㎡당 가격 × 면적
+        if large and area and not unit.strip().upper().endswith("P"):
+            for rows, need, b in (([r for r in presales + trades if live(r) and r["area"] and same(r)], 3, "same_complex_ppa"),
+                                  ([r for r in trades if live(r) and r["area"] and r["area"] >= BIG and r["build"] and r["build"] >= year - NEW_YEARS] if area >= BIG else [], WIDE_MIN, "district_large_ppa")):
+                if len(rows) >= need:
+                    u = sorted(r["amount"] / r["area"] for r in rows)
+                    base = statistics.median(u) * area / 10000
+                    low = p25(u) * area / 10000 if len(u) >= 4 else base * LOW_X
+                    return {"basis": b, "count": len(rows), "base": round(base, 2), "low": round(low, 2), "rows": rows}
         return {"basis": None, "count": len(pool), "base": None, "low": None, "rows": pool}
     a = [r["amount"] for r in pool]
     base = statistics.median(a) / 10000
@@ -115,6 +125,10 @@ def check(listings: list[dict], today: date, get, fallback: bool | None = None) 
             fallback = json.loads((ROOT / "docs" / "config.json").read_text(encoding="utf-8")).get("features", {}).get("mkt_area_fallback", True) is not False
         except Exception:
             fallback = True
+    try:
+        large = json.loads((ROOT / "docs" / "config.json").read_text(encoding="utf-8")).get("features", {}).get("mkt_large_fallback", True) is not False
+    except Exception:
+        large = True
     for L in listings:
         lawd = LC.lawd_for(L.get("address") or "", cache, L.get("sido"))
         if not lawd:
@@ -122,7 +136,7 @@ def check(listings: list[dict], today: date, get, fallback: bool | None = None) 
             continue
         tr = [r for ym in months(today) for r in get("trade", lawd, ym)]
         ps = [r for ym in months(today) for r in get("presale", lawd, ym)]
-        e = expect(L["name"], L.get("area"), tr, ps, today.year, fallback=fallback)
+        e = expect(L["name"], L.get("area"), tr, ps, today.year, fallback=fallback, large=large, unit=L.get("unit") or "")
         bad = []
         if (L.get("mkt_basis") or None) != e["basis"]:
             bad.append(f"근거 종류 {L.get('mkt_basis')} ≠ 원자료 {e['basis']}")

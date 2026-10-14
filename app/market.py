@@ -70,7 +70,7 @@ def _recent(comps: list[dict]) -> list[dict]:
 
 
 def estimate_market(name: str, area: Optional[float], trades: list[dict], presales: list[dict],
-                    this_year: int, area_fallback: bool = False) -> dict:
+                    this_year: int, area_fallback: bool = False, large_fallback: bool = False, unit: str = "") -> dict:
     # 실제 시장 거래만 쓴다: 해제 거래는 parse_items 에서 이미 빠지고, 직거래(가족 간 저가 거래 등이 섞임)도 뺀다
     is_direct = lambda r: r.get("deal_type") == "직거래"
     newbuild = lambda r: bool(r.get("build_year")) and r["build_year"] >= this_year - R.NEW_BUILD_YEARS
@@ -112,10 +112,46 @@ def estimate_market(name: str, area: Optional[float], trades: list[dict], presal
                 "mkt_direct_excluded": wide_direct,
                 "mkt_note": f"같은 평형 거래가 부족해 같은 구 준공 {R.NEW_BUILD_YEARS}년 이내 비슷한 면적(±{R.AREA_BAND_WIDE:g}㎡) 매매 {len(wide)}건의 "
                             f"㎡당 가격 × 전용 {area:.1f}㎡로 추정 (최근 {R.MARKET_MONTHS}개월)"}
+    # 기능 mkt_large_fallback (2026-10-15 시세 부족 원인 분석, WORK.md): 큰 평형·새 구조라 같은/비슷한 면적 신축 거래가 없을 때
+    #  ① 같은 단지(분양권·입주권 포함) 다른 평형 거래 3건 이상 → 그 ㎡당 가격 × 이 전용면적
+    #  ② 전용 100㎡ 이상이면 같은 구 준공 10년 이내 100㎡ 이상 매매 5건 이상의 ㎡당 가격 × 이 전용면적
+    #  펜트하우스(주택형 끝 P)는 값이 층·구조마다 제각각이라 추정하지 않는다. 보수 시세 = ㎡당 하위 25%(4건 미만이면 기준 × 0.9)
+    penthouse = bool(re.search(r"P$", (unit or "").strip(), re.I))
+    if large_fallback and area and not penthouse:
+        def ppa_result(rows, basis, note):
+            ppa = [r["amount"] / r["area"] for r, _ in rows]
+            base = statistics.median(ppa) * area / 10000
+            low = _p25(ppa) * area / 10000 if len(ppa) >= 4 else base * R.LOW_DISCOUNT
+            return {"mkt_low": round(low, 2), "mkt_base": round(base, 2), "mkt_basis": basis, "mkt_count": len(rows),
+                    "mkt_comps": _recent([_comp(r, k, "amount") for r, k in rows]), "mkt_direct_excluded": 0, "mkt_note": note}
+        own_any = [(r, k) for r, k in tagged if r.get("amount") and r.get("area") and same_complex(r["apt"], name)]
+        if len(own_any) >= 3:
+            return ppa_result(own_any, "same_complex_ppa", f"같은 평형 거래가 없어 같은 단지 다른 평형 거래 {len(own_any)}건의 ㎡당 가격 × 전용 {area:.1f}㎡로 추정 (최근 {R.MARKET_MONTHS}개월)")
+        if area >= R.LARGE_AREA:
+            big = [(r, "매매") for r in trades if r.get("amount") and r.get("area") and r["area"] >= R.LARGE_AREA and newbuild(r)]
+            if len(big) >= R.AREA_FALLBACK_MIN:
+                return ppa_result(big, "district_large_ppa", f"이 면적대 거래가 없어 같은 구 준공 {R.NEW_BUILD_YEARS}년 이내 전용 {R.LARGE_AREA:g}㎡ 이상 매매 {len(big)}건의 "
+                                                              f"㎡당 가격 × 전용 {area:.1f}㎡로 추정 (최근 {R.MARKET_MONTHS}개월)")
     return {"mkt_low": None, "mkt_base": None, "mkt_basis": None, "mkt_count": len(comps),
             "mkt_comps": _recent([_comp(r, "매매", "amount") for r in comps]),
             "mkt_direct_excluded": area_direct,
-            "mkt_note": "비교할 거래가 부족해요. 시세를 직접 확인하세요."}
+            "mkt_note": "비교할 거래가 부족해요" + shortage_reason(area, trades, this_year, penthouse) + ". 시세를 직접 확인하세요."}
+
+
+def shortage_reason(area: Optional[float], trades: list[dict], this_year: int, penthouse: bool = False) -> str:
+    """시세 부족 이유 한 마디 (화면 mkt_note) — 직거래를 뺀 최근 매매 기준"""
+    new = [r for r in trades if r.get("amount") and r.get("build_year") and r["build_year"] >= this_year - R.NEW_BUILD_YEARS]
+    band_old = sum(1 for r in trades if r.get("amount") and _in_band(r.get("area"), area)) - sum(1 for r in new if _in_band(r.get("area"), area))
+    top = max((r["area"] for r in new if r.get("area")), default=None)
+    if penthouse:
+        return " — 펜트하우스형은 층·구조마다 값이 달라 비슷한 거래로 추정하지 않아요"
+    if len(trades) < 10:
+        return f" — 최근 {R.MARKET_MONTHS}개월 이 시군구 아파트 매매가 {len(trades)}건뿐이에요"
+    if area and top and area > top + R.AREA_BAND_WIDE:
+        return f" — 이 시군구 준공 {R.NEW_BUILD_YEARS}년 이내 매매는 전용 {top:.0f}㎡까지만 있어요"
+    if band_old >= 3:
+        return f" — 같은 평형 매매 {band_old}건은 모두 준공 {R.NEW_BUILD_YEARS}년이 넘은 단지라 새 아파트 시세로 쓰지 않았어요"
+    return ""
 
 
 def market_diag(name: str, area: Optional[float], trades: list[dict], presales: list[dict], this_year: int) -> dict:
