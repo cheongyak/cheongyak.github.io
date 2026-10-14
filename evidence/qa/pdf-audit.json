@@ -1,9 +1,10 @@
 {
- "date": "2026-10-14",
+ "date": "2026-10-15",
  "page_cap": 300,
- "notices": 62,
- "with_problem": 3,
+ "notices": 60,
+ "with_problem": 4,
  "kinds": {
+  "PDF 를 하나도 받지 못함": 1,
   "글자가 거의 없는 쪽 N개 (스캔 이미지·표 그림 추정)": 3
  },
  "errors": [],
@@ -307,60 +308,16 @@
    "name": "힐스테이트 거제시그니처(1회차)",
    "url": "https://www.applyhome.co.kr/ai/aia/selectAPTLttotPblancDetail.do?houseManageNo=2026000464&pblancNo=2026000464",
    "attachments": 1,
-   "pdfs": 1,
+   "pdfs": 0,
    "attachment_list": [
     {
      "url": "https://static.applyhome.co.kr/ai/aia/getAtchmnfl.do?houseManageNo=2026000464&pblancNo=2026000464&atchmnflSeqNo=1997002&atchmnflSn=1",
-     "bytes": 1783260,
-     "pages": 80,
-     "chars": 180024,
-     "head": "- 1 - ※ 단지 주요정보 (분양문의) 1811-1100 주택유형 해당지역 기타지역 규제지역여부 민영 경상남도 거제시 거주자 경상남도 및 부산"
+     "error": "PDF 아님 (200, 59바이트)"
     }
    ],
-   "chosen": "https://static.applyhome.co.kr/ai/aia/getAtchmnfl.do?houseManageNo=2026000464&pblancNo=2026000464&atchmnflSeqNo=1997002&atchmnflSn=1",
-   "pages": 80,
-   "pages_read": 80,
-   "chars_read": 180103,
-   "empty_pages": [],
-   "chars_per_page_min": 681,
-   "fields": {
-    "need_head": false,
-    "price_cap": false,
-    "residence_duty": 0,
-    "rewin_years": 0,
-    "account_months": 6,
-    "residence": {
-     "area": "경상남도 거제시",
-     "months": 0,
-     "since": null
-    }
-   },
-   "fields_merged": {
-    "need_head": false,
-    "price_cap": false,
-    "residence_duty": 0,
-    "rewin_years": 0,
-    "account_months": 6,
-    "residence": {
-     "area": "경상남도 거제시",
-     "months": 0,
-     "since": null
-    }
-   },
-   "fields_pdfium": {
-    "need_head": false,
-    "price_cap": false,
-    "residence_duty": 0,
-    "rewin_years": 0,
-    "account_months": 6,
-    "residence": {
-     "area": "경상남도 거제시",
-     "months": 0,
-     "since": null
-    }
-   },
-   "pdfium_chars": 179800,
-   "problem": []
+   "problem": [
+    "PDF 를 하나도 받지 못함"
+   ]
   },
   {
    "notice": "2026000458",
@@ -2266,6 +2223,120 @@
    "problem": []
   },
   {
+   "notice": "2026910262",
+   "name": "화성 송산 동원로얄듀크 포레(2차)",
+   "url": "https://www.applyhome.co.kr/ai/aia/selectAPTRemndrLttotPblancDetailView.do?houseManageNo=2026910262&pblancNo=2026910262",
+   "attachments": 1,
+   "pdfs": 1,
+   "attachment_list": [
+    {
+     "url": "https://static.applyhome.co.kr/ai/aia/getAtchmnfl.do?houseManageNo=2026910262&pblancNo=2026910262&atchmnflSeqNo=1998997&atchmnflSn=3",
+     "bytes": 256713,
+     "pages": 11,
+     "chars": 16866,
+     "head": "- 1 - ■ 본 단지의 최초 입주자모집공고(2021.12.03., 주택관리번호 2021000921) 당시 단지명은 '화성 송산 동원로얄듀크 파"
+    }
+   ],
+   "chosen": "https://static.applyhome.co.kr/ai/aia/getAtchmnfl.do?houseManageNo=2026910262&pblancNo=2026910262&atchmnflSeqNo=1998997&atchmnflSn=3",
+   "pages": 11,
+   "pages_read": 11,
+   "chars_read": 16876,
+   "empty_pages": [],
+   "chars_per_page_min": 472,
+   "fields": {
+    "need_head": false,
+    "price_cap": false,
+    "residence_duty": 0,
+    "rewin_years": 3,
+    "residence": {
+     "area": "경기도",
+     "months": 0,
+     "since": null
+    }
+   },
+   "fields_merged": {
+    "need_head": false,
+    "price_cap": false,
+    "residence_duty": 0,
+    "rewin_years": 3,
+    "residence": {
+     "area": "경기도",
+     "months": 0,
+     "since": null
+    }
+   },
+   "fields_pdfium": {
+    "need_head": false,
+    "price_cap": false,
+    "residence_duty": 0,
+    "rewin_years": 3,
+    "residence": {
+     "area": "경기도",
+     "months": 0,
+     "since": null
+    }
+   },
+   "pdfium_chars": 16699,
+   "problem": []
+  },
+  {
+   "notice": "2026910252",
+   "name": "그랑라크 에일린의 뜰",
+   "url": "https://www.applyhome.co.kr/ai/aia/selectAPTRemndrLttotPblancDetailView.do?houseManageNo=2026910252&pblancNo=2026910252",
+   "attachments": 1,
+   "pdfs": 1,
+   "attachment_list": [
+    {
+     "url": "https://static.applyhome.co.kr/ai/aia/getAtchmnfl.do?houseManageNo=2026910252&pblancNo=2026910252&atchmnflSeqNo=1997992&atchmnflSn=5",
+     "bytes": 296642,
+     "pages": 12,
+     "chars": 22198,
+     "head": "- 1 - ※ 단지 주요정보 (분양문의) 052-266-1521 주택유형 규제지역여부 무순위(사후) 자격요건 민영 비규제지역 무순위(사후) 입주"
+    }
+   ],
+   "chosen": "https://static.applyhome.co.kr/ai/aia/getAtchmnfl.do?houseManageNo=2026910252&pblancNo=2026910252&atchmnflSeqNo=1997992&atchmnflSn=5",
+   "pages": 12,
+   "pages_read": 12,
+   "chars_read": 22209,
+   "empty_pages": [],
+   "chars_per_page_min": 684,
+   "fields": {
+    "need_head": false,
+    "price_cap": false,
+    "residence_duty": 0,
+    "ext": 0.2,
+    "residence": {
+     "area": "울산광역시",
+     "months": 0,
+     "since": null
+    }
+   },
+   "fields_merged": {
+    "need_head": false,
+    "price_cap": false,
+    "residence_duty": 0,
+    "ext": 0.2,
+    "residence": {
+     "area": "울산광역시",
+     "months": 0,
+     "since": null
+    }
+   },
+   "fields_pdfium": {
+    "need_head": false,
+    "price_cap": false,
+    "residence_duty": 0,
+    "ext": 0.2,
+    "residence": {
+     "area": "울산광역시",
+     "months": 0,
+     "since": null
+    }
+   },
+   "pdfium_chars": 21962,
+   "problem": []
+  },
+  {
    "notice": "2026910263",
    "name": "청계 노르웨이숲(13차)",
    "url": "https://www.applyhome.co.kr/ai/aia/selectAPTRemndrLttotPblancDetailView.do?houseManageNo=2026910263&pblancNo=2026910263",
@@ -3518,174 +3589,6 @@
    "problem": []
   },
   {
-   "notice": "2026910247",
-   "name": "신천역 에피트(2차)",
-   "url": "https://www.applyhome.co.kr/ai/aia/selectAPTRemndrLttotPblancDetailView.do?houseManageNo=2026910247&pblancNo=2026910247",
-   "attachments": 1,
-   "pdfs": 1,
-   "attachment_list": [
-    {
-     "url": "https://static.applyhome.co.kr/ai/aia/getAtchmnfl.do?houseManageNo=2026910247&pblancNo=2026910247&atchmnflSeqNo=1978093&atchmnflSn=8",
-     "bytes": 245907,
-     "pages": 11,
-     "chars": 19507,
-     "head": "- 1 - ※ 단지 주요정보 (분양문의) 031-311-0230 주택유형 규제지역여부 무순위(사후) 자격요건 민영 비규제지역 무순위(사후) 입주"
-    }
-   ],
-   "chosen": "https://static.applyhome.co.kr/ai/aia/getAtchmnfl.do?houseManageNo=2026910247&pblancNo=2026910247&atchmnflSeqNo=1978093&atchmnflSn=8",
-   "pages": 11,
-   "pages_read": 11,
-   "chars_read": 19517,
-   "empty_pages": [],
-   "chars_per_page_min": 1050,
-   "fields": {
-    "need_head": false,
-    "price_cap": false,
-    "residence_duty": 0,
-    "residence": {
-     "area": null,
-     "months": 0,
-     "since": null
-    }
-   },
-   "fields_merged": {
-    "need_head": false,
-    "price_cap": false,
-    "residence_duty": 0,
-    "residence": {
-     "area": null,
-     "months": 0,
-     "since": null
-    }
-   },
-   "fields_pdfium": {
-    "need_head": false,
-    "price_cap": false,
-    "residence_duty": 0,
-    "residence": {
-     "area": null,
-     "months": 0,
-     "since": null
-    }
-   },
-   "pdfium_chars": 19241,
-   "problem": []
-  },
-  {
-   "notice": "2026930031",
-   "name": "철산자이 브리에르",
-   "url": "https://www.applyhome.co.kr/ai/aia/selectAPTRemndrLttotPblancDetailView.do?houseManageNo=2026930031&pblancNo=2026930031",
-   "attachments": 1,
-   "pdfs": 1,
-   "attachment_list": [
-    {
-     "url": "https://static.applyhome.co.kr/ai/aia/getAtchmnfl.do?houseManageNo=2026930031&pblancNo=2026930031&atchmnflSeqNo=1979029&atchmnflSn=3",
-     "bytes": 435964,
-     "pages": 16,
-     "chars": 31945,
-     "head": "- 1 - ※ 단지 주요정보 (분양문의) 02-2052-0180 주택유형 규제지역여부 거주요건 재당첨제한 민영 투기과열지구/청약과열지역 경기도 "
-    }
-   ],
-   "chosen": "https://static.applyhome.co.kr/ai/aia/getAtchmnfl.do?houseManageNo=2026930031&pblancNo=2026930031&atchmnflSeqNo=1979029&atchmnflSn=3",
-   "pages": 16,
-   "pages_read": 16,
-   "chars_read": 31960,
-   "empty_pages": [],
-   "chars_per_page_min": 523,
-   "fields": {
-    "need_head": true,
-    "price_cap": false,
-    "residence_duty": 0,
-    "rewin_years": 10,
-    "residence": {
-     "area": "경기도 광명시",
-     "months": 0,
-     "since": null
-    }
-   },
-   "fields_merged": {
-    "need_head": true,
-    "price_cap": false,
-    "residence_duty": 0,
-    "rewin_years": 10,
-    "residence": {
-     "area": "경기도 광명시",
-     "months": 0,
-     "since": null
-    }
-   },
-   "fields_pdfium": {
-    "need_head": true,
-    "price_cap": false,
-    "residence_duty": 0,
-    "rewin_years": 10,
-    "residence": {
-     "area": "경기도 광명시",
-     "months": 0,
-     "since": null
-    }
-   },
-   "pdfium_chars": 31794,
-   "problem": []
-  },
-  {
-   "notice": "2026910236",
-   "name": "철산자이 더 헤리티지",
-   "url": "https://www.applyhome.co.kr/ai/aia/selectAPTRemndrLttotPblancDetailView.do?houseManageNo=2026910236&pblancNo=2026910236",
-   "attachments": 1,
-   "pdfs": 1,
-   "attachment_list": [
-    {
-     "url": "https://static.applyhome.co.kr/ai/aia/getAtchmnfl.do?houseManageNo=2026910236&pblancNo=2026910236&atchmnflSeqNo=1977031&atchmnflSn=2",
-     "bytes": 293890,
-     "pages": 11,
-     "chars": 22827,
-     "head": "- 1 - ※ 단지 주요정보 (분양문의) 02-2052-0180 주택유형 규제지역여부 무순위(사후) 자격요건 민영 투기과열지구/청약과열지역 무순"
-    }
-   ],
-   "chosen": "https://static.applyhome.co.kr/ai/aia/getAtchmnfl.do?houseManageNo=2026910236&pblancNo=2026910236&atchmnflSeqNo=1977031&atchmnflSn=2",
-   "pages": 11,
-   "pages_read": 11,
-   "chars_read": 22837,
-   "empty_pages": [],
-   "chars_per_page_min": 1552,
-   "fields": {
-    "need_head": false,
-    "price_cap": true,
-    "residence_duty": 2,
-    "rewin_years": 10,
-    "residence": {
-     "area": "경기도",
-     "months": 0,
-     "since": null
-    }
-   },
-   "fields_merged": {
-    "need_head": false,
-    "price_cap": true,
-    "residence_duty": 2,
-    "rewin_years": 10,
-    "residence": {
-     "area": "경기도",
-     "months": 0,
-     "since": null
-    }
-   },
-   "fields_pdfium": {
-    "need_head": false,
-    "price_cap": true,
-    "residence_duty": 2,
-    "rewin_years": 10,
-    "residence": {
-     "area": "경기도",
-     "months": 0,
-     "since": null
-    }
-   },
-   "pdfium_chars": 22595,
-   "problem": []
-  },
-  {
    "notice": "2026930032",
    "name": "태화강 에피트",
    "url": "https://www.applyhome.co.kr/ai/aia/selectAPTRemndrLttotPblancDetailView.do?houseManageNo=2026930032&pblancNo=2026930032",
@@ -3743,63 +3646,6 @@
     }
    },
    "pdfium_chars": 26363,
-   "problem": []
-  },
-  {
-   "notice": "2026910244",
-   "name": "더 리치먼드 미아(3차)",
-   "url": "https://www.applyhome.co.kr/ai/aia/selectAPTRemndrLttotPblancDetailView.do?houseManageNo=2026910244&pblancNo=2026910244",
-   "attachments": 1,
-   "pdfs": 1,
-   "attachment_list": [
-    {
-     "url": "https://static.applyhome.co.kr/ai/aia/getAtchmnfl.do?houseManageNo=2026910244&pblancNo=2026910244&atchmnflSeqNo=1971189&atchmnflSn=3",
-     "bytes": 344968,
-     "pages": 15,
-     "chars": 29479,
-     "head": "- 1 - ※ 해당 주택건설지역인 서울특별시 강북구는 2025. 10. 16. 투기과열지구로 지정되어, 토지거래허가규제 대상이나, 본 주택은 근"
-    }
-   ],
-   "chosen": "https://static.applyhome.co.kr/ai/aia/getAtchmnfl.do?houseManageNo=2026910244&pblancNo=2026910244&atchmnflSeqNo=1971189&atchmnflSn=3",
-   "pages": 15,
-   "pages_read": 15,
-   "chars_read": 29493,
-   "empty_pages": [],
-   "chars_per_page_min": 1324,
-   "fields": {
-    "need_head": false,
-    "price_cap": false,
-    "residence_duty": 0,
-    "rewin_years": 10,
-    "residence": {
-     "area": null,
-     "months": 0,
-     "since": null
-    }
-   },
-   "fields_merged": {
-    "need_head": false,
-    "price_cap": false,
-    "residence_duty": 0,
-    "rewin_years": 10,
-    "residence": {
-     "area": null,
-     "months": 0,
-     "since": null
-    }
-   },
-   "fields_pdfium": {
-    "need_head": false,
-    "price_cap": false,
-    "residence_duty": 0,
-    "rewin_years": 10,
-    "residence": {
-     "area": null,
-     "months": 0,
-     "since": null
-    }
-   },
-   "pdfium_chars": 28532,
    "problem": []
   }
  ]
