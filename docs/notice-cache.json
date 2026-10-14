@@ -6829,68 +6829,6 @@
   "notice_pdf": "https://static.applyhome.co.kr/ai/aia/getAtchmnfl.do?houseManageNo=2026910243&pblancNo=2026910243&atchmnflSeqNo=1979012&atchmnflSn=3",
   "v": 38
  },
- "2026910247": {
-  "found": {
-   "complex": {
-    "buildings": 6,
-    "households": 1297,
-    "quote": ": 아파트 지하 3층, 지상 47층, 6개동 총 1,297세대 중 잔여 15세대 ■ 입주시기 : 2026년 10월 (잔금 납부 완료 후 즉시 입주 가능) ■ 공급대상 (단위, ㎡, 세대) 주택관리번호 모델 주택형("
-   },
-   "facts": {
-    "asset_thousand": {
-     "부동산": [],
-     "부동산_만원": [],
-     "자동차": []
-    },
-    "deposit_rows": {},
-    "income_rows": {},
-    "price_seen": {
-     "084.0616D": true,
-     "084.7050A": true,
-     "084.7324C": true,
-     "111.6914A": true,
-     "111.9114B": true
-    }
-   },
-   "need_head": false,
-   "pay_ratio": {
-    "balance": 0.9,
-    "contract": 0.1,
-    "mid": 0.0
-   },
-   "price_cap": false,
-   "quotes": {
-    "need_head": "…민영 비규제지역 무순위(사후) 입주자모집공고일 현재 전국에 거주하는 무주택세대구성원 재당첨제한 전매제한 거주의무기간 분양가상한제 없음 최초…",
-    "pay_ratio": "…동 호수 공급금액 계약금 (10%) 잔금 (90%) 대지비 건축비 부가세 계 계약시 입주시(계약일…",
-    "price_cap": "(1쪽 단지 주요정보 표) 재당첨제한 전매제한 거주의무기간 분양가상한제 없음 최초 당첨자발표일(2022.01.19.)로부터 1년간 적용되어 현재 전매제한 기간 도과 없음 미적용 구분",
-    "resale": "…바랍니다. ■ 본 아파트의 전매제한은 최초 입주자모집공고의 당첨자발표일(2022.01.19.)로부터 1년간 적용되어 현재 전매제한 기간이 도과되었습니다. - 3 - 3 공급대상 및 공급금액 ■ 공급위치 : 경기도…",
-    "residence": "…(사후) 입주자모집공고일 현재 전국에 거주하는 무주택세대구성원 재당첨제한 전매제한 거주의…",
-    "residence_duty": "(1쪽 단지 주요정보 표) 재당첨제한 전매제한 거주의무기간 분양가상한제 없음 최초 당첨자발표일(2022.01.19.)로부터 1년간 적용되어 현재 전매제한 기간 도과 없음 미적용 구분"
-   },
-   "resale": {
-    "base": "2022-01-19",
-    "forbidden": false,
-    "months": 12,
-    "none": false,
-    "passed": true,
-    "registration": false,
-    "until_reg": false
-   },
-   "residence": {
-    "area": null,
-    "equal": true,
-    "months": 0,
-    "others": [
-     "전국"
-    ],
-    "since": null
-   },
-   "residence_duty": 0
-  },
-  "name": "신천역 에피트(2차)",
-  "notice_pdf": "https://static.applyhome.co.kr/ai/aia/getAtchmnfl.do?houseManageNo=2026910247&pblancNo=2026910247&atchmnflSeqNo=1978093&atchmnflSn=8",
-  "v": 38
- },
  "2026910248": {
   "found": {
    "complex": {
@@ -7139,6 +7077,72 @@
   },
   "name": "충정로역자이르네",
   "notice_pdf": "https://static.applyhome.co.kr/ai/aia/getAtchmnfl.do?houseManageNo=2026910251&pblancNo=2026910251&atchmnflSeqNo=1986036&atchmnflSn=2",
+  "v": 38
+ },
+ "2026910252": {
+  "found": {
+   "complex": {
+    "buildings": 13,
+    "households": 1521,
+    "quote": ": 아파트 지하 2층, 지상 30층 13개동 총 1,521세대(조합원283세대, 임대81세대, 보류지4세대 포함) 중 잔여 18세대 ■ 입주시기 : 2029년 11월 예정(정확한 입주일자는 추후 통보함) ■ 공급대"
+   },
+   "contract_split": {
+    "first_won": 10000000,
+    "rest_within": "30일",
+    "rows": 9
+   },
+   "ext": 0.2,
+   "facts": {
+    "asset_thousand": {
+     "부동산": [],
+     "부동산_만원": [],
+     "자동차": []
+    },
+    "deposit_rows": {},
+    "income_rows": {},
+    "price_seen": {
+     "059.9700C": true,
+     "059.9900B": true
+    }
+   },
+   "need_head": false,
+   "pay_ratio": {
+    "balance": 0.3,
+    "contract": 0.1,
+    "mid": 0.6
+   },
+   "price_cap": false,
+   "quotes": {
+    "need_head": "…민영 비규제지역 무순위(사후) 입주자모집공고일 현재 울산광역시에 거주하는 무주택세대구성원 재당첨제한 전매제한 거주의무기간 분양가상한제 없음 최초…",
+    "pay_ratio": "…층 해당세대수 공급금액 계약금(10%) 중도금(60%) 잔금(30%)1차 2차 1차(10%) 2차(10%)…",
+    "price_cap": "…공통유의사항 • 본 아파트는 분양가상한제 미적용 민영주택으로서 상기 공급금액은 사업주체의 자체 기준에 따라 공급총액…",
+    "resale": "…바랍니다. ■ 본 아파트의 전매제한은 최초 입주자모집공고의 당첨자발표일(2026.09.22.)로부터 6개월 적용됩니다. - 4 - 3 공급대상 및 공급금액 ■ 공급위치 : 울산광역시 남구…",
+    "residence": "…(사후) 입주자모집공고일 현재 울산광역시에 거주하는 무주택세대구성원 재당첨제한 전매제한 거주의…",
+    "residence_duty": "(1쪽 단지 주요정보 표) 재당첨제한 전매제한 거주의무기간 분양가상한제 없음 최초 당첨자발표일(2026.09.22.)로부터 6개월 없음 미적용 구분"
+   },
+   "resale": {
+    "base": "2026-09-22",
+    "forbidden": false,
+    "months": 6,
+    "none": false,
+    "passed": false,
+    "registration": false,
+    "until_reg": false
+   },
+   "residence": {
+    "area": {
+     "name": "울산광역시",
+     "sido": "울산"
+    },
+    "equal": true,
+    "months": 0,
+    "others": [],
+    "since": null
+   },
+   "residence_duty": 0
+  },
+  "name": "그랑라크 에일린의 뜰",
+  "notice_pdf": "https://static.applyhome.co.kr/ai/aia/getAtchmnfl.do?houseManageNo=2026910252&pblancNo=2026910252&atchmnflSeqNo=1997992&atchmnflSn=5",
   "v": 38
  },
  "2026910253": {
@@ -7518,6 +7522,60 @@
   "notice_pdf": "https://static.applyhome.co.kr/ai/aia/getAtchmnfl.do?houseManageNo=2026910260&pblancNo=2026910260&atchmnflSeqNo=1994055&atchmnflSn=3",
   "v": 38
  },
+ "2026910262": {
+  "found": {
+   "complex": {
+    "buildings": 6,
+    "households": 233,
+    "quote": ": 아파트 지하 2층, 지상 11~15층 6개동 총 233세대 중 잔여 5세대 ■ 입주시기 : 2026년 11월 예정(최초 입주 개시는 2024년 2월이며 금회 공급분에 대해서는 2026년 11월 30일까지 잔금"
+   },
+   "facts": {
+    "asset_thousand": {
+     "부동산": [],
+     "부동산_만원": [],
+     "자동차": []
+    },
+    "deposit_rows": {},
+    "income_rows": {},
+    "price_seen": {
+     "084.5993C": true,
+     "084.9631A": true,
+     "090.9392": true,
+     "123.0091": true
+    }
+   },
+   "need_head": false,
+   "pay_ratio": {
+    "balance": 0.9,
+    "contract": 0.1,
+    "mid": 0.0
+   },
+   "price_cap": false,
+   "quotes": {
+    "need_head": "…민영 비규제지역 무순위(사후) 입주자모집공고일 현재 경기도에 거주하는 무주택세대구성원 재당첨제한 전매제한 거주의무기간 분양가상한제 없음 없음 최초…",
+    "pay_ratio": "…호 해당세대수 공급금액 계약금(10%) 잔금(90%)대지비 건축비 부가세 발코니확장비 계 계약 시…",
+    "price_cap": "(1쪽 단지 주요정보 표) 재당첨제한 전매제한 거주의무기간 분양가상한제 없음 없음 최초 입주자모집공고상 소유권이전 등기일(3년 초과 시 3년)까지 적용되었으나, 2023.04.07.시행 「주택법 시행령」 개정(기공급 주택 소급적용)에 따라 현재 전매제한 기간 도과 없음 미적용 구분",
+    "residence": "…(사후) 입주자모집공고일 현재 경기도에 거주하는 무주택세대구성원 재당첨제한 전매제한 거주의…",
+    "residence_duty": "(1쪽 단지 주요정보 표) 재당첨제한 전매제한 거주의무기간 분양가상한제 없음 없음 최초 입주자모집공고상 소유권이전 등기일(3년 초과 시 3년)까지 적용되었으나, 2023.04.07.시행 「주택법 시행령」 개정(기공급 주택 소급적용)에 따라 현재 전매제한 기간 도과 없음 미적용 구분",
+    "rewin_years": "…거주하는 무주택세대구성원 재당첨제한 전매제한 거주의무기간 분양가상한제 없음 없음 최초 입주자모집공고상 소유권이전 등기일(3년 초과 시 3년)까지 적용되었으나, 2023.04.07.시행…"
+   },
+   "residence": {
+    "area": {
+     "name": "경기도",
+     "sido": "경기"
+    },
+    "equal": true,
+    "months": 0,
+    "others": [],
+    "since": null
+   },
+   "residence_duty": 0,
+   "rewin_years": 3
+  },
+  "name": "화성 송산 동원로얄듀크 포레(2차)",
+  "notice_pdf": "https://static.applyhome.co.kr/ai/aia/getAtchmnfl.do?houseManageNo=2026910262&pblancNo=2026910262&atchmnflSeqNo=1998997&atchmnflSn=3",
+  "v": 38
+ },
  "2026910263": {
   "found": {
    "complex": {
@@ -7579,88 +7637,6 @@
   },
   "name": "청계 노르웨이숲(13차)",
   "notice_pdf": "https://static.applyhome.co.kr/ai/aia/getAtchmnfl.do?houseManageNo=2026910263&pblancNo=2026910263&atchmnflSeqNo=1994058&atchmnflSn=3",
-  "v": 38
- },
- "2026930031": {
-  "found": {
-   "complex": {
-    "buildings": 14,
-    "households": 1490,
-    "quote": "아파트 지하 2층, 지상 40층, 14개동, 총 1,490세대, 일반분양 아파트 393세대 중 불법행위재공급 2세대[생애최초 특별공급 1세대, 일반공급 1세대] 및 부대복리시설 ■ 입주지정기간 : 2026년 10월"
-   },
-   "facts": {
-    "asset_thousand": {
-     "부동산": [],
-     "부동산_만원": [],
-     "자동차": []
-    },
-    "deposit_rows": {},
-    "income_rows": {
-     "160": [
-      12054021,
-      14083523,
-      14923176,
-      15850021,
-      16776866,
-      17703710
-     ]
-    },
-    "price_seen": {
-     "059.9960B": true,
-     "059.9979A": true
-    }
-   },
-   "need_head": true,
-   "pay_ratio": {
-    "balance": 0.9,
-    "contract": 0.1,
-    "mid": 0.0
-   },
-   "price_cap": false,
-   "quotes": {
-    "need_head": "…대상으로 추첨의 방법으로 공급합니다. ■ 본 입주자모집공고의 일반공급은 해당 주택건설지역 거주자 중 무주택세대주(무주택세대의 세대주)를 대상으로 추첨의 방법으로 공급합니다. ■…",
-    "pay_ratio": "…동 호 아파트 총 공급금액 계약금(10%) 잔금(90%) 아파트 분양가(A) 추가 부대경비(B)…",
-    "price_cap": "…민간택지에서 공급하는 분양가상한제 미적용 민영주택으로, 당첨자로 선정 시 「주택공급에 관한 규칙」 제54조에…",
-    "resale": "…바랍니다. ■ 본 주택의 전매제한은 최초입주자모집공고의 당첨자발표일(2023.11.07.)로부터 3년간 적용됩니다.(단, 소유권이전등기를 완료한 경우…",
-    "residence": "…상자 ■ 입주자모집공고일 현재 해당 주택건설지역인 경기도 광명시에 거주하는 무주택세대주(무주택세대의 세대주) 당첨자…",
-    "residence_duty": "(1쪽 단지 주요정보 표) 전매제한 거주의무기간 분양가상한제 택지유형 최초 당첨자발표일 (2023.11.07.)로부터 3년간 적용 없음 미적용 민간택지",
-    "rewin_years": "…규제지역여부 거주요건 재당첨제한 민영 투기과열지구/청약과열지역 경기도 광명시 거주자 10년 전매제한 거주의무기간 분양가상한제 택지유형 최초 당첨자발표일…"
-   },
-   "resale": {
-    "base": "2023-11-07",
-    "forbidden": false,
-    "months": 36,
-    "none": false,
-    "passed": false,
-    "registration": false,
-    "until_reg": false
-   },
-   "residence": {
-    "area": {
-     "name": "경기도 광명시",
-     "sido": "경기",
-     "sigungu": "광명시"
-    },
-    "equal": true,
-    "months": 0,
-    "others": [],
-    "since": null
-   },
-   "residence_duty": 0,
-   "rewin_years": 10,
-   "sp_table": {
-    "059.9960B": {
-     "first": 0,
-     "total": 0
-    },
-    "059.9979A": {
-     "first": 1,
-     "total": 1
-    }
-   }
-  },
-  "name": "철산자이 브리에르",
-  "notice_pdf": "https://static.applyhome.co.kr/ai/aia/getAtchmnfl.do?houseManageNo=2026930031&pblancNo=2026930031&atchmnflSeqNo=1979029&atchmnflSn=3",
   "v": 38
  },
  "2026930032": {
