@@ -118,6 +118,18 @@ def estimate_market(name: str, area: Optional[float], trades: list[dict], presal
             "mkt_note": "비교할 거래가 부족해요. 시세를 직접 확인하세요."}
 
 
+def market_diag(name: str, area: Optional[float], trades: list[dict], presales: list[dict], this_year: int) -> dict:
+    """시세 부족 원인 기록용 건수 (2026-10-15 사용자 '시세부족 공고 원인 파악'). 계산에는 쓰지 않는다."""
+    nd = [r for r in trades if r.get("deal_type") != "직거래" and r.get("amount")]
+    new = [r for r in nd if r.get("build_year") and r["build_year"] >= this_year - R.NEW_BUILD_YEARS]
+    near = lambda r, w: r.get("area") and area and abs(r["area"] - area) <= w
+    return {"trades": len(nd), "newbuild": len(new), "band_any": sum(1 for r in nd if _in_band(r.get("area"), area)),
+            "band_new": sum(1 for r in new if _in_band(r.get("area"), area)), "wide_new": sum(1 for r in new if near(r, R.AREA_BAND_WIDE)),
+            "wide_any": sum(1 for r in nd if near(r, R.AREA_BAND_WIDE)),
+            "own_any": sum(1 for r in presales + trades if r.get("amount") and same_complex(r.get("apt", ""), name)),
+            "max_area_new": max((r["area"] for r in new if r.get("area")), default=None)}
+
+
 def estimate_jeonse(name: str, area: Optional[float], rents: list[dict], this_year: int) -> dict:
     pool = [r for r in rents if r.get("deposit") and not r.get("monthly") and _in_band(r["area"], area)]
     own = [r for r in pool if same_complex(r["apt"], name)]

@@ -20,7 +20,7 @@ import httpx
 from . import region as RG
 from . import rules as R
 from .engine import grade
-from .market import estimate_jeonse, estimate_market, months_back
+from .market import estimate_jeonse, estimate_market, months_back, market_diag
 from .models import Listing
 from .sources.applyhome import RAW_KEYS, ApplyhomeClient, iter_open_listings, probe_fields
 from .sources.rtms import RtmsClient
@@ -32,6 +32,7 @@ DATA = ROOT / "data" / "listings.json"
 RUN_LOG = ROOT / "docs" / "run-log.txt"
 FRESH = ROOT / "docs" / "data-updated.txt"   # 공고를 실제로 받은 마지막 시각 (한국 시각). 0건·실패 실행에서는 바꾸지 않는다 (updated.txt 는 실행 시각)
 RTMS_ERRORS: set[str] = set()
+MARKET_DIAG: list[tuple] = []   # 시세 부족 주택형의 원인 건수 (실행 기록 [시세 부족·원인])
 MARKET_BUDGET_SEC = 600      # 실거래 조회에 쓰는 최대 시간 (공공데이터포털이 느려도 수집이 끝나게)
 NOTICE_BUDGET_SEC = 300      # 공고문 PDF 읽기에 쓰는 최대 시간
 
@@ -136,6 +137,8 @@ def build_listing(raw: dict, rtms: Optional[RtmsClient], today: date, lawd_cache
         trades, presales, rents = safe("trade"), safe("presale"), safe("rent")
         if trades is not None or presales is not None:
             mk = estimate_market(raw["name"], raw["area"], trades or [], presales or [], today.year, area_fallback=feature_on("mkt_area_fallback"))
+            if mk.get("mkt_low") is None:
+                MARKET_DIAG.append((raw["name"], raw["unit"], raw["area"], lawd, market_diag(raw["name"], raw["area"], trades or [], presales or [], today.year)))
         else:
             mk["mkt_note"] = MARKET_FAIL_NOTE
         if rents is not None:
@@ -173,6 +176,61 @@ def build_listing(raw: dict, rtms: Optional[RtmsClient], today: date, lawd_cache
         need_head=bool(regulated) and "신혼희망타운" not in raw["name"], need_account=not remainder,
         limits=limits, url=raw.get("url"),
     )
+
+
+CODE_PENDING = "시군구 코드를 아직"
+
+
+def refill_market(out: list, rt, today: date, lawd_cache: dict, log: list[str]) -> None:
+    """같은 실행의 지도 좌표(역지오코딩)로 시군구 코드를 새로 찾은 주택형은 다음 수집을 기다리지 않고 바로 시세를 조회한다
+    (2026-10-15: 화성시 병점구처럼 새로 생긴 구는 코드 표에 없어, 찾은 날은 '다음 수집부터'로 하루 늦었음)"""
+    n = 0
+    for L in out:
+        if not (L.mkt_note or "").startswith(CODE_PENDING) or L.rental:
+            continue
+        lawd = LC.lawd_for(L.address, lawd_cache, L.sido)
+        if not lawd:
+            continue
+        months = months_back(today, R.MARKET_MONTHS)
+        try:
+            trades, presales = rt.recent("trade", lawd, months), rt.recent("presale", lawd, months)
+        except Exception as e:
+            RTMS_ERRORS.add(str(e)[:160])
+            continue
+        mk = estimate_market(L.name, L.area, trades, presales, today.year, area_fallback=feature_on("mkt_area_fallback"))
+        for k, v in mk.items():
+            setattr(L, k, v)
+        if mk.get("mkt_low") is None:
+            MARKET_DIAG.append((L.name, L.unit, L.area, lawd, market_diag(L.name, L.area, trades, presales, today.year)))
+        try:
+            js = estimate_jeonse(L.name, L.area, rt.recent("rent", lawd, months), today.year)
+            for k, v in js.items():
+                setattr(L, k, v)
+        except Exception:
+            pass
+        n += 1
+    if n:
+        log.append(f"[시세·지역코드] 이번 실행에서 시군구 코드를 찾은 주택형 {n}개 시세를 바로 조회")
+
+
+def market_diag_lines() -> list[str]:
+    """시세 부족 원인: ① 구 전체 거래가 적음 ② 신축(10년 이내) 거래가 적음 ③ 신축은 있는데 이 면적대가 없음(큰 평형) ④ 같은 평형은 있는데 오래된 단지뿐"""
+    out = []
+    for name, unit, area, lawd, d in MARKET_DIAG:
+        if d["trades"] < 10:
+            why = "구 전체 매매가 적음"
+        elif d["newbuild"] < 5:
+            why = "준공 10년 이내 매매가 적음"
+        elif d["wide_new"] < R.AREA_FALLBACK_MIN and d["max_area_new"] and area and area > d["max_area_new"] + R.AREA_BAND_WIDE:
+            why = f"신축 매매 중 이 면적대가 없음(신축 최대 {d['max_area_new']:.0f}㎡)"
+        elif d["band_any"] >= 3 and d["band_new"] < 3:
+            why = "같은 평형 매매는 오래된 단지뿐"
+        else:
+            why = "같은 평형·비슷한 면적 신축 매매가 기준(3건·5건) 미만"
+        out.append(f"[시세 부족·원인] {name} {unit} (전용 {area:.1f}㎡, 지역코드 {lawd}): {why} — 6개월 매매 {d['trades']} · 신축 {d['newbuild']} · "
+                   f"같은 평형 {d['band_any']}(신축 {d['band_new']}) · ±10㎡ {d['wide_any']}(신축 {d['wide_new']}) · 같은 단지 {d['own_any']}")
+    MARKET_DIAG.clear()
+    return out
 
 
 def _from_previous(prev: dict) -> tuple[dict, Optional[str]]:
@@ -603,8 +661,10 @@ def run(dry_run: bool = False, today: Optional[date] = None, read_notices: bool 
                           lawd_cache=lawd_cache)
             if not dry_run:
                 LC.save(lawd_cache)
+            refill_market(out, rt, today, lawd_cache, log)
         except Exception as e:
             log.append(f"[위치] 전체 실패: {e}")
+    log += market_diag_lines()
     log += [f"[실거래가 경고] {m}" for m in sorted(RTMS_ERRORS)]
     # 실제 응답 필드 기록 (필터·기능을 추가하기 전에 근거로 쓴다)
     for name, keys in RAW_KEYS.items():
