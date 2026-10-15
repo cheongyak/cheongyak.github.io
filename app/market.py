@@ -31,9 +31,23 @@ def _norm(s: str) -> str:
     return re.sub(r"[\s()·\-]|아파트", "", s or "")
 
 
-def same_complex(apt: str, name: str) -> bool:
+def dong_of(address: str) -> str:
+    """공고 주소의 법정동·읍·면 ('경상남도 거제시 옥포동 1670번지' → '옥포동'). 도로명 주소·지구 이름뿐이면 빈 글자"""
+    for t in (address or "").split()[1:5]:
+        if re.fullmatch(r"[가-힣]+[0-9]?(?:동|읍|면|가)", t) and t != "공동":
+            return t
+        if re.search(r"\d", t):
+            break
+    return ""
+
+
+def same_complex(apt: str, name: str, umd: str = "", dong: str = "") -> bool:
+    """단지 이름이 서로 포함 관계. 거래 법정동과 공고 주소 동·읍·면을 둘 다 알면 같아야 한다
+    (2026-10-15: '힐스테이트 거제시그니처'(옥포동)에 상동동 '힐스테이트거제', '이도이동 아이린8차'에 삼도이동 '아이린'이 붙던 문제)"""
     a, n = _norm(apt), _norm(name)
     if not a or not n:
+        return False
+    if dong and umd and umd.split()[0] != dong:
         return False
     return a in n or n in a
 
@@ -70,13 +84,13 @@ def _recent(comps: list[dict]) -> list[dict]:
 
 
 def estimate_market(name: str, area: Optional[float], trades: list[dict], presales: list[dict],
-                    this_year: int, area_fallback: bool = False, large_fallback: bool = False, unit: str = "") -> dict:
+                    this_year: int, area_fallback: bool = False, large_fallback: bool = False, unit: str = "", dong: str = "") -> dict:
     # 실제 시장 거래만 쓴다: 해제 거래는 parse_items 에서 이미 빠지고, 직거래(가족 간 저가 거래 등이 섞임)도 뺀다
     is_direct = lambda r: r.get("deal_type") == "직거래"
     newbuild = lambda r: bool(r.get("build_year")) and r["build_year"] >= this_year - R.NEW_BUILD_YEARS
     # 뺀 직거래 수는 실제로 비교 대상이 됐을 거래만 센다 (같은 단지·같은 평형, 없으면 같은 구 신축·같은 평형)
     own_direct = sum(1 for r in presales + trades
-                     if is_direct(r) and r.get("amount") and same_complex(r["apt"], name) and _in_band(r["area"], area))
+                     if is_direct(r) and r.get("amount") and same_complex(r["apt"], name, r.get("umd", ""), dong) and _in_band(r["area"], area))
     area_direct = sum(1 for r in trades if is_direct(r) and r.get("amount") and _in_band(r["area"], area) and newbuild(r))
     wide_direct = sum(1 for r in trades if is_direct(r) and r.get("amount") and r.get("area") and area and abs(r["area"] - area) <= R.AREA_BAND_WIDE and newbuild(r))
     trades = [r for r in trades if not is_direct(r)]
@@ -84,7 +98,7 @@ def estimate_market(name: str, area: Optional[float], trades: list[dict], presal
     # 분양권전매 API 의 ownershipGbn 은 '분'(분양권) / '입'(입주권) 약자로 온다 (2026-09-29 실제 응답)
     names = {"분": "분양권", "입": "입주권"}
     tagged = [(r, names.get(r.get("kind") or "", r.get("kind") or "분양권")) for r in presales] + [(r, "매매") for r in trades]
-    own = [(r, k) for r, k in tagged if r.get("amount") and same_complex(r["apt"], name) and _in_band(r["area"], area)]
+    own = [(r, k) for r, k in tagged if r.get("amount") and same_complex(r["apt"], name, r.get("umd", ""), dong) and _in_band(r["area"], area)]
     if own:
         low, base = _summary([r["amount"] for r, _ in own])
         return {"mkt_low": low, "mkt_base": base, "mkt_basis": "same_complex", "mkt_count": len(own),
@@ -124,7 +138,7 @@ def estimate_market(name: str, area: Optional[float], trades: list[dict], presal
             low = _p25(ppa) * area / 10000 if len(ppa) >= 4 else base * R.LOW_DISCOUNT
             return {"mkt_low": round(low, 2), "mkt_base": round(base, 2), "mkt_basis": basis, "mkt_count": len(rows),
                     "mkt_comps": _recent([_comp(r, k, "amount") for r, k in rows]), "mkt_direct_excluded": 0, "mkt_note": note}
-        own_any = [(r, k) for r, k in tagged if r.get("amount") and r.get("area") and same_complex(r["apt"], name)]
+        own_any = [(r, k) for r, k in tagged if r.get("amount") and r.get("area") and same_complex(r["apt"], name, r.get("umd", ""), dong)]
         if len(own_any) >= 3:
             return ppa_result(own_any, "same_complex_ppa", f"같은 평형 거래가 없어 같은 단지 다른 평형 거래 {len(own_any)}건의 ㎡당 가격 × 전용 {area:.1f}㎡로 추정 (최근 {R.MARKET_MONTHS}개월)")
         if area >= R.LARGE_AREA:
@@ -154,7 +168,7 @@ def shortage_reason(area: Optional[float], trades: list[dict], this_year: int, p
     return ""
 
 
-def market_diag(name: str, area: Optional[float], trades: list[dict], presales: list[dict], this_year: int) -> dict:
+def market_diag(name: str, area: Optional[float], trades: list[dict], presales: list[dict], this_year: int, dong: str = "") -> dict:
     """시세 부족 원인 기록용 건수 (2026-10-15 사용자 '시세부족 공고 원인 파악'). 계산에는 쓰지 않는다."""
     nd = [r for r in trades if r.get("deal_type") != "직거래" and r.get("amount")]
     new = [r for r in nd if r.get("build_year") and r["build_year"] >= this_year - R.NEW_BUILD_YEARS]
@@ -162,13 +176,13 @@ def market_diag(name: str, area: Optional[float], trades: list[dict], presales: 
     return {"trades": len(nd), "newbuild": len(new), "band_any": sum(1 for r in nd if _in_band(r.get("area"), area)),
             "band_new": sum(1 for r in new if _in_band(r.get("area"), area)), "wide_new": sum(1 for r in new if near(r, R.AREA_BAND_WIDE)),
             "wide_any": sum(1 for r in nd if near(r, R.AREA_BAND_WIDE)),
-            "own_any": sum(1 for r in presales + trades if r.get("amount") and same_complex(r.get("apt", ""), name)),
+            "own_any": sum(1 for r in presales + trades if r.get("amount") and same_complex(r.get("apt", ""), name, r.get("umd", ""), dong)),
             "max_area_new": max((r["area"] for r in new if r.get("area")), default=None)}
 
 
-def estimate_jeonse(name: str, area: Optional[float], rents: list[dict], this_year: int) -> dict:
+def estimate_jeonse(name: str, area: Optional[float], rents: list[dict], this_year: int, dong: str = "") -> dict:
     pool = [r for r in rents if r.get("deposit") and not r.get("monthly") and _in_band(r["area"], area)]
-    own = [r for r in pool if same_complex(r["apt"], name)]
+    own = [r for r in pool if same_complex(r["apt"], name, r.get("umd", ""), dong)]
     comps = own or [r for r in pool if r.get("build_year") and r["build_year"] >= this_year - R.NEW_BUILD_YEARS]
     shown = _recent([_comp(r, "전세", "deposit") for r in comps])
     if len(comps) < 3 and not own:

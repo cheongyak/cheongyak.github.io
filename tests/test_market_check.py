@@ -100,3 +100,16 @@ def test_shortage_reasons():
     assert "매매가 3건뿐" in market.estimate_market("진도 새단지", 84.9, few, [], 2026)["mkt_note"]
     old = rtms.parse_items(xml([row("옛단지", 74.0, 130000, "2026-09-01", build=1993)] * 12))
     assert "준공 10년이 넘은 단지" in market.estimate_market("분당 새단지", 74.0, old, [], 2026)["mkt_note"]
+
+
+def test_same_name_other_dong_is_not_same_complex():
+    """'힐스테이트 거제시그니처'(옥포동)에 상동동 '힐스테이트거제' 거래가 같은 단지로 붙어 84A 시세 2.56억(분양가 5.88억)이 되던 문제 (2026-10-15)"""
+    from app.market import dong_of
+    addr = "경상남도 거제시 옥포동 1670번지 일원"
+    assert dong_of(addr) == "옥포동" and dong_of("경기도 화성시 병점구 화산로 9") == "" and dong_of("서울특별시 종로구 종로1가 1") == "종로1가"
+    tr = [dict(row("힐스테이트거제", 84.96, 25500 + i * 100, f"2026-09-0{i + 1}"), umdNm="상동동") for i in range(5)]
+    x = xml(tr)
+    a = market.estimate_market("힐스테이트 거제시그니처(1회차)", 84.9, rtms.parse_items(x), [], 2026, dong="옥포동")
+    r = MC.expect("힐스테이트 거제시그니처(1회차)", 84.9, MC.rows_of(x), [], 2026, address=addr)
+    assert a["mkt_basis"] != "same_complex" and r["basis"] != "same_complex"
+    assert market.estimate_market("힐스테이트 거제시그니처(1회차)", 84.9, rtms.parse_items(x), [], 2026)["mkt_basis"] == "same_complex"   # 주소 동을 모르면 예전처럼

@@ -110,3 +110,12 @@ def test_residence_prefers_general_section_sentence():
         assert "무주택세대주" in o["quotes"]["residence"], (n, o["quotes"]["residence"])
     t = "4-1 생애최초 특별공급(「주택공급에 관한 규칙」 제43조) 구분 내용 대상자 ■ … 5 일반공급 (「주택공급에 관한 규칙」 제47조의3) 구분 내용 대상자 ■ …"
     assert section_at(t, t.find("4-1") + 40) == "special" and section_at(t, len(t) - 2) == "general" and section_at(t, 2) is None
+
+
+def test_resale_until_registration_but_passed():
+    """2026910262 무순위(사후) '소유권이전 등기일(3년 초과 시 3년)까지 적용되었으나 … 현재 전매제한 기간 도과' → 지남 (2026-10-15 매일 수집 전 시험이 이 새 원문에서 걸림)"""
+    from datetime import date
+    from app.pipeline import resale_text
+    r = _p("2026910262")["resale"]
+    assert r["passed"] is True and r["until_reg"] is True
+    assert resale_text(r, "2026-10-22", date(2026, 10, 15)) == "이미 지남"

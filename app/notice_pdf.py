@@ -1197,6 +1197,8 @@ def parse_resale(flat: str) -> Optional[dict]:
         # 재공급·무순위 문장
         (head + _D + r"(?:로부터|부터)(\d{1,2})(년|개월)(?:간)?" + reg + gone,
          lambda m: {"months": mon(m.group(4), m.group(5)), "base": _rs_ymd(m, 1), "registration": bool(m.group(6)), "passed": m.group(7) != "적용"}),
+        (r"전매제한은최초입주자모집공고상소유권이전등기일\(3년초과시3년\)까지적용되었으나,?[^■]{0,80}?현재전매제한기간이?도과",   # 2026910262 무순위(사후) — 등기일까지(최대 3년) 적용됐으나 법 개정으로 지남
+         lambda m: {"months": None, "base": "당첨자 발표일", "until_reg": True, "passed": True}),
         (head + _D + r"(?:로부터|부터)년간적용되어현재전매제한기간이도과",   # 2026930036·037 숫자가 빠짐 — 기간은 모르지만 지났다는 것은 확실
          lambda m: {"months": None, "base": _rs_ymd(m, 1), "passed": True}),
         (head + r"로부터" + _D + r"년간적용됩니다\(?단,?년내소유권이전등기시해제(\d{1,2})",   # 2026910246 뒤섞임

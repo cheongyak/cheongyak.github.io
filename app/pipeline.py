@@ -20,7 +20,7 @@ import httpx
 from . import region as RG
 from . import rules as R
 from .engine import grade
-from .market import estimate_jeonse, estimate_market, months_back, market_diag
+from .market import dong_of, estimate_jeonse, estimate_market, months_back, market_diag
 from .models import Listing
 from .sources.applyhome import RAW_KEYS, ApplyhomeClient, iter_open_listings, probe_fields
 from .sources.rtms import RtmsClient
@@ -137,13 +137,13 @@ def build_listing(raw: dict, rtms: Optional[RtmsClient], today: date, lawd_cache
         trades, presales, rents = safe("trade"), safe("presale"), safe("rent")
         if trades is not None or presales is not None:
             mk = estimate_market(raw["name"], raw["area"], trades or [], presales or [], today.year, area_fallback=feature_on("mkt_area_fallback"),
-                                 large_fallback=feature_on("mkt_large_fallback"), unit=raw["unit"])
+                                 large_fallback=feature_on("mkt_large_fallback"), unit=raw["unit"], dong=dong_of(addr))
             if mk.get("mkt_low") is None:
-                MARKET_DIAG.append((raw["name"], raw["unit"], raw["area"], lawd, market_diag(raw["name"], raw["area"], trades or [], presales or [], today.year)))
+                MARKET_DIAG.append((raw["name"], raw["unit"], raw["area"], lawd, market_diag(raw["name"], raw["area"], trades or [], presales or [], today.year, dong_of(addr))))
         else:
             mk["mkt_note"] = MARKET_FAIL_NOTE
         if rents is not None:
-            js = estimate_jeonse(raw["name"], raw["area"], rents, today.year)
+            js = estimate_jeonse(raw["name"], raw["area"], rents, today.year, dong_of(addr))
 
     remainder = raw["category"] == "remainder"
     # 준공 임박(입주 6개월 이내) 단지는 중도금 없이 잔금, 그 외엔 중도금 60% 가정
@@ -199,13 +199,13 @@ def refill_market(out: list, rt, today: date, lawd_cache: dict, log: list[str]) 
             RTMS_ERRORS.add(str(e)[:160])
             continue
         mk = estimate_market(L.name, L.area, trades, presales, today.year, area_fallback=feature_on("mkt_area_fallback"),
-                             large_fallback=feature_on("mkt_large_fallback"), unit=L.unit)
+                             large_fallback=feature_on("mkt_large_fallback"), unit=L.unit, dong=dong_of(L.address))
         for k, v in mk.items():
             setattr(L, k, v)
         if mk.get("mkt_low") is None:
-            MARKET_DIAG.append((L.name, L.unit, L.area, lawd, market_diag(L.name, L.area, trades, presales, today.year)))
+            MARKET_DIAG.append((L.name, L.unit, L.area, lawd, market_diag(L.name, L.area, trades, presales, today.year, dong_of(L.address))))
         try:
-            js = estimate_jeonse(L.name, L.area, rt.recent("rent", lawd, months), today.year)
+            js = estimate_jeonse(L.name, L.area, rt.recent("rent", lawd, months), today.year, dong_of(L.address))
             for k, v in js.items():
                 setattr(L, k, v)
         except Exception:
@@ -290,7 +290,7 @@ QUOTE_LABELS = {"need_head": "세대주 요건", "price_cap": "분양가상한�
 
 
 NOTICE_CACHE = ROOT / "docs" / "notice-cache.json"
-PARSER_VERSION = 38   # 38: 공공 자산 기준 — 천원이하 띄어쓰기 없음·출산가구 완화 줄 첫 칸을 기본 기준으로 읽지 않음(2026000402 자동차 49,960 오독) · 37: 근거 문장 — 가점제·추첨제 비율·다자녀 배정·공공 소득·자산(quotes) · 거주 요건 문장은 일반공급 칸 먼저(section_at) · 36: 공공분양식 공공임대 (표3) 특별공급 칸(pub_limits.sp·sp_unread)·<표3> 출산가구 자산 완화(relax) — 2026000402 · 35: 거주 지역 요건 근거 문장(quotes.residence) · 34: 세대주 요건을 일반공급 문장·민영 신청자격 표·LH 공급신청자격에서(특별공급 문장 연결 막음) · 거주기간 숫자 밀림·숫자 없는 'N년 이상'은 못 읽음 · 분양가상한제 법 설명 문장 제외·무순위 1쪽 표 · 전매제한 '현재 도과' (2026-10-09 블라인드 대조) · 33: 공공분양식 기준 분양전환공공임대 (표3) 가구원수별 금액·부동산·자동차(pub_limits kind pub_table, 2026000402) · 32: 공고문 대조 자산 기준 — 줄바꿈된 부동산(건물+토지)·출산가구 완화 표 모든 칸(2026000402) · 31: 재공급 공급대상 표 계·일반공급 칸 없음(특공 한 유형만, 2026930039 탕정) · 30: 재공급 공급대상 표 머리글 띄어쓰기(기관 추천·다자녀 가구·노부모 부양 — 2026930041·033·034) · 29: 계약금 비율 — 단위 표시가 먼 LH 천원 표(주택가격 열·3줄 이상)·사전청약 당첨자 외 표 짝(추가선택품목 안내 일정) · 28: 계약금 비율 금액 줄 확인 · 27: 분양대금 비율·계약금 나눔(pay_ratio·contract_split, 기능 contract_from_notice) · 26: 특공 계 칸 없는 재공급 공급대상 표(장항 2026930038 노부모부양) · 25: 소득·자산 기준 없는 5·10년 공공건설임대(pub_limits kind none, 기능 rent_noincome) · 24: 청년 특별공급 소득·자산 기준(youth, 기능 youth_special) · 23: 전매제한(resale, 기능 resale_limit) · 22: 가점제·추첨제 비율 표 변형(주택형 쉼표·뒤섞인 줄·낱말 공백)·두 도구 합칠 때 못 읽음 표시 무시 · 21: 거주 요건 표 변형(년 이상 계속 거주자N·국민·규제 지역 여부·국민주택(임대)·SH 표2·국내 거주) · 20: 값마다 근거 원문 문장(quotes, 기능 notice_quotes) · 19: 두 도구로 읽기(pdf_dual_read)·쪽수 상한 300 · 18: 공고문 두 곳 값 대조(conflicts) · 17: 거주의무기간은 …(날짜)… N년간 적용 · 거주의무 언급 없음(duty_silent) · 16: 단지 주요정보 표의 거주의무기간·분양가상한제(_summary_table) · 15: 공공임대 특별공급 유형별 소득표(pub_limits.sp) · 14: 재공급 주택형별 특별공급 세대수(sp_table) · 13: 거주 기준일 괄호 안 설명 허용(2026000018 제주) · 12: 총자산형 일반공급 소득·총자산(pub_limits kind=total, 공공임대 2026000307) · 11: 세대주 문장에서 노부모부양 칸 제외·신혼희망타운 자격 소득 상한(eligible) · 10: 민영 1순위 가점제·추첨제 비율(score_ratio) · 9: 공고문 대조용 원문 숫자(facts) · 8: 신혼희망타운 소득·총자산(pub_limits kind=town) · 7: 공공분양 일반공급 소득·자산(pub_limits) · 6: 공급유형별 접수 일정(schedule) · 5: 다자녀 지역 배정(mc_quota) · 4: 거주 지역 요건(residence) 추가 · parse_notice 규칙을 바꾸면 올린다 → 모든 공고문을 다시 읽는다   # 공고문에서 읽은 값 보관 (공고문은 한 번 나오면 바뀌지 않는다)
+PARSER_VERSION = 39   # 38: 공공 자산 기준 — 천원이하 띄어쓰기 없음·출산가구 완화 줄 첫 칸을 기본 기준으로 읽지 않음(2026000402 자동차 49,960 오독) · 37: 근거 문장 — 가점제·추첨제 비율·다자녀 배정·공공 소득·자산(quotes) · 거주 요건 문장은 일반공급 칸 먼저(section_at) · 36: 공공분양식 공공임대 (표3) 특별공급 칸(pub_limits.sp·sp_unread)·<표3> 출산가구 자산 완화(relax) — 2026000402 · 35: 거주 지역 요건 근거 문장(quotes.residence) · 34: 세대주 요건을 일반공급 문장·민영 신청자격 표·LH 공급신청자격에서(특별공급 문장 연결 막음) · 거주기간 숫자 밀림·숫자 없는 'N년 이상'은 못 읽음 · 분양가상한제 법 설명 문장 제외·무순위 1쪽 표 · 전매제한 '현재 도과' (2026-10-09 블라인드 대조) · 33: 공공분양식 기준 분양전환공공임대 (표3) 가구원수별 금액·부동산·자동차(pub_limits kind pub_table, 2026000402) · 32: 공고문 대조 자산 기준 — 줄바꿈된 부동산(건물+토지)·출산가구 완화 표 모든 칸(2026000402) · 31: 재공급 공급대상 표 계·일반공급 칸 없음(특공 한 유형만, 2026930039 탕정) · 30: 재공급 공급대상 표 머리글 띄어쓰기(기관 추천·다자녀 가구·노부모 부양 — 2026930041·033·034) · 29: 계약금 비율 — 단위 표시가 먼 LH 천원 표(주택가격 열·3줄 이상)·사전청약 당첨자 외 표 짝(추가선택품목 안내 일정) · 28: 계약금 비율 금액 줄 확인 · 27: 분양대금 비율·계약금 나눔(pay_ratio·contract_split, 기능 contract_from_notice) · 26: 특공 계 칸 없는 재공급 공급대상 표(장항 2026930038 노부모부양) · 25: 소득·자산 기준 없는 5·10년 공공건설임대(pub_limits kind none, 기능 rent_noincome) · 24: 청년 특별공급 소득·자산 기준(youth, 기능 youth_special) · 23: 전매제한(resale, 기능 resale_limit) · 22: 가점제·추첨제 비율 표 변형(주택형 쉼표·뒤섞인 줄·낱말 공백)·두 도구 합칠 때 못 읽음 표시 무시 · 21: 거주 요건 표 변형(년 이상 계속 거주자N·국민·규제 지역 여부·국민주택(임대)·SH 표2·국내 거주) · 20: 값마다 근거 원문 문장(quotes, 기능 notice_quotes) · 19: 두 도구로 읽기(pdf_dual_read)·쪽수 상한 300 · 18: 공고문 두 곳 값 대조(conflicts) · 17: 거주의무기간은 …(날짜)… N년간 적용 · 거주의무 언급 없음(duty_silent) · 16: 단지 주요정보 표의 거주의무기간·분양가상한제(_summary_table) · 15: 공공임대 특별공급 유형별 소득표(pub_limits.sp) · 14: 재공급 주택형별 특별공급 세대수(sp_table) · 13: 거주 기준일 괄호 안 설명 허용(2026000018 제주) · 12: 총자산형 일반공급 소득·총자산(pub_limits kind=total, 공공임대 2026000307) · 11: 세대주 문장에서 노부모부양 칸 제외·신혼희망타운 자격 소득 상한(eligible) · 10: 민영 1순위 가점제·추첨제 비율(score_ratio) · 9: 공고문 대조용 원문 숫자(facts) · 8: 신혼희망타운 소득·총자산(pub_limits kind=town) · 7: 공공분양 일반공급 소득·자산(pub_limits) · 6: 공급유형별 접수 일정(schedule) · 5: 다자녀 지역 배정(mc_quota) · 4: 거주 지역 요건(residence) 추가 · parse_notice 규칙을 바꾸면 올린다 → 모든 공고문을 다시 읽는다   # 공고문에서 읽은 값 보관 (공고문은 한 번 나오면 바뀌지 않는다)
 
 
 def _load_cache(path: Path) -> dict:
@@ -504,6 +504,8 @@ def resale_text(rs: dict, winner: Optional[str], today: date) -> str:
         return "전매 불가(환매만)"
     if rs.get("none"):
         return "없음"
+    if rs.get("passed"):   # '등기일까지 적용됐으나 현재 도과'(2026910262)처럼 지난 것을 먼저
+        return "이미 지남"
     if rs.get("until_reg"):
         return "등기 때까지"
     n = rs.get("months")

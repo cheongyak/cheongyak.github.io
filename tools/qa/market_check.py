@@ -50,7 +50,7 @@ def rows_of(xml_text: str) -> list[dict]:
     for it in root.iter("item"):
         g = {c.tag: (c.text or "").strip() for c in it}
         out.append({"apt": g.get("aptNm", ""), "area": num(g.get("excluUseAr")), "floor": num(g.get("floor")), "amount": num(g.get("dealAmount")),
-                    "build": num(g.get("buildYear")), "cancel": g.get("cdealType", "").upper() == "O", "direct": g.get("dealingGbn", "") == "직거래",
+                    "build": num(g.get("buildYear")), "umd": g.get("umdNm", ""), "cancel": g.get("cdealType", "").upper() == "O", "direct": g.get("dealingGbn", "") == "직거래",
                     "date": f"{g.get('dealYear', '')}-{g.get('dealMonth', '').zfill(2)}-{g.get('dealDay', '').zfill(2)}"})
     return out
 
@@ -67,12 +67,25 @@ def p25(xs: list[float]) -> float:
     return xs[i] + (xs[j] - xs[i]) * (k - i)
 
 
-def expect(name: str, area: float, trades: list[dict], presales: list[dict], year: int, fallback: bool = False, large: bool = False, unit: str = "") -> dict:
+def addr_dong(address: str) -> str:
+    """주소 앞쪽(시도 다음 네 낱말 안)의 '…동·읍·면·가' 낱말 — app/market.dong_of 와 따로 옮긴 규칙"""
+    for w in (address or "").split()[1:5]:
+        if re.fullmatch(r"[가-힣]+\d?(동|읍|면|가)", w) and w != "공동":
+            return w
+        if any(ch.isdigit() for ch in w):
+            return ""
+    return ""
+
+
+def expect(name: str, area: float, trades: list[dict], presales: list[dict], year: int, fallback: bool = False, large: bool = False, unit: str = "",
+           address: str = "") -> dict:
     """원자료로 따로 계산한 시세 (억 원, 소수 둘째 자리)"""
     live = lambda r: not r["cancel"] and not r["direct"] and r["amount"]
     band = lambda r: r["area"] is not None and area is not None and abs(r["area"] - area) <= BAND
     n = flat(name)
-    same = lambda r: bool(flat(r["apt"])) and bool(n) and (flat(r["apt"]) in n or n in flat(r["apt"]))
+    dg = addr_dong(address)
+    same = lambda r: bool(flat(r["apt"])) and bool(n) and (flat(r["apt"]) in n or n in flat(r["apt"])) \
+        and not (dg and r.get("umd") and r["umd"].split()[0] != dg)   # 같은 이름이라도 법정동이 다르면 다른 단지 (2026-10-15)
     own = [r for r in presales + trades if live(r) and band(r) and same(r)]
     pool, basis = (own, "same_complex") if own else ([r for r in trades if live(r) and band(r) and r["build"] and r["build"] >= year - NEW_YEARS], "district_newbuild")
     if basis == "district_newbuild" and len(pool) < 3:
@@ -136,7 +149,7 @@ def check(listings: list[dict], today: date, get, fallback: bool | None = None) 
             continue
         tr = [r for ym in months(today) for r in get("trade", lawd, ym)]
         ps = [r for ym in months(today) for r in get("presale", lawd, ym)]
-        e = expect(L["name"], L.get("area"), tr, ps, today.year, fallback=fallback, large=large, unit=L.get("unit") or "")
+        e = expect(L["name"], L.get("area"), tr, ps, today.year, fallback=fallback, large=large, unit=L.get("unit") or "", address=L.get("address") or "")
         bad = []
         if (L.get("mkt_basis") or None) != e["basis"]:
             bad.append(f"근거 종류 {L.get('mkt_basis')} ≠ 원자료 {e['basis']}")
