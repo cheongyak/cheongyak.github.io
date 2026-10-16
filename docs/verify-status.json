@@ -1,14 +1,14 @@
 {
- "at": "2026-10-16 06:08",
- "ok": true,
- "collect_run": "2026-10-16 · 공고 219건",
+ "at": "2026-10-17 06:10",
+ "ok": false,
+ "collect_run": "2026-10-17 · 공고 239건",
  "judge": {
   "total": 936,
   "passed": 936,
   "failed": []
  },
  "crosscheck": {
-  "summary": "[검증·공고문] 공고문 59건 대조 · 기준표 245줄 · 분양가 219/219 일치 · 불일치 공고 0건",
+  "summary": "[검증·공고문] 공고문 61건 대조 · 기준표 252줄 · 분양가 239/239 일치 · 불일치 공고 0건",
   "mismatches": []
  },
  "golden": {
@@ -22,7 +22,7 @@
   "consistency_fails": 0,
   "sp_text_fails": 0,
   "market_fails": 0,
-  "cross_rule_fails": 0,
+  "cross_rule_fails": 8,
   "profile_keep_fails": 0,
   "monotonic_violations": 0,
   "zero_default_violations": 0,
@@ -30,17 +30,17 @@
   "snapshot_diffs": 0,
   "e2e_fails": 0,
   "past_chat_fails": 0,
-  "lh_invariant_violations": 0,
+  "lh_invariant_violations": 3,
   "lh_judge_qa_fails": 0,
   "lh_screen_fails": 0,
   "lh_pdf_merged_wrong": 0,
   "pay_audit_bad": 0,
   "parse_moved_changes": 0,
   "pay_audit_read": "120/129",
-  "lh_data_at": "2026-10-15 07:05",
-  "cross_rule_checks": 250323,
+  "lh_data_at": "2026-10-16 07:02",
+  "cross_rule_checks": 323363,
   "market_at": "2026-10-16",
-  "supply_type_at": "2026-10-15",
-  "invariants_at": "2026-10-16"
+  "supply_type_at": "2026-10-16",
+  "invariants_at": "2026-10-17"
  }
 }

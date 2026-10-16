@@ -1,21 +1,80 @@
 {
- "date": "2026-10-15",
- "listings": 232,
+ "date": "2026-10-16",
+ "listings": 254,
  "profiles": 42,
- "checks": 250323,
- "conflicts": 0,
+ "checks": 323363,
+ "conflicts": 8,
  "severity": {
   "CRITICAL": 0,
-  "HIGH": 0,
+  "HIGH": 8,
   "MEDIUM": 0
  },
- "rules": {},
- "states": {
-  "NORMAL": 150,
-  "WARNING": 66,
-  "UNKNOWN": 16
+ "rules": {
+  "LH-UI-001": 8
  },
- "examples": [],
+ "states": {
+  "WARNING": 77,
+  "NORMAL": 160,
+  "UNKNOWN": 17
+ },
+ "examples": [
+  {
+   "rule_id": "LH-UI-001",
+   "severity": "HIGH",
+   "id": "LH-2015122300020910",
+   "name": "2026.10.15. 의령동동 행복주택 예비입주자 정례모집_공급대상확대 및 입주자격완화",
+   "profile": null,
+   "condition": "계층 check,na,na",
+   "actual": "공고 결론 ok",
+   "expected": "가장 좋은 계층 결론",
+   "conflicting_fields": [
+    "rentalJudge"
+   ],
+   "evidence": "화면"
+  },
+  {
+   "rule_id": "LH-UI-001",
+   "severity": "HIGH",
+   "id": "LH-2015122300020920",
+   "name": "[정정공고]2026.10.15. 의령동동 행복주택 예비입주자 정례모집_공급대상확대 및 입주자격완화",
+   "profile": null,
+   "condition": "계층 check,na,na",
+   "actual": "공고 결론 ok",
+   "expected": "가장 좋은 계층 결론",
+   "conflicting_fields": [
+    "rentalJudge"
+   ],
+   "evidence": "화면"
+  },
+  {
+   "rule_id": "LH-UI-001",
+   "severity": "HIGH",
+   "id": "LH-2015122300020909",
+   "name": "양산시 행복주택 입주자격완화 예비입주자 모집공고(2026.10.15.공고)",
+   "profile": null,
+   "condition": "계층 check,na,na",
+   "actual": "공고 결론 ok",
+   "expected": "가장 좋은 계층 결론",
+   "conflicting_fields": [
+    "rentalJudge"
+   ],
+   "evidence": "화면"
+  },
+  {
+   "rule_id": "LH-UI-001",
+   "severity": "HIGH",
+   "id": "LH-2015122300020888",
+   "name": "천안 아산시 행복주택 자격완화 예비입주자 모집 (26.10.15)",
+   "profile": null,
+   "condition": "계층 check,na,na",
+   "actual": "공고 결론 ok",
+   "expected": "가장 좋은 계층 결론",
+   "conflicting_fields": [
+    "rentalJudge"
+   ],
+   "evidence": "화면"
+  }
+ ],
  "unknown": [
   {
    "id": "2026820011-055.0000O",
@@ -86,6 +145,12 @@
   {
    "id": "2026000414-059.8300C",
    "name": "인천계양지구 A6블록 공공분양주택(본청약)",
+   "duty": "UNKNOWN",
+   "priceCap": "CONFIRMED"
+  },
+  {
+   "id": "2026930036-084.7450D",
+   "name": "과천 푸르지오 라비엔오",
    "duty": "UNKNOWN",
    "priceCap": "CONFIRMED"
   },
