@@ -1,1496 +1,8 @@
 {
- "updated": "2026-10-16 07:02",
+ "updated": "2026-10-17 07:03",
  "source": "LH 청약플러스 임대 공고 (공공데이터포털 한국토지주택공사 분양임대공고 조회)",
- "count": 38,
+ "count": 33,
  "notices": [
-  {
-   "id": "0000061176",
-   "name": "대전천동3 5블록 10년 분양전환공공임대주택 예비입주자 모집공고('26.09.29)",
-   "type": "공공임대",
-   "type_code": "08",
-   "judge_type": true,
-   "region": "대전광역시",
-   "posted": "2026-09-29",
-   "close": "2026-10-16",
-   "status": "접수중",
-   "url": "https://apply.lh.or.kr/lhapply/apply/wt/wrtanc/selectWrtancInfo.do?panId=0000061176&ccrCnntSysDsCd=02&uppAisTpCd=06&aisTpCd=08&mi=1026",
-   "url_mobile": "https://apply.lh.or.kr/lhapply/apply/wt/wrtanc/selectWrtancInfo.do?panId=0000061176&ccrCnntSysDsCd=02&uppAisTpCd=06&aisTpCd=08&mi=1026",
-   "schedule": [
-    {
-     "complex": null,
-     "apply_start": null,
-     "apply_end": null,
-     "apply_time": "2026.10.14 10:00 ~ 2026.10.16 17:00",
-     "docs_target": null,
-     "docs_start": null,
-     "docs_end": null,
-     "winner": "2026-10-20",
-     "contract_start": null,
-     "contract_end": null
-    }
-   ],
-   "complexes": [
-    {
-     "name": null,
-     "address": null,
-     "households": null,
-     "area": null,
-     "move_in": "2024년 12월",
-     "heating": null
-    }
-   ],
-   "units": [],
-   "files": [
-    {
-     "kind": "공고문(hwp)",
-     "name": "(게시용)대전천동35BL10년분양전환공공임대주택예비입주자모집공고(20260929).hwpx",
-     "url": "https://apply.lh.or.kr/lhapply/lhFile.do?fileid=68684271"
-    },
-    {
-     "kind": "공고문(PDF)",
-     "name": "(게시용)대전천동35BL10년분양전환공공임대주택예비입주자모집공고(20260929).pdf",
-     "url": "https://apply.lh.or.kr/lhapply/lhFile.do?fileid=68683434"
-    },
-    {
-     "kind": "기타 첨부파일",
-     "name": "[양식게시용]개인정보수집이용및제3자제공동의서.hwpx",
-     "url": "https://apply.lh.or.kr/lhapply/lhFile.do?fileid=68628014"
-    },
-    {
-     "kind": "카탈로그",
-     "name": "대전천동35BL10년공임팜플렛.pdf",
-     "url": "https://apply.lh.or.kr/lhapply/lhFile.do?fileid=68628003"
-    }
-   ],
-   "etc": null,
-   "office": {
-    "place": null,
-    "tel": null
-   },
-   "notice_pdf": "https://apply.lh.or.kr/lhapply/lhFile.do?fileid=68683434",
-   "notice_text": 28017,
-   "rents": [
-    {
-     "complex": null,
-     "type": "39A",
-     "group": null,
-     "deposit": 30300000,
-     "rent": 346000
-    },
-    {
-     "complex": null,
-     "type": "51A",
-     "group": null,
-     "deposit": 45700000,
-     "rent": 418000
-    },
-    {
-     "complex": null,
-     "type": "51B",
-     "group": null,
-     "deposit": 45700000,
-     "rent": 418000
-    },
-    {
-     "complex": null,
-     "type": "59B",
-     "group": null,
-     "deposit": 61600000,
-     "rent": 497000
-    },
-    {
-     "complex": null,
-     "type": "59D",
-     "group": null,
-     "deposit": 60800000,
-     "rent": 494000
-    }
-   ],
-   "terms": {
-    "relaxed": false,
-    "homeless_relaxed": false,
-    "homeless_max1": false,
-    "income_basis": null,
-    "groups": [
-     {
-      "key": "일반",
-      "name": "일반",
-      "homeless": "household",
-      "income_pct": "excluded",
-      "asset_manwon": "excluded",
-      "car_manwon": "excluded",
-      "age_min": null,
-      "age_max": null
-     }
-    ],
-    "quotes": {
-     "일반": {
-      "income": "모집은 신청자의 청약저축 가입여부, 과거당첨사실여부, 소득 및 자산요건 충족 여부와 관계없이 신청 가능합니다. • 신청자격을 확",
-      "asset": "모집은 신청자의 청약저축 가입여부, 과거당첨사실여부, 소득 및 자산요건 충족 여부와 관계없이 신청 가능합니다. • 신청자격을 확"
-     }
-    },
-    "income_table_100": null,
-    "regions": [],
-    "account": "none"
-   },
-   "api": {
-    "CCR_CNNT_SYS_DS_CD": "02",
-    "SPL_INF_TP_CD": "060",
-    "UPP_AIS_TP_CD": "06",
-    "AIS_TP_CD": "08"
-   },
-   "read": {
-    "tools": [
-     "pypdf",
-     "pdfium",
-     "plumber"
-    ],
-    "conflicts": []
-   }
-  },
-  {
-   "id": "2015122300020692",
-   "name": "마산중리1 영구임대주택 예비입주자 모집공고(2026.10.01.)",
-   "type": "영구임대",
-   "type_code": "09",
-   "judge_type": true,
-   "region": "경상남도",
-   "posted": "2026-10-01",
-   "close": "2026-10-16",
-   "status": "공고중",
-   "url": "https://apply.lh.or.kr/lhapply/apply/wt/wrtanc/selectWrtancInfo.do?panId=2015122300020692&ccrCnntSysDsCd=03&uppAisTpCd=06&aisTpCd=09&mi=1026",
-   "url_mobile": "https://apply.lh.or.kr/lhapply/apply/wt/wrtanc/selectWrtancInfo.do?panId=2015122300020692&ccrCnntSysDsCd=03&uppAisTpCd=06&aisTpCd=09&mi=1026",
-   "schedule": [
-    {
-     "complex": null,
-     "apply_start": "2026-10-12",
-     "apply_end": "2026-10-16",
-     "apply_time": "~",
-     "docs_target": null,
-     "docs_start": null,
-     "docs_end": null,
-     "winner": "2026-12-21",
-     "contract_start": null,
-     "contract_end": null
-    }
-   ],
-   "complexes": [
-    {
-     "name": "마산중리1",
-     "address": "경상남도 창원시 마산회원구 내서읍 상곡로 49(상곡주공아파트1단지)",
-     "households": 996,
-     "area": "26.37~31.32",
-     "move_in": "1993.08",
-     "heating": "중앙가스난방"
-    }
-   ],
-   "units": [
-    {
-     "complex": "마산중리1",
-     "type": "45.3400",
-     "area": 26.37,
-     "supply_area": 39.1,
-     "households": 996,
-     "now_households": 150,
-     "deposit": null,
-     "rent": null,
-     "money_note": "공고문 참조"
-    }
-   ],
-   "files": [
-    {
-     "kind": "공고문(hwp)",
-     "name": "(261001)영구임대예비입주자표준모집공고문(마산중리1).hwpx",
-     "url": "https://apply.lh.or.kr/lhapply/lhFile.do?fileid=68702583"
-    },
-    {
-     "kind": "공고문(PDF)",
-     "name": "(261001)영구임대예비입주자표준모집공고문(마산중리1).pdf",
-     "url": "https://apply.lh.or.kr/lhapply/lhFile.do?fileid=68702589"
-    }
-   ],
-   "etc": "* 해당 공고는 예비입주자 모집 공고로 실제 입주까지는 상당 기간이 소요될 수 있으며, 선호하지 않는 동호가 배정될 수 있습니다.\n* 청약자격 미숙지, 착오신청 등에 대해서는 청약자 본인에게 책임이 있으니 불이익이 없도록 반드시 공고문을 읽어보신 후 신청하시기 바랍니다.",
-   "office": {
-    "place": null,
-    "tel": "1600-1004"
-   },
-   "notice_pdf": "https://apply.lh.or.kr/lhapply/lhFile.do?fileid=68702589",
-   "notice_text": 46815,
-   "rents": [
-    {
-     "complex": null,
-     "type": "26",
-     "group": "가군",
-     "deposit": 2520000,
-     "rent": 50160
-    },
-    {
-     "complex": null,
-     "type": "26",
-     "group": "나군",
-     "deposit": 3522000,
-     "rent": 78340
-    },
-    {
-     "complex": null,
-     "type": "31",
-     "group": "가군",
-     "deposit": 2993000,
-     "rent": 59570
-    },
-    {
-     "complex": null,
-     "type": "31",
-     "group": "나군",
-     "deposit": 4183000,
-     "rent": 93050
-    }
-   ],
-   "terms": {
-    "relaxed": false,
-    "homeless_relaxed": false,
-    "homeless_max1": false,
-    "income_basis": "도시근로자 월평균소득",
-    "groups": [
-     {
-      "key": "일반",
-      "name": "일반",
-      "homeless": "household",
-      "income_pct": {
-       "1": 70,
-       "2": 60,
-       "3+": 50
-      },
-      "asset_manwon": 24500,
-      "car_manwon": 4542,
-      "age_min": null,
-      "age_max": null
-     }
-    ],
-    "quotes": {
-     "일반": {
-      "income": "지시설퇴소자) - 월평균 소득 50%이하 : 차목(일반입주자) 2. 월평균 소득기준 우대비율 적용대상(적용비율 가산항목 적용대상) - 가구원수별 가산비율 : 1인 가구 20%p, 2인 가구 10%p - 출생자녀별 가산비율 : 1명 10%p, 2명 이상 20%p ※",
-      "asset": "위 장애인) 2. 총자산 기준 세대구성원 전원이 보유하고 있는 총 자산(부동산, 자동차, 금융자산(부채반영), 일반자산) 가액 합산 기준 ( 24,500 )만원 이하 3. 자동차 기준",
-      "car": "이 보유하고 있는 개별 자동차가액 ( 4,542 )만원 이하 * 총자산 기준과"
-     }
-    },
-    "income_table_100": null,
-    "local": {
-     "name": "창원시",
-     "sido": "경남",
-     "sigun": "창원시",
-     "quote": "신청자격 입주자 모집공고일(2026.10.01.) 현재 창원시에 거주하는 성년자인 무주택세대구성원"
-    }
-   },
-   "api": {
-    "CCR_CNNT_SYS_DS_CD": "03",
-    "SPL_INF_TP_CD": "062",
-    "UPP_AIS_TP_CD": "06",
-    "AIS_TP_CD": "09"
-   },
-   "read": {
-    "tools": [
-     "pypdf",
-     "pdfium",
-     "plumber"
-    ],
-    "conflicts": []
-   }
-  },
-  {
-   "id": "2015122300020727",
-   "name": "양주회천 A25BL 영구임대주택 추가입주자 모집 공고('26.09.21)",
-   "type": "영구임대",
-   "type_code": "09",
-   "judge_type": true,
-   "region": "경기도",
-   "posted": "2026-09-21",
-   "close": "2026-10-16",
-   "status": "공고중",
-   "url": "https://apply.lh.or.kr/lhapply/apply/wt/wrtanc/selectWrtancInfo.do?panId=2015122300020727&ccrCnntSysDsCd=03&uppAisTpCd=06&aisTpCd=09&mi=1026",
-   "url_mobile": "https://apply.lh.or.kr/lhapply/apply/wt/wrtanc/selectWrtancInfo.do?panId=2015122300020727&ccrCnntSysDsCd=03&uppAisTpCd=06&aisTpCd=09&mi=1026",
-   "schedule": [
-    {
-     "complex": null,
-     "apply_start": "2026-10-12",
-     "apply_end": "2026-10-16",
-     "apply_time": "~",
-     "docs_target": null,
-     "docs_start": null,
-     "docs_end": null,
-     "winner": "2027-03-09",
-     "contract_start": "2027-03-23",
-     "contract_end": "2027-03-24"
-    }
-   ],
-   "complexes": [
-    {
-     "name": "양주회천 A25블록 영구임대주택",
-     "address": "경기도 양주시 고덕로 92(덕계동)",
-     "households": 472,
-     "area": "26.1~26.1",
-     "move_in": "2026.09",
-     "heating": "지역난방"
-    }
-   ],
-   "units": [
-    {
-     "complex": "양주회천 A25블록 영구임대주택",
-     "type": "26A",
-     "area": 26.1,
-     "supply_area": 41.3009,
-     "households": 389,
-     "now_households": 500,
-     "deposit": null,
-     "rent": null,
-     "money_note": "공고문 참조"
-    },
-    {
-     "complex": "양주회천 A25블록 영구임대주택",
-     "type": "26A1(주거약자)",
-     "area": 26.1,
-     "supply_area": 41.3009,
-     "households": 83,
-     "now_households": 120,
-     "deposit": null,
-     "rent": null,
-     "money_note": "공고문 참조"
-    }
-   ],
-   "files": [
-    {
-     "kind": "기타 첨부파일",
-     "name": "[양식]영구임대공급신청서등_.zip",
-     "url": "https://apply.lh.or.kr/lhapply/lhFile.do?fileid=68648680"
-    },
-    {
-     "kind": "공고문(hwp)",
-     "name": "양주회천A25BL_영구임대주택예비입주자모집공고문.hwpx",
-     "url": "https://apply.lh.or.kr/lhapply/lhFile.do?fileid=68648566"
-    },
-    {
-     "kind": "공고문(PDF)",
-     "name": "양주회천A25BL_영구임대주택예비입주자모집공고문.pdf",
-     "url": "https://apply.lh.or.kr/lhapply/lhFile.do?fileid=68648567"
-    },
-    {
-     "kind": "카탈로그",
-     "name": "양주회천A25_영구임대리플릿_.pdf",
-     "url": "https://apply.lh.or.kr/lhapply/lhFile.do?fileid=68648733"
-    }
-   ],
-   "etc": "*모집공고일(2026.09.21) 기준 양주시에 거주하는 성년자(양주시에 주민등록이 등재된 성년자)에 한하여 신청이 가능합니다.\n*공고일 기준 입주자격 충족 여부를 반드시 확인하시기 바라며, 입주자격이 충족되지 않을 경우 부적격 탈락됨을 유의하여 주시기 바랍니다.\n*신청접수는 양주시 내 주소지 관할 행정복지센터에서 현장접수만 가능하며, 신청기간 이후 신청은 불가합니다.\n*자세한 사항은 반드시 입주자 모집공고문을 확인하시길 바랍니다.",
-   "office": {
-    "place": null,
-    "tel": null
-   },
-   "notice_pdf": "https://apply.lh.or.kr/lhapply/lhFile.do?fileid=68648567",
-   "notice_text": 54439,
-   "rents": [
-    {
-     "complex": null,
-     "type": "26A/26A1",
-     "group": "가군",
-     "deposit": 2764000,
-     "rent": 55040
-    },
-    {
-     "complex": null,
-     "type": "26A/26A1",
-     "group": "나군",
-     "deposit": 19524000,
-     "rent": 137590
-    }
-   ],
-   "terms": {
-    "relaxed": false,
-    "homeless_relaxed": false,
-    "homeless_max1": false,
-    "income_basis": "도시근로자 월평균소득",
-    "groups": [
-     {
-      "key": "일반",
-      "name": "일반",
-      "homeless": "household",
-      "income_pct": {
-       "1": 70,
-       "2": 60,
-       "3+": 50
-      },
-      "asset_manwon": 24500,
-      "car_manwon": 4542,
-      "age_min": null,
-      "age_max": null
-     }
-    ],
-    "quotes": {
-     "일반": {
-      "income": "지시설퇴소자) - 월평균 소득 50%(1인 70%, 2인 60%)이하 : 차목(일반입주자) . 월평균 소득기준 우대비율 적용대상(가구원수별, 출생자녀별 가산항목 동시 적용) - 가구원수별 가산비율: 1인 가구 20%p, 2인 가구 10%p - 출생자녀(입양 및 태아 포함)*별 가산비율 * 출",
-      "asset": "위 장애인) 2. 총자산 기준 세대구성원 전원이 보유하고 있는 총 자산(부동산, 자동차, 금융자산(부채반영), 일반자산) 가액 합 산 기준 24,500만원 이하 3. 자동차 기준",
-      "car": "이 보유하고 있는 개별 자동차가액 4,542만원 이하 * 자동차는 총"
-     }
-    },
-    "income_table_100": null,
-    "local": {
-     "name": "양주시",
-     "sido": "경기",
-     "sigun": "양주시",
-     "quote": "신청자격 입주자 모집공고일(2026.09.21.) 현재 양주시에 주민등록이 등재된 성년자인 무주택세대구성원"
-    }
-   },
-   "api": {
-    "CCR_CNNT_SYS_DS_CD": "03",
-    "SPL_INF_TP_CD": "062",
-    "UPP_AIS_TP_CD": "06",
-    "AIS_TP_CD": "09"
-   },
-   "read": {
-    "tools": [
-     "pypdf",
-     "pdfium",
-     "plumber"
-    ],
-    "conflicts": []
-   }
-  },
-  {
-   "id": "2015122300020855",
-   "name": "대구연호 A-2BL, A-3BL 통합공공임대주택 입주자 모집",
-   "type": "통합공공임대",
-   "type_code": "48",
-   "judge_type": true,
-   "region": "대구광역시",
-   "posted": "2026-09-30",
-   "close": "2026-10-16",
-   "status": "정정공고중",
-   "url": "https://apply.lh.or.kr/lhapply/apply/wt/wrtanc/selectWrtancInfo.do?panId=2015122300020855&ccrCnntSysDsCd=03&uppAisTpCd=06&aisTpCd=48&mi=1026",
-   "url_mobile": "https://apply.lh.or.kr/lhapply/apply/wt/wrtanc/selectWrtancInfo.do?panId=2015122300020855&ccrCnntSysDsCd=03&uppAisTpCd=06&aisTpCd=48&mi=1026",
-   "schedule": [
-    {
-     "complex": "대구연호 A-3블록 통합공공임대",
-     "apply_start": "2026-10-13",
-     "apply_end": "2026-10-16",
-     "apply_time": "2026.10.13 10:00 ~ 2026.10.16 18:10",
-     "docs_target": "2026-11-10",
-     "docs_start": "2026-11-11",
-     "docs_end": "2026-11-13",
-     "winner": "2027-04-02",
-     "contract_start": null,
-     "contract_end": null
-    },
-    {
-     "complex": "대구연호 A-2블록 통합공공임대",
-     "apply_start": "2026-10-13",
-     "apply_end": "2026-10-16",
-     "apply_time": "2026.10.13 10:00 ~ 2026.10.16 18:10",
-     "docs_target": "2026-11-10",
-     "docs_start": "2026-11-11",
-     "docs_end": "2026-11-13",
-     "winner": "2027-04-02",
-     "contract_start": null,
-     "contract_end": null
-    }
-   ],
-   "complexes": [
-    {
-     "name": "대구연호 A-2블록 통합공공임대",
-     "address": "대구광역시 수성구 이천동 236-1",
-     "households": 622,
-     "area": "31.86~55.89",
-     "move_in": "2027.12",
-     "heating": "개별난방"
-    },
-    {
-     "name": "대구연호 A-3블록 통합공공임대",
-     "address": "대구광역시 수성구 연호동 254-1",
-     "households": 526,
-     "area": "31.96~46.89",
-     "move_in": "2027.12",
-     "heating": "개별난방"
-    }
-   ],
-   "units": [
-    {
-     "complex": "대구연호 A-2블록 통합공공임대",
-     "type": "31A",
-     "area": 31.86,
-     "supply_area": 48.9736,
-     "households": 262,
-     "now_households": 262,
-     "deposit": null,
-     "rent": null,
-     "money_note": "공고문 참조"
-    },
-    {
-     "complex": "대구연호 A-2블록 통합공공임대",
-     "type": "41A",
-     "area": 41.96,
-     "supply_area": 64.4989,
-     "households": 144,
-     "now_households": 144,
-     "deposit": null,
-     "rent": null,
-     "money_note": "공고문 참조"
-    },
-    {
-     "complex": "대구연호 A-2블록 통합공공임대",
-     "type": "41B",
-     "area": 41.96,
-     "supply_area": 64.4989,
-     "households": 12,
-     "now_households": 12,
-     "deposit": null,
-     "rent": null,
-     "money_note": "공고문 참조"
-    },
-    {
-     "complex": "대구연호 A-2블록 통합공공임대",
-     "type": "55A",
-     "area": 55.89,
-     "supply_area": 85.9114,
-     "households": 104,
-     "now_households": 104,
-     "deposit": null,
-     "rent": null,
-     "money_note": "공고문 참조"
-    },
-    {
-     "complex": "대구연호 A-3블록 통합공공임대",
-     "type": "31A",
-     "area": 31.96,
-     "supply_area": 48.1174,
-     "households": 68,
-     "now_households": 68,
-     "deposit": null,
-     "rent": null,
-     "money_note": "공고문 참조"
-    },
-    {
-     "complex": "대구연호 A-3블록 통합공공임대",
-     "type": "31AS",
-     "area": 31.96,
-     "supply_area": 48.1174,
-     "households": 12,
-     "now_households": 12,
-     "deposit": null,
-     "rent": null,
-     "money_note": "공고문 참조"
-    },
-    {
-     "complex": "대구연호 A-3블록 통합공공임대",
-     "type": "36A",
-     "area": 36.68,
-     "supply_area": 55.2236,
-     "households": 158,
-     "now_households": 158,
-     "deposit": null,
-     "rent": null,
-     "money_note": "공고문 참조"
-    },
-    {
-     "complex": "대구연호 A-3블록 통합공공임대",
-     "type": "36AS",
-     "area": 36.68,
-     "supply_area": 55.2236,
-     "households": 16,
-     "now_households": 16,
-     "deposit": null,
-     "rent": null,
-     "money_note": "공고문 참조"
-    },
-    {
-     "complex": "대구연호 A-3블록 통합공공임대",
-     "type": "46A",
-     "area": 46.89,
-     "supply_area": 70.5953,
-     "households": 72,
-     "now_households": 72,
-     "deposit": null,
-     "rent": null,
-     "money_note": "공고문 참조"
-    }
-   ],
-   "files": [
-    {
-     "kind": "공고문(hwp)",
-     "name": "★대구연호A-2블록통합공공임대입주자모집공고문(2026.09.30.).hwpx",
-     "url": "https://apply.lh.or.kr/lhapply/lhFile.do?fileid=68787448"
-    },
-    {
-     "kind": "공고문(PDF)",
-     "name": "★대구연호A-2블록통합공공임대입주자모집공고문(2026.09.30.).pdf",
-     "url": "https://apply.lh.or.kr/lhapply/lhFile.do?fileid=68787450"
-    },
-    {
-     "kind": "공고문(hwp)",
-     "name": "★대구연호A-3블록통합공공임대입주자모집공고문(2026.09.30.).hwpx",
-     "url": "https://apply.lh.or.kr/lhapply/lhFile.do?fileid=68787480"
-    },
-    {
-     "kind": "공고문(PDF)",
-     "name": "★대구연호A-3블록통합공공임대입주자모집공고문(2026.09.30.).pdf",
-     "url": "https://apply.lh.or.kr/lhapply/lhFile.do?fileid=68791171"
-    },
-    {
-     "kind": "카탈로그",
-     "name": "대구연호A-2블록통합공공임대주택카탈로그.pdf",
-     "url": "https://apply.lh.or.kr/lhapply/lhFile.do?fileid=68787819"
-    },
-    {
-     "kind": "카탈로그",
-     "name": "대구연호A-3블록통합공공임대주택카탈로그.pdf",
-     "url": "https://apply.lh.or.kr/lhapply/lhFile.do?fileid=68787836"
-    },
-    {
-     "kind": "기타 첨부파일",
-     "name": "신청양식.hwpx",
-     "url": "https://apply.lh.or.kr/lhapply/lhFile.do?fileid=68787807"
-    },
-    {
-     "kind": "기타 첨부파일",
-     "name": "신청양식작성예시(샘플).pdf",
-     "url": "https://apply.lh.or.kr/lhapply/lhFile.do?fileid=68787811"
-    }
-   ],
-   "etc": "ㅇ 금회 공급하는 대구연호 A-2BL, A-3BL 통합공공임대주택은 동일한 공고일(2026.09.30.)을 기준으로 동시공급하므로 단지별 중복 청약이 불가하며, 중복신청하는 경우 전부 무효처리 됩니다.\nㅇ 청약자격 미숙지, 착오 신청 등에 대해서는 청약자 본인에게 책임이 있으니 불이익을 당하는 일이 없도록 유의하여 주시기 바랍니다.\nㅇ 65세 이상 고령자 등 인터넷 접수가 어려우신 분에 한하여 현장접수가 가능합니다. 단, 신청서류를 완비하여야 합니다.\nㅇ 연락처(주소, 전화번호)가 변경 될 경우, 즉시 그 내용을 우리 공사에 통보하시기 바랍니다. 연락처 미변경으로 인한 안내문 미수령 등에 대해 책임은 본인에게 있습니다.",
-   "office": {
-    "place": "대구광역시 달서구 상화로 272(도원동) LH대구경북지역본부",
-    "tel": "1600-1004"
-   },
-   "notice_pdf": "https://apply.lh.or.kr/lhapply/lhFile.do?fileid=68787450",
-   "notice_text": 91766,
-   "rents": [
-    {
-     "complex": null,
-     "type": "31A",
-     "group": "1구간",
-     "deposit": 13494000,
-     "rent": 108590
-    },
-    {
-     "complex": null,
-     "type": "31A",
-     "group": "2구간",
-     "deposit": 15422000,
-     "rent": 124110
-    },
-    {
-     "complex": null,
-     "type": "31A",
-     "group": "3구간",
-     "deposit": 19278000,
-     "rent": 155140
-    },
-    {
-     "complex": null,
-     "type": "31A",
-     "group": "4구간",
-     "deposit": 25061000,
-     "rent": 201680
-    },
-    {
-     "complex": null,
-     "type": "31A",
-     "group": "5구간",
-     "deposit": 30844000,
-     "rent": 248220
-    },
-    {
-     "complex": null,
-     "type": "31A",
-     "group": "6구간",
-     "deposit": 34700000,
-     "rent": 279250
-    },
-    {
-     "complex": null,
-     "type": "41A",
-     "group": "1구간",
-     "deposit": 17617000,
-     "rent": 141780
-    },
-    {
-     "complex": null,
-     "type": "41A",
-     "group": "2구간",
-     "deposit": 20134000,
-     "rent": 162030
-    },
-    {
-     "complex": null,
-     "type": "41A",
-     "group": "3구간",
-     "deposit": 25168000,
-     "rent": 202540
-    },
-    {
-     "complex": null,
-     "type": "41A",
-     "group": "4구간",
-     "deposit": 32719000,
-     "rent": 263310
-    },
-    {
-     "complex": null,
-     "type": "41A",
-     "group": "5구간",
-     "deposit": 40269000,
-     "rent": 324070
-    },
-    {
-     "complex": null,
-     "type": "41A",
-     "group": "6구간",
-     "deposit": 45303000,
-     "rent": 364580
-    },
-    {
-     "complex": null,
-     "type": "41B",
-     "group": "1구간",
-     "deposit": 17243000,
-     "rent": 138760
-    },
-    {
-     "complex": null,
-     "type": "41B",
-     "group": "2구간",
-     "deposit": 19706000,
-     "rent": 158580
-    },
-    {
-     "complex": null,
-     "type": "41B",
-     "group": "3구간",
-     "deposit": 24633000,
-     "rent": 198230
-    },
-    {
-     "complex": null,
-     "type": "41B",
-     "group": "4구간",
-     "deposit": 32022000,
-     "rent": 257700
-    },
-    {
-     "complex": null,
-     "type": "41B",
-     "group": "5구간",
-     "deposit": 39412000,
-     "rent": 317170
-    },
-    {
-     "complex": null,
-     "type": "41B",
-     "group": "6구간",
-     "deposit": 44339000,
-     "rent": 356820
-    },
-    {
-     "complex": null,
-     "type": "55A",
-     "group": "1구간",
-     "deposit": 23740000,
-     "rent": 191050
-    },
-    {
-     "complex": null,
-     "type": "55A",
-     "group": "2구간",
-     "deposit": 27132000,
-     "rent": 218340
-    },
-    {
-     "complex": null,
-     "type": "55A",
-     "group": "3구간",
-     "deposit": 33915000,
-     "rent": 272930
-    },
-    {
-     "complex": null,
-     "type": "55A",
-     "group": "4구간",
-     "deposit": 44089000,
-     "rent": 354810
-    },
-    {
-     "complex": null,
-     "type": "55A",
-     "group": "5구간",
-     "deposit": 54264000,
-     "rent": 436690
-    },
-    {
-     "complex": null,
-     "type": "55A",
-     "group": "6구간",
-     "deposit": 61047000,
-     "rent": 491280
-    },
-    {
-     "complex": null,
-     "type": "31A",
-     "group": "생계·의료급여 수급자 등 상한",
-     "deposit": 3404000,
-     "rent": 67760
-    },
-    {
-     "complex": null,
-     "type": "41A",
-     "group": "생계·의료급여 수급자 등 상한",
-     "deposit": 4483000,
-     "rent": 89240
-    },
-    {
-     "complex": null,
-     "type": "41B",
-     "group": "생계·의료급여 수급자 등 상한",
-     "deposit": 4483000,
-     "rent": 89240
-    },
-    {
-     "complex": null,
-     "type": "55A",
-     "group": "생계·의료급여 수급자 등 상한",
-     "deposit": 5971000,
-     "rent": 118870
-    }
-   ],
-   "terms": {
-    "relaxed": false,
-    "homeless_relaxed": false,
-    "homeless_max1": false,
-    "income_basis": "기준 중위소득",
-    "groups": [
-     {
-      "key": "청년",
-      "name": "청년",
-      "homeless": "self",
-      "income_pct": {
-       "1": 170,
-       "2": 160,
-       "3+": 150
-      },
-      "asset_manwon": 34500,
-      "car_manwon": 4542,
-      "age_min": 18,
-      "age_max": 39
-     },
-     {
-      "key": "신혼부부·한부모",
-      "name": "신혼부부·한부모",
-      "homeless": "household",
-      "income_pct": {
-       "1": null,
-       "2": 160,
-       "3+": 150
-      },
-      "asset_manwon": 34500,
-      "car_manwon": 4542,
-      "age_min": null,
-      "age_max": null,
-      "dual_add": 30
-     },
-     {
-      "key": "고령자",
-      "name": "고령자",
-      "homeless": "household_or_single_self",
-      "income_pct": {
-       "1": 170,
-       "2": 160,
-       "3+": 150
-      },
-      "asset_manwon": 34500,
-      "car_manwon": 4542,
-      "age_min": 65,
-      "age_max": null
-     },
-     {
-      "key": "일반",
-      "name": "일반",
-      "homeless": "household",
-      "income_pct": {
-       "1": 170,
-       "2": 160,
-       "3+": 150
-      },
-      "asset_manwon": 34500,
-      "car_manwon": 4542,
-      "age_min": null,
-      "age_max": null
-     }
-    ],
-    "quotes": {
-     "청년": {
-      "asset": "이하 동일) • 자산기준 : 총자산 345,000,000원 및 자동차 45,420,000원 이하 + @% 출산자녀",
-      "car": "이하 동일) • 자산기준 : 총자산 345,000,000원 및 자동차 45,420,000원 이하 + @% 출산자녀",
-      "income": "균소득이 「국민기초생활 보장법」 제2조제11호에 따른 기준 중위소득의 150퍼센트(1~2인 가구 및 출산가구의 경우에는 우대비율을 가산) 이하일 것 ㉯ 18세 이상 39세 이하일 것 (출생"
-     },
-     "신혼부부·한부모": {
-      "asset": "이하 동일) • 자산기준 : 총자산 345,000,000원 및 자동차 45,420,000원 이하 + @% 출산자녀",
-      "car": "이하 동일) • 자산기준 : 총자산 345,000,000원 및 자동차 45,420,000원 이하 + @% 출산자녀",
-      "income": "인으로 구성될 세대의 세대구성원 월평균소득의 합계)이 기준 중위소득의 150퍼센트(맞벌이, 2인 가구 및 출산가구의 경우에는 우대비율을 가산) 이하일 것 ● 고령자 【유의사항】 혼인 중이",
-      "dual": "신혼부부 맞벌이 우대비율 : 30%p 가산 ※ \"신혼부부, 한부모가족\"의 입주"
-     },
-     "고령자": {
-      "asset": "이하 동일) • 자산기준 : 총자산 345,000,000원 및 자동차 45,420,000원 이하 + @% 출산자녀",
-      "car": "이하 동일) • 자산기준 : 총자산 345,000,000원 및 자동차 45,420,000원 이하 + @% 출산자녀",
-      "income": "요건을 모두 갖춘 사람 ㉮ 해당 세대의 월평균소득이 기준 중위소득의 150퍼센트(1~2인 가구 및 출산가구의 경우에는 우대비율을 가산) 이하일 것 ㉯ 65세 이상(1961.09.30 이전",
-      "homeless": "무주택세대구성원(혼인 중이 아닌 경우로서 단독세대주로 입주하려는 사람의 경우에는 무주택자)"
-     },
-     "일반": {
-      "asset": "이하 동일) • 자산기준 : 총자산 345,000,000원 및 자동차 45,420,000원 이하 + @% 출산자녀",
-      "car": "이하 동일) • 자산기준 : 총자산 345,000,000원 및 자동차 45,420,000원 이하 + @% 출산자녀",
-      "income": "반 • 무주택세대구성원으로서 해당 세대의 월평균소득이 기준 중위소득의 150퍼센트(1~2인 가구 및 출산가구의 경우에는 우대 비율을 가산) 이하일 것 - 26 - 6. 신청서류 ■ 기본 제"
-     }
-    },
-    "income_table_100": {
-     "1": 2564238,
-     "2": 4199292,
-     "3": 5359036,
-     "4": 6494738,
-     "5": 7556719,
-     "6": 8555952,
-     "7": 9515150,
-     "8": 10474348
-    },
-    "income_add_per": 959198,
-    "prewed_ok": true
-   },
-   "api": {
-    "CCR_CNNT_SYS_DS_CD": "03",
-    "SPL_INF_TP_CD": "062",
-    "UPP_AIS_TP_CD": "06",
-    "AIS_TP_CD": "48"
-   },
-   "read": {
-    "tools": [
-     "pypdf",
-     "pdfium",
-     "plumber"
-    ],
-    "conflicts": []
-   }
-  },
-  {
-   "id": "2015122300020878",
-   "name": "[정정공고]대구연호 A-2BL, A-3BL 통합공공임대주택 입주자 모집",
-   "type": "통합공공임대",
-   "type_code": "48",
-   "judge_type": true,
-   "region": "대구광역시",
-   "posted": "2026-10-06",
-   "close": "2026-10-16",
-   "status": "접수중",
-   "url": "https://apply.lh.or.kr/lhapply/apply/wt/wrtanc/selectWrtancInfo.do?panId=2015122300020878&ccrCnntSysDsCd=03&uppAisTpCd=06&aisTpCd=48&mi=1026",
-   "url_mobile": "https://apply.lh.or.kr/lhapply/apply/wt/wrtanc/selectWrtancInfo.do?panId=2015122300020878&ccrCnntSysDsCd=03&uppAisTpCd=06&aisTpCd=48&mi=1026",
-   "schedule": [
-    {
-     "complex": "대구연호 A-2블록 통합공공임대",
-     "apply_start": "2026-10-13",
-     "apply_end": "2026-10-16",
-     "apply_time": "2026.10.13 10:00 ~ 2026.10.16 18:10",
-     "docs_target": "2026-11-10",
-     "docs_start": "2026-11-11",
-     "docs_end": "2026-11-13",
-     "winner": "2027-04-02",
-     "contract_start": null,
-     "contract_end": null
-    },
-    {
-     "complex": "대구연호 A-3블록 통합공공임대",
-     "apply_start": "2026-10-13",
-     "apply_end": "2026-10-16",
-     "apply_time": "2026.10.13 10:00 ~ 2026.10.16 18:10",
-     "docs_target": "2026-11-10",
-     "docs_start": "2026-11-11",
-     "docs_end": "2026-11-13",
-     "winner": "2027-04-02",
-     "contract_start": null,
-     "contract_end": null
-    }
-   ],
-   "complexes": [
-    {
-     "name": "대구연호 A-2블록 통합공공임대",
-     "address": "대구광역시 수성구 이천동 236-1",
-     "households": 622,
-     "area": "31.86~55.89",
-     "move_in": "2027.12",
-     "heating": "개별난방"
-    },
-    {
-     "name": "대구연호 A-3블록 통합공공임대",
-     "address": "대구광역시 수성구 연호동 254-1",
-     "households": 526,
-     "area": "31.96~46.89",
-     "move_in": "2027.12",
-     "heating": "개별난방"
-    }
-   ],
-   "units": [
-    {
-     "complex": "대구연호 A-2블록 통합공공임대",
-     "type": "31A",
-     "area": 31.86,
-     "supply_area": 48.9736,
-     "households": 262,
-     "now_households": 262,
-     "deposit": null,
-     "rent": null,
-     "money_note": "공고문 참조"
-    },
-    {
-     "complex": "대구연호 A-2블록 통합공공임대",
-     "type": "41A",
-     "area": 41.96,
-     "supply_area": 64.4989,
-     "households": 144,
-     "now_households": 144,
-     "deposit": null,
-     "rent": null,
-     "money_note": "공고문 참조"
-    },
-    {
-     "complex": "대구연호 A-2블록 통합공공임대",
-     "type": "41B",
-     "area": 41.96,
-     "supply_area": 64.4989,
-     "households": 12,
-     "now_households": 12,
-     "deposit": null,
-     "rent": null,
-     "money_note": "공고문 참조"
-    },
-    {
-     "complex": "대구연호 A-2블록 통합공공임대",
-     "type": "55A",
-     "area": 55.89,
-     "supply_area": 85.9114,
-     "households": 104,
-     "now_households": 104,
-     "deposit": null,
-     "rent": null,
-     "money_note": "공고문 참조"
-    },
-    {
-     "complex": "대구연호 A-3블록 통합공공임대",
-     "type": "31A",
-     "area": 31.96,
-     "supply_area": 48.1174,
-     "households": 68,
-     "now_households": 68,
-     "deposit": null,
-     "rent": null,
-     "money_note": "공고문 참조"
-    },
-    {
-     "complex": "대구연호 A-3블록 통합공공임대",
-     "type": "31AS",
-     "area": 31.96,
-     "supply_area": 48.1174,
-     "households": 12,
-     "now_households": 12,
-     "deposit": null,
-     "rent": null,
-     "money_note": "공고문 참조"
-    },
-    {
-     "complex": "대구연호 A-3블록 통합공공임대",
-     "type": "36A",
-     "area": 36.68,
-     "supply_area": 55.2236,
-     "households": 158,
-     "now_households": 158,
-     "deposit": null,
-     "rent": null,
-     "money_note": "공고문 참조"
-    },
-    {
-     "complex": "대구연호 A-3블록 통합공공임대",
-     "type": "36AS",
-     "area": 36.68,
-     "supply_area": 55.2236,
-     "households": 16,
-     "now_households": 16,
-     "deposit": null,
-     "rent": null,
-     "money_note": "공고문 참조"
-    },
-    {
-     "complex": "대구연호 A-3블록 통합공공임대",
-     "type": "46A",
-     "area": 46.89,
-     "supply_area": 70.5953,
-     "households": 72,
-     "now_households": 72,
-     "deposit": null,
-     "rent": null,
-     "money_note": "공고문 참조"
-    }
-   ],
-   "files": [
-    {
-     "kind": "공고문(hwp)",
-     "name": "(정정)★대구연호A-3블록통합공공임대입주자모집공고문(2026.09.30.).hwpx",
-     "url": "https://apply.lh.or.kr/lhapply/lhFile.do?fileid=68870420"
-    },
-    {
-     "kind": "공고문(PDF)",
-     "name": "(정정)★대구연호A-3블록통합공공임대입주자모집공고문(2026.09.30.).pdf",
-     "url": "https://apply.lh.or.kr/lhapply/lhFile.do?fileid=68870425"
-    },
-    {
-     "kind": "공고문(hwp)",
-     "name": "★대구연호A-2블록통합공공임대입주자모집공고문(2026.09.30.).hwpx",
-     "url": "https://apply.lh.or.kr/lhapply/lhFile.do?fileid=68870410"
-    },
-    {
-     "kind": "공고문(PDF)",
-     "name": "★대구연호A-2블록통합공공임대입주자모집공고문(2026.09.30.).pdf",
-     "url": "https://apply.lh.or.kr/lhapply/lhFile.do?fileid=68870413"
-    },
-    {
-     "kind": "카탈로그",
-     "name": "대구연호A-2블록통합공공임대주택카탈로그.pdf",
-     "url": "https://apply.lh.or.kr/lhapply/lhFile.do?fileid=68870441"
-    },
-    {
-     "kind": "카탈로그",
-     "name": "대구연호A-3블록통합공공임대주택카탈로그.pdf",
-     "url": "https://apply.lh.or.kr/lhapply/lhFile.do?fileid=68870444"
-    },
-    {
-     "kind": "기타 첨부파일",
-     "name": "신청양식.hwpx",
-     "url": "https://apply.lh.or.kr/lhapply/lhFile.do?fileid=68870476"
-    },
-    {
-     "kind": "기타 첨부파일",
-     "name": "신청양식작성예시(샘플).pdf",
-     "url": "https://apply.lh.or.kr/lhapply/lhFile.do?fileid=68870488"
-    }
-   ],
-   "etc": "ㅇ 금회 공급하는 대구연호 A-2BL, A-3BL 통합공공임대주택은 동일한 공고일(2026.09.30.)을 기준으로 동시공급하므로 단지별 중복 청약이 불가하며, 중복신청하는 경우 전부 무효처리 됩니다.\nㅇ 청약자격 미숙지, 착오 신청 등에 대해서는 청약자 본인에게 책임이 있으니 불이익을 당하는 일이 없도록 유의하여 주시기 바랍니다.\nㅇ 65세 이상 고령자 등 인터넷 접수가 어려우신 분에 한하여 현장접수가 가능합니다. 단, 신청서류를 완비하여야 합니다.\nㅇ 연락처(주소, 전화번호)가 변경 될 경우, 즉시 그 내용을 우리 공사에 통보하시기 바랍니다. 연락처 미변경으로 인한 안내문 미수령 등에 대해 책임은 본인에게 있습니다.",
-   "office": {
-    "place": "대구광역시 달서구 상화로 272(도원동) LH대구경북지역본부",
-    "tel": "1600-1004"
-   },
-   "notice_pdf": "https://apply.lh.or.kr/lhapply/lhFile.do?fileid=68870425",
-   "notice_text": 101570,
-   "rents": [
-    {
-     "complex": null,
-     "type": "60",
-     "group": null,
-     "deposit": 35021000,
-     "rent": 281840
-    },
-    {
-     "complex": null,
-     "type": "60",
-     "group": null,
-     "deposit": 12869000,
-     "rent": 103570
-    },
-    {
-     "complex": null,
-     "type": "60",
-     "group": null,
-     "deposit": 14708000,
-     "rent": 118360
-    },
-    {
-     "complex": null,
-     "type": "60",
-     "group": null,
-     "deposit": 18385000,
-     "rent": 147950
-    },
-    {
-     "complex": null,
-     "type": "60",
-     "group": null,
-     "deposit": 23901000,
-     "rent": 192340
-    },
-    {
-     "complex": null,
-     "type": "60",
-     "group": null,
-     "deposit": 29416000,
-     "rent": 236730
-    },
-    {
-     "complex": null,
-     "type": "60",
-     "group": null,
-     "deposit": 33093000,
-     "rent": 266320
-    },
-    {
-     "complex": null,
-     "type": "60",
-     "group": null,
-     "deposit": 15368000,
-     "rent": 123680
-    },
-    {
-     "complex": null,
-     "type": "60",
-     "group": null,
-     "deposit": 17564000,
-     "rent": 141350
-    },
-    {
-     "complex": null,
-     "type": "60",
-     "group": null,
-     "deposit": 21955000,
-     "rent": 176680
-    },
-    {
-     "complex": null,
-     "type": "60",
-     "group": null,
-     "deposit": 28542000,
-     "rent": 229690
-    },
-    {
-     "complex": null,
-     "type": "60",
-     "group": null,
-     "deposit": 35128000,
-     "rent": 282700
-    },
-    {
-     "complex": null,
-     "type": "60",
-     "group": null,
-     "deposit": 39519000,
-     "rent": 318040
-    },
-    {
-     "complex": null,
-     "type": "60",
-     "group": null,
-     "deposit": 14619000,
-     "rent": 117640
-    },
-    {
-     "complex": null,
-     "type": "60",
-     "group": null,
-     "deposit": 16707000,
-     "rent": 134450
-    },
-    {
-     "complex": null,
-     "type": "60",
-     "group": null,
-     "deposit": 20884000,
-     "rent": 168070
-    },
-    {
-     "complex": null,
-     "type": "60",
-     "group": null,
-     "deposit": 27149000,
-     "rent": 218490
-    },
-    {
-     "complex": null,
-     "type": "60",
-     "group": null,
-     "deposit": 33415000,
-     "rent": 268910
-    },
-    {
-     "complex": null,
-     "type": "60",
-     "group": null,
-     "deposit": 37592000,
-     "rent": 302520
-    },
-    {
-     "complex": null,
-     "type": "60",
-     "group": null,
-     "deposit": 19867000,
-     "rent": 159880
-    },
-    {
-     "complex": null,
-     "type": "60",
-     "group": null,
-     "deposit": 22705000,
-     "rent": 182720
-    },
-    {
-     "complex": null,
-     "type": "60",
-     "group": null,
-     "deposit": 28381000,
-     "rent": 228400
-    },
-    {
-     "complex": null,
-     "type": "60",
-     "group": null,
-     "deposit": 36895000,
-     "rent": 296920
-    },
-    {
-     "complex": null,
-     "type": "60",
-     "group": null,
-     "deposit": 45410000,
-     "rent": 365440
-    },
-    {
-     "complex": null,
-     "type": "60",
-     "group": null,
-     "deposit": 51086000,
-     "rent": 411120
-    },
-    {
-     "complex": null,
-     "type": "31A",
-     "group": "생계·의료급여 수급자 등 상한",
-     "deposit": 3414000,
-     "rent": 67970
-    },
-    {
-     "complex": null,
-     "type": "31AS",
-     "group": "생계·의료급여 수급자 등 상한",
-     "deposit": 3414000,
-     "rent": 67970
-    },
-    {
-     "complex": null,
-     "type": "36A",
-     "group": "생계·의료급여 수급자 등 상한",
-     "deposit": 3919000,
-     "rent": 78010
-    },
-    {
-     "complex": null,
-     "type": "36AS",
-     "group": "생계·의료급여 수급자 등 상한",
-     "deposit": 3919000,
-     "rent": 78010
-    },
-    {
-     "complex": null,
-     "type": "46A",
-     "group": "생계·의료급여 수급자 등 상한",
-     "deposit": 5010000,
-     "rent": 99730
-    }
-   ],
-   "terms": {
-    "relaxed": false,
-    "homeless_relaxed": false,
-    "homeless_max1": false,
-    "income_basis": "기준 중위소득",
-    "groups": [
-     {
-      "key": "청년",
-      "name": "청년",
-      "homeless": "self",
-      "income_pct": {
-       "1": 170,
-       "2": 160,
-       "3+": 150
-      },
-      "asset_manwon": 34500,
-      "car_manwon": 4542,
-      "age_min": 18,
-      "age_max": 39
-     },
-     {
-      "key": "신혼부부·한부모",
-      "name": "신혼부부·한부모",
-      "homeless": "household",
-      "income_pct": {
-       "1": null,
-       "2": 160,
-       "3+": 150
-      },
-      "asset_manwon": 34500,
-      "car_manwon": 4542,
-      "age_min": null,
-      "age_max": null,
-      "dual_add": 30
-     },
-     {
-      "key": "고령자",
-      "name": "고령자",
-      "homeless": "household_or_single_self",
-      "income_pct": {
-       "1": 170,
-       "2": 160,
-       "3+": 150
-      },
-      "asset_manwon": 34500,
-      "car_manwon": 4542,
-      "age_min": 65,
-      "age_max": null
-     },
-     {
-      "key": "일반",
-      "name": "일반",
-      "homeless": "household",
-      "income_pct": {
-       "1": 170,
-       "2": 160,
-       "3+": 150
-      },
-      "asset_manwon": 34500,
-      "car_manwon": 4542,
-      "age_min": null,
-      "age_max": null
-     }
-    ],
-    "quotes": {
-     "청년": {},
-     "신혼부부·한부모": {},
-     "고령자": {
-      "homeless": "무주택세대구성원(혼인 중이 아닌 경우로서 단독세대주로 입주하려는 사람의 경우에는 무주택자)"
-     },
-     "일반": {}
-    },
-    "income_table_100": {
-     "1": 2564238,
-     "2": 4199292,
-     "3": 5359036,
-     "4": 6494738,
-     "5": 7556719,
-     "6": 8555952,
-     "7": 9515150,
-     "8": 10474348
-    },
-    "income_add_per": 959198,
-    "prewed_ok": true
-   },
-   "api": {
-    "CCR_CNNT_SYS_DS_CD": "03",
-    "SPL_INF_TP_CD": "062",
-    "UPP_AIS_TP_CD": "06",
-    "AIS_TP_CD": "48"
-   },
-   "read": {
-    "tools": [
-     "pypdf",
-     "pdfium",
-     "plumber"
-    ],
-    "conflicts": []
-   }
-  },
   {
    "id": "2015122300020856",
    "name": "부산당감1단지 50년공공임대주택 예비입주자 모집 공고",
@@ -2171,146 +683,6 @@
     "SPL_INF_TP_CD": "063",
     "UPP_AIS_TP_CD": "06",
     "AIS_TP_CD": "10"
-   },
-   "read": {
-    "tools": [
-     "pypdf",
-     "pdfium",
-     "plumber"
-    ],
-    "conflicts": []
-   }
-  },
-  {
-   "id": "2015122300020908",
-   "name": "김제하동 국민임대주택 모집공고",
-   "type": "국민임대",
-   "type_code": "07",
-   "judge_type": true,
-   "region": "전북특별자치도",
-   "posted": "2026-10-14",
-   "close": "2026-10-21",
-   "status": "공고중",
-   "url": "https://apply.lh.or.kr/lhapply/apply/wt/wrtanc/selectWrtancInfo.do?panId=2015122300020908&ccrCnntSysDsCd=03&uppAisTpCd=06&aisTpCd=07&mi=1026",
-   "url_mobile": "https://apply.lh.or.kr/lhapply/apply/wt/wrtanc/selectWrtancInfo.do?panId=2015122300020908&ccrCnntSysDsCd=03&uppAisTpCd=06&aisTpCd=07&mi=1026",
-   "schedule": [
-    {
-     "complex": null,
-     "apply_start": "2026-10-20",
-     "apply_end": "2026-10-21",
-     "apply_time": "~",
-     "docs_target": null,
-     "docs_start": null,
-     "docs_end": null,
-     "winner": null,
-     "contract_start": null,
-     "contract_end": null
-    }
-   ],
-   "complexes": [
-    {
-     "name": "김제하동 고령자용 국민임대주택",
-     "address": "전북특별자치도 김제시 하동1길 127(하동,김제하동주공아파트)",
-     "households": 79,
-     "area": "34.28~42.87",
-     "move_in": "2022.03",
-     "heating": "개별가스난방"
-    }
-   ],
-   "units": [
-    {
-     "complex": "김제하동 고령자용 국민임대주택",
-     "type": "60",
-     "area": 34.28,
-     "supply_area": 60.5638,
-     "households": 32,
-     "now_households": 2,
-     "deposit": null,
-     "rent": null,
-     "money_note": "공고문 참조"
-    },
-    {
-     "complex": "김제하동 고령자용 국민임대주택",
-     "type": "75",
-     "area": 42.87,
-     "supply_area": 75.7401,
-     "households": 47,
-     "now_households": 4,
-     "deposit": null,
-     "rent": null,
-     "money_note": "공고문 참조"
-    }
-   ],
-   "files": [
-    {
-     "kind": "공고문(PDF)",
-     "name": "김제하동국민임대주택예비입주자모집공고문(26.10.14).pdf",
-     "url": "https://apply.lh.or.kr/lhapply/lhFile.do?fileid=68975832"
-    },
-    {
-     "kind": "공고문(hwp)",
-     "name": "김제하동국민임대주택예비입주자모집공고문(26.10.hwpx",
-     "url": "https://apply.lh.or.kr/lhapply/lhFile.do?fileid=68975823"
-    }
-   ],
-   "etc": null,
-   "office": {
-    "place": "전북특별자치도 김제시 하동1길 127(하동,김제하동주공아파트) 관리사무소",
-    "tel": null
-   },
-   "notice_pdf": "https://apply.lh.or.kr/lhapply/lhFile.do?fileid=68975832",
-   "notice_text": 60171,
-   "rents": [
-    {
-     "complex": "김제하동",
-     "type": "34",
-     "group": null,
-     "deposit": 18042000,
-     "rent": 117940
-    },
-    {
-     "complex": "김제하동",
-     "type": "42",
-     "group": null,
-     "deposit": 25163000,
-     "rent": 150950
-    }
-   ],
-   "terms": {
-    "relaxed": false,
-    "homeless_relaxed": false,
-    "homeless_max1": false,
-    "income_basis": "도시근로자 월평균소득",
-    "groups": [
-     {
-      "key": "일반",
-      "name": "일반",
-      "homeless": "household",
-      "income_pct": {
-       "1": 90,
-       "2": 80,
-       "3+": 70
-      },
-      "asset_manwon": 34500,
-      "car_manwon": 4542,
-      "age_min": null,
-      "age_max": null
-     }
-    ],
-    "quotes": {
-     "일반": {
-      "income": "가구원수별 가구당 월평균 소득(원) 70% 80% 90% 1인 3,432, … 1인 가구 20% 가산, 2인 가구 10% 가산",
-      "asset": "45,373 자산 총자산가액 세대구성원 전원이 보유하고 있는 총자산가액 합산기준 ( 345 )백만원 이하 자동차가액 세대구",
-      "car": "이 보유하고 있는 개별 자동차가액 ( 4,542 )만원 이하 • 소득기준 가산"
-     }
-    },
-    "income_table_100": null
-   },
-   "api": {
-    "CCR_CNNT_SYS_DS_CD": "03",
-    "SPL_INF_TP_CD": "062",
-    "UPP_AIS_TP_CD": "06",
-    "AIS_TP_CD": "07"
    },
    "read": {
     "tools": [
@@ -8115,6 +6487,166 @@
     },
     "income_table_100": null,
     "local_unread": "현재 충남 아산시에 거주하는 성년자"
+   },
+   "api": {
+    "CCR_CNNT_SYS_DS_CD": "03",
+    "SPL_INF_TP_CD": "062",
+    "UPP_AIS_TP_CD": "06",
+    "AIS_TP_CD": "09"
+   },
+   "read": {
+    "tools": [
+     "pypdf",
+     "pdfium",
+     "plumber"
+    ],
+    "conflicts": []
+   }
+  },
+  {
+   "id": "2015122300020907",
+   "name": "경남 사천벌리1 영구임대 예비입주자 모집('26.10.16.)",
+   "type": "영구임대",
+   "type_code": "09",
+   "judge_type": true,
+   "region": "경상남도",
+   "posted": "2026-10-16",
+   "close": "2026-10-30",
+   "status": "공고중",
+   "url": "https://apply.lh.or.kr/lhapply/apply/wt/wrtanc/selectWrtancInfo.do?panId=2015122300020907&ccrCnntSysDsCd=03&uppAisTpCd=06&aisTpCd=09&mi=1026",
+   "url_mobile": "https://apply.lh.or.kr/lhapply/apply/wt/wrtanc/selectWrtancInfo.do?panId=2015122300020907&ccrCnntSysDsCd=03&uppAisTpCd=06&aisTpCd=09&mi=1026",
+   "schedule": [
+    {
+     "complex": null,
+     "apply_start": "2026-10-28",
+     "apply_end": "2026-10-30",
+     "apply_time": "~",
+     "docs_target": null,
+     "docs_start": null,
+     "docs_end": null,
+     "winner": "2027-01-22",
+     "contract_start": null,
+     "contract_end": null
+    }
+   ],
+   "complexes": [
+    {
+     "name": "사천벌리1 영구임대주택 예비입주자 모집",
+     "address": "경상남도 사천시 주공1길 50(벌리동,주공아파트)",
+     "households": 447,
+     "area": "26.37~31.32",
+     "move_in": "1997.07",
+     "heating": "개별난방"
+    }
+   ],
+   "units": [
+    {
+     "complex": "사천벌리1 영구임대주택 예비입주자 모집",
+     "type": "37.1300",
+     "area": 26.37,
+     "supply_area": 37.13,
+     "households": 298,
+     "now_households": 110,
+     "deposit": null,
+     "rent": null,
+     "money_note": "공고문 참조"
+    },
+    {
+     "complex": "사천벌리1 영구임대주택 예비입주자 모집",
+     "type": "42.1900",
+     "area": 31.32,
+     "supply_area": 42.19,
+     "households": 149,
+     "now_households": 30,
+     "deposit": null,
+     "rent": null,
+     "money_note": "공고문 참조"
+    }
+   ],
+   "files": [
+    {
+     "kind": "공고문(hwp)",
+     "name": "26.10.16.(영구임대)사천벌리1예비입주자모집공고문.hwpx",
+     "url": "https://apply.lh.or.kr/lhapply/lhFile.do?fileid=68970571"
+    },
+    {
+     "kind": "공고문(PDF)",
+     "name": "26.10.16.(영구임대)사천벌리1예비입주자모집공고문.pdf",
+     "url": "https://apply.lh.or.kr/lhapply/lhFile.do?fileid=68970572"
+    }
+   ],
+   "etc": "* 해당 공고는 예비입주자 모집 공고로 실제 입주까지는 상당 기간이 소요될 수 있으며, 선호하지 않는 동호가 배정될 수 있습니다.\n* 청약자격 미숙지, 착오신청 등에 대해서는 청약자 본인에게 책임이 있으니 불이익이 없도록 반드시 공고문을 읽어보신 후 신청하시기 바랍니다.",
+   "office": {
+    "place": null,
+    "tel": null
+   },
+   "notice_pdf": "https://apply.lh.or.kr/lhapply/lhFile.do?fileid=68970572",
+   "notice_text": 45203,
+   "rents": [
+    {
+     "complex": null,
+     "type": "26",
+     "group": "가군",
+     "deposit": 2520000,
+     "rent": 50160
+    },
+    {
+     "complex": null,
+     "type": "26",
+     "group": "나군",
+     "deposit": 7648000,
+     "rent": 115940
+    },
+    {
+     "complex": null,
+     "type": "31",
+     "group": "가군",
+     "deposit": 2993000,
+     "rent": 59570
+    },
+    {
+     "complex": null,
+     "type": "31",
+     "group": "나군",
+     "deposit": 8692000,
+     "rent": 127970
+    }
+   ],
+   "terms": {
+    "relaxed": false,
+    "homeless_relaxed": false,
+    "homeless_max1": false,
+    "income_basis": "도시근로자 월평균소득",
+    "groups": [
+     {
+      "key": "일반",
+      "name": "일반",
+      "homeless": "household",
+      "income_pct": {
+       "1": 70,
+       "2": 60,
+       "3+": 50
+      },
+      "asset_manwon": 24500,
+      "car_manwon": 4542,
+      "age_min": null,
+      "age_max": null
+     }
+    ],
+    "quotes": {
+     "일반": {
+      "income": "지시설퇴소자) - 월평균 소득 50%이하 : 차목(일반입주자) 2. 월평균 소득기준 우대비율 적용대상(적용비율 가산항목 적용대상) - 가구원수별 가산비율 : 1인 가구 20%p, 2인 가구 10%p - 출생자녀별 가산비율 : 1명 10%p, 2명 이상 20%p ※",
+      "asset": "위 장애인) 2. 총자산 기준 세대구성원 전원이 보유하고 있는 총 자산(부동산, 자동차, 금융자산(부채반영), 일반자산) 가액 합산 기준 ( 24,500 )만원 이하 3. 자동차 기준",
+      "car": "이 보유하고 있는 개별 자동차가액 ( 4,542 )만원 이하 * 총자산 기준과"
+     }
+    },
+    "income_table_100": null,
+    "local": {
+     "name": "사천시",
+     "sido": "경남",
+     "sigun": "사천시",
+     "quote": "신청자격 입주자 모집공고일(2026.10.16.) 현재 사천시에 거주하는 성년자인 무주택세대구성원"
+    }
    },
    "api": {
     "CCR_CNNT_SYS_DS_CD": "03",
