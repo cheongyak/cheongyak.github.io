@@ -19,7 +19,7 @@ def _has_value(k, v, q):
     if k == "residence_duty":
         return "거주의무" in f and (str(v) in f if v else ("없음" in f or "미적용" in f))
     if k == "rewin_years":
-        return "재당첨" in f and (str(v) in f if v else "않" in f)
+        return "재당첨" in f and (str(v) in f if v else ("않" in f or "없음" in f))   # 0 은 '적용받지 않습니다' 또는 1쪽 표 '없음' (2026-10-17)
     if k == "account_months":
         return str(v) in f or (v % 12 == 0 and f"{v // 12}년" in f)
     if k == "deposit_count":

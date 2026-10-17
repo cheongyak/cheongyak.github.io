@@ -119,3 +119,13 @@ def test_resale_until_registration_but_passed():
     r = _p("2026910262")["resale"]
     assert r["passed"] is True and r["until_reg"] is True
     assert resale_text(r, "2026-10-22", date(2026, 10, 15)) == "이미 지남"
+
+
+def test_first_page_table_rewin_and_shuffled_ratio_resale():
+    """2026-10-17 사용자 '또 공고문 못 읽는 공고': ① 1쪽 단지 주요정보 표 첫 칸 재당첨제한('없음'·'년10') — 예전엔 못 읽어 규제지역 10년으로 추정하거나
+    (청계 노르웨이숲 2026910263) 전매 칸의 '3년'을 재당첨으로 읽음(2026910227·262) ② 글자가 뒤섞인 가점제 비율 표 '적용비율1 /'·전매 '때까지3' (아크메르 동탄 508·509)"""
+    for n, want in (("2026910263", 0), ("2026910227", 0), ("2026910262", 0), ("2026000508", 10), ("2026000509", 10), ("2026910251", 10)):
+        assert _p(n).get("rewin_years") == want, n
+    for n in ("2026000508", "2026000509"):
+        o = _p(n)
+        assert o["score_ratio"] == GOLD[n]["fields"]["score_ratio"] and (o["resale"]["months"], o["resale"]["registration"]) == (36, True)
