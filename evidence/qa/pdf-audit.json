@@ -2,10 +2,10 @@
  "date": "2026-10-17",
  "page_cap": 300,
  "notices": 61,
- "with_problem": 4,
+ "with_problem": 5,
  "kinds": {
   "글자가 거의 없는 쪽 N개 (스캔 이미지·표 그림 추정)": 3,
-  "PDF 를 하나도 받지 못함": 1
+  "PDF 를 하나도 받지 못함": 2
  },
  "errors": [],
  "results": [
@@ -594,6 +594,7 @@
     "need_head": false,
     "price_cap": false,
     "residence_duty": 0,
+    "rewin_years": 0,
     "residence": {
      "area": "광주광역시",
      "months": 12,
@@ -604,6 +605,7 @@
     "need_head": false,
     "price_cap": false,
     "residence_duty": 0,
+    "rewin_years": 0,
     "residence": {
      "area": "광주광역시",
      "months": 12,
@@ -614,6 +616,7 @@
     "need_head": false,
     "price_cap": false,
     "residence_duty": 0,
+    "rewin_years": 0,
     "residence": {
      "area": "광주광역시",
      "months": 12,
@@ -1006,6 +1009,7 @@
     "need_head": false,
     "price_cap": false,
     "residence_duty": 0,
+    "rewin_years": 0,
     "account_months": 6,
     "residence": {
      "area": "충청남도 천안시",
@@ -1017,6 +1021,7 @@
     "need_head": false,
     "price_cap": false,
     "residence_duty": 0,
+    "rewin_years": 0,
     "account_months": 6,
     "residence": {
      "area": "충청남도 천안시",
@@ -1028,6 +1033,7 @@
     "need_head": false,
     "price_cap": false,
     "residence_duty": 0,
+    "rewin_years": 0,
     "account_months": 6,
     "residence": {
      "area": "충청남도 천안시",
@@ -1103,120 +1109,32 @@
    "name": "쌍용 더 플래티넘 한강",
    "url": "https://www.applyhome.co.kr/ai/aia/selectAPTLttotPblancDetail.do?houseManageNo=2026000468&pblancNo=2026000468",
    "attachments": 1,
-   "pdfs": 1,
+   "pdfs": 0,
    "attachment_list": [
     {
      "url": "https://static.applyhome.co.kr/ai/aia/getAtchmnfl.do?houseManageNo=2026000468&pblancNo=2026000468&atchmnflSeqNo=1990183&atchmnflSn=2",
-     "bytes": 1050066,
-     "pages": 62,
-     "chars": 160613,
-     "head": "- 1 - ※ 단지 주요정보 (분양문의) 1866-0333 주택유형 해당지역 기타지역 규제지역여부 민영 경기도 양평군 거주자 경기도 및 서울특별"
+     "error": "PDF 아님 (200, 59바이트)"
     }
    ],
-   "chosen": "https://static.applyhome.co.kr/ai/aia/getAtchmnfl.do?houseManageNo=2026000468&pblancNo=2026000468&atchmnflSeqNo=1990183&atchmnflSn=2",
-   "pages": 62,
-   "pages_read": 62,
-   "chars_read": 160674,
-   "empty_pages": [],
-   "chars_per_page_min": 532,
-   "fields": {
-    "need_head": false,
-    "price_cap": false,
-    "residence_duty": 0,
-    "rewin_years": 0,
-    "account_months": 12,
-    "residence": {
-     "area": "경기도 양평군",
-     "months": 0,
-     "since": null
-    }
-   },
-   "fields_merged": {
-    "need_head": false,
-    "price_cap": false,
-    "residence_duty": 0,
-    "rewin_years": 0,
-    "account_months": 12,
-    "residence": {
-     "area": "경기도 양평군",
-     "months": 0,
-     "since": null
-    }
-   },
-   "fields_pdfium": {
-    "need_head": false,
-    "price_cap": false,
-    "residence_duty": 0,
-    "rewin_years": 0,
-    "account_months": 12,
-    "residence": {
-     "area": "경기도 양평군",
-     "months": 0,
-     "since": null
-    }
-   },
-   "pdfium_chars": 161003,
-   "problem": []
+   "problem": [
+    "PDF 를 하나도 받지 못함"
+   ]
   },
   {
    "notice": "2026000463",
    "name": "향남역 그로브 스위첸",
    "url": "https://www.applyhome.co.kr/ai/aia/selectAPTLttotPblancDetail.do?houseManageNo=2026000463&pblancNo=2026000463",
    "attachments": 1,
-   "pdfs": 1,
+   "pdfs": 0,
    "attachment_list": [
     {
      "url": "https://static.applyhome.co.kr/ai/aia/getAtchmnfl.do?houseManageNo=2026000463&pblancNo=2026000463&atchmnflSeqNo=1978209&atchmnflSn=6",
-     "bytes": 1177616,
-     "pages": 95,
-     "chars": 194797,
-     "head": "- 1 - ※ 본 입주자 모집공고의 내용을 숙지한 후 청약 및 계약에 응하시기 바라며, 미숙지로 인한 착오 행위 등에 대하여는 청약자 및 계약자"
+     "error": "PDF 아님 (200, 59바이트)"
     }
    ],
-   "chosen": "https://static.applyhome.co.kr/ai/aia/getAtchmnfl.do?houseManageNo=2026000463&pblancNo=2026000463&atchmnflSeqNo=1978209&atchmnflSn=6",
-   "pages": 95,
-   "pages_read": 95,
-   "chars_read": 194891,
-   "empty_pages": [],
-   "chars_per_page_min": 785,
-   "fields": {
-    "need_head": false,
-    "price_cap": false,
-    "residence_duty": 0,
-    "rewin_years": 0,
-    "account_months": 12,
-    "residence": {
-     "area": "경기도 화성특례시",
-     "months": 0,
-     "since": null
-    }
-   },
-   "fields_merged": {
-    "need_head": false,
-    "price_cap": false,
-    "residence_duty": 0,
-    "rewin_years": 0,
-    "account_months": 12,
-    "residence": {
-     "area": "경기도 화성특례시",
-     "months": 0,
-     "since": null
-    }
-   },
-   "fields_pdfium": {
-    "need_head": false,
-    "price_cap": false,
-    "residence_duty": 0,
-    "rewin_years": 0,
-    "account_months": 12,
-    "residence": {
-     "area": "경기도 화성특례시",
-     "months": 0,
-     "since": null
-    }
-   },
-   "pdfium_chars": 193992,
-   "problem": []
+   "problem": [
+    "PDF 를 하나도 받지 못함"
+   ]
   },
   {
    "notice": "2026000444",
@@ -2425,6 +2343,7 @@
     "need_head": false,
     "price_cap": false,
     "residence_duty": 0,
+    "rewin_years": 0,
     "residence": {
      "area": null,
      "months": 0,
@@ -2435,6 +2354,7 @@
     "need_head": false,
     "price_cap": false,
     "residence_duty": 0,
+    "rewin_years": 0,
     "residence": {
      "area": null,
      "months": 0,
@@ -2445,6 +2365,7 @@
     "need_head": false,
     "price_cap": false,
     "residence_duty": 0,
+    "rewin_years": 0,
     "residence": {
      "area": null,
      "months": 0,
@@ -2459,16 +2380,57 @@
    "name": "올 뉴 챔피언스시티 1차",
    "url": "https://www.applyhome.co.kr/ai/aia/selectAPTRemndrLttotPblancDetailView.do?houseManageNo=2026910261&pblancNo=2026910261",
    "attachments": 1,
-   "pdfs": 0,
+   "pdfs": 1,
    "attachment_list": [
     {
      "url": "https://static.applyhome.co.kr/ai/aia/getAtchmnfl.do?houseManageNo=2026910261&pblancNo=2026910261&atchmnflSeqNo=1999120&atchmnflSn=5",
-     "error": "PDF 아님 (200, 59바이트)"
+     "bytes": 318384,
+     "pages": 14,
+     "chars": 35160,
+     "head": "- 1 - ※ 단지 주요정보 (분양문의) 1599-0199 주택유형 규제지역여부 무순위(사후) 자격요건 민영 비규제지역 무순위(사후) 입주자모집"
     }
    ],
-   "problem": [
-    "PDF 를 하나도 받지 못함"
-   ]
+   "chosen": "https://static.applyhome.co.kr/ai/aia/getAtchmnfl.do?houseManageNo=2026910261&pblancNo=2026910261&atchmnflSeqNo=1999120&atchmnflSn=5",
+   "pages": 14,
+   "pages_read": 14,
+   "chars_read": 35173,
+   "empty_pages": [],
+   "chars_per_page_min": 1089,
+   "fields": {
+    "need_head": false,
+    "price_cap": false,
+    "residence_duty": 0,
+    "rewin_years": 0,
+    "residence": {
+     "area": null,
+     "months": 0,
+     "since": null
+    }
+   },
+   "fields_merged": {
+    "need_head": false,
+    "price_cap": false,
+    "residence_duty": 0,
+    "rewin_years": 0,
+    "residence": {
+     "area": null,
+     "months": 0,
+     "since": null
+    }
+   },
+   "fields_pdfium": {
+    "need_head": false,
+    "price_cap": false,
+    "residence_duty": 0,
+    "rewin_years": 0,
+    "residence": {
+     "area": null,
+     "months": 0,
+     "since": null
+    }
+   },
+   "pdfium_chars": 35163,
+   "problem": []
   },
   {
    "notice": "2026910262",
@@ -2495,7 +2457,7 @@
     "need_head": false,
     "price_cap": false,
     "residence_duty": 0,
-    "rewin_years": 3,
+    "rewin_years": 0,
     "residence": {
      "area": "경기도",
      "months": 0,
@@ -2506,7 +2468,7 @@
     "need_head": false,
     "price_cap": false,
     "residence_duty": 0,
-    "rewin_years": 3,
+    "rewin_years": 0,
     "residence": {
      "area": "경기도",
      "months": 0,
@@ -2517,7 +2479,7 @@
     "need_head": false,
     "price_cap": false,
     "residence_duty": 0,
-    "rewin_years": 3,
+    "rewin_years": 0,
     "residence": {
      "area": "경기도",
      "months": 0,
@@ -2552,6 +2514,7 @@
     "need_head": false,
     "price_cap": false,
     "residence_duty": 0,
+    "rewin_years": 0,
     "ext": 0.2,
     "residence": {
      "area": "울산광역시",
@@ -2563,6 +2526,7 @@
     "need_head": false,
     "price_cap": false,
     "residence_duty": 0,
+    "rewin_years": 0,
     "ext": 0.2,
     "residence": {
      "area": "울산광역시",
@@ -2574,6 +2538,7 @@
     "need_head": false,
     "price_cap": false,
     "residence_duty": 0,
+    "rewin_years": 0,
     "ext": 0.2,
     "residence": {
      "area": "울산광역시",
@@ -2612,6 +2577,7 @@
     "need_head": false,
     "price_cap": false,
     "residence_duty": 0,
+    "rewin_years": 0,
     "residence": {
      "area": null,
      "months": 0,
@@ -2622,6 +2588,7 @@
     "need_head": false,
     "price_cap": false,
     "residence_duty": 0,
+    "rewin_years": 0,
     "residence": {
      "area": null,
      "months": 0,
@@ -2632,6 +2599,7 @@
     "need_head": false,
     "price_cap": false,
     "residence_duty": 0,
+    "rewin_years": 0,
     "residence": {
      "area": null,
      "months": 0,
@@ -2725,6 +2693,7 @@
     "need_head": false,
     "price_cap": false,
     "residence_duty": 0,
+    "rewin_years": 0,
     "residence": {
      "area": null,
      "months": 0,
@@ -2735,6 +2704,7 @@
     "need_head": false,
     "price_cap": false,
     "residence_duty": 0,
+    "rewin_years": 0,
     "residence": {
      "area": null,
      "months": 0,
@@ -2745,6 +2715,7 @@
     "need_head": false,
     "price_cap": false,
     "residence_duty": 0,
+    "rewin_years": 0,
     "residence": {
      "area": null,
      "months": 0,
@@ -2779,6 +2750,7 @@
     "need_head": false,
     "price_cap": true,
     "residence_duty": 0,
+    "rewin_years": 0,
     "balance": "2026-12-21",
     "residence": {
      "area": "부산광역시",
@@ -2790,6 +2762,7 @@
     "need_head": false,
     "price_cap": true,
     "residence_duty": 0,
+    "rewin_years": 0,
     "balance": "2026-12-21",
     "residence": {
      "area": "부산광역시",
@@ -2801,6 +2774,7 @@
     "need_head": false,
     "price_cap": true,
     "residence_duty": 0,
+    "rewin_years": 0,
     "balance": "2026-12-21",
     "residence": {
      "area": "부산광역시",
@@ -2836,6 +2810,7 @@
     "need_head": false,
     "price_cap": true,
     "residence_duty": 0,
+    "rewin_years": 0,
     "balance": "2026-12-21",
     "residence": {
      "area": "부산광역시",
@@ -2847,6 +2822,7 @@
     "need_head": false,
     "price_cap": true,
     "residence_duty": 0,
+    "rewin_years": 0,
     "balance": "2026-12-21",
     "residence": {
      "area": "부산광역시",
@@ -2858,6 +2834,7 @@
     "need_head": false,
     "price_cap": true,
     "residence_duty": 0,
+    "rewin_years": 0,
     "balance": "2026-12-21",
     "residence": {
      "area": "부산광역시",
@@ -3064,6 +3041,7 @@
     "need_head": false,
     "price_cap": false,
     "residence_duty": 0,
+    "rewin_years": 0,
     "residence": {
      "area": null,
      "months": 0,
@@ -3074,6 +3052,7 @@
     "need_head": false,
     "price_cap": false,
     "residence_duty": 0,
+    "rewin_years": 0,
     "residence": {
      "area": null,
      "months": 0,
@@ -3084,6 +3063,7 @@
     "need_head": false,
     "price_cap": false,
     "residence_duty": 0,
+    "rewin_years": 0,
     "residence": {
      "area": null,
      "months": 0,
@@ -3229,6 +3209,7 @@
     "need_head": false,
     "price_cap": false,
     "residence_duty": 0,
+    "rewin_years": 0,
     "residence": {
      "area": null,
      "months": 0,
@@ -3239,6 +3220,7 @@
     "need_head": false,
     "price_cap": false,
     "residence_duty": 0,
+    "rewin_years": 0,
     "residence": {
      "area": null,
      "months": 0,
@@ -3249,6 +3231,7 @@
     "need_head": false,
     "price_cap": false,
     "residence_duty": 0,
+    "rewin_years": 0,
     "residence": {
      "area": null,
      "months": 0,
@@ -3340,6 +3323,7 @@
     "need_head": false,
     "price_cap": true,
     "residence_duty": 0,
+    "rewin_years": 0,
     "residence": {
      "area": "세종특별자치시",
      "months": 0,
@@ -3350,6 +3334,7 @@
     "need_head": false,
     "price_cap": true,
     "residence_duty": 0,
+    "rewin_years": 0,
     "residence": {
      "area": "세종특별자치시",
      "months": 0,
@@ -3360,6 +3345,7 @@
     "need_head": false,
     "price_cap": true,
     "residence_duty": 0,
+    "rewin_years": 0,
     "residence": {
      "area": "세종특별자치시",
      "months": 0,
@@ -3622,6 +3608,7 @@
     "need_head": false,
     "price_cap": false,
     "residence_duty": 0,
+    "rewin_years": 0,
     "residence": {
      "area": "충청북도",
      "months": 0,
@@ -3632,6 +3619,7 @@
     "need_head": false,
     "price_cap": false,
     "residence_duty": 0,
+    "rewin_years": 0,
     "residence": {
      "area": "충청북도",
      "months": 0,
@@ -3642,6 +3630,7 @@
     "need_head": false,
     "price_cap": false,
     "residence_duty": 0,
+    "rewin_years": 0,
     "residence": {
      "area": "충청북도",
      "months": 0,
