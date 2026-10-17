@@ -1,14 +1,454 @@
 {
- "date": "2026-10-15",
+ "date": "2026-10-17",
  "page_cap": 300,
- "notices": 60,
+ "notices": 61,
  "with_problem": 4,
  "kinds": {
-  "PDF 를 하나도 받지 못함": 1,
-  "글자가 거의 없는 쪽 N개 (스캔 이미지·표 그림 추정)": 3
+  "글자가 거의 없는 쪽 N개 (스캔 이미지·표 그림 추정)": 3,
+  "PDF 를 하나도 받지 못함": 1
  },
  "errors": [],
  "results": [
+  {
+   "notice": "2026000514",
+   "name": "트리븐센텀 2단지",
+   "url": "https://www.applyhome.co.kr/ai/aia/selectAPTLttotPblancDetail.do?houseManageNo=2026000514&pblancNo=2026000514",
+   "attachments": 1,
+   "pdfs": 1,
+   "attachment_list": [
+    {
+     "url": "https://static.applyhome.co.kr/ai/aia/getAtchmnfl.do?houseManageNo=2026000514&pblancNo=2026000514&atchmnflSeqNo=1999083&atchmnflSn=3",
+     "bytes": 1316795,
+     "pages": 72,
+     "chars": 148292,
+     "head": "- 1 - ※ 단지 주요정보 (분양문의) 1644-5344 주택유형 해당지역 기타지역 규제지역여부 민영 부산광역시 1년 이상 계속 거주자(202"
+    }
+   ],
+   "chosen": "https://static.applyhome.co.kr/ai/aia/getAtchmnfl.do?houseManageNo=2026000514&pblancNo=2026000514&atchmnflSeqNo=1999083&atchmnflSn=3",
+   "pages": 72,
+   "pages_read": 72,
+   "chars_read": 148363,
+   "empty_pages": [],
+   "chars_per_page_min": 327,
+   "fields": {
+    "need_head": false,
+    "price_cap": false,
+    "residence_duty": 0,
+    "rewin_years": 0,
+    "account_months": 6,
+    "residence": {
+     "area": "부산광역시",
+     "months": 12,
+     "since": "2025-10-16"
+    }
+   },
+   "fields_merged": {
+    "need_head": false,
+    "price_cap": false,
+    "residence_duty": 0,
+    "rewin_years": 0,
+    "account_months": 6,
+    "residence": {
+     "area": "부산광역시",
+     "months": 12,
+     "since": "2025-10-16"
+    }
+   },
+   "fields_pdfium": {
+    "need_head": false,
+    "price_cap": false,
+    "residence_duty": 0,
+    "rewin_years": 0,
+    "account_months": 6,
+    "residence": {
+     "area": "부산광역시",
+     "months": 12,
+     "since": "2025-10-16"
+    }
+   },
+   "pdfium_chars": 148925,
+   "problem": []
+  },
+  {
+   "notice": "2026000513",
+   "name": "트리븐센텀 1단지",
+   "url": "https://www.applyhome.co.kr/ai/aia/selectAPTLttotPblancDetail.do?houseManageNo=2026000513&pblancNo=2026000513",
+   "attachments": 1,
+   "pdfs": 1,
+   "attachment_list": [
+    {
+     "url": "https://static.applyhome.co.kr/ai/aia/getAtchmnfl.do?houseManageNo=2026000513&pblancNo=2026000513&atchmnflSeqNo=2000120&atchmnflSn=4",
+     "bytes": 1330557,
+     "pages": 72,
+     "chars": 151720,
+     "head": "- 1 - ※ 단지 주요정보 (분양문의) 1644-5344 주택유형 해당지역 기타지역 규제지역여부 민영 부산광역시 1년 이상 계속 거주자(202"
+    }
+   ],
+   "chosen": "https://static.applyhome.co.kr/ai/aia/getAtchmnfl.do?houseManageNo=2026000513&pblancNo=2026000513&atchmnflSeqNo=2000120&atchmnflSn=4",
+   "pages": 72,
+   "pages_read": 72,
+   "chars_read": 151791,
+   "empty_pages": [
+    70
+   ],
+   "chars_per_page_min": 7,
+   "fields": {
+    "need_head": false,
+    "price_cap": false,
+    "residence_duty": 0,
+    "rewin_years": 0,
+    "account_months": 6,
+    "residence": {
+     "area": "부산광역시",
+     "months": 12,
+     "since": "2025-10-16"
+    }
+   },
+   "fields_merged": {
+    "need_head": false,
+    "price_cap": false,
+    "residence_duty": 0,
+    "rewin_years": 0,
+    "account_months": 6,
+    "residence": {
+     "area": "부산광역시",
+     "months": 12,
+     "since": "2025-10-16"
+    }
+   },
+   "fields_pdfium": {
+    "need_head": false,
+    "price_cap": false,
+    "residence_duty": 0,
+    "rewin_years": 0,
+    "account_months": 6,
+    "residence": {
+     "area": "부산광역시",
+     "months": 12,
+     "since": "2025-10-16"
+    }
+   },
+   "pdfium_chars": 152346,
+   "problem": [
+    "글자가 거의 없는 쪽 1개 (스캔 이미지·표 그림 추정): [70]"
+   ]
+  },
+  {
+   "notice": "2026000509",
+   "name": "아크메르 동탄 99",
+   "url": "https://www.applyhome.co.kr/ai/aia/selectAPTLttotPblancDetail.do?houseManageNo=2026000509&pblancNo=2026000509",
+   "attachments": 1,
+   "pdfs": 1,
+   "attachment_list": [
+    {
+     "url": "https://static.applyhome.co.kr/ai/aia/getAtchmnfl.do?houseManageNo=2026000509&pblancNo=2026000509&atchmnflSeqNo=2000102&atchmnflSn=5",
+     "bytes": 4136589,
+     "pages": 76,
+     "chars": 180791,
+     "head": "- 1 - ※ 단지 주요정보 분양문의 ( ) 1522-8111 주택유형 해당지역 기타경기 기타지역 규제지역여부 민영 화성시 년 이상 계속 거주자"
+    }
+   ],
+   "chosen": "https://static.applyhome.co.kr/ai/aia/getAtchmnfl.do?houseManageNo=2026000509&pblancNo=2026000509&atchmnflSeqNo=2000102&atchmnflSn=5",
+   "pages": 76,
+   "pages_read": 76,
+   "chars_read": 180866,
+   "empty_pages": [],
+   "chars_per_page_min": 415,
+   "fields": {
+    "need_head": false,
+    "price_cap": false,
+    "residence_duty": 0,
+    "rewin_years": 10,
+    "account_months": 24,
+    "residence": {
+     "area": "화성시",
+     "months": 24,
+     "since": "2024-10-16"
+    }
+   },
+   "fields_merged": {
+    "need_head": false,
+    "price_cap": false,
+    "residence_duty": 0,
+    "rewin_years": 10,
+    "account_months": 24,
+    "residence": {
+     "area": "화성시",
+     "months": 24,
+     "since": "2024-10-16"
+    }
+   },
+   "fields_pdfium": {
+    "need_head": false,
+    "price_cap": false,
+    "residence_duty": 0,
+    "rewin_years": 10,
+    "residence": {
+     "area": "화성시",
+     "months": 24,
+     "since": "2024-10-16"
+    }
+   },
+   "pdfium_chars": 184907,
+   "tool_diff": {
+    "account_months": [
+     24,
+     null
+    ]
+   },
+   "filled_by_second_tool": [
+    "account_months"
+   ],
+   "problem": []
+  },
+  {
+   "notice": "2026000508",
+   "name": "아크메르 동탄 95",
+   "url": "https://www.applyhome.co.kr/ai/aia/selectAPTLttotPblancDetail.do?houseManageNo=2026000508&pblancNo=2026000508",
+   "attachments": 1,
+   "pdfs": 1,
+   "attachment_list": [
+    {
+     "url": "https://static.applyhome.co.kr/ai/aia/getAtchmnfl.do?houseManageNo=2026000508&pblancNo=2026000508&atchmnflSeqNo=2000101&atchmnflSn=6",
+     "bytes": 4428083,
+     "pages": 76,
+     "chars": 183612,
+     "head": "- 1 - ※ 단지 주요정보 분양문의 ( ) 1522-8111 주택유형 해당지역 기타경기 기타지역 규제지역여부 민영 화성시 년 이상 계속 거주자"
+    }
+   ],
+   "chosen": "https://static.applyhome.co.kr/ai/aia/getAtchmnfl.do?houseManageNo=2026000508&pblancNo=2026000508&atchmnflSeqNo=2000101&atchmnflSn=6",
+   "pages": 76,
+   "pages_read": 76,
+   "chars_read": 183687,
+   "empty_pages": [],
+   "chars_per_page_min": 413,
+   "fields": {
+    "need_head": false,
+    "price_cap": false,
+    "residence_duty": 0,
+    "rewin_years": 10,
+    "account_months": 24,
+    "residence": {
+     "area": "화성시",
+     "months": 24,
+     "since": "2024-10-16"
+    }
+   },
+   "fields_merged": {
+    "need_head": false,
+    "price_cap": false,
+    "residence_duty": 0,
+    "rewin_years": 10,
+    "account_months": 24,
+    "residence": {
+     "area": "화성시",
+     "months": 24,
+     "since": "2024-10-16"
+    }
+   },
+   "fields_pdfium": {
+    "need_head": false,
+    "price_cap": false,
+    "residence_duty": 0,
+    "rewin_years": 10,
+    "residence": {
+     "area": "화성시",
+     "months": 24,
+     "since": "2024-10-16"
+    }
+   },
+   "pdfium_chars": 187834,
+   "tool_diff": {
+    "account_months": [
+     24,
+     null
+    ]
+   },
+   "filled_by_second_tool": [
+    "account_months"
+   ],
+   "problem": []
+  },
+  {
+   "notice": "2026000507",
+   "name": "광안센텀 비스타동원(조합원 취소분)",
+   "url": "https://www.applyhome.co.kr/ai/aia/selectAPTLttotPblancDetail.do?houseManageNo=2026000507&pblancNo=2026000507",
+   "attachments": 1,
+   "pdfs": 1,
+   "attachment_list": [
+    {
+     "url": "https://static.applyhome.co.kr/ai/aia/getAtchmnfl.do?houseManageNo=2026000507&pblancNo=2026000507&atchmnflSeqNo=1999025&atchmnflSn=4",
+     "bytes": 938695,
+     "pages": 44,
+     "chars": 101725,
+     "head": "- 1 - ※ 단지 주요정보 (분양문의) 051-741-3300 주택유형 해당지역 기타지역 규제지역여부 민영 부산광역시 1년 이상 계속 거주자 "
+    }
+   ],
+   "chosen": "https://static.applyhome.co.kr/ai/aia/getAtchmnfl.do?houseManageNo=2026000507&pblancNo=2026000507&atchmnflSeqNo=1999025&atchmnflSn=4",
+   "pages": 44,
+   "pages_read": 44,
+   "chars_read": 101768,
+   "empty_pages": [],
+   "chars_per_page_min": 426,
+   "fields": {
+    "need_head": false,
+    "price_cap": false,
+    "residence_duty": 0,
+    "rewin_years": 0,
+    "account_months": 6,
+    "residence": {
+     "area": "부산광역시",
+     "months": 12,
+     "since": "2025-10-16"
+    }
+   },
+   "fields_merged": {
+    "need_head": false,
+    "price_cap": false,
+    "residence_duty": 0,
+    "rewin_years": 0,
+    "account_months": 6,
+    "residence": {
+     "area": "부산광역시",
+     "months": 12,
+     "since": "2025-10-16"
+    }
+   },
+   "fields_pdfium": {
+    "need_head": false,
+    "price_cap": false,
+    "residence_duty": 0,
+    "rewin_years": 0,
+    "account_months": 6,
+    "residence": {
+     "area": "부산광역시",
+     "months": 12,
+     "since": "2025-10-16"
+    }
+   },
+   "pdfium_chars": 102035,
+   "problem": []
+  },
+  {
+   "notice": "2026000495",
+   "name": "연산 센텀 월드메르디앙",
+   "url": "https://www.applyhome.co.kr/ai/aia/selectAPTLttotPblancDetail.do?houseManageNo=2026000495&pblancNo=2026000495",
+   "attachments": 1,
+   "pdfs": 1,
+   "attachment_list": [
+    {
+     "url": "https://static.applyhome.co.kr/ai/aia/getAtchmnfl.do?houseManageNo=2026000495&pblancNo=2026000495&atchmnflSeqNo=2000036&atchmnflSn=8",
+     "bytes": 783751,
+     "pages": 59,
+     "chars": 113921,
+     "head": "- 1 - ※ 단지 주요정보 (분양문의) 051-758-0900 주택유형 해당지역 기타지역 규제지역여부 민영 부산광역시 1년 이상 계속 거주자("
+    }
+   ],
+   "chosen": "https://static.applyhome.co.kr/ai/aia/getAtchmnfl.do?houseManageNo=2026000495&pblancNo=2026000495&atchmnflSeqNo=2000036&atchmnflSn=8",
+   "pages": 59,
+   "pages_read": 59,
+   "chars_read": 113979,
+   "empty_pages": [],
+   "chars_per_page_min": 555,
+   "fields": {
+    "need_head": false,
+    "price_cap": false,
+    "residence_duty": 0,
+    "rewin_years": 0,
+    "account_months": 6,
+    "residence": {
+     "area": "부산광역시",
+     "months": 12,
+     "since": "2025-10-16"
+    }
+   },
+   "fields_merged": {
+    "need_head": false,
+    "price_cap": false,
+    "residence_duty": 0,
+    "rewin_years": 0,
+    "account_months": 6,
+    "residence": {
+     "area": "부산광역시",
+     "months": 12,
+     "since": "2025-10-16"
+    }
+   },
+   "fields_pdfium": {
+    "need_head": false,
+    "price_cap": false,
+    "residence_duty": 0,
+    "rewin_years": 0,
+    "account_months": 6,
+    "residence": {
+     "area": "부산광역시",
+     "months": 12,
+     "since": "2025-10-16"
+    }
+   },
+   "pdfium_chars": 114582,
+   "problem": []
+  },
+  {
+   "notice": "2026000455",
+   "name": "신분평 에피트 더웨이시티",
+   "url": "https://www.applyhome.co.kr/ai/aia/selectAPTLttotPblancDetail.do?houseManageNo=2026000455&pblancNo=2026000455",
+   "attachments": 1,
+   "pdfs": 1,
+   "attachment_list": [
+    {
+     "url": "https://static.applyhome.co.kr/ai/aia/getAtchmnfl.do?houseManageNo=2026000455&pblancNo=2026000455&atchmnflSeqNo=1969991&atchmnflSn=5",
+     "bytes": 1222976,
+     "pages": 61,
+     "chars": 206029,
+     "head": "- 1 - 신분평 에피트 더웨이시티 입주자모집공고 구글플레이스토어 애플앱스토어 청약Home 앱 설치 바로가기 ※ 본 아파트 입주자모집공고의 내용"
+    }
+   ],
+   "chosen": "https://static.applyhome.co.kr/ai/aia/getAtchmnfl.do?houseManageNo=2026000455&pblancNo=2026000455&atchmnflSeqNo=1969991&atchmnflSn=5",
+   "pages": 61,
+   "pages_read": 61,
+   "chars_read": 206089,
+   "empty_pages": [],
+   "chars_per_page_min": 1707,
+   "fields": {
+    "need_head": false,
+    "price_cap": false,
+    "residence_duty": 0,
+    "rewin_years": 0,
+    "account_months": 6,
+    "residence": {
+     "area": "청주시",
+     "months": 0,
+     "since": null
+    }
+   },
+   "fields_merged": {
+    "need_head": false,
+    "price_cap": false,
+    "residence_duty": 0,
+    "rewin_years": 0,
+    "account_months": 6,
+    "residence": {
+     "area": "청주시",
+     "months": 0,
+     "since": null
+    }
+   },
+   "fields_pdfium": {
+    "need_head": false,
+    "price_cap": false,
+    "residence_duty": 0,
+    "rewin_years": 0,
+    "account_months": 6,
+    "residence": {
+     "area": "청주시",
+     "months": 0,
+     "since": null
+    }
+   },
+   "pdfium_chars": 149027,
+   "problem": []
+  },
   {
    "notice": "2026000492",
    "name": "청주 가경 아이파크 8단지",
@@ -308,16 +748,60 @@
    "name": "힐스테이트 거제시그니처(1회차)",
    "url": "https://www.applyhome.co.kr/ai/aia/selectAPTLttotPblancDetail.do?houseManageNo=2026000464&pblancNo=2026000464",
    "attachments": 1,
-   "pdfs": 0,
+   "pdfs": 1,
    "attachment_list": [
     {
      "url": "https://static.applyhome.co.kr/ai/aia/getAtchmnfl.do?houseManageNo=2026000464&pblancNo=2026000464&atchmnflSeqNo=1997002&atchmnflSn=1",
-     "error": "PDF 아님 (200, 59바이트)"
+     "bytes": 1783260,
+     "pages": 80,
+     "chars": 180024,
+     "head": "- 1 - ※ 단지 주요정보 (분양문의) 1811-1100 주택유형 해당지역 기타지역 규제지역여부 민영 경상남도 거제시 거주자 경상남도 및 부산"
     }
    ],
-   "problem": [
-    "PDF 를 하나도 받지 못함"
-   ]
+   "chosen": "https://static.applyhome.co.kr/ai/aia/getAtchmnfl.do?houseManageNo=2026000464&pblancNo=2026000464&atchmnflSeqNo=1997002&atchmnflSn=1",
+   "pages": 80,
+   "pages_read": 80,
+   "chars_read": 180103,
+   "empty_pages": [],
+   "chars_per_page_min": 681,
+   "fields": {
+    "need_head": false,
+    "price_cap": false,
+    "residence_duty": 0,
+    "rewin_years": 0,
+    "account_months": 6,
+    "residence": {
+     "area": "경상남도 거제시",
+     "months": 0,
+     "since": null
+    }
+   },
+   "fields_merged": {
+    "need_head": false,
+    "price_cap": false,
+    "residence_duty": 0,
+    "rewin_years": 0,
+    "account_months": 6,
+    "residence": {
+     "area": "경상남도 거제시",
+     "months": 0,
+     "since": null
+    }
+   },
+   "fields_pdfium": {
+    "need_head": false,
+    "price_cap": false,
+    "residence_duty": 0,
+    "rewin_years": 0,
+    "account_months": 6,
+    "residence": {
+     "area": "경상남도 거제시",
+     "months": 0,
+     "since": null
+    }
+   },
+   "pdfium_chars": 179800,
+   "problem": []
   },
   {
    "notice": "2026000458",
@@ -1482,312 +1966,6 @@
    "problem": []
   },
   {
-   "notice": "2026000449",
-   "name": "화서역 호수공원 아너스빌",
-   "url": "https://www.applyhome.co.kr/ai/aia/selectAPTLttotPblancDetail.do?houseManageNo=2026000449&pblancNo=2026000449",
-   "attachments": 1,
-   "pdfs": 1,
-   "attachment_list": [
-    {
-     "url": "https://static.applyhome.co.kr/ai/aia/getAtchmnfl.do?houseManageNo=2026000449&pblancNo=2026000449&atchmnflSeqNo=1971234&atchmnflSn=2",
-     "bytes": 831956,
-     "pages": 70,
-     "chars": 152460,
-     "head": "- 1 - ※ 단지 주요정보 (분양문의) 1551-1480 주택유형 해당지역 기타지역 규제지역여부 민영 경기도 수원시 거주자 서울특별시, 경기도"
-    }
-   ],
-   "chosen": "https://static.applyhome.co.kr/ai/aia/getAtchmnfl.do?houseManageNo=2026000449&pblancNo=2026000449&atchmnflSeqNo=1971234&atchmnflSn=2",
-   "pages": 70,
-   "pages_read": 70,
-   "chars_read": 152529,
-   "empty_pages": [],
-   "chars_per_page_min": 1077,
-   "fields": {
-    "need_head": false,
-    "price_cap": false,
-    "residence_duty": 0,
-    "rewin_years": 0,
-    "account_months": 12,
-    "residence": {
-     "area": "경기도 수원시",
-     "months": 0,
-     "since": null
-    }
-   },
-   "fields_merged": {
-    "need_head": false,
-    "price_cap": false,
-    "residence_duty": 0,
-    "rewin_years": 0,
-    "account_months": 12,
-    "residence": {
-     "area": "경기도 수원시",
-     "months": 0,
-     "since": null
-    }
-   },
-   "fields_pdfium": {
-    "need_head": false,
-    "price_cap": false,
-    "residence_duty": 0,
-    "rewin_years": 0,
-    "account_months": 12,
-    "residence": {
-     "area": "경기도 수원시",
-     "months": 0,
-     "since": null
-    }
-   },
-   "pdfium_chars": 153402,
-   "problem": []
-  },
-  {
-   "notice": "2026000441",
-   "name": "문수로 비스타 더파크",
-   "url": "https://www.applyhome.co.kr/ai/aia/selectAPTLttotPblancDetail.do?houseManageNo=2026000441&pblancNo=2026000441",
-   "attachments": 1,
-   "pdfs": 1,
-   "attachment_list": [
-    {
-     "url": "https://static.applyhome.co.kr/ai/aia/getAtchmnfl.do?houseManageNo=2026000441&pblancNo=2026000441&atchmnflSeqNo=1973044&atchmnflSn=2",
-     "bytes": 1005497,
-     "pages": 68,
-     "chars": 155459,
-     "head": "- 1 - ※ 단지 주요정보 (분양문의) 1551-8454 주택유형 해당지역 기타지역 규제지역여부 민영 울산광역시 1년 이상 거주자(2025.0"
-    }
-   ],
-   "chosen": "https://static.applyhome.co.kr/ai/aia/getAtchmnfl.do?houseManageNo=2026000441&pblancNo=2026000441&atchmnflSeqNo=1973044&atchmnflSn=2",
-   "pages": 68,
-   "pages_read": 68,
-   "chars_read": 155526,
-   "empty_pages": [],
-   "chars_per_page_min": 228,
-   "fields": {
-    "need_head": false,
-    "price_cap": false,
-    "residence_duty": 0,
-    "rewin_years": 0,
-    "account_months": 6,
-    "residence": {
-     "area": "울산광역시",
-     "months": 12,
-     "since": "2025-09-11"
-    }
-   },
-   "fields_merged": {
-    "need_head": false,
-    "price_cap": false,
-    "residence_duty": 0,
-    "rewin_years": 0,
-    "account_months": 6,
-    "residence": {
-     "area": "울산광역시",
-     "months": 12,
-     "since": "2025-09-11"
-    }
-   },
-   "fields_pdfium": {
-    "need_head": false,
-    "price_cap": false,
-    "residence_duty": 0,
-    "rewin_years": 0,
-    "account_months": 6,
-    "residence": {
-     "area": "울산광역시",
-     "months": 12,
-     "since": "2025-09-11"
-    }
-   },
-   "pdfium_chars": 154309,
-   "problem": []
-  },
-  {
-   "notice": "2026000438",
-   "name": "힐스테이트 고덕엘리스트 A65BL 공공분양주택",
-   "url": "https://www.applyhome.co.kr/ai/aia/selectAPTLttotPblancDetail.do?houseManageNo=2026000438&pblancNo=2026000438",
-   "attachments": 1,
-   "pdfs": 1,
-   "attachment_list": [
-    {
-     "url": "https://static.applyhome.co.kr/ai/aia/getAtchmnfl.do?houseManageNo=2026000438&pblancNo=2026000438&atchmnflSeqNo=1973016&atchmnflSn=5",
-     "bytes": 1152965,
-     "pages": 93,
-     "chars": 184361,
-     "head": "- 1 - 구분 변경 전 변경 후 품목 타입(약식표기) 페이지 품목 타입(약식표기) 페이지 다이닝 컬렉션 1 주방 평면 변화 + 벽체/상판 세라"
-    }
-   ],
-   "chosen": "https://static.applyhome.co.kr/ai/aia/getAtchmnfl.do?houseManageNo=2026000438&pblancNo=2026000438&atchmnflSeqNo=1973016&atchmnflSn=5",
-   "pages": 93,
-   "pages_read": 93,
-   "chars_read": 184453,
-   "empty_pages": [],
-   "chars_per_page_min": 458,
-   "fields": {
-    "need_head": false,
-    "price_cap": true,
-    "residence_duty": 3,
-    "rewin_years": 10,
-    "account_months": 12,
-    "deposit_count": 12,
-    "residence": {
-     "area": "경기도 평택시",
-     "months": 12,
-     "since": "2025-09-11"
-    }
-   },
-   "fields_merged": {
-    "need_head": false,
-    "price_cap": true,
-    "residence_duty": 3,
-    "rewin_years": 10,
-    "account_months": 12,
-    "deposit_count": 12,
-    "residence": {
-     "area": "경기도 평택시",
-     "months": 12,
-     "since": "2025-09-11"
-    }
-   },
-   "fields_pdfium": {
-    "need_head": false,
-    "price_cap": true,
-    "residence_duty": 3,
-    "rewin_years": 10,
-    "account_months": 12,
-    "deposit_count": 12,
-    "residence": {
-     "area": "경기도 평택시",
-     "months": 12,
-     "since": "2025-09-11"
-    }
-   },
-   "pdfium_chars": 184389,
-   "problem": []
-  },
-  {
-   "notice": "2026000437",
-   "name": "힐스테이트 고덕엘리스트 A12BL 공공분양주택",
-   "url": "https://www.applyhome.co.kr/ai/aia/selectAPTLttotPblancDetail.do?houseManageNo=2026000437&pblancNo=2026000437",
-   "attachments": 1,
-   "pdfs": 1,
-   "attachment_list": [
-    {
-     "url": "https://static.applyhome.co.kr/ai/aia/getAtchmnfl.do?houseManageNo=2026000437&pblancNo=2026000437&atchmnflSeqNo=1971201&atchmnflSn=6",
-     "bytes": 1160721,
-     "pages": 93,
-     "chars": 186137,
-     "head": "- 1 - 구분 변경 전 변경 후 품목 타입(약식표기) 페이지 품목 타입(약식표기) 페이지 다이닝 컬렉션 1 주방 평면 변화 + 벽체/상판 세라"
-    }
-   ],
-   "chosen": "https://static.applyhome.co.kr/ai/aia/getAtchmnfl.do?houseManageNo=2026000437&pblancNo=2026000437&atchmnflSeqNo=1971201&atchmnflSn=6",
-   "pages": 93,
-   "pages_read": 93,
-   "chars_read": 186229,
-   "empty_pages": [],
-   "chars_per_page_min": 430,
-   "fields": {
-    "need_head": false,
-    "price_cap": true,
-    "residence_duty": 3,
-    "rewin_years": 10,
-    "account_months": 12,
-    "deposit_count": 12,
-    "residence": {
-     "area": "경기도 평택시",
-     "months": 12,
-     "since": "2025-09-11"
-    }
-   },
-   "fields_merged": {
-    "need_head": false,
-    "price_cap": true,
-    "residence_duty": 3,
-    "rewin_years": 10,
-    "account_months": 12,
-    "deposit_count": 12,
-    "residence": {
-     "area": "경기도 평택시",
-     "months": 12,
-     "since": "2025-09-11"
-    }
-   },
-   "fields_pdfium": {
-    "need_head": false,
-    "price_cap": true,
-    "residence_duty": 3,
-    "rewin_years": 10,
-    "account_months": 12,
-    "deposit_count": 12,
-    "residence": {
-     "area": "경기도 평택시",
-     "months": 12,
-     "since": "2025-09-11"
-    }
-   },
-   "pdfium_chars": 186313,
-   "problem": []
-  },
-  {
-   "notice": "2026000103",
-   "name": "더샵 분당하이스트",
-   "url": "https://www.applyhome.co.kr/ai/aia/selectAPTLttotPblancDetail.do?houseManageNo=2026000103&pblancNo=2026000103",
-   "attachments": 1,
-   "pdfs": 1,
-   "attachment_list": [
-    {
-     "url": "https://static.applyhome.co.kr/ai/aia/getAtchmnfl.do?houseManageNo=2026000103&pblancNo=2026000103&atchmnflSeqNo=1797255&atchmnflSn=9",
-     "bytes": 1043877,
-     "pages": 48,
-     "chars": 159374,
-     "head": "더샵 분당하이스트 - 1 - 더샵 분당하이스트 입주자모집공고 구글플레이스토어 애플앱스토어 청약Home 앱 설치 바로가기 공식 홈페이지 대표번호 "
-    }
-   ],
-   "chosen": "https://static.applyhome.co.kr/ai/aia/getAtchmnfl.do?houseManageNo=2026000103&pblancNo=2026000103&atchmnflSeqNo=1797255&atchmnflSn=9",
-   "pages": 48,
-   "pages_read": 48,
-   "chars_read": 159421,
-   "empty_pages": [],
-   "chars_per_page_min": 1221,
-   "fields": {
-    "need_head": false,
-    "price_cap": false,
-    "residence_duty": 0,
-    "rewin_years": 10,
-    "account_months": 24,
-    "residence": {
-     "area": "경기도 성남시",
-     "months": 24,
-     "since": "2024-09-11"
-    }
-   },
-   "fields_merged": {
-    "need_head": false,
-    "price_cap": false,
-    "residence_duty": 0,
-    "rewin_years": 10,
-    "account_months": 24,
-    "residence": {
-     "area": "경기도 성남시",
-     "months": 24,
-     "since": "2024-09-11"
-    }
-   },
-   "fields_pdfium": {
-    "need_head": false,
-    "price_cap": false,
-    "residence_duty": 0,
-    "rewin_years": 10,
-    "account_months": 24,
-    "residence": {
-     "area": "경기도 성남시",
-     "months": 24,
-     "since": "2024-09-11"
-    }
-   },
-   "pdfium_chars": 159093,
-   "problem": []
-  },
-  {
    "notice": "2026000314",
    "name": "중동역 다채로움 더원",
    "url": "https://www.applyhome.co.kr/ai/aia/selectAPTLttotPblancDetail.do?houseManageNo=2026000314&pblancNo=2026000314",
@@ -2221,6 +2399,76 @@
    },
    "pdfium_chars": 149078,
    "problem": []
+  },
+  {
+   "notice": "2026910264",
+   "name": "시흥 은계 에피트(조합원 취소분)",
+   "url": "https://www.applyhome.co.kr/ai/aia/selectAPTRemndrLttotPblancDetailView.do?houseManageNo=2026910264&pblancNo=2026910264",
+   "attachments": 1,
+   "pdfs": 1,
+   "attachment_list": [
+    {
+     "url": "https://static.applyhome.co.kr/ai/aia/getAtchmnfl.do?houseManageNo=2026910264&pblancNo=2026910264&atchmnflSeqNo=1996222&atchmnflSn=3",
+     "bytes": 339960,
+     "pages": 10,
+     "chars": 14778,
+     "head": "- 1 - ※ 단지 주요정보 (분양문의)031-318-4998 주택유형 규제지역여부 무순위(사후) 자격요건 민영 비규제지역 무순위(사후) 입주자"
+    }
+   ],
+   "chosen": "https://static.applyhome.co.kr/ai/aia/getAtchmnfl.do?houseManageNo=2026910264&pblancNo=2026910264&atchmnflSeqNo=1996222&atchmnflSn=3",
+   "pages": 10,
+   "pages_read": 10,
+   "chars_read": 14787,
+   "empty_pages": [],
+   "chars_per_page_min": 592,
+   "fields": {
+    "need_head": false,
+    "price_cap": false,
+    "residence_duty": 0,
+    "residence": {
+     "area": null,
+     "months": 0,
+     "since": null
+    }
+   },
+   "fields_merged": {
+    "need_head": false,
+    "price_cap": false,
+    "residence_duty": 0,
+    "residence": {
+     "area": null,
+     "months": 0,
+     "since": null
+    }
+   },
+   "fields_pdfium": {
+    "need_head": false,
+    "price_cap": false,
+    "residence_duty": 0,
+    "residence": {
+     "area": null,
+     "months": 0,
+     "since": null
+    }
+   },
+   "pdfium_chars": 15005,
+   "problem": []
+  },
+  {
+   "notice": "2026910261",
+   "name": "올 뉴 챔피언스시티 1차",
+   "url": "https://www.applyhome.co.kr/ai/aia/selectAPTRemndrLttotPblancDetailView.do?houseManageNo=2026910261&pblancNo=2026910261",
+   "attachments": 1,
+   "pdfs": 0,
+   "attachment_list": [
+    {
+     "url": "https://static.applyhome.co.kr/ai/aia/getAtchmnfl.do?houseManageNo=2026910261&pblancNo=2026910261&atchmnflSeqNo=1999120&atchmnflSn=5",
+     "error": "PDF 아님 (200, 59바이트)"
+    }
+   ],
+   "problem": [
+    "PDF 를 하나도 받지 못함"
+   ]
   },
   {
    "notice": "2026910262",
@@ -3242,137 +3490,6 @@
    "problem": []
   },
   {
-   "notice": "2026930037",
-   "name": "과천 푸르지오 벨라르테",
-   "url": "https://www.applyhome.co.kr/ai/aia/selectAPTRemndrLttotPblancDetailView.do?houseManageNo=2026930037&pblancNo=2026930037",
-   "attachments": 1,
-   "pdfs": 1,
-   "attachment_list": [
-    {
-     "url": "https://static.applyhome.co.kr/ai/aia/getAtchmnfl.do?houseManageNo=2026930037&pblancNo=2026930037&atchmnflSeqNo=1980252&atchmnflSn=3",
-     "bytes": 396554,
-     "pages": 14,
-     "chars": 23841,
-     "head": "- 1 - ※ 단지 주요정보 분양문의( ) 1670-1000 주택유형 규제지역여부 거주요건 재당첨제한 민영 투기과열지구 청약과열지역 / 경기도 "
-    }
-   ],
-   "chosen": "https://static.applyhome.co.kr/ai/aia/getAtchmnfl.do?houseManageNo=2026930037&pblancNo=2026930037&atchmnflSeqNo=1980252&atchmnflSn=3",
-   "pages": 14,
-   "pages_read": 14,
-   "chars_read": 23854,
-   "empty_pages": [
-    14
-   ],
-   "chars_per_page_min": 19,
-   "fields": {
-    "need_head": true,
-    "price_cap": true,
-    "residence_duty": 0,
-    "residence": {
-     "area": "과천시",
-     "months": 0,
-     "since": null
-    }
-   },
-   "fields_merged": {
-    "need_head": true,
-    "price_cap": true,
-    "residence_duty": 0,
-    "rewin_years": 10,
-    "residence": {
-     "area": "과천시",
-     "months": 0,
-     "since": null
-    }
-   },
-   "fields_pdfium": {
-    "need_head": true,
-    "price_cap": true,
-    "residence_duty": 0,
-    "rewin_years": 10,
-    "residence": {
-     "area": "과천시",
-     "months": 0,
-     "since": null
-    }
-   },
-   "pdfium_chars": 23907,
-   "tool_diff": {
-    "rewin_years": [
-     null,
-     10
-    ]
-   },
-   "filled_by_second_tool": [
-    "rewin_years"
-   ],
-   "problem": [
-    "글자가 거의 없는 쪽 1개 (스캔 이미지·표 그림 추정): [14]"
-   ]
-  },
-  {
-   "notice": "2026930036",
-   "name": "과천 푸르지오 라비엔오",
-   "url": "https://www.applyhome.co.kr/ai/aia/selectAPTRemndrLttotPblancDetailView.do?houseManageNo=2026930036&pblancNo=2026930036",
-   "attachments": 1,
-   "pdfs": 1,
-   "attachment_list": [
-    {
-     "url": "https://static.applyhome.co.kr/ai/aia/getAtchmnfl.do?houseManageNo=2026930036&pblancNo=2026930036&atchmnflSeqNo=1980253&atchmnflSn=4",
-     "bytes": 505709,
-     "pages": 20,
-     "chars": 34295,
-     "head": "- 1 - ※ 단지 주요정보 분양문의( ) 1670-1000 주택유형 규제지역여부 거주요건 재당첨제한 민영 투기과열지구 청약과열지역 / 경기도 "
-    }
-   ],
-   "chosen": "https://static.applyhome.co.kr/ai/aia/getAtchmnfl.do?houseManageNo=2026930036&pblancNo=2026930036&atchmnflSeqNo=1980253&atchmnflSn=4",
-   "pages": 20,
-   "pages_read": 20,
-   "chars_read": 34314,
-   "empty_pages": [],
-   "chars_per_page_min": 227,
-   "fields": {
-    "price_cap": true,
-    "residence_duty": 0,
-    "residence": {
-     "area": "과천시",
-     "months": 0,
-     "since": null
-    }
-   },
-   "fields_merged": {
-    "price_cap": true,
-    "residence_duty": 0,
-    "rewin_years": 10,
-    "residence": {
-     "area": "과천시",
-     "months": 0,
-     "since": null
-    }
-   },
-   "fields_pdfium": {
-    "price_cap": true,
-    "residence_duty": 0,
-    "rewin_years": 10,
-    "residence": {
-     "area": "과천시",
-     "months": 0,
-     "since": null
-    }
-   },
-   "pdfium_chars": 34716,
-   "tool_diff": {
-    "rewin_years": [
-     null,
-     10
-    ]
-   },
-   "filled_by_second_tool": [
-    "rewin_years"
-   ],
-   "problem": []
-  },
-  {
    "notice": "2026910220",
    "name": "아크로 리버스카이(2차)",
    "url": "https://www.applyhome.co.kr/ai/aia/selectAPTRemndrLttotPblancDetailView.do?houseManageNo=2026910220&pblancNo=2026910220",
@@ -3427,60 +3544,6 @@
     }
    },
    "pdfium_chars": 29512,
-   "problem": []
-  },
-  {
-   "notice": "2026910248",
-   "name": "제일풍경채 첨단3지구(A6BL)",
-   "url": "https://www.applyhome.co.kr/ai/aia/selectAPTRemndrLttotPblancDetailView.do?houseManageNo=2026910248&pblancNo=2026910248",
-   "attachments": 1,
-   "pdfs": 1,
-   "attachment_list": [
-    {
-     "url": "https://static.applyhome.co.kr/ai/aia/getAtchmnfl.do?houseManageNo=2026910248&pblancNo=2026910248&atchmnflSeqNo=1982008&atchmnflSn=1",
-     "bytes": 237506,
-     "pages": 9,
-     "chars": 18628,
-     "head": "- 1 - ※ 단지 주요정보 (분양문의) 1644-2344 주택유형 규제지역여부 무순위(사후) 자격요건 민영 비규제지역 무순위(사후) 입주자모집"
-    }
-   ],
-   "chosen": "https://static.applyhome.co.kr/ai/aia/getAtchmnfl.do?houseManageNo=2026910248&pblancNo=2026910248&atchmnflSeqNo=1982008&atchmnflSn=1",
-   "pages": 9,
-   "pages_read": 9,
-   "chars_read": 18636,
-   "empty_pages": [],
-   "chars_per_page_min": 1439,
-   "fields": {
-    "need_head": false,
-    "price_cap": true,
-    "residence_duty": 0,
-    "residence": {
-     "area": null,
-     "months": 0,
-     "since": null
-    }
-   },
-   "fields_merged": {
-    "need_head": false,
-    "price_cap": true,
-    "residence_duty": 0,
-    "residence": {
-     "area": null,
-     "months": 0,
-     "since": null
-    }
-   },
-   "fields_pdfium": {
-    "need_head": false,
-    "price_cap": true,
-    "residence_duty": 0,
-    "residence": {
-     "area": null,
-     "months": 0,
-     "since": null
-    }
-   },
-   "pdfium_chars": 18528,
    "problem": []
   },
   {
