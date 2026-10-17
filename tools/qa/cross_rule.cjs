@@ -173,7 +173,10 @@ const ROOT = join(__dirname, '../..'), DOCS = join(ROOT, 'docs');
         });
         // LH-UI-001: 공고 결론 = 계층 중 가장 좋은 결론 (대학생·주거급여만 있는 공고 제외)
         checks++;
-        const main = J.groups.filter(g => !['대학생', '주거급여수급자'].includes(g.key));
+        /* 대학생·주거급여수급자 계층은 '예'라고 답했으면 결론에 넣는다 (2026-10-05 QA R1 화면 규칙 — 2026-10-17 대학생 가능·나머지 확인/해당 없음인 완화 행복주택에서 거짓 경보) */
+        const said = g => (g.key === '대학생' && p.lhStudent === true) || (g.key === '주거급여수급자' && p.lhHousingBenefit === true);
+        const main0 = J.groups.filter(g => !['대학생', '주거급여수급자'].includes(g.key) || said(g));
+        const main = main0.length ? main0 : J.groups.filter(g => !['대학생', '주거급여수급자'].includes(g.key));
         const best0 = main.length ? main.slice().sort((a, b) => ORDR[a.s] - ORDR[b.s])[0].s : null;
         const want = best0 && ((T || {}).unknown_groups || []).length && ['no', 'na'].includes(best0) ? 'partial' : best0;   /* 판정하지 않는 계층(사회주택 고령자 등)이 있으면 '불가' 대신 '일부 계층 판정 못 함' (rentalJudge) */
         if (main.length && J.s !== want) v('LH-UI-001', 'HIGH', L, '계층 ' + main.map(g => g.s).join(','), '공고 결론 ' + J.s, '가장 좋은 계층 결론', ['rentalJudge'], '화면', null);
