@@ -3082,6 +3082,256 @@
     }
    ],
    "notes": "신청자격은 익산시 거주인데 순위 결정기준은 남은 주택을 익산시 외 전북 거주자에게 공급 — 화면은 익산시 거주 충족, 전북 다른 시·군은 확인, 전북 밖은 불가. 임대조건 39형 11,640,000 = 2,328,000 + 9,312,000, 월 171,250."
+  },
+  {
+   "id": "2015122300020912",
+   "type": "통합공공임대",
+   "verified_from": "부산모라 1블록 통합공공임대 입주자 최초모집 (모집공고일 2026.10.15, 주택관리번호 2026000524)",
+   "verified_at": "2026-10-17",
+   "posted": "2026-10-15",
+   "relaxed": false,
+   "homeless_relaxed": false,
+   "groups": [
+    {
+     "name": "청년",
+     "homeless": "self",
+     "age": [
+      18,
+      39
+     ],
+     "income_pct": {
+      "1": 170,
+      "2": 160,
+      "3+": 150
+     },
+     "income_basis": "기준 중위소득",
+     "income_dual_pct": null,
+     "asset_manwon": 34500,
+     "car_manwon": 4542,
+     "quotes": {
+      "income": "❶ 청년 … ㉮ 공급신청자(세대원이 있는 세대의 세대주인 경우에는 해당 세대)의 월평균소득이 … 기준 중위소득의 150퍼센트(1~2인 가구 및 출산가구의 경우에는 우대비율을 가산) 이하일 것 ㉯ 18세 이상 39세 이하"
+     }
+    },
+    {
+     "name": "신혼부부·한부모",
+     "homeless": "household",
+     "age": null,
+     "income_pct": {
+      "1": null,
+      "2": 160,
+      "3+": 150
+     },
+     "income_basis": "기준 중위소득",
+     "income_dual_pct": {
+      "1": null,
+      "2": 190,
+      "3+": 180
+     },
+     "asset_manwon": 34500,
+     "car_manwon": 4542,
+     "quotes": {
+      "income": "표 '신혼부부, 한부모가족 · 그 외 · 맞벌이 × 2인 160% · 3인 150%, 맞벌이 ○ 2인 190% · 3인 180%' / '① 신혼부부 맞벌이 우대비율 : 30%p 가산'"
+     }
+    },
+    {
+     "name": "고령자",
+     "homeless": "household_or_single_self",
+     "age": [
+      65,
+      null
+     ],
+     "income_pct": {
+      "1": 170,
+      "2": 160,
+      "3+": 150
+     },
+     "income_basis": "기준 중위소득",
+     "income_dual_pct": null,
+     "asset_manwon": 34500,
+     "car_manwon": 4542,
+     "quotes": {
+      "homeless": "❸ 고령자 • 무주택세대구성원(혼인 중이 아닌 경우로서 단독세대주로 입주하려는 사람의 경우에는 무주택자)"
+     }
+    },
+    {
+     "name": "일반",
+     "homeless": "household",
+     "age": null,
+     "income_pct": {
+      "1": 170,
+      "2": 160,
+      "3+": 150
+     },
+     "income_basis": "기준 중위소득",
+     "income_dual_pct": null,
+     "asset_manwon": 34500,
+     "car_manwon": 4542,
+     "quotes": {
+      "income": "표 '신혼부부, 한부모가족을 제외한 모든 계층 × 1인 170% · 2인 160% · 3인 이상 150%' / '자산기준 : 총자산 345,000,000원 및 자동차 45,420,000원 이하'"
+     }
+    }
+   ],
+   "income_table_100": {
+    "1": 2564238,
+    "2": 4199292,
+    "3": 5359036,
+    "4": 6494738,
+    "5": 7556719,
+    "6": 8555952,
+    "7": 9515150,
+    "8": 10474348
+   },
+   "income_add_per": 959198,
+   "rents": [
+    {
+     "complex": null,
+     "type": "31A",
+     "group": "1구간",
+     "deposit": 12920000,
+     "rent": 119970
+    },
+    {
+     "complex": null,
+     "type": "31A",
+     "group": "2구간",
+     "deposit": 14765000,
+     "rent": 137110
+    },
+    {
+     "complex": null,
+     "type": "31A",
+     "group": "3구간",
+     "deposit": 18457000,
+     "rent": 171380
+    },
+    {
+     "complex": null,
+     "type": "31A",
+     "group": "4구간",
+     "deposit": 23994000,
+     "rent": 222800
+    },
+    {
+     "complex": null,
+     "type": "31A",
+     "group": "5구간",
+     "deposit": 29531000,
+     "rent": 274220
+    },
+    {
+     "complex": null,
+     "type": "31A",
+     "group": "6구간",
+     "deposit": 33223000,
+     "rent": 308490
+    },
+    {
+     "complex": null,
+     "type": "31AS",
+     "group": "1구간",
+     "deposit": 12621000,
+     "rent": 117190
+    },
+    {
+     "complex": null,
+     "type": "31AS",
+     "group": "2구간",
+     "deposit": 14424000,
+     "rent": 133940
+    },
+    {
+     "complex": null,
+     "type": "31AS",
+     "group": "3구간",
+     "deposit": 18030000,
+     "rent": 167420
+    },
+    {
+     "complex": null,
+     "type": "31AS",
+     "group": "4구간",
+     "deposit": 23439000,
+     "rent": 217650
+    },
+    {
+     "complex": null,
+     "type": "31AS",
+     "group": "5구간",
+     "deposit": 28848000,
+     "rent": 267880
+    },
+    {
+     "complex": null,
+     "type": "31AS",
+     "group": "6구간",
+     "deposit": 32455000,
+     "rent": 301360
+    },
+    {
+     "complex": null,
+     "type": "44A",
+     "group": "1구간",
+     "deposit": 18698000,
+     "rent": 173620
+    },
+    {
+     "complex": null,
+     "type": "44A",
+     "group": "2구간",
+     "deposit": 21369000,
+     "rent": 198430
+    },
+    {
+     "complex": null,
+     "type": "44A",
+     "group": "3구간",
+     "deposit": 26712000,
+     "rent": 248040
+    },
+    {
+     "complex": null,
+     "type": "44A",
+     "group": "4구간",
+     "deposit": 34725000,
+     "rent": 322450
+    },
+    {
+     "complex": null,
+     "type": "44A",
+     "group": "5구간",
+     "deposit": 42739000,
+     "rent": 396860
+    },
+    {
+     "complex": null,
+     "type": "44A",
+     "group": "6구간",
+     "deposit": 48081000,
+     "rent": 446470
+    },
+    {
+     "complex": null,
+     "type": "31A",
+     "group": "생계·의료급여 수급자 등 상한",
+     "deposit": 3402000,
+     "rent": 67720
+    },
+    {
+     "complex": null,
+     "type": "31AS",
+     "group": "생계·의료급여 수급자 등 상한",
+     "deposit": 3323000,
+     "rent": 66140
+    },
+    {
+     "complex": null,
+     "type": "44A",
+     "group": "생계·의료급여 수급자 등 상한",
+     "deposit": 4777000,
+     "rent": 95090
+    }
+   ],
+   "notes": "2026-10-17: 계층 머리표가 '●' 대신 '❶ 청년 ❷ 신혼부부ㆍ한부모가족 ❸ 고령자 ❹ 일반'이라 못 읽던 것. 임대조건 표 31A 1구간 12,920,000 = 646,000 + 12,274,000 / 119,970 등 원문 대조. 소득표 2026 기준 중위소득(보건복지부 고시 제2025-135호) 1인 2,564,238원."
   }
  ]
 }

@@ -181,7 +181,10 @@ def _happy_groups(t: str) -> tuple[list[dict], dict]:
         elif (m := re.search(r"총\s?자산\s?(?:합산)?가액(?:\s?합산\s?기준)?이?\s?([\d,]+)\s?만원\s?이하", seg_main)):
             g["asset_manwon"], q["asset"] = _int(m.group(1)), _q(seg_main, m, 30, 10)
         if key != "대학생" and (m := re.search(r"자동차\s?가액[이은]?\s?([\d,]+)\s?만원\s?이하", seg_main)):
-            g["car_manwon"], q["car"] = _int(m.group(1)), _q(seg_main, m, 20, 10)
+            if _int(m.group(1)) <= 10_000:
+                g["car_manwon"], q["car"] = _int(m.group(1)), _q(seg_main, m, 20, 10)
+            else:   # 의령동동 2015122300020910·920 고령자 '자동차가액이 45,420만원 이하' — 공고문 오기(4,542만원으로 보임)라 추측하지 않고 못 읽음(화면 확인 필요)
+                q["car_typo"] = _q(seg_main, m, 20, 10)
         elif key == "대학생" and (m := re.search(r"자동차가액\s?산출대상\s?자동차를\s?소유하고\s?있지\s?않을\s?것", whole)):
             g["car_manwon"], q["car"] = 0, _q(whole, m, 20, 0)
         if re.search(r"입주\s?전까지[^.]{0,40}주택청약종합저축", seg_main):
@@ -263,7 +266,7 @@ def _integrated_groups(t: str) -> tuple[list[dict], dict]:
     m0 = re.search(r"일반공급\s?■\s?신청가능\s?소득ㆍ?·?자산기준", t)
     start = m0.start() if m0 else 0
     for key, pat in (("청년", r"청년"), ("신혼부부·한부모", r"신혼부부\s?[ㆍ·]\s?한부모가족"), ("고령자", r"고령자"), ("일반", r"일반")):
-        m = re.search(r"●\s?" + pat + r"\s", t[start:])
+        m = re.search(r"(?:●|[❶❷❸❹❺])\s?" + pat + r"\s", t[start:])   # 부산모라 2015122300020912 '❶ 청년 ❷ 신혼부부ㆍ한부모가족 ❸ 고령자 ❹ 일반' (2026-10-17)
         if not m:
             continue
         seg = t[start + m.start(): start + m.start() + 900]
