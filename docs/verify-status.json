@@ -1,6 +1,6 @@
 {
- "at": "2026-10-20 08:36",
- "ok": true,
+ "at": "2026-10-20 08:52",
+ "ok": false,
  "collect_run": "2026-10-20 · 공고 259건",
  "judge": {
   "total": 936,
@@ -26,7 +26,7 @@
   "profile_keep_fails": 0,
   "monotonic_violations": 0,
   "zero_default_violations": 0,
-  "input_nav_problems": 0,
+  "input_nav_problems": 1,
   "snapshot_diffs": 0,
   "e2e_fails": 0,
   "past_chat_fails": 0,
@@ -41,6 +41,6 @@
   "cross_rule_checks": 342791,
   "market_at": "2026-10-20",
   "supply_type_at": "2026-10-19",
-  "invariants_at": "2026-10-20"
+  "invariants_at": "2026-10-19"
  }
 }
