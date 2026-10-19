@@ -125,7 +125,12 @@ def build_listing(raw: dict, rtms: Optional[RtmsClient], today: date, lawd_cache
     rental = feature_on("rental_rules") and is_rental(raw)
     if rental:   # 청약홈 공급금액이 분양가가 아니라 임대보증금이라(2026000307 원문 '임대보증금 85,614,000') 시세 차익을 계산하지 않는다
         mk["mkt_note"] = "임대주택이라 금액은 임대보증금이에요. 분양가와 시세 차이를 계산하지 않아요."
-    if rtms and lawd and not rental:
+    # 토지임대부 분양주택(2026000373 고덕강일 3단지): '토지의 소유권은 SH가 가지고 … 토지임대료를 납부' — 분양가는 건물값뿐이라 땅값이 든 주변 시세와 비교하면
+    # 마진이 크게 부풀려진다(3.08억 ↔ 시세 9억, '로또 +6억'). 차이를 계산하지 않는다 (기능 land_lease, 2026-10-20)
+    land_lease = feature_on("land_lease") and "토지임대부" in (raw.get("name") or "")
+    if land_lease:
+        mk["mkt_note"] = "토지임대부 분양주택이라 분양가에 땅값이 빠져 있어요(땅은 빌려 쓰고 매달 토지임대료를 내요). 땅값이 든 주변 아파트 시세와 차이를 계산하지 않아요."
+    if rtms and lawd and not rental and not land_lease:
         months = months_back(today, R.MARKET_MONTHS)
 
         def safe(kind):
@@ -160,7 +165,7 @@ def build_listing(raw: dict, rtms: Optional[RtmsClient], today: date, lawd_cache
         name=raw["name"], address=addr, region=reg, sigungu=sg,
         sido=RG.sido_of(addr) or raw.get("area_code_nm"), district=RG.sigungu_any(RG.main_address(addr)),
         supply_type=raw.get("supply_type"), house_secd=raw.get("house_secd"), house_dtl=raw.get("house_dtl"),
-        rent_secd=raw.get("rent_secd"), rental=rental, special_apply=raw.get("special_apply"),
+        rent_secd=raw.get("rent_secd"), rental=rental, land_lease=land_lease, special_apply=raw.get("special_apply"),
         special_apply_end=raw.get("special_apply_end"),
         kind=kind_label(raw).replace("일반분양", "공공임대") if rental else kind_label(raw), category=raw["category"], target=target_of(raw["name"]), unit=raw["unit"], area=raw["area"],
         households=raw.get("households"),
@@ -187,7 +192,7 @@ def refill_market(out: list, rt, today: date, lawd_cache: dict, log: list[str]) 
     (2026-10-15: 화성시 병점구처럼 새로 생긴 구는 코드 표에 없어, 찾은 날은 '다음 수집부터'로 하루 늦었음)"""
     n = 0
     for L in out:
-        if not (L.mkt_note or "").startswith(CODE_PENDING) or L.rental:
+        if not (L.mkt_note or "").startswith(CODE_PENDING) or L.rental or L.land_lease:
             continue
         lawd = LC.lawd_for(L.address, lawd_cache, L.sido)
         if not lawd:

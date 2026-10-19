@@ -21,6 +21,7 @@ class Listing(BaseModel):
     house_dtl: Optional[str] = None          # 청약홈 HOUSE_DTL_SECD_NM (있을 때만: 민영/국민 등)
     rent_secd: Optional[str] = None          # 청약홈 RENT_SECD_NM (있을 때만: 분양/임대)
     rental: bool = False                     # 공공임대(분양전환공공임대·공공건설임대) 공고 — RENT_SECD_NM 에 '임대', 없으면 이름 (기능: rental_rules)
+    land_lease: Optional[bool] = None        # 토지임대부 분양주택 — 분양가에 땅값이 빠짐(토지는 임대) → 일반 아파트 시세와 차이를 계산하지 않음 (기능 land_lease)
     special_apply: Optional[str] = None      # 특별공급 접수 시작일 (있을 때만)
     special_apply_end: Optional[str] = None
     kind: str                                # "무순위 · 불법행위 재공급" 등
