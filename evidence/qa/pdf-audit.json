@@ -1,11 +1,10 @@
 {
- "date": "2026-10-17",
+ "date": "2026-10-20",
  "page_cap": 300,
- "notices": 61,
- "with_problem": 5,
+ "notices": 62,
+ "with_problem": 4,
  "kinds": {
-  "글자가 거의 없는 쪽 N개 (스캔 이미지·표 그림 추정)": 3,
-  "PDF 를 하나도 받지 못함": 2
+  "글자가 거의 없는 쪽 N개 (스캔 이미지·표 그림 추정)": 4
  },
  "errors": [],
  "results": [
@@ -277,19 +276,19 @@
    "pdfs": 1,
    "attachment_list": [
     {
-     "url": "https://static.applyhome.co.kr/ai/aia/getAtchmnfl.do?houseManageNo=2026000507&pblancNo=2026000507&atchmnflSeqNo=1999025&atchmnflSn=4",
-     "bytes": 938695,
-     "pages": 44,
-     "chars": 101725,
+     "url": "https://static.applyhome.co.kr/ai/aia/getAtchmnfl.do?houseManageNo=2026000507&pblancNo=2026000507&atchmnflSeqNo=1999025&atchmnflSn=5",
+     "bytes": 940389,
+     "pages": 45,
+     "chars": 101941,
      "head": "- 1 - ※ 단지 주요정보 (분양문의) 051-741-3300 주택유형 해당지역 기타지역 규제지역여부 민영 부산광역시 1년 이상 계속 거주자 "
     }
    ],
-   "chosen": "https://static.applyhome.co.kr/ai/aia/getAtchmnfl.do?houseManageNo=2026000507&pblancNo=2026000507&atchmnflSeqNo=1999025&atchmnflSn=4",
-   "pages": 44,
-   "pages_read": 44,
-   "chars_read": 101768,
+   "chosen": "https://static.applyhome.co.kr/ai/aia/getAtchmnfl.do?houseManageNo=2026000507&pblancNo=2026000507&atchmnflSeqNo=1999025&atchmnflSn=5",
+   "pages": 45,
+   "pages_read": 45,
+   "chars_read": 101985,
    "empty_pages": [],
-   "chars_per_page_min": 426,
+   "chars_per_page_min": 346,
    "fields": {
     "need_head": false,
     "price_cap": false,
@@ -326,7 +325,7 @@
      "since": "2025-10-16"
     }
    },
-   "pdfium_chars": 102035,
+   "pdfium_chars": 102266,
    "problem": []
   },
   {
@@ -388,6 +387,61 @@
    },
    "pdfium_chars": 114582,
    "problem": []
+  },
+  {
+   "notice": "2026000373",
+   "name": "고덕강일지구 3단지 토지임대부(본청약)",
+   "url": "https://www.applyhome.co.kr/ai/aia/selectAPTLttotPblancDetail.do?houseManageNo=2026000373&pblancNo=2026000373",
+   "attachments": 1,
+   "pdfs": 1,
+   "attachment_list": [
+    {
+     "url": "https://static.applyhome.co.kr/ai/aia/getAtchmnfl.do?houseManageNo=2026000373&pblancNo=2026000373&atchmnflSeqNo=2001204&atchmnflSn=3",
+     "bytes": 7521014,
+     "pages": 136,
+     "chars": 278569,
+     "head": "www.i-sh.co.kr 2026 고덕강일지구 3단지 토지임대부 분양주택 입주자모집공고 ▶ 공급위치 : 서울특별시 강동구 강일동 174 일원 "
+    }
+   ],
+   "chosen": "https://static.applyhome.co.kr/ai/aia/getAtchmnfl.do?houseManageNo=2026000373&pblancNo=2026000373&atchmnflSeqNo=2001204&atchmnflSn=3",
+   "pages": 136,
+   "pages_read": 136,
+   "chars_read": 278704,
+   "empty_pages": [
+    2
+   ],
+   "chars_per_page_min": 0,
+   "fields": {
+    "price_cap": true,
+    "rewin_years": 10,
+    "residence": {
+     "area": null,
+     "months": 0,
+     "since": null
+    }
+   },
+   "fields_merged": {
+    "price_cap": true,
+    "rewin_years": 10,
+    "residence": {
+     "area": null,
+     "months": 0,
+     "since": null
+    }
+   },
+   "fields_pdfium": {
+    "price_cap": true,
+    "rewin_years": 10,
+    "residence": {
+     "area": null,
+     "months": 0,
+     "since": null
+    }
+   },
+   "pdfium_chars": 273090,
+   "problem": [
+    "글자가 거의 없는 쪽 1개 (스캔 이미지·표 그림 추정): [2]"
+   ]
   },
   {
    "notice": "2026000455",
@@ -1109,32 +1163,120 @@
    "name": "쌍용 더 플래티넘 한강",
    "url": "https://www.applyhome.co.kr/ai/aia/selectAPTLttotPblancDetail.do?houseManageNo=2026000468&pblancNo=2026000468",
    "attachments": 1,
-   "pdfs": 0,
+   "pdfs": 1,
    "attachment_list": [
     {
      "url": "https://static.applyhome.co.kr/ai/aia/getAtchmnfl.do?houseManageNo=2026000468&pblancNo=2026000468&atchmnflSeqNo=1990183&atchmnflSn=2",
-     "error": "PDF 아님 (200, 59바이트)"
+     "bytes": 1050066,
+     "pages": 62,
+     "chars": 160613,
+     "head": "- 1 - ※ 단지 주요정보 (분양문의) 1866-0333 주택유형 해당지역 기타지역 규제지역여부 민영 경기도 양평군 거주자 경기도 및 서울특별"
     }
    ],
-   "problem": [
-    "PDF 를 하나도 받지 못함"
-   ]
+   "chosen": "https://static.applyhome.co.kr/ai/aia/getAtchmnfl.do?houseManageNo=2026000468&pblancNo=2026000468&atchmnflSeqNo=1990183&atchmnflSn=2",
+   "pages": 62,
+   "pages_read": 62,
+   "chars_read": 160674,
+   "empty_pages": [],
+   "chars_per_page_min": 532,
+   "fields": {
+    "need_head": false,
+    "price_cap": false,
+    "residence_duty": 0,
+    "rewin_years": 0,
+    "account_months": 12,
+    "residence": {
+     "area": "경기도 양평군",
+     "months": 0,
+     "since": null
+    }
+   },
+   "fields_merged": {
+    "need_head": false,
+    "price_cap": false,
+    "residence_duty": 0,
+    "rewin_years": 0,
+    "account_months": 12,
+    "residence": {
+     "area": "경기도 양평군",
+     "months": 0,
+     "since": null
+    }
+   },
+   "fields_pdfium": {
+    "need_head": false,
+    "price_cap": false,
+    "residence_duty": 0,
+    "rewin_years": 0,
+    "account_months": 12,
+    "residence": {
+     "area": "경기도 양평군",
+     "months": 0,
+     "since": null
+    }
+   },
+   "pdfium_chars": 161003,
+   "problem": []
   },
   {
    "notice": "2026000463",
    "name": "향남역 그로브 스위첸",
    "url": "https://www.applyhome.co.kr/ai/aia/selectAPTLttotPblancDetail.do?houseManageNo=2026000463&pblancNo=2026000463",
    "attachments": 1,
-   "pdfs": 0,
+   "pdfs": 1,
    "attachment_list": [
     {
      "url": "https://static.applyhome.co.kr/ai/aia/getAtchmnfl.do?houseManageNo=2026000463&pblancNo=2026000463&atchmnflSeqNo=1978209&atchmnflSn=6",
-     "error": "PDF 아님 (200, 59바이트)"
+     "bytes": 1177616,
+     "pages": 95,
+     "chars": 194797,
+     "head": "- 1 - ※ 본 입주자 모집공고의 내용을 숙지한 후 청약 및 계약에 응하시기 바라며, 미숙지로 인한 착오 행위 등에 대하여는 청약자 및 계약자"
     }
    ],
-   "problem": [
-    "PDF 를 하나도 받지 못함"
-   ]
+   "chosen": "https://static.applyhome.co.kr/ai/aia/getAtchmnfl.do?houseManageNo=2026000463&pblancNo=2026000463&atchmnflSeqNo=1978209&atchmnflSn=6",
+   "pages": 95,
+   "pages_read": 95,
+   "chars_read": 194891,
+   "empty_pages": [],
+   "chars_per_page_min": 785,
+   "fields": {
+    "need_head": false,
+    "price_cap": false,
+    "residence_duty": 0,
+    "rewin_years": 0,
+    "account_months": 12,
+    "residence": {
+     "area": "경기도 화성특례시",
+     "months": 0,
+     "since": null
+    }
+   },
+   "fields_merged": {
+    "need_head": false,
+    "price_cap": false,
+    "residence_duty": 0,
+    "rewin_years": 0,
+    "account_months": 12,
+    "residence": {
+     "area": "경기도 화성특례시",
+     "months": 0,
+     "since": null
+    }
+   },
+   "fields_pdfium": {
+    "need_head": false,
+    "price_cap": false,
+    "residence_duty": 0,
+    "rewin_years": 0,
+    "account_months": 12,
+    "residence": {
+     "area": "경기도 화성특례시",
+     "months": 0,
+     "since": null
+    }
+   },
+   "pdfium_chars": 193992,
+   "problem": []
   },
   {
    "notice": "2026000444",
