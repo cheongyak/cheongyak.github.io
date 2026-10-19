@@ -376,6 +376,16 @@ def need_head_general(flat: str):
     m = re.search(r"일반공급신청자[^■]{0,60}■공급신청자격자[:：]?(?:성년자인무주택세대구성원)?•?주택공급신청은무주택세대구성원중1인만가능", flat)
     if m:
         return False, m
+    # 4) SH 토지임대부 <표1> 공급유형별 신청자격 '세대주 여부' 줄 (2026000373 고덕강일 3단지, 2026-10-20): 머리 칸 수 = 값 칸 수일 때만 마지막(추첨공급) 칸
+    #    '사전청약 당첨자 · 청년 · 신혼부부* · 생애최초 · 신생아 · 신생아 우선공급 · 우선공급(1순위자) · 추첨공급' / '해당 없음 … 신청자 본인 … 해당 없음'
+    t = re.search(r"구분사전청약당첨자특별공급일반공급((?:청년|신혼부부\*?|생애최초|신생아|다자녀가구|노부모부양)*)((?:신생아우선공급)?우선공급\(1순위자\)추첨공급)", flat)
+    if t:
+        n = 1 + len(re.findall(r"청년|신혼부부|생애최초|신생아|다자녀가구|노부모부양", t.group(1))) + (3 if t.group(2).startswith("신생아") else 2)
+        c = re.compile(r"세대주여부((?:(?:해당없음|신청자본인)\**){%d})(?!해당없음|신청자본인)" % n).search(flat, t.end(), t.end() + 600)
+        if c:
+            cells = re.findall(r"해당없음|신청자본인", c.group(1))
+            if len(cells) == n:
+                return cells[-1] == "신청자본인", c
     return None
 
 
@@ -692,7 +702,41 @@ def parse_score_ratio(text: str) -> Optional[dict]:
 #   자산: '부동산(건물+토지) 215,500천원 이하', '자동차 45,420천원 이하'
 #   적용 면적: '전용면적 60㎡ 이하만 적용'·'60㎡ 이하 일반공급' 문구가 있으면 60㎡ 이하, 없으면 이 공고 일반공급 전체(2026000409 는 59㎡뿐)
 # 요약표 일반공급 소득 칸이나 자산 금액을 찾지 못하면 None (화면은 60㎡ 이하 공공분양을 '확인 필요'로 둔다)
+def _parse_sh_total_limits(text: str) -> Optional[dict]:
+    """SH 토지임대부 분양주택 일반공급 (2026000373 고덕강일 3단지, 2026-10-20): <표1> 소득 '우선공급(1순위자) 100%(맞벌이 140%) · 추첨공급 100%(맞벌이 200%)',
+    <표5> '일반 공급 … 우선공급 (1순위자) (30%) … 100% 6칸 … 140% 6칸 … 추첨공급 (20%) … 100% 6칸 … 200% 6칸'(3인 이하·4~8인, 원),
+    <표3> 총자산 '…차감한 금액이 362백만원 이하' · <표3-1> 출산 1명 397·2명 이상 431백만원. 표가 모두 맞을 때만 (kind 'total' — 화면 totalGeneralItems)"""
+    f = re.sub(r"\s+", "", text)
+    if "토지임대부" not in f[:4000]:
+        return None
+    gi = f.find("일반공급신생아우선공급(50%)")
+    if gi < 0:
+        return None
+    seg = f[gi: gi + 1500]
+    six = r"((?:[\d,]{9,10}원){6})"
+    def row(label, a, b):
+        m = re.search(label + r"도시근로자가구당월평균소득액의" + a + "%" + six + r"도시근로자가구당월평균소득액의" + b + r"%\(단,본인및배우자가모두소득이있는경우\)" + six, seg)
+        if not m:
+            return None
+        x, y = [int(v.replace(",", "")) for v in re.findall(r"([\d,]+)원", m.group(1))], [int(v.replace(",", "")) for v in re.findall(r"([\d,]+)원", m.group(2))]
+        return (x, y) if len(x) == len(y) == 6 else None
+    pri, el = row(r"우선공급\(1순위자\)\(30%\)", "100", "140"), row(r"추첨공급\(20%\)", "100", "200")
+    base = re.search(r"차감한금액이(\d{3})백만원이하\(청년계층", f)
+    rel = re.search(r"출산가구자산보유기준완화구분.{0,300}?\(부모\)[\d,]+백만원이하(\d{3})백만원이하.{0,200}?\(부모\)[\d,]+백만원이하(\d{3})백만원이하.{0,300}?\(부모\)[\d,]+백만원이하(\d{3})백만원이하", f)
+    if not (pri and el and base):
+        return None
+    amt = lambda r: {**{str(n): [r[0][0], r[1][0]] for n in (1, 2, 3)}, **{str(n): [r[0][n - 3], r[1][n - 3]] for n in range(4, 9)}}
+    out = {"kind": "total", "eligible": {"base": [100, 200], "one": 100, "two": [100, 200]}, "priority": {"base": [100, 140], "one": 100, "two": [100, 140]},
+           "total_asset": int(base.group(1)) * 100, "area_max": None, "amounts": {"elig": amt(el), "pri": amt(pri)}, "sh_landlease": True}
+    if rel and int(rel.group(1)) == int(base.group(1)):
+        out["total_asset_relax"] = [int(rel.group(2)) * 100, int(rel.group(3)) * 100]
+    return out
+
+
 def parse_pub_limits(text: str) -> Optional[dict]:
+    sh = _parse_sh_total_limits(text)
+    if sh:
+        return sh
     t = re.sub(r"\s+", " ", text)
     t = re.sub(r"(천원|만원)\s?이하", r"\1 이하", t)   # '45,420천원이하' — PDF 글 뽑기마다 띄어쓰기가 달라진다 (2026-10-10 2026000402 다시 받은 글: 띄어쓰기가 사라져 자동차 기준을 출산가구 완화 칸 49,960 으로 읽음)
     if "신혼희망타운" in t[:3000]:
@@ -1463,9 +1507,11 @@ def notice_facts(text: str, prices_man: Optional[dict] = None) -> dict:
               "자동차": sorted(car_loose | run(r"자동차\s?((?:\d{2},\d{3}천원\s?이하\s?){1,4})")),
               "부동산_만원": sorted({int(a) * 10000 + int(b.replace(",", "")) for a, b in re.findall(r"부동산가액\s?(\d)억\s?([\d,]{1,5})만원\s?이하", t)})}
     seen = {}
+    thousand = {int(x.replace(",", "")) for x in re.findall(r"(?<![\d,])\d{3},\d{3}(?![\d,])", t)}   # 동·호별 공급금액 표(천원, 2026000373 '295,676')
     for ty, man in (prices_man or {}).items():
         if man:
-            seen[ty] = any(f"{v:,}" in flat for v in (man * 10, man, man * 10000))
+            # 청약홈 최고가는 만원 아래를 버린 값 — 천원 표 '295,676'(천원) ↔ 청약홈 29,567만원 (2026-10-20 고덕강일 3단지 49H·59A 등 거짓 경고)
+            seen[ty] = any(f"{v:,}" in flat for v in (man * 10, man, man * 10000)) or any(n // 10 == man for n in thousand if 100_000 <= n)
     return {"income_rows": rows, "deposit_rows": dep, "asset_thousand": assets, "price_seen": seen}
 
 

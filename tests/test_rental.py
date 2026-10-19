@@ -27,7 +27,7 @@ def test_total_asset_parse_does_not_touch_other_notices():
         if f.stem == "2026000307":
             continue
         pl = notice_pdf.parse_pub_limits(f.read_text(encoding="utf-8"))
-        assert not pl or pl.get("kind") != "total", f.stem
+        assert not pl or pl.get("kind") != "total" or (pl.get("sh_landlease") and f.stem in ("2026000373", "2026000041")), f.stem   # SH 토지임대부 총자산형 (2026-10-20)
 
 
 def test_is_rental():
