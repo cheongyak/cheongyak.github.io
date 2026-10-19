@@ -1,7 +1,7 @@
 {
- "updated": "2026-10-19 06:58",
+ "updated": "2026-10-20 07:05",
  "source": "LH 청약플러스 임대 공고 (공공데이터포털 한국토지주택공사 분양임대공고 조회)",
- "count": 33,
+ "count": 35,
  "notices": [
   {
    "id": "2015122300020856",
@@ -425,7 +425,7 @@
    "region": "경상남도",
    "posted": "2026-10-13",
    "close": "2026-10-21",
-   "status": "공고중",
+   "status": "접수중",
    "url": "https://apply.lh.or.kr/lhapply/apply/wt/wrtanc/selectWrtancInfo.do?panId=2015122300020904&ccrCnntSysDsCd=03&uppAisTpCd=06&aisTpCd=10&mi=1026",
    "url_mobile": "https://apply.lh.or.kr/lhapply/apply/wt/wrtanc/selectWrtancInfo.do?panId=2015122300020904&ccrCnntSysDsCd=03&uppAisTpCd=06&aisTpCd=10&mi=1026",
    "schedule": [
@@ -7034,49 +7034,126 @@
    }
   },
   {
-   "id": "2015122300020825",
-   "name": "양산 삼성파크빌 자격완화 입주자 선착순 모집(2026.09.30)",
-   "type": "국민임대",
-   "type_code": "07",
+   "id": "2015122300020925",
+   "name": "인천부평(도시재생뉴딜) 행복주택 입주자 최초 모집",
+   "type": "행복주택",
+   "type_code": "10",
    "judge_type": true,
-   "region": "경상남도",
-   "posted": "2026-09-30",
-   "close": "2026-11-20",
-   "status": "정정공고중",
-   "url": "https://apply.lh.or.kr/lhapply/apply/wt/wrtanc/selectWrtancInfo.do?panId=2015122300020825&ccrCnntSysDsCd=03&uppAisTpCd=06&aisTpCd=07&mi=1026",
-   "url_mobile": "https://apply.lh.or.kr/lhapply/apply/wt/wrtanc/selectWrtancInfo.do?panId=2015122300020825&ccrCnntSysDsCd=03&uppAisTpCd=06&aisTpCd=07&mi=1026",
+   "region": "인천광역시",
+   "posted": "2026-10-19",
+   "close": "2026-11-04",
+   "status": "공고중",
+   "url": "https://apply.lh.or.kr/lhapply/apply/wt/wrtanc/selectWrtancInfo.do?panId=2015122300020925&ccrCnntSysDsCd=03&uppAisTpCd=06&aisTpCd=10&mi=1026",
+   "url_mobile": "https://apply.lh.or.kr/lhapply/apply/wt/wrtanc/selectWrtancInfo.do?panId=2015122300020925&ccrCnntSysDsCd=03&uppAisTpCd=06&aisTpCd=10&mi=1026",
    "schedule": [
     {
      "complex": null,
-     "apply_start": "2026-10-12",
-     "apply_end": "2026-11-20",
-     "apply_time": "~",
-     "docs_target": null,
-     "docs_start": null,
-     "docs_end": null,
-     "winner": "2027-01-15",
-     "contract_start": null,
-     "contract_end": null
+     "apply_start": "2026-11-02",
+     "apply_end": "2026-11-04",
+     "apply_time": "2026.11.02 10:00 ~ 2026.11.04 16:10",
+     "docs_target": "2026-11-16",
+     "docs_start": "2026-11-17",
+     "docs_end": "2026-11-20",
+     "winner": "2027-04-08",
+     "contract_start": "2027-04-20",
+     "contract_end": "2027-04-22"
     }
    ],
    "complexes": [
     {
-     "name": "삼성파크빌",
-     "address": "경상남도 양산시 두전길 42(어곡동,삼성파크빌아파트)",
-     "households": 601,
-     "area": "55.68~55.68",
-     "move_in": null,
-     "heating": "개별가스난방"
+     "name": "인천부평(도시재생뉴딜) 행복주택",
+     "address": "인천광역시 부평구 부평동 65-17번지 일원",
+     "households": 350,
+     "area": "16.37~44.95",
+     "move_in": "2028.02",
+     "heating": "개별난방"
     }
    ],
    "units": [
     {
-     "complex": "삼성파크빌",
-     "type": "55",
-     "area": 55.68,
-     "supply_area": 75.7219,
-     "households": 601,
-     "now_households": 32,
+     "complex": "인천부평(도시재생뉴딜) 행복주택",
+     "type": "16A(대학생/청년)",
+     "area": 16.37,
+     "supply_area": 27.6384,
+     "households": 78,
+     "now_households": 78,
+     "deposit": null,
+     "rent": null,
+     "money_note": "공고문 참조"
+    },
+    {
+     "complex": "인천부평(도시재생뉴딜) 행복주택",
+     "type": "21A(대학생/청년)",
+     "area": 21.19,
+     "supply_area": 35.6074,
+     "households": 60,
+     "now_households": 60,
+     "deposit": null,
+     "rent": null,
+     "money_note": "공고문 참조"
+    },
+    {
+     "complex": "인천부평(도시재생뉴딜) 행복주택",
+     "type": "26A/B/C(고령자)",
+     "area": 26.01,
+     "supply_area": 44.0565,
+     "households": 46,
+     "now_households": 4,
+     "deposit": null,
+     "rent": null,
+     "money_note": "공고문 참조"
+    },
+    {
+     "complex": "인천부평(도시재생뉴딜) 행복주택",
+     "type": "26A/B/C(주거급여수급자)",
+     "area": 26.01,
+     "supply_area": 44.0565,
+     "households": 46,
+     "now_households": 42,
+     "deposit": null,
+     "rent": null,
+     "money_note": "공고문 참조"
+    },
+    {
+     "complex": "인천부평(도시재생뉴딜) 행복주택",
+     "type": "36A/B(고령자)",
+     "area": 36.02,
+     "supply_area": 58.898,
+     "households": 52,
+     "now_households": 22,
+     "deposit": null,
+     "rent": null,
+     "money_note": "공고문 참조"
+    },
+    {
+     "complex": "인천부평(도시재생뉴딜) 행복주택",
+     "type": "36A/B(신혼부부·한부모)",
+     "area": 36.02,
+     "supply_area": 58.898,
+     "households": 52,
+     "now_households": 30,
+     "deposit": null,
+     "rent": null,
+     "money_note": "공고문 참조"
+    },
+    {
+     "complex": "인천부평(도시재생뉴딜) 행복주택",
+     "type": "36AS(고령자/주거약자용)",
+     "area": 36.02,
+     "supply_area": 58.898,
+     "households": 28,
+     "now_households": 28,
+     "deposit": null,
+     "rent": null,
+     "money_note": "공고문 참조"
+    },
+    {
+     "complex": "인천부평(도시재생뉴딜) 행복주택",
+     "type": "44A/B(신혼부부·한부모)",
+     "area": 44.7,
+     "supply_area": 73.7626,
+     "households": 86,
+     "now_households": 86,
      "deposit": null,
      "rent": null,
      "money_note": "공고문 참조"
@@ -7085,62 +7162,268 @@
    "files": [
     {
      "kind": "공고문(hwp)",
-     "name": "양산삼성파크빌자격완화입주자모집(2026.09.30).hwpx",
-     "url": "https://apply.lh.or.kr/lhapply/lhFile.do?fileid=68741282"
+     "name": "[공고문]인천부평(도시재생뉴딜)행복주택입주자모집(`26.10.19.).hwpx",
+     "url": "https://apply.lh.or.kr/lhapply/lhFile.do?fileid=69040750"
     },
     {
      "kind": "공고문(PDF)",
-     "name": "양산삼성파크빌자격완화입주자모집(2026.09.30).pdf",
-     "url": "https://apply.lh.or.kr/lhapply/lhFile.do?fileid=68741283"
+     "name": "[공고문]인천부평(도시재생뉴딜)행복주택입주자모집(`26.10.19.).pdf",
+     "url": "https://apply.lh.or.kr/lhapply/lhFile.do?fileid=69040764"
+    },
+    {
+     "kind": "기타 첨부파일",
+     "name": "[양식1]공통제출서류(예비자중복선정,개인정보수집,자산보유,금융정보)_전원필수제출.hwpx",
+     "url": "https://apply.lh.or.kr/lhapply/lhFile.do?fileid=69040771"
+    },
+    {
+     "kind": "기타 첨부파일",
+     "name": "[양식2]추가제출서류(대학생복학예정자신청시)_해당자만제출.hwpx",
+     "url": "https://apply.lh.or.kr/lhapply/lhFile.do?fileid=69040774"
+    },
+    {
+     "kind": "기타 첨부파일",
+     "name": "[양식3]추가제출서류(예비신혼부부_신청시)_해당자만제출.hwpx",
+     "url": "https://apply.lh.or.kr/lhapply/lhFile.do?fileid=69040776"
+    },
+    {
+     "kind": "기타 첨부파일",
+     "name": "[양식4]위임장(현장대리인신청시)_해당자만제출.hwpx",
+     "url": "https://apply.lh.or.kr/lhapply/lhFile.do?fileid=69040789"
+    },
+    {
+     "kind": "카탈로그",
+     "name": "[팸플릿]인천부평(도시재생뉴딜)행복주택.pdf",
+     "url": "https://apply.lh.or.kr/lhapply/lhFile.do?fileid=69041668"
     }
    ],
-   "etc": "* 청약자격 미숙지, 착오신청 등에 대해서는 청약자 본인에게 책임이 있으니, 불이익이 없도록 반드시 공고문을 읽어보신 후 신청하시기 바랍니다.",
+   "etc": "※ 신청서를 잘못 작성하여 불이익을 받는 일이 발생하지 않도록 신청자께서는 모집공고문 내용을 충분히 숙지하신 후 신청하시기 바랍니다. (공고내용 미숙지로 인한 모든 책임은 신청자 본인에게 있음에 유의)\n\n※ 본 공고는 공공 마이데이터 활용, 온라인 전자서명을 활용하여 간편하게 서류를 제출할 수 있는 “MyMy서비스” 적용 단지입니다. 자세한 활용 방법은 공고문을 참고하시기 바랍니다. \n\n○ 금회 공급주택의 공급물량 일부는 우선공급대상자로 기존거주자(철거민)를 선정합니다.\n○ 인천부평(도시재생뉴딜) 행복주택은 공급대상자에 따라 최대 거주기간 제한이 있는 임대주택으로 분양전환되지 않습니다.\n\n○ 1세대 1주택 신청을 원칙으로 하며, 중복 신청하는 경우 전부 무효처리됩니다.\n- (예비)신혼부부가 각각 신청하는 경우 중복신청으로 부적격처리 됨\n\n○ 본 단지는 별도로 견본주택(모델하우스) 운영을 하지 않습니다.",
    "office": {
-    "place": "경상남도 양산시 물금읍 청운로 358 2층 LH",
+    "place": "인천광역시 남동구 논현로46번길 23(논현동)",
     "tel": "1600-1004"
    },
-   "notice_pdf": "https://apply.lh.or.kr/lhapply/lhFile.do?fileid=68741283",
-   "notice_text": 23138,
+   "notice_pdf": "https://apply.lh.or.kr/lhapply/lhFile.do?fileid=69040764",
+   "notice_text": 81163,
    "rents": [
     {
-     "complex": "삼성파크빌",
-     "type": "55",
+     "complex": null,
+     "type": "16A",
+     "group": "대학생·청년(소득 없음)",
+     "deposit": 31994000,
+     "rent": 138640
+    },
+    {
+     "complex": null,
+     "type": "16A",
+     "group": "청년(소득 있음)",
+     "deposit": 33876000,
+     "rent": 146790
+    },
+    {
+     "complex": null,
+     "type": "16A",
      "group": null,
-     "deposit": 18551000,
-     "rent": 114150
+     "deposit": 37640000,
+     "rent": 163100
+    },
+    {
+     "complex": null,
+     "type": "21A",
+     "group": "대학생·청년(소득 없음)",
+     "deposit": 41854000,
+     "rent": 181360
+    },
+    {
+     "complex": null,
+     "type": "21A",
+     "group": "청년(소득 있음)",
+     "deposit": 44316000,
+     "rent": 192030
+    },
+    {
+     "complex": null,
+     "type": "21A",
+     "group": null,
+     "deposit": 49240000,
+     "rent": 213370
+    },
+    {
+     "complex": null,
+     "type": "26A",
+     "group": "고령자",
+     "deposit": 57418000,
+     "rent": 248810
+    },
+    {
+     "complex": null,
+     "type": "26A",
+     "group": "주거급여수급자",
+     "deposit": 45330000,
+     "rent": 196430
+    },
+    {
+     "complex": null,
+     "type": "26A",
+     "group": null,
+     "deposit": 60440000,
+     "rent": 261900
+    },
+    {
+     "complex": null,
+     "type": "36AS",
+     "group": "고령자",
+     "deposit": 80370000,
+     "rent": 348270
+    },
+    {
+     "complex": null,
+     "type": "36A",
+     "group": "신혼부부·한부모",
+     "deposit": 84600000,
+     "rent": 366600
+    },
+    {
+     "complex": null,
+     "type": "36A",
+     "group": "고령자",
+     "deposit": 80370000,
+     "rent": 348270
+    },
+    {
+     "complex": null,
+     "type": "36A",
+     "group": null,
+     "deposit": 84600000,
+     "rent": 366600
+    },
+    {
+     "complex": null,
+     "type": "44A",
+     "group": "신혼부부·한부모",
+     "deposit": 105960000,
+     "rent": 459160
+    },
+    {
+     "complex": null,
+     "type": "44A",
+     "group": null,
+     "deposit": 105960000,
+     "rent": 459160
     }
    ],
    "terms": {
-    "relaxed": true,
+    "relaxed": false,
     "homeless_relaxed": false,
     "homeless_max1": false,
     "income_basis": "도시근로자 월평균소득",
     "groups": [
      {
-      "key": "일반",
-      "name": "일반",
-      "homeless": "household",
-      "income_pct": "excluded",
-      "asset_manwon": "excluded",
+      "key": "대학생",
+      "name": "대학생",
+      "homeless": "self",
+      "income_pct": {
+       "1": 120,
+       "2": 110,
+       "3+": 100
+      },
+      "asset_manwon": 10800,
+      "car_manwon": 0,
+      "age_min": null,
+      "age_max": null
+     },
+     {
+      "key": "청년",
+      "name": "청년",
+      "homeless": "self",
+      "income_pct": {
+       "1": 120,
+       "2": 110,
+       "3+": 100
+      },
+      "asset_manwon": 25100,
       "car_manwon": 4542,
+      "age_min": 19,
+      "age_max": 39,
+      "account_by_movein": true
+     },
+     {
+      "key": "신혼부부·한부모",
+      "name": "신혼부부·한부모",
+      "homeless": "household",
+      "income_pct": {
+       "1": null,
+       "2": 110,
+       "3+": 100
+      },
+      "asset_manwon": 34500,
+      "car_manwon": 4542,
+      "age_min": null,
+      "age_max": null,
+      "account_by_movein": true,
+      "dual_add": 20
+     },
+     {
+      "key": "고령자",
+      "name": "고령자",
+      "homeless": "household",
+      "income_pct": {
+       "1": 120,
+       "2": 110,
+       "3+": 100
+      },
+      "asset_manwon": 34500,
+      "car_manwon": 4542,
+      "age_min": 65,
+      "age_max": null
+     },
+     {
+      "key": "주거급여수급자",
+      "name": "주거급여수급자",
+      "homeless": "household",
+      "income_pct": null,
+      "asset_manwon": null,
+      "car_manwon": null,
       "age_min": null,
       "age_max": null
      }
     ],
     "quotes": {
-     "일반": {
-      "income": "준(소득 · 총자산은 최초 계약 시 미적용) 구분 소득 및 자산보유 기준 소득 • 소득 기준 적용하지 아니함 자산 총자산가액 • 자산 기준 적용하지 아니함 자동차가액 • 4,542만원 이하 • 입주자격 중 주택소유 산정시점은 각 신청자별 신청일이며,",
-      "asset": "구분 소득 및 자산보유 기준 소득 • 소득 기준 적용하지 아니함 자산 총자산가액 • 자산 기준 적용하지 아니함 자동차가액 • 4,542만원 이하 • 입주자격 중 주택소유 산정시점은 각 신청자별 신청일이며, 산정시점은 조사기준일로 합니다. 다만, 사업주체",
-      "car": "적용하지 아니함 자동차가액 • 4,542만원 이하 • 입주자격 중"
-     }
+     "대학생": {
+      "income": "가구원수별 가구당 월평균소득의 100퍼센트 이하 ※ 단, 가구원 수가 1인인 경우에는 120퍼센트, 2인인 경우에는 110퍼센트 이하일 것 * 이",
+      "asset": "579,278원을 합산하여 산정 ④ 신청자 본인의 총 자산가액 합산기준이 10,800만원 이하이고, 자동차가액",
+      "car": "산기준이 10,800만원 이하이고, 자동차가액 산출대상 자동차를 소유하고 있지 않을 것"
+     },
+     "청년": {
+      "income": "가구원수별 가구당 월평균소득의 100퍼센트 이하 ※ 단, 가구원수가 1인인 경우에는 120퍼센트, 2인인 경우에는 110퍼센트 이하일 것 공급",
+      "asset": "278원을 합산하여 산정 ④ 해당세대가 보유하고 있는 총 자산가액이 25,100만원 이하이고 총 자산 중",
+      "car": "5,100만원 이하이고 총 자산 중 자동차가액이 4,542만원 이하 일 것 ⑤ 본인"
+     },
+     "신혼부부·한부모": {
+      "income": "가구원수별 가구당 월평균소득의 100퍼센트 이하(맞벌이 부부 120퍼센트 이하)일 것 ※ 단, 가구원 수가 2인인 경우에는 110퍼센트, 맞벌이 2인 가",
+      "asset": "예비신혼부부는 혼인으로 구성될 세대)가 보유하고 있는 총 자산 합산가액이 34,500만원 이하이고, 총 자산 중",
+      "car": ",500만원 이하이고, 총 자산 중 자동차가액이 4,542만원 이하 일 것 ⑤ 본인",
+      "dual": "구당 월평균소득의 100퍼센트 이하(맞벌이 부부 120퍼센트 이하)일 것 ※ 단, 가구원 수가"
+     },
+     "고령자": {
+      "income": "가구원수별 가구당 월평균소득의 100퍼센트 이하 ※ 단, 가구원수가 1인인 경우에는 120퍼센트, 2인인 경우에는 110퍼센트 이하일 것 가구원",
+      "asset": "78원을 합산하여 산정 ② 해당 세대가 보유하고 있는 총 자산가액이 34,500만원 이하이고 총 자산 중",
+      "car": "4,500만원 이하이고 총 자산 중 자동차가액이 4,542만원 이하 일 것 《 고령자"
+     },
+     "주거급여수급자": {}
     },
-    "income_table_100": null
+    "income_table_100": {
+     "3": 8168429,
+     "4": 8802202,
+     "5": 9326985,
+     "6": 9906263
+    },
+    "prewed_ok": true,
+    "unknown_groups": []
    },
    "api": {
     "CCR_CNNT_SYS_DS_CD": "03",
-    "SPL_INF_TP_CD": "062",
+    "SPL_INF_TP_CD": "063",
     "UPP_AIS_TP_CD": "06",
-    "AIS_TP_CD": "07"
+    "AIS_TP_CD": "10"
    },
    "read": {
     "tools": [
@@ -7152,49 +7435,122 @@
    }
   },
   {
-   "id": "2015122300020898",
-   "name": "[정정공고][조기접수마감]양산 삼성파크빌 자격완화 입주자 선착순 모집(2026.09.30)",
-   "type": "국민임대",
-   "type_code": "07",
+   "id": "2015122300020903",
+   "name": "홍성군 영구임대 예비자 모집공고",
+   "type": "영구임대",
+   "type_code": "09",
    "judge_type": true,
-   "region": "경상남도",
-   "posted": "2026-10-12",
-   "close": "2026-11-20",
+   "region": "충청남도",
+   "posted": "2026-10-19",
+   "close": "2026-11-05",
    "status": "공고중",
-   "url": "https://apply.lh.or.kr/lhapply/apply/wt/wrtanc/selectWrtancInfo.do?panId=2015122300020898&ccrCnntSysDsCd=03&uppAisTpCd=06&aisTpCd=07&mi=1026",
-   "url_mobile": "https://apply.lh.or.kr/lhapply/apply/wt/wrtanc/selectWrtancInfo.do?panId=2015122300020898&ccrCnntSysDsCd=03&uppAisTpCd=06&aisTpCd=07&mi=1026",
+   "url": "https://apply.lh.or.kr/lhapply/apply/wt/wrtanc/selectWrtancInfo.do?panId=2015122300020903&ccrCnntSysDsCd=03&uppAisTpCd=06&aisTpCd=09&mi=1026",
+   "url_mobile": "https://apply.lh.or.kr/lhapply/apply/wt/wrtanc/selectWrtancInfo.do?panId=2015122300020903&ccrCnntSysDsCd=03&uppAisTpCd=06&aisTpCd=09&mi=1026",
    "schedule": [
     {
-     "complex": null,
-     "apply_start": "2026-10-12",
-     "apply_end": "2026-11-20",
+     "complex": "도청이전신도시 RH10-2BL 영구임대",
+     "apply_start": "2026-11-02",
+     "apply_end": "2026-11-05",
      "apply_time": "~",
      "docs_target": null,
      "docs_start": null,
      "docs_end": null,
-     "winner": "2027-01-15",
+     "winner": "2027-01-27",
+     "contract_start": null,
+     "contract_end": null
+    },
+    {
+     "complex": "도청이전신도시RH-11BL 영구임대",
+     "apply_start": "2026-11-02",
+     "apply_end": "2026-11-05",
+     "apply_time": "~",
+     "docs_target": null,
+     "docs_start": null,
+     "docs_end": null,
+     "winner": "2027-01-27",
+     "contract_start": null,
+     "contract_end": null
+    },
+    {
+     "complex": "홍성남장3Bl 영구임대주택",
+     "apply_start": "2026-11-02",
+     "apply_end": "2026-11-05",
+     "apply_time": "~",
+     "docs_target": null,
+     "docs_start": null,
+     "docs_end": null,
+     "winner": "2027-01-27",
      "contract_start": null,
      "contract_end": null
     }
    ],
    "complexes": [
     {
-     "name": "삼성파크빌",
-     "address": "경상남도 양산시 두전길 42(어곡동,삼성파크빌아파트)",
-     "households": 601,
-     "area": "55.68~55.68",
-     "move_in": null,
+     "name": "도청이전신도시RH-11BL 영구임대",
+     "address": "충청남도 홍성군 홍북읍 홍예로 164(가람마을 1단지)",
+     "households": 102,
+     "area": "26.95~26.95",
+     "move_in": "2023.07",
+     "heating": "지역난방"
+    },
+    {
+     "name": "도청이전신도시 RH10-2BL 영구임대",
+     "address": "충청남도 홍성군 홍북읍 홍예로 163",
+     "households": 200,
+     "area": "26.99~26.99",
+     "move_in": "2022.11",
+     "heating": "지역난방"
+    },
+    {
+     "name": "홍성남장3Bl 영구임대주택",
+     "address": "충청남도 홍성군 홍성읍 남장중로 37(LH홍성남장천년나무4단지)",
+     "households": 162,
+     "area": "24.29~24.29",
+     "move_in": "2016.12",
      "heating": "개별가스난방"
     }
    ],
    "units": [
     {
-     "complex": "삼성파크빌",
-     "type": "55",
-     "area": 55.68,
-     "supply_area": 75.7219,
-     "households": 601,
-     "now_households": 32,
+     "complex": "도청이전신도시RH-11BL 영구임대",
+     "type": "26A",
+     "area": 26.95,
+     "supply_area": 41.0806,
+     "households": 84,
+     "now_households": 50,
+     "deposit": null,
+     "rent": null,
+     "money_note": "공고문 참조"
+    },
+    {
+     "complex": "도청이전신도시RH-11BL 영구임대",
+     "type": "26A1",
+     "area": 26.95,
+     "supply_area": 41.0806,
+     "households": 18,
+     "now_households": 15,
+     "deposit": null,
+     "rent": null,
+     "money_note": "공고문 참조"
+    },
+    {
+     "complex": "도청이전신도시 RH10-2BL 영구임대",
+     "type": "26A",
+     "area": 26.99,
+     "supply_area": 40.067,
+     "households": 200,
+     "now_households": 80,
+     "deposit": null,
+     "rent": null,
+     "money_note": "공고문 참조"
+    },
+    {
+     "complex": "홍성남장3Bl 영구임대주택",
+     "type": "24형",
+     "area": 24.29,
+     "supply_area": 37.9847,
+     "households": 130,
+     "now_households": 20,
      "deposit": null,
      "rent": null,
      "money_note": "공고문 참조"
@@ -7202,34 +7558,99 @@
    ],
    "files": [
     {
+     "kind": "기타 첨부파일",
+     "name": "개인정보수집,이용및제3자제공동의서등(업로드용).hwpx",
+     "url": "https://apply.lh.or.kr/lhapply/lhFile.do?fileid=68955881"
+    },
+    {
+     "kind": "카탈로그",
+     "name": "도청이전신도시RH-11팜플렛(수정).pdf",
+     "url": "https://apply.lh.or.kr/lhapply/lhFile.do?fileid=68955914"
+    },
+    {
+     "kind": "카탈로그",
+     "name": "도청이전신도시RH10-2팜플렛(수정).pdf",
+     "url": "https://apply.lh.or.kr/lhapply/lhFile.do?fileid=68955904"
+    },
+    {
+     "kind": "기타 첨부파일",
+     "name": "영구임대공급신청서(일반).hwpx",
+     "url": "https://apply.lh.or.kr/lhapply/lhFile.do?fileid=68955869"
+    },
+    {
+     "kind": "기타 첨부파일",
+     "name": "영구임대주택공급신청서(주거약자용).hwpx",
+     "url": "https://apply.lh.or.kr/lhapply/lhFile.do?fileid=68955877"
+    },
+    {
      "kind": "공고문(hwp)",
-     "name": "양산삼성파크빌자격완화입주자모집(2026.09.30).hwpx",
-     "url": "https://apply.lh.or.kr/lhapply/lhFile.do?fileid=68935034"
+     "name": "홍성군영구임대예비입주자모집공고문(2026.10.19).hwpx",
+     "url": "https://apply.lh.or.kr/lhapply/lhFile.do?fileid=69004788"
     },
     {
      "kind": "공고문(PDF)",
-     "name": "양산삼성파크빌자격완화입주자모집(2026.09.30).pdf",
-     "url": "https://apply.lh.or.kr/lhapply/lhFile.do?fileid=68935036"
+     "name": "홍성군영구임대예비입주자모집공고문(2026.10.19).pdf",
+     "url": "https://apply.lh.or.kr/lhapply/lhFile.do?fileid=69004789"
+    },
+    {
+     "kind": "카탈로그",
+     "name": "홍성남장4영구임대팸플릿(수정).pdf",
+     "url": "https://apply.lh.or.kr/lhapply/lhFile.do?fileid=68955929"
     }
    ],
    "etc": null,
    "office": {
-    "place": "경상남도 양산시 물금읍 청운로 358 2층 LH",
-    "tel": "1600-1004"
+    "place": "홍성군내 흡면 행정복지센터(현장접수만 가능)",
+    "tel": null
    },
-   "notice_pdf": "https://apply.lh.or.kr/lhapply/lhFile.do?fileid=68935036",
-   "notice_text": 23094,
+   "notice_pdf": "https://apply.lh.or.kr/lhapply/lhFile.do?fileid=69004789",
+   "notice_text": 42882,
    "rents": [
     {
-     "complex": "삼성파크빌",
-     "type": "55",
-     "group": null,
-     "deposit": 18551000,
-     "rent": 114150
+     "complex": null,
+     "type": "26",
+     "group": "가군",
+     "deposit": 2669000,
+     "rent": 53120
+    },
+    {
+     "complex": null,
+     "type": "26",
+     "group": "나군",
+     "deposit": 15422000,
+     "rent": 119210
+    },
+    {
+     "complex": null,
+     "type": "11BL/26A/26A1",
+     "group": "가군",
+     "deposit": 2701000,
+     "rent": 53770
+    },
+    {
+     "complex": null,
+     "type": "11BL/26A/26A1",
+     "group": "나군",
+     "deposit": 13610000,
+     "rent": 129970
+    },
+    {
+     "complex": "홍성남장4",
+     "type": "24A",
+     "group": "가군",
+     "deposit": 2413000,
+     "rent": 48050
+    },
+    {
+     "complex": "홍성남장4",
+     "type": "24A",
+     "group": "나군",
+     "deposit": 10816000,
+     "rent": 93270
     }
    ],
    "terms": {
-    "relaxed": true,
+    "relaxed": false,
     "homeless_relaxed": false,
     "homeless_max1": false,
     "income_basis": "도시근로자 월평균소득",
@@ -7238,8 +7659,12 @@
       "key": "일반",
       "name": "일반",
       "homeless": "household",
-      "income_pct": "excluded",
-      "asset_manwon": "excluded",
+      "income_pct": {
+       "1": 70,
+       "2": 60,
+       "3+": 50
+      },
+      "asset_manwon": 24500,
       "car_manwon": 4542,
       "age_min": null,
       "age_max": null
@@ -7247,18 +7672,540 @@
     ],
     "quotes": {
      "일반": {
-      "income": "준(소득 · 총자산은 최초 계약 시 미적용) 구분 소득 및 자산보유 기준 소득 • 소득 기준 적용하지 아니함 자산 총자산가액 • 자산 기준 적용하지 아니함 자동차가액 • 4,542만원 이하 • 입주자격 중 주택소유 산정시점은 각 신청자별 신청일이며,",
-      "asset": "구분 소득 및 자산보유 기준 소득 • 소득 기준 적용하지 아니함 자산 총자산가액 • 자산 기준 적용하지 아니함 자동차가액 • 4,542만원 이하 • 입주자격 중 주택소유 산정시점은 각 신청자별 신청일이며, 산정시점은 조사기준일로 합니다. 다만, 사업주체",
-      "car": "적용하지 아니함 자동차가액 • 4,542만원 이하 • 입주자격 중"
+      "income": "지시설퇴소자) - 월평균 소득 50%(1인 70%, 2인 60%)이하 : 차목(일반입주자) 2. 월평균 소득 가구원수 월평균 소득 50%(1인가구 70%, 2인가구 60%) 월평균 소득 70%(1인가구 90%, 2인가구 80%) 월평균 소득 100%(1인가구 120%, 2인가구 110%) 1",
+      "asset": "위 장애인) 2. 총자산 기준 세대구성원 전원이 보유하고 있는 총 자산(부동산, 자동차, 금융자산(부채반영), 일반자산) 가액 합 산 기준 ( 24,500 )만원 이하 3. 자동차 기준",
+      "car": "이 보유하고 있는 개별 자동차가액 ( 4,542 )만원 이하 * 자동차는 총"
      }
     },
-    "income_table_100": null
+    "income_table_100": null,
+    "local_unread": "현재 주민등록상 홍성군에 거주하는 성년자"
    },
    "api": {
     "CCR_CNNT_SYS_DS_CD": "03",
     "SPL_INF_TP_CD": "062",
     "UPP_AIS_TP_CD": "06",
-    "AIS_TP_CD": "07"
+    "AIS_TP_CD": "09"
+   },
+   "read": {
+    "tools": [
+     "pypdf",
+     "pdfium",
+     "plumber"
+    ],
+    "conflicts": []
+   }
+  },
+  {
+   "id": "2015122300020916",
+   "name": "전주1산단(전주팔복) 행복주택 입주자격완화예비입주자 모집",
+   "type": "행복주택",
+   "type_code": "10",
+   "judge_type": true,
+   "region": "전북특별자치도",
+   "posted": "2026-10-19",
+   "close": "2026-11-13",
+   "status": "공고중",
+   "url": "https://apply.lh.or.kr/lhapply/apply/wt/wrtanc/selectWrtancInfo.do?panId=2015122300020916&ccrCnntSysDsCd=03&uppAisTpCd=06&aisTpCd=10&mi=1026",
+   "url_mobile": "https://apply.lh.or.kr/lhapply/apply/wt/wrtanc/selectWrtancInfo.do?panId=2015122300020916&ccrCnntSysDsCd=03&uppAisTpCd=06&aisTpCd=10&mi=1026",
+   "schedule": [
+    {
+     "complex": null,
+     "apply_start": "2026-11-09",
+     "apply_end": "2026-11-13",
+     "apply_time": "~",
+     "docs_target": "2026-12-01",
+     "docs_start": "2026-12-01",
+     "docs_end": "2026-12-04",
+     "winner": "2027-02-04",
+     "contract_start": null,
+     "contract_end": null
+    }
+   ],
+   "complexes": [
+    {
+     "name": "전주1산단(전주팔복)",
+     "address": "전북특별자치도 전주시 덕진구 팔과정로 168(팔복동1가)",
+     "households": 601,
+     "area": "14.28~44.93",
+     "move_in": "2022.10",
+     "heating": null
+    }
+   ],
+   "units": [
+    {
+     "complex": "전주1산단(전주팔복)",
+     "type": "14A(대학생,청년,고령자,산단근로자)",
+     "area": 14.28,
+     "supply_area": 21.121,
+     "households": 184,
+     "now_households": 180,
+     "deposit": null,
+     "rent": null,
+     "money_note": "공고문 참조"
+    },
+    {
+     "complex": "전주1산단(전주팔복)",
+     "type": "26A(대학생,청년,고령자,산단근로자)",
+     "area": 26.93,
+     "supply_area": 39.8312,
+     "households": 95,
+     "now_households": 90,
+     "deposit": null,
+     "rent": null,
+     "money_note": "공고문 참조"
+    },
+    {
+     "complex": "전주1산단(전주팔복)",
+     "type": "26B(고령자(주거약자),대학생,청년,산단근로자)",
+     "area": 26.93,
+     "supply_area": 39.8312,
+     "households": 21,
+     "now_households": 35,
+     "deposit": null,
+     "rent": null,
+     "money_note": "공고문 참조"
+    },
+    {
+     "complex": "전주1산단(전주팔복)",
+     "type": "36A(쳥년,고령자,신혼부부 · 한부모가족,산단근로자)",
+     "area": 36.9,
+     "supply_area": 54.5774,
+     "households": 164,
+     "now_households": 100,
+     "deposit": null,
+     "rent": null,
+     "money_note": "공고문 참조"
+    },
+    {
+     "complex": "전주1산단(전주팔복)",
+     "type": "36B(고령자(주거약자),청년,신혼부부 ·한부모가족,산단근로자)",
+     "area": 36.9,
+     "supply_area": 54.5774,
+     "households": 12,
+     "now_households": 25,
+     "deposit": null,
+     "rent": null,
+     "money_note": "공고문 참조"
+    }
+   ],
+   "files": [
+    {
+     "kind": "공고문(hwp)",
+     "name": "(26.10.19공고)전주1산단(전주팔복)행복주택자격완화예비입주자모집공고문_게시용v.1.hwpx",
+     "url": "https://apply.lh.or.kr/lhapply/lhFile.do?fileid=68998815"
+    },
+    {
+     "kind": "공고문(PDF)",
+     "name": "(26.10.19공고)전주1산단(전주팔복)행복주택자격완화예비입주자모집공고문_게시용v.1.pdf",
+     "url": "https://apply.lh.or.kr/lhapply/lhFile.do?fileid=68998825"
+    }
+   ],
+   "etc": "* 청약접수 일정 및 제출서류 등을 반드시 확인하시기 바랍니다.\n* 예비입주자 모집 공고문(첨부파일)을 반드시 확인하시어 불이익이 없도록 유념하시기 바랍니다.\n  (1세대 1주택 신청원칙, 중복신청 시 전부 무효처리 됨)\n* 첨부된 작성양식은 접수처에 비치되어 있으니 참고하시기 바랍니다.\n* 전화문의는 장시간 접속지연 및 통화대기 등의 불편이 있을 수 있으니, 신청과 관련한 내용은 공고문을 참고하여 주시기 바랍니다.",
+   "office": {
+    "place": "전북특별자치도 전주시 완산구 홍산로 158(효자동2가) LH전북지역본부",
+    "tel": "1600-1004, 1670-0003"
+   },
+   "notice_pdf": "https://apply.lh.or.kr/lhapply/lhFile.do?fileid=68998825",
+   "notice_text": 67476,
+   "rents": [
+    {
+     "complex": "전주 1산단",
+     "type": "14A",
+     "group": "대학생",
+     "deposit": 10948000,
+     "rent": 56560
+    },
+    {
+     "complex": "전주 1산단",
+     "type": "14A",
+     "group": "청년",
+     "deposit": 11592000,
+     "rent": 59890
+    },
+    {
+     "complex": "전주 1산단",
+     "type": "14A",
+     "group": "고령자",
+     "deposit": 12236000,
+     "rent": 63210
+    },
+    {
+     "complex": "전주 1산단",
+     "type": "14A",
+     "group": null,
+     "deposit": 12880000,
+     "rent": 66540
+    },
+    {
+     "complex": "전주 1산단",
+     "type": "26A/26B",
+     "group": "대학생",
+     "deposit": 20876000,
+     "rent": 107850
+    },
+    {
+     "complex": "전주 1산단",
+     "type": "26A/26B",
+     "group": "청년",
+     "deposit": 22104000,
+     "rent": 114200
+    },
+    {
+     "complex": "전주 1산단",
+     "type": "26A/26B",
+     "group": "고령자",
+     "deposit": 23332000,
+     "rent": 120540
+    },
+    {
+     "complex": "전주 1산단",
+     "type": "26A/26B",
+     "group": null,
+     "deposit": 24560000,
+     "rent": 126890
+    },
+    {
+     "complex": "전주 1산단",
+     "type": "36A/36B",
+     "group": "대학생",
+     "deposit": 28900000,
+     "rent": 149310
+    },
+    {
+     "complex": "전주 1산단",
+     "type": "36A/36B",
+     "group": "청년",
+     "deposit": 30600000,
+     "rent": 158100
+    },
+    {
+     "complex": "전주 1산단",
+     "type": "36A/36B",
+     "group": "고령자",
+     "deposit": 32300000,
+     "rent": 166880
+    },
+    {
+     "complex": "전주 1산단",
+     "type": "36A/36B",
+     "group": "신혼부부·한부모",
+     "deposit": 34000000,
+     "rent": 175660
+    }
+   ],
+   "terms": {
+    "relaxed": true,
+    "homeless_relaxed": true,
+    "homeless_max1": false,
+    "income_basis": "도시근로자 월평균소득",
+    "groups": [
+     {
+      "key": "대학생",
+      "name": "대학생",
+      "homeless": "self",
+      "income_pct": "excluded",
+      "asset_manwon": "excluded",
+      "car_manwon": 0,
+      "age_min": null,
+      "age_max": null
+     },
+     {
+      "key": "청년",
+      "name": "청년",
+      "homeless": "self",
+      "income_pct": "excluded",
+      "asset_manwon": "excluded",
+      "car_manwon": 4542,
+      "age_min": 19,
+      "age_max": 39,
+      "account_by_movein": true
+     },
+     {
+      "key": "신혼부부·한부모",
+      "name": "신혼부부·한부모",
+      "homeless": "household",
+      "income_pct": "excluded",
+      "asset_manwon": "excluded",
+      "car_manwon": 4542,
+      "age_min": null,
+      "age_max": null,
+      "account_by_movein": true
+     },
+     {
+      "key": "고령자",
+      "name": "고령자",
+      "homeless": "household",
+      "income_pct": "excluded",
+      "asset_manwon": "excluded",
+      "car_manwon": 4542,
+      "age_min": 65,
+      "age_max": null
+     }
+    ],
+    "quotes": {
+     "대학생": {
+      "income": "로 간주 ② 혼인 중이 아닐 것 ③ 소득요건 배제 [일반요건 : 신",
+      "asset": "579,278원을 합산하여 산정 ④ 총자산요건 배제 (단, 신청자 본인이 자동차가액 산출대",
+      "car": "자산요건 배제 (단, 신청자 본인이 자동차가액 산출대상 자동차를 소유하고 있지 않을 것"
+     },
+     "청년": {
+      "income": "예술인 ② 혼인 중이 아닐 것 ③ 소득요건 배제 [일반요건 : 해",
+      "asset": "579,278원을 합산하여 산정 ④ 총자산요건 배제 (단, 해당세대가",
+      "car": "당세대가 보유하고 있는 총 자산 중 자동차가액은 4,542만원 이하 일 것)   ⑤"
+     },
+     "신혼부부·한부모": {
+      "income": "요건 6세 이하) 자녀를 둔 자 ③ 소득요건 배제 [일반요건: 해당",
+      "asset": "579,278원을 합산하여 산정 ④ 총자산요건 배제 (단, 해당세대가",
+      "car": "당세대가 보유하고 있는 총 자산 중 자동차가액은 4,542만원 이하 일 것)  가 보"
+     },
+     "고령자": {
+      "income": "해당 세대의 범위는 다음과 같음 ① 소득요건 배제 [일반요건 : 해",
+      "asset": "579,278원을 합산하여 산정 ② 총자산요건 배제 (단, 해당세대가",
+      "car": "당세대가 보유하고 있는 총 자산 중 자동차가액은 4,542만원 이하 일 것)   ③"
+     }
+    },
+    "income_table_100": {
+     "3": 8168429,
+     "4": 8802202,
+     "5": 9326985,
+     "6": 9906263
+    },
+    "prewed_ok": true,
+    "unknown_groups": [
+     "산업단지근로자"
+    ]
+   },
+   "api": {
+    "CCR_CNNT_SYS_DS_CD": "03",
+    "SPL_INF_TP_CD": "063",
+    "UPP_AIS_TP_CD": "06",
+    "AIS_TP_CD": "10"
+   },
+   "read": {
+    "tools": [
+     "pypdf",
+     "pdfium",
+     "plumber"
+    ],
+    "conflicts": []
+   }
+  },
+  {
+   "id": "2015122300020917",
+   "name": "완주삼례A-1 행복주택 입주자격완화 예비입주자 모집",
+   "type": "행복주택",
+   "type_code": "10",
+   "judge_type": true,
+   "region": "전북특별자치도",
+   "posted": "2026-10-19",
+   "close": "2026-11-20",
+   "status": "공고중",
+   "url": "https://apply.lh.or.kr/lhapply/apply/wt/wrtanc/selectWrtancInfo.do?panId=2015122300020917&ccrCnntSysDsCd=03&uppAisTpCd=06&aisTpCd=10&mi=1026",
+   "url_mobile": "https://apply.lh.or.kr/lhapply/apply/wt/wrtanc/selectWrtancInfo.do?panId=2015122300020917&ccrCnntSysDsCd=03&uppAisTpCd=06&aisTpCd=10&mi=1026",
+   "schedule": [
+    {
+     "complex": null,
+     "apply_start": "2026-11-09",
+     "apply_end": "2026-11-20",
+     "apply_time": "~",
+     "docs_target": "2026-12-01",
+     "docs_start": "2026-12-01",
+     "docs_end": "2026-12-04",
+     "winner": "2027-02-04",
+     "contract_start": null,
+     "contract_end": null
+    }
+   ],
+   "complexes": [
+    {
+     "name": "완주삼례 A-1 행복주택",
+     "address": "전북특별자치도 완주군 삼례읍 동학로 36-21 완주삼례 행복 아리따운 아파트",
+     "households": 300,
+     "area": "21.52~44.28",
+     "move_in": "2023.12",
+     "heating": "세대난방"
+    }
+   ],
+   "units": [
+    {
+     "complex": "완주삼례 A-1 행복주택",
+     "type": "21A(대학생,청년)",
+     "area": 21.52,
+     "supply_area": 32.223,
+     "households": 146,
+     "now_households": 140,
+     "deposit": null,
+     "rent": null,
+     "money_note": "공고문 참조"
+    },
+    {
+     "complex": "완주삼례 A-1 행복주택",
+     "type": "26A(고령자,주거급여수급자)",
+     "area": 26.06,
+     "supply_area": 39.021,
+     "households": 48,
+     "now_households": 50,
+     "deposit": null,
+     "rent": null,
+     "money_note": "공고문 참조"
+    }
+   ],
+   "files": [
+    {
+     "kind": "공고문(hwp)",
+     "name": "(26.10.19.공고)완주삼례A-1행복주택자격완화예비입주자모집공고문_게시용v.1.hwpx",
+     "url": "https://apply.lh.or.kr/lhapply/lhFile.do?fileid=68998504"
+    },
+    {
+     "kind": "공고문(PDF)",
+     "name": "(26.10.19.공고)완주삼례A-1행복주택자격완화예비입주자모집공고문_게시용v.1.pdf",
+     "url": "https://apply.lh.or.kr/lhapply/lhFile.do?fileid=68998510"
+    }
+   ],
+   "etc": "* 청약접수 일정 및 제출서류 등을 반드시 확인하시기 바랍니다.\n* 예비입주자 모집 공고문(첨부파일)을 반드시 확인하시어 불이익이 없도록 유념하시기 바랍니다.\n  (1세대 1주택 신청원칙, 중복신청 시 전부 무효처리 됨)\n* 첨부된 작성양식은 접수처에 비치되어 있으니 참고하시기 바랍니다.\n* 전화문의는 장시간 접속지연 및 통화대기 등의 불편이 있을 수 있으니, 신청과 관련한 내용은 공고문을 참고하여 주시기 바랍니다.",
+   "office": {
+    "place": "전북특별자치도 완주군 삼례읍 동학로 36-21 완주삼례 행복주택 내 주민편의시설",
+    "tel": "1600-1004, 1670-0003"
+   },
+   "notice_pdf": "https://apply.lh.or.kr/lhapply/lhFile.do?fileid=68998510",
+   "notice_text": 61934,
+   "rents": [
+    {
+     "complex": null,
+     "type": "21A",
+     "group": "대학생",
+     "deposit": 13192000,
+     "rent": 68150
+    },
+    {
+     "complex": null,
+     "type": "21A",
+     "group": "청년",
+     "deposit": 13968000,
+     "rent": 72160
+    },
+    {
+     "complex": null,
+     "type": "21A",
+     "group": "고령자",
+     "deposit": 14744000,
+     "rent": 76170
+    },
+    {
+     "complex": null,
+     "type": "21A",
+     "group": "주거급여수급자",
+     "deposit": 11640000,
+     "rent": 60140
+    },
+    {
+     "complex": null,
+     "type": "26A",
+     "group": "대학생",
+     "deposit": 15980000,
+     "rent": 82560
+    },
+    {
+     "complex": null,
+     "type": "26A",
+     "group": "청년",
+     "deposit": 16920000,
+     "rent": 87420
+    },
+    {
+     "complex": null,
+     "type": "26A",
+     "group": "고령자",
+     "deposit": 17860000,
+     "rent": 92270
+    },
+    {
+     "complex": null,
+     "type": "26A",
+     "group": "주거급여수급자",
+     "deposit": 14100000,
+     "rent": 72850
+    }
+   ],
+   "terms": {
+    "relaxed": true,
+    "homeless_relaxed": true,
+    "homeless_max1": false,
+    "income_basis": "도시근로자 월평균소득",
+    "groups": [
+     {
+      "key": "대학생",
+      "name": "대학생",
+      "homeless": "self",
+      "income_pct": "excluded",
+      "asset_manwon": "excluded",
+      "car_manwon": 0,
+      "age_min": null,
+      "age_max": null
+     },
+     {
+      "key": "청년",
+      "name": "청년",
+      "homeless": "self",
+      "income_pct": "excluded",
+      "asset_manwon": "excluded",
+      "car_manwon": 4542,
+      "age_min": 19,
+      "age_max": 39,
+      "account_by_movein": true
+     },
+     {
+      "key": "고령자",
+      "name": "고령자",
+      "homeless": "household",
+      "income_pct": "excluded",
+      "asset_manwon": "excluded",
+      "car_manwon": 4542,
+      "age_min": 65,
+      "age_max": null
+     },
+     {
+      "key": "주거급여수급자",
+      "name": "주거급여수급자",
+      "homeless": "household",
+      "income_pct": null,
+      "asset_manwon": null,
+      "car_manwon": null,
+      "age_min": null,
+      "age_max": null
+     }
+    ],
+    "quotes": {
+     "대학생": {
+      "income": "기준은 ② 혼인 중이 아닐 것 ③ 소득요건 배제 [일반요건 : 신",
+      "asset": "579,278원을 합산하여 산정 ④ 총자산요건 배제 (단, 신청자 본인이 자동차가액 산출대",
+      "car": "자산요건 배제 (단, 신청자 본인이 자동차가액 산출대상 자동차를 소유하고 있지 않을 것"
+     },
+     "청년": {
+      "income": "예술인 ② 혼인 중이 아닐 것 ③ 소득요건 배제 [일반요건 : 해",
+      "asset": "579,278원을 합산하여 산정 ④ 총자산요건 배제 (단, 해당세대가",
+      "car": "당세대가 보유하고 있는 총 자산 중 자동차가액은 4,542만원 이하 일 것)   ⑤"
+     },
+     "고령자": {
+      "income": "생일1961.10.19. 이전) ① 소득요건 배제 [일반요건 : 해",
+      "asset": "579,278원을 합산하여 산정 ② 총자산요건 배제 (단, 해당세대가",
+      "car": "당세대가 보유하고 있는 총 자산 중 자동차가액은 4,542만원 이하 일 것)   ③"
+     },
+     "주거급여수급자": {}
+    },
+    "income_table_100": {
+     "3": 8168429,
+     "4": 8802202,
+     "5": 9326985,
+     "6": 9906263
+    },
+    "unknown_groups": []
+   },
+   "api": {
+    "CCR_CNNT_SYS_DS_CD": "03",
+    "SPL_INF_TP_CD": "063",
+    "UPP_AIS_TP_CD": "06",
+    "AIS_TP_CD": "10"
    },
    "read": {
     "tools": [
