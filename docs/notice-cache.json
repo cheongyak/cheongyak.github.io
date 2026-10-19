@@ -201,7 +201,7 @@
   },
   "name": "아산 그랑시티필하우스",
   "notice_pdf": "https://static.applyhome.co.kr/ai/aia/getAtchmnfl.do?houseManageNo=2026000267&pblancNo=2026000267&atchmnflSeqNo=1992075&atchmnflSn=3",
-  "v": 41
+  "v": 42
  },
  "2026000314": {
   "found": {
@@ -401,7 +401,7 @@
   },
   "name": "중동역 다채로움 더원",
   "notice_pdf": "https://static.applyhome.co.kr/ai/aia/getAtchmnfl.do?houseManageNo=2026000314&pblancNo=2026000314&atchmnflSeqNo=1870113&atchmnflSn=10",
-  "v": 41
+  "v": 42
  },
  "2026000373": {
   "found": {
@@ -421,28 +421,132 @@
      "049.0000E": true,
      "049.0000F": true,
      "049.0000G": true,
-     "049.0000H": false,
+     "049.0000H": true,
      "049.0000I": true,
      "049.0000J": true,
      "049.0000K": true,
-     "059.0000A": false,
+     "059.0000A": true,
      "059.0000B": true,
-     "059.0000C": false,
+     "059.0000C": true,
      "059.0000D": true,
-     "059.0000E": false,
+     "059.0000E": true,
      "059.0000F": true,
-     "059.0000G": false,
+     "059.0000G": true,
      "059.0000H": true,
      "059.0000I": true
     }
    },
+   "need_head": false,
    "pay_ratio": {
     "balance": 0.9,
     "contract": 0.1,
     "mid": 0.0
    },
    "price_cap": true,
+   "pub_limits": {
+    "amounts": {
+     "elig": {
+      "1": [
+       7533763,
+       15067526
+      ],
+      "2": [
+       7533763,
+       15067526
+      ],
+      "3": [
+       7533763,
+       15067526
+      ],
+      "4": [
+       8802202,
+       17604404
+      ],
+      "5": [
+       9326985,
+       18653970
+      ],
+      "6": [
+       9906263,
+       19812526
+      ],
+      "7": [
+       10485541,
+       20971082
+      ],
+      "8": [
+       11064819,
+       22129638
+      ]
+     },
+     "pri": {
+      "1": [
+       7533763,
+       10547268
+      ],
+      "2": [
+       7533763,
+       10547268
+      ],
+      "3": [
+       7533763,
+       10547268
+      ],
+      "4": [
+       8802202,
+       12323083
+      ],
+      "5": [
+       9326985,
+       13057779
+      ],
+      "6": [
+       9906263,
+       13868768
+      ],
+      "7": [
+       10485541,
+       14679757
+      ],
+      "8": [
+       11064819,
+       15490747
+      ]
+     }
+    },
+    "area_max": null,
+    "eligible": {
+     "base": [
+      100,
+      200
+     ],
+     "one": 100,
+     "two": [
+      100,
+      200
+     ]
+    },
+    "kind": "total",
+    "priority": {
+     "base": [
+      100,
+      140
+     ],
+     "one": 100,
+     "two": [
+      100,
+      140
+     ]
+    },
+    "sh_landlease": true,
+    "total_asset": 36200,
+    "total_asset_relax": [
+     39700,
+     43100
+    ]
+   },
    "quotes": {
+    "need_head": "…세대구성원 (과거 5년 이내 당첨 이력 없음**) 세대구성원 세대주 여부 해당 없음 해당 없음 해당 없음 신청자 본인 해당 없음 해당 없음** 신청자 본인 해당 없음 과거 주택소유이력 세대구성원 (사전청약 공고일부터) 신청자 본인…",
     "pay_ratio": "…(원, 부가세 포함)계 계약금(계약 시 10%) 잔금(입주 시 90%) 301 201 059.0000B 59B…",
     "price_cap": "…- 분양가상한제 적용주택(제1항제3호) - 투기과열지구에서 공급되는…",
     "resale": "…따라 현행 기준 모든 전매행위(부부 공동명의 포함)가 불가합니다. ※ 잔금 대출과 관련한 세부사항은 기금e든든…",
@@ -478,7 +582,7 @@
   },
   "name": "고덕강일지구 3단지 토지임대부(본청약)",
   "notice_pdf": "https://static.applyhome.co.kr/ai/aia/getAtchmnfl.do?houseManageNo=2026000373&pblancNo=2026000373&atchmnflSeqNo=2001204&atchmnflSn=3",
-  "v": 41
+  "v": 42
  },
  "2026000386": {
   "found": {
@@ -633,7 +737,7 @@
   },
   "name": "용인 양지 서희스타힐스 하이뷰 (조합원 취소분)",
   "notice_pdf": "https://static.applyhome.co.kr/ai/aia/getAtchmnfl.do?houseManageNo=2026000386&pblancNo=2026000386&atchmnflSeqNo=1961129&atchmnflSn=6",
-  "v": 41
+  "v": 42
  },
  "2026000402": {
   "found": {
@@ -1250,7 +1354,7 @@
   },
   "name": "익산 부송에코르 10년 공공임대주택",
   "notice_pdf": "https://static.applyhome.co.kr/ai/aia/getAtchmnfl.do?houseManageNo=2026000402&pblancNo=2026000402&atchmnflSeqNo=1982173&atchmnflSn=6",
-  "v": 41
+  "v": 42
  },
  "2026000409": {
   "found": {
@@ -1492,7 +1596,7 @@
   },
   "name": "의정부우정 A2블록 공공분양주택(본청약)",
   "notice_pdf": "https://apply.lh.or.kr/lhapply/lhFile.do?fileid=68307467",
-  "v": 41
+  "v": 42
  },
  "2026000414": {
   "found": {
@@ -1734,7 +1838,7 @@
   },
   "name": "인천계양지구 A6블록 공공분양주택(본청약)",
   "notice_pdf": "https://apply.lh.or.kr/lhapply/lhFile.do?fileid=68595376",
-  "v": 41
+  "v": 42
  },
  "2026000416": {
   "found": {
@@ -1981,7 +2085,7 @@
   },
   "name": "양주회천지구 A-26블록 공공분양주택",
   "notice_pdf": "https://apply.lh.or.kr/lhapply/lhFile.do?fileid=68440094",
-  "v": 41
+  "v": 42
  },
  "2026000424": {
   "found": {
@@ -2122,7 +2226,7 @@
   },
   "name": "쌍용 더 플래티넘 센텀",
   "notice_pdf": "https://static.applyhome.co.kr/ai/aia/getAtchmnfl.do?houseManageNo=2026000424&pblancNo=2026000424&atchmnflSeqNo=1970054&atchmnflSn=6",
-  "v": 41
+  "v": 42
  },
  "2026000431": {
   "found": {
@@ -2328,7 +2432,7 @@
   },
   "name": "오남역 서희스타힐스 여의재 3단지 (조합원 취소분)",
   "notice_pdf": "https://static.applyhome.co.kr/ai/aia/getAtchmnfl.do?houseManageNo=2026000431&pblancNo=2026000431&atchmnflSeqNo=1959146&atchmnflSn=5",
-  "v": 41
+  "v": 42
  },
  "2026000436": {
   "found": {
@@ -2451,7 +2555,7 @@
   },
   "name": "더샵 시에르네(조합원취소분)(2회차)",
   "notice_pdf": "https://static.applyhome.co.kr/ai/aia/getAtchmnfl.do?houseManageNo=2026000436&pblancNo=2026000436&atchmnflSeqNo=1966021&atchmnflSn=9",
-  "v": 41
+  "v": 42
  },
  "2026000443": {
   "found": {
@@ -2594,7 +2698,7 @@
   },
   "name": "에코델타시티 금강펜테리움 에코리버",
   "notice_pdf": "https://static.applyhome.co.kr/ai/aia/getAtchmnfl.do?houseManageNo=2026000443&pblancNo=2026000443&atchmnflSeqNo=1980180&atchmnflSn=3",
-  "v": 41
+  "v": 42
  },
  "2026000444": {
   "found": {
@@ -2668,7 +2772,7 @@
   },
   "name": "제주시 이도이동 아이린8차 아파트",
   "notice_pdf": "https://static.applyhome.co.kr/ai/aia/getAtchmnfl.do?houseManageNo=2026000444&pblancNo=2026000444&atchmnflSeqNo=1988268&atchmnflSn=1",
-  "v": 41
+  "v": 42
  },
  "2026000445": {
   "found": {
@@ -2841,7 +2945,7 @@
   },
   "name": "삼천 하늘채 라비엘",
   "notice_pdf": "https://static.applyhome.co.kr/ai/aia/getAtchmnfl.do?houseManageNo=2026000445&pblancNo=2026000445&atchmnflSeqNo=1978222&atchmnflSn=1",
-  "v": 41
+  "v": 42
  },
  "2026000446": {
   "found": {
@@ -3038,7 +3142,7 @@
   },
   "name": "진주 판문지구 레이크써밋 웰가",
   "notice_pdf": "https://static.applyhome.co.kr/ai/aia/getAtchmnfl.do?houseManageNo=2026000446&pblancNo=2026000446&atchmnflSeqNo=1971223&atchmnflSn=4",
-  "v": 41
+  "v": 42
  },
  "2026000448": {
   "found": {
@@ -3197,7 +3301,7 @@
   },
   "name": "숭의역 노르웨이숲 더 스카이",
   "notice_pdf": "https://static.applyhome.co.kr/ai/aia/getAtchmnfl.do?houseManageNo=2026000448&pblancNo=2026000448&atchmnflSeqNo=1966343&atchmnflSn=4",
-  "v": 41
+  "v": 42
  },
  "2026000453": {
   "found": {
@@ -3368,7 +3472,7 @@
   },
   "name": "광명 시티프라디움 에듀하임",
   "notice_pdf": "https://static.applyhome.co.kr/ai/aia/getAtchmnfl.do?houseManageNo=2026000453&pblancNo=2026000453&atchmnflSeqNo=1971127&atchmnflSn=7",
-  "v": 41
+  "v": 42
  },
  "2026000454": {
   "found": {
@@ -3480,7 +3584,7 @@
   },
   "name": "천안 용곡 두산위브(조합원 취소분)",
   "notice_pdf": "https://static.applyhome.co.kr/ai/aia/getAtchmnfl.do?houseManageNo=2026000454&pblancNo=2026000454&atchmnflSeqNo=1966131&atchmnflSn=7",
-  "v": 41
+  "v": 42
  },
  "2026000455": {
   "found": {
@@ -3669,7 +3773,7 @@
   },
   "name": "신분평 에피트 더웨이시티",
   "notice_pdf": "https://static.applyhome.co.kr/ai/aia/getAtchmnfl.do?houseManageNo=2026000455&pblancNo=2026000455&atchmnflSeqNo=1969991&atchmnflSn=5",
-  "v": 41
+  "v": 42
  },
  "2026000458": {
   "found": {
@@ -3907,7 +4011,7 @@
   },
   "name": "산곡역자이힐스테이트앤하늘채",
   "notice_pdf": "https://static.applyhome.co.kr/ai/aia/getAtchmnfl.do?houseManageNo=2026000458&pblancNo=2026000458&atchmnflSeqNo=1995089&atchmnflSn=2",
-  "v": 41
+  "v": 42
  },
  "2026000463": {
   "found": {
@@ -4131,7 +4235,7 @@
   },
   "name": "향남역 그로브 스위첸",
   "notice_pdf": "https://static.applyhome.co.kr/ai/aia/getAtchmnfl.do?houseManageNo=2026000463&pblancNo=2026000463&atchmnflSeqNo=1978209&atchmnflSn=6",
-  "v": 41
+  "v": 42
  },
  "2026000464": {
   "found": {
@@ -4337,7 +4441,7 @@
   },
   "name": "힐스테이트 거제시그니처(1회차)",
   "notice_pdf": "https://static.applyhome.co.kr/ai/aia/getAtchmnfl.do?houseManageNo=2026000464&pblancNo=2026000464&atchmnflSeqNo=1997002&atchmnflSn=1",
-  "v": 41
+  "v": 42
  },
  "2026000466": {
   "found": {
@@ -4496,7 +4600,7 @@
   },
   "name": "진도 승원팰리체 더 테라스",
   "notice_pdf": "https://static.applyhome.co.kr/ai/aia/getAtchmnfl.do?houseManageNo=2026000466&pblancNo=2026000466&atchmnflSeqNo=1995122&atchmnflSn=6",
-  "v": 41
+  "v": 42
  },
  "2026000468": {
   "found": {
@@ -4705,7 +4809,7 @@
   },
   "name": "쌍용 더 플래티넘 한강",
   "notice_pdf": "https://static.applyhome.co.kr/ai/aia/getAtchmnfl.do?houseManageNo=2026000468&pblancNo=2026000468&atchmnflSeqNo=1990183&atchmnflSn=2",
-  "v": 41
+  "v": 42
  },
  "2026000469": {
   "found": {
@@ -4884,7 +4988,7 @@
   },
   "name": "연제갤러리자이",
   "notice_pdf": "https://static.applyhome.co.kr/ai/aia/getAtchmnfl.do?houseManageNo=2026000469&pblancNo=2026000469&atchmnflSeqNo=1995111&atchmnflSn=1",
-  "v": 41
+  "v": 42
  },
  "2026000471": {
   "found": {
@@ -4957,7 +5061,7 @@
   },
   "name": "한양립스 에듀포레(조합원 취소분)",
   "notice_pdf": "https://static.applyhome.co.kr/ai/aia/getAtchmnfl.do?houseManageNo=2026000471&pblancNo=2026000471&atchmnflSeqNo=1995080&atchmnflSn=3",
-  "v": 41
+  "v": 42
  },
  "2026000491": {
   "found": {
@@ -5135,7 +5239,7 @@
   },
   "name": "청주 가경 아이파크 7단지",
   "notice_pdf": "https://static.applyhome.co.kr/ai/aia/getAtchmnfl.do?houseManageNo=2026000491&pblancNo=2026000491&atchmnflSeqNo=1992167&atchmnflSn=7",
-  "v": 41
+  "v": 42
  },
  "2026000492": {
   "found": {
@@ -5313,7 +5417,7 @@
   },
   "name": "청주 가경 아이파크 8단지",
   "notice_pdf": "https://www.applyhome.co.kr/ai/aia/getAtchmnfl.do?houseManageNo=2026000492&pblancNo=2026000492&atchmnflSeqNo=1995082&atchmnflSn=5",
-  "v": 41
+  "v": 42
  },
  "2026000494": {
   "found": {
@@ -5490,7 +5594,7 @@
   },
   "name": "더샵 동인센트리체",
   "notice_pdf": "https://static.applyhome.co.kr/ai/aia/getAtchmnfl.do?houseManageNo=2026000494&pblancNo=2026000494&atchmnflSeqNo=1988347&atchmnflSn=2",
-  "v": 41
+  "v": 42
  },
  "2026000495": {
   "found": {
@@ -5684,7 +5788,7 @@
   },
   "name": "연산 센텀 월드메르디앙",
   "notice_pdf": "https://static.applyhome.co.kr/ai/aia/getAtchmnfl.do?houseManageNo=2026000495&pblancNo=2026000495&atchmnflSeqNo=2000036&atchmnflSn=8",
-  "v": 41
+  "v": 42
  },
  "2026000498": {
   "found": {
@@ -5783,7 +5887,7 @@
   },
   "name": "천안 아이파크 시티 2단지(2회차)",
   "notice_pdf": "https://static.applyhome.co.kr/ai/aia/getAtchmnfl.do?houseManageNo=2026000498&pblancNo=2026000498&atchmnflSeqNo=1991055&atchmnflSn=2",
-  "v": 41
+  "v": 42
  },
  "2026000507": {
   "found": {
@@ -5850,7 +5954,7 @@
     "residence": "…3300 주택유형 해당지역 기타지역 규제지역여부 민영 부산광역시 1년 이상 계속 거주자 (2025.10.16. 이전부터 계속 거주) 부산광역시 1년 미만 계속 거주자및 울산광역시, 경상남도 거주자 비규제지역 재당첨제한 전매제한 거주의무기간 분…",
     "residence_duty": "(1쪽 단지 주요정보 표) 전매제한 거주의무기간 분양가상한제 택지유형 없음 6개월 없음 미적용 민간택지",
     "rewin_years": "…관한 규칙」 제54조에 따 른 재당첨 제한을 적용받지 않으며, 기존 주택 당첨으로 인해 재당첨 제한 기간 내에 있는 분 및 그 세대에…",
-    "score_ratio": "…전용면적별 1순위 가점제/추첨제 적용비율 구분 가점제 추첨제 전용면적 60㎡ 이하 40% 60% 전용면적 60㎡ 초과 85㎡ 이하 40% 60% - 가점 산정기준(「주택공급에 관한 규칙」 별표1의2 나목) 가점항목 가점상한 가점구분 점수 가점구분 점수 ①무주택기간 32 만 30세 미만 미혼자 또는 유주택…"
+    "score_ratio": "…전용면적별 1순위 가점제/추첨제 적용비율 구분 가점제 추첨제 전용면적 60㎡ 이하 40% 60% 전용면적 60㎡ 초과 85㎡ 이하 40% 60% - 가점 산정기준(「주택공급에 관한 규칙」 별표1의2 나목) - 10 - ※ 2024.03.25. 시행된 「주택공급에 관한 규칙」 별표1의2 나목에 따라 가점제…"
    },
    "resale": {
     "base": "2026-11-02",
@@ -5894,8 +5998,8 @@
    }
   },
   "name": "광안센텀 비스타동원(조합원 취소분)",
-  "notice_pdf": "https://static.applyhome.co.kr/ai/aia/getAtchmnfl.do?houseManageNo=2026000507&pblancNo=2026000507&atchmnflSeqNo=1999025&atchmnflSn=4",
-  "v": 41
+  "notice_pdf": "https://www.applyhome.co.kr/ai/aia/getAtchmnfl.do?houseManageNo=2026000507&pblancNo=2026000507&atchmnflSeqNo=1999025&atchmnflSn=5",
+  "v": 42
  },
  "2026000508": {
   "found": {
@@ -5980,7 +6084,7 @@
   },
   "name": "아크메르 동탄 95",
   "notice_pdf": "https://static.applyhome.co.kr/ai/aia/getAtchmnfl.do?houseManageNo=2026000508&pblancNo=2026000508&atchmnflSeqNo=2000101&atchmnflSn=6",
-  "v": 41
+  "v": 42
  },
  "2026000509": {
   "found": {
@@ -6071,7 +6175,7 @@
   },
   "name": "아크메르 동탄 99",
   "notice_pdf": "https://static.applyhome.co.kr/ai/aia/getAtchmnfl.do?houseManageNo=2026000509&pblancNo=2026000509&atchmnflSeqNo=2000102&atchmnflSn=5",
-  "v": 41
+  "v": 42
  },
  "2026000513": {
   "found": {
@@ -6266,7 +6370,7 @@
   },
   "name": "트리븐센텀 1단지",
   "notice_pdf": "https://static.applyhome.co.kr/ai/aia/getAtchmnfl.do?houseManageNo=2026000513&pblancNo=2026000513&atchmnflSeqNo=2000120&atchmnflSn=4",
-  "v": 41
+  "v": 42
  },
  "2026000514": {
   "found": {
@@ -6461,7 +6565,7 @@
   },
   "name": "트리븐센텀 2단지",
   "notice_pdf": "https://static.applyhome.co.kr/ai/aia/getAtchmnfl.do?houseManageNo=2026000514&pblancNo=2026000514&atchmnflSeqNo=1999083&atchmnflSn=3",
-  "v": 41
+  "v": 42
  },
  "2026820010": {
   "found": {
@@ -6654,7 +6758,7 @@
   },
   "name": "인천계양 A17블록 신혼희망타운(공공분양)(본청약)",
   "notice_pdf": "https://apply.lh.or.kr/lhapply/lhFile.do?fileid=68807314",
-  "v": 41
+  "v": 42
  },
  "2026820011": {
   "found": {
@@ -6846,7 +6950,7 @@
   },
   "name": "시흥하중지구 A-4블록 신혼희망타운(공공분양) 추가입주자모집",
   "notice_pdf": "https://apply.lh.or.kr/lhapply/lhFile.do?fileid=68663246",
-  "v": 41
+  "v": 42
  },
  "2026910220": {
   "found": {
@@ -6911,7 +7015,7 @@
   },
   "name": "아크로 리버스카이(2차)",
   "notice_pdf": "https://static.applyhome.co.kr/ai/aia/getAtchmnfl.do?houseManageNo=2026910220&pblancNo=2026910220&atchmnflSeqNo=1953024&atchmnflSn=5",
-  "v": 41
+  "v": 42
  },
  "2026910243": {
   "found": {
@@ -6968,7 +7072,7 @@
   },
   "name": "더샵 청주그리니티",
   "notice_pdf": "https://static.applyhome.co.kr/ai/aia/getAtchmnfl.do?houseManageNo=2026910243&pblancNo=2026910243&atchmnflSeqNo=1979012&atchmnflSn=3",
-  "v": 41
+  "v": 42
  },
  "2026910249": {
   "found": {
@@ -7031,7 +7135,7 @@
   },
   "name": "세종 우미 린 센터파크(행정중심복합도시 5-2생활권 S1블록, 글미마을 9단지)",
   "notice_pdf": "https://static.applyhome.co.kr/ai/aia/getAtchmnfl.do?houseManageNo=2026910249&pblancNo=2026910249&atchmnflSeqNo=1988068&atchmnflSn=3",
-  "v": 41
+  "v": 42
  },
  "2026910250": {
   "found": {
@@ -7094,7 +7198,7 @@
   },
   "name": "신림스카이아파트(20차)",
   "notice_pdf": "https://static.applyhome.co.kr/ai/aia/getAtchmnfl.do?houseManageNo=2026910250&pblancNo=2026910250&atchmnflSeqNo=1978039&atchmnflSn=2",
-  "v": 41
+  "v": 42
  },
  "2026910251": {
   "found": {
@@ -7156,7 +7260,7 @@
   },
   "name": "충정로역자이르네",
   "notice_pdf": "https://static.applyhome.co.kr/ai/aia/getAtchmnfl.do?houseManageNo=2026910251&pblancNo=2026910251&atchmnflSeqNo=1986036&atchmnflSn=2",
-  "v": 41
+  "v": 42
  },
  "2026910252": {
   "found": {
@@ -7224,7 +7328,7 @@
   },
   "name": "그랑라크 에일린의 뜰",
   "notice_pdf": "https://static.applyhome.co.kr/ai/aia/getAtchmnfl.do?houseManageNo=2026910252&pblancNo=2026910252&atchmnflSeqNo=1997992&atchmnflSn=5",
-  "v": 41
+  "v": 42
  },
  "2026910253": {
   "found": {
@@ -7289,7 +7393,7 @@
   },
   "name": "오남역 서희스타힐스 여의재 1단지",
   "notice_pdf": "https://static.applyhome.co.kr/ai/aia/getAtchmnfl.do?houseManageNo=2026910253&pblancNo=2026910253&atchmnflSeqNo=1988120&atchmnflSn=3",
-  "v": 41
+  "v": 42
  },
  "2026910254": {
   "found": {
@@ -7347,7 +7451,7 @@
   },
   "name": "에코델타시티 푸르지오 센터파크(18BL)",
   "notice_pdf": "https://static.applyhome.co.kr/ai/aia/getAtchmnfl.do?houseManageNo=2026910254&pblancNo=2026910254&atchmnflSeqNo=1995006&atchmnflSn=2",
-  "v": 41
+  "v": 42
  },
  "2026910255": {
   "found": {
@@ -7405,7 +7509,7 @@
   },
   "name": "e편한세상 에코델타 센터포인트(19BL)",
   "notice_pdf": "https://static.applyhome.co.kr/ai/aia/getAtchmnfl.do?houseManageNo=2026910255&pblancNo=2026910255&atchmnflSeqNo=1992144&atchmnflSn=3",
-  "v": 41
+  "v": 42
  },
  "2026910256": {
   "found": {
@@ -7478,7 +7582,7 @@
   },
   "name": "상동역 롯데캐슬 시그니처",
   "notice_pdf": "https://static.applyhome.co.kr/ai/aia/getAtchmnfl.do?houseManageNo=2026910256&pblancNo=2026910256&atchmnflSeqNo=1991039&atchmnflSn=2",
-  "v": 41
+  "v": 42
  },
  "2026910259": {
   "found": {
@@ -7543,7 +7647,7 @@
   },
   "name": "시티오씨엘 9단지 오션파크뷰",
   "notice_pdf": "https://static.applyhome.co.kr/ai/aia/getAtchmnfl.do?houseManageNo=2026910259&pblancNo=2026910259&atchmnflSeqNo=1992035&atchmnflSn=3",
-  "v": 41
+  "v": 42
  },
  "2026910260": {
   "found": {
@@ -7611,7 +7715,7 @@
   },
   "name": "의왕역 한신더휴",
   "notice_pdf": "https://static.applyhome.co.kr/ai/aia/getAtchmnfl.do?houseManageNo=2026910260&pblancNo=2026910260&atchmnflSeqNo=1994055&atchmnflSn=3",
-  "v": 41
+  "v": 42
  },
  "2026910261": {
   "found": {
@@ -7670,7 +7774,7 @@
   },
   "name": "올 뉴 챔피언스시티 1차",
   "notice_pdf": "https://static.applyhome.co.kr/ai/aia/getAtchmnfl.do?houseManageNo=2026910261&pblancNo=2026910261&atchmnflSeqNo=1999120&atchmnflSn=5",
-  "v": 41
+  "v": 42
  },
  "2026910262": {
   "found": {
@@ -7734,7 +7838,7 @@
   },
   "name": "화성 송산 동원로얄듀크 포레(2차)",
   "notice_pdf": "https://static.applyhome.co.kr/ai/aia/getAtchmnfl.do?houseManageNo=2026910262&pblancNo=2026910262&atchmnflSeqNo=1998997&atchmnflSn=3",
-  "v": 41
+  "v": 42
  },
  "2026910263": {
   "found": {
@@ -7799,7 +7903,7 @@
   },
   "name": "청계 노르웨이숲(13차)",
   "notice_pdf": "https://static.applyhome.co.kr/ai/aia/getAtchmnfl.do?houseManageNo=2026910263&pblancNo=2026910263&atchmnflSeqNo=1994058&atchmnflSn=3",
-  "v": 41
+  "v": 42
  },
  "2026910264": {
   "found": {
@@ -7862,7 +7966,7 @@
   },
   "name": "시흥 은계 에피트(조합원 취소분)",
   "notice_pdf": "https://www.applyhome.co.kr/ai/aia/getAtchmnfl.do?houseManageNo=2026910264&pblancNo=2026910264&atchmnflSeqNo=1996222&atchmnflSn=3",
-  "v": 41
+  "v": 42
  },
  "2026930032": {
   "found": {
@@ -7918,7 +8022,7 @@
   },
   "name": "태화강 에피트",
   "notice_pdf": "https://static.applyhome.co.kr/ai/aia/getAtchmnfl.do?houseManageNo=2026930032&pblancNo=2026930032&atchmnflSeqNo=1976997&atchmnflSn=3",
-  "v": 41
+  "v": 42
  },
  "2026930033": {
   "found": {
@@ -7990,7 +8094,7 @@
   },
   "name": "도안 푸르지오 디아델 29블록",
   "notice_pdf": "https://static.applyhome.co.kr/ai/aia/getAtchmnfl.do?houseManageNo=2026930033&pblancNo=2026930033&atchmnflSeqNo=1988251&atchmnflSn=2",
-  "v": 41
+  "v": 42
  },
  "2026930034": {
   "found": {
@@ -8076,7 +8180,7 @@
   },
   "name": "도안 푸르지오 디아델 31블록",
   "notice_pdf": "https://static.applyhome.co.kr/ai/aia/getAtchmnfl.do?houseManageNo=2026930034&pblancNo=2026930034&atchmnflSeqNo=1990217&atchmnflSn=1",
-  "v": 41
+  "v": 42
  },
  "2026930035": {
   "found": {
@@ -8141,7 +8245,7 @@
   },
   "name": "더샵 청주그리니티",
   "notice_pdf": "https://static.applyhome.co.kr/ai/aia/getAtchmnfl.do?houseManageNo=2026930035&pblancNo=2026930035&atchmnflSeqNo=1978104&atchmnflSn=3",
-  "v": 41
+  "v": 42
  },
  "2026930038": {
   "found": {
@@ -8214,7 +8318,7 @@
   },
   "name": "고양 장항 아테라",
   "notice_pdf": "https://static.applyhome.co.kr/ai/aia/getAtchmnfl.do?houseManageNo=2026930038&pblancNo=2026930038&atchmnflSeqNo=1990056&atchmnflSn=4",
-  "v": 41
+  "v": 42
  },
  "2026930039": {
   "found": {
@@ -8284,7 +8388,7 @@
   },
   "name": "탕정 푸르지오 리버파크",
   "notice_pdf": "https://static.applyhome.co.kr/ai/aia/getAtchmnfl.do?houseManageNo=2026930039&pblancNo=2026930039&atchmnflSeqNo=1988277&atchmnflSn=3",
-  "v": 41
+  "v": 42
  },
  "2026930040": {
   "found": {
@@ -8348,7 +8452,7 @@
   },
   "name": "강변역 센트럴 아이파크",
   "notice_pdf": "https://static.applyhome.co.kr/ai/aia/getAtchmnfl.do?houseManageNo=2026930040&pblancNo=2026930040&atchmnflSeqNo=1982993&atchmnflSn=5",
-  "v": 41
+  "v": 42
  },
  "2026930041": {
   "found": {
@@ -8419,6 +8523,6 @@
   },
   "name": "세종 리더스포레 나릿재마을 1단지",
   "notice_pdf": "https://static.applyhome.co.kr/ai/aia/getAtchmnfl.do?houseManageNo=2026930041&pblancNo=2026930041&atchmnflSeqNo=1994169&atchmnflSn=8",
-  "v": 41
+  "v": 42
  }
 }
