@@ -1,0 +1,137 @@
+{
+ "id": "2026000514",
+ "name": "트리븐센텀 2단지",
+ "fields": {
+  "supply_class": {
+   "value": "민영주택",
+   "status": "stated",
+   "quote": "민영 부산광역시 1년 이상 계속 거주자(2025.10.16. 이전부터 계속 거주) ... 비규제지역",
+   "note": ""
+  },
+  "supply_kind": {
+   "value": "일반분양",
+   "status": "stated",
+   "quote": "공급규모 : 아파트 지하 4층, 지상 29층 9개동 총 792세대 [특별공급 370세대 ...] 포함",
+   "note": ""
+  },
+  "correction": {
+   "value": null,
+   "status": "not_stated",
+   "quote": "",
+   "note": "정정·변경공고 문구 없음"
+  },
+  "need_head": {
+   "value": false,
+   "status": "stated",
+   "quote": "세대주 요건 - - - 필요 - - - - / 일반공급 대상자: 부산광역시에 거주하거나 울산광역시 및 경상남도에 거주하는 만19세 이상인 분 또는 세대주인 미성년자",
+   "note": "신청자격 표 세대주 요건: 노부모부양만 '필요', 1순위·2순위 '-'"
+  },
+  "price_cap": {
+   "value": false,
+   "status": "stated",
+   "quote": "비수도권 비투기과열지구 및 비청약과열지역의 민간택지에서 공급하는 분양가상한제 미적용 민영주택",
+   "note": ""
+  },
+  "residence_duty": {
+   "value": 0,
+   "status": "stated",
+   "quote": "재당첨제한 전매제한 거주의무기간 분양가상한제 택지유형 / 없음 6개월 없음 미적용 민간택지",
+   "note": ""
+  },
+  "rewin_years": {
+   "value": 0,
+   "status": "stated",
+   "quote": "당첨자로 선정되더라도 「주택공급에 관한 규칙」 제54조에 따른 재당첨 제한을 적용받지 않으며",
+   "note": ""
+  },
+  "resale": {
+   "value": {
+    "months": 6,
+    "base": "당첨자발표일(2026.11.05.)"
+   },
+   "status": "stated",
+   "quote": "전매제한기간 당첨자 발표일(2026.11.05.)로부터 6개월",
+   "note": ""
+  },
+  "account_months": {
+   "value": 6,
+   "status": "stated",
+   "quote": "주택청약종합저축 : 주택청약종합저축에 가입하여 6개월이 경과하고, 지역별·면적별 예치금액 이상인 분",
+   "note": ""
+  },
+  "deposit_count": {
+   "value": null,
+   "status": "not_stated",
+   "quote": "",
+   "note": "민영주택: 납입횟수 요건 없음(예치금액 기준)"
+  },
+  "residence": {
+   "value": {
+    "area": "부산광역시",
+    "months": 12,
+    "since": "2025-10-16",
+    "others": [
+     "부산광역시(1년 미만)",
+     "울산광역시",
+     "경상남도"
+    ],
+    "equal": false
+   },
+   "status": "stated",
+   "quote": "①지역 : 해당지역 거주자(부산광역시 1년 이상 계속 거주자) → 기타지역 거주자(부산광역시 1년 미만 거주자 및 울산광역시, 경상남도 거주자)",
+   "note": ""
+  },
+  "score_ratio": {
+   "value": [
+    {
+     "over_m2": 60,
+     "upto_m2": 85,
+     "score_pct": 40,
+     "lottery_pct": 60
+    },
+    {
+     "over_m2": 85,
+     "upto_m2": null,
+     "score_pct": 0,
+     "lottery_pct": 100
+    }
+   ],
+   "status": "stated",
+   "quote": "전용면적 60㎡ 초과 85㎡ 이하 40% 60% / 전용면적 85㎡ 초과 - 100%",
+   "note": "주택형 75, 84A/B/C (60~85㎡), 114 (85㎡ 초과, 가점 '-' 추첨 100%)"
+  },
+  "pay_ratio": {
+   "value": {
+    "contract_pct": 5,
+    "mid_pct": 60,
+    "balance_pct": 35
+   },
+   "status": "stated",
+   "quote": "분양가격 계약금 (5%) 중도금 (60%) 잔금 (35%)",
+   "note": "계약금 5%는 1차 1,000만원 정액 + 2차 잔여로 분납"
+  },
+  "mc_quota": {
+   "value": null,
+   "status": "not_stated",
+   "quote": "■ ①지역 : 해당지역 거주자(부산광역시 1년 이상 계속 거주자) → 기타지역 거주자(부산광역시 1년 미만 거주자 및 울산광역시, 경상남도 거주자)",
+   "note": "지역별 배정 비율(%) 없음. 해당지역(부산 1년 이상) → 기타지역 순서로만 선정"
+  },
+  "special_supply": {
+   "value": {
+    "types": [
+     "기관추천",
+     "다자녀가구",
+     "신혼부부",
+     "노부모부양",
+     "생애최초",
+     "신생아"
+    ],
+    "special_total": 370,
+    "total": 792
+   },
+   "status": "stated",
+   "quote": "[특별공급 370세대(기관추천 63세대, 다자녀가구 79세대, 신혼부부 95세대, 노부모부양 25세대, 생애최초 45세대, 신생아 63세대) 포함]",
+   "note": ""
+  }
+ }
+}
