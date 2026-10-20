@@ -2779,7 +2779,7 @@ function spRowV2(L, p, r){
   const [pill, pc] = SP_PILL[r.s], h = spHeadline(L, p, r), u = L.specialUnits && L.specialUnits[r.type];
   const pos = r.s !== 'fail' ? spPosition(L, p, r) : '';
   const mc = r.type === 'multichild' && r.s !== 'fail' && on('multichild_score') ? mcScore(L, p) : null;
-  const needInput = !r.unjudged && (r.warn.some(t => /입력 필요|미입력/.test(t)) || (h.partial));
+  const needInput = !r.unjudged && r.s !== 'fail' && (r.warn.some(t => /입력 필요|미입력/.test(t)) || (h.partial));   /* 이미 '불가'(혼인 중 청년 특공 등)면 다른 칸을 채워도 안 바뀌므로 '바로 답하기'를 두지 않는다 (2026-10-20 input_nav) */
   return `<details class="sprow">
     <summary><span class="sp-top"><b>${SP_NAME[r.type]}</b>${u ? `<span class="small muted">${u}세대</span>` : ''}<span class="pill ${pc}">${pill}</span></span>
       <span class="sp-head ${h.kind === 'ok' ? '' : 'st-' + h.kind}">${h.kind === 'ok' ? '내 위치 · ' : h.kind === 'fail' ? '이유 · ' : ''}${esc(h.text)}${h.note ? ` <span class="st-warn">· ${esc(h.note)}</span>` : ''}</span></summary>
@@ -2990,7 +2990,7 @@ function spRowPlain(L, p, r){
       ${inc || mine ? `<div class="sp-sec"><span class="sp-lbl">3. 내 조건은 그 안에서 어떤가요?</span>${inc}${mine ? `<div class="sp-sub"><span class="sp-lbl2">내 위치</span>${mine}</div>` : ''}</div>` : ''}
       ${mc ? `<details class="small"><summary>배점 내역 보기</summary><div class="rows" style="margin-top:4px">${mc.parts.map(x => `<div class="row small"><span>${x.k}<br><span class="muted">${esc(x.note || '입력 필요')}</span></span><b>${x.v == null ? '-' : x.v}/${x.max}</b></div>`).join('')}</div></details>` : ''}
       ${todo.length ? `<div class="sp-sec"><span class="sp-lbl">4. 해야 할 일</span><ul class="spcheck">${todo.map(t => `<li><span class="st-warn" aria-hidden="true">→</span> ${esc(t)}</li>`).join('')}</ul>
-        ${r.unjudged ? '' : on('inline_fix') ? `<button class="btn ghost sm" data-fix="sp:${r.type}">바로 답하기</button>` : `<button class="btn ghost sm" data-action="${h.partial && !r.warn.length && r.type !== 'multichild' ? 'sp-home' : 'sp-input'}">부족한 정보 입력하기</button>`}</div>` : ''}
+        ${r.unjudged || r.s === 'fail' ? '' : on('inline_fix') ? `<button class="btn ghost sm" data-fix="sp:${r.type}">바로 답하기</button>` : `<button class="btn ghost sm" data-action="${h.partial && !r.warn.length && r.type !== 'multichild' ? 'sp-home' : 'sp-input'}">부족한 정보 입력하기</button>`}</div>` : ''}
       <div class="small muted">근거: 모집공고문 기준(${esc(r.cite)})을 바탕으로 한 추정이에요. 신청 전 공고문을 확인하세요.</div>
     </div></details>`;
 }
