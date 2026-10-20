@@ -1660,8 +1660,8 @@ def main() -> None:
         lh_add("LH-SYN-PUBLIC", ["일반"], nm, ch, "모의 공고: 공공임대 거주지역·청약통장 요건을 못 읽으면 확인")
     for nm, ch in [("본인 집 있음(어느 쪽으로 읽어도 불가)", {"selfOwn": True}), ("세대 전체 0채(어느 쪽으로 읽어도 가능)", {}),
                    ("본인 무주택·부모님(같은 등본) 집 있음 → 확인", {"household": "parents", "parentsOwn": True, "hhHomes": "1", "hhSize": 3}),
-                   ("본인 무주택·세대 주택 1채 → 확인", {"hhHomes": "1", "hhSize": 2}), ("본인 무주택·세대 주택 수 모름 → 확인", {"hhHomes": None, "hhSize": 2}),
-                   ("본인 집 모름 → 확인", {"selfOwn": None, "hhHomes": None})]:
+                   ("본인 무주택·세대 주택 1채 → 확인", {"hhHomes": "1", "hhSize": 2}), ("본인 무주택·세대 주택 수 모름 → 확인", {"hhHomes": "", "hhSize": 2}),
+                   ("본인 집 모름 → 확인", {"selfOwn": None, "hhHomes": ""})]:
         lh_add("LH-SYN-UNCLEAR", ["일반"], nm, ch, "모의 공고: 무주택 요건이 '무주택자로서'뿐이면 본인 집은 불가, 세대 0채는 가능, 그 사이는 확인 (SH 유니버설디자인하우스_장안 311375 '서울시에 거주하는 무주택자로서')")
     lh_add("LH-SYN-ACCOUNT", ["일반"], "경남·통장 없음", {"homeSido": "경남", "acctType": "none"}, "모의 공고: 공공임대 청약통장 요건만 못 읽어도 확인")
     for nm, ch in [("소득·자산 낮음", {}), ("소득·자산 높음", {"hhIncomeYear": 30000, "realEstate": 90000, "carValue": 9000})]:
