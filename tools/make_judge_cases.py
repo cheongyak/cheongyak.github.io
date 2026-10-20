@@ -1022,6 +1022,8 @@ def main() -> None:
                 # 공고문 '성년자' 예외는 모두 미성년 '세대주'(자녀 양육·형제자매 부양·외국인 부모 한부모) → 세대원이면 불가, 세대주면 내 답
                 st.append("no" if p.get("household") not in (None, "", "head") else "check" if not p.get("household") else yn(p.get("lhMinorHead")))
         hl = g["homeless"]
+        unclear = hl == "self_unclear"   # 공고문 '무주택자로서'만(SH 사회주택 311375): 본인 집 있으면 불가 · 세대 기준으로 보되 '불가'는 확인 (2026-10-20)
+        if unclear: hl = "self" if p.get("selfOwn") is True else "household"
         if hl not in ("self", "household", "self_or_household", "household_or_single_self"): st.append("check"); hl = None   # 무주택 범위를 못 읽음
         elif hl == "household_or_single_self":                # 855 고령자: 혼인 중이 아닌 단독세대주(1인 세대)는 본인 무주택, 그 밖에는 세대
             alone = p.get("married") is False and p.get("household") == "head" and p.get("hhSize") == 1 and not (p.get("eldersOnDeed") or 0) > 0 and not (p.get("kidsOnDeed") or 0) > 0
@@ -1039,6 +1041,7 @@ def main() -> None:
             # SH 청년: 자격은 '무주택자(본인)'인데 Ⅷ 은 세대구성원 전원의 주택 소유를 조회 — 세대에 집이 있으면 확인(단정하지 않음)
             st.append("check" if (scan_own or scan_unk) else (yn(p.get("lhHomeOutside")) if T["homeless_relaxed"] else "no") if s_own is True else "ok" if s_own is False else "check")
         elif hl == "household":
+            n0 = len(st)
             # 세대구성원 = 본인·배우자·같은 등본 직계존비속 … → 일부만 묻는 칸(본인·배우자·부모)으로는 '전원 무주택'을 확정하지 않는다.
             # 확정은 '세대 전체 주택 수 0채'(+ 배우자 따로 확인) 또는 1인 미혼 세대일 때만.
             pin = p.get("household") == "parents" or (p.get("eldersOnDeed") or 0) > 0     # 같은 등본 부모님도 세대구성원 (임대는 60세 예외 없음)
@@ -1053,6 +1056,7 @@ def main() -> None:
             elif hh == "0" and mar and sp_own is None: st.append("check")
             elif p.get("hhSize") == 1 and not pin and not (p.get("kidsOnDeed") or 0) > 0 and s_own is False and p.get("married") is False and not mar: st.append("ok")   # 1인 미혼 세대 (등본 부모·자녀 입력과 어긋나면 아님)
             else: st.append("check")
+            if unclear: st[n0:] = ["check" if x == "no" else x for x in st[n0:]]   # 세대원 집 때문에 '불가'여도 공고문이 범위를 안 적어 확인
         kid = bool((p.get("youngestBirth") or "") >= "2023-03-28" or p.get("pregnant") is True or (p.get("lhBirthKids") or 0) > 0)
         known = p.get("lhBirthKids") not in (None, "") or ((bool(p.get("youngestBirth")) or p.get("kidsMinor") == 0) and p.get("pregnant") is not None)   # 출산 자녀 수를 답했거나 자녀·임신 여부를 모두 앎
         kid = kid or not known                                 # 출산가구 여부를 모르면 가산 가능성을 열어 둔다(불가로 단정하지 않음)
@@ -1645,13 +1649,20 @@ def main() -> None:
     sp["terms"]["regions"] = None; sp["terms"]["account"] = None
     sa = copy.deepcopy(LHN["LH-2015122300020765"]); sa["id"] = "LH-SYN-ACCOUNT"; sa["name"] = "모의: 마산삼계2 공공임대(765) 청약통장 요건만 못 읽음"
     sa["terms"]["account"] = None
-    syn += [sx, sn, sd, sl, sp, sa]
+    su = copy.deepcopy(LHN[E]); su["id"] = "LH-SYN-UNCLEAR"; su["name"] = "모의: 부산 영구임대(818) 무주택 요건이 '무주택자로서'뿐(세대원 범위 없음, SH 사회주택 311375 모양)"
+    for g in su["terms"]["groups"]: g["homeless"] = "self_unclear"
+    syn += [sx, sn, sd, sl, sp, sa, su]
     (ROOT / "tests/judge/lh_synthetic.json").write_text(json.dumps(syn, ensure_ascii=False, indent=1) + "\n", encoding="utf-8")
     LHN.update({x["id"]: x for x in syn})
     for nm, ch in [("부산 거주", {}), ("서울 거주", {"homeSido": "서울"})]:
         lh_add("LH-SYN-LOCAL", ["일반"], nm, ch, "모의 공고: 거주 요건 문장을 못 읽으면 거주 요건을 '확인'으로(요건 없음으로 보지 않음)")
     for nm, ch in [("경남·청약통장 있음", {"homeSido": "경남", "acctSince": "2020-01-01", "acctCount": 30}), ("통장 없음", {"homeSido": "경남", "acctType": "none"})]:
         lh_add("LH-SYN-PUBLIC", ["일반"], nm, ch, "모의 공고: 공공임대 거주지역·청약통장 요건을 못 읽으면 확인")
+    for nm, ch in [("본인 집 있음(어느 쪽으로 읽어도 불가)", {"selfOwn": True}), ("세대 전체 0채(어느 쪽으로 읽어도 가능)", {}),
+                   ("본인 무주택·부모님(같은 등본) 집 있음 → 확인", {"household": "parents", "parentsOwn": True, "hhHomes": "1", "hhSize": 3}),
+                   ("본인 무주택·세대 주택 1채 → 확인", {"hhHomes": "1", "hhSize": 2}), ("본인 무주택·세대 주택 수 모름 → 확인", {"hhHomes": None, "hhSize": 2}),
+                   ("본인 집 모름 → 확인", {"selfOwn": None, "hhHomes": None})]:
+        lh_add("LH-SYN-UNCLEAR", ["일반"], nm, ch, "모의 공고: 무주택 요건이 '무주택자로서'뿐이면 본인 집은 불가, 세대 0채는 가능, 그 사이는 확인 (SH 유니버설디자인하우스_장안 311375 '서울시에 거주하는 무주택자로서')")
     lh_add("LH-SYN-ACCOUNT", ["일반"], "경남·통장 없음", {"homeSido": "경남", "acctType": "none"}, "모의 공고: 공공임대 청약통장 요건만 못 읽어도 확인")
     for nm, ch in [("소득·자산 낮음", {}), ("소득·자산 높음", {"hhIncomeYear": 30000, "realEstate": 90000, "carValue": 9000})]:
         lh_add("LH-SYN-EXCL", ["일반"], nm, ch, "모의 공고: 완화 공고가 아닌데 기준을 '미적용'으로 읽으면 판정하지 않음(확인)")

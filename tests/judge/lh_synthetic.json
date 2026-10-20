@@ -300,5 +300,42 @@
    ]
   },
   "_from": "tests/golden/lh_rental.json (공고문 원문 확인값)"
+ },
+ {
+  "id": "LH-SYN-UNCLEAR",
+  "type": "영구임대",
+  "posted": "2026-09-22",
+  "name": "모의: 부산 영구임대(818) 무주택 요건이 '무주택자로서'뿐(세대원 범위 없음, SH 사회주택 311375 모양)",
+  "schedule": [],
+  "units": [],
+  "files": [],
+  "terms": {
+   "relaxed": false,
+   "homeless_relaxed": false,
+   "income_basis": "도시근로자 월평균소득",
+   "income_table_100": null,
+   "groups": [
+    {
+     "key": "일반",
+     "name": "일반",
+     "homeless": "self_unclear",
+     "income_pct": {
+      "1": 70,
+      "2": 60,
+      "3+": 50
+     },
+     "asset_manwon": 24500,
+     "car_manwon": 4542,
+     "age_min": null,
+     "age_max": null
+    }
+   ],
+   "local": {
+    "name": "부산시",
+    "sido": "부산",
+    "sigun": null
+   }
+  },
+  "_from": "tests/golden/lh_rental.json (공고문 원문 확인값) — 파서 결과가 아님"
  }
 ]

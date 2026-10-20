@@ -300,8 +300,12 @@ def parse_social(text: str, posted: str | None = None) -> dict | None:
     # 무주택
     hh = bool(re.search(r"무주택 ?세대 ?구성원 (?:전부|전원)에게 적용|무주택 ?세대 ?구성원으로서", t))
     youth_self = bool(re.search(r"청년[^.]{0,30}직계존속이 주택을 소유해도 본인이 무주택자|본인 명의로 가진 주택.{0,10}아닐 경우 무주택자", t))
-    if not hh and not youth_self:
+    # '현재 서울시에 거주하는 무주택자로서'(311375)만 있으면 본인 무주택은 분명하고 세대원 집까지 보는지는 공고문에 없다 →
+    # 'self_unclear': 본인 집 있으면 불가, 세대 전체 0채면 가능, 그 사이(본인 무주택·세대원 집 있음)만 확인 (2026-10-20 임대 못 읽음 전수검사)
+    unclear = not hh and not youth_self and bool(re.search(r"무주택자로서", t))
+    if not hh and not youth_self and not unclear:
         issues.append("무주택 범위(본인·세대) 못 읽음")
+    hl0 = "household" if hh else "self_unclear" if unclear else None
     # 거주
     loc = None
     if re.search(r"서울시에 거주|서울특별시에 거주|서울시에 주소지", t):
@@ -322,10 +326,13 @@ def parse_social(text: str, posted: str | None = None) -> dict | None:
         a = _eok(ym.group(1), ym.group(2))
         if a is None:
             issues.append("청년 총자산 금액 이상(만 단위 1만 이상)")
-        g = dict(key="청년", name="청년", age_min=19 if age else None, age_max=39 if age else None, homeless="self" if youth_self else "household" if hh else None,
+        typo = ym.group(0).replace(" 이하", "").replace("청 년", "청년").replace("청년", "").strip() if a is None else None
+        g = dict(key="청년", name="청년", age_min=19 if age else None, age_max=39 if age else None, homeless="self" if youth_self else hl0,
                  income_pct=income, asset_manwon=a, car_manwon=car)
         if income_amt:
             g["income_amt"] = income_amt
+        if typo:
+            g["asset_typo"] = typo   # 화면은 '공고문 금액이 잘못 적혀 있어요'로 (추측해서 고치지 않음)
         if not re.search(r"청 ?년[^.]{0,40}미혼|미혼의 청년", t):
             g["married_ok"] = True   # 미혼 요건이 없으면 혼인 여부를 보지 않음
         groups.append(g)
@@ -333,7 +340,7 @@ def parse_social(text: str, posted: str | None = None) -> dict | None:
     if om:
         a = _eok(om.group(2), om.group(3))
         lab = om.group(1)
-        hl = "household" if hh else None
+        hl = hl0
         if "신혼부부" in lab:
             groups.append(dict(key="신혼부부", name="신혼부부(혼인 7년 이내·예비)", homeless=hl, income_pct=income, asset_manwon=a, car_manwon=car,
                                wed_years=7 if re.search(r"혼인신고일로부터(?:\(재혼 포함\))? ?7년 이내|혼인 7년 이내", t) else None,

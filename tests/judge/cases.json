@@ -49524,7 +49524,7 @@
   "expect": {
    "청년": "check",
    "신혼부부": "na",
-   "1인가구": "check"
+   "1인가구": "ok"
   },
   "basis": "SH 토지지원 사회주택 유니버설디자인하우스_망우 '02 입주신청 자격'(공고일 2026-09-28) — 미혼 1인(소득 3,000만)"
  },
@@ -49572,7 +49572,7 @@
   },
   "expect": {
    "청년": "na",
-   "신혼부부": "check",
+   "신혼부부": "ok",
    "1인가구": "na"
   },
   "basis": "SH 토지지원 사회주택 유니버설디자인하우스_망우 '02 입주신청 자격'(공고일 2026-09-28) — 혼인 중 청년"
@@ -49622,7 +49622,7 @@
   "expect": {
    "청년": "check",
    "신혼부부": "na",
-   "1인가구": "check"
+   "1인가구": "ok"
   },
   "basis": "SH 토지지원 사회주택 유니버설디자인하우스_망우 '02 입주신청 자격'(공고일 2026-09-28) — 총자산 33,700만"
  },
@@ -49720,7 +49720,7 @@
   "expect": {
    "청년": "check",
    "신혼부부": "na",
-   "1인가구": "check"
+   "1인가구": "ok"
   },
   "basis": "SH 토지지원 사회주택 유니버설디자인하우스_망우 '02 입주신청 자격'(공고일 2026-09-28) — 자동차 4,563만"
  },
@@ -53641,6 +53641,283 @@
  {
   "id": "lhrent-414",
   "fn": "lhrent",
+  "notice": "LH-SYN-UNCLEAR",
+  "profile": {
+   "household": "head",
+   "selfOwn": true,
+   "spouseOwn": false,
+   "married": false,
+   "marriedOn": "",
+   "birth": "1995-03-01",
+   "hhSize": 1,
+   "hhIncomeYear": 3000,
+   "income": 3000,
+   "spouseIncome": 0,
+   "realEstate": 0,
+   "carValue": 1000,
+   "cash": 2000,
+   "liquid": 0,
+   "deposit": 0,
+   "townInsurance": 0,
+   "townFinOther": 0,
+   "townOtherAsset": 0,
+   "townDebt": 0,
+   "youthAsset": 3000,
+   "kidsMinor": 0,
+   "youngestBirth": "",
+   "pregnant": false,
+   "homeSido": "부산",
+   "homeSigun": "",
+   "acctType": "all",
+   "hhHomes": "1",
+   "_set": [
+    "cash",
+    "deposit",
+    "income",
+    "liquid",
+    "spouseIncome",
+    "spouseOwn"
+   ]
+  },
+  "expect": {
+   "일반": "no"
+  },
+  "basis": "모의 공고: 무주택 요건이 '무주택자로서'뿐이면 본인 집은 불가, 세대 0채는 가능, 그 사이는 확인 (SH 유니버설디자인하우스_장안 311375 '서울시에 거주하는 무주택자로서') — 본인 집 있음(어느 쪽으로 읽어도 불가)"
+ },
+ {
+  "id": "lhrent-415",
+  "fn": "lhrent",
+  "notice": "LH-SYN-UNCLEAR",
+  "profile": {
+   "household": "head",
+   "selfOwn": false,
+   "spouseOwn": false,
+   "married": false,
+   "marriedOn": "",
+   "birth": "1995-03-01",
+   "hhSize": 1,
+   "hhIncomeYear": 3000,
+   "income": 3000,
+   "spouseIncome": 0,
+   "realEstate": 0,
+   "carValue": 1000,
+   "cash": 2000,
+   "liquid": 0,
+   "deposit": 0,
+   "townInsurance": 0,
+   "townFinOther": 0,
+   "townOtherAsset": 0,
+   "townDebt": 0,
+   "youthAsset": 3000,
+   "kidsMinor": 0,
+   "youngestBirth": "",
+   "pregnant": false,
+   "homeSido": "부산",
+   "homeSigun": "",
+   "acctType": "all",
+   "hhHomes": "0",
+   "_set": [
+    "cash",
+    "deposit",
+    "income",
+    "liquid",
+    "spouseIncome",
+    "spouseOwn"
+   ]
+  },
+  "expect": {
+   "일반": "ok"
+  },
+  "basis": "모의 공고: 무주택 요건이 '무주택자로서'뿐이면 본인 집은 불가, 세대 0채는 가능, 그 사이는 확인 (SH 유니버설디자인하우스_장안 311375 '서울시에 거주하는 무주택자로서') — 세대 전체 0채(어느 쪽으로 읽어도 가능)"
+ },
+ {
+  "id": "lhrent-416",
+  "fn": "lhrent",
+  "notice": "LH-SYN-UNCLEAR",
+  "profile": {
+   "household": "parents",
+   "selfOwn": false,
+   "spouseOwn": false,
+   "married": false,
+   "marriedOn": "",
+   "birth": "1995-03-01",
+   "hhSize": 3,
+   "hhIncomeYear": 3000,
+   "income": 3000,
+   "spouseIncome": 0,
+   "realEstate": 0,
+   "carValue": 1000,
+   "cash": 2000,
+   "liquid": 0,
+   "deposit": 0,
+   "townInsurance": 0,
+   "townFinOther": 0,
+   "townOtherAsset": 0,
+   "townDebt": 0,
+   "youthAsset": 3000,
+   "kidsMinor": 0,
+   "youngestBirth": "",
+   "pregnant": false,
+   "homeSido": "부산",
+   "homeSigun": "",
+   "acctType": "all",
+   "hhHomes": "1",
+   "parentsOwn": true,
+   "_set": [
+    "cash",
+    "deposit",
+    "income",
+    "liquid",
+    "spouseIncome",
+    "spouseOwn"
+   ]
+  },
+  "expect": {
+   "일반": "check"
+  },
+  "basis": "모의 공고: 무주택 요건이 '무주택자로서'뿐이면 본인 집은 불가, 세대 0채는 가능, 그 사이는 확인 (SH 유니버설디자인하우스_장안 311375 '서울시에 거주하는 무주택자로서') — 본인 무주택·부모님(같은 등본) 집 있음 → 확인"
+ },
+ {
+  "id": "lhrent-417",
+  "fn": "lhrent",
+  "notice": "LH-SYN-UNCLEAR",
+  "profile": {
+   "household": "head",
+   "selfOwn": false,
+   "spouseOwn": false,
+   "married": false,
+   "marriedOn": "",
+   "birth": "1995-03-01",
+   "hhSize": 2,
+   "hhIncomeYear": 3000,
+   "income": 3000,
+   "spouseIncome": 0,
+   "realEstate": 0,
+   "carValue": 1000,
+   "cash": 2000,
+   "liquid": 0,
+   "deposit": 0,
+   "townInsurance": 0,
+   "townFinOther": 0,
+   "townOtherAsset": 0,
+   "townDebt": 0,
+   "youthAsset": 3000,
+   "kidsMinor": 0,
+   "youngestBirth": "",
+   "pregnant": false,
+   "homeSido": "부산",
+   "homeSigun": "",
+   "acctType": "all",
+   "hhHomes": "1",
+   "_set": [
+    "cash",
+    "deposit",
+    "income",
+    "liquid",
+    "spouseIncome",
+    "spouseOwn"
+   ]
+  },
+  "expect": {
+   "일반": "check"
+  },
+  "basis": "모의 공고: 무주택 요건이 '무주택자로서'뿐이면 본인 집은 불가, 세대 0채는 가능, 그 사이는 확인 (SH 유니버설디자인하우스_장안 311375 '서울시에 거주하는 무주택자로서') — 본인 무주택·세대 주택 1채 → 확인"
+ },
+ {
+  "id": "lhrent-418",
+  "fn": "lhrent",
+  "notice": "LH-SYN-UNCLEAR",
+  "profile": {
+   "household": "head",
+   "selfOwn": false,
+   "spouseOwn": false,
+   "married": false,
+   "marriedOn": "",
+   "birth": "1995-03-01",
+   "hhSize": 2,
+   "hhIncomeYear": 3000,
+   "income": 3000,
+   "spouseIncome": 0,
+   "realEstate": 0,
+   "carValue": 1000,
+   "cash": 2000,
+   "liquid": 0,
+   "deposit": 0,
+   "townInsurance": 0,
+   "townFinOther": 0,
+   "townOtherAsset": 0,
+   "townDebt": 0,
+   "youthAsset": 3000,
+   "kidsMinor": 0,
+   "youngestBirth": "",
+   "pregnant": false,
+   "homeSido": "부산",
+   "homeSigun": "",
+   "acctType": "all",
+   "hhHomes": null,
+   "_set": [
+    "cash",
+    "deposit",
+    "income",
+    "liquid",
+    "spouseIncome",
+    "spouseOwn"
+   ]
+  },
+  "expect": {
+   "일반": "check"
+  },
+  "basis": "모의 공고: 무주택 요건이 '무주택자로서'뿐이면 본인 집은 불가, 세대 0채는 가능, 그 사이는 확인 (SH 유니버설디자인하우스_장안 311375 '서울시에 거주하는 무주택자로서') — 본인 무주택·세대 주택 수 모름 → 확인"
+ },
+ {
+  "id": "lhrent-419",
+  "fn": "lhrent",
+  "notice": "LH-SYN-UNCLEAR",
+  "profile": {
+   "household": "head",
+   "selfOwn": null,
+   "spouseOwn": false,
+   "married": false,
+   "marriedOn": "",
+   "birth": "1995-03-01",
+   "hhSize": 1,
+   "hhIncomeYear": 3000,
+   "income": 3000,
+   "spouseIncome": 0,
+   "realEstate": 0,
+   "carValue": 1000,
+   "cash": 2000,
+   "liquid": 0,
+   "deposit": 0,
+   "townInsurance": 0,
+   "townFinOther": 0,
+   "townOtherAsset": 0,
+   "townDebt": 0,
+   "youthAsset": 3000,
+   "kidsMinor": 0,
+   "youngestBirth": "",
+   "pregnant": false,
+   "homeSido": "부산",
+   "homeSigun": "",
+   "acctType": "all",
+   "hhHomes": null,
+   "_set": [
+    "cash",
+    "deposit",
+    "income",
+    "liquid",
+    "spouseIncome",
+    "spouseOwn"
+   ]
+  },
+  "expect": {
+   "일반": "check"
+  },
+  "basis": "모의 공고: 무주택 요건이 '무주택자로서'뿐이면 본인 집은 불가, 세대 0채는 가능, 그 사이는 확인 (SH 유니버설디자인하우스_장안 311375 '서울시에 거주하는 무주택자로서') — 본인 집 모름 → 확인"
+ },
+ {
+  "id": "lhrent-420",
+  "fn": "lhrent",
   "notice": "LH-SYN-ACCOUNT",
   "profile": {
    "household": "head",
@@ -53685,7 +53962,7 @@
   "basis": "모의 공고: 공공임대 청약통장 요건만 못 읽어도 확인 — 경남·통장 없음"
  },
  {
-  "id": "lhrent-415",
+  "id": "lhrent-421",
   "fn": "lhrent",
   "notice": "LH-SYN-EXCL",
   "profile": {
@@ -53731,7 +54008,7 @@
   "basis": "모의 공고: 완화 공고가 아닌데 기준을 '미적용'으로 읽으면 판정하지 않음(확인) — 소득·자산 낮음"
  },
  {
-  "id": "lhrent-416",
+  "id": "lhrent-422",
   "fn": "lhrent",
   "notice": "LH-SYN-EXCL",
   "profile": {
@@ -53777,7 +54054,7 @@
   "basis": "모의 공고: 완화 공고가 아닌데 기준을 '미적용'으로 읽으면 판정하지 않음(확인) — 소득·자산 높음"
  },
  {
-  "id": "lhrent-417",
+  "id": "lhrent-423",
   "fn": "lhrent",
   "notice": "LH-SYN-NULL",
   "profile": {
@@ -53826,7 +54103,7 @@
   "basis": "모의 공고: 기준을 못 읽은 칸·모르는 계층은 '가능'이 될 수 없음 — 기본"
  },
  {
-  "id": "lhrent-418",
+  "id": "lhrent-424",
   "fn": "lhrent",
   "notice": "LH-SYN-NULL",
   "profile": {
@@ -53875,7 +54152,7 @@
   "basis": "모의 공고: 기준을 못 읽은 칸·모르는 계층은 '가능'이 될 수 없음 — 혼인 중·맞벌이"
  },
  {
-  "id": "lhrent-419",
+  "id": "lhrent-425",
   "fn": "lhrent",
   "notice": "LH-SYN-NULL",
   "profile": {
@@ -53924,7 +54201,7 @@
   "basis": "모의 공고: 기준을 못 읽은 칸·모르는 계층은 '가능'이 될 수 없음 — 65세"
  },
  {
-  "id": "lhrent-420",
+  "id": "lhrent-426",
   "fn": "lhrent",
   "notice": "LH-SYN-NULL",
   "profile": {
@@ -53974,7 +54251,7 @@
   "basis": "모의 공고: 기준을 못 읽은 칸·모르는 계층은 '가능'이 될 수 없음 — 예비신혼부부 예"
  },
  {
-  "id": "lhrent-421",
+  "id": "lhrent-427",
   "fn": "lhrent",
   "notice": "LH-SYN-NODUAL",
   "profile": {
@@ -54021,7 +54298,7 @@
   "basis": "모의 공고: 맞벌이 가산을 못 읽으면 가산 없이 판정하고 가산이 있어야 되는 구간은 확인 · 나이 한쪽 기준만 읽으면 확인 — 31세 미혼(상한 못 읽음)"
  },
  {
-  "id": "lhrent-422",
+  "id": "lhrent-428",
   "fn": "lhrent",
   "notice": "LH-SYN-NODUAL",
   "profile": {
@@ -54068,7 +54345,7 @@
   "basis": "모의 공고: 맞벌이 가산을 못 읽으면 가산 없이 판정하고 가산이 있어야 되는 구간은 확인 · 나이 한쪽 기준만 읽으면 확인 — 맞벌이 2인 110% 초과 140% 이하(가산 못 읽음)"
  },
  {
-  "id": "lhrent-423",
+  "id": "lhrent-429",
   "fn": "lhrent",
   "notice": "LH-SYN-NODUAL",
   "profile": {
@@ -54115,7 +54392,7 @@
   "basis": "모의 공고: 맞벌이 가산을 못 읽으면 가산 없이 판정하고 가산이 있어야 되는 구간은 확인 · 나이 한쪽 기준만 읽으면 확인 — 외벌이 2인 110% 이하"
  },
  {
-  "id": "lhrent-424",
+  "id": "lhrent-430",
   "fn": "lhrent",
   "notice": "LH-2015122300020818",
   "profile": {
@@ -54161,7 +54438,7 @@
   "basis": "부산 영구임대 2015122300020818 소득 및 자산 보유기준(차목 일반 50%, 1인 70%·2인 60%, 총자산 24,500만원·자동차 4,542만원) · 모르는 칸 — 총자산 1만원 초과·출산 여부 모름"
  },
  {
-  "id": "lhrent-425",
+  "id": "lhrent-431",
   "fn": "lhrent",
   "notice": "LH-2015122300020818",
   "profile": {
@@ -54207,7 +54484,7 @@
   "basis": "부산 영구임대 2015122300020818 소득 및 자산 보유기준(차목 일반 50%, 1인 70%·2인 60%, 총자산 24,500만원·자동차 4,542만원) · 모르는 칸 — 혼인 여부 빈 글자"
  },
  {
-  "id": "lhrent-426",
+  "id": "lhrent-432",
   "fn": "lhrent",
   "notice": "LH-2015122300020806",
   "profile": {

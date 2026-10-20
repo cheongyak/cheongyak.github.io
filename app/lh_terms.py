@@ -133,7 +133,54 @@ def unknown_happy_groups(t: str) -> list[str]:
         nm = re.sub(r"\s+", " ", m.group(1)).strip()
         if nm not in out and not re.search(r"청년\s?창업인", t[max(0, m.start() - 6): m.end()]):
             out.append(nm)
+    if re.search(r"\b\d-\d\.\s?청년\s?창업인", t) and re.search(r"\b\d-\d\.\s?청년\s?계층", t) and "청년 창업인" not in out:
+        out.append("청년 창업인")   # 청년 계층과 따로 있는 창업인 절(919)은 창업 요건을 묻지 않아 판정하지 않는다
     return out
+
+
+_RLX = r"(\d{2,3})\s?%\s?(?:이하\s?)?\(\s?【완화조건】\s?(\d{2,3})\s?%\s?(?:이하\s?)?\(\s?2순위\s?\)\s?,\s?(\d{2,3})\s?%\s?(?:이하\s?)?\(\s?3순위\s?\)\s?\)"
+
+
+def _relaxed_happy_table(s: str, key: str):
+    """문장에는 일반조건만 있고 금액표에 '일반조건(1순위) 완화조건(2순위) 완화조건(3순위)' 세 칸이 있는 경우(의령동동 910 대학생).
+    3순위 칸 금액 ÷ 도시근로자 2025 100% 가 1·2·3인 모두 같은 정수 %(원 단위 반올림 안)일 때만 그 %를 상한으로 받는다."""
+    if key == "신혼부부·한부모":
+        return None
+    m = re.search(r"일반조건\s?\(1순위\)\s?완화조건\s?\(2순위\)\s?완화조건\s?\(3순위\)\s?((?:[123]인\s?(?:[\d,]+원\s?이하\s?(?:\d{2,3}%\s?)?){3}){3})", s)
+    if not m:
+        return None
+    pct = {}
+    for n in (1, 2, 3):
+        r = re.search(rf"{n}인\s?((?:[\d,]+원\s?이하\s?(?:\d{{2,3}}%\s?)?){{3}})", m.group(1))
+        amts = [_int(x) for x in re.findall(r"([\d,]+)원", r.group(1))] if r else []
+        if len(amts) != 3:
+            return None
+        p3 = round(amts[2] / URBAN_2025[n] * 100)
+        if abs(amts[2] - URBAN_2025[n] * p3 / 100) >= 2 or not (amts[0] <= amts[1] <= amts[2]):
+            return None
+        pct[n] = p3
+    if len(set(pct.values())) != 1:
+        return None
+    return {"1": pct[1], "2": pct[2], "3+": pct[3]}, _q(s, m, 0, 0)[:160] + " (신청 상한 = 3순위 칸)", None, None
+
+
+def _relaxed_happy_income(seg: str, key: str):
+    """입주자격 완화 행복주택의 소득 문장 — '월평균소득의 100% (【완화조건】 120%(2순위), 150%(3순위)) 이하 ※ 단, 가구원수가 1인인 경우 120% (【완화조건】 140%(2순위), 150%(3순위)) …'
+    (광주우산 887·의령동동 910). 신청할 수 있는 상한은 가장 넓은 3순위 비율(1순위 일반조건 → 2순위 → 3순위 순으로 뽑음).
+    1인(신혼부부는 빼고)·2인·3인 이상 세 문장을 모두 찾고 비율이 일반 ≤ 2순위 ≤ 3순위일 때만 받는다. → (income_pct, 근거, 맞벌이 가산, 근거)"""
+    s = seg.replace("퍼센트", "%")
+    ok = lambda m: m and int(m.group(1)) <= int(m.group(2)) <= int(m.group(3))
+    m3 = re.search(r"월평균소득의\s?" + _RLX, s)
+    m2 = re.search(r"2인인\s?경우(?:에는)?\s?" + _RLX, s)
+    m1 = re.search(r"1인인\s?경우(?:에는)?\s?" + _RLX, s) if key != "신혼부부·한부모" else None
+    if not (ok(m3) and ok(m2) and (key == "신혼부부·한부모" or ok(m1))):
+        return _relaxed_happy_table(s, key)
+    pct = {"1": int(m1.group(3)) if m1 else None, "2": int(m2.group(3)), "3+": int(m3.group(3))}
+    quote = _q(s, m3, 10, 0) + " … " + (m1.group(0) + " · " if m1 else "") + m2.group(0)
+    dual = dq = None
+    if key == "신혼부부·한부모" and ok(md := re.search(r"맞\s?벌\s?이\s?(?:부부|신혼부부)\s?(?:는\s?)?" + _RLX, s)):
+        dual, dq = int(md.group(3)) - pct["3+"], md.group(0)
+    return pct, quote + " (신청 상한 = 3순위 비율)", dual, dq
 
 
 def _happy_groups(t: str) -> tuple[list[dict], dict]:
@@ -141,6 +188,10 @@ def _happy_groups(t: str) -> tuple[list[dict], dict]:
     for key, pat in _HH:
         for m in re.finditer(r"\b\d-\d\.\s?(?:" + pat + r")(?:\s?계층)?\s", t):
             heads.append((m.start(), key))
+    # '3-1. 청년 창업인'과 '3-3. 청년 계층'이 따로 있으면 청년 계층 절만 청년으로 읽는다 (광주첨단 919: 창업인 절의 총자산 34,500만원을 청년 기준으로 읽던 것, 2026-10-20)
+    cy = {p for p, k in heads if k == "청년" and re.match(r"\d-\d\.\s?청년\s?창업인", t[p:p + 20])}
+    if cy and any(k == "청년" and p not in cy for p, k in heads):
+        heads = [(p, k) for p, k in heads if p not in cy]
     heads.sort()
     bounds = sorted(m.start() for m in re.finditer(r"\b\d-\d\.\s", t))
     groups, quotes = [], {}
@@ -150,7 +201,7 @@ def _happy_groups(t: str) -> tuple[list[dict], dict]:
             continue
         seen.add(key)
         end = next((b for b in bounds if b > pos), pos + 9000)
-        seg = t[pos:end]
+        seg = re.sub(r"월\s?평\s?균\s?소\s?득", "월평균소득", t[pos:end])   # PDF 글 '월평 균소득'(광주첨단 919 신혼부부)
         seg_main = re.sub(r"\(\s?일\s?반\s?요건\s?:[^)]*\)", " ", seg)     # 완화 공고의 '(일반요건: …)' 괄호는 원래 기준이라 뺀다
         g = {"key": key, "name": key, "homeless": "self" if key in ("대학생", "청년") else "household",
              "income_pct": None, "asset_manwon": None, "car_manwon": None,
@@ -165,37 +216,49 @@ def _happy_groups(t: str) -> tuple[list[dict], dict]:
             g["income_pct"], q["income"] = {"1": int(m.group(2)), "2": int(m.group(3)), "3+": int(m.group(1))}, _q(seg_main, m, 10, 10)
         elif key == "신혼부부·한부모" and (m := re.search(r"월평균소득의\s?(\d{2,3})\s?퍼센트[^.]{0,80}?가구원\s?수가\s?2인인\s?경우에는\s?(\d{2,3})\s?퍼센트", seg_main)):
             g["income_pct"], q["income"] = {"1": None, "2": int(m.group(2)), "3+": int(m.group(1))}, _q(seg_main, m, 10, 10)
+        if (g["income_pct"] is None or (isinstance(g["income_pct"], dict) and "【완화조건】" not in seg_main and re.search(r"완화조건\s?\(3순위\)", seg_main))) \
+                and (ri := _relaxed_happy_income(seg_main, key)):
+            g["income_pct"], q["income"] = ri[0], ri[1]
+            if ri[2] is not None:
+                g["dual_add"], q["dual"] = ri[2], ri[3]
         # PDF 글 순서가 섞여 대학생 ④(본인 자산·차량)가 청년 절 뒤에 오는 공고문이 있다(익산제3일반산단) — 대학생 문구는 '신청자 본인'으로 가려 문서 전체에서 찾는다
         whole = re.sub(r"\(\s?일\s?반\s?요건\s?:[^)]*\)", " ", t) if key == "대학생" else seg_main
         if key == "대학생":
             seg_main = re.sub(r"신청자\s?본인이\s?자동차가액\s?산출대상[^.]{0,30}", " ", seg_main)
-            m = re.search(r"총\s?자산\s?(?:가액|요건)\s?배제\s?\(단,\s?신청자\s?본인이", whole) or re.search(r"신청자\s?본인의\s?총\s?자산가액\s?합산기준이\s?([\d,]+)\s?만원\s?이하", whole)
+            m = re.search(r"총\s?자산\s?(?:가액|요건)(?:은|을)?\s?배제(?:\s?\(단,|하나,)\s?신청자\s?본인이", whole) or re.search(r"신청자\s?본인의\s?총\s?자산가액\s?합산기준이\s?([\d,]+)\s?만원\s?이하", whole)
             if m:
                 g["asset_manwon"], q["asset"] = ("excluded" if "배제" in m.group(0) else _int(m.group(1))), _q(whole, m, 20, 10)
         else:
             seg_main = re.sub(r"총\s?자산요건\s?배제\s?\(단,\s?신청자\s?본인이[^)]*\)", " ", seg_main)
         if g["asset_manwon"] is not None:
             pass
-        elif (m := re.search(r"총\s?자산\s?(?:가액|요건)\s?배제", seg_main)):
+        elif (m := re.search(r"총\s?자산\s?(?:가액|요건)(?:은|을)?\s?배제", seg_main)):   # '총 자산요건을 배제하나'(양산 909)
             g["asset_manwon"], q["asset"] = "excluded", _q(seg_main, m, 20, 10)
         elif (m := re.search(r"총\s?자산\s?(?:합산)?가액(?:\s?합산\s?기준)?이?\s?([\d,]+)\s?만원\s?이하", seg_main)):
             g["asset_manwon"], q["asset"] = _int(m.group(1)), _q(seg_main, m, 30, 10)
         if key != "대학생" and (m := re.search(r"자동차\s?가액[이은]?\s?([\d,]+)\s?만원\s?이하", seg_main)):
             if _int(m.group(1)) <= 10_000:
                 g["car_manwon"], q["car"] = _int(m.group(1)), _q(seg_main, m, 20, 10)
-            else:   # 의령동동 2015122300020910·920 고령자 '자동차가액이 45,420만원 이하' — 공고문 오기(4,542만원으로 보임)라 추측하지 않고 못 읽음(화면 확인 필요)
+            else:   # 의령동동 2015122300020910·920 고령자 '자동차가액이 45,420만원 이하' — 공고문 오기(4,542만원으로 보임)
                 q["car_typo"] = _q(seg_main, m, 20, 10)
-        elif key == "대학생" and (m := re.search(r"자동차가액\s?산출대상\s?자동차를\s?소유하고\s?있지\s?않을\s?것", whole)):
+                # 같은 절의 '출생자녀 수에 따른 가산' 표 첫 줄(출생자녀 0인)이 '총자산 345,000,000원 · 자동차 45,420,000원'이고
+                # 총자산이 문장 값과 같고 자동차가 오기 값의 1/10 이면 표 값을 쓴다 (표와 문장이 서로 확인될 때만 — 2026-10-20 임대 못 읽음 전수검사)
+                mt = re.search(r"0인\s?\d{2,3}%\s?([\d,]{11})원\s?([\d,]{9,10})원", seg_main)
+                if mt and isinstance(g["asset_manwon"], int) and _int(mt.group(1)) == g["asset_manwon"] * 10000 \
+                        and _int(mt.group(2)) % 10000 == 0 and _int(mt.group(2)) // 10000 * 10 == _int(m.group(1)):
+                    g["car_manwon"], q["car"] = _int(mt.group(2)) // 10000, _q(seg_main, mt, 10, 0)
+        elif key == "대학생" and (m := re.search(r"자동차가액\s?산출대상\s?자동[차자]를\s?소유하고\s?있지\s?않을\s?것", whole)):   # '자동자'(양산 909 오기)
             g["car_manwon"], q["car"] = 0, _q(whole, m, 20, 0)
         if re.search(r"입주\s?전까지[^.]{0,40}주택청약종합저축", seg_main):
             g["account_by_movein"] = True   # 본인(또는 배우자) 입주 전까지 주택청약종합저축(청약저축 포함) 가입사실 증명
-        if key == "신혼부부·한부모" and isinstance(g["income_pct"], dict) and g["income_pct"].get("3+") and \
+        if key == "신혼부부·한부모" and "dual_add" not in g and isinstance(g["income_pct"], dict) and g["income_pct"].get("3+") and \
                 (md := re.search(r"맞\s?벌\s?이\s?(?:부부|신혼부부)\s?(?:는\s?)?(\d{3})\s?(?:퍼센트|%)", seg_main)):
             g["dual_add"] = int(md.group(1)) - g["income_pct"]["3+"]   # '(맞벌이 부부 120퍼센트 이하)' — 공고문에서 읽은 가산 (못 읽으면 화면은 가산 없이 판정하고 가산 구간은 확인)
             q["dual"] = _q(seg_main, md, 20, 20)
         groups.append(g); quotes[key] = q
     # 입주자격 완화 공고의 '■ 입주자격완화 내용(금회 모집에 한하여 적용)' 표는 모든 계층에 적용된다 — PDF 글 순서가 섞여 계층 절에서 못 읽은 값을 채운다(익산인화 870 고령자)
-    mr = re.search(r"입주자격\s?완화\s?내용[^■]{0,40}소득\s?요건\s?·?\s?소득요건\s?배제[^■]{0,40}자산\s?요건\s?·?\s?자산요건\s?배제\(단,\s?자산\s?중\s?자동차가액은\s?([\d,]+)만원\s?이하", t)
+    mr = (re.search(r"(?:입주자격\s?완화\s?내용|완\s?화\s?내\s?용)[^■]{0,40}소득\s?요건\s?·?\s?소득요건\s?배제[^■]{0,80}?자산\s?요건\s?·?\s?자산요건\s?배제\s?\(단,\s?자산\s?중\s?자동차가액은\s?([\d,]+)만원\s?이하", t)   # 양산 909 '구분 완 화 내 용 소득 요건 소득요건 배제* 단, …'
+          or re.search(r"입주자격\s?완화\s?주요\s?내용[^■]{0,300}?①\s?소득기준\s?소득기준\s?적용배제\s?②\s?총자산\s?기준\s?자산기준\s?적용배제\s?③\s?자동차\s?기준\s?([\d,]+)만원\s?이하", t))   # 천안·아산 888
     if mr:
         for g in groups:
             if g["key"] == "주거급여수급자":
@@ -386,17 +449,26 @@ METRO = {"서울": "서울", "부산": "부산", "대구": "대구", "인천": "
 _LOCAL_HINT = re.compile(r"현재\s?[^.\n]{0,40}?(?:에|에서)\s?거주하(?:는|고\s?있는)[^.\n]{0,30}?(?:성년자|무주택\s?세대구성원)")
 
 
+_SIDO_PRE = "|".join(sorted(set(SIDO_SHORT) | set(SIDO_SHORT.values()), key=len, reverse=True))
+
+
 def parse_local(t: str, region: Optional[str]) -> Optional[dict]:
     """신청자격 첫 문장의 거주 요건 — '입주자 모집공고일(…) 현재 부산시에 거주하는 성년자인 무주택세대구성원'(영구임대 등).
     순위(1순위 해당 시 거주)는 자격이 아니라 읽지 않는다. region = 공고의 시·도(API CNP_CD_NM)."""
-    m = re.search(r"신청자격\s?입주자\s?모집공고일\s?\([\d.\s]+\)\s?현재\s?([가-힣]{1,10}?)(?:에\s?거주하는|에\s?주민등록이\s?등재된)\s?성년자인\s?무주택세대구성원", t)
+    # '현재 주민등록상 홍성군에'(홍성 903) · '현재 충남 아산시에'(아산읍내 868, 시·도 앞머리) 도 같은 문장 (2026-10-20 임대 못 읽음 전수검사)
+    m = re.search(r"신청자격\s?입주자\s?모집공고일\s?\([\d.\s]+\)\s?현재\s?(?:주민등록상\s?)?(?:(" + _SIDO_PRE + r")\s)?([가-힣]{1,10}?)(?:에\s?거주하는|에\s?주민등록이\s?등재된)\s?성년자인\s?무주택세대구성원", t)
     if not m:
         return None
-    nm = m.group(1)
+    pre, nm = m.group(1), m.group(2)
     base = re.sub(r"(광역시|특별시|특별자치시|시)$", "", nm)
-    if base in METRO:
+    if base in METRO and not pre:
         return {"name": nm, "sido": METRO[base], "sigun": None, "quote": _q(t, m, 0, 0)}
     sido = SIDO_SHORT.get(region or "") if region else None
+    if pre:
+        ps = SIDO_SHORT.get(pre) or (pre if pre in SIDO_SHORT.values() else None)
+        if sido and ps != sido:   # 앞머리 시·도와 공고 시·도가 다르면 추측하지 않음 → 거주 요건 '확인'
+            return None
+        sido = ps
     return {"name": nm, "sido": sido, "sigun": nm, "quote": _q(t, m, 0, 0)}
 
 
@@ -437,6 +509,8 @@ def parse_lh_terms(text: str, kind: str, name: str = "", region: Optional[str] =
         res["local"] = loc
     elif "local" in res:
         pass
+    elif kind == "공공임대" and res.get("regions") and (ml := _LOCAL_HINT.search(t)) and re.search(r"주택건설지역\(", ml.group(0)):
+        pass   # 공공임대 '주택건설지역(음성군 또는 충청북도)에 거주하는' 은 신청 가능 거주지역(regions)으로 이미 읽음 (음성금왕1 879)
     elif (ml := _LOCAL_HINT.search(t)) and not re.search(r"국내", ml.group(0)):
         # 신청자격에 '공고일 현재 ○○에 거주하는 성년자' 같은 거주 요건 문장이 보이는데 어디인지 읽지 못함 → 화면은 거주 요건을 '확인'으로
         # (요건 문장을 못 찾으면 요건이 없는 것으로 판정되는 경로를 막는다, 2026-10-06 안전성 점검 후속)
