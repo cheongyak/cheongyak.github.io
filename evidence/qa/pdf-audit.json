@@ -2,9 +2,10 @@
  "date": "2026-10-20",
  "page_cap": 300,
  "notices": 62,
- "with_problem": 4,
+ "with_problem": 5,
  "kinds": {
-  "글자가 거의 없는 쪽 N개 (스캔 이미지·표 그림 추정)": 4
+  "글자가 거의 없는 쪽 N개 (스캔 이미지·표 그림 추정)": 4,
+  "PDF 를 하나도 받지 못함": 1
  },
  "errors": [],
  "results": [
@@ -412,31 +413,37 @@
    ],
    "chars_per_page_min": 0,
    "fields": {
+    "need_head": false,
     "price_cap": true,
     "rewin_years": 10,
     "residence": {
      "area": null,
      "months": 0,
      "since": null
-    }
+    },
+    "pub_limits_kind": "total"
    },
    "fields_merged": {
+    "need_head": false,
     "price_cap": true,
     "rewin_years": 10,
     "residence": {
      "area": null,
      "months": 0,
      "since": null
-    }
+    },
+    "pub_limits_kind": "total"
    },
    "fields_pdfium": {
+    "need_head": false,
     "price_cap": true,
     "rewin_years": 10,
     "residence": {
      "area": null,
      "months": 0,
      "since": null
-    }
+    },
+    "pub_limits_kind": "total"
    },
    "pdfium_chars": 273090,
    "problem": [
@@ -685,60 +692,16 @@
    "name": "연제갤러리자이",
    "url": "https://www.applyhome.co.kr/ai/aia/selectAPTLttotPblancDetail.do?houseManageNo=2026000469&pblancNo=2026000469",
    "attachments": 1,
-   "pdfs": 1,
+   "pdfs": 0,
    "attachment_list": [
     {
      "url": "https://static.applyhome.co.kr/ai/aia/getAtchmnfl.do?houseManageNo=2026000469&pblancNo=2026000469&atchmnflSeqNo=1995111&atchmnflSn=1",
-     "bytes": 1456245,
-     "pages": 62,
-     "chars": 130294,
-     "head": "- 1 - ※ 단지 주요정보 (분양문의) 1833-5755 주택유형 해당지역 기타지역 규제지역여부 민영 부산광역시 1년 이상 계속 거주자(202"
+     "error": "PDF 아님 (200, 59바이트)"
     }
    ],
-   "chosen": "https://static.applyhome.co.kr/ai/aia/getAtchmnfl.do?houseManageNo=2026000469&pblancNo=2026000469&atchmnflSeqNo=1995111&atchmnflSn=1",
-   "pages": 62,
-   "pages_read": 62,
-   "chars_read": 130355,
-   "empty_pages": [],
-   "chars_per_page_min": 129,
-   "fields": {
-    "need_head": false,
-    "price_cap": false,
-    "residence_duty": 0,
-    "rewin_years": 0,
-    "account_months": 6,
-    "residence": {
-     "area": "부산광역시",
-     "months": 12,
-     "since": "2025-10-08"
-    }
-   },
-   "fields_merged": {
-    "need_head": false,
-    "price_cap": false,
-    "residence_duty": 0,
-    "rewin_years": 0,
-    "account_months": 6,
-    "residence": {
-     "area": "부산광역시",
-     "months": 12,
-     "since": "2025-10-08"
-    }
-   },
-   "fields_pdfium": {
-    "need_head": false,
-    "price_cap": false,
-    "residence_duty": 0,
-    "rewin_years": 0,
-    "account_months": 6,
-    "residence": {
-     "area": "부산광역시",
-     "months": 12,
-     "since": "2025-10-08"
-    }
-   },
-   "pdfium_chars": 131383,
-   "problem": []
+   "problem": [
+    "PDF 를 하나도 받지 못함"
+   ]
   },
   {
    "notice": "2026000466",
