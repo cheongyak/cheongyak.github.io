@@ -34,10 +34,15 @@ def test_land_lease_skips_margin(monkeypatch):
            "notice_no": "2026000373", "house_ty": "049.0000A", "category": "general", "notice": "2026-10-16", "apply": "2026-11-02", "apply_end": "2026-11-06",
            "winner": "2026-11-26", "contract": None, "move_in": "2027-05", "house_dtl": "국민", "url": "https://x"}
     class Rt:
-        def recent(self, *a):
-            raise AssertionError("토지임대부는 실거래를 조회하지 않아요")
+        def recent(self, kind, *a):
+            return [{"apt": "강동리버스트4단지", "area": 49.9, "build_year": 2021, "amount": 100000, "date": "2026-09-01", "deal_type": "중개거래"}] * 4 if kind == "trade" else []
+    monkeypatch.setattr(P, "feature_on", lambda k: k != "land_lease_value" or ON[0])
+    ON = [False]   # 땅 몫 계산(land_lease_value)이 꺼져 있으면 시세를 조회하지 않고 차이를 계산하지 않는다 (v1.69.0 동작)
     L = P.build_listing(raw, Rt(), date(2026, 10, 20), {})
     assert L.land_lease is True and L.mkt_low is None and "토지임대부" in L.mkt_note
+    ON[0] = True   # 켜져 있으면 주변 시세(땅 포함)는 그대로 조회 — 비교는 화면·engine.grade 가 땅 몫을 더해서
+    L = P.build_listing(raw, Rt(), date(2026, 10, 20), {"서울 강동구": {"code": "11740"}})
+    assert L.land_lease is True and L.mkt_base == 10.0
 
 
 def test_check_audit_categories():
@@ -53,3 +58,25 @@ def test_check_audit_categories():
     assert count["unread"] == 1 and any(x.startswith("[경고·전수검증]") for x in log)
     count, log = audit([Listing(**{**L.model_dump(), "checks": ["마진율 -61%는 이례적이에요"]})])
     assert not any(x.startswith("[경고") for x in log)   # 시세 참고만 있으면 알림 없음
+
+
+def test_land_rent_tables_both_formats():
+    """2026-10-20 사용자 '토지임대부는 건물만 사고 토지는 임대료 — 시세 산정을 따로': 공고문 월 토지임대료 표·보증금 전환이율(전환 예시 금액이 맞을 때만)"""
+    flat = N.re.sub(r"\s+", "", T)
+    assert {k: v for k, v in N.parse_land_rent(flat).items() if k != "m"} == {"by_area": {"49": 426000, "59": 511500}, "rate": 0.025}
+    magok = N.re.sub(r"\s+", "", (ROOT / "evidence/qa/notices/2026000041.txt").read_text(encoding="utf-8"))
+    assert {k: v for k, v in N.parse_land_rent(magok).items() if k != "m"} == {"by_area": {"59": 663900, "84": 946000}, "rate": 0.0218}
+    assert N.parse_land_rent(flat.replace("122,000,000171,830", "122,000,000271,830", 1)) is None   # 전환 예시가 안 맞으면 이율을 믿지 않음
+
+
+def test_land_lease_grade_uses_land_share():
+    from app.engine import grade
+    from app.models import Listing
+    L = Listing(id="2026000373-049.0000A", name="고덕강일지구 3단지 토지임대부(본청약)", address="서울특별시 강동구 강일동", region="서울", kind="일반", category="general",
+                unit="49A", area=49.0, price=3.08, apply="2026-11-02", notice="2026-10-16", url="https://x", land_lease=True, land_rent=426000, land_rent_rate=0.025,
+                mkt_low=9.05, mkt_base=9.7)
+    g = grade(L)
+    assert g["grade"] == "unknown" and g["name"] == "토지임대부"            # 로또·고려 등급을 매기지 않음
+    assert abs(g["lease"]["land"] - 2.0448) < 1e-4                         # 426,000 × 12 ÷ 2.5% = 2억 448만
+    assert abs(g["lease"]["lo"] - (9.05 - g["cost"] - 2.0448)) < 1e-6
+    assert grade(Listing(**{**L.model_dump(), "land_rent": None}))["lease"] is None   # 임대료를 못 읽으면 차이를 내지 않음

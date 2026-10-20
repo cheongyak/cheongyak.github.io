@@ -43,10 +43,26 @@ def acq_tax(base: float) -> float:
     return base * rate * 1.1
 
 
+def land_value(L: Listing):
+    """토지임대부 땅 몫(억) = 월 토지임대료 × 12 ÷ 보증금 전환이율 — 공고문이 토지임대료를 보증금으로 바꿀 때 쓰는 이율로 '땅을 사는 값'에 해당하는 돈으로 환산
+    (기능 land_lease_value, 2026-10-20). 공고문에서 임대료·이율을 못 읽으면 None"""
+    if not (L.land_lease and L.land_rent and L.land_rent_rate):
+        return None
+    return L.land_rent * 12 / L.land_rent_rate / 1e8
+
+
 def grade(L: Listing) -> dict:
     base = L.price + L.ext
     tax = acq_tax(base)
     cost = base + tax
+    if L.land_lease:
+        # 토지임대부: 분양가는 건물값뿐이라 로또·고려 등급을 매기지 않는다. 땅 몫을 더한 '실질 매입가'와 주변 시세 차이만 참고로 낸다
+        land = land_value(L)
+        lease = None
+        if land is not None and L.mkt_low is not None and L.mkt_base is not None:
+            real = cost + land
+            lease = {"land": land, "real": real, "lo": L.mkt_low - real, "hi": L.mkt_base - real}
+        return {"grade": "unknown", "name": "토지임대부", "cost": cost, "tax": tax, "lo": None, "hi": None, "rate": None, "lease": lease}
     if L.mkt_low is None or L.mkt_base is None:
         return {"grade": "unknown", "name": grade_name("unknown"), "cost": cost, "tax": tax,
                 "lo": None, "hi": None, "rate": None}

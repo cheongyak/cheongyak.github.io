@@ -22,6 +22,8 @@ class Listing(BaseModel):
     rent_secd: Optional[str] = None          # 청약홈 RENT_SECD_NM (있을 때만: 분양/임대)
     rental: bool = False                     # 공공임대(분양전환공공임대·공공건설임대) 공고 — RENT_SECD_NM 에 '임대', 없으면 이름 (기능: rental_rules)
     land_lease: Optional[bool] = None        # 토지임대부 분양주택 — 분양가에 땅값이 빠짐(토지는 임대) → 일반 아파트 시세와 차이를 계산하지 않음 (기능 land_lease)
+    land_rent: Optional[int] = None           # 토지임대부 월 토지임대료(원) — 공고문 표, 이 주택형 전용면적 칸 (기능 land_lease_value)
+    land_rent_rate: Optional[float] = None    # 토지임대료 보증금 전환이율(공고문 전환 예시, 예 0.025)
     special_apply: Optional[str] = None      # 특별공급 접수 시작일 (있을 때만)
     special_apply_end: Optional[str] = None
     kind: str                                # "무순위 · 불법행위 재공급" 등

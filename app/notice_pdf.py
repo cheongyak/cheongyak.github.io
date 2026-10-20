@@ -487,6 +487,11 @@ def parse_notice(text: str) -> dict:
     if "residence_duty" not in out:
         q.pop("residence_duty", None)
 
+    lr = parse_land_rent(flat) if "토지임대부" in flat[:4000] else None   # 토지임대부 월 토지임대료·전환이율 (기능 land_lease_value)
+    if lr:
+        out["land_rent"] = {"by_area": lr["by_area"], "rate": lr["rate"]}
+        cite("land_rent", lr["m"], before=0, after=40)
+
     # 전매제한 (기능 resale_limit, 2026-10-05 사용자 '6 진행') — 본문 문장을 먼저, 없으면 1쪽 '단지 주요정보' 표 칸
     rs = parse_resale(flat)
     if rs:
@@ -702,6 +707,37 @@ def parse_score_ratio(text: str) -> Optional[dict]:
 #   자산: '부동산(건물+토지) 215,500천원 이하', '자동차 45,420천원 이하'
 #   적용 면적: '전용면적 60㎡ 이하만 적용'·'60㎡ 이하 일반공급' 문구가 있으면 60㎡ 이하, 없으면 이 공고 일반공급 전체(2026000409 는 59㎡뿐)
 # 요약표 일반공급 소득 칸이나 자산 금액을 찾지 못하면 None (화면은 60㎡ 이하 공공분양을 '확인 필요'로 둔다)
+def parse_land_rent(flat: str) -> Optional[dict]:
+    """토지임대부 분양주택 월 토지임대료 표와 보증금 전환이율 (2026-10-20 사용자 '토지임대부 시세 산정 방식').
+    표 두 가지: 2026000373 '토지임대료 전용면적(㎡) 토지임대료(원/월) 비 고 49 426,000 전용 49㎡ 전체 주택형에 동일 적용 …',
+    2026000041 '토지임대료 전용면적(㎡) 주택형 토지임대료(원/월) 59 059.0000H 663,900 84 084.0000H 946,000'.
+    전환 예시 '… 49 426,000 60% 2.5% 122,000,000 171,830' / '59 663,900 60% 2.18 219,000,000원 265,560원' 의 전환이율을 받되,
+    예시가 맞을 때만(전환보증금 × 이율 ÷ 12 + 전환 후 임대료 ≈ 전환 전 임대료, 1,000원 안). → {'by_area': {'49': 426000, …}, 'rate': 0.025, 'm': 표 위치}"""
+    N_ = r"\d{1,3}(?:,\d{3})+"
+    m = re.search(r"토지임대료전용면적\(㎡\)토지임대료\(원/월\)비고((?:\d{2,3}" + N_ + r"전용\d{2,3}㎡전체주택형에동일적용)+)", flat)
+    if m:
+        by = {a: int(v.replace(",", "")) for a, v in re.findall(r"(\d{2,3})(" + N_ + r")전용\1㎡전체주택형에동일적용", m.group(1))}
+    else:
+        m = re.search(r"토지임대료전용면적\(㎡\)주택형토지임대료\(원/월\)((?:\d{2,3}\d{3}\.\d{4}[A-Z]?" + N_ + r")+)", flat)
+        by = {}
+        for a, ty, v in re.findall(r"(\d{2,3})(\d{3}\.\d{4}[A-Z]?)(" + N_ + r")", m.group(1)) if m else []:
+            if ty.lstrip("0").startswith(a):
+                by.setdefault(a, int(v.replace(",", "")))
+    if not (m and by):
+        return None
+    ex = re.search(r"토지임대료보증금전환예시\]전용면적\(㎡\)전환전토지임대료\(원/월\)보증금전환율전환이율전환보증금전환후토지임대료(.{0,200})", flat)
+    if not ex:
+        return None
+    ar = "|".join(sorted(by, key=len, reverse=True))   # 면적 숫자와 금액이 붙어 있어('49426,000') 표에서 읽은 면적으로 끊는다
+    rows = re.findall(r"(" + ar + r")(" + N_ + r")\d{2}%(\d\.\d{1,2})%?(" + N_ + r")원?(" + N_ + r")원?", ex.group(1))
+    ok = bool(rows) and all(int(v.replace(",", "")) == by[a] and abs(int(dep.replace(",", "")) * float(r) / 100 / 12 + int(after.replace(",", "")) - by[a]) <= 1000
+                            for a, v, r, dep, after in rows)
+    rates = {float(r) for _, _, r, _, _ in rows}
+    if not ok or len(rates) != 1:
+        return None
+    return {"by_area": by, "rate": rates.pop() / 100, "m": m}
+
+
 def _parse_sh_total_limits(text: str) -> Optional[dict]:
     """SH 토지임대부 분양주택 일반공급 (2026000373 고덕강일 3단지, 2026-10-20): <표1> 소득 '우선공급(1순위자) 100%(맞벌이 140%) · 추첨공급 100%(맞벌이 200%)',
     <표5> '일반 공급 … 우선공급 (1순위자) (30%) … 100% 6칸 … 140% 6칸 … 추첨공급 (20%) … 100% 6칸 … 200% 6칸'(3인 이하·4~8인, 원),

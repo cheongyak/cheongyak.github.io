@@ -741,8 +741,15 @@ const MKT_PPA = { district_area_ppa: '비슷한 면적', same_complex_ppa: '같�
 const mktHow = (L, short) => MKT_PPA[L.mktBasis]
   ? (short ? '보수 시세는 ㎡당 가격 하위 25% 기준' : `같은 평형 거래가 부족해 ${MKT_PPA[L.mktBasis]} 거래의 ㎡당 가격 중앙값(보수 시세는 하위 25%)에 전용면적을 곱한 추정이에요. 층·향·브랜드·평형 차이는 반영하지 못해요.`)
   : (short ? '기준 시세는 중앙값, 보수 시세는 하위 25%' : '기준 시세는 중앙값, 보수 시세는 하위 25% 값이에요.');
+/* 토지임대부 땅 몫(억) = 월 토지임대료 × 12 ÷ 보증금 전환이율 (공고문) — 기능 land_lease_value (2026-10-20) */
+const landValue = L => L && L.landLease && L.landRent && L.landRentRate ? L.landRent * 12 / L.landRentRate / 1e8 : null;
 function grade(L){
   const base = L.price + L.ext, tax = acqTax(base), cost = base + tax;
+  if (L.landLease) {   /* 분양가는 건물값뿐 → 로또·고려 등급을 매기지 않고, 땅 몫을 더한 실질 매입가와 시세 차이만 참고로 (화면 '토지임대부') */
+    const land = on('land_lease_value') ? landValue(L) : null, real = land == null ? null : cost + land;
+    const lease = real != null && L.mktLow != null && L.mktBase != null ? { land, real, lo: L.mktLow - real, hi: L.mktBase - real } : null;
+    return { g:'unknown', lo:null, hi:null, rate:null, cost, tax, base, lease };
+  }
   if (L.mktLow == null || L.mktBase == null) return { g:'unknown', lo:null, hi:null, rate:null, cost, tax, base };
   const lo = L.mktLow - cost, hi = L.mktBase - cost, rate = lo / cost;
   let g = lo >= RULES.lottoAbs || rate >= RULES.lottoRate ? 'lotto' : lo >= RULES.considerAbs ? 'consider' : lo >= 0 ? 'flat' : 'pass';
@@ -755,6 +762,7 @@ const gLabel = (L, m) => L && L.landLease && m.g === 'unknown' ? '토지임대�
 const GNAME = new Proxy(GNAME_BASE, { get: (o, k) => (k === 'pass' && on('grade_skip')) ? '비추천' : o[k] });
 const GORDER = { lotto:0, consider:1, flat:2, pass:3, unknown:4 };
 function marginText(m){
+  if (m.lease) { const a = m.lease.lo, b = m.lease.hi, sg = v => (v >= 0 ? '+' : '−') + fmt(Math.abs(v)); return '땅값 포함 실질 ' + sg(Math.min(a, b)) + ' ~ ' + sg(Math.max(a, b)); }
   if (m.g === 'unknown') return '시세 확인 필요';
   if (m.g === 'pass') { const [x, y] = [m.lo, m.hi].sort((a, b) => a - b); return '마진 ' + (x >= 0 ? '+' : '') + fmt(x) + ' ~ ' + (y >= 0 ? '+' : '') + fmt(y); }
   const a = (m.lo >= 0 ? '+' : '') + fmt(m.lo), b = (m.hi >= 0 ? '+' : '') + fmt(m.hi);
@@ -3441,7 +3449,26 @@ function rentalCard(L){
     <div class="rows"><div class="row"><span>임대보증금 (주택형 최고가)<br>${ps}</span><span>${fmt(L.price)}</span></div></div>
     <p class="small muted" style="margin:6px 0 0">공공임대주택이라 청약홈 금액은 분양가가 아니라 임대보증금이에요. 월임대료·분양전환 가격과 계약금·잔금 일정은 모집공고문에 있어요. 시세 차익(마진)과 자금 계획은 계산하지 않아요. ${noticeSrc(L)}</p></section>`;
 }
+/* 토지임대부 가격 비교 (기능 land_lease_value, 2026-10-20 사용자 '건물만 사고 토지는 임대료 — 시세 산정을 따로'):
+   땅 몫 = 월 토지임대료 × 12 ÷ 공고문 보증금 전환이율(토지임대료를 보증금으로 바꿀 때 이율) → 실질 매입가 = 분양가 + 취득세 + 땅 몫 ↔ 주변 시세(땅 포함).
+   전매제한 기간에는 SH(공공)에만 팔 수 있고 값도 정해져 있어 차이를 바로 실현할 수 없다는 점을 함께 적는다 */
+function leaseCompare(L, m){
+  const lz = m.lease, land = landValue(L), sgn = v => (v >= 0 ? '+' : '−') + fmt(Math.abs(v));
+  const rent = L.landRent ? won(L.landRent) : null, rate = L.landRentRate ? (Math.round(L.landRentRate * 1000) / 10) + '%' : null;
+  return `<section class="card pcmp g-unknown" aria-label="가격 비교 (토지임대부)">
+    <div class="row"><span class="eyebrow">가격 비교 · 토지임대부 · 추정</span></div>
+    <div class="pc-row"><span>주변 시세 <span class="small muted">땅 포함 · 보수 ~ 기준</span></span><b>${L.mktLow == null ? '확인 필요' : fmt(L.mktLow) + ' ~ ' + fmt(L.mktBase)}</b></div>
+    <div class="pc-row"><span>분양가 <span class="small muted">건물만 · 취득세 등 ${fmt(m.tax)} 포함</span></span><b>${fmt(m.cost)}</b></div>
+    <div class="pc-row"><span>땅 몫 환산 <span class="small muted">${rent ? '월 토지임대료 ' + rent + ' × 12 ÷ 전환이율 ' + rate : '공고문 토지임대료 확인 필요'}</span></span><b>${land == null ? '—' : fmt(land)}</b></div>
+    <div class="pc-diff"><span class="medal g-unknown">토지임대부</span><div class="pc-dl"><span class="small">주변 시세 − (분양가 + 땅 몫)</span>${lz ? `<b class="pc-big">${sgn(Math.min(lz.lo, lz.hi))} ~ ${sgn(Math.max(lz.lo, lz.hi))}</b><span class="small">실질 매입가 ${fmt(lz.real)} 기준</span>` : '<b class="pc-big">—</b>'}</div></div>
+    <div class="pc-why"><span class="pc-lbl">이렇게 봐요</span><span class="small">토지임대부는 건물만 사고 땅은 빌려 써요(40년, 갱신 가능). 매달 내는 토지임대료를 공고문이 정한 보증금 전환이율로 한꺼번에 낸다고 치면 그 돈이 '땅 몫'이에요. 그래서 땅값이 든 주변 아파트와는 분양가가 아니라 '분양가 + 땅 몫'으로 비교해요. 토지임대료는 2년마다 오를 수 있어요(공고문).</span></div>
+    <div class="pc-why"><span class="pc-lbl">로또는 아니에요</span><span class="small">전매제한 기간에 팔면 공공주택사업자(SH·LH 등)가 법으로 정한 값(낸 돈 + 이자, 거주의무를 마친 뒤엔 감정가와의 차이 일부만 더함)으로 사들여요. 위 차이는 바로 손에 쥐는 시세 차익이 아니라 '주변보다 싸게 사는 정도'의 참고값이라 등급을 매기지 않아요.</span></div>
+    ${L.mktNote ? `<div class="pc-why"><span class="pc-lbl">왜 이 시세</span><span class="small">${esc(L.mktNote)}${L.mktBasis ? ' · ' + mktHow(L, true) : ''}</span></div>` : ''}
+    <div class="small muted">분양가·토지임대료 ${noticeSrc(L)} · 시세 ${src('rtms')}</div>
+  </section>`;
+}
 function priceCompare(L, m){
+  if (L.landLease && on('land_lease_value')) return leaseCompare(L, m);
   const unknown = m.g === 'unknown', sgn = v => (v >= 0 ? '+' : '−') + fmt(Math.abs(v));
   const priceSrc = L.sample ? src('estimate', ['샘플 값', null]) : (L.sources && L.sources[0] ? src(null, ['청약홈 공고 (공급금액)', L.sources[0][1]]) : noticeSrc(L));
   const last = (L.mktComps || []).map(c => c.date).filter(Boolean).sort().pop();
@@ -6024,7 +6051,7 @@ function fromApi(x){
     sido:x.sido || null, district:x.district || null, supplyType:x.supply_type || x.kind,
     mktComps:x.mkt_comps || [], mktCount:x.mkt_count || 0, mktDirectExcluded:x.mkt_direct_excluded || 0, mktBasis:x.mkt_basis || null, jeonseComps:x.jeonse_comps || [],
     noticePdf:x.notice_pdf || null, noticeQuotes:x.notice_quotes || null, category:x.category || null, area:x.area || null, accountMonths:x.account_months || null, depositCount:x.deposit_count || null, competition:x.competition || null, areaComps:Array.isArray(x.area_comps) ? x.area_comps : null, spCompetition:x.sp_competition || null, areaSp:Array.isArray(x.area_sp) ? x.area_sp : null, unitName:x.unit, address:x.address || '', geo:x.geo || null, nearby:Array.isArray(x.nearby) ? x.nearby : null, mapQuery:x.map_query || null, fromNotice:x.from_notice || [], checks:x.checks || [],
-    specialApply:x.special_apply || null, houseDtl:x.house_dtl || null, rentSecd:x.rent_secd || null, rental:!!x.rental, landLease:on('land_lease') && !!x.land_lease, applyEnd:x.apply_end || null, unit:x.unit + (x.households ? ' · ' + x.households + '세대' : ''), households:x.households || 0, specialUnits:x.special_units || null, residence:x.residence || null, mcQuota:x.mc_quota || null, schedule:x.schedule || null, youth:on('youth_special') ? (x.youth || null) : null, pubLimits:x.pub_limits || null, scoreRatio:x.score_ratio || null,
+    specialApply:x.special_apply || null, houseDtl:x.house_dtl || null, rentSecd:x.rent_secd || null, rental:!!x.rental, landLease:on('land_lease') && !!x.land_lease, landRent:x.land_rent || null, landRentRate:x.land_rent_rate || null, applyEnd:x.apply_end || null, unit:x.unit + (x.households ? ' · ' + x.households + '세대' : ''), households:x.households || 0, specialUnits:x.special_units || null, residence:x.residence || null, mcQuota:x.mc_quota || null, schedule:x.schedule || null, youth:on('youth_special') ? (x.youth || null) : null, pubLimits:x.pub_limits || null, scoreRatio:x.score_ratio || null,
     notice:x.notice, apply:x.apply, winner:x.winner, contract:x.contract, balance:x.balance,
     price:x.price, ext:x.ext || 0, contractRate:on('contract_from_notice') && x.pay_ratio ? x.pay_ratio.contract : (x.contract_rate || 0.1), midRate:on('contract_from_notice') && x.pay_ratio ? x.pay_ratio.mid : (x.mid_rate || 0),   /* 기능 contract_from_notice: 공고문 분양대금 비율 */
     payRatio:x.pay_ratio || null, contractSplit:x.contract_split || null,
