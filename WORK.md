@@ -4,6 +4,15 @@
 2026-09-29 12:55 이전 항목은 규칙을 만들기 전 작업을 커밋 기록으로 정리한 것이라 백업 브랜치가 없어요.
 그 시점으로 되돌릴 때는 해당 커밋 번호로 `git revert` 를 써요.
 
+## 2026-10-21 06:30 · '베타 참고용'(검증 실패) — 지난 데이터로 한 임대 못 읽음 결과를 셈 (수정)
+- 요청: 또 베타 참고용이 떴는데 왜 떴는지 확인하고 같은 사유로 다시 안 뜨게
+- 원인: 10-21 06:05 수집의 검증 요약이 lh_unread 4 로 실패(이슈 #24). 4건은 SH-311375 — 10-20 12:45 LH 임대 수집이 돌 때의 결과(evidence/qa/lh-unread.json)로, 그 뒤 12:50 SH 를 새 규칙으로 다시 수집해 이미 0 이었는데, 아침 수집(collect.yml)은 전수검사를 다시 돌리지 않고 저장된 옛 결과를 셌다. 지금 데이터로 돌리면 0
+- 변경: 전수검사 결과에 검사한 데이터 시각(lh·sh updated)을 남기고, 검증 요약은 지금 데이터와 다르면 세지 않음([검증·임대 못 읽음] 줄로 남김). 수집(collect.yml)·SH 수집(sh-rental.yml)에도 요약 전 전수검사를 넣고 결과를 함께 저장(verify.yml 도 저장). 스킬에 함정 기록
+- 파일: tools/qa/lh_unread.cjs, tools/verify_status.py, .github/workflows/collect.yml, .github/workflows/verify.yml, .github/workflows/sh-rental.yml, tests/test_rental_unread_20261020.py, .claude/skills/cheongyakpass-ops/SKILL.md, HANDOFF.md, WORK.md
+- 확인: 지금 데이터 전수검사 고칠 것 0, 검증 요약 로컬 통과, 옛 시각 결과는 세지 않음 확인, pytest 통과
+- 백업: backup/20261021-0630-unread2
+- 기능: 없음(수정)
+
 ## 2026-10-20 13:08 · 판정 검증 실패(저장 유지 2건) — 새 판정 사례의 빈 칸 형식 (수정)
 - 요청: (v1.70.1 올린 뒤 확인) 검증 ok=false — profile_keep_fails 2 (이슈 #23)
 - 원인: 이번에 더한 판정 사례 LH-SYN-UNCLEAR 2건이 '세대 주택 수 모름'을 None 으로 넣어, 저장·새로고침하면 화면 저장 형식 "" 로 바뀜 (판정은 같음, 사례 형식 문제)

@@ -91,3 +91,17 @@ def test_unread_sweep_wired_into_verify():
     assert "lh_unread" in (ROOT / "tools/verify_status.py").read_text(encoding="utf-8")
     allow = json.loads((ROOT / "tools/qa/lh_unread_allow.json").read_text(encoding="utf-8"))
     assert all(re.search(r"원문 확인", v) for v in allow.values())   # 허용은 원문을 읽고 이유를 적은 것만
+
+
+def test_stale_unread_result_not_counted(tmp_path, monkeypatch):
+    """2026-10-21: 전날 LH 수집 때의 전수검사 결과(그 뒤 SH 를 다시 수집해 이미 고쳐짐)를 아침 수집의 검증 요약이 그대로 세어 '베타 참고용'(검증 실패)이 떴다.
+    결과에 검사한 데이터 시각(data)을 남기고, 지금 데이터와 다르면 세지 않는다. 수집·검증·SH 수집 모두 요약 전에 지금 데이터로 다시 돌린다."""
+    import tools.verify_status as vs
+    now = vs.lhu_data_now()
+    assert set(now) == {"lh", "sh"}
+    src = (ROOT / "tools/verify_status.py").read_text(encoding="utf-8")
+    assert 'lhu.get("data") != lhu_data_now()' in src
+    for wf in ("collect.yml", "verify.yml", "sh-rental.yml", "lh-rental.yml"):
+        t = (ROOT / ".github/workflows" / wf).read_text(encoding="utf-8")
+        assert "tools/qa/lh_unread.cjs" in t and "evidence/qa/lh-unread.json" in t, wf
+    assert "const data = { lh: stamp('lh-rental.json'), sh: stamp('sh-rental.json') }" in (ROOT / "tools/qa/lh_unread.cjs").read_text(encoding="utf-8")

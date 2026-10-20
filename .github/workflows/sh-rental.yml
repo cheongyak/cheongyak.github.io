@@ -18,7 +18,7 @@ concurrency:
 jobs:
   collect:
     runs-on: ubuntu-latest
-    timeout-minutes: 20
+    timeout-minutes: 30
     env:
       TZ: Asia/Seoul
     steps:
@@ -28,9 +28,15 @@ jobs:
           python-version: "3.12"
       - run: pip install -q -r requirements.txt
       - run: python -m app.sh_rental
+      - name: 임대 공고문 못 읽음 전수검사 (새 SH 데이터로, 2026-10-21)
+        continue-on-error: true
+        run: |
+          npm i --no-save --no-package-lock playwright@1.56.0 >/dev/null 2>&1
+          npx playwright install --with-deps chromium >/dev/null 2>&1
+          node tools/qa/lh_unread.cjs | grep -v '·허용\]\|(참고)\]' | tee -a evidence/qa/sh-rental-log.txt
       - name: 저장
         run: |
           git config user.name "cheongyak-bot"
           git config user.email "actions@users.noreply.github.com"
-          git add docs/sh-rental.json evidence/sh evidence/qa/sh-rental-log.txt
+          git add docs/sh-rental.json evidence/sh evidence/qa/sh-rental-log.txt evidence/qa/lh-unread.json
           git diff --cached --quiet || (git commit -m "SH 임대 수집 $(date +%Y-%m-%d)" && (git push || (git pull --rebase -X theirs origin main && git push)))

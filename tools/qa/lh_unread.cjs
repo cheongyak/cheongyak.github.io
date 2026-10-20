@@ -65,7 +65,10 @@ const NOTICE_SIDE = /읽지 못|못 읽|모르는 계층|판정하지 못|판정
   for (const [id, gs] of info) console.log(`[검증·임대 판정 안 하는 계층(참고)] ${id} ${gs} — 화면은 '이 서비스가 판정하지 않는 계층 — 공고문 확인'`);
   console.log(`[임대 공고문 못 읽음] 공고 ${new Set(rows.map(r => r.id)).size}건 · 항목 ${rows.length} · 허용 ${rows.length - bad.length} · 고칠 것 ${bad.length} · 화면 오류 ${errs.length}`);
   mkdirSync(join(ROOT, 'evidence/qa'), { recursive: true });
-  writeFileSync(join(ROOT, 'evidence/qa/lh-unread.json'), JSON.stringify({ rows, info, bad: bad.length, errs }, null, 1) + '\n');
+  // 어느 데이터로 검사했는지 남긴다 — 검증 요약(tools/verify_status.py)은 지금 데이터와 다르면(LH·SH 수집이 그 뒤에 돈 경우) 이 결과를 셈하지 않는다 (2026-10-21)
+  const stamp = f => { try { return JSON.parse(readFileSync(join(DOCS, f), 'utf8')).updated || null; } catch (e) { return null; } };
+  const data = { lh: stamp('lh-rental.json'), sh: stamp('sh-rental.json') };
+  writeFileSync(join(ROOT, 'evidence/qa/lh-unread.json'), JSON.stringify({ data, rows, info, bad: bad.length, errs }, null, 1) + '\n');
   await b.close();
   process.exit(bad.length || errs.length ? 1 : 0);
 })();

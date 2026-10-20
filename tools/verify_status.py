@@ -15,6 +15,17 @@ ROOT = Path(__file__).resolve().parent.parent
 DOCS = ROOT / "docs"
 
 
+
+def lhu_data_now() -> dict:
+    """지금 임대 데이터의 수집 시각 — tools/qa/lh_unread.cjs 결과(data)와 같아야 그 결과를 센다"""
+    out = {}
+    for k, f in (("lh", "docs/lh-rental.json"), ("sh", "docs/sh-rental.json")):
+        try:
+            out[k] = json.loads((ROOT / f).read_text(encoding="utf-8")).get("updated")
+        except Exception:
+            out[k] = None
+    return out
+
 def build() -> dict:
     log = (DOCS / "run-log.txt").read_text(encoding="utf-8").splitlines() if (DOCS / "run-log.txt").exists() else []
     judge = json.loads((DOCS / "judge-status.json").read_text(encoding="utf-8")) if (DOCS / "judge-status.json").exists() else None
@@ -50,6 +61,9 @@ def build() -> dict:
     lhs_bad = len(lhs["fails"]) if lhs else None
     lhu = qa("lh-unread.json")   # 임대 '공고문에서 못 읽음' 전수검사 (2026-10-20): 허용 목록 밖 항목 수
     lhu_bad = (lhu["bad"] + len(lhu.get("errs") or [])) if lhu else None
+    if lhu and lhu.get("data") != lhu_data_now():   # 2026-10-21: 전날 LH 수집 때 결과(그 뒤 SH 다시 수집)를 아침 검증이 그대로 세어 '베타 참고용' 실패가 뜸
+        print(f"[검증·임대 못 읽음] 결과가 지난 데이터 기준이라 세지 않음 (검사 {lhu.get('data')} · 지금 {lhu_data_now()})")
+        lhu_bad = None
     lhp = qa("lh-pdf-tools.json")   # LH 공고문 여러 도구 읽기 (기능 lh_pdf_multi): 합친 값이 정답과 다른 칸 수
     lhp_bad = lhp["merged_wrong"] if lhp else None
     st_bad = len(st["fails"]) if st else None
