@@ -16,15 +16,6 @@ DOCS = ROOT / "docs"
 
 
 
-def lhu_data_now() -> dict:
-    """지금 임대 데이터의 수집 시각 — tools/qa/lh_unread.cjs 결과(data)와 같아야 그 결과를 센다"""
-    out = {}
-    for k, f in (("lh", "docs/lh-rental.json"), ("sh", "docs/sh-rental.json")):
-        try:
-            out[k] = json.loads((ROOT / f).read_text(encoding="utf-8")).get("updated")
-        except Exception:
-            out[k] = None
-    return out
 
 def build() -> dict:
     log = (DOCS / "run-log.txt").read_text(encoding="utf-8").splitlines() if (DOCS / "run-log.txt").exists() else []
@@ -42,9 +33,21 @@ def build() -> dict:
         gate = json.loads((DOCS / "config.json").read_text(encoding="utf-8")).get("features", {}).get("qa_gate", True)
     except Exception:
         gate = True
+    # 검사 결과 도장 (tools/qa/stamp.py, 2026-10-21): 이번에 새로 쓴 결과에 지금 데이터 지문을 찍고,
+    # 지문이 지금 데이터와 다른 결과(다른 워크플로가 예전 데이터로 돌린 것)는 '지난 결과'로 보고 통과·실패를 세지 않는다
+    from tools.qa.stamp import current, is_current, stamp_all
+    stamp_all()
+    cur, stale = current(), []
+
     def qa(name):
         f = ROOT / "evidence" / "qa" / name
-        return json.loads(f.read_text(encoding="utf-8")) if f.exists() else None
+        if not f.exists():
+            return None
+        d = json.loads(f.read_text(encoding="utf-8"))
+        if not is_current(name, d, cur):
+            stale.append(name)
+            return None
+        return d
     st, inv, flt, con, spt, mkc, crx, pkp, mono, snap, e2e = qa("supply-type.json"), qa("invariants.json"), qa("filter-check.json"), qa("consistency.json"), qa("sp-text.json"), qa("market-check.json"), qa("cross-rule.json"), qa("profile-keep.json"), qa("monotonic.json"), qa("snapshot.json"), qa("e2e.json")
     pch = qa("past-chat.json")
     pay = qa("pay-audit.json")   # 계약금 비율 ↔ 공고문 금액 줄 독립 점검 (tools/qa/pay_audit.py, 2026-10-08 계약금 10% 고정 오류 뒤)
@@ -61,9 +64,6 @@ def build() -> dict:
     lhs_bad = len(lhs["fails"]) if lhs else None
     lhu = qa("lh-unread.json")   # 임대 '공고문에서 못 읽음' 전수검사 (2026-10-20): 허용 목록 밖 항목 수
     lhu_bad = (lhu["bad"] + len(lhu.get("errs") or [])) if lhu else None
-    if lhu and lhu.get("data") != lhu_data_now():   # 2026-10-21: 전날 LH 수집 때 결과(그 뒤 SH 다시 수집)를 아침 검증이 그대로 세어 '베타 참고용' 실패가 뜸
-        print(f"[검증·임대 못 읽음] 결과가 지난 데이터 기준이라 세지 않음 (검사 {lhu.get('data')} · 지금 {lhu_data_now()})")
-        lhu_bad = None
     lhp = qa("lh-pdf-tools.json")   # LH 공고문 여러 도구 읽기 (기능 lh_pdf_multi): 합친 값이 정답과 다른 칸 수
     lhp_bad = lhp["merged_wrong"] if lhp else None
     st_bad = len(st["fails"]) if st else None
@@ -78,13 +78,19 @@ def build() -> dict:
     snap_bad = snap["diffs"] if snap else None   # 화면 글자 스냅샷 (일부러 바꾸면 tools/qa/snapshot.cjs --update)
     e2e_bad = e2e["fail"] if e2e else None       # 사용자 흐름·퍼징
     pch_bad = (pch["violations"] + len(pch.get("pageErrors") or [])) if pch else None   # 지난 공고 판정 줄·청약봇 판정 요약 ↔ 화면 (tools/qa/past_chat.cjs, 2026-10-02)
-    qa_ok = not gate or (st_bad == 0 and inv_bad == 0 and flt_bad in (0, None) and con_bad in (0, None) and spt_bad in (0, None) and mkc_bad in (0, None) and crx_bad in (0, None) and pkp_bad in (0, None) and mono_bad in (0, None) and zd_bad in (0, None) and inav_bad in (0, None) and snap_bad in (0, None) and e2e_bad in (0, None) and pch_bad in (0, None) and lhi_bad in (0, None) and lhq_bad in (0, None) and lhs_bad in (0, None) and lhu_bad in (0, None) and lhp_bad in (0, None) and pay_bad in (0, None) and pmv_bad in (0, None))   # 필터 검사는 결과 파일이 있을 때만 (2026-10-02 추가)
-    ok = bool(judge) and not judge["failed"] and not judge.get("pageErrors") and not cc_bad and not gold_bad and (cc_sum is not None or not cc_on) and qa_ok
+    qa_ok = not gate or ((st_bad == 0 or "supply-type.json" in stale) and (inv_bad == 0 or "invariants.json" in stale) and flt_bad in (0, None) and con_bad in (0, None) and spt_bad in (0, None) and mkc_bad in (0, None) and crx_bad in (0, None) and pkp_bad in (0, None) and mono_bad in (0, None) and zd_bad in (0, None) and inav_bad in (0, None) and snap_bad in (0, None) and e2e_bad in (0, None) and pch_bad in (0, None) and lhi_bad in (0, None) and lhq_bad in (0, None) and lhs_bad in (0, None) and lhu_bad in (0, None) and lhp_bad in (0, None) and pay_bad in (0, None) and pmv_bad in (0, None))   # 필터 검사는 결과 파일이 있을 때만 (2026-10-02 추가)
+    # --full (판정 검증 verify.yml): 그 실행이 모든 검사를 다시 돌리므로 지난 결과가 남으면(검사가 결과를 못 썼음) 실패. 수집에서만 도는 시세 대조·공고문 글 바뀜은 뺀다
+    full_stale = [x for x in stale if x not in ("market-check.json", "parse-moved.json")] if "--full" in sys.argv else []
+    if full_stale:
+        print(f"[검증·지난 결과] 판정 검증이 다시 돌렸는데도 지난 결과로 남은 검사: {' '.join(full_stale)} — 검사 실행 실패로 봄")
+    if stale:
+        print(f"[검증·지난 결과] 지금 데이터·화면 코드와 다른 때 돌린 검사 {len(stale)}개는 세지 않음(다음 판정 검증에서 다시 돌림): {' '.join(stale)}")
+    ok = bool(judge) and not judge["failed"] and not judge.get("pageErrors") and not cc_bad and not gold_bad and (cc_sum is not None or not cc_on) and qa_ok and not full_stale
     kst = timezone(timedelta(hours=9))
     return {"at": datetime.now(kst).strftime("%Y-%m-%d %H:%M"), "ok": ok, "collect_run": run_at,
             "judge": {"total": judge["total"], "passed": judge["passed"], "failed": [f["id"] for f in judge["failed"]]} if judge else None,
             "crosscheck": {"summary": cc_sum, "mismatches": cc_bad[:30]}, "golden": {"mismatches": gold_bad[:30]},
-            "qa": {"gate": gate, "supply_type_fails": st_bad, "invariant_violations": inv_bad, "filter_fails": flt_bad, "consistency_fails": con_bad, "sp_text_fails": spt_bad, "market_fails": mkc_bad, "cross_rule_fails": crx_bad, "profile_keep_fails": pkp_bad, "monotonic_violations": mono_bad, "zero_default_violations": zd_bad, "input_nav_problems": inav_bad, "snapshot_diffs": snap_bad, "e2e_fails": e2e_bad, "past_chat_fails": pch_bad, "lh_invariant_violations": lhi_bad, "lh_judge_qa_fails": lhq_bad, "lh_screen_fails": lhs_bad, "lh_unread": lhu_bad, "lh_pdf_merged_wrong": lhp_bad, "pay_audit_bad": pay_bad, "parse_moved_changes": pmv_bad, "pay_audit_read": pay and f"{pay['read']}/{pay['notices']}", "lh_data_at": lhi and lhi.get("data_updated"), "cross_rule_checks": crx and crx.get("checks"), "market_at": mkc and mkc.get("date"), "supply_type_at": st and st.get("date"), "invariants_at": inv and inv.get("date")}}
+            "qa_stale": stale, "qa": {"gate": gate, "supply_type_fails": st_bad, "invariant_violations": inv_bad, "filter_fails": flt_bad, "consistency_fails": con_bad, "sp_text_fails": spt_bad, "market_fails": mkc_bad, "cross_rule_fails": crx_bad, "profile_keep_fails": pkp_bad, "monotonic_violations": mono_bad, "zero_default_violations": zd_bad, "input_nav_problems": inav_bad, "snapshot_diffs": snap_bad, "e2e_fails": e2e_bad, "past_chat_fails": pch_bad, "lh_invariant_violations": lhi_bad, "lh_judge_qa_fails": lhq_bad, "lh_screen_fails": lhs_bad, "lh_unread": lhu_bad, "lh_pdf_merged_wrong": lhp_bad, "pay_audit_bad": pay_bad, "parse_moved_changes": pmv_bad, "pay_audit_read": pay and f"{pay['read']}/{pay['notices']}", "lh_data_at": lhi and lhi.get("data_updated"), "cross_rule_checks": crx and crx.get("checks"), "market_at": mkc and mkc.get("date"), "supply_type_at": st and st.get("date"), "invariants_at": inv and inv.get("date")}}
 
 
 if __name__ == "__main__":

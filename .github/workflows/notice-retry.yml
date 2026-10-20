@@ -11,7 +11,7 @@ concurrency:               # 수집(collect)과 같은 묶음에 두면 대기 �
 permissions:
   contents: write
   issues: write
-  actions: read
+  actions: write
 jobs:
   retry:
     runs-on: ubuntu-latest
@@ -54,7 +54,14 @@ jobs:
           git add docs/listings.json docs/notice-cache.json docs/run-log.txt docs/verify-status.json docs/sitemap.xml
           for d in docs/notice docs/chat-notice; do [ -e "$d" ] && git add -A -- "$d"; done
           # 그사이 수집이 먼저 올렸으면 덮어쓰지 않고 버린다(새 수집 결과가 우선, 다음 재시도에서 다시 받음)
-          git diff --cached --quiet || (git commit -m "공고문 재시도 $(date +%Y-%m-%d\ %H:%M)" && (git push || echo "다른 실행이 먼저 올려 이번 재시도 결과는 올리지 않음 — 다음 재시도에서 다시 받아요"))
+          if ! git diff --cached --quiet; then
+            git commit -m "공고문 재시도 $(date +%Y-%m-%d\ %H:%M)" && git push && echo "pushed=1" >> "$GITHUB_ENV" || echo "다른 실행이 먼저 올려 이번 재시도 결과는 올리지 않음 — 다음 재시도에서 다시 받아요"
+          fi
+      - name: 공고 데이터가 바뀌었으면 판정 검증 다시 (재시도는 검사를 돌리지 않아 검사 결과가 지난 결과가 됨, 2026-10-21)
+        if: env.pushed == '1'
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: gh workflow run verify.yml --ref main || gh api -X POST repos/${{ github.repository }}/actions/workflows/verify.yml/dispatches -f ref=main
       - name: 하루 마지막 재시도에도 못 받으면 운영자 알림 (이슈)
         if: steps.need.outputs.go == '1' && github.event_name == 'schedule'
         continue-on-error: true
