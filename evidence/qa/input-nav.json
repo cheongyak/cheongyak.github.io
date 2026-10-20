@@ -1,73 +1,14 @@
 {
- "clicks": 4554,
+ "clicks": 3955,
  "byKind": {
   "score": 306,
-  "fix": 1837,
+  "fix": 1238,
   "edit": 112,
   "restart": 7,
   "rq": 2033,
   "go": 259
  },
- "problems": {
-  "엉뚱한 칸: carValue 를 바꿔도 판정이 안 바뀜 (sp:youth)": {
-   "n": 1,
-   "ex": [
-    {
-     "profile": "다 넣은 신혼",
-     "scene": "상세 2026000373-049.0000A",
-     "button": "fix:sp:youth \"바로 답하기\"",
-     "ctx": "청년 특별공급 전체 3세대 신청 불가 혼인 중이면 청년 특별공급은 신청할 수 없어요 1. 신청 조건 ✕ 혼인 중이면 청년 특별공급은 신청할 수 없어요 ! 본인 총",
-     "p": {
-      "homeSido": "경기",
-      "homeSigun": "광명시",
-      "homeArea": "capital",
-      "sidoOwnSince": "2015-01-01",
-      "sidoSince": "2015-01-01",
-      "areaSince": "2015-01-01",
-      "household": "head",
-      "headSince": "2016-01-01",
-      "selfOwn": false,
-      "married": true,
-      "marriedOn": "2022-05-01",
-      "spouseOwn": false,
-      "acctType": "all",
-      "acctSince": "2014-01-01",
-      "acctAmount": 1500,
-      "acctCount": 60,
-      "acctPaid": 1500,
-      "hhHomes": "0",
-      "everWin": "none",
-      "win5y": false,
-      "recentWin": false,
-      "birth": "1990-01-01",
-      "dependents": 2,
-      "kidsMinor": 1,
-      "youngestBirth": "2025-01-01",
-      "pregnant": false,
-      "hhSize": 3,
-      "kidsOnDeed": 1,
-      "eldersOnDeed": 0,
-      "income": 5000,
-      "spouseIncome": 3000,
-      "hhIncomeYear": 8000,
-      "realEstate": 0,
-      "carValue": 1500,
-      "hhNeverOwned": true,
-      "taxYears5": true,
-      "elder65": false,
-      "cash": 20000,
-      "liquid": 0,
-      "deposit": 0
-     },
-     "landed": "detail",
-     "focus": "carValue",
-     "reds": [
-      "carValue"
-     ]
-    }
-   ]
-  }
- },
+ "problems": {},
  "notes": {
   "단계로만 이동(커서 없음) home": {
    "n": 4,
@@ -1549,6 +1490,6 @@
    ]
   }
  },
- "date": "2026-10-19",
+ "date": "2026-10-20",
  "pageErrors": []
 }
