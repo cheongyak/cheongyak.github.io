@@ -276,6 +276,14 @@ h2{margin:0;font-size:16px}
 .botask .exs{display:flex;flex-direction:column;gap:8px;margin-top:14px}.botask .ex{text-align:left;background:var(--surface);border:1px solid var(--line);border-radius:14px;padding:12px 14px;color:var(--fg);cursor:pointer;font-size:14px;line-height:1.45}
 .botask .ex b{display:block;font-size:12px;color:var(--lotto);margin-bottom:4px}
 .botans{white-space:pre-wrap;font-size:14px;line-height:1.6}.botans a{word-break:break-all}
+.botx{display:flex;flex-direction:column;gap:12px;font-size:14px;line-height:1.55}
+.botx h4{margin:4px 0 0;font-size:14px;font-weight:800;padding-left:10px;border-left:3px solid var(--lotto)}.botx p{margin:0}
+.botx dl.kv{display:grid;grid-template-columns:minmax(56px,auto) 1fr;gap:5px 12px;font-size:13px;margin:0}.botx dl.kv dt{color:var(--muted);font-weight:600;white-space:nowrap}.botx dl.kv dd{margin:0;overflow-wrap:anywhere;text-align:left;font-weight:400;max-width:none}
+.botx dl.kv dt:empty{display:none}.botx dl.kv dt:empty + dd{grid-column:1 / -1}
+.botx .blk{background:var(--sunk);border-radius:12px;padding:12px 14px;display:flex;flex-direction:column;gap:6px}.botx .blk .bt{font-weight:800;font-size:14px}.botx .blk .bs{font-size:12px;color:var(--muted)}
+.botx .blk .bw{font-size:13px;padding:6px 10px;border-radius:8px;background:var(--surface)}.botx .blk .bw::before{content:'💡 '}
+.botx ul{margin:0;padding-left:18px;display:flex;flex-direction:column;gap:4px}.botx .opt{display:inline-block;margin:2px 6px 2px 0;padding:4px 10px;border-radius:999px;background:var(--surface);border:1px solid var(--line);font-size:12px}
+.botx .lnk{font-size:13px}
 .botv{background:var(--lotto-soft);color:var(--lotto-ink);border-radius:16px;padding:16px;display:flex;flex-direction:column;gap:8px}.botv.none{background:var(--sunk);color:var(--fg)}
 .botv .vl{font-size:12px;font-weight:700;opacity:.8}.botv .vt{font-size:18px;font-weight:800;line-height:1.35;margin:0}.botv .vs{font-size:13px;opacity:.85}
 .botchips{display:flex;flex-wrap:wrap;gap:6px}.botchips .c{display:inline-flex;align-items:center;gap:4px;font-size:12px;padding:5px 9px;border-radius:999px;background:var(--surface);border:1px solid var(--line)}
@@ -5892,7 +5900,7 @@ function vBot(){
       ${!prof ? `<span>· 내 조건을 넣으면 공고마다 신청 가능 여부를 판정해요</span>` : ''}
       ${(P.ask || []).length ? `<span>· 직접 넣어야 정확해지는 것: ${esc(P.ask.join(' · '))}</span>` : ''}
       <div class="row"><button class="btn" data-action="bot-more">이어서 조건 바꾸기</button>${!prof || (P.ask || []).length ? `<button class="btn" data-action="restart">내 조건 입력</button>` : ''}</div></section>` : ''}
-    ${r.text ? `<details class="rfold" style="margin-top:12px"><summary>자세한 설명 보기</summary><div class="rfold-in botans">${botLinkify(esc(r.text))}</div></details>` : ''}
+    ${r.text ? `<details class="rfold" style="margin-top:12px"><summary>자세한 설명 보기</summary><div class="rfold-in botx">${botRich(r.text)}</div></details>` : ''}
     <p class="foot">판정은 내가 입력한 값과 청약홈 공고로 계산한 참고용이에요. 질문과 내 조건은 서버로 보내지 않고 이 기기에서만 계산했어요. 신청 전 모집공고문을 꼭 확인하세요.</p>`;
   }
   const exs = BOT.exs || [['찾기', '무주택 세대 3인 가족이고 연봉 7천, 현금 2억이에요. 서울·경기에서 지금 넣을 만한 곳 있어요?'], ['자격', '신혼 3년차 맞벌이 부부합산 1.1억인데 동탄 신혼부부 특별공급 돼요?'], ['단지 비교', '세종 리더스포레 84랑 에코델타 푸르지오 84 중 어디가 나아요? 현금 3억에 연봉 8천이에요.'], ['지역', '판교·광교 근처 전용 59㎡ 9억 이하로 당첨 가능성 있는 공고 찾아 주세요']];
@@ -5905,6 +5913,31 @@ function vBot(){
     <div class="exs">${exs.map(([k, q]) => `<button class="ex" data-action="bot-ex" data-q="${esc(q)}"><b>${esc(k)}</b>${esc(q)}</button>`).join('')}</div>
     ${botHist().length ? `<div class="bothist" style="margin-top:16px"><div class="hh"><h3>이어 하기</h3></div>${botHist().slice(0, 5).map(botHistCard).join('')}</div>` : ''}
     <p class="foot">질문은 이 기기 안에서만 처리하고 서버로 보내지 않아요. 기록도 이 기기에만 남아요.</p></div>`;
+}
+/* 엔진 기본 답(V2 answer.mjs 글)을 보기 좋게: '[제목]' → 소제목, '· 항목  값' → 표, 공고 블록(이름 (지역 · 면적 · 단지) + 줄들 + 링크) → 상자, '[선택지 (N곳)]' → 알약 (2026-10-21 사용자 '자세한 설명란이 보기 어려움') */
+function botRich(text){
+  const out = [], ps = String(text || '').split(/\n\n+/);
+  const kv = lines => `<dl class="kv">${lines.map(l => { const m = /^·\s*([^\s][^ ]{0,14}(?: [^ ]{1,8})?)\s{2,}(.+)$/.exec(l.trim()) || /^·\s*([^:：]{1,14}):\s*(.+)$/.exec(l.trim()); return m ? `<dt>${esc(m[1])}</dt><dd>${botLinkify(esc(m[2]))}</dd>` : `<dt></dt><dd>${botLinkify(esc(l.replace(/^·\s*/, '')))}</dd>`; }).join('')}</dl>`;
+  const isHead = /^\S.*\(.*(?:전용 \d+㎡|단지).*\)$/;
+  for (const p0 of ps) {
+    const lines = p0.split('\n').map(x => x.replace(/\s+$/, '')).filter(Boolean); if (!lines.length) continue;
+    let i = 0, head = null;
+    const hm = /^\[([^\]]+)\]$/.exec(lines[0]) || /^\[([^\]]+)\]\s*$/.exec(lines[0]);
+    if (hm) { head = hm[1]; i = 1; } else if (/^\[([^\]]+)\]\n?/.test(lines[0])) { head = lines[0].slice(1, lines[0].indexOf(']')); lines[0] = lines[0].slice(lines[0].indexOf(']') + 1).trim(); if (!lines[0]) i = 1; }
+    const body = lines.slice(i);
+    if (head) out.push(`<h4>${esc(head)}</h4>`);
+    if (body.length && isHead.test(body[0])) {   // 공고 블록
+      const t = body[0], k = t.indexOf(' ('), name = k > 0 ? t.slice(0, k) : t, sub = k > 0 ? t.slice(k + 2, -1) : '';
+      const why = body.find(l => /^→ /.test(l)), rows = body.filter(l => /^· /.test(l)), link = body.find(l => /^https:/.test(l));
+      out.push(`<div class="blk"><span class="bt">${esc(name)}</span>${sub ? `<span class="bs">${esc(sub)}</span>` : ''}${why ? `<span class="bw">${esc(why.replace(/^→ /, '').replace(/\.$/, ''))}</span>` : ''}${rows.length ? kv(rows) : ''}${link ? `<span class="lnk">${botLinkify(esc(link))}</span>` : ''}</div>`);
+    } else if (head === '다음에 해볼 것' || (body.every(l => /^[·•]\s/.test(l)) && !body.some(l => /\s{2,}|:\s/.test(l.trim().slice(0, 20))))) out.push(`<ul>${body.map(l => `<li>${botLinkify(esc(l.replace(/^[·•]\s*/, '')))}</li>`).join('')}</ul>`);
+    else if (body.every(l => /^[·•]\s/.test(l))) out.push(kv(body));
+    else if (body.some(l => /^\s*\[.+\(\d+곳\)\]\s*$/.test(l))) {
+      const pre = body.filter(l => !/^\s*\[.+\]\s*$/.test(l)), opts = body.filter(l => /^\s*\[.+\]\s*$/.test(l)).map(l => l.trim().slice(1, -1));
+      out.push(`<p>${esc(pre.join(' '))}</p><div>${opts.map(o => `<span class="opt">${esc(o)}</span>`).join('')}</div>`);
+    } else out.push(`<p>${botLinkify(esc(body.join('\n'))).replace(/\n/g, '<br>')}</p>`);
+  }
+  return out.join('');
 }
 /* 카드 아래 한 줄: 이 공고를 보는 이유 · 확인 필요 · 아쉬운 점 (V2 cardBits) */
 function botWhy(b){
