@@ -1,7 +1,9 @@
-GH 원천 점검 2026-10-21 18:11
-[실패] https://apply.gh.or.kr/ ConnectTimeout: timed out
+GH 원천 점검 2026-10-21 18:32
 
-[01] https://www.gh.or.kr/ → https://www.gh.or.kr/gh/index.do · 200 · 282,158자 · 제목 | GH 경기주택도시공사
+[01] https://apply.gh.or.kr/ → https://apply.gh.or.kr/ · 200 · 363자 · 제목 
+    스크립트 주소: /co/coa/selectMainView.do
+
+[02] https://www.gh.or.kr/ → https://www.gh.or.kr/gh/index.do · 200 · 282,158자 · 제목 | GH 경기주택도시공사
     GH 주택청약 → https://apply.gh.or.kr/
     외국인투자지역 및 임대단지 → https://www.gh.or.kr/gh/foreign-investment-area-and-rental-complex.do
     외국인투자지역 및 임대단지 설명 → https://www.gh.or.kr/gh/description-of-foreign-investment-areas-and-rental-complexes.do
@@ -102,7 +104,7 @@ GH 원천 점검 2026-10-21 18:11
     form: /gh/search.do | /gh/search.do
     스크립트 주소: /gh/19972000.do /gh/20012005.do /gh/20052010.do /gh/20112015.do /gh/20157.do /gh/20162020.do /gh/2nd-new-town-project.do /gh/3rd-new-city-project.do /gh/3rd-pangyo-techno-valley-project.do /gh/Human_Rights_Management_Activities.do /gh/Information-Disclosure-Deliberation-Committee.do /gh/SiheungDaeyaPublicLedUrbanInfillHousingandMixedUseRedevelopmentProject.do /gh/ahn-sung-no-4th.do /gh/amcMngBbs.do /gh/amcPsuBbs.do /gh/announcement-announcement.do /gh/announcement-of-prior-information.do /gh/announcement-of-salerental001.do /gh/announcement-of-the-revision.do /gh/ansanjangsang.do /gh/anseong-5th-industrial-park.do /gh/anseong-wongok-logistics-complex.do /gh/anti-corruption-and-integrity-activities.do /gh/anyang-gwanyang-high-school-urban-development.do /gh/anyang-indeokwon-urban-development.do /gh/anyang-naengcheonjigu-residential-enviroment-implement-project.do /gh/apartment-house-management.do /gh/application-for-proof.do /gh/as-a-result-of-the-audit001.do /gh/audit-ombudsman.do /gh/bid-announcement.do /gh/bid-data-room.do /gh/bid-information.do /gh/bid-information001.do /gh/bid-relations.do /gh/brochure.do /gh/business-disclosure.do /gh/business-related-laws-and-regulations.do /gh/business-year-2025.do /gh/calendar.do
 
-[02] https://www.gh.or.kr/gh/foreign-investment-area-and-rental-complex.do → https://www.gh.or.kr/gh/foreign-investment-area-and-rental-complex.do · 200 · 189,490자 · 제목 외국인투자지역 및 임대단지 | 산업단지조성사업 | 사업정보 | GH 경기주택도시공사
+[03] https://www.gh.or.kr/gh/foreign-investment-area-and-rental-complex.do → https://www.gh.or.kr/gh/foreign-investment-area-and-rental-complex.do · 200 · 189,490자 · 제목 외국인투자지역 및 임대단지 | 산업단지조성사업 | 사업정보 | GH 경기주택도시공사
     GH 주택청약 → https://apply.gh.or.kr/
     외국인투자지역 및 임대단지 → https://www.gh.or.kr/gh/foreign-investment-area-and-rental-complex.do
     외국인투자지역 및 임대단지 설명 → https://www.gh.or.kr/gh/description-of-foreign-investment-areas-and-rental-complexes.do
@@ -167,73 +169,7 @@ GH 원천 점검 2026-10-21 18:11
     form: /gh/search.do
     스크립트 주소: /gh/19972000.do /gh/20012005.do /gh/20052010.do /gh/20112015.do /gh/20157.do /gh/20162020.do /gh/2nd-new-town-project.do /gh/3rd-new-city-project.do /gh/3rd-pangyo-techno-valley-project.do /gh/Human_Rights_Management_Activities.do /gh/Information-Disclosure-Deliberation-Committee.do /gh/SiheungDaeyaPublicLedUrbanInfillHousingandMixedUseRedevelopmentProject.do /gh/ahn-sung-no-4th.do /gh/amcMngBbs.do /gh/amcPsuBbs.do /gh/announcement-announcement.do /gh/announcement-of-prior-information.do /gh/announcement-of-salerental001.do /gh/announcement-of-the-revision.do /gh/ansanjangsang.do /gh/anseong-5th-industrial-park.do /gh/anseong-wongok-logistics-complex.do /gh/anti-corruption-and-integrity-activities.do /gh/anyang-gwanyang-high-school-urban-development.do /gh/anyang-indeokwon-urban-development.do /gh/anyang-naengcheonjigu-residential-enviroment-implement-project.do /gh/apartment-house-management.do /gh/application-for-proof.do /gh/as-a-result-of-the-audit001.do /gh/audit-ombudsman.do /gh/bid-announcement.do /gh/bid-data-room.do /gh/bid-information.do /gh/bid-information001.do /gh/bid-relations.do /gh/brochure.do /gh/business-disclosure.do /gh/business-related-laws-and-regulations.do /gh/business-year-2025.do /gh/calendar.do
 
-[03] https://www.gh.or.kr/gh/description-of-foreign-investment-areas-and-rental-complexes.do → https://www.gh.or.kr/gh/description-of-foreign-investment-areas-and-rental-complexes.do · 200 · 190,967자 · 제목 외국인투자지역 및 임대단지 설명 | 외국인투자지역 및 임대단지 | 산업단지조성사업 | 사업정보 | GH 경기
-    GH 주택청약 → https://apply.gh.or.kr/
-    외국인투자지역 및 임대단지 → https://www.gh.or.kr/gh/foreign-investment-area-and-rental-complex.do
-    외국인투자지역 및 임대단지 설명 → https://www.gh.or.kr/gh/description-of-foreign-investment-areas-and-rental-complexes.do
-    기존주택 전세임대 → https://www.gh.or.kr/gh/lease-lease-on-existing-houses-business-overview.do
-    기존주택 매입임대 → https://www.gh.or.kr/gh/existing-housing-purchase-rental-business-overview.do
-    재건축/재개발 매입임대 → https://www.gh.or.kr/gh/purchase-lease-for-reconstructionredevelopment-business-overview.do
-    매입임대 임대보증금 지원 → https://www.gh.or.kr/gh/purchase-rental-rental-deposit-support-business-overview.do
-    국민/영구임대 → https://www.gh.or.kr/gh/nationalpermanent-rental-business-overview.do
-    공공임대(분양전환) → https://www.gh.or.kr/gh/public-rental.do
-    통합공공임대주택 → https://www.gh.or.kr/gh/integration-public-lease-house-business-overview.do
-    입주자격 → https://www.gh.or.kr/gh/integration-public-lease-house-eligibility-to-move-in.do
-    청약정보 → https://www.gh.or.kr/gh/saleslease-plan.do
-    분양/임대 계획 → https://www.gh.or.kr/gh/saleslease-plan.do
-    분양/임대 공고 → https://www.gh.or.kr/gh/announcement-of-salerental001.do
-    청약센터 → https://www.gh.or.kr/gh/cheongyak-center.do
-    GH 주택청약센터 → https://apply.gh.or.kr
-    분양/임대 알리미 → https://www.gh.or.kr/gh/saleslease-notification.do
-    매입임대 → https://www.gh.or.kr/gh/purchase-rental.do
-    전세임대 → https://www.gh.or.kr/gh/lease-lease.do
-    보상공고 → https://www.gh.or.kr/gh/reward-announcement.do
-    공고 → https://www.gh.or.kr/gh/reward-announcement.do
-    기술제안 공고 → https://www.gh.or.kr/gh/technical-suggestion-notice-list.do
-    공고 및 공지 → https://www.gh.or.kr/gh/announcement-announcement.do
-    입찰공고 → https://www.g2b.go.kr/link/FIUA006_01/single/?untySrchSeCd=BK+BUK&rowCnt=&instCd=Z003657&demaInstNm=&hghrkInstCd=&prcmBsneAreaCd=%EC%A0%84%EC%B2%B4+%EC%A1%B0070001+%EC%A1%B0070002+%EC%A1%B0070003+%EC%
-    채용공고 → https://www.gh.or.kr/gh/employment-announcement.do
-    GH 주택청약센터 → https://apply.gh.or.kr 
-    외국인투자지역 및 임대단지 → https://www.gh.or.kr/gh/foreign-investment-area-and-rental-complex.do
-    외국인투자지역 및 임대단지 설명 → https://www.gh.or.kr/gh/description-of-foreign-investment-areas-and-rental-complexes.do
-    기존주택 전세임대 → https://www.gh.or.kr/gh/lease-lease-on-existing-houses-business-overview.do
-    기존주택 매입임대 → https://www.gh.or.kr/gh/existing-housing-purchase-rental-business-overview.do
-    재건축/재개발 매입임대 → https://www.gh.or.kr/gh/purchase-lease-for-reconstructionredevelopment-business-overview.do
-    입주자격 → https://www.gh.or.kr/gh/purchase-lease-for-reconstructionredevelopment-eligibility-to-move-in.do
-    임대조건 → https://www.gh.or.kr/gh/purchase-lease-for-reconstructionredevelopment-rental-conditions.do
-    매입임대 임대보증금 지원 → https://www.gh.or.kr/gh/purchase-rental-rental-deposit-support-business-overview.do
-    입주자격 → https://www.gh.or.kr/gh/gyeonggi-happy-house-eligibility-to-move-in.do
-    국민/영구임대 → https://www.gh.or.kr/gh/nationalpermanent-rental-business-overview.do
-    입주자격 → https://www.gh.or.kr/gh/nationalpermanent-rental-eligibility-to-move-in.do
-    임대조건 → https://www.gh.or.kr/gh/nationalpermanent-rental-rental-conditions.do
-    공공임대(분양전환) → https://www.gh.or.kr/gh/public-rental.do
-    통합공공임대주택 → https://www.gh.or.kr/gh/integration-public-lease-house-business-overview.do
-    입주자격 → https://www.gh.or.kr/gh/integration-public-lease-house-eligibility-to-move-in.do
-    분양/임대 계획 → https://www.gh.or.kr/gh/saleslease-plan.do
-    분양/임대 공고 → https://www.gh.or.kr/gh/announcement-of-salerental001.do
-    청약센터 → https://www.gh.or.kr/gh/cheongyak-center.do
-    GH 주택청약센터 → https://apply.gh.or.kr
-    분양/임대 알리미 → https://www.gh.or.kr/gh/saleslease-notification.do
-    매입임대 → https://www.gh.or.kr/gh/purchase-rental.do
-    전세임대 → https://www.gh.or.kr/gh/lease-lease.do
-    보상공고 → https://www.gh.or.kr/gh/reward-announcement.do
-    공고 → https://www.gh.or.kr/gh/reward-announcement.do
-    기술제안 공고 → https://www.gh.or.kr/gh/technical-suggestion-notice-list.do
-    공고 및 공지 → https://www.gh.or.kr/gh/announcement-announcement.do
-    입찰공고 → https://www.g2b.go.kr/link/FIUA006_01/single/?untySrchSeCd=BK+BUK&rowCnt=&instCd=Z003657&demaInstNm=&hghrkInstCd=&prcmBsneAreaCd=%EC%A0%84%EC%B2%B4+%EC%A1%B0070001+%EC%A1%B0070002+%EC%A1%B0070003+%EC%
-    채용공고 → https://www.gh.or.kr/gh/employment-announcement.do
-    청약정보 → https://www.gh.or.kr/gh/saleslease-plan.do
-    외국인투자지역 및 임대단지 → https://www.gh.or.kr/gh/foreign-investment-area-and-rental-complex.do
-    외국인투자지역 및 임대단지 설명 → https://www.gh.or.kr/gh/description-of-foreign-investment-areas-and-rental-complexes.do
-    분양/임대 공고 → https://www.gh.or.kr/gh/announcement-of-salerental001.do
-    외국인투자지역 및 임대단지 설명 → https://www.gh.or.kr/gh/description-of-foreign-investment-areas-and-rental-complexes.do
-    외국인투자지역 및 임대단지 → https://www.gh.or.kr/gh/foreign-investment-area-and-rental-complex.do
-    GH 주택청약센터 → https://apply.gh.or.kr
-    한국부동산원(청약) → https://www.reb.or.kr
-    form: /gh/search.do
-    스크립트 주소: /gh/19972000.do /gh/20012005.do /gh/20052010.do /gh/20112015.do /gh/20157.do /gh/20162020.do /gh/2nd-new-town-project.do /gh/3rd-new-city-project.do /gh/3rd-pangyo-techno-valley-project.do /gh/Human_Rights_Management_Activities.do /gh/Information-Disclosure-Deliberation-Committee.do /gh/SiheungDaeyaPublicLedUrbanInfillHousingandMixedUseRedevelopmentProject.do /gh/ahn-sung-no-4th.do /gh/amcMngBbs.do /gh/amcPsuBbs.do /gh/announcement-announcement.do /gh/announcement-of-prior-information.do /gh/announcement-of-salerental001.do /gh/announcement-of-the-revision.do /gh/ansanjangsang.do /gh/anseong-5th-industrial-park.do /gh/anseong-wongok-logistics-complex.do /gh/anti-corruption-and-integrity-activities.do /gh/anyang-gwanyang-high-school-urban-development.do /gh/anyang-indeokwon-urban-development.do /gh/anyang-naengcheonjigu-residential-enviroment-implement-project.do /gh/apartment-house-management.do /gh/application-for-proof.do /gh/as-a-result-of-the-audit001.do /gh/audit-ombudsman.do /gh/bid-announcement.do /gh/bid-data-room.do /gh/bid-information.do /gh/bid-information001.do /gh/bid-relations.do /gh/brochure.do /gh/business-disclosure.do /gh/business-related-laws-and-regulations.do /gh/business-year-2025.do /gh/calendar.do
-
-[04] https://www.gh.or.kr/gh/current-status-mapping-of-foreign-investment-complexes-by-industry.do → https://www.gh.or.kr/gh/current-status-mapping-of-foreign-investment-complexes-by-industry.do · 200 · 190,965자 · 제목 외투단지 업종별 현황 맵핑 | 외국인투자지역 및 임대단지 | 산업단지조성사업 | 사업정보 | GH 경기주택도
+[04] https://www.gh.or.kr/gh/description-of-foreign-investment-areas-and-rental-complexes.do → https://www.gh.or.kr/gh/description-of-foreign-investment-areas-and-rental-complexes.do · 200 · 190,967자 · 제목 외국인투자지역 및 임대단지 설명 | 외국인투자지역 및 임대단지 | 산업단지조성사업 | 사업정보 | GH 경기
     GH 주택청약 → https://apply.gh.or.kr/
     외국인투자지역 및 임대단지 → https://www.gh.or.kr/gh/foreign-investment-area-and-rental-complex.do
     외국인투자지역 및 임대단지 설명 → https://www.gh.or.kr/gh/description-of-foreign-investment-areas-and-rental-complexes.do
@@ -299,7 +235,73 @@ GH 원천 점검 2026-10-21 18:11
     form: /gh/search.do
     스크립트 주소: /gh/19972000.do /gh/20012005.do /gh/20052010.do /gh/20112015.do /gh/20157.do /gh/20162020.do /gh/2nd-new-town-project.do /gh/3rd-new-city-project.do /gh/3rd-pangyo-techno-valley-project.do /gh/Human_Rights_Management_Activities.do /gh/Information-Disclosure-Deliberation-Committee.do /gh/SiheungDaeyaPublicLedUrbanInfillHousingandMixedUseRedevelopmentProject.do /gh/ahn-sung-no-4th.do /gh/amcMngBbs.do /gh/amcPsuBbs.do /gh/announcement-announcement.do /gh/announcement-of-prior-information.do /gh/announcement-of-salerental001.do /gh/announcement-of-the-revision.do /gh/ansanjangsang.do /gh/anseong-5th-industrial-park.do /gh/anseong-wongok-logistics-complex.do /gh/anti-corruption-and-integrity-activities.do /gh/anyang-gwanyang-high-school-urban-development.do /gh/anyang-indeokwon-urban-development.do /gh/anyang-naengcheonjigu-residential-enviroment-implement-project.do /gh/apartment-house-management.do /gh/application-for-proof.do /gh/as-a-result-of-the-audit001.do /gh/audit-ombudsman.do /gh/bid-announcement.do /gh/bid-data-room.do /gh/bid-information.do /gh/bid-information001.do /gh/bid-relations.do /gh/brochure.do /gh/business-disclosure.do /gh/business-related-laws-and-regulations.do /gh/business-year-2025.do /gh/calendar.do
 
-[05] https://www.gh.or.kr/gh/lease-lease-on-existing-houses-business-overview.do → https://www.gh.or.kr/gh/lease-lease-on-existing-houses-business-overview.do · 200 · 208,976자 · 제목 사업개요 | 기존주택 전세임대 | 주거복지사업 | 사업정보 | GH 경기주택도시공사
+[05] https://www.gh.or.kr/gh/current-status-mapping-of-foreign-investment-complexes-by-industry.do → https://www.gh.or.kr/gh/current-status-mapping-of-foreign-investment-complexes-by-industry.do · 200 · 190,965자 · 제목 외투단지 업종별 현황 맵핑 | 외국인투자지역 및 임대단지 | 산업단지조성사업 | 사업정보 | GH 경기주택도
+    GH 주택청약 → https://apply.gh.or.kr/
+    외국인투자지역 및 임대단지 → https://www.gh.or.kr/gh/foreign-investment-area-and-rental-complex.do
+    외국인투자지역 및 임대단지 설명 → https://www.gh.or.kr/gh/description-of-foreign-investment-areas-and-rental-complexes.do
+    기존주택 전세임대 → https://www.gh.or.kr/gh/lease-lease-on-existing-houses-business-overview.do
+    기존주택 매입임대 → https://www.gh.or.kr/gh/existing-housing-purchase-rental-business-overview.do
+    재건축/재개발 매입임대 → https://www.gh.or.kr/gh/purchase-lease-for-reconstructionredevelopment-business-overview.do
+    매입임대 임대보증금 지원 → https://www.gh.or.kr/gh/purchase-rental-rental-deposit-support-business-overview.do
+    국민/영구임대 → https://www.gh.or.kr/gh/nationalpermanent-rental-business-overview.do
+    공공임대(분양전환) → https://www.gh.or.kr/gh/public-rental.do
+    통합공공임대주택 → https://www.gh.or.kr/gh/integration-public-lease-house-business-overview.do
+    입주자격 → https://www.gh.or.kr/gh/integration-public-lease-house-eligibility-to-move-in.do
+    청약정보 → https://www.gh.or.kr/gh/saleslease-plan.do
+    분양/임대 계획 → https://www.gh.or.kr/gh/saleslease-plan.do
+    분양/임대 공고 → https://www.gh.or.kr/gh/announcement-of-salerental001.do
+    청약센터 → https://www.gh.or.kr/gh/cheongyak-center.do
+    GH 주택청약센터 → https://apply.gh.or.kr
+    분양/임대 알리미 → https://www.gh.or.kr/gh/saleslease-notification.do
+    매입임대 → https://www.gh.or.kr/gh/purchase-rental.do
+    전세임대 → https://www.gh.or.kr/gh/lease-lease.do
+    보상공고 → https://www.gh.or.kr/gh/reward-announcement.do
+    공고 → https://www.gh.or.kr/gh/reward-announcement.do
+    기술제안 공고 → https://www.gh.or.kr/gh/technical-suggestion-notice-list.do
+    공고 및 공지 → https://www.gh.or.kr/gh/announcement-announcement.do
+    입찰공고 → https://www.g2b.go.kr/link/FIUA006_01/single/?untySrchSeCd=BK+BUK&rowCnt=&instCd=Z003657&demaInstNm=&hghrkInstCd=&prcmBsneAreaCd=%EC%A0%84%EC%B2%B4+%EC%A1%B0070001+%EC%A1%B0070002+%EC%A1%B0070003+%EC%
+    채용공고 → https://www.gh.or.kr/gh/employment-announcement.do
+    GH 주택청약센터 → https://apply.gh.or.kr 
+    외국인투자지역 및 임대단지 → https://www.gh.or.kr/gh/foreign-investment-area-and-rental-complex.do
+    외국인투자지역 및 임대단지 설명 → https://www.gh.or.kr/gh/description-of-foreign-investment-areas-and-rental-complexes.do
+    기존주택 전세임대 → https://www.gh.or.kr/gh/lease-lease-on-existing-houses-business-overview.do
+    기존주택 매입임대 → https://www.gh.or.kr/gh/existing-housing-purchase-rental-business-overview.do
+    재건축/재개발 매입임대 → https://www.gh.or.kr/gh/purchase-lease-for-reconstructionredevelopment-business-overview.do
+    입주자격 → https://www.gh.or.kr/gh/purchase-lease-for-reconstructionredevelopment-eligibility-to-move-in.do
+    임대조건 → https://www.gh.or.kr/gh/purchase-lease-for-reconstructionredevelopment-rental-conditions.do
+    매입임대 임대보증금 지원 → https://www.gh.or.kr/gh/purchase-rental-rental-deposit-support-business-overview.do
+    입주자격 → https://www.gh.or.kr/gh/gyeonggi-happy-house-eligibility-to-move-in.do
+    국민/영구임대 → https://www.gh.or.kr/gh/nationalpermanent-rental-business-overview.do
+    입주자격 → https://www.gh.or.kr/gh/nationalpermanent-rental-eligibility-to-move-in.do
+    임대조건 → https://www.gh.or.kr/gh/nationalpermanent-rental-rental-conditions.do
+    공공임대(분양전환) → https://www.gh.or.kr/gh/public-rental.do
+    통합공공임대주택 → https://www.gh.or.kr/gh/integration-public-lease-house-business-overview.do
+    입주자격 → https://www.gh.or.kr/gh/integration-public-lease-house-eligibility-to-move-in.do
+    분양/임대 계획 → https://www.gh.or.kr/gh/saleslease-plan.do
+    분양/임대 공고 → https://www.gh.or.kr/gh/announcement-of-salerental001.do
+    청약센터 → https://www.gh.or.kr/gh/cheongyak-center.do
+    GH 주택청약센터 → https://apply.gh.or.kr
+    분양/임대 알리미 → https://www.gh.or.kr/gh/saleslease-notification.do
+    매입임대 → https://www.gh.or.kr/gh/purchase-rental.do
+    전세임대 → https://www.gh.or.kr/gh/lease-lease.do
+    보상공고 → https://www.gh.or.kr/gh/reward-announcement.do
+    공고 → https://www.gh.or.kr/gh/reward-announcement.do
+    기술제안 공고 → https://www.gh.or.kr/gh/technical-suggestion-notice-list.do
+    공고 및 공지 → https://www.gh.or.kr/gh/announcement-announcement.do
+    입찰공고 → https://www.g2b.go.kr/link/FIUA006_01/single/?untySrchSeCd=BK+BUK&rowCnt=&instCd=Z003657&demaInstNm=&hghrkInstCd=&prcmBsneAreaCd=%EC%A0%84%EC%B2%B4+%EC%A1%B0070001+%EC%A1%B0070002+%EC%A1%B0070003+%EC%
+    채용공고 → https://www.gh.or.kr/gh/employment-announcement.do
+    청약정보 → https://www.gh.or.kr/gh/saleslease-plan.do
+    외국인투자지역 및 임대단지 → https://www.gh.or.kr/gh/foreign-investment-area-and-rental-complex.do
+    외국인투자지역 및 임대단지 설명 → https://www.gh.or.kr/gh/description-of-foreign-investment-areas-and-rental-complexes.do
+    분양/임대 공고 → https://www.gh.or.kr/gh/announcement-of-salerental001.do
+    외국인투자지역 및 임대단지 설명 → https://www.gh.or.kr/gh/description-of-foreign-investment-areas-and-rental-complexes.do
+    외국인투자지역 및 임대단지 → https://www.gh.or.kr/gh/foreign-investment-area-and-rental-complex.do
+    GH 주택청약센터 → https://apply.gh.or.kr
+    한국부동산원(청약) → https://www.reb.or.kr
+    form: /gh/search.do
+    스크립트 주소: /gh/19972000.do /gh/20012005.do /gh/20052010.do /gh/20112015.do /gh/20157.do /gh/20162020.do /gh/2nd-new-town-project.do /gh/3rd-new-city-project.do /gh/3rd-pangyo-techno-valley-project.do /gh/Human_Rights_Management_Activities.do /gh/Information-Disclosure-Deliberation-Committee.do /gh/SiheungDaeyaPublicLedUrbanInfillHousingandMixedUseRedevelopmentProject.do /gh/ahn-sung-no-4th.do /gh/amcMngBbs.do /gh/amcPsuBbs.do /gh/announcement-announcement.do /gh/announcement-of-prior-information.do /gh/announcement-of-salerental001.do /gh/announcement-of-the-revision.do /gh/ansanjangsang.do /gh/anseong-5th-industrial-park.do /gh/anseong-wongok-logistics-complex.do /gh/anti-corruption-and-integrity-activities.do /gh/anyang-gwanyang-high-school-urban-development.do /gh/anyang-indeokwon-urban-development.do /gh/anyang-naengcheonjigu-residential-enviroment-implement-project.do /gh/apartment-house-management.do /gh/application-for-proof.do /gh/as-a-result-of-the-audit001.do /gh/audit-ombudsman.do /gh/bid-announcement.do /gh/bid-data-room.do /gh/bid-information.do /gh/bid-information001.do /gh/bid-relations.do /gh/brochure.do /gh/business-disclosure.do /gh/business-related-laws-and-regulations.do /gh/business-year-2025.do /gh/calendar.do
+
+[06] https://www.gh.or.kr/gh/lease-lease-on-existing-houses-business-overview.do → https://www.gh.or.kr/gh/lease-lease-on-existing-houses-business-overview.do · 200 · 208,976자 · 제목 사업개요 | 기존주택 전세임대 | 주거복지사업 | 사업정보 | GH 경기주택도시공사
     GH 주택청약 → https://apply.gh.or.kr/
     외국인투자지역 및 임대단지 → https://www.gh.or.kr/gh/foreign-investment-area-and-rental-complex.do
     외국인투자지역 및 임대단지 설명 → https://www.gh.or.kr/gh/description-of-foreign-investment-areas-and-rental-complexes.do
@@ -367,7 +369,7 @@ GH 원천 점검 2026-10-21 18:11
     form: /gh/search.do
     스크립트 주소: /gh/19972000.do /gh/20012005.do /gh/20052010.do /gh/20112015.do /gh/20157.do /gh/20162020.do /gh/2nd-new-town-project.do /gh/3rd-new-city-project.do /gh/3rd-pangyo-techno-valley-project.do /gh/Human_Rights_Management_Activities.do /gh/Information-Disclosure-Deliberation-Committee.do /gh/SiheungDaeyaPublicLedUrbanInfillHousingandMixedUseRedevelopmentProject.do /gh/ahn-sung-no-4th.do /gh/amcMngBbs.do /gh/amcPsuBbs.do /gh/announcement-announcement.do /gh/announcement-of-prior-information.do /gh/announcement-of-salerental001.do /gh/announcement-of-the-revision.do /gh/ansanjangsang.do /gh/anseong-5th-industrial-park.do /gh/anseong-wongok-logistics-complex.do /gh/anti-corruption-and-integrity-activities.do /gh/anyang-gwanyang-high-school-urban-development.do /gh/anyang-indeokwon-urban-development.do /gh/anyang-naengcheonjigu-residential-enviroment-implement-project.do /gh/apartment-house-management.do /gh/application-for-proof.do /gh/as-a-result-of-the-audit001.do /gh/audit-ombudsman.do /gh/bid-announcement.do /gh/bid-data-room.do /gh/bid-information.do /gh/bid-information001.do /gh/bid-relations.do /gh/brochure.do /gh/business-disclosure.do /gh/business-related-laws-and-regulations.do /gh/business-year-2025.do /gh/calendar.do
 
-[06] https://www.gh.or.kr/gh/existing-housing-purchase-rental-business-overview.do → https://www.gh.or.kr/gh/existing-housing-purchase-rental-business-overview.do · 200 · 188,981자 · 제목 사업개요 | 기존주택 매입임대 | 주거복지사업 | 사업정보 | GH 경기주택도시공사
+[07] https://www.gh.or.kr/gh/existing-housing-purchase-rental-business-overview.do → https://www.gh.or.kr/gh/existing-housing-purchase-rental-business-overview.do · 200 · 188,981자 · 제목 사업개요 | 기존주택 매입임대 | 주거복지사업 | 사업정보 | GH 경기주택도시공사
     GH 주택청약 → https://apply.gh.or.kr/
     외국인투자지역 및 임대단지 → https://www.gh.or.kr/gh/foreign-investment-area-and-rental-complex.do
     외국인투자지역 및 임대단지 설명 → https://www.gh.or.kr/gh/description-of-foreign-investment-areas-and-rental-complexes.do
@@ -434,7 +436,7 @@ GH 원천 점검 2026-10-21 18:11
     form: /gh/search.do
     스크립트 주소: /gh/19972000.do /gh/20012005.do /gh/20052010.do /gh/20112015.do /gh/20157.do /gh/20162020.do /gh/2nd-new-town-project.do /gh/3rd-new-city-project.do /gh/3rd-pangyo-techno-valley-project.do /gh/Human_Rights_Management_Activities.do /gh/Information-Disclosure-Deliberation-Committee.do /gh/SiheungDaeyaPublicLedUrbanInfillHousingandMixedUseRedevelopmentProject.do /gh/ahn-sung-no-4th.do /gh/amcMngBbs.do /gh/amcPsuBbs.do /gh/announcement-announcement.do /gh/announcement-of-prior-information.do /gh/announcement-of-salerental001.do /gh/announcement-of-the-revision.do /gh/ansanjangsang.do /gh/anseong-5th-industrial-park.do /gh/anseong-wongok-logistics-complex.do /gh/anti-corruption-and-integrity-activities.do /gh/anyang-gwanyang-high-school-urban-development.do /gh/anyang-indeokwon-urban-development.do /gh/anyang-naengcheonjigu-residential-enviroment-implement-project.do /gh/apartment-house-management.do /gh/application-for-proof.do /gh/as-a-result-of-the-audit001.do /gh/audit-ombudsman.do /gh/bid-announcement.do /gh/bid-data-room.do /gh/bid-information.do /gh/bid-information001.do /gh/bid-relations.do /gh/brochure.do /gh/business-disclosure.do /gh/business-related-laws-and-regulations.do /gh/business-year-2025.do /gh/calendar.do
 
-[07] https://www.gh.or.kr/gh/purchase-lease-for-reconstructionredevelopment-business-overview.do → https://www.gh.or.kr/gh/purchase-lease-for-reconstructionredevelopment-business-overview.do · 200 · 194,276자 · 제목 사업개요 | 재건축/재개발 매입임대 | 주거복지사업 | 사업정보 | GH 경기주택도시공사
+[08] https://www.gh.or.kr/gh/purchase-lease-for-reconstructionredevelopment-business-overview.do → https://www.gh.or.kr/gh/purchase-lease-for-reconstructionredevelopment-business-overview.do · 200 · 194,276자 · 제목 사업개요 | 재건축/재개발 매입임대 | 주거복지사업 | 사업정보 | GH 경기주택도시공사
     GH 주택청약 → https://apply.gh.or.kr/
     외국인투자지역 및 임대단지 → https://www.gh.or.kr/gh/foreign-investment-area-and-rental-complex.do
     외국인투자지역 및 임대단지 설명 → https://www.gh.or.kr/gh/description-of-foreign-investment-areas-and-rental-complexes.do
@@ -502,7 +504,7 @@ GH 원천 점검 2026-10-21 18:11
     form: /gh/search.do
     스크립트 주소: /gh/19972000.do /gh/20012005.do /gh/20052010.do /gh/20112015.do /gh/20157.do /gh/20162020.do /gh/2nd-new-town-project.do /gh/3rd-new-city-project.do /gh/3rd-pangyo-techno-valley-project.do /gh/Human_Rights_Management_Activities.do /gh/Information-Disclosure-Deliberation-Committee.do /gh/SiheungDaeyaPublicLedUrbanInfillHousingandMixedUseRedevelopmentProject.do /gh/ahn-sung-no-4th.do /gh/amcMngBbs.do /gh/amcPsuBbs.do /gh/announcement-announcement.do /gh/announcement-of-prior-information.do /gh/announcement-of-salerental001.do /gh/announcement-of-the-revision.do /gh/ansanjangsang.do /gh/anseong-5th-industrial-park.do /gh/anseong-wongok-logistics-complex.do /gh/anti-corruption-and-integrity-activities.do /gh/anyang-gwanyang-high-school-urban-development.do /gh/anyang-indeokwon-urban-development.do /gh/anyang-naengcheonjigu-residential-enviroment-implement-project.do /gh/apartment-house-management.do /gh/application-for-proof.do /gh/as-a-result-of-the-audit001.do /gh/audit-ombudsman.do /gh/bid-announcement.do /gh/bid-data-room.do /gh/bid-information.do /gh/bid-information001.do /gh/bid-relations.do /gh/brochure.do /gh/business-disclosure.do /gh/business-related-laws-and-regulations.do /gh/business-year-2025.do /gh/calendar.do
 
-[08] https://www.gh.or.kr/gh/purchase-rental-rental-deposit-support-business-overview.do → https://www.gh.or.kr/gh/purchase-rental-rental-deposit-support-business-overview.do · 200 · 188,426자 · 제목 사업개요 | 매입임대 임대보증금 지원 | 주거복지사업 | 사업정보 | GH 경기주택도시공사
+[09] https://www.gh.or.kr/gh/purchase-rental-rental-deposit-support-business-overview.do → https://www.gh.or.kr/gh/purchase-rental-rental-deposit-support-business-overview.do · 200 · 188,426자 · 제목 사업개요 | 매입임대 임대보증금 지원 | 주거복지사업 | 사업정보 | GH 경기주택도시공사
     GH 주택청약 → https://apply.gh.or.kr/
     외국인투자지역 및 임대단지 → https://www.gh.or.kr/gh/foreign-investment-area-and-rental-complex.do
     외국인투자지역 및 임대단지 설명 → https://www.gh.or.kr/gh/description-of-foreign-investment-areas-and-rental-complexes.do
@@ -568,7 +570,7 @@ GH 원천 점검 2026-10-21 18:11
     form: /gh/search.do
     스크립트 주소: /gh/19972000.do /gh/20012005.do /gh/20052010.do /gh/20112015.do /gh/20157.do /gh/20162020.do /gh/2nd-new-town-project.do /gh/3rd-new-city-project.do /gh/3rd-pangyo-techno-valley-project.do /gh/Human_Rights_Management_Activities.do /gh/Information-Disclosure-Deliberation-Committee.do /gh/SiheungDaeyaPublicLedUrbanInfillHousingandMixedUseRedevelopmentProject.do /gh/ahn-sung-no-4th.do /gh/amcMngBbs.do /gh/amcPsuBbs.do /gh/announcement-announcement.do /gh/announcement-of-prior-information.do /gh/announcement-of-salerental001.do /gh/announcement-of-the-revision.do /gh/ansanjangsang.do /gh/anseong-5th-industrial-park.do /gh/anseong-wongok-logistics-complex.do /gh/anti-corruption-and-integrity-activities.do /gh/anyang-gwanyang-high-school-urban-development.do /gh/anyang-indeokwon-urban-development.do /gh/anyang-naengcheonjigu-residential-enviroment-implement-project.do /gh/apartment-house-management.do /gh/application-for-proof.do /gh/as-a-result-of-the-audit001.do /gh/audit-ombudsman.do /gh/bid-announcement.do /gh/bid-data-room.do /gh/bid-information.do /gh/bid-information001.do /gh/bid-relations.do /gh/brochure.do /gh/business-disclosure.do /gh/business-related-laws-and-regulations.do /gh/business-year-2025.do /gh/calendar.do
 
-[09] https://www.gh.or.kr/gh/nationalpermanent-rental-business-overview.do → https://www.gh.or.kr/gh/nationalpermanent-rental-business-overview.do · 200 · 191,822자 · 제목 사업개요 | 국민/영구임대 | 공공주택사업 | 사업정보 | GH 경기주택도시공사
+[10] https://www.gh.or.kr/gh/nationalpermanent-rental-business-overview.do → https://www.gh.or.kr/gh/nationalpermanent-rental-business-overview.do · 200 · 191,822자 · 제목 사업개요 | 국민/영구임대 | 공공주택사업 | 사업정보 | GH 경기주택도시공사
     GH 주택청약 → https://apply.gh.or.kr/
     외국인투자지역 및 임대단지 → https://www.gh.or.kr/gh/foreign-investment-area-and-rental-complex.do
     외국인투자지역 및 임대단지 설명 → https://www.gh.or.kr/gh/description-of-foreign-investment-areas-and-rental-complexes.do
@@ -637,7 +639,7 @@ GH 원천 점검 2026-10-21 18:11
     form: /gh/search.do
     스크립트 주소: /gh/19972000.do /gh/20012005.do /gh/20052010.do /gh/20112015.do /gh/20157.do /gh/20162020.do /gh/2nd-new-town-project.do /gh/3rd-new-city-project.do /gh/3rd-pangyo-techno-valley-project.do /gh/Human_Rights_Management_Activities.do /gh/Information-Disclosure-Deliberation-Committee.do /gh/SiheungDaeyaPublicLedUrbanInfillHousingandMixedUseRedevelopmentProject.do /gh/ahn-sung-no-4th.do /gh/amcMngBbs.do /gh/amcPsuBbs.do /gh/announcement-announcement.do /gh/announcement-of-prior-information.do /gh/announcement-of-salerental001.do /gh/announcement-of-the-revision.do /gh/ansanjangsang.do /gh/anseong-5th-industrial-park.do /gh/anseong-wongok-logistics-complex.do /gh/anti-corruption-and-integrity-activities.do /gh/anyang-gwanyang-high-school-urban-development.do /gh/anyang-indeokwon-urban-development.do /gh/anyang-naengcheonjigu-residential-enviroment-implement-project.do /gh/apartment-house-management.do /gh/application-for-proof.do /gh/as-a-result-of-the-audit001.do /gh/audit-ombudsman.do /gh/bid-announcement.do /gh/bid-data-room.do /gh/bid-information.do /gh/bid-information001.do /gh/bid-relations.do /gh/brochure.do /gh/business-disclosure.do /gh/business-related-laws-and-regulations.do /gh/business-year-2025.do /gh/calendar.do
 
-[10] https://www.gh.or.kr/gh/public-rental.do → https://www.gh.or.kr/gh/public-rental.do · 200 · 190,365자 · 제목 공공임대(분양전환) | 공공주택사업 | 사업정보 | GH 경기주택도시공사
+[11] https://www.gh.or.kr/gh/public-rental.do → https://www.gh.or.kr/gh/public-rental.do · 200 · 190,365자 · 제목 공공임대(분양전환) | 공공주택사업 | 사업정보 | GH 경기주택도시공사
     GH 주택청약 → https://apply.gh.or.kr/
     외국인투자지역 및 임대단지 → https://www.gh.or.kr/gh/foreign-investment-area-and-rental-complex.do
     외국인투자지역 및 임대단지 설명 → https://www.gh.or.kr/gh/description-of-foreign-investment-areas-and-rental-complexes.do
@@ -703,7 +705,7 @@ GH 원천 점검 2026-10-21 18:11
     form: /gh/search.do
     스크립트 주소: /gh/19972000.do /gh/20012005.do /gh/20052010.do /gh/20112015.do /gh/20157.do /gh/20162020.do /gh/2nd-new-town-project.do /gh/3rd-new-city-project.do /gh/3rd-pangyo-techno-valley-project.do /gh/Human_Rights_Management_Activities.do /gh/Information-Disclosure-Deliberation-Committee.do /gh/SiheungDaeyaPublicLedUrbanInfillHousingandMixedUseRedevelopmentProject.do /gh/ahn-sung-no-4th.do /gh/amcMngBbs.do /gh/amcPsuBbs.do /gh/announcement-announcement.do /gh/announcement-of-prior-information.do /gh/announcement-of-salerental001.do /gh/announcement-of-the-revision.do /gh/ansanjangsang.do /gh/anseong-5th-industrial-park.do /gh/anseong-wongok-logistics-complex.do /gh/anti-corruption-and-integrity-activities.do /gh/anyang-gwanyang-high-school-urban-development.do /gh/anyang-indeokwon-urban-development.do /gh/anyang-naengcheonjigu-residential-enviroment-implement-project.do /gh/apartment-house-management.do /gh/application-for-proof.do /gh/as-a-result-of-the-audit001.do /gh/audit-ombudsman.do /gh/bid-announcement.do /gh/bid-data-room.do /gh/bid-information.do /gh/bid-information001.do /gh/bid-relations.do /gh/brochure.do /gh/business-disclosure.do /gh/business-related-laws-and-regulations.do /gh/business-year-2025.do /gh/calendar.do
 
-[11] https://www.gh.or.kr/gh/integration-public-lease-house-business-overview.do → https://www.gh.or.kr/gh/integration-public-lease-house-business-overview.do · 200 · 188,379자 · 제목 사업개요 | 통합공공임대주택 | 공공주택사업 | 사업정보 | GH 경기주택도시공사
+[12] https://www.gh.or.kr/gh/integration-public-lease-house-business-overview.do → https://www.gh.or.kr/gh/integration-public-lease-house-business-overview.do · 200 · 188,379자 · 제목 사업개요 | 통합공공임대주택 | 공공주택사업 | 사업정보 | GH 경기주택도시공사
     GH 주택청약 → https://apply.gh.or.kr/
     외국인투자지역 및 임대단지 → https://www.gh.or.kr/gh/foreign-investment-area-and-rental-complex.do
     외국인투자지역 및 임대단지 설명 → https://www.gh.or.kr/gh/description-of-foreign-investment-areas-and-rental-complexes.do
@@ -772,7 +774,7 @@ GH 원천 점검 2026-10-21 18:11
     form: /gh/search.do
     스크립트 주소: /gh/19972000.do /gh/20012005.do /gh/20052010.do /gh/20112015.do /gh/20157.do /gh/20162020.do /gh/2nd-new-town-project.do /gh/3rd-new-city-project.do /gh/3rd-pangyo-techno-valley-project.do /gh/Human_Rights_Management_Activities.do /gh/Information-Disclosure-Deliberation-Committee.do /gh/SiheungDaeyaPublicLedUrbanInfillHousingandMixedUseRedevelopmentProject.do /gh/ahn-sung-no-4th.do /gh/amcMngBbs.do /gh/amcPsuBbs.do /gh/announcement-announcement.do /gh/announcement-of-prior-information.do /gh/announcement-of-salerental001.do /gh/announcement-of-the-revision.do /gh/ansanjangsang.do /gh/anseong-5th-industrial-park.do /gh/anseong-wongok-logistics-complex.do /gh/anti-corruption-and-integrity-activities.do /gh/anyang-gwanyang-high-school-urban-development.do /gh/anyang-indeokwon-urban-development.do /gh/anyang-naengcheonjigu-residential-enviroment-implement-project.do /gh/apartment-house-management.do /gh/application-for-proof.do /gh/as-a-result-of-the-audit001.do /gh/audit-ombudsman.do /gh/bid-announcement.do /gh/bid-data-room.do /gh/bid-information.do /gh/bid-information001.do /gh/bid-relations.do /gh/brochure.do /gh/business-disclosure.do /gh/business-related-laws-and-regulations.do /gh/business-year-2025.do /gh/calendar.do
 
-[12] https://www.gh.or.kr/gh/integration-public-lease-house-eligibility-to-move-in.do → https://www.gh.or.kr/gh/integration-public-lease-house-eligibility-to-move-in.do · 200 · 198,161자 · 제목 입주자격 | 통합공공임대주택 | 공공주택사업 | 사업정보 | GH 경기주택도시공사
+[13] https://www.gh.or.kr/gh/integration-public-lease-house-eligibility-to-move-in.do → https://www.gh.or.kr/gh/integration-public-lease-house-eligibility-to-move-in.do · 200 · 198,161자 · 제목 입주자격 | 통합공공임대주택 | 공공주택사업 | 사업정보 | GH 경기주택도시공사
     GH 주택청약 → https://apply.gh.or.kr/
     외국인투자지역 및 임대단지 → https://www.gh.or.kr/gh/foreign-investment-area-and-rental-complex.do
     외국인투자지역 및 임대단지 설명 → https://www.gh.or.kr/gh/description-of-foreign-investment-areas-and-rental-complexes.do
@@ -841,7 +843,7 @@ GH 원천 점검 2026-10-21 18:11
     form: /gh/search.do
     스크립트 주소: /gh/19972000.do /gh/20012005.do /gh/20052010.do /gh/20112015.do /gh/20157.do /gh/20162020.do /gh/2nd-new-town-project.do /gh/3rd-new-city-project.do /gh/3rd-pangyo-techno-valley-project.do /gh/Human_Rights_Management_Activities.do /gh/Information-Disclosure-Deliberation-Committee.do /gh/SiheungDaeyaPublicLedUrbanInfillHousingandMixedUseRedevelopmentProject.do /gh/ahn-sung-no-4th.do /gh/amcMngBbs.do /gh/amcPsuBbs.do /gh/announcement-announcement.do /gh/announcement-of-prior-information.do /gh/announcement-of-salerental001.do /gh/announcement-of-the-revision.do /gh/ansanjangsang.do /gh/anseong-5th-industrial-park.do /gh/anseong-wongok-logistics-complex.do /gh/anti-corruption-and-integrity-activities.do /gh/anyang-gwanyang-high-school-urban-development.do /gh/anyang-indeokwon-urban-development.do /gh/anyang-naengcheonjigu-residential-enviroment-implement-project.do /gh/apartment-house-management.do /gh/application-for-proof.do /gh/as-a-result-of-the-audit001.do /gh/audit-ombudsman.do /gh/bid-announcement.do /gh/bid-data-room.do /gh/bid-information.do /gh/bid-information001.do /gh/bid-relations.do /gh/brochure.do /gh/business-disclosure.do /gh/business-related-laws-and-regulations.do /gh/business-year-2025.do /gh/calendar.do
 
-[13] https://www.gh.or.kr/gh/saleslease-plan.do → https://www.gh.or.kr/gh/saleslease-plan.do · 200 · 185,802자 · 제목 분양/임대 계획 | 청약정보 | GH 경기주택도시공사
+[14] https://www.gh.or.kr/gh/saleslease-plan.do → https://www.gh.or.kr/gh/saleslease-plan.do · 200 · 185,802자 · 제목 분양/임대 계획 | 청약정보 | GH 경기주택도시공사
     GH 주택청약 → https://apply.gh.or.kr/
     외국인투자지역 및 임대단지 → https://www.gh.or.kr/gh/foreign-investment-area-and-rental-complex.do
     외국인투자지역 및 임대단지 설명 → https://www.gh.or.kr/gh/description-of-foreign-investment-areas-and-rental-complexes.do
@@ -909,7 +911,7 @@ GH 원천 점검 2026-10-21 18:11
     form: /gh/search.do
     스크립트 주소: /gh/19972000.do /gh/20012005.do /gh/20052010.do /gh/20112015.do /gh/20157.do /gh/20162020.do /gh/2nd-new-town-project.do /gh/3rd-new-city-project.do /gh/3rd-pangyo-techno-valley-project.do /gh/Human_Rights_Management_Activities.do /gh/Information-Disclosure-Deliberation-Committee.do /gh/SiheungDaeyaPublicLedUrbanInfillHousingandMixedUseRedevelopmentProject.do /gh/ahn-sung-no-4th.do /gh/amcMngBbs.do /gh/amcPsuBbs.do /gh/announcement-announcement.do /gh/announcement-of-prior-information.do /gh/announcement-of-salerental001.do /gh/announcement-of-the-revision.do /gh/ansanjangsang.do /gh/anseong-5th-industrial-park.do /gh/anseong-wongok-logistics-complex.do /gh/anti-corruption-and-integrity-activities.do /gh/anyang-gwanyang-high-school-urban-development.do /gh/anyang-indeokwon-urban-development.do /gh/anyang-naengcheonjigu-residential-enviroment-implement-project.do /gh/apartment-house-management.do /gh/application-for-proof.do /gh/as-a-result-of-the-audit001.do /gh/audit-ombudsman.do /gh/bid-announcement.do /gh/bid-data-room.do /gh/bid-information.do /gh/bid-information001.do /gh/bid-relations.do /gh/brochure.do /gh/business-disclosure.do /gh/business-related-laws-and-regulations.do /gh/business-year-2025.do /gh/calendar.do
 
-[14] https://www.gh.or.kr/gh/announcement-of-salerental001.do → https://www.gh.or.kr/gh/announcement-of-salerental001.do · 200 · 211,003자 · 제목 분양/임대 공고 게시판목록 | GH 경기주택도시공사
+[15] https://www.gh.or.kr/gh/announcement-of-salerental001.do → https://www.gh.or.kr/gh/announcement-of-salerental001.do · 200 · 211,003자 · 제목 분양/임대 공고 게시판목록 | GH 경기주택도시공사
     GH 주택청약 → https://apply.gh.or.kr/
     외국인투자지역 및 임대단지 → https://www.gh.or.kr/gh/foreign-investment-area-and-rental-complex.do
     외국인투자지역 및 임대단지 설명 → https://www.gh.or.kr/gh/description-of-foreign-investment-areas-and-rental-complexes.do
@@ -993,7 +995,7 @@ GH 원천 점검 2026-10-21 18:11
     form: /gh/search.do | ? | ?article.offset=0&amp;articleLimit=10
     스크립트 주소: /gh/19972000.do /gh/20012005.do /gh/20052010.do /gh/20112015.do /gh/20157.do /gh/20162020.do /gh/2nd-new-town-project.do /gh/3rd-new-city-project.do /gh/3rd-pangyo-techno-valley-project.do /gh/Human_Rights_Management_Activities.do /gh/Information-Disclosure-Deliberation-Committee.do /gh/SiheungDaeyaPublicLedUrbanInfillHousingandMixedUseRedevelopmentProject.do /gh/ahn-sung-no-4th.do /gh/amcMngBbs.do /gh/amcPsuBbs.do /gh/announcement-announcement.do /gh/announcement-of-prior-information.do /gh/announcement-of-salerental001.do /gh/announcement-of-the-revision.do /gh/ansanjangsang.do /gh/anseong-5th-industrial-park.do /gh/anseong-wongok-logistics-complex.do /gh/anti-corruption-and-integrity-activities.do /gh/anyang-gwanyang-high-school-urban-development.do /gh/anyang-indeokwon-urban-development.do /gh/anyang-naengcheonjigu-residential-enviroment-implement-project.do /gh/apartment-house-management.do /gh/application-for-proof.do /gh/as-a-result-of-the-audit001.do /gh/audit-ombudsman.do /gh/bid-announcement.do /gh/bid-data-room.do /gh/bid-information.do /gh/bid-information001.do /gh/bid-relations.do /gh/brochure.do /gh/business-disclosure.do /gh/business-related-laws-and-regulations.do /gh/business-year-2025.do /gh/calendar.do
 
-[15] https://gh.or.kr/gh/announcement-of-salerental001.do → https://gh.or.kr/gh/announcement-of-salerental001.do · 200 · 210,627자 · 제목 분양/임대 공고 게시판목록 | GH 경기주택도시공사
+[16] https://gh.or.kr/gh/announcement-of-salerental001.do → https://gh.or.kr/gh/announcement-of-salerental001.do · 200 · 210,627자 · 제목 분양/임대 공고 게시판목록 | GH 경기주택도시공사
     GH 주택청약 → https://apply.gh.or.kr/
     외국인투자지역 및 임대단지 → https://gh.or.kr/gh/foreign-investment-area-and-rental-complex.do
     외국인투자지역 및 임대단지 설명 → https://gh.or.kr/gh/description-of-foreign-investment-areas-and-rental-complexes.do
@@ -1075,7 +1077,7 @@ GH 원천 점검 2026-10-21 18:11
     form: /gh/search.do | ? | ?article.offset=0&amp;articleLimit=10
     스크립트 주소: /gh/19972000.do /gh/20012005.do /gh/20052010.do /gh/20112015.do /gh/20157.do /gh/20162020.do /gh/2nd-new-town-project.do /gh/3rd-new-city-project.do /gh/3rd-pangyo-techno-valley-project.do /gh/Human_Rights_Management_Activities.do /gh/Information-Disclosure-Deliberation-Committee.do /gh/SiheungDaeyaPublicLedUrbanInfillHousingandMixedUseRedevelopmentProject.do /gh/ahn-sung-no-4th.do /gh/amcMngBbs.do /gh/amcPsuBbs.do /gh/announcement-announcement.do /gh/announcement-of-prior-information.do /gh/announcement-of-salerental001.do /gh/announcement-of-the-revision.do /gh/ansanjangsang.do /gh/anseong-5th-industrial-park.do /gh/anseong-wongok-logistics-complex.do /gh/anti-corruption-and-integrity-activities.do /gh/anyang-gwanyang-high-school-urban-development.do /gh/anyang-indeokwon-urban-development.do /gh/anyang-naengcheonjigu-residential-enviroment-implement-project.do /gh/apartment-house-management.do /gh/application-for-proof.do /gh/as-a-result-of-the-audit001.do /gh/audit-ombudsman.do /gh/bid-announcement.do /gh/bid-data-room.do /gh/bid-information.do /gh/bid-information001.do /gh/bid-relations.do /gh/brochure.do /gh/business-disclosure.do /gh/business-related-laws-and-regulations.do /gh/business-year-2025.do /gh/calendar.do
 
-[16] https://gh.or.kr/gh/announcement-of-salerental001.do?srCategoryId=12 → https://gh.or.kr/gh/announcement-of-salerental001.do?srCategoryId=12 · 200 · 205,099자 · 제목 주택 | 분양/임대 공고 게시판목록 | GH 경기주택도시공사
+[17] https://gh.or.kr/gh/announcement-of-salerental001.do?srCategoryId=12 → https://gh.or.kr/gh/announcement-of-salerental001.do?srCategoryId=12 · 200 · 205,099자 · 제목 주택 | 분양/임대 공고 게시판목록 | GH 경기주택도시공사
     GH 주택청약 → https://apply.gh.or.kr/
     외국인투자지역 및 임대단지 → https://gh.or.kr/gh/foreign-investment-area-and-rental-complex.do
     외국인투자지역 및 임대단지 설명 → https://gh.or.kr/gh/description-of-foreign-investment-areas-and-rental-complexes.do
@@ -1158,7 +1160,7 @@ GH 원천 점검 2026-10-21 18:11
     form: /gh/search.do | ? | ?article.offset=0&amp;articleLimit=10&amp;srCategoryId=12
     스크립트 주소: /gh/19972000.do /gh/20012005.do /gh/20052010.do /gh/20112015.do /gh/20157.do /gh/20162020.do /gh/2nd-new-town-project.do /gh/3rd-new-city-project.do /gh/3rd-pangyo-techno-valley-project.do /gh/Human_Rights_Management_Activities.do /gh/Information-Disclosure-Deliberation-Committee.do /gh/SiheungDaeyaPublicLedUrbanInfillHousingandMixedUseRedevelopmentProject.do /gh/ahn-sung-no-4th.do /gh/amcMngBbs.do /gh/amcPsuBbs.do /gh/announcement-announcement.do /gh/announcement-of-prior-information.do /gh/announcement-of-salerental001.do /gh/announcement-of-the-revision.do /gh/ansanjangsang.do /gh/anseong-5th-industrial-park.do /gh/anseong-wongok-logistics-complex.do /gh/anti-corruption-and-integrity-activities.do /gh/anyang-gwanyang-high-school-urban-development.do /gh/anyang-indeokwon-urban-development.do /gh/anyang-naengcheonjigu-residential-enviroment-implement-project.do /gh/apartment-house-management.do /gh/application-for-proof.do /gh/as-a-result-of-the-audit001.do /gh/audit-ombudsman.do /gh/bid-announcement.do /gh/bid-data-room.do /gh/bid-information.do /gh/bid-information001.do /gh/bid-relations.do /gh/brochure.do /gh/business-disclosure.do /gh/business-related-laws-and-regulations.do /gh/business-year-2025.do /gh/calendar.do
 
-[17] https://gh.or.kr/gh/announcement-of-salerental001.do?srCategoryId=13 → https://gh.or.kr/gh/announcement-of-salerental001.do?srCategoryId=13 · 200 · 211,510자 · 제목 택지 | 분양/임대 공고 게시판목록 | GH 경기주택도시공사
+[18] https://gh.or.kr/gh/announcement-of-salerental001.do?srCategoryId=13 → https://gh.or.kr/gh/announcement-of-salerental001.do?srCategoryId=13 · 200 · 211,510자 · 제목 택지 | 분양/임대 공고 게시판목록 | GH 경기주택도시공사
     GH 주택청약 → https://apply.gh.or.kr/
     외국인투자지역 및 임대단지 → https://gh.or.kr/gh/foreign-investment-area-and-rental-complex.do
     외국인투자지역 및 임대단지 설명 → https://gh.or.kr/gh/description-of-foreign-investment-areas-and-rental-complexes.do
@@ -1237,7 +1239,7 @@ GH 원천 점검 2026-10-21 18:11
     form: /gh/search.do | ? | ?article.offset=0&amp;articleLimit=10&amp;srCategoryId=13
     스크립트 주소: /gh/19972000.do /gh/20012005.do /gh/20052010.do /gh/20112015.do /gh/20157.do /gh/20162020.do /gh/2nd-new-town-project.do /gh/3rd-new-city-project.do /gh/3rd-pangyo-techno-valley-project.do /gh/Human_Rights_Management_Activities.do /gh/Information-Disclosure-Deliberation-Committee.do /gh/SiheungDaeyaPublicLedUrbanInfillHousingandMixedUseRedevelopmentProject.do /gh/ahn-sung-no-4th.do /gh/amcMngBbs.do /gh/amcPsuBbs.do /gh/announcement-announcement.do /gh/announcement-of-prior-information.do /gh/announcement-of-salerental001.do /gh/announcement-of-the-revision.do /gh/ansanjangsang.do /gh/anseong-5th-industrial-park.do /gh/anseong-wongok-logistics-complex.do /gh/anti-corruption-and-integrity-activities.do /gh/anyang-gwanyang-high-school-urban-development.do /gh/anyang-indeokwon-urban-development.do /gh/anyang-naengcheonjigu-residential-enviroment-implement-project.do /gh/apartment-house-management.do /gh/application-for-proof.do /gh/as-a-result-of-the-audit001.do /gh/audit-ombudsman.do /gh/bid-announcement.do /gh/bid-data-room.do /gh/bid-information.do /gh/bid-information001.do /gh/bid-relations.do /gh/brochure.do /gh/business-disclosure.do /gh/business-related-laws-and-regulations.do /gh/business-year-2025.do /gh/calendar.do
 
-[18] https://gh.or.kr/gh/announcement-of-salerental001.do?srCategoryId=14 → https://gh.or.kr/gh/announcement-of-salerental001.do?srCategoryId=14 · 200 · 211,820자 · 제목 산업단지 | 분양/임대 공고 게시판목록 | GH 경기주택도시공사
+[19] https://gh.or.kr/gh/announcement-of-salerental001.do?srCategoryId=14 → https://gh.or.kr/gh/announcement-of-salerental001.do?srCategoryId=14 · 200 · 211,820자 · 제목 산업단지 | 분양/임대 공고 게시판목록 | GH 경기주택도시공사
     GH 주택청약 → https://apply.gh.or.kr/
     외국인투자지역 및 임대단지 → https://gh.or.kr/gh/foreign-investment-area-and-rental-complex.do
     외국인투자지역 및 임대단지 설명 → https://gh.or.kr/gh/description-of-foreign-investment-areas-and-rental-complexes.do
@@ -1319,7 +1321,7 @@ GH 원천 점검 2026-10-21 18:11
     form: /gh/search.do | ? | ?article.offset=0&amp;articleLimit=10&amp;srCategoryId=14
     스크립트 주소: /gh/19972000.do /gh/20012005.do /gh/20052010.do /gh/20112015.do /gh/20157.do /gh/20162020.do /gh/2nd-new-town-project.do /gh/3rd-new-city-project.do /gh/3rd-pangyo-techno-valley-project.do /gh/Human_Rights_Management_Activities.do /gh/Information-Disclosure-Deliberation-Committee.do /gh/SiheungDaeyaPublicLedUrbanInfillHousingandMixedUseRedevelopmentProject.do /gh/ahn-sung-no-4th.do /gh/amcMngBbs.do /gh/amcPsuBbs.do /gh/announcement-announcement.do /gh/announcement-of-prior-information.do /gh/announcement-of-salerental001.do /gh/announcement-of-the-revision.do /gh/ansanjangsang.do /gh/anseong-5th-industrial-park.do /gh/anseong-wongok-logistics-complex.do /gh/anti-corruption-and-integrity-activities.do /gh/anyang-gwanyang-high-school-urban-development.do /gh/anyang-indeokwon-urban-development.do /gh/anyang-naengcheonjigu-residential-enviroment-implement-project.do /gh/apartment-house-management.do /gh/application-for-proof.do /gh/as-a-result-of-the-audit001.do /gh/audit-ombudsman.do /gh/bid-announcement.do /gh/bid-data-room.do /gh/bid-information.do /gh/bid-information001.do /gh/bid-relations.do /gh/brochure.do /gh/business-disclosure.do /gh/business-related-laws-and-regulations.do /gh/business-year-2025.do /gh/calendar.do
 
-[19] https://gh.or.kr/gh/announcement-of-salerental001.do?srCategoryId=15 → https://gh.or.kr/gh/announcement-of-salerental001.do?srCategoryId=15 · 200 · 221,535자 · 제목 주택매입 | 분양/임대 공고 게시판목록 | GH 경기주택도시공사
+[20] https://gh.or.kr/gh/announcement-of-salerental001.do?srCategoryId=15 → https://gh.or.kr/gh/announcement-of-salerental001.do?srCategoryId=15 · 200 · 221,535자 · 제목 주택매입 | 분양/임대 공고 게시판목록 | GH 경기주택도시공사
     GH 주택청약 → https://apply.gh.or.kr/
     외국인투자지역 및 임대단지 → https://gh.or.kr/gh/foreign-investment-area-and-rental-complex.do
     외국인투자지역 및 임대단지 설명 → https://gh.or.kr/gh/description-of-foreign-investment-areas-and-rental-complexes.do
@@ -1419,7 +1421,7 @@ GH 원천 점검 2026-10-21 18:11
     form: /gh/search.do | ? | ?article.offset=0&amp;articleLimit=10&amp;srCategoryId=15
     스크립트 주소: /gh/19972000.do /gh/20012005.do /gh/20052010.do /gh/20112015.do /gh/20157.do /gh/20162020.do /gh/2nd-new-town-project.do /gh/3rd-new-city-project.do /gh/3rd-pangyo-techno-valley-project.do /gh/Human_Rights_Management_Activities.do /gh/Information-Disclosure-Deliberation-Committee.do /gh/SiheungDaeyaPublicLedUrbanInfillHousingandMixedUseRedevelopmentProject.do /gh/ahn-sung-no-4th.do /gh/amcMngBbs.do /gh/amcPsuBbs.do /gh/announcement-announcement.do /gh/announcement-of-prior-information.do /gh/announcement-of-salerental001.do /gh/announcement-of-the-revision.do /gh/ansanjangsang.do /gh/anseong-5th-industrial-park.do /gh/anseong-wongok-logistics-complex.do /gh/anti-corruption-and-integrity-activities.do /gh/anyang-gwanyang-high-school-urban-development.do /gh/anyang-indeokwon-urban-development.do /gh/anyang-naengcheonjigu-residential-enviroment-implement-project.do /gh/apartment-house-management.do /gh/application-for-proof.do /gh/as-a-result-of-the-audit001.do /gh/audit-ombudsman.do /gh/bid-announcement.do /gh/bid-data-room.do /gh/bid-information.do /gh/bid-information001.do /gh/bid-relations.do /gh/brochure.do /gh/business-disclosure.do /gh/business-related-laws-and-regulations.do /gh/business-year-2025.do /gh/calendar.do
 
-[20] https://gh.or.kr/gh/announcement-of-salerental001.do?srCategoryId=16 → https://gh.or.kr/gh/announcement-of-salerental001.do?srCategoryId=16 · 200 · 231,907자 · 제목 상가 | 분양/임대 공고 게시판목록 | GH 경기주택도시공사
+[21] https://gh.or.kr/gh/announcement-of-salerental001.do?srCategoryId=16 → https://gh.or.kr/gh/announcement-of-salerental001.do?srCategoryId=16 · 200 · 231,907자 · 제목 상가 | 분양/임대 공고 게시판목록 | GH 경기주택도시공사
     GH 주택청약 → https://apply.gh.or.kr/
     외국인투자지역 및 임대단지 → https://gh.or.kr/gh/foreign-investment-area-and-rental-complex.do
     외국인투자지역 및 임대단지 설명 → https://gh.or.kr/gh/description-of-foreign-investment-areas-and-rental-complexes.do
@@ -1519,7 +1521,7 @@ GH 원천 점검 2026-10-21 18:11
     form: /gh/search.do | ? | ?article.offset=0&amp;articleLimit=10&amp;srCategoryId=16
     스크립트 주소: /gh/19972000.do /gh/20012005.do /gh/20052010.do /gh/20112015.do /gh/20157.do /gh/20162020.do /gh/2nd-new-town-project.do /gh/3rd-new-city-project.do /gh/3rd-pangyo-techno-valley-project.do /gh/Human_Rights_Management_Activities.do /gh/Information-Disclosure-Deliberation-Committee.do /gh/SiheungDaeyaPublicLedUrbanInfillHousingandMixedUseRedevelopmentProject.do /gh/ahn-sung-no-4th.do /gh/amcMngBbs.do /gh/amcPsuBbs.do /gh/announcement-announcement.do /gh/announcement-of-prior-information.do /gh/announcement-of-salerental001.do /gh/announcement-of-the-revision.do /gh/ansanjangsang.do /gh/anseong-5th-industrial-park.do /gh/anseong-wongok-logistics-complex.do /gh/anti-corruption-and-integrity-activities.do /gh/anyang-gwanyang-high-school-urban-development.do /gh/anyang-indeokwon-urban-development.do /gh/anyang-naengcheonjigu-residential-enviroment-implement-project.do /gh/apartment-house-management.do /gh/application-for-proof.do /gh/as-a-result-of-the-audit001.do /gh/audit-ombudsman.do /gh/bid-announcement.do /gh/bid-data-room.do /gh/bid-information.do /gh/bid-information001.do /gh/bid-relations.do /gh/brochure.do /gh/business-disclosure.do /gh/business-related-laws-and-regulations.do /gh/business-year-2025.do /gh/calendar.do
 
-[21] https://gh.or.kr/gh/announcement-of-salerental001.do?srCategoryId=32 → https://gh.or.kr/gh/announcement-of-salerental001.do?srCategoryId=32 · 200 · 211,359자 · 제목 기타 | 분양/임대 공고 게시판목록 | GH 경기주택도시공사
+[22] https://gh.or.kr/gh/announcement-of-salerental001.do?srCategoryId=32 → https://gh.or.kr/gh/announcement-of-salerental001.do?srCategoryId=32 · 200 · 211,359자 · 제목 기타 | 분양/임대 공고 게시판목록 | GH 경기주택도시공사
     GH 주택청약 → https://apply.gh.or.kr/
     외국인투자지역 및 임대단지 → https://gh.or.kr/gh/foreign-investment-area-and-rental-complex.do
     외국인투자지역 및 임대단지 설명 → https://gh.or.kr/gh/description-of-foreign-investment-areas-and-rental-complexes.do
@@ -1604,7 +1606,7 @@ GH 원천 점검 2026-10-21 18:11
     form: /gh/search.do | ? | ?article.offset=0&amp;articleLimit=10&amp;srCategoryId=32
     스크립트 주소: /gh/19972000.do /gh/20012005.do /gh/20052010.do /gh/20112015.do /gh/20157.do /gh/20162020.do /gh/2nd-new-town-project.do /gh/3rd-new-city-project.do /gh/3rd-pangyo-techno-valley-project.do /gh/Human_Rights_Management_Activities.do /gh/Information-Disclosure-Deliberation-Committee.do /gh/SiheungDaeyaPublicLedUrbanInfillHousingandMixedUseRedevelopmentProject.do /gh/ahn-sung-no-4th.do /gh/amcMngBbs.do /gh/amcPsuBbs.do /gh/announcement-announcement.do /gh/announcement-of-prior-information.do /gh/announcement-of-salerental001.do /gh/announcement-of-the-revision.do /gh/ansanjangsang.do /gh/anseong-5th-industrial-park.do /gh/anseong-wongok-logistics-complex.do /gh/anti-corruption-and-integrity-activities.do /gh/anyang-gwanyang-high-school-urban-development.do /gh/anyang-indeokwon-urban-development.do /gh/anyang-naengcheonjigu-residential-enviroment-implement-project.do /gh/apartment-house-management.do /gh/application-for-proof.do /gh/as-a-result-of-the-audit001.do /gh/audit-ombudsman.do /gh/bid-announcement.do /gh/bid-data-room.do /gh/bid-information.do /gh/bid-information001.do /gh/bid-relations.do /gh/brochure.do /gh/business-disclosure.do /gh/business-related-laws-and-regulations.do /gh/business-year-2025.do /gh/calendar.do
 
-[22] https://www.gh.or.kr/gh/cheongyak-center.do → https://www.gh.or.kr/gh/cheongyak-center.do · 200 · 185,612자 · 제목 청약센터 | 청약정보 | GH 경기주택도시공사
+[23] https://www.gh.or.kr/gh/cheongyak-center.do → https://www.gh.or.kr/gh/cheongyak-center.do · 200 · 185,612자 · 제목 청약센터 | 청약정보 | GH 경기주택도시공사
     GH 주택청약 → https://apply.gh.or.kr/
     외국인투자지역 및 임대단지 → https://www.gh.or.kr/gh/foreign-investment-area-and-rental-complex.do
     외국인투자지역 및 임대단지 설명 → https://www.gh.or.kr/gh/description-of-foreign-investment-areas-and-rental-complexes.do
@@ -1674,9 +1676,11 @@ GH 원천 점검 2026-10-21 18:11
     한국부동산원(청약) → https://www.reb.or.kr
     form: /gh/search.do
     스크립트 주소: /gh/19972000.do /gh/20012005.do /gh/20052010.do /gh/20112015.do /gh/20157.do /gh/20162020.do /gh/2nd-new-town-project.do /gh/3rd-new-city-project.do /gh/3rd-pangyo-techno-valley-project.do /gh/Human_Rights_Management_Activities.do /gh/Information-Disclosure-Deliberation-Committee.do /gh/SiheungDaeyaPublicLedUrbanInfillHousingandMixedUseRedevelopmentProject.do /gh/ahn-sung-no-4th.do /gh/amcMngBbs.do /gh/amcPsuBbs.do /gh/announcement-announcement.do /gh/announcement-of-prior-information.do /gh/announcement-of-salerental001.do /gh/announcement-of-the-revision.do /gh/ansanjangsang.do /gh/anseong-5th-industrial-park.do /gh/anseong-wongok-logistics-complex.do /gh/anti-corruption-and-integrity-activities.do /gh/anyang-gwanyang-high-school-urban-development.do /gh/anyang-indeokwon-urban-development.do /gh/anyang-naengcheonjigu-residential-enviroment-implement-project.do /gh/apartment-house-management.do /gh/application-for-proof.do /gh/as-a-result-of-the-audit001.do /gh/audit-ombudsman.do /gh/bid-announcement.do /gh/bid-data-room.do /gh/bid-information.do /gh/bid-information001.do /gh/bid-relations.do /gh/brochure.do /gh/business-disclosure.do /gh/business-related-laws-and-regulations.do /gh/business-year-2025.do /gh/calendar.do
-[실패] https://apply.gh.or.kr ConnectTimeout: timed out
 
-[23] https://www.gh.or.kr/gh/saleslease-notification.do → https://www.gh.or.kr/gh/saleslease-notification.do · 200 · 207,872자 · 제목 분양/임대 알리미 | 청약센터 | 청약정보 | GH 경기주택도시공사
+[24] https://apply.gh.or.kr → https://apply.gh.or.kr · 200 · 363자 · 제목 
+    스크립트 주소: /co/coa/selectMainView.do
+
+[25] https://www.gh.or.kr/gh/saleslease-notification.do → https://www.gh.or.kr/gh/saleslease-notification.do · 200 · 207,872자 · 제목 분양/임대 알리미 | 청약센터 | 청약정보 | GH 경기주택도시공사
     GH 주택청약 → https://apply.gh.or.kr/
     외국인투자지역 및 임대단지 → https://www.gh.or.kr/gh/foreign-investment-area-and-rental-complex.do
     외국인투자지역 및 임대단지 설명 → https://www.gh.or.kr/gh/description-of-foreign-investment-areas-and-rental-complexes.do
@@ -1747,7 +1751,7 @@ GH 원천 점검 2026-10-21 18:11
     form: /gh/search.do
     스크립트 주소: /gh/19972000.do /gh/20012005.do /gh/20052010.do /gh/20112015.do /gh/20157.do /gh/20162020.do /gh/2nd-new-town-project.do /gh/3rd-new-city-project.do /gh/3rd-pangyo-techno-valley-project.do /gh/Human_Rights_Management_Activities.do /gh/Information-Disclosure-Deliberation-Committee.do /gh/SiheungDaeyaPublicLedUrbanInfillHousingandMixedUseRedevelopmentProject.do /gh/ahn-sung-no-4th.do /gh/amcMngBbs.do /gh/amcPsuBbs.do /gh/announcement-announcement.do /gh/announcement-of-prior-information.do /gh/announcement-of-salerental001.do /gh/announcement-of-the-revision.do /gh/ansanjangsang.do /gh/anseong-5th-industrial-park.do /gh/anseong-wongok-logistics-complex.do /gh/anti-corruption-and-integrity-activities.do /gh/anyang-gwanyang-high-school-urban-development.do /gh/anyang-indeokwon-urban-development.do /gh/anyang-naengcheonjigu-residential-enviroment-implement-project.do /gh/apartment-house-management.do /gh/application-for-proof.do /gh/as-a-result-of-the-audit001.do /gh/audit-ombudsman.do /gh/bid-announcement.do /gh/bid-data-room.do /gh/bid-information.do /gh/bid-information001.do /gh/bid-relations.do /gh/brochure.do /gh/business-disclosure.do /gh/business-related-laws-and-regulations.do /gh/business-year-2025.do /gh/calendar.do
 
-[24] https://www.gh.or.kr/gh/purchase-rental.do → https://www.gh.or.kr/gh/purchase-rental.do · 200 · 187,649자 · 제목 매입임대 | 관련서식자료 | 청약정보 | GH 경기주택도시공사
+[26] https://www.gh.or.kr/gh/purchase-rental.do → https://www.gh.or.kr/gh/purchase-rental.do · 200 · 187,649자 · 제목 매입임대 | 관련서식자료 | 청약정보 | GH 경기주택도시공사
     GH 주택청약 → https://apply.gh.or.kr/
     외국인투자지역 및 임대단지 → https://www.gh.or.kr/gh/foreign-investment-area-and-rental-complex.do
     외국인투자지역 및 임대단지 설명 → https://www.gh.or.kr/gh/description-of-foreign-investment-areas-and-rental-complexes.do
@@ -1820,7 +1824,7 @@ GH 원천 점검 2026-10-21 18:11
     form: /gh/search.do
     스크립트 주소: /gh/19972000.do /gh/20012005.do /gh/20052010.do /gh/20112015.do /gh/20157.do /gh/20162020.do /gh/2nd-new-town-project.do /gh/3rd-new-city-project.do /gh/3rd-pangyo-techno-valley-project.do /gh/Human_Rights_Management_Activities.do /gh/Information-Disclosure-Deliberation-Committee.do /gh/SiheungDaeyaPublicLedUrbanInfillHousingandMixedUseRedevelopmentProject.do /gh/ahn-sung-no-4th.do /gh/amcMngBbs.do /gh/amcPsuBbs.do /gh/announcement-announcement.do /gh/announcement-of-prior-information.do /gh/announcement-of-salerental001.do /gh/announcement-of-the-revision.do /gh/ansanjangsang.do /gh/anseong-5th-industrial-park.do /gh/anseong-wongok-logistics-complex.do /gh/anti-corruption-and-integrity-activities.do /gh/anyang-gwanyang-high-school-urban-development.do /gh/anyang-indeokwon-urban-development.do /gh/anyang-naengcheonjigu-residential-enviroment-implement-project.do /gh/apartment-house-management.do /gh/application-for-proof.do /gh/as-a-result-of-the-audit001.do /gh/audit-ombudsman.do /gh/bid-announcement.do /gh/bid-data-room.do /gh/bid-information.do /gh/bid-information001.do /gh/bid-relations.do /gh/brochure.do /gh/business-disclosure.do /gh/business-related-laws-and-regulations.do /gh/business-year-2025.do /gh/calendar.do
 
-[25] https://www.gh.or.kr/gh/lease-lease.do → https://www.gh.or.kr/gh/lease-lease.do · 200 · 192,563자 · 제목 전세임대 | 관련서식자료 | 청약정보 | GH 경기주택도시공사
+[27] https://www.gh.or.kr/gh/lease-lease.do → https://www.gh.or.kr/gh/lease-lease.do · 200 · 192,563자 · 제목 전세임대 | 관련서식자료 | 청약정보 | GH 경기주택도시공사
     GH 주택청약 → https://apply.gh.or.kr/
     외국인투자지역 및 임대단지 → https://www.gh.or.kr/gh/foreign-investment-area-and-rental-complex.do
     외국인투자지역 및 임대단지 설명 → https://www.gh.or.kr/gh/description-of-foreign-investment-areas-and-rental-complexes.do
@@ -1893,7 +1897,7 @@ GH 원천 점검 2026-10-21 18:11
     form: /gh/search.do
     스크립트 주소: /gh/19972000.do /gh/20012005.do /gh/20052010.do /gh/20112015.do /gh/20157.do /gh/20162020.do /gh/2nd-new-town-project.do /gh/3rd-new-city-project.do /gh/3rd-pangyo-techno-valley-project.do /gh/Human_Rights_Management_Activities.do /gh/Information-Disclosure-Deliberation-Committee.do /gh/SiheungDaeyaPublicLedUrbanInfillHousingandMixedUseRedevelopmentProject.do /gh/ahn-sung-no-4th.do /gh/amcMngBbs.do /gh/amcPsuBbs.do /gh/announcement-announcement.do /gh/announcement-of-prior-information.do /gh/announcement-of-salerental001.do /gh/announcement-of-the-revision.do /gh/ansanjangsang.do /gh/anseong-5th-industrial-park.do /gh/anseong-wongok-logistics-complex.do /gh/anti-corruption-and-integrity-activities.do /gh/anyang-gwanyang-high-school-urban-development.do /gh/anyang-indeokwon-urban-development.do /gh/anyang-naengcheonjigu-residential-enviroment-implement-project.do /gh/apartment-house-management.do /gh/application-for-proof.do /gh/as-a-result-of-the-audit001.do /gh/audit-ombudsman.do /gh/bid-announcement.do /gh/bid-data-room.do /gh/bid-information.do /gh/bid-information001.do /gh/bid-relations.do /gh/brochure.do /gh/business-disclosure.do /gh/business-related-laws-and-regulations.do /gh/business-year-2025.do /gh/calendar.do
 
-[26] https://www.gh.or.kr/gh/reward-announcement.do → https://www.gh.or.kr/gh/reward-announcement.do · 200 · 200,017자 · 제목 보상공고 게시판목록 | GH 경기주택도시공사
+[28] https://www.gh.or.kr/gh/reward-announcement.do → https://www.gh.or.kr/gh/reward-announcement.do · 200 · 200,017자 · 제목 보상공고 게시판목록 | GH 경기주택도시공사
     GH 주택청약 → https://apply.gh.or.kr/
     외국인투자지역 및 임대단지 → https://www.gh.or.kr/gh/foreign-investment-area-and-rental-complex.do
     외국인투자지역 및 임대단지 설명 → https://www.gh.or.kr/gh/description-of-foreign-investment-areas-and-rental-complexes.do
@@ -1970,7 +1974,7 @@ GH 원천 점검 2026-10-21 18:11
     form: /gh/search.do | ? | ?article.offset=0&amp;articleLimit=10
     스크립트 주소: /gh/19972000.do /gh/20012005.do /gh/20052010.do /gh/20112015.do /gh/20157.do /gh/20162020.do /gh/2nd-new-town-project.do /gh/3rd-new-city-project.do /gh/3rd-pangyo-techno-valley-project.do /gh/Human_Rights_Management_Activities.do /gh/Information-Disclosure-Deliberation-Committee.do /gh/SiheungDaeyaPublicLedUrbanInfillHousingandMixedUseRedevelopmentProject.do /gh/ahn-sung-no-4th.do /gh/amcMngBbs.do /gh/amcPsuBbs.do /gh/announcement-announcement.do /gh/announcement-of-prior-information.do /gh/announcement-of-salerental001.do /gh/announcement-of-the-revision.do /gh/ansanjangsang.do /gh/anseong-5th-industrial-park.do /gh/anseong-wongok-logistics-complex.do /gh/anti-corruption-and-integrity-activities.do /gh/anyang-gwanyang-high-school-urban-development.do /gh/anyang-indeokwon-urban-development.do /gh/anyang-naengcheonjigu-residential-enviroment-implement-project.do /gh/apartment-house-management.do /gh/application-for-proof.do /gh/as-a-result-of-the-audit001.do /gh/audit-ombudsman.do /gh/bid-announcement.do /gh/bid-data-room.do /gh/bid-information.do /gh/bid-information001.do /gh/bid-relations.do /gh/brochure.do /gh/business-disclosure.do /gh/business-related-laws-and-regulations.do /gh/business-year-2025.do /gh/calendar.do
 
-[27] https://www.gh.or.kr/gh/technical-suggestion-notice-list.do → https://www.gh.or.kr/gh/technical-suggestion-notice-list.do · 200 · 201,391자 · 제목 기술제안 공고 게시판목록 | GH 경기주택도시공사
+[29] https://www.gh.or.kr/gh/technical-suggestion-notice-list.do → https://www.gh.or.kr/gh/technical-suggestion-notice-list.do · 200 · 201,391자 · 제목 기술제안 공고 게시판목록 | GH 경기주택도시공사
     GH 주택청약 → https://apply.gh.or.kr/
     외국인투자지역 및 임대단지 → https://www.gh.or.kr/gh/foreign-investment-area-and-rental-complex.do
     외국인투자지역 및 임대단지 설명 → https://www.gh.or.kr/gh/description-of-foreign-investment-areas-and-rental-complexes.do
@@ -2040,7 +2044,7 @@ GH 원천 점검 2026-10-21 18:11
     form: /gh/search.do | ? | ?article.offset=0&amp;articleLimit=10
     스크립트 주소: /gh/19972000.do /gh/20012005.do /gh/20052010.do /gh/20112015.do /gh/20157.do /gh/20162020.do /gh/2nd-new-town-project.do /gh/3rd-new-city-project.do /gh/3rd-pangyo-techno-valley-project.do /gh/Human_Rights_Management_Activities.do /gh/Information-Disclosure-Deliberation-Committee.do /gh/SiheungDaeyaPublicLedUrbanInfillHousingandMixedUseRedevelopmentProject.do /gh/ahn-sung-no-4th.do /gh/amcMngBbs.do /gh/amcPsuBbs.do /gh/announcement-announcement.do /gh/announcement-of-prior-information.do /gh/announcement-of-salerental001.do /gh/announcement-of-the-revision.do /gh/ansanjangsang.do /gh/anseong-5th-industrial-park.do /gh/anseong-wongok-logistics-complex.do /gh/anti-corruption-and-integrity-activities.do /gh/anyang-gwanyang-high-school-urban-development.do /gh/anyang-indeokwon-urban-development.do /gh/anyang-naengcheonjigu-residential-enviroment-implement-project.do /gh/apartment-house-management.do /gh/application-for-proof.do /gh/as-a-result-of-the-audit001.do /gh/audit-ombudsman.do /gh/bid-announcement.do /gh/bid-data-room.do /gh/bid-information.do /gh/bid-information001.do /gh/bid-relations.do /gh/brochure.do /gh/business-disclosure.do /gh/business-related-laws-and-regulations.do /gh/business-year-2025.do /gh/calendar.do
 
-[28] https://www.gh.or.kr/gh/technical-notice-list.do → https://www.gh.or.kr/gh/technical-notice-list.do · 200 · 189,760자 · 제목 공지사항 게시판목록 | GH 경기주택도시공사
+[30] https://www.gh.or.kr/gh/technical-notice-list.do → https://www.gh.or.kr/gh/technical-notice-list.do · 200 · 189,760자 · 제목 공지사항 게시판목록 | GH 경기주택도시공사
     GH 주택청약 → https://apply.gh.or.kr/
     외국인투자지역 및 임대단지 → https://www.gh.or.kr/gh/foreign-investment-area-and-rental-complex.do
     외국인투자지역 및 임대단지 설명 → https://www.gh.or.kr/gh/description-of-foreign-investment-areas-and-rental-complexes.do
@@ -2105,7 +2109,7 @@ GH 원천 점검 2026-10-21 18:11
     form: /gh/search.do | ? | ?article.offset=0&amp;articleLimit=10
     스크립트 주소: /gh/19972000.do /gh/20012005.do /gh/20052010.do /gh/20112015.do /gh/20157.do /gh/20162020.do /gh/2nd-new-town-project.do /gh/3rd-new-city-project.do /gh/3rd-pangyo-techno-valley-project.do /gh/Human_Rights_Management_Activities.do /gh/Information-Disclosure-Deliberation-Committee.do /gh/SiheungDaeyaPublicLedUrbanInfillHousingandMixedUseRedevelopmentProject.do /gh/ahn-sung-no-4th.do /gh/amcMngBbs.do /gh/amcPsuBbs.do /gh/announcement-announcement.do /gh/announcement-of-prior-information.do /gh/announcement-of-salerental001.do /gh/announcement-of-the-revision.do /gh/ansanjangsang.do /gh/anseong-5th-industrial-park.do /gh/anseong-wongok-logistics-complex.do /gh/anti-corruption-and-integrity-activities.do /gh/anyang-gwanyang-high-school-urban-development.do /gh/anyang-indeokwon-urban-development.do /gh/anyang-naengcheonjigu-residential-enviroment-implement-project.do /gh/apartment-house-management.do /gh/application-for-proof.do /gh/as-a-result-of-the-audit001.do /gh/audit-ombudsman.do /gh/bid-announcement.do /gh/bid-data-room.do /gh/bid-information.do /gh/bid-information001.do /gh/bid-relations.do /gh/brochure.do /gh/business-disclosure.do /gh/business-related-laws-and-regulations.do /gh/business-year-2025.do /gh/calendar.do
 
-[29] https://www.gh.or.kr/gh/amcMngBbs.do → https://www.gh.or.kr/gh/amcMngBbs.do · 200 · 205,727자 · 제목 부동산투자회사 경영공시 게시판목록 | GH 경기주택도시공사
+[31] https://www.gh.or.kr/gh/amcMngBbs.do → https://www.gh.or.kr/gh/amcMngBbs.do · 200 · 205,727자 · 제목 부동산투자회사 경영공시 게시판목록 | GH 경기주택도시공사
     GH 주택청약 → https://apply.gh.or.kr/
     외국인투자지역 및 임대단지 → https://www.gh.or.kr/gh/foreign-investment-area-and-rental-complex.do
     외국인투자지역 및 임대단지 설명 → https://www.gh.or.kr/gh/description-of-foreign-investment-areas-and-rental-complexes.do
@@ -2170,7 +2174,7 @@ GH 원천 점검 2026-10-21 18:11
     form: /gh/search.do | ? | ?article.offset=0&amp;articleLimit=10
     스크립트 주소: /gh/19972000.do /gh/20012005.do /gh/20052010.do /gh/20112015.do /gh/20157.do /gh/20162020.do /gh/2nd-new-town-project.do /gh/3rd-new-city-project.do /gh/3rd-pangyo-techno-valley-project.do /gh/Human_Rights_Management_Activities.do /gh/Information-Disclosure-Deliberation-Committee.do /gh/SiheungDaeyaPublicLedUrbanInfillHousingandMixedUseRedevelopmentProject.do /gh/ahn-sung-no-4th.do /gh/amcMngBbs.do /gh/amcPsuBbs.do /gh/announcement-announcement.do /gh/announcement-of-prior-information.do /gh/announcement-of-salerental001.do /gh/announcement-of-the-revision.do /gh/ansanjangsang.do /gh/anseong-5th-industrial-park.do /gh/anseong-wongok-logistics-complex.do /gh/anti-corruption-and-integrity-activities.do /gh/anyang-gwanyang-high-school-urban-development.do /gh/anyang-indeokwon-urban-development.do /gh/anyang-naengcheonjigu-residential-enviroment-implement-project.do /gh/apartment-house-management.do /gh/application-for-proof.do /gh/as-a-result-of-the-audit001.do /gh/audit-ombudsman.do /gh/bid-announcement.do /gh/bid-data-room.do /gh/bid-information.do /gh/bid-information001.do /gh/bid-relations.do /gh/brochure.do /gh/business-disclosure.do /gh/business-related-laws-and-regulations.do /gh/business-year-2025.do /gh/calendar.do
 
-[30] https://www.gh.or.kr/gh/announcement-announcement.do → https://www.gh.or.kr/gh/announcement-announcement.do · 200 · 185,816자 · 제목 공고 및 공지 | 정보공개 | GH 경기주택도시공사
+[32] https://www.gh.or.kr/gh/announcement-announcement.do → https://www.gh.or.kr/gh/announcement-announcement.do · 200 · 185,816자 · 제목 공고 및 공지 | 정보공개 | GH 경기주택도시공사
     GH 주택청약 → https://apply.gh.or.kr/
     외국인투자지역 및 임대단지 → https://www.gh.or.kr/gh/foreign-investment-area-and-rental-complex.do
     외국인투자지역 및 임대단지 설명 → https://www.gh.or.kr/gh/description-of-foreign-investment-areas-and-rental-complexes.do
@@ -2235,7 +2239,7 @@ GH 원천 점검 2026-10-21 18:11
     form: /gh/search.do
     스크립트 주소: /gh/19972000.do /gh/20012005.do /gh/20052010.do /gh/20112015.do /gh/20157.do /gh/20162020.do /gh/2nd-new-town-project.do /gh/3rd-new-city-project.do /gh/3rd-pangyo-techno-valley-project.do /gh/Human_Rights_Management_Activities.do /gh/Information-Disclosure-Deliberation-Committee.do /gh/SiheungDaeyaPublicLedUrbanInfillHousingandMixedUseRedevelopmentProject.do /gh/ahn-sung-no-4th.do /gh/amcMngBbs.do /gh/amcPsuBbs.do /gh/announcement-announcement.do /gh/announcement-of-prior-information.do /gh/announcement-of-salerental001.do /gh/announcement-of-the-revision.do /gh/ansanjangsang.do /gh/anseong-5th-industrial-park.do /gh/anseong-wongok-logistics-complex.do /gh/anti-corruption-and-integrity-activities.do /gh/anyang-gwanyang-high-school-urban-development.do /gh/anyang-indeokwon-urban-development.do /gh/anyang-naengcheonjigu-residential-enviroment-implement-project.do /gh/apartment-house-management.do /gh/application-for-proof.do /gh/as-a-result-of-the-audit001.do /gh/audit-ombudsman.do /gh/bid-announcement.do /gh/bid-data-room.do /gh/bid-information.do /gh/bid-information001.do /gh/bid-relations.do /gh/brochure.do /gh/business-disclosure.do /gh/business-related-laws-and-regulations.do /gh/business-year-2025.do /gh/calendar.do
 
-[31] https://www.gh.or.kr/gh/notice.do → https://www.gh.or.kr/gh/notice.do · 200 · 205,745자 · 제목 공지사항 게시판목록 | GH 경기주택도시공사
+[33] https://www.gh.or.kr/gh/notice.do → https://www.gh.or.kr/gh/notice.do · 200 · 205,745자 · 제목 공지사항 게시판목록 | GH 경기주택도시공사
     GH 주택청약 → https://apply.gh.or.kr/
     외국인투자지역 및 임대단지 → https://www.gh.or.kr/gh/foreign-investment-area-and-rental-complex.do
     외국인투자지역 및 임대단지 설명 → https://www.gh.or.kr/gh/description-of-foreign-investment-areas-and-rental-complexes.do
@@ -2307,7 +2311,7 @@ GH 원천 점검 2026-10-21 18:11
     form: /gh/search.do | ? | ?article.offset=0&amp;articleLimit=10
     스크립트 주소: /gh/19972000.do /gh/20012005.do /gh/20052010.do /gh/20112015.do /gh/20157.do /gh/20162020.do /gh/2nd-new-town-project.do /gh/3rd-new-city-project.do /gh/3rd-pangyo-techno-valley-project.do /gh/Human_Rights_Management_Activities.do /gh/Information-Disclosure-Deliberation-Committee.do /gh/SiheungDaeyaPublicLedUrbanInfillHousingandMixedUseRedevelopmentProject.do /gh/ahn-sung-no-4th.do /gh/amcMngBbs.do /gh/amcPsuBbs.do /gh/announcement-announcement.do /gh/announcement-of-prior-information.do /gh/announcement-of-salerental001.do /gh/announcement-of-the-revision.do /gh/ansanjangsang.do /gh/anseong-5th-industrial-park.do /gh/anseong-wongok-logistics-complex.do /gh/anti-corruption-and-integrity-activities.do /gh/anyang-gwanyang-high-school-urban-development.do /gh/anyang-indeokwon-urban-development.do /gh/anyang-naengcheonjigu-residential-enviroment-implement-project.do /gh/apartment-house-management.do /gh/application-for-proof.do /gh/as-a-result-of-the-audit001.do /gh/audit-ombudsman.do /gh/bid-announcement.do /gh/bid-data-room.do /gh/bid-information.do /gh/bid-information001.do /gh/bid-relations.do /gh/brochure.do /gh/business-disclosure.do /gh/business-related-laws-and-regulations.do /gh/business-year-2025.do /gh/calendar.do
 
-[32] https://www.gh.or.kr/gh/amcPsuBbs.do → https://www.gh.or.kr/gh/amcPsuBbs.do · 200 · 199,982자 · 제목 부동산투자회사 공모/입찰/공지 게시판목록 | GH 경기주택도시공사
+[34] https://www.gh.or.kr/gh/amcPsuBbs.do → https://www.gh.or.kr/gh/amcPsuBbs.do · 200 · 199,982자 · 제목 부동산투자회사 공모/입찰/공지 게시판목록 | GH 경기주택도시공사
     GH 주택청약 → https://apply.gh.or.kr/
     외국인투자지역 및 임대단지 → https://www.gh.or.kr/gh/foreign-investment-area-and-rental-complex.do
     외국인투자지역 및 임대단지 설명 → https://www.gh.or.kr/gh/description-of-foreign-investment-areas-and-rental-complexes.do
@@ -2377,7 +2381,7 @@ GH 원천 점검 2026-10-21 18:11
     form: /gh/search.do | ? | ?article.offset=0&amp;articleLimit=10
     스크립트 주소: /gh/19972000.do /gh/20012005.do /gh/20052010.do /gh/20112015.do /gh/20157.do /gh/20162020.do /gh/2nd-new-town-project.do /gh/3rd-new-city-project.do /gh/3rd-pangyo-techno-valley-project.do /gh/Human_Rights_Management_Activities.do /gh/Information-Disclosure-Deliberation-Committee.do /gh/SiheungDaeyaPublicLedUrbanInfillHousingandMixedUseRedevelopmentProject.do /gh/ahn-sung-no-4th.do /gh/amcMngBbs.do /gh/amcPsuBbs.do /gh/announcement-announcement.do /gh/announcement-of-prior-information.do /gh/announcement-of-salerental001.do /gh/announcement-of-the-revision.do /gh/ansanjangsang.do /gh/anseong-5th-industrial-park.do /gh/anseong-wongok-logistics-complex.do /gh/anti-corruption-and-integrity-activities.do /gh/anyang-gwanyang-high-school-urban-development.do /gh/anyang-indeokwon-urban-development.do /gh/anyang-naengcheonjigu-residential-enviroment-implement-project.do /gh/apartment-house-management.do /gh/application-for-proof.do /gh/as-a-result-of-the-audit001.do /gh/audit-ombudsman.do /gh/bid-announcement.do /gh/bid-data-room.do /gh/bid-information.do /gh/bid-information001.do /gh/bid-relations.do /gh/brochure.do /gh/business-disclosure.do /gh/business-related-laws-and-regulations.do /gh/business-year-2025.do /gh/calendar.do
 
-[33] https://www.gh.or.kr/gh/current-status-of-corrupt-public-officials.do → https://www.gh.or.kr/gh/current-status-of-corrupt-public-officials.do · 200 · 197,508자 · 제목 부패공직자 현황 게시판목록 | GH 경기주택도시공사
+[35] https://www.gh.or.kr/gh/current-status-of-corrupt-public-officials.do → https://www.gh.or.kr/gh/current-status-of-corrupt-public-officials.do · 200 · 197,508자 · 제목 부패공직자 현황 게시판목록 | GH 경기주택도시공사
     GH 주택청약 → https://apply.gh.or.kr/
     외국인투자지역 및 임대단지 → https://www.gh.or.kr/gh/foreign-investment-area-and-rental-complex.do
     외국인투자지역 및 임대단지 설명 → https://www.gh.or.kr/gh/description-of-foreign-investment-areas-and-rental-complexes.do
@@ -2440,7 +2444,7 @@ GH 원천 점검 2026-10-21 18:11
     form: /gh/search.do | ? | ?article.offset=0&amp;articleLimit=10
     스크립트 주소: /gh/19972000.do /gh/20012005.do /gh/20052010.do /gh/20112015.do /gh/20157.do /gh/20162020.do /gh/2nd-new-town-project.do /gh/3rd-new-city-project.do /gh/3rd-pangyo-techno-valley-project.do /gh/Human_Rights_Management_Activities.do /gh/Information-Disclosure-Deliberation-Committee.do /gh/SiheungDaeyaPublicLedUrbanInfillHousingandMixedUseRedevelopmentProject.do /gh/ahn-sung-no-4th.do /gh/amcMngBbs.do /gh/amcPsuBbs.do /gh/announcement-announcement.do /gh/announcement-of-prior-information.do /gh/announcement-of-salerental001.do /gh/announcement-of-the-revision.do /gh/ansanjangsang.do /gh/anseong-5th-industrial-park.do /gh/anseong-wongok-logistics-complex.do /gh/anti-corruption-and-integrity-activities.do /gh/anyang-gwanyang-high-school-urban-development.do /gh/anyang-indeokwon-urban-development.do /gh/anyang-naengcheonjigu-residential-enviroment-implement-project.do /gh/apartment-house-management.do /gh/application-for-proof.do /gh/as-a-result-of-the-audit001.do /gh/audit-ombudsman.do /gh/bid-announcement.do /gh/bid-data-room.do /gh/bid-information.do /gh/bid-information001.do /gh/bid-relations.do /gh/brochure.do /gh/business-disclosure.do /gh/business-related-laws-and-regulations.do /gh/business-year-2025.do /gh/calendar.do
 
-[34] https://www.gh.or.kr/gh/employment-announcement.do → https://www.gh.or.kr/gh/employment-announcement.do · 200 · 211,176자 · 제목 채용공고 게시판목록 | GH 경기주택도시공사
+[36] https://www.gh.or.kr/gh/employment-announcement.do → https://www.gh.or.kr/gh/employment-announcement.do · 200 · 211,176자 · 제목 채용공고 게시판목록 | GH 경기주택도시공사
     GH 주택청약 → https://apply.gh.or.kr/
     외국인투자지역 및 임대단지 → https://www.gh.or.kr/gh/foreign-investment-area-and-rental-complex.do
     외국인투자지역 및 임대단지 설명 → https://www.gh.or.kr/gh/description-of-foreign-investment-areas-and-rental-complexes.do
@@ -2513,7 +2517,7 @@ GH 원천 점검 2026-10-21 18:11
     form: /gh/search.do | ? | ?article.offset=0&amp;articleLimit=10
     스크립트 주소: /gh/19972000.do /gh/20012005.do /gh/20052010.do /gh/20112015.do /gh/20157.do /gh/20162020.do /gh/2nd-new-town-project.do /gh/3rd-new-city-project.do /gh/3rd-pangyo-techno-valley-project.do /gh/Human_Rights_Management_Activities.do /gh/Information-Disclosure-Deliberation-Committee.do /gh/SiheungDaeyaPublicLedUrbanInfillHousingandMixedUseRedevelopmentProject.do /gh/ahn-sung-no-4th.do /gh/amcMngBbs.do /gh/amcPsuBbs.do /gh/announcement-announcement.do /gh/announcement-of-prior-information.do /gh/announcement-of-salerental001.do /gh/announcement-of-the-revision.do /gh/ansanjangsang.do /gh/anseong-5th-industrial-park.do /gh/anseong-wongok-logistics-complex.do /gh/anti-corruption-and-integrity-activities.do /gh/anyang-gwanyang-high-school-urban-development.do /gh/anyang-indeokwon-urban-development.do /gh/anyang-naengcheonjigu-residential-enviroment-implement-project.do /gh/apartment-house-management.do /gh/application-for-proof.do /gh/as-a-result-of-the-audit001.do /gh/audit-ombudsman.do /gh/bid-announcement.do /gh/bid-data-room.do /gh/bid-information.do /gh/bid-information001.do /gh/bid-relations.do /gh/brochure.do /gh/business-disclosure.do /gh/business-related-laws-and-regulations.do /gh/business-year-2025.do /gh/calendar.do
 
-[35] https://www.gh.or.kr/gh/existing-housing-purchase-rental-housing-and-method-subject-to-purchase.do → https://www.gh.or.kr/gh/existing-housing-purchase-rental-housing-and-method-subject-to-purchase.do · 200 · 190,786자 · 제목 매입대상주택 및 방법(준공형) | 기존주택 매입임대 | 주거복지사업 | 사업정보 | GH 경기주택도시공사
+[37] https://www.gh.or.kr/gh/existing-housing-purchase-rental-housing-and-method-subject-to-purchase.do → https://www.gh.or.kr/gh/existing-housing-purchase-rental-housing-and-method-subject-to-purchase.do · 200 · 190,786자 · 제목 매입대상주택 및 방법(준공형) | 기존주택 매입임대 | 주거복지사업 | 사업정보 | GH 경기주택도시공사
     GH 주택청약 → https://apply.gh.or.kr/
     외국인투자지역 및 임대단지 → https://www.gh.or.kr/gh/foreign-investment-area-and-rental-complex.do
     외국인투자지역 및 임대단지 설명 → https://www.gh.or.kr/gh/description-of-foreign-investment-areas-and-rental-complexes.do
@@ -2580,7 +2584,7 @@ GH 원천 점검 2026-10-21 18:11
     form: /gh/search.do
     스크립트 주소: /gh/19972000.do /gh/20012005.do /gh/20052010.do /gh/20112015.do /gh/20157.do /gh/20162020.do /gh/2nd-new-town-project.do /gh/3rd-new-city-project.do /gh/3rd-pangyo-techno-valley-project.do /gh/Human_Rights_Management_Activities.do /gh/Information-Disclosure-Deliberation-Committee.do /gh/SiheungDaeyaPublicLedUrbanInfillHousingandMixedUseRedevelopmentProject.do /gh/ahn-sung-no-4th.do /gh/amcMngBbs.do /gh/amcPsuBbs.do /gh/announcement-announcement.do /gh/announcement-of-prior-information.do /gh/announcement-of-salerental001.do /gh/announcement-of-the-revision.do /gh/ansanjangsang.do /gh/anseong-5th-industrial-park.do /gh/anseong-wongok-logistics-complex.do /gh/anti-corruption-and-integrity-activities.do /gh/anyang-gwanyang-high-school-urban-development.do /gh/anyang-indeokwon-urban-development.do /gh/anyang-naengcheonjigu-residential-enviroment-implement-project.do /gh/apartment-house-management.do /gh/application-for-proof.do /gh/as-a-result-of-the-audit001.do /gh/audit-ombudsman.do /gh/bid-announcement.do /gh/bid-data-room.do /gh/bid-information.do /gh/bid-information001.do /gh/bid-relations.do /gh/brochure.do /gh/business-disclosure.do /gh/business-related-laws-and-regulations.do /gh/business-year-2025.do /gh/calendar.do
 
-[36] https://www.gh.or.kr/gh/existing-housing-purchase-rental-housing-and-method-subject-to-purchase-b.do → https://www.gh.or.kr/gh/existing-housing-purchase-rental-housing-and-method-subject-to-purchase-b.do · 200 · 190,284자 · 제목 매입대상주택 및 방법(약정형) | 기존주택 매입임대 | 주거복지사업 | 사업정보 | GH 경기주택도시공사
+[38] https://www.gh.or.kr/gh/existing-housing-purchase-rental-housing-and-method-subject-to-purchase-b.do → https://www.gh.or.kr/gh/existing-housing-purchase-rental-housing-and-method-subject-to-purchase-b.do · 200 · 190,284자 · 제목 매입대상주택 및 방법(약정형) | 기존주택 매입임대 | 주거복지사업 | 사업정보 | GH 경기주택도시공사
     GH 주택청약 → https://apply.gh.or.kr/
     외국인투자지역 및 임대단지 → https://www.gh.or.kr/gh/foreign-investment-area-and-rental-complex.do
     외국인투자지역 및 임대단지 설명 → https://www.gh.or.kr/gh/description-of-foreign-investment-areas-and-rental-complexes.do
@@ -2647,7 +2651,7 @@ GH 원천 점검 2026-10-21 18:11
     form: /gh/search.do
     스크립트 주소: /gh/19972000.do /gh/20012005.do /gh/20052010.do /gh/20112015.do /gh/20157.do /gh/20162020.do /gh/2nd-new-town-project.do /gh/3rd-new-city-project.do /gh/3rd-pangyo-techno-valley-project.do /gh/Human_Rights_Management_Activities.do /gh/Information-Disclosure-Deliberation-Committee.do /gh/SiheungDaeyaPublicLedUrbanInfillHousingandMixedUseRedevelopmentProject.do /gh/ahn-sung-no-4th.do /gh/amcMngBbs.do /gh/amcPsuBbs.do /gh/announcement-announcement.do /gh/announcement-of-prior-information.do /gh/announcement-of-salerental001.do /gh/announcement-of-the-revision.do /gh/ansanjangsang.do /gh/anseong-5th-industrial-park.do /gh/anseong-wongok-logistics-complex.do /gh/anti-corruption-and-integrity-activities.do /gh/anyang-gwanyang-high-school-urban-development.do /gh/anyang-indeokwon-urban-development.do /gh/anyang-naengcheonjigu-residential-enviroment-implement-project.do /gh/apartment-house-management.do /gh/application-for-proof.do /gh/as-a-result-of-the-audit001.do /gh/audit-ombudsman.do /gh/bid-announcement.do /gh/bid-data-room.do /gh/bid-information.do /gh/bid-information001.do /gh/bid-relations.do /gh/brochure.do /gh/business-disclosure.do /gh/business-related-laws-and-regulations.do /gh/business-year-2025.do /gh/calendar.do
 
-[37] https://www.gh.or.kr/gh/existing-housing-purchase-rental-subjects-and-methods-of-moving-in.do → https://www.gh.or.kr/gh/existing-housing-purchase-rental-subjects-and-methods-of-moving-in.do · 200 · 191,712자 · 제목 입주대상 및 방법 | 기존주택 매입임대 | 주거복지사업 | 사업정보 | GH 경기주택도시공사
+[39] https://www.gh.or.kr/gh/existing-housing-purchase-rental-subjects-and-methods-of-moving-in.do → https://www.gh.or.kr/gh/existing-housing-purchase-rental-subjects-and-methods-of-moving-in.do · 200 · 191,712자 · 제목 입주대상 및 방법 | 기존주택 매입임대 | 주거복지사업 | 사업정보 | GH 경기주택도시공사
     GH 주택청약 → https://apply.gh.or.kr/
     외국인투자지역 및 임대단지 → https://www.gh.or.kr/gh/foreign-investment-area-and-rental-complex.do
     외국인투자지역 및 임대단지 설명 → https://www.gh.or.kr/gh/description-of-foreign-investment-areas-and-rental-complexes.do
@@ -2714,7 +2718,7 @@ GH 원천 점검 2026-10-21 18:11
     form: /gh/search.do
     스크립트 주소: /gh/19972000.do /gh/20012005.do /gh/20052010.do /gh/20112015.do /gh/20157.do /gh/20162020.do /gh/2nd-new-town-project.do /gh/3rd-new-city-project.do /gh/3rd-pangyo-techno-valley-project.do /gh/Human_Rights_Management_Activities.do /gh/Information-Disclosure-Deliberation-Committee.do /gh/SiheungDaeyaPublicLedUrbanInfillHousingandMixedUseRedevelopmentProject.do /gh/ahn-sung-no-4th.do /gh/amcMngBbs.do /gh/amcPsuBbs.do /gh/announcement-announcement.do /gh/announcement-of-prior-information.do /gh/announcement-of-salerental001.do /gh/announcement-of-the-revision.do /gh/ansanjangsang.do /gh/anseong-5th-industrial-park.do /gh/anseong-wongok-logistics-complex.do /gh/anti-corruption-and-integrity-activities.do /gh/anyang-gwanyang-high-school-urban-development.do /gh/anyang-indeokwon-urban-development.do /gh/anyang-naengcheonjigu-residential-enviroment-implement-project.do /gh/apartment-house-management.do /gh/application-for-proof.do /gh/as-a-result-of-the-audit001.do /gh/audit-ombudsman.do /gh/bid-announcement.do /gh/bid-data-room.do /gh/bid-information.do /gh/bid-information001.do /gh/bid-relations.do /gh/brochure.do /gh/business-disclosure.do /gh/business-related-laws-and-regulations.do /gh/business-year-2025.do /gh/calendar.do
 
-[38] https://www.gh.or.kr/gh/purchase-lease-for-reconstructionredevelopment-eligibility-to-move-in.do → https://www.gh.or.kr/gh/purchase-lease-for-reconstructionredevelopment-eligibility-to-move-in.do · 200 · 191,042자 · 제목 입주자격 | 재건축/재개발 매입임대 | 주거복지사업 | 사업정보 | GH 경기주택도시공사
+[40] https://www.gh.or.kr/gh/purchase-lease-for-reconstructionredevelopment-eligibility-to-move-in.do → https://www.gh.or.kr/gh/purchase-lease-for-reconstructionredevelopment-eligibility-to-move-in.do · 200 · 191,042자 · 제목 입주자격 | 재건축/재개발 매입임대 | 주거복지사업 | 사업정보 | GH 경기주택도시공사
     GH 주택청약 → https://apply.gh.or.kr/
     외국인투자지역 및 임대단지 → https://www.gh.or.kr/gh/foreign-investment-area-and-rental-complex.do
     외국인투자지역 및 임대단지 설명 → https://www.gh.or.kr/gh/description-of-foreign-investment-areas-and-rental-complexes.do
@@ -2777,144 +2781,6 @@ GH 원천 점검 2026-10-21 18:11
     입주자격 → https://www.gh.or.kr/gh/purchase-lease-for-reconstructionredevelopment-eligibility-to-move-in.do
     임대조건 → https://www.gh.or.kr/gh/purchase-lease-for-reconstructionredevelopment-rental-conditions.do
     분양/임대 공고 → https://www.gh.or.kr/gh/announcement-of-salerental001.do
-    입주자격 → https://www.gh.or.kr/gh/purchase-lease-for-reconstructionredevelopment-eligibility-to-move-in.do
-    GH 주택청약센터 → https://apply.gh.or.kr
-    한국부동산원(청약) → https://www.reb.or.kr
-    form: /gh/search.do
-    스크립트 주소: /gh/19972000.do /gh/20012005.do /gh/20052010.do /gh/20112015.do /gh/20157.do /gh/20162020.do /gh/2nd-new-town-project.do /gh/3rd-new-city-project.do /gh/3rd-pangyo-techno-valley-project.do /gh/Human_Rights_Management_Activities.do /gh/Information-Disclosure-Deliberation-Committee.do /gh/SiheungDaeyaPublicLedUrbanInfillHousingandMixedUseRedevelopmentProject.do /gh/ahn-sung-no-4th.do /gh/amcMngBbs.do /gh/amcPsuBbs.do /gh/announcement-announcement.do /gh/announcement-of-prior-information.do /gh/announcement-of-salerental001.do /gh/announcement-of-the-revision.do /gh/ansanjangsang.do /gh/anseong-5th-industrial-park.do /gh/anseong-wongok-logistics-complex.do /gh/anti-corruption-and-integrity-activities.do /gh/anyang-gwanyang-high-school-urban-development.do /gh/anyang-indeokwon-urban-development.do /gh/anyang-naengcheonjigu-residential-enviroment-implement-project.do /gh/apartment-house-management.do /gh/application-for-proof.do /gh/as-a-result-of-the-audit001.do /gh/audit-ombudsman.do /gh/bid-announcement.do /gh/bid-data-room.do /gh/bid-information.do /gh/bid-information001.do /gh/bid-relations.do /gh/brochure.do /gh/business-disclosure.do /gh/business-related-laws-and-regulations.do /gh/business-year-2025.do /gh/calendar.do
-
-[39] https://www.gh.or.kr/gh/purchase-lease-for-reconstructionredevelopment-rental-conditions.do → https://www.gh.or.kr/gh/purchase-lease-for-reconstructionredevelopment-rental-conditions.do · 200 · 188,946자 · 제목 임대조건 | 재건축/재개발 매입임대 | 주거복지사업 | 사업정보 | GH 경기주택도시공사
-    GH 주택청약 → https://apply.gh.or.kr/
-    외국인투자지역 및 임대단지 → https://www.gh.or.kr/gh/foreign-investment-area-and-rental-complex.do
-    외국인투자지역 및 임대단지 설명 → https://www.gh.or.kr/gh/description-of-foreign-investment-areas-and-rental-complexes.do
-    기존주택 전세임대 → https://www.gh.or.kr/gh/lease-lease-on-existing-houses-business-overview.do
-    기존주택 매입임대 → https://www.gh.or.kr/gh/existing-housing-purchase-rental-business-overview.do
-    재건축/재개발 매입임대 → https://www.gh.or.kr/gh/purchase-lease-for-reconstructionredevelopment-business-overview.do
-    매입임대 임대보증금 지원 → https://www.gh.or.kr/gh/purchase-rental-rental-deposit-support-business-overview.do
-    국민/영구임대 → https://www.gh.or.kr/gh/nationalpermanent-rental-business-overview.do
-    공공임대(분양전환) → https://www.gh.or.kr/gh/public-rental.do
-    통합공공임대주택 → https://www.gh.or.kr/gh/integration-public-lease-house-business-overview.do
-    입주자격 → https://www.gh.or.kr/gh/integration-public-lease-house-eligibility-to-move-in.do
-    청약정보 → https://www.gh.or.kr/gh/saleslease-plan.do
-    분양/임대 계획 → https://www.gh.or.kr/gh/saleslease-plan.do
-    분양/임대 공고 → https://www.gh.or.kr/gh/announcement-of-salerental001.do
-    청약센터 → https://www.gh.or.kr/gh/cheongyak-center.do
-    GH 주택청약센터 → https://apply.gh.or.kr
-    분양/임대 알리미 → https://www.gh.or.kr/gh/saleslease-notification.do
-    매입임대 → https://www.gh.or.kr/gh/purchase-rental.do
-    전세임대 → https://www.gh.or.kr/gh/lease-lease.do
-    보상공고 → https://www.gh.or.kr/gh/reward-announcement.do
-    공고 → https://www.gh.or.kr/gh/reward-announcement.do
-    기술제안 공고 → https://www.gh.or.kr/gh/technical-suggestion-notice-list.do
-    공고 및 공지 → https://www.gh.or.kr/gh/announcement-announcement.do
-    입찰공고 → https://www.g2b.go.kr/link/FIUA006_01/single/?untySrchSeCd=BK+BUK&rowCnt=&instCd=Z003657&demaInstNm=&hghrkInstCd=&prcmBsneAreaCd=%EC%A0%84%EC%B2%B4+%EC%A1%B0070001+%EC%A1%B0070002+%EC%A1%B0070003+%EC%
-    채용공고 → https://www.gh.or.kr/gh/employment-announcement.do
-    GH 주택청약센터 → https://apply.gh.or.kr 
-    외국인투자지역 및 임대단지 → https://www.gh.or.kr/gh/foreign-investment-area-and-rental-complex.do
-    외국인투자지역 및 임대단지 설명 → https://www.gh.or.kr/gh/description-of-foreign-investment-areas-and-rental-complexes.do
-    기존주택 전세임대 → https://www.gh.or.kr/gh/lease-lease-on-existing-houses-business-overview.do
-    기존주택 매입임대 → https://www.gh.or.kr/gh/existing-housing-purchase-rental-business-overview.do
-    재건축/재개발 매입임대 → https://www.gh.or.kr/gh/purchase-lease-for-reconstructionredevelopment-business-overview.do
-    입주자격 → https://www.gh.or.kr/gh/purchase-lease-for-reconstructionredevelopment-eligibility-to-move-in.do
-    임대조건 → https://www.gh.or.kr/gh/purchase-lease-for-reconstructionredevelopment-rental-conditions.do
-    매입임대 임대보증금 지원 → https://www.gh.or.kr/gh/purchase-rental-rental-deposit-support-business-overview.do
-    입주자격 → https://www.gh.or.kr/gh/gyeonggi-happy-house-eligibility-to-move-in.do
-    국민/영구임대 → https://www.gh.or.kr/gh/nationalpermanent-rental-business-overview.do
-    입주자격 → https://www.gh.or.kr/gh/nationalpermanent-rental-eligibility-to-move-in.do
-    임대조건 → https://www.gh.or.kr/gh/nationalpermanent-rental-rental-conditions.do
-    공공임대(분양전환) → https://www.gh.or.kr/gh/public-rental.do
-    통합공공임대주택 → https://www.gh.or.kr/gh/integration-public-lease-house-business-overview.do
-    입주자격 → https://www.gh.or.kr/gh/integration-public-lease-house-eligibility-to-move-in.do
-    분양/임대 계획 → https://www.gh.or.kr/gh/saleslease-plan.do
-    분양/임대 공고 → https://www.gh.or.kr/gh/announcement-of-salerental001.do
-    청약센터 → https://www.gh.or.kr/gh/cheongyak-center.do
-    GH 주택청약센터 → https://apply.gh.or.kr
-    분양/임대 알리미 → https://www.gh.or.kr/gh/saleslease-notification.do
-    매입임대 → https://www.gh.or.kr/gh/purchase-rental.do
-    전세임대 → https://www.gh.or.kr/gh/lease-lease.do
-    보상공고 → https://www.gh.or.kr/gh/reward-announcement.do
-    공고 → https://www.gh.or.kr/gh/reward-announcement.do
-    기술제안 공고 → https://www.gh.or.kr/gh/technical-suggestion-notice-list.do
-    공고 및 공지 → https://www.gh.or.kr/gh/announcement-announcement.do
-    입찰공고 → https://www.g2b.go.kr/link/FIUA006_01/single/?untySrchSeCd=BK+BUK&rowCnt=&instCd=Z003657&demaInstNm=&hghrkInstCd=&prcmBsneAreaCd=%EC%A0%84%EC%B2%B4+%EC%A1%B0070001+%EC%A1%B0070002+%EC%A1%B0070003+%EC%
-    채용공고 → https://www.gh.or.kr/gh/employment-announcement.do
-    청약정보 → https://www.gh.or.kr/gh/saleslease-plan.do
-    기존주택 전세임대 → https://www.gh.or.kr/gh/lease-lease-on-existing-houses-business-overview.do
-    기존주택 매입임대 → https://www.gh.or.kr/gh/existing-housing-purchase-rental-business-overview.do
-    재건축/재개발 매입임대 → https://www.gh.or.kr/gh/purchase-lease-for-reconstructionredevelopment-business-overview.do
-    매입임대 임대보증금 지원 → https://www.gh.or.kr/gh/purchase-rental-rental-deposit-support-business-overview.do
-    입주자격 → https://www.gh.or.kr/gh/purchase-lease-for-reconstructionredevelopment-eligibility-to-move-in.do
-    임대조건 → https://www.gh.or.kr/gh/purchase-lease-for-reconstructionredevelopment-rental-conditions.do
-    분양/임대 공고 → https://www.gh.or.kr/gh/announcement-of-salerental001.do
-    임대조건 → https://www.gh.or.kr/gh/purchase-lease-for-reconstructionredevelopment-rental-conditions.do
-    입주자격 → https://www.gh.or.kr/gh/purchase-lease-for-reconstructionredevelopment-eligibility-to-move-in.do
-    GH 주택청약센터 → https://apply.gh.or.kr
-    한국부동산원(청약) → https://www.reb.or.kr
-    form: /gh/search.do
-    스크립트 주소: /gh/19972000.do /gh/20012005.do /gh/20052010.do /gh/20112015.do /gh/20157.do /gh/20162020.do /gh/2nd-new-town-project.do /gh/3rd-new-city-project.do /gh/3rd-pangyo-techno-valley-project.do /gh/Human_Rights_Management_Activities.do /gh/Information-Disclosure-Deliberation-Committee.do /gh/SiheungDaeyaPublicLedUrbanInfillHousingandMixedUseRedevelopmentProject.do /gh/ahn-sung-no-4th.do /gh/amcMngBbs.do /gh/amcPsuBbs.do /gh/announcement-announcement.do /gh/announcement-of-prior-information.do /gh/announcement-of-salerental001.do /gh/announcement-of-the-revision.do /gh/ansanjangsang.do /gh/anseong-5th-industrial-park.do /gh/anseong-wongok-logistics-complex.do /gh/anti-corruption-and-integrity-activities.do /gh/anyang-gwanyang-high-school-urban-development.do /gh/anyang-indeokwon-urban-development.do /gh/anyang-naengcheonjigu-residential-enviroment-implement-project.do /gh/apartment-house-management.do /gh/application-for-proof.do /gh/as-a-result-of-the-audit001.do /gh/audit-ombudsman.do /gh/bid-announcement.do /gh/bid-data-room.do /gh/bid-information.do /gh/bid-information001.do /gh/bid-relations.do /gh/brochure.do /gh/business-disclosure.do /gh/business-related-laws-and-regulations.do /gh/business-year-2025.do /gh/calendar.do
-
-[40] https://www.gh.or.kr/gh/purchase-rental-rental-deposit-support-promotion-status.do → https://www.gh.or.kr/gh/purchase-rental-rental-deposit-support-promotion-status.do · 200 · 188,597자 · 제목 추진현황 | 매입임대 임대보증금 지원 | 주거복지사업 | 사업정보 | GH 경기주택도시공사
-    GH 주택청약 → https://apply.gh.or.kr/
-    외국인투자지역 및 임대단지 → https://www.gh.or.kr/gh/foreign-investment-area-and-rental-complex.do
-    외국인투자지역 및 임대단지 설명 → https://www.gh.or.kr/gh/description-of-foreign-investment-areas-and-rental-complexes.do
-    기존주택 전세임대 → https://www.gh.or.kr/gh/lease-lease-on-existing-houses-business-overview.do
-    기존주택 매입임대 → https://www.gh.or.kr/gh/existing-housing-purchase-rental-business-overview.do
-    재건축/재개발 매입임대 → https://www.gh.or.kr/gh/purchase-lease-for-reconstructionredevelopment-business-overview.do
-    매입임대 임대보증금 지원 → https://www.gh.or.kr/gh/purchase-rental-rental-deposit-support-business-overview.do
-    국민/영구임대 → https://www.gh.or.kr/gh/nationalpermanent-rental-business-overview.do
-    공공임대(분양전환) → https://www.gh.or.kr/gh/public-rental.do
-    통합공공임대주택 → https://www.gh.or.kr/gh/integration-public-lease-house-business-overview.do
-    입주자격 → https://www.gh.or.kr/gh/integration-public-lease-house-eligibility-to-move-in.do
-    청약정보 → https://www.gh.or.kr/gh/saleslease-plan.do
-    분양/임대 계획 → https://www.gh.or.kr/gh/saleslease-plan.do
-    분양/임대 공고 → https://www.gh.or.kr/gh/announcement-of-salerental001.do
-    청약센터 → https://www.gh.or.kr/gh/cheongyak-center.do
-    GH 주택청약센터 → https://apply.gh.or.kr
-    분양/임대 알리미 → https://www.gh.or.kr/gh/saleslease-notification.do
-    매입임대 → https://www.gh.or.kr/gh/purchase-rental.do
-    전세임대 → https://www.gh.or.kr/gh/lease-lease.do
-    보상공고 → https://www.gh.or.kr/gh/reward-announcement.do
-    공고 → https://www.gh.or.kr/gh/reward-announcement.do
-    기술제안 공고 → https://www.gh.or.kr/gh/technical-suggestion-notice-list.do
-    공고 및 공지 → https://www.gh.or.kr/gh/announcement-announcement.do
-    입찰공고 → https://www.g2b.go.kr/link/FIUA006_01/single/?untySrchSeCd=BK+BUK&rowCnt=&instCd=Z003657&demaInstNm=&hghrkInstCd=&prcmBsneAreaCd=%EC%A0%84%EC%B2%B4+%EC%A1%B0070001+%EC%A1%B0070002+%EC%A1%B0070003+%EC%
-    채용공고 → https://www.gh.or.kr/gh/employment-announcement.do
-    GH 주택청약센터 → https://apply.gh.or.kr 
-    외국인투자지역 및 임대단지 → https://www.gh.or.kr/gh/foreign-investment-area-and-rental-complex.do
-    외국인투자지역 및 임대단지 설명 → https://www.gh.or.kr/gh/description-of-foreign-investment-areas-and-rental-complexes.do
-    기존주택 전세임대 → https://www.gh.or.kr/gh/lease-lease-on-existing-houses-business-overview.do
-    기존주택 매입임대 → https://www.gh.or.kr/gh/existing-housing-purchase-rental-business-overview.do
-    재건축/재개발 매입임대 → https://www.gh.or.kr/gh/purchase-lease-for-reconstructionredevelopment-business-overview.do
-    입주자격 → https://www.gh.or.kr/gh/purchase-lease-for-reconstructionredevelopment-eligibility-to-move-in.do
-    임대조건 → https://www.gh.or.kr/gh/purchase-lease-for-reconstructionredevelopment-rental-conditions.do
-    매입임대 임대보증금 지원 → https://www.gh.or.kr/gh/purchase-rental-rental-deposit-support-business-overview.do
-    입주자격 → https://www.gh.or.kr/gh/gyeonggi-happy-house-eligibility-to-move-in.do
-    국민/영구임대 → https://www.gh.or.kr/gh/nationalpermanent-rental-business-overview.do
-    입주자격 → https://www.gh.or.kr/gh/nationalpermanent-rental-eligibility-to-move-in.do
-    임대조건 → https://www.gh.or.kr/gh/nationalpermanent-rental-rental-conditions.do
-    공공임대(분양전환) → https://www.gh.or.kr/gh/public-rental.do
-    통합공공임대주택 → https://www.gh.or.kr/gh/integration-public-lease-house-business-overview.do
-    입주자격 → https://www.gh.or.kr/gh/integration-public-lease-house-eligibility-to-move-in.do
-    분양/임대 계획 → https://www.gh.or.kr/gh/saleslease-plan.do
-    분양/임대 공고 → https://www.gh.or.kr/gh/announcement-of-salerental001.do
-    청약센터 → https://www.gh.or.kr/gh/cheongyak-center.do
-    GH 주택청약센터 → https://apply.gh.or.kr
-    분양/임대 알리미 → https://www.gh.or.kr/gh/saleslease-notification.do
-    매입임대 → https://www.gh.or.kr/gh/purchase-rental.do
-    전세임대 → https://www.gh.or.kr/gh/lease-lease.do
-    보상공고 → https://www.gh.or.kr/gh/reward-announcement.do
-    공고 → https://www.gh.or.kr/gh/reward-announcement.do
-    기술제안 공고 → https://www.gh.or.kr/gh/technical-suggestion-notice-list.do
-    공고 및 공지 → https://www.gh.or.kr/gh/announcement-announcement.do
-    입찰공고 → https://www.g2b.go.kr/link/FIUA006_01/single/?untySrchSeCd=BK+BUK&rowCnt=&instCd=Z003657&demaInstNm=&hghrkInstCd=&prcmBsneAreaCd=%EC%A0%84%EC%B2%B4+%EC%A1%B0070001+%EC%A1%B0070002+%EC%A1%B0070003+%EC%
-    채용공고 → https://www.gh.or.kr/gh/employment-announcement.do
-    청약정보 → https://www.gh.or.kr/gh/saleslease-plan.do
-    기존주택 전세임대 → https://www.gh.or.kr/gh/lease-lease-on-existing-houses-business-overview.do
-    기존주택 매입임대 → https://www.gh.or.kr/gh/existing-housing-purchase-rental-business-overview.do
-    재건축/재개발 매입임대 → https://www.gh.or.kr/gh/purchase-lease-for-reconstructionredevelopment-business-overview.do
-    매입임대 임대보증금 지원 → https://www.gh.or.kr/gh/purchase-rental-rental-deposit-support-business-overview.do
-    분양/임대 공고 → https://www.gh.or.kr/gh/announcement-of-salerental001.do
-    임대조건 → https://www.gh.or.kr/gh/purchase-lease-for-reconstructionredevelopment-rental-conditions.do
     입주자격 → https://www.gh.or.kr/gh/purchase-lease-for-reconstructionredevelopment-eligibility-to-move-in.do
     GH 주택청약센터 → https://apply.gh.or.kr
     한국부동산원(청약) → https://www.reb.or.kr
