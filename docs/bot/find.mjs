@@ -33,9 +33,9 @@ export async function find(W, question, { profile = null, state = null } = {}) {
   const kind = r.mode === 'compare' ? '단지 비교' : r.mode === 'explain' ? '제도' : '찾기';
   const cards = [...(r.result.candidates || []), ...(r.result.unsure || []), ...(r.result.compare || []).flatMap(t => t.picks || []), ...(r.result.alternatives || [])]
     .map(c => c.id).filter((id, i, a) => id && a.indexOf(id) === i).slice(0, 6);
-  const rec = { id: 'f' + Date.now().toString(36), q: question, at: new Date().toISOString(), kind, text: r.text || '', cards, understood: r.understood || '',
+  const rec = { id: 'f' + Date.now().toString(36), q: question, at: new Date().toISOString(), kind, text: r.text || '', cards, understood: r.understood || '', view: r.view || null,
     profile: parseProfile(question), steps: r.steps, state: r.state, legacy: r.legacy };
-  remember({ id: rec.id, q: rec.q, at: rec.at, kind: rec.kind, text: rec.text, cards: rec.cards, understood: rec.understood, profile: rec.profile, legacy: rec.legacy });
+  remember({ id: rec.id, q: rec.q, at: rec.at, kind: rec.kind, text: rec.text, cards: rec.cards, understood: rec.understood, view: rec.view, profile: rec.profile, legacy: rec.legacy });
   return rec;
 }
 

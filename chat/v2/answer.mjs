@@ -68,6 +68,14 @@ function statusLine(f) {
   const sp = f.dates.special ? '특공 ' + d(f.dates.special) + ' · ' : '';
   return f.status + ' · ' + sp + '접수 ' + d(f.dates.apply) + (f.dates.applyEnd && f.dates.applyEnd !== f.dates.apply ? '~' + d(f.dates.applyEnd) : '') + (f.dates.winner ? ' · 발표 ' + d(f.dates.winner) : '') + ' (청약홈)';
 }
+// 화면 카드용 구조 (기능 bot_find, 2026-10-21 사용자 '검색 후 답변 UI 를 보기 쉽게'): 글 대신 조각으로 — 한 줄 이유·확인 필요·아쉬운 점. 값은 card() 와 같은 곳에서
+export function cardBits(it, C = null) {
+  const f = it.f, why = reasons(it, C);
+  return { id: f.id, name: f.name, unit: f.unit, why: why ? why.replace(/^→ /, '').replace(/\.$/, '') : null,
+    unknown: it.unknown && it.unknown.length ? [...new Set(it.unknown)] : [],
+    miss: (it.pref || []).filter(x => x.s === 'fail' && x.key !== 'region_in' && x.key !== 'margin').map(x => x.why),
+    elig: it.elig || null, sp_ok: (it.sp || []).filter(s => s.s === 'ok').map(s => s.label), status: f.status, past: !!f.past };
+}
 export function card(it, { profile, C = null }) {
   const f = it.f, L = [];
   const cx = f.complex.state === '확인' ? '단지 ' + f.complex.households.toLocaleString('ko-KR') + '세대·' + f.complex.buildings + '개동' + (f.complex.single === 'maybe' ? '·나홀로 가능성' : '') : '단지 규모 확인 불가';

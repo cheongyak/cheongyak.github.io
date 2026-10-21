@@ -2,7 +2,7 @@
 // 지금 청약패스 화면·서버와 연결돼 있지 않다. 나중에 청약봇 서버(chat/worker)가 ask() 를 부르고 스위치 chatbot_v2 로 켠다 (README.md).
 import { extract, applyDelta } from './extract.mjs';
 import { search, findTargets, factsOf, resolvePlaces } from './search.mjs';
-import { compose, buildCompare, understood } from './answer.mjs';
+import { compose, buildCompare, understood, cardBits } from './answer.mjs';
 import { extractPrompt, parseExtraction, explainPrompt, factsForLLM, checkAnswer } from './llm.mjs';
 import { SP_LABEL } from './lexicon.mjs';
 
@@ -65,8 +65,34 @@ export async function ask({ D, question, profile = null, state = null, llm = nul
       if (chk.ok) { text = ans; how = 'ai'; } else steps.push('AI 설명 거절: ' + chk.flags.slice(0, 3).join(' / '));
     } catch (e) { steps.push('AI 설명 실패: ' + String(e.message || e).slice(0, 80)); }
   }
-  return { mode, text, how, state: C, understood: understood(C), result: summarize(r, compare), facts, steps, ms: Date.now() - t0,
+  return { mode, text, how, state: C, understood: understood(C), result: summarize(r, compare), view: viewOf(C, r, compare, mode), facts, steps, ms: Date.now() - t0,
     legacy: mode === 'explain' ? '제도 설명 질문 — 지금은 기존 청약봇(법령·공고문 근거)으로 넘김. 검증한 설명집은 STEP 3' : null };
+}
+
+// 화면 '공고 찾기' 결과용 구조 (기능 bot_find): 결론 한 줄 · 이해한 조건 칩 · 묶음별(후보·확인 필요·대신 볼 곳) 카드 조각 · 빠진 이유 · 조건 바꾸기 제안
+function viewOf(C, r, compare, mode) {
+  const U = understood(C), chips = [...U.required.map(t => ({ k: '꼭', t })), ...U.preferred.map(t => ({ k: '되면 좋음', t })), ...U.explore.map(t => ({ k: '넓게', t })), ...U.assume.map(t => ({ k: '가정', t }))];
+  const alt = r.relax.find(o => /인접 지역/.test(o.label)) || r.relax.find(o => !/지난 공고/.test(o.label));
+  const groups = [];
+  if (mode === 'compare' && compare) for (const t of compare) groups.push({ label: t.query, items: (t.notices || []).map(n => cardBits(n.pick, C)), note: t.found ? null : '청약패스에서 찾지 못한 이름이에요' });
+  else {
+    if (r.groups.length) groups.push({ label: '조건에 맞는 곳', items: r.groups.slice(0, r.limit || 3).map(g => cardBits(g.best, C)), more: Math.max(0, r.groups.length - (r.limit || 3)) });
+    if (r.unsure.length) groups.push({ label: '조건 하나만 확인하면 되는 곳', items: r.unsure.slice(0, 4).map(it => cardBits(it, C)) });
+    if (r.nearMiss && r.nearMiss.length) groups.push({ label: '예산을 조금 넘지만 눈여겨볼 곳', items: r.nearMiss.map(g => cardBits(g.best, C)) });
+    if (!r.groups.length && alt && alt.groups && alt.groups.length) groups.push({ label: '대신 눈여겨볼 곳 · ' + alt.label, items: alt.groups.slice(0, 3).map(g => cardBits(g.best, C)) });
+    else if (!r.groups.length && !(alt && alt.groups && alt.groups.length) && r.closest && r.closest.length) groups.push({ label: '조건에 가장 가까운 곳', note: '조건 한두 개가 아쉬운 곳이에요 — 마감된 공고는 참고용', items: r.closest.map(it => cardBits(it, C)) });
+  }
+  const nOk = r.groups.length, top = r.groups[0];
+  const verdict = mode === 'compare' ? '두 곳을 나란히 비교했어요'
+    : nOk ? `조건에 맞는 곳 ${nOk}곳` + (top ? ` · 먼저 볼 곳은 ${top.name}` : '')
+    : r.unsure.length ? `확실히 맞는 곳은 없지만 확인하면 되는 곳 ${r.unsure.length}개`
+    : '지금 접수 중·예정 공고 중에는 조건에 맞는 곳이 없어요';
+  const excluded = Object.entries(r.excluded || {}).sort((a, b) => b[1] - a[1]).map(([k, n]) => ({ why: k, n }));
+  const relax = (r.relax || []).map(o => ({ label: o.label, count: o.count }));
+  const next = [];
+  if (!nOk && relax.length) next.push('조건 하나를 늦추면 ' + relax[0].count + '곳이 생겨요: ' + relax[0].label);
+  if (r.explore && r.explore.nearby && r.explore.nearby.length) next.push('가까운 지역: ' + r.explore.nearby.slice(0, 3).map(x => x.label + ' ' + x.count + '개').join(', '));
+  return { verdict, chips, groups, excluded, relax, next, total: r.total, unsupported: U.unsupported || [] };
 }
 
 // 화면 카드용 요약 (나중에 청약패스 화면이 그린다)

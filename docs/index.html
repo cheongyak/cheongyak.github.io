@@ -276,6 +276,18 @@ h2{margin:0;font-size:16px}
 .botask .exs{display:flex;flex-direction:column;gap:8px;margin-top:14px}.botask .ex{text-align:left;background:var(--surface);border:1px solid var(--line);border-radius:14px;padding:12px 14px;color:var(--fg);cursor:pointer;font-size:14px;line-height:1.45}
 .botask .ex b{display:block;font-size:12px;color:var(--lotto);margin-bottom:4px}
 .botans{white-space:pre-wrap;font-size:14px;line-height:1.6}.botans a{word-break:break-all}
+.botv{background:var(--lotto-soft);color:var(--lotto-ink);border-radius:16px;padding:16px;display:flex;flex-direction:column;gap:8px}.botv.none{background:var(--sunk);color:var(--fg)}
+.botv .vl{font-size:12px;font-weight:700;opacity:.8}.botv .vt{font-size:18px;font-weight:800;line-height:1.35;margin:0}.botv .vs{font-size:13px;opacity:.85}
+.botchips{display:flex;flex-wrap:wrap;gap:6px}.botchips .c{display:inline-flex;align-items:center;gap:4px;font-size:12px;padding:5px 9px;border-radius:999px;background:var(--surface);border:1px solid var(--line)}
+.botchips .c b{font-weight:700;color:var(--muted);font-size:11px}
+.botq{display:flex;gap:10px;align-items:flex-start;background:var(--surface);border:1px solid var(--line);border-radius:14px;padding:12px 14px}.botq .qi{font-size:13px;line-height:1.5;flex:1;min-width:0;color:var(--fg)}.botq .qi span{color:var(--muted);font-size:12px;display:block;margin-bottom:2px}
+.botg h3{margin:16px 0 8px;font-size:16px;display:flex;align-items:baseline;gap:8px}.botg h3 small{font-size:12px;color:var(--muted);font-weight:500}
+.botg .card.listing{border-radius:16px 16px 0 0;border-bottom:0;margin-bottom:0}.botg .card.listing:has(+ .botwhy){border-bottom:0}.botg .card.listing + .card.listing{border-radius:16px;margin-top:10px}
+.botwhy{margin:0 0 10px;padding:10px 16px 12px;font-size:13px;line-height:1.5;color:var(--fg);background:var(--surface);border:1px solid var(--line);border-top:1px dashed var(--line);border-radius:0 0 16px 16px}
+.botwhy .w::before{content:'💡 ';}
+.botwhy .w{display:block}.botwhy .u{display:block;color:var(--warn-ink)}.botwhy .m{display:block;color:var(--muted)}
+.botnext{background:var(--surface);border:1px solid var(--line);border-radius:14px;padding:12px 14px;display:flex;flex-direction:column;gap:8px;font-size:13px}.botnext .row{display:flex;flex-wrap:wrap;gap:8px}
+.botnext .btn{padding:9px 12px;border-radius:10px;border:1px solid var(--line);background:var(--surface);color:var(--fg);font-size:13px}
 .botsave{background:var(--surface);border:1px solid var(--line);border-radius:14px;padding:12px 14px;display:flex;flex-direction:column;gap:8px;font-size:13px}.botsave .row{display:flex;gap:8px;flex-wrap:wrap}
 .botsave .btn{padding:9px 12px;border-radius:10px;border:1px solid var(--line);background:var(--surface);color:var(--fg);font-size:13px}.botsave .btn.pri{background:var(--lotto);color:#fff;border-color:transparent}
 .profile-bar{display:flex;align-items:center;gap:10px;padding:12px 14px;background:var(--surface);border:1px solid var(--line);border-radius:12px;font-size:13px}
@@ -5859,19 +5871,28 @@ function vBot(){
   if (!botOn()) { S.view = 'feed'; return vFeed(); }
   const back = `<button class="back" data-go="feed" aria-label="뒤로">←</button>`;
   if (BOT.cur) {
-    const r = BOT.cur, P = r.profile || { set: {}, shown: [], ask: [] }, hasSet = Object.keys(P.set || {}).length > 0;
-    const cards = (r.cards || []).map(id => LISTINGS.find(L => L.id === id)).filter(Boolean).map(L => listingCard(L, grade(L, hasProfile() ? S.profile : null))).join('');
-    return `<div class="top">${back}<div><div class="brand" style="font-size:17px">공고 찾기</div><span class="small muted">${esc(r.kind || '찾기')} · 이 기기에서 계산 · 판정은 화면과 같은 엔진</span></div></div>
-    <section class="card"><p class="small muted" style="margin:0">내 질문</p><p style="margin:0;font-size:14px;line-height:1.5">${esc(r.q)}</p>
-      <div class="row" style="gap:8px"><button class="linkbtn small" data-action="bot-ask">다시 묻기</button><button class="linkbtn small" data-action="bot-more">이어서 조건 바꾸기</button></div></section>
-    ${hasSet || (P.ask || []).length ? `<section class="botsave" aria-label="내 조건에 저장">
-      ${hasSet ? `<b>질문에서 읽은 내 조건: ${esc(P.shown.join(' · '))}</b><span class="muted">저장하면 이 공고들과 앞으로의 공고마다 자격·자금을 이 값으로 판정해요. 저장 전에는 이번 답에만 써요.</span>
-      <div class="row">${BOT.saved ? '<span class="small" style="color:var(--lotto)">내 조건에 저장했어요</span>' : `<button class="btn pri" data-action="bot-save">내 조건에 저장</button><button class="btn" data-action="bot-nosave">이번만 쓰기</button>`}</div>` : ''}
-      ${(P.ask || []).length ? `<span class="small muted">직접 넣어야 정확해지는 것: ${esc(P.ask.join(' · '))} → <button class="linkbtn small" data-action="restart">내 조건 입력</button></span>` : ''}</section>` : ''}
+    const r = BOT.cur, P = r.profile || { set: {}, shown: [], ask: [] }, hasSet = Object.keys(P.set || {}).length > 0, V = r.view;
+    const prof = hasProfile() ? S.profile : null;
+    const cardOf = b => { const L = LISTINGS.find(x => x.id === b.id); if (!L) return ''; return listingCard(L, grade(L, prof)) + botWhy(b); };
+    const groups = V && V.groups && V.groups.length ? V.groups.map(g => `<div class="botg"><h3>${esc(g.label)}${g.more ? `<small>+${g.more}곳 더 (자세한 설명에)</small>` : ''}</h3>${g.note ? `<p class="small muted" style="margin:-4px 0 8px">${esc(g.note)}</p>` : ''}${g.items.map(cardOf).join('')}</div>`).join('')
+      : (r.cards || []).length ? `<div class="botg"><h3>해당 공고</h3>${r.cards.map(id => cardOf({ id })).join('')}</div>` : '';
+    const none = V && !V.groups.some(g => /조건에 맞는 곳/.test(g.label));
+    const verdict = V ? `<section class="botv${none ? ' none' : ''}"><span class="vl">${esc(r.kind || '찾기')} 결과</span><p class="vt">${esc(V.verdict)}</p>
+      ${V.excluded && V.excluded.length && none ? `<span class="vs">살펴본 주택형 ${V.total}개 중 ${V.excluded.map(x => esc(x.why) + ' ' + x.n + '개').join(', ')}가 빠졌어요</span>` : ''}
+      ${V.chips && V.chips.length ? `<div class="botchips">${V.chips.map(c => `<span class="c"><b>${esc(c.k)}</b>${esc(c.t)}</span>`).join('')}</div>` : ''}</section>` : '';
+    const nextBits = V && V.next && V.next.length ? V.next : [];
+    return `<div class="top">${back}<div><div class="brand" style="font-size:17px">공고 찾기</div><span class="small muted">이 기기에서 계산 · 판정은 화면과 같은 엔진</span></div></div>
+    <div class="botq"><div class="qi"><span>내 질문</span>${esc(r.q)}</div><button class="linkbtn small" data-action="bot-ask">다시 묻기</button></div>
+    ${verdict}
+    ${hasSet ? `<section class="botsave" aria-label="내 조건에 저장"><b>질문에서 읽은 내 조건: ${esc(P.shown.join(' · '))}</b>
+      ${BOT.saved ? '<span class="small" style="color:var(--lotto)">내 조건에 저장했어요 — 아래 카드 판정에 반영됐어요</span>' : `<span class="muted">저장하면 아래 공고와 앞으로의 공고마다 이 값으로 자격·자금을 판정해요.</span><div class="row"><button class="btn pri" data-action="bot-save">내 조건에 저장</button><button class="btn" data-action="bot-nosave">이번만 쓰기</button></div>`}</section>` : ''}
     ${r.legacy ? `<section class="card"><p class="small" style="margin:0">${esc(r.legacy)}</p></section>` : ''}
-    ${r.text ? botSummary(r.text) : ''}
-    ${cards ? `<h3 style="margin:14px 0 8px;font-size:16px">해당 공고 ${r.cards.length}개</h3>${cards}` : ''}
-    ${r.text ? `<details class="rfold"><summary>자세한 설명 보기</summary><div class="rfold-in botans">${botLinkify(esc(r.text))}</div></details>` : ''}
+    ${groups}
+    ${nextBits.length || (P.ask || []).length || !prof ? `<section class="botnext"><b>다음에 해볼 것</b>${nextBits.map(t => `<span>· ${esc(t)}</span>`).join('')}
+      ${!prof ? `<span>· 내 조건을 넣으면 공고마다 신청 가능 여부를 판정해요</span>` : ''}
+      ${(P.ask || []).length ? `<span>· 직접 넣어야 정확해지는 것: ${esc(P.ask.join(' · '))}</span>` : ''}
+      <div class="row"><button class="btn" data-action="bot-more">이어서 조건 바꾸기</button>${!prof || (P.ask || []).length ? `<button class="btn" data-action="restart">내 조건 입력</button>` : ''}</div></section>` : ''}
+    ${r.text ? `<details class="rfold" style="margin-top:12px"><summary>자세한 설명 보기</summary><div class="rfold-in botans">${botLinkify(esc(r.text))}</div></details>` : ''}
     <p class="foot">판정은 내가 입력한 값과 청약홈 공고로 계산한 참고용이에요. 질문과 내 조건은 서버로 보내지 않고 이 기기에서만 계산했어요. 신청 전 모집공고문을 꼭 확인하세요.</p>`;
   }
   const exs = BOT.exs || [['찾기', '무주택 세대 3인 가족이고 연봉 7천, 현금 2억이에요. 서울·경기에서 지금 넣을 만한 곳 있어요?'], ['자격', '신혼 3년차 맞벌이 부부합산 1.1억인데 동탄 신혼부부 특별공급 돼요?'], ['단지 비교', '세종 리더스포레 84랑 에코델타 푸르지오 84 중 어디가 나아요? 현금 3억에 연봉 8천이에요.'], ['지역', '판교·광교 근처 전용 59㎡ 9억 이하로 당첨 가능성 있는 공고 찾아 주세요']];
@@ -5884,6 +5905,11 @@ function vBot(){
     <div class="exs">${exs.map(([k, q]) => `<button class="ex" data-action="bot-ex" data-q="${esc(q)}"><b>${esc(k)}</b>${esc(q)}</button>`).join('')}</div>
     ${botHist().length ? `<div class="bothist" style="margin-top:16px"><div class="hh"><h3>이어 하기</h3></div>${botHist().slice(0, 5).map(botHistCard).join('')}</div>` : ''}
     <p class="foot">질문은 이 기기 안에서만 처리하고 서버로 보내지 않아요. 기록도 이 기기에만 남아요.</p></div>`;
+}
+/* 카드 아래 한 줄: 이 공고를 보는 이유 · 확인 필요 · 아쉬운 점 (V2 cardBits) */
+function botWhy(b){
+  if (!b || (!b.why && !(b.unknown || []).length && !(b.miss || []).length)) return '';
+  return `<div class="botwhy">${b.why ? `<span class="w">${esc(b.why)}</span>` : ''}${(b.unknown || []).length ? `<span class="u">확인 필요: ${esc(b.unknown.join(', '))}</span>` : ''}${(b.miss || []).length ? `<span class="m">아쉬운 점: ${esc(b.miss.join(', '))}</span>` : ''}</div>`;
 }
 /* 기본 답(V2 answer.mjs)에서 요약만: 공고별 카드 문단([대신 눈여겨볼 곳]·후보 카드 본문)은 아래 공고 카드가 대신하므로 빼고, 결론·이해·왜 없는지·조건 바꾸기만 */
 function botSummary(text){
