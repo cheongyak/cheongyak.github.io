@@ -4,6 +4,14 @@
 2026-09-29 12:55 이전 항목은 규칙을 만들기 전 작업을 커밋 기록으로 정리한 것이라 백업 브랜치가 없어요.
 그 시점으로 되돌릴 때는 해당 커밋 번호로 `git revert` 를 써요.
 
+## 2026-10-21 18:40 · GH 임대 공고 수집 1단계 (스위치 gh_rental, 꺼 둔 채로)
+- 요청: GH 임대 → 공공지원 민간임대 순서로 공고 추가
+- 변경: app/gh_rental.py — GH 누리집 '분양/임대 공고 > 주택' 게시판(Actions 서버에서 GH 청약센터는 접속 시간 초과, 누리집은 됨 — evidence/qa/gh-probe.txt)에서 최근 60일 임대 입주자 모집공고(분양·발표·결과 글 뺌)를 읽고 공고문 PDF 글에서 접수 기간(SH 와 같은 규칙)을 읽어 docs/gh-rental.json. 화면은 SH 1단계처럼 목록·접수 기간·공고문·GH 공고 링크(자격 판정 없음, 'GH ·' 표시). 워크플로 gh-rental.yml(매일 06:57, 바뀌면 판정 검증 다시), 검사 지문에 gh 데이터 추가. 수집 결과를 원문과 맞춰 본 뒤 켬
+- 파일: app/gh_rental.py, .github/workflows/gh-rental.yml, docs/index.html, docs/config.json(gh_rental false), tools/qa/stamp.py, tests/test_gh_rental.py, tests/test_qa_stamp.py, WORK.md
+- 확인: 저장된 GH 목록 HTML 로 목록 읽기·거르기 시험, 스크립트 문법
+- 백업: backup/20261021-1803-coverage
+- 기능: gh_rental (꺼짐)
+
 ## 2026-10-21 18:03 · GH 임대·공공지원 민간임대 원천 점검 도구 (조사)
 - 요청: GH 임대 → 공공지원 민간임대 순서로 공고 추가
 - 변경: 조사 단계 — tools/qa/gh_probe.py(GH 청약센터·누리집 화면을 Actions 서버에서 받아 공고 목록 위치·모양 확인, evidence/qa/gh), tools/qa/pvt_probe.py(청약홈 공공지원 민간임대·임의공급 개요·주택형 응답을 값까지, evidence/qa/pvt-rent-probe.json), 워크플로 gh-probe.yml(손으로·도구 바뀔 때만). 화면·수집에는 아직 영향 없음

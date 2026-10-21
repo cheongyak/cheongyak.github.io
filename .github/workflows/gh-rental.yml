@@ -1,0 +1,52 @@
+name: GH 임대 수집
+# GH(경기주택도시공사) 임대 입주자 모집공고를 docs/gh-rental.json 으로, 공고문 글을 evidence/gh/ 로 (app/gh_rental.py, 1단계: 목록·접수 기간·공고문 연결, 판정 없음).
+# 청약·LH·SH 수집과 완전히 따로 돈다 — 실패해도 다른 데이터에 영향 없음. 화면 표시는 스위치 gh_rental.
+on:
+  schedule:
+    - cron: "57 21 * * *"   # 매일 06:57 (KST) — SH 임대 수집(06:50) 뒤
+  workflow_dispatch:
+  push:
+    branches: [main]
+    paths:
+      - "app/gh_rental.py"
+      - ".github/workflows/gh-rental.yml"
+permissions:
+  contents: write
+  actions: write
+concurrency:
+  group: gh-rental
+  cancel-in-progress: false
+jobs:
+  collect:
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    env:
+      TZ: Asia/Seoul
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - run: pip install -q -r requirements.txt
+      - run: python -m app.gh_rental
+      - name: 임대 공고문 못 읽음 전수검사 (새 GH 데이터로)
+        continue-on-error: true
+        run: |
+          npm i --no-save --no-package-lock playwright@1.56.0 >/dev/null 2>&1
+          npx playwright install --with-deps chromium >/dev/null 2>&1
+          node tools/qa/lh_unread.cjs | grep -v '·허용\]\|(참고)\]' | tee -a evidence/qa/gh-rental-log.txt
+      - name: 저장
+        run: |
+          git config user.name "cheongyak-bot"
+          git config user.email "actions@users.noreply.github.com"
+          python -m tools.qa.stamp   # 검사 결과에 지금 데이터 지문 (2026-10-21)
+          git add docs/gh-rental.json evidence/gh evidence/qa/gh-rental-log.txt evidence/qa/gh evidence/qa/lh-unread.json
+          if ! git diff --cached --quiet; then
+            git commit -m "GH 임대 수집 $(date +%Y-%m-%d)" && (git push || (git pull --rebase -X theirs origin main && git push))
+            git diff --quiet HEAD~1 -- docs/gh-rental.json || echo "changed=1" >> "$GITHUB_ENV"
+          fi
+      - name: GH 데이터가 바뀌었으면 판정 검증 다시 (임대 화면 검사가 지난 결과가 되지 않게, 2026-10-21)
+        if: env.changed == '1'
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: gh workflow run verify.yml --ref main || gh api -X POST repos/${{ github.repository }}/actions/workflows/verify.yml/dispatches -f ref=main

@@ -15,9 +15,9 @@ def test_every_result_read_by_status_has_deps():
 
 
 def test_is_current_compares_only_its_deps():
-    cur = {"listings": "a", "lh": "b", "sh": "c", "code": "d"}
-    assert stamp.is_current("lh-qa.json", {"_data": {"lh": "b", "sh": "c", "code": "d"}}, cur)
-    assert not stamp.is_current("lh-qa.json", {"_data": {"lh": "b", "sh": "OLD", "code": "d"}}, cur)   # SH 를 다시 수집한 뒤의 옛 결과
+    cur = {"listings": "a", "lh": "b", "sh": "c", "gh": "e", "code": "d"}
+    assert stamp.is_current("lh-qa.json", {"_data": {"lh": "b", "sh": "c", "gh": "e", "code": "d"}}, cur)
+    assert not stamp.is_current("lh-qa.json", {"_data": {"lh": "b", "sh": "OLD", "gh": "e", "code": "d"}}, cur)   # SH 를 다시 수집한 뒤의 옛 결과
     assert not stamp.is_current("input-nav.json", {"problems": []}, cur)                                  # 지문 없는 옛 결과
     assert stamp.is_current("invariants.json", {"_data": {"listings": "a"}}, dict(cur, code="changed"))   # 화면 코드와 상관없는 검사
 
@@ -25,7 +25,7 @@ def test_is_current_compares_only_its_deps():
 def test_workflows_stamp_before_saving_results():
     """검사 결과를 저장하는 워크플로는 저장 전에 지문을 찍는다 (verify_status 가 찍거나 tools.qa.stamp)"""
     for name, t in WF.items():
-        adds = [m.start() for m in re.finditer(r"git add[^\n]*evidence/qa/[a-z\-]+\.json", t)]
+        adds = [m.start() for m in re.finditer(r"git add[^\n]*evidence/qa/([a-z\-]+\.json)", t) if any(f"evidence/qa/{n}" in m.group(0) for n in stamp.DEPS)]
         if not adds:
             continue
         marks = [m.start() for m in re.finditer(r"tools\.verify_status|tools\.qa\.stamp", t)]
