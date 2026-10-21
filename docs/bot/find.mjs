@@ -2,13 +2,14 @@
 // 판정·검색은 청약봇 V2 엔진(docs/bot/v2 = chat/v2 복사본, tools/sync_bot.py)이 화면 판정 함수를 그대로 써서 브라우저 안에서만 돈다 — 질문을 서버에 보내지 않는다(이 단계에서는 AI 없이 기본 답).
 // 화면 쪽 연결: index.html 의 botFindBox()(첫 화면)·vBot()(화면)·botAct()(버튼). 이 파일은 그 셋이 부르는 일만 한다.
 import { parseProfile } from './profile.mjs';
+import { routeQuestion } from './route.mjs';
 
 const KEY = 'cy-bot-finds';   // 이어 하기 기록 — 이 기기에만, 최근 20개 (질문 글·시각·결과 요약). 내 조건은 저장하지 않는다
 const EXAMPLES = [
   ['찾기', '무주택 세대 3인 가족이고 연봉 7천, 현금 2억이에요. 서울·경기에서 지금 넣을 만한 곳 있어요?'],
   ['자격', '신혼 3년차 맞벌이 부부합산 1.1억인데 동탄 신혼부부 특별공급 돼요?'],
   ['비교', '세종 리더스포레 84랑 에코델타 푸르지오 84 중 어디가 나아요? 현금 3억에 연봉 8천이에요.'],
-  ['지역', '판교·광교 근처 전용 59㎡ 9억 이하로 당첨 가능성 있는 공고 찾아 주세요'],
+  ['청약 질문', '주택청약 2만원씩 넣고 있는데 얼마씩 넣는 게 좋아요?'],
 ];
 let ENGINE = null, LINES = null;
 
@@ -23,20 +24,43 @@ async function engine() {
   return ENGINE;
 }
 
+// 질문 갈래만 (화면이 '애매'면 두 버튼으로 묻는다): 'find' | 'general' | 'unsure'
+export async function route(question) {
+  const E = await engine();
+  const X = await import('./v2/extract.mjs');
+  return routeQuestion(question, X.extract(question));
+}
+
+// 제도·요령 질문 → 청약봇 서버 /chat (공고 없이 '청약 전반', 법령 근거 + AI 설명 + 검사기). chat: ({question}) => 서버 응답 (화면 botChat). 없으면 안내만
+export async function general(question, { chat = null } = {}) {
+  const rec = { id: 'f' + Date.now().toString(36), q: question, at: new Date().toISOString(), kind: '청약 질문', mode: 'general', text: '', cards: [], view: null, profile: parseProfile(question), ans: null, sources: [], note: '' };
+  if (!chat) rec.note = 'AI 설명이 꺼져 있어 제도·요령 질문은 아직 답하지 못해요. 공고를 찾는 질문(지역·예산·면적)이나 내 자격 질문을 적어 주세요.';
+  else {
+    try {
+      const res = await chat({ question });
+      if (res && res.kind === 'answer' && res.answer) { rec.ans = res.answer; rec.sources = res.sources || []; rec.fallback = !!res.fallback; rec.remaining = res.remaining; }
+      else if (res && res.kind === 'out_of_scope') rec.note = res.message || '이 질문은 청약 자격·공고 안내 범위 밖이에요.';
+      else rec.note = (res && res.message) || '답을 받지 못했어요. 잠시 뒤 다시 해 보세요.';
+    } catch (e) { rec.note = String(e && e.message || '답을 받지 못했어요.'); }
+  }
+  remember({ id: rec.id, q: rec.q, at: rec.at, kind: rec.kind, mode: rec.mode, text: '', cards: [], profile: rec.profile, ans: rec.ans, sources: rec.sources, note: rec.note, fallback: rec.fallback });
+  return rec;
+}
+
 // 질문 하나 → { id, q, at, kind, text, cards, understood, profile:{set,shown,ask}, steps }
-export async function find(W, question, { profile = null, state = null, llm = null } = {}) {
+export async function find(W, question, { profile = null, state = null, llm = null, forceSearch = false } = {}) {
   const E = await engine();
   let raw = [];
   try { raw = await fetch('listings.json', { cache: 'no-store' }).then(r => r.ok ? r.json() : []); } catch (e) {}
   const D = E.fromScreen(W, { raw, lines: LINES });
-  const r = await E.ask({ D, question, profile, state, llm, updated: W.DATA_SOURCE && W.DATA_SOURCE.updated });   // llm: 기능 bot_find_ai 가 켜졌을 때만 (아니면 null = AI 없이)
-  const kind = r.mode === 'compare' ? '단지 비교' : r.mode === 'explain' ? '제도' : '찾기';
+  const r = await E.ask({ D, question, profile, state, llm, forceSearch, updated: W.DATA_SOURCE && W.DATA_SOURCE.updated });   // llm: 기능 bot_find_ai 가 켜졌을 때만 (아니면 null = AI 없이)
+  const kind = r.mode === 'compare' ? '단지 비교' : '찾기';   // explain 꼴이어도 사용자가 '공고 찾기'를 골랐으면 찾기 결과로 (제도 질문은 general() 로 간다)
   const cards = [...(r.result.candidates || []), ...(r.result.unsure || []), ...(r.result.compare || []).flatMap(t => t.picks || []), ...(r.result.alternatives || [])]
     .map(c => c.id).filter((id, i, a) => id && a.indexOf(id) === i).slice(0, 6);
   // AI 가 다듬은 답이면 첫머리(결론 2~3문장, '[이렇게 이해했어요]' 앞)만 따로 — 화면 '청약봇 설명' 칸. 나머지 줄은 기본 답과 같은 구조라 '자세한 설명'에 그대로
   const lead = r.how === 'ai' ? String(r.text || '').split(/\n\[/)[0].trim() : null;
   const rec = { id: 'f' + Date.now().toString(36), q: question, at: new Date().toISOString(), kind, text: r.text || '', how: r.how, lead, cards, understood: r.understood || '', view: r.view || null,
-    profile: parseProfile(question), steps: r.steps, state: r.state, legacy: r.legacy };
+    profile: parseProfile(question), steps: r.steps, state: r.state, legacy: null };   // legacy('기존 청약봇으로 넘김') 안내는 general 갈래가 대신한다
   remember({ id: rec.id, q: rec.q, at: rec.at, kind: rec.kind, text: rec.text, how: rec.how, lead: rec.lead, cards: rec.cards, understood: rec.understood, view: rec.view, profile: rec.profile, legacy: rec.legacy });
   return rec;
 }

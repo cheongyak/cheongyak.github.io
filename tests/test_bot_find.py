@@ -12,13 +12,13 @@ def test_bot_engine_copy_in_sync():
 
 
 def test_bot_profile_parser_tests_pass():
-    r = subprocess.run(["node", "--test", "tests/bot/profile.test.mjs"], cwd=ROOT, capture_output=True, text=True)
+    r = subprocess.run(["node", "--test", "tests/bot/profile.test.mjs", "tests/bot/route.test.mjs"], cwd=ROOT, capture_output=True, text=True)
     assert r.returncode == 0, r.stdout[-2000:] + r.stderr[-2000:]
 
 
 def test_screen_hooks():
     h = (ROOT / "docs/index.html").read_text(encoding="utf-8")
-    for k in ("function botFindBox", "function vBot", "function botAct", "bot:vBot", "'cy-bot-preview'", "import('./bot/find.mjs')"):
+    for k in ("function botFindBox", "function vBot", "function botAct", "bot:vBot", "'cy-bot-preview'", "import('./bot/find.mjs')", "function botGeneralView", "function botChat", "data-kind=\"general\""):
         assert k in h, k
     import json
     assert json.loads((ROOT / "docs/config.json").read_text(encoding="utf-8"))["features"]["bot_find"] is False   # 미리보기(?bot=1) 확인 뒤 켬

@@ -5893,6 +5893,7 @@ function botHistCard(x){ const d = new Date(x.at); const at = isNaN(d) ? '' : (d
 function vBot(){
   if (!botOn()) { S.view = 'feed'; return vFeed(); }
   const back = `<button class="back" data-go="feed" aria-label="뒤로">←</button>`;
+  if (BOT.cur && BOT.cur.mode === 'general') return botGeneralView(BOT.cur, back);
   if (BOT.cur) {
     const r = BOT.cur, P = r.profile || { set: {}, shown: [], ask: [] }, hasSet = Object.keys(P.set || {}).length > 0, V = r.view;
     const prof = hasProfile() ? S.profile : null;
@@ -5922,10 +5923,11 @@ function vBot(){
   }
   const exs = BOT.exs || [['찾기', '무주택 세대 3인 가족이고 연봉 7천, 현금 2억이에요. 서울·경기에서 지금 넣을 만한 곳 있어요?'], ['자격', '신혼 3년차 맞벌이 부부합산 1.1억인데 동탄 신혼부부 특별공급 돼요?'], ['단지 비교', '세종 리더스포레 84랑 에코델타 푸르지오 84 중 어디가 나아요? 현금 3억에 연봉 8천이에요.'], ['지역', '판교·광교 근처 전용 59㎡ 9억 이하로 당첨 가능성 있는 공고 찾아 주세요']];
   return `<div class="top">${back}<div><div class="brand" style="font-size:17px">공고 찾기</div></div></div>
-  <div class="botask"><h2 style="margin:0 0 6px;font-size:20px">무엇이 궁금하세요?</h2><p class="small muted" style="margin:0 0 12px">청약봇에게 묻듯 적어 주세요. 글에서 읽은 것은 다시 묻지 않아요.${hasProfile() ? ' 저장된 내 조건은 자동으로 써요.' : ''}</p>
+  <div class="botask"><h2 style="margin:0 0 6px;font-size:20px">무엇이 궁금하세요?</h2><p class="small muted" style="margin:0 0 12px">공고 찾기·단지 비교·내 자격은 물론, 청약통장·가점·제도 질문도 돼요. 글에서 읽은 것은 다시 묻지 않아요.${hasProfile() ? ' 저장된 내 조건은 자동으로 써요.' : ''}</p>
     <textarea id="botq" placeholder="예: 현금 2억 있고 연봉 7천이에요. 무주택 3인 가족인데 서울·경기에서 넣을 만한 곳 있어요?" ${BOT.busy ? 'disabled' : ''}>${esc(BOT.draft || '')}</textarea>
     ${BOT.err ? `<p class="small" style="color:var(--bad);margin:8px 0 0">${esc(BOT.err)}</p>` : ''}
-    <button class="go" data-action="bot-go" ${BOT.busy ? 'disabled' : ''}>${BOT.busy ? '찾는 중…' : '공고 찾기 시작'}</button>
+    ${BOT.unsure ? `<div class="botsave" style="margin-top:10px"><b>어느 쪽으로 답할까요?</b><span class="muted">공고를 찾는 질문인지, 청약 제도를 묻는 질문인지 분명하지 않아요.</span><div class="row"><button class="btn pri" data-action="bot-as" data-kind="find">공고 찾기</button><button class="btn" data-action="bot-as" data-kind="general">청약 제도 설명</button></div></div>` : ''}
+    <button class="go" data-action="bot-go" ${BOT.busy ? 'disabled' : ''}>${BOT.busy ? '찾는 중…' : '질문하기'}</button>
     <p class="small muted" style="margin:14px 0 0">이렇게 물어보셔도 돼요</p>
     <div class="exs">${exs.map(([k, q]) => `<button class="ex" data-action="bot-ex" data-q="${esc(q)}"><b>${esc(k)}</b>${esc(q)}</button>`).join('')}</div>
     ${botHist().length ? `<div class="bothist" style="margin-top:16px"><div class="hh"><h3>이어 하기</h3></div>${botHist().slice(0, 5).map(botHistCard).join('')}</div>` : ''}
@@ -5972,25 +5974,61 @@ function botSummary(text){
   return `<section class="card"><h2 style="margin:0;font-size:16px">요약</h2><div class="botans">${botLinkify(esc(keep.slice(0, 4).join('\n\n')))}</div></section>`;
 }
 const botLinkify = t => t.replace(/https:\/\/cheongyakpass\.kr\/#\/detail\/([\w.\-]+)/g, (m, id) => `<a href="#/detail/${id}" data-open="${id}">공고 열기</a>`).replace(/\[([^\]\n]{2,30})\]/g, '<b>$1</b>');
-async function botRun(q){
-  BOT.busy = true; BOT.err = ''; BOT.saved = false; render();
+/* 제도·요령 질문 결과 화면: 결론 → 이유·공식 기준(근거 번호) → 주의할 점 → 출처(법령·공고문 원문 보기) → 되물음. 기존 '이 공고 물어보기' 답 모양(chatAnswerHtml)과 같은 칸 */
+function botGeneralView(r, back){
+  const a = r.ans, refs = x => (x.refs || []).length ? ' <span class="chatref">' + x.refs.map(esc).join(' ') + '</span>' : '';
+  const sec = (t, arr, f) => arr && arr.length ? `<section class="card"><h2 style="margin:0;font-size:15px">${t}</h2><ul style="margin:0;padding-left:18px;font-size:14px;line-height:1.55">${arr.map(f).join('')}</ul></section>` : '';
+  const srcs = (r.sources || []).map(s => `<li><span class="chatref">${esc(s.id)}</span> ${s.url ? `<a href="${esc(s.url)}" target="_blank" rel="noopener">${esc(s.title)}</a>` : esc(s.title)}${s.quote ? `<details class="small chatq"><summary>원문 보기</summary><p>${esc(s.quote)}</p></details>` : ''}</li>`).join('');
+  return `<div class="top">${back}<div><div class="brand" style="font-size:17px">청약 질문</div><span class="small muted">법령·공고문 근거로 답해요 · 판정은 화면 판정이 기준</span></div></div>
+  <div class="botq"><div class="qi"><span>내 질문</span>${esc(r.q)}</div><button class="linkbtn small" data-action="bot-ask">다시 묻기</button></div>
+  ${a ? `<section class="botv"><span class="vl">청약봇 답${r.fallback ? ' · 기본 답' : ''}</span><p class="vt" style="font-size:16px;font-weight:600">${esc(a.conclusion || '')}</p></section>
+    ${sec('이유', a.why, x => `<li>${esc(x.text)}${refs(x)}</li>`)}
+    ${sec('공식 기준', a.official, x => `<li>${esc(x.text)}${refs(x)}</li>`)}
+    ${sec('주의할 점', a.cautions, x => `<li>${esc(x)}</li>`)}
+    ${srcs ? `<section class="card"><h2 style="margin:0;font-size:15px">출처</h2><ul class="chatsrc" style="margin:0;padding-left:18px;font-size:13px">${srcs}</ul></section>` : ''}
+    ${a.ask ? `<section class="botsave"><b>되물어 볼게요</b><span>${esc(a.ask)}</span><div class="row"><button class="btn pri" data-action="bot-ask">이어서 답하기</button></div></section>` : ''}
+    ${r.remaining != null ? `<p class="small muted" style="margin:8px 0 0">오늘 남은 질문 ${r.remaining}건</p>` : ''}`
+  : `<section class="botv none"><span class="vl">청약 질문</span><p class="vt" style="font-size:15px;font-weight:600">${esc(r.note || '답을 받지 못했어요.')}</p></section>`}
+  <section class="botnext"><b>이런 것도 물어볼 수 있어요</b><span>· 지역·예산·면적을 적으면 지금 공고를 찾아 드려요</span><span>· 내 조건을 저장하면 공고마다 신청 가능 여부를 판정해요</span><div class="row"><button class="btn" data-action="bot-ask">새 질문</button>${hasProfile() ? '' : '<button class="btn" data-action="restart">내 조건 입력</button>'}</div></section>
+  <p class="foot">참고용이에요. 질문은 청약봇 서버로 보내 법령·공고문 근거로 답을 만들고, 주민번호·전화번호 같은 정보는 보내기 전에 가려요. 내 조건 값은 보내지 않아요.</p>`;
+}
+/* 제도·요령 질문은 청약봇 서버 /chat 으로 (공고 없이 '청약 전반' — 법령 근거 + AI 설명 + 검사기, 기존 '이 공고 물어보기'와 같은 길). 스위치 bot_find_ai 가 꺼져 있으면 부르지 않는다 */
+function botChat(){
+  if (!botAiOn()) return null;
+  return async ({ question }) => {
+    const r = chatRedact(question);
+    const resp = await fetch(CONFIG.chat_api.replace(/\/$/, '') + '/chat', { method: 'POST', headers: { 'content-type': 'application/json' },
+      body: JSON.stringify({ question: r.text, engine: null, anon_id: chatId(), conversation_id: 'g' + Date.now().toString(36), history: [], preview: chatCode() || undefined }) });
+    const j = await resp.json().catch(() => ({}));
+    if (!resp.ok && !j.kind) throw new Error(j.message || ('HTTP ' + resp.status));
+    return j;
+  };
+}
+async function botRun(q, force){
+  BOT.busy = true; BOT.err = ''; BOT.saved = false; BOT.unsure = null; render();
   try {
     const M = await botMod();
-    const W = Object.assign(Object.create(null), { fromApi, eligBucket, eligibility, spJudge, spTypesFor, SP_NAME, ELIG_NAME, myScore, grade, GNAME, marginText, funding, statusOf, judgeScope, genNone, isRental, isNewlywedTown, kindOf, regionScore, DEFAULT_PROFILE, syncHome, syncV2, LISTINGS, TODAY, DATA_SOURCE });   /* let/const 는 window 에 없어 직접 묶는다 */
-    BOT.aiNote = '';
-    const r = await M.find(W, q, { profile: hasProfile() ? S.profile : null, state: BOT.more ? (BOT.cur && BOT.cur.state) || null : null, llm: botLlm('b' + Date.now().toString(36)) });
-    if (BOT.aiNote) r.aiNote = BOT.aiNote;
-    BOT.cur = r; BOT.more = false; BOT.draft = '';
-    metric('bot/find/' + r.kind);
+    const kind = force || await M.route(q);
+    if (kind === 'unsure') { BOT.busy = false; BOT.unsure = q; BOT.draft = q; render(); return; }
+    if (kind === 'general') { BOT.cur = await M.general(q, { chat: botChat() }); BOT.more = false; BOT.draft = ''; metric('bot/general'); }
+    else {
+      const W = Object.assign(Object.create(null), { fromApi, eligBucket, eligibility, spJudge, spTypesFor, SP_NAME, ELIG_NAME, myScore, grade, GNAME, marginText, funding, statusOf, judgeScope, genNone, isRental, isNewlywedTown, kindOf, regionScore, DEFAULT_PROFILE, syncHome, syncV2, LISTINGS, TODAY, DATA_SOURCE });   /* let/const 는 window 에 없어 직접 묶는다 */
+      BOT.aiNote = '';
+      const r = await M.find(W, q, { profile: hasProfile() ? S.profile : null, state: BOT.more ? (BOT.cur && BOT.cur.state) || null : null, llm: botLlm('b' + Date.now().toString(36)), forceSearch: force === 'find' });
+      if (BOT.aiNote) r.aiNote = BOT.aiNote;
+      BOT.cur = r; BOT.more = false; BOT.draft = '';
+      metric('bot/find/' + r.kind);
+    }
   } catch(e) { BOT.err = '찾지 못했어요. 잠시 뒤 다시 해 보세요.'; try { metric('bot/find-error'); } catch(_) {} }
   BOT.busy = false; render(); window.scrollTo(0, 0);
 }
 function botAct(a, t){
-  if (a === 'bot-ask') { BOT.cur = null; BOT.more = false; go('bot'); const q = app.querySelector('#botq'); if (q) try { q.focus(); } catch(e) {} return; }
+  if (a === 'bot-ask') { BOT.cur = null; BOT.more = false; BOT.unsure = null; go('bot'); const q = app.querySelector('#botq'); if (q) try { q.focus(); } catch(e) {} return; }
   if (a === 'bot-more') { BOT.more = true; BOT.draft = ''; const cur = BOT.cur; BOT.cur = null; BOT.prev = cur; go('bot'); return; }
   if (a === 'bot-ex') { BOT.draft = t.dataset.q; render(); const q = app.querySelector('#botq'); if (q) try { q.focus(); } catch(e) {} return; }
+  if (a === 'bot-as') { botRun(BOT.unsure || BOT.draft, t.dataset.kind); return; }   /* 애매한 질문: 사용자가 고른 갈래로 */
   if (a === 'bot-go') { const q = (app.querySelector('#botq') || {}).value || ''; if (q.trim().length < 5) { BOT.err = '한 줄이라도 상황을 적어 주세요.'; render(); return; } if (BOT.more && BOT.prev) BOT.cur = BOT.prev; botRun(q.trim()); return; }
-  if (a === 'bot-open') { const x = botHist().find(h => h.id === t.dataset.id); if (!x) return; BOT.cur = x; BOT.saved = false; go('bot'); return; }
+  if (a === 'bot-open') { const x = botHist().find(h => h.id === t.dataset.id); if (!x) return; BOT.cur = x; BOT.saved = false; BOT.unsure = null; go('bot'); return; }
   if (a === 'bot-nosave') { BOT.saved = false; BOT.cur.profile = { set: {}, shown: [], ask: BOT.cur.profile.ask }; render(); return; }
   if (a === 'bot-save') {   /* 질문에서 읽은 칸만 내 조건에 넣는다 — 나머지 칸은 그대로. 넣은 칸은 _set 에 '입력함'으로 */
     const set = (BOT.cur.profile || {}).set || {}; if (!Object.keys(set).length) return;

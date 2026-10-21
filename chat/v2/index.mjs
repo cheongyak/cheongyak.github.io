@@ -10,7 +10,7 @@ import { SP_LABEL } from './lexicon.mjs';
 // D: 데이터 묶음 (Node: node.mjs, 브라우저: browser.mjs fromScreen). 이 파일은 Node·브라우저 어디서나 돈다 (fs·네트워크 안 씀)
 // commute: async (from{lat,lng}, to{lat,lng}) => {min, km, src, at} | {error}  (서버에서만 — commute.mjs carTime). 없으면 직선거리만
 // geocode: async (장소 이름) => {name, lat, lng} | {error} — 표에 없는 직장 위치를 실제 장소로 (서버에서만, 카카오 장소 검색)
-export async function ask({ D, question, profile = null, state = null, llm = null, updated = '', commute = null, geocode = null }) {
+export async function ask({ D, question, profile = null, state = null, llm = null, updated = '', commute = null, geocode = null, forceSearch = false }) {   // forceSearch: 사용자가 '공고 찾기'를 고른 질문 (기능 bot_find — 제도 꼴이어도 검색으로)
   const t0 = Date.now(), steps = [];
   // 1. 조건 추출 — 규칙 해석을 먼저, AI 가 있으면 AI 해석을 쓰되 형식 검사를 통과한 것만
   let C = state ? applyDelta(state, question) : extract(question), via = 'rules';
@@ -29,7 +29,7 @@ export async function ask({ D, question, profile = null, state = null, llm = nul
   }
   steps.push('조건 ' + C.conds.length + '개 (' + via + ')');
   // 2~6. 검색·걸러내기·자격·점수
-  let mode = C.intent === 'compare' && C.targets.length >= 2 ? 'compare' : C.intent === 'explain' ? 'explain' : 'search';
+  let mode = C.intent === 'compare' && C.targets.length >= 2 ? 'compare' : C.intent === 'explain' && !forceSearch ? 'explain' : 'search';
   const r = search(D, C, { profile });
   let compare = null;
   if (mode === 'compare') {
