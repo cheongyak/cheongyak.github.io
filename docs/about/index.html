@@ -249,6 +249,20 @@ h2{margin:0;font-size:16px}
 .qmore{padding:0 14px;background-image:none}
 .segs.mini{margin-left:auto;gap:4px}
 .qsel.on{border-color:var(--fg);box-shadow:inset 0 0 0 1px var(--fg)}
+.botbox{--bot:#0B6E4F;--bot2:#07513A;background:linear-gradient(135deg,var(--bot) 0%,var(--bot2) 100%);color:#fff;border-radius:18px;padding:18px 16px;display:flex;flex-direction:column;gap:12px;margin-bottom:12px}
+.botbox .bk{font-size:12px;font-weight:700;opacity:.85;letter-spacing:.2px}.botbox h2{margin:0;font-size:19px;line-height:1.35;font-weight:800;color:#fff}
+.botbox .bin{display:flex;align-items:center;gap:8px;background:rgba(0,0,0,.28);border:1px solid rgba(255,255,255,.22);border-radius:12px;padding:12px 14px;font-size:14px;color:rgba(255,255,255,.9);text-align:left;width:100%;cursor:pointer}
+.botbox .bin span{flex:1;min-width:0;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}.botbox .bin b{font-size:18px;line-height:1}
+.bothist{display:flex;flex-direction:column;gap:8px;margin-bottom:12px}.bothist .hh{display:flex;justify-content:space-between;align-items:baseline}.bothist .hh h3{margin:0;font-size:17px}
+.bothist .hc{text-align:left;background:var(--surface);border:1px solid var(--line);border-radius:14px;padding:12px 14px;display:flex;flex-direction:column;gap:6px;cursor:pointer;color:var(--fg)}
+.bothist .hc .hk{font-size:12px;color:var(--muted)}.bothist .hc .hk b{color:var(--lotto);margin-right:6px}.bothist .hc .hq{font-size:14px;line-height:1.45;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}
+.botask textarea{width:100%;min-height:150px;border:1px solid var(--line);border-radius:14px;padding:14px;font:inherit;font-size:15px;line-height:1.5;background:var(--surface);color:var(--fg);resize:vertical}
+.botask .go{width:100%;padding:16px;border:0;border-radius:14px;background:var(--lotto);color:#fff;font-size:16px;font-weight:800;margin-top:10px}.botask .go[disabled]{opacity:.5}
+.botask .exs{display:flex;flex-direction:column;gap:8px;margin-top:14px}.botask .ex{text-align:left;background:var(--surface);border:1px solid var(--line);border-radius:14px;padding:12px 14px;color:var(--fg);cursor:pointer;font-size:14px;line-height:1.45}
+.botask .ex b{display:block;font-size:12px;color:var(--lotto);margin-bottom:4px}
+.botans{white-space:pre-wrap;font-size:14px;line-height:1.6}.botans a{word-break:break-all}
+.botsave{background:var(--surface);border:1px solid var(--line);border-radius:14px;padding:12px 14px;display:flex;flex-direction:column;gap:8px;font-size:13px}.botsave .row{display:flex;gap:8px;flex-wrap:wrap}
+.botsave .btn{padding:9px 12px;border-radius:10px;border:1px solid var(--line);background:var(--surface);color:var(--fg);font-size:13px}.botsave .btn.pri{background:var(--lotto);color:#fff;border-color:transparent}
 .profile-bar{display:flex;align-items:center;gap:10px;padding:12px 14px;background:var(--surface);border:1px solid var(--line);border-radius:12px;font-size:13px}
 .profile-bar span{flex:1;min-width:0}
 .linkbtn{border:0;background:none;color:var(--link);font-weight:600;cursor:pointer;padding:6px 0;min-height:32px}
@@ -495,9 +509,9 @@ dl.kv dt{color:var(--muted)} dl.kv dd{margin:0;text-align:right;font-weight:600}
 <h1>이용 안내</h1>
   <p class="small muted" style="margin:0 2px">판정은 내가 넣은 정보로 계산한 참고용이에요. 신청 전 모집공고문과 청약홈 '청약자격확인'으로 확인하세요.</p>
   <div class="menulist">
-    <details class="menurow menudet"><summary><span><b>앱으로 받기</b><span class="small muted">홈 화면에 추가해 앱처럼 쓰기</span></span><svg style="transform:rotate(180deg)" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m15 18-6-6 6-6"></path></svg></summary>
+    <a class="menurow" href="https://open.kakao.com/o/pKX5Z5Qi" target="_blank" rel="noopener" data-ev="open-chat"><span><b>오픈카톡방</b><span class="small muted">청약 고민 나누기 · 사용 문의 · 건의</span></span><svg style="transform:rotate(180deg)" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m15 18-6-6 6-6"></path></svg></a><details class="menurow menudet"><summary><span><b>앱으로 받기</b><span class="small muted">홈 화면에 추가해 앱처럼 쓰기</span></span><svg style="transform:rotate(180deg)" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m15 18-6-6 6-6"></path></svg></summary>
     <div class="small" style="margin-top:8px">브라우저 오른쪽 위 <b>⋮ 메뉴</b> → <b>홈 화면에 추가</b>(또는 앱 설치)를 누르세요.</div></details>
-    
+    <a href="/" class="menurow"><span><b>알림 설정</b><span class="small muted">새 공고 알림 켜기·끄기</span></span><svg style="transform:rotate(180deg)" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m15 18-6-6 6-6"></path></svg></a>
     <a href="/story/" class="menurow"><span><b>만든 이유와 데이터</b><span class="small muted">판정 범위 · 쓰는 데이터와 검증 방식</span></span><svg style="transform:rotate(180deg)" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m15 18-6-6 6-6"></path></svg></a>
     <a href="/terms/" class="menurow"><span><b>이용약관</b></span><svg style="transform:rotate(180deg)" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m15 18-6-6 6-6"></path></svg></a><a href="/privacy/" class="menurow"><span><b>개인정보처리방침</b></span><svg style="transform:rotate(180deg)" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m15 18-6-6 6-6"></path></svg></a>
     
