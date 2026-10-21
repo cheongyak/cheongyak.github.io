@@ -4,6 +4,15 @@
 2026-09-29 12:55 이전 항목은 규칙을 만들기 전 작업을 커밋 기록으로 정리한 것이라 백업 브랜치가 없어요.
 그 시점으로 되돌릴 때는 해당 커밋 번호로 `git revert` 를 써요.
 
+## 2026-10-22 08:52 · v1.72.0 커밋에 섞인 충돌 표시 고침 (수정)
+- 요청: (사고) 1ff42735 를 올릴 때 `git pull --rebase --autostash` 가 다른 세션 dc0ba5ee(v1.71.4, 같은 PARSER_VERSION 45)와 충돌했는데 그대로 add·commit·push → app/pipeline.py·tests/qa/parse_snapshot.json 에 충돌 표시(<<<<<<<)가 들어감. pipeline.py 문법 오류라 그 사이 수집이 돌면 실패(약 4분)
+- 변경: PARSER_VERSION 46(45 = 다른 세션 2026000502 규칙, 46 = 공급규모 문장) 으로 합침, parse_snapshot 은 dc0ba5ee 기준에서 다시 --update(차이 = supply_scale 칸만). FEATURES 해시
+- 파일: app/pipeline.py, tests/qa/parse_snapshot.json, FEATURES.md, WORK.md, .claude/skills/cheongyakpass-ops/SKILL.md
+- 확인: 저장소 전체 충돌 표시 0, pipeline 문법, pytest 315 통과(2026000502 포함)
+- 백업: backup/20261022-0838-verify-root
+- 기능: 없음(수정)
+- 재발 방지: autostash 로 받지 않는다 — 먼저 커밋하고 `git pull --rebase`, 충돌이면 멈춤(스킬 함정에 적음)
+
 ## 2026-10-22 08:38 · 재공급 특공 세대수 두 곳 대조 (경고 반복 원인 ②, v1.72.0)
 - 요청: '베타 참고용' 반복 근본 원인 (사용자 지시문)
 - 원인: 경고 이력 19번 중 재공급 특별공급 세대수 못 읽음(불변식 '재공급 일반 0세대인데 특공 세대수 없음')이 10-06·10-08·10-08 밤·10-22 4번. 읽기 규칙 14→26→30→31→44 로 3주에 5번 새 표 모양(띄어쓰기·계 칸 없음·일반공급 칸 없음·따로 표)을 하나씩 더함 — 값을 표 모양 하나에만 기대 읽는 구조가 원인
