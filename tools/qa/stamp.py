@@ -29,10 +29,10 @@ DEPS = {
     "snapshot.json": ("code",), "e2e.json": ("listings", "code"), "past-chat.json": ("listings", "code"),
     "pay-audit.json": ("listings",), "parse-moved.json": ("listings",), "zero-default.json": ("listings", "code"),
     "input-nav.json": ("listings", "code"), "coverage.json": ("listings",),
-    "lh-invariants.json": ("lh",), "lh-qa.json": ("lh", "sh", "gh", "code"), "lh-screen.json": ("lh", "sh", "gh", "code"),
-    "lh-unread.json": ("lh", "sh", "gh", "code"), "lh-pdf-tools.json": ("lh",),
+    "lh-invariants.json": ("lh",), "lh-qa.json": ("lh", "sh", "gh", "pvt", "code"), "lh-screen.json": ("lh", "sh", "gh", "pvt", "code"),
+    "lh-unread.json": ("lh", "sh", "gh", "pvt", "code"), "lh-pdf-tools.json": ("lh",),
 }
-SRC = {"listings": "docs/listings.json", "lh": "docs/lh-rental.json", "sh": "docs/sh-rental.json", "gh": "docs/gh-rental.json", "code": "docs/index.html"}
+SRC = {"listings": "docs/listings.json", "lh": "docs/lh-rental.json", "sh": "docs/sh-rental.json", "gh": "docs/gh-rental.json", "pvt": "docs/pvt-rental.json", "code": "docs/index.html"}
 
 
 def current() -> dict:

@@ -4,6 +4,14 @@
 2026-09-29 12:55 이전 항목은 규칙을 만들기 전 작업을 커밋 기록으로 정리한 것이라 백업 브랜치가 없어요.
 그 시점으로 되돌릴 때는 해당 커밋 번호로 `git revert` 를 써요.
 
+## 2026-10-21 19:10 · 공공지원 민간임대 수집 1단계 (스위치 pvt_rental, 꺼 둔 채로)
+- 요청: GH 임대 → 공공지원 민간임대 순서로 공고 추가 (GH 는 마이홈 API 활용신청을 기다리는 동안 먼저)
+- 변경: app/pvt_rental.py — 청약홈 API 공공지원 민간임대 개요·주택형(최근 90일 공고 중 아직 열린 것)을 docs/pvt-rental.json 으로. 금액 뜻은 청약홈 공고 화면과 대조(SUPLY_AMOUNT=공급금액 만원·주택형별 최고, SUBSCRPT_REQST_AMOUNT=청약신청금, 특별공급 청년·신혼부부·고령자 세대수). 화면은 임대 목록에 '공공지원 민간임대'로 일정·주택형·공급금액·청약홈 공고 링크(숫자를 직접 볼 수 있는 화면), 판정 미지원·임대보증금·월세는 모집공고문 확인. 워크플로 pvt-rental.yml(매일 07:04), 검사 지문에 pvt 추가
+- 파일: app/pvt_rental.py, .github/workflows/pvt-rental.yml, docs/index.html, docs/config.json(pvt_rental false), tools/qa/stamp.py, tests/test_pvt_rental.py, tests/test_qa_stamp.py, WORK.md
+- 확인: 실제 응답(evidence/qa/pvt-rent-probe.json)으로 레코드 시험, 청약홈 화면 값과 일치, 390px 상세 화면(시험용 날짜로), 스크립트 문법, 판정 사례 일치, 엔진 잠금 그대로
+- 백업: backup/20261021-1803-coverage
+- 기능: pvt_rental (꺼짐)
+
 ## 2026-10-21 18:40 · GH 임대 공고 수집 1단계 (스위치 gh_rental, 꺼 둔 채로)
 - 요청: GH 임대 → 공공지원 민간임대 순서로 공고 추가
 - 변경: app/gh_rental.py — GH 누리집 '분양/임대 공고 > 주택' 게시판(Actions 서버에서 GH 청약센터는 접속 시간 초과, 누리집은 됨 — evidence/qa/gh-probe.txt)에서 최근 60일 임대 입주자 모집공고(분양·발표·결과 글 뺌)를 읽고 공고문 PDF 글에서 접수 기간(SH 와 같은 규칙)을 읽어 docs/gh-rental.json. 화면은 SH 1단계처럼 목록·접수 기간·공고문·GH 공고 링크(자격 판정 없음, 'GH ·' 표시). 워크플로 gh-rental.yml(매일 06:57, 바뀌면 판정 검증 다시), 검사 지문에 gh 데이터 추가. 수집 결과를 원문과 맞춰 본 뒤 켬
