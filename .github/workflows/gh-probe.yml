@@ -1,0 +1,38 @@
+name: GH 임대 원천 점검
+# GH 청약센터·누리집 공고 화면과 청약홈 공공지원 민간임대·임의공급 응답을 받을 수 있는지 evidence/qa/gh/ 에 남긴다 (tools/qa/gh_probe.py, 조사 단계). 수집·판정과 따로 — 손으로 실행하거나 도구가 바뀔 때만.
+on:
+  workflow_dispatch:
+  push:
+    branches: [main]
+    paths:
+      - "tools/qa/gh_probe.py"
+      - "tools/qa/pvt_probe.py"
+      - ".github/workflows/gh-probe.yml"
+permissions:
+  contents: write
+concurrency:
+  group: gh-probe
+  cancel-in-progress: true
+jobs:
+  probe:
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    env:
+      TZ: Asia/Seoul
+      DATA_GO_KR_KEY: ${{ secrets.DATA_GO_KR_KEY }}
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - run: pip install -q -r requirements.txt
+      - run: python -m tools.qa.gh_probe
+        continue-on-error: true
+      - run: python -m tools.qa.pvt_probe   # 공공지원 민간임대·임의공급 실제 응답 (값까지)
+        continue-on-error: true
+      - name: 저장
+        run: |
+          git config user.name "cheongyak-bot"
+          git config user.email "actions@users.noreply.github.com"
+          git add evidence/qa/gh evidence/qa/gh-probe.txt evidence/qa/pvt-rent-probe.json
+          git diff --cached --quiet || (git commit -m "GH 임대 원천 점검 $(date +%Y-%m-%d)" && (git push || (git pull --rebase -X theirs origin main && git push)))
