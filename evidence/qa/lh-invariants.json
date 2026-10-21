@@ -1,9 +1,16 @@
 {
- "date": "2026-10-22 06:59",
- "data_updated": "2026-10-20 12:41",
- "notices": 36,
- "violations": {},
- "count": 0,
+ "date": "2026-10-22 07:06",
+ "data_updated": "2026-10-22 07:03",
+ "notices": 35,
+ "violations": {
+  "terms_unread": {
+   "count": 1,
+   "examples": [
+    "0000061187 공공임대 대곡 호정포레스트, 풍경그린, 옥포 르상트레빌, 테크노"
+   ]
+  }
+ },
+ "count": 1,
  "info": {
   "unknown_groups": {
    "count": 2,
@@ -11,9 +18,15 @@
     "2015122300020919 ['청년 창업인']",
     "2015122300020916 ['산업단지근로자']"
    ]
+  },
+  "public_unread": {
+   "count": 1,
+   "examples": [
+    "0000061187 regions=None account=None"
+   ]
   }
  },
  "_data": {
-  "lh": "099e74b54dae"
+  "lh": "dc1948354ec8"
  }
 }
