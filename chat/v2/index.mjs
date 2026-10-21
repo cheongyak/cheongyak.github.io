@@ -73,6 +73,8 @@ export async function ask({ D, question, profile = null, state = null, llm = nul
 function summarize(r, compare) {
   const c = it => ({ id: it.f.id, name: it.f.name, unit: it.f.unit, price: it.f.price.v, area: it.f.area.v, status: it.f.status, past: it.f.past, elig: it.elig || null,
     sp_ok: (it.sp || []).filter(s => s.s === 'ok').map(s => s.label), margin: it.f.margin.g, unknown: it.unknown || [], link: it.f.link });
+  const alt = r.relax.find(o => /인접 지역/.test(o.label)) || r.relax.find(o => !/지난 공고/.test(o.label));   // 기본 답의 '[대신 눈여겨볼 곳]'과 같은 고르기 (answer.mjs)
   return { total: r.total, excluded: r.excluded, candidates: r.groups.map(g => c(g.best)), unsure: r.unsure.map(c), refused: r.refused.map(c), perspectives: r.perspectives, relax: r.relax.map(o => ({ label: o.label, count: o.count })),
+    alternatives: alt && alt.groups ? alt.groups.slice(0, 3).map(g => c(g.best)) : (r.closest || []).map(c),   // 화면 카드용 (기능 bot_find): 후보가 없을 때 대신 보여 줄 곳
     explore: r.explore, compare: compare && compare.map(t => ({ query: t.query, found: t.found, picks: (t.notices || []).map(n => c(n.pick)) })) };
 }

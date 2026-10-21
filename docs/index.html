@@ -264,6 +264,20 @@ h2{margin:0;font-size:16px}
 .qmore{padding:0 14px;background-image:none}
 .segs.mini{margin-left:auto;gap:4px}
 .qsel.on{border-color:var(--fg);box-shadow:inset 0 0 0 1px var(--fg)}
+.botbox{--bot:#0B6E4F;--bot2:#07513A;background:linear-gradient(135deg,var(--bot) 0%,var(--bot2) 100%);color:#fff;border-radius:18px;padding:18px 16px;display:flex;flex-direction:column;gap:12px;margin-bottom:12px}
+.botbox .bk{font-size:12px;font-weight:700;opacity:.85;letter-spacing:.2px}.botbox h2{margin:0;font-size:19px;line-height:1.35;font-weight:800;color:#fff}
+.botbox .bin{display:flex;align-items:center;gap:8px;background:rgba(0,0,0,.28);border:1px solid rgba(255,255,255,.22);border-radius:12px;padding:12px 14px;font-size:14px;color:rgba(255,255,255,.9);text-align:left;width:100%;cursor:pointer}
+.botbox .bin span{flex:1;min-width:0;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}.botbox .bin b{font-size:18px;line-height:1}
+.bothist{display:flex;flex-direction:column;gap:8px;margin-bottom:12px}.bothist .hh{display:flex;justify-content:space-between;align-items:baseline}.bothist .hh h3{margin:0;font-size:17px}
+.bothist .hc{text-align:left;background:var(--surface);border:1px solid var(--line);border-radius:14px;padding:12px 14px;display:flex;flex-direction:column;gap:6px;cursor:pointer;color:var(--fg)}
+.bothist .hc .hk{font-size:12px;color:var(--muted)}.bothist .hc .hk b{color:var(--lotto);margin-right:6px}.bothist .hc .hq{font-size:14px;line-height:1.45;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}
+.botask textarea{width:100%;min-height:150px;border:1px solid var(--line);border-radius:14px;padding:14px;font:inherit;font-size:15px;line-height:1.5;background:var(--surface);color:var(--fg);resize:vertical}
+.botask .go{width:100%;padding:16px;border:0;border-radius:14px;background:var(--lotto);color:#fff;font-size:16px;font-weight:800;margin-top:10px}.botask .go[disabled]{opacity:.5}
+.botask .exs{display:flex;flex-direction:column;gap:8px;margin-top:14px}.botask .ex{text-align:left;background:var(--surface);border:1px solid var(--line);border-radius:14px;padding:12px 14px;color:var(--fg);cursor:pointer;font-size:14px;line-height:1.45}
+.botask .ex b{display:block;font-size:12px;color:var(--lotto);margin-bottom:4px}
+.botans{white-space:pre-wrap;font-size:14px;line-height:1.6}.botans a{word-break:break-all}
+.botsave{background:var(--surface);border:1px solid var(--line);border-radius:14px;padding:12px 14px;display:flex;flex-direction:column;gap:8px;font-size:13px}.botsave .row{display:flex;gap:8px;flex-wrap:wrap}
+.botsave .btn{padding:9px 12px;border-radius:10px;border:1px solid var(--line);background:var(--surface);color:var(--fg);font-size:13px}.botsave .btn.pri{background:var(--lotto);color:#fff;border-color:transparent}
 .profile-bar{display:flex;align-items:center;gap:10px;padding:12px 14px;background:var(--surface);border:1px solid var(--line);border-radius:12px;font-size:13px}
 .profile-bar span{flex:1;min-width:0}
 .linkbtn{border:0;background:none;color:var(--link);font-weight:600;cursor:pointer;padding:6px 0;min-height:32px}
@@ -2128,6 +2142,7 @@ function vFeedV2(){
   <div class="top"><div><div class="brand">청약패스${betaTag()}</div><span class="small muted sub-line">${DATA_SOURCE.live ? '청약홈 ' + esc(String(DATA_SOURCE.updated || '').slice(5).replace('-', '.')) + ' 갱신' : '샘플 데이터'}${on('disclaimer_banner') && !on('beta_notice') ? ' · 참고용 추정' + (on('about_page') ? ' <button class="linkbtn small" data-go="about">자세히</button>' : '') : ''}</span></div>
     ${on('search_icon') && on('search') ? `<span class="topbtns">${searchBtn()}${bellBtn()}</span>` : bellBtn()}</div>
   ${rentalSeg('sale')}
+  ${botFindBox()}
   ${on('search_icon') ? searchBox() : ''}${topFilters()}${staleNote()}
   ${betaBanner('feed')}${legalLine()}
   ${myCondCard()}
@@ -2181,6 +2196,7 @@ function vFeed(){
   ${rentalSeg('sale')}
   ${on('search_icon') ? searchBox() : ''}${topFilters()}${staleNote()}
   ${betaBanner('feed')}${legalLine()}
+  ${botFindBox()}
   ${summaryBar()}
   ${on('disclaimer_banner') && !on('beta_notice') ? `<div class="small muted" style="margin:-4px 0 8px">${on('summary_bar') ? '판정·마진은 참고용 추정이에요' : '판정은 참고용이에요'}. 신청 전 공고문을 꼭 확인하세요.${on('about_page') ? ' <button class="linkbtn small" data-go="about">자세히</button>' : ''}</div>` : ''}
   ${hasProfile() ? `<div class="profile-bar"><span class="muted">내 조건 · <b style="color:var(--fg)">${esc(profileLine(S.profile))}</b></span><button class="linkbtn" data-go="me">수정</button></div>`
@@ -3877,7 +3893,7 @@ function chatEntry(L){
 function chatFab(){   /* 기능: chat_fab (2026-10-02 사용자 요청) — 화면 오른쪽 아래 둥근 버튼, 누르면 청약 도우미 창 */
   let el = document.getElementById('chatfab');
   if (on('chat_fab')) chatHealthLoad();
-  const show = on('chat_fab') && chatOn() && !LEGAL_AS && S.view !== 'onboard';
+  const show = on('chat_fab') && chatOn() && !LEGAL_AS && S.view !== 'onboard' && !botOn();   /* 기능 bot_find: 첫 화면 입력 상자가 둥근 버튼을 대신한다 */
   if (!show) { if (el) el.remove(); return; }
   if (!el) { el = document.createElement('button'); el.id = 'chatfab'; el.className = 'chatfab'; el.dataset.chat = 'open'; el.setAttribute('aria-label', '청약 도우미에게 물어보기'); el.innerHTML = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 12a8 8 0 0 1-11.6 7.1L4 20l1-4.6A8 8 0 1 1 21 12Z"/><path d="M8.5 11h.01M12 11h.01M15.5 11h.01"/></svg>'; document.body.appendChild(el); }
   el.classList.toggle('up', (on('detail_cta') && S.view === 'detail') || (on('lh_cta') && S.view === 'rdetail'));
@@ -5819,8 +5835,92 @@ function vRDetail(){
   return secTop + hero + secJudge.replace('<section class="card">', '<section class="card" id="rsec-elig">') + sumCard + fold('공고문 자격 기준 보기', secCrit.trim()) + fold('단지 정보', secCx.trim()) + secFoot;
 }
 
-const VIEWS = { feed:vFeed, detail:vDetail, plan:vPlan, grades:vGrades, me:vMe, onboard:vOnboard, alerts:vAlerts, about:vAbout, compare:vCompare, trend:vTrend, past:vPast, story:vStory, terms:vTerms, privacy:vPrivacy, updates:vUpdates, rental:vRental, rdetail:vRDetail };
+const VIEWS = { bot:vBot, feed:vFeed, detail:vDetail, plan:vPlan, grades:vGrades, me:vMe, onboard:vOnboard, alerts:vAlerts, about:vAbout, compare:vCompare, trend:vTrend, past:vPast, story:vStory, terms:vTerms, privacy:vPrivacy, updates:vUpdates, rental:vRental, rdetail:vRDetail };
 let lastView = null;
+/* ── 청약봇 '공고 찾기' (기능 bot_find, 2026-10-21 사용자: 급매캐치 '집 찾기' 방식) ─────────────────────────────────────────
+   첫 화면 맨 위 입력 상자 → 무엇이 궁금하세요? 화면(예시 4개) → 결과 = 요약 글(V2 엔진 기본 답) + 해당 공고 카드 + '내 조건에 저장할까요?'.
+   엔진(docs/bot/v2, chat/v2 복사본)은 화면 판정 함수를 그대로 쓰고 브라우저 안에서만 돈다 — 질문·내 조건을 서버에 보내지 않는다(이 단계는 AI 없이).
+   미리보기: ?bot=1 (끄기 ?bot=off). 공개는 스위치 bot_find. 기록('이어 하기')은 이 기기에만(localStorage cy-bot-finds). */
+try { const q = new URLSearchParams(location.search).get('bot'); if (q === '1') localStorage.setItem('cy-bot-preview', '1'); else if (q === 'off') localStorage.removeItem('cy-bot-preview'); } catch(e) {}
+const botOn = () => on('bot_find') || (() => { try { return localStorage.getItem('cy-bot-preview') === '1'; } catch(e) { return false; } })();
+let BOT = { mod: null, busy: false, cur: null, err: '', draft: '', saved: false };
+function botMod(){ return BOT.mod || (BOT.mod = import('./bot/find.mjs')); }
+function botFindBox(){
+  if (!botOn() || !DATA_SOURCE.live) return '';
+  const h = botHist();
+  return `<section class="botbox" aria-label="청약봇 공고 찾기"><span class="bk">청약봇 · 공고 찾기</span><h2>내 상황을 적으면 지금 공고와 판정으로 맞춰 찾아 드려요</h2>
+    <button class="bin" data-action="bot-ask"><span>예: 무주택 3인 가족, 연봉 7천, 현금 2억, 서울·경기</span><b>→</b></button></section>
+  ${h.length ? `<div class="bothist"><div class="hh"><h3>이어 하기</h3><button class="linkbtn small" data-action="bot-ask">새 질문</button></div>${h.slice(0, 2).map(botHistCard).join('')}</div>` : ''}`;
+}
+function botHist(){ try { return JSON.parse(localStorage.getItem('cy-bot-finds') || '[]') || []; } catch(e) { return []; } }
+function botHistCard(x){ const d = new Date(x.at); const at = isNaN(d) ? '' : (d.getMonth() + 1) + '월 ' + d.getDate() + '일 ' + String(d.getHours()).padStart(2, '0') + ':' + String(d.getMinutes()).padStart(2, '0');
+  return `<button class="hc" data-action="bot-open" data-id="${esc(x.id)}"><span class="hk"><b>${esc(x.kind || '찾기')}</b>${esc(at)}</span><span class="hq">${esc(x.q)}</span><span class="small" style="color:var(--lotto)">결과 보기</span></button>`; }
+function vBot(){
+  if (!botOn()) { S.view = 'feed'; return vFeed(); }
+  const back = `<button class="back" data-go="feed" aria-label="뒤로">←</button>`;
+  if (BOT.cur) {
+    const r = BOT.cur, P = r.profile || { set: {}, shown: [], ask: [] }, hasSet = Object.keys(P.set || {}).length > 0;
+    const cards = (r.cards || []).map(id => LISTINGS.find(L => L.id === id)).filter(Boolean).map(L => listingCard(L, grade(L, hasProfile() ? S.profile : null))).join('');
+    return `<div class="top">${back}<div><div class="brand" style="font-size:17px">공고 찾기</div><span class="small muted">${esc(r.kind || '찾기')} · 이 기기에서 계산 · 판정은 화면과 같은 엔진</span></div></div>
+    <section class="card"><p class="small muted" style="margin:0">내 질문</p><p style="margin:0;font-size:14px;line-height:1.5">${esc(r.q)}</p>
+      <div class="row" style="gap:8px"><button class="linkbtn small" data-action="bot-ask">다시 묻기</button><button class="linkbtn small" data-action="bot-more">이어서 조건 바꾸기</button></div></section>
+    ${hasSet || (P.ask || []).length ? `<section class="botsave" aria-label="내 조건에 저장">
+      ${hasSet ? `<b>질문에서 읽은 내 조건: ${esc(P.shown.join(' · '))}</b><span class="muted">저장하면 이 공고들과 앞으로의 공고마다 자격·자금을 이 값으로 판정해요. 저장 전에는 이번 답에만 써요.</span>
+      <div class="row">${BOT.saved ? '<span class="small" style="color:var(--lotto)">내 조건에 저장했어요</span>' : `<button class="btn pri" data-action="bot-save">내 조건에 저장</button><button class="btn" data-action="bot-nosave">이번만 쓰기</button>`}</div>` : ''}
+      ${(P.ask || []).length ? `<span class="small muted">직접 넣어야 정확해지는 것: ${esc(P.ask.join(' · '))} → <button class="linkbtn small" data-action="restart">내 조건 입력</button></span>` : ''}</section>` : ''}
+    ${r.legacy ? `<section class="card"><p class="small" style="margin:0">${esc(r.legacy)}</p></section>` : ''}
+    ${r.text ? botSummary(r.text) : ''}
+    ${cards ? `<h3 style="margin:14px 0 8px;font-size:16px">해당 공고 ${r.cards.length}개</h3>${cards}` : ''}
+    ${r.text ? `<details class="rfold"><summary>자세한 설명 보기</summary><div class="rfold-in botans">${botLinkify(esc(r.text))}</div></details>` : ''}
+    <p class="foot">판정은 내가 입력한 값과 청약홈 공고로 계산한 참고용이에요. 질문과 내 조건은 서버로 보내지 않고 이 기기에서만 계산했어요. 신청 전 모집공고문을 꼭 확인하세요.</p>`;
+  }
+  const exs = BOT.exs || [['찾기', '무주택 세대 3인 가족이고 연봉 7천, 현금 2억이에요. 서울·경기에서 지금 넣을 만한 곳 있어요?'], ['자격', '신혼 3년차 맞벌이 부부합산 1.1억인데 동탄 신혼부부 특별공급 돼요?'], ['단지 비교', '세종 리더스포레 84랑 에코델타 푸르지오 84 중 어디가 나아요? 현금 3억에 연봉 8천이에요.'], ['지역', '판교·광교 근처 전용 59㎡ 9억 이하로 당첨 가능성 있는 공고 찾아 주세요']];
+  return `<div class="top">${back}<div><div class="brand" style="font-size:17px">공고 찾기</div></div></div>
+  <div class="botask"><h2 style="margin:0 0 6px;font-size:20px">무엇이 궁금하세요?</h2><p class="small muted" style="margin:0 0 12px">청약봇에게 묻듯 적어 주세요. 글에서 읽은 것은 다시 묻지 않아요.${hasProfile() ? ' 저장된 내 조건은 자동으로 써요.' : ''}</p>
+    <textarea id="botq" placeholder="예: 현금 2억 있고 연봉 7천이에요. 무주택 3인 가족인데 서울·경기에서 넣을 만한 곳 있어요?" ${BOT.busy ? 'disabled' : ''}>${esc(BOT.draft || '')}</textarea>
+    ${BOT.err ? `<p class="small" style="color:var(--bad);margin:8px 0 0">${esc(BOT.err)}</p>` : ''}
+    <button class="go" data-action="bot-go" ${BOT.busy ? 'disabled' : ''}>${BOT.busy ? '찾는 중…' : '공고 찾기 시작'}</button>
+    <p class="small muted" style="margin:14px 0 0">이렇게 물어보셔도 돼요</p>
+    <div class="exs">${exs.map(([k, q]) => `<button class="ex" data-action="bot-ex" data-q="${esc(q)}"><b>${esc(k)}</b>${esc(q)}</button>`).join('')}</div>
+    ${botHist().length ? `<div class="bothist" style="margin-top:16px"><div class="hh"><h3>이어 하기</h3></div>${botHist().slice(0, 5).map(botHistCard).join('')}</div>` : ''}
+    <p class="foot">질문은 이 기기 안에서만 처리하고 서버로 보내지 않아요. 기록도 이 기기에만 남아요.</p></div>`;
+}
+/* 기본 답(V2 answer.mjs)에서 요약만: 공고별 카드 문단([대신 눈여겨볼 곳]·후보 카드 본문)은 아래 공고 카드가 대신하므로 빼고, 결론·이해·왜 없는지·조건 바꾸기만 */
+function botSummary(text){
+  const keep = [], skip = /^(https:\/\/|· |→ )/;
+  for (const part of text.split(/\n\n+/)) {
+    if (/^\[(대신 눈여겨볼 곳|조건에 가장 가까운 곳|다음에 해볼 것)/.test(part) || /^판정은 청약패스 화면과 같은 엔진/.test(part)) continue;
+    const lines = /^\[이렇게 이해했어요\]/.test(part) ? part.split('\n') : part.split('\n').filter(l => !skip.test(l.trim()));
+    if (lines.length && !/^\S.*\(.*전용 \d+㎡.*\)$/.test(lines[0])) keep.push(lines.join('\n'));
+  }
+  return `<section class="card"><h2 style="margin:0;font-size:16px">요약</h2><div class="botans">${botLinkify(esc(keep.slice(0, 4).join('\n\n')))}</div></section>`;
+}
+const botLinkify = t => t.replace(/https:\/\/cheongyakpass\.kr\/#\/detail\/([\w.\-]+)/g, (m, id) => `<a href="#/detail/${id}" data-open="${id}">공고 열기</a>`).replace(/\[([^\]\n]{2,30})\]/g, '<b>$1</b>');
+async function botRun(q){
+  BOT.busy = true; BOT.err = ''; BOT.saved = false; render();
+  try {
+    const M = await botMod();
+    const W = Object.assign(Object.create(null), { fromApi, eligBucket, eligibility, spJudge, spTypesFor, SP_NAME, ELIG_NAME, myScore, grade, GNAME, marginText, funding, statusOf, judgeScope, genNone, isRental, isNewlywedTown, kindOf, regionScore, DEFAULT_PROFILE, syncHome, syncV2, LISTINGS, TODAY, DATA_SOURCE });   /* let/const 는 window 에 없어 직접 묶는다 */
+    const r = await M.find(W, q, { profile: hasProfile() ? S.profile : null, state: BOT.more ? (BOT.cur && BOT.cur.state) || null : null });
+    BOT.cur = r; BOT.more = false; BOT.draft = '';
+    metric('bot/find/' + r.kind);
+  } catch(e) { BOT.err = '찾지 못했어요. 잠시 뒤 다시 해 보세요.'; try { metric('bot/find-error'); } catch(_) {} }
+  BOT.busy = false; render(); window.scrollTo(0, 0);
+}
+function botAct(a, t){
+  if (a === 'bot-ask') { BOT.cur = null; BOT.more = false; go('bot'); const q = app.querySelector('#botq'); if (q) try { q.focus(); } catch(e) {} return; }
+  if (a === 'bot-more') { BOT.more = true; BOT.draft = ''; const cur = BOT.cur; BOT.cur = null; BOT.prev = cur; go('bot'); return; }
+  if (a === 'bot-ex') { BOT.draft = t.dataset.q; render(); const q = app.querySelector('#botq'); if (q) try { q.focus(); } catch(e) {} return; }
+  if (a === 'bot-go') { const q = (app.querySelector('#botq') || {}).value || ''; if (q.trim().length < 5) { BOT.err = '한 줄이라도 상황을 적어 주세요.'; render(); return; } if (BOT.more && BOT.prev) BOT.cur = BOT.prev; botRun(q.trim()); return; }
+  if (a === 'bot-open') { const x = botHist().find(h => h.id === t.dataset.id); if (!x) return; BOT.cur = x; BOT.saved = false; go('bot'); return; }
+  if (a === 'bot-nosave') { BOT.saved = false; BOT.cur.profile = { set: {}, shown: [], ask: BOT.cur.profile.ask }; render(); return; }
+  if (a === 'bot-save') {   /* 질문에서 읽은 칸만 내 조건에 넣는다 — 나머지 칸은 그대로. 넣은 칸은 _set 에 '입력함'으로 */
+    const set = (BOT.cur.profile || {}).set || {}; if (!Object.keys(set).length) return;
+    S.profile = syncV2(syncHome(Object.assign({}, DEFAULT_PROFILE, S.profile || {}, set)));
+    Object.keys(set).forEach(k => markSet(S.profile, k, true));
+    save(); BOT.saved = true; metric('bot/save-profile'); render(); return;
+  }
+}
 function render(){
   chatFab();   // 기능: chat_fab
   document.body.classList.toggle('tcmp', on('top_compact'));   // 기능: top_compact
@@ -5861,7 +5961,7 @@ function go(v){
 /* 뒤로가기·주소 (기능: history_nav). 화면을 바꿀 때 브라우저 기록에 남겨 뒤로가기가 사이트 안에서 이전 화면으로 돌아가게 한다.
    주소: 목록 = 사이트 주소 그대로, 공고 = #/detail/<주택형 id>, 그 밖 = #/<화면>. 새로고침·공유 링크는 데이터를 읽은 뒤 그 화면을 연다 */
 const NAV_ID_VIEWS = ['detail', 'plan'];
-const NAV_VIEWS = ['rental', 'rdetail', 'feed', 'detail', 'plan', 'grades', 'me', 'about', 'story', 'terms', 'privacy', 'trend', 'alerts', 'compare', 'updates'];
+const NAV_VIEWS = ['bot', 'rental', 'rdetail', 'feed', 'detail', 'plan', 'grades', 'me', 'about', 'story', 'terms', 'privacy', 'trend', 'alerts', 'compare', 'updates'];
 let navPopping = false, navPending = null;
 const navId = v => v === 'rdetail' ? S.rid : v === 'rental' ? (S.rcat === 'youth' ? 'youth' : null) : NAV_ID_VIEWS.includes(v) ? S.id : null;   /* 임대 목록은 청년 주택 탭이면 #/rental/youth (2026-10-06 사용자 '청년주택에서 새로고침하면 공공임대로') */
 function navUrl(v){ const id = navId(v); return v === 'feed' ? location.pathname + location.search : '#/' + v + (id ? '/' + encodeURIComponent(id) : ''); }   /* LH 임대 상세는 공고 번호(S.rid)를 주소에 — 새로고침·주소로 바로 열기 (기능 lh_rental) */
@@ -5984,6 +6084,7 @@ document.addEventListener('click', ev => {
   if (a === 'install' && installEvt) { const e = installEvt; installEvt = null; e.prompt(); (e.userChoice || Promise.resolve()).then(() => render()); track({ path:'install', event:true }); return; }
   if (a === 'sp-home') { S.fromMe = false; let i = visibleSteps().findIndex(x => x.id === 'sp5'); if (i < 0) i = visibleSteps().findIndex(x => x.id === 'home'); S.step = Math.max(0, i); go('onboard'); return; }
   if (a === 'sp-input') { S.fromMe = false; const i = visibleSteps().findIndex(x => x.id === 'sp1'); S.step = Math.max(0, i); go('onboard'); return; }
+  if (a && a.startsWith('bot-')) return botAct(a, t);   /* 기능 bot_find */
   if (a === 'restart') { S.quick = false; S.step = 0; S.fromMe = S.view === 'me'; go('onboard'); }
   if (a === 'quick-start') { S.quick = true; S.step = 0; S.fromMe = false; metric('quick/start'); go('onboard'); return; }   // 기능: quick_start
   if (a === 'onboard-exit') { S.quick = false; save(); track({ path:'onboard-exit', event:true }); const back = S.fromMe ? 'me' : 'feed'; S.fromMe = false; go(back); return; }
