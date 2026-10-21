@@ -7,6 +7,7 @@ on:
     paths:
       - "tools/qa/gh_probe.py"
       - "tools/qa/pvt_probe.py"
+      - "tools/qa/myhome_probe.py"
       - ".github/workflows/gh-probe.yml"
 permissions:
   contents: write
@@ -30,9 +31,11 @@ jobs:
         continue-on-error: true
       - run: python -m tools.qa.pvt_probe   # 공공지원 민간임대·임의공급 실제 응답 (값까지)
         continue-on-error: true
+      - run: python -m tools.qa.myhome_probe   # 마이홈포털 공공주택 모집공고 API (GH·지방공사 공고)
+        continue-on-error: true
       - name: 저장
         run: |
           git config user.name "cheongyak-bot"
           git config user.email "actions@users.noreply.github.com"
-          git add evidence/qa/gh evidence/qa/gh-probe.txt evidence/qa/pvt-rent-probe.json
+          git add evidence/qa/gh evidence/qa/gh-probe.txt evidence/qa/pvt-rent-probe.json evidence/qa/myhome-probe.json
           git diff --cached --quiet || (git commit -m "GH 임대 원천 점검 $(date +%Y-%m-%d)" && (git push || (git pull --rebase -X theirs origin main && git push)))
