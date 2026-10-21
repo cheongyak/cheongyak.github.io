@@ -267,6 +267,24 @@ function missing(C, r) {
   return m;
 }
 
+// 화면 버튼용 (기능 bot_find, 2026-10-22 사용자 '다음에 해볼 것에 누르는 버튼'): {label, act, q?} — act: ask(질문 칸에 미리 채움)·profile(내 조건 입력)·compare(두 곳 비교 질문)·sort(이번 결과 다시 정렬 질문)·past(지난 공고 화면)·alerts(알림 설정)
+export function nextActions(C, r, profile) {
+  const out = [], a = C.assume || {};
+  const has = k => C.conds.some(c => c.key === k || (k === 'price' && /^price/.test(c.key)));
+  const base = String(C.q || '').trim();
+  if (a.kids && !profile) out.push({ label: '막내 생일 알려 주기', act: 'ask', q: base + ' 막내는 ' });
+  if (!has('area')) out.push({ label: '20평대(59㎡)로 좁히기', act: 'ask', q: base + ' 전용 59㎡로' }, { label: '30평대(84㎡)로 좁히기', act: 'ask', q: base + ' 전용 84㎡로' });
+  else if (!has('region_in')) out.push({ label: '지역 정하기', act: 'ask', q: base + ' 지역은 ' });
+  else if (!has('price')) out.push({ label: '예산 정하기', act: 'ask', q: base + ' 예산은 ' });
+  else if (!has('commute')) out.push({ label: '출퇴근하는 곳 알려 주기', act: 'ask', q: base + ' 직장은 ' });
+  if (!profile) out.push({ label: '내 조건 넣기', act: 'profile' });
+  if (r.ok.length > 1 && r.groups[0] && r.groups[1]) out.push({ label: r.groups[0].name + ' vs ' + r.groups[1].name + ' 비교', act: 'compare', q: r.groups[0].name + ' ' + r.groups[0].best.f.unit + '랑 ' + r.groups[1].name + ' ' + r.groups[1].best.f.unit + ' 중 어디가 나아요?' });
+  if (r.ok.length) out.push({ label: '시세 차익 큰 순으로', act: 'sort', q: base + ' 시세 차익 큰 순으로' }, { label: '가격 낮은 순으로', act: 'sort', q: base + ' 가격 낮은 순으로' });
+  if (!C.scope || !C.scope.past) out.push({ label: '이 지역 지난 공고 경쟁률 보기', act: 'past' });
+  out.push({ label: '이 조건으로 새 공고 알림 받기', act: 'alerts' });
+  return out.slice(0, 6);
+}
+
 function nextSteps(C, r, profile) {
   const s = [], a = C.assume || {};
   if (a.kids && !profile) s.push('막내 생일을 알려 주시면 신생아 특별공급(공고일 기준 2세 미만 자녀)·신혼부부 특별공급까지 판정해 드려요');

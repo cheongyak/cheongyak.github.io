@@ -270,6 +270,7 @@ h2{margin:0;font-size:16px}
 .botbox .bin span{flex:1;min-width:0;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}.botbox .bin b{font-size:18px;line-height:1}
 .bothist{display:flex;flex-direction:column;gap:8px;margin-bottom:12px}.bothist .hh{display:flex;justify-content:space-between;align-items:baseline}.bothist .hh h3{margin:0;font-size:17px}
 .bothist .hc{text-align:left;background:var(--surface);border:1px solid var(--line);border-radius:14px;padding:12px 14px;display:flex;flex-direction:column;gap:6px;cursor:pointer;color:var(--fg)}
+.bothist .hcw{position:relative}.bothist .hcw .hc{width:100%;padding-right:40px}.bothist .hx{position:absolute;top:8px;right:8px;width:30px;height:30px;border-radius:50%;border:0;background:transparent;color:var(--muted);font-size:20px;line-height:1;cursor:pointer}.bothist .hx:hover{background:var(--sunk)}
 .bothist .hc .hk{font-size:12px;color:var(--muted)}.bothist .hc .hk b{color:var(--lotto);margin-right:6px}.bothist .hc .hq{font-size:14px;line-height:1.45;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}
 .botask textarea{width:100%;min-height:150px;border:1px solid var(--line);border-radius:14px;padding:14px;font:inherit;font-size:15px;line-height:1.5;background:var(--surface);color:var(--fg);resize:vertical}
 .botask .go{width:100%;padding:16px;border:0;border-radius:14px;background:var(--lotto);color:#fff;font-size:16px;font-weight:800;margin-top:10px}.botask .go[disabled]{opacity:.5}
@@ -5889,7 +5890,7 @@ function botFindBox(){
 }
 function botHist(){ try { return JSON.parse(localStorage.getItem('cy-bot-finds') || '[]') || []; } catch(e) { return []; } }
 function botHistCard(x){ const d = new Date(x.at); const at = isNaN(d) ? '' : (d.getMonth() + 1) + '월 ' + d.getDate() + '일 ' + String(d.getHours()).padStart(2, '0') + ':' + String(d.getMinutes()).padStart(2, '0');
-  return `<button class="hc" data-action="bot-open" data-id="${esc(x.id)}"><span class="hk"><b>${esc(x.kind || '찾기')}</b>${esc(at)}</span><span class="hq">${esc(x.q)}</span><span class="small" style="color:var(--lotto)">결과 보기</span></button>`; }
+  return `<div class="hcw"><button class="hc" data-action="bot-open" data-id="${esc(x.id)}"><span class="hk"><b>${esc(x.kind || '찾기')}</b>${esc(at)}</span><span class="hq">${esc(x.q)}</span><span class="small" style="color:var(--lotto)">결과 보기</span></button><button class="hx" data-action="bot-del" data-id="${esc(x.id)}" aria-label="이 기록 지우기">×</button></div>`; }
 function vBot(){
   if (!botOn()) { S.view = 'feed'; return vFeed(); }
   const back = `<button class="back" data-go="feed" aria-label="뒤로">←</button>`;
@@ -5905,6 +5906,8 @@ function vBot(){
       ${V.excluded && V.excluded.length && none ? `<span class="vs">살펴본 주택형 ${V.total}개 중 ${V.excluded.map(x => esc(x.why) + ' ' + x.n + '개').join(', ')}가 빠졌어요</span>` : ''}
       ${V.chips && V.chips.length ? `<div class="botchips">${V.chips.map(c => `<span class="c"><b>${esc(c.k)}</b>${esc(c.t)}</span>`).join('')}</div>` : ''}</section>` : '';
     const nextBits = V && V.next && V.next.length ? V.next : [];
+    const acts = V && V.actions && V.actions.length ? V.actions : [];
+    const actBtn = x => `<button class="btn${x.act === 'compare' || x.act === 'profile' ? ' pri' : ''}" data-action="bot-next" data-act="${esc(x.act)}" data-q="${esc(x.q || '')}">${esc(x.label)}</button>`;
     const aiLine = r.how === 'ai' ? '<span class="small muted">AI가 다듬은 설명 · 숫자·판정은 엔진 값 그대로</span>' : r.aiNote ? `<span class="small muted">${esc(r.aiNote)}</span>` : '';
     return `<div class="top">${back}<div><div class="brand" style="font-size:17px">공고 찾기</div><span class="small muted">이 기기에서 계산 · 판정은 화면과 같은 엔진</span></div></div>
     <div class="botq"><div class="qi"><span>내 질문</span>${esc(r.q)}</div><button class="linkbtn small" data-action="bot-ask">다시 묻기</button></div>
@@ -5913,10 +5916,10 @@ function vBot(){
       ${BOT.saved ? '<span class="small" style="color:var(--lotto)">내 조건에 저장했어요 — 아래 카드 판정에 반영됐어요</span>' : `<span class="muted">저장하면 아래 공고와 앞으로의 공고마다 이 값으로 자격·자금을 판정해요.</span><div class="row"><button class="btn pri" data-action="bot-save">내 조건에 저장</button><button class="btn" data-action="bot-nosave">이번만 쓰기</button></div>`}</section>` : ''}
     ${r.legacy ? `<section class="card"><p class="small" style="margin:0">${esc(r.legacy)}</p></section>` : ''}
     ${groups}
-    ${nextBits.length || (P.ask || []).length || !prof ? `<section class="botnext"><b>다음에 해볼 것</b>${nextBits.map(t => `<span>· ${esc(t)}</span>`).join('')}
+    ${nextBits.length || (P.ask || []).length || !prof || acts.length ? `<section class="botnext"><b>다음에 해볼 것</b>${nextBits.map(t => `<span>· ${esc(t)}</span>`).join('')}
       ${!prof ? `<span>· 내 조건을 넣으면 공고마다 신청 가능 여부를 판정해요</span>` : ''}
       ${(P.ask || []).length ? `<span>· 직접 넣어야 정확해지는 것: ${esc(P.ask.join(' · '))}</span>` : ''}
-      <div class="row"><button class="btn" data-action="bot-more">이어서 조건 바꾸기</button>${!prof || (P.ask || []).length ? `<button class="btn" data-action="restart">내 조건 입력</button>` : ''}</div></section>` : ''}
+      <div class="row">${acts.map(actBtn).join('')}${acts.length ? '' : `<button class="btn" data-action="bot-more">이어서 조건 바꾸기</button>${!prof || (P.ask || []).length ? `<button class="btn" data-action="restart">내 조건 입력</button>` : ''}`}</div></section>` : ''}
     ${r.how === 'ai' && r.lead ? `<section class="card"><h2 style="margin:0;font-size:16px">청약봇 설명</h2><div class="botx"><p>${esc(r.lead).replace(/\n/g, '<br>')}</p></div>${aiLine}</section>` : aiLine ? `<p class="small muted" style="margin:8px 0 0">${aiLine}</p>` : ''}
     ${r.text ? `<details class="rfold" style="margin-top:12px"><summary>자세한 설명 보기</summary><div class="rfold-in botx">${botRich(r.text)}</div></details>` : ''}
     <p class="foot">판정은 내가 입력한 값과 청약홈 공고로 계산한 참고용이에요. 질문과 내 조건은 서버로 보내지 않고 이 기기에서만 계산했어요. 신청 전 모집공고문을 꼭 확인하세요.</p>`;
@@ -5981,7 +5984,7 @@ function botGeneralView(r, back){
   const srcs = (r.sources || []).map(s => `<li><span class="chatref">${esc(s.id)}</span> ${s.url ? `<a href="${esc(s.url)}" target="_blank" rel="noopener">${esc(s.title)}</a>` : esc(s.title)}${s.quote ? `<details class="small chatq"><summary>원문 보기</summary><p>${esc(s.quote)}</p></details>` : ''}</li>`).join('');
   return `<div class="top">${back}<div><div class="brand" style="font-size:17px">청약 질문</div><span class="small muted">법령·공고문 근거로 답해요 · 판정은 화면 판정이 기준</span></div></div>
   <div class="botq"><div class="qi"><span>내 질문</span>${esc(r.q)}</div><button class="linkbtn small" data-action="bot-ask">다시 묻기</button></div>
-  ${a ? `<section class="botv"><span class="vl">청약봇 답${r.fallback ? ' · 기본 답' : ''}</span><p class="vt" style="font-size:16px;font-weight:600">${esc(a.conclusion || '')}</p></section>
+  ${a ? `<section class="botv${r.fallback ? ' none' : ''}"><span class="vl">청약봇 답${r.fallback ? ' · AI 답이 검사에 걸려 법령 원문으로' : ' · AI'}</span><p class="vt" style="font-size:16px;font-weight:600">${esc(a.conclusion || '')}</p>${r.diag && r.diag.attempts ? `<details class="small"><summary>운영자: AI 시도 ${r.diag.attempts.length}번</summary>${r.diag.attempts.map((x, i) => `<div>${i + 1}. ${x.ok ? '통과' : '거절'}${x.flags && x.flags.length ? ' — ' + esc(x.flags.join(' / ')) : ''}${x.tokens ? ' · 토큰 ' + esc(x.tokens) : ''}</div>`).join('')}${r.diag.overBudget ? '<div>월 한도 초과</div>' : ''}${!r.diag.key ? '<div>서버에 AI 키 없음</div>' : ''}</details>` : ''}</section>
     ${sec('이유', a.why, x => `<li>${esc(x.text)}${refs(x)}</li>`)}
     ${sec('공식 기준', a.official, x => `<li>${esc(x.text)}${refs(x)}</li>`)}
     ${sec('주의할 점', a.cautions, x => `<li>${esc(x)}</li>`)}
@@ -6028,6 +6031,15 @@ function botAct(a, t){
   if (a === 'bot-ex') { BOT.draft = t.dataset.q; render(); const q = app.querySelector('#botq'); if (q) try { q.focus(); } catch(e) {} return; }
   if (a === 'bot-as') { botRun(BOT.unsure || BOT.draft, t.dataset.kind); return; }   /* 애매한 질문: 사용자가 고른 갈래로 */
   if (a === 'bot-go') { const q = (app.querySelector('#botq') || {}).value || ''; if (q.trim().length < 5) { BOT.err = '한 줄이라도 상황을 적어 주세요.'; render(); return; } if (BOT.more && BOT.prev) BOT.cur = BOT.prev; botRun(q.trim()); return; }
+  if (a === 'bot-next') {   /* 다음에 해볼 것 버튼 (2026-10-22) */
+    const act = t.dataset.act, q = t.dataset.q || '';
+    if (act === 'profile') { S.quick = false; S.step = 0; S.fromMe = false; go('onboard'); return; }
+    if (act === 'past') { if (pastOn()) { go('past'); } else { try { localStorage.setItem('cy-past', '1'); } catch(e) {} go('past'); } return; }
+    if (act === 'alerts') { go('alerts'); return; }
+    if (act === 'compare' || act === 'sort') { BOT.cur = null; BOT.more = false; BOT.unsure = null; go('bot'); botRun(q, 'find'); return; }
+    BOT.cur = null; BOT.more = false; BOT.unsure = null; BOT.draft = q; go('bot'); const ta = app.querySelector('#botq'); if (ta) { try { ta.focus(); ta.setSelectionRange(ta.value.length, ta.value.length); } catch(e) {} } return;
+  }
+  if (a === 'bot-del') { try { localStorage.setItem('cy-bot-finds', JSON.stringify(botHist().filter(h => h.id !== t.dataset.id))); } catch(e) {} if (BOT.cur && BOT.cur.id === t.dataset.id) BOT.cur = null; render(); return; }
   if (a === 'bot-open') { const x = botHist().find(h => h.id === t.dataset.id); if (!x) return; BOT.cur = x; BOT.saved = false; BOT.unsure = null; go('bot'); return; }
   if (a === 'bot-nosave') { BOT.saved = false; BOT.cur.profile = { set: {}, shown: [], ask: BOT.cur.profile.ask }; render(); return; }
   if (a === 'bot-save') {   /* 질문에서 읽은 칸만 내 조건에 넣는다 — 나머지 칸은 그대로. 넣은 칸은 _set 에 '입력함'으로 */

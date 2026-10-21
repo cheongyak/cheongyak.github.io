@@ -38,12 +38,12 @@ export async function general(question, { chat = null } = {}) {
   else {
     try {
       const res = await chat({ question });
-      if (res && res.kind === 'answer' && res.answer) { rec.ans = res.answer; rec.sources = res.sources || []; rec.fallback = !!res.fallback; rec.remaining = res.remaining; }
+      if (res && res.kind === 'answer' && res.answer) { rec.ans = res.answer; rec.sources = res.sources || []; rec.fallback = !!res.fallback; rec.remaining = res.remaining; rec.diag = res.diag || null; }   // diag: 운영자(미리보기 코드)에게만 오는 AI 시도 결과
       else if (res && res.kind === 'out_of_scope') rec.note = res.message || '이 질문은 청약 자격·공고 안내 범위 밖이에요.';
       else rec.note = (res && res.message) || '답을 받지 못했어요. 잠시 뒤 다시 해 보세요.';
     } catch (e) { rec.note = String(e && e.message || '답을 받지 못했어요.'); }
   }
-  remember({ id: rec.id, q: rec.q, at: rec.at, kind: rec.kind, mode: rec.mode, text: '', cards: [], profile: rec.profile, ans: rec.ans, sources: rec.sources, note: rec.note, fallback: rec.fallback });
+  remember({ id: rec.id, q: rec.q, at: rec.at, kind: rec.kind, mode: rec.mode, text: '', cards: [], profile: rec.profile, ans: rec.ans, sources: rec.sources, note: rec.note, fallback: rec.fallback, diag: rec.diag });
   return rec;
 }
 

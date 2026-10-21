@@ -127,7 +127,7 @@ export async function handleChat(env, input, deps = {}) {
   const overBudget = (await monthSpent(kv)) >= monthCap(env);   // 이번 달 추정 사용액이 서버 한도에 닿으면 AI 없이 고정 문구로만 (콘솔 월 한도 앞의 안전장치)
   if ((apiKey || deps.llm) && !overBudget && !opFree) {
     let user = buildUserMessage({ question: q.text, intent, engine: engine || null, evidence, history: hist, listing: input.listing || null });
-    for (let i = 0; i < 2 && !answer; i++) {
+    for (let i = 0; i < (engine ? 2 : 3) && !answer; i++) {   // 제도 질문(engine 없음)은 3번까지 — 기본 답(법령 그대로)으로 떨어지지 않게 (2026-10-22 사용자 '모든 질문은 AI 답변')
       try {
         const r = deps.llm ? await deps.llm({ system: SYSTEM, user, attempt: i }) : await callClaude({ apiKey, system: SYSTEM, user, fetchImpl });
         const v = validate(r.text, ctx);
