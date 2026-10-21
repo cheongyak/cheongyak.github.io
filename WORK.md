@@ -4,6 +4,14 @@
 2026-09-29 12:55 이전 항목은 규칙을 만들기 전 작업을 커밋 기록으로 정리한 것이라 백업 브랜치가 없어요.
 그 시점으로 되돌릴 때는 해당 커밋 번호로 `git revert` 를 써요.
 
+## 2026-10-22 07:49 · 영흥숲 재공급 특공 표 정답 데이터 (수정 확인)
+- 요청: v1.71.1 읽기 규칙을 원문 정답으로 고정 (CLAUDE.md 4-1)
+- 변경: 근거 자료 모으기로 원문 evidence/notices/2026930044.txt 저장 → tests/golden/notices.json 에 2026930044 sp_table 정답(공급규모 문장·특공 표 원문 인용), test_golden_resupply_sp_table 에 번호 추가
+- 파일: tests/golden/notices.json, tests/test_resupply_special.py, HANDOFF.md, WORK.md
+- 확인: 원문에서 {066.8113: 신혼부부 1} 그대로 읽음, 10-22 07:40 재수집 listings 의 special_units 신혼부부 1·불변식 0. pytest 300 통과 — 실패 2개(test_every_saved_original_score_ratio_reads·resale_reads)는 같은 근거 실행이 새로 저장한 2026000502 화성 향남 롯데캐슬 시그니처 원문(PDF 글자가 숫자와 떨어져 뽑힘, 비율 표 글이 없음) 때문 — 화면은 이미 '데이터 확인 필요'. HANDOFF 에 남김
+- 백업: backup/20261022-0749-golden-944
+- 기능: 없음(수정)
+
 ## 2026-10-22 07:42 · 근거 자료 모으기 저장이 실패하던 것 고침 (수정)
 - 요청: (영흥숲 원문 대조 중) '근거 자료 모으기'(probe.yml)가 10-22 두 번 '공고문 원문 먼저 저장'에서 실패 → evidence/notices/2026930044.txt 가 안 올라감
 - 변경: 원인은 LH 수집 멈춤(같은 날 07:01 항목 위)과 같음 — 원문 점검이 쓴 다른 파일이 커밋되지 않고 남아 `git pull --rebase` 가 멈춤. 먼저 저장 단계가 evidence 전체를 담고, 두 저장 단계 모두 tools/qa/push_retry.sh 로 올림

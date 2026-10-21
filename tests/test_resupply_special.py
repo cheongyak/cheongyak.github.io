@@ -9,7 +9,7 @@ GOLD = json.loads((ROOT / "tests" / "golden" / "notices.json").read_text(encodin
 
 
 def test_golden_resupply_sp_table():
-    for no in ("2026930036", "2026930035", "2026930031", "2026930038"):   # 2026930038: 특공 '계' 칸이 없는 표 (W41 블라인드 표본)
+    for no in ("2026930036", "2026930035", "2026930031", "2026930038", "2026930044"):   # 2026930044: 따로 있는 특공 표(열 약식표기)   # 2026930038: 특공 '계' 칸이 없는 표 (W41 블라인드 표본)
         t = (ROOT / "evidence" / "notices" / f"{no}.txt").read_text(encoding="utf-8")
         assert notice_pdf.parse_sp_table(t) == GOLD[no]["parse"]["sp_table"], no
 
