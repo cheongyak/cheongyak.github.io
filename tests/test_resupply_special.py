@@ -24,3 +24,17 @@ def test_sp_table_no_sum_rejects_rows_that_do_not_add_up():
 def test_sp_table_rejects_rows_that_do_not_add_up():
     t = "총공급 세대수 특별공급 세대수 주거 전용면적 소계 신혼부부 노부모부양 계 2026930099 01 084.0000A 84A 84.0 25.0 109.0 50.0 159.0 50.0 2 1 1 3 합 계"
     assert notice_pdf.parse_sp_table(t) is None          # 1+1 ≠ 3 → 읽지 않음
+
+
+def test_sp_table_by_short_type():
+    """'■ 특별공급 공급세대수' 따로 표 — 열 약식표기, 행 특공 유형 (2026-10-22 수원 한화포레나 영흥숲 2026930044, 공급규모 '불법행위 재공급 1세대 [특별공급 1세대(신혼부부 1세대)]')"""
+    t = ("■ 공급대상 (단위: ㎡, 세대) 주택 관리번호 모델 주택형(전용면적기준) 약식표기(타입) 공급 세대수 "
+         "2026930044 01 066.8113 66 66.8113 28.1711 94.9824 58.8050 153.7874 41.6880 1 합 계 1 "
+         "■ 특별공급 공급세대수 구 분(약식표기) 66 합 계 신혼부부 특별공급 1 1 합 계 1 1 ※ 주택형별 특별공급대상 세대수는")
+    assert notice_pdf.parse_sp_table(t) == {"066.8113": {"newlywed": 1, "total": 1}}
+    two = ("2026930099 01 059.9000A 59A 59.9 25.0 84.9 40.0 124.9 30.0 2 02 084.9000B 84B 84.9 30.0 114.9 50.0 164.9 40.0 1 "
+           "■ 특별공급 공급세대수 구 분(약식표기) 59A 84B 합 계 신혼 부부 특별공급 1 1 2 노부모 부양 특별공급 1 - 1 합 계 2 1 3 ※")
+    assert notice_pdf.parse_sp_table(two) == {"059.9000A": {"newlywed": 1, "elder": 1, "total": 2}, "084.9000B": {"newlywed": 1, "total": 1}}
+    assert notice_pdf.parse_sp_table(two.replace("합 계 2 1 3", "합 계 2 1 4")) is None          # 합계가 안 맞으면 읽지 않음
+    assert notice_pdf.parse_sp_table(two.replace("신혼 부부 특별공급 1 1 2", "신혼 부부 특별공급 1 1 3")) is None   # 줄 합계가 안 맞으면
+    assert notice_pdf.parse_sp_table(two.replace(" 84.9 30.0 114.9 50.0 164.9 40.0 1 ", " 84.9 30.0 114.9 50.0 164.9 40.0 0 ")) is None   # 특공 > 공급 세대수

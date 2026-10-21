@@ -1444,7 +1444,7 @@ def parse_sp_table(text: str) -> Optional[dict]:
     t = re.sub(r"\s+", " ", text)
     h = re.search(r"특별공급 세대수(.{0,200}?)(20\d{8}) 01 ", t)
     if not h:
-        return _sp_table_no_sum(t)
+        return _sp_table_no_sum(t) or _sp_table_by_short(t)
     # 머리글 낱말이 띄어 쓰인 공고문('기관 추천 다자녀 가구 신혼 부부 노부모 부양 생애 최초' — 2026930041)도 읽게 공백을 빼고 찾는다
     heads = [SP_NAMES[w] for w in re.findall("|".join(sorted(SP_NAMES, key=len, reverse=True)), h.group(1).replace(" ", ""))]
     if not heads or len(set(heads)) != len(heads):
@@ -1497,6 +1497,49 @@ def _sp_table_no_sum(t: str) -> Optional[dict]:
         row = dict(zip(heads, per))
         row["total"] = sum(per)
         out[m.group(1)] = row
+    return out or None
+
+
+def _sp_table_by_short(t: str) -> Optional[dict]:
+    """공급대상 표와 따로 있는 '■ 특별공급 공급세대수' 표 — 열이 약식표기(타입), 행이 특공 유형 (2026-10-22 수원 한화포레나 영흥숲 2026930044 불법행위재공급)
+    공급대상 표 '2026930044 01 066.8113 66 66.8113 28.1711 94.9824 58.8050 153.7874 41.6880 1' (주택형·약식표기·면적 6개·공급 세대수)
+    특공 표 '구 분(약식표기) 66 합 계 신혼부부 특별공급 1 1 합 계 1 1'.
+    받는 조건(추측 금지): 약식표기가 공급대상 표에 한 번씩만 있고, 유형 줄마다 칸 합 = 줄 합계, 열마다 합 = '합 계' 줄, 특공 ≤ 그 주택형 공급 세대수."""
+    h = re.search(r"특별공급 ?공급 ?세대수 구 ?분 ?\(약식 ?표기\) ((?:\S+ ){1,12}?)합 ?계 (.{0,600}?)합 ?계 ((?:\d+ |- )+)", t)
+    if not h:
+        return None
+    cols = h.group(1).split()
+    short = {}
+    for m in re.finditer(r"(?:20\d{8} )?\b0\d (\d{2,3}\.\d{4}[A-Z]{0,2}) (\S+) ((?:[\d.,]+ ){6})(\d+) ", t[:h.start()]):
+        short.setdefault(m.group(2), []).append((m.group(1), int(m.group(4))))
+    if any(len(short.get(c, [])) != 1 for c in cols):
+        return None
+    cnt = lambda v: 0 if v == "-" else int(v) if v.isdigit() else None
+    head_re = "|".join(sorted(SP_NAMES, key=len, reverse=True))
+    rows = re.findall(r"((?:(?:" + head_re + r") ?)+)특별 ?공급 ((?:\d+ |- ){%d})" % (len(cols) + 1), h.group(2).replace("신혼 부부", "신혼부부").replace("노부모 부양", "노부모부양").replace("다자녀 가구", "다자녀가구").replace("생애 최초", "생애최초").replace("기관 추천", "기관추천") + " ")
+    if not rows:
+        return None
+    sums = [cnt(v) for v in h.group(3).split()[:len(cols) + 1]]
+    out, seen, col_tot = {}, set(), [0] * len(cols)
+    for name, nums in rows:
+        key = SP_NAMES.get(name.replace(" ", ""))
+        vals = [cnt(v) for v in nums.split()]
+        if not key or key in seen or None in vals or sum(vals[:-1]) != vals[-1]:
+            return None
+        seen.add(key)
+        for i, c in enumerate(cols):
+            col_tot[i] += vals[i]
+            if vals[i]:
+                out.setdefault(short[c][0][0], {})[key] = vals[i]
+    if None in sums or len(sums) != len(cols) + 1 or col_tot != sums[:-1] or sum(col_tot) != sums[-1]:
+        return None
+    for c in cols:
+        ty, n = short[c][0]
+        row = out.get(ty)
+        if row:
+            row["total"] = sum(row.values())
+            if row["total"] > n:
+                return None
     return out or None
 
 
