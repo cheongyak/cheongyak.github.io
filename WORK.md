@@ -31,6 +31,11 @@
 - 백업: backup/20261022-0714-lh-daegu
 - 기능: 없음(수정)
 - 버전: v1.71.2
+- 올린 뒤 확인(08:15): 코드 변경으로 돈 LH 수집 성공(07:21 갱신 34건, 0000061187 접수 10-27~29·대구·경북·통장 불문·단지별 9줄, 2015122300020930 [목록·제외]), lh_unread 고칠 것 0, 판정 검증 성공, verify-status ok true·warnings 없음, '수집 멈춤 감시' 손 실행 성공(멈춘 수집 없음)
+- 미완료: ① 59B·74B·84B·59A1 처럼 A 와 칸이 합쳐진 타입은 임대조건 줄이 없음(짐작해서 A 값을 붙이지 않음 — 공고문 확인) ② 단지명이 PDF 줄바꿈 그대로 '대구테크노 폴리스 4단지'로 보임(표기만) ③ '4개 단지 중 거주 중인 단지는 신청 불가'는 판정하지 않음(화면 밖) ④ 기관·기업 대상 제외 기준(제목 낱말)은 운영자 확인 전 임시 기준
+- 충돌: 같은 시각 메인 세션이 v1.71.1(재공급 특공 표)을 먼저 올려 VERSIONS·WORK·changelog 충돌 → 양쪽 다 살리고 이 항목을 v1.71.2 로. 판정 사례는 합친 뒤 다시 만들어 950/950. 판정 사례 lhrent 번호가 8씩 밀렸으니 번호로 기억하는 기록이 있으면 basis 로 찾을 것
+- 되돌리기: `git revert 81655a9`(코드·정답·사례 한꺼번에) 또는 파일만 `git checkout origin/backup/20261022-0714-lh-daegu -- app/lh_terms.py app/lh_rental.py`. 기관 대상 제외만 되돌리려면 lh_rental.py 의 org_target 호출 3줄
+- 다음 작업자: 새 LH 공공임대가 다른 신청자격 문장이면 terms_unread → lh_unread 실패로 드러남(그때 _public_terms 에 모양 추가 + tests/test_lh_20261022.py 식으로 고정). 원천 빈틈(주거복지·신혼희망 대분류)은 HANDOFF 57
 
 ## 2026-10-22 07:01 · 재공급 '특별공급 공급세대수' 따로 표 읽기 (v1.71.1)
 - 요청: (공개 뒤 판정 검증 실패) 불변식 '재공급 일반 0세대인데 특공 세대수 없음' — 10-22 수집 2026930044 수원 한화포레나 영흥숲 66형
@@ -40,15 +45,20 @@
 - 백업: backup/20261022-0701-sp-by-type
 - 기능: 없음(수정) (resupply_special 스위치 아래)
 - 버전: v1.71.1
+
 ## 2026-10-22 06:56 · LH 임대 수집이 10-20 낮 뒤로 멈춘 것 고침 · 수집 멈춤 감시 (수정)
 - 요청: docs/lh-rental.json 이 '2026-10-20 12:41' 에서 멈춤(10-21·10-22 아침 수집 없음, 분양·SH 는 정상) — 원인 찾고 고치고 재발 방지
 - 원인: 수집은 매일 돌았는데 '저장' 단계가 실패(10-21 06:59 push 실행·07:06 예약 실행 모두 종료 코드 128). 10-21 06:59 '검사 결과 데이터 지문'(6d820d1)이 저장 단계에 tools.qa.stamp 를 넣었고, 첫 실행에서 지문이 없던 검사 결과 21개를 모두 고쳐 썼는데 LH 저장은 LH 결과 7개만 커밋함 → 커밋하지 않은 변경이 남음. LH 수집은 40분 가까이 걸려 그사이 main 이 앞서 나가 push 가 거절되고, 이어 받는 `git pull --rebase` 가 '스테이징하지 않은 변경이 있어 받을 수 없음'(128)으로 멈춤. 로컬에서 같은 상황(얕은 clone·남은 변경·앞선 원격)을 만들어 128 재현. 실행 목록의 실패는 이슈로 가지 않아 이틀 동안 아무도 몰랐음. 10-22 06:40 예약 실행은 이 시각까지 GitHub 쪽에서 시작되지 않음(예약 지연)
 - 변경: ① tools/qa/push_retry.sh — 받기 전에 커밋하지 않은 변경을 치우고(stash, 이 실행에서 올릴 것은 이미 커밋됨) rebase 가 안 되면 병합으로, 4번까지 다시 올리고 끝내 못 올리면 실패. LH·SH·GH·공공지원 민간임대 수집과 LH 원천 점검 저장 단계가 이걸 씀 ② 수집 멈춤 감시 tools/qa/freshness.py — 분양(docs/updated.txt)·LH·SH(켜진 원천만, GH·민간임대는 스위치가 켜지면) '마지막 갱신'이 26시간 넘으면 [경고·수집 멈춤]. verify_status 가 매번 지금 파일 시각으로 계산해 verify-status.json warnings·freshness 에 남기고 같은 줄을 출력(아침 수집에서는 run-log 로 들어가 기존 '수집 알림' 이슈로 감, ok 는 안 바꿈) ③ 워크플로 '수집 멈춤 감시'(freshness.yml, 매일 11:17·20:17, 저장소에 쓰지 않음) — 멈춘 수집이 있으면 '수집 멈춤' 이슈(열려 있으면 댓글) ④ LH 원천 점검(lh_probe)이 대분류 없이 최근 30일을 훑어 매입임대·전세임대(든든전세)가 어느 대분류로 오는지 남김(evidence/qa/lh/list-all.json) — 지금 수집은 '임대주택'(06)만 봄
-- 빠진 기간: LH 임대 2026-10-20 12:41 ~ 다음 저장(아래 다음 항목에 결과 적음)
+- 빠진 기간: LH 임대 2026-10-20 12:41 ~ 2026-10-22 07:03 (약 42시간, 놓친 공고는 위 07:14 항목)
 - 파일: tools/qa/push_retry.sh, tools/qa/freshness.py, tools/verify_status.py, tools/qa/lh_probe.py, .github/workflows/lh-rental.yml, sh-rental.yml, gh-rental.yml, pvt-rental.yml, lh-probe.yml, freshness.yml, tests/test_freshness.py, WORK.md
 - 확인: 128 재현과 push_retry 로 올라감(임시 저장소), tests/test_freshness.py 6(10-20 멈춤 잡힘·하루 한 번은 정상·꺼진 원천 안 봄·시각 못 읽음), pytest 297 통과·1 건너뜀(test_pipeline 은 fastapi 없어 뺌, 원래대로), 판정 942/942, 로컬 verify_status 에 '[경고·수집 멈춤] LH 임대 42시간' 출력. 화면·판정 코드는 바꾸지 않아 regress 생략
 - 백업: backup/20261022-0656-lh-stall
 - 기능: 없음(수정)
+- 올린 뒤 확인: 이 커밋으로 돈 LH 수집(07:03)·SH·GH·민간임대 수집 모두 저장 성공, LH 원천 점검 성공(evidence/qa/lh-probe.txt '[06 밖]')
+- 미완료·추가 문제: collect·probe·chat-*·history·law-probe 등 다른 워크플로도 같은 `git push || (git pull --rebase …)` 꼴 — 지금은 저장 파일이 모두 커밋돼 문제없어 메인 세션 영역이라 손대지 않음. 검사 결과를 새로 더할 때 git add 목록에서 빠지면 같은 128 이 남(push_retry.sh 로 바꾸면 됨). 이번 일로 '실행 목록의 실패는 운영자에게 알림이 안 간다'는 빈틈은 수집 멈춤 감시로만 메움(실패 자체 알림은 아님). ship.sh 도 pytest 가 evidence/qa/lh-pdf-tools.json 에 지문을 찍어 받기에서 멈춘 적 2번(손으로 되돌린 뒤 올림)
+- 충돌: 메인 세션(청약봇)과 같은 파일은 tools/verify_status.py 한 곳(반환 값에 warnings·freshness 두 칸만 더함). 화면(index.html)은 이 칸을 읽지 않음
+- 되돌리기: `git revert 8df3787` 또는 감시만 끄려면 freshness.yml 삭제 + verify_status 의 fresh 블록 제거. push_retry.sh 를 되돌리면 10-21 과 같은 저장 실패가 다시 날 수 있음
 
 ## 2026-10-22 06:32 · 청약봇 '공고 찾기' 공개 (v1.71.0)
 - 요청: 일단 오픈해줘 (공고 찾기 + 청약 질문 AI 답)
