@@ -130,6 +130,7 @@ jobs:
           node tools/qa/past_chat.cjs | head -1 | tee -a docs/run-log.txt   # 지난 공고 판정 줄·청약봇 판정 요약이 화면과 같은지
           node tools/qa/input_nav.cjs docs 40 | head -1 | tee -a docs/run-log.txt   # 입력 버튼 전수 — 수집 데이터가 바뀌면 지난 결과가 되므로 수집에서도 돌린다 (2026-10-21)
           node tools/qa/lh_unread.cjs | grep -v '·허용\]\|(참고)\]' | tee -a docs/run-log.txt   # 임대(LH·SH) '공고문에서 못 읽음' 전수검사 — 지금 데이터로 다시 (2026-10-21)
+          python -m tools.qa.coverage | tee -a docs/run-log.txt || true   # 청약홈 공고 누락 점검 — 열려 있는데 화면에 없는 일반분양·무순위 (2026-10-21)
           python -m tools.qa.market_check | head -4 | tee -a docs/run-log.txt   # 시세·근거 거래를 국토부 원자료와 따로 대조 (공고 8개씩 돌아가며)
           python -m tools.qa.parse_snapshot --moved-json evidence/qa/parse-moved.json | grep "글이 바뀐" | head -6 | tee -a docs/run-log.txt || true   # 다시 받아 글이 바뀐 공고문에서 읽은 값이 달라졌는지 (2026-10-10)
       - name: 검증 요약 저장
@@ -139,7 +140,7 @@ jobs:
           set +e
           python -m tools.verify_status | tee -a docs/run-log.txt
           rc=${PIPESTATUS[0]}
-          git add docs/verify-status.json docs/judge-status.json docs/run-log.txt evidence/qa/supply-type.json evidence/qa/invariants.json evidence/qa/filter-check.json evidence/qa/consistency.json evidence/qa/sp-text.json evidence/qa/cross-rule.json evidence/qa/profile-keep.json evidence/qa/monotonic.json evidence/qa/zero-default.json evidence/qa/snapshot.json evidence/qa/e2e.json evidence/qa/past-chat.json evidence/qa/market-check.json evidence/qa/parse-moved.json evidence/qa/lh-unread.json evidence/qa/input-nav.json evidence/qa/pay-audit.json
+          git add docs/verify-status.json docs/judge-status.json docs/run-log.txt evidence/qa/supply-type.json evidence/qa/invariants.json evidence/qa/filter-check.json evidence/qa/consistency.json evidence/qa/sp-text.json evidence/qa/cross-rule.json evidence/qa/profile-keep.json evidence/qa/monotonic.json evidence/qa/zero-default.json evidence/qa/snapshot.json evidence/qa/e2e.json evidence/qa/past-chat.json evidence/qa/market-check.json evidence/qa/parse-moved.json evidence/qa/lh-unread.json evidence/qa/input-nav.json evidence/qa/pay-audit.json evidence/qa/coverage.json
           # 다른 작업(근거 자료 모으기 등)과 push 가 겹치면 예전엔 조용히 사라졌다(2026-10-09·11 verify-status 가 갱신 안 됨) → 3번까지 다시 받아 올리고, 끝내 못 올리면 실패로 보이게
           if ! git diff --cached --quiet; then
             git commit -m "검증 결과 $(date +%Y-%m-%d)"
