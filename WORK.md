@@ -4,6 +4,14 @@
 2026-09-29 12:55 이전 항목은 규칙을 만들기 전 작업을 커밋 기록으로 정리한 것이라 백업 브랜치가 없어요.
 그 시점으로 되돌릴 때는 해당 커밋 번호로 `git revert` 를 써요.
 
+## 2026-10-22 08:38 · 근거 자료 모으기 뒤 청약봇 복사본 맞추기 (수정)
+- 요청: (경고 원인 조사 중 발견) 근거 자료 모으기가 chat/v2/data/lines.json(노선 역)만 바꾸고 화면 복사본 docs/bot/v2 는 그대로 → tests/test_bot_find 복사본 대조 실패
+- 변경: probe.yml 노선 단계 뒤 python -m tools.sync_bot, 저장에 docs/bot/v2 포함. 지금 복사본 맞춤
+- 파일: .github/workflows/probe.yml, docs/bot/v2/data/lines.json, WORK.md
+- 확인: test_bot_engine_copy_in_sync 통과
+- 백업: backup/20261022-0838-verify-root
+- 기능: 없음(수정)
+
 ## 2026-10-22 08:38 · 0건 수집 때 지난 공고가 남던 것 (경고 반복 원인 ①, v1.71.3)
 - 요청: '베타 참고용' 경고가 반복되는 근본 원인을 찾아 없애고 재발 감시 (사용자 지시문)
 - 원인: 경고 이력(git 의 verify-status.json 234개) 중 10-06 00:09·10-08 00:34 두 번은 불변식 '보관 기간 지난 공고가 목록에 남음'(1·13건). 처음엔 '검사가 시계로 재는 거짓 경보'로 봤으나 그날 데이터로 다시 돌려 보니 거짓이 아님 — 자정 수집이 청약홈에서 0건을 받아 지난 결과를 보관 기간 거르지 않고 통째로 다시 씀(app/pipeline.py run). 일부 유형만 0건일 때(restore_missing_category)는 이미 거르고 있었음
