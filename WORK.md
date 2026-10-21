@@ -4,6 +4,16 @@
 2026-09-29 12:55 이전 항목은 규칙을 만들기 전 작업을 커밋 기록으로 정리한 것이라 백업 브랜치가 없어요.
 그 시점으로 되돌릴 때는 해당 커밋 번호로 `git revert` 를 써요.
 
+## 2026-10-22 06:56 · LH 임대 수집이 10-20 낮 뒤로 멈춘 것 고침 · 수집 멈춤 감시 (수정)
+- 요청: docs/lh-rental.json 이 '2026-10-20 12:41' 에서 멈춤(10-21·10-22 아침 수집 없음, 분양·SH 는 정상) — 원인 찾고 고치고 재발 방지
+- 원인: 수집은 매일 돌았는데 '저장' 단계가 실패(10-21 06:59 push 실행·07:06 예약 실행 모두 종료 코드 128). 10-21 06:59 '검사 결과 데이터 지문'(6d820d1)이 저장 단계에 tools.qa.stamp 를 넣었고, 첫 실행에서 지문이 없던 검사 결과 21개를 모두 고쳐 썼는데 LH 저장은 LH 결과 7개만 커밋함 → 커밋하지 않은 변경이 남음. LH 수집은 40분 가까이 걸려 그사이 main 이 앞서 나가 push 가 거절되고, 이어 받는 `git pull --rebase` 가 '스테이징하지 않은 변경이 있어 받을 수 없음'(128)으로 멈춤. 로컬에서 같은 상황(얕은 clone·남은 변경·앞선 원격)을 만들어 128 재현. 실행 목록의 실패는 이슈로 가지 않아 이틀 동안 아무도 몰랐음. 10-22 06:40 예약 실행은 이 시각까지 GitHub 쪽에서 시작되지 않음(예약 지연)
+- 변경: ① tools/qa/push_retry.sh — 받기 전에 커밋하지 않은 변경을 치우고(stash, 이 실행에서 올릴 것은 이미 커밋됨) rebase 가 안 되면 병합으로, 4번까지 다시 올리고 끝내 못 올리면 실패. LH·SH·GH·공공지원 민간임대 수집과 LH 원천 점검 저장 단계가 이걸 씀 ② 수집 멈춤 감시 tools/qa/freshness.py — 분양(docs/updated.txt)·LH·SH(켜진 원천만, GH·민간임대는 스위치가 켜지면) '마지막 갱신'이 26시간 넘으면 [경고·수집 멈춤]. verify_status 가 매번 지금 파일 시각으로 계산해 verify-status.json warnings·freshness 에 남기고 같은 줄을 출력(아침 수집에서는 run-log 로 들어가 기존 '수집 알림' 이슈로 감, ok 는 안 바꿈) ③ 워크플로 '수집 멈춤 감시'(freshness.yml, 매일 11:17·20:17, 저장소에 쓰지 않음) — 멈춘 수집이 있으면 '수집 멈춤' 이슈(열려 있으면 댓글) ④ LH 원천 점검(lh_probe)이 대분류 없이 최근 30일을 훑어 매입임대·전세임대(든든전세)가 어느 대분류로 오는지 남김(evidence/qa/lh/list-all.json) — 지금 수집은 '임대주택'(06)만 봄
+- 빠진 기간: LH 임대 2026-10-20 12:41 ~ 다음 저장(아래 다음 항목에 결과 적음)
+- 파일: tools/qa/push_retry.sh, tools/qa/freshness.py, tools/verify_status.py, tools/qa/lh_probe.py, .github/workflows/lh-rental.yml, sh-rental.yml, gh-rental.yml, pvt-rental.yml, lh-probe.yml, freshness.yml, tests/test_freshness.py, WORK.md
+- 확인: 128 재현과 push_retry 로 올라감(임시 저장소), tests/test_freshness.py 6(10-20 멈춤 잡힘·하루 한 번은 정상·꺼진 원천 안 봄·시각 못 읽음), pytest 297 통과·1 건너뜀(test_pipeline 은 fastapi 없어 뺌, 원래대로), 판정 942/942, 로컬 verify_status 에 '[경고·수집 멈춤] LH 임대 42시간' 출력. 화면·판정 코드는 바꾸지 않아 regress 생략
+- 백업: backup/20261022-0656-lh-stall
+- 기능: 없음(수정)
+
 ## 2026-10-22 06:32 · 청약봇 '공고 찾기' 공개 (v1.71.0)
 - 요청: 일단 오픈해줘 (공고 찾기 + 청약 질문 AI 답)
 - 변경: config bot_find·bot_find_ai·chatbot 켬, chat_off false·chat_legal_date 2026-10-09(방침에 AI 항목 이미 있음), 서버 CHAT_OPEN=1. 공고 찾기에서 AI·서버로 보내기 전 동의 상자(동의 없으면 /chat·/v2/llm 부르지 않음, 'AI 없이 찾기만'은 그 질문만 AI 없이). 동의 상자가 떠 있으면 '질문하기' 숨김. 아래 안내 '서버로 보내지 않아요' → AI 켜졌을 때 사실대로. chatOn 에 공고 찾기 AI 포함(방침·약관 AI 항목 보임)

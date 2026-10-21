@@ -89,7 +89,17 @@ def build() -> dict:
         print(f"[검증·지난 결과] 지금 데이터·화면 코드와 다른 때 돌린 검사 {len(stale)}개는 세지 않음(다음 판정 검증에서 다시 돌림): {' '.join(stale)}")
     ok = bool(judge) and not judge["failed"] and not judge.get("pageErrors") and not cc_bad and not gold_bad and (cc_sum is not None or not cc_on) and qa_ok and not full_stale
     kst = timezone(timedelta(hours=9))
+    # 수집 멈춤 감시 (tools/qa/freshness.py, 2026-10-22 LH 임대 저장 실패로 이틀 멈춤): 분양·LH·SH 데이터 '마지막 갱신'이 26시간을 넘으면 경고.
+    # 데이터가 틀린 게 아니라 오래된 것이라 ok 는 바꾸지 않고 warnings 로만 남긴다(지금 파일 시각으로 매번 계산 — 지난 결과가 될 일 없음)
+    try:
+        from tools.qa.freshness import check as fresh_check
+        fresh = fresh_check(ROOT)
+    except Exception as e:
+        fresh = {"items": [], "warnings": [f"수집 멈춤 감시 실패 {e.__class__.__name__}"]}
+    for w in fresh["warnings"]:
+        print(f"[경고·수집 멈춤] {w}")
     return {"at": datetime.now(kst).strftime("%Y-%m-%d %H:%M"), "ok": ok, "collect_run": run_at,
+            "warnings": fresh["warnings"], "freshness": [{k: i[k] for k in ("name", "updated", "hours", "stale")} for i in fresh["items"]],
             "judge": {"total": judge["total"], "passed": judge["passed"], "failed": [f["id"] for f in judge["failed"]]} if judge else None,
             "crosscheck": {"summary": cc_sum, "mismatches": cc_bad[:30]}, "golden": {"mismatches": gold_bad[:30]},
             "qa_stale": stale, "qa": {"gate": gate, "supply_type_fails": st_bad, "invariant_violations": inv_bad, "filter_fails": flt_bad, "consistency_fails": con_bad, "sp_text_fails": spt_bad, "market_fails": mkc_bad, "cross_rule_fails": crx_bad, "profile_keep_fails": pkp_bad, "monotonic_violations": mono_bad, "zero_default_violations": zd_bad, "input_nav_problems": inav_bad, "snapshot_diffs": snap_bad, "e2e_fails": e2e_bad, "past_chat_fails": pch_bad, "lh_invariant_violations": lhi_bad, "lh_judge_qa_fails": lhq_bad, "lh_screen_fails": lhs_bad, "lh_unread": lhu_bad, "lh_pdf_merged_wrong": lhp_bad, "pay_audit_bad": pay_bad, "parse_moved_changes": pmv_bad, "coverage_missing": cov_bad, "pay_audit_read": pay and f"{pay['read']}/{pay['notices']}", "lh_data_at": lhi and lhi.get("data_updated"), "cross_rule_checks": crx and crx.get("checks"), "market_at": mkc and mkc.get("date"), "supply_type_at": st and st.get("date"), "invariants_at": inv and inv.get("date")}}

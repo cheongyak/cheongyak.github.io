@@ -1,0 +1,39 @@
+name: 수집 멈춤 감시
+# 분양·LH·SH(켜진 원천만) 데이터의 '마지막 갱신'이 26시간을 넘으면 운영자에게 이슈로 알린다 (tools/qa/freshness.py).
+# 2026-10-22: LH 임대 수집의 저장 단계가 이틀 실패했는데 아무 알림이 없었다. 아침 수집(05:30)의 검증 요약에도 같은 경고가 들어가지만,
+# 수집이 06:40 이후에 멈추면 다음 날 아침까지 모르므로 낮·저녁에 한 번씩 따로 본다. 저장소에 아무것도 쓰지 않는다(다른 작업과 겹치지 않음).
+on:
+  schedule:
+    - cron: "17 2 * * *"    # 매일 11:17 (KST) — 아침 임대 수집(06:40·06:50)이 끝난 뒤
+    - cron: "17 11 * * *"   # 매일 20:17 (KST)
+  workflow_dispatch:
+permissions:
+  contents: read
+  issues: write
+concurrency:
+  group: freshness
+  cancel-in-progress: true
+jobs:
+  check:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: main
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - name: 마지막 갱신 시각 확인
+        run: python -m tools.qa.freshness --no-save | tee /tmp/fresh.txt
+      - name: 멈춘 수집이 있으면 운영자 알림 (이슈)
+        env:
+          GH_TOKEN: ${{ github.token }}
+          RUN_URL: ${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}
+        run: |
+          w=$(grep '^\[경고·수집 멈춤\]' /tmp/fresh.txt || true)
+          [ -z "$w" ] && { echo "멈춘 수집 없음"; exit 0; }
+          body=$'공고 데이터가 하루 넘게 갱신되지 않았어요. 사이트에 새 공고가 안 올라오고 있을 수 있어요.\n\n```\n'"$w"$'\n```\n\n'
+          body="$body"$'확인할 곳: Actions 에서 그 수집(LH 임대 수집·SH 임대 수집·청약 공고 수집)의 최근 실행과 \'저장\' 단계. 고쳐지면 이 이슈를 닫아 주세요.\n\n실행: '"$RUN_URL"
+          n=$(gh issue list --state open --search "in:title 수집 멈춤" --json number --jq '.[0].number' 2>/dev/null || true)
+          if [ -n "$n" ]; then gh issue comment "$n" --body "$body"; else gh issue create --title "수집 멈춤 $(TZ=Asia/Seoul date +%Y-%m-%d)" --body "$body"; fi

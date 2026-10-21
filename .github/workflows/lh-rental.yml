@@ -52,4 +52,4 @@ jobs:
           git config user.email "actions@users.noreply.github.com"
           python -m tools.qa.stamp   # 검사 결과에 지금 데이터 지문 (지난 결과를 다른 워크플로가 세지 않게, 2026-10-21)
           git add docs/lh-rental.json evidence/lh evidence/qa/lh-rental-log.txt evidence/qa/lh-invariants.json evidence/qa/lh-qa.json evidence/qa/lh-screen.json evidence/qa/lh-pdf-tools.json evidence/qa/lh-unread.json
-          git diff --cached --quiet || (git commit -m "LH 임대 수집 $(date +%Y-%m-%d)" && (git push || (git pull --rebase -X theirs origin main && git push)))
+          git diff --cached --quiet || (git commit -m "LH 임대 수집 $(date +%Y-%m-%d)" && bash tools/qa/push_retry.sh)

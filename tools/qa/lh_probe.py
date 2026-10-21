@@ -79,6 +79,23 @@ def main() -> None:
             log.append(f"[{nm}] {r['AIS_TP_CD_NM']} {r.get('PAN_NM','')[:40]} · HTTP {st} · 행 {len(rows)}" + ("" if j is not None else " · " + re.sub(r"\s+", " ", body[:200])))
             if rows:
                 log.append("    필드: " + ", ".join(sorted({k for x in rows for k in x})[:80]))
+    # 2026-10-22 점검: 지금 수집은 '임대주택'(UPP_AIS_TP_CD=06)만 본다. 매입임대(청년·신혼 매입임대, 현장·선착순 접수)와
+    # 전세임대(든든전세주택)가 다른 대분류(주거복지 13 등)에 있는지, 어떤 유형·상태로 오는지 대분류 없이 최근 30일을 훑어 남긴다.
+    other, kinds = [], Counter()
+    for page in range(1, 6):
+        st, j, body = get(LIST, PG_SZ=100, PAGE=page, PAN_ST_DT=(NOW - timedelta(days=30)).strftime("%Y%m%d"), PAN_ED_DT=NOW.strftime("%Y%m%d"))
+        rows = rows_of(j) if j is not None else []
+        log.append(f"[전체 대분류 {page}쪽] HTTP {st} · 행 {len(rows)}" + ("" if j is not None else " · " + re.sub(r"\s+", " ", body[:200])))
+        other += [r for r in rows if r.get("PAN_ID")]
+        if len(rows) < 100:
+            break
+    for r in other:
+        kinds[(r.get("UPP_AIS_TP_CD"), r.get("UPP_AIS_TP_NM"), r.get("AIS_TP_CD"), r.get("AIS_TP_CD_NM"))] += 1
+    log.append("[전체 대분류] 대분류·유형별: " + ", ".join(f"{a}{b}/{c}{d} {n}" for (a, b, c, d), n in kinds.most_common()))
+    for r in other:
+        if r.get("UPP_AIS_TP_CD") != "06" and re.search(r"매입|전세|선착순|청년|신혼", r.get("PAN_NM") or ""):
+            log.append(f"    [06 밖] {r.get('UPP_AIS_TP_NM')}/{r.get('AIS_TP_CD_NM')} {r.get('PAN_ID')} {r.get('PAN_SS')} 공고 {r.get('PAN_NT_ST_DT')} 마감 {r.get('CLSG_DT')} · {(r.get('PAN_NM') or '')[:60]}")
+    (RAW / "list-all.json").write_text(json.dumps(other, ensure_ascii=False, indent=1), encoding="utf-8")
     OUT.write_text("\n".join(log) + "\n", encoding="utf-8")
     print("\n".join(log))
 
