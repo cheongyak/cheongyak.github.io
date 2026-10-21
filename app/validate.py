@@ -61,7 +61,10 @@ def listing_checks(L: Listing, today: date) -> list[str]:
     rq = (getattr(L, "notice_quotes", None) or {}).get("거주 지역 요건", "")   # 같은 검사를 거주 요건에도 (2026-10-10 Abc B)
     if rq and (L.households or 0) > 0 and "일반공급" not in rq and any(w in rq for w in ("생애최초로", "다자녀가구 특별", "신혼부부 특별", "신생아 특별", "노부모부양 특별", "특별공급 대상")):
         out.append("거주 지역 요건의 근거 문장이 특별공급 대상자 문장이에요 — 일반공급 거주 요건이 맞는지 원문 확인 필요")
-    if L.regulated and "세대주 요건" not in L.from_notice and L.need_head:
+    # 일반공급 물량이 0 이고 특별공급만 있는 주택형(특공만 있는 재공급 2026930044 영흥숲 등)은 일반공급 세대주 요건이 쓰이지 않는다 — 특별공급 세대주 요건은
+    # 유형별 규칙(spJudge)이 따로 본다. 공고문에 일반공급 문장이 없는 게 당연하므로 '못 읽음' 경고를 붙이지 않는다 (2026-10-22 이슈 #25)
+    sp_only = (L.households or 0) == 0 and ((getattr(L, "special_units", None) or {}).get("total") or 0) > 0
+    if L.regulated and "세대주 요건" not in L.from_notice and L.need_head and not sp_only:
         out.append("세대주 요건을 공고문에서 확인하지 못해 규제지역 기준으로 추정했어요")
     if "재당첨 제한" not in L.from_notice and (L.regulated or L.price_cap):
         # 비규제·상한제 미적용 주택은 재당첨 제한 대상이 아니라 추정해도 틀릴 여지가 작다
