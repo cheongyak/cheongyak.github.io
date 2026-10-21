@@ -21,4 +21,8 @@ def test_screen_hooks():
     for k in ("function botFindBox", "function vBot", "function botAct", "bot:vBot", "'cy-bot-preview'", "import('./bot/find.mjs')", "function botGeneralView", "function botChat", "data-kind=\"general\""):
         assert k in h, k
     import json
-    assert json.loads((ROOT / "docs/config.json").read_text(encoding="utf-8"))["features"]["bot_find"] is False   # 미리보기(?bot=1) 확인 뒤 켬
+    c = json.loads((ROOT / "docs/config.json").read_text(encoding="utf-8"))
+    assert c["features"]["bot_find"] is True and c["features"]["bot_find_ai"] is True   # 2026-10-22 공개 (사용자 '일단 오픈해줘')
+    # AI·서버로 보내기 전 동의 상자 — 동의 없이 /chat·/v2/llm 을 부르지 않는다
+    for k in ("data-action=\"bot-consent\"", "data-action=\"bot-noai\"", "botAiOn() && !chatConsent()", "BOT.noAiOnce"):
+        assert k in h, k

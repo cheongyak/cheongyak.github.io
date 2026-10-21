@@ -51,9 +51,9 @@ npm i --no-save playwright@1.56.0          # 화면 검사용. 크로미움이 /
 
 GitHub Secrets (이름만): `DATA_GO_KR_KEY`, `NCP_MAPS_CLIENT_ID`, `NCP_MAPS_CLIENT_SECRET`, `CLOUDFLARE_API_TOKEN`, `CLOUDFLARE_ACCOUNT_ID`, `PUSH_SEND_TOKEN`, `LAW_OC`(법제처 API, 2026-10-01 사용자 등록)
 
-## 진행 중인 일 (2026-10-05 기준, 최신이 위)
+## 진행 중인 일 (2026-10-22 기준, 최신이 위)
 
--56. **청약봇 '공고 찾기' (10-21, 기능 bot_find 꺼짐, 미리보기 ?bot=1)** — 사용자가 급매캐치 '집 찾기' 화면을 보여주며 '청약패스에 이런식으로'. 엔진 chat/v2 → docs/bot/v2 복사(python -m tools.sync_bot, 직접 고치지 말 것). 운영자 미리보기 확인 뒤 켜기. AI 설명은 bot_find_ai(10-21 21:23, 서버 /v2/llm, 미리보기 ?botai=1 + 미리보기 코드) — 운영자가 실제 답 품질 보고 켤지 결정. 제도·요령 질문은 갈래(docs/bot/route.mjs)로 /chat(법령 근거)에 보냄(23:32). 다음: 이어서 조건 바꾸기 다듬기, 자격 질문은 내 조건 저장 안내
+-56. **청약봇 '공고 찾기' 공개 (10-22 v1.71.0, 기능 bot_find·bot_find_ai·chatbot 켬, 서버 CHAT_OPEN=1)** — 엔진 chat/v2 → docs/bot/v2 복사(python -m tools.sync_bot, 직접 고치지 말 것). 제도·요령 질문은 갈래(docs/bot/route.mjs)로 /chat(법령 근거·설명 모드 tips). AI 보내기 전 동의 상자(cy-chat-consent). 한도: 한 사람 하루 2건·IP 3·전체 100, 월 $18. 급히 멈추기: 오픈채팅 `!점검` 또는 config bot_find_ai false(공고 찾기는 AI 없이 그대로) / bot_find false(첫 화면 상자 없음). 공개 뒤 볼 것: 월 사용액·답 품질(사용자 평가), '기본 답' 비율. 다음 후보: 조건 바꾸기 다듬기, 자격 질문 → 내 조건 저장 안내
 -55. **검사 결과 데이터 지문 (10-21, tools/qa/stamp.py)** — 검증 요약은 '지금 데이터·화면 코드로 돌린 검사'만 센다. 새 검사를 만들면 ① tools/qa/stamp.py DEPS 에 결과 파일·기대는 데이터 추가 ② 그 결과를 저장하는 워크플로에서 저장 전에 verify_status 또는 `python -m tools.qa.stamp` ③ 데이터를 바꾸는 워크플로가 검사를 다 돌리지 않으면 판정 검증을 다시 돌림 (tests/test_qa_stamp.py 가 확인)
 -54. **임대 공고문 못 읽음 전수검사 (10-20, v1.70.1)** — 매 검증에 tools/qa/lh_unread.cjs: 모든 임대 공고(LH·SH)를 화면 판정으로 돌려 '읽지 못함·공고문 오기·범위 모름' 항목이 허용 목록(tools/qa/lh_unread_allow.json, 원문 확인 이유 필수) 밖이면 검증 실패 → 이슈. 고칠 때는 원문을 읽고 lh_terms/sh_terms 에 모양 추가 + tests/test_rental_unread_20261020.py 식으로 고정. 남은 '판정하지 않는 계층'(916 산업단지근로자·919 청년 창업인·SH 고령자)은 참고 줄만 — 지원하려면 새 질문(산단 근무·창업 여부) 필요
 -53. **토지임대부 실질 비교 (10-20, v1.70.0, 기능 land_lease_value, 사용자 질문 '반값아파트 아닌가')** — 땅 몫 = 공고문 월 토지임대료×12÷공고문 보증금 전환이율, 실질 매입가 = 분양가+취득세+땅 몫 을 주변 시세와 비교(등급 없음 참고값). 토지임대료 표·전환 예시를 못 읽으면 실질 차이 없이 v1.69.0 처럼 '토지임대부'만. 새 토지임대부 공고가 다른 표 모양이면 parse_land_rent 에 원문 꼴 추가

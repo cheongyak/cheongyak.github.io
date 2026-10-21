@@ -4,6 +4,15 @@
 2026-09-29 12:55 이전 항목은 규칙을 만들기 전 작업을 커밋 기록으로 정리한 것이라 백업 브랜치가 없어요.
 그 시점으로 되돌릴 때는 해당 커밋 번호로 `git revert` 를 써요.
 
+## 2026-10-22 06:32 · 청약봇 '공고 찾기' 공개 (v1.71.0)
+- 요청: 일단 오픈해줘 (공고 찾기 + 청약 질문 AI 답)
+- 변경: config bot_find·bot_find_ai·chatbot 켬, chat_off false·chat_legal_date 2026-10-09(방침에 AI 항목 이미 있음), 서버 CHAT_OPEN=1. 공고 찾기에서 AI·서버로 보내기 전 동의 상자(동의 없으면 /chat·/v2/llm 부르지 않음, 'AI 없이 찾기만'은 그 질문만 AI 없이). 동의 상자가 떠 있으면 '질문하기' 숨김. 아래 안내 '서버로 보내지 않아요' → AI 켜졌을 때 사실대로. chatOn 에 공고 찾기 AI 포함(방침·약관 AI 항목 보임)
+- 파일: docs/config.json, chat/worker/wrangler.toml, docs/index.html, tests/test_bot_find.py, docs/changelog.json, VERSIONS.md, FEATURES.md, HANDOFF.md, WORK.md
+- 확인: 문법, 390px 브라우저(첫 화면 상자·둥근 버튼 숨김, 제도 질문 → 동의 상자·그 전 서버 호출 0 → 동의 뒤 /chat 1번·답 표시, 방침 AI 항목), pytest 291·1 건너뜀, 판정 942/942, E2E 34, 스냅샷 0, 서버 시험 43, V2 94, 갈래·조건 8
+- 백업: backup/20261022-0632-bot-open
+- 기능: bot_find · bot_find_ai · chatbot (켬)
+- 버전: v1.71.0
+
 ## 2026-10-22 06:32 · 테스트가 마감된 공고에 기대던 것 고침
 - 요청: (청약봇 공개 전 검사 중 발견) 10-22 수집에서 마감 공고 2026000448 이 빠져 test_complex 가 실패
 - 변경: 그 공고가 수집 결과에 없으면 건너뜀(같은 검사는 정답 데이터 test_golden_* 가 계속 맡음)

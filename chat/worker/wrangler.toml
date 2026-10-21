@@ -10,7 +10,7 @@ workers_dev = true
 [vars]
 ALLOWED_ORIGINS = "https://cheongyakpass.kr,https://www.cheongyakpass.kr"
 EVIDENCE_BASE = "https://cheongyakpass.kr/chat-evidence"
-CHAT_OPEN = "0"
+CHAT_OPEN = "1"
 
 [[kv_namespaces]]
 binding = "CHAT_KV"
