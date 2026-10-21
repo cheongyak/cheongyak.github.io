@@ -4,6 +4,15 @@
 2026-09-29 12:55 이전 항목은 규칙을 만들기 전 작업을 커밋 기록으로 정리한 것이라 백업 브랜치가 없어요.
 그 시점으로 되돌릴 때는 해당 커밋 번호로 `git revert` 를 써요.
 
+## 2026-10-22 08:51 · 커밋된 충돌 표시를 잡는 검사 (수정)
+- 요청: (LH 주거복지 작업 중 발견) 1ff4273 에 app/pipeline.py·tests/qa/parse_snapshot.json 의 충돌 표시가 올라감 — 메인 세션이 같은 때 b825738 로 고쳐 그쪽 수정을 그대로 씀
+- 원인: 이 세션(dc0ba5e, 이슈 #25)과 메인 세션이 같은 시각 PARSER_VERSION 을 둘 다 45 로 올림(위 b825738 항목)
+- 변경: tests/test_no_conflict_markers.py — 추적하는 글 파일(evidence 제외)에 '<<<<<<< '·'>>>>>>> ' 줄이 있으면 실패. 수집·판정 검증의 pytest 가 먼저 잡아, 표시가 섞인 커밋이 수집 데이터를 망치기 전에 빨간불
+- 파일: tests/test_no_conflict_markers.py, WORK.md
+- 확인: 1ff4273 의 pipeline.py 로 잡히는 것 확인, 지금 저장소 통과
+- 백업: backup/20261022-0851-conflict-fix
+- 기능: 없음(수정)
+
 ## 2026-10-22 08:52 · v1.72.0 커밋에 섞인 충돌 표시 고침 (수정)
 - 요청: (사고) 1ff42735 를 올릴 때 `git pull --rebase --autostash` 가 다른 세션 dc0ba5ee(v1.71.4, 같은 PARSER_VERSION 45)와 충돌했는데 그대로 add·commit·push → app/pipeline.py·tests/qa/parse_snapshot.json 에 충돌 표시(<<<<<<<)가 들어감. pipeline.py 문법 오류라 그 사이 수집이 돌면 실패(약 4분)
 - 변경: PARSER_VERSION 46(45 = 다른 세션 2026000502 규칙, 46 = 공급규모 문장) 으로 합침, parse_snapshot 은 dc0ba5ee 기준에서 다시 --update(차이 = supply_scale 칸만). FEATURES 해시
