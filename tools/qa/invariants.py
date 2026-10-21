@@ -58,7 +58,7 @@ def check(rows: list, today: str, live: bool) -> dict:
             keep = (date.fromisoformat(win) + timedelta(days=KEEP_AFTER_WINNER_DAYS)).isoformat() if win else end
             if keep and keep < today:
                 f("보관 기간 지난 공고가 목록에 남음", x, f"발표 {win}")
-    return {"rows": len(rows), "violations": {k: {"count": len(v), "examples": v[:5]} for k, v in bad.items()}}
+    return {"rows": len(rows), "violations": {k: {"count": len(v), "examples": v[:5], "ids": sorted({e.split(" ")[0] for e in v})} for k, v in bad.items()}}   # ids: 화면이 그 주택형·공고에 '데이터 확인 필요'를 붙임 (verify_scope)
 
 
 def main() -> int:

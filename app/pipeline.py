@@ -544,6 +544,13 @@ def _still_listed(x: dict, today: date) -> bool:
     return bool(keep) and keep >= today.isoformat()
 
 
+def keep_previous(prev_rows: list, today: date) -> list:
+    """공고를 0건 받아 지난 결과를 유지할 때도 보관 기간이 지난 주택형은 뺀다 (restore_missing_category 와 같은 기준).
+    2026-10-06 00:03·10-08 00:27 자정 수집이 0건을 받아 지난 결과를 통째로 다시 써서, 발표 후 14일이 지난 공고 1·13개가 화면에 남음
+    → 불변식 '보관 기간 지난 공고가 목록에 남음' → 전체 '베타 참고용' (경고 이력 evidence/qa/warn-history.json)."""
+    return [x for x in prev_rows if _still_listed(x, today)]
+
+
 def restore_missing_category(out: list, prev_rows: list, today: date, log: list[str]) -> int:
     """한 유형(일반분양·무순위)만 0건으로 오면 수집 실패로 보고 그 유형의 지난 결과를 유지한다.
     2026-10-01 00:59 실행에서 청약홈이 무순위를 0건 줘 접수 중인 무순위 공고(강변역 등)가 목록에서 사라진 문제.
@@ -620,7 +627,8 @@ def run(dry_run: bool = False, today: Optional[date] = None, read_notices: bool 
         restore_missing_category(out, prev_rows, today, log)
     if not out and prev_rows:
         # 청약홈 API 가 일시적으로 빈 목록을 돌려주면(2026-09-30 00시대 실제 발생) 서비스가 비지 않게 지난 결과를 유지한다
-        log.append(f"[경고] 청약홈에서 공고를 0건 받았어요. 일시적인 문제일 수 있어 지난 결과({len(prev_rows)}건)를 그대로 둬요")
+        kept = keep_previous(prev_rows, today)
+        log.append(f"[경고] 청약홈에서 공고를 0건 받았어요. 일시적인 문제일 수 있어 지난 결과({len(prev_rows)}건 중 보관 기간 안 {len(kept)}건)를 그대로 둬요")
         from .sources.applyhome import ENDPOINTS
         for cat in ("general", "remainder"):   # 원인 확인용: 날짜 필터 없이 / 있이 받은 건수
             for label, extra in (("필터 없이", {}), (f"공고일 {since} 이후", {"cond[RCRIT_PBLANC_DE::GTE]": since})):
@@ -634,9 +642,9 @@ def run(dry_run: bool = False, today: Optional[date] = None, read_notices: bool 
             print(l)
         if not dry_run:
             DATA.parent.mkdir(parents=True, exist_ok=True)
-            DATA.write_text(json.dumps(prev_rows, ensure_ascii=False, indent=1), encoding="utf-8")
+            DATA.write_text(json.dumps(kept, ensure_ascii=False, indent=1), encoding="utf-8")
             RUN_LOG.parent.mkdir(parents=True, exist_ok=True)
-            RUN_LOG.write_text(f"실행: {today.isoformat()} · 공고 0건 받음 → 지난 결과 {len(prev_rows)}건 유지\n\n" + "\n".join(log) + "\n",
+            RUN_LOG.write_text(f"실행: {today.isoformat()} · 공고 0건 받음 → 지난 결과 {len(kept)}건 유지\n\n" + "\n".join(log) + "\n",
                                encoding="utf-8")
         return []
     if read_notices:
