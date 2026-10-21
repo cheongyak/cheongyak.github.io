@@ -19,12 +19,13 @@ const Q = {
   home: () => '저 무주택 요건 되나요?',
 };
 
-const golden = cases.map(c => ({
+// 서버가 받는 engine(분양 판정)이 아닌 사례는 뺀다: lhrent(LH·SH 임대 판정은 rentalJudge — 청약봇 /chat 범위 밖), contract(계약금 비율은 자금 계산) (2026-10-21 판정 사례 942건 기준으로 다시 만듦)
+const golden = cases.filter(c => Q[c.fn]).map(c => ({
   id: 'judge-' + c.id, source: 'judge', question: Q[c.fn](c), listing: c.listing, profile: c.profile,
   expect: { engine: { fn: c.fn, type: c.type || null, item: c.item || null, ...c.expect } }, basis: c.basis,
 }));
 
-const MOM = { household: 'head', birth: '1958-01-01', married: true, marriedOn: '1995-01-01', kidsMinor: 0, pregnant: false, hhHomes: '0', selfOwn: false, spouseOwn: false, hhIncomeYear: 12000, hhSize: 4, carValue: 200, realEstate: 0, homeSido: '서울', homeSigun: '양천구', acctType: 'none' };
+const MOM = { household: 'head', birth: '1958-01-01', married: true, marriedOn: '1995-01-01', kidsMinor: 0, pregnant: false, hhHomes: '0', selfOwn: false, spouseOwn: false, hhIncomeYear: 12000, hhSize: 4, carValue: 200, realEstate: 0, homeSido: '서울', homeSigun: '양천구', acctType: 'none' , _set: ['spouseOwn', 'selfOwn', 'spouseIncome', 'realEstate', 'carValue', 'pregnant', 'kidsMinor', 'recentWin', 'win5y'] };   // 2026-10-21: 기본값 0·false 칸은 '입력함' 표시가 있어야 값으로 본다(10-05 안전성 점검) — 손으로 쓴 프로필에도 붙임
 const A6 = '2026000414-059.8400A', GM = '2026000453-059.9742A', NHT = '2026820010-055.8800B';
 const hand = [
   { id: 'kakao-mom-1', question: '저희 가족 이 공고 신청 가능한가요?', listing: A6, profile: MOM, expect: { verdict: '불가' }, basis: '오픈카톡 10/1 실제 질문(조건만). 통장 없음 + 공공 60㎡ 이하 소득 초과' },
