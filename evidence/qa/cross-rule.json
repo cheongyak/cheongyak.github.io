@@ -2,7 +2,7 @@
  "date": "2026-10-21",
  "listings": 261,
  "profiles": 42,
- "checks": 331325,
+ "checks": 331653,
  "conflicts": 0,
  "severity": {
   "CRITICAL": 0,
@@ -11,9 +11,9 @@
  },
  "rules": {},
  "states": {
-  "NORMAL": 159,
-  "WARNING": 65,
-  "UNKNOWN": 37
+  "NORMAL": 155,
+  "WARNING": 74,
+  "UNKNOWN": 32
  },
  "examples": [],
  "unknown": [
@@ -150,36 +150,6 @@
    "priceCap": "CONFIRMED"
   },
   {
-   "id": "2026000416-059.7400A",
-   "name": "양주회천지구 A-26블록 공공분양주택",
-   "duty": "UNKNOWN",
-   "priceCap": "CONFIRMED"
-  },
-  {
-   "id": "2026000416-059.9100B",
-   "name": "양주회천지구 A-26블록 공공분양주택",
-   "duty": "UNKNOWN",
-   "priceCap": "CONFIRMED"
-  },
-  {
-   "id": "2026000416-074.6100A",
-   "name": "양주회천지구 A-26블록 공공분양주택",
-   "duty": "UNKNOWN",
-   "priceCap": "CONFIRMED"
-  },
-  {
-   "id": "2026000416-074.9700B",
-   "name": "양주회천지구 A-26블록 공공분양주택",
-   "duty": "UNKNOWN",
-   "priceCap": "CONFIRMED"
-  },
-  {
-   "id": "2026000416-084.8600A",
-   "name": "양주회천지구 A-26블록 공공분양주택",
-   "duty": "UNKNOWN",
-   "priceCap": "CONFIRMED"
-  },
-  {
    "id": "2026000409-059.9200A",
    "name": "의정부우정 A2블록 공공분양주택(본청약)",
    "duty": "UNKNOWN",
@@ -242,7 +212,7 @@
  ],
  "pageErrors": [],
  "_data": {
-  "listings": "72654f8befcf",
+  "listings": "fc432659e7e7",
   "code": "417aee59c7a8"
  }
 }

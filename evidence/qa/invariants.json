@@ -1,15 +1,22 @@
 {
- "date": "2026-10-21",
+ "date": "2026-10-22",
  "live": {
-  "rows": 246,
-  "violations": {}
+  "rows": 245,
+  "violations": {
+   "재공급 일반 0세대인데 특공 세대수 없음": {
+    "count": 1,
+    "examples": [
+     "2026930044-066.8113  공고문 공급대상 표를 못 읽음 (2026-10-08 머리글 띄어쓰기)"
+    ]
+   }
+  }
  },
  "archive": {
   "rows": 2251,
   "violations": {}
  },
- "ok": true,
+ "ok": false,
  "_data": {
-  "listings": "72654f8befcf"
+  "listings": "fc432659e7e7"
  }
 }
