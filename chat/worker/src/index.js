@@ -31,6 +31,37 @@ async function addMonthSpent(kv, attempts) {
 }
 function badRequest(msg) { return { status: 400, body: { error: msg } }; }
 
+// 청약봇 V2 '공고 찾기' AI 설명 (기능 bot_find_ai, 2026-10-21): 브라우저가 FACTS(공고 사실 묶음)로 만든 프롬프트를 그대로 Claude 에 넘긴다.
+// 서버는 판정·검색을 하지 않고, 내 조건도 받지 않는다(화면이 FACTS 에 안 넣음). 횟수·월 한도·점검 모드·공개 여부는 /chat 과 같다.
+// 질문 1건 = 호출 2번(조건 해석 extract · 설명 explain)이라 purpose 가 'explain' 일 때만 횟수를 센다(extract 는 같은 conversation 의 되물음처럼 공짜).
+const V2_MAX = { extract: 600, explain: 1600 };
+export async function handleV2Llm(env, input, deps = {}) {
+  const fetchImpl = deps.fetch || fetch, kv = deps.kv || env.CHAT_KV;
+  const { system, user, purpose, anon_id, conversation_id, ip } = input || {};
+  if (!['extract', 'explain'].includes(purpose)) return badRequest('purpose');
+  if (typeof system !== 'string' || typeof user !== 'string' || !system.trim() || !user.trim() || system.length > 6000 || user.length > 24000) return badRequest('프롬프트 길이');
+  if (typeof anon_id !== 'string' || anon_id.length < 8) return badRequest('anon_id 필요');
+  const isOp = !!(env.CHAT_PREVIEW_CODE && input.preview === env.CHAT_PREVIEW_CODE);
+  const mode = kv ? await kv.get('mode') : null;
+  if (mode === 'maint') return { status: 503, body: { maint: true, message: '지금은 청약봇 점검 중이에요. 잠시 뒤 다시 이용해 주세요.' } };
+  if (env.CHAT_OPEN !== '1' && mode !== 'open' && !isOp) return { status: 403, body: { closed: true, message: '아직 준비 중인 기능이에요.' } };
+  if (!env.ANTHROPIC_API_KEY) return { status: 503, body: { nokey: true, message: 'AI 설명을 지금은 쓸 수 없어요.' } };
+  if ((await monthSpent(kv)) >= monthCap(env)) { await bump(kv, { v2_capped: true }); return { status: 429, body: { limited: 'month', message: '이번 달 AI 설명 한도를 다 썼어요. 기본 답으로 보여 드려요.' } }; }
+  if (purpose === 'explain' && !isOp) {
+    const lim = await checkLimit(kv, { anonId: anon_id, ip: ip || '', conversationId: conversation_id, salt: env.CHAT_STATS_TOKEN || '' });
+    if (!lim.ok) { await bump(kv, { ['limited_' + lim.reason]: true, v2: true }); return { status: 429, body: { limited: lim.reason, message: LIMIT_TEXT[lim.reason] } }; }
+  }
+  try {
+    const r = await callClaude({ apiKey: env.ANTHROPIC_API_KEY, system, user: redact(user).text, fetchImpl, maxTokens: V2_MAX[purpose] });
+    await addMonthSpent(kv, [r]);
+    await bump(kv, { ['v2_' + purpose]: true, tokens_in: (r.usage && r.usage.input_tokens) || 0, tokens_out: (r.usage && r.usage.output_tokens) || 0 });
+    return { status: 200, body: { text: r.text, usage: r.usage, log: { v2: purpose, model: MODEL } } };
+  } catch (e) {
+    await bump(kv, { v2_error: true });
+    return { status: 502, body: { error: 'ai', message: 'AI 설명을 만들지 못했어요. 기본 답으로 보여 드려요.', why: String(e.message || e).slice(0, 120) } };
+  }
+}
+
 // 테스트에서도 그대로 부르는 본체. deps 로 fetch·KV·근거 색인을 바꿔 끼울 수 있다.
 export async function handleChat(env, input, deps = {}) {
   const t0 = Date.now();
@@ -162,13 +193,13 @@ export default {
     const h = cors(env, origin);
     if (!h) return new Response('forbidden', { status: 403 });
     if (request.method === 'OPTIONS') return new Response(null, { status: 204, headers: h });
-    if (request.method !== 'POST' || !['/chat', '/feedback'].includes(path)) return new Response('not found', { status: 404, headers: h });
+    if (request.method !== 'POST' || !['/chat', '/feedback', '/v2/llm'].includes(path)) return new Response('not found', { status: 404, headers: h });
     const len = +(request.headers.get('content-length') || 0);
     if (len > 40000) return new Response('too large', { status: 413, headers: h });
     let input;
     try { input = await request.json(); } catch (e) { return new Response('bad json', { status: 400, headers: h }); }
     input.ip = request.headers.get('cf-connecting-ip') || '';
-    const r = path === '/feedback' ? await handleFeedback(env, input) : await handleChat(env, input);
+    const r = path === '/feedback' ? await handleFeedback(env, input) : path === '/v2/llm' ? await handleV2Llm(env, input) : await handleChat(env, input);
     if (r.body && r.body.log) { console.log(JSON.stringify(r.body.log)); delete r.body.log; }   // 개인정보 없는 집계만 로그로
     return new Response(JSON.stringify(r.body), { status: r.status, headers: { ...h, 'content-type': 'application/json; charset=utf-8' } });
   },

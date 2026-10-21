@@ -5863,6 +5863,21 @@ let lastView = null;
    미리보기: ?bot=1 (끄기 ?bot=off). 공개는 스위치 bot_find. 기록('이어 하기')은 이 기기에만(localStorage cy-bot-finds). */
 try { const q = new URLSearchParams(location.search).get('bot'); if (q === '1') localStorage.setItem('cy-bot-preview', '1'); else if (q === 'off') localStorage.removeItem('cy-bot-preview'); } catch(e) {}
 const botOn = () => on('bot_find') || (() => { try { return localStorage.getItem('cy-bot-preview') === '1'; } catch(e) { return false; } })();
+/* 기능 bot_find_ai (2026-10-21 사용자 '지금 버전은 따로 두고 AI 설명 추가 — 별로면 다시 돌릴 수 있게'): 스위치가 켜져 있고 청약봇 서버 주소가 있으면 V2 엔진의 AI 두 번(조건 해석·설명)을
+   서버 /v2/llm 로 보낸다. 서버는 프롬프트(FACTS = 공고 사실 묶음, 내 조건 없음)만 받아 Claude 에 넘기고, 실패·한도면 화면은 기본 답을 그대로 쓴다. 끄면 이 함수가 null 을 돌려 지금 버전과 같다.
+   미리보기 ?botai=1 (끄기 ?botai=off). 운영자 미리보기 코드(cy-chat-code)가 있으면 함께 보낸다 */
+try { const q = new URLSearchParams(location.search).get('botai'); if (q === '1') localStorage.setItem('cy-bot-ai', '1'); else if (q === 'off') localStorage.removeItem('cy-bot-ai'); } catch(e) {}
+const botAiOn = () => !!CONFIG.chat_api && (on('bot_find_ai') || (() => { try { return localStorage.getItem('cy-bot-ai') === '1'; } catch(e) { return false; } })());
+function botLlm(cid){
+  if (!botAiOn()) return null;
+  return async ({ system, user, purpose }) => {
+    const resp = await fetch(CONFIG.chat_api.replace(/\/$/, '') + '/v2/llm', { method: 'POST', headers: { 'content-type': 'application/json' },
+      body: JSON.stringify({ system, user, purpose, anon_id: chatId(), conversation_id: cid, preview: chatCode() || undefined }) });
+    const j = await resp.json().catch(() => ({}));
+    if (!resp.ok) { BOT.aiNote = j.message || 'AI 설명을 쓰지 못해 기본 답으로 보여 드려요.'; throw new Error(j.message || ('HTTP ' + resp.status)); }
+    return j.text;
+  };
+}
 let BOT = { mod: null, busy: false, cur: null, err: '', draft: '', saved: false };
 function botMod(){ return BOT.mod || (BOT.mod = import('./bot/find.mjs')); }
 function botFindBox(){
@@ -5889,6 +5904,7 @@ function vBot(){
       ${V.excluded && V.excluded.length && none ? `<span class="vs">살펴본 주택형 ${V.total}개 중 ${V.excluded.map(x => esc(x.why) + ' ' + x.n + '개').join(', ')}가 빠졌어요</span>` : ''}
       ${V.chips && V.chips.length ? `<div class="botchips">${V.chips.map(c => `<span class="c"><b>${esc(c.k)}</b>${esc(c.t)}</span>`).join('')}</div>` : ''}</section>` : '';
     const nextBits = V && V.next && V.next.length ? V.next : [];
+    const aiLine = r.how === 'ai' ? '<span class="small muted">AI가 다듬은 설명 · 숫자·판정은 엔진 값 그대로</span>' : r.aiNote ? `<span class="small muted">${esc(r.aiNote)}</span>` : '';
     return `<div class="top">${back}<div><div class="brand" style="font-size:17px">공고 찾기</div><span class="small muted">이 기기에서 계산 · 판정은 화면과 같은 엔진</span></div></div>
     <div class="botq"><div class="qi"><span>내 질문</span>${esc(r.q)}</div><button class="linkbtn small" data-action="bot-ask">다시 묻기</button></div>
     ${verdict}
@@ -5900,6 +5916,7 @@ function vBot(){
       ${!prof ? `<span>· 내 조건을 넣으면 공고마다 신청 가능 여부를 판정해요</span>` : ''}
       ${(P.ask || []).length ? `<span>· 직접 넣어야 정확해지는 것: ${esc(P.ask.join(' · '))}</span>` : ''}
       <div class="row"><button class="btn" data-action="bot-more">이어서 조건 바꾸기</button>${!prof || (P.ask || []).length ? `<button class="btn" data-action="restart">내 조건 입력</button>` : ''}</div></section>` : ''}
+    ${r.how === 'ai' && r.lead ? `<section class="card"><h2 style="margin:0;font-size:16px">청약봇 설명</h2><div class="botx"><p>${esc(r.lead).replace(/\n/g, '<br>')}</p></div>${aiLine}</section>` : aiLine ? `<p class="small muted" style="margin:8px 0 0">${aiLine}</p>` : ''}
     ${r.text ? `<details class="rfold" style="margin-top:12px"><summary>자세한 설명 보기</summary><div class="rfold-in botx">${botRich(r.text)}</div></details>` : ''}
     <p class="foot">판정은 내가 입력한 값과 청약홈 공고로 계산한 참고용이에요. 질문과 내 조건은 서버로 보내지 않고 이 기기에서만 계산했어요. 신청 전 모집공고문을 꼭 확인하세요.</p>`;
   }
@@ -5960,7 +5977,9 @@ async function botRun(q){
   try {
     const M = await botMod();
     const W = Object.assign(Object.create(null), { fromApi, eligBucket, eligibility, spJudge, spTypesFor, SP_NAME, ELIG_NAME, myScore, grade, GNAME, marginText, funding, statusOf, judgeScope, genNone, isRental, isNewlywedTown, kindOf, regionScore, DEFAULT_PROFILE, syncHome, syncV2, LISTINGS, TODAY, DATA_SOURCE });   /* let/const 는 window 에 없어 직접 묶는다 */
-    const r = await M.find(W, q, { profile: hasProfile() ? S.profile : null, state: BOT.more ? (BOT.cur && BOT.cur.state) || null : null });
+    BOT.aiNote = '';
+    const r = await M.find(W, q, { profile: hasProfile() ? S.profile : null, state: BOT.more ? (BOT.cur && BOT.cur.state) || null : null, llm: botLlm('b' + Date.now().toString(36)) });
+    if (BOT.aiNote) r.aiNote = BOT.aiNote;
     BOT.cur = r; BOT.more = false; BOT.draft = '';
     metric('bot/find/' + r.kind);
   } catch(e) { BOT.err = '찾지 못했어요. 잠시 뒤 다시 해 보세요.'; try { metric('bot/find-error'); } catch(_) {} }

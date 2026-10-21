@@ -276,3 +276,36 @@ test('이번 달 추정 사용액이 서버 한도에 닿으면 AI 없이 답함
   const r2 = await handleChat({ ...OPEN, CHAT_MONTH_USD: '18' }, input('kakao-mom-1', { conversation_id: 'a2' }), { kv, evidence: index, llm });
   assert.equal(called, 1, '한도 넘으면 AI 를 부르지 않음'); assert.equal(r2.body.fallback, true); assert.equal(r2.body.verdict, '불가');
 });
+
+// ── 청약봇 V2 '공고 찾기' AI 설명 /v2/llm (기능 bot_find_ai, 2026-10-21) ──
+import { handleV2Llm } from '../worker/src/index.js';
+const OPENK = { ...OPEN, ANTHROPIC_API_KEY: 'test-key' };
+const v2in = (o = {}) => ({ system: '너는 청약 도우미다.', user: 'QUESTION: 서울 59 9억\nFACTS: {}', purpose: 'explain', anon_id: 'anon-12345678', conversation_id: 'c1', ...o });
+const okFetch = async () => ({ ok: true, json: async () => ({ content: [{ type: 'text', text: '결론부터 말씀드리면, 테스트 답이에요.' }], usage: { input_tokens: 100, output_tokens: 50 } }) });
+test('v2/llm: 공개 전에는 미리보기 코드만', async () => {
+  const r = await handleV2Llm({ ...OPENK, CHAT_OPEN: '0', CHAT_PREVIEW_CODE: 'pv' }, v2in(), { kv: new MemKV(), fetch: okFetch });
+  assert.equal(r.status, 403);
+  const r2 = await handleV2Llm({ ...OPENK, CHAT_OPEN: '0', CHAT_PREVIEW_CODE: 'pv' }, v2in({ preview: 'pv' }), { kv: new MemKV(), fetch: okFetch });
+  assert.equal(r2.status, 200); assert.match(r2.body.text, /테스트 답/);
+});
+test('v2/llm: 형식·길이·purpose 검사, 키 없으면 503', async () => {
+  assert.equal((await handleV2Llm(OPENK, v2in({ purpose: 'judge' }), { kv: new MemKV(), fetch: okFetch })).status, 400);
+  assert.equal((await handleV2Llm(OPENK, v2in({ user: 'x'.repeat(30000) }), { kv: new MemKV(), fetch: okFetch })).status, 400);
+  assert.equal((await handleV2Llm({ ...OPENK, ANTHROPIC_API_KEY: '' }, v2in(), { kv: new MemKV(), fetch: okFetch })).status, 503);
+});
+test('v2/llm: 설명은 하루 횟수를 세고 해석은 세지 않음 · 월 한도 넘으면 429', async () => {
+  const kv = new MemKV();
+  for (let i = 0; i < 2; i++) assert.equal((await handleV2Llm(OPENK, v2in({ purpose: 'extract', conversation_id: 'c' + i }), { kv, fetch: okFetch })).status, 200);
+  assert.equal((await handleV2Llm(OPENK, v2in({ conversation_id: 'e1' }), { kv, fetch: okFetch })).status, 200);
+  assert.equal((await handleV2Llm(OPENK, v2in({ conversation_id: 'e2' }), { kv, fetch: okFetch })).status, 200);
+  const r3 = await handleV2Llm(OPENK, v2in({ conversation_id: 'e3' }), { kv, fetch: okFetch });
+  assert.equal(r3.status, 429); assert.equal(r3.body.limited, 'user');
+  const kv2 = new MemKV(); await kv2.put('mspend:' + new Date(Date.now() + 9 * 3600e3).toISOString().slice(0, 7), '999');
+  assert.equal((await handleV2Llm(OPENK, v2in(), { kv: kv2, fetch: okFetch })).status, 429);
+});
+test('v2/llm: Claude 실패면 502 + 기본 답 안내, 개인정보는 가려서 보냄', async () => {
+  let sent = '';
+  const f = async (u, o) => { sent = o.body; return { ok: false, status: 500, json: async () => ({ error: { type: 'x', message: 'boom' } }) }; };
+  const r = await handleV2Llm(OPENK, v2in({ user: '전화 010-1234-5678 QUESTION' }), { kv: new MemKV(), fetch: f });
+  assert.equal(r.status, 502); assert.match(r.body.message, /기본 답/); assert.ok(!sent.includes('010-1234-5678'));
+});

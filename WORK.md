@@ -4,6 +4,15 @@
 2026-09-29 12:55 이전 항목은 규칙을 만들기 전 작업을 커밋 기록으로 정리한 것이라 백업 브랜치가 없어요.
 그 시점으로 되돌릴 때는 해당 커밋 번호로 `git revert` 를 써요.
 
+## 2026-10-21 21:23 · 공고 찾기 AI 설명 (기능 bot_find_ai, 스위치 꺼짐 · 미리보기 ?botai=1)
+- 요청: 지금 버전은 따로 두고, AI 설명이 붙은 답(청약봇 V2)을 내게 — 별로면 다시 돌릴 수 있게
+- 변경: ① 서버 /v2/llm (chat/worker/src/index.js handleV2Llm): 브라우저가 만든 프롬프트(system·user·purpose extract/explain)를 그대로 Claude(Haiku)에 넘김. 판정·검색 안 함, 내 조건 안 받음(FACTS 의 profile 은 있음/없음만 — 확인). 공개 여부·점검 모드·미리보기 코드·월 한도·하루 횟수(explain 만 셈, extract 는 안 셈)·개인정보 가리기는 /chat 과 같음. 실패·한도면 502/429 + '기본 답으로' ② 화면: 스위치 bot_find_ai(또는 ?botai=1)가 켜지고 chat_api 가 있으면 V2 ask 에 llm 을 넘김. AI 답이면 '청약봇 설명' 칸(첫머리 결론 2~3문장)과 'AI가 다듬은 설명 · 숫자·판정은 엔진 값 그대로' 표시, 실패면 기본 답 + 사유 한 줄. 끄면 llm=null 로 지금 버전과 똑같음
+- 파일: chat/worker/src/index.js, chat/test/chat.test.mjs(+4), docs/index.html, docs/bot/find.mjs, docs/config.json(bot_find_ai false), FEATURES.md, HANDOFF.md, WORK.md
+- 확인: 서버 시험 42 통과(공개 전 미리보기 코드만·형식·키 없음 503·횟수·월 한도·실패 502·전화번호 가림), 가짜 서버로 390px 세 경우(AI 성공 → 설명 칸 / 실패 → 기본 답 + 안내 / 스위치 꺼짐 → 호출 0), 엔진 잠금, E2E 34, 문법. 실제 Claude 답은 운영자가 미리보기로 (서버는 push 로 자동 배포 chat-worker.yml)
+- 되돌리기: docs/config.json bot_find_ai false(기본) 또는 ?botai=off — 서버 길은 남아 있어도 화면이 부르지 않음
+- 백업: backup/20261021-2123-bot-ai
+- 기능: bot_find_ai (꺼짐)
+
 ## 2026-10-21 20:12 · 공고 찾기 '자세한 설명'을 보기 좋게 (기능 bot_find, 미리보기)
 - 요청: 자세한 설명 보기의 설명란이 너무 보기 어려움
 - 변경: 엔진 기본 답 글을 그대로 보이던 것을 구조로 그림(botRich): '[제목]' → 소제목, '· 항목  값' → 왼쪽 정렬 표, 공고 문단(이름·지역·면적·💡 이유·표·공고 열기) → 상자, '[선택지 (N곳)]' → 알약, '다음에 해볼 것' → 목록. 사이트의 dl.kv 오른쪽 정렬·굵게는 이 상자에서 끔

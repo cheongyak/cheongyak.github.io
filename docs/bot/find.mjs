@@ -24,18 +24,20 @@ async function engine() {
 }
 
 // 질문 하나 → { id, q, at, kind, text, cards, understood, profile:{set,shown,ask}, steps }
-export async function find(W, question, { profile = null, state = null } = {}) {
+export async function find(W, question, { profile = null, state = null, llm = null } = {}) {
   const E = await engine();
   let raw = [];
   try { raw = await fetch('listings.json', { cache: 'no-store' }).then(r => r.ok ? r.json() : []); } catch (e) {}
   const D = E.fromScreen(W, { raw, lines: LINES });
-  const r = await E.ask({ D, question, profile, state, llm: null, updated: W.DATA_SOURCE && W.DATA_SOURCE.updated });
+  const r = await E.ask({ D, question, profile, state, llm, updated: W.DATA_SOURCE && W.DATA_SOURCE.updated });   // llm: 기능 bot_find_ai 가 켜졌을 때만 (아니면 null = AI 없이)
   const kind = r.mode === 'compare' ? '단지 비교' : r.mode === 'explain' ? '제도' : '찾기';
   const cards = [...(r.result.candidates || []), ...(r.result.unsure || []), ...(r.result.compare || []).flatMap(t => t.picks || []), ...(r.result.alternatives || [])]
     .map(c => c.id).filter((id, i, a) => id && a.indexOf(id) === i).slice(0, 6);
-  const rec = { id: 'f' + Date.now().toString(36), q: question, at: new Date().toISOString(), kind, text: r.text || '', cards, understood: r.understood || '', view: r.view || null,
+  // AI 가 다듬은 답이면 첫머리(결론 2~3문장, '[이렇게 이해했어요]' 앞)만 따로 — 화면 '청약봇 설명' 칸. 나머지 줄은 기본 답과 같은 구조라 '자세한 설명'에 그대로
+  const lead = r.how === 'ai' ? String(r.text || '').split(/\n\[/)[0].trim() : null;
+  const rec = { id: 'f' + Date.now().toString(36), q: question, at: new Date().toISOString(), kind, text: r.text || '', how: r.how, lead, cards, understood: r.understood || '', view: r.view || null,
     profile: parseProfile(question), steps: r.steps, state: r.state, legacy: r.legacy };
-  remember({ id: rec.id, q: rec.q, at: rec.at, kind: rec.kind, text: rec.text, cards: rec.cards, understood: rec.understood, view: rec.view, profile: rec.profile, legacy: rec.legacy });
+  remember({ id: rec.id, q: rec.q, at: rec.at, kind: rec.kind, text: rec.text, how: rec.how, lead: rec.lead, cards: rec.cards, understood: rec.understood, view: rec.view, profile: rec.profile, legacy: rec.legacy });
   return rec;
 }
 
