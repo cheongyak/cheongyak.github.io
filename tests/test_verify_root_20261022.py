@@ -46,3 +46,93 @@ def test_violations_keep_every_id():
     rows = [_row(id=f"2026000{n:03d}-084.0000A", price=None) for n in range(8)]
     v = invariants.check(rows, "2026-09-01", True)["violations"]["금액 범위 (억)"]
     assert v["count"] == 8 and len(v["examples"]) == 5 and len(v["ids"]) == 8
+
+
+# ---- 원인 D: 재공급 특별공급 세대수를 표 모양 하나에 기대 읽음 (읽기 규칙 26·30·31·44 — 3주에 5번 새 표 모양) ----
+def _texts():
+    import glob
+    out = {}
+    for f in sorted(glob.glob(str(ROOT / "evidence" / "notices" / "20269300*.txt")) + glob.glob(str(ROOT / "evidence" / "qa" / "notices" / "20269300*.txt"))):
+        out.setdefault(pathlib.Path(f).stem, pathlib.Path(f).read_text(encoding="utf-8"))
+    return out
+
+
+def test_scale_sentence_agrees_with_table_on_every_saved_original():
+    """공급규모 문장과 공급대상 표를 둘 다 읽은 원문은 유형별 특공 합이 모두 같아야 한다 (2026-10-22 기준 7건 모두 같음). 다르면 둘 중 하나를 잘못 읽은 것"""
+    from app import notice_pdf
+    both = 0
+    for n, t in _texts().items():
+        sc, st = notice_pdf.parse_resupply_scale(t), notice_pdf.parse_sp_table(t)
+        if not (sc and st and sc["special_total"] is not None):
+            continue
+        sums = {}
+        for row in st.values():
+            for k, v in row.items():
+                if k != "total" and v:
+                    sums[k] = sums.get(k, 0) + v
+        assert sum(sums.values()) == sc["special_total"], n
+        if sc["special"]:
+            assert sums == {k: v for k, v in sc["special"].items() if v}, n
+        both += 1
+    assert both >= 6
+
+
+def test_scale_sentence_golden():
+    """원문에서 직접 확인한 공급규모 문장 (2026-10-22): 영흥숲 '불법행위 재공급 1세대 [특별공급 1세대(신혼부부 1세대)]',
+    장항 '불법행위재공급 6세대(노부모부양 특별공급 4세대, 일반공급 2세대)', 2026930040 '불법행위재공급 1세대[일반공급 1세대]'"""
+    from app import notice_pdf
+    T = _texts()
+    g = lambda n: {k: v for k, v in notice_pdf.parse_resupply_scale(T[n]).items() if k != "quote"}
+    assert g("2026930044") == {"total": 1, "special_total": 1, "special": {"newlywed": 1}, "general": None}
+    assert g("2026930038") == {"total": 6, "special_total": 4, "special": {"elder": 4}, "general": 2}
+    if "2026930040" in T:
+        assert g("2026930040") == {"total": 1, "special_total": 0, "special": {}, "general": 1}
+
+
+def test_scale_sentence_refuses_what_is_not_written():
+    from app import notice_pdf
+    p = notice_pdf.parse_resupply_scale
+    assert p("■ 공급규모 : 총 307세대 중 불법행위재공급 1세대 및 부대복리시설")["special_total"] is None          # 내역 없음 → 모름
+    assert p("■ 공급규모 : 총 772세대 중 불법행위재공급 3세대 [특별공급 1세대(노부모부양 1세대) 포함]")["general"] is None   # 일반 2세대는 적혀 있지 않음 → 짐작 안 함
+    assert p("■ 공급규모 : 총 1세대 중 불법행위재공급 2세대 [특별공급 2세대(신혼부부 1세대)]") is None           # 유형 합 1 ≠ 특공 2 → 읽지 않음
+    assert p("■ 공급규모 : 불법행위재공급 2세대 [특별공급 1세대, 일반공급 2세대]") is None                     # 1+2 ≠ 2
+    assert p("공급규모 아파트 지하 층 지상 층 개동 총 세대 중 불법행위재공급 주택 세대 일반공급 세대 : 3 , 29 5 504 1 [ 1 ]") is None   # 숫자 떨어진 PDF 글 (2026930037)
+
+
+def _L(id_, **k):
+    from types import SimpleNamespace
+    return SimpleNamespace(id=id_, category="remainder", notice_conflicts=[], special_units=None, from_notice=[], notice_quotes=None, **k)
+
+
+def test_new_table_shape_falls_back_to_sentence():
+    """신규 표 모양(읽기 규칙이 모르는 모양)이 와도: 영흥숲 원문에서 따로 표를 지우면 표는 못 읽지만 문장으로 신혼부부 1세대를 채운다 (주택형 하나)"""
+    from app import notice_pdf
+    from app.pipeline import resupply_scale
+    t = _texts()["2026930044"]
+    t2 = t[:t.index("■ 특별공급 공급세대수")] + t[t.index("■ 공급금액"):]
+    found = notice_pdf.parse_notice(t2)
+    assert "sp_table" not in found and found["supply_scale"]["special"] == {"newlywed": 1}
+    L = _L("2026930044-066.8113 ")
+    assert resupply_scale(L, found, [L]) == "문장으로 채움"
+    assert L.special_units["newlywed"] == 1 and L.special_units["total"] == 1 and "특별공급 세대수 (재공급·공급규모 문장)" in L.from_notice
+
+
+def test_sentence_does_not_guess_which_type_when_several():
+    from app.pipeline import resupply_scale
+    found = {"supply_scale": {"total": 3, "special_total": 3, "special": {"first": 3}, "general": None, "quote": "…"}}
+    a, b = _L("2026930039-059.9901A"), _L("2026930039-074.8177A")
+    assert resupply_scale(a, found, [a, b]) is None and a.special_units is None      # 탕정 2·1 을 문장만으로는 나눌 수 없음
+    zero = {"supply_scale": {"total": 1, "special_total": 0, "special": {}, "general": 1, "quote": "…"}}
+    assert resupply_scale(a, zero, [a, b]) == "문장으로 채움" and a.special_units["total"] == 0   # 특공 0 은 주택형이 여럿이어도 확정
+
+
+def test_table_vs_sentence_mismatch_is_flagged_on_the_listing():
+    """표와 문장이 다르면 그 주택형에 '데이터 확인 필요'(notice_conflicts → validate) — 조용히 한쪽을 고르지 않는다"""
+    from app.pipeline import resupply_scale
+    found = {"sp_table": {"084.9958A": {"elder": 3, "total": 3}, "084.9478B": {"elder": 2, "total": 2}},
+             "supply_scale": {"total": 6, "special_total": 4, "special": {"elder": 4}, "general": 2, "quote": "…"}}
+    a, b = _L("2026930038-084.9958A"), _L("2026930038-084.9478B")
+    assert resupply_scale(a, found, [a, b]) == "대조 불일치" and "공급규모 문장 4세대" in a.notice_conflicts[0]
+    found["sp_table"]["084.9478B"] = {"elder": 1, "total": 1}
+    c = _L("2026930038-084.9958A")
+    assert resupply_scale(c, found, [c, b]) == "대조 일치" and c.notice_conflicts == []

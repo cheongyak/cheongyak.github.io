@@ -631,6 +631,9 @@ def parse_notice(text: str) -> dict:
     st = parse_sp_table(text)
     if st:
         out["sp_table"] = st   # 재공급(무순위) 주택형에만 쓴다 — 일반분양 공고 표는 머리글이 달라 쓰지 않음 (pipeline)
+    sc = parse_resupply_scale(text)
+    if sc:
+        out["supply_scale"] = sc   # 재공급 공급규모 문장 — 표 대조·표 못 읽을 때 대안 (pipeline, 기능 resupply_scale_check)
     # 표에서 읽은 값의 근거 자리 (2026-10-10 Abc B: 판정 관련 값의 근거 문장 86% → 가점제 비율·다자녀 배정·공공 소득·자산까지) — 각 파서가 찾는 표 머리와 같은 글
     tq = re.sub(r"\s+", " ", text)
     def tcite(key, pat, n=170):
@@ -1503,6 +1506,42 @@ def _sp_table_no_sum(t: str) -> Optional[dict]:
     return out or None
 
 
+def parse_resupply_scale(text: str) -> Optional[dict]:
+    """불법행위 재공급 공고 '공급규모' 문장의 세대수 (기능 resupply_scale_check, 2026-10-22).
+    왜: 재공급 특별공급 세대수를 공급대상 표 모양에 기대 읽다가 표 모양이 바뀔 때마다 못 읽음 — 3주에 5번(읽기 규칙 26·30·31·44, 띄어쓰기·계 칸 없음·일반공급 칸 없음·따로 표).
+    공급규모 문장은 규칙(제21조)에 따라 공고문마다 있고 표와 따로 적혀 있어, 표를 대조하는 두 번째 근거이자 표를 못 읽을 때의 대안이 된다.
+      '총 157세대 중 불법행위 재공급 1세대 [특별공급 1세대(신혼부부 1세대)]' · '불법행위재공급 3세대 [특별공급 1세대(노부모부양 1세대) 포함]'
+      '불법행위재공급 2세대[생애최초 특별공급 1세대, 일반공급 1세대]' · '불법행위재공급 6세대(노부모부양 특별공급 4세대, 일반공급 2세대)' · '[일반공급 1세대]'
+    반환 {total, special_total, special:{유형: n}, general, quote}. 적히지 않은 값은 None(추측 안 함). 숫자가 서로 안 맞으면 None.
+    PDF 글자가 숫자와 떨어져 뽑힌 공고문('불법행위 재공급 세대 2 특별공급 세대 …', 2026930035·036·037)은 읽지 않는다."""
+    t = re.sub(r"\s+", " ", text)
+    m = re.search(r"공급\s?규모\s?:?[^■]{0,260}?불법\s?행위\s?재\s?공급(?:\s?주택)?\s?(\d{1,3})\s?세대\s?([\[(][^\])]{0,120}(?:\([^)]{0,80}\))?[^\])]{0,40}[\])])?", t)
+    if not m:
+        return None
+    total, br = int(m.group(1)), (m.group(2) or "")
+    flat = br.replace(" ", "")
+    head = "|".join(sorted(SP_NAMES, key=len, reverse=True))
+    special = {}
+    for k, n in re.findall(r"(" + head + r")(?:특별공급)?(\d{1,3})세대", flat):
+        key = SP_NAMES[k]
+        if key in special:
+            return None
+        special[key] = int(n)
+    st = re.search(r"(?<![가-힣])특별공급(\d{1,3})세대", flat)
+    gen = re.search(r"일반공급(\d{1,3})세대", flat)
+    s_total = int(st.group(1)) if st else (sum(special.values()) if special else None)
+    general = int(gen.group(1)) if gen else None
+    if special and s_total is not None and sum(special.values()) != s_total:
+        return None
+    if general is not None and s_total is None and not special:
+        s_total = 0 if general == total else None   # '[일반공급 1세대]' 처럼 일반공급만 적혀 있고 그게 전부일 때만 특공 0
+    if s_total is not None and general is not None and s_total + general != total:
+        return None
+    if s_total is not None and s_total > total:
+        return None
+    return {"total": total, "special_total": s_total, "special": special, "general": general, "quote": m.group(0)[m.group(0).find("불법"):].strip()[:160]}
+
+
 def _sp_table_by_short(t: str) -> Optional[dict]:
     """공급대상 표와 따로 있는 '■ 특별공급 공급세대수' 표 — 열이 약식표기(타입), 행이 특공 유형 (2026-10-22 수원 한화포레나 영흥숲 2026930044 불법행위재공급)
     공급대상 표 '2026930044 01 066.8113 66 66.8113 28.1711 94.9824 58.8050 153.7874 41.6880 1' (주택형·약식표기·면적 6개·공급 세대수)
@@ -1637,7 +1676,7 @@ def single_status(c: Optional[dict]) -> str:
 
 # ---- 두 읽기 도구 결과 합치기 (2026-10-02 사용자 '공고문에서 은근히 잘못 가져오는 경우' · tools/qa/pdf_audit) ----
 MERGE_SCALAR = ("need_head", "price_cap", "residence_duty", "rewin_years", "account_months", "deposit_count", "balance")
-MERGE_STRUCT = ("residence", "mc_quota", "schedule", "pub_limits", "score_ratio", "sp_table", "duty_from")
+MERGE_STRUCT = ("residence", "mc_quota", "schedule", "pub_limits", "score_ratio", "sp_table", "duty_from", "supply_scale")
 
 
 def merge_alt(found: dict, alt: dict) -> list[str]:

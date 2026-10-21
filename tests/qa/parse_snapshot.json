@@ -8348,6 +8348,7 @@ null
 "quotes": {
 "need_head": "…· 순위 개월 이상 지역별 면적별 예치금 충족1 ( 1 2 , ·) 가입 세대주 요건 - - - 필요 - - - - 소득 또는 자산기준 - - 적용 - 적용 적용 - - 단 기관추천 특별공급 중…",
 "price_cap": "…민간택지에서 공급하는 분양가상한제 미적용 민영주택으로 당첨자로 선정되더라도 주택공급에 관한 규칙, 「」▌ 제…",
+<<<<<<< Updated upstream
 "resale": "…구분 특별공급 일반공급 전매제한기간 당첨자 발표일 로부터 개월(2026.11.10.) 6 개정된 주택공급에 관한 규칙 제 조 제 항 제 호에 의거 본 주택에 가점제로…",
 "residence": "…주요정보 주택유형 해당지역 기타지역 규제지역여부 민영 입주자모집공고일 현재경기도 화성시 거주자 입주자모집공고일 현재수도권 경기도 서울특별시 인천광역시 거주자( , , ) 비규제지역 재당첨제한 전매제한 거주의무기간 분…",
 "residence_duty": "(1쪽 단지 주요정보 표) 전매제한 거주의무기간 분양가상한제 택지유형 없음 개월6 없음 미적용 민간택지",
@@ -8362,6 +8363,11 @@ null
 "passed": false,
 "registration": false,
 "until_reg": false
+=======
+"residence": "…주요정보 주택유형 해당지역 기타지역 규제지역여부 민영 입주자모집공고일 현재경기도 화성시 거주자 입주자모집공고일 현재수도권 경기도 서울특별시 인천광역시 거주자( , , ) 비규제지역 재당첨제한 전매제한 거주의무기간 분…",
+"residence_duty": "(1쪽 단지 주요정보 표) 전매제한 거주의무기간 분양가상한제 택지유형 없음 개월6 없음 미적용 민간택지",
+"rewin_years": "…규칙, 「」▌ 제 조에 따른 재당첨 제한을 적용받지 않으며 기존 주택 당첨으로 인해 재당첨 제한 기간 내에 있는 분 및 그 세대에…"
+>>>>>>> Stashed changes
 },
 "residence": {
 "area": {
@@ -8380,6 +8386,7 @@ null
 "residence_duty": 0,
 "rewin_years": 0,
 "score_ratio": {
+<<<<<<< Updated upstream
 "rows": [
 {
 "lottery": 60,
@@ -8394,6 +8401,9 @@ null
 "upto": null
 }
 ]
+=======
+"unknown": true
+>>>>>>> Stashed changes
 }
 },
 "sha": "21a1135a4286c490"
@@ -11801,6 +11811,15 @@ null
 "first": 1,
 "total": 1
 }
+},
+"supply_scale": {
+"general": 1,
+"quote": "불법행위재공급 2세대[생애최초 특별공급 1세대, 일반공급 1세대]",
+"special": {
+"first": 1
+},
+"special_total": 1,
+"total": 2
 }
 },
 "sha": "7353030666e6ca14"
@@ -11843,7 +11862,14 @@ null
 "since": null
 },
 "residence_duty": 0,
-"rewin_years": 10
+"rewin_years": 10,
+"supply_scale": {
+"general": null,
+"quote": "불법행위재공급 1세대",
+"special": {},
+"special_total": null,
+"total": 1
+}
 },
 "sha": "daa60757b7dae61a"
 },
@@ -11900,6 +11926,15 @@ null
 "elder": 0,
 "total": 0
 }
+},
+"supply_scale": {
+"general": null,
+"quote": "불법행위재공급 3세대 [특별공급 1세대(노부모부양 1세대)",
+"special": {
+"elder": 1
+},
+"special_total": 1,
+"total": 3
 }
 },
 "sha": "c0babd5401ac5124"
@@ -11961,6 +11996,15 @@ null
 "first": 0,
 "total": 0
 }
+},
+"supply_scale": {
+"general": null,
+"quote": "불법행위재공급 4세대 [특별공급 1세대(생애최초 1세대)",
+"special": {
+"first": 1
+},
+"special_total": 1,
+"total": 4
 }
 },
 "sha": "f1bcaac5616fac13"
@@ -12154,6 +12198,15 @@ null
 "elder": 3,
 "total": 3
 }
+},
+"supply_scale": {
+"general": 2,
+"quote": "불법행위재공급 6세대(노부모부양 특별공급 4세대, 일반공급 2세대)",
+"special": {
+"elder": 4
+},
+"special_total": 4,
+"total": 6
 }
 },
 "sha": "00de535434696015"
@@ -12209,6 +12262,15 @@ null
 "first": 1,
 "total": 1
 }
+},
+"supply_scale": {
+"general": null,
+"quote": "불법행위재공급 3세대 [특별공급 3세대(생애최초 3세대)",
+"special": {
+"first": 3
+},
+"special_total": 3,
+"total": 3
 }
 },
 "sha": "69a5cfa5eeaa78f5"
@@ -12259,7 +12321,14 @@ null
 "since": null
 },
 "residence_duty": 0,
-"rewin_years": 10
+"rewin_years": 10,
+"supply_scale": {
+"general": 1,
+"quote": "불법행위재공급 1세대[일반공급 1세대]",
+"special": {},
+"special_total": 0,
+"total": 1
+}
 },
 "sha": "386f0341f88076e5"
 },
@@ -12316,6 +12385,15 @@ null
 "newlywed": 0,
 "total": 1
 }
+},
+"supply_scale": {
+"general": null,
+"quote": "불법행위재공급 1세대 [특별공급 1세대(다자녀가구 1세대)",
+"special": {
+"multichild": 1
+},
+"special_total": 1,
+"total": 1
 }
 },
 "sha": "f29b034188940d6a"
@@ -12369,6 +12447,18 @@ null
 "newlywed": 1,
 "total": 1
 }
+<<<<<<< Updated upstream
+=======
+},
+"supply_scale": {
+"general": null,
+"quote": "불법행위 재공급 1세대 [특별공급 1세대(신혼부부 1세대)",
+"special": {
+"newlywed": 1
+},
+"special_total": 1,
+"total": 1
+>>>>>>> Stashed changes
 }
 },
 "sha": "1e37383822098722"
