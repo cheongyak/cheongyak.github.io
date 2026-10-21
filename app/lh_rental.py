@@ -33,6 +33,14 @@ SPL = f"{API}/lhLeaseNoticeSplInfo1/getLeaseNoticeSplInfo1"
 # 자격 판정을 만들 유형 (공공주택 특별법 시행규칙 별표 3·4·5·5의2). 그 밖의 임대(공공임대 분양전환·전세임대 등)는 목록만.
 JUDGE_TYPES = ("행복주택", "국민임대", "영구임대", "통합공공임대", "공공임대")   # 공공임대(50년·10년 분양전환 예비입주자)는 2026-10-05 추가
 SKIP_TYPES = ("가정어린이집", "상가", "토지", "주거복지동")
+# 개인이 신청하는 공고가 아닌 것 — 기관·기업을 모집하는 공고(2026-10-22 '기장군 중소기업 근로자 공공임대주택 기관공급 사업 대상기업 모집계획').
+# 근로자 개인은 선정된 기업을 통해 따로 신청하므로 목록에 싣지 않고 기록([목록·제외])만 남긴다.
+ORG_TARGET = re.compile(r"기관\s?공급[^()]{0,30}?(?:대상\s?기업|참여\s?기업|기업\s?모집|기관\s?모집)|대상\s?기업\s?모집")
+
+
+def org_target(name: str) -> bool:
+    """기관·기업 대상 모집 공고인지 (제목으로). 개인 대상 '기관추천'·'기업 근로자' 공고는 제외하지 않는다."""
+    return bool(ORG_TARGET.search(name or ""))
 LOOKBACK_DAYS = 90
 UA = {"User-Agent": "Mozilla/5.0 (cheongyak-bot; +https://github.com/cheongyak/cheongyak.github.io)"}
 
@@ -70,9 +78,14 @@ def notice_record(row: dict, dtl, spl) -> dict:
     """목록 한 줄 + 상세 + 공급 응답 → 화면용 공고 한 건. API 에 없는 값은 만들지 않는다(None)."""
     sched = []
     for s in _ds(dtl, "dsSplScdl"):
+        st_, en_ = _d(s.get("SBSC_ACP_ST_DT")), _d(s.get("SBSC_ACP_CLSG_DT"))
+        if not st_ and not en_:   # 접수일 칸이 비고 접수 일시만 글로 온 공고(2026-10-22 대구 10년 공공임대 '2026.10.27 10:00 ~ 2026.10.29 17:00')
+            mt = re.fullmatch(r"\s*(\d{4}\.\d{2}\.\d{2})[^~]{0,12}~\s*(\d{4}\.\d{2}\.\d{2})[^~]{0,12}", s.get("ACP_DTTM") or "")
+            if mt:
+                st_, en_ = _d(mt.group(1)), _d(mt.group(2))
         sched.append({
             "complex": s.get("SBD_LGO_NM") or None,
-            "apply_start": _d(s.get("SBSC_ACP_ST_DT")), "apply_end": _d(s.get("SBSC_ACP_CLSG_DT")),
+            "apply_start": st_, "apply_end": en_,
             "apply_time": s.get("ACP_DTTM") or None,
             "docs_target": _d(s.get("PPR_SBM_OPE_ANC_DT")),
             "docs_start": _d(s.get("PPR_ACP_ST_DT")), "docs_end": _d(s.get("PPR_ACP_CLSG_DT")),
@@ -241,6 +254,9 @@ def main() -> int:
         if not r.get("PAN_ID") or r["PAN_ID"] in seen:
             continue
         if any(s in (r.get("AIS_TP_CD_NM") or "") for s in SKIP_TYPES):
+            continue
+        if org_target(r.get("PAN_NM") or ""):
+            log.append(f"[목록·제외] 기관·기업 대상 공고(개인 신청 아님) {r['PAN_ID']} {(r.get('PAN_NM') or '')[:60]}")
             continue
         close = _d(r.get("CLSG_DT"))
         if r.get("PAN_SS") == "접수마감" or (close and close < today):

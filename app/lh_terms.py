@@ -397,6 +397,23 @@ def _public_terms(t: str) -> tuple[list[dict], dict, dict]:
     """공공임대(50년 공공임대·10년 분양전환 공공임대 예비입주자) — 신청자격 절에서 무주택·거주지역·청약통장 순위·소득자산 기준 유무를 읽는다."""
     m = re.search(r"\d\.\s?신청자격\s?(?:■\s?)?입주자모집공고일\s?\([\d.\s]+\)\s?현재", t)   # '(26. 10. 12.)' 띄어 쓴 날짜 (익산부송3 2015122300020895)
     if not m:
+        # 10년 공공임대 리츠 예비입주자(대구 대곡·옥포·테크노4 0000061187, 2026-10-22): '신청자격 ■ 입주자 모집공고일(…) 현재 해당 주택건설지역(대구광역시 및 경상북도)의
+        # 무주택세대구성원인 성년자 … ※ 청약저축 가입여부·세대주 여부·과거 당첨사실여부·소득기준 및 자산기준 충족여부는 불문' — 거주지역은 읽고, 통장·소득·자산은 묻지 않음.
+        # 불문 문장은 글자 사이가 띄어 나오는 도구가 있어(pypdf '청 약 저 축') 공백을 빼고 본다. 다섯 낱말이 모두 있을 때만 배제로 본다
+        mr = re.search(r"신청\s?자격\s?■\s?입주자\s?모집\s?공고일\s?\([\d.\s]+\)\s?현재\s?해당\s?주택\s?건설\s?지역\s?\(([^)]{1,60})\)의?\s?무주택\s?세대구성원인\s?성년자", t)
+        tail = re.sub(r"\s", "", t[mr.end(): mr.end() + 400]) if mr else ""
+        nf = re.search(r"청약저축가입여부·?세대주여부·?과거당첨사실여부·?소득기준및자산기준충족여부는불문", tail)
+        if mr and nf:
+            names = re.sub(r"\s", "", mr.group(1))
+            sidos = sorted({v for k, v in SIDO_SHORT.items() if re.sub(r"\s", "", k) in names})
+            if sidos:
+                quote = _q(t, mr, 0, 0)
+                raw = t[mr.end(): mr.end() + 400]
+                k = raw.find("불문")
+                nfq = re.sub(r"\s+", " ", raw[: k + 2]).strip() if k >= 0 else quote   # 원문 그대로(띄어 쓴 글자도 그대로)
+                q = {"region": quote, "homeless": quote, "account": nfq, "income": nfq, "asset": nfq}
+                g = {"key": "일반", "name": "일반", "homeless": "household", "income_pct": "excluded", "asset_manwon": "excluded", "car_manwon": "excluded", "age_min": None, "age_max": None}
+                return [g], {"일반": q}, {"regions": sidos, "account": "none"}
         # 무순위 예비입주자(충북혁신4 0000061184): '1. 신청 자격 ■ 입주자저축 가입 여부, 과거당첨사실여부, 당해주택 건설지역 거주여부, 소득 및 자산기준충족여부 등과
         # 관계없이 신청 가능 … ■ 입주자 모집공고일(…) 현재 무주택세대구성원인 성년자' — 거주지역·청약통장·소득·자산 모두 묻지 않음
         mu = re.search(r"신청\s?자격\s?■\s?(?:입주자저축|청약저축)\s?가입\s?여부,\s?과거\s?당첨\s?사실\s?여부,\s?당해\s?주택\s?건설\s?지역\s?거주\s?여부,\s?"
@@ -564,7 +581,10 @@ def parse_lh_rents(text: str, unit_types: list[str]) -> list[dict]:
             b, c, d = toks[i + 1][2], toks[i + 2][2], toks[i + 3][2]
             if a == b + c and b > 0 and c > 0:
                 found = (a, b, d, toks[i + 3][1], 4)
-        if not found and last_contract and toks[i + 1][2] and a == toks[i + 1][2] + last_contract and i + 2 < len(toks):
+        if not found and last_contract and toks[i + 1][2] and a == toks[i + 1][2] + last_contract and i + 2 < len(toks) \
+                and not re.search(r"\(\s?[+\-−]\s?\)\s?$", t[max(0, s0 - 8):s0]):
+            # '(-) 18,000,000 12,000,000 482,500' 은 '최대 전환 시' 칸(보증금 감액·전환 뒤 보증금·월 임대료) — 앞 줄 계약금과 우연히 맞아도 임대조건 줄이 아니다
+            # (2026-10-22 대구 10년 공공임대 0000061187 테크노4 59B 가 보증금 1,800만·월 48만으로 잘못 읽힘)
             found = (a, last_contract, toks[i + 2][2], toks[i + 2][1], 3)
         if not found:
             i += 1
@@ -607,6 +627,7 @@ def parse_lh_rents(text: str, unit_types: list[str]) -> list[dict]:
         if hit:
             cur_type = hit[1]
             pre = re.sub(r"[()（）\[\]【】:]", " ", lbl_t[:hit[0]])
+            pre = re.sub(r"\s\d{3}\.\d{2,4}[A-Z]{1,2}\d?\s*$", " ", pre)   # 단지명 뒤 주택형 코드 '049.7600A'(10년 공공임대 리츠 표, 0000061187)
             mc = re.search(r"([가-힣][가-힣0-9·\- ]{0,24}[가-힣0-9])\s*$", pre)
             name = mc.group(1).strip() if mc else ""
             name = re.split(r"입주\s?시|계약\s?시|잔\s?금|계약금|임\s?대\s?료|보\s?증\s?금|\(원\)|\b원\b", name)[-1].strip()

@@ -627,5 +627,38 @@
    ]
   },
   "_from": "tests/golden/lh_rental.json (공고문 원문 확인값) — 파서 결과가 아님"
+ },
+ {
+  "id": "LH-0000061187",
+  "type": "공공임대",
+  "posted": "2026-10-20",
+  "name": "대곡 호정포레스트, 풍경그린, 옥포 르상트레빌, 테크노4 10년공공임대주택 예비입주자 모집",
+  "schedule": [],
+  "units": [],
+  "files": [],
+  "terms": {
+   "relaxed": false,
+   "homeless_relaxed": false,
+   "income_basis": null,
+   "income_table_100": null,
+   "regions": [
+    "경북",
+    "대구"
+   ],
+   "account": "none",
+   "groups": [
+    {
+     "key": "일반",
+     "name": "일반",
+     "homeless": "household",
+     "income_pct": "excluded",
+     "asset_manwon": "excluded",
+     "car_manwon": "excluded",
+     "age_min": null,
+     "age_max": null
+    }
+   ]
+  },
+  "_from": "tests/golden/lh_rental.json (공고문 원문 확인값)"
  }
 ]
