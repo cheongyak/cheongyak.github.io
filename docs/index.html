@@ -3933,6 +3933,7 @@ function chatAnswerHtml(m, k){
     <p class="chatconc">${esc(a.conclusion)}</p>
     ${sec('내 조건 기준', a.my_conditions, x => `<li>${esc(x)}</li>`)}
     ${sec('이유', a.why, x => `<li>${esc(x.text)}${refs(x)}</li>`)}
+    ${sec('상황별로 보면', a.tips, x => `<li><b>${esc(x.situation || '')}</b> ${esc(x.advice || '')}${refs(x)}</li>`)}
     ${sec('공식 기준', a.official, x => `<li>${esc(x.text)}${refs(x)}</li>`)}
     ${sec('주의할 점', a.cautions, x => `<li>${esc(x)}</li>`)}
     ${srcs ? `<div class="chatsec"><b>출처</b><ul class="chatsrc">${srcs}</ul></div>` : ''}
@@ -5985,6 +5986,7 @@ function botGeneralView(r, back){
   return `<div class="top">${back}<div><div class="brand" style="font-size:17px">청약 질문</div><span class="small muted">법령·공고문 근거로 답해요 · 판정은 화면 판정이 기준</span></div></div>
   <div class="botq"><div class="qi"><span>내 질문</span>${esc(r.q)}</div><button class="linkbtn small" data-action="bot-ask">다시 묻기</button></div>
   ${a ? `<section class="botv${r.fallback ? ' none' : ''}"><span class="vl">청약봇 답${r.fallback ? ' · AI 답이 검사에 걸려 법령 원문으로' : ' · AI'}</span><p class="vt" style="font-size:16px;font-weight:600">${esc(a.conclusion || '')}</p>${r.diag && r.diag.attempts ? `<details class="small"><summary>운영자: AI 시도 ${r.diag.attempts.length}번</summary>${r.diag.attempts.map((x, i) => `<div>${i + 1}. ${x.ok ? '통과' : '거절'}${x.flags && x.flags.length ? ' — ' + esc(x.flags.join(' / ')) : ''}${x.tokens ? ' · 토큰 ' + esc(x.tokens) : ''}</div>`).join('')}${r.diag.overBudget ? '<div>월 한도 초과</div>' : ''}${!r.diag.key ? '<div>서버에 AI 키 없음</div>' : ''}</details>` : ''}</section>
+    ${(a.tips || []).length ? `<section class="card"><h2 style="margin:0;font-size:15px">상황별로 보면</h2><div class="rows">${a.tips.map(x => `<div class="botq" style="padding:10px 12px"><div class="qi"><span>${esc(x.situation || '')}</span>${esc(x.advice || '')}${refs(x)}</div></div>`).join('')}</div></section>` : ''}
     ${sec('이유', a.why, x => `<li>${esc(x.text)}${refs(x)}</li>`)}
     ${sec('공식 기준', a.official, x => `<li>${esc(x.text)}${refs(x)}</li>`)}
     ${sec('주의할 점', a.cautions, x => `<li>${esc(x)}</li>`)}

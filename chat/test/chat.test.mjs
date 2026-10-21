@@ -309,3 +309,12 @@ test('v2/llm: Claude 실패면 502 + 기본 답 안내, 개인정보는 가려�
   const r = await handleV2Llm(OPENK, v2in({ user: '전화 010-1234-5678 QUESTION' }), { kv: new MemKV(), fetch: f });
   assert.equal(r.status, 502); assert.match(r.body.message, /기본 답/); assert.ok(!sent.includes('010-1234-5678'));
 });
+
+test('제도 질문: tips(상황별 추천)도 숫자·근거 검사를 받는다 (2026-10-22)', async () => {
+  const ev = [{ id: 'L1', kind: 'law', title: '제9조', text: '월납입금은 2만원 이상 50만원 이하로 한다.' }];
+  const base = { verdict: null, conclusion: '공공분양을 노리면 월 25만원이 유리해요.', my_conditions: [], why: [], official: [{ text: '월납입금은 2만원 이상 50만원 이하', refs: ['L1'] }], cautions: [], ask: null };
+  const ok = validate(JSON.stringify({ ...base, tips: [{ situation: '민영주택만 노린다면', advice: '예치기준금액만 맞추면 돼요', refs: ['L1'] }] }), { engine: null, evidence: ev, question: '매달 얼마 넣는 게 좋아요? 25만원?' });
+  assert.ok(ok.ok, ok.flags.join(','));
+  const bad = validate(JSON.stringify({ ...base, tips: [{ situation: '공공분양', advice: '월 30만원이 좋아요', refs: ['L9'] }] }), { engine: null, evidence: ev, question: '매달 얼마 넣는 게 좋아요? 25만원?' });
+  assert.ok(!bad.ok && bad.flags.some(f => /30/.test(f)) && bad.flags.some(f => /L9/.test(f)));
+});

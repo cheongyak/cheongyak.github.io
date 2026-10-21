@@ -16,7 +16,8 @@ export function parseAnswer(raw) {
 }
 
 function texts(ans) {
-  const out = [ans.conclusion, ...(ans.my_conditions || []), ...(ans.why || []).map(x => x && x.text), ...(ans.official || []).map(x => x && x.text), ...(ans.cautions || []), ans.ask];
+  const out = [ans.conclusion, ...(ans.my_conditions || []), ...(ans.why || []).map(x => x && x.text), ...(ans.official || []).map(x => x && x.text), ...(ans.cautions || []), ans.ask,
+    ...(ans.tips || []).flatMap(x => x ? [x.situation, x.advice] : [])];   // tips: 상황별 추천 (제도 질문, 2026-10-22) — 숫자·개인정보 검사는 같다
   return out.filter(x => typeof x === 'string' && x.trim());
 }
 
@@ -84,7 +85,7 @@ export function validate(raw, { engine, evidence, question }) {
 
   // 5. 근거 번호
   const ids = new Set(evidence.map(e => e.id));
-  for (const [field, need] of [['why', false], ['official', true]]) {
+  for (const [field, need] of [['why', false], ['official', true], ['tips', false]]) {
     for (const x of ans[field] || []) {
       const refs = (x && x.refs) || [];
       if (need && !refs.length) flags.push(`${field}: 근거 번호 없는 규정 문장`);

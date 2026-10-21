@@ -48,7 +48,7 @@ export function fallbackAnswer({ engine, evidence, intent }) {
 
 // AI 없이 답할 때(키 없음·월 한도·검사기 두 번 거절): 찾은 공고문·법령 조각을 그대로 보여준다 (2026-10-02 — '공고문을 확인하세요'만 하지 않게)
 export function fallbackGeneral({ engine, evidence, intent }) {
-  const base = engine ? fallbackAnswer({ engine, evidence, intent: 'judge' }) : { verdict: null, my_conditions: [], why: [], cautions: [], ask: null };
+  const base = engine ? fallbackAnswer({ engine, evidence, intent: 'judge' }) : { verdict: null, my_conditions: [], why: [], cautions: [], ask: null, tips: [] };
   const docs = evidence.filter(e => e.kind === 'notice' || e.kind === 'law').slice(0, 4);
   const conclusion = docs.length ? (engine ? base.conclusion + ' ' : '') + '질문과 관련된 ' + (docs.some(e => e.kind === 'notice') ? '모집공고문' : '법령') + ' 내용을 찾아 그대로 보여드려요.'
     : engine ? base.conclusion : '질문과 맞는 공고문·법령 내용을 찾지 못했어요. 질문을 조금 더 구체적으로 써 주세요.';
