@@ -1,5 +1,5 @@
 {
- "at": "2026-10-21 18:26",
+ "at": "2026-10-21 19:07",
  "ok": true,
  "collect_run": "2026-10-21 · 공고 246건",
  "judge": {
@@ -14,7 +14,10 @@
  "golden": {
   "mismatches": []
  },
- "qa_stale": [],
+ "qa_stale": [
+  "lh-qa.json",
+  "lh-screen.json"
+ ],
  "qa": {
   "gate": true,
   "supply_type_fails": 0,
@@ -32,8 +35,8 @@
   "e2e_fails": 0,
   "past_chat_fails": 0,
   "lh_invariant_violations": 0,
-  "lh_judge_qa_fails": 0,
-  "lh_screen_fails": 0,
+  "lh_judge_qa_fails": null,
+  "lh_screen_fails": null,
   "lh_unread": 0,
   "lh_pdf_merged_wrong": 0,
   "pay_audit_bad": 0,
