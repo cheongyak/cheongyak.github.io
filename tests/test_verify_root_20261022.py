@@ -190,3 +190,13 @@ def test_warn_history_scope_matches_verify_status_rules():
     assert scope_of(["input_nav_problems:2"]) == "전체·판정 계산"
     assert scope_of(["crosscheck_none", "invariant_violations:13"]) == "전체·검증 미완료"
     assert scope_of(["cross_rule_fails:8", "lh_invariant_violations:3"]) == "전체·판정 계산"   # 화면 검사가 섞이면 전체
+
+
+def test_verify_run_results_match_workflow_save_list():
+    """판정 검증이 만들어야 하는 결과(VERIFY_RUN)는 verify.yml 이 저장하는 파일이어야 하고, 저장 단계는 없는 파일 때문에 통째로 실패하지 않아야 한다
+    (2026-10-22 verify-scope.json 이 Actions 에서 안 만들어져 git add 가 실패 → 09:56 검증 결과가 '성공'인데 저장 안 됨)"""
+    from tools.verify_status import VERIFY_RUN
+    y = (ROOT / ".github" / "workflows" / "verify.yml").read_text(encoding="utf-8")
+    assert all(f"evidence/qa/{x}" in y for x in VERIFY_RUN)
+    assert "git add -A -- $(keep " in y
+    assert "existsSync('/opt/pw-browsers/chromium')" in (ROOT / "tools" / "qa" / "verify_scope.cjs").read_text(encoding="utf-8")

@@ -17,6 +17,10 @@ DOCS = ROOT / "docs"
 
 
 
+VERIFY_RUN = ("supply-type.json", "invariants.json", "filter-check.json", "consistency.json", "sp-text.json", "cross-rule.json", "profile-keep.json", "monotonic.json",
+              "zero-default.json", "input-nav.json", "snapshot.json", "e2e.json", "past-chat.json", "verify-scope.json", "pay-audit.json")   # verify.yml 이 매번 만드는 결과
+
+
 NAMES = {"invariants.json": "데이터 불변식", "lh-invariants.json": "임대 데이터 불변식", "lh-unread.json": "임대 공고문 못 읽음", "market-check.json": "시세 원자료 대조",
          "pay-audit.json": "계약금 비율 대조", "parse-moved.json": "다시 받은 공고문 값 변화", "coverage.json": "공고 누락 점검", "supply-type.json": "공급유형 표시",
          "filter-check.json": "필터", "consistency.json": "카드·상세 일치", "sp-text.json": "특별공급 문구", "cross-rule.json": "교차 규칙", "profile-keep.json": "내 조건 유지",
@@ -145,6 +149,9 @@ def build() -> dict:
     qa_ok = not gate or ((st_bad == 0 or "supply-type.json" in stale) and (inv_bad == 0 or "invariants.json" in stale) and flt_bad in (0, None) and con_bad in (0, None) and spt_bad in (0, None) and mkc_bad in (0, None) and crx_bad in (0, None) and pkp_bad in (0, None) and mono_bad in (0, None) and zd_bad in (0, None) and inav_bad in (0, None) and snap_bad in (0, None) and e2e_bad in (0, None) and pch_bad in (0, None) and lhi_bad in (0, None) and lhq_bad in (0, None) and lhs_bad in (0, None) and lhu_bad in (0, None) and lhp_bad in (0, None) and pay_bad in (0, None) and pmv_bad in (0, None) and cov_bad in (0, None) and vsc_bad in (0, None))   # 필터 검사는 결과 파일이 있을 때만 (2026-10-02 추가)
     # --full (판정 검증 verify.yml): 그 실행이 모든 검사를 다시 돌리므로 지난 결과가 남으면(검사가 결과를 못 썼음) 실패. 수집에서만 도는 시세 대조·공고문 글 바뀜은 뺀다
     full_stale = [x for x in stale if x not in ("market-check.json", "parse-moved.json", "coverage.json")] if "--full" in sys.argv else []
+    # --full: 판정 검증이 만들어야 하는 결과 파일이 아예 없으면 그 검사가 돌지 못한 것 — 없다고 통과로 치지 않는다 (2026-10-22 verify_scope.cjs 가 Actions 에서 멈춰 결과 없음)
+    if "--full" in sys.argv:
+        full_stale += [x for x in VERIFY_RUN if not (ROOT / "evidence" / "qa" / x).exists() and x not in full_stale]
     if full_stale:
         print(f"[검증·지난 결과] 판정 검증이 다시 돌렸는데도 지난 결과로 남은 검사: {' '.join(full_stale)} — 검사 실행 실패로 봄")
     if stale:

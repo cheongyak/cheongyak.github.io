@@ -4,6 +4,15 @@
 2026-09-29 12:55 이전 항목은 규칙을 만들기 전 작업을 커밋 기록으로 정리한 것이라 백업 브랜치가 없어요.
 그 시점으로 되돌릴 때는 해당 커밋 번호로 `git revert` 를 써요.
 
+## 2026-10-22 10:06 · 판정 검증 결과가 저장되지 않던 것 고침 (수정)
+- 요청: (올린 뒤 확인) 09:26 판정 검증 실행이 '성공'인데 결과 커밋이 없음 — 08:15 뒤 판정 검증 결과가 하나도 저장 안 됨
+- 원인: ① 새 화면 검사 tools/qa/verify_scope.cjs 가 이 작업 환경의 Chromium 경로를 고정해 Actions 에서 바로 멈춤 → evidence/qa/verify-scope.json 없음 ② verify.yml 저장 단계 `git add -A -- <목록>` 은 목록에 없는 파일이 하나라도 있으면 통째로 실패 → 아무것도 스테이지 안 됨 → 커밋 없이 '성공'. ③ verify_status 는 결과 파일이 없으면 그 검사를 통과로 셈(검증 못 함 = 정상)
+- 변경: verify_scope.cjs 는 다른 검사처럼 경로가 있을 때만. 저장 단계는 있는 파일만 add(keep). verify_status --full 은 판정 검증이 만들어야 하는 결과(VERIFY_RUN)가 없으면 '검증 미완료'(banner unverified)
+- 파일: tools/qa/verify_scope.cjs, .github/workflows/verify.yml, tools/verify_status.py, tests/test_verify_root_20261022.py, WORK.md
+- 확인: keep 함수(없는 파일 빼고 git add --dry-run 통과), 로컬 --full 에서 verify-scope.json 없으면 unverified, pytest 통과, verify_scope 4가지 상태 통과. 올린 뒤 판정 검증 결과 커밋·verify-scope.json 확인
+- 백업: backup/20261022-1006-verifysave
+- 기능: 없음(수정)
+
 ## 2026-10-22 09:41 · v1.71.3 뒤 매일 수집 실패 고침 · test_pipeline 로컬에서도 돌게 (수정)
 - 요청: (올린 뒤 확인) b8739890 부터 청약 공고 수집 3번 연속 실패('pytest' 단계) — 화면 데이터가 07:44 에서 멈춤
 - 원인: keep_previous 가 날짜 없는 지난 결과 줄을 '보관 기간 지남'으로 뺌 → tests/test_pipeline.py 0건 시험(날짜 없는 줄)이 실패. 로컬 검사에서 못 본 이유: test_pipeline.py 가 맨 위에서 fastapi 를 불러 로컬(fastapi 설치 안 됨)에서는 파일 전체가 '예상된 오류'로 빠짐 — 파이프라인 시험 40개가 올리기 전에 한 번도 안 돌고 있었다

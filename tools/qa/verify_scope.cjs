@@ -26,7 +26,7 @@ const want = {
   off: { bad: true, detail: false, rental: false, card: null },
 };
 (async () => {
-  const b = await chromium.launch({ executablePath: '/opt/pw-browsers/chromium' });
+  const b = await chromium.launch({ executablePath: fs.existsSync('/opt/pw-browsers/chromium') ? '/opt/pw-browsers/chromium' : undefined });   // Actions 에는 이 경로가 없음 (10-22 첫 실행이 여기서 멈춰 결과 파일 없음)
   const fails = [];
   for (const [name, vs] of Object.entries(S)) {
     const pg = await b.newPage({ viewport: { width: 390, height: 844 } });
