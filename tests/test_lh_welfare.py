@@ -35,8 +35,9 @@ def test_kind_and_list_only_record():
     assert kind_of(y) == "매입임대" and "청년" in y["PAN_NM"]   # 화면 청년 주택 탭은 제목의 '청년'으로
 
 
-def test_switch_off_by_default_and_screen_gated():
-    assert json.loads((ROOT / "docs/config.json").read_text(encoding="utf-8"))["features"]["lh_welfare"] is False
+def test_switch_exists_and_screen_gated():
+    """스위치가 config 에 있고(10-22 11시 운영자 '켜줘'로 켬), 화면은 스위치가 꺼지면 파일을 부르지도 않는다"""
+    assert isinstance(json.loads((ROOT / "docs/config.json").read_text(encoding="utf-8"))["features"]["lh_welfare"], bool)
     html = (ROOT / "docs/index.html").read_text(encoding="utf-8")
     assert "on('lh_welfare') ? fetch('lh-welfare.json'" in html   # 꺼져 있으면 파일을 부르지도 않는다
 
