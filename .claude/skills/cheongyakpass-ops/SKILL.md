@@ -182,3 +182,4 @@ description: 청약패스(cheongyakpass.kr, 저장소 cheongyak/cheongyak.github
 - **경고(베타 참고용) 원인 찾기 (2026-10-22)**: `python -m tools.qa.warn_history` → 경고 구간·걸린 검사·원인 종류(evidence/qa/warn-causes.json). 원인은 원문·커밋으로 확인한 것만 적는다. 첫 짐작(10-06·10-08 '시계 기준 거짓 경보')이 그날 데이터로 다시 돌려 보니 틀렸다(실제는 0건 수집이 지난 결과를 통째로 다시 씀) — 고치기 전에 그날 데이터로 재현할 것
 - **새 검사를 관문에 걸 때**: 저장 원문·지금 데이터 전체로 먼저 돌려 0건인지 보고 건다(거짓 경보 6/19번이 새 검사·기대값). 결과에 공고 id 를 전부 남기면 verify_scope 가 그 공고에만 표시한다
 - **로컬 pytest 에서 빠지는 파일이 없게 (2026-10-22)**: test_pipeline.py 가 fastapi 를 맨 위에서 불러 로컬에서 통째로 빠졌고, 그 사이 0건 수집 시험 실패를 못 보고 올려 매일 수집이 3번 실패했다. 지금은 `python -m pytest -q` 가 오류 0 이어야 한다(`--continue-on-collection-errors` 필요 없음). 새 시험이 로컬에 없는 패키지를 쓰면 그 부분만 `pytest.importorskip`
+- **버전 여러 개를 한 번에 올릴 때 (2026-10-22)**: `release.sh` 는 지금 원격 main 을 찍으므로, 버전마다 올리고 바로 release.sh 를 돌린다. 한꺼번에 올렸으면 `git push origin <그 버전 커밋>:refs/heads/release/vX.Y.Z` 로 그 커밋에 직접 만든다(v1.78.0 을 v1.79.0 커밋에 잘못 찍어 지우고 다시 만듦)
