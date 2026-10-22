@@ -8,7 +8,8 @@
 - **수집이 아예 안 돌았는지 먼저 본다 (2026-10-23 GitHub 예약 실행이 밤새 하나도 안 돎 — 청약 05:30·06:50, LH·SH·GH·민간임대·지방 공사 모두 시작조차 안 됨).**
   `docs/daily-run.txt` 가 오늘(한국 날짜)이 아니고 collect.yml 이 지금 돌고 있지도 않으면(`gh api repos/cheongyak/cheongyak.github.io/actions/workflows/collect.yml/runs?per_page=1`),
   collect.yml 과 임대 수집(lh-rental·sh-rental·gh-rental·pvt-rental·local-rental.yml)을 `gh api -X POST …/actions/workflows/<파일>/dispatches -f ref=main` 로 시작한다.
-  각 임대 수집도 오늘 실행 기록(`…/workflows/<파일>/runs?per_page=1` 의 created_at)이 없으면 같이 시작한다. 보고 맨 앞에 '예약 수집이 안 돌아 손으로 시작함'을 적는다.
+  각 임대 수집도 오늘 실행 기록(`…/workflows/<파일>/runs?per_page=1` 의 created_at)이 없으면 시작한다. **한꺼번에 시작하지 말고 하나씩, 앞 것이 끝난 뒤** 다음 것을
+  시작한다(10-23 여섯 개를 동시에 시작했더니 저장 push 가 서로 밀려 지방 공사 수집이 'push 4번 실패'로 저장 못 함 — 다시 돌려 해결). 보고 맨 앞에 '예약 수집이 안 돌아 손으로 시작함'을 적는다.
 - 오늘 아침 수집(청약 공고 수집 collect.yml)이 끝났는지 확인한다. 아직 돌고 있으면 끝날 때까지 기다린다(최대 60분).
 - 같은 날 다른 세션이 같은 공고를 고치고 있으면(WORK.md 오늘 항목·최근 커밋) 그 공고는 건너뛴다.
 
