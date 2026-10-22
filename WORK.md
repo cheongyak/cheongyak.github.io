@@ -4,6 +4,15 @@
 2026-09-29 12:55 이전 항목은 규칙을 만들기 전 작업을 커밋 기록으로 정리한 것이라 백업 브랜치가 없어요.
 그 시점으로 되돌릴 때는 해당 커밋 번호로 `git revert` 를 써요.
 
+## 2026-10-23 08:02 · 아침 수집이 안 돎 — GitHub 예약 실행 멈춤 (수정)
+- 요청: 오늘 거 공고 수집 안 됐어
+- 원인: 10-22 15:54Z(00:54 KST) 뒤로 이 저장소의 GitHub 예약 실행이 하나도 시작되지 않음 — 청약 수집 05:30·06:50, LH·SH·GH·민간임대·지방 공사 수집, 공고문 재시도 모두 실행 기록 없음(실패가 아니라 시작 안 됨). 코드·설정 변경 없음, 워크플로 모두 active. 수집 멈춤 감시(freshness.yml)도 GitHub 예약이라 같이 멈춤
+- 조치: 08:00 collect·lh-rental·sh-rental·gh-rental·pvt-rental·local-rental 손으로 시작. 재발 대비: GitHub 와 다른 예약(Claude 예약 작업 '아침 자동 고치기' 07:17)이 시작할 때 오늘 수집이 안 돌았으면 직접 시작하도록 AUTOFIX.md 0단계에 넣음
+- 파일: .claude/skills/cheongyakpass-ops/AUTOFIX.md, WORK.md
+- 확인: 손 실행 결과는 아래 항목·실행 기록으로
+- 백업: (설정·코드 변경 없음, 절차서만)
+- 기능: 없음(수정)
+
 ## 2026-10-22 23:41 · 지방 공사 임대 공고 (v1.80.0)
 - 요청: 임대 공고 중 안 다루는 것 다 수집해서 화면에 + 기관별 거르기 — 운영자 마이홈포털 API 이용 신청 완료('신청완료')
 - 확인: gh-probe 다시 돌림 → API 200 NORMAL SERVICE, 220줄(공고 × 단지). 응답 칸 suplyInsttNm·suplyTyNm·pblancNm·sttusNm·beforePblancId·rcritPblancDe·beginDe·endDe·przwnerPresnatnDe·hsmpNm·brtcNm·fullAdres·sumSuplyCo·rentGtn·mtRntchrg·refrnc·url·pcUrl·mobileUrl 등(evidence/qa/myhome-probe.json). 저장본 온전한 44줄 중 LH 42·광주광역시도시공사 1·제주특별자치도개발공사 1
