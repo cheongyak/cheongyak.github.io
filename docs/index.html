@@ -5754,7 +5754,7 @@ const lhMan = v => { const m = v / 10000; return (m >= 10000 ? (Math.floor(m / 1
 function lhRentTable(N){
   const R = N.rents || [];
   if (!R.length && N.welfare === true && on('lh_welfare_read') && N.house_list) return `<p class="small" style="margin:0">보증금·월세는 주택마다 달라요. 공고문에 붙은 주택목록(${esc(N.house_list.name || '엑셀')})을 확인하세요.</p>`;   /* 기능 lh_welfare_read: 매입임대·든든전세는 주택목록에 */
-  if (!R.length && N.welfare === true && on('lh_welfare_read')) return '<p class="small" style="margin:0">공고문에서 임대조건 표를 찾지 못했어요. 공고문을 확인하세요.</p>';
+  if (!R.length && N.welfare === true && on('lh_welfare_read')) return '<p class="small" style="margin:0">보증금·월세는 공고문의 임대조건(호실·주택별 표)을 확인하세요.</p>';
   if (!R.length && N.welfare === true) return '<p class="small" style="margin:0">이 유형(매입임대·든든전세 등)은 아직 공고문을 읽지 않아요. 보증금·월세는 공고문을 확인하세요.</p>';   /* 기능 lh_welfare: 목록만 */
   if (!R.length) return '<p class="small" style="margin:0">공고문에서 임대조건 표를 읽지 못했어요. 공고문을 확인하세요.</p>';
   const by = {};

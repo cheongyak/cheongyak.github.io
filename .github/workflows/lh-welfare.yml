@@ -10,6 +10,8 @@ on:
     paths:
       - "app/lh_welfare.py"
       - "app/hwpx_text.py"
+      - "app/lh_terms.py"
+      - "app/lh_pdf_merge.py"
       - ".github/workflows/lh-welfare.yml"
 permissions:
   contents: write

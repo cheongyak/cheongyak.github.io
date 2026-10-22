@@ -88,3 +88,15 @@ def test_lh_welfare_reads_hwpx_when_pdf_fails(tmp_path, monkeypatch):
     assert "HWPX 읽음" in msg and rec["notice_text"] and (tmp_path / "lh" / "T1.txt").read_text(encoding="utf-8").startswith("청년 매입임대주택")
     assert rec["rents"] == []          # 임대조건 표가 없는 글이면 짐작해서 만들지 않음
     assert "house_list" not in rec     # 주택목록 첨부가 없으면 없음
+
+
+def test_newlywed_happy_rents_with_suffix_types():
+    """광주선운2 신혼희망타운 행복주택(2015122300020886) 원문 [금회모집 임대조건]: 55A-1·55B-1(주거약자) 신혼부부·한부모가족
+    임대보증금 67,400천원 = 계약금 3,370 + 잔금 64,030, 월 342,610원 (A-1·A-3블록 같은 금액). 주택형 '-1' 을 떼지 않는다.
+    칸이 합쳐진 다음 주택형(55B-1·55C-1)은 금액 줄이 따로 없어 짐작해서 만들지 않는다"""
+    from pathlib import Path
+    from app.lh_terms import parse_lh_rents
+    t = (Path(__file__).resolve().parents[1] / "evidence/lh/2015122300020886.txt").read_text(encoding="utf-8", errors="replace")
+    rows = parse_lh_rents(t, [])
+    assert [(r["type"], r["group"], r["deposit"], r["rent"]) for r in rows] == [
+        ("55A-1", "신혼부부·한부모", 67400000, 342610), ("55B-1", "신혼부부·한부모", 67400000, 342610)]

@@ -609,7 +609,7 @@ def parse_lh_rents(text: str, unit_types: list[str]) -> list[dict]:
                 lbl = m_h[-1] + " " + lbl
         lbl_t = re.sub(r"[\d.]+\s?%|\d{4}[.\-]\d{1,2}[.\-]\d{1,2}|-\s?\d{1,2}\s?-", " ", lbl)
         lbl_t = re.sub(r"(\d)\s+([A-Z]{1,2})(?![a-z])", r"\1\2", lbl_t)        # '【 31 A 】' → 31A
-        hits = [m for m in re.finditer(r"(?<![\d.,])(\d{2,3}(?:\.\d{1,4})?(?:[A-Z]{1,2}\d?)?)(?!\d|,\d{3})", lbl_t)
+        hits = [m for m in re.finditer(r"(?<![\d.,])(\d{2,3}(?:\.\d{1,4})?(?:[A-Z]{1,2}\d?(?:-\d(?![\d,]))?)?)(?!\d|,\d{3})", lbl_t)   # '55A-1' 주거약자 주택형(신혼희망 행복주택 2015122300020886)
                 if not m.group(1).startswith("0") and 10 <= float(re.match(r"[\d.]+", m.group(1)).group(0)) <= 200]   # 주택형(전용면적) 범위 — 천원 단위 계약금 '300' 같은 금액은 뺀다
         hit = None
         if hits:
