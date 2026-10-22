@@ -23,6 +23,7 @@ def test_zero_fetch_keeps_only_rows_within_retention():
     assert [x["id"] for x in keep_previous(rows, date(2026, 10, 4))] == ["a", "b", "c"]    # 09-20+14 = 10-04 까지 보관
     assert [x["id"] for x in keep_previous(rows, date(2026, 10, 5))] == ["b", "c"]
     assert [x["id"] for x in keep_previous(rows, date(2026, 10, 8))] == ["b"]
+    assert [x["id"] for x in keep_previous([{"id": "x", "name": "날짜 없음"}], date(2026, 10, 8))] == ["x"]   # 날짜를 모르면 빼지 않음 (test_pipeline 0건 시험)
 
 
 def test_zero_fetch_replay_20261008():

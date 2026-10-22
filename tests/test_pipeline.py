@@ -4,7 +4,6 @@ from pathlib import Path
 from datetime import date
 
 import httpx
-from fastapi.testclient import TestClient
 
 from app import pipeline
 from app.sources.applyhome import ApplyhomeClient, normalize, to_date, unit_label
@@ -117,6 +116,8 @@ def test_end_to_end(tmp_path, monkeypatch):
     assert len(L.jeonse_comps) == 3 and L.jeonse_comps[0]["kind"] == "전세"
 
     monkeypatch.setenv("LISTINGS_PATH", str(tmp_path / "listings.json"))
+    import pytest
+    TestClient = pytest.importorskip("fastapi.testclient").TestClient   # API 부분만 fastapi 필요 — 위 수집 단언은 fastapi 없이도 돈다 (2026-10-22: 로컬에서 이 파일 전체가 안 돌아 0건 수집 시험 실패를 못 봄)
     from app.api import app
     c = TestClient(app)
     rows = c.get("/listings").json()
@@ -175,6 +176,8 @@ def test_api_filters(tmp_path, monkeypatch):
     assert L.sido == "서울" and L.district == "광진구" and L.supply_type == "불법행위 재공급"
     assert "[응답 필드] remainder 개요" in (tmp_path / "run-log.txt").read_text(encoding="utf-8")
     monkeypatch.setenv("LISTINGS_PATH", str(tmp_path / "listings.json"))
+    import pytest
+    TestClient = pytest.importorskip("fastapi.testclient").TestClient   # API 부분만 fastapi 필요 — 위 수집 단언은 fastapi 없이도 돈다 (2026-10-22: 로컬에서 이 파일 전체가 안 돌아 0건 수집 시험 실패를 못 봄)
     from app.api import app
     c = TestClient(app)
     assert len(c.get("/listings", params={"sido": "서울", "district": "광진구"}).json()) == 1

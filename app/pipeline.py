@@ -591,7 +591,8 @@ def keep_previous(prev_rows: list, today: date) -> list:
     """공고를 0건 받아 지난 결과를 유지할 때도 보관 기간이 지난 주택형은 뺀다 (restore_missing_category 와 같은 기준).
     2026-10-06 00:03·10-08 00:27 자정 수집이 0건을 받아 지난 결과를 통째로 다시 써서, 발표 후 14일이 지난 공고 1·13개가 화면에 남음
     → 불변식 '보관 기간 지난 공고가 목록에 남음' → 전체 '베타 참고용' (경고 이력 evidence/qa/warn-history.json)."""
-    return [x for x in prev_rows if _still_listed(x, today)]
+    dated = lambda x: x.get("winner") or x.get("apply_end") or x.get("apply")
+    return [x for x in prev_rows if not dated(x) or _still_listed(x, today)]   # 날짜가 없어 보관 기간을 모르는 줄은 지우지 않는다 (추측으로 빼지 않음)
 
 
 def restore_missing_category(out: list, prev_rows: list, today: date, log: list[str]) -> int:

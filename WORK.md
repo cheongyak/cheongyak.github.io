@@ -4,6 +4,15 @@
 2026-09-29 12:55 이전 항목은 규칙을 만들기 전 작업을 커밋 기록으로 정리한 것이라 백업 브랜치가 없어요.
 그 시점으로 되돌릴 때는 해당 커밋 번호로 `git revert` 를 써요.
 
+## 2026-10-22 09:41 · v1.71.3 뒤 매일 수집 실패 고침 · test_pipeline 로컬에서도 돌게 (수정)
+- 요청: (올린 뒤 확인) b8739890 부터 청약 공고 수집 3번 연속 실패('pytest' 단계) — 화면 데이터가 07:44 에서 멈춤
+- 원인: keep_previous 가 날짜 없는 지난 결과 줄을 '보관 기간 지남'으로 뺌 → tests/test_pipeline.py 0건 시험(날짜 없는 줄)이 실패. 로컬 검사에서 못 본 이유: test_pipeline.py 가 맨 위에서 fastapi 를 불러 로컬(fastapi 설치 안 됨)에서는 파일 전체가 '예상된 오류'로 빠짐 — 파이프라인 시험 40개가 올리기 전에 한 번도 안 돌고 있었다
+- 변경: keep_previous 는 날짜가 하나도 없는 줄은 빼지 않음(모르면 지우지 않음). test_pipeline 은 API 부분에서만 fastapi 를 importorskip — 수집 시험은 fastapi 없이 돈다
+- 파일: app/pipeline.py, tests/test_pipeline.py, tests/test_verify_root_20261022.py, .claude/skills/cheongyakpass-ops/SKILL.md, WORK.md
+- 확인: test_pipeline 40 통과·2 건너뜀(API), 전체 pytest 351 통과(이제 --continue-on-collection-errors 없이도 오류 0). 올린 뒤 수집 결과 확인
+- 백업: backup/20261022-0941-keepprev
+- 기능: 없음(수정)
+
 ## 2026-10-22 08:38 · 경고 이력 도구·흐름 문서·회귀 시험 (경고 반복 원인 정리)
 - 요청: 반복 오류를 찾는 기능, 전체 흐름 문서화, 수정한 오류 회귀 시험 (사용자 지시문 2·8·9항)
 - 변경: tools/qa/warn_history.py — git 의 verify-status.json 234판을 다시 읽어 경고 구간 19번(31.2시간)·걸린 검사·지금 규칙이면 어떻게 보일지, evidence/qa/warn-causes.json(커밋·WORK.md·원문으로 확인한 원인만)과 합쳐 evidence/qa/warn-history.json. 원인별: 검사 도구·기대값 오류(거짓) 6번 12.5h · 새 공고문 형식 못 읽음 5번 10.5h · 수집·저장 코드 버그 3번 3.8h · 화면 코드 회귀 2번 2.6h · 원문 확보·글 변화 2번 1.1h · 지난 결과 재사용(거짓) 1번 0.7h. evidence/qa/VERIFY_FLOW.md — 단계별 데이터·14개 질문 답·경고 상태 표. tests/test_verify_root_20261022.py — 0건 수집 보관 기간(10-08 실제 데이터 13→0)·공급규모 문장(원문 7건 표와 일치·적히지 않은 값 거부·새 표 모양 대안·주택형 여럿 안 나눔·불일치 표시)·경고 범위(공고 문제→그 공고만·id 모르면 전체·미검증≠통과·스위치)·이력 나눔 19개
