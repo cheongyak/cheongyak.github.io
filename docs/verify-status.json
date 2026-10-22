@@ -1,25 +1,32 @@
 {
- "at": "2026-10-22 08:15",
+ "at": "2026-10-22 10:04",
  "ok": true,
  "collect_run": "2026-10-22 · 공고 245건",
+ "banner": null,
+ "flagged": {},
+ "pending": [
+  "임대 판정",
+  "임대 화면"
+ ],
+ "coverage_missing": 0,
  "warnings": [],
  "freshness": [
   {
    "name": "분양",
-   "updated": "2026-10-22 07:44",
-   "hours": 0.5,
+   "updated": "2026-10-22 09:51",
+   "hours": 0.2,
    "stale": false
   },
   {
    "name": "LH 임대",
-   "updated": "2026-10-22 07:21",
-   "hours": 0.9,
+   "updated": "2026-10-22 09:03",
+   "hours": 1.0,
    "stale": false
   },
   {
    "name": "SH 임대",
    "updated": "2026-10-22 07:13",
-   "hours": 1.0,
+   "hours": 2.9,
    "stale": false
   }
  ],
@@ -36,9 +43,8 @@
   "mismatches": []
  },
  "qa_stale": [
-  "market-check.json",
-  "parse-moved.json",
-  "coverage.json"
+  "lh-qa.json",
+  "lh-screen.json"
  ],
  "qa": {
   "gate": true,
@@ -47,7 +53,7 @@
   "filter_fails": 0,
   "consistency_fails": 0,
   "sp_text_fails": 0,
-  "market_fails": null,
+  "market_fails": 0,
   "cross_rule_fails": 0,
   "profile_keep_fails": 0,
   "monotonic_violations": 0,
@@ -57,18 +63,19 @@
   "e2e_fails": 0,
   "past_chat_fails": 0,
   "lh_invariant_violations": 0,
-  "lh_judge_qa_fails": 0,
-  "lh_screen_fails": 0,
+  "lh_judge_qa_fails": null,
+  "lh_screen_fails": null,
   "lh_unread": 0,
   "lh_pdf_merged_wrong": 0,
   "pay_audit_bad": 0,
-  "parse_moved_changes": null,
-  "coverage_missing": null,
+  "parse_moved_changes": 0,
+  "coverage_missing": 0,
+  "verify_scope_fails": null,
   "pay_audit_read": "132/144",
-  "lh_data_at": "2026-10-22 07:21",
+  "lh_data_at": "2026-10-22 09:03",
   "cross_rule_checks": 307907,
-  "market_at": null,
-  "supply_type_at": "2026-10-21",
-  "invariants_at": "2026-10-21"
+  "market_at": "2026-10-22",
+  "supply_type_at": "2026-10-22",
+  "invariants_at": "2026-10-22"
  }
 }
