@@ -28,11 +28,11 @@ DEPS = {
     "cross-rule.json": ("listings", "code"), "profile-keep.json": ("code",), "monotonic.json": ("listings", "code"),
     "snapshot.json": ("code",), "e2e.json": ("listings", "code"), "past-chat.json": ("listings", "code"),
     "pay-audit.json": ("listings",), "parse-moved.json": ("listings",), "zero-default.json": ("listings", "code"),
-    "input-nav.json": ("listings", "code"), "coverage.json": ("listings",), "verify-scope.json": ("listings", "lh", "code"), "rent-org.json": ("lh", "sh", "gh", "pvt", "lw", "code"),
-    "lh-invariants.json": ("lh",), "lh-qa.json": ("lh", "sh", "gh", "pvt", "lw", "code"), "lh-screen.json": ("lh", "sh", "gh", "pvt", "lw", "code"),
-    "lh-unread.json": ("lh", "sh", "gh", "pvt", "lw", "code"), "lh-pdf-tools.json": ("lh",),
+    "input-nav.json": ("listings", "code"), "coverage.json": ("listings",), "verify-scope.json": ("listings", "lh", "code"), "rent-org.json": ("lh", "sh", "gh", "pvt", "lw", "local", "code"),
+    "lh-invariants.json": ("lh",), "lh-qa.json": ("lh", "sh", "gh", "pvt", "lw", "local", "code"), "lh-screen.json": ("lh", "sh", "gh", "pvt", "lw", "local", "code"),
+    "lh-unread.json": ("lh", "sh", "gh", "pvt", "lw", "local", "code"), "lh-pdf-tools.json": ("lh",),
 }
-SRC = {"listings": "docs/listings.json", "lh": "docs/lh-rental.json", "sh": "docs/sh-rental.json", "gh": "docs/gh-rental.json", "pvt": "docs/pvt-rental.json", "lw": "docs/lh-welfare.json", "code": "docs/index.html"}
+SRC = {"listings": "docs/listings.json", "lh": "docs/lh-rental.json", "sh": "docs/sh-rental.json", "gh": "docs/gh-rental.json", "pvt": "docs/pvt-rental.json", "local": "docs/local-rental.json", "lw": "docs/lh-welfare.json", "code": "docs/index.html"}
 
 
 def current() -> dict:

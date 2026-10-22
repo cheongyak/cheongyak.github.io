@@ -253,6 +253,7 @@ h2{margin:0;font-size:16px}
 .rows .total{font-weight:700;padding-top:8px;border-top:1px solid var(--line)}
 .rows .row>:last-child{white-space:nowrap;text-align:right}
 .chips{display:flex;gap:6px;overflow-x:auto;padding-bottom:2px;scrollbar-width:none}
+.chips.rorg{flex-wrap:wrap;overflow-x:visible}   /* 기능 rent_org_filter: 기관 칩은 몇 개뿐이라 옆으로 숨기지 않고 줄바꿈 */
 .upd-item{padding:12px 0;border-top:1px solid var(--line)} .upd-item:first-child{border-top:0;padding-top:2px}
 .chips.wrap{flex-wrap:wrap;overflow:visible} .chips.wrap .chip{height:34px;padding:0 12px}
 .pushopt{display:flex;gap:10px;align-items:flex-start;width:100%;text-align:left;background:none;border:0;padding:10px 0;font:inherit;color:inherit;cursor:pointer;border-top:1px solid var(--line)} .pushopt:first-of-type{border-top:0}
@@ -5202,8 +5203,11 @@ function loadRental(){
   /* 기능 pvt_rental (2026-10-21): 청약홈 공공지원 민간임대(pvt-rental.json, app/pvt_rental.py) — 1단계라 판정 없이 일정·주택형·공급금액만 */
   const pv = on('pvt_rental') ? fetch('pvt-rental.json', { cache:'no-store' }).then(r => r.ok ? r.json() : null).catch(() => null) : Promise.resolve(null);
   /* 기능 lh_welfare (2026-10-22): LH 주거복지(매입임대·든든전세)·신혼희망타운 행복주택(lh-welfare.json, app/lh_welfare.py) — 목록만·판정 없음. 못 불러도 LH 임대는 그대로 */
+  /* 기능 local_rental (2026-10-22): LH·SH·GH 밖 지방 공사 임대(local-rental.json, app/local_rental.py, 마이홈포털 API) — 목록·일정·단지·보증금·월세, 판정 없음 */
+  const lc = on('local_rental') ? fetch('local-rental.json', { cache:'no-store' }).then(r => r.ok ? r.json() : null).catch(() => null) : Promise.resolve(null);
   const lw = on('lh_welfare') ? fetch('lh-welfare.json', { cache:'no-store' }).then(r => r.ok ? r.json() : null).catch(() => null) : Promise.resolve(null);
-  Promise.all([fetch('lh-rental.json', { cache:'no-store' }).then(r => r.ok ? r.json() : Promise.reject(r.status)), sh, gh, pv, lw]).then(([d, s, g, v, w]) => {
+  Promise.all([fetch('lh-rental.json', { cache:'no-store' }).then(r => r.ok ? r.json() : Promise.reject(r.status)), sh, gh, pv, lw, lc]).then(([d, s, g, v, w, lo]) => {
+    if (lo && Array.isArray(lo.notices) && lo.notices.length) { d.notices = d.notices.concat(lo.notices.filter(N => N.org === 'LOCAL' && rStatus(N) !== '마감').map(N => Object.assign({}, N, { judge_type: false }))); }
     /* 접수 기간이 지난 SH 공고, 접수 기간을 못 읽었고 공고일이 30일 넘게 지난 SH 공고는 싣지 않는다 (대부분 접수가 끝났는데 '일정 확인'으로 남지 않게) */
     if (s && Array.isArray(s.notices) && s.notices.length) { d.notices = d.notices.concat(s.notices.filter(N => N.org === 'SH' && rStatus(N) !== '마감' && !(rStatus(N) === '일정 확인' && String(N.posted || '') < addDays(rKst(), -30))).map(N => on('sh_judge') && (N.type !== '장기전세' || on('sh_jeonse')) && (N.type !== '사회주택' || on('sh_social')) && (N.type !== '행복주택' || on('sh_happy')) && (N.type !== '청년안심주택' || on('sh_youth_safe')) ? N : Object.assign({}, N, { judge_type: false })))   /* 기능 sh_judge 가 꺼져 있으면 SH 는 모두 판정 미지원, sh_jeonse 가 꺼져 있으면 장기전세만 판정 미지원, sh_happy 가 꺼져 있으면 행복주택만 */.sort((a, b) => String(b.posted || '').localeCompare(String(a.posted || ''))); d.sh_updated = s.updated; }
     if (g && Array.isArray(g.notices) && g.notices.length) { d.notices = d.notices.concat(g.notices.filter(N => N.org === 'GH' && rStatus(N) !== '마감' && !(rStatus(N) === '일정 확인' && String(N.posted || '') < addDays(rKst(), -30))).map(N => Object.assign({}, N, { judge_type: false }))).sort((a, b) => String(b.posted || '').localeCompare(String(a.posted || ''))); d.gh_updated = g.updated; }
@@ -5671,8 +5675,10 @@ const rIsSH = N => N.org === 'SH';
 const rIsGH = N => N.org === 'GH';   /* 기능 gh_rental: GH 누리집 분양/임대 공고 게시판 */
 const rIsPVT = N => N.org === 'PVT';
 /* 기관별 거르기 (기능 rent_org_filter, 2026-10-22 사용자 'lh/sh/gh 분류해서 누르면 공고카드들 필터되도록') — 청약홈 공공지원 민간임대·민간임대는 '민간임대' 한 칸 */
-const rOrg = N => rIsSH(N) ? 'SH' : rIsGH(N) ? 'GH' : rIsPVT(N) ? '민간임대' : 'LH';
-const R_ORGS = ['LH', 'SH', 'GH', '민간임대'];
+const rIsLOC = N => N.org === 'LOCAL';   /* 기능 local_rental: 마이홈포털 API 의 지방 공사(광주·제주·인천 등) */
+const rOrg = N => rIsSH(N) ? 'SH' : rIsGH(N) ? 'GH' : rIsPVT(N) ? '민간임대' : rIsLOC(N) ? '지방 공사' : 'LH';
+const rOrgName = N => rIsLOC(N) ? (N.inst || '지방 공사') : rOrg(N);   /* 카드 머리: 지방 공사는 공사 이름 그대로 */
+const R_ORGS = ['LH', 'SH', 'GH', '지방 공사', '민간임대'];
 function rentalOrgChips(){
   if (!on('rent_org_filter') || !RENTAL) return '';
   const pool = RENTAL.notices.filter(N => (S.rcat !== 'youth' || rIsYouth(N)) && (!S.rtype || N.type === S.rtype) && (!S.rsido || (N.region || '').startsWith(S.rsido)));
@@ -5681,7 +5687,7 @@ function rentalOrgChips(){
   const chip = (k, t, c) => `<button class="chip sm" data-rorg="${esc(k)}" aria-pressed="${(S.rorg || '') === k}">${esc(t)}${c != null ? ' <span class="muted">' + c + '</span>' : ''}</button>`;
   return `<div class="chips rorg" role="group" aria-label="공고 기관" style="margin:6px 0">${chip('', '전체', pool.length)}${have.map(o => chip(o, o, n(o))).join('')}</div>`;
 }   /* 기능 pvt_rental: 청약홈 공공지원 민간임대 */
-const rSrc = N => rIsSH(N) ? 'SH 인터넷청약시스템' : rIsGH(N) ? 'GH 누리집' : rIsPVT(N) ? '청약홈' : 'LH 청약플러스';
+const rSrc = N => rIsSH(N) ? 'SH 인터넷청약시스템' : rIsGH(N) ? 'GH 누리집' : rIsPVT(N) ? '청약홈' : rIsLOC(N) ? (N.inst || '지방 공사') + '(마이홈포털)' : 'LH 청약플러스';
 const rHead = s => s === 'unsupported' && on('sh_rental') ? ['info', '판정 미지원 · 공고문 확인'] : R_HEAD[s];
 const rTypes = () => on('sh_rental') && RENTAL ? [...new Set([...RENT_TYPES, ...RENTAL.notices.map(N => N.type).filter(Boolean)])] : RENT_TYPES;
 function rentalBase(){
@@ -5717,7 +5723,7 @@ function rentalSheet(){
     <div class="sheet-grip" aria-hidden="true"></div>
     <div class="row"><h2 style="margin:0">${esc(t)} <span class="muted" style="font-weight:500">${L.length}건 · ${esc(where)}</span></h2><button class="linkbtn" data-action="rsheet-close" aria-label="닫기">닫기</button></div>
     <div class="sheet-list">${L.map(N => { const J = hasProfile() ? rentalJudgeSafe(N, S.profile) : null, h = J ? rHead(J.s) : null, dd = rDday(N);
-      return `<button class="sheet-item rsi" data-ropen="${esc(N.id)}"><span class="si-main"><b>${esc(N.name || '')}</b><span class="small muted">${on('rent_org_filter') ? rOrg(N) + ' · ' : rIsSH(N) ? 'SH · ' : rIsGH(N) ? 'GH · ' : ''}${esc(N.type || '')} · ${esc((N.region || '').replace(/(특별자치도|특별자치시|광역시|특별시)$/, ''))}${h ? ` · <span class="st-${h[0] === 'info' ? 'warn' : h[0]}">${h[1]}</span>` : ''}</span></span><span class="dday ${dd[1]}">${esc(dd[0].replace(/^접수 중 · /, ''))}</span></button>`; }).join('')}</div>
+      return `<button class="sheet-item rsi" data-ropen="${esc(N.id)}"><span class="si-main"><b>${esc(N.name || '')}</b><span class="small muted">${on('rent_org_filter') ? esc(rOrgName(N)) + ' · ' : rIsSH(N) ? 'SH · ' : rIsGH(N) ? 'GH · ' : ''}${esc(N.type || '')} · ${esc((N.region || '').replace(/(특별자치도|특별자치시|광역시|특별시)$/, ''))}${h ? ` · <span class="st-${h[0] === 'info' ? 'warn' : h[0]}">${h[1]}</span>` : ''}</span></span><span class="dday ${dd[1]}">${esc(dd[0].replace(/^접수 중 · /, ''))}</span></button>`; }).join('')}</div>
     <p class="foot">판정은 입력한 조건 기준이에요. 누르면 그 공고 상세로 가요.</p>
   </div>`;
 }
@@ -5744,9 +5750,9 @@ function rentalSummary(){
 function lhCard(N){
   const J = hasProfile() ? rentalJudgeSafe(N, S.profile) : null, h = J ? rHead(J.s) : null;
   if (on('lh_ui_v2')) {   /* 분양 카드처럼: 위 줄(유형·지역 | 일정 배지) · 이름 · 한 줄 요약(전용·보증금·월세) · 판정 */
-    const dd = rDday(N), rf = lhRentFrom(N), ar = N.units && N.units.length ? '전용 ' + rAreaRange(N) : '';
+    const dd = rDday(N), rf = lhRentFrom(N), ar = N.units && N.units.some(u => u.area) ? '전용 ' + rAreaRange(N) : '';
     return `<button class="card rcard rc2" data-ropen="${esc(N.id)}">
-    <span class="row" style="align-items:flex-start;gap:8px"><span class="small muted">${on('rent_org_filter') ? '<b>' + rOrg(N) + '</b> · ' : rIsSH(N) ? '<b>SH</b> · ' : rIsGH(N) ? '<b>GH</b> · ' : ''}${esc(N.type || '임대')} · ${esc((N.region || '').replace(/(특별자치도|특별자치시|광역시|특별시)$/, ''))}${N.terms && N.terms.relaxed ? ' · 자격 완화' : ''}</span><span class="dday ${dd[1]}">${esc(dd[0])}</span></span>
+    <span class="row" style="align-items:flex-start;gap:8px"><span class="small muted">${on('rent_org_filter') ? '<b>' + esc(rOrgName(N)) + '</b> · ' : rIsSH(N) ? '<b>SH</b> · ' : rIsGH(N) ? '<b>GH</b> · ' : ''}${esc(N.type || '임대')} · ${esc((N.region || '').replace(/(특별자치도|특별자치시|광역시|특별시)$/, ''))}${N.terms && N.terms.relaxed ? ' · 자격 완화' : ''}</span><span class="dday ${dd[1]}">${esc(dd[0])}</span></span>
     <b class="rname">${esc(N.name || '')}</b>
     ${ar || rf ? `<span class="small">${[ar, rf].filter(Boolean).map(esc).join(' · ')}</span>` : ''}
     ${h ? `<span class="small"><span class="pill ${h[0]}">${h[1]}</span>${J.best && J.s !== 'na' && J.s !== 'partial' ? ' <span class="muted">' + esc(J.best.name) + ' 계층</span>' : ''}</span>` : ''}
@@ -5785,7 +5791,7 @@ function vRental(){
   const list = rentalList(), sidos = RENTAL ? [...new Set(RENTAL.notices.map(N => (N.region || '').replace(/(특별자치도|특별자치시|광역시|특별시|도)$/, '')).filter(Boolean))] : [];
   const intro = `<p class="small muted" style="margin:0 0 8px">LH 청약플러스 임대 공고예요. 자격은 공고문의 계층별 기준(무주택·소득·총자산·자동차)에 <b>입력한 조건</b>을 대어 판정해요(분양 청약 판정과 따로). 입력하지 않은 칸은 충족으로 보지 않고 '확인 필요'로 보여요.${S.rcat === 'youth' ? ' <b>청년 주택</b>은 아래 LH 임대 공고 중 청년·대학생 계층이 있는 공고만 골라 보여 주는 거름망이에요.' : ''}</p>
   ${on('sh_rental') ? `<p class="small muted" style="margin:0 0 8px"><b>SH 공고</b>(서울주택도시공사 — 청년안심주택·장기전세·매입임대·사회주택 등)는 목록·접수 기간·공고문만 보여 주고 자격은 아직 판정하지 않아요. 접수 기간은 공고문에서 확실히 읽힌 것만 보여요.</p>
-  <p class="small muted" style="margin:0 0 8px">${on('rent_org_filter') ? `${on('gh_rental') ? '<b>GH</b>(경기주택도시공사), ' : ''}${on('pvt_rental') ? '<b>민간임대</b>(청약홈 공공지원 민간임대·민간임대), ' : ''}${on('lh_welfare') ? 'LH 매입임대·든든전세, ' : ''}SH 사회주택·수요자맞춤형은 목록·접수 기간·공고문만 보여 주고 자격은 아직 판정하지 않아요. 아직 다루지 않는 공고: 인천·부산·대구 등 다른 지방 공사 공고. 이 공고들은 각 기관 공고문을 확인하세요.` : '아직 다루지 않는 공고: GH 등 다른 지방 공사 공고, LH 매입임대·전세임대. 이 공고들은 각 기관 공고문을 확인하세요.'}</p>` : `<p class="small muted" style="margin:0 0 8px">아직 다루지 않는 공고: SH·GH 등 지방 공사 공고, 청년안심주택(역세권 청년주택), 장기전세, LH 매입임대·전세임대. 이 공고들은 각 기관 공고문을 확인하세요.</p>`}`;   /* 기능 lh_summary 가 켜지면 목록 아래로 (분양 목록처럼 거르기·내 조건·요약이 먼저 보이게) */
+  <p class="small muted" style="margin:0 0 8px">${on('rent_org_filter') ? `${on('gh_rental') ? '<b>GH</b>(경기주택도시공사), ' : ''}${on('pvt_rental') ? '<b>민간임대</b>(청약홈 공공지원 민간임대·민간임대), ' : ''}${on('lh_welfare') ? 'LH 매입임대·든든전세, ' : ''}SH 사회주택·수요자맞춤형${on('local_rental') ? ', <b>지방 공사</b>(광주·제주·인천 등, 마이홈포털)' : ''}은 목록·접수 기간·공고문만 보여 주고 자격은 아직 판정하지 않아요.${on('local_rental') ? '' : ' 아직 다루지 않는 공고: 인천·부산·대구 등 다른 지방 공사 공고. 이 공고들은 각 기관 공고문을 확인하세요.'}` : '아직 다루지 않는 공고: GH 등 다른 지방 공사 공고, LH 매입임대·전세임대. 이 공고들은 각 기관 공고문을 확인하세요.'}</p>` : `<p class="small muted" style="margin:0 0 8px">아직 다루지 않는 공고: SH·GH 등 지방 공사 공고, 청년안심주택(역세권 청년주택), 장기전세, LH 매입임대·전세임대. 이 공고들은 각 기관 공고문을 확인하세요.</p>`}`;   /* 기능 lh_summary 가 켜지면 목록 아래로 (분양 목록처럼 거르기·내 조건·요약이 먼저 보이게) */
   const tchip = (k, t) => `<button class="chip" data-rtype="${k}" aria-pressed="${(S.rtype || '') === k}">${t}</button>`;
   return `<div class="top"><div><div class="brand">청약패스${betaTag()}</div><span class="small muted sub-line">${on('rent_org_filter') && RENTAL ? R_ORGS.filter(o => RENTAL.notices.some(N => rOrg(N) === o)).join('·') : on('sh_rental') ? 'LH·SH' : 'LH'} 임대 공고${RENTAL ? ' · ' + esc(String(RENTAL.updated || '').slice(5).replace('-', '.')) + ' 갱신' : ''}</span></div></div>
   ${rentalSeg(S.rcat === 'youth' ? 'youth' : 'rent')}
@@ -5810,8 +5816,8 @@ function rentalCta(N){
   if (!on('lh_cta')) return '';
   const url = N.url_mobile || N.url, tel = ((N.office && N.office.tel) || '').match(/\d{2,4}-?\d{3,4}-?\d{4}/);
   if (!url && !N.notice_pdf) return '';
-  const sh = rIsSH(N), ghN = rIsGH(N), pvN = rIsPVT(N), ev = sh ? 'sh' : ghN ? 'gh' : pvN ? 'pvt' : 'lh';   /* 기능 sh_rental: SH 공고는 SH 인터넷청약시스템 공고 화면으로, 기능 gh_rental: GH 공고는 GH 누리집 공고 글로 */
-  return `<div class="dcta" role="region" aria-label="공고 바로가기"><span class="small muted">신청은 ${sh ? 'SH 인터넷청약시스템' : ghN ? 'GH 청약센터' : pvN ? '청약홈' : 'LH 청약플러스'}·공고문 접수처에서 · 모집공고문을 꼭 확인하세요</span>
+  const sh = rIsSH(N), ghN = rIsGH(N), pvN = rIsPVT(N), loN = rIsLOC(N), ev = sh ? 'sh' : ghN ? 'gh' : pvN ? 'pvt' : loN ? 'local' : 'lh';   /* 기능 sh_rental: SH 공고는 SH 인터넷청약시스템 공고 화면으로, 기능 gh_rental: GH 공고는 GH 누리집 공고 글로 */
+  return `<div class="dcta" role="region" aria-label="공고 바로가기"><span class="small muted">신청은 ${sh ? 'SH 인터넷청약시스템' : ghN ? 'GH 청약센터' : pvN ? '청약홈' : loN ? esc(N.inst || '공급기관') : 'LH 청약플러스'}·공고문 접수처에서 · 모집공고문을 꼭 확인하세요</span>
     <div class="dcta-row">${N.notice_pdf ? `<a class="btn ghost" href="${esc(N.notice_pdf)}" target="_blank" rel="noopener" data-ev="${ev}-cta-pdf">모집공고문</a>` : ''}${tel ? `<a class="btn ghost" href="tel:${esc(tel[0].replace(/-/g, ''))}" data-ev="${ev}-cta-tel">문의 전화</a>` : ''}${url ? `<a class="btn dcta-main" href="${esc(url)}" target="_blank" rel="noopener" data-ev="${ev}-cta-apply">${sh ? 'SH 공고' : ghN ? 'GH 공고' : pvN ? '청약홈 공고' : 'LH 청약플러스 공고'} ↗</a>` : ''}</div></div>`;
 }
 /* 공공지원 민간임대 주택형별 공급금액·청약신청금 (기능 pvt_rental). 청약홈 API 값 = 청약홈 공고 화면 '공급금액(만원, 주택형별 최고)·청약신청금'
@@ -5840,14 +5846,14 @@ function vRDetail(){
   /* 확인 항목의 이유: 내 조건이 비어 있음(입력 필요) · 자기 신고가 필요한 자격(답 필요) · 공고문 기준을 읽지 못함(공고문 확인) */
   const cIcon = i => i.s !== 'check' ? (sIcon[i.s] || '') : i.why === 'notice' ? '<span class="pill warn">공고문 확인</span>' : i.why === 'self' ? '<span class="pill warn">답 필요</span>' : '<span class="pill warn">입력 필요</span>';
   const why = { partial: '이 공고에는 이 서비스가 판정하지 않는 계층이 있어요 — 아는 계층으로는 조건 밖이지만, 다른 계층 자격은 공고문을 확인하세요.',
-    unknown: '공고문의 계층별 자격 기준을 읽지 못해 판정하지 않았어요 — 공고문을 확인하세요.', unsupported: rIsPVT(N) ? '공공지원 민간임대는 아직 자격을 판정하지 않아요(일정·주택형·공급금액만) — 청년·신혼부부·고령자 특별공급과 일반공급 자격은 모집공고문을 확인하세요.' : rIsGH(N) ? 'GH 공고는 아직 자격을 판정하지 않아요(목록·접수 기간·공고문만) — 신청 자격·소득·자산 기준은 공고문을 확인하세요.' : rIsSH(N) ? (on('sh_judge') ? '이 SH 공고 유형은 아직 자격을 판정하지 않아요(신혼·신생아 매입임대·청년 매입임대' + (on('sh_jeonse') ? '·장기전세' : '') + (on('sh_social') ? '·사회주택(공고문에서 확실히 읽힌 것)' : '') + '만 판정) — 신청 자격·소득·자산 기준은 공고문을 확인하세요.' : 'SH 공고는 아직 자격을 판정하지 않아요(목록·접수 기간·공고문만) — 신청 자격·소득·자산 기준은 공고문을 확인하세요.') : '이 임대 유형은 아직 자격을 판정하지 않아요 — 공고문을 확인하세요.' };
+    unknown: '공고문의 계층별 자격 기준을 읽지 못해 판정하지 않았어요 — 공고문을 확인하세요.', unsupported: rIsLOC(N) ? esc(N.inst || '지방 공사') + ' 공고는 아직 자격을 판정하지 않아요(목록·접수 기간·단지·보증금·월세만, 마이홈포털) — 신청 자격·소득·자산 기준은 공고문을 확인하세요.' : rIsPVT(N) ? '공공지원 민간임대는 아직 자격을 판정하지 않아요(일정·주택형·공급금액만) — 청년·신혼부부·고령자 특별공급과 일반공급 자격은 모집공고문을 확인하세요.' : rIsGH(N) ? 'GH 공고는 아직 자격을 판정하지 않아요(목록·접수 기간·공고문만) — 신청 자격·소득·자산 기준은 공고문을 확인하세요.' : rIsSH(N) ? (on('sh_judge') ? '이 SH 공고 유형은 아직 자격을 판정하지 않아요(신혼·신생아 매입임대·청년 매입임대' + (on('sh_jeonse') ? '·장기전세' : '') + (on('sh_social') ? '·사회주택(공고문에서 확실히 읽힌 것)' : '') + '만 판정) — 신청 자격·소득·자산 기준은 공고문을 확인하세요.' : 'SH 공고는 아직 자격을 판정하지 않아요(목록·접수 기간·공고문만) — 신청 자격·소득·자산 기준은 공고문을 확인하세요.') : '이 임대 유형은 아직 자격을 판정하지 않아요 — 공고문을 확인하세요.' };
   const secTop = `<div class="top"><div><button class="linkbtn" data-rcat="${S.rcat === 'youth' ? 'youth' : 'rent'}">← 임대 공고</button></div></div>`;
   const secHead = `  <section class="card">
     <span class="row" style="gap:6px;justify-content:flex-start;flex-wrap:wrap"><span class="pill info">${esc(N.type || '')}</span>${T && T.relaxed ? '<span class="pill warn">자격 완화 공고</span>' : ''}<span class="small muted">${esc(N.region || '')} · ${esc(rStatus(N))}</span></span>
     <h1 style="font-size:19px;margin:0">${esc(N.name || '')}</h1>
     <span class="small muted">공고일 ${esc(N.posted || '')} · 출처: ${esc(rSrc(N))} 공고</span>
     ${h ? `<div><span class="pill ${h[0]}">${h[1]}</span>${J.best && J.s !== 'na' && J.s !== 'partial' ? ` <span class="small">${esc(J.best.name)} 계층 기준</span>` : ''} <span class="small muted">· 입력한 조건 기준</span></div>${why[J.s] ? `<p class="small" style="margin:0">${why[J.s]}</p>` : ''}` : `<div class="profile-bar"><span class="muted">내 조건을 넣으면 자격을 판정해요</span><button class="linkbtn" data-action="restart">입력하기</button></div>`}
-    ${N.type === '영구임대' ? '<p class="small muted" style="margin:0">일반 신청자(2순위) 기준으로 판정해요. 생계·의료급여 수급자, 국가유공자, 한부모가족 등 1순위 자격은 공고문을 확인하세요.</p>' : ''}
+    ${N.type === '영구임대' && N.judge_type !== false ? '<p class="small muted" style="margin:0">일반 신청자(2순위) 기준으로 판정해요. 생계·의료급여 수급자, 국가유공자, 한부모가족 등 1순위 자격은 공고문을 확인하세요.</p>' : ''}
     ${pdfs.length > 1 ? `<p class="small muted" style="margin:0">이 공고에는 공고문이 ${pdfs.length}개 있어요. 자격 기준은 첫 번째 공고문(${esc((pdfs[0].name || '').slice(0, 40))}) 기준이에요.</p>` : ''}
   </section>`;
   const secJudge = `  ${J && J.groups.length ? `<section class="card"><h2 style="margin:0">내 자격 (계층별 · 입력한 조건 기준)</h2>${J.groups.map(g => `<details class="sprow"${g === J.best || (S.rq || '').startsWith(g.key + '|') ? ' open' : ''}><summary><span class="sp-top"><b>${esc(g.name)}</b><span class="pill ${R_HEAD[g.s][0]}">${g.s === 'na' ? '해당 안 됨' : R_HEAD[g.s][1]}</span></span></summary>
@@ -5868,15 +5874,15 @@ function vRDetail(){
     ${T.account === 'none' ? '<p class="small" style="margin:0">청약통장: 필요 없음 (가입 여부·당첨 이력·소득·자산 불문)</p>' : T.account ? `<p class="small" style="margin:0">청약통장: 1순위 가입 ${T.account.months}개월·${T.account.count}회 이상${T.account.rank2_any ? ', 2순위 가입만' : ''}</p>` : ''}
     ${on('lh_pdf_multi') && N.read && (N.read.conflicts || []).length ? `<p class="small" style="margin:0">데이터 확인 필요: 공고문 PDF 를 ${N.read.tools.length}가지 방법으로 읽었더니 ${N.read.conflicts.length}개 값이 서로 달라요. 그 값은 판정에 쓰지 않고 '공고문 확인'으로 보여요.</p>` : ''}
     <span class="small muted">${T.sh ? (T.birth_bonus === 'table' ? (T.income_birth ? "출산가구('23.3.28 이후 출생 자녀·태아)는 소득 기준에 10~20%p를 더하고(맞벌이 가산과 중복 안 됨), 총자산·자동차는 공고문 표 금액으로 올라가요. " : "출산가구('23.3.28 이후 출생 자녀·태아)는 총자산·자동차 기준이 공고문 표 금액으로 올라가요(소득은 그대로). ") : '') : N.type === '공공임대' ? '' : "출산가구('23.3.28 이후 출생 자녀·태아)는 소득·자산 기준에 10~20%p를 더해요. "}${pdf}</span></section>`
-    : `<section class="card"><h2 style="margin:0">신청 자격 기준</h2><p class="small" style="margin:0">${rIsSH(N) || rIsGH(N) || rIsPVT(N) ? (rIsPVT(N) ? '공공지원 민간임대' : rIsGH(N) ? 'GH' : 'SH') + ' 공고의 자격 기준은 아직 읽지 않아요. 공고문을 확인하세요.' : '이 공고문의 계층별 기준을 아직 읽지 못했어요. 공고문을 확인하세요.'}</p>${pdf}</section>`}`;
+    : `<section class="card"><h2 style="margin:0">신청 자격 기준</h2><p class="small" style="margin:0">${rIsSH(N) || rIsGH(N) || rIsPVT(N) || rIsLOC(N) ? (rIsLOC(N) ? esc(N.inst || '지방 공사') : rIsPVT(N) ? '공공지원 민간임대' : rIsGH(N) ? 'GH' : 'SH') + ' 공고의 자격 기준은 아직 읽지 않아요. 공고문을 확인하세요.' : '이 공고문의 계층별 기준을 아직 읽지 못했어요. 공고문을 확인하세요.'}</p>${pdf}</section>`}`;
   const secSched = `  <section class="card"><h2 style="margin:0">일정</h2>${(N.schedule || []).map(s => `<div class="small"><b>${esc(s.complex || '')}</b><br>접수 ${esc(s.apply_start || '')}${s.apply_end && s.apply_end !== s.apply_start ? ' ~ ' + esc(s.apply_end) : ''}${s.docs_target ? ' · 서류 제출 대상 발표 ' + esc(s.docs_target) : ''}${s.winner ? ' · 당첨자 발표 ' + esc(s.winner) : ''}</div>`).join('') || '<span class="small muted">공고문 확인</span>'}
     <span class="small muted">출처: ${esc(rSrc(N))} 공고${rIsSH(N) || rIsGH(N) ? '문' : ''}</span></section>`;
-  const secUnits = `  <section class="card"><h2 style="margin:0">주택형</h2>${(N.units || []).map(u => `<div class="row small" style="justify-content:space-between;gap:8px"><span>${esc(u.complex || '')} ${esc(u.type || '')}</span><span>전용 ${u.area || '-'}㎡ · ${u.now_households != null ? '이번 ' + u.now_households + '세대' : ''}</span></div>`).join('') || '<span class="small muted">공고문 확인</span>'}
+  const secUnits = `  <section class="card"><h2 style="margin:0">주택형</h2>${(N.units || []).map(u => `<div class="row small" style="justify-content:space-between;gap:8px"><span>${esc(u.complex || '')} ${esc(u.type || '')}</span><span>${u.area ? '전용 ' + u.area + '㎡ · ' : ''}${u.now_households != null ? '이번 ' + u.now_households + '세대' : ''}</span></div>`).join('') || '<span class="small muted">공고문 확인</span>'}
     <span class="small muted">주택형·세대수 출처: LH 청약플러스 공고</span></section>`;
   const secRents = `  <section class="card"><h2 style="margin:0">보증금·월 임대료</h2>${lhRentTable(N)}
     <span class="small muted">${pdf} (임대조건 표) · 공고일 기준이고 계약 때 바뀔 수 있어요. 보증금과 월 임대료는 서로 바꿀 수 있어요(전환). 임대조건은 당첨 뒤 내는 금액이고 신청 자격과는 따로예요.</span></section>`;
   const secCx = `  ${(N.complexes || []).length ? `<section class="card"><h2 style="margin:0">단지</h2>${N.complexes.map(c => `<div class="small"><b>${esc(c.name || '')}</b><br>${esc(c.address || '')}${c.households ? ' · ' + c.households + '세대' : ''}${c.move_in ? ' · 입주 ' + esc(c.move_in) : ''}</div>`).join('')}</section>` : ''}`;
-  const secFoot = `  <p class="foot">신청은 ${rIsSH(N) ? 'SH 인터넷청약시스템(i-sh.co.kr) 또는 공고문의 접수처' : rIsPVT(N) ? '청약홈(applyhome.co.kr)' : rIsGH(N) ? 'GH 청약센터(apply.gh.or.kr) 또는 공고문의 접수처' : 'LH 청약플러스(apply.lh.or.kr)'}에서 해요${N.office && N.office.place ? ' · 접수처 ' + esc(N.office.place) : ''}${N.office && N.office.tel ? ' · 문의 ' + esc(N.office.tel) : ''}. 판정은 내가 입력한 값으로 계산한 참고용이에요.</p>${rentalCta(N)}`;
+  const secFoot = `  <p class="foot">신청은 ${rIsSH(N) ? 'SH 인터넷청약시스템(i-sh.co.kr) 또는 공고문의 접수처' : rIsPVT(N) ? '청약홈(applyhome.co.kr)' : rIsLOC(N) ? esc(N.inst || '공급기관') + ' 공고 또는 공고문의 접수처' : rIsGH(N) ? 'GH 청약센터(apply.gh.or.kr) 또는 공고문의 접수처' : 'LH 청약플러스(apply.lh.or.kr)'}에서 해요${N.office && N.office.place ? ' · 접수처 ' + esc(N.office.place) : ''}${N.office && N.office.tel ? ' · 문의 ' + esc(N.office.tel) : ''}. 판정은 내가 입력한 값으로 계산한 참고용이에요.</p>${rentalCta(N)}`;
   const vf = verifyFlags(N.id);   // 이 임대 공고에 걸린 자동 검증 (기능 verify_scope) — 자격 기준을 못 읽은 공고에도 보이게 맨 위에
   const secFlag = vf.length ? `<div class="note warn"><b style="font-size:14px">데이터 확인 필요 ${vf.length}건</b>${vf.map(c => `<div>· ${esc(c)}</div>`).join('')}<div class="small muted">자동 검증에서 걸린 항목이에요. 모집공고문 원문으로 확인하세요.</div></div>` : '';
   if (!on('lh_ui_v2')) return secTop + secFlag + secHead + secJudge + secCrit + secSched + secUnits + secRents + secCx + secFoot;
@@ -5893,13 +5899,13 @@ function vRDetail(){
     ${why[J.s] ? `<span class="rsub">${why[J.s]}</span>` : J.best && J.s !== 'na' ? `<span class="rsub">${esc(J.best.name)} 계층 기준</span>` : ''}
     <div class="rstats">${tile('접수', esc(rPeriod(N) || '공고문 확인').replace('~', '~<wbr>'), 'data-rsec="sum"')}${tile('보증금·월', rMin(N) || '공고문 확인', 'data-rsec="sum"')}${J.groups.length ? tile('계층', okN ? '가능 ' + okN : ckN ? '확인 ' + ckN : '없음', 'data-rsec="elig"') : ''}</div></section>`
     : `<div class="profile-bar"><span class="muted">내 조건을 넣으면 자격을 판정해요</span><button class="linkbtn" data-action="restart">입력하기</button></div>`}
-  ${N.type === '영구임대' ? '<p class="small muted" style="margin:0">일반 신청자(2순위) 기준으로 판정해요. 생계·의료급여 수급자, 국가유공자, 한부모가족 등 1순위 자격은 공고문을 확인하세요.</p>' : ''}`;
+  ${N.type === '영구임대' && N.judge_type !== false ? '<p class="small muted" style="margin:0">일반 신청자(2순위) 기준으로 판정해요. 생계·의료급여 수급자, 국가유공자, 한부모가족 등 1순위 자격은 공고문을 확인하세요.</p>' : ''}`;
   const sumCard = `<section class="card" id="rsec-sum"><h2 style="margin:0">공고 한눈에</h2>
     <div class="rows">${(N.schedule || []).map(s => `<div class="row small"><span>${esc(s.complex || '접수')}${s.rank1 ? ' (1순위)' : ''}</span><span>${esc((s.apply_start || '').slice(5).replace('-', '.'))}${s.apply_end && s.apply_end !== s.apply_start ? '~' + esc(s.apply_end.slice(5).replace('-', '.')) : ''}</span></div>${s.docs_target ? `<div class="row small muted"><span>서류 제출 대상 발표</span><span>${esc(s.docs_target.slice(5).replace('-', '.'))}</span></div>` : ''}${s.winner ? `<div class="row small muted"><span>당첨자 발표</span><span>${esc(s.winner)}</span></div>` : ''}`).join('') || '<span class="small muted">일정은 공고문 확인</span>'}</div>
-    ${(N.units || []).length ? `<div class="rows" style="margin-top:4px">${N.units.map(u => `<div class="row small"><span>${esc(u.complex || '')} ${esc(u.type || '')}</span><span>전용 ${u.area || '-'}㎡${u.now_households != null ? ' · ' + u.now_households + '세대' : ''}</span></div>`).join('')}</div>` : ''}
+    ${(N.units || []).length ? `<div class="rows" style="margin-top:4px">${N.units.map(u => `<div class="row small"><span>${esc(u.complex || '')} ${esc(u.type || '')}</span><span>${u.area ? '전용 ' + u.area + '㎡' : ''}${u.now_households != null ? (u.area ? ' · ' : '') + u.now_households + '세대' : ''}</span></div>`).join('')}</div>` : ''}
     ${rIsPVT(N) ? pvtMoney(N) : rIsSH(N) || rIsGH(N) ? `<p class="small" style="margin:4px 0 0">보증금·월 임대료와 주택 목록은 공고문을 확인하세요.</p>
     <span class="small muted">접수 기간 · ${pdf}</span></section>` : `<h3 style="margin:6px 0 0;font-size:15px">보증금·월 임대료</h3>${lhRentTable(N)}
-    <span class="small muted">일정·주택형 출처: LH 청약플러스 공고 · 보증금·월세 ${pdf} (임대조건 표). 계약 때 바뀔 수 있고 보증금과 월세는 서로 바꿀 수 있어요(전환). 임대조건은 당첨 뒤 내는 금액이고 신청 자격과는 따로예요.</span></section>`}`;
+    <span class="small muted">${rIsLOC(N) ? `일정·단지·보증금·월세 출처: 국토교통부 마이홈포털 공공주택 모집공고(${esc(N.inst || '')})${N.myhome_url ? ` · <a href="${esc(N.myhome_url)}" target="_blank" rel="noopener">마이홈포털 공고</a>` : ''}.` : `일정·주택형 출처: LH 청약플러스 공고 · 보증금·월세 ${pdf} (임대조건 표).`} 계약 때 바뀔 수 있고 보증금과 월세는 서로 바꿀 수 있어요(전환). 임대조건은 당첨 뒤 내는 금액이고 신청 자격과는 따로예요.</span></section>`}`;
   const fold = (t, body) => body ? `<details class="rfold"><summary>${t}</summary>${body.replace(/^\s*<section class="card">(<h2[^>]*>[^<]*<\/h2>)?/, '<div class="rfold-in">').replace(/<\/section>\s*$/, '</div>')}</details>` : '';
   return secTop + secFlag + hero + secJudge.replace('<section class="card">', '<section class="card" id="rsec-elig">') + sumCard + fold('공고문 자격 기준 보기', secCrit.trim()) + fold('단지 정보', secCx.trim()) + secFoot;
 }

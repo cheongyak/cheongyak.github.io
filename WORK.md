@@ -4,6 +4,16 @@
 2026-09-29 12:55 이전 항목은 규칙을 만들기 전 작업을 커밋 기록으로 정리한 것이라 백업 브랜치가 없어요.
 그 시점으로 되돌릴 때는 해당 커밋 번호로 `git revert` 를 써요.
 
+## 2026-10-22 23:41 · 지방 공사 임대 공고 (v1.80.0)
+- 요청: 임대 공고 중 안 다루는 것 다 수집해서 화면에 + 기관별 거르기 — 운영자 마이홈포털 API 이용 신청 완료('신청완료')
+- 확인: gh-probe 다시 돌림 → API 200 NORMAL SERVICE, 220줄(공고 × 단지). 응답 칸 suplyInsttNm·suplyTyNm·pblancNm·sttusNm·beforePblancId·rcritPblancDe·beginDe·endDe·przwnerPresnatnDe·hsmpNm·brtcNm·fullAdres·sumSuplyCo·rentGtn·mtRntchrg·refrnc·url·pcUrl·mobileUrl 등(evidence/qa/myhome-probe.json). 저장본 온전한 44줄 중 LH 42·광주광역시도시공사 1·제주특별자치도개발공사 1
+- 변경: app/local_rental.py(전체 쪽 받기, LH·SH·GH 빼고 공고별로 묶기, 정정공고가 가리키는 옛 공고 빼기, 공고일 120일·발표+14일 지난 공고 빼기, 보증금·월세 0 이면 비움, 키는 기록에 안 남김) · .github/workflows/local-rental.yml(매일 07:09, 다른 수집과 따로, push_retry·stamp·바뀌면 판정 검증) · stamp SRC 'local'(임대 화면 검사 지문). 화면: loadRental 이 local-rental.json, rIsLOC·rOrg '지방 공사'·카드에 공사 이름, 상세 출처 '국토교통부 마이홈포털(공사 이름)'·마이홈포털 공고 링크, 신청 안내·판정 미지원 문구를 공사 이름으로, LH 영구임대 '2순위 기준 판정' 안내는 판정하는 공고에만, 전용면적 없으면 '전용 -㎡' 대신 안 보임, 기관 칩 줄바꿈(.chips.rorg). rent_org.cjs 는 지방 공사 칩이면 공사 이름 카드를 그 칩으로 셈. 기능 local_rental
+- 파일: app/local_rental.py, .github/workflows/local-rental.yml, tests/test_local_rental.py, tests/test_qa_stamp.py, tools/qa/stamp.py, tools/qa/rent_org.cjs, docs/index.html, docs/config.json, docs/changelog.json, VERSIONS.md, FEATURES.md, WORK.md
+- 확인: 실제 응답으로 시험 — 금호빛여울채(광주광역시도시공사, 영구임대) 접수 10-27~30·발표 2027-02-17·보증금 2,460,000원·월 48,900원·200호·문의 062-225-2280, 정정 전 공고·지난 공고 빼기·0원 비우기. 같은 응답으로 만든 임시 데이터(올리지 않음)로 390px — 칩 전체 53 / LH 44 / SH 5 / GH 1 / 지방 공사 2 / 민간임대 1 모두 통과, 광주 상세(보증금·월세·출처·마이홈포털 링크). 문법, pytest 375, 판정 950, E2E 34, 스냅샷 0, LH 임대 화면 문제 없음, 임대 전수검사 51건 걸림 0. 실제 데이터는 올린 뒤 local-rental 수집으로
+- 백업: backup/20261022-2341-local-rental
+- 기능: local_rental
+- 버전: v1.80.0
+
 ## 2026-10-22 20:23 · 청약홈 민간임대 금액은 대조 전까지 숨김 (수정)
 - 요청: (올린 뒤 확인) 19:39 수집에서 민간임대 1건(매교역 팰루시드 2026950093, 39㎡ 154세대, 접수 10-26~27)이 들어옴. 주택형 응답 칸은 공공지원 민간임대와 같은 이름(SUPLY_AMOUNT 등)인데, 이 묶음에서 그 칸의 뜻(공급금액·임대보증금·분양전환가?)을 청약홈 화면과 대조하지 못함 — 화면을 불러오면 앞 공고 내용이 나옴
 - 변경: type '민간임대'는 주택형·전용·세대수만 보이고 금액은 '청약홈 공고 화면·모집공고문 확인'. 공공지원 민간임대(대조함)는 그대로

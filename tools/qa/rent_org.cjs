@@ -27,7 +27,9 @@ const DOCS = path.join(__dirname, '..', '..', 'docs'), OUT = process.argv[2] || 
   for (const c of chips.filter(c => c.k)) {
     await pg.click(`.rorg .chip[data-rorg="${c.k}"]`); await pg.waitForTimeout(250);
     const orgs = await cardOrgs(), want = Number((c.t.match(/(\d+)\s*$/) || [])[1]);
-    const ok = orgs.length > 0 && orgs.every(o => o === c.k) && orgs.length === want;
+    const other = ['LH', 'SH', 'GH', '민간임대', '지방 공사'].filter(k => k !== c.k);   // 지방 공사 카드는 공사 이름(광주광역시도시공사 등)을 적는다
+    const mine = o => c.k === '지방 공사' ? !other.includes(o) : o === c.k;
+    const ok = orgs.length > 0 && orgs.every(mine) && orgs.length === want;
     console.log(`[임대 기관 거르기·${ok ? '통과' : '실패'}] ${c.k}: 카드 ${orgs.length}개 (칩 숫자 ${want})${orgs.some(o => o !== c.k) ? ' · 다른 기관 섞임 ' + [...new Set(orgs)].join(',') : ''}`);
     if (!ok) fails.push(c.k);
     if (OUT && c.k === 'GH') await pg.screenshot({ path: OUT + '/rent-org-gh.png' });
