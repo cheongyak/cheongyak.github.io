@@ -70,6 +70,7 @@ class Listing(BaseModel):
 
     capital: bool = True
     regulated: bool = True
+    reg_kind: Optional[str] = None           # 청약홈 규제 구분: '투기과열'·'조정'(청약과열지역)·'비규제', 모르면 None — 가점제 비율 법령 대조 (기능 score_ratio_law)
     land_permit: bool = False
     price_cap: bool = False
     residence_duty: Optional[int] = 0        # 년. None 이면 공고문 확인 필요

@@ -1023,7 +1023,7 @@ function regionScore(L, p){
       : '해당지역 신청자로 가점제 물량이 다 차면 기타지역 차례는 오지 않아요. ' + (cmpLabel === '해당지역 당첨선' ? '비교한 점수는 해당지역 당첨선이라, 넘어도 당첨을 기대하기 어려울 수 있어요.' : '')) : '';
   const band = ratio ? '전용 ' + (ratio.upto == null ? ratio.over + '㎡ 초과' : ratio.over ? ratio.over + '㎡ 초과 ' + ratio.upto + '㎡ 이하' : ratio.upto + '㎡ 이하') : '';   // 공고문 표의 면적 구간 그대로
   const ratioTxt = ratio ? (ratio.score === 0 ? '이 주택형(' + band + ')은 가점제 물량이 없고 1순위를 모두 추첨으로 뽑아요.'
-      : '이 주택형(' + band + ')은 1순위 물량의 가점제 ' + ratio.score + '% · 추첨제 ' + ratio.lottery + '%예요. 추첨제 물량은 가점과 상관없이 뽑아요.') : '';
+      : '이 주택형(' + band + ')은 1순위 물량의 가점제 ' + ratio.score + '% · 추첨제 ' + ratio.lottery + '%예요. 추첨제 물량은 가점과 상관없이 뽑아요.') + (L.scoreRatio && L.scoreRatio.law ? ' (공고문 표를 읽지 못해 법령 기준으로 추정 — 모집공고문 확인)' : '') : '';   // 기능 score_ratio_law
   return { tier, short, order, warn: warn.trim(), t, cmpLabel, ratio, ratioTxt, lotteryOnly: !!(ratio && ratio.score === 0),
     ratioSrc: ratio ? src(null, ['모집공고문 전용면적별 가점제·추첨제 적용비율', L.noticePdf]) + nq(L, '가점제·추첨제 비율') : '' };   /* 근거 문장 (2026-10-10) */
 }
@@ -3365,7 +3365,7 @@ function genUnits(L){
   if (!r) return { n, sub: '가점제·추첨제 몫은 모집공고문에서 확인하세요' };
   const g = Math.min(n, Math.ceil(n * r.score / 100 - 1e-9));
   if (!g) return { n, sub: '모두 추첨제' };
-  return { n, g, l: n - g, sub: '가점제 ' + g + '세대 · 추첨제 ' + (n - g) + '세대', calc: true };
+  return { n, g, l: n - g, sub: '가점제 ' + g + '세대 · 추첨제 ' + (n - g) + '세대' + (L.scoreRatio.law ? ' (법령 기준 추정)' : ''), calc: true };
 }
 /* 일반공급 물량이 없는 주택형 (기능: gen_none, 2026-10-02 사용자 지적 '일반물량이 0세대면 일반공급이 아닌 거 아니야?').
    청약홈 일반공급 세대수가 0 이면 일반공급 판정(eligibility)을 쓰지 않는다. eligibility 는 그대로 두고(특별공급 공통 조건으로 계속 보여줌),

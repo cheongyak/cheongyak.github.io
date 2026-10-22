@@ -43,6 +43,8 @@ def listing_checks(L: Listing, today: date) -> list[str]:
     sr = getattr(L, "score_ratio", None) or {}   # 민영 가점제·추첨제 비율 표를 못 읽으면 알린다 (기능: region_first_score)
     if L.house_dtl == "민영" and sr.get("unknown"):
         out.append("가점제·추첨제 비율 표를 공고문에서 읽지 못했어요 (화면은 비율 없이 안내)")
+    elif L.house_dtl == "민영" and sr.get("law"):   # 기능 score_ratio_law: 표를 못 읽어 법령 값으로 채움 — 추정이라 알린다
+        out.append(f"가점제·추첨제 비율 표를 공고문에서 읽지 못해 법령 기준(주택공급에 관한 규칙 제28조, {L.reg_kind})으로 추정했어요")
     if L.balance and L.contract and L.balance < L.contract:
         out.append(f"잔금일({L.balance})이 계약일({L.contract})보다 빨라요")
     # 금액
