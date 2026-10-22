@@ -182,7 +182,7 @@
 | `qa_observe` | 새 검사 관찰 기간: config.json qa_observe {결과 파일: 시작일} 의 검사는 결과만 verify-status observe 에 남기고 ok·경고·미완료 판단에 넣지 않음(검증 현황 '관찰 중 검사'). 관문 검사는 verify_status.GATED 로 고정 — DEPS 에 새 검사를 넣으면 관찰이나 관문 중 하나여야 시험 통과. 7일 넘게 실패 0 이면 관문으로 옮김. 끄면 관찰 중 검사도 바로 관문 | 이용 안내 검증 현황 | verify_status | 1c8a784f | backup/20261022-1226-qaobserve |
 | `lh_welfare_read` | LH 주거복지(매입임대·든든전세·신혼희망 행복주택) 공고문 PDF(못 읽으면 HWPX)에서 읽은 보증금·월세와 주택목록 안내를 상세에 보임 (수집은 늘 읽어 저장, app/lh_welfare.read_notice·lh-welfare.yml). 꺼지면 '아직 공고문을 읽지 않아요' 그대로 | b3e539b | backup/20261022-1236-read-unsupported |
 | `pvt_rental_urbty` | 청약홈 '오피스텔·도시형·민간임대' 묶음에서 HOUSE_DTL_SECD_NM 에 '민간임대'가 있는 공고만 pvt-rental.json 에 type '민간임대'로(오피스텔·도시형은 분양이라 뺌). 끄면 공공지원 민간임대만 | 임대 목록 민간임대 | 수집(app/pvt_rental.py) | fe14ae9f | backup/20261022-1919-rent-org |
-| `rent_org_filter` | 임대 목록 기관별 거르기: LH·SH·GH·민간임대(청약홈 공공지원 민간임대·민간임대) 칩(공고 수, 다시 누르면 전체, 유형·지역 거르기와 함께), 카드·목록 시트에 기관 표시, 머리 줄 기관 목록. 화면 검사 tools/qa/rent_org.cjs(관찰 중). 끄면 예전 화면 | 임대 목록 | - | - | backup/20261022-1919-rent-org |
+| `rent_org_filter` | 임대 목록 기관별 거르기: LH·SH·GH·민간임대(청약홈 공공지원 민간임대·민간임대) 칩(공고 수, 다시 누르면 전체, 유형·지역 거르기와 함께), 카드·목록 시트에 기관 표시, 머리 줄 기관 목록. 화면 검사 tools/qa/rent_org.cjs(관찰 중). 끄면 예전 화면 | 임대 목록 | - | 41f305e2 | backup/20261022-1919-rent-org |
 | ~~`draw_path`~~ (10-07 13:33 사용자 요청으로 되돌림 — git revert, 스위치 없음) | '추첨으로 노릴 곳': 판정 '신청 가능' 주택형 중 가점으로는 어렵거나 가점이 안 쓰이는 곳(무순위, 규제지역 유주택, 2년 내 가점 당첨, 소득이 우선공급을 넘어 추첨공급만, 공고문 가점제 0% 면적, 내 가점 < 최근 당첨선이고 추첨 물량 있음)을 카드에 표시하고 내 조건 요약에 '그중 추첨으로 N' 숫자(누르면 그 공고만). 판정은 바꾸지 않음. 검사 cross_rule DRAW-001·002 | 목록 카드(meLine)·내 조건 요약·판정 필터 | - | 1e16c519 | backup/20261007-1328-draw |
 
 `naver_map`·`nearby`·`analytics` 는 한 커밋(147fa99)에 함께 들어갔다. 이 셋 중 하나만 없애려면 revert 대신 스위치로 끄거나,
