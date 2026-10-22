@@ -4,6 +4,15 @@
 2026-09-29 12:55 이전 항목은 규칙을 만들기 전 작업을 커밋 기록으로 정리한 것이라 백업 브랜치가 없어요.
 그 시점으로 되돌릴 때는 해당 커밋 번호로 `git revert` 를 써요.
 
+## 2026-10-22 19:19 · 임대 공고 기관별 거르기 (v1.79.0)
+- 요청: lh/sh/gh 이런 거 분류해서 누르면 공고 카드들 필터되도록
+- 변경: rOrg(LH·SH·GH·민간임대)·rentalOrgChips — 유형·지역 거르기를 따른 공고 수를 칩에 표시, 2개 기관 이상일 때만 보임, 같은 칩 다시 누르면 전체, 거르기 풀기에 포함. rentalBase 가 기관도 거름(요약 숫자·목록 시트 함께). 카드·시트 머리에 기관 이름. 머리 줄 'LH·SH·GH 임대 공고'처럼 지금 있는 기관. '아직 다루지 않는 공고' 안내를 지금 상태로(GH·민간임대·LH 매입임대·든든전세·SH 사회주택은 목록만, 지방 공사는 아직). 민간임대 상세에 '신생아 특별공급 세대수는 청약홈 화면 확인'(API 에 없음). 화면 검사 tools/qa/rent_org.cjs → evidence/qa/rent-org.json, 관찰 중(qa_observe)·verify.yml·stamp. 기능 rent_org_filter
+- 파일: docs/index.html, docs/config.json, tools/qa/rent_org.cjs, tools/qa/stamp.py, tools/verify_status.py, .github/workflows/verify.yml, docs/changelog.json, VERSIONS.md, FEATURES.md, WORK.md
+- 확인: 390px — 칩 전체 50 / LH 44 / SH 5 / GH 1, 칩마다 카드 수 = 칩 숫자·다른 기관 안 섞임·다시 누르면 50, 화면 오류 0(민간임대 3건은 모두 접수 마감이라 칩 없음). 스크립트 문법, pytest 373, 판정 950, E2E 34, 스냅샷 0, LH 임대 화면 문제 없음, 임대 전수검사 50건 걸림 0
+- 백업: backup/20261022-1919-rent-org
+- 기능: rent_org_filter
+- 버전: v1.79.0
+
 ## 2026-10-22 19:19 · GH·민간임대 공고 켬 (v1.78.0)
 - 요청: 임대 공고 중 안 다루는 것(GH·공공지원 민간임대 등)도 다 수집해서 화면에
 - 변경: config gh_rental·pvt_rental 켬 (수집은 10-21부터 돌고 있었음)

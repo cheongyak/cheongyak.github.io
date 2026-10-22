@@ -24,6 +24,7 @@
 
 | 버전 | 날짜 | 바뀐 것 | 기능 스위치 | 되돌리기 브랜치 |
 |---|---|---|---|---|
+| v1.79.0 | 2026-10-22 | 임대 기관별 거르기: LH·SH·GH·민간임대 칩(숫자 = 공고 수, 유형·지역 거르기와 함께), 카드·목록 시트에 기관, 머리 줄 기관 목록, '아직 다루지 않는 공고' 안내 갱신, 민간임대 신생아 특공 안내 | `rent_org_filter` | backup/20261022-1919-rent-org |
 | v1.78.0 | 2026-10-22 | GH 임대(gh_rental)·청약홈 공공지원 민간임대·민간임대(pvt_rental) 켬 — 목록·일정·주택형·공급금액·공고문, 판정 없음 | `gh_rental` · `pvt_rental` | backup/20261022-1919-rent-org |
 | v1.77.1 | 2026-10-22 | 판정 미지원 공고 공고문 읽기: LH 주거복지 PDF·HWPX·주택목록 표시(lh_welfare_read 켬), SH HWPX, 임대조건 주택형 '-1' 접미 | `lh_welfare_read` 켬 | backup/20261022-1249-welfare-read-on |
 | v1.77.0 | 2026-10-22 | 새 검사 관찰 기간: config qa_observe {결과: 시작일} 은 ok·경고에 넣지 않고 검증 현황 '관찰 중 검사'로, 관문 목록 verify_status.GATED 고정(시험으로 지킴). 첫 관찰: verify-scope.json | `qa_observe` | backup/20261022-1226-qaobserve |

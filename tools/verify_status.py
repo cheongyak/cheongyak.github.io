@@ -26,7 +26,7 @@ NAMES = {"invariants.json": "데이터 불변식", "lh-invariants.json": "임대
          "pay-audit.json": "계약금 비율 대조", "parse-moved.json": "다시 받은 공고문 값 변화", "coverage.json": "공고 누락 점검", "supply-type.json": "공급유형 표시",
          "filter-check.json": "필터", "consistency.json": "카드·상세 일치", "sp-text.json": "특별공급 문구", "cross-rule.json": "교차 규칙", "profile-keep.json": "내 조건 유지",
          "monotonic.json": "단조성", "snapshot.json": "화면 스냅샷", "e2e.json": "사용자 흐름", "past-chat.json": "지난 공고·청약봇", "zero-default.json": "빈칸 기본값",
-         "input-nav.json": "입력 버튼", "verify-scope.json": "경고 범위 화면", "lh-qa.json": "임대 판정", "lh-screen.json": "임대 화면", "lh-pdf-tools.json": "임대 공고문 여러 도구 읽기"}
+         "input-nav.json": "입력 버튼", "verify-scope.json": "경고 범위 화면", "rent-org.json": "임대 기관 거르기 화면", "lh-qa.json": "임대 판정", "lh-screen.json": "임대 화면", "lh-pdf-tools.json": "임대 공고문 여러 도구 읽기"}
 
 
 # 관문에 걸린 검사 (2026-10-22 고정). 새 검사는 여기 바로 넣지 말고 config.json qa_observe {결과 파일: 시작일} 로 먼저 관찰하고,
@@ -149,6 +149,7 @@ def build() -> dict:
         return d
     st, inv, flt, con, spt, mkc, crx, pkp, mono, snap, e2e = qa("supply-type.json"), qa("invariants.json"), qa("filter-check.json"), qa("consistency.json"), qa("sp-text.json"), qa("market-check.json"), qa("cross-rule.json"), qa("profile-keep.json"), qa("monotonic.json"), qa("snapshot.json"), qa("e2e.json")
     pch = qa("past-chat.json")
+    qa("rent-org.json")   # 임대 기관 거르기 화면 (tools/qa/rent_org.cjs, 기능 rent_org_filter 2026-10-22) — 관찰 중(config qa_observe)
     vsc = qa("verify-scope.json")   # 경고 범위 화면 (tools/qa/verify_scope.cjs, 기능 verify_scope 2026-10-22): 상태별 빨간 경고·공고 표시·검증 현황
     vsc_bad = len(vsc["fails"]) if vsc else None
     pay = qa("pay-audit.json")   # 계약금 비율 ↔ 공고문 금액 줄 독립 점검 (tools/qa/pay_audit.py, 2026-10-08 계약금 10% 고정 오류 뒤)

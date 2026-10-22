@@ -28,7 +28,7 @@ DEPS = {
     "cross-rule.json": ("listings", "code"), "profile-keep.json": ("code",), "monotonic.json": ("listings", "code"),
     "snapshot.json": ("code",), "e2e.json": ("listings", "code"), "past-chat.json": ("listings", "code"),
     "pay-audit.json": ("listings",), "parse-moved.json": ("listings",), "zero-default.json": ("listings", "code"),
-    "input-nav.json": ("listings", "code"), "coverage.json": ("listings",), "verify-scope.json": ("listings", "lh", "code"),
+    "input-nav.json": ("listings", "code"), "coverage.json": ("listings",), "verify-scope.json": ("listings", "lh", "code"), "rent-org.json": ("lh", "sh", "gh", "pvt", "lw", "code"),
     "lh-invariants.json": ("lh",), "lh-qa.json": ("lh", "sh", "gh", "pvt", "lw", "code"), "lh-screen.json": ("lh", "sh", "gh", "pvt", "lw", "code"),
     "lh-unread.json": ("lh", "sh", "gh", "pvt", "lw", "code"), "lh-pdf-tools.json": ("lh",),
 }

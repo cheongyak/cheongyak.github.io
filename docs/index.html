@@ -5669,13 +5669,24 @@ const rIsYouth = N => N.youth === true || !!(N.terms && N.terms.groups && N.term
 /* 기능 sh_rental: 기관 이름·출처·판정 머리말. SH 공고는 아직 자격을 판정하지 않는다(judge_type false → unsupported) */
 const rIsSH = N => N.org === 'SH';
 const rIsGH = N => N.org === 'GH';   /* 기능 gh_rental: GH 누리집 분양/임대 공고 게시판 */
-const rIsPVT = N => N.org === 'PVT';   /* 기능 pvt_rental: 청약홈 공공지원 민간임대 */
+const rIsPVT = N => N.org === 'PVT';
+/* 기관별 거르기 (기능 rent_org_filter, 2026-10-22 사용자 'lh/sh/gh 분류해서 누르면 공고카드들 필터되도록') — 청약홈 공공지원 민간임대·민간임대는 '민간임대' 한 칸 */
+const rOrg = N => rIsSH(N) ? 'SH' : rIsGH(N) ? 'GH' : rIsPVT(N) ? '민간임대' : 'LH';
+const R_ORGS = ['LH', 'SH', 'GH', '민간임대'];
+function rentalOrgChips(){
+  if (!on('rent_org_filter') || !RENTAL) return '';
+  const pool = RENTAL.notices.filter(N => (S.rcat !== 'youth' || rIsYouth(N)) && (!S.rtype || N.type === S.rtype) && (!S.rsido || (N.region || '').startsWith(S.rsido)));
+  const n = o => pool.filter(N => rOrg(N) === o).length, have = R_ORGS.filter(o => n(o) || S.rorg === o);
+  if (have.length < 2 && !S.rorg) return '';
+  const chip = (k, t, c) => `<button class="chip sm" data-rorg="${esc(k)}" aria-pressed="${(S.rorg || '') === k}">${esc(t)}${c != null ? ' <span class="muted">' + c + '</span>' : ''}</button>`;
+  return `<div class="chips rorg" role="group" aria-label="공고 기관" style="margin:6px 0">${chip('', '전체', pool.length)}${have.map(o => chip(o, o, n(o))).join('')}</div>`;
+}   /* 기능 pvt_rental: 청약홈 공공지원 민간임대 */
 const rSrc = N => rIsSH(N) ? 'SH 인터넷청약시스템' : rIsGH(N) ? 'GH 누리집' : rIsPVT(N) ? '청약홈' : 'LH 청약플러스';
 const rHead = s => s === 'unsupported' && on('sh_rental') ? ['info', '판정 미지원 · 공고문 확인'] : R_HEAD[s];
 const rTypes = () => on('sh_rental') && RENTAL ? [...new Set([...RENT_TYPES, ...RENTAL.notices.map(N => N.type).filter(Boolean)])] : RENT_TYPES;
 function rentalBase(){
   if (!RENTAL) return [];
-  return RENTAL.notices.filter(N => (S.rcat !== 'youth' || rIsYouth(N)) && (!S.rtype || N.type === S.rtype) && (!S.rsido || (N.region || '').startsWith(S.rsido)));
+  return RENTAL.notices.filter(N => (S.rcat !== 'youth' || rIsYouth(N)) && (!S.rtype || N.type === S.rtype) && (!S.rsido || (N.region || '').startsWith(S.rsido)) && (!on('rent_org_filter') || !S.rorg || rOrg(N) === S.rorg));
 }
 /* 임대 목록 맨 위 요약 (기능: lh_summary, 2026-10-06 사용자 '임대랑 청년주택도 일반분양처럼 접수중이랑 내조건에 신청가능 확인필요 넣을수있니').
    일정 묶음(접수 중·새 공고 7일·이번 주 마감)과 판정 묶음(신청 가능·확인 필요·조건 밖)은 숫자를 누르면 그 공고만 목록에 보인다(다시 누르면 해제) */
@@ -5700,13 +5711,13 @@ function rentalSheet(){
   if (!on('lh_sheet') || !S.rsheet || !R_SUM[S.rsheet] || !RENTAL) return '';
   const t = R_SUM[S.rsheet][0], L = rentalBase().filter(R_SUM[S.rsheet][1]);
   L.sort((a, b) => S.rsheet === 'fresh' ? String(b.posted || '').localeCompare(String(a.posted || '')) : rEnd(a).localeCompare(rEnd(b)));
-  const where = [S.rcat === 'youth' ? '청년 주택' : '공공임대', S.rtype, S.rsido || '전국'].filter(Boolean).join(' · ');
+  const where = [S.rcat === 'youth' ? '청년 주택' : '공공임대', on('rent_org_filter') ? S.rorg : '', S.rtype, S.rsido || '전국'].filter(Boolean).join(' · ');
   return `<div class="sheet-bg" data-action="rsheet-close"></div>
   <div class="sheet" role="dialog" aria-modal="true" aria-label="${esc(t)} 임대 공고 ${L.length}건">
     <div class="sheet-grip" aria-hidden="true"></div>
     <div class="row"><h2 style="margin:0">${esc(t)} <span class="muted" style="font-weight:500">${L.length}건 · ${esc(where)}</span></h2><button class="linkbtn" data-action="rsheet-close" aria-label="닫기">닫기</button></div>
     <div class="sheet-list">${L.map(N => { const J = hasProfile() ? rentalJudgeSafe(N, S.profile) : null, h = J ? rHead(J.s) : null, dd = rDday(N);
-      return `<button class="sheet-item rsi" data-ropen="${esc(N.id)}"><span class="si-main"><b>${esc(N.name || '')}</b><span class="small muted">${rIsSH(N) ? 'SH · ' : rIsGH(N) ? 'GH · ' : ''}${esc(N.type || '')} · ${esc((N.region || '').replace(/(특별자치도|특별자치시|광역시|특별시)$/, ''))}${h ? ` · <span class="st-${h[0] === 'info' ? 'warn' : h[0]}">${h[1]}</span>` : ''}</span></span><span class="dday ${dd[1]}">${esc(dd[0].replace(/^접수 중 · /, ''))}</span></button>`; }).join('')}</div>
+      return `<button class="sheet-item rsi" data-ropen="${esc(N.id)}"><span class="si-main"><b>${esc(N.name || '')}</b><span class="small muted">${on('rent_org_filter') ? rOrg(N) + ' · ' : rIsSH(N) ? 'SH · ' : rIsGH(N) ? 'GH · ' : ''}${esc(N.type || '')} · ${esc((N.region || '').replace(/(특별자치도|특별자치시|광역시|특별시)$/, ''))}${h ? ` · <span class="st-${h[0] === 'info' ? 'warn' : h[0]}">${h[1]}</span>` : ''}</span></span><span class="dday ${dd[1]}">${esc(dd[0].replace(/^접수 중 · /, ''))}</span></button>`; }).join('')}</div>
     <p class="foot">판정은 입력한 조건 기준이에요. 누르면 그 공고 상세로 가요.</p>
   </div>`;
 }
@@ -5735,7 +5746,7 @@ function lhCard(N){
   if (on('lh_ui_v2')) {   /* 분양 카드처럼: 위 줄(유형·지역 | 일정 배지) · 이름 · 한 줄 요약(전용·보증금·월세) · 판정 */
     const dd = rDday(N), rf = lhRentFrom(N), ar = N.units && N.units.length ? '전용 ' + rAreaRange(N) : '';
     return `<button class="card rcard rc2" data-ropen="${esc(N.id)}">
-    <span class="row" style="align-items:flex-start;gap:8px"><span class="small muted">${rIsSH(N) ? '<b>SH</b> · ' : rIsGH(N) ? '<b>GH</b> · ' : ''}${esc(N.type || '임대')} · ${esc((N.region || '').replace(/(특별자치도|특별자치시|광역시|특별시)$/, ''))}${N.terms && N.terms.relaxed ? ' · 자격 완화' : ''}</span><span class="dday ${dd[1]}">${esc(dd[0])}</span></span>
+    <span class="row" style="align-items:flex-start;gap:8px"><span class="small muted">${on('rent_org_filter') ? '<b>' + rOrg(N) + '</b> · ' : rIsSH(N) ? '<b>SH</b> · ' : rIsGH(N) ? '<b>GH</b> · ' : ''}${esc(N.type || '임대')} · ${esc((N.region || '').replace(/(특별자치도|특별자치시|광역시|특별시)$/, ''))}${N.terms && N.terms.relaxed ? ' · 자격 완화' : ''}</span><span class="dday ${dd[1]}">${esc(dd[0])}</span></span>
     <b class="rname">${esc(N.name || '')}</b>
     ${ar || rf ? `<span class="small">${[ar, rf].filter(Boolean).map(esc).join(' · ')}</span>` : ''}
     ${h ? `<span class="small"><span class="pill ${h[0]}">${h[1]}</span>${J.best && J.s !== 'na' && J.s !== 'partial' ? ' <span class="muted">' + esc(J.best.name) + ' 계층</span>' : ''}</span>` : ''}
@@ -5774,10 +5785,11 @@ function vRental(){
   const list = rentalList(), sidos = RENTAL ? [...new Set(RENTAL.notices.map(N => (N.region || '').replace(/(특별자치도|특별자치시|광역시|특별시|도)$/, '')).filter(Boolean))] : [];
   const intro = `<p class="small muted" style="margin:0 0 8px">LH 청약플러스 임대 공고예요. 자격은 공고문의 계층별 기준(무주택·소득·총자산·자동차)에 <b>입력한 조건</b>을 대어 판정해요(분양 청약 판정과 따로). 입력하지 않은 칸은 충족으로 보지 않고 '확인 필요'로 보여요.${S.rcat === 'youth' ? ' <b>청년 주택</b>은 아래 LH 임대 공고 중 청년·대학생 계층이 있는 공고만 골라 보여 주는 거름망이에요.' : ''}</p>
   ${on('sh_rental') ? `<p class="small muted" style="margin:0 0 8px"><b>SH 공고</b>(서울주택도시공사 — 청년안심주택·장기전세·매입임대·사회주택 등)는 목록·접수 기간·공고문만 보여 주고 자격은 아직 판정하지 않아요. 접수 기간은 공고문에서 확실히 읽힌 것만 보여요.</p>
-  <p class="small muted" style="margin:0 0 8px">아직 다루지 않는 공고: GH 등 다른 지방 공사 공고, LH 매입임대·전세임대. 이 공고들은 각 기관 공고문을 확인하세요.</p>` : `<p class="small muted" style="margin:0 0 8px">아직 다루지 않는 공고: SH·GH 등 지방 공사 공고, 청년안심주택(역세권 청년주택), 장기전세, LH 매입임대·전세임대. 이 공고들은 각 기관 공고문을 확인하세요.</p>`}`;   /* 기능 lh_summary 가 켜지면 목록 아래로 (분양 목록처럼 거르기·내 조건·요약이 먼저 보이게) */
+  <p class="small muted" style="margin:0 0 8px">${on('rent_org_filter') ? `${on('gh_rental') ? '<b>GH</b>(경기주택도시공사), ' : ''}${on('pvt_rental') ? '<b>민간임대</b>(청약홈 공공지원 민간임대·민간임대), ' : ''}${on('lh_welfare') ? 'LH 매입임대·든든전세, ' : ''}SH 사회주택·수요자맞춤형은 목록·접수 기간·공고문만 보여 주고 자격은 아직 판정하지 않아요. 아직 다루지 않는 공고: 인천·부산·대구 등 다른 지방 공사 공고. 이 공고들은 각 기관 공고문을 확인하세요.` : '아직 다루지 않는 공고: GH 등 다른 지방 공사 공고, LH 매입임대·전세임대. 이 공고들은 각 기관 공고문을 확인하세요.'}</p>` : `<p class="small muted" style="margin:0 0 8px">아직 다루지 않는 공고: SH·GH 등 지방 공사 공고, 청년안심주택(역세권 청년주택), 장기전세, LH 매입임대·전세임대. 이 공고들은 각 기관 공고문을 확인하세요.</p>`}`;   /* 기능 lh_summary 가 켜지면 목록 아래로 (분양 목록처럼 거르기·내 조건·요약이 먼저 보이게) */
   const tchip = (k, t) => `<button class="chip" data-rtype="${k}" aria-pressed="${(S.rtype || '') === k}">${t}</button>`;
-  return `<div class="top"><div><div class="brand">청약패스${betaTag()}</div><span class="small muted sub-line">${on('sh_rental') ? 'LH·SH' : 'LH'} 임대 공고${RENTAL ? ' · ' + esc(String(RENTAL.updated || '').slice(5).replace('-', '.')) + ' 갱신' : ''}</span></div></div>
+  return `<div class="top"><div><div class="brand">청약패스${betaTag()}</div><span class="small muted sub-line">${on('rent_org_filter') && RENTAL ? R_ORGS.filter(o => RENTAL.notices.some(N => rOrg(N) === o)).join('·') : on('sh_rental') ? 'LH·SH' : 'LH'} 임대 공고${RENTAL ? ' · ' + esc(String(RENTAL.updated || '').slice(5).replace('-', '.')) + ' 갱신' : ''}</span></div></div>
   ${rentalSeg(S.rcat === 'youth' ? 'youth' : 'rent')}
+  ${rentalOrgChips()}
   ${on('lh_summary') ? (S.rcat === 'youth' ? `<p class="small muted" style="margin:0 0 8px">${on('sh_rental') ? 'LH 임대 공고 중 청년·대학생 계층이 있는 공고와 SH 청년 대상 공고만' : 'LH 임대 공고 중 청년·대학생 계층이 있는 공고만'} 보여요</p>` : '') : intro}
   ${on('lh_ui_v2') ? `<div class="rfilt" role="group" aria-label="임대 거르기"><label class="rsel"><span class="sr-only">임대 유형</span><select data-rsel="type">${['', ...rTypes()].map(t => `<option value="${esc(t)}"${(S.rtype || '') === t ? ' selected' : ''}>${t || '유형 전체'}</option>`).join('')}</select></label>
     <label class="rsel"><span class="sr-only">지역</span><select data-rsel="sido">${['', ...sidos].map(t => `<option value="${esc(t)}"${(S.rsido || '') === t ? ' selected' : ''}>${t || '전국'}</option>`).join('')}</select></label>${S.rtype || S.rsido ? '<button class="linkbtn small" data-rfreset="1">초기화</button>' : ''}</div>` : `
@@ -5808,7 +5820,7 @@ function pvtMoney(N){
   const won = m => m == null ? '-' : m >= 10000 ? (m / 10000).toFixed(2).replace(/\.?0+$/, '') + '억' : m.toLocaleString() + '만';
   const rows = (N.units || []).map(u => `<div class="row small"><span>${esc(u.type || '')}${u.special && (u.special['청년'] || u.special['신혼부부'] || u.special['고령자']) ? ' <span class="muted">(특별공급 ' + ['청년', '신혼부부', '고령자'].filter(k => u.special[k]).map(k => k + ' ' + u.special[k]).join('·') + ')</span>' : ''}</span><span>공급금액 ${won(u.supply_amount)} · 청약신청금 ${won(u.apply_fee)}</span></div>`).join('');
   return `<h3 style="margin:6px 0 0;font-size:15px">주택형별 공급금액</h3><div class="rows">${rows || '<span class="small muted">청약홈 공고 확인</span>'}</div>
-    <span class="small muted">출처: ${N.url ? `<a href="${esc(N.url)}" target="_blank" rel="noopener">청약홈 공고 화면</a>` : '청약홈 공고'} · 공급금액은 주택형별 최고 금액이에요. 임대보증금·월 임대료는 모집공고문이나 문의처${N.office && N.office.tel ? '(' + esc(N.office.tel) + ')' : ''}에서 확인하세요.</span></section>`;
+    <span class="small muted">출처: ${N.url ? `<a href="${esc(N.url)}" target="_blank" rel="noopener">청약홈 공고 화면</a>` : '청약홈 공고'} · 공급금액은 주택형별 최고 금액이에요. 신생아 특별공급 세대수는 청약홈 API 에 없어 청약홈 화면에서 확인하세요. 임대보증금·월 임대료는 모집공고문이나 문의처${N.office && N.office.tel ? '(' + esc(N.office.tel) + ')' : ''}에서 확인하세요.</span></section>`;
 }
 function vRDetail(){
   if (!lhOn()) { S.view = 'feed'; return vFeed(); }
@@ -6193,12 +6205,13 @@ document.addEventListener('click', ev => {
     if (same && on('history_nav')) try { history.replaceState({ nav:1, v:'rental', id: navId('rental'), y: 0 }, '', navUrl('rental')); } catch(e) {} } return; }   // 공공임대↔청년 주택 탭은 주소만 바꿈(새로고침해도 그 탭)   // 기능: lh_rental
   if (t.dataset.rtype !== undefined) { S.rtype = t.dataset.rtype; render(); return; }
   if (t.dataset.rsido !== undefined) { S.rsido = t.dataset.rsido; render(); return; }
+  if (t.dataset.rorg !== undefined) { S.rorg = S.rorg === t.dataset.rorg ? '' : t.dataset.rorg; metric('rental/org/' + (S.rorg || 'all')); render(); return; }   // 기능 rent_org_filter — 같은 칩을 다시 누르면 전체
   if (t.dataset.rsheet) { S.rsheet = t.dataset.rsheet; metric('lh/sheet-' + S.rsheet); render(); return; }   // 기능 lh_sheet
   if (t.dataset.action === 'rsheet-close') { S.rsheet = null; render(); return; }
   if (t.dataset.rsum) { S.rsum = S.rsum === t.dataset.rsum ? null : t.dataset.rsum; metric('lh/sum-' + (S.rsum || 'off')); render(); return; }   // 기능: lh_summary
   if (t.dataset.relig) { S.relig = S.relig === t.dataset.relig ? null : t.dataset.relig; metric('lh/elig-' + (S.relig || 'off')); render(); return; }
   if (t.dataset.rclear) { S.rsum = S.relig = null; render(); return; }
-  if (t.dataset.rfreset) { S.rtype = S.rsido = ''; render(); return; }
+  if (t.dataset.rfreset) { S.rtype = S.rsido = S.rorg = ''; render(); return; }
   if (t.dataset.rsec) { const el = document.getElementById('rsec-' + t.dataset.rsec); if (el) el.scrollIntoView({ behavior: 'smooth', block: 'start' }); return; }
   if (t.dataset.ropen) { S.rid = t.dataset.ropen; S.rq = null; S.rsheet = null; go('rdetail'); return; }
   if (t.dataset.rq) { S.rq = S.rq === t.dataset.rq ? null : t.dataset.rq; const y = window.scrollY; render(); window.scrollTo(0, y); const pn = app.querySelector('#rqpanel'); if (pn) { const all = [...pn.querySelectorAll('select,input')], f = all.find(x => x.value === '') || all[0];   /* 아직 안 넣은 첫 칸으로 커서 (2026-10-06 전수검사: 이미 답한 '혼인 여부'로 가던 것) */

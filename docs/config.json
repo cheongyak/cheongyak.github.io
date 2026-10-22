@@ -171,7 +171,8 @@
     "notice_recheck": true,
     "score_ratio_law": true,
     "qa_observe": true,
-    "pvt_rental_urbty": true
+    "pvt_rental_urbty": true,
+    "rent_org_filter": true
   },
   "contact_email": "ckwlsgur@naver.com",
   "report_form_url": "",
@@ -206,6 +207,7 @@
   },
   "chat_off": false,
   "qa_observe": {
-    "verify-scope.json": "2026-10-22"
+    "verify-scope.json": "2026-10-22",
+    "rent-org.json": "2026-10-22"
   }
 }
