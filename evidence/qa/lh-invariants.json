@@ -1,9 +1,19 @@
 {
- "date": "2026-10-23 00:29",
- "data_updated": "2026-10-22 13:19",
- "notices": 34,
- "violations": {},
- "count": 0,
+ "date": "2026-10-23 08:03",
+ "data_updated": "2026-10-23 08:00",
+ "notices": 32,
+ "violations": {
+  "terms_unread": {
+   "count": 1,
+   "examples": [
+    "0000061190 공공임대 구리갈매 S1블록 10년공공임대주택 예비입주자 모집공고"
+   ],
+   "ids": [
+    "0000061190"
+   ]
+  }
+ },
+ "count": 1,
  "info": {
   "unknown_groups": {
    "count": 2,
@@ -11,9 +21,15 @@
     "2015122300020919 ['청년 창업인']",
     "2015122300020916 ['산업단지근로자']"
    ]
+  },
+  "public_unread": {
+   "count": 1,
+   "examples": [
+    "0000061190 regions=None account=None"
+   ]
   }
  },
  "_data": {
-  "lh": "7c12a6e51b73"
+  "lh": "44b0afb3ee18"
  }
 }
