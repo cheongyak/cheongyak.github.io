@@ -11,7 +11,6 @@ on:
       - "app/lh_rental.py"
       - "app/lh_terms.py"
       - "app/lh_pdf_merge.py"
-      - "app/lh_welfare.py"
       - ".github/workflows/lh-rental.yml"
 permissions:
   contents: write
@@ -33,9 +32,6 @@ jobs:
           python-version: "3.12"
       - run: pip install -q -r requirements.txt
       - run: python -m app.lh_rental
-      - name: LH 주거복지·신혼희망 행복주택 (목록만, 기능 lh_welfare — 실패해도 LH 임대 수집은 그대로)
-        continue-on-error: true
-        run: python -m app.lh_welfare
       - name: LH 데이터 검사 (불변식·정답 대조 · 판정 QA · 화면)
         continue-on-error: true
         run: |
@@ -55,6 +51,5 @@ jobs:
           git config user.name "cheongyak-bot"
           git config user.email "actions@users.noreply.github.com"
           python -m tools.qa.stamp   # 검사 결과에 지금 데이터 지문 (지난 결과를 다른 워크플로가 세지 않게, 2026-10-21)
-          for f in docs/lh-welfare.json evidence/qa/lh-welfare-log.txt; do [ -f "$f" ] && git add "$f"; done   # 없을 때 git add 가 128 로 멈추지 않게
           git add docs/lh-rental.json evidence/lh evidence/qa/lh-rental-log.txt evidence/qa/lh-invariants.json evidence/qa/lh-qa.json evidence/qa/lh-screen.json evidence/qa/lh-pdf-tools.json evidence/qa/lh-unread.json
           git diff --cached --quiet || (git commit -m "LH 임대 수집 $(date +%Y-%m-%d)" && bash tools/qa/push_retry.sh)

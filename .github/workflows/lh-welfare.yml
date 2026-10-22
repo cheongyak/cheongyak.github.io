@@ -1,0 +1,47 @@
+name: LH 주거복지 수집
+# LH 매입임대·든든전세(주거복지)·신혼희망타운 행복주택 공고 → docs/lh-welfare.json, 공고문 글 → evidence/lh/<공고ID>.txt, 주택목록 → evidence/lh/lists/ (app/lh_welfare.py).
+# 2026-10-22 공고문 PDF 까지 읽게 되며 'LH 임대 수집'(lh-rental.yml) 단계에서 따로 떼어 냄 — 이쪽이 느리거나 실패해도 LH 임대 수집은 그대로.
+on:
+  schedule:
+    - cron: "52 21 * * *"   # 매일 06:52 (KST) — LH 임대 수집(06:40) 뒤
+  workflow_dispatch:
+  push:
+    branches: [main]
+    paths:
+      - "app/lh_welfare.py"
+      - "app/hwpx_text.py"
+      - ".github/workflows/lh-welfare.yml"
+permissions:
+  contents: write
+  actions: write
+concurrency:
+  group: lh-welfare
+  cancel-in-progress: false
+jobs:
+  collect:
+    runs-on: ubuntu-latest
+    timeout-minutes: 40
+    env:
+      DATA_GO_KR_KEY: ${{ secrets.DATA_GO_KR_KEY }}
+      TZ: Asia/Seoul
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - run: pip install -q -r requirements.txt
+      - run: python -m app.lh_welfare
+      - name: 저장
+        run: |
+          git config user.name "cheongyak-bot"
+          git config user.email "actions@users.noreply.github.com"
+          for f in docs/lh-welfare.json evidence/qa/lh-welfare-log.txt evidence/lh; do [ -e "$f" ] && git add "$f"; done   # 없을 때 git add 가 128 로 멈추지 않게
+          if ! git diff --cached --quiet; then
+            git commit -m "LH 주거복지 수집 $(date +%Y-%m-%d)" && bash tools/qa/push_retry.sh
+            git diff --quiet HEAD~1 -- docs/lh-welfare.json || echo "changed=1" >> "$GITHUB_ENV"
+          fi
+      - name: 데이터가 바뀌었으면 판정 검증 다시 (임대 화면 검사가 지난 결과가 되지 않게)
+        if: env.changed == '1'
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: gh workflow run verify.yml --ref main || gh api -X POST repos/${{ github.repository }}/actions/workflows/verify.yml/dispatches -f ref=main
