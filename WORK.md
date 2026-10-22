@@ -4,6 +4,16 @@
 2026-09-29 12:55 이전 항목은 규칙을 만들기 전 작업을 커밋 기록으로 정리한 것이라 백업 브랜치가 없어요.
 그 시점으로 되돌릴 때는 해당 커밋 번호로 `git revert` 를 써요.
 
+## 2026-10-22 12:36 · 판정 미지원 공고의 공고문도 읽기 (기능 lh_welfare_read, 꺼 둔 채 · SH HWPX)
+- 요청: 운영자 12:35 '현재 판정미지원 공고문 확인으로 뜨는애들 공고문도 다 읽어오도록 업데이트해줘'
+- 조사: 화면 '판정 미지원' 15건 = LH 주거복지(매입임대·든든전세·신혼희망 행복주택) 10건은 공고문을 아예 받지 않음, SH 5건 중 4건(청년예술인·도전숙·창업가·사회주택 어울리)은 이미 읽음(자격 규칙이 없는 종류라 미지원), SH-311349 은빛주택은 공고문이 PDF 없이 .hwpx 로만 있어 '공고문 PDF 없음'
+- 변경: ① app/hwpx_text.py — HWPX(zip 안 Contents/section*.xml)의 문단·표 칸 글자를 문서 순서대로, 500자 미만은 못 읽음 ② SH 수집: PDF 가 없으면 공고문 .hwpx 를 받아 읽음(pick_hwpx) ③ LH 주거복지 수집(app/lh_welfare.read_notice): 공고문 PDF 를 받아 evidence/lh/<공고ID>.txt(+ 다른 두 도구 글, 기능 lh_pdf_multi)로 한 번 저장, PDF 를 못 읽으면 같은 공고문 .hwpx, 보증금·월세는 LH 임대와 같은 읽기(read_all, 자격 판정 안 함), 첨부 '주택목록' 엑셀은 evidence/lh/lists/<공고ID>.csv 로 그대로 저장(금액 해석은 아직 안 함). 읽기가 실패해도 목록은 그대로 ④ 공고문까지 읽어 느려질 수 있어 LH 주거복지 수집을 'LH 임대 수집'에서 떼어 새 워크플로 'LH 주거복지 수집'(lh-welfare.yml, 매일 06:52·코드 변경 시, 데이터가 바뀌면 판정 검증 다시) ⑤ 화면: 스위치 lh_welfare_read(꺼짐)가 켜질 때만 공고문에서 읽은 보증금·월세·주택목록 안내를 보임(꺼지면 지금과 같음 — 읽은 값을 원문과 맞춰 본 뒤 켬) ⑥ requirements 에 openpyxl
+- 파일: app/hwpx_text.py, app/sh_rental.py, app/lh_welfare.py, .github/workflows/lh-welfare.yml, .github/workflows/lh-rental.yml, docs/config.json(lh_welfare_read false), docs/index.html, requirements.txt, tests/test_read_unsupported_20261022.py, tests/test_lh_welfare.py, FEATURES.md, WORK.md
+- 확인: HWPX 만든 견본(문단 여러 run·표 칸·구역 둘·짧은 글·zip 아님)·SH PDF 없을 때만 HWPX·엑셀 → csv·LH 읽기(가짜 서버: PDF 아님 → HWPX 로 읽음, 표 없으면 임대조건 0) 시험. pytest 369 통과·1 건너뜀(test_pipeline 포함 — tests/test_notice_recheck.py 는 이 작업 환경의 직접 만든 pytest 에서만 import 실패, Actions 21440fd 에서는 통과라 뺌), 판정 950/950, LH 화면·임대 못 읽음 0·LH QA 150회 문제 0, regress 판정 바뀐 곳 0·화면 1,521쪽 오류 0, 문법. 실제 PDF·HWPX 읽기는 작업 환경에서 LH·SH 첨부를 못 받아 Actions 실행 결과로 확인(다음 항목)
+- 남은 것: 자격 판정은 여전히 없음(매입임대·든든전세·신혼희망 행복주택·SH 기타 임대·사회주택 일부) — 읽은 원문을 모아 종류별 규칙·정답 데이터부터
+- 백업: backup/20261022-1236-read-unsupported
+- 기능: lh_welfare_read (꺼짐)
+
 ## 2026-10-22 12:40 · 아침 자동 고치기 준비 (못 읽음 목록·절차서)
 - 요청: 처음 보는 공고 형태가 나오면 자체적으로 새 읽는 방식을 추가해서 읽게 — 운영자 결정 '조건 맞으면 바로 올림'
 - 변경: tools/qa/unread_queue.py — 분양 checks 중 공고문 못 읽음·대조·새 문구, notice_conflicts, 임대 못 읽음·불변식, verify-status 경고·공고별 표시, run-log [공고문·정정]·[공고문·법령 불일치] 를 공고별로 모으고 원문 저장 여부를 적음(evidence/qa/unread-queue.json, 저장소에 안 올림). .claude/skills/cheongyakpass-ops/AUTOFIX.md — 예약 세션 절차(원문 읽기 → 그 꼴 읽기 규칙 추가 → 정답 데이터·시험 → 올리는 조건: 원문에 값 그대로·다른 공고 값 변화 없음·pytest·판정·스냅샷·E2E 통과·충돌 표시 없음 → 올리고 재수집 확인, 아니면 보고만 / 공고문 대조·법령 불일치·정정 값 변화는 사람 판단이라 보고만 / 관찰 검사 7일 실패 0 이면 관문으로)

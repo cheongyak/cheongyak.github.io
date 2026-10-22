@@ -2,9 +2,9 @@
  "date": "2026-10-22",
  "page_cap": 300,
  "notices": 55,
- "with_problem": 6,
+ "with_problem": 5,
  "kinds": {
-  "글자가 거의 없는 쪽 N개 (스캔 이미지·표 그림 추정)": 4,
+  "글자가 거의 없는 쪽 N개 (스캔 이미지·표 그림 추정)": 3,
   "PDF 를 하나도 받지 못함": 2
  },
  "errors": [],
@@ -263,68 +263,16 @@
    "name": "아크메르 동탄 95",
    "url": "https://www.applyhome.co.kr/ai/aia/selectAPTLttotPblancDetail.do?houseManageNo=2026000508&pblancNo=2026000508",
    "attachments": 1,
-   "pdfs": 1,
+   "pdfs": 0,
    "attachment_list": [
     {
      "url": "https://static.applyhome.co.kr/ai/aia/getAtchmnfl.do?houseManageNo=2026000508&pblancNo=2026000508&atchmnflSeqNo=2000101&atchmnflSn=6",
-     "bytes": 4428083,
-     "pages": 76,
-     "chars": 183612,
-     "head": "- 1 - ※ 단지 주요정보 분양문의 ( ) 1522-8111 주택유형 해당지역 기타경기 기타지역 규제지역여부 민영 화성시 년 이상 계속 거주자"
+     "error": "PDF 아님 (200, 59바이트)"
     }
    ],
-   "chosen": "https://static.applyhome.co.kr/ai/aia/getAtchmnfl.do?houseManageNo=2026000508&pblancNo=2026000508&atchmnflSeqNo=2000101&atchmnflSn=6",
-   "pages": 76,
-   "pages_read": 76,
-   "chars_read": 183687,
-   "empty_pages": [],
-   "chars_per_page_min": 413,
-   "fields": {
-    "need_head": false,
-    "price_cap": false,
-    "residence_duty": 0,
-    "rewin_years": 10,
-    "account_months": 24,
-    "residence": {
-     "area": "화성시",
-     "months": 24,
-     "since": "2024-10-16"
-    }
-   },
-   "fields_merged": {
-    "need_head": false,
-    "price_cap": false,
-    "residence_duty": 0,
-    "rewin_years": 10,
-    "account_months": 24,
-    "residence": {
-     "area": "화성시",
-     "months": 24,
-     "since": "2024-10-16"
-    }
-   },
-   "fields_pdfium": {
-    "need_head": false,
-    "price_cap": false,
-    "residence_duty": 0,
-    "rewin_years": 10,
-    "residence": {
-     "area": "화성시",
-     "months": 24,
-     "since": "2024-10-16"
-    }
-   },
-   "pdfium_chars": 187834,
-   "tool_diff": {
-    "account_months": [
-     24,
-     null
-    ]
-   },
-   "filled_by_second_tool": [
-    "account_months"
-   ],
-   "problem": []
+   "problem": [
+    "PDF 를 하나도 받지 못함"
+   ]
   },
   {
    "notice": "2026000507",
@@ -391,16 +339,60 @@
    "name": "연산 센텀 월드메르디앙",
    "url": "https://www.applyhome.co.kr/ai/aia/selectAPTLttotPblancDetail.do?houseManageNo=2026000495&pblancNo=2026000495",
    "attachments": 1,
-   "pdfs": 0,
+   "pdfs": 1,
    "attachment_list": [
     {
      "url": "https://static.applyhome.co.kr/ai/aia/getAtchmnfl.do?houseManageNo=2026000495&pblancNo=2026000495&atchmnflSeqNo=2000036&atchmnflSn=8",
-     "error": "PDF 아님 (200, 59바이트)"
+     "bytes": 783751,
+     "pages": 59,
+     "chars": 113921,
+     "head": "- 1 - ※ 단지 주요정보 (분양문의) 051-758-0900 주택유형 해당지역 기타지역 규제지역여부 민영 부산광역시 1년 이상 계속 거주자("
     }
    ],
-   "problem": [
-    "PDF 를 하나도 받지 못함"
-   ]
+   "chosen": "https://static.applyhome.co.kr/ai/aia/getAtchmnfl.do?houseManageNo=2026000495&pblancNo=2026000495&atchmnflSeqNo=2000036&atchmnflSn=8",
+   "pages": 59,
+   "pages_read": 59,
+   "chars_read": 113979,
+   "empty_pages": [],
+   "chars_per_page_min": 555,
+   "fields": {
+    "need_head": false,
+    "price_cap": false,
+    "residence_duty": 0,
+    "rewin_years": 0,
+    "account_months": 6,
+    "residence": {
+     "area": "부산광역시",
+     "months": 12,
+     "since": "2025-10-16"
+    }
+   },
+   "fields_merged": {
+    "need_head": false,
+    "price_cap": false,
+    "residence_duty": 0,
+    "rewin_years": 0,
+    "account_months": 6,
+    "residence": {
+     "area": "부산광역시",
+     "months": 12,
+     "since": "2025-10-16"
+    }
+   },
+   "fields_pdfium": {
+    "need_head": false,
+    "price_cap": false,
+    "residence_duty": 0,
+    "rewin_years": 0,
+    "account_months": 6,
+    "residence": {
+     "area": "부산광역시",
+     "months": 12,
+     "since": "2025-10-16"
+    }
+   },
+   "pdfium_chars": 114582,
+   "problem": []
   },
   {
    "notice": "2026000373",
@@ -705,16 +697,60 @@
    "name": "연제갤러리자이",
    "url": "https://www.applyhome.co.kr/ai/aia/selectAPTLttotPblancDetail.do?houseManageNo=2026000469&pblancNo=2026000469",
    "attachments": 1,
-   "pdfs": 0,
+   "pdfs": 1,
    "attachment_list": [
     {
      "url": "https://static.applyhome.co.kr/ai/aia/getAtchmnfl.do?houseManageNo=2026000469&pblancNo=2026000469&atchmnflSeqNo=1995111&atchmnflSn=1",
-     "error": "PDF 아님 (200, 59바이트)"
+     "bytes": 1456245,
+     "pages": 62,
+     "chars": 130294,
+     "head": "- 1 - ※ 단지 주요정보 (분양문의) 1833-5755 주택유형 해당지역 기타지역 규제지역여부 민영 부산광역시 1년 이상 계속 거주자(202"
     }
    ],
-   "problem": [
-    "PDF 를 하나도 받지 못함"
-   ]
+   "chosen": "https://static.applyhome.co.kr/ai/aia/getAtchmnfl.do?houseManageNo=2026000469&pblancNo=2026000469&atchmnflSeqNo=1995111&atchmnflSn=1",
+   "pages": 62,
+   "pages_read": 62,
+   "chars_read": 130355,
+   "empty_pages": [],
+   "chars_per_page_min": 129,
+   "fields": {
+    "need_head": false,
+    "price_cap": false,
+    "residence_duty": 0,
+    "rewin_years": 0,
+    "account_months": 6,
+    "residence": {
+     "area": "부산광역시",
+     "months": 12,
+     "since": "2025-10-08"
+    }
+   },
+   "fields_merged": {
+    "need_head": false,
+    "price_cap": false,
+    "residence_duty": 0,
+    "rewin_years": 0,
+    "account_months": 6,
+    "residence": {
+     "area": "부산광역시",
+     "months": 12,
+     "since": "2025-10-08"
+    }
+   },
+   "fields_pdfium": {
+    "need_head": false,
+    "price_cap": false,
+    "residence_duty": 0,
+    "rewin_years": 0,
+    "account_months": 6,
+    "residence": {
+     "area": "부산광역시",
+     "months": 12,
+     "since": "2025-10-08"
+    }
+   },
+   "pdfium_chars": 131383,
+   "problem": []
   },
   {
    "notice": "2026000466",
@@ -2378,61 +2414,15 @@
    "name": "청계 노르웨이숲(13차)",
    "url": "https://www.applyhome.co.kr/ai/aia/selectAPTRemndrLttotPblancDetailView.do?houseManageNo=2026910263&pblancNo=2026910263",
    "attachments": 1,
-   "pdfs": 1,
+   "pdfs": 0,
    "attachment_list": [
     {
      "url": "https://static.applyhome.co.kr/ai/aia/getAtchmnfl.do?houseManageNo=2026910263&pblancNo=2026910263&atchmnflSeqNo=1994058&atchmnflSn=3",
-     "bytes": 1205272,
-     "pages": 16,
-     "chars": 27187,
-     "head": "- 1 - ※ 해당 주택건설지역인 서울특별시 중구는 ‘25.10.16. 투기과열지구로 지정되었으나, 본 주택은 ‘25.10.15. 이전 최초 입"
+     "error": "PDF 아님 (200, 59바이트)"
     }
    ],
-   "chosen": "https://static.applyhome.co.kr/ai/aia/getAtchmnfl.do?houseManageNo=2026910263&pblancNo=2026910263&atchmnflSeqNo=1994058&atchmnflSn=3",
-   "pages": 16,
-   "pages_read": 16,
-   "chars_read": 27202,
-   "empty_pages": [
-    12,
-    16
-   ],
-   "chars_per_page_min": 15,
-   "fields": {
-    "need_head": false,
-    "price_cap": false,
-    "residence_duty": 0,
-    "rewin_years": 0,
-    "residence": {
-     "area": null,
-     "months": 0,
-     "since": null
-    }
-   },
-   "fields_merged": {
-    "need_head": false,
-    "price_cap": false,
-    "residence_duty": 0,
-    "rewin_years": 0,
-    "residence": {
-     "area": null,
-     "months": 0,
-     "since": null
-    }
-   },
-   "fields_pdfium": {
-    "need_head": false,
-    "price_cap": false,
-    "residence_duty": 0,
-    "rewin_years": 0,
-    "residence": {
-     "area": null,
-     "months": 0,
-     "since": null
-    }
-   },
-   "pdfium_chars": 26387,
    "problem": [
-    "글자가 거의 없는 쪽 2개 (스캔 이미지·표 그림 추정): [12, 16]"
+    "PDF 를 하나도 받지 못함"
    ]
   },
   {

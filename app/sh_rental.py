@@ -89,6 +89,13 @@ def pick_pdf(files: list[dict]) -> Optional[dict]:
     return pdfs[0] if pdfs else None
 
 
+def pick_hwpx(files: list[dict]) -> Optional[dict]:
+    """PDF 가 없을 때 공고문 HWPX 하나 (2026-10-22 SH-311349 은빛주택 — 공고문이 .hwpx 로만 올라옴). 이름에 '공고'가 있는 것 먼저"""
+    hs = [f for f in files if str(f.get("oriFileNm", "")).lower().endswith(".hwpx")]
+    hs.sort(key=lambda f: (0 if re.search(r"공고", f.get("oriFileNm", "")) else 1, 1 if re.search(r"목록|서식|신청서|안내", f.get("oriFileNm", "")) else 0))
+    return hs[0] if hs else None
+
+
 def file_url(f: dict) -> str:
     return BASE + "/com/file/innoFD.do?" + urlencode({"brdId": f.get("brdId"), "seq": f.get("seq"), "fileSeq": f.get("fileSeq"), "fileTp": f.get("fileTp") or "A"})
 
@@ -333,6 +340,14 @@ def main() -> int:
                             msg = f"PDF 아님(HTTP {p.status_code}, {len(p.content)}바이트)"
                     except Exception as e:
                         msg = f"받기 실패 {e.__class__.__name__}"
+                elif (h := pick_hwpx(files)):   # PDF 없이 한글 HWPX 공고문만 있는 공고 (app/hwpx_text.py)
+                    try:
+                        c.post(BASE + "/com/file/existFile.do", data={"brdId": h["brdId"], "seq": h["seq"], "fileSeq": h["fileSeq"], "fileTp": h.get("fileTp") or "A"}, headers={"X-Requested-With": "XMLHttpRequest"})
+                        p = c.get(file_url(h))
+                        from app.hwpx_text import hwpx_to_text
+                        text, msg = hwpx_to_text(p.content) if p.status_code == 200 else (None, f"HWPX 받기 HTTP {p.status_code}")
+                    except Exception as e:
+                        msg = f"HWPX 받기 실패 {e.__class__.__name__}"
                 if text and not tp.exists():
                     tp.write_text(text, encoding="utf-8")
                 rec = notice_record(x, files, text)

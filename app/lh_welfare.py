@@ -18,7 +18,7 @@ from datetime import datetime, timedelta
 
 import httpx
 
-from app.lh_rental import DTL, KST, LIST, ROOT, SPL, UA, _d, notice_record, org_target
+from app.lh_rental import DTL, KST, LIST, ROOT, SPL, TEXT_DIR, UA, _d, alt_paths, feature_on, fetch_pdf, notice_record, org_target, pdf_to_text, save_alt_texts
 
 OUT = ROOT / "docs" / "lh-welfare.json"
 LOG = ROOT / "evidence" / "qa" / "lh-welfare-log.txt"
@@ -78,6 +78,98 @@ def record(row: dict, dtl, spl) -> dict:
     return rec
 
 
+LIST_DIR = ROOT / "evidence" / "lh" / "lists"   # 첨부 '주택목록' 엑셀을 글(csv)로 — 매입임대·든든전세 보증금·월세는 주택마다 달라 공고문이 아니라 이 목록에 있다
+
+
+def _get(http: httpx.Client, url: str, referer) -> tuple:
+    try:
+        r = http.get(url, headers={**UA, **({"Referer": referer} if referer else {})})
+        return (r.content, f"HTTP {r.status_code}") if r.status_code == 200 else (None, f"HTTP {r.status_code}")
+    except Exception as e:
+        return None, f"받기 실패 {e.__class__.__name__}"
+
+
+def xlsx_to_csv(data: bytes, cap: int = 3000) -> tuple:
+    """주택목록 엑셀 → csv 글(첫 시트 전부, 최대 cap 줄). 값은 그대로 — 해석(금액 단위·열 이름)은 하지 않는다"""
+    try:
+        import csv, io
+        from openpyxl import load_workbook
+        wb = load_workbook(io.BytesIO(data), read_only=True, data_only=True)
+        ws = wb.worksheets[0]
+        buf, n = io.StringIO(), 0
+        w = csv.writer(buf)
+        for row in ws.iter_rows(values_only=True):
+            if n >= cap:
+                break
+            if any(v not in (None, "") for v in row):
+                w.writerow(["" if v is None else v for v in row])
+                n += 1
+        return buf.getvalue(), f"주택목록 {n}줄"
+    except Exception as e:
+        return None, f"주택목록 읽기 실패 {e.__class__.__name__}"
+
+
+def read_notice(http: httpx.Client, rec: dict) -> str:
+    """공고문을 읽어 rec 에 글 길이·보증금·월세(공고문 임대조건 표)·주택목록 파일을 채운다 → 기록용 문장.
+    글은 evidence/lh/<공고ID>.txt 에 한 번만 저장(LH 임대와 같은 곳·같은 규칙), 다른 도구 글도 같이(기능 lh_pdf_multi).
+    PDF 를 못 읽으면 같은 공고문의 .hwpx 로(app/hwpx_text). 보증금·월세는 LH 임대와 같은 읽기(app/lh_pdf_merge.read_all, 자격 판정은 하지 않음)."""
+    nid, msg = rec["id"], []
+    tp = TEXT_DIR / f"{nid}.txt"
+    TEXT_DIR.mkdir(parents=True, exist_ok=True)
+    if tp.exists() and tp.stat().st_size:
+        msg.append("공고문 저장본")
+        need_alt = feature_on("lh_pdf_multi") and rec["notice_pdf"] and not all(p.exists() for k, p in alt_paths(nid).items() if k != "tables")
+        if need_alt:
+            data, m = fetch_pdf(http, rec["notice_pdf"], rec["url"])
+            msg.append("다른 읽기 도구 " + (save_alt_texts(nid, data) if data else m))
+    else:
+        text = None
+        if rec["notice_pdf"]:
+            data, m = fetch_pdf(http, rec["notice_pdf"], rec["url"])
+            text, m = pdf_to_text(data) if data else (None, m)
+            msg.append(f"공고문 PDF {m}")
+            if text and feature_on("lh_pdf_multi"):
+                msg.append("다른 읽기 도구 " + save_alt_texts(nid, data))
+        if not text:
+            h = next((f for f in rec["files"] if (f.get("name") or "").lower().endswith(".hwpx") and "공고문" in (f.get("kind") or "")), None)
+            if h:
+                from app.hwpx_text import hwpx_to_text
+                data, m = _get(http, h["url"], rec["url"])
+                text, m = hwpx_to_text(data) if data else (None, m)
+                msg.append(f"공고문 HWPX {m}")
+        if text:
+            tp.write_text(text, encoding="utf-8")
+    if tp.exists() and tp.stat().st_size:
+        rec["notice_text"] = tp.stat().st_size
+        try:
+            from app.lh_pdf_merge import read_all
+            P = alt_paths(nid)
+            texts = {"pypdf": tp.read_text(encoding="utf-8")}
+            for k in ("pdfium", "plumber"):
+                if P[k].exists():
+                    texts[k] = P[k].read_text(encoding="utf-8")
+            tables = json.loads(P["tables"].read_text(encoding="utf-8")) if P["tables"].exists() else []
+            got = read_all(texts, rec["type"], rec["name"] or "", rec["region"], [u["type"] for u in rec["units"]], False, tables)
+            rec["rents"] = got["rents"]
+            msg.append(f"임대조건 {len(rec['rents'])}줄")
+        except Exception as e:
+            msg.append(f"임대조건 읽기 실패 {e.__class__.__name__}")
+    hl = next((f for f in rec["files"] if (f.get("name") or "").lower().endswith((".xlsx", ".xls")) and "목록" in (f.get("name") or "")), None)
+    if hl:
+        rec["house_list"] = {"name": hl["name"], "url": hl["url"]}
+        cp = LIST_DIR / f"{nid}.csv"
+        if not cp.exists() and hl["name"].lower().endswith(".xlsx"):
+            data, m = _get(http, hl["url"], rec["url"])
+            csv_text, m = xlsx_to_csv(data) if data else (None, m)
+            if csv_text:
+                LIST_DIR.mkdir(parents=True, exist_ok=True)
+                cp.write_text(csv_text, encoding="utf-8")
+            msg.append(m)
+        elif cp.exists():
+            msg.append("주택목록 저장본")
+    return " · ".join(msg)
+
+
 def main() -> int:
     key = os.environ.get("DATA_GO_KR_KEY", "").strip()
     now = datetime.now(KST)
@@ -134,10 +226,14 @@ def main() -> int:
         st1, dtl = api(DTL, **p)
         st2, spl = api(SPL, **p)
         rec = record(r, dtl, spl)
+        try:
+            rd = read_notice(http, rec)   # 2026-10-22 운영자 '판정 미지원 공고문도 다 읽어오도록' — 화면 표시는 스위치 lh_welfare_read
+        except Exception as e:   # 공고문 읽기가 실패해도 목록은 그대로
+            rd = f"공고문 읽기 실패 {e.__class__.__name__}"
         sc = rec["schedule"]
         log.append(f"[공고] {rec['type']} {rec['id']} {(rec['name'] or '')[:50]} · 상세 {st1}/공급 {st2} · 일정 {len(sc)}"
                    + (f" 접수 {sc[0]['apply_start']}~{sc[0]['apply_end']}" if sc and sc[0]['apply_start'] else " 접수일 없음")
-                   + f" · 단지 {len(rec['complexes'])} · 주택형 {len(rec['units'])} · 첨부 {len(rec['files'])}")
+                   + f" · 단지 {len(rec['complexes'])} · 주택형 {len(rec['units'])} · 첨부 {len(rec['files'])} · {rd}")
         notices.append(rec)
         time.sleep(0.3)
     notices.sort(key=lambda n: (n["close"] or "9999", n["id"]))

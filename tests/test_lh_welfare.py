@@ -42,11 +42,12 @@ def test_switch_exists_and_screen_gated():
     assert "on('lh_welfare') ? fetch('lh-welfare.json'" in html   # 꺼져 있으면 파일을 부르지도 않는다
 
 
-def test_workflow_step_is_optional_and_add_is_safe():
-    t = (ROOT / ".github/workflows/lh-rental.yml").read_text(encoding="utf-8")
-    step = t[t.index("python -m app.lh_welfare") - 200: t.index("python -m app.lh_welfare")]
-    assert "continue-on-error: true" in step                       # 실패해도 LH 임대 수집은 그대로
-    assert re.search(r'\[ -f "\$f" \] && git add "\$f"', t)          # 파일이 없을 때 git add 가 멈추지 않게
+def test_own_workflow_and_add_is_safe():
+    """공고문까지 읽게 되며(10-22) LH 임대 수집과 떼어 따로 돈다 — 느리거나 실패해도 LH 임대 수집은 그대로"""
+    assert "app.lh_welfare" not in (ROOT / ".github/workflows/lh-rental.yml").read_text(encoding="utf-8")
+    t = (ROOT / ".github/workflows/lh-welfare.yml").read_text(encoding="utf-8")
+    assert "python -m app.lh_welfare" in t and "bash tools/qa/push_retry.sh" in t
+    assert re.search(r'\[ -e "\$f" \] && git add "\$f"', t)          # 파일이 없을 때 git add 가 멈추지 않게
 
 
 def test_correction_replaces_original():
