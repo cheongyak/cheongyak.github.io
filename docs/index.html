@@ -5817,6 +5817,9 @@ function rentalCta(N){
 /* 공공지원 민간임대 주택형별 공급금액·청약신청금 (기능 pvt_rental). 청약홈 API 값 = 청약홈 공고 화면 '공급금액(만원, 주택형별 최고)·청약신청금'
    (2026-10-21 울산반구 수자인 더센트럴 2026850052 화면과 대조). 임대보증금·월 임대료는 API·화면에 없어 모집공고문 확인 */
 function pvtMoney(N){
+  /* 기능 pvt_rental_urbty: 청약홈 '민간임대'(오피스텔·도시형 묶음)의 공급금액 칸 뜻은 아직 청약홈 화면과 대조하지 못함(공공지원 민간임대는 대조함) — 금액 대신 세대수만 */
+  if (N.type === '민간임대') return `<h3 style="margin:6px 0 0;font-size:15px">주택형</h3><div class="rows">${(N.units || []).map(u => `<div class="row small"><span>${esc(u.type || '')}${u.area ? ' · 전용 ' + u.area + '㎡' : ''}</span><span>${u.households != null ? u.households + '세대' : ''}</span></div>`).join('') || '<span class="small muted">청약홈 공고 확인</span>'}</div>
+    <span class="small muted">출처: ${N.url ? `<a href="${esc(N.url)}" target="_blank" rel="noopener">청약홈 공고 화면</a>` : '청약홈 공고'} · 임대보증금·월 임대료·공급금액은 청약홈 공고 화면이나 모집공고문에서 확인하세요.</span>`;
   const won = m => m == null ? '-' : m >= 10000 ? (m / 10000).toFixed(2).replace(/\.?0+$/, '') + '억' : m.toLocaleString() + '만';
   const rows = (N.units || []).map(u => `<div class="row small"><span>${esc(u.type || '')}${u.special && (u.special['청년'] || u.special['신혼부부'] || u.special['고령자']) ? ' <span class="muted">(특별공급 ' + ['청년', '신혼부부', '고령자'].filter(k => u.special[k]).map(k => k + ' ' + u.special[k]).join('·') + ')</span>' : ''}</span><span>공급금액 ${won(u.supply_amount)} · 청약신청금 ${won(u.apply_fee)}</span></div>`).join('');
   return `<h3 style="margin:6px 0 0;font-size:15px">주택형별 공급금액</h3><div class="rows">${rows || '<span class="small muted">청약홈 공고 확인</span>'}</div>
