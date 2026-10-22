@@ -10,6 +10,7 @@ import json
 import sys
 from datetime import datetime, timedelta, timezone
 from pathlib import Path
+from typing import Optional
 
 ROOT = Path(__file__).resolve().parent.parent
 DOCS = ROOT / "docs"
@@ -26,6 +27,26 @@ NAMES = {"invariants.json": "데이터 불변식", "lh-invariants.json": "임대
          "filter-check.json": "필터", "consistency.json": "카드·상세 일치", "sp-text.json": "특별공급 문구", "cross-rule.json": "교차 규칙", "profile-keep.json": "내 조건 유지",
          "monotonic.json": "단조성", "snapshot.json": "화면 스냅샷", "e2e.json": "사용자 흐름", "past-chat.json": "지난 공고·청약봇", "zero-default.json": "빈칸 기본값",
          "input-nav.json": "입력 버튼", "verify-scope.json": "경고 범위 화면", "lh-qa.json": "임대 판정", "lh-screen.json": "임대 화면", "lh-pdf-tools.json": "임대 공고문 여러 도구 읽기"}
+
+
+# 관문에 걸린 검사 (2026-10-22 고정). 새 검사는 여기 바로 넣지 말고 config.json qa_observe {결과 파일: 시작일} 로 먼저 관찰하고,
+# 7일 넘게 실패 0(거짓 경보 없음)을 확인한 뒤 qa_observe 에서 빼고 여기에 더한다 — tests/test_qa_observe.py 가 지킨다
+GATED = ("supply-type.json", "invariants.json", "filter-check.json", "consistency.json", "sp-text.json", "market-check.json", "cross-rule.json",
+         "profile-keep.json", "monotonic.json", "snapshot.json", "e2e.json", "past-chat.json", "pay-audit.json", "parse-moved.json", "coverage.json",
+         "zero-default.json", "input-nav.json", "lh-invariants.json", "lh-qa.json", "lh-screen.json", "lh-unread.json", "lh-pdf-tools.json")
+
+
+def generic_bad(d: dict) -> Optional[int]:
+    """관찰 중 검사의 실패 수 (검사마다 결과 모양이 달라 흔한 칸을 차례로 본다)"""
+    for k in ("fails", "bad", "count", "violations", "diffs", "fail", "problems", "missing", "merged_wrong", "changed"):
+        v = d.get(k)
+        if isinstance(v, bool):
+            continue
+        if isinstance(v, int):
+            return v
+        if isinstance(v, (list, dict)):
+            return len(v)
+    return None
 
 
 def _viol_rows(d, parts) -> list:
@@ -103,13 +124,27 @@ def build() -> dict:
     stamp_all()
     cur, stale = current(), []
 
+    try:   # 관찰 중 검사 (기능 qa_observe, 2026-10-22): 결과는 남기되 ok·경고에 넣지 않는다 — 새 검사의 거짓 경보가 경고 원인 1위(6/19번)였다
+        _c = json.loads((DOCS / "config.json").read_text(encoding="utf-8"))
+        observe = (_c.get("qa_observe") or {}) if _c.get("features", {}).get("qa_observe", True) else {}   # 스위치를 끄면 관찰 중 검사도 바로 관문
+    except Exception:
+        observe = {}
+    observed = []
+
     def qa(name):
         f = ROOT / "evidence" / "qa" / name
         if not f.exists():
+            if name in observe:
+                observed.append({"name": name, "label": NAMES.get(name, name), "since": observe[name], "fails": None, "state": "결과 없음"})
             return None
         d = json.loads(f.read_text(encoding="utf-8"))
         if not is_current(name, d, cur):
             stale.append(name)
+            if name in observe:
+                observed.append({"name": name, "label": NAMES.get(name, name), "since": observe[name], "fails": None, "state": "재검증 대기"})
+            return None
+        if name in observe:
+            observed.append({"name": name, "label": NAMES.get(name, name), "since": observe[name], "fails": generic_bad(d), "state": "관찰 중"})
             return None
         return d
     st, inv, flt, con, spt, mkc, crx, pkp, mono, snap, e2e = qa("supply-type.json"), qa("invariants.json"), qa("filter-check.json"), qa("consistency.json"), qa("sp-text.json"), qa("market-check.json"), qa("cross-rule.json"), qa("profile-keep.json"), qa("monotonic.json"), qa("snapshot.json"), qa("e2e.json")
@@ -152,6 +187,7 @@ def build() -> dict:
     # --full: 판정 검증이 만들어야 하는 결과 파일이 아예 없으면 그 검사가 돌지 못한 것 — 없다고 통과로 치지 않는다 (2026-10-22 verify_scope.cjs 가 Actions 에서 멈춰 결과 없음)
     if "--full" in sys.argv:
         full_stale += [x for x in VERIFY_RUN if not (ROOT / "evidence" / "qa" / x).exists() and x not in full_stale]
+    full_stale = [x for x in full_stale if x not in observe]   # 관찰 중 검사는 관문이 아님
     if full_stale:
         print(f"[검증·지난 결과] 판정 검증이 다시 돌렸는데도 지난 결과로 남은 검사: {' '.join(full_stale)} — 검사 실행 실패로 봄")
     if stale:
@@ -179,7 +215,9 @@ def build() -> dict:
         fresh = {"items": [], "warnings": [f"수집 멈춤 감시 실패 {e.__class__.__name__}"]}
     for w in fresh["warnings"]:
         print(f"[경고·수집 멈춤] {w}")
-    return {"at": datetime.now(kst).strftime("%Y-%m-%d %H:%M"), "ok": ok, "collect_run": run_at, **sc,
+    for o in observed:
+        print(f"[검증·관찰 중] {o['label']}({o['name']}) {o['state']} · 실패 {o['fails']} · {o['since']}부터 — ok·경고에 넣지 않음")
+    return {"at": datetime.now(kst).strftime("%Y-%m-%d %H:%M"), "ok": ok, "collect_run": run_at, **sc, "observe": observed,
             "warnings": fresh["warnings"], "freshness": [{k: i[k] for k in ("name", "updated", "hours", "stale")} for i in fresh["items"]],
             "judge": {"total": judge["total"], "passed": judge["passed"], "failed": [f["id"] for f in judge["failed"]]} if judge else None,
             "crosscheck": {"summary": cc_sum, "mismatches": cc_bad[:30]}, "golden": {"mismatches": gold_bad[:30]},

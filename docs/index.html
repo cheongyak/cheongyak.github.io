@@ -4983,7 +4983,8 @@ function verifyCard(){
       ${sc ? `<dt>공고별 확인</dt><dd>${nflag ? nflag + '개 공고·주택형 — 그 공고 화면에 \'데이터 확인 필요\'로 표시' : '없음'}</dd>
       <dt>재검증 대기</dt><dd>${pend.length ? esc(pend.join(' · ')) + ' (지금 데이터로 아직 다시 돌리지 않아 통과로 치지 않음)' : '없음'}</dd>
       ${v.coverage_missing ? `<dt>빠진 공고</dt><dd>청약홈에 열려 있는데 화면에 없는 공고 ${v.coverage_missing}건 · 확인 중</dd>` : ''}
-      ${v.banner ? `<dt>확인 중인 문제</dt><dd>${esc((v.banner.why || []).join(' · '))}</dd>` : ''}` : ''}</dl>
+      ${v.banner ? `<dt>확인 중인 문제</dt><dd>${esc((v.banner.why || []).join(' · '))}</dd>` : ''}
+      ${(v.observe || []).length ? `<dt>관찰 중 검사</dt><dd>${v.observe.map(o => esc(o.label) + ' ' + (o.fails == null ? o.state : '실패 ' + o.fails)).join(' · ')} (새 검사라 결과만 보고 경고에는 아직 넣지 않음)</dd>` : ''}` : ''}</dl>
     <p class="small muted" style="margin:6px 0 0">판정 검증 사례는 공고문·법령 표로 기대값을 정한 사례를 화면 판정과 맞춰 본 것이고, 공고문 대조는 매일 수집한 모집공고문의 소득 기준표·예치금·자산 기준·분양가를 앱 수치와 맞춰 본 거예요.${v.ok ? '' : ' 차이가 난 공고는 공고 화면에 \'데이터 확인 필요\'로 표시돼요.'}</p></section>`;
 }
 function docLinks(){
