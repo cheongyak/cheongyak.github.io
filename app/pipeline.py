@@ -109,6 +109,61 @@ def market_fallback(out: list, today: date, log: list[str], path: Optional[Path]
         log.append(f"[경고·시세] 실거래가 조회 실패 {failed}건 → 지난 조회값 사용 {used}건, 시세 없음 {failed - used}건")
 
 
+def reg_kind(raw: dict) -> Optional[str]:
+    """청약홈 투기과열지구·조정대상지역 값 → '투기과열'·'조정'·'비규제'. 둘 다 모르면 None (주소로 짐작하지 않음 — 법령 비율 대조에만 쓴다)"""
+    sp, ad = raw.get("speculative"), raw.get("adjusted")
+    if sp:
+        return "투기과열"
+    if ad:
+        return "조정"
+    return "비규제" if sp is False and ad is False else None
+
+
+def law_score_ratio(area: Optional[float], kind: Optional[str], capital: bool) -> Optional[tuple]:
+    """주택공급에 관한 규칙 제28조②·④ 민영 1순위 가점제 비율 (docs/chat-law.json 제28조-2·3 원문):
+      60㎡ 이하 — 투기과열·청약과열 40%, 그 밖 40% 이하(시장·군수·구청장 공고)
+      60~85㎡ — 투기과열·청약과열 70%, 그 밖 40% 이하 / 수도권 공공주택지구(개발제한구역 해제 50% 이상) 70%
+      85㎡ 초과 — 투기과열 80%, 청약과열 50%, 수도권 공공주택지구 80% 이하 공고, 그 밖 추첨(가점제 0)
+    반환 ('exact', %) 또는 ('max', %) — 공공주택지구 여부는 모르므로 수도권 비규제는 상한만. 면적·구분을 모르면 None.
+    '청약과열지역'은 조정대상지역(주택법 제63조의2제1항제1호)이라 청약홈 조정대상지역 값을 쓴다"""
+    if area is None or kind is None:
+        return None
+    band = 0 if area <= 60 else 1 if area <= 85 else 2
+    if kind == "투기과열":
+        return ("exact", (40, 70, 80)[band])
+    if kind == "조정":
+        return ("exact", (40, 70, 50)[band])
+    if band == 2:
+        return ("max", 80) if capital else ("exact", 0)
+    return ("max", 70 if capital and band == 1 else 40)
+
+
+def score_ratio_law(L, log: list) -> Optional[str]:
+    """공고문 가점제 비율을 법령과 대조하고(다르면 notice_conflicts), 표를 못 읽었는데 법령 값이 하나로 정해지면 '법령 기준'으로 채운다 (기능 score_ratio_law, 2026-10-22).
+    2026-10-22 확인: 지금 민영 144개·이력 246개 주택형 모두 공고문 비율이 법령과 맞음(위반 0). 반환: '대조 일치'·'대조 불일치'·'법령으로 채움'·None"""
+    if L.house_dtl != "민영" or L.category != "general" or not L.need_account:
+        return None
+    lw = law_score_ratio(L.area, L.reg_kind, L.capital)
+    if not lw:
+        return None
+    sr = L.score_ratio or {}
+    row = next((r for r in sr.get("rows") or [] if L.area > r["over"] and (r["upto"] is None or L.area <= r["upto"])), None)
+    if row and not sr.get("law"):
+        ok = row["score"] == lw[1] if lw[0] == "exact" else row["score"] <= lw[1]
+        if ok:
+            return "대조 일치"
+        msg = f"가점제 비율: 공고문 {row['score']}% ↔ 법령({L.reg_kind}·전용 {L.area:g}㎡) {'' if lw[0] == 'exact' else '최대 '}{lw[1]}% (주택공급에 관한 규칙 제28조) — 공고문 확인"
+        if msg not in L.notice_conflicts:
+            L.notice_conflicts.append(msg)
+            log.append(f"[공고문·법령 불일치] {L.name} {L.unit}: {msg}")
+        return "대조 불일치"
+    if (not sr.get("rows") or sr.get("unknown")) and lw[0] == "exact":
+        band = (0, 60) if L.area <= 60 else (60, 85) if L.area <= 85 else (85, None)
+        L.score_ratio = {"rows": [{"over": band[0], "upto": band[1], "score": lw[1], "lottery": 100 - lw[1]}], "law": True}
+        return "법령으로 채움"
+    return None
+
+
 def build_listing(raw: dict, rtms: Optional[RtmsClient], today: date, lawd_cache: Optional[dict] = None) -> Optional[Listing]:
     if not raw.get("price"):
         return None
@@ -175,7 +230,7 @@ def build_listing(raw: dict, rtms: Optional[RtmsClient], today: date, lawd_cache
         contract=raw["contract"], move_in=raw["move_in"],
         price=raw["price"], ext=0.0, contract_rate=0.10, mid_rate=0.0 if built else 0.6,
         **mk, **js,
-        capital=capital, regulated=bool(regulated),
+        capital=capital, regulated=bool(regulated), reg_kind=reg_kind(raw),
         land_permit=bool(regulated) and capital and today.isoformat() <= R.LAND_PERMIT_UNTIL,
         price_cap=price_cap, residence_duty=None if price_cap else 0,
         unregistered=True,
@@ -534,6 +589,8 @@ def apply_notice(listings: list[Listing], log: list[str], client=None, previous:
                              if c else {"households": None, "buildings": None, "single": "unknown", "status": "확인 불가", "src": None})
             if "score_ratio" in found and feature_on("region_first_score"):
                 L.score_ratio = found["score_ratio"]
+            if feature_on("region_first_score") and feature_on("score_ratio_law"):
+                score_ratio_law(L, log)
             if "schedule" in found and feature_on("notice_schedule"):
                 L.schedule = found["schedule"]
                 sp = found["schedule"].get("special")

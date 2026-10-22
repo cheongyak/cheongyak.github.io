@@ -167,7 +167,9 @@
     "sh_judge": true,
     "resupply_scale_check": true,
     "verify_scope": true,
-    "notice_recheck": true
+    "notice_recheck": true,
+    "score_ratio_law": true,
+    "qa_observe": true
   },
   "contact_email": "ckwlsgur@naver.com",
   "report_form_url": "",
@@ -200,5 +202,8 @@
       "제6조(이용자의 의무)에 AI 질문에 주민등록번호 같은 개인정보나 다른 사람의 정보를 적지 않을 것, 기능을 자동으로 반복 호출하지 않을 것을 더해요."
     ]
   },
-  "chat_off": false
+  "chat_off": false,
+  "qa_observe": {
+    "verify-scope.json": "2026-10-22"
+  }
 }

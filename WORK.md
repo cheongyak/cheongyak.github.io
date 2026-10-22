@@ -4,6 +4,33 @@
 2026-09-29 12:55 이전 항목은 규칙을 만들기 전 작업을 커밋 기록으로 정리한 것이라 백업 브랜치가 없어요.
 그 시점으로 되돌릴 때는 해당 커밋 번호로 `git revert` 를 써요.
 
+## 2026-10-22 12:40 · 아침 자동 고치기 준비 (못 읽음 목록·절차서)
+- 요청: 처음 보는 공고 형태가 나오면 자체적으로 새 읽는 방식을 추가해서 읽게 — 운영자 결정 '조건 맞으면 바로 올림'
+- 변경: tools/qa/unread_queue.py — 분양 checks 중 공고문 못 읽음·대조·새 문구, notice_conflicts, 임대 못 읽음·불변식, verify-status 경고·공고별 표시, run-log [공고문·정정]·[공고문·법령 불일치] 를 공고별로 모으고 원문 저장 여부를 적음(evidence/qa/unread-queue.json, 저장소에 안 올림). .claude/skills/cheongyakpass-ops/AUTOFIX.md — 예약 세션 절차(원문 읽기 → 그 꼴 읽기 규칙 추가 → 정답 데이터·시험 → 올리는 조건: 원문에 값 그대로·다른 공고 값 변화 없음·pytest·판정·스냅샷·E2E 통과·충돌 표시 없음 → 올리고 재수집 확인, 아니면 보고만 / 공고문 대조·법령 불일치·정정 값 변화는 사람 판단이라 보고만 / 관찰 검사 7일 실패 0 이면 관문으로)
+- 파일: tools/qa/unread_queue.py, tests/test_unread_queue.py, .claude/skills/cheongyakpass-ops/AUTOFIX.md, .gitignore, WORK.md
+- 확인: 10-22 07:40 실제 상태(474570dc)로 돌리면 그날 손으로 고친 4건(2026930044·2026000502·0000061187·2015122300020930)을 모두 잡음, 시세 참고는 안 잡음(시험 2). 지금은 '할 일 없음'
+- 백업: backup/20261022-1226-qaobserve (코드 변경 없는 도구·문서 추가)
+- 기능: 없음(도구)
+
+## 2026-10-22 12:26 · 새 검사 관찰 기간 (v1.77.0)
+- 요청: 아직 남은 것 — 경고 원인 1위 '검사 도구·기대값 오류(거짓 경보)' 6번·12.5시간 막기
+- 변경: verify_status — config.json qa_observe {결과 파일: 시작일} 의 검사는 observe 에만(관찰 중·재검증 대기·결과 없음, 실패 수) 남기고 ok·banner·--full 미완료에 넣지 않음. 관문 목록 GATED 를 고정하고 tests/test_qa_observe.py 가 'DEPS 의 모든 검사는 관문이나 관찰 중 하나'를 지킴 — 새 검사를 관찰 없이 관문에 거는 것을 시험이 막음. 화면 검증 현황 '관찰 중 검사' 줄. 첫 관찰: 오늘 만든 경고 범위 화면 검사(verify-scope.json). 기능 qa_observe
+- 파일: tools/verify_status.py, docs/config.json, docs/index.html, tests/test_qa_observe.py, docs/changelog.json, VERSIONS.md, FEATURES.md, WORK.md
+- 확인: 시험 3(관문·관찰 목록, 실패 수 셈, 관찰 중 실패가 ok·경고를 안 바꿈), pytest 364, 경고 범위 화면 4가지, 판정 950, 문법
+- 백업: backup/20261022-1226-qaobserve
+- 기능: qa_observe
+- 버전: v1.77.0
+
+## 2026-10-22 12:16 · 가점제 비율 두 번째 근거 = 법령 (v1.76.0)
+- 요청: 아직 남은 것 — 표 하나에서만 읽는 값에 두 번째 근거
+- 확인한 것: 저장 원문 103건에 읽기 규칙을 돌려 항목별로 셈 — 지금 규칙으로 민영 가점제 비율은 45/45, 못 읽은 11건은 모두 국민주택(비율 없음이 맞음). 다만 이 값은 2026000502 처럼 새 표 모양에 다시 못 읽힐 수 있고, 법령으로 값이 정해지는 항목이라 두 번째 근거로 고름
+- 변경: law_score_ratio(규칙 제28조②④, docs/chat-law.json 원문) · Listing.reg_kind(청약홈 투기과열·조정대상 값, 없으면 None — 주소로 짐작 안 함) · score_ratio_law: 공고문 비율이 법령과 다르면 notice_conflicts, 표 못 읽고 법령 값이 하나면 '법령 기준'으로 채우고 validate 가 추정이라고 표시, 화면 세대수·안내에 '법령 기준 추정'. 기능 score_ratio_law
+- 파일: app/models.py, app/pipeline.py, app/validate.py, docs/index.html, docs/config.json, tests/test_score_ratio_law.py, docs/changelog.json, VERSIONS.md, FEATURES.md, WORK.md
+- 확인: 지금 민영 144개·저장소 이력(listings.json 판 1/4 표본) 246개 주택형 공고문 비율이 법령 규칙과 모두 맞음(위반 0, 지금 데이터엔 reg_kind 가 없어 regulated(=투기과열)로 계산 — 다음 수집부터 조정대상도 반영). 시험 4(법령 원문 문장·표·짐작 안 함·일치/불일치/채움/범위만이면 안 채움/국민 제외), pytest 361, 판정 950, E2E 34, 스냅샷 0, 문법
+- 백업: backup/20261022-1216-lawratio
+- 기능: score_ratio_law
+- 버전: v1.76.0
+
 ## 2026-10-22 12:10 · 정정 공고문 다시 읽기 (v1.75.0)
 - 요청: 아직 남은 것 처리 — 정정 공고 처리 점검
 - 원인: apply_notice 는 같은 PARSER_VERSION 으로 읽은 공고문을 다시 받지 않음(시간 절약). 정정 공고·파일 교체를 알아채는 곳이 없음. notice-cache.json 이력 73판 중 첨부가 바뀐 공고 4건(2026000463 순번 5→6, 2026000498 1→2, 2026000507 4→5, 2026930033 1→2)은 규칙 버전이 우연히 올라갈 때만 새 파일로 읽힘
