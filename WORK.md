@@ -4,6 +4,15 @@
 2026-09-29 12:55 이전 항목은 규칙을 만들기 전 작업을 커밋 기록으로 정리한 것이라 백업 브랜치가 없어요.
 그 시점으로 되돌릴 때는 해당 커밋 번호로 `git revert` 를 써요.
 
+## 2026-10-22 08:38 · 검증 경고를 문제 있는 곳에만 (경고 반복 원인 ③, v1.73.0)
+- 요청: '베타 참고용' 반복 근본 원인 — 경고가 실제 검증 상태와 맞게, 일부 공고 문제로 전체가 틀린 것처럼 보이지 않게, 미검증을 정상으로 보지 않게 (사용자 지시문 7항)
+- 원인: 화면 경고 = verify-status ok 하나, ok = 검사 25가지의 AND. 경고 19번 중 7번(10-07 07:35·13:24, 10-08 23:21, 10-11 05:50, 10-12 12:45, 10-21 06:05, 10-22 06:18)은 공고 몇 개의 문제였는데 245개 공고 모든 화면에 경고. 또 판정·화면 검사 실패(5번)도 '공고문과 다른 값'이라고 적힘. 지난 결과(지문 다름)는 세지 않아 '통과'처럼 보임
+- 변경: tools/verify_status.scope — ok 는 그대로, banner(notice·judge·unverified, 원인별 글·이유)·flagged{id:[이유]}·pending·coverage_missing 추가. 공고 id 를 모르는 실패는 숨기지 않고 banner. 불변식·임대 불변식 결과에 id 전부. 화면 betaBanner·verifyFlags(분양 상세·임대 상세 맨 위)·verifyCard(상태 칩·공고별 확인·재검증 대기·빠진 공고·확인 중인 문제)·간단 이용 안내에도 열린 것이 있으면 검증 현황. 화면 검사 tools/qa/verify_scope.cjs(4가지 상태) → evidence/qa/verify-scope.json → verify_status·stamp·verify.yml. 기능 verify_scope
+- 파일: tools/verify_status.py, tools/qa/lh_invariants.py, tools/qa/stamp.py, tools/qa/verify_scope.cjs, .github/workflows/verify.yml, docs/index.html, docs/config.json, docs/changelog.json, VERSIONS.md, FEATURES.md, WORK.md (시험은 다음 커밋 tests/test_verify_root_20261022.py)
+- 확인: 390px 4가지 상태 — 전체 문제 → 빨간 경고·검증 현황 '차이 발견' / 공고 문제만 → 빨간 경고 없음·분양 상세·임대 상세 '데이터 확인 필요'·검증 현황 '공고 2건 확인 중' / 재검증 대기만 → 빨간 경고 없음·'재검증 대기' / 스위치 끔 → 예전처럼 빨간 경고. 지금 verify-status: ok true·banner 없음. 스크립트 문법, pytest 321, 판정 950/950, E2E 34, 스냅샷 0, LH 화면 문제 없음
+- 백업: backup/20261022-0838-verify-root
+- 기능: verify_scope
+- 버전: v1.73.0
 ## 2026-10-22 08:49 · LH 주거복지(매입임대·든든전세)·신혼희망 행복주택 목록 (기능 lh_welfare, 꺼 둔 채)
 - 요청: 운영자 08:33 '넣어줘' — 든든전세·매입임대·신혼희망 행복주택을 목록에 (스위치 끈 채 목록만·판정 없음으로 시작)
 - 배경·원인: LH 임대 수집(app/lh_rental.py)은 LH 대분류 '임대주택'(06)만 봄. 든든전세·청년/신혼/기존주택 매입임대는 '주거복지(13)/매입임대(26)', 신혼희망타운 행복주택은 '공공분양(신혼희망)(39)/행복주택(신혼희망)(42)' 이라 처음부터 빠져 있었음(evidence/qa/lh-probe.txt '[06 밖]')

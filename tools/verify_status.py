@@ -17,6 +17,66 @@ DOCS = ROOT / "docs"
 
 
 
+NAMES = {"invariants.json": "데이터 불변식", "lh-invariants.json": "임대 데이터 불변식", "lh-unread.json": "임대 공고문 못 읽음", "market-check.json": "시세 원자료 대조",
+         "pay-audit.json": "계약금 비율 대조", "parse-moved.json": "다시 받은 공고문 값 변화", "coverage.json": "공고 누락 점검", "supply-type.json": "공급유형 표시",
+         "filter-check.json": "필터", "consistency.json": "카드·상세 일치", "sp-text.json": "특별공급 문구", "cross-rule.json": "교차 규칙", "profile-keep.json": "내 조건 유지",
+         "monotonic.json": "단조성", "snapshot.json": "화면 스냅샷", "e2e.json": "사용자 흐름", "past-chat.json": "지난 공고·청약봇", "zero-default.json": "빈칸 기본값",
+         "input-nav.json": "입력 버튼", "verify-scope.json": "경고 범위 화면", "lh-qa.json": "임대 판정", "lh-screen.json": "임대 화면", "lh-pdf-tools.json": "임대 공고문 여러 도구 읽기"}
+
+
+def _viol_rows(d, parts) -> list:
+    """불변식 결과 {part: {violations: {이름: {count, ids}}}} → [(id, 이름)]. ids 가 없는 옛 결과는 (None, 이름) — 어느 공고인지 모름"""
+    out = []
+    for s in parts:
+        for k, v in (((d or {}).get(s) or {}).get("violations") or {}).items():
+            out += [(i, k) for i in v["ids"]] if v.get("ids") else [(None, k)] * max(1, v.get("count") or 0)
+    return out
+
+
+def scope(*, gate, judge, cc_bad, gold_bad, cc_missing, full_stale, stale, system, notice, listing, coverage) -> dict:
+    """경고 범위 나누기 (기능 verify_scope, 2026-10-22 경고 이력 분석 — evidence/qa/warn-history.json).
+    ok(Actions 실패·이슈)는 그대로 두고, 화면이 쓸 상태만 나눈다:
+      banner   — 모든 판정에 영향이 있어 사이트 전체에 알릴 것: 공고문 대조·정답 데이터 불일치('notice'), 판정·화면 검사 실패('judge'), 검증을 끝내지 못함('unverified')
+      flagged  — 특정 공고에만 해당: {공고·주택형 id: [이유]} → 그 공고 화면 '데이터 확인 필요'. 어느 공고인지 모르는 실패가 하나라도 섞이면 숨기지 않고 banner 로 올린다
+      pending  — 지금 데이터·코드로 아직 다시 돌리지 않은 검사(지난 결과): 통과로 치지 않고 '재검증 대기'로 보여 준다
+      coverage_missing — 청약홈에 열려 있는데 화면에 없는 공고 수(값이 틀린 것이 아니라 빠진 것, 검증 현황에 표시)"""
+    kinds, why = [], []
+    if not judge:
+        kinds.append("unverified"); why.append("판정 검증 결과 없음")
+    if cc_missing:
+        kinds.append("unverified"); why.append("공고문 대조를 돌리지 못함")
+    if full_stale:
+        kinds.append("unverified"); why.append("다시 돌리지 못한 검사 " + " ".join(full_stale))
+    if cc_bad or gold_bad:
+        kinds.append("notice"); why.append(f"공고문 대조 {len(cc_bad)}건 · 정답 데이터 {len(gold_bad)}건 다름")
+    if judge and (judge["failed"] or judge.get("pageErrors")):
+        kinds.append("judge"); why.append(f"판정 사례 {len(judge['failed'])}건 다름")
+    flagged = {}
+    if gate:
+        for k, v in notice.items():
+            if v:
+                kinds.append("notice"); why.append(f"{k} {v}건")
+        for k, v in system.items():
+            if v:
+                kinds.append("judge"); why.append(f"{k} {v}건")
+        for f, (n, rows) in listing.items():
+            if not n:
+                continue
+            ids = [(str(i).strip(), r) for i, r in rows if i]
+            if not ids or len(ids) < len(rows):
+                kinds.append("notice"); why.append(f"{NAMES.get(f, f)} {n}건 (어느 공고인지 모름)")
+            for i, r in ids:
+                t = f"자동 검증({NAMES.get(f, f)}): {r}"
+                if t not in flagged.setdefault(i, []):
+                    flagged[i].append(t)
+    kind = next((k for k in ("notice", "judge", "unverified") if k in kinds), None)
+    text = {"notice": "최근 자동 검증에서 공고문과 다른 값이 발견돼 확인 중이에요.",
+            "judge": "최근 자동 검증에서 판정 계산이 기대와 달라 확인 중이에요.",
+            "unverified": "최근 자동 검증을 끝까지 마치지 못해 확인 중이에요."}
+    return {"banner": {"kind": kind, "text": text[kind], "why": why[:12]} if kind else None,
+            "flagged": flagged, "pending": [NAMES.get(x, x) for x in stale], "coverage_missing": coverage or 0}
+
+
 def build() -> dict:
     log = (DOCS / "run-log.txt").read_text(encoding="utf-8").splitlines() if (DOCS / "run-log.txt").exists() else []
     judge = json.loads((DOCS / "judge-status.json").read_text(encoding="utf-8")) if (DOCS / "judge-status.json").exists() else None
@@ -50,6 +110,8 @@ def build() -> dict:
         return d
     st, inv, flt, con, spt, mkc, crx, pkp, mono, snap, e2e = qa("supply-type.json"), qa("invariants.json"), qa("filter-check.json"), qa("consistency.json"), qa("sp-text.json"), qa("market-check.json"), qa("cross-rule.json"), qa("profile-keep.json"), qa("monotonic.json"), qa("snapshot.json"), qa("e2e.json")
     pch = qa("past-chat.json")
+    vsc = qa("verify-scope.json")   # 경고 범위 화면 (tools/qa/verify_scope.cjs, 기능 verify_scope 2026-10-22): 상태별 빨간 경고·공고 표시·검증 현황
+    vsc_bad = len(vsc["fails"]) if vsc else None
     pay = qa("pay-audit.json")   # 계약금 비율 ↔ 공고문 금액 줄 독립 점검 (tools/qa/pay_audit.py, 2026-10-08 계약금 10% 고정 오류 뒤)
     pay_bad = pay["bad"] if pay else None
     pmv = qa("parse-moved.json")   # 다시 받아 글이 바뀐 공고문에서 읽은 값이 달라짐 (tools/qa/parse_snapshot --moved-json, 2026-10-10)
@@ -80,7 +142,7 @@ def build() -> dict:
     snap_bad = snap["diffs"] if snap else None   # 화면 글자 스냅샷 (일부러 바꾸면 tools/qa/snapshot.cjs --update)
     e2e_bad = e2e["fail"] if e2e else None       # 사용자 흐름·퍼징
     pch_bad = (pch["violations"] + len(pch.get("pageErrors") or [])) if pch else None   # 지난 공고 판정 줄·청약봇 판정 요약 ↔ 화면 (tools/qa/past_chat.cjs, 2026-10-02)
-    qa_ok = not gate or ((st_bad == 0 or "supply-type.json" in stale) and (inv_bad == 0 or "invariants.json" in stale) and flt_bad in (0, None) and con_bad in (0, None) and spt_bad in (0, None) and mkc_bad in (0, None) and crx_bad in (0, None) and pkp_bad in (0, None) and mono_bad in (0, None) and zd_bad in (0, None) and inav_bad in (0, None) and snap_bad in (0, None) and e2e_bad in (0, None) and pch_bad in (0, None) and lhi_bad in (0, None) and lhq_bad in (0, None) and lhs_bad in (0, None) and lhu_bad in (0, None) and lhp_bad in (0, None) and pay_bad in (0, None) and pmv_bad in (0, None) and cov_bad in (0, None))   # 필터 검사는 결과 파일이 있을 때만 (2026-10-02 추가)
+    qa_ok = not gate or ((st_bad == 0 or "supply-type.json" in stale) and (inv_bad == 0 or "invariants.json" in stale) and flt_bad in (0, None) and con_bad in (0, None) and spt_bad in (0, None) and mkc_bad in (0, None) and crx_bad in (0, None) and pkp_bad in (0, None) and mono_bad in (0, None) and zd_bad in (0, None) and inav_bad in (0, None) and snap_bad in (0, None) and e2e_bad in (0, None) and pch_bad in (0, None) and lhi_bad in (0, None) and lhq_bad in (0, None) and lhs_bad in (0, None) and lhu_bad in (0, None) and lhp_bad in (0, None) and pay_bad in (0, None) and pmv_bad in (0, None) and cov_bad in (0, None) and vsc_bad in (0, None))   # 필터 검사는 결과 파일이 있을 때만 (2026-10-02 추가)
     # --full (판정 검증 verify.yml): 그 실행이 모든 검사를 다시 돌리므로 지난 결과가 남으면(검사가 결과를 못 썼음) 실패. 수집에서만 도는 시세 대조·공고문 글 바뀜은 뺀다
     full_stale = [x for x in stale if x not in ("market-check.json", "parse-moved.json", "coverage.json")] if "--full" in sys.argv else []
     if full_stale:
@@ -88,6 +150,18 @@ def build() -> dict:
     if stale:
         print(f"[검증·지난 결과] 지금 데이터·화면 코드와 다른 때 돌린 검사 {len(stale)}개는 세지 않음(다음 판정 검증에서 다시 돌림): {' '.join(stale)}")
     ok = bool(judge) and not judge["failed"] and not judge.get("pageErrors") and not cc_bad and not gold_bad and (cc_sum is not None or not cc_on) and qa_ok and not full_stale
+    sc = scope(gate=gate, judge=judge, cc_bad=cc_bad, gold_bad=gold_bad, cc_missing=cc_on and cc_sum is None, full_stale=full_stale, stale=stale,
+               system={"공급유형 표시": st_bad, "필터": flt_bad, "카드·상세 일치": con_bad, "특별공급 문구": spt_bad, "교차 규칙": crx_bad,
+                       "내 조건 유지": pkp_bad, "단조성": mono_bad, "빈칸 기본값": zd_bad, "입력 버튼": inav_bad, "화면 스냅샷": snap_bad, "사용자 흐름": e2e_bad,
+                       "지난 공고·청약봇": pch_bad, "LH 판정": lhq_bad, "LH 화면": lhs_bad, "경고 범위 화면": vsc_bad},
+               notice={"LH 공고문 여러 도구 읽기": lhp_bad},
+               listing={"invariants.json": (inv_bad, _viol_rows(inv, ("live", "archive"))),
+                        "lh-invariants.json": (lhi_bad, _viol_rows({"x": lhi} if lhi else None, ("x",))),
+                        "lh-unread.json": (lhu_bad, [(r["id"], f"{r.get('group') or ''} {r['text']}".strip()) for r in ((lhu or {}).get("rows") or []) if not r.get("allowed")] + [(None, e) for e in ((lhu or {}).get("errs") or [])]),
+                        "market-check.json": (mkc_bad, [(x["id"], "시세 근거가 국토부 실거래가 원자료와 다름") for x in ((mkc or {}).get("items") or []) if x.get("bad")]),
+                        "pay-audit.json": (pay_bad, [(i, "계약금 비율이 공고문 금액 줄과 다름") for k in ("misread", "dominant") for i in (((pay or {}).get("flags") or {}).get(k) or [])]),
+                        "parse-moved.json": (pmv_bad, [(str(x).split(" ")[0], "다시 받은 공고문에서 읽은 값이 달라짐") for x in ((pmv or {}).get("items") or [])])},
+               coverage=cov_bad)
     kst = timezone(timedelta(hours=9))
     # 수집 멈춤 감시 (tools/qa/freshness.py, 2026-10-22 LH 임대 저장 실패로 이틀 멈춤): 분양·LH·SH 데이터 '마지막 갱신'이 26시간을 넘으면 경고.
     # 데이터가 틀린 게 아니라 오래된 것이라 ok 는 바꾸지 않고 warnings 로만 남긴다(지금 파일 시각으로 매번 계산 — 지난 결과가 될 일 없음)
@@ -98,11 +172,11 @@ def build() -> dict:
         fresh = {"items": [], "warnings": [f"수집 멈춤 감시 실패 {e.__class__.__name__}"]}
     for w in fresh["warnings"]:
         print(f"[경고·수집 멈춤] {w}")
-    return {"at": datetime.now(kst).strftime("%Y-%m-%d %H:%M"), "ok": ok, "collect_run": run_at,
+    return {"at": datetime.now(kst).strftime("%Y-%m-%d %H:%M"), "ok": ok, "collect_run": run_at, **sc,
             "warnings": fresh["warnings"], "freshness": [{k: i[k] for k in ("name", "updated", "hours", "stale")} for i in fresh["items"]],
             "judge": {"total": judge["total"], "passed": judge["passed"], "failed": [f["id"] for f in judge["failed"]]} if judge else None,
             "crosscheck": {"summary": cc_sum, "mismatches": cc_bad[:30]}, "golden": {"mismatches": gold_bad[:30]},
-            "qa_stale": stale, "qa": {"gate": gate, "supply_type_fails": st_bad, "invariant_violations": inv_bad, "filter_fails": flt_bad, "consistency_fails": con_bad, "sp_text_fails": spt_bad, "market_fails": mkc_bad, "cross_rule_fails": crx_bad, "profile_keep_fails": pkp_bad, "monotonic_violations": mono_bad, "zero_default_violations": zd_bad, "input_nav_problems": inav_bad, "snapshot_diffs": snap_bad, "e2e_fails": e2e_bad, "past_chat_fails": pch_bad, "lh_invariant_violations": lhi_bad, "lh_judge_qa_fails": lhq_bad, "lh_screen_fails": lhs_bad, "lh_unread": lhu_bad, "lh_pdf_merged_wrong": lhp_bad, "pay_audit_bad": pay_bad, "parse_moved_changes": pmv_bad, "coverage_missing": cov_bad, "pay_audit_read": pay and f"{pay['read']}/{pay['notices']}", "lh_data_at": lhi and lhi.get("data_updated"), "cross_rule_checks": crx and crx.get("checks"), "market_at": mkc and mkc.get("date"), "supply_type_at": st and st.get("date"), "invariants_at": inv and inv.get("date")}}
+            "qa_stale": stale, "qa": {"gate": gate, "supply_type_fails": st_bad, "invariant_violations": inv_bad, "filter_fails": flt_bad, "consistency_fails": con_bad, "sp_text_fails": spt_bad, "market_fails": mkc_bad, "cross_rule_fails": crx_bad, "profile_keep_fails": pkp_bad, "monotonic_violations": mono_bad, "zero_default_violations": zd_bad, "input_nav_problems": inav_bad, "snapshot_diffs": snap_bad, "e2e_fails": e2e_bad, "past_chat_fails": pch_bad, "lh_invariant_violations": lhi_bad, "lh_judge_qa_fails": lhq_bad, "lh_screen_fails": lhs_bad, "lh_unread": lhu_bad, "lh_pdf_merged_wrong": lhp_bad, "pay_audit_bad": pay_bad, "parse_moved_changes": pmv_bad, "coverage_missing": cov_bad, "verify_scope_fails": vsc_bad, "pay_audit_read": pay and f"{pay['read']}/{pay['notices']}", "lh_data_at": lhi and lhi.get("data_updated"), "cross_rule_checks": crx and crx.get("checks"), "market_at": mkc and mkc.get("date"), "supply_type_at": st and st.get("date"), "invariants_at": inv and inv.get("date")}}
 
 
 if __name__ == "__main__":

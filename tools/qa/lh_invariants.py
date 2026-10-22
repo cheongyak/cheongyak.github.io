@@ -122,7 +122,7 @@ def check(data: dict, golden: list) -> dict:
             for r in N.get("rents") or []:
                 if gold_pairs and (r["deposit"], r["rent"]) not in gold_pairs:
                     v["golden"].append(f"{nid} 임대조건 정답에 없는 줄 {r}")
-    res = {k: {"count": len(x), "examples": x[:10]} for k, x in v.items()}
+    res = {k: {"count": len(x), "examples": x[:10], "ids": sorted({e.split(" ")[0] for e in x})} for k, x in v.items()}   # ids: 화면이 그 공고에 표시 (verify_scope)
     check.info = {k: {"count": len(x), "examples": x[:10]} for k, x in info.items()}
     return res
 
