@@ -440,7 +440,9 @@ def apply_notice(listings: list[Listing], log: list[str], client=None, previous:
         from . import notice_chunks
         fresh = {u for u in fresh if notice_chunks.has(groups[u][0].id.split("-")[0])}
     if fresh and feature_on("notice_recheck"):   # 보관 기록이 있어도 청약홈 첨부가 바뀌었으면(정정 공고·다시 올림) 다시 읽는다
-        changed = recheck_attachments({u: cache[groups[u][0].id.split("-")[0]].get("notice_pdf") for u in fresh}, client)
+        _chk = {u: cache[groups[u][0].id.split("-")[0]].get("notice_pdf") for u in fresh}
+        changed = recheck_attachments(_chk, client)
+        log.append(f"[공고문·정정 확인] 보관 기록 공고 {len(_chk)}건 중 청약홈 첨부 {sum(1 for p in _chk.values() if _att_key(p))}건 확인 · 바뀜 {len(changed)}건")
         for u, (old, new) in changed.items():
             fresh.discard(u)
             log.append(f"[공고문·정정] {groups[u][0].name}: 청약홈 첨부가 바뀌어 다시 읽어요 ({_att_key(old)} → {_att_key(new)})")
