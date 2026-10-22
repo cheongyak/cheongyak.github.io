@@ -1,29 +1,31 @@
 {
- "at": "2026-10-22 10:23",
+ "at": "2026-10-22 11:21",
  "ok": true,
  "collect_run": "2026-10-22 · 공고 245건",
  "banner": null,
  "flagged": {},
- "pending": [],
+ "pending": [
+  "경고 범위 화면"
+ ],
  "coverage_missing": 0,
  "warnings": [],
  "freshness": [
   {
    "name": "분양",
-   "updated": "2026-10-22 09:51",
-   "hours": 0.5,
+   "updated": "2026-10-22 11:05",
+   "hours": 0.3,
    "stale": false
   },
   {
    "name": "LH 임대",
    "updated": "2026-10-22 09:03",
-   "hours": 1.3,
+   "hours": 2.3,
    "stale": false
   },
   {
    "name": "SH 임대",
    "updated": "2026-10-22 07:13",
-   "hours": 3.2,
+   "hours": 4.1,
    "stale": false
   }
  ],
@@ -39,7 +41,9 @@
  "golden": {
   "mismatches": []
  },
- "qa_stale": [],
+ "qa_stale": [
+  "verify-scope.json"
+ ],
  "qa": {
   "gate": true,
   "supply_type_fails": 0,
@@ -64,7 +68,7 @@
   "pay_audit_bad": 0,
   "parse_moved_changes": 0,
   "coverage_missing": 0,
-  "verify_scope_fails": 0,
+  "verify_scope_fails": null,
   "pay_audit_read": "132/144",
   "lh_data_at": "2026-10-22 09:03",
   "cross_rule_checks": 307907,
