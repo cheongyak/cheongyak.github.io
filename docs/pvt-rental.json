@@ -1,8 +1,71 @@
 {
- "updated": "2026-10-22 09:26",
- "source": "청약홈 분양정보 API 공공지원 민간임대 (한국부동산원)",
- "count": 3,
+ "updated": "2026-10-22 19:39",
+ "source": "청약홈 분양정보 API 공공지원 민간임대·민간임대 (한국부동산원)",
+ "count": 4,
  "notices": [
+  {
+   "id": "PVT-2026950093",
+   "org": "PVT",
+   "name": "매교역 팰루시드",
+   "type": "민간임대",
+   "judge_type": false,
+   "youth": false,
+   "region": "경기도",
+   "posted": "2026-10-20",
+   "close": "2026-10-27",
+   "status": null,
+   "url": "https://www.applyhome.co.kr/ai/aia/selectPRMOLttotPblancDetailView.do?houseManageNo=2026950093&pblancNo=2026950093&houseSecd=02",
+   "url_mobile": "https://www.applyhome.co.kr/ai/aia/selectPRMOLttotPblancDetailView.do?houseManageNo=2026950093&pblancNo=2026950093&houseSecd=02",
+   "schedule": [
+    {
+     "complex": null,
+     "apply_start": "2026-10-26",
+     "apply_end": "2026-10-27",
+     "docs_target": null,
+     "winner": "2026-10-30",
+     "rank1": false,
+     "contract_start": "2026-11-05",
+     "contract_end": "2026-11-07"
+    }
+   ],
+   "complexes": [
+    {
+     "name": "매교역 팰루시드",
+     "address": "경기도 수원시 권선구 세류동 817-72번지 일원 (권선113의6구역 주택재개발정비사업)",
+     "households": 154,
+     "move_in": "202611",
+     "builder": "권선113의6구역주택재개발정비사업조합"
+    }
+   ],
+   "units": [
+    {
+     "complex": null,
+     "type": "39",
+     "area": 39.3,
+     "households": 154,
+     "now_households": 154,
+     "general": null,
+     "special": {
+      "청년": 0,
+      "신혼부부": 0,
+      "고령자": 0
+     },
+     "supply_amount": 31200,
+     "apply_fee": 10,
+     "deposit": null,
+     "rent": null
+    }
+   ],
+   "rents": [],
+   "terms": null,
+   "files": [],
+   "notice_pdf": null,
+   "home": null,
+   "office": {
+    "place": null,
+    "tel": "01025677778"
+   }
+  },
   {
    "id": "PVT-2026850052",
    "org": "PVT",
