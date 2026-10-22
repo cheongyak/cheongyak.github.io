@@ -44,6 +44,7 @@ def test_apply_notice_rereads_corrected_notice_and_logs_changes(monkeypatch):
     assert ("재당첨 제한", "5년") in x.limits
     assert any("[공고문·정정]" in l and "첨부가 바뀌어" in l for l in log)
     assert any("[공고문·정정]" in l and "account_months" in l and "rewin_years" in l for l in log)
+    assert any(l.startswith("[공고문·정정 확인]") and "바뀜 1건" in l for l in log)   # 매 수집 확인했다는 줄 (바뀐 게 없어도 남음)
 
 
 def test_apply_notice_keeps_cache_when_attachment_same(monkeypatch):
