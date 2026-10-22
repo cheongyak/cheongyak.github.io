@@ -178,3 +178,6 @@ description: 청약패스(cheongyakpass.kr, 저장소 cheongyak/cheongyak.github
 - **LH 원천 범위**: lh_rental 은 LH 대분류 '임대주택'(06)만 수집한다. 든든전세·청년/신혼 매입임대는 '주거복지(13)', 신혼희망타운 행복주택은 '공공분양(신혼희망)' — 사용자가 'LH 공고인데 왜 없나'고 하면 evidence/qa/lh-probe.txt '[06 밖]' 줄부터 본다.
 
 - **`git pull --autostash` 금지 (2026-10-22 사고)**: 다른 세션이 같은 줄(PARSER_VERSION 등)을 고친 뒤 autostash 를 꺼내면 충돌 표시가 작업 파일에 남는데, 이어 `git add` 하면 그대로 커밋된다(1ff42735 → pipeline.py 문법 오류). 항상 먼저 커밋 → `git pull --rebase` → 충돌이면 멈추고 고친다. 올리기 전 `grep -rn '^<<<<<<< ' app tools docs tests` 로 확인. PARSER_VERSION 은 받은 뒤 최댓값+1
+
+- **경고(베타 참고용) 원인 찾기 (2026-10-22)**: `python -m tools.qa.warn_history` → 경고 구간·걸린 검사·원인 종류(evidence/qa/warn-causes.json). 원인은 원문·커밋으로 확인한 것만 적는다. 첫 짐작(10-06·10-08 '시계 기준 거짓 경보')이 그날 데이터로 다시 돌려 보니 틀렸다(실제는 0건 수집이 지난 결과를 통째로 다시 씀) — 고치기 전에 그날 데이터로 재현할 것
+- **새 검사를 관문에 걸 때**: 저장 원문·지금 데이터 전체로 먼저 돌려 0건인지 보고 건다(거짓 경보 6/19번이 새 검사·기대값). 결과에 공고 id 를 전부 남기면 verify_scope 가 그 공고에만 표시한다

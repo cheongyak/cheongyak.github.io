@@ -136,3 +136,56 @@ def test_table_vs_sentence_mismatch_is_flagged_on_the_listing():
     found["sp_table"]["084.9478B"] = {"elder": 1, "total": 1}
     c = _L("2026930038-084.9958A")
     assert resupply_scale(c, found, [c, b]) == "대조 일치" and c.notice_conflicts == []
+
+
+# ---- 원인 A: 공고 하나의 문제가 사이트 전체 '베타 참고용'이 되던 구조 (verify_status.ok 하나 = 검사 25가지의 AND) ----
+def _scope(**k):
+    from tools.verify_status import scope
+    base = dict(gate=True, judge={"total": 1, "passed": 1, "failed": []}, cc_bad=[], gold_bad=[], cc_missing=False, full_stale=[], stale=[],
+                system={}, notice={}, listing={}, coverage=0)
+    base.update(k)
+    return scope(**base)
+
+
+def test_listing_problem_is_flagged_on_that_listing_not_site_wide():
+    """10-22 06:18 실제: 영흥숲 한 주택형의 불변식 위반 → 245개 공고 전부에 '공고문과 다른 값' 경고. 이제 그 주택형에만"""
+    s = _scope(listing={"invariants.json": (1, [("2026930044-066.8113", "재공급 일반 0세대인데 특공 세대수 없음")])})
+    assert s["banner"] is None
+    assert s["flagged"] == {"2026930044-066.8113": ["자동 검증(데이터 불변식): 재공급 일반 0세대인데 특공 세대수 없음"]}
+
+
+def test_listing_problem_without_ids_is_not_hidden():
+    """어느 공고인지 모르는 실패(옛 결과·도구 오류)는 숨기지 않고 사이트 전체에 알린다"""
+    s = _scope(listing={"lh-unread.json": (2, [("2015122300020930", "못 읽음"), (None, "error x")])})
+    assert s["banner"]["kind"] == "notice" and "어느 공고인지 모름" in " ".join(s["banner"]["why"])
+    assert "2015122300020930" in s["flagged"]
+
+
+def test_system_problems_keep_site_wide_banner_with_accurate_text():
+    assert _scope(cc_bad=["[검증·공고문 불일치] x"])["banner"]["kind"] == "notice"          # 앱 기준표가 공고문과 다름 → 모든 판정
+    assert _scope(gold_bad=["[검증·정답 불일치] x"])["banner"]["kind"] == "notice"
+    j = _scope(judge={"total": 2, "passed": 1, "failed": [{"id": "c1"}]})["banner"]
+    assert j["kind"] == "judge" and "판정 계산" in j["text"] and "공고문과 다른 값" not in j["text"]   # 예전엔 화면 검사 실패도 '공고문과 다른 값'이라고 했다
+    assert _scope(system={"입력 버튼": 2})["banner"]["kind"] == "judge"
+
+
+def test_unverified_is_not_treated_as_pass():
+    """검증을 못 돌린 것은 통과가 아니다: 판정 결과 없음·공고문 대조 못 함 → 전체 경고('끝까지 마치지 못해'), 지난 결과 → 재검증 대기"""
+    assert _scope(judge=None)["banner"]["kind"] == "unverified"
+    assert _scope(cc_missing=True)["banner"]["kind"] == "unverified"
+    s = _scope(stale=["market-check.json"])
+    assert s["banner"] is None and s["pending"] == ["시세 원자료 대조"]
+
+
+def test_gate_off_counts_nothing():
+    assert _scope(gate=False, system={"입력 버튼": 2}, listing={"invariants.json": (1, [("x", "y")])}) == {"banner": None, "flagged": {}, "pending": [], "coverage_missing": 0}
+
+
+def test_warn_history_scope_matches_verify_status_rules():
+    """경고 이력 도구의 '지금 규칙이면' 나눔이 verify_status.scope 와 같은 기준인지"""
+    from tools.qa.warn_history import scope_of
+    assert scope_of(["invariant_violations:1", "lh_unread:4"]) == "공고별 표시"
+    assert scope_of(["golden:3"]) == "전체·공고문 불일치"
+    assert scope_of(["input_nav_problems:2"]) == "전체·판정 계산"
+    assert scope_of(["crosscheck_none", "invariant_violations:13"]) == "전체·검증 미완료"
+    assert scope_of(["cross_rule_fails:8", "lh_invariant_violations:3"]) == "전체·판정 계산"   # 화면 검사가 섞이면 전체
