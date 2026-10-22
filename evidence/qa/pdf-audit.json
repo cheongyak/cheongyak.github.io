@@ -1,5 +1,5 @@
 {
- "date": "2026-10-22",
+ "date": "2026-10-23",
  "page_cap": 300,
  "notices": 55,
  "with_problem": 5,
@@ -572,16 +572,60 @@
    "name": "청주 가경 아이파크 8단지",
    "url": "https://www.applyhome.co.kr/ai/aia/selectAPTLttotPblancDetail.do?houseManageNo=2026000492&pblancNo=2026000492",
    "attachments": 1,
-   "pdfs": 0,
+   "pdfs": 1,
    "attachment_list": [
     {
      "url": "https://static.applyhome.co.kr/ai/aia/getAtchmnfl.do?houseManageNo=2026000492&pblancNo=2026000492&atchmnflSeqNo=1995082&atchmnflSn=5",
-     "error": "PDF 아님 (200, 59바이트)"
+     "bytes": 2057629,
+     "pages": 75,
+     "chars": 172400,
+     "head": "- 1 - ※ 단지 주요정보 (분양문의) 1533-3767 주택유형 해당지역 기타지역 규제지역여부 민영 청주시 거주자 충청북도 거주자 비규제지역"
     }
    ],
-   "problem": [
-    "PDF 를 하나도 받지 못함"
-   ]
+   "chosen": "https://static.applyhome.co.kr/ai/aia/getAtchmnfl.do?houseManageNo=2026000492&pblancNo=2026000492&atchmnflSeqNo=1995082&atchmnflSn=5",
+   "pages": 75,
+   "pages_read": 75,
+   "chars_read": 172474,
+   "empty_pages": [],
+   "chars_per_page_min": 656,
+   "fields": {
+    "need_head": false,
+    "price_cap": false,
+    "residence_duty": 0,
+    "rewin_years": 0,
+    "account_months": 6,
+    "residence": {
+     "area": "청주시",
+     "months": 0,
+     "since": null
+    }
+   },
+   "fields_merged": {
+    "need_head": false,
+    "price_cap": false,
+    "residence_duty": 0,
+    "rewin_years": 0,
+    "account_months": 6,
+    "residence": {
+     "area": "청주시",
+     "months": 0,
+     "since": null
+    }
+   },
+   "fields_pdfium": {
+    "need_head": false,
+    "price_cap": false,
+    "residence_duty": 0,
+    "rewin_years": 0,
+    "account_months": 6,
+    "residence": {
+     "area": "청주시",
+     "months": 0,
+     "since": null
+    }
+   },
+   "pdfium_chars": 172483,
+   "problem": []
   },
   {
    "notice": "2026000491",
@@ -2017,57 +2061,16 @@
    "name": "신천역 에피트(3차)",
    "url": "https://www.applyhome.co.kr/ai/aia/selectAPTRemndrLttotPblancDetailView.do?houseManageNo=2026910268&pblancNo=2026910268",
    "attachments": 1,
-   "pdfs": 1,
+   "pdfs": 0,
    "attachment_list": [
     {
      "url": "https://static.applyhome.co.kr/ai/aia/getAtchmnfl.do?houseManageNo=2026910268&pblancNo=2026910268&atchmnflSeqNo=1998046&atchmnflSn=3",
-     "bytes": 238922,
-     "pages": 10,
-     "chars": 17385,
-     "head": "- 1 - ※ 단지 주요정보 (분양문의) 031-311-0230 주택유형 규제지역여부 무순위(사후) 자격요건 민영 비규제지역 무순위(사후) 입주"
+     "error": "PDF 아님 (200, 59바이트)"
     }
    ],
-   "chosen": "https://static.applyhome.co.kr/ai/aia/getAtchmnfl.do?houseManageNo=2026910268&pblancNo=2026910268&atchmnflSeqNo=1998046&atchmnflSn=3",
-   "pages": 10,
-   "pages_read": 10,
-   "chars_read": 17394,
-   "empty_pages": [],
-   "chars_per_page_min": 621,
-   "fields": {
-    "need_head": false,
-    "price_cap": false,
-    "residence_duty": 0,
-    "rewin_years": 0,
-    "residence": {
-     "area": null,
-     "months": 0,
-     "since": null
-    }
-   },
-   "fields_merged": {
-    "need_head": false,
-    "price_cap": false,
-    "residence_duty": 0,
-    "rewin_years": 0,
-    "residence": {
-     "area": null,
-     "months": 0,
-     "since": null
-    }
-   },
-   "fields_pdfium": {
-    "need_head": false,
-    "price_cap": false,
-    "residence_duty": 0,
-    "rewin_years": 0,
-    "residence": {
-     "area": null,
-     "months": 0,
-     "since": null
-    }
-   },
-   "pdfium_chars": 17066,
-   "problem": []
+   "problem": [
+    "PDF 를 하나도 받지 못함"
+   ]
   },
   {
    "notice": "2026910266",
