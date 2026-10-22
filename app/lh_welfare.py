@@ -11,6 +11,7 @@ from __future__ import annotations
 
 import json
 import os
+import re
 import time
 from collections import Counter
 from datetime import datetime, timedelta
@@ -45,6 +46,29 @@ def keep(row: dict, today: str) -> bool:
     if close and close < today:
         return False
     return not org_target(row.get("PAN_NM") or "")
+
+
+CORR = re.compile(r"^\s*\[\s*정정\s*(?:공고)?\s*\]\s*")
+
+
+def _title_key(name: str) -> str:
+    """정정 표시를 뗀 제목(공백 무시) — 정정 공고와 원 공고를 잇는 데만 쓴다"""
+    return re.sub(r"\s", "", CORR.sub("", name or ""))
+
+
+def drop_superseded(rows: list[dict], log: list[str]) -> list[dict]:
+    """정정 공고가 있으면 원 공고는 뺀다 (2026-10-22 운영자 '정정공고로 보여줘야지').
+    LH 주거복지 정정 공고는 원 공고와 공고번호가 달라(경남 0901 → 0934, 경기남부 0802 → 0927·0731 → 0769) 둘 다 목록에 온다.
+    '[정정공고]'를 뗀 제목이 글자 그대로(공백 무시) 같을 때만 원 공고로 본다 — 비슷한 제목을 짐작해 합치지 않는다."""
+    fixed = {_title_key(r.get("PAN_NM")): r["PAN_ID"] for r in rows if CORR.match(r.get("PAN_NM") or "")}
+    out = []
+    for r in rows:
+        k = _title_key(r.get("PAN_NM"))
+        if not CORR.match(r.get("PAN_NM") or "") and k in fixed:
+            log.append(f"[목록·정정] 원 공고 {r['PAN_ID']} 는 정정 공고 {fixed[k]} 로 대신함 · {(r.get('PAN_NM') or '')[:50]}")
+            continue
+        out.append(r)
+    return out
 
 
 def record(row: dict, dtl, spl) -> dict:
@@ -101,6 +125,7 @@ def main() -> int:
             log.append(f"[목록·제외] 기관·기업 대상 공고(개인 신청 아님) {r['PAN_ID']} {(r.get('PAN_NM') or '')[:60]}")
         if keep(r, today):
             picks.append(r)
+    picks = drop_superseded(picks, log)
     log.append("[목록] 전체 유형별 " + ", ".join(f"{k} {v}" for k, v in Counter(r.get("AIS_TP_CD_NM") for r in rows).most_common())
                + f" · 지금 공고 {len(picks)}건")
     notices = []

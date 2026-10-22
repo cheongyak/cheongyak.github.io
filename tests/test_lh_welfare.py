@@ -46,3 +46,20 @@ def test_workflow_step_is_optional_and_add_is_safe():
     step = t[t.index("python -m app.lh_welfare") - 200: t.index("python -m app.lh_welfare")]
     assert "continue-on-error: true" in step                       # 실패해도 LH 임대 수집은 그대로
     assert re.search(r'\[ -f "\$f" \] && git add "\$f"', t)          # 파일이 없을 때 git add 가 멈추지 않게
+
+
+def test_correction_replaces_original():
+    """정정 공고가 있으면 원 공고는 뺀다 — 2026-10-22 실제 쌍 3개 (운영자 '정정공고로 보여줘야지')"""
+    from app.lh_welfare import drop_superseded
+    rows = [{"PAN_ID": "0802", "PAN_NM": "[경기남부] 든든전세 매입임대주택 예비입주자 모집공고(비분양전환)"},
+            {"PAN_ID": "0927", "PAN_NM": "[정정공고][경기남부] 든든전세 매입임대주택 예비입주자 모집공고(비분양전환)"},
+            {"PAN_ID": "0901", "PAN_NM": "[경남지역본부]26년 4차 분양전환형 든든전세주택 예비입주자 모집 공고(모집권역 완화)"},
+            {"PAN_ID": "0934", "PAN_NM": "[정정공고][경남지역본부]26년 4차 분양전환형 든든전세주택 예비입주자 모집 공고(모집권역 완화)"},
+            {"PAN_ID": "0902", "PAN_NM": "[경남지역본부]26년 4차 비분양전환형 든든전세주택 입주자 모집 공고"},   # 비슷하지만 다른 공고 — 그대로
+            {"PAN_ID": "0731", "PAN_NM": "[온라인 접수 불가, 관할 주거복지지사 현장접수] 경기남부지역본부 2026년 일반 매입임대주택 입주자 모집공고"},
+            {"PAN_ID": "0769", "PAN_NM": "[정정공고][온라인 접수 불가, 관할 주거복지지사 현장접수] 경기남부지역본부 2026년 일반 매입임대주택 입주자 모집공고"}]
+    log = []
+    assert [r["PAN_ID"] for r in drop_superseded(rows, log)] == ["0927", "0934", "0902", "0769"]
+    assert len(log) == 3 and all(l.startswith("[목록·정정]") for l in log)
+    # 정정 공고만 있고 원 공고가 없으면 그대로, 원 공고만 있으면 그대로
+    assert [r["PAN_ID"] for r in drop_superseded(rows[1:2] + rows[4:5], [])] == ["0927", "0902"]
