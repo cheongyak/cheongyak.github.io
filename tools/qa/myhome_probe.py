@@ -26,6 +26,20 @@ def main():
             except Exception as e:
                 out[label] = {"error": f"{e.__class__.__name__} {e}"}
                 print(label, "실패", e.__class__.__name__, e)
+        # 2026-10-22: API 키가 아직 등록 안 됨(403) — 키 없이 마이홈포털 화면이 목록을 주는지 (지방 공사 임대 공고 대안 경로 근거)
+        for label, url in (("화면", "https://www.myhome.go.kr/hws/portal/sch/selectRsdtRcritNtcView.do"),):
+            try:
+                r = c.get(url, headers={"User-Agent": "Mozilla/5.0"}, follow_redirects=True)
+                t = r.text
+                import re as _re
+                out[label] = {"status": r.status_code, "type": r.headers.get("content-type"), "len": len(t),
+                              "ajax": sorted(set(_re.findall(r"[\w/]*select\w*List\w*\.do", t)))[:20], "forms": _re.findall(r"<form[^>]*>", t)[:5],
+                              "agencies": sorted(set(_re.findall(r"(인천도시공사|부산도시공사|대구도시개발공사|광주광역시도시공사|대전도시공사|울산도시공사|경기주택도시공사|경북개발공사|경남개발공사|전북개발공사|전남개발공사|충북개발공사|충남개발공사|강원개발공사|제주특별자치도개발공사|세종도시교통공사|SH|LH)", t))),
+                              "body": t[:30000]}
+                print(label, r.status_code, len(t), out[label]["ajax"][:5])
+            except Exception as e:
+                out[label] = {"error": f"{e.__class__.__name__} {e}"}
+                print(label, "실패", e.__class__.__name__)
     s = json.dumps(out, ensure_ascii=False, indent=1)
     if key:
         s = s.replace(key, "***")
