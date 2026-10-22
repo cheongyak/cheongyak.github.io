@@ -393,6 +393,53 @@ SIDO_SHORT = {"서울특별시": "서울", "부산광역시": "부산", "대구�
               "전라북도": "전북", "전라남도": "전남", "경상북도": "경북", "경상남도": "경남", "제주특별자치도": "제주"}
 
 
+_RANK_ROW = re.compile(r"(?:([12])순위\s?)?입주자\s?저축\s?\(주택청약종합저축,\s?청약저축\)에\s?가입하여\s?(\d+)\s?(년|개월|월)이\s?경과된\s?분으로서\s?"
+                       r"매월\s?약정\s?납입일에\s?(?:([12])순위\s?)?월\s?납입금을\s?(\d+)\s?회\s?이상\s?납입한\s?자")
+
+
+def _rank_account(t: str):
+    """'구분 순위별 자격요건' 표 — '1순위 입주자저축(주택청약종합저축, 청약저축)에 가입하여 2년이 경과된 분으로서 매월 약정납입일에 월 납입금을 24회 이상 납입한 자
+    2순위 … 6월이 경과된 … 6회 이상 납입한 자' (구리갈매 S1 0000061190). pdfplumber 는 '1순위' 칸이 문장 가운데('약정납입일에 1순위 월 납입금을')에 끼어 나와 두 자리를 다 본다.
+    두 줄이 꼭 1순위·2순위 순서로 하나씩 있고, 1순위 기준이 2순위보다 높을 때만 받는다(아니면 None — 화면은 '청약통장 요건 공고문 확인')."""
+    rows = list(_RANK_ROW.finditer(t))
+    if len(rows) != 2:
+        return None, None
+    got = []
+    for r in rows:
+        lab = r.group(1) or r.group(4)
+        mon = int(r.group(2)) * (12 if r.group(3) == "년" else 1)
+        got.append((lab, mon, int(r.group(5))))
+    (l1, m1, c1), (l2, m2, c2) = got
+    if (l1, l2) != ("1", "2") or m1 < m2 or c1 < c2 or not (m2 and c2):
+        return None, None
+    quote = re.sub(r"\s+", " ", t[rows[0].start(): rows[1].end()]).strip()
+    return {"months": m1, "count": c1, "rank2_any": False, "rank2": {"months": m2, "count": c2}}, quote
+
+
+def _public_terms_capital(t: str) -> tuple[list[dict], dict, dict]:
+    """10년 공공임대 예비입주자(구리갈매 S1블록 0000061190, 2026-10-23 아침 자동 고치기):
+    '신청자격 ▌예비입주자모집공고일(2026.10.22) 현재 수도권(서울특별시, 경기도, 인천광역시)에 거주(주민등록표등본 기준)하는 성년자(만19세 이상)인 무주택세대구성원'
+    + '금회 모집공고는 예비입주자 모집으로 신청자의 소득기준 및 자산기준 충족 여부는 불문합니다' + 순위별 자격요건 표(1순위 2년·24회, 2순위 6월·6회).
+    세 문장이 모두 있고 괄호 안 시·도 이름을 읽었을 때만 받는다. 순위 표를 못 읽으면 청약통장은 비워 둔다(화면 '공고문 확인')."""
+    mr = re.search(r"신청\s?자격\s?▌?\s?(?:예비\s?)?입주자\s?모집\s?공고일\s?\([\d.\s]+\)\s?현재\s?[가-힣]{1,6}\s?\(([^)]{1,60})\)에\s?거주\s?\(주민등록표\s?등본\s?기준\)\s?하는\s?"
+                   r"성년자\s?\(만\s?19세\s?이상\)인\s?무주택\s?세대구성원", t)
+    nf = re.search(r"신청자의\s?소득\s?기준\s?및\s?자산\s?기준\s?충족\s?여부는\s?불문", t)
+    if not (mr and nf):
+        return [], {}, {}
+    names = re.sub(r"\s", "", mr.group(1))
+    parts = [p for p in names.split(",") if p]
+    sidos = sorted({v for k, v in SIDO_SHORT.items() if k in parts})
+    if not sidos or len(sidos) != len(parts):   # 괄호 안이 모두 시·도 이름일 때만 (시·군이 섞이면 거주지역을 시·도로 넓히지 않는다)
+        return [], {}, {}
+    quote = _q(t, mr, 0, 0)
+    acc, aq = _rank_account(t)
+    q = {"region": quote, "homeless": quote, "income": _q(t, nf, 0, 5), "asset": _q(t, nf, 0, 5)}
+    if aq:
+        q["account"] = aq
+    g = {"key": "일반", "name": "일반", "homeless": "household", "income_pct": "excluded", "asset_manwon": "excluded", "car_manwon": "excluded", "age_min": None, "age_max": None}
+    return [g], {"일반": q}, {"regions": sidos, "account": acc}
+
+
 def _public_terms(t: str) -> tuple[list[dict], dict, dict]:
     """공공임대(50년 공공임대·10년 분양전환 공공임대 예비입주자) — 신청자격 절에서 무주택·거주지역·청약통장 순위·소득자산 기준 유무를 읽는다."""
     m = re.search(r"\d\.\s?신청자격\s?(?:■\s?)?입주자모집공고일\s?\([\d.\s]+\)\s?현재", t)   # '(26. 10. 12.)' 띄어 쓴 날짜 (익산부송3 2015122300020895)
@@ -420,7 +467,7 @@ def _public_terms(t: str) -> tuple[list[dict], dict, dict]:
                        r"소득\s?및\s?자산\s?기준\s?충족\s?여부\s?등과\s?관계\s?없이\s?신청\s?가능", t)
         mh = mu and re.search(r"입주자\s?모집공고일\s?\([\d.\s]+\)\s?현재\s?무주택세대구성원인\s?성년자", t[mu.end(): mu.end() + 800])
         if not (mu and mh):
-            return [], {}, {}
+            return _public_terms_capital(t)
         q = {"income": _q(t, mu, 0, 0), "asset": _q(t, mu, 0, 0), "region": _q(t, mu, 0, 0), "account": _q(t, mu, 0, 0), "homeless": mh.group(0)}
         g = {"key": "일반", "name": "일반", "homeless": "household", "income_pct": "excluded", "asset_manwon": "excluded", "car_manwon": "excluded", "age_min": None, "age_max": None}
         return [g], {"일반": q}, {"regions": [], "account": "none"}

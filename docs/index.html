@@ -5523,6 +5523,8 @@ function rentalGroup(N, g, p){
     else if (p.acctType === 'deposit' || p.acctType === 'bugeum') add('no', '청약예금·부금으로는 신청 불가 — 1·2순위 모두 주택청약종합저축(청약저축 포함) 가입자만 (공고일 전날까지 전환해야 인정)');
     else if (mo == null || p.acctCount == null || p.acctCount === '') add(A.rank2_any ? 'ok' : 'check', A.rank2_any ? '청약통장 가입 (1순위 여부는 가입일·납입 횟수 입력 필요)' : '청약통장 가입일·납입 횟수 입력 필요', ['acctSince', 'acctCount']);
     else if (mo >= A.months && Number(p.acctCount) >= A.count) add('ok', `청약통장 1순위 (가입 ${mo}개월 · ${p.acctCount}회)`);
+    else if (A.rank2 && mo >= A.rank2.months && Number(p.acctCount) >= A.rank2.count) add('ok', `청약통장 2순위 (1순위는 ${A.months}개월·${A.count}회 이상)`);   /* 2순위도 가입 기간·횟수가 있는 공고 (구리갈매 S1 0000061190: 2순위 6개월·6회) */
+    else if (A.rank2) add('no', `청약통장 2순위 기준(${A.rank2.months}개월·${A.rank2.count}회) 미달`);
     else add(A.rank2_any ? 'ok' : 'no', A.rank2_any ? `청약통장 2순위 (1순위는 ${A.months}개월·${A.count}회 이상)` : `청약통장 ${A.months}개월·${A.count}회 미달`);
   }
   /* 출산가구('23.3.28 이후 출생 자녀·태아) — 모름이면 가산 가능성을 묻는다 (아니라고 단정하지 않음) */
@@ -5871,7 +5873,7 @@ function vRDetail(){
     ${(T.unknown_groups || []).length ? `<p class="small" style="margin:0">이 서비스가 판정하지 않는 계층: ${esc(T.unknown_groups.join('·'))} — 공고문 확인</p>` : ''}
     ${T.local ? `<p class="small" style="margin:0">거주 요건: 공고일 현재 ${esc(T.local.name)}에 사는 사람만 신청할 수 있어요</p>` : ''}
     ${Array.isArray(T.regions) ? `<p class="small" style="margin:0">거주지역: ${T.regions.length ? esc(T.regions.join('·')) + '에 사는 무주택세대구성원' : '국내 거주 성년 무주택세대구성원'}</p>` : ''}
-    ${T.account === 'none' ? '<p class="small" style="margin:0">청약통장: 필요 없음 (가입 여부·당첨 이력·소득·자산 불문)</p>' : T.account ? `<p class="small" style="margin:0">청약통장: 1순위 가입 ${T.account.months}개월·${T.account.count}회 이상${T.account.rank2_any ? ', 2순위 가입만' : ''}</p>` : ''}
+    ${T.account === 'none' ? '<p class="small" style="margin:0">청약통장: 필요 없음 (가입 여부·당첨 이력·소득·자산 불문)</p>' : T.account ? `<p class="small" style="margin:0">청약통장: 1순위 가입 ${T.account.months}개월·${T.account.count}회 이상${T.account.rank2_any ? ', 2순위 가입만' : T.account.rank2 ? `, 2순위 가입 ${T.account.rank2.months}개월·${T.account.rank2.count}회 이상` : ''}</p>` : ''}
     ${on('lh_pdf_multi') && N.read && (N.read.conflicts || []).length ? `<p class="small" style="margin:0">데이터 확인 필요: 공고문 PDF 를 ${N.read.tools.length}가지 방법으로 읽었더니 ${N.read.conflicts.length}개 값이 서로 달라요. 그 값은 판정에 쓰지 않고 '공고문 확인'으로 보여요.</p>` : ''}
     <span class="small muted">${T.sh ? (T.birth_bonus === 'table' ? (T.income_birth ? "출산가구('23.3.28 이후 출생 자녀·태아)는 소득 기준에 10~20%p를 더하고(맞벌이 가산과 중복 안 됨), 총자산·자동차는 공고문 표 금액으로 올라가요. " : "출산가구('23.3.28 이후 출생 자녀·태아)는 총자산·자동차 기준이 공고문 표 금액으로 올라가요(소득은 그대로). ") : '') : N.type === '공공임대' ? '' : "출산가구('23.3.28 이후 출생 자녀·태아)는 소득·자산 기준에 10~20%p를 더해요. "}${pdf}</span></section>`
     : `<section class="card"><h2 style="margin:0">신청 자격 기준</h2><p class="small" style="margin:0">${rIsSH(N) || rIsGH(N) || rIsPVT(N) || rIsLOC(N) ? (rIsLOC(N) ? esc(N.inst || '지방 공사') : rIsPVT(N) ? '공공지원 민간임대' : rIsGH(N) ? 'GH' : 'SH') + ' 공고의 자격 기준은 아직 읽지 않아요. 공고문을 확인하세요.' : '이 공고문의 계층별 기준을 아직 읽지 못했어요. 공고문을 확인하세요.'}</p>${pdf}</section>`}`;

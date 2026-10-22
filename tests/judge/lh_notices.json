@@ -660,5 +660,47 @@
    ]
   },
   "_from": "tests/golden/lh_rental.json (공고문 원문 확인값)"
+ },
+ {
+  "id": "LH-0000061190",
+  "type": "공공임대",
+  "posted": "2026-10-22",
+  "name": "구리갈매 S1블록 10년공공임대주택 예비입주자 모집공고",
+  "schedule": [],
+  "units": [],
+  "files": [],
+  "terms": {
+   "relaxed": false,
+   "homeless_relaxed": false,
+   "income_basis": null,
+   "income_table_100": null,
+   "regions": [
+    "경기",
+    "서울",
+    "인천"
+   ],
+   "account": {
+    "months": 24,
+    "count": 24,
+    "rank2_any": false,
+    "rank2": {
+     "months": 6,
+     "count": 6
+    }
+   },
+   "groups": [
+    {
+     "key": "일반",
+     "name": "일반",
+     "homeless": "household",
+     "income_pct": "excluded",
+     "asset_manwon": "excluded",
+     "car_manwon": "excluded",
+     "age_min": null,
+     "age_max": null
+    }
+   ]
+  },
+  "_from": "tests/golden/lh_rental.json (공고문 원문 확인값)"
  }
 ]

@@ -1102,6 +1102,8 @@ def main() -> None:
             elif at in ("deposit", "bugeum"): st.append("no")   # 공고문 765 순위: 1·2순위 모두 '주택청약종합저축(청약저축 포함)에 가입'
             elif not p.get("acctSince") or p.get("acctCount") in (None, ""): st.append("ok" if A["rank2_any"] else "check")
             elif months(p["acctSince"], ref) >= A["months"] and p["acctCount"] >= A["count"]: st.append("ok")
+            elif A.get("rank2"):   # 2순위에도 가입 기간·횟수가 있음 (구리갈매 S1 0000061190 순위별 자격요건 표: 2순위 6월 경과·6회 이상)
+                st.append("ok" if months(p["acctSince"], ref) >= A["rank2"]["months"] and p["acctCount"] >= A["rank2"]["count"] else "no")
             else: st.append("ok" if A["rank2_any"] else "no")
         # '미적용(excluded)'은 입주자격 완화 공고이거나 공공임대(신청자격에 소득·자산 기준 없음)일 때만 믿는다
         excl_ok = T.get("relaxed") is True or N["type"] == "공공임대" or g.get("exempt") is True   # SH 지원대상 한부모가족 '소득·자산검증 불필요'
@@ -1280,6 +1282,17 @@ def main() -> None:
                    ("대구·통장 없음", {"homeSido": "대구", "acctType": "none"}), ("대구·세대에 집", {"homeSido": "대구", "selfOwn": True}),
                    ("대구·소득·자산 높음", {"homeSido": "대구", "hhIncomeYear": 30000, "realEstate": 90000}), ("대구·세대원(세대주 아님)", {"homeSido": "대구", "household": "member"})]:
         lh_add(P10D, ["일반"], nm, ch, bD)
+    P10G = "LH-0000061190"   # 2026-10-23 아침 자동 고치기 — 2순위에도 가입 기간·횟수가 있는 공고(rank2)
+    bG = ("구리갈매 S1블록 10년 공공임대 예비입주자 0000061190 Ⅱ 신청자격(공고일 2026.10.22 현재 수도권(서울특별시, 경기도, 인천광역시) 거주 성년자 무주택세대구성원) + "
+          "1쪽 '소득기준 및 자산기준 충족 여부는 불문' + 순위별 자격요건 표(1순위 가입 2년 경과·24회 이상, 2순위 가입 6월 경과·6회 이상)")
+    accG = {"homeSido": "경기", "acctType": "all", "acctSince": "2020-01-01", "acctCount": 60}
+    for nm, ch in [("경기·1순위", accG), ("서울", dict(accG, homeSido="서울")), ("인천", dict(accG, homeSido="인천")), ("부산 거주", dict(accG, homeSido="부산")),
+                   ("사는 곳 모름", dict(accG, homeSido="")), ("통장 없음", dict(accG, acctType="none")), ("청약예금", dict(accG, acctType="deposit")),
+                   ("가입 24개월·24회(1순위 경계)", dict(accG, acctSince="2024-10-22", acctCount=24)), ("가입 23개월·24회(2순위)", dict(accG, acctSince="2024-10-23", acctCount=24)),
+                   ("가입 6개월·6회(2순위 경계)", dict(accG, acctSince="2026-04-22", acctCount=6)), ("가입 5개월·6회(미달)", dict(accG, acctSince="2026-04-23", acctCount=6)),
+                   ("가입 6개월·5회(미달)", dict(accG, acctSince="2026-04-22", acctCount=5)), ("가입일·횟수 모름", dict(accG, acctSince="", acctCount="")),
+                   ("세대에 집", dict(accG, selfOwn=True)), ("소득·자산 높음", dict(accG, hhIncomeYear=30000, realEstate=90000)), ("세대원(세대주 아님)", dict(accG, household="member"))]:
+        lh_add(P10G, ["일반"], nm, ch, bG)
     P50 = "LH-2015122300020895"
     bI = "익산부송3 50년 공공임대 2015122300020895 4. 신청자격(주택건설지역(익산시) 거주 무주택세대구성원, 1순위 가입 6개월·6회, 2순위 가입, 소득·자산 기준 없음) + 순위 결정기준(남은 주택은 익산시 외 전북 거주자에게 공급)"
     acc2 = {"homeSido": "전북", "homeSigun": "익산시", "acctType": "all", "acctSince": "2020-01-01", "acctCount": 30}
