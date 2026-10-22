@@ -17,7 +17,7 @@ def _repo(tmp_path, lh="2026-10-20 12:41", sh="2026-10-22 06:51", sale="2026-10-
     (d / "lh-rental.json").write_text(json.dumps({"updated": lh, "notices": []}), encoding="utf-8")
     (d / "sh-rental.json").write_text(json.dumps({"updated": sh, "notices": []}), encoding="utf-8")
     (d / "gh-rental.json").write_text(json.dumps({"updated": "2026-10-01 07:00"}), encoding="utf-8")
-    (d / "config.json").write_text(json.dumps({"features": feats if feats is not None else {"gh_rental": False, "pvt_rental": False}}), encoding="utf-8")
+    (d / "config.json").write_text(json.dumps({"features": feats if feats is not None else {"gh_rental": False, "pvt_rental": False, "lh_welfare": False}}), encoding="utf-8")
     return tmp_path
 
 

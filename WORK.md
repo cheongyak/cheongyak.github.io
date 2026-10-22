@@ -4,6 +4,18 @@
 2026-09-29 12:55 이전 항목은 규칙을 만들기 전 작업을 커밋 기록으로 정리한 것이라 백업 브랜치가 없어요.
 그 시점으로 되돌릴 때는 해당 커밋 번호로 `git revert` 를 써요.
 
+## 2026-10-22 08:49 · LH 주거복지(매입임대·든든전세)·신혼희망 행복주택 목록 (기능 lh_welfare, 꺼 둔 채)
+- 요청: 운영자 08:33 '넣어줘' — 든든전세·매입임대·신혼희망 행복주택을 목록에 (스위치 끈 채 목록만·판정 없음으로 시작)
+- 배경·원인: LH 임대 수집(app/lh_rental.py)은 LH 대분류 '임대주택'(06)만 봄. 든든전세·청년/신혼/기존주택 매입임대는 '주거복지(13)/매입임대(26)', 신혼희망타운 행복주택은 '공공분양(신혼희망)(39)/행복주택(신혼희망)(42)' 이라 처음부터 빠져 있었음(evidence/qa/lh-probe.txt '[06 밖]')
+- 변경: ① app/lh_welfare.py — 같은 LH 목록·상세·공급 API 로 대분류 13(매입임대·전세임대)·39(행복주택(신혼희망))만, 최근 60일·마감 안 된 것·기관/기업 대상(org_target) 제외 → docs/lh-welfare.json(기존 docs/lh-rental.json 은 그대로). 유형 이름은 제목에 '든든전세'가 있으면 '든든전세', 아니면 API 유형. judge_type false·welfare true·terms 없음, 공고문 PDF 는 받지 않음(지역본부마다 형식이 달라 판정은 다음 단계) ② 'LH 임대 수집' 워크플로 뒤 단계(continue-on-error — 실패해도 LH 임대는 그대로), 파일이 있을 때만 git add ③ 화면: 스위치 lh_welfare 가 켜졌을 때만 lh-welfare.json 을 불러 목록에 섞음(꺼지면 불러오지도 않음), 판정 '판정 미지원 · 공고문 확인', 접수일 없는 공고(선착순·현장 접수)는 '일정 공고문 확인', 보증금 칸 '아직 공고문을 읽지 않아요' ④ 수집 멈춤 감시·검사 지문에 새 파일(켜졌을 때만 감시)
+- 파일: app/lh_welfare.py, .github/workflows/lh-rental.yml, docs/config.json(lh_welfare false), docs/index.html, tools/qa/freshness.py, tools/qa/stamp.py, tests/test_lh_welfare.py, tests/test_qa_stamp.py, tests/test_freshness.py, FEATURES.md, HANDOFF.md, WORK.md
+- 확인: 실제 LH 목록 응답(list-all.json)으로 고르기 시험 — 지금 공고 11건(든든전세 7·매입임대 3·신혼희망 행복주택 1, 운영자가 짚은 대구경북 든든전세·경남 정정 든든전세·김포·포천 청년 매입임대·광주선운2 포함, 접수마감 정정 공고 제외). 그 응답으로 만든 임시 파일로 390px 밝은·어두운 화면: 스위치 꺼짐 = 파일 요청 0·목록 39건 그대로, 켜짐 = 50건·청년 주택 탭에 김포·포천 청년 매입임대·상세 넘침 0·오류 0. 판정 950/950, regress 판정 바뀐 곳 0·화면 1,521쪽 오류 0, LH 화면 문제 없음, 임대 못 읽음 0, pytest 320 통과·1 건너뜀(test_pipeline 은 fastapi 없어 뺌), 문법
+- 미확인: 상세·공급 API 가 주거복지 공고에도 일정·단지를 주는지는 다음 LH 수집 기록(evidence/qa/lh-welfare-log.txt '[공고] … 일정 N 접수 …')으로 확인. 정정 공고와 원 공고가 다른 공고번호로 둘 다 올라옴(경남 0901·0934, 경기남부 0802·0927) — 켜기 전에 둘 다 보일지 정할 것
+- 켜는 법: 수집 기록 확인 → docs/config.json lh_welfare true → changelog '새 기능'·버전(부 번호)
+- 되돌리기: 스위치 false(기본) 또는 git revert <이 커밋>
+- 백업: backup/20261022-0849-lh-welfare
+- 기능: lh_welfare (꺼짐)
+
 ## 2026-10-22 08:51 · 커밋된 충돌 표시를 잡는 검사 (수정)
 - 요청: (LH 주거복지 작업 중 발견) 1ff4273 에 app/pipeline.py·tests/qa/parse_snapshot.json 의 충돌 표시가 올라감 — 메인 세션이 같은 때 b825738 로 고쳐 그쪽 수정을 그대로 씀
 - 원인: 이 세션(dc0ba5e, 이슈 #25)과 메인 세션이 같은 시각 PARSER_VERSION 을 둘 다 45 로 올림(위 b825738 항목)

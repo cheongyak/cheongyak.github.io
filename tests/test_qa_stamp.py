@@ -15,9 +15,9 @@ def test_every_result_read_by_status_has_deps():
 
 
 def test_is_current_compares_only_its_deps():
-    cur = {"listings": "a", "lh": "b", "sh": "c", "gh": "e", "pvt": "f", "code": "d"}
-    assert stamp.is_current("lh-qa.json", {"_data": {"lh": "b", "sh": "c", "gh": "e", "pvt": "f", "code": "d"}}, cur)
-    assert not stamp.is_current("lh-qa.json", {"_data": {"lh": "b", "sh": "OLD", "gh": "e", "pvt": "f", "code": "d"}}, cur)   # SH 를 다시 수집한 뒤의 옛 결과
+    cur = {"listings": "a", "lh": "b", "sh": "c", "gh": "e", "pvt": "f", "lw": "g", "code": "d"}
+    assert stamp.is_current("lh-qa.json", {"_data": {"lh": "b", "sh": "c", "gh": "e", "pvt": "f", "lw": "g", "code": "d"}}, cur)
+    assert not stamp.is_current("lh-qa.json", {"_data": {"lh": "b", "sh": "OLD", "gh": "e", "pvt": "f", "lw": "g", "code": "d"}}, cur)   # SH 를 다시 수집한 뒤의 옛 결과
     assert not stamp.is_current("input-nav.json", {"problems": []}, cur)                                  # 지문 없는 옛 결과
     assert stamp.is_current("invariants.json", {"_data": {"listings": "a"}}, dict(cur, code="changed"))   # 화면 코드와 상관없는 검사
 

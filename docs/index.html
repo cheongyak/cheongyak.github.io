@@ -5177,11 +5177,14 @@ function loadRental(){
   const gh = on('gh_rental') ? fetch('gh-rental.json', { cache:'no-store' }).then(r => r.ok ? r.json() : null).catch(() => null) : Promise.resolve(null);
   /* 기능 pvt_rental (2026-10-21): 청약홈 공공지원 민간임대(pvt-rental.json, app/pvt_rental.py) — 1단계라 판정 없이 일정·주택형·공급금액만 */
   const pv = on('pvt_rental') ? fetch('pvt-rental.json', { cache:'no-store' }).then(r => r.ok ? r.json() : null).catch(() => null) : Promise.resolve(null);
-  Promise.all([fetch('lh-rental.json', { cache:'no-store' }).then(r => r.ok ? r.json() : Promise.reject(r.status)), sh, gh, pv]).then(([d, s, g, v]) => {
+  /* 기능 lh_welfare (2026-10-22): LH 주거복지(매입임대·든든전세)·신혼희망타운 행복주택(lh-welfare.json, app/lh_welfare.py) — 목록만·판정 없음. 못 불러도 LH 임대는 그대로 */
+  const lw = on('lh_welfare') ? fetch('lh-welfare.json', { cache:'no-store' }).then(r => r.ok ? r.json() : null).catch(() => null) : Promise.resolve(null);
+  Promise.all([fetch('lh-rental.json', { cache:'no-store' }).then(r => r.ok ? r.json() : Promise.reject(r.status)), sh, gh, pv, lw]).then(([d, s, g, v, w]) => {
     /* 접수 기간이 지난 SH 공고, 접수 기간을 못 읽었고 공고일이 30일 넘게 지난 SH 공고는 싣지 않는다 (대부분 접수가 끝났는데 '일정 확인'으로 남지 않게) */
     if (s && Array.isArray(s.notices) && s.notices.length) { d.notices = d.notices.concat(s.notices.filter(N => N.org === 'SH' && rStatus(N) !== '마감' && !(rStatus(N) === '일정 확인' && String(N.posted || '') < addDays(rKst(), -30))).map(N => on('sh_judge') && (N.type !== '장기전세' || on('sh_jeonse')) && (N.type !== '사회주택' || on('sh_social')) && (N.type !== '행복주택' || on('sh_happy')) && (N.type !== '청년안심주택' || on('sh_youth_safe')) ? N : Object.assign({}, N, { judge_type: false })))   /* 기능 sh_judge 가 꺼져 있으면 SH 는 모두 판정 미지원, sh_jeonse 가 꺼져 있으면 장기전세만 판정 미지원, sh_happy 가 꺼져 있으면 행복주택만 */.sort((a, b) => String(b.posted || '').localeCompare(String(a.posted || ''))); d.sh_updated = s.updated; }
     if (g && Array.isArray(g.notices) && g.notices.length) { d.notices = d.notices.concat(g.notices.filter(N => N.org === 'GH' && rStatus(N) !== '마감' && !(rStatus(N) === '일정 확인' && String(N.posted || '') < addDays(rKst(), -30))).map(N => Object.assign({}, N, { judge_type: false }))).sort((a, b) => String(b.posted || '').localeCompare(String(a.posted || ''))); d.gh_updated = g.updated; }
     if (v && Array.isArray(v.notices) && v.notices.length) { d.notices = d.notices.concat(v.notices.filter(N => N.org === 'PVT' && rStatus(N) !== '마감').map(N => Object.assign({}, N, { judge_type: false }))).sort((a, b) => String(b.posted || '').localeCompare(String(a.posted || ''))); d.pvt_updated = v.updated; }
+    if (w && Array.isArray(w.notices) && w.notices.length) { const have = new Set(d.notices.map(N => N.id)); d.notices = d.notices.concat(w.notices.filter(N => N.welfare === true && !have.has(N.id) && rStatus(N) !== '마감' && !(rStatus(N) === '일정 확인' && String(N.posted || '') < addDays(rKst(), -30))).map(N => Object.assign({}, N, { judge_type: false }))).sort((a, b) => String(b.posted || '').localeCompare(String(a.posted || ''))); }
     RENTAL = d; RENTAL_STATE = 'ok'; if (['rental', 'rdetail'].includes(S.view)) render(); })
     .catch(() => { RENTAL_STATE = 'error'; if (['rental', 'rdetail'].includes(S.view)) render(); });
 }
@@ -5627,7 +5630,7 @@ const R_HEAD = { ok: ['ok', '신청 가능해 보여요'], check: ['warn', '확�
   partial: ['info', '일부 계층 판정 못 함'], unsupported: ['info', '판정 미지원 유형'] };
 const rStatus = N => { const t = new Date(Date.now() + 9 * 3600e3).toISOString().slice(0, 10), st = N.schedule || [];
   const s0 = st.map(x => x.apply_start).filter(Boolean).sort()[0], e0 = st.map(x => x.apply_end).filter(Boolean).sort().slice(-1)[0] || N.close;
-  if ((N.org === 'SH' || N.org === 'GH') && !s0 && !e0) return '일정 확인';   /* GH 도 같음 (기능 gh_rental) */   /* 기능 sh_rental: 공고문에서 접수 기간을 확실히 읽지 못한 SH 공고 — 접수 중으로 단정하지 않는다 */
+  if ((N.org === 'SH' || N.org === 'GH' || N.welfare === true) && !s0 && !e0) return '일정 확인';   /* 기능 lh_welfare: 선착순·현장 접수 공고는 접수일이 없을 수 있다 */   /* GH 도 같음 (기능 gh_rental) */   /* 기능 sh_rental: 공고문에서 접수 기간을 확실히 읽지 못한 SH 공고 — 접수 중으로 단정하지 않는다 */
   return s0 && t < s0 ? '접수 예정' : e0 && t > e0 ? '마감' : '접수 중'; };
 /* 목록·상세의 일정 배지 (기능 lh_ui_v2) — 분양 카드의 dday 와 같은 색: 접수 중(빨강) · 3일 안(주황) · 7일 안(파랑) · 그 뒤(회색) · 마감(흐리게) */
 const rDday = N => { const t = rKst(), st = (N.schedule || []).map(x => x.apply_start).filter(Boolean).sort()[0], e = rEnd(N), S0 = rStatus(N);
@@ -5726,6 +5729,7 @@ function lhCard(N){
 const lhMan = v => { const m = v / 10000; return (m >= 10000 ? (Math.floor(m / 10000) + '억' + (m % 10000 ? ' ' + Math.round(m % 10000).toLocaleString() + '만' : '')) : (Math.round(m * 10) / 10).toLocaleString() + '만') + '원'; };
 function lhRentTable(N){
   const R = N.rents || [];
+  if (!R.length && N.welfare === true) return '<p class="small" style="margin:0">이 유형(매입임대·든든전세 등)은 아직 공고문을 읽지 않아요. 보증금·월세는 공고문을 확인하세요.</p>';   /* 기능 lh_welfare: 목록만 */
   if (!R.length) return '<p class="small" style="margin:0">공고문에서 임대조건 표를 읽지 못했어요. 공고문을 확인하세요.</p>';
   const by = {};
   R.forEach(r => { const k = (r.complex ? r.complex + ' ' : '') + r.type; (by[k] = by[k] || []).push(r); });

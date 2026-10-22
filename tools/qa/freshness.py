@@ -31,6 +31,7 @@ SOURCES = [
     ("SH 임대", "docs/sh-rental.json", "json", "sh_rental"),
     ("GH 임대", "docs/gh-rental.json", "json", "gh_rental"),
     ("공공지원 민간임대", "docs/pvt-rental.json", "json", "pvt_rental"),
+    ("LH 주거복지·신혼희망", "docs/lh-welfare.json", "json", "lh_welfare"),
 ]
 
 
