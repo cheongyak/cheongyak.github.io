@@ -329,6 +329,42 @@ def _fetch_text(url: str, L0: Listing, client=None):
 NOTICE_FACTS: dict = {}   # 공고번호 → 공고문 대조용 원문 숫자 (이번 실행)
 
 
+def _att_key(url: Optional[str]) -> Optional[tuple]:
+    """청약홈 첨부 주소에서 파일을 가리키는 값만 (주택관리번호·첨부 번호·순번). 주소 모양(미러·쿼리 순서)이 달라도 같은 파일이면 같다"""
+    if not url:
+        return None
+    q = dict(re.findall(r"(houseManageNo|atchmnflSeqNo|atchmnflSn)=([^&]+)", url))
+    return (q.get("houseManageNo"), q.get("atchmnflSeqNo"), q.get("atchmnflSn")) if q.get("atchmnflSeqNo") else None
+
+
+def recheck_attachments(cached: dict, client=None, budget: float = 60) -> dict:
+    """보관 기록으로 다시 읽지 않던 공고(cached: 공고 화면 주소 → 지난번에 읽은 PDF 주소)의 청약홈 공고 화면 첨부를 다시 보고,
+    지난번 파일이 첨부 목록에 없으면(정정 공고문으로 바뀜·다시 올림) {화면 주소: (옛 PDF, 새 첫 PDF)}.
+    배경 (2026-10-22): 공고문은 PARSER_VERSION 이 같으면 다시 받지 않아, 첨부가 바뀐 공고 4건(2026000463·498·507·2026930033)은
+    읽기 규칙 버전이 우연히 올라갈 때만 새 파일로 읽혔다. 청약홈 첨부가 아닌 것(LH 등)·화면을 못 받은 것은 건드리지 않는다(지난 값 유지)."""
+    from concurrent.futures import ThreadPoolExecutor, wait
+    http = client or httpx.Client(timeout=httpx.Timeout(15, connect=8), follow_redirects=True, headers=notice_pdf.UA)
+    todo = {u: p for u, p in cached.items() if _att_key(p)}
+
+    def latest(u):
+        try:
+            r = http.get(u)
+            return notice_pdf.find_pdf_links(r.text, str(r.url)) if r.status_code == 200 else None
+        except Exception:
+            return None
+    ex = ThreadPoolExecutor(max_workers=6)
+    futs = {u: ex.submit(latest, u) for u in todo}
+    wait(list(futs.values()), timeout=budget)
+    ex.shutdown(wait=False, cancel_futures=True)
+    out = {}
+    for u, f in futs.items():
+        links = f.result() if f.done() and not f.cancelled() else None
+        keys = [_att_key(x) for x in links or [] if _att_key(x)]
+        if keys and _att_key(todo[u]) not in keys:
+            out[u] = (todo[u], next(x for x in links if _att_key(x)))
+    return out
+
+
 def apply_notice(listings: list[Listing], log: list[str], client=None, previous: Optional[dict] = None,
                  cache: Optional[dict] = None) -> None:
     """공고별로 공고문 PDF 를 한 번 읽어 같은 공고의 주택형 전체에 반영한다.
@@ -348,8 +384,16 @@ def apply_notice(listings: list[Listing], log: list[str], client=None, previous:
     if feature_on("chatbot_notice"):   # 청약봇 공고문 조각이 없는 공고는 한 번 다시 읽는다 (기능: chatbot_notice)
         from . import notice_chunks
         fresh = {u for u in fresh if notice_chunks.has(groups[u][0].id.split("-")[0])}
+    if fresh and feature_on("notice_recheck"):   # 보관 기록이 있어도 청약홈 첨부가 바뀌었으면(정정 공고·다시 올림) 다시 읽는다
+        changed = recheck_attachments({u: cache[groups[u][0].id.split("-")[0]].get("notice_pdf") for u in fresh}, client)
+        for u, (old, new) in changed.items():
+            fresh.discard(u)
+            log.append(f"[공고문·정정] {groups[u][0].name}: 청약홈 첨부가 바뀌어 다시 읽어요 ({_att_key(old)} → {_att_key(new)})")
+    else:
+        changed = {}
     ex = ThreadPoolExecutor(max_workers=6)
     futs = {url: ex.submit(_fetch_text, url, Ls[0], client) for url, Ls in groups.items() if url not in fresh}
+    before = {groups[u][0].id.split("-")[0]: dict((cache.get(groups[u][0].id.split("-")[0]) or {}).get("found") or {}) for u in changed}
     wait(list(futs.values()), timeout=NOTICE_BUDGET_SEC)
     ex.shutdown(wait=False, cancel_futures=True)
     log.append(f"[시간] 공고문 {len(groups)}건 중 새로 읽기 {len(futs)}건 {time.monotonic() - start:.0f}초 (보관 기록 사용 {len(fresh)}건)")
@@ -394,6 +438,9 @@ def apply_notice(listings: list[Listing], log: list[str], client=None, previous:
                     log.append(f"[청약봇] 공고문 조각 저장 실패 {nid}: {e.__class__.__name__}")
             if text and found:
                 cache[nid] = {"name": Ls[0].name, "found": found, "notice_pdf": pdf, "v": PARSER_VERSION}
+                if nid in before:   # 정정 공고: 바뀐 값을 남긴다 (근거 문장·대조용 숫자 칸은 빼고)
+                    diff = [k for k in sorted(set(before[nid]) | set(found)) if k not in ("quotes", "facts", "conflicts") and before[nid].get(k) != found.get(k)]
+                    log.append(f"[공고문·정정] {Ls[0].name}: 다시 읽은 값 " + (f"바뀜 {', '.join(diff)}" if diff else "변화 없음"))
         if not text and url not in fresh:
             prev = previous.get(Ls[0].id)
             if cache.get(nid, {}).get("found"):
