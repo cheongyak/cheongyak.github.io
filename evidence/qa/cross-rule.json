@@ -1,8 +1,8 @@
 {
  "date": "2026-10-23",
- "listings": 258,
+ "listings": 286,
  "profiles": 42,
- "checks": 308516,
+ "checks": 319484,
  "conflicts": 0,
  "severity": {
   "CRITICAL": 0,
@@ -11,12 +11,102 @@
  },
  "rules": {},
  "states": {
-  "NORMAL": 152,
-  "WARNING": 77,
-  "UNKNOWN": 29
+  "WARNING": 84,
+  "UNKNOWN": 44,
+  "NORMAL": 158
  },
  "examples": [],
  "unknown": [
+  {
+   "id": "2026000532-084.3473A",
+   "name": "계양신도시 카이브 유보라(AC4BL)",
+   "duty": "UNKNOWN",
+   "priceCap": "CONFIRMED"
+  },
+  {
+   "id": "2026000532-084.6971B",
+   "name": "계양신도시 카이브 유보라(AC4BL)",
+   "duty": "UNKNOWN",
+   "priceCap": "CONFIRMED"
+  },
+  {
+   "id": "2026000532-084.8175C",
+   "name": "계양신도시 카이브 유보라(AC4BL)",
+   "duty": "UNKNOWN",
+   "priceCap": "CONFIRMED"
+  },
+  {
+   "id": "2026000532-084.5968D",
+   "name": "계양신도시 카이브 유보라(AC4BL)",
+   "duty": "UNKNOWN",
+   "priceCap": "CONFIRMED"
+  },
+  {
+   "id": "2026000532-084.9714E",
+   "name": "계양신도시 카이브 유보라(AC4BL)",
+   "duty": "UNKNOWN",
+   "priceCap": "CONFIRMED"
+  },
+  {
+   "id": "2026000532-093.7413A",
+   "name": "계양신도시 카이브 유보라(AC4BL)",
+   "duty": "UNKNOWN",
+   "priceCap": "CONFIRMED"
+  },
+  {
+   "id": "2026000532-093.8537B",
+   "name": "계양신도시 카이브 유보라(AC4BL)",
+   "duty": "UNKNOWN",
+   "priceCap": "CONFIRMED"
+  },
+  {
+   "id": "2026000530-084.3473A",
+   "name": "계양신도시 카이브 유보라(AC3BL)",
+   "duty": "UNKNOWN",
+   "priceCap": "CONFIRMED"
+  },
+  {
+   "id": "2026000530-084.6971B",
+   "name": "계양신도시 카이브 유보라(AC3BL)",
+   "duty": "UNKNOWN",
+   "priceCap": "CONFIRMED"
+  },
+  {
+   "id": "2026000530-084.8175C",
+   "name": "계양신도시 카이브 유보라(AC3BL)",
+   "duty": "UNKNOWN",
+   "priceCap": "CONFIRMED"
+  },
+  {
+   "id": "2026000530-084.5968D",
+   "name": "계양신도시 카이브 유보라(AC3BL)",
+   "duty": "UNKNOWN",
+   "priceCap": "CONFIRMED"
+  },
+  {
+   "id": "2026000530-084.9714E",
+   "name": "계양신도시 카이브 유보라(AC3BL)",
+   "duty": "UNKNOWN",
+   "priceCap": "CONFIRMED"
+  },
+  {
+   "id": "2026000530-092.1964A",
+   "name": "계양신도시 카이브 유보라(AC3BL)",
+   "duty": "UNKNOWN",
+   "priceCap": "CONFIRMED"
+  },
+  {
+   "id": "2026000530-093.7413A",
+   "name": "계양신도시 카이브 유보라(AC3BL)",
+   "duty": "UNKNOWN",
+   "priceCap": "CONFIRMED"
+  },
+  {
+   "id": "2026000530-093.8537B",
+   "name": "계양신도시 카이브 유보라(AC3BL)",
+   "duty": "UNKNOWN",
+   "priceCap": "CONFIRMED"
+  },
   {
    "id": "2026000373-049.0000A",
    "name": "고덕강일지구 3단지 토지임대부(본청약)",
@@ -166,35 +256,11 @@
    "name": "과천 푸르지오 라비엔오",
    "duty": "UNKNOWN",
    "priceCap": "CONFIRMED"
-  },
-  {
-   "id": "2026000414-SPELDER",
-   "name": "인천계양지구 A6블록 공공분양주택(본청약)",
-   "duty": "UNKNOWN",
-   "priceCap": "CONFIRMED"
-  },
-  {
-   "id": "2026000414-A60",
-   "name": "인천계양지구 A6블록 공공분양주택(본청약)",
-   "duty": "UNKNOWN",
-   "priceCap": "CONFIRMED"
-  },
-  {
-   "id": "2026000414-A6001",
-   "name": "인천계양지구 A6블록 공공분양주택(본청약)",
-   "duty": "UNKNOWN",
-   "priceCap": "CONFIRMED"
-  },
-  {
-   "id": "2026000414-YOUTH",
-   "name": "인천계양지구 A6블록 공공분양주택(본청약)",
-   "duty": "UNKNOWN",
-   "priceCap": "CONFIRMED"
   }
  ],
  "pageErrors": [],
  "_data": {
-  "listings": "c3b959ee9713",
+  "listings": "99de0441a330",
   "code": "a9e6361c6a84"
  }
 }
