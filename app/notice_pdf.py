@@ -1328,6 +1328,10 @@ def parse_resale(flat: str) -> Optional[dict]:
         # 1쪽 표만 있는 무순위 '최초당첨자발표일(21.10.22.)로부터 3년간 적용되어 현재 전매제한기간 도과'
         (r"최초당[첨점]자발표일" + _D + r"로부터(\d{1,2})(년|개월)간?(적용되어현재전매제한기간도과|적용)?",
          lambda m: {"months": mon(m.group(4), m.group(5)), "base": _rs_ymd(m, 1), "passed": bool(m.group(6) and "도과" in m.group(6))}),
+        # 같은 1쪽 표가 뒤섞인 꼴 '최초 당첨자발표일 로부터 년간(22.03.02) 3적용되어 현재 전매제한기간 도과' (2026910271 힐스테이트 레이크 송도 4차(2차), 2026-10-24)
+        #  — 숫자(3)가 날짜 뒤로 밀림. '도과'까지 이어질 때만 읽는다
+        (r"최초당[첨점]자발표일로부터년간" + _D + r"(\d{1,2})(?![\d,.])적용되어현재전매제한기간이?도과",
+         lambda m: {"months": mon(m.group(4), "년"), "base": _rs_ymd(m, 1), "passed": True}),
     ]
     for pat, fn in pats:
         if (m := re.search(pat, flat)):
