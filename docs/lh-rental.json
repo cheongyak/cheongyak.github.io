@@ -1,5 +1,5 @@
 {
- "updated": "2026-10-23 08:00",
+ "updated": "2026-10-23 08:37",
  "source": "LH 청약플러스 임대 공고 (공공데이터포털 한국토지주택공사 분양임대공고 조회)",
  "count": 32,
  "notices": [
@@ -5516,9 +5516,42 @@
     "homeless_relaxed": false,
     "homeless_max1": false,
     "income_basis": null,
-    "groups": [],
-    "quotes": {},
-    "income_table_100": null
+    "groups": [
+     {
+      "key": "일반",
+      "name": "일반",
+      "homeless": "household",
+      "income_pct": "excluded",
+      "asset_manwon": "excluded",
+      "car_manwon": "excluded",
+      "age_min": null,
+      "age_max": null
+     }
+    ],
+    "quotes": {
+     "일반": {
+      "region": "신청자격 ▌예비입주자모집공고일(2026.10.22) 현재 수도권(서울특별시, 경기도, 인천광역시)에 거주(주민등록표등본 기준)하는 성년자(만19세 이상)인 무주택세대구성원",
+      "homeless": "신청자격 ▌예비입주자모집공고일(2026.10.22) 현재 수도권(서울특별시, 경기도, 인천광역시)에 거주(주민등록표등본 기준)하는 성년자(만19세 이상)인 무주택세대구성원",
+      "income": "신청자의 소득기준 및 자산기준 충족 여부는 불문합니다.",
+      "asset": "신청자의 소득기준 및 자산기준 충족 여부는 불문합니다.",
+      "account": "1순위 입주자저축(주택청약종합저축, 청약저축)에 가입하여 2년이 경과된 분으로서 매월 약정납입일에 월 납입금을 24회 이상 납입한 자 2순위 입주자저축(주택청약종합저축, 청약저축)에 가입하여 6월이 경과된 분으로서 매월 약정납입일에 월 납입금을 6회 이상 납입한 자"
+     }
+    },
+    "income_table_100": null,
+    "regions": [
+     "경기",
+     "서울",
+     "인천"
+    ],
+    "account": {
+     "months": 24,
+     "count": 24,
+     "rank2_any": false,
+     "rank2": {
+      "months": 6,
+      "count": 6
+     }
+    }
    },
    "api": {
     "CCR_CNNT_SYS_DS_CD": "02",
