@@ -1,7 +1,7 @@
 {
  "date": "2026-10-23",
  "page_cap": 300,
- "notices": 55,
+ "notices": 54,
  "with_problem": 5,
  "kinds": {
   "글자가 거의 없는 쪽 N개 (스캔 이미지·표 그림 추정)": 4,
@@ -9,6 +9,63 @@
  },
  "errors": [],
  "results": [
+  {
+   "notice": "2026000496",
+   "name": "청라 아크원 푸르지오",
+   "url": "https://www.applyhome.co.kr/ai/aia/selectAPTLttotPblancDetail.do?houseManageNo=2026000496&pblancNo=2026000496",
+   "attachments": 1,
+   "pdfs": 1,
+   "attachment_list": [
+    {
+     "url": "https://static.applyhome.co.kr/ai/aia/getAtchmnfl.do?houseManageNo=2026000496&pblancNo=2026000496&atchmnflSeqNo=1999033&atchmnflSn=20",
+     "bytes": 1371405,
+     "pages": 100,
+     "chars": 240256,
+     "head": "- 1 - ※ 단지 주요정보 (분양문의) 1551-6881 주택유형 해당지역 기타지역 규제지역여부 민영 인천광역시 거주자 서울특별시, 경기도 거"
+    }
+   ],
+   "chosen": "https://static.applyhome.co.kr/ai/aia/getAtchmnfl.do?houseManageNo=2026000496&pblancNo=2026000496&atchmnflSeqNo=1999033&atchmnflSn=20",
+   "pages": 100,
+   "pages_read": 100,
+   "chars_read": 240355,
+   "empty_pages": [],
+   "chars_per_page_min": 487,
+   "fields": {
+    "price_cap": true,
+    "residence_duty": 0,
+    "rewin_years": 10,
+    "account_months": 12,
+    "residence": {
+     "area": "인천광역시",
+     "months": 0,
+     "since": null
+    }
+   },
+   "fields_merged": {
+    "price_cap": true,
+    "residence_duty": 0,
+    "rewin_years": 10,
+    "account_months": 12,
+    "residence": {
+     "area": "인천광역시",
+     "months": 0,
+     "since": null
+    }
+   },
+   "fields_pdfium": {
+    "price_cap": true,
+    "residence_duty": 0,
+    "rewin_years": 10,
+    "account_months": 12,
+    "residence": {
+     "area": "인천광역시",
+     "months": 0,
+     "since": null
+    }
+   },
+   "pdfium_chars": 241233,
+   "problem": []
+  },
   {
    "notice": "2026000502",
    "name": "화성 향남 롯데캐슬 시그니처",
@@ -809,60 +866,16 @@
    "name": "진도 승원팰리체 더 테라스",
    "url": "https://www.applyhome.co.kr/ai/aia/selectAPTLttotPblancDetail.do?houseManageNo=2026000466&pblancNo=2026000466",
    "attachments": 1,
-   "pdfs": 1,
+   "pdfs": 0,
    "attachment_list": [
     {
      "url": "https://static.applyhome.co.kr/ai/aia/getAtchmnfl.do?houseManageNo=2026000466&pblancNo=2026000466&atchmnflSeqNo=1995122&atchmnflSn=6",
-     "bytes": 702438,
-     "pages": 54,
-     "chars": 119397,
-     "head": "- 1 - ※ 단지 주요정보 (분양문의) 1644-4448 주택유형 해당지역 기타지역 규제지역여부 민영 기존 전라남도 진도군 거주자 기존 전라남"
+     "error": "PDF 아님 (200, 59바이트)"
     }
    ],
-   "chosen": "https://static.applyhome.co.kr/ai/aia/getAtchmnfl.do?houseManageNo=2026000466&pblancNo=2026000466&atchmnflSeqNo=1995122&atchmnflSn=6",
-   "pages": 54,
-   "pages_read": 54,
-   "chars_read": 119450,
-   "empty_pages": [],
-   "chars_per_page_min": 204,
-   "fields": {
-    "need_head": false,
-    "price_cap": false,
-    "residence_duty": 0,
-    "rewin_years": 0,
-    "account_months": 6,
-    "residence": {
-     "area": "전라남도 진도군",
-     "months": 0,
-     "since": null
-    }
-   },
-   "fields_merged": {
-    "need_head": false,
-    "price_cap": false,
-    "residence_duty": 0,
-    "rewin_years": 0,
-    "account_months": 6,
-    "residence": {
-     "area": "전라남도 진도군",
-     "months": 0,
-     "since": null
-    }
-   },
-   "fields_pdfium": {
-    "need_head": false,
-    "price_cap": false,
-    "residence_duty": 0,
-    "rewin_years": 0,
-    "account_months": 6,
-    "residence": {
-     "area": "전라남도 진도군",
-     "months": 0,
-     "since": null
-    }
-   },
-   "pdfium_chars": 119378,
-   "problem": []
+   "problem": [
+    "PDF 를 하나도 받지 못함"
+   ]
   },
   {
    "notice": "2026000464",
@@ -1535,70 +1548,6 @@
    "problem": []
   },
   {
-   "notice": "2026820011",
-   "name": "시흥하중지구 A-4블록 신혼희망타운(공공분양) 추가입주자모집",
-   "url": "https://www.applyhome.co.kr/ai/aia/selectAPTLttotPblancDetail.do?houseManageNo=2026820011&pblancNo=2026820011",
-   "attachments": 0,
-   "pdfs": 1,
-   "attachment_list": [
-    {
-     "url": "https://apply.lh.or.kr/lhapply/lhFile.do?fileid=68663246",
-     "bytes": 917230,
-     "pages": 21,
-     "chars": 90530,
-     "head": "- 1 - 시흥하중지구 시흥하중지구 시흥하중지구 시흥하중지구 시흥하중지구 시흥하중지구 시흥하중지구 시흥하중지구 시흥하중지구 시흥하중지구 시흥하중",
-     "via": "LH청약플러스"
-    }
-   ],
-   "chosen": "https://apply.lh.or.kr/lhapply/lhFile.do?fileid=68663246",
-   "pages": 21,
-   "pages_read": 21,
-   "chars_read": 90550,
-   "empty_pages": [],
-   "chars_per_page_min": 2802,
-   "fields": {
-    "price_cap": true,
-    "duty_silent": true,
-    "rewin_years": 10,
-    "account_months": 6,
-    "deposit_count": 6,
-    "residence": {
-     "area": "시흥시",
-     "months": 12,
-     "since": "2025-09-18"
-    },
-    "pub_limits_kind": "town"
-   },
-   "fields_merged": {
-    "price_cap": true,
-    "duty_silent": true,
-    "rewin_years": 10,
-    "account_months": 6,
-    "deposit_count": 6,
-    "residence": {
-     "area": "시흥시",
-     "months": 12,
-     "since": "2025-09-18"
-    },
-    "pub_limits_kind": "town"
-   },
-   "fields_pdfium": {
-    "price_cap": true,
-    "duty_silent": true,
-    "rewin_years": 10,
-    "account_months": 6,
-    "deposit_count": 6,
-    "residence": {
-     "area": "시흥시",
-     "months": 12,
-     "since": "2025-09-18"
-    },
-    "pub_limits_kind": "town"
-   },
-   "pdfium_chars": 88064,
-   "problem": []
-  },
-  {
    "notice": "2026000453",
    "name": "광명 시티프라디움 에듀하임",
    "url": "https://www.applyhome.co.kr/ai/aia/selectAPTLttotPblancDetail.do?houseManageNo=2026000453&pblancNo=2026000453",
@@ -1656,129 +1605,6 @@
     }
    },
    "pdfium_chars": 142834,
-   "problem": []
-  },
-  {
-   "notice": "2026000446",
-   "name": "진주 판문지구 레이크써밋 웰가",
-   "url": "https://www.applyhome.co.kr/ai/aia/selectAPTLttotPblancDetail.do?houseManageNo=2026000446&pblancNo=2026000446",
-   "attachments": 1,
-   "pdfs": 1,
-   "attachment_list": [
-    {
-     "url": "https://static.applyhome.co.kr/ai/aia/getAtchmnfl.do?houseManageNo=2026000446&pblancNo=2026000446&atchmnflSeqNo=1971223&atchmnflSn=4",
-     "bytes": 1203573,
-     "pages": 59,
-     "chars": 147300,
-     "head": "- 1 - ※ 단지 주요정보 (분양문의) 055-757-7979 주택유형 해당지역 기타지역 규제지역여부 민영 경상남도 진주시 1년이상 거주자(2"
-    }
-   ],
-   "chosen": "https://static.applyhome.co.kr/ai/aia/getAtchmnfl.do?houseManageNo=2026000446&pblancNo=2026000446&atchmnflSeqNo=1971223&atchmnflSn=4",
-   "pages": 59,
-   "pages_read": 59,
-   "chars_read": 147358,
-   "empty_pages": [],
-   "chars_per_page_min": 508,
-   "fields": {
-    "need_head": false,
-    "price_cap": false,
-    "residence_duty": 0,
-    "rewin_years": 0,
-    "account_months": 6,
-    "ext": 0.0125,
-    "residence": {
-     "area": "경상남도 진주시",
-     "months": 12,
-     "since": "2025-09-18"
-    }
-   },
-   "fields_merged": {
-    "need_head": false,
-    "price_cap": false,
-    "residence_duty": 0,
-    "rewin_years": 0,
-    "account_months": 6,
-    "ext": 0.0125,
-    "residence": {
-     "area": "경상남도 진주시",
-     "months": 12,
-     "since": "2025-09-18"
-    }
-   },
-   "fields_pdfium": {
-    "need_head": false,
-    "price_cap": false,
-    "residence_duty": 0,
-    "rewin_years": 0,
-    "account_months": 6,
-    "ext": 0.0125,
-    "residence": {
-     "area": "경상남도 진주시",
-     "months": 12,
-     "since": "2025-09-18"
-    }
-   },
-   "pdfium_chars": 147428,
-   "problem": []
-  },
-  {
-   "notice": "2026000314",
-   "name": "중동역 다채로움 더원",
-   "url": "https://www.applyhome.co.kr/ai/aia/selectAPTLttotPblancDetail.do?houseManageNo=2026000314&pblancNo=2026000314",
-   "attachments": 1,
-   "pdfs": 1,
-   "attachment_list": [
-    {
-     "url": "https://static.applyhome.co.kr/ai/aia/getAtchmnfl.do?houseManageNo=2026000314&pblancNo=2026000314&atchmnflSeqNo=1870113&atchmnflSn=10",
-     "bytes": 2509881,
-     "pages": 60,
-     "chars": 114679,
-     "head": "- 1 - ※ 단지 주요정보 (분양문의) 032-613-2355 주택 유형 해당지역 기타지역 규제지역여부 민영 경기도 부천시 거주자 수도권(경기"
-    }
-   ],
-   "chosen": "https://static.applyhome.co.kr/ai/aia/getAtchmnfl.do?houseManageNo=2026000314&pblancNo=2026000314&atchmnflSeqNo=1870113&atchmnflSn=10",
-   "pages": 60,
-   "pages_read": 60,
-   "chars_read": 114738,
-   "empty_pages": [],
-   "chars_per_page_min": 574,
-   "fields": {
-    "need_head": false,
-    "price_cap": false,
-    "residence_duty": 0,
-    "rewin_years": 0,
-    "account_months": 12,
-    "residence": {
-     "area": "경기도 부천시",
-     "months": 0,
-     "since": null
-    }
-   },
-   "fields_merged": {
-    "need_head": false,
-    "price_cap": false,
-    "residence_duty": 0,
-    "rewin_years": 0,
-    "account_months": 12,
-    "residence": {
-     "area": "경기도 부천시",
-     "months": 0,
-     "since": null
-    }
-   },
-   "fields_pdfium": {
-    "need_head": false,
-    "price_cap": false,
-    "residence_duty": 0,
-    "rewin_years": 0,
-    "account_months": 12,
-    "residence": {
-     "area": "경기도 부천시",
-     "months": 0,
-     "since": null
-    }
-   },
-   "pdfium_chars": 114160,
    "problem": []
   },
   {
@@ -1891,112 +1717,125 @@
    "problem": []
   },
   {
-   "notice": "2026000409",
-   "name": "의정부우정 A2블록 공공분양주택(본청약)",
-   "url": "https://www.applyhome.co.kr/ai/aia/selectAPTLttotPblancDetail.do?houseManageNo=2026000409&pblancNo=2026000409",
-   "attachments": 0,
+   "notice": "2026910271",
+   "name": "힐스테이트 레이크 송도 4차(2차)",
+   "url": "https://www.applyhome.co.kr/ai/aia/selectAPTRemndrLttotPblancDetailView.do?houseManageNo=2026910271&pblancNo=2026910271",
+   "attachments": 1,
    "pdfs": 1,
    "attachment_list": [
     {
-     "url": "https://apply.lh.or.kr/lhapply/lhFile.do?fileid=68307467",
-     "bytes": 1426059,
-     "pages": 41,
-     "chars": 149639,
-     "head": "- 1 - 의정부우정지구 의정부우정지구 의정부우정지구 의정부우정지구 의정부우정지구 의정부우정지구 의정부우정지구 의정부우정지구 의정부우정지구 의정",
-     "via": "LH청약플러스"
+     "url": "https://static.applyhome.co.kr/ai/aia/getAtchmnfl.do?houseManageNo=2026910271&pblancNo=2026910271&atchmnflSeqNo=2001042&atchmnflSn=3",
+     "bytes": 444966,
+     "pages": 13,
+     "chars": 22026,
+     "head": "- 1 - ※ 단지 주요정보 분양문의( ) 032-834-8890 주택유형 규제지역여부 무순위 사후 자격요건( ) 민영 비규제지역 무순위 사후 "
     }
    ],
-   "chosen": "https://apply.lh.or.kr/lhapply/lhFile.do?fileid=68307467",
-   "pages": 41,
-   "pages_read": 41,
-   "chars_read": 149679,
+   "chosen": "https://static.applyhome.co.kr/ai/aia/getAtchmnfl.do?houseManageNo=2026910271&pblancNo=2026910271&atchmnflSeqNo=2001042&atchmnflSn=3",
+   "pages": 13,
+   "pages_read": 13,
+   "chars_read": 22038,
    "empty_pages": [],
-   "chars_per_page_min": 1267,
+   "chars_per_page_min": 939,
    "fields": {
     "need_head": false,
-    "price_cap": true,
-    "duty_silent": true,
-    "rewin_years": 10,
-    "account_months": 12,
-    "deposit_count": 12,
+    "price_cap": false,
+    "residence_duty": 0,
+    "rewin_years": 0,
     "residence": {
-     "area": "의정부시",
+     "area": null,
      "months": 0,
      "since": null
-    },
-    "pub_limits_kind": null,
-    "schedule": {
-     "pre": [
-      "2026-09-07",
-      "2026-09-08"
-     ],
-     "special": [
-      "2026-09-14",
-      "2026-09-15"
-     ],
-     "general": [
-      "2026-09-16",
-      "2026-09-17"
-     ]
     }
    },
    "fields_merged": {
     "need_head": false,
-    "price_cap": true,
-    "duty_silent": true,
-    "rewin_years": 10,
-    "account_months": 12,
-    "deposit_count": 12,
+    "price_cap": false,
+    "residence_duty": 0,
+    "rewin_years": 0,
     "residence": {
-     "area": "의정부시",
+     "area": null,
      "months": 0,
      "since": null
-    },
-    "pub_limits_kind": null,
-    "schedule": {
-     "pre": [
-      "2026-09-07",
-      "2026-09-08"
-     ],
-     "special": [
-      "2026-09-14",
-      "2026-09-15"
-     ],
-     "general": [
-      "2026-09-16",
-      "2026-09-17"
-     ]
     }
    },
    "fields_pdfium": {
     "need_head": false,
-    "price_cap": true,
-    "duty_silent": true,
+    "price_cap": false,
+    "residence_duty": 0,
+    "rewin_years": 0
+   },
+   "pdfium_chars": 22979,
+   "tool_diff": {
+    "residence": [
+     {
+      "area": null,
+      "months": 0,
+      "since": null
+     },
+     null
+    ]
+   },
+   "filled_by_second_tool": [
+    "residence"
+   ],
+   "problem": []
+  },
+  {
+   "notice": "2026910270",
+   "name": "충정로역자이르네(2차)",
+   "url": "https://www.applyhome.co.kr/ai/aia/selectAPTRemndrLttotPblancDetailView.do?houseManageNo=2026910270&pblancNo=2026910270",
+   "attachments": 1,
+   "pdfs": 1,
+   "attachment_list": [
+    {
+     "url": "https://static.applyhome.co.kr/ai/aia/getAtchmnfl.do?houseManageNo=2026910270&pblancNo=2026910270&atchmnflSeqNo=2002061&atchmnflSn=5",
+     "bytes": 1397630,
+     "pages": 16,
+     "chars": 40083,
+     "head": "- 1 - ※ 견본주택에 주차가 불가하오니, 대중교통을 이용하시기 바랍니다. ※ 청약 전 유의사항 (분양문의) 1660-1245 구분 내용 재당"
+    }
+   ],
+   "chosen": "https://static.applyhome.co.kr/ai/aia/getAtchmnfl.do?houseManageNo=2026910270&pblancNo=2026910270&atchmnflSeqNo=2002061&atchmnflSn=5",
+   "pages": 16,
+   "pages_read": 16,
+   "chars_read": 40098,
+   "empty_pages": [],
+   "chars_per_page_min": 1678,
+   "fields": {
+    "need_head": false,
+    "price_cap": false,
+    "residence_duty": 0,
     "rewin_years": 10,
-    "account_months": 12,
-    "deposit_count": 12,
     "residence": {
-     "area": "의정부시",
+     "area": "서울특별시",
      "months": 0,
      "since": null
-    },
-    "pub_limits_kind": null,
-    "schedule": {
-     "pre": [
-      "2026-09-07",
-      "2026-09-08"
-     ],
-     "special": [
-      "2026-09-14",
-      "2026-09-15"
-     ],
-     "general": [
-      "2026-09-16",
-      "2026-09-17"
-     ]
     }
    },
-   "pdfium_chars": 149078,
+   "fields_merged": {
+    "need_head": false,
+    "price_cap": false,
+    "residence_duty": 0,
+    "rewin_years": 10,
+    "residence": {
+     "area": "서울특별시",
+     "months": 0,
+     "since": null
+    }
+   },
+   "fields_pdfium": {
+    "need_head": false,
+    "price_cap": false,
+    "residence_duty": 0,
+    "rewin_years": 10,
+    "residence": {
+     "area": "서울특별시",
+     "months": 0,
+     "since": null
+    }
+   },
+   "pdfium_chars": 39610,
    "problem": []
   },
   {
@@ -2061,16 +1900,57 @@
    "name": "신천역 에피트(3차)",
    "url": "https://www.applyhome.co.kr/ai/aia/selectAPTRemndrLttotPblancDetailView.do?houseManageNo=2026910268&pblancNo=2026910268",
    "attachments": 1,
-   "pdfs": 0,
+   "pdfs": 1,
    "attachment_list": [
     {
      "url": "https://static.applyhome.co.kr/ai/aia/getAtchmnfl.do?houseManageNo=2026910268&pblancNo=2026910268&atchmnflSeqNo=1998046&atchmnflSn=3",
-     "error": "PDF 아님 (200, 59바이트)"
+     "bytes": 238922,
+     "pages": 10,
+     "chars": 17385,
+     "head": "- 1 - ※ 단지 주요정보 (분양문의) 031-311-0230 주택유형 규제지역여부 무순위(사후) 자격요건 민영 비규제지역 무순위(사후) 입주"
     }
    ],
-   "problem": [
-    "PDF 를 하나도 받지 못함"
-   ]
+   "chosen": "https://static.applyhome.co.kr/ai/aia/getAtchmnfl.do?houseManageNo=2026910268&pblancNo=2026910268&atchmnflSeqNo=1998046&atchmnflSn=3",
+   "pages": 10,
+   "pages_read": 10,
+   "chars_read": 17394,
+   "empty_pages": [],
+   "chars_per_page_min": 621,
+   "fields": {
+    "need_head": false,
+    "price_cap": false,
+    "residence_duty": 0,
+    "rewin_years": 0,
+    "residence": {
+     "area": null,
+     "months": 0,
+     "since": null
+    }
+   },
+   "fields_merged": {
+    "need_head": false,
+    "price_cap": false,
+    "residence_duty": 0,
+    "rewin_years": 0,
+    "residence": {
+     "area": null,
+     "months": 0,
+     "since": null
+    }
+   },
+   "fields_pdfium": {
+    "need_head": false,
+    "price_cap": false,
+    "residence_duty": 0,
+    "rewin_years": 0,
+    "residence": {
+     "area": null,
+     "months": 0,
+     "since": null
+    }
+   },
+   "pdfium_chars": 17066,
+   "problem": []
   },
   {
    "notice": "2026910266",
