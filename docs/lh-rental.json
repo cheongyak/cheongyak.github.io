@@ -1,291 +1,8 @@
 {
- "updated": "2026-10-23 09:08",
+ "updated": "2026-10-24 08:35",
  "source": "LH 청약플러스 임대 공고 (공공데이터포털 한국토지주택공사 분양임대공고 조회)",
- "count": 32,
+ "count": 30,
  "notices": [
-  {
-   "id": "2015122300020800",
-   "name": "철원갈말 영구임대 예비입주자 모집공고",
-   "type": "영구임대",
-   "type_code": "09",
-   "judge_type": true,
-   "region": "강원특별자치도",
-   "posted": "2026-09-22",
-   "close": "2026-10-23",
-   "status": "공고중",
-   "url": "https://apply.lh.or.kr/lhapply/apply/wt/wrtanc/selectWrtancInfo.do?panId=2015122300020800&ccrCnntSysDsCd=03&uppAisTpCd=06&aisTpCd=09&mi=1026",
-   "url_mobile": "https://apply.lh.or.kr/lhapply/apply/wt/wrtanc/selectWrtancInfo.do?panId=2015122300020800&ccrCnntSysDsCd=03&uppAisTpCd=06&aisTpCd=09&mi=1026",
-   "schedule": [
-    {
-     "complex": null,
-     "apply_start": "2026-10-19",
-     "apply_end": "2026-10-23",
-     "apply_time": "~",
-     "docs_target": null,
-     "docs_start": null,
-     "docs_end": null,
-     "winner": "2027-02-02",
-     "contract_start": null,
-     "contract_end": null
-    }
-   ],
-   "complexes": [
-    {
-     "name": "철원갈말 마을정비형 임대주택",
-     "address": "강원특별자치도 철원군 갈말읍 명성로111번길 18",
-     "households": 20,
-     "area": "24.59~24.66",
-     "move_in": "2021.10",
-     "heating": "개별가스난방"
-    }
-   ],
-   "units": [
-    {
-     "complex": "철원갈말 마을정비형 임대주택",
-     "type": "24A(일반)",
-     "area": 24.59,
-     "supply_area": 37.7259,
-     "households": 20,
-     "now_households": 20,
-     "deposit": null,
-     "rent": null,
-     "money_note": "공고문 참조"
-    }
-   ],
-   "files": [
-    {
-     "kind": "공고문(hwp)",
-     "name": "20260922철원갈말영구임대예비입주자모집.hwpx",
-     "url": "https://apply.lh.or.kr/lhapply/lhFile.do?fileid=68663075"
-    },
-    {
-     "kind": "공고문(PDF)",
-     "name": "20260922철원갈말영구임대예비입주자모집.pdf",
-     "url": "https://apply.lh.or.kr/lhapply/lhFile.do?fileid=68663137"
-    }
-   ],
-   "etc": null,
-   "office": {
-    "place": "철원군 내 읍,면 행정복지센터",
-    "tel": "1600-1004"
-   },
-   "notice_pdf": "https://apply.lh.or.kr/lhapply/lhFile.do?fileid=68663137",
-   "notice_text": 39668,
-   "rents": [
-    {
-     "complex": null,
-     "type": "24A",
-     "group": "가군",
-     "deposit": 2343000,
-     "rent": 46630
-    },
-    {
-     "complex": null,
-     "type": "24A",
-     "group": "나군",
-     "deposit": 17442000,
-     "rent": 100300
-    }
-   ],
-   "terms": {
-    "relaxed": false,
-    "homeless_relaxed": false,
-    "homeless_max1": false,
-    "income_basis": "도시근로자 월평균소득",
-    "groups": [
-     {
-      "key": "일반",
-      "name": "일반",
-      "homeless": "household",
-      "income_pct": {
-       "1": 70,
-       "2": 60,
-       "3+": 50
-      },
-      "asset_manwon": 24500,
-      "car_manwon": 4542,
-      "age_min": null,
-      "age_max": null
-     }
-    ],
-    "quotes": {
-     "일반": {
-      "income": "지시설퇴소자) - 월평균 소득 50%이하 : 차목(일반입주자) 2. 월평균 소득기준 우대비율 적용대상(적용비율 가산항목 적용대상) - 가구원수별 가산비율 : 1인 가구 20%p, 2인 가구 10%p - 출생자녀별 가산비율 : 1명 10%p, 2명 이상 20%p ※",
-      "asset": "위 장애인) 2. 총자산 기준 세대구성원 전원이 보유하고 있는 총 자산(부동산, 자동차, 금융자산(부채반영), 일반자산) 가액 합산 기준 ( 24,500 )만원 이하 3. 자동차 기준",
-      "car": "이 보유하고 있는 개별 자동차가액 ( 4,542 )만원 이하 * 총자산 기준과"
-     }
-    },
-    "income_table_100": null
-   },
-   "api": {
-    "CCR_CNNT_SYS_DS_CD": "03",
-    "SPL_INF_TP_CD": "062",
-    "UPP_AIS_TP_CD": "06",
-    "AIS_TP_CD": "09"
-   },
-   "read": {
-    "tools": [
-     "pypdf",
-     "pdfium",
-     "plumber"
-    ],
-    "conflicts": []
-   }
-  },
-  {
-   "id": "2015122300020865",
-   "name": "강릉입암3 영구임대주택 예비입주자 모집 공고",
-   "type": "영구임대",
-   "type_code": "09",
-   "judge_type": true,
-   "region": "강원특별자치도",
-   "posted": "2026-10-06",
-   "close": "2026-10-23",
-   "status": "공고중",
-   "url": "https://apply.lh.or.kr/lhapply/apply/wt/wrtanc/selectWrtancInfo.do?panId=2015122300020865&ccrCnntSysDsCd=03&uppAisTpCd=06&aisTpCd=09&mi=1026",
-   "url_mobile": "https://apply.lh.or.kr/lhapply/apply/wt/wrtanc/selectWrtancInfo.do?panId=2015122300020865&ccrCnntSysDsCd=03&uppAisTpCd=06&aisTpCd=09&mi=1026",
-   "schedule": [
-    {
-     "complex": null,
-     "apply_start": "2026-10-19",
-     "apply_end": "2026-10-23",
-     "apply_time": "~",
-     "docs_target": null,
-     "docs_start": null,
-     "docs_end": null,
-     "winner": "2027-02-22",
-     "contract_start": null,
-     "contract_end": null
-    }
-   ],
-   "complexes": [
-    {
-     "name": "강릉입암3",
-     "address": "강원특별자치도 강릉시 강변로 510(입암동,입암3주공아파트)",
-     "households": 596,
-     "area": "26.37~31.32",
-     "move_in": "1994.12",
-     "heating": "중앙유류난방"
-    }
-   ],
-   "units": [
-    {
-     "complex": "강릉입암3",
-     "type": "39.7500",
-     "area": 26.37,
-     "supply_area": 39.75,
-     "households": 298,
-     "now_households": 50,
-     "deposit": null,
-     "rent": null,
-     "money_note": "공고문 참조"
-    },
-    {
-     "complex": "강릉입암3",
-     "type": "45.1700",
-     "area": 31.32,
-     "supply_area": 45.17,
-     "households": 298,
-     "now_households": 50,
-     "deposit": null,
-     "rent": null,
-     "money_note": "공고문 참조"
-    }
-   ],
-   "files": [
-    {
-     "kind": "공고문(hwp)",
-     "name": "261006강릉입암3영구임대예비입주자모집공고.hwpx",
-     "url": "https://apply.lh.or.kr/lhapply/lhFile.do?fileid=68818210"
-    },
-    {
-     "kind": "공고문(PDF)",
-     "name": "261006강릉입암3영구임대예비입주자모집공고.pdf",
-     "url": "https://apply.lh.or.kr/lhapply/lhFile.do?fileid=68818211"
-    }
-   ],
-   "etc": "자세한 사항은 반드시 공고문을 확인해주시기 바랍니다.\n당첨자 발표 일정은 자격검증 일정에 따라 변경될 수 있습니다.",
-   "office": {
-    "place": "거주지 관할 읍·면·동 주민센터",
-    "tel": "1600-1004"
-   },
-   "notice_pdf": "https://apply.lh.or.kr/lhapply/lhFile.do?fileid=68818211",
-   "notice_text": 45907,
-   "rents": [
-    {
-     "complex": null,
-     "type": "26.37",
-     "group": "가군",
-     "deposit": 2520000,
-     "rent": 50160
-    },
-    {
-     "complex": null,
-     "type": "26.37",
-     "group": "나군",
-     "deposit": 8751000,
-     "rent": 142200
-    },
-    {
-     "complex": null,
-     "type": "31.32",
-     "group": "가군",
-     "deposit": 2993000,
-     "rent": 59570
-    },
-    {
-     "complex": null,
-     "type": "31.32",
-     "group": "나군",
-     "deposit": 9970000,
-     "rent": 156980
-    }
-   ],
-   "terms": {
-    "relaxed": false,
-    "homeless_relaxed": false,
-    "homeless_max1": false,
-    "income_basis": "도시근로자 월평균소득",
-    "groups": [
-     {
-      "key": "일반",
-      "name": "일반",
-      "homeless": "household",
-      "income_pct": {
-       "1": 70,
-       "2": 60,
-       "3+": 50
-      },
-      "asset_manwon": 24500,
-      "car_manwon": 4542,
-      "age_min": null,
-      "age_max": null
-     }
-    ],
-    "quotes": {
-     "일반": {
-      "income": "지시설퇴소자) - 월평균 소득 50%이하 : 차목(일반입주자) 2. 월평균 소득기준 우대비율 적용대상(적용비율 가산항목 적용대상) - 가구원수별 가산비율 : 1인 가구 20%p, 2인 가구 10%p - 출생자녀별 가산비율 : 1명 10%p, 2명 이상 20%p ※",
-      "asset": "위 장애인) 2. 총자산 기준 세대구성원 전원이 보유하고 있는 총 자산(부동산, 자동차, 금융자산(부채반영), 일반자산) 가액 합산 기준 ( 24,500 )만원 이하 3. 자동차 기준",
-      "car": "이 보유하고 있는 개별 자동차가액 ( 4,542 )만원 이하 * 총자산 기준과"
-     }
-    },
-    "income_table_100": null
-   },
-   "api": {
-    "CCR_CNNT_SYS_DS_CD": "03",
-    "SPL_INF_TP_CD": "062",
-    "UPP_AIS_TP_CD": "06",
-    "AIS_TP_CD": "09"
-   },
-   "read": {
-    "tools": [
-     "pypdf",
-     "pdfium",
-     "plumber"
-    ],
-    "conflicts": []
-   }
-  },
   {
    "id": "0000061184",
    "name": "충북혁신 4단지 10년분양전환공공임대주택 예비입주자 모집공고('26.10.12)",
@@ -1877,7 +1594,7 @@
      "complex": "광주첨단 창업지원주택",
      "apply_start": "2026-10-26",
      "apply_end": "2026-10-27",
-     "apply_time": "~",
+     "apply_time": "2026.10.26 10:00 ~ 2026.10.27 16:10",
      "docs_target": "2026-11-10",
      "docs_start": "2026-11-10",
      "docs_end": "2026-11-13",
@@ -1889,7 +1606,7 @@
      "complex": "광주첨단 행복주택(H-2)",
      "apply_start": "2026-10-26",
      "apply_end": "2026-10-27",
-     "apply_time": "~",
+     "apply_time": "2026.10.26 10:00 ~ 2026.10.27 16:10",
      "docs_target": "2026-11-10",
      "docs_start": "2026-11-10",
      "docs_end": "2026-11-13",
@@ -1901,7 +1618,7 @@
      "complex": "광주첨단 행복주택(H-3)",
      "apply_start": "2026-10-26",
      "apply_end": "2026-10-27",
-     "apply_time": "~",
+     "apply_time": "2026.10.26 10:00 ~ 2026.10.27 16:10",
      "docs_target": "2026-11-10",
      "docs_start": "2026-11-10",
      "docs_end": "2026-11-13",
