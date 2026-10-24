@@ -38,7 +38,7 @@ on:
       - ".github/workflows/verify.yml"
 concurrency:               # 수집과 같은 묶음이면 대기 중인 수집이 밀려 취소된다(2026-10-03) → 따로 두고 시작할 때 수집이 끝나길 기다린다 (tools/qa/wait_collect.sh)
   group: verify
-  cancel-in-progress: true
+  cancel-in-progress: false   # 2026-10-24: true 였더니 임대 수집 5개·공고문 재시도가 몇 분 간격으로 판정 검증을 다시 불러 돌던 것이 계속 취소됨(23:42~00:37 8번, 하나도 못 끝냄). false = 도는 것은 끝까지, 기다리는 것은 가장 새 것 하나만
 permissions:
   contents: write
   issues: write
