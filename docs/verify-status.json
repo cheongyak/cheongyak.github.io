@@ -1,13 +1,9 @@
 {
- "at": "2026-10-26 08:23",
- "ok": false,
+ "at": "2026-10-26 08:44",
+ "ok": true,
  "collect_run": "2026-10-26 · 공고 269건",
  "banner": null,
- "flagged": {
-  "SH-311987": [
-   "자동 검증(임대 공고문 못 읽음): 청년 공고문의 총자산 금액이 잘못 적혀 있어요('2억5,4000만 원') — 정확한 기준은 운영기관에 확인"
-  ]
- },
+ "flagged": {},
  "pending": [],
  "coverage_missing": 0,
  "observe": [
@@ -31,37 +27,37 @@
   {
    "name": "분양",
    "updated": "2026-10-26 07:23",
-   "hours": 1.0,
+   "hours": 1.4,
    "stale": false
   },
   {
    "name": "LH 임대",
    "updated": "2026-10-26 07:43",
-   "hours": 0.7,
+   "hours": 1.0,
    "stale": false
   },
   {
    "name": "SH 임대",
    "updated": "2026-10-26 07:48",
-   "hours": 0.6,
+   "hours": 0.9,
    "stale": false
   },
   {
    "name": "GH 임대",
    "updated": "2026-10-26 07:53",
-   "hours": 0.5,
+   "hours": 0.9,
    "stale": false
   },
   {
    "name": "공공지원 민간임대",
    "updated": "2026-10-26 07:55",
-   "hours": 0.5,
+   "hours": 0.8,
    "stale": false
   },
   {
    "name": "LH 주거복지·신혼희망",
    "updated": "2026-10-26 07:47",
-   "hours": 0.6,
+   "hours": 1.0,
    "stale": false
   }
  ],
@@ -97,7 +93,7 @@
   "lh_invariant_violations": 0,
   "lh_judge_qa_fails": 0,
   "lh_screen_fails": 0,
-  "lh_unread": 1,
+  "lh_unread": 0,
   "lh_pdf_merged_wrong": 0,
   "pay_audit_bad": 0,
   "parse_moved_changes": 0,
