@@ -46930,7 +46930,7 @@
     "umd": "가경동",
     "area": 105.58,
     "floor": 3.0,
-    "dong": "",
+    "dong": "204동",
     "amount": 7.2,
     "date": "2026-09-23",
     "kind": "매매",
@@ -48580,7 +48580,7 @@
     "umd": "가경동",
     "area": 105.58,
     "floor": 3.0,
-    "dong": "",
+    "dong": "204동",
     "amount": 7.2,
     "date": "2026-09-23",
     "kind": "매매",
@@ -65600,13 +65600,24 @@
   },
   "contract_rate": 0.05,
   "mid_rate": 0.6,
-  "mkt_low": 5.72,
-  "mkt_base": 5.85,
-  "mkt_note": "같은 단지 같은 평형 거래 5건 기준 (최근 6개월)",
+  "mkt_low": 5.75,
+  "mkt_base": 5.87,
+  "mkt_note": "같은 단지 같은 평형 거래 6건 기준 (최근 6개월)",
   "mkt_basis": "same_complex",
-  "mkt_count": 5,
+  "mkt_count": 6,
   "mkt_direct_excluded": 2,
   "mkt_comps": [
+   {
+    "apt": "천안 아이파크 시티 2단지",
+    "umd": "부대동",
+    "area": 84.98,
+    "floor": 29.0,
+    "dong": "",
+    "amount": 5.95,
+    "date": "2026-10-18",
+    "kind": "분양권",
+    "direct": false
+   },
    {
     "apt": "천안 아이파크 시티 2단지",
     "umd": "부대동",
@@ -66044,13 +66055,24 @@
   },
   "contract_rate": 0.05,
   "mid_rate": 0.6,
-  "mkt_low": 5.72,
-  "mkt_base": 5.85,
-  "mkt_note": "같은 단지 같은 평형 거래 5건 기준 (최근 6개월)",
+  "mkt_low": 5.75,
+  "mkt_base": 5.87,
+  "mkt_note": "같은 단지 같은 평형 거래 6건 기준 (최근 6개월)",
   "mkt_basis": "same_complex",
-  "mkt_count": 5,
+  "mkt_count": 6,
   "mkt_direct_excluded": 2,
   "mkt_comps": [
+   {
+    "apt": "천안 아이파크 시티 2단지",
+    "umd": "부대동",
+    "area": 84.98,
+    "floor": 29.0,
+    "dong": "",
+    "amount": 5.95,
+    "date": "2026-10-18",
+    "kind": "분양권",
+    "direct": false
+   },
    {
     "apt": "천안 아이파크 시티 2단지",
     "umd": "부대동",
@@ -74520,7 +74542,7 @@
     "umd": "도두일동",
     "area": 84.01,
     "floor": 5.0,
-    "dong": "",
+    "dong": "A동",
     "amount": 3.3,
     "date": "2026-10-21",
     "kind": "매매",
@@ -74946,7 +74968,7 @@
     "umd": "도두일동",
     "area": 84.01,
     "floor": 5.0,
-    "dong": "",
+    "dong": "A동",
     "amount": 3.3,
     "date": "2026-10-21",
     "kind": "매매",
@@ -75372,7 +75394,7 @@
     "umd": "도두일동",
     "area": 84.01,
     "floor": 5.0,
-    "dong": "",
+    "dong": "A동",
     "amount": 3.3,
     "date": "2026-10-21",
     "kind": "매매",
@@ -75800,7 +75822,7 @@
     "umd": "도두일동",
     "area": 84.01,
     "floor": 5.0,
-    "dong": "",
+    "dong": "A동",
     "amount": 3.3,
     "date": "2026-10-21",
     "kind": "매매",
@@ -76228,7 +76250,7 @@
     "umd": "도두일동",
     "area": 84.01,
     "floor": 5.0,
-    "dong": "",
+    "dong": "A동",
     "amount": 3.3,
     "date": "2026-10-21",
     "kind": "매매",
@@ -76660,13 +76682,24 @@
   },
   "contract_rate": 0.05,
   "mid_rate": 0.6,
-  "mkt_low": 4.04,
+  "mkt_low": 4.05,
   "mkt_base": 4.7,
-  "mkt_note": "같은 구 준공 10년 이내 같은 평형 매매 248건 기준 (최근 6개월)",
+  "mkt_note": "같은 구 준공 10년 이내 같은 평형 매매 250건 기준 (최근 6개월)",
   "mkt_basis": "district_newbuild",
-  "mkt_count": 248,
+  "mkt_count": 250,
   "mkt_direct_excluded": 4,
   "mkt_comps": [
+   {
+    "apt": "용인드마크데시앙",
+    "umd": "김량장동",
+    "area": 59.9579,
+    "floor": 30.0,
+    "dong": "",
+    "amount": 5.4,
+    "date": "2026-10-24",
+    "kind": "매매",
+    "direct": false
+   },
    {
     "apt": "힐스테이트용인고진역2단지",
     "umd": "고림동",
@@ -76723,6 +76756,17 @@
     "direct": false
    },
    {
+    "apt": "힐스테이트몬테로이1단지",
+    "umd": "모현읍 왕산리",
+    "area": 59.991,
+    "floor": 10.0,
+    "dong": "",
+    "amount": 5.2,
+    "date": "2026-10-19",
+    "kind": "매매",
+    "direct": false
+   },
+   {
     "apt": "서희스타힐스포레스트",
     "umd": "역북동",
     "area": 59.9957,
@@ -76730,28 +76774,6 @@
     "dong": "",
     "amount": 4.25,
     "date": "2026-10-19",
-    "kind": "매매",
-    "direct": false
-   },
-   {
-    "apt": "용인명지대역동원로얄듀크",
-    "umd": "역북동",
-    "area": 59.9991,
-    "floor": 13.0,
-    "dong": "",
-    "amount": 5.5,
-    "date": "2026-10-17",
-    "kind": "매매",
-    "direct": false
-   },
-   {
-    "apt": "힐스테이트용인고진역2단지",
-    "umd": "고림동",
-    "area": 59.9786,
-    "floor": 8.0,
-    "dong": "",
-    "amount": 5.67,
-    "date": "2026-10-17",
     "kind": "매매",
     "direct": false
    }
@@ -77246,13 +77268,24 @@
   },
   "contract_rate": 0.05,
   "mid_rate": 0.6,
-  "mkt_low": 4.04,
+  "mkt_low": 4.05,
   "mkt_base": 4.7,
-  "mkt_note": "같은 구 준공 10년 이내 같은 평형 매매 248건 기준 (최근 6개월)",
+  "mkt_note": "같은 구 준공 10년 이내 같은 평형 매매 250건 기준 (최근 6개월)",
   "mkt_basis": "district_newbuild",
-  "mkt_count": 248,
+  "mkt_count": 250,
   "mkt_direct_excluded": 4,
   "mkt_comps": [
+   {
+    "apt": "용인드마크데시앙",
+    "umd": "김량장동",
+    "area": 59.9579,
+    "floor": 30.0,
+    "dong": "",
+    "amount": 5.4,
+    "date": "2026-10-24",
+    "kind": "매매",
+    "direct": false
+   },
    {
     "apt": "힐스테이트용인고진역2단지",
     "umd": "고림동",
@@ -77309,6 +77342,17 @@
     "direct": false
    },
    {
+    "apt": "힐스테이트몬테로이1단지",
+    "umd": "모현읍 왕산리",
+    "area": 59.991,
+    "floor": 10.0,
+    "dong": "",
+    "amount": 5.2,
+    "date": "2026-10-19",
+    "kind": "매매",
+    "direct": false
+   },
+   {
     "apt": "서희스타힐스포레스트",
     "umd": "역북동",
     "area": 59.9957,
@@ -77316,28 +77360,6 @@
     "dong": "",
     "amount": 4.25,
     "date": "2026-10-19",
-    "kind": "매매",
-    "direct": false
-   },
-   {
-    "apt": "용인명지대역동원로얄듀크",
-    "umd": "역북동",
-    "area": 59.9991,
-    "floor": 13.0,
-    "dong": "",
-    "amount": 5.5,
-    "date": "2026-10-17",
-    "kind": "매매",
-    "direct": false
-   },
-   {
-    "apt": "힐스테이트용인고진역2단지",
-    "umd": "고림동",
-    "area": 59.9786,
-    "floor": 8.0,
-    "dong": "",
-    "amount": 5.67,
-    "date": "2026-10-17",
     "kind": "매매",
     "direct": false
    }
@@ -77825,13 +77847,24 @@
   },
   "contract_rate": 0.05,
   "mid_rate": 0.6,
-  "mkt_low": 4.04,
+  "mkt_low": 4.05,
   "mkt_base": 4.7,
-  "mkt_note": "같은 구 준공 10년 이내 같은 평형 매매 248건 기준 (최근 6개월)",
+  "mkt_note": "같은 구 준공 10년 이내 같은 평형 매매 250건 기준 (최근 6개월)",
   "mkt_basis": "district_newbuild",
-  "mkt_count": 248,
+  "mkt_count": 250,
   "mkt_direct_excluded": 4,
   "mkt_comps": [
+   {
+    "apt": "용인드마크데시앙",
+    "umd": "김량장동",
+    "area": 59.9579,
+    "floor": 30.0,
+    "dong": "",
+    "amount": 5.4,
+    "date": "2026-10-24",
+    "kind": "매매",
+    "direct": false
+   },
    {
     "apt": "힐스테이트용인고진역2단지",
     "umd": "고림동",
@@ -77888,6 +77921,17 @@
     "direct": false
    },
    {
+    "apt": "힐스테이트몬테로이1단지",
+    "umd": "모현읍 왕산리",
+    "area": 59.991,
+    "floor": 10.0,
+    "dong": "",
+    "amount": 5.2,
+    "date": "2026-10-19",
+    "kind": "매매",
+    "direct": false
+   },
+   {
     "apt": "서희스타힐스포레스트",
     "umd": "역북동",
     "area": 59.9957,
@@ -77895,28 +77939,6 @@
     "dong": "",
     "amount": 4.25,
     "date": "2026-10-19",
-    "kind": "매매",
-    "direct": false
-   },
-   {
-    "apt": "용인명지대역동원로얄듀크",
-    "umd": "역북동",
-    "area": 59.9991,
-    "floor": 13.0,
-    "dong": "",
-    "amount": 5.5,
-    "date": "2026-10-17",
-    "kind": "매매",
-    "direct": false
-   },
-   {
-    "apt": "힐스테이트용인고진역2단지",
-    "umd": "고림동",
-    "area": 59.9786,
-    "floor": 8.0,
-    "dong": "",
-    "amount": 5.67,
-    "date": "2026-10-17",
     "kind": "매매",
     "direct": false
    }
@@ -78990,13 +79012,24 @@
   },
   "contract_rate": 0.05,
   "mid_rate": 0.6,
-  "mkt_low": 4.66,
+  "mkt_low": 4.67,
   "mkt_base": 5.0,
-  "mkt_note": "같은 구 준공 10년 이내 같은 평형 매매 82건 기준 (최근 6개월)",
+  "mkt_note": "같은 구 준공 10년 이내 같은 평형 매매 83건 기준 (최근 6개월)",
   "mkt_basis": "district_newbuild",
-  "mkt_count": 82,
+  "mkt_count": 83,
   "mkt_direct_excluded": 1,
   "mkt_comps": [
+   {
+    "apt": "역북지웰푸르지오",
+    "umd": "역북동",
+    "area": 74.9964,
+    "floor": 21.0,
+    "dong": "",
+    "amount": 5.99,
+    "date": "2026-10-24",
+    "kind": "매매",
+    "direct": false
+   },
    {
     "apt": "에이스카운티아파트",
     "umd": "이동읍 천리",
@@ -79071,17 +79104,6 @@
     "dong": "",
     "amount": 4.99,
     "date": "2026-09-30",
-    "kind": "매매",
-    "direct": false
-   },
-   {
-    "apt": "에이스카운티아파트",
-    "umd": "이동읍 천리",
-    "area": 74.93,
-    "floor": 5.0,
-    "dong": "",
-    "amount": 3.15,
-    "date": "2026-09-29",
     "kind": "매매",
     "direct": false
    }
@@ -79547,13 +79569,24 @@
   },
   "contract_rate": 0.05,
   "mid_rate": 0.6,
-  "mkt_low": 4.66,
+  "mkt_low": 4.67,
   "mkt_base": 5.0,
-  "mkt_note": "같은 구 준공 10년 이내 같은 평형 매매 82건 기준 (최근 6개월)",
+  "mkt_note": "같은 구 준공 10년 이내 같은 평형 매매 83건 기준 (최근 6개월)",
   "mkt_basis": "district_newbuild",
-  "mkt_count": 82,
+  "mkt_count": 83,
   "mkt_direct_excluded": 1,
   "mkt_comps": [
+   {
+    "apt": "역북지웰푸르지오",
+    "umd": "역북동",
+    "area": 74.9964,
+    "floor": 21.0,
+    "dong": "",
+    "amount": 5.99,
+    "date": "2026-10-24",
+    "kind": "매매",
+    "direct": false
+   },
    {
     "apt": "에이스카운티아파트",
     "umd": "이동읍 천리",
@@ -79628,17 +79661,6 @@
     "dong": "",
     "amount": 4.99,
     "date": "2026-09-30",
-    "kind": "매매",
-    "direct": false
-   },
-   {
-    "apt": "에이스카운티아파트",
-    "umd": "이동읍 천리",
-    "area": 74.93,
-    "floor": 5.0,
-    "dong": "",
-    "amount": 3.15,
-    "date": "2026-09-29",
     "kind": "매매",
     "direct": false
    }
@@ -80112,13 +80134,24 @@
   },
   "contract_rate": 0.05,
   "mid_rate": 0.6,
-  "mkt_low": 4.42,
+  "mkt_low": 4.41,
   "mkt_base": 5.4,
-  "mkt_note": "같은 구 준공 10년 이내 같은 평형 매매 241건 기준 (최근 6개월)",
+  "mkt_note": "같은 구 준공 10년 이내 같은 평형 매매 242건 기준 (최근 6개월)",
   "mkt_basis": "district_newbuild",
-  "mkt_count": 241,
+  "mkt_count": 242,
   "mkt_direct_excluded": 4,
   "mkt_comps": [
+   {
+    "apt": "e편한세상용인한숲시티5단지",
+    "umd": "남사읍 아곡리",
+    "area": 84.826,
+    "floor": 15.0,
+    "dong": "",
+    "amount": 4.38,
+    "date": "2026-10-23",
+    "kind": "매매",
+    "direct": false
+   },
    {
     "apt": "e편한세상용인한숲시티6단지",
     "umd": "남사읍 완장리",
@@ -80192,17 +80225,6 @@
     "floor": 11.0,
     "dong": "",
     "amount": 6.05,
-    "date": "2026-10-17",
-    "kind": "매매",
-    "direct": false
-   },
-   {
-    "apt": "우미린센트럴파크",
-    "umd": "역북동",
-    "area": 84.9882,
-    "floor": 32.0,
-    "dong": "",
-    "amount": 7.35,
     "date": "2026-10-17",
     "kind": "매매",
     "direct": false
@@ -80669,13 +80691,24 @@
   },
   "contract_rate": 0.05,
   "mid_rate": 0.6,
-  "mkt_low": 4.42,
+  "mkt_low": 4.41,
   "mkt_base": 5.4,
-  "mkt_note": "같은 구 준공 10년 이내 같은 평형 매매 241건 기준 (최근 6개월)",
+  "mkt_note": "같은 구 준공 10년 이내 같은 평형 매매 242건 기준 (최근 6개월)",
   "mkt_basis": "district_newbuild",
-  "mkt_count": 241,
+  "mkt_count": 242,
   "mkt_direct_excluded": 4,
   "mkt_comps": [
+   {
+    "apt": "e편한세상용인한숲시티5단지",
+    "umd": "남사읍 아곡리",
+    "area": 84.826,
+    "floor": 15.0,
+    "dong": "",
+    "amount": 4.38,
+    "date": "2026-10-23",
+    "kind": "매매",
+    "direct": false
+   },
    {
     "apt": "e편한세상용인한숲시티6단지",
     "umd": "남사읍 완장리",
@@ -80749,17 +80782,6 @@
     "floor": 11.0,
     "dong": "",
     "amount": 6.05,
-    "date": "2026-10-17",
-    "kind": "매매",
-    "direct": false
-   },
-   {
-    "apt": "우미린센트럴파크",
-    "umd": "역북동",
-    "area": 84.9882,
-    "floor": 32.0,
-    "dong": "",
-    "amount": 7.35,
     "date": "2026-10-17",
     "kind": "매매",
     "direct": false
@@ -103058,7 +103080,7 @@
     "umd": "나성동",
     "area": 84.9298,
     "floor": 8.0,
-    "dong": "",
+    "dong": "103",
     "amount": 8.57,
     "date": "2026-07-06",
     "kind": "매매",
