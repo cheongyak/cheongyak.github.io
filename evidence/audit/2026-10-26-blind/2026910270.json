@@ -1,0 +1,21 @@
+{
+  "id": "2026910270",
+  "name": "충정로역자이르네",
+  "fields": {
+    "supply_class": {"value": "민영주택", "status": "stated", "quote": "주택유형 규제지역여부 무순위(사후) 자격요건 민영 투기과열지구/청약과열지역", "note": "민간택지, 투기과열지구/청약과열지역"},
+    "supply_kind": {"value": "무순위(사후접수)", "status": "stated", "quote": "충정로역자이르네 무순위(2차) 입주자모집공고", "note": "무순위(사후) 2차. 최초 1·2순위 마감 후 예비입주자 선정 후 남은 미계약 9세대"},
+    "correction": {"value": null, "status": "not_stated", "quote": "", "note": "정정·변경공고 문구 없음"},
+    "need_head": {"value": false, "status": "stated", "quote": "무순위(사후) 입주자모집공고일 현재 서울특별시에 거주하는 무주택세대구성원", "note": "무주택세대구성원"},
+    "price_cap": {"value": false, "status": "stated", "quote": "본 주택은 수도권 투기과열지구 및 청약과열지역의 민간택지에서 공급하는 분양가상한제 미적용 민영주택으로", "note": ""},
+    "residence_duty": {"value": 0, "status": "stated", "quote": "재당첨제한 전매제한 거주의무기간 분양가상한제 10년 최초 당첨자 발표일(2026.08.31.)로부터 3년 없음 미적용", "note": "거주의무기간 '없음'"},
+    "rewin_years": {"value": 10, "status": "stated", "quote": "동 규칙 제54조에 따라 당첨자발표일로부터 10년간 재당첨 제한을 적용받습니다.", "note": "투기과열지구 10년"},
+    "resale": {"value": {"months": 36, "base": "최초 입주자모집공고의 당첨자발표일 2026-08-31 (3년 내 소유권이전등기 시 해제)"}, "status": "stated", "quote": "본 주택의 전매제한은 최초 입주자모집공고의 당첨자발표일(2026.08.31.)로부터 3년간(단, 3년 내 소유권이전등기 시 해제) 적용됩니다.", "note": ""},
+    "account_months": {"value": 0, "status": "stated", "quote": "청약통장 가입여부와 무관하게 신청가능", "note": "무순위"},
+    "deposit_count": {"value": 0, "status": "stated", "quote": "청약통장 가입여부와 무관하게 신청가능", "note": "민영·무순위"},
+    "residence": {"value": {"area": "서울특별시", "months": 0, "since": "2026-10-22", "others": [], "equal": null}, "status": "stated", "quote": "본 주택의 무순위(사후) 2차 입주자모집공고일은 2026.10.22.(목)이며(청약자격 요건 중 나이, 거주요건 등의 판단기준일) ... 서울특별시에 거주하는 무주택세대구성원", "note": "서울 거주자만 신청 가능, 기타지역 없음, 거주기간 요건 없음"},
+    "score_ratio": {"value": null, "status": "not_stated", "quote": "한국부동산원 입주자 선정 프로그램에 의해 주택형별 무작위 추첨으로 무순위(사후) 당첨자 선정", "note": "가점제 없음(전량 추첨)"},
+    "pay_ratio": {"value": {"contract_pct": 10, "mid_pct": 60, "balance_pct": 30}, "status": "stated", "quote": "공급금액 계약금(10%) 중도금(60%) 잔금(30%) ... 1차 계약시 2차 계약 후15일 이내", "note": "계약금 1차 5천만원(정액) + 2차 계약 후 15일 이내 잔여분, 중도금 6회 각 10%"},
+    "mc_quota": {"value": null, "status": "not_stated", "quote": "", "note": "특별공급 없음"},
+    "special_supply": {"value": {"types": [], "total_units": 9, "special_units": 0, "general_units": 0, "complex_total": 299}, "status": "stated", "quote": "총 299세대(토지등소유자 17세대, 보류지 2세대, 임대 94세대 포함) 중 일반분양 186세대 중 잔여 9세대", "note": "특별공급 없음. 84A 9세대"}
+  }
+}
