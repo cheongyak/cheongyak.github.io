@@ -1,142 +1,8 @@
 {
- "updated": "2026-10-26 08:31",
+ "updated": "2026-10-27 07:19",
  "source": "LH 청약플러스 임대 공고 (공공데이터포털 한국토지주택공사 분양임대공고 조회)",
- "count": 30,
+ "count": 31,
  "notices": [
-  {
-   "id": "0000061184",
-   "name": "충북혁신 4단지 10년분양전환공공임대주택 예비입주자 모집공고('26.10.12)",
-   "type": "공공임대",
-   "type_code": "08",
-   "judge_type": true,
-   "region": "충청북도",
-   "posted": "2026-10-12",
-   "close": "2026-10-26",
-   "status": "공고중",
-   "url": "https://apply.lh.or.kr/lhapply/apply/wt/wrtanc/selectWrtancInfo.do?panId=0000061184&ccrCnntSysDsCd=02&uppAisTpCd=06&aisTpCd=08&mi=1026",
-   "url_mobile": "https://apply.lh.or.kr/lhapply/apply/wt/wrtanc/selectWrtancInfo.do?panId=0000061184&ccrCnntSysDsCd=02&uppAisTpCd=06&aisTpCd=08&mi=1026",
-   "schedule": [
-    {
-     "complex": null,
-     "apply_start": "2026-10-26",
-     "apply_end": "2026-10-26",
-     "apply_time": "2026.10.26 09:00 ~ 2026.10.26 16:00",
-     "docs_target": null,
-     "docs_start": null,
-     "docs_end": null,
-     "winner": "2026-10-30",
-     "contract_start": null,
-     "contract_end": null
-    }
-   ],
-   "complexes": [
-    {
-     "name": null,
-     "address": null,
-     "households": null,
-     "area": null,
-     "move_in": "2017년 06월",
-     "heating": null
-    }
-   ],
-   "units": [],
-   "files": [
-    {
-     "kind": "공고문(hwp)",
-     "name": "(26.10.12)충북혁신10년공공임대주택예비입주자모집공고.hwpx",
-     "url": "https://apply.lh.or.kr/lhapply/lhFile.do?fileid=68906289"
-    },
-    {
-     "kind": "공고문(PDF)",
-     "name": "(26.10.12)충북혁신10년공공임대주택예비입주자모집공고.pdf",
-     "url": "https://apply.lh.or.kr/lhapply/lhFile.do?fileid=68906281"
-    },
-    {
-     "kind": "기타 첨부파일",
-     "name": "[필수]개인정보수집이용및제3차제공동의서.pdf",
-     "url": "https://apply.lh.or.kr/lhapply/lhFile.do?fileid=68842266"
-    },
-    {
-     "kind": "카탈로그",
-     "name": "충북혁신천년나무4팸플릿.pdf",
-     "url": "https://apply.lh.or.kr/lhapply/lhFile.do?fileid=68842525"
-    }
-   ],
-   "etc": null,
-   "office": {
-    "place": "충청북도 청주시 청원구 공항로150번길 73",
-    "tel": "1600-1004"
-   },
-   "notice_pdf": "https://apply.lh.or.kr/lhapply/lhFile.do?fileid=68906281",
-   "notice_text": 31852,
-   "rents": [
-    {
-     "complex": "충북혁신4  천년나무4",
-     "type": "59A",
-     "group": null,
-     "deposit": 33148000,
-     "rent": 292150
-    },
-    {
-     "complex": "충북혁신4  천년나무4",
-     "type": "59A-1",
-     "group": null,
-     "deposit": 33148000,
-     "rent": 292150
-    },
-    {
-     "complex": "충북혁신4  천년나무4",
-     "type": "59B",
-     "group": null,
-     "deposit": 33148000,
-     "rent": 292150
-    }
-   ],
-   "terms": {
-    "relaxed": false,
-    "homeless_relaxed": false,
-    "homeless_max1": false,
-    "income_basis": null,
-    "groups": [
-     {
-      "key": "일반",
-      "name": "일반",
-      "homeless": "household",
-      "income_pct": "excluded",
-      "asset_manwon": "excluded",
-      "car_manwon": "excluded",
-      "age_min": null,
-      "age_max": null
-     }
-    ],
-    "quotes": {
-     "일반": {
-      "income": "신청 자격 ■ 입주자저축 가입 여부, 과거당첨사실여부, 당해주택 건설지역 거주여부, 소득 및 자산기준충족여부 등과 관계없이 신청 가능",
-      "asset": "신청 자격 ■ 입주자저축 가입 여부, 과거당첨사실여부, 당해주택 건설지역 거주여부, 소득 및 자산기준충족여부 등과 관계없이 신청 가능",
-      "region": "신청 자격 ■ 입주자저축 가입 여부, 과거당첨사실여부, 당해주택 건설지역 거주여부, 소득 및 자산기준충족여부 등과 관계없이 신청 가능",
-      "account": "신청 자격 ■ 입주자저축 가입 여부, 과거당첨사실여부, 당해주택 건설지역 거주여부, 소득 및 자산기준충족여부 등과 관계없이 신청 가능",
-      "homeless": "입주자 모집공고일(2026.10.12) 현재 무주택세대구성원인 성년자"
-     }
-    },
-    "income_table_100": null,
-    "regions": [],
-    "account": "none"
-   },
-   "api": {
-    "CCR_CNNT_SYS_DS_CD": "02",
-    "SPL_INF_TP_CD": "060",
-    "UPP_AIS_TP_CD": "06",
-    "AIS_TP_CD": "08"
-   },
-   "read": {
-    "tools": [
-     "pypdf",
-     "pdfium",
-     "plumber"
-    ],
-    "conflicts": []
-   }
-  },
   {
    "id": "2015122300020887",
    "name": "광주우산·영광단주 행복주택 입주자격완화 예비입주자 모집",
@@ -146,7 +12,7 @@
    "region": "전남광주통합특별시",
    "posted": "2026-10-15",
    "close": "2026-10-27",
-   "status": "공고중",
+   "status": "접수중",
    "url": "https://apply.lh.or.kr/lhapply/apply/wt/wrtanc/selectWrtancInfo.do?panId=2015122300020887&ccrCnntSysDsCd=03&uppAisTpCd=06&aisTpCd=10&mi=1026",
    "url_mobile": "https://apply.lh.or.kr/lhapply/apply/wt/wrtanc/selectWrtancInfo.do?panId=2015122300020887&ccrCnntSysDsCd=03&uppAisTpCd=06&aisTpCd=10&mi=1026",
    "schedule": [
@@ -398,7 +264,7 @@
    "region": "전북특별자치도",
    "posted": "2026-10-12",
    "close": "2026-10-27",
-   "status": "공고중",
+   "status": "정정공고중",
    "url": "https://apply.lh.or.kr/lhapply/apply/wt/wrtanc/selectWrtancInfo.do?panId=2015122300020895&ccrCnntSysDsCd=03&uppAisTpCd=06&aisTpCd=08&mi=1026",
    "url_mobile": "https://apply.lh.or.kr/lhapply/apply/wt/wrtanc/selectWrtancInfo.do?panId=2015122300020895&ccrCnntSysDsCd=03&uppAisTpCd=06&aisTpCd=08&mi=1026",
    "schedule": [
@@ -406,7 +272,7 @@
      "complex": null,
      "apply_start": "2026-10-27",
      "apply_end": "2026-10-27",
-     "apply_time": "~",
+     "apply_time": "2026.10.27 10:00 ~ 2026.10.27 17:10",
      "docs_target": "2026-10-30",
      "docs_start": "2026-11-02",
      "docs_end": "2026-11-06",
@@ -708,7 +574,7 @@
    "region": "경상남도",
    "posted": "2026-10-15",
    "close": "2026-10-27",
-   "status": "공고중",
+   "status": "접수중",
    "url": "https://apply.lh.or.kr/lhapply/apply/wt/wrtanc/selectWrtancInfo.do?panId=2015122300020909&ccrCnntSysDsCd=03&uppAisTpCd=06&aisTpCd=10&mi=1026",
    "url_mobile": "https://apply.lh.or.kr/lhapply/apply/wt/wrtanc/selectWrtancInfo.do?panId=2015122300020909&ccrCnntSysDsCd=03&uppAisTpCd=06&aisTpCd=10&mi=1026",
    "schedule": [
@@ -1131,7 +997,7 @@
    "region": "경상남도",
    "posted": "2026-10-15",
    "close": "2026-10-27",
-   "status": "공고중",
+   "status": "접수중",
    "url": "https://apply.lh.or.kr/lhapply/apply/wt/wrtanc/selectWrtancInfo.do?panId=2015122300020911&ccrCnntSysDsCd=03&uppAisTpCd=06&aisTpCd=10&mi=1026",
    "url_mobile": "https://apply.lh.or.kr/lhapply/apply/wt/wrtanc/selectWrtancInfo.do?panId=2015122300020911&ccrCnntSysDsCd=03&uppAisTpCd=06&aisTpCd=10&mi=1026",
    "schedule": [
@@ -1586,7 +1452,7 @@
    "region": "전남광주통합특별시",
    "posted": "2026-10-15",
    "close": "2026-10-27",
-   "status": "공고중",
+   "status": "접수중",
    "url": "https://apply.lh.or.kr/lhapply/apply/wt/wrtanc/selectWrtancInfo.do?panId=2015122300020919&ccrCnntSysDsCd=03&uppAisTpCd=06&aisTpCd=10&mi=1026",
    "url_mobile": "https://apply.lh.or.kr/lhapply/apply/wt/wrtanc/selectWrtancInfo.do?panId=2015122300020919&ccrCnntSysDsCd=03&uppAisTpCd=06&aisTpCd=10&mi=1026",
    "schedule": [
@@ -2079,6 +1945,133 @@
    }
   },
   {
+   "id": "2015122300020964",
+   "name": "[정정공고]익산부송3단지 50년 공공임대 예비입주자 모집",
+   "type": "공공임대",
+   "type_code": "08",
+   "judge_type": true,
+   "region": "전북특별자치도",
+   "posted": "2026-10-26",
+   "close": "2026-10-27",
+   "status": "공고중",
+   "url": "https://apply.lh.or.kr/lhapply/apply/wt/wrtanc/selectWrtancInfo.do?panId=2015122300020964&ccrCnntSysDsCd=03&uppAisTpCd=06&aisTpCd=08&mi=1026",
+   "url_mobile": "https://apply.lh.or.kr/lhapply/apply/wt/wrtanc/selectWrtancInfo.do?panId=2015122300020964&ccrCnntSysDsCd=03&uppAisTpCd=06&aisTpCd=08&mi=1026",
+   "schedule": [
+    {
+     "complex": null,
+     "apply_start": "2026-10-27",
+     "apply_end": "2026-10-27",
+     "apply_time": "2026.10.27 10:00 ~ 2026.10.27 17:10",
+     "docs_target": "2026-10-30",
+     "docs_start": "2026-11-02",
+     "docs_end": "2026-11-06",
+     "winner": "2026-12-11",
+     "contract_start": "2026-12-14",
+     "contract_end": "2027-12-13"
+    }
+   ],
+   "complexes": [
+    {
+     "name": "익산부송3",
+     "address": "전북특별자치도 익산시 무왕로22길 28(부송동,익산부송 3 주공아파트)",
+     "households": 540,
+     "area": "39.87~39.87",
+     "move_in": "2017.02",
+     "heating": "지역난방"
+    }
+   ],
+   "units": [
+    {
+     "complex": "익산부송3",
+     "type": "000017",
+     "area": 39.87,
+     "supply_area": 56.71,
+     "households": 540,
+     "now_households": 80,
+     "deposit": null,
+     "rent": null,
+     "money_note": "공고문 참조"
+    }
+   ],
+   "files": [
+    {
+     "kind": "공고문(hwp)",
+     "name": "공임50년예비입주자표준모집공고문(2026.10.12).hwpx",
+     "url": "https://apply.lh.or.kr/lhapply/lhFile.do?fileid=69145014"
+    },
+    {
+     "kind": "공고문(PDF)",
+     "name": "공임50년예비입주자표준모집공고문(2026.10.12.).pdf",
+     "url": "https://apply.lh.or.kr/lhapply/lhFile.do?fileid=69145008"
+    }
+   ],
+   "etc": "자세한 사항은 공고문을 반드시 확인하시길 바랍니다.",
+   "office": {
+    "place": "전북특별자치도 익산시 무왕로22길 28(부송동,익산부송 3 주공아파트) 익산부송3 주거행복지원센터",
+    "tel": "063-831-0143"
+   },
+   "notice_pdf": "https://apply.lh.or.kr/lhapply/lhFile.do?fileid=69145008",
+   "notice_text": 31139,
+   "rents": [
+    {
+     "complex": "익산부송3",
+     "type": "39",
+     "group": null,
+     "deposit": 11640000,
+     "rent": 171250
+    }
+   ],
+   "terms": {
+    "relaxed": false,
+    "homeless_relaxed": false,
+    "homeless_max1": false,
+    "income_basis": null,
+    "groups": [
+     {
+      "key": "일반",
+      "name": "일반",
+      "homeless": "household",
+      "income_pct": "excluded",
+      "asset_manwon": "excluded",
+      "car_manwon": "excluded",
+      "age_min": null,
+      "age_max": null
+     }
+    ],
+    "quotes": {
+     "일반": {
+      "region": "주택건설지역(전북특별자치도)에 거주하는 무주택세대구성원으로서 아래의 기준",
+      "account": "고일(2026. 10. 12.) 현재 주택청약종합저축(청약저축 포함)에 가입하여 6개월이 지난 자로서 매월 약정납입일에 월납입금을 6회 이상 납입한 자 (단, 시·도지사",
+      "income": "신청자격 절에 소득·자산 기준 없음: 4. 신청자격 입주자모집공고일(26. 10. 12.) 현재 주택건설지역(전북특별자치도)에 거주하는 무주택세대구성원으로서 아래의 기준 을 충족하는 사람 (단, 모집공고일로부터 입주 시까지 무주택세대구성원을 유지해야 하며, 무주택세대구성원을 유지하지 않을 경우 당첨 취소 및 계약거절 등의 ",
+      "asset": "신청자격 절에 소득·자산 기준 없음: 4. 신청자격 입주자모집공고일(26. 10. 12.) 현재 주택건설지역(전북특별자치도)에 거주하는 무주택세대구성원으로서 아래의 기준 을 충족하는 사람 (단, 모집공고일로부터 입주 시까지 무주택세대구성원을 유지해야 하며, 무주택세대구성원을 유지하지 않을 경우 당첨 취소 및 계약거절 등의 "
+     }
+    },
+    "income_table_100": null,
+    "regions": [
+     "전북"
+    ],
+    "account": {
+     "months": 6,
+     "count": 6,
+     "rank2_any": true
+    }
+   },
+   "api": {
+    "CCR_CNNT_SYS_DS_CD": "03",
+    "SPL_INF_TP_CD": "061",
+    "UPP_AIS_TP_CD": "06",
+    "AIS_TP_CD": "08"
+   },
+   "read": {
+    "tools": [
+     "pypdf",
+     "pdfium",
+     "plumber"
+    ],
+    "conflicts": []
+   }
+  },
+  {
    "id": "2015122300020735",
    "name": "태백철암1 국민임대주택 예비입주자 모집 공고",
    "type": "국민임대",
@@ -2245,42 +2238,30 @@
    "region": "충청남도",
    "posted": "2026-10-15",
    "close": "2026-10-28",
-   "status": "공고중",
+   "status": "접수중",
    "url": "https://apply.lh.or.kr/lhapply/apply/wt/wrtanc/selectWrtancInfo.do?panId=2015122300020888&ccrCnntSysDsCd=03&uppAisTpCd=06&aisTpCd=10&mi=1026",
    "url_mobile": "https://apply.lh.or.kr/lhapply/apply/wt/wrtanc/selectWrtancInfo.do?panId=2015122300020888&ccrCnntSysDsCd=03&uppAisTpCd=06&aisTpCd=10&mi=1026",
    "schedule": [
-    {
-     "complex": "천안두정2 행복주택",
-     "apply_start": "2026-10-26",
-     "apply_end": "2026-10-28",
-     "apply_time": "2026.10.26 10:00 ~ 2026.10.28 16:30",
-     "docs_target": "2026-11-09",
-     "docs_start": "2026-10-26",
-     "docs_end": "2026-10-28",
-     "winner": "2027-01-12",
-     "contract_start": null,
-     "contract_end": null
-    },
     {
      "complex": "천안두정 행복주택",
      "apply_start": "2026-10-26",
      "apply_end": "2026-10-28",
      "apply_time": "2026.10.26 10:00 ~ 2026.10.28 16:30",
      "docs_target": "2026-11-09",
-     "docs_start": "2026-10-26",
-     "docs_end": "2026-10-28",
+     "docs_start": "2026-11-09",
+     "docs_end": "2026-11-18",
      "winner": "2027-01-12",
      "contract_start": null,
      "contract_end": null
     },
     {
-     "complex": "천안부성A-1BL",
+     "complex": "천안두정2 행복주택",
      "apply_start": "2026-10-26",
      "apply_end": "2026-10-28",
      "apply_time": "2026.10.26 10:00 ~ 2026.10.28 16:30",
      "docs_target": "2026-11-09",
-     "docs_start": "2026-10-26",
-     "docs_end": "2026-10-28",
+     "docs_start": "2026-11-09",
+     "docs_end": "2026-11-18",
      "winner": "2027-01-12",
      "contract_start": null,
      "contract_end": null
@@ -2291,8 +2272,20 @@
      "apply_end": "2026-10-28",
      "apply_time": "2026.10.26 10:00 ~ 2026.10.28 16:30",
      "docs_target": "2026-11-09",
-     "docs_start": "2026-10-26",
-     "docs_end": "2026-10-28",
+     "docs_start": "2026-11-09",
+     "docs_end": "2026-11-18",
+     "winner": "2027-01-12",
+     "contract_start": null,
+     "contract_end": null
+    },
+    {
+     "complex": "천안부성A-1BL",
+     "apply_start": "2026-10-26",
+     "apply_end": "2026-10-28",
+     "apply_time": "2026.10.26 10:00 ~ 2026.10.28 16:30",
+     "docs_target": "2026-11-09",
+     "docs_start": "2026-11-09",
+     "docs_end": "2026-11-18",
      "winner": "2027-01-12",
      "contract_start": null,
      "contract_end": null
@@ -6397,6 +6390,141 @@
     "SPL_INF_TP_CD": "063",
     "UPP_AIS_TP_CD": "06",
     "AIS_TP_CD": "10"
+   },
+   "read": {
+    "tools": [
+     "pypdf",
+     "pdfium",
+     "plumber"
+    ],
+    "conflicts": []
+   }
+  },
+  {
+   "id": "2015122300020959",
+   "name": "김제검산 영구임대주택 입주자격완화 예비입주자 모집",
+   "type": "영구임대",
+   "type_code": "09",
+   "judge_type": true,
+   "region": "전북특별자치도",
+   "posted": "2026-10-26",
+   "close": "2026-11-13",
+   "status": "공고중",
+   "url": "https://apply.lh.or.kr/lhapply/apply/wt/wrtanc/selectWrtancInfo.do?panId=2015122300020959&ccrCnntSysDsCd=03&uppAisTpCd=06&aisTpCd=09&mi=1026",
+   "url_mobile": "https://apply.lh.or.kr/lhapply/apply/wt/wrtanc/selectWrtancInfo.do?panId=2015122300020959&ccrCnntSysDsCd=03&uppAisTpCd=06&aisTpCd=09&mi=1026",
+   "schedule": [
+    {
+     "complex": null,
+     "apply_start": "2026-11-09",
+     "apply_end": "2026-11-13",
+     "apply_time": "~",
+     "docs_target": null,
+     "docs_start": null,
+     "docs_end": null,
+     "winner": "2027-01-28",
+     "contract_start": null,
+     "contract_end": null
+    }
+   ],
+   "complexes": [
+    {
+     "name": "김제검산",
+     "address": "전북특별자치도 김제시 요촌북로 110(검산동,주공1차아파트)",
+     "households": 573,
+     "area": "26.37~26.37",
+     "move_in": "1994.11",
+     "heating": "중앙가스난방"
+    }
+   ],
+   "units": [
+    {
+     "complex": "김제검산",
+     "type": "35.7400",
+     "area": 26.37,
+     "supply_area": 35.74,
+     "households": 573,
+     "now_households": 100,
+     "deposit": null,
+     "rent": null,
+     "money_note": "공고문 참조"
+    }
+   ],
+   "files": [
+    {
+     "kind": "공고문(hwp)",
+     "name": "김제검산영구임대입주자격완화예비입주자모집공고문.hwpx",
+     "url": "https://apply.lh.or.kr/lhapply/lhFile.do?fileid=69128675"
+    },
+    {
+     "kind": "공고문(PDF)",
+     "name": "김제검산영구임대입주자격완화예비입주자모집공고문.pdf",
+     "url": "https://apply.lh.or.kr/lhapply/lhFile.do?fileid=69128685"
+    }
+   ],
+   "etc": "자세한 사항은 반드시 모집공고문을 확인하시기 바랍니다.",
+   "office": {
+    "place": null,
+    "tel": "0635470719"
+   },
+   "notice_pdf": "https://apply.lh.or.kr/lhapply/lhFile.do?fileid=69128685",
+   "notice_text": 56007,
+   "rents": [
+    {
+     "complex": null,
+     "type": "26",
+     "group": "가군",
+     "deposit": 2520000,
+     "rent": 50160
+    },
+    {
+     "complex": null,
+     "type": "26",
+     "group": "나군",
+     "deposit": 7072000,
+     "rent": 115450
+    }
+   ],
+   "terms": {
+    "relaxed": true,
+    "homeless_relaxed": false,
+    "homeless_max1": false,
+    "income_basis": "도시근로자 월평균소득",
+    "groups": [
+     {
+      "key": "일반",
+      "name": "일반",
+      "homeless": "household",
+      "income_pct": {
+       "1": 150,
+       "2": 150,
+       "3+": 150
+      },
+      "asset_manwon": 24500,
+      "car_manwon": 4542,
+      "age_min": null,
+      "age_max": null
+     }
+    ],
+    "quotes": {
+     "일반": {
+      "income": "소득기준을 완화(도시근로자 전년도 월평균소득의 150% 이하)하는 모집으로, 입주자격 해당자만 신청가능 합니다. (3.신청자격 확인) ▪ 소득 완화모집으로 입주한 경우 재계약이 가능하나 소득이 초과할 경",
+      "asset": "위 장애인) 2. 총자산 기준 세대구성원 전원이 보유하고 있는 총 자산(부동산, 자동차, 금융자산(부채반영), 일반자산) 가액 합산 기준 ( 24,500 )만원 이하 3. 자동차 기준",
+      "car": "이 보유하고 있는 개별 자동차가액 ( 4,542 )만원 이하 * 총자산 기준과"
+     }
+    },
+    "income_table_100": null,
+    "local": {
+     "name": "김제시",
+     "sido": "전북",
+     "sigun": "김제시",
+     "quote": "신청자격 입주자 모집공고일(2026.10.26.) 현재 김제시에 거주하는 성년자인 무주택세대구성원"
+    }
+   },
+   "api": {
+    "CCR_CNNT_SYS_DS_CD": "03",
+    "SPL_INF_TP_CD": "062",
+    "UPP_AIS_TP_CD": "06",
+    "AIS_TP_CD": "09"
    },
    "read": {
     "tools": [
