@@ -122,6 +122,8 @@ def test_golden_lh_rents():
     lst = {n["id"]: n["types"] for n in json.loads((ROOT / "tests/qa/lh/rental_units.json").read_text(encoding="utf-8"))}   # 공급 API 주택형 (2026-10-05 수집 고정본)
     total = 0
     for g in GOLD:
+        if g.get("rents") is None:   # 임대조건 표를 사람이 대조하지 않은 정답(자격 값만 확인 — notes 에 이유)
+            continue
         text = (ROOT / "evidence/lh" / f"{g['id']}.txt").read_text(encoding="utf-8", errors="replace")
         rows = parse_lh_rents(text, lst[g["id"]])
         for gr in g["rents"]:

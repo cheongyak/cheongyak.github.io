@@ -236,6 +236,12 @@ def _happy_groups(t: str) -> tuple[list[dict], dict]:
             g["asset_manwon"], q["asset"] = "excluded", _q(seg_main, m, 20, 10)
         elif (m := re.search(r"총\s?자산\s?(?:합산)?가액(?:\s?합산\s?기준)?이?\s?([\d,]+)\s?만원\s?이하", seg_main)):
             g["asset_manwon"], q["asset"] = _int(m.group(1)), _q(seg_main, m, 30, 10)
+        elif (m := re.search(r"【완화조건】\s?자산\s?요건\s?배제(?:하되,|\s?\(단,)", seg_main)):
+            # 화성 동탄 행복주택 완화 공고(2015122300020958, 2026-10-28 아침 자동 고치기): 계층 절 '④ 【완화조건】 자산요건 배제하되, 해당 세대의 총 자산 중
+            # 자동차가액이 4,542만원이하일 것'(청년·신혼부부·고령자) · '④ 【완화조건】 자산요건 배제(단, 신청자 본인이 자동차가액 산출대상 자동차를 소유하고 있지 않을 것)'(대학생).
+            # '총' 없이 '자산요건' 만 적은 꼴 — 【완화조건】 표시와 단서(하되, / (단,)가 함께 있을 때만 배제로 본다. 자동차 한도는 아래 자동차 규칙이 따로 읽는다
+            mq = re.search(r"【완화조건】\s?자산\s?요건\s?배제[^④⑤⑥■]{0,80}?것\)?", seg)   # 근거 문장은 지우기 전 원문(seg)에서 '…것' 까지
+            g["asset_manwon"], q["asset"] = "excluded", (mq.group(0).strip() if mq else _q(seg_main, m, 0, 0))
         if key != "대학생" and (m := re.search(r"자동차\s?가액[이은]?\s?([\d,]+)\s?만원\s?이하", seg_main)):
             if _int(m.group(1)) <= 10_000:
                 g["car_manwon"], q["car"] = _int(m.group(1)), _q(seg_main, m, 20, 10)
