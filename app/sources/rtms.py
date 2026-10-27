@@ -41,6 +41,9 @@ def _num(v) -> Optional[float]:
         return None
 
 
+SEEN_FIELDS: set = set()   # 실제 응답에 온 칸 이름 (실행 기록 [응답 필드] 실거래)
+
+
 def parse_items(xml_text: str) -> list[dict]:
     return parse_page(xml_text)[0]
 
@@ -58,9 +61,11 @@ def parse_page(xml_text: str) -> tuple[list[dict], int]:
         r = {c.tag: (c.text or "").strip() for c in it}
         if r.get("cdealType", "").upper() == "O":   # 해제된 거래 제외
             continue
+        SEEN_FIELDS.update(r.keys())
         rows.append({
             "apt": r.get("aptNm", ""),
             "umd": r.get("umdNm", ""),                      # 법정동 이름 (네이버 부동산에서 같은 이름 다른 단지와 구분하는 데 씀)
+            "jibun": r.get("jibun", ""),                    # 지번 — 단지 좌표를 찾는 데 씀 (기능 market_nearby). 응답에 있는지는 [응답 필드] 실거래로 확인
             "area": _num(r.get("excluUseAr")),
             "amount": _num(r.get("dealAmount")),            # 매매·분양권 (만 원)
             "deposit": _num(r.get("deposit")),              # 전월세 보증금 (만 원)

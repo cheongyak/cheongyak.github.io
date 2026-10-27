@@ -1,0 +1,37 @@
+name: 가까운 곳 시세 미리 보기
+# 기능 market_nearby(가까운 곳부터 시세 비교)를 켜기 전에, 켜면 시세·등급이 어떻게 바뀌는지 지금 공고 전체로 계산한다 (2026-10-28).
+# 손으로만 실행한다(예약 없음). 결과: evidence/qa/market-nearby.json, 단지 좌표 evidence/market/complex-geo.json
+on:
+  workflow_dispatch:
+    inputs:
+      only:
+        description: "공고번호만 (쉼표로, 비우면 전체)"
+        required: false
+        default: ""
+permissions:
+  contents: write
+concurrency:
+  group: market-nearby
+  cancel-in-progress: false
+jobs:
+  preview:
+    runs-on: ubuntu-latest
+    timeout-minutes: 40
+    env:
+      DATA_GO_KR_KEY: ${{ secrets.DATA_GO_KR_KEY }}
+      NCP_MAPS_CLIENT_ID: ${{ secrets.NCP_MAPS_CLIENT_ID }}
+      NCP_MAPS_CLIENT_SECRET: ${{ secrets.NCP_MAPS_CLIENT_SECRET }}
+      TZ: Asia/Seoul
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - run: pip install -r requirements.txt
+      - run: python -m tools.qa.market_nearby_report ${{ inputs.only && format('--only {0}', inputs.only) || '' }}
+      - name: 저장
+        run: |
+          git config user.name "cheongyak-bot"
+          git config user.email "actions@users.noreply.github.com"
+          git add evidence/qa/market-nearby.json evidence/qa/market-nearby-cases.json $( [ -e evidence/market/complex-geo.json ] && echo evidence/market/complex-geo.json )
+          git diff --cached --quiet || (git commit -m "가까운 곳 시세 미리 보기 $(date +%Y-%m-%d)" && bash tools/qa/push_retry.sh)

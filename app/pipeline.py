@@ -840,11 +840,20 @@ def run(dry_run: bool = False, today: Optional[date] = None, read_notices: bool 
             refill_market(out, rt, today, lawd_cache, log)
         except Exception as e:
             log.append(f"[위치] 전체 실패: {e}")
+        if feature_on("market_nearby"):   # 같은 구 대신 가까운 곳(같은 동 → 반경 1·1.5·2km)부터 시세 비교 (2026-10-28, app/market_nearby.py)
+            try:
+                from . import market_nearby
+                market_nearby.apply(out, rt, today, lawd_cache, log, save=not dry_run)
+            except Exception as e:
+                log.append(f"[시세·가까운 곳] 전체 실패 — 같은 구 기준 그대로: {e.__class__.__name__} {e}")
     log += market_diag_lines()
     log += [f"[실거래가 경고] {m}" for m in sorted(RTMS_ERRORS)]
     # 실제 응답 필드 기록 (필터·기능을 추가하기 전에 근거로 쓴다)
     for name, keys in RAW_KEYS.items():
         log.append(f"[응답 필드] {name}: {', '.join(keys)}")
+    from .sources import rtms as _rtms
+    if _rtms.SEEN_FIELDS:
+        log.append(f"[응답 필드] 실거래(매매·분양권·전월세): {', '.join(sorted(_rtms.SEEN_FIELDS))}")
     try:
         for name, keys in probe_fields(ah).items():
             log.append(f"[응답 필드·미수집] {name}: {', '.join(keys)}")

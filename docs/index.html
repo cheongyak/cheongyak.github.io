@@ -773,7 +773,8 @@ const isRental = L => on('rental_rules') && !!(L && L.rental);
 const priceWord = L => isRental(L) ? '임대보증금' : '분양가';
 const kindOf = L => isRental(L) ? String(L.kind || '').replace('일반분양', '공공임대') : L.kind;
 /* 시세 계산 방식 한 줄 (기능 mkt_area_fallback: 비슷한 면적 ㎡당 가격으로 추정한 시세는 그렇다고 밝힌다) */
-const MKT_PPA = { district_area_ppa: '비슷한 면적', same_complex_ppa: '같은 단지 다른 평형', district_large_ppa: '같은 구 큰 평형(100㎡ 이상) 신축' };   /* 기능 mkt_large_fallback: 같은 단지 다른 평형·큰 평형 ㎡당 추정 */
+const MKT_PPA = { district_area_ppa: '비슷한 면적', same_complex_ppa: '같은 단지 다른 평형', district_large_ppa: '같은 구 큰 평형(100㎡ 이상) 신축',
+  dong_area_ppa: '같은 동 비슷한 면적', near_area_ppa: '가까운 단지 비슷한 면적', dong_large_ppa: '같은 동 큰 평형(100㎡ 이상) 신축', near_large_ppa: '가까운 단지 큰 평형(100㎡ 이상) 신축' };   /* 기능 market_nearby */   /* 기능 mkt_large_fallback: 같은 단지 다른 평형·큰 평형 ㎡당 추정 */
 const mktHow = (L, short) => MKT_PPA[L.mktBasis]
   ? (short ? '보수 시세는 ㎡당 가격 하위 25% 기준' : `같은 평형 거래가 부족해 ${MKT_PPA[L.mktBasis]} 거래의 ㎡당 가격 중앙값(보수 시세는 하위 25%)에 전용면적을 곱한 추정이에요. 층·향·브랜드·평형 차이는 반영하지 못해요.`)
   : (short ? '기준 시세는 중앙값, 보수 시세는 하위 25%' : '기준 시세는 중앙값, 보수 시세는 하위 25% 값이에요.');
@@ -1738,7 +1739,8 @@ function compRow(c, L){
   // 국토부 자료의 동 항목은 비어 있거나 단지명이 들어오기도 해서, 동 번호 형태(예: 101, 101동, A동)일 때만 쓴다
   const dong = /^([A-Za-z가-힣]?\d{1,4}|[A-Za-z가-힣])동?$/.test((c.dong || '').trim()) ? c.dong.trim().replace(/동?$/, '동') : '';
   const where = [esc(dong), c.floor ? Math.round(c.floor) + '층' : ''].filter(Boolean).join(' ');
-  const sub = [esc(c.kind), where, esc(pyeong(c.area)), esc((c.date || '').replace(/-/g, '.'))].filter(Boolean);
+  const away = c.m != null ? (c.m < 1000 ? c.m + 'm' : (c.m / 1000).toFixed(1) + 'km') + ' 거리' : '';   /* 기능 market_nearby: 반경으로 고른 거래는 공고 위치에서 거리 */
+  const sub = [esc(c.kind), away ? [esc(c.umd || ''), away].filter(Boolean).join(' ') : '', where, esc(pyeong(c.area)), esc((c.date || '').replace(/-/g, '.'))].filter(Boolean);
   return `<div class="comp"><span class="apt">${esc(c.apt || '단지명 없음')}</span><span class="amt">${fmt(c.amount)}</span>
     <span class="sub">${sub.join(' · ')}${c.direct ? ' <span class="tag warn">직거래</span>' : ''}</span>
     <span class="sub"><a class="src" href="${c.apt ? landSearch(c.apt, c.umd || (L.district || '').split(' ').pop()) : landSearch(complexName(L.name), dongOf(L))}" target="_blank" rel="noopener" data-ev="naver-land">네이버 부동산 단지 매물${ARROW}</a><a class="src" href="${naverSearch((c.apt || L.name) + ' ' + Math.round((c.area || 0) * 1.33 / 3.3058) + '평 실거래가')}" target="_blank" rel="noopener">네이버 검색${ARROW}</a></span></div>`;
@@ -1749,6 +1751,11 @@ function basisTag(L){
   if (L.mktBasis === 'district_area_ppa') return '<span class="tag">비슷한 면적 ㎡당 추정</span>';   // 기능 mkt_area_fallback (수집 쪽 스위치)
   if (L.mktBasis === 'same_complex_ppa') return '<span class="tag">같은 단지 다른 평형 ㎡당 추정</span>';   // 기능 mkt_large_fallback (수집 쪽 스위치)
   if (L.mktBasis === 'district_large_ppa') return '<span class="tag">큰 평형 ㎡당 추정</span>';
+  /* 기능 market_nearby (수집 쪽 스위치): 같은 동 → 반경 1·1.5·2km 로 고른 거래 */
+  if (L.mktBasis === 'dong_newbuild') return '<span class="tag">같은 동 신축 비교</span>';
+  if (L.mktBasis === 'near_newbuild') return '<span class="tag">가까운 단지 신축 비교</span>';
+  if (L.mktBasis === 'dong_area_ppa' || L.mktBasis === 'near_area_ppa') return '<span class="tag">비슷한 면적 ㎡당 추정</span>';
+  if (L.mktBasis === 'dong_large_ppa' || L.mktBasis === 'near_large_ppa') return '<span class="tag">큰 평형 ㎡당 추정</span>';
   return '<span class="tag warn">거래 부족</span>';
 }
 

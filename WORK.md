@@ -4,6 +4,14 @@
 2026-09-29 12:55 이전 항목은 규칙을 만들기 전 작업을 커밋 기록으로 정리한 것이라 백업 브랜치가 없어요.
 그 시점으로 되돌릴 때는 해당 커밋 번호로 `git revert` 를 써요.
 
+## 2026-10-28 06:10 · 시세 비교: '같은 구' 대신 '가까운 곳'부터 (스위치 market_nearby, 꺼 둔 채로)
+- 요청: 시세를 같은 구 대신 같은 단지 → 같은 동 → 반경 1/1.5/2km → 같은 구 순서로, 앞 단계 5건 이상이면 멈춤. 스위치 market_nearby(false 시작), 사례 3개(분당하이스트·트리븐센텀·아크메르 동탄) 전후 표·등급 바뀜 목록·회귀 시험
+- 변경: app/market_nearby.py(새) — 같은 구 기준(district_newbuild·district_area_ppa·district_large_ppa)으로 잡힌 주택형만, 그 면적 규칙 그대로(±3㎡ / ±10㎡ ㎡당 / 100㎡ 이상 ㎡당, 준공 10년 이내, 직거래 뺌) ② 같은 법정동(거래 umdNm = 공고 주소 동) ③ 공고 좌표 반경 1→1.5→2km(거래 단지 좌표는 시군구+법정동+지번으로 네이버 지오코딩 한 번 → evidence/market/complex-geo.json, 지번으로 못 찾은 단지는 뺌, 아직 못 찾은 단지가 남으면 반경 비교 안 함) ④ 같은 구 그대로. 근거 종류 dong_*·near_*, mkt_note '같은 동(정자동) 준공 10년 이내 같은 평형(84㎡) 매매 6건 기준'·'공고 위치 반경 1.5km 안 …', 반경 근거 거래에 거리(m). 수집 끝(좌표 붙인 뒤)에 스위치가 켜졌을 때만 바꿈 — 꺼지면 예전 그대로. 실거래 응답에서 지번(jibun) 칸을 읽고 실행 기록에 [응답 필드] 실거래 를 남김. 화면: 근거 꼬리표(같은 동 신축 비교·가까운 단지 신축 비교)·㎡당 추정 설명·근거 거래 '○○동 1.2km 거리'. 시세 원자료 대조(market_check)에 같은 단계를 따로 옮긴 계산(거리는 구면 코사인)을 더함. 미리 보기 도구 tools/qa/market_nearby_report.py + 손 실행 워크플로 market-nearby.yml(예약 없음)
+- 파일: app/market_nearby.py, app/pipeline.py, app/rules.py, app/sources/rtms.py, docs/index.html, docs/config.json, tools/qa/market_check.py, tools/qa/market_nearby_report.py, .github/workflows/market-nearby.yml, tests/test_market_nearby.py
+- 확인: pytest 전체 통과, tests/test_market_nearby.py 8개(단계 순서·5건 멈춤·좌표 없는 단지 빼기·확인 중이면 같은 구·직거래 빼기·큰 평형 규칙·저장 좌표 재사용·따로 옮긴 대조 계산과 일치), judge_check 966/966, regress 판정 차이 0·화면 오류 0, 화면 문법 검사. 실제 공고 전후 비교는 Actions 미리 보기로(다음 항목)
+- 백업: backup/20261028-0610-market-nearby
+- 기능: market_nearby (false)
+
 ## 2026-10-27 09:58 · 청약 수집 이른 예약(03:35·04:05·04:35) 삭제
 - 요청: 이른 예약은 삭제하고 5시 것과 7시 것만 남겨 둬 (확인 질문에 '이른 예약 3개만 지움' 선택)
 - 변경: collect.yml 을 6baee0a6 직전 상태로 되돌림 — cron 3줄과 '05시 전 예약 시작이면 건너뜀' 줄 삭제. 남은 예약: 청약 수집 05:30(예비 06:50·08:50), 아침 자동 고치기 07:17(Claude 예약, 그대로)

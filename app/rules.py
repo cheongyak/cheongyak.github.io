@@ -32,6 +32,8 @@ JEONSE_MOVEIN_DISCOUNT = 0.90  # 입주장 전세 할인
 AREA_BAND_WIDE = 10.0          # 같은 평형(±3㎡) 거래가 3건 미만일 때: ±10㎡ 비슷한 면적의 ㎡당 가격으로 추정 (기능 mkt_area_fallback)
 AREA_FALLBACK_MIN = 5          # 그 추정에 필요한 최소 거래 수
 LARGE_AREA = 100.0             # 큰 평형 추정(기능 mkt_large_fallback): 전용 100㎡ 이상 주택형 ↔ 같은 구 신축 100㎡ 이상 매매의 ㎡당 가격
+NEARBY_MIN = 5                 # 가까운 곳부터 비교(기능 market_nearby): 같은 동·반경 안 거래가 이 건수 이상이면 거기서 멈춘다
+NEARBY_RADII = (1000, 1500, 2000)   # 반경(m) — 1km → 1.5km → 2km 순서로 넓힌다
 
 # ---- 지역 ----
 # 10.15 대책: 서울 25개 구 전역 + 경기 12곳이 투기과열지구·조정대상지역·토지거래허가구역

@@ -50,7 +50,7 @@ def rows_of(xml_text: str) -> list[dict]:
     for it in root.iter("item"):
         g = {c.tag: (c.text or "").strip() for c in it}
         out.append({"apt": g.get("aptNm", ""), "area": num(g.get("excluUseAr")), "floor": num(g.get("floor")), "amount": num(g.get("dealAmount")),
-                    "build": num(g.get("buildYear")), "umd": g.get("umdNm", ""), "cancel": g.get("cdealType", "").upper() == "O", "direct": g.get("dealingGbn", "") == "직거래",
+                    "build": num(g.get("buildYear")), "umd": g.get("umdNm", ""), "jibun": g.get("jibun", ""), "cancel": g.get("cdealType", "").upper() == "O", "direct": g.get("dealingGbn", "") == "직거래",
                     "date": f"{g.get('dealYear', '')}-{g.get('dealMonth', '').zfill(2)}-{g.get('dealDay', '').zfill(2)}"})
     return out
 
@@ -112,6 +112,53 @@ def expect(name: str, area: float, trades: list[dict], presales: list[dict], yea
     return {"basis": basis, "count": len(pool), "base": round(base, 2), "low": round(low, 2), "rows": pool}
 
 
+NEAR_MIN, NEAR_RADII = 5, (1000, 1500, 2000)   # 기능 market_nearby (app/rules.py NEARBY_MIN·NEARBY_RADII 와 같은 값, 따로 적음)
+
+
+def meters(a: dict, b: dict) -> float:
+    """두 좌표 사이 거리(m) — 구면 코사인 법칙으로 따로 계산 (app 은 하버사인)"""
+    import math
+    r = math.radians
+    c = math.sin(r(a["lat"])) * math.sin(r(b["lat"])) + math.cos(r(a["lat"])) * math.cos(r(b["lat"])) * math.cos(r(b["lng"] - a["lng"]))
+    return 6371000 * math.acos(max(-1.0, min(1.0, c)))
+
+
+def expect_nearby(e: dict, area: float, trades: list[dict], year: int, address: str, origin: dict | None, coords: dict, lawd: str) -> dict:
+    """기능 market_nearby: 같은 구 결과(e)의 면적 규칙 그대로, 같은 동 → 공고 좌표 반경 1·1.5·2km 에서 5건 이상이면 그것 (수집 코드와 따로 옮긴 계산).
+    단지 좌표는 수집이 저장한 표(evidence/market/complex-geo.json)를 입력으로만 쓴다. 후보 단지 중 표에 없는 곳이 있으면 같은 구 그대로."""
+    rule = {"district_newbuild": "newbuild", "district_area_ppa": "area_ppa", "district_large_ppa": "large_ppa"}.get(e["basis"] or "")
+    if not rule or not area:
+        return e
+    live = lambda r: not r["cancel"] and not r["direct"] and r["amount"] and r["area"] and r["build"] and r["build"] >= year - NEW_YEARS
+    fits = {"newbuild": lambda r: abs(r["area"] - area) <= BAND, "area_ppa": lambda r: abs(r["area"] - area) <= WIDE, "large_ppa": lambda r: r["area"] >= BIG}[rule]
+    pool = [r for r in trades if live(r) and fits(r)]
+
+    def done(rows, where):
+        if rule == "newbuild":
+            a = [r["amount"] for r in rows]
+            base = statistics.median(a) / 10000
+            low = p25(a) / 10000 if len(a) >= 4 else base * LOW_X
+        else:
+            u = sorted(r["amount"] / r["area"] for r in rows)
+            base = statistics.median(u) * area / 10000
+            low = p25(u) * area / 10000 if len(u) >= 4 else base * LOW_X
+        return {"basis": f"{where}_{rule}", "count": len(rows), "base": round(base, 2), "low": round(low, 2), "rows": rows}
+    dg = addr_dong(address)
+    same = [r for r in pool if dg and (r.get("umd") or "").split()[:1] == [dg]]
+    if len(same) >= NEAR_MIN:
+        return done(same, "dong")
+    if not origin or origin.get("lat") is None:
+        return e
+    key = lambda r: f"{lawd}|{(r.get('umd') or '').strip()}|{(r.get('jibun') or '').strip()}" if r.get("jibun") and r.get("umd") else None
+    if any(key(r) and key(r) not in coords for r in pool):
+        return e
+    for rad in NEAR_RADII:
+        rows = [r for r in pool if key(r) and "lat" in coords[key(r)] and meters(origin, coords[key(r)]) <= rad]
+        if len(rows) >= NEAR_MIN:
+            return done(rows, "near")
+    return e
+
+
 def comp_in(c: dict, rows: list[dict]) -> bool:
     return any(r["apt"] == c.get("apt") and r["date"] == c.get("date") and r["area"] == c.get("area") and r["floor"] == c.get("floor")
                and abs((r["amount"] or 0) / 10000 - (c.get("amount") or 0)) < 0.006 for r in rows)
@@ -142,6 +189,14 @@ def check(listings: list[dict], today: date, get, fallback: bool | None = None) 
         large = json.loads((ROOT / "docs" / "config.json").read_text(encoding="utf-8")).get("features", {}).get("mkt_large_fallback", True) is not False
     except Exception:
         large = True
+    try:
+        nearby = json.loads((ROOT / "docs" / "config.json").read_text(encoding="utf-8")).get("features", {}).get("market_nearby", True) is not False
+    except Exception:
+        nearby = True
+    try:
+        coords = json.loads((ROOT / "evidence" / "market" / "complex-geo.json").read_text(encoding="utf-8")) if nearby else {}
+    except Exception:
+        coords = {}
     for L in listings:
         lawd = LC.lawd_for(L.get("address") or "", cache, L.get("sido"))
         if not lawd:
@@ -150,6 +205,8 @@ def check(listings: list[dict], today: date, get, fallback: bool | None = None) 
         tr = [r for ym in months(today) for r in get("trade", lawd, ym)]
         ps = [r for ym in months(today) for r in get("presale", lawd, ym)]
         e = expect(L["name"], L.get("area"), tr, ps, today.year, fallback=fallback, large=large, unit=L.get("unit") or "", address=L.get("address") or "")
+        if nearby:
+            e = expect_nearby(e, L.get("area"), tr, today.year, L.get("address") or "", L.get("geo"), coords, lawd)
         bad = []
         if (L.get("mkt_basis") or None) != e["basis"]:
             bad.append(f"근거 종류 {L.get('mkt_basis')} ≠ 원자료 {e['basis']}")
