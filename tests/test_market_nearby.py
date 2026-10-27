@@ -159,6 +159,9 @@ def test_real_case_bundang_highest_nearby_estimate():
 def test_real_case_trivent_centum():
     """사례 2 트리븐센텀 1단지(반여동) 115㎡: 같은 구 16건 중 11건이 엘시티(6.9km, ㎡당 2,068만)라 14.66~20.97억(로또)이었음 →
     반여동 2km 안 100㎡ 이상 3건(센텀KCC스위첸 1.25km)으로 '추정' 7.59~8.43억"""
+    res, info = _case("2026000513-084.8860A")
+    assert (res["mkt_basis"], res["mkt_count"], res["mkt_low"], res["mkt_base"]) == ("dong_newbuild", 32, 4.82, 6.4)   # 84㎡ 는 반여동 2km 안 32건 (같은 구 6.52~7.82억)
+    assert res["mkt_note"] == "같은 동(반여동) 2km 안 준공 10년 이내 같은 평형(84㎡) 매매 32건 기준 (최근 6개월)"
     res, info = _case("2026000513-114.9763")
     assert info["steps"] == [("dong", 3), ("r1000", 0), ("r1500", 3), ("r2000", 3)]
     assert (res["mkt_basis"], res["mkt_count"], res["mkt_low"], res["mkt_base"]) == ("dong_large_ppa_few", 3, 7.59, 8.43)
