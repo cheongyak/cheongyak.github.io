@@ -43,7 +43,19 @@ def main() -> int:
     targets = [L for L in Ls if MN.RULE.get(L.mkt_basis or "") and not L.rental]
     lawds = sorted({LC.lawd_for(L.address, lawd_cache, L.sido) for L in targets} - {None})
     rt = rtms.RtmsClient()
-    pf = rt.prefetch([("trade", l, ym) for l in lawds for ym in months], budget_sec=600)
+    keys = [("trade", l, ym) for l in lawds for ym in months]
+    pf = rt.prefetch(keys, budget_sec=600, workers=3)   # 10-28 첫 실행: 8개 동시에 받다 429(요청 과다) 48건 → 그 구 공고가 빠짐. 3개씩 + 못 받은 것 다시
+    for _ in range(3):
+        left = [k for k in keys if k not in rt._cache]
+        if not left:
+            break
+        import time
+        time.sleep(20)
+        rt.frozen = False
+        p2 = rt.prefetch(left, budget_sec=300, workers=2)
+        pf = {**pf, "retry": pf.get("retry", []) + [p2]}
+    missing = sorted({k[1] for k in keys if k not in rt._cache})
+    pf["missing_lawd"] = missing
     before = {L.id: (L.mkt_basis, L.mkt_low, L.mkt_base, L.mkt_count, L.mkt_note, engine.grade(L)) for L in Ls}
     log: list[str] = []
     MN.apply(Ls, rt, today, lawd_cache, log, save=True)
@@ -62,7 +74,9 @@ def main() -> int:
             try:
                 tr = rt.recent("trade", lawd, months) if lawd else []
             except Exception:
-                tr = []
+                it["steps"] = [("실거래 못 받음", lawd)]
+                items.append(it)
+                continue
             _, info = MN.estimate_nearby(L.address, L.area, b[0], tr, today.year, L.geo, coords, lawd or "")
             it["steps"] = info["steps"]
             it["no_coord"] = info.get("no_coord")
