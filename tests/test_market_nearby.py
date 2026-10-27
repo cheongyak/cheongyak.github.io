@@ -112,3 +112,35 @@ def test_independent_check_agrees():
     e = MC.expect_nearby(district, 84.0, raw, 2026, ADDR, ORIGIN, coords, LAWD)
     assert (e["basis"], e["count"], e["base"], e["low"]) == (app["mkt_basis"], app["mkt_count"], app["mkt_base"], app["mkt_low"])
     assert all(MC.comp_in(c, e["rows"]) for c in app["mkt_comps"])
+
+
+def _case(pid):
+    import json
+    from pathlib import Path
+    d = json.loads((Path(__file__).parent / "qa" / "market_nearby_cases.json").read_text(encoding="utf-8"))
+    f = next(c for c in d["cases"] if c["id"].strip() == pid)
+    return MN.estimate_nearby(f["address"], f["area"], f["basis"], f["trades"], f["year"], f["geo"], f["coords"], f["lawd"])
+
+
+def test_real_case_bundang_highest_stays_district():
+    """사례 1 더샵 분당하이스트(정자동 90) 84㎡: 2km 안 준공 10년 이내 84㎡ 는 더샵분당파크리버(1.4km) 4건뿐 → 5건 미만이라 같은 구(12.96~14.38억) 그대로.
+    다음 단지는 2.4km THESHARP판교퍼스트파크 (2026-10-28 실거래·지오코딩 고정본)"""
+    res, info = _case("2026910275-084.0000A")
+    assert res is None and info["steps"] == [("dong", 4), ("r1000", 0), ("r1500", 4), ("r2000", 4)]
+
+
+def test_real_case_trivent_centum():
+    """사례 2 트리븐센텀 1단지(반여동): 84㎡ 는 같은 동 32건 4.82~6.4억(같은 구 6.52~7.82억), 115㎡ 는 반여동 100㎡ 이상 3건(센텀KCC스위첸)뿐 → 같은 구(엘시티 포함 14.66~20.97억) 그대로"""
+    res, info = _case("2026000513-084.8860A")
+    assert (res["mkt_basis"], res["mkt_count"], res["mkt_low"], res["mkt_base"]) == ("dong_newbuild", 32, 4.82, 6.4)
+    assert res["mkt_note"] == "같은 동(반여동) 준공 10년 이내 같은 평형(84㎡) 매매 32건 기준 (최근 6개월)"
+    res, info = _case("2026000513-114.9763")
+    assert res is None and info["steps"] == [("dong", 3), ("r1000", 0), ("r1500", 3), ("r2000", 3)]
+
+
+def test_real_case_acmer_dongtan():
+    """사례 3 아크메르 동탄 99(반송동) 84㎡: 반송동 신축 84㎡ 0건 → 반경 2km(동 중심 기준) 86건 7.58~10.05억 (동탄구 전체 991건 6.5~7.5억)"""
+    res, info = _case("2026000509-084.9916A")
+    assert (res["mkt_basis"], res["mkt_count"], res["mkt_low"], res["mkt_base"]) == ("near_newbuild", 86, 7.58, 10.05)
+    assert info["steps"] == [("dong", 0), ("r1000", 0), ("r1500", 0), ("r2000", 86)]
+    assert res["mkt_note"].startswith("공고 위치 반경 2km 안(공고 주소가 동까지만 있어 동 중심에서 잰 거리)")
