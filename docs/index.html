@@ -3310,7 +3310,7 @@ const FIX_TARGETS = [[/부모님 집/, ['realEstate']], [/세대 소득/, ['hhIn
   [/특별공급이었는지|특별공급으로 당첨/, ['winSpecial']], [/당첨 이력/, ['everWin']], [/재당첨 제한 기간인지/, ['recentWin']], [/세대 주택 수/, ['hhHomes']], [/누구 명의|명의는 아니에요|세대원 명의면/, ['hhOwner']], [/집 보유/, ['selfOwn']],
   [/배우자 명의 주택/, ['spouseOwn']], [/배우자 소득/, ['spouseIncome']], [/가구원수 입력|가구원수를|가구원수 산정/, ['kidsOnDeed', 'eldersOnDeed', 'elders1y', 'hhSize']],   /* 2026-10-06 빈칸 확인 문구 (예전 /명의/ 는 '배우자 명의 주택'에도 걸려 숨은 질문으로 커서가 갔음 — 사용자 제보) */
   [/예외 해당/, ['ownExc']], [/예비신혼|한부모/, ['townType']], [/혼인신고일/, ['marriedOn']], [/혼인 여부/, ['married']], [/전입일|공고일 뒤 전입/, ['sidoOwnSince', 'areaSince']],
-  [/시·군 입력/, ['homeSigun']], [/사는 곳|거주 지역 입력/, ['homeSido']], [/자동차/, ['carValue']], [/부동산 자산 입력|부동산·자동차 입력|부동산 입력/, ['realEstate']],
+  [/시·군 입력/, ['homeSigun']], [/사는 곳|거주 지역 입력/, ['homeSido']], [/본인 총자산/, ['youthAsset']], [/부모님 총자산/, ['parentsAsset']], [/자동차(?!·금융자산)/, ['carValue']],   /* 청년 특공 '본인 총자산 입력 필요 (부동산·자동차·금융자산 − 부채)' 는 자동차 칸이 아니라 총자산 칸 (2026-10-28 입력 버튼 검사, 2026000434 삼도이동 토지임대부) */ [/부동산 자산 입력|부동산·자동차 입력|부동산 입력/, ['realEstate']],
   [/보험 해약환급금/, ['townInsurance']], [/그 밖의 금융자산/, ['townFinOther']], [/기타 자산/, ['townOtherAsset']], [/세대 구성/, ['household']],
   [/출산가구 완화/, ['youngestBirth', 'kidsMinor', 'pregnant']], [/(^|[\s,])부동산(?=[\s,]|$)/, ['realEstate']],
   [/통장 정보/, ['acctType']], [/가입일/, ['acctSince']], [/예치금/, ['acctAmount']], [/납입/, ['acctCount']], [/저축액/, ['acctPaid']], [/현금·예금·주식·전세보증금/, ['cash', 'liquid', 'deposit']]];   /* 통장 종류가 먼저 (2026-10-06) */
