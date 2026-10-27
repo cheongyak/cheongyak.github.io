@@ -1,9 +1,6 @@
 name: 청약 공고 수집
 on:
   schedule:                 # 한국 05:30. GitHub 가 예약 실행을 가끔 빠뜨려서(2026-10-04 05:30 실행 없음) 06:50·08:50 에 예비 실행을 둔다 —
-    - cron: "35 18 * * *"   # 03:35·04:05·04:35 이른 예약 (2026-10-27): 10-23 부터 GitHub 예약이 2시간쯤 늦게 시작해(05:30 → 07:40) 아침 6시에 갱신이 안 됨.
-    - cron: "5 19 * * *"    #   늦게 시작하면 05시 넘어 돌아 제때 수집하고, 제때 시작하면(05시 전) gate 가 바로 끝낸다 — 새벽 4시 수집·알림 없음
-    - cron: "35 19 * * *"
     - cron: "30 20 * * *"   # 예비 실행은 그날 매일 수집(예약·05시 뒤 손 실행)이 이미 돌았으면(docs/daily-run.txt) 아무것도 하지 않고 끝난다
     - cron: "50 21 * * *"
     - cron: "50 23 * * *"
@@ -36,7 +33,6 @@ jobs:
           today=$(TZ=Asia/Seoul date +%F); last=$(cat docs/daily-run.txt 2>/dev/null || true)
           echo "이벤트 ${{ github.event_name }} · 오늘 $today · 마지막 매일 수집 ${last:-없음}"
           if [ "${{ github.event_name }}" = "schedule" ] && [ "$last" = "$today" ]; then echo "skip=1" >> "$GITHUB_OUTPUT"; echo "오늘 매일 수집은 이미 돌아서 건너뜀"; fi
-          if [ "${{ github.event_name }}" = "schedule" ] && [ "$(TZ=Asia/Seoul date +%H)" -lt 5 ]; then echo "skip=1" >> "$GITHUB_OUTPUT"; echo "05시 전에 시작한 이른 예약이라 건너뜀(늦게 시작했을 때만 수집)"; fi
   collect:
     needs: gate
     if: needs.gate.outputs.skip != '1'
