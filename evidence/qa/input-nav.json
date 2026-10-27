@@ -1,14 +1,126 @@
 {
- "clicks": 3570,
+ "clicks": 3634,
  "byKind": {
   "score": 282,
-  "fix": 1192,
+  "fix": 1256,
   "edit": 112,
   "restart": 7,
   "rq": 1753,
   "go": 224
  },
- "problems": {},
+ "problems": {
+  "엉뚱한 칸: carValue 를 바꿔도 판정이 안 바뀜 (sp:all)": {
+   "n": 2,
+   "ex": [
+    {
+     "profile": "다 넣은 신혼",
+     "scene": "상세 2026000434-049.5837A",
+     "button": "fix:sp:all \"바로 답하기\"",
+     "ctx": "비어 있는 정보가 있어 일부는 판정·점수가 빠졌어요. 바로 답하기",
+     "p": {
+      "homeSido": "경기",
+      "homeSigun": "광명시",
+      "homeArea": "capital",
+      "sidoOwnSince": "2015-01-01",
+      "sidoSince": "2015-01-01",
+      "areaSince": "2015-01-01",
+      "household": "head",
+      "headSince": "2016-01-01",
+      "selfOwn": false,
+      "married": true,
+      "marriedOn": "2022-05-01",
+      "spouseOwn": false,
+      "acctType": "all",
+      "acctSince": "2014-01-01",
+      "acctAmount": 1500,
+      "acctCount": 60,
+      "acctPaid": 1500,
+      "hhHomes": "0",
+      "everWin": "none",
+      "win5y": false,
+      "recentWin": false,
+      "birth": "1990-01-01",
+      "dependents": 2,
+      "kidsMinor": 1,
+      "youngestBirth": "2025-01-01",
+      "pregnant": false,
+      "hhSize": 3,
+      "kidsOnDeed": 1,
+      "eldersOnDeed": 0,
+      "income": 5000,
+      "spouseIncome": 3000,
+      "hhIncomeYear": 8000,
+      "realEstate": 0,
+      "carValue": 1500,
+      "hhNeverOwned": true,
+      "taxYears5": true,
+      "elder65": false,
+      "cash": 20000,
+      "liquid": 0,
+      "deposit": 0
+     },
+     "landed": "detail",
+     "focus": "carValue",
+     "reds": [
+      "carValue"
+     ]
+    },
+    {
+     "profile": "다 넣은 신혼",
+     "scene": "상세 2026000435-049.5837A",
+     "button": "fix:sp:all \"바로 답하기\"",
+     "ctx": "비어 있는 정보가 있어 일부는 판정·점수가 빠졌어요. 바로 답하기",
+     "p": {
+      "homeSido": "경기",
+      "homeSigun": "광명시",
+      "homeArea": "capital",
+      "sidoOwnSince": "2015-01-01",
+      "sidoSince": "2015-01-01",
+      "areaSince": "2015-01-01",
+      "household": "head",
+      "headSince": "2016-01-01",
+      "selfOwn": false,
+      "married": true,
+      "marriedOn": "2022-05-01",
+      "spouseOwn": false,
+      "acctType": "all",
+      "acctSince": "2014-01-01",
+      "acctAmount": 1500,
+      "acctCount": 60,
+      "acctPaid": 1500,
+      "hhHomes": "0",
+      "everWin": "none",
+      "win5y": false,
+      "recentWin": false,
+      "birth": "1990-01-01",
+      "dependents": 2,
+      "kidsMinor": 1,
+      "youngestBirth": "2025-01-01",
+      "pregnant": false,
+      "hhSize": 3,
+      "kidsOnDeed": 1,
+      "eldersOnDeed": 0,
+      "income": 5000,
+      "spouseIncome": 3000,
+      "hhIncomeYear": 8000,
+      "realEstate": 0,
+      "carValue": 1500,
+      "hhNeverOwned": true,
+      "taxYears5": true,
+      "elder65": false,
+      "cash": 20000,
+      "liquid": 0,
+      "deposit": 0
+     },
+     "landed": "detail",
+     "focus": "carValue",
+     "reds": [
+      "carValue"
+     ]
+    }
+   ]
+  }
+ },
  "notes": {
   "단계로만 이동(커서 없음) home": {
    "n": 4,
@@ -17,7 +129,7 @@
      "profile": "빠른 시작(미혼)",
      "scene": "목록",
      "button": "edit:home \"빈 항목 21개 채우기\"",
-     "ctx": "내 조건 서울 · 무주택 · 세대주 · 현금 미입력 수정 신청 가능 8 확인 필요 78 불가 36 빈 항목 21개 채우기",
+     "ctx": "내 조건 서울 · 무주택 · 세대주 · 현금 미입력 수정 신청 가능 17 확인 필요 78 불가 33 빈 항목 21개 채우기",
      "p": {
       "homeSido": "서울",
       "homeArea": "seoul",
@@ -38,7 +150,7 @@
      "profile": "빠른 시작(기혼·배우자 미답)",
      "scene": "목록",
      "button": "edit:home \"빈 항목 21개 채우기\"",
-     "ctx": "내 조건 경기 광명시 · 무주택 · 세대주 · 현금 미입력 수정 신청 가능 0 확인 필요 93 불가 29 빈 항목 21개 채우기",
+     "ctx": "내 조건 경기 광명시 · 무주택 · 세대주 · 현금 미입력 수정 신청 가능 0 확인 필요 100 불가 28 빈 항목 21개 채우기",
      "p": {
       "homeSido": "경기",
       "homeSigun": "광명시",
@@ -61,7 +173,7 @@
      "profile": "부모님 세대 청년",
      "scene": "목록",
      "button": "edit:home \"빈 항목 21개 채우기\"",
-     "ctx": "내 조건 인천 · 무주택 · 세대원 (부모님 세대) · 현금 미입력 수정 신청 가능 26 확인 필요 30 2순위만 29 불가 37 빈 항목 21개 채우기",
+     "ctx": "내 조건 인천 · 무주택 · 세대원 (부모님 세대) · 현금 미입력 수정 신청 가능 26 확인 필요 40 2순위만 29 불가 33 빈 항목 21개 채우기",
      "p": {
       "homeSido": "인천",
       "homeSigun": "계양구",
@@ -1369,7 +1481,7 @@
      "profile": "다 넣은 신혼",
      "scene": "목록",
      "button": "edit:소득과 대출 \"빈 항목 2개 채우기\"",
-     "ctx": "내 조건 경기 광명시 · 무주택 · 세대주 · 현금 2억 수정 신청 가능 93 확인 필요 0 불가 29 빈 항목 2개 채우기",
+     "ctx": "내 조건 경기 광명시 · 무주택 · 세대주 · 현금 2억 수정 신청 가능 100 확인 필요 0 불가 28 빈 항목 2개 채우기",
      "p": {
       "homeSido": "경기",
       "homeSigun": "광명시",
@@ -1425,7 +1537,7 @@
      "profile": "무작위 2",
      "scene": "목록",
      "button": "edit:집과 혼인 \"빈 항목 12개 채우기\"",
-     "ctx": "내 조건 경기 광명시 · 집 미입력 · 세대주 · 현금 2억 수정 신청 가능 0 확인 필요 93 불가 29 빈 항목 12개 채우기",
+     "ctx": "내 조건 경기 광명시 · 집 미입력 · 세대주 · 현금 2억 수정 신청 가능 0 확인 필요 100 불가 28 빈 항목 12개 채우기",
      "p": {
       "homeSido": "경기",
       "homeSigun": "광명시",
@@ -1460,7 +1572,7 @@
      "profile": "무작위 3",
      "scene": "목록",
      "button": "edit:집과 혼인 \"빈 항목 13개 채우기\"",
-     "ctx": "내 조건 인천 · 무주택 · 세대주 · 현금 0원 수정 신청 가능 0 확인 필요 91 불가 31 빈 항목 13개 채우기",
+     "ctx": "내 조건 인천 · 무주택 · 세대주 · 현금 0원 수정 신청 가능 0 확인 필요 98 불가 30 빈 항목 13개 채우기",
      "p": {
       "homeSido": "인천",
       "homeArea": "capital",
@@ -1493,7 +1605,7 @@
  "date": "2026-10-27",
  "pageErrors": [],
  "_data": {
-  "listings": "8dcc497f2e49",
+  "listings": "d1c8ed09a7a9",
   "code": "a9e6361c6a84"
  }
 }
