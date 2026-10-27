@@ -2,25 +2,25 @@
  "date": "2026-10-28",
  "checked": 8,
  "fails": 0,
- "comps_checked": 64,
+ "comps_checked": 55,
  "items": [
   {
    "id": "2026000509-162.9999C",
    "name": "아크메르 동탄 99",
    "lawd": "41597",
    "app": {
-    "mkt_basis": "district_large_ppa",
-    "mkt_base": 16.03,
-    "mkt_low": 12.2,
-    "mkt_count": 86
+    "mkt_basis": "near_large_ppa_few",
+    "mkt_base": 22.05,
+    "mkt_low": 21.53,
+    "mkt_count": 4
    },
    "raw": {
-    "basis": "district_large_ppa",
-    "base": 16.03,
-    "low": 12.2,
-    "count": 86
+    "basis": "near_large_ppa_few",
+    "base": 22.05,
+    "low": 21.53,
+    "count": 4
    },
-   "comps": 8,
+   "comps": 4,
    "bad": []
   },
   {
@@ -28,16 +28,16 @@
    "name": "트리븐센텀 1단지",
    "lawd": "26350",
    "app": {
-    "mkt_basis": "district_newbuild",
-    "mkt_base": 3.98,
-    "mkt_low": 3.89,
-    "mkt_count": 19
+    "mkt_basis": "dong_newbuild",
+    "mkt_base": 3.94,
+    "mkt_low": 3.87,
+    "mkt_count": 10
    },
    "raw": {
-    "basis": "district_newbuild",
-    "base": 3.98,
-    "low": 3.89,
-    "count": 19
+    "basis": "dong_newbuild",
+    "base": 3.94,
+    "low": 3.87,
+    "count": 10
    },
    "comps": 8,
    "bad": []
@@ -47,16 +47,16 @@
    "name": "트리븐센텀 1단지",
    "lawd": "26350",
    "app": {
-    "mkt_basis": "district_newbuild",
-    "mkt_base": 7.82,
-    "mkt_low": 6.52,
-    "mkt_count": 108
+    "mkt_basis": "dong_newbuild",
+    "mkt_base": 6.4,
+    "mkt_low": 4.82,
+    "mkt_count": 32
    },
    "raw": {
-    "basis": "district_newbuild",
-    "base": 7.82,
-    "low": 6.52,
-    "count": 108
+    "basis": "dong_newbuild",
+    "base": 6.4,
+    "low": 4.82,
+    "count": 32
    },
    "comps": 8,
    "bad": []
@@ -66,16 +66,16 @@
    "name": "트리븐센텀 1단지",
    "lawd": "26350",
    "app": {
-    "mkt_basis": "district_newbuild",
-    "mkt_base": 7.82,
-    "mkt_low": 6.52,
-    "mkt_count": 108
+    "mkt_basis": "dong_newbuild",
+    "mkt_base": 6.4,
+    "mkt_low": 4.82,
+    "mkt_count": 32
    },
    "raw": {
-    "basis": "district_newbuild",
-    "base": 7.82,
-    "low": 6.52,
-    "count": 108
+    "basis": "dong_newbuild",
+    "base": 6.4,
+    "low": 4.82,
+    "count": 32
    },
    "comps": 8,
    "bad": []
@@ -85,16 +85,16 @@
    "name": "트리븐센텀 1단지",
    "lawd": "26350",
    "app": {
-    "mkt_basis": "district_newbuild",
-    "mkt_base": 7.82,
-    "mkt_low": 6.52,
-    "mkt_count": 108
+    "mkt_basis": "dong_newbuild",
+    "mkt_base": 6.4,
+    "mkt_low": 4.82,
+    "mkt_count": 32
    },
    "raw": {
-    "basis": "district_newbuild",
-    "base": 7.82,
-    "low": 6.52,
-    "count": 108
+    "basis": "dong_newbuild",
+    "base": 6.4,
+    "low": 4.82,
+    "count": 32
    },
    "comps": 8,
    "bad": []
@@ -104,18 +104,18 @@
    "name": "트리븐센텀 1단지",
    "lawd": "26350",
    "app": {
-    "mkt_basis": "district_large_ppa",
-    "mkt_base": 20.97,
-    "mkt_low": 14.66,
-    "mkt_count": 16
+    "mkt_basis": "dong_large_ppa_few",
+    "mkt_base": 8.43,
+    "mkt_low": 7.59,
+    "mkt_count": 3
    },
    "raw": {
-    "basis": "district_large_ppa",
-    "base": 20.97,
-    "low": 14.66,
-    "count": 16
+    "basis": "dong_large_ppa_few",
+    "base": 8.43,
+    "low": 7.59,
+    "count": 3
    },
-   "comps": 8,
+   "comps": 3,
    "bad": []
   },
   {
@@ -123,16 +123,16 @@
    "name": "트리븐센텀 2단지",
    "lawd": "26350",
    "app": {
-    "mkt_basis": "district_newbuild",
-    "mkt_base": 3.98,
-    "mkt_low": 3.89,
-    "mkt_count": 19
+    "mkt_basis": "dong_newbuild",
+    "mkt_base": 3.94,
+    "mkt_low": 3.87,
+    "mkt_count": 10
    },
    "raw": {
-    "basis": "district_newbuild",
-    "base": 3.98,
-    "low": 3.89,
-    "count": 19
+    "basis": "dong_newbuild",
+    "base": 3.94,
+    "low": 3.87,
+    "count": 10
    },
    "comps": 8,
    "bad": []
@@ -142,22 +142,22 @@
    "name": "트리븐센텀 2단지",
    "lawd": "26350",
    "app": {
-    "mkt_basis": "district_newbuild",
-    "mkt_base": 7.82,
-    "mkt_low": 6.52,
-    "mkt_count": 108
+    "mkt_basis": "dong_newbuild",
+    "mkt_base": 6.4,
+    "mkt_low": 4.82,
+    "mkt_count": 32
    },
    "raw": {
-    "basis": "district_newbuild",
-    "base": 7.82,
-    "low": 6.52,
-    "count": 108
+    "basis": "dong_newbuild",
+    "base": 6.4,
+    "low": 4.82,
+    "count": 32
    },
    "comps": 8,
    "bad": []
   }
  ],
  "_data": {
-  "listings": "da5ae71d6e1c"
+  "listings": "979c3bbbedf7"
  }
 }

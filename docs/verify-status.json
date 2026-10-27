@@ -1,5 +1,5 @@
 {
- "at": "2026-10-28 08:40",
+ "at": "2026-10-28 08:59",
  "ok": false,
  "collect_run": "2026-10-28 · 공고 270건",
  "banner": null,
@@ -11,12 +11,6 @@
   "2015122300020967": [
    "자동 검증(임대 데이터 불변식): terms_unread",
    "자동 검증(임대 공고문 못 읽음): (공고) 공고문에서 계층 기준을 읽지 못함"
-  ],
-  "2015122300020958": [
-   "자동 검증(임대 공고문 못 읽음): 대학생 총자산 기준을 공고문에서 읽지 못함 — 공고문 확인",
-   "자동 검증(임대 공고문 못 읽음): 청년 총자산 기준을 공고문에서 읽지 못함 — 공고문 확인",
-   "자동 검증(임대 공고문 못 읽음): 신혼부부·한부모 총자산 기준을 공고문에서 읽지 못함 — 공고문 확인",
-   "자동 검증(임대 공고문 못 읽음): 고령자 총자산 기준을 공고문에서 읽지 못함 — 공고문 확인"
   ],
   "2015122300020966": [
    "자동 검증(임대 공고문 못 읽음): 일반 거주 요건('현재 전남광주통합특별시 광산구, 동구, 서구, 남구, 북구에 거주하는 성년자')을 정확히 읽지 못함 — 공고문 확인"
@@ -61,38 +55,38 @@
  "freshness": [
   {
    "name": "분양",
-   "updated": "2026-10-28 08:24",
+   "updated": "2026-10-28 08:44",
    "hours": 0.3,
    "stale": false
   },
   {
    "name": "LH 임대",
-   "updated": "2026-10-28 07:19",
-   "hours": 1.4,
+   "updated": "2026-10-28 08:09",
+   "hours": 0.8,
    "stale": false
   },
   {
    "name": "SH 임대",
    "updated": "2026-10-28 07:28",
-   "hours": 1.2,
+   "hours": 1.5,
    "stale": false
   },
   {
    "name": "GH 임대",
    "updated": "2026-10-28 07:29",
-   "hours": 1.2,
+   "hours": 1.5,
    "stale": false
   },
   {
    "name": "공공지원 민간임대",
    "updated": "2026-10-28 07:33",
-   "hours": 1.1,
+   "hours": 1.4,
    "stale": false
   },
   {
    "name": "LH 주거복지·신혼희망",
    "updated": "2026-10-28 08:09",
-   "hours": 0.5,
+   "hours": 0.8,
    "stale": false
   }
  ],
@@ -133,14 +127,14 @@
   "lh_invariant_violations": 2,
   "lh_judge_qa_fails": null,
   "lh_screen_fails": null,
-  "lh_unread": 11,
+  "lh_unread": 7,
   "lh_pdf_merged_wrong": 0,
   "pay_audit_bad": 0,
   "parse_moved_changes": 0,
   "coverage_missing": 0,
   "verify_scope_fails": null,
   "pay_audit_read": "147/159",
-  "lh_data_at": "2026-10-28 07:19",
+  "lh_data_at": "2026-10-28 08:09",
   "cross_rule_checks": 297658,
   "market_at": "2026-10-28",
   "supply_type_at": "2026-10-27",
