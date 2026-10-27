@@ -41,11 +41,11 @@ def test_check_flags_wrong_numbers_and_fake_comps():
     app_v, _ = run("새 단지", 53.0, TRADES)
     L = {"id": "x-1", "name": "새 단지", "area": 53.0, "address": "인천광역시 계양구 작전동", "sido": "인천", **app_v}
     get = lambda kind, lawd, ym: MC.rows_of(xml(TRADES)) if kind == "trade" and ym == "202609" else []
-    assert MC.check([L], date(2026, 10, 2), get)["fails"] == 0
+    assert MC.check([L], date(2026, 10, 2), get, nearby=False)["fails"] == 0
     bad = dict(L, mkt_base=L["mkt_base"] + 0.1)
-    assert "mkt_base" in MC.check([bad], date(2026, 10, 2), get)["items"][0]["bad"][0]
+    assert "mkt_base" in MC.check([bad], date(2026, 10, 2), get, nearby=False)["items"][0]["bad"][0]
     fake = dict(L, mkt_comps=L["mkt_comps"] + [{"apt": "다른신축", "area": 53.0, "floor": 5.0, "amount": 9.99, "date": "2026-06-12"}])   # 해제된 거래를 근거로 쓰면
-    assert any("원자료" in b and "없음" in b for b in MC.check([fake], date(2026, 10, 2), get)["items"][0]["bad"])
+    assert any("원자료" in b and "없음" in b for b in MC.check([fake], date(2026, 10, 2), get, nearby=False)["items"][0]["bad"])
 
 
 # 기능 mkt_area_fallback (2026-10-07): 같은 평형(±3㎡) 거래가 3건 미만이면 ±10㎡ 같은 구 신축 매매 5건 이상의 ㎡당 가격 × 면적

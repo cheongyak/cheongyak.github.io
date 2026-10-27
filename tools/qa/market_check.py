@@ -185,7 +185,7 @@ def fetch(http, key: str, kind: str, lawd: str, ym: str) -> list[dict]:
     return out
 
 
-def check(listings: list[dict], today: date, get, fallback: bool | None = None) -> dict:
+def check(listings: list[dict], today: date, get, fallback: bool | None = None, nearby: bool | None = None) -> dict:
     """get(kind, lawd, ym) → 원자료 거래 목록. 공고마다 시세·근거 거래를 원자료와 비교"""
     from app import lawd as LC
     cache, res = LC.load(), []
@@ -198,10 +198,11 @@ def check(listings: list[dict], today: date, get, fallback: bool | None = None) 
         large = json.loads((ROOT / "docs" / "config.json").read_text(encoding="utf-8")).get("features", {}).get("mkt_large_fallback", True) is not False
     except Exception:
         large = True
-    try:
-        nearby = json.loads((ROOT / "docs" / "config.json").read_text(encoding="utf-8")).get("features", {}).get("market_nearby", True) is not False
-    except Exception:
-        nearby = True
+    if nearby is None:   # 수집과 같은 스위치(docs/config.json features.market_nearby, 없으면 켜짐)
+        try:
+            nearby = json.loads((ROOT / "docs" / "config.json").read_text(encoding="utf-8")).get("features", {}).get("market_nearby", True) is not False
+        except Exception:
+            nearby = True
     try:
         coords = json.loads((ROOT / "evidence" / "market" / "complex-geo.json").read_text(encoding="utf-8")) if nearby else {}
     except Exception:
