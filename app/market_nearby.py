@@ -5,9 +5,10 @@
 
 순서 (앞 단계 거래가 NEARBY_MIN(5건) 이상이면 거기서 멈춘다):
   ① 같은 단지 — app/market.estimate_market 가 이미 잡으면(same_complex·same_complex_ppa) 그대로 둔다
-  ② 같은 법정동 (공고 주소의 동·읍·면 = 거래 umdNm 첫 낱말)
+  ② 같은 법정동 (공고 주소의 동·읍·면 = 거래 umdNm 첫 낱말) — 공고에서 2km 넘는 단지는 뺌(2026-10-28 운영자, 큰 법정동 대비)
   ③ 공고 좌표에서 반경 1km → 1.5km → 2km (거래 단지 좌표: 지번으로 한 번 찾아 evidence/market/complex-geo.json 에 저장, 못 찾은 단지는 뺌)
-  ④ 같은 구 — estimate_market 결과 그대로
+  ③-1 어느 단계도 5건이 안 되면 가장 가까운 단계의 3~4건으로 '추정' (근거 끝에 _few, 문구 '가까운 거래가 N건뿐이라 추정이에요')
+  ④ 같은 구 — estimate_market 결과 그대로 (가까운 거래가 2건 이하일 때만)
 면적 기준은 ④에서 쓴 규칙을 그대로 쓴다: 같은 평형(±3㎡) / 비슷한 면적(±10㎡) ㎡당 / 100㎡ 이상 ㎡당. 모두 준공 10년 이내·직거래 뺌.
 기준 시세 = 중앙값, 보수 시세 = 하위 25% (app/market 과 같은 계산).
 반경은 같은 시군구 거래만 본다(실거래가는 시군구 단위로 받음 — 구 경계 너머 단지는 들어가지 않음).
@@ -78,7 +79,8 @@ def rule_pool(trades: list[dict], area: Optional[float], rule: str, this_year: i
     return [r for r in trades if fit(r)]
 
 
-def _result(rows: list[dict], direct: int, area: float, rule: str, stage: str, scope: str, dists: Optional[dict] = None) -> dict:
+def _result(rows: list[dict], direct: int, area: float, rule: str, stage: str, scope: str, dists: Optional[dict] = None, few: bool = False) -> dict:
+    """few: 가까운 거래가 NEARBY_FEW~NEARBY_MIN-1(3~4)건이라 그 거래로 '추정' (2026-10-28 운영자: 같은 구로 돌아가지 말고 추정 표시)"""
     basis = f"{stage}_{rule}"
     comps = []
     for r in rows:
@@ -86,25 +88,30 @@ def _result(rows: list[dict], direct: int, area: float, rule: str, stage: str, s
         if dists is not None and id(r) in dists:
             c["m"] = dists[id(r)]
         comps.append(c)
+    head = f"가까운 거래가 {len(rows)}건뿐이라 추정이에요 — " if few else ""
     if rule == "newbuild":
         low, base = _summary([r["amount"] for r in rows])
-        note = f"{scope} 준공 {R.NEW_BUILD_YEARS}년 이내 같은 평형({int(area)}㎡) 매매 {len(rows)}건 기준 (최근 {R.MARKET_MONTHS}개월)"
+        note = f"{head}{scope} 준공 {R.NEW_BUILD_YEARS}년 이내 같은 평형({int(area)}㎡) 매매 {len(rows)}건 기준 (최근 {R.MARKET_MONTHS}개월)"
     else:
         ppa = [r["amount"] / r["area"] for r in rows]
-        base = round(statistics.median(ppa) * area / 10000, 2)
-        low = round(_p25(ppa) * area / 10000 if len(ppa) >= 4 else base * R.LOW_DISCOUNT, 2)
+        base = statistics.median(ppa) * area / 10000
+        low = round(_p25(ppa) * area / 10000 if len(ppa) >= 4 else base * R.LOW_DISCOUNT, 2)   # app/market 과 같게 반올림 전 값으로
+        base = round(base, 2)
         if rule == "area_ppa":
-            note = (f"같은 평형 거래가 부족해 {scope} 준공 {R.NEW_BUILD_YEARS}년 이내 비슷한 면적(±{R.AREA_BAND_WIDE:g}㎡) 매매 {len(rows)}건의 "
+            note = (f"{head}같은 평형 거래가 부족해 {scope} 준공 {R.NEW_BUILD_YEARS}년 이내 비슷한 면적(±{R.AREA_BAND_WIDE:g}㎡) 매매 {len(rows)}건의 "
                     f"㎡당 가격 × 전용 {area:.1f}㎡로 추정 (최근 {R.MARKET_MONTHS}개월)")
         else:
-            note = (f"이 면적대 거래가 없어 {scope} 준공 {R.NEW_BUILD_YEARS}년 이내 전용 {R.LARGE_AREA:g}㎡ 이상 매매 {len(rows)}건의 "
+            note = (f"{head}이 면적대 거래가 없어 {scope} 준공 {R.NEW_BUILD_YEARS}년 이내 전용 {R.LARGE_AREA:g}㎡ 이상 매매 {len(rows)}건의 "
                     f"㎡당 가격 × 전용 {area:.1f}㎡로 추정 (최근 {R.MARKET_MONTHS}개월)")
-    return {"mkt_low": low, "mkt_base": base, "mkt_basis": basis, "mkt_count": len(rows), "mkt_comps": _recent(comps),
-            "mkt_direct_excluded": direct, "mkt_note": note}
+    out = {"mkt_low": low, "mkt_base": base, "mkt_basis": basis, "mkt_count": len(rows), "mkt_comps": _recent(comps),
+           "mkt_direct_excluded": direct, "mkt_note": note}
+    if few:
+        out["mkt_basis"] = basis + "_few"
+    return out
 
 
 def needed_keys(lawd: str, trades: list[dict], area: Optional[float], basis: Optional[str], this_year: int) -> set:
-    """③ 반경 비교에 좌표가 필요한 단지 열쇠 (④에서 쓴 규칙의 같은 구 후보 단지)"""
+    """같은 동 거리 확인·반경 비교에 좌표가 필요한 단지 열쇠 (④에서 쓴 규칙의 같은 구 후보 단지 전부)"""
     rule = RULE.get(basis or "")
     if not rule:
         return set()
@@ -114,7 +121,10 @@ def needed_keys(lawd: str, trades: list[dict], area: Optional[float], basis: Opt
 def estimate_nearby(address: str, area: Optional[float], basis: Optional[str], trades: list[dict], this_year: int,
                     origin: Optional[dict], coords: dict, lawd: str) -> tuple[Optional[dict], dict]:
     """(새 시세 또는 None(④ 같은 구 그대로), 단계별 건수 기록).
-    coords: 단지 열쇠 → {'lat','lng'} 또는 {'none': 사유}. 열쇠가 아예 없으면 '아직 못 찾음'이라 반경 비교를 하지 않는다(일부만 찾은 채 비교하지 않게)."""
+    coords: 단지 열쇠 → {'lat','lng'} 또는 {'none': 사유}. 후보 단지 중 아직 찾아보지 않은 곳이 있으면 비교하지 않는다(일부만 찾은 채 비교하지 않게).
+    2026-10-28 운영자 결정: ① 같은 동이어도 공고에서 NEARBY_RADII 최대(2km)보다 먼 단지는 뺀다(고양 장항동 → 킨텍스원시티)
+                          ② 어느 단계도 5건이 안 되면 같은 구로 돌아가지 않고 가장 가까운 단계의 3~4건으로 '추정'(mkt_basis 끝 _few)
+    좌표를 못 찾은 단지(지번 없음·지오코딩 실패)는 같은 동 단계에서는 남기고(거리 모름), 반경 단계에서는 뺀다."""
     info: dict = {"rule": RULE.get(basis or ""), "dong": dong_of(address), "steps": []}
     rule = info["rule"]
     if not rule or not area:
@@ -123,34 +133,42 @@ def estimate_nearby(address: str, area: Optional[float], basis: Optional[str], t
     live = [r for r in pool if r.get("deal_type") != "직거래"]
     direct = lambda rows: sum(1 for r in rows if r.get("deal_type") == "직거래")
     dong = info["dong"]
-    if dong:
-        mine = [r for r in pool if (r.get("umd") or "").split()[:1] == [dong]]
-        rows = [r for r in mine if r.get("deal_type") != "직거래"]
-        info["steps"].append(("dong", len(rows)))
-        if len(rows) >= R.NEARBY_MIN:
-            return _result(rows, direct(mine), area, rule, "dong", f"같은 동({dong})"), info
-    if not origin or origin.get("lat") is None:
-        info["steps"].append(("near", "공고 좌표 없음"))
-        return None, info
-    keys = {complex_key(lawd, r) for r in live}
-    pending = sorted(k for k in keys if k and k not in coords)
-    if pending:
-        info["steps"].append(("near", f"단지 좌표 확인 중 {len(pending)}곳"))
-        return None, info
-    info["no_coord"] = sum(1 for r in live if not complex_key(lawd, r) or "lat" not in coords.get(complex_key(lawd, r), {}))
+    has_origin = bool(origin) and origin.get("lat") is not None
     dists: dict = {}
-    for r in pool:
-        c = coords.get(complex_key(lawd, r) or "", {})
-        if "lat" in c:
-            dists[id(r)] = dist_m(origin["lat"], origin["lng"], c["lat"], c["lng"])
-    rough = origin.get("precision") != "exact"
-    for rad in R.NEARBY_RADII:
-        inside = [r for r in pool if id(r) in dists and dists[id(r)] <= rad]
-        rows = [r for r in inside if r.get("deal_type") != "직거래"]
-        info["steps"].append((f"r{rad}", len(rows)))
+    if has_origin:
+        keys = {complex_key(lawd, r) for r in live}
+        pending = sorted(k for k in keys if k and k not in coords)
+        if pending:
+            info["steps"].append(("near", f"단지 좌표 확인 중 {len(pending)}곳"))
+            return None, info
+        info["no_coord"] = sum(1 for r in live if not complex_key(lawd, r) or "lat" not in coords.get(complex_key(lawd, r), {}))
+        for r in pool:
+            c = coords.get(complex_key(lawd, r) or "", {})
+            if "lat" in c:
+                dists[id(r)] = dist_m(origin["lat"], origin["lng"], c["lat"], c["lng"])
+    far = max(R.NEARBY_RADII)
+    rough = has_origin and origin.get("precision") != "exact"
+    where = "(공고 주소가 동까지만 있어 동 중심에서 잰 거리)" if rough else ""
+    tiers = []   # (단계, 고른 거래(직거래 포함), 범위 글)
+    if dong:
+        mine = [r for r in pool if (r.get("umd") or "").split()[:1] == [dong] and dists.get(id(r), 0) <= far]
+        tiers.append(("dong", mine, f"같은 동({dong})" + (f" {far / 1000:g}km 안" if has_origin else "")))
+    if has_origin:
+        for rad in R.NEARBY_RADII:
+            tiers.append((f"r{rad}", [r for r in pool if id(r) in dists and dists[id(r)] <= rad], f"공고 위치 반경 {rad / 1000:g}km 안" + where))
+    elif dong:
+        info["steps"].append(("near", "공고 좌표 없음"))
+    counts = []
+    for stage, mine, scope in tiers:
+        rows = [r for r in mine if r.get("deal_type") != "직거래"]
+        counts.append((stage, rows, mine, scope))
+        info["steps"].append((stage, len(rows)))
         if len(rows) >= R.NEARBY_MIN:
-            scope = f"공고 위치 반경 {rad / 1000:g}km 안" + ("(공고 주소가 동까지만 있어 동 중심에서 잰 거리)" if rough else "")
-            return _result(rows, direct(inside), area, rule, "near", scope, dists), info
+            return _result(rows, direct(mine), area, rule, "dong" if stage == "dong" else "near", scope, dists if stage != "dong" else None), info
+    for stage, rows, mine, scope in counts:
+        if len(rows) >= R.NEARBY_FEW:
+            info["few"] = stage
+            return _result(rows, direct(mine), area, rule, "dong" if stage == "dong" else "near", scope, dists, few=True), info
     return None, info
 
 
@@ -221,12 +239,11 @@ def apply(out: list, rt, today: date, lawd_cache: dict, log: list, http=None, sa
         except Exception:
             continue
         jobs.append((L, lawd, trades))
-    # 1) 같은 동으로 안 되는 주택형의 후보 단지 좌표를 먼저 찾는다
+    # 1) 후보 단지 좌표를 먼저 찾는다 (같은 동도 2km 넘는 단지는 빼므로 모두 필요)
     need, prefix_of, sido_of = [], {}, {}
     for L, lawd, trades in jobs:
-        res, _ = estimate_nearby(L.address, L.area, L.mkt_basis, trades, today.year, None, {}, lawd)
-        if res:
-            continue
+        if not getattr(L, "geo", None):
+            continue   # 공고 좌표가 없으면 같은 동만 본다(거리를 잴 수 없음)
         prefix_of.setdefault(lawd, address_prefix(L.address))
         sido_of.setdefault(lawd, L.sido)
         need += [k for k in sorted(needed_keys(lawd, trades, L.area, L.mkt_basis, today.year)) if k not in coords and k not in need]
@@ -235,17 +252,18 @@ def apply(out: list, rt, today: date, lawd_cache: dict, log: list, http=None, sa
     if save and found:
         save_coords(all_coords, coord_path)
     # 2) 단계별로 다시 계산
-    stat = {"dong": 0, "r1000": 0, "r1500": 0, "r2000": 0, "district": 0}
+    stat = {"dong": 0, "r1000": 0, "r1500": 0, "r2000": 0, "district": 0, "few": 0}
     for L, lawd, trades in jobs:
         res, info = estimate_nearby(L.address, L.area, L.mkt_basis, trades, today.year, getattr(L, "geo", None), coords, lawd)
         if not res:
             stat["district"] += 1
             continue
-        stage = "dong" if res["mkt_basis"].startswith("dong_") else next(s for s, n in reversed(info["steps"]) if isinstance(n, int))
+        stage = info.get("few") or ("dong" if res["mkt_basis"].startswith("dong_") else next(s for s, n in reversed(info["steps"]) if isinstance(n, int)))
         stat[stage] = stat.get(stage, 0) + 1
+        stat["few"] += bool(info.get("few"))
         for k, v in res.items():
             setattr(L, k, v)
     ok = sum(1 for k in coords if "lat" in coords[k])
     log.append(f"[시세·가까운 곳] 주택형 {len(jobs)}개: 같은 동 {stat['dong']} · 반경 1km {stat['r1000']} · 1.5km {stat['r1500']} · 2km {stat['r2000']}"
-               f" · 같은 구 그대로 {stat['district']} (단지 좌표 {ok}곳, 이번에 새로 찾음 {found}곳)")
+               f" · 같은 구 그대로 {stat['district']} · 그중 3~4건 추정 {stat['few']} (단지 좌표 {ok}곳, 이번에 새로 찾음 {found}곳)")
     return stat

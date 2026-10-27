@@ -112,7 +112,7 @@ def expect(name: str, area: float, trades: list[dict], presales: list[dict], yea
     return {"basis": basis, "count": len(pool), "base": round(base, 2), "low": round(low, 2), "rows": pool}
 
 
-NEAR_MIN, NEAR_RADII = 5, (1000, 1500, 2000)   # 기능 market_nearby (app/rules.py NEARBY_MIN·NEARBY_RADII 와 같은 값, 따로 적음)
+NEAR_MIN, NEAR_FEW, NEAR_RADII = 5, 3, (1000, 1500, 2000)   # 기능 market_nearby (app/rules.py NEARBY_MIN·NEARBY_FEW·NEARBY_RADII 와 같은 값, 따로 적음)
 
 
 def meters(a: dict, b: dict) -> float:
@@ -144,18 +144,27 @@ def expect_nearby(e: dict, area: float, trades: list[dict], year: int, address: 
             low = p25(u) * area / 10000 if len(u) >= 4 else base * LOW_X
         return {"basis": f"{where}_{rule}", "count": len(rows), "base": round(base, 2), "low": round(low, 2), "rows": rows}
     dg = addr_dong(address)
-    same = [r for r in pool if dg and (r.get("umd") or "").split()[:1] == [dg]]
-    if len(same) >= NEAR_MIN:
-        return done(same, "dong")
-    if not origin or origin.get("lat") is None:
-        return e
+    has = bool(origin) and origin.get("lat") is not None
     key = lambda r: f"{lawd}|{(r.get('umd') or '').strip()}|{(r.get('jibun') or '').strip()}" if r.get("jibun") and r.get("umd") else None
-    if any(key(r) and key(r) not in coords for r in pool):
+    if has and any(key(r) and key(r) not in coords for r in pool):
         return e
-    for rad in NEAR_RADII:
-        rows = [r for r in pool if key(r) and "lat" in coords[key(r)] and meters(origin, coords[key(r)]) <= rad]
+    far = max(NEAR_RADII)
+    away = lambda r: meters(origin, coords[key(r)]) if has and key(r) and "lat" in coords.get(key(r), {}) else None
+    # 2026-10-28 운영자: 같은 동이어도 2km 넘는 단지는 빼고(거리 모르는 단지는 남김), 어느 단계도 5건 미만이면 가장 가까운 단계 3건 이상으로 추정(_few)
+    tiers = []
+    if dg:
+        tiers.append(("dong", [r for r in pool if (r.get("umd") or "").split()[:1] == [dg] and (away(r) is None or away(r) <= far)]))
+    if has:
+        for rad in NEAR_RADII:
+            tiers.append(("near", [r for r in pool if away(r) is not None and away(r) <= rad]))
+    for where, rows in tiers:
         if len(rows) >= NEAR_MIN:
-            return done(rows, "near")
+            return done(rows, where)
+    for where, rows in tiers:
+        if len(rows) >= NEAR_FEW:
+            x = done(rows, where)
+            x["basis"] += "_few"
+            return x
     return e
 
 

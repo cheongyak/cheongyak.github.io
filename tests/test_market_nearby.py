@@ -26,10 +26,22 @@ def test_address_prefix():
 
 def test_same_dong_first_and_stop_at_five():
     tr = [t("정자A", "정자동", str(i), 150000 + i * 1000) for i in range(5)] + [t("대장B", "대장동", str(10 + i), 120000) for i in range(30)]
-    res, info = MN.estimate_nearby(ADDR, 84.0, "district_newbuild", tr, 2026, ORIGIN, {}, LAWD)
+    res, info = MN.estimate_nearby(ADDR, 84.0, "district_newbuild", tr, 2026, None, {}, LAWD)   # 공고 좌표가 없으면 같은 동만(거리 모름)
     assert res["mkt_basis"] == "dong_newbuild" and res["mkt_count"] == 5
     assert res["mkt_base"] == 15.2 and res["mkt_low"] == 15.1
     assert res["mkt_note"].startswith("같은 동(정자동) 준공 10년 이내 같은 평형(84㎡) 매매 5건")
+    coords = {f"{LAWD}|정자동|{i}": at(300) for i in range(5)} | {f"{LAWD}|대장동|{10 + i}": at(4000) for i in range(30)}
+    res, info = MN.estimate_nearby(ADDR, 84.0, "district_newbuild", tr, 2026, ORIGIN, coords, LAWD)
+    assert res["mkt_basis"] == "dong_newbuild" and res["mkt_note"].startswith("같은 동(정자동) 2km 안 준공 10년 이내 같은 평형(84㎡) 매매 5건")
+
+
+def test_same_dong_far_complex_dropped():
+    """2026-10-28 운영자 '너무 먼 단지는 빼고': 같은 동이어도 2km 넘는 단지는 뺀다 (고양 장항동 → 킨텍스원시티)"""
+    tr = [t("장항먼곳", "장항동", "1", 125000) for _ in range(20)] + [t("장항옆", "장항동", "2", 70000) for _ in range(2)] + [t("마두C", "마두동", "3", 75000) for _ in range(4)]
+    coords = {f"{LAWD}|장항동|1": at(2100), f"{LAWD}|장항동|2": at(400), f"{LAWD}|마두동|3": at(1200)}
+    res, info = MN.estimate_nearby("경기도 고양시 일산동구 장항동 529-26번지 일원", 84.0, "district_newbuild", tr, 2026, ORIGIN, coords, LAWD)
+    assert dict(info["steps"]) == {"dong": 2, "r1000": 2, "r1500": 6}
+    assert res["mkt_basis"] == "near_newbuild" and res["mkt_count"] == 6 and all(c["apt"] != "장항먼곳" for c in res["mkt_comps"])
 
 
 def test_dong_short_then_radius_widens():
@@ -45,18 +57,31 @@ def test_dong_short_then_radius_widens():
     assert all(c["m"] <= 1500 for c in res["mkt_comps"])
 
 
+def test_few_nearby_trades_are_used_as_estimate():
+    """2026-10-28 운영자 '가까운 거래 3~4건이면 그대로 추정 표시': 어느 단계도 5건이 안 되면 가장 가까운 단계의 3~4건으로 (같은 구로 돌아가지 않음)"""
+    tr = [t("정자A", "정자동", "1", 170000 + i * 1000) for i in range(4)] + [t("대장B", "대장동", "4", 120000) for _ in range(30)]
+    coords = {f"{LAWD}|정자동|1": at(1400), f"{LAWD}|대장동|4": at(3500)}
+    res, info = MN.estimate_nearby(ADDR, 84.0, "district_newbuild", tr, 2026, ORIGIN, coords, LAWD)
+    assert info["few"] == "dong" and res["mkt_basis"] == "dong_newbuild_few" and res["mkt_count"] == 4
+    assert res["mkt_note"].startswith("가까운 거래가 4건뿐이라 추정이에요 — 같은 동(정자동) 2km 안")
+    assert res["mkt_base"] == 17.15
+    tr2 = [t("정자A", "정자동", "1", 170000) for _ in range(2)] + [t("대장B", "대장동", "4", 120000) for _ in range(30)]
+    assert MN.estimate_nearby(ADDR, 84.0, "district_newbuild", tr2, 2026, ORIGIN, coords, LAWD)[0] is None   # 2건 이하면 같은 구 그대로
+
+
 def test_pending_coords_keep_district_and_missing_coords_excluded():
     tr = [t("정자A", "정자동", "1", 150000) for _ in range(3)] + [t("백현C", "백현동", "2", 160000) for _ in range(6)]
     res, info = MN.estimate_nearby(ADDR, 84.0, "district_newbuild", tr, 2026, ORIGIN, {f"{LAWD}|정자동|1": at(100)}, LAWD)
     assert res is None and "좌표 확인 중" in str(info["steps"][-1])        # 일부만 찾은 채로 비교하지 않음
     coords = {f"{LAWD}|정자동|1": at(100), f"{LAWD}|백현동|2": {"none": "못 찾음", "date": "2026-10-28"}}
     res, info = MN.estimate_nearby(ADDR, 84.0, "district_newbuild", tr, 2026, ORIGIN, coords, LAWD)
-    assert res is None and info["no_coord"] == 6 and dict(info["steps"])["r2000"] == 3   # 못 찾은 단지는 빼고 → 같은 구 그대로
+    assert info["no_coord"] == 6 and dict(info["steps"])["r2000"] == 3   # 못 찾은 단지는 반경에서 빼고
+    assert res["mkt_basis"] == "dong_newbuild_few" and res["mkt_count"] == 3   # 같은 동 3건으로 추정
 
 
 def test_direct_and_old_excluded_and_other_basis_untouched():
     tr = [t("정자A", "정자동", "1", 150000) for _ in range(5)] + [t("정자A", "정자동", "1", 90000, direct=True), t("정자옛", "정자동", "9", 80000, year=2001)]
-    res, _ = MN.estimate_nearby(ADDR, 84.0, "district_newbuild", tr, 2026, ORIGIN, {}, LAWD)
+    res, _ = MN.estimate_nearby(ADDR, 84.0, "district_newbuild", tr, 2026, ORIGIN, {f"{LAWD}|정자동|1": at(200)}, LAWD)
     assert res["mkt_count"] == 5 and res["mkt_direct_excluded"] == 1 and res["mkt_base"] == 15.0
     for basis in ("same_complex", "same_complex_ppa", None):
         assert MN.estimate_nearby(ADDR, 84.0, basis, tr, 2026, ORIGIN, {}, LAWD)[0] is None
@@ -122,20 +147,21 @@ def _case(pid):
     return MN.estimate_nearby(f["address"], f["area"], f["basis"], f["trades"], f["year"], f["geo"], f["coords"], f["lawd"])
 
 
-def test_real_case_bundang_highest_stays_district():
-    """사례 1 더샵 분당하이스트(정자동 90) 84㎡: 2km 안 준공 10년 이내 84㎡ 는 더샵분당파크리버(1.4km) 4건뿐 → 5건 미만이라 같은 구(12.96~14.38억) 그대로.
-    다음 단지는 2.4km THESHARP판교퍼스트파크 (2026-10-28 실거래·지오코딩 고정본)"""
+def test_real_case_bundang_highest_nearby_estimate():
+    """사례 1 더샵 분당하이스트(정자동 90) 84㎡: 2km 안 준공 10년 이내 84㎡ 는 더샵분당파크리버(정자동, 1.4km) 4건뿐 →
+    2026-10-28 운영자 결정대로 같은 구(대장동·백현동 12.96~14.38억) 대신 그 4건으로 '추정' 17.29~17.5억 (2026-10-28 실거래·지오코딩 고정본)"""
     res, info = _case("2026910275-084.0000A")
-    assert res is None and info["steps"] == [("dong", 4), ("r1000", 0), ("r1500", 4), ("r2000", 4)]
+    assert info["steps"] == [("dong", 4), ("r1000", 0), ("r1500", 4), ("r2000", 4)] and info["few"] == "dong"
+    assert (res["mkt_basis"], res["mkt_count"], res["mkt_low"], res["mkt_base"]) == ("dong_newbuild_few", 4, 17.29, 17.5)
+    assert res["mkt_note"] == "가까운 거래가 4건뿐이라 추정이에요 — 같은 동(정자동) 2km 안 준공 10년 이내 같은 평형(84㎡) 매매 4건 기준 (최근 6개월)"
 
 
 def test_real_case_trivent_centum():
-    """사례 2 트리븐센텀 1단지(반여동): 84㎡ 는 같은 동 32건 4.82~6.4억(같은 구 6.52~7.82억), 115㎡ 는 반여동 100㎡ 이상 3건(센텀KCC스위첸)뿐 → 같은 구(엘시티 포함 14.66~20.97억) 그대로"""
-    res, info = _case("2026000513-084.8860A")
-    assert (res["mkt_basis"], res["mkt_count"], res["mkt_low"], res["mkt_base"]) == ("dong_newbuild", 32, 4.82, 6.4)
-    assert res["mkt_note"] == "같은 동(반여동) 준공 10년 이내 같은 평형(84㎡) 매매 32건 기준 (최근 6개월)"
+    """사례 2 트리븐센텀 1단지(반여동) 115㎡: 같은 구 16건 중 11건이 엘시티(6.9km, ㎡당 2,068만)라 14.66~20.97억(로또)이었음 →
+    반여동 2km 안 100㎡ 이상 3건(센텀KCC스위첸 1.25km)으로 '추정' 7.59~8.43억"""
     res, info = _case("2026000513-114.9763")
-    assert res is None and info["steps"] == [("dong", 3), ("r1000", 0), ("r1500", 3), ("r2000", 3)]
+    assert info["steps"] == [("dong", 3), ("r1000", 0), ("r1500", 3), ("r2000", 3)]
+    assert (res["mkt_basis"], res["mkt_count"], res["mkt_low"], res["mkt_base"]) == ("dong_large_ppa_few", 3, 7.59, 8.43)
 
 
 def test_real_case_acmer_dongtan():

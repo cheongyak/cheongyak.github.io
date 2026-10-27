@@ -775,8 +775,9 @@ const kindOf = L => isRental(L) ? String(L.kind || '').replace('일반분양', '
 /* 시세 계산 방식 한 줄 (기능 mkt_area_fallback: 비슷한 면적 ㎡당 가격으로 추정한 시세는 그렇다고 밝힌다) */
 const MKT_PPA = { district_area_ppa: '비슷한 면적', same_complex_ppa: '같은 단지 다른 평형', district_large_ppa: '같은 구 큰 평형(100㎡ 이상) 신축',
   dong_area_ppa: '같은 동 비슷한 면적', near_area_ppa: '가까운 단지 비슷한 면적', dong_large_ppa: '같은 동 큰 평형(100㎡ 이상) 신축', near_large_ppa: '가까운 단지 큰 평형(100㎡ 이상) 신축' };   /* 기능 market_nearby */   /* 기능 mkt_large_fallback: 같은 단지 다른 평형·큰 평형 ㎡당 추정 */
-const mktHow = (L, short) => MKT_PPA[L.mktBasis]
-  ? (short ? '보수 시세는 ㎡당 가격 하위 25% 기준' : `같은 평형 거래가 부족해 ${MKT_PPA[L.mktBasis]} 거래의 ㎡당 가격 중앙값(보수 시세는 하위 25%)에 전용면적을 곱한 추정이에요. 층·향·브랜드·평형 차이는 반영하지 못해요.`)
+const mktKey = L => String(L.mktBasis || '').replace(/_few$/, '');   /* 기능 market_nearby: 3~4건 추정(_few)도 계산 방식은 같음 */
+const mktHow = (L, short) => MKT_PPA[mktKey(L)]
+  ? (short ? '보수 시세는 ㎡당 가격 하위 25% 기준' : `같은 평형 거래가 부족해 ${MKT_PPA[mktKey(L)]} 거래의 ㎡당 가격 중앙값(보수 시세는 하위 25%)에 전용면적을 곱한 추정이에요. 층·향·브랜드·평형 차이는 반영하지 못해요.`)
   : (short ? '기준 시세는 중앙값, 보수 시세는 하위 25%' : '기준 시세는 중앙값, 보수 시세는 하위 25% 값이에요.');
 /* 토지임대부 땅 몫(억) = 월 토지임대료 × 12 ÷ 보증금 전환이율 (공고문) — 기능 land_lease_value (2026-10-20) */
 const landValue = L => L && L.landLease && L.landRent && L.landRentRate ? L.landRent * 12 / L.landRentRate / 1e8 : null;
@@ -1751,7 +1752,8 @@ function basisTag(L){
   if (L.mktBasis === 'district_area_ppa') return '<span class="tag">비슷한 면적 ㎡당 추정</span>';   // 기능 mkt_area_fallback (수집 쪽 스위치)
   if (L.mktBasis === 'same_complex_ppa') return '<span class="tag">같은 단지 다른 평형 ㎡당 추정</span>';   // 기능 mkt_large_fallback (수집 쪽 스위치)
   if (L.mktBasis === 'district_large_ppa') return '<span class="tag">큰 평형 ㎡당 추정</span>';
-  /* 기능 market_nearby (수집 쪽 스위치): 같은 동 → 반경 1·1.5·2km 로 고른 거래 */
+  /* 기능 market_nearby (수집 쪽 스위치): 같은 동 → 반경 1·1.5·2km 로 고른 거래. 끝이 _few 면 가까운 거래 3~4건으로 낸 추정 */
+  if (/_few$/.test(L.mktBasis || '')) return '<span class="tag warn">가까운 거래 ' + (L.mktCount || '') + '건 추정</span>';
   if (L.mktBasis === 'dong_newbuild') return '<span class="tag">같은 동 신축 비교</span>';
   if (L.mktBasis === 'near_newbuild') return '<span class="tag">가까운 단지 신축 비교</span>';
   if (L.mktBasis === 'dong_area_ppa' || L.mktBasis === 'near_area_ppa') return '<span class="tag">비슷한 면적 ㎡당 추정</span>';
