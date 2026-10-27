@@ -1,7 +1,7 @@
 {
- "updated": "2026-10-27 10:08",
+ "updated": "2026-10-28 07:33",
  "source": "청약홈 분양정보 API 공공지원 민간임대·민간임대 (한국부동산원)",
- "count": 4,
+ "count": 3,
  "notices": [
   {
    "id": "PVT-2026950093",
@@ -275,120 +275,6 @@
    "office": {
     "place": null,
     "tel": "0221819400"
-   }
-  },
-  {
-   "id": "PVT-2026850050",
-   "org": "PVT",
-   "name": "서면 지원 더뷰 드림아파트(공공지원민간임대)",
-   "type": "공공지원 민간임대",
-   "judge_type": false,
-   "youth": false,
-   "region": "부산광역시",
-   "posted": "2026-09-29",
-   "close": "2026-10-07",
-   "status": null,
-   "url": "https://www.applyhome.co.kr/ai/aia/selectPRMOLttotPblancDetailView.do?houseManageNo=2026850050&pblancNo=2026850050&houseSecd=03",
-   "url_mobile": "https://www.applyhome.co.kr/ai/aia/selectPRMOLttotPblancDetailView.do?houseManageNo=2026850050&pblancNo=2026850050&houseSecd=03",
-   "schedule": [
-    {
-     "complex": null,
-     "apply_start": "2026-10-06",
-     "apply_end": "2026-10-07",
-     "docs_target": null,
-     "winner": "2026-10-13",
-     "rank1": false,
-     "contract_start": "2026-10-19",
-     "contract_end": "2026-10-21"
-    }
-   ],
-   "complexes": [
-    {
-     "name": "서면 지원 더뷰 드림아파트(공공지원민간임대)",
-     "address": "부산광역시 부산진구 부전동 390-1",
-     "households": 176,
-     "move_in": "202802",
-     "builder": "(주)지원홀딩스"
-    }
-   ],
-   "units": [
-    {
-     "complex": null,
-     "type": "23A",
-     "area": 24.0,
-     "households": 8,
-     "now_households": 8,
-     "general": 8,
-     "special": {
-      "청년": 0,
-      "신혼부부": 0,
-      "고령자": 0
-     },
-     "supply_amount": 11060,
-     "apply_fee": 10,
-     "deposit": null,
-     "rent": null
-    },
-    {
-     "complex": null,
-     "type": "49B",
-     "area": 49.53,
-     "households": 109,
-     "now_households": 109,
-     "general": 88,
-     "special": {
-      "청년": 0,
-      "신혼부부": 21,
-      "고령자": 0
-     },
-     "supply_amount": 21120,
-     "apply_fee": 10,
-     "deposit": null,
-     "rent": null
-    },
-    {
-     "complex": null,
-     "type": "59C",
-     "area": 59.63,
-     "households": 10,
-     "now_households": 10,
-     "general": 9,
-     "special": {
-      "청년": 0,
-      "신혼부부": 1,
-      "고령자": 0
-     },
-     "supply_amount": 25280,
-     "apply_fee": 10,
-     "deposit": null,
-     "rent": null
-    },
-    {
-     "complex": null,
-     "type": "59D",
-     "area": 59.67,
-     "households": 49,
-     "now_households": 49,
-     "general": 46,
-     "special": {
-      "청년": 0,
-      "신혼부부": 3,
-      "고령자": 0
-     },
-     "supply_amount": 25280,
-     "apply_fee": 10,
-     "deposit": null,
-     "rent": null
-    }
-   ],
-   "rents": [],
-   "terms": null,
-   "files": [],
-   "notice_pdf": null,
-   "home": "http://지원더뷰드림.com",
-   "office": {
-    "place": null,
-    "tel": "0514413800"
    }
   }
  ]
