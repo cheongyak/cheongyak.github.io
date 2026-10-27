@@ -2,11 +2,11 @@
  "date": "2026-10-28",
  "page_cap": 300,
  "notices": 59,
- "with_problem": 8,
+ "with_problem": 7,
  "kinds": {
   "글자가 거의 없는 쪽 N개 (스캔 이미지·표 그림 추정)": 6,
   "지금 수집 값과 다시 읽은 값이 다름": 2,
-  "PDF 를 하나도 받지 못함": 2
+  "PDF 를 하나도 받지 못함": 1
  },
  "errors": [],
  "results": [
@@ -479,60 +479,16 @@
    "name": "GTX운정중앙역 시티프라디움 3단지(후속사업)",
    "url": "https://www.applyhome.co.kr/ai/aia/selectAPTLttotPblancDetail.do?houseManageNo=2026000517&pblancNo=2026000517",
    "attachments": 1,
-   "pdfs": 1,
+   "pdfs": 0,
    "attachment_list": [
     {
      "url": "https://static.applyhome.co.kr/ai/aia/getAtchmnfl.do?houseManageNo=2026000517&pblancNo=2026000517&atchmnflSeqNo=2001261&atchmnflSn=6",
-     "bytes": 925822,
-     "pages": 67,
-     "chars": 143464,
-     "head": "- 1 - ※ 본 입주자모집공고의 내용을 숙지한 후 청약 및 계약에 응하시기 바라며, 미숙지로 인한 착오 행위 등에 대하여 청약자 및 계약자 본"
+     "error": "PDF 아님 (200, 59바이트)"
     }
    ],
-   "chosen": "https://static.applyhome.co.kr/ai/aia/getAtchmnfl.do?houseManageNo=2026000517&pblancNo=2026000517&atchmnflSeqNo=2001261&atchmnflSn=6",
-   "pages": 67,
-   "pages_read": 67,
-   "chars_read": 143530,
-   "empty_pages": [],
-   "chars_per_page_min": 900,
-   "fields": {
-    "need_head": false,
-    "price_cap": true,
-    "residence_duty": 0,
-    "rewin_years": 10,
-    "account_months": 12,
-    "residence": {
-     "area": "파주시",
-     "months": 0,
-     "since": null
-    }
-   },
-   "fields_merged": {
-    "need_head": false,
-    "price_cap": true,
-    "residence_duty": 0,
-    "rewin_years": 10,
-    "account_months": 12,
-    "residence": {
-     "area": "파주시",
-     "months": 0,
-     "since": null
-    }
-   },
-   "fields_pdfium": {
-    "need_head": false,
-    "price_cap": true,
-    "residence_duty": 0,
-    "rewin_years": 10,
-    "account_months": 12,
-    "residence": {
-     "area": "파주시",
-     "months": 0,
-     "since": null
-    }
-   },
-   "pdfium_chars": 144283,
-   "problem": []
+   "problem": [
+    "PDF 를 하나도 받지 못함"
+   ]
   },
   {
    "notice": "2026000496",
@@ -2287,16 +2243,54 @@
    "name": "파주 운정신도시 우미 린 더 센텀",
    "url": "https://www.applyhome.co.kr/ai/aia/selectAPTRemndrLttotPblancDetailView.do?houseManageNo=2026930042&pblancNo=2026930042",
    "attachments": 1,
-   "pdfs": 0,
+   "pdfs": 1,
    "attachment_list": [
     {
      "url": "https://static.applyhome.co.kr/ai/aia/getAtchmnfl.do?houseManageNo=2026930042&pblancNo=2026930042&atchmnflSeqNo=2004023&atchmnflSn=2",
-     "error": "PDF 아님 (200, 59바이트)"
+     "bytes": 486614,
+     "pages": 15,
+     "chars": 26127,
+     "head": "- 1 - 1 공통 유의사항 ■ 청약 신청 전 반드시 확인하시기 바랍니다. - 본 아파트는 준공이 완료된 아파트로 견본주택 운영이 종료되었으며,"
     }
    ],
-   "problem": [
-    "PDF 를 하나도 받지 못함"
-   ]
+   "chosen": "https://static.applyhome.co.kr/ai/aia/getAtchmnfl.do?houseManageNo=2026930042&pblancNo=2026930042&atchmnflSeqNo=2004023&atchmnflSn=2",
+   "pages": 15,
+   "pages_read": 15,
+   "chars_read": 26141,
+   "empty_pages": [],
+   "chars_per_page_min": 1089,
+   "fields": {
+    "price_cap": true,
+    "residence_duty": 0,
+    "rewin_years": 10,
+    "residence": {
+     "area": "경기도 파주시",
+     "months": 0,
+     "since": null
+    }
+   },
+   "fields_merged": {
+    "price_cap": true,
+    "residence_duty": 0,
+    "rewin_years": 10,
+    "residence": {
+     "area": "경기도 파주시",
+     "months": 0,
+     "since": null
+    }
+   },
+   "fields_pdfium": {
+    "price_cap": true,
+    "residence_duty": 0,
+    "rewin_years": 10,
+    "residence": {
+     "area": "경기도 파주시",
+     "months": 0,
+     "since": null
+    }
+   },
+   "pdfium_chars": 26271,
+   "problem": []
   },
   {
    "notice": "2026910269",
@@ -2539,16 +2533,57 @@
    "name": "한화포레나 영흥숲",
    "url": "https://www.applyhome.co.kr/ai/aia/selectAPTRemndrLttotPblancDetailView.do?houseManageNo=2026930044&pblancNo=2026930044",
    "attachments": 1,
-   "pdfs": 0,
+   "pdfs": 1,
    "attachment_list": [
     {
      "url": "https://static.applyhome.co.kr/ai/aia/getAtchmnfl.do?houseManageNo=2026930044&pblancNo=2026930044&atchmnflSeqNo=2002159&atchmnflSn=3",
-     "error": "PDF 아님 (200, 59바이트)"
+     "bytes": 294553,
+     "pages": 17,
+     "chars": 24908,
+     "head": "- 1 - ※ 단지 주요정보 (분양문의) 031-898-9447 주택유형 규제지역여부 거주요건 재당첨제한 민영 투기과열지구/청약과열지역 경기도 "
     }
    ],
-   "problem": [
-    "PDF 를 하나도 받지 못함"
-   ]
+   "chosen": "https://static.applyhome.co.kr/ai/aia/getAtchmnfl.do?houseManageNo=2026930044&pblancNo=2026930044&atchmnflSeqNo=2002159&atchmnflSn=3",
+   "pages": 17,
+   "pages_read": 17,
+   "chars_read": 24924,
+   "empty_pages": [],
+   "chars_per_page_min": 711,
+   "fields": {
+    "price_cap": false,
+    "residence_duty": 0,
+    "rewin_years": 10,
+    "ext": 0.0772,
+    "residence": {
+     "area": "경기도 수원시",
+     "months": 0,
+     "since": null
+    }
+   },
+   "fields_merged": {
+    "price_cap": false,
+    "residence_duty": 0,
+    "rewin_years": 10,
+    "ext": 0.0772,
+    "residence": {
+     "area": "경기도 수원시",
+     "months": 0,
+     "since": null
+    }
+   },
+   "fields_pdfium": {
+    "price_cap": false,
+    "residence_duty": 0,
+    "rewin_years": 10,
+    "ext": 0.0772,
+    "residence": {
+     "area": "경기도 수원시",
+     "months": 0,
+     "since": null
+    }
+   },
+   "pdfium_chars": 25249,
+   "problem": []
   },
   {
    "notice": "2026910268",
