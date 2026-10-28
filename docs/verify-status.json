@@ -1,5 +1,5 @@
 {
- "at": "2026-10-29 06:25",
+ "at": "2026-10-29 07:25",
  "ok": false,
  "collect_run": "2026-10-29 · 공고 270건",
  "banner": null,
@@ -47,7 +47,10 @@
   ]
  },
  "pending": [
-  "경고 범위 화면"
+  "임대 기관 거르기 화면",
+  "경고 범위 화면",
+  "임대 판정",
+  "임대 화면"
  ],
  "coverage_missing": 0,
  "observe": [
@@ -55,8 +58,8 @@
    "name": "rent-org.json",
    "label": "임대 기관 거르기 화면",
    "since": "2026-10-22",
-   "fails": 0,
-   "state": "관찰 중"
+   "fails": null,
+   "state": "재검증 대기"
   },
   {
    "name": "verify-scope.json",
@@ -70,38 +73,38 @@
  "freshness": [
   {
    "name": "분양",
-   "updated": "2026-10-29 06:07",
-   "hours": 0.3,
+   "updated": "2026-10-29 07:11",
+   "hours": 0.2,
    "stale": false
   },
   {
    "name": "LH 임대",
    "updated": "2026-10-28 09:42",
-   "hours": 20.7,
+   "hours": 21.7,
    "stale": false
   },
   {
    "name": "SH 임대",
    "updated": "2026-10-28 09:46",
-   "hours": 20.7,
+   "hours": 21.7,
    "stale": false
   },
   {
    "name": "GH 임대",
    "updated": "2026-10-28 09:47",
-   "hours": 20.6,
+   "hours": 21.6,
    "stale": false
   },
   {
    "name": "공공지원 민간임대",
    "updated": "2026-10-28 09:58",
-   "hours": 20.5,
+   "hours": 21.5,
    "stale": false
   },
   {
    "name": "LH 주거복지·신혼희망",
-   "updated": "2026-10-28 09:47",
-   "hours": 20.6,
+   "updated": "2026-10-29 07:08",
+   "hours": 0.3,
    "stale": false
   }
  ],
@@ -118,7 +121,10 @@
   "mismatches": []
  },
  "qa_stale": [
-  "verify-scope.json"
+  "rent-org.json",
+  "verify-scope.json",
+  "lh-qa.json",
+  "lh-screen.json"
  ],
  "qa": {
   "gate": true,
@@ -137,8 +143,8 @@
   "e2e_fails": 0,
   "past_chat_fails": 0,
   "lh_invariant_violations": 2,
-  "lh_judge_qa_fails": 0,
-  "lh_screen_fails": 0,
+  "lh_judge_qa_fails": null,
+  "lh_screen_fails": null,
   "lh_unread": 13,
   "lh_pdf_merged_wrong": 0,
   "pay_audit_bad": 0,
