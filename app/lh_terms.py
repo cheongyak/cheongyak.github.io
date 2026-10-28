@@ -467,6 +467,19 @@ def _public_terms(t: str) -> tuple[list[dict], dict, dict]:
                 q = {"region": quote, "homeless": quote, "account": nfq, "income": nfq, "asset": nfq}
                 g = {"key": "일반", "name": "일반", "homeless": "household", "income_pct": "excluded", "asset_manwon": "excluded", "car_manwon": "excluded", "age_min": None, "age_max": None}
                 return [g], {"일반": q}, {"regions": sidos, "account": "none"}
+        # 10년 공공임대 리츠 예비입주자(광주선운 3BL 0000061188, 2026-10-29): '신청자격 ▌입주자모집공고일(‘26.10.27.) 현재 전남광주통합특별시 (통합전 광주광역시 및 전라남도)에
+        # 거주(주민등록표등본 기준)하는 성년자(만 19세 이상)인 무주택세대구성원' + '입주자저축 가입여부, 과거당첨 사실여부, 소득 및 자산기준 충족여부에 관계없이 신청 가능'.
+        # 거주지역은 공고문이 괄호에 적은 통합 전 시·도(광주·전남)로 읽는다. 두 문장이 모두 있을 때만
+        mg = re.search(r"신청\s?자격\s?▌?\s?입주자\s?모집\s?공고일\s?\([^)]{4,16}\)\s?현재\s?[가-힣]+통합특별시\s?\(통합\s?전\s?([^)]{2,40})\)에\s?거주(?:\([^)]{0,20}\))?하는\s?성년자(?:\([^)]{0,12}\))?인\s?무주택\s?세대구성원", t)
+        mn2 = mg and re.search(r"입주자저축\s?가입\s?여부,\s?과거\s?당첨\s?사실\s?여부,\s?소득\s?및\s?자산\s?기준\s?충족\s?여부에\s?관계\s?없이\s?신청\s?가능", t[mg.end(): mg.end() + 2500])
+        if mg and mn2:
+            names = re.sub(r"\s", "", mg.group(1))
+            sidos = sorted({v for k, v in SIDO_SHORT.items() if re.sub(r"\s", "", k) in names})
+            if sidos:
+                quote, nfq = _q(t, mg, 0, 0), mn2.group(0)
+                q = {"region": quote, "homeless": quote, "account": nfq, "income": nfq, "asset": nfq}
+                g = {"key": "일반", "name": "일반", "homeless": "household", "income_pct": "excluded", "asset_manwon": "excluded", "car_manwon": "excluded", "age_min": None, "age_max": None}
+                return [g], {"일반": q}, {"regions": sidos, "account": "none"}
         # 무순위 예비입주자(충북혁신4 0000061184): '1. 신청 자격 ■ 입주자저축 가입 여부, 과거당첨사실여부, 당해주택 건설지역 거주여부, 소득 및 자산기준충족여부 등과
         # 관계없이 신청 가능 … ■ 입주자 모집공고일(…) 현재 무주택세대구성원인 성년자' — 거주지역·청약통장·소득·자산 모두 묻지 않음
         mu = re.search(r"신청\s?자격\s?■\s?(?:입주자저축|청약저축)\s?가입\s?여부,\s?과거\s?당첨\s?사실\s?여부,\s?당해\s?주택\s?건설\s?지역\s?거주\s?여부,\s?"
@@ -513,6 +526,7 @@ def _public_terms(t: str) -> tuple[list[dict], dict, dict]:
     return [g], {"일반": q}, extra
 
 
+GWANGJU_GU = ("광산구", "동구", "서구", "남구", "북구")   # 통합 전 광주광역시 자치구 전부 (전남광주통합특별시, 2026-10-29 운영자: 이 다섯 구 = 광주)
 METRO = {"서울": "서울", "부산": "부산", "대구": "대구", "인천": "인천", "광주": "광주", "대전": "대전", "울산": "울산", "세종": "세종"}
 
 
@@ -526,6 +540,11 @@ def parse_local(t: str, region: Optional[str]) -> Optional[dict]:
     """신청자격 첫 문장의 거주 요건 — '입주자 모집공고일(…) 현재 부산시에 거주하는 성년자인 무주택세대구성원'(영구임대 등).
     순위(1순위 해당 시 거주)는 자격이 아니라 읽지 않는다. region = 공고의 시·도(API CNP_CD_NM)."""
     # '현재 주민등록상 홍성군에'(홍성 903) · '현재 충남 아산시에'(아산읍내 868, 시·도 앞머리) 도 같은 문장 (2026-10-20 임대 못 읽음 전수검사)
+    # 2026-07 출범한 전남광주통합특별시: '현재 전남광주통합특별시 광산구, 동구, 서구, 남구, 북구에 거주하는 성년자인 무주택세대구성원'(광주 영구임대 2015122300020966 등).
+    # 다섯 구 = 통합 전 광주광역시 전체 → 시·도 '광주'로 판정 (2026-10-29 운영자 결정). 다섯 구가 다 적힌 때만 — 일부 구만 적히면 지금처럼 '확인'
+    mg = re.search(r"신청자격\s?입주자\s?모집공고일\s?\([\d.\s]+\)\s?현재\s?전남광주통합특별시\s?((?:[가-힣]{1,3}구,?\s?){1,5})에\s?거주하는\s?성년자인\s?무주택세대구성원", t)
+    if mg and set(re.findall(r"[가-힣]{1,3}구", mg.group(1))) == set(GWANGJU_GU):
+        return {"name": "광주(통합특별시 " + "·".join(g[:-1] for g in GWANGJU_GU) + "구)", "sido": "광주", "sigun": None, "quote": _q(t, mg, 0, 0)}
     m = re.search(r"신청자격\s?입주자\s?모집공고일\s?\([\d.\s]+\)\s?현재\s?(?:주민등록상\s?)?(?:(" + _SIDO_PRE + r")\s)?([가-힣]{1,10}?)(?:에\s?거주하는|에\s?주민등록이\s?등재된)\s?성년자인\s?무주택세대구성원", t)
     if not m:
         return None

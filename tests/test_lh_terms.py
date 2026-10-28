@@ -198,3 +198,13 @@ def test_median_table_label_after_number():
     from app.lh_terms import income_table, MEDIAN_2026
     t = (ROOT / "evidence/lh/2015122300020878.txt").read_text(encoding="utf-8")
     assert {int(k): v for k, v in income_table(re.sub(r"\s+", " ", t)).items()} == MEDIAN_2026
+
+
+def test_gwangju_merged_city_residence():
+    """전남광주통합특별시(2026-07 출범) 거주 요건 — 다섯 구가 다 적히면 '광주'(2026-10-29 운영자), 일부만이면 읽지 않고 확인(local_unread)"""
+    from app.lh_terms import parse_lh_terms
+    head = "3. 신청자격 입주자 모집공고일(2026.10.27.) 현재 전남광주통합특별시 {}에 거주하는 성년자인 무주택세대구성원으로서 아래의 소득"
+    r = parse_lh_terms(head.format("광산구, 동구, 서구, 남구, 북구"), "영구임대", "", None)
+    assert {k: r["local"][k] for k in ("sido", "sigun")} == {"sido": "광주", "sigun": None}
+    r = parse_lh_terms(head.format("광산구, 북구"), "영구임대", "", None)
+    assert r.get("local") is None and r.get("local_unread")

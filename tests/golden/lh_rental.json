@@ -3583,6 +3583,80 @@
    "income_table_100": null,
    "rents": null,
    "notes": "2026-10-28 아침 자동 고치기. 계층 절의 '【완화조건】 자산요건 배제하되, …자동차가액이 4,542만원이하일 것'(청년 20쪽·신혼부부 21쪽·고령자 23쪽)과 대학생 '【완화조건】 자산요건 배제(단, 신청자 본인이 자동차가액 산출대상 자동차를 소유하고 있지 않을 것)'(19쪽)를 사람이 읽고 확인. 4-6 산업단지 근로자(C26블럭만)는 이 서비스가 판정하지 않는 계층이라 정답에 넣지 않음(unknown_groups). 임대조건 표(152줄)는 이번에 대조하지 않아 rents null(시험은 건너뜀)."
+  },
+  {
+   "id": "2015122300020966",
+   "type": "영구임대",
+   "verified_from": "광주우산3 영구임대주택 예비입주자 모집 (입주자모집공고일 2026.10.27, LH 공고번호 2015122300020966) — 원문 evidence/lh/2015122300020966.txt '3. 신청자격' 첫 문장·소득·자산 기준",
+   "verified_at": "2026-10-29",
+   "posted": "2026-10-27",
+   "relaxed": false,
+   "homeless_relaxed": false,
+   "homeless_max1": false,
+   "local": {
+    "name": "광주(통합특별시 광산·동·서·남·북구)",
+    "sido": "광주",
+    "sigun": null
+   },
+   "groups": [
+    {
+     "name": "일반",
+     "homeless": "household",
+     "age": null,
+     "income_pct": {
+      "1": 70,
+      "2": 60,
+      "3+": 50
+     },
+     "income_basis": "도시근로자 월평균소득",
+     "income_dual_pct": null,
+     "asset_manwon": 24500,
+     "car_manwon": 4542,
+     "quotes": {
+      "homeless": "입주자 모집공고일(2026.10.27.) 현재 전남광주통합특별시 광산구, 동구, 서구, 남구, 북구에 거주하는 성년자인 무주택세대구성원",
+      "income": "월평균소득 50%(1인 70%, 2인 60%)이하인 자로서 영구임대주택의 자산요건을 충족 하는자",
+      "asset": "합산 기준 ( 24,500 )만원 이하",
+      "car": "자동차가액 ( 4,542 )만원 이하"
+     }
+    }
+   ],
+   "income_table_100": null,
+   "rents": null,
+   "notes": "거주 요건의 다섯 구(광산·동·서·남·북구)는 통합 전 광주광역시 자치구 전부 — 2026-10-29 운영자 결정으로 시·도 '광주' 판정. 임대조건 표는 이번에 대조하지 않음(rents null)"
+  },
+  {
+   "id": "0000061188",
+   "type": "공공임대",
+   "verified_from": "광주선운 3블록 10년 공공임대주택(리츠) 예비입주자 모집 (입주자모집공고일 2026.10.27, LH 공고번호 0000061188) — 원문 evidence/lh/0000061188.txt 'Ⅱ 신청자격'",
+   "verified_at": "2026-10-29",
+   "posted": "2026-10-27",
+   "relaxed": false,
+   "homeless_relaxed": false,
+   "homeless_max1": false,
+   "regions": [
+    "광주",
+    "전남"
+   ],
+   "account": "none",
+   "groups": [
+    {
+     "name": "일반",
+     "homeless": "household",
+     "age": null,
+     "income_pct": "excluded",
+     "income_basis": null,
+     "income_dual_pct": null,
+     "asset_manwon": "excluded",
+     "car_manwon": "excluded",
+     "quotes": {
+      "homeless": "신청자격 ▌입주자모집공고일(‘26.10.27.) 현재 전남광주통합특별시 (통합전 광주광역시 및 전라남도)에 거주(주민등록표등본 기준)하는 성년자(만 19세 이상)인 무주택세대구성원",
+      "income": "입주자저축 가입여부, 과거당첨 사실여부, 소득 및 자산기준 충족여부에 관계없이 신청 가능"
+     }
+    }
+   ],
+   "income_table_100": null,
+   "rents": null,
+   "notes": "거주지역은 공고문 괄호 '(통합전 광주광역시 및 전라남도)'대로 광주·전남. 임대조건 표는 이번에 대조하지 않음(rents null)"
   }
  ]
 }
