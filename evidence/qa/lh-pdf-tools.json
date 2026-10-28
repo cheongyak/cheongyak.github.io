@@ -1,5 +1,5 @@
 {
- "date": "2026-10-29 08:38",
+ "date": "2026-10-29 08:40",
  "golden_notices": 39,
  "stat": {
   "pypdf": {
@@ -41,7 +41,7 @@
  },
  "merged_wrong": 0,
  "coverage": {
-  "pypdf": 35,
+  "pypdf": 36,
   "pdfium": 35,
   "plumber": 35,
   "notices": 36
@@ -56,5 +56,8 @@
   "2015122300020856 account: majority pypdf={'months': 6, 'count': 6, 'rank2_any': True}, pdfium={'months': 6, 'count': 6, 'rank2_any': True}, plumber={'months': 6, 'count': 6, 'rank2_any': False}",
   "2015122300020895 account: majority pypdf={'months': 6, 'count': 6, 'rank2_any': True}, pdfium={'months': 6, 'count': 6, 'rank2_any': True}, plumber={'months': 6, 'count': 6, 'rank2_any': False}"
  ],
- "conflicts": []
+ "conflicts": [],
+ "_data": {
+  "lh": "fccd8027dae9"
+ }
 }
