@@ -4343,7 +4343,7 @@
    }
   },
   "name": "화성 향남 롯데캐슬 시그니처",
-  "notice_pdf": "https://static.applyhome.co.kr/ai/aia/getAtchmnfl.do?houseManageNo=2026000502&pblancNo=2026000502&atchmnflSeqNo=2001080&atchmnflSn=3",
+  "notice_pdf": "https://static.applyhome.co.kr/ai/aia/getAtchmnfl.do?houseManageNo=2026000502&pblancNo=2026000502&atchmnflSeqNo=2001080&atchmnflSn=4",
   "v": 47
  },
  "2026000507": {
@@ -7396,6 +7396,71 @@
   "notice_pdf": "https://static.applyhome.co.kr/ai/aia/getAtchmnfl.do?houseManageNo=2026910275&pblancNo=2026910275&atchmnflSeqNo=2007056&atchmnflSn=4",
   "v": 47
  },
+ "2026910278": {
+  "found": {
+   "complex": {
+    "buildings": 3,
+    "households": 324,
+    "quote": ": 아파트 지하5층, 지상40층 3개동 총 324세대 중 잔여 13세대 ■ 입주시기 : 2030년 05월 예정(정확한 입주일자는 추후 통보함) ■ 공급대상 [단위 : ㎡, 세대] 주택 관리번호 모델 주택형(전용면적"
+   },
+   "contract_split": {
+    "first_won": 5000000,
+    "rest_within": "30일",
+    "rows": 8
+   },
+   "facts": {
+    "asset_thousand": {
+     "부동산": [],
+     "부동산_만원": [],
+     "자동차": []
+    },
+    "deposit_rows": {},
+    "income_rows": {},
+    "price_seen": {
+     "069.7032": true
+    }
+   },
+   "need_head": false,
+   "pay_ratio": {
+    "balance": 0.35,
+    "contract": 0.05,
+    "mid": 0.6
+   },
+   "price_cap": false,
+   "quotes": {
+    "need_head": "…민영 비규제지역 무순위(사후) 입주자모집공고일 현재 전국에 거주하는 무주택세대구성원 재당첨제한 전매제한 거주의무기간 분양가상한제 없음 최초 당첨자…",
+    "pay_ratio": "…층 세대수 공급금액 계약금(5%) 중도금(60%) 잔금 (35%) 대지비 건축비 계 1차 2차 1차(10%)…",
+    "price_cap": "(1쪽 단지 주요정보 표) 재당첨제한 전매제한 거주의무기간 분양가상한제 없음 최초 당첨자 발표일 (2026.10.07.)로부터 1년 없음 미적용 구분",
+    "resale": "…바랍니다. ■ 본 아파트의 전매제한은 최초 입주자모집공고의 당첨자발표일(2026.10.07.)로부터 1년간 적용됩니다. - 4 - • 상기 세대별 계약면적에는 계단, 복도, 벽체,…",
+    "residence": "…(사후) 입주자모집공고일 현재 전국에 거주하는 무주택세대구성원 재당첨제한 전매제한 거주의…",
+    "residence_duty": "(1쪽 단지 주요정보 표) 재당첨제한 전매제한 거주의무기간 분양가상한제 없음 최초 당첨자 발표일 (2026.10.07.)로부터 1년 없음 미적용 구분",
+    "rewin_years": "…거주하는 무주택세대구성원 재당첨제한 전매제한 거주의무기간 분양가상한제 없음 최초 당첨자 발표일 (2026.10.07.)로부터 1년 없음…"
+   },
+   "resale": {
+    "base": "2026-10-07",
+    "forbidden": false,
+    "months": 12,
+    "none": false,
+    "passed": false,
+    "registration": false,
+    "until_reg": false
+   },
+   "residence": {
+    "area": null,
+    "equal": true,
+    "months": 0,
+    "others": [
+     "전국"
+    ],
+    "since": null
+   },
+   "residence_duty": 0,
+   "rewin_years": 0
+  },
+  "name": "숭의역 노르웨이숲 더 스카이",
+  "notice_pdf": "https://static.applyhome.co.kr/ai/aia/getAtchmnfl.do?houseManageNo=2026910278&pblancNo=2026910278&atchmnflSeqNo=2010115&atchmnflSn=3",
+  "v": 47
+ },
  "2026930033": {
   "found": {
    "complex": {
@@ -7572,88 +7637,6 @@
   "notice_pdf": "https://static.applyhome.co.kr/ai/aia/getAtchmnfl.do?houseManageNo=2026930034&pblancNo=2026930034&atchmnflSeqNo=1990217&atchmnflSn=1",
   "v": 47
  },
- "2026930038": {
-  "found": {
-   "complex": {
-    "buildings": 8,
-    "households": 760,
-    "quote": ": 지하 2층, 지상 29층 8개동 총 760세대 중 불법행위재공급 6세대(노부모부양 특별공급 4세대, 일반공급 2세대) ■ 입주시기 : 2027년 5월 예정(정확한 입주일자는 추후 통보함) ■ 공급대상 (단위:"
-   },
-   "facts": {
-    "asset_thousand": {
-     "부동산": [],
-     "부동산_만원": [],
-     "자동차": []
-    },
-    "deposit_rows": {},
-    "income_rows": {},
-    "price_seen": {
-     "084.9478B": true,
-     "084.9958A": true
-    }
-   },
-   "need_head": true,
-   "pay_ratio": {
-    "balance": 0.2,
-    "contract": 0.2,
-    "mid": 0.6
-   },
-   "price_cap": true,
-   "quotes": {
-    "need_head": "…대상으로 추첨의 방법으로 공급합니다. ■ 본 입주자모집공고의 일반공급은 해당 주택건설지역 거주자 중 무주택세대주(무주택세대의 세대주)를 대상으로 추첨의 방법으로 공급합니다. ■…",
-    "pay_ratio": "…동호수 분양금액 계약금(20%) 중도금(60%) 잔금(20%) 대지비 건축비 추가 부대경비 계 계약시…",
-    "price_cap": "…발표일로부터) 분양가상한제 적용주택(제1항제3호) 10년 ※ 2024.03.25. 시행된…",
-    "resale": "…바랍 니다. ■ 본 주택의 전매제한은 최초 입주자모집공고의 당첨자 발표일(2024.08.13.)로부터 3년간 적용됩니다.(단 소유권이전등기를 완료한 경우 소유권이전등기일까지)…",
-    "residence": "…상자 ■ 입주자모집공고일 현재 해당 주택건설지역인 경기도 고양시에 거주하는 무주택세대주(무주택세대의 세대주) 당첨자…",
-    "residence_duty": "(1쪽 단지 주요정보 표) 전매제한 거주의무기간 분양가상한제 택지유형 최초 당첨자발표일 (2024.08.13.)로부터 3년간 적용 5년 적용 공공택지",
-    "rewin_years": "…규제지역여부 거주요건 재당첨제한 민영 비규제지역 경기도 고양시 거주자 10년 전매제한 거주의무기간 분양가상한제 택지유형 최초 당첨자발표일…"
-   },
-   "resale": {
-    "base": "2024-08-13",
-    "forbidden": false,
-    "months": 36,
-    "none": false,
-    "passed": false,
-    "registration": false,
-    "until_reg": false
-   },
-   "residence": {
-    "area": {
-     "name": "경기도 고양시",
-     "sido": "경기",
-     "sigungu": "고양시"
-    },
-    "equal": true,
-    "months": 0,
-    "others": [],
-    "since": null
-   },
-   "residence_duty": 5,
-   "rewin_years": 10,
-   "sp_table": {
-    "084.9478B": {
-     "elder": 1,
-     "total": 1
-    },
-    "084.9958A": {
-     "elder": 3,
-     "total": 3
-    }
-   },
-   "supply_scale": {
-    "general": 2,
-    "quote": "불법행위재공급 6세대(노부모부양 특별공급 4세대, 일반공급 2세대)",
-    "special": {
-     "elder": 4
-    },
-    "special_total": 4,
-    "total": 6
-   }
-  },
-  "name": "고양 장항 아테라",
-  "notice_pdf": "https://static.applyhome.co.kr/ai/aia/getAtchmnfl.do?houseManageNo=2026930038&pblancNo=2026930038&atchmnflSeqNo=1990056&atchmnflSn=4",
-  "v": 47
- },
  "2026930041": {
   "found": {
    "complex": {
@@ -7807,6 +7790,75 @@
   },
   "name": "파주 운정신도시 우미 린 더 센텀",
   "notice_pdf": "https://www.applyhome.co.kr/ai/aia/getAtchmnfl.do?houseManageNo=2026930042&pblancNo=2026930042&atchmnflSeqNo=2004023&atchmnflSn=2",
+  "v": 47
+ },
+ "2026930043": {
+  "found": {
+   "complex": {
+    "buildings": 8,
+    "households": 740,
+    "quote": ": 아파트 지하 3층, 지상 25~28층 8개동 및 부대복리시설, 아파트 총 740세대 중 불법행위재공급 2세대 ■ 입주시기 : 2027년 05월 예정(정확한 입주일자는 추후 통보함) ■ 공급대상 (단위: ㎡, 세"
+   },
+   "facts": {
+    "asset_thousand": {
+     "부동산": [],
+     "부동산_만원": [],
+     "자동차": []
+    },
+    "deposit_rows": {},
+    "income_rows": {},
+    "price_seen": {
+     "059.9955": true
+    }
+   },
+   "need_head": true,
+   "pay_ratio": {
+    "balance": 0.2,
+    "contract": 0.2,
+    "mid": 0.6
+   },
+   "price_cap": true,
+   "quotes": {
+    "need_head": "…가입여부와 관계없이 청약신청 가능합니다. ■ 본 입주자모집공고의 일반공급은 해당 주택건설지역 거주자 중 무주택세대주(무주택세대의 세대주)를 대상으로 추첨의 방법으로 공급합니다. ■…",
+    "pay_ratio": "…주택형 동호수 공급금액 계약금(20%) 중도금(60%) 잔금(20%) 대지비 건축비 계 계약 시(10%) 7일…",
+    "price_cap": "…주택(제1항제6호), 분양가상한제 적용주택(제1항제3호) 10년 ※ (예외) 2024.03.25. 시행된…",
+    "resale": "…- 5 - ■ 본 주택의 전매제한은 최초 입주자모집공고의 당첨자발표일(2024.07.10.)로부터 3년간 적용됩니다. 3 공급대상 및 공급금액 ■ 「주택공급에 관한 규칙」…",
+    "residence": "…상자 ■ 입주자모집공고일 현재 해당 주택건설지역인 경기도 과천시에 거주하는 무주택세대주(무주택세대의 세대주) 당첨자…",
+    "residence_duty": "(1쪽 단지 주요정보 표) 전매제한 거주의무기간 분양가상한제 택지유형 최초 당첨자발표일(2024.07.10.)로부터 3년 5년 적용 공공택지",
+    "rewin_years": "…규제지역여부 거주요건 재당첨제한 민영 투기과열지구/청약과열지역 경기도 과천시 거주자 10년 전매제한 거주의무기간 분양가상한제 택지유형 최초…"
+   },
+   "resale": {
+    "base": "2024-07-10",
+    "forbidden": false,
+    "months": 36,
+    "none": false,
+    "passed": false,
+    "registration": false,
+    "until_reg": false
+   },
+   "residence": {
+    "area": {
+     "name": "경기도 과천시",
+     "sido": "경기",
+     "sigungu": "과천시"
+    },
+    "equal": true,
+    "months": 0,
+    "others": [],
+    "since": null
+   },
+   "residence_duty": 5,
+   "rewin_years": 10,
+   "supply_scale": {
+    "general": null,
+    "quote": "불법행위재공급 2세대",
+    "special": {},
+    "special_total": null,
+    "total": 2
+   }
+  },
+  "name": "과천 디에트르 퍼스티지(S2BL)",
+  "notice_pdf": "https://static.applyhome.co.kr/ai/aia/getAtchmnfl.do?houseManageNo=2026930043&pblancNo=2026930043&atchmnflSeqNo=2002247&atchmnflSn=4",
   "v": 47
  },
  "2026930044": {
