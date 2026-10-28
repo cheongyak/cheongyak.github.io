@@ -209,6 +209,23 @@ def pdf_to_text(data: bytes) -> tuple[Optional[str], str]:
     return t, f"PDF 읽음 {len(t)}자"
 
 
+def hwpx_notice_text(http: httpx.Client, rec: dict) -> tuple[Optional[str], str]:
+    """공고문 PDF 를 못 읽을 때(글자 없는 그림 PDF·PDF 없음) 같은 공고의 공고문 .hwpx 로 읽는다 (2026-10-29 광주두암4 2015122300020967 —
+    PDF 가 그림(33자)이라 신청자격을 못 읽음, 같은 공고에 '공고문(hwp)' .hwpx 첨부가 있음). LH 주거복지(app/lh_welfare.read_notice)와 같은 방식"""
+    h = next((f for f in rec.get("files") or [] if (f.get("name") or "").lower().endswith(".hwpx") and "공고문" in (f.get("kind") or "")), None)
+    if not h or not h.get("url"):
+        return None, "공고문 HWPX 첨부 없음"
+    try:
+        r = http.get(h["url"], headers={**UA, **({"Referer": rec["url"]} if rec.get("url") else {})})
+    except Exception as e:
+        return None, f"HWPX 받기 실패 {e.__class__.__name__}"
+    if r.status_code != 200 or r.content[:2] != b"PK":
+        return None, f"HWPX 아님(HTTP {r.status_code}, {len(r.content)}바이트)"
+    from app.hwpx_text import hwpx_to_text
+    t, m = hwpx_to_text(r.content)
+    return (t, m) if t else (None, m)
+
+
 def main() -> int:
     key = os.environ.get("DATA_GO_KR_KEY", "").strip()
     now = datetime.now(KST)
@@ -291,8 +308,18 @@ def main() -> int:
                 rec["notice_text"] = len(t)
                 if need_alt:
                     msg += " · 다른 읽기 도구 " + save_alt_texts(rec["id"], data)
+            else:   # 그림 PDF 등 → 같은 공고문의 .hwpx (2026-10-29)
+                t, m = hwpx_notice_text(http, rec)
+                msg += f" · {m}"
+                if t:
+                    txt_path.write_text(t, encoding="utf-8")
+                    rec["notice_text"] = len(t)
         else:
-            msg += " · 공고문 PDF 첨부 없음(" + ", ".join(f["kind"] or "?" for f in rec["files"][:4]) + ")"
+            t, m = hwpx_notice_text(http, rec)
+            msg += " · 공고문 PDF 첨부 없음(" + ", ".join(f["kind"] or "?" for f in rec["files"][:4]) + ") · " + m
+            if t:
+                txt_path.write_text(t, encoding="utf-8")
+                rec["notice_text"] = len(t)
         merged = None
         if multi and txt_path.exists():   # 세 도구 글을 같은 규칙으로 읽고 합친다 (app/lh_pdf_merge, 기능 lh_pdf_multi)
             try:
