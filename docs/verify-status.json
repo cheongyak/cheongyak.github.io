@@ -1,7 +1,7 @@
 {
- "at": "2026-10-29 11:10",
+ "at": "2026-10-30 06:45",
  "ok": false,
- "collect_run": "2026-10-29 · 공고 270건",
+ "collect_run": "2026-10-30 · 공고 276건",
  "banner": null,
  "flagged": {
   "0000061193": [
@@ -17,7 +17,9 @@
    "자동 검증(임대 공고문 못 읽음): 고령자 자동차 기준을 공고문에서 읽지 못함 — 공고문 확인"
   ]
  },
- "pending": [],
+ "pending": [
+  "경고 범위 화면"
+ ],
  "coverage_missing": 0,
  "observe": [
   {
@@ -31,46 +33,46 @@
    "name": "verify-scope.json",
    "label": "경고 범위 화면",
    "since": "2026-10-22",
-   "fails": 0,
-   "state": "관찰 중"
+   "fails": null,
+   "state": "재검증 대기"
   }
  ],
  "warnings": [],
  "freshness": [
   {
    "name": "분양",
-   "updated": "2026-10-29 08:42",
-   "hours": 2.5,
+   "updated": "2026-10-30 06:29",
+   "hours": 0.3,
    "stale": false
   },
   {
    "name": "LH 임대",
    "updated": "2026-10-29 10:12",
-   "hours": 1.0,
+   "hours": 20.6,
    "stale": false
   },
   {
    "name": "SH 임대",
    "updated": "2026-10-29 10:17",
-   "hours": 0.9,
+   "hours": 20.5,
    "stale": false
   },
   {
    "name": "GH 임대",
    "updated": "2026-10-29 10:19",
-   "hours": 0.9,
+   "hours": 20.4,
    "stale": false
   },
   {
    "name": "공공지원 민간임대",
    "updated": "2026-10-29 10:33",
-   "hours": 0.6,
+   "hours": 20.2,
    "stale": false
   },
   {
    "name": "LH 주거복지·신혼희망",
    "updated": "2026-10-29 10:18",
-   "hours": 0.9,
+   "hours": 20.5,
    "stale": false
   }
  ],
@@ -80,13 +82,15 @@
   "failed": []
  },
  "crosscheck": {
-  "summary": "[검증·공고문] 공고문 60건 대조 · 기준표 216줄 · 분양가 270/270 일치 · 불일치 공고 0건",
+  "summary": "[검증·공고문] 공고문 62건 대조 · 기준표 240줄 · 분양가 276/276 일치 · 불일치 공고 0건",
   "mismatches": []
  },
  "golden": {
   "mismatches": []
  },
- "qa_stale": [],
+ "qa_stale": [
+  "verify-scope.json"
+ ],
  "qa": {
   "gate": true,
   "supply_type_fails": 0,
@@ -114,9 +118,9 @@
   "verify_scope_fails": null,
   "pay_audit_read": "147/159",
   "lh_data_at": "2026-10-29 10:12",
-  "cross_rule_checks": 300695,
-  "market_at": "2026-10-29",
+  "cross_rule_checks": 303877,
+  "market_at": "2026-10-30",
   "supply_type_at": "2026-10-29",
-  "invariants_at": "2026-10-29"
+  "invariants_at": "2026-10-30"
  }
 }
