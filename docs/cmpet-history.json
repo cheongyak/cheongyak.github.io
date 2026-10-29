@@ -6558,13 +6558,13 @@
   "address": "경기도 과천시 주암동, 과천동 일원 과천주암지구 내 C1블록",
   "apply": "2026-01-12",
   "category": "general",
-  "checked": "2026-09-30",
+  "checked": "2026-10-30",
   "name": "과천주암지구 C1블록 신혼희망타운(공공분양)(본청약)",
   "notice": "2025-12-30",
   "sido": "경기",
   "sigungu": "과천시",
   "sp": {},
-  "sp_checked": "2026-10-01",
+  "sp_checked": "2026-10-30",
   "units": {},
   "url": "https://www.applyhome.co.kr/ai/aia/selectAPTLttotPblancDetail.do?houseManageNo=2025820020&pblancNo=2025820020"
  },
@@ -7962,7 +7962,7 @@
   "address": "경기도 평택시 고덕국제대로 77 (고덕동, 힐스테이트 고덕 센트럴)",
   "apply": "2026-04-06",
   "category": "remainder",
-  "checked": "2026-09-30",
+  "checked": "2026-10-30",
   "name": "힐스테이트 고덕 센트럴",
   "notice": "2026-03-31",
   "sido": "경기",
@@ -8926,6 +8926,266 @@
    }
   },
   "url": "https://www.applyhome.co.kr/ai/aia/selectAPTLttotPblancDetail.do?houseManageNo=2026000043&pblancNo=2026000043"
+ },
+ "2026000044": {
+  "address": "경기도 용인시 기흥구 영덕동 55-1번지 일원",
+  "apply": "2026-03-23",
+  "category": "general",
+  "checked": "2026-10-30",
+  "name": "용인 플랫폼시티 라온프라이빗 아르디에",
+  "notice": "2026-03-13",
+  "sido": "경기",
+  "sigungu": "용인시 기흥구",
+  "sp": {
+   "084.6402C": {
+    "first": {
+     "local": 0,
+     "other": 1,
+     "req": 1,
+     "sido": 0,
+     "u": 2
+    },
+    "multichild": {
+     "local": 0,
+     "other": 0,
+     "req": 0,
+     "sido": 0,
+     "u": 2
+    },
+    "newlywed": {
+     "local": 3,
+     "other": 4,
+     "req": 7,
+     "sido": 0,
+     "u": 4
+    }
+   },
+   "084.6802A": {
+    "elder": {
+     "local": 0,
+     "other": 0,
+     "req": 0,
+     "sido": 0,
+     "u": 3
+    },
+    "first": {
+     "local": 4,
+     "other": 9,
+     "req": 13,
+     "sido": 0,
+     "u": 7
+    },
+    "multichild": {
+     "local": 0,
+     "other": 0,
+     "req": 2,
+     "sido": 2,
+     "u": 9
+    },
+    "newlywed": {
+     "local": 4,
+     "other": 15,
+     "req": 19,
+     "sido": 0,
+     "u": 19
+    }
+   },
+   "084.6968B": {
+    "elder": {
+     "local": 0,
+     "other": 0,
+     "req": 0,
+     "sido": 0,
+     "u": 2
+    },
+    "first": {
+     "local": 2,
+     "other": 8,
+     "req": 10,
+     "sido": 0,
+     "u": 4
+    },
+    "multichild": {
+     "local": 0,
+     "other": 0,
+     "req": 1,
+     "sido": 1,
+     "u": 4
+    },
+    "newlywed": {
+     "local": 2,
+     "other": 6,
+     "req": 8,
+     "sido": 0,
+     "u": 10
+    }
+   },
+   "103.8844A": {
+    "multichild": {
+     "local": 1,
+     "other": 0,
+     "req": 1,
+     "sido": 0,
+     "u": 1
+    }
+   },
+   "116.6358": {
+    "elder": {
+     "local": 0,
+     "other": 0,
+     "req": 0,
+     "sido": 0,
+     "u": 1
+    },
+    "multichild": {
+     "local": 0,
+     "other": 0,
+     "req": 0,
+     "sido": 0,
+     "u": 2
+    }
+   },
+   "119.1573A": {
+    "elder": {
+     "local": 0,
+     "other": 0,
+     "req": 0,
+     "sido": 0,
+     "u": 1
+    },
+    "multichild": {
+     "local": 0,
+     "other": 0,
+     "req": 0,
+     "sido": 0,
+     "u": 4
+    }
+   },
+   "119.1573B": {
+    "elder": {
+     "local": 0,
+     "other": 1,
+     "req": 1,
+     "sido": 0,
+     "u": 1
+    },
+    "multichild": {
+     "local": 0,
+     "other": 0,
+     "req": 0,
+     "sido": 0,
+     "u": 2
+    }
+   }
+  },
+  "sp_checked": "2026-10-30",
+  "units": {
+   "084.6402C": {
+    "area": 84.6402,
+    "avg": 0.0,
+    "low": 0.0,
+    "rank": "1",
+    "rate": "1.10",
+    "rate_num": 1.1,
+    "req": 11.0,
+    "reside": "해당지역",
+    "supply": 10.0,
+    "top": 0.0,
+    "unit": "84C"
+   },
+   "084.6802A": {
+    "area": 84.6802,
+    "avg": 0.0,
+    "low": 0.0,
+    "rank": "1",
+    "rate": "(△18)",
+    "rate_num": null,
+    "req": 31.0,
+    "reside": "해당지역",
+    "supply": 49.0,
+    "top": 0.0,
+    "unit": "84A"
+   },
+   "084.6968B": {
+    "area": 84.6968,
+    "avg": 0.0,
+    "low": 0.0,
+    "rank": "1",
+    "rate": "(△3)",
+    "rate_num": null,
+    "req": 19.0,
+    "reside": "해당지역",
+    "supply": 22.0,
+    "top": 0.0,
+    "unit": "84B"
+   },
+   "103.8844A": {
+    "area": 103.8844,
+    "avg": null,
+    "low": null,
+    "rank": "1",
+    "rate": "(△4)",
+    "rate_num": null,
+    "req": 5.0,
+    "reside": "해당지역",
+    "supply": 9.0,
+    "top": null,
+    "unit": "103A"
+   },
+   "103.8844B": {
+    "area": 103.8844,
+    "avg": null,
+    "low": null,
+    "rank": "1",
+    "rate": "(△2)",
+    "rate_num": null,
+    "req": 0.0,
+    "reside": "해당지역",
+    "supply": 2.0,
+    "top": null,
+    "unit": "103B"
+   },
+   "116.6358": {
+    "area": 116.6358,
+    "avg": null,
+    "low": null,
+    "rank": "1",
+    "rate": "(△20)",
+    "rate_num": null,
+    "req": 1.0,
+    "reside": "해당지역",
+    "supply": 21.0,
+    "top": null,
+    "unit": "116"
+   },
+   "119.1573A": {
+    "area": 119.1573,
+    "avg": null,
+    "low": null,
+    "rank": "1",
+    "rate": "(△39)",
+    "rate_num": null,
+    "req": 2.0,
+    "reside": "해당지역",
+    "supply": 41.0,
+    "top": null,
+    "unit": "119A"
+   },
+   "119.1573B": {
+    "area": 119.1573,
+    "avg": null,
+    "low": null,
+    "rank": "1",
+    "rate": "(△19)",
+    "rate_num": null,
+    "req": 1.0,
+    "reside": "해당지역",
+    "supply": 20.0,
+    "top": null,
+    "unit": "119B"
+   }
+  },
+  "url": "https://www.applyhome.co.kr/ai/aia/selectAPTLttotPblancDetail.do?houseManageNo=2026000044&pblancNo=2026000044"
  },
  "2026000049": {
   "address": "경기도 양주시 옥정동 962-9, 962-8번지(옥정지구 중상1, 복합1블럭)",
@@ -24899,13 +25159,13 @@
   "address": "경기도 시흥시 하중동 일원 시흥하중 공공주택지구 내 A1블록",
   "apply": "2026-05-18",
   "category": "general",
-  "checked": "2026-09-30",
+  "checked": "2026-10-30",
   "name": "시흥하중지구 A1블록 신혼희망타운(공공분양)(본청약)",
   "notice": "2026-04-30",
   "sido": "경기",
   "sigungu": "시흥시",
   "sp": {},
-  "sp_checked": "2026-10-01",
+  "sp_checked": "2026-10-30",
   "units": {},
   "url": "https://www.applyhome.co.kr/ai/aia/selectAPTLttotPblancDetail.do?houseManageNo=2026820002&pblancNo=2026820002"
  },
@@ -24913,13 +25173,13 @@
   "address": "인천광역시 계양구 귤현동, 동양동, 박촌동, 병방동, 상야동, 경기도 부천시 대장동, 서울특별시 강서구 오곡동 일원 인천계양 테크노밸리 공공주택지구 내 A9블록",
   "apply": "2026-05-18",
   "category": "general",
-  "checked": "2026-09-30",
+  "checked": "2026-10-30",
   "name": "인천계양 A9블록 신혼희망타운(공공분양)(본청약)",
   "notice": "2026-04-30",
   "sido": "인천",
   "sigungu": "인천 계양구",
   "sp": {},
-  "sp_checked": "2026-10-01",
+  "sp_checked": "2026-10-30",
   "units": {},
   "url": "https://www.applyhome.co.kr/ai/aia/selectAPTLttotPblancDetail.do?houseManageNo=2026820003&pblancNo=2026820003"
  },
@@ -24941,13 +25201,13 @@
   "address": "경기도 시흥시 거모동, 군자동 일원 시흥거모 공공주택지구 내 A-5블록",
   "apply": "2026-08-18",
   "category": "general",
-  "checked": "2026-09-30",
+  "checked": "2026-10-30",
   "name": "시흥거모 A-5블록 신혼희망타운(공공분양)(본청약)",
   "notice": "2026-08-07",
   "sido": "경기",
   "sigungu": "시흥시",
   "sp": {},
-  "sp_checked": "2026-10-01",
+  "sp_checked": "2026-10-30",
   "units": {},
   "url": "https://www.applyhome.co.kr/ai/aia/selectAPTLttotPblancDetail.do?houseManageNo=2026820006&pblancNo=2026820006"
  },
@@ -24955,13 +25215,13 @@
   "address": "경기도 수원시 권선구 금곡동, 당수동 일원 수원당수 공공주택지구내 A5블록",
   "apply": "2026-08-03",
   "category": "general",
-  "checked": "2026-09-30",
+  "checked": "2026-10-30",
   "name": "수원당수지구 A5블록 신혼희망타운(공공분양) 추가 입주자모집",
   "notice": "2026-07-23",
   "sido": "경기",
   "sigungu": "수원시 권선구",
   "sp": {},
-  "sp_checked": "2026-10-01",
+  "sp_checked": "2026-10-30",
   "units": {},
   "url": "https://www.applyhome.co.kr/ai/aia/selectAPTLttotPblancDetail.do?houseManageNo=2026820007&pblancNo=2026820007"
  },
@@ -25011,13 +25271,13 @@
   "address": "경기도 시흥시 하중동 일원 (시흥하중 공공주택지구 내 A-4블록)",
   "apply": "2026-09-28",
   "category": "general",
-  "checked": "2026-09-30",
+  "checked": "2026-10-30",
   "name": "시흥하중지구 A-4블록 신혼희망타운(공공분양) 추가입주자모집",
   "notice": "2026-09-18",
   "sido": "경기",
   "sigungu": "시흥시",
   "sp": {},
-  "sp_checked": "2026-10-01",
+  "sp_checked": "2026-10-30",
   "units": {},
   "url": "https://www.applyhome.co.kr/ai/aia/selectAPTLttotPblancDetail.do?houseManageNo=2026820011&pblancNo=2026820011"
  },
@@ -26697,6 +26957,84 @@
    }
   },
   "url": "https://www.applyhome.co.kr/ai/aia/selectAPTRemndrLttotPblancDetailView.do?houseManageNo=2026910094&pblancNo=2026910094"
+ },
+ "2026910095": {
+  "address": "경기도 용인시 기흥구 영덕동 55-1번지 일원",
+  "apply": "2026-04-27",
+  "category": "remainder",
+  "checked": "2026-10-30",
+  "name": "용인 플랫폼시티 라온프라이빗 아르디에",
+  "notice": "2026-04-22",
+  "sido": "경기",
+  "sigungu": "용인시 기흥구",
+  "units": {
+   "084.6402C": {
+    "area": 84.6402,
+    "avg": null,
+    "low": null,
+    "rank": "",
+    "rate": "1.20",
+    "rate_num": 1.2,
+    "req": 12.0,
+    "reside": "",
+    "supply": 10.0,
+    "top": null,
+    "unit": "84C"
+   },
+   "084.6802A": {
+    "area": 84.6802,
+    "avg": null,
+    "low": null,
+    "rank": "",
+    "rate": "1.22",
+    "rate_num": 1.22,
+    "req": 67.0,
+    "reside": "",
+    "supply": 55.0,
+    "top": null,
+    "unit": "84A"
+   },
+   "084.6968B": {
+    "area": 84.6968,
+    "avg": null,
+    "low": null,
+    "rank": "",
+    "rate": "(△3)",
+    "rate_num": null,
+    "req": 23.0,
+    "reside": "",
+    "supply": 26.0,
+    "top": null,
+    "unit": "84B"
+   },
+   "103.8844A": {
+    "area": 103.8844,
+    "avg": null,
+    "low": null,
+    "rank": "",
+    "rate": "1.67",
+    "rate_num": 1.67,
+    "req": 10.0,
+    "reside": "",
+    "supply": 6.0,
+    "top": null,
+    "unit": "103A"
+   },
+   "103.8844B": {
+    "area": 103.8844,
+    "avg": null,
+    "low": null,
+    "rank": "",
+    "rate": "5.00",
+    "rate_num": 5.0,
+    "req": 5.0,
+    "reside": "",
+    "supply": 1.0,
+    "top": null,
+    "unit": "103B"
+   }
+  },
+  "url": "https://www.applyhome.co.kr/ai/aia/selectAPTRemndrLttotPblancDetailView.do?houseManageNo=2026910095&pblancNo=2026910095"
  },
  "2026910101": {
   "address": "경기도 양주시 옥정동 옥정택지개발지구 A-1BL (경기도 양주시 옥정동 868)",
@@ -29938,7 +30276,7 @@
   "address": "경기도 과천시 지식정보타운 공공주택지구 S2BL",
   "apply": "2026-04-15",
   "category": "remainder",
-  "checked": "2026-09-30",
+  "checked": "2026-10-30",
   "name": "과천 디에트르 퍼스티지(S2BL)",
   "notice": "2026-04-10",
   "sido": "경기",
@@ -30034,7 +30372,7 @@
   "address": "경기도 과천시 과천지식정보타운 공공주택지구 S4BL (과천대로8길 15, 과천푸르지오라비엔오)",
   "apply": "2026-09-28",
   "category": "remainder",
-  "checked": "2026-09-30",
+  "checked": "2026-10-30",
   "name": "과천 푸르지오 라비엔오",
   "notice": "2026-09-23",
   "sido": "경기",
@@ -30046,7 +30384,7 @@
   "address": "경기도 과천시 과천지식정보타운 공공주택지구 S6BL (과천대로8길 65, 과천푸르지오벨라르테)",
   "apply": "2026-09-28",
   "category": "remainder",
-  "checked": "2026-09-30",
+  "checked": "2026-10-30",
   "name": "과천 푸르지오 벨라르테",
   "notice": "2026-09-23",
   "sido": "경기",
