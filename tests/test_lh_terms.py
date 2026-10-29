@@ -208,3 +208,22 @@ def test_gwangju_merged_city_residence():
     assert {k: r["local"][k] for k in ("sido", "sigun")} == {"sido": "광주", "sigun": None}
     r = parse_lh_terms(head.format("광산구, 북구"), "영구임대", "", None)
     assert r.get("local") is None and r.get("local_unread")
+
+
+def test_public_reits_single_sido_residence():
+    """10년 공공임대 리츠 '신청자격 ■ 입주자모집공고일(…) 현재 울산광역시에 거주중인 만 19세 이상인 성년자인 무주택 세대구성원'
+    + '입주자저축 가입여부, 과거당첨사실여부, 소득 및 자산기준 충족여부와 관계없이 신청가능' (울산 송정하우스디 B3 0000061193, 2026-10-30 아침 자동 고치기).
+    시·도 정식 이름 하나 + 두 문장이 다 있을 때만 읽는다."""
+    from app.lh_terms import parse_lh_terms
+    head = "Ⅱ 신청자격 및 선정방법 등 신청자격 ■ 입주자모집공고일(2026.10.29.) 현재 {}에 거주중인 만 19세 이상인 성년자인 무주택 세대구성원(아래 참고) 중 1세대 내 1건만 신청가능 "
+    tail = "■ 입주자저축 가입여부, 과거당첨사실여부, 소득 및 자산기준 충족여부와 관계없이 신청가능하나, 동 주택의 계약 체결 시 당첨자로 관리"
+    r = parse_lh_terms(head.format("울산광역시") + tail, "공공임대", "", None)
+    assert r["regions"] == ["울산"] and r["account"] == "none"
+    assert {k: r["groups"][0][k] for k in ("homeless", "income_pct", "asset_manwon", "car_manwon")} == \
+        {"homeless": "household", "income_pct": "excluded", "asset_manwon": "excluded", "car_manwon": "excluded"}
+    # 시·도 이름이 아니면(시·군·구가 붙음) 읽지 않는다
+    r = parse_lh_terms(head.format("울산광역시 남구") + tail, "공공임대", "", None)
+    assert r.get("regions") != ["울산"] and not (r["groups"] and r["groups"][0].get("income_pct") == "excluded")
+    # '관계없이 신청가능' 문장이 없으면 소득·자산을 배제로 보지 않는다
+    r = parse_lh_terms(head.format("울산광역시"), "공공임대", "", None)
+    assert not (r["groups"] and r["groups"][0].get("income_pct") == "excluded")

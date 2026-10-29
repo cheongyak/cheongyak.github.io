@@ -480,6 +480,16 @@ def _public_terms(t: str) -> tuple[list[dict], dict, dict]:
                 q = {"region": quote, "homeless": quote, "account": nfq, "income": nfq, "asset": nfq}
                 g = {"key": "일반", "name": "일반", "homeless": "household", "income_pct": "excluded", "asset_manwon": "excluded", "car_manwon": "excluded", "age_min": None, "age_max": None}
                 return [g], {"일반": q}, {"regions": sidos, "account": "none"}
+        # 10년 공공임대 리츠 예비입주자(울산 송정하우스디 B3 0000061193, 2026-10-30 아침 자동 고치기): '신청자격 ■ 입주자모집공고일(2026.10.29.) 현재 울산광역시에
+        # 거주중인 만 19세 이상인 성년자인 무주택 세대구성원' + '■ 입주자저축 가입여부, 과거당첨사실여부, 소득 및 자산기준 충족여부와 관계없이 신청가능'.
+        # 거주지역은 시·도 정식 이름 하나가 적혔을 때만(SIDO_SHORT 에 있는 이름), 두 문장이 모두 있을 때만 받는다
+        mk = re.search(r"신청\s?자격\s?■\s?입주자\s?모집\s?공고일\s?\([\d.\s]+\)\s?현재\s?([가-힣]{2,10})에\s?거주\s?중인\s?만\s?19세\s?이상인\s?성년자인\s?무주택\s?세대\s?구성원", t)
+        mn3 = mk and re.search(r"입주자저축\s?가입\s?여부,\s?과거\s?당첨\s?사실\s?여부,\s?소득\s?및\s?자산\s?기준\s?충족\s?여부와\s?관계\s?없이\s?신청\s?가능", t[mk.end(): mk.end() + 2500])
+        if mk and mn3 and mk.group(1) in SIDO_SHORT:
+            quote, nfq = _q(t, mk, 0, 0), mn3.group(0)
+            q = {"region": quote, "homeless": quote, "account": nfq, "income": nfq, "asset": nfq}
+            g = {"key": "일반", "name": "일반", "homeless": "household", "income_pct": "excluded", "asset_manwon": "excluded", "car_manwon": "excluded", "age_min": None, "age_max": None}
+            return [g], {"일반": q}, {"regions": [SIDO_SHORT[mk.group(1)]], "account": "none"}
         # 무순위 예비입주자(충북혁신4 0000061184): '1. 신청 자격 ■ 입주자저축 가입 여부, 과거당첨사실여부, 당해주택 건설지역 거주여부, 소득 및 자산기준충족여부 등과
         # 관계없이 신청 가능 … ■ 입주자 모집공고일(…) 현재 무주택세대구성원인 성년자' — 거주지역·청약통장·소득·자산 모두 묻지 않음
         mu = re.search(r"신청\s?자격\s?■\s?(?:입주자저축|청약저축)\s?가입\s?여부,\s?과거\s?당첨\s?사실\s?여부,\s?당해\s?주택\s?건설\s?지역\s?거주\s?여부,\s?"
