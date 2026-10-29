@@ -1,9 +1,22 @@
 {
- "at": "2026-10-29 09:17",
- "ok": true,
+ "at": "2026-10-29 10:35",
+ "ok": false,
  "collect_run": "2026-10-29 · 공고 270건",
  "banner": null,
- "flagged": {},
+ "flagged": {
+  "0000061193": [
+   "자동 검증(임대 데이터 불변식): terms_unread",
+   "자동 검증(임대 공고문 못 읽음): (공고) 공고문에서 계층 기준을 읽지 못함"
+  ],
+  "2015122300020963": [
+   "자동 검증(임대 공고문 못 읽음): 청년 공고문에서 이 기준을 ‘미적용’으로 읽었지만 입주자격 완화 공고로 확인되지 않아 판정하지 않아요 — 공고문 확인",
+   "자동 검증(임대 공고문 못 읽음): 청년 자동차 기준을 공고문에서 읽지 못함 — 공고문 확인",
+   "자동 검증(임대 공고문 못 읽음): 신혼부부·한부모 공고문에서 이 기준을 ‘미적용’으로 읽었지만 입주자격 완화 공고로 확인되지 않아 판정하지 않아요 — 공고문 확인",
+   "자동 검증(임대 공고문 못 읽음): 신혼부부·한부모 자동차 기준을 공고문에서 읽지 못함 — 공고문 확인",
+   "자동 검증(임대 공고문 못 읽음): 고령자 공고문에서 이 기준을 ‘미적용’으로 읽었지만 입주자격 완화 공고로 확인되지 않아 판정하지 않아요 — 공고문 확인",
+   "자동 검증(임대 공고문 못 읽음): 고령자 자동차 기준을 공고문에서 읽지 못함 — 공고문 확인"
+  ]
+ },
  "pending": [],
  "coverage_missing": 0,
  "observe": [
@@ -27,37 +40,37 @@
   {
    "name": "분양",
    "updated": "2026-10-29 08:42",
-   "hours": 0.6,
+   "hours": 1.9,
    "stale": false
   },
   {
    "name": "LH 임대",
-   "updated": "2026-10-29 08:38",
-   "hours": 0.7,
+   "updated": "2026-10-29 10:12",
+   "hours": 0.4,
    "stale": false
   },
   {
    "name": "SH 임대",
-   "updated": "2026-10-29 07:27",
-   "hours": 1.8,
+   "updated": "2026-10-29 10:17",
+   "hours": 0.3,
    "stale": false
   },
   {
    "name": "GH 임대",
    "updated": "2026-10-29 07:28",
-   "hours": 1.8,
+   "hours": 3.1,
    "stale": false
   },
   {
    "name": "공공지원 민간임대",
    "updated": "2026-10-29 07:30",
-   "hours": 1.8,
+   "hours": 3.1,
    "stale": false
   },
   {
    "name": "LH 주거복지·신혼희망",
    "updated": "2026-10-29 07:08",
-   "hours": 2.2,
+   "hours": 3.5,
    "stale": false
   }
  ],
@@ -90,18 +103,18 @@
   "snapshot_diffs": 0,
   "e2e_fails": 0,
   "past_chat_fails": 0,
-  "lh_invariant_violations": 0,
+  "lh_invariant_violations": 1,
   "lh_judge_qa_fails": 0,
   "lh_screen_fails": 0,
-  "lh_unread": 0,
+  "lh_unread": 7,
   "lh_pdf_merged_wrong": 0,
   "pay_audit_bad": 0,
   "parse_moved_changes": 0,
   "coverage_missing": 0,
   "verify_scope_fails": null,
   "pay_audit_read": "147/159",
-  "lh_data_at": "2026-10-29 08:38",
-  "cross_rule_checks": 292088,
+  "lh_data_at": "2026-10-29 10:12",
+  "cross_rule_checks": 300695,
   "market_at": "2026-10-29",
   "supply_type_at": "2026-10-29",
   "invariants_at": "2026-10-29"
