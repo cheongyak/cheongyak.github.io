@@ -33,7 +33,8 @@ NAMES = {"invariants.json": "데이터 불변식", "lh-invariants.json": "임대
 # 7일 넘게 실패 0(거짓 경보 없음)을 확인한 뒤 qa_observe 에서 빼고 여기에 더한다 — tests/test_qa_observe.py 가 지킨다
 GATED = ("supply-type.json", "invariants.json", "filter-check.json", "consistency.json", "sp-text.json", "market-check.json", "cross-rule.json",
          "profile-keep.json", "monotonic.json", "snapshot.json", "e2e.json", "past-chat.json", "pay-audit.json", "parse-moved.json", "coverage.json",
-         "zero-default.json", "input-nav.json", "lh-invariants.json", "lh-qa.json", "lh-screen.json", "lh-unread.json", "lh-pdf-tools.json")
+         "zero-default.json", "input-nav.json", "lh-invariants.json", "lh-qa.json", "lh-screen.json", "lh-unread.json", "lh-pdf-tools.json",
+         "verify-scope.json", "rent-org.json")   # 2026-10-30 관찰 8일(10-22~10-30) 실패 0 → 관문
 
 
 def generic_bad(d: dict) -> Optional[int]:
@@ -149,7 +150,8 @@ def build() -> dict:
         return d
     st, inv, flt, con, spt, mkc, crx, pkp, mono, snap, e2e = qa("supply-type.json"), qa("invariants.json"), qa("filter-check.json"), qa("consistency.json"), qa("sp-text.json"), qa("market-check.json"), qa("cross-rule.json"), qa("profile-keep.json"), qa("monotonic.json"), qa("snapshot.json"), qa("e2e.json")
     pch = qa("past-chat.json")
-    qa("rent-org.json")   # 임대 기관 거르기 화면 (tools/qa/rent_org.cjs, 기능 rent_org_filter 2026-10-22) — 관찰 중(config qa_observe)
+    ro = qa("rent-org.json")   # 임대 기관 거르기 화면 (tools/qa/rent_org.cjs, 기능 rent_org_filter 2026-10-22) — 10-30 관찰 끝, 관문
+    ro_bad = generic_bad(ro) if ro else None
     vsc = qa("verify-scope.json")   # 경고 범위 화면 (tools/qa/verify_scope.cjs, 기능 verify_scope 2026-10-22): 상태별 빨간 경고·공고 표시·검증 현황
     vsc_bad = len(vsc["fails"]) if vsc else None
     pay = qa("pay-audit.json")   # 계약금 비율 ↔ 공고문 금액 줄 독립 점검 (tools/qa/pay_audit.py, 2026-10-08 계약금 10% 고정 오류 뒤)
@@ -182,7 +184,7 @@ def build() -> dict:
     snap_bad = snap["diffs"] if snap else None   # 화면 글자 스냅샷 (일부러 바꾸면 tools/qa/snapshot.cjs --update)
     e2e_bad = e2e["fail"] if e2e else None       # 사용자 흐름·퍼징
     pch_bad = (pch["violations"] + len(pch.get("pageErrors") or [])) if pch else None   # 지난 공고 판정 줄·청약봇 판정 요약 ↔ 화면 (tools/qa/past_chat.cjs, 2026-10-02)
-    qa_ok = not gate or ((st_bad == 0 or "supply-type.json" in stale) and (inv_bad == 0 or "invariants.json" in stale) and flt_bad in (0, None) and con_bad in (0, None) and spt_bad in (0, None) and mkc_bad in (0, None) and crx_bad in (0, None) and pkp_bad in (0, None) and mono_bad in (0, None) and zd_bad in (0, None) and inav_bad in (0, None) and snap_bad in (0, None) and e2e_bad in (0, None) and pch_bad in (0, None) and lhi_bad in (0, None) and lhq_bad in (0, None) and lhs_bad in (0, None) and lhu_bad in (0, None) and lhp_bad in (0, None) and pay_bad in (0, None) and pmv_bad in (0, None) and cov_bad in (0, None) and vsc_bad in (0, None))   # 필터 검사는 결과 파일이 있을 때만 (2026-10-02 추가)
+    qa_ok = not gate or ((st_bad == 0 or "supply-type.json" in stale) and (inv_bad == 0 or "invariants.json" in stale) and flt_bad in (0, None) and con_bad in (0, None) and spt_bad in (0, None) and mkc_bad in (0, None) and crx_bad in (0, None) and pkp_bad in (0, None) and mono_bad in (0, None) and zd_bad in (0, None) and inav_bad in (0, None) and snap_bad in (0, None) and e2e_bad in (0, None) and pch_bad in (0, None) and lhi_bad in (0, None) and lhq_bad in (0, None) and lhs_bad in (0, None) and lhu_bad in (0, None) and lhp_bad in (0, None) and pay_bad in (0, None) and pmv_bad in (0, None) and cov_bad in (0, None) and vsc_bad in (0, None) and ro_bad in (0, None))   # 필터 검사는 결과 파일이 있을 때만 (2026-10-02 추가)
     # --full (판정 검증 verify.yml): 그 실행이 모든 검사를 다시 돌리므로 지난 결과가 남으면(검사가 결과를 못 썼음) 실패. 수집에서만 도는 시세 대조·공고문 글 바뀜은 뺀다
     full_stale = [x for x in stale if x not in ("market-check.json", "parse-moved.json", "coverage.json")] if "--full" in sys.argv else []
     # --full: 판정 검증이 만들어야 하는 결과 파일이 아예 없으면 그 검사가 돌지 못한 것 — 없다고 통과로 치지 않는다 (2026-10-22 verify_scope.cjs 가 Actions 에서 멈춰 결과 없음)

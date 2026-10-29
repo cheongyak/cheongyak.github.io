@@ -28,7 +28,11 @@ def test_build_reports_observed_without_gating(monkeypatch):
     from tools.qa import stamp
     qa = ROOT / "evidence" / "qa" / "verify-scope.json"
     old = qa.read_text(encoding="utf-8") if qa.exists() else None
+    cfg = ROOT / "docs" / "config.json"
+    cfg_old = cfg.read_text(encoding="utf-8")   # 관찰 중 검사가 없어도(10-30 모두 관문으로 옮김) 시험용으로 하나를 관찰 중으로 둔다
+    c = json.loads(cfg_old); c["qa_observe"] = {"verify-scope.json": "2026-10-22"}
     try:
+        cfg.write_text(json.dumps(c, ensure_ascii=False, indent=2), encoding="utf-8")
         qa.write_text(json.dumps({"date": "2026-10-22", "states": 4, "fails": ["listing"], "_data": stamp.want("verify-scope.json")}), encoding="utf-8")
         monkeypatch.setattr(stamp, "stamp_all", lambda: [])
         s = V.build()
@@ -36,6 +40,7 @@ def test_build_reports_observed_without_gating(monkeypatch):
         assert o and o[0]["fails"] == 1 and o[0]["state"] == "관찰 중"
         assert not any("경고 범위" in w for w in ((s.get("banner") or {}).get("why") or []))
     finally:
+        cfg.write_text(cfg_old, encoding="utf-8")
         if old is None:
             qa.unlink(missing_ok=True)
         else:
