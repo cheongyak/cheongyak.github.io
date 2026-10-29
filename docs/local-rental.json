@@ -1,8 +1,71 @@
 {
- "updated": "2026-10-29 10:46",
+ "updated": "2026-10-30 08:15",
  "source": "국토교통부 마이홈포털 공공주택 모집공고 조회 서비스 (LH·SH·GH 제외)",
- "count": 9,
+ "count": 10,
  "notices": [
+  {
+   "id": "LOC-21477",
+   "org": "LOCAL",
+   "inst": "충북개발공사",
+   "name": "제천 영천동 행복주택 추가(예비)입주자 모집공고",
+   "type": "행복주택",
+   "judge_type": false,
+   "youth": false,
+   "region": "충청북도",
+   "posted": "2026-10-29",
+   "close": "2026-11-19",
+   "status": "일반공고",
+   "url": "https://www.cbdc.co.kr/zboard/read.do?searchWrd=&pageIndex=1&lmCode=BBSMSTR_000000000028&searchCnd=&searchCate1=&pd_pkid=7801",
+   "url_mobile": "https://m.myhome.go.kr/hws/portal/sch/selectRsdtRcritNtcDetailView.do?pblancId=21477&houseSn=1",
+   "myhome_url": "https://www.myhome.go.kr/hws/portal/sch/selectRsdtRcritNtcDetailView.do?pblancId=21477&houseSn=1",
+   "schedule": [
+    {
+     "complex": "제천 영천동 행복주택",
+     "apply_start": "2026-11-09",
+     "apply_end": "2026-11-19",
+     "docs_target": null,
+     "winner": "2027-02-11",
+     "contract_start": null,
+     "contract_end": null
+    }
+   ],
+   "complexes": [
+    {
+     "name": "제천 영천동 행복주택",
+     "address": "충청북도 제천시 청풍호로2다길 8 충청북도 제천시 영천동 999-2",
+     "households": 15,
+     "heating": "개별난방",
+     "house_type": "다세대주택"
+    }
+   ],
+   "units": [
+    {
+     "complex": "제천 영천동 행복주택",
+     "type": "다세대주택",
+     "area": null,
+     "households": null,
+     "now_households": null,
+     "deposit": null,
+     "rent": null
+    }
+   ],
+   "rents": [
+    {
+     "complex": "제천 영천동 행복주택",
+     "type": "다세대주택",
+     "group": null,
+     "deposit": 11430000,
+     "rent": 91440
+    }
+   ],
+   "terms": null,
+   "files": [],
+   "notice_pdf": null,
+   "office": {
+    "place": null,
+    "tel": "행복주택 담당자 : 043-210-9146"
+   }
+  },
   {
    "id": "LOC-21471",
    "org": "LOCAL",
@@ -558,9 +621,18 @@
    "close": "2026-11-30",
    "status": "일반공고",
    "url": "https://www.gbdc.co.kr/boardview/boardview.do?seqId=0000003638&BBS_ID=4c9b3e75-2935-4bcd-96be-62fb07903949&IPDS_IDX=2e8989e9-02ae-48be-9591-f3c4c8e7fa39&BBS_TYPE=L&COLM1=notice&COLM1_CD=notice_02&COLM1_STATUS=&SEARCH_CONTITION=CPDS_SUBJECT_CONTENT&SEARCH_KEYWORD=&CURRENT_PAGE=1",
-   "url_mobile": "https://m.myhome.go.kr/hws/portal/sch/selectRsdtRcritNtcDetailView.do?pblancId=20901&houseSn=1",
-   "myhome_url": "https://www.myhome.go.kr/hws/portal/sch/selectRsdtRcritNtcDetailView.do?pblancId=20901&houseSn=1",
+   "url_mobile": "https://m.myhome.go.kr/hws/portal/sch/selectRsdtRcritNtcDetailView.do?pblancId=20901",
+   "myhome_url": "https://www.myhome.go.kr/hws/portal/sch/selectRsdtRcritNtcDetailView.do?pblancId=20901",
    "schedule": [
+    {
+     "complex": null,
+     "apply_start": "2026-07-28",
+     "apply_end": "2026-11-30",
+     "docs_target": null,
+     "winner": "2026-11-30",
+     "contract_start": null,
+     "contract_end": null
+    },
     {
      "complex": "로얄",
      "apply_start": "2026-07-28",
@@ -572,15 +644,6 @@
     },
     {
      "complex": "하모니",
-     "apply_start": "2026-07-28",
-     "apply_end": "2026-11-30",
-     "docs_target": null,
-     "winner": "2026-11-30",
-     "contract_start": null,
-     "contract_end": null
-    },
-    {
-     "complex": null,
      "apply_start": "2026-07-28",
      "apply_end": "2026-11-30",
      "docs_target": null,
@@ -623,6 +686,15 @@
    ],
    "units": [
     {
+     "complex": null,
+     "type": "다가구주택",
+     "area": null,
+     "households": 5,
+     "now_households": 5,
+     "deposit": null,
+     "rent": null
+    },
+    {
      "complex": "로얄",
      "type": "다가구주택",
      "area": null,
@@ -637,15 +709,6 @@
      "area": null,
      "households": 1,
      "now_households": 1,
-     "deposit": null,
-     "rent": null
-    },
-    {
-     "complex": null,
-     "type": "다가구주택",
-     "area": null,
-     "households": 5,
-     "now_households": 5,
      "deposit": null,
      "rent": null
     },
