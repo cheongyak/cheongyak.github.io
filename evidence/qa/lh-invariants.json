@@ -1,19 +1,44 @@
 {
- "date": "2026-10-29 09:16",
- "data_updated": "2026-10-29 08:38",
- "notices": 36,
- "violations": {},
- "count": 0,
+ "date": "2026-10-29 10:15",
+ "data_updated": "2026-10-29 10:12",
+ "notices": 38,
+ "violations": {
+  "terms_unread": {
+   "count": 1,
+   "examples": [
+    "0000061193 공공임대 울산 송정하우스디(B3블럭) 10년 공공임대리츠 예비입"
+   ],
+   "ids": [
+    "0000061193"
+   ]
+  }
+ },
+ "count": 1,
  "info": {
   "unknown_groups": {
-   "count": 2,
+   "count": 3,
    "examples": [
     "2015122300020958 ['산업단지 근로자']",
-    "2015122300020916 ['산업단지근로자']"
+    "2015122300020916 ['산업단지근로자']",
+    "2015122300020963 ['산업단지근로자']"
+   ]
+  },
+  "public_unread": {
+   "count": 1,
+   "examples": [
+    "0000061193 regions=None account=None"
+   ]
+  },
+  "excluded_unrelaxed": {
+   "count": 3,
+   "examples": [
+    "2015122300020963 청년 ['income_pct', 'asset_manwon']",
+    "2015122300020963 신혼부부·한부모 ['income_pct', 'asset_manwon']",
+    "2015122300020963 고령자 ['income_pct', 'asset_manwon']"
    ]
   }
  },
  "_data": {
-  "lh": "fccd8027dae9"
+  "lh": "936377e39480"
  }
 }
