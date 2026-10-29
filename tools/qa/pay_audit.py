@@ -37,6 +37,9 @@ def row_rates(text: str) -> Counter:
     """공고문 전체 금액 줄에서 계약금 % 별 줄 수 (단위: 원·천원·만원 셋 다 시도 — 표마다 단위가 달라 셋 중 집값 크기가 되는 것만)"""
     t = re.sub(r"[ \t]+", " ", text)
     cnt: Counter = Counter()
+    # 계약금을 '계약 시(10%) 7일 이내(10%)' 두 칸으로 나눠 적은 표 (2026930043 과천 디에트르 퍼스티지 S2BL '계약금(20%) … 계약 시(10%) 7일 이내(10%)',
+    # 2026-10-30 아침 자동 고치기) — 두 칸 머리가 공고문에 있을 때만 그 합 % 의 줄로도 센다 (a = 앞 칸, b = 뒤 칸이 머리 비율대로일 때만)
+    splits = {(int(x), int(y)) for x, y in re.findall(r"계약\s?시\s?\((\d{1,2})%\)\s?\d{1,2}\s?일\s?이내\s?\((\d{1,2})%\)", t)}
     for r in re.finditer(r"(?<![\d,])(?=(" + AMT + r")\s+(" + AMT + r")\s+(" + AMT + r"))", t):
         T0, a0, b0 = (int(x.replace(",", "")) for x in r.groups())
         for unit in ((1,) if T0 >= 1_000_000 else (1000, 10000)):   # 천원·만원 단위 표의 집값은 여섯 자리 이하(409,523 천원) — 원 단위 옵션 금액(5,160,000)을 천 배로 보지 않게
@@ -47,6 +50,9 @@ def row_rates(text: str) -> Counter:
                 want = T * p / 100
                 if abs(a - want) <= max(10_000, unit):
                     cnt[p] += 1
+                    for x, y in splits:
+                        if x == p and x + y in RATES and abs(b - T * y / 100) <= max(10_000, unit):
+                            cnt[x + y] += 1
                     break
                 if 0 < a < want * 0.9 and abs(a + b - want) <= max(10_000, unit):
                     cnt[p] += 1

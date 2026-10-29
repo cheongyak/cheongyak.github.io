@@ -75,3 +75,14 @@ def test_thousand_unit_fallback_needs_main_table():
     assert "pay_ratio" not in parse_notice(t2)
     t3 = "분양가격 주택형 주택가격 계약금10% 중도금20% 잔금 384,460 38,446 76,892 268,122"   # 1줄만 맞으면 안 읽음
     assert "pay_ratio" not in parse_notice(t3)
+
+
+def test_audit_split_contract_columns():
+    """계약금을 '계약 시(10%) 7일 이내(10%)' 두 칸으로 나눈 표는 합(20%) 줄로도 센다 — 두 칸 머리가 있을 때만 (2026930043 과천 디에트르 퍼스티지 S2BL, 2026-10-30)"""
+    from tools.qa import pay_audit as PA
+    row = "0202-1501 469,541,600 387,608,400 857,150,000 85,715,000 85,715,000 514,290,000 171,430,000"
+    head = "공급금액 계약금(20%) 중도금(60%) 잔금(20%) 대지비 건축비 계 계약 시(10%) 7일 이내(10%) 2026.12.15. 입주지정시\n"
+    assert PA.row_rates(head + row)[20] == 1
+    assert PA.row_rates(row)[20] == 0          # 두 칸 머리가 없으면 10% 줄로만 센다
+    t = (ROOT / "evidence/notices/2026930043.txt").read_text(encoding="utf-8")
+    assert parse_notice(t)["pay_ratio"] == {"contract": 0.2, "mid": 0.6, "balance": 0.2}
