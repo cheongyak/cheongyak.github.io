@@ -4,6 +4,15 @@
 2026-09-29 12:55 이전 항목은 규칙을 만들기 전 작업을 커밋 기록으로 정리한 것이라 백업 브랜치가 없어요.
 그 시점으로 되돌릴 때는 해당 커밋 번호로 `git revert` 를 써요.
 
+## 2026-10-30 07:19 · 관찰 중 검사 2개 관문으로 (경고 범위 화면·임대 기관 거르기 화면)
+- 요청: 아침 자동 고치기 (예약 작업) — 관찰 중 검사 승격
+- 변경: docs/config.json qa_observe 에서 verify-scope.json·rent-org.json 뺌(빈 칸), tools/verify_status.py GATED 에 더함 + rent-org 실패 수(ro_bad)를 ok 에 넣음(verify-scope 는 이미 vsc_bad 로 들어감). tests/test_qa_observe.py 는 시험 동안만 verify-scope 를 관찰 중으로 둠
+- 근거: 10-22 시작 → 8일. 그 사이 verify-status 판 git 이력 64개 모두 두 검사 실패 0(관찰 중 0 또는 재검증 대기)
+- 파일: docs/config.json, tools/verify_status.py, tests/test_qa_observe.py, WORK.md, HANDOFF.md('진행 중인 일' -73 아침 자동 고치기 10-30 정리)
+- 확인: pytest tests/test_qa_observe.py·test_qa_stamp.py 통과, 전체 pytest 통과
+- 백업: backup/20261030-0719-autofix
+- 기능: 없음(수정)
+
 ## 2026-10-30 07:19 · 한화포레나 지제역 가점제·추첨제 비율 표 읽기 (v1.81.4)
 - 요청: 아침 자동 고치기 (예약 작업)
 - 원인: 2026000499 한화포레나 지제역(10-29 공고) 일반공급 '■ ②가점 - 전용면적별 1순위 가점제/추첨제 적용비율' 표 앞에 다음 표 제목 '- 가점 산정기준(「주택공급에 관한 규칙」 별표1의2 나목)' 줄이 끼고, 머리에 '한화포레나 지제역 해당 주택형(약식표기)' 칸이 있어 표 머리를 못 찾음 → 84A~D·116 '비율 표를 읽지 못했어요'
