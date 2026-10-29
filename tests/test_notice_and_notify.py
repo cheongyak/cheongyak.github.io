@@ -445,3 +445,15 @@ def test_rent_noincome_reads_only_matching_table():
     f = root / "evidence" / "notices" / "2026000022.txt"
     f = f if f.exists() else root / "evidence" / "qa" / "notices" / "2026000022.txt"
     assert (notice_pdf.parse_notice(f.read_text(encoding="utf-8")).get("pub_limits") or {}).get("kind") != "none"
+
+
+def test_score_ratio_title_line_and_complex_header():
+    """표 제목과 머리 사이에 '- 가점 산정기준(…)' 줄이 끼고 머리에 '단지명 해당 주택형(약식표기)' 칸이 있는 꼴 (2026000499 한화포레나 지제역, 2026-10-30 아침 자동 고치기)."""
+    head = ("■ ②가점 - 전용면적별 1순위 가점제/추첨제 적용비율 - 가점 산정기준(「주택공급에 관한 규칙」 별표1의2 나목) "
+            "구분 한화포레나 지제역 해당 주택형(약식표기) 가점제 추첨제 ")
+    ok = head + "전용면적 60㎡ 초과 85㎡ 이하 84A / 84B / 84C / 84D 40% 60% 전용면적 85㎡ 초과 116 - 100% 가점항목 가점상한"
+    assert notice_pdf.parse_score_ratio(ok) == {"rows": [{"over": 60, "upto": 85, "score": 40, "lottery": 60}, {"over": 85, "upto": None, "score": 0, "lottery": 100}]}
+    # 합이 100% 가 아니면 읽지 않는다
+    assert notice_pdf.parse_score_ratio(head + "전용면적 60㎡ 초과 85㎡ 이하 84A 40% 50% 가점항목") == {"unknown": True}
+    # 줄끼리 면적이 이어지지 않으면 읽지 않는다
+    assert notice_pdf.parse_score_ratio(head + "전용면적 60㎡ 초과 85㎡ 이하 84A 40% 60% 전용면적 102㎡ 초과 116 - 100% 가점항목") == {"unknown": True}
