@@ -1,9 +1,17 @@
 {
- "at": "2026-10-30 08:54",
+ "at": "2026-10-30 10:38",
  "ok": false,
  "collect_run": "2026-10-30 · 공고 276건",
  "banner": null,
  "flagged": {
+  "2015122300020992": [
+   "자동 검증(임대 데이터 불변식): terms_unread",
+   "자동 검증(임대 공고문 못 읽음): (공고) 공고문에서 계층 기준을 읽지 못함"
+  ],
+  "2015122300020993": [
+   "자동 검증(임대 데이터 불변식): terms_unread",
+   "자동 검증(임대 공고문 못 읽음): (공고) 공고문에서 계층 기준을 읽지 못함"
+  ],
   "2015122300020905": [
    "자동 검증(임대 공고문 못 읽음): 청년 소득 기준을 공고문에서 읽지 못함 — 공고문 확인"
   ],
@@ -28,37 +36,37 @@
   {
    "name": "분양",
    "updated": "2026-10-30 08:06",
-   "hours": 0.8,
+   "hours": 2.5,
    "stale": false
   },
   {
    "name": "LH 임대",
-   "updated": "2026-10-30 07:36",
-   "hours": 1.3,
+   "updated": "2026-10-30 10:20",
+   "hours": 0.3,
    "stale": false
   },
   {
    "name": "SH 임대",
-   "updated": "2026-10-30 07:20",
-   "hours": 1.6,
+   "updated": "2026-10-30 10:22",
+   "hours": 0.3,
    "stale": false
   },
   {
    "name": "GH 임대",
-   "updated": "2026-10-30 07:27",
-   "hours": 1.5,
+   "updated": "2026-10-30 10:23",
+   "hours": 0.3,
    "stale": false
   },
   {
    "name": "공공지원 민간임대",
    "updated": "2026-10-30 08:13",
-   "hours": 0.7,
+   "hours": 2.4,
    "stale": false
   },
   {
    "name": "LH 주거복지·신혼희망",
-   "updated": "2026-10-30 07:36",
-   "hours": 1.3,
+   "updated": "2026-10-30 10:23",
+   "hours": 0.3,
    "stale": false
   }
  ],
@@ -95,20 +103,20 @@
   "snapshot_diffs": 0,
   "e2e_fails": 0,
   "past_chat_fails": 0,
-  "lh_invariant_violations": 0,
+  "lh_invariant_violations": 2,
   "lh_judge_qa_fails": 0,
   "lh_screen_fails": 0,
-  "lh_unread": 7,
+  "lh_unread": 9,
   "lh_pdf_merged_wrong": 0,
   "pay_audit_bad": 0,
   "parse_moved_changes": null,
   "coverage_missing": null,
   "verify_scope_fails": 0,
   "pay_audit_read": "153/165",
-  "lh_data_at": "2026-10-30 07:36",
+  "lh_data_at": "2026-10-30 10:20",
   "cross_rule_checks": 297535,
   "market_at": null,
-  "supply_type_at": "2026-10-29",
-  "invariants_at": "2026-10-29"
+  "supply_type_at": "2026-10-30",
+  "invariants_at": "2026-10-30"
  }
 }
