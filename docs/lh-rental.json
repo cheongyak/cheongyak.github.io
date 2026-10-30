@@ -1,7 +1,7 @@
 {
- "updated": "2026-10-30 07:36",
+ "updated": "2026-10-30 10:20",
  "source": "LH 청약플러스 임대 공고 (공공데이터포털 한국토지주택공사 분양임대공고 조회)",
- "count": 35,
+ "count": 37,
  "notices": [
   {
    "id": "2015122300020793",
@@ -7289,6 +7289,466 @@
     "SPL_INF_TP_CD": "063",
     "UPP_AIS_TP_CD": "06",
     "AIS_TP_CD": "10"
+   },
+   "read": {
+    "tools": [
+     "pypdf",
+     "pdfium",
+     "plumber"
+    ],
+    "conflicts": []
+   }
+  },
+  {
+   "id": "2015122300020992",
+   "name": "평창장평 통합공공임대주택(일반형) 입주자 모집",
+   "type": "통합공공임대",
+   "type_code": "48",
+   "judge_type": true,
+   "region": "강원특별자치도",
+   "posted": "2026-10-30",
+   "close": "2026-11-20",
+   "status": "공고중",
+   "url": "https://apply.lh.or.kr/lhapply/apply/wt/wrtanc/selectWrtancInfo.do?panId=2015122300020992&ccrCnntSysDsCd=03&uppAisTpCd=06&aisTpCd=48&mi=1026",
+   "url_mobile": "https://apply.lh.or.kr/lhapply/apply/wt/wrtanc/selectWrtancInfo.do?panId=2015122300020992&ccrCnntSysDsCd=03&uppAisTpCd=06&aisTpCd=48&mi=1026",
+   "schedule": [
+    {
+     "complex": null,
+     "apply_start": "2026-11-16",
+     "apply_end": "2026-11-20",
+     "apply_time": "~",
+     "docs_target": "2026-12-03",
+     "docs_start": "2026-12-07",
+     "docs_end": "2026-12-11",
+     "winner": "2027-04-09",
+     "contract_start": "2027-04-27",
+     "contract_end": "2027-04-29"
+    }
+   ],
+   "complexes": [
+    {
+     "name": "평창장평 통합공공임대주택(고령자)",
+     "address": "강원특별자치도 평창군 용평면 장평리 317-2",
+     "households": 68,
+     "area": "31.96~46.99",
+     "move_in": "2028.07",
+     "heating": "개별난방"
+    }
+   ],
+   "units": [
+    {
+     "complex": "평창장평 통합공공임대주택(고령자)",
+     "type": "31A",
+     "area": 31.96,
+     "supply_area": 50.8074,
+     "households": 7,
+     "now_households": 7,
+     "deposit": null,
+     "rent": null,
+     "money_note": "공고문 참조"
+    },
+    {
+     "complex": "평창장평 통합공공임대주택(고령자)",
+     "type": "36A",
+     "area": 36.95,
+     "supply_area": 58.1408,
+     "households": 18,
+     "now_households": 18,
+     "deposit": null,
+     "rent": null,
+     "money_note": "공고문 참조"
+    },
+    {
+     "complex": "평창장평 통합공공임대주택(고령자)",
+     "type": "46A",
+     "area": 46.99,
+     "supply_area": 73.6662,
+     "households": 7,
+     "now_households": 7,
+     "deposit": null,
+     "rent": null,
+     "money_note": "공고문 참조"
+    }
+   ],
+   "files": [
+    {
+     "kind": "공고문(hwp)",
+     "name": "261030평창장평통합공공임대주택공고문(일반)_최종.hwpx",
+     "url": "https://apply.lh.or.kr/lhapply/lhFile.do?fileid=69203786"
+    },
+    {
+     "kind": "공고문(PDF)",
+     "name": "261030평창장평통합공공임대주택공고문(일반)_최종.pdf",
+     "url": "https://apply.lh.or.kr/lhapply/lhFile.do?fileid=69203782"
+    },
+    {
+     "kind": "카탈로그",
+     "name": "261030평창장평팜플렛_최종.pdf",
+     "url": "https://apply.lh.or.kr/lhapply/lhFile.do?fileid=69203797"
+    },
+    {
+     "kind": "기타 첨부파일",
+     "name": "[양식1-필수]개인정보수집이용및제3자제공동의서.hwpx",
+     "url": "https://apply.lh.or.kr/lhapply/lhFile.do?fileid=69203982"
+    },
+    {
+     "kind": "기타 첨부파일",
+     "name": "[양식2-필수]금융정보등제공동의서.hwpx",
+     "url": "https://apply.lh.or.kr/lhapply/lhFile.do?fileid=69203983"
+    },
+    {
+     "kind": "기타 첨부파일",
+     "name": "[양식3-필수]자산보유사실확인서.hwpx",
+     "url": "https://apply.lh.or.kr/lhapply/lhFile.do?fileid=69203984"
+    },
+    {
+     "kind": "기타 첨부파일",
+     "name": "[양식4-필수]예비입주자중복선정불가사항확인서.hwpx",
+     "url": "https://apply.lh.or.kr/lhapply/lhFile.do?fileid=69203985"
+    },
+    {
+     "kind": "기타 첨부파일",
+     "name": "[양식5-해당자]예비신혼부부신청확인서및세대구성확인서.hwpx",
+     "url": "https://apply.lh.or.kr/lhapply/lhFile.do?fileid=69204003"
+    },
+    {
+     "kind": "기타 첨부파일",
+     "name": "[양식6-해당자]위임장.hwpx",
+     "url": "https://apply.lh.or.kr/lhapply/lhFile.do?fileid=69204004"
+    }
+   ],
+   "etc": "■ 신청자격 등 자세한 사항은 반드시 공고문을 확인하시기 바랍니다.\n(공고내용 미숙지로 인한 모든 책임은 신청자 본인에게 있습니다)",
+   "office": {
+    "place": "강원특별자치도 춘천시 공지로 337(효자동)",
+    "tel": "1600-1004"
+   },
+   "notice_pdf": "https://apply.lh.or.kr/lhapply/lhFile.do?fileid=69203782",
+   "notice_text": 72850,
+   "rents": [
+    {
+     "complex": null,
+     "type": "31A",
+     "group": "1구간",
+     "deposit": 5982000,
+     "rent": 92590
+    },
+    {
+     "complex": null,
+     "type": "31A",
+     "group": "2구간",
+     "deposit": 6837000,
+     "rent": 105820
+    },
+    {
+     "complex": null,
+     "type": "31A",
+     "group": "3구간",
+     "deposit": 8547000,
+     "rent": 132270
+    },
+    {
+     "complex": null,
+     "type": "31A",
+     "group": "4구간",
+     "deposit": 11111000,
+     "rent": 171950
+    },
+    {
+     "complex": null,
+     "type": "31A",
+     "group": "5구간",
+     "deposit": 13675000,
+     "rent": 211640
+    },
+    {
+     "complex": null,
+     "type": "31A",
+     "group": "6구간",
+     "deposit": 15384000,
+     "rent": 238090
+    },
+    {
+     "complex": null,
+     "type": "36A",
+     "group": "1구간",
+     "deposit": 6548000,
+     "rent": 101350
+    },
+    {
+     "complex": null,
+     "type": "36A",
+     "group": "2구간",
+     "deposit": 7484000,
+     "rent": 115830
+    },
+    {
+     "complex": null,
+     "type": "36A",
+     "group": "3구간",
+     "deposit": 9355000,
+     "rent": 144780
+    },
+    {
+     "complex": null,
+     "type": "36A",
+     "group": "4구간",
+     "deposit": 12162000,
+     "rent": 188220
+    },
+    {
+     "complex": null,
+     "type": "36A",
+     "group": "5구간",
+     "deposit": 14968000,
+     "rent": 231660
+    },
+    {
+     "complex": null,
+     "type": "36A",
+     "group": "6구간",
+     "deposit": 16839000,
+     "rent": 260610
+    },
+    {
+     "complex": null,
+     "type": "46A",
+     "group": "1구간",
+     "deposit": 8165000,
+     "rent": 126370
+    },
+    {
+     "complex": null,
+     "type": "46A",
+     "group": "2구간",
+     "deposit": 9332000,
+     "rent": 144430
+    },
+    {
+     "complex": null,
+     "type": "46A",
+     "group": "3구간",
+     "deposit": 11665000,
+     "rent": 180530
+    },
+    {
+     "complex": null,
+     "type": "46A",
+     "group": "4구간",
+     "deposit": 15165000,
+     "rent": 234690
+    },
+    {
+     "complex": null,
+     "type": "46A",
+     "group": "5구간",
+     "deposit": 18664000,
+     "rent": 288860
+    },
+    {
+     "complex": null,
+     "type": "46A",
+     "group": "6구간",
+     "deposit": 20997000,
+     "rent": 324960
+    },
+    {
+     "complex": null,
+     "type": "31A",
+     "group": "생계·의료급여 수급자 등 상한",
+     "deposit": 3072000,
+     "rent": 61070
+    },
+    {
+     "complex": null,
+     "type": "36A",
+     "group": "생계·의료급여 수급자 등 상한",
+     "deposit": 3551000,
+     "rent": 70610
+    },
+    {
+     "complex": null,
+     "type": "46A",
+     "group": "생계·의료급여 수급자 등 상한",
+     "deposit": 4516000,
+     "rent": 89790
+    }
+   ],
+   "terms": {
+    "relaxed": false,
+    "homeless_relaxed": false,
+    "homeless_max1": false,
+    "income_basis": "기준 중위소득",
+    "groups": [],
+    "quotes": {},
+    "income_table_100": {
+     "1": 2564238,
+     "2": 4199292,
+     "3": 5359036,
+     "4": 6494738,
+     "5": 7556719,
+     "6": 8555952,
+     "7": 9515150,
+     "8": 10474348
+    },
+    "income_add_per": 959198
+   },
+   "api": {
+    "CCR_CNNT_SYS_DS_CD": "03",
+    "SPL_INF_TP_CD": "062",
+    "UPP_AIS_TP_CD": "06",
+    "AIS_TP_CD": "48"
+   },
+   "read": {
+    "tools": [
+     "pypdf",
+     "pdfium",
+     "plumber"
+    ],
+    "conflicts": []
+   }
+  },
+  {
+   "id": "2015122300020993",
+   "name": "평창장평 통합공공임대주택(고령자복지형) 입주자 모집",
+   "type": "통합공공임대",
+   "type_code": "48",
+   "judge_type": true,
+   "region": "강원특별자치도",
+   "posted": "2026-10-30",
+   "close": "2026-11-20",
+   "status": "공고중",
+   "url": "https://apply.lh.or.kr/lhapply/apply/wt/wrtanc/selectWrtancInfo.do?panId=2015122300020993&ccrCnntSysDsCd=03&uppAisTpCd=06&aisTpCd=48&mi=1026",
+   "url_mobile": "https://apply.lh.or.kr/lhapply/apply/wt/wrtanc/selectWrtancInfo.do?panId=2015122300020993&ccrCnntSysDsCd=03&uppAisTpCd=06&aisTpCd=48&mi=1026",
+   "schedule": [
+    {
+     "complex": null,
+     "apply_start": "2026-11-16",
+     "apply_end": "2026-11-20",
+     "apply_time": "~",
+     "docs_target": "2026-12-03",
+     "docs_start": "2026-12-07",
+     "docs_end": "2026-12-11",
+     "winner": "2027-04-09",
+     "contract_start": "2027-04-27",
+     "contract_end": "2027-04-29"
+    }
+   ],
+   "complexes": [
+    {
+     "name": "평창장평 통합공공임대주택(고령자)",
+     "address": "강원특별자치도 평창군 용평면 장평리 317-2",
+     "households": 68,
+     "area": "31.96~46.99",
+     "move_in": "2028.07",
+     "heating": "개별난방"
+    }
+   ],
+   "units": [
+    {
+     "complex": "평창장평 통합공공임대주택(고령자)",
+     "type": "31B",
+     "area": 31.96,
+     "supply_area": 50.7874,
+     "households": 32,
+     "now_households": 32,
+     "deposit": null,
+     "rent": null,
+     "money_note": "공고문 참조"
+    },
+    {
+     "complex": "평창장평 통합공공임대주택(고령자)",
+     "type": "31S",
+     "area": 31.96,
+     "supply_area": 50.7874,
+     "households": 4,
+     "now_households": 4,
+     "deposit": null,
+     "rent": null,
+     "money_note": "공고문 참조"
+    }
+   ],
+   "files": [
+    {
+     "kind": "공고문(hwp)",
+     "name": "261030평창장평통합공공임대주택공고문(고령자)_최종.hwpx",
+     "url": "https://apply.lh.or.kr/lhapply/lhFile.do?fileid=69204383"
+    },
+    {
+     "kind": "공고문(PDF)",
+     "name": "261030평창장평통합공공임대주택공고문(고령자)_최종.pdf",
+     "url": "https://apply.lh.or.kr/lhapply/lhFile.do?fileid=69204385"
+    },
+    {
+     "kind": "카탈로그",
+     "name": "261030평창장평팜플렛_최종.pdf",
+     "url": "https://apply.lh.or.kr/lhapply/lhFile.do?fileid=69204387"
+    },
+    {
+     "kind": "기타 첨부파일",
+     "name": "[양식1-필수]개인정보수집이용및제3자제공동의서.hwpx",
+     "url": "https://apply.lh.or.kr/lhapply/lhFile.do?fileid=69204392"
+    },
+    {
+     "kind": "기타 첨부파일",
+     "name": "[양식2-필수]금융정보등제공동의서.hwpx",
+     "url": "https://apply.lh.or.kr/lhapply/lhFile.do?fileid=69204396"
+    },
+    {
+     "kind": "기타 첨부파일",
+     "name": "[양식3-필수]자산보유사실확인서.hwpx",
+     "url": "https://apply.lh.or.kr/lhapply/lhFile.do?fileid=69204397"
+    },
+    {
+     "kind": "기타 첨부파일",
+     "name": "[양식4-필수]예비입주자중복선정불가사항확인서.hwpx",
+     "url": "https://apply.lh.or.kr/lhapply/lhFile.do?fileid=69204399"
+    },
+    {
+     "kind": "기타 첨부파일",
+     "name": "[양식6-해당자]위임장.hwpx",
+     "url": "https://apply.lh.or.kr/lhapply/lhFile.do?fileid=69204405"
+    }
+   ],
+   "etc": "■ 신청자격 등 자세한 사항은 반드시 공고문을 확인하시기 바랍니다.\n(공고내용 미숙지로 인한 모든 책임은 신청자 본인에게 있습니다)",
+   "office": {
+    "place": "강원특별자치도 춘천시 공지로 337(효자동)",
+    "tel": "1600-1004"
+   },
+   "notice_pdf": "https://apply.lh.or.kr/lhapply/lhFile.do?fileid=69204385",
+   "notice_text": 54309,
+   "rents": [
+    {
+     "complex": null,
+     "type": "31B",
+     "group": "생계·의료급여 수급자 등 상한",
+     "deposit": 3072000,
+     "rent": 61070
+    }
+   ],
+   "terms": {
+    "relaxed": false,
+    "homeless_relaxed": false,
+    "homeless_max1": false,
+    "income_basis": "기준 중위소득",
+    "groups": [],
+    "quotes": {},
+    "income_table_100": {
+     "1": 2564238,
+     "2": 4199292,
+     "3": 5359036,
+     "4": 6494738,
+     "5": 7556719,
+     "6": 8555952,
+     "7": 9515150,
+     "8": 10474348
+    },
+    "income_add_per": 959198
+   },
+   "api": {
+    "CCR_CNNT_SYS_DS_CD": "03",
+    "SPL_INF_TP_CD": "062",
+    "UPP_AIS_TP_CD": "06",
+    "AIS_TP_CD": "48"
    },
    "read": {
     "tools": [
