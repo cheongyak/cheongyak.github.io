@@ -1619,6 +1619,11 @@ def notice_facts(text: str, prices_man: Optional[dict] = None) -> dict:
         head = t[max(0, m.start() - 400):m.start()]
         hl = head[head.rfind("구"):] if "구" in head else head
         pos = {"seoul_busan": hl.rfind("특별시 및 부산"), "metro": max(hl.rfind("그 밖의 광역시"), hl.rfind("그밖의 광역시")), "other": hl.rfind("광역시를 제외")}
+        if min(pos.values()) < 0 and (mh := list(re.finditer(r"구 ?분 (?=특별시 및 광역시를 제외|그 ?밖의 광역시|특별시 및 부산)", head))):
+            # 머리글 칸에 괄호로 지역 이름이 붙은 꼴 '구 분 특별시 및 광역시를 제외한 지역(구미시 및 경상북도) 그 밖의 광역시(대구광역시) 특별시 및 부산광역시'
+            # — 위의 마지막 '구'가 '구미시'의 '구'라 앞 칸을 잘라 먹었다(2026000523 형곡 센트럴 아테라, 10-31 아침 자동 고치기). 위에서 못 읽은 때만 '구 분' 머리부터 다시 본다
+            hl = head[mh[-1].start():]
+            pos = {"seoul_busan": hl.rfind("특별시 및 부산"), "metro": max(hl.rfind("그 밖의 광역시"), hl.rfind("그밖의 광역시")), "other": hl.rfind("광역시를 제외")}
         vals = [int(m.group(i).replace(",", "")) for i in (3, 4, 5)]
         if all(v >= 0 for v in pos.values()):
             keys = sorted(pos, key=pos.get)
