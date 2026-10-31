@@ -1,42 +1,42 @@
 {
- "date": "2026-10-31 11:10",
- "golden_notices": 40,
+ "date": "2026-10-31 13:12",
+ "golden_notices": 44,
  "stat": {
   "pypdf": {
-   "ok": 439,
+   "ok": 502,
    "wrong": 0,
-   "missing": 33,
+   "missing": 37,
    "rent_ok": 184,
    "rent_wrong": 0,
    "rent_missing": 0,
-   "notices": 40
+   "notices": 44
   },
   "pdfium": {
-   "ok": 439,
+   "ok": 502,
    "wrong": 0,
-   "missing": 33,
+   "missing": 37,
    "rent_ok": 184,
    "rent_wrong": 0,
    "rent_missing": 0,
-   "notices": 40
+   "notices": 44
   },
   "plumber": {
-   "ok": 414,
+   "ok": 471,
    "wrong": 3,
-   "missing": 55,
+   "missing": 65,
    "rent_ok": 170,
    "rent_wrong": 0,
    "rent_missing": 14,
-   "notices": 40
+   "notices": 44
   },
   "merged": {
-   "ok": 439,
+   "ok": 502,
    "wrong": 0,
-   "missing": 33,
+   "missing": 37,
    "rent_ok": 184,
    "rent_wrong": 0,
    "rent_missing": 0,
-   "notices": 40
+   "notices": 44
   }
  },
  "merged_wrong": 0,
@@ -56,8 +56,5 @@
   "2015122300020856 account: majority pypdf={'months': 6, 'count': 6, 'rank2_any': True}, pdfium={'months': 6, 'count': 6, 'rank2_any': True}, plumber={'months': 6, 'count': 6, 'rank2_any': False}",
   "2015122300020895 account: majority pypdf={'months': 6, 'count': 6, 'rank2_any': True}, pdfium={'months': 6, 'count': 6, 'rank2_any': True}, plumber={'months': 6, 'count': 6, 'rank2_any': False}"
  ],
- "conflicts": [],
- "_data": {
-  "lh": "03173bb8a82f"
- }
+ "conflicts": []
 }
