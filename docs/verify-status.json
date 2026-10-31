@@ -1,73 +1,52 @@
 {
- "at": "2026-10-31 13:35",
- "ok": false,
+ "at": "2026-10-31 14:09",
+ "ok": true,
  "collect_run": "2026-10-31 · 공고 302건",
  "banner": null,
- "flagged": {
-  "2015122300020992": [
-   "자동 검증(임대 데이터 불변식): terms_unread",
-   "자동 검증(임대 공고문 못 읽음): (공고) 공고문에서 계층 기준을 읽지 못함"
-  ],
-  "2015122300020993": [
-   "자동 검증(임대 데이터 불변식): terms_unread",
-   "자동 검증(임대 공고문 못 읽음): (공고) 공고문에서 계층 기준을 읽지 못함"
-  ],
-  "2015122300020905": [
-   "자동 검증(임대 공고문 못 읽음): 청년 소득 기준을 공고문에서 읽지 못함 — 공고문 확인"
-  ],
-  "2015122300020963": [
-   "자동 검증(임대 공고문 못 읽음): 청년 공고문에서 이 기준을 ‘미적용’으로 읽었지만 입주자격 완화 공고로 확인되지 않아 판정하지 않아요 — 공고문 확인",
-   "자동 검증(임대 공고문 못 읽음): 청년 자동차 기준을 공고문에서 읽지 못함 — 공고문 확인",
-   "자동 검증(임대 공고문 못 읽음): 신혼부부·한부모 공고문에서 이 기준을 ‘미적용’으로 읽었지만 입주자격 완화 공고로 확인되지 않아 판정하지 않아요 — 공고문 확인",
-   "자동 검증(임대 공고문 못 읽음): 신혼부부·한부모 자동차 기준을 공고문에서 읽지 못함 — 공고문 확인",
-   "자동 검증(임대 공고문 못 읽음): 고령자 공고문에서 이 기준을 ‘미적용’으로 읽었지만 입주자격 완화 공고로 확인되지 않아 판정하지 않아요 — 공고문 확인",
-   "자동 검증(임대 공고문 못 읽음): 고령자 자동차 기준을 공고문에서 읽지 못함 — 공고문 확인"
-  ]
- },
+ "flagged": {},
  "pending": [
-  "임대 기관 거르기 화면",
-  "경고 범위 화면",
-  "임대 판정",
-  "임대 화면"
+  "시세 원자료 대조",
+  "다시 받은 공고문 값 변화",
+  "공고 누락 점검"
  ],
- "coverage_missing": 1,
+ "coverage_missing": 0,
  "observe": [],
  "warnings": [],
  "freshness": [
   {
    "name": "분양",
-   "updated": "2026-10-31 13:20",
-   "hours": 0.3,
+   "updated": "2026-10-31 13:39",
+   "hours": 0.5,
    "stale": false
   },
   {
    "name": "LH 임대",
-   "updated": "2026-10-31 10:01",
-   "hours": 3.6,
+   "updated": "2026-10-31 13:11",
+   "hours": 1.0,
    "stale": false
   },
   {
    "name": "SH 임대",
    "updated": "2026-10-31 10:05",
-   "hours": 3.5,
+   "hours": 4.1,
    "stale": false
   },
   {
    "name": "GH 임대",
    "updated": "2026-10-31 10:07",
-   "hours": 3.5,
+   "hours": 4.0,
    "stale": false
   },
   {
    "name": "공공지원 민간임대",
    "updated": "2026-10-31 10:25",
-   "hours": 3.2,
+   "hours": 3.7,
    "stale": false
   },
   {
    "name": "LH 주거복지·신혼희망",
    "updated": "2026-10-31 13:11",
-   "hours": 0.4,
+   "hours": 1.0,
    "stale": false
   }
  ],
@@ -84,10 +63,9 @@
   "mismatches": []
  },
  "qa_stale": [
-  "rent-org.json",
-  "verify-scope.json",
-  "lh-qa.json",
-  "lh-screen.json"
+  "market-check.json",
+  "parse-moved.json",
+  "coverage.json"
  ],
  "qa": {
   "gate": true,
@@ -96,7 +74,7 @@
   "filter_fails": 0,
   "consistency_fails": 0,
   "sp_text_fails": 0,
-  "market_fails": 0,
+  "market_fails": null,
   "cross_rule_fails": 0,
   "profile_keep_fails": 0,
   "monotonic_violations": 0,
@@ -105,19 +83,19 @@
   "snapshot_diffs": 0,
   "e2e_fails": 0,
   "past_chat_fails": 0,
-  "lh_invariant_violations": 2,
-  "lh_judge_qa_fails": null,
-  "lh_screen_fails": null,
-  "lh_unread": 9,
+  "lh_invariant_violations": 0,
+  "lh_judge_qa_fails": 0,
+  "lh_screen_fails": 0,
+  "lh_unread": 0,
   "lh_pdf_merged_wrong": 0,
   "pay_audit_bad": 0,
-  "parse_moved_changes": 0,
-  "coverage_missing": 1,
-  "verify_scope_fails": null,
+  "parse_moved_changes": null,
+  "coverage_missing": null,
+  "verify_scope_fails": 0,
   "pay_audit_read": "157/173",
-  "lh_data_at": "2026-10-31 10:01",
-  "cross_rule_checks": 288164,
-  "market_at": "2026-10-31",
+  "lh_data_at": "2026-10-31 13:11",
+  "cross_rule_checks": 308228,
+  "market_at": null,
   "supply_type_at": "2026-10-31",
   "invariants_at": "2026-10-31"
  }
