@@ -2,11 +2,9 @@
  "date": "2026-10-31",
  "notices": 173,
  "read": 157,
- "bad": 1,
+ "bad": 0,
  "flags": {
-  "misread": [
-   "2026000528"
-  ],
+  "misread": [],
   "dominant": [],
   "missed": [
    "2026000402",
@@ -963,12 +961,12 @@
   },
   {
    "id": "2026000528",
-   "read": 20,
-   "mid": 0,
+   "read": 10,
+   "mid": 60,
    "rows": {
     "10": 36
    },
-   "flag": "misread"
+   "flag": null
   },
   {
    "id": "2026000530",
@@ -1594,6 +1592,6 @@
   }
  ],
  "_data": {
-  "listings": "b045ae68e86c"
+  "listings": "550d43ecd37f"
  }
 }
