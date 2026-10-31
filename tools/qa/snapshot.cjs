@@ -11,7 +11,7 @@ const PROFILES = {
   '인천 1인 세대원': { household:'parents', parents60:true, parentsOwn:false, selfOwn:false, hhHomes:'0', win5y:false, everWin:'none', acctType:'all', acctSince:'2020-01-01', acctAmount:300, acctCount:30, acctPaid:500, birth:'1997-01-01', homeSido:'인천', homeSigun:'계양구', sidoOwnSince:'2010-01-01', sidoSince:'2010-01-01', areaSince:'2010-01-01', married:false, dependents:0, kidsMinor:0, kidsOnDeed:0, eldersOnDeed:2, elders1y:2, hhSize:3, income:3500, hhIncomeYear:9000, realEstate:0, carValue:0 },
   '조건 없음': null };
 (async () => {
-  const fixtures = JSON.parse(readFileSync(join(ROOT, 'tests/judge/listings.json'), 'utf8')).filter(x => !/-REG$|SPELDER|A60|A6001|A85|A8501/.test(x.id));
+  const fixtures = JSON.parse(readFileSync(join(ROOT, 'tests/judge/listings.json'), 'utf8')).filter(x => !/-REG$|SPELDER|SPNULL|A60|A6001|A85|A8501/.test(x.id));   // 판정 사례 전용 변형(SPNULL = 특별공급 세대수 지운 59G, 2026-10-31)은 화면 기준에서 뺀다
   const b = await chromium.launch({ executablePath: existsSync('/opt/pw-browsers/chromium') ? '/opt/pw-browsers/chromium' : undefined });
   const snap = {}; mkdirSync(SHOTS, { recursive: true });
   for (const [pn, pr] of Object.entries(PROFILES)) {
