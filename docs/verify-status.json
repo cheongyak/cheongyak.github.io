@@ -1,13 +1,12 @@
 {
- "at": "2026-10-31 10:25",
+ "at": "2026-10-31 10:39",
  "ok": false,
  "collect_run": "2026-10-31 · 공고 302건",
  "banner": {
-  "kind": "notice",
-  "text": "최근 자동 검증에서 공고문과 다른 값이 발견돼 확인 중이에요.",
+  "kind": "judge",
+  "text": "최근 자동 검증에서 판정 계산이 기대와 달라 확인 중이에요.",
   "why": [
-   "공고문 대조 8건 · 정답 데이터 0건 다름",
-   "단조성 2건"
+   "화면 스냅샷 12건"
   ]
  },
  "flagged": {
@@ -29,72 +28,76 @@
    "자동 검증(임대 공고문 못 읽음): 신혼부부·한부모 자동차 기준을 공고문에서 읽지 못함 — 공고문 확인",
    "자동 검증(임대 공고문 못 읽음): 고령자 공고문에서 이 기준을 ‘미적용’으로 읽었지만 입주자격 완화 공고로 확인되지 않아 판정하지 않아요 — 공고문 확인",
    "자동 검증(임대 공고문 못 읽음): 고령자 자동차 기준을 공고문에서 읽지 못함 — 공고문 확인"
+  ],
+  "2026000528": [
+   "자동 검증(계약금 비율 대조): 계약금 비율이 공고문 금액 줄과 다름"
   ]
  },
- "pending": [],
+ "pending": [
+  "임대 기관 거르기 화면",
+  "경고 범위 화면",
+  "임대 판정",
+  "임대 화면"
+ ],
  "coverage_missing": 1,
  "observe": [],
  "warnings": [],
  "freshness": [
   {
    "name": "분양",
-   "updated": "2026-10-31 07:28",
-   "hours": 3.0,
+   "updated": "2026-10-31 10:25",
+   "hours": 0.2,
    "stale": false
   },
   {
    "name": "LH 임대",
    "updated": "2026-10-31 10:01",
-   "hours": 0.4,
+   "hours": 0.6,
    "stale": false
   },
   {
    "name": "SH 임대",
    "updated": "2026-10-31 10:05",
-   "hours": 0.3,
+   "hours": 0.6,
    "stale": false
   },
   {
    "name": "GH 임대",
-   "updated": "2026-10-31 08:06",
-   "hours": 2.3,
+   "updated": "2026-10-31 10:07",
+   "hours": 0.5,
    "stale": false
   },
   {
    "name": "공공지원 민간임대",
    "updated": "2026-10-31 08:08",
-   "hours": 2.3,
+   "hours": 2.5,
    "stale": false
   },
   {
    "name": "LH 주거복지·신혼희망",
-   "updated": "2026-10-30 10:23",
-   "hours": 24.0,
+   "updated": "2026-10-31 10:07",
+   "hours": 0.5,
    "stale": false
   }
  ],
  "judge": {
-  "total": 966,
-  "passed": 966,
+  "total": 967,
+  "passed": 967,
   "failed": []
  },
  "crosscheck": {
-  "summary": "[검증·공고문] 공고문 69건 대조 · 기준표 276줄 · 분양가 302/302 일치 · 불일치 공고 1건",
-  "mismatches": [
-   "[검증·공고문 불일치] 형곡 센트럴 아테라 (2026000523): 예치금 85㎡ 이하 seoul_busan: 공고문 200만원 ≠ 앱 300만원 (표 머리글을 못 읽어 순서를 추정)",
-   "[검증·공고문 불일치] 형곡 센트럴 아테라 (2026000523): 예치금 85㎡ 이하 other: 공고문 300만원 ≠ 앱 200만원 (표 머리글을 못 읽어 순서를 추정)",
-   "[검증·공고문 불일치] 형곡 센트럴 아테라 (2026000523): 예치금 102㎡ 이하 seoul_busan: 공고문 300만원 ≠ 앱 600만원 (표 머리글을 못 읽어 순서를 추정)",
-   "[검증·공고문 불일치] 형곡 센트럴 아테라 (2026000523): 예치금 102㎡ 이하 other: 공고문 600만원 ≠ 앱 300만원 (표 머리글을 못 읽어 순서를 추정)",
-   "[검증·공고문 불일치] 형곡 센트럴 아테라 (2026000523): 예치금 135㎡ 이하 seoul_busan: 공고문 400만원 ≠ 앱 1000만원 (표 머리글을 못 읽어 순서를 추정)",
-   "[검증·공고문 불일치] 형곡 센트럴 아테라 (2026000523): 예치금 135㎡ 이하 other: 공고문 1000만원 ≠ 앱 400만원 (표 머리글을 못 읽어 순서를 추정)",
-   "[검증·공고문 불일치] 형곡 센트럴 아테라 (2026000523): 예치금 모든 면적 seoul_busan: 공고문 500만원 ≠ 앱 1500만원 (표 머리글을 못 읽어 순서를 추정)",
-   "[검증·공고문 불일치] 형곡 센트럴 아테라 (2026000523): 예치금 모든 면적 other: 공고문 1500만원 ≠ 앱 500만원 (표 머리글을 못 읽어 순서를 추정)"
-  ]
+  "summary": "[검증·공고문] 공고문 69건 대조 · 기준표 276줄 · 분양가 302/302 일치 · 불일치 공고 0건",
+  "mismatches": []
  },
  "golden": {
   "mismatches": []
  },
- "qa_stale": [],
+ "qa_stale": [
+  "rent-org.json",
+  "verify-scope.json",
+  "lh-qa.json",
+  "lh-screen.json"
+ ],
  "qa": {
   "gate": true,
   "supply_type_fails": 0,
@@ -105,24 +108,24 @@
   "market_fails": 0,
   "cross_rule_fails": 0,
   "profile_keep_fails": 0,
-  "monotonic_violations": 2,
+  "monotonic_violations": 0,
   "zero_default_violations": 0,
   "input_nav_problems": 0,
-  "snapshot_diffs": 0,
+  "snapshot_diffs": 12,
   "e2e_fails": 0,
   "past_chat_fails": 0,
   "lh_invariant_violations": 2,
-  "lh_judge_qa_fails": 0,
-  "lh_screen_fails": 0,
+  "lh_judge_qa_fails": null,
+  "lh_screen_fails": null,
   "lh_unread": 9,
   "lh_pdf_merged_wrong": 0,
-  "pay_audit_bad": 0,
+  "pay_audit_bad": 1,
   "parse_moved_changes": 0,
   "coverage_missing": 1,
-  "verify_scope_fails": 0,
-  "pay_audit_read": "153/165",
+  "verify_scope_fails": null,
+  "pay_audit_read": "157/173",
   "lh_data_at": "2026-10-31 10:01",
-  "cross_rule_checks": 286645,
+  "cross_rule_checks": 287024,
   "market_at": "2026-10-31",
   "supply_type_at": "2026-10-31",
   "invariants_at": "2026-10-31"
