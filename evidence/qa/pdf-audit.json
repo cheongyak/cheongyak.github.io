@@ -8,7 +8,13 @@
   "지금 수집 값과 다시 읽은 값이 다름": 2,
   "PDF 를 하나도 받지 못함": 1
  },
- "errors": [],
+ "errors": [
+  {
+   "notice": "2026000495",
+   "name": "연산 센텀 월드메르디앙",
+   "error": "RemoteProtocolError: Server disconnected without sending a response."
+  }
+ ],
  "results": [
   {
    "notice": "2026820013",
@@ -41,7 +47,7 @@
     "residence": {
      "area": "안산시",
      "months": 12,
-     "since": null
+     "since": "2025-10-30"
     },
     "pub_limits_kind": "town"
    },
@@ -54,7 +60,7 @@
     "residence": {
      "area": "안산시",
      "months": 12,
-     "since": null
+     "since": "2025-10-30"
     },
     "pub_limits_kind": "town"
    },
@@ -67,7 +73,7 @@
     "residence": {
      "area": "안산시",
      "months": 12,
-     "since": null
+     "since": "2025-10-30"
     },
     "pub_limits_kind": "town"
    },
@@ -99,19 +105,34 @@
     "need_head": false,
     "price_cap": false,
     "residence_duty": 0,
-    "rewin_years": 0
+    "rewin_years": 0,
+    "residence": {
+     "area": "춘천시",
+     "months": 6,
+     "since": "2026-04-30"
+    }
    },
    "fields_merged": {
     "need_head": false,
     "price_cap": false,
     "residence_duty": 0,
-    "rewin_years": 0
+    "rewin_years": 0,
+    "residence": {
+     "area": "춘천시",
+     "months": 6,
+     "since": "2026-04-30"
+    }
    },
    "fields_pdfium": {
     "need_head": false,
     "price_cap": false,
     "residence_duty": 0,
-    "rewin_years": 0
+    "rewin_years": 0,
+    "residence": {
+     "area": "춘천시",
+     "months": 6,
+     "since": "2026-04-30"
+    }
    },
    "pdfium_chars": 171823,
    "problem": []
@@ -1662,62 +1683,7 @@
   {
    "notice": "2026000495",
    "name": "연산 센텀 월드메르디앙",
-   "url": "https://www.applyhome.co.kr/ai/aia/selectAPTLttotPblancDetail.do?houseManageNo=2026000495&pblancNo=2026000495",
-   "attachments": 1,
-   "pdfs": 1,
-   "attachment_list": [
-    {
-     "url": "https://static.applyhome.co.kr/ai/aia/getAtchmnfl.do?houseManageNo=2026000495&pblancNo=2026000495&atchmnflSeqNo=2000036&atchmnflSn=8",
-     "bytes": 783751,
-     "pages": 59,
-     "chars": 113921,
-     "head": "- 1 - ※ 단지 주요정보 (분양문의) 051-758-0900 주택유형 해당지역 기타지역 규제지역여부 민영 부산광역시 1년 이상 계속 거주자("
-    }
-   ],
-   "chosen": "https://static.applyhome.co.kr/ai/aia/getAtchmnfl.do?houseManageNo=2026000495&pblancNo=2026000495&atchmnflSeqNo=2000036&atchmnflSn=8",
-   "pages": 59,
-   "pages_read": 59,
-   "chars_read": 113979,
-   "empty_pages": [],
-   "chars_per_page_min": 555,
-   "fields": {
-    "need_head": false,
-    "price_cap": false,
-    "residence_duty": 0,
-    "rewin_years": 0,
-    "account_months": 6,
-    "residence": {
-     "area": "부산광역시",
-     "months": 12,
-     "since": "2025-10-16"
-    }
-   },
-   "fields_merged": {
-    "need_head": false,
-    "price_cap": false,
-    "residence_duty": 0,
-    "rewin_years": 0,
-    "account_months": 6,
-    "residence": {
-     "area": "부산광역시",
-     "months": 12,
-     "since": "2025-10-16"
-    }
-   },
-   "fields_pdfium": {
-    "need_head": false,
-    "price_cap": false,
-    "residence_duty": 0,
-    "rewin_years": 0,
-    "account_months": 6,
-    "residence": {
-     "area": "부산광역시",
-     "months": 12,
-     "since": "2025-10-16"
-    }
-   },
-   "pdfium_chars": 114582,
-   "problem": []
+   "error": "RemoteProtocolError: Server disconnected without sending a response."
   },
   {
    "notice": "2026000373",
