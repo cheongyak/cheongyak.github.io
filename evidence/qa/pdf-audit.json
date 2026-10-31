@@ -2,10 +2,11 @@
  "date": "2026-10-31",
  "page_cap": 300,
  "notices": 69,
- "with_problem": 7,
+ "with_problem": 8,
  "kinds": {
   "글자가 거의 없는 쪽 N개 (스캔 이미지·표 그림 추정)": 7,
-  "지금 수집 값과 다시 읽은 값이 다름": 2
+  "지금 수집 값과 다시 읽은 값이 다름": 2,
+  "PDF 를 하나도 받지 못함": 1
  },
  "errors": [],
  "results": [
@@ -1904,60 +1905,16 @@
    "name": "청주 가경 아이파크 7단지",
    "url": "https://www.applyhome.co.kr/ai/aia/selectAPTLttotPblancDetail.do?houseManageNo=2026000491&pblancNo=2026000491",
    "attachments": 1,
-   "pdfs": 1,
+   "pdfs": 0,
    "attachment_list": [
     {
      "url": "https://static.applyhome.co.kr/ai/aia/getAtchmnfl.do?houseManageNo=2026000491&pblancNo=2026000491&atchmnflSeqNo=1992167&atchmnflSn=7",
-     "bytes": 1913042,
-     "pages": 75,
-     "chars": 172078,
-     "head": "- 1 - ※ 단지 주요정보 (분양문의) 1533-3767 주택유형 해당지역 기타지역 규제지역여부 민영 청주시 거주자 충청북도 거주자 비규제지역"
+     "error": "PDF 아님 (200, 59바이트)"
     }
    ],
-   "chosen": "https://static.applyhome.co.kr/ai/aia/getAtchmnfl.do?houseManageNo=2026000491&pblancNo=2026000491&atchmnflSeqNo=1992167&atchmnflSn=7",
-   "pages": 75,
-   "pages_read": 75,
-   "chars_read": 172152,
-   "empty_pages": [],
-   "chars_per_page_min": 216,
-   "fields": {
-    "need_head": false,
-    "price_cap": false,
-    "residence_duty": 0,
-    "rewin_years": 0,
-    "account_months": 6,
-    "residence": {
-     "area": "청주시",
-     "months": 0,
-     "since": null
-    }
-   },
-   "fields_merged": {
-    "need_head": false,
-    "price_cap": false,
-    "residence_duty": 0,
-    "rewin_years": 0,
-    "account_months": 6,
-    "residence": {
-     "area": "청주시",
-     "months": 0,
-     "since": null
-    }
-   },
-   "fields_pdfium": {
-    "need_head": false,
-    "price_cap": false,
-    "residence_duty": 0,
-    "rewin_years": 0,
-    "account_months": 6,
-    "residence": {
-     "area": "청주시",
-     "months": 0,
-     "since": null
-    }
-   },
-   "pdfium_chars": 172120,
-   "problem": []
+   "problem": [
+    "PDF 를 하나도 받지 못함"
+   ]
   },
   {
    "notice": "2026000471",
