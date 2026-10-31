@@ -735,9 +735,15 @@ def no_supply(raw: dict) -> bool:
     return raw.get("households") == 0 and sp.get("total") == 0
 
 
+# 청약홈 공고 목록을 공고일 기준 며칠 전까지 받을지. 화면에 남기는 기간(접수 중이거나 당첨자 발표 뒤 14일, applyhome.KEEP_AFTER_WINNER_DAYS)보다 길어야 한다.
+# 2026-10-31: 60일이던 때 2026000414 인천계양 A6 공공분양(공고 08-31, 당첨자 발표 뒤 14일이 아직 안 지남)이 공고일 61일째에 목록에서 빠져
+# 공고 누락 점검(tools/qa/coverage, 200일)이 '화면에 없는 공고 1'로 검증 현황을 실패시킴. LH 공공분양은 공고 → 발표가 길어 넉넉히 120일
+NOTICE_LOOKBACK_DAYS = 120
+
+
 def run(dry_run: bool = False, today: Optional[date] = None, read_notices: bool = True) -> list[Listing]:
     today = today or date.today()
-    since = (today - timedelta(days=60)).isoformat()
+    since = (today - timedelta(days=NOTICE_LOOKBACK_DAYS)).isoformat()
     from . import market as MK
     MK.BALANCE = feature_on("market_complex_balance")   # 한 단지 몫 상한 (2026-10-31, app/market.mid_low) — 꺼져 있으면 지금 계산 그대로
     ah = ApplyhomeClient()
