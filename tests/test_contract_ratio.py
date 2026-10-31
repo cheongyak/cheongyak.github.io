@@ -86,3 +86,15 @@ def test_audit_split_contract_columns():
     assert PA.row_rates(row)[20] == 0          # 두 칸 머리가 없으면 10% 줄로만 센다
     t = (ROOT / "evidence/notices/2026930043.txt").read_text(encoding="utf-8")
     assert parse_notice(t)["pay_ratio"] == {"contract": 0.2, "mid": 0.6, "balance": 0.2}
+
+
+def test_garbled_head_and_option_table_split_20261031():
+    """광교 자연앤 센트레빌 2026000528 (2026-10-31): 본 표 머리 '계약금 중도금(60%) 잔금 30% 10% 차1(10%)…'(계약금 10% 가 뒤로 섞임)를 10/60/30 으로 읽고,
+    표시 없는 '마이너스옵션 발코니 확장금액 계약금(20%) 잔금(80%)' 머리는 옆 본 표의 계약금 10% + 중도금 1차 10% 두 칸을 20% 나눔으로 잘못 세지 않는다"""
+    r = _p("2026000528")
+    assert r["pay_ratio"] == {"contract": 0.1, "mid": 0.6, "balance": 0.3} and r.get("contract_split") is None
+    from app.notice_pdf import pay_terms
+    head = "■ 공급금액 표 (단위: 원) 주택형 층별 세대수 공급금액 계약금 중도금(60%) 잔금 30% 10% 1차 (10%) 2차 (10%) 3차 (10%) 4차 (10%) 5차 (10%) 6차 (10%) 입주 시 계약 시\n"
+    rows = "084A 10층이상 13 949,300,000 94,930,000 94,930,000 94,930,000 94,930,000 94,930,000 94,930,000 94,930,000 284,790,000\n"
+    assert pay_terms(head + rows)[0]["contract"] == 0.1
+    assert pay_terms(head.replace("잔금 30% 10%", "잔금 30% 20%") + rows)[0] is None   # 합이 100% 가 아니면 읽지 않음

@@ -38,7 +38,7 @@ const ROOT = join(__dirname, '../..'), DOCS = join(ROOT, 'docs'), NF = Number(pr
       homeSido: maybe(pick(SIDOS)), homeSigun: pick(['', '창원시', '김해시', '군산시', '남원시', '전주시', '양주시', '마포구']),
       acctType: maybe(pick(['all', 'saving', 'deposit', 'bugeum', 'none', ''])), acctSince: pick(['', '2015-01-01', '2026-06-01']), acctCount: maybe(pick([0, 5, 6, 60])),
       lhStudent: maybe(pick([true, false]), 0.5), lhStudentIncome: maybe(pick([true, false]), 0.5), lhHousingBenefit: maybe(pick([true, false]), 0.5), lhSingleParent: maybe(pick([true, false]), 0.5),
-      lhHomeOutside: maybe(pick([true, false]), 0.5), lhStartupRec: maybe(pick([true, false]), 0.5), lhJobCriteria: maybe(pick([true, false]), 0.5), lhLongWorker: maybe(pick([true, false]), 0.5), lhMinorHead: maybe(pick([true, false]), 0.5),
+      lhHomeOutside: maybe(pick([true, false]), 0.5), lhStartupRec: maybe(pick([true, false]), 0.5), lhJobCriteria: maybe(pick([true, false]), 0.5), lhJobIncome: maybe(pick([true, false]), 0.5), lhLongWorker: maybe(pick([true, false]), 0.5), lhMinorHead: maybe(pick([true, false]), 0.5),
       hhHomes: maybe(pick(['0', '0', '1', '2+']), 0.3), eldersOnDeed: maybe(pick([0, 0, 1]), 0.4), kidsOnDeed: maybe(pick([0, 1]), 0.5), lhPreWed: maybe(pick([true, false]), 0.6), lhBirthKids: maybe(pick([0, 1, 2]), 0.6),
       _set: ZERO_KEYS.filter(() => rnd() < 0.6) });   // 기본값 0·false 칸 중 일부만 '입력함'
     const BAD = /\bNaN\b|\bundefined\b|\[object Object\]|\bnull\b/;

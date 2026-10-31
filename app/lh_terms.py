@@ -41,7 +41,8 @@ def _q(t: str, m, before=40, after=80) -> str:
 
 
 def is_relaxed(t: str, name: str = "") -> bool:
-    return bool(re.search(r"자격\s?완화|입주자격완화", name)) or bool(re.search(r"입주자격\s?완화\s?(주요내용|모집|조건|등)|【완화조건】|요건을 아래와 같이 완화|입주자격 요건\([^)]*\)을 완화", t))
+    # '■ 입주자격 완화요건(금회 모집에 한하여 한시적 적용' (포항블루밸리 2015122300020963, 2026-10-31) — '완화요건' 뒤에 '(금회 모집' 이 있을 때만
+    return bool(re.search(r"자격\s?완화|입주자격완화", name)) or bool(re.search(r"입주자격\s?완화\s?(주요내용|모집|조건|등)|【완화조건】|요건을 아래와 같이 완화|입주자격 요건\([^)]*\)을 완화|입주자격\s?완화\s?요건\s?\(금회\s?모집", t))
 
 
 # ── 국민임대·영구임대 (계층 하나 '일반') ─────────────────────────────────────────
@@ -253,9 +254,16 @@ def _happy_groups(t: str) -> tuple[list[dict], dict]:
                 if mt and isinstance(g["asset_manwon"], int) and _int(mt.group(1)) == g["asset_manwon"] * 10000 \
                         and _int(mt.group(2)) % 10000 == 0 and _int(mt.group(2)) // 10000 * 10 == _int(m.group(1)):
                     g["car_manwon"], q["car"] = _int(mt.group(2)) // 10000, _q(seg_main, mt, 10, 0)
+        elif key != "대학생" and re.search(r"자동차\s?가액이\s?아래의\s?금액\s?이하일\s?것", seg_main) and \
+                (m := re.search(r"자동차\s?가액\s?기준\s?[^\d]{0,30}?(?:[1-3]인\s?)?0인\s?([\d,]{9,10})원\s?(?:[1-3]인\s?(?:이상\s?)?0인\s?[\d,]{9,10}원\s?)?1인\s?([\d,]{9,10})원", seg_main)) \
+                and _int(m.group(1)) % 10000 == 0 and round(_int(m.group(1)) * 1.1 / 10000) * 10000 == _int(m.group(2)):
+            # 포항블루밸리 행복주택 완화 공고(2015122300020963, 2026-10-31): '④ 금회 모집의 경우 총자산 요건 배제. 단, 자동차가액이 아래의 금액 이하일 것' +
+            # 표 '자동차가액 기준 세대주인 청년 (세대기준) 1인 0인 45,420,000원 2인 0인 45,420,000원 1인 49,960,000원 …' — 출생자녀 0인 칸이 기본 기준.
+            # 출생자녀 1인 칸이 기본 × 1.1 일 때만 받는다(화면의 출산가구 가산 +10~20%p 와 같은 표인지 확인)
+            g["car_manwon"], q["car"] = _int(m.group(1)) // 10000, _q(seg_main, m, 0, 0)
         elif key == "대학생" and (m := re.search(r"자동차가액\s?산출대상\s?자동[차자]를\s?소유하고\s?있지\s?않을\s?것", whole)):   # '자동자'(양산 909 오기)
             g["car_manwon"], q["car"] = 0, _q(whole, m, 20, 0)
-        if re.search(r"입주\s?전까지[^.]{0,40}주택청약종합저축", seg_main):
+        if re.search(r"입주\s?전까지[^.]{0,40}주택청약종합저\s?축", seg_main):   # PDF 줄바꿈 '주택청약종합저 축'(포항블루밸리 963·과천 S12 960 신혼부부, 2026-10-31)
             g["account_by_movein"] = True   # 본인(또는 배우자) 입주 전까지 주택청약종합저축(청약저축 포함) 가입사실 증명
         if key == "신혼부부·한부모" and "dual_add" not in g and isinstance(g["income_pct"], dict) and g["income_pct"].get("3+") and \
                 (md := re.search(r"맞\s?벌\s?이\s?(?:부부|신혼부부)\s?(?:는\s?)?(\d{3})\s?(?:퍼센트|%)", seg_main)):
@@ -288,7 +296,7 @@ def _happy_groups(t: str) -> tuple[list[dict], dict]:
         if (mt := re.search(r"총\s?자산가액\s?합산기준\s?([\d,]+)만원\s?이하,\s?총\s?자산\s?중\s?자동차가액이\s?([\d,]+)만원\s?이하", seg)):
             g["asset_manwon"], g["car_manwon"] = _int(mt.group(1)), _int(mt.group(2))
             q["asset"] = q["car"] = _q(seg, mt, 10, 10)
-        if re.search(r"입주\s?전까지[^.]{0,40}주택청약종합저축", seg):
+        if re.search(r"입주\s?전까지[^.]{0,40}주택청약종합저\s?축", seg):
             g["account_by_movein"] = True
         if re.search(r"맞\s?벌\s?이\s?부\s?부\s?는\s?120%", seg):
             g["dual_add"] = 20        # '맞벌이 부부는 120% 이하 … 맞벌이 2인가구인 경우에는 130%'
@@ -300,6 +308,19 @@ def _happy_groups(t: str) -> tuple[list[dict], dict]:
 
 # ── 통합공공임대 (● 청년 / ● 신혼부부ㆍ한부모가족 / ● 고령자 / ● 일반) ───────────────────
 
+def _plain_group_head(t: str, start: int, key: str) -> Optional[int]:
+    """표시(●·❶) 없이 계층 이름만 적은 꼴 — 평창장평 2015122300020992·993 (2026-10-31): '■ 세부 신청자격 청년 【유의사항】 … 신혼부부ㆍ한부모가족 • …
+    고령자 【유의사항】 … 일반 • 무주택세대구성원…'. 일반공급 절 뒤 '■ 세부 신청자격' 안에서, 계층 이름 바로 뒤에 •·【유의사항】이 올 때만 그 자리"""
+    ms = re.search(r"■\s?세부\s?신청자격", t[start:])
+    if not ms:
+        return None
+    base = start + ms.start()
+    pat = {"청년": r"세부\s?신청자격\s?청년\s?\W{0,3}\s?(?=【유의사항】|•)", "신혼부부·한부모": r"신혼부부\s?[ㆍ·]\s?한부모가족\s?(?=【유의사항】|•)",
+           "고령자": r"(?<![가-힣])고령자\s?(?=【유의사항】|•)", "일반": r"(?<![가-힣])일반\s?(?=•\s?무주택세대구성원)"}[key]
+    m = re.search(pat, t[base: base + 6000])
+    return base + m.start() if m else None
+
+
 def _integrated_groups(t: str) -> tuple[list[dict], dict]:
     groups, quotes = [], {}
     asset = car = None
@@ -308,11 +329,13 @@ def _integrated_groups(t: str) -> tuple[list[dict], dict]:
             (m := re.search(r"총자산가액\s?([\d,]+)원\s?이하\s?[\d,]+원\s?이하\s?[\d,]+원\s?이하\s?자동차가액\s?([\d,]+)원\s?이하", t)):
         asset, car = _int(m.group(1)) // 10000, _int(m.group(2)) // 10000
         qa = {"asset": _q(t, m, 10, 10), "car": _q(t, m, 10, 10)}
-    if (mb := re.search(r"■\s?신분기준\s?구분\s?신분기준", t)) and (mi := re.search(r"1인\s?\(\+20%p\)\s?(\d{3})%[^가-힣]{0,20}2인\s?\(\+10%p\)\s?(\d{3})%[^가-힣]{0,20}3인\s?이상\s?\(\+0%p\)\s?(\d{3})%", t)):
+    # 담양삼만 일자리연계형(2015122300020905, 2026-10-31): 머리가 '■ 신분요건 (※ 다음 ❶∼❹ 중 어느 하나에 해당하여야 함)' — 같은 표(❶ 청년 ❷ 신혼부부 ❸ 한부모 ❹ 장기종사자)
+    if (mb := re.search(r"■\s?신분기준\s?구분\s?신분기준|■\s?신분요건\s?\(※\s?다음\s?❶", t)) and (mi := re.search(r"1인\s?\(\+20%p\)\s?(\d{3})%[^가-힣]{0,20}2인\s?\(\+10%p\)\s?(\d{3})%[^가-힣]{0,20}3인\s?이상\s?\(\+0%p\)\s?(\d{3})%", t)):
         # 일자리연계형 지원주택(전주동서학 742): 직업기준 + 신분기준 ❶ 청년 ❷ 신혼부부 ❸ 한부모가족 ❹ 장기종사자, 자산·소득기준은 공통
         seg = t[mb.start(): mb.start() + 2500]
         pct = {"1": int(mi.group(1)), "2": int(mi.group(2)), "3+": int(mi.group(3))}
-        note = ["직업기준(지역전략산업 종사자 등) 충족이 필요해요 — 공고문 확인"] if re.search(r"■\s?직업기준", t) else []
+        note = ["직업기준(지역전략산업 종사자 등) 충족이 필요해요 — 공고문 확인"] if re.search(r"■\s?직업기준", t) else \
+            ["직업요건(사업소득 또는 근로소득이 있는 사람) 충족이 필요해요 — 공고문 확인"] if re.search(r"■\s?직업요건\s?사업\s?·?\s?근로소득자", t) else []   # 담양삼만 905
         mj = re.search(r"■\s?직업기준", t)
         job_regions = sorted(set(re.findall(r"모집공고일\s?기준\s?([가-힣]{2,10})에\s?주민등록이\s?되어\s?있는\s?사람", t[mj.start(): mj.start() + 3000]))) if mj else []
         qi = _q(t, mi, 10, 10)
@@ -336,9 +359,10 @@ def _integrated_groups(t: str) -> tuple[list[dict], dict]:
     start = m0.start() if m0 else 0
     for key, pat in (("청년", r"청년"), ("신혼부부·한부모", r"신혼부부\s?[ㆍ·]\s?한부모가족"), ("고령자", r"고령자"), ("일반", r"일반")):
         m = re.search(r"(?:●|[❶❷❸❹❺])\s?" + pat + r"\s", t[start:])   # 부산모라 2015122300020912 '❶ 청년 ❷ 신혼부부ㆍ한부모가족 ❸ 고령자 ❹ 일반' (2026-10-17)
-        if not m:
+        pos = start + m.start() if m else _plain_group_head(t, start, key) if m0 else None
+        if pos is None:
             continue
-        seg = t[start + m.start(): start + m.start() + 900]
+        seg = t[pos: pos + 900]
         g = {"key": key, "name": key, "homeless": "self" if key == "청년" else "household", "income_pct": None,
              "asset_manwon": asset, "car_manwon": car, "age_min": 18 if key == "청년" else 65 if key == "고령자" else None,
              "age_max": 39 if key == "청년" else None}
@@ -361,6 +385,16 @@ def _integrated_groups(t: str) -> tuple[list[dict], dict]:
             g["dual_add"] = int(md.group(1))   # '① 신혼부부 맞벌이 우대비율 : 30%p 가산' (855)
             q["dual"] = _q(t, md, 0, 20)
         groups.append(g); quotes[key] = q
+    if not groups and (me := re.search(r"입주자\s?모집공고일\s?\([\d.\s]+\)\s?현재\s?공급신청자가\s?①\s?65세\s?이상인\s?무주택세대구성원\s?\(단,\s?혼인\s?중이\s?아닌\s?경우로서\s?"
+                                     r"단독세대주로\s?입주하려는\s?사람은\s?무주택자\)\s?으로서\s?②\s?자산\s?[・·]\s?소득\s?기준을\s?충족한\s?자", t)) and asset and car and \
+            (mi := re.search(r"1인\s?\(\+20%p\)\s?(\d{3})%[^가-힣]{0,20}2인\s?\(\+10%p\)\s?(\d{3})%[^가-힣]{0,20}3인\s?이상\s?\(\+0%p\)\s?(\d{3})%", t)):
+        # 고령자복지주택만 모집(평창장평 고령자복지형 2015122300020993, 2026-10-31): '4. 입주자격 … 공급신청자가 ①65세 이상인 무주택세대구성원(단, 혼인중이 아닌 경우로서
+        # 단독세대주로 입주하려는 사람은 무주택자)으로서 ②자산・소득 기준을 충족한 자' + 소득기준 표 '1인 (+20%p) 170% … 2인 (+10%p) 160% … 3인 이상 (+0%p) 150%' + 자산기준 표.
+        # 세 가지가 모두 있을 때만 고령자 계층 하나로 읽는다
+        g = {"key": "고령자", "name": "고령자", "homeless": "household_or_single_self", "income_pct": {"1": int(mi.group(1)), "2": int(mi.group(2)), "3+": int(mi.group(3))},
+             "asset_manwon": asset, "car_manwon": car, "age_min": 65, "age_max": None}
+        groups.append(g)
+        quotes["고령자"] = dict(qa, income=_q(t, mi, 10, 10), homeless=_q(t, me, 0, 0))
     return groups, quotes
 
 
@@ -573,7 +607,7 @@ def parse_local(t: str, region: Optional[str]) -> Optional[dict]:
 
 def parse_lh_terms(text: str, kind: str, name: str = "", region: Optional[str] = None) -> dict:
     t = flat(text)
-    res = {"relaxed": is_relaxed(t, name), "homeless_relaxed": bool(re.search(r"연접\s?지역에\s?주택(?:이|을)?\s?(?:없|소유하지)", t)),
+    res = {"relaxed": is_relaxed(t, name), "homeless_relaxed": bool(re.search(r"(?:연접|해당)\s?지역에\s?주택(?:이|을)?\s?(?:없|소유하지)", t)),   # 포항블루밸리 963 '무주택 요건 해당지역에 주택이 없을 경우 허용'(2026-10-31)
            "homeless_max1": bool(re.search(r"2호\s?이상의\s?주택\s?또는\s?분양권을\s?소유하고\s?있는\s?사람은\s?제외", t)),   # 무주택 완화여도 2호 이상은 제외(삼척도계 581)
            "income_basis": None, "groups": [], "quotes": {}, "income_table_100": None}
     if kind in ("국민임대", "영구임대"):

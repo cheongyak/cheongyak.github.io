@@ -704,7 +704,7 @@ const DEFAULT_PROFILE = { seoul:null, household:'', parents60:null, parentsOwn:n
   selfOwn:null, married:null, spouseOwn:false, spouseIncome:0, spouseLoan:0, account:'unknown', recentWin:false, birth:'', marriedOn:'', homeSoldOn:'', dependents:null, spouseAcctSince:'', hhHomes:'', hhOwner:'', win5y:null, acctType:'', acctSince:'', acctAmount:0, acctCount:null, acctPaid:null, homeArea:'',
   cash:0, liquid:0, deposit:0, income:0, loanMonthly:0, firstTime:null,
   selfEverOwned:null, youthAsset:null, parentsAsset:null,   /* 청년 특별공급 (기능 youth_special) */
-  lhStudent:null, lhStudentIncome:null, lhHousingBenefit:null, lhSingleParent:null, lhHomeOutside:null, lhStartupRec:null, lhJobCriteria:null, lhLongWorker:null, lhBirthKids:null, lhMinorHead:null, lhPreWed:null, shSupportSingle:null,   /* LH 임대 공고 화면에서만 묻는 칸 (기능 lh_rental) */
+  lhStudent:null, lhStudentIncome:null, lhHousingBenefit:null, lhSingleParent:null, lhHomeOutside:null, lhStartupRec:null, lhJobCriteria:null, lhJobIncome:null, lhLongWorker:null, lhBirthKids:null, lhMinorHead:null, lhPreWed:null, shSupportSingle:null,   /* LH 임대 공고 화면에서만 묻는 칸 (기능 lh_rental) */
   kidsUnder6:null, gen3:null, homeSido:'', sidoSince:'', sidoOwnSince:'', kidsOnDeed:null, eldersOnDeed:null, elders1y:null, fetusCount:null, homeSigun:'', areaSince:'', kidsMinor:null, youngestBirth:'', pregnant:null, hhSize:null, hhIncomeYear:null, realEstate:null, carValue:null, townType:null, townInsurance:null, townFinOther:null, townOtherAsset:null, townDebt:null, ownExc:null, spouseSoldOn:'', winSpecial:null, winScore2y:null, hhNeverOwned:null, everWin:null, taxYears5:null, elder65:null };
 
 /* 입력 여부 (2026-10-05 LH 임대 안전성 점검 R3~R5): 기본값이 0·false 인 칸(소득·배우자 소득·현금·금융자산·보증금·배우자 주택 등)은
@@ -5249,7 +5249,7 @@ const rBonus = p => p.lhBirthKids == null || p.lhBirthKids === '' ? null : Numbe
 const rUrban = n => n >= 1 && n <= 8 ? RENT_URBAN_2025[n - 1] : n > 8 ? RENT_URBAN_2025[7] + (n - 8) * 579278 : null;
 /* 계층 하나 판정 → { s: 'ok'|'no'|'check'|'na', items:[{s,t}] } */
 /* 공고문에만 있는 추가 요건 → 내 조건 칸 (임대 공고 화면에서만 묻는다) */
-const lhNoteKey = t => /창업인/.test(t) ? 'lhStartupRec' : /직업기준/.test(t) ? 'lhJobCriteria' : /장기 종사|장기종사/.test(t) ? 'lhLongWorker' : null;
+const lhNoteKey = t => /창업인/.test(t) ? 'lhStartupRec' : /직업기준/.test(t) ? 'lhJobCriteria' : /직업요건/.test(t) ? 'lhJobIncome' : /장기 종사|장기종사/.test(t) ? 'lhLongWorker' : null;
 const LH_Q = {   /* 확인 항목 '답하기'에서 묻는 칸: [질문, 형식, 선택지] — 분양 판정과 같은 칸은 내 조건에 같이 저장된다(사용자 10-05 '내 조건에 같이 저장') */
   birth: ['생년월일', 'date'], married: ['혼인 중인가요?', 'yn'], marriedOn: ['혼인신고일', 'date'], youngestBirth: ['막내 자녀 생일', 'date'],
   selfOwn: ['본인 명의 집(분양권·입주권 포함)이 있나요?', 'yn'], spouseOwn: ['배우자(예비 배우자·따로 사는 배우자 포함) 명의 집(분양권·입주권 포함)이 있나요?', 'yn'],
@@ -5266,6 +5266,7 @@ const LH_Q = {   /* 확인 항목 '답하기'에서 묻는 칸: [질문, 형식,
   lhHousingBenefit: ['주거급여 수급자(수급권자)인가요?', 'yn'], lhSingleParent: ['한부모가족(모자·부자가족)인가요?', 'yn'],
   lhHomeOutside: ['가진 집이 공고문의 주택건설지역·연접지역 밖에 있거나 소형·저가주택(전용 60㎡ 이하·공시가 1억, 수도권 1억6천 이하)인가요?', 'yn'],
   lhStartupRec: ['이 공고가 요구하는 창업인(예비창업인) 추천 자격이 있나요?', 'yn'], lhJobCriteria: ['이 공고의 직업기준(지역전략산업 종사자 등)에 해당하나요?', 'yn'],
+  lhJobIncome: ['사업소득이나 근로소득이 있나요? (이 공고의 직업요건 — 일하거나 사업해서 버는 소득)', 'yn'],   /* 담양삼만 일자리연계형 905 '■ 직업요건 사업·근로소득자' (2026-10-31) */
   lhLongWorker: ['이 공고의 장기종사자 요건(중소기업 3년·동일기업 5년 근속 등)에 해당하나요?', 'yn'],
   lhMinorHead: ['자녀를 키우거나(같은 등본), 부모님 사망·실종 등으로 형제자매를 부양하는 세대주인가요? (외국인 부모 한부모가족의 내국인 자녀 세대주 포함)', 'yn'],
   lhPreWed: ['결혼할 예정(입주 전까지 혼인신고하는 예비신혼부부)인가요?', 'yn'],

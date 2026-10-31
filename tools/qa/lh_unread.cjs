@@ -29,7 +29,7 @@ const NOTICE_SIDE = /읽지 못|못 읽|모르는 계층|판정하지 못|판정
     const base = { birth: '1993-05-01', married: false, marriedOn: '', selfOwn: false, spouseOwn: false, household: 'head', parentsOwn: false, hhHomes: '0',
       eldersOnDeed: 0, kidsOnDeed: 0, acctType: 'all', acctSince: '2015-01-01', acctCount: 60, hhSize: 2, kidsMinor: 0, hhIncomeYear: 3000, income: 3000, spouseIncome: 0,
       realEstate: 0, carValue: 0, cash: 1000, liquid: 0, deposit: 0, townInsurance: 0, townFinOther: 0, townOtherAsset: 0, townDebt: 0, youthAsset: 1000, pregnant: false,
-      lhStudent: false, lhStudentIncome: false, lhHousingBenefit: false, lhSingleParent: false, lhHomeOutside: false, lhStartupRec: false, lhJobCriteria: false,
+      lhStudent: false, lhStudentIncome: false, lhHousingBenefit: false, lhSingleParent: false, lhHomeOutside: false, lhStartupRec: false, lhJobCriteria: false, lhJobIncome: false,
       lhLongWorker: false, lhMinorHead: false, lhPreWed: false, lhBirthKids: 0 };
     const profiles = [
       base,

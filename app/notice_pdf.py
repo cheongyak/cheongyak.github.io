@@ -227,6 +227,33 @@ def _quote_at(text: str, pos: list[int], s: int, e: int, before: int = 12, after
 
 _AMT = r"\d{1,3}(?:,\d{3})+"
 _PAY_HEAD = re.compile(r"계약금\(?(?:계약시|계약 시)?(\d{1,2})%\)?(?:와|과|,)?((?:(?:\d차|\d회)?중도금[가-힣()]{0,14}?\(?\d{1,2}%\)?(?:와|과|,)?)*)잔금(?:\((?:입주시)?(\d{1,3})%\)|(\d{1,3})%)?")
+# PDF 글이 머리 칸 순서를 섞어 낸 꼴: '계약금 중도금(60%) 잔금 30% 10% 1차(10%) …'(2026000528 광교 자연앤 센트레빌, 2026-10-31) —
+# 계약금 칸의 '10%' 가 잔금 '30%' 뒤로 밀림. 잔금 뒤 두 % 중 뒤의 것이 계약금, 바로 뒤에 '1차(10%)' 같은 중도금 회차가 이어질 때만
+_PAY_HEAD_GARBLED = re.compile(r"계약금중도금\((\d{1,2})%\)잔금(\d{1,2})%(\d{1,2})%(?=차?\d차?\(\d{1,2}%\))")
+
+
+class _PayHead:
+    """분양대금 표 머리 하나 — 계약금 c · 중도금 합 mi · 잔금 b (%)"""
+    def __init__(self, m, garbled: bool = False):
+        self.m = m
+        if garbled:
+            self.mi, b, self.c = int(m.group(1)), int(m.group(2)), int(m.group(3))
+            self.b = b
+        else:
+            self.c = int(m.group(1))
+            self.mi = sum(int(x) for x in re.findall(r"(\d{1,2})%", m.group(2) or ""))
+            self.b = int(m.group(3) or m.group(4)) if (m.group(3) or m.group(4)) else 100 - self.c - self.mi
+
+    def start(self):
+        return self.m.start()
+
+    def end(self):
+        return self.m.end()
+
+    def group(self, i):
+        return self.m.group(i)
+
+
 _SUPPLY_WORD = re.compile(r"공급금액|분양가격?|분양금액|공급가격?|주택가격|분양대금|총분양금액|아파트공급|공급가")
 
 
@@ -261,13 +288,10 @@ def pay_terms(text: str) -> tuple[dict | None, dict | None]:
     - 받은 표들의 비율이 둘 이상이면(주택형마다 다름 등) 읽지 않음"""
     flat = re.sub(r"\s+", "", text)
     pos = _flat_pos(text)
-    heads = [m for m in _PAY_HEAD.finditer(flat)]
+    heads = sorted([_PayHead(m) for m in _PAY_HEAD.finditer(flat)] + [_PayHead(m, garbled=True) for m in _PAY_HEAD_GARBLED.finditer(flat)], key=lambda h: h.start())
     ok_ratios, first, fixed_all, whole_all, found = {}, None, [], 0, []
     for k, m in enumerate(heads):
-        c = int(m.group(1))
-        mids = [int(x) for x in re.findall(r"(\d{1,2})%", m.group(2) or "")]
-        mi = sum(mids)
-        b = int(m.group(3) or m.group(4)) if (m.group(3) or m.group(4)) else 100 - c - mi
+        c, mi, b = m.c, m.mi, m.b
         if not (c + mi + b == 100 and 0 < c <= 30):
             continue
         pre = flat[max(0, m.start() - 150): m.start()]
@@ -285,6 +309,10 @@ def pay_terms(text: str) -> tuple[dict | None, dict | None]:
         uw = flat[u0: u0 + 16] if u0 >= 0 else ""
         unit = 10000 if "만원" in uw or re.search(r"\(만원\)", pre[-150:]) else 1000 if "천원" in uw or re.search(r"\(천원\)", pre[-150:]) else 1   # 열 머리 '주택가격(천원)'(2026000041)
         whole, fixed, Ts = _row_check(seg, c, unit, mi)
+        if whole == 0 and fixed and not re.search(r"\d차|차\d|이내|\d{1,3}(?:일|개월)내", flat[m.end(): m.end() + 120]):
+            # '1차 정액 + 2차 나머지' 줄은 머리 바로 뒤에 나눔 표시(1차·2차·'차1'(글 뒤섞임)·'이내'·'30일내')가 있을 때만 — 옆 본 표의 '계약금 10% · 중도금 1차 10%' 두 칸이
+            # 합쳐 20% 처럼 보여, 표시 없는 '마이너스옵션 발코니 확장금액 계약금(20%) 잔금(80%)' 머리를 본 표로 읽었다 (2026-10-31 광교 자연앤 센트레빌 2026000528)
+            fixed = []
         if whole + len(fixed) == 0 and unit == 1 and re.search(r"주택가격", pre[-60:]):
             # 단위 표시가 멀리 있는 LH 표(2026820009 신혼희망타운 '주택형 타입 층별 타입별 주택가격 계약금10% 중도금20% 잔금')는 천원 단위 —
             # 본 표 열 이름 '주택가격'이 바로 앞에 있고, 금액이 모두 천원 단위 집값 크기(5만~200만)이며 3줄 이상 맞을 때만 (원 단위 옵션 표를 천 배로 읽지 않게)
@@ -312,7 +340,7 @@ def pay_terms(text: str) -> tuple[dict | None, dict | None]:
         for g in heads:
             pre_g = flat[max(0, g.start() - 120): g.start()]
             if re.search(r"사전청약당첨자외", pre_g[-90:]):
-                gen.add((int(g.group(1)), sum(int(x) for x in re.findall(r"(\d{1,2})%", g.group(2) or ""))))
+                gen.add((g.c, g.mi))
         pick = [k for k in ok_ratios if (k[0], k[1]) in gen]
         if len(pick) == 1:
             ok_ratios = {pick[0]: ok_ratios[pick[0]]}
@@ -672,18 +700,27 @@ def parse_score_ratio(text: str) -> Optional[dict]:
     for a_, b_ in ((r"추 ?첨 ?제", "추첨제"), (r"전용 ?면적", "전용면적"), (r"초 ?과", "초과"), (r"이 ?하", "이하")):   # '추 첨제'·'전용 면적'·'초 과' (2026000354)
         t = re.sub(a_, b_, t)
     m = re.search(r"전용면적별 1?\s?순위 가점제\s?[/·]?\s?추첨제 적용\s?비율(?: ?-? ?1 ?/)?(?: ?- ?가점 ?산정 ?기준 ?\(「주택공급에 관한 규칙」 ?별표1의2 ?나목\))? ?•? ?구분 ?"
-                  r"(?:[가-힣 ]{2,30}약식표기 ?타입 ?\(\) ?|[가-힣 ]{2,30} 해당 ?주택형 ?\(약식표기\) ?)?가점제 ?추첨제", t)   # '적용비율1 / 구분' (2026000508·509 뒤섞임)
+                  r"(?:[가-힣 ]{2,30}약식표기 ?타입 ?\(\) ?|[가-힣 ]{2,30} 해당 ?주택형 ?\(약식표기\) ?|약식표기 ?\( ?\) ?)?가점제 ?추첨제", t)   # '구분 약식표기 ( ) 가점제 추첨제' (2026000539 남춘천 센트레빌, 10-31)   # '적용비율1 / 구분' (2026000508·509 뒤섞임)
     # '적용비율 1 /• 구분 화성 향남 롯데캐슬 시그니처약식표기 타입() 가점제 추첨제' (2026000502 — 단지명·약식표기 머리가 끼어 있음, 2026-10-22 이슈 #25)
     # '적용비율 - 가점 산정기준(「주택공급에 관한 규칙」 별표1의2 나목) 구분 한화포레나 지제역 해당 주택형(약식표기) 가점제 추첨제' (2026000499 —
     #   다음 표 제목 줄이 표 머리 앞에 끼고, 머리에 '단지명 해당 주택형(약식표기)' 칸이 있음, 2026-10-30 아침 자동 고치기)
     if not m:
         return {"unknown": True} if re.search(r"가점제 ?[/·]? ?추첨제 ?적용 ?비율", t) else None
     seg = re.split(r"가점 ?산정 ?기준|■|※", t[m.end():m.end() + 320])[0]
-    pieces = list(re.finditer(r"전용면적(.*?)(?<![\dA-Za-z])(-|\d{1,3}) ?%? ?(-|\d{1,3}) ?%", seg))
+    loose = _score_rows(re.finditer(r"전용면적(.*?)(?<![\dA-Za-z])(-|\d{1,3}) ?%? ?(-|\d{1,3}) ?%", seg))
+    if loose.get("rows"):
+        return loose
+    # 약식표기 칸에 숫자만 있는 주택형 '전용면적 이하 60㎡ 59 40% 60%' (2026000539) — 두 비율에 모두 % 가 붙은 줄로 다시 읽는다 ('-' 는 % 없이)
+    strict = _score_rows(re.finditer(r"전용면적(.*?)(?<![\dA-Za-z])(-|\d{1,3} ?%) ?(-|\d{1,3}) ?%", seg))
+    return strict if strict.get("rows") else loose
+
+
+def _score_rows(pieces) -> dict:
     rows = []
     for r in pieces:
         body = r.group(1)
-        sizes = [int(x) for x in re.findall(r"(\d{2,3})\s?㎡", body)] + [int(x) for x in re.findall(r"(?:초과|이하)(\d{2,3})(?![\dA-Za-z])", body)]
+        sizes = [int(x) for x in re.findall(r"(\d{2,3})\s?㎡", body)] + [int(x) for x in re.findall(r"(?:초과|이하)(\d{2,3})(?![\dA-Za-z])", body)] + \
+            [int(x) for x in re.findall(r"(?<![\d,.])(\d{2,3}) (?=\d{2,3} ?㎡ ?㎡)", body)]   # '초과 이하 60 85 ㎡ ㎡' (2026000539 뒤섞임)
         sizes = sorted(set(sizes))
         over_w, upto_w = "초과" in body, "이하" in body
         if over_w and upto_w and len(sizes) == 2:
@@ -694,7 +731,7 @@ def parse_score_ratio(text: str) -> Optional[dict]:
             lo, hi = sizes[0], None
         else:
             return {"unknown": True}
-        a = 0 if r.group(2) == "-" else int(r.group(2))
+        a = 0 if r.group(2) == "-" else int(r.group(2).rstrip("% "))
         b = 0 if r.group(3) == "-" else int(r.group(3))
         if a + b != 100:
             return {"unknown": True}
@@ -1008,10 +1045,10 @@ def _parse_residence(text: str) -> Optional[dict]:
         hpart = mid[:head.end()] if head else mid
         rest = mid[head.end():] if head else ""
         yrs = re.search(r"(\d{1,2})\s*년\s*이상|년\s*이상\s*(?:계속\s*)?거주자\s*(\d)|년\s*이상\s*(?:계속\s*)?거주자\s*이전부터 계속 ?거주\s*(\d)", hpart)   # '년 이상 계속 거주자1': 숫자가 뒤로 밀린 글 (2026000444 제주 아이린8차, 2026-10-03 사용자 제보)
-        mos = re.search(r"(\d{1,2})\s*개월\s*이상", hpart)
+        mos = re.search(r"(\d{1,2})\s*개월\s*이상|개월\s*이상\s*(?:계속\s*)?거주자\s*(\d{1,2})(?![\d.])", hpart)   # '춘천시 개월 이상 계속 거주자 6이전부터' (2026000539, 10-31)
         if not yrs and not mos and re.search(r"년\s*이상|개월\s*이상", hpart):
             return None   # 거주기간 요건 낱말은 있는데 숫자를 못 찾음 → '요건 없음(0)'으로 두지 않고 못 읽음 (화면 '확인 필요')
-        months = int(yrs.group(1) or yrs.group(2) or yrs.group(3)) * 12 if yrs else (int(mos.group(1)) if mos else 0)
+        months = int(yrs.group(1) or yrs.group(2) or yrs.group(3)) * 12 if yrs else (int(mos.group(1) or mos.group(2)) if mos else 0)
         # 괄호 안 날짜 앞에 설명이 붙은 공고도 있다: '(공고일로부터 1년 전, 2025.02.12. 이전부터 계속 거주)' (2026000018 제주, 2026-10-02 MASTER QA)
         sd = re.search(r"\((?:[^()\d]{0,30}\d?[^()\d]{0,10},\s*)?(\d{4})\.(\d{1,2})\.(\d{1,2})\.?\s*\)?(?:\s*이전부터)?", hpart)
         out = {"area": area, "months": months, "since": _ymd(*sd.groups()) if (sd and months) else None}
@@ -1029,11 +1066,11 @@ def _parse_residence(text: str) -> Optional[dict]:
         body = m.group(3).split("②")[0]
         yrs = re.match(r"공고일 현재 (?:주민등록표등본상 )?\S+ ?(?:(\d{1,2})년 이상|(\d{1,2})개월 이상)? ?거주자", body)
         months = (int(yrs.group(1)) * 12 if yrs.group(1) else int(yrs.group(2) or 0)) if yrs else 0
-        sd = re.search(r"주민등록표등본상 [‘’'`](\d{2})\.(\d{1,2})\.(\d{1,2})\.? ?이전부터", body)
+        sd = re.search(r"주민등록표등본상 (?:[‘’'`]|20)(\d{2})\.(\d{1,2})\.(\d{1,2})\.? ?이전부터", body)   # '2025.10.30. 이전부터' 네 자리 연도 (2026820013 안산신길2, 10-31)
         out = {"area": area, "months": months, "since": _ymd(*sd.groups()) if (sd and months) else None,
                "quota": {"해당": int(m.group(2))}}
         after = t[m.start():m.start() + 1500]
-        g = re.search(r"② ?경기도 ?(\d{1,3}) ?% ?․? ?공고일 현재 경기도 (\d+)개월 이상 거주자 - 주민등록표등본상 [‘’'`](\d{2})\.(\d{1,2})\.(\d{1,2})", after)
+        g = re.search(r"② ?경기도 ?(\d{1,3}) ?% ?․? ?공고일 현재 경기도 (\d+)개월 이상 거주자 - 주민등록표등본상 (?:[‘’'`]|20)(\d{2})\.(\d{1,2})\.(\d{1,2})", after)
         if g:
             out["gyeonggi"] = {"months": int(g.group(2)), "since": _ymd(*g.groups()[2:])}
             out["quota"]["경기"] = int(g.group(1))
@@ -1322,6 +1359,10 @@ def parse_resale(flat: str) -> Optional[dict]:
         (r"전매(?:행위)?\(부부공동명의포함\)가불가",   # 이익공유형 분양주택(공공주택 특별법 제49조의10) — 전매 대신 공공에 되팔기(환매)
          lambda m: {"months": None, "forbidden": True}),
         # LH 표·문장
+        (r"전매제한(?:최초)?당첨자발표일(년|개월)(\d{1,2})(?![\d,.])(단,?전매행위제한기간이내에해당주택에대한소유권이전등기를완료한경우)?",   # 2026000528 광교 공공분양 표 '전매제한 당첨자발표일 년 3 단, 전매행위 제한기간 이내에 … 소유권이전등기를 완료한 경우 …' 뒤섞임 (10-31)
+         lambda m: {"months": mon(m.group(2), m.group(1)), "base": "당첨자 발표일", "registration": bool(m.group(3))}),
+        (r"입주자로선정된날부터년이" + _D + r"(\d{1,2})(?![\d,.])지나기전에는전매",   # 2026000527 광교 지분적립형 '입주자로 선정된 날부터 년이(2026.11.18.) 10 지나기 전에는 전매' 뒤섞임 (10-31)
+         lambda m: {"months": mon(m.group(4), "년"), "base": _rs_ymd(m, 1)}),
         (r"전매제한(?:최초)?당첨자발표일(\d{1,2})(년|개월)",
          lambda m: {"months": mon(m.group(1), m.group(2)), "base": "당첨자 발표일"}),
         (r"입주자로선정된날" + _D + r"로부터(\d{1,2})(년|개월)간?전매가금지",

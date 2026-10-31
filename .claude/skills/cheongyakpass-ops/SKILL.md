@@ -47,6 +47,7 @@ description: 청약패스(cheongyakpass.kr, 저장소 cheongyak/cheongyak.github
 8. **HANDOFF.md '진행 중인 일' 갱신** 후 사용자에게 결과를 짧게 알린다 (무엇이 바뀌었나, 확인한 것, 사용자가 할 일).
 
 ## 4. 알아 둔 함정
+- 근거 자료 갱신(evidence-collect)으로 새 공고문 원문이 들어오면 '저장 원문 전수' 시험(resale·residence·score_ratio·pay)이 다음 아침 수집 pytest 에서 실패해 수집이 멈출 수 있다. 같은 날 손 실행 collect 는 daily-run 이 이미 있으면 pytest 까지 건너뛰어 미리 안 걸린다 → 작업 전 `git pull` 뒤 로컬 pytest 로 새 원문 실패를 먼저 본다 (10-31: 527·528·539·820013). LH 임대 계층 추가 요건 문구(notes)는 화면 lhNoteKey·LH_Q·생성기 nk 세 곳에 함께 넣어야 '답하기'가 생기고 lh_unread 가 안 걸린다
 - 새 '확인 필요'·'입력 필요' 문구를 만들면 바로 답하기(inline_fix)의 질문 매핑(FIX_KEYS·SP_FIX·PEND_FIX)에도 넣고 `node tools/qa/fixflow.cjs` 로 답한 뒤 판정되는지 확인한다. 사용자가 '입력했는데 계속 확인 필요'라고 하면 이 매핑부터 본다.
 - 판정 정확도 점검은 블라인드 감사로: tools/qa/audit/README.md (검토자는 공고문·법령 원문만 보고, 앱 코드·결과는 안 봄). 불일치는 원문으로 누가 맞는지 가린 뒤 앱이 틀렸을 때만 사례 추가·수정.
 - 판정 사례 기대값은 공고문 문장으로 따로 계산한다. 생성기 기본 프로필끼리 모순(예: 노부모 부양함 + 같은 등본 부모 0명)이 있으면 사례가 엉뚱하게 실패하니 먼저 의심.

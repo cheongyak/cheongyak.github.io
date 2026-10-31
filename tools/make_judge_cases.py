@@ -1018,7 +1018,7 @@ def main() -> None:
         if g.get("job_sidos"):                                 # 직업기준 주민등록 요건 (시·도)
             st.append("check" if not p.get("homeSido") else "no" if p["homeSido"] not in g["job_sidos"] else "ok")
         for nt in g.get("notes") or []:                        # 공고문에만 있는 추가 요건 — 내 답(창업인 추천·직업기준·장기종사)
-            nk = "lhStartupRec" if "창업인" in nt else "lhJobCriteria" if "직업기준" in nt else "lhLongWorker" if ("장기 종사" in nt or "장기종사" in nt) else None
+            nk = "lhStartupRec" if "창업인" in nt else "lhJobCriteria" if "직업기준" in nt else "lhJobIncome" if "직업요건" in nt else "lhLongWorker" if ("장기 종사" in nt or "장기종사" in nt) else None
             st.append(yn(p.get(nk)) if nk else "check")
         if k not in ("대학생", "청년"):                        # 성년자 요건 (대학생·청년은 미성년 가능)
             if age is None: st.append("check")                 # 생일 모름 → 성년자인지 모름
@@ -1339,6 +1339,10 @@ def main() -> None:
                    ("경남 거주(직업기준 주민등록 아님)", {"homeSido": "경남", "hhSize": 4, "kidsMinor": 2, "married": True, "marriedOn": "2015-01-01", "hhIncomeYear": 6000, "lhLongWorker": True, "lhJobCriteria": True}),
                    ("자녀 0·가구원 모름", {"kidsMinor": 0, "hhSize": None})]:
         lh_add(W, ["장기종사자"], nm, ch, bW + " · 직업기준 '모집공고일 기준 전북특별자치도(무형유산)·전주시(예술인)에 주민등록'")
+    D = "LH-2015122300020905"   # 2026-10-31: 직업요건(사업·근로소득자)을 내 답으로 판정 — 답 없으면 확인, 아니요면 불가
+    bD = "담양삼만 일자리연계형 지원주택 2015122300020905 '■ 직업요건 사업 · 근로소득자 「소득세법」 제19조제1항 또는 제20조제1항에 따른 사업소득 또는 근로소득이 있는 사람' + 신분요건 ❶ 청년 19세 이상 39세 이하이면서 혼인 중이 아닌 사람"
+    for nm, ch in [("청년·직업요건 예", {"lhJobIncome": True}), ("청년·직업요건 아니요", {"lhJobIncome": False}), ("청년·직업요건 답 없음", {"lhJobIncome": None})]:
+        lh_add(D, ["청년"], nm, ch, bD)
     bB2 = bE + " · 출산가구 가산('23.3.28 이후 출생 자녀 1명 +10%p, 2명 이상 또는 1명+그 전 미성년 자녀 +20%p)"
     over = yr(URB[3] * 0.5) + 1
     for nm, ch in [("3인 초과·출산 자녀 수 모름", {"hhSize": 3, "hhIncomeYear": over, "youngestBirth": "2024-05-01", "kidsMinor": 1}),
