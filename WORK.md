@@ -4,6 +4,15 @@
 2026-09-29 12:55 이전 항목은 규칙을 만들기 전 작업을 커밋 기록으로 정리한 것이라 백업 브랜치가 없어요.
 그 시점으로 되돌릴 때는 해당 커밋 번호로 `git revert` 를 써요.
 
+## 2026-10-31 15:53 · 한 단지가 시세 비교 거래를 독차지하지 않게 (market_complex_balance, 꺼 둠)
+- 요청: 그래 한 단지가 거래 독차지 못하게 해서 다시 해봐 (광교 자연앤 센트레빌이 왜 비추천인지 → 중앙값으로 바꿀지 → 한 단지 몫 제한으로)
+- 원인: 광교 자연앤 센트레빌 84㎡ 비교 거래(같은 동 원천동 2km 안 57건) 중 22건이 영흥숲 푸르지오 파크비엔(1.9km, 9억 안팎) → 하위 25% 9.5억이 그 단지 값 → 세금 포함 9.8억보다 낮아 비추천. 중앙값으로 바꾸면 41개 주택형 등급이 한꺼번에 올라가 보수 기준이 무너져 권하지 않음
+- 변경: 단지(법정동 첫 낱말 + 단지 이름)마다 거래가 5건보다 많으면 거래 무게를 5/건수로 줄여 중앙값·하위 25% 계산(app/market.mid_low·_wq, rules.COMPLEX_CAP=5). 무게가 같으면 지금 계산(_p25·median)과 같게 만든 식이라 5건 이하 단지만 있거나 한 단지뿐인 공고는 결과 그대로(시험으로 고정). 같은 구 3규칙·같은 동·반경(market_nearby) 모두 적용, 같은 단지 거래는 그대로. 근거 문구 끝에 몰린 단지 이름·건수. 원자료 대조(tools/qa/market_check)에 따로 쓴 계산 추가(스위치 따라). 미리 보기 도구 tools/qa/market_balance_report.py(market-nearby.yml 입력 balance=yes, 끔·켬 두 번 계산해 evidence/qa/market-balance.json)
+- 파일: app/market.py, app/market_nearby.py, app/pipeline.py, app/rules.py, docs/config.json, tools/qa/market_check.py, tools/qa/market_balance_report.py, .github/workflows/market-nearby.yml, tests/test_market_complex_balance.py, tests/qa/market_balance_case.json, FEATURES.md, HANDOFF.md, WORK.md
+- 확인: 광교 57건(evidence/qa/market-dump.json 고정본) 끔 9.5~14.8억 = 지금 화면, 켬 12.11~14.8억(수집 계산 = 원자료 대조 계산), 무작위 300묶음 수집 = 대조, pytest(대체 httpx) 400 통과·실패 14 = 고치기 전과 같음, judge_check 970/970, 미리 보기 도구를 저장 거래로 돌려 광교 84A·B·C 비추천 → 고려. 전체 공고 미리 보기는 Actions 결과로
+- 백업: backup/20261031-1553-complex-balance
+- 기능: market_complex_balance (false)
+
 ## 2026-10-31 12:37 · 공고별 '데이터 확인 필요' 5건 + 새 원문 4건을 공고문 기준으로 고침
 - 요청: 아까 말한 5건 다 공고문 기준으로 수정해줘 (2026000528 광교 계약금 비율, LH 905 담양삼만, 992·993 평창장평, 963 포항블루밸리)
 - 원인·변경 (분양, app/notice_pdf.py):

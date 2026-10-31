@@ -25,7 +25,7 @@ from pathlib import Path
 from typing import Optional
 
 from . import rules as R
-from .market import _comp, _in_band, _p25, _recent, _summary, dong_of
+from .market import _comp, _in_band, _p25, _ppa_summary, _recent, _summary, cap_note, dong_of
 
 ROOT = Path(__file__).resolve().parents[1]
 COORD_CACHE = ROOT / "evidence" / "market" / "complex-geo.json"
@@ -90,12 +90,11 @@ def _result(rows: list[dict], direct: int, area: float, rule: str, stage: str, s
         comps.append(c)
     head = f"가까운 거래가 {len(rows)}건뿐이라 추정이에요 — " if few else ""
     if rule == "newbuild":
-        low, base = _summary([r["amount"] for r in rows])
+        low, base = _summary([r["amount"] for r in rows], rows)   # 단지 몫 상한(기능 market_complex_balance)은 app/market 이 BALANCE 로 적용
         note = f"{head}{scope} 준공 {R.NEW_BUILD_YEARS}년 이내 같은 평형({int(area)}㎡) 매매 {len(rows)}건 기준 (최근 {R.MARKET_MONTHS}개월)"
     else:
-        ppa = [r["amount"] / r["area"] for r in rows]
-        base = statistics.median(ppa) * area / 10000
-        low = round(_p25(ppa) * area / 10000 if len(ppa) >= 4 else base * R.LOW_DISCOUNT, 2)   # app/market 과 같게 반올림 전 값으로
+        low, base = _ppa_summary(rows, area)
+        low = round(low, 2)   # app/market 과 같게 반올림 전 값으로
         base = round(base, 2)
         if rule == "area_ppa":
             note = (f"{head}같은 평형 거래가 부족해 {scope} 준공 {R.NEW_BUILD_YEARS}년 이내 비슷한 면적(±{R.AREA_BAND_WIDE:g}㎡) 매매 {len(rows)}건의 "
@@ -104,7 +103,7 @@ def _result(rows: list[dict], direct: int, area: float, rule: str, stage: str, s
             note = (f"{head}이 면적대 거래가 없어 {scope} 준공 {R.NEW_BUILD_YEARS}년 이내 전용 {R.LARGE_AREA:g}㎡ 이상 매매 {len(rows)}건의 "
                     f"㎡당 가격 × 전용 {area:.1f}㎡로 추정 (최근 {R.MARKET_MONTHS}개월)")
     out = {"mkt_low": low, "mkt_base": base, "mkt_basis": basis, "mkt_count": len(rows), "mkt_comps": _recent(comps),
-           "mkt_direct_excluded": direct, "mkt_note": note}
+           "mkt_direct_excluded": direct, "mkt_note": note + cap_note(rows)}
     if few:
         out["mkt_basis"] = basis + "_few"
     return out

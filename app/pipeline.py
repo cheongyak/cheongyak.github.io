@@ -738,6 +738,8 @@ def no_supply(raw: dict) -> bool:
 def run(dry_run: bool = False, today: Optional[date] = None, read_notices: bool = True) -> list[Listing]:
     today = today or date.today()
     since = (today - timedelta(days=60)).isoformat()
+    from . import market as MK
+    MK.BALANCE = feature_on("market_complex_balance")   # 한 단지 몫 상한 (2026-10-31, app/market.mid_low) — 꺼져 있으면 지금 계산 그대로
     ah = ApplyhomeClient()
     rt = RtmsClient()
     log: list[str] = []

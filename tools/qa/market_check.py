@@ -67,6 +67,34 @@ def p25(xs: list[float]) -> float:
     return xs[i] + (xs[j] - xs[i]) * (k - i)
 
 
+CAP = 5   # 기능 market_complex_balance: 한 단지 몫 상한 (app/rules.py COMPLEX_CAP 과 같은 값, 따로 적음)
+BAL = {"on": False}
+
+
+def stats(vals: list[float], rows: list[dict]) -> tuple[float, float | None]:
+    """(중앙값, 하위 25% — 4건 미만이면 None). BAL 이 켜져 있으면 단지(법정동 첫 낱말 + 이름)마다 무게 min(건수, 5)/건수 —
+    수집 코드(app/market.mid_low)와 따로 옮긴 계산: 정렬한 값의 누적 무게 자리 F_i = (앞 무게 합)/(전체 − 마지막 무게) 사이를 직선으로 잇는다"""
+    cnt: dict = {}
+    keyf = lambda r: ((r.get("umd") or "").split(" ")[0], flat(r.get("apt", "")))
+    for r in rows:
+        cnt[keyf(r)] = cnt.get(keyf(r), 0) + 1
+    if not BAL["on"] or all(v <= CAP for v in cnt.values()):
+        return statistics.median(vals), (p25(vals) if len(vals) >= 4 else None)
+    items = sorted((v, min(cnt[keyf(r)], CAP) / cnt[keyf(r)]) for v, r in zip(vals, rows))
+    total = sum(w for _, w in items)
+    span = total - items[-1][1]
+    acc, F = 0.0, []
+    for _, w in items:
+        F.append(acc / span)
+        acc += w
+
+    def at(q):
+        j = next(i for i in range(1, len(items)) if F[i] >= q)
+        a, b = F[j - 1], F[j]
+        return items[j - 1][0] + (items[j][0] - items[j - 1][0]) * ((q - a) / (b - a) if b > a else 0.0)
+    return at(0.5), (at(0.25) if len(vals) >= 4 else None)
+
+
 def addr_dong(address: str) -> str:
     """주소 앞쪽(시도 다음 네 낱말 안)의 '…동·읍·면·가' 낱말 — app/market.dong_of 와 따로 옮긴 규칙"""
     for w in (address or "").split()[1:5]:
@@ -92,9 +120,9 @@ def expect(name: str, area: float, trades: list[dict], presales: list[dict], yea
         # 기능 mkt_area_fallback: ±10㎡ 같은 구 신축 매매 5건 이상이면 ㎡당 가격(중앙값·하위 25%) × 면적 — 수집 코드와 따로 옮긴 계산
         wide = [r for r in trades if fallback and area and live(r) and r["area"] and abs(r["area"] - area) <= WIDE and r["build"] and r["build"] >= year - NEW_YEARS]
         if len(wide) >= WIDE_MIN:
-            u = sorted(r["amount"] / r["area"] for r in wide)
-            base = statistics.median(u) * area / 10000
-            low = p25(u) * area / 10000 if len(u) >= 4 else base * LOW_X
+            m, q = stats([r["amount"] / r["area"] for r in wide], wide)
+            base = m * area / 10000
+            low = q * area / 10000 if q is not None else base * LOW_X
             return {"basis": "district_area_ppa", "count": len(wide), "base": round(base, 2), "low": round(low, 2), "rows": wide}
         # 기능 mkt_large_fallback: 펜트하우스(P) 아니면 ① 같은 단지 다른 평형 3건+ ② 전용 100㎡ 이상이면 같은 구 신축 100㎡ 이상 매매 5건+ 의 ㎡당 가격 × 면적
         if large and area and not unit.strip().upper().endswith("P"):
@@ -102,13 +130,18 @@ def expect(name: str, area: float, trades: list[dict], presales: list[dict], yea
                                   ([r for r in trades if live(r) and r["area"] and r["area"] >= BIG and r["build"] and r["build"] >= year - NEW_YEARS] if area >= BIG else [], WIDE_MIN, "district_large_ppa")):
                 if len(rows) >= need:
                     u = sorted(r["amount"] / r["area"] for r in rows)
-                    base = statistics.median(u) * area / 10000
-                    low = p25(u) * area / 10000 if len(u) >= 4 else base * LOW_X
+                    if b == "district_large_ppa":   # 단지 몫 상한은 같은 구 거래에만 (같은 단지 다른 평형은 한 단지)
+                        m, q = stats([r["amount"] / r["area"] for r in rows], rows)
+                    else:
+                        m, q = statistics.median(u), (p25(u) if len(u) >= 4 else None)
+                    base = m * area / 10000
+                    low = q * area / 10000 if q is not None else base * LOW_X
                     return {"basis": b, "count": len(rows), "base": round(base, 2), "low": round(low, 2), "rows": rows}
         return {"basis": None, "count": len(pool), "base": None, "low": None, "rows": pool}
     a = [r["amount"] for r in pool]
-    base = statistics.median(a) / 10000
-    low = p25(a) / 10000 if len(a) >= 4 else base * LOW_X
+    m, q = stats(a, pool) if basis == "district_newbuild" else (statistics.median(a), p25(a) if len(a) >= 4 else None)
+    base = m / 10000
+    low = q / 10000 if q is not None else base * LOW_X
     return {"basis": basis, "count": len(pool), "base": round(base, 2), "low": round(low, 2), "rows": pool}
 
 
@@ -135,13 +168,13 @@ def expect_nearby(e: dict, area: float, trades: list[dict], year: int, address: 
 
     def done(rows, where):
         if rule == "newbuild":
-            a = [r["amount"] for r in rows]
-            base = statistics.median(a) / 10000
-            low = p25(a) / 10000 if len(a) >= 4 else base * LOW_X
+            m, q = stats([r["amount"] for r in rows], rows)
+            base = m / 10000
+            low = q / 10000 if q is not None else base * LOW_X
         else:
-            u = sorted(r["amount"] / r["area"] for r in rows)
-            base = statistics.median(u) * area / 10000
-            low = p25(u) * area / 10000 if len(u) >= 4 else base * LOW_X
+            m, q = stats([r["amount"] / r["area"] for r in rows], rows)
+            base = m * area / 10000
+            low = q * area / 10000 if q is not None else base * LOW_X
         return {"basis": f"{where}_{rule}", "count": len(rows), "base": round(base, 2), "low": round(low, 2), "rows": rows}
     dg = addr_dong(address)
     has = bool(origin) and origin.get("lat") is not None
@@ -185,7 +218,7 @@ def fetch(http, key: str, kind: str, lawd: str, ym: str) -> list[dict]:
     return out
 
 
-def check(listings: list[dict], today: date, get, fallback: bool | None = None, nearby: bool | None = None) -> dict:
+def check(listings: list[dict], today: date, get, fallback: bool | None = None, nearby: bool | None = None, balance: bool | None = None) -> dict:
     """get(kind, lawd, ym) → 원자료 거래 목록. 공고마다 시세·근거 거래를 원자료와 비교"""
     from app import lawd as LC
     cache, res = LC.load(), []
@@ -203,6 +236,12 @@ def check(listings: list[dict], today: date, get, fallback: bool | None = None, 
             nearby = json.loads((ROOT / "docs" / "config.json").read_text(encoding="utf-8")).get("features", {}).get("market_nearby", True) is not False
         except Exception:
             nearby = True
+    if balance is None:   # 수집과 같은 스위치(docs/config.json features.market_complex_balance, 없으면 켜짐)
+        try:
+            balance = json.loads((ROOT / "docs" / "config.json").read_text(encoding="utf-8")).get("features", {}).get("market_complex_balance", True) is not False
+        except Exception:
+            balance = True
+    BAL["on"] = bool(balance)
     try:
         coords = json.loads((ROOT / "evidence" / "market" / "complex-geo.json").read_text(encoding="utf-8")) if nearby else {}
     except Exception:

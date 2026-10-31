@@ -12,6 +12,10 @@ on:
         description: "시세 근거 거래 전부 볼 주택형 id (쉼표로, 비우면 안 함)"
         required: false
         default: ""
+      balance:
+        description: "한 단지 몫 상한(market_complex_balance) 미리 보기만 (yes 면 이것만)"
+        required: false
+        default: ""
 permissions:
   contents: write
 concurrency:
@@ -32,13 +36,15 @@ jobs:
         with:
           python-version: "3.12"
       - run: pip install -r requirements.txt
-      - if: ${{ inputs.dump == '' }}
+      - if: ${{ inputs.balance == 'yes' }}
+        run: python -m tools.qa.market_balance_report ${{ inputs.only && format('--only {0}', inputs.only) || '' }}
+      - if: ${{ inputs.dump == '' && inputs.balance != 'yes' }}
         run: python -m tools.qa.market_nearby_report ${{ inputs.only && format('--only {0}', inputs.only) || '' }}
-      - if: ${{ inputs.dump != '' }}
+      - if: ${{ inputs.dump != '' && inputs.balance != 'yes' }}
         run: python -m tools.qa.market_dump $(echo "${{ inputs.dump }}" | tr ',' ' ')
       - name: 저장
         run: |
           git config user.name "cheongyak-bot"
           git config user.email "actions@users.noreply.github.com"
-          git add $(ls evidence/qa/market-nearby.json evidence/qa/market-nearby-cases.json evidence/qa/market-dump.json 2>/dev/null) $( [ -e evidence/market/complex-geo.json ] && echo evidence/market/complex-geo.json )
+          git add $(ls evidence/qa/market-nearby.json evidence/qa/market-nearby-cases.json evidence/qa/market-dump.json evidence/qa/market-balance.json 2>/dev/null) $( [ -e evidence/market/complex-geo.json ] && echo evidence/market/complex-geo.json )
           git diff --cached --quiet || (git commit -m "가까운 곳 시세 미리 보기 $(date +%Y-%m-%d)" && bash tools/qa/push_retry.sh)
