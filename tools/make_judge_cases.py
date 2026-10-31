@@ -600,6 +600,10 @@ def main() -> None:
       basis="2026000414 공급표 59G 일반공급 0세대 — 특별공급 4유형 모두 소득 기준(<표4>·<표5> 최대 200%+완화 20%p) 초과")
     g(fn="bucket", listing="2026000414-SPELDER", profile=dict(pub_base, hhIncomeYear=3000, income=3000, elder65=False), expect={"b": "no"},
       basis="일반 0세대·노부모부양 특별공급만 있는 주택형(2026000414 59G 변형) — 규칙 제46조 '65세 이상 직계존속을 3년 이상 계속 부양' 미충족이면 신청할 공급이 없음 (일반공급 요건을 다 갖춰도)")
+    p = dict(pub_base, hhIncomeYear=3000, income=3000)
+    assert best(g59, p) == "ok"
+    g(fn="bucket", listing="2026000414-SPNULL", profile=p, expect={"b": "unsure"},
+      basis="일반 0세대인데 특별공급 세대수를 모름(2026000414 59G 에서 세대수만 지운 변형 — 수집이 못 읽은 경우) → 이번 공급이 0세대일 수도 있어(같은 공고 59C 는 0세대) 특별공급 자격이 맞아도 '가능'으로 단정하지 않음 (2026-10-31 단조성)")
     g(fn="bucket", listing="2026000414-059.8300C", profile=dict(pub_base, hhIncomeYear=3000, income=3000), expect={"b": "no"},
       basis="2026000414 공급표 59C 총공급 15세대 = 사전청약 당첨자 15 → 이번 공고 공급 0세대 (일반 0·특별 0)")
     p36 = dict(pub_base, homeSido="경기", homeSigun="과천시", hhIncomeYear=3000, income=3000)

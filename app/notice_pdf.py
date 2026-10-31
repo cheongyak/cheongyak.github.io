@@ -1617,7 +1617,10 @@ def notice_facts(text: str, prices_man: Optional[dict] = None) -> dict:
             continue
         # 표 머리글의 지역 순서를 읽는다 (공고마다 '그 밖의 광역시'가 앞에 오기도 한다)
         head = t[max(0, m.start() - 400):m.start()]
-        hl = head[head.rfind("구"):] if "구" in head else head
+        # 머리글 시작은 '구 분'(또는 '구분')의 마지막 자리 — '구'만 찾으면 머리글 안 '구미시'·'대구광역시'의 '구'에서 잘려 앞 칸 이름을 잃는다
+        # (2026-10-31 형곡 센트럴 아테라 2026000523 '구 분 특별시 및 광역시를 제외한 지역(구미시 및 경상북도) 그 밖의 광역시(대구광역시) 특별시 및 부산광역시' → 순서 추정으로 뒤집혀 공고문 대조 8건 거짓 불일치)
+        hs = [x.start() for x in re.finditer(r"구\s?분", head)]
+        hl = head[hs[-1]:] if hs else (head[head.rfind("구"):] if "구" in head else head)
         pos = {"seoul_busan": hl.rfind("특별시 및 부산"), "metro": max(hl.rfind("그 밖의 광역시"), hl.rfind("그밖의 광역시")), "other": hl.rfind("광역시를 제외")}
         vals = [int(m.group(i).replace(",", "")) for i in (3, 4, 5)]
         if all(v >= 0 for v in pos.values()):
