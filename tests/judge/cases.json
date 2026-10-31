@@ -13498,6 +13498,65 @@
  {
   "id": "audit-082",
   "fn": "bucket",
+  "listing": "2026000414-SPNULL",
+  "profile": {
+   "homeSido": "인천",
+   "homeSigun": "계양구",
+   "sidoOwnSince": "2015-01-01",
+   "sidoSince": "2015-01-01",
+   "areaSince": "2015-01-01",
+   "household": "head",
+   "headSince": "2015-01-01",
+   "selfOwn": false,
+   "married": true,
+   "marriedOn": "2023-05-01",
+   "spouseOwn": false,
+   "acctType": "all",
+   "acctSince": "2014-01-01",
+   "acctAmount": 1500,
+   "acctCount": 30,
+   "acctPaid": 1500,
+   "hhHomes": "0",
+   "win5y": false,
+   "recentWin": false,
+   "everWin": "none",
+   "birth": "1990-03-01",
+   "dependents": 2,
+   "kidsMinor": 1,
+   "youngestBirth": "2025-06-01",
+   "pregnant": false,
+   "hhSize": 3,
+   "kidsOnDeed": 1,
+   "eldersOnDeed": 0,
+   "spouseIncome": 0,
+   "realEstate": 0,
+   "carValue": 1000,
+   "hhNeverOwned": true,
+   "taxYears5": true,
+   "elder65": true,
+   "hhIncomeYear": 3000,
+   "income": 3000,
+   "_set": [
+    "spouseOwn",
+    "spouseIncome",
+    "spouseLoan",
+    "recentWin",
+    "acctAmount",
+    "cash",
+    "liquid",
+    "deposit",
+    "income",
+    "loanMonthly"
+   ]
+  },
+  "expect": {
+   "b": "unsure"
+  },
+  "basis": "일반 0세대인데 특별공급 세대수를 모름(2026000414 59G 에서 세대수만 지운 변형 — 수집이 못 읽은 경우) → 이번 공급이 0세대일 수도 있어(같은 공고 59C 는 0세대) 특별공급 자격이 맞아도 '가능'으로 단정하지 않음 (2026-10-31 단조성)"
+ },
+ {
+  "id": "audit-083",
+  "fn": "bucket",
   "listing": "2026000414-059.8300C",
   "profile": {
    "homeSido": "인천",
@@ -13555,7 +13614,7 @@
   "basis": "2026000414 공급표 59C 총공급 15세대 = 사전청약 당첨자 15 → 이번 공고 공급 0세대 (일반 0·특별 0)"
  },
  {
-  "id": "audit-083",
+  "id": "audit-084",
   "fn": "bucket",
   "listing": "2026930036-084.7450D",
   "profile": {
@@ -13614,7 +13673,7 @@
   "basis": "2026930036 공급대상 표 84D 특별공급 2세대(노부모부양 1, 신혼부부 1, 기능 resupply_special) · 과천시 거주·혼인 3년·2025년생·월소득 100% 이하 → 신혼부부 특별공급 가능 (블라인드 감사 V13 'ok')"
  },
  {
-  "id": "audit-084",
+  "id": "audit-085",
   "fn": "sp",
   "listing": "2026930038-084.9958A",
   "type": "elder",
@@ -13674,7 +13733,7 @@
   "basis": "2026930038 공급대상 표 84A 노부모 부양 특별공급 3세대(기능 resupply_special) · '고양시에 거주하는 무주택세대주' · '청약통장 가입여부와 관계없이' · 규칙 제46조 65세 이상 직계존속 3년 부양 → 충족(통장 없어도)"
  },
  {
-  "id": "audit-085",
+  "id": "audit-086",
   "fn": "sp",
   "listing": "2026930038-084.9958A",
   "type": "elder",
@@ -13734,7 +13793,7 @@
   "basis": "2026930038 공급대상 표 84A 노부모 부양 특별공급 3세대(기능 resupply_special) · '고양시에 거주하는 무주택세대주' · '청약통장 가입여부와 관계없이' · 규칙 제46조 65세 이상 직계존속 3년 부양 → 65세 이상 직계존속 부양 아님"
  },
  {
-  "id": "audit-086",
+  "id": "audit-087",
   "fn": "sp",
   "listing": "2026930038-084.9958A",
   "type": "elder",
@@ -13794,7 +13853,7 @@
   "basis": "2026930038 공급대상 표 84A 노부모 부양 특별공급 3세대(기능 resupply_special) · '고양시에 거주하는 무주택세대주' · '청약통장 가입여부와 관계없이' · 규칙 제46조 65세 이상 직계존속 3년 부양 → 고양시 거주 아님"
  },
  {
-  "id": "audit-087",
+  "id": "audit-088",
   "fn": "sp",
   "listing": "2026930038-084.9958A",
   "type": "elder",

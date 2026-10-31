@@ -3394,6 +3394,8 @@ function genNoneBucket(L, p){
   if (!types.length) return 'unsure';
   const ss = types.map(t => spJudge(L, p, t).s);
   const r = ss.includes('ok') ? 'ok' : ss.includes('warn') ? 'unsure' : 'no';
+  // 일반공급 0세대인데 특별공급 세대수를 모르면(수집이 못 읽음) 이번 공급이 0일 수도 있어 '가능'으로 단정하지 않는다 (2026-10-31 단조성 검사: 59C 공급 0세대가 세대수를 모르게 하면 '가능')
+  if (r === 'ok' && (!u || u.total == null)) return 'unsure';
   // 공통 조건(거주지·무주택·재당첨)을 아직 모르면 특별공급도 '가능'으로 단정하지 않는다
   return r === 'ok' && on('verdict_one') && eligibility(L, p).items.some(i => SP_COMMON.includes(i.k) && i.s === 'warn') ? 'unsure' : r;
 }
