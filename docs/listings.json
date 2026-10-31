@@ -108624,6 +108624,4888 @@
   "sample": false
  },
  {
+  "id": "2026000414-059.8400A",
+  "name": "인천계양지구 A6블록 공공분양주택(본청약)",
+  "address": "인천광역시 계양구 귤현동, 동양동, 박촌동, 병방동, 상야동 및 경기도 부천시 대장동, 서울특별시 강서구 오곡동 일원 인천계양 테크노밸리 공공주택지구 내 A6블록",
+  "region": "인천",
+  "sigungu": "인천 계양구",
+  "sido": "인천",
+  "district": "계양구",
+  "supply_type": "APT",
+  "house_secd": "01",
+  "house_dtl": "국민",
+  "rent_secd": "분양주택",
+  "rental": false,
+  "land_lease": false,
+  "land_rent": null,
+  "land_rent_rate": null,
+  "special_apply": "2026-09-30",
+  "special_apply_end": "2026-09-30",
+  "kind": "일반분양 (특별공급·1순위)",
+  "category": "general",
+  "target": null,
+  "unit": "59A",
+  "area": 59.84,
+  "households": 13,
+  "complex": {
+   "households": 663,
+   "buildings": 12,
+   "single": "no",
+   "status": "확인",
+   "src": "모집공고문 공급규모",
+   "quote": "․공급대상 및 공급가격 등 1. 공급규모 ■ 인천계양 A6블록 : 공공분양주택 최고층 기준 7∼15층 12개동 전용면적 85㎡ 이하 663세대 (사전청약412세대, 이주자주택 2세대, 특별공급 211세대, 일반공급"
+  },
+  "mc_quota": {
+   "buckets": [
+    {
+     "name": "해당 주택건설지역",
+     "pct": 50,
+     "regions": [
+      "인천"
+     ]
+    },
+    {
+     "name": "기타지역(수도권)",
+     "pct": 50,
+     "regions": [
+      "서울",
+      "경기"
+     ]
+    }
+   ]
+  },
+  "youth": null,
+  "resale": {
+   "months": 36,
+   "base": "당첨자 발표일",
+   "registration": false,
+   "until_reg": false,
+   "passed": false,
+   "none": false,
+   "forbidden": false
+  },
+  "score_ratio": null,
+  "pub_limits": {
+   "cap": [
+    100,
+    200
+   ],
+   "real_estate": 21550,
+   "car": 4542,
+   "priority": [
+    100,
+    140
+   ],
+   "area_max": 60
+  },
+  "schedule": {
+   "pre": [
+    "2026-09-17",
+    "2026-09-18"
+   ],
+   "special": [
+    "2026-09-30",
+    "2026-09-30"
+   ],
+   "general": [
+    "2026-10-01",
+    "2026-10-02"
+   ]
+  },
+  "residence": {
+   "area": {
+    "name": "인천광역시",
+    "sido": "인천"
+   },
+   "months": 0,
+   "since": null,
+   "quota": {
+    "해당": 50,
+    "기타": 50
+   },
+   "others": [
+    "서울",
+    "경기"
+   ]
+  },
+  "special_units": {
+   "newborn": 21,
+   "newlywed": 10,
+   "first": 15,
+   "multichild": 10,
+   "elder": 5,
+   "agency": 17,
+   "relocated": 0,
+   "youth": 0,
+   "etc": 12,
+   "total": 90
+  },
+  "notice": "2026-08-31",
+  "apply": "2026-09-17",
+  "apply_end": "2026-10-02",
+  "winner": "2026-10-21",
+  "contract": "2026-12-15",
+  "balance": null,
+  "move_in": "2029-06",
+  "price": 5.3736,
+  "ext": 0.0,
+  "pay_ratio": {
+   "contract": 0.1,
+   "mid": 0.6,
+   "balance": 0.3
+  },
+  "contract_split": null,
+  "contract_rate": 0.1,
+  "mid_rate": 0.6,
+  "mkt_low": 4.21,
+  "mkt_base": 4.37,
+  "mkt_note": "공고 위치 반경 2km 안(공고 주소가 동까지만 있어 동 중심에서 잰 거리) 준공 10년 이내 같은 평형(59㎡) 매매 14건 기준 (최근 6개월) · 거래가 몰린 단지(계양하늘채파크포레 14건)는 5건 몫으로 줄여 계산",
+  "mkt_basis": "near_newbuild",
+  "mkt_count": 14,
+  "mkt_direct_excluded": 0,
+  "mkt_comps": [
+   {
+    "apt": "계양하늘채파크포레",
+    "umd": "방축동",
+    "area": 59.8946,
+    "floor": 8.0,
+    "dong": "",
+    "amount": 4.53,
+    "date": "2026-10-17",
+    "kind": "매매",
+    "direct": false,
+    "m": 1811
+   },
+   {
+    "apt": "계양하늘채파크포레",
+    "umd": "방축동",
+    "area": 59.8794,
+    "floor": 10.0,
+    "dong": "",
+    "amount": 4.5,
+    "date": "2026-10-05",
+    "kind": "매매",
+    "direct": false,
+    "m": 1811
+   },
+   {
+    "apt": "계양하늘채파크포레",
+    "umd": "방축동",
+    "area": 59.8794,
+    "floor": 3.0,
+    "dong": "107동",
+    "amount": 4.45,
+    "date": "2026-08-25",
+    "kind": "매매",
+    "direct": false,
+    "m": 1811
+   },
+   {
+    "apt": "계양하늘채파크포레",
+    "umd": "방축동",
+    "area": 59.8946,
+    "floor": 13.0,
+    "dong": "",
+    "amount": 4.55,
+    "date": "2026-08-17",
+    "kind": "매매",
+    "direct": false,
+    "m": 1811
+   },
+   {
+    "apt": "계양하늘채파크포레",
+    "umd": "방축동",
+    "area": 59.8794,
+    "floor": 4.0,
+    "dong": "",
+    "amount": 4.4,
+    "date": "2026-08-17",
+    "kind": "매매",
+    "direct": false,
+    "m": 1811
+   },
+   {
+    "apt": "계양하늘채파크포레",
+    "umd": "방축동",
+    "area": 59.8946,
+    "floor": 3.0,
+    "dong": "",
+    "amount": 4.18,
+    "date": "2026-08-08",
+    "kind": "매매",
+    "direct": false,
+    "m": 1811
+   },
+   {
+    "apt": "계양하늘채파크포레",
+    "umd": "방축동",
+    "area": 59.9931,
+    "floor": 6.0,
+    "dong": "106동",
+    "amount": 4.35,
+    "date": "2026-08-07",
+    "kind": "매매",
+    "direct": false,
+    "m": 1811
+   },
+   {
+    "apt": "계양하늘채파크포레",
+    "umd": "방축동",
+    "area": 59.8946,
+    "floor": 10.0,
+    "dong": "106동",
+    "amount": 4.17,
+    "date": "2026-07-28",
+    "kind": "매매",
+    "direct": false,
+    "m": 1811
+   }
+  ],
+  "jeonse": 2.88,
+  "jeonse_note": "같은 구 준공 10년 이내 전세 55건 중앙값에서 입주장 할인 9%",
+  "jeonse_comps": [
+   {
+    "apt": "e편한세상 계양 더프리미어",
+    "umd": "효성동",
+    "area": 59.8883,
+    "floor": 25.0,
+    "dong": "",
+    "amount": 3.7,
+    "date": "2026-10-28",
+    "kind": "전세",
+    "direct": false
+   },
+   {
+    "apt": "e편한세상 계양 더프리미어",
+    "umd": "효성동",
+    "area": 59.8883,
+    "floor": 2.0,
+    "dong": "",
+    "amount": 3.0,
+    "date": "2026-10-26",
+    "kind": "전세",
+    "direct": false
+   },
+   {
+    "apt": "계양효성해링턴플레이스",
+    "umd": "서운동",
+    "area": 59.977,
+    "floor": 13.0,
+    "dong": "",
+    "amount": 3.4,
+    "date": "2026-10-22",
+    "kind": "전세",
+    "direct": false
+   },
+   {
+    "apt": "계양하늘채파크포레",
+    "umd": "방축동",
+    "area": 59.8946,
+    "floor": 6.0,
+    "dong": "",
+    "amount": 3.2,
+    "date": "2026-10-19",
+    "kind": "전세",
+    "direct": false
+   },
+   {
+    "apt": "계양효성해링턴플레이스",
+    "umd": "서운동",
+    "area": 59.976,
+    "floor": 15.0,
+    "dong": "",
+    "amount": 3.3,
+    "date": "2026-10-18",
+    "kind": "전세",
+    "direct": false
+   },
+   {
+    "apt": "계양산파크트루엘",
+    "umd": "계산동",
+    "area": 59.99,
+    "floor": 4.0,
+    "dong": "",
+    "amount": 3.15,
+    "date": "2026-10-16",
+    "kind": "전세",
+    "direct": false
+   },
+   {
+    "apt": "계양산파크트루엘",
+    "umd": "계산동",
+    "area": 59.99,
+    "floor": 11.0,
+    "dong": "",
+    "amount": 3.2,
+    "date": "2026-10-15",
+    "kind": "전세",
+    "direct": false
+   },
+   {
+    "apt": "작전역서해그랑블",
+    "umd": "작전동",
+    "area": 59.9887,
+    "floor": 15.0,
+    "dong": "",
+    "amount": 3.2,
+    "date": "2026-10-13",
+    "kind": "전세",
+    "direct": false
+   }
+  ],
+  "capital": true,
+  "regulated": false,
+  "reg_kind": "비규제",
+  "land_permit": false,
+  "price_cap": true,
+  "residence_duty": 0,
+  "duty_from": null,
+  "notice_quotes": {
+   "세대주 요건": "…· 노부모부양 · 생애최초 · 신혼부부 · 신생아 특별공급 및 일반공급 신청자 (지역균형특별공급 제2호 외국인의경우입주자모집공고일부터 입주시까지무주택자) ■ 공급신청 자격자 • 주택공급 신청은 무주택세대구성원 중 1인만 가능합니다 ※ 부부(예비신혼부부 제외)는 당첨자발표일이 동일한 주택에…",
+   "분양가상한제": "…85㎡이하 주택)이며, 분양가상한제 적용주택으로 「주택공급에 관한 규칙」 제54조에 따라 재당첨제한은 10년…",
+   "실거주 의무": "…제1항 별표3 거주의무 - 없음 「주택법」제57조의2,「주택법 시행령」 제60조의2 구 분 사전청약당첨자 특별공급…",
+   "전매 제한": "…관한 규칙」제54조 전매제한 당첨자 발표일 3년 「주택법」제64조,「주택법 시행령」제73조 제1항 별표3…",
+   "재당첨 제한": "…관한 규칙」 제54조에 따라 재당첨제한은 10년 적용되고, 「주택법 시행령」 제73조에 의해 전매제한이 3년…",
+   "1순위 가입기간": "…1순위 입주자저축에 가입하여 1년(12개월)이 경과된 분으로서 매월 약정납입일에 월 납입금을 12회 이상 납입한 분 2순위…",
+   "납입 인정 횟수": "…1순위 입주자저축에 가입하여 1년(12개월)이 경과된 분으로서 매월 약정납입일에 월 납입금을 12회 이상 납입한 분 2순위…",
+   "계약금 비율": "…층별 구분 주택가격 계약금 10% 1차 중도금 10% 2차 중도금 10% 3차 중도금 10% 4차 중도금 10% 5차 중도금 10% 6차 중도금 10% 잔금 융자금(주택도시기금) 계약시…",
+   "거주 지역 요건": "…26.08.31) ① 해당 주택건설지역 (인천광역시) 50% ․ 공고일 현재 인천광역시 거주자 ② 기타지역(수도권) 50% ․ 공고일 현재 주민등록표등본상 서울특별시, 경기도에 거주하는 분 - 14 - ※ 공급세대수를 상기 지역우선비율로 배분 시 소수점 이하가 발생할 경우 소수점 첫 자리에서 반…",
+   "다자녀 지역 배정": "…다자녀 특별공급 및 일반공급 지역 우선공급 기준 <표1> 동일순위 내 지역우선 공급기준 기준일 지역구분 우선공급 비율 지역 우선공급 거주 입력 대상자 입주자모집공고일 (2026.08.31) ① 해당 주택건설지역 (인천광역시) 50% ․ 공고일 현재 인천광역시 거주자 ② 기타지역(수도권) 50% ․ 공고일…",
+   "공공 일반공급 소득·자산": "…(세대) 월평균소득 100% 이하 (맞벌이 200%) * 전용면적 60㎡ 이하만 적용 자산 (부동산, 자동차) 해당 없음 해당 없음 해당 없음 (세대) 부동산 215,500천원 이하 자동차 45,420천원 이하 (세대) 부동산 215,500천원 이하 자동차 45,420…"
+  },
+  "notice_conflicts": [],
+  "duty_silent": false,
+  "jeonse_weak": false,
+  "unregistered": true,
+  "need_head": false,
+  "need_account": true,
+  "limits": [
+   [
+    "재당첨 제한",
+    "10년"
+   ],
+   [
+    "실거주 의무",
+    "없음"
+   ],
+   [
+    "전매 제한",
+    "3년 (~29.10.21)"
+   ]
+  ],
+  "url": "https://www.applyhome.co.kr/ai/aia/selectAPTLttotPblancDetail.do?houseManageNo=2026000414&pblancNo=2026000414",
+  "notice_pdf": "https://apply.lh.or.kr/lhapply/lhFile.do?fileid=68595376",
+  "from_notice": [
+   "세대주 요건",
+   "분양가상한제",
+   "실거주 의무",
+   "전매 제한",
+   "재당첨 제한",
+   "1순위 가입기간",
+   "납입 인정 횟수",
+   "계약금 비율",
+   "거주 지역 요건",
+   "다자녀 지역 배정",
+   "접수 일정",
+   "공공 일반공급 소득·자산"
+  ],
+  "checks": [],
+  "geo": {
+   "lat": 37.5668,
+   "lng": 126.7505,
+   "precision": "dong",
+   "query": "인천광역시 계양구 귤현동",
+   "matched": "인천광역시 계양구 귤현동",
+   "source": "네이버 클라우드 플랫폼 Geocoding"
+  },
+  "account_months": 12,
+  "deposit_count": 12,
+  "competition": {
+   "rows": [],
+   "scores": [
+    {
+     "reside": "해당지역",
+     "low": null,
+     "top": null,
+     "avg": null
+    },
+    {
+     "reside": "기타지역",
+     "low": null,
+     "top": null,
+     "avg": null
+    }
+   ]
+  },
+  "area_comps": null,
+  "sp_competition": null,
+  "area_sp": [],
+  "map_query": "인천광역시 계양구 귤현동",
+  "nearby": [
+   {
+    "kind": "역",
+    "name": "귤현역",
+    "m": 693,
+    "lat": 37.5663544,
+    "lng": 126.7426554,
+    "walk": 13
+   },
+   {
+    "kind": "역",
+    "name": "계양역",
+    "m": 1367,
+    "lat": 37.571767,
+    "lng": 126.736311,
+    "walk": 27
+   },
+   {
+    "kind": "초등학교",
+    "name": "인천귤현초등학교",
+    "m": 349,
+    "lat": 37.5684242,
+    "lng": 126.7471176,
+    "walk": 7
+   },
+   {
+    "kind": "중학교",
+    "name": "계양중학교",
+    "m": 1034,
+    "lat": 37.5690991,
+    "lng": 126.7391329,
+    "walk": 20
+   }
+  ],
+  "sample": false
+ },
+ {
+  "id": "2026000414-059.8100B",
+  "name": "인천계양지구 A6블록 공공분양주택(본청약)",
+  "address": "인천광역시 계양구 귤현동, 동양동, 박촌동, 병방동, 상야동 및 경기도 부천시 대장동, 서울특별시 강서구 오곡동 일원 인천계양 테크노밸리 공공주택지구 내 A6블록",
+  "region": "인천",
+  "sigungu": "인천 계양구",
+  "sido": "인천",
+  "district": "계양구",
+  "supply_type": "APT",
+  "house_secd": "01",
+  "house_dtl": "국민",
+  "rent_secd": "분양주택",
+  "rental": false,
+  "land_lease": false,
+  "land_rent": null,
+  "land_rent_rate": null,
+  "special_apply": "2026-09-30",
+  "special_apply_end": "2026-09-30",
+  "kind": "일반분양 (특별공급·1순위)",
+  "category": "general",
+  "target": null,
+  "unit": "59B",
+  "area": 59.81,
+  "households": 8,
+  "complex": {
+   "households": 663,
+   "buildings": 12,
+   "single": "no",
+   "status": "확인",
+   "src": "모집공고문 공급규모",
+   "quote": "․공급대상 및 공급가격 등 1. 공급규모 ■ 인천계양 A6블록 : 공공분양주택 최고층 기준 7∼15층 12개동 전용면적 85㎡ 이하 663세대 (사전청약412세대, 이주자주택 2세대, 특별공급 211세대, 일반공급"
+  },
+  "mc_quota": {
+   "buckets": [
+    {
+     "name": "해당 주택건설지역",
+     "pct": 50,
+     "regions": [
+      "인천"
+     ]
+    },
+    {
+     "name": "기타지역(수도권)",
+     "pct": 50,
+     "regions": [
+      "서울",
+      "경기"
+     ]
+    }
+   ]
+  },
+  "youth": null,
+  "resale": {
+   "months": 36,
+   "base": "당첨자 발표일",
+   "registration": false,
+   "until_reg": false,
+   "passed": false,
+   "none": false,
+   "forbidden": false
+  },
+  "score_ratio": null,
+  "pub_limits": {
+   "cap": [
+    100,
+    200
+   ],
+   "real_estate": 21550,
+   "car": 4542,
+   "priority": [
+    100,
+    140
+   ],
+   "area_max": 60
+  },
+  "schedule": {
+   "pre": [
+    "2026-09-17",
+    "2026-09-18"
+   ],
+   "special": [
+    "2026-09-30",
+    "2026-09-30"
+   ],
+   "general": [
+    "2026-10-01",
+    "2026-10-02"
+   ]
+  },
+  "residence": {
+   "area": {
+    "name": "인천광역시",
+    "sido": "인천"
+   },
+   "months": 0,
+   "since": null,
+   "quota": {
+    "해당": 50,
+    "기타": 50
+   },
+   "others": [
+    "서울",
+    "경기"
+   ]
+  },
+  "special_units": {
+   "newborn": 10,
+   "newlywed": 5,
+   "first": 8,
+   "multichild": 5,
+   "elder": 3,
+   "agency": 7,
+   "relocated": 0,
+   "youth": 0,
+   "etc": 6,
+   "total": 44
+  },
+  "notice": "2026-08-31",
+  "apply": "2026-09-17",
+  "apply_end": "2026-10-02",
+  "winner": "2026-10-21",
+  "contract": "2026-12-15",
+  "balance": null,
+  "move_in": "2029-06",
+  "price": 5.2656,
+  "ext": 0.0,
+  "pay_ratio": {
+   "contract": 0.1,
+   "mid": 0.6,
+   "balance": 0.3
+  },
+  "contract_split": null,
+  "contract_rate": 0.1,
+  "mid_rate": 0.6,
+  "mkt_low": 4.21,
+  "mkt_base": 4.37,
+  "mkt_note": "공고 위치 반경 2km 안(공고 주소가 동까지만 있어 동 중심에서 잰 거리) 준공 10년 이내 같은 평형(59㎡) 매매 14건 기준 (최근 6개월) · 거래가 몰린 단지(계양하늘채파크포레 14건)는 5건 몫으로 줄여 계산",
+  "mkt_basis": "near_newbuild",
+  "mkt_count": 14,
+  "mkt_direct_excluded": 0,
+  "mkt_comps": [
+   {
+    "apt": "계양하늘채파크포레",
+    "umd": "방축동",
+    "area": 59.8946,
+    "floor": 8.0,
+    "dong": "",
+    "amount": 4.53,
+    "date": "2026-10-17",
+    "kind": "매매",
+    "direct": false,
+    "m": 1811
+   },
+   {
+    "apt": "계양하늘채파크포레",
+    "umd": "방축동",
+    "area": 59.8794,
+    "floor": 10.0,
+    "dong": "",
+    "amount": 4.5,
+    "date": "2026-10-05",
+    "kind": "매매",
+    "direct": false,
+    "m": 1811
+   },
+   {
+    "apt": "계양하늘채파크포레",
+    "umd": "방축동",
+    "area": 59.8794,
+    "floor": 3.0,
+    "dong": "107동",
+    "amount": 4.45,
+    "date": "2026-08-25",
+    "kind": "매매",
+    "direct": false,
+    "m": 1811
+   },
+   {
+    "apt": "계양하늘채파크포레",
+    "umd": "방축동",
+    "area": 59.8946,
+    "floor": 13.0,
+    "dong": "",
+    "amount": 4.55,
+    "date": "2026-08-17",
+    "kind": "매매",
+    "direct": false,
+    "m": 1811
+   },
+   {
+    "apt": "계양하늘채파크포레",
+    "umd": "방축동",
+    "area": 59.8794,
+    "floor": 4.0,
+    "dong": "",
+    "amount": 4.4,
+    "date": "2026-08-17",
+    "kind": "매매",
+    "direct": false,
+    "m": 1811
+   },
+   {
+    "apt": "계양하늘채파크포레",
+    "umd": "방축동",
+    "area": 59.8946,
+    "floor": 3.0,
+    "dong": "",
+    "amount": 4.18,
+    "date": "2026-08-08",
+    "kind": "매매",
+    "direct": false,
+    "m": 1811
+   },
+   {
+    "apt": "계양하늘채파크포레",
+    "umd": "방축동",
+    "area": 59.9931,
+    "floor": 6.0,
+    "dong": "106동",
+    "amount": 4.35,
+    "date": "2026-08-07",
+    "kind": "매매",
+    "direct": false,
+    "m": 1811
+   },
+   {
+    "apt": "계양하늘채파크포레",
+    "umd": "방축동",
+    "area": 59.8946,
+    "floor": 10.0,
+    "dong": "106동",
+    "amount": 4.17,
+    "date": "2026-07-28",
+    "kind": "매매",
+    "direct": false,
+    "m": 1811
+   }
+  ],
+  "jeonse": 2.88,
+  "jeonse_note": "같은 구 준공 10년 이내 전세 55건 중앙값에서 입주장 할인 9%",
+  "jeonse_comps": [
+   {
+    "apt": "e편한세상 계양 더프리미어",
+    "umd": "효성동",
+    "area": 59.8883,
+    "floor": 25.0,
+    "dong": "",
+    "amount": 3.7,
+    "date": "2026-10-28",
+    "kind": "전세",
+    "direct": false
+   },
+   {
+    "apt": "e편한세상 계양 더프리미어",
+    "umd": "효성동",
+    "area": 59.8883,
+    "floor": 2.0,
+    "dong": "",
+    "amount": 3.0,
+    "date": "2026-10-26",
+    "kind": "전세",
+    "direct": false
+   },
+   {
+    "apt": "계양효성해링턴플레이스",
+    "umd": "서운동",
+    "area": 59.977,
+    "floor": 13.0,
+    "dong": "",
+    "amount": 3.4,
+    "date": "2026-10-22",
+    "kind": "전세",
+    "direct": false
+   },
+   {
+    "apt": "계양하늘채파크포레",
+    "umd": "방축동",
+    "area": 59.8946,
+    "floor": 6.0,
+    "dong": "",
+    "amount": 3.2,
+    "date": "2026-10-19",
+    "kind": "전세",
+    "direct": false
+   },
+   {
+    "apt": "계양효성해링턴플레이스",
+    "umd": "서운동",
+    "area": 59.976,
+    "floor": 15.0,
+    "dong": "",
+    "amount": 3.3,
+    "date": "2026-10-18",
+    "kind": "전세",
+    "direct": false
+   },
+   {
+    "apt": "계양산파크트루엘",
+    "umd": "계산동",
+    "area": 59.99,
+    "floor": 4.0,
+    "dong": "",
+    "amount": 3.15,
+    "date": "2026-10-16",
+    "kind": "전세",
+    "direct": false
+   },
+   {
+    "apt": "계양산파크트루엘",
+    "umd": "계산동",
+    "area": 59.99,
+    "floor": 11.0,
+    "dong": "",
+    "amount": 3.2,
+    "date": "2026-10-15",
+    "kind": "전세",
+    "direct": false
+   },
+   {
+    "apt": "작전역서해그랑블",
+    "umd": "작전동",
+    "area": 59.9887,
+    "floor": 15.0,
+    "dong": "",
+    "amount": 3.2,
+    "date": "2026-10-13",
+    "kind": "전세",
+    "direct": false
+   }
+  ],
+  "capital": true,
+  "regulated": false,
+  "reg_kind": "비규제",
+  "land_permit": false,
+  "price_cap": true,
+  "residence_duty": 0,
+  "duty_from": null,
+  "notice_quotes": {
+   "세대주 요건": "…· 노부모부양 · 생애최초 · 신혼부부 · 신생아 특별공급 및 일반공급 신청자 (지역균형특별공급 제2호 외국인의경우입주자모집공고일부터 입주시까지무주택자) ■ 공급신청 자격자 • 주택공급 신청은 무주택세대구성원 중 1인만 가능합니다 ※ 부부(예비신혼부부 제외)는 당첨자발표일이 동일한 주택에…",
+   "분양가상한제": "…85㎡이하 주택)이며, 분양가상한제 적용주택으로 「주택공급에 관한 규칙」 제54조에 따라 재당첨제한은 10년…",
+   "실거주 의무": "…제1항 별표3 거주의무 - 없음 「주택법」제57조의2,「주택법 시행령」 제60조의2 구 분 사전청약당첨자 특별공급…",
+   "전매 제한": "…관한 규칙」제54조 전매제한 당첨자 발표일 3년 「주택법」제64조,「주택법 시행령」제73조 제1항 별표3…",
+   "재당첨 제한": "…관한 규칙」 제54조에 따라 재당첨제한은 10년 적용되고, 「주택법 시행령」 제73조에 의해 전매제한이 3년…",
+   "1순위 가입기간": "…1순위 입주자저축에 가입하여 1년(12개월)이 경과된 분으로서 매월 약정납입일에 월 납입금을 12회 이상 납입한 분 2순위…",
+   "납입 인정 횟수": "…1순위 입주자저축에 가입하여 1년(12개월)이 경과된 분으로서 매월 약정납입일에 월 납입금을 12회 이상 납입한 분 2순위…",
+   "계약금 비율": "…층별 구분 주택가격 계약금 10% 1차 중도금 10% 2차 중도금 10% 3차 중도금 10% 4차 중도금 10% 5차 중도금 10% 6차 중도금 10% 잔금 융자금(주택도시기금) 계약시…",
+   "거주 지역 요건": "…26.08.31) ① 해당 주택건설지역 (인천광역시) 50% ․ 공고일 현재 인천광역시 거주자 ② 기타지역(수도권) 50% ․ 공고일 현재 주민등록표등본상 서울특별시, 경기도에 거주하는 분 - 14 - ※ 공급세대수를 상기 지역우선비율로 배분 시 소수점 이하가 발생할 경우 소수점 첫 자리에서 반…",
+   "다자녀 지역 배정": "…다자녀 특별공급 및 일반공급 지역 우선공급 기준 <표1> 동일순위 내 지역우선 공급기준 기준일 지역구분 우선공급 비율 지역 우선공급 거주 입력 대상자 입주자모집공고일 (2026.08.31) ① 해당 주택건설지역 (인천광역시) 50% ․ 공고일 현재 인천광역시 거주자 ② 기타지역(수도권) 50% ․ 공고일…",
+   "공공 일반공급 소득·자산": "…(세대) 월평균소득 100% 이하 (맞벌이 200%) * 전용면적 60㎡ 이하만 적용 자산 (부동산, 자동차) 해당 없음 해당 없음 해당 없음 (세대) 부동산 215,500천원 이하 자동차 45,420천원 이하 (세대) 부동산 215,500천원 이하 자동차 45,420…"
+  },
+  "notice_conflicts": [],
+  "duty_silent": false,
+  "jeonse_weak": false,
+  "unregistered": true,
+  "need_head": false,
+  "need_account": true,
+  "limits": [
+   [
+    "재당첨 제한",
+    "10년"
+   ],
+   [
+    "실거주 의무",
+    "없음"
+   ],
+   [
+    "전매 제한",
+    "3년 (~29.10.21)"
+   ]
+  ],
+  "url": "https://www.applyhome.co.kr/ai/aia/selectAPTLttotPblancDetail.do?houseManageNo=2026000414&pblancNo=2026000414",
+  "notice_pdf": "https://apply.lh.or.kr/lhapply/lhFile.do?fileid=68595376",
+  "from_notice": [
+   "세대주 요건",
+   "분양가상한제",
+   "실거주 의무",
+   "전매 제한",
+   "재당첨 제한",
+   "1순위 가입기간",
+   "납입 인정 횟수",
+   "계약금 비율",
+   "거주 지역 요건",
+   "다자녀 지역 배정",
+   "접수 일정",
+   "공공 일반공급 소득·자산"
+  ],
+  "checks": [],
+  "geo": {
+   "lat": 37.5668,
+   "lng": 126.7505,
+   "precision": "dong",
+   "query": "인천광역시 계양구 귤현동",
+   "matched": "인천광역시 계양구 귤현동",
+   "source": "네이버 클라우드 플랫폼 Geocoding"
+  },
+  "account_months": 12,
+  "deposit_count": 12,
+  "competition": {
+   "rows": [],
+   "scores": [
+    {
+     "reside": "해당지역",
+     "low": null,
+     "top": null,
+     "avg": null
+    },
+    {
+     "reside": "기타지역",
+     "low": null,
+     "top": null,
+     "avg": null
+    }
+   ]
+  },
+  "area_comps": null,
+  "sp_competition": null,
+  "area_sp": [],
+  "map_query": "인천광역시 계양구 귤현동",
+  "nearby": [
+   {
+    "kind": "역",
+    "name": "귤현역",
+    "m": 693,
+    "lat": 37.5663544,
+    "lng": 126.7426554,
+    "walk": 13
+   },
+   {
+    "kind": "역",
+    "name": "계양역",
+    "m": 1367,
+    "lat": 37.571767,
+    "lng": 126.736311,
+    "walk": 27
+   },
+   {
+    "kind": "초등학교",
+    "name": "인천귤현초등학교",
+    "m": 349,
+    "lat": 37.5684242,
+    "lng": 126.7471176,
+    "walk": 7
+   },
+   {
+    "kind": "중학교",
+    "name": "계양중학교",
+    "m": 1034,
+    "lat": 37.5690991,
+    "lng": 126.7391329,
+    "walk": 20
+   }
+  ],
+  "sample": false
+ },
+ {
+  "id": "2026000414-059.7100D",
+  "name": "인천계양지구 A6블록 공공분양주택(본청약)",
+  "address": "인천광역시 계양구 귤현동, 동양동, 박촌동, 병방동, 상야동 및 경기도 부천시 대장동, 서울특별시 강서구 오곡동 일원 인천계양 테크노밸리 공공주택지구 내 A6블록",
+  "region": "인천",
+  "sigungu": "인천 계양구",
+  "sido": "인천",
+  "district": "계양구",
+  "supply_type": "APT",
+  "house_secd": "01",
+  "house_dtl": "국민",
+  "rent_secd": "분양주택",
+  "rental": false,
+  "land_lease": false,
+  "land_rent": null,
+  "land_rent_rate": null,
+  "special_apply": "2026-09-30",
+  "special_apply_end": "2026-09-30",
+  "kind": "일반분양 (특별공급·1순위)",
+  "category": "general",
+  "target": null,
+  "unit": "59D",
+  "area": 59.71,
+  "households": 3,
+  "complex": {
+   "households": 663,
+   "buildings": 12,
+   "single": "no",
+   "status": "확인",
+   "src": "모집공고문 공급규모",
+   "quote": "․공급대상 및 공급가격 등 1. 공급규모 ■ 인천계양 A6블록 : 공공분양주택 최고층 기준 7∼15층 12개동 전용면적 85㎡ 이하 663세대 (사전청약412세대, 이주자주택 2세대, 특별공급 211세대, 일반공급"
+  },
+  "mc_quota": {
+   "buckets": [
+    {
+     "name": "해당 주택건설지역",
+     "pct": 50,
+     "regions": [
+      "인천"
+     ]
+    },
+    {
+     "name": "기타지역(수도권)",
+     "pct": 50,
+     "regions": [
+      "서울",
+      "경기"
+     ]
+    }
+   ]
+  },
+  "youth": null,
+  "resale": {
+   "months": 36,
+   "base": "당첨자 발표일",
+   "registration": false,
+   "until_reg": false,
+   "passed": false,
+   "none": false,
+   "forbidden": false
+  },
+  "score_ratio": null,
+  "pub_limits": {
+   "cap": [
+    100,
+    200
+   ],
+   "real_estate": 21550,
+   "car": 4542,
+   "priority": [
+    100,
+    140
+   ],
+   "area_max": 60
+  },
+  "schedule": {
+   "pre": [
+    "2026-09-17",
+    "2026-09-18"
+   ],
+   "special": [
+    "2026-09-30",
+    "2026-09-30"
+   ],
+   "general": [
+    "2026-10-01",
+    "2026-10-02"
+   ]
+  },
+  "residence": {
+   "area": {
+    "name": "인천광역시",
+    "sido": "인천"
+   },
+   "months": 0,
+   "since": null,
+   "quota": {
+    "해당": 50,
+    "기타": 50
+   },
+   "others": [
+    "서울",
+    "경기"
+   ]
+  },
+  "special_units": {
+   "newborn": 1,
+   "newlywed": 0,
+   "first": 0,
+   "multichild": 0,
+   "elder": 0,
+   "agency": 0,
+   "relocated": 0,
+   "youth": 0,
+   "etc": 0,
+   "total": 1
+  },
+  "notice": "2026-08-31",
+  "apply": "2026-09-17",
+  "apply_end": "2026-10-02",
+  "winner": "2026-10-21",
+  "contract": "2026-12-15",
+  "balance": null,
+  "move_in": "2029-06",
+  "price": 5.0466,
+  "ext": 0.0,
+  "pay_ratio": {
+   "contract": 0.1,
+   "mid": 0.6,
+   "balance": 0.3
+  },
+  "contract_split": null,
+  "contract_rate": 0.1,
+  "mid_rate": 0.6,
+  "mkt_low": 4.21,
+  "mkt_base": 4.37,
+  "mkt_note": "공고 위치 반경 2km 안(공고 주소가 동까지만 있어 동 중심에서 잰 거리) 준공 10년 이내 같은 평형(59㎡) 매매 14건 기준 (최근 6개월) · 거래가 몰린 단지(계양하늘채파크포레 14건)는 5건 몫으로 줄여 계산",
+  "mkt_basis": "near_newbuild",
+  "mkt_count": 14,
+  "mkt_direct_excluded": 0,
+  "mkt_comps": [
+   {
+    "apt": "계양하늘채파크포레",
+    "umd": "방축동",
+    "area": 59.8946,
+    "floor": 8.0,
+    "dong": "",
+    "amount": 4.53,
+    "date": "2026-10-17",
+    "kind": "매매",
+    "direct": false,
+    "m": 1811
+   },
+   {
+    "apt": "계양하늘채파크포레",
+    "umd": "방축동",
+    "area": 59.8794,
+    "floor": 10.0,
+    "dong": "",
+    "amount": 4.5,
+    "date": "2026-10-05",
+    "kind": "매매",
+    "direct": false,
+    "m": 1811
+   },
+   {
+    "apt": "계양하늘채파크포레",
+    "umd": "방축동",
+    "area": 59.8794,
+    "floor": 3.0,
+    "dong": "107동",
+    "amount": 4.45,
+    "date": "2026-08-25",
+    "kind": "매매",
+    "direct": false,
+    "m": 1811
+   },
+   {
+    "apt": "계양하늘채파크포레",
+    "umd": "방축동",
+    "area": 59.8946,
+    "floor": 13.0,
+    "dong": "",
+    "amount": 4.55,
+    "date": "2026-08-17",
+    "kind": "매매",
+    "direct": false,
+    "m": 1811
+   },
+   {
+    "apt": "계양하늘채파크포레",
+    "umd": "방축동",
+    "area": 59.8794,
+    "floor": 4.0,
+    "dong": "",
+    "amount": 4.4,
+    "date": "2026-08-17",
+    "kind": "매매",
+    "direct": false,
+    "m": 1811
+   },
+   {
+    "apt": "계양하늘채파크포레",
+    "umd": "방축동",
+    "area": 59.8946,
+    "floor": 3.0,
+    "dong": "",
+    "amount": 4.18,
+    "date": "2026-08-08",
+    "kind": "매매",
+    "direct": false,
+    "m": 1811
+   },
+   {
+    "apt": "계양하늘채파크포레",
+    "umd": "방축동",
+    "area": 59.9931,
+    "floor": 6.0,
+    "dong": "106동",
+    "amount": 4.35,
+    "date": "2026-08-07",
+    "kind": "매매",
+    "direct": false,
+    "m": 1811
+   },
+   {
+    "apt": "계양하늘채파크포레",
+    "umd": "방축동",
+    "area": 59.8946,
+    "floor": 10.0,
+    "dong": "106동",
+    "amount": 4.17,
+    "date": "2026-07-28",
+    "kind": "매매",
+    "direct": false,
+    "m": 1811
+   }
+  ],
+  "jeonse": 2.88,
+  "jeonse_note": "같은 구 준공 10년 이내 전세 55건 중앙값에서 입주장 할인 9%",
+  "jeonse_comps": [
+   {
+    "apt": "e편한세상 계양 더프리미어",
+    "umd": "효성동",
+    "area": 59.8883,
+    "floor": 25.0,
+    "dong": "",
+    "amount": 3.7,
+    "date": "2026-10-28",
+    "kind": "전세",
+    "direct": false
+   },
+   {
+    "apt": "e편한세상 계양 더프리미어",
+    "umd": "효성동",
+    "area": 59.8883,
+    "floor": 2.0,
+    "dong": "",
+    "amount": 3.0,
+    "date": "2026-10-26",
+    "kind": "전세",
+    "direct": false
+   },
+   {
+    "apt": "계양효성해링턴플레이스",
+    "umd": "서운동",
+    "area": 59.977,
+    "floor": 13.0,
+    "dong": "",
+    "amount": 3.4,
+    "date": "2026-10-22",
+    "kind": "전세",
+    "direct": false
+   },
+   {
+    "apt": "계양하늘채파크포레",
+    "umd": "방축동",
+    "area": 59.8946,
+    "floor": 6.0,
+    "dong": "",
+    "amount": 3.2,
+    "date": "2026-10-19",
+    "kind": "전세",
+    "direct": false
+   },
+   {
+    "apt": "계양효성해링턴플레이스",
+    "umd": "서운동",
+    "area": 59.976,
+    "floor": 15.0,
+    "dong": "",
+    "amount": 3.3,
+    "date": "2026-10-18",
+    "kind": "전세",
+    "direct": false
+   },
+   {
+    "apt": "계양산파크트루엘",
+    "umd": "계산동",
+    "area": 59.99,
+    "floor": 4.0,
+    "dong": "",
+    "amount": 3.15,
+    "date": "2026-10-16",
+    "kind": "전세",
+    "direct": false
+   },
+   {
+    "apt": "계양산파크트루엘",
+    "umd": "계산동",
+    "area": 59.99,
+    "floor": 11.0,
+    "dong": "",
+    "amount": 3.2,
+    "date": "2026-10-15",
+    "kind": "전세",
+    "direct": false
+   },
+   {
+    "apt": "작전역서해그랑블",
+    "umd": "작전동",
+    "area": 59.9887,
+    "floor": 15.0,
+    "dong": "",
+    "amount": 3.2,
+    "date": "2026-10-13",
+    "kind": "전세",
+    "direct": false
+   }
+  ],
+  "capital": true,
+  "regulated": false,
+  "reg_kind": "비규제",
+  "land_permit": false,
+  "price_cap": true,
+  "residence_duty": 0,
+  "duty_from": null,
+  "notice_quotes": {
+   "세대주 요건": "…· 노부모부양 · 생애최초 · 신혼부부 · 신생아 특별공급 및 일반공급 신청자 (지역균형특별공급 제2호 외국인의경우입주자모집공고일부터 입주시까지무주택자) ■ 공급신청 자격자 • 주택공급 신청은 무주택세대구성원 중 1인만 가능합니다 ※ 부부(예비신혼부부 제외)는 당첨자발표일이 동일한 주택에…",
+   "분양가상한제": "…85㎡이하 주택)이며, 분양가상한제 적용주택으로 「주택공급에 관한 규칙」 제54조에 따라 재당첨제한은 10년…",
+   "실거주 의무": "…제1항 별표3 거주의무 - 없음 「주택법」제57조의2,「주택법 시행령」 제60조의2 구 분 사전청약당첨자 특별공급…",
+   "전매 제한": "…관한 규칙」제54조 전매제한 당첨자 발표일 3년 「주택법」제64조,「주택법 시행령」제73조 제1항 별표3…",
+   "재당첨 제한": "…관한 규칙」 제54조에 따라 재당첨제한은 10년 적용되고, 「주택법 시행령」 제73조에 의해 전매제한이 3년…",
+   "1순위 가입기간": "…1순위 입주자저축에 가입하여 1년(12개월)이 경과된 분으로서 매월 약정납입일에 월 납입금을 12회 이상 납입한 분 2순위…",
+   "납입 인정 횟수": "…1순위 입주자저축에 가입하여 1년(12개월)이 경과된 분으로서 매월 약정납입일에 월 납입금을 12회 이상 납입한 분 2순위…",
+   "계약금 비율": "…층별 구분 주택가격 계약금 10% 1차 중도금 10% 2차 중도금 10% 3차 중도금 10% 4차 중도금 10% 5차 중도금 10% 6차 중도금 10% 잔금 융자금(주택도시기금) 계약시…",
+   "거주 지역 요건": "…26.08.31) ① 해당 주택건설지역 (인천광역시) 50% ․ 공고일 현재 인천광역시 거주자 ② 기타지역(수도권) 50% ․ 공고일 현재 주민등록표등본상 서울특별시, 경기도에 거주하는 분 - 14 - ※ 공급세대수를 상기 지역우선비율로 배분 시 소수점 이하가 발생할 경우 소수점 첫 자리에서 반…",
+   "다자녀 지역 배정": "…다자녀 특별공급 및 일반공급 지역 우선공급 기준 <표1> 동일순위 내 지역우선 공급기준 기준일 지역구분 우선공급 비율 지역 우선공급 거주 입력 대상자 입주자모집공고일 (2026.08.31) ① 해당 주택건설지역 (인천광역시) 50% ․ 공고일 현재 인천광역시 거주자 ② 기타지역(수도권) 50% ․ 공고일…",
+   "공공 일반공급 소득·자산": "…(세대) 월평균소득 100% 이하 (맞벌이 200%) * 전용면적 60㎡ 이하만 적용 자산 (부동산, 자동차) 해당 없음 해당 없음 해당 없음 (세대) 부동산 215,500천원 이하 자동차 45,420천원 이하 (세대) 부동산 215,500천원 이하 자동차 45,420…"
+  },
+  "notice_conflicts": [],
+  "duty_silent": false,
+  "jeonse_weak": false,
+  "unregistered": true,
+  "need_head": false,
+  "need_account": true,
+  "limits": [
+   [
+    "재당첨 제한",
+    "10년"
+   ],
+   [
+    "실거주 의무",
+    "없음"
+   ],
+   [
+    "전매 제한",
+    "3년 (~29.10.21)"
+   ]
+  ],
+  "url": "https://www.applyhome.co.kr/ai/aia/selectAPTLttotPblancDetail.do?houseManageNo=2026000414&pblancNo=2026000414",
+  "notice_pdf": "https://apply.lh.or.kr/lhapply/lhFile.do?fileid=68595376",
+  "from_notice": [
+   "세대주 요건",
+   "분양가상한제",
+   "실거주 의무",
+   "전매 제한",
+   "재당첨 제한",
+   "1순위 가입기간",
+   "납입 인정 횟수",
+   "계약금 비율",
+   "거주 지역 요건",
+   "다자녀 지역 배정",
+   "접수 일정",
+   "공공 일반공급 소득·자산"
+  ],
+  "checks": [],
+  "geo": {
+   "lat": 37.5668,
+   "lng": 126.7505,
+   "precision": "dong",
+   "query": "인천광역시 계양구 귤현동",
+   "matched": "인천광역시 계양구 귤현동",
+   "source": "네이버 클라우드 플랫폼 Geocoding"
+  },
+  "account_months": 12,
+  "deposit_count": 12,
+  "competition": {
+   "rows": [],
+   "scores": [
+    {
+     "reside": "해당지역",
+     "low": null,
+     "top": null,
+     "avg": null
+    },
+    {
+     "reside": "기타지역",
+     "low": null,
+     "top": null,
+     "avg": null
+    }
+   ]
+  },
+  "area_comps": null,
+  "sp_competition": null,
+  "area_sp": [],
+  "map_query": "인천광역시 계양구 귤현동",
+  "nearby": [
+   {
+    "kind": "역",
+    "name": "귤현역",
+    "m": 693,
+    "lat": 37.5663544,
+    "lng": 126.7426554,
+    "walk": 13
+   },
+   {
+    "kind": "역",
+    "name": "계양역",
+    "m": 1367,
+    "lat": 37.571767,
+    "lng": 126.736311,
+    "walk": 27
+   },
+   {
+    "kind": "초등학교",
+    "name": "인천귤현초등학교",
+    "m": 349,
+    "lat": 37.5684242,
+    "lng": 126.7471176,
+    "walk": 7
+   },
+   {
+    "kind": "중학교",
+    "name": "계양중학교",
+    "m": 1034,
+    "lat": 37.5690991,
+    "lng": 126.7391329,
+    "walk": 20
+   }
+  ],
+  "sample": false
+ },
+ {
+  "id": "2026000414-059.7200E",
+  "name": "인천계양지구 A6블록 공공분양주택(본청약)",
+  "address": "인천광역시 계양구 귤현동, 동양동, 박촌동, 병방동, 상야동 및 경기도 부천시 대장동, 서울특별시 강서구 오곡동 일원 인천계양 테크노밸리 공공주택지구 내 A6블록",
+  "region": "인천",
+  "sigungu": "인천 계양구",
+  "sido": "인천",
+  "district": "계양구",
+  "supply_type": "APT",
+  "house_secd": "01",
+  "house_dtl": "국민",
+  "rent_secd": "분양주택",
+  "rental": false,
+  "land_lease": false,
+  "land_rent": null,
+  "land_rent_rate": null,
+  "special_apply": "2026-09-30",
+  "special_apply_end": "2026-09-30",
+  "kind": "일반분양 (특별공급·1순위)",
+  "category": "general",
+  "target": null,
+  "unit": "59E",
+  "area": 59.72,
+  "households": 3,
+  "complex": {
+   "households": 663,
+   "buildings": 12,
+   "single": "no",
+   "status": "확인",
+   "src": "모집공고문 공급규모",
+   "quote": "․공급대상 및 공급가격 등 1. 공급규모 ■ 인천계양 A6블록 : 공공분양주택 최고층 기준 7∼15층 12개동 전용면적 85㎡ 이하 663세대 (사전청약412세대, 이주자주택 2세대, 특별공급 211세대, 일반공급"
+  },
+  "mc_quota": {
+   "buckets": [
+    {
+     "name": "해당 주택건설지역",
+     "pct": 50,
+     "regions": [
+      "인천"
+     ]
+    },
+    {
+     "name": "기타지역(수도권)",
+     "pct": 50,
+     "regions": [
+      "서울",
+      "경기"
+     ]
+    }
+   ]
+  },
+  "youth": null,
+  "resale": {
+   "months": 36,
+   "base": "당첨자 발표일",
+   "registration": false,
+   "until_reg": false,
+   "passed": false,
+   "none": false,
+   "forbidden": false
+  },
+  "score_ratio": null,
+  "pub_limits": {
+   "cap": [
+    100,
+    200
+   ],
+   "real_estate": 21550,
+   "car": 4542,
+   "priority": [
+    100,
+    140
+   ],
+   "area_max": 60
+  },
+  "schedule": {
+   "pre": [
+    "2026-09-17",
+    "2026-09-18"
+   ],
+   "special": [
+    "2026-09-30",
+    "2026-09-30"
+   ],
+   "general": [
+    "2026-10-01",
+    "2026-10-02"
+   ]
+  },
+  "residence": {
+   "area": {
+    "name": "인천광역시",
+    "sido": "인천"
+   },
+   "months": 0,
+   "since": null,
+   "quota": {
+    "해당": 50,
+    "기타": 50
+   },
+   "others": [
+    "서울",
+    "경기"
+   ]
+  },
+  "special_units": {
+   "newborn": 7,
+   "newlywed": 3,
+   "first": 5,
+   "multichild": 3,
+   "elder": 2,
+   "agency": 6,
+   "relocated": 0,
+   "youth": 0,
+   "etc": 4,
+   "total": 30
+  },
+  "notice": "2026-08-31",
+  "apply": "2026-09-17",
+  "apply_end": "2026-10-02",
+  "winner": "2026-10-21",
+  "contract": "2026-12-15",
+  "balance": null,
+  "move_in": "2029-06",
+  "price": 5.0474,
+  "ext": 0.0,
+  "pay_ratio": {
+   "contract": 0.1,
+   "mid": 0.6,
+   "balance": 0.3
+  },
+  "contract_split": null,
+  "contract_rate": 0.1,
+  "mid_rate": 0.6,
+  "mkt_low": 4.21,
+  "mkt_base": 4.37,
+  "mkt_note": "공고 위치 반경 2km 안(공고 주소가 동까지만 있어 동 중심에서 잰 거리) 준공 10년 이내 같은 평형(59㎡) 매매 14건 기준 (최근 6개월) · 거래가 몰린 단지(계양하늘채파크포레 14건)는 5건 몫으로 줄여 계산",
+  "mkt_basis": "near_newbuild",
+  "mkt_count": 14,
+  "mkt_direct_excluded": 0,
+  "mkt_comps": [
+   {
+    "apt": "계양하늘채파크포레",
+    "umd": "방축동",
+    "area": 59.8946,
+    "floor": 8.0,
+    "dong": "",
+    "amount": 4.53,
+    "date": "2026-10-17",
+    "kind": "매매",
+    "direct": false,
+    "m": 1811
+   },
+   {
+    "apt": "계양하늘채파크포레",
+    "umd": "방축동",
+    "area": 59.8794,
+    "floor": 10.0,
+    "dong": "",
+    "amount": 4.5,
+    "date": "2026-10-05",
+    "kind": "매매",
+    "direct": false,
+    "m": 1811
+   },
+   {
+    "apt": "계양하늘채파크포레",
+    "umd": "방축동",
+    "area": 59.8794,
+    "floor": 3.0,
+    "dong": "107동",
+    "amount": 4.45,
+    "date": "2026-08-25",
+    "kind": "매매",
+    "direct": false,
+    "m": 1811
+   },
+   {
+    "apt": "계양하늘채파크포레",
+    "umd": "방축동",
+    "area": 59.8946,
+    "floor": 13.0,
+    "dong": "",
+    "amount": 4.55,
+    "date": "2026-08-17",
+    "kind": "매매",
+    "direct": false,
+    "m": 1811
+   },
+   {
+    "apt": "계양하늘채파크포레",
+    "umd": "방축동",
+    "area": 59.8794,
+    "floor": 4.0,
+    "dong": "",
+    "amount": 4.4,
+    "date": "2026-08-17",
+    "kind": "매매",
+    "direct": false,
+    "m": 1811
+   },
+   {
+    "apt": "계양하늘채파크포레",
+    "umd": "방축동",
+    "area": 59.8946,
+    "floor": 3.0,
+    "dong": "",
+    "amount": 4.18,
+    "date": "2026-08-08",
+    "kind": "매매",
+    "direct": false,
+    "m": 1811
+   },
+   {
+    "apt": "계양하늘채파크포레",
+    "umd": "방축동",
+    "area": 59.9931,
+    "floor": 6.0,
+    "dong": "106동",
+    "amount": 4.35,
+    "date": "2026-08-07",
+    "kind": "매매",
+    "direct": false,
+    "m": 1811
+   },
+   {
+    "apt": "계양하늘채파크포레",
+    "umd": "방축동",
+    "area": 59.8946,
+    "floor": 10.0,
+    "dong": "106동",
+    "amount": 4.17,
+    "date": "2026-07-28",
+    "kind": "매매",
+    "direct": false,
+    "m": 1811
+   }
+  ],
+  "jeonse": 2.88,
+  "jeonse_note": "같은 구 준공 10년 이내 전세 55건 중앙값에서 입주장 할인 9%",
+  "jeonse_comps": [
+   {
+    "apt": "e편한세상 계양 더프리미어",
+    "umd": "효성동",
+    "area": 59.8883,
+    "floor": 25.0,
+    "dong": "",
+    "amount": 3.7,
+    "date": "2026-10-28",
+    "kind": "전세",
+    "direct": false
+   },
+   {
+    "apt": "e편한세상 계양 더프리미어",
+    "umd": "효성동",
+    "area": 59.8883,
+    "floor": 2.0,
+    "dong": "",
+    "amount": 3.0,
+    "date": "2026-10-26",
+    "kind": "전세",
+    "direct": false
+   },
+   {
+    "apt": "계양효성해링턴플레이스",
+    "umd": "서운동",
+    "area": 59.977,
+    "floor": 13.0,
+    "dong": "",
+    "amount": 3.4,
+    "date": "2026-10-22",
+    "kind": "전세",
+    "direct": false
+   },
+   {
+    "apt": "계양하늘채파크포레",
+    "umd": "방축동",
+    "area": 59.8946,
+    "floor": 6.0,
+    "dong": "",
+    "amount": 3.2,
+    "date": "2026-10-19",
+    "kind": "전세",
+    "direct": false
+   },
+   {
+    "apt": "계양효성해링턴플레이스",
+    "umd": "서운동",
+    "area": 59.976,
+    "floor": 15.0,
+    "dong": "",
+    "amount": 3.3,
+    "date": "2026-10-18",
+    "kind": "전세",
+    "direct": false
+   },
+   {
+    "apt": "계양산파크트루엘",
+    "umd": "계산동",
+    "area": 59.99,
+    "floor": 4.0,
+    "dong": "",
+    "amount": 3.15,
+    "date": "2026-10-16",
+    "kind": "전세",
+    "direct": false
+   },
+   {
+    "apt": "계양산파크트루엘",
+    "umd": "계산동",
+    "area": 59.99,
+    "floor": 11.0,
+    "dong": "",
+    "amount": 3.2,
+    "date": "2026-10-15",
+    "kind": "전세",
+    "direct": false
+   },
+   {
+    "apt": "작전역서해그랑블",
+    "umd": "작전동",
+    "area": 59.9887,
+    "floor": 15.0,
+    "dong": "",
+    "amount": 3.2,
+    "date": "2026-10-13",
+    "kind": "전세",
+    "direct": false
+   }
+  ],
+  "capital": true,
+  "regulated": false,
+  "reg_kind": "비규제",
+  "land_permit": false,
+  "price_cap": true,
+  "residence_duty": 0,
+  "duty_from": null,
+  "notice_quotes": {
+   "세대주 요건": "…· 노부모부양 · 생애최초 · 신혼부부 · 신생아 특별공급 및 일반공급 신청자 (지역균형특별공급 제2호 외국인의경우입주자모집공고일부터 입주시까지무주택자) ■ 공급신청 자격자 • 주택공급 신청은 무주택세대구성원 중 1인만 가능합니다 ※ 부부(예비신혼부부 제외)는 당첨자발표일이 동일한 주택에…",
+   "분양가상한제": "…85㎡이하 주택)이며, 분양가상한제 적용주택으로 「주택공급에 관한 규칙」 제54조에 따라 재당첨제한은 10년…",
+   "실거주 의무": "…제1항 별표3 거주의무 - 없음 「주택법」제57조의2,「주택법 시행령」 제60조의2 구 분 사전청약당첨자 특별공급…",
+   "전매 제한": "…관한 규칙」제54조 전매제한 당첨자 발표일 3년 「주택법」제64조,「주택법 시행령」제73조 제1항 별표3…",
+   "재당첨 제한": "…관한 규칙」 제54조에 따라 재당첨제한은 10년 적용되고, 「주택법 시행령」 제73조에 의해 전매제한이 3년…",
+   "1순위 가입기간": "…1순위 입주자저축에 가입하여 1년(12개월)이 경과된 분으로서 매월 약정납입일에 월 납입금을 12회 이상 납입한 분 2순위…",
+   "납입 인정 횟수": "…1순위 입주자저축에 가입하여 1년(12개월)이 경과된 분으로서 매월 약정납입일에 월 납입금을 12회 이상 납입한 분 2순위…",
+   "계약금 비율": "…층별 구분 주택가격 계약금 10% 1차 중도금 10% 2차 중도금 10% 3차 중도금 10% 4차 중도금 10% 5차 중도금 10% 6차 중도금 10% 잔금 융자금(주택도시기금) 계약시…",
+   "거주 지역 요건": "…26.08.31) ① 해당 주택건설지역 (인천광역시) 50% ․ 공고일 현재 인천광역시 거주자 ② 기타지역(수도권) 50% ․ 공고일 현재 주민등록표등본상 서울특별시, 경기도에 거주하는 분 - 14 - ※ 공급세대수를 상기 지역우선비율로 배분 시 소수점 이하가 발생할 경우 소수점 첫 자리에서 반…",
+   "다자녀 지역 배정": "…다자녀 특별공급 및 일반공급 지역 우선공급 기준 <표1> 동일순위 내 지역우선 공급기준 기준일 지역구분 우선공급 비율 지역 우선공급 거주 입력 대상자 입주자모집공고일 (2026.08.31) ① 해당 주택건설지역 (인천광역시) 50% ․ 공고일 현재 인천광역시 거주자 ② 기타지역(수도권) 50% ․ 공고일…",
+   "공공 일반공급 소득·자산": "…(세대) 월평균소득 100% 이하 (맞벌이 200%) * 전용면적 60㎡ 이하만 적용 자산 (부동산, 자동차) 해당 없음 해당 없음 해당 없음 (세대) 부동산 215,500천원 이하 자동차 45,420천원 이하 (세대) 부동산 215,500천원 이하 자동차 45,420…"
+  },
+  "notice_conflicts": [],
+  "duty_silent": false,
+  "jeonse_weak": false,
+  "unregistered": true,
+  "need_head": false,
+  "need_account": true,
+  "limits": [
+   [
+    "재당첨 제한",
+    "10년"
+   ],
+   [
+    "실거주 의무",
+    "없음"
+   ],
+   [
+    "전매 제한",
+    "3년 (~29.10.21)"
+   ]
+  ],
+  "url": "https://www.applyhome.co.kr/ai/aia/selectAPTLttotPblancDetail.do?houseManageNo=2026000414&pblancNo=2026000414",
+  "notice_pdf": "https://apply.lh.or.kr/lhapply/lhFile.do?fileid=68595376",
+  "from_notice": [
+   "세대주 요건",
+   "분양가상한제",
+   "실거주 의무",
+   "전매 제한",
+   "재당첨 제한",
+   "1순위 가입기간",
+   "납입 인정 횟수",
+   "계약금 비율",
+   "거주 지역 요건",
+   "다자녀 지역 배정",
+   "접수 일정",
+   "공공 일반공급 소득·자산"
+  ],
+  "checks": [],
+  "geo": {
+   "lat": 37.5668,
+   "lng": 126.7505,
+   "precision": "dong",
+   "query": "인천광역시 계양구 귤현동",
+   "matched": "인천광역시 계양구 귤현동",
+   "source": "네이버 클라우드 플랫폼 Geocoding"
+  },
+  "account_months": 12,
+  "deposit_count": 12,
+  "competition": {
+   "rows": [],
+   "scores": [
+    {
+     "reside": "해당지역",
+     "low": null,
+     "top": null,
+     "avg": null
+    },
+    {
+     "reside": "기타지역",
+     "low": null,
+     "top": null,
+     "avg": null
+    }
+   ]
+  },
+  "area_comps": null,
+  "sp_competition": null,
+  "area_sp": [],
+  "map_query": "인천광역시 계양구 귤현동",
+  "nearby": [
+   {
+    "kind": "역",
+    "name": "귤현역",
+    "m": 693,
+    "lat": 37.5663544,
+    "lng": 126.7426554,
+    "walk": 13
+   },
+   {
+    "kind": "역",
+    "name": "계양역",
+    "m": 1367,
+    "lat": 37.571767,
+    "lng": 126.736311,
+    "walk": 27
+   },
+   {
+    "kind": "초등학교",
+    "name": "인천귤현초등학교",
+    "m": 349,
+    "lat": 37.5684242,
+    "lng": 126.7471176,
+    "walk": 7
+   },
+   {
+    "kind": "중학교",
+    "name": "계양중학교",
+    "m": 1034,
+    "lat": 37.5690991,
+    "lng": 126.7391329,
+    "walk": 20
+   }
+  ],
+  "sample": false
+ },
+ {
+  "id": "2026000414-059.9700G",
+  "name": "인천계양지구 A6블록 공공분양주택(본청약)",
+  "address": "인천광역시 계양구 귤현동, 동양동, 박촌동, 병방동, 상야동 및 경기도 부천시 대장동, 서울특별시 강서구 오곡동 일원 인천계양 테크노밸리 공공주택지구 내 A6블록",
+  "region": "인천",
+  "sigungu": "인천 계양구",
+  "sido": "인천",
+  "district": "계양구",
+  "supply_type": "APT",
+  "house_secd": "01",
+  "house_dtl": "국민",
+  "rent_secd": "분양주택",
+  "rental": false,
+  "land_lease": false,
+  "land_rent": null,
+  "land_rent_rate": null,
+  "special_apply": "2026-09-30",
+  "special_apply_end": "2026-09-30",
+  "kind": "일반분양 (특별공급·1순위)",
+  "category": "general",
+  "target": null,
+  "unit": "59G",
+  "area": 59.97,
+  "households": 0,
+  "complex": {
+   "households": 663,
+   "buildings": 12,
+   "single": "no",
+   "status": "확인",
+   "src": "모집공고문 공급규모",
+   "quote": "․공급대상 및 공급가격 등 1. 공급규모 ■ 인천계양 A6블록 : 공공분양주택 최고층 기준 7∼15층 12개동 전용면적 85㎡ 이하 663세대 (사전청약412세대, 이주자주택 2세대, 특별공급 211세대, 일반공급"
+  },
+  "mc_quota": {
+   "buckets": [
+    {
+     "name": "해당 주택건설지역",
+     "pct": 50,
+     "regions": [
+      "인천"
+     ]
+    },
+    {
+     "name": "기타지역(수도권)",
+     "pct": 50,
+     "regions": [
+      "서울",
+      "경기"
+     ]
+    }
+   ]
+  },
+  "youth": null,
+  "resale": {
+   "months": 36,
+   "base": "당첨자 발표일",
+   "registration": false,
+   "until_reg": false,
+   "passed": false,
+   "none": false,
+   "forbidden": false
+  },
+  "score_ratio": null,
+  "pub_limits": {
+   "cap": [
+    100,
+    200
+   ],
+   "real_estate": 21550,
+   "car": 4542,
+   "priority": [
+    100,
+    140
+   ],
+   "area_max": 60
+  },
+  "schedule": {
+   "pre": [
+    "2026-09-17",
+    "2026-09-18"
+   ],
+   "special": [
+    "2026-09-30",
+    "2026-09-30"
+   ],
+   "general": [
+    "2026-10-01",
+    "2026-10-02"
+   ]
+  },
+  "residence": {
+   "area": {
+    "name": "인천광역시",
+    "sido": "인천"
+   },
+   "months": 0,
+   "since": null,
+   "quota": {
+    "해당": 50,
+    "기타": 50
+   },
+   "others": [
+    "서울",
+    "경기"
+   ]
+  },
+  "special_units": {
+   "newborn": 1,
+   "newlywed": 1,
+   "first": 1,
+   "multichild": 1,
+   "elder": 0,
+   "agency": 0,
+   "relocated": 0,
+   "youth": 0,
+   "etc": 2,
+   "total": 6
+  },
+  "notice": "2026-08-31",
+  "apply": "2026-09-17",
+  "apply_end": "2026-10-02",
+  "winner": "2026-10-21",
+  "contract": "2026-12-15",
+  "balance": null,
+  "move_in": "2029-06",
+  "price": 5.3853,
+  "ext": 0.0,
+  "pay_ratio": {
+   "contract": 0.1,
+   "mid": 0.6,
+   "balance": 0.3
+  },
+  "contract_split": null,
+  "contract_rate": 0.1,
+  "mid_rate": 0.6,
+  "mkt_low": 4.21,
+  "mkt_base": 4.37,
+  "mkt_note": "공고 위치 반경 2km 안(공고 주소가 동까지만 있어 동 중심에서 잰 거리) 준공 10년 이내 같은 평형(59㎡) 매매 14건 기준 (최근 6개월) · 거래가 몰린 단지(계양하늘채파크포레 14건)는 5건 몫으로 줄여 계산",
+  "mkt_basis": "near_newbuild",
+  "mkt_count": 14,
+  "mkt_direct_excluded": 0,
+  "mkt_comps": [
+   {
+    "apt": "계양하늘채파크포레",
+    "umd": "방축동",
+    "area": 59.8946,
+    "floor": 8.0,
+    "dong": "",
+    "amount": 4.53,
+    "date": "2026-10-17",
+    "kind": "매매",
+    "direct": false,
+    "m": 1811
+   },
+   {
+    "apt": "계양하늘채파크포레",
+    "umd": "방축동",
+    "area": 59.8794,
+    "floor": 10.0,
+    "dong": "",
+    "amount": 4.5,
+    "date": "2026-10-05",
+    "kind": "매매",
+    "direct": false,
+    "m": 1811
+   },
+   {
+    "apt": "계양하늘채파크포레",
+    "umd": "방축동",
+    "area": 59.8794,
+    "floor": 3.0,
+    "dong": "107동",
+    "amount": 4.45,
+    "date": "2026-08-25",
+    "kind": "매매",
+    "direct": false,
+    "m": 1811
+   },
+   {
+    "apt": "계양하늘채파크포레",
+    "umd": "방축동",
+    "area": 59.8946,
+    "floor": 13.0,
+    "dong": "",
+    "amount": 4.55,
+    "date": "2026-08-17",
+    "kind": "매매",
+    "direct": false,
+    "m": 1811
+   },
+   {
+    "apt": "계양하늘채파크포레",
+    "umd": "방축동",
+    "area": 59.8794,
+    "floor": 4.0,
+    "dong": "",
+    "amount": 4.4,
+    "date": "2026-08-17",
+    "kind": "매매",
+    "direct": false,
+    "m": 1811
+   },
+   {
+    "apt": "계양하늘채파크포레",
+    "umd": "방축동",
+    "area": 59.8946,
+    "floor": 3.0,
+    "dong": "",
+    "amount": 4.18,
+    "date": "2026-08-08",
+    "kind": "매매",
+    "direct": false,
+    "m": 1811
+   },
+   {
+    "apt": "계양하늘채파크포레",
+    "umd": "방축동",
+    "area": 59.9931,
+    "floor": 6.0,
+    "dong": "106동",
+    "amount": 4.35,
+    "date": "2026-08-07",
+    "kind": "매매",
+    "direct": false,
+    "m": 1811
+   },
+   {
+    "apt": "계양하늘채파크포레",
+    "umd": "방축동",
+    "area": 59.8946,
+    "floor": 10.0,
+    "dong": "106동",
+    "amount": 4.17,
+    "date": "2026-07-28",
+    "kind": "매매",
+    "direct": false,
+    "m": 1811
+   }
+  ],
+  "jeonse": 2.88,
+  "jeonse_note": "같은 구 준공 10년 이내 전세 55건 중앙값에서 입주장 할인 9%",
+  "jeonse_comps": [
+   {
+    "apt": "e편한세상 계양 더프리미어",
+    "umd": "효성동",
+    "area": 59.8883,
+    "floor": 25.0,
+    "dong": "",
+    "amount": 3.7,
+    "date": "2026-10-28",
+    "kind": "전세",
+    "direct": false
+   },
+   {
+    "apt": "e편한세상 계양 더프리미어",
+    "umd": "효성동",
+    "area": 59.8883,
+    "floor": 2.0,
+    "dong": "",
+    "amount": 3.0,
+    "date": "2026-10-26",
+    "kind": "전세",
+    "direct": false
+   },
+   {
+    "apt": "계양효성해링턴플레이스",
+    "umd": "서운동",
+    "area": 59.977,
+    "floor": 13.0,
+    "dong": "",
+    "amount": 3.4,
+    "date": "2026-10-22",
+    "kind": "전세",
+    "direct": false
+   },
+   {
+    "apt": "계양하늘채파크포레",
+    "umd": "방축동",
+    "area": 59.8946,
+    "floor": 6.0,
+    "dong": "",
+    "amount": 3.2,
+    "date": "2026-10-19",
+    "kind": "전세",
+    "direct": false
+   },
+   {
+    "apt": "계양효성해링턴플레이스",
+    "umd": "서운동",
+    "area": 59.976,
+    "floor": 15.0,
+    "dong": "",
+    "amount": 3.3,
+    "date": "2026-10-18",
+    "kind": "전세",
+    "direct": false
+   },
+   {
+    "apt": "계양산파크트루엘",
+    "umd": "계산동",
+    "area": 59.99,
+    "floor": 4.0,
+    "dong": "",
+    "amount": 3.15,
+    "date": "2026-10-16",
+    "kind": "전세",
+    "direct": false
+   },
+   {
+    "apt": "계양산파크트루엘",
+    "umd": "계산동",
+    "area": 59.99,
+    "floor": 11.0,
+    "dong": "",
+    "amount": 3.2,
+    "date": "2026-10-15",
+    "kind": "전세",
+    "direct": false
+   },
+   {
+    "apt": "작전역서해그랑블",
+    "umd": "작전동",
+    "area": 59.9887,
+    "floor": 15.0,
+    "dong": "",
+    "amount": 3.2,
+    "date": "2026-10-13",
+    "kind": "전세",
+    "direct": false
+   }
+  ],
+  "capital": true,
+  "regulated": false,
+  "reg_kind": "비규제",
+  "land_permit": false,
+  "price_cap": true,
+  "residence_duty": 0,
+  "duty_from": null,
+  "notice_quotes": {
+   "세대주 요건": "…· 노부모부양 · 생애최초 · 신혼부부 · 신생아 특별공급 및 일반공급 신청자 (지역균형특별공급 제2호 외국인의경우입주자모집공고일부터 입주시까지무주택자) ■ 공급신청 자격자 • 주택공급 신청은 무주택세대구성원 중 1인만 가능합니다 ※ 부부(예비신혼부부 제외)는 당첨자발표일이 동일한 주택에…",
+   "분양가상한제": "…85㎡이하 주택)이며, 분양가상한제 적용주택으로 「주택공급에 관한 규칙」 제54조에 따라 재당첨제한은 10년…",
+   "실거주 의무": "…제1항 별표3 거주의무 - 없음 「주택법」제57조의2,「주택법 시행령」 제60조의2 구 분 사전청약당첨자 특별공급…",
+   "전매 제한": "…관한 규칙」제54조 전매제한 당첨자 발표일 3년 「주택법」제64조,「주택법 시행령」제73조 제1항 별표3…",
+   "재당첨 제한": "…관한 규칙」 제54조에 따라 재당첨제한은 10년 적용되고, 「주택법 시행령」 제73조에 의해 전매제한이 3년…",
+   "1순위 가입기간": "…1순위 입주자저축에 가입하여 1년(12개월)이 경과된 분으로서 매월 약정납입일에 월 납입금을 12회 이상 납입한 분 2순위…",
+   "납입 인정 횟수": "…1순위 입주자저축에 가입하여 1년(12개월)이 경과된 분으로서 매월 약정납입일에 월 납입금을 12회 이상 납입한 분 2순위…",
+   "계약금 비율": "…층별 구분 주택가격 계약금 10% 1차 중도금 10% 2차 중도금 10% 3차 중도금 10% 4차 중도금 10% 5차 중도금 10% 6차 중도금 10% 잔금 융자금(주택도시기금) 계약시…",
+   "거주 지역 요건": "…26.08.31) ① 해당 주택건설지역 (인천광역시) 50% ․ 공고일 현재 인천광역시 거주자 ② 기타지역(수도권) 50% ․ 공고일 현재 주민등록표등본상 서울특별시, 경기도에 거주하는 분 - 14 - ※ 공급세대수를 상기 지역우선비율로 배분 시 소수점 이하가 발생할 경우 소수점 첫 자리에서 반…",
+   "다자녀 지역 배정": "…다자녀 특별공급 및 일반공급 지역 우선공급 기준 <표1> 동일순위 내 지역우선 공급기준 기준일 지역구분 우선공급 비율 지역 우선공급 거주 입력 대상자 입주자모집공고일 (2026.08.31) ① 해당 주택건설지역 (인천광역시) 50% ․ 공고일 현재 인천광역시 거주자 ② 기타지역(수도권) 50% ․ 공고일…",
+   "공공 일반공급 소득·자산": "…(세대) 월평균소득 100% 이하 (맞벌이 200%) * 전용면적 60㎡ 이하만 적용 자산 (부동산, 자동차) 해당 없음 해당 없음 해당 없음 (세대) 부동산 215,500천원 이하 자동차 45,420천원 이하 (세대) 부동산 215,500천원 이하 자동차 45,420…"
+  },
+  "notice_conflicts": [],
+  "duty_silent": false,
+  "jeonse_weak": false,
+  "unregistered": true,
+  "need_head": false,
+  "need_account": true,
+  "limits": [
+   [
+    "재당첨 제한",
+    "10년"
+   ],
+   [
+    "실거주 의무",
+    "없음"
+   ],
+   [
+    "전매 제한",
+    "3년 (~29.10.21)"
+   ]
+  ],
+  "url": "https://www.applyhome.co.kr/ai/aia/selectAPTLttotPblancDetail.do?houseManageNo=2026000414&pblancNo=2026000414",
+  "notice_pdf": "https://apply.lh.or.kr/lhapply/lhFile.do?fileid=68595376",
+  "from_notice": [
+   "세대주 요건",
+   "분양가상한제",
+   "실거주 의무",
+   "전매 제한",
+   "재당첨 제한",
+   "1순위 가입기간",
+   "납입 인정 횟수",
+   "계약금 비율",
+   "거주 지역 요건",
+   "다자녀 지역 배정",
+   "접수 일정",
+   "공공 일반공급 소득·자산"
+  ],
+  "checks": [],
+  "geo": {
+   "lat": 37.5668,
+   "lng": 126.7505,
+   "precision": "dong",
+   "query": "인천광역시 계양구 귤현동",
+   "matched": "인천광역시 계양구 귤현동",
+   "source": "네이버 클라우드 플랫폼 Geocoding"
+  },
+  "account_months": 12,
+  "deposit_count": 12,
+  "competition": null,
+  "area_comps": [],
+  "sp_competition": null,
+  "area_sp": [],
+  "map_query": "인천광역시 계양구 귤현동",
+  "nearby": [
+   {
+    "kind": "역",
+    "name": "귤현역",
+    "m": 693,
+    "lat": 37.5663544,
+    "lng": 126.7426554,
+    "walk": 13
+   },
+   {
+    "kind": "역",
+    "name": "계양역",
+    "m": 1367,
+    "lat": 37.571767,
+    "lng": 126.736311,
+    "walk": 27
+   },
+   {
+    "kind": "초등학교",
+    "name": "인천귤현초등학교",
+    "m": 349,
+    "lat": 37.5684242,
+    "lng": 126.7471176,
+    "walk": 7
+   },
+   {
+    "kind": "중학교",
+    "name": "계양중학교",
+    "m": 1034,
+    "lat": 37.5690991,
+    "lng": 126.7391329,
+    "walk": 20
+   }
+  ],
+  "sample": false
+ },
+ {
+  "id": "2026000414-059.8200H",
+  "name": "인천계양지구 A6블록 공공분양주택(본청약)",
+  "address": "인천광역시 계양구 귤현동, 동양동, 박촌동, 병방동, 상야동 및 경기도 부천시 대장동, 서울특별시 강서구 오곡동 일원 인천계양 테크노밸리 공공주택지구 내 A6블록",
+  "region": "인천",
+  "sigungu": "인천 계양구",
+  "sido": "인천",
+  "district": "계양구",
+  "supply_type": "APT",
+  "house_secd": "01",
+  "house_dtl": "국민",
+  "rent_secd": "분양주택",
+  "rental": false,
+  "land_lease": false,
+  "land_rent": null,
+  "land_rent_rate": null,
+  "special_apply": "2026-09-30",
+  "special_apply_end": "2026-09-30",
+  "kind": "일반분양 (특별공급·1순위)",
+  "category": "general",
+  "target": null,
+  "unit": "59H",
+  "area": 59.82,
+  "households": 1,
+  "complex": {
+   "households": 663,
+   "buildings": 12,
+   "single": "no",
+   "status": "확인",
+   "src": "모집공고문 공급규모",
+   "quote": "․공급대상 및 공급가격 등 1. 공급규모 ■ 인천계양 A6블록 : 공공분양주택 최고층 기준 7∼15층 12개동 전용면적 85㎡ 이하 663세대 (사전청약412세대, 이주자주택 2세대, 특별공급 211세대, 일반공급"
+  },
+  "mc_quota": {
+   "buckets": [
+    {
+     "name": "해당 주택건설지역",
+     "pct": 50,
+     "regions": [
+      "인천"
+     ]
+    },
+    {
+     "name": "기타지역(수도권)",
+     "pct": 50,
+     "regions": [
+      "서울",
+      "경기"
+     ]
+    }
+   ]
+  },
+  "youth": null,
+  "resale": {
+   "months": 36,
+   "base": "당첨자 발표일",
+   "registration": false,
+   "until_reg": false,
+   "passed": false,
+   "none": false,
+   "forbidden": false
+  },
+  "score_ratio": null,
+  "pub_limits": {
+   "cap": [
+    100,
+    200
+   ],
+   "real_estate": 21550,
+   "car": 4542,
+   "priority": [
+    100,
+    140
+   ],
+   "area_max": 60
+  },
+  "schedule": {
+   "pre": [
+    "2026-09-17",
+    "2026-09-18"
+   ],
+   "special": [
+    "2026-09-30",
+    "2026-09-30"
+   ],
+   "general": [
+    "2026-10-01",
+    "2026-10-02"
+   ]
+  },
+  "residence": {
+   "area": {
+    "name": "인천광역시",
+    "sido": "인천"
+   },
+   "months": 0,
+   "since": null,
+   "quota": {
+    "해당": 50,
+    "기타": 50
+   },
+   "others": [
+    "서울",
+    "경기"
+   ]
+  },
+  "special_units": {
+   "newborn": 0,
+   "newlywed": 0,
+   "first": 0,
+   "multichild": 0,
+   "elder": 0,
+   "agency": 0,
+   "relocated": 0,
+   "youth": 0,
+   "etc": 0,
+   "total": 0
+  },
+  "notice": "2026-08-31",
+  "apply": "2026-09-17",
+  "apply_end": "2026-10-02",
+  "winner": "2026-10-21",
+  "contract": "2026-12-15",
+  "balance": null,
+  "move_in": "2029-06",
+  "price": 5.2665,
+  "ext": 0.0,
+  "pay_ratio": {
+   "contract": 0.1,
+   "mid": 0.6,
+   "balance": 0.3
+  },
+  "contract_split": null,
+  "contract_rate": 0.1,
+  "mid_rate": 0.6,
+  "mkt_low": 4.21,
+  "mkt_base": 4.37,
+  "mkt_note": "공고 위치 반경 2km 안(공고 주소가 동까지만 있어 동 중심에서 잰 거리) 준공 10년 이내 같은 평형(59㎡) 매매 14건 기준 (최근 6개월) · 거래가 몰린 단지(계양하늘채파크포레 14건)는 5건 몫으로 줄여 계산",
+  "mkt_basis": "near_newbuild",
+  "mkt_count": 14,
+  "mkt_direct_excluded": 0,
+  "mkt_comps": [
+   {
+    "apt": "계양하늘채파크포레",
+    "umd": "방축동",
+    "area": 59.8946,
+    "floor": 8.0,
+    "dong": "",
+    "amount": 4.53,
+    "date": "2026-10-17",
+    "kind": "매매",
+    "direct": false,
+    "m": 1811
+   },
+   {
+    "apt": "계양하늘채파크포레",
+    "umd": "방축동",
+    "area": 59.8794,
+    "floor": 10.0,
+    "dong": "",
+    "amount": 4.5,
+    "date": "2026-10-05",
+    "kind": "매매",
+    "direct": false,
+    "m": 1811
+   },
+   {
+    "apt": "계양하늘채파크포레",
+    "umd": "방축동",
+    "area": 59.8794,
+    "floor": 3.0,
+    "dong": "107동",
+    "amount": 4.45,
+    "date": "2026-08-25",
+    "kind": "매매",
+    "direct": false,
+    "m": 1811
+   },
+   {
+    "apt": "계양하늘채파크포레",
+    "umd": "방축동",
+    "area": 59.8946,
+    "floor": 13.0,
+    "dong": "",
+    "amount": 4.55,
+    "date": "2026-08-17",
+    "kind": "매매",
+    "direct": false,
+    "m": 1811
+   },
+   {
+    "apt": "계양하늘채파크포레",
+    "umd": "방축동",
+    "area": 59.8794,
+    "floor": 4.0,
+    "dong": "",
+    "amount": 4.4,
+    "date": "2026-08-17",
+    "kind": "매매",
+    "direct": false,
+    "m": 1811
+   },
+   {
+    "apt": "계양하늘채파크포레",
+    "umd": "방축동",
+    "area": 59.8946,
+    "floor": 3.0,
+    "dong": "",
+    "amount": 4.18,
+    "date": "2026-08-08",
+    "kind": "매매",
+    "direct": false,
+    "m": 1811
+   },
+   {
+    "apt": "계양하늘채파크포레",
+    "umd": "방축동",
+    "area": 59.9931,
+    "floor": 6.0,
+    "dong": "106동",
+    "amount": 4.35,
+    "date": "2026-08-07",
+    "kind": "매매",
+    "direct": false,
+    "m": 1811
+   },
+   {
+    "apt": "계양하늘채파크포레",
+    "umd": "방축동",
+    "area": 59.8946,
+    "floor": 10.0,
+    "dong": "106동",
+    "amount": 4.17,
+    "date": "2026-07-28",
+    "kind": "매매",
+    "direct": false,
+    "m": 1811
+   }
+  ],
+  "jeonse": 2.88,
+  "jeonse_note": "같은 구 준공 10년 이내 전세 55건 중앙값에서 입주장 할인 9%",
+  "jeonse_comps": [
+   {
+    "apt": "e편한세상 계양 더프리미어",
+    "umd": "효성동",
+    "area": 59.8883,
+    "floor": 25.0,
+    "dong": "",
+    "amount": 3.7,
+    "date": "2026-10-28",
+    "kind": "전세",
+    "direct": false
+   },
+   {
+    "apt": "e편한세상 계양 더프리미어",
+    "umd": "효성동",
+    "area": 59.8883,
+    "floor": 2.0,
+    "dong": "",
+    "amount": 3.0,
+    "date": "2026-10-26",
+    "kind": "전세",
+    "direct": false
+   },
+   {
+    "apt": "계양효성해링턴플레이스",
+    "umd": "서운동",
+    "area": 59.977,
+    "floor": 13.0,
+    "dong": "",
+    "amount": 3.4,
+    "date": "2026-10-22",
+    "kind": "전세",
+    "direct": false
+   },
+   {
+    "apt": "계양하늘채파크포레",
+    "umd": "방축동",
+    "area": 59.8946,
+    "floor": 6.0,
+    "dong": "",
+    "amount": 3.2,
+    "date": "2026-10-19",
+    "kind": "전세",
+    "direct": false
+   },
+   {
+    "apt": "계양효성해링턴플레이스",
+    "umd": "서운동",
+    "area": 59.976,
+    "floor": 15.0,
+    "dong": "",
+    "amount": 3.3,
+    "date": "2026-10-18",
+    "kind": "전세",
+    "direct": false
+   },
+   {
+    "apt": "계양산파크트루엘",
+    "umd": "계산동",
+    "area": 59.99,
+    "floor": 4.0,
+    "dong": "",
+    "amount": 3.15,
+    "date": "2026-10-16",
+    "kind": "전세",
+    "direct": false
+   },
+   {
+    "apt": "계양산파크트루엘",
+    "umd": "계산동",
+    "area": 59.99,
+    "floor": 11.0,
+    "dong": "",
+    "amount": 3.2,
+    "date": "2026-10-15",
+    "kind": "전세",
+    "direct": false
+   },
+   {
+    "apt": "작전역서해그랑블",
+    "umd": "작전동",
+    "area": 59.9887,
+    "floor": 15.0,
+    "dong": "",
+    "amount": 3.2,
+    "date": "2026-10-13",
+    "kind": "전세",
+    "direct": false
+   }
+  ],
+  "capital": true,
+  "regulated": false,
+  "reg_kind": "비규제",
+  "land_permit": false,
+  "price_cap": true,
+  "residence_duty": 0,
+  "duty_from": null,
+  "notice_quotes": {
+   "세대주 요건": "…· 노부모부양 · 생애최초 · 신혼부부 · 신생아 특별공급 및 일반공급 신청자 (지역균형특별공급 제2호 외국인의경우입주자모집공고일부터 입주시까지무주택자) ■ 공급신청 자격자 • 주택공급 신청은 무주택세대구성원 중 1인만 가능합니다 ※ 부부(예비신혼부부 제외)는 당첨자발표일이 동일한 주택에…",
+   "분양가상한제": "…85㎡이하 주택)이며, 분양가상한제 적용주택으로 「주택공급에 관한 규칙」 제54조에 따라 재당첨제한은 10년…",
+   "실거주 의무": "…제1항 별표3 거주의무 - 없음 「주택법」제57조의2,「주택법 시행령」 제60조의2 구 분 사전청약당첨자 특별공급…",
+   "전매 제한": "…관한 규칙」제54조 전매제한 당첨자 발표일 3년 「주택법」제64조,「주택법 시행령」제73조 제1항 별표3…",
+   "재당첨 제한": "…관한 규칙」 제54조에 따라 재당첨제한은 10년 적용되고, 「주택법 시행령」 제73조에 의해 전매제한이 3년…",
+   "1순위 가입기간": "…1순위 입주자저축에 가입하여 1년(12개월)이 경과된 분으로서 매월 약정납입일에 월 납입금을 12회 이상 납입한 분 2순위…",
+   "납입 인정 횟수": "…1순위 입주자저축에 가입하여 1년(12개월)이 경과된 분으로서 매월 약정납입일에 월 납입금을 12회 이상 납입한 분 2순위…",
+   "계약금 비율": "…층별 구분 주택가격 계약금 10% 1차 중도금 10% 2차 중도금 10% 3차 중도금 10% 4차 중도금 10% 5차 중도금 10% 6차 중도금 10% 잔금 융자금(주택도시기금) 계약시…",
+   "거주 지역 요건": "…26.08.31) ① 해당 주택건설지역 (인천광역시) 50% ․ 공고일 현재 인천광역시 거주자 ② 기타지역(수도권) 50% ․ 공고일 현재 주민등록표등본상 서울특별시, 경기도에 거주하는 분 - 14 - ※ 공급세대수를 상기 지역우선비율로 배분 시 소수점 이하가 발생할 경우 소수점 첫 자리에서 반…",
+   "다자녀 지역 배정": "…다자녀 특별공급 및 일반공급 지역 우선공급 기준 <표1> 동일순위 내 지역우선 공급기준 기준일 지역구분 우선공급 비율 지역 우선공급 거주 입력 대상자 입주자모집공고일 (2026.08.31) ① 해당 주택건설지역 (인천광역시) 50% ․ 공고일 현재 인천광역시 거주자 ② 기타지역(수도권) 50% ․ 공고일…",
+   "공공 일반공급 소득·자산": "…(세대) 월평균소득 100% 이하 (맞벌이 200%) * 전용면적 60㎡ 이하만 적용 자산 (부동산, 자동차) 해당 없음 해당 없음 해당 없음 (세대) 부동산 215,500천원 이하 자동차 45,420천원 이하 (세대) 부동산 215,500천원 이하 자동차 45,420…"
+  },
+  "notice_conflicts": [],
+  "duty_silent": false,
+  "jeonse_weak": false,
+  "unregistered": true,
+  "need_head": false,
+  "need_account": true,
+  "limits": [
+   [
+    "재당첨 제한",
+    "10년"
+   ],
+   [
+    "실거주 의무",
+    "없음"
+   ],
+   [
+    "전매 제한",
+    "3년 (~29.10.21)"
+   ]
+  ],
+  "url": "https://www.applyhome.co.kr/ai/aia/selectAPTLttotPblancDetail.do?houseManageNo=2026000414&pblancNo=2026000414",
+  "notice_pdf": "https://apply.lh.or.kr/lhapply/lhFile.do?fileid=68595376",
+  "from_notice": [
+   "세대주 요건",
+   "분양가상한제",
+   "실거주 의무",
+   "전매 제한",
+   "재당첨 제한",
+   "1순위 가입기간",
+   "납입 인정 횟수",
+   "계약금 비율",
+   "거주 지역 요건",
+   "다자녀 지역 배정",
+   "접수 일정",
+   "공공 일반공급 소득·자산"
+  ],
+  "checks": [],
+  "geo": {
+   "lat": 37.5668,
+   "lng": 126.7505,
+   "precision": "dong",
+   "query": "인천광역시 계양구 귤현동",
+   "matched": "인천광역시 계양구 귤현동",
+   "source": "네이버 클라우드 플랫폼 Geocoding"
+  },
+  "account_months": 12,
+  "deposit_count": 12,
+  "competition": {
+   "rows": [],
+   "scores": [
+    {
+     "reside": "해당지역",
+     "low": null,
+     "top": null,
+     "avg": null
+    },
+    {
+     "reside": "기타지역",
+     "low": null,
+     "top": null,
+     "avg": null
+    }
+   ]
+  },
+  "area_comps": null,
+  "sp_competition": null,
+  "area_sp": [],
+  "map_query": "인천광역시 계양구 귤현동",
+  "nearby": [
+   {
+    "kind": "역",
+    "name": "귤현역",
+    "m": 693,
+    "lat": 37.5663544,
+    "lng": 126.7426554,
+    "walk": 13
+   },
+   {
+    "kind": "역",
+    "name": "계양역",
+    "m": 1367,
+    "lat": 37.571767,
+    "lng": 126.736311,
+    "walk": 27
+   },
+   {
+    "kind": "초등학교",
+    "name": "인천귤현초등학교",
+    "m": 349,
+    "lat": 37.5684242,
+    "lng": 126.7471176,
+    "walk": 7
+   },
+   {
+    "kind": "중학교",
+    "name": "계양중학교",
+    "m": 1034,
+    "lat": 37.5690991,
+    "lng": 126.7391329,
+    "walk": 20
+   }
+  ],
+  "sample": false
+ },
+ {
+  "id": "2026000414-069.8200P",
+  "name": "인천계양지구 A6블록 공공분양주택(본청약)",
+  "address": "인천광역시 계양구 귤현동, 동양동, 박촌동, 병방동, 상야동 및 경기도 부천시 대장동, 서울특별시 강서구 오곡동 일원 인천계양 테크노밸리 공공주택지구 내 A6블록",
+  "region": "인천",
+  "sigungu": "인천 계양구",
+  "sido": "인천",
+  "district": "계양구",
+  "supply_type": "APT",
+  "house_secd": "01",
+  "house_dtl": "국민",
+  "rent_secd": "분양주택",
+  "rental": false,
+  "land_lease": false,
+  "land_rent": null,
+  "land_rent_rate": null,
+  "special_apply": "2026-09-30",
+  "special_apply_end": "2026-09-30",
+  "kind": "일반분양 (특별공급·1순위)",
+  "category": "general",
+  "target": null,
+  "unit": "69P",
+  "area": 69.82,
+  "households": 2,
+  "complex": {
+   "households": 663,
+   "buildings": 12,
+   "single": "no",
+   "status": "확인",
+   "src": "모집공고문 공급규모",
+   "quote": "․공급대상 및 공급가격 등 1. 공급규모 ■ 인천계양 A6블록 : 공공분양주택 최고층 기준 7∼15층 12개동 전용면적 85㎡ 이하 663세대 (사전청약412세대, 이주자주택 2세대, 특별공급 211세대, 일반공급"
+  },
+  "mc_quota": {
+   "buckets": [
+    {
+     "name": "해당 주택건설지역",
+     "pct": 50,
+     "regions": [
+      "인천"
+     ]
+    },
+    {
+     "name": "기타지역(수도권)",
+     "pct": 50,
+     "regions": [
+      "서울",
+      "경기"
+     ]
+    }
+   ]
+  },
+  "youth": null,
+  "resale": {
+   "months": 36,
+   "base": "당첨자 발표일",
+   "registration": false,
+   "until_reg": false,
+   "passed": false,
+   "none": false,
+   "forbidden": false
+  },
+  "score_ratio": null,
+  "pub_limits": {
+   "cap": [
+    100,
+    200
+   ],
+   "real_estate": 21550,
+   "car": 4542,
+   "priority": [
+    100,
+    140
+   ],
+   "area_max": 60
+  },
+  "schedule": {
+   "pre": [
+    "2026-09-17",
+    "2026-09-18"
+   ],
+   "special": [
+    "2026-09-30",
+    "2026-09-30"
+   ],
+   "general": [
+    "2026-10-01",
+    "2026-10-02"
+   ]
+  },
+  "residence": {
+   "area": {
+    "name": "인천광역시",
+    "sido": "인천"
+   },
+   "months": 0,
+   "since": null,
+   "quota": {
+    "해당": 50,
+    "기타": 50
+   },
+   "others": [
+    "서울",
+    "경기"
+   ]
+  },
+  "special_units": {
+   "newborn": 0,
+   "newlywed": 0,
+   "first": 0,
+   "multichild": 0,
+   "elder": 0,
+   "agency": 0,
+   "relocated": 0,
+   "youth": 0,
+   "etc": 0,
+   "total": 0
+  },
+  "notice": "2026-08-31",
+  "apply": "2026-09-17",
+  "apply_end": "2026-10-02",
+  "winner": "2026-10-21",
+  "contract": "2026-12-15",
+  "balance": null,
+  "move_in": "2029-06",
+  "price": 5.9625,
+  "ext": 0.0,
+  "pay_ratio": {
+   "contract": 0.1,
+   "mid": 0.6,
+   "balance": 0.3
+  },
+  "contract_split": null,
+  "contract_rate": 0.1,
+  "mid_rate": 0.6,
+  "mkt_low": 4.91,
+  "mkt_base": 5.09,
+  "mkt_note": "같은 평형 거래가 부족해 공고 위치 반경 2km 안(공고 주소가 동까지만 있어 동 중심에서 잰 거리) 준공 10년 이내 비슷한 면적(±10㎡) 매매 14건의 ㎡당 가격 × 전용 69.8㎡로 추정 (최근 6개월) · 거래가 몰린 단지(계양하늘채파크포레 14건)는 5건 몫으로 줄여 계산",
+  "mkt_basis": "near_area_ppa",
+  "mkt_count": 14,
+  "mkt_direct_excluded": 0,
+  "mkt_comps": [
+   {
+    "apt": "계양하늘채파크포레",
+    "umd": "방축동",
+    "area": 59.8946,
+    "floor": 8.0,
+    "dong": "",
+    "amount": 4.53,
+    "date": "2026-10-17",
+    "kind": "매매",
+    "direct": false,
+    "m": 1811
+   },
+   {
+    "apt": "계양하늘채파크포레",
+    "umd": "방축동",
+    "area": 59.8794,
+    "floor": 10.0,
+    "dong": "",
+    "amount": 4.5,
+    "date": "2026-10-05",
+    "kind": "매매",
+    "direct": false,
+    "m": 1811
+   },
+   {
+    "apt": "계양하늘채파크포레",
+    "umd": "방축동",
+    "area": 59.8794,
+    "floor": 3.0,
+    "dong": "107동",
+    "amount": 4.45,
+    "date": "2026-08-25",
+    "kind": "매매",
+    "direct": false,
+    "m": 1811
+   },
+   {
+    "apt": "계양하늘채파크포레",
+    "umd": "방축동",
+    "area": 59.8946,
+    "floor": 13.0,
+    "dong": "",
+    "amount": 4.55,
+    "date": "2026-08-17",
+    "kind": "매매",
+    "direct": false,
+    "m": 1811
+   },
+   {
+    "apt": "계양하늘채파크포레",
+    "umd": "방축동",
+    "area": 59.8794,
+    "floor": 4.0,
+    "dong": "",
+    "amount": 4.4,
+    "date": "2026-08-17",
+    "kind": "매매",
+    "direct": false,
+    "m": 1811
+   },
+   {
+    "apt": "계양하늘채파크포레",
+    "umd": "방축동",
+    "area": 59.8946,
+    "floor": 3.0,
+    "dong": "",
+    "amount": 4.18,
+    "date": "2026-08-08",
+    "kind": "매매",
+    "direct": false,
+    "m": 1811
+   },
+   {
+    "apt": "계양하늘채파크포레",
+    "umd": "방축동",
+    "area": 59.9931,
+    "floor": 6.0,
+    "dong": "106동",
+    "amount": 4.35,
+    "date": "2026-08-07",
+    "kind": "매매",
+    "direct": false,
+    "m": 1811
+   },
+   {
+    "apt": "계양하늘채파크포레",
+    "umd": "방축동",
+    "area": 59.8946,
+    "floor": 10.0,
+    "dong": "106동",
+    "amount": 4.17,
+    "date": "2026-07-28",
+    "kind": "매매",
+    "direct": false,
+    "m": 1811
+   }
+  ],
+  "jeonse": null,
+  "jeonse_note": "전세 거래가 부족해 추정하지 못했어요.",
+  "jeonse_comps": [
+   {
+    "apt": "계양동도센트리움골든베이",
+    "umd": "효성동",
+    "area": 72.135,
+    "floor": 19.0,
+    "dong": "",
+    "amount": 3.15,
+    "date": "2026-05-26",
+    "kind": "전세",
+    "direct": false
+   },
+   {
+    "apt": "계양동도센트리움골든베이",
+    "umd": "효성동",
+    "area": 72.135,
+    "floor": 8.0,
+    "dong": "",
+    "amount": 3.31,
+    "date": "2026-05-06",
+    "kind": "전세",
+    "direct": false
+   }
+  ],
+  "capital": true,
+  "regulated": false,
+  "reg_kind": "비규제",
+  "land_permit": false,
+  "price_cap": true,
+  "residence_duty": 0,
+  "duty_from": null,
+  "notice_quotes": {
+   "세대주 요건": "…· 노부모부양 · 생애최초 · 신혼부부 · 신생아 특별공급 및 일반공급 신청자 (지역균형특별공급 제2호 외국인의경우입주자모집공고일부터 입주시까지무주택자) ■ 공급신청 자격자 • 주택공급 신청은 무주택세대구성원 중 1인만 가능합니다 ※ 부부(예비신혼부부 제외)는 당첨자발표일이 동일한 주택에…",
+   "분양가상한제": "…85㎡이하 주택)이며, 분양가상한제 적용주택으로 「주택공급에 관한 규칙」 제54조에 따라 재당첨제한은 10년…",
+   "실거주 의무": "…제1항 별표3 거주의무 - 없음 「주택법」제57조의2,「주택법 시행령」 제60조의2 구 분 사전청약당첨자 특별공급…",
+   "전매 제한": "…관한 규칙」제54조 전매제한 당첨자 발표일 3년 「주택법」제64조,「주택법 시행령」제73조 제1항 별표3…",
+   "재당첨 제한": "…관한 규칙」 제54조에 따라 재당첨제한은 10년 적용되고, 「주택법 시행령」 제73조에 의해 전매제한이 3년…",
+   "1순위 가입기간": "…1순위 입주자저축에 가입하여 1년(12개월)이 경과된 분으로서 매월 약정납입일에 월 납입금을 12회 이상 납입한 분 2순위…",
+   "납입 인정 횟수": "…1순위 입주자저축에 가입하여 1년(12개월)이 경과된 분으로서 매월 약정납입일에 월 납입금을 12회 이상 납입한 분 2순위…",
+   "계약금 비율": "…층별 구분 주택가격 계약금 10% 1차 중도금 10% 2차 중도금 10% 3차 중도금 10% 4차 중도금 10% 5차 중도금 10% 6차 중도금 10% 잔금 융자금(주택도시기금) 계약시…",
+   "거주 지역 요건": "…26.08.31) ① 해당 주택건설지역 (인천광역시) 50% ․ 공고일 현재 인천광역시 거주자 ② 기타지역(수도권) 50% ․ 공고일 현재 주민등록표등본상 서울특별시, 경기도에 거주하는 분 - 14 - ※ 공급세대수를 상기 지역우선비율로 배분 시 소수점 이하가 발생할 경우 소수점 첫 자리에서 반…",
+   "다자녀 지역 배정": "…다자녀 특별공급 및 일반공급 지역 우선공급 기준 <표1> 동일순위 내 지역우선 공급기준 기준일 지역구분 우선공급 비율 지역 우선공급 거주 입력 대상자 입주자모집공고일 (2026.08.31) ① 해당 주택건설지역 (인천광역시) 50% ․ 공고일 현재 인천광역시 거주자 ② 기타지역(수도권) 50% ․ 공고일…",
+   "공공 일반공급 소득·자산": "…(세대) 월평균소득 100% 이하 (맞벌이 200%) * 전용면적 60㎡ 이하만 적용 자산 (부동산, 자동차) 해당 없음 해당 없음 해당 없음 (세대) 부동산 215,500천원 이하 자동차 45,420천원 이하 (세대) 부동산 215,500천원 이하 자동차 45,420…"
+  },
+  "notice_conflicts": [],
+  "duty_silent": false,
+  "jeonse_weak": true,
+  "unregistered": true,
+  "need_head": false,
+  "need_account": true,
+  "limits": [
+   [
+    "재당첨 제한",
+    "10년"
+   ],
+   [
+    "실거주 의무",
+    "없음"
+   ],
+   [
+    "전매 제한",
+    "3년 (~29.10.21)"
+   ]
+  ],
+  "url": "https://www.applyhome.co.kr/ai/aia/selectAPTLttotPblancDetail.do?houseManageNo=2026000414&pblancNo=2026000414",
+  "notice_pdf": "https://apply.lh.or.kr/lhapply/lhFile.do?fileid=68595376",
+  "from_notice": [
+   "세대주 요건",
+   "분양가상한제",
+   "실거주 의무",
+   "전매 제한",
+   "재당첨 제한",
+   "1순위 가입기간",
+   "납입 인정 횟수",
+   "계약금 비율",
+   "거주 지역 요건",
+   "다자녀 지역 배정",
+   "접수 일정",
+   "공공 일반공급 소득·자산"
+  ],
+  "checks": [],
+  "geo": {
+   "lat": 37.5668,
+   "lng": 126.7505,
+   "precision": "dong",
+   "query": "인천광역시 계양구 귤현동",
+   "matched": "인천광역시 계양구 귤현동",
+   "source": "네이버 클라우드 플랫폼 Geocoding"
+  },
+  "account_months": 12,
+  "deposit_count": 12,
+  "competition": {
+   "rows": [],
+   "scores": [
+    {
+     "reside": "해당지역",
+     "low": null,
+     "top": null,
+     "avg": null
+    },
+    {
+     "reside": "기타지역",
+     "low": null,
+     "top": null,
+     "avg": null
+    }
+   ]
+  },
+  "area_comps": null,
+  "sp_competition": null,
+  "area_sp": [],
+  "map_query": "인천광역시 계양구 귤현동",
+  "nearby": [
+   {
+    "kind": "역",
+    "name": "귤현역",
+    "m": 693,
+    "lat": 37.5663544,
+    "lng": 126.7426554,
+    "walk": 13
+   },
+   {
+    "kind": "역",
+    "name": "계양역",
+    "m": 1367,
+    "lat": 37.571767,
+    "lng": 126.736311,
+    "walk": 27
+   },
+   {
+    "kind": "초등학교",
+    "name": "인천귤현초등학교",
+    "m": 349,
+    "lat": 37.5684242,
+    "lng": 126.7471176,
+    "walk": 7
+   },
+   {
+    "kind": "중학교",
+    "name": "계양중학교",
+    "m": 1034,
+    "lat": 37.5690991,
+    "lng": 126.7391329,
+    "walk": 20
+   }
+  ],
+  "sample": false
+ },
+ {
+  "id": "2026000414-074.9300O",
+  "name": "인천계양지구 A6블록 공공분양주택(본청약)",
+  "address": "인천광역시 계양구 귤현동, 동양동, 박촌동, 병방동, 상야동 및 경기도 부천시 대장동, 서울특별시 강서구 오곡동 일원 인천계양 테크노밸리 공공주택지구 내 A6블록",
+  "region": "인천",
+  "sigungu": "인천 계양구",
+  "sido": "인천",
+  "district": "계양구",
+  "supply_type": "APT",
+  "house_secd": "01",
+  "house_dtl": "국민",
+  "rent_secd": "분양주택",
+  "rental": false,
+  "land_lease": false,
+  "land_rent": null,
+  "land_rent_rate": null,
+  "special_apply": "2026-09-30",
+  "special_apply_end": "2026-09-30",
+  "kind": "일반분양 (특별공급·1순위)",
+  "category": "general",
+  "target": null,
+  "unit": "74O",
+  "area": 74.93,
+  "households": 4,
+  "complex": {
+   "households": 663,
+   "buildings": 12,
+   "single": "no",
+   "status": "확인",
+   "src": "모집공고문 공급규모",
+   "quote": "․공급대상 및 공급가격 등 1. 공급규모 ■ 인천계양 A6블록 : 공공분양주택 최고층 기준 7∼15층 12개동 전용면적 85㎡ 이하 663세대 (사전청약412세대, 이주자주택 2세대, 특별공급 211세대, 일반공급"
+  },
+  "mc_quota": {
+   "buckets": [
+    {
+     "name": "해당 주택건설지역",
+     "pct": 50,
+     "regions": [
+      "인천"
+     ]
+    },
+    {
+     "name": "기타지역(수도권)",
+     "pct": 50,
+     "regions": [
+      "서울",
+      "경기"
+     ]
+    }
+   ]
+  },
+  "youth": null,
+  "resale": {
+   "months": 36,
+   "base": "당첨자 발표일",
+   "registration": false,
+   "until_reg": false,
+   "passed": false,
+   "none": false,
+   "forbidden": false
+  },
+  "score_ratio": null,
+  "pub_limits": {
+   "cap": [
+    100,
+    200
+   ],
+   "real_estate": 21550,
+   "car": 4542,
+   "priority": [
+    100,
+    140
+   ],
+   "area_max": 60
+  },
+  "schedule": {
+   "pre": [
+    "2026-09-17",
+    "2026-09-18"
+   ],
+   "special": [
+    "2026-09-30",
+    "2026-09-30"
+   ],
+   "general": [
+    "2026-10-01",
+    "2026-10-02"
+   ]
+  },
+  "residence": {
+   "area": {
+    "name": "인천광역시",
+    "sido": "인천"
+   },
+   "months": 0,
+   "since": null,
+   "quota": {
+    "해당": 50,
+    "기타": 50
+   },
+   "others": [
+    "서울",
+    "경기"
+   ]
+  },
+  "special_units": {
+   "newborn": 6,
+   "newlywed": 3,
+   "first": 5,
+   "multichild": 3,
+   "elder": 2,
+   "agency": 5,
+   "relocated": 0,
+   "youth": 0,
+   "etc": 4,
+   "total": 28
+  },
+  "notice": "2026-08-31",
+  "apply": "2026-09-17",
+  "apply_end": "2026-10-02",
+  "winner": "2026-10-21",
+  "contract": "2026-12-15",
+  "balance": null,
+  "move_in": "2029-06",
+  "price": 6.4649,
+  "ext": 0.0,
+  "pay_ratio": {
+   "contract": 0.1,
+   "mid": 0.6,
+   "balance": 0.3
+  },
+  "contract_split": null,
+  "contract_rate": 0.1,
+  "mid_rate": 0.6,
+  "mkt_low": 5.37,
+  "mkt_base": 5.53,
+  "mkt_note": "같은 구 준공 10년 이내 같은 평형 매매 23건 기준 (최근 6개월) · 거래가 몰린 단지(e편한세상 계양 더프리미어 13건, 계양효성해링턴플레이스 6건)는 5건 몫으로 줄여 계산",
+  "mkt_basis": "district_newbuild",
+  "mkt_count": 23,
+  "mkt_direct_excluded": 0,
+  "mkt_comps": [
+   {
+    "apt": "e편한세상 계양 더프리미어",
+    "umd": "효성동",
+    "area": 74.9322,
+    "floor": 12.0,
+    "dong": "",
+    "amount": 5.6,
+    "date": "2026-10-10",
+    "kind": "매매",
+    "direct": false
+   },
+   {
+    "apt": "e편한세상 계양 더프리미어",
+    "umd": "효성동",
+    "area": 74.9322,
+    "floor": 8.0,
+    "dong": "",
+    "amount": 5.73,
+    "date": "2026-10-02",
+    "kind": "매매",
+    "direct": false
+   },
+   {
+    "apt": "브라운스톤계양스카이",
+    "umd": "작전동",
+    "area": 75.688,
+    "floor": 8.0,
+    "dong": "",
+    "amount": 4.4,
+    "date": "2026-09-19",
+    "kind": "매매",
+    "direct": false
+   },
+   {
+    "apt": "계양효성해링턴플레이스",
+    "umd": "서운동",
+    "area": 72.998,
+    "floor": 8.0,
+    "dong": "",
+    "amount": 5.3,
+    "date": "2026-09-16",
+    "kind": "매매",
+    "direct": false
+   },
+   {
+    "apt": "e편한세상 계양 더프리미어",
+    "umd": "효성동",
+    "area": 74.9322,
+    "floor": 20.0,
+    "dong": "",
+    "amount": 5.8,
+    "date": "2026-09-15",
+    "kind": "매매",
+    "direct": false
+   },
+   {
+    "apt": "작전역서해그랑블",
+    "umd": "작전동",
+    "area": 74.9522,
+    "floor": 3.0,
+    "dong": "",
+    "amount": 5.15,
+    "date": "2026-09-09",
+    "kind": "매매",
+    "direct": false
+   },
+   {
+    "apt": "e편한세상 계양 더프리미어",
+    "umd": "효성동",
+    "area": 74.9322,
+    "floor": 9.0,
+    "dong": "",
+    "amount": 5.75,
+    "date": "2026-09-09",
+    "kind": "매매",
+    "direct": false
+   },
+   {
+    "apt": "e편한세상 계양 더프리미어",
+    "umd": "효성동",
+    "area": 74.9322,
+    "floor": 25.0,
+    "dong": "",
+    "amount": 5.85,
+    "date": "2026-09-02",
+    "kind": "매매",
+    "direct": false
+   }
+  ],
+  "jeonse": 3.38,
+  "jeonse_note": "같은 구 준공 10년 이내 전세 18건 중앙값에서 입주장 할인 9%",
+  "jeonse_comps": [
+   {
+    "apt": "제일풍경채계양위너스카이1단지",
+    "umd": "효성동",
+    "area": 75.9981,
+    "floor": 6.0,
+    "dong": "",
+    "amount": 3.8,
+    "date": "2026-10-06",
+    "kind": "전세",
+    "direct": false
+   },
+   {
+    "apt": "브라운스톤계양스카이",
+    "umd": "작전동",
+    "area": 75.451,
+    "floor": 5.0,
+    "dong": "",
+    "amount": 3.4,
+    "date": "2026-10-06",
+    "kind": "전세",
+    "direct": false
+   },
+   {
+    "apt": "브라운스톤계양스카이",
+    "umd": "작전동",
+    "area": 75.688,
+    "floor": 25.0,
+    "dong": "",
+    "amount": 3.7,
+    "date": "2026-09-17",
+    "kind": "전세",
+    "direct": false
+   },
+   {
+    "apt": "브라운스톤계양스카이",
+    "umd": "작전동",
+    "area": 75.688,
+    "floor": 25.0,
+    "dong": "",
+    "amount": 3.7,
+    "date": "2026-09-17",
+    "kind": "전세",
+    "direct": false
+   },
+   {
+    "apt": "브라운스톤계양스카이",
+    "umd": "작전동",
+    "area": 75.688,
+    "floor": 4.0,
+    "dong": "",
+    "amount": 3.99,
+    "date": "2026-09-05",
+    "kind": "전세",
+    "direct": false
+   },
+   {
+    "apt": "제일풍경채계양위너스카이2단지",
+    "umd": "효성동",
+    "area": 75.9981,
+    "floor": 35.0,
+    "dong": "",
+    "amount": 3.8,
+    "date": "2026-08-12",
+    "kind": "전세",
+    "direct": false
+   },
+   {
+    "apt": "계양효성해링턴플레이스",
+    "umd": "서운동",
+    "area": 72.998,
+    "floor": 2.0,
+    "dong": "",
+    "amount": 3.8,
+    "date": "2026-08-05",
+    "kind": "전세",
+    "direct": false
+   },
+   {
+    "apt": "브라운스톤계양스카이",
+    "umd": "작전동",
+    "area": 75.451,
+    "floor": 22.0,
+    "dong": "",
+    "amount": 3.3,
+    "date": "2026-07-26",
+    "kind": "전세",
+    "direct": false
+   }
+  ],
+  "capital": true,
+  "regulated": false,
+  "reg_kind": "비규제",
+  "land_permit": false,
+  "price_cap": true,
+  "residence_duty": 0,
+  "duty_from": null,
+  "notice_quotes": {
+   "세대주 요건": "…· 노부모부양 · 생애최초 · 신혼부부 · 신생아 특별공급 및 일반공급 신청자 (지역균형특별공급 제2호 외국인의경우입주자모집공고일부터 입주시까지무주택자) ■ 공급신청 자격자 • 주택공급 신청은 무주택세대구성원 중 1인만 가능합니다 ※ 부부(예비신혼부부 제외)는 당첨자발표일이 동일한 주택에…",
+   "분양가상한제": "…85㎡이하 주택)이며, 분양가상한제 적용주택으로 「주택공급에 관한 규칙」 제54조에 따라 재당첨제한은 10년…",
+   "실거주 의무": "…제1항 별표3 거주의무 - 없음 「주택법」제57조의2,「주택법 시행령」 제60조의2 구 분 사전청약당첨자 특별공급…",
+   "전매 제한": "…관한 규칙」제54조 전매제한 당첨자 발표일 3년 「주택법」제64조,「주택법 시행령」제73조 제1항 별표3…",
+   "재당첨 제한": "…관한 규칙」 제54조에 따라 재당첨제한은 10년 적용되고, 「주택법 시행령」 제73조에 의해 전매제한이 3년…",
+   "1순위 가입기간": "…1순위 입주자저축에 가입하여 1년(12개월)이 경과된 분으로서 매월 약정납입일에 월 납입금을 12회 이상 납입한 분 2순위…",
+   "납입 인정 횟수": "…1순위 입주자저축에 가입하여 1년(12개월)이 경과된 분으로서 매월 약정납입일에 월 납입금을 12회 이상 납입한 분 2순위…",
+   "계약금 비율": "…층별 구분 주택가격 계약금 10% 1차 중도금 10% 2차 중도금 10% 3차 중도금 10% 4차 중도금 10% 5차 중도금 10% 6차 중도금 10% 잔금 융자금(주택도시기금) 계약시…",
+   "거주 지역 요건": "…26.08.31) ① 해당 주택건설지역 (인천광역시) 50% ․ 공고일 현재 인천광역시 거주자 ② 기타지역(수도권) 50% ․ 공고일 현재 주민등록표등본상 서울특별시, 경기도에 거주하는 분 - 14 - ※ 공급세대수를 상기 지역우선비율로 배분 시 소수점 이하가 발생할 경우 소수점 첫 자리에서 반…",
+   "다자녀 지역 배정": "…다자녀 특별공급 및 일반공급 지역 우선공급 기준 <표1> 동일순위 내 지역우선 공급기준 기준일 지역구분 우선공급 비율 지역 우선공급 거주 입력 대상자 입주자모집공고일 (2026.08.31) ① 해당 주택건설지역 (인천광역시) 50% ․ 공고일 현재 인천광역시 거주자 ② 기타지역(수도권) 50% ․ 공고일…",
+   "공공 일반공급 소득·자산": "…(세대) 월평균소득 100% 이하 (맞벌이 200%) * 전용면적 60㎡ 이하만 적용 자산 (부동산, 자동차) 해당 없음 해당 없음 해당 없음 (세대) 부동산 215,500천원 이하 자동차 45,420천원 이하 (세대) 부동산 215,500천원 이하 자동차 45,420…"
+  },
+  "notice_conflicts": [],
+  "duty_silent": false,
+  "jeonse_weak": false,
+  "unregistered": true,
+  "need_head": false,
+  "need_account": true,
+  "limits": [
+   [
+    "재당첨 제한",
+    "10년"
+   ],
+   [
+    "실거주 의무",
+    "없음"
+   ],
+   [
+    "전매 제한",
+    "3년 (~29.10.21)"
+   ]
+  ],
+  "url": "https://www.applyhome.co.kr/ai/aia/selectAPTLttotPblancDetail.do?houseManageNo=2026000414&pblancNo=2026000414",
+  "notice_pdf": "https://apply.lh.or.kr/lhapply/lhFile.do?fileid=68595376",
+  "from_notice": [
+   "세대주 요건",
+   "분양가상한제",
+   "실거주 의무",
+   "전매 제한",
+   "재당첨 제한",
+   "1순위 가입기간",
+   "납입 인정 횟수",
+   "계약금 비율",
+   "거주 지역 요건",
+   "다자녀 지역 배정",
+   "접수 일정",
+   "공공 일반공급 소득·자산"
+  ],
+  "checks": [],
+  "geo": {
+   "lat": 37.5668,
+   "lng": 126.7505,
+   "precision": "dong",
+   "query": "인천광역시 계양구 귤현동",
+   "matched": "인천광역시 계양구 귤현동",
+   "source": "네이버 클라우드 플랫폼 Geocoding"
+  },
+  "account_months": 12,
+  "deposit_count": 12,
+  "competition": {
+   "rows": [],
+   "scores": [
+    {
+     "reside": "해당지역",
+     "low": null,
+     "top": null,
+     "avg": null
+    },
+    {
+     "reside": "기타지역",
+     "low": null,
+     "top": null,
+     "avg": null
+    }
+   ]
+  },
+  "area_comps": null,
+  "sp_competition": null,
+  "area_sp": [],
+  "map_query": "인천광역시 계양구 귤현동",
+  "nearby": [
+   {
+    "kind": "역",
+    "name": "귤현역",
+    "m": 693,
+    "lat": 37.5663544,
+    "lng": 126.7426554,
+    "walk": 13
+   },
+   {
+    "kind": "역",
+    "name": "계양역",
+    "m": 1367,
+    "lat": 37.571767,
+    "lng": 126.736311,
+    "walk": 27
+   },
+   {
+    "kind": "초등학교",
+    "name": "인천귤현초등학교",
+    "m": 349,
+    "lat": 37.5684242,
+    "lng": 126.7471176,
+    "walk": 7
+   },
+   {
+    "kind": "중학교",
+    "name": "계양중학교",
+    "m": 1034,
+    "lat": 37.5690991,
+    "lng": 126.7391329,
+    "walk": 20
+   }
+  ],
+  "sample": false
+ },
+ {
+  "id": "2026000414-077.4100A",
+  "name": "인천계양지구 A6블록 공공분양주택(본청약)",
+  "address": "인천광역시 계양구 귤현동, 동양동, 박촌동, 병방동, 상야동 및 경기도 부천시 대장동, 서울특별시 강서구 오곡동 일원 인천계양 테크노밸리 공공주택지구 내 A6블록",
+  "region": "인천",
+  "sigungu": "인천 계양구",
+  "sido": "인천",
+  "district": "계양구",
+  "supply_type": "APT",
+  "house_secd": "01",
+  "house_dtl": "국민",
+  "rent_secd": "분양주택",
+  "rental": false,
+  "land_lease": false,
+  "land_rent": null,
+  "land_rent_rate": null,
+  "special_apply": "2026-09-30",
+  "special_apply_end": "2026-09-30",
+  "kind": "일반분양 (특별공급·1순위)",
+  "category": "general",
+  "target": null,
+  "unit": "77A",
+  "area": 77.41,
+  "households": 3,
+  "complex": {
+   "households": 663,
+   "buildings": 12,
+   "single": "no",
+   "status": "확인",
+   "src": "모집공고문 공급규모",
+   "quote": "․공급대상 및 공급가격 등 1. 공급규모 ■ 인천계양 A6블록 : 공공분양주택 최고층 기준 7∼15층 12개동 전용면적 85㎡ 이하 663세대 (사전청약412세대, 이주자주택 2세대, 특별공급 211세대, 일반공급"
+  },
+  "mc_quota": {
+   "buckets": [
+    {
+     "name": "해당 주택건설지역",
+     "pct": 50,
+     "regions": [
+      "인천"
+     ]
+    },
+    {
+     "name": "기타지역(수도권)",
+     "pct": 50,
+     "regions": [
+      "서울",
+      "경기"
+     ]
+    }
+   ]
+  },
+  "youth": null,
+  "resale": {
+   "months": 36,
+   "base": "당첨자 발표일",
+   "registration": false,
+   "until_reg": false,
+   "passed": false,
+   "none": false,
+   "forbidden": false
+  },
+  "score_ratio": null,
+  "pub_limits": {
+   "cap": [
+    100,
+    200
+   ],
+   "real_estate": 21550,
+   "car": 4542,
+   "priority": [
+    100,
+    140
+   ],
+   "area_max": 60
+  },
+  "schedule": {
+   "pre": [
+    "2026-09-17",
+    "2026-09-18"
+   ],
+   "special": [
+    "2026-09-30",
+    "2026-09-30"
+   ],
+   "general": [
+    "2026-10-01",
+    "2026-10-02"
+   ]
+  },
+  "residence": {
+   "area": {
+    "name": "인천광역시",
+    "sido": "인천"
+   },
+   "months": 0,
+   "since": null,
+   "quota": {
+    "해당": 50,
+    "기타": 50
+   },
+   "others": [
+    "서울",
+    "경기"
+   ]
+  },
+  "special_units": {
+   "newborn": 1,
+   "newlywed": 0,
+   "first": 1,
+   "multichild": 0,
+   "elder": 0,
+   "agency": 0,
+   "relocated": 0,
+   "youth": 0,
+   "etc": 0,
+   "total": 2
+  },
+  "notice": "2026-08-31",
+  "apply": "2026-09-17",
+  "apply_end": "2026-10-02",
+  "winner": "2026-10-21",
+  "contract": "2026-12-15",
+  "balance": null,
+  "move_in": "2029-06",
+  "price": 6.6107,
+  "ext": 0.0,
+  "pay_ratio": {
+   "contract": 0.1,
+   "mid": 0.6,
+   "balance": 0.3
+  },
+  "contract_split": null,
+  "contract_rate": 0.1,
+  "mid_rate": 0.6,
+  "mkt_low": 5.2,
+  "mkt_base": 5.66,
+  "mkt_note": "같은 구 준공 10년 이내 같은 평형 매매 17건 기준 (최근 6개월) · 거래가 몰린 단지(e편한세상 계양 더프리미어 13건)는 5건 몫으로 줄여 계산",
+  "mkt_basis": "district_newbuild",
+  "mkt_count": 17,
+  "mkt_direct_excluded": 0,
+  "mkt_comps": [
+   {
+    "apt": "e편한세상 계양 더프리미어",
+    "umd": "효성동",
+    "area": 74.9322,
+    "floor": 12.0,
+    "dong": "",
+    "amount": 5.6,
+    "date": "2026-10-10",
+    "kind": "매매",
+    "direct": false
+   },
+   {
+    "apt": "e편한세상 계양 더프리미어",
+    "umd": "효성동",
+    "area": 74.9322,
+    "floor": 8.0,
+    "dong": "",
+    "amount": 5.73,
+    "date": "2026-10-02",
+    "kind": "매매",
+    "direct": false
+   },
+   {
+    "apt": "브라운스톤계양스카이",
+    "umd": "작전동",
+    "area": 75.688,
+    "floor": 8.0,
+    "dong": "",
+    "amount": 4.4,
+    "date": "2026-09-19",
+    "kind": "매매",
+    "direct": false
+   },
+   {
+    "apt": "e편한세상 계양 더프리미어",
+    "umd": "효성동",
+    "area": 74.9322,
+    "floor": 20.0,
+    "dong": "",
+    "amount": 5.8,
+    "date": "2026-09-15",
+    "kind": "매매",
+    "direct": false
+   },
+   {
+    "apt": "작전역서해그랑블",
+    "umd": "작전동",
+    "area": 74.9522,
+    "floor": 3.0,
+    "dong": "",
+    "amount": 5.15,
+    "date": "2026-09-09",
+    "kind": "매매",
+    "direct": false
+   },
+   {
+    "apt": "e편한세상 계양 더프리미어",
+    "umd": "효성동",
+    "area": 74.9322,
+    "floor": 9.0,
+    "dong": "",
+    "amount": 5.75,
+    "date": "2026-09-09",
+    "kind": "매매",
+    "direct": false
+   },
+   {
+    "apt": "e편한세상 계양 더프리미어",
+    "umd": "효성동",
+    "area": 74.9322,
+    "floor": 25.0,
+    "dong": "",
+    "amount": 5.85,
+    "date": "2026-09-02",
+    "kind": "매매",
+    "direct": false
+   },
+   {
+    "apt": "e편한세상 계양 더프리미어",
+    "umd": "효성동",
+    "area": 74.9322,
+    "floor": 28.0,
+    "dong": "",
+    "amount": 5.79,
+    "date": "2026-08-26",
+    "kind": "매매",
+    "direct": false
+   }
+  ],
+  "jeonse": 3.42,
+  "jeonse_note": "같은 구 준공 10년 이내 전세 11건 중앙값에서 입주장 할인 9%",
+  "jeonse_comps": [
+   {
+    "apt": "제일풍경채계양위너스카이1단지",
+    "umd": "효성동",
+    "area": 75.9981,
+    "floor": 6.0,
+    "dong": "",
+    "amount": 3.8,
+    "date": "2026-10-06",
+    "kind": "전세",
+    "direct": false
+   },
+   {
+    "apt": "브라운스톤계양스카이",
+    "umd": "작전동",
+    "area": 75.451,
+    "floor": 5.0,
+    "dong": "",
+    "amount": 3.4,
+    "date": "2026-10-06",
+    "kind": "전세",
+    "direct": false
+   },
+   {
+    "apt": "브라운스톤계양스카이",
+    "umd": "작전동",
+    "area": 75.688,
+    "floor": 25.0,
+    "dong": "",
+    "amount": 3.7,
+    "date": "2026-09-17",
+    "kind": "전세",
+    "direct": false
+   },
+   {
+    "apt": "브라운스톤계양스카이",
+    "umd": "작전동",
+    "area": 75.688,
+    "floor": 25.0,
+    "dong": "",
+    "amount": 3.7,
+    "date": "2026-09-17",
+    "kind": "전세",
+    "direct": false
+   },
+   {
+    "apt": "브라운스톤계양스카이",
+    "umd": "작전동",
+    "area": 75.688,
+    "floor": 4.0,
+    "dong": "",
+    "amount": 3.99,
+    "date": "2026-09-05",
+    "kind": "전세",
+    "direct": false
+   },
+   {
+    "apt": "제일풍경채계양위너스카이2단지",
+    "umd": "효성동",
+    "area": 75.9981,
+    "floor": 35.0,
+    "dong": "",
+    "amount": 3.8,
+    "date": "2026-08-12",
+    "kind": "전세",
+    "direct": false
+   },
+   {
+    "apt": "브라운스톤계양스카이",
+    "umd": "작전동",
+    "area": 75.451,
+    "floor": 22.0,
+    "dong": "",
+    "amount": 3.3,
+    "date": "2026-07-26",
+    "kind": "전세",
+    "direct": false
+   },
+   {
+    "apt": "브라운스톤계양스카이",
+    "umd": "작전동",
+    "area": 75.451,
+    "floor": 22.0,
+    "dong": "",
+    "amount": 3.3,
+    "date": "2026-07-26",
+    "kind": "전세",
+    "direct": false
+   }
+  ],
+  "capital": true,
+  "regulated": false,
+  "reg_kind": "비규제",
+  "land_permit": false,
+  "price_cap": true,
+  "residence_duty": 0,
+  "duty_from": null,
+  "notice_quotes": {
+   "세대주 요건": "…· 노부모부양 · 생애최초 · 신혼부부 · 신생아 특별공급 및 일반공급 신청자 (지역균형특별공급 제2호 외국인의경우입주자모집공고일부터 입주시까지무주택자) ■ 공급신청 자격자 • 주택공급 신청은 무주택세대구성원 중 1인만 가능합니다 ※ 부부(예비신혼부부 제외)는 당첨자발표일이 동일한 주택에…",
+   "분양가상한제": "…85㎡이하 주택)이며, 분양가상한제 적용주택으로 「주택공급에 관한 규칙」 제54조에 따라 재당첨제한은 10년…",
+   "실거주 의무": "…제1항 별표3 거주의무 - 없음 「주택법」제57조의2,「주택법 시행령」 제60조의2 구 분 사전청약당첨자 특별공급…",
+   "전매 제한": "…관한 규칙」제54조 전매제한 당첨자 발표일 3년 「주택법」제64조,「주택법 시행령」제73조 제1항 별표3…",
+   "재당첨 제한": "…관한 규칙」 제54조에 따라 재당첨제한은 10년 적용되고, 「주택법 시행령」 제73조에 의해 전매제한이 3년…",
+   "1순위 가입기간": "…1순위 입주자저축에 가입하여 1년(12개월)이 경과된 분으로서 매월 약정납입일에 월 납입금을 12회 이상 납입한 분 2순위…",
+   "납입 인정 횟수": "…1순위 입주자저축에 가입하여 1년(12개월)이 경과된 분으로서 매월 약정납입일에 월 납입금을 12회 이상 납입한 분 2순위…",
+   "계약금 비율": "…층별 구분 주택가격 계약금 10% 1차 중도금 10% 2차 중도금 10% 3차 중도금 10% 4차 중도금 10% 5차 중도금 10% 6차 중도금 10% 잔금 융자금(주택도시기금) 계약시…",
+   "거주 지역 요건": "…26.08.31) ① 해당 주택건설지역 (인천광역시) 50% ․ 공고일 현재 인천광역시 거주자 ② 기타지역(수도권) 50% ․ 공고일 현재 주민등록표등본상 서울특별시, 경기도에 거주하는 분 - 14 - ※ 공급세대수를 상기 지역우선비율로 배분 시 소수점 이하가 발생할 경우 소수점 첫 자리에서 반…",
+   "다자녀 지역 배정": "…다자녀 특별공급 및 일반공급 지역 우선공급 기준 <표1> 동일순위 내 지역우선 공급기준 기준일 지역구분 우선공급 비율 지역 우선공급 거주 입력 대상자 입주자모집공고일 (2026.08.31) ① 해당 주택건설지역 (인천광역시) 50% ․ 공고일 현재 인천광역시 거주자 ② 기타지역(수도권) 50% ․ 공고일…",
+   "공공 일반공급 소득·자산": "…(세대) 월평균소득 100% 이하 (맞벌이 200%) * 전용면적 60㎡ 이하만 적용 자산 (부동산, 자동차) 해당 없음 해당 없음 해당 없음 (세대) 부동산 215,500천원 이하 자동차 45,420천원 이하 (세대) 부동산 215,500천원 이하 자동차 45,420…"
+  },
+  "notice_conflicts": [],
+  "duty_silent": false,
+  "jeonse_weak": false,
+  "unregistered": true,
+  "need_head": false,
+  "need_account": true,
+  "limits": [
+   [
+    "재당첨 제한",
+    "10년"
+   ],
+   [
+    "실거주 의무",
+    "없음"
+   ],
+   [
+    "전매 제한",
+    "3년 (~29.10.21)"
+   ]
+  ],
+  "url": "https://www.applyhome.co.kr/ai/aia/selectAPTLttotPblancDetail.do?houseManageNo=2026000414&pblancNo=2026000414",
+  "notice_pdf": "https://apply.lh.or.kr/lhapply/lhFile.do?fileid=68595376",
+  "from_notice": [
+   "세대주 요건",
+   "분양가상한제",
+   "실거주 의무",
+   "전매 제한",
+   "재당첨 제한",
+   "1순위 가입기간",
+   "납입 인정 횟수",
+   "계약금 비율",
+   "거주 지역 요건",
+   "다자녀 지역 배정",
+   "접수 일정",
+   "공공 일반공급 소득·자산"
+  ],
+  "checks": [],
+  "geo": {
+   "lat": 37.5668,
+   "lng": 126.7505,
+   "precision": "dong",
+   "query": "인천광역시 계양구 귤현동",
+   "matched": "인천광역시 계양구 귤현동",
+   "source": "네이버 클라우드 플랫폼 Geocoding"
+  },
+  "account_months": 12,
+  "deposit_count": 12,
+  "competition": {
+   "rows": [],
+   "scores": [
+    {
+     "reside": "해당지역",
+     "low": null,
+     "top": null,
+     "avg": null
+    },
+    {
+     "reside": "기타지역",
+     "low": null,
+     "top": null,
+     "avg": null
+    }
+   ]
+  },
+  "area_comps": null,
+  "sp_competition": null,
+  "area_sp": [],
+  "map_query": "인천광역시 계양구 귤현동",
+  "nearby": [
+   {
+    "kind": "역",
+    "name": "귤현역",
+    "m": 693,
+    "lat": 37.5663544,
+    "lng": 126.7426554,
+    "walk": 13
+   },
+   {
+    "kind": "역",
+    "name": "계양역",
+    "m": 1367,
+    "lat": 37.571767,
+    "lng": 126.736311,
+    "walk": 27
+   },
+   {
+    "kind": "초등학교",
+    "name": "인천귤현초등학교",
+    "m": 349,
+    "lat": 37.5684242,
+    "lng": 126.7471176,
+    "walk": 7
+   },
+   {
+    "kind": "중학교",
+    "name": "계양중학교",
+    "m": 1034,
+    "lat": 37.5690991,
+    "lng": 126.7391329,
+    "walk": 20
+   }
+  ],
+  "sample": false
+ },
+ {
+  "id": "2026000414-084.7800A",
+  "name": "인천계양지구 A6블록 공공분양주택(본청약)",
+  "address": "인천광역시 계양구 귤현동, 동양동, 박촌동, 병방동, 상야동 및 경기도 부천시 대장동, 서울특별시 강서구 오곡동 일원 인천계양 테크노밸리 공공주택지구 내 A6블록",
+  "region": "인천",
+  "sigungu": "인천 계양구",
+  "sido": "인천",
+  "district": "계양구",
+  "supply_type": "APT",
+  "house_secd": "01",
+  "house_dtl": "국민",
+  "rent_secd": "분양주택",
+  "rental": false,
+  "land_lease": false,
+  "land_rent": null,
+  "land_rent_rate": null,
+  "special_apply": "2026-09-30",
+  "special_apply_end": "2026-09-30",
+  "kind": "일반분양 (특별공급·1순위)",
+  "category": "general",
+  "target": null,
+  "unit": "84A",
+  "area": 84.78,
+  "households": 1,
+  "complex": {
+   "households": 663,
+   "buildings": 12,
+   "single": "no",
+   "status": "확인",
+   "src": "모집공고문 공급규모",
+   "quote": "․공급대상 및 공급가격 등 1. 공급규모 ■ 인천계양 A6블록 : 공공분양주택 최고층 기준 7∼15층 12개동 전용면적 85㎡ 이하 663세대 (사전청약412세대, 이주자주택 2세대, 특별공급 211세대, 일반공급"
+  },
+  "mc_quota": {
+   "buckets": [
+    {
+     "name": "해당 주택건설지역",
+     "pct": 50,
+     "regions": [
+      "인천"
+     ]
+    },
+    {
+     "name": "기타지역(수도권)",
+     "pct": 50,
+     "regions": [
+      "서울",
+      "경기"
+     ]
+    }
+   ]
+  },
+  "youth": null,
+  "resale": {
+   "months": 36,
+   "base": "당첨자 발표일",
+   "registration": false,
+   "until_reg": false,
+   "passed": false,
+   "none": false,
+   "forbidden": false
+  },
+  "score_ratio": null,
+  "pub_limits": {
+   "cap": [
+    100,
+    200
+   ],
+   "real_estate": 21550,
+   "car": 4542,
+   "priority": [
+    100,
+    140
+   ],
+   "area_max": 60
+  },
+  "schedule": {
+   "pre": [
+    "2026-09-17",
+    "2026-09-18"
+   ],
+   "special": [
+    "2026-09-30",
+    "2026-09-30"
+   ],
+   "general": [
+    "2026-10-01",
+    "2026-10-02"
+   ]
+  },
+  "residence": {
+   "area": {
+    "name": "인천광역시",
+    "sido": "인천"
+   },
+   "months": 0,
+   "since": null,
+   "quota": {
+    "해당": 50,
+    "기타": 50
+   },
+   "others": [
+    "서울",
+    "경기"
+   ]
+  },
+  "special_units": {
+   "newborn": 1,
+   "newlywed": 1,
+   "first": 1,
+   "multichild": 1,
+   "elder": 0,
+   "agency": 1,
+   "relocated": 0,
+   "youth": 0,
+   "etc": 2,
+   "total": 7
+  },
+  "notice": "2026-08-31",
+  "apply": "2026-09-17",
+  "apply_end": "2026-10-02",
+  "winner": "2026-10-21",
+  "contract": "2026-12-15",
+  "balance": null,
+  "move_in": "2029-06",
+  "price": 7.1654,
+  "ext": 0.0,
+  "pay_ratio": {
+   "contract": 0.1,
+   "mid": 0.6,
+   "balance": 0.3
+  },
+  "contract_split": null,
+  "contract_rate": 0.1,
+  "mid_rate": 0.6,
+  "mkt_low": 5.85,
+  "mkt_base": 6.28,
+  "mkt_note": "같은 구 준공 10년 이내 같은 평형 매매 33건 기준 (최근 6개월) · 거래가 몰린 단지(힐스테이트자이계양 13건, 계양효성해링턴플레이스 9건, 인천계양코아루센트럴파크 8건)는 5건 몫으로 줄여 계산",
+  "mkt_basis": "district_newbuild",
+  "mkt_count": 33,
+  "mkt_direct_excluded": 0,
+  "mkt_comps": [
+   {
+    "apt": "힐스테이트자이계양",
+    "umd": "작전동",
+    "area": 84.53,
+    "floor": 23.0,
+    "dong": "",
+    "amount": 8.6,
+    "date": "2026-10-24",
+    "kind": "매매",
+    "direct": false
+   },
+   {
+    "apt": "계양효성해링턴플레이스",
+    "umd": "서운동",
+    "area": 84.966,
+    "floor": 30.0,
+    "dong": "",
+    "amount": 5.83,
+    "date": "2026-10-17",
+    "kind": "매매",
+    "direct": false
+   },
+   {
+    "apt": "힐스테이트자이계양",
+    "umd": "작전동",
+    "area": 84.53,
+    "floor": 12.0,
+    "dong": "",
+    "amount": 8.45,
+    "date": "2026-10-03",
+    "kind": "매매",
+    "direct": false
+   },
+   {
+    "apt": "힐스테이트자이계양",
+    "umd": "작전동",
+    "area": 84.53,
+    "floor": 16.0,
+    "dong": "103",
+    "amount": 8.1,
+    "date": "2026-10-03",
+    "kind": "매매",
+    "direct": false
+   },
+   {
+    "apt": "인천계양코아루센트럴파크",
+    "umd": "용종동",
+    "area": 84.99,
+    "floor": 8.0,
+    "dong": "",
+    "amount": 6.3,
+    "date": "2026-09-23",
+    "kind": "매매",
+    "direct": false
+   },
+   {
+    "apt": "계양효성해링턴플레이스",
+    "umd": "서운동",
+    "area": 84.966,
+    "floor": 12.0,
+    "dong": "",
+    "amount": 5.85,
+    "date": "2026-09-18",
+    "kind": "매매",
+    "direct": false
+   },
+   {
+    "apt": "힐스테이트자이계양",
+    "umd": "작전동",
+    "area": 84.81,
+    "floor": 29.0,
+    "dong": "",
+    "amount": 8.5,
+    "date": "2026-09-09",
+    "kind": "매매",
+    "direct": false
+   },
+   {
+    "apt": "계양효성해링턴플레이스",
+    "umd": "서운동",
+    "area": 84.986,
+    "floor": 18.0,
+    "dong": "",
+    "amount": 6.17,
+    "date": "2026-09-06",
+    "kind": "매매",
+    "direct": false
+   }
+  ],
+  "jeonse": 3.87,
+  "jeonse_note": "같은 구 준공 10년 이내 전세 40건 중앙값에서 입주장 할인 9%",
+  "jeonse_comps": [
+   {
+    "apt": "제일풍경채계양위너스카이2단지",
+    "umd": "효성동",
+    "area": 84.8081,
+    "floor": 30.0,
+    "dong": "",
+    "amount": 4.25,
+    "date": "2026-10-26",
+    "kind": "전세",
+    "direct": false
+   },
+   {
+    "apt": "힐스테이트자이계양",
+    "umd": "작전동",
+    "area": 84.81,
+    "floor": 18.0,
+    "dong": "",
+    "amount": 5.0,
+    "date": "2026-10-22",
+    "kind": "전세",
+    "direct": false
+   },
+   {
+    "apt": "e편한세상 계양 더프리미어",
+    "umd": "효성동",
+    "area": 84.9299,
+    "floor": 23.0,
+    "dong": "",
+    "amount": 4.5,
+    "date": "2026-10-17",
+    "kind": "전세",
+    "direct": false
+   },
+   {
+    "apt": "e편한세상 계양 더프리미어",
+    "umd": "효성동",
+    "area": 84.9299,
+    "floor": 28.0,
+    "dong": "",
+    "amount": 4.5,
+    "date": "2026-09-23",
+    "kind": "전세",
+    "direct": false
+   },
+   {
+    "apt": "힐스테이트자이계양",
+    "umd": "작전동",
+    "area": 84.81,
+    "floor": 23.0,
+    "dong": "",
+    "amount": 5.25,
+    "date": "2026-09-15",
+    "kind": "전세",
+    "direct": false
+   },
+   {
+    "apt": "제일풍경채계양위너스카이2단지",
+    "umd": "효성동",
+    "area": 84.4461,
+    "floor": 27.0,
+    "dong": "",
+    "amount": 4.3,
+    "date": "2026-09-14",
+    "kind": "전세",
+    "direct": false
+   },
+   {
+    "apt": "e편한세상 계양 더프리미어",
+    "umd": "효성동",
+    "area": 84.9299,
+    "floor": 20.0,
+    "dong": "",
+    "amount": 4.5,
+    "date": "2026-09-04",
+    "kind": "전세",
+    "direct": false
+   },
+   {
+    "apt": "e편한세상 계양 더프리미어",
+    "umd": "효성동",
+    "area": 84.9299,
+    "floor": 10.0,
+    "dong": "",
+    "amount": 4.2,
+    "date": "2026-09-03",
+    "kind": "전세",
+    "direct": false
+   }
+  ],
+  "capital": true,
+  "regulated": false,
+  "reg_kind": "비규제",
+  "land_permit": false,
+  "price_cap": true,
+  "residence_duty": 0,
+  "duty_from": null,
+  "notice_quotes": {
+   "세대주 요건": "…· 노부모부양 · 생애최초 · 신혼부부 · 신생아 특별공급 및 일반공급 신청자 (지역균형특별공급 제2호 외국인의경우입주자모집공고일부터 입주시까지무주택자) ■ 공급신청 자격자 • 주택공급 신청은 무주택세대구성원 중 1인만 가능합니다 ※ 부부(예비신혼부부 제외)는 당첨자발표일이 동일한 주택에…",
+   "분양가상한제": "…85㎡이하 주택)이며, 분양가상한제 적용주택으로 「주택공급에 관한 규칙」 제54조에 따라 재당첨제한은 10년…",
+   "실거주 의무": "…제1항 별표3 거주의무 - 없음 「주택법」제57조의2,「주택법 시행령」 제60조의2 구 분 사전청약당첨자 특별공급…",
+   "전매 제한": "…관한 규칙」제54조 전매제한 당첨자 발표일 3년 「주택법」제64조,「주택법 시행령」제73조 제1항 별표3…",
+   "재당첨 제한": "…관한 규칙」 제54조에 따라 재당첨제한은 10년 적용되고, 「주택법 시행령」 제73조에 의해 전매제한이 3년…",
+   "1순위 가입기간": "…1순위 입주자저축에 가입하여 1년(12개월)이 경과된 분으로서 매월 약정납입일에 월 납입금을 12회 이상 납입한 분 2순위…",
+   "납입 인정 횟수": "…1순위 입주자저축에 가입하여 1년(12개월)이 경과된 분으로서 매월 약정납입일에 월 납입금을 12회 이상 납입한 분 2순위…",
+   "계약금 비율": "…층별 구분 주택가격 계약금 10% 1차 중도금 10% 2차 중도금 10% 3차 중도금 10% 4차 중도금 10% 5차 중도금 10% 6차 중도금 10% 잔금 융자금(주택도시기금) 계약시…",
+   "거주 지역 요건": "…26.08.31) ① 해당 주택건설지역 (인천광역시) 50% ․ 공고일 현재 인천광역시 거주자 ② 기타지역(수도권) 50% ․ 공고일 현재 주민등록표등본상 서울특별시, 경기도에 거주하는 분 - 14 - ※ 공급세대수를 상기 지역우선비율로 배분 시 소수점 이하가 발생할 경우 소수점 첫 자리에서 반…",
+   "다자녀 지역 배정": "…다자녀 특별공급 및 일반공급 지역 우선공급 기준 <표1> 동일순위 내 지역우선 공급기준 기준일 지역구분 우선공급 비율 지역 우선공급 거주 입력 대상자 입주자모집공고일 (2026.08.31) ① 해당 주택건설지역 (인천광역시) 50% ․ 공고일 현재 인천광역시 거주자 ② 기타지역(수도권) 50% ․ 공고일…",
+   "공공 일반공급 소득·자산": "…(세대) 월평균소득 100% 이하 (맞벌이 200%) * 전용면적 60㎡ 이하만 적용 자산 (부동산, 자동차) 해당 없음 해당 없음 해당 없음 (세대) 부동산 215,500천원 이하 자동차 45,420천원 이하 (세대) 부동산 215,500천원 이하 자동차 45,420…"
+  },
+  "notice_conflicts": [],
+  "duty_silent": false,
+  "jeonse_weak": false,
+  "unregistered": true,
+  "need_head": false,
+  "need_account": true,
+  "limits": [
+   [
+    "재당첨 제한",
+    "10년"
+   ],
+   [
+    "실거주 의무",
+    "없음"
+   ],
+   [
+    "전매 제한",
+    "3년 (~29.10.21)"
+   ]
+  ],
+  "url": "https://www.applyhome.co.kr/ai/aia/selectAPTLttotPblancDetail.do?houseManageNo=2026000414&pblancNo=2026000414",
+  "notice_pdf": "https://apply.lh.or.kr/lhapply/lhFile.do?fileid=68595376",
+  "from_notice": [
+   "세대주 요건",
+   "분양가상한제",
+   "실거주 의무",
+   "전매 제한",
+   "재당첨 제한",
+   "1순위 가입기간",
+   "납입 인정 횟수",
+   "계약금 비율",
+   "거주 지역 요건",
+   "다자녀 지역 배정",
+   "접수 일정",
+   "공공 일반공급 소득·자산"
+  ],
+  "checks": [],
+  "geo": {
+   "lat": 37.5668,
+   "lng": 126.7505,
+   "precision": "dong",
+   "query": "인천광역시 계양구 귤현동",
+   "matched": "인천광역시 계양구 귤현동",
+   "source": "네이버 클라우드 플랫폼 Geocoding"
+  },
+  "account_months": 12,
+  "deposit_count": 12,
+  "competition": {
+   "rows": [],
+   "scores": [
+    {
+     "reside": "해당지역",
+     "low": null,
+     "top": null,
+     "avg": null
+    },
+    {
+     "reside": "기타지역",
+     "low": null,
+     "top": null,
+     "avg": null
+    }
+   ]
+  },
+  "area_comps": null,
+  "sp_competition": null,
+  "area_sp": [],
+  "map_query": "인천광역시 계양구 귤현동",
+  "nearby": [
+   {
+    "kind": "역",
+    "name": "귤현역",
+    "m": 693,
+    "lat": 37.5663544,
+    "lng": 126.7426554,
+    "walk": 13
+   },
+   {
+    "kind": "역",
+    "name": "계양역",
+    "m": 1367,
+    "lat": 37.571767,
+    "lng": 126.736311,
+    "walk": 27
+   },
+   {
+    "kind": "초등학교",
+    "name": "인천귤현초등학교",
+    "m": 349,
+    "lat": 37.5684242,
+    "lng": 126.7471176,
+    "walk": 7
+   },
+   {
+    "kind": "중학교",
+    "name": "계양중학교",
+    "m": 1034,
+    "lat": 37.5690991,
+    "lng": 126.7391329,
+    "walk": 20
+   }
+  ],
+  "sample": false
+ },
+ {
+  "id": "2026000414-084.9900B",
+  "name": "인천계양지구 A6블록 공공분양주택(본청약)",
+  "address": "인천광역시 계양구 귤현동, 동양동, 박촌동, 병방동, 상야동 및 경기도 부천시 대장동, 서울특별시 강서구 오곡동 일원 인천계양 테크노밸리 공공주택지구 내 A6블록",
+  "region": "인천",
+  "sigungu": "인천 계양구",
+  "sido": "인천",
+  "district": "계양구",
+  "supply_type": "APT",
+  "house_secd": "01",
+  "house_dtl": "국민",
+  "rent_secd": "분양주택",
+  "rental": false,
+  "land_lease": false,
+  "land_rent": null,
+  "land_rent_rate": null,
+  "special_apply": "2026-09-30",
+  "special_apply_end": "2026-09-30",
+  "kind": "일반분양 (특별공급·1순위)",
+  "category": "general",
+  "target": null,
+  "unit": "84B",
+  "area": 84.99,
+  "households": 0,
+  "complex": {
+   "households": 663,
+   "buildings": 12,
+   "single": "no",
+   "status": "확인",
+   "src": "모집공고문 공급규모",
+   "quote": "․공급대상 및 공급가격 등 1. 공급규모 ■ 인천계양 A6블록 : 공공분양주택 최고층 기준 7∼15층 12개동 전용면적 85㎡ 이하 663세대 (사전청약412세대, 이주자주택 2세대, 특별공급 211세대, 일반공급"
+  },
+  "mc_quota": {
+   "buckets": [
+    {
+     "name": "해당 주택건설지역",
+     "pct": 50,
+     "regions": [
+      "인천"
+     ]
+    },
+    {
+     "name": "기타지역(수도권)",
+     "pct": 50,
+     "regions": [
+      "서울",
+      "경기"
+     ]
+    }
+   ]
+  },
+  "youth": null,
+  "resale": {
+   "months": 36,
+   "base": "당첨자 발표일",
+   "registration": false,
+   "until_reg": false,
+   "passed": false,
+   "none": false,
+   "forbidden": false
+  },
+  "score_ratio": null,
+  "pub_limits": {
+   "cap": [
+    100,
+    200
+   ],
+   "real_estate": 21550,
+   "car": 4542,
+   "priority": [
+    100,
+    140
+   ],
+   "area_max": 60
+  },
+  "schedule": {
+   "pre": [
+    "2026-09-17",
+    "2026-09-18"
+   ],
+   "special": [
+    "2026-09-30",
+    "2026-09-30"
+   ],
+   "general": [
+    "2026-10-01",
+    "2026-10-02"
+   ]
+  },
+  "residence": {
+   "area": {
+    "name": "인천광역시",
+    "sido": "인천"
+   },
+   "months": 0,
+   "since": null,
+   "quota": {
+    "해당": 50,
+    "기타": 50
+   },
+   "others": [
+    "서울",
+    "경기"
+   ]
+  },
+  "special_units": {
+   "newborn": 1,
+   "newlywed": 1,
+   "first": 1,
+   "multichild": 1,
+   "elder": 0,
+   "agency": 0,
+   "relocated": 0,
+   "youth": 0,
+   "etc": 1,
+   "total": 5
+  },
+  "notice": "2026-08-31",
+  "apply": "2026-09-17",
+  "apply_end": "2026-10-02",
+  "winner": "2026-10-21",
+  "contract": "2026-12-15",
+  "balance": null,
+  "move_in": "2029-06",
+  "price": 7.0395,
+  "ext": 0.0,
+  "pay_ratio": {
+   "contract": 0.1,
+   "mid": 0.6,
+   "balance": 0.3
+  },
+  "contract_split": null,
+  "contract_rate": 0.1,
+  "mid_rate": 0.6,
+  "mkt_low": 5.85,
+  "mkt_base": 6.28,
+  "mkt_note": "같은 구 준공 10년 이내 같은 평형 매매 33건 기준 (최근 6개월) · 거래가 몰린 단지(힐스테이트자이계양 13건, 계양효성해링턴플레이스 9건, 인천계양코아루센트럴파크 8건)는 5건 몫으로 줄여 계산",
+  "mkt_basis": "district_newbuild",
+  "mkt_count": 33,
+  "mkt_direct_excluded": 0,
+  "mkt_comps": [
+   {
+    "apt": "힐스테이트자이계양",
+    "umd": "작전동",
+    "area": 84.53,
+    "floor": 23.0,
+    "dong": "",
+    "amount": 8.6,
+    "date": "2026-10-24",
+    "kind": "매매",
+    "direct": false
+   },
+   {
+    "apt": "계양효성해링턴플레이스",
+    "umd": "서운동",
+    "area": 84.966,
+    "floor": 30.0,
+    "dong": "",
+    "amount": 5.83,
+    "date": "2026-10-17",
+    "kind": "매매",
+    "direct": false
+   },
+   {
+    "apt": "힐스테이트자이계양",
+    "umd": "작전동",
+    "area": 84.53,
+    "floor": 12.0,
+    "dong": "",
+    "amount": 8.45,
+    "date": "2026-10-03",
+    "kind": "매매",
+    "direct": false
+   },
+   {
+    "apt": "힐스테이트자이계양",
+    "umd": "작전동",
+    "area": 84.53,
+    "floor": 16.0,
+    "dong": "103",
+    "amount": 8.1,
+    "date": "2026-10-03",
+    "kind": "매매",
+    "direct": false
+   },
+   {
+    "apt": "인천계양코아루센트럴파크",
+    "umd": "용종동",
+    "area": 84.99,
+    "floor": 8.0,
+    "dong": "",
+    "amount": 6.3,
+    "date": "2026-09-23",
+    "kind": "매매",
+    "direct": false
+   },
+   {
+    "apt": "계양효성해링턴플레이스",
+    "umd": "서운동",
+    "area": 84.966,
+    "floor": 12.0,
+    "dong": "",
+    "amount": 5.85,
+    "date": "2026-09-18",
+    "kind": "매매",
+    "direct": false
+   },
+   {
+    "apt": "힐스테이트자이계양",
+    "umd": "작전동",
+    "area": 84.81,
+    "floor": 29.0,
+    "dong": "",
+    "amount": 8.5,
+    "date": "2026-09-09",
+    "kind": "매매",
+    "direct": false
+   },
+   {
+    "apt": "계양효성해링턴플레이스",
+    "umd": "서운동",
+    "area": 84.986,
+    "floor": 18.0,
+    "dong": "",
+    "amount": 6.17,
+    "date": "2026-09-06",
+    "kind": "매매",
+    "direct": false
+   }
+  ],
+  "jeonse": 3.87,
+  "jeonse_note": "같은 구 준공 10년 이내 전세 40건 중앙값에서 입주장 할인 9%",
+  "jeonse_comps": [
+   {
+    "apt": "제일풍경채계양위너스카이2단지",
+    "umd": "효성동",
+    "area": 84.8081,
+    "floor": 30.0,
+    "dong": "",
+    "amount": 4.25,
+    "date": "2026-10-26",
+    "kind": "전세",
+    "direct": false
+   },
+   {
+    "apt": "힐스테이트자이계양",
+    "umd": "작전동",
+    "area": 84.81,
+    "floor": 18.0,
+    "dong": "",
+    "amount": 5.0,
+    "date": "2026-10-22",
+    "kind": "전세",
+    "direct": false
+   },
+   {
+    "apt": "e편한세상 계양 더프리미어",
+    "umd": "효성동",
+    "area": 84.9299,
+    "floor": 23.0,
+    "dong": "",
+    "amount": 4.5,
+    "date": "2026-10-17",
+    "kind": "전세",
+    "direct": false
+   },
+   {
+    "apt": "e편한세상 계양 더프리미어",
+    "umd": "효성동",
+    "area": 84.9299,
+    "floor": 28.0,
+    "dong": "",
+    "amount": 4.5,
+    "date": "2026-09-23",
+    "kind": "전세",
+    "direct": false
+   },
+   {
+    "apt": "힐스테이트자이계양",
+    "umd": "작전동",
+    "area": 84.81,
+    "floor": 23.0,
+    "dong": "",
+    "amount": 5.25,
+    "date": "2026-09-15",
+    "kind": "전세",
+    "direct": false
+   },
+   {
+    "apt": "제일풍경채계양위너스카이2단지",
+    "umd": "효성동",
+    "area": 84.4461,
+    "floor": 27.0,
+    "dong": "",
+    "amount": 4.3,
+    "date": "2026-09-14",
+    "kind": "전세",
+    "direct": false
+   },
+   {
+    "apt": "e편한세상 계양 더프리미어",
+    "umd": "효성동",
+    "area": 84.9299,
+    "floor": 20.0,
+    "dong": "",
+    "amount": 4.5,
+    "date": "2026-09-04",
+    "kind": "전세",
+    "direct": false
+   },
+   {
+    "apt": "e편한세상 계양 더프리미어",
+    "umd": "효성동",
+    "area": 84.9299,
+    "floor": 10.0,
+    "dong": "",
+    "amount": 4.2,
+    "date": "2026-09-03",
+    "kind": "전세",
+    "direct": false
+   }
+  ],
+  "capital": true,
+  "regulated": false,
+  "reg_kind": "비규제",
+  "land_permit": false,
+  "price_cap": true,
+  "residence_duty": 0,
+  "duty_from": null,
+  "notice_quotes": {
+   "세대주 요건": "…· 노부모부양 · 생애최초 · 신혼부부 · 신생아 특별공급 및 일반공급 신청자 (지역균형특별공급 제2호 외국인의경우입주자모집공고일부터 입주시까지무주택자) ■ 공급신청 자격자 • 주택공급 신청은 무주택세대구성원 중 1인만 가능합니다 ※ 부부(예비신혼부부 제외)는 당첨자발표일이 동일한 주택에…",
+   "분양가상한제": "…85㎡이하 주택)이며, 분양가상한제 적용주택으로 「주택공급에 관한 규칙」 제54조에 따라 재당첨제한은 10년…",
+   "실거주 의무": "…제1항 별표3 거주의무 - 없음 「주택법」제57조의2,「주택법 시행령」 제60조의2 구 분 사전청약당첨자 특별공급…",
+   "전매 제한": "…관한 규칙」제54조 전매제한 당첨자 발표일 3년 「주택법」제64조,「주택법 시행령」제73조 제1항 별표3…",
+   "재당첨 제한": "…관한 규칙」 제54조에 따라 재당첨제한은 10년 적용되고, 「주택법 시행령」 제73조에 의해 전매제한이 3년…",
+   "1순위 가입기간": "…1순위 입주자저축에 가입하여 1년(12개월)이 경과된 분으로서 매월 약정납입일에 월 납입금을 12회 이상 납입한 분 2순위…",
+   "납입 인정 횟수": "…1순위 입주자저축에 가입하여 1년(12개월)이 경과된 분으로서 매월 약정납입일에 월 납입금을 12회 이상 납입한 분 2순위…",
+   "계약금 비율": "…층별 구분 주택가격 계약금 10% 1차 중도금 10% 2차 중도금 10% 3차 중도금 10% 4차 중도금 10% 5차 중도금 10% 6차 중도금 10% 잔금 융자금(주택도시기금) 계약시…",
+   "거주 지역 요건": "…26.08.31) ① 해당 주택건설지역 (인천광역시) 50% ․ 공고일 현재 인천광역시 거주자 ② 기타지역(수도권) 50% ․ 공고일 현재 주민등록표등본상 서울특별시, 경기도에 거주하는 분 - 14 - ※ 공급세대수를 상기 지역우선비율로 배분 시 소수점 이하가 발생할 경우 소수점 첫 자리에서 반…",
+   "다자녀 지역 배정": "…다자녀 특별공급 및 일반공급 지역 우선공급 기준 <표1> 동일순위 내 지역우선 공급기준 기준일 지역구분 우선공급 비율 지역 우선공급 거주 입력 대상자 입주자모집공고일 (2026.08.31) ① 해당 주택건설지역 (인천광역시) 50% ․ 공고일 현재 인천광역시 거주자 ② 기타지역(수도권) 50% ․ 공고일…",
+   "공공 일반공급 소득·자산": "…(세대) 월평균소득 100% 이하 (맞벌이 200%) * 전용면적 60㎡ 이하만 적용 자산 (부동산, 자동차) 해당 없음 해당 없음 해당 없음 (세대) 부동산 215,500천원 이하 자동차 45,420천원 이하 (세대) 부동산 215,500천원 이하 자동차 45,420…"
+  },
+  "notice_conflicts": [],
+  "duty_silent": false,
+  "jeonse_weak": false,
+  "unregistered": true,
+  "need_head": false,
+  "need_account": true,
+  "limits": [
+   [
+    "재당첨 제한",
+    "10년"
+   ],
+   [
+    "실거주 의무",
+    "없음"
+   ],
+   [
+    "전매 제한",
+    "3년 (~29.10.21)"
+   ]
+  ],
+  "url": "https://www.applyhome.co.kr/ai/aia/selectAPTLttotPblancDetail.do?houseManageNo=2026000414&pblancNo=2026000414",
+  "notice_pdf": "https://apply.lh.or.kr/lhapply/lhFile.do?fileid=68595376",
+  "from_notice": [
+   "세대주 요건",
+   "분양가상한제",
+   "실거주 의무",
+   "전매 제한",
+   "재당첨 제한",
+   "1순위 가입기간",
+   "납입 인정 횟수",
+   "계약금 비율",
+   "거주 지역 요건",
+   "다자녀 지역 배정",
+   "접수 일정",
+   "공공 일반공급 소득·자산"
+  ],
+  "checks": [],
+  "geo": {
+   "lat": 37.5668,
+   "lng": 126.7505,
+   "precision": "dong",
+   "query": "인천광역시 계양구 귤현동",
+   "matched": "인천광역시 계양구 귤현동",
+   "source": "네이버 클라우드 플랫폼 Geocoding"
+  },
+  "account_months": 12,
+  "deposit_count": 12,
+  "competition": null,
+  "area_comps": [
+   {
+    "name": "인천 작전 한라비발디",
+    "notice": "2026-05-22",
+    "apply": "2026-05-27",
+    "url": "https://www.applyhome.co.kr/ai/aia/selectAPTRemndrLttotPblancDetailView.do?houseManageNo=2026910128&pblancNo=2026910128",
+    "category": "remainder",
+    "unit": "84A",
+    "area": 84.9601,
+    "rank": "",
+    "reside": "",
+    "supply": 2.0,
+    "req": 16.0,
+    "rate": "8.00",
+    "rate_num": 8.0,
+    "low": null,
+    "avg": null
+   }
+  ],
+  "sp_competition": null,
+  "area_sp": [],
+  "map_query": "인천광역시 계양구 귤현동",
+  "nearby": [
+   {
+    "kind": "역",
+    "name": "귤현역",
+    "m": 693,
+    "lat": 37.5663544,
+    "lng": 126.7426554,
+    "walk": 13
+   },
+   {
+    "kind": "역",
+    "name": "계양역",
+    "m": 1367,
+    "lat": 37.571767,
+    "lng": 126.736311,
+    "walk": 27
+   },
+   {
+    "kind": "초등학교",
+    "name": "인천귤현초등학교",
+    "m": 349,
+    "lat": 37.5684242,
+    "lng": 126.7471176,
+    "walk": 7
+   },
+   {
+    "kind": "중학교",
+    "name": "계양중학교",
+    "m": 1034,
+    "lat": 37.5690991,
+    "lng": 126.7391329,
+    "walk": 20
+   }
+  ],
+  "sample": false
+ },
+ {
   "id": "2026910267-059.7791B",
   "name": "교대역 모아엘가 그랑데",
   "address": "전남광주통합특별시 동구 무등로 373",
