@@ -1,12 +1,17 @@
 {
- "at": "2026-11-02 07:38",
- "ok": true,
+ "at": "2026-11-02 07:58",
+ "ok": false,
  "collect_run": "2026-11-02 · 공고 313건",
  "banner": null,
- "flagged": {},
- "pending": [
-  "경고 범위 화면"
- ],
+ "flagged": {
+  "SH-312351": [
+   "자동 검증(임대 공고문 못 읽음): 청년 소득 기준을 공고문에서 읽지 못함 — 공고문 확인",
+   "자동 검증(임대 공고문 못 읽음): 청년 공고문의 총자산 금액이 잘못 적혀 있어요('2억5,1000만 원') — 정확한 기준은 운영기관에 확인",
+   "자동 검증(임대 공고문 못 읽음): 신혼부부 소득 기준을 공고문에서 읽지 못함 — 공고문 확인",
+   "자동 검증(임대 공고문 못 읽음): 1인가구 소득 기준을 공고문에서 읽지 못함 — 공고문 확인"
+  ]
+ },
+ "pending": [],
  "coverage_missing": 0,
  "observe": [],
  "warnings": [],
@@ -14,37 +19,37 @@
   {
    "name": "분양",
    "updated": "2026-11-02 07:22",
-   "hours": 0.3,
+   "hours": 0.6,
    "stale": false
   },
   {
    "name": "LH 임대",
-   "updated": "2026-11-01 09:25",
-   "hours": 22.2,
+   "updated": "2026-11-02 07:39",
+   "hours": 0.3,
    "stale": false
   },
   {
    "name": "SH 임대",
-   "updated": "2026-11-01 07:45",
-   "hours": 23.9,
+   "updated": "2026-11-02 07:42",
+   "hours": 0.3,
    "stale": false
   },
   {
    "name": "GH 임대",
    "updated": "2026-11-01 09:30",
-   "hours": 22.1,
+   "hours": 22.5,
    "stale": false
   },
   {
    "name": "공공지원 민간임대",
    "updated": "2026-11-01 09:41",
-   "hours": 22.0,
+   "hours": 22.3,
    "stale": false
   },
   {
    "name": "LH 주거복지·신혼희망",
    "updated": "2026-11-01 09:29",
-   "hours": 22.2,
+   "hours": 22.5,
    "stale": false
   }
  ],
@@ -60,9 +65,7 @@
  "golden": {
   "mismatches": []
  },
- "qa_stale": [
-  "verify-scope.json"
- ],
+ "qa_stale": [],
  "qa": {
   "gate": true,
   "supply_type_fails": 0,
@@ -82,17 +85,17 @@
   "lh_invariant_violations": 0,
   "lh_judge_qa_fails": 0,
   "lh_screen_fails": 0,
-  "lh_unread": 0,
+  "lh_unread": 4,
   "lh_pdf_merged_wrong": 0,
   "pay_audit_bad": 0,
   "parse_moved_changes": 0,
   "coverage_missing": 0,
-  "verify_scope_fails": null,
+  "verify_scope_fails": 0,
   "pay_audit_read": "157/173",
-  "lh_data_at": "2026-11-01 09:25",
-  "cross_rule_checks": 311437,
+  "lh_data_at": "2026-11-02 07:39",
+  "cross_rule_checks": 323293,
   "market_at": "2026-11-02",
   "supply_type_at": "2026-11-01",
-  "invariants_at": "2026-11-02"
+  "invariants_at": "2026-11-01"
  }
 }
