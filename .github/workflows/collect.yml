@@ -19,7 +19,7 @@ permissions:
   issues: write             # 수집 실패·경고를 이슈로 남겨 운영자에게 메일이 가게 한다
 jobs:
   gate:                     # 예약 실행이면 오늘 매일 수집이 이미 돌았는지 본다 (돌았으면 건너뜀 — 접수 전날 알림이 두 번 가지 않게)
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-24.04   # Playwright 1.56 은 Ubuntu 26 에 설치 안 됨(ubuntu-latest 26 전환, 2026-11-02 부터 화면 검사 멈춤)
     outputs:
       skip: ${{ steps.g.outputs.skip }}
     steps:
@@ -36,7 +36,7 @@ jobs:
   collect:
     needs: gate
     if: needs.gate.outputs.skip != '1'
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-24.04   # Playwright 1.56 은 Ubuntu 26 에 설치 안 됨(ubuntu-latest 26 전환, 2026-11-02 부터 화면 검사 멈춤)
     timeout-minutes: 40
     env:
       DATA_GO_KR_KEY: ${{ secrets.DATA_GO_KR_KEY }}

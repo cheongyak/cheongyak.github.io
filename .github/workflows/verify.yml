@@ -45,7 +45,7 @@ permissions:
   actions: read
 jobs:
   verify:
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-24.04   # Playwright 1.56 은 Ubuntu 26 에 설치 안 됨(ubuntu-latest 26 전환, 2026-11-02 부터 화면 검사 멈춤)
     timeout-minutes: 70
     steps:
       - uses: actions/checkout@v4

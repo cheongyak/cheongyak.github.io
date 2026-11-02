@@ -4,6 +4,14 @@
 2026-09-29 12:55 이전 항목은 규칙을 만들기 전 작업을 커밋 기록으로 정리한 것이라 백업 브랜치가 없어요.
 그 시점으로 되돌릴 때는 해당 커밋 번호로 `git revert` 를 써요.
 
+## 2026-11-03 06:45 · 작업 서버를 Ubuntu 24 로 고정 (화면 검사 멈춤 수리)
+- 요청: 청약·임대 공고 수집 (수집 뒤 검증 현황 ok=false 원인 수리)
+- 변경: GitHub 의 ubuntu-latest 가 Ubuntu 26 으로 바뀌면서 Playwright 1.56 `install --with-deps` 가 실패해 11-02 오후부터 브라우저 검사(판정 사례·화면 QA 15개)가 아예 안 돎(판정 검증 단계 22초→2초, MASTER QA 16분→15초) → 검증 현황이 '재검증 대기'로 ok=false. 브라우저를 쓰는 7개 작업(collect·verify·lh/sh/gh/local/pvt-rental)의 runs-on 을 ubuntu-24.04 로 고정
+- 파일: .github/workflows/collect.yml, verify.yml, lh-rental.yml, sh-rental.yml, gh-rental.yml, local-rental.yml, pvt-rental.yml, HANDOFF.md, WORK.md
+- 확인: YAML 문법 검사, 올린 뒤 판정 검증 실행 단계 시간·docs/verify-status.json ok 확인. 근거: 작업 공지 'ubuntu-latest label will migrate to Ubuntu 26 beginning October 19, 2026', Playwright 1.61 미만은 ubuntu26.04 의존성 설치 불가
+- 기능: 없음(수정)
+- 백업: backup/20261103-0645
+
 ## 2026-11-02 10:00 · 주간 원문 대조 2026-11-02
 - 요청: 청약패스 주간 공고문 원문 대조 (예약 작업)
 - 변경: 지난 대조 뒤 새 공고 20건(원문 없음 0)을 원문만 본 검토자 4명과 대조(evidence/audit/2026-11-02-blind). 앱 오류 6건(공고 4개, P0 0·P1 6)은 고치지 않고 운영자 확인 대기: ① 2026000434·435 제주 삼도이동 토지임대부 거주의무 5년을 '없음'으로(수집 규칙이 비수도권이라 0 으로 덮음) ② 같은 공고 제주 1년 이상 우선공급을 거주기간 0·구분 없음으로 ③ 2026000527·528 광교 수원 2년 30%·경기 2년 20% 3단 배정을 못 읽음. 원문으로 확인한 정답 64칸을 tests/golden/notices.json 에 추가(앱과 다른 줄은 README 에만)
