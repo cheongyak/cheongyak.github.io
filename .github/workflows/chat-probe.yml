@@ -31,7 +31,7 @@ jobs:
           base = json.load(open('chat/deployed.json'))['url']
           qs = json.load(open('chat/probe_questions.json'))
           # 자유 답변(/free, 기능 bot_free_answer): path 'free' + listing_ids → 화면 freeFacts 와 같은 공고 사실을 listings.json 에서 만든다
-          raw = json.load(open('docs/listings.json')); raw = raw if isinstance(raw, list) else raw.get('listings', [])
+          LST = json.load(open('docs/listings.json')); LST = LST if isinstance(LST, list) else LST.get('listings', [])   # raw 는 아래에서 응답 글자로 쓰므로 다른 이름
           def facts(L):
               f = {'단지': L.get('name'), '주택형': L.get('unit'), '전용면적(㎡)': L.get('area'), '주소': L.get('address'), '공급': L.get('kind'), '주택 구분': ' · '.join(x for x in [L.get('house_dtl'), L.get('rent_secd')] if x),
                    '공고일(자격 판단 기준일인 경우가 많음)': L.get('notice'), '특별공급 접수': L.get('special_apply'), '일반공급 접수': L.get('apply'), '당첨자 발표': L.get('winner'), '계약': L.get('contract'), '분양가(억, 청약홈)': L.get('price'),
@@ -44,7 +44,7 @@ jobs:
               url = base + ('/free' if free_path else '/chat')
               body = {'question': q['question'], 'anon_id': 'probe-actions-%d' % int(time.time()), 'conversation_id': 'probe-%d-%d' % (int(time.time()), i), 'preview': os.environ.get('CODE', ''), 'free': bool(q.get('free'))}
               if q.get('listing_id'): body['listing_id'] = q['listing_id']
-              if free_path: body['listings'] = [{'id': L['id'], 'facts': facts(L)} for lid in q.get('listing_ids', []) for L in raw if L.get('id') == lid]
+              if free_path: body['listings'] = [{'id': L['id'], 'facts': facts(L)} for lid in q.get('listing_ids', []) for L in LST if L.get('id') == lid]
               req = urllib.request.Request(url, data=json.dumps(body).encode(), headers={'content-type': 'application/json', 'origin': 'https://cheongyakpass.kr', 'user-agent': 'Mozilla/5.0 (cheongyakpass probe)'})
               try:
                   with urllib.request.urlopen(req, timeout=60) as r: st, raw = r.status, r.read()
