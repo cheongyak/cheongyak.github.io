@@ -4,6 +4,14 @@
 2026-09-29 12:55 이전 항목은 규칙을 만들기 전 작업을 커밋 기록으로 정리한 것이라 백업 브랜치가 없어요.
 그 시점으로 되돌릴 때는 해당 커밋 번호로 `git revert` 를 써요.
 
+## 2026-11-03 07:13 · 청약봇 서버 시험의 근거 자료 고정
+- 요청: 청약봇이 데이터+AI 지식으로 답하게 (그 전에 서버 배포를 막던 시험 실패 수리)
+- 변경: chat/test·golden/eval 이 매일 다시 만들어지는 docs/rules-evidence.txt 를 읽어, 10-31 근거 갱신 뒤 골든 답의 공고문 근거 번호(N3·N4·N6)가 사라져 시험 6개 실패 → 배포(chat-worker.yml) 단계가 막힌 상태였음. 마지막 배포(64d7902) 때의 근거 자료를 chat/golden/rules-evidence.frozen.txt 로 고정해 시험이 그것을 읽게 함
+- 파일: chat/golden/rules-evidence.frozen.txt, chat/test/chat.test.mjs, chat/golden/eval.mjs, WORK.md
+- 확인: node --test test/chat.test.mjs 43/43 통과(고치기 전 37/43), golden/eval.mjs 2종 종료코드 0
+- 기능: 없음(수정)
+- 백업: backup/20261103-0713
+
 ## 2026-11-03 06:45 · 작업 서버를 Ubuntu 24 로 고정 (화면 검사 멈춤 수리)
 - 요청: 청약·임대 공고 수집 (수집 뒤 검증 현황 ok=false 원인 수리)
 - 변경: GitHub 의 ubuntu-latest 가 Ubuntu 26 으로 바뀌면서 Playwright 1.56 `install --with-deps` 가 실패해 11-02 오후부터 브라우저 검사(판정 사례·화면 QA 15개)가 아예 안 돎(판정 검증 단계 22초→2초, MASTER QA 16분→15초) → 검증 현황이 '재검증 대기'로 ok=false. 브라우저를 쓰는 7개 작업(collect·verify·lh/sh/gh/local/pvt-rental)의 runs-on 을 ubuntu-24.04 로 고정

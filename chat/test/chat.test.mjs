@@ -14,7 +14,7 @@ const { loadEngine, buildEngine } = require('../tools/engine_payload.cjs');
 
 const REPO = process.env.REPO || new URL('../..', import.meta.url).pathname.replace(/\/$/, '');
 const eng = loadEngine(REPO + '/docs', REPO + '/tests/judge/listings.json');
-const index = parseEvidence(fs.readFileSync(REPO + '/docs/rules-evidence.txt', 'utf8'));
+const index = parseEvidence(fs.readFileSync(new URL('../golden/rules-evidence.frozen.txt', import.meta.url), 'utf8'))   // 고정본: docs/rules-evidence.txt 는 매일 바뀌어 골든 답의 근거 번호(N3…)가 어긋남 (2026-11-03);
 const G = Object.fromEntries(JSON.parse(fs.readFileSync(new URL('../golden/golden_v0.json', import.meta.url))).map(g => [g.id, g]));
 const GOOD = JSON.parse(fs.readFileSync(new URL('../golden/fixtures_good.json', import.meta.url)));
 const OPEN = { CHAT_OPEN: '1' };
