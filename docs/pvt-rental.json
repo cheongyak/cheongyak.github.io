@@ -1,8 +1,88 @@
 {
- "updated": "2026-11-02 10:16",
+ "updated": "2026-11-03 06:40",
  "source": "청약홈 분양정보 API 공공지원 민간임대·민간임대 (한국부동산원)",
- "count": 3,
+ "count": 4,
  "notices": [
+  {
+   "id": "PVT-2026850054",
+   "org": "PVT",
+   "name": "부경경마공원역 대방 디에트르 더리버(AP1BL)",
+   "type": "공공지원 민간임대",
+   "judge_type": false,
+   "youth": false,
+   "region": "부산광역시",
+   "posted": "2026-11-02",
+   "close": "2026-11-10",
+   "status": null,
+   "url": "https://www.applyhome.co.kr/ai/aia/selectPRMOLttotPblancDetailView.do?houseManageNo=2026850054&pblancNo=2026850054&houseSecd=03",
+   "url_mobile": "https://www.applyhome.co.kr/ai/aia/selectPRMOLttotPblancDetailView.do?houseManageNo=2026850054&pblancNo=2026850054&houseSecd=03",
+   "schedule": [
+    {
+     "complex": null,
+     "apply_start": "2026-11-09",
+     "apply_end": "2026-11-10",
+     "docs_target": null,
+     "winner": "2026-11-13",
+     "rank1": false,
+     "contract_start": "2026-11-16",
+     "contract_end": "2026-11-17"
+    }
+   ],
+   "complexes": [
+    {
+     "name": "부경경마공원역 대방 디에트르 더리버(AP1BL)",
+     "address": "부산광역시 강서구 범방동 2008번지",
+     "households": 79,
+     "move_in": "202712",
+     "builder": "대방건설 주식회사"
+    }
+   ],
+   "units": [
+    {
+     "complex": null,
+     "type": "59A-1",
+     "area": 59.89,
+     "households": 34,
+     "now_households": 34,
+     "general": 34,
+     "special": {
+      "청년": 0,
+      "신혼부부": 0,
+      "고령자": 0
+     },
+     "supply_amount": 19380,
+     "apply_fee": 10,
+     "deposit": null,
+     "rent": null
+    },
+    {
+     "complex": null,
+     "type": "59B-1",
+     "area": 59.97,
+     "households": 45,
+     "now_households": 45,
+     "general": 45,
+     "special": {
+      "청년": 0,
+      "신혼부부": 0,
+      "고령자": 0
+     },
+     "supply_amount": 19522,
+     "apply_fee": 10,
+     "deposit": null,
+     "rent": null
+    }
+   ],
+   "rents": [],
+   "terms": null,
+   "files": [],
+   "notice_pdf": null,
+   "home": "http://detre-bg.co.kr/",
+   "office": {
+    "place": null,
+    "tel": "0221819400"
+   }
+  },
   {
    "id": "PVT-2026950093",
    "org": "PVT",
