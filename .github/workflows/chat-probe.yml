@@ -28,12 +28,23 @@ jobs:
           import json, os, urllib.request, urllib.error, time
           os.makedirs('evidence/chat-probe', exist_ok=True)
           if not os.environ.get('CODE'): print('CHAT_PREVIEW_CODE 비밀값 없음')
-          url = json.load(open('chat/deployed.json'))['url'] + '/chat'
+          base = json.load(open('chat/deployed.json'))['url']
           qs = json.load(open('chat/probe_questions.json'))
+          # 자유 답변(/free, 기능 bot_free_answer): path 'free' + listing_ids → 화면 freeFacts 와 같은 공고 사실을 listings.json 에서 만든다
+          raw = json.load(open('docs/listings.json')); raw = raw if isinstance(raw, list) else raw.get('listings', [])
+          def facts(L):
+              f = {'단지': L.get('name'), '주택형': L.get('unit'), '전용면적(㎡)': L.get('area'), '주소': L.get('address'), '공급': L.get('kind'), '주택 구분': ' · '.join(x for x in [L.get('house_dtl'), L.get('rent_secd')] if x),
+                   '공고일(자격 판단 기준일인 경우가 많음)': L.get('notice'), '특별공급 접수': L.get('special_apply'), '일반공급 접수': L.get('apply'), '당첨자 발표': L.get('winner'), '계약': L.get('contract'), '분양가(억, 청약홈)': L.get('price'),
+                   '규제지역': ('규제지역(투기과열지구·조정대상지역 중 하나 — 모집공고문 확인)' if L.get('regulated') else '비규제지역'), '일반공급 1순위 세대주 요건': {True: '세대주만', False: '세대원도 가능'}.get(L.get('need_head')),
+                   '제한(재당첨·실거주·전매)': L.get('limits'), '거주 지역 요건': L.get('residence'), '특별공급 세대수': L.get('special_units'), '청약패스 데이터 확인 필요': L.get('checks'), '모집공고문': L.get('notice_pdf'), '청약패스': 'https://cheongyakpass.kr/#/detail/' + L['id']}
+              return {k: v for k, v in f.items() if v not in (None, '', [])}
           out = []
           for i, q in enumerate(qs):
+              free_path = q.get('path') == 'free'
+              url = base + ('/free' if free_path else '/chat')
               body = {'question': q['question'], 'anon_id': 'probe-actions-%d' % int(time.time()), 'conversation_id': 'probe-%d-%d' % (int(time.time()), i), 'preview': os.environ.get('CODE', ''), 'free': bool(q.get('free'))}
               if q.get('listing_id'): body['listing_id'] = q['listing_id']
+              if free_path: body['listings'] = [{'id': L['id'], 'facts': facts(L)} for lid in q.get('listing_ids', []) for L in raw if L.get('id') == lid]
               req = urllib.request.Request(url, data=json.dumps(body).encode(), headers={'content-type': 'application/json', 'origin': 'https://cheongyakpass.kr', 'user-agent': 'Mozilla/5.0 (cheongyakpass probe)'})
               try:
                   with urllib.request.urlopen(req, timeout=60) as r: st, raw = r.status, r.read()
@@ -41,7 +52,7 @@ jobs:
               except Exception as e: st, raw = 0, repr(e).encode()
               try: res = json.loads(raw)
               except Exception: res = {'message': raw.decode('utf-8', 'replace')[:300]}
-              out.append({'question': q['question'], 'status': st, 'fallback': res.get('fallback'), 'diag': res.get('diag'), 'answer': res.get('answer'), 'message': res.get('message')})
+              out.append({'question': q['question'], 'path': '/free' if free_path else '/chat', 'status': st, 'kind': res.get('kind'), 'fallback': res.get('fallback'), 'diag': res.get('diag'), 'answer': res.get('answer'), 'sources': [x.get('id') + ' ' + (x.get('title') or '') for x in res.get('sources') or []], 'message': res.get('message')})
               print(st, q['question'][:30], json.dumps(res.get('diag'), ensure_ascii=False), res.get('message'))
           json.dump({'at': time.strftime('%Y-%m-%d %H:%M'), 'results': out}, open('evidence/chat-probe/latest.json', 'w'), ensure_ascii=False, indent=1)
           PY
