@@ -1,5 +1,5 @@
 {
- "date": "2026-10-31",
+ "date": "2026-11-03",
  "page_cap": 300,
  "notices": 69,
  "with_problem": 7,
@@ -7,7 +7,18 @@
   "글자가 거의 없는 쪽 N개 (스캔 이미지·표 그림 추정)": 7,
   "지금 수집 값과 다시 읽은 값이 다름": 2
  },
- "errors": [],
+ "errors": [
+  {
+   "notice": "2026000472",
+   "name": "구리갈매역세권 B-1블록 신안인스빌 디센트",
+   "error": "RemoteProtocolError: Server disconnected without sending a response."
+  },
+  {
+   "notice": "2026000502",
+   "name": "화성 향남 롯데캐슬 시그니처",
+   "error": "RemoteProtocolError: Server disconnected without sending a response."
+  }
+ ],
  "results": [
   {
    "notice": "2026820013",
@@ -473,67 +484,7 @@
   {
    "notice": "2026000472",
    "name": "구리갈매역세권 B-1블록 신안인스빌 디센트",
-   "url": "https://www.applyhome.co.kr/ai/aia/selectAPTLttotPblancDetail.do?houseManageNo=2026000472&pblancNo=2026000472",
-   "attachments": 1,
-   "pdfs": 1,
-   "attachment_list": [
-    {
-     "url": "https://static.applyhome.co.kr/ai/aia/getAtchmnfl.do?houseManageNo=2026000472&pblancNo=2026000472&atchmnflSeqNo=2012076&atchmnflSn=4",
-     "bytes": 965420,
-     "pages": 70,
-     "chars": 149620,
-     "head": "- 1 - ※ 단지 주요정보 분양문의( ) 031-566-9450 주택유형 해당지역 기타경기 기타지역 규제지역여부 민영 경기도 구리시 년 이상 "
-    }
-   ],
-   "chosen": "https://static.applyhome.co.kr/ai/aia/getAtchmnfl.do?houseManageNo=2026000472&pblancNo=2026000472&atchmnflSeqNo=2012076&atchmnflSn=4",
-   "pages": 70,
-   "pages_read": 70,
-   "chars_read": 149689,
-   "empty_pages": [],
-   "chars_per_page_min": 76,
-   "fields": {
-    "need_head": false,
-    "price_cap": true,
-    "rewin_years": 10,
-    "account_months": 24,
-    "residence": {
-     "area": "경기도 구리시",
-     "months": 24,
-     "since": "2024-10-30"
-    }
-   },
-   "fields_merged": {
-    "need_head": false,
-    "price_cap": true,
-    "rewin_years": 10,
-    "account_months": 24,
-    "residence": {
-     "area": "경기도 구리시",
-     "months": 24,
-     "since": "2024-10-30"
-    }
-   },
-   "fields_pdfium": {
-    "need_head": false,
-    "price_cap": true,
-    "rewin_years": 10,
-    "residence": {
-     "area": "경기도 구리시",
-     "months": 24,
-     "since": "2024-10-30"
-    }
-   },
-   "pdfium_chars": 155810,
-   "tool_diff": {
-    "account_months": [
-     24,
-     null
-    ]
-   },
-   "filled_by_second_tool": [
-    "account_months"
-   ],
-   "problem": []
+   "error": "RemoteProtocolError: Server disconnected without sending a response."
   },
   {
    "notice": "2026000535",
@@ -1299,59 +1250,7 @@
   {
    "notice": "2026000502",
    "name": "화성 향남 롯데캐슬 시그니처",
-   "url": "https://www.applyhome.co.kr/ai/aia/selectAPTLttotPblancDetail.do?houseManageNo=2026000502&pblancNo=2026000502",
-   "attachments": 1,
-   "pdfs": 1,
-   "attachment_list": [
-    {
-     "url": "https://static.applyhome.co.kr/ai/aia/getAtchmnfl.do?houseManageNo=2026000502&pblancNo=2026000502&atchmnflSeqNo=2001080&atchmnflSn=4",
-     "bytes": 3591552,
-     "pages": 60,
-     "chars": 193560,
-     "head": "화성 향남 롯데캐슬 시그니처 - 1 - 화성 향남 롯데캐슬 시그니처 입주자모집공고 정정공고() 수 의 내용 중 일부를 수 일자로 아래와 같이 정"
-    }
-   ],
-   "chosen": "https://static.applyhome.co.kr/ai/aia/getAtchmnfl.do?houseManageNo=2026000502&pblancNo=2026000502&atchmnflSeqNo=2001080&atchmnflSn=4",
-   "pages": 60,
-   "pages_read": 60,
-   "chars_read": 193619,
-   "empty_pages": [],
-   "chars_per_page_min": 771,
-   "fields": {
-    "need_head": false,
-    "price_cap": false,
-    "residence_duty": 0,
-    "rewin_years": 0,
-    "residence": {
-     "area": "경기도 화성시",
-     "months": 0,
-     "since": null
-    }
-   },
-   "fields_merged": {
-    "need_head": false,
-    "price_cap": false,
-    "residence_duty": 0,
-    "rewin_years": 0,
-    "residence": {
-     "area": "경기도 화성시",
-     "months": 0,
-     "since": null
-    }
-   },
-   "fields_pdfium": {
-    "need_head": false,
-    "price_cap": false,
-    "residence_duty": 0,
-    "rewin_years": 0,
-    "residence": {
-     "area": "경기도 화성시",
-     "months": 0,
-     "since": null
-    }
-   },
-   "pdfium_chars": 199757,
-   "problem": []
+   "error": "RemoteProtocolError: Server disconnected without sending a response."
   },
   {
    "notice": "2026000514",
@@ -2630,74 +2529,6 @@
    "problem": []
   },
   {
-   "notice": "2026000444",
-   "name": "제주시 이도이동 아이린8차 아파트",
-   "url": "https://www.applyhome.co.kr/ai/aia/selectAPTLttotPblancDetail.do?houseManageNo=2026000444&pblancNo=2026000444",
-   "attachments": 1,
-   "pdfs": 1,
-   "attachment_list": [
-    {
-     "url": "https://static.applyhome.co.kr/ai/aia/getAtchmnfl.do?houseManageNo=2026000444&pblancNo=2026000444&atchmnflSeqNo=1988268&atchmnflSn=1",
-     "bytes": 515156,
-     "pages": 29,
-     "chars": 56294,
-     "head": "- 1 - ※ 단지 주요정보 분양문의( ) 064-712-1135 주택유형 해당지역 기타지역 규제지역여부 민영 제주특별자치도 년 이상 계속 거주"
-    }
-   ],
-   "chosen": "https://static.applyhome.co.kr/ai/aia/getAtchmnfl.do?houseManageNo=2026000444&pblancNo=2026000444&atchmnflSeqNo=1988268&atchmnflSn=1",
-   "pages": 29,
-   "pages_read": 29,
-   "chars_read": 56322,
-   "empty_pages": [],
-   "chars_per_page_min": 700,
-   "fields": {
-    "need_head": false,
-    "price_cap": false,
-    "residence_duty": 0,
-    "rewin_years": 0,
-    "account_months": 6,
-    "residence": {
-     "area": "제주특별자치도",
-     "months": 12,
-     "since": "2025-10-02"
-    }
-   },
-   "fields_merged": {
-    "need_head": false,
-    "price_cap": false,
-    "residence_duty": 0,
-    "rewin_years": 0,
-    "account_months": 6,
-    "residence": {
-     "area": "제주특별자치도",
-     "months": 12,
-     "since": "2025-10-02"
-    }
-   },
-   "fields_pdfium": {
-    "need_head": false,
-    "price_cap": false,
-    "residence_duty": 0,
-    "rewin_years": 0,
-    "residence": {
-     "area": "제주특별자치도",
-     "months": 12,
-     "since": "2025-10-02"
-    }
-   },
-   "pdfium_chars": 56926,
-   "tool_diff": {
-    "account_months": [
-     6,
-     null
-    ]
-   },
-   "filled_by_second_tool": [
-    "account_months"
-   ],
-   "problem": []
-  },
-  {
    "notice": "2026000386",
    "name": "용인 양지 서희스타힐스 하이뷰 (조합원 취소분)",
    "url": "https://www.applyhome.co.kr/ai/aia/selectAPTLttotPblancDetail.do?houseManageNo=2026000386&pblancNo=2026000386",
@@ -2819,6 +2650,172 @@
     "pub_limits_kind": "town"
    },
    "pdfium_chars": 106813,
+   "problem": []
+  },
+  {
+   "notice": "2026000414",
+   "name": "인천계양지구 A6블록 공공분양주택(본청약)",
+   "url": "https://www.applyhome.co.kr/ai/aia/selectAPTLttotPblancDetail.do?houseManageNo=2026000414&pblancNo=2026000414",
+   "attachments": 0,
+   "pdfs": 1,
+   "attachment_list": [
+    {
+     "url": "https://apply.lh.or.kr/lhapply/lhFile.do?fileid=68595376",
+     "bytes": 1620040,
+     "pages": 47,
+     "chars": 179681,
+     "head": "- 1 - 인천계양지구 인천계양지구 인천계양지구 인천계양지구 인천계양지구 인천계양지구 인천계양지구 인천계양지구 인천계양지구 인천계양지구 인천계양",
+     "via": "LH청약플러스"
+    }
+   ],
+   "chosen": "https://apply.lh.or.kr/lhapply/lhFile.do?fileid=68595376",
+   "pages": 47,
+   "pages_read": 47,
+   "chars_read": 179727,
+   "empty_pages": [],
+   "chars_per_page_min": 445,
+   "fields": {
+    "need_head": false,
+    "price_cap": true,
+    "residence_duty": 0,
+    "rewin_years": 10,
+    "account_months": 12,
+    "deposit_count": 12,
+    "residence": {
+     "area": "인천광역시",
+     "months": 0,
+     "since": null
+    },
+    "pub_limits_kind": null,
+    "schedule": {
+     "pre": [
+      "2026-09-17",
+      "2026-09-18"
+     ],
+     "special": [
+      "2026-09-30",
+      "2026-09-30"
+     ],
+     "general": [
+      "2026-10-01",
+      "2026-10-02"
+     ]
+    }
+   },
+   "fields_merged": {
+    "need_head": false,
+    "price_cap": true,
+    "residence_duty": 0,
+    "rewin_years": 10,
+    "account_months": 12,
+    "deposit_count": 12,
+    "residence": {
+     "area": "인천광역시",
+     "months": 0,
+     "since": null
+    },
+    "pub_limits_kind": null,
+    "schedule": {
+     "pre": [
+      "2026-09-17",
+      "2026-09-18"
+     ],
+     "special": [
+      "2026-09-30",
+      "2026-09-30"
+     ],
+     "general": [
+      "2026-10-01",
+      "2026-10-02"
+     ]
+    }
+   },
+   "fields_pdfium": {
+    "need_head": false,
+    "price_cap": true,
+    "residence_duty": 0,
+    "rewin_years": 10,
+    "account_months": 12,
+    "deposit_count": 12,
+    "residence": {
+     "area": "인천광역시",
+     "months": 0,
+     "since": null
+    },
+    "pub_limits_kind": null,
+    "schedule": {
+     "pre": [
+      "2026-09-17",
+      "2026-09-18"
+     ],
+     "special": [
+      "2026-09-30",
+      "2026-09-30"
+     ],
+     "general": [
+      "2026-10-01",
+      "2026-10-02"
+     ]
+    }
+   },
+   "pdfium_chars": 178388,
+   "problem": []
+  },
+  {
+   "notice": "2026910281",
+   "name": "빌리브센트하이(2차)",
+   "url": "https://www.applyhome.co.kr/ai/aia/selectAPTRemndrLttotPblancDetailView.do?houseManageNo=2026910281&pblancNo=2026910281",
+   "attachments": 1,
+   "pdfs": 1,
+   "attachment_list": [
+    {
+     "url": "https://static.applyhome.co.kr/ai/aia/getAtchmnfl.do?houseManageNo=2026910281&pblancNo=2026910281&atchmnflSeqNo=2010088&atchmnflSn=4",
+     "bytes": 252886,
+     "pages": 12,
+     "chars": 16636,
+     "head": "- 1 - 당 현장은 준공이 완료된 아파트로 입주지정일은 계약 체결 후 최대 3~6개월입니다. 자금 사정으로 계약을 진행하기 어려운 경우 청약신"
+    }
+   ],
+   "chosen": "https://static.applyhome.co.kr/ai/aia/getAtchmnfl.do?houseManageNo=2026910281&pblancNo=2026910281&atchmnflSeqNo=2010088&atchmnflSn=4",
+   "pages": 12,
+   "pages_read": 12,
+   "chars_read": 16647,
+   "empty_pages": [],
+   "chars_per_page_min": 239,
+   "fields": {
+    "need_head": false,
+    "price_cap": false,
+    "residence_duty": 0,
+    "rewin_years": 0,
+    "residence": {
+     "area": null,
+     "months": 0,
+     "since": null
+    }
+   },
+   "fields_merged": {
+    "need_head": false,
+    "price_cap": false,
+    "residence_duty": 0,
+    "rewin_years": 0,
+    "residence": {
+     "area": null,
+     "months": 0,
+     "since": null
+    }
+   },
+   "fields_pdfium": {
+    "need_head": false,
+    "price_cap": false,
+    "residence_duty": 0,
+    "rewin_years": 0,
+    "residence": {
+     "area": null,
+     "months": 0,
+     "since": null
+    }
+   },
+   "pdfium_chars": 16433,
    "problem": []
   },
   {
@@ -4152,63 +4149,6 @@
     }
    },
    "pdfium_chars": 41735,
-   "problem": []
-  },
-  {
-   "notice": "2026930033",
-   "name": "도안 푸르지오 디아델 29블록",
-   "url": "https://www.applyhome.co.kr/ai/aia/selectAPTRemndrLttotPblancDetailView.do?houseManageNo=2026930033&pblancNo=2026930033",
-   "attachments": 1,
-   "pdfs": 1,
-   "attachment_list": [
-    {
-     "url": "https://static.applyhome.co.kr/ai/aia/getAtchmnfl.do?houseManageNo=2026930033&pblancNo=2026930033&atchmnflSeqNo=1988251&atchmnflSn=2",
-     "bytes": 614490,
-     "pages": 20,
-     "chars": 33916,
-     "head": "- 1 - ※ 정정공고 안내 (분양문의) 042-477-6565 ‣2026.10.06. 불법행위재공급 입주자모집공고의 내용 중 [3.공급대상 및"
-    }
-   ],
-   "chosen": "https://static.applyhome.co.kr/ai/aia/getAtchmnfl.do?houseManageNo=2026930033&pblancNo=2026930033&atchmnflSeqNo=1988251&atchmnflSn=2",
-   "pages": 20,
-   "pages_read": 20,
-   "chars_read": 33935,
-   "empty_pages": [],
-   "chars_per_page_min": 166,
-   "fields": {
-    "need_head": true,
-    "price_cap": false,
-    "residence_duty": 0,
-    "rewin_years": 0,
-    "residence": {
-     "area": "대전광역시",
-     "months": 0,
-     "since": null
-    }
-   },
-   "fields_merged": {
-    "need_head": true,
-    "price_cap": false,
-    "residence_duty": 0,
-    "rewin_years": 0,
-    "residence": {
-     "area": "대전광역시",
-     "months": 0,
-     "since": null
-    }
-   },
-   "fields_pdfium": {
-    "need_head": true,
-    "price_cap": false,
-    "residence_duty": 0,
-    "rewin_years": 0,
-    "residence": {
-     "area": "대전광역시",
-     "months": 0,
-     "since": null
-    }
-   },
-   "pdfium_chars": 33884,
    "problem": []
   }
  ]
