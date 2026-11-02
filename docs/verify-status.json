@@ -1,8 +1,14 @@
 {
- "at": "2026-11-03 06:11",
+ "at": "2026-11-03 06:13",
  "ok": false,
  "collect_run": "2026-11-03 · 공고 308건",
- "banner": null,
+ "banner": {
+  "kind": "unverified",
+  "text": "최근 자동 검증을 끝까지 마치지 못해 확인 중이에요.",
+  "why": [
+   "다시 돌리지 못한 검사 supply-type.json filter-check.json consistency.json sp-text.json cross-rule.json monotonic.json e2e.json past-chat.json verify-scope.json zero-default.json input-nav.json"
+  ]
+ },
  "flagged": {
   "SH-312351": [
    "자동 검증(임대 공고문 못 읽음): 청년 소득 기준을 공고문에서 읽지 못함 — 공고문 확인",
@@ -31,7 +37,7 @@
   {
    "name": "분양",
    "updated": "2026-11-03 06:10",
-   "hours": 0.0,
+   "hours": 0.1,
    "stale": false
   },
   {
@@ -43,25 +49,25 @@
   {
    "name": "SH 임대",
    "updated": "2026-11-02 10:03",
-   "hours": 20.1,
+   "hours": 20.2,
    "stale": false
   },
   {
    "name": "GH 임대",
    "updated": "2026-11-02 10:04",
-   "hours": 20.1,
+   "hours": 20.2,
    "stale": false
   },
   {
    "name": "공공지원 민간임대",
    "updated": "2026-11-02 10:16",
-   "hours": 19.9,
+   "hours": 20.0,
    "stale": false
   },
   {
    "name": "LH 주거복지·신혼희망",
    "updated": "2026-11-02 10:04",
-   "hours": 20.1,
+   "hours": 20.2,
    "stale": false
   }
  ],
@@ -120,6 +126,6 @@
   "cross_rule_checks": null,
   "market_at": "2026-11-03",
   "supply_type_at": null,
-  "invariants_at": "2026-11-03"
+  "invariants_at": "2026-11-02"
  }
 }
