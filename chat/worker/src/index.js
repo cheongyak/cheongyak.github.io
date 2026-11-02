@@ -10,6 +10,7 @@ import { selectGeneral } from './retrieve.js';
 import { checkLimit, markConversation, LIMIT_TEXT } from './limits.js';
 import { callClaude, MODEL } from './llm.js';
 import { bump, readStats, FEEDBACK_REASONS } from './stats.js';
+import { FREE_SYSTEM, FREE_VERSION, freeEvidence, buildFreeUser, checkFree, cleanListings, noticeId } from './free.js';
 
 const VERDICTS = ['가능', '불가', '확인 필요', '2순위만'];
 // 청약 전반 근거 (2026-10-02): 법령 조각 + 보고 있는 공고의 모집공고문 조각. 사이트(GitHub Pages)에서 받아 6시간 기억
@@ -163,6 +164,76 @@ export async function handleChat(env, input, deps = {}) {
   };
 }
 
+// 청약봇 자유 답변 /free (기능 bot_free_answer, 2026-11-03): 청약패스 데이터(공고 사실 P·공고문 조각 N·법령 L·화면 판정 E·찾기 결과 F) + AI 지식으로 직접 답한다.
+// 공개 여부·점검·하루 횟수·월 한도·운영자 무료 모드는 /chat 과 같다. 운영자 명령(!점검 등)은 /chat 으로 넘긴다.
+// AI 가 세 번 다 막히거나 실패하면 /chat 과 같은 '원문 조각' 기본 답(kind 'answer', fallback)으로 돌려준다.
+export async function handleFree(env, input, deps = {}) {
+  const t0 = Date.now();
+  const fetchImpl = deps.fetch || fetch, kv = deps.kv || env.CHAT_KV;
+  const { question, anon_id, conversation_id, history, ip } = input || {};
+  if (typeof question !== 'string' || !question.trim() || question.length > 500) return badRequest('질문은 1~500자');
+  if (typeof anon_id !== 'string' || anon_id.length < 8) return badRequest('anon_id 필요');
+  if (question.trim().startsWith('!')) return handleChat(env, { ...input, engine: null }, deps);   // 운영자 명령은 /chat 이 처리
+  const engine = input.engine && typeof input.engine === 'object' && Array.isArray(input.engine.items) ? input.engine : null;
+  const listings = cleanListings(input.listings);
+  const isOp = !!(env.CHAT_PREVIEW_CODE && input.preview === env.CHAT_PREVIEW_CODE);
+  const mode = kv ? await kv.get('mode') : null;
+  const opFree = isOp && input.free === true;
+  if (mode === 'maint') return { status: 503, body: { maint: true, message: '지금은 청약봇 점검 중이에요. 잠시 뒤 다시 이용해 주세요.' } };
+  if (env.CHAT_OPEN !== '1' && mode !== 'open' && !isOp) return { status: 403, body: { closed: true, message: '아직 준비 중인 기능이에요.' } };
+  const lim = isOp ? { ok: true, followUp: false, followN: 0, remaining: null } : await checkLimit(kv, { anonId: anon_id, ip: ip || '', conversationId: conversation_id, salt: env.CHAT_STATS_TOKEN || '' });
+  if (!lim.ok) { await bump(kv, { ['limited_' + lim.reason]: true }); return { status: 429, body: { limited: lim.reason, message: LIMIT_TEXT[lim.reason] } }; }
+
+  const q = redact(question);
+  const hist = (Array.isArray(history) ? history : []).slice(-4).map(h => ({ role: h && h.role, text: redact(h && h.text).text }));
+  const intent = classify(q.text);
+  const log = { free: FREE_VERSION, intent, listings: listings.length, engine: !!engine, pii: q.found, model: MODEL };
+  if (intent === 'out_of_scope') {
+    await markConversation(kv, conversation_id, false);
+    await bump(kv, { q: true, follow_up: lim.followUp, intent, pii: q.found.length > 0 });
+    return { status: 200, body: { kind: 'out_of_scope', message: OUT_OF_SCOPE_TEXT, pii: q.found, remaining: lim.remaining, log } };
+  }
+
+  const nids = [...new Set(listings.map(L => noticeId(L.id)).filter(Boolean))];
+  const [law, ...docs] = await Promise.all([deps.law !== undefined ? deps.law : docJson(env, fetchImpl, 'chat-law.json'),
+    ...nids.map(nid => deps.notices ? (deps.notices[nid] || null) : docJson(env, fetchImpl, `chat-notice/${nid}.json`))]);
+  const notices = Object.fromEntries(nids.map((nid, i) => [nid, docs[i]]));
+  const find = typeof input.find === 'string' ? redact(input.find).text : '';
+  const evidence = freeEvidence({ question: q.text, listings, notices, law, engine, find });
+  const today = deps.today || new Date(Date.now() + 9 * 3600e3).toISOString().slice(0, 10);
+
+  let answer = null, attempts = [];
+  const apiKey = env.ANTHROPIC_API_KEY;
+  const overBudget = (await monthSpent(kv)) >= monthCap(env);
+  if ((apiKey || deps.llm) && !overBudget && !opFree) {
+    let user = buildFreeUser({ question: q.text, today, evidence, history: hist });
+    for (let i = 0; i < 3 && !answer; i++) {
+      try {
+        const r = deps.llm ? await deps.llm({ system: FREE_SYSTEM, user, attempt: i }) : await callClaude({ apiKey, system: FREE_SYSTEM, user, fetchImpl, maxTokens: 1800 });
+        const v = checkFree(r.text, { evidence });
+        attempts.push({ ok: v.ok, flags: v.flags, usage: r.usage || null });
+        if (v.ok) answer = v.answer;
+        else user += `\n\nPREVIOUS_ANSWER_REJECTED: ${v.flags.join(' / ')}\n위 문제를 고쳐 JSON 으로 다시 써라.`;
+      } catch (e) { attempts.push({ ok: false, flags: ['호출 실패: ' + e.message] }); break; }
+    }
+  }
+  await addMonthSpent(kv, attempts);
+  await markConversation(kv, conversation_id, !!(answer && answer.ask), lim.followUp ? lim.followN + 1 : 0);
+  await bump(kv, { over_budget: overBudget, q: true, follow_up: lim.followUp, intent, verdict: 'free', pii: q.found.length > 0, ai_calls: attempts.length, rejected: attempts.filter(a => !a.ok).length, fallback: !answer,
+    in_tokens: attempts.reduce((n, a) => n + ((a.usage && a.usage.input_tokens) || 0), 0), out_tokens: attempts.reduce((n, a) => n + ((a.usage && a.usage.output_tokens) || 0), 0) });
+  Object.assign(log, { attempts: attempts.map(a => ({ ok: a.ok, flags: a.flags.length })), fallback: !answer, ms: Date.now() - t0 });
+  const diag = isOp ? { opFree, overBudget, key: !!apiKey, evidence: evidence.map(e => e.id).join(' '), attempts: attempts.map(a => ({ ok: a.ok, flags: a.flags, tokens: a.usage ? (a.usage.input_tokens || 0) + '/' + (a.usage.output_tokens || 0) : null })) } : undefined;
+  const srcOf = e => ({ id: e.id, kind: e.kind, title: e.title, url: e.url || null, quote: e.kind === 'listing' ? '' : e.text.slice(0, 220) });
+  if (!answer) {   // 기본 답: 공고문·법령 원문 조각 (기존 /chat 과 같은 모양)
+    const fb = fallbackGeneral({ engine: null, evidence: evidence.filter(e => e.kind === 'notice' || e.kind === 'law'), intent: 'rule' });
+    const used = new Set((fb.official || []).flatMap(x => x.refs || []));
+    return { status: 200, body: { kind: 'answer', verdict: null, answer: fb, sources: evidence.filter(e => used.has(e.id)).map(srcOf), fallback: true, pii: q.found, follow_up: lim.followUp, remaining: lim.remaining, log, diag } };
+  }
+  const used = new Set(answer.refs);
+  return { status: 200, body: { kind: 'free', answer: { text: answer.text, ask: answer.ask }, sources: evidence.filter(e => used.has(e.id)).map(srcOf), today,
+    notice: '참고용이에요. 신청 전 모집공고문과 청약홈에서 꼭 확인하세요.', pii: q.found, follow_up: lim.followUp, remaining: lim.remaining, fallback: false, log, diag } };
+}
+
 // 답변 평가: 좋아요·아쉬워요와 이유만 하루 합계로 (질문·답변 원문은 받지 않는다)
 export async function handleFeedback(env, input, deps = {}) {
   const kv = deps.kv || env.CHAT_KV;
@@ -193,13 +264,13 @@ export default {
     const h = cors(env, origin);
     if (!h) return new Response('forbidden', { status: 403 });
     if (request.method === 'OPTIONS') return new Response(null, { status: 204, headers: h });
-    if (request.method !== 'POST' || !['/chat', '/feedback', '/v2/llm'].includes(path)) return new Response('not found', { status: 404, headers: h });
+    if (request.method !== 'POST' || !['/chat', '/feedback', '/v2/llm', '/free'].includes(path)) return new Response('not found', { status: 404, headers: h });
     const len = +(request.headers.get('content-length') || 0);
     if (len > 40000) return new Response('too large', { status: 413, headers: h });
     let input;
     try { input = await request.json(); } catch (e) { return new Response('bad json', { status: 400, headers: h }); }
     input.ip = request.headers.get('cf-connecting-ip') || '';
-    const r = path === '/feedback' ? await handleFeedback(env, input) : path === '/v2/llm' ? await handleV2Llm(env, input) : await handleChat(env, input);
+    const r = path === '/feedback' ? await handleFeedback(env, input) : path === '/free' ? await handleFree(env, input) : path === '/v2/llm' ? await handleV2Llm(env, input) : await handleChat(env, input);
     if (r.body && r.body.log) { console.log(JSON.stringify(r.body.log)); delete r.body.log; }   // 개인정보 없는 집계만 로그로
     return new Response(JSON.stringify(r.body), { status: r.status, headers: { ...h, 'content-type': 'application/json; charset=utf-8' } });
   },

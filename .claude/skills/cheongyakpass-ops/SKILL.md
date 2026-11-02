@@ -47,6 +47,9 @@ description: 청약패스(cheongyakpass.kr, 저장소 cheongyak/cheongyak.github
 8. **HANDOFF.md '진행 중인 일' 갱신** 후 사용자에게 결과를 짧게 알린다 (무엇이 바뀌었나, 확인한 것, 사용자가 할 일).
 
 ## 4. 알아 둔 함정
+- **청약봇 길 세 갈래 (2026-11-03)**: `/chat`(판정 그대로 옮기는 설명, 엄격 검사기) · `/v2/llm`(공고 찾기 AI 설명) · `/free`(기능 bot_free_answer, 데이터 + AI 지식으로 직접 답, 가벼운 검사기). 켜져 있으면 청약봇·이 공고 물어보기는 `/free` 를 쓴다. 화면 검사는 `node tools/qa/free_answer.cjs [사진 폴더]`(실제 서버 코드 + 미리 쓴 답), 예전 길 검사 `tools/qa/chatflow.cjs` 는 bot_free_answer 를 끄고 돈다. 화면 공고 객체는 fromApi 뒤 camelCase(specialApply·noticePdf·needHead·mktLow …) — listings.json 의 snake_case 이름으로 읽으면 빈 값이 된다.
+- **청약봇 서버 시험은 고정본을 읽는다 (2026-11-03)**: docs/rules-evidence.txt·docs/chat-notice 는 매일 다시 만들어져 골든 답의 근거 번호가 어긋난다 → chat/golden/rules-evidence.frozen.txt·free_notice_2026000528.json. chat-worker.yml 은 시험이 깨지면 배포를 안 하므로, 청약봇 서버를 고쳤는데 반영이 안 되면 그 실행의 시험 단계부터 본다.
+- **ubuntu-latest = Ubuntu 26 (2026-11-02~)**: Playwright 1.56 `install --with-deps` 가 실패해 브라우저 검사가 통째로 안 돎(판정 검증 단계 2초) → 브라우저 쓰는 작업은 runs-on: ubuntu-24.04. Playwright 를 1.61 이상으로 올리면 되돌릴 수 있음.
 - 근거 자료 갱신(evidence-collect)으로 새 공고문 원문이 들어오면 '저장 원문 전수' 시험(resale·residence·score_ratio·pay)이 다음 아침 수집 pytest 에서 실패해 수집이 멈출 수 있다. 같은 날 손 실행 collect 는 daily-run 이 이미 있으면 pytest 까지 건너뛰어 미리 안 걸린다 → 작업 전 `git pull` 뒤 로컬 pytest 로 새 원문 실패를 먼저 본다 (10-31: 527·528·539·820013). LH 임대 계층 추가 요건 문구(notes)는 화면 lhNoteKey·LH_Q·생성기 nk 세 곳에 함께 넣어야 '답하기'가 생기고 lh_unread 가 안 걸린다
 - 새 '확인 필요'·'입력 필요' 문구를 만들면 바로 답하기(inline_fix)의 질문 매핑(FIX_KEYS·SP_FIX·PEND_FIX)에도 넣고 `node tools/qa/fixflow.cjs` 로 답한 뒤 판정되는지 확인한다. 사용자가 '입력했는데 계속 확인 필요'라고 하면 이 매핑부터 본다.
 - 판정 정확도 점검은 블라인드 감사로: tools/qa/audit/README.md (검토자는 공고문·법령 원문만 보고, 앱 코드·결과는 안 봄). 불일치는 원문으로 누가 맞는지 가린 뒤 앱이 틀렸을 때만 사례 추가·수정.

@@ -4,6 +4,16 @@
 2026-09-29 12:55 이전 항목은 규칙을 만들기 전 작업을 커밋 기록으로 정리한 것이라 백업 브랜치가 없어요.
 그 시점으로 되돌릴 때는 해당 커밋 번호로 `git revert` 를 써요.
 
+## 2026-11-03 07:13 · 청약봇 자유 답변 (데이터 + AI 지식으로 직접 답)
+- 요청: '어제 세대주 됐는데 광교 자연앤센트레빌 쓸 수 있어?'에 청약봇이 답을 못 함 → '판정을 내주는 것보다 청약패스 데이터를 활용하고 AI 의 지식을 활용해서 답해 줘. 너가 대답하듯' (AI 는 Haiku 그대로, 바로 모두에게)
+- 원인: 이 질문은 공고 찾기 갈래로 가서 '광교' 지역 검색 결과(공고 카드)만 나옴. 기존 AI 는 화면 판정을 그대로 옮기고 근거에 글자 그대로 있는 숫자만 쓰게 묶여 있어 '어제'를 날짜로 바꿔 공고일(10-30, 자격 판단 기준일)과 견주는 답을 낼 수 없었음. 판정에도 '세대주가 된 날'이 없음
+- 변경: 청약봇 서버에 /free 추가(chat/worker/src/free.js, index.js handleFree) — 근거 P(공고 사실)·N(모집공고문 조각, 날짜 질문이면 판단기준일 조각 필수)·L(법령)·E(이 공고 물어보기의 내 판정 요약)·F(찾기 결과)를 주고 AI 가 제도 지식까지 써서 답. 검사기는 형식·길이·금지 표현·개인정보·없는 근거 번호만, 세 번 막히면 원문 조각 기본 답. 공개·점검·하루 횟수·월 한도·운영자 명령은 /chat 과 같음. 화면: 청약봇 제도 질문 → 청약 질문 화면, 공고 찾기 → 카드 위 '청약봇 답'(V2 AI 설명 대신), 되물음 '이어서 답하기'(앞 질문·답·같은 공고), 이 공고 물어보기 → 자유 답 말풍선. 청약봇 화면에서는 내 조건 값·판정을 보내지 않음(동의 문구 그대로)
+- 파일: chat/worker/src/free.js(새), chat/worker/src/index.js, chat/test/chat.test.mjs, chat/golden/free_notice_2026000528.json(새, 시험 고정본), docs/index.html, docs/bot/find.mjs, docs/config.json, docs/changelog.json, tools/qa/free_answer.cjs(새), tools/qa/chatflow.cjs(예전 길 검사라 bot_free_answer 끔), VERSIONS.md, FEATURES.md, HANDOFF.md, WORK.md, .claude/skills/cheongyakpass-ops/SKILL.md
+- 확인: chat 시험 49/49(/free 6개 새로), golden eval 2종 0, V2 시험 94/94, judge_check 970/970, pytest 실패 14 = 대체 모듈 기준선과 같음, 스크립트 문법 검사, 브라우저 tools/qa/free_answer.cjs 54/54(390px 밝은·어두운: 광교 질문 → /free 에 528·527 공고 사실, 내 조건 값·판정 안 보냄, 답 칸·근거·카드·이어서 답하기, 제도 질문, 막히면 기본 답, 이 공고 물어보기, 끄면 /chat), 화면 사진 확인. 실제 AI 답은 배포 뒤 청약봇 실제 답 시험(chat-probe)으로 확인
+- 기능: bot_free_answer
+- 버전: v1.83.0
+- 백업: backup/20261103-0713
+
 ## 2026-11-03 07:13 · 청약봇 서버 시험의 근거 자료 고정
 - 요청: 청약봇이 데이터+AI 지식으로 답하게 (그 전에 서버 배포를 막던 시험 실패 수리)
 - 변경: chat/test·golden/eval 이 매일 다시 만들어지는 docs/rules-evidence.txt 를 읽어, 10-31 근거 갱신 뒤 골든 답의 공고문 근거 번호(N3·N4·N6)가 사라져 시험 6개 실패 → 배포(chat-worker.yml) 단계가 막힌 상태였음. 마지막 배포(64d7902) 때의 근거 자료를 chat/golden/rules-evidence.frozen.txt 로 고정해 시험이 그것을 읽게 함
