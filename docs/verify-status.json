@@ -1,31 +1,25 @@
 {
- "at": "2026-11-03 06:43",
+ "at": "2026-11-03 07:06",
  "ok": false,
  "collect_run": "2026-11-03 · 공고 308건",
- "banner": {
-  "kind": "unverified",
-  "text": "최근 자동 검증을 끝까지 마치지 못해 확인 중이에요.",
-  "why": [
-   "다시 돌리지 못한 검사 supply-type.json filter-check.json consistency.json sp-text.json cross-rule.json monotonic.json e2e.json past-chat.json rent-org.json verify-scope.json zero-default.json input-nav.json lh-qa.json lh-screen.json lh-unread.json"
+ "banner": null,
+ "flagged": {
+  "2015122300020962": [
+   "자동 검증(임대 공고문 못 읽음): 일반 소득 기준을 공고문에서 읽지 못함 — 공고문 확인",
+   "자동 검증(임대 공고문 못 읽음): 일반 총자산 기준을 공고문에서 읽지 못함 — 공고문 확인"
+  ],
+  "SH-312351": [
+   "자동 검증(임대 공고문 못 읽음): 청년 소득 기준을 공고문에서 읽지 못함 — 공고문 확인",
+   "자동 검증(임대 공고문 못 읽음): 청년 공고문의 총자산 금액이 잘못 적혀 있어요('2억5,1000만 원') — 정확한 기준은 운영기관에 확인",
+   "자동 검증(임대 공고문 못 읽음): 신혼부부 소득 기준을 공고문에서 읽지 못함 — 공고문 확인",
+   "자동 검증(임대 공고문 못 읽음): 1인가구 소득 기준을 공고문에서 읽지 못함 — 공고문 확인"
   ]
  },
- "flagged": {},
  "pending": [
-  "공급유형 표시",
-  "필터",
-  "카드·상세 일치",
-  "특별공급 문구",
-  "교차 규칙",
-  "단조성",
-  "사용자 흐름",
-  "지난 공고·청약봇",
   "임대 기관 거르기 화면",
   "경고 범위 화면",
-  "빈칸 기본값",
-  "입력 버튼",
   "임대 판정",
-  "임대 화면",
-  "임대 공고문 못 읽음"
+  "임대 화면"
  ],
  "coverage_missing": 0,
  "observe": [],
@@ -33,38 +27,38 @@
  "freshness": [
   {
    "name": "분양",
-   "updated": "2026-11-03 06:10",
-   "hours": 0.6,
+   "updated": "2026-11-03 06:50",
+   "hours": 0.3,
    "stale": false
   },
   {
    "name": "LH 임대",
    "updated": "2026-11-03 06:31",
-   "hours": 0.2,
+   "hours": 0.6,
    "stale": false
   },
   {
    "name": "SH 임대",
-   "updated": "2026-11-03 06:36",
-   "hours": 0.1,
+   "updated": "2026-11-03 06:46",
+   "hours": 0.3,
    "stale": false
   },
   {
    "name": "GH 임대",
-   "updated": "2026-11-03 06:37",
-   "hours": 0.1,
+   "updated": "2026-11-03 06:46",
+   "hours": 0.3,
    "stale": false
   },
   {
    "name": "공공지원 민간임대",
-   "updated": "2026-11-03 06:40",
-   "hours": 0.1,
+   "updated": "2026-11-03 06:46",
+   "hours": 0.3,
    "stale": false
   },
   {
    "name": "LH 주거복지·신혼희망",
    "updated": "2026-11-03 06:35",
-   "hours": 0.1,
+   "hours": 0.5,
    "stale": false
   }
  ],
@@ -81,42 +75,31 @@
   "mismatches": []
  },
  "qa_stale": [
-  "supply-type.json",
-  "filter-check.json",
-  "consistency.json",
-  "sp-text.json",
-  "cross-rule.json",
-  "monotonic.json",
-  "e2e.json",
-  "past-chat.json",
   "rent-org.json",
   "verify-scope.json",
-  "zero-default.json",
-  "input-nav.json",
   "lh-qa.json",
-  "lh-screen.json",
-  "lh-unread.json"
+  "lh-screen.json"
  ],
  "qa": {
   "gate": true,
-  "supply_type_fails": null,
+  "supply_type_fails": 0,
   "invariant_violations": 0,
-  "filter_fails": null,
-  "consistency_fails": null,
-  "sp_text_fails": null,
+  "filter_fails": 0,
+  "consistency_fails": 0,
+  "sp_text_fails": 0,
   "market_fails": 0,
-  "cross_rule_fails": null,
+  "cross_rule_fails": 0,
   "profile_keep_fails": 0,
-  "monotonic_violations": null,
-  "zero_default_violations": null,
-  "input_nav_problems": null,
+  "monotonic_violations": 0,
+  "zero_default_violations": 0,
+  "input_nav_problems": 0,
   "snapshot_diffs": 0,
-  "e2e_fails": null,
-  "past_chat_fails": null,
+  "e2e_fails": 0,
+  "past_chat_fails": 0,
   "lh_invariant_violations": 0,
   "lh_judge_qa_fails": null,
   "lh_screen_fails": null,
-  "lh_unread": null,
+  "lh_unread": 6,
   "lh_pdf_merged_wrong": 0,
   "pay_audit_bad": 0,
   "parse_moved_changes": 0,
@@ -124,9 +107,9 @@
   "verify_scope_fails": null,
   "pay_audit_read": "157/173",
   "lh_data_at": "2026-11-03 06:31",
-  "cross_rule_checks": null,
+  "cross_rule_checks": 319418,
   "market_at": "2026-11-03",
-  "supply_type_at": null,
-  "invariants_at": "2026-11-02"
+  "supply_type_at": "2026-11-02",
+  "invariants_at": "2026-11-03"
  }
 }
