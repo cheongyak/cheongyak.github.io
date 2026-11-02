@@ -47,6 +47,28 @@ export async function general(question, { chat = null } = {}) {
   return rec;
 }
 
+// 기능 bot_free_answer (2026-11-03): 청약봇 서버 /free — 청약패스 데이터(공고 사실·공고문·법령·찾기 결과) + AI 지식으로 직접 답한다.
+// call: 화면 freeCall. attachTo: 공고 찾기 결과에 답을 붙일 때(그 기록을 갱신), 없으면 '청약 질문' 기록을 새로 만든다.
+export async function free(question, { call, listings = [], find = '', history = [], cid = null, attachTo = null } = {}) {
+  const rec = { id: 'f' + Date.now().toString(36), q: question, at: new Date().toISOString(), kind: '청약 질문', mode: 'free', free: null, ans: null, sources: [], note: '',
+    profile: parseProfile(question), cid: cid || ('q' + Date.now().toString(36)), listingIds: listings.map(L => L.id) };
+  try {
+    const { resp, res } = await call({ question, listings, find, history, cid: rec.cid });
+    if (res && res.kind === 'free' && res.answer) rec.free = { text: res.answer.text, ask: res.answer.ask || null, sources: res.sources || [], remaining: res.remaining, diag: res.diag || null, today: res.today || null };
+    else if (res && res.kind === 'answer' && res.answer) { rec.mode = 'general'; rec.ans = res.answer; rec.sources = res.sources || []; rec.fallback = true; rec.remaining = res.remaining; rec.diag = res.diag || null; }   // AI 가 막혀 원문 조각 기본 답
+    else if (res && res.kind === 'admin') rec.note = '운영자 명령 · ' + (res.message || '');
+    else rec.note = (res && res.message) || (resp && resp.status === 429 ? '오늘 질문을 모두 쓰셨어요.' : '답을 받지 못했어요. 잠시 뒤 다시 해 보세요.');
+  } catch (e) { rec.note = '연결이 원활하지 않아요. 잠시 뒤 다시 해 보세요.'; }
+  if (attachTo) {   // 찾기 기록에 붙이기 — 이어서 답하기를 위해 cid·공고도 함께
+    if (rec.free) { attachTo.free = rec.free; attachTo.cid = rec.cid; attachTo.listingIds = rec.listingIds; }
+    try { const h = history_(); const x = h.find(y => y.id === attachTo.id); if (x && rec.free) { x.free = rec.free; x.cid = rec.cid; x.listingIds = rec.listingIds; localStorage.setItem(KEY, JSON.stringify(h)); } } catch (e) {}
+    return rec;
+  }
+  remember({ id: rec.id, q: rec.q, at: rec.at, kind: rec.kind, mode: rec.mode, free: rec.free, ans: rec.ans, sources: rec.sources, note: rec.note, fallback: rec.fallback, profile: rec.profile, cid: rec.cid, listingIds: rec.listingIds, text: '', cards: [] });
+  return rec;
+}
+const history_ = () => history();
+
 // 질문 하나 → { id, q, at, kind, text, cards, understood, profile:{set,shown,ask}, steps }
 export async function find(W, question, { profile = null, state = null, llm = null, forceSearch = false } = {}) {
   const E = await engine();

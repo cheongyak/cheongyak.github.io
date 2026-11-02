@@ -14,7 +14,7 @@ const { loadEngine, buildEngine } = require('../tools/engine_payload.cjs');
 
 const REPO = process.env.REPO || new URL('../..', import.meta.url).pathname.replace(/\/$/, '');
 const eng = loadEngine(REPO + '/docs', REPO + '/tests/judge/listings.json');
-const index = parseEvidence(fs.readFileSync(REPO + '/docs/rules-evidence.txt', 'utf8'));
+const index = parseEvidence(fs.readFileSync(new URL('../golden/rules-evidence.frozen.txt', import.meta.url), 'utf8'))   // 고정본: docs/rules-evidence.txt 는 매일 바뀌어 골든 답의 근거 번호(N3…)가 어긋남 (2026-11-03);
 const G = Object.fromEntries(JSON.parse(fs.readFileSync(new URL('../golden/golden_v0.json', import.meta.url))).map(g => [g.id, g]));
 const GOOD = JSON.parse(fs.readFileSync(new URL('../golden/fixtures_good.json', import.meta.url)));
 const OPEN = { CHAT_OPEN: '1' };
@@ -317,4 +317,70 @@ test('제도 질문: tips(상황별 추천)도 숫자·근거 검사를 받는�
   assert.ok(ok.ok, ok.flags.join(','));
   const bad = validate(JSON.stringify({ ...base, tips: [{ situation: '공공분양', advice: '월 30만원이 좋아요', refs: ['L9'] }] }), { engine: null, evidence: ev, question: '매달 얼마 넣는 게 좋아요? 25만원?' });
   assert.ok(!bad.ok && bad.flags.some(f => /30/.test(f)) && bad.flags.some(f => /L9/.test(f)));
+});
+
+// ── 청약봇 자유 답변 /free (기능 bot_free_answer, 2026-11-03) ──
+import { handleFree } from '../worker/src/index.js';
+import { freeEvidence, checkFree } from '../worker/src/free.js';
+const N528 = JSON.parse(fs.readFileSync(new URL('../golden/free_notice_2026000528.json', import.meta.url)));
+const FLAW = JSON.parse(fs.readFileSync(REPO + '/docs/chat-law.json', 'utf8'));
+const F528 = { id: '2026000528-084.7637A', facts: { '단지': '광교 자연앤 센트레빌(A17BL) 공공분양주택', '주택형': '84A', '공고일': '2026-10-30', '규제': '투기과열', '세대주 요건': true } };
+const freeIn = (extra = {}) => ({ question: '어제 세대주 됐는데 광교 자연앤센트레빌 쓸 수 있어?', listings: [F528], anon_id: 'tester-free-1', conversation_id: 'cf-1', ip: '8.8.8.8', ...extra });
+const freeDeps = (llm, extra = {}) => ({ kv: new MemKV(), law: FLAW, notices: { '2026000528': N528 }, today: '2026-11-03', llm, ...extra });
+const GOODFREE = JSON.stringify({ answer: '공고일(2026.10.30.) 기준으로는 세대주가 아니라서 생애최초·노부모부양 특별공급과 일반공급 1순위는 신청할 수 없어요 [N1]. 신혼부부·신생아·다자녀 특별공급은 세대주가 아니어도 돼요 [P1].\n- 신청 전 모집공고문과 청약홈에서 확인하세요.', refs: ['N1', 'P1'], ask: null });
+
+test('free: 날짜 질문이면 공고문의 판단기준일 조각을 근거에 넣는다', () => {
+  const ev = freeEvidence({ question: '어제 세대주 됐는데 쓸 수 있어?', listings: [F528], notices: { '2026000528': N528 }, law: FLAW });
+  assert.ok(ev.some(e => e.id === 'P1' && e.kind === 'listing'));
+  assert.ok(ev.some(e => e.kind === 'notice' && /판단기준일/.test(e.text)), '판단기준일 조각');
+  assert.ok(ev.some(e => e.kind === 'notice' && /세대주만/.test(e.text)), '세대주만 가능 조각');
+  assert.ok(ev.some(e => e.kind === 'law'));
+});
+
+test('free: 좋은 답은 그대로, 오늘 날짜와 근거를 AI 에 넘긴다', async () => {
+  let seen = '';
+  const r = await handleFree(OPEN, freeIn(), freeDeps(async ({ user }) => { seen = user; return { text: GOODFREE }; }));
+  assert.equal(r.status, 200); assert.equal(r.body.kind, 'free'); assert.equal(r.body.fallback, false);
+  assert.match(r.body.answer.text, /세대주/); assert.deepEqual(r.body.sources.map(s => s.id).sort(), ['N1', 'P1']);
+  assert.match(seen, /TODAY: 2026-11-03/); assert.match(seen, /판단기준일/);
+});
+
+test('free: 금지 표현·없는 근거 번호·개인정보는 다시 쓰게 하고, 세 번 다 막히면 원문 조각 기본 답', async () => {
+  assert.match(checkFree(JSON.stringify({ answer: '무조건 신청할 수 있어요. 공고일 기준 세대주 요건을 확인해 보면 문제없어요.', refs: [] }), { evidence: [] }).flags.join(), /금지 표현/);
+  assert.match(checkFree(JSON.stringify({ answer: '공고일 기준으로 세대주가 아니어서 1순위는 어렵고 2순위는 돼요 [N9].', refs: [] }), { evidence: [{ id: 'N1' }] }).flags.join(), /없는 근거 번호 N9/);
+  assert.match(checkFree(JSON.stringify({ answer: '연락처 010-1234-5678 로 확인하세요. 공고일 기준 세대주 요건이 있어요.', refs: [] }), { evidence: [] }).flags.join(), /개인정보/);
+  let n = 0;
+  const bad = JSON.stringify({ answer: '로또 청약이라 무조건 넣으세요. 세대주 요건은 공고문에서 확인하세요.', refs: [] });
+  const r1 = await handleFree(OPEN, freeIn(), freeDeps(async ({ attempt, user }) => { n++; if (attempt === 1) assert.match(user, /PREVIOUS_ANSWER_REJECTED/); return { text: attempt === 2 ? GOODFREE : bad }; }));
+  assert.equal(r1.body.kind, 'free'); assert.equal(n, 3);
+  const r2 = await handleFree(OPEN, freeIn(), freeDeps(async () => ({ text: bad })));
+  assert.equal(r2.body.kind, 'answer'); assert.equal(r2.body.fallback, true); assert.equal(r2.body.answer.verdict, null);
+});
+
+test('free: 개인정보는 가려서 보내고, 범위 밖 질문은 AI 를 안 부른다', async () => {
+  let seen = '', called = false;
+  await handleFree(OPEN, freeIn({ question: '제 번호 010-1234-5678 인데 세대주 언제 돼야 해요?' }), freeDeps(async ({ user }) => { seen = user; return { text: GOODFREE }; }));
+  assert.ok(!seen.includes('5678')); assert.match(seen, /전화번호 가림/);
+  const r = await handleFree(OPEN, freeIn({ question: '이 아파트 사도 될까요? 오를까요?' }), freeDeps(async () => { called = true; return { text: GOODFREE }; }));
+  assert.equal(r.body.kind, 'out_of_scope'); assert.equal(called, false);
+});
+
+test('free: 공개 전·점검 중·하루 횟수는 /chat 과 같고, 운영자 명령은 /chat 으로', async () => {
+  const llm = async () => ({ text: GOODFREE });
+  assert.equal((await handleFree({}, freeIn(), freeDeps(llm))).status, 403);
+  const kv = new MemKV(); await kv.put('mode', 'maint');
+  assert.equal((await handleFree(OPEN, freeIn(), freeDeps(llm, { kv }))).status, 503);
+  const kv2 = new MemKV(), d = freeDeps(llm, { kv: kv2 });
+  const s = []; for (let i = 0; i < 3; i++) s.push((await handleFree(OPEN, freeIn({ conversation_id: 'cf-lim-' + i }), d)).status);
+  assert.deepEqual(s, [200, 200, 429]);
+  const adm = await handleFree({ ...OPEN, CHAT_PREVIEW_CODE: 'op-code-1' }, freeIn({ question: '!상태', preview: 'op-code-1' }), freeDeps(llm));
+  assert.equal(adm.body.kind, 'admin');
+});
+
+test('free: 서버 길 /free 는 허용한 사이트에서만', async () => {
+  const env = { ...OPEN, ALLOWED_ORIGINS: 'https://cheongyakpass.kr', CHAT_KV: new MemKV() };
+  const bad = await worker.fetch(new Request('https://x/free', { method: 'POST', headers: { origin: 'https://evil.example', 'content-type': 'application/json' }, body: '{}' }), env);
+  assert.equal(bad.status, 403);
+  const ok = await worker.fetch(new Request('https://x/free', { method: 'POST', headers: { origin: 'https://cheongyakpass.kr', 'content-type': 'application/json' }, body: JSON.stringify({ question: '', anon_id: 'x' }) }), env);
+  assert.equal(ok.status, 400);
 });

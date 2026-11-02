@@ -18,7 +18,7 @@ class MemKV { constructor() { this.m = new Map(); } async get(k) { return this.m
         return r.fulfill({ status: out.status, body: JSON.stringify(out.body), headers: { 'access-control-allow-origin': '*', 'content-type': 'application/json' } }); }
       if (u.hostname !== 'j.local') return r.abort();
       const f = join(DOCS, u.pathname === '/' ? 'index.html' : decodeURIComponent(u.pathname.slice(1)));
-      if (u.pathname === '/config.json') { const c = JSON.parse(readFileSync(f, 'utf8')); Object.assign(c, cfgPatch.top || {}); Object.assign(c.features, cfgPatch.features || {}); return r.fulfill({ status: 200, body: JSON.stringify(c), contentType: 'application/json' }); }
+      if (u.pathname === '/config.json') { const c = JSON.parse(readFileSync(f, 'utf8')); Object.assign(c, cfgPatch.top || {}); Object.assign(c.features, { bot_free_answer: false }, cfgPatch.features || {});   /* 이 검사는 예전 /chat 길 — 자유 답변(/free)은 tools/qa/free_answer.cjs */ return r.fulfill({ status: 200, body: JSON.stringify(c), contentType: 'application/json' }); }
       if (!existsSync(f)) return r.fulfill({ status: 404, body: '' }); r.fulfill({ status: 200, body: readFileSync(f), contentType: extname(f) === '.html' ? 'text/html' : 'application/json' }); });
     await p.goto('http://j.local/' + (cfgPatch.query || ''), { waitUntil: 'networkidle' }); await p.waitForTimeout(500);
     return { p, errs };

@@ -18,7 +18,7 @@ const only = args.includes('--only') ? args[args.indexOf('--only') + 1] : null;
 
 const golden = JSON.parse(fs.readFileSync(new URL('./golden_v0.json', import.meta.url), 'utf8')).filter(g => !only || g.id.startsWith(only));
 const eng = loadEngine(REPO + '/docs', REPO + '/tests/judge/listings.json');
-const evidence = parseEvidence(fs.readFileSync(REPO + '/docs/rules-evidence.txt', 'utf8'));
+const evidence = parseEvidence(fs.readFileSync(new URL('../golden/rules-evidence.frozen.txt', import.meta.url), 'utf8'))   // 고정본: docs/rules-evidence.txt 는 매일 바뀌어 골든 답의 근거 번호(N3…)가 어긋남 (2026-11-03);
 
 class MemKV { constructor() { this.m = new Map(); } async get(k) { return this.m.has(k) ? this.m.get(k) : null; } async put(k, v) { this.m.set(k, v); } async delete(k) { this.m.delete(k); } }
 const S2V = { ok: '가능', fail: '불가', warn: '확인 필요' };
