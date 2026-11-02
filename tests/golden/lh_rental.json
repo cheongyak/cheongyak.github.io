@@ -4011,6 +4011,38 @@
    "income_add_per": 959198,
    "rents": null,
    "notes": "고령자복지주택: 65세 이상만 신청. 임대조건 표는 이번에 대조하지 않음(rents null)"
+  },
+  {
+   "id": "2015122300020962",
+   "type": "국민임대",
+   "verified_from": "공주시(덕성그린시티빌,신한1차) 국민임대주택 자격완화(소득․자산배제) 예비입주자 모집 (입주자 모집공고일 2026.11.02, 주택관리번호 2026-000556, LH 공고번호 2015122300020962) — 원문 evidence/lh/2015122300020962.txt 1쪽 제목·5쪽 '■ 소득 및 자산보유 기준'·'4. 신청자격'",
+   "verified_at": "2026-11-03",
+   "posted": "2026-11-02",
+   "relaxed": true,
+   "relax_quote": "공주시(덕성그린시티빌,신한1차) 국민임대주택 자격완화 (소득․자산배제)예비입주자 모집",
+   "homeless_relaxed": false,
+   "homeless_max1": false,
+   "groups": [
+    {
+     "name": "일반",
+     "homeless": "household",
+     "age": null,
+     "income_pct": "excluded",
+     "income_basis": "도시근로자 월평균소득",
+     "income_dual_pct": null,
+     "asset_manwon": "excluded",
+     "car_manwon": 4542,
+     "quotes": {
+      "income": "■ 소득 및 자산보유 기준(금회공고 한) 구분 소득 및 자산보유 기준 소득 배제",
+      "asset": "자산 총자산가액 배제",
+      "car": "자동차가액 세대구성원 전원이 보유하고 있는 개별 자동차가액 ( 4,542 )만원 이하",
+      "homeless": "4. 신청자격 입주자모집공고일 현재 무주택세대구성원으로서 아래의 요건을 충족하는 사람"
+     }
+    }
+   ],
+   "income_table_100": null,
+   "rents": null,
+   "notes": "2026-11-03 아침 자동 고치기(화면 '일반 소득·총자산 기준을 공고문에서 읽지 못함'). 기준 표 칸에 금액 대신 '배제'만 적은 꼴. 임대조건 표는 이번에 대조하지 않음(rents null)"
   }
  ]
 }

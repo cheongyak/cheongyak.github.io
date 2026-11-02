@@ -57,6 +57,13 @@ def _relax_section(t: str) -> str:
     return t[m.start(): m.start() + 900] if m else ""
 
 
+def _base_excluded(sec: str):
+    # 공주시 국민임대 자격완화 공고(2015122300020962, 2026-11-03 아침 자동 고치기): 기준 표 칸에 금액 대신 '배제'만 적은 꼴
+    # '■ 소득 및 자산보유 기준(금회공고 한) 구분 소득 및 자산보유 기준 소득 배제 자산 총자산가액 배제 자동차가액 …( 4,542 )만원 이하'
+    # (pdfplumber 는 '소득 배제 총자산가액 배제 자산' 순서). 표 머리 '구분 소득 및 자산보유 기준' 바로 뒤에 소득·총자산 '배제'가 둘 다 있을 때만 본다
+    return re.search(r"구분\s?소득\s?및\s?자산\s?보유\s?기준\s?소득\s?배제\s?(?:자산\s?)?총자산가액\s?배제", sec)
+
+
 def _general_terms(t: str, kind: str) -> tuple[dict, dict]:
     sec, rel = _base_section(t), _relax_section(t)
     both = rel + " " + sec
@@ -66,7 +73,8 @@ def _general_terms(t: str, kind: str) -> tuple[dict, dict]:
     m = (re.search(r"소득\s?(?:\(금회 배제\)|금회\s?소득배제|•\s?적용배제|•?\s?소득\s?기준\s?적용하지\s?아니함)", sec)
          or re.search(r"소득\s?기준\s?:\s?[^.]{0,40}요건\s?배제", sec)
          or re.search(r"소득\s?기준\s?가구원수별\s?소득기준\s?적용\s?(?:→|☞)\s?적용\s?배제", rel)
-         or re.search(r"소득\s?요건\s?소득\s?요건\s?배제", rel))   # '소득 요건 소득요건 배제' (익산한스빌 2015122300020893, 2026-10-12 사용자 제보)
+         or re.search(r"소득\s?요건\s?소득\s?요건\s?배제", rel)   # '소득 요건 소득요건 배제' (익산한스빌 2015122300020893, 2026-10-12 사용자 제보)
+         or _base_excluded(sec))
     if m:
         income, q["income"] = "excluded", _q(both, m) if m.re.pattern.find("→") < 0 else _q(rel, m)
     else:
@@ -90,7 +98,8 @@ def _general_terms(t: str, kind: str) -> tuple[dict, dict]:
          or re.search(r"총자산\s?기준\s?\(총자산\s?배제\)", sec)
          or re.search(r"총자산\s?기준\s?[\d,]+만원\s?이하\s?(?:→|☞)\s?적용\s?배제", rel)
          or re.search(r"총자산\s?요건\s?총자산\s?요건\s?배제", rel)
-         or re.search(r"소득\s?및\s?총자산\s?완화\s?입주자", sec))
+         or re.search(r"소득\s?및\s?총자산\s?완화\s?입주자", sec)
+         or _base_excluded(sec))
     if m:
         asset, q["asset"] = "excluded", _q(sec if m.string is sec else rel, m)
     elif (m := re.search(r"총\s?자산(?:가액)?[^.]{0,80}?합\s?산\s?기준\s?\(?\s?([\d,]+)\s?\)?\s?(백만원|만원)\s?이하", sec)) or \
