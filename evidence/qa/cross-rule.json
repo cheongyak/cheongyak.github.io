@@ -1,8 +1,8 @@
 {
  "date": "2026-11-03",
- "listings": 328,
+ "listings": 307,
  "profiles": 42,
- "checks": 319418,
+ "checks": 311195,
  "conflicts": 0,
  "severity": {
   "CRITICAL": 0,
@@ -11,12 +11,24 @@
  },
  "rules": {},
  "states": {
-  "UNKNOWN": 64,
-  "NORMAL": 165,
-  "WARNING": 99
+  "UNKNOWN": 66,
+  "WARNING": 99,
+  "NORMAL": 142
  },
  "examples": [],
  "unknown": [
+  {
+   "id": "2026820014-046.0000O",
+   "name": "남양주왕숙 A-2블록 신혼희망타운(공공분양) 잔여세대 추가입주자모집공고",
+   "duty": "UNKNOWN",
+   "priceCap": "CONFIRMED"
+  },
+  {
+   "id": "2026820014-055.0000O",
+   "name": "남양주왕숙 A-2블록 신혼희망타운(공공분양) 잔여세대 추가입주자모집공고",
+   "duty": "UNKNOWN",
+   "priceCap": "CONFIRMED"
+  },
   {
    "id": "2026820013-055.0000A",
    "name": "안산신길2 A-6블록 신혼희망타운(공공분양)(본청약)",
@@ -244,23 +256,11 @@
    "name": "고덕강일지구 3단지 토지임대부(본청약)",
    "duty": "UNKNOWN",
    "priceCap": "CONFIRMED"
-  },
-  {
-   "id": "2026000373-049.0000E",
-   "name": "고덕강일지구 3단지 토지임대부(본청약)",
-   "duty": "UNKNOWN",
-   "priceCap": "CONFIRMED"
-  },
-  {
-   "id": "2026000373-049.0000F",
-   "name": "고덕강일지구 3단지 토지임대부(본청약)",
-   "duty": "UNKNOWN",
-   "priceCap": "CONFIRMED"
   }
  ],
  "pageErrors": [],
  "_data": {
-  "listings": "ff5ca94b75a7",
+  "listings": "bb76cfe14992",
   "code": "b0b395cb713e"
  }
 }

@@ -1,7 +1,7 @@
 {
- "at": "2026-11-03 13:00",
+ "at": "2026-11-04 06:42",
  "ok": false,
- "collect_run": "2026-11-03 · 공고 308건",
+ "collect_run": "2026-11-04 · 공고 287건",
  "banner": null,
  "flagged": {
   "SH-312351": [
@@ -11,45 +11,47 @@
    "자동 검증(임대 공고문 못 읽음): 1인가구 소득 기준을 공고문에서 읽지 못함 — 공고문 확인"
   ]
  },
- "pending": [],
+ "pending": [
+  "경고 범위 화면"
+ ],
  "coverage_missing": 0,
  "observe": [],
  "warnings": [],
  "freshness": [
   {
    "name": "분양",
-   "updated": "2026-11-03 07:54",
-   "hours": 5.1,
+   "updated": "2026-11-04 06:28",
+   "hours": 0.2,
    "stale": false
   },
   {
    "name": "LH 임대",
    "updated": "2026-11-03 12:03",
-   "hours": 1.0,
+   "hours": 18.7,
    "stale": false
   },
   {
    "name": "SH 임대",
    "updated": "2026-11-03 12:06",
-   "hours": 0.9,
+   "hours": 18.6,
    "stale": false
   },
   {
    "name": "GH 임대",
    "updated": "2026-11-03 12:06",
-   "hours": 0.9,
+   "hours": 18.6,
    "stale": false
   },
   {
    "name": "공공지원 민간임대",
    "updated": "2026-11-03 12:18",
-   "hours": 0.7,
+   "hours": 18.4,
    "stale": false
   },
   {
    "name": "LH 주거복지·신혼희망",
    "updated": "2026-11-03 12:06",
-   "hours": 0.9,
+   "hours": 18.6,
    "stale": false
   }
  ],
@@ -59,13 +61,15 @@
   "failed": []
  },
  "crosscheck": {
-  "summary": "[검증·공고문] 공고문 69건 대조 · 기준표 289줄 · 분양가 308/308 일치 · 불일치 공고 0건",
+  "summary": "[검증·공고문] 공고문 68건 대조 · 기준표 277줄 · 분양가 287/287 일치 · 불일치 공고 0건",
   "mismatches": []
  },
  "golden": {
   "mismatches": []
  },
- "qa_stale": [],
+ "qa_stale": [
+  "verify-scope.json"
+ ],
  "qa": {
   "gate": true,
   "supply_type_fails": 0,
@@ -90,12 +94,12 @@
   "pay_audit_bad": 0,
   "parse_moved_changes": 0,
   "coverage_missing": 0,
-  "verify_scope_fails": 0,
+  "verify_scope_fails": null,
   "pay_audit_read": "158/174",
   "lh_data_at": "2026-11-03 12:03",
-  "cross_rule_checks": 319418,
-  "market_at": "2026-11-03",
+  "cross_rule_checks": 311195,
+  "market_at": "2026-11-04",
   "supply_type_at": "2026-11-03",
-  "invariants_at": "2026-11-03"
+  "invariants_at": "2026-11-04"
  }
 }
