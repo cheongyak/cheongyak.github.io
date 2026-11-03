@@ -404,6 +404,13 @@ def need_head_general(flat: str):
     m = re.search(r"일반공급신청자[^■]{0,60}■공급신청자격자[:：]?(?:성년자인무주택세대구성원)?•?주택공급신청은무주택세대구성원중1인만가능", flat)
     if m:
         return False, m
+    # 3-1) 같은 LH 공공분양 문장의 뒤섞인 꼴 (2026000527·528 광교 자연앤 센트레빌 A17BL, 2026-11-04 아침 자동 고치기):
+    #   '■ 적용대상 … 특별공급 및 일반공급 신청자 : · · · ■ 공급신청 자격자 성년자인 무주택세대구성원 : 주택공급 신청은 무주택세대구성원 중 • 인만 1 가능합니다.
+    #    단 (, 생애최초 및 노부모부양 특별공급 및 일반공급 순위를 신청하는 경우 세대주만 가능…' — 콜론이 뒤로 가고 '1인만'이 '•인만1'로 뽑혔다.
+    #   공급 전체는 세대구성원(False). 일반공급 1순위 세대주 요건은 화면의 규제지역 규칙(regulatedItems)이 따로 본다.
+    m = re.search(r"일반공급신청자[^■]{0,60}■공급신청자격자성년자인무주택세대구성원[:：]주택공급신청은무주택세대구성원중•?(?:1인만|인만1)가능", flat)
+    if m:
+        return False, m
     # 4) SH 토지임대부 <표1> 공급유형별 신청자격 '세대주 여부' 줄 (2026000373 고덕강일 3단지, 2026-10-20): 머리 칸 수 = 값 칸 수일 때만 마지막(추첨공급) 칸
     #    '사전청약 당첨자 · 청년 · 신혼부부* · 생애최초 · 신생아 · 신생아 우선공급 · 우선공급(1순위자) · 추첨공급' / '해당 없음 … 신청자 본인 … 해당 없음'
     t = re.search(r"구분사전청약당첨자특별공급일반공급((?:청년|신혼부부\*?|생애최초|신생아|다자녀가구|노부모부양)*)((?:신생아우선공급)?우선공급\(1순위자\)추첨공급)", flat)
@@ -813,10 +820,52 @@ def _parse_sh_total_limits(text: str) -> Optional[dict]:
     return out
 
 
+_PUB_BASE100 = [7533763, 8802202, 9326985, 9906263, 10485541, 11064819]   # 공공분양 도시근로자 월평균소득 100% (3인 이하, 4~8인) — 2026000414 <표4>, 화면 SP_INCOME_2025
+
+
+def _parse_equity_total_limits(text: str) -> Optional[dict]:
+    """LH 지분적립형 분양주택 일반공급 (2026000527 광교 자연앤 센트레빌 A17BL, 2026-11-04 아침 자동 고치기) — SH 토지임대부(_parse_sh_total_limits)와 같은 총자산형.
+    <표5> '일반 공급 신생아 우선공급 (50%) … 100% … 140% … 우선공급 순위자 (1 ) (30%) … 100% … 140% … 추첨공급 (20%) … 100% … 200%'
+    (금액 칸 사이에 '원'이 없고 붙어 뽑힘 '7,533,7638,802,202…'), <표3> '차감한 금액이 백만원 이하 362 청년 계층은 …' (글 순서가 뒤섞임),
+    출산가구 완화 '…천원이하397,000 청년특별공급의경우…' / '…천원이하431,000 …'.
+    금액은 공공분양 100% 표(_PUB_BASE100) × % 와 1원 안으로 같을 때만, 6칸이 모두 있을 때만 받는다(아니면 None — 화면은 확인 필요)."""
+    f = re.sub(r"\s+", "", text)
+    if "지분적립형" not in f[:6000]:
+        return None
+    gi = f.find("일반공급신생아우선공급(50%)")
+    if gi < 0:
+        return None
+    seg = f[gi: gi + 1200]
+    six = r"((?:\d{1,2},\d{3},\d{3}){6})"
+    def row(label, a, b):
+        m = re.search(label + r"도시근로자가구당월평균소득액의" + a + "%" + six + r"도시근로자가구당월평균소득액의" + b + r"%본인및배우자가모두소득이있는경우\(\)" + six, seg)
+        if not m:
+            return None
+        x, y = [[int(v.replace(",", "")) for v in re.findall(r"\d{1,2},\d{3},\d{3}", g)] for g in (m.group(1), m.group(2))]
+        if not (len(x) == len(y) == 6 and all(abs(v - round(b0 * int(a) / 100)) <= 1 for v, b0 in zip(x, _PUB_BASE100))
+                and all(abs(v - round(b0 * int(b) / 100)) <= 1 for v, b0 in zip(y, _PUB_BASE100))):
+            return None
+        return x, y
+    pri, el = row(r"우선공급순위자\(1\)\(30%\)", "100", "140"), row(r"추첨공급\(20%\)", "100", "200")
+    base = re.search(r"차감한금액이백만원이하(\d{3})청년계층은신청자", f)
+    if not (pri and el and base):
+        return None
+    amt = lambda r: {**{str(n): [r[0][0], r[1][0]] for n in (1, 2, 3)}, **{str(n): [r[0][n - 3], r[1][n - 3]] for n in range(4, 9)}}
+    out = {"kind": "total", "eligible": {"base": [100, 200], "one": 100, "two": [100, 200]}, "priority": {"base": [100, 140], "one": 100, "two": [100, 140]},
+           "total_asset": int(base.group(1)) * 100, "area_max": None, "amounts": {"elig": amt(el), "pri": amt(pri)}}
+    rel = re.findall(r"차감한금액이\+\+\+①②③④⑤천원이하(\d{3}),000청년특별공급의경우", f)
+    if len(rel) == 2 and int(base.group(1)) < int(rel[0]) < int(rel[1]):
+        out["total_asset_relax"] = [int(rel[0]) * 100, int(rel[1]) * 100]
+    return out
+
+
 def parse_pub_limits(text: str) -> Optional[dict]:
     sh = _parse_sh_total_limits(text)
     if sh:
         return sh
+    eq = _parse_equity_total_limits(text)
+    if eq:
+        return eq
     t = re.sub(r"\s+", " ", text)
     t = re.sub(r"(천원|만원)\s?이하", r"\1 이하", t)   # '45,420천원이하' — PDF 글 뽑기마다 띄어쓰기가 달라진다 (2026-10-10 2026000402 다시 받은 글: 띄어쓰기가 사라져 자동차 기준을 출산가구 완화 칸 49,960 으로 읽음)
     if "신혼희망타운" in t[:3000]:

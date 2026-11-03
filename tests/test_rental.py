@@ -27,7 +27,8 @@ def test_total_asset_parse_does_not_touch_other_notices():
         if f.stem == "2026000307":
             continue
         pl = notice_pdf.parse_pub_limits(f.read_text(encoding="utf-8"))
-        assert not pl or pl.get("kind") != "total" or (pl.get("sh_landlease") and f.stem in ("2026000373", "2026000041", "2026000434", "2026000435")), f.stem   # SH 토지임대부 총자산형 (2026-10-20), 제주개발공사(JPDC) 삼도이동 1·2지구 토지임대부 <표3> 총자산 362백만원·청년 본인 276·부모 1,035 (2026-10-28 원문 확인)
+        assert not pl or pl.get("kind") != "total" or (pl.get("sh_landlease") and f.stem in ("2026000373", "2026000041", "2026000434", "2026000435")) \
+            or f.stem == "2026000527", f.stem   # LH 지분적립형 2026000527 광교 자연앤 센트레빌 <표5>·<표2> (2026-11-04 원문 확인)   # SH 토지임대부 총자산형 (2026-10-20), 제주개발공사(JPDC) 삼도이동 1·2지구 토지임대부 <표3> 총자산 362백만원·청년 본인 276·부모 1,035 (2026-10-28 원문 확인)
 
 
 def test_is_rental():
