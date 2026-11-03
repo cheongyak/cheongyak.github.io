@@ -1,5 +1,5 @@
 {
- "date": "2026-11-04 06:22",
+ "date": "2026-11-04 06:45",
  "golden_notices": 45,
  "stat": {
   "pypdf": {
@@ -41,10 +41,10 @@
  },
  "merged_wrong": 0,
  "coverage": {
-  "pypdf": 35,
-  "pdfium": 34,
-  "plumber": 34,
-  "notices": 35
+  "pypdf": 34,
+  "pdfium": 33,
+  "plumber": 33,
+  "notices": 34
  },
  "wrong": [
   "plumber 2015122300020453 일반.asset_manwon: 읽음 34500 ≠ 정답 'excluded'",
@@ -56,5 +56,8 @@
   "2015122300020856 account: majority pypdf={'months': 6, 'count': 6, 'rank2_any': True}, pdfium={'months': 6, 'count': 6, 'rank2_any': True}, plumber={'months': 6, 'count': 6, 'rank2_any': False}",
   "2015122300020895 account: majority pypdf={'months': 6, 'count': 6, 'rank2_any': True}, pdfium={'months': 6, 'count': 6, 'rank2_any': True}, plumber={'months': 6, 'count': 6, 'rank2_any': False}"
  ],
- "conflicts": []
+ "conflicts": [],
+ "_data": {
+  "lh": "c238d78147eb"
+ }
 }
