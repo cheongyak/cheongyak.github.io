@@ -6,6 +6,8 @@
 #   - 커밋 메시지 끝에 붙일 줄은 COMMIT_TRAILER 환경 변수로 줄 수 있다
 set -e
 cd "$(dirname "$0")/../.."
+# 밤 자동 개선 루프(IMPROVE.md)는 main 에 올리지 않고 PR 로만 제안한다 — 루프 세션은 시작할 때 .git/improve-loop 표시를 만든다 (2026-11-04)
+if [ -e "$(git rev-parse --git-dir)/improve-loop" ]; then echo "밤 자동 개선 루프에서는 ship.sh 로 main 에 올리지 않아요 — auto/ 브랜치 PR 로만 (IMPROVE.md 고정 규칙 1)"; exit 1; fi
 feat=$1; row=$2; wf=$3; msg=$4; shift 4
 PY=$(command -v python || command -v python3)
 LOG=$(mktemp)

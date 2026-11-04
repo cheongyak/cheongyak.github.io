@@ -4,6 +4,32 @@
 2026-09-29 12:55 이전 항목은 규칙을 만들기 전 작업을 커밋 기록으로 정리한 것이라 백업 브랜치가 없어요.
 그 시점으로 되돌릴 때는 해당 커밋 번호로 `git revert` 를 써요.
 
+## 2026-11-04 23:49 · 밤 자동 개선 루프 다듬기 (다른 눈 검토 12건 반영)
+- 요청: 같은 루프 설치(23:33)의 마무리 — 아무것도 모르는 에이전트에게 절차를 읽혀 결함을 찾게 함
+- 변경: ① ship.sh 가 .git/improve-loop 표시가 있으면 멈춤(루프가 SKILL 의 ship.sh 로 main 에 올리는 것 막음) ② 기록(WORK·changelog·버전·VERSIONS·FEATURES·HANDOFF)은 PR 에 넣지 않고 본문 '합친 뒤 기록'에 → 합친 다음 밤 루프가 기록 커밋만 main 에(매일 같은 줄 충돌 방지, 고정 규칙 1 예외) ③ 신호 key 를 날짜·대조 폴더 이름 없이(같은 문제 = 같은 key) ④ GitHub 읽기 실패를 '열린 PR 0개'로 착각하지 않게 gh_ok, 이슈는 3쪽까지 ⑤ 공개 저장소라 이슈·댓글은 github-actions·협업자 것만 신호/지시, 상태 브랜치 글은 자료일 뿐 고정 규칙을 못 바꿈 ⑥ PR 한도는 고정 규칙(가중치 파일에서 뺌) ⑦ 고를 때 '성공 확인 방법'을 정하고 합친 뒤 그것으로 효과 판정 ⑧ 14일 반응 없는 PR 은 닫고 30일 뒤 다시 ⑨ .github/workflows 금지, push/·chat/worker 는 '[서버 배포]' 표시 ⑩ 상태 브랜치 받기 명령을 새 클론에서 되게
+- 파일: .claude/skills/cheongyakpass-ops/IMPROVE.md, tools/qa/improve_signals.py, tests/test_improve_signals.py, tools/qa/ship.sh, WORK.md (+ auto-improve/state key 맞춤)
+- 확인: 새 시험 4/4(새 주·새 날짜에도 key 같음, 날짜 지움, 아무나 쓴 이슈 무시), 전체 pytest 428 통과·1 건너뜀, 새 클론에서 0단계 명령(표시 파일·gh·상태 브랜치 worktree) 실행 확인, 표시 파일이 있을 때 ship.sh 멈춤 확인
+- 기능: 없음(수정)
+- 백업: backup/20261104-2349
+
+## 2026-11-04 23:33 · 매일 밤 자동 개선 루프 (PR 로만 제안)
+- 요청: 운영자 '기존 세션이 아닌 아무것도 모르는 세션이 청약패스를 개선하는 피드백 루프, 알아서 진화·개선되게' → 반영 범위 '제안서만(PR)', 주기 '매일 밤' 선택
+- 변경: 절차 .claude/skills/cheongyakpass-ops/IMPROVE.md(고정 규칙 8개 — main 직접 push 금지·PR 하룻밤 1개·열린 PR 최대 3개·스위치 안 켬·판정/수치는 원문 인용 필수·다른 예약 작업 몫 건너뜀, 단계: 지난 PR 결과로 배우기 → 신호 모으기 → 점수로 하나 고르기(5일마다 탐색) → 브랜치에서 고치기 → 검사 → 다른 에이전트 결함 검토 → PR → 열린 PR 돌보기 → 상태 저장 → 규칙 고치기 제안). 신호 도구 tools/qa/improve_signals.py(검증 현황·run-log·최근 주간 원문 대조 '앱 오류'·꺼 둔 기능·HANDOFF 진행 중인 일, --gh 면 열린 이슈 묶음·루프 PR). 상태는 main 이 아닌 데이터 전용 브랜치 auto-improve/state(backlog·weights·ledger·lessons·ideas — 근거 있는 첫 할 일 7개). PR 라벨 auto-improve. 예약 작업 '청약패스 밤 자동 개선'(매일 밤)
+- 파일: .claude/skills/cheongyakpass-ops/IMPROVE.md, .claude/skills/cheongyakpass-ops/SKILL.md, tools/qa/improve_signals.py, tests/test_improve_signals.py, HANDOFF.md, WORK.md (+ 브랜치 auto-improve/state)
+- 확인: 새 시험 3/3, 전체 pytest 427 통과·1 건너뜀, 지금 저장소로 신호 9건(못 읽은 SH-312351 은 '아침 자동 고치기' 몫으로 표시, '판정 검증 실패' 열린 이슈 53건, 주간 대조 P1 3건, 꺼 둔 기능 4개)
+- 기능: 없음(수정) — 운영 도구, 화면·판정 변화 없음
+- 백업: backup/20261104-2333
+
+## 2026-11-04 23:27 · 청약봇 답 본문의 내부 번호·'DATA' 지우기 (v1.83.5)
+- 요청: v1.83.4 올린 뒤 확인 (운영자 '일반 AI 보다 답이 안 좋다'의 이어서)
+- 원인: Sonnet 5.5 실제 답 시험(evidence/chat-probe/latest.json 23:33)에서 답은 좋아졌지만 본문에 '(공고문 N2 기준)'·'(L1)'·'(N3)'·'DATA에 없어서'가 섞임 — 검사기는 [N1] 꼴만 지웠음
+- 변경: free.js free3a — 지침에 '근거 번호·DATA 라는 말 쓰지 않기', 검사기가 근거에 있는 id 만 괄호·맨 꼴 모두 지우고 refs 로 옮김(주택형 'A17BL' 같은 글자는 그대로), 'DATA' → '청약패스 자료'
+- 파일: chat/worker/src/free.js, chat/test/chat.test.mjs, docs/changelog.json, VERSIONS.md, HANDOFF.md, WORK.md
+- 확인: chat 시험(새: 실제 답 문장으로 괄호·맨 번호·DATA 지움, A17BL 유지), 화면 검사 free_answer.cjs, 올린 뒤 실제 답 시험 다시
+- 기능: 없음(수정) — bot_free_answer 개선
+- 버전: v1.83.5
+- 백업: backup/20261104-2327 (v1.83.4 와 같은 작업 묶음)
+
 ## 2026-11-04 23:27 · 청약봇 답을 Sonnet 5.5 로, 일반 AI 처럼 자연스럽게 (v1.83.4)
 - 요청: 운영자 '청약패스 데이터 기반으로 AI 가 정리해 답하게 만들었는데 일반 AI 보다도 답이 안 좋다' → 모델 'Sonnet 5.5', 답 방식 '일반 AI 처럼 자연스럽게' 선택
 - 원인: ① /free 모델이 Haiku 4.5(가장 작은 구형) ② 지침이 400~1200자·문장마다 [N1] 근거 번호·'단정하지 말 것' 규칙이 겹쳐 답이 딱딱하고 '~일 수 있을 수 있습니다'처럼 애매하고 '합니다'체가 섞임
