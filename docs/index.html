@@ -1691,7 +1691,7 @@ const SRC = {
 };
 const ARROW = '<svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M7 17 17 7M8 7h9v9"/></svg>';
 /* 베타 표시·참고용 공지 (기능: beta_notice) */
-const betaTag = () => on('beta_notice') ? ' <span class="beta" aria-label="베타 서비스">베타</span>' : '';
+const betaTag = () => on('beta_notice') && !on('seo_content') ? ' <span class="beta" aria-label="베타 서비스">베타</span>' : '';   /* 기능 seo_content (2026-11-04 광고 재심사): '베타' 표시를 빼고 참고용 안내는 유지 */
 function betaBanner(where){
   if (!on('beta_notice')) return '';
   if (on('verify_badge')) loadSide();
@@ -1701,8 +1701,8 @@ function betaBanner(where){
   /* 기능: beta_compact (Von Restorff) — '확인했어요'를 누른 뒤에는 한 줄로 줄여 결과가 묻히지 않게. 자동 검증에 문제가 있으면 다시 크게 */
   if (on('dismiss_notes') && where === 'feed' && !vbad && store.get('cy-beta-hide')) return '';   // 기능: dismiss_notes — 공고 목록에서 ✕ 로 닫은 기기는 목록에서만 숨김 (상세의 참고용 안내는 그대로, 자동 검증에 문제가 있으면 다시 보임)
   const nx = on('dismiss_notes') && where === 'feed' && !vbad ? `<button class="notex" data-action="beta-hide" aria-label="베타 안내 닫기"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" aria-hidden="true"><path d="M18 6 6 18M6 6l12 12"/></svg></button>` : '';
-  if (on('beta_compact') && !vbad && store.get('cy-beta-ok')) return `<p class="betaline" role="note"><span class="beta">베타</span> 판정은 내 입력으로 계산한 참고용이에요. 신청 전 모집공고문으로 확인하세요.${on('about_page') ? ` <button class="linkbtn small" data-go="${more}">자세히</button>` : ''}${nx}</p>`;
-  return `<div class="betabar${vbad ? ' bad' : ''}" role="note"><b>베타 · 참고용</b><span>${vbad ? '<b>' + esc(vscoped ? VERIFY.banner.text : '최근 자동 검증에서 공고문과 다른 값이 발견돼 확인 중이에요.') + '</b> ' : ''}${where === 'detail' ? '이 화면의 자격·점수·마진은 공개 자료와 내 입력으로 계산한 참고용 추정이에요.' : '모든 판정은 참고용 추정이에요.'} 신청 전 <b>모집공고문</b>과 <b>청약홈 '청약자격확인'</b>에서 꼭 확인하세요.${on('about_page') ? ` <button class="linkbtn small" data-go="${more}">자세히</button>` : ''}${on('beta_compact') && !vbad ? ' <button class="linkbtn small" data-action="beta-ok">확인했어요</button>' : ''}</span>${nx}</div>`;
+  if (on('beta_compact') && !vbad && store.get('cy-beta-ok')) return `<p class="betaline" role="note">${on('seo_content') ? '' : '<span class="beta">베타</span> '}판정은 내 입력으로 계산한 참고용이에요. 신청 전 모집공고문으로 확인하세요.${on('about_page') ? ` <button class="linkbtn small" data-go="${more}">자세히</button>` : ''}${nx}</p>`;
+  return `<div class="betabar${vbad ? ' bad' : ''}" role="note"><b>${on('seo_content') ? '참고용' : '베타 · 참고용'}</b><span>${vbad ? '<b>' + esc(vscoped ? VERIFY.banner.text : '최근 자동 검증에서 공고문과 다른 값이 발견돼 확인 중이에요.') + '</b> ' : ''}${where === 'detail' ? '이 화면의 자격·점수·마진은 공개 자료와 내 입력으로 계산한 참고용 추정이에요.' : '모든 판정은 참고용 추정이에요.'} 신청 전 <b>모집공고문</b>과 <b>청약홈 '청약자격확인'</b>에서 꼭 확인하세요.${on('about_page') ? ` <button class="linkbtn small" data-go="${more}">자세히</button>` : ''}${on('beta_compact') && !vbad ? ' <button class="linkbtn small" data-action="beta-ok">확인했어요</button>' : ''}</span>${nx}</div>`;
 }
 function src(key, over){ // over: [label, url]
   const [label, url] = over || SRC[key];

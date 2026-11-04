@@ -90,7 +90,7 @@ jobs:
         continue-on-error: true
         run: |
           python -m tools.build_static
-          git add -A -- docs/sitemap.xml $(for d in docs/notice docs/guide docs/story docs/about docs/terms docs/privacy docs/updates; do [ -e "$d" ] || git ls-files --error-unmatch "$d" >/dev/null 2>&1 && echo "$d"; done)
+          git add -A -- docs/sitemap.xml $(for d in docs/notice docs/guide docs/story docs/about docs/terms docs/privacy docs/updates docs/rental docs/archive/seo-grades.json; do [ -e "$d" ] || git ls-files --error-unmatch "$d" >/dev/null 2>&1 && echo "$d"; done)
           git diff --cached --quiet || (git commit -m "공고 페이지 갱신 $(date +%Y-%m-%d)" && (git push || (git pull --rebase -X theirs origin main && git push)))
       # ---- 수집 뒤 필수 검증 (CLAUDE.md 4항): 판정 검증 사례 + 공고문 대조 결과를 모아 docs/verify-status.json 으로 공개, 다르면 실패 ----
       - uses: actions/setup-node@v4
@@ -111,6 +111,15 @@ jobs:
           npm i --no-save --no-package-lock playwright@1.56.0 >/dev/null 2>&1
           npx playwright install --with-deps chromium >/dev/null 2>&1
           node tools/judge_check.cjs | tee -a docs/run-log.txt
+      - name: 검색용 정적 페이지 (기능 seo_content — 화면 엔진 등급·공고·임대·가이드·첫 화면, 꺼져 있으면 예전과 같음)
+        if: always()
+        continue-on-error: true
+        run: |
+          node tools/snapshot_docs.cjs && python -m tools.build_static && python -m tools.qa.seo_static --json evidence/qa/seo-static.json | tee -a docs/run-log.txt
+          git config user.name "cheongyak-bot"
+          git config user.email "actions@users.noreply.github.com"
+          git add -A -- $(for d in docs/sitemap.xml docs/index.html docs/notice docs/guide docs/story docs/about docs/terms docs/privacy docs/rental docs/archive/seo-grades.json tools/seo_engine.json tools/static_fragments.json evidence/qa/seo-static.json; do [ -e "$d" ] || git ls-files --error-unmatch "$d" >/dev/null 2>&1 && echo "$d"; done)
+          git diff --cached --quiet || { git commit -m "검색용 정적 페이지 갱신 $(date +%Y-%m-%d)" && bash tools/qa/push_retry.sh; }
       - name: MASTER QA 검사 (공급유형 표시 전수 · 데이터 불변식, 기능 qa_gate)
         if: always()
         continue-on-error: true

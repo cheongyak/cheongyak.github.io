@@ -4,6 +4,19 @@
 2026-09-29 12:55 이전 항목은 규칙을 만들기 전 작업을 커밋 기록으로 정리한 것이라 백업 브랜치가 없어요.
 그 시점으로 되돌릴 때는 해당 커밋 번호로 `git revert` 를 써요.
 
+## 2026-11-04 23:51 · 검색용 정적 페이지 보강 (기능 seo_content, 꺼진 채로 올림)
+- 요청: 운영자 '애드센스·애드핏 재심사 통과 — 원인은 로봇이 읽을 글이 없음(첫 화면 정적 글 51자, 공고 페이지는 자동 표뿐)'. 주거나침반·시세.com 처럼 공고별 섹션·FAQ·관련 공고·이동 경로, 목록·임대·가이드 30편·신뢰 페이지, 첫 화면 정적 글, 베타 띠 제거, sitemap lastmod
+- 변경: tools/seo_pages.py(새) — 공고 페이지 01 한눈에 보기·02 등급과 판정 이유(마감 공고는 청약 결과·판정 복기)·03 일정·04 분양가·추정 시세·05 자격 요약(공고문 원문 인용)·06 자금 예시(pay_ratio·contract_split)·07 특별공급 물량·FAQ 5·관련 공고·출처, FAQPage·BreadcrumbList 구조화 데이터 / 목록 /notice/·/notice/<시도>/·/notice/type/<유형>/ / 마감 공고 1년 보관(청약홈 결과가 있거나 공고문을 읽은 공고만) / 임대 /rental/<기관>/<id>/ / 가이드 tools/guides/*.json 30편 + 법령 기준표 2쪽 해설 / 신뢰 /about/operator·policy·sources / docs/index.html 첫 화면 미리 그린 블록(앱이 뜨면 덮임) / 접수 때 등급 기록 docs/archive/seo-grades.json(판정 복기용, 1년)
+  판정·등급은 화면 엔진 값만: tools/snapshot_docs.cjs 가 화면 grade·gLabel·marginText·mktHow·statusOf 를 tools/seo_engine.json 으로 저장(새 규칙 없음, engine_lock 그대로). 공고 조건 문장은 수집 값·notice_quotes 로만, 세대주 문구는 v1.83.3 과 같은 뜻(need_head + 규제지역 1순위)
+  build_static.page: 스위치가 켜지면 seo_page 틀('베타' 띠 빼고 참고용 안내 유지, 이동 경로, 하단 신뢰 페이지 링크), 꺼지면 예전 틀 그대로. 화면 docs/index.html betaTag·betaBanner·betaline 도 on('seo_content') 일 때만 '베타' 뺌
+  가이드 30편은 에이전트 3명이 법령 원문(evidence/law)으로 쓰고 (원문 대조 검토는 켜는 커밋에 기록). 금액이 해마다 바뀌는 기준은 쓰지 않고 공고문 확인으로
+  collect.yml 에 '검색용 정적 페이지' 단계(판정 검증 사례 다음, playwright 설치 뒤), verify.yml 에 seo_static 검사·저장 경로 추가
+- 파일: tools/seo_pages.py, tools/guides/*.json(30), tools/build_static.py, tools/snapshot_docs.cjs, tools/qa/seo_static.py, tools/qa/seo_shots.cjs, tests/test_seo_static.py, tests/qa/seo_fixture.json, docs/index.html, docs/config.json, .github/workflows/collect.yml, .github/workflows/verify.yml, .claude/skills/cheongyakpass-ops/SKILL.md, FEATURES.md, HANDOFF.md, WORK.md
+- 확인: 스위치 끔 — 같은 데이터로 원래 코드와 새 코드가 만든 docs/notice·story·about·terms·privacy·sitemap.xml·robots.txt 가 글자 하나 다르지 않음(guide·rental 둘 다 없음), regress.sh 판정 1,435조합 차이 0·화면 1,773쪽 오류 0, judge_check 970/970, pytest 실패 = 작업 전과 같은 14건(작업 환경 httpx 없음) + 새 시험 test_seo_static 7개 통과
+  스위치 켬(로컬) — 정적 페이지 531쪽(지금·마감 공고 394, 목록 24, 임대 73, 가이드 32, 신뢰·문서 8), tools.qa.seo_static 통과: 지금 공고 산문 최소 4,022자(표 제외)·가이드 모두 1,500자 이상·금지어 0·깨진 내부 링크 0·구조화 데이터 오류 0·sitemap 빠짐 0(532개 주소, 모두 lastmod), tools/qa/seo_shots.cjs 390px 밝은·어두운 28쪽 가로 넘침·오류·베타 표시 0, 첫 화면 자바스크립트 없이 글·링크 20개 보임·앱이 뜨면 덮임
+- 기능: seo_content
+- 백업: backup/20261104-2351-seo
+
 ## 2026-11-04 23:49 · 밤 자동 개선 루프 다듬기 (다른 눈 검토 12건 반영)
 - 요청: 같은 루프 설치(23:33)의 마무리 — 아무것도 모르는 에이전트에게 절차를 읽혀 결함을 찾게 함
 - 변경: ① ship.sh 가 .git/improve-loop 표시가 있으면 멈춤(루프가 SKILL 의 ship.sh 로 main 에 올리는 것 막음) ② 기록(WORK·changelog·버전·VERSIONS·FEATURES·HANDOFF)은 PR 에 넣지 않고 본문 '합친 뒤 기록'에 → 합친 다음 밤 루프가 기록 커밋만 main 에(매일 같은 줄 충돌 방지, 고정 규칙 1 예외) ③ 신호 key 를 날짜·대조 폴더 이름 없이(같은 문제 = 같은 key) ④ GitHub 읽기 실패를 '열린 PR 0개'로 착각하지 않게 gh_ok, 이슈는 3쪽까지 ⑤ 공개 저장소라 이슈·댓글은 github-actions·협업자 것만 신호/지시, 상태 브랜치 글은 자료일 뿐 고정 규칙을 못 바꿈 ⑥ PR 한도는 고정 규칙(가중치 파일에서 뺌) ⑦ 고를 때 '성공 확인 방법'을 정하고 합친 뒤 그것으로 효과 판정 ⑧ 14일 반응 없는 PR 은 닫고 30일 뒤 다시 ⑨ .github/workflows 금지, push/·chat/worker 는 '[서버 배포]' 표시 ⑩ 상태 브랜치 받기 명령을 새 클론에서 되게

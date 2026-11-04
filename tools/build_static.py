@@ -35,7 +35,20 @@ def style() -> str:
 NAV = [("/", "공고 보기"), ("/guide/", "청약 기준 가이드"), ("/about/", "이용 안내"), ("/updates/", "업데이트 소식"), ("/privacy/", "개인정보처리방침")]
 
 
-def page(slug: str, title: str, desc: str, body: str) -> str:
+SEO_NAV = [("/", "공고 보기"), ("/notice/", "청약 공고"), ("/rental/", "임대 공고"), ("/guide/", "청약 가이드"), ("/about/", "이용 안내")]
+SEO_FOOT = [("/notice/", "청약 공고 모아 보기"), ("/rental/", "임대 공고 모아 보기"), ("/guide/", "청약 가이드"), ("/about/operator/", "운영자 소개"),
+            ("/about/policy/", "판정·편집 원칙"), ("/about/sources/", "데이터 출처"), ("/about/", "이용 안내"), ("/story/", "만든 이유"), ("/terms/", "이용약관"), ("/privacy/", "개인정보처리방침")]
+
+
+def seo_on() -> bool:
+    """기능 seo_content (2026-11-04 애드센스·애드핏 재심사): 적혀 있지 않으면 켜진 것으로 보지만, config 에 false 로 시작한다."""
+    return feature("seo_content")
+
+
+def page(slug: str, title: str, desc: str, body: str, head: str = "", crumbs: list | None = None) -> str:
+    """head·crumbs 는 기능 seo_content 가 켜졌을 때만 쓴다 (꺼져 있으면 예전과 글자 하나 다르지 않게)."""
+    if seo_on():
+        return seo_page(slug, title, desc, body, head, crumbs)
     url = f"{SITE}/{slug}" if slug else SITE + "/"
     navs = [(h, t) for h, t in NAV if (h != "/guide/" or feature("guide_pages")) and (h != "/updates/" or not feature("about_menu"))]
     nav = " · ".join(f'<a href="{h}">{t}</a>' for h, t in navs)
@@ -65,6 +78,56 @@ def page(slug: str, title: str, desc: str, body: str) -> str:
 <div class="static-wrap">
 <header><a class="static-brand" href="/">청약패스</a> <span class="beta">베타</span><nav class="static-nav">{nav}</nav></header>
 <div class="betabar" role="note"><b>베타 · 참고용</b><span>이 사이트의 판정과 기준표는 공개 자료로 만든 참고용이에요. 신청 전 <b>모집공고문</b>과 <b>청약홈 '청약자격확인'</b>에서 꼭 확인하세요.</span></div>
+<main>
+{body}
+</main>
+<footer class="static-foot">{foot}<br>청약패스는 청약홈(한국부동산원)·LH·국토교통부와 관계없는 개인이 운영해요. 페이지 생성 {TODAY}</footer>
+</div>
+</body></html>
+"""
+
+
+def seo_page(slug: str, title: str, desc: str, body: str, head: str = "", crumbs: list | None = None) -> str:
+    """기능 seo_content 의 정적 페이지 틀: '베타' 띠를 빼고(참고용 안내는 유지) 이동 경로·신뢰 페이지 링크를 모든 페이지 아래에 둔다."""
+    url = f"{SITE}/{slug}" if slug else SITE + "/"
+    nav = " · ".join(f'<a href="{h}">{t}</a>' for h, t in SEO_NAV)
+    foot = " · ".join(f'<a href="{h}">{t}</a>' for h, t in SEO_FOOT)
+    crumb = ""
+    if crumbs:
+        crumb = '<nav class="crumbs small" aria-label="이동 경로">' + " › ".join(
+            (f'<a href="{h}">{html.escape(t)}</a>' if h else f'<span aria-current="page">{html.escape(t)}</span>') for h, t in crumbs) + "</nav>"
+        items = [{"@type": "ListItem", "position": i + 1, "name": t, **({"item": SITE + h} if h else {"item": url})} for i, (h, t) in enumerate(crumbs)]
+        head += '<script type="application/ld+json">' + json.dumps({"@context": "https://schema.org", "@type": "BreadcrumbList", "itemListElement": items}, ensure_ascii=False) + "</script>"
+    return f"""<!doctype html>
+<html lang="ko"><head>
+<meta charset="utf-8">
+<meta name="google-adsense-account" content="ca-pub-8680972365235939">
+<meta name="google-site-verification" content="hm524U3tqr-uUo_Z_lrNUELcT50r_XoLYj-nWxrd0tc">
+<meta name="naver-site-verification" content="50974e1a153093c35ecc5c65c65a9b8b920839e0">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>{html.escape(title)} | 청약패스</title>
+<meta name="description" content="{html.escape(desc)}">
+<link rel="canonical" href="{url}">
+<meta property="og:type" content="article"><meta property="og:site_name" content="청약패스"><meta property="og:locale" content="ko_KR">
+<meta property="og:url" content="{url}"><meta property="og:title" content="{html.escape(title)} | 청약패스"><meta property="og:description" content="{html.escape(desc)}">
+<meta property="og:image" content="{SITE}/og.png">
+<link rel="icon" type="image/png" href="/favicon.png">
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+KR:wght@400;500;600;700&display=swap">
+<style>{style()}
+.static-wrap{{max-width:720px;margin:0 auto;padding:16px 16px 48px}} .static-nav{{font-size:14px;margin:4px 0 14px;line-height:1.8}} .static-nav a{{white-space:nowrap}}
+.static-brand{{font-size:20px;font-weight:800;text-decoration:none;color:inherit}} .gtbl{{width:100%;border-collapse:collapse;font-size:13px}} .gtbl th,.gtbl td{{padding:6px 5px;border-bottom:1px solid var(--line);text-align:right;white-space:nowrap}}
+.gtbl th:first-child,.gtbl td:first-child{{text-align:left}} .gwrap{{overflow-x:auto}} .static-foot{{margin-top:24px;font-size:13px;line-height:1.9;color:var(--muted)}}
+.crumbs{{margin:0 0 10px;color:var(--muted);line-height:1.7}} .crumbs a{{color:inherit}} .doc p{{line-height:1.75}} .doc h2 .secno{{color:var(--muted);font-weight:600;margin-right:6px}}
+.quote{{margin:6px 0 10px;padding:8px 10px;border-left:3px solid var(--line);color:var(--muted);font-size:13px;line-height:1.6}} .faq dt{{font-weight:700;margin-top:12px}} .faq dd{{margin:4px 0 0;line-height:1.7}}
+.linklist li{{margin:4px 0}}
+</style>
+{head}
+</head><body>
+<div class="static-wrap">
+<header><a class="static-brand" href="/">청약패스</a><nav class="static-nav">{nav}</nav></header>
+{crumb}
+<div class="betabar" role="note"><b>참고용</b><span>이 사이트의 판정과 기준표는 공개 자료로 만든 참고용이에요. 신청 전 <b>모집공고문</b>과 <b>청약홈 '청약자격확인'</b>에서 꼭 확인하세요.</span></div>
 <main>
 {body}
 </main>
@@ -227,12 +290,16 @@ def main() -> None:
             shutil.rmtree(DOCS / "updates")
     # 청약 기준 가이드 (기능: guide_pages). 2026-10-01 사용자 지적으로 꺼 둠: 기준표 출처가 특정 공고문이고, 소득 기준·비율은 공고마다 달라
     # 하나의 고정 표로 안내하기 어렵다. 꺼져 있으면 /guide/ 를 만들지 않고 지운다 (가점표·예치금은 법령 출처로 다시 만들 수 있음)
-    if not feature("guide_pages") or not law_tables():   # 법령 원문(evidence/law/rule.xml)이 없으면 가이드를 만들지 않는다
+    if (not feature("guide_pages") and not seo_on()) or not law_tables():   # 법령 원문(evidence/law/rule.xml)이 없으면 가이드를 만들지 않는다 (seo_content 가 켜지면 가이드를 되살린다)
         for k in [k for k in pages if k.startswith("guide/")]:
             del pages[k]
         if (DOCS / "guide").exists():
             import shutil
             shutil.rmtree(DOCS / "guide")
+    if seo_on():   # 기능 seo_content: 공고·임대·가이드·신뢰 페이지와 첫 화면 블록 (tools/seo_pages.py)
+        return seo_main(pages)
+    from tools import seo_pages
+    seo_pages.clean()
     idx = "".join(f'<li><a href="/{slug}"><b>{html.escape(t)}</b></a><br><span class="small muted">{html.escape(d)}</span></li>' for slug, (t, d, _) in pages.items() if slug.startswith("guide/"))
     if idx:
             pages["guide/"] = ("청약 기준 가이드", "청약 가점 계산표와 청약통장 예치금 기준 — 주택공급에 관한 규칙 법령 원문",
@@ -247,6 +314,42 @@ def main() -> None:
     sm = "".join(f"  <url><loc>{SITE}/{s}</loc><lastmod>{TODAY}</lastmod><changefreq>{c}</changefreq><priority>{p}</priority></url>\n" for s, c, p in urls)
     (DOCS / "sitemap.xml").write_text(f'<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n{sm}</urlset>\n', encoding="utf-8")
     print(f"[정적 문서] {len(pages)}쪽 · sitemap {len(urls)}개 주소")
+
+
+def seo_main(pages: dict) -> None:
+    """기능 seo_content 가 켜졌을 때의 전체 만들기: 기존 문서 페이지 + 법령 가이드 2쪽 + tools/seo_pages 의 새 페이지, sitemap 은 페이지마다 lastmod."""
+    from tools import seo_pages
+    out, guides = seo_pages.build_all()
+    for k, extra, more in (("guide/score/", seo_pages.SCORE_EXTRA, "score-calc"), ("guide/deposit/", seo_pages.DEPOSIT_EXTRA, "account-first-rank")):
+        if k in pages:
+            t, d, b = pages[k]
+            pages[k] = (t, d, b + extra + (f'<p class="small">더 자세한 설명: {seo_pages.glink(more)}</p>' if seo_pages.glink(more) else ""))
+    gidx = [(f"guide/{g['slug']}/", g["title"], g["desc"]) for g in guides] + [(k, t, d) for k, (t, d, _) in pages.items() if k.startswith("guide/")]
+    if gidx:
+        body = ("<h1>청약 가이드</h1>"
+                "<p>청약 제도를 처음 준비하는 분을 위해 「주택공급에 관한 규칙」 등 법령 원문을 기준으로 정리한 해설이에요. 무순위·특별공급·가점·청약통장·자금 준비·임대주택까지 주제별로 나눴고, 글마다 관련 공고를 함께 걸어 두었어요.</p>"
+                "<p>소득·자산 금액이나 거주기간처럼 공고마다 다른 기준은 글에 고정 숫자로 적지 않고, 공고별 페이지에서 그 공고문 기준으로 보여 드려요. 글은 이해를 돕는 해설이고, 신청 자격의 최종 기준은 모집공고문이에요.</p>"
+                '<section class="card doc"><ul class="doclist linklist">' + "".join(f'<li><a href="/{s}"><b>{html.escape(t)}</b></a><br><span class="small muted">{html.escape(d)}</span></li>' for s, t, d in gidx) + "</ul></section>")
+        pages["guide/"] = ("청약 가이드 — 무순위·특별공급·가점·청약통장·자금", f"청약 제도 해설 {len(gidx)}편 — 법령 원문 기준, 관련 공고 링크", body)
+    lm = {}
+    for slug, (t, d, body) in pages.items():
+        out_p = DOCS / slug / "index.html"
+        out_p.parent.mkdir(parents=True, exist_ok=True)
+        crumbs = [("/", "홈"), ("/guide/", "청약 가이드"), (None, t)] if slug.startswith("guide/") and slug != "guide/" else [("/", "홈"), (None, t)]
+        out_p.write_text(page(slug, t, d, body, "", crumbs), encoding="utf-8")
+        lm[slug] = seo_pages.CONTENT_DATE if slug.startswith("guide") else TODAY
+    urls = [("", TODAY, "daily", "1.0")] + [(s, lm[s], "weekly" if s.startswith("guide") else "monthly", "0.7" if s.startswith("guide") else "0.5") for s in pages]
+    for s, m in out:
+        pr = "0.8" if s.startswith("notice/") and s.count("/") == 2 else "0.6"
+        urls.append((s, m, "daily" if s.startswith(("notice/", "rental/")) else "monthly", pr))
+    seen, uniq = set(), []
+    for u in urls:
+        if u[0] not in seen:
+            seen.add(u[0]); uniq.append(u)
+    from urllib.parse import quote
+    sm = "".join(f"  <url><loc>{SITE}/{quote(s)}</loc><lastmod>{m}</lastmod><changefreq>{c}</changefreq><priority>{p}</priority></url>\n" for s, m, c, p in uniq)
+    (DOCS / "sitemap.xml").write_text(f'<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n{sm}</urlset>\n', encoding="utf-8")
+    print(f"[정적 문서·seo_content] {len(pages)}쪽 + 새 페이지 {len(out)}쪽 · sitemap {len(uniq)}개 주소")
 
 
 if __name__ == "__main__":

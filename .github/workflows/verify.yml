@@ -9,6 +9,9 @@ on:
       - "docs/changelog.json"
       - "tools/build_static.py"
       - "tools/snapshot_docs.cjs"
+      - "tools/seo_pages.py"
+      - "tools/guides/**"
+      - "docs/config.json"
       - "tests/judge/**"
       - "tools/judge_check.cjs"
       - "tools/verify_status.py"
@@ -101,6 +104,7 @@ jobs:
         run: |
           pip install -q -r requirements.txt
           node tools/snapshot_docs.cjs && python -m tools.build_static
+          python -m tools.qa.seo_static --json evidence/qa/seo-static.json || true   # 기능 seo_content: 산문 길이·금지어·깨진 링크·구조화 데이터·sitemap
       - name: 검증 요약 저장
         run: |
           set +e
@@ -110,7 +114,7 @@ jobs:
           git config user.email "actions@users.noreply.github.com"
           # 없는 파일이 하나라도 있으면 git add 가 통째로 실패해 아무것도 저장되지 않는다(2026-10-22 verify-scope.json 이 안 만들어져 09:56 결과 사라짐, 실행은 '성공') → 있는 파일만
           keep() { for f in "$@"; do [ -e "$f" ] || git ls-files --error-unmatch "$f" >/dev/null 2>&1 && echo "$f"; done; }
-          git add -A -- $(keep docs/verify-status.json docs/judge-status.json evidence/qa/supply-type.json evidence/qa/invariants.json evidence/qa/filter-check.json evidence/qa/consistency.json evidence/qa/sp-text.json evidence/qa/cross-rule.json evidence/qa/profile-keep.json evidence/qa/monotonic.json evidence/qa/zero-default.json evidence/qa/input-nav.json evidence/qa/snapshot.json evidence/qa/e2e.json evidence/qa/past-chat.json evidence/qa/verify-scope.json evidence/qa/rent-org.json evidence/qa/lh-invariants.json evidence/qa/lh-pdf-tools.json evidence/qa/lh-qa.json evidence/qa/lh-screen.json evidence/qa/lh-unread.json evidence/qa/pay-audit.json docs/sitemap.xml docs/story docs/about docs/terms docs/privacy docs/updates docs/guide docs/notice)
+          git add -A -- $(keep docs/verify-status.json docs/judge-status.json evidence/qa/supply-type.json evidence/qa/invariants.json evidence/qa/filter-check.json evidence/qa/consistency.json evidence/qa/sp-text.json evidence/qa/cross-rule.json evidence/qa/profile-keep.json evidence/qa/monotonic.json evidence/qa/zero-default.json evidence/qa/input-nav.json evidence/qa/snapshot.json evidence/qa/e2e.json evidence/qa/past-chat.json evidence/qa/verify-scope.json evidence/qa/rent-org.json evidence/qa/lh-invariants.json evidence/qa/lh-pdf-tools.json evidence/qa/lh-qa.json evidence/qa/lh-screen.json evidence/qa/lh-unread.json evidence/qa/pay-audit.json docs/sitemap.xml docs/story docs/about docs/terms docs/privacy docs/updates docs/guide docs/notice docs/rental docs/index.html docs/archive/seo-grades.json tools/seo_engine.json tools/static_fragments.json evidence/qa/seo-static.json)
           # 다른 작업(근거 자료 모으기 등)과 push 가 겹치면 예전엔 조용히 사라졌다(2026-10-09·11 verify-status 가 갱신 안 됨) → 3번까지 다시 받아 올리고, 끝내 못 올리면 실패로 보이게
           if ! git diff --cached --quiet; then
             git commit -m "판정 검증 결과 $(date +%Y-%m-%d)"
