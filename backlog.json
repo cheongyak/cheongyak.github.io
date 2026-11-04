@@ -29,15 +29,15 @@
    "reach": 2,
    "confidence": 3,
    "effort": "S",
-   "status": "open",
+   "status": "in_pr",
    "first_seen": "2026-11-04",
-   "last_seen": "2026-11-04",
+   "last_seen": "2026-11-05",
    "tries": 1,
-   "pr": null,
-   "notes": "같은 규칙에 걸린 다른 비수도권 공고가 있는지 함께 볼 것(README 51줄) · 2026-11-04 밤: 고쳐 브랜치 auto/20261104-landlease-duty(f3f4c428)에 올림. 비수도권인데 공고문이 기간>0 을 적은 공고는 지금 데이터에 434·435 뿐(notice-cache 46건 확인). 판정 사례 970/970, 새 시험 4개 고치기 전 실패→후 통과. PR 은 안 만듦: 작업 환경 PyPI 막힘으로 전체 pytest 를 못 돌림(httpx 없음, 빈 껍데기로 돌린 결과 main 과 같은 32건만 실패). 다음 밤: pip 되면 전체 pytest·다른 눈 검토 후 PR",
+   "pr": 88,
+   "notes": "같은 규칙에 걸린 다른 비수도권 공고가 있는지 함께 볼 것(README 51줄) · 2026-11-04 밤: 고쳐 브랜치 auto/20261104-landlease-duty(f3f4c428)에 올림. 비수도권인데 공고문이 기간>0 을 적은 공고는 지금 데이터에 434·435 뿐(notice-cache 46건 확인). 판정 사례 970/970, 새 시험 4개 고치기 전 실패→후 통과. PR 은 안 만듦: 작업 환경 PyPI 막힘으로 전체 pytest 를 못 돌림(httpx 없음, 빈 껍데기로 돌린 결과 main 과 같은 32건만 실패). 다음 밤: pip 되면 전체 pytest·다른 눈 검토 후 PR · 2026-11-05 밤: 다른 눈 검토 지적(비수도권 오검출 장치 풀림)으로 토지임대부만으로 좁힘, PR #88(브랜치 auto/20261105-landlease-duty — 이전 브랜치는 강제 push 막혀 남겨 둠)",
    "success_check": {
-    "how": "수집 뒤 docs/listings.json 에서 2026000434·435 의 residence_duty, docs/run-log.txt 의 [검증·정답 불일치] 줄",
-    "expect": "residence_duty 5 · 실거주 의무 '5년' · 434·435 정답 불일치 0"
+    "how": "합친 뒤 다음 수집의 docs/listings.json 2026000434·435 주택형 residence_duty, run-log [검증·정답 불일치]",
+    "expect": "residence_duty 5, residence_duty 정답 불일치 줄 없음"
    }
   },
   {
@@ -142,7 +142,7 @@
    "effort": "M",
    "status": "open",
    "first_seen": "2026-11-04",
-   "last_seen": "2026-11-04",
+   "last_seen": "2026-11-05",
    "tries": 0,
    "pr": null,
    "success_check": null,
@@ -161,7 +161,7 @@
    "effort": "M",
    "status": "open",
    "first_seen": "2026-11-04",
-   "last_seen": "2026-11-04",
+   "last_seen": "2026-11-05",
    "tries": 0,
    "pr": null,
    "success_check": null,
@@ -179,7 +179,7 @@
    "effort": "M",
    "status": "open",
    "first_seen": "2026-11-04",
-   "last_seen": "2026-11-04",
+   "last_seen": "2026-11-05",
    "tries": 0,
    "pr": null,
    "success_check": null,
@@ -220,6 +220,24 @@
    "pr": null,
    "success_check": null,
    "notes": ""
+  },
+  {
+   "key": "runlog:[경고] 청약홈에서 공고를 0건 받았어요",
+   "title": "분양 수집 0건(2026-11-05 00:15) → 공고문 대조 못 돌려 검증 현황 ok:false·'확인 중' 배너",
+   "area": "data",
+   "source": "docs/run-log.txt · docs/verify-status.json banner",
+   "evidence": "run-log 2026-11-05 '공고 0건 받음 → 지난 결과 274건 유지', general·remainder totalCount=0; verify-status.json ok false, banner why '공고문 대조를 돌리지 못함'",
+   "severity": "P1",
+   "reach": 3,
+   "confidence": 2,
+   "effort": "M",
+   "status": "open",
+   "first_seen": "2026-11-05",
+   "last_seen": "2026-11-05",
+   "tries": 0,
+   "pr": null,
+   "success_check": null,
+   "notes": "한 번만 보임(앞선 06:28·07:49 수집은 정상). 일시적 API 문제일 수 있음 — 다음 수집에서도 0건이면 원인 조사. 0건일 때 지난 결과는 검증된 것인데 배너가 뜨는 설계가 맞는지는 운영자 판단 거리"
   }
  ]
 }
