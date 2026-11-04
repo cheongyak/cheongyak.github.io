@@ -54,3 +54,18 @@ def test_validator_still_flags_duty_not_from_notice():
     """공고문에서 읽지 않았는데 비수도권에 거주의무가 붙어 있으면 여전히 경고."""
     L = _jeju("2026939995", residence_duty=3, from_notice=[])
     assert any("실거주 의무가 수도권" in c for c in validate.listing_checks(L, date(2026, 11, 4)))
+
+
+@pytest.mark.parametrize("text", [
+    "전매제한 1년 거주의무 없음",
+    "전매제한기간 3년 거주의무기간 해당없음",
+    "※ 수도권 공공택지 분양가상한제 적용주택은 거주의무기간은 최대 5년 적용됩니다.",
+    "수도권 분양가상한제 적용주택의 경우 3년 거주의무가 있으나 본 주택은 해당되지 않습니다",
+])
+def test_non_landlease_non_capital_ignores_misread_duty(text, monkeypatch):
+    """토지임대부가 아닌 비수도권 공고는 공고문 읽기가 기간을 잘못 읽어도(다른 눈 검토 11-05 재현 문장) 예전처럼 0 이고, 검증 경고도 그대로."""
+    found = notice_pdf.parse_notice(text)
+    L = _apply(_jeju("2026939990", name="어느 지방 공공분양주택", land_lease=False), dict(found, price_cap=True), monkeypatch)
+    assert L.residence_duty == 0
+    L2 = _jeju("2026939989", name="어느 지방 공공분양주택", land_lease=False, residence_duty=3, from_notice=["실거주 의무"])
+    assert any("실거주 의무가 수도권" in c for c in validate.listing_checks(L2, date(2026, 11, 4)))
