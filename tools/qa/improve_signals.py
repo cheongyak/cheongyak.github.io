@@ -33,8 +33,16 @@ def _json(p: Path):
         return None
 
 
+DATE = re.compile(r"\d{4}[-.]\s?\d{1,2}[-.]\s?\d{1,2}\.?|\d{1,2}:\d{2}")
+
+
+def _norm(s: str) -> str:
+    """key 에 날짜·시각이 들어가면 같은 문제가 매일 다른 key 가 된다 — 지운다."""
+    return re.sub(r"\s+", " ", DATE.sub("", s)).strip()
+
+
 def _sig(key, area, source, title, detail="", severity="P2", owner=None):
-    return {"key": key, "area": area, "source": source, "title": title, "detail": detail[:600], "severity": severity, "owner": owner}
+    return {"key": _norm(key), "area": area, "source": source, "title": title, "detail": detail[:600], "severity": severity, "owner": owner}
 
 
 def from_verify_status(root: Path) -> list[dict]:
@@ -76,11 +84,11 @@ def from_run_log(root: Path) -> list[dict]:
     for line in _read(root / "docs" / "run-log.txt").splitlines():
         s = line.strip()
         if s.startswith(TAGS):
-            out.append(_sig(f"runlog:{s[:50]}", "data", "docs/run-log.txt", s[:80], s, "P1"))
+            out.append(_sig(f"runlog:{s[:100]}", "data", "docs/run-log.txt", s[:80], s, "P1"))
         elif s.startswith("[청약봇]"):
             m = re.search(r"👎(\d+)", s)
             if m and int(m.group(1)) > 0:
-                out.append(_sig(f"bot-down:{s[6:17]}", "bot", "docs/run-log.txt [청약봇]", f"청약봇 👎 {m.group(1)}건", s, "P2"))
+                out.append(_sig("bot-down", "bot", "docs/run-log.txt [청약봇]", f"청약봇 👎 {m.group(1)}건", s, "P2"))
     return out
 
 
@@ -102,7 +110,8 @@ def from_blind_audit(root: Path) -> list[dict]:
             continue
         m = SEV.search(line)
         title = f"{cells[0][:60]} · {cells[1][:30]}"
-        out.append(_sig(f"audit:{latest.name}:{cells[0][:40]}:{cells[1][:20]}", "parse", f"{latest.relative_to(root)}/README.md",
+        notice = cells[0].split()[0] if cells[0].split() else cells[0]   # '2026000434·435' — 주마다 바뀌는 보고 폴더 이름은 key 에 넣지 않는다
+        out.append(_sig(f"audit:{notice}:{cells[1][:20]}", "parse", f"{latest.relative_to(root)}/README.md",
                         title, line, m.group(1) if m else "P1"))
     return out
 
@@ -126,6 +135,7 @@ def from_handoff(root: Path) -> dict:
 
 
 def _gh(path: str):
+    """실패하면 None (빈 목록과 구분한다 — GitHub 를 못 읽었는데 '열린 PR 0개'로 착각하면 PR 한도·배우기가 무너진다)."""
     try:
         r = subprocess.run(["gh", "api", path], capture_output=True, text=True, timeout=60)
         return json.loads(r.stdout) if r.returncode == 0 else None
@@ -133,11 +143,20 @@ def _gh(path: str):
         return None
 
 
+TRUSTED = {"OWNER", "MEMBER", "COLLABORATOR"}
+
+
+def trusted(item: dict) -> bool:
+    """공개 저장소라 누구나 이슈·댓글을 쓸 수 있다. 우리 자동 작업(github-actions)과 저장소 협업자 것만 신호·지시로 쓴다."""
+    login = ((item.get("user") or {}).get("login") or "")
+    return login == "github-actions[bot]" or item.get("author_association") in TRUSTED
+
+
 def group_issues(issues: list[dict]) -> list[dict]:
     """같은 제목(날짜 뺀) 이슈를 묶는다 — 같은 알림이 매일 새 이슈로 쌓이면 그 자체가 고칠 거리."""
     groups: dict[str, list[dict]] = {}
     for it in issues:
-        if "pull_request" in it:   # 이슈 목록 API 는 PR 도 돌려준다
+        if "pull_request" in it or not trusted(it):   # 이슈 목록 API 는 PR 도 돌려준다
             continue
         k = re.sub(r"\d{4}-\d{2}-\d{2}", "", it.get("title", "")).strip()
         groups.setdefault(k, []).append(it)
@@ -163,12 +182,20 @@ def loop_prs(prs: list[dict]) -> list[dict]:
 
 def collect(root: Path, use_gh: bool = False) -> dict:
     sigs = from_verify_status(root) + from_run_log(root) + from_blind_audit(root) + from_config(root)
-    res = {"signals": sigs, "handoff": from_handoff(root), "loop_prs": [], "gh": use_gh}
+    res = {"signals": sigs, "handoff": from_handoff(root), "loop_prs": [], "gh": use_gh, "gh_ok": None}
     if use_gh:
-        issues = _gh(f"repos/{REPO}/issues?state=open&per_page=100") or []
+        issues, ok = [], True
+        for page in (1, 2, 3):
+            got = _gh(f"repos/{REPO}/issues?state=open&per_page=100&page={page}")
+            if got is None:
+                ok = False; break
+            issues += got
+            if len(got) < 100:
+                break
+        prs = _gh(f"repos/{REPO}/pulls?state=all&per_page=100")
+        res["gh_ok"] = ok and prs is not None
         res["signals"] += group_issues(issues)
-        prs = _gh(f"repos/{REPO}/pulls?state=all&per_page=50") or []
-        res["loop_prs"] = loop_prs(prs)
+        res["loop_prs"] = loop_prs(prs or [])
     seen, uniq = set(), []
     for s in res["signals"]:
         if s["key"] not in seen:
@@ -187,7 +214,8 @@ def main(argv=None):
     s = json.dumps(res, ensure_ascii=False, indent=1)
     if a.out:
         Path(a.out).write_text(s, encoding="utf-8")
-        print(f"[개선 신호] {len(res['signals'])}건 · 루프 PR {len(res['loop_prs'])}건 → {a.out}")
+        print(f"[개선 신호] {len(res['signals'])}건 · 루프 PR {len(res['loop_prs'])}건 → {a.out}"
+              + (" · GitHub 읽기 실패 — 멈추고 보고" if res["gh_ok"] is False else ""))
     else:
         print(s)
 

@@ -37,21 +37,41 @@ def test_collects_without_network(tmp_path):
     assert "qa:snapshot_diffs" in keys and "qa:filter_fails" not in keys
     assert "stale:LH 임대" in keys and "stale:분양" not in keys
     assert any(k.startswith("runlog:[검증·정답 불일치]") for k in keys)
-    assert any(k.startswith("bot-down:") for k in keys)
+    assert "bot-down" in keys
     audit = [s for s in r["signals"] if s["key"].startswith("audit:")]
-    assert len(audit) == 1 and "2026-11-02-blind" in audit[0]["key"] and audit[0]["severity"] == "P1"   # 가장 최근 보고의 '앱 오류'만
+    assert len(audit) == 1 and audit[0]["key"] == "audit:2026000434:실거주 의무" and "2026-11-02-blind" in audit[0]["source"] and audit[0]["severity"] == "P1"   # 가장 최근 보고의 '앱 오류'만
     assert "b" in keys["features-off"]["detail"]
     assert "운영자가 켤 것" in r["handoff"]["text"] and "최근 끝난 일" not in r["handoff"]["text"]
-    assert r["loop_prs"] == [] and r["gh"] is False
+    assert r["loop_prs"] == [] and r["gh"] is False and r["gh_ok"] is None
 
 
-def test_keys_are_stable(tmp_path):
+def test_keys_survive_new_week_and_new_day(tmp_path):
+    """같은 문제는 주가 바뀌어도(새 대조 폴더)·날짜가 바뀌어도 같은 key — 그래야 '고친 뒤 사라졌나'·'닫은 일 30일 안 고르기'가 맞다."""
     root = _repo(tmp_path)
-    assert [s["key"] for s in collect(root)["signals"]] == [s["key"] for s in collect(root)["signals"]]
+    before = {s["key"] for s in collect(root)["signals"]}
+    a = root / "evidence" / "audit" / "2026-11-09-blind"
+    a.mkdir()
+    a.joinpath("README.md").write_text((root / "evidence" / "audit" / "2026-11-02-blind" / "README.md").read_text(encoding="utf-8"), encoding="utf-8")
+    log = root / "docs" / "run-log.txt"
+    log.write_text(log.read_text(encoding="utf-8").replace("2026-11-03", "2026-11-04"), encoding="utf-8")
+    after = {s["key"] for s in collect(root)["signals"]}
+    assert before == after
+    assert "audit:2026000434:실거주 의무" in after
+    assert "bot-down" in after
+
+
+def test_dates_are_removed_from_keys(tmp_path):
+    root = _repo(tmp_path)
+    (root / "docs" / "run-log.txt").write_text("[경고·수집 멈춤] LH 임대 2026-10-20 12:41 이후 42시간\n", encoding="utf-8")
+    k = [s["key"] for s in collect(root)["signals"] if s["key"].startswith("runlog:")][0]
+    assert "2026" not in k and "12:41" not in k
 
 
 def test_issue_groups_and_loop_prs():
-    issues = [{"number": n, "title": f"판정 검증 실패 2026-11-0{n % 5}"} for n in range(1, 6)] + [{"number": 9, "title": "PR", "pull_request": {}}]
+    bot = {"login": "github-actions[bot]"}
+    issues = [{"number": n, "title": f"판정 검증 실패 2026-11-0{n % 5}", "user": bot} for n in range(1, 6)] + [{"number": 9, "title": "PR", "pull_request": {}, "user": bot},
+              {"number": 10, "title": "아무나 쓴 이슈", "user": {"login": "stranger"}, "author_association": "NONE"},
+              {"number": 11, "title": "아무나 쓴 이슈", "user": {"login": "stranger2"}, "author_association": "NONE"}]
     g = group_issues(issues)
     assert len(g) == 1 and g[0]["title"] == "열린 이슈 '판정 검증 실패' 5건" and g[0]["severity"] == "P1"
     prs = [{"number": 3, "title": "t", "labels": [{"name": "auto-improve"}], "head": {"ref": "auto/x"}, "state": "closed", "merged_at": "2026-11-05"},
