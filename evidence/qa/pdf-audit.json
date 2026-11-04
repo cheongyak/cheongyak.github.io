@@ -1,19 +1,13 @@
 {
  "date": "2026-11-05",
  "page_cap": 300,
- "notices": 68,
+ "notices": 66,
  "with_problem": 6,
  "kinds": {
   "글자가 거의 없는 쪽 N개 (스캔 이미지·표 그림 추정)": 6,
   "지금 수집 값과 다시 읽은 값이 다름": 2
  },
- "errors": [
-  {
-   "notice": "2026000507",
-   "name": "광안센텀 비스타동원(조합원 취소분)",
-   "error": "RemoteProtocolError: Server disconnected without sending a response."
-  }
- ],
+ "errors": [],
  "results": [
   {
    "notice": "2026820014",
@@ -1764,7 +1758,62 @@
   {
    "notice": "2026000507",
    "name": "광안센텀 비스타동원(조합원 취소분)",
-   "error": "RemoteProtocolError: Server disconnected without sending a response."
+   "url": "https://www.applyhome.co.kr/ai/aia/selectAPTLttotPblancDetail.do?houseManageNo=2026000507&pblancNo=2026000507",
+   "attachments": 1,
+   "pdfs": 1,
+   "attachment_list": [
+    {
+     "url": "https://static.applyhome.co.kr/ai/aia/getAtchmnfl.do?houseManageNo=2026000507&pblancNo=2026000507&atchmnflSeqNo=1999025&atchmnflSn=5",
+     "bytes": 940389,
+     "pages": 45,
+     "chars": 101941,
+     "head": "- 1 - ※ 단지 주요정보 (분양문의) 051-741-3300 주택유형 해당지역 기타지역 규제지역여부 민영 부산광역시 1년 이상 계속 거주자 "
+    }
+   ],
+   "chosen": "https://static.applyhome.co.kr/ai/aia/getAtchmnfl.do?houseManageNo=2026000507&pblancNo=2026000507&atchmnflSeqNo=1999025&atchmnflSn=5",
+   "pages": 45,
+   "pages_read": 45,
+   "chars_read": 101985,
+   "empty_pages": [],
+   "chars_per_page_min": 346,
+   "fields": {
+    "need_head": false,
+    "price_cap": false,
+    "residence_duty": 0,
+    "rewin_years": 0,
+    "account_months": 6,
+    "residence": {
+     "area": "부산광역시",
+     "months": 12,
+     "since": "2025-10-16"
+    }
+   },
+   "fields_merged": {
+    "need_head": false,
+    "price_cap": false,
+    "residence_duty": 0,
+    "rewin_years": 0,
+    "account_months": 6,
+    "residence": {
+     "area": "부산광역시",
+     "months": 12,
+     "since": "2025-10-16"
+    }
+   },
+   "fields_pdfium": {
+    "need_head": false,
+    "price_cap": false,
+    "residence_duty": 0,
+    "rewin_years": 0,
+    "account_months": 6,
+    "residence": {
+     "area": "부산광역시",
+     "months": 12,
+     "since": "2025-10-16"
+    }
+   },
+   "pdfium_chars": 102266,
+   "problem": []
   },
   {
    "notice": "2026000495",
@@ -2185,66 +2234,6 @@
    "problem": []
   },
   {
-   "notice": "2026000466",
-   "name": "진도 승원팰리체 더 테라스",
-   "url": "https://www.applyhome.co.kr/ai/aia/selectAPTLttotPblancDetail.do?houseManageNo=2026000466&pblancNo=2026000466",
-   "attachments": 1,
-   "pdfs": 1,
-   "attachment_list": [
-    {
-     "url": "https://static.applyhome.co.kr/ai/aia/getAtchmnfl.do?houseManageNo=2026000466&pblancNo=2026000466&atchmnflSeqNo=1995122&atchmnflSn=6",
-     "bytes": 702438,
-     "pages": 54,
-     "chars": 119397,
-     "head": "- 1 - ※ 단지 주요정보 (분양문의) 1644-4448 주택유형 해당지역 기타지역 규제지역여부 민영 기존 전라남도 진도군 거주자 기존 전라남"
-    }
-   ],
-   "chosen": "https://static.applyhome.co.kr/ai/aia/getAtchmnfl.do?houseManageNo=2026000466&pblancNo=2026000466&atchmnflSeqNo=1995122&atchmnflSn=6",
-   "pages": 54,
-   "pages_read": 54,
-   "chars_read": 119450,
-   "empty_pages": [],
-   "chars_per_page_min": 204,
-   "fields": {
-    "need_head": false,
-    "price_cap": false,
-    "residence_duty": 0,
-    "rewin_years": 0,
-    "account_months": 6,
-    "residence": {
-     "area": "전라남도 진도군",
-     "months": 0,
-     "since": null
-    }
-   },
-   "fields_merged": {
-    "need_head": false,
-    "price_cap": false,
-    "residence_duty": 0,
-    "rewin_years": 0,
-    "account_months": 6,
-    "residence": {
-     "area": "전라남도 진도군",
-     "months": 0,
-     "since": null
-    }
-   },
-   "fields_pdfium": {
-    "need_head": false,
-    "price_cap": false,
-    "residence_duty": 0,
-    "rewin_years": 0,
-    "account_months": 6,
-    "residence": {
-     "area": "전라남도 진도군",
-     "months": 0,
-     "since": null
-    }
-   },
-   "pdfium_chars": 119378,
-   "problem": []
-  },
-  {
    "notice": "2026000464",
    "name": "힐스테이트 거제시그니처(1회차)",
    "url": "https://www.applyhome.co.kr/ai/aia/selectAPTLttotPblancDetail.do?houseManageNo=2026000464&pblancNo=2026000464",
@@ -2544,115 +2533,6 @@
     "pub_limits_kind": "town"
    },
    "pdfium_chars": 106813,
-   "problem": []
-  },
-  {
-   "notice": "2026000414",
-   "name": "인천계양지구 A6블록 공공분양주택(본청약)",
-   "url": "https://www.applyhome.co.kr/ai/aia/selectAPTLttotPblancDetail.do?houseManageNo=2026000414&pblancNo=2026000414",
-   "attachments": 0,
-   "pdfs": 1,
-   "attachment_list": [
-    {
-     "url": "https://apply.lh.or.kr/lhapply/lhFile.do?fileid=68595376",
-     "bytes": 1620040,
-     "pages": 47,
-     "chars": 179681,
-     "head": "- 1 - 인천계양지구 인천계양지구 인천계양지구 인천계양지구 인천계양지구 인천계양지구 인천계양지구 인천계양지구 인천계양지구 인천계양지구 인천계양",
-     "via": "LH청약플러스"
-    }
-   ],
-   "chosen": "https://apply.lh.or.kr/lhapply/lhFile.do?fileid=68595376",
-   "pages": 47,
-   "pages_read": 47,
-   "chars_read": 179727,
-   "empty_pages": [],
-   "chars_per_page_min": 445,
-   "fields": {
-    "need_head": false,
-    "price_cap": true,
-    "residence_duty": 0,
-    "rewin_years": 10,
-    "account_months": 12,
-    "deposit_count": 12,
-    "residence": {
-     "area": "인천광역시",
-     "months": 0,
-     "since": null
-    },
-    "pub_limits_kind": null,
-    "schedule": {
-     "pre": [
-      "2026-09-17",
-      "2026-09-18"
-     ],
-     "special": [
-      "2026-09-30",
-      "2026-09-30"
-     ],
-     "general": [
-      "2026-10-01",
-      "2026-10-02"
-     ]
-    }
-   },
-   "fields_merged": {
-    "need_head": false,
-    "price_cap": true,
-    "residence_duty": 0,
-    "rewin_years": 10,
-    "account_months": 12,
-    "deposit_count": 12,
-    "residence": {
-     "area": "인천광역시",
-     "months": 0,
-     "since": null
-    },
-    "pub_limits_kind": null,
-    "schedule": {
-     "pre": [
-      "2026-09-17",
-      "2026-09-18"
-     ],
-     "special": [
-      "2026-09-30",
-      "2026-09-30"
-     ],
-     "general": [
-      "2026-10-01",
-      "2026-10-02"
-     ]
-    }
-   },
-   "fields_pdfium": {
-    "need_head": false,
-    "price_cap": true,
-    "residence_duty": 0,
-    "rewin_years": 10,
-    "account_months": 12,
-    "deposit_count": 12,
-    "residence": {
-     "area": "인천광역시",
-     "months": 0,
-     "since": null
-    },
-    "pub_limits_kind": null,
-    "schedule": {
-     "pre": [
-      "2026-09-17",
-      "2026-09-18"
-     ],
-     "special": [
-      "2026-09-30",
-      "2026-09-30"
-     ],
-     "general": [
-      "2026-10-01",
-      "2026-10-02"
-     ]
-    }
-   },
-   "pdfium_chars": 178388,
    "problem": []
   },
   {
