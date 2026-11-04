@@ -418,3 +418,11 @@ test('free: 본문 근거 번호는 지우고 근거 목록(refs)으로만', () 
   const v = checkFree(JSON.stringify({ answer: '안 돼요. 공고일 기준으로 세대주가 아니에요 [N1][P1].\n- 2순위는 세대원도 돼요 [N2, L1]', refs: [], ask: null }), { evidence: [{ id: 'N1' }, { id: 'P1' }, { id: 'N2' }, { id: 'L1' }] });
   assert.ok(v.ok); assert.ok(!/\[[PNLEF]\d/.test(v.answer.text), v.answer.text); assert.deepEqual(v.answer.refs.sort(), ['L1', 'N1', 'N2', 'P1']);
 });
+test('free: 괄호·맨 근거 번호와 DATA 라는 말도 본문에서 지운다 (2026-11-04 실제 답 시험)', () => {
+  const ev = ['P1', 'N2', 'N3', 'N5', 'N6', 'L1'].map(id => ({ id }));
+  const v = checkFree(JSON.stringify({ answer: '**공공분양 84A (공고문 N2 기준)**\n- 혼인기간은 7년 이내여야 해요(L1).\n- 중복 당첨은 빠른 쪽만 (N3).\n**지분적립형 59A (공고문 N5·N6 기준)**\n- 이 금액은 DATA에 없어요. A17BL 단지예요.', refs: [] }), { evidence: ev });
+  assert.ok(v.ok, v.flags.join());
+  assert.ok(!/\b[PNLEF]\d\b|DATA/.test(v.answer.text.replace('A17BL', '')), v.answer.text);
+  assert.match(v.answer.text, /공고문 기준/); assert.match(v.answer.text, /A17BL/); assert.match(v.answer.text, /청약패스 자료에 없어요/);
+  assert.deepEqual(v.answer.refs.sort(), ['L1', 'N2', 'N3', 'N5', 'N6']);
+});
