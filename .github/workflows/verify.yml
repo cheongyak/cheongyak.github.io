@@ -118,13 +118,9 @@ jobs:
           # 다른 작업(근거 자료 모으기 등)과 push 가 겹치면 예전엔 조용히 사라졌다(2026-10-09·11 verify-status 가 갱신 안 됨) → 3번까지 다시 받아 올리고, 끝내 못 올리면 실패로 보이게
           if ! git diff --cached --quiet; then
             git commit -m "판정 검증 결과 $(date +%Y-%m-%d)"
-            pushed=0
-            for n in 1 2 3 4; do
-              git push && { pushed=1; break; }
-              git pull --rebase -X theirs origin main || { git rebase --abort; git pull --no-rebase -X theirs --no-edit origin main; }
-              sleep $((n * 7))
-            done
-            [ "$pushed" = 1 ] || { echo "::error::검증 결과를 올리지 못했어요 (push 4번 실패)"; rc=1; }
+            # 검사 단계가 docs/run-log.txt 등에 덧붙이고 커밋하지 않은 변경이 남으면 'pull --rebase' 가 매번 거절돼 4번 다 실패했다
+            # (2026-11-05 원인 확인: 판정은 970/970 인데 '판정 검증 실패' 이슈가 57건 쌓임) → 받기 전에 남은 변경을 치우는 push_retry.sh
+            bash tools/qa/push_retry.sh || { echo "::error::검증 결과를 올리지 못했어요 (push 4번 실패)"; rc=1; }
           fi
           exit $rc
       - name: 실패하면 운영자 알림 (이슈)

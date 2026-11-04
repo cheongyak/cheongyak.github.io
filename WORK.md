@@ -4,6 +4,15 @@
 2026-09-29 12:55 이전 항목은 규칙을 만들기 전 작업을 커밋 기록으로 정리한 것이라 백업 브랜치가 없어요.
 그 시점으로 되돌릴 때는 해당 커밋 번호로 `git revert` 를 써요.
 
+## 2026-11-05 06:50 · '판정 검증 실패' 이슈 57건 원인: 판정이 아니라 검증 결과 저장 실패
+- 요청: 운영자 '떠 있는 판정검증실패 이슈 원인 파악하고 이상 없으면 완료 처리'
+- 원인: ① 57건 모두 본문 판정 사례는 전부 일치(966/966·967/967·970/970) — 이슈는 verify.yml '검증 요약 저장' 단계가 실패하면 열리는데 제목·본문이 판정 줄만 보여 줌 ② 실제 실패 원인(verify-status 이력): 10-27~10-31 LH 임대 못 읽은 공고·입력 버튼 1건·공고문 대조 등(모두 그 뒤 해결), 11-02 07:58~ SH-312351 공고문 오기(06:24 다른 세션이 원문 확인 예외로 등록) ③ 06:29 검증은 검사를 다 통과했는데 저장에서 실패 — 검사 단계가 docs/run-log.txt 에 덧붙이고 커밋하지 않아 'pull --rebase' 가 4번 모두 거절('Please commit your changes'). collect.yml '검증 요약 저장 단계만 실패'(HANDOFF -57)도 같은 꼴
+- 변경: verify.yml·collect.yml 검증 요약 저장의 직접 push 반복을 tools/qa/push_retry.sh(받기 전 남은 변경 치움)로, collect.yml 데이터·공고 페이지 저장도 같게. 시험 test_rental_workflows_use_safe_push 에 verify.yml·collect.yml 추가. [skip ci] 로 올림(06:39 손 수집이 도는 중)
+- 파일: .github/workflows/verify.yml, .github/workflows/collect.yml, tests/test_freshness.py, HANDOFF.md, WORK.md
+- 확인: 워크플로 YAML 읽힘, 전체 pytest(고친 시험 포함) 통과. 이슈 닫기는 다음 수집·검증이 ok 로 저장된 것을 본 뒤
+- 기능: 없음(수정)
+- 백업: backup/20261105-0650
+
 ## 2026-11-05 06:28 · 이용 안내 메뉴에 청약 가이드 링크 (v1.84.1)
 - 요청: 운영자 '가이드는 어디에 써놨어?' → '청약패스 웹에서도 볼 수 있게 해야지' — 가이드(/guide/)가 정적 페이지 메뉴에만 있고 앱 화면에는 들어가는 길이 없었음
 - 변경: docs/index.html aboutMenu 에 on('seo_content') 일 때 '청약 가이드' 줄(href="/guide/", 같은 창으로 이동, 가이드 페이지 위 메뉴 '공고 보기'로 돌아옴). 스냅샷 도구가 a 링크는 그대로 두므로 정적 /about/ 에도 같은 줄이 생김
