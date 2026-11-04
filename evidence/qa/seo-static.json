@@ -1,5 +1,5 @@
 {
- "pages": 533,
+ "pages": 534,
  "by_kind": {
   "other": 8,
   "guide": 32,
@@ -7,14 +7,19 @@
   "notice_list": 18,
   "notice_type": 6,
   "rental_list": 6,
-  "rental": 67
+  "rental": 68
  },
  "short": [],
  "forbidden": [],
  "broken": [],
  "ld_bad": [],
  "ld_missing": [],
- "not_in_sitemap": [],
+ "not_in_sitemap": [
+  "rental/lh/2015122300020918/",
+  "rental/lh/2015122300020923/",
+  "rental/lh/2015122300020925/",
+  "rental/local/LOC-21442/"
+ ],
  "prose_min": {
   "other": 444,
   "guide": 1584,
@@ -33,8 +38,8 @@
   5365,
   4755,
   5178,
-  5423,
-  5045,
+  5771,
+  5393,
   5532,
   5841,
   5571,
@@ -50,7 +55,7 @@
   4179,
   4125
  ],
- "sitemap_urls": 534,
+ "sitemap_urls": 531,
  "sitemap_no_lastmod": 0,
- "ok": true
+ "ok": false
 }
