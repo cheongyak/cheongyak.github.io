@@ -1038,6 +1038,9 @@ def build_all() -> list[tuple[str, str]]:
         out.append(write(f"notice/{nid}/", t, d, b, h, c, min(lm, TODAY)))
     for slug, t, d, b, c in index_pages(recs, eng):
         out.append(write(slug, t, d, b, "", c, upd))
+    rd = DOCS / "rental"   # 임대도 통째로 다시 만든다 — 모집이 끝나 목록에서 빠진 공고 페이지가 남지 않게 (2026-11-05)
+    if rd.exists():
+        shutil.rmtree(rd)
     for x in rental_build(write):
         out.append(x)
     gout, gs = guide_build(write, recs)
