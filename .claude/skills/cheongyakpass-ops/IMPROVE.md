@@ -44,7 +44,7 @@ git worktree add -B improve-state "$PWD/../improve-state" origin/auto-improve/st
 
 | PR 상태 | 할 일 | 영역 가중치 |
 | --- | --- | --- |
-| 합쳐짐, 기록 아직 | **기록 커밋**: 백업 브랜치 → PR 본문 '합친 뒤 기록'을 지금 main 에 맞게 고쳐 쓰기(버전은 지금 changelog 맨 위 +1, WORK.md 시각은 백업 시각, FEATURES 커밋 칸은 합친 커밋) → `git commit`·`git pull --rebase`·`git push origin HEAD:main` → 버전을 올렸으면 `bash tools/qa/release.sh X.Y.Z`. backlog `merged` | +0.15 |
+| 합쳐짐, 기록 아직 (WORK.md 에 'PR #<번호>' 가 없음 — 있으면 손 세션이 이미 썼으니 건너뛰고 release 브랜치만 확인) | **기록 커밋**: 백업 브랜치 → PR 본문 '합친 뒤 기록'을 지금 main 에 맞게 고쳐 쓰기(버전은 지금 changelog 맨 위 +1, WORK.md 시각은 백업 시각, FEATURES 커밋 칸은 합친 커밋) → `git commit`·`git pull --rebase`·`git push origin HEAD:main` → 버전을 올렸으면 `bash tools/qa/release.sh X.Y.Z`. backlog `merged` | +0.15 |
 | 합친 지 3일 이상 | 그 항목의 `success_check`(3단계에서 정함)를 실제로 돌린다. 기대대로면 `merged_effective`, 아니면 `merged_no_effect` + 이유 한 줄을 lessons 에 | +0.1 / −0.1 |
 | 합친 뒤 Actions(verify·collect)가 그 커밋부터 처음 실패 | 되돌리는 PR(`git revert`)을 만들고 보고 맨 앞에 적는다 | −0.3 |
 | 닫힘(안 합침) | `rejected`. 협업자 댓글의 이유를 lessons 에 한 줄(없으면 '이유 없음'). 같은 key 는 30일 동안 고르지 않는다 | −0.25 |
