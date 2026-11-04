@@ -1,9 +1,10 @@
 {
  "date": "2026-11-05",
  "page_cap": 300,
- "notices": 66,
- "with_problem": 6,
+ "notices": 69,
+ "with_problem": 7,
  "kinds": {
+  "읽기 도구에 따라 값이 다름": 1,
   "글자가 거의 없는 쪽 N개 (스캔 이미지·표 그림 추정)": 6,
   "지금 수집 값과 다시 읽은 값이 다름": 2
  },
@@ -383,9 +384,9 @@
     "price_cap": true,
     "rewin_years": 10,
     "residence": {
-     "area": null,
-     "months": 0,
-     "since": null
+     "area": "수원시",
+     "months": 24,
+     "since": "2024-10-30"
     }
    },
    "fields_merged": {
@@ -393,9 +394,9 @@
     "price_cap": true,
     "rewin_years": 10,
     "residence": {
-     "area": null,
-     "months": 0,
-     "since": null
+     "area": "수원시",
+     "months": 24,
+     "since": "2024-10-30"
     }
    },
    "fields_pdfium": {
@@ -412,12 +413,26 @@
     "need_head": [
      false,
      null
+    ],
+    "residence": [
+     {
+      "area": "수원시",
+      "months": 24,
+      "since": "2024-10-30"
+     },
+     {
+      "area": null,
+      "months": 0,
+      "since": null
+     }
     ]
    },
    "filled_by_second_tool": [
     "need_head"
    ],
-   "problem": []
+   "problem": [
+    "읽기 도구에 따라 값이 다름: residence {'area': '수원시', 'months': 24, 'since': '2024-10-30'}↔{'area': None, 'm"
+   ]
   },
   {
    "notice": "2026000527",
@@ -445,9 +460,9 @@
     "price_cap": true,
     "rewin_years": 10,
     "residence": {
-     "area": null,
-     "months": 0,
-     "since": null
+     "area": "수원시",
+     "months": 24,
+     "since": "2024-10-30"
     },
     "pub_limits_kind": "total"
    },
@@ -456,9 +471,9 @@
     "price_cap": true,
     "rewin_years": 10,
     "residence": {
-     "area": null,
-     "months": 0,
-     "since": null
+     "area": "수원시",
+     "months": 24,
+     "since": "2024-10-30"
     },
     "pub_limits_kind": "total"
    },
@@ -478,9 +493,9 @@
     ],
     "residence": [
      {
-      "area": null,
-      "months": 0,
-      "since": null
+      "area": "수원시",
+      "months": 24,
+      "since": "2024-10-30"
      },
      null
     ]
@@ -2533,6 +2548,177 @@
     "pub_limits_kind": "town"
    },
    "pdfium_chars": 106813,
+   "problem": []
+  },
+  {
+   "notice": "2026910286",
+   "name": "삼천 하늘채 라비엘",
+   "url": "https://www.applyhome.co.kr/ai/aia/selectAPTRemndrLttotPblancDetailView.do?houseManageNo=2026910286&pblancNo=2026910286",
+   "attachments": 1,
+   "pdfs": 1,
+   "attachment_list": [
+    {
+     "url": "https://static.applyhome.co.kr/ai/aia/getAtchmnfl.do?houseManageNo=2026910286&pblancNo=2026910286&atchmnflSeqNo=2013010&atchmnflSn=2",
+     "bytes": 218438,
+     "pages": 8,
+     "chars": 15554,
+     "head": "- 1 - 1 단지 주요정보 (분양문의) 1551-8836 주택유형 규제지역여부 무순위(사후) 자격요건 민영 비규제지역 무순위(사후) 입주자모집"
+    }
+   ],
+   "chosen": "https://static.applyhome.co.kr/ai/aia/getAtchmnfl.do?houseManageNo=2026910286&pblancNo=2026910286&atchmnflSeqNo=2013010&atchmnflSn=2",
+   "pages": 8,
+   "pages_read": 8,
+   "chars_read": 15561,
+   "empty_pages": [],
+   "chars_per_page_min": 819,
+   "fields": {
+    "need_head": false,
+    "price_cap": false,
+    "residence_duty": 0,
+    "rewin_years": 0,
+    "residence": {
+     "area": "전북특별자치도",
+     "months": 0,
+     "since": null
+    }
+   },
+   "fields_merged": {
+    "need_head": false,
+    "price_cap": false,
+    "residence_duty": 0,
+    "rewin_years": 0,
+    "residence": {
+     "area": "전북특별자치도",
+     "months": 0,
+     "since": null
+    }
+   },
+   "fields_pdfium": {
+    "need_head": false,
+    "price_cap": false,
+    "residence_duty": 0,
+    "rewin_years": 0,
+    "residence": {
+     "area": "전북특별자치도",
+     "months": 0,
+     "since": null
+    }
+   },
+   "pdfium_chars": 15192,
+   "problem": []
+  },
+  {
+   "notice": "2026910285",
+   "name": "더샵 송도그란테르 G5-6블록",
+   "url": "https://www.applyhome.co.kr/ai/aia/selectAPTRemndrLttotPblancDetailView.do?houseManageNo=2026910285&pblancNo=2026910285",
+   "attachments": 1,
+   "pdfs": 1,
+   "attachment_list": [
+    {
+     "url": "https://static.applyhome.co.kr/ai/aia/getAtchmnfl.do?houseManageNo=2026910285&pblancNo=2026910285&atchmnflSeqNo=2013052&atchmnflSn=1",
+     "bytes": 237566,
+     "pages": 9,
+     "chars": 14472,
+     "head": "[공동주택 G5-6]- 1 - 더샵 송도그란테르 G5-6블록 민영주택 무순위 입주자모집공고 구 글 플 레 이 스 토 어애플앱스토어 청약Home "
+    }
+   ],
+   "chosen": "https://static.applyhome.co.kr/ai/aia/getAtchmnfl.do?houseManageNo=2026910285&pblancNo=2026910285&atchmnflSeqNo=2013052&atchmnflSn=1",
+   "pages": 9,
+   "pages_read": 9,
+   "chars_read": 14480,
+   "empty_pages": [],
+   "chars_per_page_min": 1290,
+   "fields": {
+    "need_head": false,
+    "price_cap": false,
+    "residence_duty": 0,
+    "rewin_years": 0,
+    "residence": {
+     "area": null,
+     "months": 0,
+     "since": null
+    }
+   },
+   "fields_merged": {
+    "need_head": false,
+    "price_cap": false,
+    "residence_duty": 0,
+    "rewin_years": 0,
+    "residence": {
+     "area": null,
+     "months": 0,
+     "since": null
+    }
+   },
+   "fields_pdfium": {
+    "need_head": false,
+    "price_cap": false,
+    "residence_duty": 0,
+    "rewin_years": 0,
+    "residence": {
+     "area": null,
+     "months": 0,
+     "since": null
+    }
+   },
+   "pdfium_chars": 14748,
+   "problem": []
+  },
+  {
+   "notice": "2026910277",
+   "name": "쌍용 더 플래티넘 센텀",
+   "url": "https://www.applyhome.co.kr/ai/aia/selectAPTRemndrLttotPblancDetailView.do?houseManageNo=2026910277&pblancNo=2026910277",
+   "attachments": 1,
+   "pdfs": 1,
+   "attachment_list": [
+    {
+     "url": "https://static.applyhome.co.kr/ai/aia/getAtchmnfl.do?houseManageNo=2026910277&pblancNo=2026910277&atchmnflSeqNo=2008636&atchmnflSn=1",
+     "bytes": 304629,
+     "pages": 14,
+     "chars": 25261,
+     "head": "- 1 - ※ 단지 주요정보 (분양문의) 051-758-8555 주택유형 규제지역여부 무순위(사후) 자격요건 민영 비규제지역 무순위(사후) 입주"
+    }
+   ],
+   "chosen": "https://static.applyhome.co.kr/ai/aia/getAtchmnfl.do?houseManageNo=2026910277&pblancNo=2026910277&atchmnflSeqNo=2008636&atchmnflSn=1",
+   "pages": 14,
+   "pages_read": 14,
+   "chars_read": 25274,
+   "empty_pages": [],
+   "chars_per_page_min": 459,
+   "fields": {
+    "need_head": false,
+    "price_cap": false,
+    "residence_duty": 0,
+    "rewin_years": 0,
+    "residence": {
+     "area": null,
+     "months": 0,
+     "since": null
+    }
+   },
+   "fields_merged": {
+    "need_head": false,
+    "price_cap": false,
+    "residence_duty": 0,
+    "rewin_years": 0,
+    "residence": {
+     "area": null,
+     "months": 0,
+     "since": null
+    }
+   },
+   "fields_pdfium": {
+    "need_head": false,
+    "price_cap": false,
+    "residence_duty": 0,
+    "rewin_years": 0,
+    "residence": {
+     "area": null,
+     "months": 0,
+     "since": null
+    }
+   },
+   "pdfium_chars": 25513,
    "problem": []
   },
   {
