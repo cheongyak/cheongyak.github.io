@@ -539,8 +539,13 @@ def apply_notice(listings: list[Listing], log: list[str], client=None, previous:
                 L.need_head = found["need_head"]
             if "price_cap" in found:
                 L.price_cap = found["price_cap"]
-            if not (L.capital and L.price_cap):
-                L.residence_duty = 0            # 거주의무는 수도권 분양가상한제 주택에만 있다
+            if (found.get("residence_duty") or 0) > 0 and "토지임대부" in (L.name or ""):
+                # 토지임대부 분양주택은 수도권이 아니어도 거주의무가 붙는다(「주택법」제57조의2) — 공고문이 적은 기간을 그대로 쓴다
+                # (2026000434·435 제주 삼도이동 토지임대부: 공고문 '거주의무 최초 입주가능일 5년 「주택법」제57조의2' 를 0 으로 덮던 것, 2026-11-02 주간 원문 대조)
+                # 토지임대부가 아니면 예전처럼 지역 규칙이 먼저 — 공고문 읽기가 '1년 거주의무 없음'·다른 지역 규칙 인용을 기간으로 잘못 읽어도 막는다(다른 눈 검토 11-05)
+                L.residence_duty = found["residence_duty"]
+            elif not (L.capital and L.price_cap):
+                L.residence_duty = 0            # 공고문에 기간이 없으면: 거주의무는 수도권 분양가상한제 주택에만 있다
             elif "residence_duty" in found:
                 L.residence_duty = found["residence_duty"]
             elif L.residence_duty == 0:
