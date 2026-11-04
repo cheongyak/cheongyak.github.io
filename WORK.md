@@ -4,6 +4,14 @@
 2026-09-29 12:55 이전 항목은 규칙을 만들기 전 작업을 커밋 기록으로 정리한 것이라 백업 브랜치가 없어요.
 그 시점으로 되돌릴 때는 해당 커밋 번호로 `git revert` 를 써요.
 
+## 2026-11-04 23:33 · 매일 밤 자동 개선 루프 (PR 로만 제안)
+- 요청: 운영자 '기존 세션이 아닌 아무것도 모르는 세션이 청약패스를 개선하는 피드백 루프, 알아서 진화·개선되게' → 반영 범위 '제안서만(PR)', 주기 '매일 밤' 선택
+- 변경: 절차 .claude/skills/cheongyakpass-ops/IMPROVE.md(고정 규칙 8개 — main 직접 push 금지·PR 하룻밤 1개·열린 PR 최대 3개·스위치 안 켬·판정/수치는 원문 인용 필수·다른 예약 작업 몫 건너뜀, 단계: 지난 PR 결과로 배우기 → 신호 모으기 → 점수로 하나 고르기(5일마다 탐색) → 브랜치에서 고치기 → 검사 → 다른 에이전트 결함 검토 → PR → 열린 PR 돌보기 → 상태 저장 → 규칙 고치기 제안). 신호 도구 tools/qa/improve_signals.py(검증 현황·run-log·최근 주간 원문 대조 '앱 오류'·꺼 둔 기능·HANDOFF 진행 중인 일, --gh 면 열린 이슈 묶음·루프 PR). 상태는 main 이 아닌 데이터 전용 브랜치 auto-improve/state(backlog·weights·ledger·lessons·ideas — 근거 있는 첫 할 일 7개). PR 라벨 auto-improve. 예약 작업 '청약패스 밤 자동 개선'(매일 밤)
+- 파일: .claude/skills/cheongyakpass-ops/IMPROVE.md, .claude/skills/cheongyakpass-ops/SKILL.md, tools/qa/improve_signals.py, tests/test_improve_signals.py, HANDOFF.md, WORK.md (+ 브랜치 auto-improve/state)
+- 확인: 새 시험 3/3, 전체 pytest 427 통과·1 건너뜀, 지금 저장소로 신호 9건(못 읽은 SH-312351 은 '아침 자동 고치기' 몫으로 표시, '판정 검증 실패' 열린 이슈 53건, 주간 대조 P1 3건, 꺼 둔 기능 4개)
+- 기능: 없음(수정) — 운영 도구, 화면·판정 변화 없음
+- 백업: backup/20261104-2333
+
 ## 2026-11-04 23:27 · 청약봇 답 본문의 내부 번호·'DATA' 지우기 (v1.83.5)
 - 요청: v1.83.4 올린 뒤 확인 (운영자 '일반 AI 보다 답이 안 좋다'의 이어서)
 - 원인: Sonnet 5.5 실제 답 시험(evidence/chat-probe/latest.json 23:33)에서 답은 좋아졌지만 본문에 '(공고문 N2 기준)'·'(L1)'·'(N3)'·'DATA에 없어서'가 섞임 — 검사기는 [N1] 꼴만 지웠음

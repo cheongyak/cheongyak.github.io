@@ -190,3 +190,6 @@ description: 청약패스(cheongyakpass.kr, 저장소 cheongyak/cheongyak.github
 - **버전 여러 개를 한 번에 올릴 때 (2026-10-22)**: `release.sh` 는 지금 원격 main 을 찍으므로, 버전마다 올리고 바로 release.sh 를 돌린다. 한꺼번에 올렸으면 `git push origin <그 버전 커밋>:refs/heads/release/vX.Y.Z` 로 그 커밋에 직접 만든다(v1.78.0 을 v1.79.0 커밋에 잘못 찍어 지우고 다시 만듦)
 
 - **시세 비교 범위를 바꿀 때 (2026-10-28 market_nearby)**: 실거래가 API 는 한꺼번에 8개씩 받으면 429(요청 과다)가 난다 — 못 받은 구는 '거래 0건'처럼 보여 결론이 틀린다(첫 미리 보기에서 분당구가 통째로 빠짐). 받기 실패를 0건과 구분해 적을 것. 같은 법정동이 반경보다 넓을 수 있다(고양 장항동: 장항지구 ↔ 킨텍스원시티). 바꾸기 전 `market-nearby.yml` 미리 보기로 등급 바뀜 전체를 보고, 로또↔비추천처럼 크게 바뀐 공고는 근거 거래 단지를 직접 읽는다
+
+- **밤 자동 개선 루프 (2026-11-04)**: 예약 작업 '청약패스 밤 자동 개선'이 IMPROVE.md 절차로 매일 밤 PR(라벨 auto-improve) 하나를 올린다. 상태(할 일 목록·가중치·교훈)는 브랜치 auto-improve/state. 손으로 일할 때 열린 auto/ PR 과 같은 파일이면 충돌하니 먼저 PR 목록을 본다. 루프 규칙을 바꾸려면 IMPROVE.md 를 고치고(고정 규칙은 운영자 결정으로만) WORK.md 에 적는다.
+- **로컬 pytest 에 pip 이 막혔을 때 (2026-11-04)**: pytest·pluggy·iniconfig·httpx·httpcore·fastapi·starlette 를 GitHub 에서 받아 **패키지 폴더만** 한 폴더에 링크하고 `PYTHONPATH=.:<그 폴더>` 로 돌린다. 저장소 폴더 통째(예: httpx/)를 PYTHONPATH 에 넣으면 그 안의 `tests` 패키지가 우리 tests 를 가려 'No module named tests.test_…' 수집 오류가 난다.
