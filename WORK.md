@@ -4,6 +4,16 @@
 2026-09-29 12:55 이전 항목은 규칙을 만들기 전 작업을 커밋 기록으로 정리한 것이라 백업 브랜치가 없어요.
 그 시점으로 되돌릴 때는 해당 커밋 번호로 `git revert` 를 써요.
 
+## 2026-11-04 23:51 · 검색용 정적 페이지 켬 (v1.84.0)
+- 요청: 같은 요청(애드센스·애드핏 재심사)의 이어서 — 꺼진 채로 올린 seo_content 를 검증 뒤 켬
+- 변경: docs/config.json seo_content true, 만든 페이지(docs/notice·rental·guide·about/operator·policy·sources, docs/index.html 첫 화면 블록, sitemap.xml) 와 tools/seo_engine.json·docs/archive/seo-grades.json·evidence/qa/seo-static.json 을 함께 올림. 가이드 30편 원문 대조 검토(독립 에이전트)에서 나온 적용 범위 오류 10건 고침:
+  special-overview 횟수 제한 예외(제55조 단서 — 제37조·제44조는 한 차례), regulated-area 위축지역 민영 1순위 예치금(제28조①1라)·부적격 제한 수도권 위축지역 3개월(제58조③), schedule-reading 공고 5일 단축은 제35·36조 특별공급만(제21조②), score-calc·land-lease '수도권' 공공주택지구·개발제한구역 해제 50% 조건(제28조), musunwi 재당첨 제한 대상에서 비규제 민영 제외(제54조①), sp-newlywed 공공 20% 물량은 추첨(공공주택 특별법 시행규칙 별표 6), public-sale-basics 세대주 요건은 노부모부양(제46조)·공고별, public-rental 1인·2인 1주택 예외(별표 5·5의2). 숫자(기간·점수·비율·금액) 오류는 없었음 — 검토자가 30편 숫자·예시 계산을 원문으로 다시 계산
+- 파일: docs/config.json, tools/guides/*.json(9), docs/notice/, docs/rental/, docs/guide/, docs/about/, docs/index.html, docs/sitemap.xml, tools/seo_engine.json, tools/static_fragments.json, docs/archive/seo-grades.json, evidence/qa/seo-static.json, docs/changelog.json, VERSIONS.md, FEATURES.md, HANDOFF.md, WORK.md
+- 확인: 켠 상태로 tools.qa.seo_static 통과(531쪽 · 지금 공고 산문 최소 4,022자 · 가이드 1,500자 이상 · 금지어 0 · 깨진 링크 0 · JSON-LD 오류 0 · sitemap 532개 주소 모두 lastmod), seo_shots 390px 밝은·어두운 28쪽 문제 0, test_seo_static 7개 통과, 꺼진 상태 검증(regress 판정 차이 0·화면 오류 0, 정적 페이지 글자 차이 0)은 앞 커밋 기록
+- 기능: seo_content
+- 버전: v1.84.0
+- 백업: backup/20261104-2351-seo
+
 ## 2026-11-04 23:51 · 검색용 정적 페이지 보강 (기능 seo_content, 꺼진 채로 올림)
 - 요청: 운영자 '애드센스·애드핏 재심사 통과 — 원인은 로봇이 읽을 글이 없음(첫 화면 정적 글 51자, 공고 페이지는 자동 표뿐)'. 주거나침반·시세.com 처럼 공고별 섹션·FAQ·관련 공고·이동 경로, 목록·임대·가이드 30편·신뢰 페이지, 첫 화면 정적 글, 베타 띠 제거, sitemap lastmod
 - 변경: tools/seo_pages.py(새) — 공고 페이지 01 한눈에 보기·02 등급과 판정 이유(마감 공고는 청약 결과·판정 복기)·03 일정·04 분양가·추정 시세·05 자격 요약(공고문 원문 인용)·06 자금 예시(pay_ratio·contract_split)·07 특별공급 물량·FAQ 5·관련 공고·출처, FAQPage·BreadcrumbList 구조화 데이터 / 목록 /notice/·/notice/<시도>/·/notice/type/<유형>/ / 마감 공고 1년 보관(청약홈 결과가 있거나 공고문을 읽은 공고만) / 임대 /rental/<기관>/<id>/ / 가이드 tools/guides/*.json 30편 + 법령 기준표 2쪽 해설 / 신뢰 /about/operator·policy·sources / docs/index.html 첫 화면 미리 그린 블록(앱이 뜨면 덮임) / 접수 때 등급 기록 docs/archive/seo-grades.json(판정 복기용, 1년)
