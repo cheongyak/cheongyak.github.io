@@ -1,5 +1,5 @@
 {
- "date": "2026-11-04",
+ "date": "2026-11-05",
  "page_cap": 300,
  "notices": 68,
  "with_problem": 6,
@@ -9,8 +9,8 @@
  },
  "errors": [
   {
-   "notice": "2026000458",
-   "name": "산곡역자이힐스테이트앤하늘채",
+   "notice": "2026000507",
+   "name": "광안센텀 비스타동원(조합원 취소분)",
    "error": "RemoteProtocolError: Server disconnected without sending a response."
   }
  ],
@@ -1764,62 +1764,7 @@
   {
    "notice": "2026000507",
    "name": "광안센텀 비스타동원(조합원 취소분)",
-   "url": "https://www.applyhome.co.kr/ai/aia/selectAPTLttotPblancDetail.do?houseManageNo=2026000507&pblancNo=2026000507",
-   "attachments": 1,
-   "pdfs": 1,
-   "attachment_list": [
-    {
-     "url": "https://static.applyhome.co.kr/ai/aia/getAtchmnfl.do?houseManageNo=2026000507&pblancNo=2026000507&atchmnflSeqNo=1999025&atchmnflSn=5",
-     "bytes": 940389,
-     "pages": 45,
-     "chars": 101941,
-     "head": "- 1 - ※ 단지 주요정보 (분양문의) 051-741-3300 주택유형 해당지역 기타지역 규제지역여부 민영 부산광역시 1년 이상 계속 거주자 "
-    }
-   ],
-   "chosen": "https://static.applyhome.co.kr/ai/aia/getAtchmnfl.do?houseManageNo=2026000507&pblancNo=2026000507&atchmnflSeqNo=1999025&atchmnflSn=5",
-   "pages": 45,
-   "pages_read": 45,
-   "chars_read": 101985,
-   "empty_pages": [],
-   "chars_per_page_min": 346,
-   "fields": {
-    "need_head": false,
-    "price_cap": false,
-    "residence_duty": 0,
-    "rewin_years": 0,
-    "account_months": 6,
-    "residence": {
-     "area": "부산광역시",
-     "months": 12,
-     "since": "2025-10-16"
-    }
-   },
-   "fields_merged": {
-    "need_head": false,
-    "price_cap": false,
-    "residence_duty": 0,
-    "rewin_years": 0,
-    "account_months": 6,
-    "residence": {
-     "area": "부산광역시",
-     "months": 12,
-     "since": "2025-10-16"
-    }
-   },
-   "fields_pdfium": {
-    "need_head": false,
-    "price_cap": false,
-    "residence_duty": 0,
-    "rewin_years": 0,
-    "account_months": 6,
-    "residence": {
-     "area": "부산광역시",
-     "months": 12,
-     "since": "2025-10-16"
-    }
-   },
-   "pdfium_chars": 102266,
-   "problem": []
+   "error": "RemoteProtocolError: Server disconnected without sending a response."
   },
   {
    "notice": "2026000495",
@@ -2362,7 +2307,62 @@
   {
    "notice": "2026000458",
    "name": "산곡역자이힐스테이트앤하늘채",
-   "error": "RemoteProtocolError: Server disconnected without sending a response."
+   "url": "https://www.applyhome.co.kr/ai/aia/selectAPTLttotPblancDetail.do?houseManageNo=2026000458&pblancNo=2026000458",
+   "attachments": 1,
+   "pdfs": 1,
+   "attachment_list": [
+    {
+     "url": "https://static.applyhome.co.kr/ai/aia/getAtchmnfl.do?houseManageNo=2026000458&pblancNo=2026000458&atchmnflSeqNo=1995089&atchmnflSn=2",
+     "bytes": 1077481,
+     "pages": 70,
+     "chars": 156262,
+     "head": "- 1 - 구분 입주자모집공고일 특별공급 접수일 일반공급 1순위 접수일 일반공급 2순위 접수일 당첨자발표일 서류접수 계약체결 일정 2026.10"
+    }
+   ],
+   "chosen": "https://static.applyhome.co.kr/ai/aia/getAtchmnfl.do?houseManageNo=2026000458&pblancNo=2026000458&atchmnflSeqNo=1995089&atchmnflSn=2",
+   "pages": 70,
+   "pages_read": 70,
+   "chars_read": 156331,
+   "empty_pages": [],
+   "chars_per_page_min": 345,
+   "fields": {
+    "need_head": false,
+    "price_cap": false,
+    "residence_duty": 0,
+    "rewin_years": 0,
+    "account_months": 12,
+    "residence": {
+     "area": "인천광역시",
+     "months": 0,
+     "since": null
+    }
+   },
+   "fields_merged": {
+    "need_head": false,
+    "price_cap": false,
+    "residence_duty": 0,
+    "rewin_years": 0,
+    "account_months": 12,
+    "residence": {
+     "area": "인천광역시",
+     "months": 0,
+     "since": null
+    }
+   },
+   "fields_pdfium": {
+    "need_head": false,
+    "price_cap": false,
+    "residence_duty": 0,
+    "rewin_years": 0,
+    "account_months": 12,
+    "residence": {
+     "area": "인천광역시",
+     "months": 0,
+     "since": null
+    }
+   },
+   "pdfium_chars": 154554,
+   "problem": []
   },
   {
    "notice": "2026000402",
