@@ -1,0 +1,37 @@
+{
+ "areas": {
+  "judge": 1.0,
+  "parse": 1.0,
+  "data": 1.0,
+  "ops": 1.0,
+  "bot": 1.0,
+  "ux": 1.0,
+  "feature": 0.8,
+  "qa": 1.0,
+  "docs": 0.6
+ },
+ "bounds": [
+  0.3,
+  2.0
+ ],
+ "severity": {
+  "P0": 100,
+  "P1": 30,
+  "P2": 10,
+  "P3": 3
+ },
+ "effort": {
+  "S": 1,
+  "M": 2,
+  "L": 4
+ },
+ "explore_every_days": 5,
+ "max_open_prs": 3,
+ "max_candidates_per_night": 3,
+ "changes": [
+  {
+   "date": "2026-11-04",
+   "why": "처음 값. feature 0.8: 새 기능은 운영자가 켜야 효과가 나서 고침보다 조금 낮게, docs 0.6: 문서만 바꾸는 PR 은 운영자에게 가치가 낮음"
+  }
+ ]
+}
