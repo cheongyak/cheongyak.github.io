@@ -53,7 +53,7 @@ def listing_checks(L: Listing, today: date) -> list[str]:
     if L.ext and not (0 < L.ext < L.price * 0.1):
         out.append(f"확장비 {L.ext}억이 분양가 대비 이상해요")
     # 규제·의무
-    if L.residence_duty and not (L.capital and L.price_cap):
+    if L.residence_duty and not (L.capital and L.price_cap) and "실거주 의무" not in (L.from_notice or []):   # 공고문에 적힌 기간은 지역과 관계없이 맞다(토지임대부 2026000434)
         out.append("실거주 의무가 수도권 분양가상한제 주택이 아닌데 붙어 있어요")
     # 조건 ↔ 공급 유형 연결: 일반공급 세대주 요건의 근거 문장이 특별공급 대상자 문장이면 잘못 연결된 것 (2026-10-09 블라인드 대조 재공급 2026930031·034)
     nq = (getattr(L, "notice_quotes", None) or {}).get("세대주 요건", "")
