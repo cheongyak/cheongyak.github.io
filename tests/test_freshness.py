@@ -54,7 +54,7 @@ def test_unreadable_time_is_a_warning(tmp_path):
 
 def test_rental_workflows_use_safe_push():
     """저장 단계가 커밋하지 않은 파일 때문에 받기(pull --rebase)에서 멈추지 않게 — push_retry.sh 를 쓴다"""
-    for f in ("lh-rental.yml", "sh-rental.yml", "gh-rental.yml", "pvt-rental.yml", "lh-probe.yml"):
+    for f in ("lh-rental.yml", "sh-rental.yml", "gh-rental.yml", "pvt-rental.yml", "lh-probe.yml", "verify.yml", "collect.yml"):   # verify·collect 검증 요약 저장 (2026-11-05)
         t = (ROOT / ".github" / "workflows" / f).read_text(encoding="utf-8")
         assert "bash tools/qa/push_retry.sh" in t, f
         assert not re.search(r"git push \|\| \(git pull --rebase", t), f
