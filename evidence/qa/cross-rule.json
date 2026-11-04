@@ -3,19 +3,86 @@
  "listings": 302,
  "profiles": 42,
  "checks": 306982,
- "conflicts": 0,
+ "conflicts": 4,
  "severity": {
   "CRITICAL": 0,
   "HIGH": 0,
-  "MEDIUM": 0
+  "MEDIUM": 4
  },
- "rules": {},
+ "rules": {
+  "DUTY-001": 4
+ },
  "states": {
   "UNKNOWN": 68,
-  "NORMAL": 140,
-  "WARNING": 94
+  "NORMAL": 138,
+  "WARNING": 96
  },
- "examples": [],
+ "examples": [
+  {
+   "rule_id": "DUTY-001",
+   "severity": "MEDIUM",
+   "id": "2026000435-049.5837A",
+   "name": "삼도이동 2지구 토지임대부 공공분양주택",
+   "profile": null,
+   "condition": "거주의무 CONFIRMED",
+   "actual": "수도권 분양가상한제 아님",
+   "expected": "거주의무는 수도권 분양가상한제 주택만",
+   "conflicting_fields": [
+    "residenceDuty",
+    "capital",
+    "priceCap"
+   ],
+   "evidence": "주택법 제57조의2"
+  },
+  {
+   "rule_id": "DUTY-001",
+   "severity": "MEDIUM",
+   "id": "2026000435-059.9783A",
+   "name": "삼도이동 2지구 토지임대부 공공분양주택",
+   "profile": null,
+   "condition": "거주의무 CONFIRMED",
+   "actual": "수도권 분양가상한제 아님",
+   "expected": "거주의무는 수도권 분양가상한제 주택만",
+   "conflicting_fields": [
+    "residenceDuty",
+    "capital",
+    "priceCap"
+   ],
+   "evidence": "주택법 제57조의2"
+  },
+  {
+   "rule_id": "DUTY-001",
+   "severity": "MEDIUM",
+   "id": "2026000434-049.5837A",
+   "name": "삼도이동 1지구 토지임대부 공공분양주택",
+   "profile": null,
+   "condition": "거주의무 CONFIRMED",
+   "actual": "수도권 분양가상한제 아님",
+   "expected": "거주의무는 수도권 분양가상한제 주택만",
+   "conflicting_fields": [
+    "residenceDuty",
+    "capital",
+    "priceCap"
+   ],
+   "evidence": "주택법 제57조의2"
+  },
+  {
+   "rule_id": "DUTY-001",
+   "severity": "MEDIUM",
+   "id": "2026000434-059.9783A",
+   "name": "삼도이동 1지구 토지임대부 공공분양주택",
+   "profile": null,
+   "condition": "거주의무 CONFIRMED",
+   "actual": "수도권 분양가상한제 아님",
+   "expected": "거주의무는 수도권 분양가상한제 주택만",
+   "conflicting_fields": [
+    "residenceDuty",
+    "capital",
+    "priceCap"
+   ],
+   "evidence": "주택법 제57조의2"
+  }
+ ],
  "unknown": [
   {
    "id": "2026820014-046.0000O",
@@ -260,7 +327,7 @@
  ],
  "pageErrors": [],
  "_data": {
-  "listings": "8ef1675f96cb",
+  "listings": "3f9b683ced9c",
   "code": "8b5d7a7577ec"
  }
 }
