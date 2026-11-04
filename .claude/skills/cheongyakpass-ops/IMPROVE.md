@@ -76,7 +76,7 @@ git worktree add -B improve-state "$PWD/../improve-state" origin/auto-improve/st
 
 ## 4. 고치기
 
-1. `git fetch origin main && git switch -c auto/<YYYYMMDD>-<slug> origin/main`.
+1. `git fetch origin main && git switch -c auto/<YYYYMMDD>-<slug> origin/main`. 같은 key 로 지난밤 만들고 PR 을 못 낸 `auto/` 브랜치가 있으면(ledger `no_pr`·`git ls-remote origin 'refs/heads/auto/*'`) 새로 만들지 말고 그 브랜치를 `origin/main` 위로 다시 쌓아 이어 간다.
 2. 문제를 **먼저 재현**한다(실패하는 시험·검사 명령·원문 문장). 재현이 안 되면 고치지 않고 `confidence` 를 낮추고 `notes` 에 적은 뒤 다음 후보로(하룻밤 후보 최대 3개).
 3. 고친다. 요청받지 않은 구조 변경 금지, 한 PR = 한 가지 일. 새 검사 도구는 저장소(tools/qa)에.
 4. 시험을 더한다(고치기 전 실패 → 고친 뒤 통과). 판정 규칙이면 경계값 사례(기준 이하·초과, 하루 전후)를 make_judge_cases 에.
@@ -85,7 +85,7 @@ git worktree add -B improve-state "$PWD/../improve-state" origin/auto-improve/st
 ## 5. 검사 → 다른 눈 검토 → PR
 
 검사(하나라도 실패면 PR 을 만들지 않는다 — 고치거나 포기하고 `tries`+1):
-`python -m pytest -q` 오류·실패 0(pip 이 막히면 SKILL.md '로컬 pytest 에 pip 이 막혔을 때') · `node tools/judge_check.cjs` 전부 일치 · `node tools/qa/snapshot.cjs` 바뀐 곳이 의도한 곳뿐 ·
+`python -m pytest -q` 오류·실패 0 — 작업 환경에 pytest·httpx 가 없거나 pip 이 막혔으면 `bash tools/qa/pytest_env.sh` 가 GitHub 에서 받아 준다(마지막 줄의 `PYTHONPATH=…` 를 pytest 명령 앞에 붙임). **'pip 막힘'은 PR 을 미룰 이유가 아니다**(11-05 첫 실행이 이것으로 PR 을 못 만듦) · `node tools/judge_check.cjs` 전부 일치 · `node tools/qa/snapshot.cjs` 바뀐 곳이 의도한 곳뿐 ·
 화면을 바꿨으면 스크립트 문법 검사 + `node tools/qa/e2e.cjs` + 크로미움(/opt/pw-browsers/chromium)으로 그 화면을 직접 열어 확인 · `grep -rn '^<<<<<<< ' app tools docs tests` 없음.
 검사가 고친 결과 파일(evidence/qa/*.json 지문 등)이 바뀌었으면 의도한 것만 커밋하고 나머지는 `git checkout --` 로 되돌린다.
 

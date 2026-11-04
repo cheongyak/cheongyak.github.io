@@ -4,6 +4,15 @@
 2026-09-29 12:55 이전 항목은 규칙을 만들기 전 작업을 커밋 기록으로 정리한 것이라 백업 브랜치가 없어요.
 그 시점으로 되돌릴 때는 해당 커밋 번호로 `git revert` 를 써요.
 
+## 2026-11-05 01:45 · 밤 자동 개선 첫 실행 확인 — pip 막힘으로 PR 못 낸 것 고침
+- 요청: 운영자 '오늘은 지금부터 진행' → 23:55 손 실행 결과 확인(예약 확인 작업)
+- 결과: 고정 규칙은 지켰음(main 에 루프 커밋 없음 — 00:12·00:21 Claude 커밋은 다른 손 세션 seo_content). 1등 '판정 검증 실패 이슈 쌓임'은 고칠 곳이 .github/workflows 뿐이라 parked(운영자 판단 필요). 2등 제주 토지임대부 실거주 의무(audit:2026000434·435:실거주 의무)를 auto/20261104-landlease-duty 에 고쳤으나 작업 환경 PyPI 막힘으로 전체 pytest 를 못 돌려 PR 보류
+- 변경: tools/qa/pytest_env.sh(pytest·httpx·fastapi 등을 GitHub 에서 받아 패키지 폴더만 링크, 이미 있으면 그대로), IMPROVE.md 5단계 'pip 막힘은 PR 을 미룰 이유가 아님 → pytest_env.sh', 4단계 '지난밤 PR 못 낸 같은 key 브랜치는 이어 감', SKILL.md 같은 줄
+- 파일: tools/qa/pytest_env.sh, .claude/skills/cheongyakpass-ops/IMPROVE.md, .claude/skills/cheongyakpass-ops/SKILL.md, WORK.md
+- 확인: 빈 폴더에서 pytest_env.sh 실행 → pytest 8.3.5·httpx 0.28.1·fastapi 0.115.6 받음, 그 환경으로 전체 pytest 428 통과·1 건너뜀
+- 기능: 없음(수정)
+- 백업: backup/20261105-0145
+
 ## 2026-11-04 23:51 · 검색용 정적 페이지 켬 (v1.84.0)
 - 요청: 같은 요청(애드센스·애드핏 재심사)의 이어서 — 꺼진 채로 올린 seo_content 를 검증 뒤 켬
 - 변경: docs/config.json seo_content true, 만든 페이지(docs/notice·rental·guide·about/operator·policy·sources, docs/index.html 첫 화면 블록, sitemap.xml) 와 tools/seo_engine.json·docs/archive/seo-grades.json·evidence/qa/seo-static.json 을 함께 올림. 가이드 30편 원문 대조 검토(독립 에이전트)에서 나온 적용 범위 오류 10건 고침:
