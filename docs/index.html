@@ -4477,6 +4477,7 @@ function dataInfo(){
 }
 /* 이용 안내를 메뉴 목록으로 (기능: about_menu, 2026-10-01 사용자 요청: 오픈카톡방·앱으로 받기·알림 설정·만든 이유와 데이터·이용약관·개인정보처리방침 정도만.
    업데이트 소식·청약 기준 가이드는 화면에서 빼고 기록만 내부에서 관리). '판정은 참고용'과 데이터·검증 설명은 '만든 이유와 데이터'로 옮김 */
+/* 기능 seo_content (2026-11-05 운영자 '청약패스 웹에서도 볼 수 있게'): 이용 안내 메뉴에 청약 가이드(/guide/, 정적 페이지) 링크 */
 function aboutMenu(){
   const arrow = chev.replace('<svg', '<svg style="transform:rotate(180deg)"');
   const row = (attrs, t, d) => `<${attrs.startsWith('href') ? 'a' : 'button'} class="menurow" ${attrs}><span><b>${t}</b>${d ? `<span class="small muted">${d}</span>` : ''}</span>${arrow}</${attrs.startsWith('href') ? 'a' : 'button'}>`;
@@ -4493,6 +4494,7 @@ function aboutMenu(){
   <div class="menulist">
     ${chat}${app}
     ${pushOn() ? row('data-go="alerts"', '알림 설정', '새 공고 알림 켜기·끄기') : ''}
+    ${on('seo_content') ? row('href="/guide/"', '청약 가이드', '무순위·특별공급·가점·청약통장·자금 준비 해설 30편') : ''}
     ${row('data-go="story"', '만든 이유와 데이터', '판정 범위 · 쓰는 데이터와 검증 방식')}
     ${on('legal_pages') ? row('data-go="terms"', '이용약관', '') + row('data-go="privacy"', '개인정보처리방침', '') : ''}
     <button class="menurow" data-action="wipe"><span><b>이 기기에 저장된 내 정보 모두 지우기</b><span class="small muted">회원가입이 없고, 넣은 정보는 이 기기에만 저장돼요</span></span>${arrow}</button>
