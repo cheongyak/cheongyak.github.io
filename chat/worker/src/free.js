@@ -5,11 +5,14 @@
 import { terms, pick, selectGeneral } from './retrieve.js';
 import { redact } from './redact.js';
 
-export const FREE_VERSION = 'free1';
+export const FREE_VERSION = 'free2';
 const FORBIDDEN = [/무조건/, /꼭\s*넣으세요/, /당첨\s*(가능성|확률)이?\s*(높|크|많)/, /로또/, /강력\s*추천/, /100%\s*(당첨|가능)/];
 // 날짜를 견주는 질문이면 공고문의 '판단기준일' 문장을 꼭 넣는다 ('어제 세대주 됐는데', '지난달 전입했는데')
 const DATEY = /(어제|그제|그저께|오늘|최근|지난|요즘|며칠|일\s*전|주\s*전|달\s*전|개월|년\s*전|언제부터|이후|이전|됐|되었|바뀌|변경|전입|이사|혼인신고|결혼했)/;
 const BASE_DATE = /(판단기준일|입주자모집공고일은|기준일은\s*입주자모집)/;
+// 세대주·세대원을 묻는 질문이면 공고문의 세대주 요건 문장을 꼭 넣는다 (2026-11-04: '생애최초는 세대원도 가능'이라고 잘못 답함 — 광교 공고문은 '생애최초 및 노부모부양 특별공급 및 일반공급 1순위는 세대주만')
+const HEADY = /(세대주|세대원|세대\s*분리|세대구성원)/;
+const HEAD_RULE = /(세대주만|세대주일\s*것|세대주\s*요건|세대주\s*여부)/;
 
 export const FREE_SYSTEM = `너는 청약패스(cheongyakpass.kr)의 청약 상담 도우미다. 청약 제도(주택공급에 관한 규칙, 공공주택 특별법 등)에 대한 너의 지식과,
 아래 DATA(청약패스가 모은 공고 정보·모집공고문 원문 조각·법령 조문·화면 판정)를 함께 써서 사용자의 질문에 전문가가 상담하듯 직접 답한다.
@@ -24,6 +27,8 @@ DATA 의 종류 (id 로 가리킨다)
 답하는 원칙
 1. 결론부터. 첫 문장에서 질문에 바로 답한다(된다 / 안 된다 / 일부만 된다 / 이것에 따라 다르다).
 2. 그 공고의 사실(일정, 분양가, 규제지역, 자격 요건, 판단 기준일, 세대주 요건, 거주 요건)은 DATA 를 먼저 쓴다. 모집공고문(N)이 너의 일반 지식과 다르면 모집공고문을 따른다.
+   특히 특별공급 유형별·순위별 자격(세대주 요건, 무주택, 소득·자산, 거주)은 N·P 에 적힌 것만 '된다/안 된다'로 단정한다. DATA 에 없으면 일반 지식으로 단정하지 말고 '모집공고문에서 확인'이라고 쓴다.
+   질문이 단지 이름을 말했는데 P 에 그 단지가 없으면, 다른 공고로 답하지 말고 그 단지 공고를 찾지 못했다고 쓴다.
 3. 오늘 날짜는 TODAY 다. '어제', '지난달' 같은 말은 TODAY 로 날짜를 계산해 공고일·판단 기준일과 비교해도 된다.
 4. DATA 에 없는 제도 설명은 너의 지식으로 써도 된다. 다만 해마다 바뀌는 숫자(소득 기준 금액, 자산 기준, 예치금, 월 납입 인정 한도 등)가 DATA 에 없으면 단정하지 말고 "모집공고문·청약홈에서 확인"이라고 쓴다.
 5. 화면 판정(E)은 참고한다. 질문에 화면이 모르는 사정(예: 공고일 뒤 세대주가 됨, 최근 전입)이 있어 결론이 달라지면, 화면 판정과 왜 다른지 분명히 쓴다.
@@ -55,7 +60,7 @@ export const noticeId = id => { const m = /^(\d{6,12})(?:-|$)/.exec(String(id ||
 
 // 근거 묶음: P(공고 사실) · N(공고문 조각, 공고마다) · L(법령) · E(화면 판정) · F(찾기 결과)
 export function freeEvidence({ question, listings = [], notices = {}, law = null, engine = null, find = '' }) {
-  const ev = [], ts = terms(question), datey = DATEY.test(question);
+  const ev = [], ts = terms(question), datey = DATEY.test(question), heady = HEADY.test(question);
   listings.forEach((L, i) => ev.push({ id: 'P' + (i + 1), kind: 'listing', title: '청약패스 공고 정보: ' + (L.facts['단지'] || L.id) + (L.facts['주택형'] ? ' ' + L.facts['주택형'] : ''), url: L.facts['청약패스'] || null, text: JSON.stringify(L.facts) }));
   let n = 0, nChars = 0;
   const seen = new Set();
@@ -64,8 +69,9 @@ export function freeEvidence({ question, listings = [], notices = {}, law = null
     if (!doc || !doc.chunks || seen.has(nid)) continue;
     seen.add(nid);
     const per = listings.length > 1 ? 3 : 6;
-    const chunks = pick(doc.chunks, ts, { max: per, chars: listings.length > 1 ? 3200 : 5200, bonus: c => (datey && BASE_DATE.test(c.t) ? 30 : 0) });
+    const chunks = pick(doc.chunks, ts, { max: per, chars: listings.length > 1 ? 3200 : 5200, bonus: c => (datey && BASE_DATE.test(c.t) ? 30 : 0) + (heady && HEAD_RULE.test(c.t) ? 30 : 0) });
     if (datey && !chunks.some(c => BASE_DATE.test(c.t))) { const b = doc.chunks.find(c => BASE_DATE.test(c.t)); if (b) chunks.unshift(b); }
+    if (heady) for (const b of doc.chunks.filter(c => /세대주만/.test(c.t)).concat(doc.chunks.filter(c => HEAD_RULE.test(c.t))).slice(0, 2)) if (!chunks.includes(b)) chunks.unshift(b);
     for (const c of chunks) {
       if (nChars > 11000) break;
       const text = (c.h && !c.t.startsWith(c.h) ? c.h + '\n' : '') + c.t;

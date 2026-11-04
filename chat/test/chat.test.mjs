@@ -337,6 +337,13 @@ test('free: 날짜 질문이면 공고문의 판단기준일 조각을 근거에
   assert.ok(ev.some(e => e.kind === 'law'));
 });
 
+test('free: 세대주·세대원 질문이면 공고문의 세대주 요건 문장을 근거에 넣는다 (2026-11-04 사용자 제보)', () => {
+  for (const q of ['나 11.2일에 세대주됐는데 자연앤센트레빌 쓸수있음?', '세대원인데 생애최초 넣을 수 있어?', '세대 분리하면 1순위 돼요?']) {
+    const ev = freeEvidence({ question: q, listings: [F528], notices: { '2026000528': N528 }, law: FLAW });
+    assert.ok(ev.some(e => e.kind === 'notice' && /세대주만/.test(e.text)), q + ' → 세대주만 가능 조각');
+  }
+});
+
 test('free: 좋은 답은 그대로, 오늘 날짜와 근거를 AI 에 넘긴다', async () => {
   let seen = '';
   const r = await handleFree(OPEN, freeIn(), freeDeps(async ({ user }) => { seen = user; return { text: GOODFREE }; }));

@@ -35,7 +35,7 @@ jobs:
           def facts(L):
               f = {'단지': L.get('name'), '주택형': L.get('unit'), '전용면적(㎡)': L.get('area'), '주소': L.get('address'), '공급': L.get('kind'), '주택 구분': ' · '.join(x for x in [L.get('house_dtl'), L.get('rent_secd')] if x),
                    '공고일(자격 판단 기준일인 경우가 많음)': L.get('notice'), '특별공급 접수': L.get('special_apply'), '일반공급 접수': L.get('apply'), '당첨자 발표': L.get('winner'), '계약': L.get('contract'), '분양가(억, 청약홈)': L.get('price'),
-                   '규제지역': ('규제지역(투기과열지구·조정대상지역 중 하나 — 모집공고문 확인)' if L.get('regulated') else '비규제지역'), '일반공급 1순위 세대주 요건': {True: '세대주만', False: '세대원도 가능'}.get(L.get('need_head')),
+                   '규제지역': ('규제지역(투기과열지구·조정대상지역 중 하나 — 모집공고문 확인)' if L.get('regulated') else '비규제지역'), '세대주 요건': '이 공고는 세대주만 신청 가능(모집공고문)' if L.get('need_head') is True else ('세대구성원도 신청할 수 있지만, 규제지역이라 일반공급 1순위는 공고일 기준 세대주만 가능(2순위는 세대원도 가능). 특별공급 유형별 세대주 요건은 모집공고문 확인' if L.get('regulated') else '세대구성원도 신청 가능(비규제지역). 특별공급 유형별 세대주 요건은 모집공고문 확인') if L.get('need_head') is False else None,
                    '제한(재당첨·실거주·전매)': L.get('limits'), '거주 지역 요건': L.get('residence'), '특별공급 세대수': L.get('special_units'), '청약패스 데이터 확인 필요': L.get('checks'), '모집공고문': L.get('notice_pdf'), '청약패스': 'https://cheongyakpass.kr/#/detail/' + L['id']}
               return {k: v for k, v in f.items() if v not in (None, '', [])}
           out = []

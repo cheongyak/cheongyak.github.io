@@ -1,7 +1,8 @@
 // 청약봇 자유 답변 화면 검사 (기능 bot_free_answer, 2026-11-03): 브라우저 화면 → 실제 청약봇 서버 코드 handleFree(AI 대신 미리 쓴 답) → 화면.
 // 확인: ① 청약봇 '광교 … 세대주' 질문 → /free 로 광교 공고 2개(527·528)의 공고 사실을 보내고, 내 조건 값·판정은 보내지 않음 → '청약봇 답' 칸·근거·공고 카드
 //       ② 제도 질문 → 공고 없이 /free → 청약 질문 화면 ③ AI 가 계속 막히면 원문 조각 기본 답 화면 ④ 이 공고 물어보기 → /free (공고 1개 + 내 판정 요약) → 말풍선·평가
-//       ⑤ 되물음 '이어서 답하기' → 앞 질문·답(history)·같은 공고 ⑥ 스위치 끄면 /free 를 부르지 않음 ⑦ 390px 넘침 없음·화면 오류 0 (밝은·어두운)
+//       ⑤ 되물음 '이어서 답하기' → 앞 질문·답(history)·같은 공고 ⑥ 스위치 끄면 /free 를 부르지 않음 · 390px 넘침 없음·화면 오류 0 (밝은·어두운)
+//       ⑦ 단지 이름만 적은 질문('자연앤센트레빌', 2026-11-04 사용자 제보) → 찾기 결과가 다른 공고여도 그 단지 공고로 답함
 // 사용: node tools/qa/free_answer.cjs [스크린샷 폴더]   → evidence/qa/free-answer.json
 const { chromium } = require('playwright'); const { readFileSync, existsSync, writeFileSync } = require('node:fs'); const { join, extname, resolve } = require('node:path');
 const ROOT = resolve(__dirname, '..', '..'), DOCS = join(ROOT, 'docs'), SHOTS = process.argv[2] || '';
@@ -55,7 +56,7 @@ class MemKV { constructor() { this.m = new Map(); } async get(k) { return this.m
       const body = fr[0] && fr[0].body, ids = body ? body.listings.map(x => x.id.split('-')[0]) : [];
       t('① /free 한 번 부름 (V2 AI 설명은 안 부름)', fr.length === 1 && v2.length === 0, JSON.stringify({ free: fr.length, v2: v2.length }));
       t('① 광교 공고(528) 사실을 보냄', ids.includes('2026000528'), JSON.stringify(ids));
-      t('① 공고 사실에 공고일·규제지역·세대주 요건·접수일', !!(body && body.listings.some(x => Object.keys(x.facts).some(k => /^공고일/.test(k)) && x.facts['규제지역'] && x.facts['일반공급 1순위 세대주 요건'] && x.facts['특별공급 접수'] && x.facts['모집공고문'])), body && JSON.stringify(body.listings[0].facts).slice(0, 200));
+      t('① 공고 사실에 공고일·규제지역·세대주 요건·접수일', !!(body && body.listings.some(x => Object.keys(x.facts).some(k => /^공고일/.test(k)) && x.facts['규제지역'] && /1순위는 공고일 기준 세대주만/.test(x.facts['세대주 요건'] || '') && x.facts['특별공급 접수'] && x.facts['모집공고문'])), body && JSON.stringify(body.listings[0].facts).slice(0, 200));
       t('① 내 조건 값·판정은 안 보냄', !!body && !JSON.stringify(body).includes('7777') && !body.engine && !/내 자격/.test(body.find || ''), body && (body.find || '').slice(0, 120));
       const ui = await p.evaluate(() => ({ card: !!document.querySelector('.freecard .freeans'), txt: (document.querySelector('.freecard') || {}).textContent || '', refs: document.querySelectorAll('.freecard .chatsrc li').length, cards: document.querySelectorAll('.botg .card, .botg article, .botg [data-open]').length, follow: !!document.querySelector('[data-action="bot-follow"]') }));
       t('① 청약봇 답 칸', ui.card && /세대주/.test(ui.txt), ui.txt.slice(0, 80));
@@ -68,6 +69,14 @@ class MemKV { constructor() { this.m = new Map(); } async get(k) { return this.m
         t('⑤ 이어서: 앞 질문·답 history', (f2.history || []).length === 2 && f2.history[0].text === Q, JSON.stringify(f2.history || []).slice(0, 120));
         t('⑤ 이어서: 같은 공고·같은 대화', f2.listings.some(x => /^2026000528-/.test(x.id)) && f2.conversation_id === body.conversation_id);
         t('⑤ 이어서: 답 화면', await p.evaluate(() => !!(BOT.cur && BOT.cur.mode === 'free' && BOT.cur.free))); }
+      // ⑦ 2026-11-04 사용자 제보: 단지 이름만 적은 질문(띄어쓰기 다름)이 다른 공고(안산신길)로 답했다 → 적은 단지 공고로 답한다
+      s1.kv.m.clear();   // 하루 질문 횟수 초기화 (②가 횟수에 걸리지 않게)
+      await botAsk(p, '나 11.2일에 세대주됐는데 자연앤센트레빌 쓸수있음?');
+      const f7 = s1.calls.filter(c => c.path === '/free').pop().body, ids7 = f7.listings.map(x => x.id.split('-')[0]);
+      t('⑦ 단지 이름 질문 → 그 공고(광교 528·527)만 보냄', ids7.length >= 1 && ids7.every(x => x === '2026000528' || x === '2026000527'), JSON.stringify(ids7));
+      t('⑦ 다른 공고 찾기 결과는 안 보냄', !/안산신길/.test(f7.find || ''), (f7.find || '').slice(0, 80));
+      t('⑦ 적은 단지 카드가 맨 앞', await p.evaluate(() => /^20260005(28|27)-/.test((BOT.cur && BOT.cur.cards || [])[0] || '')), await p.evaluate(() => JSON.stringify((BOT.cur && BOT.cur.cards || []).slice(0, 3))));
+      t('⑦ 일반 질문(지역만)은 단지로 안 잡음', await p.evaluate(() => freeNamed('서울 경기 공공분양 찾아줘').length === 0 && freeNamed('광교 쪽 공고 있어?').length === 0));
     } else t('① 광교 공고가 데이터에 있음 (공고가 내려가면 건너뜀)', true);
     // ② 제도 질문
     await botAsk(p, '주택청약 2만원씩 넣고 있는데 얼마씩 넣는 게 좋아요?');
