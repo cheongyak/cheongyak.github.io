@@ -8,7 +8,7 @@ import { validate } from './validate.js';
 import { fallbackAnswer, fallbackGeneral } from './fallback.js';
 import { selectGeneral } from './retrieve.js';
 import { checkLimit, markConversation, LIMIT_TEXT } from './limits.js';
-import { callClaude, MODEL } from './llm.js';
+import { callClaude, MODEL, FREE_MODEL, usdOf } from './llm.js';
 import { bump, readStats, FEEDBACK_REASONS } from './stats.js';
 import { FREE_SYSTEM, FREE_VERSION, freeEvidence, buildFreeUser, checkFree, cleanListings, noticeId } from './free.js';
 
@@ -22,12 +22,12 @@ async function docJson(env, fetchImpl, path) {
   DOCS.set(path, [Date.now(), j]); return j;
 }
 
-// 이번 달 추정 사용액 (Haiku 4.5: 입력 $1 · 출력 $5 / 100만 토큰). KV 'mspend:YYYY-MM' 에 달러로 쌓는다
+// 이번 달 추정 사용액 (모델별 값 llm.js PRICE — Haiku 4.5 $1/$5, Sonnet 5.5 $2/$10 / 100만 토큰). KV 'mspend:YYYY-MM' 에 달러로 쌓는다
 const MONTH = () => new Date(Date.now() + 9 * 3600e3).toISOString().slice(0, 7);
 export const monthCap = env => +(env.CHAT_MONTH_USD || 18);
 export async function monthSpent(kv) { return kv ? +((await kv.get('mspend:' + MONTH())) || 0) : 0; }
 async function addMonthSpent(kv, attempts) {
-  const usd = attempts.reduce((n, a) => n + (a.usage ? (a.usage.input_tokens || 0) / 1e6 + (a.usage.output_tokens || 0) * 5 / 1e6 : 0), 0);
+  const usd = attempts.reduce((n, a) => n + usdOf(a.model || MODEL, a.usage), 0);
   if (kv && usd) await kv.put('mspend:' + MONTH(), String((await monthSpent(kv)) + usd), { expirationTtl: 40 * 86400 });
 }
 function badRequest(msg) { return { status: 400, body: { error: msg } }; }
@@ -187,7 +187,7 @@ export async function handleFree(env, input, deps = {}) {
   const q = redact(question);
   const hist = (Array.isArray(history) ? history : []).slice(-4).map(h => ({ role: h && h.role, text: redact(h && h.text).text }));
   const intent = classify(q.text);
-  const log = { free: FREE_VERSION, intent, listings: listings.length, engine: !!engine, pii: q.found, model: MODEL };
+  const log = { free: FREE_VERSION, intent, listings: listings.length, engine: !!engine, pii: q.found, model: FREE_MODEL };
   if (intent === 'out_of_scope') {
     await markConversation(kv, conversation_id, false);
     await bump(kv, { q: true, follow_up: lim.followUp, intent, pii: q.found.length > 0 });
@@ -209,9 +209,10 @@ export async function handleFree(env, input, deps = {}) {
     let user = buildFreeUser({ question: q.text, today, evidence, history: hist });
     for (let i = 0; i < 3 && !answer; i++) {
       try {
-        const r = deps.llm ? await deps.llm({ system: FREE_SYSTEM, user, attempt: i }) : await callClaude({ apiKey, system: FREE_SYSTEM, user, fetchImpl, maxTokens: 1800 });
+        const r = deps.llm ? await deps.llm({ system: FREE_SYSTEM, user, attempt: i }) : await callClaude({ apiKey, system: FREE_SYSTEM, user, fetchImpl, maxTokens: 6000, model: FREE_MODEL, effort: 'medium' });
         const v = checkFree(r.text, { evidence });
-        attempts.push({ ok: v.ok, flags: v.flags, usage: r.usage || null });
+        if (!v.ok && r.stop === 'max_tokens') v.flags.push('답이 길이 한도에서 끊김');
+        attempts.push({ ok: v.ok, flags: v.flags, usage: r.usage || null, model: r.model || FREE_MODEL });
         if (v.ok) answer = v.answer;
         else user += `\n\nPREVIOUS_ANSWER_REJECTED: ${v.flags.join(' / ')}\n위 문제를 고쳐 JSON 으로 다시 써라.`;
       } catch (e) { attempts.push({ ok: false, flags: ['호출 실패: ' + e.message] }); break; }

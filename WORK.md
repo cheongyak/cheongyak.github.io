@@ -4,6 +4,16 @@
 2026-09-29 12:55 이전 항목은 규칙을 만들기 전 작업을 커밋 기록으로 정리한 것이라 백업 브랜치가 없어요.
 그 시점으로 되돌릴 때는 해당 커밋 번호로 `git revert` 를 써요.
 
+## 2026-11-04 23:27 · 청약봇 답을 Sonnet 5.5 로, 일반 AI 처럼 자연스럽게 (v1.83.4)
+- 요청: 운영자 '청약패스 데이터 기반으로 AI 가 정리해 답하게 만들었는데 일반 AI 보다도 답이 안 좋다' → 모델 'Sonnet 5.5', 답 방식 '일반 AI 처럼 자연스럽게' 선택
+- 원인: ① /free 모델이 Haiku 4.5(가장 작은 구형) ② 지침이 400~1200자·문장마다 [N1] 근거 번호·'단정하지 말 것' 규칙이 겹쳐 답이 딱딱하고 '~일 수 있을 수 있습니다'처럼 애매하고 '합니다'체가 섞임
+- 변경: chat/worker/src/llm.js FREE_MODEL='claude-sonnet-5-5'·PRICE(모델별 월 한도 계산)·callClaude(model·effort 인자, 새 모델은 temperature 빼고 output_config.effort, stop_reason 돌려줌 — 문서: Sonnet 5.5 는 temperature·top_p 400, 생각 기본 켜짐·max_tokens 는 생각+답 합계). index.js handleFree: Sonnet 5.5·effort medium·max_tokens 6000, 길이 한도로 끊기면 다시 쓰게, 시도마다 모델 기록. free.js free3: 지침을 일반 AI 비서처럼(첫 문장 결론·필요한 만큼 길게·해요체·애매한 말 겹치기 금지·공고문 우선·특공 자격은 공고문에 있으면 단정, 없으면 일반 기준+공고문 확인), 본문 [N1] 대신 refs, 검사기는 본문 근거 번호를 지우고 refs 로 옮김·길이 상한 4500자. /chat·/v2/llm 은 Haiku 4.5 그대로. chat/probe_questions.json 에 신혼 특공 소득 질문 추가
+- 파일: chat/worker/src/llm.js, chat/worker/src/index.js, chat/worker/src/free.js, chat/test/chat.test.mjs, chat/probe_questions.json, .claude/skills/cheongyakpass-ops/SKILL.md, docs/changelog.json, VERSIONS.md, FEATURES.md, HANDOFF.md, WORK.md
+- 확인: chat 시험 53/53(새: Sonnet 호출 모양 — temperature 없음·effort medium·생각 블록 빼고 글만, 기존 /chat 은 Haiku·temperature 0 그대로 / 월 한도 모델별 / 본문 근거 번호 지움), 화면 검사 tools/qa/free_answer.cjs 62/62, 금지 문자열 검사 2/2. 실제 답은 올린 뒤 청약봇 서버 배포 → 청약봇 실제 답 시험으로 확인(HANDOFF -87)
+- 기능: 없음(수정) — bot_free_answer 개선
+- 버전: v1.83.4
+- 백업: backup/20261104-2327
+
 ## 2026-11-04 19:02 · 청약봇이 다른 단지로 답하고 세대주 요건을 틀리게 말함 (v1.83.3)
 - 요청: 사용자 제보 '나 11.2일에 세대주됐는데 자연앤센트레빌 쓸수있음?'에 청약봇이 안산신길2지구 B-1블록으로 답하고 '세대원도 1순위 가능'이라고 함
 - 원인: ① 청약봇 공고 찾기(V2)가 띄어 쓰지 않은 단지 이름 '자연앤센트레빌'을 알아듣지 못해 다른 공고를 골랐고, 자유 답변은 찾기 결과 공고를 그대로 근거로 씀

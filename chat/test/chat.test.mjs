@@ -391,3 +391,30 @@ test('free: 서버 길 /free 는 허용한 사이트에서만', async () => {
   const ok = await worker.fetch(new Request('https://x/free', { method: 'POST', headers: { origin: 'https://cheongyakpass.kr', 'content-type': 'application/json' }, body: JSON.stringify({ question: '', anon_id: 'x' }) }), env);
   assert.equal(ok.status, 400);
 });
+
+// ── 청약봇 자유 답변 모델 Sonnet 5.5 (2026-11-04 운영자 선택) ──
+import { callClaude, FREE_MODEL, MODEL, usdOf } from '../worker/src/llm.js';
+test('free: Sonnet 5.5 는 temperature 없이·effort medium 으로 부르고, 생각 블록은 빼고 글만 쓴다', async () => {
+  let body = null;
+  const fake = async (url, init) => { body = JSON.parse(init.body); return { ok: true, json: async () => ({ content: [{ type: 'thinking', thinking: '' }, { type: 'text', text: '{"answer":"안 돼요"}' }], usage: { input_tokens: 10, output_tokens: 5 }, stop_reason: 'end_turn' }) }; };
+  const r = await callClaude({ apiKey: 'k', system: 's', user: 'u', fetchImpl: fake, maxTokens: 6000, model: FREE_MODEL, effort: 'medium' });
+  assert.equal(FREE_MODEL, 'claude-sonnet-5-5'); assert.equal(body.model, 'claude-sonnet-5-5');
+  assert.ok(!('temperature' in body) && !('top_p' in body), 'temperature·top_p 없음 (Sonnet 5.5 는 400)');
+  assert.deepEqual(body.output_config, { effort: 'medium' }); assert.equal(body.max_tokens, 6000);
+  assert.equal(r.text, '{"answer":"안 돼요"}'); assert.equal(r.model, 'claude-sonnet-5-5'); assert.equal(r.stop, 'end_turn');
+  await callClaude({ apiKey: 'k', system: 's', user: 'u', fetchImpl: fake });
+  assert.equal(body.model, MODEL); assert.equal(body.temperature, 0, '기존 /chat (Haiku 4.5) 은 그대로'); assert.ok(!body.output_config);
+});
+test('free: 월 한도는 모델별 값으로 센다 (Sonnet 5.5 $2/$10, Haiku 4.5 $1/$5)', async () => {
+  assert.equal(usdOf('claude-sonnet-5-5', { input_tokens: 1e6, output_tokens: 1e6 }), 12);
+  assert.equal(usdOf(MODEL, { input_tokens: 1e6, output_tokens: 1e6 }), 6);
+  assert.equal(usdOf('unknown-model', { input_tokens: 1e6, output_tokens: 0 }), 2, '모르는 모델은 비싼 쪽');
+  const kv = new MemKV();
+  await handleFree(OPEN, freeIn(), freeDeps(async () => ({ text: GOODFREE, usage: { input_tokens: 10000, output_tokens: 1000 } }), { kv }));
+  const spent = +(await kv.get([...kv.m.keys()].find(k => k.startsWith('mspend:'))));
+  assert.ok(Math.abs(spent - 0.03) < 1e-9, '10000×2 + 1000×10 = $0.03 → ' + spent);
+});
+test('free: 본문 근거 번호는 지우고 근거 목록(refs)으로만', () => {
+  const v = checkFree(JSON.stringify({ answer: '안 돼요. 공고일 기준으로 세대주가 아니에요 [N1][P1].\n- 2순위는 세대원도 돼요 [N2, L1]', refs: [], ask: null }), { evidence: [{ id: 'N1' }, { id: 'P1' }, { id: 'N2' }, { id: 'L1' }] });
+  assert.ok(v.ok); assert.ok(!/\[[PNLEF]\d/.test(v.answer.text), v.answer.text); assert.deepEqual(v.answer.refs.sort(), ['L1', 'N1', 'N2', 'P1']);
+});
