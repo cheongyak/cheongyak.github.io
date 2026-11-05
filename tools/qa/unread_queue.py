@@ -22,7 +22,10 @@ OUT = ROOT / "evidence" / "qa" / "unread-queue.json"
 
 
 def original(nid: str) -> str | None:
-    for p in (ROOT / "evidence" / "notices" / f"{nid}.txt", ROOT / "evidence" / "qa" / "notices" / f"{nid}.txt", ROOT / "docs" / "chat-notice" / f"{nid}.json"):
+    # 임대 원문도 본다(2026-11-06: LH 0000061201 원문이 evidence/lh 에 있었는데 '원문 없음'으로 적음). SH·GH 번호는 'SH-311375' 꼴이라 앞머리를 뗀 파일 이름
+    bare = nid.split("-", 1)[1] if nid[:3] in ("SH-", "GH-") else nid
+    for p in (ROOT / "evidence" / "notices" / f"{nid}.txt", ROOT / "evidence" / "qa" / "notices" / f"{nid}.txt", ROOT / "docs" / "chat-notice" / f"{nid}.json",
+              ROOT / "evidence" / "lh" / f"{nid}.txt", ROOT / "evidence" / "sh" / f"{bare}.txt", ROOT / "evidence" / "gh" / f"{bare}.txt"):
         if p.exists():
             return str(p.relative_to(ROOT))
     return None
