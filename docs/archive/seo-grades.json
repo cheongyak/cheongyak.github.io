@@ -2740,19 +2740,19 @@
 "apply": "2026-11-10",
 "units": {
 "84A": {
-"g": "unknown",
-"label": "시세 부족",
-"margin": "시세 확인 필요",
-"lo": null,
-"hi": null,
+"g": "flat",
+"label": "마진없음",
+"margin": "마진 +8,672만~1.48억",
+"lo": 0.867,
+"hi": 1.477,
 "cost": 4.673
 },
 "84B": {
-"g": "unknown",
-"label": "시세 부족",
-"margin": "시세 확인 필요",
-"lo": null,
-"hi": null,
+"g": "flat",
+"label": "마진없음",
+"margin": "마진 +9,127만~1.52억",
+"lo": 0.913,
+"hi": 1.523,
 "cost": 4.627
 }
 }
