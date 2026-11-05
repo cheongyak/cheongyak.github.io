@@ -1,14 +1,24 @@
 {
- "date": "2026-11-05",
+ "date": "2026-11-06",
  "page_cap": 300,
  "notices": 69,
  "with_problem": 7,
  "kinds": {
   "읽기 도구에 따라 값이 다름": 1,
-  "글자가 거의 없는 쪽 N개 (스캔 이미지·표 그림 추정)": 6,
-  "지금 수집 값과 다시 읽은 값이 다름": 2
+  "글자가 거의 없는 쪽 N개 (스캔 이미지·표 그림 추정)": 6
  },
- "errors": [],
+ "errors": [
+  {
+   "notice": "2026000502",
+   "name": "화성 향남 롯데캐슬 시그니처",
+   "error": "RemoteProtocolError: Server disconnected without sending a response."
+  },
+  {
+   "notice": "2026000458",
+   "name": "산곡역자이힐스테이트앤하늘채",
+   "error": "RemoteProtocolError: Server disconnected without sending a response."
+  }
+ ],
  "results": [
   {
    "notice": "2026820014",
@@ -930,15 +940,8 @@
     "pub_limits_kind": "total"
    },
    "pdfium_chars": 130109,
-   "live_gap": {
-    "residence_duty": [
-     0,
-     5
-    ]
-   },
    "problem": [
-    "글자가 거의 없는 쪽 2개 (스캔 이미지·표 그림 추정): [36, 39]",
-    "지금 수집 값과 다시 읽은 값이 다름: residence_duty 0→5"
+    "글자가 거의 없는 쪽 2개 (스캔 이미지·표 그림 추정): [36, 39]"
    ]
   },
   {
@@ -999,15 +1002,8 @@
     "pub_limits_kind": "total"
    },
    "pdfium_chars": 130040,
-   "live_gap": {
-    "residence_duty": [
-     0,
-     5
-    ]
-   },
    "problem": [
-    "글자가 거의 없는 쪽 2개 (스캔 이미지·표 그림 추정): [36, 39]",
-    "지금 수집 값과 다시 읽은 값이 다름: residence_duty 0→5"
+    "글자가 거의 없는 쪽 2개 (스캔 이미지·표 그림 추정): [36, 39]"
    ]
   },
   {
@@ -1456,59 +1452,7 @@
   {
    "notice": "2026000502",
    "name": "화성 향남 롯데캐슬 시그니처",
-   "url": "https://www.applyhome.co.kr/ai/aia/selectAPTLttotPblancDetail.do?houseManageNo=2026000502&pblancNo=2026000502",
-   "attachments": 1,
-   "pdfs": 1,
-   "attachment_list": [
-    {
-     "url": "https://static.applyhome.co.kr/ai/aia/getAtchmnfl.do?houseManageNo=2026000502&pblancNo=2026000502&atchmnflSeqNo=2001080&atchmnflSn=4",
-     "bytes": 3591552,
-     "pages": 60,
-     "chars": 193560,
-     "head": "화성 향남 롯데캐슬 시그니처 - 1 - 화성 향남 롯데캐슬 시그니처 입주자모집공고 정정공고() 수 의 내용 중 일부를 수 일자로 아래와 같이 정"
-    }
-   ],
-   "chosen": "https://static.applyhome.co.kr/ai/aia/getAtchmnfl.do?houseManageNo=2026000502&pblancNo=2026000502&atchmnflSeqNo=2001080&atchmnflSn=4",
-   "pages": 60,
-   "pages_read": 60,
-   "chars_read": 193619,
-   "empty_pages": [],
-   "chars_per_page_min": 771,
-   "fields": {
-    "need_head": false,
-    "price_cap": false,
-    "residence_duty": 0,
-    "rewin_years": 0,
-    "residence": {
-     "area": "경기도 화성시",
-     "months": 0,
-     "since": null
-    }
-   },
-   "fields_merged": {
-    "need_head": false,
-    "price_cap": false,
-    "residence_duty": 0,
-    "rewin_years": 0,
-    "residence": {
-     "area": "경기도 화성시",
-     "months": 0,
-     "since": null
-    }
-   },
-   "fields_pdfium": {
-    "need_head": false,
-    "price_cap": false,
-    "residence_duty": 0,
-    "rewin_years": 0,
-    "residence": {
-     "area": "경기도 화성시",
-     "months": 0,
-     "since": null
-    }
-   },
-   "pdfium_chars": 199757,
-   "problem": []
+   "error": "RemoteProtocolError: Server disconnected without sending a response."
   },
   {
    "notice": "2026000514",
@@ -2311,62 +2255,7 @@
   {
    "notice": "2026000458",
    "name": "산곡역자이힐스테이트앤하늘채",
-   "url": "https://www.applyhome.co.kr/ai/aia/selectAPTLttotPblancDetail.do?houseManageNo=2026000458&pblancNo=2026000458",
-   "attachments": 1,
-   "pdfs": 1,
-   "attachment_list": [
-    {
-     "url": "https://static.applyhome.co.kr/ai/aia/getAtchmnfl.do?houseManageNo=2026000458&pblancNo=2026000458&atchmnflSeqNo=1995089&atchmnflSn=2",
-     "bytes": 1077481,
-     "pages": 70,
-     "chars": 156262,
-     "head": "- 1 - 구분 입주자모집공고일 특별공급 접수일 일반공급 1순위 접수일 일반공급 2순위 접수일 당첨자발표일 서류접수 계약체결 일정 2026.10"
-    }
-   ],
-   "chosen": "https://static.applyhome.co.kr/ai/aia/getAtchmnfl.do?houseManageNo=2026000458&pblancNo=2026000458&atchmnflSeqNo=1995089&atchmnflSn=2",
-   "pages": 70,
-   "pages_read": 70,
-   "chars_read": 156331,
-   "empty_pages": [],
-   "chars_per_page_min": 345,
-   "fields": {
-    "need_head": false,
-    "price_cap": false,
-    "residence_duty": 0,
-    "rewin_years": 0,
-    "account_months": 12,
-    "residence": {
-     "area": "인천광역시",
-     "months": 0,
-     "since": null
-    }
-   },
-   "fields_merged": {
-    "need_head": false,
-    "price_cap": false,
-    "residence_duty": 0,
-    "rewin_years": 0,
-    "account_months": 12,
-    "residence": {
-     "area": "인천광역시",
-     "months": 0,
-     "since": null
-    }
-   },
-   "fields_pdfium": {
-    "need_head": false,
-    "price_cap": false,
-    "residence_duty": 0,
-    "rewin_years": 0,
-    "account_months": 12,
-    "residence": {
-     "area": "인천광역시",
-     "months": 0,
-     "since": null
-    }
-   },
-   "pdfium_chars": 154554,
-   "problem": []
+   "error": "RemoteProtocolError: Server disconnected without sending a response."
   },
   {
    "notice": "2026000402",
