@@ -44,6 +44,7 @@ def test_org_target_notice_is_not_listed():
     """기관·기업을 모집하는 공고는 개인이 신청할 수 없어 목록에서 뺀다 (기장군 중소기업 근로자 기관공급 대상기업 모집)"""
     from app.lh_rental import org_target
     assert org_target("LH임대주택 기장군 중소기업 근로자 공공임대주택 기관공급 사업 대상기업 모집계획 공고")
+    assert org_target("파주시 중소기업체 기관공급(행복주택)")   # 2026-11-05 기업체가 파주시에 신청 (evidence/lh/2015122300021004.txt)
     names = {n["name"] for n in json.loads((ROOT / "tests/golden/lh_rental.json").read_text(encoding="utf-8"))["notices"] if n.get("name")}
     for n in names | {"창원 행복주택 기관추천 예비입주자 모집", "산업단지 근로자 국민임대 입주자 모집", "[경기북부] 청년 매입임대주택 선착순 예비입주자 모집공고"}:
         assert not org_target(n), n
