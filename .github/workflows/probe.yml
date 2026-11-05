@@ -27,6 +27,9 @@ jobs:
         with:
           python-version: "3.12"
       - run: pip install -r requirements.txt
+      - name: 사이트 외부 점검 (구글이 받는 ads.txt·robots·sitemap 응답, 도메인·인증서 — 2026-11-05 애드센스 'ads.txt 찾을 수 없음', 실패해도 계속)
+        continue-on-error: true
+        run: python -m tools.qa.site_check --json evidence/qa/site-check.json
       - run: python -m tools.rules_probe
       - name: 공고문 원문 먼저 저장 (뒤 점검이 시간 제한에 걸려도 원문은 남게, 2026-10-20 278,000자 공고문에서 45분 넘겨 전부 취소됨)
         run: |
