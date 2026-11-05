@@ -1,24 +1,13 @@
 {
  "date": "2026-11-06",
  "page_cap": 300,
- "notices": 69,
- "with_problem": 7,
+ "notices": 65,
+ "with_problem": 6,
  "kinds": {
   "읽기 도구에 따라 값이 다름": 1,
-  "글자가 거의 없는 쪽 N개 (스캔 이미지·표 그림 추정)": 6
+  "글자가 거의 없는 쪽 N개 (스캔 이미지·표 그림 추정)": 5
  },
- "errors": [
-  {
-   "notice": "2026000502",
-   "name": "화성 향남 롯데캐슬 시그니처",
-   "error": "RemoteProtocolError: Server disconnected without sending a response."
-  },
-  {
-   "notice": "2026000458",
-   "name": "산곡역자이힐스테이트앤하늘채",
-   "error": "RemoteProtocolError: Server disconnected without sending a response."
-  }
- ],
+ "errors": [],
  "results": [
   {
    "notice": "2026820014",
@@ -1452,7 +1441,59 @@
   {
    "notice": "2026000502",
    "name": "화성 향남 롯데캐슬 시그니처",
-   "error": "RemoteProtocolError: Server disconnected without sending a response."
+   "url": "https://www.applyhome.co.kr/ai/aia/selectAPTLttotPblancDetail.do?houseManageNo=2026000502&pblancNo=2026000502",
+   "attachments": 1,
+   "pdfs": 1,
+   "attachment_list": [
+    {
+     "url": "https://static.applyhome.co.kr/ai/aia/getAtchmnfl.do?houseManageNo=2026000502&pblancNo=2026000502&atchmnflSeqNo=2001080&atchmnflSn=4",
+     "bytes": 3591552,
+     "pages": 60,
+     "chars": 193560,
+     "head": "화성 향남 롯데캐슬 시그니처 - 1 - 화성 향남 롯데캐슬 시그니처 입주자모집공고 정정공고() 수 의 내용 중 일부를 수 일자로 아래와 같이 정"
+    }
+   ],
+   "chosen": "https://static.applyhome.co.kr/ai/aia/getAtchmnfl.do?houseManageNo=2026000502&pblancNo=2026000502&atchmnflSeqNo=2001080&atchmnflSn=4",
+   "pages": 60,
+   "pages_read": 60,
+   "chars_read": 193619,
+   "empty_pages": [],
+   "chars_per_page_min": 771,
+   "fields": {
+    "need_head": false,
+    "price_cap": false,
+    "residence_duty": 0,
+    "rewin_years": 0,
+    "residence": {
+     "area": "경기도 화성시",
+     "months": 0,
+     "since": null
+    }
+   },
+   "fields_merged": {
+    "need_head": false,
+    "price_cap": false,
+    "residence_duty": 0,
+    "rewin_years": 0,
+    "residence": {
+     "area": "경기도 화성시",
+     "months": 0,
+     "since": null
+    }
+   },
+   "fields_pdfium": {
+    "need_head": false,
+    "price_cap": false,
+    "residence_duty": 0,
+    "rewin_years": 0,
+    "residence": {
+     "area": "경기도 화성시",
+     "months": 0,
+     "since": null
+    }
+   },
+   "pdfium_chars": 199757,
+   "problem": []
   },
   {
    "notice": "2026000514",
@@ -2255,7 +2296,62 @@
   {
    "notice": "2026000458",
    "name": "산곡역자이힐스테이트앤하늘채",
-   "error": "RemoteProtocolError: Server disconnected without sending a response."
+   "url": "https://www.applyhome.co.kr/ai/aia/selectAPTLttotPblancDetail.do?houseManageNo=2026000458&pblancNo=2026000458",
+   "attachments": 1,
+   "pdfs": 1,
+   "attachment_list": [
+    {
+     "url": "https://static.applyhome.co.kr/ai/aia/getAtchmnfl.do?houseManageNo=2026000458&pblancNo=2026000458&atchmnflSeqNo=1995089&atchmnflSn=2",
+     "bytes": 1077481,
+     "pages": 70,
+     "chars": 156262,
+     "head": "- 1 - 구분 입주자모집공고일 특별공급 접수일 일반공급 1순위 접수일 일반공급 2순위 접수일 당첨자발표일 서류접수 계약체결 일정 2026.10"
+    }
+   ],
+   "chosen": "https://static.applyhome.co.kr/ai/aia/getAtchmnfl.do?houseManageNo=2026000458&pblancNo=2026000458&atchmnflSeqNo=1995089&atchmnflSn=2",
+   "pages": 70,
+   "pages_read": 70,
+   "chars_read": 156331,
+   "empty_pages": [],
+   "chars_per_page_min": 345,
+   "fields": {
+    "need_head": false,
+    "price_cap": false,
+    "residence_duty": 0,
+    "rewin_years": 0,
+    "account_months": 12,
+    "residence": {
+     "area": "인천광역시",
+     "months": 0,
+     "since": null
+    }
+   },
+   "fields_merged": {
+    "need_head": false,
+    "price_cap": false,
+    "residence_duty": 0,
+    "rewin_years": 0,
+    "account_months": 12,
+    "residence": {
+     "area": "인천광역시",
+     "months": 0,
+     "since": null
+    }
+   },
+   "fields_pdfium": {
+    "need_head": false,
+    "price_cap": false,
+    "residence_duty": 0,
+    "rewin_years": 0,
+    "account_months": 12,
+    "residence": {
+     "area": "인천광역시",
+     "months": 0,
+     "since": null
+    }
+   },
+   "pdfium_chars": 154554,
+   "problem": []
   },
   {
    "notice": "2026000402",
@@ -2437,6 +2533,120 @@
     "pub_limits_kind": "town"
    },
    "pdfium_chars": 106813,
+   "problem": []
+  },
+  {
+   "notice": "2026910282",
+   "name": "광명 시티프라디움 에듀하임",
+   "url": "https://www.applyhome.co.kr/ai/aia/selectAPTRemndrLttotPblancDetailView.do?houseManageNo=2026910282&pblancNo=2026910282",
+   "attachments": 1,
+   "pdfs": 1,
+   "attachment_list": [
+    {
+     "url": "https://static.applyhome.co.kr/ai/aia/getAtchmnfl.do?houseManageNo=2026910282&pblancNo=2026910282&atchmnflSeqNo=2013002&atchmnflSn=4",
+     "bytes": 371867,
+     "pages": 15,
+     "chars": 26893,
+     "head": "- 1 - ※ 단지 주요정보 (분양문의) 1899-6851 주택유형 규제지역여부 무순위(사후) 자격요건 민영 투기과열지구/청약과열지역 무순위(사"
+    }
+   ],
+   "chosen": "https://static.applyhome.co.kr/ai/aia/getAtchmnfl.do?houseManageNo=2026910282&pblancNo=2026910282&atchmnflSeqNo=2013002&atchmnflSn=4",
+   "pages": 15,
+   "pages_read": 15,
+   "chars_read": 26907,
+   "empty_pages": [],
+   "chars_per_page_min": 402,
+   "fields": {
+    "need_head": false,
+    "price_cap": false,
+    "residence_duty": 0,
+    "rewin_years": 10,
+    "residence": {
+     "area": null,
+     "months": 0,
+     "since": null
+    }
+   },
+   "fields_merged": {
+    "need_head": false,
+    "price_cap": false,
+    "residence_duty": 0,
+    "rewin_years": 10,
+    "residence": {
+     "area": null,
+     "months": 0,
+     "since": null
+    }
+   },
+   "fields_pdfium": {
+    "need_head": false,
+    "price_cap": false,
+    "residence_duty": 0,
+    "rewin_years": 10,
+    "residence": {
+     "area": null,
+     "months": 0,
+     "since": null
+    }
+   },
+   "pdfium_chars": 26790,
+   "problem": []
+  },
+  {
+   "notice": "2026910279",
+   "name": "봉담자이 프라이드시티",
+   "url": "https://www.applyhome.co.kr/ai/aia/selectAPTRemndrLttotPblancDetailView.do?houseManageNo=2026910279&pblancNo=2026910279",
+   "attachments": 1,
+   "pdfs": 1,
+   "attachment_list": [
+    {
+     "url": "https://static.applyhome.co.kr/ai/aia/getAtchmnfl.do?houseManageNo=2026910279&pblancNo=2026910279&atchmnflSeqNo=2013033&atchmnflSn=3",
+     "bytes": 263314,
+     "pages": 12,
+     "chars": 17576,
+     "head": "- 1 - ※ 단지 주요정보 (분양문의) 031-278-4145 주택유형 규제지역여부 무순위(사후) 자격요건 민영 비규제지역 무순위(사후) 입주"
+    }
+   ],
+   "chosen": "https://static.applyhome.co.kr/ai/aia/getAtchmnfl.do?houseManageNo=2026910279&pblancNo=2026910279&atchmnflSeqNo=2013033&atchmnflSn=3",
+   "pages": 12,
+   "pages_read": 12,
+   "chars_read": 17587,
+   "empty_pages": [],
+   "chars_per_page_min": 811,
+   "fields": {
+    "need_head": false,
+    "price_cap": false,
+    "residence_duty": 0,
+    "rewin_years": 0,
+    "residence": {
+     "area": "경기도",
+     "months": 0,
+     "since": null
+    }
+   },
+   "fields_merged": {
+    "need_head": false,
+    "price_cap": false,
+    "residence_duty": 0,
+    "rewin_years": 0,
+    "residence": {
+     "area": "경기도",
+     "months": 0,
+     "since": null
+    }
+   },
+   "fields_pdfium": {
+    "need_head": false,
+    "price_cap": false,
+    "residence_duty": 0,
+    "rewin_years": 0,
+    "residence": {
+     "area": "경기도",
+     "months": 0,
+     "since": null
+    }
+   },
+   "pdfium_chars": 17180,
    "problem": []
   },
   {
@@ -3702,185 +3912,6 @@
    "problem": []
   },
   {
-   "notice": "2026910262",
-   "name": "화성 송산 동원로얄듀크 포레(2차)",
-   "url": "https://www.applyhome.co.kr/ai/aia/selectAPTRemndrLttotPblancDetailView.do?houseManageNo=2026910262&pblancNo=2026910262",
-   "attachments": 1,
-   "pdfs": 1,
-   "attachment_list": [
-    {
-     "url": "https://static.applyhome.co.kr/ai/aia/getAtchmnfl.do?houseManageNo=2026910262&pblancNo=2026910262&atchmnflSeqNo=1998997&atchmnflSn=3",
-     "bytes": 256713,
-     "pages": 11,
-     "chars": 16866,
-     "head": "- 1 - ■ 본 단지의 최초 입주자모집공고(2021.12.03., 주택관리번호 2021000921) 당시 단지명은 '화성 송산 동원로얄듀크 파"
-    }
-   ],
-   "chosen": "https://static.applyhome.co.kr/ai/aia/getAtchmnfl.do?houseManageNo=2026910262&pblancNo=2026910262&atchmnflSeqNo=1998997&atchmnflSn=3",
-   "pages": 11,
-   "pages_read": 11,
-   "chars_read": 16876,
-   "empty_pages": [],
-   "chars_per_page_min": 472,
-   "fields": {
-    "need_head": false,
-    "price_cap": false,
-    "residence_duty": 0,
-    "rewin_years": 0,
-    "residence": {
-     "area": "경기도",
-     "months": 0,
-     "since": null
-    }
-   },
-   "fields_merged": {
-    "need_head": false,
-    "price_cap": false,
-    "residence_duty": 0,
-    "rewin_years": 0,
-    "residence": {
-     "area": "경기도",
-     "months": 0,
-     "since": null
-    }
-   },
-   "fields_pdfium": {
-    "need_head": false,
-    "price_cap": false,
-    "residence_duty": 0,
-    "rewin_years": 0,
-    "residence": {
-     "area": "경기도",
-     "months": 0,
-     "since": null
-    }
-   },
-   "pdfium_chars": 16699,
-   "problem": []
-  },
-  {
-   "notice": "2026910252",
-   "name": "그랑라크 에일린의 뜰",
-   "url": "https://www.applyhome.co.kr/ai/aia/selectAPTRemndrLttotPblancDetailView.do?houseManageNo=2026910252&pblancNo=2026910252",
-   "attachments": 1,
-   "pdfs": 1,
-   "attachment_list": [
-    {
-     "url": "https://static.applyhome.co.kr/ai/aia/getAtchmnfl.do?houseManageNo=2026910252&pblancNo=2026910252&atchmnflSeqNo=1997992&atchmnflSn=5",
-     "bytes": 296642,
-     "pages": 12,
-     "chars": 22198,
-     "head": "- 1 - ※ 단지 주요정보 (분양문의) 052-266-1521 주택유형 규제지역여부 무순위(사후) 자격요건 민영 비규제지역 무순위(사후) 입주"
-    }
-   ],
-   "chosen": "https://static.applyhome.co.kr/ai/aia/getAtchmnfl.do?houseManageNo=2026910252&pblancNo=2026910252&atchmnflSeqNo=1997992&atchmnflSn=5",
-   "pages": 12,
-   "pages_read": 12,
-   "chars_read": 22209,
-   "empty_pages": [],
-   "chars_per_page_min": 684,
-   "fields": {
-    "need_head": false,
-    "price_cap": false,
-    "residence_duty": 0,
-    "rewin_years": 0,
-    "ext": 0.2,
-    "residence": {
-     "area": "울산광역시",
-     "months": 0,
-     "since": null
-    }
-   },
-   "fields_merged": {
-    "need_head": false,
-    "price_cap": false,
-    "residence_duty": 0,
-    "rewin_years": 0,
-    "ext": 0.2,
-    "residence": {
-     "area": "울산광역시",
-     "months": 0,
-     "since": null
-    }
-   },
-   "fields_pdfium": {
-    "need_head": false,
-    "price_cap": false,
-    "residence_duty": 0,
-    "rewin_years": 0,
-    "ext": 0.2,
-    "residence": {
-     "area": "울산광역시",
-     "months": 0,
-     "since": null
-    }
-   },
-   "pdfium_chars": 21962,
-   "problem": []
-  },
-  {
-   "notice": "2026910263",
-   "name": "청계 노르웨이숲(13차)",
-   "url": "https://www.applyhome.co.kr/ai/aia/selectAPTRemndrLttotPblancDetailView.do?houseManageNo=2026910263&pblancNo=2026910263",
-   "attachments": 1,
-   "pdfs": 1,
-   "attachment_list": [
-    {
-     "url": "https://static.applyhome.co.kr/ai/aia/getAtchmnfl.do?houseManageNo=2026910263&pblancNo=2026910263&atchmnflSeqNo=1994058&atchmnflSn=3",
-     "bytes": 1205272,
-     "pages": 16,
-     "chars": 27187,
-     "head": "- 1 - ※ 해당 주택건설지역인 서울특별시 중구는 ‘25.10.16. 투기과열지구로 지정되었으나, 본 주택은 ‘25.10.15. 이전 최초 입"
-    }
-   ],
-   "chosen": "https://static.applyhome.co.kr/ai/aia/getAtchmnfl.do?houseManageNo=2026910263&pblancNo=2026910263&atchmnflSeqNo=1994058&atchmnflSn=3",
-   "pages": 16,
-   "pages_read": 16,
-   "chars_read": 27202,
-   "empty_pages": [
-    12,
-    16
-   ],
-   "chars_per_page_min": 15,
-   "fields": {
-    "need_head": false,
-    "price_cap": false,
-    "residence_duty": 0,
-    "rewin_years": 0,
-    "residence": {
-     "area": null,
-     "months": 0,
-     "since": null
-    }
-   },
-   "fields_merged": {
-    "need_head": false,
-    "price_cap": false,
-    "residence_duty": 0,
-    "rewin_years": 0,
-    "residence": {
-     "area": null,
-     "months": 0,
-     "since": null
-    }
-   },
-   "fields_pdfium": {
-    "need_head": false,
-    "price_cap": false,
-    "residence_duty": 0,
-    "rewin_years": 0,
-    "residence": {
-     "area": null,
-     "months": 0,
-     "since": null
-    }
-   },
-   "pdfium_chars": 26387,
-   "problem": [
-    "글자가 거의 없는 쪽 2개 (스캔 이미지·표 그림 추정): [12, 16]"
-   ]
-  },
-  {
    "notice": "2026910260",
    "name": "의왕역 한신더휴",
    "url": "https://www.applyhome.co.kr/ai/aia/selectAPTRemndrLttotPblancDetailView.do?houseManageNo=2026910260&pblancNo=2026910260",
@@ -3935,183 +3966,6 @@
     }
    },
    "pdfium_chars": 20422,
-   "problem": []
-  },
-  {
-   "notice": "2026910259",
-   "name": "시티오씨엘 9단지 오션파크뷰",
-   "url": "https://www.applyhome.co.kr/ai/aia/selectAPTRemndrLttotPblancDetailView.do?houseManageNo=2026910259&pblancNo=2026910259",
-   "attachments": 1,
-   "pdfs": 1,
-   "attachment_list": [
-    {
-     "url": "https://static.applyhome.co.kr/ai/aia/getAtchmnfl.do?houseManageNo=2026910259&pblancNo=2026910259&atchmnflSeqNo=1992035&atchmnflSn=3",
-     "bytes": 312702,
-     "pages": 9,
-     "chars": 16584,
-     "head": "- 1 - ※ 단지 주요정보 (분양문의) 032-831-1141 주택유형 규제지역여부 무순위(사후) 자격요건 민영 비규제지역 무순위(사후) 입주"
-    }
-   ],
-   "chosen": "https://static.applyhome.co.kr/ai/aia/getAtchmnfl.do?houseManageNo=2026910259&pblancNo=2026910259&atchmnflSeqNo=1992035&atchmnflSn=3",
-   "pages": 9,
-   "pages_read": 9,
-   "chars_read": 16592,
-   "empty_pages": [],
-   "chars_per_page_min": 527,
-   "fields": {
-    "need_head": false,
-    "price_cap": false,
-    "residence_duty": 0,
-    "rewin_years": 0,
-    "residence": {
-     "area": null,
-     "months": 0,
-     "since": null
-    }
-   },
-   "fields_merged": {
-    "need_head": false,
-    "price_cap": false,
-    "residence_duty": 0,
-    "rewin_years": 0,
-    "residence": {
-     "area": null,
-     "months": 0,
-     "since": null
-    }
-   },
-   "fields_pdfium": {
-    "need_head": false,
-    "price_cap": false,
-    "residence_duty": 0,
-    "rewin_years": 0,
-    "residence": {
-     "area": null,
-     "months": 0,
-     "since": null
-    }
-   },
-   "pdfium_chars": 16342,
-   "problem": []
-  },
-  {
-   "notice": "2026910255",
-   "name": "e편한세상 에코델타 센터포인트(19BL)",
-   "url": "https://www.applyhome.co.kr/ai/aia/selectAPTRemndrLttotPblancDetailView.do?houseManageNo=2026910255&pblancNo=2026910255",
-   "attachments": 1,
-   "pdfs": 1,
-   "attachment_list": [
-    {
-     "url": "https://static.applyhome.co.kr/ai/aia/getAtchmnfl.do?houseManageNo=2026910255&pblancNo=2026910255&atchmnflSeqNo=1992144&atchmnflSn=3",
-     "bytes": 372850,
-     "pages": 13,
-     "chars": 25873,
-     "head": "- 1 - ▮ 부산 에코델타시티 19BL ‘e편한세상 에코델타 센터포인트’ 공공분양주택 건설사업 주관업체 안내 ▣ 사업주체 : 부산도시공사 ▣ "
-    }
-   ],
-   "chosen": "https://static.applyhome.co.kr/ai/aia/getAtchmnfl.do?houseManageNo=2026910255&pblancNo=2026910255&atchmnflSeqNo=1992144&atchmnflSn=3",
-   "pages": 13,
-   "pages_read": 13,
-   "chars_read": 25885,
-   "empty_pages": [],
-   "chars_per_page_min": 1365,
-   "fields": {
-    "need_head": false,
-    "price_cap": true,
-    "residence_duty": 0,
-    "rewin_years": 0,
-    "balance": "2026-12-21",
-    "residence": {
-     "area": "부산광역시",
-     "months": 0,
-     "since": null
-    }
-   },
-   "fields_merged": {
-    "need_head": false,
-    "price_cap": true,
-    "residence_duty": 0,
-    "rewin_years": 0,
-    "balance": "2026-12-21",
-    "residence": {
-     "area": "부산광역시",
-     "months": 0,
-     "since": null
-    }
-   },
-   "fields_pdfium": {
-    "need_head": false,
-    "price_cap": true,
-    "residence_duty": 0,
-    "rewin_years": 0,
-    "balance": "2026-12-21",
-    "residence": {
-     "area": "부산광역시",
-     "months": 0,
-     "since": null
-    }
-   },
-   "pdfium_chars": 25670,
-   "problem": []
-  },
-  {
-   "notice": "2026910254",
-   "name": "에코델타시티 푸르지오 센터파크(18BL)",
-   "url": "https://www.applyhome.co.kr/ai/aia/selectAPTRemndrLttotPblancDetailView.do?houseManageNo=2026910254&pblancNo=2026910254",
-   "attachments": 1,
-   "pdfs": 1,
-   "attachment_list": [
-    {
-     "url": "https://static.applyhome.co.kr/ai/aia/getAtchmnfl.do?houseManageNo=2026910254&pblancNo=2026910254&atchmnflSeqNo=1995006&atchmnflSn=2",
-     "bytes": 382899,
-     "pages": 13,
-     "chars": 25707,
-     "head": "- 1 - ▮ 부산 에코델타시티 18BL ‘에코델타시티 푸르지오 센터파크’ 공공분양주택 건설사업 주관업체 안내 ▣ 사업주체 : 부산도시공사 ▣ "
-    }
-   ],
-   "chosen": "https://static.applyhome.co.kr/ai/aia/getAtchmnfl.do?houseManageNo=2026910254&pblancNo=2026910254&atchmnflSeqNo=1995006&atchmnflSn=2",
-   "pages": 13,
-   "pages_read": 13,
-   "chars_read": 25719,
-   "empty_pages": [],
-   "chars_per_page_min": 1365,
-   "fields": {
-    "need_head": false,
-    "price_cap": true,
-    "residence_duty": 0,
-    "rewin_years": 0,
-    "balance": "2026-12-21",
-    "residence": {
-     "area": "부산광역시",
-     "months": 0,
-     "since": null
-    }
-   },
-   "fields_merged": {
-    "need_head": false,
-    "price_cap": true,
-    "residence_duty": 0,
-    "rewin_years": 0,
-    "balance": "2026-12-21",
-    "residence": {
-     "area": "부산광역시",
-     "months": 0,
-     "since": null
-    }
-   },
-   "fields_pdfium": {
-    "need_head": false,
-    "price_cap": true,
-    "residence_duty": 0,
-    "rewin_years": 0,
-    "balance": "2026-12-21",
-    "residence": {
-     "area": "부산광역시",
-     "months": 0,
-     "since": null
-    }
-   },
-   "pdfium_chars": 25535,
    "problem": []
   }
  ]
