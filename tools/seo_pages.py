@@ -189,6 +189,12 @@ def sec(no: str | None, title: str, inner: str) -> str:
     return f'<section class="card doc"><h2>{h}</h2>{inner}</section>'
 
 
+def renumber(body: str) -> str:
+    """단원 번호(01, 02, 02-2 …)를 나온 순서대로 01, 02, 03 … 으로."""
+    it = iter(range(1, 100))
+    return re.sub(r'<span class="secno">[^<]*</span>', lambda m: f'<span class="secno">{next(it):02d}</span>', body)
+
+
 def ps(*paras) -> str:
     return "".join(f"<p>{x}</p>" for x in paras if x)
 
@@ -327,15 +333,20 @@ def s_summary(nid: str, r: dict) -> str:
     p2 += "이고"
     p2 += f", 청약홈 공고 기준 일반공급 {hh:,}세대" if hh else ""
     p2 += f"와 특별공급 {sp:,}세대" if sp else ""
-    p2 += "를 모집해요." if (hh or sp) else " 세대수는 공고문에서 확인해 주세요."
+    p2 += ("를 모집했어요." if r["closed"] else "를 모집해요.") if (hh or sp) else " 세대수는 공고문에서 확인해 주세요."
     if prices:
         p2 += (f" {'임대보증금' if L.get('rental') else '분양가'}(주택형별 최고가 기준)는 {eok(min(prices))}~{eok(max(prices))}이에요." if min(prices) != max(prices)
                else f" {'임대보증금' if L.get('rental') else '분양가'}(최고가 기준)는 {eok(prices[0])}이에요.")
     p3 = ("이 페이지는 청약홈 공고와 모집공고문에서 수집한 값으로 일정·분양가·자격 조건·자금 예시를 정리하고, 청약패스 화면이 계산한 등급과 그 근거를 함께 보여 드려요. "
           "내 무주택 여부·청약통장·소득을 넣어 직접 판정해 보려면 위의 '내 조건으로 보기'를 누르세요.")
     if r["closed"]:
-        p3 = ("접수가 끝난 공고라 아래에 청약홈에 공개된 경쟁률·당첨 가점 결과와, 접수 때 청약패스가 계산한 등급(남아 있는 경우)을 함께 정리했어요. "
-              "비슷한 공고를 준비할 때 지역·주택형별로 어느 정도 경쟁이 있었는지 참고하세요.")
+        rate, score, other = result_kind(r)
+        if rate:
+            p3 = (f"접수가 끝난 공고라 아래에 청약홈에 공개된 경쟁률{'·당첨 가점' if score else ''} 결과와, 청약패스가 계산했던 등급(기록이 남아 있는 경우)을 함께 정리했어요. "
+                  "비슷한 공고를 준비할 때 지역·주택형별로 어느 정도 경쟁이 있었는지 참고하세요.")
+        else:
+            p3 = ("접수가 끝난 공고예요. 청약패스가 이 공고의 경쟁률·당첨 가점 결과를 모으지 못해(" + ("무순위 공고는 결과가 공개되지 않는 경우가 많아요" if r["type"] == "무순위" else "청약홈 결과 미수집")
+                  + "), 이 페이지에는 공고 당시의 일정·분양가·자격 조건·자금 예시만 정리했어요. 실제 결과는 청약홈에서 확인하세요.")
     return sec("01", "한눈에 보기", ps(p1, p2, p3))
 
 
@@ -389,24 +400,43 @@ def s_grade(nid: str, r: dict, eng: dict) -> str:
     return sec("02", "청약패스 등급과 판정 이유", ps(*paras))
 
 
-def s_result(nid: str, r: dict) -> str:
-    """마감 공고: 청약홈 경쟁률·당첨 가점 결과 + 접수 때 청약패스 등급(판정 복기)."""
-    L, us = r["units"][0], r["units"]
+def result_rows(r: dict) -> list:
+    """마감 공고의 청약홈 1순위 해당지역 결과 행 [(주택형, 값)] — 모은 결과가 없으면 []."""
     rows = []
     res_units = (r.get("res") or {}).get("units") or {}
     for key, x in res_units.items():
         rows.append((str(x.get("unit") or key) + "형", x))
     if not rows:
-        for u in us:
+        for u in r["units"]:
             for x in ((u.get("competition") or {}).get("rows") or []):
                 if str(x.get("rank")) == "1" and "해당" in (x.get("reside") or ""):
                     rows.append((str(u.get("unit") or "") + "형", x))
+    return rows
+
+
+def result_kind(r: dict) -> tuple[bool, bool, bool]:
+    """(경쟁률 있음, 당첨 가점 있음, 판정 복기·특별공급 결과 있음) — 제목·요약이 실제로 보여 주는 내용과 맞게 (2026-11-05 애드센스 지적)."""
+    rows = result_rows(r)
+    rate = any(x.get("rate_num") is not None or x.get("req") is not None for _, x in rows)
+    score = any(x.get("low") for _, x in rows)
+    other = bool(((r.get("recap") or {}).get("units")) or ((r.get("res") or {}).get("sp")))
+    return rate, score, other
+
+
+def s_result(nid: str, r: dict) -> str:
+    """마감 공고: 청약홈 경쟁률·당첨 가점 결과 + 접수 때 청약패스 등급(판정 복기). 보여 줄 결과가 하나도 없으면 단원을 넣지 않는다."""
+    L, us = r["units"][0], r["units"]
+    rows = result_rows(r)
+    if not rows and not any(result_kind(r)):
+        return ""
     paras, tbl = [], ""
     if rows:
+        has_score = any(x.get("low") for _, x in rows)   # 가점 결과가 없으면(추첨·미달 등) 빈 가점 칸을 보이지 않는다
         tr = "".join(f"<tr><td>{e(str(n))}</td><td>{int(x['supply']) if x.get('supply') is not None else '-'}</td><td>{int(x['req']) if x.get('req') is not None else '-'}</td>"
-                     f"<td>{e(str(x.get('rate') or '-'))}</td><td>{x.get('low') if x.get('low') is not None else '-'}</td><td>{x.get('avg') if x.get('avg') is not None else '-'}</td></tr>" for n, x in rows)
-        tbl = (f'<div class="gwrap"><table class="gtbl"><tr><th>주택형</th><th>공급</th><th>접수</th><th>경쟁률</th><th>당첨 최저 가점</th><th>평균</th></tr>{tr}</table></div>'
-               f'<p class="small muted">출처: <a href="{CMPET_URL.format(nid)}" target="_blank" rel="noopener">청약홈 경쟁률·당첨 가점</a> (1순위 해당지역 기준).</p>')
+                     f"<td>{e(str(x.get('rate') or '-'))}</td>"
+                     + (f"<td>{x.get('low') if x.get('low') else '-'}</td><td>{x.get('avg') if x.get('avg') else '-'}</td>" if has_score else "") + "</tr>" for n, x in rows)
+        tbl = (f'<div class="gwrap"><table class="gtbl"><tr><th>주택형</th><th>공급</th><th>접수</th><th>경쟁률</th>{"<th>당첨 최저 가점</th><th>평균</th>" if has_score else ""}</tr>{tr}</table></div>'
+               f'<p class="small muted">출처: <a href="{CMPET_URL.format(nid)}" target="_blank" rel="noopener">청약홈 경쟁률{"·당첨 가점" if has_score else ""}</a> (1순위 해당지역 기준).</p>')
         rated = [(n, x) for n, x in rows if x.get("rate_num") is not None]
         if rated:
             hi = max(rated, key=lambda t: t[1]["rate_num"]); lo = min(rated, key=lambda t: t[1]["rate_num"])
@@ -433,8 +463,10 @@ def s_result(nid: str, r: dict) -> str:
     rc = r.get("recap") or {}
     if rc.get("units"):
         c = Counter(v.get("label") for v in rc["units"].values() if v.get("label"))
-        paras.append(f"<b>판정 복기:</b> 접수 때({kd(rc.get('seen'))} 마지막 계산) 청약패스는 이 공고의 주택형을 " + ", ".join(f"'{e(k)}' {v}개" for k, v in c.most_common())
-                     + "로 계산했어요. 등급은 시세 대비 매입가 차이를 본 세전 추정이라, 실제 경쟁률·당첨 가점과 함께 비교해 보면 다음 공고를 고를 때 참고가 돼요.")
+        end = str(L.get("apply_end") or L.get("apply") or "")[:10]
+        when = "접수 때" if (rc.get("seen") and end and str(rc["seen"])[:10] <= end) else "마감 뒤"   # 등급 기록은 2026-11-05 부터 — 그 전에 마감한 공고는 '접수 때'가 아님
+        paras.append(f"<b>판정 복기:</b> {when}({kd(rc.get('seen'))} 마지막 계산) 청약패스는 이 공고의 주택형을 " + ", ".join(f"'{e(k)}' {v}개" for k, v in c.most_common())
+                     + "로 계산했어요. 등급은 시세 대비 매입가 차이를 본 세전 추정이라, 실제 경쟁률" + ("·당첨 가점" if any(x.get("low") for _, x in rows) else "") + "과 함께 비교해 보면 다음 공고를 고를 때 참고가 돼요.")
     elif r["live"] and r["eng"]:
         pass
     else:
@@ -600,11 +632,16 @@ def faqs(nid: str, r: dict, eng: dict) -> list[tuple[str, str]]:
     out.append((f"{n}에 당첨되면 어떤 제한이 있어요?", ("공고문 기준으로 " + ", ".join(f"{e(k)} {e(v)}" for k, v in lim) + "이에요. " if lim else "공고문에서 재당첨·전매 제한과 실거주 의무를 확인하세요. ")
                 + "제한 기간과 시작일은 공고문 원문이 기준이에요."))
     if r["closed"]:
-        rows = [x for x in ((r.get("res") or {}).get("units") or {}).values() if x.get("rate_num") is not None]
-        a = (f"1순위 해당지역 경쟁률은 {min(x['rate_num'] for x in rows):g}대 1부터 {max(x['rate_num'] for x in rows):g}대 1까지였어요. " if rows else "청약홈에 공개된 1순위 경쟁률 결과를 아직 모으지 못했어요. ")
-        lows = [x["low"] for x in rows if x.get("low") is not None]
-        a += f"가점제 당첨자 최저 가점은 {min(lows):g}~{max(lows):g}점이었어요. " if lows else ""
-        out.append((f"{n} 경쟁률과 당첨 가점은 어땠어요?", a + "자세한 숫자는 청약홈 경쟁률 화면에서 볼 수 있어요."))
+        rows = [x for _, x in result_rows(r) if x.get("rate_num") is not None]
+        lows = [x["low"] for _, x in result_rows(r) if x.get("low")]
+        if rows or result_rows(r):
+            a = (f"1순위 해당지역 경쟁률은 {min(x['rate_num'] for x in rows):g}대 1부터 {max(x['rate_num'] for x in rows):g}대 1까지였어요. " if rows
+                 else "1순위 해당지역 접수 결과는 위 '청약 결과' 표에 주택형별로 정리했어요. ")
+            a += f"가점제 당첨자 최저 가점은 {min(lows):g}~{max(lows):g}점이었어요. " if lows else ""
+            out.append((f"{n} 경쟁률{'과 당첨 가점은' if lows else '은'} 어땠어요?", a + "자세한 숫자는 청약홈 경쟁률 화면에서 볼 수 있어요."))
+        else:   # 결과를 모으지 못한 공고 — 없는 결과를 묻고 답하지 않는다 (2026-11-05 애드센스 지적)
+            out.append((f"{n} 청약 결과는 어디서 볼 수 있어요?", "청약패스는 이 공고의 경쟁률·당첨 가점 결과를 모으지 못했어요"
+                        + ("(무순위 공고는 결과가 공개되지 않는 경우가 많아요)" if r["type"] == "무순위" else "") + ". 결과는 청약홈의 청약 경쟁률 메뉴나 사업주체 안내에서 확인하세요."))
     else:
         ev = r["eng"]
         labs = Counter(ev[u["id"]]["label"] for u in us if u["id"] in ev)
@@ -637,10 +674,11 @@ def related(nid: str, r: dict, recs: OrderedDict) -> str:
 
 def sources(nid: str, r: dict) -> str:
     L = r["units"][0]
-    src = [f'<li><a href="{APPLY_URL.format(nid)}" target="_blank" rel="noopener">청약홈 모집공고 ({nid})</a></li>']
+    u = L.get("url") if str(L.get("url") or "").startswith("https://www.applyhome.co.kr/") else APPLY_URL.format(nid)   # 무순위는 청약홈 무순위 공고 화면(selectAPTRemndr…) — 2026-11-05 일반 공고 화면으로 걸려 있던 것
+    src = [f'<li><a href="{e(u)}" target="_blank" rel="noopener">청약홈 {"무순위·잔여세대 " if L.get("category") == "remainder" else ""}모집공고 ({nid})</a></li>']
     if L.get("notice_pdf"):
         src.append(f'<li><a href="{e(L["notice_pdf"])}" target="_blank" rel="noopener">모집공고문 원문 (PDF)</a></li>')
-    if r["closed"] and L.get("category") != "remainder":
+    if r["closed"] and L.get("category") != "remainder" and result_rows(r):   # 모은 결과가 있을 때만 (숫자가 보이는 화면으로만 링크)
         src.append(f'<li><a href="{CMPET_URL.format(nid)}" target="_blank" rel="noopener">청약홈 경쟁률</a></li>')
     if r["live"]:
         src.append("<li>추정 시세: 국토교통부 실거래가로 이 서비스가 계산한 범위 (세전 추정)</li><li>등급: 청약패스 화면 판정 (매입가와 추정 시세의 차이)</li>")
@@ -652,9 +690,20 @@ def notice_page(nid: str, r: dict, recs: OrderedDict, eng: dict):
     L = r["units"][0]
     name = L["name"]
     sido = L.get("sido") or ""
-    title = f"{name} 청약 " + ("결과·경쟁률·당첨 가점" if r["closed"] else "일정·분양가·자격·등급")
-    desc = (f"{name}({where(L)}) {r['type']} — " + (f"마감 공고 결과: 경쟁률·당첨 가점과 접수 때 청약패스 등급 복기" if r["closed"]
-            else f"접수 {md(L.get('special_apply') or L.get('apply'))}, 주택형별 분양가·추정 시세·등급 근거, 공고문 자격 요약과 계약금 예시"))
+    when = md(L.get("special_apply") or L.get("apply") or L.get("notice"))
+    rate, score, other = result_kind(r)
+    if not r["closed"]:
+        what, desc_what = "청약 일정·분양가·자격·등급", f"접수 {when}, 주택형별 분양가·추정 시세·등급 근거, 공고문 자격 요약과 계약금 예시"
+    elif rate:
+        what = "청약 결과·경쟁률" + ("·당첨 가점" if score else "")
+        desc_what = "마감 공고 결과: 경쟁률" + ("·당첨 가점" if score else "") + ("과 청약패스 등급 복기" if (r.get("recap") or {}).get("units") else "") + ", 공고 당시 일정·분양가·자격"
+    else:
+        what, desc_what = "공고 정리 — 일정·분양가·자격", "접수 마감 공고: 공고 당시 일정·주택형별 분양가·공고문 자격 요약과 자금 예시(경쟁률 결과는 미수집)"
+    k = str(L.get("kind") or "")
+    tl = k if (r["type"] == "무순위" and k and k != "무순위") else r["type"]   # 같은 날 무순위·불법행위 재공급처럼 같은 단지 공고를 구분
+    tl = "" if tl in name else tl + " "
+    title = f"{name} {tl}{what} ({when} 접수{' 마감' if r['closed'] else ''})"
+    desc = f"{name}({where(L)}) {r['type']} — {desc_what}"
     qas = faqs(nid, r, eng)
     cta = (f'<a class="btn" href="/#/detail/{L["id"]}">내 조건으로 자격·가점·자금 보기</a>' if r["live"] else "")
     body = (f"<h1>{e(name)}</h1><p class=\"muted\" style=\"margin:0 0 10px\">{e(where(L))} · {e(r['type'])}{' · <b>접수 마감</b>' if r['closed'] else ''}</p>{cta}"
@@ -664,7 +713,7 @@ def notice_page(nid: str, r: dict, recs: OrderedDict, eng: dict):
             + s_schedule(nid, r) + s_price(nid, r) + s_elig(nid, r) + s_money(nid, r) + s_special(nid, r)
             + sec(None, "자주 묻는 질문", faq_html(qas)) + related(nid, r, recs) + sources(nid, r))
     crumbs = [("/", "홈"), ("/notice/", "청약 공고"), (f"/notice/{sido}/", SIDO_FULL.get(sido, sido)), (f"/notice/type/{r['type']}/", r["type"]), (None, name)]
-    return title, desc, body, faq_ld(qas), crumbs
+    return title, desc, renumber(body), faq_ld(qas), crumbs
 
 
 # ── 목록 페이지 ──────────────────────────────────────────────────────────────
@@ -764,9 +813,29 @@ def won_k(v) -> str:
     return "-" if v is None else f"{int(v):,}원"
 
 
+def rent_apply(sch: dict) -> str:
+    """임대 접수 기간 글. LH 는 접수 시각 칸이 '~' 만 오는 공고가 있어(2026-11-05 홍성군 영구임대 2015122300020903) 숫자가 없으면 날짜 칸을 쓴다."""
+    t = (sch or {}).get("apply_time") or ""
+    if re.search(r"\d", t):
+        return t
+    a, b = (sch or {}).get("apply_start"), (sch or {}).get("apply_end")
+    return (md(a) + (f" ~ {md(b)}" if b and b != a else "")) if a else (f"~ {md(b)}" if b else "")
+
+
+def short_range(a: str | None, b: str | None) -> str:
+    """'2026.10.13~10.20' (같은 해면 끝 날짜에서 연도를 뺀다)"""
+    if not a:
+        return ""
+    if not b or b == a:
+        return md(a)
+    return md(a) + "~" + (md(b)[5:] if str(b)[:4] == str(a)[:4] else md(b))
+
+
 def rental_page(org: str, n: dict):
     name, typ = n["name"], n.get("type") or "임대"
     sch = (n.get("schedule") or [{}])[0] if n.get("schedule") else {}
+    ap = rent_apply(sch)
+    closed = bool(n.get("close")) and str(n["close"])[:10] < TODAY
     p1 = (f"<b>{e(name)}</b>{josa(name, '은', '는')} {e(n.get('region') or '')}에서 모집하는 {e(typ)} 공고예요({e(RENT_ORG[org][0])}). "
           f"공고 게시일은 {kd(n.get('posted'))}" + (f", 접수 마감은 {kd(n.get('close'))}" if n.get("close") else "") + "이에요.")
     cx = n.get("complexes") or []
@@ -778,8 +847,9 @@ def rental_page(org: str, n: dict):
             p1 += f" 공고에 적힌 입주 시기는 {e(mi[0])}{ieyo(mi[0])}."
     parts = ["<h1>" + e(name) + "</h1>", f'<p class="muted" style="margin:0 0 10px">{e(n.get("region") or "")} · {e(RENT_ORG[org][0])} · {e(typ)}</p>',
              f'<a class="btn" href="/#/rdetail/{e(str(n["id"]))}">내 조건으로 자격 보기</a>', sec("01", "한눈에 보기", ps(p1, rent_type_desc(n)))]
+    parts[1] = parts[1].replace("</p>", (f" · 접수 {e(ap)}" if ap else f" · 게시 {md(n.get('posted'))}") + (" · <b>접수 마감</b>" if closed else "") + "</p>", 1)
     if sch:
-        rows = [("접수", (sch.get("apply_time") or ((sch.get("apply_start") or "") + (" ~ " + sch["apply_end"] if sch.get("apply_end") else "")))),
+        rows = [("접수", ap or "모집공고문 확인"),
                 ("서류 제출 대상 발표", sch.get("docs_target")), ("서류 제출", sch.get("docs_start") and (sch["docs_start"] + (" ~ " + sch["docs_end"] if sch.get("docs_end") else ""))),
                 ("당첨자 발표", sch.get("winner")), ("계약", sch.get("contract_start") and (sch["contract_start"] + (" ~ " + sch["contract_end"] if sch.get("contract_end") else "")))]
         tr = "".join(f"<tr><td>{k}</td><td>{e(md(v))}</td></tr>" for k, v in rows if v)
@@ -827,7 +897,7 @@ def rental_page(org: str, n: dict):
             li.append(s + (", ".join(bits) if bits else "공고문 확인"))
         parts.append(sec("04", "신청 자격 (공고 조건)", ps("모집공고문에서 자동으로 읽은 계층별 기준이에요. 소득은 가구원수별 금액 표, 자산은 부동산·금융자산 등을 합친 총자산으로 따져요. 최종 기준은 공고문 원문이에요.")
                          + '<ul class="doclist">' + "".join(f"<li>{x}</li>" for x in li) + "</ul>"))
-    qas = [(f"{e(name)} 접수 기간은 언제예요?", (f"접수는 {e(sch.get('apply_time') or (md(sch.get('apply_start')) + ' ~ ' + md(sch.get('apply_end'))))}이고, " if sch else "")
+    qas = [(f"{e(name)} 접수 기간은 언제예요?", (f"접수는 {e(ap)}{'였' if closed else '이'}고, " if ap else "접수 일정은 모집공고문에서 확인해야 해요(청약패스가 날짜를 읽지 못했어요). ")
             + (f"당첨자 발표는 {kd(sch.get('winner'))}{ieyo(kd(sch.get('winner')))}. " if sch.get("winner") else "") + "자세한 일정은 모집공고문을 확인하세요."),
            (f"{e(name)} 임대료는 얼마예요?", ("보증금 " + won_k(min(x["deposit"] for x in rents if x.get("deposit"))) + "부터, 계층·주택형별로 공고문 표에 나와 있어요. " if any(x.get("deposit") for x in rents)
                                          else "임대료는 모집공고문의 임대조건 표에서 확인하세요. ") + "보증금과 월 임대료 전환 가능 여부도 공고문에서 확인하세요."),
@@ -842,7 +912,9 @@ def rental_page(org: str, n: dict):
     rg = glink("public-rental", "공공임대 기본") if org != "pvt" else glink("private-rental", "공공지원 민간임대")
     parts.append(sec(None, "출처·더 알아보기", f'<ul class="doclist">{"".join(src)}</ul>' + (f'<p class="small">가이드: {rg}</p>' if rg else "")))
     crumbs = [("/", "홈"), ("/rental/", "임대 공고"), (f"/rental/{org}/", RENT_ORG[org][0]), (None, name)]
-    return f"{name} 임대 공고 — 자격·임대조건·일정", f"{name}({n.get('region') or ''}) {typ}: 신청 자격, 보증금·월 임대료, 접수·발표 일정과 자주 묻는 질문", "".join(parts), faq_ld(qas), crumbs
+    tag = f"접수 {short_range(sch.get('apply_start'), sch.get('apply_end'))}" if sch.get("apply_start") else f"게시 {md(n.get('posted'))}"
+    return (f"{name} 임대 공고 ({tag}) — 자격·임대조건·일정", f"{name}({n.get('region') or ''}) {typ}, {tag}: 신청 자격, 보증금·월 임대료, 접수·발표 일정과 자주 묻는 질문",
+            renumber("".join(parts)), faq_ld(qas), crumbs)
 
 
 def rental_build(write) -> list:
@@ -856,7 +928,7 @@ def rental_build(write) -> list:
         for n in ns:
             t, d, b, h, c = rental_page(org, n)
             out.append(write(f"rental/{org}/{rent_slug(n)}/", t, d, b, h, c, TODAY))
-        li = "".join(f'<li><a href="/rental/{org}/{rent_slug(n)}/"><b>{e(n["name"])}</b></a><br><span class="small muted">{e(n.get("region") or "")} · {e(n.get("type") or "")} · 게시 {md(n.get("posted"))}</span></li>' for n in ns)
+        li = "".join(f'<li><a href="/rental/{org}/{rent_slug(n)}/"><b>{e(n["name"])}</b></a><br><span class="small muted">{e(n.get("region") or "")} · {e(n.get("type") or "")} · 게시 {md(n.get("posted"))}{(" · 접수 " + short_range(((n.get("schedule") or [{}])[0] or {}).get("apply_start"), ((n.get("schedule") or [{}])[0] or {}).get("apply_end"))) if ((n.get("schedule") or [{}])[0] or {}).get("apply_start") else ""}</span></li>' for n in ns)
         body = (f"<h1>{e(label)} 임대 공고</h1>" + ps(f"{e(label)} 임대주택 공고 {len(ns)}건을 모았어요. 공고마다 신청 자격, 보증금·월 임대료, 접수·발표 일정을 모집공고문 기준으로 정리했어요.",
                                                        "임대주택은 유형마다 자격과 거주 기간이 달라요. 유형별 기본 구조는 " + (glink("public-rental", "공공임대 기본") or "청약 가이드") + "에서 볼 수 있어요.")
                 + f'<ul class="doclist linklist">{li}</ul>')
@@ -921,9 +993,14 @@ def operator_info() -> tuple[str, str]:
     cfg = load(DOCS / "config.json", {}) or {}
     mail = cfg.get("contact_email") or ""
     frag = (load(ROOT / "tools" / "static_fragments.json", {}) or {}).get("privacy", "")
-    t = re.sub(r"<[^>]+>", " ", frag)
-    m = re.search(r"책임자\s+(\S{2,5})\s", t)
-    return (m.group(1) if m else ""), mail
+    return operator_name(frag), mail
+
+
+def operator_name(frag: str) -> str:
+    """개인정보처리방침의 '개인정보 보호책임자 | 책임자 | 이름 | 연락처' 에서 이름 (2026-11-05 '책임자'를 이름으로 읽어 '운영자 책임자이(가)'로 나가던 것)."""
+    t = re.sub(r"\s+", " ", re.sub(r"<[^>]+>", " ", frag or ""))
+    m = re.search(r"책임자\s+(?!책임자)([가-힣]{2,4})\s+연락처", t)
+    return m.group(1) if m else ""
 
 
 def about_pages(eng: dict) -> list[tuple]:
@@ -935,7 +1012,7 @@ def about_pages(eng: dict) -> list[tuple]:
     fixes = [(x.get("date"), x.get("version"), it[1]) for x in cl for it in x.get("items", []) if it and it[0] == "수정"][:30]
     mailto = f'<a href="mailto:{e(mail)}">{e(mail)}</a>' if mail else "이용 안내 화면의 문의하기"
     op = ("<h1>운영자 소개</h1>" + sec(None, "누가 만들었나요", ps(
-        f"청약패스는 {('운영자 ' + e(who) + '이(가) ') if who else ''}개인으로 만들고 운영하는 청약 정보 서비스예요. 청약홈(한국부동산원)·LH·국토교통부 같은 공공기관이나 건설사·분양대행사와 관계가 없고, 특정 단지 홍보나 분양 대가를 받지 않아요.",
+        f"청약패스는 {('운영자 ' + e(who) + josa(who, '이', '가') + ' ') if who else '운영자 한 사람이 '}개인으로 만들고 운영하는 청약 정보 서비스예요. 청약홈(한국부동산원)·LH·국토교통부 같은 공공기관이나 건설사·분양대행사와 관계가 없고, 특정 단지 홍보나 분양 대가를 받지 않아요.",
         "청약 공고문은 수십 쪽 분량이라 내가 넣을 수 있는지, 당첨되면 얼마가 필요한지, 시세와 비교해 어떤지를 한눈에 알기 어려워요. 청약패스는 공고문과 공공 데이터를 매일 모아 이 세 가지를 공고마다 정리하려고 만들었어요.",
         "판정 규칙은 법령과 모집공고문 원문으로 검증하고, 틀린 곳을 알려 주시면 원문과 대조해 고친 뒤 정정 기록을 남겨요."))
           + sec(None, "연락처", ps(f"문의·오류 제보: {mailto}", "개인정보 관련 문의는 <a href=\"/privacy/\">개인정보처리방침</a>의 개인정보 보호책임자에게 하실 수 있어요."))

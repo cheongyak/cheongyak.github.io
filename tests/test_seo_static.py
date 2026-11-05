@@ -91,3 +91,38 @@ def test_prerender_block_markers(tmp_path, monkeypatch):
 def test_generated_pages_pass_checks():
     r = seo_static.run()
     assert r["ok"], {k: r[k][:5] for k in ("short", "forbidden", "broken", "ld_bad", "ld_missing", "not_in_sitemap")}
+
+
+def test_closed_notice_without_results_title_matches_content():
+    """2026-11-05 애드센스 지적: 결과를 모으지 못한 마감 공고가 '청약 결과·경쟁률·당첨 가점' 제목으로 나가던 것 — 제목·요약·FAQ 가 실제 내용과 같게"""
+    r = rec(closed=True)
+    recs = OrderedDict([("2026000528", r)])
+    t, d, body, head, crumbs = seo_pages.notice_page("2026000528", r, recs, {"rules": FX["rules"], "names": FX["names"]})
+    assert "결과·경쟁률" not in t and "공고 정리" in t and "접수 마감" in t
+    assert "청약 결과와 판정 복기" not in body and "결과를 모으지 못해" in body
+    assert "경쟁률과 당첨 가점은 어땠어요" not in body and "청약 결과는 어디서 볼 수 있어요" in body
+    assert re.findall(r'<span class="secno">(\d+)</span>', body)[:3] == ["01", "02", "03"]   # 빠진 단원 때문에 번호가 건너뛰지 않음
+    # 경쟁률만 있고 가점이 없으면 제목·표에 가점을 넣지 않는다
+    r["res"] = {"units": {"084.7637A": {"unit": "84A", "supply": 30, "req": 12, "rate": "(△18)", "rate_num": 0.4, "low": 0, "avg": 0}}}
+    t, d, body, head, crumbs = seo_pages.notice_page("2026000528", r, recs, {"rules": FX["rules"], "names": FX["names"]})
+    assert "결과·경쟁률" in t and "당첨 가점" not in t and "<th>당첨 최저 가점</th>" not in body
+
+
+def test_rental_schedule_and_title():
+    """LH 접수 시각 칸이 '~' 만 오면 날짜 칸을 쓴다(홍성군 영구임대 2015122300020903), 제목에 접수 기간(같은 이름 공고 SH-311375·311987 구분)"""
+    sch = {"apply_start": "2026-11-02", "apply_end": "2026-11-05", "apply_time": "~", "winner": "2027-01-27"}
+    assert seo_pages.rent_apply(sch) == "2026.11.02 ~ 2026.11.05"
+    assert seo_pages.rent_apply({"apply_time": "2026.11.09 10:00 ~ 2026.11.11 16:10"}) == "2026.11.09 10:00 ~ 2026.11.11 16:10"
+    assert seo_pages.rent_apply({"apply_time": "~"}) == ""
+    n = {"id": "2015122300020903", "name": "홍성군 영구임대 예비자 모집공고", "type": "영구임대", "region": "충청남도", "posted": "2026-10-19", "close": "2026-11-05", "schedule": [sch]}
+    t, d, body, head, crumbs = seo_pages.rental_page("lh", n)
+    assert "접수는 ~이고" not in body and "접수는 2026.11.02 ~ 2026.11.05" in head and "(접수 2026.11.02~11.05)" in t
+    n2 = dict(n, schedule=[{"apply_time": "~"}])
+    t2, d2, body2, head2, _ = seo_pages.rental_page("lh", n2)
+    assert "접수는 ~" not in head2 and "모집공고문에서 확인" in head2 and "(게시 2026.10.19)" in t2
+
+
+def test_operator_name_from_privacy():
+    frag = "<h3>9. 개인정보 보호책임자</h3><table><tr><th>책임자</th><td>차진혁</td></tr><tr><th>연락처</th><td>x@example.com</td></tr></table>"
+    assert seo_pages.operator_name(frag) == "차진혁"
+    assert seo_pages.operator_name("<p>보호책임자 책임자 연락처</p>") == ""
