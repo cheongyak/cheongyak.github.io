@@ -1,0 +1,333 @@
+{
+ "at": "2026-11-06 00:05",
+ "repo_ads_txt": "google.com, pub-8680972365235939, DIRECT, f08c47fec0942fa0",
+ "dns": {
+  "cheongyakpass.kr": {
+   "addrs": [
+    "185.199.108.153",
+    "185.199.109.153",
+    "185.199.110.153",
+    "185.199.111.153"
+   ],
+   "CNAME": [],
+   "A": [
+    "185.199.111.153",
+    "185.199.110.153",
+    "185.199.109.153",
+    "185.199.108.153"
+   ],
+   "AAAA": []
+  },
+  "www.cheongyakpass.kr": {
+   "addrs": [
+    "185.199.108.153",
+    "185.199.109.153",
+    "185.199.110.153",
+    "185.199.111.153",
+    "2606:50c0:8000::153",
+    "2606:50c0:8001::153",
+    "2606:50c0:8002::153",
+    "2606:50c0:8003::153"
+   ],
+   "CNAME": [
+    "cheongyak.github.io."
+   ],
+   "A": [
+    "cheongyak.github.io.",
+    "185.199.109.153",
+    "185.199.108.153",
+    "185.199.110.153",
+    "185.199.111.153"
+   ],
+   "AAAA": [
+    "cheongyak.github.io.",
+    "2606:50c0:8002::153",
+    "2606:50c0:8001::153",
+    "2606:50c0:8003::153",
+    "2606:50c0:8000::153"
+   ]
+  }
+ },
+ "cert": {
+  "cheongyakpass.kr": {
+   "ok": true,
+   "names": [
+    "cheongyakpass.kr",
+    "www.cheongyakpass.kr"
+   ],
+   "until": "Dec 29 09:08:24 2026 GMT"
+  },
+  "www.cheongyakpass.kr": {
+   "ok": true,
+   "names": [
+    "cheongyakpass.kr",
+    "www.cheongyakpass.kr"
+   ],
+   "until": "Dec 29 09:08:24 2026 GMT"
+  }
+ },
+ "fetch": {
+  "https://cheongyakpass.kr/ads.txt": {
+   "Googlebot": {
+    "chain": [
+     {
+      "url": "https://cheongyakpass.kr/ads.txt",
+      "status": 200,
+      "type": "text/plain; charset=utf-8",
+      "location": null
+     }
+    ],
+    "ok": true,
+    "final": "https://cheongyakpass.kr/ads.txt",
+    "status": 200,
+    "type": "text/plain; charset=utf-8",
+    "body": "google.com, pub-8680972365235939, DIRECT, f08c47fec0942fa0\n"
+   },
+   "Mediapartners-Google": {
+    "chain": [
+     {
+      "url": "https://cheongyakpass.kr/ads.txt",
+      "status": 200,
+      "type": "text/plain; charset=utf-8",
+      "location": null
+     }
+    ],
+    "ok": true,
+    "final": "https://cheongyakpass.kr/ads.txt",
+    "status": 200,
+    "type": "text/plain; charset=utf-8",
+    "body": "google.com, pub-8680972365235939, DIRECT, f08c47fec0942fa0\n"
+   }
+  },
+  "https://www.cheongyakpass.kr/ads.txt": {
+   "Googlebot": {
+    "chain": [
+     {
+      "url": "https://www.cheongyakpass.kr/ads.txt",
+      "status": 301,
+      "type": "text/html",
+      "location": "https://cheongyakpass.kr/ads.txt"
+     },
+     {
+      "url": "https://cheongyakpass.kr/ads.txt",
+      "status": 200,
+      "type": "text/plain; charset=utf-8",
+      "location": null
+     }
+    ],
+    "ok": true,
+    "final": "https://cheongyakpass.kr/ads.txt",
+    "status": 200,
+    "type": "text/plain; charset=utf-8",
+    "body": "google.com, pub-8680972365235939, DIRECT, f08c47fec0942fa0\n"
+   },
+   "Mediapartners-Google": {
+    "chain": [
+     {
+      "url": "https://www.cheongyakpass.kr/ads.txt",
+      "status": 301,
+      "type": "text/html",
+      "location": "https://cheongyakpass.kr/ads.txt"
+     },
+     {
+      "url": "https://cheongyakpass.kr/ads.txt",
+      "status": 200,
+      "type": "text/plain; charset=utf-8",
+      "location": null
+     }
+    ],
+    "ok": true,
+    "final": "https://cheongyakpass.kr/ads.txt",
+    "status": 200,
+    "type": "text/plain; charset=utf-8",
+    "body": "google.com, pub-8680972365235939, DIRECT, f08c47fec0942fa0\n"
+   }
+  },
+  "http://cheongyakpass.kr/ads.txt": {
+   "Googlebot": {
+    "chain": [
+     {
+      "url": "http://cheongyakpass.kr/ads.txt",
+      "status": 301,
+      "type": "text/html",
+      "location": "https://cheongyakpass.kr/ads.txt"
+     },
+     {
+      "url": "https://cheongyakpass.kr/ads.txt",
+      "status": 200,
+      "type": "text/plain; charset=utf-8",
+      "location": null
+     }
+    ],
+    "ok": true,
+    "final": "https://cheongyakpass.kr/ads.txt",
+    "status": 200,
+    "type": "text/plain; charset=utf-8",
+    "body": "google.com, pub-8680972365235939, DIRECT, f08c47fec0942fa0\n"
+   },
+   "Mediapartners-Google": {
+    "chain": [
+     {
+      "url": "http://cheongyakpass.kr/ads.txt",
+      "status": 301,
+      "type": "text/html",
+      "location": "https://cheongyakpass.kr/ads.txt"
+     },
+     {
+      "url": "https://cheongyakpass.kr/ads.txt",
+      "status": 200,
+      "type": "text/plain; charset=utf-8",
+      "location": null
+     }
+    ],
+    "ok": true,
+    "final": "https://cheongyakpass.kr/ads.txt",
+    "status": 200,
+    "type": "text/plain; charset=utf-8",
+    "body": "google.com, pub-8680972365235939, DIRECT, f08c47fec0942fa0\n"
+   }
+  },
+  "http://www.cheongyakpass.kr/ads.txt": {
+   "Googlebot": {
+    "chain": [
+     {
+      "url": "http://www.cheongyakpass.kr/ads.txt",
+      "status": 301,
+      "type": "text/html",
+      "location": "https://cheongyakpass.kr/ads.txt"
+     },
+     {
+      "url": "https://cheongyakpass.kr/ads.txt",
+      "status": 200,
+      "type": "text/plain; charset=utf-8",
+      "location": null
+     }
+    ],
+    "ok": true,
+    "final": "https://cheongyakpass.kr/ads.txt",
+    "status": 200,
+    "type": "text/plain; charset=utf-8",
+    "body": "google.com, pub-8680972365235939, DIRECT, f08c47fec0942fa0\n"
+   },
+   "Mediapartners-Google": {
+    "chain": [
+     {
+      "url": "http://www.cheongyakpass.kr/ads.txt",
+      "status": 301,
+      "type": "text/html",
+      "location": "https://cheongyakpass.kr/ads.txt"
+     },
+     {
+      "url": "https://cheongyakpass.kr/ads.txt",
+      "status": 200,
+      "type": "text/plain; charset=utf-8",
+      "location": null
+     }
+    ],
+    "ok": true,
+    "final": "https://cheongyakpass.kr/ads.txt",
+    "status": 200,
+    "type": "text/plain; charset=utf-8",
+    "body": "google.com, pub-8680972365235939, DIRECT, f08c47fec0942fa0\n"
+   }
+  },
+  "https://cheongyakpass.kr/robots.txt": {
+   "Googlebot": {
+    "chain": [
+     {
+      "url": "https://cheongyakpass.kr/robots.txt",
+      "status": 200,
+      "type": "text/plain; charset=utf-8",
+      "location": null
+     }
+    ],
+    "ok": true,
+    "final": "https://cheongyakpass.kr/robots.txt",
+    "status": 200,
+    "type": "text/plain; charset=utf-8",
+    "body": "User-agent: *\nAllow: /\nDisallow: /run-log.txt\nDisallow: /notice-cache.json\nDisallow: /market-cache.json\nDisallow: /lawd-cache.json\n\nSitemap: https://cheongyakpass.kr/sitemap.xml\n"
+   },
+   "Mediapartners-Google": {
+    "chain": [
+     {
+      "url": "https://cheongyakpass.kr/robots.txt",
+      "status": 200,
+      "type": "text/plain; charset=utf-8",
+      "location": null
+     }
+    ],
+    "ok": true,
+    "final": "https://cheongyakpass.kr/robots.txt",
+    "status": 200,
+    "type": "text/plain; charset=utf-8",
+    "body": "User-agent: *\nAllow: /\nDisallow: /run-log.txt\nDisallow: /notice-cache.json\nDisallow: /market-cache.json\nDisallow: /lawd-cache.json\n\nSitemap: https://cheongyakpass.kr/sitemap.xml\n"
+   }
+  },
+  "https://cheongyakpass.kr/sitemap.xml": {
+   "Googlebot": {
+    "chain": [
+     {
+      "url": "https://cheongyakpass.kr/sitemap.xml",
+      "status": 200,
+      "type": "application/xml",
+      "location": null
+     }
+    ],
+    "ok": true,
+    "final": "https://cheongyakpass.kr/sitemap.xml",
+    "status": 200,
+    "type": "application/xml",
+    "body": "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<urlset xmlns=\"http://www.sitemaps.org/schemas/sitemap/0.9\">\n  <url><loc>https://cheongyakpass.kr/</loc><lastmod>2026-11-05</lastmod><changefreq>daily</changefreq><priority>1.0</priority></url>\n  <url><loc>https://cheongyakpass.kr/story/</loc><lastmod>2026-11-0"
+   },
+   "Mediapartners-Google": {
+    "chain": [
+     {
+      "url": "https://cheongyakpass.kr/sitemap.xml",
+      "status": 200,
+      "type": "application/xml",
+      "location": null
+     }
+    ],
+    "ok": true,
+    "final": "https://cheongyakpass.kr/sitemap.xml",
+    "status": 200,
+    "type": "application/xml",
+    "body": "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<urlset xmlns=\"http://www.sitemaps.org/schemas/sitemap/0.9\">\n  <url><loc>https://cheongyakpass.kr/</loc><lastmod>2026-11-05</lastmod><changefreq>daily</changefreq><priority>1.0</priority></url>\n  <url><loc>https://cheongyakpass.kr/story/</loc><lastmod>2026-11-0"
+   }
+  },
+  "https://cheongyakpass.kr/": {
+   "Googlebot": {
+    "chain": [
+     {
+      "url": "https://cheongyakpass.kr/",
+      "status": 200,
+      "type": "text/html; charset=utf-8",
+      "location": null
+     }
+    ],
+    "ok": true,
+    "final": "https://cheongyakpass.kr/",
+    "status": 200,
+    "type": "text/html; charset=utf-8",
+    "body": null
+   },
+   "Mediapartners-Google": {
+    "chain": [
+     {
+      "url": "https://cheongyakpass.kr/",
+      "status": 200,
+      "type": "text/html; charset=utf-8",
+      "location": null
+     }
+    ],
+    "ok": true,
+    "final": "https://cheongyakpass.kr/",
+    "status": 200,
+    "type": "text/html; charset=utf-8",
+    "body": null
+   }
+  }
+ },
+ "ads_txt_ok": true,
+ "www_ads_txt_ok": true
+}

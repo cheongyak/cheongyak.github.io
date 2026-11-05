@@ -16,17 +16,24 @@
 	<meta name="viewport" content="width=device-width,initial-scale=1.0,minimum-scale=1.0,maximum-scale=1.0">
 	<!-- 230628 웹와치 수정 - 타이틀 영역에 메뉴 경로 출력 -->
 	<!-- 250922 웹접근성 타이틀 역순으로 처리-->
-	<title>
-		
-			공고문 &lt; 
-		
-		
-			임대주택 &lt; 
+	<!-- 261029 웹접근성 타이틀 수정 -->
+	
 		
 		
-		청약 &lt; 
-		LH청약플러스
-	</title>
+		
+			<title>
+				
+					공고문 &lt; 
+				
+				
+					임대주택 &lt; 
+				
+				
+				청약 &lt; 
+				LH청약플러스
+			</title>
+		
+	
 
 	<!-- favicon -->
 	<link rel="icon" type="image/png" href="/00_common/images/favicon.ico">
@@ -34,7 +41,7 @@
 	<meta name="keywords" content="LH청약플러스">
 	<meta name="description" content="청약, 사전청약, 부동산맵 등 한국토지주택공사 청약 및 고객 서비스를 한곳에서 제공합니다.">
 	
-	<link rel="stylesheet" href="/css/web/lhapply/sub.css?ver=1.5" media="all">
+	<link rel="stylesheet" href="/css/web/lhapply/sub.css?ver=1.6" media="all">
 	<link rel="stylesheet" href="/css/co/lo/common.css?v=1.1" media="all">
 	<link rel="stylesheet" href="/00_common/css/board.css?v=1.4" media="all">
 	
@@ -94,7 +101,7 @@
 	
 	
 
-	<!-- 1097 : 청약신청내역 및 결과조회 / 1246 : 청약신청 내역조회 / 1199 : 공동인증서 복사 / 1032 : 청약신청내역 / 1290 : 세대원본인인증 / 1111 : 사전청약당첨포기 / 1287 : 온라인 서류제출(판매) / 1201942:사전청약 당첨자 주택형 배정 결과 조회-->
+	<!-- 1097 : 청약신청내역 및 결과조회 / 1246 : 청약신청 내역조회 / 1199 : 공동인증서 복사 / 1032 : 청약신청내역 / 1290 : 세대원본인인증 / 1111 : 사전청약당첨포기 / 1287 : 온라인 서류제출(판매) / 1201942:사전청약 당첨자 주택형 배정 결과 조회 /1202011 : 인지세 환급신청 / 1202085 : 최소보장제 셀프검증 / 1202103 : 최소지원금 신청 / 1202104 : 최소지원금 진행내역(취소)-->
 	
 	<!-- 2026.08.11 ACNS 점자스크립트 추가 -->
 	<script type="text/javascript" src="/sw/docubraille/js/docubraille-env-1.5.js?ver=1.0"></script>
@@ -108,14 +115,14 @@
 <!-- 간편인증 layer -->
 <div class="lyPop" id="simpleLayer" name="simpleLayer" style="z-index:9999;">
 	<div style="position:absolute; left:50%; top:50%; transform: translate(-50%, -50%); -webkit-transform: translate(-50%, -50%);">
-		<iframe id="simpleSign"></iframe>
+		<iframe id="simpleSign" title="간편인증 전자서명"></iframe>
 	</div>
 </div>
 <!-- 팝업 layer -->
 <div class="lyPop agrPop" id="addrLayer" name="addrLayer" style="z-index:9998;">
 	<div id="addrLayerinner" style="position:absolute; left:50%; top:50%; transform: translate(-50%, -50%); -webkit-transform: translate(-50%, -50%);">
 		<a href="javascript:;" style="top:0.45rem" class="agrClose"><span class="hid">닫기</span></a>
-		<iframe id="addrIframe" name="addrIframe"></iframe>
+		<iframe id="addrIframe" name="addrIframe" title="주소"></iframe>
 	</div>
 </div>
 
@@ -406,7 +413,7 @@
 	<header id="header">
 		<div class="container">
 			<h1 class="logo"><a href="/lhapply/main.do" title="메인페이지로 이동"><img src="/00_common/images/layout/logo.png" alt="LH청약플러스"></a></h1>
-			<input type="hidden" name="csrfToken" value="895a600d-2a13-45c6-bcd2-e7f1acd30daf" />
+			<input type="hidden" name="csrfToken" value="ebd052a4-f40a-43b4-a490-9bad8d6295e5" />
 
 			<div class="mobHeader">
 				<a href="javascript:history.back();"><i class="xi-arrow-left" aria-hidden="true"></i><span class="hid">뒤로가기</span></a>
@@ -2084,7 +2091,7 @@
 </div>
 
 <div class="subLocation">
-	<ul>
+	<ol>
 		<li>
 			<a href="/lhapply/main.do">
 				<i class="xi-home" aria-hidden="true"></i><em class="hid">HOME</em>
@@ -2134,7 +2141,7 @@
 			
 			</li>
 		
-	</ul>
+	</ol>
 	
 	
 		
@@ -2143,8 +2150,8 @@
 	
 	<!-- 2026.08.20 ACNS 점자버튼 추가  -->
 	<div class="braill">
-		<button class="braille_viwer" type="button" title="점자뷰어" onclick="javascript:showDocuBrailleBrfViewer()"><img src="/00_common/images/common/bra_viewer.png" alt="점자뷰어아이콘"><em>점자뷰어</em></button>
-		<button class="braille_sound" type="button" title="점자음성" onclick="javascript:showDocuContentViewer()"><img src="/00_common/images/common/bra_sound.png" alt="점자음성아이콘"><em>점자음성</em></button>
+		<button class="braille_viwer" type="button" title="새창열림" onclick="javascript:showDocuBrailleBrfViewer()"><img src="/00_common/images/common/bra_viewer.png" alt=""><em>점자뷰어</em></button>
+		<button class="braille_sound" type="button" title="새창열림" onclick="javascript:showDocuContentViewer()"><img src="/00_common/images/common/bra_sound.png" alt=""><em>점자음성</em></button>
 	</div>
 	<!-- ACNS END -->
 	<!-- sns -->
@@ -2519,8 +2526,8 @@ function goSns(shareTy){
 									<option value="0" >게시일</option>
 									<option value="1" >마감일</option>
 								</select>
-								<input type="date" name="startDt" id="startDt" value="2026-09-05" lmttAt="Y"><label for="startDt" class="sr-only">기간 시작일</label><span>~</span>
-								<input type="date" name="endDt" id="endDt" value="2026-11-05"><label for="endDt" class="sr-only">기간 종료일</label>
+								<input type="date" name="startDt" id="startDt" value="2026-09-06" lmttAt="Y"><label for="startDt" class="sr-only">기간 시작일</label><span>~</span>
+								<input type="date" name="endDt" id="endDt" value="2026-11-06"><label for="endDt" class="sr-only">기간 종료일</label>
 							</div>
 						</li>
 						<li class="srchForm">
@@ -2541,7 +2548,7 @@ function goSns(shareTy){
 			<div class="infoUtil" id="notice01" style="display:none;"><p class="info">'공고중', '정정공고중', '접수중'인 공고가 모두 조회됩니다.</p></div>
 			<div class="infoUtil" id="notice02"><p class="info">'공고중', '정정공고중', '접수중'인 공고가 모두 조회됩니다.</p></div>
 			<div class="bbs_info">
-				<p class="bbs_total">전체 <strong>43 </strong>건 &nbsp;<strong>1</strong>/1페이지</p>
+				<p class="bbs_total">전체 <strong>50 </strong>건 &nbsp;<strong>1</strong>/1페이지</p>
 				<p class="bbs_page">
 					<select name="listCo" id="listWt" title="한페이지당 게시물 갯수" onchange="doSearch();">
 						<option value="15" >15건</option>
@@ -2589,7 +2596,215 @@ function goSns(shareTy){
 							
 							
 								<tr>
+									<td>50</td>
+
+									<td class="mVw cate col1">국민임대</td>
+									<td class="mVw bbs_tit">
+										<a href="javascript:" data-id1="2015122300021026" data-id2="03" data-id3="06" data-id4="07" class="wrtancInfoBtn">
+											<!-- 새글 일때 : new, n일 일때 : date -->
+											<span>[정정공고]인천논현2단지 국임임대주택 예비입주자 모집 공고 <em class="day">1일전</em></span>
+										</a>
+									</td>
+									<td class="mVw cate col2">인천광역시</td>
+									<td class="mVw">
+										
+											<a href="javascript:" class="listFileDown tbl_web2" data-id1="06" data-id2="07" data-id3="03" data-id4="" data-id5="2015122300021026">
+												<img src="/images/co/na/down_icon.gif" alt="첨부파일 있음">
+											</a>
+											<p class="file tbl_mob2"><em class="hid">첨부파일 있음</em></p>
+										
+									</td>
+									<td>2026.11.05</td>
+									<td>2026.11.20</td>
+									<td class="mVw stt noti">공고중</td>
+									<td>2,293</td>
+								</tr>
+							
+							
+								<tr>
+									<td>49</td>
+
+									<td class="mVw cate col1">국민임대</td>
+									<td class="mVw bbs_tit">
+										<a href="javascript:" data-id1="2015122300021025" data-id2="03" data-id3="06" data-id4="07" class="wrtancInfoBtn">
+											<!-- 새글 일때 : new, n일 일때 : date -->
+											<span>'26.11월 경주시, 영천시 국민임대주택 동호지정 입주자격 완화 입주자 모집(선계약 후검증) <em class="day">1일전</em></span>
+										</a>
+									</td>
+									<td class="mVw cate col2">경상북도</td>
+									<td class="mVw">
+										
+											<a href="javascript:" class="listFileDown tbl_web2" data-id1="06" data-id2="07" data-id3="03" data-id4="" data-id5="2015122300021025">
+												<img src="/images/co/na/down_icon.gif" alt="첨부파일 있음">
+											</a>
+											<p class="file tbl_mob2"><em class="hid">첨부파일 있음</em></p>
+										
+									</td>
+									<td>2026.11.05</td>
+									<td>2026.11.19</td>
+									<td class="mVw stt noti">공고중</td>
+									<td>840</td>
+								</tr>
+							
+							
+								<tr>
+									<td>48</td>
+
+									<td class="mVw cate col1">공공임대</td>
+									<td class="mVw bbs_tit">
+										<a href="javascript:" data-id1="0000061201" data-id2="02" data-id3="06" data-id4="08" class="wrtancInfoBtn">
+											<!-- 새글 일때 : new, n일 일때 : date -->
+											<span>평택시.안성시 지역 10년 공공임대주택[리츠] 예비입주자 모집공고(2026.11.05) <em class="day">1일전</em></span>
+										</a>
+									</td>
+									<td class="mVw cate col2">경기도</td>
+									<td class="mVw">
+										
+											<a href="javascript:" class="listFileDown tbl_web2" data-id1="06" data-id2="08" data-id3="02" data-id4="" data-id5="0000061201">
+												<img src="/images/co/na/down_icon.gif" alt="첨부파일 있음">
+											</a>
+											<p class="file tbl_mob2"><em class="hid">첨부파일 있음</em></p>
+										
+									</td>
+									<td>2026.11.05</td>
+									<td>2026.11.16</td>
+									<td class="mVw stt noti">공고중</td>
+									<td>2,726</td>
+								</tr>
+							
+							
+								<tr>
+									<td>47</td>
+
+									<td class="mVw cate col1">국민임대</td>
+									<td class="mVw bbs_tit">
+										<a href="javascript:" data-id1="2015122300020987" data-id2="03" data-id3="06" data-id4="07" class="wrtancInfoBtn">
+											<!-- 새글 일때 : new, n일 일때 : date -->
+											<span>'26년 11월 인천시 남동구 국민임대주택 예비입주자 모집 공고(2026.11.05.) <em class="day">1일전</em></span>
+										</a>
+									</td>
+									<td class="mVw cate col2">인천광역시</td>
+									<td class="mVw">
+										
+											<a href="javascript:" class="listFileDown tbl_web2" data-id1="06" data-id2="07" data-id3="03" data-id4="" data-id5="2015122300020987">
+												<img src="/images/co/na/down_icon.gif" alt="첨부파일 있음">
+											</a>
+											<p class="file tbl_mob2"><em class="hid">첨부파일 있음</em></p>
+										
+									</td>
+									<td>2026.11.05</td>
+									<td>2026.11.17</td>
+									<td class="mVw stt noti">공고중</td>
+									<td>2,857</td>
+								</tr>
+							
+							
+								<tr>
+									<td>46</td>
+
+									<td class="mVw cate col1">국민임대</td>
+									<td class="mVw bbs_tit">
+										<a href="javascript:" data-id1="2015122300020973" data-id2="03" data-id3="06" data-id4="07" class="wrtancInfoBtn">
+											<!-- 새글 일때 : new, n일 일때 : date -->
+											<span>평택시 평택송화 국민임대 예비입주자 모집공고(2026.11.05) <em class="day">1일전</em></span>
+										</a>
+									</td>
+									<td class="mVw cate col2">경기도</td>
+									<td class="mVw">
+										
+											<a href="javascript:" class="listFileDown tbl_web2" data-id1="06" data-id2="07" data-id3="03" data-id4="" data-id5="2015122300020973">
+												<img src="/images/co/na/down_icon.gif" alt="첨부파일 있음">
+											</a>
+											<p class="file tbl_mob2"><em class="hid">첨부파일 있음</em></p>
+										
+									</td>
+									<td>2026.11.05</td>
+									<td>2026.11.27</td>
+									<td class="mVw stt noti">공고중</td>
+									<td>2,267</td>
+								</tr>
+							
+							
+								<tr>
+									<td>45</td>
+
+									<td class="mVw cate col1">국민임대</td>
+									<td class="mVw bbs_tit">
+										<a href="javascript:" data-id1="2015122300021024" data-id2="03" data-id3="06" data-id4="07" class="wrtancInfoBtn">
+											<!-- 새글 일때 : new, n일 일때 : date -->
+											<span>인천논현2단지 국임임대주택 예비입주자 모집 공고 <em class="day">1일전</em></span>
+										</a>
+									</td>
+									<td class="mVw cate col2">인천광역시</td>
+									<td class="mVw">
+										
+											<a href="javascript:" class="listFileDown tbl_web2" data-id1="06" data-id2="07" data-id3="03" data-id4="" data-id5="2015122300021024">
+												<img src="/images/co/na/down_icon.gif" alt="첨부파일 있음">
+											</a>
+											<p class="file tbl_mob2"><em class="hid">첨부파일 있음</em></p>
+										
+									</td>
+									<td>2026.11.05</td>
+									<td>2026.11.20</td>
+									<td class="mVw stt">정정공고중</td>
+									<td>1,425</td>
+								</tr>
+							
+							
+								<tr>
+									<td>44</td>
+
+									<td class="mVw cate col1">국민임대</td>
+									<td class="mVw bbs_tit">
+										<a href="javascript:" data-id1="2015122300020996" data-id2="03" data-id3="06" data-id4="07" class="wrtancInfoBtn">
+											<!-- 새글 일때 : new, n일 일때 : date -->
+											<span>연천전곡1단지 국민임대주택 예비입주자 모집공고(2026.11.05.) <em class="day">1일전</em></span>
+										</a>
+									</td>
+									<td class="mVw cate col2">경기도</td>
+									<td class="mVw">
+										
+											<a href="javascript:" class="listFileDown tbl_web2" data-id1="06" data-id2="07" data-id3="03" data-id4="" data-id5="2015122300020996">
+												<img src="/images/co/na/down_icon.gif" alt="첨부파일 있음">
+											</a>
+											<p class="file tbl_mob2"><em class="hid">첨부파일 있음</em></p>
+										
+									</td>
+									<td>2026.11.05</td>
+									<td>2026.11.17</td>
+									<td class="mVw stt noti">공고중</td>
+									<td>3,303</td>
+								</tr>
+							
+							
+								<tr>
 									<td>43</td>
+
+									<td class="mVw cate col1">행복주택</td>
+									<td class="mVw bbs_tit">
+										<a href="javascript:" data-id1="2015122300021004" data-id2="03" data-id3="06" data-id4="10" class="wrtancInfoBtn">
+											<!-- 새글 일때 : new, n일 일때 : date -->
+											<span>파주시 중소기업체 기관공급(행복주택) <em class="day">1일전</em></span>
+										</a>
+									</td>
+									<td class="mVw cate col2">경기도</td>
+									<td class="mVw">
+										
+											<a href="javascript:" class="listFileDown tbl_web2" data-id1="06" data-id2="10" data-id3="03" data-id4="" data-id5="2015122300021004">
+												<img src="/images/co/na/down_icon.gif" alt="첨부파일 있음">
+											</a>
+											<p class="file tbl_mob2"><em class="hid">첨부파일 있음</em></p>
+										
+									</td>
+									<td>2026.11.05</td>
+									<td>2026.11.17</td>
+									<td class="mVw stt noti">공고중</td>
+									<td>3,079</td>
+								</tr>
+							
+							
+								<tr>
+									<td>42</td>
 
 									<td class="mVw cate col1">국민임대</td>
 									<td class="mVw bbs_tit">
@@ -2610,12 +2825,12 @@ function goSns(shareTy){
 									<td>2026.11.04</td>
 									<td>2026.11.26</td>
 									<td class="mVw stt noti">공고중</td>
-									<td>1,014</td>
+									<td>1,930</td>
 								</tr>
 							
 							
 								<tr>
-									<td>42</td>
+									<td>41</td>
 
 									<td class="mVw cate col1">가정어린이집</td>
 									<td class="mVw bbs_tit">
@@ -2636,12 +2851,12 @@ function goSns(shareTy){
 									<td>2026.11.04</td>
 									<td>2026.11.23</td>
 									<td class="mVw stt noti">공고중</td>
-									<td>1,537</td>
+									<td>2,290</td>
 								</tr>
 							
 							
 								<tr>
-									<td>41</td>
+									<td>40</td>
 
 									<td class="mVw cate col1">행복주택</td>
 									<td class="mVw bbs_tit">
@@ -2662,12 +2877,12 @@ function goSns(shareTy){
 									<td>2026.11.04</td>
 									<td>2026.11.27</td>
 									<td class="mVw stt noti">공고중</td>
-									<td>1,508</td>
+									<td>2,436</td>
 								</tr>
 							
 							
 								<tr>
-									<td>40</td>
+									<td>39</td>
 
 									<td class="mVw cate col1">영구임대</td>
 									<td class="mVw bbs_tit">
@@ -2688,12 +2903,12 @@ function goSns(shareTy){
 									<td>2026.11.04</td>
 									<td>2026.12.16</td>
 									<td class="mVw stt noti">공고중</td>
-									<td>1,450</td>
+									<td>2,343</td>
 								</tr>
 							
 							
 								<tr>
-									<td>39</td>
+									<td>38</td>
 
 									<td class="mVw cate col1">국민임대</td>
 									<td class="mVw bbs_tit">
@@ -2714,12 +2929,12 @@ function goSns(shareTy){
 									<td>2026.11.02</td>
 									<td>2026.11.18</td>
 									<td class="mVw stt noti">공고중</td>
-									<td>5,885</td>
+									<td>6,614</td>
 								</tr>
 							
 							
 								<tr>
-									<td>38</td>
+									<td>37</td>
 
 									<td class="mVw cate col1">영구임대</td>
 									<td class="mVw bbs_tit">
@@ -2740,12 +2955,12 @@ function goSns(shareTy){
 									<td>2026.11.02</td>
 									<td>2026.11.18</td>
 									<td class="mVw stt noti">공고중</td>
-									<td>17,627</td>
+									<td>20,464</td>
 								</tr>
 							
 							
 								<tr>
-									<td>37</td>
+									<td>36</td>
 
 									<td class="mVw cate col1">통합공공임대</td>
 									<td class="mVw bbs_tit">
@@ -2766,12 +2981,12 @@ function goSns(shareTy){
 									<td>2026.10.30</td>
 									<td>2026.11.20</td>
 									<td class="mVw stt noti">공고중</td>
-									<td>6,586</td>
+									<td>7,107</td>
 								</tr>
 							
 							
 								<tr>
-									<td>36</td>
+									<td>35</td>
 
 									<td class="mVw cate col1">통합공공임대</td>
 									<td class="mVw bbs_tit">
@@ -2792,12 +3007,12 @@ function goSns(shareTy){
 									<td>2026.10.30</td>
 									<td>2026.11.20</td>
 									<td class="mVw stt noti">공고중</td>
-									<td>5,032</td>
+									<td>5,438</td>
 								</tr>
 							
 							
 								<tr>
-									<td>35</td>
+									<td>34</td>
 
 									<td class="mVw cate col1">매입임대</td>
 									<td class="mVw bbs_tit">
@@ -2818,12 +3033,12 @@ function goSns(shareTy){
 									<td>2026.10.29</td>
 									<td>2026.11.12</td>
 									<td class="mVw stt noti">공고중</td>
-									<td>27,722</td>
+									<td>30,577</td>
 								</tr>
 							
 							
 								<tr>
-									<td>34</td>
+									<td>33</td>
 
 									<td class="mVw cate col1">통합공공임대</td>
 									<td class="mVw bbs_tit">
@@ -2844,12 +3059,12 @@ function goSns(shareTy){
 									<td>2026.10.29</td>
 									<td>2026.11.17</td>
 									<td class="mVw stt noti">공고중</td>
-									<td>4,997</td>
+									<td>5,436</td>
 								</tr>
 							
 							
 								<tr>
-									<td>33</td>
+									<td>32</td>
 
 									<td class="mVw cate col1">매입임대</td>
 									<td class="mVw bbs_tit">
@@ -2870,12 +3085,12 @@ function goSns(shareTy){
 									<td>2026.10.29</td>
 									<td>2026.11.11</td>
 									<td class="mVw stt noti">공고중</td>
-									<td>7,228</td>
+									<td>7,832</td>
 								</tr>
 							
 							
 								<tr>
-									<td>32</td>
+									<td>31</td>
 
 									<td class="mVw cate col1">공공임대</td>
 									<td class="mVw bbs_tit">
@@ -2896,12 +3111,12 @@ function goSns(shareTy){
 									<td>2026.10.29</td>
 									<td>2026.11.18</td>
 									<td class="mVw stt noti">공고중</td>
-									<td>9,588</td>
+									<td>10,436</td>
 								</tr>
 							
 							
 								<tr>
-									<td>31</td>
+									<td>30</td>
 
 									<td class="mVw cate col1">행복주택</td>
 									<td class="mVw bbs_tit">
@@ -2922,12 +3137,12 @@ function goSns(shareTy){
 									<td>2026.10.28</td>
 									<td>2026.11.12</td>
 									<td class="mVw stt noti">공고중</td>
-									<td>72,461</td>
+									<td>79,121</td>
 								</tr>
 							
 							
 								<tr>
-									<td>30</td>
+									<td>29</td>
 
 									<td class="mVw cate col1">행복주택</td>
 									<td class="mVw bbs_tit">
@@ -2948,12 +3163,12 @@ function goSns(shareTy){
 									<td>2026.10.28</td>
 									<td>2026.12.08</td>
 									<td class="mVw stt noti">공고중</td>
-									<td>7,066</td>
+									<td>7,726</td>
 								</tr>
 							
 							
 								<tr>
-									<td>29</td>
+									<td>28</td>
 
 									<td class="mVw cate col1">매입임대</td>
 									<td class="mVw bbs_tit">
@@ -2974,12 +3189,12 @@ function goSns(shareTy){
 									<td>2026.10.28</td>
 									<td>2026.11.13</td>
 									<td class="mVw stt noti">공고중</td>
-									<td>14,088</td>
+									<td>15,089</td>
 								</tr>
 							
 							
 								<tr>
-									<td>28</td>
+									<td>27</td>
 
 									<td class="mVw cate col1">영구임대</td>
 									<td class="mVw bbs_tit">
@@ -3000,12 +3215,12 @@ function goSns(shareTy){
 									<td>2026.10.28</td>
 									<td>2026.11.13</td>
 									<td class="mVw stt noti">공고중</td>
-									<td>5,321</td>
+									<td>5,812</td>
 								</tr>
 							
 							
 								<tr>
-									<td>27</td>
+									<td>26</td>
 
 									<td class="mVw cate col1">영구임대</td>
 									<td class="mVw bbs_tit">
@@ -3026,33 +3241,7 @@ function goSns(shareTy){
 									<td>2026.10.28</td>
 									<td>2026.11.13</td>
 									<td class="mVw stt noti">공고중</td>
-									<td>4,785</td>
-								</tr>
-							
-							
-								<tr>
-									<td>26</td>
-
-									<td class="mVw cate col1">영구임대</td>
-									<td class="mVw bbs_tit">
-										<a href="javascript:" data-id1="2015122300020978" data-id2="03" data-id3="06" data-id4="09" class="wrtancInfoBtn">
-											<!-- 새글 일때 : new, n일 일때 : date -->
-											<span>[정정공고]광주오치1 영구임대주택 예비입주자 표준모집공고문(2026.10.27. 공고) <em class="day">1일전</em></span>
-										</a>
-									</td>
-									<td class="mVw cate col2">전남광주통합특별시</td>
-									<td class="mVw">
-										
-											<a href="javascript:" class="listFileDown tbl_web2" data-id1="06" data-id2="09" data-id3="03" data-id4="" data-id5="2015122300020978">
-												<img src="/images/co/na/down_icon.gif" alt="첨부파일 있음">
-											</a>
-											<p class="file tbl_mob2"><em class="hid">첨부파일 있음</em></p>
-										
-									</td>
-									<td>2026.10.28</td>
-									<td>2026.11.13</td>
-									<td class="mVw stt noti">공고중</td>
-									<td>6,066</td>
+									<td>5,192</td>
 								</tr>
 							
 							
@@ -3061,15 +3250,15 @@ function goSns(shareTy){
 
 									<td class="mVw cate col1">영구임대</td>
 									<td class="mVw bbs_tit">
-										<a href="javascript:" data-id1="2015122300020980" data-id2="03" data-id3="06" data-id4="09" class="wrtancInfoBtn">
+										<a href="javascript:" data-id1="2015122300020977" data-id2="03" data-id3="06" data-id4="09" class="wrtancInfoBtn">
 											<!-- 새글 일때 : new, n일 일때 : date -->
-											<span>[정정공고]광주하남1 영구임대주택 예비입주자 모집공고(모집공고일:2026.10.27) <em class="day">1일전</em></span>
+											<span>[정정공고]광주두암2 영구임대주택 예비입주자 모집공고(모집공고일:2026.10.27) <em class="day">1일전</em></span>
 										</a>
 									</td>
 									<td class="mVw cate col2">전남광주통합특별시</td>
 									<td class="mVw">
 										
-											<a href="javascript:" class="listFileDown tbl_web2" data-id1="06" data-id2="09" data-id3="03" data-id4="" data-id5="2015122300020980">
+											<a href="javascript:" class="listFileDown tbl_web2" data-id1="06" data-id2="09" data-id3="03" data-id4="" data-id5="2015122300020977">
 												<img src="/images/co/na/down_icon.gif" alt="첨부파일 있음">
 											</a>
 											<p class="file tbl_mob2"><em class="hid">첨부파일 있음</em></p>
@@ -3078,7 +3267,7 @@ function goSns(shareTy){
 									<td>2026.10.28</td>
 									<td>2026.11.13</td>
 									<td class="mVw stt noti">공고중</td>
-									<td>5,837</td>
+									<td>4,584</td>
 								</tr>
 							
 							
@@ -3104,7 +3293,7 @@ function goSns(shareTy){
 									<td>2026.10.28</td>
 									<td>2026.11.13</td>
 									<td class="mVw stt noti">공고중</td>
-									<td>5,913</td>
+									<td>6,375</td>
 								</tr>
 							
 							
@@ -3113,15 +3302,15 @@ function goSns(shareTy){
 
 									<td class="mVw cate col1">영구임대</td>
 									<td class="mVw bbs_tit">
-										<a href="javascript:" data-id1="2015122300020977" data-id2="03" data-id3="06" data-id4="09" class="wrtancInfoBtn">
+										<a href="javascript:" data-id1="2015122300020980" data-id2="03" data-id3="06" data-id4="09" class="wrtancInfoBtn">
 											<!-- 새글 일때 : new, n일 일때 : date -->
-											<span>[정정공고]광주두암2 영구임대주택 예비입주자 모집공고(모집공고일:2026.10.27) <em class="day">1일전</em></span>
+											<span>[정정공고]광주하남1 영구임대주택 예비입주자 모집공고(모집공고일:2026.10.27) <em class="day">1일전</em></span>
 										</a>
 									</td>
 									<td class="mVw cate col2">전남광주통합특별시</td>
 									<td class="mVw">
 										
-											<a href="javascript:" class="listFileDown tbl_web2" data-id1="06" data-id2="09" data-id3="03" data-id4="" data-id5="2015122300020977">
+											<a href="javascript:" class="listFileDown tbl_web2" data-id1="06" data-id2="09" data-id3="03" data-id4="" data-id5="2015122300020980">
 												<img src="/images/co/na/down_icon.gif" alt="첨부파일 있음">
 											</a>
 											<p class="file tbl_mob2"><em class="hid">첨부파일 있음</em></p>
@@ -3130,12 +3319,38 @@ function goSns(shareTy){
 									<td>2026.10.28</td>
 									<td>2026.11.13</td>
 									<td class="mVw stt noti">공고중</td>
-									<td>4,221</td>
+									<td>6,283</td>
 								</tr>
 							
 							
 								<tr>
 									<td>22</td>
+
+									<td class="mVw cate col1">영구임대</td>
+									<td class="mVw bbs_tit">
+										<a href="javascript:" data-id1="2015122300020978" data-id2="03" data-id3="06" data-id4="09" class="wrtancInfoBtn">
+											<!-- 새글 일때 : new, n일 일때 : date -->
+											<span>[정정공고]광주오치1 영구임대주택 예비입주자 표준모집공고문(2026.10.27. 공고) <em class="day">1일전</em></span>
+										</a>
+									</td>
+									<td class="mVw cate col2">전남광주통합특별시</td>
+									<td class="mVw">
+										
+											<a href="javascript:" class="listFileDown tbl_web2" data-id1="06" data-id2="09" data-id3="03" data-id4="" data-id5="2015122300020978">
+												<img src="/images/co/na/down_icon.gif" alt="첨부파일 있음">
+											</a>
+											<p class="file tbl_mob2"><em class="hid">첨부파일 있음</em></p>
+										
+									</td>
+									<td>2026.10.28</td>
+									<td>2026.11.13</td>
+									<td class="mVw stt noti">공고중</td>
+									<td>6,510</td>
+								</tr>
+							
+							
+								<tr>
+									<td>21</td>
 
 									<td class="mVw cate col1">행복주택</td>
 									<td class="mVw bbs_tit">
@@ -3156,33 +3371,7 @@ function goSns(shareTy){
 									<td>2026.10.27</td>
 									<td>2026.11.12</td>
 									<td class="mVw stt noti">공고중</td>
-									<td>92,915</td>
-								</tr>
-							
-							
-								<tr>
-									<td>21</td>
-
-									<td class="mVw cate col1">행복주택(신혼희망)</td>
-									<td class="mVw bbs_tit">
-										<a href="javascript:" data-id1="2015122300020936" data-id2="03" data-id3="39" data-id4="42" class="wrtancInfoBtn">
-											<!-- 새글 일때 : new, n일 일때 : date -->
-											<span>구리갈매역세권 A-1BL 신혼희망타운 행복주택 최초 입주자 모집공고('26.10.27) <em class="day">1일전</em></span>
-										</a>
-									</td>
-									<td class="mVw cate col2">경기도</td>
-									<td class="mVw">
-										
-											<a href="javascript:" class="listFileDown tbl_web2" data-id1="39" data-id2="42" data-id3="03" data-id4="" data-id5="2015122300020936">
-												<img src="/images/co/na/down_icon.gif" alt="첨부파일 있음">
-											</a>
-											<p class="file tbl_mob2"><em class="hid">첨부파일 있음</em></p>
-										
-									</td>
-									<td>2026.10.27</td>
-									<td>2026.11.12</td>
-									<td class="mVw stt noti">공고중</td>
-									<td>42,449</td>
+									<td>101,154</td>
 								</tr>
 							
 							
@@ -3208,7 +3397,7 @@ function goSns(shareTy){
 									<td>2026.10.27</td>
 									<td>2026.11.11</td>
 									<td class="mVw stt noti">공고중</td>
-									<td>12,709</td>
+									<td>13,533</td>
 								</tr>
 							
 							
@@ -3234,12 +3423,38 @@ function goSns(shareTy){
 									<td>2026.10.27</td>
 									<td>2026.11.11</td>
 									<td class="mVw stt noti">공고중</td>
-									<td>10,537</td>
+									<td>11,420</td>
 								</tr>
 							
 							
 								<tr>
 									<td>18</td>
+
+									<td class="mVw cate col1">행복주택(신혼희망)</td>
+									<td class="mVw bbs_tit">
+										<a href="javascript:" data-id1="2015122300020936" data-id2="03" data-id3="39" data-id4="42" class="wrtancInfoBtn">
+											<!-- 새글 일때 : new, n일 일때 : date -->
+											<span>구리갈매역세권 A-1BL 신혼희망타운 행복주택 최초 입주자 모집공고('26.10.27) <em class="day">1일전</em></span>
+										</a>
+									</td>
+									<td class="mVw cate col2">경기도</td>
+									<td class="mVw">
+										
+											<a href="javascript:" class="listFileDown tbl_web2" data-id1="39" data-id2="42" data-id3="03" data-id4="" data-id5="2015122300020936">
+												<img src="/images/co/na/down_icon.gif" alt="첨부파일 있음">
+											</a>
+											<p class="file tbl_mob2"><em class="hid">첨부파일 있음</em></p>
+										
+									</td>
+									<td>2026.10.27</td>
+									<td>2026.11.12</td>
+									<td class="mVw stt noti">공고중</td>
+									<td>45,868</td>
+								</tr>
+							
+							
+								<tr>
+									<td>17</td>
 
 									<td class="mVw cate col1">영구임대</td>
 									<td class="mVw bbs_tit">
@@ -3260,12 +3475,12 @@ function goSns(shareTy){
 									<td>2026.10.27</td>
 									<td>2026.11.13</td>
 									<td class="mVw stt">정정공고중</td>
-									<td>4,416</td>
+									<td>4,675</td>
 								</tr>
 							
 							
 								<tr>
-									<td>17</td>
+									<td>16</td>
 
 									<td class="mVw cate col1">영구임대</td>
 									<td class="mVw bbs_tit">
@@ -3286,12 +3501,12 @@ function goSns(shareTy){
 									<td>2026.10.27</td>
 									<td>2026.11.13</td>
 									<td class="mVw stt">정정공고중</td>
-									<td>4,844</td>
+									<td>5,120</td>
 								</tr>
 							
 							
 								<tr>
-									<td>16</td>
+									<td>15</td>
 
 									<td class="mVw cate col1">매입임대</td>
 									<td class="mVw bbs_tit">
@@ -3312,33 +3527,7 @@ function goSns(shareTy){
 									<td>2026.10.27</td>
 									<td>2026.11.13</td>
 									<td class="mVw stt ing">접수중</td>
-									<td>5,374</td>
-								</tr>
-							
-							
-								<tr>
-									<td>15</td>
-
-									<td class="mVw cate col1">매입임대</td>
-									<td class="mVw bbs_tit">
-										<a href="javascript:" data-id1="2015122300020928" data-id2="03" data-id3="13" data-id4="26" class="wrtancInfoBtn">
-											<!-- 새글 일때 : new, n일 일때 : date -->
-											<span>경남 의령군 화정면 다자녀 매입임대주택 예비입주자 모집공고 <em class="day">1일전</em></span>
-										</a>
-									</td>
-									<td class="mVw cate col2">전국</td>
-									<td class="mVw">
-										
-											<a href="javascript:" class="listFileDown tbl_web2" data-id1="13" data-id2="26" data-id3="03" data-id4="" data-id5="2015122300020928">
-												<img src="/images/co/na/down_icon.gif" alt="첨부파일 있음">
-											</a>
-											<p class="file tbl_mob2"><em class="hid">첨부파일 있음</em></p>
-										
-									</td>
-									<td>2026.10.27</td>
-									<td>2026.11.13</td>
-									<td class="mVw stt ing">접수중</td>
-									<td>5,330</td>
+									<td>5,880</td>
 								</tr>
 							
 							
@@ -3364,7 +3553,7 @@ function goSns(shareTy){
 									<td>2026.10.27</td>
 									<td>2026.11.13</td>
 									<td class="mVw stt">정정공고중</td>
-									<td>4,002</td>
+									<td>4,249</td>
 								</tr>
 							
 							
@@ -3390,7 +3579,7 @@ function goSns(shareTy){
 									<td>2026.10.27</td>
 									<td>2026.11.13</td>
 									<td class="mVw stt">정정공고중</td>
-									<td>4,537</td>
+									<td>4,790</td>
 								</tr>
 							
 							
@@ -3416,7 +3605,7 @@ function goSns(shareTy){
 									<td>2026.10.27</td>
 									<td>2026.11.13</td>
 									<td class="mVw stt">정정공고중</td>
-									<td>4,222</td>
+									<td>4,469</td>
 								</tr>
 							
 							
@@ -3442,12 +3631,38 @@ function goSns(shareTy){
 									<td>2026.10.27</td>
 									<td>2026.11.13</td>
 									<td class="mVw stt">정정공고중</td>
-									<td>4,706</td>
+									<td>4,962</td>
 								</tr>
 							
 							
 								<tr>
 									<td>10</td>
+
+									<td class="mVw cate col1">매입임대</td>
+									<td class="mVw bbs_tit">
+										<a href="javascript:" data-id1="2015122300020928" data-id2="03" data-id3="13" data-id4="26" class="wrtancInfoBtn">
+											<!-- 새글 일때 : new, n일 일때 : date -->
+											<span>경남 의령군 화정면 다자녀 매입임대주택 예비입주자 모집공고 <em class="day">1일전</em></span>
+										</a>
+									</td>
+									<td class="mVw cate col2">전국</td>
+									<td class="mVw">
+										
+											<a href="javascript:" class="listFileDown tbl_web2" data-id1="13" data-id2="26" data-id3="03" data-id4="" data-id5="2015122300020928">
+												<img src="/images/co/na/down_icon.gif" alt="첨부파일 있음">
+											</a>
+											<p class="file tbl_mob2"><em class="hid">첨부파일 있음</em></p>
+										
+									</td>
+									<td>2026.10.27</td>
+									<td>2026.11.13</td>
+									<td class="mVw stt ing">접수중</td>
+									<td>5,811</td>
+								</tr>
+							
+							
+								<tr>
+									<td>9</td>
 
 									<td class="mVw cate col1">영구임대</td>
 									<td class="mVw bbs_tit">
@@ -3468,12 +3683,12 @@ function goSns(shareTy){
 									<td>2026.10.26</td>
 									<td>2026.11.13</td>
 									<td class="mVw stt noti">공고중</td>
-									<td>5,317</td>
+									<td>5,614</td>
 								</tr>
 							
 							
 								<tr>
-									<td>9</td>
+									<td>8</td>
 
 									<td class="mVw cate col1">국민임대</td>
 									<td class="mVw bbs_tit">
@@ -3494,12 +3709,12 @@ function goSns(shareTy){
 									<td>2026.10.21</td>
 									<td>2026.11.13</td>
 									<td class="mVw stt noti">공고중</td>
-									<td>12,600</td>
+									<td>13,094</td>
 								</tr>
 							
 							
 								<tr>
-									<td>8</td>
+									<td>7</td>
 
 									<td class="mVw cate col1">영구임대</td>
 									<td class="mVw bbs_tit">
@@ -3520,12 +3735,12 @@ function goSns(shareTy){
 									<td>2026.10.20</td>
 									<td>2026.11.12</td>
 									<td class="mVw stt noti">공고중</td>
-									<td>9,427</td>
+									<td>9,738</td>
 								</tr>
 							
 							
 								<tr>
-									<td>7</td>
+									<td>6</td>
 
 									<td class="mVw cate col1">행복주택</td>
 									<td class="mVw bbs_tit">
@@ -3546,12 +3761,12 @@ function goSns(shareTy){
 									<td>2026.10.19</td>
 									<td>2026.11.13</td>
 									<td class="mVw stt noti">공고중</td>
-									<td>18,787</td>
+									<td>19,624</td>
 								</tr>
 							
 							
 								<tr>
-									<td>6</td>
+									<td>5</td>
 
 									<td class="mVw cate col1">행복주택</td>
 									<td class="mVw bbs_tit">
@@ -3572,33 +3787,7 @@ function goSns(shareTy){
 									<td>2026.10.19</td>
 									<td>2026.11.20</td>
 									<td class="mVw stt noti">공고중</td>
-									<td>12,839</td>
-								</tr>
-							
-							
-								<tr>
-									<td>5</td>
-
-									<td class="mVw cate col1">영구임대</td>
-									<td class="mVw bbs_tit">
-										<a href="javascript:" data-id1="2015122300020903" data-id2="03" data-id3="06" data-id4="09" class="wrtancInfoBtn">
-											<!-- 새글 일때 : new, n일 일때 : date -->
-											<span>홍성군 영구임대 예비자 모집공고 <em class="day">1일전</em></span>
-										</a>
-									</td>
-									<td class="mVw cate col2">충청남도</td>
-									<td class="mVw">
-										
-											<a href="javascript:" class="listFileDown tbl_web2" data-id1="06" data-id2="09" data-id3="03" data-id4="" data-id5="2015122300020903">
-												<img src="/images/co/na/down_icon.gif" alt="첨부파일 있음">
-											</a>
-											<p class="file tbl_mob2"><em class="hid">첨부파일 있음</em></p>
-										
-									</td>
-									<td>2026.10.19</td>
-									<td>2026.11.05</td>
-									<td class="mVw stt noti">공고중</td>
-									<td>12,175</td>
+									<td>13,326</td>
 								</tr>
 							
 							
@@ -3624,7 +3813,7 @@ function goSns(shareTy){
 									<td>2026.10.02</td>
 									<td>2026.12.30</td>
 									<td class="mVw stt noti">공고중</td>
-									<td>18,382</td>
+									<td>18,755</td>
 								</tr>
 							
 							
@@ -3650,7 +3839,7 @@ function goSns(shareTy){
 									<td>2026.09.14</td>
 									<td>2026.12.31</td>
 									<td class="mVw stt noti">공고중</td>
-									<td>13,337</td>
+									<td>13,607</td>
 								</tr>
 							
 							
@@ -3676,7 +3865,7 @@ function goSns(shareTy){
 									<td>2026.09.07</td>
 									<td>2026.12.31</td>
 									<td class="mVw stt noti">공고중</td>
-									<td>2,169</td>
+									<td>2,380</td>
 								</tr>
 							
 							
@@ -3702,7 +3891,7 @@ function goSns(shareTy){
 									<td>2026.09.07</td>
 									<td>2026.12.31</td>
 									<td class="mVw stt">정정공고중</td>
-									<td>15,102</td>
+									<td>15,313</td>
 								</tr>
 							
 							
@@ -3719,7 +3908,7 @@ function goSns(shareTy){
 <input type="hidden" name="currPage" value="1" />
 <input type="hidden" name="cnpCd" value="" />
 <input type="hidden" name="xssChk" value="N" />
-<input type="hidden" name="panEdDt" value="20261105" />
+<input type="hidden" name="panEdDt" value="20261106" />
 <input type="hidden" name="listCo" value="50" />
 <input type="hidden" name="prevListCo" value="50" />
 <input type="hidden" name="panSs" value="공고중" />
@@ -3728,7 +3917,7 @@ function goSns(shareTy){
 <input type="hidden" name="maxSn" value="50" />
 <input type="hidden" name="mvinQf" value="" />
 <input type="hidden" name="viewType" value="" />
-<input type="hidden" name="panStDt" value="20260905" />
+<input type="hidden" name="panStDt" value="20260906" />
 <input type="hidden" name="mi" value="1026" />
 <input type="hidden" name="srchUppAisTpCd" value="061339" />
 <input type="hidden" name="srchY" value="N" />

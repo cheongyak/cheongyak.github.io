@@ -16,17 +16,24 @@
 	<meta name="viewport" content="width=device-width,initial-scale=1.0,minimum-scale=1.0,maximum-scale=1.0">
 	<!-- 230628 웹와치 수정 - 타이틀 영역에 메뉴 경로 출력 -->
 	<!-- 250922 웹접근성 타이틀 역순으로 처리-->
-	<title>
-		
-			공고문 &lt; 
-		
-		
-			분양주택 &lt; 
+	<!-- 261029 웹접근성 타이틀 수정 -->
+	
 		
 		
-		청약 &lt; 
-		LH청약플러스
-	</title>
+		
+			<title>
+				
+					공고문 &lt; 
+				
+				
+					분양주택 &lt; 
+				
+				
+				청약 &lt; 
+				LH청약플러스
+			</title>
+		
+	
 
 	<!-- favicon -->
 	<link rel="icon" type="image/png" href="/00_common/images/favicon.ico">
@@ -34,7 +41,7 @@
 	<meta name="keywords" content="LH청약플러스">
 	<meta name="description" content="청약, 사전청약, 부동산맵 등 한국토지주택공사 청약 및 고객 서비스를 한곳에서 제공합니다.">
 	
-	<link rel="stylesheet" href="/css/web/lhapply/sub.css?ver=1.5" media="all">
+	<link rel="stylesheet" href="/css/web/lhapply/sub.css?ver=1.6" media="all">
 	<link rel="stylesheet" href="/css/co/lo/common.css?v=1.1" media="all">
 	<link rel="stylesheet" href="/00_common/css/board.css?v=1.4" media="all">
 	
@@ -94,7 +101,7 @@
 	
 	
 
-	<!-- 1097 : 청약신청내역 및 결과조회 / 1246 : 청약신청 내역조회 / 1199 : 공동인증서 복사 / 1032 : 청약신청내역 / 1290 : 세대원본인인증 / 1111 : 사전청약당첨포기 / 1287 : 온라인 서류제출(판매) / 1201942:사전청약 당첨자 주택형 배정 결과 조회-->
+	<!-- 1097 : 청약신청내역 및 결과조회 / 1246 : 청약신청 내역조회 / 1199 : 공동인증서 복사 / 1032 : 청약신청내역 / 1290 : 세대원본인인증 / 1111 : 사전청약당첨포기 / 1287 : 온라인 서류제출(판매) / 1201942:사전청약 당첨자 주택형 배정 결과 조회 /1202011 : 인지세 환급신청 / 1202085 : 최소보장제 셀프검증 / 1202103 : 최소지원금 신청 / 1202104 : 최소지원금 진행내역(취소)-->
 	
 	<!-- 2026.08.11 ACNS 점자스크립트 추가 -->
 	<script type="text/javascript" src="/sw/docubraille/js/docubraille-env-1.5.js?ver=1.0"></script>
@@ -108,14 +115,14 @@
 <!-- 간편인증 layer -->
 <div class="lyPop" id="simpleLayer" name="simpleLayer" style="z-index:9999;">
 	<div style="position:absolute; left:50%; top:50%; transform: translate(-50%, -50%); -webkit-transform: translate(-50%, -50%);">
-		<iframe id="simpleSign"></iframe>
+		<iframe id="simpleSign" title="간편인증 전자서명"></iframe>
 	</div>
 </div>
 <!-- 팝업 layer -->
 <div class="lyPop agrPop" id="addrLayer" name="addrLayer" style="z-index:9998;">
 	<div id="addrLayerinner" style="position:absolute; left:50%; top:50%; transform: translate(-50%, -50%); -webkit-transform: translate(-50%, -50%);">
 		<a href="javascript:;" style="top:0.45rem" class="agrClose"><span class="hid">닫기</span></a>
-		<iframe id="addrIframe" name="addrIframe"></iframe>
+		<iframe id="addrIframe" name="addrIframe" title="주소"></iframe>
 	</div>
 </div>
 
@@ -406,7 +413,7 @@
 	<header id="header">
 		<div class="container">
 			<h1 class="logo"><a href="/lhapply/main.do" title="메인페이지로 이동"><img src="/00_common/images/layout/logo.png" alt="LH청약플러스"></a></h1>
-			<input type="hidden" name="csrfToken" value="895a600d-2a13-45c6-bcd2-e7f1acd30daf" />
+			<input type="hidden" name="csrfToken" value="ebd052a4-f40a-43b4-a490-9bad8d6295e5" />
 
 			<div class="mobHeader">
 				<a href="javascript:history.back();"><i class="xi-arrow-left" aria-hidden="true"></i><span class="hid">뒤로가기</span></a>
@@ -2084,7 +2091,7 @@
 </div>
 
 <div class="subLocation">
-	<ul>
+	<ol>
 		<li>
 			<a href="/lhapply/main.do">
 				<i class="xi-home" aria-hidden="true"></i><em class="hid">HOME</em>
@@ -2134,7 +2141,7 @@
 			
 			</li>
 		
-	</ul>
+	</ol>
 	
 	
 		
@@ -2143,8 +2150,8 @@
 	
 	<!-- 2026.08.20 ACNS 점자버튼 추가  -->
 	<div class="braill">
-		<button class="braille_viwer" type="button" title="점자뷰어" onclick="javascript:showDocuBrailleBrfViewer()"><img src="/00_common/images/common/bra_viewer.png" alt="점자뷰어아이콘"><em>점자뷰어</em></button>
-		<button class="braille_sound" type="button" title="점자음성" onclick="javascript:showDocuContentViewer()"><img src="/00_common/images/common/bra_sound.png" alt="점자음성아이콘"><em>점자음성</em></button>
+		<button class="braille_viwer" type="button" title="새창열림" onclick="javascript:showDocuBrailleBrfViewer()"><img src="/00_common/images/common/bra_viewer.png" alt=""><em>점자뷰어</em></button>
+		<button class="braille_sound" type="button" title="새창열림" onclick="javascript:showDocuContentViewer()"><img src="/00_common/images/common/bra_sound.png" alt=""><em>점자음성</em></button>
 	</div>
 	<!-- ACNS END -->
 	<!-- sns -->
@@ -2519,8 +2526,8 @@ function goSns(shareTy){
 									<option value="0" >게시일</option>
 									<option value="1" >마감일</option>
 								</select>
-								<input type="date" name="startDt" id="startDt" value="2026-09-05" lmttAt="Y"><label for="startDt" class="sr-only">기간 시작일</label><span>~</span>
-								<input type="date" name="endDt" id="endDt" value="2026-11-05"><label for="endDt" class="sr-only">기간 종료일</label>
+								<input type="date" name="startDt" id="startDt" value="2026-09-06" lmttAt="Y"><label for="startDt" class="sr-only">기간 시작일</label><span>~</span>
+								<input type="date" name="endDt" id="endDt" value="2026-11-06"><label for="endDt" class="sr-only">기간 종료일</label>
 							</div>
 						</li>
 						<li class="srchForm">
@@ -2541,7 +2548,7 @@ function goSns(shareTy){
 			<div class="infoUtil" id="notice01" style="display:none;"><p class="info">'공고중', '정정공고중', '접수중'인 공고가 모두 조회됩니다.</p></div>
 			<div class="infoUtil" id="notice02"><p class="info">'공고중', '정정공고중', '접수중'인 공고가 모두 조회됩니다.</p></div>
 			<div class="bbs_info">
-				<p class="bbs_total">전체 <strong>16 </strong>건 &nbsp;<strong>1</strong>/1페이지</p>
+				<p class="bbs_total">전체 <strong>20 </strong>건 &nbsp;<strong>1</strong>/1페이지</p>
 				<p class="bbs_page">
 					<select name="listCo" id="listWt" title="한페이지당 게시물 갯수" onchange="doSearch();">
 						<option value="15" >15건</option>
@@ -2589,6 +2596,110 @@ function goSns(shareTy){
 							
 							
 								<tr>
+									<td>20</td>
+
+									<td class="mVw cate col1">분양주택</td>
+									<td class="mVw bbs_tit">
+										<a href="javascript:" data-id1="2015122300021027" data-id2="03" data-id3="05" data-id4="05" class="wrtancInfoBtn">
+											<!-- 새글 일때 : new, n일 일때 : date -->
+											<span>[정정공고]경기남부권(수원 광교) 공가세대 일반매각 공고(무순위, 무주택세대구성원) <em class="day">1일전</em></span>
+										</a>
+									</td>
+									<td class="mVw cate col2">경기도</td>
+									<td class="mVw">
+										
+											<a href="javascript:" class="listFileDown tbl_web2" data-id1="05" data-id2="05" data-id3="03" data-id4="" data-id5="2015122300021027">
+												<img src="/images/co/na/down_icon.gif" alt="첨부파일 있음">
+											</a>
+											<p class="file tbl_mob2"><em class="hid">첨부파일 있음</em></p>
+										
+									</td>
+									<td>2026.11.05</td>
+									<td>2026.11.24</td>
+									<td class="mVw stt noti">공고중</td>
+									<td>1,696</td>
+								</tr>
+							
+							
+								<tr>
+									<td>19</td>
+
+									<td class="mVw cate col1">분양주택</td>
+									<td class="mVw bbs_tit">
+										<a href="javascript:" data-id1="2015122300021009" data-id2="03" data-id3="05" data-id4="05" class="wrtancInfoBtn">
+											<!-- 새글 일때 : new, n일 일때 : date -->
+											<span>경기남부권(수원·용인 광교) 공가세대 일반매각 공고(무순위, 유주택자 가능) <em class="day">1일전</em></span>
+										</a>
+									</td>
+									<td class="mVw cate col2">경기도</td>
+									<td class="mVw">
+										
+											<a href="javascript:" class="listFileDown tbl_web2" data-id1="05" data-id2="05" data-id3="03" data-id4="" data-id5="2015122300021009">
+												<img src="/images/co/na/down_icon.gif" alt="첨부파일 있음">
+											</a>
+											<p class="file tbl_mob2"><em class="hid">첨부파일 있음</em></p>
+										
+									</td>
+									<td>2026.11.05</td>
+									<td>2026.11.24</td>
+									<td class="mVw stt noti">공고중</td>
+									<td>4,084</td>
+								</tr>
+							
+							
+								<tr>
+									<td>18</td>
+
+									<td class="mVw cate col1">분양주택</td>
+									<td class="mVw bbs_tit">
+										<a href="javascript:" data-id1="2015122300021010" data-id2="03" data-id3="05" data-id4="05" class="wrtancInfoBtn">
+											<!-- 새글 일때 : new, n일 일때 : date -->
+											<span>경기남부권(수원 광교) 공가세대 일반매각 공고(무순위, 무주택세대구성원) <em class="day">1일전</em></span>
+										</a>
+									</td>
+									<td class="mVw cate col2">경기도</td>
+									<td class="mVw">
+										
+											<a href="javascript:" class="listFileDown tbl_web2" data-id1="05" data-id2="05" data-id3="03" data-id4="" data-id5="2015122300021010">
+												<img src="/images/co/na/down_icon.gif" alt="첨부파일 있음">
+											</a>
+											<p class="file tbl_mob2"><em class="hid">첨부파일 있음</em></p>
+										
+									</td>
+									<td>2026.11.05</td>
+									<td>2026.11.24</td>
+									<td class="mVw stt">정정공고중</td>
+									<td>3,124</td>
+								</tr>
+							
+							
+								<tr>
+									<td>17</td>
+
+									<td class="mVw cate col1">분양주택</td>
+									<td class="mVw bbs_tit">
+										<a href="javascript:" data-id1="2015122300021015" data-id2="03" data-id3="05" data-id4="05" class="wrtancInfoBtn">
+											<!-- 새글 일때 : new, n일 일때 : date -->
+											<span>경기남부권(안성 동인힐타운) 다세대주택 공가세대 일반매각 공고(무순위, 무주택세대구성원) <em class="day">1일전</em></span>
+										</a>
+									</td>
+									<td class="mVw cate col2">경기도</td>
+									<td class="mVw">
+										
+											<a href="javascript:" class="listFileDown tbl_web2" data-id1="05" data-id2="05" data-id3="03" data-id4="" data-id5="2015122300021015">
+												<img src="/images/co/na/down_icon.gif" alt="첨부파일 있음">
+											</a>
+											<p class="file tbl_mob2"><em class="hid">첨부파일 있음</em></p>
+										
+									</td>
+									<td>2026.11.05</td>
+									<td>2026.11.24</td>
+									<td class="mVw stt noti">공고중</td>
+									<td>1,082</td>
+								</tr>
+							
+							
+								<tr>
 									<td>16</td>
 
 									<td class="mVw cate col1">분양주택</td>
@@ -2610,7 +2721,7 @@ function goSns(shareTy){
 									<td>2026.11.04</td>
 									<td>2026.11.18</td>
 									<td class="mVw stt noti">공고중</td>
-									<td>1,479</td>
+									<td>3,785</td>
 								</tr>
 							
 							
@@ -2636,38 +2747,12 @@ function goSns(shareTy){
 									<td>2026.11.03</td>
 									<td>2026.11.12</td>
 									<td class="mVw stt noti">공고중</td>
-									<td>10,627</td>
+									<td>14,585</td>
 								</tr>
 							
 							
 								<tr>
 									<td>14</td>
-
-									<td class="mVw cate col1">분양주택</td>
-									<td class="mVw bbs_tit">
-										<a href="javascript:" data-id1="0000061200" data-id2="02" data-id3="05" data-id4="05" class="wrtancInfoBtn">
-											<!-- 새글 일때 : new, n일 일때 : date -->
-											<span>고양지축 B-1블록 공공분양주택 잔여세대 추가입주자모집공고 <em class="day">1일전</em></span>
-										</a>
-									</td>
-									<td class="mVw cate col2">경기도</td>
-									<td class="mVw">
-										
-											<a href="javascript:" class="listFileDown tbl_web2" data-id1="05" data-id2="05" data-id3="02" data-id4="" data-id5="0000061200">
-												<img src="/images/co/na/down_icon.gif" alt="첨부파일 있음">
-											</a>
-											<p class="file tbl_mob2"><em class="hid">첨부파일 있음</em></p>
-										
-									</td>
-									<td>2026.11.03</td>
-									<td>2026.11.13</td>
-									<td class="mVw stt noti">공고중</td>
-									<td>14,175</td>
-								</tr>
-							
-							
-								<tr>
-									<td>13</td>
 
 									<td class="mVw cate col1">공공분양(신혼희망)</td>
 									<td class="mVw bbs_tit">
@@ -2688,7 +2773,33 @@ function goSns(shareTy){
 									<td>2026.11.03</td>
 									<td>2026.11.13</td>
 									<td class="mVw stt noti">공고중</td>
-									<td>8,624</td>
+									<td>13,337</td>
+								</tr>
+							
+							
+								<tr>
+									<td>13</td>
+
+									<td class="mVw cate col1">분양주택</td>
+									<td class="mVw bbs_tit">
+										<a href="javascript:" data-id1="0000061200" data-id2="02" data-id3="05" data-id4="05" class="wrtancInfoBtn">
+											<!-- 새글 일때 : new, n일 일때 : date -->
+											<span>고양지축 B-1블록 공공분양주택 잔여세대 추가입주자모집공고 <em class="day">1일전</em></span>
+										</a>
+									</td>
+									<td class="mVw cate col2">경기도</td>
+									<td class="mVw">
+										
+											<a href="javascript:" class="listFileDown tbl_web2" data-id1="05" data-id2="05" data-id3="02" data-id4="" data-id5="0000061200">
+												<img src="/images/co/na/down_icon.gif" alt="첨부파일 있음">
+											</a>
+											<p class="file tbl_mob2"><em class="hid">첨부파일 있음</em></p>
+										
+									</td>
+									<td>2026.11.03</td>
+									<td>2026.11.13</td>
+									<td class="mVw stt noti">공고중</td>
+									<td>20,420</td>
 								</tr>
 							
 							
@@ -2714,7 +2825,7 @@ function goSns(shareTy){
 									<td>2026.11.02</td>
 									<td>2026.11.24</td>
 									<td class="mVw stt noti">공고중</td>
-									<td>1,974</td>
+									<td>2,390</td>
 								</tr>
 							
 							
@@ -2740,7 +2851,7 @@ function goSns(shareTy){
 									<td>2026.10.30</td>
 									<td>2026.11.18</td>
 									<td class="mVw stt">정정공고중</td>
-									<td>16,451</td>
+									<td>17,176</td>
 								</tr>
 							
 							
@@ -2766,7 +2877,7 @@ function goSns(shareTy){
 									<td>2026.10.30</td>
 									<td>2026.11.10</td>
 									<td class="mVw stt noti">공고중</td>
-									<td>9,590</td>
+									<td>10,849</td>
 								</tr>
 							
 							
@@ -2792,7 +2903,7 @@ function goSns(shareTy){
 									<td>2026.10.30</td>
 									<td>2026.11.24</td>
 									<td class="mVw stt noti">공고중</td>
-									<td>9,740</td>
+									<td>10,629</td>
 								</tr>
 							
 							
@@ -2818,7 +2929,7 @@ function goSns(shareTy){
 									<td>2026.10.30</td>
 									<td>2026.11.09</td>
 									<td class="mVw stt noti">공고중</td>
-									<td>7,796</td>
+									<td>8,840</td>
 								</tr>
 							
 							
@@ -2844,7 +2955,7 @@ function goSns(shareTy){
 									<td>2026.10.27</td>
 									<td>2026.11.17</td>
 									<td class="mVw stt ing">접수중</td>
-									<td>20,597</td>
+									<td>22,566</td>
 								</tr>
 							
 							
@@ -2870,7 +2981,7 @@ function goSns(shareTy){
 									<td>2026.10.26</td>
 									<td>2026.11.26</td>
 									<td class="mVw stt noti">공고중</td>
-									<td>7,605</td>
+									<td>8,062</td>
 								</tr>
 							
 							
@@ -2896,7 +3007,7 @@ function goSns(shareTy){
 									<td>2026.10.23</td>
 									<td>2026.11.17</td>
 									<td class="mVw stt">정정공고중</td>
-									<td>24,281</td>
+									<td>24,846</td>
 								</tr>
 							
 							
@@ -2922,7 +3033,7 @@ function goSns(shareTy){
 									<td>2026.10.14</td>
 									<td>2026.12.31</td>
 									<td class="mVw stt noti">공고중</td>
-									<td>8,677</td>
+									<td>8,932</td>
 								</tr>
 							
 							
@@ -2948,7 +3059,7 @@ function goSns(shareTy){
 									<td>2026.09.30</td>
 									<td>2027.08.31</td>
 									<td class="mVw stt noti">공고중</td>
-									<td>10,574</td>
+									<td>10,791</td>
 								</tr>
 							
 							
@@ -2974,7 +3085,7 @@ function goSns(shareTy){
 									<td>2026.09.18</td>
 									<td>2026.12.31</td>
 									<td class="mVw stt noti">공고중</td>
-									<td>13,709</td>
+									<td>13,909</td>
 								</tr>
 							
 							
@@ -3000,7 +3111,7 @@ function goSns(shareTy){
 									<td>2026.09.18</td>
 									<td>2027.09.16</td>
 									<td class="mVw stt noti">공고중</td>
-									<td>20,760</td>
+									<td>21,024</td>
 								</tr>
 							
 							
@@ -3017,7 +3128,7 @@ function goSns(shareTy){
 <input type="hidden" name="currPage" value="1" />
 <input type="hidden" name="cnpCd" value="" />
 <input type="hidden" name="xssChk" value="N" />
-<input type="hidden" name="panEdDt" value="20261105" />
+<input type="hidden" name="panEdDt" value="20261106" />
 <input type="hidden" name="listCo" value="50" />
 <input type="hidden" name="prevListCo" value="50" />
 <input type="hidden" name="panSs" value="공고중" />
@@ -3026,7 +3137,7 @@ function goSns(shareTy){
 <input type="hidden" name="maxSn" value="50" />
 <input type="hidden" name="mvinQf" value="" />
 <input type="hidden" name="viewType" value="" />
-<input type="hidden" name="panStDt" value="20260905" />
+<input type="hidden" name="panStDt" value="20260906" />
 <input type="hidden" name="mi" value="1027" />
 <input type="hidden" name="srchUppAisTpCd" value="053954" />
 <input type="hidden" name="srchY" value="N" />
