@@ -33,3 +33,8 @@ def test_empty_and_cli():
     assert "질문 0건" in m.line({}, "2026-11-04")
     out = subprocess.run([sys.executable, str(P)], input=json.dumps(D), capture_output=True, text=True, check=True).stdout
     assert out.startswith("[청약봇] ") and "공고 찾기 AI" in out
+
+
+def test_cost_marked_low_when_free_used():
+    assert "실제는 이보다 많음" in m.line(D, "2026-11-04")
+    assert "실제는 이보다 많음" not in m.line({"2026-11-04": {"q": 1}}, "2026-11-04")

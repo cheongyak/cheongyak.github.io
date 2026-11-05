@@ -19,13 +19,15 @@ def line(d, day):
     tok_in = sum(v.get("in_tokens", 0) + v.get("tokens_in", 0) for v in d.values())
     tok_out = sum(v.get("out_tokens", 0) + v.get("tokens_out", 0) for v in d.values())
     cost = tok_in / 1e6 * HAIKU[0] + tok_out / 1e6 * HAIKU[1]
+    free_week = sum((v.get("verdict") or {}).get("free", 0) for v in d.values() if isinstance(v.get("verdict"), dict))
     fb = s.get("fb_reason") or {}
     free = (s.get("verdict") or {}).get("free", 0) if isinstance(s.get("verdict"), dict) else 0
     return (f"[청약봇] {day} 질문 {s.get('q', 0)}건(되물음 {s.get('follow_up', 0)}, 자유 질문 {free}) · AI 호출 {s.get('ai_calls', 0)} · 검사기 거절 {s.get('rejected', 0)} · 고정 문구 대체 {s.get('fallback', 0)}"
             f" · 개인정보 가림 {s.get('pii', 0)} · 제한 {s.get('limited_user', 0)}/{s.get('limited_global', 0)} · 👍{s.get('fb_up', 0)} 👎{s.get('fb_down', 0)}"
             + (" (" + ", ".join(f"{k} {v}" for k, v in fb.items()) + ")" if fb else "")
             + f" · 공고 찾기 AI 설명 {s.get('v2_explain', 0)}건(조건 읽기 {s.get('v2_extract', 0)} · 실패 {s.get('v2_error', 0)} · 월 한도 막힘 {s.get('v2_capped', 0)})"
-            + f" · 7일 질문 {week}건 · 7일 공고 찾기 AI {week_v2}건 · 7일 추정 비용 ${cost:.2f}")
+            + f" · 7일 질문 {week}건 · 7일 공고 찾기 AI {week_v2}건 · 7일 추정 비용 ${cost:.2f}"
+            + (" (Haiku 단가로 센 값 — 자유 질문은 더 비싼 모델이라 실제는 이보다 많음)" if free_week else ""))
 
 
 if __name__ == "__main__":
