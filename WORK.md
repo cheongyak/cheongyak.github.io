@@ -4,6 +4,14 @@
 2026-09-29 12:55 이전 항목은 규칙을 만들기 전 작업을 커밋 기록으로 정리한 것이라 백업 브랜치가 없어요.
 그 시점으로 되돌릴 때는 해당 커밋 번호로 `git revert` 를 써요.
 
+## 2026-11-05 23:51 · 애드센스 지적 작업 마무리 기록 (HANDOFF)
+- 요청: 운영자 애드센스 지적 5건 — 결과 정리
+- 변경: HANDOFF '진행 중인 일' -95 (ads.txt 점검 결과 정상, 운영자가 애드센스 사이트 주소 확인할 것, 0000061201 못 읽음 남음)
+- 파일: HANDOFF.md, WORK.md
+- 확인: evidence/qa/site-check.json 2026-11-06 00:05 ads_txt_ok·www_ads_txt_ok true. 배포(pages) bedf471b 뒤 성공, docs 의 189·SH-311375·SH-311987 제목 반영. 검증 현황 ok=false(0000061201 평택·안성 10년 공공임대 리츠 계층 못 읽음 — 이번 수정과 무관한 새 공고)
+- 기능: 없음(기록)
+- 백업: backup/20261105-2351
+
 ## 2026-11-05 23:51 · 사이트 외부 점검 도구 (구글이 받는 ads.txt 응답)
 - 요청: 운영자 '애드센스에는 ads.txt 가 찾을 수 없음으로 나오는데 실제 사이트에는 있음 — 구글이 읽을 수 있는지 확인'
 - 변경: 작업 환경에서는 cheongyakpass.kr 접속이 막혀 있어(프록시 거부) 직접 못 봄 → tools/qa/site_check.py: https/http·apex/www 의 ads.txt·robots.txt·sitemap.xml·첫 화면을 Googlebot·Mediapartners-Google(애드센스 크롤러) 이름으로 요청해 리다이렉트 경로·상태·형식·본문, 저장소 docs/ads.txt 와 같은지, 두 도메인 DNS(CNAME·A·AAAA)·인증서 이름을 evidence/qa/site-check.json 에 남김. probe.yml(근거 자료 모으기) 첫 단계에 넣음(실패해도 계속, 공고문 원문 먼저 저장 단계가 evidence 와 함께 올림)
