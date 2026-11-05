@@ -4,6 +4,17 @@
 2026-09-29 12:55 이전 항목은 규칙을 만들기 전 작업을 커밋 기록으로 정리한 것이라 백업 브랜치가 없어요.
 그 시점으로 되돌릴 때는 해당 커밋 번호로 `git revert` 를 써요.
 
+## 2026-11-06 07:19 · 평택·안성 LH 공공임대 리츠 신청 자격 읽기 (v1.84.6)
+- 요청: 아침 자동 고치기 (예약 작업)
+- 원인: 평택시.안성시 지역 10년 공공임대주택[리츠] 예비입주자(0000061201, 11-05 공고) 신청자격이 처음 보는 꼴 — '2 신청자격 및 주택소유여부 확인방법 신청자격 ■ 입주자모집공고일(2026.11.05) 현재 수도권(서울특별시, 인천광역시 및 경기도)에 거주(주민등록표등본 기준)하는 성년자 (만19세이상)인 무주택세대구성원' + '본인 및 세대구성원이 청약통장가입여부, 소득기준 및 자산기준 충족여부 등에 관계없이 신청 가능하나' — 계층을 못 읽어 임대 못 읽음·불변식(terms_unread) 걸림(이슈 #94, 검증 현황 ok=false 원인)
+- 변경: app/lh_terms.py _public_terms — '수도권(…)에 거주' 괄호 안이 모두 시·도 정식 이름(SIDO_SHORT)이고 '관계없이 신청 가능' 문장이 함께 있을 때만 거주 서울·인천·경기·무주택세대구성원·통장·소득·자산 배제로 읽음. 기존 규칙은 그대로
+- 정답·시험: tests/golden/lh_rental.json 0000061201(원문 두 문장 인용), tests/test_lh_terms.py test_public_reits_capital_region_residence(시·도 아닌 낱말이 끼거나 관계없이 문장이 없으면 읽지 않음)·test_golden_0000061201_original(저장 원문으로 정답과 같음)
+- 파일: app/lh_terms.py, tests/golden/lh_rental.json, tests/test_lh_terms.py, docs/changelog.json, VERSIONS.md, WORK.md
+- 확인: LH 다시 읽기(tools/qa/lh_reparse) — 바뀐 공고 0000061201 terms 하나뿐(다시 만든 docs/lh-rental.json 은 되돌림, 수집이 만듦). pytest 451 통과·1 건너뜀(tools/qa/pytest_env.sh), judge_check 970/970, snapshot 바뀐 곳 0, e2e 34 PASS·0 FAIL, parse_snapshot 바뀐 값 0, 충돌 표시 없음
+- 기능: 없음(수정)
+- 버전: v1.84.6
+- 백업: backup/20261106-0719
+
 ## 2026-11-05 23:51 · 애드센스 지적 작업 마무리 기록 (HANDOFF)
 - 요청: 운영자 애드센스 지적 5건 — 결과 정리
 - 변경: HANDOFF '진행 중인 일' -95 (ads.txt 점검 결과 정상, 운영자가 애드센스 사이트 주소 확인할 것, 0000061201 못 읽음 남음)

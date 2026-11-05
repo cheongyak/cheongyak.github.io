@@ -227,3 +227,37 @@ def test_public_reits_single_sido_residence():
     # '관계없이 신청가능' 문장이 없으면 소득·자산을 배제로 보지 않는다
     r = parse_lh_terms(head.format("울산광역시"), "공공임대", "", None)
     assert not (r["groups"] and r["groups"][0].get("income_pct") == "excluded")
+
+
+def test_public_reits_capital_region_residence():
+    """10년 공공임대 리츠 '신청자격 ■ 입주자모집공고일(2026.11.05) 현재 수도권(서울특별시, 인천광역시 및 경기도)에 거주(주민등록표등본 기준)하는
+    성년자 (만19세이상)인 무주택세대구성원' + '청약통장가입여부, 소득기준 및 자산기준 충족여부 등에 관계없이 신청 가능' (평택·안성 0000061201, 2026-11-06 아침 자동 고치기).
+    괄호 안이 모두 시·도 정식 이름이고 두 문장이 다 있을 때만 읽는다."""
+    from app.lh_terms import parse_lh_terms
+    head = "2 신청자격 및 주택소유여부 확인방법 신청자격 ■ 입주자모집공고일(2026.11.05) 현재 수도권({})에 거주(주민등록표등본 기준)하는 성년자 (만19세이상)인 무주택세대구성원 • 금회 모집공고문의 "
+    tail = "• 본인 및 세대구성원이 청약통장가입여부, 소득기준 및 자산기준 충족여부 등에 관계없이 신청 가능하나 「주택공급에 관한 규칙」 제54조에 따라"
+    r = parse_lh_terms(head.format("서울특별시, 인천광역시 및 경기도") + tail, "공공임대", "", None)
+    assert r["regions"] == ["경기", "서울", "인천"] and r["account"] == "none"
+    assert {k: r["groups"][0][k] for k in ("homeless", "income_pct", "asset_manwon", "car_manwon")} == \
+        {"homeless": "household", "income_pct": "excluded", "asset_manwon": "excluded", "car_manwon": "excluded"}
+    # 괄호 안에 시·도 이름이 아닌 것이 끼면 읽지 않는다
+    r = parse_lh_terms(head.format("서울특별시, 인천광역시 및 경기도 일부") + tail, "공공임대", "", None)
+    assert r.get("regions") != ["경기", "서울", "인천"] and not (r["groups"] and r["groups"][0].get("income_pct") == "excluded")
+    # '관계없이 신청 가능' 문장이 없으면 소득·자산을 배제로 보지 않는다
+    r = parse_lh_terms(head.format("서울특별시, 인천광역시 및 경기도"), "공공임대", "", None)
+    assert not (r["groups"] and r["groups"][0].get("income_pct") == "excluded")
+
+
+def test_golden_0000061201_original():
+    """저장 원문으로 정답(tests/golden/lh_rental.json 0000061201)과 같게 읽는다."""
+    import json
+    from pathlib import Path
+    from app.lh_terms import parse_lh_terms, flat
+    root = Path(__file__).resolve().parent.parent
+    g = next(n for n in json.loads((root / "tests/golden/lh_rental.json").read_text())["notices"] if n["id"] == "0000061201")
+    r = parse_lh_terms(flat((root / "evidence/lh/0000061201.txt").read_text()), "공공임대", "", None)
+    assert r["regions"] == g["regions"] and r["account"] == g["account"]
+    gg = g["groups"][0]
+    assert {k: r["groups"][0][k] for k in ("homeless", "income_pct", "asset_manwon", "car_manwon")} == \
+        {k: gg[k] for k in ("homeless", "income_pct", "asset_manwon", "car_manwon")}
+    assert gg["quotes"]["homeless"] == r["quotes"]["일반"]["homeless"] and gg["quotes"]["income"] == r["quotes"]["일반"]["income"]
