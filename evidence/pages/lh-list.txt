@@ -1,13 +1,5 @@
-대상: []
-== GET {'mi': '1027'} → 200 · 150460자 · 최종 주소 https://apply.lh.or.kr/lhapply/apply/wt/wrtanc/selectWrtancList.do?mi=1027
-  /lhapply/apply/wt/wrtanc/selectWrtancList.do?mi=1026
-  /lhapply/apply/wt/wrtanc/selectWrtancList.do?mi=1027
-  /lhapply/apply/wt/wrtanc/selectWrtancList.do?mi=1062
-  /lhapply/apply/wt/wrtanc/selectWrtancList.do?mi=1069
-  fileDownLoad(
-  javascript:fileDownLoad(
-  /lhapply/lhFile.do?fileid=
-  /lhapply/apply/wt/wrtanc/selectWrtancList.do?mi=1027&cntntsId=
-== GET {'mi': '1027', 'srchUppAisTpCd': '05'} → 200 · 150460자 · 최종 주소 https://apply.lh.or.kr/lhapply/apply/wt/wrtanc/selectWrtancList.do?mi=1027&srchUppAisTpCd=05
-== GET {'mi': '1026'} → 200 · 180479자 · 최종 주소 https://apply.lh.or.kr/lhapply/apply/wt/wrtanc/selectWrtancList.do?mi=1026
-  /lhapply/apply/wt/wrtanc/selectWrtancList.do?mi=1026&cntntsId=
+대상: ['시흥 거모 아테라(시흥거모 A-6BL) 신혼희망타운(공공분양)(본청약)']
+== GET {'mi': '1027'} → 200 · 237자 · 최종 주소 https://apply.lh.or.kr/lhapply/apply/wt/wrtanc/selectWrtancList.do?mi=1027
+  [시흥 거모 아테] 목록에 없음
+== GET {'mi': '1027', 'srchUppAisTpCd': '05'} → 200 · 237자 · 최종 주소 https://apply.lh.or.kr/lhapply/apply/wt/wrtanc/selectWrtancList.do?mi=1027&srchUppAisTpCd=05
+== GET {'mi': '1026'} → 200 · 237자 · 최종 주소 https://apply.lh.or.kr/lhapply/apply/wt/wrtanc/selectWrtancList.do?mi=1026
