@@ -14,6 +14,8 @@ def _setup(tmp_path, monkeypatch, fetch):
     for r in rows:   # 이 공고를 '새벽에 못 받은' 상태로 만든다
         if r["id"].startswith(nid):
             r.update(notice_pdf=None, residence=None, from_notice=[])
+        elif not r.get("notice_pdf"):   # 지금 데이터에 실제로 못 받은 공고가 있으면(2026-11-07 2026820015) 시험 대상이 하나뿐이도록 받은 것으로 둔다
+            r["notice_pdf"] = "https://www.applyhome.co.kr/already.pdf"
     lf, cf, rl = tmp_path / "listings.json", tmp_path / "cache.json", tmp_path / "run-log.txt"
     lf.write_text(json.dumps(rows, ensure_ascii=False), encoding="utf-8")
     cf.write_text("{}", encoding="utf-8")
