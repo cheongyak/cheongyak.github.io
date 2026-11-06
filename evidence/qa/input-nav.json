@@ -1,12 +1,12 @@
 {
- "clicks": 3866,
+ "clicks": 3884,
  "byKind": {
   "score": 288,
   "fix": 1450,
   "edit": 112,
   "restart": 7,
-  "rq": 1701,
-  "go": 308
+  "rq": 1712,
+  "go": 315
  },
  "problems": {},
  "notes": {
@@ -1158,8 +1158,29 @@
    ]
   },
   "내 조건 화면으로만 이동 (내 조건 고치기)": {
-   "n": 308,
+   "n": 315,
    "ex": [
+    {
+     "profile": "빠른 시작(미혼)",
+     "scene": "임대 2015122300021022",
+     "button": "go:me \"내 조건 고치기\"",
+     "ctx": "내 자격 (계층별 · 입력한 조건 기준) 일반 확인 필요 입력 필요 생년월일 입력 필요 (성년자인지 확인) 답하기 충족 세대 무주택 (세대 전체 주택 0채) 공고",
+     "p": {
+      "homeSido": "서울",
+      "homeArea": "seoul",
+      "household": "head",
+      "headSince": "2019-01-01",
+      "selfOwn": false,
+      "married": false,
+      "acctType": "all",
+      "acctSince": "",
+      "hhHomes": "0",
+      "everWin": "none"
+     },
+     "landed": "me",
+     "focus": null,
+     "reds": []
+    },
     {
      "profile": "빠른 시작(미혼)",
      "scene": "임대 0000061201",
@@ -1184,27 +1205,6 @@
     {
      "profile": "빠른 시작(미혼)",
      "scene": "임대 2015122300020987",
-     "button": "go:me \"내 조건 고치기\"",
-     "ctx": "내 자격 (계층별 · 입력한 조건 기준) 일반 확인 필요 입력 필요 생년월일 입력 필요 (성년자인지 확인) 답하기 충족 세대 무주택 (세대 전체 주택 0채) 입력",
-     "p": {
-      "homeSido": "서울",
-      "homeArea": "seoul",
-      "household": "head",
-      "headSince": "2019-01-01",
-      "selfOwn": false,
-      "married": false,
-      "acctType": "all",
-      "acctSince": "",
-      "hhHomes": "0",
-      "everWin": "none"
-     },
-     "landed": "me",
-     "focus": null,
-     "reds": []
-    },
-    {
-     "profile": "빠른 시작(미혼)",
-     "scene": "임대 2015122300020996",
      "button": "go:me \"내 조건 고치기\"",
      "ctx": "내 자격 (계층별 · 입력한 조건 기준) 일반 확인 필요 입력 필요 생년월일 입력 필요 (성년자인지 확인) 답하기 충족 세대 무주택 (세대 전체 주택 0채) 입력",
      "p": {
