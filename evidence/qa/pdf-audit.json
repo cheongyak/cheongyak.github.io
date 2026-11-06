@@ -1,77 +1,217 @@
 {
- "date": "2026-11-06",
+ "date": "2026-11-07",
  "page_cap": 300,
- "notices": 65,
- "with_problem": 6,
+ "notices": 69,
+ "with_problem": 12,
  "kinds": {
+  "PDF 를 하나도 받지 못함": 6,
   "읽기 도구에 따라 값이 다름": 1,
   "글자가 거의 없는 쪽 N개 (스캔 이미지·표 그림 추정)": 5
  },
- "errors": [],
+ "errors": [
+  {
+   "notice": "2026820010",
+   "name": "인천계양 A17블록 신혼희망타운(공공분양)(본청약)",
+   "error": "RemoteProtocolError: Server disconnected without sending a response."
+  }
+ ],
  "results": [
+  {
+   "notice": "2026820015",
+   "name": "시흥 거모 아테라(시흥거모 A-6BL) 신혼희망타운(공공분양)(본청약)",
+   "url": "https://www.applyhome.co.kr/ai/aia/selectAPTLttotPblancDetail.do?houseManageNo=2026820015&pblancNo=2026820015",
+   "attachments": 0,
+   "pdfs": 0,
+   "attachment_list": [
+    {
+     "url": "LH청약플러스",
+     "error": "LH청약플러스에서 같은 공고를 못 찾음 (검색 0건)"
+    }
+   ],
+   "problem": [
+    "PDF 를 하나도 받지 못함"
+   ]
+  },
+  {
+   "notice": "2026000557",
+   "name": "제일풍경채 광주 포에듀",
+   "url": "https://www.applyhome.co.kr/ai/aia/selectAPTLttotPblancDetail.do?houseManageNo=2026000557&pblancNo=2026000557",
+   "attachments": 1,
+   "pdfs": 1,
+   "attachment_list": [
+    {
+     "url": "https://static.applyhome.co.kr/ai/aia/getAtchmnfl.do?houseManageNo=2026000557&pblancNo=2026000557&atchmnflSeqNo=2013018&atchmnflSn=3",
+     "bytes": 1347184,
+     "pages": 58,
+     "chars": 131425,
+     "head": "- 1 - ※ 단지 주요정보 (분양문의) 1533-7767 주택유형 해당지역 기타지역 규제지역여부 민영 경기도 광주시 1년 이상 계속 거주자 ("
+    }
+   ],
+   "chosen": "https://static.applyhome.co.kr/ai/aia/getAtchmnfl.do?houseManageNo=2026000557&pblancNo=2026000557&atchmnflSeqNo=2013018&atchmnflSn=3",
+   "pages": 58,
+   "pages_read": 58,
+   "chars_read": 131482,
+   "empty_pages": [],
+   "chars_per_page_min": 523,
+   "fields": {
+    "need_head": false,
+    "price_cap": false,
+    "residence_duty": 0,
+    "rewin_years": 0,
+    "account_months": 12,
+    "residence": {
+     "area": "경기도 광주시",
+     "months": 12,
+     "since": "2025-11-06"
+    }
+   },
+   "fields_merged": {
+    "need_head": false,
+    "price_cap": false,
+    "residence_duty": 0,
+    "rewin_years": 0,
+    "account_months": 12,
+    "residence": {
+     "area": "경기도 광주시",
+     "months": 12,
+     "since": "2025-11-06"
+    }
+   },
+   "fields_pdfium": {
+    "need_head": false,
+    "price_cap": false,
+    "residence_duty": 0,
+    "rewin_years": 0,
+    "account_months": 12,
+    "residence": {
+     "area": "경기도 광주시",
+     "months": 12,
+     "since": "2025-11-06"
+    }
+   },
+   "pdfium_chars": 130879,
+   "problem": []
+  },
+  {
+   "notice": "2026000553",
+   "name": "의정부역 펠리스타워 양우내안애",
+   "url": "https://www.applyhome.co.kr/ai/aia/selectAPTLttotPblancDetail.do?houseManageNo=2026000553&pblancNo=2026000553",
+   "attachments": 1,
+   "pdfs": 1,
+   "attachment_list": [
+    {
+     "url": "https://static.applyhome.co.kr/ai/aia/getAtchmnfl.do?houseManageNo=2026000553&pblancNo=2026000553&atchmnflSeqNo=2016014&atchmnflSn=8",
+     "bytes": 958798,
+     "pages": 62,
+     "chars": 125976,
+     "head": "- 1 - ※ 본 아파트 입주자모집공고의 내용을 숙지한 후 청약 및 계약에 응하시기 바라며, 미숙지로 인한 착오행위 등에 대하여는 청약자 본인에"
+    }
+   ],
+   "chosen": "https://static.applyhome.co.kr/ai/aia/getAtchmnfl.do?houseManageNo=2026000553&pblancNo=2026000553&atchmnflSeqNo=2016014&atchmnflSn=8",
+   "pages": 62,
+   "pages_read": 62,
+   "chars_read": 126037,
+   "empty_pages": [],
+   "chars_per_page_min": 1118,
+   "fields": {
+    "need_head": false,
+    "price_cap": false,
+    "residence_duty": 0,
+    "rewin_years": 0,
+    "account_months": 12
+   },
+   "fields_merged": {
+    "need_head": false,
+    "price_cap": false,
+    "residence_duty": 0,
+    "rewin_years": 0,
+    "account_months": 12
+   },
+   "fields_pdfium": {
+    "need_head": false,
+    "price_cap": false,
+    "residence_duty": 0,
+    "rewin_years": 0,
+    "account_months": 12
+   },
+   "pdfium_chars": 126414,
+   "problem": []
+  },
+  {
+   "notice": "2026000497",
+   "name": "중화역 라온프라이빗 센트로",
+   "url": "https://www.applyhome.co.kr/ai/aia/selectAPTLttotPblancDetail.do?houseManageNo=2026000497&pblancNo=2026000497",
+   "attachments": 1,
+   "pdfs": 1,
+   "attachment_list": [
+    {
+     "url": "https://static.applyhome.co.kr/ai/aia/getAtchmnfl.do?houseManageNo=2026000497&pblancNo=2026000497&atchmnflSeqNo=2015048&atchmnflSn=2",
+     "bytes": 1070203,
+     "pages": 68,
+     "chars": 150333,
+     "head": "- 1 - ※ 단지 주요정보 (분양문의) 1555-6223 주택유형 해당지역 기타지역 규제지역여부 민영 서울특별시 2년 이상 계속 거주자 (20"
+    }
+   ],
+   "chosen": "https://static.applyhome.co.kr/ai/aia/getAtchmnfl.do?houseManageNo=2026000497&pblancNo=2026000497&atchmnflSeqNo=2015048&atchmnflSn=2",
+   "pages": 68,
+   "pages_read": 68,
+   "chars_read": 150400,
+   "empty_pages": [],
+   "chars_per_page_min": 386,
+   "fields": {
+    "need_head": false,
+    "price_cap": false,
+    "residence_duty": 0,
+    "rewin_years": 10,
+    "account_months": 24,
+    "residence": {
+     "area": "서울특별시",
+     "months": 24,
+     "since": "2024-11-06"
+    }
+   },
+   "fields_merged": {
+    "need_head": false,
+    "price_cap": false,
+    "residence_duty": 0,
+    "rewin_years": 10,
+    "account_months": 24,
+    "residence": {
+     "area": "서울특별시",
+     "months": 24,
+     "since": "2024-11-06"
+    }
+   },
+   "fields_pdfium": {
+    "need_head": false,
+    "price_cap": false,
+    "residence_duty": 0,
+    "rewin_years": 10,
+    "account_months": 24,
+    "residence": {
+     "area": "서울특별시",
+     "months": 24,
+     "since": "2024-11-06"
+    }
+   },
+   "pdfium_chars": 148462,
+   "problem": []
+  },
   {
    "notice": "2026820014",
    "name": "남양주왕숙 A-2블록 신혼희망타운(공공분양) 잔여세대 추가입주자모집공고",
    "url": "https://www.applyhome.co.kr/ai/aia/selectAPTLttotPblancDetail.do?houseManageNo=2026820014&pblancNo=2026820014",
    "attachments": 0,
-   "pdfs": 1,
+   "pdfs": 0,
    "attachment_list": [
     {
-     "url": "https://apply.lh.or.kr/lhapply/lhFile.do?fileid=69279377",
-     "bytes": 1072714,
-     "pages": 32,
-     "chars": 109949,
-     "head": "- 1 - 남양주왕숙 남양주왕숙 남양주왕숙 남양주왕숙 남양주왕숙 남양주왕숙 남양주왕숙 남양주왕숙 남양주왕숙 남양주왕숙 남양주왕숙 남양주왕숙 남양",
-     "via": "LH청약플러스"
+     "url": "LH청약플러스",
+     "error": "LH청약플러스에서 같은 공고를 못 찾음 (검색 0건)"
     }
    ],
-   "chosen": "https://apply.lh.or.kr/lhapply/lhFile.do?fileid=69279377",
-   "pages": 32,
-   "pages_read": 32,
-   "chars_read": 109980,
-   "empty_pages": [],
-   "chars_per_page_min": 1097,
-   "fields": {
-    "price_cap": true,
-    "duty_silent": true,
-    "rewin_years": 10,
-    "account_months": 6,
-    "deposit_count": 6,
-    "residence": {
-     "area": "남양주시",
-     "months": 12,
-     "since": "2025-11-03"
-    },
-    "pub_limits_kind": "town"
-   },
-   "fields_merged": {
-    "price_cap": true,
-    "duty_silent": true,
-    "rewin_years": 10,
-    "account_months": 6,
-    "deposit_count": 6,
-    "residence": {
-     "area": "남양주시",
-     "months": 12,
-     "since": "2025-11-03"
-    },
-    "pub_limits_kind": "town"
-   },
-   "fields_pdfium": {
-    "price_cap": true,
-    "duty_silent": true,
-    "rewin_years": 10,
-    "account_months": 6,
-    "deposit_count": 6,
-    "residence": {
-     "area": "남양주시",
-     "months": 12,
-     "since": "2025-11-03"
-    },
-    "pub_limits_kind": "town"
-   },
-   "pdfium_chars": 108155,
-   "problem": []
+   "problem": [
+    "PDF 를 하나도 받지 못함"
+   ]
   },
   {
    "notice": "2026000554",
@@ -84,14 +224,14 @@
      "url": "https://static.applyhome.co.kr/ai/aia/getAtchmnfl.do?houseManageNo=2026000554&pblancNo=2026000554&atchmnflSeqNo=2013025&atchmnflSn=2",
      "bytes": 873976,
      "pages": 75,
-     "chars": 142553,
+     "chars": 142721,
      "head": "- 1 - ※ 입주자모집공고의 자격 제한 및 유의 사항을 숙지한 후 청약에 응하시기 바라며, 미숙지로 인한 착오행위 등에 대해서는 청약자 본인에"
     }
    ],
    "chosen": "https://static.applyhome.co.kr/ai/aia/getAtchmnfl.do?houseManageNo=2026000554&pblancNo=2026000554&atchmnflSeqNo=2013025&atchmnflSn=2",
    "pages": 75,
    "pages_read": 75,
-   "chars_read": 142627,
+   "chars_read": 142795,
    "empty_pages": [],
    "chars_per_page_min": 98,
    "fields": {
@@ -135,64 +275,16 @@
    "name": "안산신길2 A-6블록 신혼희망타운(공공분양)(본청약)",
    "url": "https://www.applyhome.co.kr/ai/aia/selectAPTLttotPblancDetail.do?houseManageNo=2026820013&pblancNo=2026820013",
    "attachments": 0,
-   "pdfs": 1,
+   "pdfs": 0,
    "attachment_list": [
     {
-     "url": "https://apply.lh.or.kr/lhapply/lhFile.do?fileid=69223600",
-     "bytes": 1156294,
-     "pages": 33,
-     "chars": 127950,
-     "head": "- 1 - 안산신길안산신길안산신길안산신길안산신길안산신길안산신길안산신길안산신길안산신길안산신길안산신길안산신길안산신길안산신길안산신길2222222222",
-     "via": "LH청약플러스"
+     "url": "LH청약플러스",
+     "error": "LH청약플러스에서 같은 공고를 못 찾음 (검색 0건)"
     }
    ],
-   "chosen": "https://apply.lh.or.kr/lhapply/lhFile.do?fileid=69223600",
-   "pages": 33,
-   "pages_read": 33,
-   "chars_read": 127982,
-   "empty_pages": [],
-   "chars_per_page_min": 1147,
-   "fields": {
-    "price_cap": true,
-    "duty_silent": true,
-    "rewin_years": 10,
-    "account_months": 6,
-    "deposit_count": 6,
-    "residence": {
-     "area": "안산시",
-     "months": 12,
-     "since": "2025-10-30"
-    },
-    "pub_limits_kind": "town"
-   },
-   "fields_merged": {
-    "price_cap": true,
-    "duty_silent": true,
-    "rewin_years": 10,
-    "account_months": 6,
-    "deposit_count": 6,
-    "residence": {
-     "area": "안산시",
-     "months": 12,
-     "since": "2025-10-30"
-    },
-    "pub_limits_kind": "town"
-   },
-   "fields_pdfium": {
-    "price_cap": true,
-    "duty_silent": true,
-    "rewin_years": 10,
-    "account_months": 6,
-    "deposit_count": 6,
-    "residence": {
-     "area": "안산시",
-     "months": 12,
-     "since": "2025-10-30"
-    },
-    "pub_limits_kind": "town"
-   },
-   "pdfium_chars": 127238,
-   "problem": []
+   "problem": [
+    "PDF 를 하나도 받지 못함"
+   ]
   },
   {
    "notice": "2026000539",
@@ -205,14 +297,14 @@
      "url": "https://static.applyhome.co.kr/ai/aia/getAtchmnfl.do?houseManageNo=2026000539&pblancNo=2026000539&atchmnflSeqNo=2008482&atchmnflSn=2",
      "bytes": 1357674,
      "pages": 67,
-     "chars": 176911,
+     "chars": 176915,
      "head": "- 1 - 남춘천 센트레빌 입주자모집공고 구 글 플 레 이 스 토 어 애플앱스토어 청약 앱 설치 바로가기 Home 본 입주자모집공고의 내용을 숙"
     }
    ],
    "chosen": "https://static.applyhome.co.kr/ai/aia/getAtchmnfl.do?houseManageNo=2026000539&pblancNo=2026000539&atchmnflSeqNo=2008482&atchmnflSn=2",
    "pages": 67,
    "pages_read": 67,
-   "chars_read": 176977,
+   "chars_read": 176981,
    "empty_pages": [],
    "chars_per_page_min": 943,
    "fields": {
@@ -256,106 +348,16 @@
    "name": "안산신길2지구 B-1블록 공공분양주택(본청약)",
    "url": "https://www.applyhome.co.kr/ai/aia/selectAPTLttotPblancDetail.do?houseManageNo=2026000533&pblancNo=2026000533",
    "attachments": 0,
-   "pdfs": 1,
+   "pdfs": 0,
    "attachment_list": [
     {
-     "url": "https://apply.lh.or.kr/lhapply/lhFile.do?fileid=69296327",
-     "bytes": 1706129,
-     "pages": 52,
-     "chars": 194221,
-     "head": "- 1 - 안산신길안산신길안산신길안산신길안산신길안산신길안산신길안산신길안산신길안산신길안산신길안산신길안산신길안산신길안산신길안산신길안산신길안산신길안산",
-     "via": "LH청약플러스"
+     "url": "LH청약플러스",
+     "error": "LH청약플러스에서 같은 공고를 못 찾음 (검색 0건)"
     }
    ],
-   "chosen": "https://apply.lh.or.kr/lhapply/lhFile.do?fileid=69296327",
-   "pages": 52,
-   "pages_read": 52,
-   "chars_read": 194272,
-   "empty_pages": [],
-   "chars_per_page_min": 794,
-   "fields": {
-    "need_head": false,
-    "price_cap": true,
-    "duty_silent": true,
-    "rewin_years": 10,
-    "account_months": 12,
-    "deposit_count": 12,
-    "residence": {
-     "area": "안산시",
-     "months": 12,
-     "since": "2025-10-30"
-    },
-    "schedule": {
-     "pre": [
-      "2026-11-09",
-      "2026-11-10"
-     ],
-     "special": [
-      "2026-11-16",
-      "2026-11-17"
-     ],
-     "general": [
-      "2026-11-18",
-      "2026-11-18"
-     ]
-    }
-   },
-   "fields_merged": {
-    "need_head": false,
-    "price_cap": true,
-    "duty_silent": true,
-    "rewin_years": 10,
-    "account_months": 12,
-    "deposit_count": 12,
-    "residence": {
-     "area": "안산시",
-     "months": 12,
-     "since": "2025-10-30"
-    },
-    "schedule": {
-     "pre": [
-      "2026-11-09",
-      "2026-11-10"
-     ],
-     "special": [
-      "2026-11-16",
-      "2026-11-17"
-     ],
-     "general": [
-      "2026-11-18",
-      "2026-11-18"
-     ]
-    }
-   },
-   "fields_pdfium": {
-    "need_head": false,
-    "price_cap": true,
-    "duty_silent": true,
-    "rewin_years": 10,
-    "account_months": 12,
-    "deposit_count": 12,
-    "residence": {
-     "area": "안산시",
-     "months": 12,
-     "since": "2025-10-30"
-    },
-    "schedule": {
-     "pre": [
-      "2026-11-09",
-      "2026-11-10"
-     ],
-     "special": [
-      "2026-11-16",
-      "2026-11-17"
-     ],
-     "general": [
-      "2026-11-18",
-      "2026-11-18"
-     ]
-    }
-   },
-   "pdfium_chars": 196215,
-   "problem": []
+   "problem": [
+    "PDF 를 하나도 받지 못함"
+   ]
   },
   {
    "notice": "2026000528",
@@ -368,14 +370,14 @@
      "url": "https://static.applyhome.co.kr/ai/aia/getAtchmnfl.do?houseManageNo=2026000528&pblancNo=2026000528&atchmnflSeqNo=2012074&atchmnflSn=3",
      "bytes": 2502966,
      "pages": 43,
-     "chars": 237888,
+     "chars": 237897,
      "head": " 광교 자연앤 센트레빌 - 1 - 광교 자연앤 센트레빌(A17BL) 공공분양주택 입주자모집공고[ ] 공급위치 경기도 수원시 영통구 원천동 번지 "
     }
    ],
    "chosen": "https://static.applyhome.co.kr/ai/aia/getAtchmnfl.do?houseManageNo=2026000528&pblancNo=2026000528&atchmnflSeqNo=2012074&atchmnflSn=3",
    "pages": 43,
    "pages_read": 43,
-   "chars_read": 237930,
+   "chars_read": 237939,
    "empty_pages": [],
    "chars_per_page_min": 3692,
    "fields": {
@@ -444,14 +446,14 @@
      "url": "https://static.applyhome.co.kr/ai/aia/getAtchmnfl.do?houseManageNo=2026000527&pblancNo=2026000527&atchmnflSeqNo=2012073&atchmnflSn=5",
      "bytes": 2394955,
      "pages": 48,
-     "chars": 260170,
+     "chars": 260185,
      "head": " 광교 자연앤 센트레빌 - 1 - 광교 자연앤 센트레빌(A17BL) 지분적립형 분양주택 입주자모집공고 [ ] 공급위치 경기도 수원시 영통구 원천"
     }
    ],
    "chosen": "https://static.applyhome.co.kr/ai/aia/getAtchmnfl.do?houseManageNo=2026000527&pblancNo=2026000527&atchmnflSeqNo=2012073&atchmnflSn=5",
    "pages": 48,
    "pages_read": 48,
-   "chars_read": 260217,
+   "chars_read": 260232,
    "empty_pages": [],
    "chars_per_page_min": 2460,
    "fields": {
@@ -517,14 +519,14 @@
      "url": "https://static.applyhome.co.kr/ai/aia/getAtchmnfl.do?houseManageNo=2026000523&pblancNo=2026000523&atchmnflSeqNo=2012110&atchmnflSn=2",
      "bytes": 841575,
      "pages": 70,
-     "chars": 137518,
+     "chars": 137705,
      "head": "- 1 - ※ 단지 주요정보 (분양문의) 1551-3315 주택유형 해당지역 기타지역 규제지역여부 민영 입주자모집공고일 현재 구미시 거주자 입주"
     }
    ],
    "chosen": "https://static.applyhome.co.kr/ai/aia/getAtchmnfl.do?houseManageNo=2026000523&pblancNo=2026000523&atchmnflSeqNo=2012110&atchmnflSn=2",
    "pages": 70,
    "pages_read": 70,
-   "chars_read": 137587,
+   "chars_read": 137774,
    "empty_pages": [],
    "chars_per_page_min": 532,
    "fields": {
@@ -577,14 +579,14 @@
      "url": "https://static.applyhome.co.kr/ai/aia/getAtchmnfl.do?houseManageNo=2026000515&pblancNo=2026000515&atchmnflSeqNo=2008103&atchmnflSn=8",
      "bytes": 1165101,
      "pages": 71,
-     "chars": 162298,
+     "chars": 162473,
      "head": "- 1 - 평택 고덕 우미 린 더 프리미어 입주자모집공고평택 고덕 우미 린 더 프리미어 입주자모집공고 ※ 단지 주요정보 (분양문의) 031-66"
     }
    ],
    "chosen": "https://static.applyhome.co.kr/ai/aia/getAtchmnfl.do?houseManageNo=2026000515&pblancNo=2026000515&atchmnflSeqNo=2008103&atchmnflSn=8",
    "pages": 71,
    "pages_read": 71,
-   "chars_read": 162368,
+   "chars_read": 162543,
    "empty_pages": [],
    "chars_per_page_min": 850,
    "fields": {
@@ -637,14 +639,14 @@
      "url": "https://static.applyhome.co.kr/ai/aia/getAtchmnfl.do?houseManageNo=2026000472&pblancNo=2026000472&atchmnflSeqNo=2012076&atchmnflSn=4",
      "bytes": 965420,
      "pages": 70,
-     "chars": 149620,
+     "chars": 149730,
      "head": "- 1 - ※ 단지 주요정보 분양문의( ) 031-566-9450 주택유형 해당지역 기타경기 기타지역 규제지역여부 민영 경기도 구리시 년 이상 "
     }
    ],
    "chosen": "https://static.applyhome.co.kr/ai/aia/getAtchmnfl.do?houseManageNo=2026000472&pblancNo=2026000472&atchmnflSeqNo=2012076&atchmnflSn=4",
    "pages": 70,
    "pages_read": 70,
-   "chars_read": 149689,
+   "chars_read": 149799,
    "empty_pages": [],
    "chars_per_page_min": 76,
    "fields": {
@@ -702,14 +704,14 @@
      "url": "https://static.applyhome.co.kr/ai/aia/getAtchmnfl.do?houseManageNo=2026000535&pblancNo=2026000535&atchmnflSeqNo=2008131&atchmnflSn=7",
      "bytes": 1187336,
      "pages": 65,
-     "chars": 136752,
+     "chars": 136892,
      "head": "- 1 - ㅎ ※ 2026.10.29.(목) 공고한 「중앙하이츠 구성 플랫폼시티」 입주자모집공고를 2026.10.30.(금)일자로 정정공고 합니"
     }
    ],
    "chosen": "https://static.applyhome.co.kr/ai/aia/getAtchmnfl.do?houseManageNo=2026000535&pblancNo=2026000535&atchmnflSeqNo=2008131&atchmnflSn=7",
    "pages": 65,
    "pages_read": 65,
-   "chars_read": 136816,
+   "chars_read": 136956,
    "empty_pages": [],
    "chars_per_page_min": 603,
    "fields": {
@@ -762,14 +764,14 @@
      "url": "https://static.applyhome.co.kr/ai/aia/getAtchmnfl.do?houseManageNo=2026000525&pblancNo=2026000525&atchmnflSeqNo=2006172&atchmnflSn=6",
      "bytes": 1347558,
      "pages": 59,
-     "chars": 151767,
+     "chars": 151889,
      "head": "- 1 - ※ 본 입주자 모집공고의 내용을 숙지한 후 청약 및 계약에 응하시기 바라며, 미숙지로 인한 착오 행위 등에 대하여는 청약자 및 계약자"
     }
    ],
    "chosen": "https://static.applyhome.co.kr/ai/aia/getAtchmnfl.do?houseManageNo=2026000525&pblancNo=2026000525&atchmnflSeqNo=2006172&atchmnflSn=6",
    "pages": 59,
    "pages_read": 59,
-   "chars_read": 151825,
+   "chars_read": 151947,
    "empty_pages": [],
    "chars_per_page_min": 411,
    "fields": {
@@ -822,14 +824,14 @@
      "url": "https://static.applyhome.co.kr/ai/aia/getAtchmnfl.do?houseManageNo=2026000499&pblancNo=2026000499&atchmnflSeqNo=2008162&atchmnflSn=4",
      "bytes": 1121814,
      "pages": 67,
-     "chars": 200466,
-     "head": "1 ※ 단지 주요정보 (분양문의) 1661-1098 주택유형 해당지역 기타지역 규제지역여부 민영 경기도 평택시 6개월 이상 계속 거주자(2026"
+     "chars": 200586,
+     "head": "1 ※ 단지 주요정보 (분양문의) 1661-1098 주택유형 해당지역 기타지역 규제지역여부 민영 경기도 평택시 6개월 이상 계속 거주자 (202"
     }
    ],
    "chosen": "https://static.applyhome.co.kr/ai/aia/getAtchmnfl.do?houseManageNo=2026000499&pblancNo=2026000499&atchmnflSeqNo=2008162&atchmnflSn=4",
    "pages": 67,
    "pages_read": 67,
-   "chars_read": 200532,
+   "chars_read": 200652,
    "empty_pages": [],
    "chars_per_page_min": 458,
    "fields": {
@@ -882,14 +884,14 @@
      "url": "https://static.applyhome.co.kr/ai/aia/getAtchmnfl.do?houseManageNo=2026000435&pblancNo=2026000435&atchmnflSeqNo=2010016&atchmnflSn=2",
      "bytes": 1572179,
      "pages": 42,
-     "chars": 129973,
+     "chars": 130044,
      "head": "- 1 - 삼도이동 2지구 토지임대부 공공분양주택 입주자모집공고 구 글 플 레 이 스 토 어애플앱 스토어 청약Home 앱 설치 바로가기 본 입주"
     }
    ],
    "chosen": "https://static.applyhome.co.kr/ai/aia/getAtchmnfl.do?houseManageNo=2026000435&pblancNo=2026000435&atchmnflSeqNo=2010016&atchmnflSn=2",
    "pages": 42,
    "pages_read": 42,
-   "chars_read": 130014,
+   "chars_read": 130085,
    "empty_pages": [
     36,
     39
@@ -944,14 +946,14 @@
      "url": "https://static.applyhome.co.kr/ai/aia/getAtchmnfl.do?houseManageNo=2026000434&pblancNo=2026000434&atchmnflSeqNo=2010009&atchmnflSn=2",
      "bytes": 1579845,
      "pages": 42,
-     "chars": 129906,
+     "chars": 129978,
      "head": "- 1 - 삼도이동 1지구 토지임대부 공공분양주택 입주자모집공고 구 글 플 레 이 스 토 어애플앱 스토어 청약Home 앱 설치 바로가기 본 입주"
     }
    ],
    "chosen": "https://static.applyhome.co.kr/ai/aia/getAtchmnfl.do?houseManageNo=2026000434&pblancNo=2026000434&atchmnflSeqNo=2010009&atchmnflSn=2",
    "pages": 42,
    "pages_read": 42,
-   "chars_read": 129947,
+   "chars_read": 130019,
    "empty_pages": [
     36,
     39
@@ -1000,64 +1002,16 @@
    "name": "시흥하중지구 A1블록 신혼희망타운(공공분양) 추가입주자모집공고",
    "url": "https://www.applyhome.co.kr/ai/aia/selectAPTLttotPblancDetail.do?houseManageNo=2026820012&pblancNo=2026820012",
    "attachments": 0,
-   "pdfs": 1,
+   "pdfs": 0,
    "attachment_list": [
     {
-     "url": "https://apply.lh.or.kr/lhapply/lhFile.do?fileid=69083286",
-     "bytes": 949894,
-     "pages": 24,
-     "chars": 93051,
-     "head": "- 1 - 시흥하중지구 시흥하중지구 시흥하중지구 시흥하중지구 시흥하중지구 시흥하중지구 시흥하중지구 시흥하중지구 시흥하중지구 시흥하중지구 시흥하중",
-     "via": "LH청약플러스"
+     "url": "LH청약플러스",
+     "error": "LH청약플러스에서 같은 공고를 못 찾음 (검색 0건)"
     }
    ],
-   "chosen": "https://apply.lh.or.kr/lhapply/lhFile.do?fileid=69083286",
-   "pages": 24,
-   "pages_read": 24,
-   "chars_read": 93074,
-   "empty_pages": [],
-   "chars_per_page_min": 817,
-   "fields": {
-    "price_cap": true,
-    "residence_duty": 3,
-    "rewin_years": 10,
-    "account_months": 6,
-    "deposit_count": 6,
-    "residence": {
-     "area": "시흥시",
-     "months": 12,
-     "since": "2025-10-23"
-    },
-    "pub_limits_kind": "town"
-   },
-   "fields_merged": {
-    "price_cap": true,
-    "residence_duty": 3,
-    "rewin_years": 10,
-    "account_months": 6,
-    "deposit_count": 6,
-    "residence": {
-     "area": "시흥시",
-     "months": 12,
-     "since": "2025-10-23"
-    },
-    "pub_limits_kind": "town"
-   },
-   "fields_pdfium": {
-    "price_cap": true,
-    "residence_duty": 3,
-    "rewin_years": 10,
-    "account_months": 6,
-    "deposit_count": 6,
-    "residence": {
-     "area": "시흥시",
-     "months": 12,
-     "since": "2025-10-23"
-    },
-    "pub_limits_kind": "town"
-   },
-   "pdfium_chars": 92216,
-   "problem": []
+   "problem": [
+    "PDF 를 하나도 받지 못함"
+   ]
   },
   {
    "notice": "2026000532",
@@ -1070,14 +1024,14 @@
      "url": "https://static.applyhome.co.kr/ai/aia/getAtchmnfl.do?houseManageNo=2026000532&pblancNo=2026000532&atchmnflSeqNo=2002309&atchmnflSn=4",
      "bytes": 1346300,
      "pages": 73,
-     "chars": 176576,
+     "chars": 176759,
      "head": "- 1 - ※ 단지 주요정보 (분양문의) 1800-0320 주택유형 해당지역 기타지역 규제지역여부 민영 인천광역시 거주자 서울특별시 및 경기도 "
     }
    ],
    "chosen": "https://static.applyhome.co.kr/ai/aia/getAtchmnfl.do?houseManageNo=2026000532&pblancNo=2026000532&atchmnflSeqNo=2002309&atchmnflSn=4",
    "pages": 73,
    "pages_read": 73,
-   "chars_read": 176648,
+   "chars_read": 176831,
    "empty_pages": [],
    "chars_per_page_min": 1048,
    "fields": {
@@ -1118,97 +1072,16 @@
    "name": "시흥거모지구 S-1블록 공공분양(본청약)",
    "url": "https://www.applyhome.co.kr/ai/aia/selectAPTLttotPblancDetail.do?houseManageNo=2026000531&pblancNo=2026000531",
    "attachments": 0,
-   "pdfs": 1,
+   "pdfs": 0,
    "attachment_list": [
     {
-     "url": "https://apply.lh.or.kr/lhapply/lhFile.do?fileid=69171330",
-     "bytes": 1590334,
-     "pages": 41,
-     "chars": 157505,
-     "head": "1- 1 - 시흥거모지구 시흥거모지구 시흥거모지구 시흥거모지구 시흥거모지구 시흥거모지구 시흥거모지구 시흥거모지구 시흥거모지구 시흥거모지구 시흥거",
-     "via": "LH청약플러스"
+     "url": "LH청약플러스",
+     "error": "LH청약플러스에서 같은 공고를 못 찾음 (검색 0건)"
     }
    ],
-   "chosen": "https://apply.lh.or.kr/lhapply/lhFile.do?fileid=69171330",
-   "pages": 41,
-   "pages_read": 41,
-   "chars_read": 157545,
-   "empty_pages": [],
-   "chars_per_page_min": 1026,
-   "fields": {
-    "need_head": false,
-    "price_cap": true,
-    "residence_duty": 3,
-    "rewin_years": 10,
-    "account_months": 12,
-    "deposit_count": 12,
-    "residence": {
-     "area": "시흥시",
-     "months": 12,
-     "since": "2025-10-23"
-    },
-    "pub_limits_kind": null,
-    "schedule": {
-     "special": [
-      "2026-11-16",
-      "2026-11-16"
-     ],
-     "general": [
-      "2026-11-17",
-      "2026-11-17"
-     ]
-    }
-   },
-   "fields_merged": {
-    "need_head": false,
-    "price_cap": true,
-    "residence_duty": 3,
-    "rewin_years": 10,
-    "account_months": 12,
-    "deposit_count": 12,
-    "residence": {
-     "area": "시흥시",
-     "months": 12,
-     "since": "2025-10-23"
-    },
-    "pub_limits_kind": null,
-    "schedule": {
-     "special": [
-      "2026-11-16",
-      "2026-11-16"
-     ],
-     "general": [
-      "2026-11-17",
-      "2026-11-17"
-     ]
-    }
-   },
-   "fields_pdfium": {
-    "need_head": false,
-    "price_cap": true,
-    "residence_duty": 3,
-    "rewin_years": 10,
-    "account_months": 12,
-    "deposit_count": 12,
-    "residence": {
-     "area": "시흥시",
-     "months": 12,
-     "since": "2025-10-23"
-    },
-    "pub_limits_kind": null,
-    "schedule": {
-     "special": [
-      "2026-11-16",
-      "2026-11-16"
-     ],
-     "general": [
-      "2026-11-17",
-      "2026-11-17"
-     ]
-    }
-   },
-   "pdfium_chars": 155183,
-   "problem": []
+   "problem": [
+    "PDF 를 하나도 받지 못함"
+   ]
   },
   {
    "notice": "2026000530",
@@ -1221,16 +1094,16 @@
      "url": "https://static.applyhome.co.kr/ai/aia/getAtchmnfl.do?houseManageNo=2026000530&pblancNo=2026000530&atchmnflSeqNo=2002308&atchmnflSn=5",
      "bytes": 1335004,
      "pages": 72,
-     "chars": 178660,
+     "chars": 178846,
      "head": "- 1 - ※ 단지 주요정보 (분양문의) 1800-0320 주택유형 해당지역 기타지역 규제지역여부 민영 인천광역시 거주자 서울특별시 및 경기도 "
     }
    ],
    "chosen": "https://static.applyhome.co.kr/ai/aia/getAtchmnfl.do?houseManageNo=2026000530&pblancNo=2026000530&atchmnflSeqNo=2002308&atchmnflSn=5",
    "pages": 72,
    "pages_read": 72,
-   "chars_read": 178731,
+   "chars_read": 178917,
    "empty_pages": [],
-   "chars_per_page_min": 1196,
+   "chars_per_page_min": 1197,
    "fields": {
     "price_cap": true,
     "rewin_years": 10,
@@ -1275,14 +1148,14 @@
      "url": "https://static.applyhome.co.kr/ai/aia/getAtchmnfl.do?houseManageNo=2026000518&pblancNo=2026000518&atchmnflSeqNo=1999325&atchmnflSn=5",
      "bytes": 908674,
      "pages": 64,
-     "chars": 137633,
+     "chars": 137756,
      "head": "- 1 - ※ 본 입주자모집공고의 내용을 숙지한 후 청약 및 계약에 응하시기 바라며, 미숙지로 인한 착오 행위 등에 대하여 청약자 및 계약자 본"
     }
    ],
    "chosen": "https://static.applyhome.co.kr/ai/aia/getAtchmnfl.do?houseManageNo=2026000518&pblancNo=2026000518&atchmnflSeqNo=1999325&atchmnflSn=5",
    "pages": 64,
    "pages_read": 64,
-   "chars_read": 137696,
+   "chars_read": 137819,
    "empty_pages": [],
    "chars_per_page_min": 914,
    "fields": {
@@ -1332,14 +1205,14 @@
      "url": "https://static.applyhome.co.kr/ai/aia/getAtchmnfl.do?houseManageNo=2026000517&pblancNo=2026000517&atchmnflSeqNo=2001261&atchmnflSn=6",
      "bytes": 925822,
      "pages": 67,
-     "chars": 143464,
+     "chars": 143591,
      "head": "- 1 - ※ 본 입주자모집공고의 내용을 숙지한 후 청약 및 계약에 응하시기 바라며, 미숙지로 인한 착오 행위 등에 대하여 청약자 및 계약자 본"
     }
    ],
    "chosen": "https://static.applyhome.co.kr/ai/aia/getAtchmnfl.do?houseManageNo=2026000517&pblancNo=2026000517&atchmnflSeqNo=2001261&atchmnflSn=6",
    "pages": 67,
    "pages_read": 67,
-   "chars_read": 143530,
+   "chars_read": 143657,
    "empty_pages": [],
    "chars_per_page_min": 900,
    "fields": {
@@ -1392,14 +1265,14 @@
      "url": "https://static.applyhome.co.kr/ai/aia/getAtchmnfl.do?houseManageNo=2026000496&pblancNo=2026000496&atchmnflSeqNo=1999033&atchmnflSn=21",
      "bytes": 1180620,
      "pages": 100,
-     "chars": 240000,
+     "chars": 240140,
      "head": "- 1 - ※ 단지 주요정보 (분양문의) 1551-6881 ※ 최초 입주자 모집공고문(2026.10.22.) 내용 중 일부 오기가 있어 아래와 "
     }
    ],
    "chosen": "https://static.applyhome.co.kr/ai/aia/getAtchmnfl.do?houseManageNo=2026000496&pblancNo=2026000496&atchmnflSeqNo=1999033&atchmnflSn=21",
    "pages": 100,
    "pages_read": 100,
-   "chars_read": 240099,
+   "chars_read": 240239,
    "empty_pages": [],
    "chars_per_page_min": 484,
    "fields": {
@@ -1449,14 +1322,14 @@
      "url": "https://static.applyhome.co.kr/ai/aia/getAtchmnfl.do?houseManageNo=2026000502&pblancNo=2026000502&atchmnflSeqNo=2001080&atchmnflSn=4",
      "bytes": 3591552,
      "pages": 60,
-     "chars": 193560,
+     "chars": 193742,
      "head": "화성 향남 롯데캐슬 시그니처 - 1 - 화성 향남 롯데캐슬 시그니처 입주자모집공고 정정공고() 수 의 내용 중 일부를 수 일자로 아래와 같이 정"
     }
    ],
    "chosen": "https://static.applyhome.co.kr/ai/aia/getAtchmnfl.do?houseManageNo=2026000502&pblancNo=2026000502&atchmnflSeqNo=2001080&atchmnflSn=4",
    "pages": 60,
    "pages_read": 60,
-   "chars_read": 193619,
+   "chars_read": 193801,
    "empty_pages": [],
    "chars_per_page_min": 771,
    "fields": {
@@ -1506,16 +1379,16 @@
      "url": "https://static.applyhome.co.kr/ai/aia/getAtchmnfl.do?houseManageNo=2026000514&pblancNo=2026000514&atchmnflSeqNo=1999083&atchmnflSn=3",
      "bytes": 1316795,
      "pages": 72,
-     "chars": 148292,
-     "head": "- 1 - ※ 단지 주요정보 (분양문의) 1644-5344 주택유형 해당지역 기타지역 규제지역여부 민영 부산광역시 1년 이상 계속 거주자(202"
+     "chars": 148485,
+     "head": "- 1 - ※ 단지 주요정보 (분양문의) 1644-5344 주택유형 해당지역 기타지역 규제지역여부 민영 부산광역시 1년 이상 계속 거주자 (20"
     }
    ],
    "chosen": "https://static.applyhome.co.kr/ai/aia/getAtchmnfl.do?houseManageNo=2026000514&pblancNo=2026000514&atchmnflSeqNo=1999083&atchmnflSn=3",
    "pages": 72,
    "pages_read": 72,
-   "chars_read": 148363,
+   "chars_read": 148556,
    "empty_pages": [],
-   "chars_per_page_min": 327,
+   "chars_per_page_min": 329,
    "fields": {
     "need_head": false,
     "price_cap": false,
@@ -1566,14 +1439,14 @@
      "url": "https://static.applyhome.co.kr/ai/aia/getAtchmnfl.do?houseManageNo=2026000513&pblancNo=2026000513&atchmnflSeqNo=2000120&atchmnflSn=4",
      "bytes": 1330557,
      "pages": 72,
-     "chars": 151720,
-     "head": "- 1 - ※ 단지 주요정보 (분양문의) 1644-5344 주택유형 해당지역 기타지역 규제지역여부 민영 부산광역시 1년 이상 계속 거주자(202"
+     "chars": 151915,
+     "head": "- 1 - ※ 단지 주요정보 (분양문의) 1644-5344 주택유형 해당지역 기타지역 규제지역여부 민영 부산광역시 1년 이상 계속 거주자 (20"
     }
    ],
    "chosen": "https://static.applyhome.co.kr/ai/aia/getAtchmnfl.do?houseManageNo=2026000513&pblancNo=2026000513&atchmnflSeqNo=2000120&atchmnflSn=4",
    "pages": 72,
    "pages_read": 72,
-   "chars_read": 151791,
+   "chars_read": 151986,
    "empty_pages": [
     70
    ],
@@ -1630,14 +1503,14 @@
      "url": "https://static.applyhome.co.kr/ai/aia/getAtchmnfl.do?houseManageNo=2026000509&pblancNo=2026000509&atchmnflSeqNo=2000102&atchmnflSn=5",
      "bytes": 4136589,
      "pages": 76,
-     "chars": 180791,
+     "chars": 180849,
      "head": "- 1 - ※ 단지 주요정보 분양문의 ( ) 1522-8111 주택유형 해당지역 기타경기 기타지역 규제지역여부 민영 화성시 년 이상 계속 거주자"
     }
    ],
    "chosen": "https://static.applyhome.co.kr/ai/aia/getAtchmnfl.do?houseManageNo=2026000509&pblancNo=2026000509&atchmnflSeqNo=2000102&atchmnflSn=5",
    "pages": 76,
    "pages_read": 76,
-   "chars_read": 180866,
+   "chars_read": 180924,
    "empty_pages": [],
    "chars_per_page_min": 415,
    "fields": {
@@ -1698,14 +1571,14 @@
      "url": "https://static.applyhome.co.kr/ai/aia/getAtchmnfl.do?houseManageNo=2026000508&pblancNo=2026000508&atchmnflSeqNo=2000101&atchmnflSn=6",
      "bytes": 4428083,
      "pages": 76,
-     "chars": 183612,
+     "chars": 183676,
      "head": "- 1 - ※ 단지 주요정보 분양문의 ( ) 1522-8111 주택유형 해당지역 기타경기 기타지역 규제지역여부 민영 화성시 년 이상 계속 거주자"
     }
    ],
    "chosen": "https://static.applyhome.co.kr/ai/aia/getAtchmnfl.do?houseManageNo=2026000508&pblancNo=2026000508&atchmnflSeqNo=2000101&atchmnflSn=6",
    "pages": 76,
    "pages_read": 76,
-   "chars_read": 183687,
+   "chars_read": 183751,
    "empty_pages": [],
    "chars_per_page_min": 413,
    "fields": {
@@ -1766,14 +1639,14 @@
      "url": "https://static.applyhome.co.kr/ai/aia/getAtchmnfl.do?houseManageNo=2026000507&pblancNo=2026000507&atchmnflSeqNo=1999025&atchmnflSn=5",
      "bytes": 940389,
      "pages": 45,
-     "chars": 101941,
+     "chars": 101988,
      "head": "- 1 - ※ 단지 주요정보 (분양문의) 051-741-3300 주택유형 해당지역 기타지역 규제지역여부 민영 부산광역시 1년 이상 계속 거주자 "
     }
    ],
    "chosen": "https://static.applyhome.co.kr/ai/aia/getAtchmnfl.do?houseManageNo=2026000507&pblancNo=2026000507&atchmnflSeqNo=1999025&atchmnflSn=5",
    "pages": 45,
    "pages_read": 45,
-   "chars_read": 101985,
+   "chars_read": 102032,
    "empty_pages": [],
    "chars_per_page_min": 346,
    "fields": {
@@ -1826,14 +1699,14 @@
      "url": "https://static.applyhome.co.kr/ai/aia/getAtchmnfl.do?houseManageNo=2026000495&pblancNo=2026000495&atchmnflSeqNo=2000036&atchmnflSn=8",
      "bytes": 783751,
      "pages": 59,
-     "chars": 113921,
-     "head": "- 1 - ※ 단지 주요정보 (분양문의) 051-758-0900 주택유형 해당지역 기타지역 규제지역여부 민영 부산광역시 1년 이상 계속 거주자("
+     "chars": 114033,
+     "head": "- 1 - ※ 단지 주요정보 (분양문의) 051-758-0900 주택유형 해당지역 기타지역 규제지역여부 민영 부산광역시 1년 이상 계속 거주자 "
     }
    ],
    "chosen": "https://static.applyhome.co.kr/ai/aia/getAtchmnfl.do?houseManageNo=2026000495&pblancNo=2026000495&atchmnflSeqNo=2000036&atchmnflSn=8",
    "pages": 59,
    "pages_read": 59,
-   "chars_read": 113979,
+   "chars_read": 114091,
    "empty_pages": [],
    "chars_per_page_min": 555,
    "fields": {
@@ -1886,14 +1759,14 @@
      "url": "https://static.applyhome.co.kr/ai/aia/getAtchmnfl.do?houseManageNo=2026000373&pblancNo=2026000373&atchmnflSeqNo=2001204&atchmnflSn=3",
      "bytes": 7521014,
      "pages": 136,
-     "chars": 278569,
+     "chars": 278712,
      "head": "www.i-sh.co.kr 2026 고덕강일지구 3단지 토지임대부 분양주택 입주자모집공고 ▶ 공급위치 : 서울특별시 강동구 강일동 174 일원 "
     }
    ],
    "chosen": "https://static.applyhome.co.kr/ai/aia/getAtchmnfl.do?houseManageNo=2026000373&pblancNo=2026000373&atchmnflSeqNo=2001204&atchmnflSn=3",
    "pages": 136,
    "pages_read": 136,
-   "chars_read": 278704,
+   "chars_read": 278847,
    "empty_pages": [
     2
    ],
@@ -1947,14 +1820,14 @@
      "url": "https://static.applyhome.co.kr/ai/aia/getAtchmnfl.do?houseManageNo=2026000455&pblancNo=2026000455&atchmnflSeqNo=1969991&atchmnflSn=5",
      "bytes": 1222976,
      "pages": 61,
-     "chars": 206029,
+     "chars": 206180,
      "head": "- 1 - 신분평 에피트 더웨이시티 입주자모집공고 구글플레이스토어 애플앱스토어 청약Home 앱 설치 바로가기 ※ 본 아파트 입주자모집공고의 내용"
     }
    ],
    "chosen": "https://static.applyhome.co.kr/ai/aia/getAtchmnfl.do?houseManageNo=2026000455&pblancNo=2026000455&atchmnflSeqNo=1969991&atchmnflSn=5",
    "pages": 61,
    "pages_read": 61,
-   "chars_read": 206089,
+   "chars_read": 206240,
    "empty_pages": [],
    "chars_per_page_min": 1707,
    "fields": {
@@ -2007,14 +1880,14 @@
      "url": "https://static.applyhome.co.kr/ai/aia/getAtchmnfl.do?houseManageNo=2026000492&pblancNo=2026000492&atchmnflSeqNo=1995082&atchmnflSn=5",
      "bytes": 2057629,
      "pages": 75,
-     "chars": 172400,
+     "chars": 172547,
      "head": "- 1 - ※ 단지 주요정보 (분양문의) 1533-3767 주택유형 해당지역 기타지역 규제지역여부 민영 청주시 거주자 충청북도 거주자 비규제지역"
     }
    ],
    "chosen": "https://static.applyhome.co.kr/ai/aia/getAtchmnfl.do?houseManageNo=2026000492&pblancNo=2026000492&atchmnflSeqNo=1995082&atchmnflSn=5",
    "pages": 75,
    "pages_read": 75,
-   "chars_read": 172474,
+   "chars_read": 172621,
    "empty_pages": [],
    "chars_per_page_min": 656,
    "fields": {
@@ -2067,14 +1940,14 @@
      "url": "https://static.applyhome.co.kr/ai/aia/getAtchmnfl.do?houseManageNo=2026000491&pblancNo=2026000491&atchmnflSeqNo=1992167&atchmnflSn=7",
      "bytes": 1913042,
      "pages": 75,
-     "chars": 172078,
+     "chars": 172226,
      "head": "- 1 - ※ 단지 주요정보 (분양문의) 1533-3767 주택유형 해당지역 기타지역 규제지역여부 민영 청주시 거주자 충청북도 거주자 비규제지역"
     }
    ],
    "chosen": "https://static.applyhome.co.kr/ai/aia/getAtchmnfl.do?houseManageNo=2026000491&pblancNo=2026000491&atchmnflSeqNo=1992167&atchmnflSn=7",
    "pages": 75,
    "pages_read": 75,
-   "chars_read": 172152,
+   "chars_read": 172300,
    "empty_pages": [],
    "chars_per_page_min": 216,
    "fields": {
@@ -2127,14 +2000,14 @@
      "url": "https://static.applyhome.co.kr/ai/aia/getAtchmnfl.do?houseManageNo=2026000471&pblancNo=2026000471&atchmnflSeqNo=1995080&atchmnflSn=3",
      "bytes": 833668,
      "pages": 43,
-     "chars": 116929,
+     "chars": 116948,
      "head": "- 1 - 본 입주자모집공고의 내용을 숙지한 후 청약 및 계약에 응하시기 바라며 미숙지로 인한 착오행위 등에 대하여는 청약자 본인에게 책임이 있"
     }
    ],
    "chosen": "https://static.applyhome.co.kr/ai/aia/getAtchmnfl.do?houseManageNo=2026000471&pblancNo=2026000471&atchmnflSeqNo=1995080&atchmnflSn=3",
    "pages": 43,
    "pages_read": 43,
-   "chars_read": 116971,
+   "chars_read": 116990,
    "empty_pages": [],
    "chars_per_page_min": 145,
    "fields": {
@@ -2184,14 +2057,14 @@
      "url": "https://static.applyhome.co.kr/ai/aia/getAtchmnfl.do?houseManageNo=2026000469&pblancNo=2026000469&atchmnflSeqNo=1995111&atchmnflSn=1",
      "bytes": 1456245,
      "pages": 62,
-     "chars": 130294,
-     "head": "- 1 - ※ 단지 주요정보 (분양문의) 1833-5755 주택유형 해당지역 기타지역 규제지역여부 민영 부산광역시 1년 이상 계속 거주자(202"
+     "chars": 130419,
+     "head": "- 1 - ※ 단지 주요정보 (분양문의) 1833-5755 주택유형 해당지역 기타지역 규제지역여부 민영 부산광역시 1년 이상 계속 거주자 (20"
     }
    ],
    "chosen": "https://static.applyhome.co.kr/ai/aia/getAtchmnfl.do?houseManageNo=2026000469&pblancNo=2026000469&atchmnflSeqNo=1995111&atchmnflSn=1",
    "pages": 62,
    "pages_read": 62,
-   "chars_read": 130355,
+   "chars_read": 130480,
    "empty_pages": [],
    "chars_per_page_min": 129,
    "fields": {
@@ -2244,16 +2117,16 @@
      "url": "https://static.applyhome.co.kr/ai/aia/getAtchmnfl.do?houseManageNo=2026000464&pblancNo=2026000464&atchmnflSeqNo=1997002&atchmnflSn=1",
      "bytes": 1783260,
      "pages": 80,
-     "chars": 180024,
+     "chars": 180230,
      "head": "- 1 - ※ 단지 주요정보 (분양문의) 1811-1100 주택유형 해당지역 기타지역 규제지역여부 민영 경상남도 거제시 거주자 경상남도 및 부산"
     }
    ],
    "chosen": "https://static.applyhome.co.kr/ai/aia/getAtchmnfl.do?houseManageNo=2026000464&pblancNo=2026000464&atchmnflSeqNo=1997002&atchmnflSn=1",
    "pages": 80,
    "pages_read": 80,
-   "chars_read": 180103,
+   "chars_read": 180309,
    "empty_pages": [],
-   "chars_per_page_min": 681,
+   "chars_per_page_min": 686,
    "fields": {
     "need_head": false,
     "price_cap": false,
@@ -2304,14 +2177,14 @@
      "url": "https://static.applyhome.co.kr/ai/aia/getAtchmnfl.do?houseManageNo=2026000458&pblancNo=2026000458&atchmnflSeqNo=1995089&atchmnflSn=2",
      "bytes": 1077481,
      "pages": 70,
-     "chars": 156262,
+     "chars": 156384,
      "head": "- 1 - 구분 입주자모집공고일 특별공급 접수일 일반공급 1순위 접수일 일반공급 2순위 접수일 당첨자발표일 서류접수 계약체결 일정 2026.10"
     }
    ],
    "chosen": "https://static.applyhome.co.kr/ai/aia/getAtchmnfl.do?houseManageNo=2026000458&pblancNo=2026000458&atchmnflSeqNo=1995089&atchmnflSn=2",
    "pages": 70,
    "pages_read": 70,
-   "chars_read": 156331,
+   "chars_read": 156453,
    "empty_pages": [],
    "chars_per_page_min": 345,
    "fields": {
@@ -2364,14 +2237,14 @@
      "url": "https://static.applyhome.co.kr/ai/aia/getAtchmnfl.do?houseManageNo=2026000402&pblancNo=2026000402&atchmnflSeqNo=1982173&atchmnflSn=6",
      "bytes": 1699510,
      "pages": 35,
-     "chars": 118411,
+     "chars": 118456,
      "head": "- 1 - 전북개발공사 공고 제2026 – 60호(2026.10.08.) 익산부송 에코르 익산 익산 익산 익산 익산 익산 익산 익산 익산 익산 "
     }
    ],
    "chosen": "https://static.applyhome.co.kr/ai/aia/getAtchmnfl.do?houseManageNo=2026000402&pblancNo=2026000402&atchmnflSeqNo=1982173&atchmnflSn=6",
    "pages": 35,
    "pages_read": 35,
-   "chars_read": 118445,
+   "chars_read": 118490,
    "empty_pages": [
     35
    ],
@@ -2425,14 +2298,14 @@
      "url": "https://static.applyhome.co.kr/ai/aia/getAtchmnfl.do?houseManageNo=2026000267&pblancNo=2026000267&atchmnflSeqNo=1992075&atchmnflSn=3",
      "bytes": 1484691,
      "pages": 63,
-     "chars": 140885,
+     "chars": 140985,
      "head": "- 1 - ※ 단지 주요정보 (분양문의) 1551-2011 주택유형 해당지역 기타지역 규제지역여부 민영 충청남도 아산시 거주자 충청남도, 대전광"
     }
    ],
    "chosen": "https://static.applyhome.co.kr/ai/aia/getAtchmnfl.do?houseManageNo=2026000267&pblancNo=2026000267&atchmnflSeqNo=1992075&atchmnflSn=3",
    "pages": 63,
    "pages_read": 63,
-   "chars_read": 140947,
+   "chars_read": 141047,
    "empty_pages": [],
    "chars_per_page_min": 275,
    "fields": {
@@ -2474,65 +2347,171 @@
   {
    "notice": "2026820010",
    "name": "인천계양 A17블록 신혼희망타운(공공분양)(본청약)",
-   "url": "https://www.applyhome.co.kr/ai/aia/selectAPTLttotPblancDetail.do?houseManageNo=2026820010&pblancNo=2026820010",
-   "attachments": 0,
+   "error": "RemoteProtocolError: Server disconnected without sending a response."
+  },
+  {
+   "notice": "2026910283",
+   "name": "인천 영종하늘도시 A25블록 대성베르힐(5차)",
+   "url": "https://www.applyhome.co.kr/ai/aia/selectAPTRemndrLttotPblancDetailView.do?houseManageNo=2026910283&pblancNo=2026910283",
+   "attachments": 1,
    "pdfs": 1,
    "attachment_list": [
     {
-     "url": "https://apply.lh.or.kr/lhapply/lhFile.do?fileid=68807314",
-     "bytes": 1035877,
-     "pages": 31,
-     "chars": 107979,
-     "head": "- 1 - 인천계양 인천계양 인천계양 인천계양 인천계양 인천계양 인천계양 인천계양 인천계양 인천계양 인천계양 인천계양 인천계양 인천계양 인천계양",
-     "via": "LH청약플러스"
+     "url": "https://static.applyhome.co.kr/ai/aia/getAtchmnfl.do?houseManageNo=2026910283&pblancNo=2026910283&atchmnflSeqNo=2014053&atchmnflSn=3",
+     "bytes": 219217,
+     "pages": 9,
+     "chars": 15859,
+     "head": "- 1 - 본 주택의 입주자모집공고의 내용을 숙지한 후 청약 및 계약에 응하시기 바라며 미숙지로 인한 착오행위 등에 대하여는 청약자 및 계약자 "
     }
    ],
-   "chosen": "https://apply.lh.or.kr/lhapply/lhFile.do?fileid=68807314",
-   "pages": 31,
-   "pages_read": 31,
-   "chars_read": 108009,
+   "chosen": "https://static.applyhome.co.kr/ai/aia/getAtchmnfl.do?houseManageNo=2026910283&pblancNo=2026910283&atchmnflSeqNo=2014053&atchmnflSn=3",
+   "pages": 9,
+   "pages_read": 9,
+   "chars_read": 15867,
    "empty_pages": [],
-   "chars_per_page_min": 972,
+   "chars_per_page_min": 775,
    "fields": {
-    "price_cap": true,
-    "residence_duty": 0,
-    "rewin_years": 10,
-    "account_months": 6,
-    "deposit_count": 6,
+    "need_head": false,
+    "rewin_years": 0,
     "residence": {
-     "area": "인천광역시",
+     "area": null,
      "months": 0,
      "since": null
-    },
-    "pub_limits_kind": "town"
+    }
    },
    "fields_merged": {
-    "price_cap": true,
-    "residence_duty": 0,
-    "rewin_years": 10,
-    "account_months": 6,
-    "deposit_count": 6,
+    "need_head": false,
+    "rewin_years": 0,
     "residence": {
-     "area": "인천광역시",
+     "area": null,
      "months": 0,
      "since": null
-    },
-    "pub_limits_kind": "town"
+    }
    },
    "fields_pdfium": {
+    "need_head": false,
+    "rewin_years": 0,
+    "residence": {
+     "area": null,
+     "months": 0,
+     "since": null
+    }
+   },
+   "pdfium_chars": 15138,
+   "problem": []
+  },
+  {
+   "notice": "2026910280",
+   "name": "오남역 서희스타힐스 여의재 3단지 (조합원 취소분)",
+   "url": "https://www.applyhome.co.kr/ai/aia/selectAPTRemndrLttotPblancDetailView.do?houseManageNo=2026910280&pblancNo=2026910280",
+   "attachments": 1,
+   "pdfs": 1,
+   "attachment_list": [
+    {
+     "url": "https://static.applyhome.co.kr/ai/aia/getAtchmnfl.do?houseManageNo=2026910280&pblancNo=2026910280&atchmnflSeqNo=2008443&atchmnflSn=2",
+     "bytes": 246374,
+     "pages": 11,
+     "chars": 15396,
+     "head": "- 1 - ※ 본 입주자모집공고의 내용을 숙지한 후 청약 및 계약에 응하시기 바라며, 미숙지로 인한 착오 행위 등에 대하여 청약자 및 계약자 본"
+    }
+   ],
+   "chosen": "https://static.applyhome.co.kr/ai/aia/getAtchmnfl.do?houseManageNo=2026910280&pblancNo=2026910280&atchmnflSeqNo=2008443&atchmnflSn=2",
+   "pages": 11,
+   "pages_read": 11,
+   "chars_read": 15406,
+   "empty_pages": [],
+   "chars_per_page_min": 694,
+   "fields": {
+    "need_head": false,
+    "price_cap": false,
+    "residence_duty": 0,
+    "rewin_years": 0,
+    "residence": {
+     "area": null,
+     "months": 0,
+     "since": null
+    }
+   },
+   "fields_merged": {
+    "need_head": false,
+    "price_cap": false,
+    "residence_duty": 0,
+    "rewin_years": 0,
+    "residence": {
+     "area": null,
+     "months": 0,
+     "since": null
+    }
+   },
+   "fields_pdfium": {
+    "need_head": false,
+    "price_cap": false,
+    "residence_duty": 0,
+    "rewin_years": 0,
+    "residence": {
+     "area": null,
+     "months": 0,
+     "since": null
+    }
+   },
+   "pdfium_chars": 15631,
+   "problem": []
+  },
+  {
+   "notice": "2026910276",
+   "name": "인천 검단신도시 AB20-2블록 중흥S-클래스 에듀파크",
+   "url": "https://www.applyhome.co.kr/ai/aia/selectAPTRemndrLttotPblancDetailView.do?houseManageNo=2026910276&pblancNo=2026910276",
+   "attachments": 1,
+   "pdfs": 1,
+   "attachment_list": [
+    {
+     "url": "https://static.applyhome.co.kr/ai/aia/getAtchmnfl.do?houseManageNo=2026910276&pblancNo=2026910276&atchmnflSeqNo=2008508&atchmnflSn=2",
+     "bytes": 237644,
+     "pages": 10,
+     "chars": 16450,
+     "head": "- 1 - ※ 단지 주요정보 (분양문의) 032-562-1990 주택유형 규제지역여부 무순위(사후) 자격요건 민영 비규제지역 무순위(사후) 입주"
+    }
+   ],
+   "chosen": "https://static.applyhome.co.kr/ai/aia/getAtchmnfl.do?houseManageNo=2026910276&pblancNo=2026910276&atchmnflSeqNo=2008508&atchmnflSn=2",
+   "pages": 10,
+   "pages_read": 10,
+   "chars_read": 16459,
+   "empty_pages": [],
+   "chars_per_page_min": 517,
+   "fields": {
+    "need_head": false,
     "price_cap": true,
     "residence_duty": 0,
-    "rewin_years": 10,
-    "account_months": 6,
-    "deposit_count": 6,
+    "rewin_years": 0,
     "residence": {
      "area": "인천광역시",
      "months": 0,
      "since": null
-    },
-    "pub_limits_kind": "town"
+    }
    },
-   "pdfium_chars": 106813,
+   "fields_merged": {
+    "need_head": false,
+    "price_cap": true,
+    "residence_duty": 0,
+    "rewin_years": 0,
+    "residence": {
+     "area": "인천광역시",
+     "months": 0,
+     "since": null
+    }
+   },
+   "fields_pdfium": {
+    "need_head": false,
+    "price_cap": true,
+    "residence_duty": 0,
+    "rewin_years": 0,
+    "residence": {
+     "area": "인천광역시",
+     "months": 0,
+     "since": null
+    }
+   },
+   "pdfium_chars": 15896,
    "problem": []
   },
   {
@@ -2546,14 +2525,14 @@
      "url": "https://static.applyhome.co.kr/ai/aia/getAtchmnfl.do?houseManageNo=2026910282&pblancNo=2026910282&atchmnflSeqNo=2013002&atchmnflSn=4",
      "bytes": 371867,
      "pages": 15,
-     "chars": 26893,
+     "chars": 26941,
      "head": "- 1 - ※ 단지 주요정보 (분양문의) 1899-6851 주택유형 규제지역여부 무순위(사후) 자격요건 민영 투기과열지구/청약과열지역 무순위(사"
     }
    ],
    "chosen": "https://static.applyhome.co.kr/ai/aia/getAtchmnfl.do?houseManageNo=2026910282&pblancNo=2026910282&atchmnflSeqNo=2013002&atchmnflSn=4",
    "pages": 15,
    "pages_read": 15,
-   "chars_read": 26907,
+   "chars_read": 26955,
    "empty_pages": [],
    "chars_per_page_min": 402,
    "fields": {
@@ -2603,16 +2582,16 @@
      "url": "https://static.applyhome.co.kr/ai/aia/getAtchmnfl.do?houseManageNo=2026910279&pblancNo=2026910279&atchmnflSeqNo=2013033&atchmnflSn=3",
      "bytes": 263314,
      "pages": 12,
-     "chars": 17576,
+     "chars": 17607,
      "head": "- 1 - ※ 단지 주요정보 (분양문의) 031-278-4145 주택유형 규제지역여부 무순위(사후) 자격요건 민영 비규제지역 무순위(사후) 입주"
     }
    ],
    "chosen": "https://static.applyhome.co.kr/ai/aia/getAtchmnfl.do?houseManageNo=2026910279&pblancNo=2026910279&atchmnflSeqNo=2013033&atchmnflSn=3",
    "pages": 12,
    "pages_read": 12,
-   "chars_read": 17587,
+   "chars_read": 17618,
    "empty_pages": [],
-   "chars_per_page_min": 811,
+   "chars_per_page_min": 812,
    "fields": {
     "need_head": false,
     "price_cap": false,
@@ -2660,14 +2639,14 @@
      "url": "https://static.applyhome.co.kr/ai/aia/getAtchmnfl.do?houseManageNo=2026910286&pblancNo=2026910286&atchmnflSeqNo=2013010&atchmnflSn=2",
      "bytes": 218438,
      "pages": 8,
-     "chars": 15554,
+     "chars": 15590,
      "head": "- 1 - 1 단지 주요정보 (분양문의) 1551-8836 주택유형 규제지역여부 무순위(사후) 자격요건 민영 비규제지역 무순위(사후) 입주자모집"
     }
    ],
    "chosen": "https://static.applyhome.co.kr/ai/aia/getAtchmnfl.do?houseManageNo=2026910286&pblancNo=2026910286&atchmnflSeqNo=2013010&atchmnflSn=2",
    "pages": 8,
    "pages_read": 8,
-   "chars_read": 15561,
+   "chars_read": 15597,
    "empty_pages": [],
    "chars_per_page_min": 819,
    "fields": {
@@ -2717,16 +2696,16 @@
      "url": "https://static.applyhome.co.kr/ai/aia/getAtchmnfl.do?houseManageNo=2026910285&pblancNo=2026910285&atchmnflSeqNo=2013052&atchmnflSn=1",
      "bytes": 237566,
      "pages": 9,
-     "chars": 14472,
+     "chars": 14488,
      "head": "[공동주택 G5-6]- 1 - 더샵 송도그란테르 G5-6블록 민영주택 무순위 입주자모집공고 구 글 플 레 이 스 토 어애플앱스토어 청약Home "
     }
    ],
    "chosen": "https://static.applyhome.co.kr/ai/aia/getAtchmnfl.do?houseManageNo=2026910285&pblancNo=2026910285&atchmnflSeqNo=2013052&atchmnflSn=1",
    "pages": 9,
    "pages_read": 9,
-   "chars_read": 14480,
+   "chars_read": 14496,
    "empty_pages": [],
-   "chars_per_page_min": 1290,
+   "chars_per_page_min": 1293,
    "fields": {
     "need_head": false,
     "price_cap": false,
@@ -2774,14 +2753,14 @@
      "url": "https://static.applyhome.co.kr/ai/aia/getAtchmnfl.do?houseManageNo=2026910277&pblancNo=2026910277&atchmnflSeqNo=2008636&atchmnflSn=1",
      "bytes": 304629,
      "pages": 14,
-     "chars": 25261,
+     "chars": 25293,
      "head": "- 1 - ※ 단지 주요정보 (분양문의) 051-758-8555 주택유형 규제지역여부 무순위(사후) 자격요건 민영 비규제지역 무순위(사후) 입주"
     }
    ],
    "chosen": "https://static.applyhome.co.kr/ai/aia/getAtchmnfl.do?houseManageNo=2026910277&pblancNo=2026910277&atchmnflSeqNo=2008636&atchmnflSn=1",
    "pages": 14,
    "pages_read": 14,
-   "chars_read": 25274,
+   "chars_read": 25306,
    "empty_pages": [],
    "chars_per_page_min": 459,
    "fields": {
@@ -2831,14 +2810,14 @@
      "url": "https://static.applyhome.co.kr/ai/aia/getAtchmnfl.do?houseManageNo=2026910274&pblancNo=2026910274&atchmnflSeqNo=2007073&atchmnflSn=5",
      "bytes": 270269,
      "pages": 13,
-     "chars": 18014,
+     "chars": 18024,
      "head": "- 1 - ※ 단지 주요정보 (분양문의) 031-717-7188 주택유형 규제지역여부 무순위(사후) 자격요건 민영 비규제지역 무순위(사후) 입주"
     }
    ],
    "chosen": "https://static.applyhome.co.kr/ai/aia/getAtchmnfl.do?houseManageNo=2026910274&pblancNo=2026910274&atchmnflSeqNo=2007073&atchmnflSn=5",
    "pages": 13,
    "pages_read": 13,
-   "chars_read": 18026,
+   "chars_read": 18036,
    "empty_pages": [],
    "chars_per_page_min": 317,
    "fields": {
@@ -2888,14 +2867,14 @@
      "url": "https://static.applyhome.co.kr/ai/aia/getAtchmnfl.do?houseManageNo=2026910273&pblancNo=2026910273&atchmnflSeqNo=2006177&atchmnflSn=7",
      "bytes": 270858,
      "pages": 12,
-     "chars": 17316,
+     "chars": 17328,
      "head": "- 1 - ※ 단지 주요정보 (분양문의) 031-717-7188 주택유형 규제지역여부 무순위(사후) 자격요건 민영 비규제지역 무순위(사후) 입주"
     }
    ],
    "chosen": "https://static.applyhome.co.kr/ai/aia/getAtchmnfl.do?houseManageNo=2026910273&pblancNo=2026910273&atchmnflSeqNo=2006177&atchmnflSn=7",
    "pages": 12,
    "pages_read": 12,
-   "chars_read": 17327,
+   "chars_read": 17339,
    "empty_pages": [],
    "chars_per_page_min": 718,
    "fields": {
@@ -2945,14 +2924,14 @@
      "url": "https://static.applyhome.co.kr/ai/aia/getAtchmnfl.do?houseManageNo=2026910272&pblancNo=2026910272&atchmnflSeqNo=2007076&atchmnflSn=7",
      "bytes": 270024,
      "pages": 11,
-     "chars": 17139,
+     "chars": 17159,
      "head": "- 1 - ※ 단지 주요정보 (분양문의) 031-717-7188 주택유형 규제지역여부 무순위(사후) 자격요건 민영 비규제지역 무순위(사후) 입주"
     }
    ],
    "chosen": "https://static.applyhome.co.kr/ai/aia/getAtchmnfl.do?houseManageNo=2026910272&pblancNo=2026910272&atchmnflSeqNo=2007076&atchmnflSn=7",
    "pages": 11,
    "pages_read": 11,
-   "chars_read": 17149,
+   "chars_read": 17169,
    "empty_pages": [],
    "chars_per_page_min": 316,
    "fields": {
@@ -3002,14 +2981,14 @@
      "url": "https://static.applyhome.co.kr/ai/aia/getAtchmnfl.do?houseManageNo=2026910281&pblancNo=2026910281&atchmnflSeqNo=2010088&atchmnflSn=4",
      "bytes": 252886,
      "pages": 12,
-     "chars": 16636,
+     "chars": 16661,
      "head": "- 1 - 당 현장은 준공이 완료된 아파트로 입주지정일은 계약 체결 후 최대 3~6개월입니다. 자금 사정으로 계약을 진행하기 어려운 경우 청약신"
     }
    ],
    "chosen": "https://static.applyhome.co.kr/ai/aia/getAtchmnfl.do?houseManageNo=2026910281&pblancNo=2026910281&atchmnflSeqNo=2010088&atchmnflSn=4",
    "pages": 12,
    "pages_read": 12,
-   "chars_read": 16647,
+   "chars_read": 16672,
    "empty_pages": [],
    "chars_per_page_min": 239,
    "fields": {
@@ -3059,14 +3038,14 @@
      "url": "https://static.applyhome.co.kr/ai/aia/getAtchmnfl.do?houseManageNo=2026910267&pblancNo=2026910267&atchmnflSeqNo=2002235&atchmnflSn=1",
      "bytes": 230691,
      "pages": 9,
-     "chars": 14902,
+     "chars": 14927,
      "head": "- 1 - 1 공통 유의사항 ■ 한국부동산원 청약홈 콜센터는 청약홈 홈페이지(www.applyhome.co.kr) 이용안내 및 기본적인 청약자격"
     }
    ],
    "chosen": "https://static.applyhome.co.kr/ai/aia/getAtchmnfl.do?houseManageNo=2026910267&pblancNo=2026910267&atchmnflSeqNo=2002235&atchmnflSn=1",
    "pages": 9,
    "pages_read": 9,
-   "chars_read": 14910,
+   "chars_read": 14935,
    "empty_pages": [],
    "chars_per_page_min": 500,
    "fields": {
@@ -3116,14 +3095,14 @@
      "url": "https://static.applyhome.co.kr/ai/aia/getAtchmnfl.do?houseManageNo=2026930043&pblancNo=2026930043&atchmnflSeqNo=2002247&atchmnflSn=4",
      "bytes": 295307,
      "pages": 15,
-     "chars": 25315,
+     "chars": 25355,
      "head": "- 1 - ※ 본 아파트는 불법행위재공급으로 최초 계약 당시 선택되었던 발코니 확장 및 추가 선택품목(옵션)을 승계하는 조건인바, 청약 시 이 "
     }
    ],
    "chosen": "https://static.applyhome.co.kr/ai/aia/getAtchmnfl.do?houseManageNo=2026930043&pblancNo=2026930043&atchmnflSeqNo=2002247&atchmnflSn=4",
    "pages": 15,
    "pages_read": 15,
-   "chars_read": 25329,
+   "chars_read": 25369,
    "empty_pages": [],
    "chars_per_page_min": 801,
    "fields": {
@@ -3173,16 +3152,16 @@
      "url": "https://static.applyhome.co.kr/ai/aia/getAtchmnfl.do?houseManageNo=2026910278&pblancNo=2026910278&atchmnflSeqNo=2010115&atchmnflSn=3",
      "bytes": 398687,
      "pages": 10,
-     "chars": 18470,
+     "chars": 18493,
      "head": "- 1 - ※ 단지 주요정보 (분양문의) 1661-4229 주택유형 규제지역여부 무순위(사후) 자격요건 민영 비규제지역 무순위(사후) 입주자모집"
     }
    ],
    "chosen": "https://static.applyhome.co.kr/ai/aia/getAtchmnfl.do?houseManageNo=2026910278&pblancNo=2026910278&atchmnflSeqNo=2010115&atchmnflSn=3",
    "pages": 10,
    "pages_read": 10,
-   "chars_read": 18479,
+   "chars_read": 18502,
    "empty_pages": [],
-   "chars_per_page_min": 520,
+   "chars_per_page_min": 521,
    "fields": {
     "need_head": false,
     "price_cap": false,
@@ -3230,14 +3209,14 @@
      "url": "https://static.applyhome.co.kr/ai/aia/getAtchmnfl.do?houseManageNo=2026910275&pblancNo=2026910275&atchmnflSeqNo=2007056&atchmnflSn=4",
      "bytes": 282547,
      "pages": 8,
-     "chars": 23741,
+     "chars": 23753,
      "head": "더샵 분당하이스트 - 1 - 더샵 분당하이스트 무순위(사후) 입주자모집공고 구글플레이스토어 애플앱스토어 청약Home 앱 설치 바로가기 공식 홈페"
     }
    ],
    "chosen": "https://static.applyhome.co.kr/ai/aia/getAtchmnfl.do?houseManageNo=2026910275&pblancNo=2026910275&atchmnflSeqNo=2007056&atchmnflSn=4",
    "pages": 8,
    "pages_read": 8,
-   "chars_read": 23748,
+   "chars_read": 23760,
    "empty_pages": [],
    "chars_per_page_min": 2240,
    "fields": {
@@ -3287,14 +3266,14 @@
      "url": "https://static.applyhome.co.kr/ai/aia/getAtchmnfl.do?houseManageNo=2026930042&pblancNo=2026930042&atchmnflSeqNo=2004023&atchmnflSn=2",
      "bytes": 486614,
      "pages": 15,
-     "chars": 26127,
+     "chars": 26171,
      "head": "- 1 - 1 공통 유의사항 ■ 청약 신청 전 반드시 확인하시기 바랍니다. - 본 아파트는 준공이 완료된 아파트로 견본주택 운영이 종료되었으며,"
     }
    ],
    "chosen": "https://static.applyhome.co.kr/ai/aia/getAtchmnfl.do?houseManageNo=2026930042&pblancNo=2026930042&atchmnflSeqNo=2004023&atchmnflSn=2",
    "pages": 15,
    "pages_read": 15,
-   "chars_read": 26141,
+   "chars_read": 26185,
    "empty_pages": [],
    "chars_per_page_min": 1089,
    "fields": {
@@ -3341,14 +3320,14 @@
      "url": "https://static.applyhome.co.kr/ai/aia/getAtchmnfl.do?houseManageNo=2026910269&pblancNo=2026910269&atchmnflSeqNo=2006145&atchmnflSn=2",
      "bytes": 427643,
      "pages": 26,
-     "chars": 56391,
+     "chars": 56423,
      "head": "- 1 - ※ 당첨후 계약을 하지 않아 실수요자의 당첨기회가 상실되어 선의의 피해가 발생되고 있으므로 신중히 판단 후 계약 체결하실 고객들만 청"
     }
    ],
    "chosen": "https://static.applyhome.co.kr/ai/aia/getAtchmnfl.do?houseManageNo=2026910269&pblancNo=2026910269&atchmnflSeqNo=2006145&atchmnflSn=2",
    "pages": 26,
    "pages_read": 26,
-   "chars_read": 56416,
+   "chars_read": 56448,
    "empty_pages": [],
    "chars_per_page_min": 143,
    "fields": {
@@ -3398,16 +3377,16 @@
      "url": "https://static.applyhome.co.kr/ai/aia/getAtchmnfl.do?houseManageNo=2026910257&pblancNo=2026910257&atchmnflSeqNo=2004016&atchmnflSn=7",
      "bytes": 389356,
      "pages": 11,
-     "chars": 19334,
+     "chars": 19368,
      "head": "- 1 - ※ 단지 주요정보 (분양문의) 031-943-4400 주택유형 규제지역여부 무순위(사후) 자격요건 민영 비규제지역 무순위(사후) 입주"
     }
    ],
    "chosen": "https://static.applyhome.co.kr/ai/aia/getAtchmnfl.do?houseManageNo=2026910257&pblancNo=2026910257&atchmnflSeqNo=2004016&atchmnflSn=7",
    "pages": 11,
    "pages_read": 11,
-   "chars_read": 19344,
+   "chars_read": 19378,
    "empty_pages": [],
-   "chars_per_page_min": 1400,
+   "chars_per_page_min": 1406,
    "fields": {
     "need_head": false,
     "price_cap": true,
@@ -3455,16 +3434,16 @@
      "url": "https://static.applyhome.co.kr/ai/aia/getAtchmnfl.do?houseManageNo=2026910271&pblancNo=2026910271&atchmnflSeqNo=2001042&atchmnflSn=3",
      "bytes": 444966,
      "pages": 13,
-     "chars": 22026,
+     "chars": 22062,
      "head": "- 1 - ※ 단지 주요정보 분양문의( ) 032-834-8890 주택유형 규제지역여부 무순위 사후 자격요건( ) 민영 비규제지역 무순위 사후 "
     }
    ],
    "chosen": "https://static.applyhome.co.kr/ai/aia/getAtchmnfl.do?houseManageNo=2026910271&pblancNo=2026910271&atchmnflSeqNo=2001042&atchmnflSn=3",
    "pages": 13,
    "pages_read": 13,
-   "chars_read": 22038,
+   "chars_read": 22074,
    "empty_pages": [],
-   "chars_per_page_min": 939,
+   "chars_per_page_min": 941,
    "fields": {
     "need_head": false,
     "price_cap": false,
@@ -3520,16 +3499,16 @@
      "url": "https://static.applyhome.co.kr/ai/aia/getAtchmnfl.do?houseManageNo=2026910270&pblancNo=2026910270&atchmnflSeqNo=2002061&atchmnflSn=5",
      "bytes": 1397630,
      "pages": 16,
-     "chars": 40083,
+     "chars": 40116,
      "head": "- 1 - ※ 견본주택에 주차가 불가하오니, 대중교통을 이용하시기 바랍니다. ※ 청약 전 유의사항 (분양문의) 1660-1245 구분 내용 재당"
     }
    ],
    "chosen": "https://static.applyhome.co.kr/ai/aia/getAtchmnfl.do?houseManageNo=2026910270&pblancNo=2026910270&atchmnflSeqNo=2002061&atchmnflSn=5",
    "pages": 16,
    "pages_read": 16,
-   "chars_read": 40098,
+   "chars_read": 40131,
    "empty_pages": [],
-   "chars_per_page_min": 1678,
+   "chars_per_page_min": 1681,
    "fields": {
     "need_head": false,
     "price_cap": false,
@@ -3577,14 +3556,14 @@
      "url": "https://static.applyhome.co.kr/ai/aia/getAtchmnfl.do?houseManageNo=2026930044&pblancNo=2026930044&atchmnflSeqNo=2002159&atchmnflSn=3",
      "bytes": 294553,
      "pages": 17,
-     "chars": 24908,
+     "chars": 24928,
      "head": "- 1 - ※ 단지 주요정보 (분양문의) 031-898-9447 주택유형 규제지역여부 거주요건 재당첨제한 민영 투기과열지구/청약과열지역 경기도 "
     }
    ],
    "chosen": "https://static.applyhome.co.kr/ai/aia/getAtchmnfl.do?houseManageNo=2026930044&pblancNo=2026930044&atchmnflSeqNo=2002159&atchmnflSn=3",
    "pages": 17,
    "pages_read": 17,
-   "chars_read": 24924,
+   "chars_read": 24944,
    "empty_pages": [],
    "chars_per_page_min": 711,
    "fields": {
@@ -3634,14 +3613,14 @@
      "url": "https://static.applyhome.co.kr/ai/aia/getAtchmnfl.do?houseManageNo=2026910268&pblancNo=2026910268&atchmnflSeqNo=1998046&atchmnflSn=3",
      "bytes": 238922,
      "pages": 10,
-     "chars": 17385,
+     "chars": 17411,
      "head": "- 1 - ※ 단지 주요정보 (분양문의) 031-311-0230 주택유형 규제지역여부 무순위(사후) 자격요건 민영 비규제지역 무순위(사후) 입주"
     }
    ],
    "chosen": "https://static.applyhome.co.kr/ai/aia/getAtchmnfl.do?houseManageNo=2026910268&pblancNo=2026910268&atchmnflSeqNo=1998046&atchmnflSn=3",
    "pages": 10,
    "pages_read": 10,
-   "chars_read": 17394,
+   "chars_read": 17420,
    "empty_pages": [],
    "chars_per_page_min": 621,
    "fields": {
@@ -3691,14 +3670,14 @@
      "url": "https://static.applyhome.co.kr/ai/aia/getAtchmnfl.do?houseManageNo=2026910266&pblancNo=2026910266&atchmnflSeqNo=2002121&atchmnflSn=2",
      "bytes": 278727,
      "pages": 14,
-     "chars": 28120,
+     "chars": 28150,
      "head": "- 1 - ※ 단지 주요정보 (분양문의) 1551-8454 주택유형 규제지역여부 무순위(사후) 자격요건 민영 비규제지역 무순위(사후) 입주자모집"
     }
    ],
    "chosen": "https://static.applyhome.co.kr/ai/aia/getAtchmnfl.do?houseManageNo=2026910266&pblancNo=2026910266&atchmnflSeqNo=2002121&atchmnflSn=2",
    "pages": 14,
    "pages_read": 14,
-   "chars_read": 28133,
+   "chars_read": 28163,
    "empty_pages": [],
    "chars_per_page_min": 309,
    "fields": {
@@ -3748,14 +3727,14 @@
      "url": "https://static.applyhome.co.kr/ai/aia/getAtchmnfl.do?houseManageNo=2026910265&pblancNo=2026910265&atchmnflSeqNo=2002157&atchmnflSn=3",
      "bytes": 234355,
      "pages": 10,
-     "chars": 16938,
+     "chars": 16946,
      "head": "- 1 - ※ 단지 주요정보 (분양문의) 031-898-9447 주택유형 규제지역여부 무순위(사후) 자격요건 민영 투기과열지구/청약과열지역 무순"
     }
    ],
    "chosen": "https://static.applyhome.co.kr/ai/aia/getAtchmnfl.do?houseManageNo=2026910265&pblancNo=2026910265&atchmnflSeqNo=2002157&atchmnflSn=3",
    "pages": 10,
    "pages_read": 10,
-   "chars_read": 16947,
+   "chars_read": 16955,
    "empty_pages": [],
    "chars_per_page_min": 716,
    "fields": {
@@ -3795,177 +3774,6 @@
     }
    },
    "pdfium_chars": 17085,
-   "problem": []
-  },
-  {
-   "notice": "2026910264",
-   "name": "시흥 은계 에피트(조합원 취소분)",
-   "url": "https://www.applyhome.co.kr/ai/aia/selectAPTRemndrLttotPblancDetailView.do?houseManageNo=2026910264&pblancNo=2026910264",
-   "attachments": 1,
-   "pdfs": 1,
-   "attachment_list": [
-    {
-     "url": "https://static.applyhome.co.kr/ai/aia/getAtchmnfl.do?houseManageNo=2026910264&pblancNo=2026910264&atchmnflSeqNo=1996222&atchmnflSn=3",
-     "bytes": 339960,
-     "pages": 10,
-     "chars": 14778,
-     "head": "- 1 - ※ 단지 주요정보 (분양문의)031-318-4998 주택유형 규제지역여부 무순위(사후) 자격요건 민영 비규제지역 무순위(사후) 입주자"
-    }
-   ],
-   "chosen": "https://static.applyhome.co.kr/ai/aia/getAtchmnfl.do?houseManageNo=2026910264&pblancNo=2026910264&atchmnflSeqNo=1996222&atchmnflSn=3",
-   "pages": 10,
-   "pages_read": 10,
-   "chars_read": 14787,
-   "empty_pages": [],
-   "chars_per_page_min": 592,
-   "fields": {
-    "need_head": false,
-    "price_cap": false,
-    "residence_duty": 0,
-    "rewin_years": 0,
-    "residence": {
-     "area": null,
-     "months": 0,
-     "since": null
-    }
-   },
-   "fields_merged": {
-    "need_head": false,
-    "price_cap": false,
-    "residence_duty": 0,
-    "rewin_years": 0,
-    "residence": {
-     "area": null,
-     "months": 0,
-     "since": null
-    }
-   },
-   "fields_pdfium": {
-    "need_head": false,
-    "price_cap": false,
-    "residence_duty": 0,
-    "rewin_years": 0,
-    "residence": {
-     "area": null,
-     "months": 0,
-     "since": null
-    }
-   },
-   "pdfium_chars": 15005,
-   "problem": []
-  },
-  {
-   "notice": "2026910261",
-   "name": "올 뉴 챔피언스시티 1차",
-   "url": "https://www.applyhome.co.kr/ai/aia/selectAPTRemndrLttotPblancDetailView.do?houseManageNo=2026910261&pblancNo=2026910261",
-   "attachments": 1,
-   "pdfs": 1,
-   "attachment_list": [
-    {
-     "url": "https://static.applyhome.co.kr/ai/aia/getAtchmnfl.do?houseManageNo=2026910261&pblancNo=2026910261&atchmnflSeqNo=1999120&atchmnflSn=5",
-     "bytes": 318384,
-     "pages": 14,
-     "chars": 35160,
-     "head": "- 1 - ※ 단지 주요정보 (분양문의) 1599-0199 주택유형 규제지역여부 무순위(사후) 자격요건 민영 비규제지역 무순위(사후) 입주자모집"
-    }
-   ],
-   "chosen": "https://static.applyhome.co.kr/ai/aia/getAtchmnfl.do?houseManageNo=2026910261&pblancNo=2026910261&atchmnflSeqNo=1999120&atchmnflSn=5",
-   "pages": 14,
-   "pages_read": 14,
-   "chars_read": 35173,
-   "empty_pages": [],
-   "chars_per_page_min": 1089,
-   "fields": {
-    "need_head": false,
-    "price_cap": false,
-    "residence_duty": 0,
-    "rewin_years": 0,
-    "residence": {
-     "area": null,
-     "months": 0,
-     "since": null
-    }
-   },
-   "fields_merged": {
-    "need_head": false,
-    "price_cap": false,
-    "residence_duty": 0,
-    "rewin_years": 0,
-    "residence": {
-     "area": null,
-     "months": 0,
-     "since": null
-    }
-   },
-   "fields_pdfium": {
-    "need_head": false,
-    "price_cap": false,
-    "residence_duty": 0,
-    "rewin_years": 0,
-    "residence": {
-     "area": null,
-     "months": 0,
-     "since": null
-    }
-   },
-   "pdfium_chars": 35163,
-   "problem": []
-  },
-  {
-   "notice": "2026910260",
-   "name": "의왕역 한신더휴",
-   "url": "https://www.applyhome.co.kr/ai/aia/selectAPTRemndrLttotPblancDetailView.do?houseManageNo=2026910260&pblancNo=2026910260",
-   "attachments": 1,
-   "pdfs": 1,
-   "attachment_list": [
-    {
-     "url": "https://static.applyhome.co.kr/ai/aia/getAtchmnfl.do?houseManageNo=2026910260&pblancNo=2026910260&atchmnflSeqNo=1994055&atchmnflSn=3",
-     "bytes": 295173,
-     "pages": 12,
-     "chars": 20200,
-     "head": "- 1 - ※ 단지 주요정보 (분양문의) 1566-0879 주택유형 규제지역여부 무순위(사후) 자격요건 민영 투기과열지구/청약과열지역 무순위(사"
-    }
-   ],
-   "chosen": "https://static.applyhome.co.kr/ai/aia/getAtchmnfl.do?houseManageNo=2026910260&pblancNo=2026910260&atchmnflSeqNo=1994055&atchmnflSn=3",
-   "pages": 12,
-   "pages_read": 12,
-   "chars_read": 20211,
-   "empty_pages": [],
-   "chars_per_page_min": 740,
-   "fields": {
-    "need_head": false,
-    "price_cap": false,
-    "residence_duty": 0,
-    "rewin_years": 10,
-    "residence": {
-     "area": null,
-     "months": 0,
-     "since": null
-    }
-   },
-   "fields_merged": {
-    "need_head": false,
-    "price_cap": false,
-    "residence_duty": 0,
-    "rewin_years": 10,
-    "residence": {
-     "area": null,
-     "months": 0,
-     "since": null
-    }
-   },
-   "fields_pdfium": {
-    "need_head": false,
-    "price_cap": false,
-    "residence_duty": 0,
-    "rewin_years": 10,
-    "residence": {
-     "area": null,
-     "months": 0,
-     "since": null
-    }
-   },
-   "pdfium_chars": 20422,
    "problem": []
   }
  ]
