@@ -1,8 +1,14 @@
 {
- "at": "2026-11-06 11:43",
+ "at": "2026-11-07 07:46",
  "ok": false,
- "collect_run": "2026-11-06 · 공고 274건",
- "banner": null,
+ "collect_run": "2026-11-07 · 공고 286건",
+ "banner": {
+  "kind": "judge",
+  "text": "최근 자동 검증에서 판정 계산이 기대와 달라 확인 중이에요.",
+  "why": [
+   "입력 버튼 2건"
+  ]
+ },
  "flagged": {
   "2015122300021022": [
    "자동 검증(임대 공고문 못 읽음): 일반 신청 가능 거주지역을 공고문에서 읽지 못함 — 공고문 확인",
@@ -11,45 +17,50 @@
    "자동 검증(임대 공고문 못 읽음): 일반 자동차 기준을 공고문에서 읽지 못함 — 공고문 확인"
   ]
  },
- "pending": [],
+ "pending": [
+  "임대 기관 거르기 화면",
+  "경고 범위 화면",
+  "임대 판정",
+  "임대 화면"
+ ],
  "coverage_missing": 0,
  "observe": [],
  "warnings": [],
  "freshness": [
   {
    "name": "분양",
-   "updated": "2026-11-06 07:46",
-   "hours": 4.0,
+   "updated": "2026-11-07 07:28",
+   "hours": 0.3,
    "stale": false
   },
   {
    "name": "LH 임대",
    "updated": "2026-11-06 10:47",
-   "hours": 0.9,
+   "hours": 21.0,
    "stale": false
   },
   {
    "name": "SH 임대",
    "updated": "2026-11-06 10:50",
-   "hours": 0.9,
+   "hours": 20.9,
    "stale": false
   },
   {
    "name": "GH 임대",
    "updated": "2026-11-06 10:51",
-   "hours": 0.9,
+   "hours": 20.9,
    "stale": false
   },
   {
    "name": "공공지원 민간임대",
    "updated": "2026-11-06 10:59",
-   "hours": 0.7,
+   "hours": 20.8,
    "stale": false
   },
   {
    "name": "LH 주거복지·신혼희망",
    "updated": "2026-11-06 10:50",
-   "hours": 0.9,
+   "hours": 20.9,
    "stale": false
   }
  ],
@@ -59,13 +70,18 @@
   "failed": []
  },
  "crosscheck": {
-  "summary": "[검증·공고문] 공고문 65건 대조 · 기준표 256줄 · 분양가 274/274 일치 · 불일치 공고 0건",
+  "summary": "[검증·공고문] 공고문 68건 대조 · 기준표 280줄 · 분양가 282/282 일치 · 불일치 공고 0건",
   "mismatches": []
  },
  "golden": {
   "mismatches": []
  },
- "qa_stale": [],
+ "qa_stale": [
+  "rent-org.json",
+  "verify-scope.json",
+  "lh-qa.json",
+  "lh-screen.json"
+ ],
  "qa": {
   "gate": true,
   "supply_type_fails": 0,
@@ -78,24 +94,24 @@
   "profile_keep_fails": 0,
   "monotonic_violations": 0,
   "zero_default_violations": 0,
-  "input_nav_problems": 0,
+  "input_nav_problems": 2,
   "snapshot_diffs": 0,
   "e2e_fails": 0,
   "past_chat_fails": 0,
   "lh_invariant_violations": 0,
-  "lh_judge_qa_fails": 0,
-  "lh_screen_fails": 0,
+  "lh_judge_qa_fails": null,
+  "lh_screen_fails": null,
   "lh_unread": 4,
   "lh_pdf_merged_wrong": 0,
   "pay_audit_bad": 0,
   "parse_moved_changes": 0,
   "coverage_missing": 0,
-  "verify_scope_fails": 0,
+  "verify_scope_fails": null,
   "pay_audit_read": "168/184",
   "lh_data_at": "2026-11-06 10:47",
-  "cross_rule_checks": 327412,
-  "market_at": "2026-11-06",
+  "cross_rule_checks": 328852,
+  "market_at": "2026-11-07",
   "supply_type_at": "2026-11-06",
-  "invariants_at": "2026-11-06"
+  "invariants_at": "2026-11-07"
  }
 }
