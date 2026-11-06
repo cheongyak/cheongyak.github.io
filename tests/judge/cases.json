@@ -8934,6 +8934,122 @@
   "basis": "해당지역 2년 이상(광명)·인천 거주(기간 요건 없음) → 기타지역 수도권 → 그 밖은 신청 불가 (2026000453·414 신청자격)"
  },
  {
+  "id": "res-jeju-00",
+  "fn": "residence",
+  "listing": "2026000434-059.9783A",
+  "profile": {
+   "homeSido": "제주",
+   "homeSigun": "제주시",
+   "sidoOwnSince": "2015-01-01",
+   "sidoSince": "2015-01-01",
+   "areaSince": "2015-01-01",
+   "_set": [
+    "spouseOwn",
+    "spouseIncome",
+    "spouseLoan",
+    "recentWin",
+    "acctAmount",
+    "cash",
+    "liquid",
+    "deposit",
+    "income",
+    "loanMonthly"
+   ]
+  },
+  "expect": {
+   "s": "ok",
+   "v": "해당지역"
+  },
+  "basis": "2026000434 '입주자모집공고일(2026.10.27.) 현재 제주특별자치도 1년 이상 계속 거주자(2025.10.27. 이전부터 계속 거주)에게 우선 공급' · 기타지역 '제주특별자치도 1년 미만 계속 거주자'"
+ },
+ {
+  "id": "res-jeju-01",
+  "fn": "residence",
+  "listing": "2026000434-059.9783A",
+  "profile": {
+   "homeSido": "제주",
+   "homeSigun": "제주시",
+   "sidoOwnSince": "2025-10-27",
+   "sidoSince": "2025-10-27",
+   "areaSince": "2025-10-27",
+   "_set": [
+    "spouseOwn",
+    "spouseIncome",
+    "spouseLoan",
+    "recentWin",
+    "acctAmount",
+    "cash",
+    "liquid",
+    "deposit",
+    "income",
+    "loanMonthly"
+   ]
+  },
+  "expect": {
+   "s": "ok",
+   "v": "해당지역"
+  },
+  "basis": "2026000434 '입주자모집공고일(2026.10.27.) 현재 제주특별자치도 1년 이상 계속 거주자(2025.10.27. 이전부터 계속 거주)에게 우선 공급' · 기타지역 '제주특별자치도 1년 미만 계속 거주자'"
+ },
+ {
+  "id": "res-jeju-02",
+  "fn": "residence",
+  "listing": "2026000434-059.9783A",
+  "profile": {
+   "homeSido": "제주",
+   "homeSigun": "제주시",
+   "sidoOwnSince": "2025-10-28",
+   "sidoSince": "2025-10-28",
+   "areaSince": "2025-10-28",
+   "_set": [
+    "spouseOwn",
+    "spouseIncome",
+    "spouseLoan",
+    "recentWin",
+    "acctAmount",
+    "cash",
+    "liquid",
+    "deposit",
+    "income",
+    "loanMonthly"
+   ]
+  },
+  "expect": {
+   "s": "ok",
+   "v": "기타지역"
+  },
+  "basis": "2026000434 '입주자모집공고일(2026.10.27.) 현재 제주특별자치도 1년 이상 계속 거주자(2025.10.27. 이전부터 계속 거주)에게 우선 공급' · 기타지역 '제주특별자치도 1년 미만 계속 거주자'"
+ },
+ {
+  "id": "res-jeju-03",
+  "fn": "residence",
+  "listing": "2026000434-059.9783A",
+  "profile": {
+   "homeSido": "서울",
+   "homeSigun": "",
+   "sidoOwnSince": "2015-01-01",
+   "sidoSince": "2015-01-01",
+   "areaSince": "2015-01-01",
+   "_set": [
+    "spouseOwn",
+    "spouseIncome",
+    "spouseLoan",
+    "recentWin",
+    "acctAmount",
+    "cash",
+    "liquid",
+    "deposit",
+    "income",
+    "loanMonthly"
+   ]
+  },
+  "expect": {
+   "s": "fail",
+   "v": "신청 불가"
+  },
+  "basis": "2026000434 '입주자모집공고일(2026.10.27.) 현재 제주특별자치도 1년 이상 계속 거주자(2025.10.27. 이전부터 계속 거주)에게 우선 공급' · 기타지역 '제주특별자치도 1년 미만 계속 거주자'"
+ },
+ {
   "id": "audit-000",
   "fn": "score",
   "listing": "2026000453-059.9742A",
