@@ -1,5 +1,5 @@
 {
- "updated": "2026-11-07 15:38",
+ "updated": "2026-11-07 16:04",
  "source": "LH 청약플러스 임대 공고 (공공데이터포털 한국토지주택공사 분양임대공고 조회)",
  "count": 44,
  "notices": [
@@ -6139,7 +6139,30 @@
      "heating": null
     }
    ],
-   "units": [],
+   "units": [
+    {
+     "complex": "오산세교2 A-6블록 영구임대주택",
+     "type": "26D",
+     "area": 26.35,
+     "supply_area": 40.9222,
+     "households": 242,
+     "now_households": 60,
+     "deposit": null,
+     "rent": null,
+     "money_note": "공고문 참조"
+    },
+    {
+     "complex": "오산세교2 A-6블록 영구임대주택",
+     "type": "26D(주거약자용)",
+     "area": 26.35,
+     "supply_area": 40.9222,
+     "households": 14,
+     "now_households": 10,
+     "deposit": null,
+     "rent": null,
+     "money_note": "공고문 참조"
+    }
+   ],
    "files": [
     {
      "kind": "기타 첨부파일",
@@ -7936,13 +7959,49 @@
    "status": "공고중",
    "url": "https://apply.lh.or.kr/lhapply/apply/wt/wrtanc/selectWrtancInfo.do?panId=2015122300021017&ccrCnntSysDsCd=03&uppAisTpCd=06&aisTpCd=07&mi=1026",
    "url_mobile": "https://apply.lh.or.kr/lhapply/apply/wt/wrtanc/selectWrtancInfo.do?panId=2015122300021017&ccrCnntSysDsCd=03&uppAisTpCd=06&aisTpCd=07&mi=1026",
-   "schedule": [],
-   "complexes": [],
+   "schedule": [
+    {
+     "complex": null,
+     "apply_start": "2026-11-25",
+     "apply_end": "2026-11-26",
+     "apply_time": "~",
+     "docs_target": null,
+     "docs_start": null,
+     "docs_end": null,
+     "winner": "2027-01-21",
+     "contract_start": null,
+     "contract_end": null
+    }
+   ],
+   "complexes": [
+    {
+     "name": "익산한스빌",
+     "address": "전북특별자치도 익산시 목천로 30-14(목천동,한스빌아파트) 30-14 (한스빌아파트)",
+     "households": 746,
+     "area": "26.4673~26.5195",
+     "move_in": "2016.05",
+     "heating": "개별가스난방"
+    }
+   ],
    "units": [],
-   "files": [],
+   "files": [
+    {
+     "kind": "공고문(hwp)",
+     "name": "익산한스빌국민임대주택예비입주자자격완화모집공고문(2026.11.04).hwpx",
+     "url": "https://apply.lh.or.kr/lhapply/lhFile.do?fileid=69296594"
+    },
+    {
+     "kind": "공고문(PDF)",
+     "name": "익산한스빌국민임대주택예비입주자자격완화모집공고문(2026.11.04).pdf",
+     "url": "https://apply.lh.or.kr/lhapply/lhFile.do?fileid=69296595"
+    }
+   ],
    "etc": null,
-   "office": null,
-   "notice_pdf": null,
+   "office": {
+    "place": "전북특별자치도 익산시 목천로 30-14(목천동,한스빌아파트) 2층 관리사무소",
+    "tel": "063-843-0039"
+   },
+   "notice_pdf": "https://apply.lh.or.kr/lhapply/lhFile.do?fileid=69296595",
    "notice_text": 47373,
    "rents": [
     {
