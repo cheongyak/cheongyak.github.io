@@ -8,7 +8,13 @@
   "읽기 도구에 따라 값이 다름": 1,
   "글자가 거의 없는 쪽 N개 (스캔 이미지·표 그림 추정)": 5
  },
- "errors": [],
+ "errors": [
+  {
+   "notice": "2026000495",
+   "name": "연산 센텀 월드메르디앙",
+   "error": "RemoteProtocolError: Server disconnected without sending a response."
+  }
+ ],
  "results": [
   {
    "notice": "2026820015",
@@ -912,8 +918,8 @@
     "rewin_years": 10,
     "residence": {
      "area": "제주특별자치도",
-     "months": 0,
-     "since": null
+     "months": 12,
+     "since": "2025-10-27"
     },
     "pub_limits_kind": "total"
    },
@@ -923,8 +929,8 @@
     "rewin_years": 10,
     "residence": {
      "area": "제주특별자치도",
-     "months": 0,
-     "since": null
+     "months": 12,
+     "since": "2025-10-27"
     },
     "pub_limits_kind": "total"
    },
@@ -934,8 +940,8 @@
     "rewin_years": 10,
     "residence": {
      "area": "제주특별자치도",
-     "months": 0,
-     "since": null
+     "months": 12,
+     "since": "2025-10-27"
     },
     "pub_limits_kind": "total"
    },
@@ -974,8 +980,8 @@
     "rewin_years": 10,
     "residence": {
      "area": "제주특별자치도",
-     "months": 0,
-     "since": null
+     "months": 12,
+     "since": "2025-10-27"
     },
     "pub_limits_kind": "total"
    },
@@ -985,8 +991,8 @@
     "rewin_years": 10,
     "residence": {
      "area": "제주특별자치도",
-     "months": 0,
-     "since": null
+     "months": 12,
+     "since": "2025-10-27"
     },
     "pub_limits_kind": "total"
    },
@@ -996,8 +1002,8 @@
     "rewin_years": 10,
     "residence": {
      "area": "제주특별자치도",
-     "months": 0,
-     "since": null
+     "months": 12,
+     "since": "2025-10-27"
     },
     "pub_limits_kind": "total"
    },
@@ -1700,62 +1706,7 @@
   {
    "notice": "2026000495",
    "name": "연산 센텀 월드메르디앙",
-   "url": "https://www.applyhome.co.kr/ai/aia/selectAPTLttotPblancDetail.do?houseManageNo=2026000495&pblancNo=2026000495",
-   "attachments": 1,
-   "pdfs": 1,
-   "attachment_list": [
-    {
-     "url": "https://static.applyhome.co.kr/ai/aia/getAtchmnfl.do?houseManageNo=2026000495&pblancNo=2026000495&atchmnflSeqNo=2000036&atchmnflSn=8",
-     "bytes": 783751,
-     "pages": 59,
-     "chars": 114033,
-     "head": "- 1 - ※ 단지 주요정보 (분양문의) 051-758-0900 주택유형 해당지역 기타지역 규제지역여부 민영 부산광역시 1년 이상 계속 거주자 "
-    }
-   ],
-   "chosen": "https://static.applyhome.co.kr/ai/aia/getAtchmnfl.do?houseManageNo=2026000495&pblancNo=2026000495&atchmnflSeqNo=2000036&atchmnflSn=8",
-   "pages": 59,
-   "pages_read": 59,
-   "chars_read": 114091,
-   "empty_pages": [],
-   "chars_per_page_min": 555,
-   "fields": {
-    "need_head": false,
-    "price_cap": false,
-    "residence_duty": 0,
-    "rewin_years": 0,
-    "account_months": 6,
-    "residence": {
-     "area": "부산광역시",
-     "months": 12,
-     "since": "2025-10-16"
-    }
-   },
-   "fields_merged": {
-    "need_head": false,
-    "price_cap": false,
-    "residence_duty": 0,
-    "rewin_years": 0,
-    "account_months": 6,
-    "residence": {
-     "area": "부산광역시",
-     "months": 12,
-     "since": "2025-10-16"
-    }
-   },
-   "fields_pdfium": {
-    "need_head": false,
-    "price_cap": false,
-    "residence_duty": 0,
-    "rewin_years": 0,
-    "account_months": 6,
-    "residence": {
-     "area": "부산광역시",
-     "months": 12,
-     "since": "2025-10-16"
-    }
-   },
-   "pdfium_chars": 114582,
-   "problem": []
+   "error": "RemoteProtocolError: Server disconnected without sending a response."
   },
   {
    "notice": "2026000373",
