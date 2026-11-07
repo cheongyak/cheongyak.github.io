@@ -12,6 +12,7 @@
 from __future__ import annotations
 
 import json
+from urllib.parse import quote
 import os
 import re
 import time
@@ -236,7 +237,7 @@ def main() -> int:
         LOG.parent.mkdir(parents=True, exist_ok=True)
         LOG.write_text("\n".join(log + ["DATA_GO_KR_KEY 없음 — 건너뜀"]) + "\n", encoding="utf-8")
         return 0
-    scrub = lambda s: s.replace(key, "***")
+    scrub = lambda s: s.replace(key, "***").replace(quote(key, safe=""), "***")   # 인코딩된 키도 가림
     http = httpx.Client(timeout=httpx.Timeout(40, connect=10), follow_redirects=True, headers=UA)
 
     def api(url, **params):
@@ -257,6 +258,8 @@ def main() -> int:
         got = [x for part in (j if isinstance(j, list) else [j]) if isinstance(part, dict)
                for k, v in part.items() if isinstance(v, list) and k != "dsSch" and not k.endswith("Nm") for x in v if isinstance(x, dict) and x.get("PAN_ID")]
         log.append(f"[목록] {page}쪽 HTTP {st} · {len(got)}건")
+        if not got and page == 1:   # 0건일 때 응답 앞부분(인증키 가림) — 'LH 목록 API 0건' 원인을 Actions 기록에서 보려고 (2026-11-07 아침 5번 실패)
+            log.append("[목록] 응답 앞부분: " + scrub(json.dumps(j, ensure_ascii=False))[:400])
         rows += got
         if len(got) < 100:
             break
@@ -264,6 +267,7 @@ def main() -> int:
         log.append("[경고] 목록이 비어 있음 — 이전 파일을 그대로 둠")
         LOG.parent.mkdir(parents=True, exist_ok=True)
         LOG.write_text("\n".join(log) + "\n", encoding="utf-8")
+        print("\n".join(log))   # 실패하면 기록 파일이 올라가지 않아 Actions 화면에 남긴다
         return 1
 
     # 지금 신청할 수 있거나 곧 열리는 공고만 (마감일이 오늘 이후). 같은 공고가 정정되면 PAN_ID 가 같다.
