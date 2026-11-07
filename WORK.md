@@ -4,6 +4,15 @@
 2026-09-29 12:55 이전 항목은 규칙을 만들기 전 작업을 커밋 기록으로 정리한 것이라 백업 브랜치가 없어요.
 그 시점으로 되돌릴 때는 해당 커밋 번호로 `git revert` 를 써요.
 
+## 2026-11-07 09:20 · 제주 토지임대부(2026000434·435) 거주 요건 '1년 이상 우선' 읽기 (밤 자동 개선 PR #100 합침, v1.84.8)
+- 요청: 운영자 '현재 이슈 있는 부분 하나씩 확인해서 해결해줘' — 열린 자동 개선 PR #100 (주간 원문 대조 2026-11-02 P1)
+- 변경: PR 그대로(거주 요건 요약 표 머리 '공공' 읽기, 정답 데이터 434·435 residence, 판정 사례 res-jeju 4건). PR 은 같은 날 올린 v1.84.7(같은 함수 옆 줄)·PARSER_VERSION 53 과 겹쳐 그대로 합칠 수 없어 main 위에 두 커밋을 옮겨 얹고 PARSER_VERSION 을 54 로(두 고침 설명 모두 남김)
+- 파일: app/notice_pdf.py, app/pipeline.py, tests/golden/notices.json, tools/make_judge_cases.py, tests/judge/cases.json, tests/judge/listings.json, docs/changelog.json, VERSIONS.md, WORK.md
+- 확인: test_residence(정답 데이터 434·435 포함)·v1.84.7 시험·광교·parse_snapshot 33 통과, python -m tools.make_judge_cases 로 다시 만들어도 cases.json 그대로(974건), judge_check 974/974, 전체 pytest 실패는 작업 환경 stub 14개뿐(작업 전과 같음). 합친 뒤 수집에서 2026000434·435 residence months 12·since 2025-10-27 확인할 것
+- 기능: 없음(수정)
+- 버전: v1.84.8
+- 백업: backup/20261107-0819 (같은 작업 묶음)
+
 ## 2026-11-07 09:10 · LH 임대 수집 '목록 0건' 실패 때 응답을 Actions 기록에 남김
 - 요청: 운영자 '현재 이슈 있는 부분 하나씩 확인해서 해결해줘'
 - 변경: 11-07 아침 LH 임대 수집이 07:47~08:45 여섯 번 모두 'LH 목록 API 0건'(app/lh_rental.py return 1)으로 실패. 실패하면 기록 파일(evidence/qa/lh-rental-log.txt)이 올라가지 않아 HTTP 상태·응답을 볼 수 없었음 → 0건이면 첫 쪽 응답 앞부분 400자(인증키·인코딩된 키 가림)를 기록에 넣고, 실패할 때 기록을 표준 출력에도 남김(Actions 화면)
