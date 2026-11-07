@@ -1,13 +1,14 @@
 {
- "at": "2026-11-07 22:43",
+ "at": "2026-11-08 07:38",
  "ok": true,
- "collect_run": "2026-11-07 · 공고 286건",
+ "collect_run": "2026-11-08 · 공고 286건",
  "banner": null,
  "flagged": {},
  "pending": [
-  "시세 원자료 대조",
-  "다시 받은 공고문 값 변화",
-  "공고 누락 점검"
+  "임대 기관 거르기 화면",
+  "경고 범위 화면",
+  "임대 판정",
+  "임대 화면"
  ],
  "coverage_missing": 0,
  "observe": [],
@@ -15,38 +16,38 @@
  "freshness": [
   {
    "name": "분양",
-   "updated": "2026-11-07 16:16",
-   "hours": 6.5,
+   "updated": "2026-11-08 07:22",
+   "hours": 0.3,
    "stale": false
   },
   {
    "name": "LH 임대",
    "updated": "2026-11-07 22:06",
-   "hours": 0.6,
+   "hours": 9.5,
    "stale": false
   },
   {
    "name": "SH 임대",
    "updated": "2026-11-07 10:18",
-   "hours": 12.4,
+   "hours": 21.3,
    "stale": false
   },
   {
    "name": "GH 임대",
    "updated": "2026-11-07 10:20",
-   "hours": 12.4,
+   "hours": 21.3,
    "stale": false
   },
   {
    "name": "공공지원 민간임대",
    "updated": "2026-11-07 10:36",
-   "hours": 12.1,
+   "hours": 21.0,
    "stale": false
   },
   {
    "name": "LH 주거복지·신혼희망",
    "updated": "2026-11-07 22:05",
-   "hours": 0.6,
+   "hours": 9.6,
    "stale": false
   }
  ],
@@ -56,16 +57,17 @@
   "failed": []
  },
  "crosscheck": {
-  "summary": "[검증·공고문] 공고문 68건 대조 · 기준표 280줄 · 분양가 282/282 일치 · 불일치 공고 0건",
+  "summary": "[검증·공고문] 공고문 69건 대조 · 기준표 293줄 · 분양가 286/286 일치 · 불일치 공고 0건",
   "mismatches": []
  },
  "golden": {
   "mismatches": []
  },
  "qa_stale": [
-  "market-check.json",
-  "parse-moved.json",
-  "coverage.json"
+  "rent-org.json",
+  "verify-scope.json",
+  "lh-qa.json",
+  "lh-screen.json"
  ],
  "qa": {
   "gate": true,
@@ -74,7 +76,7 @@
   "filter_fails": 0,
   "consistency_fails": 0,
   "sp_text_fails": 0,
-  "market_fails": null,
+  "market_fails": 0,
   "cross_rule_fails": 0,
   "profile_keep_fails": 0,
   "monotonic_violations": 0,
@@ -84,19 +86,19 @@
   "e2e_fails": 0,
   "past_chat_fails": 0,
   "lh_invariant_violations": 0,
-  "lh_judge_qa_fails": 0,
-  "lh_screen_fails": 0,
+  "lh_judge_qa_fails": null,
+  "lh_screen_fails": null,
   "lh_unread": 0,
   "lh_pdf_merged_wrong": 0,
   "pay_audit_bad": 0,
-  "parse_moved_changes": null,
-  "coverage_missing": null,
-  "verify_scope_fails": 0,
+  "parse_moved_changes": 0,
+  "coverage_missing": 0,
+  "verify_scope_fails": null,
   "pay_audit_read": "174/190",
   "lh_data_at": "2026-11-07 22:06",
   "cross_rule_checks": 332524,
-  "market_at": null,
+  "market_at": "2026-11-08",
   "supply_type_at": "2026-11-07",
-  "invariants_at": "2026-11-07"
+  "invariants_at": "2026-11-08"
  }
 }
