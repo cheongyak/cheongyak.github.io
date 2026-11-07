@@ -183,13 +183,21 @@ def save_alt_texts(nid: str, data: bytes) -> str:
     return ", ".join(out)
 
 
+def _body_hint(b: bytes) -> str:
+    """파일 대신 짧은 HTML 이 오면 그 글(안내 문구)을 기록에 남긴다 (11-07 정정공고 0000061206 '263바이트 text/html')."""
+    if not b or len(b) > 2000 or b[:4] in (b"%PDF", b"PK\x03\x04"):
+        return ""
+    t = re.sub(r"\s+", " ", b.decode("utf-8", "replace")).strip()
+    return f" 내용: {t[:200]}" if t else ""
+
+
 def fetch_pdf(http: httpx.Client, url: str, referer: Optional[str]) -> tuple[Optional[bytes], str]:
     try:
         r = http.get(url, headers={**UA, **({"Referer": referer} if referer else {})})
     except Exception as e:
         return None, f"받기 실패 {e.__class__.__name__}"
     if r.status_code != 200 or r.content[:4] != b"%PDF":
-        return None, f"PDF 아님(HTTP {r.status_code}, {len(r.content)}바이트, {r.headers.get('content-type', '')})"
+        return None, f"PDF 아님(HTTP {r.status_code}, {len(r.content)}바이트, {r.headers.get('content-type', '')}){_body_hint(r.content)}"
     return r.content, "받음"
 
 
@@ -222,7 +230,7 @@ def hwpx_notice_text(http: httpx.Client, rec: dict) -> tuple[Optional[str], str]
     except Exception as e:
         return None, f"HWPX 받기 실패 {e.__class__.__name__}"
     if r.status_code != 200 or r.content[:2] != b"PK":
-        return None, f"HWPX 아님(HTTP {r.status_code}, {len(r.content)}바이트)"
+        return None, f"HWPX 아님(HTTP {r.status_code}, {len(r.content)}바이트){_body_hint(r.content)}"
     from app.hwpx_text import hwpx_to_text
     t, m = hwpx_to_text(r.content)
     return (t, m) if t else (None, m)
