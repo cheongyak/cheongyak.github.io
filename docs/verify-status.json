@@ -1,14 +1,8 @@
 {
- "at": "2026-11-07 10:40",
- "ok": false,
+ "at": "2026-11-07 10:57",
+ "ok": true,
  "collect_run": "2026-11-07 · 공고 286건",
- "banner": {
-  "kind": "judge",
-  "text": "최근 자동 검증에서 판정 계산이 기대와 달라 확인 중이에요.",
-  "why": [
-   "화면 스냅샷 12건"
-  ]
- },
+ "banner": null,
  "flagged": {},
  "pending": [],
  "coverage_missing": 0,
@@ -18,37 +12,37 @@
   {
    "name": "분양",
    "updated": "2026-11-07 09:47",
-   "hours": 0.9,
+   "hours": 1.2,
    "stale": false
   },
   {
    "name": "LH 임대",
    "updated": "2026-11-06 10:47",
-   "hours": 23.9,
+   "hours": 24.2,
    "stale": false
   },
   {
    "name": "SH 임대",
    "updated": "2026-11-07 10:18",
-   "hours": 0.4,
+   "hours": 0.7,
    "stale": false
   },
   {
    "name": "GH 임대",
    "updated": "2026-11-07 10:20",
-   "hours": 0.3,
+   "hours": 0.6,
    "stale": false
   },
   {
    "name": "공공지원 민간임대",
-   "updated": "2026-11-07 07:54",
-   "hours": 2.8,
+   "updated": "2026-11-07 10:36",
+   "hours": 0.4,
    "stale": false
   },
   {
    "name": "LH 주거복지·신혼희망",
    "updated": "2026-11-06 10:50",
-   "hours": 23.8,
+   "hours": 24.1,
    "stale": false
   }
  ],
@@ -78,7 +72,7 @@
   "monotonic_violations": 0,
   "zero_default_violations": 0,
   "input_nav_problems": 0,
-  "snapshot_diffs": 12,
+  "snapshot_diffs": 0,
   "e2e_fails": 0,
   "past_chat_fails": 0,
   "lh_invariant_violations": 0,
