@@ -65,3 +65,45 @@ def test_correction_replaces_original():
     assert len(log) == 3 and all(l.startswith("[목록·정정]") for l in log)
     # 정정 공고만 있고 원 공고가 없으면 그대로, 원 공고만 있으면 그대로
     assert [r["PAN_ID"] for r in drop_superseded(rows[1:2] + rows[4:5], [])] == ["0927", "0902"]
+
+
+def test_empty_list_failure_is_visible_in_actions_log(monkeypatch, tmp_path, capsys):
+    """목록 API 가 비면(2026-11-07 아침, 원인은 기록이 없어 모름 — 같은 시각 LH 임대 수집도 실패) 실패(exit 1)하면서 기록을 화면(stdout)에도 남긴다.
+    실패하면 '저장' 단계가 건너뛰어 기록 파일이 올라가지 않으므로, 전에는 Actions 기록에 아무 줄도 없었다(실행 42323392515).
+    응답 앞부분에는 인증키(그대로·URL 인코딩)가 보이지 않아야 한다."""
+    import httpx
+    import app.lh_welfare as w
+
+    key = "AbC+/=key"
+    monkeypatch.setenv("DATA_GO_KR_KEY", key)
+    monkeypatch.setattr(w, "LOG", tmp_path / "log.txt")
+    monkeypatch.setattr(w, "OUT", tmp_path / "out.json")
+    monkeypatch.setattr(w.time, "sleep", lambda s: None)
+
+    def handler(req):
+        return httpx.Response(200, json=[{"dsSch": [{}]}, {"resHeader": [{"SS_CODE": "Y"}], "note": f"echo {key} AbC%2B%2F%3Dkey"}])
+
+    real = httpx.Client
+    monkeypatch.setattr(w.httpx, "Client", lambda **kw: real(transport=httpx.MockTransport(handler)))
+    assert w.main() == 1
+    out = capsys.readouterr().out
+    assert "[경고] 목록이 비어 있음" in out and "[목록] 대분류 13 1쪽 HTTP 200 · 0건" in out
+    assert "[목록] 응답 앞부분:" in out
+    assert key not in out and "AbC%2B%2F%3Dkey" not in out
+    assert not (tmp_path / "out.json").exists()   # 이전 파일은 그대로
+
+
+def test_non_json_error_keeps_http_status(monkeypatch, tmp_path, capsys):
+    """504 안내 화면처럼 JSON 이 아닌 응답이면 'HTTP 0' 이 아니라 실제 상태 번호를 남긴다."""
+    import httpx
+    import app.lh_welfare as w
+
+    monkeypatch.setenv("DATA_GO_KR_KEY", "k")
+    monkeypatch.setattr(w, "LOG", tmp_path / "log.txt")
+    monkeypatch.setattr(w, "OUT", tmp_path / "out.json")
+    monkeypatch.setattr(w.time, "sleep", lambda s: None)
+    real = httpx.Client
+    monkeypatch.setattr(w.httpx, "Client", lambda **kw: real(transport=httpx.MockTransport(lambda req: httpx.Response(504, text="<html>Gateway Timeout</html>"))))
+    assert w.main() == 1
+    out = capsys.readouterr().out
+    assert "[목록] 대분류 13 1쪽 HTTP 504 · 0건" in out and "JSONDecodeError" in out
