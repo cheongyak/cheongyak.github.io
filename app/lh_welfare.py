@@ -184,15 +184,16 @@ def main() -> int:
     http = httpx.Client(timeout=httpx.Timeout(40, connect=10), follow_redirects=True, headers=UA)
 
     def api(url, **params):
-        last = ""
+        last, code = "", 0
         for attempt in range(3):
             try:
                 r = http.get(url, params={"serviceKey": key, **params})
+                code = r.status_code   # JSON 이 아닌 응답(504 안내 화면 등)도 상태 번호는 기록에 남긴다
                 return r.status_code, json.loads(r.text)
             except Exception as e:
                 last = scrub(e.__class__.__name__)
                 time.sleep(2 + attempt * 3)
-        return 0, {"error": last}
+        return code, {"error": last}
 
     rows: list[dict] = []
     for up in WANT:
