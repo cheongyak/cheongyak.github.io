@@ -1,54 +1,56 @@
 {
- "at": "2026-11-07 09:17",
+ "at": "2026-11-07 09:36",
  "ok": false,
  "collect_run": "2026-11-07 · 공고 286건",
  "banner": {
   "kind": "judge",
   "text": "최근 자동 검증에서 판정 계산이 기대와 달라 확인 중이에요.",
   "why": [
-   "입력 버튼 2건"
+   "화면 스냅샷 12건"
   ]
  },
  "flagged": {},
- "pending": [],
+ "pending": [
+  "경고 범위 화면"
+ ],
  "coverage_missing": 0,
  "observe": [],
  "warnings": [],
  "freshness": [
   {
    "name": "분양",
-   "updated": "2026-11-07 08:26",
-   "hours": 0.9,
+   "updated": "2026-11-07 09:17",
+   "hours": 0.3,
    "stale": false
   },
   {
    "name": "LH 임대",
    "updated": "2026-11-06 10:47",
-   "hours": 22.5,
+   "hours": 22.8,
    "stale": false
   },
   {
    "name": "SH 임대",
    "updated": "2026-11-07 07:51",
-   "hours": 1.4,
+   "hours": 1.8,
    "stale": false
   },
   {
    "name": "GH 임대",
    "updated": "2026-11-07 07:53",
-   "hours": 1.4,
+   "hours": 1.7,
    "stale": false
   },
   {
    "name": "공공지원 민간임대",
    "updated": "2026-11-07 07:54",
-   "hours": 1.4,
+   "hours": 1.7,
    "stale": false
   },
   {
    "name": "LH 주거복지·신혼희망",
    "updated": "2026-11-06 10:50",
-   "hours": 22.5,
+   "hours": 22.8,
    "stale": false
   }
  ],
@@ -64,7 +66,9 @@
  "golden": {
   "mismatches": []
  },
- "qa_stale": [],
+ "qa_stale": [
+  "verify-scope.json"
+ ],
  "qa": {
   "gate": true,
   "supply_type_fails": 0,
@@ -77,8 +81,8 @@
   "profile_keep_fails": 0,
   "monotonic_violations": 0,
   "zero_default_violations": 0,
-  "input_nav_problems": 2,
-  "snapshot_diffs": 0,
+  "input_nav_problems": 0,
+  "snapshot_diffs": 12,
   "e2e_fails": 0,
   "past_chat_fails": 0,
   "lh_invariant_violations": 0,
@@ -89,10 +93,10 @@
   "pay_audit_bad": 0,
   "parse_moved_changes": 0,
   "coverage_missing": 0,
-  "verify_scope_fails": 0,
+  "verify_scope_fails": null,
   "pay_audit_read": "174/190",
   "lh_data_at": "2026-11-06 10:47",
-  "cross_rule_checks": 328852,
+  "cross_rule_checks": 329332,
   "market_at": "2026-11-07",
   "supply_type_at": "2026-11-07",
   "invariants_at": "2026-11-07"
