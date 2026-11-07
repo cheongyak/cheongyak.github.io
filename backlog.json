@@ -50,12 +50,12 @@
    "reach": 2,
    "confidence": 3,
    "effort": "M",
-   "status": "in_pr",
+   "status": "merged",
    "first_seen": "2026-11-04",
    "last_seen": "2026-11-06",
    "tries": 0,
    "pr": 100,
-   "notes": "11-06 PR #100: 머리 '공공' 추가·PARSER_VERSION 53·정답·판정 사례 4건",
+   "notes": "11-06 PR #100: 머리 '공공' 추가·PARSER_VERSION 53·정답·판정 사례 4건 · 11-07 PR #100 은 '닫힘'이지만 운영자 세션이 커밋을 main 에 옮겨 얹어 합침(ad460054·1aef49ce, PARSER_VERSION 54, 기록 cfdb9b75 v1.84.8) — rejected 아님",
    "success_check": {
     "how": "합친 다음 수집 뒤 docs/listings.json 2026000434·435 의 residence",
     "expect": "months 12, since 2025-10-27, equal 없음(false)"
