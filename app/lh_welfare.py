@@ -15,6 +15,7 @@ import re
 import time
 from collections import Counter
 from datetime import datetime, timedelta
+from urllib.parse import quote
 
 import httpx
 
@@ -179,19 +180,20 @@ def main() -> int:
     if not key:
         LOG.write_text("\n".join(log + ["DATA_GO_KR_KEY 없음 — 건너뜀"]) + "\n", encoding="utf-8")
         return 0
-    scrub = lambda s: s.replace(key, "***")
+    scrub = lambda s: s.replace(key, "***").replace(quote(key, safe=""), "***")   # 인코딩된 키도 가림 (app/lh_rental 과 같게)
     http = httpx.Client(timeout=httpx.Timeout(40, connect=10), follow_redirects=True, headers=UA)
 
     def api(url, **params):
-        last = ""
+        last, code = "", 0
         for attempt in range(3):
             try:
                 r = http.get(url, params={"serviceKey": key, **params})
+                code = r.status_code   # JSON 이 아닌 응답(504 안내 화면 등)도 상태 번호는 기록에 남긴다
                 return r.status_code, json.loads(r.text)
             except Exception as e:
                 last = scrub(e.__class__.__name__)
                 time.sleep(2 + attempt * 3)
-        return 0, {"error": last}
+        return code, {"error": last}
 
     rows: list[dict] = []
     for up in WANT:
@@ -201,12 +203,15 @@ def main() -> int:
             got = [x for part in (j if isinstance(j, list) else [j]) if isinstance(part, dict)
                    for k, v in part.items() if isinstance(v, list) and k != "dsSch" and not k.endswith("Nm") for x in v if isinstance(x, dict) and x.get("PAN_ID")]
             log.append(f"[목록] 대분류 {up} {page}쪽 HTTP {st} · {len(got)}건")
+            if not got and page == 1:   # 0건일 때 응답 앞부분(인증키 가림) — 원인을 Actions 기록에서 보려고 (2026-11-07 실행 42323392515 는 기록 없이 실패)
+                log.append("[목록] 응답 앞부분: " + scrub(json.dumps(j, ensure_ascii=False))[:400])
             rows += got
             if len(got) < 100:
                 break
     if not rows:
         log.append("[경고] 목록이 비어 있음 — 이전 파일을 그대로 둠")
         LOG.write_text("\n".join(log) + "\n", encoding="utf-8")
+        print("\n".join(log))   # 실패하면 '저장' 단계가 건너뛰어 기록 파일이 올라가지 않아 Actions 화면에 남긴다
         return 1
     seen, picks = set(), []
     for r in rows:
