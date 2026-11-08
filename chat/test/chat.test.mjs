@@ -432,6 +432,7 @@ test('합계: 하루 칸에 모델별 단가 usd, /stats 에 이번 달 사용�
   await handleV2Llm(OPENK, v2in(), { kv, fetch: okFetch });   // Haiku 100×1 + 50×5 = $0.00035
   const day = JSON.parse(kv.m.get([...kv.m.keys()].find(k => k.startsWith('s:'))));
   assert.ok(Math.abs(day.usd - 0.03035) < 1e-9, 'Sonnet $0.03 + Haiku $0.00035 → ' + day.usd);
+  assert.equal(day.usd_tok_in, 10100); assert.equal(day.usd_tok_out, 1050);
   const env = { ...OPEN, CHAT_STATS_TOKEN: 'tok', CHAT_MONTH_USD: '18', CHAT_KV: kv };
   const st = await (await worker.fetch(new Request('https://x.workers.dev/stats', { headers: { authorization: 'Bearer tok' } }), env)).json();
   assert.equal(st._month.cap, 18); assert.match(st._month.month, /^\d{4}-\d{2}$/);

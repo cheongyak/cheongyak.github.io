@@ -32,6 +32,8 @@ async function addMonthSpent(kv, attempts) {
   if (kv && usd) await kv.put('mspend:' + MONTH(), String((await monthSpent(kv)) + usd), { expirationTtl: 40 * 86400 });
   return usd;
 }
+// 하루 합계에 넣을 비용 칸: usd 와, 그 usd 로 값을 매긴 토큰 수(usd_tok_in/out). 배포 당일처럼 usd 없이 쌓인 토큰을 기록 줄이 따로 셀 수 있게
+const costFields = (usd, attempts) => ({ usd, usd_tok_in: attempts.reduce((n, a) => n + ((a.usage && a.usage.input_tokens) || 0), 0), usd_tok_out: attempts.reduce((n, a) => n + ((a.usage && a.usage.output_tokens) || 0), 0) });
 function badRequest(msg) { return { status: 400, body: { error: msg } }; }
 
 // 청약봇 V2 '공고 찾기' AI 설명 (기능 bot_find_ai, 2026-10-21): 브라우저가 FACTS(공고 사실 묶음)로 만든 프롬프트를 그대로 Claude 에 넘긴다.
@@ -57,7 +59,7 @@ export async function handleV2Llm(env, input, deps = {}) {
   try {
     const r = await callClaude({ apiKey: env.ANTHROPIC_API_KEY, system, user: redact(user).text, fetchImpl, maxTokens: V2_MAX[purpose] });
     const usd = await addMonthSpent(kv, [r]);
-    await bump(kv, { ['v2_' + purpose]: true, usd, tokens_in: (r.usage && r.usage.input_tokens) || 0, tokens_out: (r.usage && r.usage.output_tokens) || 0 });
+    await bump(kv, { ['v2_' + purpose]: true, ...costFields(usd, [r]), tokens_in: (r.usage && r.usage.input_tokens) || 0, tokens_out: (r.usage && r.usage.output_tokens) || 0 });
     return { status: 200, body: { text: r.text, usage: r.usage, log: { v2: purpose, model: MODEL } } };
   } catch (e) {
     await bump(kv, { v2_error: true });
@@ -150,7 +152,7 @@ export async function handleChat(env, input, deps = {}) {
   const used = new Set([...(answer.why || []), ...(answer.official || [])].flatMap(x => x.refs || []));
   const sources = evidence.filter(e => used.has(e.id)).map(e => ({ id: e.id, kind: e.kind, title: e.title, url: e.kind === 'engine' ? (engine && engine.listing.link) : e.url, quote: e.text.slice(0, 200) }));
   const usd = await addMonthSpent(kv, attempts);
-  await bump(kv, { over_budget: overBudget, q: true, follow_up: lim.followUp, intent, verdict: engine ? engine.verdict : 'general', usd, pii: q.found.length > 0, ai_calls: attempts.filter(a => a.usage || a.ok || a.flags.length).length,
+  await bump(kv, { over_budget: overBudget, q: true, follow_up: lim.followUp, intent, verdict: engine ? engine.verdict : 'general', ...costFields(usd, attempts), pii: q.found.length > 0, ai_calls: attempts.filter(a => a.usage || a.ok || a.flags.length).length,
     rejected: attempts.filter(a => !a.ok).length, fallback: usedFallback,
     in_tokens: attempts.reduce((n, a) => n + ((a.usage && a.usage.input_tokens) || 0), 0), out_tokens: attempts.reduce((n, a) => n + ((a.usage && a.usage.output_tokens) || 0), 0) });
   Object.assign(log, { attempts: attempts.map(a => ({ ok: a.ok, flags: a.flags.length })), fallback: usedFallback, ms: Date.now() - t0 });
@@ -222,7 +224,7 @@ export async function handleFree(env, input, deps = {}) {
   }
   const usd = await addMonthSpent(kv, attempts);
   await markConversation(kv, conversation_id, !!(answer && answer.ask), lim.followUp ? lim.followN + 1 : 0);
-  await bump(kv, { over_budget: overBudget, q: true, follow_up: lim.followUp, intent, verdict: 'free', usd, pii: q.found.length > 0, ai_calls: attempts.length, rejected: attempts.filter(a => !a.ok).length, fallback: !answer,
+  await bump(kv, { over_budget: overBudget, q: true, follow_up: lim.followUp, intent, verdict: 'free', ...costFields(usd, attempts), pii: q.found.length > 0, ai_calls: attempts.length, rejected: attempts.filter(a => !a.ok).length, fallback: !answer,
     in_tokens: attempts.reduce((n, a) => n + ((a.usage && a.usage.input_tokens) || 0), 0), out_tokens: attempts.reduce((n, a) => n + ((a.usage && a.usage.output_tokens) || 0), 0) });
   Object.assign(log, { attempts: attempts.map(a => ({ ok: a.ok, flags: a.flags.length })), fallback: !answer, ms: Date.now() - t0 });
   const diag = isOp ? { opFree, overBudget, key: !!apiKey, evidence: evidence.map(e => e.id).join(' '), attempts: attempts.map(a => ({ ok: a.ok, flags: a.flags, tokens: a.usage ? (a.usage.input_tokens || 0) + '/' + (a.usage.output_tokens || 0) : null })) } : undefined;
