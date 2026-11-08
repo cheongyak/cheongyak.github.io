@@ -255,13 +255,16 @@
    "reach": 2,
    "confidence": 3,
    "effort": "S",
-   "status": "open",
+   "status": "in_pr",
    "first_seen": "2026-11-05",
-   "last_seen": "2026-11-05",
+   "last_seen": "2026-11-08",
    "tries": 0,
-   "pr": null,
-   "success_check": null,
-   "notes": "서버 배포 PR([서버 배포]) — PR #93 합친 뒤에"
+   "pr": 113,
+   "success_check": {
+    "how": "합친 다음 날 docs/run-log.txt 의 [청약봇] 줄",
+    "expect": "'이번 달(YYYY-MM) AI 사용액 $… / 한도 $18' 이 보이고, 배포 다음 날부터 자유 질문이 있어도 '실제는 이보다 많음' 이 안 붙음"
+   },
+   "notes": "서버 배포 PR([서버 배포]) — PR #93 합친 뒤에 · 11-08 PR #113([서버 배포]): 하루 합계 usd·usd_tok_in/out, /stats _month"
   },
   {
    "key": "qa:lh_invariant_violations",
@@ -328,7 +331,7 @@
    "reach": 2,
    "confidence": 2,
    "effort": "S",
-   "status": "in_pr",
+   "status": "merged",
    "first_seen": "2026-11-07",
    "last_seen": "2026-11-07",
    "tries": 0,
@@ -337,7 +340,7 @@
     "how": "PYTHONPATH=.:/tmp/cy-pytest-env/site python -m pytest -q tests/test_lh_welfare.py; 다음 lh-welfare.yml 실패 실행의 로그",
     "expect": "새 시험 2개 통과 · 실패 실행 로그에 '[목록] 대분류 … HTTP …' 줄"
    },
-   "notes": "PR 은 진단만 고침. 멈춘 데이터는 lh-welfare.yml 을 다시 돌려야 함(운영자/손 세션)"
+   "notes": "PR 은 진단만 고침. 멈춘 데이터는 lh-welfare.yml 을 다시 돌려야 함(운영자/손 세션) · 11-08 17:52 운영자 합침(67c7c824), 기록은 손 세션이 씀"
   },
   {
    "key": "issues:수집 멈춤",
