@@ -1,14 +1,10 @@
 {
- "at": "2026-11-08 18:12",
+ "at": "2026-11-08 18:33",
  "ok": true,
  "collect_run": "2026-11-08 · 공고 286건",
  "banner": null,
  "flagged": {},
- "pending": [
-  "임대 기관 거르기 화면",
-  "임대 판정",
-  "임대 화면"
- ],
+ "pending": [],
  "coverage_missing": 0,
  "observe": [],
  "warnings": [],
@@ -16,37 +12,37 @@
   {
    "name": "분양",
    "updated": "2026-11-08 17:58",
-   "hours": 0.2,
+   "hours": 0.6,
    "stale": false
   },
   {
    "name": "LH 임대",
    "updated": "2026-11-08 09:54",
-   "hours": 8.3,
+   "hours": 8.7,
    "stale": false
   },
   {
    "name": "SH 임대",
    "updated": "2026-11-08 09:55",
-   "hours": 8.3,
+   "hours": 8.6,
    "stale": false
   },
   {
    "name": "GH 임대",
    "updated": "2026-11-08 09:56",
-   "hours": 8.3,
+   "hours": 8.6,
    "stale": false
   },
   {
    "name": "공공지원 민간임대",
    "updated": "2026-11-08 10:05",
-   "hours": 8.1,
+   "hours": 8.5,
    "stale": false
   },
   {
    "name": "LH 주거복지·신혼희망",
    "updated": "2026-11-08 17:55",
-   "hours": 0.3,
+   "hours": 0.6,
    "stale": false
   }
  ],
@@ -62,11 +58,7 @@
  "golden": {
   "mismatches": []
  },
- "qa_stale": [
-  "rent-org.json",
-  "lh-qa.json",
-  "lh-screen.json"
- ],
+ "qa_stale": [],
  "qa": {
   "gate": true,
   "supply_type_fails": 0,
@@ -84,8 +76,8 @@
   "e2e_fails": 0,
   "past_chat_fails": 0,
   "lh_invariant_violations": 0,
-  "lh_judge_qa_fails": null,
-  "lh_screen_fails": null,
+  "lh_judge_qa_fails": 0,
+  "lh_screen_fails": 0,
   "lh_unread": 0,
   "lh_pdf_merged_wrong": 0,
   "pay_audit_bad": 0,
