@@ -1,8 +1,64 @@
 {
- "updated": "2026-11-09 10:42",
+ "updated": "2026-11-10 08:43",
  "source": "국토교통부 마이홈포털 공공주택 모집공고 조회 서비스 (LH·SH·GH 제외)",
- "count": 7,
+ "count": 8,
  "notices": [
+  {
+   "id": "LOC-21512",
+   "org": "LOCAL",
+   "inst": "경남개발공사",
+   "name": "2026년 청년매입임대주택 입주자모집 공고",
+   "type": "매입임대",
+   "judge_type": false,
+   "youth": false,
+   "region": "경상남도",
+   "posted": "2026-11-06",
+   "close": "2026-11-18",
+   "status": "일반공고",
+   "url": "https://www.gndc.co.kr/boardview/boardview.do?seqId=0000006202&BBS_ID=B491A490314446318099F9D828047900&IPDS_IDX=38F45729A8A44D7A91F428DADAEAFDFD&BBS_TYPE=L&COLM1=notice&COLM1_CD=&SEARCH_CONTITION=CPDS_SUBJECT_CONTENT&SEARCH_KEYWORD=&CURRENT_PAGE=1",
+   "url_mobile": "https://m.myhome.go.kr/hws/portal/sch/selectRsdtRcritNtcDetailView.do?pblancId=21512",
+   "myhome_url": "https://www.myhome.go.kr/hws/portal/sch/selectRsdtRcritNtcDetailView.do?pblancId=21512",
+   "schedule": [
+    {
+     "complex": null,
+     "apply_start": "2026-11-16",
+     "apply_end": "2026-11-18",
+     "docs_target": null,
+     "winner": "2026-12-31",
+     "contract_start": null,
+     "contract_end": null
+    }
+   ],
+   "complexes": [],
+   "units": [
+    {
+     "complex": null,
+     "type": "다가구주택",
+     "area": null,
+     "households": 30,
+     "now_households": 30,
+     "deposit": null,
+     "rent": null
+    },
+    {
+     "complex": null,
+     "type": "다가구주택",
+     "area": null,
+     "households": 10,
+     "now_households": 10,
+     "deposit": null,
+     "rent": null
+    }
+   ],
+   "rents": [],
+   "terms": null,
+   "files": [],
+   "notice_pdf": null,
+   "office": {
+    "place": null,
+    "tel": "경남개발공사 주거복지팀 청년매입 공급 담당(☏ 055-269-0483)"
+   }
+  },
   {
    "id": "LOC-21477",
    "org": "LOCAL",
@@ -432,27 +488,9 @@
    "close": "2026-11-30",
    "status": "일반공고",
    "url": "https://www.gbdc.co.kr/boardview/boardview.do?seqId=0000003638&BBS_ID=4c9b3e75-2935-4bcd-96be-62fb07903949&IPDS_IDX=2e8989e9-02ae-48be-9591-f3c4c8e7fa39&BBS_TYPE=L&COLM1=notice&COLM1_CD=notice_02&COLM1_STATUS=&SEARCH_CONTITION=CPDS_SUBJECT_CONTENT&SEARCH_KEYWORD=&CURRENT_PAGE=1",
-   "url_mobile": "https://m.myhome.go.kr/hws/portal/sch/selectRsdtRcritNtcDetailView.do?pblancId=20901",
-   "myhome_url": "https://www.myhome.go.kr/hws/portal/sch/selectRsdtRcritNtcDetailView.do?pblancId=20901",
+   "url_mobile": "https://m.myhome.go.kr/hws/portal/sch/selectRsdtRcritNtcDetailView.do?pblancId=20901&houseSn=2",
+   "myhome_url": "https://www.myhome.go.kr/hws/portal/sch/selectRsdtRcritNtcDetailView.do?pblancId=20901&houseSn=2",
    "schedule": [
-    {
-     "complex": null,
-     "apply_start": "2026-07-28",
-     "apply_end": "2026-11-30",
-     "docs_target": null,
-     "winner": "2026-11-30",
-     "contract_start": null,
-     "contract_end": null
-    },
-    {
-     "complex": "로얄",
-     "apply_start": "2026-07-28",
-     "apply_end": "2026-11-30",
-     "docs_target": null,
-     "winner": "2026-11-30",
-     "contract_start": null,
-     "contract_end": null
-    },
     {
      "complex": "하모니",
      "apply_start": "2026-07-28",
@@ -470,16 +508,27 @@
      "winner": "2026-11-30",
      "contract_start": null,
      "contract_end": null
+    },
+    {
+     "complex": null,
+     "apply_start": "2026-07-28",
+     "apply_end": "2026-11-30",
+     "docs_target": null,
+     "winner": "2026-11-30",
+     "contract_start": null,
+     "contract_end": null
+    },
+    {
+     "complex": "로얄",
+     "apply_start": "2026-07-28",
+     "apply_end": "2026-11-30",
+     "docs_target": null,
+     "winner": "2026-11-30",
+     "contract_start": null,
+     "contract_end": null
     }
    ],
    "complexes": [
-    {
-     "name": "로얄",
-     "address": "경상북도 칠곡군 왜관읍 달오2길 76",
-     "households": null,
-     "heating": null,
-     "house_type": "다가구주택"
-    },
     {
      "name": "하모니",
      "address": "경상북도 칠곡군 왜관읍 달오3길 26-10",
@@ -493,27 +542,16 @@
      "households": null,
      "heating": null,
      "house_type": "다가구주택"
+    },
+    {
+     "name": "로얄",
+     "address": "경상북도 칠곡군 왜관읍 달오2길 76",
+     "households": null,
+     "heating": null,
+     "house_type": "다가구주택"
     }
    ],
    "units": [
-    {
-     "complex": null,
-     "type": "다가구주택",
-     "area": null,
-     "households": 5,
-     "now_households": 5,
-     "deposit": null,
-     "rent": null
-    },
-    {
-     "complex": "로얄",
-     "type": "다가구주택",
-     "area": null,
-     "households": 1,
-     "now_households": 1,
-     "deposit": null,
-     "rent": null
-    },
     {
      "complex": "하모니",
      "type": "다가구주택",
@@ -531,16 +569,27 @@
      "now_households": 3,
      "deposit": null,
      "rent": null
-    }
-   ],
-   "rents": [
+    },
+    {
+     "complex": null,
+     "type": "다가구주택",
+     "area": null,
+     "households": 5,
+     "now_households": 5,
+     "deposit": null,
+     "rent": null
+    },
     {
      "complex": "로얄",
      "type": "다가구주택",
-     "group": null,
-     "deposit": 2000000,
-     "rent": 30000
-    },
+     "area": null,
+     "households": 1,
+     "now_households": 1,
+     "deposit": null,
+     "rent": null
+    }
+   ],
+   "rents": [
     {
      "complex": "하모니",
      "type": "다가구주택",
@@ -550,6 +599,13 @@
     },
     {
      "complex": "베스트",
+     "type": "다가구주택",
+     "group": null,
+     "deposit": 2000000,
+     "rent": 30000
+    },
+    {
+     "complex": "로얄",
      "type": "다가구주택",
      "group": null,
      "deposit": 2000000,
