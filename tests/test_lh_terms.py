@@ -261,3 +261,21 @@ def test_golden_0000061201_original():
     assert {k: r["groups"][0][k] for k in ("homeless", "income_pct", "asset_manwon", "car_manwon")} == \
         {k: gg[k] for k in ("homeless", "income_pct", "asset_manwon", "car_manwon")}
     assert gg["quotes"]["homeless"] == r["quotes"]["일반"]["homeless"] and gg["quotes"]["income"] == r["quotes"]["일반"]["income"]
+
+
+def test_public_rank_table_in_selection_section():
+    """제천장락1 50년 공공임대(2015122300020975, 2026-11-10): '입주자 모집공고일' 띄어 쓴 신청자격 + 순위(청약통장) 표가
+    '7. 선정기준 ■ 순위 결정기준'에 있는 꼴. 정답과 같게 읽고, 순위 결정기준 제목이 없으면 청약통장도 소득·자산 배제도 읽지 않는다."""
+    t = (ROOT / "evidence/lh/2015122300020975.txt").read_text(encoding="utf-8")
+    r = parse_lh_terms(t, "공공임대", "", "충청북도")
+    assert r["regions"] == ["충북"] and r["account"] == {"months": 6, "count": 6, "rank2_any": True}
+    g = r["groups"][0]
+    assert (g["income_pct"], g["asset_manwon"], g["car_manwon"], g["homeless"]) == ("excluded", "excluded", "excluded", "household")
+    assert not r.get("local_unread")
+    head = ("4. 신청자격 입주자 모집공고일(2026.11.09.) 현재 주택건설지역(제천시,충청북도)에 거주하는 무주택세대구성원으로 아래의 기준에 해당되는 자 "
+            "5. 모집일정 접수 7. 선정기준 ")
+    row = "1순위 예비입주자 모집공고일(2026.11.09) 현재 주택청약종합저축(청약저축 포함)에 가입하여 6개월이 지난 자로서 매월 약정납입일에 월납입금을 6회 이상 납입한 자 8. 신청서류"
+    ok = parse_lh_terms(head + "■ 순위 결정기준 " + row, "공공임대")
+    assert ok["account"]["months"] == 6 and ok["groups"][0]["income_pct"] == "excluded"
+    bad = parse_lh_terms(head + "■ 동일 순위 경쟁시 " + row, "공공임대")   # 제목이 없으면 읽지 않음
+    assert not bad.get("account") and bad["groups"][0]["income_pct"] is None
