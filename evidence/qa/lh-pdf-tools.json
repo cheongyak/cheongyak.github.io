@@ -1,42 +1,42 @@
 {
- "date": "2026-11-10 07:43",
- "golden_notices": 46,
+ "date": "2026-11-10 08:01",
+ "golden_notices": 47,
  "stat": {
   "pypdf": {
-   "ok": 518,
+   "ok": 528,
    "wrong": 0,
-   "missing": 39,
-   "rent_ok": 184,
+   "missing": 40,
+   "rent_ok": 185,
    "rent_wrong": 0,
    "rent_missing": 0,
-   "notices": 46
+   "notices": 47
   },
   "pdfium": {
-   "ok": 518,
+   "ok": 528,
    "wrong": 0,
-   "missing": 39,
-   "rent_ok": 184,
+   "missing": 40,
+   "rent_ok": 185,
    "rent_wrong": 0,
    "rent_missing": 0,
-   "notices": 46
+   "notices": 47
   },
   "plumber": {
-   "ok": 487,
+   "ok": 493,
    "wrong": 3,
-   "missing": 67,
-   "rent_ok": 170,
+   "missing": 72,
+   "rent_ok": 171,
    "rent_wrong": 0,
    "rent_missing": 14,
-   "notices": 46
+   "notices": 47
   },
   "merged": {
-   "ok": 518,
+   "ok": 528,
    "wrong": 0,
-   "missing": 39,
-   "rent_ok": 184,
+   "missing": 40,
+   "rent_ok": 185,
    "rent_wrong": 0,
    "rent_missing": 0,
-   "notices": 46
+   "notices": 47
   }
  },
  "merged_wrong": 0,
@@ -57,8 +57,5 @@
   "2015122300020895 account: majority pypdf={'months': 6, 'count': 6, 'rank2_any': True}, pdfium={'months': 6, 'count': 6, 'rank2_any': True}, plumber={'months': 6, 'count': 6, 'rank2_any': False}",
   "0000061201 임대조건: plumber 가 pypdf 금액 줄을 모두 포함하고 1줄 더 읽음 → plumber"
  ],
- "conflicts": [],
- "_data": {
-  "lh": "0196f668f45e"
- }
+ "conflicts": []
 }
