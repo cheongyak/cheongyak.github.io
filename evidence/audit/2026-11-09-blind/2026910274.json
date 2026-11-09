@@ -1,0 +1,111 @@
+{
+  "id": "2026910274",
+  "name": "천안 롯데캐슬 더 청당",
+  "fields": {
+    "supply_class": {
+      "value": "민영주택",
+      "status": "stated",
+      "quote": "주택유형 규제지역여부 ... 민영 비규제지역",
+      "note": ""
+    },
+    "supply_kind": {
+      "value": "무순위(사후)",
+      "status": "conflicting",
+      "quote": "(1) 예비입주자를 대상으로 추가입주자를 선정하고 남은 미계약 세대를 공급하는 것 / (2) 본 아파트는 계약자의 사정으로 계약이 해제된 세대를 재공급하는 주택으로",
+      "note": "공고 제목·청약홈 접수는 '무순위(사후)'. 다만 옵션 안내 문구는 '계약 해제 세대 재공급'이라 적어 미계약분인지 계약해제분인지 문구가 다름. 2025년 8월 준공, 최초 공고 2022.08.26(2022000585)"
+    },
+    "correction": {
+      "value": null,
+      "status": "not_stated",
+      "quote": "",
+      "note": "정정/변경공고 문구 없음"
+    },
+    "need_head": {
+      "value": false,
+      "status": "stated",
+      "quote": "무순위(사후) 입주자모집공고일 현재 전국에 거주하는 무주택세대구성원",
+      "note": "무주택세대구성원이면 신청 가능(세대주 요건 없음)"
+    },
+    "price_cap": {
+      "value": false,
+      "status": "stated",
+      "quote": "재당첨제한 전매제한 거주의무기간 분양가상한제 / 없음 없음 없음 미적용",
+      "note": ""
+    },
+    "residence_duty": {
+      "value": 0,
+      "status": "stated",
+      "quote": "재당첨제한 전매제한 거주의무기간 분양가상한제 / 없음 없음 없음 미적용",
+      "note": ""
+    },
+    "rewin_years": {
+      "value": 0,
+      "status": "stated",
+      "quote": "본 무순위 입주자모집공고는 청약통장을 사용하지 않는 청약으로 청약 당첨(예비입주자 선정 포함)시 당첨자로 관리되지 않아 재당첨 제한 등에 대한 제한을 받지 않으나",
+      "note": "단지 주요정보 표 '재당첨제한 없음' 및 참고사항 문구. 단 분양권 소유 시 향후 청약에서 주택 소유로 간주(규칙 제53조)"
+    },
+    "resale": {
+      "value": "없음",
+      "status": "stated",
+      "quote": "재당첨제한 전매제한 거주의무기간 분양가상한제 / 없음 없음 없음 미적용",
+      "note": "단지 주요정보 표에 전매제한 '없음'"
+    },
+    "account_months": {
+      "value": 0,
+      "status": "stated",
+      "quote": "청약통장 가입여부와 무관하게 신청가능",
+      "note": "무순위: 청약통장 불필요. 1순위 가입기간 요건 없음"
+    },
+    "deposit_count": {
+      "value": null,
+      "status": "not_stated",
+      "quote": "청약통장 가입여부와 무관하게 신청가능",
+      "note": "민영주택 무순위로 납입횟수 요건 없음(통장 불필요)"
+    },
+    "residence": {
+      "value": {
+        "area": "전국",
+        "months": 0,
+        "since": "2026-11-03",
+        "others": [],
+        "equal": true
+      },
+      "status": "stated",
+      "quote": "본 주택은 무순위(사후) 입주자모집공고일 현재 전국에 거주하는 무주택세대구성원을 대상으로 공급합니다(외국인 청약불가).",
+      "note": "전국 거주자 동일 추첨. 거주기간 요건 없음"
+    },
+    "score_ratio": {
+      "value": null,
+      "status": "stated",
+      "quote": "한국부동산원 입주자 선정 프로그램에 의해 주택형별 무작위 추첨으로 무순위(사후) 당첨자 선정 및 동·호수 배정",
+      "note": "무순위(사후): 주택형별 무작위 추첨으로 당첨자 선정. 가점제·추첨제 1순위 비율 해당 없음"
+    },
+    "pay_ratio": {
+      "value": {
+        "contract_pct": 10,
+        "mid_pct": 0,
+        "balance_pct": 90
+      },
+      "status": "stated",
+      "quote": "분양가격 계약금(10%) 잔금(90%) 대지비 건축비 부가세 계 계약시 2026.12.30.",
+      "note": "중도금 없음. 잔금 2026.12.30. 59A 284,600,000 / 84A 425,500,000"
+    },
+    "mc_quota": {
+      "value": null,
+      "status": "not_stated",
+      "quote": "",
+      "note": "무순위(사후) 공고로 특별공급(다자녀) 배정 없음"
+    },
+    "special_supply": {
+      "value": {
+        "types": [],
+        "has_special": false,
+        "total_households": 1199,
+        "this_supply": 2
+      },
+      "status": "stated",
+      "quote": "공급규모 : 아파트 지하 3층~지상 29층 11개동 총 1,199세대 중 잔여 2세대",
+      "note": "무순위(사후)로 특별공급 없음. 59A 1(104동 201호), 84A 1(104동 1604호)"
+    }
+  }
+}

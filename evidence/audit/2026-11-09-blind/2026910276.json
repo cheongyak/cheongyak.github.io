@@ -1,0 +1,21 @@
+{
+  "id": "2026910276",
+  "name": "인천 검단신도시 AB20-2블록 중흥S-클래스 에듀파크",
+  "fields": {
+    "supply_class": {"value": "민영주택", "status": "stated", "quote": "주택유형 규제지역여부 ... 민영 비규제지역", "note": "비규제지역"},
+    "supply_kind": {"value": "무순위(사후접수)", "status": "stated", "quote": "1순위 및 2순위 청약 마감된 주택형으로, 예비입주자를 대상으로 추가입주자를 선정하고 남은 미계약 세대를 공급", "note": "기존 계약 승계 조건(발코니·유상옵션 승계, 마이너스옵션 불가)"},
+    "correction": {"value": null, "status": "not_stated", "quote": "", "note": "정정·변경 문구 없음"},
+    "need_head": {"value": false, "status": "stated", "quote": "무순위(사후) 입주자모집공고일 현재 인천광역시에 거주하는 무주택세대구성원", "note": "무순위 신청자격"},
+    "price_cap": {"value": true, "status": "stated", "quote": "재당첨제한 전매제한 거주의무기간 분양가상한제 / 없음 최초 당첨자발표일(2024.01.16.)로부터 3년 없음 적용", "note": "공급금액 주석에도 '분양가상한제 적용주택'"},
+    "residence_duty": {"value": 0, "status": "stated", "quote": "거주의무기간 ... 없음", "note": "분양가상한제 적용이나 거주의무기간 '없음'으로 표기"},
+    "rewin_years": {"value": 0, "status": "stated", "quote": "재당첨제한 ... 없음", "note": "요약표에만 있음"},
+    "resale": {"value": {"months": 36, "base": "최초 입주자모집공고의 당첨자발표일(2024-01-16)"}, "status": "stated", "quote": "본 아파트의 전매제한은 최초 입주자모집공고의 당첨자발표일(2024.01.16.)로부터 3년간 적용됩니다.", "note": "2027-01-15까지(계산). 공고일 현재 아직 진행 중"},
+    "account_months": {"value": null, "status": "stated", "quote": "청약통장 가입여부와 무관하게 신청가능", "note": "무순위라 통장 요건 없음"},
+    "deposit_count": {"value": null, "status": "stated", "quote": "청약통장 가입여부와 무관하게 신청가능", "note": "요건 없음"},
+    "residence": {"value": {"area": "인천광역시", "months": 0, "since": "2026-11-06", "others": [], "equal": true}, "status": "stated", "quote": "무순위(사후) 입주자모집공고일은 2026.11.06.(금)이며(청약자격 요건 중 나이, 거주요건 등의 판단기준일) ... 인천광역시에 거주하는 무주택세대구성원", "note": "인천 거주자만 신청 가능, 기타지역 없음, 거주기간 요건 언급 없음"},
+    "score_ratio": {"value": null, "status": "stated", "quote": "주택형별 무작위 추첨으로 무순위(사후) 당첨자 선정 및 동·호수 배정", "note": "100% 무작위 추첨"},
+    "pay_ratio": {"value": {"contract_pct": 10, "mid_pct": 60, "balance_pct": 30}, "status": "stated", "quote": "계약금(10%) 중도금(60%) 잔금(30%) ... 484,000,000 48,400,000 290,400,000 145,200,000", "note": "1~5회차 납부일 도과로 중도금 60%를 6회차(2027.03.03.)에 일괄 납부"},
+    "mc_quota": {"value": null, "status": "not_stated", "quote": "", "note": "특별공급 없음(무순위)"},
+    "special_supply": {"value": {"types": [], "total_households": 1448, "this_supply": 1, "no_special": true}, "status": "stated", "quote": "총 1,448세대 중 잔여 1세대", "note": "84B 1세대(5606동 2002호). 특별공급 언급 없음"}
+  }
+}

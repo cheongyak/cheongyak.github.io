@@ -1,0 +1,21 @@
+{
+  "id": "2026910280",
+  "name": "오남역 서희스타힐스 여의재 3단지 (조합원 취소분)",
+  "fields": {
+    "supply_class": {"value": "민영주택", "status": "stated", "quote": "주택유형 규제지역여부 ... 민영 비규제지역", "note": "비규제지역"},
+    "supply_kind": {"value": "조합원 취소분 등 잔여", "status": "stated", "quote": "총 1,056세대 중 조합원 취소분 133세대의 잔여 6세대", "note": "무순위(사후) 입주자모집공고 절차로 공급. 단지 유의사항에는 '1순위 및 2순위 청약 마감된 주택형으로, 예비입주자를 대상으로 추가입주자를 선정하고 남은 미계약 세대를 공급'이라고도 적혀 있음"},
+    "correction": {"value": null, "status": "not_stated", "quote": "", "note": "정정·변경 문구 없음"},
+    "need_head": {"value": false, "status": "stated", "quote": "무순위(사후) 입주자모집공고일 현재 전국에 거주하는 무주택세대구성원", "note": "무순위 신청자격"},
+    "price_cap": {"value": false, "status": "stated", "quote": "재당첨제한 전매제한 거주의무기간 분양가상한제 / 없음 ... 없음 미적용", "note": ""},
+    "residence_duty": {"value": 0, "status": "stated", "quote": "거주의무기간 ... 없음", "note": ""},
+    "rewin_years": {"value": 0, "status": "stated", "quote": "재당첨제한 ... 없음 / 청약통장을 사용하지 않는 청약으로 ... 재당첨 제한 등 제한을 받지 않습니다.", "note": ""},
+    "resale": {"value": {"months": 6, "base": "최초 입주자모집공고의 당첨자발표일(2026-10-06)"}, "status": "stated", "quote": "본 아파트의 전매제한은 최초 입주자모집공고의 당첨자발표일(2026.10.06.)로부터 6개월 간 적용됩니다.", "note": ""},
+    "account_months": {"value": null, "status": "stated", "quote": "청약통장 가입여부와 무관하게 신청가능", "note": "무순위라 통장 요건 없음"},
+    "deposit_count": {"value": null, "status": "stated", "quote": "청약통장 가입여부와 무관하게 신청가능", "note": "민영·무순위, 납입횟수 요건 없음"},
+    "residence": {"value": {"area": "전국", "months": 0, "since": "2026-11-06", "others": [], "equal": true}, "status": "stated", "quote": "본 주택의 무순위(사후) 입주자모집공고일은 2026.11.06.(금)이며(청약자격 요건 중 나이, 거주요건 등의 판단기준일) ... 전국에 거주하는 무주택세대구성원", "note": "지역 우선 없음, 주택형별 무작위 추첨"},
+    "score_ratio": {"value": null, "status": "stated", "quote": "한국부동산원 입주자 선정 프로그램에 의해 주택형별 무작위 추첨으로 무순위(사후) 당첨자 선정", "note": "가점제 없음, 100% 무작위 추첨"},
+    "pay_ratio": {"value": {"contract_pct": 10, "mid_pct": 60, "balance_pct": 30}, "status": "stated", "quote": "분양가걱 계약금(10%) 중도금(60%) 잔금(30%)", "note": "계약금은 1차 1,000만원 정액 + 2차 계약후 1개월 이내 잔액. 중도금 6회 각 10%"},
+    "mc_quota": {"value": null, "status": "not_stated", "quote": "", "note": "특별공급 없음(무순위)"},
+    "special_supply": {"value": {"types": [], "total_households": 1056, "this_supply": 6, "no_special": true}, "status": "stated", "quote": "총 1,056세대 중 조합원 취소분 133세대의 잔여 6세대", "note": "특별공급 언급 없음. 75형 4세대, 84형 2세대"}
+  }
+}
