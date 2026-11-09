@@ -1,5 +1,5 @@
 {
- "updated": "2026-11-04",
+ "updated": "2026-11-09",
  "items": [
   {
    "key": "issues:판정 검증 실패",
@@ -13,7 +13,7 @@
    "effort": "S",
    "status": "parked",
    "first_seen": "2026-11-04",
-   "last_seen": "2026-11-07",
+   "last_seen": "2026-11-09",
    "tries": 0,
    "pr": null,
    "notes": "고칠 방향 후보: 이슈 제목을 실제 원인(못 읽은 공고·판정 불일치·수집 멈춤)으로, 같은 원인이면 새 이슈 대신 열린 이슈에 댓글. 이슈를 닫는 것은 운영자 몫(고정 규칙 7) · 2026-11-04 밤 parked: 고칠 곳이 .github/workflows/verify.yml 뿐이라 루프가 못 고침(고정 규칙 6). 운영자 판단 필요: 손으로 일하는 세션에 '원인별 제목·같은 원인이면 열린 이슈에 댓글'을 맡기기",
@@ -203,7 +203,7 @@
    "effort": "S",
    "status": "open",
    "first_seen": "2026-11-04",
-   "last_seen": "2026-11-07",
+   "last_seen": "2026-11-09",
    "tries": 0,
    "pr": null,
    "success_check": null,
@@ -278,7 +278,7 @@
    "effort": "S",
    "status": "open",
    "first_seen": "2026-11-05",
-   "last_seen": "2026-11-07",
+   "last_seen": "2026-11-09",
    "tries": 0,
    "pr": null,
    "success_check": null,
@@ -359,6 +359,48 @@
    "pr": null,
    "success_check": null,
    "notes": "stale:LH 주거복지·신혼희망 과 같은 원인. 닫기는 운영자 몫"
+  },
+  {
+   "key": "audit:2026910283:실거주 의무",
+   "title": "2026910283 영종하늘도시 A25 대성베르힐(5차) 무순위(11-11 접수) 실거주 의무 3년을 '없음(추정)'으로 안내",
+   "area": "parse",
+   "source": "evidence/audit/2026-11-09-blind/README.md",
+   "evidence": "README 35·36·41·48줄, evidence/notices/2026910283.txt 7~11줄 '…도과 년 3 적용 구분'",
+   "severity": "P1",
+   "reach": 1,
+   "confidence": 2,
+   "effort": "S",
+   "status": "parked",
+   "first_seen": "2026-11-09",
+   "last_seen": "2026-11-09",
+   "tries": 1,
+   "pr": null,
+   "success_check": {
+    "how": "PYTHONPATH=… python -m pytest tests/test_mu_duty_20261109.py · docs/listings.json 2026910283 residence_duty",
+    "expect": "운영자 확인 뒤 3·price_cap true, 정답 데이터 일치"
+   },
+   "notes": "11-09 고쳐 auto/20261109-mu-duty-scrambled 에 올림(PR 안 냄). 다른 눈 검토: 본문에 거주의무 문장 없고 청약홈 값(미적용)과 달라 정답 데이터로 확정 불가 → 고정 규칙 4로 parked. 운영자가 최초 공고 2021000897 또는 사업주체(분양문의)로 거주의무 3년·상한제 적용 확인하면 정답 넣고 PR"
+  },
+  {
+   "key": "audit:2026910283:분양가상한제",
+   "title": "2026910283 분양가상한제 '적용'(1쪽 표)을 청약홈 값 '미적용'으로 표시",
+   "area": "parse",
+   "source": "evidence/audit/2026-11-09-blind/README.md",
+   "evidence": "README 35·36·41·48줄, evidence/notices/2026910283.txt 7~11줄 '…도과 년 3 적용 구분'",
+   "severity": "P2",
+   "reach": 1,
+   "confidence": 2,
+   "effort": "S",
+   "status": "parked",
+   "first_seen": "2026-11-09",
+   "last_seen": "2026-11-09",
+   "tries": 1,
+   "pr": null,
+   "success_check": {
+    "how": "PYTHONPATH=… python -m pytest tests/test_mu_duty_20261109.py · docs/listings.json 2026910283 residence_duty",
+    "expect": "운영자 확인 뒤 3·price_cap true, 정답 데이터 일치"
+   },
+   "notes": "11-09 고쳐 auto/20261109-mu-duty-scrambled 에 올림(PR 안 냄). 다른 눈 검토: 본문에 거주의무 문장 없고 청약홈 값(미적용)과 달라 정답 데이터로 확정 불가 → 고정 규칙 4로 parked. 운영자가 최초 공고 2021000897 또는 사업주체(분양문의)로 거주의무 3년·상한제 적용 확인하면 정답 넣고 PR"
   }
  ]
 }
