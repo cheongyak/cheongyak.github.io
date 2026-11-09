@@ -1,9 +1,19 @@
 {
- "date": "2026-11-09 08:23",
- "data_updated": "2026-11-09 07:43",
- "notices": 44,
- "violations": {},
- "count": 0,
+ "date": "2026-11-09 10:15",
+ "data_updated": "2026-11-09 10:11",
+ "notices": 46,
+ "violations": {
+  "terms_unread": {
+   "count": 1,
+   "examples": [
+    "2015122300020975 공공임대 제천장락1 50년공공임대주택 예비입주자 모집 공고[20"
+   ],
+   "ids": [
+    "2015122300020975"
+   ]
+  }
+ },
+ "count": 1,
  "info": {
   "unknown_groups": {
    "count": 3,
@@ -13,14 +23,21 @@
     "2015122300020963 ['산업단지근로자']"
    ]
   },
-  "public_unread": {
+  "local_unread": {
    "count": 1,
    "examples": [
+    "2015122300020975 현재 주택건설지역(제천시,충청북도)에 거주하는 무주택세대구성원"
+   ]
+  },
+  "public_unread": {
+   "count": 2,
+   "examples": [
+    "2015122300020975 regions=None account=None",
     "2015122300021022 regions=None account={'months': 6, 'count': 6, 'rank2_any': True}"
    ]
   }
  },
  "_data": {
-  "lh": "e43ed5759286"
+  "lh": "2203360e696f"
  }
 }
