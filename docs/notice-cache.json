@@ -2157,79 +2157,6 @@
   "notice_pdf": "https://static.applyhome.co.kr/ai/aia/getAtchmnfl.do?houseManageNo=2026000469&pblancNo=2026000469&atchmnflSeqNo=1995111&atchmnflSn=1",
   "v": 54
  },
- "2026000471": {
-  "found": {
-   "facts": {
-    "asset_thousand": {
-     "부동산": [],
-     "부동산_만원": [],
-     "자동차": []
-    },
-    "deposit_rows": {},
-    "income_rows": {},
-    "price_seen": {
-     "084.8642B": true,
-     "084.9636D": true,
-     "084.9680A": true,
-     "084.9904C": true,
-     "089.5130A": true
-    }
-   },
-   "need_head": false,
-   "price_cap": false,
-   "quotes": {
-    "need_head": "…자격요건 순위 개월 이상 지역별 면적별 예치금 충족1 (6 , · ) 가입 세대주 요건 - - 소득 또는 자산기준 - - 순위 1 :※ 입주자저축에 가입하여 가입기간이…",
-    "price_cap": "…민간택지에서 공급하는 분양가상한제 미적용 민영주택 으로 당첨자로 선정되더라도 주택공급에 관한 규칙, 「 」 제…",
-    "resale": "….▌ 구분 일반공급 전매제한기간 개월 6 ▌위장전입 및 불법 전매제한 등을 통한 부정한 당첨자는 주택법 제 조 및…",
-    "residence": "…5552 주택유형 해당지역 기타지역 규제지역여부 민영 기존 광주광역시 년 이상 계속 거주자 이전부터 계속 거주1 (2025.10.08. ) 기존 광주광역시 년 미만 거주자 및 기존 전라남도 거주자 1 비규제지역 재당첨제한 전매제한 거주의무기간 분…",
-    "residence_duty": "(1쪽 단지 주요정보 표) 전매제한 거주의무기간 분양가상한제 택지유형 없음 개월 6 없음 미적용 민간택지",
-    "rewin_years": "…거주자 1 비규제지역 재당첨제한 전매제한 거주의무기간 분양가상한제 택지유형 없음 개월 6 없음 미적용 민간택지 구분 입주자모집공고일 일반공급 순위…",
-    "score_ratio": "…전용면적별 순위 가점제 추첨제 적용비율 - 1 / 구분 가점제 추첨제 전용면적 초과 이하60 85㎡ ㎡ 40% 60% 전용면적 초과85㎡ - 100% 가점 산정기준 - ( 주택공급에 관한 규칙 별표 의 나목 1 2 )「 」 ※ 시행된 2024.03.25. 주택공급에 관한 규칙 별표 의 나목에 따라 가점제…"
-   },
-   "resale": {
-    "base": "당첨자 발표일",
-    "forbidden": false,
-    "months": 6,
-    "none": false,
-    "passed": false,
-    "registration": false,
-    "until_reg": false
-   },
-   "residence": {
-    "area": {
-     "name": "광주광역시",
-     "sido": "광주"
-    },
-    "months": 12,
-    "others": [
-     "광주",
-     "전남"
-    ],
-    "since": "2025-10-08"
-   },
-   "residence_duty": 0,
-   "rewin_years": 0,
-   "score_ratio": {
-    "rows": [
-     {
-      "lottery": 60,
-      "over": 60,
-      "score": 40,
-      "upto": 85
-     },
-     {
-      "lottery": 100,
-      "over": 85,
-      "score": 0,
-      "upto": null
-     }
-    ]
-   }
-  },
-  "name": "한양립스 에듀포레(조합원 취소분)",
-  "notice_pdf": "https://static.applyhome.co.kr/ai/aia/getAtchmnfl.do?houseManageNo=2026000471&pblancNo=2026000471&atchmnflSeqNo=1995080&atchmnflSn=3",
-  "v": 54
- },
  "2026000472": {
   "found": {
    "account_months": 24,
@@ -9349,6 +9276,71 @@
   },
   "name": "삼천 하늘채 라비엘",
   "notice_pdf": "https://static.applyhome.co.kr/ai/aia/getAtchmnfl.do?houseManageNo=2026910286&pblancNo=2026910286&atchmnflSeqNo=2013010&atchmnflSn=2",
+  "v": 54
+ },
+ "2026910290": {
+  "found": {
+   "complex": {
+    "buildings": 4,
+    "households": 404,
+    "quote": ": 아파트 지하 6층, 지상 20층 4개동 총 404세대(임대 51세대, 조합 256세대), 일반분양 97세대 중 잔여 6세대 ■ 입주시기 : 2028년 07월 예정(정확한 입주일자는 추후 통보함) ■ 공급대상 ["
+   },
+   "contract_split": {
+    "first_won": 20000000,
+    "rest_within": "30일",
+    "rows": 2
+   },
+   "facts": {
+    "asset_thousand": {
+     "부동산": [],
+     "부동산_만원": [],
+     "자동차": []
+    },
+    "deposit_rows": {},
+    "income_rows": {},
+    "price_seen": {
+     "039.6950": true
+    }
+   },
+   "need_head": false,
+   "pay_ratio": {
+    "balance": 0.3,
+    "contract": 0.1,
+    "mid": 0.6
+   },
+   "price_cap": false,
+   "quotes": {
+    "need_head": "…민영 비규제지역 무순위(사후) 입주자모집공고일 현재 전국에 거주하는 무주택세대구성원인 성년자 재당첨제한 전매제한 거주의무기간 분양가상한제 없음…",
+    "pay_ratio": "…해당 세대 수 분양가격 계약금(10%) 중도금(60%) 잔금(30%) 1차 2차 1회(10%) 2회(10%)…",
+    "price_cap": "(1쪽 단지 주요정보 표) 재당첨제한 전매제한 거주의무기간 분양가상한제 없음 최초당첨자발표일(2025.05.12.)로부터 3년 없음 미적용 구분",
+    "resale": "…바랍니다. ■ 본 아파트의 전매제한은 최초 입주자모집공고의 당첨자발표일 2025.05.12.(월)로부터 3년간 적용됩니다. - 3 - 3 공급대상 및 공급금액 ■ 공급위치 : 서울특별시 중구…",
+    "residence": "…(사후) 입주자모집공고일 현재 전국에 거주하는 무주택세대구성원인 성년자 재당첨제한 전매제…",
+    "residence_duty": "(1쪽 단지 주요정보 표) 재당첨제한 전매제한 거주의무기간 분양가상한제 없음 최초당첨자발표일(2025.05.12.)로부터 3년 없음 미적용 구분",
+    "rewin_years": "…무주택세대구성원인 성년자 재당첨제한 전매제한 거주의무기간 분양가상한제 없음 최초당첨자발표일(2025.05.12.)로부터 3년 없음…"
+   },
+   "resale": {
+    "base": "2025-05-12",
+    "forbidden": false,
+    "months": 36,
+    "none": false,
+    "passed": false,
+    "registration": false,
+    "until_reg": false
+   },
+   "residence": {
+    "area": null,
+    "equal": true,
+    "months": 0,
+    "others": [
+     "전국"
+    ],
+    "since": null
+   },
+   "residence_duty": 0,
+   "rewin_years": 0
+  },
+  "name": "청계 노르웨이숲(14차)",
+  "notice_pdf": "https://static.applyhome.co.kr/ai/aia/getAtchmnfl.do?houseManageNo=2026910290&pblancNo=2026910290&atchmnflSeqNo=2008590&atchmnflSn=2",
   "v": 54
  },
  "2026930042": {
