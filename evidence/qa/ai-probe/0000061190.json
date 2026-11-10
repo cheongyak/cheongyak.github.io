@@ -1,17 +1,17 @@
 {
  "id": "0000061190",
  "sha": "2e864a3fde20cd79",
- "prompt_v": 1,
+ "prompt_v": 2,
  "model": "claude-sonnet-5-5",
  "usage": {
-  "input_tokens": 29803,
+  "input_tokens": 30253,
   "cache_creation_input_tokens": 0,
   "cache_read_input_tokens": 0,
   "cache_creation": {
    "ephemeral_5m_input_tokens": 0,
    "ephemeral_1h_input_tokens": 0
   },
-  "output_tokens": 533,
+  "output_tokens": 542,
   "output_tokens_details": {
    "thinking_tokens": 0
   },
@@ -19,7 +19,7 @@
   "inference_geo": "global",
   "speed": "standard"
  },
- "usd": 0.0649,
+ "usd": 0.0659,
  "answer": {
   "groups": [
    {
@@ -50,6 +50,7 @@
   },
   "account_quote": "입주자저축(주택청약종합저축, 청약저축)에 가입하여 2년이 경과된 분으로서 매월 약정납입일에 월 납입금을 24회 이상 납입한 자",
   "local": null,
-  "local_quote": null
+  "local_quote": null,
+  "other_groups": []
  }
 }

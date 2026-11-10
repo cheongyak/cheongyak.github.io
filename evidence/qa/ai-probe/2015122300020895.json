@@ -1,0 +1,54 @@
+{
+ "id": "2015122300020895",
+ "sha": "d29f9ac8bef74036",
+ "prompt_v": 2,
+ "model": "claude-sonnet-5-5",
+ "usage": {
+  "input_tokens": 32746,
+  "cache_creation_input_tokens": 0,
+  "cache_read_input_tokens": 0,
+  "cache_creation": {
+   "ephemeral_5m_input_tokens": 0,
+   "ephemeral_1h_input_tokens": 0
+  },
+  "output_tokens": 360,
+  "output_tokens_details": {
+   "thinking_tokens": 0
+  },
+  "service_tier": "standard",
+  "inference_geo": "global",
+  "speed": "standard"
+ },
+ "usd": 0.0691,
+ "answer": {
+  "groups": [
+   {
+    "key": "일반",
+    "homeless": "household",
+    "homeless_quote": "■ 무주택세대구성원(세대에 속하는 사람 전체가 무주택인 세대의 구성원)",
+    "income_pct": null,
+    "income_quote": null,
+    "asset_manwon": null,
+    "asset_quote": null,
+    "car_manwon": null,
+    "car_quote": null,
+    "age_min": 19,
+    "age_max": null,
+    "age_quote": "「민법」상 미성년자(만 19세 미만)는 공급 신청할 수 없습니다."
+   }
+  ],
+  "regions": [
+   "전북"
+  ],
+  "regions_quote": "동일순위내 경쟁시 해당 주택건설지역(익산시)의 거주자에게 우선 공급하고, 남은주택이 있을 경우 다른지역(익",
+  "account": {
+   "months": 6,
+   "count": 6,
+   "rank2_any": true
+  },
+  "account_quote": "예비입주자 모집공고일(2026. 10. 12.) 현재 주택청약종합저축(청약저축 포함)에 가입하여",
+  "local": null,
+  "local_quote": null,
+  "other_groups": []
+ }
+}

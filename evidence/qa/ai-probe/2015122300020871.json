@@ -1,0 +1,62 @@
+{
+ "id": "2015122300020871",
+ "sha": "7aac06a1b1a3ba5b",
+ "prompt_v": 2,
+ "model": "claude-sonnet-5-5",
+ "usage": {
+  "input_tokens": 54492,
+  "cache_creation_input_tokens": 0,
+  "cache_read_input_tokens": 0,
+  "cache_creation": {
+   "ephemeral_5m_input_tokens": 0,
+   "ephemeral_1h_input_tokens": 0
+  },
+  "output_tokens": 713,
+  "output_tokens_details": {
+   "thinking_tokens": 0
+  },
+  "service_tier": "standard",
+  "inference_geo": "global",
+  "speed": "standard"
+ },
+ "usd": 0.1161,
+ "answer": {
+  "groups": [
+   {
+    "key": "대학생",
+    "homeless": "self",
+    "homeless_quote": "※ ‘무주택자’란 주택을 소유하고 있지 않은 자를 말함(세대 내 다른 구성원이 주택을 소유해도 신청 가능함)",
+    "income_pct": "excluded",
+    "income_quote": "③ 【완화조건】 소득요건 배제",
+    "asset_manwon": "excluded",
+    "asset_quote": "④ 【완화조건】 총 자산가액 배제(단, 신청자 본인이 자동차가액 산출대상 자동차를 소유하고 있지 않을 것)",
+    "car_manwon": 0,
+    "car_quote": "④ 【완화조건】 총 자산가액 배제(단, 신청자 본인이 자동차가액 산출대상 자동차를 소유하고 있지 않을 것)",
+    "age_min": null,
+    "age_max": null,
+    "age_quote": null
+   },
+   {
+    "key": "청년",
+    "homeless": "self",
+    "homeless_quote": "※ ‘무주택자’란 주택을 소유하고 있지 않은 자를 말함(세대 내 다른 구성원이 주택을 소유해도 신청가능함)",
+    "income_pct": "excluded",
+    "income_quote": "③ 【완화조건】 소득요건 배제",
+    "asset_manwon": "excluded",
+    "asset_quote": "④ 【완화조건】 총 자산가액 배제(단, 해당세대가 보유하고 있는 총 자산 중 자동차 가액이 4,542만원 이하일 것)",
+    "car_manwon": 4542,
+    "car_quote": "④ 【완화조건】 총 자산가액 배제(단, 해당세대가 보유하고 있는 총 자산 중 자동차 가액이 4,542만원 이하일 것)",
+    "age_min": 19,
+    "age_max": 39,
+    "age_quote": "➀-㉮ (청년) 19세 이상 39세 이하인 자(출생일 1986.10.03 ∼ 2007.10.02)"
+   }
+  ],
+  "regions": null,
+  "regions_quote": null,
+  "account": null,
+  "account_quote": null,
+  "local": null,
+  "local_quote": null,
+  "other_groups": []
+ }
+}

@@ -1,17 +1,17 @@
 {
  "id": "2015122300020905",
  "sha": "4c27cb57f18dd847",
- "prompt_v": 1,
+ "prompt_v": 2,
  "model": "claude-sonnet-5-5",
  "usage": {
-  "input_tokens": 62015,
+  "input_tokens": 62465,
   "cache_creation_input_tokens": 0,
   "cache_read_input_tokens": 0,
   "cache_creation": {
    "ephemeral_5m_input_tokens": 0,
    "ephemeral_1h_input_tokens": 0
   },
-  "output_tokens": 371,
+  "output_tokens": 400,
   "output_tokens_details": {
    "thinking_tokens": 0
   },
@@ -19,7 +19,7 @@
   "inference_geo": "global",
   "speed": "standard"
  },
- "usd": 0.1277,
+ "usd": 0.1289,
  "answer": {
   "groups": [
    {
@@ -46,6 +46,11 @@
   "account": null,
   "account_quote": null,
   "local": null,
-  "local_quote": null
+  "local_quote": null,
+  "other_groups": [
+   "장기종사자",
+   "사업·근로소득자",
+   "주거약자"
+  ]
  }
 }

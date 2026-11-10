@@ -1,17 +1,17 @@
 {
  "id": "0000061188",
  "sha": "5a053530625e85fb",
- "prompt_v": 1,
+ "prompt_v": 2,
  "model": "claude-sonnet-5-5",
  "usage": {
-  "input_tokens": 32216,
+  "input_tokens": 32666,
   "cache_creation_input_tokens": 0,
   "cache_read_input_tokens": 0,
   "cache_creation": {
    "ephemeral_5m_input_tokens": 0,
    "ephemeral_1h_input_tokens": 0
   },
-  "output_tokens": 497,
+  "output_tokens": 523,
   "output_tokens_details": {
    "thinking_tokens": 0
   },
@@ -19,32 +19,33 @@
   "inference_geo": "global",
   "speed": "standard"
  },
- "usd": 0.0694,
+ "usd": 0.0706,
  "answer": {
   "groups": [
    {
     "key": "일반",
     "homeless": "household",
-    "homeless_quote": "성년자(만 19세 이상)인 무주택세대구성원에게 1세대 1주택 기준으로 공급",
+    "homeless_quote": "입주자모집공고일(‘26.10.27.) 현재 전남광주통합특별시 (통합전 광주광역시 및 전라남도)에 거주(주민등록표등본 기준)하는 성년자(만 19세 이상)인 무주택세대구성원",
     "income_pct": "excluded",
-    "income_quote": "본인 및 세대구성원의 입주자저축 가입여부, 과거당첨 사실여부, 소득 및 자산기준 충족여부에 관계없이 신청 가능합니다.",
+    "income_quote": "입주자저축 가입여부, 과거당첨 사실여부, 소득 및 자산기준 충족여부에 관계없이 신청 가능하나",
     "asset_manwon": "excluded",
-    "asset_quote": "본인 및 세대구성원의 입주자저축 가입여부, 과거당첨 사실여부, 소득 및 자산기준 충족여부에 관계없이 신청 가능합니다.",
+    "asset_quote": "입주자저축 가입여부, 과거당첨 사실여부, 소득 및 자산기준 충족여부에 관계없이 신청 가능하나",
     "car_manwon": null,
     "car_quote": null,
     "age_min": 19,
     "age_max": null,
-    "age_quote": "성년자(만 19세 이상)인 무주택세대구성원에게 1세대 1주택 기준으로 공급"
+    "age_quote": "성년자(만 19세 이상)인 무주택세대구성원"
    }
   ],
   "regions": [
    "광주",
    "전남"
   ],
-  "regions_quote": "입주자모집공고일(2026.10.27.) 현재 전남광주통합특별시 (통합전 광주광역시 및 전라남도)에 거주(주민등록표등본 기준)",
+  "regions_quote": "입주자모집공고일(‘26.10.27.) 현재 전남광주통합특별시 (통합전 광주광역시 및 전라남도)에 거주(주민등록표등본 기준)하는 성년자(만 19세 이상)인 무주택세대구성원",
   "account": "none",
-  "account_quote": "본인 및 세대구성원의 입주자저축 가입여부, 과거당첨 사실여부, 소득 및 자산기준 충족여부에 관계없이 신청 가능합니다.",
+  "account_quote": "입주자저축 가입여부, 과거당첨 사실여부, 소득 및 자산기준 충족여부에 관계없이 신청 가능하나",
   "local": null,
-  "local_quote": null
+  "local_quote": null,
+  "other_groups": []
  }
 }

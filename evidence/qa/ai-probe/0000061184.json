@@ -1,17 +1,17 @@
 {
  "id": "0000061184",
  "sha": "a2c95a8d3cc23f29",
- "prompt_v": 1,
+ "prompt_v": 2,
  "model": "claude-sonnet-5-5",
  "usage": {
-  "input_tokens": 32835,
+  "input_tokens": 33285,
   "cache_creation_input_tokens": 0,
   "cache_read_input_tokens": 0,
   "cache_creation": {
    "ephemeral_5m_input_tokens": 0,
    "ephemeral_1h_input_tokens": 0
   },
-  "output_tokens": 594,
+  "output_tokens": 535,
   "output_tokens_details": {
    "thinking_tokens": 0
   },
@@ -19,7 +19,7 @@
   "inference_geo": "global",
   "speed": "standard"
  },
- "usd": 0.0716,
+ "usd": 0.0719,
  "answer": {
   "groups": [
    {
@@ -30,8 +30,8 @@
     "income_quote": "입주자저축 가입 여부, 과거당첨사실여부, 당해주택 건설지역 거주여부, 소득 및 자산기준충족여부 등과 관계없이 신청 가능",
     "asset_manwon": "excluded",
     "asset_quote": "입주자저축 가입 여부, 과거당첨사실여부, 당해주택 건설지역 거주여부, 소득 및 자산기준충족여부 등과 관계없이 신청 가능",
-    "car_manwon": "excluded",
-    "car_quote": "입주자저축 가입 여부, 과거당첨사실여부, 당해주택 건설지역 거주여부, 소득 및 자산기준충족여부 등과 관계없이 신청 가능",
+    "car_manwon": null,
+    "car_quote": null,
     "age_min": 19,
     "age_max": null,
     "age_quote": "입주자 모집공고일(2026.10.12) 현재 무주택세대구성원인 성년자(만 19세 이상) (외국인은 신청 불가)"
@@ -42,6 +42,7 @@
   "account": "none",
   "account_quote": "입주자저축 가입 여부, 과거당첨사실여부, 당해주택 건설지역 거주여부, 소득 및 자산기준충족여부 등과 관계없이 신청 가능",
   "local": null,
-  "local_quote": null
+  "local_quote": null,
+  "other_groups": []
  }
 }

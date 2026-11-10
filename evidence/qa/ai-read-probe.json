@@ -1,98 +1,31 @@
 {
- "at": "2026-11-11 07:02",
+ "at": "2026-11-11 07:07",
  "model": "claude-sonnet-5-5",
- "prompt_v": 1,
- "notices": 15,
- "answered": 15,
- "usd": 1.554,
+ "prompt_v": 2,
+ "notices": 22,
+ "answered": 22,
+ "usd": 2.287,
  "summary": {
-  "맞음": 87,
-  "AI 못 읽음": 20,
-  "정답에 없는 값": 3,
-  "검사기가 버림(맞는 값)": 16,
-  "검사기가 버림(틀린 값)": 5,
-  "틀림": 3,
-  "정답에 없는 계층": 1
+  "맞음": 134,
+  "AI 못 읽음": 45,
+  "검사기가 버림(맞는 값)": 10,
+  "검사기가 버림(정답 없음)": 4,
+  "정답에 없는 계층": 1,
+  "검사기가 버림(틀린 값)": 1
  },
  "wrong": [
   {
-   "id": "2015122300020975",
-   "field": "local",
-   "result": "정답에 없는 값",
-   "gold": null,
-   "ai": {
-    "sido": "충북",
-    "sigun": "제천시"
-   },
-   "passed": {
-    "sido": "충북",
-    "sigun": "제천시"
-   },
-   "dropped_why": null
-  },
-  {
-   "id": "2015122300020992",
-   "field": "고령자.homeless",
-   "result": "틀림",
-   "gold": "household_or_single_self",
-   "ai": "household",
-   "passed": "household",
-   "dropped_why": null
-  },
-  {
-   "id": "2015122300020993",
-   "field": "고령자.homeless",
-   "result": "틀림",
-   "gold": "household_or_single_self",
-   "ai": "household",
-   "passed": "household",
-   "dropped_why": null
-  },
-  {
-   "id": "0000061193",
-   "field": "local",
-   "result": "정답에 없는 값",
-   "gold": null,
-   "ai": {
-    "sido": "울산",
-    "sigun": null
-   },
-   "passed": {
-    "sido": "울산",
-    "sigun": null
-   },
-   "dropped_why": null
-  },
-  {
-   "id": "2015122300020905",
-   "field": "계층 일반",
+   "id": "2015122300020912",
+   "field": "계층 주거급여수급자",
    "result": "정답에 없는 계층",
    "gold": null,
    "ai": null,
    "passed": {
-    "homeless": "household",
+    "homeless": null,
     "income_pct": null,
-    "asset_manwon": 34500,
-    "car_manwon": 4542
+    "asset_manwon": null,
+    "car_manwon": null
    },
-   "dropped_why": null
-  },
-  {
-   "id": "2015122300020958",
-   "field": "주거급여수급자.homeless",
-   "result": "정답에 없는 값",
-   "gold": null,
-   "ai": "household",
-   "passed": "household",
-   "dropped_why": null
-  },
-  {
-   "id": "2015122300020912",
-   "field": "고령자.homeless",
-   "result": "틀림",
-   "gold": "household_or_single_self",
-   "ai": "household",
-   "passed": "household",
    "dropped_why": null
   }
  ],
@@ -100,77 +33,112 @@
   {
    "id": "2015122300020975",
    "type": "공공임대",
-   "note": "입력 28817·출력 506 토큰"
+   "note": "입력 29267·출력 399 토큰"
   },
   {
    "id": "0000061201",
    "type": "공공임대",
-   "note": "입력 41867·출력 514 토큰"
+   "note": "입력 42317·출력 574 토큰"
   },
   {
    "id": "2015122300020962",
    "type": "국민임대",
-   "note": "입력 50447·출력 280 토큰"
+   "note": "입력 50897·출력 278 토큰"
   },
   {
    "id": "2015122300020992",
    "type": "통합공공임대",
-   "note": "입력 70149·출력 1303 토큰"
+   "note": "입력 70599·출력 1054 토큰"
   },
   {
    "id": "2015122300020993",
    "type": "통합공공임대",
-   "note": "입력 52743·출력 376 토큰"
+   "note": "입력 53193·출력 386 토큰"
   },
   {
    "id": "0000061193",
    "type": "공공임대",
-   "note": "입력 29684·출력 569 토큰"
+   "note": "입력 30134·출력 508 토큰"
   },
   {
    "id": "2015122300020905",
    "type": "통합공공임대",
-   "note": "입력 62015·출력 371 토큰"
+   "note": "입력 62465·출력 400 토큰"
   },
   {
    "id": "2015122300020963",
    "type": "행복주택",
-   "note": "입력 45549·출력 1202 토큰"
+   "note": "입력 45999·출력 1082 토큰"
   },
   {
    "id": "2015122300020958",
    "type": "행복주택",
-   "note": "입력 75627·출력 1444 토큰"
+   "note": "입력 76077·출력 1505 토큰"
   },
   {
    "id": "2015122300020966",
    "type": "영구임대",
-   "note": "입력 45214·출력 501 토큰"
+   "note": "입력 45664·출력 350 토큰"
   },
   {
    "id": "0000061188",
    "type": "공공임대",
-   "note": "입력 32216·출력 497 토큰"
+   "note": "입력 32666·출력 523 토큰"
   },
   {
    "id": "0000061190",
    "type": "공공임대",
-   "note": "입력 29803·출력 533 토큰"
+   "note": "입력 30253·출력 542 토큰"
   },
   {
    "id": "0000061187",
    "type": "공공임대",
-   "note": "입력 38026·출력 516 토큰"
+   "note": "입력 38476·출력 503 토큰"
   },
   {
    "id": "2015122300020912",
    "type": "통합공공임대",
-   "note": "입력 89390·출력 1325 토큰"
+   "note": "입력 89840·출력 1029 토큰"
   },
   {
    "id": "0000061184",
    "type": "공공임대",
-   "note": "입력 32835·출력 594 토큰"
+   "note": "입력 33285·출력 535 토큰"
+  },
+  {
+   "id": "2015122300020895",
+   "type": "공공임대",
+   "note": "입력 32746·출력 360 토큰"
+  },
+  {
+   "id": "2015122300020893",
+   "type": "국민임대",
+   "note": "입력 48295·출력 302 토큰"
+  },
+  {
+   "id": "2015122300020864",
+   "type": "영구임대",
+   "note": "입력 47269·출력 424 토큰"
+  },
+  {
+   "id": "2015122300020850",
+   "type": "행복주택",
+   "note": "입력 55628·출력 1462 토큰"
+  },
+  {
+   "id": "2015122300020870",
+   "type": "행복주택",
+   "note": "입력 53443·출력 1360 토큰"
+  },
+  {
+   "id": "2015122300020871",
+   "type": "행복주택",
+   "note": "입력 54492·출력 713 토큰"
+  },
+  {
+   "id": "2015122300020692",
+   "type": "영구임대",
+   "note": "입력 47100·출력 421 토큰"
   }
  ],
  "rows": [
@@ -247,28 +215,13 @@
    "dropped_why": null
   },
   {
-   "id": "2015122300020975",
-   "field": "local",
-   "result": "정답에 없는 값",
-   "gold": null,
-   "ai": {
-    "sido": "충북",
-    "sigun": "제천시"
-   },
-   "passed": {
-    "sido": "충북",
-    "sigun": "제천시"
-   },
-   "dropped_why": null
-  },
-  {
    "id": "0000061201",
    "field": "일반.homeless",
-   "result": "검사기가 버림(맞는 값)",
+   "result": "맞음",
    "gold": "household",
    "ai": "household",
-   "passed": null,
-   "dropped_why": "일반.homeless: 문장에 '무주택세대구성원'이 없음"
+   "passed": "household",
+   "dropped_why": null
   },
   {
    "id": "0000061201",
@@ -375,19 +328,15 @@
   {
    "id": "2015122300020992",
    "field": "청년.income_pct",
-   "result": "검사기가 버림(맞는 값)",
+   "result": "AI 못 읽음",
    "gold": {
     "1": 170,
     "2": 160,
     "3+": 150
    },
-   "ai": {
-    "1": 170,
-    "2": 160,
-    "3+": 150
-   },
+   "ai": null,
    "passed": null,
-   "dropped_why": "청년.income_pct: 문장에 170%(또는 가산 전 값과 가산 폭)가 없음"
+   "dropped_why": null
   },
   {
    "id": "2015122300020992",
@@ -419,19 +368,15 @@
   {
    "id": "2015122300020992",
    "field": "신혼부부·한부모.income_pct",
-   "result": "검사기가 버림(틀린 값)",
+   "result": "AI 못 읽음",
    "gold": {
     "1": null,
     "2": 160,
     "3+": 150
    },
-   "ai": {
-    "1": 170,
-    "2": 160,
-    "3+": 150
-   },
+   "ai": null,
    "passed": null,
-   "dropped_why": "신혼부부·한부모.income_pct: 문장에 170%(또는 가산 전 값과 가산 폭)가 없음"
+   "dropped_why": null
   },
   {
    "id": "2015122300020992",
@@ -454,28 +399,24 @@
   {
    "id": "2015122300020992",
    "field": "고령자.homeless",
-   "result": "틀림",
+   "result": "맞음",
    "gold": "household_or_single_self",
-   "ai": "household",
-   "passed": "household",
+   "ai": "household_or_single_self",
+   "passed": "household_or_single_self",
    "dropped_why": null
   },
   {
    "id": "2015122300020992",
    "field": "고령자.income_pct",
-   "result": "검사기가 버림(맞는 값)",
+   "result": "AI 못 읽음",
    "gold": {
     "1": 170,
     "2": 160,
     "3+": 150
    },
-   "ai": {
-    "1": 170,
-    "2": 160,
-    "3+": 150
-   },
+   "ai": null,
    "passed": null,
-   "dropped_why": "고령자.income_pct: 문장에 170%(또는 가산 전 값과 가산 폭)가 없음"
+   "dropped_why": null
   },
   {
    "id": "2015122300020992",
@@ -507,19 +448,15 @@
   {
    "id": "2015122300020992",
    "field": "일반.income_pct",
-   "result": "검사기가 버림(맞는 값)",
+   "result": "AI 못 읽음",
    "gold": {
     "1": 170,
     "2": 160,
     "3+": 150
    },
-   "ai": {
-    "1": 170,
-    "2": 160,
-    "3+": 150
-   },
+   "ai": null,
    "passed": null,
-   "dropped_why": "일반.income_pct: 문장에 170%(또는 가산 전 값과 가산 폭)가 없음"
+   "dropped_why": null
   },
   {
    "id": "2015122300020992",
@@ -542,10 +479,10 @@
   {
    "id": "2015122300020993",
    "field": "고령자.homeless",
-   "result": "틀림",
+   "result": "맞음",
    "gold": "household_or_single_self",
-   "ai": "household",
-   "passed": "household",
+   "ai": "household_or_single_self",
+   "passed": "household_or_single_self",
    "dropped_why": null
   },
   {
@@ -641,21 +578,6 @@
    "gold": "none",
    "ai": "none",
    "passed": "none",
-   "dropped_why": null
-  },
-  {
-   "id": "0000061193",
-   "field": "local",
-   "result": "정답에 없는 값",
-   "gold": null,
-   "ai": {
-    "sido": "울산",
-    "sigun": null
-   },
-   "passed": {
-    "sido": "울산",
-    "sigun": null
-   },
    "dropped_why": null
   },
   {
@@ -779,20 +701,6 @@
    "dropped_why": null
   },
   {
-   "id": "2015122300020905",
-   "field": "계층 일반",
-   "result": "정답에 없는 계층",
-   "gold": null,
-   "ai": null,
-   "passed": {
-    "homeless": "household",
-    "income_pct": null,
-    "asset_manwon": 34500,
-    "car_manwon": 4542
-   },
-   "dropped_why": null
-  },
-  {
    "id": "2015122300020963",
    "field": "청년.homeless",
    "result": "맞음",
@@ -822,11 +730,11 @@
   {
    "id": "2015122300020963",
    "field": "청년.car_manwon",
-   "result": "검사기가 버림(틀린 값)",
+   "result": "AI 못 읽음",
    "gold": 4542,
-   "ai": 5451,
+   "ai": null,
    "passed": null,
-   "dropped_why": "청년.car_manwon: 문장에 그 금액이 없음"
+   "dropped_why": null
   },
   {
    "id": "2015122300020963",
@@ -858,11 +766,11 @@
   {
    "id": "2015122300020963",
    "field": "신혼부부·한부모.car_manwon",
-   "result": "검사기가 버림(틀린 값)",
+   "result": "AI 못 읽음",
    "gold": 4542,
-   "ai": 5451,
+   "ai": null,
    "passed": null,
-   "dropped_why": "신혼부부·한부모.car_manwon: 문장에 그 금액이 없음"
+   "dropped_why": null
   },
   {
    "id": "2015122300020963",
@@ -894,11 +802,11 @@
   {
    "id": "2015122300020963",
    "field": "고령자.car_manwon",
-   "result": "검사기가 버림(틀린 값)",
+   "result": "AI 못 읽음",
    "gold": 4542,
-   "ai": 5451,
+   "ai": null,
    "passed": null,
-   "dropped_why": "고령자.car_manwon: 문장에 그 금액이 없음"
+   "dropped_why": null
   },
   {
    "id": "2015122300020963",
@@ -1091,10 +999,10 @@
   {
    "id": "2015122300020958",
    "field": "주거급여수급자.homeless",
-   "result": "정답에 없는 값",
+   "result": "검사기가 버림(정답 없음)",
    "gold": null,
    "ai": "household",
-   "passed": "household",
+   "passed": null,
    "dropped_why": null
   },
   {
@@ -1109,19 +1017,15 @@
   {
    "id": "2015122300020966",
    "field": "일반.income_pct",
-   "result": "검사기가 버림(맞는 값)",
+   "result": "AI 못 읽음",
    "gold": {
     "1": 70,
     "2": 60,
     "3+": 50
    },
-   "ai": {
-    "1": 70,
-    "2": 60,
-    "3+": 50
-   },
+   "ai": null,
    "passed": null,
-   "dropped_why": "일반.income_pct: 문장에 '소득'이 없음"
+   "dropped_why": null
   },
   {
    "id": "2015122300020966",
@@ -1144,17 +1048,14 @@
   {
    "id": "2015122300020966",
    "field": "local",
-   "result": "검사기가 버림(맞는 값)",
+   "result": "AI 못 읽음",
    "gold": {
     "sido": "광주",
     "sigun": null
    },
-   "ai": {
-    "sido": "광주",
-    "sigun": null
-   },
+   "ai": null,
    "passed": null,
-   "dropped_why": "local: 문장에 그 지역 이름·거주 요건이 없음"
+   "dropped_why": null
   },
   {
    "id": "0000061188",
@@ -1354,54 +1255,50 @@
   {
    "id": "0000061187",
    "field": "account",
-   "result": "검사기가 버림(맞는 값)",
+   "result": "맞음",
    "gold": "none",
    "ai": "none",
-   "passed": null,
-   "dropped_why": "account: 문장에 청약통장을 보지 않는다는 말이 없음"
+   "passed": "none",
+   "dropped_why": null
   },
   {
    "id": "2015122300020912",
    "field": "청년.homeless",
-   "result": "검사기가 버림(맞는 값)",
+   "result": "맞음",
    "gold": "self",
    "ai": "self",
-   "passed": null,
-   "dropped_why": "청년.homeless: 문장이 본인 무주택으로 보이지 않음"
+   "passed": "self",
+   "dropped_why": null
   },
   {
    "id": "2015122300020912",
    "field": "청년.income_pct",
-   "result": "검사기가 버림(맞는 값)",
+   "result": "AI 못 읽음",
    "gold": {
     "1": 170,
     "2": 160,
     "3+": 150
    },
-   "ai": {
-    "1": 170,
-    "2": 160,
-    "3+": 150
-   },
+   "ai": null,
    "passed": null,
-   "dropped_why": "청년.income_pct: 문장에 170%(또는 가산 전 값과 가산 폭)가 없음"
+   "dropped_why": null
   },
   {
    "id": "2015122300020912",
    "field": "청년.asset_manwon",
-   "result": "맞음",
+   "result": "AI 못 읽음",
    "gold": 34500,
-   "ai": 34500,
-   "passed": 34500,
+   "ai": null,
+   "passed": null,
    "dropped_why": null
   },
   {
    "id": "2015122300020912",
    "field": "청년.car_manwon",
-   "result": "맞음",
+   "result": "AI 못 읽음",
    "gold": 4542,
-   "ai": 4542,
-   "passed": 4542,
+   "ai": null,
+   "passed": null,
    "dropped_why": null
   },
   {
@@ -1416,80 +1313,72 @@
   {
    "id": "2015122300020912",
    "field": "신혼부부·한부모.income_pct",
-   "result": "검사기가 버림(틀린 값)",
+   "result": "AI 못 읽음",
    "gold": {
     "1": null,
     "2": 160,
     "3+": 150
    },
-   "ai": {
-    "1": 170,
-    "2": 160,
-    "3+": 150
-   },
+   "ai": null,
    "passed": null,
-   "dropped_why": "신혼부부·한부모.income_pct: 문장에 170%(또는 가산 전 값과 가산 폭)가 없음"
+   "dropped_why": null
   },
   {
    "id": "2015122300020912",
    "field": "신혼부부·한부모.asset_manwon",
-   "result": "맞음",
+   "result": "AI 못 읽음",
    "gold": 34500,
-   "ai": 34500,
-   "passed": 34500,
+   "ai": null,
+   "passed": null,
    "dropped_why": null
   },
   {
    "id": "2015122300020912",
    "field": "신혼부부·한부모.car_manwon",
-   "result": "맞음",
+   "result": "AI 못 읽음",
    "gold": 4542,
-   "ai": 4542,
-   "passed": 4542,
+   "ai": null,
+   "passed": null,
    "dropped_why": null
   },
   {
    "id": "2015122300020912",
    "field": "고령자.homeless",
-   "result": "틀림",
+   "result": "맞음",
    "gold": "household_or_single_self",
-   "ai": "household",
-   "passed": "household",
+   "ai": "household_or_single_self",
+   "passed": "household_or_single_self",
    "dropped_why": null
   },
   {
    "id": "2015122300020912",
    "field": "고령자.income_pct",
-   "result": "검사기가 버림(맞는 값)",
+   "result": "AI 못 읽음",
    "gold": {
     "1": 170,
     "2": 160,
     "3+": 150
    },
-   "ai": {
-    "1": 170,
-    "2": 160,
-    "3+": 150
-   },
+   "ai": null,
    "passed": null,
-   "dropped_why": "고령자.income_pct: 문장에 170%(또는 가산 전 값과 가산 폭)가 없음"
+   "dropped_why": null
   },
   {
    "id": "2015122300020912",
    "field": "고령자.asset_manwon",
-   "result": "맞음",
+   "result": "AI 못 읽음",
    "gold": 34500,
-   "ai": 34500,
-   "passed": 34500,
+   "ai": null,
+   "passed": null,
    "dropped_why": null
   },
   {
    "id": "2015122300020912",
    "field": "고령자.car_manwon",
-   "result": "맞음",
+   "result": "AI 못 읽음",
    "gold": 4542,
-   "ai": 4542,
-   "passed": 4542,
+   "ai": null,
+   "passed": null,
    "dropped_why": null
   },
   {
@@ -1516,7 +1405,7 @@
     "3+": 150
    },
    "passed": null,
-   "dropped_why": "일반.income_pct: 문장에 170%(또는 가산 전 값과 가산 폭)가 없음"
+   "dropped_why": "일반.income_pct: 문장에 '소득'이 없음"
   },
   {
    "id": "2015122300020912",
@@ -1534,6 +1423,20 @@
    "gold": 4542,
    "ai": 4542,
    "passed": 4542,
+   "dropped_why": null
+  },
+  {
+   "id": "2015122300020912",
+   "field": "계층 주거급여수급자",
+   "result": "정답에 없는 계층",
+   "gold": null,
+   "ai": null,
+   "passed": {
+    "homeless": null,
+    "income_pct": null,
+    "asset_manwon": null,
+    "car_manwon": null
+   },
    "dropped_why": null
   },
   {
@@ -1566,10 +1469,10 @@
   {
    "id": "0000061184",
    "field": "일반.car_manwon",
-   "result": "맞음",
+   "result": "AI 못 읽음",
    "gold": "excluded",
-   "ai": "excluded",
-   "passed": "excluded",
+   "ai": null,
+   "passed": null,
    "dropped_why": null
   },
   {
@@ -1589,6 +1492,604 @@
    "ai": "none",
    "passed": "none",
    "dropped_why": null
+  },
+  {
+   "id": "2015122300020895",
+   "field": "일반.homeless",
+   "result": "맞음",
+   "gold": "household",
+   "ai": "household",
+   "passed": "household",
+   "dropped_why": null
+  },
+  {
+   "id": "2015122300020895",
+   "field": "일반.income_pct",
+   "result": "AI 못 읽음",
+   "gold": "excluded",
+   "ai": null,
+   "passed": null,
+   "dropped_why": null
+  },
+  {
+   "id": "2015122300020895",
+   "field": "일반.asset_manwon",
+   "result": "AI 못 읽음",
+   "gold": "excluded",
+   "ai": null,
+   "passed": null,
+   "dropped_why": null
+  },
+  {
+   "id": "2015122300020895",
+   "field": "일반.car_manwon",
+   "result": "AI 못 읽음",
+   "gold": "excluded",
+   "ai": null,
+   "passed": null,
+   "dropped_why": null
+  },
+  {
+   "id": "2015122300020895",
+   "field": "regions",
+   "result": "맞음",
+   "gold": [
+    "전북"
+   ],
+   "ai": [
+    "전북"
+   ],
+   "passed": [
+    "전북"
+   ],
+   "dropped_why": null
+  },
+  {
+   "id": "2015122300020895",
+   "field": "account",
+   "result": "검사기가 버림(맞는 값)",
+   "gold": {
+    "months": 6,
+    "count": 6,
+    "rank2_any": true
+   },
+   "ai": {
+    "months": 6,
+    "count": 6,
+    "rank2_any": true
+   },
+   "passed": null,
+   "dropped_why": "account: 문장에 가입 기간·납입 횟수가 없음"
+  },
+  {
+   "id": "2015122300020895",
+   "field": "local",
+   "result": "AI 못 읽음",
+   "gold": {
+    "sido": "전북",
+    "sigun": "익산시"
+   },
+   "ai": null,
+   "passed": null,
+   "dropped_why": null
+  },
+  {
+   "id": "2015122300020893",
+   "field": "일반.homeless",
+   "result": "맞음",
+   "gold": "household",
+   "ai": "household",
+   "passed": "household",
+   "dropped_why": null
+  },
+  {
+   "id": "2015122300020893",
+   "field": "일반.income_pct",
+   "result": "맞음",
+   "gold": "excluded",
+   "ai": "excluded",
+   "passed": "excluded",
+   "dropped_why": null
+  },
+  {
+   "id": "2015122300020893",
+   "field": "일반.asset_manwon",
+   "result": "맞음",
+   "gold": "excluded",
+   "ai": "excluded",
+   "passed": "excluded",
+   "dropped_why": null
+  },
+  {
+   "id": "2015122300020893",
+   "field": "일반.car_manwon",
+   "result": "맞음",
+   "gold": 4542,
+   "ai": 4542,
+   "passed": 4542,
+   "dropped_why": null
+  },
+  {
+   "id": "2015122300020864",
+   "field": "일반.homeless",
+   "result": "맞음",
+   "gold": "household",
+   "ai": "household",
+   "passed": "household",
+   "dropped_why": null
+  },
+  {
+   "id": "2015122300020864",
+   "field": "일반.income_pct",
+   "result": "AI 못 읽음",
+   "gold": {
+    "1": 70,
+    "2": 60,
+    "3+": 50
+   },
+   "ai": null,
+   "passed": null,
+   "dropped_why": null
+  },
+  {
+   "id": "2015122300020864",
+   "field": "일반.asset_manwon",
+   "result": "맞음",
+   "gold": 24500,
+   "ai": 24500,
+   "passed": 24500,
+   "dropped_why": null
+  },
+  {
+   "id": "2015122300020864",
+   "field": "일반.car_manwon",
+   "result": "맞음",
+   "gold": 4542,
+   "ai": 4542,
+   "passed": 4542,
+   "dropped_why": null
+  },
+  {
+   "id": "2015122300020864",
+   "field": "local",
+   "result": "맞음",
+   "gold": {
+    "sido": "경남",
+    "sigun": "남해군"
+   },
+   "ai": {
+    "sido": "경남",
+    "sigun": "남해군"
+   },
+   "passed": {
+    "sido": "경남",
+    "sigun": "남해군"
+   },
+   "dropped_why": null
+  },
+  {
+   "id": "2015122300020850",
+   "field": "대학생.homeless",
+   "result": "맞음",
+   "gold": "self",
+   "ai": "self",
+   "passed": "self",
+   "dropped_why": null
+  },
+  {
+   "id": "2015122300020850",
+   "field": "대학생.income_pct",
+   "result": "맞음",
+   "gold": "excluded",
+   "ai": "excluded",
+   "passed": "excluded",
+   "dropped_why": null
+  },
+  {
+   "id": "2015122300020850",
+   "field": "대학생.asset_manwon",
+   "result": "맞음",
+   "gold": "excluded",
+   "ai": "excluded",
+   "passed": "excluded",
+   "dropped_why": null
+  },
+  {
+   "id": "2015122300020850",
+   "field": "대학생.car_manwon",
+   "result": "검사기가 버림(맞는 값)",
+   "gold": 0,
+   "ai": 0,
+   "passed": null,
+   "dropped_why": "대학생.car_manwon: 문장에 자동차를 가지면 안 된다는 말이 없음"
+  },
+  {
+   "id": "2015122300020850",
+   "field": "청년.homeless",
+   "result": "맞음",
+   "gold": "self",
+   "ai": "self",
+   "passed": "self",
+   "dropped_why": null
+  },
+  {
+   "id": "2015122300020850",
+   "field": "청년.income_pct",
+   "result": "맞음",
+   "gold": "excluded",
+   "ai": "excluded",
+   "passed": "excluded",
+   "dropped_why": null
+  },
+  {
+   "id": "2015122300020850",
+   "field": "청년.asset_manwon",
+   "result": "맞음",
+   "gold": "excluded",
+   "ai": "excluded",
+   "passed": "excluded",
+   "dropped_why": null
+  },
+  {
+   "id": "2015122300020850",
+   "field": "청년.car_manwon",
+   "result": "맞음",
+   "gold": 4542,
+   "ai": 4542,
+   "passed": 4542,
+   "dropped_why": null
+  },
+  {
+   "id": "2015122300020850",
+   "field": "신혼부부·한부모.homeless",
+   "result": "맞음",
+   "gold": "household",
+   "ai": "household",
+   "passed": "household",
+   "dropped_why": null
+  },
+  {
+   "id": "2015122300020850",
+   "field": "신혼부부·한부모.income_pct",
+   "result": "맞음",
+   "gold": "excluded",
+   "ai": "excluded",
+   "passed": "excluded",
+   "dropped_why": null
+  },
+  {
+   "id": "2015122300020850",
+   "field": "신혼부부·한부모.asset_manwon",
+   "result": "맞음",
+   "gold": "excluded",
+   "ai": "excluded",
+   "passed": "excluded",
+   "dropped_why": null
+  },
+  {
+   "id": "2015122300020850",
+   "field": "신혼부부·한부모.car_manwon",
+   "result": "맞음",
+   "gold": 4542,
+   "ai": 4542,
+   "passed": 4542,
+   "dropped_why": null
+  },
+  {
+   "id": "2015122300020850",
+   "field": "고령자.homeless",
+   "result": "맞음",
+   "gold": "household",
+   "ai": "household",
+   "passed": "household",
+   "dropped_why": null
+  },
+  {
+   "id": "2015122300020850",
+   "field": "고령자.income_pct",
+   "result": "맞음",
+   "gold": "excluded",
+   "ai": "excluded",
+   "passed": "excluded",
+   "dropped_why": null
+  },
+  {
+   "id": "2015122300020850",
+   "field": "고령자.asset_manwon",
+   "result": "맞음",
+   "gold": "excluded",
+   "ai": "excluded",
+   "passed": "excluded",
+   "dropped_why": null
+  },
+  {
+   "id": "2015122300020850",
+   "field": "고령자.car_manwon",
+   "result": "맞음",
+   "gold": 4542,
+   "ai": 4542,
+   "passed": 4542,
+   "dropped_why": null
+  },
+  {
+   "id": "2015122300020850",
+   "field": "주거급여수급자.homeless",
+   "result": "검사기가 버림(맞는 값)",
+   "gold": "household",
+   "ai": "household",
+   "passed": null,
+   "dropped_why": null
+  },
+  {
+   "id": "2015122300020870",
+   "field": "대학생.homeless",
+   "result": "맞음",
+   "gold": "self",
+   "ai": "self",
+   "passed": "self",
+   "dropped_why": null
+  },
+  {
+   "id": "2015122300020870",
+   "field": "대학생.income_pct",
+   "result": "맞음",
+   "gold": "excluded",
+   "ai": "excluded",
+   "passed": "excluded",
+   "dropped_why": null
+  },
+  {
+   "id": "2015122300020870",
+   "field": "대학생.asset_manwon",
+   "result": "맞음",
+   "gold": "excluded",
+   "ai": "excluded",
+   "passed": "excluded",
+   "dropped_why": null
+  },
+  {
+   "id": "2015122300020870",
+   "field": "대학생.car_manwon",
+   "result": "맞음",
+   "gold": 0,
+   "ai": 0,
+   "passed": 0,
+   "dropped_why": null
+  },
+  {
+   "id": "2015122300020870",
+   "field": "청년.homeless",
+   "result": "맞음",
+   "gold": "self",
+   "ai": "self",
+   "passed": "self",
+   "dropped_why": null
+  },
+  {
+   "id": "2015122300020870",
+   "field": "청년.income_pct",
+   "result": "맞음",
+   "gold": "excluded",
+   "ai": "excluded",
+   "passed": "excluded",
+   "dropped_why": null
+  },
+  {
+   "id": "2015122300020870",
+   "field": "청년.asset_manwon",
+   "result": "맞음",
+   "gold": "excluded",
+   "ai": "excluded",
+   "passed": "excluded",
+   "dropped_why": null
+  },
+  {
+   "id": "2015122300020870",
+   "field": "청년.car_manwon",
+   "result": "맞음",
+   "gold": 4542,
+   "ai": 4542,
+   "passed": 4542,
+   "dropped_why": null
+  },
+  {
+   "id": "2015122300020870",
+   "field": "고령자.homeless",
+   "result": "맞음",
+   "gold": "household",
+   "ai": "household",
+   "passed": "household",
+   "dropped_why": null
+  },
+  {
+   "id": "2015122300020870",
+   "field": "고령자.income_pct",
+   "result": "맞음",
+   "gold": "excluded",
+   "ai": "excluded",
+   "passed": "excluded",
+   "dropped_why": null
+  },
+  {
+   "id": "2015122300020870",
+   "field": "고령자.asset_manwon",
+   "result": "맞음",
+   "gold": "excluded",
+   "ai": "excluded",
+   "passed": "excluded",
+   "dropped_why": null
+  },
+  {
+   "id": "2015122300020870",
+   "field": "고령자.car_manwon",
+   "result": "맞음",
+   "gold": 4542,
+   "ai": 4542,
+   "passed": 4542,
+   "dropped_why": null
+  },
+  {
+   "id": "2015122300020870",
+   "field": "주거급여수급자.homeless",
+   "result": "검사기가 버림(맞는 값)",
+   "gold": "household",
+   "ai": "household",
+   "passed": null,
+   "dropped_why": null
+  },
+  {
+   "id": "2015122300020870",
+   "field": "주거급여수급자.income_pct",
+   "result": "검사기가 버림(정답 없음)",
+   "gold": null,
+   "ai": "excluded",
+   "passed": null,
+   "dropped_why": null
+  },
+  {
+   "id": "2015122300020870",
+   "field": "주거급여수급자.asset_manwon",
+   "result": "검사기가 버림(정답 없음)",
+   "gold": null,
+   "ai": "excluded",
+   "passed": null,
+   "dropped_why": null
+  },
+  {
+   "id": "2015122300020870",
+   "field": "주거급여수급자.car_manwon",
+   "result": "검사기가 버림(정답 없음)",
+   "gold": null,
+   "ai": 4542,
+   "passed": null,
+   "dropped_why": null
+  },
+  {
+   "id": "2015122300020871",
+   "field": "대학생.homeless",
+   "result": "맞음",
+   "gold": "self",
+   "ai": "self",
+   "passed": "self",
+   "dropped_why": null
+  },
+  {
+   "id": "2015122300020871",
+   "field": "대학생.income_pct",
+   "result": "맞음",
+   "gold": "excluded",
+   "ai": "excluded",
+   "passed": "excluded",
+   "dropped_why": null
+  },
+  {
+   "id": "2015122300020871",
+   "field": "대학생.asset_manwon",
+   "result": "맞음",
+   "gold": "excluded",
+   "ai": "excluded",
+   "passed": "excluded",
+   "dropped_why": null
+  },
+  {
+   "id": "2015122300020871",
+   "field": "대학생.car_manwon",
+   "result": "맞음",
+   "gold": 0,
+   "ai": 0,
+   "passed": 0,
+   "dropped_why": null
+  },
+  {
+   "id": "2015122300020871",
+   "field": "청년.homeless",
+   "result": "맞음",
+   "gold": "self",
+   "ai": "self",
+   "passed": "self",
+   "dropped_why": null
+  },
+  {
+   "id": "2015122300020871",
+   "field": "청년.income_pct",
+   "result": "맞음",
+   "gold": "excluded",
+   "ai": "excluded",
+   "passed": "excluded",
+   "dropped_why": null
+  },
+  {
+   "id": "2015122300020871",
+   "field": "청년.asset_manwon",
+   "result": "맞음",
+   "gold": "excluded",
+   "ai": "excluded",
+   "passed": "excluded",
+   "dropped_why": null
+  },
+  {
+   "id": "2015122300020871",
+   "field": "청년.car_manwon",
+   "result": "맞음",
+   "gold": 4542,
+   "ai": 4542,
+   "passed": 4542,
+   "dropped_why": null
+  },
+  {
+   "id": "2015122300020692",
+   "field": "일반.homeless",
+   "result": "맞음",
+   "gold": "household",
+   "ai": "household",
+   "passed": "household",
+   "dropped_why": null
+  },
+  {
+   "id": "2015122300020692",
+   "field": "일반.income_pct",
+   "result": "AI 못 읽음",
+   "gold": {
+    "1": 70,
+    "2": 60,
+    "3+": 50
+   },
+   "ai": null,
+   "passed": null,
+   "dropped_why": null
+  },
+  {
+   "id": "2015122300020692",
+   "field": "일반.asset_manwon",
+   "result": "맞음",
+   "gold": 24500,
+   "ai": 24500,
+   "passed": 24500,
+   "dropped_why": null
+  },
+  {
+   "id": "2015122300020692",
+   "field": "일반.car_manwon",
+   "result": "맞음",
+   "gold": 4542,
+   "ai": 4542,
+   "passed": 4542,
+   "dropped_why": null
+  },
+  {
+   "id": "2015122300020692",
+   "field": "local",
+   "result": "검사기가 버림(틀린 값)",
+   "gold": {
+    "sido": "경남",
+    "sigun": "창원시"
+   },
+   "ai": {
+    "sido": "경남",
+    "sigun": "창원"
+   },
+   "passed": null,
+   "dropped_why": "local: 시·군 이름이 다름"
   }
  ]
 }

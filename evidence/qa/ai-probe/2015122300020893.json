@@ -1,0 +1,48 @@
+{
+ "id": "2015122300020893",
+ "sha": "b63565960d3aebcd",
+ "prompt_v": 2,
+ "model": "claude-sonnet-5-5",
+ "usage": {
+  "input_tokens": 48295,
+  "cache_creation_input_tokens": 0,
+  "cache_read_input_tokens": 0,
+  "cache_creation": {
+   "ephemeral_5m_input_tokens": 0,
+   "ephemeral_1h_input_tokens": 0
+  },
+  "output_tokens": 302,
+  "output_tokens_details": {
+   "thinking_tokens": 0
+  },
+  "service_tier": "standard",
+  "inference_geo": "global",
+  "speed": "standard"
+ },
+ "usd": 0.0996,
+ "answer": {
+  "groups": [
+   {
+    "key": "일반",
+    "homeless": "household",
+    "homeless_quote": "입주자모집공고일(2026.10.08.) 현재 무주택세대구성원으로서 아래의 ‘소득 및 자산보유 기준’을 충족하는 사람",
+    "income_pct": "excluded",
+    "income_quote": "▪ 소득 요건 소득요건 배제",
+    "asset_manwon": "excluded",
+    "asset_quote": "▪ 총자산 요건 총자산요건 배제",
+    "car_manwon": 4542,
+    "car_quote": "자동차가액  세대구성원 전원이 보유하고 있는 개별 자동차가액 ( 4,542 )만원 이하",
+    "age_min": null,
+    "age_max": null,
+    "age_quote": null
+   }
+  ],
+  "regions": null,
+  "regions_quote": null,
+  "account": null,
+  "account_quote": null,
+  "local": null,
+  "local_quote": null,
+  "other_groups": []
+ }
+}

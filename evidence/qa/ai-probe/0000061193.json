@@ -1,17 +1,17 @@
 {
  "id": "0000061193",
  "sha": "a141fcb8564cec19",
- "prompt_v": 1,
+ "prompt_v": 2,
  "model": "claude-sonnet-5-5",
  "usage": {
-  "input_tokens": 29684,
+  "input_tokens": 30134,
   "cache_creation_input_tokens": 0,
   "cache_read_input_tokens": 0,
   "cache_creation": {
    "ephemeral_5m_input_tokens": 0,
    "ephemeral_1h_input_tokens": 0
   },
-  "output_tokens": 569,
+  "output_tokens": 508,
   "output_tokens_details": {
    "thinking_tokens": 0
   },
@@ -19,35 +19,32 @@
   "inference_geo": "global",
   "speed": "standard"
  },
- "usd": 0.0651,
+ "usd": 0.0653,
  "answer": {
   "groups": [
    {
     "key": "일반",
     "homeless": "household",
-    "homeless_quote": "■ 입주자모집공고일(2026.10.29.) 현재 울산광역시에 거주중인 만 19세 이상인 성년자인 무주택 세대구성원",
+    "homeless_quote": "입주자모집공고일(2026.10.29.) 현재 울산광역시에 거주중인 만 19세 이상인 성년자인 무주택 세대구성원(아래의 ‘무주",
     "income_pct": "excluded",
-    "income_quote": "■ 입주자저축 가입여부, 과거당첨사실여부, 소득 및 자산기준 충족여부와 관계없이 신청가능하나",
+    "income_quote": "입주자저축 가입여부, 과거당첨사실여부, 소득 및 자산기준 충족여부와 관계없이 신청가능하나",
     "asset_manwon": "excluded",
-    "asset_quote": "■ 입주자저축 가입여부, 과거당첨사실여부, 소득 및 자산기준 충족여부와 관계없이 신청가능하나",
+    "asset_quote": "입주자저축 가입여부, 과거당첨사실여부, 소득 및 자산기준 충족여부와 관계없이 신청가능하나",
     "car_manwon": null,
     "car_quote": null,
     "age_min": 19,
     "age_max": null,
-    "age_quote": "■ 입주자모집공고일(2026.10.29.) 현재 울산광역시에 거주중인 만 19세 이상인 성년자인 무주택 세대구성원"
+    "age_quote": "입주자모집공고일(2026.10.29.) 현재 울산광역시에 거주중인 만 19세 이상인 성년자인 무주택 세대구성원(아래의 ‘무주"
    }
   ],
   "regions": [
    "울산"
   ],
-  "regions_quote": "■ 입주자모집공고일(2026.10.29.) 현재 울산광역시에 거주중인 만 19세 이상인 성년자인 무주택 세대구성원",
+  "regions_quote": "입주자모집공고일(2026.10.29.) 현재 울산광역시에 거주중인 만 19세 이상인 성년자인 무주택 세대구성원(아래의 ‘무주",
   "account": "none",
-  "account_quote": "■ 입주자저축 가입여부, 과거당첨사실여부, 소득 및 자산기준 충족여부와 관계없이 신청가능하나",
-  "local": {
-   "name": "울산광역시",
-   "sido": "울산",
-   "sigun": null
-  },
-  "local_quote": "■ 입주자모집공고일(2026.10.29.) 현재 울산광역시에 거주중인 만 19세 이상인 성년자인 무주택 세대구성원"
+  "account_quote": "입주자저축 가입여부, 과거당첨사실여부, 소득 및 자산기준 충족여부와 관계없이 신청가능하나",
+  "local": null,
+  "local_quote": null,
+  "other_groups": []
  }
 }
