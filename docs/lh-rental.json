@@ -1,7 +1,7 @@
 {
- "updated": "2026-11-10 12:47",
+ "updated": "2026-11-11 06:52",
  "source": "LH 청약플러스 임대 공고 (공공데이터포털 한국토지주택공사 분양임대공고 조회)",
- "count": 47,
+ "count": 49,
  "notices": [
   {
    "id": "0000061188",
@@ -335,6 +335,315 @@
     "SPL_INF_TP_CD": "062",
     "UPP_AIS_TP_CD": "06",
     "AIS_TP_CD": "07"
+   },
+   "read": {
+    "tools": [
+     "pypdf",
+     "pdfium",
+     "plumber"
+    ],
+    "conflicts": []
+   }
+  },
+  {
+   "id": "2015122300020850",
+   "name": "익산제3일반산단 행복주택 입주자격완화 추가모집(동호지정,선계약후검증)",
+   "type": "행복주택",
+   "type_code": "10",
+   "judge_type": true,
+   "region": "전북특별자치도",
+   "posted": "2026-10-02",
+   "close": "2026-11-12",
+   "status": "정정공고중",
+   "url": "https://apply.lh.or.kr/lhapply/apply/wt/wrtanc/selectWrtancInfo.do?panId=2015122300020850&ccrCnntSysDsCd=03&uppAisTpCd=06&aisTpCd=10&mi=1026",
+   "url_mobile": "https://apply.lh.or.kr/lhapply/apply/wt/wrtanc/selectWrtancInfo.do?panId=2015122300020850&ccrCnntSysDsCd=03&uppAisTpCd=06&aisTpCd=10&mi=1026",
+   "schedule": [
+    {
+     "complex": null,
+     "apply_start": "2026-10-15",
+     "apply_end": "2026-11-12",
+     "apply_time": "~",
+     "docs_target": null,
+     "docs_start": null,
+     "docs_end": null,
+     "winner": "2026-11-12",
+     "contract_start": null,
+     "contract_end": null
+    }
+   ],
+   "complexes": [
+    {
+     "name": "익산 제3일반산단",
+     "address": "전북특별자치도 익산시 낭산면 용기리 1953-1",
+     "households": 200,
+     "area": "25.96~44.78",
+     "move_in": "2025.05",
+     "heating": "개별난방"
+    }
+   ],
+   "units": [
+    {
+     "complex": "익산 제3일반산단",
+     "type": "25A(대학생,청년,신혼부부,한부모,주거급여수급자,고령자)",
+     "area": 25.96,
+     "supply_area": 40.437,
+     "households": 22,
+     "now_households": 9,
+     "deposit": null,
+     "rent": null,
+     "money_note": "공고문 참조"
+    },
+    {
+     "complex": "익산 제3일반산단",
+     "type": "25B(대학생,청년,신혼부부,한부모,주거급여수급자,고령자)",
+     "area": 25.96,
+     "supply_area": 40.437,
+     "households": 58,
+     "now_households": 12,
+     "deposit": null,
+     "rent": null,
+     "money_note": "공고문 참조"
+    },
+    {
+     "complex": "익산 제3일반산단",
+     "type": "36A(대학생,청년,신혼부부,한부모,주거급여수급자,고령자)",
+     "area": 36.91,
+     "supply_area": 56.7742,
+     "households": 70,
+     "now_households": 21,
+     "deposit": null,
+     "rent": null,
+     "money_note": "공고문 참조"
+    },
+    {
+     "complex": "익산 제3일반산단",
+     "type": "36B(대학생,청년,신혼부부,한부모,주거급여수급자,고령자)",
+     "area": 36.86,
+     "supply_area": 56.6923,
+     "households": 10,
+     "now_households": 7,
+     "deposit": null,
+     "rent": null,
+     "money_note": "공고문 참조"
+    }
+   ],
+   "files": [
+    {
+     "kind": "공고문(hwp)",
+     "name": "261002익산제3일반산단행복주택입주자추가모집공고문(동호지정,선계약후검증).hwpx",
+     "url": "https://apply.lh.or.kr/lhapply/lhFile.do?fileid=68835599"
+    },
+    {
+     "kind": "공고문(PDF)",
+     "name": "261002익산제3일반산단행복주택입주자추가모집공고문(동호지정,선계약후검증).pdf",
+     "url": "https://apply.lh.or.kr/lhapply/lhFile.do?fileid=68835600"
+    },
+    {
+     "kind": "기타 첨부파일",
+     "name": "붙임1.신청자전원필수제출양식.hwpx",
+     "url": "https://apply.lh.or.kr/lhapply/lhFile.do?fileid=68822900"
+    },
+    {
+     "kind": "기타 첨부파일",
+     "name": "붙임2.복학예정자각서(대학생복학예정자만제출).hwpx",
+     "url": "https://apply.lh.or.kr/lhapply/lhFile.do?fileid=68822901"
+    },
+    {
+     "kind": "기타 첨부파일",
+     "name": "붙임3.예비신혼부부신청확인서및세대구성확인서(예비신혼부부만제출).hwpx",
+     "url": "https://apply.lh.or.kr/lhapply/lhFile.do?fileid=68822902"
+    },
+    {
+     "kind": "기타 첨부파일",
+     "name": "붙임4.위임장(해당자만제출).hwpx",
+     "url": "https://apply.lh.or.kr/lhapply/lhFile.do?fileid=68822903"
+    },
+    {
+     "kind": "기타 첨부파일",
+     "name": "붙임5.동호배치도.pdf",
+     "url": "https://apply.lh.or.kr/lhapply/lhFile.do?fileid=68822904"
+    },
+    {
+     "kind": "카탈로그",
+     "name": "팸플릿_익산제3일반산단행복주택.pdf",
+     "url": "https://apply.lh.or.kr/lhapply/lhFile.do?fileid=68822905"
+    }
+   ],
+   "etc": "* 청약접수 일정 및 제출서류 등을 반드시 확인하시기 바랍니다.\n* 입주자 모집 공고문(첨부파일)을 반드시 확인하시어 불이익이 없도록 유념하시기 바랍니다.\n  (1세대 1주택 신청원칙, 중복신청 시 전부 무효처리 됨)\n* 첨부된 작성양식은 접수처에 비치되어 있으니 참고하시기 바랍니다.\n* 전화문의는 장시간 접속지연 및 통화대기 등의 불편이 있을 수 있으니, 신청과 관련한 내용은 공고문을 참고하여 주시기 바랍니다.\n* 금회 모집은 미계약(재임대세대 포함) 된 세대에 대하여 입주자격을 완화하여 추가 모집하는 것으로, 신청자가 선착순으로 원하는 동호를 지정하여 계약체결하며 계약체결 후 입주자격을 검증하는 先(선)계약 後(후)검증 방식으로 진행됩니다. 입주는 적격자에 한하여 개별안내 예정입니다.",
+   "office": {
+    "place": "전북특별자치도 전주시 완산구 홍산로 158(효자동2가)",
+    "tel": "1600-1004"
+   },
+   "notice_pdf": "https://apply.lh.or.kr/lhapply/lhFile.do?fileid=68835600",
+   "notice_text": 53997,
+   "rents": [
+    {
+     "complex": null,
+     "type": "25A/25B",
+     "group": "대학생·청년(소득 없음)",
+     "deposit": 15096000,
+     "rent": 83020
+    },
+    {
+     "complex": null,
+     "type": "25A/25B",
+     "group": "청년(소득 있음)",
+     "deposit": 15984000,
+     "rent": 87910
+    },
+    {
+     "complex": null,
+     "type": "25A/25B",
+     "group": "신혼부부·한부모",
+     "deposit": 17760000,
+     "rent": 97680
+    },
+    {
+     "complex": null,
+     "type": "25A/25B",
+     "group": "주거급여수급자",
+     "deposit": 13320000,
+     "rent": 73260
+    },
+    {
+     "complex": null,
+     "type": "25A/25B",
+     "group": "고령자",
+     "deposit": 16872000,
+     "rent": 92790
+    },
+    {
+     "complex": null,
+     "type": "36A/36B",
+     "group": "대학생·청년(소득 없음)",
+     "deposit": 21896000,
+     "rent": 120420
+    },
+    {
+     "complex": null,
+     "type": "36A/36B",
+     "group": "청년(소득 있음)",
+     "deposit": 23184000,
+     "rent": 127510
+    },
+    {
+     "complex": null,
+     "type": "36A/36B",
+     "group": "신혼부부·한부모",
+     "deposit": 25760000,
+     "rent": 141680
+    },
+    {
+     "complex": null,
+     "type": "36A/36B",
+     "group": "주거급여수급자",
+     "deposit": 19320000,
+     "rent": 106260
+    },
+    {
+     "complex": null,
+     "type": "36A/36B",
+     "group": "고령자",
+     "deposit": 24472000,
+     "rent": 134590
+    }
+   ],
+   "terms": {
+    "relaxed": true,
+    "homeless_relaxed": true,
+    "homeless_max1": false,
+    "income_basis": "도시근로자 월평균소득",
+    "groups": [
+     {
+      "key": "대학생",
+      "name": "대학생",
+      "homeless": "self",
+      "income_pct": "excluded",
+      "asset_manwon": "excluded",
+      "car_manwon": 0,
+      "age_min": null,
+      "age_max": null
+     },
+     {
+      "key": "청년",
+      "name": "청년",
+      "homeless": "self",
+      "income_pct": "excluded",
+      "asset_manwon": "excluded",
+      "car_manwon": 4542,
+      "age_min": 19,
+      "age_max": 39,
+      "account_by_movein": true
+     },
+     {
+      "key": "신혼부부·한부모",
+      "name": "신혼부부·한부모",
+      "homeless": "household",
+      "income_pct": "excluded",
+      "asset_manwon": "excluded",
+      "car_manwon": 4542,
+      "age_min": null,
+      "age_max": null,
+      "account_by_movein": true
+     },
+     {
+      "key": "고령자",
+      "name": "고령자",
+      "homeless": "household",
+      "income_pct": "excluded",
+      "asset_manwon": "excluded",
+      "car_manwon": 4542,
+      "age_min": 65,
+      "age_max": null
+     },
+     {
+      "key": "주거급여수급자",
+      "name": "주거급여수급자",
+      "homeless": "household",
+      "income_pct": null,
+      "asset_manwon": null,
+      "car_manwon": null,
+      "age_min": null,
+      "age_max": null
+     }
+    ],
+    "quotes": {
+     "대학생": {
+      "income": "로 간주 ② 혼인 중이 아닐 것 ③ 소득요건 배제 [일반요건 : 신",
+      "asset": "579,278원을 합산하여 산정 ④ 총자산요건 배제 (단, 신청자 본인이 자동차가액 산출대",
+      "car": "자산요건 배제 (단, 신청자 본인이 자동차가액 산출대상 자동차를 소유하고 있지 않을 것"
+     },
+     "청년": {
+      "income": "예술인 ② 혼인 중이 아닐 것 ③ 소득요건 배제 - 9 - ※ 소",
+      "asset": "579,278원을 합산하여 산정 ④ 총자산요건 배제 (단, 해당세대가",
+      "car": "당세대가 보유하고 있는 총 자산 중 자동차가액은 4,542만원 이하 일 것) * 가산"
+     },
+     "신혼부부·한부모": {
+      "income": "이하) 자녀(태아포함)를 둔 자 ③ 소득요건 배제 [일반요건: 해당",
+      "asset": "579,278원을 합산하여 산정 ④ 총자산요건 배제 (단, 해당세대가",
+      "car": "당세대가 보유하고 있는 총 자산 중 자동차가액은 4,542만원 이하 일 것) * 가산"
+     },
+     "고령자": {
+      "income": "을 모두 갖춘 65세 이상인 자 ① 소득요건 배제 [일반요건 : 해",
+      "asset": "579,278원을 합산하여 산정 ② 총자산요건 배제 (단, 해당세대가",
+      "car": "당세대가 보유하고 있는 총 자산 중 자동차가액은 4,542만원 이하 일 것)) * 가"
+     },
+     "주거급여수급자": {}
+    },
+    "income_table_100": {
+     "3": 8168429,
+     "4": 8802202,
+     "5": 9326985,
+     "6": 9906263
+    },
+    "prewed_ok": true,
+    "unknown_groups": []
+   },
+   "api": {
+    "CCR_CNNT_SYS_DS_CD": "03",
+    "SPL_INF_TP_CD": "063",
+    "UPP_AIS_TP_CD": "06",
+    "AIS_TP_CD": "10"
    },
    "read": {
     "tools": [
@@ -2877,6 +3186,310 @@
       "income": "가구원수별 가구당 월평균소득의 100퍼센트 이하 ※ 단, 가구원수가 1인인 경우에는 120퍼센트, 2인인 경우에는 110퍼센트 이하일 것 가구원",
       "asset": "78원을 합산하여 산정 ② 해당 세대가 보유하고 있는 총 자산가액이 34,500만원 이하이고 총 자산 중",
       "car": "4,500만원 이하이고 총 자산 중 자동차가액이 4,542만원 이하 《 고령자 계층"
+     },
+     "주거급여수급자": {}
+    },
+    "income_table_100": {
+     "3": 8168429,
+     "4": 8802202,
+     "5": 9326985,
+     "6": 9906263
+    },
+    "prewed_ok": true,
+    "unknown_groups": []
+   },
+   "api": {
+    "CCR_CNNT_SYS_DS_CD": "03",
+    "SPL_INF_TP_CD": "063",
+    "UPP_AIS_TP_CD": "06",
+    "AIS_TP_CD": "10"
+   },
+   "read": {
+    "tools": [
+     "pypdf",
+     "pdfium",
+     "plumber"
+    ],
+    "conflicts": []
+   }
+  },
+  {
+   "id": "2015122300021045",
+   "name": "[정정공고]익산제3일반산단 행복주택 입주자격완화 추가모집(동호지정,선계약후검증)",
+   "type": "행복주택",
+   "type_code": "10",
+   "judge_type": true,
+   "region": "전북특별자치도",
+   "posted": "2026-11-10",
+   "close": "2026-11-12",
+   "status": "공고중",
+   "url": "https://apply.lh.or.kr/lhapply/apply/wt/wrtanc/selectWrtancInfo.do?panId=2015122300021045&ccrCnntSysDsCd=03&uppAisTpCd=06&aisTpCd=10&mi=1026",
+   "url_mobile": "https://apply.lh.or.kr/lhapply/apply/wt/wrtanc/selectWrtancInfo.do?panId=2015122300021045&ccrCnntSysDsCd=03&uppAisTpCd=06&aisTpCd=10&mi=1026",
+   "schedule": [
+    {
+     "complex": null,
+     "apply_start": "2026-10-15",
+     "apply_end": "2026-11-12",
+     "apply_time": "~",
+     "docs_target": null,
+     "docs_start": null,
+     "docs_end": null,
+     "winner": "2026-11-12",
+     "contract_start": null,
+     "contract_end": null
+    }
+   ],
+   "complexes": [
+    {
+     "name": "익산 제3일반산단",
+     "address": "전북특별자치도 익산시 낭산면 용기리 1953-1",
+     "households": 200,
+     "area": "25.96~44.78",
+     "move_in": "2025.05",
+     "heating": "개별난방"
+    }
+   ],
+   "units": [
+    {
+     "complex": "익산 제3일반산단",
+     "type": "25A(대학생,청년,신혼부부,한부모,주거급여수급자,고령자)",
+     "area": 25.96,
+     "supply_area": 40.437,
+     "households": 22,
+     "now_households": 9,
+     "deposit": null,
+     "rent": null,
+     "money_note": "공고문 참조"
+    },
+    {
+     "complex": "익산 제3일반산단",
+     "type": "25B(대학생,청년,신혼부부,한부모,주거급여수급자,고령자)",
+     "area": 25.96,
+     "supply_area": 40.437,
+     "households": 58,
+     "now_households": 12,
+     "deposit": null,
+     "rent": null,
+     "money_note": "공고문 참조"
+    },
+    {
+     "complex": "익산 제3일반산단",
+     "type": "36A(대학생,청년,신혼부부,한부모,주거급여수급자,고령자)",
+     "area": 36.91,
+     "supply_area": 56.7742,
+     "households": 70,
+     "now_households": 21,
+     "deposit": null,
+     "rent": null,
+     "money_note": "공고문 참조"
+    },
+    {
+     "complex": "익산 제3일반산단",
+     "type": "36B(대학생,청년,신혼부부,한부모,주거급여수급자,고령자)",
+     "area": 36.86,
+     "supply_area": 56.6923,
+     "households": 10,
+     "now_households": 7,
+     "deposit": null,
+     "rent": null,
+     "money_note": "공고문 참조"
+    }
+   ],
+   "files": [
+    {
+     "kind": "공고문(hwp)",
+     "name": "[정정]261002익산제3일반산단행복주택입주자추가모집공고문(동호지정,선계약후검증).hwpx",
+     "url": "https://apply.lh.or.kr/lhapply/lhFile.do?fileid=69371432"
+    },
+    {
+     "kind": "공고문(PDF)",
+     "name": "[정정]261002익산제3일반산단행복주택입주자추가모집공고문(동호지정,선계약후검증).pdf",
+     "url": "https://apply.lh.or.kr/lhapply/lhFile.do?fileid=69371433"
+    },
+    {
+     "kind": "기타 첨부파일",
+     "name": "붙임1.신청자전원필수제출양식.hwpx",
+     "url": "https://apply.lh.or.kr/lhapply/lhFile.do?fileid=69372898"
+    },
+    {
+     "kind": "기타 첨부파일",
+     "name": "붙임2.복학예정자각서(대학생복학예정자만제출).hwpx",
+     "url": "https://apply.lh.or.kr/lhapply/lhFile.do?fileid=69372899"
+    },
+    {
+     "kind": "기타 첨부파일",
+     "name": "붙임3.예비신혼부부신청확인서및세대구성확인서(예비신혼부부만제출).hwpx",
+     "url": "https://apply.lh.or.kr/lhapply/lhFile.do?fileid=69372900"
+    },
+    {
+     "kind": "기타 첨부파일",
+     "name": "붙임4.위임장(해당자만제출).hwpx",
+     "url": "https://apply.lh.or.kr/lhapply/lhFile.do?fileid=69372901"
+    },
+    {
+     "kind": "카탈로그",
+     "name": "팸플릿_익산제3일반산단행복주택.pdf",
+     "url": "https://apply.lh.or.kr/lhapply/lhFile.do?fileid=69372902"
+    }
+   ],
+   "etc": "* 청약접수 일정 및 제출서류 등을 반드시 확인하시기 바랍니다.\n* 입주자 모집 공고문(첨부파일)을 반드시 확인하시어 불이익이 없도록 유념하시기 바랍니다.\n  (1세대 1주택 신청원칙, 중복신청 시 전부 무효처리 됨)\n* 첨부된 작성양식은 접수처에 비치되어 있으니 참고하시기 바랍니다.\n* 전화문의는 장시간 접속지연 및 통화대기 등의 불편이 있을 수 있으니, 신청과 관련한 내용은 공고문을 참고하여 주시기 바랍니다.\n* 금회 모집은 미계약(재임대세대 포함) 된 세대에 대하여 입주자격을 완화하여 추가 모집하는 것으로, 신청자가 선착순으로 원하는 동호를 지정하여 계약체결하며 계약체결 후 입주자격을 검증하는 先(선)계약 後(후)검증 방식으로 진행됩니다. 입주는 적격자에 한하여 개별안내 예정입니다.",
+   "office": {
+    "place": "전북특별자치도 전주시 완산구 홍산로 158(효자동2가)",
+    "tel": "1600-1004"
+   },
+   "notice_pdf": "https://apply.lh.or.kr/lhapply/lhFile.do?fileid=69371433",
+   "notice_text": 53939,
+   "rents": [
+    {
+     "complex": null,
+     "type": "25A/25B",
+     "group": "대학생·청년(소득 없음)",
+     "deposit": 15096000,
+     "rent": 83020
+    },
+    {
+     "complex": null,
+     "type": "25A/25B",
+     "group": "청년(소득 있음)",
+     "deposit": 15984000,
+     "rent": 87910
+    },
+    {
+     "complex": null,
+     "type": "25A/25B",
+     "group": "신혼부부·한부모",
+     "deposit": 17760000,
+     "rent": 97680
+    },
+    {
+     "complex": null,
+     "type": "25A/25B",
+     "group": "주거급여수급자",
+     "deposit": 13320000,
+     "rent": 73260
+    },
+    {
+     "complex": null,
+     "type": "25A/25B",
+     "group": "고령자",
+     "deposit": 16872000,
+     "rent": 92790
+    },
+    {
+     "complex": null,
+     "type": "36A/36B",
+     "group": "대학생·청년(소득 없음)",
+     "deposit": 21896000,
+     "rent": 120420
+    },
+    {
+     "complex": null,
+     "type": "36A/36B",
+     "group": "청년(소득 있음)",
+     "deposit": 23184000,
+     "rent": 127510
+    },
+    {
+     "complex": null,
+     "type": "36A/36B",
+     "group": "신혼부부·한부모",
+     "deposit": 25760000,
+     "rent": 141680
+    },
+    {
+     "complex": null,
+     "type": "36A/36B",
+     "group": "주거급여수급자",
+     "deposit": 19320000,
+     "rent": 106260
+    },
+    {
+     "complex": null,
+     "type": "36A/36B",
+     "group": "고령자",
+     "deposit": 24472000,
+     "rent": 134590
+    }
+   ],
+   "terms": {
+    "relaxed": true,
+    "homeless_relaxed": true,
+    "homeless_max1": false,
+    "income_basis": "도시근로자 월평균소득",
+    "groups": [
+     {
+      "key": "대학생",
+      "name": "대학생",
+      "homeless": "self",
+      "income_pct": "excluded",
+      "asset_manwon": "excluded",
+      "car_manwon": 0,
+      "age_min": null,
+      "age_max": null
+     },
+     {
+      "key": "청년",
+      "name": "청년",
+      "homeless": "self",
+      "income_pct": "excluded",
+      "asset_manwon": "excluded",
+      "car_manwon": 4542,
+      "age_min": 19,
+      "age_max": 39,
+      "account_by_movein": true
+     },
+     {
+      "key": "신혼부부·한부모",
+      "name": "신혼부부·한부모",
+      "homeless": "household",
+      "income_pct": "excluded",
+      "asset_manwon": "excluded",
+      "car_manwon": 4542,
+      "age_min": null,
+      "age_max": null,
+      "account_by_movein": true
+     },
+     {
+      "key": "고령자",
+      "name": "고령자",
+      "homeless": "household",
+      "income_pct": "excluded",
+      "asset_manwon": "excluded",
+      "car_manwon": 4542,
+      "age_min": 65,
+      "age_max": null
+     },
+     {
+      "key": "주거급여수급자",
+      "name": "주거급여수급자",
+      "homeless": "household",
+      "income_pct": null,
+      "asset_manwon": null,
+      "car_manwon": null,
+      "age_min": null,
+      "age_max": null
+     }
+    ],
+    "quotes": {
+     "대학생": {
+      "income": "로 간주 ② 혼인 중이 아닐 것 ③ 소득요건 배제 [일반요건 : 신",
+      "asset": "579,278원을 합산하여 산정 ④ 총자산요건 배제 (단, 신청자 본인이 자동차가액 산출대",
+      "car": "자산요건 배제 (단, 신청자 본인이 자동차가액 산출대상 자동차를 소유하고 있지 않을 것"
+     },
+     "청년": {
+      "income": "예술인 ② 혼인 중이 아닐 것 ③ 소득요건 배제 -9 - ※ 소형",
+      "asset": "579,278원을 합산하여 산정 ④ 총자산요건 배제 (단, 해당세대가",
+      "car": "당세대가 보유하고 있는 총 자산 중 자동차가액은 4,542만원 이하 일 것) * 가산"
+     },
+     "신혼부부·한부모": {
+      "income": "이하) 자녀(태아포함)를 둔 자 ③ 소득요건 배제 [일반요건: 해당",
+      "asset": "579,278원을 합산하여 산정 ④ 총자산요건 배제 (단, 해당세대가",
+      "car": "당세대가 보유하고 있는 총 자산 중 자동차가액은 4,542만원 이하 일 것) * 가산"
+     },
+     "고령자": {
+      "income": "을 모두 갖춘 65세 이상인 자 ① 소득요건 배제 [일반요건 : 해",
+      "asset": "579,278원을 합산하여 산정 ② 총자산요건 배제 (단, 해당세대가",
+      "car": "당세대가 보유하고 있는 총 자산 중 자동차가액은 4,542만원 이하 일 것)) * 가"
      },
      "주거급여수급자": {}
     },
@@ -6754,7 +7367,7 @@
    "region": "경상북도",
    "posted": "2026-11-05",
    "close": "2026-11-19",
-   "status": "공고중",
+   "status": "정정공고중",
    "url": "https://apply.lh.or.kr/lhapply/apply/wt/wrtanc/selectWrtancInfo.do?panId=2015122300021025&ccrCnntSysDsCd=03&uppAisTpCd=06&aisTpCd=07&mi=1026",
    "url_mobile": "https://apply.lh.or.kr/lhapply/apply/wt/wrtanc/selectWrtancInfo.do?panId=2015122300021025&ccrCnntSysDsCd=03&uppAisTpCd=06&aisTpCd=07&mi=1026",
    "schedule": [
@@ -7010,6 +7623,322 @@
    },
    "notice_pdf": "https://apply.lh.or.kr/lhapply/lhFile.do?fileid=69313344",
    "notice_text": 41929,
+   "rents": [],
+   "terms": {
+    "relaxed": true,
+    "homeless_relaxed": false,
+    "homeless_max1": false,
+    "income_basis": "도시근로자 월평균소득",
+    "groups": [
+     {
+      "key": "일반",
+      "name": "일반",
+      "homeless": "household",
+      "income_pct": {
+       "1": 150,
+       "2": 150,
+       "3+": 150
+      },
+      "asset_manwon": 34500,
+      "car_manwon": 4542,
+      "age_min": null,
+      "age_max": null
+     }
+    ],
+    "quotes": {
+     "일반": {
+      "income": "구분 소득 및 자산보유 기준 소득 가구원수 기본조건 금회 모집공고 시 소득완화 조건 소득기준 월평균소득기준 소득기준 월평균소득기준 1인가구 90% 3,432,027원이하 150% 5,720,045원이하 2인가구 80% 4,693,016원이하 8,799,405원이하 3인가구 70% 5,717,900원이하 12,252,64",
+      "asset": "10% 가산 자산 총자산가액 및 자동차가액 세대구성원 전원이 보유하고 있는 총자산가액 합산기준 34,500만원 이하, 세대구성원 전원",
+      "car": "이 보유하고 있는 개별자동차가액 4,542만원 이하 - 10- ■ 소"
+     }
+    },
+    "income_table_100": null
+   },
+   "api": {
+    "CCR_CNNT_SYS_DS_CD": "03",
+    "SPL_INF_TP_CD": "062",
+    "UPP_AIS_TP_CD": "06",
+    "AIS_TP_CD": "07"
+   },
+   "read": {
+    "tools": [
+     "pypdf",
+     "pdfium",
+     "plumber"
+    ],
+    "conflicts": []
+   }
+  },
+  {
+   "id": "2015122300021030",
+   "name": "[정정공고][정정공고]'26.11월 경주시, 영천시 국민임대주택 동호지정 입주자격 완화 입주자 모집(선계약 후검증)",
+   "type": "국민임대",
+   "type_code": "07",
+   "judge_type": true,
+   "region": "경상북도",
+   "posted": "2026-11-10",
+   "close": "2026-11-19",
+   "status": "공고중",
+   "url": "https://apply.lh.or.kr/lhapply/apply/wt/wrtanc/selectWrtancInfo.do?panId=2015122300021030&ccrCnntSysDsCd=03&uppAisTpCd=06&aisTpCd=07&mi=1026",
+   "url_mobile": "https://apply.lh.or.kr/lhapply/apply/wt/wrtanc/selectWrtancInfo.do?panId=2015122300021030&ccrCnntSysDsCd=03&uppAisTpCd=06&aisTpCd=07&mi=1026",
+   "schedule": [
+    {
+     "complex": "경주외동",
+     "apply_start": "2026-11-17",
+     "apply_end": "2026-11-19",
+     "apply_time": "~",
+     "docs_target": null,
+     "docs_start": null,
+     "docs_end": null,
+     "winner": "2026-11-23",
+     "contract_start": "2026-11-24",
+     "contract_end": "2026-12-01"
+    },
+    {
+     "complex": "경주건천",
+     "apply_start": "2026-11-17",
+     "apply_end": "2026-11-19",
+     "apply_time": "~",
+     "docs_target": null,
+     "docs_start": null,
+     "docs_end": null,
+     "winner": "2026-11-23",
+     "contract_start": "2026-11-24",
+     "contract_end": "2026-12-01"
+    },
+    {
+     "complex": "경주안강",
+     "apply_start": "2026-11-17",
+     "apply_end": "2026-11-19",
+     "apply_time": "~",
+     "docs_target": null,
+     "docs_start": null,
+     "docs_end": null,
+     "winner": "2026-11-23",
+     "contract_start": "2026-11-24",
+     "contract_end": "2026-12-01"
+    },
+    {
+     "complex": "영천망정 5단지",
+     "apply_start": "2026-11-17",
+     "apply_end": "2026-11-19",
+     "apply_time": "~",
+     "docs_target": null,
+     "docs_start": null,
+     "docs_end": null,
+     "winner": "2026-11-23",
+     "contract_start": "2026-11-24",
+     "contract_end": "2026-12-01"
+    }
+   ],
+   "complexes": [
+    {
+     "name": "경주건천",
+     "address": "경상북도 경주시 건천읍 대곡용명길 27(건천휴먼시아)",
+     "households": 443,
+     "area": "33.48~51.97",
+     "move_in": "2027.01",
+     "heating": "개별가스난방"
+    },
+    {
+     "name": "경주외동",
+     "address": "경상북도 경주시 외동읍 본동길 14(경주외동엘에이치아파트)",
+     "households": 499,
+     "area": "36.64~51.59",
+     "move_in": "2027.01",
+     "heating": "개별가스난방"
+    },
+    {
+     "name": "경주안강",
+     "address": "경상북도 경주시 안강읍 안강중앙로 141(경주안강엘에이치아파트)",
+     "households": 456,
+     "area": "36.51~49.11",
+     "move_in": "2027.01",
+     "heating": "개별가스난방"
+    },
+    {
+     "name": "영천망정 5단지",
+     "address": "경상북도 영천시 망정로 80(망정동,영천망정휴먼시아5단지)",
+     "households": 603,
+     "area": "39.57~51.93",
+     "move_in": "2027.01",
+     "heating": "개별가스난방"
+    }
+   ],
+   "units": [
+    {
+     "complex": "경주건천",
+     "type": "33형",
+     "area": 33.48,
+     "supply_area": 49.4927,
+     "households": 172,
+     "now_households": 18,
+     "deposit": null,
+     "rent": null,
+     "money_note": "공고문 참조"
+    },
+    {
+     "complex": "경주건천",
+     "type": "41형",
+     "area": 41.99,
+     "supply_area": 62.0728,
+     "households": 127,
+     "now_households": 13,
+     "deposit": null,
+     "rent": null,
+     "money_note": "공고문 참조"
+    },
+    {
+     "complex": "경주건천",
+     "type": "46형",
+     "area": 46.9,
+     "supply_area": 69.3311,
+     "households": 72,
+     "now_households": 16,
+     "deposit": null,
+     "rent": null,
+     "money_note": "공고문 참조"
+    },
+    {
+     "complex": "경주건천",
+     "type": "51형",
+     "area": 51.97,
+     "supply_area": 76.826,
+     "households": 72,
+     "now_households": 15,
+     "deposit": null,
+     "rent": null,
+     "money_note": "공고문 참조"
+    },
+    {
+     "complex": "경주외동",
+     "type": "36형",
+     "area": 36.64,
+     "supply_area": 53.6999,
+     "households": 334,
+     "now_households": 15,
+     "deposit": null,
+     "rent": null,
+     "money_note": "공고문 참조"
+    },
+    {
+     "complex": "경주외동",
+     "type": "46형",
+     "area": 46.49,
+     "supply_area": 67.6171,
+     "households": 105,
+     "now_households": 16,
+     "deposit": null,
+     "rent": null,
+     "money_note": "공고문 참조"
+    },
+    {
+     "complex": "경주외동",
+     "type": "51형",
+     "area": 51.59,
+     "supply_area": 74.8065,
+     "households": 60,
+     "now_households": 10,
+     "deposit": null,
+     "rent": null,
+     "money_note": "공고문 참조"
+    },
+    {
+     "complex": "경주안강",
+     "type": "36형",
+     "area": 36.51,
+     "supply_area": 53.8967,
+     "households": 70,
+     "now_households": 6,
+     "deposit": null,
+     "rent": null,
+     "money_note": "공고문 참조"
+    },
+    {
+     "complex": "경주안강",
+     "type": "39형",
+     "area": 39.09,
+     "supply_area": 57.7053,
+     "households": 242,
+     "now_households": 33,
+     "deposit": null,
+     "rent": null,
+     "money_note": "공고문 참조"
+    },
+    {
+     "complex": "경주안강",
+     "type": "47형",
+     "area": 47.0,
+     "supply_area": 69.3822,
+     "households": 107,
+     "now_households": 21,
+     "deposit": null,
+     "rent": null,
+     "money_note": "공고문 참조"
+    },
+    {
+     "complex": "영천망정 5단지",
+     "type": "39형",
+     "area": 39.57,
+     "supply_area": 58.8701,
+     "households": 334,
+     "now_households": 27,
+     "deposit": null,
+     "rent": null,
+     "money_note": "공고문 참조"
+    },
+    {
+     "complex": "영천망정 5단지",
+     "type": "46형",
+     "area": 46.9,
+     "supply_area": 69.7753,
+     "households": 72,
+     "now_households": 10,
+     "deposit": null,
+     "rent": null,
+     "money_note": "공고문 참조"
+    },
+    {
+     "complex": "영천망정 5단지",
+     "type": "51형",
+     "area": 51.93,
+     "supply_area": 77.2587,
+     "households": 197,
+     "now_households": 24,
+     "deposit": null,
+     "rent": null,
+     "money_note": "공고문 참조"
+    }
+   ],
+   "files": [
+    {
+     "kind": "공고문(hwp)",
+     "name": "(정정공고)경주시,영천시국민임대주택동호지정입주자모집(26.11.05).hwpx",
+     "url": "https://apply.lh.or.kr/lhapply/lhFile.do?fileid=69355346"
+    },
+    {
+     "kind": "공고문(PDF)",
+     "name": "(정정공고)경주시,영천시국민임대주택동호지정입주자모집(26.11.05).pdf",
+     "url": "https://apply.lh.or.kr/lhapply/lhFile.do?fileid=69355347"
+    },
+    {
+     "kind": "카탈로그",
+     "name": "[정정공고]국민임대_공급대상주택(11.05).pdf",
+     "url": "https://apply.lh.or.kr/lhapply/lhFile.do?fileid=69355348"
+    },
+    {
+     "kind": "기타 첨부파일",
+     "name": "신청접수(양식).zip",
+     "url": "https://apply.lh.or.kr/lhapply/lhFile.do?fileid=69355350"
+    }
+   ],
+   "etc": "ㅇ 금회 모집은 순위 및 배점제 미적용(무순위)하며, 사전에 동호지정 순번 부여을 위한 청약신청 접수받고 주택형 구분하여 동호지정 순번을 추첨한 후, 동호지정 순번에 따라 계약체결합니다.\nㅇ 계약체결 후 입주자격을 검증하는 선계약 후검증 방식으로 진행됩니다. 입주는 입주자격 검증 후 적격자에 한하여 가능합니다.",
+   "office": {
+    "place": "경상북도 포항시 남구 포스코대로 324(상도동) 무진빌딩 3층",
+    "tel": "1600-1004"
+   },
+   "notice_pdf": "https://apply.lh.or.kr/lhapply/lhFile.do?fileid=69355347",
+   "notice_text": 41857,
    "rents": [],
    "terms": {
     "relaxed": true,
@@ -9498,315 +10427,6 @@
     "SPL_INF_TP_CD": "062",
     "UPP_AIS_TP_CD": "06",
     "AIS_TP_CD": "09"
-   },
-   "read": {
-    "tools": [
-     "pypdf",
-     "pdfium",
-     "plumber"
-    ],
-    "conflicts": []
-   }
-  },
-  {
-   "id": "2015122300020850",
-   "name": "익산제3일반산단 행복주택 입주자격완화 추가모집(동호지정,선계약후검증)",
-   "type": "행복주택",
-   "type_code": "10",
-   "judge_type": true,
-   "region": "전북특별자치도",
-   "posted": "2026-10-02",
-   "close": "2026-12-30",
-   "status": "공고중",
-   "url": "https://apply.lh.or.kr/lhapply/apply/wt/wrtanc/selectWrtancInfo.do?panId=2015122300020850&ccrCnntSysDsCd=03&uppAisTpCd=06&aisTpCd=10&mi=1026",
-   "url_mobile": "https://apply.lh.or.kr/lhapply/apply/wt/wrtanc/selectWrtancInfo.do?panId=2015122300020850&ccrCnntSysDsCd=03&uppAisTpCd=06&aisTpCd=10&mi=1026",
-   "schedule": [
-    {
-     "complex": null,
-     "apply_start": "2026-10-15",
-     "apply_end": "2026-12-30",
-     "apply_time": "~",
-     "docs_target": null,
-     "docs_start": null,
-     "docs_end": null,
-     "winner": "2026-12-30",
-     "contract_start": null,
-     "contract_end": null
-    }
-   ],
-   "complexes": [
-    {
-     "name": "익산 제3일반산단",
-     "address": "전북특별자치도 익산시 낭산면 용기리 1953-1",
-     "households": 200,
-     "area": "25.96~44.78",
-     "move_in": "2025.05",
-     "heating": "개별난방"
-    }
-   ],
-   "units": [
-    {
-     "complex": "익산 제3일반산단",
-     "type": "25A(대학생,청년,신혼부부,한부모,주거급여수급자,고령자)",
-     "area": 25.96,
-     "supply_area": 40.437,
-     "households": 22,
-     "now_households": 9,
-     "deposit": null,
-     "rent": null,
-     "money_note": "공고문 참조"
-    },
-    {
-     "complex": "익산 제3일반산단",
-     "type": "25B(대학생,청년,신혼부부,한부모,주거급여수급자,고령자)",
-     "area": 25.96,
-     "supply_area": 40.437,
-     "households": 58,
-     "now_households": 12,
-     "deposit": null,
-     "rent": null,
-     "money_note": "공고문 참조"
-    },
-    {
-     "complex": "익산 제3일반산단",
-     "type": "36A(대학생,청년,신혼부부,한부모,주거급여수급자,고령자)",
-     "area": 36.91,
-     "supply_area": 56.7742,
-     "households": 70,
-     "now_households": 21,
-     "deposit": null,
-     "rent": null,
-     "money_note": "공고문 참조"
-    },
-    {
-     "complex": "익산 제3일반산단",
-     "type": "36B(대학생,청년,신혼부부,한부모,주거급여수급자,고령자)",
-     "area": 36.86,
-     "supply_area": 56.6923,
-     "households": 10,
-     "now_households": 7,
-     "deposit": null,
-     "rent": null,
-     "money_note": "공고문 참조"
-    }
-   ],
-   "files": [
-    {
-     "kind": "공고문(hwp)",
-     "name": "261002익산제3일반산단행복주택입주자추가모집공고문(동호지정,선계약후검증).hwpx",
-     "url": "https://apply.lh.or.kr/lhapply/lhFile.do?fileid=68835599"
-    },
-    {
-     "kind": "공고문(PDF)",
-     "name": "261002익산제3일반산단행복주택입주자추가모집공고문(동호지정,선계약후검증).pdf",
-     "url": "https://apply.lh.or.kr/lhapply/lhFile.do?fileid=68835600"
-    },
-    {
-     "kind": "기타 첨부파일",
-     "name": "붙임1.신청자전원필수제출양식.hwpx",
-     "url": "https://apply.lh.or.kr/lhapply/lhFile.do?fileid=68822900"
-    },
-    {
-     "kind": "기타 첨부파일",
-     "name": "붙임2.복학예정자각서(대학생복학예정자만제출).hwpx",
-     "url": "https://apply.lh.or.kr/lhapply/lhFile.do?fileid=68822901"
-    },
-    {
-     "kind": "기타 첨부파일",
-     "name": "붙임3.예비신혼부부신청확인서및세대구성확인서(예비신혼부부만제출).hwpx",
-     "url": "https://apply.lh.or.kr/lhapply/lhFile.do?fileid=68822902"
-    },
-    {
-     "kind": "기타 첨부파일",
-     "name": "붙임4.위임장(해당자만제출).hwpx",
-     "url": "https://apply.lh.or.kr/lhapply/lhFile.do?fileid=68822903"
-    },
-    {
-     "kind": "기타 첨부파일",
-     "name": "붙임5.동호배치도.pdf",
-     "url": "https://apply.lh.or.kr/lhapply/lhFile.do?fileid=68822904"
-    },
-    {
-     "kind": "카탈로그",
-     "name": "팸플릿_익산제3일반산단행복주택.pdf",
-     "url": "https://apply.lh.or.kr/lhapply/lhFile.do?fileid=68822905"
-    }
-   ],
-   "etc": "* 청약접수 일정 및 제출서류 등을 반드시 확인하시기 바랍니다.\n* 입주자 모집 공고문(첨부파일)을 반드시 확인하시어 불이익이 없도록 유념하시기 바랍니다.\n  (1세대 1주택 신청원칙, 중복신청 시 전부 무효처리 됨)\n* 첨부된 작성양식은 접수처에 비치되어 있으니 참고하시기 바랍니다.\n* 전화문의는 장시간 접속지연 및 통화대기 등의 불편이 있을 수 있으니, 신청과 관련한 내용은 공고문을 참고하여 주시기 바랍니다.\n* 금회 모집은 미계약(재임대세대 포함) 된 세대에 대하여 입주자격을 완화하여 추가 모집하는 것으로, 신청자가 선착순으로 원하는 동호를 지정하여 계약체결하며 계약체결 후 입주자격을 검증하는 先(선)계약 後(후)검증 방식으로 진행됩니다. 입주는 적격자에 한하여 개별안내 예정입니다.",
-   "office": {
-    "place": "전북특별자치도 전주시 완산구 홍산로 158(효자동2가)",
-    "tel": "1600-1004"
-   },
-   "notice_pdf": "https://apply.lh.or.kr/lhapply/lhFile.do?fileid=68835600",
-   "notice_text": 53997,
-   "rents": [
-    {
-     "complex": null,
-     "type": "25A/25B",
-     "group": "대학생·청년(소득 없음)",
-     "deposit": 15096000,
-     "rent": 83020
-    },
-    {
-     "complex": null,
-     "type": "25A/25B",
-     "group": "청년(소득 있음)",
-     "deposit": 15984000,
-     "rent": 87910
-    },
-    {
-     "complex": null,
-     "type": "25A/25B",
-     "group": "신혼부부·한부모",
-     "deposit": 17760000,
-     "rent": 97680
-    },
-    {
-     "complex": null,
-     "type": "25A/25B",
-     "group": "주거급여수급자",
-     "deposit": 13320000,
-     "rent": 73260
-    },
-    {
-     "complex": null,
-     "type": "25A/25B",
-     "group": "고령자",
-     "deposit": 16872000,
-     "rent": 92790
-    },
-    {
-     "complex": null,
-     "type": "36A/36B",
-     "group": "대학생·청년(소득 없음)",
-     "deposit": 21896000,
-     "rent": 120420
-    },
-    {
-     "complex": null,
-     "type": "36A/36B",
-     "group": "청년(소득 있음)",
-     "deposit": 23184000,
-     "rent": 127510
-    },
-    {
-     "complex": null,
-     "type": "36A/36B",
-     "group": "신혼부부·한부모",
-     "deposit": 25760000,
-     "rent": 141680
-    },
-    {
-     "complex": null,
-     "type": "36A/36B",
-     "group": "주거급여수급자",
-     "deposit": 19320000,
-     "rent": 106260
-    },
-    {
-     "complex": null,
-     "type": "36A/36B",
-     "group": "고령자",
-     "deposit": 24472000,
-     "rent": 134590
-    }
-   ],
-   "terms": {
-    "relaxed": true,
-    "homeless_relaxed": true,
-    "homeless_max1": false,
-    "income_basis": "도시근로자 월평균소득",
-    "groups": [
-     {
-      "key": "대학생",
-      "name": "대학생",
-      "homeless": "self",
-      "income_pct": "excluded",
-      "asset_manwon": "excluded",
-      "car_manwon": 0,
-      "age_min": null,
-      "age_max": null
-     },
-     {
-      "key": "청년",
-      "name": "청년",
-      "homeless": "self",
-      "income_pct": "excluded",
-      "asset_manwon": "excluded",
-      "car_manwon": 4542,
-      "age_min": 19,
-      "age_max": 39,
-      "account_by_movein": true
-     },
-     {
-      "key": "신혼부부·한부모",
-      "name": "신혼부부·한부모",
-      "homeless": "household",
-      "income_pct": "excluded",
-      "asset_manwon": "excluded",
-      "car_manwon": 4542,
-      "age_min": null,
-      "age_max": null,
-      "account_by_movein": true
-     },
-     {
-      "key": "고령자",
-      "name": "고령자",
-      "homeless": "household",
-      "income_pct": "excluded",
-      "asset_manwon": "excluded",
-      "car_manwon": 4542,
-      "age_min": 65,
-      "age_max": null
-     },
-     {
-      "key": "주거급여수급자",
-      "name": "주거급여수급자",
-      "homeless": "household",
-      "income_pct": null,
-      "asset_manwon": null,
-      "car_manwon": null,
-      "age_min": null,
-      "age_max": null
-     }
-    ],
-    "quotes": {
-     "대학생": {
-      "income": "로 간주 ② 혼인 중이 아닐 것 ③ 소득요건 배제 [일반요건 : 신",
-      "asset": "579,278원을 합산하여 산정 ④ 총자산요건 배제 (단, 신청자 본인이 자동차가액 산출대",
-      "car": "자산요건 배제 (단, 신청자 본인이 자동차가액 산출대상 자동차를 소유하고 있지 않을 것"
-     },
-     "청년": {
-      "income": "예술인 ② 혼인 중이 아닐 것 ③ 소득요건 배제 - 9 - ※ 소",
-      "asset": "579,278원을 합산하여 산정 ④ 총자산요건 배제 (단, 해당세대가",
-      "car": "당세대가 보유하고 있는 총 자산 중 자동차가액은 4,542만원 이하 일 것) * 가산"
-     },
-     "신혼부부·한부모": {
-      "income": "이하) 자녀(태아포함)를 둔 자 ③ 소득요건 배제 [일반요건: 해당",
-      "asset": "579,278원을 합산하여 산정 ④ 총자산요건 배제 (단, 해당세대가",
-      "car": "당세대가 보유하고 있는 총 자산 중 자동차가액은 4,542만원 이하 일 것) * 가산"
-     },
-     "고령자": {
-      "income": "을 모두 갖춘 65세 이상인 자 ① 소득요건 배제 [일반요건 : 해",
-      "asset": "579,278원을 합산하여 산정 ② 총자산요건 배제 (단, 해당세대가",
-      "car": "당세대가 보유하고 있는 총 자산 중 자동차가액은 4,542만원 이하 일 것)) * 가"
-     },
-     "주거급여수급자": {}
-    },
-    "income_table_100": {
-     "3": 8168429,
-     "4": 8802202,
-     "5": 9326985,
-     "6": 9906263
-    },
-    "prewed_ok": true,
-    "unknown_groups": []
-   },
-   "api": {
-    "CCR_CNNT_SYS_DS_CD": "03",
-    "SPL_INF_TP_CD": "063",
-    "UPP_AIS_TP_CD": "06",
-    "AIS_TP_CD": "10"
    },
    "read": {
     "tools": [
