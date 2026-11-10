@@ -126,6 +126,10 @@ def test_checker_lessons_from_probe_20261111():
     t, dropped = ai_read.to_terms(ans, [text], "충청북도", "공공임대")
     assert t["groups"] == [] and "local" not in t and t["unknown_groups"] == ["장기종사자"]   # 905 '일반' 계층 지어냄 · 975 공공임대 local(제천시만으로 좁힘)
     t, _ = ai_read.to_terms({"groups": [{"key": "일반", "income_pct": "excluded", "income_quote": "소득 배제", "asset_manwon": "excluded", "asset_quote": "총자산가액 배제"},
-                                        {"key": "주거급여수급자", "homeless": "household", "homeless_quote": Q_REGION}]}, [text], None, "국민임대")
+                                        {"key": "주거급여수급자", "income_pct": "excluded", "income_quote": "소득 배제"}]}, [text], None, "국민임대")
     assert t["groups"][0]["income_pct"] == "excluded" and t["groups"][0]["asset_manwon"] == "excluded"   # 962 표 칸의 짧은 글은 '미적용'일 때만 받는다
-    assert t["groups"][1]["homeless"] is None                                        # 주거급여수급자 칸은 AI 값으로 채우지 않는다
+    assert len(t["groups"]) == 1                                                     # 주거급여수급자 계층은 행복주택에서만 (912 통합공공임대에 이 계층을 만듦)
+    t, _ = ai_read.to_terms({"groups": [{"key": "청년", "homeless": "self", "homeless_quote": "청년 계층의 주택소유여부는 신청자 본인에 한하여 검증합니다."},
+                                        {"key": "주거급여수급자", "income_pct": "excluded", "income_quote": "소득 배제"}]},
+                            [text + " 청년 계층의 주택소유여부는 신청자 본인에 한하여 검증합니다."], None, "행복주택")
+    assert [(g["key"], g["homeless"], g["income_pct"]) for g in t["groups"]] == [("청년", "self", None), ("주거급여수급자", "household", None)]   # 칸은 AI 값으로 채우지 않는다

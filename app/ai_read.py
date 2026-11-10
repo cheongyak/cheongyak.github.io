@@ -244,9 +244,11 @@ def to_terms(answer: dict, texts: list[str], region: Optional[str], kind: str = 
         key = g["key"]
         r = {"key": key, "name": key, "homeless": None, "income_pct": None, "asset_manwon": None, "car_manwon": None, "age_min": None, "age_max": None}
         q = {}
-        if key == "주거급여수급자":   # 읽기 규칙도 이 계층은 칸을 비워 둔다(수급자 자격으로 판단) — AI 값은 받지 않고 계층만
-            out["groups"].append(r)
-            out["quotes"][key] = q
+        if key == "주거급여수급자":   # 읽기 규칙(행복주택)도 이 계층은 소득·자산 칸을 비워 두고 무주택은 세대원 전원으로 둔다(수급자 자격으로 판단) — AI 값은 받지 않고 계층만, 행복주택일 때만
+            if kind == "행복주택":
+                r["homeless"] = "household"
+                out["groups"].append(r)
+                out["quotes"][key] = q
             continue
         if key == "일반" and re.search(r"청년|신혼부부|한부모|고령자|대학생", _ns(str(g.get("homeless_quote") or ""))):
             # 계층별로 나눈 공고문('무주택세대구성원(청년은 입주자 본인, 예비신혼부부는 …)')에서 '일반' 계층을 지어낸 답 (담양삼만 905, 11-11 정확도 시험) — 계층째 버린다
