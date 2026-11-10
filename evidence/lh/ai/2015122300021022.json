@@ -1,0 +1,41 @@
+{
+ "id": "2015122300021022",
+ "sha": "8135be86055663a0",
+ "prompt_v": 2,
+ "model": "claude-sonnet-5-5",
+ "at": "2026-11-11 07:28",
+ "usage": {
+  "input_tokens": 32258,
+  "output_tokens": 352
+ },
+ "usd": 0.068,
+ "answer": {
+  "groups": [
+   {
+    "key": "일반",
+    "homeless": "household",
+    "homeless_quote": "입주자모집공고일(26.11.06.) 현재 현재 성년자인 무주택세대구성원으로서 아래의 기준을 충족하는 사람",
+    "income_pct": null,
+    "income_quote": null,
+    "asset_manwon": null,
+    "asset_quote": null,
+    "car_manwon": null,
+    "car_quote": null,
+    "age_min": 19,
+    "age_max": null,
+    "age_quote": "「민법」상 미성년자(만 19세 미만)는 공급 신청할 수 없습니다."
+   }
+  ],
+  "regions": null,
+  "regions_quote": null,
+  "account": {
+   "months": 6,
+   "count": 6,
+   "rank2_any": true
+  },
+  "account_quote": "예비입주자 모집공고일(2026.11.06) 현재 주택청약종합저축(청약저축 포함)에 가입하여 \n 6개월이 지난 자로서 매월 약정납입일에 월납입금을 6회 이상 납입한 자",
+  "local": null,
+  "local_quote": null,
+  "other_groups": []
+ }
+}
