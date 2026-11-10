@@ -4,6 +4,16 @@
 2026-09-29 12:55 이전 항목은 규칙을 만들기 전 작업을 커밋 기록으로 정리한 것이라 백업 브랜치가 없어요.
 그 시점으로 되돌릴 때는 해당 커밋 번호로 `git revert` 를 써요.
 
+## 2026-11-11 06:39 · 느슨한 읽기 — 띄어쓰기만 다른 문장도 읽기 (v1.85.0)
+- 요청: 운영자 '공고 처음 보는 형태에도 잘 읽을 수 있도록 — 방법 1(표기 차이 무시) 하고 실패하면 방법 2(AI)까지'
+- 변경: (방법 1) app/loose_re.py — 정규식 패턴을 풀어 한글 3자 이상 붙은 곳은 글자 사이 빈칸을 허용, 패턴에 적힌 빈칸은 없어도 맞게(글자 묶음·뒤돌아보기·횟수 붙은 글자는 그대로). app/loose_read.py — 엄격하게 읽은 결과에서 **못 읽은 칸(None·없음)만** 느슨하게 읽은 값으로 채움(참·거짓 문장 값·모르는 계층 목록은 채우지 않음). LH 임대: app/lh_pdf_merge.read_all(loose=) 가 세 도구 엄격 합침 뒤 빈칸만 채움, app/lh_rental 이 `[공고문·느슨 읽기]` 줄·read.loose 기록. 분양: app/pipeline 이 parse_notice(+두 번째 도구) 뒤 없는 항목만 채움(PARSER_VERSION 55). tools/qa/unread_queue 가 느슨하게 채운 공고를 목록에 넣음(규칙·정답 데이터 추가용). tools/qa/lh_reparse 도 같은 스위치
+- 평가(tools/qa/loose_eval.py, 과거 규칙 커밋을 '고치기 전 규칙 + 느슨한 읽기'로 재현): LH 규칙 커밋이 고친 (커밋·공고) 181건 중 온전히 읽음 3·일부 10·효과 없음 168 — 10-12 뒤 '새 꼴' 고침만 보면 약 20건 중 3건 온전히(익산한스빌 893·1017, 과천 960)·2건 일부(포항블루밸리 963 은 한 칸, 제천장락1 975 는 무주택·거주지역만). 분양(10-08 뒤 notice_pdf 커밋): 새로 읽게 된 값 228개 중 2개(의정부 553·인천 448 거주 요건), 헛채움 0·다르게 읽음 0. **즉 띄어쓰기 문제에만 듣고 새 문장 꼴은 못 읽음 — 방법 2(AI)가 필요.** 빈칸 끼우기 실험(저장 원문 한글 낱말 5%·20% 에 빈칸): 엄격 못 읽음 125→느슨 45, 387→171, 틀린 값은 늘지 않음(11→11, 5→6)
+- 파일: app/loose_re.py, app/loose_read.py, app/lh_pdf_merge.py, app/lh_rental.py, app/pipeline.py, tools/qa/loose_eval.py, tools/qa/lh_reparse.py, tools/qa/unread_queue.py, tests/test_loose_read.py, .github/workflows/lh-rental.yml, docs/config.json, FEATURES.md, docs/changelog.json, VERSIONS.md, .claude/skills/cheongyakpass-ops/SKILL.md, WORK.md
+- 확인: 지금 규칙으로 저장 원문 전부(LH 124·분양 190) 엄격 ↔ 느슨 비교 — 채운 칸 0(지금 데이터 값 변화 없음). tools.qa.lh_reparse 바뀐 공고 0. tests/test_loose_read.py 10 통과(실제 원문 낱말을 띄어 쓰면 엄격은 못 읽고 느슨은 원래 값). pytest 459 통과·14 실패(작업 환경 대용 모듈 때문에 원래 실패하는 14건과 같음), judge_check 974/974, parse_snapshot 바뀐 값 0, 앱 정규식 2,486개 풀어 써도 문법 오류 0
+- 기능: loose_read
+- 버전: v1.85.0
+- 백업: backup/20261111-0639
+
 ## 2026-11-10 11:34 · 청약봇 하루 기록에 이번 달 AI 사용액·모델별 비용 보이기 (PR #113 합침)
 - 요청: 운영자 '합치고, 이슈도 원인 파악해'
 - 변경: 밤 자동 개선 PR #113 squash 합침(a3b2f811). 청약봇 서버가 하루 합계에 모델별 단가 비용(usd·usd_tok_in/out)을 쌓고 /stats 에 이번 달 사용액(_month)을 더함. chat/tools/stats_line.py 가 그 값으로 7일 비용을 세고 '이번 달 AI 사용액 $x / 한도 $18' 을 붙임. 화면·판정 변화 없음, 청약봇 서버 다시 배포됨. 이 기록을 썼으니 밤 루프는 다시 쓰지 말 것

@@ -343,8 +343,12 @@ def main() -> int:
                     if P[k].exists():
                         texts[k] = P[k].read_text(encoding="utf-8")
                 tables = json.loads(P["tables"].read_text(encoding="utf-8")) if P["tables"].exists() else []
-                merged = read_all(texts, rec["type"], rec["name"] or "", rec["region"], [u["type"] for u in rec["units"]], bool(rec["judge_type"]), tables)
+                merged = read_all(texts, rec["type"], rec["name"] or "", rec["region"], [u["type"] for u in rec["units"]], bool(rec["judge_type"]), tables,
+                                  loose=feature_on("loose_read"))
                 rec["read"] = {"tools": merged["tools"], "conflicts": merged["conflicts"]}
+                if merged.get("loose"):   # 기능 loose_read: 띄어쓰기만 다른 문장으로 채운 칸 — 아침 자동 고치기가 원문과 맞춰 보고 규칙·정답 데이터에 넣는다
+                    rec["read"]["loose"] = merged["loose"]
+                    log.append(f"[공고문·느슨 읽기] {rec['id']} 띄어쓰기를 무시하고 읽어 채운 칸: {', '.join(merged['loose'])}")
                 for n_ in merged["notes"]:
                     log.append(f"[공고문·보완] {rec['id']} {n_}")
                 for c_ in merged["conflicts"]:

@@ -11,6 +11,7 @@ from pathlib import Path
 ROOT = Path(__file__).resolve().parents[2]
 sys.path.insert(0, str(ROOT))
 from app.lh_pdf_merge import read_all  # noqa: E402
+from app.lh_rental import feature_on  # noqa: E402
 from tools.qa.lh_pdf_tools import texts_of  # noqa: E402
 
 
@@ -24,7 +25,7 @@ def main() -> int:
             continue
         tf = ROOT / "evidence/lh/plumber" / f"{N['id']}.tables.json"
         m = read_all(tx, N["type"], N.get("name") or "", N.get("region"), [u["type"] for u in N.get("units") or []], bool(N.get("judge_type")),
-                     json.loads(tf.read_text(encoding="utf-8")) if tf.exists() else [])
+                     json.loads(tf.read_text(encoding="utf-8")) if tf.exists() else [], loose=feature_on("loose_read"))
         if N.get("judge_type") and m["terms"]:
             N["terms"] = m["terms"]
         N["rents"] = m["rents"]

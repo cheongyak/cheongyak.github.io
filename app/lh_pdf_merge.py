@@ -187,10 +187,36 @@ def merge_rents(rows_by_tool: dict) -> tuple[list[dict], list[str], list[str]]:
     return list(rows_by_tool.get(pick) or []), notes, []
 
 
-def read_all(texts: dict, kind: str, name: str, region: Optional[str], unit_types: list[str], judge: bool, tables: Optional[list] = None) -> dict:
-    """texts: 도구 → 글(못 읽었으면 빠짐), tables: pdfplumber 칸 단위 표. → {"terms", "rents", "notes", "conflicts", "tools"}"""
+def _loose_fill(terms: dict, texts: dict, kind: str, name: str, region: Optional[str]) -> list[str]:
+    """엄격하게 읽어 합친 terms 의 빈칸을 느슨하게 읽은 값(도구마다 읽어 같은 방식으로 합침)으로 채운다. 채운 칸 이름 목록. 오류는 삼킨다(엄격 결과 유지)."""
+    try:
+        from app import lh_terms as _lh
+        from app.loose_re import loose as _loose
+        from app.loose_read import fill_lh_terms
+        lo = {}
+        with _loose(_lh):
+            for t, x in texts.items():
+                try:
+                    lo[t] = _lh.parse_lh_terms(x, kind, name, region)
+                except Exception:
+                    pass
+        if not lo:
+            return []
+        merged, _, _ = merge_terms(lo)
+        filled = fill_lh_terms(terms, merged)
+        if filled:
+            terms["loose"] = filled
+        return filled
+    except Exception:
+        return []
+
+
+def read_all(texts: dict, kind: str, name: str, region: Optional[str], unit_types: list[str], judge: bool, tables: Optional[list] = None,
+             loose: bool = False) -> dict:
+    """texts: 도구 → 글(못 읽었으면 빠짐), tables: pdfplumber 칸 단위 표. → {"terms", "rents", "notes", "conflicts", "tools", "loose"}
+    loose(기능 loose_read): 세 도구로 엄격하게 읽고 합친 뒤에도 비어 있는 칸만, 띄어쓰기를 무시하고 다시 읽은 값으로 채운다(app/loose_read)."""
     texts = {t: x for t, x in texts.items() if x and len(x) >= 500}
-    res = {"tools": list(texts), "notes": [], "conflicts": [], "terms": None, "rents": []}
+    res = {"tools": list(texts), "notes": [], "conflicts": [], "terms": None, "rents": [], "loose": []}
     if not texts:
         return res
     if judge:
@@ -204,6 +230,8 @@ def read_all(texts: dict, kind: str, name: str, region: Optional[str], unit_type
             res["terms"], n, c = merge_terms(parsed, income_table_from_cells(tables or []))
             res["notes"] += n
             res["conflicts"] += c
+            if loose:
+                res["loose"] = _loose_fill(res["terms"], texts, kind, name, region)
     rows = {}
     for t, x in texts.items():
         try:

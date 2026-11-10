@@ -64,6 +64,11 @@ def build() -> dict:
     for r in lhu.get("rows") or []:
         if not r.get("allowed"):
             add(r["id"], r.get("name"), "임대", "공고문 못 읽음", f"{r.get('group')} {r.get('text')}")
+    # 규칙이 못 읽어 느슨한 읽기(기능 loose_read)가 채운 공고 — 화면에는 값이 보이지만 읽기 규칙·정답 데이터를 더해야 끝난다 (2026-11-11)
+    for N in load(ROOT / "docs" / "lh-rental.json", {}).get("notices") or []:
+        T = N.get("terms") or {}
+        if T.get("loose"):
+            add(N["id"], N.get("name"), "임대", "느슨한 읽기", "띄어쓰기를 무시하고 채운 칸: " + ", ".join(T["loose"]) + " — 원문과 맞춰 보고 읽기 규칙·정답 데이터 추가")
     lhi = load(ROOT / "evidence" / "qa" / "lh-invariants.json", {})
     for k, v in (lhi.get("violations") or {}).items():
         for e in v.get("examples") or []:
@@ -75,7 +80,7 @@ def build() -> dict:
     log = (ROOT / "docs" / "run-log.txt").read_text(encoding="utf-8").splitlines() if (ROOT / "docs" / "run-log.txt").exists() else []
     names = {r.get("name"): r["id"].split("-")[0] for r in rows}
     for line in log:
-        m = re.match(r"\[(공고문·정정|공고문·법령 불일치|공고문·불일치)\] ([^:]+?)(?: \S+)?: (.*)", line)
+        m = re.match(r"\[(공고문·정정|공고문·법령 불일치|공고문·불일치|공고문·느슨 읽기)\] ([^:]+?)(?: \S+)?: (.*)", line)
         if m:
             nid = names.get(m.group(2).strip()) or next((v for k, v in names.items() if k and m.group(2).startswith(k)), None)
             if nid:

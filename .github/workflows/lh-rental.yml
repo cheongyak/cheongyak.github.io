@@ -11,6 +11,8 @@ on:
       - "app/lh_rental.py"
       - "app/lh_terms.py"
       - "app/lh_pdf_merge.py"
+      - "app/loose_re.py"
+      - "app/loose_read.py"
       - ".github/workflows/lh-rental.yml"
 permissions:
   contents: write
