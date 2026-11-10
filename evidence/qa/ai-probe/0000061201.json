@@ -1,0 +1,51 @@
+{
+ "id": "0000061201",
+ "sha": "74576eaa22f41830",
+ "prompt_v": 1,
+ "model": "claude-sonnet-5-5",
+ "usage": {
+  "input_tokens": 41867,
+  "cache_creation_input_tokens": 0,
+  "cache_read_input_tokens": 0,
+  "cache_creation": {
+   "ephemeral_5m_input_tokens": 0,
+   "ephemeral_1h_input_tokens": 0
+  },
+  "output_tokens": 514,
+  "output_tokens_details": {
+   "thinking_tokens": 0
+  },
+  "service_tier": "standard",
+  "inference_geo": "global",
+  "speed": "standard"
+ },
+ "usd": 0.0889,
+ "answer": {
+  "groups": [
+   {
+    "key": "일반",
+    "homeless": "household",
+    "homeless_quote": "입주자모집공고일(2026.11.05) 현재 수도권(서울특별시, 인천광역시 및 경기도)에 거주(주민등록표등본 기준)하는 성년자",
+    "income_pct": "excluded",
+    "income_quote": "본인 및 세대구성원이 청약통장가입여부, 소득기준 및 자산기준 충족여부 등에 관계없이 신청 가능하나",
+    "asset_manwon": "excluded",
+    "asset_quote": "본인 및 세대구성원이 청약통장가입여부, 소득기준 및 자산기준 충족여부 등에 관계없이 신청 가능하나",
+    "car_manwon": null,
+    "car_quote": null,
+    "age_min": 19,
+    "age_max": null,
+    "age_quote": "입주자모집공고일(2026.11.05) 현재 수도권(서울특별시, 인천광역시 및 경기도)에 거주(주민등록표등본 기준)하는 성년자"
+   }
+  ],
+  "regions": [
+   "서울",
+   "인천",
+   "경기"
+  ],
+  "regions_quote": "입주자모집공고일(2026.11.05) 현재 수도권(서울특별시, 인천광역시 및 경기도)에 거주(주민등록표등본 기준)하는 성년자",
+  "account": "none",
+  "account_quote": "본인 및 세대구성원이 청약통장가입여부, 소득기준 및 자산기준 충족여부 등에 관계없이 신청 가능하나",
+  "local": null,
+  "local_quote": null
+ }
+}

@@ -1,0 +1,55 @@
+{
+ "id": "0000061190",
+ "sha": "2e864a3fde20cd79",
+ "prompt_v": 1,
+ "model": "claude-sonnet-5-5",
+ "usage": {
+  "input_tokens": 29803,
+  "cache_creation_input_tokens": 0,
+  "cache_read_input_tokens": 0,
+  "cache_creation": {
+   "ephemeral_5m_input_tokens": 0,
+   "ephemeral_1h_input_tokens": 0
+  },
+  "output_tokens": 533,
+  "output_tokens_details": {
+   "thinking_tokens": 0
+  },
+  "service_tier": "standard",
+  "inference_geo": "global",
+  "speed": "standard"
+ },
+ "usd": 0.0649,
+ "answer": {
+  "groups": [
+   {
+    "key": "일반",
+    "homeless": "household",
+    "homeless_quote": "예비입주자모집공고일(2026.10.22) 현재 수도권(서울특별시, 경기도, 인천광역시)에 거주(주민등록표등본 기준)하는  성년자(만19세 이상)인 무주택세대구성원",
+    "income_pct": "excluded",
+    "income_quote": "금회 모집공고는  예비입주자 모집으로 신청자의 소득기준 및 자산기준 충족 여부는 불문합니다.",
+    "asset_manwon": "excluded",
+    "asset_quote": "금회 모집공고는  예비입주자 모집으로 신청자의 소득기준 및 자산기준 충족 여부는 불문합니다.",
+    "car_manwon": null,
+    "car_quote": null,
+    "age_min": 19,
+    "age_max": null,
+    "age_quote": "성년자(만19세 이상)인 무주택세대구성원"
+   }
+  ],
+  "regions": [
+   "서울",
+   "경기",
+   "인천"
+  ],
+  "regions_quote": "예비입주자모집공고일(2026.10.22) 현재 수도권(서울특별시, 경기도, 인천광역시)에 거주(주민등록표등본 기준)하는  성년자(만19세 이상)인 무주택세대구성원",
+  "account": {
+   "months": 24,
+   "count": 24,
+   "rank2_any": false
+  },
+  "account_quote": "입주자저축(주택청약종합저축, 청약저축)에 가입하여 2년이 경과된 분으로서 매월 약정납입일에 월 납입금을 24회 이상 납입한 자",
+  "local": null,
+  "local_quote": null
+ }
+}

@@ -1,0 +1,47 @@
+{
+ "id": "2015122300020962",
+ "sha": "2b909e5141081a77",
+ "prompt_v": 1,
+ "model": "claude-sonnet-5-5",
+ "usage": {
+  "input_tokens": 50447,
+  "cache_creation_input_tokens": 0,
+  "cache_read_input_tokens": 0,
+  "cache_creation": {
+   "ephemeral_5m_input_tokens": 0,
+   "ephemeral_1h_input_tokens": 0
+  },
+  "output_tokens": 280,
+  "output_tokens_details": {
+   "thinking_tokens": 0
+  },
+  "service_tier": "standard",
+  "inference_geo": "global",
+  "speed": "standard"
+ },
+ "usd": 0.1037,
+ "answer": {
+  "groups": [
+   {
+    "key": "일반",
+    "homeless": "household",
+    "homeless_quote": "입주자모집공고일 현재 무주택세대구성원으로서 아래의 요건을 충족하는 사람",
+    "income_pct": "excluded",
+    "income_quote": "소득 배제",
+    "asset_manwon": "excluded",
+    "asset_quote": "총자산가액 배제",
+    "car_manwon": 4542,
+    "car_quote": "자동차가액  세대구성원 전원이 보유하고 있는 개별 자동차가액 ( 4,542 )만원 이하",
+    "age_min": 19,
+    "age_max": null,
+    "age_quote": "「민법」상 미성년자(19세 미만)는 공급 신청할 수 없습니다."
+   }
+  ],
+  "regions": null,
+  "regions_quote": null,
+  "account": null,
+  "account_quote": null,
+  "local": null,
+  "local_quote": null
+ }
+}

@@ -1,0 +1,55 @@
+{
+ "id": "2015122300020966",
+ "sha": "7a9b7532aa8ad793",
+ "prompt_v": 1,
+ "model": "claude-sonnet-5-5",
+ "usage": {
+  "input_tokens": 45214,
+  "cache_creation_input_tokens": 0,
+  "cache_read_input_tokens": 0,
+  "cache_creation": {
+   "ephemeral_5m_input_tokens": 0,
+   "ephemeral_1h_input_tokens": 0
+  },
+  "output_tokens": 501,
+  "output_tokens_details": {
+   "thinking_tokens": 0
+  },
+  "service_tier": "standard",
+  "inference_geo": "global",
+  "speed": "standard"
+ },
+ "usd": 0.0954,
+ "answer": {
+  "groups": [
+   {
+    "key": "일반",
+    "homeless": "household",
+    "homeless_quote": "성년자인 무주택세대구성원으로서 아래의 소득, 자산보유 기준, 기타 법에 정한 요건을 충족하고, 입주",
+    "income_pct": {
+     "1": 70,
+     "2": 60,
+     "3+": 50
+    },
+    "income_quote": "차. 일반입주자\n1인 0인 70% 245,000,000 45,420,000\n2인\n0인 60% 245,000,000 45,420,000",
+    "asset_manwon": 24500,
+    "asset_quote": "세대구성원 전원이 보유하고 있는 총 자산(부동산, 자동차, 금융자산(부채반영), 일반자산) 가액 \n합산 기준 ( 24,500 )만원 이하",
+    "car_manwon": 4542,
+    "car_quote": "세대구성원 전원이 보유하고 있는 개별 자동차가액 ( 4,542 )만원 이하",
+    "age_min": 19,
+    "age_max": null,
+    "age_quote": "신청자는 민법상 성년자(만19세)이어야 합니다."
+   }
+  ],
+  "regions": null,
+  "regions_quote": null,
+  "account": null,
+  "account_quote": null,
+  "local": {
+   "name": "광주 광산구·동구·서구·남구·북구",
+   "sido": "광주",
+   "sigun": null
+  },
+  "local_quote": "입주자 모집공고일(2026.10.27.) 현재 전남광주통합특별시 광산구, 동구, 서구, 남구, 북구에 거주하는"
+ }
+}

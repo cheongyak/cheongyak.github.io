@@ -1,0 +1,50 @@
+{
+ "id": "0000061187",
+ "sha": "b2fe8979e20608a0",
+ "prompt_v": 1,
+ "model": "claude-sonnet-5-5",
+ "usage": {
+  "input_tokens": 38026,
+  "cache_creation_input_tokens": 0,
+  "cache_read_input_tokens": 0,
+  "cache_creation": {
+   "ephemeral_5m_input_tokens": 0,
+   "ephemeral_1h_input_tokens": 0
+  },
+  "output_tokens": 516,
+  "output_tokens_details": {
+   "thinking_tokens": 0
+  },
+  "service_tier": "standard",
+  "inference_geo": "global",
+  "speed": "standard"
+ },
+ "usd": 0.0812,
+ "answer": {
+  "groups": [
+   {
+    "key": "일반",
+    "homeless": "household",
+    "homeless_quote": "입주자 모집공고일(2026.10.20) 현재 해당 주택건설지역(대구광역시 및 경상북도)의 무주택세대구성원인 성년자(외국인은 신청불가)",
+    "income_pct": "excluded",
+    "income_quote": "청약 저 축  가 입 여 부·세 대 주  여 부·과 거  당 첨 사 실 여 부·소 득 기 준 및 자산기준 충족여부는 불문",
+    "asset_manwon": "excluded",
+    "asset_quote": "청약 저 축  가 입 여 부·세 대 주  여 부·과 거  당 첨 사 실 여 부·소 득 기 준 및 자산기준 충족여부는 불문",
+    "car_manwon": null,
+    "car_quote": null,
+    "age_min": 19,
+    "age_max": null,
+    "age_quote": "해당 주택건설지역 (대구광역시 및 경상북도 )의 만 19세이상의 무주택"
+   }
+  ],
+  "regions": [
+   "대구",
+   "경북"
+  ],
+  "regions_quote": "입주자 모집공고일(2026.10.20) 현재 해당 주택건설지역(대구광역시 및 경상북도)의 무주택세대구성원인 성년자(외국인은 신청불가)",
+  "account": "none",
+  "account_quote": "금회 공고는 청약저축 가입여부, 과거당첨 사실여부, 소득기준 및 자산기준 충족여부와는 상관없으며",
+  "local": null,
+  "local_quote": null
+ }
+}

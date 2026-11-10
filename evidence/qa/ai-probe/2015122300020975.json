@@ -1,0 +1,57 @@
+{
+ "id": "2015122300020975",
+ "sha": "7b839e523d4ff681",
+ "prompt_v": 1,
+ "model": "claude-sonnet-5-5",
+ "usage": {
+  "input_tokens": 28817,
+  "cache_creation_input_tokens": 0,
+  "cache_read_input_tokens": 0,
+  "cache_creation": {
+   "ephemeral_5m_input_tokens": 0,
+   "ephemeral_1h_input_tokens": 0
+  },
+  "output_tokens": 506,
+  "output_tokens_details": {
+   "thinking_tokens": 0
+  },
+  "service_tier": "standard",
+  "inference_geo": "global",
+  "speed": "standard"
+ },
+ "usd": 0.0627,
+ "answer": {
+  "groups": [
+   {
+    "key": "일반",
+    "homeless": "household",
+    "homeless_quote": "입주자 모집공고일(2026.11.09.) 현재 주택건설지역(제천시,충청북도)에 거주하는 무주택세대구성원으로 아래의 기준에 ",
+    "income_pct": null,
+    "income_quote": null,
+    "asset_manwon": null,
+    "asset_quote": null,
+    "car_manwon": null,
+    "car_quote": null,
+    "age_min": 19,
+    "age_max": null,
+    "age_quote": "「민법」상 미성년자(만 19세 미만)는 공급 신청할 수 없습니다."
+   }
+  ],
+  "regions": [
+   "충북"
+  ],
+  "regions_quote": "입주자 모집공고일(2026.11.09.) 현재 주택건설지역(제천시,충청북도)에 거주하는 무주택세대구성원으로 아래의 기준에 ",
+  "account": {
+   "months": 6,
+   "count": 6,
+   "rank2_any": true
+  },
+  "account_quote": "예비입주자 모집공고일(2026.11.09) 현재 주택청약종합저축(청약저축 포함)에 가입하여  6개월이 지난 자로서 매월 약정납입일에 월납입금을 6회 이상 납입한 자",
+  "local": {
+   "name": "제천시",
+   "sido": "충북",
+   "sigun": "제천시"
+  },
+  "local_quote": "입주자 모집공고일(2026.11.09.) 현재 주택건설지역(제천시,충청북도)에 거주하는 무주택세대구성원으로 아래의 기준에 "
+ }
+}

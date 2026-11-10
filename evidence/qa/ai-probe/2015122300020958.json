@@ -1,0 +1,103 @@
+{
+ "id": "2015122300020958",
+ "sha": "2074ba4ecae95a42",
+ "prompt_v": 1,
+ "model": "claude-sonnet-5-5",
+ "usage": {
+  "input_tokens": 75627,
+  "cache_creation_input_tokens": 0,
+  "cache_read_input_tokens": 0,
+  "cache_creation": {
+   "ephemeral_5m_input_tokens": 0,
+   "ephemeral_1h_input_tokens": 0
+  },
+  "output_tokens": 1444,
+  "output_tokens_details": {
+   "thinking_tokens": 0
+  },
+  "service_tier": "standard",
+  "inference_geo": "global",
+  "speed": "standard"
+ },
+ "usd": 0.1657,
+ "answer": {
+  "groups": [
+   {
+    "key": "대학생",
+    "homeless": "self",
+    "homeless_quote": "※ ‘무주택자’란 주택을 소유하고 있지 않은 자를 말함(세대 내 다른 구성원이 주택을 소유해도 신청 가능함)",
+    "income_pct": "excluded",
+    "income_quote": "③ 【완화조건】 소득요건 배제",
+    "asset_manwon": "excluded",
+    "asset_quote": "④ 【완화조건】 자산요건 배제(단, 신청자 본인이 자동차가액 산출대상 자동차를 소유하고 있지 않을 것)",
+    "car_manwon": 0,
+    "car_quote": "④ 【완화조건】 자산요건 배제(단, 신청자 본인이 자동차가액 산출대상 자동차를 소유하고 있지 않을 것)",
+    "age_min": null,
+    "age_max": null,
+    "age_quote": null
+   },
+   {
+    "key": "청년",
+    "homeless": "self",
+    "homeless_quote": "※ ‘무주택자’란 주택을 소유하고 있지 않은 자를 말함(세대 내 다른 구성원이 주택을 소유해도 신청가능함)",
+    "income_pct": "excluded",
+    "income_quote": "③ 【완화조건】 소득요건 배제",
+    "asset_manwon": "excluded",
+    "asset_quote": "④ 【완화조건】 자산요건 배제하되, 해당 세대의 총 자산 중 자동차가액이 4,542만원이하일 것",
+    "car_manwon": 4542,
+    "car_quote": "④ 【완화조건】 자산요건 배제하되, 해당 세대의 총 자산 중 자동차가액이 4,542만원이하일 것",
+    "age_min": 19,
+    "age_max": 39,
+    "age_quote": "➀-㉮ (청년) 19세 이상 39세 이하인 자(출생일 1986.10.28. ∼ 2007.10.27.)"
+   },
+   {
+    "key": "신혼부부·한부모",
+    "homeless": "household",
+    "homeless_quote": "무주택세대구성원(예비신혼부부의 경우 혼인으로 구성될 세대의 세대구성원 \n모두 무주택자)으로서 아래의 요건",
+    "income_pct": "excluded",
+    "income_quote": " ③ 【완화조건】 소득요건 배제",
+    "asset_manwon": "excluded",
+    "asset_quote": " ④ 【완화조건】 자산요건 배제하되, 해당 세대의 총 자산 중 자동차가액이 4,542만원이하일 것",
+    "car_manwon": 4542,
+    "car_quote": " ④ 【완화조건】 자산요건 배제하되, 해당 세대의 총 자산 중 자동차가액이 4,542만원이하일 것",
+    "age_min": null,
+    "age_max": null,
+    "age_quote": null
+   },
+   {
+    "key": "고령자",
+    "homeless": "household",
+    "homeless_quote": "입주자모집공고일(2026.10.27.) 현재, 무주택세대구성원으로서 아래의 요건을 모두 갖춘 65세 이상인 자",
+    "income_pct": "excluded",
+    "income_quote": "① 【완화조건】 소득요건 배제",
+    "asset_manwon": "excluded",
+    "asset_quote": "② 【완화조건】 자산요건 배제하되, 해당 세대의 총 자산 중 자동차가액이 4,542만원이하일 것",
+    "car_manwon": 4542,
+    "car_quote": "② 【완화조건】 자산요건 배제하되, 해당 세대의 총 자산 중 자동차가액이 4,542만원이하일 것",
+    "age_min": 65,
+    "age_max": null,
+    "age_quote": "입주자모집공고일(2026.10.27.) 현재, 무주택세대구성원으로서 아래의 요건을 모두 갖춘 65세 이상인 자"
+   },
+   {
+    "key": "주거급여수급자",
+    "homeless": "household",
+    "homeless_quote": "입주자모집공고일(2026.10.27.) 현재, 무주택세대구성원인 주거급여수급자",
+    "income_pct": null,
+    "income_quote": null,
+    "asset_manwon": null,
+    "asset_quote": null,
+    "car_manwon": null,
+    "car_quote": null,
+    "age_min": null,
+    "age_max": null,
+    "age_quote": null
+   }
+  ],
+  "regions": null,
+  "regions_quote": null,
+  "account": null,
+  "account_quote": null,
+  "local": null,
+  "local_quote": null
+ }
+}
