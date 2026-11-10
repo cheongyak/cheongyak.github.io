@@ -64,7 +64,7 @@ def answer_of(g: dict, tx: dict, key: str) -> tuple[dict | None, float, str]:
 
 
 def compare(g: dict, ans: dict, tx: dict, region) -> list[dict]:
-    val, dropped = ai_read.to_terms(ans, list(tx.values()), region)
+    val, dropped = ai_read.to_terms(ans, list(tx.values()), region, g["type"])
     rows = []
 
     def row(name, f, gold, raw, got):

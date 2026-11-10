@@ -28,14 +28,14 @@ DIR = ROOT / "evidence" / "lh" / "ai"
 SPEND = DIR / "_spend.json"
 MODEL = "claude-sonnet-5-5"        # 청약봇 자유 답변과 같은 모델 (chat/worker/src/llm.js FREE_MODEL)
 PRICE = (2.0, 10.0)                 # 100만 토큰당 달러 [입력, 출력] — chat/worker/src/llm.js PRICE 와 같은 추정 단가
-PROMPT_V = 1                        # 지시문을 바꾸면 올린다 (올리면 저장해 둔 답을 다시 받는다)
+PROMPT_V = 2                        # 지시문을 바꾸면 올린다 (올리면 저장해 둔 답을 다시 받는다)
 MONTH_USD = 5.0                     # 한 달 추정 사용액 한도 (docs/config.json ai_read.month_usd 로 바꿀 수 있다)
 MAX_PER_RUN = 6                     # 한 번 수집에서 새로 부르는 공고 수
 MAX_CHARS = 150_000
 KST = timezone(timedelta(hours=9))
 
 SIDOS = set(SIDO_SHORT.values())
-_EXCL = r"배제|불문|관계없이|적용하지|미적용|적용제외|무관|묻지않"
+_EXCL = r"배제|불문|관계없이|상관없|적용하지|미적용|적용제외|무관|묻지않"
 
 SYSTEM = """당신은 한국토지주택공사(LH) 임대주택 입주자 모집공고문에서 신청 자격 기준을 뽑아내는 도구입니다.
 공고문에 **글자로 적혀 있는 것만** 뽑습니다. 추측하지 않습니다. 확실하지 않거나 공고문에 없으면 null 입니다.
@@ -46,8 +46,10 @@ SYSTEM = """당신은 한국토지주택공사(LH) 임대주택 입주자 모집
 {
  "groups": [   // 공고문이 자격을 나눈 계층. key 는 "대학생","청년","신혼부부·한부모","고령자","주거급여수급자","일반" 중 하나. 계층 구분이 없으면 "일반" 하나
   {"key": "일반",
-   "homeless": "household" | "self" | null,      // household = 무주택세대구성원(세대원 전원 무주택), self = 신청자 본인만 무주택
-   "homeless_quote": "...",
+   "homeless": "household" | "self" | "household_or_single_self" | null,
+        // household = 무주택세대구성원(세대원 전원 무주택) · self = 신청자 본인만 무주택(무주택자)
+        // household_or_single_self = '무주택세대구성원(혼인 중이 아닌 경우로서 단독세대주로 입주하려는 사람은 무주택자)'처럼 단독세대주 예외가 붙은 문장
+   "homeless_quote": "...",                      // '무주택세대구성원'·'무주택자' 같은 낱말이 들어 있는 문장. 괄호 속 예외가 붙어 있으면 그 괄호까지 포함
    "income_pct": {"1": 90, "2": 80, "3+": 70} | "excluded" | null,   // 가구원 수(1인·2인·3인 이상)별 소득 상한 퍼센트. 1인·2인 가산(예: +20%p, +10%p)이 적혀 있으면 더한 값. "excluded" = 이번 모집은 소득 기준을 보지 않는다고 적혀 있음
    "income_quote": "...",
    "asset_manwon": 34500 | "excluded" | null,    // 총자산 한도(만원). "excluded" = 총자산 기준을 보지 않는다고 적혀 있음
@@ -60,9 +62,12 @@ SYSTEM = """당신은 한국토지주택공사(LH) 임대주택 입주자 모집
  "regions_quote": "...",
  "account": {"months": 6, "count": 6, "rank2_any": true} | "none" | null,   // (공공임대만) 1순위 청약통장 가입 개월 수·납입 횟수. rank2_any = 2순위는 가입만 되어 있으면 됨. "none" = 청약통장이 필요 없다고 적혀 있음
  "account_quote": "...",
- "local": {"name": "제천시", "sido": "충북", "sigun": "제천시"} | null,   // 신청자격 첫 문장의 거주 요건 '모집공고일 현재 ○○에 거주하는 …'. 광역시·특별시 전체면 sigun 은 null
- "local_quote": "..."
+ "local": {"name": "부산광역시", "sido": "부산", "sigun": null} | null,   // (공공임대가 아닌 유형만) 신청자격 첫 문장의 거주 요건 '모집공고일 현재 ○○에 거주하는 …'. 시·군이면 sigun 에 그 이름, 광역시·특별시 전체면 null
+ "local_quote": "...",
+ "other_groups": ["장기종사자"]   // 공고문에 있지만 위 여섯 key 로 옮길 수 없는 계층·신분 이름(산업단지 근로자, 창업인, 장기종사자 등). 없으면 []
 }
+공고문이 신청자를 계층·신분(청년, 신혼부부, 한부모가족, 고령자 …)으로 나눠 기준을 따로 적었으면 그 계층마다 하나씩 적고, 그런 공고문에 "일반" 계층을 지어내지 마세요.
+값을 여러 문장에서 계산해 만들었으면(예: 표의 다른 줄) 그 값은 null 로 두세요 — quote 한 곳에서 확인되는 값만 적습니다.
 소득·자산 기준 문장이 공고문에 없다는 것만으로 "excluded" 라고 하지 마세요 — 보지 않는다고 **적혀 있을 때만** "excluded" 입니다."""
 
 
@@ -111,15 +116,20 @@ def _money_in(v: int, q: str) -> bool:
     return False
 
 
-def _check_value(field: str, v, q: str, region: Optional[str]) -> Optional[str]:
-    """값이 근거 문장과 맞으면 None, 아니면 탈락 이유."""
+def _check_value(field: str, v, q: str, region: Optional[str], after: str = "") -> Optional[str]:
+    """값이 근거 문장과 맞으면 None, 아니면 탈락 이유. after = 원문에서 그 문장 바로 뒤 글(빈칸 뺌)."""
     qs, n = _ns(q), _nums(q)
     excl = bool(re.search(_EXCL, qs))
     if field == "homeless":
+        single = "단독세대주" in qs or "단독세대주" in after[:80]   # '무주택세대구성원(혼인 중이 아닌 경우로서 단독세대주로 입주하려는 사람은 무주택자)' — 문장 안이나 바로 뒤 괄호
         if v == "household":
+            if single:
+                return "문장에 단독세대주 예외가 붙어 있음(세대원 전원으로 단정 못 함)"
             return None if re.search(r"무주택세대구성원|무주택세대", qs) else "문장에 '무주택세대구성원'이 없음"
+        if v == "household_or_single_self":
+            return None if "무주택세대구성원" in qs and "단독세대주" in qs and "무주택자" in qs else "문장에 무주택세대구성원·단독세대주·무주택자가 함께 있지 않음"
         if v == "self":
-            return None if re.search(r"무주택자|본인", qs) and "무주택" in qs and "무주택세대구성원" not in qs else "문장이 본인 무주택으로 보이지 않음"
+            return None if re.search(r"무주택자|본인", qs) and re.search(r"무주택|주택소유", qs) and "무주택세대구성원" not in qs else "문장이 본인 무주택으로 보이지 않음"
         return "값 형식"
     if field == "income_pct":
         if v == "excluded":
@@ -200,7 +210,7 @@ def _check_value(field: str, v, q: str, region: Optional[str]) -> Optional[str]:
     return "모르는 칸"
 
 
-def to_terms(answer: dict, texts: list[str], region: Optional[str]) -> tuple[dict, list[str]]:
+def to_terms(answer: dict, texts: list[str], region: Optional[str], kind: str = "") -> tuple[dict, list[str]]:
     """AI 답(JSON) → 검사를 통과한 값만 담은 terms 꼴(app.loose_read.fill_lh_terms 에 넘길 수 있다)과 탈락 기록."""
     flat = [_ns(t) for t in texts if t]
     dropped: list[str] = []
@@ -208,14 +218,16 @@ def to_terms(answer: dict, texts: list[str], region: Optional[str]) -> tuple[dic
     def ok(name: str, field: str, v, q) -> bool:
         if v is None:
             return False
-        if not isinstance(q, str) or len(_ns(q)) < 10 or len(q) > 400:
+        short = 4 if v == "excluded" else 10   # 표 칸 '소득 배제' 같은 짧은 글은 '미적용' 값일 때만 받는다(화면은 완화 공고·공공임대일 때만 미적용을 믿는다)
+        if not isinstance(q, str) or len(_ns(q)) < short or len(q) > 400:
             dropped.append(f"{name}: 근거 문장 없음·길이")
             return False
-        if not any(_ns(q) in f for f in flat):
+        at = next(((f, f.find(_ns(q))) for f in flat if _ns(q) in f), None)
+        if at is None:
             dropped.append(f"{name}: 근거 문장이 원문에 없음")
             return False
         try:
-            why = _check_value(field, v, q, region)
+            why = _check_value(field, v, q, region, at[0][at[1] + len(_ns(q)): at[1] + len(_ns(q)) + 120])
         except Exception as e:   # 답 형식이 어긋나면 그 값만 버린다
             why = f"검사 오류 {e.__class__.__name__}"
         if why:
@@ -232,6 +244,14 @@ def to_terms(answer: dict, texts: list[str], region: Optional[str]) -> tuple[dic
         key = g["key"]
         r = {"key": key, "name": key, "homeless": None, "income_pct": None, "asset_manwon": None, "car_manwon": None, "age_min": None, "age_max": None}
         q = {}
+        if key == "주거급여수급자":   # 읽기 규칙도 이 계층은 칸을 비워 둔다(수급자 자격으로 판단) — AI 값은 받지 않고 계층만
+            out["groups"].append(r)
+            out["quotes"][key] = q
+            continue
+        if key == "일반" and re.search(r"청년|신혼부부|한부모|고령자|대학생", _ns(str(g.get("homeless_quote") or ""))):
+            # 계층별로 나눈 공고문('무주택세대구성원(청년은 입주자 본인, 예비신혼부부는 …)')에서 '일반' 계층을 지어낸 답 (담양삼만 905, 11-11 정확도 시험) — 계층째 버린다
+            dropped.append("계층 일반: 계층별로 나눈 공고문으로 보임('일반' 계층을 만들지 않음)")
+            continue
         for f, qk in (("homeless", "homeless"), ("income_pct", "income"), ("asset_manwon", "asset"), ("car_manwon", "car")):
             if ok(f"{key}.{f}", f, g.get(f), g.get(qk + "_quote")):
                 r[f], q[qk] = g[f], g[qk + "_quote"].strip()
@@ -247,9 +267,15 @@ def to_terms(answer: dict, texts: list[str], region: Optional[str]) -> tuple[dic
         a = answer["account"]
         out["account"] = a if a == "none" else {"months": a["months"], "count": a["count"], "rank2_any": a["rank2_any"]}
         out["quotes"].setdefault("일반", {})["account"] = answer["account_quote"].strip()
-    if ok("local", "local", answer.get("local"), answer.get("local_quote")):
+    # 공공임대는 거주 요건을 regions(신청 가능 시·도)로 본다 — '주택건설지역(제천시,충청북도)'를 '제천시 거주자만'으로 좁히지 않게 local 은 받지 않는다 (11-11 정확도 시험)
+    if kind != "공공임대" and ok("local", "local", answer.get("local"), answer.get("local_quote")):
         L = answer["local"]
         out["local"] = {"name": L["name"], "sido": L["sido"], "sigun": L.get("sigun"), "quote": answer["local_quote"].strip()}
+    og = [re.sub(r"\s+", " ", x).strip()[:20] for x in answer.get("other_groups") or [] if isinstance(x, str) and x.strip()]
+    if og:
+        out["unknown_groups"] = og[:6]
+    if all(g["key"] == "주거급여수급자" for g in out["groups"]):   # 검사를 통과한 값이 하나도 없으면 계층을 만들지 않는다
+        out["groups"], out["quotes"] = [], {k: v for k, v in out["quotes"].items() if k != "주거급여수급자"}
     return out, dropped
 
 
@@ -358,13 +384,16 @@ def fill(nid: str, terms: Optional[dict], texts: dict, kind: str, name: str, reg
         d.mkdir(parents=True, exist_ok=True)
         f.write_text(json.dumps(saved, ensure_ascii=False, indent=1) + "\n", encoding="utf-8")
         log.append(f"[공고문·AI 읽기] {nid} AI 호출 (입력 {usage.get('input_tokens')}·출력 {usage.get('output_tokens')} 토큰, 추정 ${usd:.3f} · 이번 달 ${month_spent():.2f}/{month_cap():.0f})")
-    ai_terms, dropped = to_terms(saved["answer"], tx, region)
+    ai_terms, dropped = to_terms(saved["answer"], tx, region, kind)
     for x in dropped:
         log.append(f"[공고문·AI 읽기·탈락] {nid} {x}")
     import copy
     from app.loose_read import fill_lh_terms
     out = copy.deepcopy(terms) if terms else {"relaxed": False, "homeless_relaxed": False, "homeless_max1": False, "income_basis": None, "groups": [], "quotes": {}, "income_table_100": None}
+    no_groups = not out.get("groups")
     filled = fill_lh_terms(out, ai_terms)
+    if filled and no_groups and ai_terms.get("unknown_groups") and not out.get("unknown_groups"):
+        out["unknown_groups"] = ai_terms["unknown_groups"]   # AI 가 계층을 통째로 읽은 공고: 여섯 계층으로 못 옮긴 계층 이름 → 화면 '일부 계층 판정 못 함'
     if not filled:
         log.append(f"[공고문·AI 읽기] {nid} 못 읽은 칸 {len(need)}개 — AI 도 검사를 통과한 값을 주지 못함 (화면 '공고문 확인' 그대로)")
         return terms, log

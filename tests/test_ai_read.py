@@ -109,3 +109,23 @@ def test_call_failure_does_not_leak_key(tmp_path):
         raise RuntimeError("claude 401 authentication_error: invalid x-api-key SECRETKEY")
     out, log = ai_read.fill("T4", {"groups": [], "quotes": {}}, {"pypdf": JC}, "공공임대", "", None, ai_read.Budget(1), post=boom, api_key="SECRETKEY", cache_dir=tmp_path)
     assert "호출 실패" in log[0] and "SECRETKEY" not in log[0]
+
+
+def test_checker_lessons_from_probe_20261111():
+    """11-11 정확도 시험(정답 데이터 15건을 실제 Claude 로 읽힘)에서 검사기를 통과한 틀린 값 — 다시 통과하지 못하게."""
+    c = ai_read._check_value
+    q = "무주택세대구성원(혼인 중이 아닌 경우로서 단독세대주로 입주하려는 사람의 경우에는 무주택자)으로서 다음의 요건을"
+    assert c("homeless", "household", q, None)                                      # 992·993·912 고령자: 단독세대주 예외가 붙은 문장을 '세대원 전원'으로 읽음
+    assert c("homeless", "household_or_single_self", q, None) is None
+    assert c("homeless", "household", "현재 무주택세대구성원", None, after="(단,혼인중이아닌경우로서단독세대주로입주하려는사람은무주택자)으로서")   # 예외 괄호가 문장 바로 뒤에 있어도
+    assert c("homeless", "self", "청년 계층의 주택소유여부는 신청자 본인에 한하여 검증합니다.", None) is None
+    assert c("account", "none", "금회 공고는 청약저축 가입여부, 과거당첨 사실여부, 소득기준 및 자산기준 충족여부와는 상관없으며", None) is None
+    text = JC + " 소득 배제 총자산가액 배제 무주택세대구성원(청년은 입주자 본인, 예비신혼부부는 혼인으로 구성될 세대원)으로서 직업요건을 충족한 자 "
+    ans = {"groups": [{"key": "일반", "homeless": "household", "homeless_quote": "무주택세대구성원(청년은 입주자 본인, 예비신혼부부는 혼인으로 구성될 세대원)으로서 직업요건을 충족한 자"}],
+           "local": {"name": "제천시", "sido": "충북", "sigun": "제천시"}, "local_quote": Q_REGION, "other_groups": ["장기종사자"]}
+    t, dropped = ai_read.to_terms(ans, [text], "충청북도", "공공임대")
+    assert t["groups"] == [] and "local" not in t and t["unknown_groups"] == ["장기종사자"]   # 905 '일반' 계층 지어냄 · 975 공공임대 local(제천시만으로 좁힘)
+    t, _ = ai_read.to_terms({"groups": [{"key": "일반", "income_pct": "excluded", "income_quote": "소득 배제", "asset_manwon": "excluded", "asset_quote": "총자산가액 배제"},
+                                        {"key": "주거급여수급자", "homeless": "household", "homeless_quote": Q_REGION}]}, [text], None, "국민임대")
+    assert t["groups"][0]["income_pct"] == "excluded" and t["groups"][0]["asset_manwon"] == "excluded"   # 962 표 칸의 짧은 글은 '미적용'일 때만 받는다
+    assert t["groups"][1]["homeless"] is None                                        # 주거급여수급자 칸은 AI 값으로 채우지 않는다
