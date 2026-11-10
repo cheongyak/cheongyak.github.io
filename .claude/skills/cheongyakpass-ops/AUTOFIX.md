@@ -15,6 +15,9 @@
 
 ## 1. 할 일 모으기
 - `python -m tools.qa.unread_queue` → `evidence/qa/unread-queue.json`. '할 일 없음'이고 열린 이슈도 없으면 4번(관찰 검사 승격)만 하고 끝낸다.
+- 목록에 **'AI 가 읽음'·'느슨한 읽기'** 로 올라온 임대 공고(2026-11-11 기능 ai_read·loose_read)도 고칠 일이다 — 화면에는 값이 보이지만('확인 필요'까지만) 읽기 규칙이 못 읽은 공고다.
+  원문을 직접 읽어 AI 가 채운 값(`docs/lh-rental.json` 그 공고 terms.ai.fields, 답 `evidence/lh/ai/<id>.json`)이 맞는지 보고, 2번 절차대로 읽기 규칙·정답 데이터를 더한다. 규칙이 읽게 되면 terms.ai 가 사라진다.
+  **AI 값이 원문과 다르면** 보고 맨 앞에 적고, app/ai_read.py 검사기(_check_value)에 그 꼴을 거르는 검사와 시험(tests/test_ai_read.py)을 더한다. 실행 기록 `[공고문·AI 읽기·탈락]` 줄은 검사기가 버린 값(참고).
 - 원문이 없는 공고(missing_original)는 '근거 자료 모으기'(probe.yml)를 돌려 `evidence/notices/<번호>.txt` 를 받는다(이 작업 환경은 청약홈에 직접 못 닿는다). 그래도 없으면 그 공고는 '원문 없음'으로 보고만 한다.
 
 ## 2. 공고마다 (한 공고 = 한 커밋)

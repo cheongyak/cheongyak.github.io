@@ -387,6 +387,15 @@ def fill(nid: str, terms: Optional[dict], texts: dict, kind: str, name: str, reg
         f.write_text(json.dumps(saved, ensure_ascii=False, indent=1) + "\n", encoding="utf-8")
         log.append(f"[공고문·AI 읽기] {nid} AI 호출 (입력 {usage.get('input_tokens')}·출력 {usage.get('output_tokens')} 토큰, 추정 ${usd:.3f} · 이번 달 ${month_spent():.2f}/{month_cap():.0f})")
     ai_terms, dropped = to_terms(saved["answer"], tx, region, kind)
+    if "계층" not in need:
+        # 규칙이 계층을 읽은 공고: AI 값은 화면이 '공고문 확인'으로 보이는 칸(need)에만 쓴다. 규칙이 일부러 비워 두는 칸(나이 등)은 채우지 않는다
+        # (2026-11-11 남원노암 2015122300021022 첫 실제 호출에서 못 읽은 칸이 아닌 '일반.age_min' 하나만 채워 'AI 가 읽은 공고'가 됨)
+        for g in ai_terms.get("groups") or []:
+            for f in list(g):
+                if f not in ("key", "name") and f"{g['key']}.{f}" not in need:
+                    g[f] = None
+        for k in [k for k in ai_terms if k not in ("groups", "quotes") and k not in need]:
+            ai_terms.pop(k)
     for x in dropped:
         log.append(f"[공고문·AI 읽기·탈락] {nid} {x}")
     import copy

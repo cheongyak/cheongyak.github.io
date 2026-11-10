@@ -133,3 +133,14 @@ def test_checker_lessons_from_probe_20261111():
                                         {"key": "주거급여수급자", "income_pct": "excluded", "income_quote": "소득 배제"}]},
                             [text + " 청년 계층의 주택소유여부는 신청자 본인에 한하여 검증합니다."], None, "행복주택")
     assert [(g["key"], g["homeless"], g["income_pct"]) for g in t["groups"]] == [("청년", "self", None), ("주거급여수급자", "household", None)]   # 칸은 AI 값으로 채우지 않는다
+
+
+def test_fill_only_fields_the_screen_shows_unread(tmp_path):
+    """남원노암(2015122300021022) 첫 실제 호출: 못 읽은 칸(거주지역·소득·자산·자동차)은 AI 도 못 읽고, 묻지 않은 나이(age_min 19)만 채워 'AI 가 읽은 공고'가 됐다 — 못 읽은 칸이 아니면 채우지 않는다."""
+    strict = {"groups": [{"key": "일반", "name": "일반", "homeless": "household", "income_pct": None, "asset_manwon": None, "car_manwon": None, "age_min": None, "age_max": None}],
+              "quotes": {}, "regions": None, "account": {"months": 6, "count": 6, "rank2_any": True}}
+    text = JC + " 「민법」상 미성년자(만 19세 미만)는 공급 신청할 수 없습니다. "
+    ans = {"groups": [{"key": "일반", "homeless": "household", "homeless_quote": Q_REGION, "age_min": 19, "age_quote": "「민법」상 미성년자(만 19세 미만)는 공급 신청할 수 없습니다."}],
+           "regions": None, "account": {"months": 6, "count": 6, "rank2_any": True}, "account_quote": Q_ACC, "other_groups": ["장기종사자"]}
+    out, log = ai_read.fill("T5", strict, {"pypdf": text}, "공공임대", "", "전북특별자치도", ai_read.Budget(1), post=_post(ans), api_key="k", cache_dir=tmp_path)
+    assert out is strict and strict["groups"][0]["age_min"] is None and "unknown_groups" not in strict
