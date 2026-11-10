@@ -4,6 +4,14 @@
 2026-09-29 12:55 이전 항목은 규칙을 만들기 전 작업을 커밋 기록으로 정리한 것이라 백업 브랜치가 없어요.
 그 시점으로 되돌릴 때는 해당 커밋 번호로 `git revert` 를 써요.
 
+## 2026-11-11 06:52 · AI 가 대신 읽기(기능 ai_read) 만들고 꺼 둠 — 정확도 시험 준비
+- 요청: 운영자 '방법 1 하고 실패하면 방법 2(AI)까지 되도록'
+- 변경: (방법 2) app/ai_read.py — LH 임대 공고문에서 규칙(엄격 → 느슨)이 못 읽은 칸(gaps: 계층 없음·공공임대 거주지역/청약통장·거주 요건·계층별 무주택/소득/총자산/자동차)이 남으면 Claude(claude-sonnet-5-5, 청약봇 자유 답변과 같은 모델)에게 공고문을 읽혀 값+근거 문장을 JSON 으로 받음. 검사기(to_terms): 근거 문장이 원문(세 읽기 도구 글 중 하나)에 빈칸만 빼고 그대로 있어야 하고, 값의 숫자·낱말이 그 문장 안에 있어야 하며(총자산 34,500 ↔ '34,500만원'·'345,000,000'·'3억4,500만원', 소득 % 또는 가산 전 값+가산 폭, 미적용은 '배제·불문·관계없이' 등), 범위 안이어야 함 — 통과한 값만 app/loose_read.fill_lh_terms 로 **비어 있던 칸에만** 채움. 채운 칸 terms.ai, 채우기 전 terms_pre_ai. 같은 공고문(글 지문)은 한 번만 호출(evidence/lh/ai/<id>.json), 한 번 수집 6건·한 달 추정 $5 한도, 키 없으면 건너뜀, 오류 문구에서 키 가림. app/lh_rental 이 호출·`[공고문·AI 읽기]`/`[공고문·AI 읽기·탈락]` 줄. 화면(docs/index.html): AI 가 읽은 칸이 쓰인 계층은 'AI가 읽은 기준(…)으로 본 결과예요 — 신청 전에 공고문에서 직접 확인하세요' 확인 항목이 붙어 '신청 가능해 보여요'가 아니라 '확인 필요'까지만, 신청 자격 기준 단원에 'AI가 읽은 기준' 안내(출처: 모집공고문 · AI 판독), 스위치를 끄면 terms_pre_ai 로 되돌림. tools/qa/lh_unread.cjs 는 AI 가 읽은 공고를 '(참고)'로 따로 적음, unread_queue 는 'AI 가 읽음'으로 목록에 올림(규칙·정답 데이터 추가용), lh_reparse 는 저장해 둔 답만 다시 씀. **스위치 ai_read 는 false 로 올림** — tools/qa/ai_read_probe.py(ai-read-probe.yml, 손으로)가 정답 데이터 공고를 실제 Claude 로 읽혀 '틀림 0'을 확인한 뒤 켬
+- 파일: app/ai_read.py, app/lh_rental.py, docs/index.html, docs/config.json, tools/qa/ai_read_probe.py, tools/qa/ai_read_screen.cjs, tools/qa/lh_unread.cjs, tools/qa/lh_reparse.py, tools/qa/unread_queue.py, tests/test_ai_read.py, .github/workflows/ai-read-probe.yml, .github/workflows/lh-rental.yml, FEATURES.md, .claude/skills/cheongyakpass-ops/SKILL.md, WORK.md
+- 확인: tests/test_ai_read.py 8 통과(가짜 응답 — 제천장락1 실제 문장은 통과, 지어낸 문장·문장에 없는 숫자·범위 밖·'미적용' 말 없는 문장은 탈락, 규칙이 읽은 값 유지, 저장한 답 재사용, 키 가림). tools/qa/ai_read_screen.cjs: 공고 2015122300020975 평소 '가능' → AI 가 읽은 것으로 바꾸면 '확인 필요'+안내, 스위치 끄면 '청약통장 요건을 공고문에서 읽지 못함'. 스위치가 꺼진 지금 데이터: snapshot 바뀐 곳 0, lh_unread 고칠 것 0, lh_rental.cjs 문제 없음, lh_qa 문제 0, judge_check 974/974, pytest 467 통과·14 실패(작업 환경 대용 모듈 때문에 원래 실패하는 14건과 같음), 스크립트 문법 통과. 지금 AI 가 불릴 공고는 1건(남원노암 2015122300021022 — 거주지역 문구가 빠진 공고문)
+- 기능: ai_read (꺼 둠)
+- 백업: backup/20261111-0652
+
 ## 2026-11-11 06:39 · 느슨한 읽기 — 띄어쓰기만 다른 문장도 읽기 (v1.85.0)
 - 요청: 운영자 '공고 처음 보는 형태에도 잘 읽을 수 있도록 — 방법 1(표기 차이 무시) 하고 실패하면 방법 2(AI)까지'
 - 변경: (방법 1) app/loose_re.py — 정규식 패턴을 풀어 한글 3자 이상 붙은 곳은 글자 사이 빈칸을 허용, 패턴에 적힌 빈칸은 없어도 맞게(글자 묶음·뒤돌아보기·횟수 붙은 글자는 그대로). app/loose_read.py — 엄격하게 읽은 결과에서 **못 읽은 칸(None·없음)만** 느슨하게 읽은 값으로 채움(참·거짓 문장 값·모르는 계층 목록은 채우지 않음). LH 임대: app/lh_pdf_merge.read_all(loose=) 가 세 도구 엄격 합침 뒤 빈칸만 채움, app/lh_rental 이 `[공고문·느슨 읽기]` 줄·read.loose 기록. 분양: app/pipeline 이 parse_notice(+두 번째 도구) 뒤 없는 항목만 채움(PARSER_VERSION 55). tools/qa/unread_queue 가 느슨하게 채운 공고를 목록에 넣음(규칙·정답 데이터 추가용). tools/qa/lh_reparse 도 같은 스위치

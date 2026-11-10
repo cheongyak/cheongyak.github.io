@@ -64,9 +64,11 @@ def build() -> dict:
     for r in lhu.get("rows") or []:
         if not r.get("allowed"):
             add(r["id"], r.get("name"), "임대", "공고문 못 읽음", f"{r.get('group')} {r.get('text')}")
-    # 규칙이 못 읽어 느슨한 읽기(기능 loose_read)가 채운 공고 — 화면에는 값이 보이지만 읽기 규칙·정답 데이터를 더해야 끝난다 (2026-11-11)
+    # 규칙이 못 읽어 느슨한 읽기(기능 loose_read)·AI(기능 ai_read)가 채운 공고 — 화면에는 값이 보이지만 읽기 규칙·정답 데이터를 더해야 끝난다 (2026-11-11)
     for N in load(ROOT / "docs" / "lh-rental.json", {}).get("notices") or []:
         T = N.get("terms") or {}
+        if (T.get("ai") or {}).get("fields"):
+            add(N["id"], N.get("name"), "임대", "AI 가 읽음", "AI 가 채운 칸: " + ", ".join(T["ai"]["fields"]) + " — 원문과 맞춰 보고 읽기 규칙·정답 데이터 추가 (답: evidence/lh/ai/" + N["id"] + ".json)")
         if T.get("loose"):
             add(N["id"], N.get("name"), "임대", "느슨한 읽기", "띄어쓰기를 무시하고 채운 칸: " + ", ".join(T["loose"]) + " — 원문과 맞춰 보고 읽기 규칙·정답 데이터 추가")
     lhi = load(ROOT / "evidence" / "qa" / "lh-invariants.json", {})

@@ -297,6 +297,10 @@ def main() -> int:
 
     TEXT_DIR.mkdir(parents=True, exist_ok=True)
     notices = []
+    ai_budget = None
+    if feature_on("ai_read"):
+        from app import ai_read as _ai
+        ai_budget = _ai.Budget()
     for r in open_rows:
         p = {k: r.get(k) for k in ("PAN_ID", "CCR_CNNT_SYS_DS_CD", "SPL_INF_TP_CD", "UPP_AIS_TP_CD", "AIS_TP_CD")}
         st1, dtl = api(DTL, **p)
@@ -381,6 +385,23 @@ def main() -> int:
             except Exception as e:   # 읽기 실패는 기록만 하고 수집은 계속
                 rec["terms"] = None
                 msg += f" · 자격 읽기 실패 {e.__class__.__name__}"
+        if rec["judge_type"] and txt_path.exists() and feature_on("ai_read"):
+            # 기능 ai_read: 규칙(엄격 → 띄어쓰기 무시)으로 못 읽은 칸이 남았으면 AI 가 읽고, 근거 문장 검사를 통과한 값만 채운다 (app/ai_read.py).
+            # 채우기 전 값은 terms_pre_ai 에 둔다 — 화면 스위치를 끄면 그 값으로 돌아간다
+            try:
+                from app import ai_read
+                P = alt_paths(rec["id"])
+                atx = {"pypdf": txt_path.read_text(encoding="utf-8")}
+                for k in ("pdfium", "plumber"):
+                    if P[k].exists():
+                        atx[k] = P[k].read_text(encoding="utf-8")
+                new, lines = ai_read.fill(rec["id"], rec["terms"], atx, rec["type"], rec["name"] or "", rec["region"], ai_budget)
+                log += lines
+                if new is not rec["terms"]:
+                    rec["terms_pre_ai"], rec["terms"] = rec["terms"], new
+                    msg += f" · AI 가 읽은 칸 {len(new['ai']['fields'])}"
+            except Exception as e:
+                msg += f" · AI 읽기 실패 {e.__class__.__name__}"
         if txt_path.exists():
             try:
                 from app.lh_terms import parse_lh_rents

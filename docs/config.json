@@ -178,7 +178,8 @@
     "rent_org_filter": true,
     "local_rental": true,
     "seo_content": true,
-    "loose_read": true
+    "loose_read": true,
+    "ai_read": false
   },
   "contact_email": "ckwlsgur@naver.com",
   "report_form_url": "",
@@ -212,5 +213,8 @@
     ]
   },
   "chat_off": false,
-  "qa_observe": {}
+  "qa_observe": {},
+  "ai_read": {
+    "month_usd": 5
+  }
 }

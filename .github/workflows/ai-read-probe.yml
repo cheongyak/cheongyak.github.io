@@ -1,0 +1,37 @@
+name: AI 판독 정확도 시험
+# 기능 ai_read: 정답 데이터가 있는 LH 임대 공고문을 실제 Claude 에게 읽혀 검사기를 거친 값을 정답과 견준다 (tools/qa/ai_read_probe.py).
+# 손으로만 돌린다(비용이 든다 — 공고 1건 약 $0.1 추정). 결과 evidence/qa/ai-read-probe.json. 키는 Secrets ANTHROPIC_API_KEY.
+on:
+  workflow_dispatch:
+    inputs:
+      n:
+        description: "읽힐 공고 수 (최근 정답 데이터부터)"
+        default: "12"
+permissions:
+  contents: write
+concurrency:
+  group: ai-read-probe
+  cancel-in-progress: false
+jobs:
+  probe:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 40
+    env:
+      ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
+      TZ: Asia/Seoul
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - run: pip install -q -r requirements.txt
+      - name: AI 판독 시험
+        env:
+          N: ${{ inputs.n }}
+        run: python -m tools.qa.ai_read_probe "$N"
+      - name: 저장
+        run: |
+          git config user.name "cheongyak-bot"
+          git config user.email "actions@users.noreply.github.com"
+          git add evidence/qa/ai-read-probe.json evidence/qa/ai-probe
+          git diff --cached --quiet || (git commit -m "AI 판독 정확도 시험 $(date +%Y-%m-%d)" && bash tools/qa/push_retry.sh)

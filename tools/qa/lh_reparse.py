@@ -11,6 +11,7 @@ from pathlib import Path
 ROOT = Path(__file__).resolve().parents[2]
 sys.path.insert(0, str(ROOT))
 from app.lh_pdf_merge import read_all  # noqa: E402
+from app import ai_read  # noqa: E402
 from app.lh_rental import feature_on  # noqa: E402
 from tools.qa.lh_pdf_tools import texts_of  # noqa: E402
 
@@ -28,6 +29,11 @@ def main() -> int:
                      json.loads(tf.read_text(encoding="utf-8")) if tf.exists() else [], loose=feature_on("loose_read"))
         if N.get("judge_type") and m["terms"]:
             N["terms"] = m["terms"]
+            N.pop("terms_pre_ai", None)
+            if feature_on("ai_read"):   # 저장해 둔 AI 답(evidence/lh/ai)만 다시 쓴다 — 여기서는 AI 를 새로 부르지 않는다(키 없음)
+                new, _ = ai_read.fill(N["id"], N["terms"], tx, N["type"], N.get("name") or "", N.get("region"), ai_read.Budget(0), api_key="")
+                if new is not N["terms"]:
+                    N["terms_pre_ai"], N["terms"] = N["terms"], new
         N["rents"] = m["rents"]
         n += 1
     p.write_text(json.dumps(d, ensure_ascii=False, indent=1) + "\n", encoding="utf-8")
