@@ -26,10 +26,14 @@ async function docJson(env, fetchImpl, path) {
 const MONTH = () => new Date(Date.now() + 9 * 3600e3).toISOString().slice(0, 7);
 export const monthCap = env => +(env.CHAT_MONTH_USD || 18);
 export async function monthSpent(kv) { return kv ? +((await kv.get('mspend:' + MONTH())) || 0) : 0; }
+// 쓴 달러를 돌려준다 — 하루 합계(bump)에도 'usd' 로 같이 넣어 기록 줄이 모델별 단가로 센 실제 추정 비용을 보이게 (2026-11-08)
 async function addMonthSpent(kv, attempts) {
   const usd = attempts.reduce((n, a) => n + usdOf(a.model || MODEL, a.usage), 0);
   if (kv && usd) await kv.put('mspend:' + MONTH(), String((await monthSpent(kv)) + usd), { expirationTtl: 40 * 86400 });
+  return usd;
 }
+// 하루 합계에 넣을 비용 칸: usd 와, 그 usd 로 값을 매긴 토큰 수(usd_tok_in/out). 배포 당일처럼 usd 없이 쌓인 토큰을 기록 줄이 따로 셀 수 있게
+const costFields = (usd, attempts) => ({ usd, usd_tok_in: attempts.reduce((n, a) => n + ((a.usage && a.usage.input_tokens) || 0), 0), usd_tok_out: attempts.reduce((n, a) => n + ((a.usage && a.usage.output_tokens) || 0), 0) });
 function badRequest(msg) { return { status: 400, body: { error: msg } }; }
 
 // 청약봇 V2 '공고 찾기' AI 설명 (기능 bot_find_ai, 2026-10-21): 브라우저가 FACTS(공고 사실 묶음)로 만든 프롬프트를 그대로 Claude 에 넘긴다.
@@ -54,8 +58,8 @@ export async function handleV2Llm(env, input, deps = {}) {
   }
   try {
     const r = await callClaude({ apiKey: env.ANTHROPIC_API_KEY, system, user: redact(user).text, fetchImpl, maxTokens: V2_MAX[purpose] });
-    await addMonthSpent(kv, [r]);
-    await bump(kv, { ['v2_' + purpose]: true, tokens_in: (r.usage && r.usage.input_tokens) || 0, tokens_out: (r.usage && r.usage.output_tokens) || 0 });
+    const usd = await addMonthSpent(kv, [r]);
+    await bump(kv, { ['v2_' + purpose]: true, ...costFields(usd, [r]), tokens_in: (r.usage && r.usage.input_tokens) || 0, tokens_out: (r.usage && r.usage.output_tokens) || 0 });
     return { status: 200, body: { text: r.text, usage: r.usage, log: { v2: purpose, model: MODEL } } };
   } catch (e) {
     await bump(kv, { v2_error: true });
@@ -147,8 +151,8 @@ export async function handleChat(env, input, deps = {}) {
 
   const used = new Set([...(answer.why || []), ...(answer.official || [])].flatMap(x => x.refs || []));
   const sources = evidence.filter(e => used.has(e.id)).map(e => ({ id: e.id, kind: e.kind, title: e.title, url: e.kind === 'engine' ? (engine && engine.listing.link) : e.url, quote: e.text.slice(0, 200) }));
-  await addMonthSpent(kv, attempts);
-  await bump(kv, { over_budget: overBudget, q: true, follow_up: lim.followUp, intent, verdict: engine ? engine.verdict : 'general', pii: q.found.length > 0, ai_calls: attempts.filter(a => a.usage || a.ok || a.flags.length).length,
+  const usd = await addMonthSpent(kv, attempts);
+  await bump(kv, { over_budget: overBudget, q: true, follow_up: lim.followUp, intent, verdict: engine ? engine.verdict : 'general', ...costFields(usd, attempts), pii: q.found.length > 0, ai_calls: attempts.filter(a => a.usage || a.ok || a.flags.length).length,
     rejected: attempts.filter(a => !a.ok).length, fallback: usedFallback,
     in_tokens: attempts.reduce((n, a) => n + ((a.usage && a.usage.input_tokens) || 0), 0), out_tokens: attempts.reduce((n, a) => n + ((a.usage && a.usage.output_tokens) || 0), 0) });
   Object.assign(log, { attempts: attempts.map(a => ({ ok: a.ok, flags: a.flags.length })), fallback: usedFallback, ms: Date.now() - t0 });
@@ -218,9 +222,9 @@ export async function handleFree(env, input, deps = {}) {
       } catch (e) { attempts.push({ ok: false, flags: ['호출 실패: ' + e.message] }); break; }
     }
   }
-  await addMonthSpent(kv, attempts);
+  const usd = await addMonthSpent(kv, attempts);
   await markConversation(kv, conversation_id, !!(answer && answer.ask), lim.followUp ? lim.followN + 1 : 0);
-  await bump(kv, { over_budget: overBudget, q: true, follow_up: lim.followUp, intent, verdict: 'free', pii: q.found.length > 0, ai_calls: attempts.length, rejected: attempts.filter(a => !a.ok).length, fallback: !answer,
+  await bump(kv, { over_budget: overBudget, q: true, follow_up: lim.followUp, intent, verdict: 'free', ...costFields(usd, attempts), pii: q.found.length > 0, ai_calls: attempts.length, rejected: attempts.filter(a => !a.ok).length, fallback: !answer,
     in_tokens: attempts.reduce((n, a) => n + ((a.usage && a.usage.input_tokens) || 0), 0), out_tokens: attempts.reduce((n, a) => n + ((a.usage && a.usage.output_tokens) || 0), 0) });
   Object.assign(log, { attempts: attempts.map(a => ({ ok: a.ok, flags: a.flags.length })), fallback: !answer, ms: Date.now() - t0 });
   const diag = isOp ? { opFree, overBudget, key: !!apiKey, evidence: evidence.map(e => e.id).join(' '), attempts: attempts.map(a => ({ ok: a.ok, flags: a.flags, tokens: a.usage ? (a.usage.input_tokens || 0) + '/' + (a.usage.output_tokens || 0) : null })) } : undefined;
@@ -257,7 +261,10 @@ export default {
     if (request.method === 'GET' && path === '/stats') {
       const ok = env.CHAT_STATS_TOKEN && request.headers.get('authorization') === 'Bearer ' + env.CHAT_STATS_TOKEN;
       if (!ok) return new Response('unauthorized', { status: 401 });
-      return new Response(JSON.stringify(await readStats(env.CHAT_KV, 7)), { headers: { 'content-type': 'application/json; charset=utf-8' } });
+      // _month: 이번 달 누적 추정 사용액(mspend)과 한도 — 기록 줄(chat/tools/stats_line.py)이 읽는다. 날짜 칸과 섞이지 않게 '_' 로 시작
+      const stats = await readStats(env.CHAT_KV, 7);
+      stats._month = { month: MONTH(), usd: Math.round((await monthSpent(env.CHAT_KV)) * 1e4) / 1e4, cap: monthCap(env) };
+      return new Response(JSON.stringify(stats), { headers: { 'content-type': 'application/json; charset=utf-8' } });
     }
     if (request.method === 'GET' && path === '/health') { const mode = env.CHAT_KV ? await env.CHAT_KV.get('mode') : null;
       return new Response(JSON.stringify({ ok: true, open: env.CHAT_OPEN === '1' || mode === 'open', maint: mode === 'maint', model: MODEL, prompt: PROMPT_VERSION, key: !!env.ANTHROPIC_API_KEY }), { headers: { 'content-type': 'application/json', 'access-control-allow-origin': '*', 'cache-control': 'max-age=60' } }); }

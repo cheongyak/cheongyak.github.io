@@ -426,3 +426,16 @@ test('free: 괄호·맨 근거 번호와 DATA 라는 말도 본문에서 지운�
   assert.match(v.answer.text, /공고문 기준/); assert.match(v.answer.text, /A17BL/); assert.match(v.answer.text, /청약패스 자료에 없어요/);
   assert.deepEqual(v.answer.refs.sort(), ['L1', 'N2', 'N3', 'N5', 'N6']);
 });
+test('합계: 하루 칸에 모델별 단가 usd, /stats 에 이번 달 사용액(_month) (2026-11-08)', async () => {
+  const kv = new MemKV();
+  await handleFree(OPEN, freeIn(), freeDeps(async () => ({ text: GOODFREE, usage: { input_tokens: 10000, output_tokens: 1000 } }), { kv }));
+  await handleV2Llm(OPENK, v2in(), { kv, fetch: okFetch });   // Haiku 100×1 + 50×5 = $0.00035
+  const day = JSON.parse(kv.m.get([...kv.m.keys()].find(k => k.startsWith('s:'))));
+  assert.ok(Math.abs(day.usd - 0.03035) < 1e-9, 'Sonnet $0.03 + Haiku $0.00035 → ' + day.usd);
+  assert.equal(day.usd_tok_in, 10100); assert.equal(day.usd_tok_out, 1050);
+  const env = { ...OPEN, CHAT_STATS_TOKEN: 'tok', CHAT_MONTH_USD: '18', CHAT_KV: kv };
+  const st = await (await worker.fetch(new Request('https://x.workers.dev/stats', { headers: { authorization: 'Bearer tok' } }), env)).json();
+  assert.equal(st._month.cap, 18); assert.match(st._month.month, /^\d{4}-\d{2}$/);
+  assert.ok(Math.abs(st._month.usd - 0.0304) < 1e-9, '반올림 4자리 → ' + st._month.usd);
+  assert.ok(Object.keys(st).filter(k => k !== '_month').every(k => /^\d{4}-\d{2}-\d{2}$/.test(k)), '날짜 칸은 그대로');
+});
