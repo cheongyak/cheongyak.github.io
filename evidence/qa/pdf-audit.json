@@ -1,36 +1,77 @@
 {
- "date": "2026-11-07",
+ "date": "2026-11-11",
  "page_cap": 300,
- "notices": 69,
- "with_problem": 13,
+ "notices": 65,
+ "with_problem": 7,
  "kinds": {
-  "PDF 를 하나도 받지 못함": 7,
   "읽기 도구에 따라 값이 다름": 1,
-  "글자가 거의 없는 쪽 N개 (스캔 이미지·표 그림 추정)": 5
+  "글자가 거의 없는 쪽 N개 (스캔 이미지·표 그림 추정)": 6
  },
- "errors": [
-  {
-   "notice": "2026000495",
-   "name": "연산 센텀 월드메르디앙",
-   "error": "RemoteProtocolError: Server disconnected without sending a response."
-  }
- ],
+ "errors": [],
  "results": [
   {
    "notice": "2026820015",
    "name": "시흥 거모 아테라(시흥거모 A-6BL) 신혼희망타운(공공분양)(본청약)",
    "url": "https://www.applyhome.co.kr/ai/aia/selectAPTLttotPblancDetail.do?houseManageNo=2026820015&pblancNo=2026820015",
    "attachments": 0,
-   "pdfs": 0,
+   "pdfs": 1,
    "attachment_list": [
     {
-     "url": "LH청약플러스",
-     "error": "LH청약플러스에서 같은 공고를 못 찾음 (검색 0건)"
+     "url": "https://apply.lh.or.kr/lhapply/lhFile.do?fileid=69314535",
+     "bytes": 1117879,
+     "pages": 32,
+     "chars": 138960,
+     "head": "시흥 거모 아테라 - 1 - 시흥 시흥 시흥 시흥 시흥 시흥 시흥 시흥 시흥 시흥 시흥 시흥 거모 거모 거모 거모 거모 거모 거모 거모 거모 거",
+     "via": "LH청약플러스"
     }
    ],
-   "problem": [
-    "PDF 를 하나도 받지 못함"
-   ]
+   "chosen": "https://apply.lh.or.kr/lhapply/lhFile.do?fileid=69314535",
+   "pages": 32,
+   "pages_read": 32,
+   "chars_read": 138991,
+   "empty_pages": [],
+   "chars_per_page_min": 1341,
+   "fields": {
+    "price_cap": true,
+    "residence_duty": 0,
+    "rewin_years": 1,
+    "account_months": 6,
+    "deposit_count": 6,
+    "residence": {
+     "area": "시흥시",
+     "months": 12,
+     "since": "2025-11-06"
+    },
+    "pub_limits_kind": "town"
+   },
+   "fields_merged": {
+    "price_cap": true,
+    "residence_duty": 0,
+    "rewin_years": 1,
+    "account_months": 6,
+    "deposit_count": 6,
+    "residence": {
+     "area": "시흥시",
+     "months": 12,
+     "since": "2025-11-06"
+    },
+    "pub_limits_kind": "town"
+   },
+   "fields_pdfium": {
+    "price_cap": true,
+    "residence_duty": 0,
+    "rewin_years": 1,
+    "account_months": 6,
+    "deposit_count": 6,
+    "residence": {
+     "area": "시흥시",
+     "months": 12,
+     "since": "2025-11-06"
+    },
+    "pub_limits_kind": "town"
+   },
+   "pdfium_chars": 135042,
+   "problem": []
   },
   {
    "notice": "2026000557",
@@ -217,16 +258,64 @@
    "name": "남양주왕숙 A-2블록 신혼희망타운(공공분양) 잔여세대 추가입주자모집공고",
    "url": "https://www.applyhome.co.kr/ai/aia/selectAPTLttotPblancDetail.do?houseManageNo=2026820014&pblancNo=2026820014",
    "attachments": 0,
-   "pdfs": 0,
+   "pdfs": 1,
    "attachment_list": [
     {
-     "url": "LH청약플러스",
-     "error": "LH청약플러스에서 같은 공고를 못 찾음 (검색 0건)"
+     "url": "https://apply.lh.or.kr/lhapply/lhFile.do?fileid=69279377",
+     "bytes": 1072714,
+     "pages": 32,
+     "chars": 110013,
+     "head": "- 1 - 남양주왕숙 남양주왕숙 남양주왕숙 남양주왕숙 남양주왕숙 남양주왕숙 남양주왕숙 남양주왕숙 남양주왕숙 남양주왕숙 남양주왕숙 남양주왕숙 남양",
+     "via": "LH청약플러스"
     }
    ],
-   "problem": [
-    "PDF 를 하나도 받지 못함"
-   ]
+   "chosen": "https://apply.lh.or.kr/lhapply/lhFile.do?fileid=69279377",
+   "pages": 32,
+   "pages_read": 32,
+   "chars_read": 110044,
+   "empty_pages": [],
+   "chars_per_page_min": 1098,
+   "fields": {
+    "price_cap": true,
+    "duty_silent": true,
+    "rewin_years": 10,
+    "account_months": 6,
+    "deposit_count": 6,
+    "residence": {
+     "area": "남양주시",
+     "months": 12,
+     "since": "2025-11-03"
+    },
+    "pub_limits_kind": "town"
+   },
+   "fields_merged": {
+    "price_cap": true,
+    "duty_silent": true,
+    "rewin_years": 10,
+    "account_months": 6,
+    "deposit_count": 6,
+    "residence": {
+     "area": "남양주시",
+     "months": 12,
+     "since": "2025-11-03"
+    },
+    "pub_limits_kind": "town"
+   },
+   "fields_pdfium": {
+    "price_cap": true,
+    "duty_silent": true,
+    "rewin_years": 10,
+    "account_months": 6,
+    "deposit_count": 6,
+    "residence": {
+     "area": "남양주시",
+     "months": 12,
+     "since": "2025-11-03"
+    },
+    "pub_limits_kind": "town"
+   },
+   "pdfium_chars": 108155,
+   "problem": []
   },
   {
    "notice": "2026000554",
@@ -290,16 +379,64 @@
    "name": "안산신길2 A-6블록 신혼희망타운(공공분양)(본청약)",
    "url": "https://www.applyhome.co.kr/ai/aia/selectAPTLttotPblancDetail.do?houseManageNo=2026820013&pblancNo=2026820013",
    "attachments": 0,
-   "pdfs": 0,
+   "pdfs": 1,
    "attachment_list": [
     {
-     "url": "LH청약플러스",
-     "error": "LH청약플러스에서 같은 공고를 못 찾음 (검색 0건)"
+     "url": "https://apply.lh.or.kr/lhapply/lhFile.do?fileid=69223600",
+     "bytes": 1156294,
+     "pages": 33,
+     "chars": 128052,
+     "head": "- 1 - 안산신길안산신길안산신길안산신길안산신길안산신길안산신길안산신길안산신길안산신길안산신길안산신길안산신길안산신길안산신길안산신길2222222222",
+     "via": "LH청약플러스"
     }
    ],
-   "problem": [
-    "PDF 를 하나도 받지 못함"
-   ]
+   "chosen": "https://apply.lh.or.kr/lhapply/lhFile.do?fileid=69223600",
+   "pages": 33,
+   "pages_read": 33,
+   "chars_read": 128084,
+   "empty_pages": [],
+   "chars_per_page_min": 1147,
+   "fields": {
+    "price_cap": true,
+    "duty_silent": true,
+    "rewin_years": 10,
+    "account_months": 6,
+    "deposit_count": 6,
+    "residence": {
+     "area": "안산시",
+     "months": 12,
+     "since": "2025-10-30"
+    },
+    "pub_limits_kind": "town"
+   },
+   "fields_merged": {
+    "price_cap": true,
+    "duty_silent": true,
+    "rewin_years": 10,
+    "account_months": 6,
+    "deposit_count": 6,
+    "residence": {
+     "area": "안산시",
+     "months": 12,
+     "since": "2025-10-30"
+    },
+    "pub_limits_kind": "town"
+   },
+   "fields_pdfium": {
+    "price_cap": true,
+    "duty_silent": true,
+    "rewin_years": 10,
+    "account_months": 6,
+    "deposit_count": 6,
+    "residence": {
+     "area": "안산시",
+     "months": 12,
+     "since": "2025-10-30"
+    },
+    "pub_limits_kind": "town"
+   },
+   "pdfium_chars": 127238,
+   "problem": []
   },
   {
    "notice": "2026000539",
@@ -363,16 +500,106 @@
    "name": "안산신길2지구 B-1블록 공공분양주택(본청약)",
    "url": "https://www.applyhome.co.kr/ai/aia/selectAPTLttotPblancDetail.do?houseManageNo=2026000533&pblancNo=2026000533",
    "attachments": 0,
-   "pdfs": 0,
+   "pdfs": 1,
    "attachment_list": [
     {
-     "url": "LH청약플러스",
-     "error": "LH청약플러스에서 같은 공고를 못 찾음 (검색 0건)"
+     "url": "https://apply.lh.or.kr/lhapply/lhFile.do?fileid=69296327",
+     "bytes": 1706129,
+     "pages": 52,
+     "chars": 194311,
+     "head": "- 1 - 안산신길안산신길안산신길안산신길안산신길안산신길안산신길안산신길안산신길안산신길안산신길안산신길안산신길안산신길안산신길안산신길안산신길안산신길안산",
+     "via": "LH청약플러스"
     }
    ],
-   "problem": [
-    "PDF 를 하나도 받지 못함"
-   ]
+   "chosen": "https://apply.lh.or.kr/lhapply/lhFile.do?fileid=69296327",
+   "pages": 52,
+   "pages_read": 52,
+   "chars_read": 194362,
+   "empty_pages": [],
+   "chars_per_page_min": 795,
+   "fields": {
+    "need_head": false,
+    "price_cap": true,
+    "duty_silent": true,
+    "rewin_years": 10,
+    "account_months": 12,
+    "deposit_count": 12,
+    "residence": {
+     "area": "안산시",
+     "months": 12,
+     "since": "2025-10-30"
+    },
+    "schedule": {
+     "pre": [
+      "2026-11-09",
+      "2026-11-10"
+     ],
+     "special": [
+      "2026-11-16",
+      "2026-11-17"
+     ],
+     "general": [
+      "2026-11-18",
+      "2026-11-18"
+     ]
+    }
+   },
+   "fields_merged": {
+    "need_head": false,
+    "price_cap": true,
+    "duty_silent": true,
+    "rewin_years": 10,
+    "account_months": 12,
+    "deposit_count": 12,
+    "residence": {
+     "area": "안산시",
+     "months": 12,
+     "since": "2025-10-30"
+    },
+    "schedule": {
+     "pre": [
+      "2026-11-09",
+      "2026-11-10"
+     ],
+     "special": [
+      "2026-11-16",
+      "2026-11-17"
+     ],
+     "general": [
+      "2026-11-18",
+      "2026-11-18"
+     ]
+    }
+   },
+   "fields_pdfium": {
+    "need_head": false,
+    "price_cap": true,
+    "duty_silent": true,
+    "rewin_years": 10,
+    "account_months": 12,
+    "deposit_count": 12,
+    "residence": {
+     "area": "안산시",
+     "months": 12,
+     "since": "2025-10-30"
+    },
+    "schedule": {
+     "pre": [
+      "2026-11-09",
+      "2026-11-10"
+     ],
+     "special": [
+      "2026-11-16",
+      "2026-11-17"
+     ],
+     "general": [
+      "2026-11-18",
+      "2026-11-18"
+     ]
+    }
+   },
+   "pdfium_chars": 196215,
+   "problem": []
   },
   {
    "notice": "2026000528",
@@ -1017,16 +1244,64 @@
    "name": "시흥하중지구 A1블록 신혼희망타운(공공분양) 추가입주자모집공고",
    "url": "https://www.applyhome.co.kr/ai/aia/selectAPTLttotPblancDetail.do?houseManageNo=2026820012&pblancNo=2026820012",
    "attachments": 0,
-   "pdfs": 0,
+   "pdfs": 1,
    "attachment_list": [
     {
-     "url": "LH청약플러스",
-     "error": "LH청약플러스에서 같은 공고를 못 찾음 (검색 0건)"
+     "url": "https://apply.lh.or.kr/lhapply/lhFile.do?fileid=69083286",
+     "bytes": 949894,
+     "pages": 24,
+     "chars": 93110,
+     "head": "- 1 - 시흥하중지구 시흥하중지구 시흥하중지구 시흥하중지구 시흥하중지구 시흥하중지구 시흥하중지구 시흥하중지구 시흥하중지구 시흥하중지구 시흥하중",
+     "via": "LH청약플러스"
     }
    ],
-   "problem": [
-    "PDF 를 하나도 받지 못함"
-   ]
+   "chosen": "https://apply.lh.or.kr/lhapply/lhFile.do?fileid=69083286",
+   "pages": 24,
+   "pages_read": 24,
+   "chars_read": 93133,
+   "empty_pages": [],
+   "chars_per_page_min": 817,
+   "fields": {
+    "price_cap": true,
+    "residence_duty": 3,
+    "rewin_years": 10,
+    "account_months": 6,
+    "deposit_count": 6,
+    "residence": {
+     "area": "시흥시",
+     "months": 12,
+     "since": "2025-10-23"
+    },
+    "pub_limits_kind": "town"
+   },
+   "fields_merged": {
+    "price_cap": true,
+    "residence_duty": 3,
+    "rewin_years": 10,
+    "account_months": 6,
+    "deposit_count": 6,
+    "residence": {
+     "area": "시흥시",
+     "months": 12,
+     "since": "2025-10-23"
+    },
+    "pub_limits_kind": "town"
+   },
+   "fields_pdfium": {
+    "price_cap": true,
+    "residence_duty": 3,
+    "rewin_years": 10,
+    "account_months": 6,
+    "deposit_count": 6,
+    "residence": {
+     "area": "시흥시",
+     "months": 12,
+     "since": "2025-10-23"
+    },
+    "pub_limits_kind": "town"
+   },
+   "pdfium_chars": 92216,
+   "problem": []
   },
   {
    "notice": "2026000532",
@@ -1087,16 +1362,97 @@
    "name": "시흥거모지구 S-1블록 공공분양(본청약)",
    "url": "https://www.applyhome.co.kr/ai/aia/selectAPTLttotPblancDetail.do?houseManageNo=2026000531&pblancNo=2026000531",
    "attachments": 0,
-   "pdfs": 0,
+   "pdfs": 1,
    "attachment_list": [
     {
-     "url": "LH청약플러스",
-     "error": "LH청약플러스에서 같은 공고를 못 찾음 (검색 0건)"
+     "url": "https://apply.lh.or.kr/lhapply/lhFile.do?fileid=69171330",
+     "bytes": 1590334,
+     "pages": 41,
+     "chars": 157619,
+     "head": "1- 1 - 시흥거모지구 시흥거모지구 시흥거모지구 시흥거모지구 시흥거모지구 시흥거모지구 시흥거모지구 시흥거모지구 시흥거모지구 시흥거모지구 시흥거",
+     "via": "LH청약플러스"
     }
    ],
-   "problem": [
-    "PDF 를 하나도 받지 못함"
-   ]
+   "chosen": "https://apply.lh.or.kr/lhapply/lhFile.do?fileid=69171330",
+   "pages": 41,
+   "pages_read": 41,
+   "chars_read": 157659,
+   "empty_pages": [],
+   "chars_per_page_min": 1026,
+   "fields": {
+    "need_head": false,
+    "price_cap": true,
+    "residence_duty": 3,
+    "rewin_years": 10,
+    "account_months": 12,
+    "deposit_count": 12,
+    "residence": {
+     "area": "시흥시",
+     "months": 12,
+     "since": "2025-10-23"
+    },
+    "pub_limits_kind": null,
+    "schedule": {
+     "special": [
+      "2026-11-16",
+      "2026-11-16"
+     ],
+     "general": [
+      "2026-11-17",
+      "2026-11-17"
+     ]
+    }
+   },
+   "fields_merged": {
+    "need_head": false,
+    "price_cap": true,
+    "residence_duty": 3,
+    "rewin_years": 10,
+    "account_months": 12,
+    "deposit_count": 12,
+    "residence": {
+     "area": "시흥시",
+     "months": 12,
+     "since": "2025-10-23"
+    },
+    "pub_limits_kind": null,
+    "schedule": {
+     "special": [
+      "2026-11-16",
+      "2026-11-16"
+     ],
+     "general": [
+      "2026-11-17",
+      "2026-11-17"
+     ]
+    }
+   },
+   "fields_pdfium": {
+    "need_head": false,
+    "price_cap": true,
+    "residence_duty": 3,
+    "rewin_years": 10,
+    "account_months": 12,
+    "deposit_count": 12,
+    "residence": {
+     "area": "시흥시",
+     "months": 12,
+     "since": "2025-10-23"
+    },
+    "pub_limits_kind": null,
+    "schedule": {
+     "special": [
+      "2026-11-16",
+      "2026-11-16"
+     ],
+     "general": [
+      "2026-11-17",
+      "2026-11-17"
+     ]
+    }
+   },
+   "pdfium_chars": 155183,
+   "problem": []
   },
   {
    "notice": "2026000530",
@@ -1706,7 +2062,62 @@
   {
    "notice": "2026000495",
    "name": "연산 센텀 월드메르디앙",
-   "error": "RemoteProtocolError: Server disconnected without sending a response."
+   "url": "https://www.applyhome.co.kr/ai/aia/selectAPTLttotPblancDetail.do?houseManageNo=2026000495&pblancNo=2026000495",
+   "attachments": 1,
+   "pdfs": 1,
+   "attachment_list": [
+    {
+     "url": "https://static.applyhome.co.kr/ai/aia/getAtchmnfl.do?houseManageNo=2026000495&pblancNo=2026000495&atchmnflSeqNo=2000036&atchmnflSn=8",
+     "bytes": 783751,
+     "pages": 59,
+     "chars": 114033,
+     "head": "- 1 - ※ 단지 주요정보 (분양문의) 051-758-0900 주택유형 해당지역 기타지역 규제지역여부 민영 부산광역시 1년 이상 계속 거주자 "
+    }
+   ],
+   "chosen": "https://static.applyhome.co.kr/ai/aia/getAtchmnfl.do?houseManageNo=2026000495&pblancNo=2026000495&atchmnflSeqNo=2000036&atchmnflSn=8",
+   "pages": 59,
+   "pages_read": 59,
+   "chars_read": 114091,
+   "empty_pages": [],
+   "chars_per_page_min": 555,
+   "fields": {
+    "need_head": false,
+    "price_cap": false,
+    "residence_duty": 0,
+    "rewin_years": 0,
+    "account_months": 6,
+    "residence": {
+     "area": "부산광역시",
+     "months": 12,
+     "since": "2025-10-16"
+    }
+   },
+   "fields_merged": {
+    "need_head": false,
+    "price_cap": false,
+    "residence_duty": 0,
+    "rewin_years": 0,
+    "account_months": 6,
+    "residence": {
+     "area": "부산광역시",
+     "months": 12,
+     "since": "2025-10-16"
+    }
+   },
+   "fields_pdfium": {
+    "need_head": false,
+    "price_cap": false,
+    "residence_duty": 0,
+    "rewin_years": 0,
+    "account_months": 6,
+    "residence": {
+     "area": "부산광역시",
+     "months": 12,
+     "since": "2025-10-16"
+    }
+   },
+   "pdfium_chars": 114582,
+   "problem": []
   },
   {
    "notice": "2026000373",
@@ -1830,66 +2241,6 @@
    "problem": []
   },
   {
-   "notice": "2026000492",
-   "name": "청주 가경 아이파크 8단지",
-   "url": "https://www.applyhome.co.kr/ai/aia/selectAPTLttotPblancDetail.do?houseManageNo=2026000492&pblancNo=2026000492",
-   "attachments": 1,
-   "pdfs": 1,
-   "attachment_list": [
-    {
-     "url": "https://static.applyhome.co.kr/ai/aia/getAtchmnfl.do?houseManageNo=2026000492&pblancNo=2026000492&atchmnflSeqNo=1995082&atchmnflSn=5",
-     "bytes": 2057629,
-     "pages": 75,
-     "chars": 172547,
-     "head": "- 1 - ※ 단지 주요정보 (분양문의) 1533-3767 주택유형 해당지역 기타지역 규제지역여부 민영 청주시 거주자 충청북도 거주자 비규제지역"
-    }
-   ],
-   "chosen": "https://static.applyhome.co.kr/ai/aia/getAtchmnfl.do?houseManageNo=2026000492&pblancNo=2026000492&atchmnflSeqNo=1995082&atchmnflSn=5",
-   "pages": 75,
-   "pages_read": 75,
-   "chars_read": 172621,
-   "empty_pages": [],
-   "chars_per_page_min": 656,
-   "fields": {
-    "need_head": false,
-    "price_cap": false,
-    "residence_duty": 0,
-    "rewin_years": 0,
-    "account_months": 6,
-    "residence": {
-     "area": "청주시",
-     "months": 0,
-     "since": null
-    }
-   },
-   "fields_merged": {
-    "need_head": false,
-    "price_cap": false,
-    "residence_duty": 0,
-    "rewin_years": 0,
-    "account_months": 6,
-    "residence": {
-     "area": "청주시",
-     "months": 0,
-     "since": null
-    }
-   },
-   "fields_pdfium": {
-    "need_head": false,
-    "price_cap": false,
-    "residence_duty": 0,
-    "rewin_years": 0,
-    "account_months": 6,
-    "residence": {
-     "area": "청주시",
-     "months": 0,
-     "since": null
-    }
-   },
-   "pdfium_chars": 172483,
-   "problem": []
-  },
-  {
    "notice": "2026000491",
    "name": "청주 가경 아이파크 7단지",
    "url": "https://www.applyhome.co.kr/ai/aia/selectAPTLttotPblancDetail.do?houseManageNo=2026000491&pblancNo=2026000491",
@@ -1947,243 +2298,6 @@
     }
    },
    "pdfium_chars": 172120,
-   "problem": []
-  },
-  {
-   "notice": "2026000471",
-   "name": "한양립스 에듀포레(조합원 취소분)",
-   "url": "https://www.applyhome.co.kr/ai/aia/selectAPTLttotPblancDetail.do?houseManageNo=2026000471&pblancNo=2026000471",
-   "attachments": 1,
-   "pdfs": 1,
-   "attachment_list": [
-    {
-     "url": "https://static.applyhome.co.kr/ai/aia/getAtchmnfl.do?houseManageNo=2026000471&pblancNo=2026000471&atchmnflSeqNo=1995080&atchmnflSn=3",
-     "bytes": 833668,
-     "pages": 43,
-     "chars": 116948,
-     "head": "- 1 - 본 입주자모집공고의 내용을 숙지한 후 청약 및 계약에 응하시기 바라며 미숙지로 인한 착오행위 등에 대하여는 청약자 본인에게 책임이 있"
-    }
-   ],
-   "chosen": "https://static.applyhome.co.kr/ai/aia/getAtchmnfl.do?houseManageNo=2026000471&pblancNo=2026000471&atchmnflSeqNo=1995080&atchmnflSn=3",
-   "pages": 43,
-   "pages_read": 43,
-   "chars_read": 116990,
-   "empty_pages": [],
-   "chars_per_page_min": 145,
-   "fields": {
-    "need_head": false,
-    "price_cap": false,
-    "residence_duty": 0,
-    "rewin_years": 0,
-    "residence": {
-     "area": "광주광역시",
-     "months": 12,
-     "since": "2025-10-08"
-    }
-   },
-   "fields_merged": {
-    "need_head": false,
-    "price_cap": false,
-    "residence_duty": 0,
-    "rewin_years": 0,
-    "residence": {
-     "area": "광주광역시",
-     "months": 12,
-     "since": "2025-10-08"
-    }
-   },
-   "fields_pdfium": {
-    "need_head": false,
-    "price_cap": false,
-    "residence_duty": 0,
-    "rewin_years": 0,
-    "residence": {
-     "area": "광주광역시",
-     "months": 12,
-     "since": "2025-10-08"
-    }
-   },
-   "pdfium_chars": 118010,
-   "problem": []
-  },
-  {
-   "notice": "2026000469",
-   "name": "연제갤러리자이",
-   "url": "https://www.applyhome.co.kr/ai/aia/selectAPTLttotPblancDetail.do?houseManageNo=2026000469&pblancNo=2026000469",
-   "attachments": 1,
-   "pdfs": 1,
-   "attachment_list": [
-    {
-     "url": "https://static.applyhome.co.kr/ai/aia/getAtchmnfl.do?houseManageNo=2026000469&pblancNo=2026000469&atchmnflSeqNo=1995111&atchmnflSn=1",
-     "bytes": 1456245,
-     "pages": 62,
-     "chars": 130419,
-     "head": "- 1 - ※ 단지 주요정보 (분양문의) 1833-5755 주택유형 해당지역 기타지역 규제지역여부 민영 부산광역시 1년 이상 계속 거주자 (20"
-    }
-   ],
-   "chosen": "https://static.applyhome.co.kr/ai/aia/getAtchmnfl.do?houseManageNo=2026000469&pblancNo=2026000469&atchmnflSeqNo=1995111&atchmnflSn=1",
-   "pages": 62,
-   "pages_read": 62,
-   "chars_read": 130480,
-   "empty_pages": [],
-   "chars_per_page_min": 129,
-   "fields": {
-    "need_head": false,
-    "price_cap": false,
-    "residence_duty": 0,
-    "rewin_years": 0,
-    "account_months": 6,
-    "residence": {
-     "area": "부산광역시",
-     "months": 12,
-     "since": "2025-10-08"
-    }
-   },
-   "fields_merged": {
-    "need_head": false,
-    "price_cap": false,
-    "residence_duty": 0,
-    "rewin_years": 0,
-    "account_months": 6,
-    "residence": {
-     "area": "부산광역시",
-     "months": 12,
-     "since": "2025-10-08"
-    }
-   },
-   "fields_pdfium": {
-    "need_head": false,
-    "price_cap": false,
-    "residence_duty": 0,
-    "rewin_years": 0,
-    "account_months": 6,
-    "residence": {
-     "area": "부산광역시",
-     "months": 12,
-     "since": "2025-10-08"
-    }
-   },
-   "pdfium_chars": 131383,
-   "problem": []
-  },
-  {
-   "notice": "2026000464",
-   "name": "힐스테이트 거제시그니처(1회차)",
-   "url": "https://www.applyhome.co.kr/ai/aia/selectAPTLttotPblancDetail.do?houseManageNo=2026000464&pblancNo=2026000464",
-   "attachments": 1,
-   "pdfs": 1,
-   "attachment_list": [
-    {
-     "url": "https://static.applyhome.co.kr/ai/aia/getAtchmnfl.do?houseManageNo=2026000464&pblancNo=2026000464&atchmnflSeqNo=1997002&atchmnflSn=1",
-     "bytes": 1783260,
-     "pages": 80,
-     "chars": 180230,
-     "head": "- 1 - ※ 단지 주요정보 (분양문의) 1811-1100 주택유형 해당지역 기타지역 규제지역여부 민영 경상남도 거제시 거주자 경상남도 및 부산"
-    }
-   ],
-   "chosen": "https://static.applyhome.co.kr/ai/aia/getAtchmnfl.do?houseManageNo=2026000464&pblancNo=2026000464&atchmnflSeqNo=1997002&atchmnflSn=1",
-   "pages": 80,
-   "pages_read": 80,
-   "chars_read": 180309,
-   "empty_pages": [],
-   "chars_per_page_min": 686,
-   "fields": {
-    "need_head": false,
-    "price_cap": false,
-    "residence_duty": 0,
-    "rewin_years": 0,
-    "account_months": 6,
-    "residence": {
-     "area": "경상남도 거제시",
-     "months": 0,
-     "since": null
-    }
-   },
-   "fields_merged": {
-    "need_head": false,
-    "price_cap": false,
-    "residence_duty": 0,
-    "rewin_years": 0,
-    "account_months": 6,
-    "residence": {
-     "area": "경상남도 거제시",
-     "months": 0,
-     "since": null
-    }
-   },
-   "fields_pdfium": {
-    "need_head": false,
-    "price_cap": false,
-    "residence_duty": 0,
-    "rewin_years": 0,
-    "account_months": 6,
-    "residence": {
-     "area": "경상남도 거제시",
-     "months": 0,
-     "since": null
-    }
-   },
-   "pdfium_chars": 179800,
-   "problem": []
-  },
-  {
-   "notice": "2026000458",
-   "name": "산곡역자이힐스테이트앤하늘채",
-   "url": "https://www.applyhome.co.kr/ai/aia/selectAPTLttotPblancDetail.do?houseManageNo=2026000458&pblancNo=2026000458",
-   "attachments": 1,
-   "pdfs": 1,
-   "attachment_list": [
-    {
-     "url": "https://static.applyhome.co.kr/ai/aia/getAtchmnfl.do?houseManageNo=2026000458&pblancNo=2026000458&atchmnflSeqNo=1995089&atchmnflSn=2",
-     "bytes": 1077481,
-     "pages": 70,
-     "chars": 156384,
-     "head": "- 1 - 구분 입주자모집공고일 특별공급 접수일 일반공급 1순위 접수일 일반공급 2순위 접수일 당첨자발표일 서류접수 계약체결 일정 2026.10"
-    }
-   ],
-   "chosen": "https://static.applyhome.co.kr/ai/aia/getAtchmnfl.do?houseManageNo=2026000458&pblancNo=2026000458&atchmnflSeqNo=1995089&atchmnflSn=2",
-   "pages": 70,
-   "pages_read": 70,
-   "chars_read": 156453,
-   "empty_pages": [],
-   "chars_per_page_min": 345,
-   "fields": {
-    "need_head": false,
-    "price_cap": false,
-    "residence_duty": 0,
-    "rewin_years": 0,
-    "account_months": 12,
-    "residence": {
-     "area": "인천광역시",
-     "months": 0,
-     "since": null
-    }
-   },
-   "fields_merged": {
-    "need_head": false,
-    "price_cap": false,
-    "residence_duty": 0,
-    "rewin_years": 0,
-    "account_months": 12,
-    "residence": {
-     "area": "인천광역시",
-     "months": 0,
-     "since": null
-    }
-   },
-   "fields_pdfium": {
-    "need_head": false,
-    "price_cap": false,
-    "residence_duty": 0,
-    "rewin_years": 0,
-    "account_months": 12,
-    "residence": {
-     "area": "인천광역시",
-     "months": 0,
-     "since": null
-    }
-   },
-   "pdfium_chars": 154554,
    "problem": []
   },
   {
@@ -2248,76 +2362,186 @@
    ]
   },
   {
-   "notice": "2026000267",
-   "name": "아산 그랑시티필하우스",
-   "url": "https://www.applyhome.co.kr/ai/aia/selectAPTLttotPblancDetail.do?houseManageNo=2026000267&pblancNo=2026000267",
+   "notice": "2026820010",
+   "name": "인천계양 A17블록 신혼희망타운(공공분양)(본청약)",
+   "url": "https://www.applyhome.co.kr/ai/aia/selectAPTLttotPblancDetail.do?houseManageNo=2026820010&pblancNo=2026820010",
+   "attachments": 0,
+   "pdfs": 1,
+   "attachment_list": [
+    {
+     "url": "https://apply.lh.or.kr/lhapply/lhFile.do?fileid=68807314",
+     "bytes": 1035877,
+     "pages": 31,
+     "chars": 108039,
+     "head": "- 1 - 인천계양 인천계양 인천계양 인천계양 인천계양 인천계양 인천계양 인천계양 인천계양 인천계양 인천계양 인천계양 인천계양 인천계양 인천계양",
+     "via": "LH청약플러스"
+    }
+   ],
+   "chosen": "https://apply.lh.or.kr/lhapply/lhFile.do?fileid=68807314",
+   "pages": 31,
+   "pages_read": 31,
+   "chars_read": 108069,
+   "empty_pages": [],
+   "chars_per_page_min": 972,
+   "fields": {
+    "price_cap": true,
+    "residence_duty": 0,
+    "rewin_years": 10,
+    "account_months": 6,
+    "deposit_count": 6,
+    "residence": {
+     "area": "인천광역시",
+     "months": 0,
+     "since": null
+    },
+    "pub_limits_kind": "town"
+   },
+   "fields_merged": {
+    "price_cap": true,
+    "residence_duty": 0,
+    "rewin_years": 10,
+    "account_months": 6,
+    "deposit_count": 6,
+    "residence": {
+     "area": "인천광역시",
+     "months": 0,
+     "since": null
+    },
+    "pub_limits_kind": "town"
+   },
+   "fields_pdfium": {
+    "price_cap": true,
+    "residence_duty": 0,
+    "rewin_years": 10,
+    "account_months": 6,
+    "deposit_count": 6,
+    "residence": {
+     "area": "인천광역시",
+     "months": 0,
+     "since": null
+    },
+    "pub_limits_kind": "town"
+   },
+   "pdfium_chars": 106813,
+   "problem": []
+  },
+  {
+   "notice": "2026910284",
+   "name": "중동역 다채로움 더원",
+   "url": "https://www.applyhome.co.kr/ai/aia/selectAPTRemndrLttotPblancDetailView.do?houseManageNo=2026910284&pblancNo=2026910284",
    "attachments": 1,
    "pdfs": 1,
    "attachment_list": [
     {
-     "url": "https://static.applyhome.co.kr/ai/aia/getAtchmnfl.do?houseManageNo=2026000267&pblancNo=2026000267&atchmnflSeqNo=1992075&atchmnflSn=3",
-     "bytes": 1484691,
-     "pages": 63,
-     "chars": 140985,
-     "head": "- 1 - ※ 단지 주요정보 (분양문의) 1551-2011 주택유형 해당지역 기타지역 규제지역여부 민영 충청남도 아산시 거주자 충청남도, 대전광"
+     "url": "https://static.applyhome.co.kr/ai/aia/getAtchmnfl.do?houseManageNo=2026910284&pblancNo=2026910284&atchmnflSeqNo=2008209&atchmnflSn=5",
+     "bytes": 277143,
+     "pages": 12,
+     "chars": 22032,
+     "head": "- 1 - ※ 단지 주요정보 (분양문의) 032-613-2355 주택유형 규제지역여부 무순위(사후) 자격요건 민영 비규제지역 무순위(사후) 입주"
     }
    ],
-   "chosen": "https://static.applyhome.co.kr/ai/aia/getAtchmnfl.do?houseManageNo=2026000267&pblancNo=2026000267&atchmnflSeqNo=1992075&atchmnflSn=3",
-   "pages": 63,
-   "pages_read": 63,
-   "chars_read": 141047,
+   "chosen": "https://static.applyhome.co.kr/ai/aia/getAtchmnfl.do?houseManageNo=2026910284&pblancNo=2026910284&atchmnflSeqNo=2008209&atchmnflSn=5",
+   "pages": 12,
+   "pages_read": 12,
+   "chars_read": 22043,
    "empty_pages": [],
-   "chars_per_page_min": 275,
+   "chars_per_page_min": 1195,
    "fields": {
+    "need_head": false,
     "price_cap": false,
     "residence_duty": 0,
     "rewin_years": 0,
-    "account_months": 6,
     "residence": {
-     "area": "충청남도 아산시",
+     "area": null,
      "months": 0,
      "since": null
     }
    },
    "fields_merged": {
+    "need_head": false,
     "price_cap": false,
     "residence_duty": 0,
     "rewin_years": 0,
-    "account_months": 6,
     "residence": {
-     "area": "충청남도 아산시",
+     "area": null,
      "months": 0,
      "since": null
     }
    },
    "fields_pdfium": {
+    "need_head": false,
     "price_cap": false,
     "residence_duty": 0,
     "rewin_years": 0,
-    "account_months": 6,
     "residence": {
-     "area": "충청남도 아산시",
+     "area": null,
      "months": 0,
      "since": null
     }
    },
-   "pdfium_chars": 141016,
+   "pdfium_chars": 21756,
    "problem": []
   },
   {
-   "notice": "2026820010",
-   "name": "인천계양 A17블록 신혼희망타운(공공분양)(본청약)",
-   "url": "https://www.applyhome.co.kr/ai/aia/selectAPTLttotPblancDetail.do?houseManageNo=2026820010&pblancNo=2026820010",
-   "attachments": 0,
-   "pdfs": 0,
+   "notice": "2026910290",
+   "name": "청계 노르웨이숲(14차)",
+   "url": "https://www.applyhome.co.kr/ai/aia/selectAPTRemndrLttotPblancDetailView.do?houseManageNo=2026910290&pblancNo=2026910290",
+   "attachments": 1,
+   "pdfs": 1,
    "attachment_list": [
     {
-     "url": "LH청약플러스",
-     "error": "LH청약플러스에서 같은 공고를 못 찾음 (검색 0건)"
+     "url": "https://static.applyhome.co.kr/ai/aia/getAtchmnfl.do?houseManageNo=2026910290&pblancNo=2026910290&atchmnflSeqNo=2008590&atchmnflSn=2",
+     "bytes": 1204725,
+     "pages": 16,
+     "chars": 27064,
+     "head": "- 1 - ※ 해당 주택건설지역인 서울특별시 중구는 ‘25.10.16. 투기과열지구로 지정되었으나, 본 주택은 ‘25.10.15. 이전 최초 입"
     }
    ],
+   "chosen": "https://static.applyhome.co.kr/ai/aia/getAtchmnfl.do?houseManageNo=2026910290&pblancNo=2026910290&atchmnflSeqNo=2008590&atchmnflSn=2",
+   "pages": 16,
+   "pages_read": 16,
+   "chars_read": 27079,
+   "empty_pages": [
+    12,
+    16
+   ],
+   "chars_per_page_min": 15,
+   "fields": {
+    "need_head": false,
+    "price_cap": false,
+    "residence_duty": 0,
+    "rewin_years": 0,
+    "residence": {
+     "area": null,
+     "months": 0,
+     "since": null
+    }
+   },
+   "fields_merged": {
+    "need_head": false,
+    "price_cap": false,
+    "residence_duty": 0,
+    "rewin_years": 0,
+    "residence": {
+     "area": null,
+     "months": 0,
+     "since": null
+    }
+   },
+   "fields_pdfium": {
+    "need_head": false,
+    "price_cap": false,
+    "residence_duty": 0,
+    "rewin_years": 0,
+    "residence": {
+     "area": null,
+     "months": 0,
+     "since": null
+    }
+   },
+   "pdfium_chars": 26250,
    "problem": [
-    "PDF 를 하나도 받지 못함"
+    "글자가 거의 없는 쪽 2개 (스캔 이미지·표 그림 추정): [12, 16]"
    ]
   },
   {
