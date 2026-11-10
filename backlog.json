@@ -1,19 +1,19 @@
 {
- "updated": "2026-11-09",
+ "updated": "2026-11-10",
  "items": [
   {
    "key": "issues:판정 검증 실패",
    "title": "'판정 검증 실패' 이슈가 매일 새로 쌓임(53건) — 판정 사례는 970/970 일치인데 제목이 판정 실패처럼 보임",
    "area": "ops",
    "source": "GitHub 열린 이슈",
-   "evidence": "이슈 #96~99 — 본문 970/970 일치(판정 불일치 아님), 고칠 곳이 .github/workflows 라 parked",
+   "evidence": "이슈 #96~99 — 본문 970/970 일치(판정 불일치 아님), 고칠 곳이 .github/workflows 라 parked · 11-10 #114~#116 열림(원인 제천장락1, 해결됨)",
    "severity": "P1",
    "reach": 3,
    "confidence": 3,
    "effort": "S",
    "status": "parked",
    "first_seen": "2026-11-04",
-   "last_seen": "2026-11-09",
+   "last_seen": "2026-11-10",
    "tries": 0,
    "pr": null,
    "notes": "고칠 방향 후보: 이슈 제목을 실제 원인(못 읽은 공고·판정 불일치·수집 멈춤)으로, 같은 원인이면 새 이슈 대신 열린 이슈에 댓글. 이슈를 닫는 것은 운영자 몫(고정 규칙 7) · 2026-11-04 밤 parked: 고칠 곳이 .github/workflows/verify.yml 뿐이라 루프가 못 고침(고정 규칙 6). 운영자 판단 필요: 손으로 일하는 세션에 '원인별 제목·같은 원인이면 열린 이슈에 댓글'을 맡기기",
@@ -29,12 +29,12 @@
    "reach": 2,
    "confidence": 3,
    "effort": "S",
-   "status": "merged",
+   "status": "merged_effective",
    "first_seen": "2026-11-04",
    "last_seen": "2026-11-07",
    "tries": 1,
    "pr": 88,
-   "notes": "같은 규칙에 걸린 다른 비수도권 공고가 있는지 함께 볼 것(README 51줄) · 2026-11-04 밤: 고쳐 브랜치 auto/20261104-landlease-duty(f3f4c428)에 올림. 비수도권인데 공고문이 기간>0 을 적은 공고는 지금 데이터에 434·435 뿐(notice-cache 46건 확인). 판정 사례 970/970, 새 시험 4개 고치기 전 실패→후 통과. PR 은 안 만듦: 작업 환경 PyPI 막힘으로 전체 pytest 를 못 돌림(httpx 없음, 빈 껍데기로 돌린 결과 main 과 같은 32건만 실패). 다음 밤: pip 되면 전체 pytest·다른 눈 검토 후 PR · 2026-11-05 밤: 다른 눈 검토 지적(비수도권 오검출 장치 풀림)으로 토지임대부만으로 좁힘, PR #88(브랜치 auto/20261105-landlease-duty — 이전 브랜치는 강제 push 막혀 남겨 둠)",
+   "notes": "같은 규칙에 걸린 다른 비수도권 공고가 있는지 함께 볼 것(README 51줄) · 2026-11-04 밤: 고쳐 브랜치 auto/20261104-landlease-duty(f3f4c428)에 올림. 비수도권인데 공고문이 기간>0 을 적은 공고는 지금 데이터에 434·435 뿐(notice-cache 46건 확인). 판정 사례 970/970, 새 시험 4개 고치기 전 실패→후 통과. PR 은 안 만듦: 작업 환경 PyPI 막힘으로 전체 pytest 를 못 돌림(httpx 없음, 빈 껍데기로 돌린 결과 main 과 같은 32건만 실패). 다음 밤: pip 되면 전체 pytest·다른 눈 검토 후 PR · 2026-11-05 밤: 다른 눈 검토 지적(비수도권 오검출 장치 풀림)으로 토지임대부만으로 좁힘, PR #88(브랜치 auto/20261105-landlease-duty — 이전 브랜치는 강제 push 막혀 남겨 둠) · 11-10 확인: listings 434·435 residence_duty 5",
    "success_check": {
     "how": "docs/listings.json 2026000434·435 residence_duty",
     "expect": "5"
@@ -50,12 +50,12 @@
    "reach": 2,
    "confidence": 3,
    "effort": "M",
-   "status": "merged",
+   "status": "merged_effective",
    "first_seen": "2026-11-04",
    "last_seen": "2026-11-07",
    "tries": 0,
    "pr": 100,
-   "notes": "11-06 PR #100: 머리 '공공' 추가·PARSER_VERSION 53·정답·판정 사례 4건 · 11-07 PR #100 은 '닫힘'이지만 운영자 세션이 커밋을 main 에 옮겨 얹어 합침(ad460054·1aef49ce, PARSER_VERSION 54, 기록 cfdb9b75 v1.84.8) — rejected 아님",
+   "notes": "11-06 PR #100: 머리 '공공' 추가·PARSER_VERSION 53·정답·판정 사례 4건 · 11-07 PR #100 은 '닫힘'이지만 운영자 세션이 커밋을 main 에 옮겨 얹어 합침(ad460054·1aef49ce, PARSER_VERSION 54, 기록 cfdb9b75 v1.84.8) — rejected 아님 · 11-10 확인: months 12·since 2025-10-27·equal 없음",
    "success_check": {
     "how": "합친 다음 수집 뒤 docs/listings.json 2026000434·435 의 residence",
     "expect": "months 12, since 2025-10-27, equal 없음(false)"
@@ -89,12 +89,12 @@
    "reach": 2,
    "confidence": 3,
    "effort": "S",
-   "status": "merged",
+   "status": "merged_effective",
    "first_seen": "2026-11-04",
    "last_seen": "2026-11-05",
    "tries": 0,
    "pr": 93,
-   "notes": " 11-06 08:15 운영자 합침, 기록은 손 세션이 씀(WORK.md 11-06 08:15)",
+   "notes": " 11-06 08:15 운영자 합침, 기록은 손 세션이 씀(WORK.md 11-06 08:15) · 11-10 확인: run-log [청약봇] 11-09 줄에 '공고 찾기 AI 설명 0건'·'7일 공고 찾기 AI 0건' 보임(사용 0 이라 비용 칸은 확인 못 함)",
    "success_check": {
     "how": "합친 뒤 다음 수집의 docs/run-log.txt [청약봇] 줄",
     "expect": "'공고 찾기 AI 설명 N건'·'7일 공고 찾기 AI N건'이 보이고, 사용이 있던 날엔 비용이 $0 이 아님"
@@ -109,13 +109,13 @@
    "severity": "P2",
    "reach": 2,
    "confidence": 2,
-   "effort": "M",
+   "effort": "L",
    "status": "open",
    "first_seen": "2026-11-04",
    "last_seen": "2026-11-04",
    "tries": 0,
    "pr": null,
-   "notes": "새 기능 → 스위치 false",
+   "notes": "새 기능 → 스위치 false · 11-10 살펴봄: 임대 수집 워크플로(lh-rental.yml 등)에 PUSH_SEND_TOKEN 이 없어 .github/workflows 를 고쳐야 함(고정 규칙 6) + 알림 서버 구독 설정 — 루프 하룻밤 크기 아님(L)",
    "success_check": null
   },
   {
@@ -128,12 +128,12 @@
    "reach": 3,
    "confidence": 2,
    "effort": "M",
-   "status": "open",
+   "status": "gone",
    "first_seen": "2026-11-04",
-   "last_seen": "2026-11-04",
+   "last_seen": "2026-11-10",
    "tries": 0,
    "pr": null,
-   "notes": "공지 상자 말고 입력·판정에 반영할 것",
+   "notes": "공지 상자 말고 입력·판정에 반영할 것 · 11-10 확인: 이미 있음 — docs/index.html myScore(만 30세·혼인신고일·본인/배우자 처분일로 시작일과 점수 계산). 더 할 일 없음",
    "success_check": null
   },
   {
@@ -203,7 +203,7 @@
    "effort": "S",
    "status": "open",
    "first_seen": "2026-11-04",
-   "last_seen": "2026-11-09",
+   "last_seen": "2026-11-10",
    "tries": 0,
    "pr": null,
    "success_check": null,
@@ -214,18 +214,18 @@
    "title": "열린 이슈 '수집 알림' 1건",
    "area": "ops",
    "source": "GitHub 열린 이슈",
-   "evidence": "이슈 #95 (2026-11-05 22:42 수집 실패)",
+   "evidence": "이슈 #117 (11-10 아침 수집 문제 있음 — 제천장락1 2015122300020975, v1.84.9 로 해결)",
    "severity": "P2",
    "reach": 2,
    "confidence": 2,
    "effort": "S",
    "status": "open",
    "first_seen": "2026-11-04",
-   "last_seen": "2026-11-07",
+   "last_seen": "2026-11-10",
    "tries": 0,
    "pr": null,
    "success_check": null,
-   "notes": " · #31 손으로 닫음(11-05)"
+   "notes": " · #31 손으로 닫음(11-05) · 11-10: 원인 해결됨, 닫기는 운영자 몫 — 고칠 코드 없음"
   },
   {
    "key": "runlog:[경고] 청약홈에서 공고를 0건 받았어요",
@@ -255,7 +255,7 @@
    "reach": 2,
    "confidence": 3,
    "effort": "S",
-   "status": "in_pr",
+   "status": "merged",
    "first_seen": "2026-11-05",
    "last_seen": "2026-11-08",
    "tries": 0,
@@ -264,7 +264,7 @@
     "how": "합친 다음 날 docs/run-log.txt 의 [청약봇] 줄",
     "expect": "'이번 달(YYYY-MM) AI 사용액 $… / 한도 $18' 이 보이고, 배포 다음 날부터 자유 질문이 있어도 '실제는 이보다 많음' 이 안 붙음"
    },
-   "notes": "서버 배포 PR([서버 배포]) — PR #93 합친 뒤에 · 11-08 PR #113([서버 배포]): 하루 합계 usd·usd_tok_in/out, /stats _month"
+   "notes": "서버 배포 PR([서버 배포]) — PR #93 합친 뒤에 · 11-08 PR #113([서버 배포]): 하루 합계 usd·usd_tok_in/out, /stats _month · 11-10 PR #113 합침 a3b2f811, 기록은 손 세션이 씀(WORK.md PR #113)"
   },
   {
    "key": "qa:lh_invariant_violations",
@@ -372,7 +372,7 @@
    "effort": "S",
    "status": "parked",
    "first_seen": "2026-11-09",
-   "last_seen": "2026-11-09",
+   "last_seen": "2026-11-10",
    "tries": 1,
    "pr": null,
    "success_check": {
@@ -393,7 +393,7 @@
    "effort": "S",
    "status": "parked",
    "first_seen": "2026-11-09",
-   "last_seen": "2026-11-09",
+   "last_seen": "2026-11-10",
    "tries": 1,
    "pr": null,
    "success_check": {
@@ -401,6 +401,27 @@
     "expect": "운영자 확인 뒤 3·price_cap true, 정답 데이터 일치"
    },
    "notes": "11-09 고쳐 auto/20261109-mu-duty-scrambled 에 올림(PR 안 냄). 다른 눈 검토: 본문에 거주의무 문장 없고 청약홈 값(미적용)과 달라 정답 데이터로 확정 불가 → 고정 규칙 4로 parked. 운영자가 최초 공고 2021000897 또는 사업주체(분양문의)로 거주의무 3년·상한제 적용 확인하면 정답 넣고 PR"
+  },
+  {
+   "key": "idea:dependents-self",
+   "title": "가점 입력 '부양가족 수'에 본인을 넣지 말라는 말이 입력 칸에 없음",
+   "area": "ux",
+   "source": "ideas.md (2026-10-22 사용자 불만 조사: 부양가족 부적격 1,132건)",
+   "evidence": "docs/index.html 가점 계산 단계 { k:'dependents', l:'부양가족 수' } 와 note — '본인 제외' 없음(가점 설명 1110줄·정적 /guide/score/ 에는 '본인은 빼고'·'본인 제외' 있음). 법령 evidence/law/byeolpyo_1.txt 나목 1) '부양가족은 … 주택공급신청자 또는 그 배우자 … 와 같은 세대별 주민등록표에 등재된 세대원으로 한다', 표 '0명 5'",
+   "severity": "P2",
+   "reach": 3,
+   "confidence": 2,
+   "effort": "S",
+   "status": "in_pr",
+   "first_seen": "2026-11-10",
+   "last_seen": "2026-11-10",
+   "tries": 0,
+   "pr": 118,
+   "success_check": {
+    "how": "NODE_PATH=$(npm root -g) node tools/qa/score_input.cjs docs <사진 폴더> → score-input-dependents.png, 또는 cheongyakpass.kr 내 조건 > 가점 계산",
+    "expect": "칸 이름 '부양가족 수 (나는 빼고 세요)'와 설명 첫 문장 '나(신청자)를 뺀 사람만'이 보임"
+   },
+   "notes": "탐색 밤(11-10) 고름"
   }
  ]
 }
