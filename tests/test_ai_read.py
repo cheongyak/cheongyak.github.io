@@ -206,3 +206,7 @@ def test_sale_hints_lessons_from_probe_20261111():
     only["residence_quote"] = "민영 투기과열지구/청약과열지역 경기도 광명시 거주자 10년"       # 표 줄 — 기타지역이 없다고 볼 문장이 아니다
     only["residence"]["area"] = "경기도 광명시"
     assert "residence" not in ai_read.sale_hints(only, [only["residence_quote"] + "마" * 600])[0]
+    q3 = "본 주택은 무순위 사후 입주자모집공고일 현재 충청북도에 거주하는 무주택세대구성원을 대상으로 공급합니다"
+    one = {"residence": {"area": None, "months": 0, "since": None, "others": ["충북"]}, "residence_quote": q3}       # 2차 시험 2026910243: 한 시·도만 others 에 적은 답
+    h = ai_read.sale_hints(one, [q3 + "바" * 600])[0]["residence"]
+    assert h["text"] == "충청북도 거주자만 신청" and h["value"]["area"] == "충청북도" and h["value"]["others"] == []

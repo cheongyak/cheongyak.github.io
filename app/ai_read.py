@@ -466,6 +466,11 @@ def sale_hints(answer: dict, texts: list[str]) -> tuple[dict, list[str]]:
         if qs:
             n = _nums(answer["residence_quote"])
             area, months, since, others = R.get("area"), R.get("months"), R.get("since"), R.get("others")
+            if area is None and isinstance(others, list) and len(others) == 1 and others[0] in SIDOS:
+                # '충청북도에 거주하는 …을 대상으로' 를 area 없음·others [충북] 으로 답한 꼴(2026910243) — 한 시·도 거주자만 받는 것이므로 해당지역 하나·기타지역 없음과 같다
+                full = next((k for k, v in SIDO_SHORT.items() if v == others[0] and _ns(k) in qs), None)
+                if full:
+                    area, others = full, []
             why = None
             if area is None and not (isinstance(others, list) and others):
                 why = "해당지역도 기타지역도 없음"
