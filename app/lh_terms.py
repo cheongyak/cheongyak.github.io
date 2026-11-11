@@ -82,7 +82,9 @@ def _general_terms(t: str, kind: str) -> tuple[dict, dict]:
              or re.search(r"월평균소득\s?70%\s?이하\s?☞\s?전년도\s?월평균소득의\s?150%\s?이하", both))
         if m:
             income, q["income"] = {"1": 150, "2": 150, "3+": 150}, _q(both, m)
-        elif kind == "영구임대" and (m := re.search(r"월평균\s?소득\s?50%(?:\s?\(1인\s?70%,\s?2인\s?60%\))?\s?이하\s?:\s?차목", sec)):
+        # 국민임대로 올라온 고령자복지주택이 영구임대 기준(시행규칙 별표3 신분별 소득)을 쓰는 공고: '1. 신분별 입주소득 기준(공공주택 특별법 시행규칙 별표3) …
+        #   - 월평균 소득 50%(1인 70%, 2인 60%)이하 : 차목(일반입주자)' (인제서화 고령자복지주택 2015122300021033, 2026-11-11) — 별표3 을 적은 공고문일 때만
+        elif (kind == "영구임대" or (kind == "국민임대" and re.search(r"시행규칙\s?별표\s?3\)", sec))) and (m := re.search(r"월평균\s?소득\s?50%(?:\s?\(1인\s?70%,\s?2인\s?60%\))?\s?이하\s?:\s?차목", sec)):
             if re.search(r"1인\s?(?:가구\s?)?20%p?,?\s?2인\s?(?:가구\s?)?10%p?", sec) or "1인 70%, 2인 60%" in m.group(0):
                 income, q["income"] = {"1": 70, "2": 60, "3+": 50}, _q(sec, m, 10, 120)
         elif kind == "국민임대" and (m := re.search(r"월평균\s?소득\s?(?:\(원\)|원\s?2025\s?\(\s?\))\s?70%\s?80%\s?90%", sec)):
@@ -642,6 +644,12 @@ def parse_lh_terms(text: str, kind: str, name: str = "", region: Optional[str] =
            "income_basis": None, "groups": [], "quotes": {}, "income_table_100": None}
     if kind in ("국민임대", "영구임대"):
         g, q = _general_terms(t, kind)
+        # 고령자복지주택: 신청자격 첫 문장에 나이 요건 — '4. 신청자격 입주자 모집공고일(2026.11.11.) 현재 만 65세 이상으로서 무주택세대구성원 요건을 만족하고'
+        # → 계층 '고령자'(만 65세 이상). 나이를 안 보면 65세 미만도 '가능'으로 보인다 (인제서화 2015122300021033, 2026-11-11)
+        ma = re.search(r"신청\s?자격\s?입주자\s?모집\s?공고일\s?\([\d.\s]+\)\s?현재\s?만\s?65\s?세\s?이상으로서\s?무주택세대구성원", t)
+        if ma:
+            g.update(key="고령자", name="고령자", age_min=65)
+            q["age"] = _q(t, ma)
         res["groups"], res["quotes"] = [g], {g["key"]: q}
         res["income_basis"] = "도시근로자 월평균소득"
     elif kind == "행복주택":

@@ -527,6 +527,30 @@ def sale_hints(answer: dict, texts: list[str]) -> tuple[dict, list[str]]:
     return out, dropped
 
 
+SALE_HEAD, SALE_WIN, SALE_MAX = 12_000, 700, 45_000
+
+
+def sale_excerpt(text: str) -> str:
+    """분양 공고문은 길다(15만 자 ≈ 입력 15만 토큰, 1건 추정 $0.30 — 2026-11-11 첫 실제 호출). 두 항목에 필요한 곳만 보낸다:
+    앞부분(요약 표가 있는 1~2쪽) + '해당지역·기타지역·거주의무·…에 거주하는' 둘레. 조각은 원문 그대로이고 사이를 '…'로 나눈다(근거 문장은 한 조각 안에서만 나온다)."""
+    if len(text) <= SALE_MAX:
+        return text
+    spans = [(0, SALE_HEAD)]
+    for m in re.finditer(r"해당\s?지역|기타\s?지역|거주\s?의무|실거주|에\s?거주하는|계속\s?거주", text):
+        a, b = max(0, m.start() - SALE_WIN), min(len(text), m.end() + SALE_WIN)
+        if a <= spans[-1][1]:
+            spans[-1] = (spans[-1][0], max(spans[-1][1], b))
+        else:
+            spans.append((a, b))
+    out, n = [], 0
+    for a, b in spans:
+        if n + (b - a) > SALE_MAX:
+            break
+        out.append(text[a:b])
+        n += b - a
+    return "\n…\n".join(out)
+
+
 def sale_gaps(found: dict) -> list[str]:
     """규칙이 못 읽어 화면이 '확인 필요'로 보이는 항목. 실거주 의무는 '공고문에 말이 없음'(duty_silent)으로 읽은 공고는 뺀다."""
     out = []
@@ -561,7 +585,7 @@ def sale_fill(nid: str, found: dict, text: str, name: str, budget: Budget, post:
             return {}, [f"[공고문·AI 읽기] {name} ({nid}): 이번 달 추정 사용액 ${month_spent():.2f} 가 한도 ${month_cap():.0f} 를 넘어 부르지 않음"]
         budget.left -= 1
         try:
-            answer, usage = ask(text, "분양", name, api_key, post, SYSTEM_SALE)
+            answer, usage = ask(sale_excerpt(text), "분양", name, api_key, post, SYSTEM_SALE)
         except Exception as e:
             return {}, [f"[공고문·AI 읽기] {name} ({nid}): 호출 실패: {str(e)[:160].replace(api_key, '***')}"]
         usd = usd_of(usage)

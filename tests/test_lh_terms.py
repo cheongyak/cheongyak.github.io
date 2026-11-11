@@ -279,3 +279,16 @@ def test_public_rank_table_in_selection_section():
     assert ok["account"]["months"] == 6 and ok["groups"][0]["income_pct"] == "excluded"
     bad = parse_lh_terms(head + "■ 동일 순위 경쟁시 " + row, "공공임대")   # 제목이 없으면 읽지 않음
     assert not bad.get("account") and bad["groups"][0]["income_pct"] is None
+
+
+def test_elderly_welfare_housing_20261111():
+    """인제서화 고령자복지주택(국민임대 2015122300021033·영구임대 …1032, 2026-11-11): 신청자격 '만 65세 이상으로서 무주택세대구성원' → 계층 고령자(65세 이상).
+    국민임대로 올라왔지만 소득은 영구임대 기준(시행규칙 별표3 차목 50%·1인 70·2인 60) — 규칙도 AI 도 처음엔 소득을 못 읽었다."""
+    for nid, kind in (("2015122300021033", "국민임대"), ("2015122300021032", "영구임대")):
+        T = parse_lh_terms((ROOT / "evidence/lh" / f"{nid}.txt").read_text(encoding="utf-8"), kind, "인제서화 고령자복지주택 추가 입주자 모집", "강원특별자치도")
+        g = T["groups"][0]
+        assert (g["key"], g["age_min"], g["homeless"], g["income_pct"], g["asset_manwon"], g["car_manwon"]) == ("고령자", 65, "household", {"1": 70, "2": 60, "3+": 50}, 24500, 4542)
+    # 별표3 을 적지 않은 보통 국민임대 공고문에는 영구임대 소득 문장 규칙을 쓰지 않는다 · 65세 문장이 없으면 계층은 일반
+    t = "가" * 600 + " ■ 소득 및 자산보유 기준 구분 소득 및 자산보유 기준 소득 - 월평균 소득 50%(1인 70%, 2인 60%)이하 : 차목(일반입주자) 총자산 기준 24,500만원 이하 "
+    g = parse_lh_terms(t, "국민임대", "", None)["groups"][0]
+    assert g["key"] == "일반" and g["age_min"] is None and g["income_pct"] is None

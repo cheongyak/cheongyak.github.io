@@ -210,3 +210,13 @@ def test_sale_hints_lessons_from_probe_20261111():
     one = {"residence": {"area": None, "months": 0, "since": None, "others": ["충북"]}, "residence_quote": q3}       # 2차 시험 2026910243: 한 시·도만 others 에 적은 답
     h = ai_read.sale_hints(one, [q3 + "바" * 600])[0]["residence"]
     assert h["text"] == "충청북도 거주자만 신청" and h["value"]["area"] == "충청북도" and h["value"]["others"] == []
+
+
+def test_sale_excerpt_keeps_relevant_parts_and_is_short():
+    """분양 공고문 전체(약 15만 자)를 보내면 1건 추정 $0.30 — 앞부분과 거주 요건·거주의무 둘레만 보낸다. 조각은 원문 그대로다."""
+    body = "분양가 납부 안내 " * 20000                                   # 약 18만 자
+    text = "요약 표 " + Q_RES + " " + body[:60000] + " 거주의무기간 : 최초 입주가능일부터 3년 " + body[60000:]
+    ex = ai_read.sale_excerpt(text)
+    assert len(ex) <= ai_read.SALE_MAX + 100 and Q_RES in ex and "거주의무기간 : 최초 입주가능일부터 3년" in ex
+    assert all(part in text for part in ex.split("\n…\n"))
+    assert ai_read.sale_excerpt("짧은 글") == "짧은 글"
