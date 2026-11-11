@@ -143,7 +143,8 @@ def sale_main(n: int) -> int:
                 return None
             a = v.get("area")
             a = _area(a) if isinstance(a, str) else a
-            return {"sido": (a or {}).get("sido"), "sigungu": (a or {}).get("sigungu"), "months": v.get("months"), "since": v.get("since") if v.get("months") else None,
+            sg = (a or {}).get("sigungu")
+            return {"sido": None if sg else (a or {}).get("sido"), "sigungu": sg, "months": v.get("months"),   # 시·군이 있으면 시·도는 견주지 않는다(정답 데이터에 시·군만 적힌 공고가 있음) "since": v.get("since") if v.get("months") else None,
                     "others": sorted(v.get("others") or [])}
 
         for fld, gv, raw, got in (("residence", norm_res(g.get("residence")), norm_res(ans.get("residence")), norm_res((hints.get("residence") or {}).get("value"))),

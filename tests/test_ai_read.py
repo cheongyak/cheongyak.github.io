@@ -189,3 +189,20 @@ def test_sale_fill_only_gaps_and_caches(tmp_path):
     assert h2 == h and len(calls) == 1
     assert ai_read.sale_fill("S2", {"residence": {"a": 1}, "residence_duty": 0}, text, "", ai_read.Budget(1), post=_post(ans, calls), api_key="k", cache_dir=tmp_path) == ({}, [])
     assert ai_read.sale_gaps({"residence": {"a": 1}, "duty_silent": True}) == []      # '공고문에 거주의무 말이 없음'으로 읽은 공고는 묻지 않는다
+
+
+def test_sale_hints_lessons_from_probe_20261111():
+    """11-11 분양 정확도 시험 1차(12건): 무순위 공고 '부산광역시 및 울산광역시, 경상남도에 거주하는 …'을 해당지역 부산+기타지역으로 나눈 답이 통과했다."""
+    q = "본 주택은 무순위(사후) 입주자모집공고일 현재 부산광역시 및 울산광역시, 경상남도에 거주하는 무주택세대구성원을 대상으로 공급합니다."
+    t = q + "다" * 600
+    bad = {"residence": {"area": "부산광역시", "months": 0, "since": None, "others": ["울산", "경남"]}, "residence_quote": q}
+    h, dropped = ai_read.sale_hints(bad, [t])
+    assert "residence" not in h and "똑같이 받는 문장" in dropped[0]
+    good = {"residence": {"area": None, "months": 0, "since": None, "others": ["부산", "울산", "경남"]}, "residence_quote": q}
+    assert ai_read.sale_hints(good, [t])[0]["residence"]["text"] == "부산·울산·경남 거주자(우선하는 지역 없음)"
+    q2 = "■ 입주자모집공고일 현재 서울특별시에 거주하는 무주택세대의 세대주"
+    only = {"residence": {"area": "서울특별시", "months": 0, "since": None, "others": []}, "residence_quote": q2}
+    assert ai_read.sale_hints(only, [q2 + "라" * 600])[0]["residence"]["text"] == "서울특별시 거주자만 신청"
+    only["residence_quote"] = "민영 투기과열지구/청약과열지역 경기도 광명시 거주자 10년"       # 표 줄 — 기타지역이 없다고 볼 문장이 아니다
+    only["residence"]["area"] = "경기도 광명시"
+    assert "residence" not in ai_read.sale_hints(only, [only["residence_quote"] + "마" * 600])[0]

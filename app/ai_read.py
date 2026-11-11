@@ -417,7 +417,7 @@ def fill(nid: str, terms: Optional[dict], texts: dict, kind: str, name: str, reg
 # 분양은 AI 값을 **판정에 쓰지 않는다**. 규칙이 못 읽어 화면이 '확인 필요'로 보이는 두 항목(거주 지역 요건·실거주 의무)에
 # 'AI가 공고문에서 읽은 내용(참고)'과 근거 문장을 붙여 줄 뿐이다 — 판정 결과('확인 필요')는 그대로다.
 SALE_DIR = ROOT / "evidence" / "notices" / "ai"
-SALE_PROMPT_V = 1
+SALE_PROMPT_V = 2
 SALE_KEYS = ("residence", "residence_duty")
 
 SYSTEM_SALE = """당신은 아파트 분양 입주자 모집공고문에서 두 가지 조건을 뽑아내는 도구입니다.
@@ -428,10 +428,12 @@ SYSTEM_SALE = """당신은 아파트 분양 입주자 모집공고문에서 두 
 출력 형식:
 {
  "residence": {                       // 일반공급 1순위의 거주 지역 요건(해당지역·기타지역). 모르면 residence 전체를 null
-   "area": "경기도 의정부시",          // 해당지역(우선공급 지역) 이름 — 공고문에 적힌 그대로. 시·도 전체면 "제주특별자치도"처럼
+   "area": "경기도 의정부시" | null,   // 해당지역(우선공급 지역) 이름 — 공고문에 적힌 그대로. 시·도 전체면 "제주특별자치도"처럼.
+                                      // 우선하는 지역 없이 여러 시·도 거주자를 똑같이 받으면(예: '부산광역시 및 울산광역시, 경상남도에 거주하는 …') area 는 null, 그 시·도는 모두 others 에
    "months": 0,                       // 해당지역으로 인정받는 계속 거주 기간(개월). '1년 이상' = 12. 기간 요건이 없으면 0
    "since": "2025-11-05" | null,      // '○○○○.○○.○○. 이전부터 계속 거주' 날짜가 적혀 있으면
-   "others": ["서울", "인천", "경기"]   // 기타지역 시·도 약칭(서울 부산 대구 인천 광주 대전 울산 세종 경기 강원 충북 충남 전북 전남 경북 경남 제주). 전국이면 ["전국"]
+   "others": ["서울", "인천", "경기"]   // 기타지역 시·도 약칭(서울 부산 대구 인천 광주 대전 울산 세종 경기 강원 충북 충남 전북 전남 경북 경남 제주). 전국이면 ["전국"].
+                                      // 해당지역 거주자만 신청할 수 있으면(기타지역이 없음, 예: '서울특별시에 거주하는 …을 대상으로') []
  },
  "residence_quote": "...",            // 해당지역·기타지역이 함께 적힌 한 곳(요약 표의 줄 등)
  "residence_duty_years": 3 | 0 | null,   // 당첨자의 실거주(거주) 의무 기간(년). 공고문에 거주의무가 '없음'·'해당 없음'·'미적용'이라고 적혀 있으면 0. 말이 없으면 null
@@ -465,8 +467,13 @@ def sale_hints(answer: dict, texts: list[str]) -> tuple[dict, list[str]]:
             n = _nums(answer["residence_quote"])
             area, months, since, others = R.get("area"), R.get("months"), R.get("since"), R.get("others")
             why = None
-            if not isinstance(area, str) or not _area_ok(area, qs):
+            if area is None and not (isinstance(others, list) and others):
+                why = "해당지역도 기타지역도 없음"
+            elif area is not None and (not isinstance(area, str) or not _area_ok(area, qs)):
                 why = "해당지역 이름이 문장에 없음"
+            elif area and isinstance(others, list) and others and re.search(re.escape(_ns(area)) + r"(?:및|,|·|와|과|또는)[^.]{0,40}에거주하는", qs):
+                # '부산광역시 및 울산광역시, 경상남도에 거주하는 …' — 여러 시·도를 똑같이 받는 문장을 해당지역(부산)+기타지역으로 나눈 답 (2026910234, 11-11 정확도 시험)
+                why = "여러 지역을 똑같이 받는 문장으로 보임(해당지역 우선이 아님)"
             elif "거주" not in qs:
                 why = "문장에 '거주'가 없음"
             elif not isinstance(months, int) or isinstance(months, bool) or not 0 <= months <= 60:
@@ -475,8 +482,10 @@ def sale_hints(answer: dict, texts: list[str]) -> tuple[dict, list[str]]:
                 why = "문장에 그 거주기간이 없음"
             elif not months and re.search(r"\d(?:년|개월)이상", qs):
                 why = "문장에 거주기간이 있는데 0 으로 답함"
-            elif not isinstance(others, list) or not others or any(x not in SIDOS and x != "전국" for x in others):
+            elif not isinstance(others, list) or any(x not in SIDOS and x != "전국" for x in others):
                 why = "기타지역 형식"
+            elif not others and not re.search(r"에거주하는|거주자(?:만|에한)", qs):
+                why = "기타지역이 없다고 볼 문장이 아님('…에 거주하는 …을 대상으로' 꼴만 받음)"
             else:
                 for x in others:
                     names = ["전국"] if x == "전국" else [k for k, v in SIDO_SHORT.items() if v == x] + [x] + (["수도권"] if x in ("서울", "인천", "경기") else [])
@@ -491,7 +500,9 @@ def sale_hints(answer: dict, texts: list[str]) -> tuple[dict, list[str]]:
                 dropped.append(f"residence: {why}")
             else:
                 per = "" if not months else (f" · {months // 12}년" if months % 12 == 0 else f" · {months}개월") + " 이상 계속 거주" + (f"({since} 이전부터)" if since else "")
-                out["residence"] = {"text": f"해당지역 {area} 거주자{per} · 기타지역 {'·'.join(others)}", "quote": answer["residence_quote"].strip(),
+                txt = (f"{'·'.join(others)} 거주자(우선하는 지역 없음)" if area is None else
+                       f"{area} 거주자만 신청{per}" if not others else f"해당지역 {area} 거주자{per} · 기타지역 {'·'.join(others)}")
+                out["residence"] = {"text": txt, "quote": answer["residence_quote"].strip(),
                                     "value": {"area": area, "months": months, "since": since, "others": sorted(others)}}
     y = answer.get("residence_duty_years")
     if y is not None:
