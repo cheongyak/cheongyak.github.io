@@ -1,42 +1,42 @@
 {
- "date": "2026-11-12 07:23",
- "golden_notices": 49,
+ "date": "2026-11-12 07:38",
+ "golden_notices": 50,
  "stat": {
   "pypdf": {
-   "ok": 544,
+   "ok": 552,
    "wrong": 0,
-   "missing": 42,
+   "missing": 43,
    "rent_ok": 185,
    "rent_wrong": 0,
    "rent_missing": 0,
-   "notices": 49
+   "notices": 50
   },
   "pdfium": {
-   "ok": 544,
+   "ok": 552,
    "wrong": 0,
-   "missing": 42,
+   "missing": 43,
    "rent_ok": 185,
    "rent_wrong": 0,
    "rent_missing": 0,
-   "notices": 49
+   "notices": 50
   },
   "plumber": {
-   "ok": 509,
-   "wrong": 3,
-   "missing": 74,
+   "ok": 515,
+   "wrong": 4,
+   "missing": 76,
    "rent_ok": 171,
    "rent_wrong": 0,
    "rent_missing": 14,
-   "notices": 49
+   "notices": 50
   },
   "merged": {
-   "ok": 544,
+   "ok": 552,
    "wrong": 0,
-   "missing": 42,
+   "missing": 43,
    "rent_ok": 185,
    "rent_wrong": 0,
    "rent_missing": 0,
-   "notices": 49
+   "notices": 50
   }
  },
  "merged_wrong": 0,
@@ -49,13 +49,15 @@
  "wrong": [
   "plumber 2015122300020453 일반.asset_manwon: 읽음 34500 ≠ 정답 'excluded'",
   "plumber 2015122300020856 account: 읽음 {'months': 6, 'count': 6, 'rank2_any': False} ≠ 정답 {'months': 6, 'count': 6, 'rank2_any': True}",
-  "plumber 2015122300020895 account: 읽음 {'months': 6, 'count': 6, 'rank2_any': False} ≠ 정답 {'months': 6, 'count': 6, 'rank2_any': True}"
+  "plumber 2015122300020895 account: 읽음 {'months': 6, 'count': 6, 'rank2_any': False} ≠ 정답 {'months': 6, 'count': 6, 'rank2_any': True}",
+  "plumber 2015122300021018 일반.asset_manwon: 읽음 34500 ≠ 정답 'excluded'"
  ],
  "merge_notes": [
   "2015122300020453 일반.asset_manwon: majority pypdf='excluded', pdfium='excluded', plumber=34500",
   "2015122300020856 account: majority pypdf={'months': 6, 'count': 6, 'rank2_any': True}, pdfium={'months': 6, 'count': 6, 'rank2_any': True}, plumber={'months': 6, 'count': 6, 'rank2_any': False}",
   "2015122300020895 account: majority pypdf={'months': 6, 'count': 6, 'rank2_any': True}, pdfium={'months': 6, 'count': 6, 'rank2_any': True}, plumber={'months': 6, 'count': 6, 'rank2_any': False}",
-  "0000061201 임대조건: plumber 가 pypdf 금액 줄을 모두 포함하고 1줄 더 읽음 → plumber"
+  "0000061201 임대조건: plumber 가 pypdf 금액 줄을 모두 포함하고 1줄 더 읽음 → plumber",
+  "2015122300021018 일반.asset_manwon: majority pypdf='excluded', pdfium='excluded', plumber=34500"
  ],
  "conflicts": []
 }
