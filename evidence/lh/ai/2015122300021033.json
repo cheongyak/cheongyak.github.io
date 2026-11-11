@@ -1,0 +1,37 @@
+{
+ "id": "2015122300021033",
+ "sha": "2de89ff6cabd85c1",
+ "prompt_v": 2,
+ "model": "claude-sonnet-5-5",
+ "at": "2026-11-11 10:19",
+ "usage": {
+  "input_tokens": 51254,
+  "output_tokens": 307
+ },
+ "usd": 0.1056,
+ "answer": {
+  "groups": [
+   {
+    "key": "고령자",
+    "homeless": "household",
+    "homeless_quote": "■ 무주택세대구성원 (세대에 속하는 사람 전체가 무주택인 세대의 구성원)",
+    "income_pct": null,
+    "income_quote": null,
+    "asset_manwon": 24500,
+    "asset_quote": "가액 합산 기준 24,500만원 이하",
+    "car_manwon": 4542,
+    "car_quote": "세대구성원 전원이 보유하고 있는 개별 자동차가액 4,542만원 이하",
+    "age_min": 65,
+    "age_max": null,
+    "age_quote": "고령자복지주택은 만65세 이상인 사람(1961.11.11. 이전 출생)으로, 입주자격 해당자만 신청가능 합니다."
+   }
+  ],
+  "regions": null,
+  "regions_quote": null,
+  "account": null,
+  "account_quote": null,
+  "local": null,
+  "local_quote": null,
+  "other_groups": []
+ }
+}

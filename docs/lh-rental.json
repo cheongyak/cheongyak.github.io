@@ -1,7 +1,7 @@
 {
- "updated": "2026-11-11 07:42",
+ "updated": "2026-11-11 10:18",
  "source": "LH 청약플러스 임대 공고 (공공데이터포털 한국토지주택공사 분양임대공고 조회)",
- "count": 49,
+ "count": 51,
  "notices": [
   {
    "id": "0000061188",
@@ -10026,6 +10026,300 @@
     "SPL_INF_TP_CD": "062",
     "UPP_AIS_TP_CD": "06",
     "AIS_TP_CD": "09"
+   },
+   "read": {
+    "tools": [
+     "pypdf",
+     "pdfium",
+     "plumber"
+    ],
+    "conflicts": []
+   }
+  },
+  {
+   "id": "2015122300021032",
+   "name": "인제서화 고령자복지주택(영구임대) 추가 입주자 모집",
+   "type": "영구임대",
+   "type_code": "09",
+   "judge_type": true,
+   "region": "강원특별자치도",
+   "posted": "2026-11-11",
+   "close": "2026-12-04",
+   "status": "공고중",
+   "url": "https://apply.lh.or.kr/lhapply/apply/wt/wrtanc/selectWrtancInfo.do?panId=2015122300021032&ccrCnntSysDsCd=03&uppAisTpCd=06&aisTpCd=09&mi=1026",
+   "url_mobile": "https://apply.lh.or.kr/lhapply/apply/wt/wrtanc/selectWrtancInfo.do?panId=2015122300021032&ccrCnntSysDsCd=03&uppAisTpCd=06&aisTpCd=09&mi=1026",
+   "schedule": [
+    {
+     "complex": null,
+     "apply_start": "2026-11-30",
+     "apply_end": "2026-12-04",
+     "apply_time": "2026.11.30 10:00 ~ 2026.12.04 16:05",
+     "docs_target": "2026-12-11",
+     "docs_start": "2026-12-14",
+     "docs_end": "2026-12-16",
+     "winner": "2027-04-16",
+     "contract_start": "2027-05-10",
+     "contract_end": "2027-05-12"
+    }
+   ],
+   "complexes": [
+    {
+     "name": "인제서화 고령자복지주택(영구임대)",
+     "address": "강원특별자치도 인제군 서화면 천도로81번길 43",
+     "households": 40,
+     "area": "32.32~32.32",
+     "move_in": "2027.02",
+     "heating": "개별난방"
+    }
+   ],
+   "units": [
+    {
+     "complex": "인제서화 고령자복지주택(영구임대)",
+     "type": "32A",
+     "area": 32.32,
+     "supply_area": 51.5364,
+     "households": 40,
+     "now_households": 19,
+     "deposit": null,
+     "rent": null,
+     "money_note": "공고문 참조"
+    }
+   ],
+   "files": [
+    {
+     "kind": "카탈로그",
+     "name": "261111_인제서화_팜플렛_업로드용(수정).pdf",
+     "url": "https://apply.lh.or.kr/lhapply/lhFile.do?fileid=69335778"
+    },
+    {
+     "kind": "기타 첨부파일",
+     "name": "위임장(양식)_임대주택.hwpx",
+     "url": "https://apply.lh.or.kr/lhapply/lhFile.do?fileid=69335785"
+    },
+    {
+     "kind": "공고문(hwp)",
+     "name": "인제서화_고령자복지주택(영구임대)_추가입주자모집공고문(261111).hwpx",
+     "url": "https://apply.lh.or.kr/lhapply/lhFile.do?fileid=69335771"
+    },
+    {
+     "kind": "공고문(PDF)",
+     "name": "인제서화_고령자복지주택(영구임대)_추가입주자모집공고문(261111).pdf",
+     "url": "https://apply.lh.or.kr/lhapply/lhFile.do?fileid=69335775"
+    },
+    {
+     "kind": "기타 첨부파일",
+     "name": "제출서류(양식)_고령자복지.hwpx",
+     "url": "https://apply.lh.or.kr/lhapply/lhFile.do?fileid=69335783"
+    }
+   ],
+   "etc": "■ 고령자복지주택의 신청자격은 공고일 현재 만65세 이상으로서 무주택세대구성원이며,\n공급입주자격에 해당하는 사람입니다.\n\n■ 신청자격 등 자세한 사항은 반드시 공고문을 확인하시기 바랍니다.\n(공고내용 미숙지로 인한 모든 책임은 신청자 본인에게 있습니다)",
+   "office": {
+    "place": "강원특별자치도 춘천시 공지로 337(효자동)",
+    "tel": null
+   },
+   "notice_pdf": "https://apply.lh.or.kr/lhapply/lhFile.do?fileid=69335775",
+   "notice_text": 49428,
+   "rents": [
+    {
+     "complex": null,
+     "type": "32A",
+     "group": "가군",
+     "deposit": 3106000,
+     "rent": 61760
+    },
+    {
+     "complex": null,
+     "type": "32A",
+     "group": "나군",
+     "deposit": 13859000,
+     "rent": 137830
+    }
+   ],
+   "terms": {
+    "relaxed": false,
+    "homeless_relaxed": false,
+    "homeless_max1": false,
+    "income_basis": "도시근로자 월평균소득",
+    "groups": [
+     {
+      "key": "일반",
+      "name": "일반",
+      "homeless": "household",
+      "income_pct": {
+       "1": 70,
+       "2": 60,
+       "3+": 50
+      },
+      "asset_manwon": 24500,
+      "car_manwon": 4542,
+      "age_min": null,
+      "age_max": null
+     }
+    ],
+    "quotes": {
+     "일반": {
+      "income": "국가유공자등) - 월평균 소득 50%(1인 70%, 2인 60%)이하 : 차목(일반입주자) 2. 월평균 소득 가구원수 월평균 소득 50% (1인가구 70%, 2인가구 60%) 월평균 소득 70% (1인가구 90%, 2인가구 80%) 1인가구 2,669,354원 이하 3,432,027원 이하",
+      "asset": "일반입주자) 2. 총자산 기준 세대구성원 전원이 보유하고 있는 총 자산(부동산, 자동차, 금융자산(부채반영), 일반자산) 가액 합산 기준 24,500만원 이하 3. 자동차 기준",
+      "car": "이 보유하고 있는 개별 자동차가액 4,542만원 이하 * 자동차는 총"
+     }
+    },
+    "income_table_100": null
+   },
+   "api": {
+    "CCR_CNNT_SYS_DS_CD": "03",
+    "SPL_INF_TP_CD": "062",
+    "UPP_AIS_TP_CD": "06",
+    "AIS_TP_CD": "09"
+   },
+   "read": {
+    "tools": [
+     "pypdf",
+     "pdfium",
+     "plumber"
+    ],
+    "conflicts": []
+   }
+  },
+  {
+   "id": "2015122300021033",
+   "name": "인제서화 고령자복지주택(국민임대) 추가 입주자 모집",
+   "type": "국민임대",
+   "type_code": "07",
+   "judge_type": true,
+   "region": "강원특별자치도",
+   "posted": "2026-11-11",
+   "close": "2026-12-04",
+   "status": "공고중",
+   "url": "https://apply.lh.or.kr/lhapply/apply/wt/wrtanc/selectWrtancInfo.do?panId=2015122300021033&ccrCnntSysDsCd=03&uppAisTpCd=06&aisTpCd=07&mi=1026",
+   "url_mobile": "https://apply.lh.or.kr/lhapply/apply/wt/wrtanc/selectWrtancInfo.do?panId=2015122300021033&ccrCnntSysDsCd=03&uppAisTpCd=06&aisTpCd=07&mi=1026",
+   "schedule": [
+    {
+     "complex": null,
+     "apply_start": "2026-11-30",
+     "apply_end": "2026-12-04",
+     "apply_time": "2026.11.30 10:00 ~ 2026.12.04 16:05",
+     "docs_target": "2026-12-11",
+     "docs_start": "2026-12-14",
+     "docs_end": "2026-12-16",
+     "winner": "2027-04-16",
+     "contract_start": "2027-05-10",
+     "contract_end": "2027-05-12"
+    }
+   ],
+   "complexes": [
+    {
+     "name": "인제서화 고령자복지주택(국민임대)",
+     "address": "강원특별자치도 인제군 서화면 천도로81번길 43",
+     "households": 40,
+     "area": "36.56~44.28",
+     "move_in": "2027.02",
+     "heating": "개별난방"
+    }
+   ],
+   "units": [
+    {
+     "complex": "인제서화 고령자복지주택(국민임대)",
+     "type": "36A",
+     "area": 36.56,
+     "supply_area": 57.9686,
+     "households": 20,
+     "now_households": 22,
+     "deposit": null,
+     "rent": null,
+     "money_note": "공고문 참조"
+    },
+    {
+     "complex": "인제서화 고령자복지주택(국민임대)",
+     "type": "44A",
+     "area": 44.28,
+     "supply_area": 69.6968,
+     "households": 10,
+     "now_households": 12,
+     "deposit": null,
+     "rent": null,
+     "money_note": "공고문 참조"
+    }
+   ],
+   "files": [
+    {
+     "kind": "카탈로그",
+     "name": "261111_인제서화_팜플렛_업로드용(수정).pdf",
+     "url": "https://apply.lh.or.kr/lhapply/lhFile.do?fileid=69338149"
+    },
+    {
+     "kind": "기타 첨부파일",
+     "name": "위임장(양식)_임대주택.hwpx",
+     "url": "https://apply.lh.or.kr/lhapply/lhFile.do?fileid=69338160"
+    },
+    {
+     "kind": "공고문(hwp)",
+     "name": "인제서화_고령자복지주택(국민임대)_추가입주자모집공고문(261111).hwpx",
+     "url": "https://apply.lh.or.kr/lhapply/lhFile.do?fileid=69338134"
+    },
+    {
+     "kind": "공고문(PDF)",
+     "name": "인제서화_고령자복지주택(국민임대)_추가입주자모집공고문(261111).pdf",
+     "url": "https://apply.lh.or.kr/lhapply/lhFile.do?fileid=69338139"
+    },
+    {
+     "kind": "기타 첨부파일",
+     "name": "제출서류(양식)_고령자복지.hwpx",
+     "url": "https://apply.lh.or.kr/lhapply/lhFile.do?fileid=69338152"
+    }
+   ],
+   "etc": "■ 고령자복지주택의 신청자격은 공고일 현재 만65세 이상으로서 무주택세대구성원이며,\n공급입주자격에 해당하는 사람입니다.\n\n■ 신청자격 등 자세한 사항은 반드시 공고문을 확인하시기 바랍니다.\n(공고내용 미숙지로 인한 모든 책임은 신청자 본인에게 있습니다)",
+   "office": {
+    "place": "강원특별자치도 춘천시 공지로 337(효자동)",
+    "tel": null
+   },
+   "notice_pdf": "https://apply.lh.or.kr/lhapply/lhFile.do?fileid=69338139",
+   "notice_text": 49497,
+   "rents": [
+    {
+     "complex": null,
+     "type": "36A",
+     "group": null,
+     "deposit": 8300000,
+     "rent": 188000
+    },
+    {
+     "complex": null,
+     "type": "44A",
+     "group": null,
+     "deposit": 15400000,
+     "rent": 199000
+    }
+   ],
+   "terms": {
+    "relaxed": false,
+    "homeless_relaxed": false,
+    "homeless_max1": false,
+    "income_basis": "도시근로자 월평균소득",
+    "groups": [
+     {
+      "key": "일반",
+      "name": "일반",
+      "homeless": "household",
+      "income_pct": null,
+      "asset_manwon": 24500,
+      "car_manwon": 4542,
+      "age_min": null,
+      "age_max": null
+     }
+    ],
+    "quotes": {
+     "일반": {
+      "asset": "일반입주자) 2. 총자산 기준 세대구성원 전원이 보유하고 있는 총 자산(부동산, 자동차, 금융자산(부채반영), 일반자산) 가액 합산 기준 24,500만원 이하 3. 자동차 기준",
+      "car": "이 보유하고 있는 개별 자동차가액 4,542만원 이하 * 자동차는 총"
+     }
+    },
+    "income_table_100": null
+   },
+   "api": {
+    "CCR_CNNT_SYS_DS_CD": "03",
+    "SPL_INF_TP_CD": "062",
+    "UPP_AIS_TP_CD": "06",
+    "AIS_TP_CD": "07"
    },
    "read": {
     "tools": [
