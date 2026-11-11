@@ -87,7 +87,7 @@ const BAD = /\bNaN\b|\bundefined\b|\[object Object\]/;
     }
     // 공고 화면 '답하기' (사용자 10-05 17시): 세대 소득을 비우고 → 확인 항목의 답하기 → 입력·저장 → 판정이 바뀌고 내 조건에 저장되는지
     if (scheme === 'light') {
-      const nid = await page.evaluate(() => { S.profile.hhIncomeYear = null; S.profile.household = 'parents'; S.profile.parentsOwn = false; save(); const N = RENTAL.notices.find(N => N.type === '국민임대' && N.terms && N.terms.groups[0].income_pct && N.terms.groups[0].income_pct !== 'excluded'); S.rid = N.id; S.rq = null; S.view = 'rdetail'; render(); return N.id; });
+      const nid = await page.evaluate(() => { S.profile.hhIncomeYear = null; S.profile.household = 'parents'; S.profile.parentsOwn = false; save(); const N = RENTAL.notices.find(N => N.type === '국민임대' && N.terms && N.terms.groups[0].key === '일반' && N.terms.groups[0].income_pct && N.terms.groups[0].income_pct !== 'excluded');   /* 계층 '일반'인 공고만 — 고령자복지주택(국민임대, 계층 고령자 65세 이상)은 검사 조건(젊은 신청자)이 '대상 아님'이라 이 흐름을 볼 수 없다 (2026-11-11 인제서화 2015122300021033) */ S.rid = N.id; S.rq = null; S.view = 'rdetail'; render(); return N.id; });
       const before = await page.evaluate(id => rentalJudge(RENTAL.notices.find(N => N.id === id), S.profile).s, nid);
       const btn = page.locator('li', { hasText: '세대 소득 입력 필요' }).locator('[data-rq]').first();
       if (!(await btn.count())) fails.push('답하기 버튼 없음');
