@@ -1,0 +1,32 @@
+{
+ "id": "2026930040",
+ "prompt_v": 1,
+ "model": "claude-sonnet-5-5",
+ "usage": {
+  "input_tokens": 26193,
+  "cache_creation_input_tokens": 0,
+  "cache_read_input_tokens": 0,
+  "cache_creation": {
+   "ephemeral_5m_input_tokens": 0,
+   "ephemeral_1h_input_tokens": 0
+  },
+  "output_tokens": 125,
+  "output_tokens_details": {
+   "thinking_tokens": 0
+  },
+  "service_tier": "standard",
+  "inference_geo": "global",
+  "speed": "standard"
+ },
+ "answer": {
+  "residence": {
+   "area": "서울특별시",
+   "months": 0,
+   "since": null,
+   "others": []
+  },
+  "residence_quote": "■ 입주자모집공고일 현재 서울특별시에 거주하는 무주택세대의 세대주",
+  "residence_duty_years": 0,
+  "residence_duty_quote": "전매제한 거주의무기간 분양가상한제 택지유형"
+ }
+}

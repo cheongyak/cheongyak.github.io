@@ -1,0 +1,32 @@
+{
+ "id": "2026930036",
+ "prompt_v": 1,
+ "model": "claude-sonnet-5-5",
+ "usage": {
+  "input_tokens": 34198,
+  "cache_creation_input_tokens": 0,
+  "cache_read_input_tokens": 0,
+  "cache_creation": {
+   "ephemeral_5m_input_tokens": 0,
+   "ephemeral_1h_input_tokens": 0
+  },
+  "output_tokens": 195,
+  "output_tokens_details": {
+   "thinking_tokens": 0
+  },
+  "service_tier": "standard",
+  "inference_geo": "global",
+  "speed": "standard"
+ },
+ "answer": {
+  "residence": {
+   "area": "경기도 과천시",
+   "months": 0,
+   "since": null,
+   "others": null
+  },
+  "residence_quote": "본 불법행위재공급 입주자모집공고일 현재 경기도 과천시에 거주주민등록표등본 기준 하는 만 세 이상인 분 또는 세대주인 미성년자 자녀양육 형제자매부양( ) 19 ( , )의 경우 청약이 가능합니다",
+  "residence_duty_years": 0,
+  "residence_duty_quote": "전매제한 거주의무기간 분양가상한제 택지유형"
+ }
+}

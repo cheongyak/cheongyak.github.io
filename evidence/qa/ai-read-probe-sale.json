@@ -1,0 +1,515 @@
+{
+ "at": "2026-11-11 10:18",
+ "model": "claude-sonnet-5-5",
+ "prompt_v": 1,
+ "notices": 12,
+ "usd": 1.947,
+ "summary": {
+  "검사기가 버림(맞는 값)": 6,
+  "검사기가 버림(틀린 값)": 4,
+  "검사기가 버림(정답 없음)": 6,
+  "틀림": 1,
+  "맞음": 5,
+  "정답에 없는 값": 1
+ },
+ "wrong": [
+  {
+   "id": "2026910234",
+   "field": "residence",
+   "result": "틀림",
+   "gold": {
+    "sido": null,
+    "sigungu": null,
+    "months": 0,
+    "since": null,
+    "others": [
+     "경남",
+     "부산",
+     "울산"
+    ]
+   },
+   "ai": {
+    "sido": "부산",
+    "sigungu": null,
+    "months": 0,
+    "since": null,
+    "others": [
+     "경남",
+     "울산"
+    ]
+   },
+   "passed": {
+    "sido": "부산",
+    "sigungu": null,
+    "months": 0,
+    "since": null,
+    "others": [
+     "경남",
+     "울산"
+    ]
+   },
+   "dropped_why": null
+  },
+  {
+   "id": "2026000527",
+   "field": "residence_duty",
+   "result": "정답에 없는 값",
+   "gold": null,
+   "ai": 5,
+   "passed": 5,
+   "dropped_why": null
+  }
+ ],
+ "notes": [],
+ "rows": [
+  {
+   "id": "2026930040",
+   "field": "residence",
+   "result": "검사기가 버림(맞는 값)",
+   "gold": {
+    "sido": "서울",
+    "sigungu": null,
+    "months": 0,
+    "since": null,
+    "others": []
+   },
+   "ai": {
+    "sido": "서울",
+    "sigungu": null,
+    "months": 0,
+    "since": null,
+    "others": []
+   },
+   "passed": null,
+   "dropped_why": "residence: 기타지역 형식"
+  },
+  {
+   "id": "2026930040",
+   "field": "residence_duty",
+   "result": "검사기가 버림(맞는 값)",
+   "gold": 0,
+   "ai": 0,
+   "passed": null,
+   "dropped_why": "residence_duty: 문장에 거주의무가 없다는 말이 없음(바로 붙어 있어야 함 — 표 머리와 값이 떨어진 글은 받지 않음)"
+  },
+  {
+   "id": "2026930036",
+   "field": "residence",
+   "result": "검사기가 버림(틀린 값)",
+   "gold": {
+    "sido": null,
+    "sigungu": "과천시",
+    "months": 0,
+    "since": null,
+    "others": []
+   },
+   "ai": {
+    "sido": "경기",
+    "sigungu": "과천시",
+    "months": 0,
+    "since": null,
+    "others": []
+   },
+   "passed": null,
+   "dropped_why": "residence: 기타지역 형식"
+  },
+  {
+   "id": "2026930036",
+   "field": "residence_duty",
+   "result": "검사기가 버림(맞는 값)",
+   "gold": 0,
+   "ai": 0,
+   "passed": null,
+   "dropped_why": "residence_duty: 문장에 거주의무가 없다는 말이 없음(바로 붙어 있어야 함 — 표 머리와 값이 떨어진 글은 받지 않음)"
+  },
+  {
+   "id": "2026930031",
+   "field": "residence",
+   "result": "검사기가 버림(맞는 값)",
+   "gold": {
+    "sido": "경기",
+    "sigungu": "광명시",
+    "months": 0,
+    "since": null,
+    "others": []
+   },
+   "ai": {
+    "sido": "경기",
+    "sigungu": "광명시",
+    "months": 0,
+    "since": null,
+    "others": []
+   },
+   "passed": null,
+   "dropped_why": "residence: 기타지역 형식"
+  },
+  {
+   "id": "2026930031",
+   "field": "residence_duty",
+   "result": "검사기가 버림(정답 없음)",
+   "gold": null,
+   "ai": 0,
+   "passed": null,
+   "dropped_why": "residence_duty: 문장에 '거주의무'가 없음"
+  },
+  {
+   "id": "2026910243",
+   "field": "residence",
+   "result": "검사기가 버림(틀린 값)",
+   "gold": {
+    "sido": "충북",
+    "sigungu": null,
+    "months": 0,
+    "since": null,
+    "others": []
+   },
+   "ai": {
+    "sido": "충북",
+    "sigungu": null,
+    "months": 0,
+    "since": null,
+    "others": [
+     "전국"
+    ]
+   },
+   "passed": null,
+   "dropped_why": "residence: 문장에 기타지역 전국 가 없음"
+  },
+  {
+   "id": "2026910243",
+   "field": "residence_duty",
+   "result": "검사기가 버림(정답 없음)",
+   "gold": null,
+   "ai": 0,
+   "passed": null,
+   "dropped_why": "residence_duty: 문장에 거주의무가 없다는 말이 없음(바로 붙어 있어야 함 — 표 머리와 값이 떨어진 글은 받지 않음)"
+  },
+  {
+   "id": "2026910234",
+   "field": "residence",
+   "result": "틀림",
+   "gold": {
+    "sido": null,
+    "sigungu": null,
+    "months": 0,
+    "since": null,
+    "others": [
+     "경남",
+     "부산",
+     "울산"
+    ]
+   },
+   "ai": {
+    "sido": "부산",
+    "sigungu": null,
+    "months": 0,
+    "since": null,
+    "others": [
+     "경남",
+     "울산"
+    ]
+   },
+   "passed": {
+    "sido": "부산",
+    "sigungu": null,
+    "months": 0,
+    "since": null,
+    "others": [
+     "경남",
+     "울산"
+    ]
+   },
+   "dropped_why": null
+  },
+  {
+   "id": "2026910234",
+   "field": "residence_duty",
+   "result": "검사기가 버림(정답 없음)",
+   "gold": null,
+   "ai": 0,
+   "passed": null,
+   "dropped_why": "residence_duty: 문장에 거주의무가 없다는 말이 없음(바로 붙어 있어야 함 — 표 머리와 값이 떨어진 글은 받지 않음)"
+  },
+  {
+   "id": "2026910220",
+   "field": "residence",
+   "result": "검사기가 버림(맞는 값)",
+   "gold": {
+    "sido": null,
+    "sigungu": null,
+    "months": 0,
+    "since": null,
+    "others": [
+     "전국"
+    ]
+   },
+   "ai": {
+    "sido": null,
+    "sigungu": null,
+    "months": 0,
+    "since": null,
+    "others": [
+     "전국"
+    ]
+   },
+   "passed": null,
+   "dropped_why": "residence: 해당지역 이름이 문장에 없음"
+  },
+  {
+   "id": "2026910220",
+   "field": "residence_duty",
+   "result": "검사기가 버림(정답 없음)",
+   "gold": null,
+   "ai": 0,
+   "passed": null,
+   "dropped_why": "residence_duty: 문장에 거주의무가 없다는 말이 없음(바로 붙어 있어야 함 — 표 머리와 값이 떨어진 글은 받지 않음)"
+  },
+  {
+   "id": "2026820013",
+   "field": "residence",
+   "result": "맞음",
+   "gold": {
+    "sido": null,
+    "sigungu": "안산시",
+    "months": 12,
+    "since": "2025-10-30",
+    "others": [
+     "경기",
+     "서울",
+     "인천"
+    ]
+   },
+   "ai": {
+    "sido": null,
+    "sigungu": "안산시",
+    "months": 12,
+    "since": "2025-10-30",
+    "others": [
+     "경기",
+     "서울",
+     "인천"
+    ]
+   },
+   "passed": {
+    "sido": null,
+    "sigungu": "안산시",
+    "months": 12,
+    "since": "2025-10-30",
+    "others": [
+     "경기",
+     "서울",
+     "인천"
+    ]
+   },
+   "dropped_why": null
+  },
+  {
+   "id": "2026820008",
+   "field": "residence",
+   "result": "맞음",
+   "gold": {
+    "sido": null,
+    "sigungu": "성남시",
+    "months": 24,
+    "since": "2024-08-10",
+    "others": [
+     "경기",
+     "서울",
+     "인천"
+    ]
+   },
+   "ai": {
+    "sido": null,
+    "sigungu": "성남시",
+    "months": 24,
+    "since": "2024-08-10",
+    "others": [
+     "경기",
+     "서울",
+     "인천"
+    ]
+   },
+   "passed": {
+    "sido": null,
+    "sigungu": "성남시",
+    "months": 24,
+    "since": "2024-08-10",
+    "others": [
+     "경기",
+     "서울",
+     "인천"
+    ]
+   },
+   "dropped_why": null
+  },
+  {
+   "id": "2026820008",
+   "field": "residence_duty",
+   "result": "맞음",
+   "gold": 3,
+   "ai": 3,
+   "passed": 3,
+   "dropped_why": null
+  },
+  {
+   "id": "2026000539",
+   "field": "residence",
+   "result": "맞음",
+   "gold": {
+    "sido": null,
+    "sigungu": "춘천시",
+    "months": 6,
+    "since": "2026-04-30",
+    "others": [
+     "강원"
+    ]
+   },
+   "ai": {
+    "sido": null,
+    "sigungu": "춘천시",
+    "months": 6,
+    "since": "2026-04-30",
+    "others": [
+     "강원"
+    ]
+   },
+   "passed": {
+    "sido": null,
+    "sigungu": "춘천시",
+    "months": 6,
+    "since": "2026-04-30",
+    "others": [
+     "강원"
+    ]
+   },
+   "dropped_why": null
+  },
+  {
+   "id": "2026000539",
+   "field": "residence_duty",
+   "result": "검사기가 버림(맞는 값)",
+   "gold": 0,
+   "ai": 0,
+   "passed": null,
+   "dropped_why": "residence_duty: 문장에 거주의무가 없다는 말이 없음(바로 붙어 있어야 함 — 표 머리와 값이 떨어진 글은 받지 않음)"
+  },
+  {
+   "id": "2026000528",
+   "field": "residence",
+   "result": "검사기가 버림(틀린 값)",
+   "gold": {
+    "sido": null,
+    "sigungu": "수원시",
+    "months": 24,
+    "since": "2024-10-30",
+    "others": [
+     "경기",
+     "서울",
+     "인천"
+    ]
+   },
+   "ai": {
+    "sido": "경기",
+    "sigungu": "수원시",
+    "months": 24,
+    "since": "2024-10-30",
+    "others": [
+     "경기",
+     "서울",
+     "인천"
+    ]
+   },
+   "passed": null,
+   "dropped_why": "residence: 근거 문장이 원문에 없음"
+  },
+  {
+   "id": "2026000528",
+   "field": "residence_duty",
+   "result": "검사기가 버림(정답 없음)",
+   "gold": null,
+   "ai": 5,
+   "passed": null,
+   "dropped_why": "residence_duty: 문장에 그 기간이 없음"
+  },
+  {
+   "id": "2026000527",
+   "field": "residence",
+   "result": "검사기가 버림(틀린 값)",
+   "gold": {
+    "sido": null,
+    "sigungu": "수원시",
+    "months": 24,
+    "since": "2024-10-30",
+    "others": [
+     "경기",
+     "서울",
+     "인천"
+    ]
+   },
+   "ai": {
+    "sido": "경기",
+    "sigungu": "수원시",
+    "months": 24,
+    "since": "2024-10-30",
+    "others": [
+     "경기",
+     "서울",
+     "인천"
+    ]
+   },
+   "passed": null,
+   "dropped_why": "residence: 근거 문장이 원문에 없음"
+  },
+  {
+   "id": "2026000527",
+   "field": "residence_duty",
+   "result": "정답에 없는 값",
+   "gold": null,
+   "ai": 5,
+   "passed": 5,
+   "dropped_why": null
+  },
+  {
+   "id": "2026000494",
+   "field": "residence",
+   "result": "맞음",
+   "gold": {
+    "sido": "대구",
+    "sigungu": null,
+    "months": 0,
+    "since": null,
+    "others": [
+     "경북"
+    ]
+   },
+   "ai": {
+    "sido": "대구",
+    "sigungu": null,
+    "months": 0,
+    "since": null,
+    "others": [
+     "경북"
+    ]
+   },
+   "passed": {
+    "sido": "대구",
+    "sigungu": null,
+    "months": 0,
+    "since": null,
+    "others": [
+     "경북"
+    ]
+   },
+   "dropped_why": null
+  },
+  {
+   "id": "2026000494",
+   "field": "residence_duty",
+   "result": "검사기가 버림(정답 없음)",
+   "gold": null,
+   "ai": 0,
+   "passed": null,
+   "dropped_why": "residence_duty: 문장에 '거주의무'가 없음"
+  }
+ ]
+}

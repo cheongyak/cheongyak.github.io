@@ -1,0 +1,36 @@
+{
+ "id": "2026000528",
+ "prompt_v": 1,
+ "model": "claude-sonnet-5-5",
+ "usage": {
+  "input_tokens": 134801,
+  "cache_creation_input_tokens": 0,
+  "cache_read_input_tokens": 0,
+  "cache_creation": {
+   "ephemeral_5m_input_tokens": 0,
+   "ephemeral_1h_input_tokens": 0
+  },
+  "output_tokens": 185,
+  "output_tokens_details": {
+   "thinking_tokens": 0
+  },
+  "service_tier": "standard",
+  "inference_geo": "global",
+  "speed": "standard"
+ },
+ "answer": {
+  "residence": {
+   "area": "경기도 수원시",
+   "months": 24,
+   "since": "2024-10-30",
+   "others": [
+    "서울",
+    "인천",
+    "경기"
+   ]
+  },
+  "residence_quote": "입주자모집공고일 현재 수원시 년 이상 계속 거주자 (2024.10.30. 이전부터 계속 거주 에게 를 우선공급 )",
+  "residence_duty_years": 5,
+  "residence_duty_quote": "전매제한이 년 적용되며 주택법 시행령 제 조의 에 의거 거주의무가 년 적용됩니다"
+ }
+}
