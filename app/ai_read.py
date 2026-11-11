@@ -319,20 +319,22 @@ def _month() -> str:
 
 
 def month_spent() -> float:
-    try:
-        return float(json.loads(SPEND.read_text(encoding="utf-8")).get(_month(), 0))
-    except Exception:
-        return 0.0
+    """이번 달 추정 사용액 = 저장해 둔 AI 답 파일(LH·분양)의 usd 합. 따로 세는 파일을 두면 LH 수집과 청약 수집이 서로 덮어쓴다
+    (2026-11-11: 청약 수집이 $1.89 로 적은 뒤 LH 수집이 $0.18 로 덮어씀) — 답 파일은 공고마다 하나라 덮어쓰이지 않는다."""
+    total, month = 0.0, _month()
+    for d in (DIR, SALE_DIR):
+        for f in d.glob("*.json") if d.exists() else []:
+            try:
+                j = json.loads(f.read_text(encoding="utf-8"))
+                if str(j.get("at", "")).startswith(month):
+                    total += float(j.get("usd") or 0)
+            except Exception:
+                pass
+    return round(total, 4)
 
 
 def _add_spent(usd: float) -> None:
-    try:
-        d = json.loads(SPEND.read_text(encoding="utf-8"))
-    except Exception:
-        d = {}
-    d[_month()] = round(float(d.get(_month(), 0)) + usd, 4)
-    DIR.mkdir(parents=True, exist_ok=True)
-    SPEND.write_text(json.dumps(d, ensure_ascii=False, indent=1) + "\n", encoding="utf-8")
+    """(예전: 사용액 파일에 더함) 지금은 답 파일의 usd 를 합쳐 세므로 할 일이 없다."""
 
 
 def month_cap() -> float:

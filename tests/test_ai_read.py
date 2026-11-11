@@ -220,3 +220,15 @@ def test_sale_excerpt_keeps_relevant_parts_and_is_short():
     assert len(ex) <= ai_read.SALE_MAX + 100 and Q_RES in ex and "거주의무기간 : 최초 입주가능일부터 3년" in ex
     assert all(part in text for part in ex.split("\n…\n"))
     assert ai_read.sale_excerpt("짧은 글") == "짧은 글"
+
+
+def test_month_spent_sums_answer_files(tmp_path, monkeypatch):
+    """한 달 사용액은 답 파일의 usd 합 — LH 수집과 청약 수집이 사용액 파일을 서로 덮어써 한도가 안 지켜지던 것(2026-11-11)."""
+    lh, sale = tmp_path / "lh", tmp_path / "sale"
+    lh.mkdir(); sale.mkdir()
+    monkeypatch.setattr(ai_read, "DIR", lh); monkeypatch.setattr(ai_read, "SALE_DIR", sale)
+    m = ai_read._month()
+    (lh / "a.json").write_text(json.dumps({"at": m + "-03 10:00", "usd": 0.1}), encoding="utf-8")
+    (sale / "b.json").write_text(json.dumps({"at": m + "-04 10:00", "usd": 0.3}), encoding="utf-8")
+    (sale / "old.json").write_text(json.dumps({"at": "2025-01-01 10:00", "usd": 9}), encoding="utf-8")
+    assert ai_read.month_spent() == 0.4
