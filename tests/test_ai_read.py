@@ -1,4 +1,5 @@
-"""AI 가 대신 읽기 (기능 ai_read, app/ai_read.py, 2026-11-11) — AI 를 실제로 부르지 않고(가짜 응답) 검사기와 채우기 규칙을 본다.
+"""AI 가 대신 읽기 (기능 ai_read, app/ai_read.py, 2026-11-11) — 검사기와 채우기 규칙을 본다.
+2026-11-12 부터 수집은 Claude API 를 부르지 않는다(키는 청약봇 전용): 세션이 공고문을 읽어 답 파일을 쓰고(save_answer·tools/ai_answer.py), 수집은 그 답만 쓴다.
 원칙: 근거 문장이 원문에 그대로 있고 값이 그 문장 안에 있는 것만, 규칙이 못 읽은 칸에만 채운다."""
 import json
 from pathlib import Path
@@ -12,15 +13,6 @@ Q_REGION = "입주자 모집공고일(2026.11.09.) 현재 주택건설지역(제
 Q_ACC = "주택청약종합저축(청약저축 포함)에 가입하여 6개월이 지난 자로서 매월 약정납입일에 월납입금을 6회 이상 납입한 자"
 GOOD = {"groups": [{"key": "일반", "homeless": "household", "homeless_quote": Q_REGION, "income_pct": None, "asset_manwon": None, "car_manwon": None}],
         "regions": ["충북"], "regions_quote": Q_REGION, "account": {"months": 6, "count": 6, "rank2_any": True}, "account_quote": Q_ACC, "local": None}
-
-
-def _post(answer, calls=None):
-    def f(key, body):
-        assert key == "k" and body["model"] == ai_read.MODEL and "<공고문>" in body["messages"][0]["content"]
-        if calls is not None:
-            calls.append(1)
-        return {"content": [{"type": "text", "text": "```json\n" + json.dumps(answer, ensure_ascii=False) + "\n```"}], "usage": {"input_tokens": 30000, "output_tokens": 500}}
-    return f
 
 
 def test_gaps():
@@ -72,45 +64,6 @@ def test_checker_values():
     assert c("local", {"name": "제천시", "sido": "서울", "sigun": "제천시"}, "모집공고일 현재 제천시에 거주하는 성년자인 무주택세대구성원", "충청북도")
 
 
-def test_fill_only_missing_and_caches(tmp_path):
-    strict = {"relaxed": False, "groups": [{"key": "일반", "name": "일반", "homeless": None, "income_pct": None, "asset_manwon": None, "car_manwon": None, "age_min": None, "age_max": None}],
-              "quotes": {}, "regions": ["경기"], "account": None}
-    calls = []
-    out, log = ai_read.fill("T1", strict, {"pypdf": JC}, "공공임대", "제천장락1", "충청북도", ai_read.Budget(2), post=_post(GOOD, calls), api_key="k", cache_dir=tmp_path)
-    assert out is not strict and strict["account"] is None                      # 원래 객체는 그대로(채우기 전 값으로 되돌릴 수 있게)
-    assert out["regions"] == ["경기"]                                           # 규칙이 읽은 값은 AI 값(충북)으로 바꾸지 않는다
-    assert out["account"] == {"months": 6, "count": 6, "rank2_any": True} and out["groups"][0]["homeless"] == "household"
-    assert sorted(out["ai"]["fields"]) == ["account", "일반.homeless"] and out["ai"]["model"] == ai_read.MODEL
-    assert (tmp_path / "T1.json").exists() and len(calls) == 1
-    out2, _ = ai_read.fill("T1", strict, {"pypdf": JC}, "공공임대", "제천장락1", "충청북도", ai_read.Budget(0), post=None, api_key="", cache_dir=tmp_path)
-    assert out2["ai"]["fields"] == out["ai"]["fields"]                         # 같은 공고문은 저장해 둔 답을 쓴다(다시 부르지 않음, 키 없어도 됨)
-
-
-def test_fill_skips_without_key_or_budget_or_gaps(tmp_path):
-    strict = {"groups": [], "quotes": {}}
-    out, log = ai_read.fill("T2", strict, {"pypdf": JC}, "공공임대", "", None, ai_read.Budget(2), api_key="", cache_dir=tmp_path)
-    assert out is strict and "ANTHROPIC_API_KEY 없음" in log[0]
-    out, log = ai_read.fill("T2", strict, {"pypdf": JC}, "공공임대", "", None, ai_read.Budget(0), post=_post(GOOD), api_key="k", cache_dir=tmp_path)
-    assert out is strict and "호출 수 한도" in log[0]
-    full = parse_lh_terms(JC, "공공임대", "", "충청북도")
-    out, log = ai_read.fill("T2", full, {"pypdf": JC}, "공공임대", "", "충청북도", ai_read.Budget(2), post=_post(GOOD), api_key="k", cache_dir=tmp_path)
-    assert out is full and log == []                                            # 규칙이 다 읽었으면 AI 를 부르지 않는다
-
-
-def test_fill_keeps_unread_when_ai_fails_checks(tmp_path):
-    strict = {"groups": [], "quotes": {}}
-    lie = {"groups": [{"key": "일반", "homeless": "household", "homeless_quote": "공고문에 없는 지어낸 문장입니다 무주택세대구성원"}], "regions": None, "account": None}
-    out, log = ai_read.fill("T3", strict, {"pypdf": JC}, "공공임대", "", "충청북도", ai_read.Budget(1), post=_post(lie), api_key="k", cache_dir=tmp_path)
-    assert out is strict and any("탈락" in x for x in log) and any("공고문 확인' 그대로" in x for x in log)
-
-
-def test_call_failure_does_not_leak_key(tmp_path):
-    def boom(key, body):
-        raise RuntimeError("claude 401 authentication_error: invalid x-api-key SECRETKEY")
-    out, log = ai_read.fill("T4", {"groups": [], "quotes": {}}, {"pypdf": JC}, "공공임대", "", None, ai_read.Budget(1), post=boom, api_key="SECRETKEY", cache_dir=tmp_path)
-    assert "호출 실패" in log[0] and "SECRETKEY" not in log[0]
-
-
 def test_checker_lessons_from_probe_20261111():
     """11-11 정확도 시험(정답 데이터 15건을 실제 Claude 로 읽힘)에서 검사기를 통과한 틀린 값 — 다시 통과하지 못하게."""
     c = ai_read._check_value
@@ -133,17 +86,6 @@ def test_checker_lessons_from_probe_20261111():
                                         {"key": "주거급여수급자", "income_pct": "excluded", "income_quote": "소득 배제"}]},
                             [text + " 청년 계층의 주택소유여부는 신청자 본인에 한하여 검증합니다."], None, "행복주택")
     assert [(g["key"], g["homeless"], g["income_pct"]) for g in t["groups"]] == [("청년", "self", None), ("주거급여수급자", "household", None)]   # 칸은 AI 값으로 채우지 않는다
-
-
-def test_fill_only_fields_the_screen_shows_unread(tmp_path):
-    """남원노암(2015122300021022) 첫 실제 호출: 못 읽은 칸(거주지역·소득·자산·자동차)은 AI 도 못 읽고, 묻지 않은 나이(age_min 19)만 채워 'AI 가 읽은 공고'가 됐다 — 못 읽은 칸이 아니면 채우지 않는다."""
-    strict = {"groups": [{"key": "일반", "name": "일반", "homeless": "household", "income_pct": None, "asset_manwon": None, "car_manwon": None, "age_min": None, "age_max": None}],
-              "quotes": {}, "regions": None, "account": {"months": 6, "count": 6, "rank2_any": True}}
-    text = JC + " 「민법」상 미성년자(만 19세 미만)는 공급 신청할 수 없습니다. "
-    ans = {"groups": [{"key": "일반", "homeless": "household", "homeless_quote": Q_REGION, "age_min": 19, "age_quote": "「민법」상 미성년자(만 19세 미만)는 공급 신청할 수 없습니다."}],
-           "regions": None, "account": {"months": 6, "count": 6, "rank2_any": True}, "account_quote": Q_ACC, "other_groups": ["장기종사자"]}
-    out, log = ai_read.fill("T5", strict, {"pypdf": text}, "공공임대", "", "전북특별자치도", ai_read.Budget(1), post=_post(ans), api_key="k", cache_dir=tmp_path)
-    assert out is strict and strict["groups"][0]["age_min"] is None and "unknown_groups" not in strict
 
 
 # ── 분양 (기능 ai_read_sale): 판정에 쓰지 않는 참고 내용 ─────────────────────────────────────────
@@ -177,20 +119,6 @@ def test_sale_hints_checker():
     assert "residence" not in ai_read.sale_hints(a, [t])[0]
 
 
-def test_sale_fill_only_gaps_and_caches(tmp_path):
-    calls = []
-    found = {"residence": {"area": {"name": "x"}}, "price_cap": True}                 # 거주 지역 요건은 규칙이 읽음 → 실거주 의무만 못 읽은 공고
-    ans = json.loads(json.dumps(SALE_GOOD))
-    ans.update(residence_duty_years=3, residence_duty_quote="거주의무기간 : 최초 입주가능일부터 3년")
-    text = UJB + " 거주의무기간 : 최초 입주가능일부터 3년 "
-    h, log = ai_read.sale_fill("S1", found, text, "시험단지", ai_read.Budget(1), post=_post(ans, calls), api_key="k", cache_dir=tmp_path)
-    assert list(h) == ["residence_duty"] and h["residence_duty"] == {"text": "거주의무 3년", "quote": "거주의무기간 : 최초 입주가능일부터 3년"}   # 규칙이 읽은 항목은 싣지 않는다
-    h2, _ = ai_read.sale_fill("S1", found, text, "시험단지", ai_read.Budget(0), api_key="", cache_dir=tmp_path)
-    assert h2 == h and len(calls) == 1
-    assert ai_read.sale_fill("S2", {"residence": {"a": 1}, "residence_duty": 0}, text, "", ai_read.Budget(1), post=_post(ans, calls), api_key="k", cache_dir=tmp_path) == ({}, [])
-    assert ai_read.sale_gaps({"residence": {"a": 1}, "duty_silent": True}) == []      # '공고문에 거주의무 말이 없음'으로 읽은 공고는 묻지 않는다
-
-
 def test_sale_hints_lessons_from_probe_20261111():
     """11-11 분양 정확도 시험 1차(12건): 무순위 공고 '부산광역시 및 울산광역시, 경상남도에 거주하는 …'을 해당지역 부산+기타지역으로 나눈 답이 통과했다."""
     q = "본 주택은 무순위(사후) 입주자모집공고일 현재 부산광역시 및 울산광역시, 경상남도에 거주하는 무주택세대구성원을 대상으로 공급합니다."
@@ -222,13 +150,67 @@ def test_sale_excerpt_keeps_relevant_parts_and_is_short():
     assert ai_read.sale_excerpt("짧은 글") == "짧은 글"
 
 
-def test_month_spent_sums_answer_files(tmp_path, monkeypatch):
-    """한 달 사용액은 답 파일의 usd 합 — LH 수집과 청약 수집이 사용액 파일을 서로 덮어써 한도가 안 지켜지던 것(2026-11-11)."""
-    lh, sale = tmp_path / "lh", tmp_path / "sale"
-    lh.mkdir(); sale.mkdir()
-    monkeypatch.setattr(ai_read, "DIR", lh); monkeypatch.setattr(ai_read, "SALE_DIR", sale)
-    m = ai_read._month()
-    (lh / "a.json").write_text(json.dumps({"at": m + "-03 10:00", "usd": 0.1}), encoding="utf-8")
-    (sale / "b.json").write_text(json.dumps({"at": m + "-04 10:00", "usd": 0.3}), encoding="utf-8")
-    (sale / "old.json").write_text(json.dumps({"at": "2025-01-01 10:00", "usd": 9}), encoding="utf-8")
-    assert ai_read.month_spent() == 0.4
+# ── 답 파일 (2026-11-12: 수집은 API 를 부르지 않는다 — 세션이 읽어 써 둔 답만 쓴다) ─────────────────────
+def test_module_has_no_network_or_key():
+    src = (ROOT / "app/ai_read.py").read_text(encoding="utf-8")
+    code = "\n".join(l for l in src.split("\n") if not l.lstrip().startswith("#"))
+    assert "httpx" not in code and "api.anthropic.com" not in code and "environ" not in code and "x-api-key" not in code
+    for wf in ("collect.yml", "lh-rental.yml"):
+        assert "ANTHROPIC_API_KEY" not in (ROOT / ".github/workflows" / wf).read_text(encoding="utf-8")   # 키는 청약봇 워크플로에만
+
+
+def test_fill_uses_only_saved_answer(tmp_path):
+    strict = {"relaxed": False, "groups": [{"key": "일반", "name": "일반", "homeless": None, "income_pct": None, "asset_manwon": None, "car_manwon": None, "age_min": None, "age_max": None}],
+              "quotes": {}, "regions": ["경기"], "account": None}
+    out, log = ai_read.fill("T1", strict, {"pypdf": JC}, "공공임대", "제천장락1", "충청북도", cache_dir=tmp_path)
+    assert out is strict and "답 파일 없음" in log[0] and "tools.ai_answer lh T1" in log[0]        # 답 파일이 없으면 그대로('공고문 확인') — 부르지 않는다
+    f = ai_read.save_answer("lh", "T1", GOOD, JC, cache_dir=tmp_path)
+    assert json.loads(f.read_text(encoding="utf-8"))["model"] == "claude-session"
+    out, log = ai_read.fill("T1", strict, {"pypdf": JC}, "공공임대", "제천장락1", "충청북도", cache_dir=tmp_path)
+    assert out is not strict and strict["account"] is None                      # 원래 객체는 그대로(채우기 전 값으로 되돌릴 수 있게)
+    assert out["regions"] == ["경기"]                                           # 규칙이 읽은 값은 답(충북)으로 바꾸지 않는다
+    assert out["account"] == {"months": 6, "count": 6, "rank2_any": True} and out["groups"][0]["homeless"] == "household"
+    assert sorted(out["ai"]["fields"]) == ["account", "일반.homeless"] and out["ai"]["model"] == "claude-session"
+    out2, log2 = ai_read.fill("T1", strict, {"pypdf": JC + " 정정공고로 글이 바뀜"}, "공공임대", "제천장락1", "충청북도", cache_dir=tmp_path)
+    assert out2 is strict and "답 파일 없음" in log2[0]                          # 공고문 글이 바뀌면(정정) 옛 답을 쓰지 않는다
+
+
+def test_fill_skips_when_rules_read_everything(tmp_path):
+    full = parse_lh_terms(JC, "공공임대", "", "충청북도")
+    ai_read.save_answer("lh", "T2", GOOD, JC, cache_dir=tmp_path)
+    assert ai_read.fill("T2", full, {"pypdf": JC}, "공공임대", "", "충청북도", cache_dir=tmp_path) == (full, [])
+
+
+def test_fill_keeps_unread_when_answer_fails_checks(tmp_path):
+    strict = {"groups": [], "quotes": {}}
+    lie = {"groups": [{"key": "일반", "homeless": "household", "homeless_quote": "공고문에 없는 지어낸 문장입니다 무주택세대구성원"}], "regions": None, "account": None}
+    ai_read.save_answer("lh", "T3", lie, JC, cache_dir=tmp_path)
+    out, log = ai_read.fill("T3", strict, {"pypdf": JC}, "공공임대", "", "충청북도", cache_dir=tmp_path)
+    assert out is strict and any("탈락" in x for x in log) and any("공고문 확인' 그대로" in x for x in log)
+
+
+def test_fill_only_fields_the_screen_shows_unread(tmp_path):
+    """남원노암(2015122300021022, 11-11): 못 읽은 칸(거주지역·소득·자산·자동차)은 못 채우고, 묻지 않은 나이(age_min 19)만 채워 'AI 가 읽은 공고'가 됐다 — 못 읽은 칸이 아니면 채우지 않는다."""
+    strict = {"groups": [{"key": "일반", "name": "일반", "homeless": "household", "income_pct": None, "asset_manwon": None, "car_manwon": None, "age_min": None, "age_max": None}],
+              "quotes": {}, "regions": None, "account": {"months": 6, "count": 6, "rank2_any": True}}
+    text = JC + " 「민법」상 미성년자(만 19세 미만)는 공급 신청할 수 없습니다. "
+    ans = {"groups": [{"key": "일반", "homeless": "household", "homeless_quote": Q_REGION, "age_min": 19, "age_quote": "「민법」상 미성년자(만 19세 미만)는 공급 신청할 수 없습니다."}],
+           "regions": None, "account": {"months": 6, "count": 6, "rank2_any": True}, "account_quote": Q_ACC, "other_groups": ["장기종사자"]}
+    ai_read.save_answer("lh", "T5", ans, text, cache_dir=tmp_path)
+    out, log = ai_read.fill("T5", strict, {"pypdf": text}, "공공임대", "", "전북특별자치도", cache_dir=tmp_path)
+    assert out is strict and strict["groups"][0]["age_min"] is None and "unknown_groups" not in strict
+
+
+def test_sale_fill_uses_only_saved_answer(tmp_path):
+    found = {"residence": {"area": {"name": "x"}}, "price_cap": True}                 # 거주 지역 요건은 규칙이 읽음 → 실거주 의무만 못 읽은 공고
+    ans = json.loads(json.dumps(SALE_GOOD))
+    ans.update(residence_duty_years=3, residence_duty_quote="거주의무기간 : 최초 입주가능일부터 3년")
+    text = UJB + " 거주의무기간 : 최초 입주가능일부터 3년 "
+    h, log = ai_read.sale_fill("S1", found, text, "시험단지", cache_dir=tmp_path)
+    assert h == {} and "답 파일 없음" in log[0] and "tools.ai_answer sale S1" in log[0]
+    ai_read.save_answer("sale", "S1", ans, text, cache_dir=tmp_path)
+    h, log = ai_read.sale_fill("S1", found, text, "시험단지", cache_dir=tmp_path)
+    assert list(h) == ["residence_duty"] and h["residence_duty"] == {"text": "거주의무 3년", "quote": "거주의무기간 : 최초 입주가능일부터 3년"}   # 규칙이 읽은 항목은 싣지 않는다
+    assert ai_read.sale_fill("S2", {"residence": {"a": 1}, "residence_duty": 0}, text, "", cache_dir=tmp_path) == ({}, [])
+    assert ai_read.sale_gaps({"residence": {"a": 1}, "duty_silent": True}) == []      # '공고문에 거주의무 말이 없음'으로 읽은 공고는 묻지 않는다
+

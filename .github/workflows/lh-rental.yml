@@ -27,7 +27,6 @@ jobs:
     timeout-minutes: 55   # 처음 한 번 기존 공고문을 다른 도구로 다시 읽는다 (기능 lh_pdf_multi)
     env:
       DATA_GO_KR_KEY: ${{ secrets.DATA_GO_KR_KEY }}
-      ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}   # 기능 ai_read: 규칙이 못 읽은 공고문만 AI 가 읽는다 (app/ai_read.py, 스위치가 꺼져 있으면 쓰지 않음)
       TZ: Asia/Seoul
     steps:
       - uses: actions/checkout@v4

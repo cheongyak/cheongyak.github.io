@@ -4,6 +4,17 @@
 2026-09-29 12:55 이전 항목은 규칙을 만들기 전 작업을 커밋 기록으로 정리한 것이라 백업 브랜치가 없어요.
 그 시점으로 되돌릴 때는 해당 커밋 번호로 `git revert` 를 써요.
 
+## 2026-11-12 06:22 · 공고문 AI 읽기: 수집이 API 를 부르지 않게 — 세션이 직접 읽어 답 파일로 (v1.87.2)
+- 요청: 운영자 'AI 호출은 네가 직접 열어 보는 걸로 해. 저 API 키는 청약봇만 호출하는 거야'
+- 내 잘못: 11-11 에 묻지 않고 청약봇 키(ANTHROPIC_API_KEY)를 공고문 AI 읽기에 씀 — 정확도 시험 4번 추정 $7.74 + 수집 호출 8건 추정 $1.89 + 시험이 잘못 부른 $0.01, 합계 약 $9.6
+- 변경: app/ai_read.py 에서 API 호출 코드(httpx·키 읽기·호출 수·한 달 한도·단가)를 모두 없앰 — fill·sale_fill 은 답 파일이 있을 때만 검사기에 통과시켜 쓰고, 없으면 '[공고문·AI 읽기] … 답 파일 없음. 세션이 공고문을 읽고 python -m tools.ai_answer … 으로 써 둘 것' 줄을 남김(화면은 '공고문 확인' 그대로). save_answer 추가. tools/ai_answer.py(새) — todo(답이 필요한 공고)·format(답 형식)·excerpt(분양 공고문 필요한 곳)·lh/sale(검사 결과를 보여 주고 답 파일을 씀). collect.yml·lh-rental.yml 에서 ANTHROPIC_API_KEY 삭제, ai-read-probe.yml·tools/qa/ai_read_probe.py 삭제, docs/config.json ai_read.month_usd 삭제. tests/conftest.py 는 답 폴더만 임시 폴더로. SKILL·AUTOFIX 에 '키는 청약봇 전용'·세션이 읽는 절차 적음
+- 그대로인 것: 검사기(근거 문장이 원문에 그대로·값이 문장 안·범위), 화면(LH '확인 필요'까지만+안내, 분양 참고 내용), 스위치 ai_read·ai_read_sale, 11-11 에 받은 답 파일 8개(남원노암·인제서화, 분양 6건)
+- 파일: app/ai_read.py, tools/ai_answer.py, tools/qa/lh_reparse.py, tools/qa/ai_read_probe.py(삭제), .github/workflows/ai-read-probe.yml(삭제), .github/workflows/collect.yml, .github/workflows/lh-rental.yml, docs/config.json, tests/conftest.py, tests/test_ai_read.py, FEATURES.md, docs/changelog.json, VERSIONS.md, HANDOFF.md, .claude/skills/cheongyakpass-ops/SKILL.md, .claude/skills/cheongyakpass-ops/AUTOFIX.md, WORK.md
+- 확인: tests/test_ai_read.py 14 통과(모듈에 네트워크·키 코드가 없고 두 워크플로에 키가 없는지 시험으로 고정, 답 파일 없으면 그대로·있으면 검사 뒤 채움·공고문 글이 바뀌면 옛 답 안 씀). pytest 474 통과·14 실패(작업 환경 대용 모듈 때문에 원래 실패하는 14건과 같은 수). tools.qa.lh_reparse 바뀐 공고 0(지금 화면 값 그대로). python -m tools.ai_answer todo → 답 파일이 없는 공고 0건. 남은 ANTHROPIC_API_KEY 사용처는 청약봇 워크플로(chat-worker.yml·chat-v2-quality-ai.yml)뿐
+- 기능: 없음(수정)
+- 버전: v1.87.2
+- 백업: backup/20261112-0622
+
 ## 2026-11-11 12:14 · AI 한 달 사용액을 답 파일에서 세기 (한도가 안 지켜질 수 있던 것 고침) · 검증 정상 확인
 - 요청: 운영자 '한 달 한도 $5 괜찮아' (올린 뒤 확인 중 발견)
 - 확인: 판정 검증 12:11(실행 42949358160) 성공 — docs/verify-status.json ok=true, flagged 없음, 배너 없음. 인제서화 2건 계층 고령자·65세·소득 50%로 실림. 분양 AI 참고 내용이 붙은 공고 2건(광교 공공분양 2026000528·고덕강일 3단지 2026000373, 주택형 23개)

@@ -15,6 +15,9 @@
 
 ## 1. 할 일 모으기
 - `python -m tools.qa.unread_queue` → `evidence/qa/unread-queue.json`. '할 일 없음'이고 열린 이슈도 없으면 4번(관찰 검사 승격)만 하고 끝낸다.
+- **규칙을 바로 더하기 어려운 공고는 답 파일로 먼저 싣는다 (2026-11-12, 수집은 AI 를 부르지 않음 — 네가 직접 읽는다)**: `python -m tools.ai_answer todo` 에 나오는 공고는 원문을 읽고
+  `python -m tools.ai_answer format lh|sale` 형식대로 값+근거 문장(원문 글자 그대로)을 JSON 으로 써서 `python -m tools.ai_answer lh|sale <번호> <답.json>` 으로 넣는다(검사 탈락 이유를 보여 준다 — 탈락하면 문장을 원문 그대로 다시 고른다. 값을 지어내지 않는다).
+  규칙·정답 데이터를 그 자리에서 더했으면 답 파일은 필요 없다.
 - 목록에 **'AI 가 읽음'·'느슨한 읽기'** 로 올라온 임대 공고(2026-11-11 기능 ai_read·loose_read)도 고칠 일이다 — 화면에는 값이 보이지만('확인 필요'까지만) 읽기 규칙이 못 읽은 공고다.
   원문을 직접 읽어 AI 가 채운 값(`docs/lh-rental.json` 그 공고 terms.ai.fields, 답 `evidence/lh/ai/<id>.json`)이 맞는지 보고, 2번 절차대로 읽기 규칙·정답 데이터를 더한다. 규칙이 읽게 되면 terms.ai 가 사라진다.
   **AI 값이 원문과 다르면** 보고 맨 앞에 적고, app/ai_read.py 검사기(_check_value)에 그 꼴을 거르는 검사와 시험(tests/test_ai_read.py)을 더한다. 실행 기록 `[공고문·AI 읽기·탈락]` 줄은 검사기가 버린 값(참고).
