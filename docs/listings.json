@@ -9339,21 +9339,21 @@
   "mc_quota": null,
   "youth": null,
   "resale": {
-   "months": 0,
    "base": null,
-   "registration": false,
-   "until_reg": false,
-   "passed": false,
+   "forbidden": false,
+   "months": 0,
    "none": true,
-   "forbidden": false
+   "passed": false,
+   "registration": false,
+   "until_reg": false
   },
   "score_ratio": {
    "rows": [
     {
+     "lottery": 60,
      "over": 60,
-     "upto": 85,
      "score": 40,
-     "lottery": 60
+     "upto": 85
     }
    ]
   },
@@ -9366,11 +9366,11 @@
     "sigungu": "경산시"
    },
    "months": 0,
-   "since": null,
    "others": [
     "대구",
     "경북"
-   ]
+   ],
+   "since": null
   },
   "special_units": {
    "newborn": 4,
@@ -9394,9 +9394,9 @@
   "price": 4.807,
   "ext": 0.0,
   "pay_ratio": {
+   "balance": 0.3,
    "contract": 0.05,
-   "mid": 0.65,
-   "balance": 0.3
+   "mid": 0.65
   },
   "contract_split": null,
   "contract_rate": 0.05,
@@ -9605,13 +9605,13 @@
   "residence_duty": 0,
   "duty_from": null,
   "notice_quotes": {
-   "분양가상한제": "…민간택지에서 공급하는 분양가상한제 미적용 민영주택으로, 당첨자로 선정되더라도 「주택공급에 관한 규칙」…",
-   "실거주 의무": "(1쪽 단지 주요정보 표) 전매제한 거주의무기간 분양가상한제 택지유형 없음 없음 없음 미적용 민간택지",
-   "전매 제한": "…거주자 비규제지역 재당첨제한 전매제한 거주의무기간 분양가상한제 택지유형 없음 없음 없음 미적용 민간택지 구분 입주자모집공고일 특별공급 접수일 일반공급 1순위…",
-   "재당첨 제한": "…관한 규칙」 제54조에 따 른 재당첨 제한을 적용받지 않으며, 기존 주택 당첨으로 인해 재당첨 제한 기간 내에 있는 분 및 그 세대에…",
    "1순위 가입기간": "…1순위 : 입주자저축에 가입하여 가입기간이 6개월이 경과하고 지역별·면적별 예치금액 이상 납입한 분 ※ 2순위 : 입주자저축에…",
    "계약금 비율": "…해당 세대수 공급금액 계약금 (5%) 중도금 (65%) 잔금 (30%) 대지비 건축비 계 계약 시 1회 (10%) 2회…",
+   "분양가상한제": "…민간택지에서 공급하는 분양가상한제 미적용 민영주택으로, 당첨자로 선정되더라도 「주택공급에 관한 규칙」…",
+   "전매 제한": "…거주자 비규제지역 재당첨제한 전매제한 거주의무기간 분양가상한제 택지유형 없음 없음 없음 미적용 민간택지 구분 입주자모집공고일 특별공급 접수일 일반공급 1순위…",
    "거주 지역 요건": "…2010 주택유형 해당지역 기타지역 규제지역여부 민영 입주자모집공고일 현재 경상북도 경산시 거주자 입주자모집공고일 현재 경상북도 및 대구광역시 거주자 비규제지역 재당첨제한 전매제한 거주의무기간 분…",
+   "실거주 의무": "(1쪽 단지 주요정보 표) 전매제한 거주의무기간 분양가상한제 택지유형 없음 없음 없음 미적용 민간택지",
+   "재당첨 제한": "…관한 규칙」 제54조에 따 른 재당첨 제한을 적용받지 않으며, 기존 주택 당첨으로 인해 재당첨 제한 기간 내에 있는 분 및 그 세대에…",
    "가점제·추첨제 비율": "…전용면적별 1순위 가점제/추첨제 적용비율 구분 가점제 추첨제 전용면적 60㎡ 초과 85㎡ 이하 40% 60% - 가점 산정기준(「주택공급에 관한 규칙」 별표1의2 나목) 가점항목 가점상한 가점구분 점수 가점구분 점수 ①무주택기간 32 만30세 미만 미혼자 또는 유주택자 0 8년 이상 ~ 9년 미만 18…"
   },
   "notice_conflicts": [],
@@ -9638,13 +9638,13 @@
   "url": "https://www.applyhome.co.kr/ai/aia/selectAPTLttotPblancDetail.do?houseManageNo=2026000554&pblancNo=2026000554",
   "notice_pdf": "https://static.applyhome.co.kr/ai/aia/getAtchmnfl.do?houseManageNo=2026000554&pblancNo=2026000554&atchmnflSeqNo=2013025&atchmnflSn=4",
   "from_notice": [
-   "분양가상한제",
-   "실거주 의무",
-   "전매 제한",
-   "재당첨 제한",
    "1순위 가입기간",
    "계약금 비율",
+   "분양가상한제",
+   "전매 제한",
    "거주 지역 요건",
+   "실거주 의무",
+   "재당첨 제한",
    "가점제·추첨제 비율"
   ],
   "checks": [
@@ -9744,21 +9744,21 @@
   "mc_quota": null,
   "youth": null,
   "resale": {
-   "months": 0,
    "base": null,
-   "registration": false,
-   "until_reg": false,
-   "passed": false,
+   "forbidden": false,
+   "months": 0,
    "none": true,
-   "forbidden": false
+   "passed": false,
+   "registration": false,
+   "until_reg": false
   },
   "score_ratio": {
    "rows": [
     {
+     "lottery": 60,
      "over": 60,
-     "upto": 85,
      "score": 40,
-     "lottery": 60
+     "upto": 85
     }
    ]
   },
@@ -9771,11 +9771,11 @@
     "sigungu": "경산시"
    },
    "months": 0,
-   "since": null,
    "others": [
     "대구",
     "경북"
-   ]
+   ],
+   "since": null
   },
   "special_units": {
    "newborn": 8,
@@ -9799,9 +9799,9 @@
   "price": 6.3363,
   "ext": 0.0,
   "pay_ratio": {
+   "balance": 0.3,
    "contract": 0.05,
-   "mid": 0.65,
-   "balance": 0.3
+   "mid": 0.65
   },
   "contract_split": null,
   "contract_rate": 0.05,
@@ -9974,13 +9974,13 @@
   "residence_duty": 0,
   "duty_from": null,
   "notice_quotes": {
-   "분양가상한제": "…민간택지에서 공급하는 분양가상한제 미적용 민영주택으로, 당첨자로 선정되더라도 「주택공급에 관한 규칙」…",
-   "실거주 의무": "(1쪽 단지 주요정보 표) 전매제한 거주의무기간 분양가상한제 택지유형 없음 없음 없음 미적용 민간택지",
-   "전매 제한": "…거주자 비규제지역 재당첨제한 전매제한 거주의무기간 분양가상한제 택지유형 없음 없음 없음 미적용 민간택지 구분 입주자모집공고일 특별공급 접수일 일반공급 1순위…",
-   "재당첨 제한": "…관한 규칙」 제54조에 따 른 재당첨 제한을 적용받지 않으며, 기존 주택 당첨으로 인해 재당첨 제한 기간 내에 있는 분 및 그 세대에…",
    "1순위 가입기간": "…1순위 : 입주자저축에 가입하여 가입기간이 6개월이 경과하고 지역별·면적별 예치금액 이상 납입한 분 ※ 2순위 : 입주자저축에…",
    "계약금 비율": "…해당 세대수 공급금액 계약금 (5%) 중도금 (65%) 잔금 (30%) 대지비 건축비 계 계약 시 1회 (10%) 2회…",
+   "분양가상한제": "…민간택지에서 공급하는 분양가상한제 미적용 민영주택으로, 당첨자로 선정되더라도 「주택공급에 관한 규칙」…",
+   "전매 제한": "…거주자 비규제지역 재당첨제한 전매제한 거주의무기간 분양가상한제 택지유형 없음 없음 없음 미적용 민간택지 구분 입주자모집공고일 특별공급 접수일 일반공급 1순위…",
    "거주 지역 요건": "…2010 주택유형 해당지역 기타지역 규제지역여부 민영 입주자모집공고일 현재 경상북도 경산시 거주자 입주자모집공고일 현재 경상북도 및 대구광역시 거주자 비규제지역 재당첨제한 전매제한 거주의무기간 분…",
+   "실거주 의무": "(1쪽 단지 주요정보 표) 전매제한 거주의무기간 분양가상한제 택지유형 없음 없음 없음 미적용 민간택지",
+   "재당첨 제한": "…관한 규칙」 제54조에 따 른 재당첨 제한을 적용받지 않으며, 기존 주택 당첨으로 인해 재당첨 제한 기간 내에 있는 분 및 그 세대에…",
    "가점제·추첨제 비율": "…전용면적별 1순위 가점제/추첨제 적용비율 구분 가점제 추첨제 전용면적 60㎡ 초과 85㎡ 이하 40% 60% - 가점 산정기준(「주택공급에 관한 규칙」 별표1의2 나목) 가점항목 가점상한 가점구분 점수 가점구분 점수 ①무주택기간 32 만30세 미만 미혼자 또는 유주택자 0 8년 이상 ~ 9년 미만 18…"
   },
   "notice_conflicts": [],
@@ -10007,13 +10007,13 @@
   "url": "https://www.applyhome.co.kr/ai/aia/selectAPTLttotPblancDetail.do?houseManageNo=2026000554&pblancNo=2026000554",
   "notice_pdf": "https://static.applyhome.co.kr/ai/aia/getAtchmnfl.do?houseManageNo=2026000554&pblancNo=2026000554&atchmnflSeqNo=2013025&atchmnflSn=4",
   "from_notice": [
-   "분양가상한제",
-   "실거주 의무",
-   "전매 제한",
-   "재당첨 제한",
    "1순위 가입기간",
    "계약금 비율",
+   "분양가상한제",
+   "전매 제한",
    "거주 지역 요건",
+   "실거주 의무",
+   "재당첨 제한",
    "가점제·추첨제 비율"
   ],
   "checks": [],
@@ -10111,21 +10111,21 @@
   "mc_quota": null,
   "youth": null,
   "resale": {
-   "months": 0,
    "base": null,
-   "registration": false,
-   "until_reg": false,
-   "passed": false,
+   "forbidden": false,
+   "months": 0,
    "none": true,
-   "forbidden": false
+   "passed": false,
+   "registration": false,
+   "until_reg": false
   },
   "score_ratio": {
    "rows": [
     {
+     "lottery": 60,
      "over": 60,
-     "upto": 85,
      "score": 40,
-     "lottery": 60
+     "upto": 85
     }
    ]
   },
@@ -10138,11 +10138,11 @@
     "sigungu": "경산시"
    },
    "months": 0,
-   "since": null,
    "others": [
     "대구",
     "경북"
-   ]
+   ],
+   "since": null
   },
   "special_units": {
    "newborn": 5,
@@ -10166,9 +10166,9 @@
   "price": 6.3811,
   "ext": 0.0,
   "pay_ratio": {
+   "balance": 0.3,
    "contract": 0.05,
-   "mid": 0.65,
-   "balance": 0.3
+   "mid": 0.65
   },
   "contract_split": null,
   "contract_rate": 0.05,
@@ -10341,13 +10341,13 @@
   "residence_duty": 0,
   "duty_from": null,
   "notice_quotes": {
-   "분양가상한제": "…민간택지에서 공급하는 분양가상한제 미적용 민영주택으로, 당첨자로 선정되더라도 「주택공급에 관한 규칙」…",
-   "실거주 의무": "(1쪽 단지 주요정보 표) 전매제한 거주의무기간 분양가상한제 택지유형 없음 없음 없음 미적용 민간택지",
-   "전매 제한": "…거주자 비규제지역 재당첨제한 전매제한 거주의무기간 분양가상한제 택지유형 없음 없음 없음 미적용 민간택지 구분 입주자모집공고일 특별공급 접수일 일반공급 1순위…",
-   "재당첨 제한": "…관한 규칙」 제54조에 따 른 재당첨 제한을 적용받지 않으며, 기존 주택 당첨으로 인해 재당첨 제한 기간 내에 있는 분 및 그 세대에…",
    "1순위 가입기간": "…1순위 : 입주자저축에 가입하여 가입기간이 6개월이 경과하고 지역별·면적별 예치금액 이상 납입한 분 ※ 2순위 : 입주자저축에…",
    "계약금 비율": "…해당 세대수 공급금액 계약금 (5%) 중도금 (65%) 잔금 (30%) 대지비 건축비 계 계약 시 1회 (10%) 2회…",
+   "분양가상한제": "…민간택지에서 공급하는 분양가상한제 미적용 민영주택으로, 당첨자로 선정되더라도 「주택공급에 관한 규칙」…",
+   "전매 제한": "…거주자 비규제지역 재당첨제한 전매제한 거주의무기간 분양가상한제 택지유형 없음 없음 없음 미적용 민간택지 구분 입주자모집공고일 특별공급 접수일 일반공급 1순위…",
    "거주 지역 요건": "…2010 주택유형 해당지역 기타지역 규제지역여부 민영 입주자모집공고일 현재 경상북도 경산시 거주자 입주자모집공고일 현재 경상북도 및 대구광역시 거주자 비규제지역 재당첨제한 전매제한 거주의무기간 분…",
+   "실거주 의무": "(1쪽 단지 주요정보 표) 전매제한 거주의무기간 분양가상한제 택지유형 없음 없음 없음 미적용 민간택지",
+   "재당첨 제한": "…관한 규칙」 제54조에 따 른 재당첨 제한을 적용받지 않으며, 기존 주택 당첨으로 인해 재당첨 제한 기간 내에 있는 분 및 그 세대에…",
    "가점제·추첨제 비율": "…전용면적별 1순위 가점제/추첨제 적용비율 구분 가점제 추첨제 전용면적 60㎡ 초과 85㎡ 이하 40% 60% - 가점 산정기준(「주택공급에 관한 규칙」 별표1의2 나목) 가점항목 가점상한 가점구분 점수 가점구분 점수 ①무주택기간 32 만30세 미만 미혼자 또는 유주택자 0 8년 이상 ~ 9년 미만 18…"
   },
   "notice_conflicts": [],
@@ -10374,13 +10374,13 @@
   "url": "https://www.applyhome.co.kr/ai/aia/selectAPTLttotPblancDetail.do?houseManageNo=2026000554&pblancNo=2026000554",
   "notice_pdf": "https://static.applyhome.co.kr/ai/aia/getAtchmnfl.do?houseManageNo=2026000554&pblancNo=2026000554&atchmnflSeqNo=2013025&atchmnflSn=4",
   "from_notice": [
-   "분양가상한제",
-   "실거주 의무",
-   "전매 제한",
-   "재당첨 제한",
    "1순위 가입기간",
    "계약금 비율",
+   "분양가상한제",
+   "전매 제한",
    "거주 지역 요건",
+   "실거주 의무",
+   "재당첨 제한",
    "가점제·추첨제 비율"
   ],
   "checks": [],
@@ -10478,21 +10478,21 @@
   "mc_quota": null,
   "youth": null,
   "resale": {
-   "months": 0,
    "base": null,
-   "registration": false,
-   "until_reg": false,
-   "passed": false,
+   "forbidden": false,
+   "months": 0,
    "none": true,
-   "forbidden": false
+   "passed": false,
+   "registration": false,
+   "until_reg": false
   },
   "score_ratio": {
    "rows": [
     {
+     "lottery": 60,
      "over": 60,
-     "upto": 85,
      "score": 40,
-     "lottery": 60
+     "upto": 85
     }
    ]
   },
@@ -10505,11 +10505,11 @@
     "sigungu": "경산시"
    },
    "months": 0,
-   "since": null,
    "others": [
     "대구",
     "경북"
-   ]
+   ],
+   "since": null
   },
   "special_units": {
    "newborn": 3,
@@ -10533,9 +10533,9 @@
   "price": 6.1063,
   "ext": 0.0,
   "pay_ratio": {
+   "balance": 0.3,
    "contract": 0.05,
-   "mid": 0.65,
-   "balance": 0.3
+   "mid": 0.65
   },
   "contract_split": null,
   "contract_rate": 0.05,
@@ -10708,13 +10708,13 @@
   "residence_duty": 0,
   "duty_from": null,
   "notice_quotes": {
-   "분양가상한제": "…민간택지에서 공급하는 분양가상한제 미적용 민영주택으로, 당첨자로 선정되더라도 「주택공급에 관한 규칙」…",
-   "실거주 의무": "(1쪽 단지 주요정보 표) 전매제한 거주의무기간 분양가상한제 택지유형 없음 없음 없음 미적용 민간택지",
-   "전매 제한": "…거주자 비규제지역 재당첨제한 전매제한 거주의무기간 분양가상한제 택지유형 없음 없음 없음 미적용 민간택지 구분 입주자모집공고일 특별공급 접수일 일반공급 1순위…",
-   "재당첨 제한": "…관한 규칙」 제54조에 따 른 재당첨 제한을 적용받지 않으며, 기존 주택 당첨으로 인해 재당첨 제한 기간 내에 있는 분 및 그 세대에…",
    "1순위 가입기간": "…1순위 : 입주자저축에 가입하여 가입기간이 6개월이 경과하고 지역별·면적별 예치금액 이상 납입한 분 ※ 2순위 : 입주자저축에…",
    "계약금 비율": "…해당 세대수 공급금액 계약금 (5%) 중도금 (65%) 잔금 (30%) 대지비 건축비 계 계약 시 1회 (10%) 2회…",
+   "분양가상한제": "…민간택지에서 공급하는 분양가상한제 미적용 민영주택으로, 당첨자로 선정되더라도 「주택공급에 관한 규칙」…",
+   "전매 제한": "…거주자 비규제지역 재당첨제한 전매제한 거주의무기간 분양가상한제 택지유형 없음 없음 없음 미적용 민간택지 구분 입주자모집공고일 특별공급 접수일 일반공급 1순위…",
    "거주 지역 요건": "…2010 주택유형 해당지역 기타지역 규제지역여부 민영 입주자모집공고일 현재 경상북도 경산시 거주자 입주자모집공고일 현재 경상북도 및 대구광역시 거주자 비규제지역 재당첨제한 전매제한 거주의무기간 분…",
+   "실거주 의무": "(1쪽 단지 주요정보 표) 전매제한 거주의무기간 분양가상한제 택지유형 없음 없음 없음 미적용 민간택지",
+   "재당첨 제한": "…관한 규칙」 제54조에 따 른 재당첨 제한을 적용받지 않으며, 기존 주택 당첨으로 인해 재당첨 제한 기간 내에 있는 분 및 그 세대에…",
    "가점제·추첨제 비율": "…전용면적별 1순위 가점제/추첨제 적용비율 구분 가점제 추첨제 전용면적 60㎡ 초과 85㎡ 이하 40% 60% - 가점 산정기준(「주택공급에 관한 규칙」 별표1의2 나목) 가점항목 가점상한 가점구분 점수 가점구분 점수 ①무주택기간 32 만30세 미만 미혼자 또는 유주택자 0 8년 이상 ~ 9년 미만 18…"
   },
   "notice_conflicts": [],
@@ -10741,13 +10741,13 @@
   "url": "https://www.applyhome.co.kr/ai/aia/selectAPTLttotPblancDetail.do?houseManageNo=2026000554&pblancNo=2026000554",
   "notice_pdf": "https://static.applyhome.co.kr/ai/aia/getAtchmnfl.do?houseManageNo=2026000554&pblancNo=2026000554&atchmnflSeqNo=2013025&atchmnflSn=4",
   "from_notice": [
-   "분양가상한제",
-   "실거주 의무",
-   "전매 제한",
-   "재당첨 제한",
    "1순위 가입기간",
    "계약금 비율",
+   "분양가상한제",
+   "전매 제한",
    "거주 지역 요건",
+   "실거주 의무",
+   "재당첨 제한",
    "가점제·추첨제 비율"
   ],
   "checks": [],
@@ -23078,40 +23078,40 @@
     "unit": "84A",
     "area": 84.9424,
     "sp": {
-     "newborn": {
-      "u": 45,
-      "req": 11,
-      "local": 7,
+     "elder": {
+      "local": 0,
+      "other": 0,
+      "req": 0,
       "sido": 0,
-      "other": 4
-     },
-     "newlywed": {
-      "u": 67,
-      "req": 19,
-      "local": 12,
-      "sido": 0,
-      "other": 7
+      "u": 13
      },
      "first": {
-      "u": 31,
-      "req": 13,
       "local": 10,
+      "other": 3,
+      "req": 13,
       "sido": 0,
-      "other": 3
+      "u": 31
      },
      "multichild": {
-      "u": 44,
-      "req": 5,
       "local": 4,
+      "other": 1,
+      "req": 5,
       "sido": 0,
-      "other": 1
+      "u": 44
      },
-     "elder": {
-      "u": 13,
-      "req": 0,
-      "local": 0,
+     "newborn": {
+      "local": 7,
+      "other": 4,
+      "req": 11,
       "sido": 0,
-      "other": 0
+      "u": 45
+     },
+     "newlywed": {
+      "local": 12,
+      "other": 7,
+      "req": 19,
+      "sido": 0,
+      "u": 67
      }
     }
    },
@@ -23650,40 +23650,40 @@
     "unit": "84D",
     "area": 84.9199,
     "sp": {
-     "newborn": {
-      "u": 12,
-      "req": 1,
+     "elder": {
       "local": 0,
+      "other": 0,
+      "req": 0,
       "sido": 0,
-      "other": 1
-     },
-     "newlywed": {
-      "u": 18,
-      "req": 2,
-      "local": 2,
-      "sido": 0,
-      "other": 0
+      "u": 3
      },
      "first": {
-      "u": 8,
-      "req": 2,
       "local": 2,
+      "other": 0,
+      "req": 2,
       "sido": 0,
-      "other": 0
+      "u": 8
      },
      "multichild": {
-      "u": 12,
-      "req": 0,
       "local": 0,
+      "other": 0,
+      "req": 0,
       "sido": 0,
-      "other": 0
+      "u": 12
      },
-     "elder": {
-      "u": 3,
-      "req": 0,
+     "newborn": {
       "local": 0,
+      "other": 1,
+      "req": 1,
       "sido": 0,
-      "other": 0
+      "u": 12
+     },
+     "newlywed": {
+      "local": 2,
+      "other": 0,
+      "req": 2,
+      "sido": 0,
+      "u": 18
      }
     }
    },
@@ -24222,40 +24222,40 @@
     "unit": "84D",
     "area": 84.9199,
     "sp": {
-     "newborn": {
-      "u": 12,
-      "req": 1,
+     "elder": {
       "local": 0,
+      "other": 0,
+      "req": 0,
       "sido": 0,
-      "other": 1
-     },
-     "newlywed": {
-      "u": 18,
-      "req": 2,
-      "local": 2,
-      "sido": 0,
-      "other": 0
+      "u": 3
      },
      "first": {
-      "u": 8,
-      "req": 2,
       "local": 2,
+      "other": 0,
+      "req": 2,
       "sido": 0,
-      "other": 0
+      "u": 8
      },
      "multichild": {
-      "u": 12,
-      "req": 0,
       "local": 0,
+      "other": 0,
+      "req": 0,
       "sido": 0,
-      "other": 0
+      "u": 12
      },
-     "elder": {
-      "u": 3,
-      "req": 0,
+     "newborn": {
       "local": 0,
+      "other": 1,
+      "req": 1,
       "sido": 0,
-      "other": 0
+      "u": 12
+     },
+     "newlywed": {
+      "local": 2,
+      "other": 0,
+      "req": 2,
+      "sido": 0,
+      "u": 18
      }
     }
    },
@@ -24773,40 +24773,40 @@
     "unit": "84B",
     "area": 84.9927,
     "sp": {
-     "newborn": {
-      "u": 20,
-      "req": 0,
+     "elder": {
       "local": 0,
+      "other": 0,
+      "req": 0,
       "sido": 0,
-      "other": 0
-     },
-     "newlywed": {
-      "u": 31,
-      "req": 3,
-      "local": 1,
-      "sido": 0,
-      "other": 2
+      "u": 6
      },
      "first": {
-      "u": 14,
-      "req": 6,
       "local": 4,
+      "other": 2,
+      "req": 6,
       "sido": 0,
-      "other": 2
+      "u": 14
      },
      "multichild": {
-      "u": 20,
+      "local": 0,
+      "other": 1,
       "req": 1,
-      "local": 0,
       "sido": 0,
-      "other": 1
+      "u": 20
      },
-     "elder": {
-      "u": 6,
-      "req": 0,
+     "newborn": {
       "local": 0,
+      "other": 0,
+      "req": 0,
       "sido": 0,
-      "other": 0
+      "u": 20
+     },
+     "newlywed": {
+      "local": 1,
+      "other": 2,
+      "req": 3,
+      "sido": 0,
+      "u": 31
      }
     }
    },
@@ -25324,40 +25324,40 @@
     "unit": "84B",
     "area": 84.9927,
     "sp": {
-     "newborn": {
-      "u": 20,
-      "req": 0,
+     "elder": {
       "local": 0,
+      "other": 0,
+      "req": 0,
       "sido": 0,
-      "other": 0
-     },
-     "newlywed": {
-      "u": 31,
-      "req": 3,
-      "local": 1,
-      "sido": 0,
-      "other": 2
+      "u": 6
      },
      "first": {
-      "u": 14,
-      "req": 6,
       "local": 4,
+      "other": 2,
+      "req": 6,
       "sido": 0,
-      "other": 2
+      "u": 14
      },
      "multichild": {
-      "u": 20,
+      "local": 0,
+      "other": 1,
       "req": 1,
-      "local": 0,
       "sido": 0,
-      "other": 1
+      "u": 20
      },
-     "elder": {
-      "u": 6,
-      "req": 0,
+     "newborn": {
       "local": 0,
+      "other": 0,
+      "req": 0,
       "sido": 0,
-      "other": 0
+      "u": 20
+     },
+     "newlywed": {
+      "local": 1,
+      "other": 2,
+      "req": 3,
+      "sido": 0,
+      "u": 31
      }
     }
    },
@@ -25868,40 +25868,40 @@
     "unit": "84B",
     "area": 84.9927,
     "sp": {
-     "newborn": {
-      "u": 20,
-      "req": 0,
+     "elder": {
       "local": 0,
+      "other": 0,
+      "req": 0,
       "sido": 0,
-      "other": 0
-     },
-     "newlywed": {
-      "u": 31,
-      "req": 3,
-      "local": 1,
-      "sido": 0,
-      "other": 2
+      "u": 6
      },
      "first": {
-      "u": 14,
-      "req": 6,
       "local": 4,
+      "other": 2,
+      "req": 6,
       "sido": 0,
-      "other": 2
+      "u": 14
      },
      "multichild": {
-      "u": 20,
+      "local": 0,
+      "other": 1,
       "req": 1,
-      "local": 0,
       "sido": 0,
-      "other": 1
+      "u": 20
      },
-     "elder": {
-      "u": 6,
-      "req": 0,
+     "newborn": {
       "local": 0,
+      "other": 0,
+      "req": 0,
       "sido": 0,
-      "other": 0
+      "u": 20
+     },
+     "newlywed": {
+      "local": 1,
+      "other": 2,
+      "req": 3,
+      "sido": 0,
+      "u": 31
      }
     }
    },
@@ -27380,19 +27380,19 @@
     "unit": "116",
     "area": 116.9134,
     "sp": {
-     "multichild": {
-      "u": 14,
-      "req": 1,
-      "local": 0,
-      "sido": 1,
-      "other": 0
-     },
      "elder": {
-      "u": 4,
-      "req": 0,
       "local": 0,
+      "other": 0,
+      "req": 0,
       "sido": 0,
-      "other": 0
+      "u": 4
+     },
+     "multichild": {
+      "local": 0,
+      "other": 0,
+      "req": 1,
+      "sido": 1,
+      "u": 14
      }
     }
    },
@@ -27853,19 +27853,19 @@
     "unit": "116",
     "area": 116.9134,
     "sp": {
-     "multichild": {
-      "u": 14,
-      "req": 1,
-      "local": 0,
-      "sido": 1,
-      "other": 0
-     },
      "elder": {
-      "u": 4,
-      "req": 0,
       "local": 0,
+      "other": 0,
+      "req": 0,
       "sido": 0,
-      "other": 0
+      "u": 4
+     },
+     "multichild": {
+      "local": 0,
+      "other": 0,
+      "req": 1,
+      "sido": 1,
+      "u": 14
      }
     }
    },
@@ -33137,40 +33137,40 @@
     "unit": "84A",
     "area": 84.9343,
     "sp": {
-     "newborn": {
-      "u": 31,
-      "req": 14,
-      "local": 7,
-      "sido": 5,
-      "other": 2
-     },
-     "newlywed": {
-      "u": 46,
-      "req": 9,
-      "local": 2,
-      "sido": 7,
-      "other": 0
+     "elder": {
+      "local": 0,
+      "other": 0,
+      "req": 0,
+      "sido": 0,
+      "u": 9
      },
      "first": {
-      "u": 52,
-      "req": 8,
       "local": 3,
+      "other": 0,
+      "req": 8,
       "sido": 5,
-      "other": 0
+      "u": 52
      },
      "multichild": {
-      "u": 31,
-      "req": 1,
       "local": 1,
+      "other": 0,
+      "req": 1,
       "sido": 0,
-      "other": 0
+      "u": 31
      },
-     "elder": {
-      "u": 9,
-      "req": 0,
-      "local": 0,
-      "sido": 0,
-      "other": 0
+     "newborn": {
+      "local": 7,
+      "other": 2,
+      "req": 14,
+      "sido": 5,
+      "u": 31
+     },
+     "newlywed": {
+      "local": 2,
+      "other": 0,
+      "req": 9,
+      "sido": 7,
+      "u": 46
      }
     }
    },
@@ -33746,40 +33746,40 @@
     "unit": "84A",
     "area": 84.9343,
     "sp": {
-     "newborn": {
-      "u": 31,
-      "req": 14,
-      "local": 7,
-      "sido": 5,
-      "other": 2
-     },
-     "newlywed": {
-      "u": 46,
-      "req": 9,
-      "local": 2,
-      "sido": 7,
-      "other": 0
+     "elder": {
+      "local": 0,
+      "other": 0,
+      "req": 0,
+      "sido": 0,
+      "u": 9
      },
      "first": {
-      "u": 52,
-      "req": 8,
       "local": 3,
+      "other": 0,
+      "req": 8,
       "sido": 5,
-      "other": 0
+      "u": 52
      },
      "multichild": {
-      "u": 31,
-      "req": 1,
       "local": 1,
+      "other": 0,
+      "req": 1,
       "sido": 0,
-      "other": 0
+      "u": 31
      },
-     "elder": {
-      "u": 9,
-      "req": 0,
-      "local": 0,
-      "sido": 0,
-      "other": 0
+     "newborn": {
+      "local": 7,
+      "other": 2,
+      "req": 14,
+      "sido": 5,
+      "u": 31
+     },
+     "newlywed": {
+      "local": 2,
+      "other": 0,
+      "req": 9,
+      "sido": 7,
+      "u": 46
      }
     }
    },
@@ -34355,40 +34355,40 @@
     "unit": "84A",
     "area": 84.9343,
     "sp": {
-     "newborn": {
-      "u": 31,
-      "req": 14,
-      "local": 7,
-      "sido": 5,
-      "other": 2
-     },
-     "newlywed": {
-      "u": 46,
-      "req": 9,
-      "local": 2,
-      "sido": 7,
-      "other": 0
+     "elder": {
+      "local": 0,
+      "other": 0,
+      "req": 0,
+      "sido": 0,
+      "u": 9
      },
      "first": {
-      "u": 52,
-      "req": 8,
       "local": 3,
+      "other": 0,
+      "req": 8,
       "sido": 5,
-      "other": 0
+      "u": 52
      },
      "multichild": {
-      "u": 31,
-      "req": 1,
       "local": 1,
+      "other": 0,
+      "req": 1,
       "sido": 0,
-      "other": 0
+      "u": 31
      },
-     "elder": {
-      "u": 9,
-      "req": 0,
-      "local": 0,
-      "sido": 0,
-      "other": 0
+     "newborn": {
+      "local": 7,
+      "other": 2,
+      "req": 14,
+      "sido": 5,
+      "u": 31
+     },
+     "newlywed": {
+      "local": 2,
+      "other": 0,
+      "req": 9,
+      "sido": 7,
+      "u": 46
      }
     }
    },
@@ -34964,40 +34964,40 @@
     "unit": "84B",
     "area": 84.9075,
     "sp": {
-     "newborn": {
-      "u": 6,
-      "req": 1,
+     "elder": {
       "local": 0,
-      "sido": 0,
-      "other": 1
-     },
-     "newlywed": {
-      "u": 9,
+      "other": 0,
       "req": 0,
-      "local": 0,
       "sido": 0,
-      "other": 0
+      "u": 2
      },
      "first": {
-      "u": 11,
-      "req": 0,
       "local": 0,
+      "other": 0,
+      "req": 0,
       "sido": 0,
-      "other": 0
+      "u": 11
      },
      "multichild": {
-      "u": 6,
-      "req": 0,
       "local": 0,
+      "other": 0,
+      "req": 0,
       "sido": 0,
-      "other": 0
+      "u": 6
      },
-     "elder": {
-      "u": 2,
-      "req": 0,
+     "newborn": {
       "local": 0,
+      "other": 1,
+      "req": 1,
       "sido": 0,
-      "other": 0
+      "u": 6
+     },
+     "newlywed": {
+      "local": 0,
+      "other": 0,
+      "req": 0,
+      "sido": 0,
+      "u": 9
      }
     }
    },
@@ -43659,40 +43659,40 @@
     "unit": "84B",
     "area": 84.9236,
     "sp": {
-     "newborn": {
-      "u": 4,
-      "req": 2,
+     "elder": {
       "local": 0,
-      "sido": 2,
-      "other": 0
-     },
-     "newlywed": {
-      "u": 6,
+      "other": 0,
       "req": 0,
-      "local": 0,
       "sido": 0,
-      "other": 0
+      "u": 1
      },
      "first": {
-      "u": 7,
-      "req": 0,
       "local": 0,
+      "other": 0,
+      "req": 0,
       "sido": 0,
-      "other": 0
+      "u": 7
      },
      "multichild": {
-      "u": 4,
-      "req": 0,
       "local": 0,
+      "other": 0,
+      "req": 0,
       "sido": 0,
-      "other": 0
+      "u": 4
      },
-     "elder": {
-      "u": 1,
-      "req": 0,
+     "newborn": {
       "local": 0,
+      "other": 0,
+      "req": 2,
+      "sido": 2,
+      "u": 4
+     },
+     "newlywed": {
+      "local": 0,
+      "other": 0,
+      "req": 0,
       "sido": 0,
-      "other": 0
+      "u": 6
      }
     }
    },
@@ -92729,25 +92729,25 @@
   "mc_quota": null,
   "youth": null,
   "resale": {
-   "months": 36,
    "base": "2022-11-23",
-   "registration": false,
-   "until_reg": false,
-   "passed": true,
+   "forbidden": false,
+   "months": 36,
    "none": false,
-   "forbidden": false
+   "passed": true,
+   "registration": false,
+   "until_reg": false
   },
   "score_ratio": null,
   "pub_limits": null,
   "schedule": null,
   "residence": {
    "area": null,
+   "equal": true,
    "months": 0,
-   "since": null,
    "others": [
     "전국"
    ],
-   "equal": true
+   "since": null
   },
   "special_units": null,
   "notice": "2026-11-11",
@@ -92760,9 +92760,9 @@
   "price": 5.06,
   "ext": 0.0,
   "pay_ratio": {
+   "balance": 0.9,
    "contract": 0.1,
-   "mid": 0.0,
-   "balance": 0.9
+   "mid": 0.0
   },
   "contract_split": null,
   "contract_rate": 0.1,
@@ -92971,14 +92971,14 @@
   "residence_duty": 3,
   "duty_from": "2025-03-21",
   "notice_quotes": {
-   "세대주 요건": "…민영 비규제지역 무순위(사후) 입주자모집공고일 현재 전국에 거주하는 무주택세대구성원 중 성년자 재당첨제한 전매제한 거주의무기간 분양가상한제 없음 최초…",
-   "분양가상한제": "(1쪽 단지 주요정보 표) 재당첨제한 전매제한 거주의무기간 분양가상한제 없음 최초 당첨자발표일(2022.11.23.)로부터 3년간 적용되어 현재 전매제한기간 도과 3년 적용 구분",
-   "실거주 의무": "…하고, 입주한 때로부터 3년간 거주의무기간이 적용됩니다. 거주의무를 이행하지 않은 경우에는…",
    "실거주 의무 기준일": "…제57조의2 의거하여 계약자는 본 아파트의 최초 입주가능일(2025.03.21.)로부터 3년 이내에 입주하여야 하고, 실입주일로부터 3년 동안 해당 주택에…",
-   "전매 제한": "…바랍니다. ■ 본 아파트의 전매제한은 최초 입주자모집공고의 당첨자발표일(2022.11.23.)로부터 3년간 적용되어, 현재 전매제한기간이 도과하였습니다. ■ 주택법 제57조의2…",
-   "재당첨 제한": "…무주택세대구성원 중 성년자 재당첨제한 전매제한 거주의무기간 분양가상한제 없음 최초 당첨자발표일(2022.11.23.)로부터 3년간…",
+   "세대주 요건": "…민영 비규제지역 무순위(사후) 입주자모집공고일 현재 전국에 거주하는 무주택세대구성원 중 성년자 재당첨제한 전매제한 거주의무기간 분양가상한제 없음 최초…",
    "계약금 비율": "…세대수 층 구분 공급금액 계약금(10%) 잔 금(90%) 대지비 건축비 계 계약시…",
-   "거주 지역 요건": "…(사후) 입주자모집공고일 현재 전국에 거주하는 무주택세대구성원 중 성년자 재당첨제한 전매…"
+   "분양가상한제": "(1쪽 단지 주요정보 표) 재당첨제한 전매제한 거주의무기간 분양가상한제 없음 최초 당첨자발표일(2022.11.23.)로부터 3년간 적용되어 현재 전매제한기간 도과 3년 적용 구분",
+   "전매 제한": "…바랍니다. ■ 본 아파트의 전매제한은 최초 입주자모집공고의 당첨자발표일(2022.11.23.)로부터 3년간 적용되어, 현재 전매제한기간이 도과하였습니다. ■ 주택법 제57조의2…",
+   "거주 지역 요건": "…(사후) 입주자모집공고일 현재 전국에 거주하는 무주택세대구성원 중 성년자 재당첨제한 전매…",
+   "실거주 의무": "…하고, 입주한 때로부터 3년간 거주의무기간이 적용됩니다. 거주의무를 이행하지 않은 경우에는…",
+   "재당첨 제한": "…무주택세대구성원 중 성년자 재당첨제한 전매제한 거주의무기간 분양가상한제 없음 최초 당첨자발표일(2022.11.23.)로부터 3년간…"
   },
   "notice_conflicts": [],
   "notice_ai": null,
@@ -93005,12 +93005,12 @@
   "notice_pdf": "https://static.applyhome.co.kr/ai/aia/getAtchmnfl.do?houseManageNo=2026910297&pblancNo=2026910297&atchmnflSeqNo=2021002&atchmnflSn=3",
   "from_notice": [
    "세대주 요건",
-   "분양가상한제",
-   "실거주 의무",
-   "전매 제한",
-   "재당첨 제한",
    "계약금 비율",
-   "거주 지역 요건"
+   "분양가상한제",
+   "전매 제한",
+   "거주 지역 요건",
+   "실거주 의무",
+   "재당첨 제한"
   ],
   "checks": [],
   "geo": {
@@ -93026,23 +93026,6 @@
   "competition": null,
   "area_comps": [
    {
-    "name": "평택 고덕 우미 린 더 프리미어",
-    "notice": "2026-10-30",
-    "apply": "2026-11-09",
-    "url": "https://www.applyhome.co.kr/ai/aia/selectAPTLttotPblancDetail.do?houseManageNo=2026000515&pblancNo=2026000515",
-    "category": "general",
-    "unit": "84A",
-    "area": 84.9343,
-    "rank": "1",
-    "reside": "해당지역",
-    "supply": 277.0,
-    "req": 66.0,
-    "rate": "(△17)",
-    "rate_num": null,
-    "low": null,
-    "avg": null
-   },
-   {
     "name": "한화포레나 지제역",
     "notice": "2026-10-29",
     "apply": "2026-11-09",
@@ -93055,6 +93038,23 @@
     "supply": 403.0,
     "req": 139.0,
     "rate": "(△264)",
+    "rate_num": null,
+    "low": null,
+    "avg": null
+   },
+   {
+    "name": "평택 고덕 우미 린 더 프리미어",
+    "notice": "2026-10-30",
+    "apply": "2026-11-09",
+    "url": "https://www.applyhome.co.kr/ai/aia/selectAPTLttotPblancDetail.do?houseManageNo=2026000515&pblancNo=2026000515",
+    "category": "general",
+    "unit": "84A",
+    "area": 84.9343,
+    "rank": "1",
+    "reside": "해당지역",
+    "supply": 277.0,
+    "req": 66.0,
+    "rate": "(△17)",
     "rate_num": null,
     "low": null,
     "avg": null
@@ -93135,25 +93135,25 @@
   "mc_quota": null,
   "youth": null,
   "resale": {
-   "months": 36,
    "base": "2022-11-23",
-   "registration": false,
-   "until_reg": false,
-   "passed": true,
+   "forbidden": false,
+   "months": 36,
    "none": false,
-   "forbidden": false
+   "passed": true,
+   "registration": false,
+   "until_reg": false
   },
   "score_ratio": null,
   "pub_limits": null,
   "schedule": null,
   "residence": {
    "area": null,
+   "equal": true,
    "months": 0,
-   "since": null,
    "others": [
     "전국"
    ],
-   "equal": true
+   "since": null
   },
   "special_units": null,
   "notice": "2026-11-11",
@@ -93166,9 +93166,9 @@
   "price": 5.06,
   "ext": 0.0,
   "pay_ratio": {
+   "balance": 0.9,
    "contract": 0.1,
-   "mid": 0.0,
-   "balance": 0.9
+   "mid": 0.0
   },
   "contract_split": null,
   "contract_rate": 0.1,
@@ -93377,14 +93377,14 @@
   "residence_duty": 3,
   "duty_from": "2025-03-21",
   "notice_quotes": {
-   "세대주 요건": "…민영 비규제지역 무순위(사후) 입주자모집공고일 현재 전국에 거주하는 무주택세대구성원 중 성년자 재당첨제한 전매제한 거주의무기간 분양가상한제 없음 최초…",
-   "분양가상한제": "(1쪽 단지 주요정보 표) 재당첨제한 전매제한 거주의무기간 분양가상한제 없음 최초 당첨자발표일(2022.11.23.)로부터 3년간 적용되어 현재 전매제한기간 도과 3년 적용 구분",
-   "실거주 의무": "…하고, 입주한 때로부터 3년간 거주의무기간이 적용됩니다. 거주의무를 이행하지 않은 경우에는…",
    "실거주 의무 기준일": "…제57조의2 의거하여 계약자는 본 아파트의 최초 입주가능일(2025.03.21.)로부터 3년 이내에 입주하여야 하고, 실입주일로부터 3년 동안 해당 주택에…",
-   "전매 제한": "…바랍니다. ■ 본 아파트의 전매제한은 최초 입주자모집공고의 당첨자발표일(2022.11.23.)로부터 3년간 적용되어, 현재 전매제한기간이 도과하였습니다. ■ 주택법 제57조의2…",
-   "재당첨 제한": "…무주택세대구성원 중 성년자 재당첨제한 전매제한 거주의무기간 분양가상한제 없음 최초 당첨자발표일(2022.11.23.)로부터 3년간…",
+   "세대주 요건": "…민영 비규제지역 무순위(사후) 입주자모집공고일 현재 전국에 거주하는 무주택세대구성원 중 성년자 재당첨제한 전매제한 거주의무기간 분양가상한제 없음 최초…",
    "계약금 비율": "…세대수 층 구분 공급금액 계약금(10%) 잔 금(90%) 대지비 건축비 계 계약시…",
-   "거주 지역 요건": "…(사후) 입주자모집공고일 현재 전국에 거주하는 무주택세대구성원 중 성년자 재당첨제한 전매…"
+   "분양가상한제": "(1쪽 단지 주요정보 표) 재당첨제한 전매제한 거주의무기간 분양가상한제 없음 최초 당첨자발표일(2022.11.23.)로부터 3년간 적용되어 현재 전매제한기간 도과 3년 적용 구분",
+   "전매 제한": "…바랍니다. ■ 본 아파트의 전매제한은 최초 입주자모집공고의 당첨자발표일(2022.11.23.)로부터 3년간 적용되어, 현재 전매제한기간이 도과하였습니다. ■ 주택법 제57조의2…",
+   "거주 지역 요건": "…(사후) 입주자모집공고일 현재 전국에 거주하는 무주택세대구성원 중 성년자 재당첨제한 전매…",
+   "실거주 의무": "…하고, 입주한 때로부터 3년간 거주의무기간이 적용됩니다. 거주의무를 이행하지 않은 경우에는…",
+   "재당첨 제한": "…무주택세대구성원 중 성년자 재당첨제한 전매제한 거주의무기간 분양가상한제 없음 최초 당첨자발표일(2022.11.23.)로부터 3년간…"
   },
   "notice_conflicts": [],
   "notice_ai": null,
@@ -93411,12 +93411,12 @@
   "notice_pdf": "https://static.applyhome.co.kr/ai/aia/getAtchmnfl.do?houseManageNo=2026910297&pblancNo=2026910297&atchmnflSeqNo=2021002&atchmnflSn=3",
   "from_notice": [
    "세대주 요건",
-   "분양가상한제",
-   "실거주 의무",
-   "전매 제한",
-   "재당첨 제한",
    "계약금 비율",
-   "거주 지역 요건"
+   "분양가상한제",
+   "전매 제한",
+   "거주 지역 요건",
+   "실거주 의무",
+   "재당첨 제한"
   ],
   "checks": [],
   "geo": {
@@ -93432,23 +93432,6 @@
   "competition": null,
   "area_comps": [
    {
-    "name": "평택 고덕 우미 린 더 프리미어",
-    "notice": "2026-10-30",
-    "apply": "2026-11-09",
-    "url": "https://www.applyhome.co.kr/ai/aia/selectAPTLttotPblancDetail.do?houseManageNo=2026000515&pblancNo=2026000515",
-    "category": "general",
-    "unit": "84A",
-    "area": 84.9343,
-    "rank": "1",
-    "reside": "해당지역",
-    "supply": 277.0,
-    "req": 66.0,
-    "rate": "(△17)",
-    "rate_num": null,
-    "low": null,
-    "avg": null
-   },
-   {
     "name": "한화포레나 지제역",
     "notice": "2026-10-29",
     "apply": "2026-11-09",
@@ -93461,6 +93444,23 @@
     "supply": 157.0,
     "req": 19.0,
     "rate": "(△138)",
+    "rate_num": null,
+    "low": null,
+    "avg": null
+   },
+   {
+    "name": "평택 고덕 우미 린 더 프리미어",
+    "notice": "2026-10-30",
+    "apply": "2026-11-09",
+    "url": "https://www.applyhome.co.kr/ai/aia/selectAPTLttotPblancDetail.do?houseManageNo=2026000515&pblancNo=2026000515",
+    "category": "general",
+    "unit": "84A",
+    "area": 84.9343,
+    "rank": "1",
+    "reside": "해당지역",
+    "supply": 277.0,
+    "req": 66.0,
+    "rate": "(△17)",
     "rate_num": null,
     "low": null,
     "avg": null
@@ -93541,25 +93541,25 @@
   "mc_quota": null,
   "youth": null,
   "resale": {
-   "months": 12,
    "base": "2023-11-08",
-   "registration": false,
-   "until_reg": false,
-   "passed": true,
+   "forbidden": false,
+   "months": 12,
    "none": false,
-   "forbidden": false
+   "passed": true,
+   "registration": false,
+   "until_reg": false
   },
   "score_ratio": null,
   "pub_limits": null,
   "schedule": null,
   "residence": {
    "area": null,
+   "equal": true,
    "months": 0,
-   "since": null,
    "others": [
     "전국"
    ],
-   "equal": true
+   "since": null
   },
   "special_units": null,
   "notice": "2026-11-11",
@@ -93572,9 +93572,9 @@
   "price": 4.929,
   "ext": 0.0,
   "pay_ratio": {
+   "balance": 0.9,
    "contract": 0.1,
-   "mid": 0.0,
-   "balance": 0.9
+   "mid": 0.0
   },
   "contract_split": null,
   "contract_rate": 0.1,
@@ -93754,12 +93754,12 @@
   "duty_from": null,
   "notice_quotes": {
    "세대주 요건": "…민영 비규제지역 무순위(사후) 입주자모집공고일 현재 전국에 거주하는 무주택세대구성원인 성년자 재당첨제한 전매제한 거주의무기간 분양가상한제 없음 최초…",
-   "분양가상한제": "(1쪽 단지 주요정보 표) 재당첨제한 전매제한 거주의무기간 분양가상한제 없음 최초 당첨자 발표일(2023.11.08.)로부터 1년간 적용되어 현재 전매제한기간 도과 없음 미적용 구분",
-   "실거주 의무": "(1쪽 단지 주요정보 표) 재당첨제한 전매제한 거주의무기간 분양가상한제 없음 최초 당첨자 발표일(2023.11.08.)로부터 1년간 적용되어 현재 전매제한기간 도과 없음 미적용 구분",
-   "전매 제한": "…바랍니다. ■ 본 아파트의 전매제한은 최초 입주자모집공고의 당첨자발표일(2023.11.08.)로부터 1년간 적용되어 현재 전매제한기간이 도과되었습니다. - 3 - 3 공급대상 및 공급금액 ■ 공급위치 : 경기도…",
-   "재당첨 제한": "…무주택세대구성원인 성년자 재당첨제한 전매제한 거주의무기간 분양가상한제 없음 최초 당첨자 발표일(2023.11.08.)로부터 1년간…",
    "계약금 비율": "…(타입) 동 호 분양금액 계약금(10%) 잔금(90%) 대지비 건축비 부가세 계 계약시 입주지정기간…",
-   "거주 지역 요건": "…(사후) 입주자모집공고일 현재 전국에 거주하는 무주택세대구성원인 성년자 재당첨제한 전매제…"
+   "분양가상한제": "(1쪽 단지 주요정보 표) 재당첨제한 전매제한 거주의무기간 분양가상한제 없음 최초 당첨자 발표일(2023.11.08.)로부터 1년간 적용되어 현재 전매제한기간 도과 없음 미적용 구분",
+   "전매 제한": "…바랍니다. ■ 본 아파트의 전매제한은 최초 입주자모집공고의 당첨자발표일(2023.11.08.)로부터 1년간 적용되어 현재 전매제한기간이 도과되었습니다. - 3 - 3 공급대상 및 공급금액 ■ 공급위치 : 경기도…",
+   "거주 지역 요건": "…(사후) 입주자모집공고일 현재 전국에 거주하는 무주택세대구성원인 성년자 재당첨제한 전매제…",
+   "실거주 의무": "(1쪽 단지 주요정보 표) 재당첨제한 전매제한 거주의무기간 분양가상한제 없음 최초 당첨자 발표일(2023.11.08.)로부터 1년간 적용되어 현재 전매제한기간 도과 없음 미적용 구분",
+   "재당첨 제한": "…무주택세대구성원인 성년자 재당첨제한 전매제한 거주의무기간 분양가상한제 없음 최초 당첨자 발표일(2023.11.08.)로부터 1년간…"
   },
   "notice_conflicts": [],
   "notice_ai": null,
@@ -93786,12 +93786,12 @@
   "notice_pdf": "https://static.applyhome.co.kr/ai/aia/getAtchmnfl.do?houseManageNo=2026910293&pblancNo=2026910293&atchmnflSeqNo=2019012&atchmnflSn=4",
   "from_notice": [
    "세대주 요건",
-   "분양가상한제",
-   "실거주 의무",
-   "전매 제한",
-   "재당첨 제한",
    "계약금 비율",
-   "거주 지역 요건"
+   "분양가상한제",
+   "전매 제한",
+   "거주 지역 요건",
+   "실거주 의무",
+   "재당첨 제한"
   ],
   "checks": [],
   "geo": {
@@ -93924,25 +93924,25 @@
   "mc_quota": null,
   "youth": null,
   "resale": {
-   "months": 12,
    "base": "2023-11-08",
-   "registration": false,
-   "until_reg": false,
-   "passed": true,
+   "forbidden": false,
+   "months": 12,
    "none": false,
-   "forbidden": false
+   "passed": true,
+   "registration": false,
+   "until_reg": false
   },
   "score_ratio": null,
   "pub_limits": null,
   "schedule": null,
   "residence": {
    "area": null,
+   "equal": true,
    "months": 0,
-   "since": null,
    "others": [
     "전국"
    ],
-   "equal": true
+   "since": null
   },
   "special_units": null,
   "notice": "2026-11-11",
@@ -93955,9 +93955,9 @@
   "price": 5.139,
   "ext": 0.0,
   "pay_ratio": {
+   "balance": 0.9,
    "contract": 0.1,
-   "mid": 0.0,
-   "balance": 0.9
+   "mid": 0.0
   },
   "contract_split": null,
   "contract_rate": 0.1,
@@ -94137,12 +94137,12 @@
   "duty_from": null,
   "notice_quotes": {
    "세대주 요건": "…민영 비규제지역 무순위(사후) 입주자모집공고일 현재 전국에 거주하는 무주택세대구성원인 성년자 재당첨제한 전매제한 거주의무기간 분양가상한제 없음 최초…",
-   "분양가상한제": "(1쪽 단지 주요정보 표) 재당첨제한 전매제한 거주의무기간 분양가상한제 없음 최초 당첨자 발표일(2023.11.08.)로부터 1년간 적용되어 현재 전매제한기간 도과 없음 미적용 구분",
-   "실거주 의무": "(1쪽 단지 주요정보 표) 재당첨제한 전매제한 거주의무기간 분양가상한제 없음 최초 당첨자 발표일(2023.11.08.)로부터 1년간 적용되어 현재 전매제한기간 도과 없음 미적용 구분",
-   "전매 제한": "…바랍니다. ■ 본 아파트의 전매제한은 최초 입주자모집공고의 당첨자발표일(2023.11.08.)로부터 1년간 적용되어 현재 전매제한기간이 도과되었습니다. - 3 - 3 공급대상 및 공급금액 ■ 공급위치 : 경기도…",
-   "재당첨 제한": "…무주택세대구성원인 성년자 재당첨제한 전매제한 거주의무기간 분양가상한제 없음 최초 당첨자 발표일(2023.11.08.)로부터 1년간…",
    "계약금 비율": "…(타입) 동 호 분양금액 계약금(10%) 잔금(90%) 대지비 건축비 부가세 계 계약시 입주지정기간…",
-   "거주 지역 요건": "…(사후) 입주자모집공고일 현재 전국에 거주하는 무주택세대구성원인 성년자 재당첨제한 전매제…"
+   "분양가상한제": "(1쪽 단지 주요정보 표) 재당첨제한 전매제한 거주의무기간 분양가상한제 없음 최초 당첨자 발표일(2023.11.08.)로부터 1년간 적용되어 현재 전매제한기간 도과 없음 미적용 구분",
+   "전매 제한": "…바랍니다. ■ 본 아파트의 전매제한은 최초 입주자모집공고의 당첨자발표일(2023.11.08.)로부터 1년간 적용되어 현재 전매제한기간이 도과되었습니다. - 3 - 3 공급대상 및 공급금액 ■ 공급위치 : 경기도…",
+   "거주 지역 요건": "…(사후) 입주자모집공고일 현재 전국에 거주하는 무주택세대구성원인 성년자 재당첨제한 전매제…",
+   "실거주 의무": "(1쪽 단지 주요정보 표) 재당첨제한 전매제한 거주의무기간 분양가상한제 없음 최초 당첨자 발표일(2023.11.08.)로부터 1년간 적용되어 현재 전매제한기간 도과 없음 미적용 구분",
+   "재당첨 제한": "…무주택세대구성원인 성년자 재당첨제한 전매제한 거주의무기간 분양가상한제 없음 최초 당첨자 발표일(2023.11.08.)로부터 1년간…"
   },
   "notice_conflicts": [],
   "notice_ai": null,
@@ -94169,12 +94169,12 @@
   "notice_pdf": "https://static.applyhome.co.kr/ai/aia/getAtchmnfl.do?houseManageNo=2026910293&pblancNo=2026910293&atchmnflSeqNo=2019012&atchmnflSn=4",
   "from_notice": [
    "세대주 요건",
-   "분양가상한제",
-   "실거주 의무",
-   "전매 제한",
-   "재당첨 제한",
    "계약금 비율",
-   "거주 지역 요건"
+   "분양가상한제",
+   "전매 제한",
+   "거주 지역 요건",
+   "실거주 의무",
+   "재당첨 제한"
   ],
   "checks": [],
   "geo": {
@@ -94307,25 +94307,25 @@
   "mc_quota": null,
   "youth": null,
   "resale": {
-   "months": 12,
    "base": "2023-11-08",
-   "registration": false,
-   "until_reg": false,
-   "passed": true,
+   "forbidden": false,
+   "months": 12,
    "none": false,
-   "forbidden": false
+   "passed": true,
+   "registration": false,
+   "until_reg": false
   },
   "score_ratio": null,
   "pub_limits": null,
   "schedule": null,
   "residence": {
    "area": null,
+   "equal": true,
    "months": 0,
-   "since": null,
    "others": [
     "전국"
    ],
-   "equal": true
+   "since": null
   },
   "special_units": null,
   "notice": "2026-11-11",
@@ -94338,9 +94338,9 @@
   "price": 6.97,
   "ext": 0.0,
   "pay_ratio": {
+   "balance": 0.9,
    "contract": 0.1,
-   "mid": 0.0,
-   "balance": 0.9
+   "mid": 0.0
   },
   "contract_split": null,
   "contract_rate": 0.1,
@@ -94454,12 +94454,12 @@
   "duty_from": null,
   "notice_quotes": {
    "세대주 요건": "…민영 비규제지역 무순위(사후) 입주자모집공고일 현재 전국에 거주하는 무주택세대구성원인 성년자 재당첨제한 전매제한 거주의무기간 분양가상한제 없음 최초…",
-   "분양가상한제": "(1쪽 단지 주요정보 표) 재당첨제한 전매제한 거주의무기간 분양가상한제 없음 최초 당첨자 발표일(2023.11.08.)로부터 1년간 적용되어 현재 전매제한기간 도과 없음 미적용 구분",
-   "실거주 의무": "(1쪽 단지 주요정보 표) 재당첨제한 전매제한 거주의무기간 분양가상한제 없음 최초 당첨자 발표일(2023.11.08.)로부터 1년간 적용되어 현재 전매제한기간 도과 없음 미적용 구분",
-   "전매 제한": "…바랍니다. ■ 본 아파트의 전매제한은 최초 입주자모집공고의 당첨자발표일(2023.11.08.)로부터 1년간 적용되어 현재 전매제한기간이 도과되었습니다. - 3 - 3 공급대상 및 공급금액 ■ 공급위치 : 경기도…",
-   "재당첨 제한": "…무주택세대구성원인 성년자 재당첨제한 전매제한 거주의무기간 분양가상한제 없음 최초 당첨자 발표일(2023.11.08.)로부터 1년간…",
    "계약금 비율": "…(타입) 동 호 분양금액 계약금(10%) 잔금(90%) 대지비 건축비 부가세 계 계약시 입주지정기간…",
-   "거주 지역 요건": "…(사후) 입주자모집공고일 현재 전국에 거주하는 무주택세대구성원인 성년자 재당첨제한 전매제…"
+   "분양가상한제": "(1쪽 단지 주요정보 표) 재당첨제한 전매제한 거주의무기간 분양가상한제 없음 최초 당첨자 발표일(2023.11.08.)로부터 1년간 적용되어 현재 전매제한기간 도과 없음 미적용 구분",
+   "전매 제한": "…바랍니다. ■ 본 아파트의 전매제한은 최초 입주자모집공고의 당첨자발표일(2023.11.08.)로부터 1년간 적용되어 현재 전매제한기간이 도과되었습니다. - 3 - 3 공급대상 및 공급금액 ■ 공급위치 : 경기도…",
+   "거주 지역 요건": "…(사후) 입주자모집공고일 현재 전국에 거주하는 무주택세대구성원인 성년자 재당첨제한 전매제…",
+   "실거주 의무": "(1쪽 단지 주요정보 표) 재당첨제한 전매제한 거주의무기간 분양가상한제 없음 최초 당첨자 발표일(2023.11.08.)로부터 1년간 적용되어 현재 전매제한기간 도과 없음 미적용 구분",
+   "재당첨 제한": "…무주택세대구성원인 성년자 재당첨제한 전매제한 거주의무기간 분양가상한제 없음 최초 당첨자 발표일(2023.11.08.)로부터 1년간…"
   },
   "notice_conflicts": [],
   "notice_ai": null,
@@ -94486,12 +94486,12 @@
   "notice_pdf": "https://static.applyhome.co.kr/ai/aia/getAtchmnfl.do?houseManageNo=2026910293&pblancNo=2026910293&atchmnflSeqNo=2019012&atchmnflSn=4",
   "from_notice": [
    "세대주 요건",
-   "분양가상한제",
-   "실거주 의무",
-   "전매 제한",
-   "재당첨 제한",
    "계약금 비율",
-   "거주 지역 요건"
+   "분양가상한제",
+   "전매 제한",
+   "거주 지역 요건",
+   "실거주 의무",
+   "재당첨 제한"
   ],
   "checks": [],
   "geo": {
@@ -94590,25 +94590,25 @@
   "mc_quota": null,
   "youth": null,
   "resale": {
-   "months": 6,
    "base": "2021-11-22",
-   "registration": false,
-   "until_reg": false,
-   "passed": true,
+   "forbidden": false,
+   "months": 6,
    "none": false,
-   "forbidden": false
+   "passed": true,
+   "registration": false,
+   "until_reg": false
   },
   "score_ratio": null,
   "pub_limits": null,
   "schedule": null,
   "residence": {
    "area": null,
+   "equal": true,
    "months": 0,
-   "since": null,
    "others": [
     "전국"
    ],
-   "equal": true
+   "since": null
   },
   "special_units": null,
   "notice": "2026-11-11",
@@ -94621,9 +94621,9 @@
   "price": 23.789,
   "ext": 0.0,
   "pay_ratio": {
+   "balance": 0.9,
    "contract": 0.1,
-   "mid": 0.0,
-   "balance": 0.9
+   "mid": 0.0
   },
   "contract_split": null,
   "contract_rate": 0.1,
@@ -94647,12 +94647,12 @@
   "duty_from": null,
   "notice_quotes": {
    "세대주 요건": "…민영 비규제지역 무순위(3차) 입주자모집공고일 현재 전국에 거주하는 무주택세대구성원 재당첨제한 전매제한 거주의무기간 분양가상한제 없음 없음(최초…",
-   "분양가상한제": "(1쪽 단지 주요정보 표) 재당첨제한 전매제한 거주의무기간 분양가상한제 없음 없음(최초 당첨자발표일(2021.11.22.)로부터 6개월간 적용되어 현재 전매제한 기간 도과) 없음 미적용 구분",
-   "실거주 의무": "(1쪽 단지 주요정보 표) 재당첨제한 전매제한 거주의무기간 분양가상한제 없음 없음(최초 당첨자발표일(2021.11.22.)로부터 6개월간 적용되어 현재 전매제한 기간 도과) 없음 미적용 구분",
-   "전매 제한": "…분양가상한제 없음 없음(최초 당첨자발표일(2021.11.22.)로부터 6개월간 적용되어 현재 전매제한 기간 도과) 없음 미적용 구분 최초 입주자모집공고일 무순위(사후)…",
-   "재당첨 제한": "…거주하는 무주택세대구성원 재당첨제한 전매제한 거주의무기간 분양가상한제 없음 없음(최초 당첨자발표일(2021.11.22.)로부터…",
    "계약금 비율": "…동 호 아파트 공급 금액 계약금(10%) 잔금(90%) 대지비 건축비 부가가치세 계 계약시 입주지정일…",
-   "거주 지역 요건": "…(3차) 입주자모집공고일 현재 전국에 거주하는 무주택세대구성원 재당첨제한 전매제한 거주의…"
+   "분양가상한제": "(1쪽 단지 주요정보 표) 재당첨제한 전매제한 거주의무기간 분양가상한제 없음 없음(최초 당첨자발표일(2021.11.22.)로부터 6개월간 적용되어 현재 전매제한 기간 도과) 없음 미적용 구분",
+   "전매 제한": "…분양가상한제 없음 없음(최초 당첨자발표일(2021.11.22.)로부터 6개월간 적용되어 현재 전매제한 기간 도과) 없음 미적용 구분 최초 입주자모집공고일 무순위(사후)…",
+   "거주 지역 요건": "…(3차) 입주자모집공고일 현재 전국에 거주하는 무주택세대구성원 재당첨제한 전매제한 거주의…",
+   "실거주 의무": "(1쪽 단지 주요정보 표) 재당첨제한 전매제한 거주의무기간 분양가상한제 없음 없음(최초 당첨자발표일(2021.11.22.)로부터 6개월간 적용되어 현재 전매제한 기간 도과) 없음 미적용 구분",
+   "재당첨 제한": "…거주하는 무주택세대구성원 재당첨제한 전매제한 거주의무기간 분양가상한제 없음 없음(최초 당첨자발표일(2021.11.22.)로부터…"
   },
   "notice_conflicts": [],
   "notice_ai": null,
@@ -94679,12 +94679,12 @@
   "notice_pdf": "https://static.applyhome.co.kr/ai/aia/getAtchmnfl.do?houseManageNo=2026910291&pblancNo=2026910291&atchmnflSeqNo=2022000&atchmnflSn=2",
   "from_notice": [
    "세대주 요건",
-   "분양가상한제",
-   "실거주 의무",
-   "전매 제한",
-   "재당첨 제한",
    "계약금 비율",
-   "거주 지역 요건"
+   "분양가상한제",
+   "전매 제한",
+   "거주 지역 요건",
+   "실거주 의무",
+   "재당첨 제한"
   ],
   "checks": [],
   "geo": {
@@ -94765,13 +94765,13 @@
   "mc_quota": null,
   "youth": null,
   "resale": {
-   "months": 12,
    "base": "2023-11-02",
-   "registration": false,
-   "until_reg": false,
-   "passed": true,
+   "forbidden": false,
+   "months": 12,
    "none": false,
-   "forbidden": false
+   "passed": true,
+   "registration": false,
+   "until_reg": false
   },
   "score_ratio": null,
   "pub_limits": null,
@@ -94781,10 +94781,10 @@
     "name": "경기도",
     "sido": "경기"
    },
+   "equal": true,
    "months": 0,
-   "since": null,
    "others": [],
-   "equal": true
+   "since": null
   },
   "special_units": null,
   "notice": "2026-11-11",
@@ -94797,9 +94797,9 @@
   "price": 6.827,
   "ext": 0.159,
   "pay_ratio": {
+   "balance": 0.9,
    "contract": 0.1,
-   "mid": 0.0,
-   "balance": 0.9
+   "mid": 0.0
   },
   "contract_split": null,
   "contract_rate": 0.1,
@@ -95009,12 +95009,12 @@
   "duty_from": null,
   "notice_quotes": {
    "세대주 요건": "…민영 비규제지역 무순위(사후) 입주자모집공고일 현재 경기도에 거주하는 무주택세대구성원인 성년자 재당첨제한 전매제한 거주의무기간 분양가상한제 없음 최초…",
-   "분양가상한제": "(1쪽 단지 주요정보 표) 재당첨제한 전매제한 거주의무기간 분양가상한제 없음 최초 당첨자 발표일(2023.11.02.)로부터 1년간 적용되어 현재 전매제한기간 도과 없음 미적용 구분",
-   "실거주 의무": "(1쪽 단지 주요정보 표) 재당첨제한 전매제한 거주의무기간 분양가상한제 없음 최초 당첨자 발표일(2023.11.02.)로부터 1년간 적용되어 현재 전매제한기간 도과 없음 미적용 구분",
-   "전매 제한": "…바랍니다. ■ 본 아파트의 전매제한은 최초 입주자모집공고의 당첨자발표일(2023.11.02.)로부터 1년간 적용되어 현재 전매제한기간이 도과 되었습니다. - 3 - 3 공급대상 및 공급금액 ■ 공급위치 : 경기도…",
-   "재당첨 제한": "…무주택세대구성원인 성년자 재당첨제한 전매제한 거주의무기간 분양가상한제 없음 최초 당첨자 발표일(2023.11.02.)로부터 1년간…",
    "계약금 비율": "…(타입) 동 호 분양금액 계약금(10%) 잔금(90%) 대지비 건축비 계 계약시 입주지정기간 59A…",
-   "거주 지역 요건": "…(사후) 입주자모집공고일 현재 경기도에 거주하는 무주택세대구성원인 성년자 재당첨제한 전매제…"
+   "분양가상한제": "(1쪽 단지 주요정보 표) 재당첨제한 전매제한 거주의무기간 분양가상한제 없음 최초 당첨자 발표일(2023.11.02.)로부터 1년간 적용되어 현재 전매제한기간 도과 없음 미적용 구분",
+   "전매 제한": "…바랍니다. ■ 본 아파트의 전매제한은 최초 입주자모집공고의 당첨자발표일(2023.11.02.)로부터 1년간 적용되어 현재 전매제한기간이 도과 되었습니다. - 3 - 3 공급대상 및 공급금액 ■ 공급위치 : 경기도…",
+   "거주 지역 요건": "…(사후) 입주자모집공고일 현재 경기도에 거주하는 무주택세대구성원인 성년자 재당첨제한 전매제…",
+   "실거주 의무": "(1쪽 단지 주요정보 표) 재당첨제한 전매제한 거주의무기간 분양가상한제 없음 최초 당첨자 발표일(2023.11.02.)로부터 1년간 적용되어 현재 전매제한기간 도과 없음 미적용 구분",
+   "재당첨 제한": "…무주택세대구성원인 성년자 재당첨제한 전매제한 거주의무기간 분양가상한제 없음 최초 당첨자 발표일(2023.11.02.)로부터 1년간…"
   },
   "notice_conflicts": [],
   "notice_ai": null,
@@ -95040,14 +95040,14 @@
   "url": "https://www.applyhome.co.kr/ai/aia/selectAPTRemndrLttotPblancDetailView.do?houseManageNo=2026910288&pblancNo=2026910288",
   "notice_pdf": "https://static.applyhome.co.kr/ai/aia/getAtchmnfl.do?houseManageNo=2026910288&pblancNo=2026910288&atchmnflSeqNo=2020031&atchmnflSn=6",
   "from_notice": [
-   "세대주 요건",
-   "분양가상한제",
-   "실거주 의무",
-   "전매 제한",
-   "재당첨 제한",
    "발코니 확장비",
+   "세대주 요건",
    "계약금 비율",
-   "거주 지역 요건"
+   "분양가상한제",
+   "전매 제한",
+   "거주 지역 요건",
+   "실거주 의무",
+   "재당첨 제한"
   ],
   "checks": [],
   "geo": {
@@ -95196,27 +95196,27 @@
   "mc_quota": null,
   "youth": null,
   "resale": {
-   "months": 12,
    "base": "2026-10-08",
-   "registration": false,
-   "until_reg": false,
-   "passed": false,
+   "forbidden": false,
+   "months": 12,
    "none": false,
-   "forbidden": false
+   "passed": false,
+   "registration": false,
+   "until_reg": false
   },
   "score_ratio": null,
   "pub_limits": null,
   "schedule": null,
   "residence": {
    "area": null,
+   "equal": true,
    "months": 0,
-   "since": null,
    "others": [
     "서울",
     "경기",
     "인천"
    ],
-   "equal": true
+   "since": null
   },
   "special_units": null,
   "notice": "2026-11-10",
@@ -95229,9 +95229,9 @@
   "price": 5.49,
   "ext": 0.0,
   "pay_ratio": {
+   "balance": 0.3,
    "contract": 0.1,
-   "mid": 0.6,
-   "balance": 0.3
+   "mid": 0.6
   },
   "contract_split": {
    "first_won": 10000000,
@@ -95393,12 +95393,12 @@
   "duty_from": null,
   "notice_quotes": {
    "세대주 요건": "…현재 수도권(경기도, 인천광역시, 서울특별시)에 거주하는 무주택세대구성원 재당첨제한 전매제한 거주의무기간 분양가상한제 없음 최초…",
-   "분양가상한제": "…수 있습니다. - 본 아파트는 분양가상한제 미적용 주택으로 분양가 자율화에 따라 공급총액 범위 내에서 주택형별, 층별…",
-   "실거주 의무": "(1쪽 단지 주요정보 표) 재당첨제한 전매제한 거주의무기간 분양가상한제 없음 최초 당첨자발표일(2026.10.08.)로부터 1년 없음 미적용 구분",
-   "전매 제한": "…35만원 ■ 본 아파트의 전매제한은 최초 입주자모집공고의 당첨자발표일(2026.10.08.)로부터 1년간 적용됩니다. - 4 - 3 공급대상 및 공급금액 ■ 공급위치 : 경기도 부천시…",
-   "재당첨 제한": "…거주하는 무주택세대구성원 재당첨제한 전매제한 거주의무기간 분양가상한제 없음 최초 당첨자발표일(2026.10.08.)로부터 1년 없음…",
    "계약금 비율": "…해당 세대수 공급금액 계약금(10%) 중도금(60%) 잔금(30%) 대지비 건축비 계 1차 계약금 2차 계약금…",
-   "거주 지역 요건": "…(사후) 입주자모집공고일 현재 수도권(경기도, 인천광역시, 서울특별시)에 거주하는 무주택세대구성원 재당첨제한 전매제한 거주의…"
+   "분양가상한제": "…수 있습니다. - 본 아파트는 분양가상한제 미적용 주택으로 분양가 자율화에 따라 공급총액 범위 내에서 주택형별, 층별…",
+   "전매 제한": "…35만원 ■ 본 아파트의 전매제한은 최초 입주자모집공고의 당첨자발표일(2026.10.08.)로부터 1년간 적용됩니다. - 4 - 3 공급대상 및 공급금액 ■ 공급위치 : 경기도 부천시…",
+   "거주 지역 요건": "…(사후) 입주자모집공고일 현재 수도권(경기도, 인천광역시, 서울특별시)에 거주하는 무주택세대구성원 재당첨제한 전매제한 거주의…",
+   "실거주 의무": "(1쪽 단지 주요정보 표) 재당첨제한 전매제한 거주의무기간 분양가상한제 없음 최초 당첨자발표일(2026.10.08.)로부터 1년 없음 미적용 구분",
+   "재당첨 제한": "…거주하는 무주택세대구성원 재당첨제한 전매제한 거주의무기간 분양가상한제 없음 최초 당첨자발표일(2026.10.08.)로부터 1년 없음…"
   },
   "notice_conflicts": [],
   "notice_ai": null,
@@ -95425,12 +95425,12 @@
   "notice_pdf": "https://static.applyhome.co.kr/ai/aia/getAtchmnfl.do?houseManageNo=2026910284&pblancNo=2026910284&atchmnflSeqNo=2008209&atchmnflSn=6",
   "from_notice": [
    "세대주 요건",
-   "분양가상한제",
-   "실거주 의무",
-   "전매 제한",
-   "재당첨 제한",
    "계약금 비율",
-   "거주 지역 요건"
+   "분양가상한제",
+   "전매 제한",
+   "거주 지역 요건",
+   "실거주 의무",
+   "재당첨 제한"
   ],
   "checks": [],
   "geo": {
@@ -95527,27 +95527,27 @@
   "mc_quota": null,
   "youth": null,
   "resale": {
-   "months": 12,
    "base": "2026-10-08",
-   "registration": false,
-   "until_reg": false,
-   "passed": false,
+   "forbidden": false,
+   "months": 12,
    "none": false,
-   "forbidden": false
+   "passed": false,
+   "registration": false,
+   "until_reg": false
   },
   "score_ratio": null,
   "pub_limits": null,
   "schedule": null,
   "residence": {
    "area": null,
+   "equal": true,
    "months": 0,
-   "since": null,
    "others": [
     "서울",
     "경기",
     "인천"
    ],
-   "equal": true
+   "since": null
   },
   "special_units": null,
   "notice": "2026-11-10",
@@ -95560,9 +95560,9 @@
   "price": 5.92,
   "ext": 0.0,
   "pay_ratio": {
+   "balance": 0.3,
    "contract": 0.1,
-   "mid": 0.6,
-   "balance": 0.3
+   "mid": 0.6
   },
   "contract_split": {
    "first_won": 10000000,
@@ -95768,12 +95768,12 @@
   "duty_from": null,
   "notice_quotes": {
    "세대주 요건": "…현재 수도권(경기도, 인천광역시, 서울특별시)에 거주하는 무주택세대구성원 재당첨제한 전매제한 거주의무기간 분양가상한제 없음 최초…",
-   "분양가상한제": "…수 있습니다. - 본 아파트는 분양가상한제 미적용 주택으로 분양가 자율화에 따라 공급총액 범위 내에서 주택형별, 층별…",
-   "실거주 의무": "(1쪽 단지 주요정보 표) 재당첨제한 전매제한 거주의무기간 분양가상한제 없음 최초 당첨자발표일(2026.10.08.)로부터 1년 없음 미적용 구분",
-   "전매 제한": "…35만원 ■ 본 아파트의 전매제한은 최초 입주자모집공고의 당첨자발표일(2026.10.08.)로부터 1년간 적용됩니다. - 4 - 3 공급대상 및 공급금액 ■ 공급위치 : 경기도 부천시…",
-   "재당첨 제한": "…거주하는 무주택세대구성원 재당첨제한 전매제한 거주의무기간 분양가상한제 없음 최초 당첨자발표일(2026.10.08.)로부터 1년 없음…",
    "계약금 비율": "…해당 세대수 공급금액 계약금(10%) 중도금(60%) 잔금(30%) 대지비 건축비 계 1차 계약금 2차 계약금…",
-   "거주 지역 요건": "…(사후) 입주자모집공고일 현재 수도권(경기도, 인천광역시, 서울특별시)에 거주하는 무주택세대구성원 재당첨제한 전매제한 거주의…"
+   "분양가상한제": "…수 있습니다. - 본 아파트는 분양가상한제 미적용 주택으로 분양가 자율화에 따라 공급총액 범위 내에서 주택형별, 층별…",
+   "전매 제한": "…35만원 ■ 본 아파트의 전매제한은 최초 입주자모집공고의 당첨자발표일(2026.10.08.)로부터 1년간 적용됩니다. - 4 - 3 공급대상 및 공급금액 ■ 공급위치 : 경기도 부천시…",
+   "거주 지역 요건": "…(사후) 입주자모집공고일 현재 수도권(경기도, 인천광역시, 서울특별시)에 거주하는 무주택세대구성원 재당첨제한 전매제한 거주의…",
+   "실거주 의무": "(1쪽 단지 주요정보 표) 재당첨제한 전매제한 거주의무기간 분양가상한제 없음 최초 당첨자발표일(2026.10.08.)로부터 1년 없음 미적용 구분",
+   "재당첨 제한": "…거주하는 무주택세대구성원 재당첨제한 전매제한 거주의무기간 분양가상한제 없음 최초 당첨자발표일(2026.10.08.)로부터 1년 없음…"
   },
   "notice_conflicts": [],
   "notice_ai": null,
@@ -95800,12 +95800,12 @@
   "notice_pdf": "https://static.applyhome.co.kr/ai/aia/getAtchmnfl.do?houseManageNo=2026910284&pblancNo=2026910284&atchmnflSeqNo=2008209&atchmnflSn=6",
   "from_notice": [
    "세대주 요건",
-   "분양가상한제",
-   "실거주 의무",
-   "전매 제한",
-   "재당첨 제한",
    "계약금 비율",
-   "거주 지역 요건"
+   "분양가상한제",
+   "전매 제한",
+   "거주 지역 요건",
+   "실거주 의무",
+   "재당첨 제한"
   ],
   "checks": [],
   "geo": {
@@ -95902,27 +95902,27 @@
   "mc_quota": null,
   "youth": null,
   "resale": {
-   "months": 12,
    "base": "2026-10-08",
-   "registration": false,
-   "until_reg": false,
-   "passed": false,
+   "forbidden": false,
+   "months": 12,
    "none": false,
-   "forbidden": false
+   "passed": false,
+   "registration": false,
+   "until_reg": false
   },
   "score_ratio": null,
   "pub_limits": null,
   "schedule": null,
   "residence": {
    "area": null,
+   "equal": true,
    "months": 0,
-   "since": null,
    "others": [
     "서울",
     "경기",
     "인천"
    ],
-   "equal": true
+   "since": null
   },
   "special_units": null,
   "notice": "2026-11-10",
@@ -95935,9 +95935,9 @@
   "price": 6.12,
   "ext": 0.0,
   "pay_ratio": {
+   "balance": 0.3,
    "contract": 0.1,
-   "mid": 0.6,
-   "balance": 0.3
+   "mid": 0.6
   },
   "contract_split": {
    "first_won": 10000000,
@@ -96143,12 +96143,12 @@
   "duty_from": null,
   "notice_quotes": {
    "세대주 요건": "…현재 수도권(경기도, 인천광역시, 서울특별시)에 거주하는 무주택세대구성원 재당첨제한 전매제한 거주의무기간 분양가상한제 없음 최초…",
-   "분양가상한제": "…수 있습니다. - 본 아파트는 분양가상한제 미적용 주택으로 분양가 자율화에 따라 공급총액 범위 내에서 주택형별, 층별…",
-   "실거주 의무": "(1쪽 단지 주요정보 표) 재당첨제한 전매제한 거주의무기간 분양가상한제 없음 최초 당첨자발표일(2026.10.08.)로부터 1년 없음 미적용 구분",
-   "전매 제한": "…35만원 ■ 본 아파트의 전매제한은 최초 입주자모집공고의 당첨자발표일(2026.10.08.)로부터 1년간 적용됩니다. - 4 - 3 공급대상 및 공급금액 ■ 공급위치 : 경기도 부천시…",
-   "재당첨 제한": "…거주하는 무주택세대구성원 재당첨제한 전매제한 거주의무기간 분양가상한제 없음 최초 당첨자발표일(2026.10.08.)로부터 1년 없음…",
    "계약금 비율": "…해당 세대수 공급금액 계약금(10%) 중도금(60%) 잔금(30%) 대지비 건축비 계 1차 계약금 2차 계약금…",
-   "거주 지역 요건": "…(사후) 입주자모집공고일 현재 수도권(경기도, 인천광역시, 서울특별시)에 거주하는 무주택세대구성원 재당첨제한 전매제한 거주의…"
+   "분양가상한제": "…수 있습니다. - 본 아파트는 분양가상한제 미적용 주택으로 분양가 자율화에 따라 공급총액 범위 내에서 주택형별, 층별…",
+   "전매 제한": "…35만원 ■ 본 아파트의 전매제한은 최초 입주자모집공고의 당첨자발표일(2026.10.08.)로부터 1년간 적용됩니다. - 4 - 3 공급대상 및 공급금액 ■ 공급위치 : 경기도 부천시…",
+   "거주 지역 요건": "…(사후) 입주자모집공고일 현재 수도권(경기도, 인천광역시, 서울특별시)에 거주하는 무주택세대구성원 재당첨제한 전매제한 거주의…",
+   "실거주 의무": "(1쪽 단지 주요정보 표) 재당첨제한 전매제한 거주의무기간 분양가상한제 없음 최초 당첨자발표일(2026.10.08.)로부터 1년 없음 미적용 구분",
+   "재당첨 제한": "…거주하는 무주택세대구성원 재당첨제한 전매제한 거주의무기간 분양가상한제 없음 최초 당첨자발표일(2026.10.08.)로부터 1년 없음…"
   },
   "notice_conflicts": [],
   "notice_ai": null,
@@ -96175,12 +96175,12 @@
   "notice_pdf": "https://static.applyhome.co.kr/ai/aia/getAtchmnfl.do?houseManageNo=2026910284&pblancNo=2026910284&atchmnflSeqNo=2008209&atchmnflSn=6",
   "from_notice": [
    "세대주 요건",
-   "분양가상한제",
-   "실거주 의무",
-   "전매 제한",
-   "재당첨 제한",
    "계약금 비율",
-   "거주 지역 요건"
+   "분양가상한제",
+   "전매 제한",
+   "거주 지역 요건",
+   "실거주 의무",
+   "재당첨 제한"
   ],
   "checks": [],
   "geo": {
@@ -96277,27 +96277,27 @@
   "mc_quota": null,
   "youth": null,
   "resale": {
-   "months": 12,
    "base": "2026-10-08",
-   "registration": false,
-   "until_reg": false,
-   "passed": false,
+   "forbidden": false,
+   "months": 12,
    "none": false,
-   "forbidden": false
+   "passed": false,
+   "registration": false,
+   "until_reg": false
   },
   "score_ratio": null,
   "pub_limits": null,
   "schedule": null,
   "residence": {
    "area": null,
+   "equal": true,
    "months": 0,
-   "since": null,
    "others": [
     "서울",
     "경기",
     "인천"
    ],
-   "equal": true
+   "since": null
   },
   "special_units": null,
   "notice": "2026-11-10",
@@ -96310,9 +96310,9 @@
   "price": 7.53,
   "ext": 0.0,
   "pay_ratio": {
+   "balance": 0.3,
    "contract": 0.1,
-   "mid": 0.6,
-   "balance": 0.3
+   "mid": 0.6
   },
   "contract_split": {
    "first_won": 10000000,
@@ -96507,12 +96507,12 @@
   "duty_from": null,
   "notice_quotes": {
    "세대주 요건": "…현재 수도권(경기도, 인천광역시, 서울특별시)에 거주하는 무주택세대구성원 재당첨제한 전매제한 거주의무기간 분양가상한제 없음 최초…",
-   "분양가상한제": "…수 있습니다. - 본 아파트는 분양가상한제 미적용 주택으로 분양가 자율화에 따라 공급총액 범위 내에서 주택형별, 층별…",
-   "실거주 의무": "(1쪽 단지 주요정보 표) 재당첨제한 전매제한 거주의무기간 분양가상한제 없음 최초 당첨자발표일(2026.10.08.)로부터 1년 없음 미적용 구분",
-   "전매 제한": "…35만원 ■ 본 아파트의 전매제한은 최초 입주자모집공고의 당첨자발표일(2026.10.08.)로부터 1년간 적용됩니다. - 4 - 3 공급대상 및 공급금액 ■ 공급위치 : 경기도 부천시…",
-   "재당첨 제한": "…거주하는 무주택세대구성원 재당첨제한 전매제한 거주의무기간 분양가상한제 없음 최초 당첨자발표일(2026.10.08.)로부터 1년 없음…",
    "계약금 비율": "…해당 세대수 공급금액 계약금(10%) 중도금(60%) 잔금(30%) 대지비 건축비 계 1차 계약금 2차 계약금…",
-   "거주 지역 요건": "…(사후) 입주자모집공고일 현재 수도권(경기도, 인천광역시, 서울특별시)에 거주하는 무주택세대구성원 재당첨제한 전매제한 거주의…"
+   "분양가상한제": "…수 있습니다. - 본 아파트는 분양가상한제 미적용 주택으로 분양가 자율화에 따라 공급총액 범위 내에서 주택형별, 층별…",
+   "전매 제한": "…35만원 ■ 본 아파트의 전매제한은 최초 입주자모집공고의 당첨자발표일(2026.10.08.)로부터 1년간 적용됩니다. - 4 - 3 공급대상 및 공급금액 ■ 공급위치 : 경기도 부천시…",
+   "거주 지역 요건": "…(사후) 입주자모집공고일 현재 수도권(경기도, 인천광역시, 서울특별시)에 거주하는 무주택세대구성원 재당첨제한 전매제한 거주의…",
+   "실거주 의무": "(1쪽 단지 주요정보 표) 재당첨제한 전매제한 거주의무기간 분양가상한제 없음 최초 당첨자발표일(2026.10.08.)로부터 1년 없음 미적용 구분",
+   "재당첨 제한": "…거주하는 무주택세대구성원 재당첨제한 전매제한 거주의무기간 분양가상한제 없음 최초 당첨자발표일(2026.10.08.)로부터 1년 없음…"
   },
   "notice_conflicts": [],
   "notice_ai": null,
@@ -96539,12 +96539,12 @@
   "notice_pdf": "https://static.applyhome.co.kr/ai/aia/getAtchmnfl.do?houseManageNo=2026910284&pblancNo=2026910284&atchmnflSeqNo=2008209&atchmnflSn=6",
   "from_notice": [
    "세대주 요건",
-   "분양가상한제",
-   "실거주 의무",
-   "전매 제한",
-   "재당첨 제한",
    "계약금 비율",
-   "거주 지역 요건"
+   "분양가상한제",
+   "전매 제한",
+   "거주 지역 요건",
+   "실거주 의무",
+   "재당첨 제한"
   ],
   "checks": [],
   "geo": {
@@ -96641,27 +96641,27 @@
   "mc_quota": null,
   "youth": null,
   "resale": {
-   "months": 12,
    "base": "2026-10-08",
-   "registration": false,
-   "until_reg": false,
-   "passed": false,
+   "forbidden": false,
+   "months": 12,
    "none": false,
-   "forbidden": false
+   "passed": false,
+   "registration": false,
+   "until_reg": false
   },
   "score_ratio": null,
   "pub_limits": null,
   "schedule": null,
   "residence": {
    "area": null,
+   "equal": true,
    "months": 0,
-   "since": null,
    "others": [
     "서울",
     "경기",
     "인천"
    ],
-   "equal": true
+   "since": null
   },
   "special_units": null,
   "notice": "2026-11-10",
@@ -96674,9 +96674,9 @@
   "price": 7.93,
   "ext": 0.0,
   "pay_ratio": {
+   "balance": 0.3,
    "contract": 0.1,
-   "mid": 0.6,
-   "balance": 0.3
+   "mid": 0.6
   },
   "contract_split": {
    "first_won": 10000000,
@@ -96871,12 +96871,12 @@
   "duty_from": null,
   "notice_quotes": {
    "세대주 요건": "…현재 수도권(경기도, 인천광역시, 서울특별시)에 거주하는 무주택세대구성원 재당첨제한 전매제한 거주의무기간 분양가상한제 없음 최초…",
-   "분양가상한제": "…수 있습니다. - 본 아파트는 분양가상한제 미적용 주택으로 분양가 자율화에 따라 공급총액 범위 내에서 주택형별, 층별…",
-   "실거주 의무": "(1쪽 단지 주요정보 표) 재당첨제한 전매제한 거주의무기간 분양가상한제 없음 최초 당첨자발표일(2026.10.08.)로부터 1년 없음 미적용 구분",
-   "전매 제한": "…35만원 ■ 본 아파트의 전매제한은 최초 입주자모집공고의 당첨자발표일(2026.10.08.)로부터 1년간 적용됩니다. - 4 - 3 공급대상 및 공급금액 ■ 공급위치 : 경기도 부천시…",
-   "재당첨 제한": "…거주하는 무주택세대구성원 재당첨제한 전매제한 거주의무기간 분양가상한제 없음 최초 당첨자발표일(2026.10.08.)로부터 1년 없음…",
    "계약금 비율": "…해당 세대수 공급금액 계약금(10%) 중도금(60%) 잔금(30%) 대지비 건축비 계 1차 계약금 2차 계약금…",
-   "거주 지역 요건": "…(사후) 입주자모집공고일 현재 수도권(경기도, 인천광역시, 서울특별시)에 거주하는 무주택세대구성원 재당첨제한 전매제한 거주의…"
+   "분양가상한제": "…수 있습니다. - 본 아파트는 분양가상한제 미적용 주택으로 분양가 자율화에 따라 공급총액 범위 내에서 주택형별, 층별…",
+   "전매 제한": "…35만원 ■ 본 아파트의 전매제한은 최초 입주자모집공고의 당첨자발표일(2026.10.08.)로부터 1년간 적용됩니다. - 4 - 3 공급대상 및 공급금액 ■ 공급위치 : 경기도 부천시…",
+   "거주 지역 요건": "…(사후) 입주자모집공고일 현재 수도권(경기도, 인천광역시, 서울특별시)에 거주하는 무주택세대구성원 재당첨제한 전매제한 거주의…",
+   "실거주 의무": "(1쪽 단지 주요정보 표) 재당첨제한 전매제한 거주의무기간 분양가상한제 없음 최초 당첨자발표일(2026.10.08.)로부터 1년 없음 미적용 구분",
+   "재당첨 제한": "…거주하는 무주택세대구성원 재당첨제한 전매제한 거주의무기간 분양가상한제 없음 최초 당첨자발표일(2026.10.08.)로부터 1년 없음…"
   },
   "notice_conflicts": [],
   "notice_ai": null,
@@ -96903,12 +96903,12 @@
   "notice_pdf": "https://static.applyhome.co.kr/ai/aia/getAtchmnfl.do?houseManageNo=2026910284&pblancNo=2026910284&atchmnflSeqNo=2008209&atchmnflSn=6",
   "from_notice": [
    "세대주 요건",
-   "분양가상한제",
-   "실거주 의무",
-   "전매 제한",
-   "재당첨 제한",
    "계약금 비율",
-   "거주 지역 요건"
+   "분양가상한제",
+   "전매 제한",
+   "거주 지역 요건",
+   "실거주 의무",
+   "재당첨 제한"
   ],
   "checks": [],
   "geo": {
