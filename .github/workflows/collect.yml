@@ -40,6 +40,7 @@ jobs:
     timeout-minutes: 40
     env:
       DATA_GO_KR_KEY: ${{ secrets.DATA_GO_KR_KEY }}
+      ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}   # 기능 ai_read_sale: 규칙이 못 읽은 거주 지역 요건·실거주 의무만 AI 가 읽어 참고 내용으로 붙인다 (app/ai_read.py, 스위치가 꺼져 있으면 쓰지 않음)
       NCP_MAPS_CLIENT_ID: ${{ secrets.NCP_MAPS_CLIENT_ID }}
       NCP_MAPS_CLIENT_SECRET: ${{ secrets.NCP_MAPS_CLIENT_SECRET }}
       PUSH_SEND_TOKEN: ${{ secrets.PUSH_SEND_TOKEN }}   # 웹 푸시 발송 토큰 (기능: web_push). 없으면 보내지 않는다

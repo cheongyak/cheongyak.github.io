@@ -144,3 +144,48 @@ def test_fill_only_fields_the_screen_shows_unread(tmp_path):
            "regions": None, "account": {"months": 6, "count": 6, "rank2_any": True}, "account_quote": Q_ACC, "other_groups": ["장기종사자"]}
     out, log = ai_read.fill("T5", strict, {"pypdf": text}, "공공임대", "", "전북특별자치도", ai_read.Budget(1), post=_post(ans), api_key="k", cache_dir=tmp_path)
     assert out is strict and strict["groups"][0]["age_min"] is None and "unknown_groups" not in strict
+
+
+# ── 분양 (기능 ai_read_sale): 판정에 쓰지 않는 참고 내용 ─────────────────────────────────────────
+UJB = ("주택유형 해당지역 기타지역 규제지역여부 민영 입주자 모집공고일 현재 경기도 의정부시 거주자 경기도 및 서울특별시, 인천광역시 거주자 비규제지역 "
+       "재당첨제한 전매제한 거주의무기간 분양가상한제 택지유형 없음 당첨자 발표일로부터 1년 없음 미적용 민간택지 ") + "가" * 600   # 의정부역 펠리스타워(2026000553) 요약 표 꼴
+Q_RES = "입주자 모집공고일 현재 경기도 의정부시 거주자 경기도 및 서울특별시, 인천광역시 거주자"
+SALE_GOOD = {"residence": {"area": "경기도 의정부시", "months": 0, "since": None, "others": ["서울", "인천", "경기"]}, "residence_quote": Q_RES,
+             "residence_duty_years": 0, "residence_duty_quote": "재당첨제한 전매제한 거주의무기간 분양가상한제 택지유형 없음 당첨자 발표일로부터 1년 없음 미적용 민간택지"}
+
+
+def test_sale_hints_checker():
+    h, dropped = ai_read.sale_hints(SALE_GOOD, [UJB])
+    assert h["residence"]["text"] == "해당지역 경기도 의정부시 거주자 · 기타지역 서울·인천·경기" and h["residence"]["quote"] == Q_RES
+    assert "residence_duty" not in h and any("거주의무가 없다는 말이 없음" in x for x in dropped)   # 표 머리와 값이 떨어진 글('…거주의무기간 … 없음 … 1년 없음')은 '없음'으로 단정하지 않는다
+    bad = json.loads(json.dumps(SALE_GOOD))
+    bad["residence"].update(area="경기도 양주시")                                    # 문장에 없는 지역
+    assert "residence" not in ai_read.sale_hints(bad, [UJB])[0]
+    bad = json.loads(json.dumps(SALE_GOOD))
+    bad["residence"].update(months=12)                                               # 문장에 없는 거주기간
+    assert "residence" not in ai_read.sale_hints(bad, [UJB])[0]
+    bad = json.loads(json.dumps(SALE_GOOD))
+    bad["residence"].update(others=["서울", "인천", "경기", "강원"])                  # 문장에 없는 기타지역
+    assert "residence" not in ai_read.sale_hints(bad, [UJB])[0]
+    t = "해당지역 기타지역 제주특별자치도 1년 이상 계속 거주자 (2025.10.27. 이전부터 계속 거주) 제주특별자치도 1년 미만 거주자 및 전국 거주자 " + "나" * 600
+    a = {"residence": {"area": "제주특별자치도", "months": 12, "since": "2025-10-27", "others": ["전국"]},
+         "residence_quote": "제주특별자치도 1년 이상 계속 거주자 (2025.10.27. 이전부터 계속 거주) 제주특별자치도 1년 미만 거주자 및 전국 거주자",
+         "residence_duty_years": 5, "residence_duty_quote": "거주의무 최초 입주가능일부터 5년 「주택법」제57조의2"}
+    h, _ = ai_read.sale_hints(a, [t + " 거주의무 최초 입주가능일부터 5년 「주택법」제57조의2"])
+    assert h["residence"]["text"] == "해당지역 제주특별자치도 거주자 · 1년 이상 계속 거주(2025-10-27 이전부터) · 기타지역 전국" and h["residence_duty"]["text"] == "거주의무 5년"
+    a["residence"]["months"] = 0                                                      # 문장에 '1년 이상'이 있는데 기간 없음으로 답함
+    assert "residence" not in ai_read.sale_hints(a, [t])[0]
+
+
+def test_sale_fill_only_gaps_and_caches(tmp_path):
+    calls = []
+    found = {"residence": {"area": {"name": "x"}}, "price_cap": True}                 # 거주 지역 요건은 규칙이 읽음 → 실거주 의무만 못 읽은 공고
+    ans = json.loads(json.dumps(SALE_GOOD))
+    ans.update(residence_duty_years=3, residence_duty_quote="거주의무기간 : 최초 입주가능일부터 3년")
+    text = UJB + " 거주의무기간 : 최초 입주가능일부터 3년 "
+    h, log = ai_read.sale_fill("S1", found, text, "시험단지", ai_read.Budget(1), post=_post(ans, calls), api_key="k", cache_dir=tmp_path)
+    assert list(h) == ["residence_duty"] and h["residence_duty"] == {"text": "거주의무 3년", "quote": "거주의무기간 : 최초 입주가능일부터 3년"}   # 규칙이 읽은 항목은 싣지 않는다
+    h2, _ = ai_read.sale_fill("S1", found, text, "시험단지", ai_read.Budget(0), api_key="", cache_dir=tmp_path)
+    assert h2 == h and len(calls) == 1
+    assert ai_read.sale_fill("S2", {"residence": {"a": 1}, "residence_duty": 0}, text, "", ai_read.Budget(1), post=_post(ans, calls), api_key="k", cache_dir=tmp_path) == ({}, [])
+    assert ai_read.sale_gaps({"residence": {"a": 1}, "duty_silent": True}) == []      # '공고문에 거주의무 말이 없음'으로 읽은 공고는 묻지 않는다

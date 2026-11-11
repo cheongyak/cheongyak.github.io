@@ -4,6 +4,16 @@
 2026-09-29 12:55 이전 항목은 규칙을 만들기 전 작업을 커밋 기록으로 정리한 것이라 백업 브랜치가 없어요.
 그 시점으로 되돌릴 때는 해당 커밋 번호로 `git revert` 를 써요.
 
+## 2026-11-11 10:04 · 분양 공고문 AI 참고 내용(기능 ai_read_sale) 만들고 꺼 둠 — 정확도 시험 준비
+- 요청: 운영자 '(AI 읽기를 분양·SH 로 넓히기) 진행해줘 · 한 달 한도 $5 괜찮아 · 이슈 닫아줘 · PR #118 검토해봐'
+- 변경: app/ai_read.py — 분양용 지시문(SYSTEM_SALE)·검사기(sale_hints)·호출(sale_fill, 답 evidence/notices/ai/<주택관리번호>.json). 대상은 규칙이 못 읽어 화면이 '확인 필요'로 보이는 두 항목: 거주 지역 요건(해당지역 이름·거주기간·기준일·기타지역)과 실거주 의무(년). 검사: 근거 문장이 원문에 그대로, 해당지역 이름 낱말이 모두 문장 안, 거주기간 숫자(개월·년)가 문장 안(문장에 기간이 있는데 0 이면 탈락), 기타지역 시·도(정식 이름·약칭·'수도권'·'전국')가 문장 안, 날짜 숫자가 문장 안, 거주의무 '없음'은 '거주의무' 바로 뒤에 붙어 있을 때만(표 머리와 값이 떨어진 글은 탈락). app/pipeline._ai_sale_hints 가 주택형에 값을 넣은 뒤 못 읽은 항목만 묻고 Listing.notice_ai 에 실음(app/models.py). **분양은 AI 값을 판정에 쓰지 않음** — docs/index.html 은 판정 함수(tools/engine_lock 의 residenceItem·fromApi 등)를 건드리지 않고, 확인 필요 항목 아래·실거주 의무 안내 아래에 'AI가 공고문에서 읽은 내용(참고 — 판정에는 쓰지 않았어요)'과 공고문 문장만 보여 줌(NOTICE_AI·aiHintHtml). collect.yml 에 ANTHROPIC_API_KEY, ai-read-probe.yml 에 kind=sale. 스위치 ai_read_sale false 로 올림
+- 이슈·PR: #114~#117·#119 운영자 승인으로 닫음. PR #118(가점 '부양가족 수' 칸에 '나는 빼고 세요' 안내) 검토 — docs/index.html 두 줄 문구만, 별표 1 나목(부양가족은 신청자·배우자의 세대원 → 본인 제외, 0명 5점)과 맞음, main 과 충돌 없음, 판정 변화 없음 → 합쳐도 된다고 보고(합치기는 운영자 답 뒤)
+- SH: AI 읽기를 넣지 않음(운영자에게 보고) — SH 는 상품마다 읽는 틀이 다르고(app/sh_terms 여섯 가지) 통째로 읽거나 못 읽는 방식이라 값마다 근거 문장으로 검사하기 어려움, 지금 공고 11건·10-20 뒤 새 꼴 고침 없음
+- 파일: app/ai_read.py, app/models.py, app/pipeline.py, docs/index.html, docs/config.json, tools/qa/ai_read_probe.py, tools/qa/ai_read_sale_screen.cjs, tests/test_ai_read.py, .github/workflows/collect.yml, .github/workflows/ai-read-probe.yml, FEATURES.md, WORK.md
+- 확인: tests/test_ai_read.py 12 통과(의정부 553 요약 표 꼴 통과, 문장에 없는 지역·기간·기타지역 탈락, 제주 '1년 이상(2025.10.27. 이전부터)' 통과, 규칙이 읽은 항목은 싣지 않음, 저장한 답 재사용). tools/qa/ai_read_sale_screen.cjs 실패 0(못 읽음+AI 참고 → 판정은 그대로 '확인 필요', 근거 문장 HTML 이스케이프, 스위치 끄면 없음). pytest 471 통과·14 실패(작업 환경 대용 모듈 때문에 원래 실패하는 14건과 같음 — 판정 함수 잠금 시험 통과), snapshot 바뀐 곳 0, judge_check 974/974, 스크립트 문법 통과
+- 기능: ai_read_sale (꺼 둠)
+- 백업: backup/20261111-1004
+
 ## 2026-11-11 08:22 · (기록) v1.86.1 올린 뒤 확인 — AI 가 읽은 공고 0건, 검증 정상
 - 요청: 운영자 '방법 1 하고 실패하면 방법 2(AI)까지 되도록' (마무리 확인)
 - 변경: 코드 변경 없음. HANDOFF -106 갱신

@@ -77,6 +77,7 @@ class Listing(BaseModel):
     duty_from: Optional[str] = None           # 최초 입주가능일 (공고문에 날짜가 있을 때, 거주의무 시작 기한 계산)
     notice_quotes: Optional[dict] = None     # 공고문에서 읽은 값마다 근거 원문 문장 {'실거주 의무': '…', …} (기능 notice_quotes, 2026-10-02)
     notice_conflicts: list[str] = []          # 공고문 두 곳(1쪽 표·본문)의 값이 서로 다름 (사람 확인 필요, 2026-10-02)
+    notice_ai: Optional[dict] = None                    # 규칙이 못 읽은 항목을 AI 가 읽은 참고 내용 {'residence'|'residence_duty': {'text','quote'}} — 판정에는 쓰지 않는다 (기능 ai_read_sale, 2026-11-11)
     duty_silent: bool = False                # 공고문을 읽었지만 거주의무를 아예 적지 않음 (모름의 이유, 2026-10-02)
     jeonse_weak: bool = False
     unregistered: bool = True                # 입주 직후 등기 전

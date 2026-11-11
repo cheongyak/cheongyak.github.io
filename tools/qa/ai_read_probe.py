@@ -97,7 +97,85 @@ def compare(g: dict, ans: dict, tx: dict, region) -> list[dict]:
     return rows
 
 
+def sale_main(n: int) -> int:
+    """분양(기능 ai_read_sale): 정답 데이터(tests/golden/notices.json)에 거주 지역 요건이 있는 공고문을 AI 에게 읽히고, 검사기를 거친 값을 정답과 견준다."""
+    from collections import Counter
+    from app.notice_pdf import _area
+    gold = json.loads((ROOT / "tests/golden/notices.json").read_text(encoding="utf-8"))
+    out_f, cache = ROOT / "evidence" / "qa" / "ai-read-probe-sale.json", ROOT / "evidence" / "qa" / "ai-probe-sale"
+
+    def text_of(nid):
+        for d in ("evidence/notices", "evidence/qa/notices"):
+            f = ROOT / d / f"{nid}.txt"
+            if f.exists():
+                return f.read_text(encoding="utf-8", errors="replace")
+        return ""
+
+    pick = sorted((k for k, v in gold.items() if isinstance(v, dict) and isinstance((v.get("fields") or {}).get("residence"), dict) and text_of(k)), reverse=True)[:n]
+    key = os.environ.get("ANTHROPIC_API_KEY", "")
+    rows, notes, usd = [], [], 0.0
+    for nid in pick:
+        g, text = gold[nid]["fields"], text_of(nid)
+        f = cache / f"{nid}.json"
+        ans = None
+        try:
+            sv = json.loads(f.read_text(encoding="utf-8"))
+            if sv.get("prompt_v") == ai_read.SALE_PROMPT_V:
+                ans = sv["answer"]
+        except Exception:
+            pass
+        if ans is None:
+            if not key:
+                notes.append({"id": nid, "note": "ANTHROPIC_API_KEY 없음"})
+                continue
+            try:
+                ans, usage = ai_read.ask(text, "분양", gold[nid].get("name", ""), key, None, ai_read.SYSTEM_SALE)
+            except Exception as e:
+                notes.append({"id": nid, "note": f"호출 실패: {str(e)[:160].replace(key, '***')}"})
+                continue
+            usd += ai_read.usd_of(usage)
+            cache.mkdir(parents=True, exist_ok=True)
+            f.write_text(json.dumps({"id": nid, "prompt_v": ai_read.SALE_PROMPT_V, "model": ai_read.MODEL, "usage": usage, "answer": ans}, ensure_ascii=False, indent=1) + "\n", encoding="utf-8")
+        hints, dropped = ai_read.sale_hints(ans, [text])
+
+        def norm_res(v):
+            if not isinstance(v, dict):
+                return None
+            a = v.get("area")
+            a = _area(a) if isinstance(a, str) else a
+            return {"sido": (a or {}).get("sido"), "sigungu": (a or {}).get("sigungu"), "months": v.get("months"), "since": v.get("since") if v.get("months") else None,
+                    "others": sorted(v.get("others") or [])}
+
+        for fld, gv, raw, got in (("residence", norm_res(g.get("residence")), norm_res(ans.get("residence")), norm_res((hints.get("residence") or {}).get("value"))),
+                                  ("residence_duty", g.get("residence_duty"), ans.get("residence_duty_years"), (hints.get("residence_duty") or {}).get("years"))):
+            if fld == "residence_duty" and "residence_duty" not in g:
+                gv = None
+            if got is not None:
+                res = "맞음" if got == gv else "정답에 없는 값" if gv is None else "틀림"
+            elif raw is not None:
+                res = "검사기가 버림(맞는 값)" if raw == gv else "검사기가 버림(틀린 값)" if gv is not None else "검사기가 버림(정답 없음)"
+            else:
+                res = "AI 못 읽음" if gv is not None else None
+            if res:
+                rows.append({"id": nid, "field": fld, "result": res, "gold": gv, "ai": raw, "passed": got,
+                             "dropped_why": next((d for d in dropped if d.startswith(fld + ":")), None) if "버림" in res else None})
+    c = Counter(r["result"] for r in rows)
+    res = {"at": datetime.now(timezone(timedelta(hours=9))).strftime("%Y-%m-%d %H:%M"), "model": ai_read.MODEL, "prompt_v": ai_read.SALE_PROMPT_V, "notices": len(pick),
+           "usd": round(usd, 3), "summary": dict(c), "wrong": [r for r in rows if r["result"] in ("틀림", "정답에 없는 값")], "notes": notes, "rows": rows}
+    out_f.parent.mkdir(parents=True, exist_ok=True)
+    out_f.write_text(json.dumps(res, ensure_ascii=False, indent=1) + "\n", encoding="utf-8")
+    print(f"[AI 판독 시험·분양] 공고 {len(pick)}건 · " + " · ".join(f"{k} {v}" for k, v in c.most_common()) + f" · 이번 추정 비용 ${usd:.2f}")
+    for r in res["wrong"]:
+        print(f"  [{r['result']}] {r['id']} {r['field']}: 정답 {r['gold']!r} ↔ AI {r['passed']!r}")
+    for x in notes:
+        print(f"  [답 없음] {x['id']} {x['note']}")
+    return 0
+
+
 def main() -> int:
+    if "--sale" in sys.argv:
+        a = [x for x in sys.argv[1:] if not x.startswith("--")]
+        return sale_main(int(a[0]) if a else 15)
     gold = json.loads((ROOT / "tests/golden/lh_rental.json").read_text(encoding="utf-8"))["notices"]
     units = {n["id"]: n for n in json.loads((ROOT / "tests/qa/lh/rental_units.json").read_text(encoding="utf-8"))}
     args = [a for a in sys.argv[1:] if not a.startswith("--")]

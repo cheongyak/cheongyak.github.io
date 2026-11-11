@@ -351,6 +351,36 @@ QUOTE_LABELS = {"need_head": "세대주 요건", "price_cap": "분양가상한�
 
 
 NOTICE_CACHE = ROOT / "docs" / "notice-cache.json"
+_AI_BUDGET = None
+
+
+def _ai_budget():
+    """한 번 수집에서 AI 를 새로 부르는 횟수(기능 ai_read_sale) — 공고마다 같은 것을 쓴다"""
+    global _AI_BUDGET
+    if _AI_BUDGET is None:
+        from . import ai_read
+        _AI_BUDGET = ai_read.Budget()
+    return _AI_BUDGET
+
+
+def _ai_sale_hints(nid: str, found: dict, text: Optional[str], L, log: list) -> dict:
+    """규칙(엄격 → 느슨)이 못 읽어 화면이 '확인 필요'로 보이는 거주 지역 요건·실거주 의무를 AI 가 읽은 '참고 내용' (기능 ai_read_sale, app/ai_read.sale_fill).
+    판정에는 쓰지 않는다. 실거주 의무는 이 주택형 값이 정해지지 않았을 때만(수도권 분양가상한제인데 공고문에서 못 읽음) 묻는다."""
+    if not feature_on("ai_read_sale"):
+        return {}
+    try:
+        from . import ai_read, notice_chunks
+        need = (["residence"] if not found.get("residence") else []) + (["residence_duty"] if L.residence_duty is None and not L.duty_silent else [])
+        if not need:
+            return {}
+        hints, lines = ai_read.sale_fill(nid, found, text or notice_chunks.text_of(nid), L.name, _ai_budget(), need=need)
+        log += lines
+        return hints
+    except Exception as e:
+        log.append(f"[공고문·AI 읽기] {L.name} ({nid}): 실패 {e.__class__.__name__}")
+        return {}
+
+
 PARSER_VERSION = 55   # 55: 느슨한 읽기(기능 loose_read) — 엄격하게 읽고 비어 있는 항목만 띄어쓰기를 무시하고 다시 읽어 채움 (2026-11-11) · 54: 거주 요건 요약 표 머리 '주택유형 해당지역 기타지역 규제지역여부 공공 …'('공공' 한 낱말) — 제주 1년 이상 계속 거주자 우선을 거주기간 없음으로 읽던 것 (2026000434·435 제주 삼도이동 토지임대부, 11-02 주간 원문 대조 P1) (PR #100, 11-07 합침) · 53: 요약 표 '입주자 모집공고일 현재 …' 띄어 쓴 꼴의 해당지역 (2026000553 의정부역 펠리스타워, 11-07 입력 버튼 검사) · 52: 대규모 택지 3단 배정 문장이 뒤섞인 꼴 '수원시 년 이상 계속 거주자 (공고일) 2 (날짜 이전부터 … 우선공급 ) 30% …' — N년·이전부터 날짜·공고일, 세 몫 합 100 을 맞춰 본 뒤에만 읽음 (2026000527·528 광교 자연앤 센트레빌, 11-05 주간 원문 대조 P1) · 51: LH 공급신청 자격자 뒤섞인 꼴 '성년자인무주택세대구성원:…중•인만1가능'(세대주 요건)·LH 지분적립형 <표5> 일반공급 소득('원' 없이 붙은 금액)·<표2>·<표3> 총자산 (2026000527·528 광교 자연앤 센트레빌, 11-04 아침 자동 고치기) · 50: 분양대금 표 머리 뒤섞임 '계약금 중도금(60%) 잔금 30% 10% 차1(10%)…' 읽기·표시 없는 옵션 표 '계약금(20%) 잔금(80%)' 머리를 본 표 두 칸 나눔으로 세지 않음 (2026000528 광교 자연앤 센트레빌, 10-31) · 49: 공고문 대조 예치금 표 머리글을 '구 분'부터 읽음(머리글 안 '구미시'·'대구광역시'의 '구'에서 잘려 순서 추정·뒤집힘, 2026000523 형곡 센트럴 아테라 10-31) · 48: 가점제·추첨제 비율 표 제목과 머리 사이 '- 가점 산정기준(…)' 줄·머리 '단지명 해당 주택형(약식표기)' 칸 (2026000499 한화포레나 지제역, 10-30 아침 자동 고치기) · 47: 전매제한 1쪽 표 뒤섞인 꼴 '로부터년간(날짜)3적용되어현재…도과' (2026910271, 수집 시험 실패로 10-24 아침 수집 멈춤) · 46: 재공급 공급규모 문장 세대수(supply_scale) — 표 대조·표 못 읽을 때 대안(기능 resupply_scale_check) · 45: 가점제·추첨제 비율 표 머리에 단지명·약식표기 낀 꼴·전매제한 '로부터개월(날짜)6' (2026000502, 이슈 #25) · 44: 재공급 '특별공급 공급세대수' 따로 표(열 약식표기·행 특공 유형, 2026930044 영흥숲) · 39~43: 이전 기록 · 38: 공공 자산 기준 — 천원이하 띄어쓰기 없음·출산가구 완화 줄 첫 칸을 기본 기준으로 읽지 않음(2026000402 자동차 49,960 오독) · 37: 근거 문장 — 가점제·추첨제 비율·다자녀 배정·공공 소득·자산(quotes) · 거주 요건 문장은 일반공급 칸 먼저(section_at) · 36: 공공분양식 공공임대 (표3) 특별공급 칸(pub_limits.sp·sp_unread)·<표3> 출산가구 자산 완화(relax) — 2026000402 · 35: 거주 지역 요건 근거 문장(quotes.residence) · 34: 세대주 요건을 일반공급 문장·민영 신청자격 표·LH 공급신청자격에서(특별공급 문장 연결 막음) · 거주기간 숫자 밀림·숫자 없는 'N년 이상'은 못 읽음 · 분양가상한제 법 설명 문장 제외·무순위 1쪽 표 · 전매제한 '현재 도과' (2026-10-09 블라인드 대조) · 33: 공공분양식 기준 분양전환공공임대 (표3) 가구원수별 금액·부동산·자동차(pub_limits kind pub_table, 2026000402) · 32: 공고문 대조 자산 기준 — 줄바꿈된 부동산(건물+토지)·출산가구 완화 표 모든 칸(2026000402) · 31: 재공급 공급대상 표 계·일반공급 칸 없음(특공 한 유형만, 2026930039 탕정) · 30: 재공급 공급대상 표 머리글 띄어쓰기(기관 추천·다자녀 가구·노부모 부양 — 2026930041·033·034) · 29: 계약금 비율 — 단위 표시가 먼 LH 천원 표(주택가격 열·3줄 이상)·사전청약 당첨자 외 표 짝(추가선택품목 안내 일정) · 28: 계약금 비율 금액 줄 확인 · 27: 분양대금 비율·계약금 나눔(pay_ratio·contract_split, 기능 contract_from_notice) · 26: 특공 계 칸 없는 재공급 공급대상 표(장항 2026930038 노부모부양) · 25: 소득·자산 기준 없는 5·10년 공공건설임대(pub_limits kind none, 기능 rent_noincome) · 24: 청년 특별공급 소득·자산 기준(youth, 기능 youth_special) · 23: 전매제한(resale, 기능 resale_limit) · 22: 가점제·추첨제 비율 표 변형(주택형 쉼표·뒤섞인 줄·낱말 공백)·두 도구 합칠 때 못 읽음 표시 무시 · 21: 거주 요건 표 변형(년 이상 계속 거주자N·국민·규제 지역 여부·국민주택(임대)·SH 표2·국내 거주) · 20: 값마다 근거 원문 문장(quotes, 기능 notice_quotes) · 19: 두 도구로 읽기(pdf_dual_read)·쪽수 상한 300 · 18: 공고문 두 곳 값 대조(conflicts) · 17: 거주의무기간은 …(날짜)… N년간 적용 · 거주의무 언급 없음(duty_silent) · 16: 단지 주요정보 표의 거주의무기간·분양가상한제(_summary_table) · 15: 공공임대 특별공급 유형별 소득표(pub_limits.sp) · 14: 재공급 주택형별 특별공급 세대수(sp_table) · 13: 거주 기준일 괄호 안 설명 허용(2026000018 제주) · 12: 총자산형 일반공급 소득·총자산(pub_limits kind=total, 공공임대 2026000307) · 11: 세대주 문장에서 노부모부양 칸 제외·신혼희망타운 자격 소득 상한(eligible) · 10: 민영 1순위 가점제·추첨제 비율(score_ratio) · 9: 공고문 대조용 원문 숫자(facts) · 8: 신혼희망타운 소득·총자산(pub_limits kind=town) · 7: 공공분양 일반공급 소득·자산(pub_limits) · 6: 공급유형별 접수 일정(schedule) · 5: 다자녀 지역 배정(mc_quota) · 4: 거주 지역 요건(residence) 추가 · parse_notice 규칙을 바꾸면 올린다 → 모든 공고문을 다시 읽는다   # 공고문에서 읽은 값 보관 (공고문은 한 번 나오면 바뀌지 않는다)
 
 
@@ -536,6 +566,7 @@ def apply_notice(listings: list[Listing], log: list[str], client=None, previous:
                 if nid in cache:
                     cache[nid].setdefault("found", {})["complex"] = cx
         NOTICE_FACTS[nid] = found.get("facts")
+        ai_hints = None   # 기능 ai_read_sale — 아래 주택형 반복에서 한 번만 구한다(거주의무는 주택형에 값을 넣은 뒤에야 못 읽었는지 안다)
         labels = {"need_head": "세대주 요건", "price_cap": "분양가상한제", "residence_duty": "실거주 의무",
                   "balance": "잔금일", "ext": "발코니 확장비", "rewin_years": "재당첨 제한",
                   "account_months": "1순위 가입기간", "deposit_count": "납입 인정 횟수", "residence": "거주 지역 요건", "mc_quota": "다자녀 지역 배정", "schedule": "접수 일정", "pub_limits": "공공 일반공급 소득·자산", "score_ratio": "가점제·추첨제 비율", "resale": "전매 제한", "youth": "청년 특별공급 기준", "pay_ratio": "계약금 비율"}
@@ -567,6 +598,9 @@ def apply_notice(listings: list[Listing], log: list[str], client=None, previous:
                 L.residence_duty = None
             L.duty_silent = bool(found.get("duty_silent")) and L.residence_duty is None   # 모름의 이유: 공고문에 거주의무가 아예 없음
             L.notice_conflicts = list(found.get("conflicts") or [])
+            if ai_hints is None:
+                ai_hints = _ai_sale_hints(nid, found, text, L, log)
+            L.notice_ai = {k: v for k, v in ai_hints.items() if not (k == "residence_duty" and L.residence_duty is not None)} or None
             L.duty_from = found.get("duty_from") if (L.residence_duty or 0) > 0 else None
             if feature_on("notice_quotes"):   # 값마다 근거 원문 문장 — 화면에 실제로 쓴 값(from_notice)만
                 L.notice_quotes = {QUOTE_LABELS[k]: v for k, v in (found.get("quotes") or {}).items()

@@ -297,11 +297,11 @@ def _post(api_key: str, body: dict) -> dict:
     return r.json()
 
 
-def ask(text: str, kind: str, name: str, api_key: str, post: Optional[Callable] = None) -> tuple[dict, dict]:
-    """→ (AI 답 JSON, usage). 실패하면 예외."""
+def ask(text: str, kind: str, name: str, api_key: str, post: Optional[Callable] = None, system: Optional[str] = None) -> tuple[dict, dict]:
+    """→ (AI 답 JSON, usage). 실패하면 예외. system 을 안 주면 LH 임대 지시문."""
     user = f"공고 유형: {kind}\n공고 이름: {name}\n\n아래는 공고문 글입니다(PDF 에서 뽑아 줄·칸 순서가 흐트러진 곳이 있을 수 있습니다).\n\n<공고문>\n{text[:MAX_CHARS]}\n</공고문>"
     body = {"model": MODEL, "max_tokens": 8000, "output_config": {"effort": "medium"},
-            "system": [{"type": "text", "text": SYSTEM}], "messages": [{"role": "user", "content": user}]}
+            "system": [{"type": "text", "text": system or SYSTEM}], "messages": [{"role": "user", "content": user}]}
     j = (post or _post)(api_key, body)
     out = "".join(c.get("text", "") for c in j.get("content") or [] if c.get("type") == "text")
     a, b = out.find("{"), out.rfind("}")
@@ -411,3 +411,157 @@ def fill(nid: str, terms: Optional[dict], texts: dict, kind: str, name: str, reg
     out["ai"] = {"fields": filled, "model": saved.get("model"), "at": saved.get("at")}
     log.append(f"[공고문·AI 읽기] {nid} AI 가 읽어 채운 칸: {', '.join(filled)} — 화면은 '확인 필요'까지만. 원문과 맞춰 보고 읽기 규칙·정답 데이터에 넣을 것")
     return out, log
+
+
+# ── 분양 공고문 (기능 ai_read_sale, 2026-11-11 운영자 'AI 읽기를 분양에도') ───────────────────────────
+# 분양은 AI 값을 **판정에 쓰지 않는다**. 규칙이 못 읽어 화면이 '확인 필요'로 보이는 두 항목(거주 지역 요건·실거주 의무)에
+# 'AI가 공고문에서 읽은 내용(참고)'과 근거 문장을 붙여 줄 뿐이다 — 판정 결과('확인 필요')는 그대로다.
+SALE_DIR = ROOT / "evidence" / "notices" / "ai"
+SALE_PROMPT_V = 1
+SALE_KEYS = ("residence", "residence_duty")
+
+SYSTEM_SALE = """당신은 아파트 분양 입주자 모집공고문에서 두 가지 조건을 뽑아내는 도구입니다.
+공고문에 **글자로 적혀 있는 것만** 뽑습니다. 추측하지 않습니다. 확실하지 않거나 공고문에 없으면 null 입니다.
+값마다 근거 문장(quote)을 붙입니다. quote 는 공고문에서 **한 글자도 바꾸지 말고 그대로 복사한 이어진 글**(15~250자)이어야 하고, 그 값의 숫자·지역 이름이 quote 안에 들어 있어야 합니다.
+여러 곳의 글을 이어 붙이거나 요약하면 안 됩니다. 답은 JSON 하나만 출력합니다(설명·코드블록 표시 없이).
+
+출력 형식:
+{
+ "residence": {                       // 일반공급 1순위의 거주 지역 요건(해당지역·기타지역). 모르면 residence 전체를 null
+   "area": "경기도 의정부시",          // 해당지역(우선공급 지역) 이름 — 공고문에 적힌 그대로. 시·도 전체면 "제주특별자치도"처럼
+   "months": 0,                       // 해당지역으로 인정받는 계속 거주 기간(개월). '1년 이상' = 12. 기간 요건이 없으면 0
+   "since": "2025-11-05" | null,      // '○○○○.○○.○○. 이전부터 계속 거주' 날짜가 적혀 있으면
+   "others": ["서울", "인천", "경기"]   // 기타지역 시·도 약칭(서울 부산 대구 인천 광주 대전 울산 세종 경기 강원 충북 충남 전북 전남 경북 경남 제주). 전국이면 ["전국"]
+ },
+ "residence_quote": "...",            // 해당지역·기타지역이 함께 적힌 한 곳(요약 표의 줄 등)
+ "residence_duty_years": 3 | 0 | null,   // 당첨자의 실거주(거주) 의무 기간(년). 공고문에 거주의무가 '없음'·'해당 없음'·'미적용'이라고 적혀 있으면 0. 말이 없으면 null
+ "residence_duty_quote": "..."
+}"""
+
+
+def _area_ok(area: str, qs: str) -> bool:
+    parts = [p for p in re.split(r"\s+", area.strip()) if p]
+    return bool(parts) and all(_ns(p) in qs for p in parts) and bool(re.search(r"(시|군|구|도)$", parts[-1]))
+
+
+def sale_hints(answer: dict, texts: list[str]) -> tuple[dict, list[str]]:
+    """AI 답 → 검사를 통과한 항목만 {'residence': {'text','quote'}, 'residence_duty': {'text','quote','years'}} 와 탈락 기록."""
+    flat = [_ns(t) for t in texts if t]
+    out, dropped = {}, []
+
+    def quote_ok(name: str, q) -> Optional[str]:
+        if not isinstance(q, str) or len(_ns(q)) < 10 or len(q) > 500:
+            dropped.append(f"{name}: 근거 문장 없음·길이")
+            return None
+        if not any(_ns(q) in f for f in flat):
+            dropped.append(f"{name}: 근거 문장이 원문에 없음")
+            return None
+        return _ns(q)
+
+    R = answer.get("residence")
+    if isinstance(R, dict):
+        qs = quote_ok("residence", answer.get("residence_quote"))
+        if qs:
+            n = _nums(answer["residence_quote"])
+            area, months, since, others = R.get("area"), R.get("months"), R.get("since"), R.get("others")
+            why = None
+            if not isinstance(area, str) or not _area_ok(area, qs):
+                why = "해당지역 이름이 문장에 없음"
+            elif "거주" not in qs:
+                why = "문장에 '거주'가 없음"
+            elif not isinstance(months, int) or isinstance(months, bool) or not 0 <= months <= 60:
+                why = "거주기간 형식·범위"
+            elif months and not ((months in n and "개월" in qs) or (months % 12 == 0 and months // 12 in n and "년" in qs)):
+                why = "문장에 그 거주기간이 없음"
+            elif not months and re.search(r"\d(?:년|개월)이상", qs):
+                why = "문장에 거주기간이 있는데 0 으로 답함"
+            elif not isinstance(others, list) or not others or any(x not in SIDOS and x != "전국" for x in others):
+                why = "기타지역 형식"
+            else:
+                for x in others:
+                    names = ["전국"] if x == "전국" else [k for k, v in SIDO_SHORT.items() if v == x] + [x] + (["수도권"] if x in ("서울", "인천", "경기") else [])
+                    if not any(_ns(k) in qs for k in names):
+                        why = f"문장에 기타지역 {x} 가 없음"
+                        break
+            if not why and since is not None:
+                m = re.fullmatch(r"(\d{4})-(\d{2})-(\d{2})", str(since))
+                if not m or not all(int(x) in n for x in m.groups()):
+                    why = "문장에 그 날짜가 없음"
+            if why:
+                dropped.append(f"residence: {why}")
+            else:
+                per = "" if not months else (f" · {months // 12}년" if months % 12 == 0 else f" · {months}개월") + " 이상 계속 거주" + (f"({since} 이전부터)" if since else "")
+                out["residence"] = {"text": f"해당지역 {area} 거주자{per} · 기타지역 {'·'.join(others)}", "quote": answer["residence_quote"].strip(),
+                                    "value": {"area": area, "months": months, "since": since, "others": sorted(others)}}
+    y = answer.get("residence_duty_years")
+    if y is not None:
+        qs = quote_ok("residence_duty", answer.get("residence_duty_quote"))
+        if qs:
+            n = _nums(answer["residence_duty_quote"])
+            if not isinstance(y, int) or isinstance(y, bool) or not 0 <= y <= 10:
+                dropped.append("residence_duty: 형식·범위")
+            elif not re.search(r"거주의무|실거주", qs):
+                dropped.append("residence_duty: 문장에 '거주의무'가 없음")
+            elif y and not (y in n and "년" in qs):
+                dropped.append("residence_duty: 문장에 그 기간이 없음")
+            elif not y and not re.search(r"(?:거주의무|실거주의무)(?:기간)?[^.가-힣]{0,3}(?:은|는|이|가)?[^.가-힣]{0,3}(?:없음|없습|해당없|해당사항없|미적용|적용되지않|적용받지않)", qs):
+                dropped.append("residence_duty: 문장에 거주의무가 없다는 말이 없음(바로 붙어 있어야 함 — 표 머리와 값이 떨어진 글은 받지 않음)")
+            else:
+                out["residence_duty"] = {"text": f"거주의무 {y}년" if y else "거주의무 없음", "quote": answer["residence_duty_quote"].strip(), "years": y}
+    return out, dropped
+
+
+def sale_gaps(found: dict) -> list[str]:
+    """규칙이 못 읽어 화면이 '확인 필요'로 보이는 항목. 실거주 의무는 '공고문에 말이 없음'(duty_silent)으로 읽은 공고는 뺀다."""
+    out = []
+    if not found.get("residence"):
+        out.append("residence")
+    if found.get("residence_duty") is None and not found.get("duty_silent"):
+        out.append("residence_duty")
+    return out
+
+
+def sale_fill(nid: str, found: dict, text: str, name: str, budget: Budget, post: Optional[Callable] = None, api_key: Optional[str] = None,
+              cache_dir: Optional[Path] = None, need: Optional[list] = None) -> tuple[dict, list[str]]:
+    """→ (못 읽은 항목의 AI 참고 내용 {항목: {'text','quote'}}, 기록 줄). 같은 공고(주택관리번호·지시문)는 한 번만 부른다."""
+    log: list[str] = []
+    need = sale_gaps(found) if need is None else need
+    if not need or not text or len(text) < 500:
+        return {}, log
+    d = cache_dir or SALE_DIR
+    f = d / f"{nid}.json"
+    saved = None
+    try:
+        saved = json.loads(f.read_text(encoding="utf-8"))
+    except Exception:
+        pass
+    if not (saved and saved.get("prompt_v") == SALE_PROMPT_V and isinstance(saved.get("answer"), dict)):
+        api_key = api_key if api_key is not None else os.environ.get("ANTHROPIC_API_KEY", "")
+        if not api_key:
+            return {}, [f"[공고문·AI 읽기] {name} ({nid}): 못 읽은 항목 {', '.join(need)} — ANTHROPIC_API_KEY 없음, 건너뜀"]
+        if budget.left <= 0:
+            return {}, [f"[공고문·AI 읽기] {name} ({nid}): 이번 실행 호출 수 한도 — 다음 수집에서 읽음"]
+        if month_spent() >= month_cap():
+            return {}, [f"[공고문·AI 읽기] {name} ({nid}): 이번 달 추정 사용액 ${month_spent():.2f} 가 한도 ${month_cap():.0f} 를 넘어 부르지 않음"]
+        budget.left -= 1
+        try:
+            answer, usage = ask(text, "분양", name, api_key, post, SYSTEM_SALE)
+        except Exception as e:
+            return {}, [f"[공고문·AI 읽기] {name} ({nid}): 호출 실패: {str(e)[:160].replace(api_key, '***')}"]
+        usd = usd_of(usage)
+        if cache_dir is None:
+            _add_spent(usd)
+        saved = {"id": nid, "prompt_v": SALE_PROMPT_V, "model": MODEL, "at": datetime.now(KST).strftime("%Y-%m-%d %H:%M"),
+                 "usage": {k: usage.get(k) for k in ("input_tokens", "output_tokens")}, "usd": round(usd, 4), "answer": answer}
+        d.mkdir(parents=True, exist_ok=True)
+        f.write_text(json.dumps(saved, ensure_ascii=False, indent=1) + "\n", encoding="utf-8")
+        log.append(f"[공고문·AI 읽기] {name} ({nid}): AI 호출 (입력 {usage.get('input_tokens')}·출력 {usage.get('output_tokens')} 토큰, 추정 ${usd:.3f} · 이번 달 ${month_spent():.2f}/{month_cap():.0f})")
+    hints, dropped = sale_hints(saved["answer"], [text])
+    for x in dropped:
+        log.append(f"[공고문·AI 읽기·탈락] {name} ({nid}): {x}")
+    hints = {k: {"text": v["text"], "quote": v["quote"]} for k, v in hints.items() if k in need}
+    if hints:
+        log.append(f"[공고문·AI 읽기] {name} ({nid}): AI 가 읽은 참고 내용 " + " / ".join(f"{k}: {v['text']}" for k, v in hints.items()) + " — 판정에는 쓰지 않음. 원문과 맞춰 보고 읽기 규칙·정답 데이터에 넣을 것")
+    else:
+        log.append(f"[공고문·AI 읽기] {name} ({nid}): 못 읽은 항목 {', '.join(need)} — AI 도 검사를 통과한 값을 주지 못함")
+    return hints, log

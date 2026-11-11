@@ -7,6 +7,9 @@ on:
       n:
         description: "읽힐 공고 수 (최근 정답 데이터부터)"
         default: "12"
+      kind:
+        description: "lh = LH 임대(기능 ai_read) · sale = 분양(기능 ai_read_sale)"
+        default: "lh"
 permissions:
   contents: write
 concurrency:
@@ -28,10 +31,11 @@ jobs:
       - name: AI 판독 시험
         env:
           N: ${{ inputs.n }}
-        run: python -m tools.qa.ai_read_probe "$N"
+          KIND: ${{ inputs.kind }}
+        run: if [ "$KIND" = sale ]; then python -m tools.qa.ai_read_probe "$N" --sale; else python -m tools.qa.ai_read_probe "$N"; fi
       - name: 저장
         run: |
           git config user.name "cheongyak-bot"
           git config user.email "actions@users.noreply.github.com"
-          git add evidence/qa/ai-read-probe.json evidence/qa/ai-probe
+          git add -A evidence/qa/ai-read-probe.json evidence/qa/ai-read-probe-sale.json evidence/qa/ai-probe evidence/qa/ai-probe-sale 2>/dev/null || git add -A evidence/qa
           git diff --cached --quiet || (git commit -m "AI 판독 정확도 시험 $(date +%Y-%m-%d)" && bash tools/qa/push_retry.sh)
