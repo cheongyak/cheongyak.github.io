@@ -1,16 +1,16 @@
 {
  "id": "2026910220",
- "prompt_v": 1,
+ "prompt_v": 2,
  "model": "claude-sonnet-5-5",
  "usage": {
-  "input_tokens": 30453,
+  "input_tokens": 30606,
   "cache_creation_input_tokens": 0,
   "cache_read_input_tokens": 0,
   "cache_creation": {
    "ephemeral_5m_input_tokens": 0,
    "ephemeral_1h_input_tokens": 0
   },
-  "output_tokens": 155,
+  "output_tokens": 183,
   "output_tokens_details": {
    "thinking_tokens": 0
   },
@@ -20,7 +20,7 @@
  },
  "answer": {
   "residence": {
-   "area": "전국",
+   "area": null,
    "months": 0,
    "since": null,
    "others": [
@@ -29,6 +29,6 @@
   },
   "residence_quote": "본 주택은 무순위(사후) 입주자모집공고일 현재 전국에 거주하는 무주택세대구성원을 대상으로 공급합니다(외국인 청약불가).",
   "residence_duty_years": 0,
-  "residence_duty_quote": "재당첨제한 전매제한 거주의무기간 분양가상한제"
+  "residence_duty_quote": "최초 당첨자발표일(2026.06.05.)로부터 3년(단, 3년 내 소유권이전등기 시 해제) 없음 미적용"
  }
 }

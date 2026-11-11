@@ -1,16 +1,16 @@
 {
  "id": "2026930031",
- "prompt_v": 1,
+ "prompt_v": 2,
  "model": "claude-sonnet-5-5",
  "usage": {
-  "input_tokens": 32119,
+  "input_tokens": 32272,
   "cache_creation_input_tokens": 0,
   "cache_read_input_tokens": 0,
   "cache_creation": {
    "ephemeral_5m_input_tokens": 0,
    "ephemeral_1h_input_tokens": 0
   },
-  "output_tokens": 139,
+  "output_tokens": 190,
   "output_tokens_details": {
    "thinking_tokens": 0
   },
@@ -23,10 +23,10 @@
    "area": "경기도 광명시",
    "months": 0,
    "since": null,
-   "others": null
+   "others": []
   },
-  "residence_quote": "민영 투기과열지구/청약과열지역 경기도 광명시 거주자 10년",
-  "residence_duty_years": 0,
-  "residence_duty_quote": "최초 당첨자발표일 (2023.11.07.)로부터 3년간 적용 없음 미적용 민간택지"
+  "residence_quote": "■ 입주자모집공고일 현재 해당 주택건설지역인 경기도 광명시에 거주하는 무주택세대주(무주택세대의 세대주)",
+  "residence_duty_quote": "전매제한 거주의무기간 분양가상한제 택지유형\n최초 당첨자발표일 (2023.11.07.)로부터 3년간 적용 없음 미적용 민간택지",
+  "residence_duty_years": 0
  }
 }

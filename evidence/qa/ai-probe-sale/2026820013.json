@@ -1,16 +1,16 @@
 {
  "id": "2026820013",
- "prompt_v": 1,
+ "prompt_v": 2,
  "model": "claude-sonnet-5-5",
  "usage": {
-  "input_tokens": 125148,
+  "input_tokens": 125301,
   "cache_creation_input_tokens": 0,
   "cache_read_input_tokens": 0,
   "cache_creation": {
    "ephemeral_5m_input_tokens": 0,
    "ephemeral_1h_input_tokens": 0
   },
-  "output_tokens": 199,
+  "output_tokens": 177,
   "output_tokens_details": {
    "thinking_tokens": 0
   },
@@ -20,7 +20,7 @@
  },
  "answer": {
   "residence": {
-   "area": "안산시",
+   "area": "경기도 안산시",
    "months": 12,
    "since": "2025-10-30",
    "others": [

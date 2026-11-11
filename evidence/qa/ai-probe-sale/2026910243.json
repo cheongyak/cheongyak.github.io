@@ -1,16 +1,16 @@
 {
  "id": "2026910243",
- "prompt_v": 1,
+ "prompt_v": 2,
  "model": "claude-sonnet-5-5",
  "usage": {
-  "input_tokens": 21702,
+  "input_tokens": 21855,
   "cache_creation_input_tokens": 0,
   "cache_read_input_tokens": 0,
   "cache_creation": {
    "ephemeral_5m_input_tokens": 0,
    "ephemeral_1h_input_tokens": 0
   },
-  "output_tokens": 176,
+  "output_tokens": 172,
   "output_tokens_details": {
    "thinking_tokens": 0
   },
@@ -20,11 +20,11 @@
  },
  "answer": {
   "residence": {
-   "area": "충청북도",
+   "area": null,
    "months": 0,
    "since": null,
    "others": [
-    "전국"
+    "충북"
    ]
   },
   "residence_quote": "본  주택은  무순위 사후 입주자모집공고일  현재 ( )  충청북도에  거주하는  무주택세대구성원을  대상으로  공급합니다",

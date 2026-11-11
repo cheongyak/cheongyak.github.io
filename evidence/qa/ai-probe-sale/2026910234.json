@@ -1,16 +1,16 @@
 {
  "id": "2026910234",
- "prompt_v": 1,
+ "prompt_v": 2,
  "model": "claude-sonnet-5-5",
  "usage": {
-  "input_tokens": 23404,
+  "input_tokens": 23557,
   "cache_creation_input_tokens": 0,
   "cache_read_input_tokens": 0,
   "cache_creation": {
    "ephemeral_5m_input_tokens": 0,
    "ephemeral_1h_input_tokens": 0
   },
-  "output_tokens": 194,
+  "output_tokens": 184,
   "output_tokens_details": {
    "thinking_tokens": 0
   },
@@ -20,16 +20,17 @@
  },
  "answer": {
   "residence": {
-   "area": "부산광역시",
+   "area": null,
    "months": 0,
    "since": null,
    "others": [
+    "부산",
     "울산",
     "경남"
    ]
   },
-  "residence_quote": "본 주택은 무순위(사후) 입주자모집공고일 현재 부산광역시 및 울산광역시, 경상남도에 거주하는 무주택세대구성원을 대상으로 공급합니다.",
-  "residence_duty_years": 0,
-  "residence_duty_quote": "재당첨제한 전매제한 거주의무기간 분양가상한제"
+  "residence_quote": "무순위(사후) 입주자모집공고일 현재 부산광역시, 울산광역시, 경상남도에 거주하는 무주택세대구성원",
+  "residence_duty_quote": "재당첨제한 전매제한 거주의무기간 분양가상한제\n없음 최초 당첨자발표일(2026.08.19.)로부터 6개월 없음 미적용",
+  "residence_duty_years": 0
  }
 }
