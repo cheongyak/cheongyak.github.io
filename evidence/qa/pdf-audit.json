@@ -1,24 +1,13 @@
 {
- "date": "2026-11-11",
+ "date": "2026-11-12",
  "page_cap": 300,
  "notices": 65,
- "with_problem": 6,
+ "with_problem": 7,
  "kinds": {
   "읽기 도구에 따라 값이 다름": 1,
-  "글자가 거의 없는 쪽 N개 (스캔 이미지·표 그림 추정)": 5
+  "글자가 거의 없는 쪽 N개 (스캔 이미지·표 그림 추정)": 6
  },
- "errors": [
-  {
-   "notice": "2026000515",
-   "name": "평택 고덕 우미 린 더 프리미어",
-   "error": "RemoteProtocolError: Server disconnected without sending a response."
-  },
-  {
-   "notice": "2026000434",
-   "name": "삼도이동 1지구 토지임대부 공공분양주택",
-   "error": "RemoteProtocolError: Server disconnected without sending a response."
-  }
- ],
+ "errors": [],
  "results": [
   {
    "notice": "2026820015",
@@ -336,17 +325,17 @@
    "pdfs": 1,
    "attachment_list": [
     {
-     "url": "https://static.applyhome.co.kr/ai/aia/getAtchmnfl.do?houseManageNo=2026000554&pblancNo=2026000554&atchmnflSeqNo=2013025&atchmnflSn=2",
-     "bytes": 873976,
-     "pages": 75,
-     "chars": 142721,
-     "head": "- 1 - ※ 입주자모집공고의 자격 제한 및 유의 사항을 숙지한 후 청약에 응하시기 바라며, 미숙지로 인한 착오행위 등에 대해서는 청약자 본인에"
+     "url": "https://static.applyhome.co.kr/ai/aia/getAtchmnfl.do?houseManageNo=2026000554&pblancNo=2026000554&atchmnflSeqNo=2013025&atchmnflSn=4",
+     "bytes": 878413,
+     "pages": 77,
+     "chars": 143871,
+     "head": "- 1 - ※ 리첼 에듀포레 경산역 입주자모집공고 정정 안내 리첼 에듀포레 경산역 입주자모집공고(2026.11.03.)의 내용 중 일부를 202"
     }
    ],
-   "chosen": "https://static.applyhome.co.kr/ai/aia/getAtchmnfl.do?houseManageNo=2026000554&pblancNo=2026000554&atchmnflSeqNo=2013025&atchmnflSn=2",
-   "pages": 75,
-   "pages_read": 75,
-   "chars_read": 142795,
+   "chosen": "https://static.applyhome.co.kr/ai/aia/getAtchmnfl.do?houseManageNo=2026000554&pblancNo=2026000554&atchmnflSeqNo=2013025&atchmnflSn=4",
+   "pages": 77,
+   "pages_read": 77,
+   "chars_read": 143947,
    "empty_pages": [],
    "chars_per_page_min": 98,
    "fields": {
@@ -382,7 +371,7 @@
      "since": null
     }
    },
-   "pdfium_chars": 143062,
+   "pdfium_chars": 144224,
    "problem": []
   },
   {
@@ -824,7 +813,62 @@
   {
    "notice": "2026000515",
    "name": "평택 고덕 우미 린 더 프리미어",
-   "error": "RemoteProtocolError: Server disconnected without sending a response."
+   "url": "https://www.applyhome.co.kr/ai/aia/selectAPTLttotPblancDetail.do?houseManageNo=2026000515&pblancNo=2026000515",
+   "attachments": 1,
+   "pdfs": 1,
+   "attachment_list": [
+    {
+     "url": "https://static.applyhome.co.kr/ai/aia/getAtchmnfl.do?houseManageNo=2026000515&pblancNo=2026000515&atchmnflSeqNo=2008103&atchmnflSn=8",
+     "bytes": 1165101,
+     "pages": 71,
+     "chars": 162473,
+     "head": "- 1 - 평택 고덕 우미 린 더 프리미어 입주자모집공고평택 고덕 우미 린 더 프리미어 입주자모집공고 ※ 단지 주요정보 (분양문의) 031-66"
+    }
+   ],
+   "chosen": "https://static.applyhome.co.kr/ai/aia/getAtchmnfl.do?houseManageNo=2026000515&pblancNo=2026000515&atchmnflSeqNo=2008103&atchmnflSn=8",
+   "pages": 71,
+   "pages_read": 71,
+   "chars_read": 162543,
+   "empty_pages": [],
+   "chars_per_page_min": 850,
+   "fields": {
+    "need_head": false,
+    "price_cap": true,
+    "residence_duty": 0,
+    "rewin_years": 10,
+    "account_months": 12,
+    "residence": {
+     "area": "경기도 평택시",
+     "months": 12,
+     "since": "2025-10-30"
+    }
+   },
+   "fields_merged": {
+    "need_head": false,
+    "price_cap": true,
+    "residence_duty": 0,
+    "rewin_years": 10,
+    "account_months": 12,
+    "residence": {
+     "area": "경기도 평택시",
+     "months": 12,
+     "since": "2025-10-30"
+    }
+   },
+   "fields_pdfium": {
+    "need_head": false,
+    "price_cap": true,
+    "residence_duty": 0,
+    "rewin_years": 10,
+    "account_months": 12,
+    "residence": {
+     "area": "경기도 평택시",
+     "months": 12,
+     "since": "2025-10-30"
+    }
+   },
+   "pdfium_chars": 161344,
+   "problem": []
   },
   {
    "notice": "2026000472",
@@ -1136,7 +1180,64 @@
   {
    "notice": "2026000434",
    "name": "삼도이동 1지구 토지임대부 공공분양주택",
-   "error": "RemoteProtocolError: Server disconnected without sending a response."
+   "url": "https://www.applyhome.co.kr/ai/aia/selectAPTLttotPblancDetail.do?houseManageNo=2026000434&pblancNo=2026000434",
+   "attachments": 1,
+   "pdfs": 1,
+   "attachment_list": [
+    {
+     "url": "https://static.applyhome.co.kr/ai/aia/getAtchmnfl.do?houseManageNo=2026000434&pblancNo=2026000434&atchmnflSeqNo=2010009&atchmnflSn=2",
+     "bytes": 1579845,
+     "pages": 42,
+     "chars": 129978,
+     "head": "- 1 - 삼도이동 1지구 토지임대부 공공분양주택 입주자모집공고 구 글 플 레 이 스 토 어애플앱 스토어 청약Home 앱 설치 바로가기 본 입주"
+    }
+   ],
+   "chosen": "https://static.applyhome.co.kr/ai/aia/getAtchmnfl.do?houseManageNo=2026000434&pblancNo=2026000434&atchmnflSeqNo=2010009&atchmnflSn=2",
+   "pages": 42,
+   "pages_read": 42,
+   "chars_read": 130019,
+   "empty_pages": [
+    36,
+    39
+   ],
+   "chars_per_page_min": 21,
+   "fields": {
+    "price_cap": true,
+    "residence_duty": 5,
+    "rewin_years": 10,
+    "residence": {
+     "area": "제주특별자치도",
+     "months": 12,
+     "since": "2025-10-27"
+    },
+    "pub_limits_kind": "total"
+   },
+   "fields_merged": {
+    "price_cap": true,
+    "residence_duty": 5,
+    "rewin_years": 10,
+    "residence": {
+     "area": "제주특별자치도",
+     "months": 12,
+     "since": "2025-10-27"
+    },
+    "pub_limits_kind": "total"
+   },
+   "fields_pdfium": {
+    "price_cap": true,
+    "residence_duty": 5,
+    "rewin_years": 10,
+    "residence": {
+     "area": "제주특별자치도",
+     "months": 12,
+     "since": "2025-10-27"
+    },
+    "pub_limits_kind": "total"
+   },
+   "pdfium_chars": 130040,
+   "problem": [
+    "글자가 거의 없는 쪽 2개 (스캔 이미지·표 그림 추정): [36, 39]"
+   ]
   },
   {
    "notice": "2026820012",
@@ -2332,19 +2433,19 @@
    "pdfs": 1,
    "attachment_list": [
     {
-     "url": "https://static.applyhome.co.kr/ai/aia/getAtchmnfl.do?houseManageNo=2026910284&pblancNo=2026910284&atchmnflSeqNo=2008209&atchmnflSn=5",
-     "bytes": 277143,
-     "pages": 12,
-     "chars": 22032,
-     "head": "- 1 - ※ 단지 주요정보 (분양문의) 032-613-2355 주택유형 규제지역여부 무순위(사후) 자격요건 민영 비규제지역 무순위(사후) 입주"
+     "url": "https://static.applyhome.co.kr/ai/aia/getAtchmnfl.do?houseManageNo=2026910284&pblancNo=2026910284&atchmnflSeqNo=2008209&atchmnflSn=6",
+     "bytes": 280011,
+     "pages": 13,
+     "chars": 22213,
+     "head": "- 1 - ※ 정정공고 안내 ■ 2026.11.10. 공고한 중동역 다채로움 더원 무순위(사후) 입주자모집공고 2페이지 내용중 서류접수 및 계약"
     }
    ],
-   "chosen": "https://static.applyhome.co.kr/ai/aia/getAtchmnfl.do?houseManageNo=2026910284&pblancNo=2026910284&atchmnflSeqNo=2008209&atchmnflSn=5",
-   "pages": 12,
-   "pages_read": 12,
-   "chars_read": 22043,
+   "chosen": "https://static.applyhome.co.kr/ai/aia/getAtchmnfl.do?houseManageNo=2026910284&pblancNo=2026910284&atchmnflSeqNo=2008209&atchmnflSn=6",
+   "pages": 13,
+   "pages_read": 13,
+   "chars_read": 22225,
    "empty_pages": [],
-   "chars_per_page_min": 1195,
+   "chars_per_page_min": 1117,
    "fields": {
     "need_head": false,
     "price_cap": false,
@@ -2378,7 +2479,7 @@
      "since": null
     }
    },
-   "pdfium_chars": 21756,
+   "pdfium_chars": 21947,
    "problem": []
   },
   {
