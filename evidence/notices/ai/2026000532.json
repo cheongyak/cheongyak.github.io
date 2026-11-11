@@ -1,0 +1,25 @@
+{
+ "id": "2026000532",
+ "prompt_v": 2,
+ "model": "claude-sonnet-5-5",
+ "at": "2026-11-11 10:46",
+ "usage": {
+  "input_tokens": 147997,
+  "output_tokens": 202
+ },
+ "usd": 0.298,
+ "answer": {
+  "residence": {
+   "area": "인천광역시",
+   "months": 0,
+   "since": null,
+   "others": [
+    "서울",
+    "경기"
+   ]
+  },
+  "residence_quote": "주택유형 해당지역 기타지역 규제지역여부\n민영 인천광역시 거주자 서울특별시 및 경기도 거주자 비규제지역",
+  "residence_duty_years": 0,
+  "residence_duty_quote": "재당첨제한 전매제한 거주의무기간 분양가상한제 택지유형\n10년 3년 없음 적용 대규모 택지개발지구/ 공공택지 / 수도권 공공주택지구"
+ }
+}
