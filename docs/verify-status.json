@@ -1,15 +1,14 @@
 {
- "at": "2026-11-12 06:51",
- "ok": true,
+ "at": "2026-11-12 07:08",
+ "ok": false,
  "collect_run": "2026-11-12 · 공고 261건",
  "banner": null,
- "flagged": {},
- "pending": [
-  "임대 기관 거르기 화면",
-  "경고 범위 화면",
-  "임대 판정",
-  "임대 화면"
- ],
+ "flagged": {
+  "2015122300021018": [
+   "자동 검증(임대 공고문 못 읽음): 일반 소득 기준을 공고문에서 읽지 못함 — 공고문 확인"
+  ]
+ },
+ "pending": [],
  "coverage_missing": 0,
  "observe": [],
  "warnings": [],
@@ -17,37 +16,37 @@
   {
    "name": "분양",
    "updated": "2026-11-12 06:36",
-   "hours": 0.3,
+   "hours": 0.5,
    "stale": false
   },
   {
    "name": "LH 임대",
-   "updated": "2026-11-11 12:14",
-   "hours": 18.6,
+   "updated": "2026-11-12 06:28",
+   "hours": 0.7,
    "stale": false
   },
   {
    "name": "SH 임대",
    "updated": "2026-11-11 10:29",
-   "hours": 20.4,
+   "hours": 20.7,
    "stale": false
   },
   {
    "name": "GH 임대",
    "updated": "2026-11-11 10:30",
-   "hours": 20.4,
+   "hours": 20.6,
    "stale": false
   },
   {
    "name": "공공지원 민간임대",
    "updated": "2026-11-11 10:42",
-   "hours": 20.2,
+   "hours": 20.4,
    "stale": false
   },
   {
    "name": "LH 주거복지·신혼희망",
    "updated": "2026-11-11 11:12",
-   "hours": 19.7,
+   "hours": 19.9,
    "stale": false
   }
  ],
@@ -63,12 +62,7 @@
  "golden": {
   "mismatches": []
  },
- "qa_stale": [
-  "rent-org.json",
-  "verify-scope.json",
-  "lh-qa.json",
-  "lh-screen.json"
- ],
+ "qa_stale": [],
  "qa": {
   "gate": true,
   "supply_type_fails": 0,
@@ -86,19 +80,19 @@
   "e2e_fails": 0,
   "past_chat_fails": 0,
   "lh_invariant_violations": 0,
-  "lh_judge_qa_fails": null,
-  "lh_screen_fails": null,
-  "lh_unread": 0,
+  "lh_judge_qa_fails": 0,
+  "lh_screen_fails": 0,
+  "lh_unread": 1,
   "lh_pdf_merged_wrong": 0,
   "pay_audit_bad": 0,
   "parse_moved_changes": 0,
   "coverage_missing": 0,
-  "verify_scope_fails": null,
+  "verify_scope_fails": 0,
   "pay_audit_read": "177/193",
-  "lh_data_at": "2026-11-11 12:14",
-  "cross_rule_checks": 351291,
+  "lh_data_at": "2026-11-12 06:28",
+  "cross_rule_checks": 354483,
   "market_at": "2026-11-12",
   "supply_type_at": "2026-11-11",
-  "invariants_at": "2026-11-12"
+  "invariants_at": "2026-11-11"
  }
 }
