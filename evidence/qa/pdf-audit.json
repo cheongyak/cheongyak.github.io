@@ -2,30 +2,20 @@
  "date": "2026-11-11",
  "page_cap": 300,
  "notices": 65,
- "with_problem": 5,
+ "with_problem": 6,
  "kinds": {
   "읽기 도구에 따라 값이 다름": 1,
-  "글자가 거의 없는 쪽 N개 (스캔 이미지·표 그림 추정)": 4
+  "글자가 거의 없는 쪽 N개 (스캔 이미지·표 그림 추정)": 5
  },
  "errors": [
   {
-   "notice": "2026000553",
-   "name": "의정부역 펠리스타워 양우내안애",
+   "notice": "2026000515",
+   "name": "평택 고덕 우미 린 더 프리미어",
    "error": "RemoteProtocolError: Server disconnected without sending a response."
   },
   {
    "notice": "2026000434",
    "name": "삼도이동 1지구 토지임대부 공공분양주택",
-   "error": "RemoteProtocolError: Server disconnected without sending a response."
-  },
-  {
-   "notice": "2026000502",
-   "name": "화성 향남 롯데캐슬 시그니처",
-   "error": "RemoteProtocolError: Server disconnected without sending a response."
-  },
-  {
-   "notice": "2026000513",
-   "name": "트리븐센텀 1단지",
    "error": "RemoteProtocolError: Server disconnected without sending a response."
   }
  ],
@@ -157,7 +147,62 @@
   {
    "notice": "2026000553",
    "name": "의정부역 펠리스타워 양우내안애",
-   "error": "RemoteProtocolError: Server disconnected without sending a response."
+   "url": "https://www.applyhome.co.kr/ai/aia/selectAPTLttotPblancDetail.do?houseManageNo=2026000553&pblancNo=2026000553",
+   "attachments": 1,
+   "pdfs": 1,
+   "attachment_list": [
+    {
+     "url": "https://static.applyhome.co.kr/ai/aia/getAtchmnfl.do?houseManageNo=2026000553&pblancNo=2026000553&atchmnflSeqNo=2016014&atchmnflSn=8",
+     "bytes": 958798,
+     "pages": 62,
+     "chars": 125976,
+     "head": "- 1 - ※ 본 아파트 입주자모집공고의 내용을 숙지한 후 청약 및 계약에 응하시기 바라며, 미숙지로 인한 착오행위 등에 대하여는 청약자 본인에"
+    }
+   ],
+   "chosen": "https://static.applyhome.co.kr/ai/aia/getAtchmnfl.do?houseManageNo=2026000553&pblancNo=2026000553&atchmnflSeqNo=2016014&atchmnflSn=8",
+   "pages": 62,
+   "pages_read": 62,
+   "chars_read": 126037,
+   "empty_pages": [],
+   "chars_per_page_min": 1118,
+   "fields": {
+    "need_head": false,
+    "price_cap": false,
+    "residence_duty": 0,
+    "rewin_years": 0,
+    "account_months": 12,
+    "residence": {
+     "area": "경기도 의정부시",
+     "months": 0,
+     "since": null
+    }
+   },
+   "fields_merged": {
+    "need_head": false,
+    "price_cap": false,
+    "residence_duty": 0,
+    "rewin_years": 0,
+    "account_months": 12,
+    "residence": {
+     "area": "경기도 의정부시",
+     "months": 0,
+     "since": null
+    }
+   },
+   "fields_pdfium": {
+    "need_head": false,
+    "price_cap": false,
+    "residence_duty": 0,
+    "rewin_years": 0,
+    "account_months": 12,
+    "residence": {
+     "area": "경기도 의정부시",
+     "months": 0,
+     "since": null
+    }
+   },
+   "pdfium_chars": 126414,
+   "problem": []
   },
   {
    "notice": "2026000497",
@@ -779,62 +824,7 @@
   {
    "notice": "2026000515",
    "name": "평택 고덕 우미 린 더 프리미어",
-   "url": "https://www.applyhome.co.kr/ai/aia/selectAPTLttotPblancDetail.do?houseManageNo=2026000515&pblancNo=2026000515",
-   "attachments": 1,
-   "pdfs": 1,
-   "attachment_list": [
-    {
-     "url": "https://static.applyhome.co.kr/ai/aia/getAtchmnfl.do?houseManageNo=2026000515&pblancNo=2026000515&atchmnflSeqNo=2008103&atchmnflSn=8",
-     "bytes": 1165101,
-     "pages": 71,
-     "chars": 162473,
-     "head": "- 1 - 평택 고덕 우미 린 더 프리미어 입주자모집공고평택 고덕 우미 린 더 프리미어 입주자모집공고 ※ 단지 주요정보 (분양문의) 031-66"
-    }
-   ],
-   "chosen": "https://static.applyhome.co.kr/ai/aia/getAtchmnfl.do?houseManageNo=2026000515&pblancNo=2026000515&atchmnflSeqNo=2008103&atchmnflSn=8",
-   "pages": 71,
-   "pages_read": 71,
-   "chars_read": 162543,
-   "empty_pages": [],
-   "chars_per_page_min": 850,
-   "fields": {
-    "need_head": false,
-    "price_cap": true,
-    "residence_duty": 0,
-    "rewin_years": 10,
-    "account_months": 12,
-    "residence": {
-     "area": "경기도 평택시",
-     "months": 12,
-     "since": "2025-10-30"
-    }
-   },
-   "fields_merged": {
-    "need_head": false,
-    "price_cap": true,
-    "residence_duty": 0,
-    "rewin_years": 10,
-    "account_months": 12,
-    "residence": {
-     "area": "경기도 평택시",
-     "months": 12,
-     "since": "2025-10-30"
-    }
-   },
-   "fields_pdfium": {
-    "need_head": false,
-    "price_cap": true,
-    "residence_duty": 0,
-    "rewin_years": 10,
-    "account_months": 12,
-    "residence": {
-     "area": "경기도 평택시",
-     "months": 12,
-     "since": "2025-10-30"
-    }
-   },
-   "pdfium_chars": 161344,
-   "problem": []
+   "error": "RemoteProtocolError: Server disconnected without sending a response."
   },
   {
    "notice": "2026000472",
@@ -1594,7 +1584,59 @@
   {
    "notice": "2026000502",
    "name": "화성 향남 롯데캐슬 시그니처",
-   "error": "RemoteProtocolError: Server disconnected without sending a response."
+   "url": "https://www.applyhome.co.kr/ai/aia/selectAPTLttotPblancDetail.do?houseManageNo=2026000502&pblancNo=2026000502",
+   "attachments": 1,
+   "pdfs": 1,
+   "attachment_list": [
+    {
+     "url": "https://static.applyhome.co.kr/ai/aia/getAtchmnfl.do?houseManageNo=2026000502&pblancNo=2026000502&atchmnflSeqNo=2001080&atchmnflSn=4",
+     "bytes": 3591552,
+     "pages": 60,
+     "chars": 193742,
+     "head": "화성 향남 롯데캐슬 시그니처 - 1 - 화성 향남 롯데캐슬 시그니처 입주자모집공고 정정공고() 수 의 내용 중 일부를 수 일자로 아래와 같이 정"
+    }
+   ],
+   "chosen": "https://static.applyhome.co.kr/ai/aia/getAtchmnfl.do?houseManageNo=2026000502&pblancNo=2026000502&atchmnflSeqNo=2001080&atchmnflSn=4",
+   "pages": 60,
+   "pages_read": 60,
+   "chars_read": 193801,
+   "empty_pages": [],
+   "chars_per_page_min": 771,
+   "fields": {
+    "need_head": false,
+    "price_cap": false,
+    "residence_duty": 0,
+    "rewin_years": 0,
+    "residence": {
+     "area": "경기도 화성시",
+     "months": 0,
+     "since": null
+    }
+   },
+   "fields_merged": {
+    "need_head": false,
+    "price_cap": false,
+    "residence_duty": 0,
+    "rewin_years": 0,
+    "residence": {
+     "area": "경기도 화성시",
+     "months": 0,
+     "since": null
+    }
+   },
+   "fields_pdfium": {
+    "need_head": false,
+    "price_cap": false,
+    "residence_duty": 0,
+    "rewin_years": 0,
+    "residence": {
+     "area": "경기도 화성시",
+     "months": 0,
+     "since": null
+    }
+   },
+   "pdfium_chars": 199757,
+   "problem": []
   },
   {
    "notice": "2026000514",
@@ -1659,7 +1701,66 @@
   {
    "notice": "2026000513",
    "name": "트리븐센텀 1단지",
-   "error": "RemoteProtocolError: Server disconnected without sending a response."
+   "url": "https://www.applyhome.co.kr/ai/aia/selectAPTLttotPblancDetail.do?houseManageNo=2026000513&pblancNo=2026000513",
+   "attachments": 1,
+   "pdfs": 1,
+   "attachment_list": [
+    {
+     "url": "https://static.applyhome.co.kr/ai/aia/getAtchmnfl.do?houseManageNo=2026000513&pblancNo=2026000513&atchmnflSeqNo=2000120&atchmnflSn=4",
+     "bytes": 1330557,
+     "pages": 72,
+     "chars": 151915,
+     "head": "- 1 - ※ 단지 주요정보 (분양문의) 1644-5344 주택유형 해당지역 기타지역 규제지역여부 민영 부산광역시 1년 이상 계속 거주자 (20"
+    }
+   ],
+   "chosen": "https://static.applyhome.co.kr/ai/aia/getAtchmnfl.do?houseManageNo=2026000513&pblancNo=2026000513&atchmnflSeqNo=2000120&atchmnflSn=4",
+   "pages": 72,
+   "pages_read": 72,
+   "chars_read": 151986,
+   "empty_pages": [
+    70
+   ],
+   "chars_per_page_min": 7,
+   "fields": {
+    "need_head": false,
+    "price_cap": false,
+    "residence_duty": 0,
+    "rewin_years": 0,
+    "account_months": 6,
+    "residence": {
+     "area": "부산광역시",
+     "months": 12,
+     "since": "2025-10-16"
+    }
+   },
+   "fields_merged": {
+    "need_head": false,
+    "price_cap": false,
+    "residence_duty": 0,
+    "rewin_years": 0,
+    "account_months": 6,
+    "residence": {
+     "area": "부산광역시",
+     "months": 12,
+     "since": "2025-10-16"
+    }
+   },
+   "fields_pdfium": {
+    "need_head": false,
+    "price_cap": false,
+    "residence_duty": 0,
+    "rewin_years": 0,
+    "account_months": 6,
+    "residence": {
+     "area": "부산광역시",
+     "months": 12,
+     "since": "2025-10-16"
+    }
+   },
+   "pdfium_chars": 152346,
+   "problem": [
+    "글자가 거의 없는 쪽 1개 (스캔 이미지·표 그림 추정): [70]"
+   ]
   },
   {
    "notice": "2026000509",
