@@ -1,13 +1,15 @@
 {
- "at": "2026-11-11 11:34",
+ "at": "2026-11-11 11:54",
  "ok": false,
  "collect_run": "2026-11-11 · 공고 258건",
- "banner": null,
- "flagged": {
-  "2015122300021033": [
-   "자동 검증(임대 공고문 못 읽음): 일반 소득 기준을 공고문에서 읽지 못함 — 공고문 확인"
+ "banner": {
+  "kind": "judge",
+  "text": "최근 자동 검증에서 판정 계산이 기대와 달라 확인 중이에요.",
+  "why": [
+   "LH 화면 1건"
   ]
  },
+ "flagged": {},
  "pending": [],
  "coverage_missing": 0,
  "observe": [],
@@ -16,37 +18,37 @@
   {
    "name": "분양",
    "updated": "2026-11-11 11:16",
-   "hours": 0.3,
+   "hours": 0.6,
    "stale": false
   },
   {
    "name": "LH 임대",
-   "updated": "2026-11-11 10:39",
-   "hours": 0.9,
+   "updated": "2026-11-11 11:12",
+   "hours": 0.7,
    "stale": false
   },
   {
    "name": "SH 임대",
    "updated": "2026-11-11 10:29",
-   "hours": 1.1,
+   "hours": 1.4,
    "stale": false
   },
   {
    "name": "GH 임대",
    "updated": "2026-11-11 10:30",
-   "hours": 1.1,
+   "hours": 1.4,
    "stale": false
   },
   {
    "name": "공공지원 민간임대",
    "updated": "2026-11-11 10:42",
-   "hours": 0.9,
+   "hours": 1.2,
    "stale": false
   },
   {
    "name": "LH 주거복지·신혼희망",
    "updated": "2026-11-11 11:12",
-   "hours": 0.4,
+   "hours": 0.7,
    "stale": false
   }
  ],
@@ -81,15 +83,15 @@
   "past_chat_fails": 0,
   "lh_invariant_violations": 0,
   "lh_judge_qa_fails": 0,
-  "lh_screen_fails": 0,
-  "lh_unread": 1,
+  "lh_screen_fails": 1,
+  "lh_unread": 0,
   "lh_pdf_merged_wrong": 0,
   "pay_audit_bad": 0,
   "parse_moved_changes": 0,
   "coverage_missing": 0,
   "verify_scope_fails": 0,
   "pay_audit_read": "177/193",
-  "lh_data_at": "2026-11-11 10:39",
+  "lh_data_at": "2026-11-11 11:12",
   "cross_rule_checks": 350332,
   "market_at": "2026-11-11",
   "supply_type_at": "2026-11-11",
