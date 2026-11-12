@@ -1,14 +1,8 @@
 {
- "at": "2026-11-13 08:22",
+ "at": "2026-11-13 08:46",
  "ok": false,
  "collect_run": "2026-11-13 · 공고 263건",
- "banner": {
-  "kind": "judge",
-  "text": "최근 자동 검증에서 판정 계산이 기대와 달라 확인 중이에요.",
-  "why": [
-   "입력 버튼 2건"
-  ]
- },
+ "banner": null,
  "flagged": {
   "2015122300021041": [
    "자동 검증(임대 공고문 못 읽음): 일반 소득 기준을 공고문에서 읽지 못함 — 공고문 확인"
@@ -16,6 +10,7 @@
  },
  "pending": [
   "임대 기관 거르기 화면",
+  "경고 범위 화면",
   "임대 판정",
   "임대 화면"
  ],
@@ -25,38 +20,38 @@
  "freshness": [
   {
    "name": "분양",
-   "updated": "2026-11-13 07:25",
-   "hours": 1.0,
+   "updated": "2026-11-13 08:32",
+   "hours": 0.2,
    "stale": false
   },
   {
    "name": "LH 임대",
    "updated": "2026-11-13 07:42",
-   "hours": 0.7,
+   "hours": 1.1,
    "stale": false
   },
   {
    "name": "SH 임대",
    "updated": "2026-11-13 07:48",
-   "hours": 0.6,
+   "hours": 1.0,
    "stale": false
   },
   {
    "name": "GH 임대",
    "updated": "2026-11-13 07:49",
-   "hours": 0.6,
+   "hours": 1.0,
    "stale": false
   },
   {
    "name": "공공지원 민간임대",
    "updated": "2026-11-13 07:50",
-   "hours": 0.5,
+   "hours": 0.9,
    "stale": false
   },
   {
    "name": "LH 주거복지·신혼희망",
    "updated": "2026-11-13 08:04",
-   "hours": 0.3,
+   "hours": 0.7,
    "stale": false
   }
  ],
@@ -74,6 +69,7 @@
  },
  "qa_stale": [
   "rent-org.json",
+  "verify-scope.json",
   "lh-qa.json",
   "lh-screen.json"
  ],
@@ -89,7 +85,7 @@
   "profile_keep_fails": 0,
   "monotonic_violations": 0,
   "zero_default_violations": 0,
-  "input_nav_problems": 2,
+  "input_nav_problems": 0,
   "snapshot_diffs": 0,
   "e2e_fails": 0,
   "past_chat_fails": 0,
@@ -101,10 +97,10 @@
   "pay_audit_bad": 0,
   "parse_moved_changes": 0,
   "coverage_missing": 0,
-  "verify_scope_fails": 0,
-  "pay_audit_read": "182/200",
+  "verify_scope_fails": null,
+  "pay_audit_read": "183/200",
   "lh_data_at": "2026-11-13 07:42",
-  "cross_rule_checks": 333533,
+  "cross_rule_checks": 333917,
   "market_at": "2026-11-13",
   "supply_type_at": "2026-11-12",
   "invariants_at": "2026-11-13"
