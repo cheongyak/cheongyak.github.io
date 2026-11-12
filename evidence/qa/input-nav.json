@@ -1,14 +1,203 @@
 {
- "clicks": 4345,
+ "clicks": 4381,
  "byKind": {
-  "fix": 1448,
-  "score": 264,
+  "fix": 1512,
+  "score": 270,
   "edit": 112,
   "restart": 7,
-  "rq": 2122,
-  "go": 392
+  "rq": 2095,
+  "go": 385
  },
- "problems": {},
+ "problems": {
+  "엉뚱한 칸: sidoOwnSince 를 바꿔도 판정이 안 바뀜 (sp:multichild)": {
+   "n": 1,
+   "ex": [
+    {
+     "profile": "부모님 세대 청년",
+     "scene": "상세 2026000576-084.8861A",
+     "button": "fix:sp:multichild \"바로 답하기\"",
+     "ctx": "다자녀 특별공급 전체 18세대 확인 필요 사는 곳: 확인 필요 외 1가지 1. 신청 조건 ! 사는 곳: 확인 필요 ! 미성년 자녀 수를 넣어 주세요 ✓ 세대원 모",
+     "p": {
+      "homeSido": "인천",
+      "homeSigun": "계양구",
+      "household": "parents",
+      "selfOwn": false,
+      "married": false,
+      "acctType": "all",
+      "acctSince": "2020-01-01",
+      "acctAmount": 300,
+      "birth": "1999-01-01"
+     },
+     "landed": "detail",
+     "focus": "sidoOwnSince",
+     "reds": [
+      "sidoOwnSince",
+      "sidoSince",
+      "kidsMinor",
+      "kidsOnDeed"
+     ]
+    }
+   ]
+  },
+  "커서·빨간 표시 없음 (fix)": {
+   "n": 3,
+   "ex": [
+    {
+     "profile": "다 넣은 신혼",
+     "scene": "상세 2026000576-084.8861A",
+     "button": "fix:sp:newborn \"바로 답하기\"",
+     "ctx": "신생아 특별공급 전체 18세대 확인 필요 사는 곳: 공고 지역 거주 · 확인 필요 1. 신청 조건 ! 사는 곳: 공고 지역 거주 · 확인 필요 ✓ 세대원 모두 집",
+     "p": {
+      "homeSido": "경기",
+      "homeSigun": "광명시",
+      "homeArea": "capital",
+      "sidoOwnSince": "2015-01-01",
+      "sidoSince": "2015-01-01",
+      "areaSince": "2015-01-01",
+      "household": "head",
+      "headSince": "2016-01-01",
+      "selfOwn": false,
+      "married": true,
+      "marriedOn": "2022-05-01",
+      "spouseOwn": false,
+      "acctType": "all",
+      "acctSince": "2014-01-01",
+      "acctAmount": 1500,
+      "acctCount": 60,
+      "acctPaid": 1500,
+      "hhHomes": "0",
+      "everWin": "none",
+      "win5y": false,
+      "recentWin": false,
+      "birth": "1990-01-01",
+      "dependents": 2,
+      "kidsMinor": 1,
+      "youngestBirth": "2025-01-01",
+      "pregnant": false,
+      "hhSize": 3,
+      "kidsOnDeed": 1,
+      "eldersOnDeed": 0,
+      "income": 5000,
+      "spouseIncome": 3000,
+      "hhIncomeYear": 8000,
+      "realEstate": 0,
+      "carValue": 1500,
+      "hhNeverOwned": true,
+      "taxYears5": true,
+      "elder65": false,
+      "cash": 20000,
+      "liquid": 0,
+      "deposit": 0
+     },
+     "landed": "detail",
+     "focus": null,
+     "reds": []
+    },
+    {
+     "profile": "다 넣은 신혼",
+     "scene": "상세 2026000576-084.8861A",
+     "button": "fix:sp:newlywed \"바로 답하기\"",
+     "ctx": "신혼부부 특별공급 전체 27세대 확인 필요 사는 곳: 공고 지역 거주 · 확인 필요 1. 신청 조건 ! 사는 곳: 공고 지역 거주 · 확인 필요 ✓ 세대원 모두 ",
+     "p": {
+      "homeSido": "경기",
+      "homeSigun": "광명시",
+      "homeArea": "capital",
+      "sidoOwnSince": "2015-01-01",
+      "sidoSince": "2015-01-01",
+      "areaSince": "2015-01-01",
+      "household": "head",
+      "headSince": "2016-01-01",
+      "selfOwn": false,
+      "married": true,
+      "marriedOn": "2022-05-01",
+      "spouseOwn": false,
+      "acctType": "all",
+      "acctSince": "2014-01-01",
+      "acctAmount": 1500,
+      "acctCount": 60,
+      "acctPaid": 1500,
+      "hhHomes": "0",
+      "everWin": "none",
+      "win5y": false,
+      "recentWin": false,
+      "birth": "1990-01-01",
+      "dependents": 2,
+      "kidsMinor": 1,
+      "youngestBirth": "2025-01-01",
+      "pregnant": false,
+      "hhSize": 3,
+      "kidsOnDeed": 1,
+      "eldersOnDeed": 0,
+      "income": 5000,
+      "spouseIncome": 3000,
+      "hhIncomeYear": 8000,
+      "realEstate": 0,
+      "carValue": 1500,
+      "hhNeverOwned": true,
+      "taxYears5": true,
+      "elder65": false,
+      "cash": 20000,
+      "liquid": 0,
+      "deposit": 0
+     },
+     "landed": "detail",
+     "focus": null,
+     "reds": []
+    },
+    {
+     "profile": "다 넣은 신혼",
+     "scene": "상세 2026000576-084.8861A",
+     "button": "fix:sp:first \"바로 답하기\"",
+     "ctx": "생애최초 특별공급 전체 12세대 확인 필요 사는 곳: 공고 지역 거주 · 확인 필요 1. 신청 조건 ! 사는 곳: 공고 지역 거주 · 확인 필요 ✓ 세대원 모두 ",
+     "p": {
+      "homeSido": "경기",
+      "homeSigun": "광명시",
+      "homeArea": "capital",
+      "sidoOwnSince": "2015-01-01",
+      "sidoSince": "2015-01-01",
+      "areaSince": "2015-01-01",
+      "household": "head",
+      "headSince": "2016-01-01",
+      "selfOwn": false,
+      "married": true,
+      "marriedOn": "2022-05-01",
+      "spouseOwn": false,
+      "acctType": "all",
+      "acctSince": "2014-01-01",
+      "acctAmount": 1500,
+      "acctCount": 60,
+      "acctPaid": 1500,
+      "hhHomes": "0",
+      "everWin": "none",
+      "win5y": false,
+      "recentWin": false,
+      "birth": "1990-01-01",
+      "dependents": 2,
+      "kidsMinor": 1,
+      "youngestBirth": "2025-01-01",
+      "pregnant": false,
+      "hhSize": 3,
+      "kidsOnDeed": 1,
+      "eldersOnDeed": 0,
+      "income": 5000,
+      "spouseIncome": 3000,
+      "hhIncomeYear": 8000,
+      "realEstate": 0,
+      "carValue": 1500,
+      "hhNeverOwned": true,
+      "taxYears5": true,
+      "elder65": false,
+      "cash": 20000,
+      "liquid": 0,
+      "deposit": 0
+     },
+     "landed": "detail",
+     "focus": null,
+     "reds": []
+    }
+   ]
+  }
+ },
  "notes": {
   "단계로만 이동(커서 없음) home": {
    "n": 4,
@@ -17,7 +206,7 @@
      "profile": "빠른 시작(미혼)",
      "scene": "목록",
      "button": "edit:home \"빈 항목 21개 채우기\"",
-     "ctx": "내 조건 서울 · 무주택 · 세대주 · 현금 미입력 수정 신청 가능 12 확인 필요 33 불가 17 빈 항목 21개 채우기",
+     "ctx": "내 조건 서울 · 무주택 · 세대주 · 현금 미입력 수정 신청 가능 12 확인 필요 39 불가 15 빈 항목 21개 채우기",
      "p": {
       "homeSido": "서울",
       "homeArea": "seoul",
@@ -38,7 +227,7 @@
      "profile": "빠른 시작(기혼·배우자 미답)",
      "scene": "목록",
      "button": "edit:home \"빈 항목 21개 채우기\"",
-     "ctx": "내 조건 경기 광명시 · 무주택 · 세대주 · 현금 미입력 수정 신청 가능 0 확인 필요 54 불가 8 빈 항목 21개 채우기",
+     "ctx": "내 조건 경기 광명시 · 무주택 · 세대주 · 현금 미입력 수정 신청 가능 0 확인 필요 58 불가 8 빈 항목 21개 채우기",
      "p": {
       "homeSido": "경기",
       "homeSigun": "광명시",
@@ -61,7 +250,7 @@
      "profile": "부모님 세대 청년",
      "scene": "목록",
      "button": "edit:home \"빈 항목 21개 채우기\"",
-     "ctx": "내 조건 인천 · 무주택 · 세대원 (부모님 세대) · 현금 미입력 수정 신청 가능 6 확인 필요 23 2순위만 16 불가 17 빈 항목 21개 채우기",
+     "ctx": "내 조건 인천 · 무주택 · 세대원 (부모님 세대) · 현금 미입력 수정 신청 가능 6 확인 필요 35 2순위만 10 불가 15 빈 항목 21개 채우기",
      "p": {
       "homeSido": "인천",
       "homeSigun": "계양구",
@@ -1158,7 +1347,7 @@
    ]
   },
   "내 조건 화면으로만 이동 (내 조건 고치기)": {
-   "n": 392,
+   "n": 385,
    "ex": [
     {
      "profile": "빠른 시작(미혼)",
@@ -1369,7 +1558,7 @@
      "profile": "다 넣은 신혼",
      "scene": "목록",
      "button": "edit:소득과 대출 \"빈 항목 2개 채우기\"",
-     "ctx": "내 조건 경기 광명시 · 무주택 · 세대주 · 현금 2억 수정 신청 가능 54 확인 필요 0 불가 8 빈 항목 2개 채우기",
+     "ctx": "내 조건 경기 광명시 · 무주택 · 세대주 · 현금 2억 수정 신청 가능 48 확인 필요 10 불가 8 빈 항목 2개 채우기",
      "p": {
       "homeSido": "경기",
       "homeSigun": "광명시",
@@ -1425,7 +1614,7 @@
      "profile": "무작위 2",
      "scene": "목록",
      "button": "edit:집과 혼인 \"빈 항목 12개 채우기\"",
-     "ctx": "내 조건 경기 광명시 · 집 미입력 · 세대주 · 현금 2억 수정 신청 가능 0 확인 필요 54 불가 8 빈 항목 12개 채우기",
+     "ctx": "내 조건 경기 광명시 · 집 미입력 · 세대주 · 현금 2억 수정 신청 가능 0 확인 필요 58 불가 8 빈 항목 12개 채우기",
      "p": {
       "homeSido": "경기",
       "homeSigun": "광명시",
@@ -1460,7 +1649,7 @@
      "profile": "무작위 3",
      "scene": "목록",
      "button": "edit:집과 혼인 \"빈 항목 13개 채우기\"",
-     "ctx": "내 조건 인천 · 무주택 · 세대주 · 현금 0원 수정 신청 가능 0 확인 필요 53 불가 9 빈 항목 13개 채우기",
+     "ctx": "내 조건 인천 · 무주택 · 세대주 · 현금 0원 수정 신청 가능 0 확인 필요 57 불가 9 빈 항목 13개 채우기",
      "p": {
       "homeSido": "인천",
       "homeArea": "capital",
@@ -1493,7 +1682,7 @@
  "date": "2026-11-12",
  "pageErrors": [],
  "_data": {
-  "listings": "e0663df10aa4",
-  "code": "7329fbed0432"
+  "listings": "55cad68f1eb3",
+  "code": "5dc0d623becc"
  }
 }
