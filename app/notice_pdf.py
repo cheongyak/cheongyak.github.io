@@ -437,6 +437,8 @@ def _price_cap_self(flat: str, x) -> bool:
 
 def parse_notice(text: str) -> dict:
     """공고문 텍스트 → 판정에 쓰는 값. 확실하지 않은 항목은 넣지 않는다."""
+    # 낱말 사이 띄어쓰기가 NUL 글자(\x00)로 나온 PDF (2026910287 더샵 청주그리니티 무순위 2차, 2026-11-13 아침 자동 고치기 — 'NUL충청북도에NUL거주하는')
+    text = _nul_space(text)
     t = re.sub(r"[ \t]+", " ", text)
     flat = re.sub(r"\s+", "", text)
     out: dict = {}
@@ -1194,8 +1196,12 @@ def _rq(out: dict, t: str, m) -> dict:
     return out
 
 
+def _nul_space(text: str) -> str:
+    return text.replace("\x00", " ") if text and "\x00" in text else text
+
+
 def parse_residence(text: str, quote: bool = False) -> Optional[dict]:
-    r = _parse_residence(text)
+    r = _parse_residence(_nul_space(text))
     if r and not quote:
         r.pop("_quote", None)
     return r
