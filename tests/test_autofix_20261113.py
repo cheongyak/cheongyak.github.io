@@ -34,3 +34,14 @@ def test_nul_spaces_2026910287():
     assert notice_pdf.parse_residence(s.replace(" ", "\x00")) == notice_pdf.parse_residence(s)
     # NUL 이 없는 글은 그대로
     assert notice_pdf._nul_space("가 나") == "가 나"
+
+
+def test_pub_limits_reference_mark_2026000457():
+    """부천대장 하우스토리 디센트: 요약 표 소득 줄이 '(맞벌이 200%) ※ 전용면적 60㎡ 이하만 적용' — '*' 대신 '※' 라 60㎡ 이하 일반공급 소득·자산 기준을 못 읽었다."""
+    assert notice_pdf.parse_pub_limits(_t("2026000457")) == GOLD["2026000457"]["fields"]["pub_limits"]
+    row = "소득 해당 없음 (세대) 월평균소득 100% 이하 (맞벌이 200%) {mark} 전용면적 60㎡ 이하만 적용 자산(부동산, 자동차) 해당 없음 (세대) 부동산 215,500천원 이하 자동차 45,420천원 이하 <표2> 구분 자산보유기준 부동산 (건물+토지) 215,500천원 이하 건축물 자동차 45,420천원 이하 "
+    for mark in ("*", "※"):
+        pl = notice_pdf.parse_pub_limits(row.format(mark=mark))
+        assert pl and pl["cap"] == [100, 200] and pl["area_max"] == 60 and (pl["real_estate"], pl["car"]) == (21550, 4542)
+    # 다른 표시(■)는 받지 않는다 — 소득 칸과 자산 줄 사이에 모르는 글이 끼면 읽지 않음
+    assert notice_pdf.parse_pub_limits(row.format(mark="■")) is None
