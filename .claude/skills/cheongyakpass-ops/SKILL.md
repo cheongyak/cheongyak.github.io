@@ -184,6 +184,8 @@ description: 청약패스(cheongyakpass.kr, 저장소 cheongyak/cheongyak.github
 - **ANTHROPIC_API_KEY 는 청약봇 전용이다 (2026-11-12 운영자). 수집·검증·다른 기능에서 Claude API 를 부르지 않는다. 새 기능에 그 키를 쓰려면 먼저 운영자에게 묻는다.**
   11-11 에 묻지 않고 공고문 AI 읽기(수집·정확도 시험)에 써서 하루 약 $9.6(추정)이 나갔다. 지금은 세션이 직접 읽는다: `python -m tools.ai_answer todo`(답이 필요한 공고) →
   원문을 읽고 `format lh|sale` 형식대로 답 JSON 을 써서 `python -m tools.ai_answer lh|sale <번호> <답.json>`(검사기 통과 여부를 보여 주고 답 파일을 씀) → 답 파일 커밋 → 다음 수집부터 실림.
+  **SH 도 같다(기능 ai_read_sh, 11-12)**: `python -m tools.ai_answer sh <글번호> <답.json>`(형식 `format sh`, 원문 evidence/sh/<글번호>.txt, 답 evidence/sh/ai/). SH 는 참고 내용으로만 실리고 판정에는 안 쓴다.
+  한 문장으로 확인되지 않는 값(조건부 기준 '소득 50% 이하인 경우 총자산 …', 다른 줄의 가산)은 null 로 둔다. 답 파일을 올린 뒤 sh-rental.yml 을 손으로 돌려야 바로 실린다(답 파일만 바뀌면 자동으로 안 돎).
   수집 기록 `[공고문·AI 읽기] … 답 파일 없음` 줄이 그 신호다. 답 파일은 임시방편이고 읽기 규칙·정답 데이터 추가가 본 처리다.
 - **비밀 키를 워크플로 일(job) 전체 환경에 넣지 않는다** — 같은 일 안에서 pytest 가 돌면 시험이 그 키로 실제 외부 호출을 한다(2026-11-11 collect.yml: 시험이 Claude 를 실제로 불러 답 파일이 저장소에 들어감).
   키는 그 키를 쓰는 단계의 env 에만 주고, 외부를 부르는 새 모듈을 만들면 tests/conftest.py 에서 키를 지우고 저장 폴더를 임시 폴더로 돌린다.

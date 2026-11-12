@@ -17,3 +17,4 @@ def _ai_answers_in_tmp(tmp_path, monkeypatch):
     from app import ai_read
     monkeypatch.setattr(ai_read, "DIR", tmp_path / "ai-lh")
     monkeypatch.setattr(ai_read, "SALE_DIR", tmp_path / "ai-sale")
+    monkeypatch.setattr(ai_read, "SH_DIR", tmp_path / "ai-sh")

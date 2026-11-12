@@ -214,3 +214,62 @@ def test_sale_fill_uses_only_saved_answer(tmp_path):
     assert ai_read.sale_fill("S2", {"residence": {"a": 1}, "residence_duty": 0}, text, "", cache_dir=tmp_path) == ({}, [])
     assert ai_read.sale_gaps({"residence": {"a": 1}, "duty_silent": True}) == []      # '공고문에 거주의무 말이 없음'으로 읽은 공고는 묻지 않는다
 
+
+
+# ── SH (기능 ai_read_sh, 2026-11-12 운영자 'SH 도 공고문 실패하면 네가 AI 로 읽어. API 키는 쓰지 말고') ──
+SH_TEXT = ("■ 입주자 모집 공고 ■\n임대 조건\n• 서울시에서 학업 및 취업 등의 목적으로 거주하고 있는 무주택 세대 구성원 (서울시에 주소지를 둔 서울시민)\n"
+           "• 입주모집공고일(2026.06.24) 당시 도시근로자 월평균 소득 70% 이하 기준을 충족하는 자\n도시근로자 신청자격\n"
+           "총자산가액: 무주택세대구성원 전원이 보유하고 있는 총자산가액 합산기준 34,500만원 이하\n" + "가나다라 마바사 " * 80)
+SH_ANS = {"groups": [{"name": "도시근로자", "homeless": "household", "homeless_quote": "서울시에서 학업 및 취업 등의 목적으로 거주하고 있는 무주택 세대 구성원 (서울시에 주소지를 둔 서울시민)",
+                      "income_pct": {"1": 70, "2": 70, "3+": 70}, "income_quote": "입주모집공고일(2026.06.24) 당시 도시근로자 월평균 소득 70% 이하 기준을 충족하는 자",
+                      "asset_manwon": 24500, "asset_quote": "총자산가액: 무주택세대구성원 전원이 보유하고 있는 총자산가액 합산기준 34,500만원 이하",
+                      "car_manwon": 4542, "car_quote": "자동차가액 4,542만원 이하"},
+                     {"name": "지어낸 계층", "homeless": "household", "homeless_quote": "서울시에서 학업 및 취업 등의 목적으로 거주하고 있는 무주택 세대 구성원 (서울시에 주소지를 둔 서울시민)"}]}
+
+
+def test_sh_gaps_only_for_judged_kinds():
+    assert ai_read.sh_gaps(None, "사회주택") == ["자격"]
+    assert ai_read.sh_gaps(None, "기타 임대") == []   # 처음부터 판정하지 않는 종류는 '못 읽음'이 아니다
+    g = {"key": "청년", "homeless": "self", "income_pct": None, "asset_manwon": 34500, "car_manwon": "none"}
+    assert ai_read.sh_gaps({"groups": [g]}, "청년 매입임대") == ["청년.income_pct"]
+    assert ai_read.sh_gaps({"groups": [{**g, "income_pct": {"1": 120}}, {"key": "지원대상한부모", "exempt": True, "homeless": "household", "income_pct": None, "asset_manwon": None, "car_manwon": None}]}, "청년 매입임대") == []
+
+
+def test_sh_hints_keep_only_checked_values():
+    h, dropped = ai_read.sh_hints(SH_ANS, [SH_TEXT])
+    assert [g["name"] for g in h["groups"]] == ["도시근로자"]                      # 원문에 없는 계층 이름은 버린다
+    assert [(i["k"], i["text"]) for i in h["groups"][0]["items"]] == [("homeless", "세대원 전원 무주택(무주택세대구성원)"), ("income_pct", "70% 이하")]
+    assert any("asset_manwon: 문장에 그 금액이 없음" in x for x in dropped)        # 문장은 34,500 인데 값은 24,500
+    assert any("car_manwon: 근거 문장이 원문에 없음" in x for x in dropped)
+    assert any("지어낸 계층" in x for x in dropped)
+
+
+def test_sh_fill_uses_only_saved_answer_and_never_touches_terms(tmp_path):
+    out, log = ai_read.sh_fill("999", None, "사회주택", SH_TEXT, "시험 공고", cache_dir=tmp_path)
+    assert out is None and "답 파일 없음" in log[0] and "tools.ai_answer sh 999" in log[0]
+    ai_read.save_answer("sh", "999", SH_ANS, SH_TEXT, cache_dir=tmp_path)
+    out, log = ai_read.sh_fill("999", None, "사회주택", SH_TEXT, "시험 공고", cache_dir=tmp_path)
+    assert out["need"] == ["자격"] and out["model"] == "claude-session" and out["groups"][0]["name"] == "도시근로자"
+    assert "판정에는 쓰지 않음" in log[-1]
+    assert ai_read.sh_fill("999", None, "사회주택", SH_TEXT + "공고문이 바뀜", "시험 공고", cache_dir=tmp_path)[0] is None   # 글이 바뀌면 옛 답을 쓰지 않는다
+    full = {"groups": [{"key": "청년", "homeless": "self", "income_pct": {"1": 120}, "asset_manwon": 34500, "car_manwon": 4542}]}
+    assert ai_read.sh_fill("999", full, "청년 매입임대", SH_TEXT, "시험 공고", cache_dir=tmp_path) == (None, [])              # 규칙이 다 읽은 공고에는 붙이지 않는다
+    assert ai_read.sh_fill("999", None, "기타 임대", SH_TEXT, "시험 공고", cache_dir=tmp_path) == (None, [])
+
+
+def test_sh_rental_attaches_reference_without_changing_terms(tmp_path, monkeypatch):
+    from app import sh_rental
+    monkeypatch.setattr(ai_read, "SH_DIR", tmp_path)
+    ai_read.save_answer("sh", "999", SH_ANS, SH_TEXT, cache_dir=tmp_path)
+    rec = {"id": "SH-999", "type": "사회주택", "name": "시험 공고", "terms": None, "judge_type": False, "close": "2099-01-01"}
+    log = []
+    monkeypatch.setattr(sh_rental, "feature_on", lambda k: True)
+    sh_rental.ai_note(rec, SH_TEXT, log)
+    assert rec["terms"] is None and rec["judge_type"] is False and rec["notice_ai"]["groups"][0]["name"] == "도시근로자"
+    closed = {**rec, "close": "2020-01-01"}; closed.pop("notice_ai")
+    sh_rental.ai_note(closed, SH_TEXT, log)
+    assert "notice_ai" not in closed                                               # 접수가 끝난 공고는 읽지 않는다
+    off = {**rec}; off.pop("notice_ai")
+    monkeypatch.setattr(sh_rental, "feature_on", lambda k: k != "ai_read_sh")
+    sh_rental.ai_note(off, SH_TEXT, log)
+    assert "notice_ai" not in off                                                  # 스위치를 끄면 그 기능 이전과 같다

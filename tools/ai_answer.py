@@ -4,10 +4,11 @@
 답은 수집 때와 똑같은 검사기(app/ai_read: 근거 문장이 원문에 그대로·값이 그 문장 안·범위)를 거친다 — 통과한 값만 화면에 실린다.
 
   python -m tools.ai_answer todo                    못 읽은 칸이 있는데 답 파일이 없는 공고와 원문 위치
-  python -m tools.ai_answer format lh|sale          답 JSON 형식(지시문)
+  python -m tools.ai_answer format lh|sale|sh       답 JSON 형식(지시문)
   python -m tools.ai_answer excerpt <주택관리번호>   분양 공고문에서 거주 요건·거주의무 둘레만 뽑아 보기(긴 공고문)
   python -m tools.ai_answer lh <공고ID> <답.json>    LH 임대 — 검사 결과를 보여 주고 evidence/lh/ai/<공고ID>.json 에 씀
   python -m tools.ai_answer sale <주택관리번호> <답.json>   분양 — evidence/notices/ai/<번호>.json 에 씀
+  python -m tools.ai_answer sh <글번호> <답.json>    SH 임대(기능 ai_read_sh, 참고 내용만 — 판정에는 안 씀) — evidence/sh/ai/<글번호>.json 에 씀. 원문 evidence/sh/<글번호>.txt
   (--dry: 검사만 하고 쓰지 않음)
 
 쓴 뒤: LH 는 `python -m tools.qa.lh_reparse` 로 화면 데이터에 어떻게 실리는지 보고(확인 뒤 git checkout docs/lh-rental.json), 답 파일을 커밋한다. 다음 수집부터 실린다.
@@ -72,6 +73,19 @@ def todo() -> int:
         if not _has(ai_read.SALE_DIR, nid, ai_read.SALE_PROMPT_V):
             n += 1
             print(f"[분양] {nid} {L.get('name')} — 못 읽은 항목 {', '.join(need)} · 원문 `python -m tools.ai_answer excerpt {nid}`")
+    today = __import__("datetime").datetime.now(ai_read.KST).date().isoformat()
+    for N in json.loads((ROOT / "docs/sh-rental.json").read_text(encoding="utf-8")).get("notices", []):
+        seq = N["id"][3:]
+        need = ai_read.sh_gaps(N.get("terms"), N.get("type") or "")
+        if not need or (N.get("close") and N["close"] < today) or not (ROOT / "evidence/sh" / f"{seq}.txt").exists():
+            continue
+        try:
+            saved = json.loads((ai_read.SH_DIR / f"{seq}.json").read_text(encoding="utf-8"))
+        except Exception:
+            saved = {}
+        if saved.get("prompt_v") != ai_read.SH_PROMPT_V or saved.get("sha") != ai_read.sha((ROOT / "evidence/sh" / f"{seq}.txt").read_text(encoding="utf-8")):
+            n += 1
+            print(f"[SH] {seq} {N.get('type')} {N.get('name')} — 못 읽은 것 {', '.join(need)} · 원문 evidence/sh/{seq}.txt")
     print(f"답 파일이 없는 공고 {n}건")
     return 0
 
@@ -82,7 +96,7 @@ def main() -> int:
     if not a or a[0] == "todo":
         return todo()
     if a[0] == "format":
-        print(ai_read.SYSTEM if a[1] == "lh" else ai_read.SYSTEM_SALE)
+        print({"lh": ai_read.SYSTEM, "sh": ai_read.SYSTEM_SH}.get(a[1], ai_read.SYSTEM_SALE))
         return 0
     if a[0] == "excerpt":
         print(ai_read.sale_excerpt(_sale_text(a[1])))
@@ -101,6 +115,21 @@ def main() -> int:
         print("화면이 '공고문 확인'으로 보이는 칸:", ", ".join(need) or "없음(답을 써도 실리는 값이 없음)")
         if not dry:
             print("씀:", ai_read.save_answer("lh", nid, ans, next(iter(tx.values()))).relative_to(ROOT))
+        return 0
+    if kind == "sh":
+        nid = nid[3:] if nid.startswith("SH-") else nid
+        tp = ROOT / "evidence/sh" / f"{nid}.txt"
+        if not tp.exists():
+            print(f"SH 공고 {nid} 원문(evidence/sh/{nid}.txt)이 없음")
+            return 1
+        text = tp.read_text(encoding="utf-8")
+        hints, dropped = ai_read.sh_hints(ans, [text])
+        for g in hints.get("groups", []):
+            print("검사 통과:", g["name"], "—", " / ".join(f"{i['label']} {i['text']}" for i in g["items"]))
+        for d in dropped:
+            print("  탈락:", d)
+        if not dry:
+            print("씀:", ai_read.save_answer("sh", nid, ans, text).relative_to(ROOT))
         return 0
     if kind == "sale":
         text = _sale_text(nid)

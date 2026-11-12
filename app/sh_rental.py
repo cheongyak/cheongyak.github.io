@@ -284,6 +284,20 @@ def notice_record(row: dict, files: list[dict], text: Optional[str]) -> dict:
     }
 
 
+def ai_note(rec: dict, text: Optional[str], log: list) -> None:
+    """기능 ai_read_sh: 규칙이 자격을 못 읽은 공고에 세션이 읽어 둔 답(검사 통과한 값만)을 참고 내용으로 붙인다 — 판정(terms)은 건드리지 않는다. 수집은 AI 를 부르지 않는다."""
+    if not feature_on("ai_read_sh") or (rec.get("close") and rec["close"] < datetime.now(KST).date().isoformat()):   # 접수가 끝난 공고는 읽지 않는다
+        return
+    try:
+        from app import ai_read
+        hints, lines = ai_read.sh_fill(rec["id"][3:], rec.get("terms"), rec["type"], text, rec.get("name") or "")
+        log += lines
+        if hints:
+            rec["notice_ai"] = hints
+    except Exception as e:   # 참고 내용 때문에 수집이 멈추지 않게
+        log.append(f"[공고문·AI 읽기] {rec.get('id')} 실패 {e.__class__.__name__}: {str(e)[:100]}")
+
+
 def main() -> int:
     now = datetime.now(KST)
     since = (now - timedelta(days=LOOKBACK_DAYS)).date().isoformat()
@@ -322,6 +336,7 @@ def main() -> int:
                     files = [{"oriFileNm": f["name"], **dict(re.findall(r"(brdId|seq|fileSeq|fileTp)=([^&]+)", f["url"]))} for f in prev[nid].get("files", [])]
                     rec = notice_record(x, files, tp.read_text(encoding="utf-8"))
                     rec["files"], rec["notice_pdf"] = prev[nid].get("files", []), prev[nid].get("notice_pdf")
+                    ai_note(rec, tp.read_text(encoding="utf-8"), log)
                     notices.append(rec)
                     log.append(f"[공고] {nid} {x['title'][:40]} · 이전 글 · 접수 {rec['schedule'][0]['apply_start'] + '~' + rec['schedule'][0]['apply_end'] if rec['schedule'] else '못 읽음'}{terms_note(rec)}")
                     continue
@@ -351,6 +366,7 @@ def main() -> int:
                 if text and not tp.exists():
                     tp.write_text(text, encoding="utf-8")
                 rec = notice_record(x, files, text)
+                ai_note(rec, text, log)
                 notices.append(rec)
                 log.append(f"[공고] {nid} {x['title'][:40]} · {rec['type']} · 첨부 {len(files)} · {msg} · 접수 {rec['schedule'][0]['apply_start'] + '~' + rec['schedule'][0]['apply_end'] if rec['schedule'] else '못 읽음'}{terms_note(rec)}")
                 time.sleep(0.5)
