@@ -1,7 +1,7 @@
 {
  "date": "2026-11-12",
  "page_cap": 300,
- "notices": 65,
+ "notices": 68,
  "with_problem": 7,
  "kinds": {
   "읽기 도구에 따라 값이 다름": 1,
@@ -2241,66 +2241,6 @@
    "problem": []
   },
   {
-   "notice": "2026000491",
-   "name": "청주 가경 아이파크 7단지",
-   "url": "https://www.applyhome.co.kr/ai/aia/selectAPTLttotPblancDetail.do?houseManageNo=2026000491&pblancNo=2026000491",
-   "attachments": 1,
-   "pdfs": 1,
-   "attachment_list": [
-    {
-     "url": "https://static.applyhome.co.kr/ai/aia/getAtchmnfl.do?houseManageNo=2026000491&pblancNo=2026000491&atchmnflSeqNo=1992167&atchmnflSn=7",
-     "bytes": 1913042,
-     "pages": 75,
-     "chars": 172226,
-     "head": "- 1 - ※ 단지 주요정보 (분양문의) 1533-3767 주택유형 해당지역 기타지역 규제지역여부 민영 청주시 거주자 충청북도 거주자 비규제지역"
-    }
-   ],
-   "chosen": "https://static.applyhome.co.kr/ai/aia/getAtchmnfl.do?houseManageNo=2026000491&pblancNo=2026000491&atchmnflSeqNo=1992167&atchmnflSn=7",
-   "pages": 75,
-   "pages_read": 75,
-   "chars_read": 172300,
-   "empty_pages": [],
-   "chars_per_page_min": 216,
-   "fields": {
-    "need_head": false,
-    "price_cap": false,
-    "residence_duty": 0,
-    "rewin_years": 0,
-    "account_months": 6,
-    "residence": {
-     "area": "청주시",
-     "months": 0,
-     "since": null
-    }
-   },
-   "fields_merged": {
-    "need_head": false,
-    "price_cap": false,
-    "residence_duty": 0,
-    "rewin_years": 0,
-    "account_months": 6,
-    "residence": {
-     "area": "청주시",
-     "months": 0,
-     "since": null
-    }
-   },
-   "fields_pdfium": {
-    "need_head": false,
-    "price_cap": false,
-    "residence_duty": 0,
-    "rewin_years": 0,
-    "account_months": 6,
-    "residence": {
-     "area": "청주시",
-     "months": 0,
-     "since": null
-    }
-   },
-   "pdfium_chars": 172120,
-   "problem": []
-  },
-  {
    "notice": "2026000402",
    "name": "익산 부송에코르 10년 공공임대주택",
    "url": "https://www.applyhome.co.kr/ai/aia/selectAPTLttotPblancDetail.do?houseManageNo=2026000402&pblancNo=2026000402",
@@ -2423,6 +2363,237 @@
     "pub_limits_kind": "town"
    },
    "pdfium_chars": 106813,
+   "problem": []
+  },
+  {
+   "notice": "2026910297",
+   "name": "평택 고덕 국제신도시 A-55 대광로제비앙 모아엘가(4차)",
+   "url": "https://www.applyhome.co.kr/ai/aia/selectAPTRemndrLttotPblancDetailView.do?houseManageNo=2026910297&pblancNo=2026910297",
+   "attachments": 1,
+   "pdfs": 1,
+   "attachment_list": [
+    {
+     "url": "https://static.applyhome.co.kr/ai/aia/getAtchmnfl.do?houseManageNo=2026910297&pblancNo=2026910297&atchmnflSeqNo=2021002&atchmnflSn=3",
+     "bytes": 275294,
+     "pages": 10,
+     "chars": 16250,
+     "head": "- 1 - ※ 단지 주요정보 (분양문의) 1811-8500 주택유형 규제지역여부 무순위(사후) 자격요건 민영 비규제지역 무순위(사후) 입주자모집"
+    }
+   ],
+   "chosen": "https://static.applyhome.co.kr/ai/aia/getAtchmnfl.do?houseManageNo=2026910297&pblancNo=2026910297&atchmnflSeqNo=2021002&atchmnflSn=3",
+   "pages": 10,
+   "pages_read": 10,
+   "chars_read": 16259,
+   "empty_pages": [],
+   "chars_per_page_min": 370,
+   "fields": {
+    "need_head": false,
+    "price_cap": true,
+    "residence_duty": 3,
+    "rewin_years": 0,
+    "residence": {
+     "area": null,
+     "months": 0,
+     "since": null
+    }
+   },
+   "fields_merged": {
+    "need_head": false,
+    "price_cap": true,
+    "residence_duty": 3,
+    "rewin_years": 0,
+    "residence": {
+     "area": null,
+     "months": 0,
+     "since": null
+    }
+   },
+   "fields_pdfium": {
+    "need_head": false,
+    "price_cap": true,
+    "residence_duty": 3,
+    "rewin_years": 0,
+    "residence": {
+     "area": null,
+     "months": 0,
+     "since": null
+    }
+   },
+   "pdfium_chars": 15858,
+   "problem": []
+  },
+  {
+   "notice": "2026910293",
+   "name": "이천자이 더 리체",
+   "url": "https://www.applyhome.co.kr/ai/aia/selectAPTRemndrLttotPblancDetailView.do?houseManageNo=2026910293&pblancNo=2026910293",
+   "attachments": 1,
+   "pdfs": 1,
+   "attachment_list": [
+    {
+     "url": "https://static.applyhome.co.kr/ai/aia/getAtchmnfl.do?houseManageNo=2026910293&pblancNo=2026910293&atchmnflSeqNo=2019012&atchmnflSn=4",
+     "bytes": 409280,
+     "pages": 11,
+     "chars": 22778,
+     "head": "- 1 - ※ 단지 주요정보 (분양문의) 02-2052-0180 주택유형 규제지역여부 무순위(사후) 자격요건 민영 비규제지역 무순위(사후) 입주"
+    }
+   ],
+   "chosen": "https://static.applyhome.co.kr/ai/aia/getAtchmnfl.do?houseManageNo=2026910293&pblancNo=2026910293&atchmnflSeqNo=2019012&atchmnflSn=4",
+   "pages": 11,
+   "pages_read": 11,
+   "chars_read": 22788,
+   "empty_pages": [],
+   "chars_per_page_min": 1470,
+   "fields": {
+    "need_head": false,
+    "price_cap": false,
+    "residence_duty": 0,
+    "rewin_years": 0,
+    "residence": {
+     "area": null,
+     "months": 0,
+     "since": null
+    }
+   },
+   "fields_merged": {
+    "need_head": false,
+    "price_cap": false,
+    "residence_duty": 0,
+    "rewin_years": 0,
+    "residence": {
+     "area": null,
+     "months": 0,
+     "since": null
+    }
+   },
+   "fields_pdfium": {
+    "need_head": false,
+    "price_cap": false,
+    "residence_duty": 0,
+    "rewin_years": 0,
+    "residence": {
+     "area": null,
+     "months": 0,
+     "since": null
+    }
+   },
+   "pdfium_chars": 22444,
+   "problem": []
+  },
+  {
+   "notice": "2026910291",
+   "name": "송도자이 더 스타(3차)",
+   "url": "https://www.applyhome.co.kr/ai/aia/selectAPTRemndrLttotPblancDetailView.do?houseManageNo=2026910291&pblancNo=2026910291",
+   "attachments": 1,
+   "pdfs": 1,
+   "attachment_list": [
+    {
+     "url": "https://static.applyhome.co.kr/ai/aia/getAtchmnfl.do?houseManageNo=2026910291&pblancNo=2026910291&atchmnflSeqNo=2022000&atchmnflSn=2",
+     "bytes": 336065,
+     "pages": 12,
+     "chars": 17098,
+     "head": "- 1 - ※ 단지 주요정보 (분양문의) 02-2052-0180 주택유형 규제지역여부 무순위(3차) 자격요건 민영 비규제지역 무순위(3차) 입주"
+    }
+   ],
+   "chosen": "https://static.applyhome.co.kr/ai/aia/getAtchmnfl.do?houseManageNo=2026910291&pblancNo=2026910291&atchmnflSeqNo=2022000&atchmnflSn=2",
+   "pages": 12,
+   "pages_read": 12,
+   "chars_read": 17109,
+   "empty_pages": [],
+   "chars_per_page_min": 686,
+   "fields": {
+    "need_head": false,
+    "price_cap": false,
+    "residence_duty": 0,
+    "rewin_years": 0,
+    "residence": {
+     "area": null,
+     "months": 0,
+     "since": null
+    }
+   },
+   "fields_merged": {
+    "need_head": false,
+    "price_cap": false,
+    "residence_duty": 0,
+    "rewin_years": 0,
+    "residence": {
+     "area": null,
+     "months": 0,
+     "since": null
+    }
+   },
+   "fields_pdfium": {
+    "need_head": false,
+    "price_cap": false,
+    "residence_duty": 0,
+    "rewin_years": 0,
+    "residence": {
+     "area": null,
+     "months": 0,
+     "since": null
+    }
+   },
+   "pdfium_chars": 16827,
+   "problem": []
+  },
+  {
+   "notice": "2026910288",
+   "name": "안양자이 더 포레스트",
+   "url": "https://www.applyhome.co.kr/ai/aia/selectAPTRemndrLttotPblancDetailView.do?houseManageNo=2026910288&pblancNo=2026910288",
+   "attachments": 1,
+   "pdfs": 1,
+   "attachment_list": [
+    {
+     "url": "https://static.applyhome.co.kr/ai/aia/getAtchmnfl.do?houseManageNo=2026910288&pblancNo=2026910288&atchmnflSeqNo=2020031&atchmnflSn=6",
+     "bytes": 269951,
+     "pages": 9,
+     "chars": 19713,
+     "head": "- 1 - ※ 단지 주요정보 (분양문의) 02-2052-0180 주택유형 규제지역여부 무순위(사후) 자격요건 민영 비규제지역 무순위(사후) 입주"
+    }
+   ],
+   "chosen": "https://static.applyhome.co.kr/ai/aia/getAtchmnfl.do?houseManageNo=2026910288&pblancNo=2026910288&atchmnflSeqNo=2020031&atchmnflSn=6",
+   "pages": 9,
+   "pages_read": 9,
+   "chars_read": 19721,
+   "empty_pages": [],
+   "chars_per_page_min": 1593,
+   "fields": {
+    "need_head": false,
+    "price_cap": false,
+    "residence_duty": 0,
+    "rewin_years": 0,
+    "ext": 0.159,
+    "residence": {
+     "area": "경기도",
+     "months": 0,
+     "since": null
+    }
+   },
+   "fields_merged": {
+    "need_head": false,
+    "price_cap": false,
+    "residence_duty": 0,
+    "rewin_years": 0,
+    "ext": 0.159,
+    "residence": {
+     "area": "경기도",
+     "months": 0,
+     "since": null
+    }
+   },
+   "fields_pdfium": {
+    "need_head": false,
+    "price_cap": false,
+    "residence_duty": 0,
+    "rewin_years": 0,
+    "ext": 0.159,
+    "residence": {
+     "area": "경기도",
+     "months": 0,
+     "since": null
+    }
+   },
+   "pdfium_chars": 19509,
    "problem": []
   },
   {
