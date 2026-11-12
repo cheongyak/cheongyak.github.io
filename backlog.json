@@ -1,5 +1,5 @@
 {
- "updated": "2026-11-11",
+ "updated": "2026-11-12",
  "items": [
   {
    "key": "issues:판정 검증 실패",
@@ -203,7 +203,7 @@
    "effort": "S",
    "status": "open",
    "first_seen": "2026-11-04",
-   "last_seen": "2026-11-11",
+   "last_seen": "2026-11-12",
    "tries": 0,
    "pr": null,
    "success_check": null,
@@ -372,7 +372,7 @@
    "effort": "S",
    "status": "parked",
    "first_seen": "2026-11-09",
-   "last_seen": "2026-11-11",
+   "last_seen": "2026-11-12",
    "tries": 1,
    "pr": null,
    "success_check": {
@@ -393,7 +393,7 @@
    "effort": "S",
    "status": "parked",
    "first_seen": "2026-11-09",
-   "last_seen": "2026-11-11",
+   "last_seen": "2026-11-12",
    "tries": 1,
    "pr": null,
    "success_check": {
@@ -412,7 +412,7 @@
    "reach": 3,
    "confidence": 2,
    "effort": "S",
-   "status": "in_pr",
+   "status": "merged",
    "first_seen": "2026-11-10",
    "last_seen": "2026-11-11",
    "tries": 0,
@@ -421,7 +421,7 @@
     "how": "NODE_PATH=$(npm root -g) node tools/qa/score_input.cjs docs <사진 폴더> → score-input-dependents.png, 또는 cheongyakpass.kr 내 조건 > 가점 계산",
     "expect": "칸 이름 '부양가족 수 (나는 빼고 세요)'와 설명 첫 문장 '나(신청자)를 뺀 사람만'이 보임"
    },
-   "notes": "탐색 밤(11-10) 고름"
+   "notes": "탐색 밤(11-10) 고름 · 2026-11-11 21:47Z 합침(3f6a800f), 기록 v1.87.3 은 손 세션이 씀. 효과 확인은 11-14 이후"
   },
   {
    "key": "manual:duty-firstmovein-row",
@@ -461,6 +461,27 @@
    "pr": null,
    "success_check": null,
    "notes": "판정 규칙 변경 + 법령 원문(시행령 60조의2) evidence/law 에 없음, 434 공고문엔 90일 문장 없음 → 고정 규칙 4로 운영자 판단 요청"
+  },
+  {
+   "key": "manual:golden-553-residence",
+   "title": "2026000553 의정부역 펠리스타워 일반공급 거주 요건 정답 데이터 (v1.84.7 때 원문 없어 미룸)",
+   "area": "qa",
+   "source": "HANDOFF -100 ③",
+   "evidence": "HANDOFF.md -100 '2026000553 거주 요건 정답 데이터는 evidence/notices/2026000553.txt 저장되면 추가' · 원문 evidence/notices/2026000553.txt 6·131~133행",
+   "severity": "P2",
+   "reach": 1,
+   "confidence": 3,
+   "effort": "S",
+   "status": "in_pr",
+   "first_seen": "2026-11-12",
+   "last_seen": "2026-11-12",
+   "tries": 0,
+   "pr": 127,
+   "success_check": {
+    "how": "python -m pytest -q tests/test_residence.py · 합친 뒤 수집 run-log [검증·정답] 줄",
+    "expect": "통과 · '정답 데이터와 모두 일치해요'(553 불일치 없음)"
+   },
+   "notes": "SH 313161·311965 읽기 규칙(본 처리)은 unread_queue 에 있어 아침 자동 고치기 몫이라 고르지 않음"
   }
  ]
 }
