@@ -1435,6 +1435,29 @@ def main() -> None:
     LST = {x["id"].strip(): x for x in json.loads(CF.read_text(encoding="utf-8"))}
     GN = json.loads((ROOT / "tests/golden/notices.json").read_text(encoding="utf-8"))
     def man(eok_): return int((Decimal(str(eok_)) * Decimal(10000)).quantize(Decimal(1), ROUND_HALF_UP))   # 억 → 만원 (반올림)
+    # ---------- 17-0) 거주의무 '적용되지 않습니다'와 전세 (2026-11-13 밤 자동 개선 — 본문 문장을 못 읽어 '확인 필요'로 남던 것) ----------
+    # 정답 tests/golden/notices.json residence_duty 0 (2026000530·532 본문 '본 주택은 … 시행령 제60조의2에 따라 거주의무기간이 적용되지 않습니다', 1쪽 표 '거주의무기간 없음').
+    # 규칙: 거주의무를 모르면 전세 가능 여부 '확인 필요'(check). 거주의무가 없고 비규제지역(1쪽 표 '비규제지역')이면 실거주·전입 의무로 전세가 막히지 않아
+    # 주변 전세 시세가 있으면 '가능'(ok), 전세 시세가 없거나 전세 수요가 약하면(보증금 입력·세입자 구하기가 남음) '조건부'(cond).
+    # 공고 원자료는 docs/listings.json 의 그 주택형(2026-11-13 수집)을 떠 둔 것(전세 판단에 안 쓰는 칸은 뺌)에 정답 거주의무만 넣은 것.
+    D0 = ROOT / "tests/judge/duty0_listings.json"
+    if not D0.exists():
+        src = {x["id"].strip(): x for x in json.loads((ROOT / "docs/listings.json").read_text(encoding="utf-8"))}
+        drop = ("mkt_comps", "jeonse_comps", "area_comps", "nearby", "sp_competition", "area_sp", "competition", "notice_quotes", "notice_ai", "mkt_basis",
+                "special_units", "schedule", "pub_limits", "checks", "notice_conflicts")
+        keep = [{a: b for a, b in v.items() if a not in drop} for k, v in src.items() if k in ("2026000530-084.3473A", "2026000532-093.7413A")]
+        D0.write_text(json.dumps(keep, ensure_ascii=False, indent=1) + "\n", encoding="utf-8")
+    d0 = 0
+    for raw0 in json.loads(D0.read_text(encoding="utf-8")):
+        nid = raw0["id"].split("-")[0]
+        gd = GN[nid]["fields"]["residence_duty"]
+        assert gd == 0 and raw0["regulated"] is False, nid   # 이 사례는 거주의무 없음·비규제지역 공고만
+        for nm, duty in [("공고문 '거주의무기간이 적용되지 않습니다'", gd), ("거주의무를 못 읽음(예전)", None)]:
+            raw = {**raw0, "residence_duty": duty, "duty_from": None, "duty_silent": False}
+            want = "check" if duty is None else ("ok" if raw["jeonse"] is not None and not raw["jeonse_weak"] else "cond")
+            d0 += 1
+            add(id=f"duty0-{d0:02d}", fn="duty", listing=None, raw=raw, profile={}, expect={"s": want},
+                basis=f"{GN[nid]['verified_from']} · {nm} · 1쪽 표 '비규제지역' · 전세 시세 {'있음' if raw['jeonse'] is not None else '없음'}")
     ci = 0
     for lid, nid in [("2026910256-084.9199A", "2026910256"), ("2026000463-107.9722A", "2026000463"), ("2026000468-074.9845", "2026000468"), ("2026000386-059.9671A", "2026000386")]:
         raw = LST.get(lid) or next((v for k, v in LST.items() if k.startswith(nid)), None)
