@@ -11,11 +11,10 @@ def _isolate_market_cache(tmp_path, monkeypatch):
 
 
 @pytest.fixture(autouse=True)
-def _no_real_ai_calls(tmp_path, monkeypatch):
-    """시험이 실제 Claude 를 부르거나(비용) 저장소의 AI 답 폴더에 쓰지 않게 한다 (기능 ai_read·ai_read_sale).
-    2026-11-11: collect.yml 이 키를 일 전체에 주고 그 안에서 pytest 를 돌려, test_notice_retry 가 실제로 한 번 불렀다(추정 $0.01, evidence/notices/ai/2026820015.json 이 저장소에 들어감)."""
+def _ai_answers_in_tmp(tmp_path, monkeypatch):
+    """시험이 저장소의 AI 답 폴더(evidence/lh/ai·evidence/notices/ai)를 읽거나 쓰지 않게 한다 (기능 ai_read·ai_read_sale).
+    2026-11-11: 수집이 Claude API 를 부르던 하루 동안 시험이 실제로 한 번 불러 답 파일이 저장소에 들어갔다. 11-12 부터 수집은 API 를 부르지 않는다(키는 청약봇 전용)."""
     from app import ai_read
-    monkeypatch.delenv("ANTHROPIC_API_KEY", raising=False)
     monkeypatch.setattr(ai_read, "DIR", tmp_path / "ai-lh")
     monkeypatch.setattr(ai_read, "SALE_DIR", tmp_path / "ai-sale")
-    monkeypatch.setattr(ai_read, "SPEND", tmp_path / "ai-spend.json")
+    monkeypatch.setattr(ai_read, "SH_DIR", tmp_path / "ai-sh")

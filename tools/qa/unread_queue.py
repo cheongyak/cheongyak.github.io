@@ -71,6 +71,17 @@ def build() -> dict:
             add(N["id"], N.get("name"), "임대", "AI 가 읽음", "AI 가 채운 칸: " + ", ".join(T["ai"]["fields"]) + " — 원문과 맞춰 보고 읽기 규칙·정답 데이터 추가 (답: evidence/lh/ai/" + N["id"] + ".json)")
         if T.get("loose"):
             add(N["id"], N.get("name"), "임대", "느슨한 읽기", "띄어쓰기를 무시하고 채운 칸: " + ", ".join(T["loose"]) + " — 원문과 맞춰 보고 읽기 규칙·정답 데이터 추가")
+    # SH: 판정하는 종류인데 규칙이 자격을 못 읽은 공고(접수 중) — 세션이 원문을 읽어 답 파일(참고 내용)을 쓰고, 읽기 규칙·정답 데이터를 더한다 (기능 ai_read_sh, 2026-11-12)
+    try:
+        from app import ai_read as _ai
+        import datetime as _dt
+        _today = _dt.datetime.now(_ai.KST).date().isoformat()
+        for N in load(ROOT / "docs" / "sh-rental.json", {}).get("notices") or []:
+            need = _ai.sh_gaps(N.get("terms"), N.get("type") or "")
+            if need and not (N.get("close") and N["close"] < _today):
+                add(N["id"], N.get("name"), "임대", "SH 공고문 못 읽음", "못 읽은 것: " + ", ".join(need) + (" — 세션이 읽은 참고 내용이 실려 있음" if N.get("notice_ai") else " — 답 파일 없음(python -m tools.ai_answer sh " + N["id"][3:] + " <답.json>)") + " · 읽기 규칙·정답 데이터 추가가 본 처리")
+    except Exception:
+        pass
     lhi = load(ROOT / "evidence" / "qa" / "lh-invariants.json", {})
     for k, v in (lhi.get("violations") or {}).items():
         for e in v.get("examples") or []:

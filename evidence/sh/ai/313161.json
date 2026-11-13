@@ -1,0 +1,40 @@
+{
+ "id": "313161",
+ "prompt_v": 1,
+ "model": "claude-session",
+ "at": "2026-11-12 08:54",
+ "answer": {
+  "groups": [
+   {
+    "name": "도시근로자",
+    "homeless": "household",
+    "homeless_quote": "서울시에서 학업 및 취업 등의 목적으로 거주하고 있는 무주택 세대 구성원 (서울시에 주소지를 둔 서울시민)",
+    "income_pct": {
+     "1": 70,
+     "2": 70,
+     "3+": 70
+    },
+    "income_quote": "입주모집공고일(2026.06.24) 당시 도시근로자 월평균 소득 70% 이하 기준을 충족하는 자",
+    "asset_manwon": null,
+    "car_manwon": null,
+    "age_min": null,
+    "age_max": null
+   },
+   {
+    "name": "신혼부부",
+    "homeless": "household",
+    "homeless_quote": "서울시에서 학업 및 취업 등의 목적으로 거주하고 있는 무주택 세대 구성원 (서울시에 주소지를 둔 서울시민)",
+    "income_pct": {
+     "2": 120,
+     "3+": 120
+    },
+    "income_quote": "입주모집공고일(2026.06.24) 당시 신혼부부로 도시근로자 월평균 소득 120% 이하 기준을 충족하는 세대",
+    "asset_manwon": null,
+    "car_manwon": null,
+    "age_min": null,
+    "age_max": null
+   }
+  ]
+ },
+ "sha": "ee0329228bb1e0db"
+}

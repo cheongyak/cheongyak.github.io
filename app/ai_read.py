@@ -8,29 +8,24 @@ AI 가 준 값은 그대로 믿지 않는다. 값마다 **근거 문장**을 함
 규칙이 읽은 값은 바꾸지 않는다. 채운 칸은 terms['ai'] 에 남고, 화면은 그 공고를 '확인 필요'까지만 보여 준다('신청 가능해 보여요'로 단정하지 않음).
 아침 자동 고치기가 원문과 맞춰 본 뒤 읽기 규칙·정답 데이터를 더하면 그때부터 규칙이 읽은 값으로 바뀐다.
 
-인증키는 GitHub Secrets ANTHROPIC_API_KEY (환경변수)에서만 읽는다. 없으면 건너뛴다. 기록·출력에 키를 쓰지 않는다.
-같은 공고문(글 지문이 같음)은 한 번만 부른다 — 답은 evidence/lh/ai/<공고ID>.json 에 둔다. 한 달 추정 사용액이 한도를 넘으면 부르지 않는다.
+**수집은 AI(API)를 부르지 않는다** (2026-11-12 운영자: ANTHROPIC_API_KEY 는 청약봇 전용). 11-11 하루는 수집이 Claude API 를 불렀고 그때 답 파일이 남아 있다.
+지금은 세션(운영자와 일하는 Claude·아침 자동 고치기)이 공고문을 직접 읽어 답 파일(evidence/lh/ai/<공고ID>.json·evidence/notices/ai/<번호>.json)을 쓰고(tools/ai_answer.py),
+수집은 그 답을 아래 검사기에 통과시켜 쓴다. 답 파일이 없는 공고는 `[공고문·AI 읽기] … 답 파일 없음` 줄을 남기고 '공고문 확인' 그대로 둔다.
 """
 from __future__ import annotations
 
 import hashlib
 import json
-import os
 import re
 from datetime import datetime, timedelta, timezone
 from pathlib import Path
-from typing import Callable, Optional
+from typing import Optional
 
 from app.lh_terms import GROUP_KEYS, SIDO_SHORT
 
 ROOT = Path(__file__).resolve().parents[1]
 DIR = ROOT / "evidence" / "lh" / "ai"
-SPEND = DIR / "_spend.json"
-MODEL = "claude-sonnet-5-5"        # 청약봇 자유 답변과 같은 모델 (chat/worker/src/llm.js FREE_MODEL)
-PRICE = (2.0, 10.0)                 # 100만 토큰당 달러 [입력, 출력] — chat/worker/src/llm.js PRICE 와 같은 추정 단가
 PROMPT_V = 2                        # 지시문을 바꾸면 올린다 (올리면 저장해 둔 답을 다시 받는다)
-MONTH_USD = 5.0                     # 한 달 추정 사용액 한도 (docs/config.json ai_read.month_usd 로 바꿀 수 있다)
-MAX_PER_RUN = 6                     # 한 번 수집에서 새로 부르는 공고 수
 MAX_CHARS = 150_000
 KST = timezone(timedelta(hours=9))
 
@@ -281,79 +276,37 @@ def to_terms(answer: dict, texts: list[str], region: Optional[str], kind: str = 
     return out, dropped
 
 
-# ── Claude 호출 ────────────────────────────────────────────────────────────
+# ── 답 파일 ────────────────────────────────────────────────────────────────
+# 2026-11-12 운영자 'AI 호출은 네가 직접 열어 보는 걸로. API 키는 청약봇만': 수집은 Claude API 를 부르지 않는다(이 모듈에 네트워크 코드가 없다).
+# 공고문은 세션(운영자와 일하는 Claude·아침 자동 고치기)이 직접 읽고, 위 SYSTEM 형식의 답을 tools/ai_answer.py 로 답 파일에 써 둔다.
+# 수집은 그 답을 검사기에 통과시켜 쓴다 — 누가 읽었든 검사(근거 문장이 원문에 그대로·값이 문장 안·범위)는 같다.
 
-def _post(api_key: str, body: dict) -> dict:
-    import httpx
-    r = httpx.post("https://api.anthropic.com/v1/messages", timeout=httpx.Timeout(180, connect=15), json=body,
-                   headers={"content-type": "application/json", "x-api-key": api_key, "anthropic-version": "2023-06-01"})
-    if r.status_code != 200:
-        try:
-            e = r.json().get("error") or {}
-            why = f"{e.get('type', '')}: {e.get('message', '')}"[:160]
-        except Exception:
-            why = ""
-        raise RuntimeError(f"claude {r.status_code} {why}".strip())
-    return r.json()
+def _now() -> str:
+    return datetime.now(KST).strftime("%Y-%m-%d %H:%M")
 
 
-def ask(text: str, kind: str, name: str, api_key: str, post: Optional[Callable] = None, system: Optional[str] = None) -> tuple[dict, dict]:
-    """→ (AI 답 JSON, usage). 실패하면 예외. system 을 안 주면 LH 임대 지시문."""
-    user = f"공고 유형: {kind}\n공고 이름: {name}\n\n아래는 공고문 글입니다(PDF 에서 뽑아 줄·칸 순서가 흐트러진 곳이 있을 수 있습니다).\n\n<공고문>\n{text[:MAX_CHARS]}\n</공고문>"
-    body = {"model": MODEL, "max_tokens": 8000, "output_config": {"effort": "medium"},
-            "system": [{"type": "text", "text": system or SYSTEM}], "messages": [{"role": "user", "content": user}]}
-    j = (post or _post)(api_key, body)
-    out = "".join(c.get("text", "") for c in j.get("content") or [] if c.get("type") == "text")
-    a, b = out.find("{"), out.rfind("}")
-    if a < 0 or b <= a:
-        raise RuntimeError("답에 JSON 이 없음")
-    return json.loads(out[a:b + 1]), (j.get("usage") or {})
-
-
-def usd_of(usage: dict) -> float:
-    return ((usage.get("input_tokens") or 0) * PRICE[0] + (usage.get("output_tokens") or 0) * PRICE[1]) / 1e6
-
-
-def _month() -> str:
-    return datetime.now(KST).strftime("%Y-%m")
-
-
-def month_spent() -> float:
-    """이번 달 추정 사용액 = 저장해 둔 AI 답 파일(LH·분양)의 usd 합. 따로 세는 파일을 두면 LH 수집과 청약 수집이 서로 덮어쓴다
-    (2026-11-11: 청약 수집이 $1.89 로 적은 뒤 LH 수집이 $0.18 로 덮어씀) — 답 파일은 공고마다 하나라 덮어쓰이지 않는다."""
-    total, month = 0.0, _month()
-    for d in (DIR, SALE_DIR):
-        for f in d.glob("*.json") if d.exists() else []:
-            try:
-                j = json.loads(f.read_text(encoding="utf-8"))
-                if str(j.get("at", "")).startswith(month):
-                    total += float(j.get("usd") or 0)
-            except Exception:
-                pass
-    return round(total, 4)
-
-
-def _add_spent(usd: float) -> None:
-    """(예전: 사용액 파일에 더함) 지금은 답 파일의 usd 를 합쳐 세므로 할 일이 없다."""
-
-
-def month_cap() -> float:
-    try:
-        return float((json.loads((ROOT / "docs" / "config.json").read_text(encoding="utf-8")).get("ai_read") or {}).get("month_usd", MONTH_USD))
-    except Exception:
-        return MONTH_USD
+def save_answer(kind: str, nid: str, answer: dict, text: str, reader: str = "claude-session", cache_dir: Optional[Path] = None) -> Path:
+    """세션이 읽은 답을 답 파일로 쓴다. kind: 'lh'(LH 임대, 글 지문과 묶임) · 'sh'(SH 임대, nid = 글번호, 글 지문과 묶임) · 'sale'(분양)."""
+    d = cache_dir or {"lh": DIR, "sh": SH_DIR}.get(kind, SALE_DIR)
+    d.mkdir(parents=True, exist_ok=True)
+    rec = {"id": nid, "prompt_v": {"lh": PROMPT_V, "sh": SH_PROMPT_V}.get(kind, SALE_PROMPT_V), "model": reader, "at": _now(), "answer": answer}
+    if kind in ("lh", "sh"):
+        rec["sha"] = sha(text)
+    f = d / f"{nid}.json"
+    f.write_text(json.dumps(rec, ensure_ascii=False, indent=1) + "\n", encoding="utf-8")
+    return f
 
 
 class Budget:
-    """한 번 수집에서 새로 부를 수 있는 횟수"""
-    def __init__(self, n: int = MAX_PER_RUN):
+    """(예전: 한 번 수집에서 새로 부를 수 있는 횟수) 수집이 AI 를 부르지 않게 된 뒤로는 쓰이지 않는다 — 부르는 쪽 모양만 남김"""
+    def __init__(self, n: int = 0):
         self.left = n
 
 
-def fill(nid: str, terms: Optional[dict], texts: dict, kind: str, name: str, region: Optional[str], budget: Budget,
-         post: Optional[Callable] = None, api_key: Optional[str] = None, cache_dir: Optional[Path] = None) -> tuple[Optional[dict], list[str]]:
+def fill(nid: str, terms: Optional[dict], texts: dict, kind: str, name: str, region: Optional[str], budget: Optional[Budget] = None,
+         cache_dir: Optional[Path] = None) -> tuple[Optional[dict], list[str]]:
     """규칙으로 못 읽은 칸을 AI 가 읽은 값(검사 통과한 것만)으로 채운 terms 와 기록 줄. 채운 것이 없으면 terms 를 그대로 돌려준다(같은 객체).
-    texts: 읽기 도구 → 공고문 글 (첫 번째 글을 AI 에 보내고, 근거 문장은 어느 도구 글에든 있으면 된다)."""
+    texts: 읽기 도구 → 공고문 글 (답 파일은 첫 번째 글의 지문과 묶이고, 근거 문장은 어느 도구 글에든 있으면 된다)."""
     log: list[str] = []
     need = gaps(terms, kind)
     tx = [t for t in texts.values() if t and len(t) >= 500]
@@ -368,26 +321,8 @@ def fill(nid: str, terms: Optional[dict], texts: dict, kind: str, name: str, reg
         pass
     key = sha(tx[0])
     if not (saved and saved.get("sha") == key and saved.get("prompt_v") == PROMPT_V and isinstance(saved.get("answer"), dict)):
-        api_key = api_key if api_key is not None else os.environ.get("ANTHROPIC_API_KEY", "")
-        if not api_key:
-            return terms, [f"[공고문·AI 읽기] {nid} 못 읽은 칸 {len(need)}개 — ANTHROPIC_API_KEY 없음, 건너뜀"]
-        if budget.left <= 0:
-            return terms, [f"[공고문·AI 읽기] {nid} 이번 실행 호출 수 한도 — 다음 수집에서 읽음"]
-        if month_spent() >= month_cap():
-            return terms, [f"[공고문·AI 읽기] {nid} 이번 달 추정 사용액 ${month_spent():.2f} 가 한도 ${month_cap():.0f} 를 넘어 부르지 않음"]
-        budget.left -= 1
-        try:
-            answer, usage = ask(tx[0], kind, name, api_key, post)
-        except Exception as e:
-            return terms, [f"[공고문·AI 읽기] {nid} 호출 실패: {str(e)[:160].replace(api_key, '***')}"]
-        usd = usd_of(usage)
-        if cache_dir is None:
-            _add_spent(usd)
-        saved = {"id": nid, "sha": key, "prompt_v": PROMPT_V, "model": MODEL, "at": datetime.now(KST).strftime("%Y-%m-%d %H:%M"),
-                 "usage": {k: usage.get(k) for k in ("input_tokens", "output_tokens")}, "usd": round(usd, 4), "answer": answer}
-        d.mkdir(parents=True, exist_ok=True)
-        f.write_text(json.dumps(saved, ensure_ascii=False, indent=1) + "\n", encoding="utf-8")
-        log.append(f"[공고문·AI 읽기] {nid} AI 호출 (입력 {usage.get('input_tokens')}·출력 {usage.get('output_tokens')} 토큰, 추정 ${usd:.3f} · 이번 달 ${month_spent():.2f}/{month_cap():.0f})")
+        # 수집은 AI 를 부르지 않는다(2026-11-12 운영자: API 키는 청약봇 전용). 세션이 공고문을 직접 읽어 답 파일을 써 두면(tools/ai_answer.py) 다음 수집부터 쓴다
+        return terms, [f"[공고문·AI 읽기] {nid} 못 읽은 칸 {len(need)}개({', '.join(need)}) — 답 파일 없음. 세션이 공고문을 읽고 `python -m tools.ai_answer lh {nid} <답.json>` 으로 써 둘 것"]
     ai_terms, dropped = to_terms(saved["answer"], tx, region, kind)
     if "계층" not in need:
         # 규칙이 계층을 읽은 공고: AI 값은 화면이 '공고문 확인'으로 보이는 칸(need)에만 쓴다. 규칙이 일부러 비워 두는 칸(나이 등)은 채우지 않는다
@@ -563,9 +498,9 @@ def sale_gaps(found: dict) -> list[str]:
     return out
 
 
-def sale_fill(nid: str, found: dict, text: str, name: str, budget: Budget, post: Optional[Callable] = None, api_key: Optional[str] = None,
+def sale_fill(nid: str, found: dict, text: str, name: str, budget: Optional[Budget] = None,
               cache_dir: Optional[Path] = None, need: Optional[list] = None) -> tuple[dict, list[str]]:
-    """→ (못 읽은 항목의 AI 참고 내용 {항목: {'text','quote'}}, 기록 줄). 같은 공고(주택관리번호·지시문)는 한 번만 부른다."""
+    """→ (못 읽은 항목의 AI 참고 내용 {항목: {'text','quote'}}, 기록 줄). 답 파일(세션이 읽어 써 둔 것)이 있을 때만."""
     log: list[str] = []
     need = sale_gaps(found) if need is None else need
     if not need or not text or len(text) < 500:
@@ -578,26 +513,7 @@ def sale_fill(nid: str, found: dict, text: str, name: str, budget: Budget, post:
     except Exception:
         pass
     if not (saved and saved.get("prompt_v") == SALE_PROMPT_V and isinstance(saved.get("answer"), dict)):
-        api_key = api_key if api_key is not None else os.environ.get("ANTHROPIC_API_KEY", "")
-        if not api_key:
-            return {}, [f"[공고문·AI 읽기] {name} ({nid}): 못 읽은 항목 {', '.join(need)} — ANTHROPIC_API_KEY 없음, 건너뜀"]
-        if budget.left <= 0:
-            return {}, [f"[공고문·AI 읽기] {name} ({nid}): 이번 실행 호출 수 한도 — 다음 수집에서 읽음"]
-        if month_spent() >= month_cap():
-            return {}, [f"[공고문·AI 읽기] {name} ({nid}): 이번 달 추정 사용액 ${month_spent():.2f} 가 한도 ${month_cap():.0f} 를 넘어 부르지 않음"]
-        budget.left -= 1
-        try:
-            answer, usage = ask(sale_excerpt(text), "분양", name, api_key, post, SYSTEM_SALE)
-        except Exception as e:
-            return {}, [f"[공고문·AI 읽기] {name} ({nid}): 호출 실패: {str(e)[:160].replace(api_key, '***')}"]
-        usd = usd_of(usage)
-        if cache_dir is None:
-            _add_spent(usd)
-        saved = {"id": nid, "prompt_v": SALE_PROMPT_V, "model": MODEL, "at": datetime.now(KST).strftime("%Y-%m-%d %H:%M"),
-                 "usage": {k: usage.get(k) for k in ("input_tokens", "output_tokens")}, "usd": round(usd, 4), "answer": answer}
-        d.mkdir(parents=True, exist_ok=True)
-        f.write_text(json.dumps(saved, ensure_ascii=False, indent=1) + "\n", encoding="utf-8")
-        log.append(f"[공고문·AI 읽기] {name} ({nid}): AI 호출 (입력 {usage.get('input_tokens')}·출력 {usage.get('output_tokens')} 토큰, 추정 ${usd:.3f} · 이번 달 ${month_spent():.2f}/{month_cap():.0f})")
+        return {}, [f"[공고문·AI 읽기] {name} ({nid}): 못 읽은 항목 {', '.join(need)} — 답 파일 없음. 세션이 공고문을 읽고 `python -m tools.ai_answer sale {nid} <답.json>` 으로 써 둘 것"]
     hints, dropped = sale_hints(saved["answer"], [text])
     for x in dropped:
         log.append(f"[공고문·AI 읽기·탈락] {name} ({nid}): {x}")
@@ -606,4 +522,126 @@ def sale_fill(nid: str, found: dict, text: str, name: str, budget: Budget, post:
         log.append(f"[공고문·AI 읽기] {name} ({nid}): AI 가 읽은 참고 내용 " + " / ".join(f"{k}: {v['text']}" for k, v in hints.items()) + " — 판정에는 쓰지 않음. 원문과 맞춰 보고 읽기 규칙·정답 데이터에 넣을 것")
     else:
         log.append(f"[공고문·AI 읽기] {name} ({nid}): 못 읽은 항목 {', '.join(need)} — AI 도 검사를 통과한 값을 주지 못함")
+    return hints, log
+
+
+# ── SH 임대 공고문 (기능 ai_read_sh, 2026-11-12 운영자 'SH 도 공고문 실패하면 네가 AI 로 읽어. API 키는 쓰지 말고') ───────────────
+# SH 는 공고 종류마다 읽기 규칙·자격 꼴이 달라(app/sh_terms.py: 출생일 하한·검증 면제·출산가구 표 …) AI 값으로 **판정하지 않는다**.
+# 규칙이 자격을 못 읽은 공고(판정하는 여섯 종류인데 terms 없음·기준 칸이 빔)에 '세션이 공고문에서 읽은 자격 기준(참고)'과 근거 문장을 붙여 줄 뿐이다.
+# 수집은 Claude API 를 부르지 않는다 — 세션이 원문(evidence/sh/<글번호>.txt)을 직접 읽어 `python -m tools.ai_answer sh <글번호> <답.json>` 으로 써 둔 답 파일만 쓴다.
+SH_DIR = ROOT / "evidence" / "sh" / "ai"
+SH_PROMPT_V = 1
+SH_KINDS = ("신혼·신생아 매입임대", "청년 매입임대", "장기전세", "사회주택", "행복주택", "청년안심주택")   # app/sh_terms.parse_sh_terms 가 읽는 종류
+
+SYSTEM_SH = """당신은 서울주택도시개발공사(SH) 임대주택 입주자 모집공고문에서 신청 자격 기준을 뽑아내는 도구입니다.
+공고문에 **글자로 적혀 있는 것만** 뽑습니다. 추측하지 않습니다. 확실하지 않거나 공고문에 없으면 null 입니다.
+값마다 근거 문장(quote)을 붙입니다. quote 는 공고문에서 **한 글자도 바꾸지 말고 그대로 복사한 이어진 글**(15~200자)이어야 하고, 그 값의 숫자·낱말이 quote 안에 들어 있어야 합니다.
+여러 곳의 글을 이어 붙이거나 요약하면 안 됩니다. 답은 JSON 하나만 출력합니다.
+
+출력 형식:
+{
+ "groups": [   // 공고문이 자격을 나눈 계층·유형. name 은 공고문에 적힌 이름 그대로(예: "청년", "신혼부부", "일반공급"). 구분이 없으면 공고문의 공급 대상 이름 하나
+  {"name": "청년",
+   "homeless": "household" | "self" | "household_or_single_self" | null, "homeless_quote": "...",
+   "income_pct": {"1": 120, "2": 110, "3+": 100} | "excluded" | null, "income_quote": "...",   // 가구원 수별 소득 상한 퍼센트(가산이 적혀 있으면 더한 값)
+   "asset_manwon": 34500 | "excluded" | null, "asset_quote": "...",                            // 총자산 한도(만원)
+   "car_manwon": 4542 | 0 | "excluded" | null, "car_quote": "...",                             // 자동차가액 한도(만원). 0 = 자동차를 가지면 안 됨
+   "age_min": 19 | null, "age_max": 39 | null, "age_quote": "..."}
+ ]
+}
+값을 여러 문장에서 계산해 만들었으면 그 값은 null 로 두세요 — quote 한 곳에서 확인되는 값만 적습니다.
+소득·자산 기준 문장이 없다는 것만으로 "excluded" 라고 하지 마세요 — 보지 않는다고 **적혀 있을 때만** "excluded" 입니다."""
+
+_SH_HOME = {"household": "세대원 전원 무주택(무주택세대구성원)", "self": "본인만 무주택(무주택자)", "household_or_single_self": "세대원 전원 무주택 — 혼인 중이 아닌 단독세대주는 본인만"}
+
+
+def _sh_text(field: str, v) -> str:
+    if field == "homeless":
+        return _SH_HOME[v]
+    if v == "excluded":
+        return "이번 모집은 보지 않음"
+    if field == "income_pct":
+        have = [v[k] for k in ("1", "2", "3+") if v.get(k) is not None]
+        if len(set(have)) == 1:   # 가구원 수와 상관없이 한 비율
+            return f"{have[0]}% 이하"
+        return " · ".join(f"{'3인 이상' if k == '3+' else k + '인'} {v[k]}% 이하" for k in ("1", "2", "3+") if v.get(k) is not None)
+    if field == "car_manwon" and v == 0:
+        return "자동차를 가지면 안 됨"
+    if field == "age":
+        a, b = v
+        return "만 " + (f"{a}세 이상" if a is not None else "") + (" " if a is not None and b is not None else "") + (f"{b}세 이하" if b is not None else "")
+    return f"{v:,}만원 이하"
+
+
+def sh_gaps(terms: Optional[dict], kind: str) -> list[str]:
+    """규칙이 못 읽은 것 이름. 판정하는 여섯 종류만 본다(그 밖의 SH 공고는 처음부터 '판정 미지원')."""
+    if kind not in SH_KINDS:
+        return []
+    T = terms or {}
+    if not T.get("groups"):
+        return ["자격"]
+    return [f"{g['key']}.{f}" for g in T["groups"] if not g.get("exempt") for f in ("homeless", "income_pct", "asset_manwon", "car_manwon") if g.get(f) is None]
+
+
+def sh_hints(answer: dict, texts: list[str]) -> tuple[dict, list[str]]:
+    """세션 답 → 검사를 통과한 값만 {'groups': [{'name', 'items': [{'k','label','text','quote'}]}]} 와 탈락 기록. 검사는 LH 와 같은 _check_value."""
+    flat = [_ns(t) for t in texts if t]
+    dropped: list[str] = []
+    groups = []
+    seen = set()
+    for g in answer.get("groups") or []:
+        name = re.sub(r"\s+", " ", str(g.get("name") or "")).strip() if isinstance(g, dict) else ""
+        if not name or len(name) > 30 or name in seen:
+            continue
+        if not any(_ns(name) in f for f in flat):
+            dropped.append(f"계층 {name}: 이름이 원문에 없음")
+            continue
+        seen.add(name)
+        items = []
+        for field, qk, label in (("homeless", "homeless", "무주택"), ("age", "age", "나이"), ("income_pct", "income", "소득"), ("asset_manwon", "asset", "총자산"), ("car_manwon", "car", "자동차")):
+            v = (g.get("age_min"), g.get("age_max")) if field == "age" else g.get(field)
+            q = g.get(qk + "_quote")
+            if v is None or v == (None, None):
+                continue
+            nm = f"{name}.{field}"
+            short = 4 if v == "excluded" else 10
+            if not isinstance(q, str) or len(_ns(q)) < short or len(q) > 400:
+                dropped.append(f"{nm}: 근거 문장 없음·길이")
+                continue
+            at = next(((f, f.find(_ns(q))) for f in flat if _ns(q) in f), None)
+            if at is None:
+                dropped.append(f"{nm}: 근거 문장이 원문에 없음")
+                continue
+            try:
+                why = _check_value(field, v, q, None, at[0][at[1] + len(_ns(q)): at[1] + len(_ns(q)) + 120])
+            except Exception as e:
+                why = f"검사 오류 {e.__class__.__name__}"
+            if why:
+                dropped.append(f"{nm}: {why}")
+                continue
+            items.append({"k": field, "label": label, "text": _sh_text(field, v), "quote": q.strip()})
+        if items:
+            groups.append({"name": name, "items": items})
+    return ({"groups": groups} if groups else {}), dropped
+
+
+def sh_fill(seq: str, terms: Optional[dict], kind: str, text: Optional[str], name: str = "", cache_dir: Optional[Path] = None) -> tuple[Optional[dict], list[str]]:
+    """→ (참고 내용 {'groups', 'need', 'model', 'at'} 또는 None, 기록 줄). 답 파일(세션이 읽어 써 둔 것, 글 지문과 묶임)이 있을 때만."""
+    need = sh_gaps(terms, kind)
+    if not need or not text or len(text) < 500:
+        return None, []
+    nid = "SH-" + seq
+    saved = None
+    try:
+        saved = json.loads(((cache_dir or SH_DIR) / f"{seq}.json").read_text(encoding="utf-8"))
+    except Exception:
+        pass
+    if not (saved and saved.get("sha") == sha(text) and saved.get("prompt_v") == SH_PROMPT_V and isinstance(saved.get("answer"), dict)):
+        return None, [f"[공고문·AI 읽기] {nid} {name[:30]} 못 읽은 것 {', '.join(need)} — 답 파일 없음. 세션이 공고문(evidence/sh/{seq}.txt)을 읽고 `python -m tools.ai_answer sh {seq} <답.json>` 으로 써 둘 것"]
+    hints, dropped = sh_hints(saved["answer"], [text])
+    log = [f"[공고문·AI 읽기·탈락] {nid} {x}" for x in dropped]
+    if not hints:
+        return None, log + [f"[공고문·AI 읽기] {nid} 못 읽은 것 {', '.join(need)} — 답 파일의 값이 검사를 통과하지 못함 (화면 그대로)"]
+    hints.update(need=need, model=saved.get("model"), at=saved.get("at"))
+    log.append(f"[공고문·AI 읽기] {nid} 세션이 읽은 참고 내용 계층 {len(hints['groups'])}개·값 {sum(len(g['items']) for g in hints['groups'])}개 — 판정에는 쓰지 않음. 원문과 맞춰 보고 읽기 규칙·정답 데이터에 넣을 것")
     return hints, log

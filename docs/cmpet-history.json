@@ -828,100 +828,63 @@
   },
   "url": "https://www.applyhome.co.kr/ai/aia/selectAPTLttotPblancDetail.do?houseManageNo=2025000422&pblancNo=2025000422"
  },
- "2025000425": {
-  "address": "인천광역시 미추홀구 용현동 604-7번지 일원 (용현·학익 2-2블록 인하대역 1구역 내)",
-  "apply": "2025-11-04",
+ "2025000423": {
+  "address": "경기도 안양시 만안구 안양동 398-32번지 일원",
+  "apply": "2025-12-02",
   "category": "general",
-  "checked": "2026-09-30",
-  "name": "인하대역 수자인 로이센트",
-  "notice": "2025-10-24",
-  "sido": "인천",
-  "sigungu": "인천 미추홀구",
+  "checked": "2026-11-12",
+  "name": "안양자이 헤리티온",
+  "notice": "2025-11-21",
+  "sido": "경기",
+  "sigungu": "안양시 만안구",
   "sp": {
-   "084.9355A": {
+   "049.9890A": {
     "elder": {
-     "local": 1,
+     "local": 0,
      "other": 0,
-     "req": 1,
+     "req": 0,
      "sido": 0,
-     "u": 6
+     "u": 3
     },
     "first": {
-     "local": 12,
-     "other": 3,
-     "req": 15,
+     "local": 44,
+     "other": 105,
+     "req": 149,
      "sido": 0,
-     "u": 18
-    },
-    "multichild": {
-     "local": 4,
-     "other": 1,
-     "req": 5,
-     "sido": 0,
-     "u": 20
+     "u": 21
     },
     "newlywed": {
-     "local": 10,
-     "other": 3,
-     "req": 13,
+     "local": 9,
+     "other": 15,
+     "req": 24,
      "sido": 0,
-     "u": 47
+     "u": 25
     }
    },
-   "084.9373H": {
+   "049.9890B": {
+    "elder": {
+     "local": 0,
+     "other": 1,
+     "req": 1,
+     "sido": 0,
+     "u": 1
+    },
     "first": {
+     "local": 3,
+     "other": 9,
+     "req": 12,
+     "sido": 0,
+     "u": 4
+    },
+    "newlywed": {
      "local": 1,
      "other": 1,
      "req": 2,
      "sido": 0,
-     "u": 2
-    },
-    "multichild": {
-     "local": 0,
-     "other": 0,
-     "req": 0,
-     "sido": 0,
-     "u": 2
-    },
-    "newlywed": {
-     "local": 1,
-     "other": 0,
-     "req": 1,
-     "sido": 0,
-     "u": 5
+     "u": 6
     }
    },
-   "084.9450B": {
-    "elder": {
-     "local": 0,
-     "other": 0,
-     "req": 0,
-     "sido": 0,
-     "u": 15
-    },
-    "first": {
-     "local": 15,
-     "other": 3,
-     "req": 18,
-     "sido": 0,
-     "u": 46
-    },
-    "multichild": {
-     "local": 5,
-     "other": 0,
-     "req": 5,
-     "sido": 0,
-     "u": 51
-    },
-    "newlywed": {
-     "local": 15,
-     "other": 4,
-     "req": 19,
-     "sido": 0,
-     "u": 117
-    }
-   },
-   "084.9856G": {
+   "049.9890C": {
     "elder": {
      "local": 0,
      "other": 0,
@@ -930,113 +893,343 @@
      "u": 1
     },
     "first": {
-     "local": 1,
-     "other": 1,
-     "req": 2,
+     "local": 4,
+     "other": 10,
+     "req": 14,
      "sido": 0,
-     "u": 3
-    },
-    "multichild": {
-     "local": 2,
-     "other": 0,
-     "req": 2,
-     "sido": 0,
-     "u": 4
+     "u": 5
     },
     "newlywed": {
-     "local": 11,
-     "other": 0,
-     "req": 11,
+     "local": 1,
+     "other": 3,
+     "req": 4,
      "sido": 0,
-     "u": 9
+     "u": 6
     }
    },
-   "101.8981": {
+   "059.9899B": {
+    "elder": {
+     "local": 0,
+     "other": 0,
+     "req": 0,
+     "sido": 0,
+     "u": 2
+    },
+    "first": {
+     "local": 6,
+     "other": 17,
+     "req": 23,
+     "sido": 0,
+     "u": 5
+    },
+    "multichild": {
+     "local": 0,
+     "other": 0,
+     "req": 2,
+     "sido": 2,
+     "u": 5
+    },
+    "newlywed": {
+     "local": 4,
+     "other": 5,
+     "req": 9,
+     "sido": 0,
+     "u": 12
+    }
+   },
+   "059.9905C": {
+    "elder": {
+     "local": 0,
+     "other": 0,
+     "req": 0,
+     "sido": 0,
+     "u": 2
+    },
+    "first": {
+     "local": 6,
+     "other": 22,
+     "req": 28,
+     "sido": 0,
+     "u": 5
+    },
+    "multichild": {
+     "local": 1,
+     "other": 0,
+     "req": 3,
+     "sido": 2,
+     "u": 5
+    },
+    "newlywed": {
+     "local": 4,
+     "other": 11,
+     "req": 15,
+     "sido": 0,
+     "u": 12
+    }
+   },
+   "059.9948D": {
     "elder": {
      "local": 1,
      "other": 0,
      "req": 1,
      "sido": 0,
-     "u": 5
+     "u": 3
+    },
+    "first": {
+     "local": 26,
+     "other": 49,
+     "req": 75,
+     "sido": 0,
+     "u": 10
     },
     "multichild": {
-     "local": 5,
+     "local": 2,
      "other": 0,
      "req": 5,
+     "sido": 3,
+     "u": 10
+    },
+    "newlywed": {
+     "local": 14,
+     "other": 15,
+     "req": 29,
      "sido": 0,
-     "u": 17
+     "u": 24
+    }
+   },
+   "059.9949A": {
+    "elder": {
+     "local": 2,
+     "other": 0,
+     "req": 2,
+     "sido": 0,
+     "u": 6
+    },
+    "first": {
+     "local": 85,
+     "other": 223,
+     "req": 308,
+     "sido": 0,
+     "u": 18
+    },
+    "multichild": {
+     "local": 9,
+     "other": 9,
+     "req": 23,
+     "sido": 5,
+     "u": 20
+    },
+    "newlywed": {
+     "local": 75,
+     "other": 76,
+     "req": 151,
+     "sido": 0,
+     "u": 45
+    }
+   },
+   "076.9842B": {
+    "elder": {
+     "local": 1,
+     "other": 0,
+     "req": 1,
+     "sido": 0,
+     "u": 1
+    },
+    "first": {
+     "local": 7,
+     "other": 19,
+     "req": 26,
+     "sido": 0,
+     "u": 4
+    },
+    "multichild": {
+     "local": 3,
+     "other": 2,
+     "req": 6,
+     "sido": 1,
+     "u": 4
+    },
+    "newlywed": {
+     "local": 10,
+     "other": 19,
+     "req": 29,
+     "sido": 0,
+     "u": 9
+    }
+   },
+   "084.9902A": {
+    "newlywed": {
+     "local": 5,
+     "other": 17,
+     "req": 22,
+     "sido": 0,
+     "u": 1
+    }
+   },
+   "084.9914B": {
+    "multichild": {
+     "local": 2,
+     "other": 5,
+     "req": 9,
+     "sido": 2,
+     "u": 2
+    },
+    "newlywed": {
+     "local": 3,
+     "other": 13,
+     "req": 16,
+     "sido": 0,
+     "u": 5
     }
    }
   },
-  "sp_checked": "2026-10-01",
+  "sp_checked": "2026-11-12",
   "units": {
-   "084.9355A": {
-    "area": 84.9355,
-    "avg": 36.44,
-    "low": 28.0,
+   "049.9890A": {
+    "area": 49.989,
+    "avg": 34.05,
+    "low": 24.0,
     "rank": "1",
-    "rate": "1.06",
-    "rate_num": 1.06,
-    "req": 184.0,
+    "rate": "1.22",
+    "rate_num": 1.22,
+    "req": 60.0,
     "reside": "해당지역",
-    "supply": 173.0,
-    "top": 66.0,
-    "unit": "84A"
+    "supply": 49.0,
+    "top": 57.0,
+    "unit": "49A"
    },
-   "084.9373H": {
-    "area": 84.9373,
+   "049.9890B": {
+    "area": 49.989,
     "avg": 0.0,
     "low": 0.0,
     "rank": "1",
-    "rate": "(△2)",
+    "rate": "(△3)",
     "rate_num": null,
-    "req": 20.0,
+    "req": 12.0,
     "reside": "해당지역",
-    "supply": 22.0,
+    "supply": 15.0,
     "top": 0.0,
-    "unit": "84H"
+    "unit": "49B"
    },
-   "084.9450B": {
-    "area": 84.945,
-    "avg": null,
-    "low": null,
+   "049.9890C": {
+    "area": 49.989,
+    "avg": 0.0,
+    "low": 0.0,
     "rank": "1",
-    "rate": "(△248)",
-    "rate_num": null,
-    "req": 222.0,
+    "rate": "1.13",
+    "rate_num": 1.13,
+    "req": 17.0,
     "reside": "해당지역",
-    "supply": 470.0,
-    "top": null,
-    "unit": "84B"
+    "supply": 15.0,
+    "top": 0.0,
+    "unit": "49C"
    },
-   "084.9856G": {
-    "area": 84.9856,
-    "avg": 46.5,
+   "059.9899B": {
+    "area": 59.9899,
+    "avg": 42.25,
+    "low": 32.0,
+    "rank": "1",
+    "rate": "1.40",
+    "rate_num": 1.4,
+    "req": 28.0,
+    "reside": "해당지역",
+    "supply": 20.0,
+    "top": 53.0,
+    "unit": "59B"
+   },
+   "059.9905C": {
+    "area": 59.9905,
+    "avg": 37.22,
+    "low": 27.0,
+    "rank": "1",
+    "rate": "1.38",
+    "rate_num": 1.38,
+    "req": 29.0,
+    "reside": "해당지역",
+    "supply": 21.0,
+    "top": 49.0,
+    "unit": "59C"
+   },
+   "059.9948D": {
+    "area": 59.9948,
+    "avg": 0.0,
+    "low": 0.0,
+    "rank": "1",
+    "rate": "1.11",
+    "rate_num": 1.11,
+    "req": 51.0,
+    "reside": "해당지역",
+    "supply": 46.0,
+    "top": 0.0,
+    "unit": "59D"
+   },
+   "059.9949A": {
+    "area": 59.9949,
+    "avg": 47.25,
     "low": 37.0,
     "rank": "1",
-    "rate": "3.18",
-    "rate_num": 3.18,
-    "req": 89.0,
+    "rate": "2.83",
+    "rate_num": 2.83,
+    "req": 252.0,
     "reside": "해당지역",
-    "supply": 28.0,
-    "top": 58.0,
-    "unit": "84G"
+    "supply": 89.0,
+    "top": 69.0,
+    "unit": "59A"
    },
-   "101.8981": {
-    "area": 101.8981,
+   "076.9842B": {
+    "area": 76.9842,
+    "avg": 60.0,
+    "low": 51.0,
+    "rank": "1",
+    "rate": "2.47",
+    "rate_num": 2.47,
+    "req": 37.0,
+    "reside": "해당지역",
+    "supply": 15.0,
+    "top": 66.0,
+    "unit": "76B"
+   },
+   "084.9902A": {
+    "area": 84.9902,
+    "avg": 71.0,
+    "low": 71.0,
+    "rank": "1",
+    "rate": "15.50",
+    "rate_num": 15.5,
+    "req": 31.0,
+    "reside": "해당지역",
+    "supply": 2.0,
+    "top": 71.0,
+    "unit": "84A"
+   },
+   "084.9914B": {
+    "area": 84.9914,
+    "avg": 48.0,
+    "low": 35.0,
+    "rank": "1",
+    "rate": "1.67",
+    "rate_num": 1.67,
+    "req": 25.0,
+    "reside": "해당지역",
+    "supply": 15.0,
+    "top": 62.0,
+    "unit": "84B"
+   },
+   "101.9909": {
+    "area": 101.9909,
     "avg": null,
     "low": null,
     "rank": "1",
-    "rate": "(△115)",
-    "rate_num": null,
-    "req": 49.0,
+    "rate": "2.14",
+    "rate_num": 2.14,
+    "req": 15.0,
     "reside": "해당지역",
-    "supply": 164.0,
+    "supply": 7.0,
     "top": null,
     "unit": "101"
    }
   },
-  "url": "https://www.applyhome.co.kr/ai/aia/selectAPTLttotPblancDetail.do?houseManageNo=2025000425&pblancNo=2025000425"
+  "url": "https://www.applyhome.co.kr/ai/aia/selectAPTLttotPblancDetail.do?houseManageNo=2025000423&pblancNo=2025000423"
  },
  "2025000469": {
   "address": "경기도 양평군 양평읍 오빈리 140-1번지 일원",
@@ -2415,6 +2608,195 @@
    }
   },
   "url": "https://www.applyhome.co.kr/ai/aia/selectAPTLttotPblancDetail.do?houseManageNo=2025000537&pblancNo=2025000537"
+ },
+ "2025000545": {
+  "address": "경기도 이천시 증포동 107-2번지 일원",
+  "apply": "2025-12-08",
+  "category": "general",
+  "checked": "2026-11-12",
+  "name": "이천 증포5지구 칸타빌 에듀파크",
+  "notice": "2025-11-28",
+  "sido": "경기",
+  "sigungu": "이천시",
+  "sp": {
+   "084.9784A": {
+    "elder": {
+     "local": 0,
+     "other": 0,
+     "req": 0,
+     "sido": 0,
+     "u": 6
+    },
+    "first": {
+     "local": 0,
+     "other": 0,
+     "req": 0,
+     "sido": 0,
+     "u": 16
+    },
+    "multichild": {
+     "local": 0,
+     "other": 0,
+     "req": 0,
+     "sido": 0,
+     "u": 17
+    },
+    "newlywed": {
+     "local": 2,
+     "other": 0,
+     "req": 2,
+     "sido": 0,
+     "u": 39
+    }
+   },
+   "084.9910B": {
+    "elder": {
+     "local": 0,
+     "other": 0,
+     "req": 0,
+     "sido": 0,
+     "u": 2
+    },
+    "first": {
+     "local": 0,
+     "other": 0,
+     "req": 0,
+     "sido": 0,
+     "u": 6
+    },
+    "multichild": {
+     "local": 0,
+     "other": 0,
+     "req": 0,
+     "sido": 0,
+     "u": 7
+    },
+    "newlywed": {
+     "local": 0,
+     "other": 0,
+     "req": 0,
+     "sido": 0,
+     "u": 16
+    }
+   },
+   "102.7011": {
+    "elder": {
+     "local": 0,
+     "other": 0,
+     "req": 0,
+     "sido": 0,
+     "u": 1
+    },
+    "multichild": {
+     "local": 0,
+     "other": 0,
+     "req": 0,
+     "sido": 0,
+     "u": 2
+    }
+   },
+   "116.7297": {
+    "elder": {
+     "local": 0,
+     "other": 0,
+     "req": 0,
+     "sido": 0,
+     "u": 2
+    },
+    "multichild": {
+     "local": 0,
+     "other": 0,
+     "req": 0,
+     "sido": 0,
+     "u": 7
+    }
+   },
+   "118.1152": {
+    "elder": {
+     "local": 0,
+     "other": 0,
+     "req": 0,
+     "sido": 0,
+     "u": 2
+    },
+    "multichild": {
+     "local": 0,
+     "other": 0,
+     "req": 0,
+     "sido": 0,
+     "u": 5
+    }
+   }
+  },
+  "sp_checked": "2026-11-12",
+  "units": {
+   "084.9784A": {
+    "area": 84.9784,
+    "avg": null,
+    "low": null,
+    "rank": "1",
+    "rate": "(△155)",
+    "rate_num": null,
+    "req": 11.0,
+    "reside": "해당지역",
+    "supply": 166.0,
+    "top": null,
+    "unit": "84A"
+   },
+   "084.9910B": {
+    "area": 84.991,
+    "avg": null,
+    "low": null,
+    "rank": "1",
+    "rate": "(△65)",
+    "rate_num": null,
+    "req": 1.0,
+    "reside": "해당지역",
+    "supply": 66.0,
+    "top": null,
+    "unit": "84B"
+   },
+   "102.7011": {
+    "area": 102.7011,
+    "avg": null,
+    "low": null,
+    "rank": "1",
+    "rate": "(△16)",
+    "rate_num": null,
+    "req": 2.0,
+    "reside": "해당지역",
+    "supply": 18.0,
+    "top": null,
+    "unit": "102"
+   },
+   "116.7297": {
+    "area": 116.7297,
+    "avg": null,
+    "low": null,
+    "rank": "1",
+    "rate": "(△59)",
+    "rate_num": null,
+    "req": 2.0,
+    "reside": "해당지역",
+    "supply": 61.0,
+    "top": null,
+    "unit": "116"
+   },
+   "118.1152": {
+    "area": 118.1152,
+    "avg": null,
+    "low": null,
+    "rank": "1",
+    "rate": "(△39)",
+    "rate_num": null,
+    "req": 3.0,
+    "reside": "해당지역",
+    "supply": 42.0,
+    "top": null,
+    "unit": "118"
+   }
+  },
+  "url": "https://www.applyhome.co.kr/ai/aia/selectAPTLttotPblancDetail.do?houseManageNo=2025000545&pblancNo=2025000545"
  },
  "2025000546": {
   "address": "경기도 시흥시 시흥거모 공공주택지구 S-2블럭(경기도 시흥시 거모동 일원)",
@@ -4620,6 +5002,237 @@
   },
   "url": "https://www.applyhome.co.kr/ai/aia/selectAPTLttotPblancDetail.do?houseManageNo=2025000573&pblancNo=2025000573"
  },
+ "2025000581": {
+  "address": "경기도 이천시 중리지구 B3블록(중리동 518번지)",
+  "apply": "2025-12-22",
+  "category": "general",
+  "checked": "2026-11-12",
+  "name": "이천 중리지구 B3블록 금성백조 예미지",
+  "notice": "2025-12-12",
+  "sido": "경기",
+  "sigungu": "이천시",
+  "sp": {
+   "059.9870A": {
+    "elder": {
+     "local": 0,
+     "other": 0,
+     "req": 0,
+     "sido": 0,
+     "u": 8
+    },
+    "first": {
+     "local": 85,
+     "other": 24,
+     "req": 109,
+     "sido": 0,
+     "u": 56
+    },
+    "multichild": {
+     "local": 6,
+     "other": 0,
+     "req": 6,
+     "sido": 0,
+     "u": 29
+    },
+    "newlywed": {
+     "local": 12,
+     "other": 2,
+     "req": 14,
+     "sido": 0,
+     "u": 68
+    }
+   },
+   "059.9870B": {
+    "elder": {
+     "local": 0,
+     "other": 0,
+     "req": 0,
+     "sido": 0,
+     "u": 2
+    },
+    "first": {
+     "local": 2,
+     "other": 0,
+     "req": 2,
+     "sido": 0,
+     "u": 13
+    },
+    "multichild": {
+     "local": 1,
+     "other": 0,
+     "req": 1,
+     "sido": 0,
+     "u": 7
+    },
+    "newlywed": {
+     "local": 1,
+     "other": 0,
+     "req": 1,
+     "sido": 0,
+     "u": 16
+    }
+   },
+   "084.7884A": {
+    "elder": {
+     "local": 0,
+     "other": 0,
+     "req": 0,
+     "sido": 0,
+     "u": 14
+    },
+    "first": {
+     "local": 7,
+     "other": 1,
+     "req": 8,
+     "sido": 0,
+     "u": 90
+    },
+    "multichild": {
+     "local": 7,
+     "other": 0,
+     "req": 7,
+     "sido": 0,
+     "u": 47
+    },
+    "newlywed": {
+     "local": 13,
+     "other": 3,
+     "req": 16,
+     "sido": 0,
+     "u": 109
+    }
+   },
+   "084.9665C": {
+    "elder": {
+     "local": 0,
+     "other": 0,
+     "req": 0,
+     "sido": 0,
+     "u": 1
+    },
+    "first": {
+     "local": 4,
+     "other": 1,
+     "req": 5,
+     "sido": 0,
+     "u": 11
+    },
+    "multichild": {
+     "local": 3,
+     "other": 0,
+     "req": 3,
+     "sido": 0,
+     "u": 6
+    },
+    "newlywed": {
+     "local": 4,
+     "other": 0,
+     "req": 4,
+     "sido": 0,
+     "u": 13
+    }
+   },
+   "084.9970B": {
+    "elder": {
+     "local": 0,
+     "other": 0,
+     "req": 0,
+     "sido": 0,
+     "u": 3
+    },
+    "first": {
+     "local": 8,
+     "other": 0,
+     "req": 8,
+     "sido": 0,
+     "u": 20
+    },
+    "multichild": {
+     "local": 12,
+     "other": 0,
+     "req": 13,
+     "sido": 1,
+     "u": 10
+    },
+    "newlywed": {
+     "local": 17,
+     "other": 1,
+     "req": 18,
+     "sido": 0,
+     "u": 24
+    }
+   }
+  },
+  "sp_checked": "2026-11-12",
+  "units": {
+   "059.9870A": {
+    "area": 59.987,
+    "avg": null,
+    "low": null,
+    "rank": "1",
+    "rate": "1.12",
+    "rate_num": 1.12,
+    "req": 187.0,
+    "reside": "해당지역",
+    "supply": 167.0,
+    "top": null,
+    "unit": "59A"
+   },
+   "059.9870B": {
+    "area": 59.987,
+    "avg": null,
+    "low": null,
+    "rank": "1",
+    "rate": "(△53)",
+    "rate_num": null,
+    "req": 13.0,
+    "reside": "해당지역",
+    "supply": 66.0,
+    "top": null,
+    "unit": "59B"
+   },
+   "084.7884A": {
+    "area": 84.7884,
+    "avg": null,
+    "low": null,
+    "rank": "1",
+    "rate": "(△349)",
+    "rate_num": null,
+    "req": 95.0,
+    "reside": "해당지역",
+    "supply": 444.0,
+    "top": null,
+    "unit": "84A"
+   },
+   "084.9665C": {
+    "area": 84.9665,
+    "avg": null,
+    "low": null,
+    "rank": "1",
+    "rate": "(△5)",
+    "rate_num": null,
+    "req": 43.0,
+    "reside": "해당지역",
+    "supply": 48.0,
+    "top": null,
+    "unit": "84C"
+   },
+   "084.9970B": {
+    "area": 84.997,
+    "avg": 40.63,
+    "low": 32.0,
+    "rank": "1",
+    "rate": "1.48",
+    "rate_num": 1.48,
+    "req": 98.0,
+    "reside": "해당지역",
+    "supply": 66.0,
+    "top": 69.0,
+    "unit": "84B"
+   }
+  },
+  "url": "https://www.applyhome.co.kr/ai/aia/selectAPTLttotPblancDetail.do?houseManageNo=2025000581&pblancNo=2025000581"
+ },
  "2025000582": {
   "address": "인천광역시 연수구 송도동 543번지(송도국제도시 11공구 RC3BL)",
   "apply": "2025-12-15",
@@ -5895,6 +6508,274 @@
   },
   "url": "https://www.applyhome.co.kr/ai/aia/selectAPTLttotPblancDetail.do?houseManageNo=2025000644&pblancNo=2025000644"
  },
+ "2025000645": {
+  "address": "경기도 이천시 장호원읍 이황리 355-7번지",
+  "apply": "2026-03-04",
+  "category": "general",
+  "checked": "2026-11-12",
+  "name": "이천시 장호원읍 5년 공공건설임대주택(카사펠리스이천) 임차인모집",
+  "notice": "2026-02-20",
+  "sido": "경기",
+  "sigungu": "이천시",
+  "sp": {
+   "030.9603A": {
+    "elder": {
+     "local": 0,
+     "other": 0,
+     "req": 0,
+     "sido": 0,
+     "u": 3
+    },
+    "multichild": {
+     "local": 0,
+     "other": 0,
+     "req": 0,
+     "sido": 0,
+     "u": 30
+    }
+   },
+   "031.0143A": {
+    "elder": {
+     "local": 0,
+     "other": 0,
+     "req": 0,
+     "sido": 0,
+     "u": 3
+    },
+    "multichild": {
+     "local": 0,
+     "other": 0,
+     "req": 0,
+     "sido": 0,
+     "u": 33
+    }
+   },
+   "039.9884A": {
+    "elder": {
+     "local": 0,
+     "other": 0,
+     "req": 0,
+     "sido": 0,
+     "u": 2
+    },
+    "multichild": {
+     "local": 0,
+     "other": 0,
+     "req": 0,
+     "sido": 0,
+     "u": 10
+    }
+   },
+   "040.1282A": {
+    "elder": {
+     "local": 0,
+     "other": 0,
+     "req": 0,
+     "sido": 0,
+     "u": 3
+    },
+    "multichild": {
+     "local": 0,
+     "other": 0,
+     "req": 0,
+     "sido": 0,
+     "u": 10
+    }
+   },
+   "052.6713B": {
+    "elder": {
+     "local": 0,
+     "other": 0,
+     "req": 0,
+     "sido": 0,
+     "u": 8
+    },
+    "multichild": {
+     "local": 0,
+     "other": 0,
+     "req": 0,
+     "sido": 0,
+     "u": 5
+    }
+   },
+   "052.9256A": {
+    "elder": {
+     "local": 0,
+     "other": 0,
+     "req": 0,
+     "sido": 0,
+     "u": 9
+    },
+    "multichild": {
+     "local": 0,
+     "other": 0,
+     "req": 0,
+     "sido": 0,
+     "u": 5
+    }
+   }
+  },
+  "sp_checked": "2026-11-12",
+  "units": {
+   "030.9603A": {
+    "area": 30.9603,
+    "avg": null,
+    "low": null,
+    "rank": "1",
+    "rate": "(△252)",
+    "rate_num": null,
+    "req": 0.0,
+    "reside": "해당지역",
+    "supply": 252.0,
+    "top": null,
+    "unit": "30A"
+   },
+   "030.9603B": {
+    "area": 30.9603,
+    "avg": null,
+    "low": null,
+    "rank": "1",
+    "rate": "(△18)",
+    "rate_num": null,
+    "req": 0.0,
+    "reside": "해당지역",
+    "supply": 18.0,
+    "top": null,
+    "unit": "30B"
+   },
+   "031.0143A": {
+    "area": 31.0143,
+    "avg": null,
+    "low": null,
+    "rank": "1",
+    "rate": "(△280)",
+    "rate_num": null,
+    "req": 0.0,
+    "reside": "해당지역",
+    "supply": 280.0,
+    "top": null,
+    "unit": "31A"
+   },
+   "031.0143B": {
+    "area": 31.0143,
+    "avg": null,
+    "low": null,
+    "rank": "1",
+    "rate": "(△20)",
+    "rate_num": null,
+    "req": 0.0,
+    "reside": "해당지역",
+    "supply": 20.0,
+    "top": null,
+    "unit": "31B"
+   },
+   "039.9884A": {
+    "area": 39.9884,
+    "avg": null,
+    "low": null,
+    "rank": "1",
+    "rate": "(△84)",
+    "rate_num": null,
+    "req": 0.0,
+    "reside": "해당지역",
+    "supply": 84.0,
+    "top": null,
+    "unit": "39A"
+   },
+   "039.9884B": {
+    "area": 39.9884,
+    "avg": null,
+    "low": null,
+    "rank": "1",
+    "rate": "(△6)",
+    "rate_num": null,
+    "req": 0.0,
+    "reside": "해당지역",
+    "supply": 6.0,
+    "top": null,
+    "unit": "39B"
+   },
+   "040.1282A": {
+    "area": 40.1282,
+    "avg": null,
+    "low": null,
+    "rank": "1",
+    "rate": "(△140)",
+    "rate_num": null,
+    "req": 0.0,
+    "reside": "해당지역",
+    "supply": 140.0,
+    "top": null,
+    "unit": "40A"
+   },
+   "040.1282B": {
+    "area": 40.1282,
+    "avg": null,
+    "low": null,
+    "rank": "1",
+    "rate": "(△10)",
+    "rate_num": null,
+    "req": 0.0,
+    "reside": "해당지역",
+    "supply": 10.0,
+    "top": null,
+    "unit": "40B"
+   },
+   "052.6713B": {
+    "area": 52.6713,
+    "avg": null,
+    "low": null,
+    "rank": "1",
+    "rate": "(△28)",
+    "rate_num": null,
+    "req": 0.0,
+    "reside": "해당지역",
+    "supply": 28.0,
+    "top": null,
+    "unit": "52B"
+   },
+   "052.6713D": {
+    "area": 52.6713,
+    "avg": null,
+    "low": null,
+    "rank": "1",
+    "rate": "(△4)",
+    "rate_num": null,
+    "req": 0.0,
+    "reside": "해당지역",
+    "supply": 4.0,
+    "top": null,
+    "unit": "52D"
+   },
+   "052.9256A": {
+    "area": 52.9256,
+    "avg": null,
+    "low": null,
+    "rank": "1",
+    "rate": "(△84)",
+    "rate_num": null,
+    "req": 0.0,
+    "reside": "해당지역",
+    "supply": 84.0,
+    "top": null,
+    "unit": "52A"
+   },
+   "052.9256C": {
+    "area": 52.9256,
+    "avg": null,
+    "low": null,
+    "rank": "1",
+    "rate": "(△4)",
+    "rate_num": null,
+    "req": 0.0,
+    "reside": "해당지역",
+    "supply": 4.0,
+    "top": null,
+    "unit": "52C"
+   }
+  },
+  "url": "https://www.applyhome.co.kr/ai/aia/selectAPTLttotPblancDetail.do?houseManageNo=2025000645&pblancNo=2025000645"
+ },
  "2025000646": {
   "address": "경기도 구리시 갈매동 241-28 일원, 구리갈매역세권 공공주택지구 내 A-4블록",
   "apply": "2026-01-12",
@@ -5950,6 +6831,187 @@
    }
   },
   "url": "https://www.applyhome.co.kr/ai/aia/selectAPTLttotPblancDetail.do?houseManageNo=2025000647&pblancNo=2025000647"
+ },
+ "2025000652": {
+  "address": "경기도 안양시 만안구 안양2동 841-5번지 일대",
+  "apply": "2026-02-02",
+  "category": "general",
+  "checked": "2026-11-12",
+  "name": "안양역 센트럴 아이파크 수자인",
+  "notice": "2026-01-23",
+  "sido": "경기",
+  "sigungu": "안양시 만안구",
+  "sp": {
+   "039.2437A": {
+    "first": {
+     "local": 3,
+     "other": 38,
+     "req": 41,
+     "sido": 0,
+     "u": 3
+    },
+    "newlywed": {
+     "local": 0,
+     "other": 1,
+     "req": 1,
+     "sido": 0,
+     "u": 3
+    }
+   },
+   "043.0681B": {
+    "elder": {
+     "local": 0,
+     "other": 0,
+     "req": 0,
+     "sido": 0,
+     "u": 3
+    },
+    "first": {
+     "local": 13,
+     "other": 81,
+     "req": 94,
+     "sido": 0,
+     "u": 7
+    },
+    "newlywed": {
+     "local": 3,
+     "other": 20,
+     "req": 23,
+     "sido": 0,
+     "u": 11
+    }
+   },
+   "043.2386A": {
+    "elder": {
+     "local": 1,
+     "other": 0,
+     "req": 1,
+     "sido": 0,
+     "u": 9
+    },
+    "first": {
+     "local": 84,
+     "other": 443,
+     "req": 527,
+     "sido": 0,
+     "u": 51
+    },
+    "newlywed": {
+     "local": 16,
+     "other": 72,
+     "req": 88,
+     "sido": 0,
+     "u": 80
+    }
+   },
+   "059.8628B": {
+    "elder": {
+     "local": 0,
+     "other": 3,
+     "req": 3,
+     "sido": 0,
+     "u": 1
+    },
+    "multichild": {
+     "local": 9,
+     "other": 4,
+     "req": 19,
+     "sido": 6,
+     "u": 12
+    }
+   },
+   "059.9208A": {
+    "multichild": {
+     "local": 1,
+     "other": 3,
+     "req": 4,
+     "sido": 0,
+     "u": 1
+    }
+   }
+  },
+  "sp_checked": "2026-11-12",
+  "units": {
+   "039.2437A": {
+    "area": 39.2437,
+    "avg": 45.67,
+    "low": 39.0,
+    "rank": "1",
+    "rate": "1.17",
+    "rate_num": 1.17,
+    "req": 7.0,
+    "reside": "해당지역",
+    "supply": 6.0,
+    "top": 53.0,
+    "unit": "39A"
+   },
+   "043.0681B": {
+    "area": 43.0681,
+    "avg": 0.0,
+    "low": 0.0,
+    "rank": "1",
+    "rate": "(△1)",
+    "rate_num": null,
+    "req": 20.0,
+    "reside": "해당지역",
+    "supply": 21.0,
+    "top": 0.0,
+    "unit": "43B"
+   },
+   "043.2386A": {
+    "area": 43.2386,
+    "avg": 37.64,
+    "low": 27.0,
+    "rank": "1",
+    "rate": "1.14",
+    "rate_num": 1.14,
+    "req": 158.0,
+    "reside": "해당지역",
+    "supply": 138.0,
+    "top": 59.0,
+    "unit": "43A"
+   },
+   "059.8628B": {
+    "area": 59.8628,
+    "avg": 54.71,
+    "low": 51.0,
+    "rank": "1",
+    "rate": "11.06",
+    "rate_num": 11.06,
+    "req": 177.0,
+    "reside": "해당지역",
+    "supply": 16.0,
+    "top": 60.0,
+    "unit": "59B"
+   },
+   "059.9208A": {
+    "area": 59.9208,
+    "avg": 70.0,
+    "low": 69.0,
+    "rank": "1",
+    "rate": "20.00",
+    "rate_num": 20.0,
+    "req": 60.0,
+    "reside": "해당지역",
+    "supply": 3.0,
+    "top": 71.0,
+    "unit": "59A"
+   },
+   "084.3197A": {
+    "area": 84.3197,
+    "avg": 69.0,
+    "low": 69.0,
+    "rank": "1",
+    "rate": "41.00",
+    "rate_num": 41.0,
+    "req": 41.0,
+    "reside": "해당지역",
+    "supply": 1.0,
+    "top": 69.0,
+    "unit": "84A"
+   }
+  },
+  "url": "https://www.applyhome.co.kr/ai/aia/selectAPTLttotPblancDetail.do?houseManageNo=2025000652&pblancNo=2025000652"
  },
  "2025000656": {
   "address": "경기도 김포시 사우동 사우4구역 공동1블록",
@@ -7523,6 +8585,71 @@
    }
   },
   "url": "https://www.applyhome.co.kr/ai/aia/selectAPTRemndrLttotPblancDetailView.do?houseManageNo=2025910251&pblancNo=2025910251"
+ },
+ "2025910255": {
+  "address": "경기도 안양시 만안구 석수동 284-1",
+  "apply": "2025-12-15",
+  "category": "remainder",
+  "checked": "2026-11-12",
+  "name": "만안역 중앙하이츠 포레",
+  "notice": "2025-12-10",
+  "sido": "경기",
+  "sigungu": "안양시 만안구",
+  "units": {
+   "059.9241": {
+    "area": 59.9241,
+    "avg": null,
+    "low": null,
+    "rank": "",
+    "rate": "3.24",
+    "rate_num": 3.24,
+    "req": 55.0,
+    "reside": "",
+    "supply": 17.0,
+    "top": null,
+    "unit": "59"
+   },
+   "066.6115A": {
+    "area": 66.6115,
+    "avg": null,
+    "low": null,
+    "rank": "",
+    "rate": "(△2)",
+    "rate_num": null,
+    "req": 8.0,
+    "reside": "",
+    "supply": 10.0,
+    "top": null,
+    "unit": "66A"
+   },
+   "066.6793B": {
+    "area": 66.6793,
+    "avg": null,
+    "low": null,
+    "rank": "",
+    "rate": "1.11",
+    "rate_num": 1.11,
+    "req": 10.0,
+    "reside": "",
+    "supply": 9.0,
+    "top": null,
+    "unit": "66B"
+   },
+   "075.7005": {
+    "area": 75.7005,
+    "avg": null,
+    "low": null,
+    "rank": "",
+    "rate": "4.00",
+    "rate_num": 4.0,
+    "req": 12.0,
+    "reside": "",
+    "supply": 3.0,
+    "top": null,
+    "unit": "75"
+   }
+  },
+  "url": "https://www.applyhome.co.kr/ai/aia/selectAPTRemndrLttotPblancDetailView.do?houseManageNo=2025910255&pblancNo=2025910255"
  },
  "2025910256": {
   "address": "경기도 김포시 풍무역세권도시개발사업 B2BL(사우동 173-1번지 일원)",
@@ -10223,6 +11350,326 @@
    }
   },
   "url": "https://www.applyhome.co.kr/ai/aia/selectAPTLttotPblancDetail.do?houseManageNo=2026000069&pblancNo=2026000069"
+ },
+ "2026000070": {
+  "address": "경기도 안양시 만안구 안양동 395-1번지",
+  "apply": "2026-04-06",
+  "category": "general",
+  "checked": "2026-11-12",
+  "name": "힐스테이트 안양펠루스",
+  "notice": "2026-03-27",
+  "sido": "경기",
+  "sigungu": "안양시 만안구",
+  "sp": {
+   "040.5800": {
+    "first": {
+     "local": 2,
+     "other": 2,
+     "req": 4,
+     "sido": 0,
+     "u": 1
+    },
+    "newlywed": {
+     "local": 0,
+     "other": 1,
+     "req": 1,
+     "sido": 0,
+     "u": 2
+    }
+   },
+   "042.6600": {
+    "first": {
+     "local": 0,
+     "other": 3,
+     "req": 3,
+     "sido": 0,
+     "u": 2
+    },
+    "newlywed": {
+     "local": 0,
+     "other": 0,
+     "req": 0,
+     "sido": 0,
+     "u": 1
+    }
+   },
+   "043.6000": {
+    "elder": {
+     "local": 0,
+     "other": 0,
+     "req": 0,
+     "sido": 0,
+     "u": 1
+    },
+    "first": {
+     "local": 1,
+     "other": 7,
+     "req": 8,
+     "sido": 0,
+     "u": 2
+    },
+    "newlywed": {
+     "local": 0,
+     "other": 0,
+     "req": 0,
+     "sido": 0,
+     "u": 2
+    }
+   },
+   "044.3300": {
+    "first": {
+     "local": 0,
+     "other": 2,
+     "req": 2,
+     "sido": 0,
+     "u": 1
+    },
+    "newlywed": {
+     "local": 0,
+     "other": 0,
+     "req": 0,
+     "sido": 0,
+     "u": 1
+    }
+   },
+   "050.0400": {
+    "first": {
+     "local": 3,
+     "other": 16,
+     "req": 19,
+     "sido": 0,
+     "u": 1
+    },
+    "newlywed": {
+     "local": 1,
+     "other": 0,
+     "req": 1,
+     "sido": 0,
+     "u": 1
+    }
+   },
+   "061.1400": {
+    "multichild": {
+     "local": 0,
+     "other": 0,
+     "req": 0,
+     "sido": 0,
+     "u": 1
+    },
+    "newlywed": {
+     "local": 0,
+     "other": 1,
+     "req": 1,
+     "sido": 0,
+     "u": 2
+    }
+   },
+   "065.0000": {
+    "multichild": {
+     "local": 0,
+     "other": 0,
+     "req": 0,
+     "sido": 0,
+     "u": 1
+    },
+    "newlywed": {
+     "local": 0,
+     "other": 1,
+     "req": 1,
+     "sido": 0,
+     "u": 2
+    }
+   },
+   "066.2800A": {
+    "elder": {
+     "local": 0,
+     "other": 0,
+     "req": 0,
+     "sido": 0,
+     "u": 1
+    },
+    "multichild": {
+     "local": 0,
+     "other": 0,
+     "req": 0,
+     "sido": 0,
+     "u": 1
+    },
+    "newlywed": {
+     "local": 0,
+     "other": 0,
+     "req": 0,
+     "sido": 0,
+     "u": 1
+    }
+   },
+   "066.4900B": {
+    "multichild": {
+     "local": 0,
+     "other": 0,
+     "req": 0,
+     "sido": 0,
+     "u": 1
+    },
+    "newlywed": {
+     "local": 1,
+     "other": 2,
+     "req": 3,
+     "sido": 0,
+     "u": 2
+    }
+   },
+   "068.3900": {
+    "multichild": {
+     "local": 0,
+     "other": 0,
+     "req": 0,
+     "sido": 0,
+     "u": 2
+    },
+    "newlywed": {
+     "local": 1,
+     "other": 1,
+     "req": 2,
+     "sido": 0,
+     "u": 1
+    }
+   }
+  },
+  "sp_checked": "2026-11-12",
+  "units": {
+   "040.5800": {
+    "area": 40.58,
+    "avg": 59.0,
+    "low": 59.0,
+    "rank": "1",
+    "rate": "3.50",
+    "rate_num": 3.5,
+    "req": 7.0,
+    "reside": "해당지역",
+    "supply": 2.0,
+    "top": 59.0,
+    "unit": "40"
+   },
+   "042.6600": {
+    "area": 42.66,
+    "avg": 0.0,
+    "low": 0.0,
+    "rank": "1",
+    "rate": "(△1)",
+    "rate_num": null,
+    "req": 1.0,
+    "reside": "해당지역",
+    "supply": 2.0,
+    "top": 0.0,
+    "unit": "42"
+   },
+   "043.6000": {
+    "area": 43.6,
+    "avg": 0.0,
+    "low": 0.0,
+    "rank": "1",
+    "rate": "1.00",
+    "rate_num": 1.0,
+    "req": 5.0,
+    "reside": "해당지역",
+    "supply": 5.0,
+    "top": 0.0,
+    "unit": "43"
+   },
+   "044.3300": {
+    "area": 44.33,
+    "avg": 0.0,
+    "low": 0.0,
+    "rank": "1",
+    "rate": "(△1)",
+    "rate_num": null,
+    "req": 2.0,
+    "reside": "해당지역",
+    "supply": 3.0,
+    "top": 0.0,
+    "unit": "44"
+   },
+   "050.0400": {
+    "area": 50.04,
+    "avg": 0.0,
+    "low": 0.0,
+    "rank": "1",
+    "rate": "(△1)",
+    "rate_num": null,
+    "req": 2.0,
+    "reside": "해당지역",
+    "supply": 3.0,
+    "top": 0.0,
+    "unit": "50"
+   },
+   "061.1400": {
+    "area": 61.14,
+    "avg": 0.0,
+    "low": 0.0,
+    "rank": "1",
+    "rate": "(△2)",
+    "rate_num": null,
+    "req": 2.0,
+    "reside": "해당지역",
+    "supply": 4.0,
+    "top": 0.0,
+    "unit": "61"
+   },
+   "065.0000": {
+    "area": 65.0,
+    "avg": 0.0,
+    "low": 0.0,
+    "rank": "1",
+    "rate": "(△1)",
+    "rate_num": null,
+    "req": 3.0,
+    "reside": "해당지역",
+    "supply": 4.0,
+    "top": 0.0,
+    "unit": "65"
+   },
+   "066.2800A": {
+    "area": 66.28,
+    "avg": 0.0,
+    "low": 0.0,
+    "rank": "1",
+    "rate": "(△2)",
+    "rate_num": null,
+    "req": 3.0,
+    "reside": "해당지역",
+    "supply": 5.0,
+    "top": 0.0,
+    "unit": "66A"
+   },
+   "066.4900B": {
+    "area": 66.49,
+    "avg": 62.0,
+    "low": 62.0,
+    "rank": "1",
+    "rate": "2.00",
+    "rate_num": 2.0,
+    "req": 4.0,
+    "reside": "해당지역",
+    "supply": 2.0,
+    "top": 62.0,
+    "unit": "66B"
+   },
+   "068.3900": {
+    "area": 68.39,
+    "avg": 54.0,
+    "low": 48.0,
+    "rank": "1",
+    "rate": "2.67",
+    "rate_num": 2.67,
+    "req": 8.0,
+    "reside": "해당지역",
+    "supply": 3.0,
+    "top": 60.0,
+    "unit": "68"
+   }
+  },
+  "url": "https://www.applyhome.co.kr/ai/aia/selectAPTLttotPblancDetail.do?houseManageNo=2026000070&pblancNo=2026000070"
  },
  "2026000073": {
   "address": "경기도 김포시 풍무역세권도시개발사업 B1BL(김포시 사우동 167-1번지)",
@@ -18397,6 +19844,60 @@
   },
   "url": "https://www.applyhome.co.kr/ai/aia/selectAPTLttotPblancDetail.do?houseManageNo=2026000278&pblancNo=2026000278"
  },
+ "2026000281": {
+  "address": "경기도 이천시 안흥동 279-1번지 일원",
+  "apply": "2026-07-02",
+  "category": "general",
+  "checked": "2026-11-12",
+  "name": "이천 서희스타힐스 SKY(조합원 취소분)",
+  "notice": "2026-06-22",
+  "sido": "경기",
+  "sigungu": "이천시",
+  "sp": {},
+  "sp_checked": "2026-11-12",
+  "units": {
+   "084.9800A": {
+    "area": 84.98,
+    "avg": 0.0,
+    "low": 0.0,
+    "rank": "1",
+    "rate": "(△1)",
+    "rate_num": null,
+    "req": 2.0,
+    "reside": "해당지역",
+    "supply": 3.0,
+    "top": 0.0,
+    "unit": "84A"
+   },
+   "084.9800B": {
+    "area": 84.98,
+    "avg": null,
+    "low": null,
+    "rank": "1",
+    "rate": "(△3)",
+    "rate_num": null,
+    "req": 1.0,
+    "reside": "해당지역",
+    "supply": 4.0,
+    "top": null,
+    "unit": "84B"
+   },
+   "084.9900C": {
+    "area": 84.99,
+    "avg": 0.0,
+    "low": 0.0,
+    "rank": "1",
+    "rate": "(△1)",
+    "rate_num": null,
+    "req": 0.0,
+    "reside": "해당지역",
+    "supply": 1.0,
+    "top": 0.0,
+    "unit": "84C"
+   }
+  },
+  "url": "https://www.applyhome.co.kr/ai/aia/selectAPTLttotPblancDetail.do?houseManageNo=2026000281&pblancNo=2026000281"
+ },
  "2026000290": {
   "address": "경기도 화성시 효행구 비봉면 구포리 614-18번지 일원",
   "apply": "2026-07-13",
@@ -18598,6 +20099,172 @@
    }
   },
   "url": "https://www.applyhome.co.kr/ai/aia/selectAPTLttotPblancDetail.do?houseManageNo=2026000290&pblancNo=2026000290"
+ },
+ "2026000291": {
+  "address": "경기도 이천시 갈산동 572-1번지 일원",
+  "apply": "2026-07-27",
+  "category": "general",
+  "checked": "2026-11-12",
+  "name": "이천 휴먼빌 클래스원",
+  "notice": "2026-07-16",
+  "sido": "경기",
+  "sigungu": "이천시",
+  "sp": {
+   "084.9404C": {
+    "elder": {
+     "local": 0,
+     "other": 0,
+     "req": 0,
+     "sido": 0,
+     "u": 5
+    },
+    "first": {
+     "local": 0,
+     "other": 0,
+     "req": 0,
+     "sido": 0,
+     "u": 13
+    },
+    "multichild": {
+     "local": 0,
+     "other": 0,
+     "req": 0,
+     "sido": 0,
+     "u": 19
+    },
+    "newborn": {
+     "local": 0,
+     "other": 0,
+     "req": 0,
+     "sido": 0,
+     "u": 19
+    },
+    "newlywed": {
+     "local": 0,
+     "other": 0,
+     "req": 0,
+     "sido": 0,
+     "u": 27
+    }
+   },
+   "084.9611B": {
+    "elder": {
+     "local": 0,
+     "other": 0,
+     "req": 0,
+     "sido": 0,
+     "u": 4
+    },
+    "first": {
+     "local": 0,
+     "other": 0,
+     "req": 0,
+     "sido": 0,
+     "u": 9
+    },
+    "multichild": {
+     "local": 0,
+     "other": 0,
+     "req": 0,
+     "sido": 0,
+     "u": 13
+    },
+    "newborn": {
+     "local": 0,
+     "other": 0,
+     "req": 0,
+     "sido": 0,
+     "u": 13
+    },
+    "newlywed": {
+     "local": 0,
+     "other": 1,
+     "req": 1,
+     "sido": 0,
+     "u": 20
+    }
+   },
+   "084.9649A": {
+    "elder": {
+     "local": 0,
+     "other": 0,
+     "req": 0,
+     "sido": 0,
+     "u": 7
+    },
+    "first": {
+     "local": 1,
+     "other": 0,
+     "req": 1,
+     "sido": 0,
+     "u": 15
+    },
+    "multichild": {
+     "local": 0,
+     "other": 0,
+     "req": 0,
+     "sido": 0,
+     "u": 22
+    },
+    "newborn": {
+     "local": 0,
+     "other": 2,
+     "req": 2,
+     "sido": 0,
+     "u": 22
+    },
+    "newlywed": {
+     "local": 0,
+     "other": 0,
+     "req": 0,
+     "sido": 0,
+     "u": 33
+    }
+   }
+  },
+  "sp_checked": "2026-11-12",
+  "units": {
+   "084.9404C": {
+    "area": 84.9404,
+    "avg": null,
+    "low": null,
+    "rank": "1",
+    "rate": "(△183)",
+    "rate_num": null,
+    "req": 1.0,
+    "reside": "해당지역",
+    "supply": 184.0,
+    "top": null,
+    "unit": "84C"
+   },
+   "084.9611B": {
+    "area": 84.9611,
+    "avg": null,
+    "low": null,
+    "rank": "1",
+    "rate": "(△128)",
+    "rate_num": null,
+    "req": 2.0,
+    "reside": "해당지역",
+    "supply": 130.0,
+    "top": null,
+    "unit": "84B"
+   },
+   "084.9649A": {
+    "area": 84.9649,
+    "avg": null,
+    "low": null,
+    "rank": "1",
+    "rate": "(△217)",
+    "rate_num": null,
+    "req": 1.0,
+    "reside": "해당지역",
+    "supply": 218.0,
+    "top": null,
+    "unit": "84A"
+   }
+  },
+  "url": "https://www.applyhome.co.kr/ai/aia/selectAPTLttotPblancDetail.do?houseManageNo=2026000291&pblancNo=2026000291"
  },
  "2026000301": {
   "address": "경기도 의왕시 삼동 192-244번지 일원",
@@ -25961,6 +27628,367 @@
   },
   "url": "https://www.applyhome.co.kr/ai/aia/selectAPTLttotPblancDetail.do?houseManageNo=2026000468&pblancNo=2026000468"
  },
+ "2026000472": {
+  "address": "경기도 구리시 구리갈매역세권 B-1블록",
+  "apply": "2026-11-09",
+  "category": "general",
+  "checked": "2026-11-12",
+  "name": "구리갈매역세권 B-1블록 신안인스빌 디센트",
+  "notice": "2026-10-30",
+  "sido": "경기",
+  "sigungu": "구리시",
+  "sp": {
+   "075.7770": {
+    "elder": {
+     "local": 0,
+     "other": 3,
+     "req": 4,
+     "sido": 1,
+     "u": 3
+    },
+    "first": {
+     "local": 22,
+     "other": 135,
+     "req": 236,
+     "sido": 79,
+     "u": 18
+    },
+    "multichild": {
+     "local": 8,
+     "other": 20,
+     "req": 45,
+     "sido": 17,
+     "u": 11
+    },
+    "newborn": {
+     "local": 8,
+     "other": 89,
+     "req": 145,
+     "sido": 48,
+     "u": 11
+    },
+    "newlywed": {
+     "local": 12,
+     "other": 145,
+     "req": 242,
+     "sido": 85,
+     "u": 16
+    }
+   },
+   "084.6686": {
+    "elder": {
+     "local": 1,
+     "other": 3,
+     "req": 6,
+     "sido": 2,
+     "u": 3
+    },
+    "first": {
+     "local": 18,
+     "other": 77,
+     "req": 151,
+     "sido": 56,
+     "u": 18
+    },
+    "multichild": {
+     "local": 16,
+     "other": 23,
+     "req": 71,
+     "sido": 32,
+     "u": 11
+    },
+    "newborn": {
+     "local": 11,
+     "other": 84,
+     "req": 155,
+     "sido": 60,
+     "u": 11
+    },
+    "newlywed": {
+     "local": 13,
+     "other": 113,
+     "req": 197,
+     "sido": 71,
+     "u": 16
+    }
+   }
+  },
+  "sp_checked": "2026-11-12",
+  "units": {
+   "075.7770": {
+    "area": 75.777,
+    "avg": null,
+    "low": null,
+    "rank": "1",
+    "rate": "8.73",
+    "rate_num": 8.73,
+    "req": 96.0,
+    "reside": "해당지역",
+    "supply": 38.0,
+    "top": null,
+    "unit": "75"
+   },
+   "084.6686": {
+    "area": 84.6686,
+    "avg": null,
+    "low": null,
+    "rank": "1",
+    "rate": "10.73",
+    "rate_num": 10.73,
+    "req": 118.0,
+    "reside": "해당지역",
+    "supply": 35.0,
+    "top": null,
+    "unit": "84"
+   }
+  },
+  "url": "https://www.applyhome.co.kr/ai/aia/selectAPTLttotPblancDetail.do?houseManageNo=2026000472&pblancNo=2026000472"
+ },
+ "2026000499": {
+  "address": "경기도 평택시 세교동 725번지 일원",
+  "apply": "2026-11-09",
+  "category": "general",
+  "checked": "2026-11-12",
+  "name": "한화포레나 지제역",
+  "notice": "2026-10-29",
+  "sido": "경기",
+  "sigungu": "평택시",
+  "sp": {
+   "084.9199D": {
+    "elder": {
+     "local": 0,
+     "other": 0,
+     "req": 0,
+     "sido": 0,
+     "u": 3
+    },
+    "first": {
+     "local": 2,
+     "other": 0,
+     "req": 2,
+     "sido": 0,
+     "u": 8
+    },
+    "multichild": {
+     "local": 0,
+     "other": 0,
+     "req": 0,
+     "sido": 0,
+     "u": 12
+    },
+    "newborn": {
+     "local": 0,
+     "other": 1,
+     "req": 1,
+     "sido": 0,
+     "u": 12
+    },
+    "newlywed": {
+     "local": 2,
+     "other": 0,
+     "req": 2,
+     "sido": 0,
+     "u": 18
+    }
+   },
+   "084.9424A": {
+    "elder": {
+     "local": 0,
+     "other": 0,
+     "req": 0,
+     "sido": 0,
+     "u": 13
+    },
+    "first": {
+     "local": 10,
+     "other": 3,
+     "req": 13,
+     "sido": 0,
+     "u": 31
+    },
+    "multichild": {
+     "local": 4,
+     "other": 1,
+     "req": 5,
+     "sido": 0,
+     "u": 44
+    },
+    "newborn": {
+     "local": 7,
+     "other": 4,
+     "req": 11,
+     "sido": 0,
+     "u": 45
+    },
+    "newlywed": {
+     "local": 12,
+     "other": 7,
+     "req": 19,
+     "sido": 0,
+     "u": 67
+    }
+   },
+   "084.9839C": {
+    "elder": {
+     "local": 0,
+     "other": 0,
+     "req": 0,
+     "sido": 0,
+     "u": 5
+    },
+    "first": {
+     "local": 3,
+     "other": 1,
+     "req": 4,
+     "sido": 0,
+     "u": 11
+    },
+    "multichild": {
+     "local": 0,
+     "other": 1,
+     "req": 1,
+     "sido": 0,
+     "u": 16
+    },
+    "newborn": {
+     "local": 1,
+     "other": 1,
+     "req": 2,
+     "sido": 0,
+     "u": 16
+    },
+    "newlywed": {
+     "local": 2,
+     "other": 1,
+     "req": 3,
+     "sido": 0,
+     "u": 25
+    }
+   },
+   "084.9927B": {
+    "elder": {
+     "local": 0,
+     "other": 0,
+     "req": 0,
+     "sido": 0,
+     "u": 6
+    },
+    "first": {
+     "local": 4,
+     "other": 2,
+     "req": 6,
+     "sido": 0,
+     "u": 14
+    },
+    "multichild": {
+     "local": 0,
+     "other": 1,
+     "req": 1,
+     "sido": 0,
+     "u": 20
+    },
+    "newborn": {
+     "local": 0,
+     "other": 0,
+     "req": 0,
+     "sido": 0,
+     "u": 20
+    },
+    "newlywed": {
+     "local": 1,
+     "other": 2,
+     "req": 3,
+     "sido": 0,
+     "u": 31
+    }
+   },
+   "116.9134": {
+    "elder": {
+     "local": 0,
+     "other": 0,
+     "req": 0,
+     "sido": 0,
+     "u": 4
+    },
+    "multichild": {
+     "local": 0,
+     "other": 0,
+     "req": 1,
+     "sido": 1,
+     "u": 14
+    }
+   }
+  },
+  "sp_checked": "2026-11-12",
+  "units": {
+   "084.9199D": {
+    "area": 84.9199,
+    "avg": null,
+    "low": null,
+    "rank": "1",
+    "rate": "(△106)",
+    "rate_num": null,
+    "req": 11.0,
+    "reside": "해당지역",
+    "supply": 117.0,
+    "top": null,
+    "unit": "84D"
+   },
+   "084.9424A": {
+    "area": 84.9424,
+    "avg": null,
+    "low": null,
+    "rank": "1",
+    "rate": "(△264)",
+    "rate_num": null,
+    "req": 139.0,
+    "reside": "해당지역",
+    "supply": 403.0,
+    "top": null,
+    "unit": "84A"
+   },
+   "084.9839C": {
+    "area": 84.9839,
+    "avg": null,
+    "low": null,
+    "rank": "1",
+    "rate": "(△138)",
+    "rate_num": null,
+    "req": 19.0,
+    "reside": "해당지역",
+    "supply": 157.0,
+    "top": null,
+    "unit": "84C"
+   },
+   "084.9927B": {
+    "area": 84.9927,
+    "avg": null,
+    "low": null,
+    "rank": "1",
+    "rate": "(△188)",
+    "rate_num": null,
+    "req": 10.0,
+    "reside": "해당지역",
+    "supply": 198.0,
+    "top": null,
+    "unit": "84B"
+   },
+   "116.9134": {
+    "area": 116.9134,
+    "avg": null,
+    "low": null,
+    "rank": "1",
+    "rate": "(△139)",
+    "rate_num": null,
+    "req": 8.0,
+    "reside": "해당지역",
+    "supply": 147.0,
+    "top": null,
+    "unit": "116"
+   }
+  },
+  "url": "https://www.applyhome.co.kr/ai/aia/selectAPTLttotPblancDetail.do?houseManageNo=2026000499&pblancNo=2026000499"
+ },
  "2026000502": {
   "address": "경기도 화성시 만세구 향남읍 상신리 산 13-13 일원",
   "apply": "2026-11-02",
@@ -27006,6 +29034,336 @@
   },
   "url": "https://www.applyhome.co.kr/ai/aia/selectAPTLttotPblancDetail.do?houseManageNo=2026000509&pblancNo=2026000509"
  },
+ "2026000515": {
+  "address": "경기도 평택시 고덕 국제화계획지구 내 Abc-33블록",
+  "apply": "2026-11-09",
+  "category": "general",
+  "checked": "2026-11-12",
+  "name": "평택 고덕 우미 린 더 프리미어",
+  "notice": "2026-10-30",
+  "sido": "경기",
+  "sigungu": "평택시",
+  "sp": {
+   "084.8505D": {
+    "elder": {
+     "local": 0,
+     "other": 0,
+     "req": 0,
+     "sido": 0,
+     "u": 1
+    },
+    "first": {
+     "local": 1,
+     "other": 0,
+     "req": 1,
+     "sido": 0,
+     "u": 5
+    },
+    "multichild": {
+     "local": 0,
+     "other": 0,
+     "req": 0,
+     "sido": 0,
+     "u": 3
+    },
+    "newborn": {
+     "local": 0,
+     "other": 0,
+     "req": 0,
+     "sido": 0,
+     "u": 3
+    },
+    "newlywed": {
+     "local": 0,
+     "other": 0,
+     "req": 0,
+     "sido": 0,
+     "u": 5
+    }
+   },
+   "084.9075B": {
+    "elder": {
+     "local": 0,
+     "other": 0,
+     "req": 0,
+     "sido": 0,
+     "u": 2
+    },
+    "first": {
+     "local": 0,
+     "other": 0,
+     "req": 0,
+     "sido": 0,
+     "u": 11
+    },
+    "multichild": {
+     "local": 0,
+     "other": 0,
+     "req": 0,
+     "sido": 0,
+     "u": 6
+    },
+    "newborn": {
+     "local": 0,
+     "other": 1,
+     "req": 1,
+     "sido": 0,
+     "u": 6
+    },
+    "newlywed": {
+     "local": 0,
+     "other": 0,
+     "req": 0,
+     "sido": 0,
+     "u": 9
+    }
+   },
+   "084.9343A": {
+    "elder": {
+     "local": 0,
+     "other": 0,
+     "req": 0,
+     "sido": 0,
+     "u": 9
+    },
+    "first": {
+     "local": 3,
+     "other": 0,
+     "req": 8,
+     "sido": 5,
+     "u": 52
+    },
+    "multichild": {
+     "local": 1,
+     "other": 0,
+     "req": 1,
+     "sido": 0,
+     "u": 31
+    },
+    "newborn": {
+     "local": 7,
+     "other": 2,
+     "req": 14,
+     "sido": 5,
+     "u": 31
+    },
+    "newlywed": {
+     "local": 2,
+     "other": 0,
+     "req": 9,
+     "sido": 7,
+     "u": 46
+    }
+   },
+   "094.2875B": {
+    "elder": {
+     "local": 0,
+     "other": 0,
+     "req": 0,
+     "sido": 0,
+     "u": 1
+    },
+    "multichild": {
+     "local": 0,
+     "other": 0,
+     "req": 0,
+     "sido": 0,
+     "u": 3
+    }
+   },
+   "094.3143A": {
+    "elder": {
+     "local": 0,
+     "other": 0,
+     "req": 0,
+     "sido": 0,
+     "u": 2
+    },
+    "multichild": {
+     "local": 1,
+     "other": 0,
+     "req": 1,
+     "sido": 0,
+     "u": 5
+    }
+   },
+   "094.3805D": {
+    "multichild": {
+     "local": 0,
+     "other": 0,
+     "req": 0,
+     "sido": 0,
+     "u": 1
+    }
+   },
+   "101.8311A": {
+    "elder": {
+     "local": 0,
+     "other": 0,
+     "req": 0,
+     "sido": 0,
+     "u": 2
+    },
+    "multichild": {
+     "local": 0,
+     "other": 0,
+     "req": 1,
+     "sido": 1,
+     "u": 8
+    }
+   },
+   "101.8531B": {
+    "elder": {
+     "local": 0,
+     "other": 0,
+     "req": 0,
+     "sido": 0,
+     "u": 1
+    },
+    "multichild": {
+     "local": 2,
+     "other": 0,
+     "req": 2,
+     "sido": 0,
+     "u": 5
+    }
+   }
+  },
+  "sp_checked": "2026-11-12",
+  "units": {
+   "084.8505D": {
+    "area": 84.8505,
+    "avg": null,
+    "low": null,
+    "rank": "1",
+    "rate": "(△3)",
+    "rate_num": null,
+    "req": 6.0,
+    "reside": "해당지역",
+    "supply": 29.0,
+    "top": null,
+    "unit": "84D"
+   },
+   "084.9075B": {
+    "area": 84.9075,
+    "avg": null,
+    "low": null,
+    "rank": "1",
+    "rate": "(△15)",
+    "rate_num": null,
+    "req": 3.0,
+    "reside": "해당지역",
+    "supply": 60.0,
+    "top": null,
+    "unit": "84B"
+   },
+   "084.9343A": {
+    "area": 84.9343,
+    "avg": null,
+    "low": null,
+    "rank": "1",
+    "rate": "(△17)",
+    "rate_num": null,
+    "req": 66.0,
+    "reside": "해당지역",
+    "supply": 277.0,
+    "top": null,
+    "unit": "84A"
+   },
+   "094.2875B": {
+    "area": 94.2875,
+    "avg": null,
+    "low": null,
+    "rank": "1",
+    "rate": "(△6)",
+    "rate_num": null,
+    "req": 1.0,
+    "reside": "해당지역",
+    "supply": 24.0,
+    "top": null,
+    "unit": "94B"
+   },
+   "094.3143A": {
+    "area": 94.3143,
+    "avg": null,
+    "low": null,
+    "rank": "1",
+    "rate": "1.21",
+    "rate_num": 1.21,
+    "req": 17.0,
+    "reside": "해당지역",
+    "supply": 48.0,
+    "top": null,
+    "unit": "94A"
+   },
+   "094.3805D": {
+    "area": 94.3805,
+    "avg": null,
+    "low": null,
+    "rank": "1",
+    "rate": "(△2)",
+    "rate_num": null,
+    "req": 0.0,
+    "reside": "해당지역",
+    "supply": 6.0,
+    "top": null,
+    "unit": "94D"
+   },
+   "101.8311A": {
+    "area": 101.8311,
+    "avg": null,
+    "low": null,
+    "rank": "1",
+    "rate": "(△8)",
+    "rate_num": null,
+    "req": 14.0,
+    "reside": "해당지역",
+    "supply": 74.0,
+    "top": null,
+    "unit": "101A"
+   },
+   "101.8531B": {
+    "area": 101.8531,
+    "avg": null,
+    "low": null,
+    "rank": "1",
+    "rate": "(△15)",
+    "rate_num": null,
+    "req": 1.0,
+    "reside": "해당지역",
+    "supply": 52.0,
+    "top": null,
+    "unit": "101B"
+   },
+   "111.4331B": {
+    "area": 111.4331,
+    "avg": null,
+    "low": null,
+    "rank": "1",
+    "rate": "(△1)",
+    "rate_num": null,
+    "req": 2.0,
+    "reside": "해당지역",
+    "supply": 9.0,
+    "top": null,
+    "unit": "111B"
+   },
+   "111.5911A": {
+    "area": 111.5911,
+    "avg": null,
+    "low": null,
+    "rank": "1",
+    "rate": "2.50",
+    "rate_num": 2.5,
+    "req": 5.0,
+    "reside": "해당지역",
+    "supply": 6.0,
+    "top": null,
+    "unit": "111A"
+   }
+  },
+  "url": "https://www.applyhome.co.kr/ai/aia/selectAPTLttotPblancDetail.do?houseManageNo=2026000515&pblancNo=2026000515"
+ },
  "2026000517": {
   "address": "경기도 파주시 파주운정3지구 주상복합 3블록(경기도 파주시 동패동 1673번지 일원)",
   "apply": "2026-11-02",
@@ -27345,6 +29703,504 @@
    }
   },
   "url": "https://www.applyhome.co.kr/ai/aia/selectAPTLttotPblancDetail.do?houseManageNo=2026000518&pblancNo=2026000518"
+ },
+ "2026000525": {
+  "address": "경기도 시흥시 거모동 시흥거모지구 B-5블록",
+  "apply": "2026-11-09",
+  "category": "general",
+  "checked": "2026-11-12",
+  "name": "엘리프 시흥 더프라임",
+  "notice": "2026-10-29",
+  "sido": "경기",
+  "sigungu": "시흥시",
+  "sp": {
+   "084.9236B": {
+    "elder": {
+     "local": 0,
+     "other": 0,
+     "req": 0,
+     "sido": 0,
+     "u": 1
+    },
+    "first": {
+     "local": 0,
+     "other": 0,
+     "req": 0,
+     "sido": 0,
+     "u": 7
+    },
+    "multichild": {
+     "local": 0,
+     "other": 0,
+     "req": 0,
+     "sido": 0,
+     "u": 4
+    },
+    "newborn": {
+     "local": 0,
+     "other": 0,
+     "req": 2,
+     "sido": 2,
+     "u": 4
+    },
+    "newlywed": {
+     "local": 0,
+     "other": 0,
+     "req": 0,
+     "sido": 0,
+     "u": 6
+    }
+   },
+   "084.9607A": {
+    "elder": {
+     "local": 0,
+     "other": 0,
+     "req": 0,
+     "sido": 0,
+     "u": 7
+    },
+    "first": {
+     "local": 2,
+     "other": 1,
+     "req": 5,
+     "sido": 2,
+     "u": 44
+    },
+    "multichild": {
+     "local": 2,
+     "other": 1,
+     "req": 3,
+     "sido": 0,
+     "u": 25
+    },
+    "newborn": {
+     "local": 0,
+     "other": 0,
+     "req": 2,
+     "sido": 2,
+     "u": 25
+    },
+    "newlywed": {
+     "local": 1,
+     "other": 3,
+     "req": 6,
+     "sido": 2,
+     "u": 38
+    }
+   }
+  },
+  "sp_checked": "2026-11-12",
+  "units": {
+   "084.9236B": {
+    "area": 84.9236,
+    "avg": null,
+    "low": null,
+    "rank": "1",
+    "rate": "(△13)",
+    "rate_num": null,
+    "req": 0.0,
+    "reside": "해당지역",
+    "supply": 43.0,
+    "top": null,
+    "unit": "84B"
+   },
+   "084.9607A": {
+    "area": 84.9607,
+    "avg": null,
+    "low": null,
+    "rank": "1",
+    "rate": "(△57)",
+    "rate_num": null,
+    "req": 16.0,
+    "reside": "해당지역",
+    "supply": 243.0,
+    "top": null,
+    "unit": "84A"
+   }
+  },
+  "url": "https://www.applyhome.co.kr/ai/aia/selectAPTLttotPblancDetail.do?houseManageNo=2026000525&pblancNo=2026000525"
+ },
+ "2026000527": {
+  "address": "경기도 수원시 영통구 원천동 633번지 일원",
+  "apply": "2026-11-09",
+  "category": "general",
+  "checked": "2026-11-12",
+  "name": "광교 자연앤 센트레빌(A17BL) 지분적립형 분양주택",
+  "notice": "2026-10-30",
+  "sido": "경기",
+  "sigungu": "수원시 영통구",
+  "sp": {
+   "059.7232C": {
+    "elder": {
+     "local": 2,
+     "other": 0,
+     "req": 2,
+     "sido": 0,
+     "u": 1
+    },
+    "first": {
+     "local": 21,
+     "other": 20,
+     "req": 61,
+     "sido": 20,
+     "u": 3
+    },
+    "multichild": {
+     "local": 6,
+     "other": 5,
+     "req": 20,
+     "sido": 9,
+     "u": 4
+    },
+    "newborn": {
+     "local": 36,
+     "other": 31,
+     "req": 114,
+     "sido": 47,
+     "u": 9
+    },
+    "newlywed": {
+     "local": 62,
+     "other": 55,
+     "req": 226,
+     "sido": 109,
+     "u": 6
+    }
+   },
+   "059.8958A": {
+    "elder": {
+     "local": 0,
+     "other": 0,
+     "req": 2,
+     "sido": 2,
+     "u": 1
+    },
+    "first": {
+     "local": 22,
+     "other": 20,
+     "req": 78,
+     "sido": 36,
+     "u": 3
+    },
+    "multichild": {
+     "local": 11,
+     "other": 3,
+     "req": 23,
+     "sido": 9,
+     "u": 5
+    },
+    "newborn": {
+     "local": 44,
+     "other": 31,
+     "req": 157,
+     "sido": 82,
+     "u": 9
+    },
+    "newlywed": {
+     "local": 85,
+     "other": 78,
+     "req": 324,
+     "sido": 161,
+     "u": 6
+    }
+   },
+   "059.9593D": {
+    "elder": {
+     "local": 1,
+     "other": 0,
+     "req": 5,
+     "sido": 4,
+     "u": 1
+    },
+    "first": {
+     "local": 3,
+     "other": 3,
+     "req": 11,
+     "sido": 5,
+     "u": 1
+    },
+    "multichild": {
+     "local": 2,
+     "other": 2,
+     "req": 5,
+     "sido": 1,
+     "u": 1
+    },
+    "newborn": {
+     "local": 8,
+     "other": 6,
+     "req": 23,
+     "sido": 9,
+     "u": 2
+    },
+    "newlywed": {
+     "local": 11,
+     "other": 26,
+     "req": 71,
+     "sido": 34,
+     "u": 2
+    }
+   },
+   "059.9657B": {
+    "elder": {
+     "local": 17,
+     "other": 5,
+     "req": 40,
+     "sido": 18,
+     "u": 4
+    },
+    "first": {
+     "local": 180,
+     "other": 194,
+     "req": 678,
+     "sido": 304,
+     "u": 10
+    },
+    "multichild": {
+     "local": 77,
+     "other": 40,
+     "req": 221,
+     "sido": 104,
+     "u": 14
+    },
+    "newborn": {
+     "local": 398,
+     "other": 308,
+     "req": 1382,
+     "sido": 676,
+     "u": 28
+    },
+    "newlywed": {
+     "local": 798,
+     "other": 682,
+     "req": 2774,
+     "sido": 1294,
+     "u": 22
+    }
+   }
+  },
+  "sp_checked": "2026-11-12",
+  "units": {
+   "059.7232C": {
+    "area": 59.7232,
+    "avg": null,
+    "low": null,
+    "rank": "1",
+    "rate": "75.25",
+    "rate_num": 75.25,
+    "req": 301.0,
+    "reside": "해당지역",
+    "supply": 13.0,
+    "top": null,
+    "unit": "59C"
+   },
+   "059.8958A": {
+    "area": 59.8958,
+    "avg": null,
+    "low": null,
+    "rank": "1",
+    "rate": "87.00",
+    "rate_num": 87.0,
+    "req": 348.0,
+    "reside": "해당지역",
+    "supply": 13.0,
+    "top": null,
+    "unit": "59A"
+   },
+   "059.9593D": {
+    "area": 59.9593,
+    "avg": null,
+    "low": null,
+    "rank": "1",
+    "rate": "94.00",
+    "rate_num": 94.0,
+    "req": 94.0,
+    "reside": "해당지역",
+    "supply": 3.0,
+    "top": null,
+    "unit": "59D"
+   },
+   "059.9657B": {
+    "area": 59.9657,
+    "avg": null,
+    "low": null,
+    "rank": "1",
+    "rate": "111.31",
+    "rate_num": 111.31,
+    "req": 1447.0,
+    "reside": "해당지역",
+    "supply": 43.0,
+    "top": null,
+    "unit": "59B"
+   }
+  },
+  "url": "https://www.applyhome.co.kr/ai/aia/selectAPTLttotPblancDetail.do?houseManageNo=2026000527&pblancNo=2026000527"
+ },
+ "2026000528": {
+  "address": "경기도 수원시 영통구 원천동 633번지 일원",
+  "apply": "2026-11-09",
+  "category": "general",
+  "checked": "2026-11-12",
+  "name": "광교 자연앤 센트레빌(A17BL) 공공분양주택",
+  "notice": "2026-10-30",
+  "sido": "경기",
+  "sigungu": "수원시 영통구",
+  "sp": {
+   "084.6192C": {
+    "elder": {
+     "local": 0,
+     "other": 0,
+     "req": 3,
+     "sido": 3,
+     "u": 2
+    },
+    "first": {
+     "local": 23,
+     "other": 30,
+     "req": 98,
+     "sido": 45,
+     "u": 7
+    },
+    "multichild": {
+     "local": 9,
+     "other": 7,
+     "req": 43,
+     "sido": 27,
+     "u": 4
+    },
+    "newborn": {
+     "local": 32,
+     "other": 40,
+     "req": 140,
+     "sido": 68,
+     "u": 9
+    },
+    "newlywed": {
+     "local": 45,
+     "other": 53,
+     "req": 189,
+     "sido": 91,
+     "u": 4
+    }
+   },
+   "084.7637A": {
+    "elder": {
+     "local": 5,
+     "other": 1,
+     "req": 9,
+     "sido": 3,
+     "u": 2
+    },
+    "first": {
+     "local": 54,
+     "other": 74,
+     "req": 230,
+     "sido": 102,
+     "u": 6
+    },
+    "multichild": {
+     "local": 29,
+     "other": 17,
+     "req": 99,
+     "sido": 53,
+     "u": 4
+    },
+    "newborn": {
+     "local": 61,
+     "other": 92,
+     "req": 331,
+     "sido": 178,
+     "u": 8
+    },
+    "newlywed": {
+     "local": 89,
+     "other": 132,
+     "req": 441,
+     "sido": 220,
+     "u": 4
+    }
+   },
+   "084.8159B": {
+    "elder": {
+     "local": 14,
+     "other": 16,
+     "req": 54,
+     "sido": 24,
+     "u": 14
+    },
+    "first": {
+     "local": 322,
+     "other": 616,
+     "req": 1815,
+     "sido": 877,
+     "u": 41
+    },
+    "multichild": {
+     "local": 155,
+     "other": 137,
+     "req": 652,
+     "sido": 360,
+     "u": 28
+    },
+    "newborn": {
+     "local": 634,
+     "other": 852,
+     "req": 2805,
+     "sido": 1319,
+     "u": 55
+    },
+    "newlywed": {
+     "local": 757,
+     "other": 1175,
+     "req": 3563,
+     "sido": 1631,
+     "u": 28
+    }
+   }
+  },
+  "sp_checked": "2026-11-12",
+  "units": {
+   "084.6192C": {
+    "area": 84.6192,
+    "avg": null,
+    "low": null,
+    "rank": "1",
+    "rate": "142.00",
+    "rate_num": 142.0,
+    "req": 426.0,
+    "reside": "해당지역",
+    "supply": 10.0,
+    "top": null,
+    "unit": "84C"
+   },
+   "084.7637A": {
+    "area": 84.7637,
+    "avg": null,
+    "low": null,
+    "rank": "1",
+    "rate": "203.33",
+    "rate_num": 203.33,
+    "req": 610.0,
+    "reside": "해당지역",
+    "supply": 10.0,
+    "top": null,
+    "unit": "84A"
+   },
+   "084.8159B": {
+    "area": 84.8159,
+    "avg": null,
+    "low": null,
+    "rank": "1",
+    "rate": "136.90",
+    "rate_num": 136.9,
+    "req": 2875.0,
+    "reside": "해당지역",
+    "supply": 70.0,
+    "top": null,
+    "unit": "84B"
+   }
+  },
+  "url": "https://www.applyhome.co.kr/ai/aia/selectAPTLttotPblancDetail.do?houseManageNo=2026000528&pblancNo=2026000528"
  },
  "2026000530": {
   "address": "인천광역시 계양구 동양동 458-3번지 일원 (인천계양 테크노밸리 공공주택지구 AC3블록)",
@@ -28023,6 +30879,252 @@
   },
   "url": "https://www.applyhome.co.kr/ai/aia/selectAPTLttotPblancDetail.do?houseManageNo=2026000532&pblancNo=2026000532"
  },
+ "2026000535": {
+  "address": "경기도 용인시 기흥구 마북동 298-1번지 일원",
+  "apply": "2026-11-09",
+  "category": "general",
+  "checked": "2026-11-13",
+  "name": "중앙하이츠 구성 플랫폼시티",
+  "notice": "2026-10-29",
+  "sido": "경기",
+  "sigungu": "용인시 기흥구",
+  "sp": {
+   "059.9670A": {
+    "elder": {
+     "local": 0,
+     "other": 0,
+     "req": 0,
+     "sido": 0,
+     "u": 1
+    },
+    "first": {
+     "local": 28,
+     "other": 55,
+     "req": 83,
+     "sido": 0,
+     "u": 2
+    },
+    "multichild": {
+     "local": 0,
+     "other": 1,
+     "req": 2,
+     "sido": 1,
+     "u": 2
+    },
+    "newborn": {
+     "local": 3,
+     "other": 6,
+     "req": 9,
+     "sido": 0,
+     "u": 2
+    },
+    "newlywed": {
+     "local": 12,
+     "other": 17,
+     "req": 29,
+     "sido": 0,
+     "u": 3
+    }
+   },
+   "059.9898B": {
+    "first": {
+     "local": 3,
+     "other": 16,
+     "req": 19,
+     "sido": 0,
+     "u": 1
+    },
+    "multichild": {
+     "local": 0,
+     "other": 0,
+     "req": 0,
+     "sido": 0,
+     "u": 1
+    },
+    "newborn": {
+     "local": 1,
+     "other": 4,
+     "req": 5,
+     "sido": 0,
+     "u": 1
+    },
+    "newlywed": {
+     "local": 0,
+     "other": 5,
+     "req": 5,
+     "sido": 0,
+     "u": 2
+    }
+   },
+   "068.9683": {
+    "newborn": {
+     "local": 0,
+     "other": 1,
+     "req": 1,
+     "sido": 0,
+     "u": 1
+    }
+   },
+   "074.9857": {
+    "elder": {
+     "local": 0,
+     "other": 1,
+     "req": 1,
+     "sido": 0,
+     "u": 1
+    },
+    "first": {
+     "local": 5,
+     "other": 11,
+     "req": 16,
+     "sido": 0,
+     "u": 2
+    },
+    "multichild": {
+     "local": 1,
+     "other": 0,
+     "req": 3,
+     "sido": 2,
+     "u": 2
+    },
+    "newborn": {
+     "local": 2,
+     "other": 4,
+     "req": 6,
+     "sido": 0,
+     "u": 1
+    },
+    "newlywed": {
+     "local": 8,
+     "other": 19,
+     "req": 27,
+     "sido": 0,
+     "u": 3
+    }
+   },
+   "079.9780": {
+    "first": {
+     "local": 1,
+     "other": 1,
+     "req": 2,
+     "sido": 0,
+     "u": 1
+    },
+    "multichild": {
+     "local": 1,
+     "other": 0,
+     "req": 4,
+     "sido": 3,
+     "u": 1
+    },
+    "newborn": {
+     "local": 3,
+     "other": 2,
+     "req": 5,
+     "sido": 0,
+     "u": 1
+    },
+    "newlywed": {
+     "local": 1,
+     "other": 0,
+     "req": 1,
+     "sido": 0,
+     "u": 1
+    }
+   },
+   "084.9932": {
+    "newlywed": {
+     "local": 3,
+     "other": 5,
+     "req": 8,
+     "sido": 0,
+     "u": 1
+    }
+   }
+  },
+  "sp_checked": "2026-11-13",
+  "units": {
+   "059.9670A": {
+    "area": 59.967,
+    "avg": null,
+    "low": null,
+    "rank": "1",
+    "rate": "4.14",
+    "rate_num": 4.14,
+    "req": 29.0,
+    "reside": "해당지역",
+    "supply": 7.0,
+    "top": null,
+    "unit": "59A"
+   },
+   "059.9898B": {
+    "area": 59.9898,
+    "avg": null,
+    "low": null,
+    "rank": "1",
+    "rate": "1.29",
+    "rate_num": 1.29,
+    "req": 9.0,
+    "reside": "해당지역",
+    "supply": 7.0,
+    "top": null,
+    "unit": "59B"
+   },
+   "068.9683": {
+    "area": 68.9683,
+    "avg": null,
+    "low": null,
+    "rank": "1",
+    "rate": "(△4)",
+    "rate_num": null,
+    "req": 0.0,
+    "reside": "해당지역",
+    "supply": 4.0,
+    "top": null,
+    "unit": "68"
+   },
+   "074.9857": {
+    "area": 74.9857,
+    "avg": null,
+    "low": null,
+    "rank": "1",
+    "rate": "1.50",
+    "rate_num": 1.5,
+    "req": 18.0,
+    "reside": "해당지역",
+    "supply": 12.0,
+    "top": null,
+    "unit": "74"
+   },
+   "079.9780": {
+    "area": 79.978,
+    "avg": null,
+    "low": null,
+    "rank": "1",
+    "rate": "(△3)",
+    "rate_num": null,
+    "req": 4.0,
+    "reside": "해당지역",
+    "supply": 7.0,
+    "top": null,
+    "unit": "79"
+   },
+   "084.9932": {
+    "area": 84.9932,
+    "avg": null,
+    "low": null,
+    "rank": "1",
+    "rate": "3.00",
+    "rate_num": 3.0,
+    "req": 12.0,
+    "reside": "해당지역",
+    "supply": 4.0,
+    "top": null,
+    "unit": "84"
+   }
+  },
+  "url": "https://www.applyhome.co.kr/ai/aia/selectAPTLttotPblancDetail.do?houseManageNo=2026000535&pblancNo=2026000535"
+ },
  "2026820002": {
   "address": "경기도 시흥시 하중동 일원 시흥하중 공공주택지구 내 A1블록",
   "apply": "2026-05-18",
@@ -28162,6 +31264,20 @@
   "sp_checked": "2026-11-04",
   "units": {},
   "url": "https://www.applyhome.co.kr/ai/aia/selectAPTLttotPblancDetail.do?houseManageNo=2026820012&pblancNo=2026820012"
+ },
+ "2026820014": {
+  "address": "경기도 남양주시 진접읍, 진건읍, 퇴계원읍 일원, 남양주왕숙 공공주택지구 내 A-2블록",
+  "apply": "2026-11-11",
+  "category": "general",
+  "checked": "2026-11-13",
+  "name": "남양주왕숙 A-2블록 신혼희망타운(공공분양) 잔여세대 추가입주자모집공고",
+  "notice": "2026-11-03",
+  "sido": "경기",
+  "sigungu": "남양주시",
+  "sp": {},
+  "sp_checked": "2026-11-13",
+  "units": {},
+  "url": "https://www.applyhome.co.kr/ai/aia/selectAPTLttotPblancDetail.do?houseManageNo=2026820014&pblancNo=2026820014"
  },
  "2026910001": {
   "address": "서울특별시 강동구 성내동 459-3",
@@ -28331,6 +31447,149 @@
    }
   },
   "url": "https://www.applyhome.co.kr/ai/aia/selectAPTRemndrLttotPblancDetailView.do?houseManageNo=2026910005&pblancNo=2026910005"
+ },
+ "2026910006": {
+  "address": "경기도 안양시 만안구 안양동 398-32번지 일원",
+  "apply": "2026-01-12",
+  "category": "remainder",
+  "checked": "2026-11-12",
+  "name": "안양자이 헤리티온",
+  "notice": "2026-01-07",
+  "sido": "경기",
+  "sigungu": "안양시 만안구",
+  "units": {
+   "049.9890A": {
+    "area": 49.989,
+    "avg": null,
+    "low": null,
+    "rank": "",
+    "rate": "1.98",
+    "rate_num": 1.98,
+    "req": 91.0,
+    "reside": "",
+    "supply": 46.0,
+    "top": null,
+    "unit": "49A"
+   },
+   "049.9890B": {
+    "area": 49.989,
+    "avg": null,
+    "low": null,
+    "rank": "",
+    "rate": "(△6)",
+    "rate_num": null,
+    "req": 9.0,
+    "reside": "",
+    "supply": 15.0,
+    "top": null,
+    "unit": "49B"
+   },
+   "049.9890C": {
+    "area": 49.989,
+    "avg": null,
+    "low": null,
+    "rank": "",
+    "rate": "1.76",
+    "rate_num": 1.76,
+    "req": 30.0,
+    "reside": "",
+    "supply": 17.0,
+    "top": null,
+    "unit": "49C"
+   },
+   "059.9899B": {
+    "area": 59.9899,
+    "avg": null,
+    "low": null,
+    "rank": "",
+    "rate": "(△9)",
+    "rate_num": null,
+    "req": 18.0,
+    "reside": "",
+    "supply": 27.0,
+    "top": null,
+    "unit": "59B"
+   },
+   "059.9905C": {
+    "area": 59.9905,
+    "avg": null,
+    "low": null,
+    "rank": "",
+    "rate": "1.27",
+    "rate_num": 1.27,
+    "req": 19.0,
+    "reside": "",
+    "supply": 15.0,
+    "top": null,
+    "unit": "59C"
+   },
+   "059.9948D": {
+    "area": 59.9948,
+    "avg": null,
+    "low": null,
+    "rank": "",
+    "rate": "(△1)",
+    "rate_num": null,
+    "req": 52.0,
+    "reside": "",
+    "supply": 53.0,
+    "top": null,
+    "unit": "59D"
+   },
+   "059.9949A": {
+    "area": 59.9949,
+    "avg": null,
+    "low": null,
+    "rank": "",
+    "rate": "4.26",
+    "rate_num": 4.26,
+    "req": 166.0,
+    "reside": "",
+    "supply": 39.0,
+    "top": null,
+    "unit": "59A"
+   },
+   "076.9842B": {
+    "area": 76.9842,
+    "avg": null,
+    "low": null,
+    "rank": "",
+    "rate": "2.15",
+    "rate_num": 2.15,
+    "req": 28.0,
+    "reside": "",
+    "supply": 13.0,
+    "top": null,
+    "unit": "76B"
+   },
+   "084.9902A": {
+    "area": 84.9902,
+    "avg": null,
+    "low": null,
+    "rank": "",
+    "rate": "15.33",
+    "rate_num": 15.33,
+    "req": 46.0,
+    "reside": "",
+    "supply": 3.0,
+    "top": null,
+    "unit": "84A"
+   },
+   "084.9914B": {
+    "area": 84.9914,
+    "avg": null,
+    "low": null,
+    "rank": "",
+    "rate": "2.46",
+    "rate_num": 2.46,
+    "req": 32.0,
+    "reside": "",
+    "supply": 13.0,
+    "top": null,
+    "unit": "84B"
+   }
+  },
+  "url": "https://www.applyhome.co.kr/ai/aia/selectAPTRemndrLttotPblancDetailView.do?houseManageNo=2026910006&pblancNo=2026910006"
  },
  "2026910009": {
   "address": "경기도 부천시 오정구 여월동 8-9번지 외 4필지",
@@ -28708,6 +31967,162 @@
    }
   },
   "url": "https://www.applyhome.co.kr/ai/aia/selectAPTRemndrLttotPblancDetailView.do?houseManageNo=2026910025&pblancNo=2026910025"
+ },
+ "2026910029": {
+  "address": "경기도 이천시 중리지구 B3블록(중리동 518번지)",
+  "apply": "2026-02-02",
+  "category": "remainder",
+  "checked": "2026-11-12",
+  "name": "이천 중리지구 B3블록 금성백조 예미지",
+  "notice": "2026-01-27",
+  "sido": "경기",
+  "sigungu": "이천시",
+  "units": {
+   "059.9870A": {
+    "area": 59.987,
+    "avg": null,
+    "low": null,
+    "rank": "",
+    "rate": "(△90)",
+    "rate_num": null,
+    "req": 32.0,
+    "reside": "",
+    "supply": 122.0,
+    "top": null,
+    "unit": "59A"
+   },
+   "084.9665C": {
+    "area": 84.9665,
+    "avg": null,
+    "low": null,
+    "rank": "",
+    "rate": "(△30)",
+    "rate_num": null,
+    "req": 4.0,
+    "reside": "",
+    "supply": 34.0,
+    "top": null,
+    "unit": "84C"
+   },
+   "084.9970B": {
+    "area": 84.997,
+    "avg": null,
+    "low": null,
+    "rank": "",
+    "rate": "(△34)",
+    "rate_num": null,
+    "req": 8.0,
+    "reside": "",
+    "supply": 42.0,
+    "top": null,
+    "unit": "84B"
+   }
+  },
+  "url": "https://www.applyhome.co.kr/ai/aia/selectAPTRemndrLttotPblancDetailView.do?houseManageNo=2026910029&pblancNo=2026910029"
+ },
+ "2026910030": {
+  "address": "경기도 안양시 만안구 안양동 398-32번지 일원",
+  "apply": "2026-02-02",
+  "category": "remainder",
+  "checked": "2026-11-12",
+  "name": "안양자이 헤리티온(2차)",
+  "notice": "2026-01-28",
+  "sido": "경기",
+  "sigungu": "안양시 만안구",
+  "units": {
+   "049.9890A": {
+    "area": 49.989,
+    "avg": null,
+    "low": null,
+    "rank": "",
+    "rate": "2.52",
+    "rate_num": 2.52,
+    "req": 106.0,
+    "reside": "",
+    "supply": 42.0,
+    "top": null,
+    "unit": "49A"
+   },
+   "049.9890C": {
+    "area": 49.989,
+    "avg": null,
+    "low": null,
+    "rank": "",
+    "rate": "4.10",
+    "rate_num": 4.1,
+    "req": 41.0,
+    "reside": "",
+    "supply": 10.0,
+    "top": null,
+    "unit": "49C"
+   },
+   "059.9905C": {
+    "area": 59.9905,
+    "avg": null,
+    "low": null,
+    "rank": "",
+    "rate": "3.11",
+    "rate_num": 3.11,
+    "req": 28.0,
+    "reside": "",
+    "supply": 9.0,
+    "top": null,
+    "unit": "59C"
+   },
+   "059.9949A": {
+    "area": 59.9949,
+    "avg": null,
+    "low": null,
+    "rank": "",
+    "rate": "7.69",
+    "rate_num": 7.69,
+    "req": 223.0,
+    "reside": "",
+    "supply": 29.0,
+    "top": null,
+    "unit": "59A"
+   },
+   "076.9842B": {
+    "area": 76.9842,
+    "avg": null,
+    "low": null,
+    "rank": "",
+    "rate": "2.75",
+    "rate_num": 2.75,
+    "req": 33.0,
+    "reside": "",
+    "supply": 12.0,
+    "top": null,
+    "unit": "76B"
+   },
+   "084.9902A": {
+    "area": 84.9902,
+    "avg": null,
+    "low": null,
+    "rank": "",
+    "rate": "19.50",
+    "rate_num": 19.5,
+    "req": 39.0,
+    "reside": "",
+    "supply": 2.0,
+    "top": null,
+    "unit": "84A"
+   },
+   "084.9914B": {
+    "area": 84.9914,
+    "avg": null,
+    "low": null,
+    "rank": "",
+    "rate": "2.67",
+    "rate_num": 2.67,
+    "req": 32.0,
+    "reside": "",
+    "supply": 12.0,
+    "top": null,
+    "unit": "84B"
+   }
+  },
+  "url": "https://www.applyhome.co.kr/ai/aia/selectAPTRemndrLttotPblancDetailView.do?houseManageNo=2026910030&pblancNo=2026910030"
  },
  "2026910036": {
   "address": "경기도 의정부시 신곡동 산 65-3번지 일대",
@@ -29228,6 +32643,58 @@
    }
   },
   "url": "https://www.applyhome.co.kr/ai/aia/selectAPTRemndrLttotPblancDetailView.do?houseManageNo=2026910060&pblancNo=2026910060"
+ },
+ "2026910062": {
+  "address": "경기도 안양시 만안구 안양2동 841-5번지 일대",
+  "apply": "2026-03-16",
+  "category": "remainder",
+  "checked": "2026-11-12",
+  "name": "안양역 센트럴 아이파크 수자인",
+  "notice": "2026-03-11",
+  "sido": "경기",
+  "sigungu": "안양시 만안구",
+  "units": {
+   "039.2437A": {
+    "area": 39.2437,
+    "avg": null,
+    "low": null,
+    "rank": "",
+    "rate": "5.43",
+    "rate_num": 5.43,
+    "req": 38.0,
+    "reside": "",
+    "supply": 7.0,
+    "top": null,
+    "unit": "39A"
+   },
+   "043.0681B": {
+    "area": 43.0681,
+    "avg": null,
+    "low": null,
+    "rank": "",
+    "rate": "82.00",
+    "rate_num": 82.0,
+    "req": 82.0,
+    "reside": "",
+    "supply": 1.0,
+    "top": null,
+    "unit": "43B"
+   },
+   "043.2386A": {
+    "area": 43.2386,
+    "avg": null,
+    "low": null,
+    "rank": "",
+    "rate": "24.45",
+    "rate_num": 24.45,
+    "req": 489.0,
+    "reside": "",
+    "supply": 20.0,
+    "top": null,
+    "unit": "43A"
+   }
+  },
+  "url": "https://www.applyhome.co.kr/ai/aia/selectAPTRemndrLttotPblancDetailView.do?houseManageNo=2026910062&pblancNo=2026910062"
  },
  "2026910064": {
   "address": "경기도 평택시 고덕국제8로 10(고덕동 2705-1)",
@@ -30671,6 +34138,149 @@
    }
   },
   "url": "https://www.applyhome.co.kr/ai/aia/selectAPTRemndrLttotPblancDetailView.do?houseManageNo=2026910138&pblancNo=2026910138"
+ },
+ "2026910141": {
+  "address": "경기도 안양시 만안구 안양동 395-1번지",
+  "apply": "2026-06-04",
+  "category": "remainder",
+  "checked": "2026-11-12",
+  "name": "힐스테이트 안양펠루스",
+  "notice": "2026-05-29",
+  "sido": "경기",
+  "sigungu": "안양시 만안구",
+  "units": {
+   "040.5800": {
+    "area": 40.58,
+    "avg": null,
+    "low": null,
+    "rank": "",
+    "rate": "1.20",
+    "rate_num": 1.2,
+    "req": 6.0,
+    "reside": "",
+    "supply": 5.0,
+    "top": null,
+    "unit": "40"
+   },
+   "042.6600": {
+    "area": 42.66,
+    "avg": null,
+    "low": null,
+    "rank": "",
+    "rate": "(△4)",
+    "rate_num": null,
+    "req": 1.0,
+    "reside": "",
+    "supply": 5.0,
+    "top": null,
+    "unit": "42"
+   },
+   "043.6000": {
+    "area": 43.6,
+    "avg": null,
+    "low": null,
+    "rank": "",
+    "rate": "1.10",
+    "rate_num": 1.1,
+    "req": 11.0,
+    "reside": "",
+    "supply": 10.0,
+    "top": null,
+    "unit": "43"
+   },
+   "044.3300": {
+    "area": 44.33,
+    "avg": null,
+    "low": null,
+    "rank": "",
+    "rate": "(△3)",
+    "rate_num": null,
+    "req": 2.0,
+    "reside": "",
+    "supply": 5.0,
+    "top": null,
+    "unit": "44"
+   },
+   "050.0400": {
+    "area": 50.04,
+    "avg": null,
+    "low": null,
+    "rank": "",
+    "rate": "1.80",
+    "rate_num": 1.8,
+    "req": 9.0,
+    "reside": "",
+    "supply": 5.0,
+    "top": null,
+    "unit": "50"
+   },
+   "061.1400": {
+    "area": 61.14,
+    "avg": null,
+    "low": null,
+    "rank": "",
+    "rate": "(△2)",
+    "rate_num": null,
+    "req": 3.0,
+    "reside": "",
+    "supply": 5.0,
+    "top": null,
+    "unit": "61"
+   },
+   "065.0000": {
+    "area": 65.0,
+    "avg": null,
+    "low": null,
+    "rank": "",
+    "rate": "(△3)",
+    "rate_num": null,
+    "req": 1.0,
+    "reside": "",
+    "supply": 4.0,
+    "top": null,
+    "unit": "65"
+   },
+   "066.2800A": {
+    "area": 66.28,
+    "avg": null,
+    "low": null,
+    "rank": "",
+    "rate": "(△2)",
+    "rate_num": null,
+    "req": 3.0,
+    "reside": "",
+    "supply": 5.0,
+    "top": null,
+    "unit": "66A"
+   },
+   "066.4900B": {
+    "area": 66.49,
+    "avg": null,
+    "low": null,
+    "rank": "",
+    "rate": "1.40",
+    "rate_num": 1.4,
+    "req": 7.0,
+    "reside": "",
+    "supply": 5.0,
+    "top": null,
+    "unit": "66B"
+   },
+   "068.3900": {
+    "area": 68.39,
+    "avg": null,
+    "low": null,
+    "rank": "",
+    "rate": "2.40",
+    "rate_num": 2.4,
+    "req": 12.0,
+    "reside": "",
+    "supply": 5.0,
+    "top": null,
+    "unit": "68"
+   }
+  },
+  "url": "https://www.applyhome.co.kr/ai/aia/selectAPTRemndrLttotPblancDetailView.do?houseManageNo=2026910141&pblancNo=2026910141"
  },
  "2026910151": {
   "address": "서울특별시 강동구 성내동 459-3",
@@ -33765,6 +37375,45 @@
    }
   },
   "url": "https://www.applyhome.co.kr/ai/aia/selectAPTRemndrLttotPblancDetailView.do?houseManageNo=2026910279&pblancNo=2026910279"
+ },
+ "2026910280": {
+  "address": "경기도 남양주시 오남읍 양지리 186-10번지 일원",
+  "apply": "2026-11-11",
+  "category": "remainder",
+  "checked": "2026-11-12",
+  "name": "오남역 서희스타힐스 여의재 3단지 (조합원 취소분)",
+  "notice": "2026-11-06",
+  "sido": "경기",
+  "sigungu": "남양주시",
+  "units": {
+   "075.4603": {
+    "area": 75.4603,
+    "avg": null,
+    "low": null,
+    "rank": "",
+    "rate": "3.25",
+    "rate_num": 3.25,
+    "req": 13.0,
+    "reside": "",
+    "supply": 4.0,
+    "top": null,
+    "unit": "75"
+   },
+   "084.9596": {
+    "area": 84.9596,
+    "avg": null,
+    "low": null,
+    "rank": "",
+    "rate": "5.00",
+    "rate_num": 5.0,
+    "req": 10.0,
+    "reside": "",
+    "supply": 2.0,
+    "top": null,
+    "unit": "84"
+   }
+  },
+  "url": "https://www.applyhome.co.kr/ai/aia/selectAPTRemndrLttotPblancDetailView.do?houseManageNo=2026910280&pblancNo=2026910280"
  },
  "2026910281": {
   "address": "경기도 남양주시 화도읍 마석우리 295-32번지 일원",

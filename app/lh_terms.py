@@ -74,6 +74,8 @@ def _general_terms(t: str, kind: str) -> tuple[dict, dict]:
          or re.search(r"소득\s?기준\s?:\s?[^.]{0,40}요건\s?배제", sec)
          or re.search(r"소득\s?기준\s?가구원수별\s?소득기준\s?적용\s?(?:→|☞)\s?적용\s?배제", rel)
          or re.search(r"소득\s?요건\s?소득\s?요건\s?배제", rel)   # '소득 요건 소득요건 배제' (익산한스빌 2015122300020893, 2026-10-12 사용자 제보)
+         # 기준 표의 '기존 | 완화' 두 열: '가구원수 기존 완화 소득기준 금액 … 1인가구 90% 3,432,027원이하 소득기준 적용 배제 2인가구 80%' (대구신서·경산삼주봉황 2015122300021018, 2026-11-12)
+         or re.search(r"가구원수\s?기존\s?완화\s?소득\s?기준[^.]{0,60}?원\s?이하\s?소득\s?기준\s?적용\s?배제", sec)
          or _base_excluded(sec))
     if m:
         income, q["income"] = "excluded", _q(both, m) if m.re.pattern.find("→") < 0 else _q(rel, m)
@@ -84,8 +86,9 @@ def _general_terms(t: str, kind: str) -> tuple[dict, dict]:
             income, q["income"] = {"1": 150, "2": 150, "3+": 150}, _q(both, m)
         # 국민임대로 올라온 고령자복지주택이 영구임대 기준(시행규칙 별표3 신분별 소득)을 쓰는 공고: '1. 신분별 입주소득 기준(공공주택 특별법 시행규칙 별표3) …
         #   - 월평균 소득 50%(1인 70%, 2인 60%)이하 : 차목(일반입주자)' (인제서화 고령자복지주택 2015122300021033, 2026-11-11) — 별표3 을 적은 공고문일 때만
-        elif (kind == "영구임대" or (kind == "국민임대" and re.search(r"시행규칙\s?별표\s?3\)", sec))) and (m := re.search(r"월평균\s?소득\s?50%(?:\s?\(1인\s?70%,\s?2인\s?60%\))?\s?이하\s?:\s?차목", sec)):
-            if re.search(r"1인\s?(?:가구\s?)?20%p?,?\s?2인\s?(?:가구\s?)?10%p?", sec) or "1인 70%, 2인 60%" in m.group(0):
+        # '월평균 소득 50%(단, 가구원수가 1인인 경우 70%, 2인인 경우 60%)이하 : 차목(일반입주자)' — 괄호 안을 풀어 쓴 꼴 (밀양가곡1 영구임대 2015122300021041, 2026-11-13 아침 자동 고치기)
+        elif (kind == "영구임대" or (kind == "국민임대" and re.search(r"시행규칙\s?별표\s?3\)", sec))) and (m := re.search(r"월평균\s?소득\s?50%(?:\s?\(1인\s?70%,\s?2인\s?60%\)|\s?\(단,\s?가구원수가\s?1인인\s?경우\s?70%,\s?2인인\s?경우\s?60%\))?\s?이하\s?:\s?차목", sec)):
+            if re.search(r"1인\s?(?:가구\s?)?20%p?,?\s?2인\s?(?:가구\s?)?10%p?", sec) or "1인 70%, 2인 60%" in m.group(0) or re.search(r"1인인\s?경우\s?70%,\s?2인인\s?경우\s?60%", m.group(0)):
                 income, q["income"] = {"1": 70, "2": 60, "3+": 50}, _q(sec, m, 10, 120)
         elif kind == "국민임대" and (m := re.search(r"월평균\s?소득\s?(?:\(원\)|원\s?2025\s?\(\s?\))\s?70%\s?80%\s?90%", sec)):
             if (m2 := re.search(r"1인\s?가구\s?20%p?\s?가산,\s?2인\s?가구\s?10%p?\s?가산", sec)):
@@ -101,6 +104,8 @@ def _general_terms(t: str, kind: str) -> tuple[dict, dict]:
          or re.search(r"총자산\s?기준\s?[\d,]+만원\s?이하\s?(?:→|☞)\s?적용\s?배제", rel)
          or re.search(r"총자산\s?요건\s?총자산\s?요건\s?배제", rel)
          or re.search(r"소득\s?및\s?총자산\s?완화\s?입주자", sec)
+         # '총자산가액 기존 … 합산기준 ( 345 )백만원 이하 완화 자산기준 적용 배제' — 기존·완화 두 열 (2015122300021018, 2026-11-12)
+         or re.search(r"총\s?자산가액\s?기존[^.]{0,80}?만원\s?이하\s?완화\s?자산\s?기준\s?적용\s?배제", sec)
          or _base_excluded(sec))
     if m:
         asset, q["asset"] = "excluded", _q(sec if m.string is sec else rel, m)

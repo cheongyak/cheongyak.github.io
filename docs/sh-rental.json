@@ -1,12 +1,12 @@
 {
- "updated": "2026-11-11 10:29",
+ "updated": "2026-11-13 11:10",
  "source": "SH 인터넷청약시스템 공고 및 공지 > 주택임대 (서울주택도시개발공사)",
- "count": 13,
+ "count": 9,
  "notices": [
   {
    "id": "SH-313161",
    "org": "SH",
-   "name": "NEW [토지임대부 사회주택] 옥류서원 입주자 모집 공고문",
+   "name": "[토지임대부 사회주택] 옥류서원 입주자 모집 공고문",
    "type": "사회주택",
    "youth": false,
    "judge_type": false,
@@ -48,12 +48,55 @@
    "office": {
     "place": null,
     "tel": null
+   },
+   "notice_ai": {
+    "groups": [
+     {
+      "name": "도시근로자",
+      "items": [
+       {
+        "k": "homeless",
+        "label": "무주택",
+        "text": "세대원 전원 무주택(무주택세대구성원)",
+        "quote": "서울시에서 학업 및 취업 등의 목적으로 거주하고 있는 무주택 세대 구성원 (서울시에 주소지를 둔 서울시민)"
+       },
+       {
+        "k": "income_pct",
+        "label": "소득",
+        "text": "70% 이하",
+        "quote": "입주모집공고일(2026.06.24) 당시 도시근로자 월평균 소득 70% 이하 기준을 충족하는 자"
+       }
+      ]
+     },
+     {
+      "name": "신혼부부",
+      "items": [
+       {
+        "k": "homeless",
+        "label": "무주택",
+        "text": "세대원 전원 무주택(무주택세대구성원)",
+        "quote": "서울시에서 학업 및 취업 등의 목적으로 거주하고 있는 무주택 세대 구성원 (서울시에 주소지를 둔 서울시민)"
+       },
+       {
+        "k": "income_pct",
+        "label": "소득",
+        "text": "120% 이하",
+        "quote": "입주모집공고일(2026.06.24) 당시 신혼부부로 도시근로자 월평균 소득 120% 이하 기준을 충족하는 세대"
+       }
+      ]
+     }
+    ],
+    "need": [
+     "자격"
+    ],
+    "model": "claude-session",
+    "at": "2026-11-12 08:54"
    }
   },
   {
    "id": "SH-312903",
    "org": "SH",
-   "name": "NEW [청년형] 특화형 매입임대주택 입주자 모집 공고(운영기관 : 한지붕 협동조합)",
+   "name": "[청년형] 특화형 매입임대주택 입주자 모집 공고(운영기관 : 한지붕 협동조합)",
    "type": "청년 매입임대",
    "youth": true,
    "judge_type": true,
@@ -169,53 +212,6 @@
    ],
    "notice_pdf": null,
    "notice_text": null,
-   "office": {
-    "place": null,
-    "tel": null
-   }
-  },
-  {
-   "id": "SH-312601",
-   "org": "SH",
-   "name": "2027년 양천영등포주거안심종합센터 희망돌보미(사무지원)모집공고",
-   "type": "기타 임대",
-   "youth": false,
-   "judge_type": false,
-   "region": "서울특별시",
-   "posted": "2026-11-02",
-   "close": "2026-11-13",
-   "status": null,
-   "url": "https://www.i-sh.co.kr/main/lay2/program/S1T294C297/www/brd/m_247/view.do?multi_itm_seq=2&seq=312601",
-   "url_mobile": "https://www.i-sh.co.kr/app/lay2/program/S48T1581C563/www/brd/m_247/view.do?multi_itm_seq=2&seq=312601",
-   "schedule": [
-    {
-     "complex": null,
-     "apply_start": "2026-11-02",
-     "apply_end": "2026-11-13",
-     "docs_target": null,
-     "winner": null,
-     "rank1": false,
-     "quote": "신청서 접수 일시 : 2026.11.02.(월) ~ 11.13."
-    }
-   ],
-   "complexes": [],
-   "units": [],
-   "rents": [],
-   "terms": null,
-   "files": [
-    {
-     "kind": "첨부",
-     "name": "첨부_4_2027년 희망돌보미(사무지원) 지원신청서.pdf",
-     "url": "https://www.i-sh.co.kr/com/file/innoFD.do?brdId=YCGS01&seq=312601&fileSeq=1&fileTp=A"
-    },
-    {
-     "kind": "PDF 공고문",
-     "name": "첨부_3_2027년 희망돌보미(사무지원) 모집공고문.pdf",
-     "url": "https://www.i-sh.co.kr/com/file/innoFD.do?brdId=YCGS01&seq=312601&fileSeq=2&fileTp=A"
-    }
-   ],
-   "notice_pdf": "https://www.i-sh.co.kr/com/file/innoFD.do?brdId=YCGS01&seq=312601&fileSeq=2&fileTp=A",
-   "notice_text": 3329,
    "office": {
     "place": null,
     "tel": null
@@ -430,43 +426,6 @@
    }
   },
   {
-   "id": "SH-311962",
-   "org": "SH",
-   "name": "구로구 도전숙(수요자맞춤형) 잔여세대 입주자 모집 공고",
-   "type": "기타 임대",
-   "youth": false,
-   "judge_type": false,
-   "region": "서울특별시",
-   "posted": "2026-10-28",
-   "close": null,
-   "status": null,
-   "url": "https://www.i-sh.co.kr/main/lay2/program/S1T294C297/www/brd/m_247/view.do?multi_itm_seq=2&seq=311962",
-   "url_mobile": "https://www.i-sh.co.kr/app/lay2/program/S48T1581C563/www/brd/m_247/view.do?multi_itm_seq=2&seq=311962",
-   "schedule": [],
-   "complexes": [],
-   "units": [],
-   "rents": [],
-   "terms": null,
-   "files": [
-    {
-     "kind": "PDF 공고문",
-     "name": "2610 구로구 도전숙 입주자 모집 공고문(안).pdf",
-     "url": "https://www.i-sh.co.kr/com/file/innoFD.do?brdId=GS0401&seq=311962&fileSeq=1&fileTp=A"
-    },
-    {
-     "kind": "첨부",
-     "name": "입주신청서 등 (붙임 1~4).hwpx",
-     "url": "https://www.i-sh.co.kr/com/file/innoFD.do?brdId=GS0401&seq=311962&fileSeq=2&fileTp=A"
-    }
-   ],
-   "notice_pdf": "https://www.i-sh.co.kr/com/file/innoFD.do?brdId=GS0401&seq=311962&fileSeq=1&fileTp=A",
-   "notice_text": 18664,
-   "office": {
-    "place": null,
-    "tel": null
-   }
-  },
-  {
    "id": "SH-312325",
    "org": "SH",
    "name": "[토지임대부 사회주택] 옥류서원 입주자 모집 공고문",
@@ -508,48 +467,6 @@
    ],
    "notice_pdf": "https://www.i-sh.co.kr/com/file/innoFD.do?brdId=GS0401&seq=312325&fileSeq=3&fileTp=A",
    "notice_text": 11639,
-   "office": {
-    "place": null,
-    "tel": null
-   }
-  },
-  {
-   "id": "SH-311965",
-   "org": "SH",
-   "name": "강북구 신혼부부(수요자맞춤형)주택 1~4차 잔여세대 입주자 모집 공고",
-   "type": "신혼·신생아 매입임대",
-   "youth": false,
-   "judge_type": false,
-   "region": "서울특별시",
-   "posted": "2026-10-26",
-   "close": "2026-11-12",
-   "status": null,
-   "url": "https://www.i-sh.co.kr/main/lay2/program/S1T294C297/www/brd/m_247/view.do?multi_itm_seq=2&seq=311965",
-   "url_mobile": "https://www.i-sh.co.kr/app/lay2/program/S48T1581C563/www/brd/m_247/view.do?multi_itm_seq=2&seq=311965",
-   "schedule": [
-    {
-     "complex": null,
-     "apply_start": "2026-10-26",
-     "apply_end": "2026-11-12",
-     "docs_target": null,
-     "winner": null,
-     "rank1": false,
-     "quote": "신청 접수· 이메일만 가능( )  소득재산 조사 및 자료 소명 월2026. 10. 26.( ) 목~ 11. 12."
-    }
-   ],
-   "complexes": [],
-   "units": [],
-   "rents": [],
-   "terms": null,
-   "files": [
-    {
-     "kind": "PDF 공고문",
-     "name": "지역수요 맞춤형 신혼부부 매입임대주택 입주자 모집 공고문.pdf",
-     "url": "https://www.i-sh.co.kr/com/file/innoFD.do?brdId=GS0401&seq=311965&fileSeq=1&fileTp=A"
-    }
-   ],
-   "notice_pdf": "https://www.i-sh.co.kr/com/file/innoFD.do?brdId=GS0401&seq=311965&fileSeq=1&fileTp=A",
-   "notice_text": 32077,
    "office": {
     "place": null,
     "tel": null
@@ -718,127 +635,6 @@
    ],
    "notice_pdf": "https://www.i-sh.co.kr/com/file/innoFD.do?brdId=GS0401&seq=311428&fileSeq=3&fileTp=A",
    "notice_text": 11782,
-   "office": {
-    "place": null,
-    "tel": null
-   }
-  },
-  {
-   "id": "SH-311375",
-   "org": "SH",
-   "name": "[토지지원 사회주택]유니버설디자인하우스_장안 입주자 모집 공고",
-   "type": "사회주택",
-   "youth": false,
-   "judge_type": true,
-   "region": "서울특별시",
-   "posted": "2026-10-13",
-   "close": "2026-10-20",
-   "status": null,
-   "url": "https://www.i-sh.co.kr/main/lay2/program/S1T294C297/www/brd/m_247/view.do?multi_itm_seq=2&seq=311375",
-   "url_mobile": "https://www.i-sh.co.kr/app/lay2/program/S48T1581C563/www/brd/m_247/view.do?multi_itm_seq=2&seq=311375",
-   "schedule": [
-    {
-     "complex": null,
-     "apply_start": "2026-10-13",
-     "apply_end": "2026-10-20",
-     "docs_target": null,
-     "winner": null,
-     "rank1": false,
-     "quote": ". 9 04 입주모집 절차 1) 모집일정 입주신청기간 … 26.10.13.(화) ~ 26.10.20.(화)"
-    }
-   ],
-   "complexes": [],
-   "units": [],
-   "rents": [],
-   "terms": {
-    "sh": true,
-    "kind": "사회주택",
-    "ref_date": "2026-10-13",
-    "income_basis": "도시근로자 월평균소득",
-    "birth_bonus": "none",
-    "relaxed": false,
-    "homeless_relaxed": false,
-    "local": {
-     "sido": "서울",
-     "sigun": null,
-     "name": "서울시",
-     "others_check": "서울에 살지 않아도 서울 소재 직장·학교 등 조건(입주 후 전입)으로 신청할 수 있어요"
-    },
-    "groups": [
-     {
-      "key": "청년",
-      "name": "청년",
-      "age_min": 19,
-      "age_max": 39,
-      "homeless": "self_unclear",
-      "income_pct": {
-       "1": 120,
-       "2": 120,
-       "3+": 120
-      },
-      "asset_manwon": null,
-      "car_manwon": 4563,
-      "income_amt": {
-       "1": 4576036,
-       "2": 6572000,
-       "3": 9152000
-      },
-      "asset_typo": "2억5,4000만 원"
-     },
-     {
-      "key": "신혼부부",
-      "name": "신혼부부(혼인 7년 이내·예비)",
-      "homeless": "self_unclear",
-      "income_pct": {
-       "1": 120,
-       "2": 120,
-       "3+": 120
-      },
-      "asset_manwon": 33700,
-      "car_manwon": 4563,
-      "wed_years": 7,
-      "prewed": true,
-      "income_amt": {
-       "1": 4576036,
-       "2": 6572000,
-       "3": 9152000
-      }
-     },
-     {
-      "key": "1인가구",
-      "name": "1인 가구",
-      "homeless": "self_unclear",
-      "income_pct": {
-       "1": 120,
-       "2": 120,
-       "3+": 120
-      },
-      "asset_manwon": 33700,
-      "car_manwon": 4563,
-      "income_amt": {
-       "1": 4576036,
-       "2": 6572000,
-       "3": 9152000
-      }
-     }
-    ],
-    "unknown_groups": [
-     "고령자"
-    ],
-    "issues": [
-     "소득 표가 도시근로자 2025 × 120% 와 다름: 2인 6,572,000원, 3인 9,152,000원",
-     "청년 총자산 금액 이상(만 단위 1만 이상)"
-    ]
-   },
-   "files": [
-    {
-     "kind": "PDF 공고문",
-     "name": "01_[유니버설디자인하우스_장안] 입주자 모집공고문_26_10_13.pdf",
-     "url": "https://www.i-sh.co.kr/com/file/innoFD.do?brdId=GS0401&seq=311375&fileSeq=1&fileTp=A"
-    }
-   ],
-   "notice_pdf": "https://www.i-sh.co.kr/com/file/innoFD.do?brdId=GS0401&seq=311375&fileSeq=1&fileTp=A",
-   "notice_text": 5797,
    "office": {
     "place": null,
     "tel": null
