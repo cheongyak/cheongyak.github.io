@@ -13,10 +13,10 @@
    "effort": "S",
    "status": "parked",
    "first_seen": "2026-11-04",
-   "last_seen": "2026-11-11",
+   "last_seen": "2026-11-13",
    "tries": 0,
    "pr": null,
-   "notes": "고칠 방향 후보: 이슈 제목을 실제 원인(못 읽은 공고·판정 불일치·수집 멈춤)으로, 같은 원인이면 새 이슈 대신 열린 이슈에 댓글. 이슈를 닫는 것은 운영자 몫(고정 규칙 7) · 2026-11-04 밤 parked: 고칠 곳이 .github/workflows/verify.yml 뿐이라 루프가 못 고침(고정 규칙 6). 운영자 판단 필요: 손으로 일하는 세션에 '원인별 제목·같은 원인이면 열린 이슈에 댓글'을 맡기기",
+   "notes": "고칠 방향 후보: 이슈 제목을 실제 원인(못 읽은 공고·판정 불일치·수집 멈춤)으로, 같은 원인이면 새 이슈 대신 열린 이슈에 댓글. 이슈를 닫는 것은 운영자 몫(고정 규칙 7) · 2026-11-04 밤 parked: 고칠 곳이 .github/workflows/verify.yml 뿐이라 루프가 못 고침(고정 규칙 6). 운영자 판단 필요: 손으로 일하는 세션에 '원인별 제목·같은 원인이면 열린 이슈에 댓글'을 맡기기 · 11-13: #129·#130 새로 열림(판정 974/974, #130 본문은 빈 코드 블록 — verify.yml 이슈 본문이 원인을 못 담음). 여전히 workflows 몫",
    "success_check": null
   },
   {
@@ -203,7 +203,7 @@
    "effort": "S",
    "status": "open",
    "first_seen": "2026-11-04",
-   "last_seen": "2026-11-12",
+   "last_seen": "2026-11-13",
    "tries": 0,
    "pr": null,
    "success_check": null,
@@ -214,14 +214,14 @@
    "title": "열린 이슈 '수집 알림' 1건",
    "area": "ops",
    "source": "GitHub 열린 이슈",
-   "evidence": "이슈 #117 (11-10 아침 수집 문제 있음 — 제천장락1 2015122300020975, v1.84.9 로 해결)",
+   "evidence": "열린 이슈 #128 (11-13 아침 수집 실패 — 아침 자동 고치기가 고친 공고들 때문, 09:33 ok=true)",
    "severity": "P2",
    "reach": 2,
    "confidence": 2,
    "effort": "S",
    "status": "open",
    "first_seen": "2026-11-04",
-   "last_seen": "2026-11-10",
+   "last_seen": "2026-11-13",
    "tries": 0,
    "pr": null,
    "success_check": null,
@@ -255,7 +255,7 @@
    "reach": 2,
    "confidence": 3,
    "effort": "S",
-   "status": "merged",
+   "status": "merged_effective",
    "first_seen": "2026-11-05",
    "last_seen": "2026-11-08",
    "tries": 0,
@@ -264,7 +264,7 @@
     "how": "합친 다음 날 docs/run-log.txt 의 [청약봇] 줄",
     "expect": "'이번 달(YYYY-MM) AI 사용액 $… / 한도 $18' 이 보이고, 배포 다음 날부터 자유 질문이 있어도 '실제는 이보다 많음' 이 안 붙음"
    },
-   "notes": "서버 배포 PR([서버 배포]) — PR #93 합친 뒤에 · 11-08 PR #113([서버 배포]): 하루 합계 usd·usd_tok_in/out, /stats _month · 11-10 PR #113 합침 a3b2f811, 기록은 손 세션이 씀(WORK.md PR #113)"
+   "notes": "서버 배포 PR([서버 배포]) — PR #93 합친 뒤에 · 11-08 PR #113([서버 배포]): 하루 합계 usd·usd_tok_in/out, /stats _month · 11-10 PR #113 합침 a3b2f811, 기록은 손 세션이 씀(WORK.md PR #113) · 11-13 효과 확인: run-log [청약봇] 11-12 줄에 '이번 달(2026-11) AI 사용액 $0.79 / 한도 $18' 보임. '실제는 이보다 많음'은 7일 창에 배포 전(usd 없는) 날이 남아 있어서 — 11-17 쯤 사라질 것(기대 문구가 7일 창을 놓침)"
   },
   {
    "key": "qa:lh_invariant_violations",
@@ -372,7 +372,7 @@
    "effort": "S",
    "status": "parked",
    "first_seen": "2026-11-09",
-   "last_seen": "2026-11-12",
+   "last_seen": "2026-11-13",
    "tries": 1,
    "pr": null,
    "success_check": {
@@ -393,7 +393,7 @@
    "effort": "S",
    "status": "parked",
    "first_seen": "2026-11-09",
-   "last_seen": "2026-11-12",
+   "last_seen": "2026-11-13",
    "tries": 1,
    "pr": null,
    "success_check": {
@@ -442,7 +442,7 @@
     "how": "합친 뒤 수집 후 docs/listings.json 2026000528 주택형 residence_duty, docs/verify-status.json ok, run-log [검증·정답 불일치]",
     "expect": "residence_duty 5 · ok true · 정답 불일치 0"
    },
-   "notes": "토지임대부·지분적립형은 일부러 안 읽음(다른 눈 검토) — manual:jeonse-landlease-equity 참고"
+   "notes": "토지임대부·지분적립형은 일부러 안 읽음(다른 눈 검토) — manual:jeonse-landlease-equity 참고 · 11-13 main(PARSER 58)과 충돌 → origin/main 을 합치는 커밋으로 풀고(강제 push 없이) PARSER 59, pytest 511·judge 976/976·snapshot 0"
   },
   {
    "key": "manual:jeonse-landlease-equity",
@@ -482,6 +482,45 @@
     "expect": "통과 · '정답 데이터와 모두 일치해요'(553 불일치 없음)"
    },
    "notes": "SH 313161·311965 읽기 규칙(본 처리)은 unread_queue 에 있어 아침 자동 고치기 몫이라 고르지 않음"
+  },
+  {
+   "key": "manual:duty-not-applied-sentence",
+   "title": "본문 '본 주택은 … 거주의무기간이 적용되지 않습니다'를 못 읽어 2026000530·532 실거주 의무 '확인 필요'",
+   "area": "parse",
+   "source": "직접 확인(docs/listings.json residence_duty null 9건 조사)",
+   "evidence": "evidence/notices/2026000530.txt 6~7줄 '10년 3년 없음 적용 대규모 택지개발지구/ 공공택지' · 3187~3189줄 '…거주의무기간이 적용되지 않습니다' · 2026000532.txt 3172~3174줄",
+   "severity": "P2",
+   "reach": 2,
+   "confidence": 3,
+   "effort": "S",
+   "status": "in_pr",
+   "first_seen": "2026-11-13",
+   "last_seen": "2026-11-13",
+   "tries": 1,
+   "pr": 131,
+   "success_check": {
+    "how": "합친 뒤 수집 후 docs/listings.json 2026000530·532 주택형의 residence_duty 와 notice_quotes.residence_duty",
+    "expect": "residence_duty 0, 근거 문장에 '거주의무기간이 적용되지 않습니다' 포함"
+   },
+   "notes": "같은 조사에서 남은 것: 2026000472 구리갈매 1쪽 표 '년10 년 3 년 3 적용'(뒤섞인 꼴, 본문 문장 없음 — 283 과 같은 꼴이라 고르지 않음) · 533·820013·820014 는 duty_silent(공고문에 거주의무 없음) · 373·527 은 토지임대부·지분적립형(PR #123 이 일부러 뺌, jeonse parked)"
+  },
+  {
+   "key": "manual:schedule-late",
+   "title": "수집 예약 실행이 '안 도는' 게 아니라 4~6시간 늦게 돈다(05:30 예약이 10:15~13:00 에 시작)",
+   "area": "ops",
+   "source": "GitHub Actions collect.yml schedule 실행 목록",
+   "evidence": "actions/workflows/collect.yml/runs?event=schedule: 11-13 01:15Z·02:09Z·03:39Z, 11-12 01:56Z·02:32Z·04:23Z (cron 20:30Z·21:50Z·23:50Z) — 아침 손 실행 뒤라 daily-run.txt 로 건너뜀",
+   "severity": "P2",
+   "reach": 3,
+   "confidence": 3,
+   "effort": "S",
+   "status": "parked",
+   "first_seen": "2026-11-13",
+   "last_seen": "2026-11-13",
+   "tries": 0,
+   "pr": null,
+   "success_check": null,
+   "notes": "고칠 곳이 .github/workflows 뿐(고정 규칙 6) — 운영자 판단: 예약 시각을 정각·30분이 아닌 시각으로 옮기거나 새벽 더 이른 시각에 두기 등"
   }
  ]
 }
