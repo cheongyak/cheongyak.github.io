@@ -44,3 +44,9 @@ def test_sentence_without_this_house_is_not_read():
 def test_years_sentence_still_wins():
     t = _wrap("본 주택은 분양가상한제 적용주택으로 거주의무기간은 최초 입주가능일부터 3년간 적용됩니다. 본 주택은 전매제한 …")
     assert parse_notice(t).get("residence_duty") == 3
+
+
+def test_model_house_or_condition_is_not_read():
+    # '견본주택'의 '본주택'이나 조건문('… 경우 거주의무기간이 …')은 이 주택의 조건이 아니다 (다른 눈 검토 11-13)
+    assert parse_notice(_wrap("견본주택 방문 시 유의하세요. 분양가격이 인근지역 주택매매가격의 100% 이상인 경우에는 거주의무기간이 적용되지 않습니다.")).get("residence_duty") is None
+    assert parse_notice(_wrap("본 주택은 분양가상한제 적용주택입니다. 향후 분양가격이 100% 이상인 경우 거주의무기간이 적용되지 않습니다.")).get("residence_duty") is None
