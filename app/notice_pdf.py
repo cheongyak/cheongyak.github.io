@@ -515,10 +515,10 @@ def parse_notice(text: str) -> dict:
         if duty and md:
             out["duty_from"] = f"{md.group(1)}-{int(md.group(2)):02d}-{int(md.group(3)):02d}"
             cite("duty_from", md, before=20)
-    elif (m := re.search(r"거주의무(?:기간)?(?:[:：]|은|는)?없음", flat)) or out.get("price_cap") is False:
+    elif (m := re.search(r"거주의무(?:기간)?(?:[:：]|은|는)?없음", flat) or _duty_not_applied(flat)) or out.get("price_cap") is False:
         out["residence_duty"] = 0
         if m:
-            cite("residence_duty", m)
+            cite("residence_duty", m, **({"before": 115, "after": 2, "cap": 260} if "않습니다" in m.group(0) else {}))   # '본 주택은 … 경우에 해당하여 …'까지 근거로
         elif "price_cap" in q:
             q["residence_duty"] = "(분양가상한제 미적용 → 거주의무 없음) " + q["price_cap"]
     if "residence_duty" not in out:
@@ -1514,6 +1514,17 @@ _SUMMARY = re.compile(r"전매제한\s*거주의무기간\s*분양가상한제\s
 # 무순위(사후) 공고 1쪽 표는 '택지유형' 칸이 없다: '재당첨제한 전매제한 거주의무기간 분양가상한제 없음 최초 당첨자발표일(2026.09.01.)로부터 1년 없음 적용 구분'
 # (2026910248 — 예전엔 못 읽어 청약홈 값 '미적용'이 남았다, 10-09 블라인드 대조). 마지막 두 칸(거주의무·분양가상한제) 바로 뒤가 '구분'/'공통'일 때만
 _SUMMARY2 = re.compile(r"재당첨제한\s*전매제한\s*거주의무기간\s*분양가상한제\s+(?!택지유형)(.{0,200}?)\s(없음|[1-5]\s*년)\s+(적용|미적용)\s+(?:구분|\d?\s*공통)", re.S)
+
+
+def _duty_not_applied(flat: str):
+    """본문 '본 주택은 … 「주택법」 제57조의2 및 동법 시행령 제60조의2에 따라 거주의무기간이 적용되지 않습니다' — 거주의무 없음(0).
+    2026000530·532 계양신도시 카이브 유보라(1쪽 표 택지유형 칸이 '대규모 택지개발지구/ 공공택지'라 표 규칙이 못 읽음, 2026-11-13 밤 자동 개선).
+    조건만 말하는 일반 설명('…100% 이상인 경우에는 …')을 이 주택의 조건으로 읽지 않게, 앞 300자 안에 '본 주택은·본 공동주택의·본 아파트는'이 있고 바로 앞이 '경우'가 아닐 때만"""
+    for m in re.finditer(r"거주의무(?:기간)?(?:이|가|을|를)?(?:적용되지|적용받지)않습니다", flat):
+        # '견본주택'·'기본주택'의 '본주택'은 빼고, 바로 앞(12자)이 '…인 경우(에는)'인 조건문도 빼다 (다른 눈 검토 11-13)
+        if re.search(r"(?<![견기])본(?:공동)?주택(?:은|의)|(?<![견기])본아파트(?:는|의)", flat[max(0, m.start() - 300):m.start()]) and "경우" not in flat[max(0, m.start() - 12):m.start()]:
+            return m
+    return None
 
 
 def _summary_table(text: str) -> Optional[dict]:

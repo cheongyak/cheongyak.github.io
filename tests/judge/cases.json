@@ -38779,6 +38779,678 @@
   "basis": "마산중리1 영구임대 2015122300020692 3. 신청자격 '모집공고일(2026.10.01.) 현재 창원시에 거주하는 성년자인 무주택세대구성원' · 사는 시·군 입력 표기(구만 쓰면 판단 불가) — 경남 '김해'"
  },
  {
+  "id": "duty0-01",
+  "fn": "duty",
+  "listing": null,
+  "raw": {
+   "id": "2026000532-093.7413A",
+   "name": "계양신도시 카이브 유보라(AC4BL)",
+   "address": "인천광역시 계양구 동양동 420-3번지 일원 (인천계양 테크노밸리 공공주택지구 AC4블록)",
+   "region": "인천",
+   "sigungu": "인천 계양구",
+   "sido": "인천",
+   "district": "계양구",
+   "supply_type": "APT",
+   "house_secd": "01",
+   "house_dtl": "민영",
+   "rent_secd": "분양주택",
+   "rental": false,
+   "land_lease": false,
+   "land_rent": null,
+   "land_rent_rate": null,
+   "special_apply": "2026-11-02",
+   "special_apply_end": "2026-11-02",
+   "kind": "일반분양 (특별공급·1순위)",
+   "category": "general",
+   "target": null,
+   "unit": "93A",
+   "area": 93.7413,
+   "households": 44,
+   "complex": {
+    "households": 496,
+    "buildings": 8,
+    "single": "no",
+    "status": "확인",
+    "src": "모집공고문 공급규모",
+    "quote": ": 아파트 지하 2층, 지상 15층 8개동 일반분양 496세대 [특별공급 285세대(기관추천 39세대, 다자녀가구 48세대, 신혼부부 59세대, 노부모부양 14세대, 생애최초 67세대, 신생아 39세대, 협의양도인"
+   },
+   "mc_quota": null,
+   "youth": null,
+   "resale": {
+    "months": 36,
+    "base": "당첨자 발표일",
+    "registration": false,
+    "until_reg": false,
+    "passed": false,
+    "none": false,
+    "forbidden": false
+   },
+   "score_ratio": {
+    "rows": [
+     {
+      "over": 60,
+      "upto": 85,
+      "score": 70,
+      "lottery": 30
+     },
+     {
+      "over": 85,
+      "upto": null,
+      "score": 80,
+      "lottery": 20
+     }
+    ]
+   },
+   "residence": {
+    "area": {
+     "name": "인천광역시",
+     "sido": "인천"
+    },
+    "months": 0,
+    "since": null,
+    "others": [
+     "서울",
+     "경기"
+    ]
+   },
+   "notice": "2026-10-23",
+   "apply": "2026-11-02",
+   "apply_end": "2026-11-04",
+   "winner": "2026-11-11",
+   "contract": "2026-11-23",
+   "balance": null,
+   "move_in": "2029-08",
+   "price": 9.05,
+   "ext": 0.0,
+   "pay_ratio": {
+    "contract": 0.05,
+    "mid": 0.6,
+    "balance": 0.35
+   },
+   "contract_split": null,
+   "contract_rate": 0.05,
+   "mid_rate": 0.6,
+   "mkt_low": 6.55,
+   "mkt_base": 6.94,
+   "mkt_note": "같은 평형 거래가 부족해 같은 구 준공 10년 이내 비슷한 면적(±10㎡) 매매 26건의 ㎡당 가격 × 전용 93.7㎡로 추정 (최근 6개월) · 거래가 몰린 단지(힐스테이트자이계양 9건, 계양효성해링턴플레이스 7건, 인천계양코아루센트럴파크 7건)는 5건 몫으로 줄여 계산",
+   "mkt_count": 26,
+   "mkt_direct_excluded": 0,
+   "jeonse": null,
+   "jeonse_note": "전세 거래가 부족해 추정하지 못했어요.",
+   "capital": true,
+   "regulated": false,
+   "reg_kind": "비규제",
+   "land_permit": false,
+   "price_cap": true,
+   "residence_duty": 0,
+   "duty_from": null,
+   "duty_silent": false,
+   "jeonse_weak": true,
+   "unregistered": true,
+   "need_head": false,
+   "need_account": true,
+   "limits": [
+    [
+     "재당첨 제한",
+     "10년"
+    ],
+    [
+     "실거주 의무",
+     "공고문 확인"
+    ],
+    [
+     "전매 제한",
+     "3년 (~29.11.11)"
+    ]
+   ],
+   "url": "https://www.applyhome.co.kr/ai/aia/selectAPTLttotPblancDetail.do?houseManageNo=2026000532&pblancNo=2026000532",
+   "notice_pdf": "https://static.applyhome.co.kr/ai/aia/getAtchmnfl.do?houseManageNo=2026000532&pblancNo=2026000532&atchmnflSeqNo=2002309&atchmnflSn=4",
+   "from_notice": [
+    "분양가상한제",
+    "전매 제한",
+    "재당첨 제한",
+    "1순위 가입기간",
+    "계약금 비율",
+    "거주 지역 요건",
+    "가점제·추첨제 비율"
+   ],
+   "geo": {
+    "lat": 37.554068,
+    "lng": 126.761695,
+    "precision": "exact",
+    "query": "인천광역시 계양구 동양동 420-3",
+    "matched": "인천광역시 계양구 동양동 420-3",
+    "source": "네이버 클라우드 플랫폼 Geocoding"
+   },
+   "account_months": 12,
+   "deposit_count": null,
+   "map_query": "인천광역시 계양구 동양동 420-3",
+   "sample": false
+  },
+  "profile": {
+   "_set": [
+    "spouseOwn",
+    "spouseIncome",
+    "spouseLoan",
+    "recentWin",
+    "acctAmount",
+    "cash",
+    "liquid",
+    "deposit",
+    "income",
+    "loanMonthly"
+   ]
+  },
+  "expect": {
+   "s": "cond"
+  },
+  "basis": "계양신도시 카이브 유보라(AC4BL) 입주자모집공고 (2026.10, 주택관리번호 2026000532) — 저장 원문 evidence/notices/2026000532.txt · 공고문 '거주의무기간이 적용되지 않습니다' · 1쪽 표 '비규제지역' · 전세 시세 없음"
+ },
+ {
+  "id": "duty0-02",
+  "fn": "duty",
+  "listing": null,
+  "raw": {
+   "id": "2026000532-093.7413A",
+   "name": "계양신도시 카이브 유보라(AC4BL)",
+   "address": "인천광역시 계양구 동양동 420-3번지 일원 (인천계양 테크노밸리 공공주택지구 AC4블록)",
+   "region": "인천",
+   "sigungu": "인천 계양구",
+   "sido": "인천",
+   "district": "계양구",
+   "supply_type": "APT",
+   "house_secd": "01",
+   "house_dtl": "민영",
+   "rent_secd": "분양주택",
+   "rental": false,
+   "land_lease": false,
+   "land_rent": null,
+   "land_rent_rate": null,
+   "special_apply": "2026-11-02",
+   "special_apply_end": "2026-11-02",
+   "kind": "일반분양 (특별공급·1순위)",
+   "category": "general",
+   "target": null,
+   "unit": "93A",
+   "area": 93.7413,
+   "households": 44,
+   "complex": {
+    "households": 496,
+    "buildings": 8,
+    "single": "no",
+    "status": "확인",
+    "src": "모집공고문 공급규모",
+    "quote": ": 아파트 지하 2층, 지상 15층 8개동 일반분양 496세대 [특별공급 285세대(기관추천 39세대, 다자녀가구 48세대, 신혼부부 59세대, 노부모부양 14세대, 생애최초 67세대, 신생아 39세대, 협의양도인"
+   },
+   "mc_quota": null,
+   "youth": null,
+   "resale": {
+    "months": 36,
+    "base": "당첨자 발표일",
+    "registration": false,
+    "until_reg": false,
+    "passed": false,
+    "none": false,
+    "forbidden": false
+   },
+   "score_ratio": {
+    "rows": [
+     {
+      "over": 60,
+      "upto": 85,
+      "score": 70,
+      "lottery": 30
+     },
+     {
+      "over": 85,
+      "upto": null,
+      "score": 80,
+      "lottery": 20
+     }
+    ]
+   },
+   "residence": {
+    "area": {
+     "name": "인천광역시",
+     "sido": "인천"
+    },
+    "months": 0,
+    "since": null,
+    "others": [
+     "서울",
+     "경기"
+    ]
+   },
+   "notice": "2026-10-23",
+   "apply": "2026-11-02",
+   "apply_end": "2026-11-04",
+   "winner": "2026-11-11",
+   "contract": "2026-11-23",
+   "balance": null,
+   "move_in": "2029-08",
+   "price": 9.05,
+   "ext": 0.0,
+   "pay_ratio": {
+    "contract": 0.05,
+    "mid": 0.6,
+    "balance": 0.35
+   },
+   "contract_split": null,
+   "contract_rate": 0.05,
+   "mid_rate": 0.6,
+   "mkt_low": 6.55,
+   "mkt_base": 6.94,
+   "mkt_note": "같은 평형 거래가 부족해 같은 구 준공 10년 이내 비슷한 면적(±10㎡) 매매 26건의 ㎡당 가격 × 전용 93.7㎡로 추정 (최근 6개월) · 거래가 몰린 단지(힐스테이트자이계양 9건, 계양효성해링턴플레이스 7건, 인천계양코아루센트럴파크 7건)는 5건 몫으로 줄여 계산",
+   "mkt_count": 26,
+   "mkt_direct_excluded": 0,
+   "jeonse": null,
+   "jeonse_note": "전세 거래가 부족해 추정하지 못했어요.",
+   "capital": true,
+   "regulated": false,
+   "reg_kind": "비규제",
+   "land_permit": false,
+   "price_cap": true,
+   "residence_duty": null,
+   "duty_from": null,
+   "duty_silent": false,
+   "jeonse_weak": true,
+   "unregistered": true,
+   "need_head": false,
+   "need_account": true,
+   "limits": [
+    [
+     "재당첨 제한",
+     "10년"
+    ],
+    [
+     "실거주 의무",
+     "공고문 확인"
+    ],
+    [
+     "전매 제한",
+     "3년 (~29.11.11)"
+    ]
+   ],
+   "url": "https://www.applyhome.co.kr/ai/aia/selectAPTLttotPblancDetail.do?houseManageNo=2026000532&pblancNo=2026000532",
+   "notice_pdf": "https://static.applyhome.co.kr/ai/aia/getAtchmnfl.do?houseManageNo=2026000532&pblancNo=2026000532&atchmnflSeqNo=2002309&atchmnflSn=4",
+   "from_notice": [
+    "분양가상한제",
+    "전매 제한",
+    "재당첨 제한",
+    "1순위 가입기간",
+    "계약금 비율",
+    "거주 지역 요건",
+    "가점제·추첨제 비율"
+   ],
+   "geo": {
+    "lat": 37.554068,
+    "lng": 126.761695,
+    "precision": "exact",
+    "query": "인천광역시 계양구 동양동 420-3",
+    "matched": "인천광역시 계양구 동양동 420-3",
+    "source": "네이버 클라우드 플랫폼 Geocoding"
+   },
+   "account_months": 12,
+   "deposit_count": null,
+   "map_query": "인천광역시 계양구 동양동 420-3",
+   "sample": false
+  },
+  "profile": {
+   "_set": [
+    "spouseOwn",
+    "spouseIncome",
+    "spouseLoan",
+    "recentWin",
+    "acctAmount",
+    "cash",
+    "liquid",
+    "deposit",
+    "income",
+    "loanMonthly"
+   ]
+  },
+  "expect": {
+   "s": "check"
+  },
+  "basis": "계양신도시 카이브 유보라(AC4BL) 입주자모집공고 (2026.10, 주택관리번호 2026000532) — 저장 원문 evidence/notices/2026000532.txt · 거주의무를 못 읽음(예전) · 1쪽 표 '비규제지역' · 전세 시세 없음"
+ },
+ {
+  "id": "duty0-03",
+  "fn": "duty",
+  "listing": null,
+  "raw": {
+   "id": "2026000530-084.3473A",
+   "name": "계양신도시 카이브 유보라(AC3BL)",
+   "address": "인천광역시 계양구 동양동 458-3번지 일원 (인천계양 테크노밸리 공공주택지구 AC3블록)",
+   "region": "인천",
+   "sigungu": "인천 계양구",
+   "sido": "인천",
+   "district": "계양구",
+   "supply_type": "APT",
+   "house_secd": "01",
+   "house_dtl": "민영",
+   "rent_secd": "분양주택",
+   "rental": false,
+   "land_lease": false,
+   "land_rent": null,
+   "land_rent_rate": null,
+   "special_apply": "2026-11-02",
+   "special_apply_end": "2026-11-02",
+   "kind": "일반분양 (특별공급·1순위)",
+   "category": "general",
+   "target": null,
+   "unit": "84A",
+   "area": 84.3473,
+   "households": 70,
+   "complex": {
+    "households": 614,
+    "buildings": 8,
+    "single": "no",
+    "status": "확인",
+    "src": "모집공고문 공급규모",
+    "quote": ": 아파트 지하 2층, 지상 15층 8개동 일반분양 614세대 [특별공급 353세대(기관추천 48세대, 다자녀가구 60세대, 신혼부부 73세대, 노부모부양 18세대, 생애최초 82세대, 신생아 48세대, 협의양도인"
+   },
+   "mc_quota": null,
+   "youth": null,
+   "resale": {
+    "months": 36,
+    "base": "당첨자 발표일",
+    "registration": false,
+    "until_reg": false,
+    "passed": false,
+    "none": false,
+    "forbidden": false
+   },
+   "score_ratio": {
+    "rows": [
+     {
+      "over": 60,
+      "upto": 85,
+      "score": 70,
+      "lottery": 30
+     },
+     {
+      "over": 85,
+      "upto": null,
+      "score": 80,
+      "lottery": 20
+     }
+    ]
+   },
+   "residence": {
+    "area": {
+     "name": "인천광역시",
+     "sido": "인천"
+    },
+    "months": 0,
+    "since": null,
+    "others": [
+     "서울",
+     "경기"
+    ]
+   },
+   "notice": "2026-10-23",
+   "apply": "2026-11-02",
+   "apply_end": "2026-11-04",
+   "winner": "2026-11-10",
+   "contract": "2026-11-23",
+   "balance": null,
+   "move_in": "2029-08",
+   "price": 8.26,
+   "ext": 0.0,
+   "pay_ratio": {
+    "contract": 0.05,
+    "mid": 0.6,
+    "balance": 0.35
+   },
+   "contract_split": null,
+   "contract_rate": 0.05,
+   "mid_rate": 0.6,
+   "mkt_low": 5.53,
+   "mkt_base": 5.9,
+   "mkt_note": "공고 위치 반경 2km 안 준공 10년 이내 같은 평형(84㎡) 매매 7건 기준 (최근 6개월) · 거래가 몰린 단지(인천계양코아루센트럴파크 7건)는 5건 몫으로 줄여 계산",
+   "mkt_count": 7,
+   "mkt_direct_excluded": 0,
+   "jeonse": 3.94,
+   "jeonse_note": "같은 구 준공 10년 이내 전세 30건 중앙값에서 입주장 할인 9%",
+   "capital": true,
+   "regulated": false,
+   "reg_kind": "비규제",
+   "land_permit": false,
+   "price_cap": true,
+   "residence_duty": 0,
+   "duty_from": null,
+   "duty_silent": false,
+   "jeonse_weak": false,
+   "unregistered": true,
+   "need_head": false,
+   "need_account": true,
+   "limits": [
+    [
+     "재당첨 제한",
+     "10년"
+    ],
+    [
+     "실거주 의무",
+     "공고문 확인"
+    ],
+    [
+     "전매 제한",
+     "3년 (~29.11.10)"
+    ]
+   ],
+   "url": "https://www.applyhome.co.kr/ai/aia/selectAPTLttotPblancDetail.do?houseManageNo=2026000530&pblancNo=2026000530",
+   "notice_pdf": "https://static.applyhome.co.kr/ai/aia/getAtchmnfl.do?houseManageNo=2026000530&pblancNo=2026000530&atchmnflSeqNo=2002308&atchmnflSn=5",
+   "from_notice": [
+    "분양가상한제",
+    "전매 제한",
+    "재당첨 제한",
+    "1순위 가입기간",
+    "계약금 비율",
+    "거주 지역 요건",
+    "가점제·추첨제 비율"
+   ],
+   "geo": {
+    "lat": 37.554648,
+    "lng": 126.753023,
+    "precision": "exact",
+    "query": "인천광역시 계양구 동양동 458-3",
+    "matched": "인천광역시 계양구 동양동 458-3",
+    "source": "네이버 클라우드 플랫폼 Geocoding"
+   },
+   "account_months": 12,
+   "deposit_count": null,
+   "map_query": "인천광역시 계양구 동양동 458-3",
+   "sample": false
+  },
+  "profile": {
+   "_set": [
+    "spouseOwn",
+    "spouseIncome",
+    "spouseLoan",
+    "recentWin",
+    "acctAmount",
+    "cash",
+    "liquid",
+    "deposit",
+    "income",
+    "loanMonthly"
+   ]
+  },
+  "expect": {
+   "s": "ok"
+  },
+  "basis": "계양신도시 카이브 유보라(AC3BL) 입주자모집공고 (2026.10, 주택관리번호 2026000530) — 저장 원문 evidence/notices/2026000530.txt · 공고문 '거주의무기간이 적용되지 않습니다' · 1쪽 표 '비규제지역' · 전세 시세 있음"
+ },
+ {
+  "id": "duty0-04",
+  "fn": "duty",
+  "listing": null,
+  "raw": {
+   "id": "2026000530-084.3473A",
+   "name": "계양신도시 카이브 유보라(AC3BL)",
+   "address": "인천광역시 계양구 동양동 458-3번지 일원 (인천계양 테크노밸리 공공주택지구 AC3블록)",
+   "region": "인천",
+   "sigungu": "인천 계양구",
+   "sido": "인천",
+   "district": "계양구",
+   "supply_type": "APT",
+   "house_secd": "01",
+   "house_dtl": "민영",
+   "rent_secd": "분양주택",
+   "rental": false,
+   "land_lease": false,
+   "land_rent": null,
+   "land_rent_rate": null,
+   "special_apply": "2026-11-02",
+   "special_apply_end": "2026-11-02",
+   "kind": "일반분양 (특별공급·1순위)",
+   "category": "general",
+   "target": null,
+   "unit": "84A",
+   "area": 84.3473,
+   "households": 70,
+   "complex": {
+    "households": 614,
+    "buildings": 8,
+    "single": "no",
+    "status": "확인",
+    "src": "모집공고문 공급규모",
+    "quote": ": 아파트 지하 2층, 지상 15층 8개동 일반분양 614세대 [특별공급 353세대(기관추천 48세대, 다자녀가구 60세대, 신혼부부 73세대, 노부모부양 18세대, 생애최초 82세대, 신생아 48세대, 협의양도인"
+   },
+   "mc_quota": null,
+   "youth": null,
+   "resale": {
+    "months": 36,
+    "base": "당첨자 발표일",
+    "registration": false,
+    "until_reg": false,
+    "passed": false,
+    "none": false,
+    "forbidden": false
+   },
+   "score_ratio": {
+    "rows": [
+     {
+      "over": 60,
+      "upto": 85,
+      "score": 70,
+      "lottery": 30
+     },
+     {
+      "over": 85,
+      "upto": null,
+      "score": 80,
+      "lottery": 20
+     }
+    ]
+   },
+   "residence": {
+    "area": {
+     "name": "인천광역시",
+     "sido": "인천"
+    },
+    "months": 0,
+    "since": null,
+    "others": [
+     "서울",
+     "경기"
+    ]
+   },
+   "notice": "2026-10-23",
+   "apply": "2026-11-02",
+   "apply_end": "2026-11-04",
+   "winner": "2026-11-10",
+   "contract": "2026-11-23",
+   "balance": null,
+   "move_in": "2029-08",
+   "price": 8.26,
+   "ext": 0.0,
+   "pay_ratio": {
+    "contract": 0.05,
+    "mid": 0.6,
+    "balance": 0.35
+   },
+   "contract_split": null,
+   "contract_rate": 0.05,
+   "mid_rate": 0.6,
+   "mkt_low": 5.53,
+   "mkt_base": 5.9,
+   "mkt_note": "공고 위치 반경 2km 안 준공 10년 이내 같은 평형(84㎡) 매매 7건 기준 (최근 6개월) · 거래가 몰린 단지(인천계양코아루센트럴파크 7건)는 5건 몫으로 줄여 계산",
+   "mkt_count": 7,
+   "mkt_direct_excluded": 0,
+   "jeonse": 3.94,
+   "jeonse_note": "같은 구 준공 10년 이내 전세 30건 중앙값에서 입주장 할인 9%",
+   "capital": true,
+   "regulated": false,
+   "reg_kind": "비규제",
+   "land_permit": false,
+   "price_cap": true,
+   "residence_duty": null,
+   "duty_from": null,
+   "duty_silent": false,
+   "jeonse_weak": false,
+   "unregistered": true,
+   "need_head": false,
+   "need_account": true,
+   "limits": [
+    [
+     "재당첨 제한",
+     "10년"
+    ],
+    [
+     "실거주 의무",
+     "공고문 확인"
+    ],
+    [
+     "전매 제한",
+     "3년 (~29.11.10)"
+    ]
+   ],
+   "url": "https://www.applyhome.co.kr/ai/aia/selectAPTLttotPblancDetail.do?houseManageNo=2026000530&pblancNo=2026000530",
+   "notice_pdf": "https://static.applyhome.co.kr/ai/aia/getAtchmnfl.do?houseManageNo=2026000530&pblancNo=2026000530&atchmnflSeqNo=2002308&atchmnflSn=5",
+   "from_notice": [
+    "분양가상한제",
+    "전매 제한",
+    "재당첨 제한",
+    "1순위 가입기간",
+    "계약금 비율",
+    "거주 지역 요건",
+    "가점제·추첨제 비율"
+   ],
+   "geo": {
+    "lat": 37.554648,
+    "lng": 126.753023,
+    "precision": "exact",
+    "query": "인천광역시 계양구 동양동 458-3",
+    "matched": "인천광역시 계양구 동양동 458-3",
+    "source": "네이버 클라우드 플랫폼 Geocoding"
+   },
+   "account_months": 12,
+   "deposit_count": null,
+   "map_query": "인천광역시 계양구 동양동 458-3",
+   "sample": false
+  },
+  "profile": {
+   "_set": [
+    "spouseOwn",
+    "spouseIncome",
+    "spouseLoan",
+    "recentWin",
+    "acctAmount",
+    "cash",
+    "liquid",
+    "deposit",
+    "income",
+    "loanMonthly"
+   ]
+  },
+  "expect": {
+   "s": "check"
+  },
+  "basis": "계양신도시 카이브 유보라(AC3BL) 입주자모집공고 (2026.10, 주택관리번호 2026000530) — 저장 원문 evidence/notices/2026000530.txt · 거주의무를 못 읽음(예전) · 1쪽 표 '비규제지역' · 전세 시세 있음"
+ },
+ {
   "id": "contract-01",
   "fn": "contract",
   "listing": null,
