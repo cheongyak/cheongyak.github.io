@@ -44707,6 +44707,334 @@
   "basis": "의정부우정 A2 2026000409 — LH 표('계약금10%' 괄호 없음)는 읽지 않음 → 수집값 10% 그대로"
  },
  {
+  "id": "duty-01",
+  "fn": "duty",
+  "listing": null,
+  "raw": {
+   "id": "2026000528-084.7637A",
+   "name": "광교 자연앤 센트레빌(A17BL) 공공분양주택",
+   "address": "경기도 수원시 영통구 원천동 633번지 일원",
+   "region": "경기",
+   "sigungu": "수원시 영통구",
+   "sido": "경기",
+   "district": "수원시 영통구",
+   "supply_type": "APT",
+   "house_secd": "01",
+   "house_dtl": "국민",
+   "rent_secd": "분양주택",
+   "rental": false,
+   "land_lease": false,
+   "land_rent": null,
+   "land_rent_rate": null,
+   "special_apply": "2026-11-09",
+   "special_apply_end": "2026-11-09",
+   "kind": "일반분양 (특별공급·1순위)",
+   "category": "general",
+   "target": null,
+   "unit": "84A",
+   "area": 84.7637,
+   "households": 10,
+   "complex": {
+    "households": null,
+    "buildings": null,
+    "single": "unknown",
+    "status": "확인 불가",
+    "src": null
+   },
+   "mc_quota": {
+    "unknown": true
+   },
+   "youth": null,
+   "resale": {
+    "base": "당첨자 발표일",
+    "forbidden": false,
+    "months": 36,
+    "none": false,
+    "passed": false,
+    "registration": true,
+    "until_reg": false
+   },
+   "score_ratio": null,
+   "residence": {
+    "area": {
+     "name": "수원시",
+     "sigungu": "수원시"
+    },
+    "gyeonggi": {
+     "months": 24,
+     "since": "2024-10-30"
+    },
+    "months": 24,
+    "others": [
+     "서울",
+     "경기",
+     "인천"
+    ],
+    "quota": {
+     "경기": 20,
+     "기타": 50,
+     "해당": 30
+    },
+    "since": "2024-10-30"
+   },
+   "notice": "2026-10-30",
+   "apply": "2026-11-09",
+   "apply_end": "2026-11-11",
+   "winner": "2026-11-17",
+   "contract": "2026-12-21",
+   "balance": null,
+   "move_in": "2029-10",
+   "price": 9.493,
+   "ext": 0.0,
+   "pay_ratio": {
+    "balance": 0.3,
+    "contract": 0.1,
+    "mid": 0.6
+   },
+   "contract_split": null,
+   "contract_rate": 0.1,
+   "mid_rate": 0.6,
+   "mkt_low": 10.89,
+   "mkt_base": 14.85,
+   "mkt_note": "같은 동(원천동) 2km 안 준공 10년 이내 같은 평형(84㎡) 매매 54건 기준 (최근 6개월) · 거래가 몰린 단지(영흥숲푸르지오파크비엔 26건, 광교중흥에스클래스 17건, 광교아이파크 7건)는 5건 몫으로 줄여 계산",
+   "mkt_count": 54,
+   "mkt_direct_excluded": 3,
+   "jeonse": 6.08,
+   "jeonse_note": "같은 구 준공 10년 이내 전세 111건 중앙값에서 입주장 할인 9%",
+   "capital": true,
+   "regulated": true,
+   "reg_kind": "투기과열",
+   "land_permit": true,
+   "price_cap": true,
+   "residence_duty": 5,
+   "duty_from": null,
+   "duty_silent": false,
+   "jeonse_weak": false,
+   "unregistered": true,
+   "need_head": false,
+   "need_account": true,
+   "limits": [
+    [
+     "재당첨 제한",
+     "10년"
+    ],
+    [
+     "실거주 의무",
+     "공고문 확인"
+    ],
+    [
+     "전매 제한",
+     "3년(등기 시 풀림)"
+    ]
+   ],
+   "url": "https://www.applyhome.co.kr/ai/aia/selectAPTLttotPblancDetail.do?houseManageNo=2026000528&pblancNo=2026000528",
+   "notice_pdf": "https://static.applyhome.co.kr/ai/aia/getAtchmnfl.do?houseManageNo=2026000528&pblancNo=2026000528&atchmnflSeqNo=2012074&atchmnflSn=3",
+   "from_notice": [
+    "다자녀 지역 배정",
+    "세대주 요건",
+    "계약금 비율",
+    "분양가상한제",
+    "전매 제한",
+    "거주 지역 요건",
+    "재당첨 제한"
+   ],
+   "geo": {
+    "lat": 37.276123,
+    "lng": 127.052759,
+    "precision": "exact",
+    "query": "경기도 수원시 영통구 원천동 633",
+    "matched": "경기도 수원시 영통구 원천동 633",
+    "source": "네이버 클라우드 플랫폼 Geocoding"
+   },
+   "account_months": null,
+   "deposit_count": null,
+   "map_query": "경기도 수원시 영통구 원천동 633",
+   "sample": false
+  },
+  "profile": {
+   "_set": [
+    "spouseOwn",
+    "spouseIncome",
+    "spouseLoan",
+    "recentWin",
+    "acctAmount",
+    "cash",
+    "liquid",
+    "deposit",
+    "income",
+    "loanMonthly"
+   ]
+  },
+  "expect": {
+   "s": "cond"
+  },
+  "basis": "광교 자연앤 센트레빌(A17BL) 공공분양주택 입주자모집공고 (주택관리번호 2026000528) — 원문 evidence/notices/2026000528.txt 'Ⅰ 공급 규모·공급대상·공급가격 등' 공급금액 표 · 'Ⅰ 공급내역' 제한사항 표(전매제한) · ■ 공급신청 자격자 문장 · 거주 요건 '■ 본 아파트는 … 대규모 택지개발지구에서 공급하는 주택' 문장(99~100줄)과 '공급구분별 지역우선 공급물량 배정기준' 문단 · 제한사항 표 '거주의무 최초 입주가능일 5년' · 본문 '최초 입주가능일부터 3년 이내에 입주' — 공고문 거주의무 5년"
+ },
+ {
+  "id": "duty-02",
+  "fn": "duty",
+  "listing": null,
+  "raw": {
+   "id": "2026000528-084.7637A",
+   "name": "광교 자연앤 센트레빌(A17BL) 공공분양주택",
+   "address": "경기도 수원시 영통구 원천동 633번지 일원",
+   "region": "경기",
+   "sigungu": "수원시 영통구",
+   "sido": "경기",
+   "district": "수원시 영통구",
+   "supply_type": "APT",
+   "house_secd": "01",
+   "house_dtl": "국민",
+   "rent_secd": "분양주택",
+   "rental": false,
+   "land_lease": false,
+   "land_rent": null,
+   "land_rent_rate": null,
+   "special_apply": "2026-11-09",
+   "special_apply_end": "2026-11-09",
+   "kind": "일반분양 (특별공급·1순위)",
+   "category": "general",
+   "target": null,
+   "unit": "84A",
+   "area": 84.7637,
+   "households": 10,
+   "complex": {
+    "households": null,
+    "buildings": null,
+    "single": "unknown",
+    "status": "확인 불가",
+    "src": null
+   },
+   "mc_quota": {
+    "unknown": true
+   },
+   "youth": null,
+   "resale": {
+    "base": "당첨자 발표일",
+    "forbidden": false,
+    "months": 36,
+    "none": false,
+    "passed": false,
+    "registration": true,
+    "until_reg": false
+   },
+   "score_ratio": null,
+   "residence": {
+    "area": {
+     "name": "수원시",
+     "sigungu": "수원시"
+    },
+    "gyeonggi": {
+     "months": 24,
+     "since": "2024-10-30"
+    },
+    "months": 24,
+    "others": [
+     "서울",
+     "경기",
+     "인천"
+    ],
+    "quota": {
+     "경기": 20,
+     "기타": 50,
+     "해당": 30
+    },
+    "since": "2024-10-30"
+   },
+   "notice": "2026-10-30",
+   "apply": "2026-11-09",
+   "apply_end": "2026-11-11",
+   "winner": "2026-11-17",
+   "contract": "2026-12-21",
+   "balance": null,
+   "move_in": "2029-10",
+   "price": 9.493,
+   "ext": 0.0,
+   "pay_ratio": {
+    "balance": 0.3,
+    "contract": 0.1,
+    "mid": 0.6
+   },
+   "contract_split": null,
+   "contract_rate": 0.1,
+   "mid_rate": 0.6,
+   "mkt_low": 10.89,
+   "mkt_base": 14.85,
+   "mkt_note": "같은 동(원천동) 2km 안 준공 10년 이내 같은 평형(84㎡) 매매 54건 기준 (최근 6개월) · 거래가 몰린 단지(영흥숲푸르지오파크비엔 26건, 광교중흥에스클래스 17건, 광교아이파크 7건)는 5건 몫으로 줄여 계산",
+   "mkt_count": 54,
+   "mkt_direct_excluded": 3,
+   "jeonse": 6.08,
+   "jeonse_note": "같은 구 준공 10년 이내 전세 111건 중앙값에서 입주장 할인 9%",
+   "capital": true,
+   "regulated": true,
+   "reg_kind": "투기과열",
+   "land_permit": true,
+   "price_cap": true,
+   "residence_duty": null,
+   "duty_from": null,
+   "duty_silent": false,
+   "jeonse_weak": false,
+   "unregistered": true,
+   "need_head": false,
+   "need_account": true,
+   "limits": [
+    [
+     "재당첨 제한",
+     "10년"
+    ],
+    [
+     "실거주 의무",
+     "공고문 확인"
+    ],
+    [
+     "전매 제한",
+     "3년(등기 시 풀림)"
+    ]
+   ],
+   "url": "https://www.applyhome.co.kr/ai/aia/selectAPTLttotPblancDetail.do?houseManageNo=2026000528&pblancNo=2026000528",
+   "notice_pdf": "https://static.applyhome.co.kr/ai/aia/getAtchmnfl.do?houseManageNo=2026000528&pblancNo=2026000528&atchmnflSeqNo=2012074&atchmnflSn=3",
+   "from_notice": [
+    "다자녀 지역 배정",
+    "세대주 요건",
+    "계약금 비율",
+    "분양가상한제",
+    "전매 제한",
+    "거주 지역 요건",
+    "재당첨 제한"
+   ],
+   "geo": {
+    "lat": 37.276123,
+    "lng": 127.052759,
+    "precision": "exact",
+    "query": "경기도 수원시 영통구 원천동 633",
+    "matched": "경기도 수원시 영통구 원천동 633",
+    "source": "네이버 클라우드 플랫폼 Geocoding"
+   },
+   "account_months": null,
+   "deposit_count": null,
+   "map_query": "경기도 수원시 영통구 원천동 633",
+   "sample": false
+  },
+  "profile": {
+   "_set": [
+    "spouseOwn",
+    "spouseIncome",
+    "spouseLoan",
+    "recentWin",
+    "acctAmount",
+    "cash",
+    "liquid",
+    "deposit",
+    "income",
+    "loanMonthly"
+   ]
+  },
+  "expect": {
+   "s": "check"
+  },
+  "basis": "광교 자연앤 센트레빌(A17BL) 공공분양주택 입주자모집공고 (주택관리번호 2026000528) — 원문 evidence/notices/2026000528.txt 'Ⅰ 공급 규모·공급대상·공급가격 등' 공급금액 표 · 'Ⅰ 공급내역' 제한사항 표(전매제한) · ■ 공급신청 자격자 문장 · 거주 요건 '■ 본 아파트는 … 대규모 택지개발지구에서 공급하는 주택' 문장(99~100줄)과 '공급구분별 지역우선 공급물량 배정기준' 문단 · 제한사항 표 '거주의무 최초 입주가능일 5년' · 본문 '최초 입주가능일부터 3년 이내에 입주' — 거주의무를 못 읽음(예전)"
+ },
+ {
   "id": "lhrent-229",
   "fn": "lhrent",
   "notice": "SH-310650",
