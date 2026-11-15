@@ -412,7 +412,7 @@
    "reach": 3,
    "confidence": 2,
    "effort": "S",
-   "status": "merged",
+   "status": "merged_effective",
    "first_seen": "2026-11-10",
    "last_seen": "2026-11-11",
    "tries": 0,
@@ -421,7 +421,7 @@
     "how": "NODE_PATH=$(npm root -g) node tools/qa/score_input.cjs docs <사진 폴더> → score-input-dependents.png, 또는 cheongyakpass.kr 내 조건 > 가점 계산",
     "expect": "칸 이름 '부양가족 수 (나는 빼고 세요)'와 설명 첫 문장 '나(신청자)를 뺀 사람만'이 보임"
    },
-   "notes": "탐색 밤(11-10) 고름 · 2026-11-11 21:47Z 합침(3f6a800f), 기록 v1.87.3 은 손 세션이 씀. 효과 확인은 11-14 이후"
+   "notes": "탐색 밤(11-10) 고름 · 2026-11-11 21:47Z 합침(3f6a800f), 기록 v1.87.3 은 손 세션이 씀. 효과 확인은 11-14 이후 | 11-15 효과 확인: main docs/index.html 에 칸 이름 \"부양가족 수 (나는 빼고 세요)\"와 설명 \"나(신청자)를 빼고 아래에 해당하는 사람…\"(다른 눈 검토로 바뀐 문구)이 보임"
   },
   {
    "key": "manual:duty-firstmovein-row",
@@ -435,7 +435,7 @@
    "effort": "S",
    "status": "in_pr",
    "first_seen": "2026-11-11",
-   "last_seen": "2026-11-11",
+   "last_seen": "2026-11-15",
    "tries": 0,
    "pr": 123,
    "success_check": {
@@ -474,7 +474,7 @@
    "effort": "S",
    "status": "in_pr",
    "first_seen": "2026-11-12",
-   "last_seen": "2026-11-12",
+   "last_seen": "2026-11-15",
    "tries": 0,
    "pr": 127,
    "success_check": {
@@ -495,7 +495,7 @@
    "effort": "S",
    "status": "in_pr",
    "first_seen": "2026-11-13",
-   "last_seen": "2026-11-13",
+   "last_seen": "2026-11-15",
    "tries": 1,
    "pr": 131,
    "success_check": {
