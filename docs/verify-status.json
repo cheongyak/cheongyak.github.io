@@ -1,48 +1,53 @@
 {
- "at": "2026-11-15 11:11",
+ "at": "2026-11-16 07:39",
  "ok": true,
- "collect_run": "2026-11-15 · 공고 287건",
+ "collect_run": "2026-11-16 · 공고 287건",
  "banner": null,
  "flagged": {},
- "pending": [],
+ "pending": [
+  "임대 기관 거르기 화면",
+  "경고 범위 화면",
+  "임대 판정",
+  "임대 화면"
+ ],
  "coverage_missing": 0,
  "observe": [],
  "warnings": [],
  "freshness": [
   {
    "name": "분양",
-   "updated": "2026-11-15 07:24",
-   "hours": 3.8,
+   "updated": "2026-11-16 07:24",
+   "hours": 0.3,
    "stale": false
   },
   {
    "name": "LH 임대",
    "updated": "2026-11-15 10:17",
-   "hours": 0.9,
+   "hours": 21.4,
    "stale": false
   },
   {
    "name": "SH 임대",
    "updated": "2026-11-15 10:21",
-   "hours": 0.8,
+   "hours": 21.3,
    "stale": false
   },
   {
    "name": "GH 임대",
    "updated": "2026-11-15 10:22",
-   "hours": 0.8,
+   "hours": 21.3,
    "stale": false
   },
   {
    "name": "공공지원 민간임대",
    "updated": "2026-11-15 10:30",
-   "hours": 0.7,
+   "hours": 21.2,
    "stale": false
   },
   {
    "name": "LH 주거복지·신혼희망",
    "updated": "2026-11-15 10:21",
-   "hours": 0.8,
+   "hours": 21.3,
    "stale": false
   }
  ],
@@ -58,7 +63,12 @@
  "golden": {
   "mismatches": []
  },
- "qa_stale": [],
+ "qa_stale": [
+  "rent-org.json",
+  "verify-scope.json",
+  "lh-qa.json",
+  "lh-screen.json"
+ ],
  "qa": {
   "gate": true,
   "supply_type_fails": 0,
@@ -76,19 +86,19 @@
   "e2e_fails": 0,
   "past_chat_fails": 0,
   "lh_invariant_violations": 0,
-  "lh_judge_qa_fails": 0,
-  "lh_screen_fails": 0,
+  "lh_judge_qa_fails": null,
+  "lh_screen_fails": null,
   "lh_unread": 0,
   "lh_pdf_merged_wrong": 0,
   "pay_audit_bad": 0,
   "parse_moved_changes": 0,
   "coverage_missing": 0,
-  "verify_scope_fails": 0,
+  "verify_scope_fails": null,
   "pay_audit_read": "183/200",
   "lh_data_at": "2026-11-15 10:17",
   "cross_rule_checks": 289732,
-  "market_at": "2026-11-15",
+  "market_at": "2026-11-16",
   "supply_type_at": "2026-11-15",
-  "invariants_at": "2026-11-15"
+  "invariants_at": "2026-11-16"
  }
 }
