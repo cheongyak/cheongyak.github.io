@@ -1,14 +1,28 @@
 {
- "date": "2026-11-17 07:38",
- "data_updated": "2026-11-16 15:19",
- "notices": 71,
- "violations": {},
- "count": 0,
+ "date": "2026-11-17 08:10",
+ "data_updated": "2026-11-17 08:03",
+ "notices": 78,
+ "violations": {
+  "terms_unread": {
+   "count": 2,
+   "examples": [
+    "0000061210 공공임대 파주운정A20BL(산내2) 10년 공공임대주택리츠 예비",
+    "0000061212 공공임대 파주운정A4BL(별하람3) 10년 공공임대주택리츠 예비"
+   ],
+   "ids": [
+    "0000061210",
+    "0000061212"
+   ]
+  }
+ },
+ "count": 2,
  "info": {
   "public_unread": {
-   "count": 1,
+   "count": 3,
    "examples": [
-    "2015122300021022 regions=None account={'months': 6, 'count': 6, 'rank2_any': True}"
+    "2015122300021022 regions=None account={'months': 6, 'count': 6, 'rank2_any': True}",
+    "0000061210 regions=None account=None",
+    "0000061212 regions=None account=None"
    ]
   },
   "unknown_groups": {
@@ -19,6 +33,6 @@
   }
  },
  "_data": {
-  "lh": "9a5f8907bf0f"
+  "lh": "d4d2227a520c"
  }
 }

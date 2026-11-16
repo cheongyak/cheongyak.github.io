@@ -1,5 +1,5 @@
 {
- "date": "2026-11-17 07:41",
+ "date": "2026-11-17 08:11",
  "golden_notices": 54,
  "stat": {
   "pypdf": {
@@ -41,10 +41,10 @@
  },
  "merged_wrong": 0,
  "coverage": {
-  "pypdf": 71,
-  "pdfium": 71,
-  "plumber": 71,
-  "notices": 71
+  "pypdf": 78,
+  "pdfium": 78,
+  "plumber": 78,
+  "notices": 78
  },
  "wrong": [
   "plumber 2015122300020453 일반.asset_manwon: 읽음 34500 ≠ 정답 'excluded'",
@@ -59,5 +59,8 @@
   "0000061201 임대조건: plumber 가 pypdf 금액 줄을 모두 포함하고 1줄 더 읽음 → plumber",
   "2015122300021018 일반.asset_manwon: majority pypdf='excluded', pdfium='excluded', plumber=34500"
  ],
- "conflicts": []
+ "conflicts": [],
+ "_data": {
+  "lh": "d4d2227a520c"
+ }
 }
