@@ -2078,118 +2078,6 @@
   "notice_pdf": "https://static.applyhome.co.kr/ai/aia/getAtchmnfl.do?houseManageNo=2026000505&pblancNo=2026000505&atchmnflSeqNo=2012203&atchmnflSn=4",
   "v": 58
  },
- "2026000507": {
-  "found": {
-   "account_months": 6,
-   "complex": {
-    "buildings": 7,
-    "households": 525,
-    "quote": ": 아파트 지하 3층, 지상 29층 7개동 총 525세대 중 조합원취소분 39세대 ■ 입주시기 : 2027년 09월 예정(정확한 입주일자는 추후 통보함) ■ 공급대상 (단위 : ㎡, 세대) 주택 관리번호 모델 주택"
-   },
-   "contract_split": {
-    "first_won": 5000000,
-    "rest_within": "20일",
-    "rows": 24
-   },
-   "facts": {
-    "asset_thousand": {
-     "부동산": [],
-     "부동산_만원": [],
-     "자동차": []
-    },
-    "deposit_rows": {
-     "102": {
-      "metro": 400,
-      "other": 300,
-      "seoul_busan": 600
-     },
-     "135": {
-      "metro": 700,
-      "other": 400,
-      "seoul_busan": 1000
-     },
-     "85": {
-      "metro": 250,
-      "other": 200,
-      "seoul_busan": 300
-     },
-     "all": {
-      "metro": 1000,
-      "other": 500,
-      "seoul_busan": 1500
-     }
-    },
-    "income_rows": {},
-    "price_seen": {
-     "059.9782C": true,
-     "059.9823": true,
-     "084.9413B": true,
-     "084.9620A": true
-    }
-   },
-   "need_head": false,
-   "pay_ratio": {
-    "balance": 0.35,
-    "contract": 0.05,
-    "mid": 0.6
-   },
-   "price_cap": false,
-   "quotes": {
-    "account_months": "…1순위 : 입주자저축에 가입하여 가입기간이 6개월이 경과하고 지역별·면적별 예치금액 이상 납입한 분 ※ 2순위 : 입주자저축에…",
-    "need_head": "…자격요건 1순위(6개월 이상, 지역별·면적별 예치금 충족) 가입 세대주 요건 - - 소득 또는 자산기준 - - ※ 1순위 : 입주자저축에 가입하여 가입기간이…",
-    "pay_ratio": "…층 해당 세대수 공급금액 계약금(5%) 중도금(60%) 잔금(35%) 대지비 건축비 분양가 1차 2차 1회(20%)…",
-    "price_cap": "…민간택지에서 공급하는 분양가상한제 미적용 민영주택으로, 당첨자로 선정되더라도 「주택공급에 관한 규칙」…",
-    "resale": "…같습니다. 구분 일반공급 전매제한기간 당첨자발표일(2026.11.02.)로부터 6개월 ※ 본 아파트의 당첨자로 선정 시 당첨자 및 그 세대에 속한 자(배우자,…",
-    "residence": "…3300 주택유형 해당지역 기타지역 규제지역여부 민영 부산광역시 1년 이상 계속 거주자 (2025.10.16. 이전부터 계속 거주) 부산광역시 1년 미만 계속 거주자 및 울산광역시, 경상남도 거주자 비규제지역 재당첨제한 전매제한 거주의무기간 분…",
-    "residence_duty": "(1쪽 단지 주요정보 표) 전매제한 거주의무기간 분양가상한제 택지유형 없음 6개월 없음 미적용 민간택지",
-    "rewin_years": "…관한 규칙」 제54조에 따 른 재당첨 제한을 적용받지 않으며, 기존 주택 당첨으로 인해 재당첨 제한 기간 내에 있는 분 및 그 세대에…",
-    "score_ratio": "…전용면적별 1순위 가점제/추첨제 적용비율 구분 가점제 추첨제 전용면적 60㎡ 이하 40% 60% 전용면적 60㎡ 초과 85㎡ 이하 40% 60% - 가점 산정기준(「주택공급에 관한 규칙」 별표1의2 나목) - 10 - ※ 2024.03.25. 시행된 「주택공급에 관한 규칙」 별표1의2 나목에 따라 가점제…"
-   },
-   "resale": {
-    "base": "2026-11-02",
-    "forbidden": false,
-    "months": 6,
-    "none": false,
-    "passed": false,
-    "registration": false,
-    "until_reg": false
-   },
-   "residence": {
-    "area": {
-     "name": "부산광역시",
-     "sido": "부산"
-    },
-    "months": 12,
-    "others": [
-     "부산",
-     "울산",
-     "경남"
-    ],
-    "since": "2025-10-16"
-   },
-   "residence_duty": 0,
-   "rewin_years": 0,
-   "score_ratio": {
-    "rows": [
-     {
-      "lottery": 60,
-      "over": 0,
-      "score": 40,
-      "upto": 60
-     },
-     {
-      "lottery": 60,
-      "over": 60,
-      "score": 40,
-      "upto": 85
-     }
-    ]
-   }
-  },
-  "name": "광안센텀 비스타동원(조합원 취소분)",
-  "notice_pdf": "https://static.applyhome.co.kr/ai/aia/getAtchmnfl.do?houseManageNo=2026000507&pblancNo=2026000507&atchmnflSeqNo=1999025&atchmnflSn=5",
-  "v": 58
- },
  "2026000508": {
   "found": {
    "account_months": 24,
@@ -7679,130 +7567,6 @@
   "notice_pdf": "https://static.applyhome.co.kr/ai/aia/getAtchmnfl.do?houseManageNo=2026910269&pblancNo=2026910269&atchmnflSeqNo=2006145&atchmnflSn=2",
   "v": 58
  },
- "2026910270": {
-  "found": {
-   "complex": {
-    "buildings": 3,
-    "households": 299,
-    "quote": ": 아파트 지하 7층, 지상 25층 3개동 총 299세대(토지등소유자 17세대, 보류지 2세대, 임대 94세대 포함) 중 일반분양 186세대 중 잔여 9세대 ■ 입주시기 : 2030년 05월 예정(정확한 입주일자는"
-   },
-   "contract_split": {
-    "first_won": 50000000,
-    "rest_within": "15일",
-    "rows": 6
-   },
-   "facts": {
-    "asset_thousand": {
-     "부동산": [],
-     "부동산_만원": [],
-     "자동차": []
-    },
-    "deposit_rows": {},
-    "income_rows": {},
-    "price_seen": {
-     "084.9972A": true
-    }
-   },
-   "need_head": false,
-   "pay_ratio": {
-    "balance": 0.3,
-    "contract": 0.1,
-    "mid": 0.6
-   },
-   "price_cap": false,
-   "quotes": {
-    "need_head": "…무순위(사후) 입주자모집공고일 현재 서울특별시에 거주하는 무주택세대구성원 재당첨제한 전매제한 거주의무기간 분양가상한제 10년 최초 당첨자…",
-    "pay_ratio": "…해당 세대수 공급금액 계약금(10%) 중도금(60%) 잔금(30%) 대지비 건축비 계 1차 2차 1회(10%)…",
-    "price_cap": "…민간택지에서 공급하는 분양가상한제 미적용 민영주택으로 기존 주택 당첨으로 인해 재당첨 제한 기간 내에 있는 분 및 그…",
-    "resale": "…바랍니다. ■ 본 주택의 전매제한은 최초 입주자모집공고의 당첨자발표일(2026.08.31.)로부터 3년간(단, 3년 내 소유권이전등기 시 해제) 적용됩니다. - 4 - 3 공급대상 및 공급금액 ■ 공급위치 : 서울특별시 중구…",
-    "residence": "…(사후) 입주자모집공고일 현재 서울특별시에 거주하는 무주택세대구성원 재당첨제한 전매제한 거주의…",
-    "residence_duty": "(1쪽 단지 주요정보 표) 재당첨제한 전매제한 거주의무기간 분양가상한제 10년 최초 당첨자 발표일(2026.08.31.)로부터 3년 없음 미적용 구분",
-    "rewin_years": "…거주하는 무주택세대구성원 재당첨제한 전매제한 거주의무기간 분양가상한제 10년 최초 당첨자 발표일(2026.08.31.)로부터 3년 없음…"
-   },
-   "resale": {
-    "base": "2026-08-31",
-    "forbidden": false,
-    "months": 36,
-    "none": false,
-    "passed": false,
-    "registration": true,
-    "until_reg": false
-   },
-   "residence": {
-    "area": {
-     "name": "서울특별시",
-     "sido": "서울"
-    },
-    "equal": true,
-    "months": 0,
-    "others": [],
-    "since": null
-   },
-   "residence_duty": 0,
-   "rewin_years": 10
-  },
-  "name": "충정로역자이르네(2차)",
-  "notice_pdf": "https://static.applyhome.co.kr/ai/aia/getAtchmnfl.do?houseManageNo=2026910270&pblancNo=2026910270&atchmnflSeqNo=2002061&atchmnflSn=5",
-  "v": 58
- },
- "2026910271": {
-  "found": {
-   "facts": {
-    "asset_thousand": {
-     "부동산": [],
-     "부동산_만원": [],
-     "자동차": []
-    },
-    "deposit_rows": {},
-    "income_rows": {},
-    "price_seen": {
-     "084.9600B": true,
-     "084.9900A": true,
-     "084.9900C": true,
-     "109.9900A": true
-    }
-   },
-   "need_head": false,
-   "pay_ratio": {
-    "balance": 0.9,
-    "contract": 0.1,
-    "mid": 0.0
-   },
-   "price_cap": false,
-   "quotes": {
-    "need_head": "…) 민영 비규제지역 무순위 사후 입주자모집공고일 현재 전국에 거주하는 무주택세대구성원( ) 재당첨제한 전매제한 거주의무기간 분양가상한제 없음 최초…",
-    "pay_ratio": "…구분 층 세대수 공급금액 계약금(10%) 잔금(90%) 대지비 건축비 부가가치세 합계 계약 시…",
-    "price_cap": "(1쪽 단지 주요정보 표) 재당첨제한 전매제한 거주의무기간 분양가상한제 없음 최초 당첨자발표일 로부터 년간(22.03.02) 3 적용되어 현재 전매제한기간 도과 없음 미적용 구분",
-    "resale": "…분양가상한제 없음 최초 당첨자발표일 로부터 년간(22.03.02) 3 적용되어 현재 전매제한기간 도과 없음 미적용 구분 최초 입주자모집공고일 무순위 사후( )…",
-    "residence": "…위 사후 입주자모집공고일 현재 전국에 거주하는 무주택세대구성원( ) 재당첨제한 전매제한…",
-    "residence_duty": "(1쪽 단지 주요정보 표) 재당첨제한 전매제한 거주의무기간 분양가상한제 없음 최초 당첨자발표일 로부터 년간(22.03.02) 3 적용되어 현재 전매제한기간 도과 없음 미적용 구분",
-    "rewin_years": "…무주택세대구성원( ) 재당첨제한 전매제한 거주의무기간 분양가상한제 없음 최초 당첨자발표일 로부터 년간(22.03.02) 3 적용되어 현재…"
-   },
-   "resale": {
-    "base": "2022-03-02",
-    "forbidden": false,
-    "months": 36,
-    "none": false,
-    "passed": true,
-    "registration": false,
-    "until_reg": false
-   },
-   "residence": {
-    "area": null,
-    "equal": true,
-    "months": 0,
-    "others": [
-     "전국"
-    ],
-    "since": null
-   },
-   "residence_duty": 0,
-   "rewin_years": 0
-  },
-  "name": "힐스테이트 레이크 송도 4차(2차)",
-  "notice_pdf": "https://static.applyhome.co.kr/ai/aia/getAtchmnfl.do?houseManageNo=2026910271&pblancNo=2026910271&atchmnflSeqNo=2001042&atchmnflSn=3",
-  "v": 58
- },
  "2026910272": {
   "found": {
    "complex": {
@@ -9081,6 +8845,76 @@
   },
   "name": "이천자이 더 리체",
   "notice_pdf": "https://static.applyhome.co.kr/ai/aia/getAtchmnfl.do?houseManageNo=2026910293&pblancNo=2026910293&atchmnflSeqNo=2019012&atchmnflSn=4",
+  "v": 58
+ },
+ "2026910296": {
+  "found": {
+   "complex": {
+    "buildings": 14,
+    "households": 1963,
+    "quote": ": 아파트 지하 7층, 지상 36층 14개동 총 1,963세대 중 1회차 356세대의 잔여 129세대 ■ 입주시기 : 2030년 08월 예정(정확한 입주일자는 추후 통보함) ■ 공급대상 ■ 공급금액 및 납부일정 ["
+   },
+   "contract_split": {
+    "first_won": 5000000,
+    "rest_within": "30일",
+    "rows": 21
+   },
+   "facts": {
+    "asset_thousand": {
+     "부동산": [],
+     "부동산_만원": [],
+     "자동차": []
+    },
+    "deposit_rows": {},
+    "income_rows": {},
+    "price_seen": {
+     "084.9469B": true,
+     "112.9922A": true,
+     "132.9820A": true,
+     "138.9652P": true,
+     "165.9676P": true
+    }
+   },
+   "need_head": false,
+   "pay_ratio": {
+    "balance": 0.35,
+    "contract": 0.05,
+    "mid": 0.6
+   },
+   "price_cap": false,
+   "quotes": {
+    "need_head": "…민영 비규제지역 무순위(사후) 입주자모집공고일 현재 경상남도에 거주하는 무주택세대구성원 재당첨제한 전매제한 거주의무기간 분양가상한제 없음 없음 없음 미적용…",
+    "pay_ratio": "…해당 세대수 공급금액 계약금(5%) 중도금 (60%) 잔금(35%) 대지비 건축비 부가세 계 계약시 30일 내…",
+    "price_cap": "(1쪽 단지 주요정보 표) 재당첨제한 전매제한 거주의무기간 분양가상한제 없음 없음 없음 미적용 구분",
+    "resale": "…거주하는 무주택세대구성원 재당첨제한 전매제한 거주의무기간 분양가상한제 없음 없음 없음 미적용 구분 최초 입주자모집공고일 무순위(사후) 입주자모집공고일…",
+    "residence": "…(사후) 입주자모집공고일 현재 경상남도에 거주하는 무주택세대구성원 재당첨제한 전매제한 거주의…",
+    "residence_duty": "(1쪽 단지 주요정보 표) 재당첨제한 전매제한 거주의무기간 분양가상한제 없음 없음 없음 미적용 구분",
+    "rewin_years": "…거주하는 무주택세대구성원 재당첨제한 전매제한 거주의무기간 분양가상한제 없음 없음 없음 미적용 구분 최초 입주자모집공고일 무순위(사후)…"
+   },
+   "resale": {
+    "base": null,
+    "forbidden": false,
+    "months": 0,
+    "none": true,
+    "passed": false,
+    "registration": false,
+    "until_reg": false
+   },
+   "residence": {
+    "area": {
+     "name": "경상남도",
+     "sido": "경남"
+    },
+    "equal": true,
+    "months": 0,
+    "others": [],
+    "since": null
+   },
+   "residence_duty": 0,
+   "rewin_years": 0
+  },
+  "name": "힐스테이트 거제시그니처(1회차)",
+  "notice_pdf": "https://static.applyhome.co.kr/ai/aia/getAtchmnfl.do?houseManageNo=2026910296&pblancNo=2026910296&atchmnflSeqNo=2024017&atchmnflSn=1",
   "v": 58
  },
  "2026910297": {
