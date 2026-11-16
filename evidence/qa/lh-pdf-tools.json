@@ -1,5 +1,5 @@
 {
- "date": "2026-11-16 08:18",
+ "date": "2026-11-16 10:28",
  "golden_notices": 51,
  "stat": {
   "pypdf": {
@@ -41,10 +41,10 @@
  },
  "merged_wrong": 0,
  "coverage": {
-  "pypdf": 39,
-  "pdfium": 39,
-  "plumber": 39,
-  "notices": 39
+  "pypdf": 51,
+  "pdfium": 51,
+  "plumber": 51,
+  "notices": 51
  },
  "wrong": [
   "plumber 2015122300020453 일반.asset_manwon: 읽음 34500 ≠ 정답 'excluded'",
@@ -61,6 +61,6 @@
  ],
  "conflicts": [],
  "_data": {
-  "lh": "042d47bdd2ac"
+  "lh": "4342a4ecd16a"
  }
 }
