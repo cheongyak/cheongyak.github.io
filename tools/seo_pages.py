@@ -1053,6 +1053,44 @@ def about_pages(eng: dict) -> list[tuple]:
 
 
 # ── 첫 화면 (앱이 뜨기 전 일반 HTML) ─────────────────────────────────────────────
+# 기능 seo_home (2026-11-16 운영자: 애드센스 미승인 '게시자 콘텐츠가 없는 화면'·'가치가 별로 없는 콘텐츠' — 첫 화면 초기 HTML 에 서비스 설명과 가이드 링크를 충실히).
+# 앱이 뜨면 덮이는 글이라 화면 기능은 그대로다. 끄면 예전 블록과 글자 하나 다르지 않다.
+HOME_GUIDES = ["score-calc", "account-first-rank", "special-overview", "musunwi", "nohome-period", "dependents", "income-asset-table",
+               "public-sale-basics", "private-sale-basics", "down-payment", "residence-priority", "rewin-limit"]
+HOME_FOOT = ('<p class="small"><a href="/story/">만든 이유</a> · <a href="/about/">이용 안내</a> · <a href="/privacy/">개인정보처리방침</a> · <a href="/terms/">이용약관</a></p>')
+
+
+def home_extra(eng: dict) -> str:
+    if not feature("seo_home"):
+        return ""
+    rules, names = eng.get("rules", {}), eng.get("names", {})
+    h2 = lambda t: f'<h2 style="font-size:16px">{t}</h2>'
+    gs = {g["slug"]: g for g in guide_list()}
+    pick = [gs[x] for x in HOME_GUIDES if x in gs]
+    out = (h2("청약패스로 할 수 있는 일")
+           + "<ul>"
+             "<li><b>신청 자격 판정</b> — 나이·무주택 기간·청약통장·소득·자산 같은 내 조건을 한 번 넣어 두면, 공고마다 일반공급 1·2순위와 특별공급(신혼부부·생애최초·다자녀·신생아·노부모 부양·기관추천)에 신청할 수 있는지를 그 공고의 모집공고문 기준으로 따져 보여 줘요. 넣은 조건은 내 기기에만 저장돼요.</li>"
+             "<li><b>시세 대비 마진과 등급</b> — 분양가에 취득세 추정을 더한 매입가를, 국토교통부 실거래가로 계산한 주변 추정 시세와 비교해 주택형마다 등급으로 정리해요.</li>"
+             "<li><b>필요한 자금</b> — 계약금·중도금·잔금을 내는 일정과 금액을 공고문에서 읽어 당첨되면 언제 얼마가 필요한지 보여 줘요.</li>"
+             "<li><b>당첨되면 걸리는 조건</b> — 재당첨 제한, 전매 제한, 실거주 의무처럼 계약 뒤에 따라오는 조건을 공고마다 정리해요.</li>"
+             "<li><b>임대 공고</b> — LH·SH 등 공공임대 공고의 신청 자격(무주택·소득·자산·자동차)과 보증금·임대료도 함께 볼 수 있어요.</li>"
+             "</ul>")
+    if rules and names:
+        out += (h2("등급은 이렇게 정해요")
+                + f"<p>보수 시세(하위 25%) 기준으로 시세와 매입가의 차이가 {rules.get('lottoAbs', 5):g}억 원 이상이거나 매입가의 {round(rules.get('lottoRate', 0.3) * 100)}% 이상이면 '{e(names.get('lotto', ''))}', "
+                  f"{rules.get('considerAbs', 1):g}억 원 이상이면 '{e(names.get('consider', ''))}', 0원 이상이면 '{e(names.get('flat', ''))}', 그보다 낮으면 '{e(names.get('pass', ''))}', 비교할 거래가 부족하면 '{e(names.get('unknown', ''))}'{ieyo(names.get('unknown', ''))}. "
+                  "등급은 세전 추정이고 확정 수익이 아니에요. 당첨 가능성이나 투자 가치를 말하는 것이 아니고, 특정 공고 신청을 권하지 않아요. 자세한 기준은 <a href=\"/about/policy/\">판정·편집 원칙</a>에 있어요.</p>")
+    out += (h2("데이터와 검증")
+            + "<p>공고는 청약홈(한국부동산원) 공고와 모집공고문 원문에서, 시세는 국토교통부 실거래가에서 매일 새벽에 모아요. 판정 규칙은 「주택공급에 관한 규칙」 등 법령과 모집공고문 원문으로 검증하고, "
+              "기준 이하·초과 같은 경계값 사례를 따로 계산해 화면 판정과 매일 대조해요. 공고문에서 읽지 못해 추정한 값은 '추정'이라고 표시해요. 어떤 자료를 어디서 가져오는지는 <a href=\"/about/sources/\">데이터 출처</a>에 적어 두었어요.</p>")
+    if pick:
+        out += (h2("청약 가이드")
+                + f"<p>청약을 처음 준비하는 분을 위해 법령 원문을 기준으로 정리한 해설 {len(gs) + 2}편이에요. 가점 계산, 청약통장 1순위 조건, 특별공급 종류부터 읽어 보세요.</p>"
+                + "<ul>" + "".join(f'<li><a href="/guide/{g["slug"]}/">{e(g["title"])}</a> <span class="small muted">— {e(g["desc"])}</span></li>' for g in pick)
+                + '<li><a href="/guide/">청약 가이드 전체 보기</a></li></ul>')
+    return out
+
+
 def prerender_block(recs: OrderedDict, eng: dict) -> str:
     wk = (date.fromisoformat(TODAY) - timedelta(days=7)).isoformat()
     new_today = {k for k, r in recs.items() if r["live"] and r["units"][0].get("notice") == TODAY}   # 화면 '새 공고'와 같은 기준(모집공고일)
@@ -1068,7 +1106,9 @@ def prerender_block(recs: OrderedDict, eng: dict) -> str:
             + (f" 접수 예정·접수 중인 주택형 {n}개의 청약패스 등급은 {summ}{ieyo(summ)}(분양가+취득세 추정과 실거래 추정 시세의 차이, 세전 추정)." if n else "") + "</p>"
             "<p>청약패스는 청약홈 모집공고마다 내 조건으로 신청 자격(일반·특별공급), 시세 대비 마진, 필요한 자금을 계산해 보여 주는 서비스예요. 판정은 참고용이고 신청 전 모집공고문을 꼭 확인하세요.</p>"
             f"<h2 style=\"font-size:16px\">최근 공고 20곳</h2><ul>{li}</ul>"
+            + home_extra(eng) +
             '<p><a href="/notice/">청약 공고 모아 보기</a> · <a href="/rental/">임대 공고</a> · <a href="/guide/">청약 가이드</a> · <a href="/about/operator/">운영자 소개</a> · <a href="/about/policy/">판정·편집 원칙</a> · <a href="/about/sources/">데이터 출처</a></p>'
+            + (HOME_FOOT if feature("seo_home") else "") +
             f"</div>{MARK_B}")
 
 
