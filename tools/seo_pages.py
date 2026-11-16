@@ -29,6 +29,8 @@ ENGINE = ROOT / "tools" / "seo_engine.json"
 GRADES = DOCS / "archive" / "seo-grades.json"
 GUIDES = ROOT / "tools" / "guides"
 KEEP_DAYS = 365   # 마감 공고 페이지 보관 (archive/past.json 의 1년 보관 규칙과 같게)
+SITEMAP_CLOSED_DAYS = 30   # 기능 sitemap_recent: 마감 공고는 마지막 일정(당첨자 발표·접수 마감) 뒤 이 날수까지만 sitemap 에
+SITEMAP_SKIP: set = set()   # build_all 이 채운다 — sitemap 에서 뺄 공고 페이지 경로
 CONTENT_DATE = "2026-11-05"   # 가이드·신뢰 페이지 글을 고친 날 (sitemap lastmod) — 글을 고치면 함께 바꾼다
 MARK_A, MARK_B = "<!--seo:start-->", "<!--seo:end-->"
 
@@ -1123,6 +1125,20 @@ def set_prerender(block: str) -> None:
         p.write_text(s2, encoding="utf-8")
 
 
+def sitemap_skip(recs: OrderedDict) -> set:
+    """기능 sitemap_recent (2026-11-16 운영자: 마감된 오래된 공고까지 전부 sitemap 에 넣지 말 것): sitemap 에서 뺄 공고 페이지 경로.
+    접수 예정·접수 중과 최근 마감(마지막 일정 = 당첨자 발표·접수 마감 뒤 SITEMAP_CLOSED_DAYS 일 안)만 싣는다. 페이지는 그대로 두고(목록·관련 공고에서 이어짐) sitemap 에서만 뺀다. 끄면 전부 싣는다."""
+    if not feature("sitemap_recent"):
+        return set()
+    skip = set()
+    for nid, r in recs.items():
+        L = r["units"][0]
+        last = max([x for x in [L.get("winner"), L.get("apply_end"), L.get("apply"), L.get("notice")] if x] or ["9999"])[:10]
+        if r["closed"] and days_ago(last) > SITEMAP_CLOSED_DAYS:
+            skip.add(f"notice/{nid}/")
+    return skip
+
+
 # ── 전체 ────────────────────────────────────────────────────────────────────
 def clean() -> None:
     """스위치가 꺼지면 이 기능이 만든 것만 지운다 (notice/ 는 notice_pages 가 다시 만든다)."""
@@ -1134,9 +1150,11 @@ def clean() -> None:
 
 def build_all() -> list[tuple[str, str]]:
     """만든 페이지 (경로, lastmod) 목록. notice/ 폴더는 통째로 다시 만든다."""
+    SITEMAP_SKIP.clear()
     recs, eng = gather()
     update_grades(recs)
     recs, eng = gather()   # 방금 남긴 등급을 마감 공고 복기에 반영
+    SITEMAP_SKIP.update(sitemap_skip(recs))
     out: list[tuple[str, str]] = []
 
     def write(slug, t, d, b, h, c, lm):

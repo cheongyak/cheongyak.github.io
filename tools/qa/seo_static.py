@@ -71,6 +71,12 @@ def link_ok(href: str) -> bool:
 def run() -> dict:
     res = {"pages": 0, "by_kind": {}, "short": [], "forbidden": [], "broken": [], "ld_bad": [], "ld_missing": [], "not_in_sitemap": [], "prose_min": {}, "live_notice_prose": []}
     sm = (DOCS / "sitemap.xml").read_text(encoding="utf-8") if (DOCS / "sitemap.xml").exists() else ""
+    try:
+        from tools import seo_pages
+        skip = seo_pages.sitemap_skip(seo_pages.gather()[0])
+    except Exception:
+        skip = set()
+    res["sitemap_skipped"] = len(skip)
     locs = {unquote(x) for x in re.findall(r"<loc>https://cheongyakpass\.kr/([^<]*)</loc>", sm)}
     no_lastmod = sm.count("<url>") - sm.count("<lastmod>")
     for p in pages():
@@ -103,8 +109,10 @@ def run() -> dict:
         if k == "notice" and not {"FAQPage", "BreadcrumbList"} <= types and "seo-content" not in res:
             res["ld_missing"].append(rel)
         slug = rel[: -len("index.html")]
-        if slug not in locs:
+        if slug not in locs and slug not in skip:   # 기능 sitemap_recent: 오래된 마감 공고는 일부러 sitemap 에서 뺀다
             res["not_in_sitemap"].append(slug)
+        if slug in locs and slug in skip:
+            res["not_in_sitemap"].append(slug + " (오래된 마감 공고인데 sitemap 에 있음)")
     res["sitemap_urls"] = len(locs)
     res["sitemap_no_lastmod"] = no_lastmod
     res["ok"] = not (res["short"] or res["forbidden"] or res["broken"] or res["ld_bad"] or res["ld_missing"] or res["not_in_sitemap"] or no_lastmod)

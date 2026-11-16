@@ -4,6 +4,14 @@
 2026-09-29 12:55 이전 항목은 규칙을 만들기 전 작업을 커밋 기록으로 정리한 것이라 백업 브랜치가 없어요.
 그 시점으로 되돌릴 때는 해당 커밋 번호로 `git revert` 를 써요.
 
+## 2026-11-16 11:00 · 애드센스 대응 ③ sitemap 의 공고 페이지를 접수 예정·접수 중·최근 마감(30일)으로 줄임 (기능 sitemap_recent)
+- 요청: 운영자 '애드센스 미승인(게시자 콘텐츠가 없는 화면에 광고 · 가치가 별로 없는 콘텐츠) — 4가지를 순서대로 수정' — 3. 마감된 오래된 공고까지 전부 sitemap.xml 에 넣지 말고 접수 예정·접수 중·최근 마감 위주로
+- 변경: tools/seo_pages.sitemap_skip — 마감 공고 가운데 마지막 일정(당첨자 발표 → 접수 마감 → 공고일 순으로 있는 값)에서 30일이 지난 것은 sitemap.xml 에서 뺌(tools/build_static.seo_main). 페이지는 지우지 않음(공고 목록·관련 공고 링크로 계속 열림, 마감 공고 1년 보관 그대로). tools/qa/seo_static 의 'sitemap 빠짐' 검사는 일부러 뺀 공고를 빼고 보고, 뺀 공고가 sitemap 에 남아 있으면 실패
+- 파일: tools/seo_pages.py(SITEMAP_CLOSED_DAYS·sitemap_skip), tools/build_static.py, tools/qa/seo_static.py, docs/config.json, FEATURES.md
+- 확인: 저장소 사본에서 만들기 — sitemap 590 → 249 주소(공고 445 → 104, 오래된 마감 341쪽 뺌), tools.qa.seo_static 통과(sitemap 빠짐 0). docs/sitemap.xml 도 새 코드로 만든 것으로 바꿔 함께 올림(수집 때마다 다시 만들어짐)
+- 백업: backup/20261116-1100
+- 기능: sitemap_recent
+
 ## 2026-11-16 11:00 · 애드센스 대응 ②-가 첫 화면 초기 HTML 에 서비스 설명·가이드 링크 (기능 seo_home)
 - 요청: 운영자 '애드센스 미승인(게시자 콘텐츠가 없는 화면에 광고 · 가치가 별로 없는 콘텐츠) — 4가지를 순서대로 수정' — 2. index.html 초기 HTML(JS 실행 전)에 서비스 핵심 설명과 주요 가이드 링크를 충실히
 - 변경: tools/seo_pages.prerender_block(수집 뒤 docs/index.html 의 <div id="app"> 안에 넣는 미리 그린 글)에 home_extra 를 더함 — '청약패스로 할 수 있는 일'(자격 판정·시세 대비 등급·필요 자금·당첨 뒤 조건·임대 공고), '등급은 이렇게 정해요'(화면 엔진 값 tools/seo_engine.json 의 기준 그대로), '데이터와 검증', '청약 가이드'(주요 12편 제목·설명 링크 + 전체 보기), 맨 아래 소개·정책 링크(/story/ /about/ /privacy/ /terms/). 글자 수 약 900자 → 약 4,000자. 화면에 적는 내용은 지금 실제로 있는 기능만(중도금 대출 조건처럼 확인 안 된 것은 뺌). docs/index.html 의 미리 그린 글도 새 코드로 만든 것으로 바꿔 함께 올림(수집 때마다 다시 만들어짐)
