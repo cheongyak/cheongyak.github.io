@@ -1,42 +1,42 @@
 {
- "date": "2026-11-16 15:15",
- "golden_notices": 53,
+ "date": "2026-11-16 15:20",
+ "golden_notices": 54,
  "stat": {
   "pypdf": {
-   "ok": 576,
+   "ok": 584,
    "wrong": 0,
-   "missing": 46,
+   "missing": 47,
    "rent_ok": 185,
    "rent_wrong": 0,
    "rent_missing": 0,
-   "notices": 53
+   "notices": 54
   },
   "pdfium": {
-   "ok": 576,
+   "ok": 584,
    "wrong": 0,
-   "missing": 46,
+   "missing": 47,
    "rent_ok": 185,
    "rent_wrong": 0,
    "rent_missing": 0,
-   "notices": 53
+   "notices": 54
   },
   "plumber": {
-   "ok": 538,
+   "ok": 544,
    "wrong": 4,
-   "missing": 80,
+   "missing": 83,
    "rent_ok": 171,
    "rent_wrong": 0,
    "rent_missing": 14,
-   "notices": 53
+   "notices": 54
   },
   "merged": {
-   "ok": 576,
+   "ok": 584,
    "wrong": 0,
-   "missing": 46,
+   "missing": 47,
    "rent_ok": 185,
    "rent_wrong": 0,
    "rent_missing": 0,
-   "notices": 53
+   "notices": 54
   }
  },
  "merged_wrong": 0,
@@ -59,8 +59,5 @@
   "0000061201 임대조건: plumber 가 pypdf 금액 줄을 모두 포함하고 1줄 더 읽음 → plumber",
   "2015122300021018 일반.asset_manwon: majority pypdf='excluded', pdfium='excluded', plumber=34500"
  ],
- "conflicts": [],
- "_data": {
-  "lh": "333b1526cc9a"
- }
+ "conflicts": []
 }
