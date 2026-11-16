@@ -1,0 +1,21 @@
+{
+  "id": "2026910288",
+  "name": "안양자이 더 포레스트 무순위(사후)",
+  "fields": {
+    "supply_class": {"value": "민영주택", "status": "stated", "quote": "주택유형 규제지역여부 ... 민영 비규제지역 무순위(사후)", "note": "재개발정비사업조합 사업, 일반분양분 잔여"},
+    "supply_kind": {"value": "무순위(사후접수)", "status": "stated", "quote": "최초 입주자모집공고 시 1순위 및 2순위 청약 마감된 주택형으로, 예비입주자를 대상으로 추가입주자를 선정하고 남은 미계약 세대를 공급", "note": "잔여 1세대(59A 104동 1104호)"},
+    "correction": {"value": null, "status": "not_stated", "quote": "", "note": "정정공고 문구 없음"},
+    "need_head": {"value": false, "status": "stated", "quote": "경기도에 거주하는 무주택세대구성원인 성년자[만19세 이상인 자 또는 세대주인 미성년자(자녀양육, 형제자매부양)]", "note": "세대주 요건은 미성년자에게만 해당(만19세 이상은 세대구성원이면 가능)"},
+    "price_cap": {"value": false, "status": "stated", "quote": "재당첨제한 전매제한 거주의무기간 분양가상한제 / 없음 ... 없음 미적용", "note": ""},
+    "residence_duty": {"value": 0, "status": "stated", "quote": "거주의무기간 ... 없음", "note": ""},
+    "rewin_years": {"value": 0, "status": "stated", "quote": "재당첨제한 ... 없음", "note": ""},
+    "resale": {"value": "이미 지남", "status": "stated", "quote": "본 아파트의 전매제한은 최초 입주자모집공고의 당첨자발표일(2023.11.02.)로부터 1년간 적용되어 현재 전매제한기간이 도과 되었습니다.", "note": "원래 12개월, 기산 최초 당첨자발표일 2023-11-02"},
+    "account_months": {"value": 0, "status": "stated", "quote": "청약통장 가입여부와 무관하게 신청 가능", "note": "무순위라 통장 요건 없음"},
+    "deposit_count": {"value": 0, "status": "stated", "quote": "청약통장 가입여부와 무관하게 신청 가능", "note": "민영·무순위, 납입 요건 없음"},
+    "residence": {"value": {"area": "경기도", "months": 0, "since": "2026-11-11", "others": [], "equal": true}, "status": "stated", "quote": "무순위(사후) 입주자모집공고일은 2026.11.11.(수) 이며(청약자격 요건 중 나이, 거주요건 등의 판단기준일) ... 경기도에 거주하는 무주택세대구성원인 성년자를 대상으로 공급", "note": "경기도 거주자만 신청 가능(기타지역 없음), 거주기간 요건 언급 없음, 지역 우선순위 없이 무작위 추첨"},
+    "score_ratio": {"value": null, "status": "not_stated", "quote": "한국부동산원 입주자 선정 프로그램에 의해 주택형별 무작위 추첨으로 무순위(사후) 당첨자 선정", "note": "가점제 없음, 전량 무작위 추첨(59A 1세대)"},
+    "pay_ratio": {"value": {"contract_pct": 10, "mid_pct": 0, "balance_pct": 90}, "status": "stated", "quote": "분양금액 계약금(10%) 잔금(90%) ... 준공(입주)이 완료된 단지로 중도금은 없으며", "note": "59A 682,700,000원: 계약금 68,270,000 / 잔금 614,430,000"},
+    "mc_quota": {"value": null, "status": "not_stated", "quote": "", "note": "무순위 공급, 다자녀 특별공급 없음"},
+    "special_supply": {"value": {"types": [], "total_households": 483, "general_households": 212, "this_supply": 1, "none": true}, "status": "unclear", "quote": "총 483세대 일반분양 212세대 중 잔여 1세대", "note": "특별공급 언급 없음(무순위 1세대만). '특별공급 없음' 명시 문구는 없음"}
+  }
+}

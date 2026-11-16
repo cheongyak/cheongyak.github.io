@@ -1,0 +1,21 @@
+{
+  "id": "2026910290",
+  "name": "청계 노르웨이숲 무순위(사후)(14차)",
+  "fields": {
+    "supply_class": {"value": "민영주택", "status": "stated", "quote": "주택유형 규제지역여부 ... 민영 비규제지역 무순위(사후)", "note": "황학동청계지역주택조합 사업. 서울 중구는 '25.10.16. 투기과열지구 지정됐으나 '25.10.15. 이전 승인신청 주택이라 비규제지역 기준 공급(전매제한만 투기과열지구 기준)"},
+    "supply_kind": {"value": "무순위(사후접수)", "status": "stated", "quote": "최초 입주자모집공고 시 1순위 및 2순위 청약 마감된 주택형으로, 예비입주자를 대상으로 추가입주자를 선정하고 남은 미계약 세대를 공급", "note": "14차, 잔여 6세대(39형)"},
+    "correction": {"value": null, "status": "not_stated", "quote": "", "note": "정정공고 문구 없음. 8장 '사업계획변경승인 내용 안내'(설계변경 면적변동표)는 정정공고가 아님"},
+    "need_head": {"value": false, "status": "stated", "quote": "무순위(사후) 입주자모집공고일 현재 전국에 거주하는 무주택세대구성원인 성년자 / 청약통장 가입여부와 무관하게 신청가능", "note": "세대주 요건 없음"},
+    "price_cap": {"value": false, "status": "stated", "quote": "재당첨제한 전매제한 거주의무기간 분양가상한제 / 없음 최초당첨자발표일(2025.05.12.)로부터 3년 없음 미적용", "note": ""},
+    "residence_duty": {"value": 0, "status": "stated", "quote": "거주의무기간 ... 없음", "note": ""},
+    "rewin_years": {"value": 0, "status": "stated", "quote": "재당첨제한 ... 없음", "note": ""},
+    "resale": {"value": {"months": 36, "base": "최초 입주자모집공고의 당첨자발표일 2025-05-12"}, "status": "stated", "quote": "본 아파트의 전매제한은 최초 입주자모집공고의 당첨자발표일 2025.05.12.(월)로부터 3년간 적용됩니다.", "note": "투기과열지구 기준 적용(공고 첫머리). 2028-05-12까지 진행 중"},
+    "account_months": {"value": 0, "status": "stated", "quote": "청약통장 가입여부와 무관하게 신청가능", "note": "무순위라 통장 요건 없음"},
+    "deposit_count": {"value": 0, "status": "stated", "quote": "청약통장 가입여부와 무관하게 신청가능", "note": "민영·무순위, 납입 요건 없음"},
+    "residence": {"value": {"area": "전국", "months": 0, "since": "2026-11-09", "others": [], "equal": true}, "status": "stated", "quote": "무순위(사후) 입주자모집공고일은 2026.11.09.(월)이며(청약자격 요건 중 나이, 거주요건 등의 판단기준일) ... 전국에 거주하는 무주택세대구성원인 성년자", "note": "해당/기타지역 구분 없음, 거주기간 요건 없음"},
+    "score_ratio": {"value": null, "status": "not_stated", "quote": "한국부동산원 입주자 선정 프로그램에 의해 무작위 추첨으로 무순위(사후) 당첨자 선정", "note": "가점제 없음, 전량 무작위 추첨"},
+    "pay_ratio": {"value": {"contract_pct": 10, "mid_pct": 60, "balance_pct": 30}, "status": "stated", "quote": "분양가격 계약금(10%) 중도금(60%) 잔금(30%) ... 1회(10%) 2회(10%) 3회(10%) 4회(10%) 5회(10%) 6회(10%)", "note": "계약금 1차 2,000만원(계약시)+2차(계약일로부터 30일이내). 6층 728,260,000 = 20,000,000+52,826,000 / 72,826,000x6 / 218,478,000. 중도금 날짜는 표에서 일부만 보임(계약일로부터 30일이내, 2027-04-26, 2027-07-26, 2027-12-28) — 텍스트 추출 누락 가능"},
+    "mc_quota": {"value": null, "status": "not_stated", "quote": "", "note": "무순위 공급, 다자녀 특별공급 없음"},
+    "special_supply": {"value": {"types": [], "total_households": 404, "general_households": 97, "this_supply": 6, "none": true}, "status": "unclear", "quote": "총 404세대(임대 51세대, 조합 256세대), 일반분양 97세대 중 잔여 6세대", "note": "특별공급 언급 없음. '특별공급 없음' 명시 문구는 없음"}
+  }
+}
