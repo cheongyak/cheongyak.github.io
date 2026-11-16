@@ -82,6 +82,8 @@ def _general_terms(t: str, kind: str) -> tuple[dict, dict]:
          or re.search(r"소득\s?및\s?자산보유\s?기준\s?소득\s?소득\s?요건\s?제한\s?없음\s?총자산", sec)
          # 기준 표 칸이 '소득 소득기준 배제 자산 총자산가액 총자산가액 배제' (대전 유성타워·주은반석 국민임대 매입형 자격완화 2015122300021075, 2026-11-16)
          or re.search(r"소득\s?및\s?자산보유\s?기준\s?소득\s?소득\s?기준\s?배제\s?자산", sec)
+         # 소득·자산을 한 칸에 묶은 꼴 '소득 및 자산 금번 공고에서는 별도의 소득 및 자산 기준을 적용하지 아니함 (단, 자동차 가액 기준은 충족하여야 함)' (양산시 국민임대 완화 2015122300021069·21094, 2026-11-17)
+         or re.search(r"소득\s?및\s?자산\s?금번\s?공고에서는\s?별도의\s?소득\s?및\s?자산\s?기준을\s?적용하지\s?아니함", sec)
          or _base_excluded(sec))
     if m:
         income, q["income"] = "excluded", _q(both, m) if m.re.pattern.find("→") < 0 else _q(rel, m)
@@ -118,6 +120,7 @@ def _general_terms(t: str, kind: str) -> tuple[dict, dict]:
          or re.search(r"총자산\s?자산\s?요건\s?제한\s?없음\s?자동차", sec)
          # '총자산가액 총자산가액 배제 자동차가액 …' (2015122300021075, 2026-11-16)
          or re.search(r"총\s?자산가액\s?총\s?자산가액\s?배제\s?자동차가액", sec)
+         or re.search(r"소득\s?및\s?자산\s?금번\s?공고에서는\s?별도의\s?소득\s?및\s?자산\s?기준을\s?적용하지\s?아니함", sec)   # 2015122300021069 (2026-11-17)
          or _base_excluded(sec))
     if m:
         asset, q["asset"] = "excluded", _q(sec if m.string is sec else rel, m)
@@ -565,6 +568,16 @@ def _public_terms(t: str) -> tuple[list[dict], dict, dict]:
                 q = {"region": quote, "homeless": quote, "account": nfq, "income": nfq, "asset": nfq}
                 g = {"key": "일반", "name": "일반", "homeless": "household", "income_pct": "excluded", "asset_manwon": "excluded", "car_manwon": "excluded", "age_min": None, "age_max": None}
                 return [g], {"일반": q}, {"regions": sorted({SIDO_SHORT[p] for p in parts}), "account": "none"}
+        # 10년 공공임대 리츠 무순위 예비입주자(파주운정 A20·A4 0000061210·0000061212, 2026-11-17): 'Ⅱ 신청자격 … ■ 공급신청 자격자 (무주택 세대구성원만 신청가능)
+        # • 모집공고일 기준 수도권에 거주(주민등록표등본 기준)하는 무주택세대구성원인 만19세 이상의 성년자' + '※ 청약저축 가입여부, 소득 및 자산기준 충족여부와는 상관없이 신청 가능합니다'.
+        # 공고문이 시·도 이름을 괄호로 적지 않고 '수도권'이라고만 적음 — 수도권은 수도권정비계획법 제2조제1호(서울특별시·인천광역시·경기도). 두 문장이 모두 있을 때만 받는다
+        mp = re.search(r"공급\s?신청\s?자격자\s?\(무주택\s?세대\s?구성원만\s?신청\s?가능\)\s?•?\s?모집\s?공고일\s?기준\s?수도권에\s?거주\s?\(주민등록표\s?등본\s?기준\)\s?하는\s?무주택\s?세대구성원인\s?만\s?19세\s?이상의\s?성년자", t)
+        mn5 = mp and re.search(r"청약저축\s?가입\s?여부,\s?소득\s?및\s?자산\s?기준\s?충족\s?여부와는\s?상관\s?없이\s?신청\s?가능", t[mp.end(): mp.end() + 800])
+        if mp and mn5:
+            quote, nfq = _q(t, mp, 0, 0), mn5.group(0)
+            q = {"region": quote, "homeless": quote, "account": nfq, "income": nfq, "asset": nfq}
+            g = {"key": "일반", "name": "일반", "homeless": "household", "income_pct": "excluded", "asset_manwon": "excluded", "car_manwon": "excluded", "age_min": None, "age_max": None}
+            return [g], {"일반": q}, {"regions": ["경기", "서울", "인천"], "account": "none"}
         # 무순위 예비입주자(충북혁신4 0000061184): '1. 신청 자격 ■ 입주자저축 가입 여부, 과거당첨사실여부, 당해주택 건설지역 거주여부, 소득 및 자산기준충족여부 등과
         # 관계없이 신청 가능 … ■ 입주자 모집공고일(…) 현재 무주택세대구성원인 성년자' — 거주지역·청약통장·소득·자산 모두 묻지 않음
         mu = re.search(r"신청\s?자격\s?■\s?(?:입주자저축|청약저축)\s?가입\s?여부,\s?과거\s?당첨\s?사실\s?여부,\s?당해\s?주택\s?건설\s?지역\s?거주\s?여부,\s?"
@@ -656,8 +669,8 @@ def parse_local(t: str, region: Optional[str]) -> Optional[dict]:
 
 def parse_lh_terms(text: str, kind: str, name: str = "", region: Optional[str] = None) -> dict:
     t = flat(text)
-    res = {"relaxed": is_relaxed(t, name), "homeless_relaxed": bool(re.search(r"(?:연접|해당)\s?지역에\s?주택(?:이|을)?\s?(?:없|소유하지)", t)),   # 포항블루밸리 963 '무주택 요건 해당지역에 주택이 없을 경우 허용'(2026-10-31)
-           "homeless_max1": bool(re.search(r"2호\s?이상의\s?주택\s?또는\s?분양권을\s?소유하고\s?있는\s?사람은\s?제외", t)),   # 무주택 완화여도 2호 이상은 제외(삼척도계 581)
+    res = {"relaxed": is_relaxed(t, name), "homeless_relaxed": bool(re.search(r"(?:연접|해당)\s?지역에\s?주택(?:이|을)?\s?(?:없|소유하지)|무주택\s?여부\s?[가-힣]{2,6}(?:시|군)에만\s?주택이\s?없으면\s?허용", t)),   # 양산 21069 '무주택 여부 양산시에만 주택이 없으면 허용'(2026-11-17) ·   # 포항블루밸리 963 '무주택 요건 해당지역에 주택이 없을 경우 허용'(2026-10-31)
+           "homeless_max1": bool(re.search(r"2호\s?(?:또는\s?2세대\s?)?이상의\s?주택\s?또는\s?분양권을\s?소유하고\s?있는\s?사람은\s?제외", t)),   # 무주택 완화여도 2호 이상은 제외(삼척도계 581)
            "income_basis": None, "groups": [], "quotes": {}, "income_table_100": None}
     if kind in ("국민임대", "영구임대"):
         g, q = _general_terms(t, kind)

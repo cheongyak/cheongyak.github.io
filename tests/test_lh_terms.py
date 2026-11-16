@@ -341,6 +341,28 @@ def test_relaxed_excluded_cells_purchase_type_20261116():
     assert (g["homeless"], g["income_pct"], g["asset_manwon"], g["car_manwon"]) == ("household", "excluded", "excluded", 4542)
 
 
+def test_yangsan_relaxed_merged_cell_and_city_only_homeless_20261117():
+    """양산시 국민임대 완화(2015122300021069·정정 21094, 2026-11-17): 소득·자산이 한 칸 '금번 공고에서는 별도의 소득 및 자산 기준을 적용하지 아니함',
+    무주택 완화가 '양산시에만 주택이 없으면 허용'·'2호 또는 2세대 이상 … 제외' — 소득·총자산을 못 읽어 '공고문 확인'이었다."""
+    for i in ("2015122300021069", "2015122300021094"):
+        T = parse_lh_terms((ROOT / f"evidence/lh/{i}.txt").read_text(encoding="utf-8"), "국민임대", "양산시 국민임대주택 예비입주자 완화 모집('26.11.16)_소득, 자산, 무주택 요건 완화 / 계약금 인하", "경상남도")
+        g = T["groups"][0]
+        assert T["relaxed"] is True and T["homeless_relaxed"] is True and T["homeless_max1"] is True
+        assert (g["homeless"], g["income_pct"], g["asset_manwon"], g["car_manwon"]) == ("household", "excluded", "excluded", 4542)
+
+
+def test_reit_no_rank_capital_area_20261117():
+    """파주운정 10년 공공임대 리츠 무순위(0000061210·0000061212, 2026-11-17): '공급신청 자격자 … 수도권에 거주 … 무주택세대구성원인 만19세 이상의 성년자' +
+    '청약저축 가입여부, 소득 및 자산기준 충족여부와는 상관없이 신청 가능'. 두 문장이 모두 있을 때만 읽는다."""
+    for i in ("0000061210", "0000061212"):
+        txt = (ROOT / f"evidence/lh/{i}.txt").read_text(encoding="utf-8")
+        T = parse_lh_terms(txt, "공공임대", "파주운정 10년 공공임대주택리츠 예비입주자모집(무순위)", "경기도")
+        g = T["groups"][0]
+        assert (T["regions"], T["account"]) == (["경기", "서울", "인천"], "none")
+        assert (g["homeless"], g["income_pct"], g["asset_manwon"], g["car_manwon"]) == ("household", "excluded", "excluded", "excluded")
+        assert parse_lh_terms(txt.replace("상관없이 신청 가능", "따라 신청 가능"), "공공임대", "", "경기도")["groups"] == []
+
+
 def test_permanent_income_unfolded_parens_20261113():
     """밀양가곡1 영구임대(2015122300021041, 2026-11-13 아침 자동 고치기): 신분별 소득 기준의 괄호를 풀어 쓴 꼴
     '월평균 소득 50%(단, 가구원수가 1인인 경우 70%, 2인인 경우 60%)이하 : 차목(일반입주자)' 을 못 읽어 일반 소득이 '공고문 확인'이었다."""
