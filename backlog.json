@@ -13,10 +13,10 @@
    "effort": "S",
    "status": "parked",
    "first_seen": "2026-11-04",
-   "last_seen": "2026-11-13",
+   "last_seen": "2026-11-16",
    "tries": 0,
    "pr": null,
-   "notes": "고칠 방향 후보: 이슈 제목을 실제 원인(못 읽은 공고·판정 불일치·수집 멈춤)으로, 같은 원인이면 새 이슈 대신 열린 이슈에 댓글. 이슈를 닫는 것은 운영자 몫(고정 규칙 7) · 2026-11-04 밤 parked: 고칠 곳이 .github/workflows/verify.yml 뿐이라 루프가 못 고침(고정 규칙 6). 운영자 판단 필요: 손으로 일하는 세션에 '원인별 제목·같은 원인이면 열린 이슈에 댓글'을 맡기기 · 11-13: #129·#130 새로 열림(판정 974/974, #130 본문은 빈 코드 블록 — verify.yml 이슈 본문이 원인을 못 담음). 여전히 workflows 몫",
+   "notes": "고칠 방향 후보: 이슈 제목을 실제 원인(못 읽은 공고·판정 불일치·수집 멈춤)으로, 같은 원인이면 새 이슈 대신 열린 이슈에 댓글. 이슈를 닫는 것은 운영자 몫(고정 규칙 7) · 2026-11-04 밤 parked: 고칠 곳이 .github/workflows/verify.yml 뿐이라 루프가 못 고침(고정 규칙 6). 운영자 판단 필요: 손으로 일하는 세션에 '원인별 제목·같은 원인이면 열린 이슈에 댓글'을 맡기기 · 11-13: #129·#130 새로 열림(판정 974/974, #130 본문은 빈 코드 블록 — verify.yml 이슈 본문이 원인을 못 담음). 여전히 workflows 몫 · 11-16: #132~#142 11건 새로 열림(모두 974/974, 오후 판정 검증 성공·verify ok=true). 여전히 workflows 몫",
    "success_check": null
   },
   {
@@ -435,7 +435,7 @@
    "effort": "S",
    "status": "in_pr",
    "first_seen": "2026-11-11",
-   "last_seen": "2026-11-15",
+   "last_seen": "2026-11-16",
    "tries": 0,
    "pr": 123,
    "success_check": {
@@ -474,7 +474,7 @@
    "effort": "S",
    "status": "in_pr",
    "first_seen": "2026-11-12",
-   "last_seen": "2026-11-15",
+   "last_seen": "2026-11-16",
    "tries": 0,
    "pr": 127,
    "success_check": {
@@ -495,7 +495,7 @@
    "effort": "S",
    "status": "in_pr",
    "first_seen": "2026-11-13",
-   "last_seen": "2026-11-15",
+   "last_seen": "2026-11-16",
    "tries": 1,
    "pr": 131,
    "success_check": {
@@ -521,6 +521,27 @@
    "pr": null,
    "success_check": null,
    "notes": "고칠 곳이 .github/workflows 뿐(고정 규칙 6) — 운영자 판단: 예약 시각을 정각·30분이 아닌 시각으로 옮기거나 새벽 더 이른 시각에 두기 등"
+  },
+  {
+   "key": "audit:2026820015:재당첨 제한",
+   "title": "2026820015 시흥 거모 아테라(A-6BL) 신혼희망타운 본청약 재당첨 제한 10년을 '1년'으로 안내",
+   "area": "parse",
+   "source": "evidence/audit/2026-11-16-blind/README.md",
+   "evidence": "README 표 줄: 1쪽 주요정보 표 '…(경쟁시 시흥시 1년 이상 거주자 우선) 10년', 본문 '「주택공급에 관한 규칙」제54조에 따라 재당첨제한은 10년 적용' · docs/listings.json limits '재당첨 제한' 근거가 거주요건 칸의 '1년'을 잡음(추정)",
+   "severity": "P1",
+   "reach": 1,
+   "confidence": 1,
+   "effort": "S",
+   "status": "open",
+   "first_seen": "2026-11-16",
+   "last_seen": "2026-11-16",
+   "tries": 0,
+   "pr": null,
+   "success_check": {
+    "how": "docs/listings.json 2026820015 limits '재당첨 제한' · 다음 주간 원문 대조",
+    "expect": "10년, 표 칸 '거주요건'의 '1년'을 잡지 않음(시험으로 고정)"
+   },
+   "notes": "11-16 새 신호. 열린 루프 PR 3개라 오늘은 못 고름. 다음 밤 1순위 후보 — 단 아침 자동 고치기가 먼저 고쳤는지 확인"
   }
  ]
 }
