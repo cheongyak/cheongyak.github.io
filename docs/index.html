@@ -4234,7 +4234,7 @@ function pushConsentBox(){
       <li>받는 곳: Cloudflare, Inc. (미국 등 데이터센터가 있는 나라로 옮겨져요)</li>
       <li>목적: 알림 구독 보관과 알림 발송</li>
       <li>보관: 알림을 끄거나 구독이 만료될 때까지 (끄면 바로 지워요)</li>
-      <li>이름·연락처·인터뷰에 입력한 소득·자산·통장 정보는 보내지 않아요</li></ul>
+      <li>이름·연락처·내 조건에 입력한 소득·자산·통장 정보는 보내지 않아요</li></ul>
     <p class="small muted" style="margin:0 0 8px">동의하지 않으면 알림을 켤 수 없지만, 다른 기능은 그대로 쓸 수 있어요. <a href="#/privacy" data-go="privacy">개인정보처리방침</a></p>
     <button class="pushopt" data-action="push-agree" aria-pressed="${!!PUSH.agree}"${PUSH.busy ? ' disabled' : ''}><span class="box" aria-hidden="true">${PUSH.agree ? '✓' : ''}</span><span><b>위 내용(처리 위탁·국외 이전)에 동의해요</b><span class="small muted">필수</span></span></button></section>`;
 }
@@ -4268,7 +4268,7 @@ function vPush(){
   ${st === 'on' ? `<button class="btn" data-action="push-save"${dis}>${PUSH.busy ? '저장 중…' : '설정 저장'}</button><button class="btn ghost" data-action="push-off"${dis}>알림 끄기</button>`
     : `${pushConsentBox()}<button class="btn" data-action="push-on"${dis || (st === 'init' || (on('push_consent') && !PUSH.agree) ? ' disabled' : '')}>${PUSH.busy ? '켜는 중…' : st === 'init' ? '확인 중…' : '알림 켜기'}</button>`}` : ''}
   <section class="card"><h2>알아 두세요</h2><ul class="small" style="margin:0;padding-left:18px">
-    <li>알림 서버에는 이 브라우저의 <b>알림 주소와 고른 지역·종류만</b> 보내요. 인터뷰에 입력한 소득·자산·통장 정보는 보내지 않아요.</li>
+    <li>알림 서버에는 이 브라우저의 <b>알림 주소와 고른 지역·종류만</b> 보내요. 내 조건에 입력한 소득·자산·통장 정보는 보내지 않아요.</li>
     <li>그래서 알림은 <b>내 자격과 상관없이</b> 지역·등급으로만 골라 보내요. 내 판정은 알림을 눌러 공고 화면에서 확인하세요.</li>
     <li>알림을 끄거나 브라우저에서 이 사이트 알림을 막으면 알림 서버의 구독 정보도 지워요.</li>
     <li>매일 새벽 수집이 늦어지면 알림도 늦게 갈 수 있어요. 접수 일정은 반드시 청약홈에서 다시 확인하세요.</li></ul></section>
@@ -4516,7 +4516,7 @@ function aboutMenu(){
   <div class="menulist">
     ${chat}${app}
     ${pushOn() ? row('data-go="alerts"', '알림 설정', '새 공고 알림 켜기·끄기') : ''}
-    ${on('seo_content') ? row('href="/guide/"', '청약 가이드', '무순위·특별공급·가점·청약통장·자금 준비 해설 30편') : ''}
+    ${on('seo_content') ? row('href="/guide/"', '청약 가이드', '무순위·특별공급·가점·청약통장·자금 준비 해설 32편') : ''}
     ${row('data-go="story"', '만든 이유와 데이터', '판정 범위 · 쓰는 데이터와 검증 방식')}
     ${on('legal_pages') ? row('data-go="terms"', '이용약관', '') + row('data-go="privacy"', '개인정보처리방침', '') : ''}
     <button class="menurow" data-action="wipe"><span><b>이 기기에 저장된 내 정보 모두 지우기</b><span class="small muted">회원가입이 없고, 넣은 정보는 이 기기에만 저장돼요</span></span>${arrow}</button>
