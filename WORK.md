@@ -4,6 +4,16 @@
 2026-09-29 12:55 이전 항목은 규칙을 만들기 전 작업을 커밋 기록으로 정리한 것이라 백업 브랜치가 없어요.
 그 시점으로 되돌릴 때는 해당 커밋 번호로 `git revert` 를 써요.
 
+## 2026-11-17 06:38 · 이용 안내 '데이터 검증 현황'을 불일치 0건일 때도 표시 (기능 verify_always)
+- 요청: 운영자(애드센스 재심사 직전 점검 2) — /about/policy/ 가 '검증 결과는 이용 안내의 데이터 검증 현황에 공개'라고 안내하는데, 이용 안내 화면에서는 불일치 0건이면 보이지 않음 → 0건일 때도 보이게
+- 원인: 2026-10-01 운영자 요청('검증 현황은 운영자만 알면 됨')으로 간단한 이용 안내(about_simple·about_menu)에서는 확인 중인 것이 있을 때만 보이게 했음(verifyCardIfOpen). 이번 요청으로 그 결정을 바꿈
+- 변경: docs/index.html verifyCardIfOpen — verify_always 가 켜져 있으면 늘 verifyCard() 를 보여 줌(끄면 예전처럼 확인 중일 때만). docs/config.json verify_always true. 새 검사 tools/qa/about_texts.cjs
+- 파일: docs/index.html, docs/config.json, tools/qa/about_texts.cjs, FEATURES.md, docs/changelog.json, VERSIONS.md, HANDOFF.md
+- 확인: 스크립트 문법 검사, node tools/qa/about_texts.cjs — 모두 일치일 때 카드 보임('모두 일치')·끄면 숨김·가로 넘침 0·화면 오류 0, 390px 스크린샷 확인. pytest 전체, 판정 사례 전부 일치
+- 백업: backup/20261117-0638
+- 기능: verify_always
+- 버전: v1.91.0
+
 ## 2026-11-17 06:38 · 가이드 편수 32편으로 통일 · 알림 화면 '인터뷰에 입력한' → '내 조건에 입력한'
 - 요청: 운영자(애드센스 재심사 직전 점검 2) — 가이드 편수가 홈(32편)과 앱·/about/(30편)에서 다름 → 실제 편수 32편으로, 알림 화면 '인터뷰에 입력한…' → '내 조건에 입력한…'
 - 원인: 가이드는 법령 해설 30편(tools/guides) + 기준표 2편(가점 계산·예치금) = 32편인데, 이용 안내 메뉴 글만 30편으로 적혀 있었음. /about/ 정적 페이지는 앱 화면을 찍어 만들어 같이 틀림

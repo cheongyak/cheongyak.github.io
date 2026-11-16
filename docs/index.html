@@ -5016,6 +5016,7 @@ function vUpdates(){
 }
 /* 간단한 이용 안내(about_simple·about_menu)에서는 확인 중인 것이 있을 때만 검증 현황을 보여 준다 (기능 verify_scope — 공고별 문제·재검증 대기를 숨기지 않게) */
 function verifyCardIfOpen(){
+  if (on('verify_always')) return verifyCard();   // 기능 verify_always (2026-11-17 운영자): 불일치 0건이어도 이용 안내에 검증 현황을 보여 준다 — /about/policy/ 가 '이용 안내의 데이터 검증 현황에 공개'라고 안내함
   if (!on('verify_scope') || !on('verify_badge')) return '';
   loadSide();
   const v = VERIFY;
