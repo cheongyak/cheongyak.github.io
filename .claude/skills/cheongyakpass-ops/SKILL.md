@@ -214,3 +214,6 @@ description: 청약패스(cheongyakpass.kr, 저장소 cheongyak/cheongyak.github
 - **광고는 허용 화면에만 (2026-11-16 애드센스 미승인 '게시자 콘텐츠가 없는 화면에 광고')** — 화면에 광고 자리를 새로 넣을 때는 `adSlot()` 만 쓰고, 허용 화면 목록 `AD_VIEWS`(목록·상세)를 넓히지 않는다.
   입력 폼·빈 화면(내 조건·알림·가점 컷·빈 목록)에는 절대 넣지 않는다. 화면을 고치면 `node tools/qa/ads_guard.cjs`(광고 스위치를 켠 가짜 설정으로 전 화면 순회)를 돌린다.
   첫 화면 초기 HTML 글(기능 seo_home)·sitemap 범위(기능 sitemap_recent)는 `tools/seo_pages.py` 에 있고 수집 뒤 `python -m tools.build_static` 이 다시 만든다 — docs/index.html 의 `<!--seo:start-->` 블록을 손으로 고치지 않는다.
+- **PDF 읽기 도구 판은 고정한다 (2026-11-16)** — pypdf 가 7.0.1 → 7.1.0 으로 저절로 올라가면서 빈칸을 다르게 뽑아('거주자 2' → '거주자2') 저장 원문 64건이 바뀌고 읽기 규칙이 어긋났다.
+  requirements.txt 의 pypdf 는 `==` 로 둔다. 올리려면 저장 원문 전체(evidence/notices·evidence/lh)를 새 판으로 다시 뽑아 정답 대조·시험이 그대로인지 본 뒤에 올린다.
+  tools/ 를 고쳐 올리면 '근거 자료 모으기'(probe.yml)가 돌아 evidence/notices 를 다시 쓴다 — 올린 뒤 `git log -- evidence/notices` 로 뜻밖의 큰 변경이 없는지 본다.
