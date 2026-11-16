@@ -332,6 +332,15 @@ def test_relaxed_no_limit_cells_20261116():
     assert g["asset_manwon"] == 34500 and g["income_pct"] != "excluded"
 
 
+def test_relaxed_excluded_cells_purchase_type_20261116():
+    """대전 유성타워·주은반석 국민임대(매입형) 자격완화(2015122300021075, 2026-11-16): 기준 표 칸이 '소득 소득기준 배제'·
+    '총자산가액 총자산가액 배제' — 소득·총자산을 못 읽어 '공고문 확인'이었다."""
+    T = parse_lh_terms((ROOT / "evidence/lh/2015122300021075.txt").read_text(encoding="utf-8"), "국민임대", "대전광역시 유성구(유성타워)·대덕구(주은반석) 국민임대(매입형)주택 입주자격완화 예비입주자모집", "대전광역시")
+    g = T["groups"][0]
+    assert T["relaxed"] is True and T["homeless_relaxed"] is False
+    assert (g["homeless"], g["income_pct"], g["asset_manwon"], g["car_manwon"]) == ("household", "excluded", "excluded", 4542)
+
+
 def test_permanent_income_unfolded_parens_20261113():
     """밀양가곡1 영구임대(2015122300021041, 2026-11-13 아침 자동 고치기): 신분별 소득 기준의 괄호를 풀어 쓴 꼴
     '월평균 소득 50%(단, 가구원수가 1인인 경우 70%, 2인인 경우 60%)이하 : 차목(일반입주자)' 을 못 읽어 일반 소득이 '공고문 확인'이었다."""
