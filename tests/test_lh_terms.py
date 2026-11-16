@@ -306,6 +306,19 @@ def test_relaxed_two_column_table_20261112():
     assert g["asset_manwon"] == 34500 and g["income_pct"] != "excluded"
 
 
+def test_relaxed_original_vs_relaxed_columns_20261116():
+    """증평 송산5 국민임대 자격완화(2015122300021078, 2026-11-16): 기준 표가 '본래조건 | 완화조건' 두 열 —
+    '- 소득 기준(적용배제) 가구원수 본래조건 완화조건 … 적용 배제'·'총자산가액 적용 배제'. 소득·총자산을 못 읽어 '공고문 확인'이었다."""
+    T = parse_lh_terms((ROOT / "evidence/lh/2015122300021078.txt").read_text(encoding="utf-8"), "국민임대", "증평군 송산5단지 국민임대주택 자격완화 예비입주자 모집", "충청북도")
+    g = T["groups"][0]
+    assert T["relaxed"] is True and T["homeless_relaxed"] is False
+    assert (g["homeless"], g["income_pct"], g["asset_manwon"], g["car_manwon"]) == ("household", "excluded", "excluded", 4542)
+    # 완화 열이 없는 보통 표(총자산 칸에 금액이 있음)는 그대로 숫자 기준
+    t = "가" * 600 + " ■ 소득 및 자산보유 기준 구분 소득 및 자산보유 기준 소득 가구원수 소득기준 금액 1인가구 90% 3,432,027원이하 2인가구 80% 4,693,016원이하 3인가구 70% 5,717,900원이하 자산 총자산가액 세대구성원 전원이 보유하고 있는 총자산가액 합산기준 ( 345 )백만원 이하 자동차가액 세대구성원 전원이 보유하고 있는 개별 자동차가액 ( 4,542 )만원 이하"
+    g = parse_lh_terms(t, "국민임대", "", None)["groups"][0]
+    assert g["asset_manwon"] == 34500 and g["income_pct"] != "excluded"
+
+
 def test_permanent_income_unfolded_parens_20261113():
     """밀양가곡1 영구임대(2015122300021041, 2026-11-13 아침 자동 고치기): 신분별 소득 기준의 괄호를 풀어 쓴 꼴
     '월평균 소득 50%(단, 가구원수가 1인인 경우 70%, 2인인 경우 60%)이하 : 차목(일반입주자)' 을 못 읽어 일반 소득이 '공고문 확인'이었다."""
