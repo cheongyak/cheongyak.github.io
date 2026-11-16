@@ -1,10 +1,10 @@
 {
  "since": "2026-01-01",
- "at": "2026-11-09 10:13",
+ "at": "2026-11-16 10:23",
  "categories": {
   "general": {
-   "notices": 299,
-   "unique_ids": 299,
+   "notices": 307,
+   "unique_ids": 307,
    "by_month": {
     "2026-01": 11,
     "2026-02": 16,
@@ -16,10 +16,10 @@
     "2026-08": 23,
     "2026-09": 26,
     "2026-10": 44,
-    "2026-11": 6
+    "2026-11": 14
    },
    "kinds": {
-    "APT": 285,
+    "APT": 293,
     "신혼희망타운": 14
    },
    "name_marks": {
@@ -84,8 +84,8 @@
    "oldest": "2026-01-09"
   },
   "remainder": {
-   "notices": 335,
-   "unique_ids": 335,
+   "notices": 343,
+   "unique_ids": 343,
    "by_month": {
     "2026-01": 50,
     "2026-02": 17,
@@ -97,15 +97,15 @@
     "2026-08": 26,
     "2026-09": 27,
     "2026-10": 31,
-    "2026-11": 12
+    "2026-11": 20
    },
    "kinds": {
-    "무순위": 290,
+    "무순위": 298,
     "불법행위 재공급": 45
    },
    "name_marks": {
     "정정": 0,
-    "취소": 15,
+    "취소": 16,
     "재공고": 0,
     "추가": 0,
     "잔여": 1,
@@ -142,12 +142,12 @@
    "oldest": "2026-01-02"
   }
  },
- "models_per_notice_avg": 3.1,
+ "models_per_notice_avg": 3.0,
  "estimate": {
-  "notices_2026": 634,
-  "model_calls_needed": 634,
-  "types_estimated": 1965
+  "notices_2026": 650,
+  "model_calls_needed": 650,
+  "types_estimated": 1950
  },
- "calls_this_run": 27,
- "seconds": 14.3
+ "calls_this_run": 28,
+ "seconds": 8.9
 }
