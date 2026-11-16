@@ -151,17 +151,40 @@ def man(v_eok: float) -> str:
     return (f"{a}억 {b:,}만 원" if b else f"{a}억 원") if a else f"{b:,}만 원"
 
 
+_JOSA_TAIL = re.compile(r"(?:\s|[」』'\"’”.,·:;!?~-])+$")            # 닫는 괄호는 여기서 지우지 않는다(괄호 묶음째 뺀다)
+_JOSA_PAREN = re.compile(r"\s*[\(（\[][^\(（\[\)）\]]*[\)）\]]\s*$")
+_JOSA_LATIN = set("lmnrLMNR")            # 엘·엠·엔·알 — 받침으로 끝나는 글자 이름
+_JOSA_ROMAN = {"Ⅰ": 1, "Ⅱ": 0, "Ⅲ": 1, "Ⅳ": 0, "Ⅴ": 0, "Ⅵ": 1, "Ⅶ": 1, "Ⅷ": 1, "Ⅸ": 0, "Ⅹ": 1}   # 일·이·삼·사·오·육·칠·팔·구·십
+
+
+def _jong(word: str):
+    """조사를 고를 끝 글자의 받침 번호. 0 = 받침 없음, 8 = ㄹ. 끝의 괄호 묶음('…모집(\'26.11.16.)')과 기호는 빼고 그 앞 글자를 본다
+    (2026-11-17 '은(는)' 이 그대로 보이던 것 고침). 판단할 글자가 없으면 None."""
+    w = str(word or "")
+    for _ in range(6):
+        w2 = _JOSA_PAREN.sub("", _JOSA_TAIL.sub("", w))
+        if w2 == w:
+            break
+        w = w2
+    for c in reversed(w):
+        if "가" <= c <= "힣":
+            return (ord(c) - 0xAC00) % 28
+        if c.isdigit() and c in "0123456789":
+            return {"0": 21, "1": 8, "3": 16, "6": 1, "7": 8, "8": 8}.get(c, 0)   # 영·일·삼·육·칠·팔
+        if c in _JOSA_ROMAN:
+            return 1 if _JOSA_ROMAN[c] else 0
+        if c.isascii() and c.isalpha():
+            return (8 if c in "lL" else 16) if c in _JOSA_LATIN else 0
+        if c.isspace():
+            continue
+        # 그 밖의 기호(㎡, %, 따옴표 등)는 건너뛰고 앞 글자를 본다
+    return None
+
+
 def josa(word: str, a: str, b: str) -> str:
-    """받침 있으면 a(은·이·을·과), 없으면 b. 끝이 영문·기호면 'a(b)'."""
-    w = re.sub(r"[\s\)\]）」』]+$", "", str(word))
-    if not w:
-        return f"{a}({b})"
-    c = w[-1]
-    if "가" <= c <= "힣":
-        return a if (ord(c) - 0xAC00) % 28 else b
-    if c.isdigit():
-        return a if c in "013678" else b
-    return f"{a}({b})"
+    """받침 있으면 a(은·이·을·과), 없으면 b. 끝의 괄호·기호는 빼고 판단한다. 글자가 하나도 없으면 a."""
+    j = _jong(word)
+    return a if j is None or j else b
 
 
 def ieyo(word: str) -> str:
@@ -171,12 +194,8 @@ def ieyo(word: str) -> str:
 
 def ro(word: str) -> str:
     """받침(ㄹ 제외)이면 '으로', 아니면 '로'"""
-    w = re.sub(r"[\s'\"\)\]）」』]+$", "", str(word))
-    c = w[-1] if w else ""
-    if "가" <= c <= "힣":
-        jong = (ord(c) - 0xAC00) % 28
-        return "으로" if jong and jong != 8 else "로"
-    return "(으)로"
+    j = _jong(word)
+    return "으로" if j and j != 8 else "로"
 
 
 def days_ago(d: str | None) -> int:
@@ -815,6 +834,12 @@ def won_k(v) -> str:
     return "-" if v is None else f"{int(v):,}원"
 
 
+def won_range(vs) -> str:
+    """'A원부터 B원까지' — 값이 하나(또는 모두 같음)면 'A원' (2026-11-17 'A원부터 A원까지' 고침)"""
+    lo, hi = min(vs), max(vs)
+    return won_k(lo) if lo == hi else f"{won_k(lo)}부터 {won_k(hi)}까지"
+
+
 def rent_apply(sch: dict) -> str:
     """임대 접수 기간 글. LH 는 접수 시각 칸이 '~' 만 오는 공고가 있어(2026-11-05 홍성군 영구임대 2015122300020903) 숫자가 없으면 날짜 칸을 쓴다."""
     t = (sch or {}).get("apply_time") or ""
@@ -868,8 +893,8 @@ def rental_page(org: str, n: dict):
             inner += f'<div class="gwrap"><table class="gtbl"><tr><th>주택형</th><th>계층</th><th>보증금</th><th>월 임대료</th></tr>{tr}</table></div>'
             ds = [x["deposit"] for x in rents if x.get("deposit")]; rs = [x["rent"] for x in rents if x.get("rent")]
             if ds:
-                inner += ps(f"임대보증금은 {won_k(min(ds))}부터 {won_k(max(ds))}까지" + (f", 월 임대료는 {won_k(min(rs))}부터 {won_k(max(rs))}까지" if rs else "")
-                            + "예요(모집공고문). 같은 주택형도 계층(대학생·청년·신혼부부·고령자 등)이나 소득 구간에 따라 금액이 달라요. 보증금과 월 임대료를 서로 바꾸는 전환 제도가 있는지 공고문을 확인하세요.")
+                inner += ps(f"임대보증금은 {won_range(ds)}" + (f", 월 임대료는 {won_range(rs)}" if rs else "")
+                            + ieyo(won_range(rs or ds)) + "(모집공고문). 같은 주택형도 계층(대학생·청년·신혼부부·고령자 등)이나 소득 구간에 따라 금액이 달라요. 보증금과 월 임대료를 서로 바꾸는 전환 제도가 있는지 공고문을 확인하세요.")
         parts.append(sec("03", "공급 주택과 임대조건", inner))
     gs = (n.get("terms") or {}).get("groups") or []
     if gs:
