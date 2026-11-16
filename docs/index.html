@@ -4959,8 +4959,13 @@ function legalNoticeCard(doc){
     <p class="small muted" style="margin:6px 0 0">아래는 지금 시행 중인 내용이에요. 함께 바뀌는 <button class="linkbtn small" data-go="${other[0]}">${other[1]}</button>도 확인하세요.</p></section>`;
 }
 const adVendors = () => [CONFIG.adsense_client ? 'Google AdSense' : '', (CONFIG.adfit_units || []).length ? '카카오 애드핏' : ''].filter(Boolean).join(', ');
+/* 광고를 그려도 되는 화면 (2026-11-16 운영자: 애드센스 '게시자 콘텐츠가 없는 화면에 광고' — 입력 폼·빈 화면에는 광고 코드·자리가 절대 나오지 않게).
+   공고 목록(공고가 5묶음 이상 있을 때 목록 사이)과 공고 상세만 허용한다. 내 조건(me)·알림(alerts)·가점 컷(trend)·온보딩·이용 안내·약관 등 그 밖의 화면은
+   adSlot 이 빈 글을 돌려주고, render() 가 혹시 남은 광고 자리를 지우며, 광고 스크립트도 허용 화면에 광고 자리가 실제로 있을 때만 불러온다. 검사: tools/qa/ads_guard.cjs */
+const AD_VIEWS = ['feed', 'detail'];
+function adsStrip(){ document.querySelectorAll('#app .adbox, #app ins.adsbygoogle, #app ins.kakao_ad_area').forEach(x => x.remove()); }
 function adSlot(where){
-  if (!adsOn()) return '';
+  if (!adsOn() || !AD_VIEWS.includes(S.view)) return '';
   const u = (CONFIG.adfit_units || []).find(x => !x.where || x.where === where);
   const inner = CONFIG.adsense_client && CONFIG['adsense_slot_' + where]
     ? `<ins class="adsbygoogle" style="display:block" data-ad-client="${esc(CONFIG.adsense_client)}" data-ad-slot="${esc(CONFIG['adsense_slot_' + where])}" data-ad-format="auto" data-full-width-responsive="true"></ins>`
@@ -4969,7 +4974,7 @@ function adSlot(where){
 }
 let ADS_LOADED = false;
 function adsAfterRender(){
-  if (!adsOn()) return;
+  if (!adsOn() || !AD_VIEWS.includes(S.view) || !document.querySelector('#app .adbox')) return;   // 광고 자리가 없는 화면(빈 목록 등)에서는 스크립트도 부르지 않는다
   if (!ADS_LOADED) { ADS_LOADED = true;
     if (CONFIG.adsense_client) { const g = document.createElement('script'); g.async = true; g.crossOrigin = 'anonymous'; g.src = 'https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=' + encodeURIComponent(CONFIG.adsense_client); document.head.appendChild(g); }
     if ((CONFIG.adfit_units || []).length) { const k = document.createElement('script'); k.async = true; k.src = 'https://t1.daumcdn.net/kas/static/ba.min.js'; document.head.appendChild(k); } }
@@ -6310,7 +6315,7 @@ function render(){
   const tl = tabbar.querySelector('[data-go=alerts]'); if (tl) tl.hidden = !(on('alerts_tab') && pushOn());
   document.body.classList.toggle('tab6', [...tabbar.querySelectorAll('button')].filter(b => !b.hidden).length >= 6);   // 기능: alerts_tab — 알림은 아래 탭으로 (맨 위 알림 버튼 자리는 검색)
   app.innerHTML = VIEWS[S.view]();
-  if (S.view === 'feed' || S.view === 'detail') adsAfterRender();   // 기능: ads
+  if (AD_VIEWS.includes(S.view)) adsAfterRender(); else adsStrip();   // 기능: ads — 허용 화면이 아니면 광고 자리를 남기지 않는다
   tabbar.hidden = S.view === 'onboard';
   const tab = { rental:'feed', rdetail:'feed', feed:'feed', detail:'feed', plan:'feed', past:'feed', alerts: on('alerts_tab') && pushOn() ? 'alerts' : 'feed', grades:'grades', me:'me', about: on('about_tab') ? 'about' : 'me', story: on('about_tab') ? 'about' : 'me', terms: on('about_tab') ? 'about' : 'me', privacy: on('about_tab') ? 'about' : 'me', updates: on('about_tab') ? 'about' : 'me', compare:'feed', trend:'trend' }[S.view];
   tabbar.querySelectorAll('button').forEach(b => { if (b.dataset.go === tab) b.setAttribute('aria-current','page'); else b.removeAttribute('aria-current'); });

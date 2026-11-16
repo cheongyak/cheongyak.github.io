@@ -211,3 +211,6 @@ description: 청약패스(cheongyakpass.kr, 저장소 cheongyak/cheongyak.github
 
 - **밤 자동 개선 루프 (2026-11-04)**: 예약 작업 '청약패스 밤 자동 개선'이 IMPROVE.md 절차로 매일 밤 PR(라벨 auto-improve) 하나를 올린다. 상태(할 일 목록·가중치·교훈)는 브랜치 auto-improve/state. 손으로 일할 때 열린 auto/ PR 과 같은 파일이면 충돌하니 먼저 PR 목록을 본다. 루프 규칙을 바꾸려면 IMPROVE.md 를 고치고(고정 규칙은 운영자 결정으로만) WORK.md 에 적는다.
 - **로컬 pytest 에 pip 이 막혔을 때 (2026-11-04, 11-05 도구로)**: `bash tools/qa/pytest_env.sh` → 마지막 줄 `PYTHONPATH=.:…/site` 를 pytest 앞에 붙인다(손으로 하려면: pytest·pluggy·iniconfig·httpx·httpcore·fastapi·starlette 를 GitHub 에서 받아 **패키지 폴더만** 한 폴더에 링크하고 `PYTHONPATH=.:<그 폴더>` 로 돌린다. 저장소 폴더 통째(예: httpx/)를 PYTHONPATH 에 넣으면 그 안의 `tests` 패키지가 우리 tests 를 가려 'No module named tests.test_…' 수집 오류가 난다.)
+- **광고는 허용 화면에만 (2026-11-16 애드센스 미승인 '게시자 콘텐츠가 없는 화면에 광고')** — 화면에 광고 자리를 새로 넣을 때는 `adSlot()` 만 쓰고, 허용 화면 목록 `AD_VIEWS`(목록·상세)를 넓히지 않는다.
+  입력 폼·빈 화면(내 조건·알림·가점 컷·빈 목록)에는 절대 넣지 않는다. 화면을 고치면 `node tools/qa/ads_guard.cjs`(광고 스위치를 켠 가짜 설정으로 전 화면 순회)를 돌린다.
+  첫 화면 초기 HTML 글(기능 seo_home)·sitemap 범위(기능 sitemap_recent)는 `tools/seo_pages.py` 에 있고 수집 뒤 `python -m tools.build_static` 이 다시 만든다 — docs/index.html 의 `<!--seo:start-->` 블록을 손으로 고치지 않는다.
