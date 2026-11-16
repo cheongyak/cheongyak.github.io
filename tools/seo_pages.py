@@ -822,6 +822,161 @@ def rent_type_desc(n: dict) -> str:
     return "이 공고는 공공기관이 공급하는 임대주택 모집 공고예요. 임대주택은 유형마다 신청 자격(무주택, 소득·자산, 나이·혼인 여부)과 거주할 수 있는 기간이 달라요."
 
 
+# ── 임대 페이지 보강 (2026-11-17: 글이 짧은 임대 목록·상세에 모집 개요·자격 확인 항목을 더한다 — 수집 데이터에 있는 값만 쓴다) ──
+RENT_ORG_INTRO = {
+    "lh": "LH(한국토지주택공사)가 LH 청약플러스에 올린 임대 공고예요. 국민임대·영구임대·행복주택·통합공공임대 같은 건설임대와 매입임대·전세임대 공고가 여기에 올라와요.",
+    "sh": "SH(서울주택도시개발공사)가 SH 인터넷청약시스템의 '주택임대' 게시판에 올린 공고예요. 서울에서 모집하는 임대주택 공고가 여기에 올라와요.",
+    "gh": "GH(경기주택도시공사)가 GH 누리집 청약정보의 분양·임대 공고 게시판에 올린 임대 공고예요. 경기도에서 모집하는 임대주택 공고가 여기에 올라와요.",
+    "local": "LH·SH·GH 를 뺀 지방 공사(도시공사·개발공사)의 임대 공고예요. 국토교통부 마이홈포털의 공공주택 모집공고에서 모아요.",
+    "pvt": "청약홈에 '공공지원민간임대'·'민간임대' 구분으로 올라온 공고예요. 민간 사업자가 공급하는 임대주택이라 자격과 임대 조건을 그 공고문이 정해요.",
+}
+RENT_CHECK_PUBLIC = [
+    "누가 무주택이어야 하는지(신청자 본인인지, 세대 구성원 전원인지)와 그 기준일",
+    "가구원 수별 월평균소득 기준 금액 표와 총자산·자동차 기준 금액",
+    "나이·혼인·자녀·거주 지역처럼 계층(대학생·청년·신혼부부·고령자 등)마다 다른 요건",
+    "청약통장이 필요한지, 순위나 배점을 어떻게 매기는지",
+    "신청 방법(인터넷·방문)과 서류 제출 대상 발표일, 서류 제출 기한",
+    "임대보증금과 월 임대료, 둘을 서로 바꿀 수 있는지와 임대 기간·재계약 조건",
+]
+RENT_CHECK_PVT = [
+    "일반공급과 특별공급(청년·신혼부부·고령자)의 신청 자격 — 무주택 요건과 나이·혼인·소득 기준",
+    "청약 신청금을 언제 내고 언제 돌려받는지",
+    "주택형별 임대보증금과 월 임대료, 계약금·잔금 납부 시기",
+    "임대 기간, 계약 갱신과 임대료 인상 조건",
+    "청약통장이 필요한지와 당첨자 선정 방식(추첨 등)",
+    "관리비 등 임대료 외 비용",
+]
+
+
+def rent_state(n: dict) -> str:
+    """접수 예정 / 접수 중 / 접수 마감 / '' (날짜를 못 읽음)"""
+    sch = ((n.get("schedule") or [{}])[0] or {})
+    a, b = str(sch.get("apply_start") or "")[:10], str(sch.get("apply_end") or n.get("close") or "")[:10]
+    if b and b < TODAY:
+        return "접수 마감"
+    if a and a > TODAY:
+        return "접수 예정"
+    if a or b:
+        return "접수 중"
+    return ""
+
+
+def _hh_sum(units: list):
+    hs = [u.get("households") for u in units]
+    return sum(hs) if hs and all(isinstance(h, int) for h in hs) else None
+
+
+def rent_overview(org: str, n: dict, ap: str) -> str:
+    """모집 개요 표 — 수집 데이터에 있는 값만."""
+    if not feature("rental_rich"):
+        return ""
+    units, cx, sch = n.get("units") or [], [c for c in (n.get("complexes") or []) if c.get("name")], ((n.get("schedule") or [{}])[0] or {})
+    rows = [("공급 기관", n.get("inst") or {"lh": "LH(한국토지주택공사)", "sh": "SH(서울주택도시개발공사)", "gh": "GH(경기주택도시공사)"}.get(org)),
+            ("사업 주체", cx[0].get("builder") if cx and cx[0].get("builder") else None),   # 청약홈 공고의 사업주체 칸(BSNS_MBY_NM)
+            ("임대 유형", n.get("type")), ("모집 지역", n.get("region")), ("공고 게시일", kd(n.get("posted")) if n.get("posted") else None),
+            ("접수 기간", ap or None), ("접수 마감일", kd(n.get("close")) if n.get("close") else None), ("진행 상태", rent_state(n) or None),
+            ("당첨자 발표", kd(sch.get("winner")) if sch.get("winner") else None)]
+    tot = _hh_sum(units)
+    if units:
+        rows.append(("모집 주택형", f"{len(units)}개" + (f", 모두 {tot:,}세대(호)" if tot else "")))
+    if cx and cx[0].get("households") and org == "pvt":
+        rows.append(("단지 규모", f"{cx[0]['households']:,}세대"))
+    tel = (n.get("office") or {}).get("tel")
+    if tel:
+        rows.append(("문의", tel))
+    if n.get("notice_text"):
+        rows.append(("모집공고문", f"청약패스가 받아 읽었어요(글자 {int(n['notice_text']):,}자)"))
+    tr = "".join(f"<tr><td>{e(k)}</td><td>{e(str(v))}</td></tr>" for k, v in rows if v)
+    files = [f for f in (n.get("files") or []) if f.get("name") and f.get("url")]
+    fl = ("<p>공고에 붙은 파일이에요. 신청 전에 모집공고문을 끝까지 읽어 보세요.</p>" + '<ul class="doclist">'
+          + "".join(f'<li><a href="{e(f["url"])}" target="_blank" rel="noopener">{e(f["name"])}</a>' + (f' <span class="small muted">{e(f["kind"])}</span>' if f.get("kind") else "") + "</li>" for f in files[:8]) + "</ul>") if files else ""
+    return sec("02", "모집 개요", f'<div class="gwrap"><table class="gtbl">{tr}</table></div>' + fl)
+
+
+def rent_special_table(units: list) -> str:
+    """공공지원 민간임대: 주택형별 일반·특별공급 세대수 (청약홈 공고 값)"""
+    if not feature("rental_rich"):
+        return ""
+    us = [u for u in units if isinstance(u.get("special"), dict) or u.get("general") is not None]
+    if not us:
+        return ""
+    keys = []
+    for u in us:
+        for k in (u.get("special") or {}):
+            if k not in keys:
+                keys.append(k)
+    tr = "".join(f"<tr><td>{e(str(u.get('type') or '-'))}</td><td>{u.get('general') if u.get('general') is not None else '-'}</td>"
+                 + "".join(f"<td>{(u.get('special') or {}).get(k, '-')}</td>" for k in keys) + "</tr>" for u in us[:30])
+    g = sum(u.get("general") or 0 for u in us); sp = {k: sum((u.get("special") or {}).get(k) or 0 for u in us) for k in keys}
+    summ = f"일반공급은 모두 {g:,}세대" + ("".join(f", {e(k)} 특별공급 {v:,}세대" for k, v in sp.items() if v)) + "예요(청약홈 공고)."
+    return (f'<div class="gwrap"><table class="gtbl"><tr><th>주택형</th><th>일반공급</th>' + "".join(f"<th>{e(k)} 특별공급</th>" for k in keys) + f"</tr>{tr}</table></div>"
+            + ps(summ + " 특별공급은 계층마다 나이·혼인·소득 요건이 따로 있으니 모집공고문에서 내 계층의 요건을 확인하세요."))
+
+
+def rent_ai_ref(n: dict) -> str:
+    """SH 공고문 AI 참고 내용(기능 ai_read_sh) — 근거 문장이 원문에 그대로 있는 값만 실려 있다. 판정에는 쓰지 않는다."""
+    if not feature("rental_rich"):
+        return ""
+    gs = ((n.get("notice_ai") or {}).get("groups") or []) if feature("ai_read_sh") else []
+    li = []
+    for g in gs[:8]:
+        its = [f"{e(i.get('label') or '')} {e(i.get('text') or '')}" + (f' <span class="small muted">— 공고문 문구: “{e(i["quote"])}”</span>' if i.get("quote") else "") for i in (g.get("items") or []) if i.get("text")]
+        if its:
+            li.append(f"<li><b>{e(g.get('name') or '')}</b><br>" + "<br>".join(its) + "</li>")
+    if not li:
+        return ""
+    return (ps("청약패스의 읽기 규칙이 이 공고문의 자격 기준을 읽지 못해, AI 가 공고문에서 읽은 내용을 참고로 실었어요. 근거 문장이 공고문에 그대로 있는 값만 실었고, 자격 판정에는 쓰지 않았어요. 신청 전에 공고문 원문으로 확인하세요.")
+            + f'<ul class="doclist">{"".join(li)}</ul>')
+
+
+def rent_check(org: str, n: dict, has_terms: bool) -> str:
+    """신청 전에 공고문에서 확인할 것 — 기준을 지어내지 않고 확인 항목만 적는다."""
+    if not feature("rental_rich"):
+        return ""
+    items = RENT_CHECK_PVT if org == "pvt" else RENT_CHECK_PUBLIC
+    lead = ("위 기준은 모집공고문에서 자동으로 읽은 값이라, 신청 전에 공고문 원문에서 아래 항목을 함께 확인하세요." if has_terms
+            else "이 공고는 기관·유형마다 공고문 양식이 달라 청약패스가 계층별 소득·자산 기준을 자동으로 읽지 못했어요. 기준을 짐작해서 적지 않고, 공고문에서 직접 확인할 항목을 정리했어요.")
+    tail = ("공공지원 민간임대는 공공임대(영구·국민·행복·통합공공임대)와 근거 법령이 달라요. 공공임대 기준으로 자격을 짐작하지 말고 이 공고의 모집공고문을 기준으로 보세요." if org == "pvt"
+            else "임대주택은 접수 뒤 서류 심사에서 자격을 다시 확인해요. 신청할 때 적은 내용이 심사 결과와 다르면 당첨이 취소될 수 있으니 공고문의 기준일과 소득·자산 산정 방법을 확인하세요.")
+    return sec("05", "신청 전에 공고문에서 확인할 것", ps(lead) + '<ul class="doclist">' + "".join(f"<li>{e(x)}</li>" for x in items) + "</ul>" + ps(tail))
+
+
+def rent_list_extra(org: str | None, ns: list, srcs: list) -> str:
+    """임대 목록 페이지에 더하는 글: 상태·유형·지역별 건수, 유형 설명, 보는 법, 자료 출처."""
+    if not feature("rental_rich"):
+        return ""
+    from collections import Counter
+    st, ty, rg = Counter(rent_state(n) or "일정 확인 필요" for n in ns), Counter((n.get("type") or "임대") for n in ns), Counter((n.get("region") or "지역 미상") for n in ns)
+    cnt = lambda c: ", ".join(f"{e(k)} {v}건" for k, v in c.most_common(12))
+    out = ""
+    if ns:
+        out += sec(None, "지금 모인 공고", '<div class="gwrap"><table class="gtbl">' + f"<tr><td>진행 상태</td><td>{cnt(st)}</td></tr><tr><td>임대 유형</td><td>{cnt(ty)}</td></tr><tr><td>모집 지역</td><td>{cnt(rg)}</td></tr></table></div>"
+                   + ps(f"진행 상태는 오늘({kd(TODAY)}) 날짜와 공고의 접수 기간을 견줘 나눈 거예요. 접수 기간을 읽지 못한 공고는 '일정 확인 필요'로 세요."))
+    seen, descs = set(), []
+    for n in ns:
+        d = rent_type_desc(n)
+        if d not in seen and not d.startswith("이 공고는"):
+            seen.add(d); descs.append(d)
+    if descs:
+        out += sec(None, "유형별로 무엇이 다른가요", ps(*descs[:8]))
+    out += sec(None, "공고 페이지에서 볼 수 있는 것", '<ul class="doclist">'
+               + "<li><b>모집 개요</b>: 공급 기관, 임대 유형, 지역, 게시일과 접수 기간, 모집 주택형과 세대수, 문의처, 공고에 붙은 파일</li>"
+               + "<li><b>일정</b>: 접수, 서류 제출 대상 발표, 서류 제출, 당첨자 발표, 계약</li>"
+               + "<li><b>공급 주택과 임대조건</b>: 주택형·전용면적·세대수와, 공고문에서 읽은 임대보증금·월 임대료</li>"
+               + "<li><b>신청 자격</b>: 공고문에서 읽은 계층별 무주택·소득·자산·자동차 기준. 읽지 못한 공고는 공고문에서 확인할 항목을 적어요</li>"
+               + "<li><b>출처</b>: 기관 공고 페이지와 모집공고문 원문 링크</li></ul>"
+               + ps("임대주택은 보통 공고 → 접수 → 서류 제출 대상 발표 → 서류 제출과 자격 조회 → 당첨자 발표 → 계약 순서로 진행돼요. 접수만 하고 서류를 기한 안에 내지 않으면 대상에서 빠질 수 있어요.",
+                    "공고 페이지의 '내 조건으로 자격 보기'를 누르면 청약패스 앱에서 내 조건(무주택, 소득·자산, 나이·혼인)을 넣고 계층별로 판정해 볼 수 있어요. 판정은 참고용이고 최종 기준은 모집공고문이에요."))
+    if org:
+        out += sec(None, "신청 전에 공고문에서 확인할 것", '<ul class="doclist">' + "".join(f"<li>{e(x)}</li>" for x in (RENT_CHECK_PVT if org == "pvt" else RENT_CHECK_PUBLIC)) + "</ul>"
+                   + ps("공공지원 민간임대는 공공임대(영구·국민·행복·통합공공임대)와 근거 법령이 달라요. 공공임대 기준으로 자격을 짐작하지 말고 그 공고의 모집공고문을 기준으로 보세요." if org == "pvt"
+                        else "같은 유형이라도 공고마다 모집 대상과 기준 금액이 달라요. 지난 공고의 기준으로 짐작하지 말고 신청하려는 공고의 모집공고문을 기준으로 보세요."))
+    if srcs:
+        out += sec(None, "자료 출처와 갱신", '<ul class="doclist">' + "".join(f"<li>{e(a)}" + (f' <span class="small muted">마지막 수집 {e(u)}</span>' if u else "") + "</li>" for a, u in srcs) + "</ul>"
+                   + ps("청약패스는 하루 한 번 이상 각 기관 게시판을 다시 읽어요. 공고가 정정되거나 일정이 바뀔 수 있으니 신청 전에는 기관 공고 페이지를 다시 확인하세요."))
+    return out
+
+
 def rent_ok(n: dict) -> bool:
     return bool(n.get("units") or n.get("rents") or (n.get("terms") or {}).get("groups") or n.get("schedule"))
 
@@ -871,10 +1026,12 @@ def rental_page(org: str, n: dict):
         p1 += " 대상 단지는 " + ", ".join(f"{e(c.get('name') or '')}" + (f"({e(c.get('address'))}" + (f", {c['households']:,}세대" if c.get("households") else "") + ")" if c.get("address") else "") for c in cx[:4]) + (f" 등 {len(cx)}곳" if len(cx) > 4 else "") + "이에요."
         mi = [c.get("move_in") for c in cx if c.get("move_in")]
         if mi and str(mi[0]).replace(".", "-")[:7] >= str(n.get("posted") or "")[:7]:
-            p1 += f" 공고에 적힌 입주 시기는 {e(mi[0])}{ieyo(mi[0])}."
+            mv = (f"{mi[0][:4]}년 {int(mi[0][4:])}월" if re.fullmatch(r"\d{6}", str(mi[0])) else str(mi[0])) if feature("rental_rich") else str(mi[0])   # '202701' → '2027년 1월'
+            p1 += f" 공고에 적힌 입주 시기는 {e(mv)}{ieyo(mv)}."
     parts = ["<h1>" + e(name) + "</h1>", f'<p class="muted" style="margin:0 0 10px">{e(n.get("region") or "")} · {e(RENT_ORG[org][0])} · {e(typ)}</p>',
              f'<a class="btn" href="/#/rdetail/{e(str(n["id"]))}">내 조건으로 자격 보기</a>', sec("01", "한눈에 보기", ps(p1, rent_type_desc(n)))]
     parts[1] = parts[1].replace("</p>", (f" · 접수 {e(ap)}" if ap else f" · 게시 {md(n.get('posted'))}") + (" · <b>접수 마감</b>" if closed else "") + "</p>", 1)
+    parts.append(rent_overview(org, n, ap))
     if sch:
         rows = [("접수", ap or "모집공고문 확인"),
                 ("서류 제출 대상 발표", sch.get("docs_target")), ("서류 제출", sch.get("docs_start") and (sch["docs_start"] + (" ~ " + sch["docs_end"] if sch.get("docs_end") else ""))),
@@ -895,6 +1052,8 @@ def rental_page(org: str, n: dict):
             if ds:
                 inner += ps(f"임대보증금은 {won_range(ds)}" + (f", 월 임대료는 {won_range(rs)}" if rs else "")
                             + ieyo(won_range(rs or ds)) + "(모집공고문). 같은 주택형도 계층(대학생·청년·신혼부부·고령자 등)이나 소득 구간에 따라 금액이 달라요. 보증금과 월 임대료를 서로 바꾸는 전환 제도가 있는지 공고문을 확인하세요.")
+        if org == "pvt":
+            inner += rent_special_table(units)
         parts.append(sec("03", "공급 주택과 임대조건", inner))
     gs = (n.get("terms") or {}).get("groups") or []
     if gs:
@@ -924,6 +1083,10 @@ def rental_page(org: str, n: dict):
             li.append(s + (", ".join(bits) if bits else "공고문 확인"))
         parts.append(sec("04", "신청 자격 (공고 조건)", ps("모집공고문에서 자동으로 읽은 계층별 기준이에요. 소득은 가구원수별 금액 표, 자산은 부동산·금융자산 등을 합친 총자산으로 따져요. 최종 기준은 공고문 원문이에요.")
                          + '<ul class="doclist">' + "".join(f"<li>{x}</li>" for x in li) + "</ul>"))
+    ai = rent_ai_ref(n) if not gs else ""
+    if ai:
+        parts.append(sec("04", "공고문에서 읽은 자격 기준 (참고)", ai))
+    parts.append(rent_check(org, n, bool(gs)))
     qas = [(f"{e(name)} 접수 기간은 언제예요?", (f"접수는 {e(ap)}{'였' if closed else '이'}고, " if ap else "접수 일정은 모집공고문에서 확인해야 해요(청약패스가 날짜를 읽지 못했어요). ")
             + (f"당첨자 발표는 {kd(sch.get('winner'))}{ieyo(kd(sch.get('winner')))}. " if sch.get("winner") else "") + "자세한 일정은 모집공고문을 확인하세요."),
            (f"{e(name)} 임대료는 얼마예요?", ("보증금 " + won_k(min(x["deposit"] for x in rents if x.get("deposit"))) + "부터, 계층·주택형별로 공고문 표에 나와 있어요. " if any(x.get("deposit") for x in rents)
@@ -944,13 +1107,36 @@ def rental_page(org: str, n: dict):
             renumber("".join(parts)), faq_ld(qas), crumbs)
 
 
+def rent_open_list(allr: dict) -> str:
+    """임대 첫 목록: 접수 중·접수 예정 공고를 기관 구분 없이 접수 마감이 가까운 순으로 (최대 40건)"""
+    if not feature("rental_rich"):
+        return ""
+    rows = []
+    for o, ns in allr.items():
+        for n in ns:
+            stt = rent_state(n)
+            if stt in ("접수 중", "접수 예정"):
+                sch = ((n.get("schedule") or [{}])[0] or {})
+                rows.append((str(sch.get("apply_end") or n.get("close") or "9999"), o, n, stt, sch))
+    rows.sort(key=lambda r: r[0])
+    if not rows:
+        return ""
+    li = "".join(f'<li><a href="/rental/{o}/{rent_slug(n)}/"><b>{e(n["name"])}</b></a><br><span class="small muted">{e(RENT_ORG[o][0])} · {e(n.get("region") or "")} · {e(n.get("type") or "")} · {stt}'
+                 + (f' · 접수 {short_range(sch.get("apply_start"), sch.get("apply_end"))}' if sch.get("apply_start") else (f' · 마감 {md(n.get("close"))}' if n.get("close") else "")) + "</span></li>" for _, o, n, stt, sch in rows[:40])
+    return sec(None, f"접수 중·접수 예정 공고 ({len(rows)})", ps("접수 마감이 가까운 순서예요.") + f'<ul class="doclist linklist">{li}</ul>')
+
+
 def rental_build(write) -> list:
     out = []
-    allr = {}
+    allr, srcs = {}, {}
     for org, (label, files) in RENT_ORG.items():
         ns = []
+        srcs[org] = []
         for f in files:
-            ns += [n for n in ((load(DOCS / f"{f}.json", {}) or {}).get("notices") or []) if rent_ok(n)]
+            j = load(DOCS / f"{f}.json", {}) or {}
+            ns += [n for n in (j.get("notices") or []) if rent_ok(n)]
+            if j.get("source"):
+                srcs[org].append((j["source"], j.get("updated")))
         allr[org] = ns
         for n in ns:
             t, d, b, h, c = rental_page(org, n)
@@ -958,13 +1144,18 @@ def rental_build(write) -> list:
         li = "".join(f'<li><a href="/rental/{org}/{rent_slug(n)}/"><b>{e(n["name"])}</b></a><br><span class="small muted">{e(n.get("region") or "")} · {e(n.get("type") or "")} · 게시 {md(n.get("posted"))}{(" · 접수 " + short_range(((n.get("schedule") or [{}])[0] or {}).get("apply_start"), ((n.get("schedule") or [{}])[0] or {}).get("apply_end"))) if ((n.get("schedule") or [{}])[0] or {}).get("apply_start") else ""}</span></li>' for n in ns)
         body = (f"<h1>{e(label)} 임대 공고</h1>" + ps(f"{e(label)} 임대주택 공고 {len(ns)}건을 모았어요. 공고마다 신청 자격, 보증금·월 임대료, 접수·발표 일정을 모집공고문 기준으로 정리했어요.",
                                                        "임대주택은 유형마다 자격과 거주 기간이 달라요. 유형별 기본 구조는 " + (glink("public-rental", "공공임대 기본") or "청약 가이드") + "에서 볼 수 있어요.")
-                + f'<ul class="doclist linklist">{li}</ul>')
+                + ps(RENT_ORG_INTRO.get(org, "") if feature("rental_rich") else "")
+                + (f'<ul class="doclist linklist">{li}</ul>' if ns or not feature("rental_rich") else ps("지금은 모인 공고가 없어요. 새 공고가 올라오면 이 페이지에 실려요."))
+                + rent_list_extra(org, ns, srcs[org]))
         out.append(write(f"rental/{org}/", f"{label} 임대주택 공고 모아 보기", f"{label} 임대주택 공고 {len(ns)}건 — 자격·임대조건·일정", body, "", [("/", "홈"), ("/rental/", "임대 공고"), (None, label)], TODAY))
     tot = sum(len(v) for v in allr.values())
     body = ("<h1>임대 공고 모아 보기</h1>"
             + ps(f"LH·SH·GH·지방 공사의 공공임대와 공공지원 민간임대 공고 {tot}건을 기관별로 모았어요. 행복주택·국민임대·영구임대·매입임대·전세임대처럼 유형마다 신청 자격과 임대료 구조가 달라요.",
                  "각 공고 페이지에는 모집공고문에서 읽은 계층별 소득·자산 기준과 임대조건 표, 접수·서류 제출·발표 일정을 정리했어요. 내 조건으로 판정하려면 청약패스 앱의 임대 탭을 쓰세요.")
-            + '<ul class="doclist linklist">' + "".join(f'<li><a href="/rental/{o}/"><b>{e(RENT_ORG[o][0])}</b></a> <span class="small muted">{len(v)}건</span></li>' for o, v in allr.items()) + "</ul>")
+            + '<ul class="doclist linklist">' + "".join(f'<li><a href="/rental/{o}/"><b>{e(RENT_ORG[o][0])}</b></a> <span class="small muted">{len(v)}건</span>{('<br><span class="small">' + e(RENT_ORG_INTRO.get(o, "")) + '</span>') if feature("rental_rich") else ""}</li>' for o, v in allr.items()) + "</ul>"
+            + rent_open_list(allr)
+            + rent_list_extra(None, [n for v in allr.values() for n in v], [x for v in srcs.values() for x in v])
+            + (ps("제도 설명: " + " · ".join(x for x in (glink("public-rental", "공공임대 기본"), glink("private-rental", "공공지원 민간임대")) if x)) if feature("rental_rich") else ""))
     out.append(write("rental/", "임대 공고 모아 보기 — LH·SH·GH·지방 공사·민간임대", f"공공임대·공공지원 민간임대 공고 {tot}건의 자격·임대조건·일정", body, "", [("/", "홈"), (None, "임대 공고")], TODAY))
     return out
 
