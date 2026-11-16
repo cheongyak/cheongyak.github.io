@@ -78,6 +78,8 @@ def _general_terms(t: str, kind: str) -> tuple[dict, dict]:
          or re.search(r"가구원수\s?기존\s?완화\s?소득\s?기준[^.]{0,60}?원\s?이하\s?소득\s?기준\s?적용\s?배제", sec)
          # 기준 표 머리가 '- 소득 기준(적용배제) 가구원수 본래조건 완화조건' — 본래·완화 두 열 (증평 송산5 2015122300021078, 2026-11-16)
          or re.search(r"소득\s?기준\s?\(\s?적용\s?배제\s?\)\s?가구원수\s?본래\s?조건\s?완화\s?조건", sec)
+         # 기준 표 칸이 '소득 소득요건 제한 없음' (통영안정 국민임대 자격완화 2015122300021063, 2026-11-16)
+         or re.search(r"소득\s?및\s?자산보유\s?기준\s?소득\s?소득\s?요건\s?제한\s?없음\s?총자산", sec)
          or _base_excluded(sec))
     if m:
         income, q["income"] = "excluded", _q(both, m) if m.re.pattern.find("→") < 0 else _q(rel, m)
@@ -110,6 +112,8 @@ def _general_terms(t: str, kind: str) -> tuple[dict, dict]:
          or re.search(r"총\s?자산가액\s?기존[^.]{0,80}?만원\s?이하\s?완화\s?자산\s?기준\s?적용\s?배제", sec)
          # '자산 총자산가액 적용 배제 자동차가액 세대구성원 전원이 …' — 총자산 칸이 통째로 '적용 배제' (증평 송산5 2015122300021078, 2026-11-16)
          or re.search(r"자산\s?총\s?자산가액\s?적용\s?배제\s?자동차가액", sec)
+         # '총자산 자산요건 제한 없음 자동차 세대구성원 전원이 …' (통영안정 2015122300021063, 2026-11-16)
+         or re.search(r"총자산\s?자산\s?요건\s?제한\s?없음\s?자동차", sec)
          or _base_excluded(sec))
     if m:
         asset, q["asset"] = "excluded", _q(sec if m.string is sec else rel, m)
