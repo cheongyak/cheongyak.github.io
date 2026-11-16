@@ -429,6 +429,7 @@ input[type=date]{min-height:52px;border-radius:12px;border:1px solid var(--line)
 .tabbar button[aria-current="page"]{color:var(--fg);font-weight:700}
 .foot{font-size:11px;color:var(--muted);margin:0}
 .guide-entry{display:flex;align-items:center;justify-content:space-between;gap:10px;padding:12px 14px;background:var(--surface);border:1px solid var(--line);border-radius:12px;font-size:13px;color:inherit;text-decoration:none;min-height:44px} .guide-entry>span{display:flex;flex-direction:column;gap:2px;min-width:0} .guide-entry svg{width:16px;height:16px;flex:none;color:var(--muted)}
+.sitefoot{font-size:12px;line-height:2;color:var(--muted);text-align:center;margin:0;padding:8px 0 0;border-top:1px solid var(--line)} .sitefoot a{color:inherit;white-space:nowrap;padding:6px 2px}
 .mapbox{height:220px;border-radius:12px;overflow:hidden;background:var(--sunk);border:1px solid var(--line)}
 .mapbox.big{height:58vh;min-height:340px}
 .mapfail{height:100%;display:flex;align-items:center;justify-content:center;padding:16px;text-align:center;font-size:13px;color:var(--muted)}
@@ -2091,6 +2092,11 @@ function summaryGroups(){
 function guideEntry(){
   return on('static_pages') && on('guide_pages') ? `<a class="guide-entry" href="/guide/" data-ev="guide-entry"><span><b>청약 가이드</b><span class="small muted">가점 계산 · 청약통장 1순위 · 특별공급 · 무순위 해설</span></span>${chev.replace('<svg', '<svg style="transform:rotate(180deg)"')}</a>` : '';
 }
+/* 첫 화면 아래 사이트 링크 (기능 home_footer, 2026-11-16 운영자: 소개·정책 페이지를 일반 <a> 링크로 명확히). 공고 목록 화면 맨 아래에만 둔다. 끄면 사라진다 */
+function siteFoot(){
+  if (!on('home_footer') || !on('static_pages')) return '';
+  return `<nav class="sitefoot" aria-label="사이트 안내">${on('guide_pages') ? '<a href="/guide/">청약 가이드</a> · ' : ''}<a href="/story/">만든 이유</a> · <a href="/about/">이용 안내</a> · <a href="/privacy/">개인정보처리방침</a> · <a href="/terms/">이용약관</a></nav>`;
+}
 function summaryBar(){
   if (!on('summary_bar') || !DATA_SOURCE.live) return '';
   const G = summaryGroups(), uniq = arr => new Set(arr.map(nidOf)).size, tap = on('summary_sheet');
@@ -2213,6 +2219,7 @@ function vFeedV2(){
   ${actShown.length ? `<div class="active-f" aria-label="선택한 필터">${actShown.map(([k, t]) => `<button class="fchip" data-unset="${k}" aria-label="${esc(t)} 필터 해제">${esc(t)}${x}</button>`).join('')}</div>` : ''}
   ${showMap ? feedMapBlock(list) : list.length ? groupTypes(list).map((gr, i) => groupCard(gr, i) + (i === 4 ? adSlot('feed') : '')).join('') + closedToggle(closedN) : closedToggle(closedN) + `<div class="card empty"><b>${on('search') && S.q && S.q.trim() ? `'${esc(S.q.trim())}' 에 맞는 공고가 없어요` : '조건에 맞는 공고가 없어요'}</b><span class="small muted">${on('search') && S.q && S.q.trim() ? '단지명 일부나 구 이름으로 찾아보세요.' + (closedN && !showClosed ? ' 마감된 공고까지 보려면 위 버튼을 누르세요.' : '') + (act.length || S.filter !== 'all' ? ' 걸어 둔 필터도 함께 적용돼요.' : '') : act.length ? '필터를 하나씩 해제하거나 초기화해 보세요.' : '이 등급의 공고가 아직 없어요.'}</span>${act.length || S.filter !== 'all' ? '<button class="btn ghost" data-action="reset-filters" style="max-width:220px">필터 초기화</button>' : ''}</div>`}
   <p class="foot">${DATA_SOURCE.live ? '공고 ' + src('applyhome') + ' · 시세 ' + src('rtms') + ' · 매일 새벽 갱신, 시세는 추정치예요. 판정은 참고용이며 신청 전 공고문을 꼭 확인하세요.' + (analyticsName() ? ' 방문 통계는 쿠키 없이 ' + analyticsName() + '로 집계하며, 입력한 내 정보는 보내지 않아요.' : '') : '샘플 표시가 있는 단지는 등급 예시를 위한 가상 데이터예요.'}${aboutLink()}</p>
+  ${siteFoot()}
   ${summarySheet()}`;
 }
 /* 공고 데이터를 읽는 중·실패 (기능: data_fail_ui). 실패하면 코드에 든 예시 공고를 실제 공고처럼 보여주지 않고, 실패를 알리고 다시 시도하게 한다 */
@@ -2267,6 +2274,7 @@ function vFeed(){
   ${actShown.length ? `<div class="active-f" aria-label="선택한 필터">${actShown.map(([k, t]) => `<button class="fchip" data-unset="${k}" aria-label="${esc(t)} 필터 해제">${esc(t)}${x}</button>`).join('')}</div>` : ''}
   ${showMap ? feedMapBlock(list) : list.length ? groupTypes(list).map((gr, i) => groupCard(gr, i) + (i === 4 ? adSlot('feed') : '')).join('') + closedToggle(closedN) : closedToggle(closedN) + `<div class="card empty"><b>${on('search') && S.q && S.q.trim() ? `'${esc(S.q.trim())}' 에 맞는 공고가 없어요` : '조건에 맞는 공고가 없어요'}</b><span class="small muted">${on('search') && S.q && S.q.trim() ? '단지명 일부나 구 이름으로 찾아보세요.' + (closedN && !showClosed ? ' 마감된 공고까지 보려면 위 버튼을 누르세요.' : '') + (act.length || S.filter !== 'all' ? ' 걸어 둔 필터도 함께 적용돼요.' : '') : act.length ? '필터를 하나씩 해제하거나 초기화해 보세요.' : '이 등급의 공고가 아직 없어요.'}</span>${act.length || S.filter !== 'all' ? '<button class="btn ghost" data-action="reset-filters" style="max-width:220px">필터 초기화</button>' : ''}</div>`}
   <p class="foot">${DATA_SOURCE.live ? '공고 ' + src('applyhome') + ' · 시세 ' + src('rtms') + ' · 매일 새벽 갱신, 시세는 추정치예요.' + (analyticsName() ? ' 방문 통계는 쿠키 없이 ' + analyticsName() + '로 집계하며, 입력한 내 정보는 보내지 않아요.' : '') : '샘플 표시가 있는 단지는 등급 예시를 위한 가상 데이터예요.'}${aboutLink()}</p>
+  ${siteFoot()}
   ${summarySheet()}`;
 }
 
