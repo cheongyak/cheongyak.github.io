@@ -1,8 +1,122 @@
 {
- "updated": "2026-11-17 13:19",
+ "updated": "2026-11-18 08:45",
  "source": "청약홈 분양정보 API 공공지원 민간임대·민간임대 (한국부동산원)",
- "count": 2,
+ "count": 3,
  "notices": [
+  {
+   "id": "PVT-2026850056",
+   "org": "PVT",
+   "name": "서면 지원 더뷰 드림아파트(공공지원민간임대)",
+   "type": "공공지원 민간임대",
+   "judge_type": false,
+   "youth": false,
+   "region": "부산광역시",
+   "posted": "2026-11-17",
+   "close": "2026-11-25",
+   "status": null,
+   "url": "https://www.applyhome.co.kr/ai/aia/selectPRMOLttotPblancDetailView.do?houseManageNo=2026850056&pblancNo=2026850056&houseSecd=03",
+   "url_mobile": "https://www.applyhome.co.kr/ai/aia/selectPRMOLttotPblancDetailView.do?houseManageNo=2026850056&pblancNo=2026850056&houseSecd=03",
+   "schedule": [
+    {
+     "complex": null,
+     "apply_start": "2026-11-24",
+     "apply_end": "2026-11-25",
+     "docs_target": null,
+     "winner": "2026-12-01",
+     "rank1": false,
+     "contract_start": "2026-12-07",
+     "contract_end": "2026-12-09"
+    }
+   ],
+   "complexes": [
+    {
+     "name": "서면 지원 더뷰 드림아파트(공공지원민간임대)",
+     "address": "부산광역시 부산진구 부전동 390-1",
+     "households": 145,
+     "move_in": "202802",
+     "builder": "(주)지원홀딩스"
+    }
+   ],
+   "units": [
+    {
+     "complex": null,
+     "type": "23A",
+     "area": 24.0,
+     "households": 4,
+     "now_households": 4,
+     "general": 4,
+     "special": {
+      "청년": 0,
+      "신혼부부": 0,
+      "고령자": 0
+     },
+     "supply_amount": 11060,
+     "apply_fee": 10,
+     "deposit": null,
+     "rent": null
+    },
+    {
+     "complex": null,
+     "type": "49B",
+     "area": 49.53,
+     "households": 101,
+     "now_households": 101,
+     "general": 82,
+     "special": {
+      "청년": 0,
+      "신혼부부": 19,
+      "고령자": 0
+     },
+     "supply_amount": 21120,
+     "apply_fee": 10,
+     "deposit": null,
+     "rent": null
+    },
+    {
+     "complex": null,
+     "type": "59C",
+     "area": 59.63,
+     "households": 4,
+     "now_households": 4,
+     "general": 3,
+     "special": {
+      "청년": 0,
+      "신혼부부": 1,
+      "고령자": 0
+     },
+     "supply_amount": 25280,
+     "apply_fee": 10,
+     "deposit": null,
+     "rent": null
+    },
+    {
+     "complex": null,
+     "type": "59D",
+     "area": 59.67,
+     "households": 36,
+     "now_households": 36,
+     "general": 33,
+     "special": {
+      "청년": 0,
+      "신혼부부": 3,
+      "고령자": 0
+     },
+     "supply_amount": 25280,
+     "apply_fee": 10,
+     "deposit": null,
+     "rent": null
+    }
+   ],
+   "rents": [],
+   "terms": null,
+   "files": [],
+   "notice_pdf": null,
+   "home": null,
+   "office": {
+    "place": null,
+    "tel": "0512711140"
+   }
+  },
   {
    "id": "PVT-2026850055",
    "org": "PVT",
