@@ -52,6 +52,7 @@ const results = await page.evaluate(({ cases, listings, lhNotices }) => {
       else if (c.fn === 'contract') {   /* 기능 contract_from_notice: 공고문 분양대금 비율로 계약금·준비 여부 (사례에 공고 원자료와 스위치 값을 함께 둔다) */
         const F0 = CONFIG.features; CONFIG.features = Object.assign({}, F0, { contract_from_notice: c.feature });
         try { const L2 = fromApi(c.raw), f = funding(L2, p, planOpt(L2)); got = { amt: Math.round(f.contractAmt * 10000), ok: f.contractOk, mid: L2.midRate }; } finally { CONFIG.features = F0; } }
+      else if (c.fn === 'duty') got = { s: jeonseCheck(fromApi(c.raw)).status };   /* 실거주 의무 → 전세 가능 여부 (사례에 공고 원자료를 함께 둔다, 2026-11-11) */
       else if (c.fn === 'residence') { const r = residenceItem(L, p); got = { s: r.s, v: r.v.startsWith(c.expect.v) ? c.expect.v : r.v }; }
     } catch (e) { got = { error: e.message }; }
     out.push({ id: c.id, ok: JSON.stringify(got) === JSON.stringify(c.expect), got, expect: c.expect, basis: c.basis });

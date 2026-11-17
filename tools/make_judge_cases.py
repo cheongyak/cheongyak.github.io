@@ -1460,6 +1460,30 @@ def main() -> None:
         add(id=f"contract-{ci:02d}", fn="contract", listing=None, raw=raw, feature=True, profile={"cash": want_amt, "liquid": 0, "deposit": 0, "income": 5000, "_set": ["cash", "liquid", "deposit", "income"]},
             expect={"amt": want_amt, "ok": True, "mid": raw.get("mid_rate") or 0}, basis="의정부우정 A2 2026000409 — LH 표('계약금10%' 괄호 없음)는 읽지 않음 → 수집값 10% 그대로")
 
+    # ---------- 17-2) 실거주 의무와 전세 (2026-11-11 밤 자동 개선 — 제한사항 표 '거주의무 최초 입주가능일 5년' 을 못 읽어 '확인 필요'로 남던 것) ----------
+    # 정답 tests/golden/notices.json residence_duty(원문 문장 직접 확인). 규칙(2026000528 본문 '■ 거주의무 안내 … 최초 입주가능일부터 3년 이내에 입주하여야 하고,
+    # 해당 거주의무 개시일부터 5년 동안 계속 거주'): 거주의무 기간을 모르면 전세 가능 여부 '확인 필요'(check), 기간이 있고 최초 입주가능일 날짜가 없으면 3년 안에 들어가면 되니 전세 한 번만 '조건부'(cond).
+    # 토지임대부(90일 안 입주)·지분적립형(거주의무기간 임대 금지)은 이 규칙이 아니라 사례에 넣지 않는다(다른 눈 검토 11-11 — 화면 판단은 운영자 판단 필요).
+    # 공고 원자료는 docs/listings.json 의 그 주택형(2026-11-11 수집)을 떠 둔 것(전세 판단에 안 쓰는 시세 근거·경쟁률·근거 문장 칸은 뺌)에 정답 거주의무만 넣은 것.
+    DF = ROOT / "tests/judge/duty_listings.json"
+    if not DF.exists():
+        src = {x["id"].strip(): x for x in json.loads((ROOT / "docs/listings.json").read_text(encoding="utf-8"))}
+        drop = ("mkt_comps", "jeonse_comps", "area_comps", "nearby", "sp_competition", "area_sp", "competition", "notice_quotes", "notice_ai", "mkt_basis",
+                "special_units", "schedule", "pub_limits", "checks", "notice_conflicts")
+        keep = [{a: b for a, b in v.items() if a not in drop} for k, v in src.items() if k == "2026000528-084.7637A"]
+        DF.write_text(json.dumps(keep, ensure_ascii=False, indent=1) + "\n", encoding="utf-8")
+    di = 0
+    for raw0 in json.loads(DF.read_text(encoding="utf-8")):
+        nid = raw0["id"].split("-")[0]
+        gd = GN[nid]["fields"]["residence_duty"]
+        assert gd > 0, nid   # 이 사례는 거주의무가 있는 공고만 (없음 0 은 전세 다른 조건에 따라 달라 따로 두지 않음)
+        for nm, duty in [(f"공고문 거주의무 {gd}년", gd), ("거주의무를 못 읽음(예전)", None)]:
+            raw = {**raw0, "residence_duty": duty, "duty_from": None, "duty_silent": False}
+            di += 1
+            add(id=f"duty-{di:02d}", fn="duty", listing=None, raw=raw, profile={},
+                expect={"s": "check" if duty is None else "cond"},
+                basis=f"{GN[nid]['verified_from']} · 제한사항 표 '거주의무 최초 입주가능일 {gd}년' · 본문 '최초 입주가능일부터 3년 이내에 입주' — {nm}")
+
     # ---------- 18) SH 임대 자격 (기능 sh_judge, 2026-10-06 SH 2단계) ----------
     # 공고 조건은 tests/judge/sh_notices.json — 정답 데이터(tests/golden/sh_rental.json terms, 공고문 원문을 직접 읽은 값)에서 만든 것(파서 결과 아님).
     # 같은 rentalJudge 규칙 + SH 공고문 규칙: 신혼·신생아 매입임대 Ⅰ(310650) 소득 70%(배우자 소득 있으면 90%)·2인 +10%p, 총자산 34,500만원(출산 1명 37,900·2명 41,300),
