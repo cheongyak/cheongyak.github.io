@@ -4,6 +4,16 @@
 2026-09-29 12:55 이전 항목은 규칙을 만들기 전 작업을 커밋 기록으로 정리한 것이라 백업 브랜치가 없어요.
 그 시점으로 되돌릴 때는 해당 커밋 번호로 `git revert` 를 써요.
 
+## 2026-11-18 07:05 · 밤 자동 개선 PR #127·#123·#131 합침 (PARSER_VERSION 60)
+- 요청: 운영자 '합쳐' (PR 세 건 설명 뒤)
+- 변경: 로컬 main 에 --no-ff 로 차례로 합침. #127 tests/golden 2026000553 거주 요건 정답·test_residence 원문 문장 1줄. #123 app/notice_pdf 제한사항 표 '거주의무 최초 입주가능일 5년 「주택법」'(뒤섞인 꼴 포함, 토지임대부·지분적립형 제외)·정답 2026000528·판정 사례 duty-01·02·judge_check 'duty'·tests/judge/duty_listings.json. #131 app/notice_pdf 본문 '본 주택은 … 거주의무기간이 적용되지 않습니다'(조건문 제외, 다른 규칙이 먼저 읽으면 그 값)·정답 530·532·판정 사례 4건·tests/judge/duty0_listings.json. 충돌: 두 PR 모두 PARSER_VERSION 58→59 → 60 으로 풀고 설명 둘 다 남김. 판정 사례는 합친 생성기로 다시 만들어 합친 결과와 같음(980건)
+- 합친 뒤 고침: #127 의 원문 문장 시험이 실패 — 11-07 저장 원문으로 만든 문장('경기도, 서울특별시, 인천광역시 거주자 비규제지역')이 11-13 다시 뽑은 저장 원문에서는 '경기도 서울특별시 인천광역시 거주자, , 비규제지역'(쉼표가 뒤로 밀림). 정답 값(의정부시·거주기간 0·서울·인천·경기)은 같아 시험 문장만 지금 저장 원문에 맞춤
+- 파일: app/notice_pdf.py, app/pipeline.py, tests/golden/notices.json, tests/judge/cases.json, tests/judge/duty_listings.json, tests/judge/duty0_listings.json, tests/test_duty_firstmovein_20261111.py, tests/test_duty_not_applied_20261113.py, tests/test_notice_quotes.py, tests/test_residence.py, tools/judge_check.cjs, tools/make_judge_cases.py, docs/changelog.json, VERSIONS.md, HANDOFF.md
+- 확인: pytest 전체, 판정 사례 980/980 일치. 올린 뒤 수집이 모든 공고문을 다시 읽음(PARSER 60) → run-log [검증·정답 불일치] 0·판정 검증 ok=true 확인
+- 백업: backup/20261118-0705
+- 기능: 없음(수정)
+- 버전: v1.91.3
+
 ## 2026-11-18 06:50 · 개인정보처리방침 표현 정비 — '인터뷰에 입력한' → '내 조건에 입력한' (11-18 예고, 11-25 시행)
 - 요청: 운영자 '개인정보 처리 방침 변경' (11-17 알림 화면 문구를 '내 조건에 입력한'으로 바꿀 때 방침 본문은 개정 절차가 필요해 남겨 둔 것)
 - 변경: docs/index.html privacyBody 의 '인터뷰' 4곳(한 줄 요약, 1항 알림 구독 정보 '인터뷰 입력값', 1항 이용자 기기에만 저장되는 정보, 1항 광고 — 광고는 ads 켤 때만 보임)을 privRevOn() 일 때 '내 조건에 입력한'·'내 조건 입력값'으로. privRevOn = config.privacy_rev.date 가 지났거나 '바뀐 뒤 전문'을 그릴 때(LEGAL_AS). 개정 이력(legalRevs)에 '2026-11-25 개정 (표현 정비)'. 방침 11항 '시행 7일 전 화면에 알림'대로 config.legal_notice 를 새 예고(posted 11-18, date 11-25, privacy 2줄, terms 없음)로 바꿈 — 10-09 예고는 이미 지나 안 보이던 것. 약관은 안 바뀌므로 legalNoticeCard 는 바뀌는 점이 없는 문서에 카드를 그리지 않고, 목록 한 줄은 바뀌는 문서 이름만('개인정보처리방침이 바뀌어요')
