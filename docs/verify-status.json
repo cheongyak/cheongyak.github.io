@@ -1,48 +1,59 @@
 {
- "at": "2026-11-18 07:12",
- "ok": true,
- "collect_run": "2026-11-17 · 공고 283건",
- "banner": null,
+ "at": "2026-11-18 07:23",
+ "ok": false,
+ "collect_run": "2026-11-18 · 공고 278건",
+ "banner": {
+  "kind": "notice",
+  "text": "최근 자동 검증에서 공고문과 다른 값이 발견돼 확인 중이에요.",
+  "why": [
+   "공고문 대조 2건 · 정답 데이터 0건 다름"
+  ]
+ },
  "flagged": {},
- "pending": [],
+ "pending": [
+  "임대 기관 거르기 화면",
+  "경고 범위 화면",
+  "임대 판정",
+  "임대 화면"
+ ],
  "coverage_missing": 0,
  "observe": [],
  "warnings": [],
  "freshness": [
   {
    "name": "분양",
-   "updated": "2026-11-17 08:47",
-   "hours": 22.4,
+   "updated": "2026-11-18 07:03",
+   "hours": 0.3,
    "stale": false
   },
   {
    "name": "LH 임대",
    "updated": "2026-11-17 13:09",
-   "hours": 18.1,
+   "hours": 18.2,
    "stale": false
   },
   {
    "name": "SH 임대",
    "updated": "2026-11-17 13:12",
-   "hours": 18.0,
+   "hours": 18.2,
    "stale": false
   },
   {
    "name": "GH 임대",
    "updated": "2026-11-17 13:13",
-   "hours": 18.0,
+   "hours": 18.2,
    "stale": false
   },
   {
    "name": "공공지원 민간임대",
    "updated": "2026-11-17 13:19",
-   "hours": 17.9,
+   "hours": 18.1,
    "stale": false
   },
   {
    "name": "LH 주거복지·신혼희망",
    "updated": "2026-11-17 13:13",
-   "hours": 18.0,
+   "hours": 18.2,
    "stale": false
   }
  ],
@@ -52,13 +63,21 @@
   "failed": []
  },
  "crosscheck": {
-  "summary": "[검증·공고문] 공고문 71건 대조 · 기준표 300줄 · 분양가 283/283 일치 · 불일치 공고 0건",
-  "mismatches": []
+  "summary": "[검증·공고문] 공고문 71건 대조 · 기준표 302줄 · 분양가 276/278 일치 · 불일치 공고 0건",
+  "mismatches": [
+   "[검증·공고문 불일치] 잠실 래미안아이파크 43: 분양가 11.0548억이 공고문에 없음",
+   "[검증·공고문 불일치] 잠실 래미안아이파크 59A: 분양가 15.7939억이 공고문에 없음"
+  ]
  },
  "golden": {
   "mismatches": []
  },
- "qa_stale": [],
+ "qa_stale": [
+  "rent-org.json",
+  "verify-scope.json",
+  "lh-qa.json",
+  "lh-screen.json"
+ ],
  "qa": {
   "gate": true,
   "supply_type_fails": 0,
@@ -76,19 +95,19 @@
   "e2e_fails": 0,
   "past_chat_fails": 0,
   "lh_invariant_violations": 0,
-  "lh_judge_qa_fails": 0,
-  "lh_screen_fails": 0,
+  "lh_judge_qa_fails": null,
+  "lh_screen_fails": null,
   "lh_unread": 0,
   "lh_pdf_merged_wrong": 0,
   "pay_audit_bad": 0,
   "parse_moved_changes": 0,
   "coverage_missing": 0,
-  "verify_scope_fails": 0,
+  "verify_scope_fails": null,
   "pay_audit_read": "190/208",
   "lh_data_at": "2026-11-17 13:09",
-  "cross_rule_checks": 416136,
-  "market_at": "2026-11-17",
+  "cross_rule_checks": 414269,
+  "market_at": "2026-11-18",
   "supply_type_at": "2026-11-17",
-  "invariants_at": "2026-11-17"
+  "invariants_at": "2026-11-18"
  }
 }
