@@ -1780,10 +1780,13 @@ def notice_facts(text: str, prices_man: Optional[dict] = None) -> dict:
               "부동산_만원": sorted({int(a) * 10000 + int(b.replace(",", "")) for a, b in re.findall(r"부동산가액\s?(\d)억\s?([\d,]{1,5})만원\s?이하", t)})}
     seen = {}
     thousand = {int(x.replace(",", "")) for x in re.findall(r"(?<![\d,])\d{3},\d{3}(?![\d,])", t)}   # 동·호별 공급금액 표(천원, 2026000373 '295,676')
+    # 원 단위 공급금액이 만원 아래까지 있는 꼴 — 재분양비 등이 더해진 합계 '1,105,484,366'(원) ↔ 청약홈 110,548만원 (2026930045 잠실 래미안아이파크 불법행위 재공급, 2026-11-18 거짓 '공고문 대조' 경고)
+    won = {int(x.replace(",", "")) for x in re.findall(r"(?<![\d,])\d{1,3}(?:,\d{3}){2,3}(?![\d,])", t)}
     for ty, man in (prices_man or {}).items():
         if man:
             # 청약홈 최고가는 만원 아래를 버린 값 — 천원 표 '295,676'(천원) ↔ 청약홈 29,567만원 (2026-10-20 고덕강일 3단지 49H·59A 등 거짓 경고)
-            seen[ty] = any(f"{v:,}" in flat for v in (man * 10, man, man * 10000)) or any(n // 10 == man for n in thousand if 100_000 <= n)
+            seen[ty] = (any(f"{v:,}" in flat for v in (man * 10, man, man * 10000)) or any(n // 10 == man for n in thousand if 100_000 <= n)
+                        or any(n // 10000 == man for n in won if 10_000_000 <= n))
     return {"income_rows": rows, "deposit_rows": dep, "asset_thousand": assets, "price_seen": seen}
 
 
