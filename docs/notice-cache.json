@@ -2078,91 +2078,6 @@
   "notice_pdf": "https://static.applyhome.co.kr/ai/aia/getAtchmnfl.do?houseManageNo=2026000505&pblancNo=2026000505&atchmnflSeqNo=2012203&atchmnflSn=4",
   "v": 58
  },
- "2026000508": {
-  "found": {
-   "account_months": 24,
-   "facts": {
-    "asset_thousand": {
-     "부동산": [],
-     "부동산_만원": [],
-     "자동차": []
-    },
-    "deposit_rows": {},
-    "income_rows": {},
-    "price_seen": {
-     "084.9970C": true,
-     "084.9998F": true,
-     "116.9981A": true,
-     "116.9987B": true,
-     "128.9983A": true,
-     "129.9995B": true,
-     "184.9968B": true,
-     "188.9949A": true
-    }
-   },
-   "need_head": false,
-   "pay_ratio": {
-    "balance": 0.3,
-    "contract": 0.1,
-    "mid": 0.6
-   },
-   "price_cap": false,
-   "quotes": {
-    "account_months": "…입주자저축에 가입하여 가입기간이 개월24 이 경과하고 지역별면적별 · 예치금액 이상 납입한 분 순위 입주자저축에…",
-    "need_head": "…충족 순위 1 ( 개월24 이상 , 지역별 면적별· 예치금 충족 ) 가입 세대주 요건 - - - 필요 필요 필요 필요 - 소득 또는 자산기준 - - 적용 - 적용 적용 - - 단 기관추천 특별공급 중 ,…",
-    "pay_ratio": "…해당 세대수 공급금액 계약금(10%) 중도금(60%) 잔금(30%) 대지비 건축비 부가세 공급금액 차1 차2 회차1…",
-    "price_cap": "…화성시 동탄 에서 공급하는 분양가상한제 미적용 민영주택 ( ( 1)) 으로 당첨자로 선정 시 주택공급에 관한 규칙 제 조에…",
-    "resale": "…및 일반공급 관련 법령 전매제한기간 년 단 소유권 이전 등기를 완료한 경우 소유권 이전 등기를 완료한 때까지3 ( , ) 주택법 시행령 제 조73「 」 ■ 2026.06.15.시행된…",
-    "residence": "…8111 주택유형 해당지역 기타경기 기타지역 규제지역여부 민영 화성시 년 이상 계속 거주자2 이전부터 계속 거주(2024.10.16. ) 경기도 년 이상 계속 거주자2 이전부터 계속 거주(2024.10.16. ) 경기도 년 미만 거주자 및2 서울특별시 인천광역시 거주자, 투기과열지구 청약과열지역…",
-    "residence_duty": "(1쪽 단지 주요정보 표) 전매제한 거주의무기간 분양가상한제 택지유형 년10 년 3 없음 미적용 민간택지",
-    "rewin_years": "…청약과열지역, 재당첨제한 전매제한 거주의무기간 분양가상한제 택지유형 년10 년 3 없음 미적용 민간택지 대규모 택지개발지구 / 구분…",
-    "score_ratio": "…전용면적별 순위 가점제 추첨제 적용비율1 / 구분 가점제 추첨제 전용면적 초과 이하60 85㎡ ㎡ 70% 30% 전용면적 초과85㎡ 80% 20% - 25 - - 가점 산정기준( 주택공급에 관한 규칙 별표 의 나목1 2 )「 」 ※ 시행된 2024.03.25. 주택공급에 관한 규칙 별표 의 나목에 따라…"
-   },
-   "resale": {
-    "base": "당첨자 발표일",
-    "forbidden": false,
-    "months": 36,
-    "none": false,
-    "passed": false,
-    "registration": true,
-    "until_reg": false
-   },
-   "residence": {
-    "area": {
-     "name": "화성시",
-     "sigungu": "화성시"
-    },
-    "months": 24,
-    "others": [
-     "서울",
-     "인천",
-     "경기"
-    ],
-    "since": "2024-10-16"
-   },
-   "residence_duty": 0,
-   "rewin_years": 10,
-   "score_ratio": {
-    "rows": [
-     {
-      "lottery": 30,
-      "over": 60,
-      "score": 70,
-      "upto": 85
-     },
-     {
-      "lottery": 20,
-      "over": 85,
-      "score": 80,
-      "upto": null
-     }
-    ]
-   }
-  },
-  "name": "아크메르 동탄 95",
-  "notice_pdf": "https://static.applyhome.co.kr/ai/aia/getAtchmnfl.do?houseManageNo=2026000508&pblancNo=2026000508&atchmnflSeqNo=2000101&atchmnflSn=6",
-  "v": 58
- },
  "2026000509": {
   "found": {
    "account_months": 24,
@@ -6201,7 +6116,7 @@
    }
   },
   "name": "호반써밋 초량",
-  "notice_pdf": "https://static.applyhome.co.kr/ai/aia/getAtchmnfl.do?houseManageNo=2026000566&pblancNo=2026000566&atchmnflSeqNo=2020001&atchmnflSn=3",
+  "notice_pdf": "https://static.applyhome.co.kr/ai/aia/getAtchmnfl.do?houseManageNo=2026000566&pblancNo=2026000566&atchmnflSeqNo=2020001&atchmnflSn=4",
   "v": 58
  },
  "2026000576": {
@@ -9190,6 +9105,109 @@
   },
   "name": "과천 디에트르 퍼스티지(S2BL)",
   "notice_pdf": "https://static.applyhome.co.kr/ai/aia/getAtchmnfl.do?houseManageNo=2026930043&pblancNo=2026930043&atchmnflSeqNo=2002247&atchmnflSn=4",
+  "v": 58
+ },
+ "2026930045": {
+  "found": {
+   "complex": {
+    "buildings": 23,
+    "households": 2678,
+    "quote": ": 아파트 지하 4층, 지상 9~35층 23개동 총 2,678세대 중 일반분양 589세대의 불법행위재공급 3세대[특별공급 1세대(신혼부부 1세대) 포함] 및 부대복리시설 ■ 입주시기 : 2027년 01월 예정(당첨"
+   },
+   "facts": {
+    "asset_thousand": {
+     "부동산": [],
+     "부동산_만원": [],
+     "자동차": []
+    },
+    "deposit_rows": {},
+    "income_rows": {
+     "140": [
+      10547268,
+      12323083,
+      13057779,
+      13868768,
+      14679757,
+      15490747
+     ],
+     "160": [
+      12054021,
+      14083523,
+      14923176,
+      15850021,
+      16776866,
+      17703710
+     ]
+    },
+    "price_seen": {
+     "043.7300": false,
+     "059.4700A": false,
+     "084.9600D": true
+    }
+   },
+   "need_head": true,
+   "pay_ratio": {
+    "balance": 0.7,
+    "contract": 0.3,
+    "mid": 0.0
+   },
+   "price_cap": true,
+   "quotes": {
+    "need_head": "…청약Home 앱 설치 바로가기 - 2 - ■ 본 입주자모집공고의 일반공급은 해당 주택건설지역 거주자 중 무주택세대주(무주택세대의 세대주)를 대상으로 추첨의 방법으로 공급합니다. ■…",
+    "pay_ratio": "…동호수 세대수 공급금액 계약금(30%) 잔금(70%) 대지비 건축비 재분양비 합계 계약 시 계약일 후…",
+    "price_cap": "…주택(제1항제6호), 분양가상한제 적용주택(제1항제3호) 10년 ※ (예외1)2024.03.25.…",
+    "resale": "…바랍니다. ■ 본 주택의 전매제한은 최초 입주자모집공고의 당첨자발표일(2024.10.30.)로부터 3년간 적용됩니다. - 5 - 3 공급대상 및 공급금액 ■ 「주택공급에 관한 규칙」…",
+    "residence": "…상자 ■ 입주자모집공고일 현재 해당 주택건설지역인 서울특별시에 거주하는 무주택세대주(무주택세대의 세대주) 당첨자…",
+    "residence_duty": "(1쪽 단지 주요정보 표) 전매제한 거주의무기간 분양가상한제 택지유형 최초 당첨자 발표일(2024.10.30.)로부터 3년 (단, 소유권이전등기 시 해제) 2년 적용 민간택지",
+    "rewin_years": "…규제지역여부 거주요건 재당첨제한 민영 투기과열지구 / 청약과열지역 서울특별시 거주자 10년 전매제한 거주의무기간 분양가상한제 택지유형 최초 당첨자…"
+   },
+   "resale": {
+    "base": "2024-10-30",
+    "forbidden": false,
+    "months": 36,
+    "none": false,
+    "passed": false,
+    "registration": false,
+    "until_reg": false
+   },
+   "residence": {
+    "area": {
+     "name": "서울특별시",
+     "sido": "서울"
+    },
+    "equal": true,
+    "months": 0,
+    "others": [],
+    "since": null
+   },
+   "residence_duty": 2,
+   "rewin_years": 10,
+   "sp_table": {
+    "043.7300": {
+     "newlywed": 0,
+     "total": 0
+    },
+    "059.4700A": {
+     "newlywed": 0,
+     "total": 0
+    },
+    "084.9600D": {
+     "newlywed": 1,
+     "total": 1
+    }
+   },
+   "supply_scale": {
+    "general": null,
+    "quote": "불법행위재공급 3세대[특별공급 1세대(신혼부부 1세대)",
+    "special": {
+     "newlywed": 1
+    },
+    "special_total": 1,
+    "total": 3
+   }
+  },
+  "name": "잠실 래미안아이파크",
+  "notice_pdf": "https://static.applyhome.co.kr/ai/aia/getAtchmnfl.do?houseManageNo=2026930045&pblancNo=2026930045&atchmnflSeqNo=2023023&atchmnflSn=9",
   "v": 58
  }
 }
