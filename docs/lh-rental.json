@@ -1,7 +1,7 @@
 {
- "updated": "2026-11-17 08:42",
+ "updated": "2026-11-17 13:09",
  "source": "LH 청약플러스 임대 공고 (공공데이터포털 한국토지주택공사 분양임대공고 조회)",
- "count": 78,
+ "count": 79,
  "notices": [
   {
    "id": "2015122300020905",
@@ -1370,7 +1370,7 @@
    "region": "경상북도",
    "posted": "2026-11-10",
    "close": "2026-11-19",
-   "status": "공고중",
+   "status": "접수중",
    "url": "https://apply.lh.or.kr/lhapply/apply/wt/wrtanc/selectWrtancInfo.do?panId=2015122300021030&ccrCnntSysDsCd=03&uppAisTpCd=06&aisTpCd=07&mi=1026",
    "url_mobile": "https://apply.lh.or.kr/lhapply/apply/wt/wrtanc/selectWrtancInfo.do?panId=2015122300021030&ccrCnntSysDsCd=03&uppAisTpCd=06&aisTpCd=07&mi=1026",
    "schedule": [
@@ -11876,7 +11876,7 @@
    "region": "부산광역시",
    "posted": "2026-11-16",
    "close": "2026-12-02",
-   "status": "공고중",
+   "status": "정정공고중",
    "url": "https://apply.lh.or.kr/lhapply/apply/wt/wrtanc/selectWrtancInfo.do?panId=2015122300021070&ccrCnntSysDsCd=03&uppAisTpCd=06&aisTpCd=07&mi=1026",
    "url_mobile": "https://apply.lh.or.kr/lhapply/apply/wt/wrtanc/selectWrtancInfo.do?panId=2015122300021070&ccrCnntSysDsCd=03&uppAisTpCd=06&aisTpCd=07&mi=1026",
    "schedule": [
@@ -13059,6 +13059,344 @@
       "income": "입주자격 완화 주요내용】 ▪ 금회 모집하는 국민임대주택은 입주자격 요건을 완화하여 모집합니다. 단지별로 완화 내용이 상이하오니 신청하고자 하는 단지의 조건을 반드시 확인하시기 바랍니다. 단지명 기준 완화내용 전체 단지 계약금 50만원 정액 고정 소득 및 자산 기준 미적용",
       "asset": "■ 소득 및 자산보유 기준 구분 소득 및 자산보유 기준 소득 및 자산 금번 공고에서는 별도의 소득 및 자산 기준을 적용하지 아니함 (단, 자동차 가액 기준은 충족하여야 함) 자동차 세대구성원 전원이 보유하고 있는 개별 자동차가액 ( 4,542 )만원 이하 • 자산기준 가산",
       "car": "이 보유하고 있는 개별 자동차가액 ( 4,542 )만원 이하 • 자산기준 가산"
+     }
+    },
+    "income_table_100": null
+   },
+   "api": {
+    "CCR_CNNT_SYS_DS_CD": "03",
+    "SPL_INF_TP_CD": "062",
+    "UPP_AIS_TP_CD": "06",
+    "AIS_TP_CD": "07"
+   },
+   "read": {
+    "tools": [
+     "pypdf",
+     "pdfium",
+     "plumber"
+    ],
+    "conflicts": []
+   }
+  },
+  {
+   "id": "2015122300021100",
+   "name": "[정정공고]부산광역시 국민임대주택 예비입주자 정례모집 공고(2026.11.16.)",
+   "type": "국민임대",
+   "type_code": "07",
+   "judge_type": true,
+   "region": "부산광역시",
+   "posted": "2026-11-17",
+   "close": "2026-12-02",
+   "status": "공고중",
+   "url": "https://apply.lh.or.kr/lhapply/apply/wt/wrtanc/selectWrtancInfo.do?panId=2015122300021100&ccrCnntSysDsCd=03&uppAisTpCd=06&aisTpCd=07&mi=1026",
+   "url_mobile": "https://apply.lh.or.kr/lhapply/apply/wt/wrtanc/selectWrtancInfo.do?panId=2015122300021100&ccrCnntSysDsCd=03&uppAisTpCd=06&aisTpCd=07&mi=1026",
+   "schedule": [
+    {
+     "complex": "부산정관5단지(A-19BL)",
+     "apply_start": "2026-12-01",
+     "apply_end": "2026-12-02",
+     "apply_time": "2026.12.01 10:00 ~ 2026.12.02 16:10",
+     "docs_target": "2026-12-17",
+     "docs_start": "2026-12-01",
+     "docs_end": "2026-12-02",
+     "winner": "2027-03-19",
+     "contract_start": null,
+     "contract_end": null
+    },
+    {
+     "complex": "부산정관4단지(A-22BL)",
+     "apply_start": "2026-12-01",
+     "apply_end": "2026-12-02",
+     "apply_time": "2026.12.01 10:00 ~ 2026.12.02 16:10",
+     "docs_target": "2026-12-17",
+     "docs_start": "2026-12-01",
+     "docs_end": "2026-12-02",
+     "winner": "2027-03-19",
+     "contract_start": null,
+     "contract_end": null
+    },
+    {
+     "complex": "부산고촌 국민임대주택",
+     "apply_start": "2026-12-01",
+     "apply_end": "2026-12-02",
+     "apply_time": "2026.12.01 10:00 ~ 2026.12.02 16:10",
+     "docs_target": "2026-12-17",
+     "docs_start": "2026-12-01",
+     "docs_end": "2026-12-02",
+     "winner": "2027-03-19",
+     "contract_start": null,
+     "contract_end": null
+    },
+    {
+     "complex": "기장교리국민임대",
+     "apply_start": "2026-11-30",
+     "apply_end": "2026-11-30",
+     "apply_time": "2026.11.30 10:00 ~ 2026.11.30 16:10",
+     "docs_target": "2026-12-10",
+     "docs_start": "2026-12-11",
+     "docs_end": "2026-12-17",
+     "winner": "2027-03-31",
+     "contract_start": "2027-04-01",
+     "contract_end": "2028-03-31"
+    },
+    {
+     "complex": "부산장안 국민임대",
+     "apply_start": "2026-12-01",
+     "apply_end": "2026-12-02",
+     "apply_time": "2026.12.01 10:00 ~ 2026.12.02 16:10",
+     "docs_target": "2026-12-17",
+     "docs_start": "2026-12-01",
+     "docs_end": "2026-12-02",
+     "winner": "2027-03-19",
+     "contract_start": null,
+     "contract_end": null
+    }
+   ],
+   "complexes": [
+    {
+     "name": "기장교리국민임대",
+     "address": "부산광역시 기장군 기장읍 차성로397번길 7(기장교리주공아파트)",
+     "households": 875,
+     "area": "36.44~45.32",
+     "move_in": null,
+     "heating": "개별가스난방"
+    },
+    {
+     "name": "부산장안 국민임대",
+     "address": "부산광역시 기장군 장안읍 신좌천로 7 부산장안 LH1단지",
+     "households": 332,
+     "area": "29.88~46.76",
+     "move_in": "2022.10",
+     "heating": "개별난방"
+    },
+    {
+     "name": "부산고촌 국민임대주택",
+     "address": "부산광역시 기장군 철마면 고촌로44번길 16(고촌휴먼시아1)",
+     "households": 1084,
+     "area": "39.74~46.77",
+     "move_in": "2010.02",
+     "heating": "개별난방"
+    },
+    {
+     "name": "부산정관4단지(A-22BL)",
+     "address": "부산광역시 기장군 정관읍 산단4로 160(정관신도시 엘에이치 4단지)",
+     "households": 964,
+     "area": "46.46~59.86",
+     "move_in": "2012.09",
+     "heating": "지역난방"
+    },
+    {
+     "name": "부산정관5단지(A-19BL)",
+     "address": "부산광역시 기장군 정관읍 산단2로 60(정관신도시 엘에이치 5단지)",
+     "households": 1128,
+     "area": "46.72~59.94",
+     "move_in": "2013.10",
+     "heating": "지역난방"
+    }
+   ],
+   "units": [
+    {
+     "complex": "기장교리국민임대",
+     "type": "16형(36.44㎡)",
+     "area": 36.44,
+     "supply_area": 53.2733,
+     "households": 557,
+     "now_households": 80,
+     "deposit": null,
+     "rent": null,
+     "money_note": "공고문 참조"
+    },
+    {
+     "complex": "부산장안 국민임대",
+     "type": "29",
+     "area": 29.88,
+     "supply_area": 43.6862,
+     "households": 32,
+     "now_households": 20,
+     "deposit": null,
+     "rent": null,
+     "money_note": "공고문 참조"
+    },
+    {
+     "complex": "부산장안 국민임대",
+     "type": "37",
+     "area": 37.74,
+     "supply_area": 54.8936,
+     "households": 152,
+     "now_households": 30,
+     "deposit": null,
+     "rent": null,
+     "money_note": "공고문 참조"
+    },
+    {
+     "complex": "부산고촌 국민임대주택",
+     "type": "39",
+     "area": 39.74,
+     "supply_area": 58.7763,
+     "households": 458,
+     "now_households": 40,
+     "deposit": null,
+     "rent": null,
+     "money_note": "공고문 참조"
+    },
+    {
+     "complex": "부산고촌 국민임대주택",
+     "type": "46",
+     "area": 46.56,
+     "supply_area": 68.8632,
+     "households": 626,
+     "now_households": 40,
+     "deposit": null,
+     "rent": null,
+     "money_note": "공고문 참조"
+    },
+    {
+     "complex": "부산정관4단지(A-22BL)",
+     "type": "46",
+     "area": 46.46,
+     "supply_area": 65.7341,
+     "households": 288,
+     "now_households": 50,
+     "deposit": null,
+     "rent": null,
+     "money_note": "공고문 참조"
+    },
+    {
+     "complex": "부산정관4단지(A-22BL)",
+     "type": "51",
+     "area": 51.6,
+     "supply_area": 73.0065,
+     "households": 378,
+     "now_households": 90,
+     "deposit": null,
+     "rent": null,
+     "money_note": "공고문 참조"
+    },
+    {
+     "complex": "부산정관5단지(A-19BL)",
+     "type": "51",
+     "area": 51.56,
+     "supply_area": 74.0238,
+     "households": 488,
+     "now_households": 60,
+     "deposit": null,
+     "rent": null,
+     "money_note": "공고문 참조"
+    }
+   ],
+   "files": [
+    {
+     "kind": "기타 첨부파일",
+     "name": "(기장교리_별도양식)장애인고령자편의증진시설설치신청서및위임장.pdf",
+     "url": "https://apply.lh.or.kr/lhapply/lhFile.do?fileid=69449170"
+    },
+    {
+     "kind": "기타 첨부파일",
+     "name": "마이마이서비스고객매뉴얼(v6).pdf",
+     "url": "https://apply.lh.or.kr/lhapply/lhFile.do?fileid=69449175"
+    },
+    {
+     "kind": "공고문(hwp)",
+     "name": "부산광역시국민임대예비입주자모집공고문(26.11.16).hwpx",
+     "url": "https://apply.lh.or.kr/lhapply/lhFile.do?fileid=69449180"
+    },
+    {
+     "kind": "공고문(PDF)",
+     "name": "부산광역시국민임대예비입주자모집공고문(26.11.16).pdf",
+     "url": "https://apply.lh.or.kr/lhapply/lhFile.do?fileid=69449186"
+    }
+   ],
+   "etc": "□ 금회 모집 예비입주자는 현재 공가 및 향후 해약이 발생할 경우를 대비하여 모집하는 것으로, 예비입주자로 선정되어도 예비순번에 따라 실제 입주 시까지는 상당기간이 소요될 수 있습니다.\n□ 본 모집공고문의 모집대상 주택에 대하여 1세대 1주택만 신청가능하며, 중복신청하는 경우 전부 무효처리 합니다.\n□ 공고문(첨부파일)을 반드시 확인하시고 신청하시기 바랍니다.(공고내용 미숙지로 인한 모든 책임은 신청자 본인에게 있음)\n□ 전화문의는 장시간 접속지연 및 통화대기 등의 불편이 있을 수 있으니, 예비입주자 모집 신청과 관련한 내용은 공고문을 참고하여 주시기 바랍니다.",
+   "office": {
+    "place": null,
+    "tel": null
+   },
+   "notice_pdf": "https://apply.lh.or.kr/lhapply/lhFile.do?fileid=69449186",
+   "notice_text": 63574,
+   "rents": [
+    {
+     "complex": "부산고촌",
+     "type": "39",
+     "group": null,
+     "deposit": 18566000,
+     "rent": 127870
+    },
+    {
+     "complex": "부산고촌",
+     "type": "46",
+     "group": null,
+     "deposit": 23380000,
+     "rent": 167780
+    },
+    {
+     "complex": "부산정관4",
+     "type": "46",
+     "group": null,
+     "deposit": 31575000,
+     "rent": 176700
+    },
+    {
+     "complex": "부산정관4",
+     "type": "51",
+     "group": null,
+     "deposit": 37685000,
+     "rent": 227390
+    },
+    {
+     "complex": "부산정관5",
+     "type": "51",
+     "group": null,
+     "deposit": 26386000,
+     "rent": 317410
+    },
+    {
+     "complex": "부산장안",
+     "type": "29",
+     "group": null,
+     "deposit": 10514000,
+     "rent": 150600
+    },
+    {
+     "complex": "부산장안",
+     "type": "37",
+     "group": null,
+     "deposit": 18554000,
+     "rent": 201110
+    },
+    {
+     "complex": "부산기장교리",
+     "type": "36",
+     "group": null,
+     "deposit": 12885000,
+     "rent": 117650
+    }
+   ],
+   "terms": {
+    "relaxed": false,
+    "homeless_relaxed": false,
+    "homeless_max1": false,
+    "income_basis": "도시근로자 월평균소득",
+    "groups": [
+     {
+      "key": "일반",
+      "name": "일반",
+      "homeless": "household",
+      "income_pct": {
+       "1": 90,
+       "2": 80,
+       "3+": 70
+      },
+      "asset_manwon": 34500,
+      "car_manwon": 4542,
+      "age_min": null,
+      "age_max": null
+     }
+    ],
+    "quotes": {
+     "일반": {
+      "income": "가구원수별 가구당 월평균 소득(원) 70% 80% 90% 참고사항 1인 2 … 1인 가구 20%p 가산, 2인 가구 10%p 가산",
+      "asset": "58,337 자산 총자산가액 세대구성원 전원이 보유하고 있는 총자산가액 합산기준 ( 345 )백만원 이하 자동차가액 세대구",
+      "car": "이 보유하고 있는 개별 자동차가액 ( 4,542 )만원 이하 • 소득기준 가산"
      }
     },
     "income_table_100": null
