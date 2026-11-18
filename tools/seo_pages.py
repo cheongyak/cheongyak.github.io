@@ -1341,16 +1341,17 @@ def set_prerender(block: str) -> None:
         p.write_text(s2, encoding="utf-8")
 
 
-def sitemap_skip(recs: OrderedDict) -> set:
+def sitemap_skip(recs: OrderedDict, days: int | None = None) -> set:
     """기능 sitemap_recent (2026-11-16 운영자: 마감된 오래된 공고까지 전부 sitemap 에 넣지 말 것): sitemap 에서 뺄 공고 페이지 경로.
     접수 예정·접수 중과 최근 마감(마지막 일정 = 당첨자 발표·접수 마감 뒤 SITEMAP_CLOSED_DAYS 일 안)만 싣는다. 페이지는 그대로 두고(목록·관련 공고에서 이어짐) sitemap 에서만 뺀다. 끄면 전부 싣는다."""
     if not feature("sitemap_recent"):
         return set()
+    days = SITEMAP_CLOSED_DAYS if days is None else days   # 검사(tools.qa.seo_static)는 하루 전에 만든 sitemap 을 보려고 하루 더 넉넉한 값을 따로 씀
     skip = set()
     for nid, r in recs.items():
         L = r["units"][0]
         last = max([x for x in [L.get("winner"), L.get("apply_end"), L.get("apply"), L.get("notice")] if x] or ["9999"])[:10]
-        if r["closed"] and days_ago(last) > SITEMAP_CLOSED_DAYS:
+        if r["closed"] and days_ago(last) > days:
             skip.add(f"notice/{nid}/")
     return skip
 

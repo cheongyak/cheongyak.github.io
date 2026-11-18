@@ -6,6 +6,9 @@ docs/ 아래 정적 페이지를 모두 읽어 본다:
   ③ 깨진 내부 링크 0: href="/…" 가 docs 안 파일로 이어지는지 (앱 주소 /#/… 는 앱 화면이라 뺌)
   ④ 구조화 데이터(JSON-LD)가 JSON 으로 읽히는지, 공고 페이지에 FAQPage·BreadcrumbList 가 있는지
   ⑤ sitemap.xml 에 모든 페이지가 있는지, lastmod 가 있는지
+     (2026-11-19) 빼야 할 마감 공고가 sitemap 에 남은 것은 마감 뒤 SITEMAP_CLOSED_DAYS+1 일까지는 실패가 아니라 sitemap_stale 로만 남긴다 —
+     sitemap 은 앞선 실행(전날일 수 있음)이 만든 것이라 날짜가 바뀐 아침 첫 검사에서 30일을 막 넘긴 공고가 남아 있음(검색엔진에 하루 더 보일 뿐).
+     그보다 오래 남았거나, 있어야 할 페이지가 빠진 것은 그대로 실패.
 사용: python -m tools.qa.seo_static [--json evidence/qa/seo-static.json]
 """
 from __future__ import annotations
@@ -69,13 +72,17 @@ def link_ok(href: str) -> bool:
 
 
 def run() -> dict:
-    res = {"pages": 0, "by_kind": {}, "short": [], "forbidden": [], "broken": [], "ld_bad": [], "ld_missing": [], "not_in_sitemap": [], "prose_min": {}, "live_notice_prose": []}
+    res = {"pages": 0, "by_kind": {}, "short": [], "forbidden": [], "broken": [], "ld_bad": [], "ld_missing": [], "not_in_sitemap": [], "sitemap_stale": [],
+           "prose_min": {}, "live_notice_prose": [], "warnings": []}
     sm = (DOCS / "sitemap.xml").read_text(encoding="utf-8") if (DOCS / "sitemap.xml").exists() else ""
     try:
         from tools import seo_pages
-        skip = seo_pages.sitemap_skip(seo_pages.gather()[0])
-    except Exception:
-        skip = set()
+        recs = seo_pages.gather()[0]
+        skip = seo_pages.sitemap_skip(recs)
+        skip_late = seo_pages.sitemap_skip(recs, seo_pages.SITEMAP_CLOSED_DAYS + 1)   # 하루 여유를 줘도 빼야 하는 것
+    except Exception as ex:   # 공고 자료를 못 읽으면 마감 공고 sitemap 판단을 못 함 → 조용히 넘기지 않고 경고
+        skip = skip_late = set()
+        res["warnings"].append(f"sitemap 에서 뺄 마감 공고를 계산하지 못함 ({type(ex).__name__}: {ex}) — 'sitemap 빠짐'이 거짓일 수 있음")
     res["sitemap_skipped"] = len(skip)
     locs = {unquote(x) for x in re.findall(r"<loc>https://cheongyakpass\.kr/([^<]*)</loc>", sm)}
     no_lastmod = sm.count("<url>") - sm.count("<lastmod>")
@@ -111,8 +118,10 @@ def run() -> dict:
         slug = rel[: -len("index.html")]
         if slug not in locs and slug not in skip:   # 기능 sitemap_recent: 오래된 마감 공고는 일부러 sitemap 에서 뺀다
             res["not_in_sitemap"].append(slug)
-        if slug in locs and slug in skip:
+        if slug in locs and slug in skip_late:
             res["not_in_sitemap"].append(slug + " (오래된 마감 공고인데 sitemap 에 있음)")
+        elif slug in locs and slug in skip:
+            res["sitemap_stale"].append(slug)   # 하루 전에 만든 sitemap — 다음 정적 페이지 갱신에서 빠짐
     res["sitemap_urls"] = len(locs)
     res["sitemap_no_lastmod"] = no_lastmod
     res["ok"] = not (res["short"] or res["forbidden"] or res["broken"] or res["ld_bad"] or res["ld_missing"] or res["not_in_sitemap"] or no_lastmod)
@@ -126,8 +135,11 @@ if __name__ == "__main__":
         out.write_text(json.dumps(r, ensure_ascii=False, indent=1), encoding="utf-8")
     ln = r["live_notice_prose"]
     print(f"[정적 페이지 검사] {r['pages']}쪽 {r['by_kind']} · 지금 공고 산문 최소 {min(ln) if ln else '-'}자 · 짧음 {len(r['short'])} · 금지어 {len(r['forbidden'])} · 깨진 링크 {len(r['broken'])} · "
-          f"구조화 데이터 오류 {len(r['ld_bad'])}·빠짐 {len(r['ld_missing'])} · sitemap 빠짐 {len(r['not_in_sitemap'])} · {'통과' if r['ok'] else '실패'}")
-    for k in ("short", "forbidden", "broken", "ld_bad", "ld_missing", "not_in_sitemap"):
+          f"구조화 데이터 오류 {len(r['ld_bad'])}·빠짐 {len(r['ld_missing'])} · sitemap 빠짐 {len(r['not_in_sitemap'])} · "
+          f"sitemap 하루 늦음 {len(r['sitemap_stale'])} · {'통과' if r['ok'] else '실패'}")
+    for w in r["warnings"]:
+        print(f"  [경고] {w}")
+    for k in ("short", "forbidden", "broken", "ld_bad", "ld_missing", "not_in_sitemap", "sitemap_stale"):
         for x in r[k][:8]:
             print(f"  [{k}] {x}")
     sys.exit(0 if r["ok"] else 1)
