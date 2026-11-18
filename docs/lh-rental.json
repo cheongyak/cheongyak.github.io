@@ -1,7 +1,7 @@
 {
- "updated": "2026-11-18 08:18",
+ "updated": "2026-11-18 12:07",
  "source": "LH 청약플러스 임대 공고 (공공데이터포털 한국토지주택공사 분양임대공고 조회)",
- "count": 79,
+ "count": 80,
  "notices": [
   {
    "id": "0000061193",
@@ -606,7 +606,7 @@
    "region": "인천광역시",
    "posted": "2026-11-05",
    "close": "2026-11-18",
-   "status": "공고중",
+   "status": "접수중",
    "url": "https://apply.lh.or.kr/lhapply/apply/wt/wrtanc/selectWrtancInfo.do?panId=2015122300021026&ccrCnntSysDsCd=03&uppAisTpCd=06&aisTpCd=07&mi=1026",
    "url_mobile": "https://apply.lh.or.kr/lhapply/apply/wt/wrtanc/selectWrtancInfo.do?panId=2015122300021026&ccrCnntSysDsCd=03&uppAisTpCd=06&aisTpCd=07&mi=1026",
    "schedule": [
@@ -7625,12 +7625,12 @@
     {
      "kind": "공고문(hwp)",
      "name": "정읍상동2.3단지_예비입주자_표준모집공고문.hwpx",
-     "url": "https://apply.lh.or.kr/lhapply/lhFile.do?fileid=69388604"
+     "url": "https://apply.lh.or.kr/lhapply/lhFile.do?fileid=69482890"
     },
     {
      "kind": "공고문(PDF)",
      "name": "정읍상동2.3단지_예비입주자_표준모집공고문.pdf",
-     "url": "https://apply.lh.or.kr/lhapply/lhFile.do?fileid=69388609"
+     "url": "https://apply.lh.or.kr/lhapply/lhFile.do?fileid=69482893"
     }
    ],
    "etc": "자세한 사항은 모집공고문을 확인하여 주시기 바랍니다.",
@@ -7638,7 +7638,7 @@
     "place": "전북특별자치도 정읍시 학산로 89-72(상동,상동휴먼시아3단지) 3단지 관리사무소 2층",
     "tel": "063-536-8823"
    },
-   "notice_pdf": "https://apply.lh.or.kr/lhapply/lhFile.do?fileid=69388609",
+   "notice_pdf": "https://apply.lh.or.kr/lhapply/lhFile.do?fileid=69482893",
    "notice_text": 67807,
    "rents": [
     {
@@ -11567,6 +11567,17 @@
      "money_note": "공고문 참조"
     },
     {
+     "complex": "양산 금산휴먼시아",
+     "type": "46㎡",
+     "area": 46.9,
+     "supply_area": 67.0597,
+     "households": 700,
+     "now_households": 30,
+     "deposit": null,
+     "rent": null,
+     "money_note": "공고문 참조"
+    },
+    {
      "complex": "양산 소주휴먼시아",
      "type": "33㎡",
      "area": 33.55,
@@ -12603,7 +12614,7 @@
    "region": "경상남도",
    "posted": "2026-11-16",
    "close": "2026-12-02",
-   "status": "공고중",
+   "status": "정정공고중",
    "url": "https://apply.lh.or.kr/lhapply/apply/wt/wrtanc/selectWrtancInfo.do?panId=2015122300021094&ccrCnntSysDsCd=03&uppAisTpCd=06&aisTpCd=07&mi=1026",
    "url_mobile": "https://apply.lh.or.kr/lhapply/apply/wt/wrtanc/selectWrtancInfo.do?panId=2015122300021094&ccrCnntSysDsCd=03&uppAisTpCd=06&aisTpCd=07&mi=1026",
    "schedule": [
@@ -12773,6 +12784,17 @@
      "supply_area": 56.4502,
      "households": 180,
      "now_households": 10,
+     "deposit": null,
+     "rent": null,
+     "money_note": "공고문 참조"
+    },
+    {
+     "complex": "양산 금산휴먼시아",
+     "type": "46㎡",
+     "area": 46.9,
+     "supply_area": 67.0597,
+     "households": 700,
+     "now_households": 30,
      "deposit": null,
      "rent": null,
      "money_note": "공고문 참조"
@@ -13235,6 +13257,339 @@
       "income": "가구원수별 가구당 월평균 소득(원) 70% 80% 90% 참고사항 1인 2 … 1인 가구 20%p 가산, 2인 가구 10%p 가산",
       "asset": "58,337 자산 총자산가액 세대구성원 전원이 보유하고 있는 총자산가액 합산기준 ( 345 )백만원 이하 자동차가액 세대구",
       "car": "이 보유하고 있는 개별 자동차가액 ( 4,542 )만원 이하 • 소득기준 가산"
+     }
+    },
+    "income_table_100": null
+   },
+   "api": {
+    "CCR_CNNT_SYS_DS_CD": "03",
+    "SPL_INF_TP_CD": "062",
+    "UPP_AIS_TP_CD": "06",
+    "AIS_TP_CD": "07"
+   },
+   "read": {
+    "tools": [
+     "pypdf",
+     "pdfium",
+     "plumber"
+    ],
+    "conflicts": []
+   }
+  },
+  {
+   "id": "2015122300021110",
+   "name": "[정정공고]양산시 국민임대주택 예비입주자 완화 모집('26.11.16)_소득, 자산, 무주택 요건 완화 / 계약금 인하",
+   "type": "국민임대",
+   "type_code": "07",
+   "judge_type": true,
+   "region": "경상남도",
+   "posted": "2026-11-18",
+   "close": "2026-12-02",
+   "status": "공고중",
+   "url": "https://apply.lh.or.kr/lhapply/apply/wt/wrtanc/selectWrtancInfo.do?panId=2015122300021110&ccrCnntSysDsCd=03&uppAisTpCd=06&aisTpCd=07&mi=1026",
+   "url_mobile": "https://apply.lh.or.kr/lhapply/apply/wt/wrtanc/selectWrtancInfo.do?panId=2015122300021110&ccrCnntSysDsCd=03&uppAisTpCd=06&aisTpCd=07&mi=1026",
+   "schedule": [
+    {
+     "complex": "양산 물금1휴먼시아",
+     "apply_start": "2026-12-01",
+     "apply_end": "2026-12-02",
+     "apply_time": "2026.12.01 10:00 ~ 2026.12.02 16:10",
+     "docs_target": "2026-12-24",
+     "docs_start": "2026-12-28",
+     "docs_end": "2027-01-05",
+     "winner": "2027-02-26",
+     "contract_start": null,
+     "contract_end": null
+    },
+    {
+     "complex": "양산 소주휴먼시아",
+     "apply_start": "2026-12-01",
+     "apply_end": "2026-12-02",
+     "apply_time": "2026.12.01 10:00 ~ 2026.12.02 16:10",
+     "docs_target": "2026-12-24",
+     "docs_start": "2026-12-24",
+     "docs_end": "2027-01-05",
+     "winner": "2027-02-26",
+     "contract_start": null,
+     "contract_end": null
+    },
+    {
+     "complex": "양산 물금2휴먼시아",
+     "apply_start": "2026-12-01",
+     "apply_end": "2026-12-02",
+     "apply_time": "2026.12.01 10:00 ~ 2026.12.02 16:10",
+     "docs_target": "2026-12-24",
+     "docs_start": "2026-12-24",
+     "docs_end": "2027-01-05",
+     "winner": "2027-02-26",
+     "contract_start": null,
+     "contract_end": null
+    },
+    {
+     "complex": "양산 금산휴먼시아",
+     "apply_start": "2026-12-01",
+     "apply_end": "2026-12-02",
+     "apply_time": "2026.12.01 10:00 ~ 2026.12.02 16:10",
+     "docs_target": "2026-12-24",
+     "docs_start": "2026-12-24",
+     "docs_end": "2027-01-05",
+     "winner": "2027-02-26",
+     "contract_start": null,
+     "contract_end": null
+    },
+    {
+     "complex": "양산 평산휴먼시아",
+     "apply_start": "2026-12-01",
+     "apply_end": "2026-12-02",
+     "apply_time": "2026.12.01 10:00 ~ 2026.12.02 16:10",
+     "docs_target": "2026-12-24",
+     "docs_start": "2026-12-24",
+     "docs_end": "2027-01-05",
+     "winner": "2027-02-26",
+     "contract_start": null,
+     "contract_end": null
+    }
+   ],
+   "complexes": [
+    {
+     "name": "양산 물금1휴먼시아",
+     "address": "경상남도 양산시 물금읍 청운로 41(양산신도시엘에이치아파트1단지)",
+     "households": 1105,
+     "area": "33.83~51.96",
+     "move_in": "2016.03",
+     "heating": "지역난방"
+    },
+    {
+     "name": "양산 물금2휴먼시아",
+     "address": "경상남도 양산시 물금읍 물금2길 50(양산신도시엘에이치아파트2단지)",
+     "households": 452,
+     "area": "33.83~46.95",
+     "move_in": "2016.03",
+     "heating": "지역난방"
+    },
+    {
+     "name": "양산 금산휴먼시아",
+     "address": "경상남도 양산시 동면 금산2길 12(휴먼시아아파트)",
+     "households": 1300,
+     "area": "36.65~59.88",
+     "move_in": "2011.05",
+     "heating": "개별난방"
+    },
+    {
+     "name": "양산 소주휴먼시아",
+     "address": "경상남도 양산시 번영로 435(소주동,소주휴먼시아)",
+     "households": 937,
+     "area": "33.55~51.55",
+     "move_in": "2011.08",
+     "heating": "개별난방"
+    },
+    {
+     "name": "양산 평산휴먼시아",
+     "address": "경상남도 양산시 배움터길 11(평산동,평산휴먼시아)",
+     "households": 1385,
+     "area": "33.24~55.83",
+     "move_in": "2010.09",
+     "heating": "개별가스난방"
+    }
+   ],
+   "units": [
+    {
+     "complex": "양산 물금1휴먼시아",
+     "type": "33형",
+     "area": 33.83,
+     "supply_area": 50.116,
+     "households": 408,
+     "now_households": 20,
+     "deposit": null,
+     "rent": null,
+     "money_note": "공고문 참조"
+    },
+    {
+     "complex": "양산 물금1휴먼시아",
+     "type": "39형",
+     "area": 39.56,
+     "supply_area": 58.6044,
+     "households": 366,
+     "now_households": 10,
+     "deposit": null,
+     "rent": null,
+     "money_note": "공고문 참조"
+    },
+    {
+     "complex": "양산 물금2휴먼시아",
+     "type": "33형",
+     "area": 33.83,
+     "supply_area": 50.1676,
+     "households": 174,
+     "now_households": 10,
+     "deposit": null,
+     "rent": null,
+     "money_note": "공고문 참조"
+    },
+    {
+     "complex": "양산 물금2휴먼시아",
+     "type": "39형",
+     "area": 39.56,
+     "supply_area": 58.6648,
+     "households": 88,
+     "now_households": 10,
+     "deposit": null,
+     "rent": null,
+     "money_note": "공고문 참조"
+    },
+    {
+     "complex": "양산 금산휴먼시아",
+     "type": "36㎡",
+     "area": 36.65,
+     "supply_area": 52.4038,
+     "households": 270,
+     "now_households": 10,
+     "deposit": null,
+     "rent": null,
+     "money_note": "공고문 참조"
+    },
+    {
+     "complex": "양산 금산휴먼시아",
+     "type": "39㎡",
+     "area": 39.48,
+     "supply_area": 56.4502,
+     "households": 180,
+     "now_households": 10,
+     "deposit": null,
+     "rent": null,
+     "money_note": "공고문 참조"
+    },
+    {
+     "complex": "양산 금산휴먼시아",
+     "type": "46㎡",
+     "area": 46.9,
+     "supply_area": 67.0597,
+     "households": 700,
+     "now_households": 30,
+     "deposit": null,
+     "rent": null,
+     "money_note": "공고문 참조"
+    },
+    {
+     "complex": "양산 소주휴먼시아",
+     "type": "33㎡",
+     "area": 33.55,
+     "supply_area": 48.0804,
+     "households": 382,
+     "now_households": 40,
+     "deposit": null,
+     "rent": null,
+     "money_note": "공고문 참조"
+    },
+    {
+     "complex": "양산 소주휴먼시아",
+     "type": "46㎡",
+     "area": 46.43,
+     "supply_area": 66.5387,
+     "households": 234,
+     "now_households": 20,
+     "deposit": null,
+     "rent": null,
+     "money_note": "공고문 참조"
+    },
+    {
+     "complex": "양산 소주휴먼시아",
+     "type": "51㎡",
+     "area": 51.55,
+     "supply_area": 73.8762,
+     "households": 113,
+     "now_households": 20,
+     "deposit": null,
+     "rent": null,
+     "money_note": "공고문 참조"
+    },
+    {
+     "complex": "양산 평산휴먼시아",
+     "type": "33",
+     "area": 33.24,
+     "supply_area": 49.2751,
+     "households": 564,
+     "now_households": 30,
+     "deposit": null,
+     "rent": null,
+     "money_note": "공고문 참조"
+    },
+    {
+     "complex": "양산 평산휴먼시아",
+     "type": "39",
+     "area": 39.63,
+     "supply_area": 58.6857,
+     "households": 476,
+     "now_households": 20,
+     "deposit": null,
+     "rent": null,
+     "money_note": "공고문 참조"
+    },
+    {
+     "complex": "양산 평산휴먼시아",
+     "type": "46",
+     "area": 46.9,
+     "supply_area": 68.7177,
+     "households": 225,
+     "now_households": 20,
+     "deposit": null,
+     "rent": null,
+     "money_note": "공고문 참조"
+    },
+    {
+     "complex": "양산 평산휴먼시아",
+     "type": "55",
+     "area": 55.83,
+     "supply_area": 81.8019,
+     "households": 120,
+     "now_households": 10,
+     "deposit": null,
+     "rent": null,
+     "money_note": "공고문 참조"
+    }
+   ],
+   "files": [
+    {
+     "kind": "공고문(hwp)",
+     "name": "(정정)양산시국민임대예비입주자완화모집(26.11.16).hwpx",
+     "url": "https://apply.lh.or.kr/lhapply/lhFile.do?fileid=69481762"
+    },
+    {
+     "kind": "공고문(PDF)",
+     "name": "(정정)양산시국민임대예비입주자완화모집(26.11.16).pdf",
+     "url": "https://apply.lh.or.kr/lhapply/lhFile.do?fileid=69481763"
+    }
+   ],
+   "etc": "* 해당 공고는 예비입주자 모집 공고로서, 대기 중인 예비입주자가 있는 경우 그 다음으로 입주 대기순번이 결정되며, 실제 입주까지는 상당 기간이 소요될 수 있으며, 선호하지 않는 동호가 배정될 수 있습니다.\n* 청약자격 미숙지, 착오신청 등에 대해서는 청약자 본인에게 책임이 있으니 불이익이 없도록 반드시 공고문을 읽어보신 후 신청하시기 바랍니다.",
+   "office": {
+    "place": "경상남도 양산시 물금읍 청운로 358",
+    "tel": "1600-1004"
+   },
+   "notice_pdf": "https://apply.lh.or.kr/lhapply/lhFile.do?fileid=69481763",
+   "notice_text": 58422,
+   "rents": [],
+   "terms": {
+    "relaxed": true,
+    "homeless_relaxed": true,
+    "homeless_max1": true,
+    "income_basis": "도시근로자 월평균소득",
+    "groups": [
+     {
+      "key": "일반",
+      "name": "일반",
+      "homeless": "household",
+      "income_pct": "excluded",
+      "asset_manwon": "excluded",
+      "car_manwon": 4542,
+      "age_min": null,
+      "age_max": null
+     }
+    ],
+    "quotes": {
+     "일반": {
+      "income": "입주자격 완화 주요내용】 ▪ 금회 모집하는 국민임대주택은 입주자격 요건을 완화하여 모집합니다. 단지별로 완화 내용이 상이하오니 신청하고자 하는 단지의 조건을 반드시 확인하시기 바랍니다. 단지명 기준 완화내용 전체 단지 계약금 50만원 정액 고정 소득 및 자산 기준 미적용",
+      "asset": "■ 소득 및 자산보유 기준 구분 소득 및 자산보유 기준 소득 및 자산 금번 공고에서는 별도의 소득 및 자산 기준을 적용하지 아니함 (단, 자동차 가액 기준은 충족하여야 함) 자동차 세대구성원 전원이 보유하고 있는 개별 자동차가액 ( 4,542 )만원 이하 • 자산기준 가산",
+      "car": "이 보유하고 있는 개별 자동차가액 ( 4,542 )만원 이하 • 자산기준 가산"
      }
     },
     "income_table_100": null
