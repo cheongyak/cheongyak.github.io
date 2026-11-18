@@ -39,6 +39,10 @@ def test_sentence_about_other_house_is_not_this_notice():
     t = ("■ 과거 재당첨제한이 5년 적용되는 주택에 당첨된 분은 그 기간 안에 청약할 수 없습니다.\n"
          "구분 기준일(~로부터) 기간 관련 법령\n재당첨제한 당첨자 발표일 10년 「공공주택 특별법」\n")
     assert parse_notice(t)["rewin_years"] == 10
+    for other in ("과거 재당첨제한이 5년 적용된 주택에 당첨된 분", "재당첨제한이 3년 적용받는 주택", "재당첨제한이 5년 적용대상인 주택"):
+        t2 = "■ " + other + "은 청약할 수 없습니다.\n재당첨제한 당첨자 발표일 10년 「공공주택 특별법」\n"
+        assert parse_notice(t2)["rewin_years"] == 10, other
+    assert parse_notice("재당첨제한은 10년 적용된다.\n")["rewin_years"] == 10
 
 
 def test_first_page_table_rule_still_first():
