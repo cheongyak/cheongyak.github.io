@@ -1,5 +1,5 @@
 {
- "updated": "2026-11-12",
+ "updated": "2026-11-18",
  "items": [
   {
    "key": "issues:판정 검증 실패",
@@ -203,7 +203,7 @@
    "effort": "S",
    "status": "open",
    "first_seen": "2026-11-04",
-   "last_seen": "2026-11-17",
+   "last_seen": "2026-11-18",
    "tries": 0,
    "pr": null,
    "success_check": null,
@@ -433,7 +433,7 @@
    "reach": 2,
    "confidence": 3,
    "effort": "S",
-   "status": "in_pr",
+   "status": "merged",
    "first_seen": "2026-11-11",
    "last_seen": "2026-11-16",
    "tries": 0,
@@ -442,7 +442,7 @@
     "how": "합친 뒤 수집 후 docs/listings.json 2026000528 주택형 residence_duty, docs/verify-status.json ok, run-log [검증·정답 불일치]",
     "expect": "residence_duty 5 · ok true · 정답 불일치 0"
    },
-   "notes": "토지임대부·지분적립형은 일부러 안 읽음(다른 눈 검토) — manual:jeonse-landlease-equity 참고 · 11-13 main(PARSER 58)과 충돌 → origin/main 을 합치는 커밋으로 풀고(강제 push 없이) PARSER 59, pytest 511·judge 976/976·snapshot 0"
+   "notes": "토지임대부·지분적립형은 일부러 안 읽음(다른 눈 검토) — manual:jeonse-landlease-equity 참고 · 11-13 main(PARSER 58)과 충돌 → origin/main 을 합치는 커밋으로 풀고(강제 push 없이) PARSER 59, pytest 511·judge 976/976·snapshot 0 · 11-17 22:11 UTC 합침(운영자 '합쳐'), 기록은 손 세션 WORK.md 11-18 07:05 v1.91.3·PARSER 60"
   },
   {
    "key": "manual:jeonse-landlease-equity",
@@ -472,7 +472,7 @@
    "reach": 1,
    "confidence": 3,
    "effort": "S",
-   "status": "in_pr",
+   "status": "merged",
    "first_seen": "2026-11-12",
    "last_seen": "2026-11-16",
    "tries": 0,
@@ -481,7 +481,7 @@
     "how": "python -m pytest -q tests/test_residence.py · 합친 뒤 수집 run-log [검증·정답] 줄",
     "expect": "통과 · '정답 데이터와 모두 일치해요'(553 불일치 없음)"
    },
-   "notes": "SH 313161·311965 읽기 규칙(본 처리)은 unread_queue 에 있어 아침 자동 고치기 몫이라 고르지 않음"
+   "notes": "SH 313161·311965 읽기 규칙(본 처리)은 unread_queue 에 있어 아침 자동 고치기 몫이라 고르지 않음 · 11-17 22:11 UTC 합침(운영자 '합쳐'), 기록은 손 세션 WORK.md 11-18 07:05 v1.91.3·PARSER 60"
   },
   {
    "key": "manual:duty-not-applied-sentence",
@@ -493,7 +493,7 @@
    "reach": 2,
    "confidence": 3,
    "effort": "S",
-   "status": "in_pr",
+   "status": "merged",
    "first_seen": "2026-11-13",
    "last_seen": "2026-11-16",
    "tries": 1,
@@ -502,7 +502,7 @@
     "how": "합친 뒤 수집 후 docs/listings.json 2026000530·532 주택형의 residence_duty 와 notice_quotes.residence_duty",
     "expect": "residence_duty 0, 근거 문장에 '거주의무기간이 적용되지 않습니다' 포함"
    },
-   "notes": "같은 조사에서 남은 것: 2026000472 구리갈매 1쪽 표 '년10 년 3 년 3 적용'(뒤섞인 꼴, 본문 문장 없음 — 283 과 같은 꼴이라 고르지 않음) · 533·820013·820014 는 duty_silent(공고문에 거주의무 없음) · 373·527 은 토지임대부·지분적립형(PR #123 이 일부러 뺌, jeonse parked)"
+   "notes": "같은 조사에서 남은 것: 2026000472 구리갈매 1쪽 표 '년10 년 3 년 3 적용'(뒤섞인 꼴, 본문 문장 없음 — 283 과 같은 꼴이라 고르지 않음) · 533·820013·820014 는 duty_silent(공고문에 거주의무 없음) · 373·527 은 토지임대부·지분적립형(PR #123 이 일부러 뺌, jeonse parked) · 11-17 22:11 UTC 합침(운영자 '합쳐'), 기록은 손 세션 WORK.md 11-18 07:05 v1.91.3·PARSER 60"
   },
   {
    "key": "manual:schedule-late",
@@ -530,18 +530,18 @@
    "evidence": "README 표 줄: 1쪽 주요정보 표 '…(경쟁시 시흥시 1년 이상 거주자 우선) 10년', 본문 '「주택공급에 관한 규칙」제54조에 따라 재당첨제한은 10년 적용' · docs/listings.json limits '재당첨 제한' 근거가 거주요건 칸의 '1년'을 잡음(추정)",
    "severity": "P1",
    "reach": 1,
-   "confidence": 1,
+   "confidence": 3,
    "effort": "S",
-   "status": "open",
+   "status": "in_pr",
    "first_seen": "2026-11-16",
-   "last_seen": "2026-11-17",
+   "last_seen": "2026-11-18",
    "tries": 0,
-   "pr": null,
+   "pr": 147,
    "success_check": {
-    "how": "docs/listings.json 2026820015 limits '재당첨 제한' · 다음 주간 원문 대조",
-    "expect": "10년, 표 칸 '거주요건'의 '1년'을 잡지 않음(시험으로 고정)"
+    "how": "docs/listings.json 2026820015 limits '재당첨 제한' · docs/run-log.txt [검증·정답 불일치]",
+    "expect": "'10년' · 정답 불일치 0"
    },
-   "notes": "11-16 새 신호. 열린 루프 PR 3개라 오늘은 못 고름. 다음 밤 1순위 후보 — 단 아침 자동 고치기가 먼저 고쳤는지 확인"
+   "notes": "11-16 새 신호. 열린 루프 PR 3개라 오늘은 못 고름. 다음 밤 1순위 후보 — 단 아침 자동 고치기가 먼저 고쳤는지 확인 · 11-18 원문 40·41·154·157줄로 재현(1년), 고쳐 PR #147"
   }
  ]
 }
