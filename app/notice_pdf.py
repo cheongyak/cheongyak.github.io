@@ -1404,6 +1404,18 @@ def _rs_ymd(m, i: int) -> str:
     return f"{'20' + y if len(y) == 2 else y}-{int(m.group(i + 1)):02d}-{int(m.group(i + 2)):02d}"
 
 
+def _resale_table_agrees(flat: str, base: str, unit: str, n: str) -> bool:
+    """1쪽 '단지 주요정보' 표 전매제한 칸이 본문과 같은 날짜·단위·숫자인지 — '최초 당첨자발표일(2026.10.27.)로부터 개월 6' ·
+    '최초 당첨자발표일 로부터(2022.12.20.) 개월간 적용되어 현재 기간 도과6' (뒤섞인 표, 2026910295·2026930046)"""
+    for t in re.finditer(r"최초당첨자발표일(?:\((\d{4})\.(\d{1,2})\.(\d{1,2})\.?\))?로부터(?:\((\d{4})\.(\d{1,2})\.(\d{1,2})\.?\))?"
+                         r"(개월|년)간?(?:적용되어현재(?:전매제한)?기간이?도과)?(\d{1,2})(?!\d)", flat):
+        g = t.groups()
+        d = g[0:3] if g[0] else g[3:6]
+        if d[0] and f"{d[0]}-{int(d[1]):02d}-{int(d[2]):02d}" == base and g[6] == unit and int(g[7]) == int(n):
+            return True
+    return False
+
+
 def parse_resale(flat: str) -> Optional[dict]:
     """전매제한 기간. 본문 문장 → LH 표·문장 → 1쪽 '단지 주요정보' 표 순서. PDF 글자 순서가 뒤섞여 숫자가 뒤로 밀린 꼴('로부터개월6', '년(2025.12.10.)1')도 읽는다.
     확실하지 않으면 None (없음으로 추측하지 않는다)."""
@@ -1465,10 +1477,21 @@ def parse_resale(flat: str) -> Optional[dict]:
         #  — 숫자(3)가 날짜 뒤로 밀림. '도과'까지 이어질 때만 읽는다
         (r"최초당[첨점]자발표일로부터년간" + _D + r"(\d{1,2})(?![\d,.])적용되어현재전매제한기간이?도과",
          lambda m: {"months": mon(m.group(4), "년"), "base": _rs_ymd(m, 1), "passed": True}),
+        # 재공급·무순위 문장이 뒤섞여 숫자(·날짜)가 뒤로 밀린 꼴 (2026-11-19 아침 자동 고치기 — 수집 첫 시험 '모든 저장 원문 전매제한' 실패):
+        #  2026910295 연제갤러리자이 무순위 '전매제한은 최초 입주자모집공고의 당첨자발표일 (2026.10.27.)로부터 개월간6 적용됩니다'
+        #  2026930046 광주 송정 중흥S-클래스 파크뷰 '전매제한은 최초 입주자모집공고의 당첨자발표일 로부터 개월간 적용되어 현재 전매제한 기간이 도과하였습니다(2022.12.20.) 6 .'
+        #  밀린 숫자가 기간인지 스스로 확인한다: 1쪽 '단지 주요정보' 표의 전매제한 칸(같은 날짜·같은 단위·같은 숫자)과 맞을 때만 읽는다(_resale_table_agrees).
+        (head + _D + r"(?:로부터|부터)(개월|년)간?(\d{1,2})(?!\d)적용됩니다",
+         lambda m: _resale_table_agrees(flat, _rs_ymd(m, 1), m.group(4), m.group(5)) and {"months": mon(m.group(5), m.group(4)), "base": _rs_ymd(m, 1), "passed": False}),
+        (head + r"(?:로부터|부터)(개월|년)간적용되어현재전매제한기간이?도과하였습니다" + _D + r"(\d{1,2})(?!\d|[,.]\d)",
+         lambda m: _resale_table_agrees(flat, _rs_ymd(m, 2), m.group(1), m.group(5)) and {"months": mon(m.group(5), m.group(1)), "base": _rs_ymd(m, 2), "passed": True}),
     ]
     for pat, fn in pats:
         if (m := re.search(pat, flat)):
-            r = {"months": None, "base": None, "registration": False, "until_reg": False, "passed": False, "none": False, "forbidden": False, **fn(m), "m": m}
+            v = fn(m)
+            if not v:   # 스스로 확인이 안 맞으면 이 규칙은 읽지 않음 (다음 규칙으로)
+                continue
+            r = {"months": None, "base": None, "registration": False, "until_reg": False, "passed": False, "none": False, "forbidden": False, **v, "m": m}
             # 재공급·무순위 '구분 특별공급 전매제한기간 최초 당첨자발표일로부터 1년간 적용되어 현재 전매제한기간 도과' (2026930041 — 예전엔 이번 당첨자 발표일부터
             # 1년으로 계산해 '1년 (~27.10.15)'로 보였다, 10-09 블라인드 대조): 바로 뒤 '도과'면 지남
             if not r["passed"] and re.match(r"간?(?:적용|부과)?되어,?현재전매(?:제한)?(?:기간|기관)?(?:이)?도과", flat[m.end():m.end() + 30]):
