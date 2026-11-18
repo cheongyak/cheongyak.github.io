@@ -46,3 +46,20 @@ def test_resale_digit_pushed_back_checked_by_table_2026910295_2026930046():
     assert (r["months"], r["base"], r["passed"]) == (6, "2022-12-20", True)
     assert notice_pdf.parse_resale(body2) is None
     assert re.search("도과6", table2)
+
+
+def test_residence_summary_table_date_after_hyeonjae_2026000559():
+    """두산위브 트레지움 익산: 요약 표가 '입주자모집공고일 현재 (2026.11.18.) 전북특별자치도 익산시 거주자' —
+    '현재' 뒤에 공고일 날짜 괄호가 끼어 해당지역을 못 읽어 '사는 곳: 확인 필요'였다(입력 버튼 검사 2건도 이 공고)."""
+    t = _t("2026000559")
+    assert notice_pdf.parse_residence(t) == GOLD["2026000559"]["fields"]["residence"]
+    assert notice_pdf.parse_notice(t)["residence"] == GOLD["2026000559"]["fields"]["residence"]
+    head = "주택유형 해당지역 기타지역 규제지역여부 민영 "
+    # 공고일 날짜 괄호는 '이전부터 계속 거주' 날짜로 읽지 않는다 — 거주기간 요건이 있으면 그 뒤 괄호 날짜를 쓴다
+    r = notice_pdf.parse_residence(head + "입주자모집공고일 현재 (2026.11.18.) 전북특별자치도 익산시 1년 이상 계속 거주자 (2025.11.18. 이전부터 계속 거주) "
+                                   "전북특별자치도 1년 미만 거주자 비규제지역 재당첨제한")
+    assert r["area"]["sigungu"] == "익산시" and r["months"] == 12 and r["since"] == "2025-11-18" and r["others"] == ["전북"]
+    # 거주기간 낱말은 있는데 숫자가 없으면 '기간 없음'으로 두지 않고 못 읽음 (기존 원칙 그대로)
+    assert notice_pdf.parse_residence(head + "입주자모집공고일 현재 (2026.11.18.) 전북특별자치도 익산시 년 이상 계속 거주자 전북특별자치도 거주자 비규제지역 재당첨제한") is None
+    # 괄호 안이 날짜가 아니면 해당지역을 지어내지 않는다
+    assert notice_pdf.parse_residence(head + "입주자모집공고일 현재 (별도 안내) 거주자 비규제지역 재당첨제한") is None
