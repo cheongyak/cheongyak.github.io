@@ -1,5 +1,5 @@
 {
- "at": "2026-11-19 07:29",
+ "at": "2026-11-19 07:47",
  "ok": false,
  "collect_run": "2026-11-19 · 공고 267건",
  "banner": {
@@ -9,13 +9,12 @@
    "입력 버튼 2건"
   ]
  },
- "flagged": {},
- "pending": [
-  "임대 기관 거르기 화면",
-  "경고 범위 화면",
-  "임대 판정",
-  "임대 화면"
- ],
+ "flagged": {
+  "2026910292": [
+   "자동 검증(계약금 비율 대조): 계약금 비율이 공고문 금액 줄과 다름"
+  ]
+ },
+ "pending": [],
  "coverage_missing": 0,
  "observe": [],
  "warnings": [],
@@ -23,37 +22,37 @@
   {
    "name": "분양",
    "updated": "2026-11-19 07:09",
-   "hours": 0.3,
+   "hours": 0.6,
    "stale": false
   },
   {
    "name": "LH 임대",
    "updated": "2026-11-18 12:07",
-   "hours": 19.4,
+   "hours": 19.7,
    "stale": false
   },
   {
    "name": "SH 임대",
    "updated": "2026-11-18 12:10",
-   "hours": 19.3,
+   "hours": 19.6,
    "stale": false
   },
   {
    "name": "GH 임대",
    "updated": "2026-11-18 12:10",
-   "hours": 19.3,
+   "hours": 19.6,
    "stale": false
   },
   {
    "name": "공공지원 민간임대",
    "updated": "2026-11-18 12:19",
-   "hours": 19.2,
+   "hours": 19.5,
    "stale": false
   },
   {
    "name": "LH 주거복지·신혼희망",
    "updated": "2026-11-18 12:10",
-   "hours": 19.3,
+   "hours": 19.6,
    "stale": false
   }
  ],
@@ -69,12 +68,7 @@
  "golden": {
   "mismatches": []
  },
- "qa_stale": [
-  "rent-org.json",
-  "verify-scope.json",
-  "lh-qa.json",
-  "lh-screen.json"
- ],
+ "qa_stale": [],
  "qa": {
   "gate": true,
   "supply_type_fails": 0,
@@ -92,19 +86,19 @@
   "e2e_fails": 0,
   "past_chat_fails": 0,
   "lh_invariant_violations": 0,
-  "lh_judge_qa_fails": null,
-  "lh_screen_fails": null,
+  "lh_judge_qa_fails": 0,
+  "lh_screen_fails": 0,
   "lh_unread": 0,
   "lh_pdf_merged_wrong": 0,
-  "pay_audit_bad": 0,
+  "pay_audit_bad": 1,
   "parse_moved_changes": 0,
   "coverage_missing": 0,
-  "verify_scope_fails": null,
-  "pay_audit_read": "191/209",
+  "verify_scope_fails": 0,
+  "pay_audit_read": "196/214",
   "lh_data_at": "2026-11-18 12:07",
   "cross_rule_checks": 407872,
   "market_at": "2026-11-19",
   "supply_type_at": "2026-11-18",
-  "invariants_at": "2026-11-19"
+  "invariants_at": "2026-11-18"
  }
 }
