@@ -4552,6 +4552,66 @@
    "income_table_100": null,
    "rents": null,
    "notes": "소득·총자산·자동차는 정답에 넣지 않음(null): 이 공고는 1순위(가~자목)만 있고 일반입주자(차목) 줄이 없다. '월평균 소득 70%(1인 : 90%, 2인 : 80%)이하'·'합산 기준 ( 24,500 )만원 이하'·'개별 자동차가액 ( 4,542 )만원 이하'는 '자산기준 적용 신분 나목(국가유공자등), 마목(북한이탈주민), 바목(1순위 장애인), 아목(아동복지시설퇴소자)'에만 적용 — 화면의 '일반 신청자(2순위) 기준' 판정에 쓸지는 운영자 판단(2026-11-20 아침 자동 고치기 보고). 임대조건 표는 대조하지 않음(rents null)"
+  },
+  {
+   "id": "2015122300021108",
+   "type": "행복주택",
+   "verified_from": "수원당수 1, 2단지 행복주택 입주자격완화 동호지정 입주자 모집[선계약/후검증] (LH, 모집공고일 2026.11.18) — 원문 evidence/lh/2015122300021108.txt 377~406줄 '4-2. 청년 계층'(대학생 ①-㉮~④ 줄이 이 절 안에 섞여 나옴)을 세션이 직접 읽음",
+   "verified_at": "2026-11-20",
+   "posted": "2026-11-18",
+   "relaxed": true,
+   "homeless_relaxed": false,
+   "homeless_max1": false,
+   "groups": [
+    {
+     "name": "대학생",
+     "homeless": "self",
+     "age": null,
+     "income_pct": "excluded",
+     "income_basis": null,
+     "income_dual_pct": null,
+     "asset_manwon": "excluded",
+     "car_manwon": 0,
+     "quotes": {
+      "income": "③ 【완화조건】 소득요건 배제",
+      "asset": "④ 【완화조건】 총자산가액 요건은 배제하나, 신청자 본인이 자동차가액 산출대상 자동차를 소유하고 있지 않을 것",
+      "car": "④ 【완화조건】 총자산가액 요건은 배제하나, 신청자 본인이 자동차가액 산출대상 자동차를 소유하고 있지 않을 것"
+     }
+    },
+    {
+     "name": "청년",
+     "homeless": "self",
+     "age": [
+      19,
+      39
+     ],
+     "income_pct": "excluded",
+     "income_basis": null,
+     "income_dual_pct": null,
+     "asset_manwon": "excluded",
+     "car_manwon": 4542,
+     "quotes": {
+      "income": "③ 【완화조건】 해당 세대의 소득요건 배제",
+      "asset": "④ 【완화조건】 해당 세대의 총자산가액 요건은 배제하나, 총 자산 중 자동차가액이 4,542만원 이하일 것",
+      "car": "④ 【완화조건】 해당 세대의 총자산가액 요건은 배제하나, 총 자산 중 자동차가액이 4,542만원 이하일 것",
+      "age": "➀-㉮ (청년)  19세 이상 39세 이하인 자(1986.11.19. ~ 2007.11.18.)"
+     }
+    },
+    {
+     "name": "주거급여수급자",
+     "homeless": "household",
+     "age": null,
+     "income_pct": null,
+     "income_basis": null,
+     "income_dual_pct": null,
+     "asset_manwon": null,
+     "car_manwon": null,
+     "quotes": {}
+    }
+   ],
+   "income_table_100": null,
+   "rents": null,
+   "notes": "주거급여수급자 계층 값은 대조하지 않음(null). 임대조건 표는 대조하지 않음(rents null)"
   }
  ]
 }
