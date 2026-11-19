@@ -1,0 +1,46 @@
+{
+ "id": "2015122300021119",
+ "prompt_v": 2,
+ "model": "claude-session",
+ "at": "2026-11-20 08:53",
+ "answer": {
+  "groups": [
+   {
+    "key": "청년",
+    "homeless": null,
+    "homeless_quote": null,
+    "income_pct": "excluded",
+    "income_quote": "③ 【완화조건】 해당 세대의 소득요건 배제",
+    "asset_manwon": "excluded",
+    "asset_quote": "④ 【완화조건】 해당 세대의 총자산가액 요건은 배제하나, 총 자산 중 자동차가액이 4,542만원 이하일 것",
+    "car_manwon": 4542,
+    "car_quote": "④ 【완화조건】 해당 세대의 총자산가액 요건은 배제하나, 총 자산 중 자동차가액이 4,542만원 이하일 것",
+    "age_min": 19,
+    "age_max": 39,
+    "age_quote": "(청년)  19세 이상 39세 이하인 자(1986.11.19. ~ 2007.11.18.)"
+   },
+   {
+    "key": "대학생",
+    "homeless": null,
+    "homeless_quote": null,
+    "income_pct": "excluded",
+    "income_quote": "③ 【완화조건】 소득요건 배제\n④ 【완화조건】 총자산가액 요건은 배제하나",
+    "asset_manwon": "excluded",
+    "asset_quote": "④ 【완화조건】 총자산가액 요건은 배제하나, 신청자 본인이 자동차가액 산출대상 자동차를 소유하고 있지 않을 것",
+    "car_manwon": 0,
+    "car_quote": "④ 【완화조건】 총자산가액 요건은 배제하나, 신청자 본인이 자동차가액 산출대상 자동차를 소유하고 있지 않을 것",
+    "age_min": null,
+    "age_max": null,
+    "age_quote": null
+   }
+  ],
+  "regions": null,
+  "regions_quote": null,
+  "account": null,
+  "account_quote": null,
+  "local": null,
+  "local_quote": null,
+  "other_groups": []
+ },
+ "sha": "fda3e2770cf5b342"
+}
