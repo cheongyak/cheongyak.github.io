@@ -4,6 +4,15 @@
 2026-09-29 12:55 이전 항목은 규칙을 만들기 전 작업을 커밋 기록으로 정리한 것이라 백업 브랜치가 없어요.
 그 시점으로 되돌릴 때는 해당 커밋 번호로 `git revert` 를 써요.
 
+## 2026-11-19 12:01 · 밤 자동 개선 PR #147 합침 — 재당첨 제한 거주요건 칸 숫자 오독 고침 (2026820015 1년→10년)
+- 요청: 운영자 '응 진행해' (PR #147 합치기, 이슈 #148·#149 닫기)
+- 변경: app/notice_pdf 재당첨 제한 — 본문 '재당첨제한은 N년 적용'(다른 주택 꾸미는 꼴 '적용되는/적용된/적용받는/적용대상' 제외)·제한사항 표 '재당첨제한 당첨자 발표일 N년' 을 일반 규칙보다 먼저. PARSER_VERSION 63 (PR 브랜치가 main 62 와 이미 맞춰 둠). 원문(evidence/notices/2026820015.txt 154줄 '재당첨제한은 10년 적용되고', 157줄 '재당첨제한 당첨자 발표일 10년')을 세션이 직접 확인 — 합치기 전 화면 '1년'. 이슈 #148(아침 수집 sitemap 멈춤, a5eb67654 로 해결)·#149(07:47 판정 검증 실패, 아침 자동 고치기 v1.91.5·v1.91.6 로 해결)는 운영자 허락으로 댓글 남기고 닫음
+- 파일: app/notice_pdf.py, app/pipeline.py, tests/golden/notices.json, tests/qa/parse_snapshot.json, tests/test_rewin_residence_cell_20261118.py, docs/changelog.json, VERSIONS.md, HANDOFF.md
+- 확인: pytest 559 passed·1 skipped, judge_check 980/980, parse_snapshot 바뀐 값 0(정답 스냅숏 PR 에서 갱신), regress 판정 차이 0·화면 오류 0, 2026820015 원문 parse_notice rewin_years=10. 올린 뒤 수집 listings 2026820015 '재당첨 제한' 10년·정답 불일치 0 확인
+- 백업: backup/20261119-1201
+- 기능: 없음(수정)
+- 버전: v1.91.7
+
 ## 2026-11-19 08:27 · 아침 자동 고치기 올린 뒤 확인 (기록만)
 - 요청: 아침 자동 고치기
 - 변경: HANDOFF.md 진행 중인 일 -125 (올린 것·확인 결과·운영자가 볼 것)
