@@ -1,635 +1,8 @@
 {
- "updated": "2026-11-19 13:18",
+ "updated": "2026-11-20 07:51",
  "source": "LH 청약플러스 임대 공고 (공공데이터포털 한국토지주택공사 분양임대공고 조회)",
- "count": 80,
+ "count": 83,
  "notices": [
-  {
-   "id": "2015122300021025",
-   "name": "'26.11월 경주시, 영천시 국민임대주택 동호지정 입주자격 완화 입주자 모집(선계약 후검증)",
-   "type": "국민임대",
-   "type_code": "07",
-   "judge_type": true,
-   "region": "경상북도",
-   "posted": "2026-11-05",
-   "close": "2026-11-19",
-   "status": "정정공고중",
-   "url": "https://apply.lh.or.kr/lhapply/apply/wt/wrtanc/selectWrtancInfo.do?panId=2015122300021025&ccrCnntSysDsCd=03&uppAisTpCd=06&aisTpCd=07&mi=1026",
-   "url_mobile": "https://apply.lh.or.kr/lhapply/apply/wt/wrtanc/selectWrtancInfo.do?panId=2015122300021025&ccrCnntSysDsCd=03&uppAisTpCd=06&aisTpCd=07&mi=1026",
-   "schedule": [
-    {
-     "complex": "영천망정 5단지",
-     "apply_start": "2026-11-17",
-     "apply_end": "2026-11-19",
-     "apply_time": "2026.11.17 10:00 ~ 2026.11.19 16:10",
-     "docs_target": null,
-     "docs_start": null,
-     "docs_end": null,
-     "winner": "2026-11-23",
-     "contract_start": "2026-11-24",
-     "contract_end": "2026-12-01"
-    },
-    {
-     "complex": "경주안강",
-     "apply_start": "2026-11-17",
-     "apply_end": "2026-11-19",
-     "apply_time": "2026.11.17 10:00 ~ 2026.11.19 16:10",
-     "docs_target": null,
-     "docs_start": null,
-     "docs_end": null,
-     "winner": "2026-11-23",
-     "contract_start": "2026-11-24",
-     "contract_end": "2026-12-01"
-    },
-    {
-     "complex": "경주건천",
-     "apply_start": "2026-11-17",
-     "apply_end": "2026-11-19",
-     "apply_time": "2026.11.17 10:00 ~ 2026.11.19 16:10",
-     "docs_target": null,
-     "docs_start": null,
-     "docs_end": null,
-     "winner": "2026-11-23",
-     "contract_start": "2026-11-24",
-     "contract_end": "2026-12-01"
-    },
-    {
-     "complex": "경주외동",
-     "apply_start": "2026-11-17",
-     "apply_end": "2026-11-19",
-     "apply_time": "2026.11.17 10:00 ~ 2026.11.19 16:10",
-     "docs_target": null,
-     "docs_start": null,
-     "docs_end": null,
-     "winner": "2026-11-23",
-     "contract_start": "2026-11-24",
-     "contract_end": "2026-12-01"
-    }
-   ],
-   "complexes": [
-    {
-     "name": "경주건천",
-     "address": "경상북도 경주시 건천읍 대곡용명길 27(건천휴먼시아)",
-     "households": 443,
-     "area": "33.48~51.97",
-     "move_in": "2027.01",
-     "heating": "개별가스난방"
-    },
-    {
-     "name": "경주외동",
-     "address": "경상북도 경주시 외동읍 본동길 14(경주외동엘에이치아파트)",
-     "households": 499,
-     "area": "36.64~51.59",
-     "move_in": "2027.01",
-     "heating": "개별가스난방"
-    },
-    {
-     "name": "경주안강",
-     "address": "경상북도 경주시 안강읍 안강중앙로 141(경주안강엘에이치아파트)",
-     "households": 456,
-     "area": "36.51~49.11",
-     "move_in": "2027.01",
-     "heating": "개별가스난방"
-    },
-    {
-     "name": "영천망정 5단지",
-     "address": "경상북도 영천시 망정로 80(망정동,영천망정휴먼시아5단지)",
-     "households": 603,
-     "area": "39.57~51.93",
-     "move_in": "2027.01",
-     "heating": "개별가스난방"
-    }
-   ],
-   "units": [
-    {
-     "complex": "경주건천",
-     "type": "33형",
-     "area": 33.48,
-     "supply_area": 49.4927,
-     "households": 172,
-     "now_households": 18,
-     "deposit": null,
-     "rent": null,
-     "money_note": "공고문 참조"
-    },
-    {
-     "complex": "경주건천",
-     "type": "41형",
-     "area": 41.99,
-     "supply_area": 62.0728,
-     "households": 127,
-     "now_households": 13,
-     "deposit": null,
-     "rent": null,
-     "money_note": "공고문 참조"
-    },
-    {
-     "complex": "경주건천",
-     "type": "46형",
-     "area": 46.9,
-     "supply_area": 69.3311,
-     "households": 72,
-     "now_households": 16,
-     "deposit": null,
-     "rent": null,
-     "money_note": "공고문 참조"
-    },
-    {
-     "complex": "경주건천",
-     "type": "51형",
-     "area": 51.97,
-     "supply_area": 76.826,
-     "households": 72,
-     "now_households": 15,
-     "deposit": null,
-     "rent": null,
-     "money_note": "공고문 참조"
-    },
-    {
-     "complex": "경주외동",
-     "type": "36형",
-     "area": 36.64,
-     "supply_area": 53.6999,
-     "households": 334,
-     "now_households": 15,
-     "deposit": null,
-     "rent": null,
-     "money_note": "공고문 참조"
-    },
-    {
-     "complex": "경주외동",
-     "type": "46형",
-     "area": 46.49,
-     "supply_area": 67.6171,
-     "households": 105,
-     "now_households": 16,
-     "deposit": null,
-     "rent": null,
-     "money_note": "공고문 참조"
-    },
-    {
-     "complex": "경주외동",
-     "type": "51형",
-     "area": 51.59,
-     "supply_area": 74.8065,
-     "households": 60,
-     "now_households": 10,
-     "deposit": null,
-     "rent": null,
-     "money_note": "공고문 참조"
-    },
-    {
-     "complex": "경주안강",
-     "type": "36형",
-     "area": 36.51,
-     "supply_area": 53.8967,
-     "households": 70,
-     "now_households": 6,
-     "deposit": null,
-     "rent": null,
-     "money_note": "공고문 참조"
-    },
-    {
-     "complex": "경주안강",
-     "type": "39형",
-     "area": 39.09,
-     "supply_area": 57.7053,
-     "households": 242,
-     "now_households": 33,
-     "deposit": null,
-     "rent": null,
-     "money_note": "공고문 참조"
-    },
-    {
-     "complex": "경주안강",
-     "type": "47형",
-     "area": 47.0,
-     "supply_area": 69.3822,
-     "households": 107,
-     "now_households": 21,
-     "deposit": null,
-     "rent": null,
-     "money_note": "공고문 참조"
-    },
-    {
-     "complex": "영천망정 5단지",
-     "type": "39형",
-     "area": 39.57,
-     "supply_area": 58.8701,
-     "households": 334,
-     "now_households": 27,
-     "deposit": null,
-     "rent": null,
-     "money_note": "공고문 참조"
-    },
-    {
-     "complex": "영천망정 5단지",
-     "type": "46형",
-     "area": 46.9,
-     "supply_area": 69.7753,
-     "households": 72,
-     "now_households": 10,
-     "deposit": null,
-     "rent": null,
-     "money_note": "공고문 참조"
-    },
-    {
-     "complex": "영천망정 5단지",
-     "type": "51형",
-     "area": 51.93,
-     "supply_area": 77.2587,
-     "households": 197,
-     "now_households": 24,
-     "deposit": null,
-     "rent": null,
-     "money_note": "공고문 참조"
-    }
-   ],
-   "files": [
-    {
-     "kind": "공고문(hwp)",
-     "name": "경주시,영천시국민임대주택동호지정입주자모집(26.11.05).hwpx",
-     "url": "https://apply.lh.or.kr/lhapply/lhFile.do?fileid=69313343"
-    },
-    {
-     "kind": "공고문(PDF)",
-     "name": "경주시,영천시국민임대주택동호지정입주자모집(26.11.05).pdf",
-     "url": "https://apply.lh.or.kr/lhapply/lhFile.do?fileid=69313344"
-    },
-    {
-     "kind": "카탈로그",
-     "name": "국민임대_공급대상_주택내역(26.11.05).pdf",
-     "url": "https://apply.lh.or.kr/lhapply/lhFile.do?fileid=69313345"
-    }
-   ],
-   "etc": "ㅇ 금회 모집은 순위 및 배점제 미적용(무순위)하며, 사전에 동호지정 순번 부여을 위한 청약신청 접수받고 주택형 구분하여 동호지정 순번을 추첨한 후, 동호지정 순번에 따라 계약체결합니다.\nㅇ 계약체결 후 입주자격을 검증하는 선계약 후검증 방식으로 진행됩니다. 입주는 입주자격 검증 후 적격자에 한하여 가능합니다.",
-   "office": {
-    "place": "경상북도 포항시 남구 포스코대로 324(상도동) 무진빌딩 3층",
-    "tel": "1600-1004"
-   },
-   "notice_pdf": "https://apply.lh.or.kr/lhapply/lhFile.do?fileid=69313344",
-   "notice_text": 41929,
-   "rents": [],
-   "terms": {
-    "relaxed": true,
-    "homeless_relaxed": false,
-    "homeless_max1": false,
-    "income_basis": "도시근로자 월평균소득",
-    "groups": [
-     {
-      "key": "일반",
-      "name": "일반",
-      "homeless": "household",
-      "income_pct": {
-       "1": 150,
-       "2": 150,
-       "3+": 150
-      },
-      "asset_manwon": 34500,
-      "car_manwon": 4542,
-      "age_min": null,
-      "age_max": null
-     }
-    ],
-    "quotes": {
-     "일반": {
-      "income": "구분 소득 및 자산보유 기준 소득 가구원수 기본조건 금회 모집공고 시 소득완화 조건 소득기준 월평균소득기준 소득기준 월평균소득기준 1인가구 90% 3,432,027원이하 150% 5,720,045원이하 2인가구 80% 4,693,016원이하 8,799,405원이하 3인가구 70% 5,717,900원이하 12,252,64",
-      "asset": "10% 가산 자산 총자산가액 및 자동차가액 세대구성원 전원이 보유하고 있는 총자산가액 합산기준 34,500만원 이하, 세대구성원 전원",
-      "car": "이 보유하고 있는 개별자동차가액 4,542만원 이하 - 10- ■ 소"
-     }
-    },
-    "income_table_100": null
-   },
-   "api": {
-    "CCR_CNNT_SYS_DS_CD": "03",
-    "SPL_INF_TP_CD": "062",
-    "UPP_AIS_TP_CD": "06",
-    "AIS_TP_CD": "07"
-   },
-   "read": {
-    "tools": [
-     "pypdf",
-     "pdfium",
-     "plumber"
-    ],
-    "conflicts": []
-   }
-  },
-  {
-   "id": "2015122300021030",
-   "name": "[정정공고][정정공고]'26.11월 경주시, 영천시 국민임대주택 동호지정 입주자격 완화 입주자 모집(선계약 후검증)",
-   "type": "국민임대",
-   "type_code": "07",
-   "judge_type": true,
-   "region": "경상북도",
-   "posted": "2026-11-10",
-   "close": "2026-11-19",
-   "status": "접수중",
-   "url": "https://apply.lh.or.kr/lhapply/apply/wt/wrtanc/selectWrtancInfo.do?panId=2015122300021030&ccrCnntSysDsCd=03&uppAisTpCd=06&aisTpCd=07&mi=1026",
-   "url_mobile": "https://apply.lh.or.kr/lhapply/apply/wt/wrtanc/selectWrtancInfo.do?panId=2015122300021030&ccrCnntSysDsCd=03&uppAisTpCd=06&aisTpCd=07&mi=1026",
-   "schedule": [
-    {
-     "complex": "경주외동",
-     "apply_start": "2026-11-17",
-     "apply_end": "2026-11-19",
-     "apply_time": "2026.11.17 10:00 ~ 2026.11.19 16:10",
-     "docs_target": null,
-     "docs_start": null,
-     "docs_end": null,
-     "winner": "2026-11-23",
-     "contract_start": "2026-11-24",
-     "contract_end": "2026-12-01"
-    },
-    {
-     "complex": "경주건천",
-     "apply_start": "2026-11-17",
-     "apply_end": "2026-11-19",
-     "apply_time": "2026.11.17 10:00 ~ 2026.11.19 16:10",
-     "docs_target": null,
-     "docs_start": null,
-     "docs_end": null,
-     "winner": "2026-11-23",
-     "contract_start": "2026-11-24",
-     "contract_end": "2026-12-01"
-    },
-    {
-     "complex": "경주안강",
-     "apply_start": "2026-11-17",
-     "apply_end": "2026-11-19",
-     "apply_time": "2026.11.17 10:00 ~ 2026.11.19 16:10",
-     "docs_target": null,
-     "docs_start": null,
-     "docs_end": null,
-     "winner": "2026-11-23",
-     "contract_start": "2026-11-24",
-     "contract_end": "2026-12-01"
-    },
-    {
-     "complex": "영천망정 5단지",
-     "apply_start": "2026-11-17",
-     "apply_end": "2026-11-19",
-     "apply_time": "2026.11.17 10:00 ~ 2026.11.19 16:10",
-     "docs_target": null,
-     "docs_start": null,
-     "docs_end": null,
-     "winner": "2026-11-23",
-     "contract_start": "2026-11-24",
-     "contract_end": "2026-12-01"
-    }
-   ],
-   "complexes": [
-    {
-     "name": "경주건천",
-     "address": "경상북도 경주시 건천읍 대곡용명길 27(건천휴먼시아)",
-     "households": 443,
-     "area": "33.48~51.97",
-     "move_in": "2027.01",
-     "heating": "개별가스난방"
-    },
-    {
-     "name": "경주외동",
-     "address": "경상북도 경주시 외동읍 본동길 14(경주외동엘에이치아파트)",
-     "households": 499,
-     "area": "36.64~51.59",
-     "move_in": "2027.01",
-     "heating": "개별가스난방"
-    },
-    {
-     "name": "경주안강",
-     "address": "경상북도 경주시 안강읍 안강중앙로 141(경주안강엘에이치아파트)",
-     "households": 456,
-     "area": "36.51~49.11",
-     "move_in": "2027.01",
-     "heating": "개별가스난방"
-    },
-    {
-     "name": "영천망정 5단지",
-     "address": "경상북도 영천시 망정로 80(망정동,영천망정휴먼시아5단지)",
-     "households": 603,
-     "area": "39.57~51.93",
-     "move_in": "2027.01",
-     "heating": "개별가스난방"
-    }
-   ],
-   "units": [
-    {
-     "complex": "경주건천",
-     "type": "33형",
-     "area": 33.48,
-     "supply_area": 49.4927,
-     "households": 172,
-     "now_households": 18,
-     "deposit": null,
-     "rent": null,
-     "money_note": "공고문 참조"
-    },
-    {
-     "complex": "경주건천",
-     "type": "41형",
-     "area": 41.99,
-     "supply_area": 62.0728,
-     "households": 127,
-     "now_households": 13,
-     "deposit": null,
-     "rent": null,
-     "money_note": "공고문 참조"
-    },
-    {
-     "complex": "경주건천",
-     "type": "46형",
-     "area": 46.9,
-     "supply_area": 69.3311,
-     "households": 72,
-     "now_households": 16,
-     "deposit": null,
-     "rent": null,
-     "money_note": "공고문 참조"
-    },
-    {
-     "complex": "경주건천",
-     "type": "51형",
-     "area": 51.97,
-     "supply_area": 76.826,
-     "households": 72,
-     "now_households": 15,
-     "deposit": null,
-     "rent": null,
-     "money_note": "공고문 참조"
-    },
-    {
-     "complex": "경주외동",
-     "type": "36형",
-     "area": 36.64,
-     "supply_area": 53.6999,
-     "households": 334,
-     "now_households": 15,
-     "deposit": null,
-     "rent": null,
-     "money_note": "공고문 참조"
-    },
-    {
-     "complex": "경주외동",
-     "type": "46형",
-     "area": 46.49,
-     "supply_area": 67.6171,
-     "households": 105,
-     "now_households": 16,
-     "deposit": null,
-     "rent": null,
-     "money_note": "공고문 참조"
-    },
-    {
-     "complex": "경주외동",
-     "type": "51형",
-     "area": 51.59,
-     "supply_area": 74.8065,
-     "households": 60,
-     "now_households": 10,
-     "deposit": null,
-     "rent": null,
-     "money_note": "공고문 참조"
-    },
-    {
-     "complex": "경주안강",
-     "type": "36형",
-     "area": 36.51,
-     "supply_area": 53.8967,
-     "households": 70,
-     "now_households": 6,
-     "deposit": null,
-     "rent": null,
-     "money_note": "공고문 참조"
-    },
-    {
-     "complex": "경주안강",
-     "type": "39형",
-     "area": 39.09,
-     "supply_area": 57.7053,
-     "households": 242,
-     "now_households": 33,
-     "deposit": null,
-     "rent": null,
-     "money_note": "공고문 참조"
-    },
-    {
-     "complex": "경주안강",
-     "type": "47형",
-     "area": 47.0,
-     "supply_area": 69.3822,
-     "households": 107,
-     "now_households": 21,
-     "deposit": null,
-     "rent": null,
-     "money_note": "공고문 참조"
-    },
-    {
-     "complex": "영천망정 5단지",
-     "type": "39형",
-     "area": 39.57,
-     "supply_area": 58.8701,
-     "households": 334,
-     "now_households": 27,
-     "deposit": null,
-     "rent": null,
-     "money_note": "공고문 참조"
-    },
-    {
-     "complex": "영천망정 5단지",
-     "type": "46형",
-     "area": 46.9,
-     "supply_area": 69.7753,
-     "households": 72,
-     "now_households": 10,
-     "deposit": null,
-     "rent": null,
-     "money_note": "공고문 참조"
-    },
-    {
-     "complex": "영천망정 5단지",
-     "type": "51형",
-     "area": 51.93,
-     "supply_area": 77.2587,
-     "households": 197,
-     "now_households": 24,
-     "deposit": null,
-     "rent": null,
-     "money_note": "공고문 참조"
-    }
-   ],
-   "files": [
-    {
-     "kind": "공고문(hwp)",
-     "name": "(정정공고)경주시,영천시국민임대주택동호지정입주자모집(26.11.05).hwpx",
-     "url": "https://apply.lh.or.kr/lhapply/lhFile.do?fileid=69355346"
-    },
-    {
-     "kind": "공고문(PDF)",
-     "name": "(정정공고)경주시,영천시국민임대주택동호지정입주자모집(26.11.05).pdf",
-     "url": "https://apply.lh.or.kr/lhapply/lhFile.do?fileid=69355347"
-    },
-    {
-     "kind": "카탈로그",
-     "name": "[정정공고]국민임대_공급대상주택(11.05).pdf",
-     "url": "https://apply.lh.or.kr/lhapply/lhFile.do?fileid=69355348"
-    },
-    {
-     "kind": "기타 첨부파일",
-     "name": "신청접수(양식).zip",
-     "url": "https://apply.lh.or.kr/lhapply/lhFile.do?fileid=69355350"
-    }
-   ],
-   "etc": "ㅇ 금회 모집은 순위 및 배점제 미적용(무순위)하며, 사전에 동호지정 순번 부여을 위한 청약신청 접수받고 주택형 구분하여 동호지정 순번을 추첨한 후, 동호지정 순번에 따라 계약체결합니다.\nㅇ 계약체결 후 입주자격을 검증하는 선계약 후검증 방식으로 진행됩니다. 입주는 입주자격 검증 후 적격자에 한하여 가능합니다.",
-   "office": {
-    "place": "경상북도 포항시 남구 포스코대로 324(상도동) 무진빌딩 3층",
-    "tel": "1600-1004"
-   },
-   "notice_pdf": "https://apply.lh.or.kr/lhapply/lhFile.do?fileid=69355347",
-   "notice_text": 41857,
-   "rents": [],
-   "terms": {
-    "relaxed": true,
-    "homeless_relaxed": false,
-    "homeless_max1": false,
-    "income_basis": "도시근로자 월평균소득",
-    "groups": [
-     {
-      "key": "일반",
-      "name": "일반",
-      "homeless": "household",
-      "income_pct": {
-       "1": 150,
-       "2": 150,
-       "3+": 150
-      },
-      "asset_manwon": 34500,
-      "car_manwon": 4542,
-      "age_min": null,
-      "age_max": null
-     }
-    ],
-    "quotes": {
-     "일반": {
-      "income": "구분 소득 및 자산보유 기준 소득 가구원수 기본조건 금회 모집공고 시 소득완화 조건 소득기준 월평균소득기준 소득기준 월평균소득기준 1인가구 90% 3,432,027원이하 150% 5,720,045원이하 2인가구 80% 4,693,016원이하 8,799,405원이하 3인가구 70% 5,717,900원이하 12,252,64",
-      "asset": "10% 가산 자산 총자산가액 및 자동차가액 세대구성원 전원이 보유하고 있는 총자산가액 합산기준 34,500만원 이하, 세대구성원 전원",
-      "car": "이 보유하고 있는 개별자동차가액 4,542만원 이하 - 10- ■ 소"
-     }
-    },
-    "income_table_100": null
-   },
-   "api": {
-    "CCR_CNNT_SYS_DS_CD": "03",
-    "SPL_INF_TP_CD": "062",
-    "UPP_AIS_TP_CD": "06",
-    "AIS_TP_CD": "07"
-   },
-   "read": {
-    "tools": [
-     "pypdf",
-     "pdfium",
-     "plumber"
-    ],
-    "conflicts": []
-   }
-  },
   {
    "id": "2015122300020917",
    "name": "완주삼례A-1 행복주택 입주자격완화 예비입주자 모집",
@@ -3156,7 +2529,7 @@
      "complex": null,
      "apply_start": "2026-11-26",
      "apply_end": "2026-11-26",
-     "apply_time": "~",
+     "apply_time": "2026.11.26 10:00 ~ 2026.11.26 15:10",
      "docs_target": "2026-12-11",
      "docs_start": "2026-12-14",
      "docs_end": "2026-12-16",
@@ -8103,6 +7476,552 @@
    }
   },
   {
+   "id": "2015122300021098",
+   "name": "서울삼전,강동천호,LH수서1,LH수서2 행복주택 예비입주자 모집공고",
+   "type": "행복주택",
+   "type_code": "10",
+   "judge_type": true,
+   "region": "서울특별시",
+   "posted": "2026-11-19",
+   "close": "2026-12-01",
+   "status": "공고중",
+   "url": "https://apply.lh.or.kr/lhapply/apply/wt/wrtanc/selectWrtancInfo.do?panId=2015122300021098&ccrCnntSysDsCd=03&uppAisTpCd=06&aisTpCd=10&mi=1026",
+   "url_mobile": "https://apply.lh.or.kr/lhapply/apply/wt/wrtanc/selectWrtancInfo.do?panId=2015122300021098&ccrCnntSysDsCd=03&uppAisTpCd=06&aisTpCd=10&mi=1026",
+   "schedule": [
+    {
+     "complex": "수서역세권 A1BL 행복주택",
+     "apply_start": "2026-11-30",
+     "apply_end": "2026-12-01",
+     "apply_time": "2026.11.30 10:00 ~ 2026.12.01 17:10",
+     "docs_target": "2026-12-04",
+     "docs_start": "2026-12-07",
+     "docs_end": "2026-12-11",
+     "winner": "2027-03-26",
+     "contract_start": "2027-11-30",
+     "contract_end": "2027-11-30"
+    },
+    {
+     "complex": "서울삼전 행복주택",
+     "apply_start": "2026-11-30",
+     "apply_end": "2026-12-01",
+     "apply_time": "2026.11.30 10:00 ~ 2026.12.01 17:10",
+     "docs_target": "2026-12-04",
+     "docs_start": "2026-12-07",
+     "docs_end": "2026-12-11",
+     "winner": "2027-03-26",
+     "contract_start": "2027-11-30",
+     "contract_end": "2027-11-30"
+    },
+    {
+     "complex": "수서역세권 A2BL 행복주택",
+     "apply_start": "2026-11-30",
+     "apply_end": "2026-12-01",
+     "apply_time": "2026.11.30 10:00 ~ 2026.12.01 17:10",
+     "docs_target": "2026-12-04",
+     "docs_start": "2026-12-07",
+     "docs_end": "2026-12-11",
+     "winner": "2027-03-26",
+     "contract_start": "2027-11-30",
+     "contract_end": "2027-11-30"
+    },
+    {
+     "complex": "강동천호 행복주택",
+     "apply_start": "2026-11-30",
+     "apply_end": "2026-12-01",
+     "apply_time": "2026.11.30 10:00 ~ 2026.12.01 17:10",
+     "docs_target": "2026-12-04",
+     "docs_start": "2026-12-07",
+     "docs_end": "2026-12-11",
+     "winner": "2027-03-26",
+     "contract_start": "2027-11-30",
+     "contract_end": "2027-11-30"
+    }
+   ],
+   "complexes": [
+    {
+     "name": "강동천호 행복주택",
+     "address": "서울특별시 강동구 천호동 555",
+     "households": 94,
+     "area": "16.25~36.89",
+     "move_in": "2025.02",
+     "heating": "개별난방"
+    },
+    {
+     "name": "수서역세권 A1BL 행복주택",
+     "address": "서울특별시 강남구 밤고개로 165(자곡동)",
+     "households": 830,
+     "area": "14.69~44.89",
+     "move_in": "2023.02",
+     "heating": "지역난방"
+    },
+    {
+     "name": "수서역세권 A2BL 행복주택",
+     "address": "서울특별시 강남구 자곡로11길 28(자곡동)",
+     "households": 1080,
+     "area": "14.69~44.9",
+     "move_in": "2024.04",
+     "heating": "지역난방"
+    },
+    {
+     "name": "서울삼전 행복주택",
+     "address": "서울특별시 송파구 백제고분로32길 40-5(삼전동,서울삼전행복주택)",
+     "households": 40,
+     "area": "20.36~41.39",
+     "move_in": "2020.10",
+     "heating": null
+    }
+   ],
+   "units": [
+    {
+     "complex": "강동천호 행복주택",
+     "type": "36B(청년, 신혼부부, 한부모가족)",
+     "area": 36.33,
+     "supply_area": 66.2005,
+     "households": 7,
+     "now_households": 10,
+     "deposit": null,
+     "rent": null,
+     "money_note": "공고문 참조"
+    },
+    {
+     "complex": "수서역세권 A1BL 행복주택",
+     "type": "14A(대학생/청년)",
+     "area": 14.69,
+     "supply_area": 23.009,
+     "households": 420,
+     "now_households": 100,
+     "deposit": null,
+     "rent": null,
+     "money_note": "공고문 참조"
+    },
+    {
+     "complex": "수서역세권 A1BL 행복주택",
+     "type": "26A(주거급여수급자)",
+     "area": 26.54,
+     "supply_area": 40.4612,
+     "households": 86,
+     "now_households": 30,
+     "deposit": null,
+     "rent": null,
+     "money_note": "공고문 참조"
+    },
+    {
+     "complex": "수서역세권 A1BL 행복주택",
+     "type": "36A,B(청년, 신혼부부·한부모가족)",
+     "area": 36.6,
+     "supply_area": 55.1753,
+     "households": 120,
+     "now_households": 30,
+     "deposit": null,
+     "rent": null,
+     "money_note": "공고문 참조"
+    },
+    {
+     "complex": "수서역세권 A1BL 행복주택",
+     "type": "44A(신혼부부·한부모가족)",
+     "area": 44.89,
+     "supply_area": 67.5198,
+     "households": 120,
+     "now_households": 10,
+     "deposit": null,
+     "rent": null,
+     "money_note": "공고문 참조"
+    },
+    {
+     "complex": "수서역세권 A2BL 행복주택",
+     "type": "14A(대학생/청년)",
+     "area": 14.69,
+     "supply_area": 22.0083,
+     "households": 276,
+     "now_households": 50,
+     "deposit": null,
+     "rent": null,
+     "money_note": "공고문 참조"
+    },
+    {
+     "complex": "수서역세권 A2BL 행복주택",
+     "type": "26A(청년)",
+     "area": 26.54,
+     "supply_area": 39.7619,
+     "households": 102,
+     "now_households": 10,
+     "deposit": null,
+     "rent": null,
+     "money_note": "공고문 참조"
+    },
+    {
+     "complex": "수서역세권 A2BL 행복주택",
+     "type": "26B(고령자-주거약자)",
+     "area": 26.54,
+     "supply_area": 39.7619,
+     "households": 108,
+     "now_households": 30,
+     "deposit": null,
+     "rent": null,
+     "money_note": "공고문 참조"
+    },
+    {
+     "complex": "수서역세권 A2BL 행복주택",
+     "type": "36A(청년, 신혼부부, 한부모가족)",
+     "area": 36.84,
+     "supply_area": 55.1932,
+     "households": 350,
+     "now_households": 70,
+     "deposit": null,
+     "rent": null,
+     "money_note": "공고문 참조"
+    },
+    {
+     "complex": "수서역세권 A2BL 행복주택",
+     "type": "36B(청년, 신혼부부, 한부모가족)",
+     "area": 36.6,
+     "supply_area": 54.8336,
+     "households": 62,
+     "now_households": 20,
+     "deposit": null,
+     "rent": null,
+     "money_note": "공고문 참조"
+    },
+    {
+     "complex": "수서역세권 A2BL 행복주택",
+     "type": "44A(신혼부부, 한부모가족)",
+     "area": 44.89,
+     "supply_area": 67.2536,
+     "households": 132,
+     "now_households": 5,
+     "deposit": null,
+     "rent": null,
+     "money_note": "공고문 참조"
+    },
+    {
+     "complex": "수서역세권 A2BL 행복주택",
+     "type": "44C(신혼부부, 한부모가족)",
+     "area": 44.66,
+     "supply_area": 66.909,
+     "households": 24,
+     "now_households": 5,
+     "deposit": null,
+     "rent": null,
+     "money_note": "공고문 참조"
+    },
+    {
+     "complex": "서울삼전 행복주택",
+     "type": "26형(신혼부부)",
+     "area": 26.21,
+     "supply_area": 40.3906,
+     "households": 12,
+     "now_households": 10,
+     "deposit": null,
+     "rent": null,
+     "money_note": "공고문 참조"
+    },
+    {
+     "complex": "서울삼전 행복주택",
+     "type": "41형(신혼부부)",
+     "area": 41.39,
+     "supply_area": 62.8687,
+     "households": 8,
+     "now_households": 10,
+     "deposit": null,
+     "rent": null,
+     "money_note": "공고문 참조"
+    }
+   ],
+   "files": [
+    {
+     "kind": "카탈로그",
+     "name": "LH수서1(수서역세권A1BL)행복주택팸플릿.pdf",
+     "url": "https://apply.lh.or.kr/lhapply/lhFile.do?fileid=69445650"
+    },
+    {
+     "kind": "카탈로그",
+     "name": "LH수서2(수서역세권A2BL)행복주택팸플릿.pdf",
+     "url": "https://apply.lh.or.kr/lhapply/lhFile.do?fileid=69445655"
+    },
+    {
+     "kind": "공고문(hwp)",
+     "name": "★서울삼전,강동천호,LH수서1,LH수서2,행복주택예비입주자모집공고(2026.11.19).hwpx",
+     "url": "https://apply.lh.or.kr/lhapply/lhFile.do?fileid=69490108"
+    },
+    {
+     "kind": "공고문(PDF)",
+     "name": "★서울삼전,강동천호,LH수서1,LH수서2,행복주택예비입주자모집공고(2026.11.19).pdf",
+     "url": "https://apply.lh.or.kr/lhapply/lhFile.do?fileid=69490179"
+    },
+    {
+     "kind": "카탈로그",
+     "name": "강동천호행복주택팸플릿.pdf",
+     "url": "https://apply.lh.or.kr/lhapply/lhFile.do?fileid=69445671"
+    },
+    {
+     "kind": "카탈로그",
+     "name": "서울삼전행복주택_조감도및평면도.pdf",
+     "url": "https://apply.lh.or.kr/lhapply/lhFile.do?fileid=69445673"
+    },
+    {
+     "kind": "기타 첨부파일",
+     "name": "행복주택제출서류.zip",
+     "url": "https://apply.lh.or.kr/lhapply/lhFile.do?fileid=69445929"
+    }
+   ],
+   "etc": "* 자세한 사항은 모집공고문을 참고하시기 바랍니다.\n\n* 본 모집공고문의 대상 주택에 대하여 1세대 1주택 신청을 원칙으로 하며, 중복 신청하는 경우 전부 무효처리 합니다.\n\n* LH콜센터(1600-1004) 등을 통해 입주자 모집 공고내용과 관련하여 자세한 안내가 이루어질 수 있도록 상담을 실시하고 있으나, 신청자 개별상황 등에 대한 의사소통 오류로 관련사항 착오안내가 이루어지는 경우가 있습니다. 고객 여러분께서는 신청과 관련한 상담은 주택신청의 참고자료로만 활용해 주시기 바라며, 신청자 본인이 입주자 모집공고를 통해 신청자격 등을 숙지하시어 신청하시기 바랍니다. 아울러 신청자격 미숙지, 착오 신청 등에 대해서는 신청자 본인에게 책임이 있으니 유의하여 주시기 바랍니다.",
+   "office": {
+    "place": "서울특별시 강남구 선릉로 514(삼성동) 성원타워 4층 LH서울남부권주거복지지사",
+    "tel": "1600-1004"
+   },
+   "notice_pdf": "https://apply.lh.or.kr/lhapply/lhFile.do?fileid=69490179",
+   "notice_text": 63096,
+   "rents": [
+    {
+     "complex": "서울 삼전",
+     "type": "26",
+     "group": "신혼부부·한부모",
+     "deposit": 84400000,
+     "rent": 351660
+    },
+    {
+     "complex": "개별 난방",
+     "type": "41",
+     "group": "신혼부부·한부모",
+     "deposit": 120400000,
+     "rent": 501660
+    },
+    {
+     "complex": "강동 천호",
+     "type": "36B",
+     "group": "청년(소득 없음)",
+     "deposit": 102340000,
+     "rent": 383770
+    },
+    {
+     "complex": "강동 천호",
+     "type": "10",
+     "group": "청년(소득 있음)",
+     "deposit": 108360000,
+     "rent": 406350
+    },
+    {
+     "complex": "강동 천호",
+     "type": "10",
+     "group": "신혼부부·한부모",
+     "deposit": 120400000,
+     "rent": 451500
+    },
+    {
+     "complex": "수서1",
+     "type": "14A",
+     "group": "대학생",
+     "deposit": 49300000,
+     "rent": 172550
+    },
+    {
+     "complex": "수서1",
+     "type": "10",
+     "group": "청년",
+     "deposit": 52200000,
+     "rent": 182700
+    },
+    {
+     "complex": "수서1",
+     "type": "26A",
+     "group": "주거급여수급자",
+     "deposit": 78600000,
+     "rent": 275100
+    },
+    {
+     "complex": "수서1",
+     "type": "36B",
+     "group": "청년(소득 없음)",
+     "deposit": 119340000,
+     "rent": 417690
+    },
+    {
+     "complex": "수서1",
+     "type": "10",
+     "group": "청년(소득 있음)",
+     "deposit": 126360000,
+     "rent": 442260
+    },
+    {
+     "complex": "수서1",
+     "type": "10",
+     "group": "신혼부부·한부모",
+     "deposit": 140400000,
+     "rent": 491400
+    },
+    {
+     "complex": "수서1",
+     "type": "44A",
+     "group": "신혼부부·한부모",
+     "deposit": 175600000,
+     "rent": 614600
+    },
+    {
+     "complex": "수서2",
+     "type": "14A",
+     "group": "대학생",
+     "deposit": 49300000,
+     "rent": 172550
+    },
+    {
+     "complex": "수서2",
+     "type": "10",
+     "group": "청년",
+     "deposit": 52200000,
+     "rent": 182700
+    },
+    {
+     "complex": "수서2",
+     "type": "26A",
+     "group": "청년(소득 없음)",
+     "deposit": 89080000,
+     "rent": 311780
+    },
+    {
+     "complex": "수서2",
+     "type": "10",
+     "group": "청년(소득 있음)",
+     "deposit": 94320000,
+     "rent": 330120
+    },
+    {
+     "complex": "수서2",
+     "type": "26B",
+     "group": "고령자",
+     "deposit": 99560000,
+     "rent": 348460
+    },
+    {
+     "complex": "수서2",
+     "type": "36A",
+     "group": "청년(소득 없음)",
+     "deposit": 122740000,
+     "rent": 429590
+    },
+    {
+     "complex": "수서2",
+     "type": "10",
+     "group": "청년(소득 있음)",
+     "deposit": 129960000,
+     "rent": 454860
+    },
+    {
+     "complex": "수서2",
+     "type": "10",
+     "group": "신혼부부·한부모",
+     "deposit": 144400000,
+     "rent": 505400
+    },
+    {
+     "complex": "수서2",
+     "type": "36B",
+     "group": "청년(소득 없음)",
+     "deposit": 120700000,
+     "rent": 422450
+    },
+    {
+     "complex": "수서2",
+     "type": "10",
+     "group": "청년(소득 있음)",
+     "deposit": 127800000,
+     "rent": 447300
+    },
+    {
+     "complex": "수서2",
+     "type": "10",
+     "group": "신혼부부·한부모",
+     "deposit": 142000000,
+     "rent": 497000
+    },
+    {
+     "complex": "수서2",
+     "type": "44A",
+     "group": "신혼부부·한부모",
+     "deposit": 176000000,
+     "rent": 616000
+    },
+    {
+     "complex": "수서2",
+     "type": "44C",
+     "group": "신혼부부·한부모",
+     "deposit": 170000000,
+     "rent": 595000
+    }
+   ],
+   "terms": {
+    "relaxed": false,
+    "homeless_relaxed": false,
+    "homeless_max1": false,
+    "income_basis": "도시근로자 월평균소득",
+    "groups": [
+     {
+      "key": "대학생",
+      "name": "대학생",
+      "homeless": "self",
+      "income_pct": {
+       "1": 120,
+       "2": 110,
+       "3+": 100
+      },
+      "asset_manwon": 10800,
+      "car_manwon": 0,
+      "age_min": null,
+      "age_max": null
+     },
+     {
+      "key": "청년",
+      "name": "청년",
+      "homeless": "self",
+      "income_pct": {
+       "1": 120,
+       "2": 110,
+       "3+": 100
+      },
+      "asset_manwon": 25100,
+      "car_manwon": 4542,
+      "age_min": 19,
+      "age_max": 39,
+      "account_by_movein": true
+     },
+     {
+      "key": "주거급여수급자",
+      "name": "주거급여수급자",
+      "homeless": "household",
+      "income_pct": null,
+      "asset_manwon": null,
+      "car_manwon": null,
+      "age_min": null,
+      "age_max": null
+     }
+    ],
+    "quotes": {},
+    "income_table_100": {
+     "3": 8168429,
+     "4": 8802202,
+     "5": 9326985,
+     "6": 9906263
+    },
+    "unknown_groups": [
+     "· 신혼부부 한부모가족"
+    ],
+    "prewed_ok": true
+   },
+   "api": {
+    "CCR_CNNT_SYS_DS_CD": "03",
+    "SPL_INF_TP_CD": "063",
+    "UPP_AIS_TP_CD": "06",
+    "AIS_TP_CD": "10"
+   },
+   "read": {
+    "tools": [
+     "pypdf",
+     "pdfium",
+     "plumber"
+    ],
+    "conflicts": []
+   }
+  },
+  {
    "id": "2015122300021101",
    "name": "[정정공고]증평군 송산5단지 국민임대주택 자격완화 예비입주자 모집[2026.11.16]",
    "type": "국민임대",
@@ -12569,7 +12488,7 @@
    "region": "경기도",
    "posted": "2026-11-18",
    "close": "2026-12-02",
-   "status": "공고중",
+   "status": "정정공고중",
    "url": "https://apply.lh.or.kr/lhapply/apply/wt/wrtanc/selectWrtancInfo.do?panId=2015122300021108&ccrCnntSysDsCd=03&uppAisTpCd=06&aisTpCd=10&mi=1026",
    "url_mobile": "https://apply.lh.or.kr/lhapply/apply/wt/wrtanc/selectWrtancInfo.do?panId=2015122300021108&ccrCnntSysDsCd=03&uppAisTpCd=06&aisTpCd=10&mi=1026",
    "schedule": [
@@ -13765,6 +13684,503 @@
     "SPL_INF_TP_CD": "062",
     "UPP_AIS_TP_CD": "06",
     "AIS_TP_CD": "07"
+   },
+   "read": {
+    "tools": [
+     "pypdf",
+     "pdfium",
+     "plumber"
+    ],
+    "conflicts": []
+   }
+  },
+  {
+   "id": "2015122300021119",
+   "name": "[정정공고]수원당수 1, 2단지 행복주택 입주자격완화 동호지정 입주자 모집[선계약/후검증]('26.11.18.)",
+   "type": "행복주택",
+   "type_code": "10",
+   "judge_type": true,
+   "region": "경기도",
+   "posted": "2026-11-19",
+   "close": "2026-12-02",
+   "status": "공고중",
+   "url": "https://apply.lh.or.kr/lhapply/apply/wt/wrtanc/selectWrtancInfo.do?panId=2015122300021119&ccrCnntSysDsCd=03&uppAisTpCd=06&aisTpCd=10&mi=1026",
+   "url_mobile": "https://apply.lh.or.kr/lhapply/apply/wt/wrtanc/selectWrtancInfo.do?panId=2015122300021119&ccrCnntSysDsCd=03&uppAisTpCd=06&aisTpCd=10&mi=1026",
+   "schedule": [
+    {
+     "complex": "수원당수 A-2블록 행복주택",
+     "apply_start": "2026-11-30",
+     "apply_end": "2026-12-02",
+     "apply_time": "2026.11.30 10:00 ~ 2026.12.02 16:00",
+     "docs_target": null,
+     "docs_start": null,
+     "docs_end": null,
+     "winner": "2026-12-04",
+     "contract_start": null,
+     "contract_end": null
+    },
+    {
+     "complex": "수원당수 A-1블록 행복주택",
+     "apply_start": "2026-11-30",
+     "apply_end": "2026-12-02",
+     "apply_time": "2026.11.30 10:00 ~ 2026.12.02 16:00",
+     "docs_target": null,
+     "docs_start": null,
+     "docs_end": null,
+     "winner": "2026-12-04",
+     "contract_start": null,
+     "contract_end": null
+    }
+   ],
+   "complexes": [
+    {
+     "name": "수원당수 A-1블록 행복주택",
+     "address": "경기도 수원시 권선구 당수로130번길 13(당수동)",
+     "households": 1350,
+     "area": "14.87~44.59",
+     "move_in": "2023.04",
+     "heating": "지역난방"
+    },
+    {
+     "name": "수원당수 A-2블록 행복주택",
+     "address": "경기도 수원시 권선구 당수1로 15(금곡동)",
+     "households": 1150,
+     "area": "14.88~44.53",
+     "move_in": "2024.02",
+     "heating": "지역난방"
+    }
+   ],
+   "units": [
+    {
+     "complex": "수원당수 A-1블록 행복주택",
+     "type": "14A(대학생,청년)",
+     "area": 14.91,
+     "supply_area": 22.9213,
+     "households": 194,
+     "now_households": 122,
+     "deposit": null,
+     "rent": null,
+     "money_note": "공고문 참조"
+    },
+    {
+     "complex": "수원당수 A-1블록 행복주택",
+     "type": "26D(대학생,청년, 주거급여수급자)",
+     "area": 26.88,
+     "supply_area": 41.3229,
+     "households": 138,
+     "now_households": 28,
+     "deposit": null,
+     "rent": null,
+     "money_note": "공고문 참조"
+    },
+    {
+     "complex": "수원당수 A-2블록 행복주택",
+     "type": "14(대학생,청년)",
+     "area": 14.88,
+     "supply_area": 23.5435,
+     "households": 288,
+     "now_households": 136,
+     "deposit": null,
+     "rent": null,
+     "money_note": "공고문 참조"
+    },
+    {
+     "complex": "수원당수 A-2블록 행복주택",
+     "type": "26B/26C(대학생,청년, 주거급여수급자)",
+     "area": 26.7,
+     "supply_area": 41.0445,
+     "households": 142,
+     "now_households": 34,
+     "deposit": null,
+     "rent": null,
+     "money_note": "공고문 참조"
+    }
+   ],
+   "files": [
+    {
+     "kind": "기타 첨부파일",
+     "name": "(별첨1)수원당수1,2단지행복주택모집주택목록..xlsx",
+     "url": "https://apply.lh.or.kr/lhapply/lhFile.do?fileid=69501024"
+    },
+    {
+     "kind": "기타 첨부파일",
+     "name": "(별첨2)단지별특성(수원당수).hwpx",
+     "url": "https://apply.lh.or.kr/lhapply/lhFile.do?fileid=69501025"
+    },
+    {
+     "kind": "기타 첨부파일",
+     "name": "(붙임1~4)계약자필수제출.hwpx",
+     "url": "https://apply.lh.or.kr/lhapply/lhFile.do?fileid=69501899"
+    },
+    {
+     "kind": "기타 첨부파일",
+     "name": "(붙임5~7)해당자만제출.hwpx",
+     "url": "https://apply.lh.or.kr/lhapply/lhFile.do?fileid=69501027"
+    },
+    {
+     "kind": "공고문(hwp)",
+     "name": "수원당수1,2단지행복주택입주자격완화동호지정입주자모집공고문.hwpx",
+     "url": "https://apply.lh.or.kr/lhapply/lhFile.do?fileid=69501028"
+    },
+    {
+     "kind": "공고문(PDF)",
+     "name": "수원당수1,2단지행복주택입주자격완화동호지정입주자모집공고문.pdf",
+     "url": "https://apply.lh.or.kr/lhapply/lhFile.do?fileid=69502007"
+    }
+   ],
+   "etc": "■ 금회 모집 공고는 입주자격 요건(소득, 자산, 기간)을 완화하여 계약체결 후 입주자격을 검증하는 「先(선)계약 後(후)검증」 방식으로 진행되며 입주는 입주자격 검증 후 적격자에 한하여 가능합니다.\n■ 주택단지별 및 공급형별 모집하는 공급대상(계층)이 상이하므로 반드시 공고문을 확인하시기 바랍니다.\n■ 자세한 사항은 입주자 모집 공고문을 확인하시기 바라며, 청약자격 미숙지, 착오 신청 등에 대하여는 청약자 본인에게 책임이 있으니 불이익을 받지 않도록 유의하시기 바랍니다.\n■ 팸플릿은 최초 입주자 모집공고 기준으로 작성되어 일부 변경 또는 삭제 등 수정사항이 있을 수 있으므로 지역 및 지구조감도, 평면도 등의 참고용으로 활용하시기 바랍니다.\n■ 인터넷/모바일 신청 전 청약신청 연습하기로 충분히 가상연습을 하신 후 마감이 임박하기 전에 미리 여유 있게 신청하시기 바랍니다\n■ 전화문의는 장시간 접속지연 및 통화대기 등의 불편이 있을 수 있으니 모집 신청과 관련한 내용은 공고문을 참고하여 주시기 바랍니다.",
+   "office": {
+    "place": "경기도 수원시 영통구 광교로 146(이의동) 안효빌딩 11층, LH수원권주거복지지사",
+    "tel": "1600-1004"
+   },
+   "notice_pdf": "https://apply.lh.or.kr/lhapply/lhFile.do?fileid=69502007",
+   "notice_text": 43203,
+   "rents": [
+    {
+     "complex": "수원당수 1단지",
+     "type": "14A/14B",
+     "group": "대학생·청년(소득 없음)",
+     "deposit": 23460000,
+     "rent": 103610
+    },
+    {
+     "complex": "수원당수 1단지",
+     "type": "14A/14B",
+     "group": "청년(소득 있음)",
+     "deposit": 24840000,
+     "rent": 109710
+    },
+    {
+     "complex": "수원당수 1단지",
+     "type": "26D",
+     "group": "대학생·청년(소득 없음)",
+     "deposit": 41480000,
+     "rent": 183200
+    },
+    {
+     "complex": "수원당수 1단지",
+     "type": "26D",
+     "group": "청년(소득 있음)",
+     "deposit": 43920000,
+     "rent": 193980
+    },
+    {
+     "complex": "수원당수 1단지",
+     "type": "26D",
+     "group": "주거급여수급자",
+     "deposit": 36600000,
+     "rent": 161650
+    },
+    {
+     "complex": "수원당수 2단지",
+     "type": "14",
+     "group": "대학생·청년(소득 없음)",
+     "deposit": 23120000,
+     "rent": 102110
+    },
+    {
+     "complex": "수원당수 2단지",
+     "type": "14",
+     "group": "청년(소득 있음)",
+     "deposit": 24480000,
+     "rent": 108120
+    },
+    {
+     "complex": "수원당수 2단지",
+     "type": "26B",
+     "group": "대학생·청년(소득 없음)",
+     "deposit": 42160000,
+     "rent": 186200
+    },
+    {
+     "complex": "수원당수 2단지",
+     "type": "26B",
+     "group": "청년(소득 있음)",
+     "deposit": 44640000,
+     "rent": 197160
+    },
+    {
+     "complex": "수원당수 2단지",
+     "type": "26B",
+     "group": "주거급여수급자",
+     "deposit": 37200000,
+     "rent": 164300
+    }
+   ],
+   "terms": {
+    "relaxed": true,
+    "homeless_relaxed": false,
+    "homeless_max1": false,
+    "income_basis": "도시근로자 월평균소득",
+    "groups": [
+     {
+      "key": "대학생",
+      "name": "대학생",
+      "homeless": "self",
+      "income_pct": "excluded",
+      "asset_manwon": null,
+      "car_manwon": 0,
+      "age_min": null,
+      "age_max": null
+     },
+     {
+      "key": "청년",
+      "name": "청년",
+      "homeless": "self",
+      "income_pct": "excluded",
+      "asset_manwon": null,
+      "car_manwon": 4542,
+      "age_min": 19,
+      "age_max": 39,
+      "account_by_movein": true
+     },
+     {
+      "key": "주거급여수급자",
+      "name": "주거급여수급자",
+      "homeless": "household",
+      "income_pct": null,
+      "asset_manwon": null,
+      "car_manwon": null,
+      "age_min": null,
+      "age_max": null
+     }
+    ],
+    "quotes": {
+     "대학생": {
+      "car": "액 요건은 배제하나, 신청자 본인이 자동차가액 산출대상 자동차를 소유하고 있지 않을 것"
+     },
+     "청년": {
+      "income": "닐 것 ③ 【완화조건】 해당 세대의 소득요건 배제 ④ 【완화조건】",
+      "car": "가액 요건은 배제하나, 총 자산 중 자동차가액이 4,542만원 이하일 것 ⑤ 본인 입"
+     },
+     "주거급여수급자": {}
+    },
+    "income_table_100": null,
+    "unknown_groups": []
+   },
+   "api": {
+    "CCR_CNNT_SYS_DS_CD": "03",
+    "SPL_INF_TP_CD": "063",
+    "UPP_AIS_TP_CD": "06",
+    "AIS_TP_CD": "10"
+   },
+   "read": {
+    "tools": [
+     "pypdf",
+     "pdfium",
+     "plumber"
+    ],
+    "conflicts": []
+   }
+  },
+  {
+   "id": "2015122300021121",
+   "name": "인천논현 LH16단지 (인천논현4 1블록) 창업지원주택 입주자 모집[인정업종 확대, 선착순동호지정, 선계약후검증](입주자모집공고일 : 2026.11.19.)",
+   "type": "행복주택",
+   "type_code": "10",
+   "judge_type": true,
+   "region": "인천광역시",
+   "posted": "2026-11-19",
+   "close": "2026-12-02",
+   "status": "공고중",
+   "url": "https://apply.lh.or.kr/lhapply/apply/wt/wrtanc/selectWrtancInfo.do?panId=2015122300021121&ccrCnntSysDsCd=03&uppAisTpCd=06&aisTpCd=10&mi=1026",
+   "url_mobile": "https://apply.lh.or.kr/lhapply/apply/wt/wrtanc/selectWrtancInfo.do?panId=2015122300021121&ccrCnntSysDsCd=03&uppAisTpCd=06&aisTpCd=10&mi=1026",
+   "schedule": [
+    {
+     "complex": null,
+     "apply_start": "2026-12-02",
+     "apply_end": "2026-12-02",
+     "apply_time": "~",
+     "docs_target": null,
+     "docs_start": null,
+     "docs_end": null,
+     "winner": "2027-03-31",
+     "contract_start": null,
+     "contract_end": null
+    }
+   ],
+   "complexes": [
+    {
+     "name": "인천논현4 1블록 창업지원주택(행복)",
+     "address": "인천광역시 남동구 은봉로 297(논현동)",
+     "households": 238,
+     "area": "25.77~44.51",
+     "move_in": "2022.07",
+     "heating": "지역난방"
+    }
+   ],
+   "units": [
+    {
+     "complex": "인천논현4 1블록 창업지원주택(행복)",
+     "type": "25A/A1 창업인",
+     "area": 25.77,
+     "supply_area": 37.73,
+     "households": 194,
+     "now_households": 49,
+     "deposit": null,
+     "rent": null,
+     "money_note": "공고문 참조"
+    },
+    {
+     "complex": "인천논현4 1블록 창업지원주택(행복)",
+     "type": "25B/B1 창업인(주거약자용)",
+     "area": 25.77,
+     "supply_area": 37.73,
+     "households": 20,
+     "now_households": 5,
+     "deposit": null,
+     "rent": null,
+     "money_note": "공고문 참조"
+    },
+    {
+     "complex": "인천논현4 1블록 창업지원주택(행복)",
+     "type": "44A/A1 창업인",
+     "area": 44.51,
+     "supply_area": 65.1674,
+     "households": 24,
+     "now_households": 1,
+     "deposit": null,
+     "rent": null,
+     "money_note": "공고문 참조"
+    }
+   ],
+   "files": [
+    {
+     "kind": "공고문(hwp)",
+     "name": "[공고문]인천논현LH16단지(인천논현41블록)창업지원주택입주자모집(`26.11.19.공고).hwpx",
+     "url": "https://apply.lh.or.kr/lhapply/lhFile.do?fileid=69503289"
+    },
+    {
+     "kind": "공고문(PDF)",
+     "name": "[공고문]인천논현LH16단지(인천논현41블록)창업지원주택입주자모집(`26.11.19.공고).pdf",
+     "url": "https://apply.lh.or.kr/lhapply/lhFile.do?fileid=69503290"
+    },
+    {
+     "kind": "카탈로그",
+     "name": "[동호배치도]인천논현LH16단지창업지원주택(`26.11.19.공고).pdf",
+     "url": "https://apply.lh.or.kr/lhapply/lhFile.do?fileid=69503297"
+    },
+    {
+     "kind": "기타 첨부파일",
+     "name": "[양식1-1]입주추천신청서.hwpx",
+     "url": "https://apply.lh.or.kr/lhapply/lhFile.do?fileid=69503838"
+    },
+    {
+     "kind": "기타 첨부파일",
+     "name": "[양식1-2]개인정보수집·이용및제3자제공동의서(남동구양식).hwpx",
+     "url": "https://apply.lh.or.kr/lhapply/lhFile.do?fileid=69503839"
+    },
+    {
+     "kind": "기타 첨부파일",
+     "name": "[양식1-3]사업계획서(예비창업인).hwpx",
+     "url": "https://apply.lh.or.kr/lhapply/lhFile.do?fileid=69503840"
+    },
+    {
+     "kind": "기타 첨부파일",
+     "name": "[양식2-1]선계약후검증확약서.hwpx",
+     "url": "https://apply.lh.or.kr/lhapply/lhFile.do?fileid=69503841"
+    },
+    {
+     "kind": "기타 첨부파일",
+     "name": "[양식2-2]공급신청서및신청자격자가검증체크리스트.hwpx",
+     "url": "https://apply.lh.or.kr/lhapply/lhFile.do?fileid=69503842"
+    },
+    {
+     "kind": "기타 첨부파일",
+     "name": "[양식2-3]개인정보수집이용및제3자제공동의서(LH양식).hwpx",
+     "url": "https://apply.lh.or.kr/lhapply/lhFile.do?fileid=69503843"
+    },
+    {
+     "kind": "기타 첨부파일",
+     "name": "[양식2-4]금융정보등(금융,신용,보험정보)제공동의서.hwpx",
+     "url": "https://apply.lh.or.kr/lhapply/lhFile.do?fileid=69503844"
+    },
+    {
+     "kind": "기타 첨부파일",
+     "name": "[양식2-5]자산보유사실확인서.hwpx",
+     "url": "https://apply.lh.or.kr/lhapply/lhFile.do?fileid=69503845"
+    },
+    {
+     "kind": "기타 첨부파일",
+     "name": "[양식3]위임장양식(대리인신청용).hwpx",
+     "url": "https://apply.lh.or.kr/lhapply/lhFile.do?fileid=69503846"
+    },
+    {
+     "kind": "카탈로그",
+     "name": "[팜플렛]인천논현LH16단지창업지원주택.pdf",
+     "url": "https://apply.lh.or.kr/lhapply/lhFile.do?fileid=69503854"
+    }
+   ],
+   "etc": "※ 상기 공급일정에 적힌 당첨자발표일은 확정된 사항이 아니며, 자세한 일정은 입주자모집 공고문을 확인하여 주시기 바랍니다.\n\n* 금회 모집공고는 인천논현 LH16단지 주택 잔여세대에 대한, 선착순동호지정, 선계약후검증 모집공고입니다.\n* 샘플하우스 동호개방 일정 : 2026.11.28.(토) 10:00 ~ 16:00 [12:00~13:00 점심시간 제외]\n* 동호지정, 계약체결 : 2026.12.2.(수) 10:00 ~ 15:00\n* 동호개방, 동호지정, 계약체결 등 자세한 사항은 입주자모집 공고문을 반드시 확인하여 주시기 바랍니다.",
+   "office": {
+    "place": "인천광역시 남동구 논현로46번길 23(논현동) LH 인천지역본부 별관 1층 접수처",
+    "tel": "1600-1004"
+   },
+   "notice_pdf": "https://apply.lh.or.kr/lhapply/lhFile.do?fileid=69503290",
+   "notice_text": 48916,
+   "rents": [
+    {
+     "complex": null,
+     "type": "25A",
+     "group": null,
+     "deposit": 34920000,
+     "rent": 162960
+    },
+    {
+     "complex": null,
+     "type": "44A",
+     "group": null,
+     "deposit": 60480000,
+     "rent": 282240
+    }
+   ],
+   "terms": {
+    "relaxed": false,
+    "homeless_relaxed": false,
+    "homeless_max1": false,
+    "income_basis": "도시근로자 월평균소득",
+    "groups": [
+     {
+      "key": "청년",
+      "name": "청년 창업인",
+      "homeless": "self_or_household",
+      "income_pct": {
+       "1": 120,
+       "2": 110,
+       "3+": 100
+      },
+      "asset_manwon": 34500,
+      "car_manwon": 4542,
+      "age_min": 19,
+      "age_max": 39,
+      "notes": [
+       "남동구 창업인(예비창업인) 추천 자격이 필요해요 — 공고문 확인"
+      ],
+      "married_ok": true,
+      "account_by_movein": true,
+      "dual_add": 20
+     }
+    ],
+    "quotes": {
+     "청년": {
+      "income": "도시근로자 가구당 월평균소득 의 100% 이 하, 맞 벌 이 부 부 는 120% 이 하일 것 ※ 단, 가구원수가 1인인 경우에는 120%, 2인인 경우에는 110%, 맞벌이 2인가구",
+      "asset": "가 보유하고 있는 총 자산가액 합산기준 34,500만원 이하, 총 자산 중 자동차가액이 4,542만원 이하일 것 ⑤ 본인 또",
+      "car": "가 보유하고 있는 총 자산가액 합산기준 34,500만원 이하, 총 자산 중 자동차가액이 4,542만원 이하일 것 ⑤ 본인 또"
+     }
+    },
+    "income_table_100": {
+     "3": 8168429,
+     "4": 8802202,
+     "5": 9326985,
+     "6": 9906263
+    },
+    "unknown_groups": []
+   },
+   "api": {
+    "CCR_CNNT_SYS_DS_CD": "03",
+    "SPL_INF_TP_CD": "063",
+    "UPP_AIS_TP_CD": "06",
+    "AIS_TP_CD": "10"
    },
    "read": {
     "tools": [
@@ -15363,6 +15779,352 @@
    }
   },
   {
+   "id": "2015122300021099",
+   "name": "'26년 11월 인천시(남동구) 행복주택 입주자격완화 예비입주자 모집",
+   "type": "행복주택",
+   "type_code": "10",
+   "judge_type": true,
+   "region": "인천광역시",
+   "posted": "2026-11-19",
+   "close": "2026-12-03",
+   "status": "공고중",
+   "url": "https://apply.lh.or.kr/lhapply/apply/wt/wrtanc/selectWrtancInfo.do?panId=2015122300021099&ccrCnntSysDsCd=03&uppAisTpCd=06&aisTpCd=10&mi=1026",
+   "url_mobile": "https://apply.lh.or.kr/lhapply/apply/wt/wrtanc/selectWrtancInfo.do?panId=2015122300021099&ccrCnntSysDsCd=03&uppAisTpCd=06&aisTpCd=10&mi=1026",
+   "schedule": [
+    {
+     "complex": "인천논현 15BL 행복주택",
+     "apply_start": "2026-12-01",
+     "apply_end": "2026-12-03",
+     "apply_time": "~",
+     "docs_target": "2026-12-07",
+     "docs_start": "2026-12-07",
+     "docs_end": "2026-12-10",
+     "winner": "2027-03-11",
+     "contract_start": null,
+     "contract_end": null
+    },
+    {
+     "complex": "인천논현 4BL 행복주택",
+     "apply_start": "2026-12-01",
+     "apply_end": "2026-12-03",
+     "apply_time": "~",
+     "docs_target": "2026-12-07",
+     "docs_start": "2026-12-07",
+     "docs_end": "2026-12-10",
+     "winner": "2027-03-11",
+     "contract_start": null,
+     "contract_end": null
+    },
+    {
+     "complex": "인천서창 14BL 행복주택",
+     "apply_start": "2026-12-01",
+     "apply_end": "2026-12-03",
+     "apply_time": "~",
+     "docs_target": "2026-12-07",
+     "docs_start": "2026-12-07",
+     "docs_end": "2026-12-10",
+     "winner": "2027-03-11",
+     "contract_start": null,
+     "contract_end": null
+    }
+   ],
+   "complexes": [
+    {
+     "name": "인천논현 4BL 행복주택",
+     "address": "인천광역시 남동구 논현로 81(논현동)",
+     "households": 412,
+     "area": "16.65~36.63",
+     "move_in": "2018.12",
+     "heating": "지역난방"
+    },
+    {
+     "name": "인천논현 15BL 행복주택",
+     "address": "인천광역시 남동구 함박뫼로 456(논현동,논현엘에이치15단지)",
+     "households": 260,
+     "area": "14.7~36.76",
+     "move_in": "2020.12",
+     "heating": "지역난방"
+    },
+    {
+     "name": "인천서창 14BL 행복주택",
+     "address": "인천광역시 남동구 운연천로 9(서창동,인천서창엘에이치14단지)",
+     "households": 950,
+     "area": "16.66~36.64",
+     "move_in": "2020.02",
+     "heating": null
+    }
+   ],
+   "units": [
+    {
+     "complex": "인천논현 4BL 행복주택",
+     "type": "16B 고령자(주거약자형)",
+     "area": 16.65,
+     "supply_area": 25.64,
+     "households": 36,
+     "now_households": 10,
+     "deposit": null,
+     "rent": null,
+     "money_note": "공고문 참조"
+    },
+    {
+     "complex": "인천논현 4BL 행복주택",
+     "type": "26A 주거급여수급자",
+     "area": 26.71,
+     "supply_area": 41.1318,
+     "households": 40,
+     "now_households": 10,
+     "deposit": null,
+     "rent": null,
+     "money_note": "공고문 참조"
+    },
+    {
+     "complex": "인천논현 15BL 행복주택",
+     "type": "36 신혼부부·한부모가족",
+     "area": 36.76,
+     "supply_area": 58.8144,
+     "households": 98,
+     "now_households": 20,
+     "deposit": null,
+     "rent": null,
+     "money_note": "공고문 참조"
+    },
+    {
+     "complex": "인천서창 14BL 행복주택",
+     "type": "26A 대학생·청년",
+     "area": 26.8,
+     "supply_area": 40.3268,
+     "households": 95,
+     "now_households": 20,
+     "deposit": null,
+     "rent": null,
+     "money_note": "공고문 참조"
+    }
+   ],
+   "files": [
+    {
+     "kind": "공고문(hwp)",
+     "name": "26.11.19인천남동구행복주택예비입주자모집(자격완화).hwpx",
+     "url": "https://apply.lh.or.kr/lhapply/lhFile.do?fileid=69446669"
+    },
+    {
+     "kind": "공고문(PDF)",
+     "name": "26.11.19인천남동구행복주택예비입주자모집(자격완화).pdf",
+     "url": "https://apply.lh.or.kr/lhapply/lhFile.do?fileid=69446670"
+    },
+    {
+     "kind": "기타 첨부파일",
+     "name": "[★양식1~4]필수제출서류.hwpx",
+     "url": "https://apply.lh.or.kr/lhapply/lhFile.do?fileid=69446727"
+    },
+    {
+     "kind": "기타 첨부파일",
+     "name": "[양식5]위임장(대리인신청시).hwpx",
+     "url": "https://apply.lh.or.kr/lhapply/lhFile.do?fileid=69446730"
+    },
+    {
+     "kind": "기타 첨부파일",
+     "name": "[양식6]각서(대학생계층복학예정자).hwpx",
+     "url": "https://apply.lh.or.kr/lhapply/lhFile.do?fileid=69446734"
+    },
+    {
+     "kind": "기타 첨부파일",
+     "name": "[양식7]예비신혼부부신청,세대구성확인서.hwpx",
+     "url": "https://apply.lh.or.kr/lhapply/lhFile.do?fileid=69446744"
+    },
+    {
+     "kind": "카탈로그",
+     "name": "논현15팸플릿.pdf",
+     "url": "https://apply.lh.or.kr/lhapply/lhFile.do?fileid=69446692"
+    },
+    {
+     "kind": "카탈로그",
+     "name": "논현4팸플릿.pdf",
+     "url": "https://apply.lh.or.kr/lhapply/lhFile.do?fileid=69446691"
+    },
+    {
+     "kind": "기타 첨부파일",
+     "name": "마이마이서비스고객매뉴얼(V6).hwpx",
+     "url": "https://apply.lh.or.kr/lhapply/lhFile.do?fileid=69447001"
+    },
+    {
+     "kind": "기타 첨부파일",
+     "name": "마이마이서비스고객매뉴얼(V6).pdf",
+     "url": "https://apply.lh.or.kr/lhapply/lhFile.do?fileid=69447035"
+    },
+    {
+     "kind": "카탈로그",
+     "name": "서창14팸플릿.pdf",
+     "url": "https://apply.lh.or.kr/lhapply/lhFile.do?fileid=69446694"
+    }
+   ],
+   "etc": "ㅇ 모집대상은 대학생, 청년, 신혼부부 및 한부모가족, 고령자, 주거급여수급자입니다.\nㅇ 인터넷/모바일 신청을 위해서 전자공동인증서 발급(반드시 개인용 공동인증서로 발급), 금융인증서, 토스인증서, KB국민인증서, 네이버인증서 발급을 신청접수일 이전까지 미리 발급받으시기 바랍니다. \nㅇ 기타 자세한 내용은 공고문을 필히 확인하여 주시기 바랍니다\nㅇ 금회모집은 입주자격 완화모집이오니 청약신청자 계층별 자격을 확인해주시기 바랍니다.\n\n본 공고는 현재 공가 및 향후 해약세대가 발생할 경우를 대비하여 모집하는 것으로 예비입주자 순번 발표 후\n예비순번에 따라 실제 입주 시 까지는 상당기간이 소요될 수 있습니다.",
+   "office": {
+    "place": "인천광역시 남동구 선수촌공원로17번길 12(구월동) 두용프라자 6층",
+    "tel": "1600-1004, 1670-0003"
+   },
+   "notice_pdf": "https://apply.lh.or.kr/lhapply/lhFile.do?fileid=69446670",
+   "notice_text": 51903,
+   "rents": [
+    {
+     "complex": "논현4단지",
+     "type": "16B",
+     "group": "고령자",
+     "deposit": 20140000,
+     "rent": 93980
+    },
+    {
+     "complex": "논현4단지",
+     "type": "26A",
+     "group": "주거급여수급자",
+     "deposit": 25200000,
+     "rent": 117600
+    },
+    {
+     "complex": "논 현 15 단 지",
+     "type": "36A",
+     "group": "신혼부부·한부모",
+     "deposit": 43600000,
+     "rent": 203460
+    },
+    {
+     "complex": "서 창 14 단 지",
+     "type": "26A",
+     "group": "대학생·청년(소득 없음)",
+     "deposit": 28220000,
+     "rent": 131690
+    },
+    {
+     "complex": "서 창 14 단 지",
+     "type": "10",
+     "group": "청년(소득 있음)",
+     "deposit": 29880000,
+     "rent": 139440
+    }
+   ],
+   "terms": {
+    "relaxed": true,
+    "homeless_relaxed": false,
+    "homeless_max1": false,
+    "income_basis": "도시근로자 월평균소득",
+    "groups": [
+     {
+      "key": "대학생",
+      "name": "대학생",
+      "homeless": "self",
+      "income_pct": {
+       "1": 150,
+       "2": 150,
+       "3+": 150
+      },
+      "asset_manwon": 10800,
+      "car_manwon": 0,
+      "age_min": null,
+      "age_max": null
+     },
+     {
+      "key": "청년",
+      "name": "청년",
+      "homeless": "self",
+      "income_pct": {
+       "1": 150,
+       "2": 150,
+       "3+": 150
+      },
+      "asset_manwon": 25100,
+      "car_manwon": 4542,
+      "age_min": 19,
+      "age_max": 39,
+      "account_by_movein": true
+     },
+     {
+      "key": "신혼부부·한부모",
+      "name": "신혼부부·한부모",
+      "homeless": "household",
+      "income_pct": {
+       "1": null,
+       "2": 150,
+       "3+": 150
+      },
+      "asset_manwon": null,
+      "car_manwon": 4542,
+      "age_min": null,
+      "age_max": null,
+      "dual_add": 0,
+      "account_by_movein": true
+     },
+     {
+      "key": "고령자",
+      "name": "고령자",
+      "homeless": "household",
+      "income_pct": {
+       "1": 150,
+       "2": 150,
+       "3+": 150
+      },
+      "asset_manwon": 34500,
+      "car_manwon": 4542,
+      "age_min": 65,
+      "age_max": null
+     },
+     {
+      "key": "주거급여수급자",
+      "name": "주거급여수급자",
+      "homeless": "household",
+      "income_pct": null,
+      "asset_manwon": null,
+      "car_manwon": null,
+      "age_min": null,
+      "age_max": null
+     }
+    ],
+    "quotes": {
+     "대학생": {
+      "income": "일반조건 (1순위) 완화조건 (2순위) 완화조건 (3순위) 1인 4,576,036원 이하 120% 5,338,708원 이하 140% 5,720,045원 이하 150% 2인 6,452,897원 이하 110% 7,626,151원 이하 130% 8,799,405원 이하 150% 3인 8,16 (신청 상한 = 3순위 칸)",
+      "asset": "8,917원) 을 합산하여 산정 ④ 신청자 본인의 총 자산가액 합산기준이 10,800만원 이하이고 자동차가액 산",
+      "car": "합산기준이 10,800만원 이하이고 자동차가액 산출대상 자동차를 소유하고 있지 않을 것"
+     },
+     "청년": {
+      "income": "가구원수별 가구당 월평균소득의 100%이하 (【완화조건】 120%이하 (2순위), 150%이하 (3순위)) … 1인인 경우 120% (【완화조건】 140%(2순위), 150%(3순위)) · 2인인 경우 110% (【완화조건】 130%(2순위), 150%(3순위)) (신청 상한 = 3순위 비율)",
+      "asset": "7원) 을 합산하여 산정 ④ 해당세대가 보유하고 있는 총 자산가액 합산기준 25,100만원 이하이고 총 자산 중",
+      "car": "5,100만원 이하이고 총 자산 중 자동차가액이 4,542만원 이하 일 것 ⑤ 본인"
+     },
+     "신혼부부·한부모": {
+      "income": "구원수별 가구 당 월평균소득의 100%(【완화조건】120%(2순위),150%(3순위)) … 2인인 경우 110% (【완화조건】 130%(2순위), 150%(3순위)) (신청 상한 = 3순위 비율)",
+      "dual": "맞벌이 부부는 120%(【완화조건】 130%(2순위),150%(3순위))",
+      "car": ",500만원 이 하이고 총 자산 중 자동차가액이 4,542만원 이하 일 것 ⑤ 본인"
+     },
+     "고령자": {
+      "income": "가구원수별 가구당 월평균소득의 100% 이하 (【완화조건】 120%이하 (2순위), 150%이하 (3순위)) … 1인인 경우 120% (【완화조건】 140%(2순위), 150%(3순위)) · 2인인 경우 110% (【완화조건】 130%(2순위), 150%(3순위)) (신청 상한 = 3순위 비율)",
+      "asset": "7원)을 합산하여 산정 ② 해당 세대가 보유하고 있는 총 자산가액 합산기준 34,500만원 이하이고 총 자산 중",
+      "car": "4,500만원 이하이고 총 자산 중 자동차가액이 4,542만원 이하 일 것 ※ ‘고령"
+     },
+     "주거급여수급자": {}
+    },
+    "income_table_100": {
+     "3": 8168429,
+     "4": 8802202,
+     "5": 9326985,
+     "6": 9906263
+    },
+    "prewed_ok": true,
+    "unknown_groups": []
+   },
+   "api": {
+    "CCR_CNNT_SYS_DS_CD": "03",
+    "SPL_INF_TP_CD": "063",
+    "UPP_AIS_TP_CD": "06",
+    "AIS_TP_CD": "10"
+   },
+   "read": {
+    "tools": [
+     "pypdf",
+     "pdfium",
+     "plumber"
+    ],
+    "conflicts": []
+   }
+  },
+  {
    "id": "2015122300021103",
    "name": "대구금호5 국민임대주택 입주자격 완화 동호지정 입주자모집",
    "type": "국민임대",
@@ -15508,6 +16270,135 @@
       "asset": "세전금액으로서 세대구성원 전원의 월평균소득액을 모두 합산한 금액임 자산 총자산가액 기존 세대구성원 전원이 보유하고 있는 총자산가액 합산기준 ( 345 )백만원 이하 완화 자산기준 적용 배제 자동차가액 세대구성원 전원이 보유하고 있는 개별 자동차가액 ( 4,542 )만원 이하 ★ 공공주택특별법 및 공공주택 입주자 보유자산 관련 업무",
       "car": "이 보유하고 있는 개별 자동차가액 ( 4,542 )만원 이하 ★ 공공주택특별법"
      }
+    },
+    "income_table_100": null
+   },
+   "api": {
+    "CCR_CNNT_SYS_DS_CD": "03",
+    "SPL_INF_TP_CD": "062",
+    "UPP_AIS_TP_CD": "06",
+    "AIS_TP_CD": "07"
+   },
+   "read": {
+    "tools": [
+     "pypdf",
+     "pdfium",
+     "plumber"
+    ],
+    "conflicts": []
+   }
+  },
+  {
+   "id": "2015122300021117",
+   "name": "학익 SK VIEW(학익 1구역 주택재개발정비사업) 국민임대주택 입주자 모집 공고(당해 사업지구 철거민)",
+   "type": "국민임대",
+   "type_code": "07",
+   "judge_type": true,
+   "region": "인천광역시",
+   "posted": "2026-11-19",
+   "close": "2026-12-03",
+   "status": "공고중",
+   "url": "https://apply.lh.or.kr/lhapply/apply/wt/wrtanc/selectWrtancInfo.do?panId=2015122300021117&ccrCnntSysDsCd=03&uppAisTpCd=06&aisTpCd=07&mi=1026",
+   "url_mobile": "https://apply.lh.or.kr/lhapply/apply/wt/wrtanc/selectWrtancInfo.do?panId=2015122300021117&ccrCnntSysDsCd=03&uppAisTpCd=06&aisTpCd=07&mi=1026",
+   "schedule": [
+    {
+     "complex": null,
+     "apply_start": "2026-12-01",
+     "apply_end": "2026-12-03",
+     "apply_time": "~",
+     "docs_target": null,
+     "docs_start": null,
+     "docs_end": null,
+     "winner": "2027-01-13",
+     "contract_start": "2027-01-26",
+     "contract_end": "2027-01-28"
+    }
+   ],
+   "complexes": [
+    {
+     "name": "학익 SK VIEW(학익 1구역 주택재개발정비사업)",
+     "address": "인천광역시 미추홀구 학익동 220",
+     "households": 80,
+     "area": "38.9945~38.9945",
+     "move_in": "2027.02",
+     "heating": "개별난방"
+    }
+   ],
+   "units": [
+    {
+     "complex": "학익 SK VIEW(학익 1구역 주택재개발정비사업)",
+     "type": "철거민",
+     "area": 38.9945,
+     "supply_area": 52.6216,
+     "households": 80,
+     "now_households": 80,
+     "deposit": null,
+     "rent": null,
+     "money_note": "공고문 참조"
+    }
+   ],
+   "files": [
+    {
+     "kind": "기타 첨부파일",
+     "name": "(공사양식1)개인정보수집이용및제3자제공동의서_전원필수제출.hwpx",
+     "url": "https://apply.lh.or.kr/lhapply/lhFile.do?fileid=69497479"
+    },
+    {
+     "kind": "기타 첨부파일",
+     "name": "(공사양식2)예비입주자중복선정불가사항확인서_전원필수제출.hwpx",
+     "url": "https://apply.lh.or.kr/lhapply/lhFile.do?fileid=69497480"
+    },
+    {
+     "kind": "기타 첨부파일",
+     "name": "(공사양식3)위임장(현장대리인신청시)_해당자만제출.hwpx",
+     "url": "https://apply.lh.or.kr/lhapply/lhFile.do?fileid=69499051"
+    },
+    {
+     "kind": "공고문(hwp)",
+     "name": "261119학익SKVIEW(학익1구역)국민임대입주자모집공고문(당해사업지구철거민).hwpx",
+     "url": "https://apply.lh.or.kr/lhapply/lhFile.do?fileid=69497482"
+    },
+    {
+     "kind": "공고문(PDF)",
+     "name": "261119학익SKVIEW(학익1구역)국민임대입주자모집공고문(당해사업지구철거민).pdf",
+     "url": "https://apply.lh.or.kr/lhapply/lhFile.do?fileid=69497481"
+    }
+   ],
+   "etc": "- 본 공고는 당해 사업지구의 철거민,세입자만을 대상으로 공급함에 따라 일반 신청자는 청약이 불가능합니다.\n- 금회 공급 주택은 「도시 및 주거환경정비법」에 따라 민간 주택재개발, 재건축 정비사업에서 발생되는 임대주택 중 국토교통부장관이 우리공사를 인수자로 지정하여 통보한 주택을 매입하여 임대하는 주택입니다.\n- 금회 공급 주택은 기 입주한 단지로 현장확인, 인터넷(네이버 부동산 등)에서 평면도 확인이 가능합니다.\n- 기타 자세한 사항은 입주자 모집공고문을 확인하여 주시기 바랍니다.",
+   "office": {
+    "place": "인천광역시 남동구 논현로46번길 23(논현동) 1층 접수실",
+    "tel": "032-890-5245"
+   },
+   "notice_pdf": "https://apply.lh.or.kr/lhapply/lhFile.do?fileid=69497481",
+   "notice_text": 21108,
+   "rents": [
+    {
+     "complex": "대료 국민임대  재개발임대주택",
+     "type": "38",
+     "group": null,
+     "deposit": 26915000,
+     "rent": 230010
+    }
+   ],
+   "terms": {
+    "relaxed": false,
+    "homeless_relaxed": false,
+    "homeless_max1": false,
+    "income_basis": "도시근로자 월평균소득",
+    "groups": [
+     {
+      "key": "일반",
+      "name": "일반",
+      "homeless": "household",
+      "income_pct": null,
+      "asset_manwon": null,
+      "car_manwon": null,
+      "age_min": null,
+      "age_max": null
+     }
+    ],
+    "quotes": {
+     "일반": {}
     },
     "income_table_100": null
    },

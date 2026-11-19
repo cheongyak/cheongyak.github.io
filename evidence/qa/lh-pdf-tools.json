@@ -1,5 +1,5 @@
 {
- "date": "2026-11-20 07:20",
+ "date": "2026-11-20 07:59",
  "golden_notices": 58,
  "stat": {
   "pypdf": {
@@ -41,10 +41,10 @@
  },
  "merged_wrong": 0,
  "coverage": {
-  "pypdf": 80,
-  "pdfium": 80,
-  "plumber": 80,
-  "notices": 80
+  "pypdf": 83,
+  "pdfium": 83,
+  "plumber": 83,
+  "notices": 83
  },
  "wrong": [
   "plumber 2015122300020453 일반.asset_manwon: 읽음 34500 ≠ 정답 'excluded'",
@@ -63,5 +63,8 @@
   "2015122300021069 homeless_relaxed: pypdf, pdfium 만 찾음 → 참",
   "2015122300021094 homeless_relaxed: pypdf, pdfium 만 찾음 → 참"
  ],
- "conflicts": []
+ "conflicts": [],
+ "_data": {
+  "lh": "37a3e76324a5"
+ }
 }
