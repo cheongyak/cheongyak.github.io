@@ -1,0 +1,40 @@
+{
+ "id": "2015122300021109",
+ "prompt_v": 2,
+ "model": "claude-session",
+ "at": "2026-11-19 13:16",
+ "answer": {
+  "groups": [
+   {
+    "key": "일반",
+    "homeless": "household",
+    "homeless_quote": "현재 서울특별시에 거주하는 성년자인 무주택세대구성원으로, 영구임대",
+    "income_pct": {
+     "1": 90,
+     "2": 80,
+     "3+": 70
+    },
+    "income_quote": "월평균 소득 70%(1인 : 90%, 2인 : 80%)이하",
+    "asset_manwon": 24500,
+    "asset_quote": "세대구성원 전원이 보유하고 있는 총 자산(부동산, 자동차, 금융자산(부채반영), 일반자산) 가액 \n합산 기준 ( 24,500 )만원 이하",
+    "car_manwon": 4542,
+    "car_quote": "세대구성원 전원이 보유하고 있는 개별 자동차가액 ( 4,542 )만원 이하",
+    "age_min": null,
+    "age_max": null,
+    "age_quote": null
+   }
+  ],
+  "regions": null,
+  "regions_quote": null,
+  "account": null,
+  "account_quote": null,
+  "local": {
+   "name": "서울특별시",
+   "sido": "서울",
+   "sigun": null
+  },
+  "local_quote": "현재 서울특별시에 거주하는 성년자인 무주택세대구성원으로, 영구임대",
+  "other_groups": []
+ },
+ "sha": "fc9b158646681ab9"
+}

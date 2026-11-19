@@ -1,0 +1,42 @@
+{
+ "id": "313424",
+ "prompt_v": 1,
+ "model": "claude-session",
+ "at": "2026-11-19 13:16",
+ "answer": {
+  "groups": [
+   {
+    "name": "신혼부부",
+    "homeless": "household",
+    "homeless_quote": "현재 서울특별시에 주민등록 등재된 무주택세대",
+    "income_pct": {
+     "1": 70,
+     "2": 70,
+     "3+": 70
+    },
+    "income_quote": "월평균소득 70%이하 및 자산기준(50%이하에 한함)을 충족하는 (예비)신혼부부",
+    "asset_manwon": null,
+    "car_manwon": null,
+    "age_min": null,
+    "age_max": null
+   },
+   {
+    "name": "청년",
+    "homeless": null,
+    "homeless_quote": null,
+    "income_pct": {
+     "1": 70,
+     "2": 70,
+     "3+": 70
+    },
+    "income_quote": "월평균 소득 70%이하 및 자산기준(50%이하에 한함)을 충족하는 무주택세대원 구성원",
+    "asset_manwon": null,
+    "car_manwon": null,
+    "age_min": 19,
+    "age_max": 39,
+    "age_quote": "19세 이상 만39세 이하(1986. 11. 19. ~ 2007. 11. 18.)인 서울시 거주자"
+   }
+  ]
+ },
+ "sha": "7268af255b62e226"
+}
