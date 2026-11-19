@@ -1,5 +1,5 @@
 {
- "updated": "2026-11-18",
+ "updated": "2026-11-19",
  "items": [
   {
    "key": "issues:판정 검증 실패",
@@ -13,10 +13,10 @@
    "effort": "S",
    "status": "parked",
    "first_seen": "2026-11-04",
-   "last_seen": "2026-11-17",
+   "last_seen": "2026-11-19",
    "tries": 0,
    "pr": null,
-   "notes": "고칠 방향 후보: 이슈 제목을 실제 원인(못 읽은 공고·판정 불일치·수집 멈춤)으로, 같은 원인이면 새 이슈 대신 열린 이슈에 댓글. 이슈를 닫는 것은 운영자 몫(고정 규칙 7) · 2026-11-04 밤 parked: 고칠 곳이 .github/workflows/verify.yml 뿐이라 루프가 못 고침(고정 규칙 6). 운영자 판단 필요: 손으로 일하는 세션에 '원인별 제목·같은 원인이면 열린 이슈에 댓글'을 맡기기 · 11-13: #129·#130 새로 열림(판정 974/974, #130 본문은 빈 코드 블록 — verify.yml 이슈 본문이 원인을 못 담음). 여전히 workflows 몫 · 11-16: #132~#142 11건 새로 열림(모두 974/974, 오후 판정 검증 성공·verify ok=true). 여전히 workflows 몫",
+   "notes": "고칠 방향 후보: 이슈 제목을 실제 원인(못 읽은 공고·판정 불일치·수집 멈춤)으로, 같은 원인이면 새 이슈 대신 열린 이슈에 댓글. 이슈를 닫는 것은 운영자 몫(고정 규칙 7) · 2026-11-04 밤 parked: 고칠 곳이 .github/workflows/verify.yml 뿐이라 루프가 못 고침(고정 규칙 6). 운영자 판단 필요: 손으로 일하는 세션에 '원인별 제목·같은 원인이면 열린 이슈에 댓글'을 맡기기 · 11-13: #129·#130 새로 열림(판정 974/974, #130 본문은 빈 코드 블록 — verify.yml 이슈 본문이 원인을 못 담음). 여전히 workflows 몫 · 11-16: #132~#142 11건 새로 열림(모두 974/974, 오후 판정 검증 성공·verify ok=true). 여전히 workflows 몫 · 11-19 열린 것 #150~#152(사례 980/980, 원인은 새 임대 공고 3건 못 읽음 — 손 세션이 답 파일로 메움, 읽기 규칙은 lh-unread·아침 몫, 닫기는 운영자 허락)",
    "success_check": null
   },
   {
@@ -193,17 +193,17 @@
   },
   {
    "key": "features-off",
-   "title": "꺼 둔 기능 4개",
+   "title": "꺼 둔 기능 3개",
    "area": "feature",
    "source": "docs/config.json",
-   "evidence": "운영자가 켜지 않은 기능(켤지·지울지 판단 자료): ads, guide_pages, inelig_check, unsure_summary",
+   "evidence": "docs/config.json: ads, inelig_check, unsure_summary",
    "severity": "P3",
    "reach": 1,
    "confidence": 2,
    "effort": "S",
    "status": "open",
    "first_seen": "2026-11-04",
-   "last_seen": "2026-11-18",
+   "last_seen": "2026-11-19",
    "tries": 0,
    "pr": null,
    "success_check": null,
@@ -532,16 +532,52 @@
    "reach": 1,
    "confidence": 3,
    "effort": "S",
-   "status": "in_pr",
+   "status": "merged",
    "first_seen": "2026-11-16",
-   "last_seen": "2026-11-18",
+   "last_seen": "2026-11-19",
    "tries": 0,
    "pr": 147,
    "success_check": {
     "how": "docs/listings.json 2026820015 limits '재당첨 제한' · docs/run-log.txt [검증·정답 불일치]",
     "expect": "'10년' · 정답 불일치 0"
    },
-   "notes": "11-16 새 신호. 열린 루프 PR 3개라 오늘은 못 고름. 다음 밤 1순위 후보 — 단 아침 자동 고치기가 먼저 고쳤는지 확인 · 11-18 원문 40·41·154·157줄로 재현(1년), 고쳐 PR #147"
+   "notes": "11-16 새 신호. 열린 루프 PR 3개라 오늘은 못 고름. 다음 밤 1순위 후보 — 단 아침 자동 고치기가 먼저 고쳤는지 확인 · 11-18 원문 40·41·154·157줄로 재현(1년), 고쳐 PR #147 · 11-19 03:05Z 운영자 합침, 기록은 손 세션이 씀(WORK.md 11-19 12:01 v1.91.7, release/v1.91.7 있음). 효과 확인은 11-22 03:05Z 이후"
+  },
+  {
+   "key": "idea:household-owner-clarity",
+   "title": "세대원(등본상 부모 등) 주택·분양권 질문이 본인·배우자처럼 분명한지 점검",
+   "area": "ux",
+   "source": "ideas.md 2026-10-22",
+   "evidence": "docs/index.html '세대 주택·당첨 이력' 단계(hhHomes·ownExc·hhOwner·everWin) · '부모님' 단계(parents60·parentsOwn)",
+   "severity": "P2",
+   "reach": 3,
+   "confidence": 2,
+   "effort": "M",
+   "status": "gone",
+   "first_seen": "2026-11-19",
+   "last_seen": "2026-11-19",
+   "tries": 0,
+   "pr": null,
+   "success_check": null,
+   "notes": "11-19 확인: 이미 있음 — 세대 전체 주택 수(분양권 포함)·명의(만 60세 이상 부모님/그 밖의 세대원)·소형 저가 예외·'나 또는 세대원' 당첨 이력을 따로 묻고, 배우자 등본의 자녀·부모님까지 포함한다고 안내. 더 할 일 없음"
+  },
+  {
+   "key": "idea:correction-badge",
+   "title": "공고 카드에 정정공고 표시",
+   "area": "ux",
+   "source": "ideas.md 2026-10-22",
+   "evidence": "docs/listings.json 필드 목록에 정정 여부 칸 없음(11-19 267건 확인)",
+   "severity": "P3",
+   "reach": 2,
+   "confidence": 1,
+   "effort": "M",
+   "status": "gone",
+   "first_seen": "2026-11-19",
+   "last_seen": "2026-11-19",
+   "tries": 0,
+   "pr": null,
+   "success_check": null,
+   "notes": "수집 데이터에 정정공고 값이 없어 지어내지 않고는 표시할 수 없음(CLAUDE.md 5항). 수집 응답에 정정 필드가 생기면 다시 볼 것. 데이터 기준 시각은 이미 있음(기능 fresh_time·stale_warning)"
   }
  ]
 }
