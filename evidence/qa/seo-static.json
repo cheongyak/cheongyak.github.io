@@ -1,16 +1,18 @@
 {
- "pages": 623,
+ "pages": 627,
  "by_kind": {
   "other": 8,
   "guide": 32,
   "notice": 450,
   "notice_list": 18,
   "notice_type": 6,
-  "rental": 103,
+  "rental": 107,
   "rental_list": 6
  },
  "short": [],
- "forbidden": [],
+ "forbidden": [
+  "rental/lh/2015122300021121/index.html ['추천']"
+ ],
  "broken": [],
  "ld_bad": [],
  "ld_missing": [],
@@ -51,7 +53,7 @@
  ],
  "warnings": [],
  "sitemap_skipped": 350,
- "sitemap_urls": 274,
+ "sitemap_urls": 278,
  "sitemap_no_lastmod": 0,
- "ok": true
+ "ok": false
 }
