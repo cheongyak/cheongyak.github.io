@@ -1,5 +1,5 @@
 {
- "updated": "2026-11-20 07:51",
+ "updated": "2026-11-20 08:55",
  "source": "LH 청약플러스 임대 공고 (공공데이터포털 한국토지주택공사 분양임대공고 조회)",
  "count": 83,
  "notices": [
@@ -13918,6 +13918,81 @@
       "name": "대학생",
       "homeless": "self",
       "income_pct": "excluded",
+      "asset_manwon": "excluded",
+      "car_manwon": 0,
+      "age_min": null,
+      "age_max": null
+     },
+     {
+      "key": "청년",
+      "name": "청년",
+      "homeless": "self",
+      "income_pct": "excluded",
+      "asset_manwon": "excluded",
+      "car_manwon": 4542,
+      "age_min": 19,
+      "age_max": 39,
+      "account_by_movein": true
+     },
+     {
+      "key": "주거급여수급자",
+      "name": "주거급여수급자",
+      "homeless": "household",
+      "income_pct": null,
+      "asset_manwon": null,
+      "car_manwon": null,
+      "age_min": null,
+      "age_max": null
+     }
+    ],
+    "quotes": {
+     "대학생": {
+      "car": "액 요건은 배제하나, 신청자 본인이 자동차가액 산출대상 자동차를 소유하고 있지 않을 것",
+      "asset": "④ 【완화조건】 총자산가액 요건은 배제하나, 신청자 본인이 자동차가액 산출대상 자동차를 소유하고 있지 않을 것"
+     },
+     "청년": {
+      "income": "닐 것 ③ 【완화조건】 해당 세대의 소득요건 배제 ④ 【완화조건】",
+      "car": "가액 요건은 배제하나, 총 자산 중 자동차가액이 4,542만원 이하일 것 ⑤ 본인 입",
+      "asset": "④ 【완화조건】 해당 세대의 총자산가액 요건은 배제하나, 총 자산 중 자동차가액이 4,542만원 이하일 것"
+     },
+     "주거급여수급자": {}
+    },
+    "income_table_100": null,
+    "unknown_groups": [],
+    "ai": {
+     "fields": [
+      "대학생.asset_manwon",
+      "청년.asset_manwon"
+     ],
+     "model": "claude-session",
+     "at": "2026-11-20 08:53"
+    }
+   },
+   "api": {
+    "CCR_CNNT_SYS_DS_CD": "03",
+    "SPL_INF_TP_CD": "063",
+    "UPP_AIS_TP_CD": "06",
+    "AIS_TP_CD": "10"
+   },
+   "read": {
+    "tools": [
+     "pypdf",
+     "pdfium",
+     "plumber"
+    ],
+    "conflicts": []
+   },
+   "terms_pre_ai": {
+    "relaxed": true,
+    "homeless_relaxed": false,
+    "homeless_max1": false,
+    "income_basis": "도시근로자 월평균소득",
+    "groups": [
+     {
+      "key": "대학생",
+      "name": "대학생",
+      "homeless": "self",
+      "income_pct": "excluded",
       "asset_manwon": null,
       "car_manwon": 0,
       "age_min": null,
@@ -13957,20 +14032,6 @@
     },
     "income_table_100": null,
     "unknown_groups": []
-   },
-   "api": {
-    "CCR_CNNT_SYS_DS_CD": "03",
-    "SPL_INF_TP_CD": "063",
-    "UPP_AIS_TP_CD": "06",
-    "AIS_TP_CD": "10"
-   },
-   "read": {
-    "tools": [
-     "pypdf",
-     "pdfium",
-     "plumber"
-    ],
-    "conflicts": []
    }
   },
   {
@@ -16045,6 +16106,136 @@
        "2": 150,
        "3+": 150
       },
+      "asset_manwon": 34500,
+      "car_manwon": 4542,
+      "age_min": null,
+      "age_max": null,
+      "dual_add": 0,
+      "account_by_movein": true
+     },
+     {
+      "key": "고령자",
+      "name": "고령자",
+      "homeless": "household",
+      "income_pct": {
+       "1": 150,
+       "2": 150,
+       "3+": 150
+      },
+      "asset_manwon": 34500,
+      "car_manwon": 4542,
+      "age_min": 65,
+      "age_max": null
+     },
+     {
+      "key": "주거급여수급자",
+      "name": "주거급여수급자",
+      "homeless": "household",
+      "income_pct": null,
+      "asset_manwon": null,
+      "car_manwon": null,
+      "age_min": null,
+      "age_max": null
+     }
+    ],
+    "quotes": {
+     "대학생": {
+      "income": "일반조건 (1순위) 완화조건 (2순위) 완화조건 (3순위) 1인 4,576,036원 이하 120% 5,338,708원 이하 140% 5,720,045원 이하 150% 2인 6,452,897원 이하 110% 7,626,151원 이하 130% 8,799,405원 이하 150% 3인 8,16 (신청 상한 = 3순위 칸)",
+      "asset": "8,917원) 을 합산하여 산정 ④ 신청자 본인의 총 자산가액 합산기준이 10,800만원 이하이고 자동차가액 산",
+      "car": "합산기준이 10,800만원 이하이고 자동차가액 산출대상 자동차를 소유하고 있지 않을 것"
+     },
+     "청년": {
+      "income": "가구원수별 가구당 월평균소득의 100%이하 (【완화조건】 120%이하 (2순위), 150%이하 (3순위)) … 1인인 경우 120% (【완화조건】 140%(2순위), 150%(3순위)) · 2인인 경우 110% (【완화조건】 130%(2순위), 150%(3순위)) (신청 상한 = 3순위 비율)",
+      "asset": "7원) 을 합산하여 산정 ④ 해당세대가 보유하고 있는 총 자산가액 합산기준 25,100만원 이하이고 총 자산 중",
+      "car": "5,100만원 이하이고 총 자산 중 자동차가액이 4,542만원 이하 일 것 ⑤ 본인"
+     },
+     "신혼부부·한부모": {
+      "income": "구원수별 가구 당 월평균소득의 100%(【완화조건】120%(2순위),150%(3순위)) … 2인인 경우 110% (【완화조건】 130%(2순위), 150%(3순위)) (신청 상한 = 3순위 비율)",
+      "dual": "맞벌이 부부는 120%(【완화조건】 130%(2순위),150%(3순위))",
+      "car": ",500만원 이 하이고 총 자산 중 자동차가액이 4,542만원 이하 일 것 ⑤ 본인",
+      "asset": "해당 세대(예비신혼부부는 혼인으로 구성될 세대)가 보유하고 있는 총 자산가액 합산기준 34,500만원"
+     },
+     "고령자": {
+      "income": "가구원수별 가구당 월평균소득의 100% 이하 (【완화조건】 120%이하 (2순위), 150%이하 (3순위)) … 1인인 경우 120% (【완화조건】 140%(2순위), 150%(3순위)) · 2인인 경우 110% (【완화조건】 130%(2순위), 150%(3순위)) (신청 상한 = 3순위 비율)",
+      "asset": "7원)을 합산하여 산정 ② 해당 세대가 보유하고 있는 총 자산가액 합산기준 34,500만원 이하이고 총 자산 중",
+      "car": "4,500만원 이하이고 총 자산 중 자동차가액이 4,542만원 이하 일 것 ※ ‘고령"
+     },
+     "주거급여수급자": {}
+    },
+    "income_table_100": {
+     "3": 8168429,
+     "4": 8802202,
+     "5": 9326985,
+     "6": 9906263
+    },
+    "prewed_ok": true,
+    "unknown_groups": [],
+    "ai": {
+     "fields": [
+      "신혼부부·한부모.asset_manwon"
+     ],
+     "model": "claude-session",
+     "at": "2026-11-20 08:53"
+    }
+   },
+   "api": {
+    "CCR_CNNT_SYS_DS_CD": "03",
+    "SPL_INF_TP_CD": "063",
+    "UPP_AIS_TP_CD": "06",
+    "AIS_TP_CD": "10"
+   },
+   "read": {
+    "tools": [
+     "pypdf",
+     "pdfium",
+     "plumber"
+    ],
+    "conflicts": []
+   },
+   "terms_pre_ai": {
+    "relaxed": true,
+    "homeless_relaxed": false,
+    "homeless_max1": false,
+    "income_basis": "도시근로자 월평균소득",
+    "groups": [
+     {
+      "key": "대학생",
+      "name": "대학생",
+      "homeless": "self",
+      "income_pct": {
+       "1": 150,
+       "2": 150,
+       "3+": 150
+      },
+      "asset_manwon": 10800,
+      "car_manwon": 0,
+      "age_min": null,
+      "age_max": null
+     },
+     {
+      "key": "청년",
+      "name": "청년",
+      "homeless": "self",
+      "income_pct": {
+       "1": 150,
+       "2": 150,
+       "3+": 150
+      },
+      "asset_manwon": 25100,
+      "car_manwon": 4542,
+      "age_min": 19,
+      "age_max": 39,
+      "account_by_movein": true
+     },
+     {
+      "key": "신혼부부·한부모",
+      "name": "신혼부부·한부모",
+      "homeless": "household",
+      "income_pct": {
+       "1": null,
+       "2": 150,
+       "3+": 150
+      },
       "asset_manwon": null,
       "car_manwon": 4542,
       "age_min": null,
@@ -16108,20 +16299,6 @@
     },
     "prewed_ok": true,
     "unknown_groups": []
-   },
-   "api": {
-    "CCR_CNNT_SYS_DS_CD": "03",
-    "SPL_INF_TP_CD": "063",
-    "UPP_AIS_TP_CD": "06",
-    "AIS_TP_CD": "10"
-   },
-   "read": {
-    "tools": [
-     "pypdf",
-     "pdfium",
-     "plumber"
-    ],
-    "conflicts": []
    }
   },
   {
