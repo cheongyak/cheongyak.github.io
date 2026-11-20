@@ -14,6 +14,7 @@ description: 청약패스(cheongyakpass.kr, 저장소 cheongyak/cheongyak.github
 2. **읽는 순서**: `HANDOFF.md`(진행 중인 일·사용자와 일하는 방식·도구) → `CLAUDE.md`(규칙 1~8항, 반드시 지킴) → `WORK.md` 최근 5개 → 열린 이슈
    (`curl -s "https://api.github.com/repos/cheongyak/cheongyak.github.io/issues?state=open"`). 이슈가 열려 있으면 그것부터 처리한다 (CLAUDE.md 4-8항).
 3. **환경**: `pip install -r requirements.txt` (pip 가 막히면 GitHub 에서 pytest·pluggy·iniconfig 를 클론해 PYTHONPATH 로).
+   PyPI 가 막힌 세션(11-20·11-21): httpx(0.28.1)·httpcore(1.0.9)·pypdf(7.0.1, 판 고정)를 GitHub 에서 받아 **패키지 폴더만** 한 폴더에 묶는다(`ln -s …/httpx/httpx /home/claude/pysite/`) — 저장소 폴더째 PYTHONPATH 에 넣으면 그 안의 `tests/` 가 우리 `tests` 와 겹쳐 모아 오기 오류. fastapi 는 없어도 된다(importorskip).
    화면 검사는 playwright(전역 node_modules 가 있으면 `NODE_PATH` 로) + 크로미움 `/opt/pw-browsers/chromium`.
    `gh` 가 없으면 GitHub 공개 API 를 curl 로 읽는다. 태그 push 는 막혀 있어 백업은 브랜치로.
 
