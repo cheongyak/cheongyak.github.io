@@ -1,48 +1,59 @@
 {
- "at": "2026-11-21 00:43",
- "ok": true,
- "collect_run": "2026-11-20 · 공고 262건",
- "banner": null,
+ "at": "2026-11-21 07:48",
+ "ok": false,
+ "collect_run": "2026-11-21 · 공고 293건",
+ "banner": {
+  "kind": "notice",
+  "text": "최근 자동 검증에서 공고문과 다른 값이 발견돼 확인 중이에요.",
+  "why": [
+   "공고문 대조 2건 · 정답 데이터 0건 다름"
+  ]
+ },
  "flagged": {},
- "pending": [],
+ "pending": [
+  "임대 기관 거르기 화면",
+  "경고 범위 화면",
+  "임대 판정",
+  "임대 화면"
+ ],
  "coverage_missing": 0,
  "observe": [],
  "warnings": [],
  "freshness": [
   {
    "name": "분양",
-   "updated": "2026-11-20 07:27",
-   "hours": 17.3,
+   "updated": "2026-11-21 07:30",
+   "hours": 0.3,
    "stale": false
   },
   {
    "name": "LH 임대",
    "updated": "2026-11-20 11:34",
-   "hours": 13.2,
+   "hours": 20.2,
    "stale": false
   },
   {
    "name": "SH 임대",
    "updated": "2026-11-21 00:24",
-   "hours": 0.3,
+   "hours": 7.4,
    "stale": false
   },
   {
    "name": "GH 임대",
    "updated": "2026-11-20 11:41",
-   "hours": 13.0,
+   "hours": 20.1,
    "stale": false
   },
   {
    "name": "공공지원 민간임대",
    "updated": "2026-11-20 11:50",
-   "hours": 12.9,
+   "hours": 20.0,
    "stale": false
   },
   {
    "name": "LH 주거복지·신혼희망",
    "updated": "2026-11-20 11:41",
-   "hours": 13.0,
+   "hours": 20.1,
    "stale": false
   }
  ],
@@ -52,13 +63,21 @@
   "failed": []
  },
  "crosscheck": {
-  "summary": "[검증·공고문] 공고문 70건 대조 · 기준표 281줄 · 분양가 262/262 일치 · 불일치 공고 0건",
-  "mismatches": []
+  "summary": "[검증·공고문] 공고문 76건 대조 · 기준표 320줄 · 분양가 293/293 일치 · 불일치 공고 2건",
+  "mismatches": [
+   "[검증·공고문 불일치] 고창 데시앙 2블록(공공분양) (2026000598): 공공 자동차 기준: 공고문 15,500천원 — 앱 기준(45,420, 49,960, 54,510천원)에 없음",
+   "[검증·공고문 불일치] 고창 데시앙 3블록(공공분양) (2026000597): 공공 자동차 기준: 공고문 15,500천원 — 앱 기준(45,420, 49,960, 54,510천원)에 없음"
+  ]
  },
  "golden": {
   "mismatches": []
  },
- "qa_stale": [],
+ "qa_stale": [
+  "rent-org.json",
+  "verify-scope.json",
+  "lh-qa.json",
+  "lh-screen.json"
+ ],
  "qa": {
   "gate": true,
   "supply_type_fails": 0,
@@ -76,19 +95,19 @@
   "e2e_fails": 0,
   "past_chat_fails": 0,
   "lh_invariant_violations": 0,
-  "lh_judge_qa_fails": 0,
-  "lh_screen_fails": 0,
+  "lh_judge_qa_fails": null,
+  "lh_screen_fails": null,
   "lh_unread": 0,
   "lh_pdf_merged_wrong": 0,
   "pay_audit_bad": 0,
   "parse_moved_changes": 0,
   "coverage_missing": 0,
-  "verify_scope_fails": 0,
-  "pay_audit_read": "196/214",
+  "verify_scope_fails": null,
+  "pay_audit_read": "201/219",
   "lh_data_at": "2026-11-20 11:34",
-  "cross_rule_checks": 444072,
-  "market_at": "2026-11-20",
+  "cross_rule_checks": 454425,
+  "market_at": "2026-11-21",
   "supply_type_at": "2026-11-20",
-  "invariants_at": "2026-11-20"
+  "invariants_at": "2026-11-21"
  }
 }
