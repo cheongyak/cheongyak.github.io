@@ -7,13 +7,7 @@
   "읽기 도구에 따라 값이 다름": 1,
   "글자가 거의 없는 쪽 N개 (스캔 이미지·표 그림 추정)": 4
  },
- "errors": [
-  {
-   "notice": "2026000559",
-   "name": "두산위브 트레지움 익산",
-   "error": "RemoteProtocolError: Server disconnected without sending a response."
-  }
- ],
+ "errors": [],
  "results": [
   {
    "notice": "2026000585",
@@ -208,7 +202,59 @@
   {
    "notice": "2026000559",
    "name": "두산위브 트레지움 익산",
-   "error": "RemoteProtocolError: Server disconnected without sending a response."
+   "url": "https://www.applyhome.co.kr/ai/aia/selectAPTLttotPblancDetail.do?houseManageNo=2026000559&pblancNo=2026000559",
+   "attachments": 1,
+   "pdfs": 1,
+   "attachment_list": [
+    {
+     "url": "https://static.applyhome.co.kr/ai/aia/getAtchmnfl.do?houseManageNo=2026000559&pblancNo=2026000559&atchmnflSeqNo=2028029&atchmnflSn=2",
+     "bytes": 1180846,
+     "pages": 72,
+     "chars": 156512,
+     "head": "- 1 - 두산위브 트레지움 익산 입주자모집공고 구 글 플 레 이 스 토 어 애플앱 스토어 청약 앱 설치 바로가기Home ※ 단지 주요정보 분양"
+    }
+   ],
+   "chosen": "https://static.applyhome.co.kr/ai/aia/getAtchmnfl.do?houseManageNo=2026000559&pblancNo=2026000559&atchmnflSeqNo=2028029&atchmnflSn=2",
+   "pages": 72,
+   "pages_read": 72,
+   "chars_read": 156583,
+   "empty_pages": [],
+   "chars_per_page_min": 816,
+   "fields": {
+    "need_head": false,
+    "price_cap": false,
+    "residence_duty": 0,
+    "rewin_years": 0,
+    "residence": {
+     "area": "전북특별자치도 익산시",
+     "months": 0,
+     "since": null
+    }
+   },
+   "fields_merged": {
+    "need_head": false,
+    "price_cap": false,
+    "residence_duty": 0,
+    "rewin_years": 0,
+    "residence": {
+     "area": "전북특별자치도 익산시",
+     "months": 0,
+     "since": null
+    }
+   },
+   "fields_pdfium": {
+    "need_head": false,
+    "price_cap": false,
+    "residence_duty": 0,
+    "rewin_years": 0,
+    "residence": {
+     "area": "전북특별자치도 익산시",
+     "months": 0,
+     "since": null
+    }
+   },
+   "pdfium_chars": 159323,
+   "problem": []
   },
   {
    "notice": "2026000536",
