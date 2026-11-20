@@ -1,0 +1,42 @@
+{
+ "id": "313503",
+ "prompt_v": 1,
+ "model": "claude-session",
+ "at": "2026-11-21 00:22",
+ "answer": {
+  "groups": [
+   {
+    "name": "신혼부부",
+    "homeless": "self",
+    "homeless_quote": "무주택자로 입주자 모집공고 시점 전년도 도시 근로자 가구원수별 가구당 월평균 소득의 120% 이하에 해당하는 자",
+    "income_pct": {
+     "1": 120,
+     "2": 120,
+     "3+": 120
+    },
+    "income_quote": "무주택자로 입주자 모집공고 시점 전년도 도시 근로자 가구원수별 가구당 월평균 소득의 120% 이하에 해당하는 자",
+    "asset_manwon": null,
+    "car_manwon": null,
+    "age_min": null,
+    "age_max": null
+   },
+   {
+    "name": "1인가구",
+    "homeless": "self",
+    "homeless_quote": "무주택자로 입주자 모집공고 시점 전년도 도시 근로자 가구원수별 가구당 월평균 소득의 120% 이하에 해당하는 자",
+    "income_pct": {
+     "1": 120,
+     "2": 120,
+     "3+": 120
+    },
+    "income_quote": "무주택자로 입주자 모집공고 시점 전년도 도시 근로자 가구원수별 가구당 월평균 소득의 120% 이하에 해당하는 자",
+    "asset_manwon": 30000,
+    "asset_quote": "1인가구 3억 이하 *가계금융복지조사에 따른 소득3분위의 가구의 순자산 평균값 이하",
+    "car_manwon": null,
+    "age_min": null,
+    "age_max": null
+   }
+  ]
+ },
+ "sha": "114c34afd0ca2a61"
+}
