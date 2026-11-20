@@ -257,14 +257,15 @@ def _happy_groups(t: str) -> tuple[list[dict], dict]:
         whole = re.sub(r"\(\s?일\s?반\s?요건\s?:[^)]*\)", " ", t) if key == "대학생" else seg_main
         if key == "대학생":
             seg_main = re.sub(r"신청자\s?본인이\s?자동차가액\s?산출대상[^.]{0,30}", " ", seg_main)
-            m = re.search(r"총\s?자산\s?(?:가액|요건)(?:은|을)?\s?배제(?:\s?\(단,|하나,)\s?신청자\s?본인이", whole) or re.search(r"신청자\s?본인의\s?총\s?자산가액\s?합산기준이\s?([\d,]+)\s?만원\s?이하", whole)
+            m = re.search(r"총\s?자산\s?(?:가액\s?요건|가액|요건)(?:은|을)?\s?배제(?:\s?\(단,|하나,)\s?신청자\s?본인이", whole) or re.search(r"신청자\s?본인의\s?총\s?자산가액\s?합산기준이\s?([\d,]+)\s?만원\s?이하", whole)
             if m:
                 g["asset_manwon"], q["asset"] = ("excluded" if "배제" in m.group(0) else _int(m.group(1))), _q(whole, m, 20, 10)
         else:
             seg_main = re.sub(r"총\s?자산요건\s?배제\s?\(단,\s?신청자\s?본인이[^)]*\)", " ", seg_main)
         if g["asset_manwon"] is not None:
             pass
-        elif (m := re.search(r"총\s?자산\s?(?:가액|요건)(?:은|을)?\s?배제", seg_main)):   # '총 자산요건을 배제하나'(양산 909)
+        elif (m := re.search(r"총\s?자산\s?(?:가액\s?요건|가액|요건)(?:은|을)?\s?배제", seg_main)):   # '총 자산요건을 배제하나'(양산 909)
+            # '④ 【완화조건】 해당 세대의 총자산가액 요건은 배제하나, …'·대학생 '총자산가액 요건은 배제하나, 신청자 본인이 …' — '가액 요건' 두 낱말 (수원당수 1, 2단지 행복 자격완화 2015122300021108, 2026-11-20 아침 자동 고치기)
             g["asset_manwon"], q["asset"] = "excluded", _q(seg_main, m, 20, 10)
         elif (m := re.search(r"총\s?자산\s?(?:합산)?가액(?:\s?합산\s?기준)?이?\s?([\d,]+)\s?만원\s?이하", seg_main)):
             g["asset_manwon"], q["asset"] = _int(m.group(1)), _q(seg_main, m, 30, 10)
