@@ -1,798 +1,8 @@
 {
- "updated": "2026-11-20 11:34",
+ "updated": "2026-11-21 08:24",
  "source": "LH 청약플러스 임대 공고 (공공데이터포털 한국토지주택공사 분양임대공고 조회)",
- "count": 83,
+ "count": 80,
  "notices": [
-  {
-   "id": "2015122300020917",
-   "name": "완주삼례A-1 행복주택 입주자격완화 예비입주자 모집",
-   "type": "행복주택",
-   "type_code": "10",
-   "judge_type": true,
-   "region": "전북특별자치도",
-   "posted": "2026-10-19",
-   "close": "2026-11-20",
-   "status": "접수중",
-   "url": "https://apply.lh.or.kr/lhapply/apply/wt/wrtanc/selectWrtancInfo.do?panId=2015122300020917&ccrCnntSysDsCd=03&uppAisTpCd=06&aisTpCd=10&mi=1026",
-   "url_mobile": "https://apply.lh.or.kr/lhapply/apply/wt/wrtanc/selectWrtancInfo.do?panId=2015122300020917&ccrCnntSysDsCd=03&uppAisTpCd=06&aisTpCd=10&mi=1026",
-   "schedule": [
-    {
-     "complex": null,
-     "apply_start": "2026-11-09",
-     "apply_end": "2026-11-20",
-     "apply_time": "2026.11.09 10:00 ~ 2026.11.20 22:10",
-     "docs_target": "2026-12-01",
-     "docs_start": "2026-12-01",
-     "docs_end": "2026-12-04",
-     "winner": "2027-02-04",
-     "contract_start": null,
-     "contract_end": null
-    }
-   ],
-   "complexes": [
-    {
-     "name": "완주삼례 A-1 행복주택",
-     "address": "전북특별자치도 완주군 삼례읍 동학로 36-21 완주삼례 행복 아리따운 아파트",
-     "households": 300,
-     "area": "21.52~44.28",
-     "move_in": "2023.12",
-     "heating": "세대난방"
-    }
-   ],
-   "units": [
-    {
-     "complex": "완주삼례 A-1 행복주택",
-     "type": "21A(대학생,청년)",
-     "area": 21.52,
-     "supply_area": 32.223,
-     "households": 146,
-     "now_households": 140,
-     "deposit": null,
-     "rent": null,
-     "money_note": "공고문 참조"
-    },
-    {
-     "complex": "완주삼례 A-1 행복주택",
-     "type": "26A(고령자,주거급여수급자)",
-     "area": 26.06,
-     "supply_area": 39.021,
-     "households": 48,
-     "now_households": 50,
-     "deposit": null,
-     "rent": null,
-     "money_note": "공고문 참조"
-    }
-   ],
-   "files": [
-    {
-     "kind": "공고문(hwp)",
-     "name": "(26.10.19.공고)완주삼례A-1행복주택자격완화예비입주자모집공고문_게시용v.1.hwpx",
-     "url": "https://apply.lh.or.kr/lhapply/lhFile.do?fileid=68998504"
-    },
-    {
-     "kind": "공고문(PDF)",
-     "name": "(26.10.19.공고)완주삼례A-1행복주택자격완화예비입주자모집공고문_게시용v.1.pdf",
-     "url": "https://apply.lh.or.kr/lhapply/lhFile.do?fileid=68998510"
-    }
-   ],
-   "etc": "* 청약접수 일정 및 제출서류 등을 반드시 확인하시기 바랍니다.\n* 예비입주자 모집 공고문(첨부파일)을 반드시 확인하시어 불이익이 없도록 유념하시기 바랍니다.\n  (1세대 1주택 신청원칙, 중복신청 시 전부 무효처리 됨)\n* 첨부된 작성양식은 접수처에 비치되어 있으니 참고하시기 바랍니다.\n* 전화문의는 장시간 접속지연 및 통화대기 등의 불편이 있을 수 있으니, 신청과 관련한 내용은 공고문을 참고하여 주시기 바랍니다.",
-   "office": {
-    "place": "전북특별자치도 완주군 삼례읍 동학로 36-21 완주삼례 행복주택 내 주민편의시설",
-    "tel": "1600-1004, 1670-0003"
-   },
-   "notice_pdf": "https://apply.lh.or.kr/lhapply/lhFile.do?fileid=68998510",
-   "notice_text": 61934,
-   "rents": [
-    {
-     "complex": null,
-     "type": "21A",
-     "group": "대학생",
-     "deposit": 13192000,
-     "rent": 68150
-    },
-    {
-     "complex": null,
-     "type": "21A",
-     "group": "청년",
-     "deposit": 13968000,
-     "rent": 72160
-    },
-    {
-     "complex": null,
-     "type": "21A",
-     "group": "고령자",
-     "deposit": 14744000,
-     "rent": 76170
-    },
-    {
-     "complex": null,
-     "type": "21A",
-     "group": "주거급여수급자",
-     "deposit": 11640000,
-     "rent": 60140
-    },
-    {
-     "complex": null,
-     "type": "26A",
-     "group": "대학생",
-     "deposit": 15980000,
-     "rent": 82560
-    },
-    {
-     "complex": null,
-     "type": "26A",
-     "group": "청년",
-     "deposit": 16920000,
-     "rent": 87420
-    },
-    {
-     "complex": null,
-     "type": "26A",
-     "group": "고령자",
-     "deposit": 17860000,
-     "rent": 92270
-    },
-    {
-     "complex": null,
-     "type": "26A",
-     "group": "주거급여수급자",
-     "deposit": 14100000,
-     "rent": 72850
-    }
-   ],
-   "terms": {
-    "relaxed": true,
-    "homeless_relaxed": true,
-    "homeless_max1": false,
-    "income_basis": "도시근로자 월평균소득",
-    "groups": [
-     {
-      "key": "대학생",
-      "name": "대학생",
-      "homeless": "self",
-      "income_pct": "excluded",
-      "asset_manwon": "excluded",
-      "car_manwon": 0,
-      "age_min": null,
-      "age_max": null
-     },
-     {
-      "key": "청년",
-      "name": "청년",
-      "homeless": "self",
-      "income_pct": "excluded",
-      "asset_manwon": "excluded",
-      "car_manwon": 4542,
-      "age_min": 19,
-      "age_max": 39,
-      "account_by_movein": true
-     },
-     {
-      "key": "고령자",
-      "name": "고령자",
-      "homeless": "household",
-      "income_pct": "excluded",
-      "asset_manwon": "excluded",
-      "car_manwon": 4542,
-      "age_min": 65,
-      "age_max": null
-     },
-     {
-      "key": "주거급여수급자",
-      "name": "주거급여수급자",
-      "homeless": "household",
-      "income_pct": null,
-      "asset_manwon": null,
-      "car_manwon": null,
-      "age_min": null,
-      "age_max": null
-     }
-    ],
-    "quotes": {
-     "대학생": {
-      "income": "기준은 ② 혼인 중이 아닐 것 ③ 소득요건 배제 [일반요건 : 신",
-      "asset": "579,278원을 합산하여 산정 ④ 총자산요건 배제 (단, 신청자 본인이 자동차가액 산출대",
-      "car": "자산요건 배제 (단, 신청자 본인이 자동차가액 산출대상 자동차를 소유하고 있지 않을 것"
-     },
-     "청년": {
-      "income": "예술인 ② 혼인 중이 아닐 것 ③ 소득요건 배제 [일반요건 : 해",
-      "asset": "579,278원을 합산하여 산정 ④ 총자산요건 배제 (단, 해당세대가",
-      "car": "당세대가 보유하고 있는 총 자산 중 자동차가액은 4,542만원 이하 일 것)   ⑤"
-     },
-     "고령자": {
-      "income": "생일1961.10.19. 이전) ① 소득요건 배제 [일반요건 : 해",
-      "asset": "579,278원을 합산하여 산정 ② 총자산요건 배제 (단, 해당세대가",
-      "car": "당세대가 보유하고 있는 총 자산 중 자동차가액은 4,542만원 이하 일 것)   ③"
-     },
-     "주거급여수급자": {}
-    },
-    "income_table_100": {
-     "3": 8168429,
-     "4": 8802202,
-     "5": 9326985,
-     "6": 9906263
-    },
-    "unknown_groups": []
-   },
-   "api": {
-    "CCR_CNNT_SYS_DS_CD": "03",
-    "SPL_INF_TP_CD": "063",
-    "UPP_AIS_TP_CD": "06",
-    "AIS_TP_CD": "10"
-   },
-   "read": {
-    "tools": [
-     "pypdf",
-     "pdfium",
-     "plumber"
-    ],
-    "conflicts": []
-   }
-  },
-  {
-   "id": "2015122300020992",
-   "name": "평창장평 통합공공임대주택(일반형) 입주자 모집",
-   "type": "통합공공임대",
-   "type_code": "48",
-   "judge_type": true,
-   "region": "강원특별자치도",
-   "posted": "2026-10-30",
-   "close": "2026-11-20",
-   "status": "접수중",
-   "url": "https://apply.lh.or.kr/lhapply/apply/wt/wrtanc/selectWrtancInfo.do?panId=2015122300020992&ccrCnntSysDsCd=03&uppAisTpCd=06&aisTpCd=48&mi=1026",
-   "url_mobile": "https://apply.lh.or.kr/lhapply/apply/wt/wrtanc/selectWrtancInfo.do?panId=2015122300020992&ccrCnntSysDsCd=03&uppAisTpCd=06&aisTpCd=48&mi=1026",
-   "schedule": [
-    {
-     "complex": null,
-     "apply_start": "2026-11-16",
-     "apply_end": "2026-11-20",
-     "apply_time": "2026.11.16 10:00 ~ 2026.11.20 17:10",
-     "docs_target": "2026-12-03",
-     "docs_start": "2026-12-07",
-     "docs_end": "2026-12-11",
-     "winner": "2027-04-09",
-     "contract_start": "2027-04-27",
-     "contract_end": "2027-04-29"
-    }
-   ],
-   "complexes": [
-    {
-     "name": "평창장평 통합공공임대주택(고령자)",
-     "address": "강원특별자치도 평창군 용평면 장평리 317-2",
-     "households": 68,
-     "area": "31.96~46.99",
-     "move_in": "2028.07",
-     "heating": "개별난방"
-    }
-   ],
-   "units": [
-    {
-     "complex": "평창장평 통합공공임대주택(고령자)",
-     "type": "31A",
-     "area": 31.96,
-     "supply_area": 50.8074,
-     "households": 7,
-     "now_households": 7,
-     "deposit": null,
-     "rent": null,
-     "money_note": "공고문 참조"
-    },
-    {
-     "complex": "평창장평 통합공공임대주택(고령자)",
-     "type": "36A",
-     "area": 36.95,
-     "supply_area": 58.1408,
-     "households": 18,
-     "now_households": 18,
-     "deposit": null,
-     "rent": null,
-     "money_note": "공고문 참조"
-    },
-    {
-     "complex": "평창장평 통합공공임대주택(고령자)",
-     "type": "46A",
-     "area": 46.99,
-     "supply_area": 73.6662,
-     "households": 7,
-     "now_households": 7,
-     "deposit": null,
-     "rent": null,
-     "money_note": "공고문 참조"
-    }
-   ],
-   "files": [
-    {
-     "kind": "공고문(hwp)",
-     "name": "261030평창장평통합공공임대주택공고문(일반)_최종.hwpx",
-     "url": "https://apply.lh.or.kr/lhapply/lhFile.do?fileid=69203786"
-    },
-    {
-     "kind": "공고문(PDF)",
-     "name": "261030평창장평통합공공임대주택공고문(일반)_최종.pdf",
-     "url": "https://apply.lh.or.kr/lhapply/lhFile.do?fileid=69203782"
-    },
-    {
-     "kind": "카탈로그",
-     "name": "261030평창장평팜플렛_최종.pdf",
-     "url": "https://apply.lh.or.kr/lhapply/lhFile.do?fileid=69203797"
-    },
-    {
-     "kind": "기타 첨부파일",
-     "name": "[양식1-필수]개인정보수집이용및제3자제공동의서.hwpx",
-     "url": "https://apply.lh.or.kr/lhapply/lhFile.do?fileid=69203982"
-    },
-    {
-     "kind": "기타 첨부파일",
-     "name": "[양식2-필수]금융정보등제공동의서.hwpx",
-     "url": "https://apply.lh.or.kr/lhapply/lhFile.do?fileid=69203983"
-    },
-    {
-     "kind": "기타 첨부파일",
-     "name": "[양식3-필수]자산보유사실확인서.hwpx",
-     "url": "https://apply.lh.or.kr/lhapply/lhFile.do?fileid=69203984"
-    },
-    {
-     "kind": "기타 첨부파일",
-     "name": "[양식4-필수]예비입주자중복선정불가사항확인서.hwpx",
-     "url": "https://apply.lh.or.kr/lhapply/lhFile.do?fileid=69203985"
-    },
-    {
-     "kind": "기타 첨부파일",
-     "name": "[양식5-해당자]예비신혼부부신청확인서및세대구성확인서.hwpx",
-     "url": "https://apply.lh.or.kr/lhapply/lhFile.do?fileid=69204003"
-    },
-    {
-     "kind": "기타 첨부파일",
-     "name": "[양식6-해당자]위임장.hwpx",
-     "url": "https://apply.lh.or.kr/lhapply/lhFile.do?fileid=69204004"
-    }
-   ],
-   "etc": "■ 신청자격 등 자세한 사항은 반드시 공고문을 확인하시기 바랍니다.\n(공고내용 미숙지로 인한 모든 책임은 신청자 본인에게 있습니다)",
-   "office": {
-    "place": "강원특별자치도 춘천시 공지로 337(효자동)",
-    "tel": "1600-1004"
-   },
-   "notice_pdf": "https://apply.lh.or.kr/lhapply/lhFile.do?fileid=69203782",
-   "notice_text": 72850,
-   "rents": [
-    {
-     "complex": null,
-     "type": "31A",
-     "group": "1구간",
-     "deposit": 5982000,
-     "rent": 92590
-    },
-    {
-     "complex": null,
-     "type": "31A",
-     "group": "2구간",
-     "deposit": 6837000,
-     "rent": 105820
-    },
-    {
-     "complex": null,
-     "type": "31A",
-     "group": "3구간",
-     "deposit": 8547000,
-     "rent": 132270
-    },
-    {
-     "complex": null,
-     "type": "31A",
-     "group": "4구간",
-     "deposit": 11111000,
-     "rent": 171950
-    },
-    {
-     "complex": null,
-     "type": "31A",
-     "group": "5구간",
-     "deposit": 13675000,
-     "rent": 211640
-    },
-    {
-     "complex": null,
-     "type": "31A",
-     "group": "6구간",
-     "deposit": 15384000,
-     "rent": 238090
-    },
-    {
-     "complex": null,
-     "type": "36A",
-     "group": "1구간",
-     "deposit": 6548000,
-     "rent": 101350
-    },
-    {
-     "complex": null,
-     "type": "36A",
-     "group": "2구간",
-     "deposit": 7484000,
-     "rent": 115830
-    },
-    {
-     "complex": null,
-     "type": "36A",
-     "group": "3구간",
-     "deposit": 9355000,
-     "rent": 144780
-    },
-    {
-     "complex": null,
-     "type": "36A",
-     "group": "4구간",
-     "deposit": 12162000,
-     "rent": 188220
-    },
-    {
-     "complex": null,
-     "type": "36A",
-     "group": "5구간",
-     "deposit": 14968000,
-     "rent": 231660
-    },
-    {
-     "complex": null,
-     "type": "36A",
-     "group": "6구간",
-     "deposit": 16839000,
-     "rent": 260610
-    },
-    {
-     "complex": null,
-     "type": "46A",
-     "group": "1구간",
-     "deposit": 8165000,
-     "rent": 126370
-    },
-    {
-     "complex": null,
-     "type": "46A",
-     "group": "2구간",
-     "deposit": 9332000,
-     "rent": 144430
-    },
-    {
-     "complex": null,
-     "type": "46A",
-     "group": "3구간",
-     "deposit": 11665000,
-     "rent": 180530
-    },
-    {
-     "complex": null,
-     "type": "46A",
-     "group": "4구간",
-     "deposit": 15165000,
-     "rent": 234690
-    },
-    {
-     "complex": null,
-     "type": "46A",
-     "group": "5구간",
-     "deposit": 18664000,
-     "rent": 288860
-    },
-    {
-     "complex": null,
-     "type": "46A",
-     "group": "6구간",
-     "deposit": 20997000,
-     "rent": 324960
-    },
-    {
-     "complex": null,
-     "type": "31A",
-     "group": "생계·의료급여 수급자 등 상한",
-     "deposit": 3072000,
-     "rent": 61070
-    },
-    {
-     "complex": null,
-     "type": "36A",
-     "group": "생계·의료급여 수급자 등 상한",
-     "deposit": 3551000,
-     "rent": 70610
-    },
-    {
-     "complex": null,
-     "type": "46A",
-     "group": "생계·의료급여 수급자 등 상한",
-     "deposit": 4516000,
-     "rent": 89790
-    }
-   ],
-   "terms": {
-    "relaxed": false,
-    "homeless_relaxed": false,
-    "homeless_max1": false,
-    "income_basis": "기준 중위소득",
-    "groups": [
-     {
-      "key": "청년",
-      "name": "청년",
-      "homeless": "self",
-      "income_pct": {
-       "1": 170,
-       "2": 160,
-       "3+": 150
-      },
-      "asset_manwon": 34500,
-      "car_manwon": 4542,
-      "age_min": 18,
-      "age_max": 39
-     },
-     {
-      "key": "신혼부부·한부모",
-      "name": "신혼부부·한부모",
-      "homeless": "household",
-      "income_pct": {
-       "1": null,
-       "2": 160,
-       "3+": 150
-      },
-      "asset_manwon": 34500,
-      "car_manwon": 4542,
-      "age_min": null,
-      "age_max": null,
-      "dual_add": 30
-     },
-     {
-      "key": "고령자",
-      "name": "고령자",
-      "homeless": "household_or_single_self",
-      "income_pct": {
-       "1": 170,
-       "2": 160,
-       "3+": 150
-      },
-      "asset_manwon": 34500,
-      "car_manwon": 4542,
-      "age_min": 65,
-      "age_max": null
-     },
-     {
-      "key": "일반",
-      "name": "일반",
-      "homeless": "household",
-      "income_pct": {
-       "1": 170,
-       "2": 160,
-       "3+": 150
-      },
-      "asset_manwon": 34500,
-      "car_manwon": 4542,
-      "age_min": null,
-      "age_max": null
-     }
-    ],
-    "quotes": {
-     "청년": {
-      "asset": "이하 동일) • 자산기준 : 총자산 345,000,000원 및 자동차 45,420,000원 이하 + @% ② 출산",
-      "car": "이하 동일) • 자산기준 : 총자산 345,000,000원 및 자동차 45,420,000원 이하 + @% ② 출산",
-      "income": "균소득이 「국민기초생활 보장법」 제2조제11호에 따른 기준 중위소득의 150퍼센트(1~2인 가구 및 출산가구의 경우에는 우대비율을 가산) 이하일 것 ㉯ 18세 이상 39세 이하일 것 (출생"
-     },
-     "신혼부부·한부모": {
-      "asset": "이하 동일) • 자산기준 : 총자산 345,000,000원 및 자동차 45,420,000원 이하 + @% ② 출산",
-      "car": "이하 동일) • 자산기준 : 총자산 345,000,000원 및 자동차 45,420,000원 이하 + @% ② 출산",
-      "income": "인으로 구성될 세대의 세대구성원 월평균소득의 합계)이 기준 중위소득의 150퍼센트(맞벌이, 2인 가구 및 출산가구의 경우에는 우대비율을 가산) 이하일 것 고령자 【유의사항】 혼인 중이 아닌",
-      "dual": "신혼부부 맞벌이 우대비율 : 30%p 가산 ※ \"신혼부부, 한부모가족\"의 입주"
-     },
-     "고령자": {
-      "asset": "이하 동일) • 자산기준 : 총자산 345,000,000원 및 자동차 45,420,000원 이하 + @% ② 출산",
-      "car": "이하 동일) • 자산기준 : 총자산 345,000,000원 및 자동차 45,420,000원 이하 + @% ② 출산",
-      "income": "요건을 모두 갖춘 사람 ㉮ 해당 세대의 월평균소득이 기준 중위소득의 150퍼센트(1~2인 가구 및 출산가구의 경우에는 우대비율을 가산) 이하일 것 ㉯ 65세 이상(1961.10.30. 이",
-      "homeless": "무주택세대구성원(혼인 중이 아닌 경우로서 단독세대주로 입주하려는 사람의 경우에는 무주택자)"
-     },
-     "일반": {
-      "asset": "이하 동일) • 자산기준 : 총자산 345,000,000원 및 자동차 45,420,000원 이하 + @% ② 출산",
-      "car": "이하 동일) • 자산기준 : 총자산 345,000,000원 및 자동차 45,420,000원 이하 + @% ② 출산",
-      "income": "반 • 무주택세대구성원으로서 해당 세대의 월평균소득이 기준 중위소득의 150퍼센트(1~2인 가구 및 출산가구의 경우에는 우대 비율을 가산) 이하일 것 6. 신청서류 ・모든 제출서류는 입주자"
-     }
-    },
-    "income_table_100": {
-     "1": 2564238,
-     "2": 4199292,
-     "3": 5359036,
-     "4": 6494738,
-     "5": 7556719,
-     "6": 8555952,
-     "7": 9515150,
-     "8": 10474348
-    },
-    "income_add_per": 959198,
-    "prewed_ok": true
-   },
-   "api": {
-    "CCR_CNNT_SYS_DS_CD": "03",
-    "SPL_INF_TP_CD": "062",
-    "UPP_AIS_TP_CD": "06",
-    "AIS_TP_CD": "48"
-   },
-   "read": {
-    "tools": [
-     "pypdf",
-     "pdfium",
-     "plumber"
-    ],
-    "conflicts": []
-   }
-  },
-  {
-   "id": "2015122300020993",
-   "name": "평창장평 통합공공임대주택(고령자복지형) 입주자 모집",
-   "type": "통합공공임대",
-   "type_code": "48",
-   "judge_type": true,
-   "region": "강원특별자치도",
-   "posted": "2026-10-30",
-   "close": "2026-11-20",
-   "status": "접수중",
-   "url": "https://apply.lh.or.kr/lhapply/apply/wt/wrtanc/selectWrtancInfo.do?panId=2015122300020993&ccrCnntSysDsCd=03&uppAisTpCd=06&aisTpCd=48&mi=1026",
-   "url_mobile": "https://apply.lh.or.kr/lhapply/apply/wt/wrtanc/selectWrtancInfo.do?panId=2015122300020993&ccrCnntSysDsCd=03&uppAisTpCd=06&aisTpCd=48&mi=1026",
-   "schedule": [
-    {
-     "complex": null,
-     "apply_start": "2026-11-16",
-     "apply_end": "2026-11-20",
-     "apply_time": "2026.11.16 10:00 ~ 2026.11.20 17:10",
-     "docs_target": "2026-12-03",
-     "docs_start": "2026-12-07",
-     "docs_end": "2026-12-11",
-     "winner": "2027-04-09",
-     "contract_start": "2027-04-27",
-     "contract_end": "2027-04-29"
-    }
-   ],
-   "complexes": [
-    {
-     "name": "평창장평 통합공공임대주택(고령자)",
-     "address": "강원특별자치도 평창군 용평면 장평리 317-2",
-     "households": 68,
-     "area": "31.96~46.99",
-     "move_in": "2028.07",
-     "heating": "개별난방"
-    }
-   ],
-   "units": [
-    {
-     "complex": "평창장평 통합공공임대주택(고령자)",
-     "type": "31B",
-     "area": 31.96,
-     "supply_area": 50.7874,
-     "households": 32,
-     "now_households": 32,
-     "deposit": null,
-     "rent": null,
-     "money_note": "공고문 참조"
-    },
-    {
-     "complex": "평창장평 통합공공임대주택(고령자)",
-     "type": "31S",
-     "area": 31.96,
-     "supply_area": 50.7874,
-     "households": 4,
-     "now_households": 4,
-     "deposit": null,
-     "rent": null,
-     "money_note": "공고문 참조"
-    }
-   ],
-   "files": [
-    {
-     "kind": "공고문(hwp)",
-     "name": "261030평창장평통합공공임대주택공고문(고령자)_최종.hwpx",
-     "url": "https://apply.lh.or.kr/lhapply/lhFile.do?fileid=69204383"
-    },
-    {
-     "kind": "공고문(PDF)",
-     "name": "261030평창장평통합공공임대주택공고문(고령자)_최종.pdf",
-     "url": "https://apply.lh.or.kr/lhapply/lhFile.do?fileid=69204385"
-    },
-    {
-     "kind": "카탈로그",
-     "name": "261030평창장평팜플렛_최종.pdf",
-     "url": "https://apply.lh.or.kr/lhapply/lhFile.do?fileid=69204387"
-    },
-    {
-     "kind": "기타 첨부파일",
-     "name": "[양식1-필수]개인정보수집이용및제3자제공동의서.hwpx",
-     "url": "https://apply.lh.or.kr/lhapply/lhFile.do?fileid=69204392"
-    },
-    {
-     "kind": "기타 첨부파일",
-     "name": "[양식2-필수]금융정보등제공동의서.hwpx",
-     "url": "https://apply.lh.or.kr/lhapply/lhFile.do?fileid=69204396"
-    },
-    {
-     "kind": "기타 첨부파일",
-     "name": "[양식3-필수]자산보유사실확인서.hwpx",
-     "url": "https://apply.lh.or.kr/lhapply/lhFile.do?fileid=69204397"
-    },
-    {
-     "kind": "기타 첨부파일",
-     "name": "[양식4-필수]예비입주자중복선정불가사항확인서.hwpx",
-     "url": "https://apply.lh.or.kr/lhapply/lhFile.do?fileid=69204399"
-    },
-    {
-     "kind": "기타 첨부파일",
-     "name": "[양식6-해당자]위임장.hwpx",
-     "url": "https://apply.lh.or.kr/lhapply/lhFile.do?fileid=69204405"
-    }
-   ],
-   "etc": "■ 신청자격 등 자세한 사항은 반드시 공고문을 확인하시기 바랍니다.\n(공고내용 미숙지로 인한 모든 책임은 신청자 본인에게 있습니다)",
-   "office": {
-    "place": "강원특별자치도 춘천시 공지로 337(효자동)",
-    "tel": "1600-1004"
-   },
-   "notice_pdf": "https://apply.lh.or.kr/lhapply/lhFile.do?fileid=69204385",
-   "notice_text": 54309,
-   "rents": [
-    {
-     "complex": null,
-     "type": "31B",
-     "group": "생계·의료급여 수급자 등 상한",
-     "deposit": 3072000,
-     "rent": 61070
-    }
-   ],
-   "terms": {
-    "relaxed": false,
-    "homeless_relaxed": false,
-    "homeless_max1": false,
-    "income_basis": "기준 중위소득",
-    "groups": [
-     {
-      "key": "고령자",
-      "name": "고령자",
-      "homeless": "household_or_single_self",
-      "income_pct": {
-       "1": 170,
-       "2": 160,
-       "3+": 150
-      },
-      "asset_manwon": 34500,
-      "car_manwon": 4542,
-      "age_min": 65,
-      "age_max": null
-     }
-    ],
-    "quotes": {
-     "고령자": {
-      "asset": "상 (+20%p) 총자산가액 345,000,000원 이하 379,000,000원 이하 413,000,000원 이하 자동차가액 45,420,000원 이하 49,960,00",
-      "car": "상 (+20%p) 총자산가액 345,000,000원 이하 379,000,000원 이하 413,000,000원 이하 자동차가액 45,420,000원 이하 49,960,00",
-      "income": "상 (+20%p) 1인 (+20%p) 170% - - 2인 (+10%p) 160% 170% - 3인 이상 (+0%p) 150% 160% 170%",
-      "homeless": "입주자 모집공고일(2026.10.30.) 현재 공급신청자가 ①65세 이상인 무주택세대구성원(단, 혼인중이 아닌 경우로서 단독세대주로 입주하려는 사람은 무주택자)으로서 ②자산・소득 기준을 충족한 자"
-     }
-    },
-    "income_table_100": {
-     "1": 2564238,
-     "2": 4199292,
-     "3": 5359036,
-     "4": 6494738,
-     "5": 7556719,
-     "6": 8555952,
-     "7": 9515150,
-     "8": 10474348
-    },
-    "income_add_per": 959198
-   },
-   "api": {
-    "CCR_CNNT_SYS_DS_CD": "03",
-    "SPL_INF_TP_CD": "062",
-    "UPP_AIS_TP_CD": "06",
-    "AIS_TP_CD": "48"
-   },
-   "read": {
-    "tools": [
-     "pypdf",
-     "pdfium",
-     "plumber"
-    ],
-    "conflicts": []
-   }
-  },
   {
    "id": "2015122300021022",
    "name": "남원노암 공공임대 50년 예비입주자모집",
@@ -12732,26 +11942,18 @@
     ],
     "quotes": {
      "대학생": {
-      "car": "액 요건은 배제하나, 신청자 본인이 자동차가액 산출대상 자동차를 소유하고 있지 않을 것",
-      "asset": "④ 【완화조건】 총자산가액 요건은 배제하나, 신청자 본인이 자동차가액 산출대상 자동차를 소유하고 있지 않을 것"
+      "asset": "건】 소득요건 배제 ④ 【완화조건】 총자산가액 요건은 배제하나, 신청자 본인이 자동차가액 산출대",
+      "car": "액 요건은 배제하나, 신청자 본인이 자동차가액 산출대상 자동차를 소유하고 있지 않을 것"
      },
      "청년": {
       "income": "닐 것 ③ 【완화조건】 해당 세대의 소득요건 배제 ④ 【완화조건】",
-      "car": "가액 요건은 배제하나, 총 자산 중 자동차가액이 4,542만원 이하일 것 ⑤ 본인 입",
-      "asset": "④ 【완화조건】 해당 세대의 총자산가액 요건은 배제하나, 총 자산 중 자동차가액이 4,542만원 이하일 것"
+      "asset": "배제 ④ 【완화조건】 해당 세대의 총자산가액 요건은 배제하나, 총 자산 중",
+      "car": "가액 요건은 배제하나, 총 자산 중 자동차가액이 4,542만원 이하일 것 ⑤ 본인 입"
      },
      "주거급여수급자": {}
     },
     "income_table_100": null,
-    "unknown_groups": [],
-    "ai": {
-     "fields": [
-      "대학생.asset_manwon",
-      "청년.asset_manwon"
-     ],
-     "model": "claude-session",
-     "at": "2026-11-19 13:16"
-    }
+    "unknown_groups": []
    },
    "api": {
     "CCR_CNNT_SYS_DS_CD": "03",
@@ -12766,57 +11968,6 @@
      "plumber"
     ],
     "conflicts": []
-   },
-   "terms_pre_ai": {
-    "relaxed": true,
-    "homeless_relaxed": false,
-    "homeless_max1": false,
-    "income_basis": "도시근로자 월평균소득",
-    "groups": [
-     {
-      "key": "대학생",
-      "name": "대학생",
-      "homeless": "self",
-      "income_pct": "excluded",
-      "asset_manwon": null,
-      "car_manwon": 0,
-      "age_min": null,
-      "age_max": null
-     },
-     {
-      "key": "청년",
-      "name": "청년",
-      "homeless": "self",
-      "income_pct": "excluded",
-      "asset_manwon": null,
-      "car_manwon": 4542,
-      "age_min": 19,
-      "age_max": 39,
-      "account_by_movein": true
-     },
-     {
-      "key": "주거급여수급자",
-      "name": "주거급여수급자",
-      "homeless": "household",
-      "income_pct": null,
-      "asset_manwon": null,
-      "car_manwon": null,
-      "age_min": null,
-      "age_max": null
-     }
-    ],
-    "quotes": {
-     "대학생": {
-      "car": "액 요건은 배제하나, 신청자 본인이 자동차가액 산출대상 자동차를 소유하고 있지 않을 것"
-     },
-     "청년": {
-      "income": "닐 것 ③ 【완화조건】 해당 세대의 소득요건 배제 ④ 【완화조건】",
-      "car": "가액 요건은 배제하나, 총 자산 중 자동차가액이 4,542만원 이하일 것 ⑤ 본인 입"
-     },
-     "주거급여수급자": {}
-    },
-    "income_table_100": null,
-    "unknown_groups": []
    }
   },
   {
@@ -13947,26 +13098,18 @@
     ],
     "quotes": {
      "대학생": {
-      "car": "액 요건은 배제하나, 신청자 본인이 자동차가액 산출대상 자동차를 소유하고 있지 않을 것",
-      "asset": "④ 【완화조건】 총자산가액 요건은 배제하나, 신청자 본인이 자동차가액 산출대상 자동차를 소유하고 있지 않을 것"
+      "asset": "건】 소득요건 배제 ④ 【완화조건】 총자산가액 요건은 배제하나, 신청자 본인이 자동차가액 산출대",
+      "car": "액 요건은 배제하나, 신청자 본인이 자동차가액 산출대상 자동차를 소유하고 있지 않을 것"
      },
      "청년": {
       "income": "닐 것 ③ 【완화조건】 해당 세대의 소득요건 배제 ④ 【완화조건】",
-      "car": "가액 요건은 배제하나, 총 자산 중 자동차가액이 4,542만원 이하일 것 ⑤ 본인 입",
-      "asset": "④ 【완화조건】 해당 세대의 총자산가액 요건은 배제하나, 총 자산 중 자동차가액이 4,542만원 이하일 것"
+      "asset": "배제 ④ 【완화조건】 해당 세대의 총자산가액 요건은 배제하나, 총 자산 중",
+      "car": "가액 요건은 배제하나, 총 자산 중 자동차가액이 4,542만원 이하일 것 ⑤ 본인 입"
      },
      "주거급여수급자": {}
     },
     "income_table_100": null,
-    "unknown_groups": [],
-    "ai": {
-     "fields": [
-      "대학생.asset_manwon",
-      "청년.asset_manwon"
-     ],
-     "model": "claude-session",
-     "at": "2026-11-20 08:53"
-    }
+    "unknown_groups": []
    },
    "api": {
     "CCR_CNNT_SYS_DS_CD": "03",
@@ -13981,57 +13124,6 @@
      "plumber"
     ],
     "conflicts": []
-   },
-   "terms_pre_ai": {
-    "relaxed": true,
-    "homeless_relaxed": false,
-    "homeless_max1": false,
-    "income_basis": "도시근로자 월평균소득",
-    "groups": [
-     {
-      "key": "대학생",
-      "name": "대학생",
-      "homeless": "self",
-      "income_pct": "excluded",
-      "asset_manwon": null,
-      "car_manwon": 0,
-      "age_min": null,
-      "age_max": null
-     },
-     {
-      "key": "청년",
-      "name": "청년",
-      "homeless": "self",
-      "income_pct": "excluded",
-      "asset_manwon": null,
-      "car_manwon": 4542,
-      "age_min": 19,
-      "age_max": 39,
-      "account_by_movein": true
-     },
-     {
-      "key": "주거급여수급자",
-      "name": "주거급여수급자",
-      "homeless": "household",
-      "income_pct": null,
-      "asset_manwon": null,
-      "car_manwon": null,
-      "age_min": null,
-      "age_max": null
-     }
-    ],
-    "quotes": {
-     "대학생": {
-      "car": "액 요건은 배제하나, 신청자 본인이 자동차가액 산출대상 자동차를 소유하고 있지 않을 것"
-     },
-     "청년": {
-      "income": "닐 것 ③ 【완화조건】 해당 세대의 소득요건 배제 ④ 【완화조건】",
-      "car": "가액 요건은 배제하나, 총 자산 중 자동차가액이 4,542만원 이하일 것 ⑤ 본인 입"
-     },
-     "주거급여수급자": {}
-    },
-    "income_table_100": null,
-    "unknown_groups": []
    }
   },
   {
@@ -15295,7 +14387,7 @@
      "complex": "김제대검산 1BL 국민임대주택",
      "apply_start": "2026-12-02",
      "apply_end": "2026-12-02",
-     "apply_time": "~",
+     "apply_time": "2026.12.02 10:00 ~ 2026.12.02 16:10",
      "docs_target": "2026-12-21",
      "docs_start": "2026-12-22",
      "docs_end": "2026-12-24",
@@ -15307,7 +14399,7 @@
      "complex": "김제검산(3)",
      "apply_start": "2026-12-02",
      "apply_end": "2026-12-02",
-     "apply_time": "~",
+     "apply_time": "2026.12.02 10:00 ~ 2026.12.02 23:59",
      "docs_target": "2026-12-21",
      "docs_start": "2026-12-22",
      "docs_end": "2026-12-24",
@@ -15319,19 +14411,7 @@
      "complex": "김제교동",
      "apply_start": "2026-12-02",
      "apply_end": "2026-12-02",
-     "apply_time": "~",
-     "docs_target": "2026-12-21",
-     "docs_start": "2026-12-22",
-     "docs_end": "2026-12-24",
-     "winner": "2027-03-10",
-     "contract_start": null,
-     "contract_end": null
-    },
-    {
-     "complex": "고창무장 1블록 국민임대주택",
-     "apply_start": "2026-12-01",
-     "apply_end": "2026-12-01",
-     "apply_time": "~",
+     "apply_time": "2026.12.02 10:00 ~ 2026.12.02 23:59",
      "docs_target": "2026-12-21",
      "docs_start": "2026-12-22",
      "docs_end": "2026-12-24",
@@ -15343,7 +14423,19 @@
      "complex": "고창황산 국민임대주택",
      "apply_start": "2026-12-01",
      "apply_end": "2026-12-01",
-     "apply_time": "~",
+     "apply_time": "2026.12.01 10:00 ~ 2026.12.01 23:59",
+     "docs_target": "2026-12-21",
+     "docs_start": "2026-12-22",
+     "docs_end": "2026-12-24",
+     "winner": "2027-03-10",
+     "contract_start": null,
+     "contract_end": null
+    },
+    {
+     "complex": "고창무장 1블록 국민임대주택",
+     "apply_start": "2026-12-01",
+     "apply_end": "2026-12-01",
+     "apply_time": "2026.12.01 10:00 ~ 2026.12.01 23:59",
      "docs_target": "2026-12-21",
      "docs_start": "2026-12-22",
      "docs_end": "2026-12-24",
@@ -16152,136 +15244,7 @@
      "신혼부부·한부모": {
       "income": "구원수별 가구 당 월평균소득의 100%(【완화조건】120%(2순위),150%(3순위)) … 2인인 경우 110% (【완화조건】 130%(2순위), 150%(3순위)) (신청 상한 = 3순위 비율)",
       "dual": "맞벌이 부부는 120%(【완화조건】 130%(2순위),150%(3순위))",
-      "car": ",500만원 이 하이고 총 자산 중 자동차가액이 4,542만원 이하 일 것 ⑤ 본인",
-      "asset": "해당 세대(예비신혼부부는 혼인으로 구성될 세대)가 보유하고 있는 총 자산가액 합산기준 34,500만원"
-     },
-     "고령자": {
-      "income": "가구원수별 가구당 월평균소득의 100% 이하 (【완화조건】 120%이하 (2순위), 150%이하 (3순위)) … 1인인 경우 120% (【완화조건】 140%(2순위), 150%(3순위)) · 2인인 경우 110% (【완화조건】 130%(2순위), 150%(3순위)) (신청 상한 = 3순위 비율)",
-      "asset": "7원)을 합산하여 산정 ② 해당 세대가 보유하고 있는 총 자산가액 합산기준 34,500만원 이하이고 총 자산 중",
-      "car": "4,500만원 이하이고 총 자산 중 자동차가액이 4,542만원 이하 일 것 ※ ‘고령"
-     },
-     "주거급여수급자": {}
-    },
-    "income_table_100": {
-     "3": 8168429,
-     "4": 8802202,
-     "5": 9326985,
-     "6": 9906263
-    },
-    "prewed_ok": true,
-    "unknown_groups": [],
-    "ai": {
-     "fields": [
-      "신혼부부·한부모.asset_manwon"
-     ],
-     "model": "claude-session",
-     "at": "2026-11-20 08:53"
-    }
-   },
-   "api": {
-    "CCR_CNNT_SYS_DS_CD": "03",
-    "SPL_INF_TP_CD": "063",
-    "UPP_AIS_TP_CD": "06",
-    "AIS_TP_CD": "10"
-   },
-   "read": {
-    "tools": [
-     "pypdf",
-     "pdfium",
-     "plumber"
-    ],
-    "conflicts": []
-   },
-   "terms_pre_ai": {
-    "relaxed": true,
-    "homeless_relaxed": false,
-    "homeless_max1": false,
-    "income_basis": "도시근로자 월평균소득",
-    "groups": [
-     {
-      "key": "대학생",
-      "name": "대학생",
-      "homeless": "self",
-      "income_pct": {
-       "1": 150,
-       "2": 150,
-       "3+": 150
-      },
-      "asset_manwon": 10800,
-      "car_manwon": 0,
-      "age_min": null,
-      "age_max": null
-     },
-     {
-      "key": "청년",
-      "name": "청년",
-      "homeless": "self",
-      "income_pct": {
-       "1": 150,
-       "2": 150,
-       "3+": 150
-      },
-      "asset_manwon": 25100,
-      "car_manwon": 4542,
-      "age_min": 19,
-      "age_max": 39,
-      "account_by_movein": true
-     },
-     {
-      "key": "신혼부부·한부모",
-      "name": "신혼부부·한부모",
-      "homeless": "household",
-      "income_pct": {
-       "1": null,
-       "2": 150,
-       "3+": 150
-      },
-      "asset_manwon": null,
-      "car_manwon": 4542,
-      "age_min": null,
-      "age_max": null,
-      "dual_add": 0,
-      "account_by_movein": true
-     },
-     {
-      "key": "고령자",
-      "name": "고령자",
-      "homeless": "household",
-      "income_pct": {
-       "1": 150,
-       "2": 150,
-       "3+": 150
-      },
-      "asset_manwon": 34500,
-      "car_manwon": 4542,
-      "age_min": 65,
-      "age_max": null
-     },
-     {
-      "key": "주거급여수급자",
-      "name": "주거급여수급자",
-      "homeless": "household",
-      "income_pct": null,
-      "asset_manwon": null,
-      "car_manwon": null,
-      "age_min": null,
-      "age_max": null
-     }
-    ],
-    "quotes": {
-     "대학생": {
-      "income": "일반조건 (1순위) 완화조건 (2순위) 완화조건 (3순위) 1인 4,576,036원 이하 120% 5,338,708원 이하 140% 5,720,045원 이하 150% 2인 6,452,897원 이하 110% 7,626,151원 이하 130% 8,799,405원 이하 150% 3인 8,16 (신청 상한 = 3순위 칸)",
-      "asset": "8,917원) 을 합산하여 산정 ④ 신청자 본인의 총 자산가액 합산기준이 10,800만원 이하이고 자동차가액 산",
-      "car": "합산기준이 10,800만원 이하이고 자동차가액 산출대상 자동차를 소유하고 있지 않을 것"
-     },
-     "청년": {
-      "income": "가구원수별 가구당 월평균소득의 100%이하 (【완화조건】 120%이하 (2순위), 150%이하 (3순위)) … 1인인 경우 120% (【완화조건】 140%(2순위), 150%(3순위)) · 2인인 경우 110% (【완화조건】 130%(2순위), 150%(3순위)) (신청 상한 = 3순위 비율)",
-      "asset": "7원) 을 합산하여 산정 ④ 해당세대가 보유하고 있는 총 자산가액 합산기준 25,100만원 이하이고 총 자산 중",
-      "car": "5,100만원 이하이고 총 자산 중 자동차가액이 4,542만원 이하 일 것 ⑤ 본인"
-     },
-     "신혼부부·한부모": {
-      "income": "구원수별 가구 당 월평균소득의 100%(【완화조건】120%(2순위),150%(3순위)) … 2인인 경우 110% (【완화조건】 130%(2순위), 150%(3순위)) (신청 상한 = 3순위 비율)",
-      "dual": "맞벌이 부부는 120%(【완화조건】 130%(2순위),150%(3순위))",
+      "asset": "예비신혼부부는 혼인으로 구성될 세대)가 보유하고 있는 총 자산가액 합산기준 34,500만원 이 하이고 총 자산 중",
       "car": ",500만원 이 하이고 총 자산 중 자동차가액이 4,542만원 이하 일 것 ⑤ 본인"
      },
      "고령자": {
@@ -16299,6 +15262,20 @@
     },
     "prewed_ok": true,
     "unknown_groups": []
+   },
+   "api": {
+    "CCR_CNNT_SYS_DS_CD": "03",
+    "SPL_INF_TP_CD": "063",
+    "UPP_AIS_TP_CD": "06",
+    "AIS_TP_CD": "10"
+   },
+   "read": {
+    "tools": [
+     "pypdf",
+     "pdfium",
+     "plumber"
+    ],
+    "conflicts": []
    }
   },
   {
@@ -17012,9 +15989,6 @@
      "sigun": null,
      "quote": "신 청 자 격 입주자 모집공고일(2026.11.19.) 현재 서울특별시에 거주하는 성년자인 무주택세대구성원"
     },
-    "loose": [
-     "local"
-    ],
     "ai": {
      "fields": [
       "일반.income_pct",
@@ -17037,10 +16011,7 @@
      "pdfium",
      "plumber"
     ],
-    "conflicts": [],
-    "loose": [
-     "local"
-    ]
+    "conflicts": []
    },
    "terms_pre_ai": {
     "relaxed": false,
@@ -17068,10 +16039,7 @@
      "sido": "서울",
      "sigun": null,
      "quote": "신 청 자 격 입주자 모집공고일(2026.11.19.) 현재 서울특별시에 거주하는 성년자인 무주택세대구성원"
-    },
-    "loose": [
-     "local"
-    ]
+    }
    }
   },
   {
