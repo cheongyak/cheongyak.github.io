@@ -1807,7 +1807,9 @@ def notice_facts(text: str, prices_man: Optional[dict] = None) -> dict:
     tw = re.sub(r"\s+", " ", text)
     run = lambda pat: {int(v.replace(",", "")) for m in re.finditer(pat, tw) for v in re.findall(r"([\d,]+)천원", m.group(1))}
     re_loose = {int(x.replace(",", "")) for x in re.findall(r"부동산[^\n]{0,40}?([\d]{2,3},\d{3})천원\s?이하", t)}
-    car_loose = {int(x.replace(",", "")) for x in re.findall(r"자동차[^\n]{0,40}?([\d]{2},\d{3})천원\s?이하", t)}
+    # 금액 앞자리 경계 (?<![\d,]) — 요약 표 한 줄 '(부동산,자동차) 해당 없음 (세대) 부동산 215,500천원 이하 자동차 45,420천원 이하'에서
+    # 부동산 금액의 뒤 다섯 자리 '15,500'을 자동차 기준으로 잘라 읽던 것 (고창 데시앙 2·3블록 공공분양 2026000598·597, 2026-11-21 아침 자동 고치기 — 거짓 '공고문 대조')
+    car_loose = {int(x.replace(",", "")) for x in re.findall(r"자동차[^\n]{0,40}?(?<![\d,])([\d]{2},\d{3})천원\s?이하", t)}
     assets = {"부동산": sorted(re_loose | run(r"부동산\s?\(\s?건물\s?\+\s?토지\s?\)\s?((?:\d{2,3},\d{3}천원\s?이하\s?){1,4})")),
               "자동차": sorted(car_loose | run(r"자동차\s?((?:\d{2},\d{3}천원\s?이하\s?){1,4})")),
               "부동산_만원": sorted({int(a) * 10000 + int(b.replace(",", "")) for a, b in re.findall(r"부동산가액\s?(\d)억\s?([\d,]{1,5})만원\s?이하", t)})}
