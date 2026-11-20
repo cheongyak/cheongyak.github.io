@@ -2,7 +2,7 @@
 
 docs/ 아래 정적 페이지를 모두 읽어 본다:
   ① 산문 길이: <main> 글자에서 표·구조화 데이터·이동 경로를 뺀 글자 수 — 지금 공고 페이지·가이드 1,500자 이상
-  ② 금지어: 무조건·꼭 넣으세요·당첨 가능성 높아요·추천 ('기관추천' 제도 이름·'비추천' 등급 이름은 뺌)
+  ② 금지어: 무조건·꼭 넣으세요·당첨 가능성 높아요·추천 ('기관추천' 제도 이름·'비추천' 등급 이름·LH 첨부 서식 '입주추천신청서' 이름은 뺌, 2026-11-21)
   ③ 깨진 내부 링크 0: href="/…" 가 docs 안 파일로 이어지는지 (앱 주소 /#/… 는 앱 화면이라 뺌)
   ④ 구조화 데이터(JSON-LD)가 JSON 으로 읽히는지, 공고 페이지에 FAQPage·BreadcrumbList 가 있는지
   ⑤ sitemap.xml 에 모든 페이지가 있는지, lastmod 가 있는지
@@ -22,7 +22,7 @@ from urllib.parse import unquote, urlparse
 
 ROOT = Path(__file__).resolve().parents[2]
 DOCS = ROOT / "docs"
-FORBID = re.compile(r"무조건|꼭 넣으세요|당첨 가능성(이)? ?(높|크)|(?<!기관)(?<!비)추천")
+FORBID = re.compile(r"무조건|꼭 넣으세요|당첨 가능성(이)? ?(높|크)|(?<!기관)(?<!비)(?<!입주)추천")
 SKIP_DIRS = {"bot", "chat-notice", "archive"}
 MIN_PROSE = 1500
 
