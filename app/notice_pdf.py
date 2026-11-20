@@ -1423,6 +1423,11 @@ def _resale_table_agrees(flat: str, base: str, unit: str, n: str) -> bool:
         d = g[0:3] if g[0] else g[3:6]
         if d[0] and f"{d[0]}-{int(d[1]):02d}-{int(d[2]):02d}" == base and g[6] == unit and int(g[7]) == int(n):
             return True
+    # 날짜가 단위 뒤로 밀린 표 칸 '최초 당첨자발표일 로부터 개월(2026.10.26.) 6' (2026910298 광산구 하산동 무순위, 2026-11-21 아침 자동 고치기)
+    for t in re.finditer(r"최초당첨자발표일로부터(개월|년)\((\d{4})\.(\d{1,2})\.(\d{1,2})\.?\)(\d{1,2})(?!\d)", flat):
+        g = t.groups()
+        if f"{g[1]}-{int(g[2]):02d}-{int(g[3]):02d}" == base and g[0] == unit and int(g[4]) == int(n):
+            return True
     return False
 
 
@@ -1492,6 +1497,9 @@ def parse_resale(flat: str) -> Optional[dict]:
         #  2026930046 광주 송정 중흥S-클래스 파크뷰 '전매제한은 최초 입주자모집공고의 당첨자발표일 로부터 개월간 적용되어 현재 전매제한 기간이 도과하였습니다(2022.12.20.) 6 .'
         #  밀린 숫자가 기간인지 스스로 확인한다: 1쪽 '단지 주요정보' 표의 전매제한 칸(같은 날짜·같은 단위·같은 숫자)과 맞을 때만 읽는다(_resale_table_agrees).
         (head + _D + r"(?:로부터|부터)(개월|년)간?(\d{1,2})(?!\d)적용됩니다",
+         lambda m: _resale_table_agrees(flat, _rs_ymd(m, 1), m.group(4), m.group(5)) and {"months": mon(m.group(5), m.group(4)), "base": _rs_ymd(m, 1), "passed": False}),
+        #  2026910298 광산구 하산동 무순위 '전매제한은 최초 입주자모집공고의 당첨자발표일 로부터 (2026.10.26.) 개월간 적용됩니다6 .' — 날짜가 '로부터' 뒤, 숫자는 문장 끝 (2026-11-21 아침 자동 고치기)
+        (head + r"(?:로부터|부터)" + _D + r"(개월|년)간?적용됩니다(\d{1,2})(?!\d|[,.]\d)",
          lambda m: _resale_table_agrees(flat, _rs_ymd(m, 1), m.group(4), m.group(5)) and {"months": mon(m.group(5), m.group(4)), "base": _rs_ymd(m, 1), "passed": False}),
         (head + r"(?:로부터|부터)(개월|년)간적용되어현재전매제한기간이?도과하였습니다" + _D + r"(\d{1,2})(?!\d|[,.]\d)",
          lambda m: _resale_table_agrees(flat, _rs_ymd(m, 2), m.group(1), m.group(5)) and {"months": mon(m.group(5), m.group(1)), "base": _rs_ymd(m, 2), "passed": True}),
