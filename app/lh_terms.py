@@ -651,7 +651,8 @@ def parse_local(t: str, region: Optional[str]) -> Optional[dict]:
     mg = re.search(r"신청자격\s?입주자\s?모집공고일\s?\([\d.\s]+\)\s?현재\s?전남광주통합특별시\s?((?:[가-힣]{1,3}구,?\s?){1,5})에\s?거주하는\s?성년자인\s?무주택세대구성원", t)
     if mg and set(re.findall(r"[가-힣]{1,3}구", mg.group(1))) == set(GWANGJU_GU):
         return {"name": "광주(통합특별시 " + "·".join(g[:-1] for g in GWANGJU_GU) + "구)", "sido": "광주", "sigun": None, "quote": _q(t, mg, 0, 0)}
-    m = re.search(r"신청자격\s?입주자\s?모집공고일\s?\([\d.\s]+\)\s?현재\s?(?:주민등록상\s?)?(?:(" + _SIDO_PRE + r")\s)?([가-힣]{1,10}?)(?:에\s?거주하는|에\s?주민등록이\s?등재된)\s?성년자인\s?무주택세대구성원", t)
+    # '3. 신 청 자 격 입주자 모집공고일(2026.11.19.) 현재 서울특별시에 거주하는 성년자인 무주택세대구성원' — 제목 글자 사이 띄어쓰기 (서울 영구임대 2015122300021109, 2026-11-20 아침 자동 고치기)
+    m = re.search(r"신\s?청\s?자\s?격\s?입주자\s?모집공고일\s?\([\d.\s]+\)\s?현재\s?(?:주민등록상\s?)?(?:(" + _SIDO_PRE + r")\s)?([가-힣]{1,10}?)(?:에\s?거주하는|에\s?주민등록이\s?등재된)\s?성년자인\s?무주택세대구성원", t)
     if not m:
         return None
     pre, nm = m.group(1), m.group(2)
