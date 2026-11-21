@@ -13,10 +13,10 @@
    "effort": "S",
    "status": "parked",
    "first_seen": "2026-11-04",
-   "last_seen": "2026-11-20",
+   "last_seen": "2026-11-21",
    "tries": 0,
    "pr": null,
-   "notes": "고칠 방향 후보: 이슈 제목을 실제 원인(못 읽은 공고·판정 불일치·수집 멈춤)으로, 같은 원인이면 새 이슈 대신 열린 이슈에 댓글. 이슈를 닫는 것은 운영자 몫(고정 규칙 7) · 2026-11-04 밤 parked: 고칠 곳이 .github/workflows/verify.yml 뿐이라 루프가 못 고침(고정 규칙 6). 운영자 판단 필요: 손으로 일하는 세션에 '원인별 제목·같은 원인이면 열린 이슈에 댓글'을 맡기기 · 11-13: #129·#130 새로 열림(판정 974/974, #130 본문은 빈 코드 블록 — verify.yml 이슈 본문이 원인을 못 담음). 여전히 workflows 몫 · 11-16: #132~#142 11건 새로 열림(모두 974/974, 오후 판정 검증 성공·verify ok=true). 여전히 workflows 몫 · 11-19 열린 것 #150~#152(사례 980/980, 원인은 새 임대 공고 3건 못 읽음 — 손 세션이 답 파일로 메움, 읽기 규칙은 lh-unread·아침 몫, 닫기는 운영자 허락)",
+   "notes": "고칠 방향 후보: 이슈 제목을 실제 원인(못 읽은 공고·판정 불일치·수집 멈춤)으로, 같은 원인이면 새 이슈 대신 열린 이슈에 댓글. 이슈를 닫는 것은 운영자 몫(고정 규칙 7) · 2026-11-04 밤 parked: 고칠 곳이 .github/workflows/verify.yml 뿐이라 루프가 못 고침(고정 규칙 6). 운영자 판단 필요: 손으로 일하는 세션에 '원인별 제목·같은 원인이면 열린 이슈에 댓글'을 맡기기 · 11-13: #129·#130 새로 열림(판정 974/974, #130 본문은 빈 코드 블록 — verify.yml 이슈 본문이 원인을 못 담음). 여전히 workflows 몫 · 11-16: #132~#142 11건 새로 열림(모두 974/974, 오후 판정 검증 성공·verify ok=true). 여전히 workflows 몫 · 11-19 열린 것 #150~#152(사례 980/980, 원인은 새 임대 공고 3건 못 읽음 — 손 세션이 답 파일로 메움, 읽기 규칙은 lh-unread·아침 몫, 닫기는 운영자 허락) · 11-21 열린 것 #160·#161 — 원인은 계약금 점검(pay_audit) 거짓 경보, 손 세션이 11:00 고침(HANDOFF -130), 닫기는 운영자 허락",
    "success_check": null
   },
   {
@@ -203,7 +203,7 @@
    "effort": "S",
    "status": "open",
    "first_seen": "2026-11-04",
-   "last_seen": "2026-11-20",
+   "last_seen": "2026-11-21",
    "tries": 0,
    "pr": null,
    "success_check": null,
@@ -433,7 +433,7 @@
    "reach": 2,
    "confidence": 3,
    "effort": "S",
-   "status": "merged",
+   "status": "merged_effective",
    "first_seen": "2026-11-11",
    "last_seen": "2026-11-16",
    "tries": 0,
@@ -442,7 +442,7 @@
     "how": "합친 뒤 수집 후 docs/listings.json 2026000528 주택형 residence_duty, docs/verify-status.json ok, run-log [검증·정답 불일치]",
     "expect": "residence_duty 5 · ok true · 정답 불일치 0"
    },
-   "notes": "토지임대부·지분적립형은 일부러 안 읽음(다른 눈 검토) — manual:jeonse-landlease-equity 참고 · 11-13 main(PARSER 58)과 충돌 → origin/main 을 합치는 커밋으로 풀고(강제 push 없이) PARSER 59, pytest 511·judge 976/976·snapshot 0 · 11-17 22:11 UTC 합침(운영자 '합쳐'), 기록은 손 세션 WORK.md 11-18 07:05 v1.91.3·PARSER 60 · 11-20: 효과 확인은 합친 지 3일 지나는 다음 밤(11-21)"
+   "notes": "토지임대부·지분적립형은 일부러 안 읽음(다른 눈 검토) — manual:jeonse-landlease-equity 참고 · 11-13 main(PARSER 58)과 충돌 → origin/main 을 합치는 커밋으로 풀고(강제 push 없이) PARSER 59, pytest 511·judge 976/976·snapshot 0 · 11-17 22:11 UTC 합침(운영자 '합쳐'), 기록은 손 세션 WORK.md 11-18 07:05 v1.91.3·PARSER 60 · 11-20: 효과 확인은 합친 지 3일 지나는 다음 밤(11-21) · 11-21 효과 확인: listings 2026000528 세 주택형 residence_duty 5, verify ok=true, [검증·정답] 모두 일치"
   },
   {
    "key": "manual:jeonse-landlease-equity",
@@ -472,7 +472,7 @@
    "reach": 1,
    "confidence": 3,
    "effort": "S",
-   "status": "merged",
+   "status": "merged_effective",
    "first_seen": "2026-11-12",
    "last_seen": "2026-11-16",
    "tries": 0,
@@ -481,7 +481,7 @@
     "how": "python -m pytest -q tests/test_residence.py · 합친 뒤 수집 run-log [검증·정답] 줄",
     "expect": "통과 · '정답 데이터와 모두 일치해요'(553 불일치 없음)"
    },
-   "notes": "SH 313161·311965 읽기 규칙(본 처리)은 unread_queue 에 있어 아침 자동 고치기 몫이라 고르지 않음 · 11-17 22:11 UTC 합침(운영자 '합쳐'), 기록은 손 세션 WORK.md 11-18 07:05 v1.91.3·PARSER 60 · 11-20: 효과 확인은 합친 지 3일 지나는 다음 밤(11-21)"
+   "notes": "SH 313161·311965 읽기 규칙(본 처리)은 unread_queue 에 있어 아침 자동 고치기 몫이라 고르지 않음 · 11-17 22:11 UTC 합침(운영자 '합쳐'), 기록은 손 세션 WORK.md 11-18 07:05 v1.91.3·PARSER 60 · 11-20: 효과 확인은 합친 지 3일 지나는 다음 밤(11-21) · 11-21 효과 확인: run-log 649줄 '[검증·정답] 정답 데이터와 모두 일치해요', 요약 정답 불일치 0"
   },
   {
    "key": "manual:duty-not-applied-sentence",
@@ -493,7 +493,7 @@
    "reach": 2,
    "confidence": 3,
    "effort": "S",
-   "status": "merged",
+   "status": "merged_effective",
    "first_seen": "2026-11-13",
    "last_seen": "2026-11-16",
    "tries": 1,
@@ -502,7 +502,7 @@
     "how": "합친 뒤 수집 후 docs/listings.json 2026000530·532 주택형의 residence_duty 와 notice_quotes.residence_duty",
     "expect": "residence_duty 0, 근거 문장에 '거주의무기간이 적용되지 않습니다' 포함"
    },
-   "notes": "같은 조사에서 남은 것: 2026000472 구리갈매 1쪽 표 '년10 년 3 년 3 적용'(뒤섞인 꼴, 본문 문장 없음 — 283 과 같은 꼴이라 고르지 않음) · 533·820013·820014 는 duty_silent(공고문에 거주의무 없음) · 373·527 은 토지임대부·지분적립형(PR #123 이 일부러 뺌, jeonse parked) · 11-17 22:11 UTC 합침(운영자 '합쳐'), 기록은 손 세션 WORK.md 11-18 07:05 v1.91.3·PARSER 60 · 11-20: 효과 확인은 합친 지 3일 지나는 다음 밤(11-21)"
+   "notes": "같은 조사에서 남은 것: 2026000472 구리갈매 1쪽 표 '년10 년 3 년 3 적용'(뒤섞인 꼴, 본문 문장 없음 — 283 과 같은 꼴이라 고르지 않음) · 533·820013·820014 는 duty_silent(공고문에 거주의무 없음) · 373·527 은 토지임대부·지분적립형(PR #123 이 일부러 뺌, jeonse parked) · 11-17 22:11 UTC 합침(운영자 '합쳐'), 기록은 손 세션 WORK.md 11-18 07:05 v1.91.3·PARSER 60 · 11-20: 효과 확인은 합친 지 3일 지나는 다음 밤(11-21) · 11-21 효과 확인: 530·532 모든 주택형 residence_duty 0, 근거 문장에 '거주의무기간이 적용되지 않습니다' 포함"
   },
   {
    "key": "manual:schedule-late",
@@ -534,7 +534,7 @@
    "effort": "S",
    "status": "merged",
    "first_seen": "2026-11-16",
-   "last_seen": "2026-11-20",
+   "last_seen": "2026-11-21",
    "tries": 0,
    "pr": 147,
    "success_check": {
@@ -610,11 +610,11 @@
    "effort": "M",
    "status": "open",
    "first_seen": "2026-11-20",
-   "last_seen": "2026-11-20",
+   "last_seen": "2026-11-21",
    "tries": 0,
    "pr": null,
    "success_check": null,
-   "notes": " · 11-20: tools.qa.unread_queue 목록에 있음(102·118㎡ 비율 표) → 아침 자동 고치기 몫, 루프가 고르지 않음. 아침 기록: 법령 추정 0:100 이 원문 표와 같음(값은 맞음)",
+   "notes": " · 11-20: tools.qa.unread_queue 목록에 있음(102·118㎡ 비율 표) → 아침 자동 고치기 몫, 루프가 고르지 않음. 아침 기록: 법령 추정 0:100 이 원문 표와 같음(값은 맞음) · 11-21: 여전히 unread_queue(102·118㎡) — 아침 몫",
    "owner": "아침 자동 고치기"
   },
   {
