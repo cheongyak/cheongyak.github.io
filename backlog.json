@@ -1,5 +1,5 @@
 {
- "updated": "2026-11-20",
+ "updated": "2026-11-22",
  "items": [
   {
    "key": "issues:판정 검증 실패",
@@ -203,7 +203,7 @@
    "effort": "S",
    "status": "open",
    "first_seen": "2026-11-04",
-   "last_seen": "2026-11-21",
+   "last_seen": "2026-11-22",
    "tries": 0,
    "pr": null,
    "success_check": null,
@@ -214,18 +214,18 @@
    "title": "열린 이슈 '수집 알림' 1건",
    "area": "ops",
    "source": "GitHub 열린 이슈",
-   "evidence": "번호 [153]",
+   "evidence": "번호 [162]",
    "severity": "P2",
    "reach": 2,
    "confidence": 2,
    "effort": "S",
    "status": "open",
    "first_seen": "2026-11-04",
-   "last_seen": "2026-11-20",
+   "last_seen": "2026-11-22",
    "tries": 0,
    "pr": null,
    "success_check": null,
-   "notes": " · #31 손으로 닫음(11-05) · 11-10: 원인 해결됨, 닫기는 운영자 몫 — 고칠 코드 없음"
+   "notes": " · #31 손으로 닫음(11-05) · 11-10: 원인 해결됨, 닫기는 운영자 몫 — 고칠 코드 없음 · 11-22: #162 원인(천안라크원 비율 표)은 아침 v1.91.12 로 고쳐짐, 닫기는 운영자 허락 대기"
   },
   {
    "key": "runlog:[경고] 청약홈에서 공고를 0건 받았어요",
@@ -312,12 +312,12 @@
    "reach": 1,
    "confidence": 2,
    "effort": "M",
-   "status": "open",
+   "status": "gone",
    "first_seen": "2026-11-06",
    "last_seen": "2026-11-06",
    "tries": 0,
    "pr": null,
-   "notes": "",
+   "notes": " · 11-22: 14일 넘게 신호 없음 → gone",
    "success_check": null,
    "owner": "아침 자동 고치기"
   },
@@ -352,13 +352,13 @@
    "reach": 1,
    "confidence": 3,
    "effort": "S",
-   "status": "open",
+   "status": "gone",
    "first_seen": "2026-11-07",
    "last_seen": "2026-11-07",
    "tries": 0,
    "pr": null,
    "success_check": null,
-   "notes": "stale:LH 주거복지·신혼희망 과 같은 원인. 닫기는 운영자 몫"
+   "notes": "stale:LH 주거복지·신혼희망 과 같은 원인. 닫기는 운영자 몫 · 11-22: 14일 넘게 신호 없음 → gone"
   },
   {
    "key": "audit:2026910283:실거주 의무",
@@ -532,7 +532,7 @@
    "reach": 1,
    "confidence": 3,
    "effort": "S",
-   "status": "merged",
+   "status": "merged_effective",
    "first_seen": "2026-11-16",
    "last_seen": "2026-11-21",
    "tries": 0,
@@ -541,7 +541,7 @@
     "how": "docs/listings.json 2026820015 limits '재당첨 제한' · docs/run-log.txt [검증·정답 불일치]",
     "expect": "'10년' · 정답 불일치 0"
    },
-   "notes": "11-16 새 신호. 열린 루프 PR 3개라 오늘은 못 고름. 다음 밤 1순위 후보 — 단 아침 자동 고치기가 먼저 고쳤는지 확인 · 11-18 원문 40·41·154·157줄로 재현(1년), 고쳐 PR #147 · 11-19 03:05Z 운영자 합침, 기록은 손 세션이 씀(WORK.md 11-19 12:01 v1.91.7, release/v1.91.7 있음). 효과 확인은 11-22 03:05Z 이후 · 11-20: 효과 확인은 합친 지 3일 지나는 11-22 밤(11-19 03:05Z 합침)"
+   "notes": "11-16 새 신호. 열린 루프 PR 3개라 오늘은 못 고름. 다음 밤 1순위 후보 — 단 아침 자동 고치기가 먼저 고쳤는지 확인 · 11-18 원문 40·41·154·157줄로 재현(1년), 고쳐 PR #147 · 11-19 03:05Z 운영자 합침, 기록은 손 세션이 씀(WORK.md 11-19 12:01 v1.91.7, release/v1.91.7 있음). 효과 확인은 11-22 03:05Z 이후 · 11-20: 효과 확인은 합친 지 3일 지나는 11-22 밤(11-19 03:05Z 합침) · 11-22 효과 확인: listings.json 2026820015 재당첨 제한 10년, run-log 정답 불일치 0"
   },
   {
    "key": "idea:household-owner-clarity",
@@ -614,7 +614,7 @@
    "tries": 0,
    "pr": null,
    "success_check": null,
-   "notes": " · 11-20: tools.qa.unread_queue 목록에 있음(102·118㎡ 비율 표) → 아침 자동 고치기 몫, 루프가 고르지 않음. 아침 기록: 법령 추정 0:100 이 원문 표와 같음(값은 맞음) · 11-21: 여전히 unread_queue(102·118㎡) — 아침 몫",
+   "notes": " · 11-20: tools.qa.unread_queue 목록에 있음(102·118㎡ 비율 표) → 아침 자동 고치기 몫, 루프가 고르지 않음. 아침 기록: 법령 추정 0:100 이 원문 표와 같음(값은 맞음) · 11-21: 여전히 unread_queue(102·118㎡) — 아침 몫 · 11-22: 아침 자동 고치기 v1.91.12(PARSER 67)가 고침, 신호 사라짐",
    "owner": "아침 자동 고치기"
   },
   {
