@@ -1,8 +1,122 @@
 {
- "updated": "2026-11-23 07:50",
+ "updated": "2026-11-23 11:00",
  "source": "SH 인터넷청약시스템 공고 및 공지 > 주택임대 (서울주택도시개발공사)",
- "count": 15,
+ "count": 17,
  "notices": [
+  {
+   "id": "SH-313481",
+   "org": "SH",
+   "name": "NEW [청년형] 특화형 매입임대주택(서초구) 입주자 모집 공고(운영기관 : 마을과집 협동조합)",
+   "type": "청년 매입임대",
+   "youth": true,
+   "judge_type": true,
+   "region": "서울특별시",
+   "posted": "2026-11-23",
+   "close": "2026-11-27",
+   "status": null,
+   "url": "https://www.i-sh.co.kr/main/lay2/program/S1T294C297/www/brd/m_247/view.do?multi_itm_seq=2&seq=313481",
+   "url_mobile": "https://www.i-sh.co.kr/app/lay2/program/S48T1581C563/www/brd/m_247/view.do?multi_itm_seq=2&seq=313481",
+   "schedule": [
+    {
+     "complex": null,
+     "apply_start": "2026-11-23",
+     "apply_end": "2026-11-27",
+     "docs_target": null,
+     "winner": null,
+     "rank1": false,
+     "quote": "서류접수 2026.11.23. ~ 2026.11.27."
+    }
+   ],
+   "complexes": [],
+   "units": [],
+   "rents": [],
+   "terms": {
+    "sh": true,
+    "income_basis": "도시근로자 월평균소득",
+    "birth_bonus": "none",
+    "relaxed": false,
+    "homeless_relaxed": false,
+    "groups": [
+     {
+      "key": "청년",
+      "name": "청년(미혼)",
+      "age_min": 19,
+      "age_max": 39,
+      "homeless": "self",
+      "income_household": true,
+      "hh_home_scan": true,
+      "income_pct": {
+       "1": 120,
+       "2": 110,
+       "3+": 100
+      },
+      "asset_manwon": 34500,
+      "car_manwon": 4542
+     }
+    ],
+    "issues": []
+   },
+   "files": [
+    {
+     "kind": "PDF 공고문",
+     "name": "[마을과집]SH특화형 매입임대주택(청년) 입주자 모집 공고문_20261123.pdf",
+     "url": "https://www.i-sh.co.kr/com/file/innoFD.do?brdId=GS0401&seq=313481&fileSeq=1&fileTp=A"
+    }
+   ],
+   "notice_pdf": "https://www.i-sh.co.kr/com/file/innoFD.do?brdId=GS0401&seq=313481&fileSeq=1&fileTp=A",
+   "notice_text": 24861,
+   "office": {
+    "place": null,
+    "tel": null
+   }
+  },
+  {
+   "id": "SH-313647",
+   "org": "SH",
+   "name": "NEW [토지임대부 사회주택] 옥류서원 입주자 모집 공고문",
+   "type": "사회주택",
+   "youth": false,
+   "judge_type": false,
+   "region": "서울특별시",
+   "posted": "2026-11-23",
+   "close": "2026-11-30",
+   "status": null,
+   "url": "https://www.i-sh.co.kr/main/lay2/program/S1T294C297/www/brd/m_247/view.do?multi_itm_seq=2&seq=313647",
+   "url_mobile": "https://www.i-sh.co.kr/app/lay2/program/S48T1581C563/www/brd/m_247/view.do?multi_itm_seq=2&seq=313647",
+   "schedule": [
+    {
+     "complex": null,
+     "apply_start": "2026-11-23",
+     "apply_end": "2026-11-30",
+     "docs_target": null,
+     "winner": null,
+     "rank1": false,
+     "quote": "신청서 접수 2026.11.23(월) ~ 2026.11.30"
+    }
+   ],
+   "complexes": [],
+   "units": [],
+   "rents": [],
+   "terms": null,
+   "files": [
+    {
+     "kind": "PDF 공고문",
+     "name": "옥류서원 입주자모집공고문.pdf",
+     "url": "https://www.i-sh.co.kr/com/file/innoFD.do?brdId=GS0401&seq=313647&fileSeq=3&fileTp=A"
+    },
+    {
+     "kind": "첨부",
+     "name": "[별지1~3] 옥류서원 입주신청서양식 (261123).docx",
+     "url": "https://www.i-sh.co.kr/com/file/innoFD.do?brdId=GS0401&seq=313647&fileSeq=4&fileTp=A"
+    }
+   ],
+   "notice_pdf": "https://www.i-sh.co.kr/com/file/innoFD.do?brdId=GS0401&seq=313647&fileSeq=3&fileTp=A",
+   "notice_text": 11653,
+   "office": {
+    "place": null,
+    "tel": null
+   }
+  },
   {
    "id": "SH-313509",
    "org": "SH",
