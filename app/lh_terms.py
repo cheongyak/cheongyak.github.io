@@ -171,6 +171,7 @@ def unknown_happy_groups(t: str) -> list[str]:
 
 
 _RLX = r"(\d{2,3})\s?%\s?(?:이하\s?)?\(\s?【완화조건】\s?(\d{2,3})\s?%\s?(?:이하\s?)?\(\s?2순위\s?\)\s?,\s?(\d{2,3})\s?%\s?(?:이하\s?)?\(\s?3순위\s?\)\s?\)"
+_RLX_D = r"(\d{2,3})\s?%\s?\(\s?【완화조건】\s?(\d{2,3})\s?%\s?\(\s?2순위\s?\)\s?,\s?(\d{2,3})\s?%\s?\(\s?3순위\s?\)\s?이하\s?\)"   # 맞벌이 괄호 '…150%(3순위)이하)' (2015122300021130)
 
 
 def _relaxed_happy_table(s: str, key: str):
@@ -212,6 +213,14 @@ def _relaxed_happy_income(seg: str, key: str):
     dual = dq = None
     if key == "신혼부부·한부모" and ok(md := re.search(r"맞\s?벌\s?이\s?(?:부부|신혼부부)\s?(?:는\s?)?" + _RLX, s)):
         dual, dq = int(md.group(3)) - pct["3+"], md.group(0)
+    elif key == "신혼부부·한부모" and ok(md := re.search(r"맞\s?벌\s?이\s?(?:부부|신혼부부)\s?(?:는\s?)?" + _RLX_D, s)):
+        # '(맞벌이 부부 120%(【완화조건】130%(2순위),150%(3순위)이하)일 것' — 닫는 괄호 앞에 '이하'가 낀 꼴 (수원 호매실21·고등2 행복 자격완화 2015122300021130,
+        # 2026-11-24 아침 자동 고치기: 이 꼴을 몰라 아래 일반 문장 규칙이 일반조건 120% − 3순위 150% = −30 으로 읽었음).
+        # '맞벌이 2인가구의 경우 130% (【완화조건】 140%(2순위), 150%(3순위))' 문장이 있으면 그 3순위 − 2인 상한이 같은 가산일 때만 받는다
+        d = int(md.group(3)) - pct["3+"]
+        m2d = re.search(r"맞\s?벌\s?이\s?2인\s?가구(?:의|인)?\s?경우(?:에는)?\s?" + _RLX, s)
+        if not m2d or (ok(m2d) and int(m2d.group(3)) - pct["2"] == d):
+            dual, dq = d, md.group(0)
     return pct, quote + " (신청 상한 = 3순위 비율)", dual, dq
 
 
@@ -299,7 +308,8 @@ def _happy_groups(t: str) -> tuple[list[dict], dict]:
         if re.search(r"입주\s?전까지[^.]{0,40}주택청약종합저\s?축", seg_main):   # PDF 줄바꿈 '주택청약종합저 축'(포항블루밸리 963·과천 S12 960 신혼부부, 2026-10-31)
             g["account_by_movein"] = True   # 본인(또는 배우자) 입주 전까지 주택청약종합저축(청약저축 포함) 가입사실 증명
         if key == "신혼부부·한부모" and "dual_add" not in g and isinstance(g["income_pct"], dict) and g["income_pct"].get("3+") and \
-                (md := re.search(r"맞\s?벌\s?이\s?(?:부부|신혼부부)\s?(?:는\s?)?(\d{3})\s?(?:퍼센트|%)", seg_main)):
+                (md := re.search(r"맞\s?벌\s?이\s?(?:부부|신혼부부)\s?(?:는\s?)?(\d{3})\s?(?:퍼센트|%)(?!\s?\(\s?【완화조건】)", seg_main)):
+            # 뒤에 '(【완화조건】 …)'이 붙은 숫자는 일반조건(1순위) 비율이라 3순위 상한과 빼면 안 된다 — 완화 꼴은 위 _relaxed_happy_income 이 읽는다 (2015122300021130)
             g["dual_add"] = int(md.group(1)) - g["income_pct"]["3+"]   # '(맞벌이 부부 120퍼센트 이하)' — 공고문에서 읽은 가산 (못 읽으면 화면은 가산 없이 판정하고 가산 구간은 확인)
             q["dual"] = _q(seg_main, md, 20, 20)
         groups.append(g); quotes[key] = q
