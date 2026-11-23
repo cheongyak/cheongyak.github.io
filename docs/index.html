@@ -561,6 +561,22 @@ const RULES = {
   dsr: 0.40, stressRate: 0.07, years: 30,                 // DSR, 심사 금리 가정(기본 4% + 스트레스 3%), 만기
   dutyDeferralYears: 3                                    // 거주의무 시작 유예 (최초 입주가능일부터)
 };
+/* 대출 조건 상세 (기능 dsr_detail, 2026-11-23 운영자 요청 '자금계획에 DSR 을 더 전문적으로') — 근거는 evidence/dsr/2026-11-23-rules.md
+   스트레스 금리: 수도권(서울·경기·인천)·규제지역 주담대 3.0% × 기본 100% (10·15 대출수요 관리 방안, 2025-10-16~),
+     그 밖의 지방 주담대 1.5% × 기본 50% = 0.75% (2단계 유지, 2026-12-31 까지 — 은행연합회 2026 하반기 운영)
+   대출유형별 적용비율 (3단계 스트레스 DSR 시행방안 표3, 고정기간·변동주기가 만기에서 차지하는 비중 30% 미만 / 30~50% / 50~70%, 70% 이상·순수 고정은 미적용, 5년 미만은 변동형과 같이 100%):
+     수도권·규제지역(3단계) 혼합형 80·60·40%, 주기형 40·30·20% · 지방(2단계) 혼합형 60·40·20%, 주기형 30·20·10%
+   기존 대출 연 상환액 (DSR 산정 방식): 신용대출 = 잔액 ÷ 5년 + 이자 (가계부채 관리 강화방안 2021-10-26, 7년 → 5년), 마이너스통장 = 한도 기준, 전세대출 = 이자만, 그 밖 = 실제 상환액 */
+const DSR_RULES = {
+  baseRate: 4.0,                                          // 금리를 넣지 않았을 때 가정 (%, 이 서비스 가정 — 예전 심사 금리 7% = 4% + 스트레스 3% 의 4%)
+  creditRate: 5.0,                                        // 신용대출 금리를 넣지 않았을 때 가정 (%, 이 서비스 가정)
+  stress: { capital: 3.0, local: 1.5 }, basic: { capital: 1, local: 0.5 },
+  ratio: { mix: { capital: [0.8, 0.6, 0.4], local: [0.6, 0.4, 0.2] }, cyc: { capital: [0.4, 0.3, 0.2], local: [0.3, 0.2, 0.1] } },
+  fixYears: 5,                                            // 혼합형 고정기간·주기형 변동주기 (가장 흔한 5년 상품만 다룬다)
+  creditYears: 5,                                         // 신용대출·마이너스통장 원금 분할 가정
+  maxYearsCapital: 30,                                    // 수도권·규제지역 주담대 만기 상한 (6·27 방안)
+  years: [10, 20, 30, 40]
+};
 /* 민영주택 1순위 청약 예치기준금액 (만원) — 근거: 모집공고문 표 '청약예금의 예치금액'(광명 시티프라디움 에듀하임 2026000453, 2026-09-18 공고)과
    「주택공급에 관한 규칙」 별표2. 구분은 신청자의 주민등록 거주지, 칸은 전용면적 85㎡ 이하 / 102㎡ 이하 / 135㎡ 이하 / 모든 면적 */
 const ACCOUNT_DEPOSIT = { seoul_busan:[300, 600, 1000, 1500], metro:[250, 400, 700, 1000], other:[200, 300, 400, 500] };
@@ -749,7 +765,7 @@ const F0 = { sido:'', district:'', supply:'', dtl:'', rent:'', special:'', statu
 const WATCH = new Set(store.get('cy-watch') || []);   // 관심 공고 (기능: watchlist). 주택형 id, 이 기기에만 저장
 const saveWatch = () => store.set('cy-watch', [...WATCH]);
 const hasProfile = () => { try { return !!localStorage.getItem('cy-profile'); } catch(e) { return false; } };
-const S = { view:'feed', step:0, id:null, filter:'all', f: Object.assign({}, F0), showFilters:false, feedMode:'list', mapPick:null, plan:{}, profile: Object.assign({}, DEFAULT_PROFILE, store.get('cy-profile') || {}) };
+const S = { view:'feed', step:0, id:null, filter:'all', f: Object.assign({}, F0), showFilters:false, feedMode:'list', mapPick:null, plan:{}, loan: (v => v && typeof v === 'object' && !Array.isArray(v) ? v : {})(store.get('cy-loan')), profile: Object.assign({}, DEFAULT_PROFILE, store.get('cy-profile') || {}) };
 
 /* ---------- 계산 엔진 ---------- */
 const eok = v => v/10000; // 만원 -> 억
@@ -1521,6 +1537,49 @@ function eligibility(L, p){
   return { ok: !fails.length, rank2, rank2Need, unsure: !fails.length && warns.length > 0, items, reason, fix };
 }
 
+/* ---------- 대출 조건 상세 (기능 dsr_detail) ---------- */
+const loanNum = (k, max) => { const v = Number((S.loan || {})[k]); return isFinite(v) && v > 0 ? Math.min(v, max || 1e9) : 0; };   // 저장값이 깨져 있으면 0(안 넣음)
+/* 스트레스 가산금리(%p): 지역 스트레스 금리 × 기본 적용비율 × 대출유형별 적용비율 */
+function stressAdd(type, years, capital){
+  const z = capital ? 'capital' : 'local', base = DSR_RULES.stress[z] * DSR_RULES.basic[z];
+  if (type === 'fix') return { add: 0, base, ratio: 0 };
+  if (type === 'var' || DSR_RULES.fixYears < 5) return { add: base, base, ratio: 1 };
+  const share = DSR_RULES.fixYears / years, band = share < 0.3 ? 0 : share < 0.5 ? 1 : share < 0.7 ? 2 : 3;
+  const ratio = band === 3 ? 0 : DSR_RULES.ratio[type === 'cyc' ? 'cyc' : 'mix'][z][band];
+  return { add: Math.round(base * ratio * 1000) / 1000, base, ratio };
+}
+/* 대출 원금 P(억)의 연 원리금 — 원리금균등: 월 상환액 × 12 · 원금균등: 전체 기간 평균 (원금 + 총이자) ÷ 만기 */
+function loanAnnual(P, ratePct, years, repay){
+  const r = ratePct / 100 / 12, n = years * 12;
+  if (!(P > 0)) return 0;
+  if (repay === 'prin') return P / years + P * r * (n + 1) / 2 / years;
+  return r > 0 ? 12 * P * r / (1 - Math.pow(1 + r, -n)) : P / years;
+}
+/* 연 상환 여력 room(억)으로 받을 수 있는 원금 */
+function loanFromAnnual(room, ratePct, years, repay){
+  const r = ratePct / 100 / 12, n = years * 12;
+  if (!(room > 0)) return 0;
+  if (repay === 'prin') return room / (1 / years + r * (n + 1) / 2 / years);
+  return r > 0 ? room / 12 * (1 - Math.pow(1 + r, -n)) / r : room * years;
+}
+const loanMonthlyFirst = (P, ratePct, years, repay) => { const r = ratePct / 100 / 12, n = years * 12; return !(P > 0) ? 0 : repay === 'prin' ? P / n + P * r : r > 0 ? P * r / (1 - Math.pow(1 + r, -n)) : P / n; };
+function dsrDetail(L, p, income){
+  const capital = !!(L.capital || L.regulated), T = ['var', 'mix', 'cyc', 'fix'];
+  const type = T.includes(S.loan.type) ? S.loan.type : 'var', repay = S.loan.repay === 'prin' ? 'prin' : 'eq';
+  const want = DSR_RULES.years.includes(Number(S.loan.years)) ? Number(S.loan.years) : RULES.years;
+  const years = capital ? Math.min(want, DSR_RULES.maxYearsCapital) : want;
+  const rate = loanNum('rate', 20) || DSR_RULES.baseRate, st = stressAdd(type, years, capital), test = rate + st.add;
+  const cr = (loanNum('creditRate', 30) || DSR_RULES.creditRate) / 100, Y = DSR_RULES.creditYears;
+  const credit = eok(loanNum('credit')), minus = eok(loanNum('minus')), jeonseLoan = eok(loanNum('jeonseLoan'));
+  const other = eok(((p.loanMonthly || 0) + (p.married ? (p.spouseLoan || 0) : 0)) * 12);
+  /* 앞으로 받을 신용대출: 6·27 방안으로 신용대출 합계가 연소득 이내 — 넘는 만큼은 받지 못하는 것으로 계산 (소득을 넣지 않았으면 그대로 두고 '소득 입력 필요') */
+  const futWant = eok(loanNum('futCredit')), futCap = income > 0 ? Math.max(0, income - credit - minus) : futWant, fut = Math.min(futWant, futCap);
+  const futOther = eok(loanNum('futOther'));
+  const items = [['신용대출', credit / Y + credit * cr], ['마이너스통장(한도 기준)', minus / Y + minus * cr], ['받을 신용대출', fut / Y + fut * cr], ['그 밖의 대출', other]].filter(x => x[1] > 0);
+  const existing = items.reduce((a, x) => a + x[1], 0), room = Math.max(0, income * RULES.dsr - existing);
+  return { type, repay, years, yearsCut: want > years, rate, rateSet: loanNum('rate', 20) > 0, st, test, capital, credit, minus, jeonseLoan, futWant, fut, futCut: futWant - fut, futOther, items, existing, room,
+    loanDsr: loanFromAnnual(room, test, years, repay) };
+}
 function funding(L, p, opt){
   const m = grade(L);
   const total = m.cost;
@@ -1532,7 +1591,8 @@ function funding(L, p, opt){
   const existing = eok((p.loanMonthly + (p.married ? p.spouseLoan : 0)) * 12);
   const r = RULES.stressRate / 12, n = RULES.years * 12;
   const monthly = Math.max(0, income * RULES.dsr - existing) / 12;
-  const loanDsr = monthly * (1 - Math.pow(1 + r, -n)) / r;
+  const D = on('dsr_detail') ? dsrDetail(L, p, income) : null;   /* 꺼져 있으면 예전 계산 그대로 (심사 금리 7% · 30년 원리금균등 · 기존 대출 월 상환액) */
+  const loanDsr = D ? D.loanDsr : monthly * (1 - Math.pow(1 + r, -n)) / r;
   const ltvRate = L.regulated ? RULES.ltvRegulated : RULES.ltvOther;
   /* 시세를 못 구한 공고(mktBase 없음): 예전에는 Math.min(분양가, null)=0 이라 LTV 대출이 0원이었다 (2026-10-07 사용자 제보 'LTV 70%인데 대출 0원').
      시세를 모르면 분양가 기준으로 계산하고(ltvEst), 시세가 더 낮으면 대출이 줄 수 있어 '자금 가능'으로 단정하지 않는다 */
@@ -1547,8 +1607,12 @@ function funding(L, p, opt){
      0 으로 계산해도 가능하면 그대로 가능(더 넣으면 좋아지기만 함) */
   const cashUnk = !['cash', 'liquid', 'deposit'].some(k => entered(p, k)), incUnk = !entered(p, 'income') && !(p.married && entered(p, 'spouseIncome') && p.spouseIncome > 0);
   const need = [cashUnk ? '현금·예금' : '', incUnk ? '소득' : ''].filter(Boolean).join('·');
-  return { total, contractAmt, contractOk: cashNow >= contractAmt - 1e-9 /* 억 단위 소수 오차(4.45×0.05=0.22250000000000003)로 같은 금액을 '부족'으로 보지 않게 */ ? true : cashUnk ? null : false, cashUnk, incUnk, unk: cashUnk || incUnk, need, ltvEst, jeonseUnk, available, loan, loanDsr, loanLtv, ltvRate, cap, limitBy, jeonse,
-    gapLive: total - loan - available, gapJeonse: total - jeonse - available, tax: m.tax };
+  /* 기능 dsr_detail: 추가 조달(받을 신용대출·사내대출 등)은 더하고, 지금 전세대출은 보증금을 돌려받아 갚으므로 뺀다 — 두 계획(실거주·전세)에 똑같이 */
+  const extra = D ? D.fut + D.futOther - D.jeonseLoan : 0;
+  if (D) { D.extra = extra; D.monthly = loanMonthlyFirst(loan, D.rate, D.years, D.repay); D.newAnnual = loanAnnual(loan, D.test, D.years, D.repay);
+    D.pct = income > 0 ? (D.existing + D.newAnnual) / income * 100 : null; D.income = income; }
+  return { dsr: D, total, contractAmt, contractOk: cashNow >= contractAmt - 1e-9 /* 억 단위 소수 오차(4.45×0.05=0.22250000000000003)로 같은 금액을 '부족'으로 보지 않게 */ ? true : cashUnk ? null : false, cashUnk, incUnk, unk: cashUnk || incUnk, need, ltvEst, jeonseUnk, available, loan, loanDsr, loanLtv, ltvRate, cap, limitBy, jeonse,
+    gapLive: total - loan - available - extra, gapJeonse: total - jeonse - available - extra, tax: m.tax };
 }
 
 /* 전세로 잔금을 치를 수 있는지: 지역·단지 규제를 따져서 가능 / 조건부 / 불가 */
@@ -1688,6 +1752,10 @@ const SRC = {
   localTax: ['지방세법 (취득세)', 'https://www.law.go.kr/법령/지방세법'],
   p1015: ['10·15 주택시장 안정화 대책', 'https://www.molit.go.kr/USR/NEWS/m_71/dtl.jsp?id=95091308'],
   p627: ['6·27 가계부채 관리 방안', 'https://www.fsc.go.kr/no010101/84824'],
+  stress3: ['금융위 3단계 스트레스 DSR 시행방안', 'https://www.fsc.go.kr/edu/news/84634'],          /* 기능 dsr_detail — 스트레스 금리 1.5%·지방 0.75%, 혼합형 80%·주기형 40%, 신용대출 1억 초과 (2026-11-23 화면에서 숫자 확인) */
+  faq1015: ['금융위 대출수요 관리 방안 FAQ', 'https://fsc.go.kr/po020201/85518'],                    /* 수도권·규제지역 주담대 스트레스 금리 1.5% → 3.0%, 15억·25억 한도 */
+  dsrCalc: ['금융위 가계부채 관리 강화방안', 'https://fsc.go.kr/edu/news/77147?curPage=23'],        /* DSR 산정만기 신용대출 7년 → 5년, 은행 DSR 40% */
+  kfbStress: ['은행연합회 스트레스 금리 공시 (2026년 하반기)', null],                                  /* 지방 주담대 2단계 유지 — 숫자가 보이는 화면을 직접 열지 못해 이름만 */
   estimate: ['이 서비스 추정', null],
   user: ['내가 입력한 값', null],
 };
@@ -3720,6 +3788,57 @@ function detailCta(L){
     <div class="dcta-row">${L.noticePdf ? `<a class="btn ghost" href="${esc(L.noticePdf)}" target="_blank" rel="noopener" data-ev="cta-pdf">모집공고문</a>` : ''}<button class="btn ghost" data-go="plan" data-ev="cta-plan">자금 플랜</button><a class="btn dcta-main" href="${esc(home)}" target="_blank" rel="noopener" data-ev="cta-applyhome">청약홈 공고 ↗</a></div></div>`;
 }
 
+/* ---------- 대출 조건 상세 화면 (기능 dsr_detail) ---------- */
+const saveLoan = () => store.set('cy-loan', S.loan);
+const pct1 = v => (Math.round(v * 100) / 100).toFixed(2).replace(/0$/, '').replace(/\.0$/, '.0');
+const LOAN_TYPE = { var:'변동형', mix:'혼합형 (5년 고정)', cyc:'주기형 (5년마다)', fix:'고정금리' };
+function loanCard(L, f){
+  const D = f.dsr, v = k => loanNum(k) || '', seg = (k, cur, opts) => `<div class="seg" role="group">${opts.map(([val, t, dis]) => `<button data-loanset="${k}:${val}" aria-pressed="${String(cur) === String(val)}"${dis ? ' disabled title="' + dis + '"' : ''}>${t}</button>`).join('')}</div>`;
+  const money = (k, label, hint, unit) => `<div class="field"><label for="ln-${k}">${label}</label><div class="money"><input id="ln-${k}" inputmode="${unit === '%' ? 'decimal' : 'numeric'}" data-loan="${k}" value="${v(k)}" placeholder="${unit === '%' ? (k === 'rate' ? DSR_RULES.baseRate.toFixed(1) : DSR_RULES.creditRate.toFixed(1)) : '0'}"><span>${unit || '만원'}</span></div>${unit === '%' ? '' : mEcho(loanNum(k))}${hint ? `<span class="hint">${hint}</span>` : ''}</div>`;
+  const O = S.loanOpen || {}, any = ks => ks.some(k => loanNum(k) > 0);
+  const p = S.profile;
+  return `<section class="card" id="loancard"><h2>대출 조건</h2>
+    <p class="small muted" style="margin:0">넣을수록 숫자가 내 상황에 가까워져요. 비운 칸은 기본값으로 계산해요.</p>
+    <div class="field"><span class="lbl">금리 유형</span>${seg('type', D.type, Object.entries(LOAN_TYPE))}
+      <span class="hint">금리가 오래 고정될수록 은행 심사에서 더하는 스트레스 금리가 줄어 한도가 커져요. 지금 이 단지는 +${pct1(D.st.add)}%p (${D.capital ? '수도권·규제지역' : '지방'}).</span></div>
+    ${money('rate', '대출 금리', '은행에서 안내받은 금리를 넣어요. 비우면 ' + DSR_RULES.baseRate + '%로 계산해요 (이 서비스 가정).', '%')}
+    <div class="field"><span class="lbl">만기</span>${seg('years', D.years, DSR_RULES.years.map(y => [y, y + '년', D.capital && y > DSR_RULES.maxYearsCapital ? '수도권·규제지역은 30년까지' : '']))}
+      ${D.capital ? `<span class="hint">수도권·규제지역 주택담보대출은 만기가 ${DSR_RULES.maxYearsCapital}년까지예요.${D.yearsCut ? ' 그래서 ' + DSR_RULES.maxYearsCapital + '년으로 계산했어요.' : ''}</span>` : ''}</div>
+    <div class="field"><span class="lbl">갚는 방식</span>${seg('repay', D.repay, [['eq', '원리금균등'], ['prin', '원금균등']])}
+      <span class="hint">원리금균등은 매달 같은 돈을, 원금균등은 처음에 더 많이 갚고 점점 줄어요.</span></div>
+    <details data-loanopen="a"${O.a || (O.a == null && (any(['credit', 'minus', 'jeonseLoan']) || p.loanMonthly > 0)) ? ' open' : ''}><summary style="cursor:pointer;min-height:36px;font-weight:600;font-size:15px">지금 갚고 있는 대출</summary><div class="stack" style="gap:14px;margin-top:10px">
+      ${money('credit', '신용대출 잔액', '소득 기준 심사(DSR)에서는 5년에 나눠 갚는 것으로 계산해요.')}
+      ${money('minus', '마이너스통장 한도', '쓰지 않아도 한도 전체가 대출로 잡혀요.')}
+      ${money('creditRate', '신용대출·마이너스통장 금리', '비우면 ' + DSR_RULES.creditRate + '%로 계산해요 (이 서비스 가정).', '%')}
+      <div class="field"><label for="ln-other">그 밖의 대출 월 상환액</label><div class="money"><input id="ln-other" inputmode="numeric" data-loanp="loanMonthly" value="${p.loanMonthly || ''}" placeholder="0"><span>만원</span></div>${mEcho(p.loanMonthly)}<span class="hint">주택담보대출·자동차 할부·학자금처럼 매달 갚는 원금과 이자. 위에 넣은 신용대출·마이너스통장은 빼고 넣어요.${p.married ? ' 배우자 대출은 내 정보에서 넣어요.' : ''}</span></div>
+      ${money('jeonseLoan', '전세대출 잔액', '이사하면서 보증금으로 갚는 돈이라 내 자금에서 빼요. 소득 기준 심사(DSR)에는 넣지 않았어요.')}
+    </div></details>
+    <details data-loanopen="b"${O.b || (O.b == null && any(['futCredit', 'futOther'])) ? ' open' : ''}><summary style="cursor:pointer;min-height:36px;font-weight:600;font-size:15px">앞으로 받을 대출</summary><div class="stack" style="gap:14px;margin-top:10px">
+      ${money('futCredit', '신용대출', '잔금 전에 받는 것으로 보고 조달액에 더하고 심사(DSR)에도 넣어요. 신용대출은 모두 합쳐 연소득까지예요.')}
+      ${money('futOther', '사내대출·공제회 대출 등', '금융회사 대출이 아닌 돈이라 소득 기준 심사(DSR)에는 넣지 않았어요. 실제로 잡히는지는 은행에서 확인하세요.')}
+    </div></details>
+  </section>`;
+}
+/* 실거주 계획 아래 '월 상환액 · DSR · 계산 내역' */
+function dsrBox(L, f){
+  const D = f.dsr, z = D.capital ? '수도권·규제지역 ' + DSR_RULES.stress.capital.toFixed(1) + '%' : '지방 ' + DSR_RULES.stress.local.toFixed(1) + '% × ' + DSR_RULES.basic.local * 100 + '%';
+  const stTxt = D.type === 'fix' ? '고정금리라 스트레스 금리를 더하지 않아요' : `스트레스 금리 ${z}${D.st.ratio < 1 ? ' × ' + LOAN_TYPE[D.type].replace(/ \(.*/, '') + ' ' + Math.round(D.st.ratio * 100) + '%' : ''} = +${pct1(D.st.add)}%p`;
+  const warn = [];
+  if (D.futCut > 1e-9) warn.push(`신용대출은 모두 합쳐 연소득(${fmt(D.income)})까지라, 받으려는 ${fmt(D.futWant)} 중 ${fmt(D.fut)}까지만 계산했어요.`);
+  if (D.pct != null && f.loan > 0 && f.limitBy === 'DSR(소득)') warn.push('소득 기준(DSR)에 걸려 한도가 정해졌어요. 금리가 오래 고정되는 상품이나 기존 대출 정리로 한도가 달라질 수 있어요.');
+  return `<div class="rows" style="margin-top:6px;padding-top:10px;border-top:1px solid var(--line)">
+      <div class="row"><span>매달 갚을 돈${D.repay === 'prin' ? ' (첫 달)' : ''}<br><span class="small muted">금리 ${pct1(D.rate)}%${D.rateSet ? '' : ' 가정'} · ${D.years}년 · ${D.repay === 'prin' ? '원금균등' : '원리금균등'}</span></span><span>${f.loan > 0 ? '약 ' + fmt(D.monthly) : '—'}</span></div>
+      <div class="row"><span>내 DSR<br><span class="small muted">연 원리금 ÷ 연소득 · 은행 한도 ${RULES.dsr * 100}%</span></span><span>${D.pct == null ? '소득 입력 필요' : (Math.round(D.pct * 10) / 10).toFixed(1) + '%'}</span></div>
+    </div>
+    ${warn.map(w => `<div class="small" style="margin:0">${w}</div>`).join('')}
+    <details><summary class="small" style="cursor:pointer;min-height:32px">소득 기준(DSR) 계산 내역 보기</summary><div class="small muted" style="display:flex;flex-direction:column;gap:6px">
+      <div>심사 금리 ${pct1(D.test)}% = 대출 금리 ${pct1(D.rate)}%${D.rateSet ? '' : '(가정)'} + ${pct1(D.st.add)}%p — ${stTxt}</div>
+      <div>${f.incUnk ? '소득을 넣지 않아 소득 기준 한도를 0원으로 계산했어요.' : `연소득 ${fmt(D.income)} × ${RULES.dsr * 100}% = ${fmt(D.income * RULES.dsr)}${D.existing > 0 ? ' − 지금 대출의 연 상환액 ' + fmt(D.existing) + ' (' + D.items.map(x => x[0] + ' ' + fmt(x[1])).join(' · ') + ')' : ''} → 새 대출에 쓸 수 있는 연 상환액 ${fmt(D.room)}`}</div>
+      <div>이 돈으로 심사 금리 ${pct1(D.test)}% · ${D.years}년 ${D.repay === 'prin' ? '원금균등' : '원리금균등'}으로 받을 수 있는 원금이 ${fmt(D.loanDsr)}이에요.</div>
+      <div>신용대출·마이너스통장은 원금을 ${DSR_RULES.creditYears}년에 나눠 갚는 것으로, 전세대출은 계산에 넣지 않았어요. 총대출이 1억 이하면 은행이 이 기준을 적용하지 않을 수 있어요.</div>
+      <div class="srcs">${src('stress3')}${src('faq1015')}${src('dsrCalc')}${D.capital ? '' : src('kfbStress')}</div>
+    </div></details>`;
+}
 function vPlan(){
   const L = LISTINGS.find(x => x.id === S.id), p = S.profile, o = planOpt(L), f = funding(L, p, o), jc = jeonseCheck(L);
   if (isRental(L)) return `<div class="top"><button class="back" data-go="detail">${chev}공고</button></div><section class="card"><h2>자금 플랜</h2><p class="small">공공임대주택이라 자금 플랜을 계산하지 않아요. 임대보증금·월임대료·계약금 일정은 모집공고문에서 확인하세요. ${noticeSrc(L)}</p></section>`;
@@ -3732,8 +3851,10 @@ function vPlan(){
       ${key !== 'live' && f.jeonseUnk && !blocked ? '<div class="small" style="margin:0">주변 전세 거래가 부족해 보증금을 추정하지 못했어요 — 위 예상 전세 보증금에 넣으면 계산해요</div>' : ''}
       ${blocked ? '' : `<div class="rows">${rows.map(r => `<div class="row"><span>${r[0]}</span><span>${r[1]}</span></div>`).join('')}
         ${key !== 'live' && f.jeonseUnk ? '' : `<div class="row total"><span>${gap > 0 ? '부족분' : '여유분'}</span><span>${fmt(Math.abs(gap))}</span></div>`}</div>`}
+      ${key === 'live' && f.dsr && !blocked ? dsrBox(L, f) : ''}
       <div class="small muted">${note}</div>
     </section>`;
+  const xRows = f.dsr ? [f.dsr.fut + f.dsr.futOther > 0 ? ['받을 신용대출·사내대출 등', fmt(f.dsr.fut + f.dsr.futOther)] : null, f.dsr.jeonseLoan > 0 ? ['전세대출 갚기', '−' + fmt(f.dsr.jeonseLoan)] : null].filter(Boolean) : [];
   const JS = { ok:['ok','전세 가능'], cond:['warn','전세 조건부'], check:['warn','전세 확인 필요'], no:['fail','전세 불가'] }[jc.status];
   const tags = [L.regulated ? '투기과열·조정대상' : '비규제지역', L.landPermit ? '토지거래허가구역' : null, L.priceCap ? '분양가상한제' : null,
     L.residenceDuty == null ? '실거주 의무 확인 필요' : L.residenceDuty ? '실거주 의무 ' + L.residenceDuty + '년' : '실거주 의무 없음'].filter(Boolean);   // 모름(null)을 '없음'으로 쓰지 않는다
@@ -3765,6 +3886,7 @@ function vPlan(){
       <div class="money"><input id="pl-jeonse" inputmode="numeric" data-plan="jeonse" value="${o.jeonse || ''}" placeholder="${L.jeonse == null ? '주변 전세 시세 없음 · 직접 입력' : ''}"><span>만원</span></div>${mEcho(o.jeonse)}<span class="hint">${esc(L.jeonseNote)}${/입주장 할인 \d+%$/.test(L.jeonseNote || '') ? '를 뺐어요 (입주장: 새 아파트 입주 시기에 전세 물량이 몰려 보증금이 낮아지는 때).' : ''} ${L.sample ? '' : src('rtms')}</span>
       ${L.jeonseComps && L.jeonseComps.length ? `<details><summary class="small" style="cursor:pointer;min-height:32px">전세 근거 거래 ${L.jeonseComps.length}건 보기</summary><div class="comps">${L.jeonseComps.map(c => compRow(c, L)).join('')}</div></details>` : ''}</div>` : ''}
   </section>
+  ${f.dsr ? loanCard(L, f) : ''}
 
   <section class="card"><h2>납부 일정</h2><div class="timeline">
     <div class="tl ${f.contractOk ? 'dot-ok' : f.contractOk === false ? 'dot-fail' : ''}"><div class="dot"><i></i><b></b></div><div class="body"><div class="row" style="font-weight:600;font-size:14px"><span>${d(L.contract)} 계약금${on('contract_from_notice') && L.payRatio ? ' (' + Math.round(L.payRatio.contract * 100) + '%)' : ''}<br>${L.contract ? src(null, ['청약홈 공고', L.sources && L.sources[0] ? L.sources[0][1] : SRC.applyhome[1]]) : ''}${on('contract_from_notice') ? (L.payRatio ? ' ' + noticeSrc(L) + nq(L, '계약금 비율') : ' ' + src(null, ['공고문에서 못 읽어 ' + Math.round(L.contractRate * 100) + '%로 추정 (이 서비스 추정)', null])) : ''}</span><span style="white-space:nowrap">${fmt(f.contractAmt)}</span></div>${on('contract_from_notice') && L.payRatio && L.contractSplit && L.contractSplit.first_won < f.contractAmt * 1e8 ? `<div class="small muted">계약 때 ${fmt(L.contractSplit.first_won / 1e8)} · ${L.contractSplit.rest_within ? '계약 후 ' + esc(L.contractSplit.rest_within) + ' 안에' : '공고문 일정에 따라'} 나머지 ${fmt(f.contractAmt - L.contractSplit.first_won / 1e8)} (공고문 공급금액 표)</div>` : ''}<div class="small muted">${f.contractOk ? '예금으로 낼 수 있어요' : f.contractOk == null ? '현금·예금을 넣으면 낼 수 있는지 계산해요 (계약금은 대출이 안 돼요)' : '예금이 ' + fmt(f.contractAmt - eok(p.cash)) + ' 모자라요. 계약금은 대출이 안 돼요'}</div></div></div>
@@ -3772,13 +3894,13 @@ function vPlan(){
     <div class="tl"><div class="dot"><i></i></div><div class="body"><div class="row" style="font-weight:600;font-size:14px"><span>잔금 후 60일 내 취득세<br>${src('localTax')}</span><span>${fmt(f.tax)}</span></div><div class="small muted">추정치 · 세무 확인 필요</div></div></div>
   </div></section>
 
-  ${scen('jeonse', L.residenceDuty ? '전세 2년 후 직접 입주' : '전세 끼고 잔금', [['전세 보증금', f.jeonseUnk ? '시세 없음' : fmt(f.jeonse)], ['내 자금', fmt(f.available)]].concat(dutyRow), f.gapJeonse,
+  ${scen('jeonse', L.residenceDuty ? '전세 2년 후 직접 입주' : '전세 끼고 잔금', [['전세 보증금', f.jeonseUnk ? '시세 없음' : fmt(f.jeonse)], ['내 자금', fmt(f.available)]].concat(xRows, dutyRow), f.gapJeonse,
      jc.status === 'no' ? '이 단지는 규제 때문에 전세로 잔금을 치를 수 없어요.'
      : L.residenceDuty == null ? '실거주 의무를 확인하지 못해 이 계산이 맞는지 아직 몰라요. 거주의무가 있으면 전세를 한 번만 주거나 못 줄 수 있어요 — 공고문에서 거주의무기간을 확인하세요.'
      : L.residenceDuty ? '2년 뒤 보증금을 돌려주고 들어가 살려면 그때 잔금대출이나 현금이 다시 필요해요.'
      : L.regulated && L.capital ? '세입자 전세대출이 막혀 현금 세입자만 받을 수 있어요. 입주장 공실 위험도 감안하세요.'
      : '입주장에 전세 물량이 몰리면 보증금이 내려가요.', jc.status === 'no', jc.status === 'check')}
-  ${scen('live', '잔금대출로 실거주', [['잔금대출 (' + f.limitBy + (f.ltvEst && /^집값/.test(f.limitBy) ? ', 분양가 기준' : '') + ' 기준)', fmt(f.loan)], ['내 자금', fmt(f.available)]], f.gapLive,
+  ${scen('live', '잔금대출로 실거주', [['잔금대출 (' + f.limitBy + (f.ltvEst && /^집값/.test(f.limitBy) ? ', 분양가 기준' : '') + ' 기준)', fmt(f.loan)], ['내 자금', fmt(f.available)]].concat(xRows), f.gapLive,
      '집값 기준(LTV) ' + (f.ltvRate*100) + '% ' + fmt(f.loanLtv) + (f.ltvEst ? '(시세 미확인 · 분양가 기준)' : '') + (isFinite(f.cap) ? ' · 한도 ' + f.cap + '억' : '') + ' · 소득 기준(DSR) ' + fmt(f.loanDsr) + ' 중 더 작은 값이에요.' + (L.regulated ? ' 규제지역이라 6개월 안에 전입해야 해요.' : '') + ' 실제 한도는 은행 심사로 확인하세요.<div class="srcs">' + src('p1015') + src('p627') + '</div>')}
 
   <section class="note info"><b>부족분 메우는 방법</b>
@@ -3788,7 +3910,7 @@ function vPlan(){
     <div class="small muted">계약 시 자금조달계획서와 증빙을 내야 해요.</div>
   </section>
   <div class="srcs">${src('p1015')}${src('p627')}${src('localTax')}</div>
-  <p class="foot">계산 가정: 무주택 LTV 규제지역 ${RULES.ltvRegulated*100}% · 비규제 ${RULES.ltvOther*100}%, 규제지역 주담대 한도 시세 15억 이하 6억 · 25억 이하 4억 · 초과 2억, 수도권 비규제 ${RULES.loanCapCapital}억, DSR ${RULES.dsr*100}%, 심사 금리 ${(RULES.stressRate*100).toFixed(1)}%(스트레스 포함) ${RULES.years}년 원리금균등. 규제지역은 서울 전역과 경기 ${REGULATED_GYEONGGI.length}곳이에요. 이 앱은 대출을 중개하지 않아요.</p>`;
+  <p class="foot">계산 가정: 무주택 LTV 규제지역 ${RULES.ltvRegulated*100}% · 비규제 ${RULES.ltvOther*100}%, 규제지역 주담대 한도 시세 15억 이하 6억 · 25억 이하 4억 · 초과 2억, 수도권 비규제 ${RULES.loanCapCapital}억, DSR ${RULES.dsr*100}%, ${f.dsr ? `심사 금리 ${pct1(f.dsr.test)}%(대출 금리 ${pct1(f.dsr.rate)}% + 스트레스 ${pct1(f.dsr.st.add)}%p) ${f.dsr.years}년 ${f.dsr.repay === 'prin' ? '원금균등' : '원리금균등'}` : `심사 금리 ${(RULES.stressRate*100).toFixed(1)}%(스트레스 포함) ${RULES.years}년 원리금균등`}. 규제지역은 서울 전역과 경기 ${REGULATED_GYEONGGI.length}곳이에요. 이 앱은 대출을 중개하지 않아요.</p>`;
 }
 
 function vGrades(){
@@ -6446,6 +6568,7 @@ document.addEventListener('click', ev => {
       if (el) { const f = el.closest('.field') || el; f.scrollIntoView({ block:'center' }); f.classList.add('fixneed', 'calcneed'); try { el.focus({ preventScroll:true }); } catch(e) {} } });
     return; }   // 그 단계부터 이어서 입력, 단계마다 저장하고 나가기   // 그 단계부터 이어서 입력, 단계마다 저장하고 나가기
   if (t.dataset.mode) { planOpt(LISTINGS.find(x => x.id === S.id)).mode = t.dataset.mode; render(); return; }
+  if (t.dataset.loanset) { const [k, v] = t.dataset.loanset.split(':'); S.loan[k] = k === 'years' ? Number(v) : v; saveLoan(); track({ path:'loan-' + k, event:true }); const y = window.scrollY; render(); window.scrollTo(0, y); return; }   // 기능 dsr_detail
   const a = t.dataset.action;
   if (a === 'toggle-closed') { S.showClosed = !S.showClosed; render(); return; }
   if (a === 'past-more') { S.pn = (S.pn || 30) + 30; const y = window.scrollY; render(); window.scrollTo(0, y); return; }   // 기능: historical_search
@@ -6549,7 +6672,15 @@ document.addEventListener('change', ev => {
     return;
   }
   if (el.dataset.plan) { planOpt(LISTINGS.find(x => x.id === S.id))[el.dataset.plan] = Number(String(el.value).replace(/[^0-9]/g, '')) || 0; render(); }
+  if (el.dataset.loan || el.dataset.loanp) {   // 기능 dsr_detail — 대출 조건 (이 기기에만 저장)
+    const k = el.dataset.loan || el.dataset.loanp, dec = /rate/i.test(k);
+    const n = dec ? Math.min(30, parseFloat(String(el.value).replace(/[^0-9.]/g, '')) || 0) : Number(String(el.value).replace(/[^0-9]/g, '')) || 0;
+    if (el.dataset.loanp) { S.profile[k] = n; markSet(S.profile, k, true); save(); }
+    else { if (n > 0) S.loan[k] = n; else delete S.loan[k]; saveLoan(); }
+    const y = window.scrollY; render(); window.scrollTo(0, y);
+  }
 });
+document.addEventListener('toggle', ev => { const d = ev.target; if (d && d.dataset && d.dataset.loanopen) (S.loanOpen = S.loanOpen || {})[d.dataset.loanopen] = d.open; }, true);
 
 /* 실제 데이터: 같은 폴더의 listings.json (GitHub Actions 가 매일 갱신). 없으면 샘플로 동작 */
 function fromApi(x){

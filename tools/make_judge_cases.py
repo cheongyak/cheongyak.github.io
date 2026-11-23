@@ -19,6 +19,7 @@
 from __future__ import annotations
 
 import json
+import math
 import re
 from pathlib import Path
 
@@ -1482,6 +1483,73 @@ def main() -> None:
         ci += 1
         add(id=f"contract-{ci:02d}", fn="contract", listing=None, raw=raw, feature=True, profile={"cash": want_amt, "liquid": 0, "deposit": 0, "income": 5000, "_set": ["cash", "liquid", "deposit", "income"]},
             expect={"amt": want_amt, "ok": True, "mid": raw.get("mid_rate") or 0}, basis="의정부우정 A2 2026000409 — LH 표('계약금10%' 괄호 없음)는 읽지 않음 → 수집값 10% 그대로")
+
+    # ---------- 17-1b) 대출 조건 상세 — 스트레스 DSR · 기존 대출 · 받을 신용대출 (기능 dsr_detail, 2026-11-23 운영자 요청) ----------
+    # 근거(evidence/dsr/2026-11-23-rules.md): 금융위 3단계 스트레스 DSR 시행방안(2025-05-20) 표3 — 변동형 100%, 혼합형·주기형은 고정기간(변동주기) ÷ 만기 비중
+    #   30% 미만 / 30~50% / 50~70% 에 혼합형 80·60·40%, 주기형 40·30·20% (지방은 2단계 60·40·20%, 30·20·10%), 70% 이상·순수 고정 미적용.
+    #   스트레스 금리: 수도권(서울·경기·인천)·규제지역 3.0% (대출수요 관리 방안 FAQ 2025-10-15), 지방 1.5% × 기본 50% = 0.75% (2026 하반기 2단계 유지).
+    #   DSR 40%(은행), 신용대출·마이너스통장(한도 기준)은 원금 ÷ 5년 + 이자(가계부채 관리 강화방안 2021-10-26), 신용대출 합계는 연소득 이내(6·27 방안).
+    #   금리를 넣지 않으면 4%·신용 5% 가정(이 서비스 가정). 소득 기준 한도 = 연 상환 여력을 심사 금리(대출 금리 + 스트레스)·만기로 받을 수 있는 원금.
+    # 공고 원자료는 docs/listings.json 의 그 주택형(2026-11-23 수집)을 떠 둔 것(대출 계산에 안 쓰는 칸은 뺌).
+    QF = ROOT / "tests/judge/dsr_listings.json"
+    if not QF.exists():
+        src = {x["id"].strip(): x for x in json.loads((ROOT / "docs/listings.json").read_text(encoding="utf-8"))}
+        drop = ("mkt_comps", "jeonse_comps", "area_comps", "nearby", "sp_competition", "area_sp", "competition", "notice_quotes", "notice_ai", "mkt_basis",
+                "special_units", "schedule", "pub_limits", "checks", "notice_conflicts")
+        pick = [next(v for v in src.values() if v.get("price") and f(v)) for f in (lambda v: v.get("regulated"), lambda v: v.get("capital") and not v.get("regulated"), lambda v: not v.get("capital") and not v.get("regulated"))]
+        QF.write_text(json.dumps([{a: b for a, b in v.items() if a not in drop} for v in pick], ensure_ascii=False, indent=1) + "\n", encoding="utf-8")
+    QL = json.loads(QF.read_text(encoding="utf-8"))
+    Q_REG, Q_CAP, Q_LOC = QL[0], QL[1], QL[2]
+    def q_stress(kind, years, capital):
+        base = 3.0 if capital else 1.5 * 0.5
+        if kind == "fix": return 0.0
+        if kind == "var": return base
+        share = 5 / years
+        tbl = {("mix", True): (0.8, 0.6, 0.4), ("mix", False): (0.6, 0.4, 0.2), ("cyc", True): (0.4, 0.3, 0.2), ("cyc", False): (0.3, 0.2, 0.1)}[(kind, capital)]
+        return 0.0 if share >= 0.7 else base * tbl[0 if share < 0.3 else 1 if share < 0.5 else 2]
+    def q_principal(annual_man, pct, years, repay):   # 연 상환 여력(만원) → 원금(만원)
+        if annual_man <= 0: return 0.0
+        r, n = pct / 100 / 12, years * 12
+        if repay == "prin": return annual_man / (1 / years + r * (n + 1) / 2 / years)   # 원금균등: 연 원리금 = 전체 기간 평균
+        return annual_man / 12 * (1 - (1 + r) ** -n) / r
+    def q_round(v): return int(math.floor(v + 0.5))
+    def q_case(tag, raw, loan, basis, income=8000, monthly=0, married=False, sp_income=0, sp_loan=0, feature=True):
+        capital = bool(raw.get("capital") or raw.get("regulated"))
+        prof = {"cash": 30000, "liquid": 0, "deposit": 0, "income": income, "loanMonthly": monthly, "married": married, "spouseIncome": sp_income, "spouseLoan": sp_loan, "_set": ["cash", "liquid", "deposit", "income"]}
+        inc = income + (sp_income if married else 0)
+        other = (monthly + (sp_loan if married else 0)) * 12
+        if not feature:   # 스위치를 끄면 예전 계산: 심사 금리 7% · 30년 원리금균등 · 기존 대출 월 상환액
+            exp = {"st": None, "years": None, "dsr": q_round(q_principal(max(0, inc * 0.4 - other), 7.0, 30, "eq")), "exist": None, "fut": None}
+        else:
+            kind, repay = loan.get("type", "var"), loan.get("repay", "eq")
+            years = loan.get("years", 30)
+            years = min(years, 30) if capital else years
+            rate, cr = loan.get("rate", 4.0), loan.get("creditRate", 5.0) / 100
+            credit, minus = loan.get("credit", 0), loan.get("minus", 0)
+            fut = min(loan.get("futCredit", 0), max(0, inc - credit - minus)) if inc > 0 else loan.get("futCredit", 0)
+            exist = (credit + minus + fut) / 5 + (credit + minus + fut) * cr + other
+            st = q_stress(kind, years, capital)
+            exp = {"st": q_round(st * 1000), "years": years, "dsr": q_round(q_principal(max(0, inc * 0.4 - exist), rate + st, years, repay)), "exist": q_round(exist), "fut": q_round(fut)}
+        add(id=f"dsr-{tag}", fn="dsr", listing=None, raw=raw, feature=feature, loan=loan, profile=prof, expect=exp, basis=basis)
+    for nm, raw, capital in (("reg", Q_REG, True), ("cap", Q_CAP, True), ("loc", Q_LOC, False)):
+        zone = "수도권·규제지역 3.0%" if capital else "지방 1.5% × 50%"
+        for kind in ("var", "mix", "cyc", "fix"):
+            q_case(f"{nm}-{kind}-30", raw, {"type": kind}, f"{zone} · {kind} 30년 — 3단계 스트레스 DSR 표3 ({raw['name']})")
+        q_case(f"{nm}-mix-20", raw, {"type": "mix", "years": 20}, f"{zone} · 혼합형 5년 고정 ÷ 20년 = 25% (30% 미만 칸)")
+        q_case(f"{nm}-mix-10", raw, {"type": "mix", "years": 10}, f"{zone} · 혼합형 5년 고정 ÷ 10년 = 50% (50~70% 칸 — 경계)")
+        q_case(f"{nm}-cyc-10", raw, {"type": "cyc", "years": 10}, f"{zone} · 주기형 5년 ÷ 10년 = 50% (50~70% 칸)")
+        q_case(f"{nm}-var-40", raw, {"type": "var", "years": 40}, f"{zone} · 만기 40년" + (" → 수도권·규제지역 주담대 만기 30년 이내(6·27)" if capital else " (지방은 그대로 40년)"))
+        q_case(f"{nm}-prin", raw, {"type": "mix", "repay": "prin", "rate": 3.5}, f"{zone} · 원금균등 3.5% — 연 원리금은 전체 기간 평균")
+        q_case(f"{nm}-off", raw, {"type": "fix", "rate": 3.0, "credit": 5000}, "스위치 끔 → 예전 계산(심사 금리 7% · 30년 · 월 상환액 40만)", monthly=40, feature=False)
+    q_case("credit", Q_CAP, {"credit": 3000, "minus": 2000}, "신용대출 3,000만·마이너스통장 한도 2,000만: (5,000 ÷ 5년) + 5,000 × 5% = 연 1,250만")
+    q_case("credit-rate", Q_CAP, {"credit": 3000, "creditRate": 6.5, "rate": 4.2, "type": "cyc"}, "신용대출 3,000만 금리 6.5%: 600 + 195 = 연 795만 · 주담대 4.2% 주기형")
+    q_case("other-monthly", Q_LOC, {"type": "mix"}, "그 밖의 대출 월 50만 = 연 600만", monthly=50)
+    q_case("spouse", Q_CAP, {"credit": 1000}, "부부 합산: 소득 8,000 + 4,000, 배우자 대출 월 20만 포함", married=True, sp_income=4000, sp_loan=20)
+    q_case("fut-at", Q_CAP, {"credit": 3000, "futCredit": 5000}, "받을 신용대출 5,000만: 신용 합계 8,000만 = 연소득 8,000만 (이내 — 전액)")
+    q_case("fut-over", Q_CAP, {"credit": 3000, "futCredit": 5001}, "받을 신용대출 5,001만: 연소득을 1만 넘음 → 5,000만까지만")
+    q_case("fut-minus", Q_CAP, {"minus": 9000, "futCredit": 2000}, "마이너스통장 한도 9,000만이 이미 연소득 8,000만을 넘음 → 받을 신용대출 0")
+    q_case("fut-noincome", Q_CAP, {"futCredit": 2000}, "소득 미입력(0): 소득 기준 한도 0, 받을 신용대출은 그대로 2,000만", income=0)
+    q_case("room-zero", Q_LOC, {"credit": 20000}, "신용대출 2억: 연 상환 5,000만 > 소득 8,000만 × 40% → 소득 기준 한도 0")
 
     # ---------- 17-2) 실거주 의무와 전세 (2026-11-11 밤 자동 개선 — 제한사항 표 '거주의무 최초 입주가능일 5년' 을 못 읽어 '확인 필요'로 남던 것) ----------
     # 정답 tests/golden/notices.json residence_duty(원문 문장 직접 확인). 규칙(2026000528 본문 '■ 거주의무 안내 … 최초 입주가능일부터 3년 이내에 입주하여야 하고,

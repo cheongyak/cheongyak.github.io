@@ -1,0 +1,78 @@
+// 자금 플랜 '대출 조건'(기능 dsr_detail) 화면 점검 — 입력 → 저장 → 다시 계산, 스위치를 끄면 예전 화면, 화면 숫자가 이 파일의 따로 쓴 계산과 같은지.
+// 사용: NODE_PATH=$(npm root -g) node tools/qa/dsr_screen.cjs [--shot <png>] → 문제가 있으면 종료 코드 1
+const { chromium } = require('playwright'); const { readFileSync, existsSync } = require('fs'); const { join, extname } = require('path');
+const DOCS = join(__dirname, '../../docs'); const SHOT = process.argv.includes('--shot') ? process.argv[process.argv.indexOf('--shot') + 1] : null;
+const MIME = { '.html':'text/html', '.json':'application/json', '.js':'text/javascript', '.txt':'text/plain', '.css':'text/css', '.svg':'image/svg+xml', '.png':'image/png' };
+// 화면 코드와 따로 쓴 계산 (원리금균등)
+const pv = (annual, pct, years) => { const r = pct / 100 / 12, n = years * 12; return annual / 12 * (1 - (1 + r) ** -n) / r; };
+(async () => {
+  const b = await chromium.launch({ executablePath: existsSync('/opt/pw-browsers/chromium') ? '/opt/pw-browsers/chromium' : undefined });
+  const bad = [], errs = [];
+  const open = async (features) => { const page = await b.newPage({ viewport: { width: 390, height: 844 }, deviceScaleFactor: SHOT ? 2 : 1 });
+    page.on('pageerror', e => errs.push(e.message));
+    await page.route('**/*', r => { const u = new URL(r.request().url()); if (u.hostname !== 'qa.local') return r.abort();
+      const f = join(DOCS, u.pathname === '/' ? 'index.html' : decodeURIComponent(u.pathname.slice(1))); if (!existsSync(f)) return r.fulfill({ status: 404, body: '' });
+      let body = readFileSync(f); if (features && u.pathname === '/config.json') { const c = JSON.parse(body); Object.assign(c.features, features); body = JSON.stringify(c); }
+      r.fulfill({ status: 200, contentType: MIME[extname(f)] || 'application/octet-stream', body }); });
+    await page.addInitScript(() => { if (!localStorage.getItem('cy-profile')) localStorage.setItem('cy-profile', JSON.stringify({ homeSido:'서울', household:'head', selfOwn:false, married:false, hhHomes:'0', cash:30000, liquid:0, deposit:0, income:8000, loanMonthly:0, birth:'1990-01-01', _set:['cash','liquid','deposit','income'] })); });
+    await page.goto('http://qa.local/', { waitUntil: 'networkidle' }); await page.waitForTimeout(800); return page; };
+  const pick = (page, capital) => page.evaluate(cap => { const L = LISTINGS.find(x => !x.sample && !isRental(x) && x.price > 0 && !!(x.capital || x.regulated) === cap); if (!L) return null; S.id = L.id; S.view = 'plan'; planOpt(L).mode = 'live'; render(); return { id: L.id, name: L.name }; }, capital);
+  const F = page => page.evaluate(() => { const L = LISTINGS.find(x => x.id === S.id), f = funding(L, S.profile, planOpt(L)); return { loanDsr: f.loanDsr, loan: f.loan, limitBy: f.limitBy, D: f.dsr, gapLive: f.gapLive, available: f.available, total: f.total, html: document.getElementById('app').innerText }; });
+  const near = (a, e, what) => { if (!(Math.abs(a - e) < 1e-6)) bad.push(`${what}: 화면 ${a} ≠ 계산 ${e}`); };
+
+  // 1) 켠 화면 — 수도권·규제지역
+  let page = await open(null);
+  const cap = await pick(page, true);
+  if (!cap) bad.push('수도권 공고 없음'); else {
+    if (!(await page.$('#loancard'))) bad.push('대출 조건 카드 없음');
+    let f = await F(page);
+    near(f.D.st.add, 3.0, '수도권 변동형 스트레스'); near(f.loanDsr, pv(0.8 * 0.4, 7.0, 30), '기본값 소득 기준 한도(연 8천, 7.0% 30년)');
+    // 혼합형 5년 → 3.0 × 80% = 2.4
+    await page.click('[data-loanset="type:mix"]'); f = await F(page); near(f.D.st.add, 2.4, '수도권 혼합형 스트레스'); near(f.loanDsr, pv(0.32, 6.4, 30), '혼합형 한도');
+    await page.click('[data-loanset="type:cyc"]'); f = await F(page); near(f.D.st.add, 1.2, '수도권 주기형 스트레스');
+    await page.click('[data-loanset="type:fix"]'); f = await F(page); near(f.D.st.add, 0, '고정금리 스트레스'); near(f.loanDsr, pv(0.32, 4.0, 30), '고정 한도');
+    if (!(await page.$('[data-loanset="years:40"][disabled]'))) bad.push('수도권 40년이 막혀 있지 않음');
+    // 금리 3.5% 입력, 신용대출 3000·마통 2000(5%), 그 밖 월 30
+    await page.fill('[data-loan="rate"]', '3.5'); await page.dispatchEvent('[data-loan="rate"]', 'change');
+    await page.evaluate(() => { document.querySelectorAll('details[data-loanopen]').forEach(d => d.open = true); });
+    for (const [k, v] of [['credit', '3000'], ['minus', '2000']]) { await page.evaluate(() => { document.querySelectorAll('details[data-loanopen]').forEach(d => d.open = true); }); await page.fill(`[data-loan="${k}"]`, v); await page.dispatchEvent(`[data-loan="${k}"]`, 'change'); }
+    await page.evaluate(() => { document.querySelectorAll('details[data-loanopen]').forEach(d => d.open = true); }); await page.fill('[data-loanp="loanMonthly"]', '30'); await page.dispatchEvent('[data-loanp="loanMonthly"]', 'change');
+    f = await F(page);
+    const exist = 0.3 / 5 + 0.3 * 0.05 + 0.2 / 5 + 0.2 * 0.05 + 30 * 12 / 10000;
+    near(f.D.existing, exist, '지금 대출 연 상환액'); near(f.loanDsr, pv(0.32 - exist, 3.5, 30), '기존 대출 반영 한도(고정 3.5%)');
+    // 받을 신용대출 5000 → 연소득 8000 − 5000 = 3000 까지만, 전세대출 1억 → 자금에서 뺌
+    for (const [k, v] of [['futCredit', '5000'], ['jeonseLoan', '10000']]) { await page.evaluate(() => { document.querySelectorAll('details[data-loanopen]').forEach(d => d.open = true); }); await page.fill(`[data-loan="${k}"]`, v); await page.dispatchEvent(`[data-loan="${k}"]`, 'change'); }
+    f = await F(page);
+    near(f.D.fut, 0.3, '받을 신용대출(연소득 한도)'); near(f.D.extra, 0.3 - 1, '추가 조달 − 전세대출'); near(f.gapLive, f.total - f.loan - f.available - (0.3 - 1), '부족분');
+    if (!/매달 갚을 돈/.test(f.html) || !/내 DSR/.test(f.html)) bad.push('월 상환액·DSR 줄이 안 보임');
+    if (/NaN|undefined|Infinity/.test(f.html)) bad.push('화면에 NaN/undefined');
+    const saved = await page.evaluate(() => JSON.parse(localStorage.getItem('cy-loan')));
+    if (!(saved && saved.type === 'fix' && saved.rate === 3.5 && saved.credit === 3000)) bad.push('저장 안 됨 ' + JSON.stringify(saved));
+    if (SHOT) { await page.evaluate(() => document.getElementById('loancard').scrollIntoView()); await page.screenshot({ path: SHOT, fullPage: true }); }
+    // 새로 열어도 유지
+    await page.reload({ waitUntil: 'networkidle' }); await page.waitForTimeout(600); await page.evaluate(id => { S.id = id; S.view = 'plan'; render(); }, cap.id);
+    f = await F(page); if (f.D.type !== 'fix' || f.D.rate !== 3.5) bad.push('새로 열면 대출 조건이 사라짐');
+    // 깨진 저장값
+    await page.evaluate(() => { localStorage.setItem('cy-loan', JSON.stringify({ type:'x', rate:'abc', years:999, credit:-5, minus:'많음' })); }); await page.reload({ waitUntil: 'networkidle' }); await page.waitForTimeout(600);
+    await page.evaluate(id => { S.id = id; S.view = 'plan'; render(); }, cap.id); f = await F(page);
+    if (f.D.type !== 'var' || f.D.rate !== 4 || f.D.years !== 30 || /NaN/.test(f.html)) bad.push('깨진 저장값을 기본값으로 돌리지 못함');
+  }
+  // 2) 지방: 1.5 × 50% = 0.75, 혼합형 60% → 0.45, 40년 가능
+  await page.evaluate(() => localStorage.removeItem('cy-loan')); await page.reload({ waitUntil: 'networkidle' }); await page.waitForTimeout(600);
+  const loc = await pick(page, false);
+  if (!loc) console.log('[QA 대출 조건] 지방 공고 없음 — 지방 점검 건너뜀'); else {
+    let f = await F(page); near(f.D.st.add, 0.75, '지방 변동형 스트레스'); near(f.loanDsr, pv(0.32 - 0.036, 4.75, 30), '지방 기본 한도(그 밖 월 30)');
+    await page.click('[data-loanset="type:mix"]'); f = await F(page); near(f.D.st.add, 0.45, '지방 혼합형 스트레스');
+    await page.click('[data-loanset="years:40"]'); f = await F(page); if (f.D.years !== 40) bad.push('지방 40년 선택 안 됨');
+    await page.click('[data-loanset="years:10"]'); f = await F(page); near(f.D.st.add, 0.75 * 0.2, '지방 혼합형 10년 만기(고정 비중 50%) 스트레스');
+  }
+  await page.close();
+  // 3) 스위치를 끄면 예전 화면·예전 계산
+  page = await open({ dsr_detail: false });
+  const c2 = await pick(page, true);
+  if (c2) { const f = await F(page); if (await page.$('#loancard')) bad.push('꺼도 대출 조건 카드가 보임'); if (f.D) bad.push('꺼도 dsr 계산'); near(f.loanDsr, pv(0.32, 7.0, 30), '끈 상태 한도(예전 7% 30년)');
+    if (/매달 갚을 돈/.test(f.html)) bad.push('꺼도 월 상환액 줄이 보임'); }
+  await b.close();
+  console.log(`[QA 대출 조건] 수도권 ${cap ? cap.id : '-'} · 지방 ${loc ? loc.id : '-'} · 문제 ${bad.length + errs.length}`, bad.slice(0, 8), errs.slice(0, 3));
+  process.exit(bad.length || errs.length ? 1 : 0);
+})();
