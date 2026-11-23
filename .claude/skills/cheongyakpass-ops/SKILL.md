@@ -219,3 +219,4 @@ description: 청약패스(cheongyakpass.kr, 저장소 cheongyak/cheongyak.github
   requirements.txt 의 pypdf 는 `==` 로 둔다. 올리려면 저장 원문 전체(evidence/notices·evidence/lh)를 새 판으로 다시 뽑아 정답 대조·시험이 그대로인지 본 뒤에 올린다.
   tools/ 를 고쳐 올리면 '근거 자료 모으기'(probe.yml)가 돌아 evidence/notices 를 다시 쓴다 — 올린 뒤 `git log -- evidence/notices` 로 뜻밖의 큰 변경이 없는지 본다.
 - **대출 조건 상세 (기능 dsr_detail, 2026-11-23)**: 자금 플랜의 소득 기준 한도는 `DSR_RULES`·`dsrDetail()`(docs/index.html) — 스트레스 금리·적용비율은 반기마다 은행연합회가 다시 정하니(지금 값은 2026-12-31 까지) 바뀌면 `DSR_RULES`, `tools/make_judge_cases.py` 17-1b 의 `q_stress`, evidence/dsr/ 를 함께 고친다. 화면 점검은 `node tools/qa/dsr_screen.cjs`(스위치 끔 포함). 대출 조건은 프로필이 아니라 `cy-loan`(S.loan)에 저장한다. 은행연합회 공시(portal.kfb.or.kr)는 여기서 열리지 않아 출처는 이름만 단다.
+- **대출 계산기는 탭(2026-11-24)**: 운영자가 자금 플랜에 입력 칸을 두지 말라고 함 — 자금 플랜에는 결과와 '내 대출 조건 계산하기' 링크만, 입력·월 상환액·DSR 내역은 `vLoan`(#/loan). 자금 플랜에 새 입력을 더하고 싶을 때는 먼저 계산기 탭에 둘 수 있는지 본다.
