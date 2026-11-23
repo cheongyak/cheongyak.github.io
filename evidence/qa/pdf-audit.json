@@ -1,19 +1,13 @@
 {
- "date": "2026-11-23",
+ "date": "2026-11-24",
  "page_cap": 300,
- "notices": 76,
- "with_problem": 5,
+ "notices": 83,
+ "with_problem": 6,
  "kinds": {
   "읽기 도구에 따라 값이 다름": 1,
-  "글자가 거의 없는 쪽 N개 (스캔 이미지·표 그림 추정)": 4
+  "글자가 거의 없는 쪽 N개 (스캔 이미지·표 그림 추정)": 5
  },
- "errors": [
-  {
-   "notice": "2026000559",
-   "name": "두산위브 트레지움 익산",
-   "error": "RemoteProtocolError: Server disconnected without sending a response."
-  }
- ],
+ "errors": [],
  "results": [
   {
    "notice": "2026000598",
@@ -568,7 +562,59 @@
   {
    "notice": "2026000559",
    "name": "두산위브 트레지움 익산",
-   "error": "RemoteProtocolError: Server disconnected without sending a response."
+   "url": "https://www.applyhome.co.kr/ai/aia/selectAPTLttotPblancDetail.do?houseManageNo=2026000559&pblancNo=2026000559",
+   "attachments": 1,
+   "pdfs": 1,
+   "attachment_list": [
+    {
+     "url": "https://static.applyhome.co.kr/ai/aia/getAtchmnfl.do?houseManageNo=2026000559&pblancNo=2026000559&atchmnflSeqNo=2028029&atchmnflSn=2",
+     "bytes": 1180846,
+     "pages": 72,
+     "chars": 156512,
+     "head": "- 1 - 두산위브 트레지움 익산 입주자모집공고 구 글 플 레 이 스 토 어 애플앱 스토어 청약 앱 설치 바로가기Home ※ 단지 주요정보 분양"
+    }
+   ],
+   "chosen": "https://static.applyhome.co.kr/ai/aia/getAtchmnfl.do?houseManageNo=2026000559&pblancNo=2026000559&atchmnflSeqNo=2028029&atchmnflSn=2",
+   "pages": 72,
+   "pages_read": 72,
+   "chars_read": 156583,
+   "empty_pages": [],
+   "chars_per_page_min": 816,
+   "fields": {
+    "need_head": false,
+    "price_cap": false,
+    "residence_duty": 0,
+    "rewin_years": 0,
+    "residence": {
+     "area": "전북특별자치도 익산시",
+     "months": 0,
+     "since": null
+    }
+   },
+   "fields_merged": {
+    "need_head": false,
+    "price_cap": false,
+    "residence_duty": 0,
+    "rewin_years": 0,
+    "residence": {
+     "area": "전북특별자치도 익산시",
+     "months": 0,
+     "since": null
+    }
+   },
+   "fields_pdfium": {
+    "need_head": false,
+    "price_cap": false,
+    "residence_duty": 0,
+    "rewin_years": 0,
+    "residence": {
+     "area": "전북특별자치도 익산시",
+     "months": 0,
+     "since": null
+    }
+   },
+   "pdfium_chars": 159323,
+   "problem": []
   },
   {
    "notice": "2026000536",
@@ -2915,6 +2961,441 @@
    "pdfium_chars": 273090,
    "problem": [
     "글자가 거의 없는 쪽 1개 (스캔 이미지·표 그림 추정): [2]"
+   ]
+  },
+  {
+   "notice": "2026930048",
+   "name": "동탄신도시 금강펜테리움 7차 센트럴파크 불법행위재공급",
+   "url": "https://www.applyhome.co.kr/ai/aia/selectAPTRemndrLttotPblancDetailView.do?houseManageNo=2026930048&pblancNo=2026930048",
+   "attachments": 1,
+   "pdfs": 1,
+   "attachment_list": [
+    {
+     "url": "https://static.applyhome.co.kr/ai/aia/getAtchmnfl.do?houseManageNo=2026930048&pblancNo=2026930048&atchmnflSeqNo=2027422&atchmnflSn=3",
+     "bytes": 332172,
+     "pages": 12,
+     "chars": 20435,
+     "head": "- 1 - ※ 단지 주요정보 (분양문의) 02-3468-7746 주택유형 규제지역여부 거주요건 재당첨제한 민영 투기과열지구 경기도 화성시 거주자"
+    }
+   ],
+   "chosen": "https://static.applyhome.co.kr/ai/aia/getAtchmnfl.do?houseManageNo=2026930048&pblancNo=2026930048&atchmnflSeqNo=2027422&atchmnflSn=3",
+   "pages": 12,
+   "pages_read": 12,
+   "chars_read": 20446,
+   "empty_pages": [],
+   "chars_per_page_min": 775,
+   "fields": {
+    "need_head": true,
+    "price_cap": true,
+    "residence_duty": 5,
+    "rewin_years": 10,
+    "ext": 0.036,
+    "residence": {
+     "area": "경기도 화성시",
+     "months": 0,
+     "since": null
+    }
+   },
+   "fields_merged": {
+    "need_head": true,
+    "price_cap": true,
+    "residence_duty": 5,
+    "rewin_years": 10,
+    "ext": 0.036,
+    "residence": {
+     "area": "경기도 화성시",
+     "months": 0,
+     "since": null
+    }
+   },
+   "fields_pdfium": {
+    "need_head": true,
+    "price_cap": true,
+    "residence_duty": 5,
+    "rewin_years": 10,
+    "ext": 0.036,
+    "residence": {
+     "area": "경기도 화성시",
+     "months": 0,
+     "since": null
+    }
+   },
+   "pdfium_chars": 20636,
+   "problem": []
+  },
+  {
+   "notice": "2026910305",
+   "name": "판교TH212(2차)",
+   "url": "https://www.applyhome.co.kr/ai/aia/selectAPTRemndrLttotPblancDetailView.do?houseManageNo=2026910305&pblancNo=2026910305",
+   "attachments": 1,
+   "pdfs": 1,
+   "attachment_list": [
+    {
+     "url": "https://static.applyhome.co.kr/ai/aia/getAtchmnfl.do?houseManageNo=2026910305&pblancNo=2026910305&atchmnflSeqNo=2023020&atchmnflSn=4",
+     "bytes": 441114,
+     "pages": 11,
+     "chars": 16746,
+     "head": "- 1 - *해당 주택건설지역인 경기도 성남시 분당구는 ‘25.10.16. 투기과열지구로 지정되었으나, 본 주택은 ’25.10.15. 이전 입주"
+    }
+   ],
+   "chosen": "https://static.applyhome.co.kr/ai/aia/getAtchmnfl.do?houseManageNo=2026910305&pblancNo=2026910305&atchmnflSeqNo=2023020&atchmnflSn=4",
+   "pages": 11,
+   "pages_read": 11,
+   "chars_read": 16756,
+   "empty_pages": [],
+   "chars_per_page_min": 468,
+   "fields": {
+    "need_head": false,
+    "price_cap": true,
+    "residence_duty": 3,
+    "rewin_years": 0,
+    "ext": 0.072,
+    "residence": {
+     "area": null,
+     "months": 0,
+     "since": null
+    }
+   },
+   "fields_merged": {
+    "need_head": false,
+    "price_cap": true,
+    "residence_duty": 3,
+    "rewin_years": 0,
+    "ext": 0.072,
+    "residence": {
+     "area": null,
+     "months": 0,
+     "since": null
+    }
+   },
+   "fields_pdfium": {
+    "need_head": false,
+    "price_cap": true,
+    "residence_duty": 3,
+    "rewin_years": 0,
+    "ext": 0.072,
+    "residence": {
+     "area": null,
+     "months": 0,
+     "since": null
+    }
+   },
+   "pdfium_chars": 16938,
+   "problem": []
+  },
+  {
+   "notice": "2026910304",
+   "name": "더샵 분당하이스트(2차)",
+   "url": "https://www.applyhome.co.kr/ai/aia/selectAPTRemndrLttotPblancDetailView.do?houseManageNo=2026910304&pblancNo=2026910304",
+   "attachments": 1,
+   "pdfs": 1,
+   "attachment_list": [
+    {
+     "url": "https://static.applyhome.co.kr/ai/aia/getAtchmnfl.do?houseManageNo=2026910304&pblancNo=2026910304&atchmnflSeqNo=2027367&atchmnflSn=2",
+     "bytes": 276165,
+     "pages": 8,
+     "chars": 21808,
+     "head": "더샵 분당하이스트 - 1 - 더샵 분당하이스트 무순위(사후) 2차 입주자모집공고 구글플레이스토어 애플앱스토어 청약Home 앱 설치 바로가기 공식"
+    }
+   ],
+   "chosen": "https://static.applyhome.co.kr/ai/aia/getAtchmnfl.do?houseManageNo=2026910304&pblancNo=2026910304&atchmnflSeqNo=2027367&atchmnflSn=2",
+   "pages": 8,
+   "pages_read": 8,
+   "chars_read": 21815,
+   "empty_pages": [],
+   "chars_per_page_min": 1593,
+   "fields": {
+    "need_head": false,
+    "price_cap": false,
+    "residence_duty": 0,
+    "rewin_years": 10,
+    "residence": {
+     "area": null,
+     "months": 0,
+     "since": null
+    }
+   },
+   "fields_merged": {
+    "need_head": false,
+    "price_cap": false,
+    "residence_duty": 0,
+    "rewin_years": 10,
+    "residence": {
+     "area": null,
+     "months": 0,
+     "since": null
+    }
+   },
+   "fields_pdfium": {
+    "need_head": false,
+    "price_cap": false,
+    "residence_duty": 0,
+    "rewin_years": 10,
+    "residence": {
+     "area": null,
+     "months": 0,
+     "since": null
+    }
+   },
+   "pdfium_chars": 21730,
+   "problem": []
+  },
+  {
+   "notice": "2026910303",
+   "name": "동탄신도시 금강펜테리움 7차 센트럴파크(2차)",
+   "url": "https://www.applyhome.co.kr/ai/aia/selectAPTRemndrLttotPblancDetailView.do?houseManageNo=2026910303&pblancNo=2026910303",
+   "attachments": 1,
+   "pdfs": 1,
+   "attachment_list": [
+    {
+     "url": "https://static.applyhome.co.kr/ai/aia/getAtchmnfl.do?houseManageNo=2026910303&pblancNo=2026910303&atchmnflSeqNo=2027407&atchmnflSn=5",
+     "bytes": 460561,
+     "pages": 12,
+     "chars": 19387,
+     "head": "- 1 - *해당 주택건설지역인 경기도 화성시 동탄구는 ‘26.07.01. 투기과열지구로 지정되었으나, 본 주택은 ’26.07.01. 이전 입주"
+    }
+   ],
+   "chosen": "https://static.applyhome.co.kr/ai/aia/getAtchmnfl.do?houseManageNo=2026910303&pblancNo=2026910303&atchmnflSeqNo=2027407&atchmnflSn=5",
+   "pages": 12,
+   "pages_read": 12,
+   "chars_read": 19398,
+   "empty_pages": [],
+   "chars_per_page_min": 700,
+   "fields": {
+    "need_head": false,
+    "price_cap": true,
+    "residence_duty": 5,
+    "rewin_years": 0,
+    "residence": {
+     "area": "경기도",
+     "months": 0,
+     "since": null
+    }
+   },
+   "fields_merged": {
+    "need_head": false,
+    "price_cap": true,
+    "residence_duty": 5,
+    "rewin_years": 0,
+    "residence": {
+     "area": "경기도",
+     "months": 0,
+     "since": null
+    }
+   },
+   "fields_pdfium": {
+    "need_head": false,
+    "price_cap": true,
+    "residence_duty": 5,
+    "rewin_years": 0,
+    "residence": {
+     "area": "경기도",
+     "months": 0,
+     "since": null
+    }
+   },
+   "pdfium_chars": 19612,
+   "problem": []
+  },
+  {
+   "notice": "2026910302",
+   "name": "한화포레나 영흥숲(4차)",
+   "url": "https://www.applyhome.co.kr/ai/aia/selectAPTRemndrLttotPblancDetailView.do?houseManageNo=2026910302&pblancNo=2026910302",
+   "attachments": 1,
+   "pdfs": 1,
+   "attachment_list": [
+    {
+     "url": "https://static.applyhome.co.kr/ai/aia/getAtchmnfl.do?houseManageNo=2026910302&pblancNo=2026910302&atchmnflSeqNo=2022219&atchmnflSn=3",
+     "bytes": 239160,
+     "pages": 12,
+     "chars": 17652,
+     "head": "- 1 - ※ 단지 주요정보 (분양문의) 031-898-9447 주택유형 규제지역여부 무순위(사후) 자격요건 민영 투기과열지구/청약과열지역 무순"
+    }
+   ],
+   "chosen": "https://static.applyhome.co.kr/ai/aia/getAtchmnfl.do?houseManageNo=2026910302&pblancNo=2026910302&atchmnflSeqNo=2022219&atchmnflSn=3",
+   "pages": 12,
+   "pages_read": 12,
+   "chars_read": 17663,
+   "empty_pages": [],
+   "chars_per_page_min": 107,
+   "fields": {
+    "need_head": false,
+    "price_cap": false,
+    "residence_duty": 0,
+    "rewin_years": 10,
+    "residence": {
+     "area": "경기도",
+     "months": 0,
+     "since": null
+    }
+   },
+   "fields_merged": {
+    "need_head": false,
+    "price_cap": false,
+    "residence_duty": 0,
+    "rewin_years": 10,
+    "residence": {
+     "area": "경기도",
+     "months": 0,
+     "since": null
+    }
+   },
+   "fields_pdfium": {
+    "need_head": false,
+    "price_cap": false,
+    "residence_duty": 0,
+    "rewin_years": 10,
+    "residence": {
+     "area": "경기도",
+     "months": 0,
+     "since": null
+    }
+   },
+   "pdfium_chars": 17804,
+   "problem": []
+  },
+  {
+   "notice": "2026910301",
+   "name": "이천 서희스타힐스 SKY (조합원 취소분)",
+   "url": "https://www.applyhome.co.kr/ai/aia/selectAPTRemndrLttotPblancDetailView.do?houseManageNo=2026910301&pblancNo=2026910301",
+   "attachments": 1,
+   "pdfs": 1,
+   "attachment_list": [
+    {
+     "url": "https://static.applyhome.co.kr/ai/aia/getAtchmnfl.do?houseManageNo=2026910301&pblancNo=2026910301&atchmnflSeqNo=2022069&atchmnflSn=2",
+     "bytes": 298269,
+     "pages": 13,
+     "chars": 25147,
+     "head": "- 1 - ※ 단지 주요정보 (분양문의) 1577-6803 주택유형 규제지역여부 무순위(사후) 자격요건 민영 비규제지역 무순위(사후) 입주자모집"
+    }
+   ],
+   "chosen": "https://static.applyhome.co.kr/ai/aia/getAtchmnfl.do?houseManageNo=2026910301&pblancNo=2026910301&atchmnflSeqNo=2022069&atchmnflSn=2",
+   "pages": 13,
+   "pages_read": 13,
+   "chars_read": 25159,
+   "empty_pages": [],
+   "chars_per_page_min": 531,
+   "fields": {
+    "need_head": false,
+    "price_cap": false,
+    "residence_duty": 0,
+    "rewin_years": 0,
+    "residence": {
+     "area": null,
+     "months": 0,
+     "since": null
+    }
+   },
+   "fields_merged": {
+    "need_head": false,
+    "price_cap": false,
+    "residence_duty": 0,
+    "rewin_years": 0,
+    "residence": {
+     "area": null,
+     "months": 0,
+     "since": null
+    }
+   },
+   "fields_pdfium": {
+    "need_head": false,
+    "price_cap": false,
+    "residence_duty": 0,
+    "rewin_years": 0,
+    "residence": {
+     "area": null,
+     "months": 0,
+     "since": null
+    }
+   },
+   "pdfium_chars": 23738,
+   "problem": []
+  },
+  {
+   "notice": "2026910289",
+   "name": "이안 엑소디움 에이펙스",
+   "url": "https://www.applyhome.co.kr/ai/aia/selectAPTRemndrLttotPblancDetailView.do?houseManageNo=2026910289&pblancNo=2026910289",
+   "attachments": 1,
+   "pdfs": 1,
+   "attachment_list": [
+    {
+     "url": "https://static.applyhome.co.kr/ai/aia/getAtchmnfl.do?houseManageNo=2026910289&pblancNo=2026910289&atchmnflSeqNo=2030016&atchmnflSn=5",
+     "bytes": 12224058,
+     "pages": 42,
+     "chars": 22904,
+     "head": "- 1 - ❚공급위치 : 대구광역시 달서구 감삼동 599-51 [도로명주소 : 대구광역시 달서구 달구벌대로 1514] ❚공급대상 : 아파트 지하"
+    }
+   ],
+   "chosen": "https://static.applyhome.co.kr/ai/aia/getAtchmnfl.do?houseManageNo=2026910289&pblancNo=2026910289&atchmnflSeqNo=2030016&atchmnflSn=5",
+   "pages": 42,
+   "pages_read": 42,
+   "chars_read": 22945,
+   "empty_pages": [
+    8,
+    9,
+    10,
+    11,
+    12,
+    13,
+    14,
+    15,
+    16,
+    17,
+    18,
+    19,
+    20,
+    21,
+    22,
+    23,
+    24,
+    25,
+    26,
+    27,
+    28,
+    29,
+    30,
+    31,
+    32,
+    33,
+    34,
+    35,
+    36,
+    37
+   ],
+   "chars_per_page_min": 0,
+   "fields": {
+    "need_head": false,
+    "price_cap": false,
+    "residence_duty": 0,
+    "residence": {
+     "area": null,
+     "months": 0,
+     "since": null
+    }
+   },
+   "fields_merged": {
+    "need_head": false,
+    "price_cap": false,
+    "residence_duty": 0,
+    "residence": {
+     "area": null,
+     "months": 0,
+     "since": null
+    }
+   },
+   "fields_pdfium": {
+    "need_head": false,
+    "price_cap": false,
+    "residence_duty": 0,
+    "residence": {
+     "area": null,
+     "months": 0,
+     "since": null
+    }
+   },
+   "pdfium_chars": 22417,
+   "problem": [
+    "글자가 거의 없는 쪽 35개 (스캔 이미지·표 그림 추정): [8, 9, 10, 11, 12, 13, 14, 15, 16, 17]"
    ]
   },
   {
