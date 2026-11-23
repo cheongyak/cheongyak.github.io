@@ -1,31 +1,16 @@
 {
- "date": "2026-11-21",
+ "date": "2026-11-23",
  "page_cap": 300,
  "notices": 76,
- "with_problem": 4,
+ "with_problem": 5,
  "kinds": {
   "읽기 도구에 따라 값이 다름": 1,
-  "글자가 거의 없는 쪽 N개 (스캔 이미지·표 그림 추정)": 3
+  "글자가 거의 없는 쪽 N개 (스캔 이미지·표 그림 추정)": 4
  },
  "errors": [
   {
-   "notice": "2026000591",
-   "name": "소사 휴먼빌",
-   "error": "RemoteProtocolError: Server disconnected without sending a response."
-  },
-  {
-   "notice": "2026000576",
-   "name": "아르뮤제자이",
-   "error": "RemoteProtocolError: Server disconnected without sending a response."
-  },
-  {
-   "notice": "2026000525",
-   "name": "엘리프 시흥 더프라임",
-   "error": "RemoteProtocolError: Server disconnected without sending a response."
-  },
-  {
-   "notice": "2026000434",
-   "name": "삼도이동 1지구 토지임대부 공공분양주택",
+   "notice": "2026000559",
+   "name": "두산위브 트레지움 익산",
    "error": "RemoteProtocolError: Server disconnected without sending a response."
   }
  ],
@@ -213,7 +198,62 @@
   {
    "notice": "2026000591",
    "name": "소사 휴먼빌",
-   "error": "RemoteProtocolError: Server disconnected without sending a response."
+   "url": "https://www.applyhome.co.kr/ai/aia/selectAPTLttotPblancDetail.do?houseManageNo=2026000591&pblancNo=2026000591",
+   "attachments": 1,
+   "pdfs": 1,
+   "attachment_list": [
+    {
+     "url": "https://static.applyhome.co.kr/ai/aia/getAtchmnfl.do?houseManageNo=2026000591&pblancNo=2026000591&atchmnflSeqNo=2027261&atchmnflSn=5",
+     "bytes": 866819,
+     "pages": 60,
+     "chars": 122895,
+     "head": "- 1 - 소사 휴먼빌 입주자모집공고 구분 변경 전(6p) 변경 후(7p) 변경내용 (주택관리번호) 주택 관리번호 모델 주택형 (전용면적기준) "
+    }
+   ],
+   "chosen": "https://static.applyhome.co.kr/ai/aia/getAtchmnfl.do?houseManageNo=2026000591&pblancNo=2026000591&atchmnflSeqNo=2027261&atchmnflSn=5",
+   "pages": 60,
+   "pages_read": 60,
+   "chars_read": 122954,
+   "empty_pages": [],
+   "chars_per_page_min": 274,
+   "fields": {
+    "need_head": false,
+    "price_cap": false,
+    "residence_duty": 0,
+    "rewin_years": 0,
+    "account_months": 12,
+    "residence": {
+     "area": "경기도 부천시",
+     "months": 0,
+     "since": null
+    }
+   },
+   "fields_merged": {
+    "need_head": false,
+    "price_cap": false,
+    "residence_duty": 0,
+    "rewin_years": 0,
+    "account_months": 12,
+    "residence": {
+     "area": "경기도 부천시",
+     "months": 0,
+     "since": null
+    }
+   },
+   "fields_pdfium": {
+    "need_head": false,
+    "price_cap": false,
+    "residence_duty": 0,
+    "rewin_years": 0,
+    "account_months": 12,
+    "residence": {
+     "area": "경기도 부천시",
+     "months": 0,
+     "since": null
+    }
+   },
+   "pdfium_chars": 122475,
+   "problem": []
   },
   {
    "notice": "2026000590",
@@ -528,59 +568,7 @@
   {
    "notice": "2026000559",
    "name": "두산위브 트레지움 익산",
-   "url": "https://www.applyhome.co.kr/ai/aia/selectAPTLttotPblancDetail.do?houseManageNo=2026000559&pblancNo=2026000559",
-   "attachments": 1,
-   "pdfs": 1,
-   "attachment_list": [
-    {
-     "url": "https://static.applyhome.co.kr/ai/aia/getAtchmnfl.do?houseManageNo=2026000559&pblancNo=2026000559&atchmnflSeqNo=2028029&atchmnflSn=2",
-     "bytes": 1180846,
-     "pages": 72,
-     "chars": 156512,
-     "head": "- 1 - 두산위브 트레지움 익산 입주자모집공고 구 글 플 레 이 스 토 어 애플앱 스토어 청약 앱 설치 바로가기Home ※ 단지 주요정보 분양"
-    }
-   ],
-   "chosen": "https://static.applyhome.co.kr/ai/aia/getAtchmnfl.do?houseManageNo=2026000559&pblancNo=2026000559&atchmnflSeqNo=2028029&atchmnflSn=2",
-   "pages": 72,
-   "pages_read": 72,
-   "chars_read": 156583,
-   "empty_pages": [],
-   "chars_per_page_min": 816,
-   "fields": {
-    "need_head": false,
-    "price_cap": false,
-    "residence_duty": 0,
-    "rewin_years": 0,
-    "residence": {
-     "area": "전북특별자치도 익산시",
-     "months": 0,
-     "since": null
-    }
-   },
-   "fields_merged": {
-    "need_head": false,
-    "price_cap": false,
-    "residence_duty": 0,
-    "rewin_years": 0,
-    "residence": {
-     "area": "전북특별자치도 익산시",
-     "months": 0,
-     "since": null
-    }
-   },
-   "fields_pdfium": {
-    "need_head": false,
-    "price_cap": false,
-    "residence_duty": 0,
-    "rewin_years": 0,
-    "residence": {
-     "area": "전북특별자치도 익산시",
-     "months": 0,
-     "since": null
-    }
-   },
-   "pdfium_chars": 159323,
-   "problem": []
+   "error": "RemoteProtocolError: Server disconnected without sending a response."
   },
   {
    "notice": "2026000536",
@@ -1005,7 +993,62 @@
   {
    "notice": "2026000576",
    "name": "아르뮤제자이",
-   "error": "RemoteProtocolError: Server disconnected without sending a response."
+   "url": "https://www.applyhome.co.kr/ai/aia/selectAPTLttotPblancDetail.do?houseManageNo=2026000576&pblancNo=2026000576",
+   "attachments": 1,
+   "pdfs": 1,
+   "attachment_list": [
+    {
+     "url": "https://static.applyhome.co.kr/ai/aia/getAtchmnfl.do?houseManageNo=2026000576&pblancNo=2026000576&atchmnflSeqNo=2023060&atchmnflSn=3",
+     "bytes": 1041259,
+     "pages": 61,
+     "chars": 140044,
+     "head": "- 1 - ※ 본 입주자모집공고의 내용을 숙지한 후 청약 및 계약에 응하시기 바라며, 미숙지로 인한 착오 행위 등에 대하여는 청약자 및 계약자 "
+    }
+   ],
+   "chosen": "https://static.applyhome.co.kr/ai/aia/getAtchmnfl.do?houseManageNo=2026000576&pblancNo=2026000576&atchmnflSeqNo=2023060&atchmnflSn=3",
+   "pages": 61,
+   "pages_read": 61,
+   "chars_read": 140104,
+   "empty_pages": [],
+   "chars_per_page_min": 160,
+   "fields": {
+    "need_head": false,
+    "price_cap": false,
+    "residence_duty": 0,
+    "rewin_years": 0,
+    "account_months": 12,
+    "residence": {
+     "area": "경기도 안산시",
+     "months": 0,
+     "since": null
+    }
+   },
+   "fields_merged": {
+    "need_head": false,
+    "price_cap": false,
+    "residence_duty": 0,
+    "rewin_years": 0,
+    "account_months": 12,
+    "residence": {
+     "area": "경기도 안산시",
+     "months": 0,
+     "since": null
+    }
+   },
+   "fields_pdfium": {
+    "need_head": false,
+    "price_cap": false,
+    "residence_duty": 0,
+    "rewin_years": 0,
+    "account_months": 12,
+    "residence": {
+     "area": "경기도 안산시",
+     "months": 0,
+     "since": null
+    }
+   },
+   "pdfium_chars": 141173,
+   "problem": []
   },
   {
    "notice": "2026000457",
@@ -2066,7 +2109,62 @@
   {
    "notice": "2026000525",
    "name": "엘리프 시흥 더프라임",
-   "error": "RemoteProtocolError: Server disconnected without sending a response."
+   "url": "https://www.applyhome.co.kr/ai/aia/selectAPTLttotPblancDetail.do?houseManageNo=2026000525&pblancNo=2026000525",
+   "attachments": 1,
+   "pdfs": 1,
+   "attachment_list": [
+    {
+     "url": "https://static.applyhome.co.kr/ai/aia/getAtchmnfl.do?houseManageNo=2026000525&pblancNo=2026000525&atchmnflSeqNo=2006172&atchmnflSn=6",
+     "bytes": 1347558,
+     "pages": 59,
+     "chars": 151889,
+     "head": "- 1 - ※ 본 입주자 모집공고의 내용을 숙지한 후 청약 및 계약에 응하시기 바라며, 미숙지로 인한 착오 행위 등에 대하여는 청약자 및 계약자"
+    }
+   ],
+   "chosen": "https://static.applyhome.co.kr/ai/aia/getAtchmnfl.do?houseManageNo=2026000525&pblancNo=2026000525&atchmnflSeqNo=2006172&atchmnflSn=6",
+   "pages": 59,
+   "pages_read": 59,
+   "chars_read": 151947,
+   "empty_pages": [],
+   "chars_per_page_min": 411,
+   "fields": {
+    "need_head": false,
+    "price_cap": true,
+    "residence_duty": 0,
+    "rewin_years": 10,
+    "account_months": 12,
+    "residence": {
+     "area": "경기도 시흥시",
+     "months": 12,
+     "since": "2025-10-29"
+    }
+   },
+   "fields_merged": {
+    "need_head": false,
+    "price_cap": true,
+    "residence_duty": 0,
+    "rewin_years": 10,
+    "account_months": 12,
+    "residence": {
+     "area": "경기도 시흥시",
+     "months": 12,
+     "since": "2025-10-29"
+    }
+   },
+   "fields_pdfium": {
+    "need_head": false,
+    "price_cap": true,
+    "residence_duty": 0,
+    "rewin_years": 10,
+    "account_months": 12,
+    "residence": {
+     "area": "경기도 시흥시",
+     "months": 12,
+     "since": "2025-10-29"
+    }
+   },
+   "pdfium_chars": 150925,
+   "problem": []
   },
   {
    "notice": "2026000499",
@@ -2193,7 +2291,64 @@
   {
    "notice": "2026000434",
    "name": "삼도이동 1지구 토지임대부 공공분양주택",
-   "error": "RemoteProtocolError: Server disconnected without sending a response."
+   "url": "https://www.applyhome.co.kr/ai/aia/selectAPTLttotPblancDetail.do?houseManageNo=2026000434&pblancNo=2026000434",
+   "attachments": 1,
+   "pdfs": 1,
+   "attachment_list": [
+    {
+     "url": "https://static.applyhome.co.kr/ai/aia/getAtchmnfl.do?houseManageNo=2026000434&pblancNo=2026000434&atchmnflSeqNo=2010009&atchmnflSn=2",
+     "bytes": 1579845,
+     "pages": 42,
+     "chars": 129978,
+     "head": "- 1 - 삼도이동 1지구 토지임대부 공공분양주택 입주자모집공고 구 글 플 레 이 스 토 어애플앱 스토어 청약Home 앱 설치 바로가기 본 입주"
+    }
+   ],
+   "chosen": "https://static.applyhome.co.kr/ai/aia/getAtchmnfl.do?houseManageNo=2026000434&pblancNo=2026000434&atchmnflSeqNo=2010009&atchmnflSn=2",
+   "pages": 42,
+   "pages_read": 42,
+   "chars_read": 130019,
+   "empty_pages": [
+    36,
+    39
+   ],
+   "chars_per_page_min": 21,
+   "fields": {
+    "price_cap": true,
+    "residence_duty": 5,
+    "rewin_years": 10,
+    "residence": {
+     "area": "제주특별자치도",
+     "months": 12,
+     "since": "2025-10-27"
+    },
+    "pub_limits_kind": "total"
+   },
+   "fields_merged": {
+    "price_cap": true,
+    "residence_duty": 5,
+    "rewin_years": 10,
+    "residence": {
+     "area": "제주특별자치도",
+     "months": 12,
+     "since": "2025-10-27"
+    },
+    "pub_limits_kind": "total"
+   },
+   "fields_pdfium": {
+    "price_cap": true,
+    "residence_duty": 5,
+    "rewin_years": 10,
+    "residence": {
+     "area": "제주특별자치도",
+     "months": 12,
+     "since": "2025-10-27"
+    },
+    "pub_limits_kind": "total"
+   },
+   "pdfium_chars": 130040,
+   "problem": [
+    "글자가 거의 없는 쪽 2개 (스캔 이미지·표 그림 추정): [36, 39]"
+   ]
   },
   {
    "notice": "2026820012",
