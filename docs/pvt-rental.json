@@ -1,8 +1,253 @@
 {
- "updated": "2026-11-23 11:14",
+ "updated": "2026-11-24 08:10",
  "source": "청약홈 분양정보 API 공공지원 민간임대·민간임대 (한국부동산원)",
- "count": 3,
+ "count": 5,
  "notices": [
+  {
+   "id": "PVT-2026850058",
+   "org": "PVT",
+   "name": "부경경마공원역 대방 디에트르 더리버(AP1BL)",
+   "type": "공공지원 민간임대",
+   "judge_type": false,
+   "youth": false,
+   "region": "부산광역시",
+   "posted": "2026-11-23",
+   "close": "2026-12-01",
+   "status": null,
+   "url": "https://www.applyhome.co.kr/ai/aia/selectPRMOLttotPblancDetailView.do?houseManageNo=2026850058&pblancNo=2026850058&houseSecd=03",
+   "url_mobile": "https://www.applyhome.co.kr/ai/aia/selectPRMOLttotPblancDetailView.do?houseManageNo=2026850058&pblancNo=2026850058&houseSecd=03",
+   "schedule": [
+    {
+     "complex": null,
+     "apply_start": "2026-11-30",
+     "apply_end": "2026-12-01",
+     "docs_target": null,
+     "winner": "2026-12-04",
+     "rank1": false,
+     "contract_start": "2026-12-07",
+     "contract_end": "2026-12-08"
+    }
+   ],
+   "complexes": [
+    {
+     "name": "부경경마공원역 대방 디에트르 더리버(AP1BL)",
+     "address": "부산광역시 강서구 범방동 2008번지",
+     "households": 78,
+     "move_in": "202712",
+     "builder": "대방건설 주식회사"
+    }
+   ],
+   "units": [
+    {
+     "complex": null,
+     "type": "59A-1",
+     "area": 59.89,
+     "households": 33,
+     "now_households": 33,
+     "general": 33,
+     "special": {
+      "청년": 0,
+      "신혼부부": 0,
+      "고령자": 0
+     },
+     "supply_amount": 19380,
+     "apply_fee": 10,
+     "deposit": null,
+     "rent": null
+    },
+    {
+     "complex": null,
+     "type": "59B-1",
+     "area": 59.97,
+     "households": 45,
+     "now_households": 45,
+     "general": 45,
+     "special": {
+      "청년": 0,
+      "신혼부부": 0,
+      "고령자": 0
+     },
+     "supply_amount": 19522,
+     "apply_fee": 10,
+     "deposit": null,
+     "rent": null
+    }
+   ],
+   "rents": [],
+   "terms": null,
+   "files": [],
+   "notice_pdf": null,
+   "home": "http://detre-bg.co.kr/",
+   "office": {
+    "place": null,
+    "tel": "16889005"
+   }
+  },
+  {
+   "id": "PVT-2026850057",
+   "org": "PVT",
+   "name": "의왕 백운밸리 리젠시빌 란트",
+   "type": "공공지원 민간임대",
+   "judge_type": false,
+   "youth": true,
+   "region": "경기도",
+   "posted": "2026-11-23",
+   "close": "2026-11-30",
+   "status": null,
+   "url": "https://www.applyhome.co.kr/ai/aia/selectPRMOLttotPblancDetailView.do?houseManageNo=2026850057&pblancNo=2026850057&houseSecd=03",
+   "url_mobile": "https://www.applyhome.co.kr/ai/aia/selectPRMOLttotPblancDetailView.do?houseManageNo=2026850057&pblancNo=2026850057&houseSecd=03",
+   "schedule": [
+    {
+     "complex": null,
+     "apply_start": "2026-11-30",
+     "apply_end": "2026-11-30",
+     "docs_target": null,
+     "winner": "2026-12-03",
+     "rank1": false,
+     "contract_start": "2026-12-09",
+     "contract_end": "2026-12-10"
+    }
+   ],
+   "complexes": [
+    {
+     "name": "의왕 백운밸리 리젠시빌 란트",
+     "address": "경기도 의왕시 백운밸리 도시개발사업 A1BL",
+     "households": 130,
+     "move_in": "202905",
+     "builder": "주식회사 리젠시빌주택"
+    }
+   ],
+   "units": [
+    {
+     "complex": null,
+     "type": "59A",
+     "area": 59.98,
+     "households": 24,
+     "now_households": 24,
+     "general": 24,
+     "special": {
+      "청년": 0,
+      "신혼부부": 0,
+      "고령자": 0
+     },
+     "supply_amount": 51000,
+     "apply_fee": 10,
+     "deposit": null,
+     "rent": null
+    },
+    {
+     "complex": null,
+     "type": "59AT",
+     "area": 59.98,
+     "households": 4,
+     "now_households": 4,
+     "general": 0,
+     "special": {
+      "청년": 4,
+      "신혼부부": 0,
+      "고령자": 0
+     },
+     "supply_amount": 37000,
+     "apply_fee": 10,
+     "deposit": null,
+     "rent": null
+    },
+    {
+     "complex": null,
+     "type": "59B",
+     "area": 59.96,
+     "households": 30,
+     "now_households": 30,
+     "general": 30,
+     "special": {
+      "청년": 0,
+      "신혼부부": 0,
+      "고령자": 0
+     },
+     "supply_amount": 51000,
+     "apply_fee": 10,
+     "deposit": null,
+     "rent": null
+    },
+    {
+     "complex": null,
+     "type": "59BT",
+     "area": 59.96,
+     "households": 2,
+     "now_households": 2,
+     "general": 0,
+     "special": {
+      "청년": 2,
+      "신혼부부": 0,
+      "고령자": 0
+     },
+     "supply_amount": 35100,
+     "apply_fee": 10,
+     "deposit": null,
+     "rent": null
+    },
+    {
+     "complex": null,
+     "type": "59C",
+     "area": 59.96,
+     "households": 37,
+     "now_households": 37,
+     "general": 37,
+     "special": {
+      "청년": 0,
+      "신혼부부": 0,
+      "고령자": 0
+     },
+     "supply_amount": 49900,
+     "apply_fee": 10,
+     "deposit": null,
+     "rent": null
+    },
+    {
+     "complex": null,
+     "type": "59CT",
+     "area": 59.96,
+     "households": 18,
+     "now_households": 18,
+     "general": 0,
+     "special": {
+      "청년": 12,
+      "신혼부부": 6,
+      "고령자": 0
+     },
+     "supply_amount": 37800,
+     "apply_fee": 10,
+     "deposit": null,
+     "rent": null
+    },
+    {
+     "complex": null,
+     "type": "74",
+     "area": 74.97,
+     "households": 15,
+     "now_households": 15,
+     "general": 15,
+     "special": {
+      "청년": 0,
+      "신혼부부": 0,
+      "고령자": 0
+     },
+     "supply_amount": 59300,
+     "apply_fee": 10,
+     "deposit": null,
+     "rent": null
+    }
+   ],
+   "rents": [],
+   "terms": null,
+   "files": [],
+   "notice_pdf": null,
+   "home": "https://백운밸리리젠시빌란트.com",
+   "office": {
+    "place": null,
+    "tel": "18990757"
+   }
+  },
   {
    "id": "PVT-2026850056",
    "org": "PVT",
