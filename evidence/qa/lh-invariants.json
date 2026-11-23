@@ -1,9 +1,19 @@
 {
- "date": "2026-11-23 20:10",
- "data_updated": "2026-11-23 10:57",
- "notices": 80,
- "violations": {},
- "count": 0,
+ "date": "2026-11-24 08:00",
+ "data_updated": "2026-11-24 07:53",
+ "notices": 81,
+ "violations": {
+  "dual_add_range": {
+   "count": 1,
+   "examples": [
+    "2015122300021130 신혼부부·한부모 -30"
+   ],
+   "ids": [
+    "2015122300021130"
+   ]
+  }
+ },
+ "count": 1,
  "info": {
   "public_unread": {
    "count": 1,
@@ -20,6 +30,6 @@
   }
  },
  "_data": {
-  "lh": "54d1d5e15072"
+  "lh": "84698889f406"
  }
 }
