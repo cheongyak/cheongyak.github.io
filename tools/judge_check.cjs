@@ -56,6 +56,9 @@ const results = await page.evaluate(({ cases, listings, lhNotices }) => {
         const F0 = CONFIG.features, LN0 = S.loan; CONFIG.features = Object.assign({}, F0, { dsr_detail: c.feature }); S.loan = Object.assign({}, c.loan);
         try { const L2 = fromApi(c.raw), f = funding(L2, p, planOpt(L2)), D = f.dsr; const r = v => Math.round(v * 10000);
           got = { st: D ? Math.round(D.st.add * 1000) : null, years: D ? D.years : null, dsr: r(f.loanDsr), exist: D ? r(D.existing) : null, fut: D ? r(D.fut) : null }; } finally { CONFIG.features = F0; S.loan = LN0; } }
+      else if (c.fn === 'ltv') {   /* 기능 first_home_ltv: 생애최초·서민·실수요자 집값 기준 비율 (2026-11-23) */
+        const F0 = CONFIG.features; CONFIG.features = Object.assign({}, F0, { first_home_ltv: c.feature });
+        try { const L2 = fromApi(c.raw), f = funding(L2, p, planOpt(L2)); got = { ltv: Math.round(f.ltvRate * 100), amt: Math.round(f.loanLtv * 10000) }; } finally { CONFIG.features = F0; } }
       else if (c.fn === 'duty') got = { s: jeonseCheck(fromApi(c.raw)).status };   /* 실거주 의무 → 전세 가능 여부 (사례에 공고 원자료를 함께 둔다, 2026-11-11) */
       else if (c.fn === 'residence') { const r = residenceItem(L, p); got = { s: r.s, v: r.v.startsWith(c.expect.v) ? c.expect.v : r.v }; }
     } catch (e) { got = { error: e.message }; }

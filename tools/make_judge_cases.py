@@ -1305,7 +1305,7 @@ def main() -> None:
                    ("가입 24개월·24회(1순위 경계)", dict(accG, acctSince="2024-10-22", acctCount=24)), ("가입 23개월·24회(2순위)", dict(accG, acctSince="2024-10-23", acctCount=24)),
                    ("가입 6개월·6회(2순위 경계)", dict(accG, acctSince="2026-04-22", acctCount=6)), ("가입 5개월·6회(미달)", dict(accG, acctSince="2026-04-23", acctCount=6)),
                    ("가입 6개월·5회(미달)", dict(accG, acctSince="2026-04-22", acctCount=5)), ("가입일·횟수 모름", dict(accG, acctSince="", acctCount="")),
-                   ("세대에 집", dict(accG, selfOwn=True)), ("소득·자산 높음", dict(accG, hhIncomeYear=30000, realEstate=90000)), ("세대원(세대주 아님)", dict(accG, household="member"))]:
+                   ("세대에 집", dict(accG, selfOwn=True)), ("소득·자산 높음", dict(accG, hhIncomeYear=30000, realEstate=90000)), ("세대원(세대주 아님)", dict(accG, household="parents"))]:
         lh_add(P10G, ["일반"], nm, ch, bG)
     P50 = "LH-2015122300020895"
     bI = "익산부송3 50년 공공임대 2015122300020895 4. 신청자격(주택건설지역(익산시) 거주 무주택세대구성원, 1순위 가입 6개월·6회, 2순위 가입, 소득·자산 기준 없음) + 순위 결정기준(남은 주택은 익산시 외 전북 거주자에게 공급)"
@@ -1550,6 +1550,45 @@ def main() -> None:
     q_case("fut-minus", Q_CAP, {"minus": 9000, "futCredit": 2000}, "마이너스통장 한도 9,000만이 이미 연소득 8,000만을 넘음 → 받을 신용대출 0")
     q_case("fut-noincome", Q_CAP, {"futCredit": 2000}, "소득 미입력(0): 소득 기준 한도 0, 받을 신용대출은 그대로 2,000만", income=0)
     q_case("room-zero", Q_LOC, {"credit": 20000}, "신용대출 2억: 연 상환 5,000만 > 소득 8,000만 × 40% → 소득 기준 한도 0")
+
+    # ---------- 17-1c) 생애최초·서민·실수요자 LTV (기능 first_home_ltv, 2026-11-23) ----------
+    # 근거: 금융위 「10.15 주택시장 안정화 대책 관련 FAQ」(2025-10-17, https://fsc.go.kr/po020201/85466) 표 — 규제지역 주택구입 주담대 LTV 일반 40%·생애최초 70%·서민·실수요자 60%,
+    #   서민·실수요자 = ①부부합산 연소득 9천만원 이하 ②주택가격(시가) 8억원 이하 ③무주택세대주 모두 충족, 생애최초 = 세대 구성원 모두 과거에 주택을 소유한 사실이 없는 자.
+    #   6·27 방안: 생애최초 LTV 수도권·규제지역 80 → 70%, 그 밖의 지역 80% 유지. 비규제지역 일반 70%.
+    # 집값 기준 대출액 = 분양가·주변 시세(있으면) 중 낮은 값 × LTV (예전부터의 계산). '주택가격 8억 이하'는 분양가·주변 시세 중 높은 값으로 본다(보수적 — 이 서비스의 해석).
+    LF = ROOT / "tests/judge/ltv_listings.json"
+    if not LF.exists():
+        src = {x["id"].strip(): x for x in json.loads((ROOT / "docs/listings.json").read_text(encoding="utf-8"))}
+        drop = ("mkt_comps", "jeonse_comps", "area_comps", "nearby", "sp_competition", "area_sp", "competition", "notice_quotes", "notice_ai", "mkt_basis",
+                "special_units", "schedule", "pub_limits", "checks", "notice_conflicts")
+        LF.write_text(json.dumps([{a: b for a, b in src[k].items() if a not in drop} for k in ("2026000472-075.7770", "2026000472-084.6686", "2026000535-079.9780")], ensure_ascii=False, indent=1) + "\n", encoding="utf-8")
+    LL = json.loads(LF.read_text(encoding="utf-8"))
+    def l_case(tag, raw, want, basis, feature=True, **prof):
+        base = {"cash": 30000, "liquid": 0, "deposit": 0, "income": 8000, "household": "head", "selfOwn": False, "married": False, "hhNeverOwned": False, "_set": ["cash", "liquid", "deposit", "income"]}
+        base.update(prof)
+        lo = min(Decimal(str(raw["price"])), Decimal(str(raw["mkt_base"]))) if raw.get("mkt_base") else Decimal(str(raw["price"]))
+        add(id=f"ltv-{tag}", fn="ltv", listing=None, raw=raw, feature=feature, profile=base,
+            expect={"ltv": want, "amt": man(lo * Decimal(want) / Decimal(100))}, basis=basis + f" — {raw['name']} 분양가 {raw['price']}억 · 주변 시세 {raw.get('mkt_base') or '없음'}")
+    RA, RB, RC = LL[0], LL[1], LL[2]   # 규제지역: 분양가 6.958·시세 7.36 / 분양가 7.85·시세 8.16 / 분양가 8.227·시세 7.28
+    assert max(RA["price"], RA["mkt_base"]) <= 8 < RB["mkt_base"] and RB["price"] <= 8 < RC["price"] and RC["mkt_base"] <= 8
+    l_case("reg-first", RC, 70, "규제지역 생애최초 70% (집값 8억 넘어도)", hhNeverOwned=True)
+    l_case("reg-first-off", RC, 40, "스위치 끔 → 예전처럼 규제지역 40%", feature=False, hhNeverOwned=True)
+    l_case("reg-first-owns", RC, 40, "세대 이력 '없음'이라 답했어도 지금 본인 집이 있으면 생애최초 아님", hhNeverOwned=True, selfOwn=True)
+    l_case("reg-real", RA, 60, "규제지역 서민·실수요자 60%: 소득 8,000만 · 분양가·시세 모두 8억 이하 · 무주택세대주")
+    l_case("reg-real-off", RA, 40, "스위치 끔 → 40%", feature=False)
+    l_case("reg-real-inc-at", RA, 60, "서민·실수요자 소득 경계: 9,000만 (이하)", income=9000)
+    l_case("reg-real-inc-over", RA, 40, "서민·실수요자 소득 경계: 9,001만 (초과) → 일반 40%", income=9001)
+    l_case("reg-real-couple", RA, 40, "부부합산 5,000 + 4,500 = 9,500만 → 일반 40%", income=5000, married=True, spouseIncome=4500, spouseOwn=False)
+    l_case("reg-real-mkt-over", RB, 40, "분양가 8억 이하지만 주변 시세 8억 초과 → 일반 40% (보수적)")
+    l_case("reg-real-price-over", RC, 40, "분양가 8억 초과 → 일반 40%")
+    l_case("reg-real-member", RA, 40, "세대원(세대주 아님) → 서민·실수요자 아님, 일반 40%", household="parents")
+    l_case("reg-real-noincome", RA, 40, "소득 미입력(0) → 우대 없이 일반 40%", income=0)
+    l_case("reg-unknown", RC, 40, "주택 소유 이력 미입력 → 생애최초로 보지 않음", hhNeverOwned=None)
+    l_case("cap-first", Q_CAP, 70, "수도권 비규제 생애최초 70% (일반과 같음)", hhNeverOwned=True)
+    l_case("cap-normal", Q_CAP, 70, "수도권 비규제 일반 70%")
+    l_case("loc-first", Q_LOC, 80, "지방 생애최초 80%", hhNeverOwned=True)
+    l_case("loc-normal", Q_LOC, 70, "지방 일반 70%")
+    l_case("loc-first-off", Q_LOC, 70, "스위치 끔 → 지방 70%", feature=False, hhNeverOwned=True)
 
     # ---------- 17-2) 실거주 의무와 전세 (2026-11-11 밤 자동 개선 — 제한사항 표 '거주의무 최초 입주가능일 5년' 을 못 읽어 '확인 필요'로 남던 것) ----------
     # 정답 tests/golden/notices.json residence_duty(원문 문장 직접 확인). 규칙(2026000528 본문 '■ 거주의무 안내 … 최초 입주가능일부터 3년 이내에 입주하여야 하고,

@@ -66,9 +66,14 @@ const pv = (annual, pct, years) => { const r = pct / 100 / 12, n = years * 12; r
     await page.click('[data-loanset="years:40"]'); f = await F(page); if (f.D.years !== 40) bad.push('지방 40년 선택 안 됨');
     await page.click('[data-loanset="years:10"]'); f = await F(page); near(f.D.st.add, 0.75 * 0.2, '지방 혼합형 10년 만기(고정 비중 50%) 스트레스');
   }
+  // 2-1) 생애최초 버튼 (기능 first_home_ltv): 지방 70% → '없어요' 80% → '있어요' 70%, 내 정보에 저장
+  if (loc) { let r = await page.evaluate(() => { const L = LISTINGS.find(x => x.id === S.id); return funding(L, S.profile, planOpt(L)).ltvRate; }); near(r, 0.7, '지방 일반 LTV');
+    await page.click('[data-loanfirst="true"]'); r = await page.evaluate(() => { const L = LISTINGS.find(x => x.id === S.id), f = funding(L, S.profile, planOpt(L)); return [f.ltvRate, f.ltvWhy, JSON.parse(localStorage.getItem('cy-profile')).hhNeverOwned]; });
+    if (!(Math.abs(r[0] - 0.8) < 1e-9 && r[1] === '생애최초' && r[2] === true)) bad.push('생애최초 버튼: ' + JSON.stringify(r));
+    await page.click('[data-loanfirst="false"]'); r = await page.evaluate(() => { const L = LISTINGS.find(x => x.id === S.id); return funding(L, S.profile, planOpt(L)).ltvRate; }); near(r, 0.7, "'있어요' 뒤 LTV"); }
   await page.close();
   // 3) 스위치를 끄면 예전 화면·예전 계산
-  page = await open({ dsr_detail: false });
+  page = await open({ dsr_detail: false, first_home_ltv: false });
   const c2 = await pick(page, true);
   if (c2) { const f = await F(page); if (await page.$('#loancard')) bad.push('꺼도 대출 조건 카드가 보임'); if (f.D) bad.push('꺼도 dsr 계산'); near(f.loanDsr, pv(0.32, 7.0, 30), '끈 상태 한도(예전 7% 30년)');
     if (/매달 갚을 돈/.test(f.html)) bad.push('꺼도 월 상환액 줄이 보임'); }

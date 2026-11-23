@@ -33574,7 +33574,7 @@
   "fn": "lhrent",
   "notice": "LH-0000061190",
   "profile": {
-   "household": "member",
+   "household": "parents",
    "selfOwn": false,
    "spouseOwn": false,
    "married": false,
@@ -52645,6 +52645,3018 @@
    "fut": 0
   },
   "basis": "신용대출 2억: 연 상환 5,000만 > 소득 8,000만 × 40% → 소득 기준 한도 0"
+ },
+ {
+  "id": "ltv-reg-first",
+  "fn": "ltv",
+  "listing": null,
+  "raw": {
+   "id": "2026000535-079.9780 ",
+   "name": "중앙하이츠 구성 플랫폼시티",
+   "address": "경기도 용인시 기흥구 마북동 298-1번지 일원",
+   "region": "경기",
+   "sigungu": "용인시 기흥구",
+   "sido": "경기",
+   "district": "용인시 기흥구",
+   "supply_type": "APT",
+   "house_secd": "01",
+   "house_dtl": "민영",
+   "rent_secd": "분양주택",
+   "rental": false,
+   "land_lease": false,
+   "land_rent": null,
+   "land_rent_rate": null,
+   "special_apply": "2026-11-09",
+   "special_apply_end": "2026-11-09",
+   "kind": "일반분양 (특별공급·1순위)",
+   "category": "general",
+   "target": null,
+   "unit": "79",
+   "area": 79.978,
+   "households": 7,
+   "complex": {
+    "households": 130,
+    "buildings": 2,
+    "single": "no",
+    "status": "확인",
+    "src": "모집공고문 공급규모",
+    "quote": ": 아파트 지하 2층 ~ 지상 최고 15층, 2개동, 총 130세대[조합원 54세대] 중 일반분양 76세대 [특별공급 35세대(기관추천 5세대, 다자녀가구 6세대, 신혼부부 10세대, 노부모부양 2세대, 생애최초"
+   },
+   "mc_quota": null,
+   "youth": null,
+   "resale": {
+    "base": "당첨자 발표일",
+    "forbidden": false,
+    "months": 36,
+    "none": false,
+    "passed": false,
+    "registration": true,
+    "until_reg": false
+   },
+   "score_ratio": {
+    "rows": [
+     {
+      "lottery": 60,
+      "over": 0,
+      "score": 40,
+      "upto": 60
+     },
+     {
+      "lottery": 30,
+      "over": 60,
+      "score": 70,
+      "upto": 85
+     }
+    ]
+   },
+   "residence": {
+    "area": {
+     "name": "용인시",
+     "sigungu": "용인시"
+    },
+    "months": 24,
+    "others": [
+     "서울",
+     "인천",
+     "경기"
+    ],
+    "since": "2024-10-29"
+   },
+   "notice": "2026-10-29",
+   "apply": "2026-11-09",
+   "apply_end": "2026-11-12",
+   "winner": "2026-11-18",
+   "contract": "2026-11-30",
+   "balance": null,
+   "move_in": "2028-06",
+   "price": 8.227,
+   "ext": 0.0,
+   "pay_ratio": {
+    "balance": 0.3,
+    "contract": 0.1,
+    "mid": 0.6
+   },
+   "contract_split": null,
+   "contract_rate": 0.1,
+   "mid_rate": 0.6,
+   "mkt_low": 7.17,
+   "mkt_base": 7.28,
+   "mkt_note": "같은 구 준공 10년 이내 같은 평형 매매 15건 기준 (최근 6개월) · 거래가 몰린 단지(용인동백두산위브더제니스 15건)는 5건 몫으로 줄여 계산",
+   "mkt_count": 15,
+   "mkt_direct_excluded": 0,
+   "jeonse": 4.23,
+   "jeonse_note": "같은 구 준공 10년 이내 전세 13건 중앙값에서 입주장 할인 9%",
+   "capital": true,
+   "regulated": true,
+   "reg_kind": "투기과열",
+   "land_permit": true,
+   "price_cap": false,
+   "residence_duty": 0,
+   "duty_from": null,
+   "duty_silent": false,
+   "jeonse_weak": false,
+   "unregistered": true,
+   "need_head": false,
+   "need_account": true,
+   "limits": [
+    [
+     "재당첨 제한",
+     "10년"
+    ],
+    [
+     "실거주 의무",
+     "없음"
+    ],
+    [
+     "전매 제한",
+     "3년(등기 시 풀림)"
+    ]
+   ],
+   "url": "https://www.applyhome.co.kr/ai/aia/selectAPTLttotPblancDetail.do?houseManageNo=2026000535&pblancNo=2026000535",
+   "notice_pdf": "https://static.applyhome.co.kr/ai/aia/getAtchmnfl.do?houseManageNo=2026000535&pblancNo=2026000535&atchmnflSeqNo=2008131&atchmnflSn=7",
+   "from_notice": [
+    "1순위 가입기간",
+    "세대주 요건",
+    "계약금 비율",
+    "분양가상한제",
+    "전매 제한",
+    "거주 지역 요건",
+    "실거주 의무",
+    "재당첨 제한",
+    "가점제·추첨제 비율"
+   ],
+   "geo": {
+    "lat": 37.296591,
+    "lng": 127.117767,
+    "precision": "exact",
+    "query": "경기도 용인시 기흥구 마북동 298-1",
+    "matched": "경기도 용인시 기흥구 마북동 298-1",
+    "source": "네이버 클라우드 플랫폼 Geocoding"
+   },
+   "account_months": 24,
+   "deposit_count": null,
+   "map_query": "경기도 용인시 기흥구 마북동 298-1",
+   "sample": false
+  },
+  "feature": true,
+  "profile": {
+   "cash": 30000,
+   "liquid": 0,
+   "deposit": 0,
+   "income": 8000,
+   "household": "head",
+   "selfOwn": false,
+   "married": false,
+   "hhNeverOwned": true,
+   "_set": [
+    "cash",
+    "liquid",
+    "deposit",
+    "income"
+   ]
+  },
+  "expect": {
+   "ltv": 70,
+   "amt": 50960
+  },
+  "basis": "규제지역 생애최초 70% (집값 8억 넘어도) — 중앙하이츠 구성 플랫폼시티 분양가 8.227억 · 주변 시세 7.28"
+ },
+ {
+  "id": "ltv-reg-first-off",
+  "fn": "ltv",
+  "listing": null,
+  "raw": {
+   "id": "2026000535-079.9780 ",
+   "name": "중앙하이츠 구성 플랫폼시티",
+   "address": "경기도 용인시 기흥구 마북동 298-1번지 일원",
+   "region": "경기",
+   "sigungu": "용인시 기흥구",
+   "sido": "경기",
+   "district": "용인시 기흥구",
+   "supply_type": "APT",
+   "house_secd": "01",
+   "house_dtl": "민영",
+   "rent_secd": "분양주택",
+   "rental": false,
+   "land_lease": false,
+   "land_rent": null,
+   "land_rent_rate": null,
+   "special_apply": "2026-11-09",
+   "special_apply_end": "2026-11-09",
+   "kind": "일반분양 (특별공급·1순위)",
+   "category": "general",
+   "target": null,
+   "unit": "79",
+   "area": 79.978,
+   "households": 7,
+   "complex": {
+    "households": 130,
+    "buildings": 2,
+    "single": "no",
+    "status": "확인",
+    "src": "모집공고문 공급규모",
+    "quote": ": 아파트 지하 2층 ~ 지상 최고 15층, 2개동, 총 130세대[조합원 54세대] 중 일반분양 76세대 [특별공급 35세대(기관추천 5세대, 다자녀가구 6세대, 신혼부부 10세대, 노부모부양 2세대, 생애최초"
+   },
+   "mc_quota": null,
+   "youth": null,
+   "resale": {
+    "base": "당첨자 발표일",
+    "forbidden": false,
+    "months": 36,
+    "none": false,
+    "passed": false,
+    "registration": true,
+    "until_reg": false
+   },
+   "score_ratio": {
+    "rows": [
+     {
+      "lottery": 60,
+      "over": 0,
+      "score": 40,
+      "upto": 60
+     },
+     {
+      "lottery": 30,
+      "over": 60,
+      "score": 70,
+      "upto": 85
+     }
+    ]
+   },
+   "residence": {
+    "area": {
+     "name": "용인시",
+     "sigungu": "용인시"
+    },
+    "months": 24,
+    "others": [
+     "서울",
+     "인천",
+     "경기"
+    ],
+    "since": "2024-10-29"
+   },
+   "notice": "2026-10-29",
+   "apply": "2026-11-09",
+   "apply_end": "2026-11-12",
+   "winner": "2026-11-18",
+   "contract": "2026-11-30",
+   "balance": null,
+   "move_in": "2028-06",
+   "price": 8.227,
+   "ext": 0.0,
+   "pay_ratio": {
+    "balance": 0.3,
+    "contract": 0.1,
+    "mid": 0.6
+   },
+   "contract_split": null,
+   "contract_rate": 0.1,
+   "mid_rate": 0.6,
+   "mkt_low": 7.17,
+   "mkt_base": 7.28,
+   "mkt_note": "같은 구 준공 10년 이내 같은 평형 매매 15건 기준 (최근 6개월) · 거래가 몰린 단지(용인동백두산위브더제니스 15건)는 5건 몫으로 줄여 계산",
+   "mkt_count": 15,
+   "mkt_direct_excluded": 0,
+   "jeonse": 4.23,
+   "jeonse_note": "같은 구 준공 10년 이내 전세 13건 중앙값에서 입주장 할인 9%",
+   "capital": true,
+   "regulated": true,
+   "reg_kind": "투기과열",
+   "land_permit": true,
+   "price_cap": false,
+   "residence_duty": 0,
+   "duty_from": null,
+   "duty_silent": false,
+   "jeonse_weak": false,
+   "unregistered": true,
+   "need_head": false,
+   "need_account": true,
+   "limits": [
+    [
+     "재당첨 제한",
+     "10년"
+    ],
+    [
+     "실거주 의무",
+     "없음"
+    ],
+    [
+     "전매 제한",
+     "3년(등기 시 풀림)"
+    ]
+   ],
+   "url": "https://www.applyhome.co.kr/ai/aia/selectAPTLttotPblancDetail.do?houseManageNo=2026000535&pblancNo=2026000535",
+   "notice_pdf": "https://static.applyhome.co.kr/ai/aia/getAtchmnfl.do?houseManageNo=2026000535&pblancNo=2026000535&atchmnflSeqNo=2008131&atchmnflSn=7",
+   "from_notice": [
+    "1순위 가입기간",
+    "세대주 요건",
+    "계약금 비율",
+    "분양가상한제",
+    "전매 제한",
+    "거주 지역 요건",
+    "실거주 의무",
+    "재당첨 제한",
+    "가점제·추첨제 비율"
+   ],
+   "geo": {
+    "lat": 37.296591,
+    "lng": 127.117767,
+    "precision": "exact",
+    "query": "경기도 용인시 기흥구 마북동 298-1",
+    "matched": "경기도 용인시 기흥구 마북동 298-1",
+    "source": "네이버 클라우드 플랫폼 Geocoding"
+   },
+   "account_months": 24,
+   "deposit_count": null,
+   "map_query": "경기도 용인시 기흥구 마북동 298-1",
+   "sample": false
+  },
+  "feature": false,
+  "profile": {
+   "cash": 30000,
+   "liquid": 0,
+   "deposit": 0,
+   "income": 8000,
+   "household": "head",
+   "selfOwn": false,
+   "married": false,
+   "hhNeverOwned": true,
+   "_set": [
+    "cash",
+    "liquid",
+    "deposit",
+    "income"
+   ]
+  },
+  "expect": {
+   "ltv": 40,
+   "amt": 29120
+  },
+  "basis": "스위치 끔 → 예전처럼 규제지역 40% — 중앙하이츠 구성 플랫폼시티 분양가 8.227억 · 주변 시세 7.28"
+ },
+ {
+  "id": "ltv-reg-first-owns",
+  "fn": "ltv",
+  "listing": null,
+  "raw": {
+   "id": "2026000535-079.9780 ",
+   "name": "중앙하이츠 구성 플랫폼시티",
+   "address": "경기도 용인시 기흥구 마북동 298-1번지 일원",
+   "region": "경기",
+   "sigungu": "용인시 기흥구",
+   "sido": "경기",
+   "district": "용인시 기흥구",
+   "supply_type": "APT",
+   "house_secd": "01",
+   "house_dtl": "민영",
+   "rent_secd": "분양주택",
+   "rental": false,
+   "land_lease": false,
+   "land_rent": null,
+   "land_rent_rate": null,
+   "special_apply": "2026-11-09",
+   "special_apply_end": "2026-11-09",
+   "kind": "일반분양 (특별공급·1순위)",
+   "category": "general",
+   "target": null,
+   "unit": "79",
+   "area": 79.978,
+   "households": 7,
+   "complex": {
+    "households": 130,
+    "buildings": 2,
+    "single": "no",
+    "status": "확인",
+    "src": "모집공고문 공급규모",
+    "quote": ": 아파트 지하 2층 ~ 지상 최고 15층, 2개동, 총 130세대[조합원 54세대] 중 일반분양 76세대 [특별공급 35세대(기관추천 5세대, 다자녀가구 6세대, 신혼부부 10세대, 노부모부양 2세대, 생애최초"
+   },
+   "mc_quota": null,
+   "youth": null,
+   "resale": {
+    "base": "당첨자 발표일",
+    "forbidden": false,
+    "months": 36,
+    "none": false,
+    "passed": false,
+    "registration": true,
+    "until_reg": false
+   },
+   "score_ratio": {
+    "rows": [
+     {
+      "lottery": 60,
+      "over": 0,
+      "score": 40,
+      "upto": 60
+     },
+     {
+      "lottery": 30,
+      "over": 60,
+      "score": 70,
+      "upto": 85
+     }
+    ]
+   },
+   "residence": {
+    "area": {
+     "name": "용인시",
+     "sigungu": "용인시"
+    },
+    "months": 24,
+    "others": [
+     "서울",
+     "인천",
+     "경기"
+    ],
+    "since": "2024-10-29"
+   },
+   "notice": "2026-10-29",
+   "apply": "2026-11-09",
+   "apply_end": "2026-11-12",
+   "winner": "2026-11-18",
+   "contract": "2026-11-30",
+   "balance": null,
+   "move_in": "2028-06",
+   "price": 8.227,
+   "ext": 0.0,
+   "pay_ratio": {
+    "balance": 0.3,
+    "contract": 0.1,
+    "mid": 0.6
+   },
+   "contract_split": null,
+   "contract_rate": 0.1,
+   "mid_rate": 0.6,
+   "mkt_low": 7.17,
+   "mkt_base": 7.28,
+   "mkt_note": "같은 구 준공 10년 이내 같은 평형 매매 15건 기준 (최근 6개월) · 거래가 몰린 단지(용인동백두산위브더제니스 15건)는 5건 몫으로 줄여 계산",
+   "mkt_count": 15,
+   "mkt_direct_excluded": 0,
+   "jeonse": 4.23,
+   "jeonse_note": "같은 구 준공 10년 이내 전세 13건 중앙값에서 입주장 할인 9%",
+   "capital": true,
+   "regulated": true,
+   "reg_kind": "투기과열",
+   "land_permit": true,
+   "price_cap": false,
+   "residence_duty": 0,
+   "duty_from": null,
+   "duty_silent": false,
+   "jeonse_weak": false,
+   "unregistered": true,
+   "need_head": false,
+   "need_account": true,
+   "limits": [
+    [
+     "재당첨 제한",
+     "10년"
+    ],
+    [
+     "실거주 의무",
+     "없음"
+    ],
+    [
+     "전매 제한",
+     "3년(등기 시 풀림)"
+    ]
+   ],
+   "url": "https://www.applyhome.co.kr/ai/aia/selectAPTLttotPblancDetail.do?houseManageNo=2026000535&pblancNo=2026000535",
+   "notice_pdf": "https://static.applyhome.co.kr/ai/aia/getAtchmnfl.do?houseManageNo=2026000535&pblancNo=2026000535&atchmnflSeqNo=2008131&atchmnflSn=7",
+   "from_notice": [
+    "1순위 가입기간",
+    "세대주 요건",
+    "계약금 비율",
+    "분양가상한제",
+    "전매 제한",
+    "거주 지역 요건",
+    "실거주 의무",
+    "재당첨 제한",
+    "가점제·추첨제 비율"
+   ],
+   "geo": {
+    "lat": 37.296591,
+    "lng": 127.117767,
+    "precision": "exact",
+    "query": "경기도 용인시 기흥구 마북동 298-1",
+    "matched": "경기도 용인시 기흥구 마북동 298-1",
+    "source": "네이버 클라우드 플랫폼 Geocoding"
+   },
+   "account_months": 24,
+   "deposit_count": null,
+   "map_query": "경기도 용인시 기흥구 마북동 298-1",
+   "sample": false
+  },
+  "feature": true,
+  "profile": {
+   "cash": 30000,
+   "liquid": 0,
+   "deposit": 0,
+   "income": 8000,
+   "household": "head",
+   "selfOwn": true,
+   "married": false,
+   "hhNeverOwned": true,
+   "_set": [
+    "cash",
+    "liquid",
+    "deposit",
+    "income"
+   ]
+  },
+  "expect": {
+   "ltv": 40,
+   "amt": 29120
+  },
+  "basis": "세대 이력 '없음'이라 답했어도 지금 본인 집이 있으면 생애최초 아님 — 중앙하이츠 구성 플랫폼시티 분양가 8.227억 · 주변 시세 7.28"
+ },
+ {
+  "id": "ltv-reg-real",
+  "fn": "ltv",
+  "listing": null,
+  "raw": {
+   "id": "2026000472-075.7770 ",
+   "name": "구리갈매역세권 B-1블록 신안인스빌 디센트",
+   "address": "경기도 구리시 구리갈매역세권 B-1블록",
+   "region": "경기",
+   "sigungu": "구리시",
+   "sido": "경기",
+   "district": "구리시",
+   "supply_type": "APT",
+   "house_secd": "01",
+   "house_dtl": "민영",
+   "rent_secd": "분양주택",
+   "rental": false,
+   "land_lease": false,
+   "land_rent": null,
+   "land_rent_rate": null,
+   "special_apply": "2026-11-09",
+   "special_apply_end": "2026-11-09",
+   "kind": "일반분양 (특별공급·1순위)",
+   "category": "general",
+   "target": null,
+   "unit": "75",
+   "area": 75.777,
+   "households": 38,
+   "complex": {
+    "households": null,
+    "buildings": null,
+    "single": "unknown",
+    "status": "확인 불가",
+    "src": null
+   },
+   "mc_quota": {
+    "unknown": true
+   },
+   "youth": null,
+   "resale": {
+    "base": "당첨자 발표일",
+    "forbidden": false,
+    "months": 36,
+    "none": false,
+    "passed": false,
+    "registration": true,
+    "until_reg": false
+   },
+   "score_ratio": {
+    "rows": [
+     {
+      "lottery": 30,
+      "over": 60,
+      "score": 70,
+      "upto": 85
+     }
+    ]
+   },
+   "residence": {
+    "area": {
+     "name": "경기도 구리시",
+     "sido": "경기",
+     "sigungu": "구리시"
+    },
+    "months": 24,
+    "others": [
+     "서울",
+     "인천",
+     "경기"
+    ],
+    "since": "2024-10-30"
+   },
+   "notice": "2026-10-30",
+   "apply": "2026-11-09",
+   "apply_end": "2026-11-11",
+   "winner": "2026-11-17",
+   "contract": "2026-11-30",
+   "balance": null,
+   "move_in": "2028-08",
+   "price": 6.958,
+   "ext": 0.0,
+   "pay_ratio": null,
+   "contract_split": null,
+   "contract_rate": 0.1,
+   "mid_rate": 0.6,
+   "mkt_low": 7.17,
+   "mkt_base": 7.36,
+   "mkt_note": "같은 구 준공 10년 이내 같은 평형 매매 30건 기준 (최근 6개월) · 거래가 몰린 단지(구리갈매스타힐스 9건, 한라비발디 6건)는 5건 몫으로 줄여 계산",
+   "mkt_count": 30,
+   "mkt_direct_excluded": 1,
+   "jeonse": 4.73,
+   "jeonse_note": "같은 구 준공 10년 이내 전세 45건 중앙값에서 입주장 할인 9%",
+   "capital": true,
+   "regulated": true,
+   "reg_kind": "투기과열",
+   "land_permit": true,
+   "price_cap": true,
+   "residence_duty": null,
+   "duty_from": null,
+   "duty_silent": false,
+   "jeonse_weak": false,
+   "unregistered": true,
+   "need_head": false,
+   "need_account": true,
+   "limits": [
+    [
+     "재당첨 제한",
+     "10년"
+    ],
+    [
+     "실거주 의무",
+     "공고문 확인"
+    ],
+    [
+     "전매 제한",
+     "3년(등기 시 풀림)"
+    ]
+   ],
+   "url": "https://www.applyhome.co.kr/ai/aia/selectAPTLttotPblancDetail.do?houseManageNo=2026000472&pblancNo=2026000472",
+   "notice_pdf": "https://static.applyhome.co.kr/ai/aia/getAtchmnfl.do?houseManageNo=2026000472&pblancNo=2026000472&atchmnflSeqNo=2012076&atchmnflSn=4",
+   "from_notice": [
+    "1순위 가입기간",
+    "다자녀 지역 배정",
+    "세대주 요건",
+    "분양가상한제",
+    "전매 제한",
+    "거주 지역 요건",
+    "재당첨 제한",
+    "가점제·추첨제 비율"
+   ],
+   "geo": null,
+   "account_months": 24,
+   "deposit_count": null,
+   "map_query": "경기도 구리시 구리갈매역세권 B-1블록",
+   "sample": false
+  },
+  "feature": true,
+  "profile": {
+   "cash": 30000,
+   "liquid": 0,
+   "deposit": 0,
+   "income": 8000,
+   "household": "head",
+   "selfOwn": false,
+   "married": false,
+   "hhNeverOwned": false,
+   "_set": [
+    "cash",
+    "liquid",
+    "deposit",
+    "income"
+   ]
+  },
+  "expect": {
+   "ltv": 60,
+   "amt": 41748
+  },
+  "basis": "규제지역 서민·실수요자 60%: 소득 8,000만 · 분양가·시세 모두 8억 이하 · 무주택세대주 — 구리갈매역세권 B-1블록 신안인스빌 디센트 분양가 6.958억 · 주변 시세 7.36"
+ },
+ {
+  "id": "ltv-reg-real-off",
+  "fn": "ltv",
+  "listing": null,
+  "raw": {
+   "id": "2026000472-075.7770 ",
+   "name": "구리갈매역세권 B-1블록 신안인스빌 디센트",
+   "address": "경기도 구리시 구리갈매역세권 B-1블록",
+   "region": "경기",
+   "sigungu": "구리시",
+   "sido": "경기",
+   "district": "구리시",
+   "supply_type": "APT",
+   "house_secd": "01",
+   "house_dtl": "민영",
+   "rent_secd": "분양주택",
+   "rental": false,
+   "land_lease": false,
+   "land_rent": null,
+   "land_rent_rate": null,
+   "special_apply": "2026-11-09",
+   "special_apply_end": "2026-11-09",
+   "kind": "일반분양 (특별공급·1순위)",
+   "category": "general",
+   "target": null,
+   "unit": "75",
+   "area": 75.777,
+   "households": 38,
+   "complex": {
+    "households": null,
+    "buildings": null,
+    "single": "unknown",
+    "status": "확인 불가",
+    "src": null
+   },
+   "mc_quota": {
+    "unknown": true
+   },
+   "youth": null,
+   "resale": {
+    "base": "당첨자 발표일",
+    "forbidden": false,
+    "months": 36,
+    "none": false,
+    "passed": false,
+    "registration": true,
+    "until_reg": false
+   },
+   "score_ratio": {
+    "rows": [
+     {
+      "lottery": 30,
+      "over": 60,
+      "score": 70,
+      "upto": 85
+     }
+    ]
+   },
+   "residence": {
+    "area": {
+     "name": "경기도 구리시",
+     "sido": "경기",
+     "sigungu": "구리시"
+    },
+    "months": 24,
+    "others": [
+     "서울",
+     "인천",
+     "경기"
+    ],
+    "since": "2024-10-30"
+   },
+   "notice": "2026-10-30",
+   "apply": "2026-11-09",
+   "apply_end": "2026-11-11",
+   "winner": "2026-11-17",
+   "contract": "2026-11-30",
+   "balance": null,
+   "move_in": "2028-08",
+   "price": 6.958,
+   "ext": 0.0,
+   "pay_ratio": null,
+   "contract_split": null,
+   "contract_rate": 0.1,
+   "mid_rate": 0.6,
+   "mkt_low": 7.17,
+   "mkt_base": 7.36,
+   "mkt_note": "같은 구 준공 10년 이내 같은 평형 매매 30건 기준 (최근 6개월) · 거래가 몰린 단지(구리갈매스타힐스 9건, 한라비발디 6건)는 5건 몫으로 줄여 계산",
+   "mkt_count": 30,
+   "mkt_direct_excluded": 1,
+   "jeonse": 4.73,
+   "jeonse_note": "같은 구 준공 10년 이내 전세 45건 중앙값에서 입주장 할인 9%",
+   "capital": true,
+   "regulated": true,
+   "reg_kind": "투기과열",
+   "land_permit": true,
+   "price_cap": true,
+   "residence_duty": null,
+   "duty_from": null,
+   "duty_silent": false,
+   "jeonse_weak": false,
+   "unregistered": true,
+   "need_head": false,
+   "need_account": true,
+   "limits": [
+    [
+     "재당첨 제한",
+     "10년"
+    ],
+    [
+     "실거주 의무",
+     "공고문 확인"
+    ],
+    [
+     "전매 제한",
+     "3년(등기 시 풀림)"
+    ]
+   ],
+   "url": "https://www.applyhome.co.kr/ai/aia/selectAPTLttotPblancDetail.do?houseManageNo=2026000472&pblancNo=2026000472",
+   "notice_pdf": "https://static.applyhome.co.kr/ai/aia/getAtchmnfl.do?houseManageNo=2026000472&pblancNo=2026000472&atchmnflSeqNo=2012076&atchmnflSn=4",
+   "from_notice": [
+    "1순위 가입기간",
+    "다자녀 지역 배정",
+    "세대주 요건",
+    "분양가상한제",
+    "전매 제한",
+    "거주 지역 요건",
+    "재당첨 제한",
+    "가점제·추첨제 비율"
+   ],
+   "geo": null,
+   "account_months": 24,
+   "deposit_count": null,
+   "map_query": "경기도 구리시 구리갈매역세권 B-1블록",
+   "sample": false
+  },
+  "feature": false,
+  "profile": {
+   "cash": 30000,
+   "liquid": 0,
+   "deposit": 0,
+   "income": 8000,
+   "household": "head",
+   "selfOwn": false,
+   "married": false,
+   "hhNeverOwned": false,
+   "_set": [
+    "cash",
+    "liquid",
+    "deposit",
+    "income"
+   ]
+  },
+  "expect": {
+   "ltv": 40,
+   "amt": 27832
+  },
+  "basis": "스위치 끔 → 40% — 구리갈매역세권 B-1블록 신안인스빌 디센트 분양가 6.958억 · 주변 시세 7.36"
+ },
+ {
+  "id": "ltv-reg-real-inc-at",
+  "fn": "ltv",
+  "listing": null,
+  "raw": {
+   "id": "2026000472-075.7770 ",
+   "name": "구리갈매역세권 B-1블록 신안인스빌 디센트",
+   "address": "경기도 구리시 구리갈매역세권 B-1블록",
+   "region": "경기",
+   "sigungu": "구리시",
+   "sido": "경기",
+   "district": "구리시",
+   "supply_type": "APT",
+   "house_secd": "01",
+   "house_dtl": "민영",
+   "rent_secd": "분양주택",
+   "rental": false,
+   "land_lease": false,
+   "land_rent": null,
+   "land_rent_rate": null,
+   "special_apply": "2026-11-09",
+   "special_apply_end": "2026-11-09",
+   "kind": "일반분양 (특별공급·1순위)",
+   "category": "general",
+   "target": null,
+   "unit": "75",
+   "area": 75.777,
+   "households": 38,
+   "complex": {
+    "households": null,
+    "buildings": null,
+    "single": "unknown",
+    "status": "확인 불가",
+    "src": null
+   },
+   "mc_quota": {
+    "unknown": true
+   },
+   "youth": null,
+   "resale": {
+    "base": "당첨자 발표일",
+    "forbidden": false,
+    "months": 36,
+    "none": false,
+    "passed": false,
+    "registration": true,
+    "until_reg": false
+   },
+   "score_ratio": {
+    "rows": [
+     {
+      "lottery": 30,
+      "over": 60,
+      "score": 70,
+      "upto": 85
+     }
+    ]
+   },
+   "residence": {
+    "area": {
+     "name": "경기도 구리시",
+     "sido": "경기",
+     "sigungu": "구리시"
+    },
+    "months": 24,
+    "others": [
+     "서울",
+     "인천",
+     "경기"
+    ],
+    "since": "2024-10-30"
+   },
+   "notice": "2026-10-30",
+   "apply": "2026-11-09",
+   "apply_end": "2026-11-11",
+   "winner": "2026-11-17",
+   "contract": "2026-11-30",
+   "balance": null,
+   "move_in": "2028-08",
+   "price": 6.958,
+   "ext": 0.0,
+   "pay_ratio": null,
+   "contract_split": null,
+   "contract_rate": 0.1,
+   "mid_rate": 0.6,
+   "mkt_low": 7.17,
+   "mkt_base": 7.36,
+   "mkt_note": "같은 구 준공 10년 이내 같은 평형 매매 30건 기준 (최근 6개월) · 거래가 몰린 단지(구리갈매스타힐스 9건, 한라비발디 6건)는 5건 몫으로 줄여 계산",
+   "mkt_count": 30,
+   "mkt_direct_excluded": 1,
+   "jeonse": 4.73,
+   "jeonse_note": "같은 구 준공 10년 이내 전세 45건 중앙값에서 입주장 할인 9%",
+   "capital": true,
+   "regulated": true,
+   "reg_kind": "투기과열",
+   "land_permit": true,
+   "price_cap": true,
+   "residence_duty": null,
+   "duty_from": null,
+   "duty_silent": false,
+   "jeonse_weak": false,
+   "unregistered": true,
+   "need_head": false,
+   "need_account": true,
+   "limits": [
+    [
+     "재당첨 제한",
+     "10년"
+    ],
+    [
+     "실거주 의무",
+     "공고문 확인"
+    ],
+    [
+     "전매 제한",
+     "3년(등기 시 풀림)"
+    ]
+   ],
+   "url": "https://www.applyhome.co.kr/ai/aia/selectAPTLttotPblancDetail.do?houseManageNo=2026000472&pblancNo=2026000472",
+   "notice_pdf": "https://static.applyhome.co.kr/ai/aia/getAtchmnfl.do?houseManageNo=2026000472&pblancNo=2026000472&atchmnflSeqNo=2012076&atchmnflSn=4",
+   "from_notice": [
+    "1순위 가입기간",
+    "다자녀 지역 배정",
+    "세대주 요건",
+    "분양가상한제",
+    "전매 제한",
+    "거주 지역 요건",
+    "재당첨 제한",
+    "가점제·추첨제 비율"
+   ],
+   "geo": null,
+   "account_months": 24,
+   "deposit_count": null,
+   "map_query": "경기도 구리시 구리갈매역세권 B-1블록",
+   "sample": false
+  },
+  "feature": true,
+  "profile": {
+   "cash": 30000,
+   "liquid": 0,
+   "deposit": 0,
+   "income": 9000,
+   "household": "head",
+   "selfOwn": false,
+   "married": false,
+   "hhNeverOwned": false,
+   "_set": [
+    "cash",
+    "liquid",
+    "deposit",
+    "income"
+   ]
+  },
+  "expect": {
+   "ltv": 60,
+   "amt": 41748
+  },
+  "basis": "서민·실수요자 소득 경계: 9,000만 (이하) — 구리갈매역세권 B-1블록 신안인스빌 디센트 분양가 6.958억 · 주변 시세 7.36"
+ },
+ {
+  "id": "ltv-reg-real-inc-over",
+  "fn": "ltv",
+  "listing": null,
+  "raw": {
+   "id": "2026000472-075.7770 ",
+   "name": "구리갈매역세권 B-1블록 신안인스빌 디센트",
+   "address": "경기도 구리시 구리갈매역세권 B-1블록",
+   "region": "경기",
+   "sigungu": "구리시",
+   "sido": "경기",
+   "district": "구리시",
+   "supply_type": "APT",
+   "house_secd": "01",
+   "house_dtl": "민영",
+   "rent_secd": "분양주택",
+   "rental": false,
+   "land_lease": false,
+   "land_rent": null,
+   "land_rent_rate": null,
+   "special_apply": "2026-11-09",
+   "special_apply_end": "2026-11-09",
+   "kind": "일반분양 (특별공급·1순위)",
+   "category": "general",
+   "target": null,
+   "unit": "75",
+   "area": 75.777,
+   "households": 38,
+   "complex": {
+    "households": null,
+    "buildings": null,
+    "single": "unknown",
+    "status": "확인 불가",
+    "src": null
+   },
+   "mc_quota": {
+    "unknown": true
+   },
+   "youth": null,
+   "resale": {
+    "base": "당첨자 발표일",
+    "forbidden": false,
+    "months": 36,
+    "none": false,
+    "passed": false,
+    "registration": true,
+    "until_reg": false
+   },
+   "score_ratio": {
+    "rows": [
+     {
+      "lottery": 30,
+      "over": 60,
+      "score": 70,
+      "upto": 85
+     }
+    ]
+   },
+   "residence": {
+    "area": {
+     "name": "경기도 구리시",
+     "sido": "경기",
+     "sigungu": "구리시"
+    },
+    "months": 24,
+    "others": [
+     "서울",
+     "인천",
+     "경기"
+    ],
+    "since": "2024-10-30"
+   },
+   "notice": "2026-10-30",
+   "apply": "2026-11-09",
+   "apply_end": "2026-11-11",
+   "winner": "2026-11-17",
+   "contract": "2026-11-30",
+   "balance": null,
+   "move_in": "2028-08",
+   "price": 6.958,
+   "ext": 0.0,
+   "pay_ratio": null,
+   "contract_split": null,
+   "contract_rate": 0.1,
+   "mid_rate": 0.6,
+   "mkt_low": 7.17,
+   "mkt_base": 7.36,
+   "mkt_note": "같은 구 준공 10년 이내 같은 평형 매매 30건 기준 (최근 6개월) · 거래가 몰린 단지(구리갈매스타힐스 9건, 한라비발디 6건)는 5건 몫으로 줄여 계산",
+   "mkt_count": 30,
+   "mkt_direct_excluded": 1,
+   "jeonse": 4.73,
+   "jeonse_note": "같은 구 준공 10년 이내 전세 45건 중앙값에서 입주장 할인 9%",
+   "capital": true,
+   "regulated": true,
+   "reg_kind": "투기과열",
+   "land_permit": true,
+   "price_cap": true,
+   "residence_duty": null,
+   "duty_from": null,
+   "duty_silent": false,
+   "jeonse_weak": false,
+   "unregistered": true,
+   "need_head": false,
+   "need_account": true,
+   "limits": [
+    [
+     "재당첨 제한",
+     "10년"
+    ],
+    [
+     "실거주 의무",
+     "공고문 확인"
+    ],
+    [
+     "전매 제한",
+     "3년(등기 시 풀림)"
+    ]
+   ],
+   "url": "https://www.applyhome.co.kr/ai/aia/selectAPTLttotPblancDetail.do?houseManageNo=2026000472&pblancNo=2026000472",
+   "notice_pdf": "https://static.applyhome.co.kr/ai/aia/getAtchmnfl.do?houseManageNo=2026000472&pblancNo=2026000472&atchmnflSeqNo=2012076&atchmnflSn=4",
+   "from_notice": [
+    "1순위 가입기간",
+    "다자녀 지역 배정",
+    "세대주 요건",
+    "분양가상한제",
+    "전매 제한",
+    "거주 지역 요건",
+    "재당첨 제한",
+    "가점제·추첨제 비율"
+   ],
+   "geo": null,
+   "account_months": 24,
+   "deposit_count": null,
+   "map_query": "경기도 구리시 구리갈매역세권 B-1블록",
+   "sample": false
+  },
+  "feature": true,
+  "profile": {
+   "cash": 30000,
+   "liquid": 0,
+   "deposit": 0,
+   "income": 9001,
+   "household": "head",
+   "selfOwn": false,
+   "married": false,
+   "hhNeverOwned": false,
+   "_set": [
+    "cash",
+    "liquid",
+    "deposit",
+    "income"
+   ]
+  },
+  "expect": {
+   "ltv": 40,
+   "amt": 27832
+  },
+  "basis": "서민·실수요자 소득 경계: 9,001만 (초과) → 일반 40% — 구리갈매역세권 B-1블록 신안인스빌 디센트 분양가 6.958억 · 주변 시세 7.36"
+ },
+ {
+  "id": "ltv-reg-real-couple",
+  "fn": "ltv",
+  "listing": null,
+  "raw": {
+   "id": "2026000472-075.7770 ",
+   "name": "구리갈매역세권 B-1블록 신안인스빌 디센트",
+   "address": "경기도 구리시 구리갈매역세권 B-1블록",
+   "region": "경기",
+   "sigungu": "구리시",
+   "sido": "경기",
+   "district": "구리시",
+   "supply_type": "APT",
+   "house_secd": "01",
+   "house_dtl": "민영",
+   "rent_secd": "분양주택",
+   "rental": false,
+   "land_lease": false,
+   "land_rent": null,
+   "land_rent_rate": null,
+   "special_apply": "2026-11-09",
+   "special_apply_end": "2026-11-09",
+   "kind": "일반분양 (특별공급·1순위)",
+   "category": "general",
+   "target": null,
+   "unit": "75",
+   "area": 75.777,
+   "households": 38,
+   "complex": {
+    "households": null,
+    "buildings": null,
+    "single": "unknown",
+    "status": "확인 불가",
+    "src": null
+   },
+   "mc_quota": {
+    "unknown": true
+   },
+   "youth": null,
+   "resale": {
+    "base": "당첨자 발표일",
+    "forbidden": false,
+    "months": 36,
+    "none": false,
+    "passed": false,
+    "registration": true,
+    "until_reg": false
+   },
+   "score_ratio": {
+    "rows": [
+     {
+      "lottery": 30,
+      "over": 60,
+      "score": 70,
+      "upto": 85
+     }
+    ]
+   },
+   "residence": {
+    "area": {
+     "name": "경기도 구리시",
+     "sido": "경기",
+     "sigungu": "구리시"
+    },
+    "months": 24,
+    "others": [
+     "서울",
+     "인천",
+     "경기"
+    ],
+    "since": "2024-10-30"
+   },
+   "notice": "2026-10-30",
+   "apply": "2026-11-09",
+   "apply_end": "2026-11-11",
+   "winner": "2026-11-17",
+   "contract": "2026-11-30",
+   "balance": null,
+   "move_in": "2028-08",
+   "price": 6.958,
+   "ext": 0.0,
+   "pay_ratio": null,
+   "contract_split": null,
+   "contract_rate": 0.1,
+   "mid_rate": 0.6,
+   "mkt_low": 7.17,
+   "mkt_base": 7.36,
+   "mkt_note": "같은 구 준공 10년 이내 같은 평형 매매 30건 기준 (최근 6개월) · 거래가 몰린 단지(구리갈매스타힐스 9건, 한라비발디 6건)는 5건 몫으로 줄여 계산",
+   "mkt_count": 30,
+   "mkt_direct_excluded": 1,
+   "jeonse": 4.73,
+   "jeonse_note": "같은 구 준공 10년 이내 전세 45건 중앙값에서 입주장 할인 9%",
+   "capital": true,
+   "regulated": true,
+   "reg_kind": "투기과열",
+   "land_permit": true,
+   "price_cap": true,
+   "residence_duty": null,
+   "duty_from": null,
+   "duty_silent": false,
+   "jeonse_weak": false,
+   "unregistered": true,
+   "need_head": false,
+   "need_account": true,
+   "limits": [
+    [
+     "재당첨 제한",
+     "10년"
+    ],
+    [
+     "실거주 의무",
+     "공고문 확인"
+    ],
+    [
+     "전매 제한",
+     "3년(등기 시 풀림)"
+    ]
+   ],
+   "url": "https://www.applyhome.co.kr/ai/aia/selectAPTLttotPblancDetail.do?houseManageNo=2026000472&pblancNo=2026000472",
+   "notice_pdf": "https://static.applyhome.co.kr/ai/aia/getAtchmnfl.do?houseManageNo=2026000472&pblancNo=2026000472&atchmnflSeqNo=2012076&atchmnflSn=4",
+   "from_notice": [
+    "1순위 가입기간",
+    "다자녀 지역 배정",
+    "세대주 요건",
+    "분양가상한제",
+    "전매 제한",
+    "거주 지역 요건",
+    "재당첨 제한",
+    "가점제·추첨제 비율"
+   ],
+   "geo": null,
+   "account_months": 24,
+   "deposit_count": null,
+   "map_query": "경기도 구리시 구리갈매역세권 B-1블록",
+   "sample": false
+  },
+  "feature": true,
+  "profile": {
+   "cash": 30000,
+   "liquid": 0,
+   "deposit": 0,
+   "income": 5000,
+   "household": "head",
+   "selfOwn": false,
+   "married": true,
+   "hhNeverOwned": false,
+   "_set": [
+    "cash",
+    "liquid",
+    "deposit",
+    "income"
+   ],
+   "spouseIncome": 4500,
+   "spouseOwn": false
+  },
+  "expect": {
+   "ltv": 40,
+   "amt": 27832
+  },
+  "basis": "부부합산 5,000 + 4,500 = 9,500만 → 일반 40% — 구리갈매역세권 B-1블록 신안인스빌 디센트 분양가 6.958억 · 주변 시세 7.36"
+ },
+ {
+  "id": "ltv-reg-real-mkt-over",
+  "fn": "ltv",
+  "listing": null,
+  "raw": {
+   "id": "2026000472-084.6686 ",
+   "name": "구리갈매역세권 B-1블록 신안인스빌 디센트",
+   "address": "경기도 구리시 구리갈매역세권 B-1블록",
+   "region": "경기",
+   "sigungu": "구리시",
+   "sido": "경기",
+   "district": "구리시",
+   "supply_type": "APT",
+   "house_secd": "01",
+   "house_dtl": "민영",
+   "rent_secd": "분양주택",
+   "rental": false,
+   "land_lease": false,
+   "land_rent": null,
+   "land_rent_rate": null,
+   "special_apply": "2026-11-09",
+   "special_apply_end": "2026-11-09",
+   "kind": "일반분양 (특별공급·1순위)",
+   "category": "general",
+   "target": null,
+   "unit": "84",
+   "area": 84.6686,
+   "households": 35,
+   "complex": {
+    "households": null,
+    "buildings": null,
+    "single": "unknown",
+    "status": "확인 불가",
+    "src": null
+   },
+   "mc_quota": {
+    "unknown": true
+   },
+   "youth": null,
+   "resale": {
+    "base": "당첨자 발표일",
+    "forbidden": false,
+    "months": 36,
+    "none": false,
+    "passed": false,
+    "registration": true,
+    "until_reg": false
+   },
+   "score_ratio": {
+    "rows": [
+     {
+      "lottery": 30,
+      "over": 60,
+      "score": 70,
+      "upto": 85
+     }
+    ]
+   },
+   "residence": {
+    "area": {
+     "name": "경기도 구리시",
+     "sido": "경기",
+     "sigungu": "구리시"
+    },
+    "months": 24,
+    "others": [
+     "서울",
+     "인천",
+     "경기"
+    ],
+    "since": "2024-10-30"
+   },
+   "notice": "2026-10-30",
+   "apply": "2026-11-09",
+   "apply_end": "2026-11-11",
+   "winner": "2026-11-17",
+   "contract": "2026-11-30",
+   "balance": null,
+   "move_in": "2028-08",
+   "price": 7.85,
+   "ext": 0.0,
+   "pay_ratio": null,
+   "contract_split": null,
+   "contract_rate": 0.1,
+   "mid_rate": 0.6,
+   "mkt_low": 7.65,
+   "mkt_base": 8.16,
+   "mkt_note": "같은 구 준공 10년 이내 같은 평형 매매 134건 기준 (최근 6개월) · 거래가 몰린 단지(갈매역아이파크 34건, 한라비발디 25건, 구리갈매스타힐스 15건 외 5곳)는 5건 몫으로 줄여 계산",
+   "mkt_count": 134,
+   "mkt_direct_excluded": 2,
+   "jeonse": 5.04,
+   "jeonse_note": "같은 구 준공 10년 이내 전세 154건 중앙값에서 입주장 할인 9%",
+   "capital": true,
+   "regulated": true,
+   "reg_kind": "투기과열",
+   "land_permit": true,
+   "price_cap": true,
+   "residence_duty": null,
+   "duty_from": null,
+   "duty_silent": false,
+   "jeonse_weak": false,
+   "unregistered": true,
+   "need_head": false,
+   "need_account": true,
+   "limits": [
+    [
+     "재당첨 제한",
+     "10년"
+    ],
+    [
+     "실거주 의무",
+     "공고문 확인"
+    ],
+    [
+     "전매 제한",
+     "3년(등기 시 풀림)"
+    ]
+   ],
+   "url": "https://www.applyhome.co.kr/ai/aia/selectAPTLttotPblancDetail.do?houseManageNo=2026000472&pblancNo=2026000472",
+   "notice_pdf": "https://static.applyhome.co.kr/ai/aia/getAtchmnfl.do?houseManageNo=2026000472&pblancNo=2026000472&atchmnflSeqNo=2012076&atchmnflSn=4",
+   "from_notice": [
+    "1순위 가입기간",
+    "다자녀 지역 배정",
+    "세대주 요건",
+    "분양가상한제",
+    "전매 제한",
+    "거주 지역 요건",
+    "재당첨 제한",
+    "가점제·추첨제 비율"
+   ],
+   "geo": null,
+   "account_months": 24,
+   "deposit_count": null,
+   "map_query": "경기도 구리시 구리갈매역세권 B-1블록",
+   "sample": false
+  },
+  "feature": true,
+  "profile": {
+   "cash": 30000,
+   "liquid": 0,
+   "deposit": 0,
+   "income": 8000,
+   "household": "head",
+   "selfOwn": false,
+   "married": false,
+   "hhNeverOwned": false,
+   "_set": [
+    "cash",
+    "liquid",
+    "deposit",
+    "income"
+   ]
+  },
+  "expect": {
+   "ltv": 40,
+   "amt": 31400
+  },
+  "basis": "분양가 8억 이하지만 주변 시세 8억 초과 → 일반 40% (보수적) — 구리갈매역세권 B-1블록 신안인스빌 디센트 분양가 7.85억 · 주변 시세 8.16"
+ },
+ {
+  "id": "ltv-reg-real-price-over",
+  "fn": "ltv",
+  "listing": null,
+  "raw": {
+   "id": "2026000535-079.9780 ",
+   "name": "중앙하이츠 구성 플랫폼시티",
+   "address": "경기도 용인시 기흥구 마북동 298-1번지 일원",
+   "region": "경기",
+   "sigungu": "용인시 기흥구",
+   "sido": "경기",
+   "district": "용인시 기흥구",
+   "supply_type": "APT",
+   "house_secd": "01",
+   "house_dtl": "민영",
+   "rent_secd": "분양주택",
+   "rental": false,
+   "land_lease": false,
+   "land_rent": null,
+   "land_rent_rate": null,
+   "special_apply": "2026-11-09",
+   "special_apply_end": "2026-11-09",
+   "kind": "일반분양 (특별공급·1순위)",
+   "category": "general",
+   "target": null,
+   "unit": "79",
+   "area": 79.978,
+   "households": 7,
+   "complex": {
+    "households": 130,
+    "buildings": 2,
+    "single": "no",
+    "status": "확인",
+    "src": "모집공고문 공급규모",
+    "quote": ": 아파트 지하 2층 ~ 지상 최고 15층, 2개동, 총 130세대[조합원 54세대] 중 일반분양 76세대 [특별공급 35세대(기관추천 5세대, 다자녀가구 6세대, 신혼부부 10세대, 노부모부양 2세대, 생애최초"
+   },
+   "mc_quota": null,
+   "youth": null,
+   "resale": {
+    "base": "당첨자 발표일",
+    "forbidden": false,
+    "months": 36,
+    "none": false,
+    "passed": false,
+    "registration": true,
+    "until_reg": false
+   },
+   "score_ratio": {
+    "rows": [
+     {
+      "lottery": 60,
+      "over": 0,
+      "score": 40,
+      "upto": 60
+     },
+     {
+      "lottery": 30,
+      "over": 60,
+      "score": 70,
+      "upto": 85
+     }
+    ]
+   },
+   "residence": {
+    "area": {
+     "name": "용인시",
+     "sigungu": "용인시"
+    },
+    "months": 24,
+    "others": [
+     "서울",
+     "인천",
+     "경기"
+    ],
+    "since": "2024-10-29"
+   },
+   "notice": "2026-10-29",
+   "apply": "2026-11-09",
+   "apply_end": "2026-11-12",
+   "winner": "2026-11-18",
+   "contract": "2026-11-30",
+   "balance": null,
+   "move_in": "2028-06",
+   "price": 8.227,
+   "ext": 0.0,
+   "pay_ratio": {
+    "balance": 0.3,
+    "contract": 0.1,
+    "mid": 0.6
+   },
+   "contract_split": null,
+   "contract_rate": 0.1,
+   "mid_rate": 0.6,
+   "mkt_low": 7.17,
+   "mkt_base": 7.28,
+   "mkt_note": "같은 구 준공 10년 이내 같은 평형 매매 15건 기준 (최근 6개월) · 거래가 몰린 단지(용인동백두산위브더제니스 15건)는 5건 몫으로 줄여 계산",
+   "mkt_count": 15,
+   "mkt_direct_excluded": 0,
+   "jeonse": 4.23,
+   "jeonse_note": "같은 구 준공 10년 이내 전세 13건 중앙값에서 입주장 할인 9%",
+   "capital": true,
+   "regulated": true,
+   "reg_kind": "투기과열",
+   "land_permit": true,
+   "price_cap": false,
+   "residence_duty": 0,
+   "duty_from": null,
+   "duty_silent": false,
+   "jeonse_weak": false,
+   "unregistered": true,
+   "need_head": false,
+   "need_account": true,
+   "limits": [
+    [
+     "재당첨 제한",
+     "10년"
+    ],
+    [
+     "실거주 의무",
+     "없음"
+    ],
+    [
+     "전매 제한",
+     "3년(등기 시 풀림)"
+    ]
+   ],
+   "url": "https://www.applyhome.co.kr/ai/aia/selectAPTLttotPblancDetail.do?houseManageNo=2026000535&pblancNo=2026000535",
+   "notice_pdf": "https://static.applyhome.co.kr/ai/aia/getAtchmnfl.do?houseManageNo=2026000535&pblancNo=2026000535&atchmnflSeqNo=2008131&atchmnflSn=7",
+   "from_notice": [
+    "1순위 가입기간",
+    "세대주 요건",
+    "계약금 비율",
+    "분양가상한제",
+    "전매 제한",
+    "거주 지역 요건",
+    "실거주 의무",
+    "재당첨 제한",
+    "가점제·추첨제 비율"
+   ],
+   "geo": {
+    "lat": 37.296591,
+    "lng": 127.117767,
+    "precision": "exact",
+    "query": "경기도 용인시 기흥구 마북동 298-1",
+    "matched": "경기도 용인시 기흥구 마북동 298-1",
+    "source": "네이버 클라우드 플랫폼 Geocoding"
+   },
+   "account_months": 24,
+   "deposit_count": null,
+   "map_query": "경기도 용인시 기흥구 마북동 298-1",
+   "sample": false
+  },
+  "feature": true,
+  "profile": {
+   "cash": 30000,
+   "liquid": 0,
+   "deposit": 0,
+   "income": 8000,
+   "household": "head",
+   "selfOwn": false,
+   "married": false,
+   "hhNeverOwned": false,
+   "_set": [
+    "cash",
+    "liquid",
+    "deposit",
+    "income"
+   ]
+  },
+  "expect": {
+   "ltv": 40,
+   "amt": 29120
+  },
+  "basis": "분양가 8억 초과 → 일반 40% — 중앙하이츠 구성 플랫폼시티 분양가 8.227억 · 주변 시세 7.28"
+ },
+ {
+  "id": "ltv-reg-real-member",
+  "fn": "ltv",
+  "listing": null,
+  "raw": {
+   "id": "2026000472-075.7770 ",
+   "name": "구리갈매역세권 B-1블록 신안인스빌 디센트",
+   "address": "경기도 구리시 구리갈매역세권 B-1블록",
+   "region": "경기",
+   "sigungu": "구리시",
+   "sido": "경기",
+   "district": "구리시",
+   "supply_type": "APT",
+   "house_secd": "01",
+   "house_dtl": "민영",
+   "rent_secd": "분양주택",
+   "rental": false,
+   "land_lease": false,
+   "land_rent": null,
+   "land_rent_rate": null,
+   "special_apply": "2026-11-09",
+   "special_apply_end": "2026-11-09",
+   "kind": "일반분양 (특별공급·1순위)",
+   "category": "general",
+   "target": null,
+   "unit": "75",
+   "area": 75.777,
+   "households": 38,
+   "complex": {
+    "households": null,
+    "buildings": null,
+    "single": "unknown",
+    "status": "확인 불가",
+    "src": null
+   },
+   "mc_quota": {
+    "unknown": true
+   },
+   "youth": null,
+   "resale": {
+    "base": "당첨자 발표일",
+    "forbidden": false,
+    "months": 36,
+    "none": false,
+    "passed": false,
+    "registration": true,
+    "until_reg": false
+   },
+   "score_ratio": {
+    "rows": [
+     {
+      "lottery": 30,
+      "over": 60,
+      "score": 70,
+      "upto": 85
+     }
+    ]
+   },
+   "residence": {
+    "area": {
+     "name": "경기도 구리시",
+     "sido": "경기",
+     "sigungu": "구리시"
+    },
+    "months": 24,
+    "others": [
+     "서울",
+     "인천",
+     "경기"
+    ],
+    "since": "2024-10-30"
+   },
+   "notice": "2026-10-30",
+   "apply": "2026-11-09",
+   "apply_end": "2026-11-11",
+   "winner": "2026-11-17",
+   "contract": "2026-11-30",
+   "balance": null,
+   "move_in": "2028-08",
+   "price": 6.958,
+   "ext": 0.0,
+   "pay_ratio": null,
+   "contract_split": null,
+   "contract_rate": 0.1,
+   "mid_rate": 0.6,
+   "mkt_low": 7.17,
+   "mkt_base": 7.36,
+   "mkt_note": "같은 구 준공 10년 이내 같은 평형 매매 30건 기준 (최근 6개월) · 거래가 몰린 단지(구리갈매스타힐스 9건, 한라비발디 6건)는 5건 몫으로 줄여 계산",
+   "mkt_count": 30,
+   "mkt_direct_excluded": 1,
+   "jeonse": 4.73,
+   "jeonse_note": "같은 구 준공 10년 이내 전세 45건 중앙값에서 입주장 할인 9%",
+   "capital": true,
+   "regulated": true,
+   "reg_kind": "투기과열",
+   "land_permit": true,
+   "price_cap": true,
+   "residence_duty": null,
+   "duty_from": null,
+   "duty_silent": false,
+   "jeonse_weak": false,
+   "unregistered": true,
+   "need_head": false,
+   "need_account": true,
+   "limits": [
+    [
+     "재당첨 제한",
+     "10년"
+    ],
+    [
+     "실거주 의무",
+     "공고문 확인"
+    ],
+    [
+     "전매 제한",
+     "3년(등기 시 풀림)"
+    ]
+   ],
+   "url": "https://www.applyhome.co.kr/ai/aia/selectAPTLttotPblancDetail.do?houseManageNo=2026000472&pblancNo=2026000472",
+   "notice_pdf": "https://static.applyhome.co.kr/ai/aia/getAtchmnfl.do?houseManageNo=2026000472&pblancNo=2026000472&atchmnflSeqNo=2012076&atchmnflSn=4",
+   "from_notice": [
+    "1순위 가입기간",
+    "다자녀 지역 배정",
+    "세대주 요건",
+    "분양가상한제",
+    "전매 제한",
+    "거주 지역 요건",
+    "재당첨 제한",
+    "가점제·추첨제 비율"
+   ],
+   "geo": null,
+   "account_months": 24,
+   "deposit_count": null,
+   "map_query": "경기도 구리시 구리갈매역세권 B-1블록",
+   "sample": false
+  },
+  "feature": true,
+  "profile": {
+   "cash": 30000,
+   "liquid": 0,
+   "deposit": 0,
+   "income": 8000,
+   "household": "parents",
+   "selfOwn": false,
+   "married": false,
+   "hhNeverOwned": false,
+   "_set": [
+    "cash",
+    "liquid",
+    "deposit",
+    "income"
+   ]
+  },
+  "expect": {
+   "ltv": 40,
+   "amt": 27832
+  },
+  "basis": "세대원(세대주 아님) → 서민·실수요자 아님, 일반 40% — 구리갈매역세권 B-1블록 신안인스빌 디센트 분양가 6.958억 · 주변 시세 7.36"
+ },
+ {
+  "id": "ltv-reg-real-noincome",
+  "fn": "ltv",
+  "listing": null,
+  "raw": {
+   "id": "2026000472-075.7770 ",
+   "name": "구리갈매역세권 B-1블록 신안인스빌 디센트",
+   "address": "경기도 구리시 구리갈매역세권 B-1블록",
+   "region": "경기",
+   "sigungu": "구리시",
+   "sido": "경기",
+   "district": "구리시",
+   "supply_type": "APT",
+   "house_secd": "01",
+   "house_dtl": "민영",
+   "rent_secd": "분양주택",
+   "rental": false,
+   "land_lease": false,
+   "land_rent": null,
+   "land_rent_rate": null,
+   "special_apply": "2026-11-09",
+   "special_apply_end": "2026-11-09",
+   "kind": "일반분양 (특별공급·1순위)",
+   "category": "general",
+   "target": null,
+   "unit": "75",
+   "area": 75.777,
+   "households": 38,
+   "complex": {
+    "households": null,
+    "buildings": null,
+    "single": "unknown",
+    "status": "확인 불가",
+    "src": null
+   },
+   "mc_quota": {
+    "unknown": true
+   },
+   "youth": null,
+   "resale": {
+    "base": "당첨자 발표일",
+    "forbidden": false,
+    "months": 36,
+    "none": false,
+    "passed": false,
+    "registration": true,
+    "until_reg": false
+   },
+   "score_ratio": {
+    "rows": [
+     {
+      "lottery": 30,
+      "over": 60,
+      "score": 70,
+      "upto": 85
+     }
+    ]
+   },
+   "residence": {
+    "area": {
+     "name": "경기도 구리시",
+     "sido": "경기",
+     "sigungu": "구리시"
+    },
+    "months": 24,
+    "others": [
+     "서울",
+     "인천",
+     "경기"
+    ],
+    "since": "2024-10-30"
+   },
+   "notice": "2026-10-30",
+   "apply": "2026-11-09",
+   "apply_end": "2026-11-11",
+   "winner": "2026-11-17",
+   "contract": "2026-11-30",
+   "balance": null,
+   "move_in": "2028-08",
+   "price": 6.958,
+   "ext": 0.0,
+   "pay_ratio": null,
+   "contract_split": null,
+   "contract_rate": 0.1,
+   "mid_rate": 0.6,
+   "mkt_low": 7.17,
+   "mkt_base": 7.36,
+   "mkt_note": "같은 구 준공 10년 이내 같은 평형 매매 30건 기준 (최근 6개월) · 거래가 몰린 단지(구리갈매스타힐스 9건, 한라비발디 6건)는 5건 몫으로 줄여 계산",
+   "mkt_count": 30,
+   "mkt_direct_excluded": 1,
+   "jeonse": 4.73,
+   "jeonse_note": "같은 구 준공 10년 이내 전세 45건 중앙값에서 입주장 할인 9%",
+   "capital": true,
+   "regulated": true,
+   "reg_kind": "투기과열",
+   "land_permit": true,
+   "price_cap": true,
+   "residence_duty": null,
+   "duty_from": null,
+   "duty_silent": false,
+   "jeonse_weak": false,
+   "unregistered": true,
+   "need_head": false,
+   "need_account": true,
+   "limits": [
+    [
+     "재당첨 제한",
+     "10년"
+    ],
+    [
+     "실거주 의무",
+     "공고문 확인"
+    ],
+    [
+     "전매 제한",
+     "3년(등기 시 풀림)"
+    ]
+   ],
+   "url": "https://www.applyhome.co.kr/ai/aia/selectAPTLttotPblancDetail.do?houseManageNo=2026000472&pblancNo=2026000472",
+   "notice_pdf": "https://static.applyhome.co.kr/ai/aia/getAtchmnfl.do?houseManageNo=2026000472&pblancNo=2026000472&atchmnflSeqNo=2012076&atchmnflSn=4",
+   "from_notice": [
+    "1순위 가입기간",
+    "다자녀 지역 배정",
+    "세대주 요건",
+    "분양가상한제",
+    "전매 제한",
+    "거주 지역 요건",
+    "재당첨 제한",
+    "가점제·추첨제 비율"
+   ],
+   "geo": null,
+   "account_months": 24,
+   "deposit_count": null,
+   "map_query": "경기도 구리시 구리갈매역세권 B-1블록",
+   "sample": false
+  },
+  "feature": true,
+  "profile": {
+   "cash": 30000,
+   "liquid": 0,
+   "deposit": 0,
+   "income": 0,
+   "household": "head",
+   "selfOwn": false,
+   "married": false,
+   "hhNeverOwned": false,
+   "_set": [
+    "cash",
+    "liquid",
+    "deposit",
+    "income"
+   ]
+  },
+  "expect": {
+   "ltv": 40,
+   "amt": 27832
+  },
+  "basis": "소득 미입력(0) → 우대 없이 일반 40% — 구리갈매역세권 B-1블록 신안인스빌 디센트 분양가 6.958억 · 주변 시세 7.36"
+ },
+ {
+  "id": "ltv-reg-unknown",
+  "fn": "ltv",
+  "listing": null,
+  "raw": {
+   "id": "2026000535-079.9780 ",
+   "name": "중앙하이츠 구성 플랫폼시티",
+   "address": "경기도 용인시 기흥구 마북동 298-1번지 일원",
+   "region": "경기",
+   "sigungu": "용인시 기흥구",
+   "sido": "경기",
+   "district": "용인시 기흥구",
+   "supply_type": "APT",
+   "house_secd": "01",
+   "house_dtl": "민영",
+   "rent_secd": "분양주택",
+   "rental": false,
+   "land_lease": false,
+   "land_rent": null,
+   "land_rent_rate": null,
+   "special_apply": "2026-11-09",
+   "special_apply_end": "2026-11-09",
+   "kind": "일반분양 (특별공급·1순위)",
+   "category": "general",
+   "target": null,
+   "unit": "79",
+   "area": 79.978,
+   "households": 7,
+   "complex": {
+    "households": 130,
+    "buildings": 2,
+    "single": "no",
+    "status": "확인",
+    "src": "모집공고문 공급규모",
+    "quote": ": 아파트 지하 2층 ~ 지상 최고 15층, 2개동, 총 130세대[조합원 54세대] 중 일반분양 76세대 [특별공급 35세대(기관추천 5세대, 다자녀가구 6세대, 신혼부부 10세대, 노부모부양 2세대, 생애최초"
+   },
+   "mc_quota": null,
+   "youth": null,
+   "resale": {
+    "base": "당첨자 발표일",
+    "forbidden": false,
+    "months": 36,
+    "none": false,
+    "passed": false,
+    "registration": true,
+    "until_reg": false
+   },
+   "score_ratio": {
+    "rows": [
+     {
+      "lottery": 60,
+      "over": 0,
+      "score": 40,
+      "upto": 60
+     },
+     {
+      "lottery": 30,
+      "over": 60,
+      "score": 70,
+      "upto": 85
+     }
+    ]
+   },
+   "residence": {
+    "area": {
+     "name": "용인시",
+     "sigungu": "용인시"
+    },
+    "months": 24,
+    "others": [
+     "서울",
+     "인천",
+     "경기"
+    ],
+    "since": "2024-10-29"
+   },
+   "notice": "2026-10-29",
+   "apply": "2026-11-09",
+   "apply_end": "2026-11-12",
+   "winner": "2026-11-18",
+   "contract": "2026-11-30",
+   "balance": null,
+   "move_in": "2028-06",
+   "price": 8.227,
+   "ext": 0.0,
+   "pay_ratio": {
+    "balance": 0.3,
+    "contract": 0.1,
+    "mid": 0.6
+   },
+   "contract_split": null,
+   "contract_rate": 0.1,
+   "mid_rate": 0.6,
+   "mkt_low": 7.17,
+   "mkt_base": 7.28,
+   "mkt_note": "같은 구 준공 10년 이내 같은 평형 매매 15건 기준 (최근 6개월) · 거래가 몰린 단지(용인동백두산위브더제니스 15건)는 5건 몫으로 줄여 계산",
+   "mkt_count": 15,
+   "mkt_direct_excluded": 0,
+   "jeonse": 4.23,
+   "jeonse_note": "같은 구 준공 10년 이내 전세 13건 중앙값에서 입주장 할인 9%",
+   "capital": true,
+   "regulated": true,
+   "reg_kind": "투기과열",
+   "land_permit": true,
+   "price_cap": false,
+   "residence_duty": 0,
+   "duty_from": null,
+   "duty_silent": false,
+   "jeonse_weak": false,
+   "unregistered": true,
+   "need_head": false,
+   "need_account": true,
+   "limits": [
+    [
+     "재당첨 제한",
+     "10년"
+    ],
+    [
+     "실거주 의무",
+     "없음"
+    ],
+    [
+     "전매 제한",
+     "3년(등기 시 풀림)"
+    ]
+   ],
+   "url": "https://www.applyhome.co.kr/ai/aia/selectAPTLttotPblancDetail.do?houseManageNo=2026000535&pblancNo=2026000535",
+   "notice_pdf": "https://static.applyhome.co.kr/ai/aia/getAtchmnfl.do?houseManageNo=2026000535&pblancNo=2026000535&atchmnflSeqNo=2008131&atchmnflSn=7",
+   "from_notice": [
+    "1순위 가입기간",
+    "세대주 요건",
+    "계약금 비율",
+    "분양가상한제",
+    "전매 제한",
+    "거주 지역 요건",
+    "실거주 의무",
+    "재당첨 제한",
+    "가점제·추첨제 비율"
+   ],
+   "geo": {
+    "lat": 37.296591,
+    "lng": 127.117767,
+    "precision": "exact",
+    "query": "경기도 용인시 기흥구 마북동 298-1",
+    "matched": "경기도 용인시 기흥구 마북동 298-1",
+    "source": "네이버 클라우드 플랫폼 Geocoding"
+   },
+   "account_months": 24,
+   "deposit_count": null,
+   "map_query": "경기도 용인시 기흥구 마북동 298-1",
+   "sample": false
+  },
+  "feature": true,
+  "profile": {
+   "cash": 30000,
+   "liquid": 0,
+   "deposit": 0,
+   "income": 8000,
+   "household": "head",
+   "selfOwn": false,
+   "married": false,
+   "hhNeverOwned": null,
+   "_set": [
+    "cash",
+    "liquid",
+    "deposit",
+    "income"
+   ]
+  },
+  "expect": {
+   "ltv": 40,
+   "amt": 29120
+  },
+  "basis": "주택 소유 이력 미입력 → 생애최초로 보지 않음 — 중앙하이츠 구성 플랫폼시티 분양가 8.227억 · 주변 시세 7.28"
+ },
+ {
+  "id": "ltv-cap-first",
+  "fn": "ltv",
+  "listing": null,
+  "raw": {
+   "id": "2026000591-059.9906A",
+   "name": "소사 휴먼빌",
+   "address": "경기도 부천시 소사구 소사본동 277-30번지 일원",
+   "region": "경기",
+   "sigungu": "부천시 소사구",
+   "sido": "경기",
+   "district": "부천시 소사구",
+   "supply_type": "APT",
+   "house_secd": "01",
+   "house_dtl": "민영",
+   "rent_secd": "분양주택",
+   "rental": false,
+   "land_lease": false,
+   "land_rent": null,
+   "land_rent_rate": null,
+   "special_apply": "2026-11-30",
+   "special_apply_end": "2026-11-30",
+   "kind": "일반분양 (특별공급·1순위)",
+   "category": "general",
+   "target": null,
+   "unit": "59A",
+   "area": 59.9906,
+   "households": 4,
+   "complex": {
+    "households": 79,
+    "buildings": 1,
+    "single": "maybe",
+    "status": "확인",
+    "src": "모집공고문 공급규모",
+    "quote": ": 아파트 지하 2층, 지상 20층, 1개동 총 79세대[조합 33세대, 보류지 1세대] 중 일반분양 45세대 [특별공급 23세대(기관추천 4세대, 다자녀가구 4세대, 신혼부부 7세대, 생애최초 4세대, 신생아 4"
+   },
+   "mc_quota": {
+    "buckets": [
+     {
+      "name": "해당 시·도",
+      "pct": 50,
+      "regions": [
+       "경기"
+      ]
+     },
+     {
+      "name": "기타지역",
+      "pct": 50,
+      "regions": [
+       "서울",
+       "인천"
+      ]
+     }
+    ]
+   },
+   "youth": null,
+   "resale": {
+    "base": "당첨자 발표일",
+    "forbidden": false,
+    "months": 12,
+    "none": false,
+    "passed": false,
+    "registration": false,
+    "until_reg": false
+   },
+   "score_ratio": {
+    "rows": [
+     {
+      "lottery": 60,
+      "over": 0,
+      "score": 40,
+      "upto": 60
+     },
+     {
+      "lottery": 60,
+      "over": 60,
+      "score": 40,
+      "upto": 85
+     }
+    ]
+   },
+   "residence": {
+    "area": {
+     "name": "경기도 부천시",
+     "sido": "경기",
+     "sigungu": "부천시"
+    },
+    "months": 0,
+    "others": [
+     "서울",
+     "인천",
+     "경기"
+    ],
+    "since": null
+   },
+   "notice": "2026-11-20",
+   "apply": "2026-11-30",
+   "apply_end": "2026-12-02",
+   "winner": "2026-12-08",
+   "contract": "2026-12-21",
+   "balance": null,
+   "move_in": "2028-05",
+   "price": 5.5932,
+   "ext": 0.0,
+   "pay_ratio": {
+    "balance": 0.3,
+    "contract": 0.1,
+    "mid": 0.6
+   },
+   "contract_split": {
+    "first_won": 10000000,
+    "rest_within": "1개월",
+    "rows": 27
+   },
+   "contract_rate": 0.1,
+   "mid_rate": 0.6,
+   "mkt_low": 4.39,
+   "mkt_base": 5.61,
+   "mkt_note": "같은 동(소사본동) 2km 안 준공 10년 이내 같은 평형(59㎡) 매매 18건 기준 (최근 6개월) · 거래가 몰린 단지(부천한신더휴메트로 11건)는 5건 몫으로 줄여 계산",
+   "mkt_count": 18,
+   "mkt_direct_excluded": 0,
+   "jeonse": 4.05,
+   "jeonse_note": "같은 구 준공 10년 이내 전세 91건 중앙값에서 입주장 할인 9%",
+   "capital": true,
+   "regulated": false,
+   "reg_kind": "비규제",
+   "land_permit": false,
+   "price_cap": false,
+   "residence_duty": 0,
+   "duty_from": null,
+   "duty_silent": false,
+   "jeonse_weak": false,
+   "unregistered": true,
+   "need_head": false,
+   "need_account": true,
+   "limits": [
+    [
+     "재당첨 제한",
+     "없음"
+    ],
+    [
+     "실거주 의무",
+     "없음"
+    ],
+    [
+     "전매 제한",
+     "1년 (~27.12.08)"
+    ]
+   ],
+   "url": "https://www.applyhome.co.kr/ai/aia/selectAPTLttotPblancDetail.do?houseManageNo=2026000591&pblancNo=2026000591",
+   "notice_pdf": "https://static.applyhome.co.kr/ai/aia/getAtchmnfl.do?houseManageNo=2026000591&pblancNo=2026000591&atchmnflSeqNo=2027261&atchmnflSn=4",
+   "from_notice": [
+    "1순위 가입기간",
+    "다자녀 지역 배정",
+    "세대주 요건",
+    "계약금 비율",
+    "분양가상한제",
+    "전매 제한",
+    "거주 지역 요건",
+    "실거주 의무",
+    "재당첨 제한",
+    "가점제·추첨제 비율"
+   ],
+   "geo": {
+    "lat": 37.473313,
+    "lng": 126.801225,
+    "precision": "exact",
+    "query": "경기도 부천시 소사구 소사본동 277-30",
+    "matched": "경기도 부천시 소사구 소사본동 277-30",
+    "source": "네이버 클라우드 플랫폼 Geocoding"
+   },
+   "account_months": 12,
+   "deposit_count": null,
+   "map_query": "경기도 부천시 소사구 소사본동 277-30",
+   "sample": false
+  },
+  "feature": true,
+  "profile": {
+   "cash": 30000,
+   "liquid": 0,
+   "deposit": 0,
+   "income": 8000,
+   "household": "head",
+   "selfOwn": false,
+   "married": false,
+   "hhNeverOwned": true,
+   "_set": [
+    "cash",
+    "liquid",
+    "deposit",
+    "income"
+   ]
+  },
+  "expect": {
+   "ltv": 70,
+   "amt": 39152
+  },
+  "basis": "수도권 비규제 생애최초 70% (일반과 같음) — 소사 휴먼빌 분양가 5.5932억 · 주변 시세 5.61"
+ },
+ {
+  "id": "ltv-cap-normal",
+  "fn": "ltv",
+  "listing": null,
+  "raw": {
+   "id": "2026000591-059.9906A",
+   "name": "소사 휴먼빌",
+   "address": "경기도 부천시 소사구 소사본동 277-30번지 일원",
+   "region": "경기",
+   "sigungu": "부천시 소사구",
+   "sido": "경기",
+   "district": "부천시 소사구",
+   "supply_type": "APT",
+   "house_secd": "01",
+   "house_dtl": "민영",
+   "rent_secd": "분양주택",
+   "rental": false,
+   "land_lease": false,
+   "land_rent": null,
+   "land_rent_rate": null,
+   "special_apply": "2026-11-30",
+   "special_apply_end": "2026-11-30",
+   "kind": "일반분양 (특별공급·1순위)",
+   "category": "general",
+   "target": null,
+   "unit": "59A",
+   "area": 59.9906,
+   "households": 4,
+   "complex": {
+    "households": 79,
+    "buildings": 1,
+    "single": "maybe",
+    "status": "확인",
+    "src": "모집공고문 공급규모",
+    "quote": ": 아파트 지하 2층, 지상 20층, 1개동 총 79세대[조합 33세대, 보류지 1세대] 중 일반분양 45세대 [특별공급 23세대(기관추천 4세대, 다자녀가구 4세대, 신혼부부 7세대, 생애최초 4세대, 신생아 4"
+   },
+   "mc_quota": {
+    "buckets": [
+     {
+      "name": "해당 시·도",
+      "pct": 50,
+      "regions": [
+       "경기"
+      ]
+     },
+     {
+      "name": "기타지역",
+      "pct": 50,
+      "regions": [
+       "서울",
+       "인천"
+      ]
+     }
+    ]
+   },
+   "youth": null,
+   "resale": {
+    "base": "당첨자 발표일",
+    "forbidden": false,
+    "months": 12,
+    "none": false,
+    "passed": false,
+    "registration": false,
+    "until_reg": false
+   },
+   "score_ratio": {
+    "rows": [
+     {
+      "lottery": 60,
+      "over": 0,
+      "score": 40,
+      "upto": 60
+     },
+     {
+      "lottery": 60,
+      "over": 60,
+      "score": 40,
+      "upto": 85
+     }
+    ]
+   },
+   "residence": {
+    "area": {
+     "name": "경기도 부천시",
+     "sido": "경기",
+     "sigungu": "부천시"
+    },
+    "months": 0,
+    "others": [
+     "서울",
+     "인천",
+     "경기"
+    ],
+    "since": null
+   },
+   "notice": "2026-11-20",
+   "apply": "2026-11-30",
+   "apply_end": "2026-12-02",
+   "winner": "2026-12-08",
+   "contract": "2026-12-21",
+   "balance": null,
+   "move_in": "2028-05",
+   "price": 5.5932,
+   "ext": 0.0,
+   "pay_ratio": {
+    "balance": 0.3,
+    "contract": 0.1,
+    "mid": 0.6
+   },
+   "contract_split": {
+    "first_won": 10000000,
+    "rest_within": "1개월",
+    "rows": 27
+   },
+   "contract_rate": 0.1,
+   "mid_rate": 0.6,
+   "mkt_low": 4.39,
+   "mkt_base": 5.61,
+   "mkt_note": "같은 동(소사본동) 2km 안 준공 10년 이내 같은 평형(59㎡) 매매 18건 기준 (최근 6개월) · 거래가 몰린 단지(부천한신더휴메트로 11건)는 5건 몫으로 줄여 계산",
+   "mkt_count": 18,
+   "mkt_direct_excluded": 0,
+   "jeonse": 4.05,
+   "jeonse_note": "같은 구 준공 10년 이내 전세 91건 중앙값에서 입주장 할인 9%",
+   "capital": true,
+   "regulated": false,
+   "reg_kind": "비규제",
+   "land_permit": false,
+   "price_cap": false,
+   "residence_duty": 0,
+   "duty_from": null,
+   "duty_silent": false,
+   "jeonse_weak": false,
+   "unregistered": true,
+   "need_head": false,
+   "need_account": true,
+   "limits": [
+    [
+     "재당첨 제한",
+     "없음"
+    ],
+    [
+     "실거주 의무",
+     "없음"
+    ],
+    [
+     "전매 제한",
+     "1년 (~27.12.08)"
+    ]
+   ],
+   "url": "https://www.applyhome.co.kr/ai/aia/selectAPTLttotPblancDetail.do?houseManageNo=2026000591&pblancNo=2026000591",
+   "notice_pdf": "https://static.applyhome.co.kr/ai/aia/getAtchmnfl.do?houseManageNo=2026000591&pblancNo=2026000591&atchmnflSeqNo=2027261&atchmnflSn=4",
+   "from_notice": [
+    "1순위 가입기간",
+    "다자녀 지역 배정",
+    "세대주 요건",
+    "계약금 비율",
+    "분양가상한제",
+    "전매 제한",
+    "거주 지역 요건",
+    "실거주 의무",
+    "재당첨 제한",
+    "가점제·추첨제 비율"
+   ],
+   "geo": {
+    "lat": 37.473313,
+    "lng": 126.801225,
+    "precision": "exact",
+    "query": "경기도 부천시 소사구 소사본동 277-30",
+    "matched": "경기도 부천시 소사구 소사본동 277-30",
+    "source": "네이버 클라우드 플랫폼 Geocoding"
+   },
+   "account_months": 12,
+   "deposit_count": null,
+   "map_query": "경기도 부천시 소사구 소사본동 277-30",
+   "sample": false
+  },
+  "feature": true,
+  "profile": {
+   "cash": 30000,
+   "liquid": 0,
+   "deposit": 0,
+   "income": 8000,
+   "household": "head",
+   "selfOwn": false,
+   "married": false,
+   "hhNeverOwned": false,
+   "_set": [
+    "cash",
+    "liquid",
+    "deposit",
+    "income"
+   ]
+  },
+  "expect": {
+   "ltv": 70,
+   "amt": 39152
+  },
+  "basis": "수도권 비규제 일반 70% — 소사 휴먼빌 분양가 5.5932억 · 주변 시세 5.61"
+ },
+ {
+  "id": "ltv-loc-first",
+  "fn": "ltv",
+  "listing": null,
+  "raw": {
+   "id": "2026000598-084.9076A",
+   "name": "고창 데시앙 2블록(공공분양)",
+   "address": "전북특별자치도 고창군 덕산지구 도시개발구역 내 공동주택 BL2",
+   "region": "지방",
+   "sigungu": null,
+   "sido": "전북",
+   "district": "고창군",
+   "supply_type": "APT",
+   "house_secd": "01",
+   "house_dtl": "국민",
+   "rent_secd": "분양주택",
+   "rental": false,
+   "land_lease": false,
+   "land_rent": null,
+   "land_rent_rate": null,
+   "special_apply": "2026-11-30",
+   "special_apply_end": "2026-11-30",
+   "kind": "일반분양 (특별공급·1순위)",
+   "category": "general",
+   "target": null,
+   "unit": "84A",
+   "area": 84.9076,
+   "households": 22,
+   "complex": {
+    "households": 357,
+    "buildings": 6,
+    "single": "no",
+    "status": "확인",
+    "src": "모집공고문 공급규모",
+    "quote": "·공급대상 및 공급가격 등 1.공급위치 및 규모 ■ 공급위치: 전북특별자치도 고창군 덕산지구 도시개발구역 내 공동주택 BL2 ■ 공급규모: 2블록 : 지하 2층 ~ 지상 최고 18층, 6개동, 총 357 세대 중 공"
+   },
+   "mc_quota": null,
+   "youth": null,
+   "resale": {
+    "base": "당첨자 발표일",
+    "forbidden": false,
+    "months": 12,
+    "none": false,
+    "passed": false,
+    "registration": false,
+    "until_reg": false
+   },
+   "score_ratio": null,
+   "residence": {
+    "area": {
+     "name": "전북특별자치도 고창군",
+     "sido": "전북",
+     "sigungu": "고창군"
+    },
+    "months": 0,
+    "others": [
+     "전북"
+    ],
+    "since": null
+   },
+   "notice": "2026-11-20",
+   "apply": "2026-11-30",
+   "apply_end": "2026-12-02",
+   "winner": "2026-12-08",
+   "contract": "2027-02-15",
+   "balance": null,
+   "move_in": "2030-02",
+   "price": 4.244,
+   "ext": 0.0,
+   "pay_ratio": {
+    "balance": 0.35,
+    "contract": 0.05,
+    "mid": 0.6
+   },
+   "contract_split": {
+    "first_won": 10000000,
+    "rest_within": "1개월",
+    "rows": 16
+   },
+   "contract_rate": 0.05,
+   "mid_rate": 0.6,
+   "mkt_low": null,
+   "mkt_base": null,
+   "mkt_note": "시군구 코드를 아직 확인하지 못해 시세를 조회하지 못했어요 (지도 좌표로 확인되면 다음 수집부터 조회).",
+   "mkt_count": 0,
+   "mkt_direct_excluded": 0,
+   "jeonse": null,
+   "jeonse_note": "",
+   "capital": false,
+   "regulated": false,
+   "reg_kind": "비규제",
+   "land_permit": false,
+   "price_cap": true,
+   "residence_duty": 0,
+   "duty_from": null,
+   "duty_silent": false,
+   "jeonse_weak": false,
+   "unregistered": true,
+   "need_head": false,
+   "need_account": true,
+   "limits": [
+    [
+     "재당첨 제한",
+     "10년"
+    ],
+    [
+     "실거주 의무",
+     "없음"
+    ],
+    [
+     "전매 제한",
+     "1년 (~27.12.08)"
+    ]
+   ],
+   "url": "https://www.applyhome.co.kr/ai/aia/selectAPTLttotPblancDetail.do?houseManageNo=2026000598&pblancNo=2026000598",
+   "notice_pdf": "https://static.applyhome.co.kr/ai/aia/getAtchmnfl.do?houseManageNo=2026000598&pblancNo=2026000598&atchmnflSeqNo=2027349&atchmnflSn=3",
+   "from_notice": [
+    "1순위 가입기간",
+    "납입 인정 횟수",
+    "계약금 비율",
+    "분양가상한제",
+    "전매 제한",
+    "거주 지역 요건",
+    "실거주 의무",
+    "재당첨 제한"
+   ],
+   "geo": null,
+   "account_months": 6,
+   "deposit_count": 6,
+   "map_query": "전북특별자치도 고창군 덕산지구 도시개발구역 내 공동주택 BL2",
+   "sample": false
+  },
+  "feature": true,
+  "profile": {
+   "cash": 30000,
+   "liquid": 0,
+   "deposit": 0,
+   "income": 8000,
+   "household": "head",
+   "selfOwn": false,
+   "married": false,
+   "hhNeverOwned": true,
+   "_set": [
+    "cash",
+    "liquid",
+    "deposit",
+    "income"
+   ]
+  },
+  "expect": {
+   "ltv": 80,
+   "amt": 33952
+  },
+  "basis": "지방 생애최초 80% — 고창 데시앙 2블록(공공분양) 분양가 4.244억 · 주변 시세 없음"
+ },
+ {
+  "id": "ltv-loc-normal",
+  "fn": "ltv",
+  "listing": null,
+  "raw": {
+   "id": "2026000598-084.9076A",
+   "name": "고창 데시앙 2블록(공공분양)",
+   "address": "전북특별자치도 고창군 덕산지구 도시개발구역 내 공동주택 BL2",
+   "region": "지방",
+   "sigungu": null,
+   "sido": "전북",
+   "district": "고창군",
+   "supply_type": "APT",
+   "house_secd": "01",
+   "house_dtl": "국민",
+   "rent_secd": "분양주택",
+   "rental": false,
+   "land_lease": false,
+   "land_rent": null,
+   "land_rent_rate": null,
+   "special_apply": "2026-11-30",
+   "special_apply_end": "2026-11-30",
+   "kind": "일반분양 (특별공급·1순위)",
+   "category": "general",
+   "target": null,
+   "unit": "84A",
+   "area": 84.9076,
+   "households": 22,
+   "complex": {
+    "households": 357,
+    "buildings": 6,
+    "single": "no",
+    "status": "확인",
+    "src": "모집공고문 공급규모",
+    "quote": "·공급대상 및 공급가격 등 1.공급위치 및 규모 ■ 공급위치: 전북특별자치도 고창군 덕산지구 도시개발구역 내 공동주택 BL2 ■ 공급규모: 2블록 : 지하 2층 ~ 지상 최고 18층, 6개동, 총 357 세대 중 공"
+   },
+   "mc_quota": null,
+   "youth": null,
+   "resale": {
+    "base": "당첨자 발표일",
+    "forbidden": false,
+    "months": 12,
+    "none": false,
+    "passed": false,
+    "registration": false,
+    "until_reg": false
+   },
+   "score_ratio": null,
+   "residence": {
+    "area": {
+     "name": "전북특별자치도 고창군",
+     "sido": "전북",
+     "sigungu": "고창군"
+    },
+    "months": 0,
+    "others": [
+     "전북"
+    ],
+    "since": null
+   },
+   "notice": "2026-11-20",
+   "apply": "2026-11-30",
+   "apply_end": "2026-12-02",
+   "winner": "2026-12-08",
+   "contract": "2027-02-15",
+   "balance": null,
+   "move_in": "2030-02",
+   "price": 4.244,
+   "ext": 0.0,
+   "pay_ratio": {
+    "balance": 0.35,
+    "contract": 0.05,
+    "mid": 0.6
+   },
+   "contract_split": {
+    "first_won": 10000000,
+    "rest_within": "1개월",
+    "rows": 16
+   },
+   "contract_rate": 0.05,
+   "mid_rate": 0.6,
+   "mkt_low": null,
+   "mkt_base": null,
+   "mkt_note": "시군구 코드를 아직 확인하지 못해 시세를 조회하지 못했어요 (지도 좌표로 확인되면 다음 수집부터 조회).",
+   "mkt_count": 0,
+   "mkt_direct_excluded": 0,
+   "jeonse": null,
+   "jeonse_note": "",
+   "capital": false,
+   "regulated": false,
+   "reg_kind": "비규제",
+   "land_permit": false,
+   "price_cap": true,
+   "residence_duty": 0,
+   "duty_from": null,
+   "duty_silent": false,
+   "jeonse_weak": false,
+   "unregistered": true,
+   "need_head": false,
+   "need_account": true,
+   "limits": [
+    [
+     "재당첨 제한",
+     "10년"
+    ],
+    [
+     "실거주 의무",
+     "없음"
+    ],
+    [
+     "전매 제한",
+     "1년 (~27.12.08)"
+    ]
+   ],
+   "url": "https://www.applyhome.co.kr/ai/aia/selectAPTLttotPblancDetail.do?houseManageNo=2026000598&pblancNo=2026000598",
+   "notice_pdf": "https://static.applyhome.co.kr/ai/aia/getAtchmnfl.do?houseManageNo=2026000598&pblancNo=2026000598&atchmnflSeqNo=2027349&atchmnflSn=3",
+   "from_notice": [
+    "1순위 가입기간",
+    "납입 인정 횟수",
+    "계약금 비율",
+    "분양가상한제",
+    "전매 제한",
+    "거주 지역 요건",
+    "실거주 의무",
+    "재당첨 제한"
+   ],
+   "geo": null,
+   "account_months": 6,
+   "deposit_count": 6,
+   "map_query": "전북특별자치도 고창군 덕산지구 도시개발구역 내 공동주택 BL2",
+   "sample": false
+  },
+  "feature": true,
+  "profile": {
+   "cash": 30000,
+   "liquid": 0,
+   "deposit": 0,
+   "income": 8000,
+   "household": "head",
+   "selfOwn": false,
+   "married": false,
+   "hhNeverOwned": false,
+   "_set": [
+    "cash",
+    "liquid",
+    "deposit",
+    "income"
+   ]
+  },
+  "expect": {
+   "ltv": 70,
+   "amt": 29708
+  },
+  "basis": "지방 일반 70% — 고창 데시앙 2블록(공공분양) 분양가 4.244억 · 주변 시세 없음"
+ },
+ {
+  "id": "ltv-loc-first-off",
+  "fn": "ltv",
+  "listing": null,
+  "raw": {
+   "id": "2026000598-084.9076A",
+   "name": "고창 데시앙 2블록(공공분양)",
+   "address": "전북특별자치도 고창군 덕산지구 도시개발구역 내 공동주택 BL2",
+   "region": "지방",
+   "sigungu": null,
+   "sido": "전북",
+   "district": "고창군",
+   "supply_type": "APT",
+   "house_secd": "01",
+   "house_dtl": "국민",
+   "rent_secd": "분양주택",
+   "rental": false,
+   "land_lease": false,
+   "land_rent": null,
+   "land_rent_rate": null,
+   "special_apply": "2026-11-30",
+   "special_apply_end": "2026-11-30",
+   "kind": "일반분양 (특별공급·1순위)",
+   "category": "general",
+   "target": null,
+   "unit": "84A",
+   "area": 84.9076,
+   "households": 22,
+   "complex": {
+    "households": 357,
+    "buildings": 6,
+    "single": "no",
+    "status": "확인",
+    "src": "모집공고문 공급규모",
+    "quote": "·공급대상 및 공급가격 등 1.공급위치 및 규모 ■ 공급위치: 전북특별자치도 고창군 덕산지구 도시개발구역 내 공동주택 BL2 ■ 공급규모: 2블록 : 지하 2층 ~ 지상 최고 18층, 6개동, 총 357 세대 중 공"
+   },
+   "mc_quota": null,
+   "youth": null,
+   "resale": {
+    "base": "당첨자 발표일",
+    "forbidden": false,
+    "months": 12,
+    "none": false,
+    "passed": false,
+    "registration": false,
+    "until_reg": false
+   },
+   "score_ratio": null,
+   "residence": {
+    "area": {
+     "name": "전북특별자치도 고창군",
+     "sido": "전북",
+     "sigungu": "고창군"
+    },
+    "months": 0,
+    "others": [
+     "전북"
+    ],
+    "since": null
+   },
+   "notice": "2026-11-20",
+   "apply": "2026-11-30",
+   "apply_end": "2026-12-02",
+   "winner": "2026-12-08",
+   "contract": "2027-02-15",
+   "balance": null,
+   "move_in": "2030-02",
+   "price": 4.244,
+   "ext": 0.0,
+   "pay_ratio": {
+    "balance": 0.35,
+    "contract": 0.05,
+    "mid": 0.6
+   },
+   "contract_split": {
+    "first_won": 10000000,
+    "rest_within": "1개월",
+    "rows": 16
+   },
+   "contract_rate": 0.05,
+   "mid_rate": 0.6,
+   "mkt_low": null,
+   "mkt_base": null,
+   "mkt_note": "시군구 코드를 아직 확인하지 못해 시세를 조회하지 못했어요 (지도 좌표로 확인되면 다음 수집부터 조회).",
+   "mkt_count": 0,
+   "mkt_direct_excluded": 0,
+   "jeonse": null,
+   "jeonse_note": "",
+   "capital": false,
+   "regulated": false,
+   "reg_kind": "비규제",
+   "land_permit": false,
+   "price_cap": true,
+   "residence_duty": 0,
+   "duty_from": null,
+   "duty_silent": false,
+   "jeonse_weak": false,
+   "unregistered": true,
+   "need_head": false,
+   "need_account": true,
+   "limits": [
+    [
+     "재당첨 제한",
+     "10년"
+    ],
+    [
+     "실거주 의무",
+     "없음"
+    ],
+    [
+     "전매 제한",
+     "1년 (~27.12.08)"
+    ]
+   ],
+   "url": "https://www.applyhome.co.kr/ai/aia/selectAPTLttotPblancDetail.do?houseManageNo=2026000598&pblancNo=2026000598",
+   "notice_pdf": "https://static.applyhome.co.kr/ai/aia/getAtchmnfl.do?houseManageNo=2026000598&pblancNo=2026000598&atchmnflSeqNo=2027349&atchmnflSn=3",
+   "from_notice": [
+    "1순위 가입기간",
+    "납입 인정 횟수",
+    "계약금 비율",
+    "분양가상한제",
+    "전매 제한",
+    "거주 지역 요건",
+    "실거주 의무",
+    "재당첨 제한"
+   ],
+   "geo": null,
+   "account_months": 6,
+   "deposit_count": 6,
+   "map_query": "전북특별자치도 고창군 덕산지구 도시개발구역 내 공동주택 BL2",
+   "sample": false
+  },
+  "feature": false,
+  "profile": {
+   "cash": 30000,
+   "liquid": 0,
+   "deposit": 0,
+   "income": 8000,
+   "household": "head",
+   "selfOwn": false,
+   "married": false,
+   "hhNeverOwned": true,
+   "_set": [
+    "cash",
+    "liquid",
+    "deposit",
+    "income"
+   ]
+  },
+  "expect": {
+   "ltv": 70,
+   "amt": 29708
+  },
+  "basis": "스위치 끔 → 지방 70% — 고창 데시앙 2블록(공공분양) 분양가 4.244억 · 주변 시세 없음"
  },
  {
   "id": "duty-01",
