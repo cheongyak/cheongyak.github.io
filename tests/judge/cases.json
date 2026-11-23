@@ -55659,6 +55659,5975 @@
   "basis": "스위치 끔 → 지방 70% — 고창 데시앙 2블록(공공분양) 분양가 4.244억 · 주변 시세 없음"
  },
  {
+  "id": "policy-didim-loc",
+  "fn": "policy",
+  "listing": null,
+  "raw": {
+   "id": "2026000598-084.9076A",
+   "name": "고창 데시앙 2블록(공공분양)",
+   "address": "전북특별자치도 고창군 덕산지구 도시개발구역 내 공동주택 BL2",
+   "region": "지방",
+   "sigungu": null,
+   "sido": "전북",
+   "district": "고창군",
+   "supply_type": "APT",
+   "house_secd": "01",
+   "house_dtl": "국민",
+   "rent_secd": "분양주택",
+   "rental": false,
+   "land_lease": false,
+   "land_rent": null,
+   "land_rent_rate": null,
+   "special_apply": "2026-11-30",
+   "special_apply_end": "2026-11-30",
+   "kind": "일반분양 (특별공급·1순위)",
+   "category": "general",
+   "target": null,
+   "unit": "84A",
+   "area": 84.9076,
+   "households": 22,
+   "complex": {
+    "households": 357,
+    "buildings": 6,
+    "single": "no",
+    "status": "확인",
+    "src": "모집공고문 공급규모",
+    "quote": "·공급대상 및 공급가격 등 1.공급위치 및 규모 ■ 공급위치: 전북특별자치도 고창군 덕산지구 도시개발구역 내 공동주택 BL2 ■ 공급규모: 2블록 : 지하 2층 ~ 지상 최고 18층, 6개동, 총 357 세대 중 공"
+   },
+   "mc_quota": null,
+   "youth": null,
+   "resale": {
+    "base": "당첨자 발표일",
+    "forbidden": false,
+    "months": 12,
+    "none": false,
+    "passed": false,
+    "registration": false,
+    "until_reg": false
+   },
+   "score_ratio": null,
+   "residence": {
+    "area": {
+     "name": "전북특별자치도 고창군",
+     "sido": "전북",
+     "sigungu": "고창군"
+    },
+    "months": 0,
+    "others": [
+     "전북"
+    ],
+    "since": null
+   },
+   "notice": "2026-11-20",
+   "apply": "2026-11-30",
+   "apply_end": "2026-12-02",
+   "winner": "2026-12-08",
+   "contract": "2027-02-15",
+   "balance": null,
+   "move_in": "2030-02",
+   "price": 4.244,
+   "ext": 0.0,
+   "pay_ratio": {
+    "balance": 0.35,
+    "contract": 0.05,
+    "mid": 0.6
+   },
+   "contract_split": {
+    "first_won": 10000000,
+    "rest_within": "1개월",
+    "rows": 16
+   },
+   "contract_rate": 0.05,
+   "mid_rate": 0.6,
+   "mkt_low": null,
+   "mkt_base": null,
+   "mkt_note": "시군구 코드를 아직 확인하지 못해 시세를 조회하지 못했어요 (지도 좌표로 확인되면 다음 수집부터 조회).",
+   "mkt_count": 0,
+   "mkt_direct_excluded": 0,
+   "jeonse": null,
+   "jeonse_note": "",
+   "capital": false,
+   "regulated": false,
+   "reg_kind": "비규제",
+   "land_permit": false,
+   "price_cap": true,
+   "residence_duty": 0,
+   "duty_from": null,
+   "duty_silent": false,
+   "jeonse_weak": false,
+   "unregistered": true,
+   "need_head": false,
+   "need_account": true,
+   "limits": [
+    [
+     "재당첨 제한",
+     "10년"
+    ],
+    [
+     "실거주 의무",
+     "없음"
+    ],
+    [
+     "전매 제한",
+     "1년 (~27.12.08)"
+    ]
+   ],
+   "url": "https://www.applyhome.co.kr/ai/aia/selectAPTLttotPblancDetail.do?houseManageNo=2026000598&pblancNo=2026000598",
+   "notice_pdf": "https://static.applyhome.co.kr/ai/aia/getAtchmnfl.do?houseManageNo=2026000598&pblancNo=2026000598&atchmnflSeqNo=2027349&atchmnflSn=3",
+   "from_notice": [
+    "1순위 가입기간",
+    "납입 인정 횟수",
+    "계약금 비율",
+    "분양가상한제",
+    "전매 제한",
+    "거주 지역 요건",
+    "실거주 의무",
+    "재당첨 제한"
+   ],
+   "geo": null,
+   "account_months": 6,
+   "deposit_count": 6,
+   "map_query": "전북특별자치도 고창군 덕산지구 도시개발구역 내 공동주택 BL2",
+   "sample": false
+  },
+  "key": "didim",
+  "asOf": "2026-11-24",
+  "profile": {
+   "cash": 30000,
+   "liquid": 0,
+   "deposit": 0,
+   "income": 5000,
+   "household": "head",
+   "selfOwn": false,
+   "married": false,
+   "hhNeverOwned": false,
+   "birth": "1985-01-01",
+   "hhSize": 3,
+   "kidsMinor": 0,
+   "_set": [
+    "cash",
+    "liquid",
+    "deposit",
+    "income"
+   ]
+  },
+  "expect": {
+   "ok": true,
+   "cap": 20000,
+   "ltv": 70,
+   "dti": 60,
+   "loan": 20000
+  },
+  "basis": "지방 일반: 소득 5,000만 · 한도 2억 — 고창 데시앙 2블록(공공분양) 분양가 4.244억·시세 없음·전용 84.9076㎡·지방, 기준일 2026-11-24"
+ },
+ {
+  "id": "policy-didim-inc-at",
+  "fn": "policy",
+  "listing": null,
+  "raw": {
+   "id": "2026000598-084.9076A",
+   "name": "고창 데시앙 2블록(공공분양)",
+   "address": "전북특별자치도 고창군 덕산지구 도시개발구역 내 공동주택 BL2",
+   "region": "지방",
+   "sigungu": null,
+   "sido": "전북",
+   "district": "고창군",
+   "supply_type": "APT",
+   "house_secd": "01",
+   "house_dtl": "국민",
+   "rent_secd": "분양주택",
+   "rental": false,
+   "land_lease": false,
+   "land_rent": null,
+   "land_rent_rate": null,
+   "special_apply": "2026-11-30",
+   "special_apply_end": "2026-11-30",
+   "kind": "일반분양 (특별공급·1순위)",
+   "category": "general",
+   "target": null,
+   "unit": "84A",
+   "area": 84.9076,
+   "households": 22,
+   "complex": {
+    "households": 357,
+    "buildings": 6,
+    "single": "no",
+    "status": "확인",
+    "src": "모집공고문 공급규모",
+    "quote": "·공급대상 및 공급가격 등 1.공급위치 및 규모 ■ 공급위치: 전북특별자치도 고창군 덕산지구 도시개발구역 내 공동주택 BL2 ■ 공급규모: 2블록 : 지하 2층 ~ 지상 최고 18층, 6개동, 총 357 세대 중 공"
+   },
+   "mc_quota": null,
+   "youth": null,
+   "resale": {
+    "base": "당첨자 발표일",
+    "forbidden": false,
+    "months": 12,
+    "none": false,
+    "passed": false,
+    "registration": false,
+    "until_reg": false
+   },
+   "score_ratio": null,
+   "residence": {
+    "area": {
+     "name": "전북특별자치도 고창군",
+     "sido": "전북",
+     "sigungu": "고창군"
+    },
+    "months": 0,
+    "others": [
+     "전북"
+    ],
+    "since": null
+   },
+   "notice": "2026-11-20",
+   "apply": "2026-11-30",
+   "apply_end": "2026-12-02",
+   "winner": "2026-12-08",
+   "contract": "2027-02-15",
+   "balance": null,
+   "move_in": "2030-02",
+   "price": 4.244,
+   "ext": 0.0,
+   "pay_ratio": {
+    "balance": 0.35,
+    "contract": 0.05,
+    "mid": 0.6
+   },
+   "contract_split": {
+    "first_won": 10000000,
+    "rest_within": "1개월",
+    "rows": 16
+   },
+   "contract_rate": 0.05,
+   "mid_rate": 0.6,
+   "mkt_low": null,
+   "mkt_base": null,
+   "mkt_note": "시군구 코드를 아직 확인하지 못해 시세를 조회하지 못했어요 (지도 좌표로 확인되면 다음 수집부터 조회).",
+   "mkt_count": 0,
+   "mkt_direct_excluded": 0,
+   "jeonse": null,
+   "jeonse_note": "",
+   "capital": false,
+   "regulated": false,
+   "reg_kind": "비규제",
+   "land_permit": false,
+   "price_cap": true,
+   "residence_duty": 0,
+   "duty_from": null,
+   "duty_silent": false,
+   "jeonse_weak": false,
+   "unregistered": true,
+   "need_head": false,
+   "need_account": true,
+   "limits": [
+    [
+     "재당첨 제한",
+     "10년"
+    ],
+    [
+     "실거주 의무",
+     "없음"
+    ],
+    [
+     "전매 제한",
+     "1년 (~27.12.08)"
+    ]
+   ],
+   "url": "https://www.applyhome.co.kr/ai/aia/selectAPTLttotPblancDetail.do?houseManageNo=2026000598&pblancNo=2026000598",
+   "notice_pdf": "https://static.applyhome.co.kr/ai/aia/getAtchmnfl.do?houseManageNo=2026000598&pblancNo=2026000598&atchmnflSeqNo=2027349&atchmnflSn=3",
+   "from_notice": [
+    "1순위 가입기간",
+    "납입 인정 횟수",
+    "계약금 비율",
+    "분양가상한제",
+    "전매 제한",
+    "거주 지역 요건",
+    "실거주 의무",
+    "재당첨 제한"
+   ],
+   "geo": null,
+   "account_months": 6,
+   "deposit_count": 6,
+   "map_query": "전북특별자치도 고창군 덕산지구 도시개발구역 내 공동주택 BL2",
+   "sample": false
+  },
+  "key": "didim",
+  "asOf": "2026-11-24",
+  "profile": {
+   "cash": 30000,
+   "liquid": 0,
+   "deposit": 0,
+   "income": 6000,
+   "household": "head",
+   "selfOwn": false,
+   "married": false,
+   "hhNeverOwned": false,
+   "birth": "1985-01-01",
+   "hhSize": 3,
+   "kidsMinor": 0,
+   "_set": [
+    "cash",
+    "liquid",
+    "deposit",
+    "income"
+   ]
+  },
+  "expect": {
+   "ok": true,
+   "cap": 20000,
+   "ltv": 70,
+   "dti": 60,
+   "loan": 20000
+  },
+  "basis": "소득 경계 6,000만 (이하) — 고창 데시앙 2블록(공공분양) 분양가 4.244억·시세 없음·전용 84.9076㎡·지방, 기준일 2026-11-24"
+ },
+ {
+  "id": "policy-didim-inc-over",
+  "fn": "policy",
+  "listing": null,
+  "raw": {
+   "id": "2026000598-084.9076A",
+   "name": "고창 데시앙 2블록(공공분양)",
+   "address": "전북특별자치도 고창군 덕산지구 도시개발구역 내 공동주택 BL2",
+   "region": "지방",
+   "sigungu": null,
+   "sido": "전북",
+   "district": "고창군",
+   "supply_type": "APT",
+   "house_secd": "01",
+   "house_dtl": "국민",
+   "rent_secd": "분양주택",
+   "rental": false,
+   "land_lease": false,
+   "land_rent": null,
+   "land_rent_rate": null,
+   "special_apply": "2026-11-30",
+   "special_apply_end": "2026-11-30",
+   "kind": "일반분양 (특별공급·1순위)",
+   "category": "general",
+   "target": null,
+   "unit": "84A",
+   "area": 84.9076,
+   "households": 22,
+   "complex": {
+    "households": 357,
+    "buildings": 6,
+    "single": "no",
+    "status": "확인",
+    "src": "모집공고문 공급규모",
+    "quote": "·공급대상 및 공급가격 등 1.공급위치 및 규모 ■ 공급위치: 전북특별자치도 고창군 덕산지구 도시개발구역 내 공동주택 BL2 ■ 공급규모: 2블록 : 지하 2층 ~ 지상 최고 18층, 6개동, 총 357 세대 중 공"
+   },
+   "mc_quota": null,
+   "youth": null,
+   "resale": {
+    "base": "당첨자 발표일",
+    "forbidden": false,
+    "months": 12,
+    "none": false,
+    "passed": false,
+    "registration": false,
+    "until_reg": false
+   },
+   "score_ratio": null,
+   "residence": {
+    "area": {
+     "name": "전북특별자치도 고창군",
+     "sido": "전북",
+     "sigungu": "고창군"
+    },
+    "months": 0,
+    "others": [
+     "전북"
+    ],
+    "since": null
+   },
+   "notice": "2026-11-20",
+   "apply": "2026-11-30",
+   "apply_end": "2026-12-02",
+   "winner": "2026-12-08",
+   "contract": "2027-02-15",
+   "balance": null,
+   "move_in": "2030-02",
+   "price": 4.244,
+   "ext": 0.0,
+   "pay_ratio": {
+    "balance": 0.35,
+    "contract": 0.05,
+    "mid": 0.6
+   },
+   "contract_split": {
+    "first_won": 10000000,
+    "rest_within": "1개월",
+    "rows": 16
+   },
+   "contract_rate": 0.05,
+   "mid_rate": 0.6,
+   "mkt_low": null,
+   "mkt_base": null,
+   "mkt_note": "시군구 코드를 아직 확인하지 못해 시세를 조회하지 못했어요 (지도 좌표로 확인되면 다음 수집부터 조회).",
+   "mkt_count": 0,
+   "mkt_direct_excluded": 0,
+   "jeonse": null,
+   "jeonse_note": "",
+   "capital": false,
+   "regulated": false,
+   "reg_kind": "비규제",
+   "land_permit": false,
+   "price_cap": true,
+   "residence_duty": 0,
+   "duty_from": null,
+   "duty_silent": false,
+   "jeonse_weak": false,
+   "unregistered": true,
+   "need_head": false,
+   "need_account": true,
+   "limits": [
+    [
+     "재당첨 제한",
+     "10년"
+    ],
+    [
+     "실거주 의무",
+     "없음"
+    ],
+    [
+     "전매 제한",
+     "1년 (~27.12.08)"
+    ]
+   ],
+   "url": "https://www.applyhome.co.kr/ai/aia/selectAPTLttotPblancDetail.do?houseManageNo=2026000598&pblancNo=2026000598",
+   "notice_pdf": "https://static.applyhome.co.kr/ai/aia/getAtchmnfl.do?houseManageNo=2026000598&pblancNo=2026000598&atchmnflSeqNo=2027349&atchmnflSn=3",
+   "from_notice": [
+    "1순위 가입기간",
+    "납입 인정 횟수",
+    "계약금 비율",
+    "분양가상한제",
+    "전매 제한",
+    "거주 지역 요건",
+    "실거주 의무",
+    "재당첨 제한"
+   ],
+   "geo": null,
+   "account_months": 6,
+   "deposit_count": 6,
+   "map_query": "전북특별자치도 고창군 덕산지구 도시개발구역 내 공동주택 BL2",
+   "sample": false
+  },
+  "key": "didim",
+  "asOf": "2026-11-24",
+  "profile": {
+   "cash": 30000,
+   "liquid": 0,
+   "deposit": 0,
+   "income": 6001,
+   "household": "head",
+   "selfOwn": false,
+   "married": false,
+   "hhNeverOwned": false,
+   "birth": "1985-01-01",
+   "hhSize": 3,
+   "kidsMinor": 0,
+   "_set": [
+    "cash",
+    "liquid",
+    "deposit",
+    "income"
+   ]
+  },
+  "expect": {
+   "ok": false,
+   "cap": null,
+   "ltv": null,
+   "dti": null,
+   "loan": 0
+  },
+  "basis": "소득 6,001만 (초과) — 고창 데시앙 2블록(공공분양) 분양가 4.244억·시세 없음·전용 84.9076㎡·지방, 기준일 2026-11-24"
+ },
+ {
+  "id": "policy-didim-first",
+  "fn": "policy",
+  "listing": null,
+  "raw": {
+   "id": "2026000598-084.9076A",
+   "name": "고창 데시앙 2블록(공공분양)",
+   "address": "전북특별자치도 고창군 덕산지구 도시개발구역 내 공동주택 BL2",
+   "region": "지방",
+   "sigungu": null,
+   "sido": "전북",
+   "district": "고창군",
+   "supply_type": "APT",
+   "house_secd": "01",
+   "house_dtl": "국민",
+   "rent_secd": "분양주택",
+   "rental": false,
+   "land_lease": false,
+   "land_rent": null,
+   "land_rent_rate": null,
+   "special_apply": "2026-11-30",
+   "special_apply_end": "2026-11-30",
+   "kind": "일반분양 (특별공급·1순위)",
+   "category": "general",
+   "target": null,
+   "unit": "84A",
+   "area": 84.9076,
+   "households": 22,
+   "complex": {
+    "households": 357,
+    "buildings": 6,
+    "single": "no",
+    "status": "확인",
+    "src": "모집공고문 공급규모",
+    "quote": "·공급대상 및 공급가격 등 1.공급위치 및 규모 ■ 공급위치: 전북특별자치도 고창군 덕산지구 도시개발구역 내 공동주택 BL2 ■ 공급규모: 2블록 : 지하 2층 ~ 지상 최고 18층, 6개동, 총 357 세대 중 공"
+   },
+   "mc_quota": null,
+   "youth": null,
+   "resale": {
+    "base": "당첨자 발표일",
+    "forbidden": false,
+    "months": 12,
+    "none": false,
+    "passed": false,
+    "registration": false,
+    "until_reg": false
+   },
+   "score_ratio": null,
+   "residence": {
+    "area": {
+     "name": "전북특별자치도 고창군",
+     "sido": "전북",
+     "sigungu": "고창군"
+    },
+    "months": 0,
+    "others": [
+     "전북"
+    ],
+    "since": null
+   },
+   "notice": "2026-11-20",
+   "apply": "2026-11-30",
+   "apply_end": "2026-12-02",
+   "winner": "2026-12-08",
+   "contract": "2027-02-15",
+   "balance": null,
+   "move_in": "2030-02",
+   "price": 4.244,
+   "ext": 0.0,
+   "pay_ratio": {
+    "balance": 0.35,
+    "contract": 0.05,
+    "mid": 0.6
+   },
+   "contract_split": {
+    "first_won": 10000000,
+    "rest_within": "1개월",
+    "rows": 16
+   },
+   "contract_rate": 0.05,
+   "mid_rate": 0.6,
+   "mkt_low": null,
+   "mkt_base": null,
+   "mkt_note": "시군구 코드를 아직 확인하지 못해 시세를 조회하지 못했어요 (지도 좌표로 확인되면 다음 수집부터 조회).",
+   "mkt_count": 0,
+   "mkt_direct_excluded": 0,
+   "jeonse": null,
+   "jeonse_note": "",
+   "capital": false,
+   "regulated": false,
+   "reg_kind": "비규제",
+   "land_permit": false,
+   "price_cap": true,
+   "residence_duty": 0,
+   "duty_from": null,
+   "duty_silent": false,
+   "jeonse_weak": false,
+   "unregistered": true,
+   "need_head": false,
+   "need_account": true,
+   "limits": [
+    [
+     "재당첨 제한",
+     "10년"
+    ],
+    [
+     "실거주 의무",
+     "없음"
+    ],
+    [
+     "전매 제한",
+     "1년 (~27.12.08)"
+    ]
+   ],
+   "url": "https://www.applyhome.co.kr/ai/aia/selectAPTLttotPblancDetail.do?houseManageNo=2026000598&pblancNo=2026000598",
+   "notice_pdf": "https://static.applyhome.co.kr/ai/aia/getAtchmnfl.do?houseManageNo=2026000598&pblancNo=2026000598&atchmnflSeqNo=2027349&atchmnflSn=3",
+   "from_notice": [
+    "1순위 가입기간",
+    "납입 인정 횟수",
+    "계약금 비율",
+    "분양가상한제",
+    "전매 제한",
+    "거주 지역 요건",
+    "실거주 의무",
+    "재당첨 제한"
+   ],
+   "geo": null,
+   "account_months": 6,
+   "deposit_count": 6,
+   "map_query": "전북특별자치도 고창군 덕산지구 도시개발구역 내 공동주택 BL2",
+   "sample": false
+  },
+  "key": "didim",
+  "asOf": "2026-11-24",
+  "profile": {
+   "cash": 30000,
+   "liquid": 0,
+   "deposit": 0,
+   "income": 7000,
+   "household": "head",
+   "selfOwn": false,
+   "married": false,
+   "hhNeverOwned": true,
+   "birth": "1985-01-01",
+   "hhSize": 3,
+   "kidsMinor": 0,
+   "_set": [
+    "cash",
+    "liquid",
+    "deposit",
+    "income"
+   ]
+  },
+  "expect": {
+   "ok": true,
+   "cap": 24000,
+   "ltv": 80,
+   "dti": 60,
+   "loan": 24000
+  },
+  "basis": "생애최초: 소득 7,000만까지 · 한도 2.4억 · 지방 LTV 80% — 고창 데시앙 2블록(공공분양) 분양가 4.244억·시세 없음·전용 84.9076㎡·지방, 기준일 2026-11-24"
+ },
+ {
+  "id": "policy-didim-first-over",
+  "fn": "policy",
+  "listing": null,
+  "raw": {
+   "id": "2026000598-084.9076A",
+   "name": "고창 데시앙 2블록(공공분양)",
+   "address": "전북특별자치도 고창군 덕산지구 도시개발구역 내 공동주택 BL2",
+   "region": "지방",
+   "sigungu": null,
+   "sido": "전북",
+   "district": "고창군",
+   "supply_type": "APT",
+   "house_secd": "01",
+   "house_dtl": "국민",
+   "rent_secd": "분양주택",
+   "rental": false,
+   "land_lease": false,
+   "land_rent": null,
+   "land_rent_rate": null,
+   "special_apply": "2026-11-30",
+   "special_apply_end": "2026-11-30",
+   "kind": "일반분양 (특별공급·1순위)",
+   "category": "general",
+   "target": null,
+   "unit": "84A",
+   "area": 84.9076,
+   "households": 22,
+   "complex": {
+    "households": 357,
+    "buildings": 6,
+    "single": "no",
+    "status": "확인",
+    "src": "모집공고문 공급규모",
+    "quote": "·공급대상 및 공급가격 등 1.공급위치 및 규모 ■ 공급위치: 전북특별자치도 고창군 덕산지구 도시개발구역 내 공동주택 BL2 ■ 공급규모: 2블록 : 지하 2층 ~ 지상 최고 18층, 6개동, 총 357 세대 중 공"
+   },
+   "mc_quota": null,
+   "youth": null,
+   "resale": {
+    "base": "당첨자 발표일",
+    "forbidden": false,
+    "months": 12,
+    "none": false,
+    "passed": false,
+    "registration": false,
+    "until_reg": false
+   },
+   "score_ratio": null,
+   "residence": {
+    "area": {
+     "name": "전북특별자치도 고창군",
+     "sido": "전북",
+     "sigungu": "고창군"
+    },
+    "months": 0,
+    "others": [
+     "전북"
+    ],
+    "since": null
+   },
+   "notice": "2026-11-20",
+   "apply": "2026-11-30",
+   "apply_end": "2026-12-02",
+   "winner": "2026-12-08",
+   "contract": "2027-02-15",
+   "balance": null,
+   "move_in": "2030-02",
+   "price": 4.244,
+   "ext": 0.0,
+   "pay_ratio": {
+    "balance": 0.35,
+    "contract": 0.05,
+    "mid": 0.6
+   },
+   "contract_split": {
+    "first_won": 10000000,
+    "rest_within": "1개월",
+    "rows": 16
+   },
+   "contract_rate": 0.05,
+   "mid_rate": 0.6,
+   "mkt_low": null,
+   "mkt_base": null,
+   "mkt_note": "시군구 코드를 아직 확인하지 못해 시세를 조회하지 못했어요 (지도 좌표로 확인되면 다음 수집부터 조회).",
+   "mkt_count": 0,
+   "mkt_direct_excluded": 0,
+   "jeonse": null,
+   "jeonse_note": "",
+   "capital": false,
+   "regulated": false,
+   "reg_kind": "비규제",
+   "land_permit": false,
+   "price_cap": true,
+   "residence_duty": 0,
+   "duty_from": null,
+   "duty_silent": false,
+   "jeonse_weak": false,
+   "unregistered": true,
+   "need_head": false,
+   "need_account": true,
+   "limits": [
+    [
+     "재당첨 제한",
+     "10년"
+    ],
+    [
+     "실거주 의무",
+     "없음"
+    ],
+    [
+     "전매 제한",
+     "1년 (~27.12.08)"
+    ]
+   ],
+   "url": "https://www.applyhome.co.kr/ai/aia/selectAPTLttotPblancDetail.do?houseManageNo=2026000598&pblancNo=2026000598",
+   "notice_pdf": "https://static.applyhome.co.kr/ai/aia/getAtchmnfl.do?houseManageNo=2026000598&pblancNo=2026000598&atchmnflSeqNo=2027349&atchmnflSn=3",
+   "from_notice": [
+    "1순위 가입기간",
+    "납입 인정 횟수",
+    "계약금 비율",
+    "분양가상한제",
+    "전매 제한",
+    "거주 지역 요건",
+    "실거주 의무",
+    "재당첨 제한"
+   ],
+   "geo": null,
+   "account_months": 6,
+   "deposit_count": 6,
+   "map_query": "전북특별자치도 고창군 덕산지구 도시개발구역 내 공동주택 BL2",
+   "sample": false
+  },
+  "key": "didim",
+  "asOf": "2026-11-24",
+  "profile": {
+   "cash": 30000,
+   "liquid": 0,
+   "deposit": 0,
+   "income": 7001,
+   "household": "head",
+   "selfOwn": false,
+   "married": false,
+   "hhNeverOwned": true,
+   "birth": "1985-01-01",
+   "hhSize": 3,
+   "kidsMinor": 0,
+   "_set": [
+    "cash",
+    "liquid",
+    "deposit",
+    "income"
+   ]
+  },
+  "expect": {
+   "ok": false,
+   "cap": null,
+   "ltv": null,
+   "dti": null,
+   "loan": 0
+  },
+  "basis": "생애최초 소득 7,001만 — 고창 데시앙 2블록(공공분양) 분양가 4.244억·시세 없음·전용 84.9076㎡·지방, 기준일 2026-11-24"
+ },
+ {
+  "id": "policy-didim-newly",
+  "fn": "policy",
+  "listing": null,
+  "raw": {
+   "id": "2026000598-084.9076A",
+   "name": "고창 데시앙 2블록(공공분양)",
+   "address": "전북특별자치도 고창군 덕산지구 도시개발구역 내 공동주택 BL2",
+   "region": "지방",
+   "sigungu": null,
+   "sido": "전북",
+   "district": "고창군",
+   "supply_type": "APT",
+   "house_secd": "01",
+   "house_dtl": "국민",
+   "rent_secd": "분양주택",
+   "rental": false,
+   "land_lease": false,
+   "land_rent": null,
+   "land_rent_rate": null,
+   "special_apply": "2026-11-30",
+   "special_apply_end": "2026-11-30",
+   "kind": "일반분양 (특별공급·1순위)",
+   "category": "general",
+   "target": null,
+   "unit": "84A",
+   "area": 84.9076,
+   "households": 22,
+   "complex": {
+    "households": 357,
+    "buildings": 6,
+    "single": "no",
+    "status": "확인",
+    "src": "모집공고문 공급규모",
+    "quote": "·공급대상 및 공급가격 등 1.공급위치 및 규모 ■ 공급위치: 전북특별자치도 고창군 덕산지구 도시개발구역 내 공동주택 BL2 ■ 공급규모: 2블록 : 지하 2층 ~ 지상 최고 18층, 6개동, 총 357 세대 중 공"
+   },
+   "mc_quota": null,
+   "youth": null,
+   "resale": {
+    "base": "당첨자 발표일",
+    "forbidden": false,
+    "months": 12,
+    "none": false,
+    "passed": false,
+    "registration": false,
+    "until_reg": false
+   },
+   "score_ratio": null,
+   "residence": {
+    "area": {
+     "name": "전북특별자치도 고창군",
+     "sido": "전북",
+     "sigungu": "고창군"
+    },
+    "months": 0,
+    "others": [
+     "전북"
+    ],
+    "since": null
+   },
+   "notice": "2026-11-20",
+   "apply": "2026-11-30",
+   "apply_end": "2026-12-02",
+   "winner": "2026-12-08",
+   "contract": "2027-02-15",
+   "balance": null,
+   "move_in": "2030-02",
+   "price": 4.244,
+   "ext": 0.0,
+   "pay_ratio": {
+    "balance": 0.35,
+    "contract": 0.05,
+    "mid": 0.6
+   },
+   "contract_split": {
+    "first_won": 10000000,
+    "rest_within": "1개월",
+    "rows": 16
+   },
+   "contract_rate": 0.05,
+   "mid_rate": 0.6,
+   "mkt_low": null,
+   "mkt_base": null,
+   "mkt_note": "시군구 코드를 아직 확인하지 못해 시세를 조회하지 못했어요 (지도 좌표로 확인되면 다음 수집부터 조회).",
+   "mkt_count": 0,
+   "mkt_direct_excluded": 0,
+   "jeonse": null,
+   "jeonse_note": "",
+   "capital": false,
+   "regulated": false,
+   "reg_kind": "비규제",
+   "land_permit": false,
+   "price_cap": true,
+   "residence_duty": 0,
+   "duty_from": null,
+   "duty_silent": false,
+   "jeonse_weak": false,
+   "unregistered": true,
+   "need_head": false,
+   "need_account": true,
+   "limits": [
+    [
+     "재당첨 제한",
+     "10년"
+    ],
+    [
+     "실거주 의무",
+     "없음"
+    ],
+    [
+     "전매 제한",
+     "1년 (~27.12.08)"
+    ]
+   ],
+   "url": "https://www.applyhome.co.kr/ai/aia/selectAPTLttotPblancDetail.do?houseManageNo=2026000598&pblancNo=2026000598",
+   "notice_pdf": "https://static.applyhome.co.kr/ai/aia/getAtchmnfl.do?houseManageNo=2026000598&pblancNo=2026000598&atchmnflSeqNo=2027349&atchmnflSn=3",
+   "from_notice": [
+    "1순위 가입기간",
+    "납입 인정 횟수",
+    "계약금 비율",
+    "분양가상한제",
+    "전매 제한",
+    "거주 지역 요건",
+    "실거주 의무",
+    "재당첨 제한"
+   ],
+   "geo": null,
+   "account_months": 6,
+   "deposit_count": 6,
+   "map_query": "전북특별자치도 고창군 덕산지구 도시개발구역 내 공동주택 BL2",
+   "sample": false
+  },
+  "key": "didim",
+  "asOf": "2026-11-24",
+  "profile": {
+   "cash": 30000,
+   "liquid": 0,
+   "deposit": 0,
+   "income": 5000,
+   "household": "head",
+   "selfOwn": false,
+   "married": true,
+   "hhNeverOwned": false,
+   "birth": "1985-01-01",
+   "hhSize": 3,
+   "kidsMinor": 0,
+   "_set": [
+    "cash",
+    "liquid",
+    "deposit",
+    "income"
+   ],
+   "spouseIncome": 3500,
+   "spouseOwn": false,
+   "marriedOn": "2025-06-01"
+  },
+  "expect": {
+   "ok": true,
+   "cap": 32000,
+   "ltv": 70,
+   "dti": 60,
+   "loan": 29708
+  },
+  "basis": "신혼(혼인 2025-06-01, 7년 이내): 부부합산 8,500만 · 한도 3.2억 — 고창 데시앙 2블록(공공분양) 분양가 4.244억·시세 없음·전용 84.9076㎡·지방, 기준일 2026-11-24"
+ },
+ {
+  "id": "policy-didim-newly-7y",
+  "fn": "policy",
+  "listing": null,
+  "raw": {
+   "id": "2026000598-084.9076A",
+   "name": "고창 데시앙 2블록(공공분양)",
+   "address": "전북특별자치도 고창군 덕산지구 도시개발구역 내 공동주택 BL2",
+   "region": "지방",
+   "sigungu": null,
+   "sido": "전북",
+   "district": "고창군",
+   "supply_type": "APT",
+   "house_secd": "01",
+   "house_dtl": "국민",
+   "rent_secd": "분양주택",
+   "rental": false,
+   "land_lease": false,
+   "land_rent": null,
+   "land_rent_rate": null,
+   "special_apply": "2026-11-30",
+   "special_apply_end": "2026-11-30",
+   "kind": "일반분양 (특별공급·1순위)",
+   "category": "general",
+   "target": null,
+   "unit": "84A",
+   "area": 84.9076,
+   "households": 22,
+   "complex": {
+    "households": 357,
+    "buildings": 6,
+    "single": "no",
+    "status": "확인",
+    "src": "모집공고문 공급규모",
+    "quote": "·공급대상 및 공급가격 등 1.공급위치 및 규모 ■ 공급위치: 전북특별자치도 고창군 덕산지구 도시개발구역 내 공동주택 BL2 ■ 공급규모: 2블록 : 지하 2층 ~ 지상 최고 18층, 6개동, 총 357 세대 중 공"
+   },
+   "mc_quota": null,
+   "youth": null,
+   "resale": {
+    "base": "당첨자 발표일",
+    "forbidden": false,
+    "months": 12,
+    "none": false,
+    "passed": false,
+    "registration": false,
+    "until_reg": false
+   },
+   "score_ratio": null,
+   "residence": {
+    "area": {
+     "name": "전북특별자치도 고창군",
+     "sido": "전북",
+     "sigungu": "고창군"
+    },
+    "months": 0,
+    "others": [
+     "전북"
+    ],
+    "since": null
+   },
+   "notice": "2026-11-20",
+   "apply": "2026-11-30",
+   "apply_end": "2026-12-02",
+   "winner": "2026-12-08",
+   "contract": "2027-02-15",
+   "balance": null,
+   "move_in": "2030-02",
+   "price": 4.244,
+   "ext": 0.0,
+   "pay_ratio": {
+    "balance": 0.35,
+    "contract": 0.05,
+    "mid": 0.6
+   },
+   "contract_split": {
+    "first_won": 10000000,
+    "rest_within": "1개월",
+    "rows": 16
+   },
+   "contract_rate": 0.05,
+   "mid_rate": 0.6,
+   "mkt_low": null,
+   "mkt_base": null,
+   "mkt_note": "시군구 코드를 아직 확인하지 못해 시세를 조회하지 못했어요 (지도 좌표로 확인되면 다음 수집부터 조회).",
+   "mkt_count": 0,
+   "mkt_direct_excluded": 0,
+   "jeonse": null,
+   "jeonse_note": "",
+   "capital": false,
+   "regulated": false,
+   "reg_kind": "비규제",
+   "land_permit": false,
+   "price_cap": true,
+   "residence_duty": 0,
+   "duty_from": null,
+   "duty_silent": false,
+   "jeonse_weak": false,
+   "unregistered": true,
+   "need_head": false,
+   "need_account": true,
+   "limits": [
+    [
+     "재당첨 제한",
+     "10년"
+    ],
+    [
+     "실거주 의무",
+     "없음"
+    ],
+    [
+     "전매 제한",
+     "1년 (~27.12.08)"
+    ]
+   ],
+   "url": "https://www.applyhome.co.kr/ai/aia/selectAPTLttotPblancDetail.do?houseManageNo=2026000598&pblancNo=2026000598",
+   "notice_pdf": "https://static.applyhome.co.kr/ai/aia/getAtchmnfl.do?houseManageNo=2026000598&pblancNo=2026000598&atchmnflSeqNo=2027349&atchmnflSn=3",
+   "from_notice": [
+    "1순위 가입기간",
+    "납입 인정 횟수",
+    "계약금 비율",
+    "분양가상한제",
+    "전매 제한",
+    "거주 지역 요건",
+    "실거주 의무",
+    "재당첨 제한"
+   ],
+   "geo": null,
+   "account_months": 6,
+   "deposit_count": 6,
+   "map_query": "전북특별자치도 고창군 덕산지구 도시개발구역 내 공동주택 BL2",
+   "sample": false
+  },
+  "key": "didim",
+  "asOf": "2026-11-24",
+  "profile": {
+   "cash": 30000,
+   "liquid": 0,
+   "deposit": 0,
+   "income": 5000,
+   "household": "head",
+   "selfOwn": false,
+   "married": true,
+   "hhNeverOwned": false,
+   "birth": "1985-01-01",
+   "hhSize": 3,
+   "kidsMinor": 0,
+   "_set": [
+    "cash",
+    "liquid",
+    "deposit",
+    "income"
+   ],
+   "spouseIncome": 3500,
+   "spouseOwn": false,
+   "marriedOn": "2019-11-24"
+  },
+  "expect": {
+   "ok": false,
+   "cap": null,
+   "ltv": null,
+   "dti": null,
+   "loan": 0
+  },
+  "basis": "혼인 2019-11-24 = 꼭 7년 → 신혼 아님, 부부합산 8,500만은 6,000만 초과 — 고창 데시앙 2블록(공공분양) 분양가 4.244억·시세 없음·전용 84.9076㎡·지방, 기준일 2026-11-24"
+ },
+ {
+  "id": "policy-didim-newly-7y-1d",
+  "fn": "policy",
+  "listing": null,
+  "raw": {
+   "id": "2026000598-084.9076A",
+   "name": "고창 데시앙 2블록(공공분양)",
+   "address": "전북특별자치도 고창군 덕산지구 도시개발구역 내 공동주택 BL2",
+   "region": "지방",
+   "sigungu": null,
+   "sido": "전북",
+   "district": "고창군",
+   "supply_type": "APT",
+   "house_secd": "01",
+   "house_dtl": "국민",
+   "rent_secd": "분양주택",
+   "rental": false,
+   "land_lease": false,
+   "land_rent": null,
+   "land_rent_rate": null,
+   "special_apply": "2026-11-30",
+   "special_apply_end": "2026-11-30",
+   "kind": "일반분양 (특별공급·1순위)",
+   "category": "general",
+   "target": null,
+   "unit": "84A",
+   "area": 84.9076,
+   "households": 22,
+   "complex": {
+    "households": 357,
+    "buildings": 6,
+    "single": "no",
+    "status": "확인",
+    "src": "모집공고문 공급규모",
+    "quote": "·공급대상 및 공급가격 등 1.공급위치 및 규모 ■ 공급위치: 전북특별자치도 고창군 덕산지구 도시개발구역 내 공동주택 BL2 ■ 공급규모: 2블록 : 지하 2층 ~ 지상 최고 18층, 6개동, 총 357 세대 중 공"
+   },
+   "mc_quota": null,
+   "youth": null,
+   "resale": {
+    "base": "당첨자 발표일",
+    "forbidden": false,
+    "months": 12,
+    "none": false,
+    "passed": false,
+    "registration": false,
+    "until_reg": false
+   },
+   "score_ratio": null,
+   "residence": {
+    "area": {
+     "name": "전북특별자치도 고창군",
+     "sido": "전북",
+     "sigungu": "고창군"
+    },
+    "months": 0,
+    "others": [
+     "전북"
+    ],
+    "since": null
+   },
+   "notice": "2026-11-20",
+   "apply": "2026-11-30",
+   "apply_end": "2026-12-02",
+   "winner": "2026-12-08",
+   "contract": "2027-02-15",
+   "balance": null,
+   "move_in": "2030-02",
+   "price": 4.244,
+   "ext": 0.0,
+   "pay_ratio": {
+    "balance": 0.35,
+    "contract": 0.05,
+    "mid": 0.6
+   },
+   "contract_split": {
+    "first_won": 10000000,
+    "rest_within": "1개월",
+    "rows": 16
+   },
+   "contract_rate": 0.05,
+   "mid_rate": 0.6,
+   "mkt_low": null,
+   "mkt_base": null,
+   "mkt_note": "시군구 코드를 아직 확인하지 못해 시세를 조회하지 못했어요 (지도 좌표로 확인되면 다음 수집부터 조회).",
+   "mkt_count": 0,
+   "mkt_direct_excluded": 0,
+   "jeonse": null,
+   "jeonse_note": "",
+   "capital": false,
+   "regulated": false,
+   "reg_kind": "비규제",
+   "land_permit": false,
+   "price_cap": true,
+   "residence_duty": 0,
+   "duty_from": null,
+   "duty_silent": false,
+   "jeonse_weak": false,
+   "unregistered": true,
+   "need_head": false,
+   "need_account": true,
+   "limits": [
+    [
+     "재당첨 제한",
+     "10년"
+    ],
+    [
+     "실거주 의무",
+     "없음"
+    ],
+    [
+     "전매 제한",
+     "1년 (~27.12.08)"
+    ]
+   ],
+   "url": "https://www.applyhome.co.kr/ai/aia/selectAPTLttotPblancDetail.do?houseManageNo=2026000598&pblancNo=2026000598",
+   "notice_pdf": "https://static.applyhome.co.kr/ai/aia/getAtchmnfl.do?houseManageNo=2026000598&pblancNo=2026000598&atchmnflSeqNo=2027349&atchmnflSn=3",
+   "from_notice": [
+    "1순위 가입기간",
+    "납입 인정 횟수",
+    "계약금 비율",
+    "분양가상한제",
+    "전매 제한",
+    "거주 지역 요건",
+    "실거주 의무",
+    "재당첨 제한"
+   ],
+   "geo": null,
+   "account_months": 6,
+   "deposit_count": 6,
+   "map_query": "전북특별자치도 고창군 덕산지구 도시개발구역 내 공동주택 BL2",
+   "sample": false
+  },
+  "key": "didim",
+  "asOf": "2026-11-24",
+  "profile": {
+   "cash": 30000,
+   "liquid": 0,
+   "deposit": 0,
+   "income": 5000,
+   "household": "head",
+   "selfOwn": false,
+   "married": true,
+   "hhNeverOwned": false,
+   "birth": "1985-01-01",
+   "hhSize": 3,
+   "kidsMinor": 0,
+   "_set": [
+    "cash",
+    "liquid",
+    "deposit",
+    "income"
+   ],
+   "spouseIncome": 3500,
+   "spouseOwn": false,
+   "marriedOn": "2019-11-25"
+  },
+  "expect": {
+   "ok": true,
+   "cap": 32000,
+   "ltv": 70,
+   "dti": 60,
+   "loan": 29708
+  },
+  "basis": "혼인 2019-11-25 = 7년 하루 전 → 신혼 — 고창 데시앙 2블록(공공분양) 분양가 4.244억·시세 없음·전용 84.9076㎡·지방, 기준일 2026-11-24"
+ },
+ {
+  "id": "policy-didim-kids2",
+  "fn": "policy",
+  "listing": null,
+  "raw": {
+   "id": "2026000598-084.9076A",
+   "name": "고창 데시앙 2블록(공공분양)",
+   "address": "전북특별자치도 고창군 덕산지구 도시개발구역 내 공동주택 BL2",
+   "region": "지방",
+   "sigungu": null,
+   "sido": "전북",
+   "district": "고창군",
+   "supply_type": "APT",
+   "house_secd": "01",
+   "house_dtl": "국민",
+   "rent_secd": "분양주택",
+   "rental": false,
+   "land_lease": false,
+   "land_rent": null,
+   "land_rent_rate": null,
+   "special_apply": "2026-11-30",
+   "special_apply_end": "2026-11-30",
+   "kind": "일반분양 (특별공급·1순위)",
+   "category": "general",
+   "target": null,
+   "unit": "84A",
+   "area": 84.9076,
+   "households": 22,
+   "complex": {
+    "households": 357,
+    "buildings": 6,
+    "single": "no",
+    "status": "확인",
+    "src": "모집공고문 공급규모",
+    "quote": "·공급대상 및 공급가격 등 1.공급위치 및 규모 ■ 공급위치: 전북특별자치도 고창군 덕산지구 도시개발구역 내 공동주택 BL2 ■ 공급규모: 2블록 : 지하 2층 ~ 지상 최고 18층, 6개동, 총 357 세대 중 공"
+   },
+   "mc_quota": null,
+   "youth": null,
+   "resale": {
+    "base": "당첨자 발표일",
+    "forbidden": false,
+    "months": 12,
+    "none": false,
+    "passed": false,
+    "registration": false,
+    "until_reg": false
+   },
+   "score_ratio": null,
+   "residence": {
+    "area": {
+     "name": "전북특별자치도 고창군",
+     "sido": "전북",
+     "sigungu": "고창군"
+    },
+    "months": 0,
+    "others": [
+     "전북"
+    ],
+    "since": null
+   },
+   "notice": "2026-11-20",
+   "apply": "2026-11-30",
+   "apply_end": "2026-12-02",
+   "winner": "2026-12-08",
+   "contract": "2027-02-15",
+   "balance": null,
+   "move_in": "2030-02",
+   "price": 4.244,
+   "ext": 0.0,
+   "pay_ratio": {
+    "balance": 0.35,
+    "contract": 0.05,
+    "mid": 0.6
+   },
+   "contract_split": {
+    "first_won": 10000000,
+    "rest_within": "1개월",
+    "rows": 16
+   },
+   "contract_rate": 0.05,
+   "mid_rate": 0.6,
+   "mkt_low": null,
+   "mkt_base": null,
+   "mkt_note": "시군구 코드를 아직 확인하지 못해 시세를 조회하지 못했어요 (지도 좌표로 확인되면 다음 수집부터 조회).",
+   "mkt_count": 0,
+   "mkt_direct_excluded": 0,
+   "jeonse": null,
+   "jeonse_note": "",
+   "capital": false,
+   "regulated": false,
+   "reg_kind": "비규제",
+   "land_permit": false,
+   "price_cap": true,
+   "residence_duty": 0,
+   "duty_from": null,
+   "duty_silent": false,
+   "jeonse_weak": false,
+   "unregistered": true,
+   "need_head": false,
+   "need_account": true,
+   "limits": [
+    [
+     "재당첨 제한",
+     "10년"
+    ],
+    [
+     "실거주 의무",
+     "없음"
+    ],
+    [
+     "전매 제한",
+     "1년 (~27.12.08)"
+    ]
+   ],
+   "url": "https://www.applyhome.co.kr/ai/aia/selectAPTLttotPblancDetail.do?houseManageNo=2026000598&pblancNo=2026000598",
+   "notice_pdf": "https://static.applyhome.co.kr/ai/aia/getAtchmnfl.do?houseManageNo=2026000598&pblancNo=2026000598&atchmnflSeqNo=2027349&atchmnflSn=3",
+   "from_notice": [
+    "1순위 가입기간",
+    "납입 인정 횟수",
+    "계약금 비율",
+    "분양가상한제",
+    "전매 제한",
+    "거주 지역 요건",
+    "실거주 의무",
+    "재당첨 제한"
+   ],
+   "geo": null,
+   "account_months": 6,
+   "deposit_count": 6,
+   "map_query": "전북특별자치도 고창군 덕산지구 도시개발구역 내 공동주택 BL2",
+   "sample": false
+  },
+  "key": "didim",
+  "asOf": "2026-11-24",
+  "profile": {
+   "cash": 30000,
+   "liquid": 0,
+   "deposit": 0,
+   "income": 7000,
+   "household": "head",
+   "selfOwn": false,
+   "married": false,
+   "hhNeverOwned": false,
+   "birth": "1985-01-01",
+   "hhSize": 3,
+   "kidsMinor": 2,
+   "_set": [
+    "cash",
+    "liquid",
+    "deposit",
+    "income"
+   ]
+  },
+  "expect": {
+   "ok": true,
+   "cap": 32000,
+   "ltv": 70,
+   "dti": 60,
+   "loan": 29708
+  },
+  "basis": "2자녀: 소득 7,000만 · 한도 3.2억 — 고창 데시앙 2블록(공공분양) 분양가 4.244억·시세 없음·전용 84.9076㎡·지방, 기준일 2026-11-24"
+ },
+ {
+  "id": "policy-didim-member",
+  "fn": "policy",
+  "listing": null,
+  "raw": {
+   "id": "2026000598-084.9076A",
+   "name": "고창 데시앙 2블록(공공분양)",
+   "address": "전북특별자치도 고창군 덕산지구 도시개발구역 내 공동주택 BL2",
+   "region": "지방",
+   "sigungu": null,
+   "sido": "전북",
+   "district": "고창군",
+   "supply_type": "APT",
+   "house_secd": "01",
+   "house_dtl": "국민",
+   "rent_secd": "분양주택",
+   "rental": false,
+   "land_lease": false,
+   "land_rent": null,
+   "land_rent_rate": null,
+   "special_apply": "2026-11-30",
+   "special_apply_end": "2026-11-30",
+   "kind": "일반분양 (특별공급·1순위)",
+   "category": "general",
+   "target": null,
+   "unit": "84A",
+   "area": 84.9076,
+   "households": 22,
+   "complex": {
+    "households": 357,
+    "buildings": 6,
+    "single": "no",
+    "status": "확인",
+    "src": "모집공고문 공급규모",
+    "quote": "·공급대상 및 공급가격 등 1.공급위치 및 규모 ■ 공급위치: 전북특별자치도 고창군 덕산지구 도시개발구역 내 공동주택 BL2 ■ 공급규모: 2블록 : 지하 2층 ~ 지상 최고 18층, 6개동, 총 357 세대 중 공"
+   },
+   "mc_quota": null,
+   "youth": null,
+   "resale": {
+    "base": "당첨자 발표일",
+    "forbidden": false,
+    "months": 12,
+    "none": false,
+    "passed": false,
+    "registration": false,
+    "until_reg": false
+   },
+   "score_ratio": null,
+   "residence": {
+    "area": {
+     "name": "전북특별자치도 고창군",
+     "sido": "전북",
+     "sigungu": "고창군"
+    },
+    "months": 0,
+    "others": [
+     "전북"
+    ],
+    "since": null
+   },
+   "notice": "2026-11-20",
+   "apply": "2026-11-30",
+   "apply_end": "2026-12-02",
+   "winner": "2026-12-08",
+   "contract": "2027-02-15",
+   "balance": null,
+   "move_in": "2030-02",
+   "price": 4.244,
+   "ext": 0.0,
+   "pay_ratio": {
+    "balance": 0.35,
+    "contract": 0.05,
+    "mid": 0.6
+   },
+   "contract_split": {
+    "first_won": 10000000,
+    "rest_within": "1개월",
+    "rows": 16
+   },
+   "contract_rate": 0.05,
+   "mid_rate": 0.6,
+   "mkt_low": null,
+   "mkt_base": null,
+   "mkt_note": "시군구 코드를 아직 확인하지 못해 시세를 조회하지 못했어요 (지도 좌표로 확인되면 다음 수집부터 조회).",
+   "mkt_count": 0,
+   "mkt_direct_excluded": 0,
+   "jeonse": null,
+   "jeonse_note": "",
+   "capital": false,
+   "regulated": false,
+   "reg_kind": "비규제",
+   "land_permit": false,
+   "price_cap": true,
+   "residence_duty": 0,
+   "duty_from": null,
+   "duty_silent": false,
+   "jeonse_weak": false,
+   "unregistered": true,
+   "need_head": false,
+   "need_account": true,
+   "limits": [
+    [
+     "재당첨 제한",
+     "10년"
+    ],
+    [
+     "실거주 의무",
+     "없음"
+    ],
+    [
+     "전매 제한",
+     "1년 (~27.12.08)"
+    ]
+   ],
+   "url": "https://www.applyhome.co.kr/ai/aia/selectAPTLttotPblancDetail.do?houseManageNo=2026000598&pblancNo=2026000598",
+   "notice_pdf": "https://static.applyhome.co.kr/ai/aia/getAtchmnfl.do?houseManageNo=2026000598&pblancNo=2026000598&atchmnflSeqNo=2027349&atchmnflSn=3",
+   "from_notice": [
+    "1순위 가입기간",
+    "납입 인정 횟수",
+    "계약금 비율",
+    "분양가상한제",
+    "전매 제한",
+    "거주 지역 요건",
+    "실거주 의무",
+    "재당첨 제한"
+   ],
+   "geo": null,
+   "account_months": 6,
+   "deposit_count": 6,
+   "map_query": "전북특별자치도 고창군 덕산지구 도시개발구역 내 공동주택 BL2",
+   "sample": false
+  },
+  "key": "didim",
+  "asOf": "2026-11-24",
+  "profile": {
+   "cash": 30000,
+   "liquid": 0,
+   "deposit": 0,
+   "income": 5000,
+   "household": "parents",
+   "selfOwn": false,
+   "married": false,
+   "hhNeverOwned": false,
+   "birth": "1985-01-01",
+   "hhSize": 3,
+   "kidsMinor": 0,
+   "_set": [
+    "cash",
+    "liquid",
+    "deposit",
+    "income"
+   ]
+  },
+  "expect": {
+   "ok": false,
+   "cap": null,
+   "ltv": null,
+   "dti": null,
+   "loan": 0
+  },
+  "basis": "세대주 아님 — 고창 데시앙 2블록(공공분양) 분양가 4.244억·시세 없음·전용 84.9076㎡·지방, 기준일 2026-11-24"
+ },
+ {
+  "id": "policy-didim-owner",
+  "fn": "policy",
+  "listing": null,
+  "raw": {
+   "id": "2026000598-084.9076A",
+   "name": "고창 데시앙 2블록(공공분양)",
+   "address": "전북특별자치도 고창군 덕산지구 도시개발구역 내 공동주택 BL2",
+   "region": "지방",
+   "sigungu": null,
+   "sido": "전북",
+   "district": "고창군",
+   "supply_type": "APT",
+   "house_secd": "01",
+   "house_dtl": "국민",
+   "rent_secd": "분양주택",
+   "rental": false,
+   "land_lease": false,
+   "land_rent": null,
+   "land_rent_rate": null,
+   "special_apply": "2026-11-30",
+   "special_apply_end": "2026-11-30",
+   "kind": "일반분양 (특별공급·1순위)",
+   "category": "general",
+   "target": null,
+   "unit": "84A",
+   "area": 84.9076,
+   "households": 22,
+   "complex": {
+    "households": 357,
+    "buildings": 6,
+    "single": "no",
+    "status": "확인",
+    "src": "모집공고문 공급규모",
+    "quote": "·공급대상 및 공급가격 등 1.공급위치 및 규모 ■ 공급위치: 전북특별자치도 고창군 덕산지구 도시개발구역 내 공동주택 BL2 ■ 공급규모: 2블록 : 지하 2층 ~ 지상 최고 18층, 6개동, 총 357 세대 중 공"
+   },
+   "mc_quota": null,
+   "youth": null,
+   "resale": {
+    "base": "당첨자 발표일",
+    "forbidden": false,
+    "months": 12,
+    "none": false,
+    "passed": false,
+    "registration": false,
+    "until_reg": false
+   },
+   "score_ratio": null,
+   "residence": {
+    "area": {
+     "name": "전북특별자치도 고창군",
+     "sido": "전북",
+     "sigungu": "고창군"
+    },
+    "months": 0,
+    "others": [
+     "전북"
+    ],
+    "since": null
+   },
+   "notice": "2026-11-20",
+   "apply": "2026-11-30",
+   "apply_end": "2026-12-02",
+   "winner": "2026-12-08",
+   "contract": "2027-02-15",
+   "balance": null,
+   "move_in": "2030-02",
+   "price": 4.244,
+   "ext": 0.0,
+   "pay_ratio": {
+    "balance": 0.35,
+    "contract": 0.05,
+    "mid": 0.6
+   },
+   "contract_split": {
+    "first_won": 10000000,
+    "rest_within": "1개월",
+    "rows": 16
+   },
+   "contract_rate": 0.05,
+   "mid_rate": 0.6,
+   "mkt_low": null,
+   "mkt_base": null,
+   "mkt_note": "시군구 코드를 아직 확인하지 못해 시세를 조회하지 못했어요 (지도 좌표로 확인되면 다음 수집부터 조회).",
+   "mkt_count": 0,
+   "mkt_direct_excluded": 0,
+   "jeonse": null,
+   "jeonse_note": "",
+   "capital": false,
+   "regulated": false,
+   "reg_kind": "비규제",
+   "land_permit": false,
+   "price_cap": true,
+   "residence_duty": 0,
+   "duty_from": null,
+   "duty_silent": false,
+   "jeonse_weak": false,
+   "unregistered": true,
+   "need_head": false,
+   "need_account": true,
+   "limits": [
+    [
+     "재당첨 제한",
+     "10년"
+    ],
+    [
+     "실거주 의무",
+     "없음"
+    ],
+    [
+     "전매 제한",
+     "1년 (~27.12.08)"
+    ]
+   ],
+   "url": "https://www.applyhome.co.kr/ai/aia/selectAPTLttotPblancDetail.do?houseManageNo=2026000598&pblancNo=2026000598",
+   "notice_pdf": "https://static.applyhome.co.kr/ai/aia/getAtchmnfl.do?houseManageNo=2026000598&pblancNo=2026000598&atchmnflSeqNo=2027349&atchmnflSn=3",
+   "from_notice": [
+    "1순위 가입기간",
+    "납입 인정 횟수",
+    "계약금 비율",
+    "분양가상한제",
+    "전매 제한",
+    "거주 지역 요건",
+    "실거주 의무",
+    "재당첨 제한"
+   ],
+   "geo": null,
+   "account_months": 6,
+   "deposit_count": 6,
+   "map_query": "전북특별자치도 고창군 덕산지구 도시개발구역 내 공동주택 BL2",
+   "sample": false
+  },
+  "key": "didim",
+  "asOf": "2026-11-24",
+  "profile": {
+   "cash": 30000,
+   "liquid": 0,
+   "deposit": 0,
+   "income": 5000,
+   "household": "head",
+   "selfOwn": true,
+   "married": false,
+   "hhNeverOwned": false,
+   "birth": "1985-01-01",
+   "hhSize": 3,
+   "kidsMinor": 0,
+   "_set": [
+    "cash",
+    "liquid",
+    "deposit",
+    "income"
+   ]
+  },
+  "expect": {
+   "ok": false,
+   "cap": null,
+   "ltv": null,
+   "dti": null,
+   "loan": 0
+  },
+  "basis": "지금 집 있음 — 고창 데시앙 2블록(공공분양) 분양가 4.244억·시세 없음·전용 84.9076㎡·지방, 기준일 2026-11-24"
+ },
+ {
+  "id": "policy-didim-single-29",
+  "fn": "policy",
+  "listing": null,
+  "raw": {
+   "id": "2026000598-084.9076A",
+   "name": "고창 데시앙 2블록(공공분양)",
+   "address": "전북특별자치도 고창군 덕산지구 도시개발구역 내 공동주택 BL2",
+   "region": "지방",
+   "sigungu": null,
+   "sido": "전북",
+   "district": "고창군",
+   "supply_type": "APT",
+   "house_secd": "01",
+   "house_dtl": "국민",
+   "rent_secd": "분양주택",
+   "rental": false,
+   "land_lease": false,
+   "land_rent": null,
+   "land_rent_rate": null,
+   "special_apply": "2026-11-30",
+   "special_apply_end": "2026-11-30",
+   "kind": "일반분양 (특별공급·1순위)",
+   "category": "general",
+   "target": null,
+   "unit": "84A",
+   "area": 84.9076,
+   "households": 22,
+   "complex": {
+    "households": 357,
+    "buildings": 6,
+    "single": "no",
+    "status": "확인",
+    "src": "모집공고문 공급규모",
+    "quote": "·공급대상 및 공급가격 등 1.공급위치 및 규모 ■ 공급위치: 전북특별자치도 고창군 덕산지구 도시개발구역 내 공동주택 BL2 ■ 공급규모: 2블록 : 지하 2층 ~ 지상 최고 18층, 6개동, 총 357 세대 중 공"
+   },
+   "mc_quota": null,
+   "youth": null,
+   "resale": {
+    "base": "당첨자 발표일",
+    "forbidden": false,
+    "months": 12,
+    "none": false,
+    "passed": false,
+    "registration": false,
+    "until_reg": false
+   },
+   "score_ratio": null,
+   "residence": {
+    "area": {
+     "name": "전북특별자치도 고창군",
+     "sido": "전북",
+     "sigungu": "고창군"
+    },
+    "months": 0,
+    "others": [
+     "전북"
+    ],
+    "since": null
+   },
+   "notice": "2026-11-20",
+   "apply": "2026-11-30",
+   "apply_end": "2026-12-02",
+   "winner": "2026-12-08",
+   "contract": "2027-02-15",
+   "balance": null,
+   "move_in": "2030-02",
+   "price": 4.244,
+   "ext": 0.0,
+   "pay_ratio": {
+    "balance": 0.35,
+    "contract": 0.05,
+    "mid": 0.6
+   },
+   "contract_split": {
+    "first_won": 10000000,
+    "rest_within": "1개월",
+    "rows": 16
+   },
+   "contract_rate": 0.05,
+   "mid_rate": 0.6,
+   "mkt_low": null,
+   "mkt_base": null,
+   "mkt_note": "시군구 코드를 아직 확인하지 못해 시세를 조회하지 못했어요 (지도 좌표로 확인되면 다음 수집부터 조회).",
+   "mkt_count": 0,
+   "mkt_direct_excluded": 0,
+   "jeonse": null,
+   "jeonse_note": "",
+   "capital": false,
+   "regulated": false,
+   "reg_kind": "비규제",
+   "land_permit": false,
+   "price_cap": true,
+   "residence_duty": 0,
+   "duty_from": null,
+   "duty_silent": false,
+   "jeonse_weak": false,
+   "unregistered": true,
+   "need_head": false,
+   "need_account": true,
+   "limits": [
+    [
+     "재당첨 제한",
+     "10년"
+    ],
+    [
+     "실거주 의무",
+     "없음"
+    ],
+    [
+     "전매 제한",
+     "1년 (~27.12.08)"
+    ]
+   ],
+   "url": "https://www.applyhome.co.kr/ai/aia/selectAPTLttotPblancDetail.do?houseManageNo=2026000598&pblancNo=2026000598",
+   "notice_pdf": "https://static.applyhome.co.kr/ai/aia/getAtchmnfl.do?houseManageNo=2026000598&pblancNo=2026000598&atchmnflSeqNo=2027349&atchmnflSn=3",
+   "from_notice": [
+    "1순위 가입기간",
+    "납입 인정 횟수",
+    "계약금 비율",
+    "분양가상한제",
+    "전매 제한",
+    "거주 지역 요건",
+    "실거주 의무",
+    "재당첨 제한"
+   ],
+   "geo": null,
+   "account_months": 6,
+   "deposit_count": 6,
+   "map_query": "전북특별자치도 고창군 덕산지구 도시개발구역 내 공동주택 BL2",
+   "sample": false
+  },
+  "key": "didim",
+  "asOf": "2026-11-24",
+  "profile": {
+   "cash": 30000,
+   "liquid": 0,
+   "deposit": 0,
+   "income": 5000,
+   "household": "head",
+   "selfOwn": false,
+   "married": false,
+   "hhNeverOwned": false,
+   "birth": "1997-11-25",
+   "hhSize": 1,
+   "kidsMinor": 0,
+   "_set": [
+    "cash",
+    "liquid",
+    "deposit",
+    "income"
+   ]
+  },
+  "expect": {
+   "ok": false,
+   "cap": null,
+   "ltv": null,
+   "dti": null,
+   "loan": 0
+  },
+  "basis": "미혼 단독세대주 만 29세(1997-11-25생) — 고창 데시앙 2블록(공공분양) 분양가 4.244억·시세 없음·전용 84.9076㎡·지방, 기준일 2026-11-24"
+ },
+ {
+  "id": "policy-didim-single-30",
+  "fn": "policy",
+  "listing": null,
+  "raw": {
+   "id": "2026000598-084.9076A",
+   "name": "고창 데시앙 2블록(공공분양)",
+   "address": "전북특별자치도 고창군 덕산지구 도시개발구역 내 공동주택 BL2",
+   "region": "지방",
+   "sigungu": null,
+   "sido": "전북",
+   "district": "고창군",
+   "supply_type": "APT",
+   "house_secd": "01",
+   "house_dtl": "국민",
+   "rent_secd": "분양주택",
+   "rental": false,
+   "land_lease": false,
+   "land_rent": null,
+   "land_rent_rate": null,
+   "special_apply": "2026-11-30",
+   "special_apply_end": "2026-11-30",
+   "kind": "일반분양 (특별공급·1순위)",
+   "category": "general",
+   "target": null,
+   "unit": "84A",
+   "area": 84.9076,
+   "households": 22,
+   "complex": {
+    "households": 357,
+    "buildings": 6,
+    "single": "no",
+    "status": "확인",
+    "src": "모집공고문 공급규모",
+    "quote": "·공급대상 및 공급가격 등 1.공급위치 및 규모 ■ 공급위치: 전북특별자치도 고창군 덕산지구 도시개발구역 내 공동주택 BL2 ■ 공급규모: 2블록 : 지하 2층 ~ 지상 최고 18층, 6개동, 총 357 세대 중 공"
+   },
+   "mc_quota": null,
+   "youth": null,
+   "resale": {
+    "base": "당첨자 발표일",
+    "forbidden": false,
+    "months": 12,
+    "none": false,
+    "passed": false,
+    "registration": false,
+    "until_reg": false
+   },
+   "score_ratio": null,
+   "residence": {
+    "area": {
+     "name": "전북특별자치도 고창군",
+     "sido": "전북",
+     "sigungu": "고창군"
+    },
+    "months": 0,
+    "others": [
+     "전북"
+    ],
+    "since": null
+   },
+   "notice": "2026-11-20",
+   "apply": "2026-11-30",
+   "apply_end": "2026-12-02",
+   "winner": "2026-12-08",
+   "contract": "2027-02-15",
+   "balance": null,
+   "move_in": "2030-02",
+   "price": 4.244,
+   "ext": 0.0,
+   "pay_ratio": {
+    "balance": 0.35,
+    "contract": 0.05,
+    "mid": 0.6
+   },
+   "contract_split": {
+    "first_won": 10000000,
+    "rest_within": "1개월",
+    "rows": 16
+   },
+   "contract_rate": 0.05,
+   "mid_rate": 0.6,
+   "mkt_low": null,
+   "mkt_base": null,
+   "mkt_note": "시군구 코드를 아직 확인하지 못해 시세를 조회하지 못했어요 (지도 좌표로 확인되면 다음 수집부터 조회).",
+   "mkt_count": 0,
+   "mkt_direct_excluded": 0,
+   "jeonse": null,
+   "jeonse_note": "",
+   "capital": false,
+   "regulated": false,
+   "reg_kind": "비규제",
+   "land_permit": false,
+   "price_cap": true,
+   "residence_duty": 0,
+   "duty_from": null,
+   "duty_silent": false,
+   "jeonse_weak": false,
+   "unregistered": true,
+   "need_head": false,
+   "need_account": true,
+   "limits": [
+    [
+     "재당첨 제한",
+     "10년"
+    ],
+    [
+     "실거주 의무",
+     "없음"
+    ],
+    [
+     "전매 제한",
+     "1년 (~27.12.08)"
+    ]
+   ],
+   "url": "https://www.applyhome.co.kr/ai/aia/selectAPTLttotPblancDetail.do?houseManageNo=2026000598&pblancNo=2026000598",
+   "notice_pdf": "https://static.applyhome.co.kr/ai/aia/getAtchmnfl.do?houseManageNo=2026000598&pblancNo=2026000598&atchmnflSeqNo=2027349&atchmnflSn=3",
+   "from_notice": [
+    "1순위 가입기간",
+    "납입 인정 횟수",
+    "계약금 비율",
+    "분양가상한제",
+    "전매 제한",
+    "거주 지역 요건",
+    "실거주 의무",
+    "재당첨 제한"
+   ],
+   "geo": null,
+   "account_months": 6,
+   "deposit_count": 6,
+   "map_query": "전북특별자치도 고창군 덕산지구 도시개발구역 내 공동주택 BL2",
+   "sample": false
+  },
+  "key": "didim",
+  "asOf": "2026-11-24",
+  "profile": {
+   "cash": 30000,
+   "liquid": 0,
+   "deposit": 0,
+   "income": 5000,
+   "household": "head",
+   "selfOwn": false,
+   "married": false,
+   "hhNeverOwned": false,
+   "birth": "1996-11-24",
+   "hhSize": 1,
+   "kidsMinor": 0,
+   "_set": [
+    "cash",
+    "liquid",
+    "deposit",
+    "income"
+   ]
+  },
+  "expect": {
+   "ok": false,
+   "cap": null,
+   "ltv": null,
+   "dti": null,
+   "loan": 0
+  },
+  "basis": "미혼 단독세대주 만 30세(1996-11-24생)지만 집값 4.244억 > 3억 — 고창 데시앙 2블록(공공분양) 분양가 4.244억·시세 없음·전용 84.9076㎡·지방, 기준일 2026-11-24"
+ },
+ {
+  "id": "policy-didim-cap",
+  "fn": "policy",
+  "listing": null,
+  "raw": {
+   "id": "2026000591-059.9906A",
+   "name": "소사 휴먼빌",
+   "address": "경기도 부천시 소사구 소사본동 277-30번지 일원",
+   "region": "경기",
+   "sigungu": "부천시 소사구",
+   "sido": "경기",
+   "district": "부천시 소사구",
+   "supply_type": "APT",
+   "house_secd": "01",
+   "house_dtl": "민영",
+   "rent_secd": "분양주택",
+   "rental": false,
+   "land_lease": false,
+   "land_rent": null,
+   "land_rent_rate": null,
+   "special_apply": "2026-11-30",
+   "special_apply_end": "2026-11-30",
+   "kind": "일반분양 (특별공급·1순위)",
+   "category": "general",
+   "target": null,
+   "unit": "59A",
+   "area": 59.9906,
+   "households": 4,
+   "complex": {
+    "households": 79,
+    "buildings": 1,
+    "single": "maybe",
+    "status": "확인",
+    "src": "모집공고문 공급규모",
+    "quote": ": 아파트 지하 2층, 지상 20층, 1개동 총 79세대[조합 33세대, 보류지 1세대] 중 일반분양 45세대 [특별공급 23세대(기관추천 4세대, 다자녀가구 4세대, 신혼부부 7세대, 생애최초 4세대, 신생아 4"
+   },
+   "mc_quota": {
+    "buckets": [
+     {
+      "name": "해당 시·도",
+      "pct": 50,
+      "regions": [
+       "경기"
+      ]
+     },
+     {
+      "name": "기타지역",
+      "pct": 50,
+      "regions": [
+       "서울",
+       "인천"
+      ]
+     }
+    ]
+   },
+   "youth": null,
+   "resale": {
+    "base": "당첨자 발표일",
+    "forbidden": false,
+    "months": 12,
+    "none": false,
+    "passed": false,
+    "registration": false,
+    "until_reg": false
+   },
+   "score_ratio": {
+    "rows": [
+     {
+      "lottery": 60,
+      "over": 0,
+      "score": 40,
+      "upto": 60
+     },
+     {
+      "lottery": 60,
+      "over": 60,
+      "score": 40,
+      "upto": 85
+     }
+    ]
+   },
+   "residence": {
+    "area": {
+     "name": "경기도 부천시",
+     "sido": "경기",
+     "sigungu": "부천시"
+    },
+    "months": 0,
+    "others": [
+     "서울",
+     "인천",
+     "경기"
+    ],
+    "since": null
+   },
+   "notice": "2026-11-20",
+   "apply": "2026-11-30",
+   "apply_end": "2026-12-02",
+   "winner": "2026-12-08",
+   "contract": "2026-12-21",
+   "balance": null,
+   "move_in": "2028-05",
+   "price": 5.5932,
+   "ext": 0.0,
+   "pay_ratio": {
+    "balance": 0.3,
+    "contract": 0.1,
+    "mid": 0.6
+   },
+   "contract_split": {
+    "first_won": 10000000,
+    "rest_within": "1개월",
+    "rows": 27
+   },
+   "contract_rate": 0.1,
+   "mid_rate": 0.6,
+   "mkt_low": 4.39,
+   "mkt_base": 5.61,
+   "mkt_note": "같은 동(소사본동) 2km 안 준공 10년 이내 같은 평형(59㎡) 매매 18건 기준 (최근 6개월) · 거래가 몰린 단지(부천한신더휴메트로 11건)는 5건 몫으로 줄여 계산",
+   "mkt_count": 18,
+   "mkt_direct_excluded": 0,
+   "jeonse": 4.05,
+   "jeonse_note": "같은 구 준공 10년 이내 전세 91건 중앙값에서 입주장 할인 9%",
+   "capital": true,
+   "regulated": false,
+   "reg_kind": "비규제",
+   "land_permit": false,
+   "price_cap": false,
+   "residence_duty": 0,
+   "duty_from": null,
+   "duty_silent": false,
+   "jeonse_weak": false,
+   "unregistered": true,
+   "need_head": false,
+   "need_account": true,
+   "limits": [
+    [
+     "재당첨 제한",
+     "없음"
+    ],
+    [
+     "실거주 의무",
+     "없음"
+    ],
+    [
+     "전매 제한",
+     "1년 (~27.12.08)"
+    ]
+   ],
+   "url": "https://www.applyhome.co.kr/ai/aia/selectAPTLttotPblancDetail.do?houseManageNo=2026000591&pblancNo=2026000591",
+   "notice_pdf": "https://static.applyhome.co.kr/ai/aia/getAtchmnfl.do?houseManageNo=2026000591&pblancNo=2026000591&atchmnflSeqNo=2027261&atchmnflSn=4",
+   "from_notice": [
+    "1순위 가입기간",
+    "다자녀 지역 배정",
+    "세대주 요건",
+    "계약금 비율",
+    "분양가상한제",
+    "전매 제한",
+    "거주 지역 요건",
+    "실거주 의무",
+    "재당첨 제한",
+    "가점제·추첨제 비율"
+   ],
+   "geo": {
+    "lat": 37.473313,
+    "lng": 126.801225,
+    "precision": "exact",
+    "query": "경기도 부천시 소사구 소사본동 277-30",
+    "matched": "경기도 부천시 소사구 소사본동 277-30",
+    "source": "네이버 클라우드 플랫폼 Geocoding"
+   },
+   "account_months": 12,
+   "deposit_count": null,
+   "map_query": "경기도 부천시 소사구 소사본동 277-30",
+   "sample": false
+  },
+  "key": "didim",
+  "asOf": "2026-11-24",
+  "profile": {
+   "cash": 30000,
+   "liquid": 0,
+   "deposit": 0,
+   "income": 5000,
+   "household": "head",
+   "selfOwn": false,
+   "married": false,
+   "hhNeverOwned": false,
+   "birth": "1985-01-01",
+   "hhSize": 3,
+   "kidsMinor": 0,
+   "_set": [
+    "cash",
+    "liquid",
+    "deposit",
+    "income"
+   ]
+  },
+  "expect": {
+   "ok": false,
+   "cap": null,
+   "ltv": null,
+   "dti": null,
+   "loan": 0
+  },
+  "basis": "수도권 새 아파트: 등기 전 잔금대출 제한(소득 5,000만) — 소사 휴먼빌 분양가 5.5932억·시세 5.61·전용 59.9906㎡·수도권, 기준일 2026-11-24"
+ },
+ {
+  "id": "policy-didim-cap-low",
+  "fn": "policy",
+  "listing": null,
+  "raw": {
+   "id": "2026000591-059.9906A",
+   "name": "소사 휴먼빌",
+   "address": "경기도 부천시 소사구 소사본동 277-30번지 일원",
+   "region": "경기",
+   "sigungu": "부천시 소사구",
+   "sido": "경기",
+   "district": "부천시 소사구",
+   "supply_type": "APT",
+   "house_secd": "01",
+   "house_dtl": "민영",
+   "rent_secd": "분양주택",
+   "rental": false,
+   "land_lease": false,
+   "land_rent": null,
+   "land_rent_rate": null,
+   "special_apply": "2026-11-30",
+   "special_apply_end": "2026-11-30",
+   "kind": "일반분양 (특별공급·1순위)",
+   "category": "general",
+   "target": null,
+   "unit": "59A",
+   "area": 59.9906,
+   "households": 4,
+   "complex": {
+    "households": 79,
+    "buildings": 1,
+    "single": "maybe",
+    "status": "확인",
+    "src": "모집공고문 공급규모",
+    "quote": ": 아파트 지하 2층, 지상 20층, 1개동 총 79세대[조합 33세대, 보류지 1세대] 중 일반분양 45세대 [특별공급 23세대(기관추천 4세대, 다자녀가구 4세대, 신혼부부 7세대, 생애최초 4세대, 신생아 4"
+   },
+   "mc_quota": {
+    "buckets": [
+     {
+      "name": "해당 시·도",
+      "pct": 50,
+      "regions": [
+       "경기"
+      ]
+     },
+     {
+      "name": "기타지역",
+      "pct": 50,
+      "regions": [
+       "서울",
+       "인천"
+      ]
+     }
+    ]
+   },
+   "youth": null,
+   "resale": {
+    "base": "당첨자 발표일",
+    "forbidden": false,
+    "months": 12,
+    "none": false,
+    "passed": false,
+    "registration": false,
+    "until_reg": false
+   },
+   "score_ratio": {
+    "rows": [
+     {
+      "lottery": 60,
+      "over": 0,
+      "score": 40,
+      "upto": 60
+     },
+     {
+      "lottery": 60,
+      "over": 60,
+      "score": 40,
+      "upto": 85
+     }
+    ]
+   },
+   "residence": {
+    "area": {
+     "name": "경기도 부천시",
+     "sido": "경기",
+     "sigungu": "부천시"
+    },
+    "months": 0,
+    "others": [
+     "서울",
+     "인천",
+     "경기"
+    ],
+    "since": null
+   },
+   "notice": "2026-11-20",
+   "apply": "2026-11-30",
+   "apply_end": "2026-12-02",
+   "winner": "2026-12-08",
+   "contract": "2026-12-21",
+   "balance": null,
+   "move_in": "2028-05",
+   "price": 5.5932,
+   "ext": 0.0,
+   "pay_ratio": {
+    "balance": 0.3,
+    "contract": 0.1,
+    "mid": 0.6
+   },
+   "contract_split": {
+    "first_won": 10000000,
+    "rest_within": "1개월",
+    "rows": 27
+   },
+   "contract_rate": 0.1,
+   "mid_rate": 0.6,
+   "mkt_low": 4.39,
+   "mkt_base": 5.61,
+   "mkt_note": "같은 동(소사본동) 2km 안 준공 10년 이내 같은 평형(59㎡) 매매 18건 기준 (최근 6개월) · 거래가 몰린 단지(부천한신더휴메트로 11건)는 5건 몫으로 줄여 계산",
+   "mkt_count": 18,
+   "mkt_direct_excluded": 0,
+   "jeonse": 4.05,
+   "jeonse_note": "같은 구 준공 10년 이내 전세 91건 중앙값에서 입주장 할인 9%",
+   "capital": true,
+   "regulated": false,
+   "reg_kind": "비규제",
+   "land_permit": false,
+   "price_cap": false,
+   "residence_duty": 0,
+   "duty_from": null,
+   "duty_silent": false,
+   "jeonse_weak": false,
+   "unregistered": true,
+   "need_head": false,
+   "need_account": true,
+   "limits": [
+    [
+     "재당첨 제한",
+     "없음"
+    ],
+    [
+     "실거주 의무",
+     "없음"
+    ],
+    [
+     "전매 제한",
+     "1년 (~27.12.08)"
+    ]
+   ],
+   "url": "https://www.applyhome.co.kr/ai/aia/selectAPTLttotPblancDetail.do?houseManageNo=2026000591&pblancNo=2026000591",
+   "notice_pdf": "https://static.applyhome.co.kr/ai/aia/getAtchmnfl.do?houseManageNo=2026000591&pblancNo=2026000591&atchmnflSeqNo=2027261&atchmnflSn=4",
+   "from_notice": [
+    "1순위 가입기간",
+    "다자녀 지역 배정",
+    "세대주 요건",
+    "계약금 비율",
+    "분양가상한제",
+    "전매 제한",
+    "거주 지역 요건",
+    "실거주 의무",
+    "재당첨 제한",
+    "가점제·추첨제 비율"
+   ],
+   "geo": {
+    "lat": 37.473313,
+    "lng": 126.801225,
+    "precision": "exact",
+    "query": "경기도 부천시 소사구 소사본동 277-30",
+    "matched": "경기도 부천시 소사구 소사본동 277-30",
+    "source": "네이버 클라우드 플랫폼 Geocoding"
+   },
+   "account_months": 12,
+   "deposit_count": null,
+   "map_query": "경기도 부천시 소사구 소사본동 277-30",
+   "sample": false
+  },
+  "key": "didim",
+  "asOf": "2026-11-24",
+  "profile": {
+   "cash": 30000,
+   "liquid": 0,
+   "deposit": 0,
+   "income": 4000,
+   "household": "head",
+   "selfOwn": false,
+   "married": false,
+   "hhNeverOwned": false,
+   "birth": "1985-01-01",
+   "hhSize": 3,
+   "kidsMinor": 0,
+   "_set": [
+    "cash",
+    "liquid",
+    "deposit",
+    "income"
+   ]
+  },
+  "expect": {
+   "ok": false,
+   "cap": null,
+   "ltv": null,
+   "dti": null,
+   "loan": 0
+  },
+  "basis": "수도권 · 소득 4,000만이어도 집값 5.61억 > 3억 → 예외 아님 — 소사 휴먼빌 분양가 5.5932억·시세 5.61·전용 59.9906㎡·수도권, 기준일 2026-11-24"
+ },
+ {
+  "id": "policy-baby-cap",
+  "fn": "policy",
+  "listing": null,
+  "raw": {
+   "id": "2026000591-059.9906A",
+   "name": "소사 휴먼빌",
+   "address": "경기도 부천시 소사구 소사본동 277-30번지 일원",
+   "region": "경기",
+   "sigungu": "부천시 소사구",
+   "sido": "경기",
+   "district": "부천시 소사구",
+   "supply_type": "APT",
+   "house_secd": "01",
+   "house_dtl": "민영",
+   "rent_secd": "분양주택",
+   "rental": false,
+   "land_lease": false,
+   "land_rent": null,
+   "land_rent_rate": null,
+   "special_apply": "2026-11-30",
+   "special_apply_end": "2026-11-30",
+   "kind": "일반분양 (특별공급·1순위)",
+   "category": "general",
+   "target": null,
+   "unit": "59A",
+   "area": 59.9906,
+   "households": 4,
+   "complex": {
+    "households": 79,
+    "buildings": 1,
+    "single": "maybe",
+    "status": "확인",
+    "src": "모집공고문 공급규모",
+    "quote": ": 아파트 지하 2층, 지상 20층, 1개동 총 79세대[조합 33세대, 보류지 1세대] 중 일반분양 45세대 [특별공급 23세대(기관추천 4세대, 다자녀가구 4세대, 신혼부부 7세대, 생애최초 4세대, 신생아 4"
+   },
+   "mc_quota": {
+    "buckets": [
+     {
+      "name": "해당 시·도",
+      "pct": 50,
+      "regions": [
+       "경기"
+      ]
+     },
+     {
+      "name": "기타지역",
+      "pct": 50,
+      "regions": [
+       "서울",
+       "인천"
+      ]
+     }
+    ]
+   },
+   "youth": null,
+   "resale": {
+    "base": "당첨자 발표일",
+    "forbidden": false,
+    "months": 12,
+    "none": false,
+    "passed": false,
+    "registration": false,
+    "until_reg": false
+   },
+   "score_ratio": {
+    "rows": [
+     {
+      "lottery": 60,
+      "over": 0,
+      "score": 40,
+      "upto": 60
+     },
+     {
+      "lottery": 60,
+      "over": 60,
+      "score": 40,
+      "upto": 85
+     }
+    ]
+   },
+   "residence": {
+    "area": {
+     "name": "경기도 부천시",
+     "sido": "경기",
+     "sigungu": "부천시"
+    },
+    "months": 0,
+    "others": [
+     "서울",
+     "인천",
+     "경기"
+    ],
+    "since": null
+   },
+   "notice": "2026-11-20",
+   "apply": "2026-11-30",
+   "apply_end": "2026-12-02",
+   "winner": "2026-12-08",
+   "contract": "2026-12-21",
+   "balance": null,
+   "move_in": "2028-05",
+   "price": 5.5932,
+   "ext": 0.0,
+   "pay_ratio": {
+    "balance": 0.3,
+    "contract": 0.1,
+    "mid": 0.6
+   },
+   "contract_split": {
+    "first_won": 10000000,
+    "rest_within": "1개월",
+    "rows": 27
+   },
+   "contract_rate": 0.1,
+   "mid_rate": 0.6,
+   "mkt_low": 4.39,
+   "mkt_base": 5.61,
+   "mkt_note": "같은 동(소사본동) 2km 안 준공 10년 이내 같은 평형(59㎡) 매매 18건 기준 (최근 6개월) · 거래가 몰린 단지(부천한신더휴메트로 11건)는 5건 몫으로 줄여 계산",
+   "mkt_count": 18,
+   "mkt_direct_excluded": 0,
+   "jeonse": 4.05,
+   "jeonse_note": "같은 구 준공 10년 이내 전세 91건 중앙값에서 입주장 할인 9%",
+   "capital": true,
+   "regulated": false,
+   "reg_kind": "비규제",
+   "land_permit": false,
+   "price_cap": false,
+   "residence_duty": 0,
+   "duty_from": null,
+   "duty_silent": false,
+   "jeonse_weak": false,
+   "unregistered": true,
+   "need_head": false,
+   "need_account": true,
+   "limits": [
+    [
+     "재당첨 제한",
+     "없음"
+    ],
+    [
+     "실거주 의무",
+     "없음"
+    ],
+    [
+     "전매 제한",
+     "1년 (~27.12.08)"
+    ]
+   ],
+   "url": "https://www.applyhome.co.kr/ai/aia/selectAPTLttotPblancDetail.do?houseManageNo=2026000591&pblancNo=2026000591",
+   "notice_pdf": "https://static.applyhome.co.kr/ai/aia/getAtchmnfl.do?houseManageNo=2026000591&pblancNo=2026000591&atchmnflSeqNo=2027261&atchmnflSn=4",
+   "from_notice": [
+    "1순위 가입기간",
+    "다자녀 지역 배정",
+    "세대주 요건",
+    "계약금 비율",
+    "분양가상한제",
+    "전매 제한",
+    "거주 지역 요건",
+    "실거주 의무",
+    "재당첨 제한",
+    "가점제·추첨제 비율"
+   ],
+   "geo": {
+    "lat": 37.473313,
+    "lng": 126.801225,
+    "precision": "exact",
+    "query": "경기도 부천시 소사구 소사본동 277-30",
+    "matched": "경기도 부천시 소사구 소사본동 277-30",
+    "source": "네이버 클라우드 플랫폼 Geocoding"
+   },
+   "account_months": 12,
+   "deposit_count": null,
+   "map_query": "경기도 부천시 소사구 소사본동 277-30",
+   "sample": false
+  },
+  "key": "baby",
+  "asOf": "2026-11-24",
+  "profile": {
+   "cash": 30000,
+   "liquid": 0,
+   "deposit": 0,
+   "income": 10000,
+   "household": "head",
+   "selfOwn": false,
+   "married": false,
+   "hhNeverOwned": false,
+   "birth": "1985-01-01",
+   "hhSize": 3,
+   "kidsMinor": 0,
+   "_set": [
+    "cash",
+    "liquid",
+    "deposit",
+    "income"
+   ],
+   "youngestBirth": "2025-12-01"
+  },
+  "expect": {
+   "ok": true,
+   "cap": 40000,
+   "ltv": 70,
+   "dti": 60,
+   "loan": 39152
+  },
+  "basis": "수도권 · 막내 2025-12-01생 · 소득 1억: 한도 4억 — 소사 휴먼빌 분양가 5.5932억·시세 5.61·전용 59.9906㎡·수도권, 기준일 2026-11-24"
+ },
+ {
+  "id": "policy-baby-reg",
+  "fn": "policy",
+  "listing": null,
+  "raw": {
+   "id": "2026000472-075.7770 ",
+   "name": "구리갈매역세권 B-1블록 신안인스빌 디센트",
+   "address": "경기도 구리시 구리갈매역세권 B-1블록",
+   "region": "경기",
+   "sigungu": "구리시",
+   "sido": "경기",
+   "district": "구리시",
+   "supply_type": "APT",
+   "house_secd": "01",
+   "house_dtl": "민영",
+   "rent_secd": "분양주택",
+   "rental": false,
+   "land_lease": false,
+   "land_rent": null,
+   "land_rent_rate": null,
+   "special_apply": "2026-11-09",
+   "special_apply_end": "2026-11-09",
+   "kind": "일반분양 (특별공급·1순위)",
+   "category": "general",
+   "target": null,
+   "unit": "75",
+   "area": 75.777,
+   "households": 38,
+   "complex": {
+    "households": null,
+    "buildings": null,
+    "single": "unknown",
+    "status": "확인 불가",
+    "src": null
+   },
+   "mc_quota": {
+    "unknown": true
+   },
+   "youth": null,
+   "resale": {
+    "base": "당첨자 발표일",
+    "forbidden": false,
+    "months": 36,
+    "none": false,
+    "passed": false,
+    "registration": true,
+    "until_reg": false
+   },
+   "score_ratio": {
+    "rows": [
+     {
+      "lottery": 30,
+      "over": 60,
+      "score": 70,
+      "upto": 85
+     }
+    ]
+   },
+   "residence": {
+    "area": {
+     "name": "경기도 구리시",
+     "sido": "경기",
+     "sigungu": "구리시"
+    },
+    "months": 24,
+    "others": [
+     "서울",
+     "인천",
+     "경기"
+    ],
+    "since": "2024-10-30"
+   },
+   "notice": "2026-10-30",
+   "apply": "2026-11-09",
+   "apply_end": "2026-11-11",
+   "winner": "2026-11-17",
+   "contract": "2026-11-30",
+   "balance": null,
+   "move_in": "2028-08",
+   "price": 6.958,
+   "ext": 0.0,
+   "pay_ratio": null,
+   "contract_split": null,
+   "contract_rate": 0.1,
+   "mid_rate": 0.6,
+   "mkt_low": 7.17,
+   "mkt_base": 7.36,
+   "mkt_note": "같은 구 준공 10년 이내 같은 평형 매매 30건 기준 (최근 6개월) · 거래가 몰린 단지(구리갈매스타힐스 9건, 한라비발디 6건)는 5건 몫으로 줄여 계산",
+   "mkt_count": 30,
+   "mkt_direct_excluded": 1,
+   "jeonse": 4.73,
+   "jeonse_note": "같은 구 준공 10년 이내 전세 45건 중앙값에서 입주장 할인 9%",
+   "capital": true,
+   "regulated": true,
+   "reg_kind": "투기과열",
+   "land_permit": true,
+   "price_cap": true,
+   "residence_duty": null,
+   "duty_from": null,
+   "duty_silent": false,
+   "jeonse_weak": false,
+   "unregistered": true,
+   "need_head": false,
+   "need_account": true,
+   "limits": [
+    [
+     "재당첨 제한",
+     "10년"
+    ],
+    [
+     "실거주 의무",
+     "공고문 확인"
+    ],
+    [
+     "전매 제한",
+     "3년(등기 시 풀림)"
+    ]
+   ],
+   "url": "https://www.applyhome.co.kr/ai/aia/selectAPTLttotPblancDetail.do?houseManageNo=2026000472&pblancNo=2026000472",
+   "notice_pdf": "https://static.applyhome.co.kr/ai/aia/getAtchmnfl.do?houseManageNo=2026000472&pblancNo=2026000472&atchmnflSeqNo=2012076&atchmnflSn=4",
+   "from_notice": [
+    "1순위 가입기간",
+    "다자녀 지역 배정",
+    "세대주 요건",
+    "분양가상한제",
+    "전매 제한",
+    "거주 지역 요건",
+    "재당첨 제한",
+    "가점제·추첨제 비율"
+   ],
+   "geo": null,
+   "account_months": 24,
+   "deposit_count": null,
+   "map_query": "경기도 구리시 구리갈매역세권 B-1블록",
+   "sample": false
+  },
+  "key": "baby",
+  "asOf": "2026-11-24",
+  "profile": {
+   "cash": 30000,
+   "liquid": 0,
+   "deposit": 0,
+   "income": 13000,
+   "household": "head",
+   "selfOwn": false,
+   "married": false,
+   "hhNeverOwned": false,
+   "birth": "1985-01-01",
+   "hhSize": 3,
+   "kidsMinor": 0,
+   "_set": [
+    "cash",
+    "liquid",
+    "deposit",
+    "income"
+   ],
+   "youngestBirth": "2025-12-01"
+  },
+  "expect": {
+   "ok": true,
+   "cap": 40000,
+   "ltv": 70,
+   "dti": 60,
+   "loan": 40000
+  },
+  "basis": "규제지역 6.958억 · 소득 1.3억 (이하) — 구리갈매역세권 B-1블록 신안인스빌 디센트 분양가 6.958억·시세 7.36·전용 75.777㎡·규제지역, 기준일 2026-11-24"
+ },
+ {
+  "id": "policy-baby-inc-over",
+  "fn": "policy",
+  "listing": null,
+  "raw": {
+   "id": "2026000472-075.7770 ",
+   "name": "구리갈매역세권 B-1블록 신안인스빌 디센트",
+   "address": "경기도 구리시 구리갈매역세권 B-1블록",
+   "region": "경기",
+   "sigungu": "구리시",
+   "sido": "경기",
+   "district": "구리시",
+   "supply_type": "APT",
+   "house_secd": "01",
+   "house_dtl": "민영",
+   "rent_secd": "분양주택",
+   "rental": false,
+   "land_lease": false,
+   "land_rent": null,
+   "land_rent_rate": null,
+   "special_apply": "2026-11-09",
+   "special_apply_end": "2026-11-09",
+   "kind": "일반분양 (특별공급·1순위)",
+   "category": "general",
+   "target": null,
+   "unit": "75",
+   "area": 75.777,
+   "households": 38,
+   "complex": {
+    "households": null,
+    "buildings": null,
+    "single": "unknown",
+    "status": "확인 불가",
+    "src": null
+   },
+   "mc_quota": {
+    "unknown": true
+   },
+   "youth": null,
+   "resale": {
+    "base": "당첨자 발표일",
+    "forbidden": false,
+    "months": 36,
+    "none": false,
+    "passed": false,
+    "registration": true,
+    "until_reg": false
+   },
+   "score_ratio": {
+    "rows": [
+     {
+      "lottery": 30,
+      "over": 60,
+      "score": 70,
+      "upto": 85
+     }
+    ]
+   },
+   "residence": {
+    "area": {
+     "name": "경기도 구리시",
+     "sido": "경기",
+     "sigungu": "구리시"
+    },
+    "months": 24,
+    "others": [
+     "서울",
+     "인천",
+     "경기"
+    ],
+    "since": "2024-10-30"
+   },
+   "notice": "2026-10-30",
+   "apply": "2026-11-09",
+   "apply_end": "2026-11-11",
+   "winner": "2026-11-17",
+   "contract": "2026-11-30",
+   "balance": null,
+   "move_in": "2028-08",
+   "price": 6.958,
+   "ext": 0.0,
+   "pay_ratio": null,
+   "contract_split": null,
+   "contract_rate": 0.1,
+   "mid_rate": 0.6,
+   "mkt_low": 7.17,
+   "mkt_base": 7.36,
+   "mkt_note": "같은 구 준공 10년 이내 같은 평형 매매 30건 기준 (최근 6개월) · 거래가 몰린 단지(구리갈매스타힐스 9건, 한라비발디 6건)는 5건 몫으로 줄여 계산",
+   "mkt_count": 30,
+   "mkt_direct_excluded": 1,
+   "jeonse": 4.73,
+   "jeonse_note": "같은 구 준공 10년 이내 전세 45건 중앙값에서 입주장 할인 9%",
+   "capital": true,
+   "regulated": true,
+   "reg_kind": "투기과열",
+   "land_permit": true,
+   "price_cap": true,
+   "residence_duty": null,
+   "duty_from": null,
+   "duty_silent": false,
+   "jeonse_weak": false,
+   "unregistered": true,
+   "need_head": false,
+   "need_account": true,
+   "limits": [
+    [
+     "재당첨 제한",
+     "10년"
+    ],
+    [
+     "실거주 의무",
+     "공고문 확인"
+    ],
+    [
+     "전매 제한",
+     "3년(등기 시 풀림)"
+    ]
+   ],
+   "url": "https://www.applyhome.co.kr/ai/aia/selectAPTLttotPblancDetail.do?houseManageNo=2026000472&pblancNo=2026000472",
+   "notice_pdf": "https://static.applyhome.co.kr/ai/aia/getAtchmnfl.do?houseManageNo=2026000472&pblancNo=2026000472&atchmnflSeqNo=2012076&atchmnflSn=4",
+   "from_notice": [
+    "1순위 가입기간",
+    "다자녀 지역 배정",
+    "세대주 요건",
+    "분양가상한제",
+    "전매 제한",
+    "거주 지역 요건",
+    "재당첨 제한",
+    "가점제·추첨제 비율"
+   ],
+   "geo": null,
+   "account_months": 24,
+   "deposit_count": null,
+   "map_query": "경기도 구리시 구리갈매역세권 B-1블록",
+   "sample": false
+  },
+  "key": "baby",
+  "asOf": "2026-11-24",
+  "profile": {
+   "cash": 30000,
+   "liquid": 0,
+   "deposit": 0,
+   "income": 13001,
+   "household": "head",
+   "selfOwn": false,
+   "married": false,
+   "hhNeverOwned": false,
+   "birth": "1985-01-01",
+   "hhSize": 3,
+   "kidsMinor": 0,
+   "_set": [
+    "cash",
+    "liquid",
+    "deposit",
+    "income"
+   ],
+   "youngestBirth": "2025-12-01"
+  },
+  "expect": {
+   "ok": false,
+   "cap": null,
+   "ltv": null,
+   "dti": null,
+   "loan": 0
+  },
+  "basis": "외벌이 1억 3,001만 — 구리갈매역세권 B-1블록 신안인스빌 디센트 분양가 6.958억·시세 7.36·전용 75.777㎡·규제지역, 기준일 2026-11-24"
+ },
+ {
+  "id": "policy-baby-dual",
+  "fn": "policy",
+  "listing": null,
+  "raw": {
+   "id": "2026000472-075.7770 ",
+   "name": "구리갈매역세권 B-1블록 신안인스빌 디센트",
+   "address": "경기도 구리시 구리갈매역세권 B-1블록",
+   "region": "경기",
+   "sigungu": "구리시",
+   "sido": "경기",
+   "district": "구리시",
+   "supply_type": "APT",
+   "house_secd": "01",
+   "house_dtl": "민영",
+   "rent_secd": "분양주택",
+   "rental": false,
+   "land_lease": false,
+   "land_rent": null,
+   "land_rent_rate": null,
+   "special_apply": "2026-11-09",
+   "special_apply_end": "2026-11-09",
+   "kind": "일반분양 (특별공급·1순위)",
+   "category": "general",
+   "target": null,
+   "unit": "75",
+   "area": 75.777,
+   "households": 38,
+   "complex": {
+    "households": null,
+    "buildings": null,
+    "single": "unknown",
+    "status": "확인 불가",
+    "src": null
+   },
+   "mc_quota": {
+    "unknown": true
+   },
+   "youth": null,
+   "resale": {
+    "base": "당첨자 발표일",
+    "forbidden": false,
+    "months": 36,
+    "none": false,
+    "passed": false,
+    "registration": true,
+    "until_reg": false
+   },
+   "score_ratio": {
+    "rows": [
+     {
+      "lottery": 30,
+      "over": 60,
+      "score": 70,
+      "upto": 85
+     }
+    ]
+   },
+   "residence": {
+    "area": {
+     "name": "경기도 구리시",
+     "sido": "경기",
+     "sigungu": "구리시"
+    },
+    "months": 24,
+    "others": [
+     "서울",
+     "인천",
+     "경기"
+    ],
+    "since": "2024-10-30"
+   },
+   "notice": "2026-10-30",
+   "apply": "2026-11-09",
+   "apply_end": "2026-11-11",
+   "winner": "2026-11-17",
+   "contract": "2026-11-30",
+   "balance": null,
+   "move_in": "2028-08",
+   "price": 6.958,
+   "ext": 0.0,
+   "pay_ratio": null,
+   "contract_split": null,
+   "contract_rate": 0.1,
+   "mid_rate": 0.6,
+   "mkt_low": 7.17,
+   "mkt_base": 7.36,
+   "mkt_note": "같은 구 준공 10년 이내 같은 평형 매매 30건 기준 (최근 6개월) · 거래가 몰린 단지(구리갈매스타힐스 9건, 한라비발디 6건)는 5건 몫으로 줄여 계산",
+   "mkt_count": 30,
+   "mkt_direct_excluded": 1,
+   "jeonse": 4.73,
+   "jeonse_note": "같은 구 준공 10년 이내 전세 45건 중앙값에서 입주장 할인 9%",
+   "capital": true,
+   "regulated": true,
+   "reg_kind": "투기과열",
+   "land_permit": true,
+   "price_cap": true,
+   "residence_duty": null,
+   "duty_from": null,
+   "duty_silent": false,
+   "jeonse_weak": false,
+   "unregistered": true,
+   "need_head": false,
+   "need_account": true,
+   "limits": [
+    [
+     "재당첨 제한",
+     "10년"
+    ],
+    [
+     "실거주 의무",
+     "공고문 확인"
+    ],
+    [
+     "전매 제한",
+     "3년(등기 시 풀림)"
+    ]
+   ],
+   "url": "https://www.applyhome.co.kr/ai/aia/selectAPTLttotPblancDetail.do?houseManageNo=2026000472&pblancNo=2026000472",
+   "notice_pdf": "https://static.applyhome.co.kr/ai/aia/getAtchmnfl.do?houseManageNo=2026000472&pblancNo=2026000472&atchmnflSeqNo=2012076&atchmnflSn=4",
+   "from_notice": [
+    "1순위 가입기간",
+    "다자녀 지역 배정",
+    "세대주 요건",
+    "분양가상한제",
+    "전매 제한",
+    "거주 지역 요건",
+    "재당첨 제한",
+    "가점제·추첨제 비율"
+   ],
+   "geo": null,
+   "account_months": 24,
+   "deposit_count": null,
+   "map_query": "경기도 구리시 구리갈매역세권 B-1블록",
+   "sample": false
+  },
+  "key": "baby",
+  "asOf": "2026-11-24",
+  "profile": {
+   "cash": 30000,
+   "liquid": 0,
+   "deposit": 0,
+   "income": 12000,
+   "household": "head",
+   "selfOwn": false,
+   "married": true,
+   "hhNeverOwned": false,
+   "birth": "1985-01-01",
+   "hhSize": 3,
+   "kidsMinor": 0,
+   "_set": [
+    "cash",
+    "liquid",
+    "deposit",
+    "income"
+   ],
+   "spouseIncome": 8000,
+   "spouseOwn": false,
+   "marriedOn": "2015-01-01",
+   "youngestBirth": "2025-12-01"
+  },
+  "expect": {
+   "ok": true,
+   "cap": 40000,
+   "ltv": 70,
+   "dti": 60,
+   "loan": 40000
+  },
+  "basis": "맞벌이 1.2억 + 8,000만 = 2억 (이하, 한 사람 1.3억 이하) — 구리갈매역세권 B-1블록 신안인스빌 디센트 분양가 6.958억·시세 7.36·전용 75.777㎡·규제지역, 기준일 2026-11-24"
+ },
+ {
+  "id": "policy-baby-dual-over",
+  "fn": "policy",
+  "listing": null,
+  "raw": {
+   "id": "2026000472-075.7770 ",
+   "name": "구리갈매역세권 B-1블록 신안인스빌 디센트",
+   "address": "경기도 구리시 구리갈매역세권 B-1블록",
+   "region": "경기",
+   "sigungu": "구리시",
+   "sido": "경기",
+   "district": "구리시",
+   "supply_type": "APT",
+   "house_secd": "01",
+   "house_dtl": "민영",
+   "rent_secd": "분양주택",
+   "rental": false,
+   "land_lease": false,
+   "land_rent": null,
+   "land_rent_rate": null,
+   "special_apply": "2026-11-09",
+   "special_apply_end": "2026-11-09",
+   "kind": "일반분양 (특별공급·1순위)",
+   "category": "general",
+   "target": null,
+   "unit": "75",
+   "area": 75.777,
+   "households": 38,
+   "complex": {
+    "households": null,
+    "buildings": null,
+    "single": "unknown",
+    "status": "확인 불가",
+    "src": null
+   },
+   "mc_quota": {
+    "unknown": true
+   },
+   "youth": null,
+   "resale": {
+    "base": "당첨자 발표일",
+    "forbidden": false,
+    "months": 36,
+    "none": false,
+    "passed": false,
+    "registration": true,
+    "until_reg": false
+   },
+   "score_ratio": {
+    "rows": [
+     {
+      "lottery": 30,
+      "over": 60,
+      "score": 70,
+      "upto": 85
+     }
+    ]
+   },
+   "residence": {
+    "area": {
+     "name": "경기도 구리시",
+     "sido": "경기",
+     "sigungu": "구리시"
+    },
+    "months": 24,
+    "others": [
+     "서울",
+     "인천",
+     "경기"
+    ],
+    "since": "2024-10-30"
+   },
+   "notice": "2026-10-30",
+   "apply": "2026-11-09",
+   "apply_end": "2026-11-11",
+   "winner": "2026-11-17",
+   "contract": "2026-11-30",
+   "balance": null,
+   "move_in": "2028-08",
+   "price": 6.958,
+   "ext": 0.0,
+   "pay_ratio": null,
+   "contract_split": null,
+   "contract_rate": 0.1,
+   "mid_rate": 0.6,
+   "mkt_low": 7.17,
+   "mkt_base": 7.36,
+   "mkt_note": "같은 구 준공 10년 이내 같은 평형 매매 30건 기준 (최근 6개월) · 거래가 몰린 단지(구리갈매스타힐스 9건, 한라비발디 6건)는 5건 몫으로 줄여 계산",
+   "mkt_count": 30,
+   "mkt_direct_excluded": 1,
+   "jeonse": 4.73,
+   "jeonse_note": "같은 구 준공 10년 이내 전세 45건 중앙값에서 입주장 할인 9%",
+   "capital": true,
+   "regulated": true,
+   "reg_kind": "투기과열",
+   "land_permit": true,
+   "price_cap": true,
+   "residence_duty": null,
+   "duty_from": null,
+   "duty_silent": false,
+   "jeonse_weak": false,
+   "unregistered": true,
+   "need_head": false,
+   "need_account": true,
+   "limits": [
+    [
+     "재당첨 제한",
+     "10년"
+    ],
+    [
+     "실거주 의무",
+     "공고문 확인"
+    ],
+    [
+     "전매 제한",
+     "3년(등기 시 풀림)"
+    ]
+   ],
+   "url": "https://www.applyhome.co.kr/ai/aia/selectAPTLttotPblancDetail.do?houseManageNo=2026000472&pblancNo=2026000472",
+   "notice_pdf": "https://static.applyhome.co.kr/ai/aia/getAtchmnfl.do?houseManageNo=2026000472&pblancNo=2026000472&atchmnflSeqNo=2012076&atchmnflSn=4",
+   "from_notice": [
+    "1순위 가입기간",
+    "다자녀 지역 배정",
+    "세대주 요건",
+    "분양가상한제",
+    "전매 제한",
+    "거주 지역 요건",
+    "재당첨 제한",
+    "가점제·추첨제 비율"
+   ],
+   "geo": null,
+   "account_months": 24,
+   "deposit_count": null,
+   "map_query": "경기도 구리시 구리갈매역세권 B-1블록",
+   "sample": false
+  },
+  "key": "baby",
+  "asOf": "2026-11-24",
+  "profile": {
+   "cash": 30000,
+   "liquid": 0,
+   "deposit": 0,
+   "income": 12000,
+   "household": "head",
+   "selfOwn": false,
+   "married": true,
+   "hhNeverOwned": false,
+   "birth": "1985-01-01",
+   "hhSize": 3,
+   "kidsMinor": 0,
+   "_set": [
+    "cash",
+    "liquid",
+    "deposit",
+    "income"
+   ],
+   "spouseIncome": 8001,
+   "spouseOwn": false,
+   "marriedOn": "2015-01-01",
+   "youngestBirth": "2025-12-01"
+  },
+  "expect": {
+   "ok": false,
+   "cap": null,
+   "ltv": null,
+   "dti": null,
+   "loan": 0
+  },
+  "basis": "맞벌이 1.2억 + 8,001만 = 2억 1만 (초과) — 구리갈매역세권 B-1블록 신안인스빌 디센트 분양가 6.958억·시세 7.36·전용 75.777㎡·규제지역, 기준일 2026-11-24"
+ },
+ {
+  "id": "policy-baby-dual-one-high",
+  "fn": "policy",
+  "listing": null,
+  "raw": {
+   "id": "2026000472-075.7770 ",
+   "name": "구리갈매역세권 B-1블록 신안인스빌 디센트",
+   "address": "경기도 구리시 구리갈매역세권 B-1블록",
+   "region": "경기",
+   "sigungu": "구리시",
+   "sido": "경기",
+   "district": "구리시",
+   "supply_type": "APT",
+   "house_secd": "01",
+   "house_dtl": "민영",
+   "rent_secd": "분양주택",
+   "rental": false,
+   "land_lease": false,
+   "land_rent": null,
+   "land_rent_rate": null,
+   "special_apply": "2026-11-09",
+   "special_apply_end": "2026-11-09",
+   "kind": "일반분양 (특별공급·1순위)",
+   "category": "general",
+   "target": null,
+   "unit": "75",
+   "area": 75.777,
+   "households": 38,
+   "complex": {
+    "households": null,
+    "buildings": null,
+    "single": "unknown",
+    "status": "확인 불가",
+    "src": null
+   },
+   "mc_quota": {
+    "unknown": true
+   },
+   "youth": null,
+   "resale": {
+    "base": "당첨자 발표일",
+    "forbidden": false,
+    "months": 36,
+    "none": false,
+    "passed": false,
+    "registration": true,
+    "until_reg": false
+   },
+   "score_ratio": {
+    "rows": [
+     {
+      "lottery": 30,
+      "over": 60,
+      "score": 70,
+      "upto": 85
+     }
+    ]
+   },
+   "residence": {
+    "area": {
+     "name": "경기도 구리시",
+     "sido": "경기",
+     "sigungu": "구리시"
+    },
+    "months": 24,
+    "others": [
+     "서울",
+     "인천",
+     "경기"
+    ],
+    "since": "2024-10-30"
+   },
+   "notice": "2026-10-30",
+   "apply": "2026-11-09",
+   "apply_end": "2026-11-11",
+   "winner": "2026-11-17",
+   "contract": "2026-11-30",
+   "balance": null,
+   "move_in": "2028-08",
+   "price": 6.958,
+   "ext": 0.0,
+   "pay_ratio": null,
+   "contract_split": null,
+   "contract_rate": 0.1,
+   "mid_rate": 0.6,
+   "mkt_low": 7.17,
+   "mkt_base": 7.36,
+   "mkt_note": "같은 구 준공 10년 이내 같은 평형 매매 30건 기준 (최근 6개월) · 거래가 몰린 단지(구리갈매스타힐스 9건, 한라비발디 6건)는 5건 몫으로 줄여 계산",
+   "mkt_count": 30,
+   "mkt_direct_excluded": 1,
+   "jeonse": 4.73,
+   "jeonse_note": "같은 구 준공 10년 이내 전세 45건 중앙값에서 입주장 할인 9%",
+   "capital": true,
+   "regulated": true,
+   "reg_kind": "투기과열",
+   "land_permit": true,
+   "price_cap": true,
+   "residence_duty": null,
+   "duty_from": null,
+   "duty_silent": false,
+   "jeonse_weak": false,
+   "unregistered": true,
+   "need_head": false,
+   "need_account": true,
+   "limits": [
+    [
+     "재당첨 제한",
+     "10년"
+    ],
+    [
+     "실거주 의무",
+     "공고문 확인"
+    ],
+    [
+     "전매 제한",
+     "3년(등기 시 풀림)"
+    ]
+   ],
+   "url": "https://www.applyhome.co.kr/ai/aia/selectAPTLttotPblancDetail.do?houseManageNo=2026000472&pblancNo=2026000472",
+   "notice_pdf": "https://static.applyhome.co.kr/ai/aia/getAtchmnfl.do?houseManageNo=2026000472&pblancNo=2026000472&atchmnflSeqNo=2012076&atchmnflSn=4",
+   "from_notice": [
+    "1순위 가입기간",
+    "다자녀 지역 배정",
+    "세대주 요건",
+    "분양가상한제",
+    "전매 제한",
+    "거주 지역 요건",
+    "재당첨 제한",
+    "가점제·추첨제 비율"
+   ],
+   "geo": null,
+   "account_months": 24,
+   "deposit_count": null,
+   "map_query": "경기도 구리시 구리갈매역세권 B-1블록",
+   "sample": false
+  },
+  "key": "baby",
+  "asOf": "2026-11-24",
+  "profile": {
+   "cash": 30000,
+   "liquid": 0,
+   "deposit": 0,
+   "income": 14000,
+   "household": "head",
+   "selfOwn": false,
+   "married": true,
+   "hhNeverOwned": false,
+   "birth": "1985-01-01",
+   "hhSize": 3,
+   "kidsMinor": 0,
+   "_set": [
+    "cash",
+    "liquid",
+    "deposit",
+    "income"
+   ],
+   "spouseIncome": 1000,
+   "spouseOwn": false,
+   "marriedOn": "2015-01-01",
+   "youngestBirth": "2025-12-01"
+  },
+  "expect": {
+   "ok": false,
+   "cap": null,
+   "ltv": null,
+   "dti": null,
+   "loan": 0
+  },
+  "basis": "맞벌이지만 한 사람이 1.4억 → 1.3억 기준, 합 1.5억 초과 — 구리갈매역세권 B-1블록 신안인스빌 디센트 분양가 6.958억·시세 7.36·전용 75.777㎡·규제지역, 기준일 2026-11-24"
+ },
+ {
+  "id": "policy-baby-2y",
+  "fn": "policy",
+  "listing": null,
+  "raw": {
+   "id": "2026000591-059.9906A",
+   "name": "소사 휴먼빌",
+   "address": "경기도 부천시 소사구 소사본동 277-30번지 일원",
+   "region": "경기",
+   "sigungu": "부천시 소사구",
+   "sido": "경기",
+   "district": "부천시 소사구",
+   "supply_type": "APT",
+   "house_secd": "01",
+   "house_dtl": "민영",
+   "rent_secd": "분양주택",
+   "rental": false,
+   "land_lease": false,
+   "land_rent": null,
+   "land_rent_rate": null,
+   "special_apply": "2026-11-30",
+   "special_apply_end": "2026-11-30",
+   "kind": "일반분양 (특별공급·1순위)",
+   "category": "general",
+   "target": null,
+   "unit": "59A",
+   "area": 59.9906,
+   "households": 4,
+   "complex": {
+    "households": 79,
+    "buildings": 1,
+    "single": "maybe",
+    "status": "확인",
+    "src": "모집공고문 공급규모",
+    "quote": ": 아파트 지하 2층, 지상 20층, 1개동 총 79세대[조합 33세대, 보류지 1세대] 중 일반분양 45세대 [특별공급 23세대(기관추천 4세대, 다자녀가구 4세대, 신혼부부 7세대, 생애최초 4세대, 신생아 4"
+   },
+   "mc_quota": {
+    "buckets": [
+     {
+      "name": "해당 시·도",
+      "pct": 50,
+      "regions": [
+       "경기"
+      ]
+     },
+     {
+      "name": "기타지역",
+      "pct": 50,
+      "regions": [
+       "서울",
+       "인천"
+      ]
+     }
+    ]
+   },
+   "youth": null,
+   "resale": {
+    "base": "당첨자 발표일",
+    "forbidden": false,
+    "months": 12,
+    "none": false,
+    "passed": false,
+    "registration": false,
+    "until_reg": false
+   },
+   "score_ratio": {
+    "rows": [
+     {
+      "lottery": 60,
+      "over": 0,
+      "score": 40,
+      "upto": 60
+     },
+     {
+      "lottery": 60,
+      "over": 60,
+      "score": 40,
+      "upto": 85
+     }
+    ]
+   },
+   "residence": {
+    "area": {
+     "name": "경기도 부천시",
+     "sido": "경기",
+     "sigungu": "부천시"
+    },
+    "months": 0,
+    "others": [
+     "서울",
+     "인천",
+     "경기"
+    ],
+    "since": null
+   },
+   "notice": "2026-11-20",
+   "apply": "2026-11-30",
+   "apply_end": "2026-12-02",
+   "winner": "2026-12-08",
+   "contract": "2026-12-21",
+   "balance": null,
+   "move_in": "2028-05",
+   "price": 5.5932,
+   "ext": 0.0,
+   "pay_ratio": {
+    "balance": 0.3,
+    "contract": 0.1,
+    "mid": 0.6
+   },
+   "contract_split": {
+    "first_won": 10000000,
+    "rest_within": "1개월",
+    "rows": 27
+   },
+   "contract_rate": 0.1,
+   "mid_rate": 0.6,
+   "mkt_low": 4.39,
+   "mkt_base": 5.61,
+   "mkt_note": "같은 동(소사본동) 2km 안 준공 10년 이내 같은 평형(59㎡) 매매 18건 기준 (최근 6개월) · 거래가 몰린 단지(부천한신더휴메트로 11건)는 5건 몫으로 줄여 계산",
+   "mkt_count": 18,
+   "mkt_direct_excluded": 0,
+   "jeonse": 4.05,
+   "jeonse_note": "같은 구 준공 10년 이내 전세 91건 중앙값에서 입주장 할인 9%",
+   "capital": true,
+   "regulated": false,
+   "reg_kind": "비규제",
+   "land_permit": false,
+   "price_cap": false,
+   "residence_duty": 0,
+   "duty_from": null,
+   "duty_silent": false,
+   "jeonse_weak": false,
+   "unregistered": true,
+   "need_head": false,
+   "need_account": true,
+   "limits": [
+    [
+     "재당첨 제한",
+     "없음"
+    ],
+    [
+     "실거주 의무",
+     "없음"
+    ],
+    [
+     "전매 제한",
+     "1년 (~27.12.08)"
+    ]
+   ],
+   "url": "https://www.applyhome.co.kr/ai/aia/selectAPTLttotPblancDetail.do?houseManageNo=2026000591&pblancNo=2026000591",
+   "notice_pdf": "https://static.applyhome.co.kr/ai/aia/getAtchmnfl.do?houseManageNo=2026000591&pblancNo=2026000591&atchmnflSeqNo=2027261&atchmnflSn=4",
+   "from_notice": [
+    "1순위 가입기간",
+    "다자녀 지역 배정",
+    "세대주 요건",
+    "계약금 비율",
+    "분양가상한제",
+    "전매 제한",
+    "거주 지역 요건",
+    "실거주 의무",
+    "재당첨 제한",
+    "가점제·추첨제 비율"
+   ],
+   "geo": {
+    "lat": 37.473313,
+    "lng": 126.801225,
+    "precision": "exact",
+    "query": "경기도 부천시 소사구 소사본동 277-30",
+    "matched": "경기도 부천시 소사구 소사본동 277-30",
+    "source": "네이버 클라우드 플랫폼 Geocoding"
+   },
+   "account_months": 12,
+   "deposit_count": null,
+   "map_query": "경기도 부천시 소사구 소사본동 277-30",
+   "sample": false
+  },
+  "key": "baby",
+  "asOf": "2026-11-24",
+  "profile": {
+   "cash": 30000,
+   "liquid": 0,
+   "deposit": 0,
+   "income": 10000,
+   "household": "head",
+   "selfOwn": false,
+   "married": false,
+   "hhNeverOwned": false,
+   "birth": "1985-01-01",
+   "hhSize": 3,
+   "kidsMinor": 0,
+   "_set": [
+    "cash",
+    "liquid",
+    "deposit",
+    "income"
+   ],
+   "youngestBirth": "2024-11-24"
+  },
+  "expect": {
+   "ok": false,
+   "cap": null,
+   "ltv": null,
+   "dti": null,
+   "loan": 0
+  },
+  "basis": "막내 2024-11-24생 = 꼭 2년 → 2년 안 아님 — 소사 휴먼빌 분양가 5.5932억·시세 5.61·전용 59.9906㎡·수도권, 기준일 2026-11-24"
+ },
+ {
+  "id": "policy-baby-2y-1d",
+  "fn": "policy",
+  "listing": null,
+  "raw": {
+   "id": "2026000591-059.9906A",
+   "name": "소사 휴먼빌",
+   "address": "경기도 부천시 소사구 소사본동 277-30번지 일원",
+   "region": "경기",
+   "sigungu": "부천시 소사구",
+   "sido": "경기",
+   "district": "부천시 소사구",
+   "supply_type": "APT",
+   "house_secd": "01",
+   "house_dtl": "민영",
+   "rent_secd": "분양주택",
+   "rental": false,
+   "land_lease": false,
+   "land_rent": null,
+   "land_rent_rate": null,
+   "special_apply": "2026-11-30",
+   "special_apply_end": "2026-11-30",
+   "kind": "일반분양 (특별공급·1순위)",
+   "category": "general",
+   "target": null,
+   "unit": "59A",
+   "area": 59.9906,
+   "households": 4,
+   "complex": {
+    "households": 79,
+    "buildings": 1,
+    "single": "maybe",
+    "status": "확인",
+    "src": "모집공고문 공급규모",
+    "quote": ": 아파트 지하 2층, 지상 20층, 1개동 총 79세대[조합 33세대, 보류지 1세대] 중 일반분양 45세대 [특별공급 23세대(기관추천 4세대, 다자녀가구 4세대, 신혼부부 7세대, 생애최초 4세대, 신생아 4"
+   },
+   "mc_quota": {
+    "buckets": [
+     {
+      "name": "해당 시·도",
+      "pct": 50,
+      "regions": [
+       "경기"
+      ]
+     },
+     {
+      "name": "기타지역",
+      "pct": 50,
+      "regions": [
+       "서울",
+       "인천"
+      ]
+     }
+    ]
+   },
+   "youth": null,
+   "resale": {
+    "base": "당첨자 발표일",
+    "forbidden": false,
+    "months": 12,
+    "none": false,
+    "passed": false,
+    "registration": false,
+    "until_reg": false
+   },
+   "score_ratio": {
+    "rows": [
+     {
+      "lottery": 60,
+      "over": 0,
+      "score": 40,
+      "upto": 60
+     },
+     {
+      "lottery": 60,
+      "over": 60,
+      "score": 40,
+      "upto": 85
+     }
+    ]
+   },
+   "residence": {
+    "area": {
+     "name": "경기도 부천시",
+     "sido": "경기",
+     "sigungu": "부천시"
+    },
+    "months": 0,
+    "others": [
+     "서울",
+     "인천",
+     "경기"
+    ],
+    "since": null
+   },
+   "notice": "2026-11-20",
+   "apply": "2026-11-30",
+   "apply_end": "2026-12-02",
+   "winner": "2026-12-08",
+   "contract": "2026-12-21",
+   "balance": null,
+   "move_in": "2028-05",
+   "price": 5.5932,
+   "ext": 0.0,
+   "pay_ratio": {
+    "balance": 0.3,
+    "contract": 0.1,
+    "mid": 0.6
+   },
+   "contract_split": {
+    "first_won": 10000000,
+    "rest_within": "1개월",
+    "rows": 27
+   },
+   "contract_rate": 0.1,
+   "mid_rate": 0.6,
+   "mkt_low": 4.39,
+   "mkt_base": 5.61,
+   "mkt_note": "같은 동(소사본동) 2km 안 준공 10년 이내 같은 평형(59㎡) 매매 18건 기준 (최근 6개월) · 거래가 몰린 단지(부천한신더휴메트로 11건)는 5건 몫으로 줄여 계산",
+   "mkt_count": 18,
+   "mkt_direct_excluded": 0,
+   "jeonse": 4.05,
+   "jeonse_note": "같은 구 준공 10년 이내 전세 91건 중앙값에서 입주장 할인 9%",
+   "capital": true,
+   "regulated": false,
+   "reg_kind": "비규제",
+   "land_permit": false,
+   "price_cap": false,
+   "residence_duty": 0,
+   "duty_from": null,
+   "duty_silent": false,
+   "jeonse_weak": false,
+   "unregistered": true,
+   "need_head": false,
+   "need_account": true,
+   "limits": [
+    [
+     "재당첨 제한",
+     "없음"
+    ],
+    [
+     "실거주 의무",
+     "없음"
+    ],
+    [
+     "전매 제한",
+     "1년 (~27.12.08)"
+    ]
+   ],
+   "url": "https://www.applyhome.co.kr/ai/aia/selectAPTLttotPblancDetail.do?houseManageNo=2026000591&pblancNo=2026000591",
+   "notice_pdf": "https://static.applyhome.co.kr/ai/aia/getAtchmnfl.do?houseManageNo=2026000591&pblancNo=2026000591&atchmnflSeqNo=2027261&atchmnflSn=4",
+   "from_notice": [
+    "1순위 가입기간",
+    "다자녀 지역 배정",
+    "세대주 요건",
+    "계약금 비율",
+    "분양가상한제",
+    "전매 제한",
+    "거주 지역 요건",
+    "실거주 의무",
+    "재당첨 제한",
+    "가점제·추첨제 비율"
+   ],
+   "geo": {
+    "lat": 37.473313,
+    "lng": 126.801225,
+    "precision": "exact",
+    "query": "경기도 부천시 소사구 소사본동 277-30",
+    "matched": "경기도 부천시 소사구 소사본동 277-30",
+    "source": "네이버 클라우드 플랫폼 Geocoding"
+   },
+   "account_months": 12,
+   "deposit_count": null,
+   "map_query": "경기도 부천시 소사구 소사본동 277-30",
+   "sample": false
+  },
+  "key": "baby",
+  "asOf": "2026-11-24",
+  "profile": {
+   "cash": 30000,
+   "liquid": 0,
+   "deposit": 0,
+   "income": 10000,
+   "household": "head",
+   "selfOwn": false,
+   "married": false,
+   "hhNeverOwned": false,
+   "birth": "1985-01-01",
+   "hhSize": 3,
+   "kidsMinor": 0,
+   "_set": [
+    "cash",
+    "liquid",
+    "deposit",
+    "income"
+   ],
+   "youngestBirth": "2024-11-25"
+  },
+  "expect": {
+   "ok": true,
+   "cap": 40000,
+   "ltv": 70,
+   "dti": 60,
+   "loan": 39152
+  },
+  "basis": "막내 2024-11-25생 = 2년 하루 전 — 소사 휴먼빌 분양가 5.5932억·시세 5.61·전용 59.9906㎡·수도권, 기준일 2026-11-24"
+ },
+ {
+  "id": "policy-baby-none",
+  "fn": "policy",
+  "listing": null,
+  "raw": {
+   "id": "2026000591-059.9906A",
+   "name": "소사 휴먼빌",
+   "address": "경기도 부천시 소사구 소사본동 277-30번지 일원",
+   "region": "경기",
+   "sigungu": "부천시 소사구",
+   "sido": "경기",
+   "district": "부천시 소사구",
+   "supply_type": "APT",
+   "house_secd": "01",
+   "house_dtl": "민영",
+   "rent_secd": "분양주택",
+   "rental": false,
+   "land_lease": false,
+   "land_rent": null,
+   "land_rent_rate": null,
+   "special_apply": "2026-11-30",
+   "special_apply_end": "2026-11-30",
+   "kind": "일반분양 (특별공급·1순위)",
+   "category": "general",
+   "target": null,
+   "unit": "59A",
+   "area": 59.9906,
+   "households": 4,
+   "complex": {
+    "households": 79,
+    "buildings": 1,
+    "single": "maybe",
+    "status": "확인",
+    "src": "모집공고문 공급규모",
+    "quote": ": 아파트 지하 2층, 지상 20층, 1개동 총 79세대[조합 33세대, 보류지 1세대] 중 일반분양 45세대 [특별공급 23세대(기관추천 4세대, 다자녀가구 4세대, 신혼부부 7세대, 생애최초 4세대, 신생아 4"
+   },
+   "mc_quota": {
+    "buckets": [
+     {
+      "name": "해당 시·도",
+      "pct": 50,
+      "regions": [
+       "경기"
+      ]
+     },
+     {
+      "name": "기타지역",
+      "pct": 50,
+      "regions": [
+       "서울",
+       "인천"
+      ]
+     }
+    ]
+   },
+   "youth": null,
+   "resale": {
+    "base": "당첨자 발표일",
+    "forbidden": false,
+    "months": 12,
+    "none": false,
+    "passed": false,
+    "registration": false,
+    "until_reg": false
+   },
+   "score_ratio": {
+    "rows": [
+     {
+      "lottery": 60,
+      "over": 0,
+      "score": 40,
+      "upto": 60
+     },
+     {
+      "lottery": 60,
+      "over": 60,
+      "score": 40,
+      "upto": 85
+     }
+    ]
+   },
+   "residence": {
+    "area": {
+     "name": "경기도 부천시",
+     "sido": "경기",
+     "sigungu": "부천시"
+    },
+    "months": 0,
+    "others": [
+     "서울",
+     "인천",
+     "경기"
+    ],
+    "since": null
+   },
+   "notice": "2026-11-20",
+   "apply": "2026-11-30",
+   "apply_end": "2026-12-02",
+   "winner": "2026-12-08",
+   "contract": "2026-12-21",
+   "balance": null,
+   "move_in": "2028-05",
+   "price": 5.5932,
+   "ext": 0.0,
+   "pay_ratio": {
+    "balance": 0.3,
+    "contract": 0.1,
+    "mid": 0.6
+   },
+   "contract_split": {
+    "first_won": 10000000,
+    "rest_within": "1개월",
+    "rows": 27
+   },
+   "contract_rate": 0.1,
+   "mid_rate": 0.6,
+   "mkt_low": 4.39,
+   "mkt_base": 5.61,
+   "mkt_note": "같은 동(소사본동) 2km 안 준공 10년 이내 같은 평형(59㎡) 매매 18건 기준 (최근 6개월) · 거래가 몰린 단지(부천한신더휴메트로 11건)는 5건 몫으로 줄여 계산",
+   "mkt_count": 18,
+   "mkt_direct_excluded": 0,
+   "jeonse": 4.05,
+   "jeonse_note": "같은 구 준공 10년 이내 전세 91건 중앙값에서 입주장 할인 9%",
+   "capital": true,
+   "regulated": false,
+   "reg_kind": "비규제",
+   "land_permit": false,
+   "price_cap": false,
+   "residence_duty": 0,
+   "duty_from": null,
+   "duty_silent": false,
+   "jeonse_weak": false,
+   "unregistered": true,
+   "need_head": false,
+   "need_account": true,
+   "limits": [
+    [
+     "재당첨 제한",
+     "없음"
+    ],
+    [
+     "실거주 의무",
+     "없음"
+    ],
+    [
+     "전매 제한",
+     "1년 (~27.12.08)"
+    ]
+   ],
+   "url": "https://www.applyhome.co.kr/ai/aia/selectAPTLttotPblancDetail.do?houseManageNo=2026000591&pblancNo=2026000591",
+   "notice_pdf": "https://static.applyhome.co.kr/ai/aia/getAtchmnfl.do?houseManageNo=2026000591&pblancNo=2026000591&atchmnflSeqNo=2027261&atchmnflSn=4",
+   "from_notice": [
+    "1순위 가입기간",
+    "다자녀 지역 배정",
+    "세대주 요건",
+    "계약금 비율",
+    "분양가상한제",
+    "전매 제한",
+    "거주 지역 요건",
+    "실거주 의무",
+    "재당첨 제한",
+    "가점제·추첨제 비율"
+   ],
+   "geo": {
+    "lat": 37.473313,
+    "lng": 126.801225,
+    "precision": "exact",
+    "query": "경기도 부천시 소사구 소사본동 277-30",
+    "matched": "경기도 부천시 소사구 소사본동 277-30",
+    "source": "네이버 클라우드 플랫폼 Geocoding"
+   },
+   "account_months": 12,
+   "deposit_count": null,
+   "map_query": "경기도 부천시 소사구 소사본동 277-30",
+   "sample": false
+  },
+  "key": "baby",
+  "asOf": "2026-11-24",
+  "profile": {
+   "cash": 30000,
+   "liquid": 0,
+   "deposit": 0,
+   "income": 10000,
+   "household": "head",
+   "selfOwn": false,
+   "married": false,
+   "hhNeverOwned": false,
+   "birth": "1985-01-01",
+   "hhSize": 3,
+   "kidsMinor": 0,
+   "_set": [
+    "cash",
+    "liquid",
+    "deposit",
+    "income"
+   ]
+  },
+  "expect": {
+   "ok": false,
+   "cap": null,
+   "ltv": null,
+   "dti": null,
+   "loan": 0
+  },
+  "basis": "막내 생일 미입력 — 소사 휴먼빌 분양가 5.5932억·시세 5.61·전용 59.9906㎡·수도권, 기준일 2026-11-24"
+ },
+ {
+  "id": "policy-baby-first-loc",
+  "fn": "policy",
+  "listing": null,
+  "raw": {
+   "id": "2026000598-084.9076A",
+   "name": "고창 데시앙 2블록(공공분양)",
+   "address": "전북특별자치도 고창군 덕산지구 도시개발구역 내 공동주택 BL2",
+   "region": "지방",
+   "sigungu": null,
+   "sido": "전북",
+   "district": "고창군",
+   "supply_type": "APT",
+   "house_secd": "01",
+   "house_dtl": "국민",
+   "rent_secd": "분양주택",
+   "rental": false,
+   "land_lease": false,
+   "land_rent": null,
+   "land_rent_rate": null,
+   "special_apply": "2026-11-30",
+   "special_apply_end": "2026-11-30",
+   "kind": "일반분양 (특별공급·1순위)",
+   "category": "general",
+   "target": null,
+   "unit": "84A",
+   "area": 84.9076,
+   "households": 22,
+   "complex": {
+    "households": 357,
+    "buildings": 6,
+    "single": "no",
+    "status": "확인",
+    "src": "모집공고문 공급규모",
+    "quote": "·공급대상 및 공급가격 등 1.공급위치 및 규모 ■ 공급위치: 전북특별자치도 고창군 덕산지구 도시개발구역 내 공동주택 BL2 ■ 공급규모: 2블록 : 지하 2층 ~ 지상 최고 18층, 6개동, 총 357 세대 중 공"
+   },
+   "mc_quota": null,
+   "youth": null,
+   "resale": {
+    "base": "당첨자 발표일",
+    "forbidden": false,
+    "months": 12,
+    "none": false,
+    "passed": false,
+    "registration": false,
+    "until_reg": false
+   },
+   "score_ratio": null,
+   "residence": {
+    "area": {
+     "name": "전북특별자치도 고창군",
+     "sido": "전북",
+     "sigungu": "고창군"
+    },
+    "months": 0,
+    "others": [
+     "전북"
+    ],
+    "since": null
+   },
+   "notice": "2026-11-20",
+   "apply": "2026-11-30",
+   "apply_end": "2026-12-02",
+   "winner": "2026-12-08",
+   "contract": "2027-02-15",
+   "balance": null,
+   "move_in": "2030-02",
+   "price": 4.244,
+   "ext": 0.0,
+   "pay_ratio": {
+    "balance": 0.35,
+    "contract": 0.05,
+    "mid": 0.6
+   },
+   "contract_split": {
+    "first_won": 10000000,
+    "rest_within": "1개월",
+    "rows": 16
+   },
+   "contract_rate": 0.05,
+   "mid_rate": 0.6,
+   "mkt_low": null,
+   "mkt_base": null,
+   "mkt_note": "시군구 코드를 아직 확인하지 못해 시세를 조회하지 못했어요 (지도 좌표로 확인되면 다음 수집부터 조회).",
+   "mkt_count": 0,
+   "mkt_direct_excluded": 0,
+   "jeonse": null,
+   "jeonse_note": "",
+   "capital": false,
+   "regulated": false,
+   "reg_kind": "비규제",
+   "land_permit": false,
+   "price_cap": true,
+   "residence_duty": 0,
+   "duty_from": null,
+   "duty_silent": false,
+   "jeonse_weak": false,
+   "unregistered": true,
+   "need_head": false,
+   "need_account": true,
+   "limits": [
+    [
+     "재당첨 제한",
+     "10년"
+    ],
+    [
+     "실거주 의무",
+     "없음"
+    ],
+    [
+     "전매 제한",
+     "1년 (~27.12.08)"
+    ]
+   ],
+   "url": "https://www.applyhome.co.kr/ai/aia/selectAPTLttotPblancDetail.do?houseManageNo=2026000598&pblancNo=2026000598",
+   "notice_pdf": "https://static.applyhome.co.kr/ai/aia/getAtchmnfl.do?houseManageNo=2026000598&pblancNo=2026000598&atchmnflSeqNo=2027349&atchmnflSn=3",
+   "from_notice": [
+    "1순위 가입기간",
+    "납입 인정 횟수",
+    "계약금 비율",
+    "분양가상한제",
+    "전매 제한",
+    "거주 지역 요건",
+    "실거주 의무",
+    "재당첨 제한"
+   ],
+   "geo": null,
+   "account_months": 6,
+   "deposit_count": 6,
+   "map_query": "전북특별자치도 고창군 덕산지구 도시개발구역 내 공동주택 BL2",
+   "sample": false
+  },
+  "key": "baby",
+  "asOf": "2026-11-24",
+  "profile": {
+   "cash": 30000,
+   "liquid": 0,
+   "deposit": 0,
+   "income": 10000,
+   "household": "head",
+   "selfOwn": false,
+   "married": false,
+   "hhNeverOwned": true,
+   "birth": "1985-01-01",
+   "hhSize": 3,
+   "kidsMinor": 0,
+   "_set": [
+    "cash",
+    "liquid",
+    "deposit",
+    "income"
+   ],
+   "youngestBirth": "2025-12-01"
+  },
+  "expect": {
+   "ok": true,
+   "cap": 40000,
+   "ltv": 80,
+   "dti": 60,
+   "loan": 33952
+  },
+  "basis": "지방 생애최초 LTV 80% — 고창 데시앙 2블록(공공분양) 분양가 4.244억·시세 없음·전용 84.9076㎡·지방, 기준일 2026-11-24"
+ },
+ {
+  "id": "policy-bogeum-cap",
+  "fn": "policy",
+  "listing": null,
+  "raw": {
+   "id": "2026000591-059.9906A",
+   "name": "소사 휴먼빌",
+   "address": "경기도 부천시 소사구 소사본동 277-30번지 일원",
+   "region": "경기",
+   "sigungu": "부천시 소사구",
+   "sido": "경기",
+   "district": "부천시 소사구",
+   "supply_type": "APT",
+   "house_secd": "01",
+   "house_dtl": "민영",
+   "rent_secd": "분양주택",
+   "rental": false,
+   "land_lease": false,
+   "land_rent": null,
+   "land_rent_rate": null,
+   "special_apply": "2026-11-30",
+   "special_apply_end": "2026-11-30",
+   "kind": "일반분양 (특별공급·1순위)",
+   "category": "general",
+   "target": null,
+   "unit": "59A",
+   "area": 59.9906,
+   "households": 4,
+   "complex": {
+    "households": 79,
+    "buildings": 1,
+    "single": "maybe",
+    "status": "확인",
+    "src": "모집공고문 공급규모",
+    "quote": ": 아파트 지하 2층, 지상 20층, 1개동 총 79세대[조합 33세대, 보류지 1세대] 중 일반분양 45세대 [특별공급 23세대(기관추천 4세대, 다자녀가구 4세대, 신혼부부 7세대, 생애최초 4세대, 신생아 4"
+   },
+   "mc_quota": {
+    "buckets": [
+     {
+      "name": "해당 시·도",
+      "pct": 50,
+      "regions": [
+       "경기"
+      ]
+     },
+     {
+      "name": "기타지역",
+      "pct": 50,
+      "regions": [
+       "서울",
+       "인천"
+      ]
+     }
+    ]
+   },
+   "youth": null,
+   "resale": {
+    "base": "당첨자 발표일",
+    "forbidden": false,
+    "months": 12,
+    "none": false,
+    "passed": false,
+    "registration": false,
+    "until_reg": false
+   },
+   "score_ratio": {
+    "rows": [
+     {
+      "lottery": 60,
+      "over": 0,
+      "score": 40,
+      "upto": 60
+     },
+     {
+      "lottery": 60,
+      "over": 60,
+      "score": 40,
+      "upto": 85
+     }
+    ]
+   },
+   "residence": {
+    "area": {
+     "name": "경기도 부천시",
+     "sido": "경기",
+     "sigungu": "부천시"
+    },
+    "months": 0,
+    "others": [
+     "서울",
+     "인천",
+     "경기"
+    ],
+    "since": null
+   },
+   "notice": "2026-11-20",
+   "apply": "2026-11-30",
+   "apply_end": "2026-12-02",
+   "winner": "2026-12-08",
+   "contract": "2026-12-21",
+   "balance": null,
+   "move_in": "2028-05",
+   "price": 5.5932,
+   "ext": 0.0,
+   "pay_ratio": {
+    "balance": 0.3,
+    "contract": 0.1,
+    "mid": 0.6
+   },
+   "contract_split": {
+    "first_won": 10000000,
+    "rest_within": "1개월",
+    "rows": 27
+   },
+   "contract_rate": 0.1,
+   "mid_rate": 0.6,
+   "mkt_low": 4.39,
+   "mkt_base": 5.61,
+   "mkt_note": "같은 동(소사본동) 2km 안 준공 10년 이내 같은 평형(59㎡) 매매 18건 기준 (최근 6개월) · 거래가 몰린 단지(부천한신더휴메트로 11건)는 5건 몫으로 줄여 계산",
+   "mkt_count": 18,
+   "mkt_direct_excluded": 0,
+   "jeonse": 4.05,
+   "jeonse_note": "같은 구 준공 10년 이내 전세 91건 중앙값에서 입주장 할인 9%",
+   "capital": true,
+   "regulated": false,
+   "reg_kind": "비규제",
+   "land_permit": false,
+   "price_cap": false,
+   "residence_duty": 0,
+   "duty_from": null,
+   "duty_silent": false,
+   "jeonse_weak": false,
+   "unregistered": true,
+   "need_head": false,
+   "need_account": true,
+   "limits": [
+    [
+     "재당첨 제한",
+     "없음"
+    ],
+    [
+     "실거주 의무",
+     "없음"
+    ],
+    [
+     "전매 제한",
+     "1년 (~27.12.08)"
+    ]
+   ],
+   "url": "https://www.applyhome.co.kr/ai/aia/selectAPTLttotPblancDetail.do?houseManageNo=2026000591&pblancNo=2026000591",
+   "notice_pdf": "https://static.applyhome.co.kr/ai/aia/getAtchmnfl.do?houseManageNo=2026000591&pblancNo=2026000591&atchmnflSeqNo=2027261&atchmnflSn=4",
+   "from_notice": [
+    "1순위 가입기간",
+    "다자녀 지역 배정",
+    "세대주 요건",
+    "계약금 비율",
+    "분양가상한제",
+    "전매 제한",
+    "거주 지역 요건",
+    "실거주 의무",
+    "재당첨 제한",
+    "가점제·추첨제 비율"
+   ],
+   "geo": {
+    "lat": 37.473313,
+    "lng": 126.801225,
+    "precision": "exact",
+    "query": "경기도 부천시 소사구 소사본동 277-30",
+    "matched": "경기도 부천시 소사구 소사본동 277-30",
+    "source": "네이버 클라우드 플랫폼 Geocoding"
+   },
+   "account_months": 12,
+   "deposit_count": null,
+   "map_query": "경기도 부천시 소사구 소사본동 277-30",
+   "sample": false
+  },
+  "key": "bogeum",
+  "asOf": "2026-11-24",
+  "profile": {
+   "cash": 30000,
+   "liquid": 0,
+   "deposit": 0,
+   "income": 7000,
+   "household": "head",
+   "selfOwn": false,
+   "married": false,
+   "hhNeverOwned": false,
+   "birth": "1985-01-01",
+   "hhSize": 3,
+   "kidsMinor": 0,
+   "_set": [
+    "cash",
+    "liquid",
+    "deposit",
+    "income"
+   ]
+  },
+  "expect": {
+   "ok": true,
+   "cap": 36000,
+   "ltv": 70,
+   "dti": 60,
+   "loan": 36000
+  },
+  "basis": "수도권 5.61억(6억 이하) · 소득 7,000만: 한도 3.6억 — 소사 휴먼빌 분양가 5.5932억·시세 5.61·전용 59.9906㎡·수도권, 기준일 2026-11-24"
+ },
+ {
+  "id": "policy-bogeum-inc-over",
+  "fn": "policy",
+  "listing": null,
+  "raw": {
+   "id": "2026000591-059.9906A",
+   "name": "소사 휴먼빌",
+   "address": "경기도 부천시 소사구 소사본동 277-30번지 일원",
+   "region": "경기",
+   "sigungu": "부천시 소사구",
+   "sido": "경기",
+   "district": "부천시 소사구",
+   "supply_type": "APT",
+   "house_secd": "01",
+   "house_dtl": "민영",
+   "rent_secd": "분양주택",
+   "rental": false,
+   "land_lease": false,
+   "land_rent": null,
+   "land_rent_rate": null,
+   "special_apply": "2026-11-30",
+   "special_apply_end": "2026-11-30",
+   "kind": "일반분양 (특별공급·1순위)",
+   "category": "general",
+   "target": null,
+   "unit": "59A",
+   "area": 59.9906,
+   "households": 4,
+   "complex": {
+    "households": 79,
+    "buildings": 1,
+    "single": "maybe",
+    "status": "확인",
+    "src": "모집공고문 공급규모",
+    "quote": ": 아파트 지하 2층, 지상 20층, 1개동 총 79세대[조합 33세대, 보류지 1세대] 중 일반분양 45세대 [특별공급 23세대(기관추천 4세대, 다자녀가구 4세대, 신혼부부 7세대, 생애최초 4세대, 신생아 4"
+   },
+   "mc_quota": {
+    "buckets": [
+     {
+      "name": "해당 시·도",
+      "pct": 50,
+      "regions": [
+       "경기"
+      ]
+     },
+     {
+      "name": "기타지역",
+      "pct": 50,
+      "regions": [
+       "서울",
+       "인천"
+      ]
+     }
+    ]
+   },
+   "youth": null,
+   "resale": {
+    "base": "당첨자 발표일",
+    "forbidden": false,
+    "months": 12,
+    "none": false,
+    "passed": false,
+    "registration": false,
+    "until_reg": false
+   },
+   "score_ratio": {
+    "rows": [
+     {
+      "lottery": 60,
+      "over": 0,
+      "score": 40,
+      "upto": 60
+     },
+     {
+      "lottery": 60,
+      "over": 60,
+      "score": 40,
+      "upto": 85
+     }
+    ]
+   },
+   "residence": {
+    "area": {
+     "name": "경기도 부천시",
+     "sido": "경기",
+     "sigungu": "부천시"
+    },
+    "months": 0,
+    "others": [
+     "서울",
+     "인천",
+     "경기"
+    ],
+    "since": null
+   },
+   "notice": "2026-11-20",
+   "apply": "2026-11-30",
+   "apply_end": "2026-12-02",
+   "winner": "2026-12-08",
+   "contract": "2026-12-21",
+   "balance": null,
+   "move_in": "2028-05",
+   "price": 5.5932,
+   "ext": 0.0,
+   "pay_ratio": {
+    "balance": 0.3,
+    "contract": 0.1,
+    "mid": 0.6
+   },
+   "contract_split": {
+    "first_won": 10000000,
+    "rest_within": "1개월",
+    "rows": 27
+   },
+   "contract_rate": 0.1,
+   "mid_rate": 0.6,
+   "mkt_low": 4.39,
+   "mkt_base": 5.61,
+   "mkt_note": "같은 동(소사본동) 2km 안 준공 10년 이내 같은 평형(59㎡) 매매 18건 기준 (최근 6개월) · 거래가 몰린 단지(부천한신더휴메트로 11건)는 5건 몫으로 줄여 계산",
+   "mkt_count": 18,
+   "mkt_direct_excluded": 0,
+   "jeonse": 4.05,
+   "jeonse_note": "같은 구 준공 10년 이내 전세 91건 중앙값에서 입주장 할인 9%",
+   "capital": true,
+   "regulated": false,
+   "reg_kind": "비규제",
+   "land_permit": false,
+   "price_cap": false,
+   "residence_duty": 0,
+   "duty_from": null,
+   "duty_silent": false,
+   "jeonse_weak": false,
+   "unregistered": true,
+   "need_head": false,
+   "need_account": true,
+   "limits": [
+    [
+     "재당첨 제한",
+     "없음"
+    ],
+    [
+     "실거주 의무",
+     "없음"
+    ],
+    [
+     "전매 제한",
+     "1년 (~27.12.08)"
+    ]
+   ],
+   "url": "https://www.applyhome.co.kr/ai/aia/selectAPTLttotPblancDetail.do?houseManageNo=2026000591&pblancNo=2026000591",
+   "notice_pdf": "https://static.applyhome.co.kr/ai/aia/getAtchmnfl.do?houseManageNo=2026000591&pblancNo=2026000591&atchmnflSeqNo=2027261&atchmnflSn=4",
+   "from_notice": [
+    "1순위 가입기간",
+    "다자녀 지역 배정",
+    "세대주 요건",
+    "계약금 비율",
+    "분양가상한제",
+    "전매 제한",
+    "거주 지역 요건",
+    "실거주 의무",
+    "재당첨 제한",
+    "가점제·추첨제 비율"
+   ],
+   "geo": {
+    "lat": 37.473313,
+    "lng": 126.801225,
+    "precision": "exact",
+    "query": "경기도 부천시 소사구 소사본동 277-30",
+    "matched": "경기도 부천시 소사구 소사본동 277-30",
+    "source": "네이버 클라우드 플랫폼 Geocoding"
+   },
+   "account_months": 12,
+   "deposit_count": null,
+   "map_query": "경기도 부천시 소사구 소사본동 277-30",
+   "sample": false
+  },
+  "key": "bogeum",
+  "asOf": "2026-11-24",
+  "profile": {
+   "cash": 30000,
+   "liquid": 0,
+   "deposit": 0,
+   "income": 7001,
+   "household": "head",
+   "selfOwn": false,
+   "married": false,
+   "hhNeverOwned": false,
+   "birth": "1985-01-01",
+   "hhSize": 3,
+   "kidsMinor": 0,
+   "_set": [
+    "cash",
+    "liquid",
+    "deposit",
+    "income"
+   ]
+  },
+  "expect": {
+   "ok": false,
+   "cap": null,
+   "ltv": null,
+   "dti": null,
+   "loan": 0
+  },
+  "basis": "소득 7,001만 — 소사 휴먼빌 분양가 5.5932억·시세 5.61·전용 59.9906㎡·수도권, 기준일 2026-11-24"
+ },
+ {
+  "id": "policy-bogeum-kid1",
+  "fn": "policy",
+  "listing": null,
+  "raw": {
+   "id": "2026000591-059.9906A",
+   "name": "소사 휴먼빌",
+   "address": "경기도 부천시 소사구 소사본동 277-30번지 일원",
+   "region": "경기",
+   "sigungu": "부천시 소사구",
+   "sido": "경기",
+   "district": "부천시 소사구",
+   "supply_type": "APT",
+   "house_secd": "01",
+   "house_dtl": "민영",
+   "rent_secd": "분양주택",
+   "rental": false,
+   "land_lease": false,
+   "land_rent": null,
+   "land_rent_rate": null,
+   "special_apply": "2026-11-30",
+   "special_apply_end": "2026-11-30",
+   "kind": "일반분양 (특별공급·1순위)",
+   "category": "general",
+   "target": null,
+   "unit": "59A",
+   "area": 59.9906,
+   "households": 4,
+   "complex": {
+    "households": 79,
+    "buildings": 1,
+    "single": "maybe",
+    "status": "확인",
+    "src": "모집공고문 공급규모",
+    "quote": ": 아파트 지하 2층, 지상 20층, 1개동 총 79세대[조합 33세대, 보류지 1세대] 중 일반분양 45세대 [특별공급 23세대(기관추천 4세대, 다자녀가구 4세대, 신혼부부 7세대, 생애최초 4세대, 신생아 4"
+   },
+   "mc_quota": {
+    "buckets": [
+     {
+      "name": "해당 시·도",
+      "pct": 50,
+      "regions": [
+       "경기"
+      ]
+     },
+     {
+      "name": "기타지역",
+      "pct": 50,
+      "regions": [
+       "서울",
+       "인천"
+      ]
+     }
+    ]
+   },
+   "youth": null,
+   "resale": {
+    "base": "당첨자 발표일",
+    "forbidden": false,
+    "months": 12,
+    "none": false,
+    "passed": false,
+    "registration": false,
+    "until_reg": false
+   },
+   "score_ratio": {
+    "rows": [
+     {
+      "lottery": 60,
+      "over": 0,
+      "score": 40,
+      "upto": 60
+     },
+     {
+      "lottery": 60,
+      "over": 60,
+      "score": 40,
+      "upto": 85
+     }
+    ]
+   },
+   "residence": {
+    "area": {
+     "name": "경기도 부천시",
+     "sido": "경기",
+     "sigungu": "부천시"
+    },
+    "months": 0,
+    "others": [
+     "서울",
+     "인천",
+     "경기"
+    ],
+    "since": null
+   },
+   "notice": "2026-11-20",
+   "apply": "2026-11-30",
+   "apply_end": "2026-12-02",
+   "winner": "2026-12-08",
+   "contract": "2026-12-21",
+   "balance": null,
+   "move_in": "2028-05",
+   "price": 5.5932,
+   "ext": 0.0,
+   "pay_ratio": {
+    "balance": 0.3,
+    "contract": 0.1,
+    "mid": 0.6
+   },
+   "contract_split": {
+    "first_won": 10000000,
+    "rest_within": "1개월",
+    "rows": 27
+   },
+   "contract_rate": 0.1,
+   "mid_rate": 0.6,
+   "mkt_low": 4.39,
+   "mkt_base": 5.61,
+   "mkt_note": "같은 동(소사본동) 2km 안 준공 10년 이내 같은 평형(59㎡) 매매 18건 기준 (최근 6개월) · 거래가 몰린 단지(부천한신더휴메트로 11건)는 5건 몫으로 줄여 계산",
+   "mkt_count": 18,
+   "mkt_direct_excluded": 0,
+   "jeonse": 4.05,
+   "jeonse_note": "같은 구 준공 10년 이내 전세 91건 중앙값에서 입주장 할인 9%",
+   "capital": true,
+   "regulated": false,
+   "reg_kind": "비규제",
+   "land_permit": false,
+   "price_cap": false,
+   "residence_duty": 0,
+   "duty_from": null,
+   "duty_silent": false,
+   "jeonse_weak": false,
+   "unregistered": true,
+   "need_head": false,
+   "need_account": true,
+   "limits": [
+    [
+     "재당첨 제한",
+     "없음"
+    ],
+    [
+     "실거주 의무",
+     "없음"
+    ],
+    [
+     "전매 제한",
+     "1년 (~27.12.08)"
+    ]
+   ],
+   "url": "https://www.applyhome.co.kr/ai/aia/selectAPTLttotPblancDetail.do?houseManageNo=2026000591&pblancNo=2026000591",
+   "notice_pdf": "https://static.applyhome.co.kr/ai/aia/getAtchmnfl.do?houseManageNo=2026000591&pblancNo=2026000591&atchmnflSeqNo=2027261&atchmnflSn=4",
+   "from_notice": [
+    "1순위 가입기간",
+    "다자녀 지역 배정",
+    "세대주 요건",
+    "계약금 비율",
+    "분양가상한제",
+    "전매 제한",
+    "거주 지역 요건",
+    "실거주 의무",
+    "재당첨 제한",
+    "가점제·추첨제 비율"
+   ],
+   "geo": {
+    "lat": 37.473313,
+    "lng": 126.801225,
+    "precision": "exact",
+    "query": "경기도 부천시 소사구 소사본동 277-30",
+    "matched": "경기도 부천시 소사구 소사본동 277-30",
+    "source": "네이버 클라우드 플랫폼 Geocoding"
+   },
+   "account_months": 12,
+   "deposit_count": null,
+   "map_query": "경기도 부천시 소사구 소사본동 277-30",
+   "sample": false
+  },
+  "key": "bogeum",
+  "asOf": "2026-11-24",
+  "profile": {
+   "cash": 30000,
+   "liquid": 0,
+   "deposit": 0,
+   "income": 9000,
+   "household": "head",
+   "selfOwn": false,
+   "married": false,
+   "hhNeverOwned": false,
+   "birth": "1985-01-01",
+   "hhSize": 3,
+   "kidsMinor": 1,
+   "_set": [
+    "cash",
+    "liquid",
+    "deposit",
+    "income"
+   ]
+  },
+  "expect": {
+   "ok": true,
+   "cap": 36000,
+   "ltv": 70,
+   "dti": 60,
+   "loan": 36000
+  },
+  "basis": "미성년 자녀 1명: 9,000만까지 — 소사 휴먼빌 분양가 5.5932억·시세 5.61·전용 59.9906㎡·수도권, 기준일 2026-11-24"
+ },
+ {
+  "id": "policy-bogeum-kids2-over",
+  "fn": "policy",
+  "listing": null,
+  "raw": {
+   "id": "2026000591-059.9906A",
+   "name": "소사 휴먼빌",
+   "address": "경기도 부천시 소사구 소사본동 277-30번지 일원",
+   "region": "경기",
+   "sigungu": "부천시 소사구",
+   "sido": "경기",
+   "district": "부천시 소사구",
+   "supply_type": "APT",
+   "house_secd": "01",
+   "house_dtl": "민영",
+   "rent_secd": "분양주택",
+   "rental": false,
+   "land_lease": false,
+   "land_rent": null,
+   "land_rent_rate": null,
+   "special_apply": "2026-11-30",
+   "special_apply_end": "2026-11-30",
+   "kind": "일반분양 (특별공급·1순위)",
+   "category": "general",
+   "target": null,
+   "unit": "59A",
+   "area": 59.9906,
+   "households": 4,
+   "complex": {
+    "households": 79,
+    "buildings": 1,
+    "single": "maybe",
+    "status": "확인",
+    "src": "모집공고문 공급규모",
+    "quote": ": 아파트 지하 2층, 지상 20층, 1개동 총 79세대[조합 33세대, 보류지 1세대] 중 일반분양 45세대 [특별공급 23세대(기관추천 4세대, 다자녀가구 4세대, 신혼부부 7세대, 생애최초 4세대, 신생아 4"
+   },
+   "mc_quota": {
+    "buckets": [
+     {
+      "name": "해당 시·도",
+      "pct": 50,
+      "regions": [
+       "경기"
+      ]
+     },
+     {
+      "name": "기타지역",
+      "pct": 50,
+      "regions": [
+       "서울",
+       "인천"
+      ]
+     }
+    ]
+   },
+   "youth": null,
+   "resale": {
+    "base": "당첨자 발표일",
+    "forbidden": false,
+    "months": 12,
+    "none": false,
+    "passed": false,
+    "registration": false,
+    "until_reg": false
+   },
+   "score_ratio": {
+    "rows": [
+     {
+      "lottery": 60,
+      "over": 0,
+      "score": 40,
+      "upto": 60
+     },
+     {
+      "lottery": 60,
+      "over": 60,
+      "score": 40,
+      "upto": 85
+     }
+    ]
+   },
+   "residence": {
+    "area": {
+     "name": "경기도 부천시",
+     "sido": "경기",
+     "sigungu": "부천시"
+    },
+    "months": 0,
+    "others": [
+     "서울",
+     "인천",
+     "경기"
+    ],
+    "since": null
+   },
+   "notice": "2026-11-20",
+   "apply": "2026-11-30",
+   "apply_end": "2026-12-02",
+   "winner": "2026-12-08",
+   "contract": "2026-12-21",
+   "balance": null,
+   "move_in": "2028-05",
+   "price": 5.5932,
+   "ext": 0.0,
+   "pay_ratio": {
+    "balance": 0.3,
+    "contract": 0.1,
+    "mid": 0.6
+   },
+   "contract_split": {
+    "first_won": 10000000,
+    "rest_within": "1개월",
+    "rows": 27
+   },
+   "contract_rate": 0.1,
+   "mid_rate": 0.6,
+   "mkt_low": 4.39,
+   "mkt_base": 5.61,
+   "mkt_note": "같은 동(소사본동) 2km 안 준공 10년 이내 같은 평형(59㎡) 매매 18건 기준 (최근 6개월) · 거래가 몰린 단지(부천한신더휴메트로 11건)는 5건 몫으로 줄여 계산",
+   "mkt_count": 18,
+   "mkt_direct_excluded": 0,
+   "jeonse": 4.05,
+   "jeonse_note": "같은 구 준공 10년 이내 전세 91건 중앙값에서 입주장 할인 9%",
+   "capital": true,
+   "regulated": false,
+   "reg_kind": "비규제",
+   "land_permit": false,
+   "price_cap": false,
+   "residence_duty": 0,
+   "duty_from": null,
+   "duty_silent": false,
+   "jeonse_weak": false,
+   "unregistered": true,
+   "need_head": false,
+   "need_account": true,
+   "limits": [
+    [
+     "재당첨 제한",
+     "없음"
+    ],
+    [
+     "실거주 의무",
+     "없음"
+    ],
+    [
+     "전매 제한",
+     "1년 (~27.12.08)"
+    ]
+   ],
+   "url": "https://www.applyhome.co.kr/ai/aia/selectAPTLttotPblancDetail.do?houseManageNo=2026000591&pblancNo=2026000591",
+   "notice_pdf": "https://static.applyhome.co.kr/ai/aia/getAtchmnfl.do?houseManageNo=2026000591&pblancNo=2026000591&atchmnflSeqNo=2027261&atchmnflSn=4",
+   "from_notice": [
+    "1순위 가입기간",
+    "다자녀 지역 배정",
+    "세대주 요건",
+    "계약금 비율",
+    "분양가상한제",
+    "전매 제한",
+    "거주 지역 요건",
+    "실거주 의무",
+    "재당첨 제한",
+    "가점제·추첨제 비율"
+   ],
+   "geo": {
+    "lat": 37.473313,
+    "lng": 126.801225,
+    "precision": "exact",
+    "query": "경기도 부천시 소사구 소사본동 277-30",
+    "matched": "경기도 부천시 소사구 소사본동 277-30",
+    "source": "네이버 클라우드 플랫폼 Geocoding"
+   },
+   "account_months": 12,
+   "deposit_count": null,
+   "map_query": "경기도 부천시 소사구 소사본동 277-30",
+   "sample": false
+  },
+  "key": "bogeum",
+  "asOf": "2026-11-24",
+  "profile": {
+   "cash": 30000,
+   "liquid": 0,
+   "deposit": 0,
+   "income": 10001,
+   "household": "head",
+   "selfOwn": false,
+   "married": false,
+   "hhNeverOwned": false,
+   "birth": "1985-01-01",
+   "hhSize": 3,
+   "kidsMinor": 2,
+   "_set": [
+    "cash",
+    "liquid",
+    "deposit",
+    "income"
+   ]
+  },
+  "expect": {
+   "ok": false,
+   "cap": null,
+   "ltv": null,
+   "dti": null,
+   "loan": 0
+  },
+  "basis": "자녀 2명: 1억 1만 (초과) — 소사 휴먼빌 분양가 5.5932억·시세 5.61·전용 59.9906㎡·수도권, 기준일 2026-11-24"
+ },
+ {
+  "id": "policy-bogeum-first",
+  "fn": "policy",
+  "listing": null,
+  "raw": {
+   "id": "2026000591-059.9906A",
+   "name": "소사 휴먼빌",
+   "address": "경기도 부천시 소사구 소사본동 277-30번지 일원",
+   "region": "경기",
+   "sigungu": "부천시 소사구",
+   "sido": "경기",
+   "district": "부천시 소사구",
+   "supply_type": "APT",
+   "house_secd": "01",
+   "house_dtl": "민영",
+   "rent_secd": "분양주택",
+   "rental": false,
+   "land_lease": false,
+   "land_rent": null,
+   "land_rent_rate": null,
+   "special_apply": "2026-11-30",
+   "special_apply_end": "2026-11-30",
+   "kind": "일반분양 (특별공급·1순위)",
+   "category": "general",
+   "target": null,
+   "unit": "59A",
+   "area": 59.9906,
+   "households": 4,
+   "complex": {
+    "households": 79,
+    "buildings": 1,
+    "single": "maybe",
+    "status": "확인",
+    "src": "모집공고문 공급규모",
+    "quote": ": 아파트 지하 2층, 지상 20층, 1개동 총 79세대[조합 33세대, 보류지 1세대] 중 일반분양 45세대 [특별공급 23세대(기관추천 4세대, 다자녀가구 4세대, 신혼부부 7세대, 생애최초 4세대, 신생아 4"
+   },
+   "mc_quota": {
+    "buckets": [
+     {
+      "name": "해당 시·도",
+      "pct": 50,
+      "regions": [
+       "경기"
+      ]
+     },
+     {
+      "name": "기타지역",
+      "pct": 50,
+      "regions": [
+       "서울",
+       "인천"
+      ]
+     }
+    ]
+   },
+   "youth": null,
+   "resale": {
+    "base": "당첨자 발표일",
+    "forbidden": false,
+    "months": 12,
+    "none": false,
+    "passed": false,
+    "registration": false,
+    "until_reg": false
+   },
+   "score_ratio": {
+    "rows": [
+     {
+      "lottery": 60,
+      "over": 0,
+      "score": 40,
+      "upto": 60
+     },
+     {
+      "lottery": 60,
+      "over": 60,
+      "score": 40,
+      "upto": 85
+     }
+    ]
+   },
+   "residence": {
+    "area": {
+     "name": "경기도 부천시",
+     "sido": "경기",
+     "sigungu": "부천시"
+    },
+    "months": 0,
+    "others": [
+     "서울",
+     "인천",
+     "경기"
+    ],
+    "since": null
+   },
+   "notice": "2026-11-20",
+   "apply": "2026-11-30",
+   "apply_end": "2026-12-02",
+   "winner": "2026-12-08",
+   "contract": "2026-12-21",
+   "balance": null,
+   "move_in": "2028-05",
+   "price": 5.5932,
+   "ext": 0.0,
+   "pay_ratio": {
+    "balance": 0.3,
+    "contract": 0.1,
+    "mid": 0.6
+   },
+   "contract_split": {
+    "first_won": 10000000,
+    "rest_within": "1개월",
+    "rows": 27
+   },
+   "contract_rate": 0.1,
+   "mid_rate": 0.6,
+   "mkt_low": 4.39,
+   "mkt_base": 5.61,
+   "mkt_note": "같은 동(소사본동) 2km 안 준공 10년 이내 같은 평형(59㎡) 매매 18건 기준 (최근 6개월) · 거래가 몰린 단지(부천한신더휴메트로 11건)는 5건 몫으로 줄여 계산",
+   "mkt_count": 18,
+   "mkt_direct_excluded": 0,
+   "jeonse": 4.05,
+   "jeonse_note": "같은 구 준공 10년 이내 전세 91건 중앙값에서 입주장 할인 9%",
+   "capital": true,
+   "regulated": false,
+   "reg_kind": "비규제",
+   "land_permit": false,
+   "price_cap": false,
+   "residence_duty": 0,
+   "duty_from": null,
+   "duty_silent": false,
+   "jeonse_weak": false,
+   "unregistered": true,
+   "need_head": false,
+   "need_account": true,
+   "limits": [
+    [
+     "재당첨 제한",
+     "없음"
+    ],
+    [
+     "실거주 의무",
+     "없음"
+    ],
+    [
+     "전매 제한",
+     "1년 (~27.12.08)"
+    ]
+   ],
+   "url": "https://www.applyhome.co.kr/ai/aia/selectAPTLttotPblancDetail.do?houseManageNo=2026000591&pblancNo=2026000591",
+   "notice_pdf": "https://static.applyhome.co.kr/ai/aia/getAtchmnfl.do?houseManageNo=2026000591&pblancNo=2026000591&atchmnflSeqNo=2027261&atchmnflSn=4",
+   "from_notice": [
+    "1순위 가입기간",
+    "다자녀 지역 배정",
+    "세대주 요건",
+    "계약금 비율",
+    "분양가상한제",
+    "전매 제한",
+    "거주 지역 요건",
+    "실거주 의무",
+    "재당첨 제한",
+    "가점제·추첨제 비율"
+   ],
+   "geo": {
+    "lat": 37.473313,
+    "lng": 126.801225,
+    "precision": "exact",
+    "query": "경기도 부천시 소사구 소사본동 277-30",
+    "matched": "경기도 부천시 소사구 소사본동 277-30",
+    "source": "네이버 클라우드 플랫폼 Geocoding"
+   },
+   "account_months": 12,
+   "deposit_count": null,
+   "map_query": "경기도 부천시 소사구 소사본동 277-30",
+   "sample": false
+  },
+  "key": "bogeum",
+  "asOf": "2026-11-24",
+  "profile": {
+   "cash": 30000,
+   "liquid": 0,
+   "deposit": 0,
+   "income": 7000,
+   "household": "head",
+   "selfOwn": false,
+   "married": false,
+   "hhNeverOwned": true,
+   "birth": "1985-01-01",
+   "hhSize": 3,
+   "kidsMinor": 0,
+   "_set": [
+    "cash",
+    "liquid",
+    "deposit",
+    "income"
+   ]
+  },
+  "expect": {
+   "ok": true,
+   "cap": 42000,
+   "ltv": 70,
+   "dti": 60,
+   "loan": 39152
+  },
+  "basis": "생애최초 한도 4.2억 — 소사 휴먼빌 분양가 5.5932억·시세 5.61·전용 59.9906㎡·수도권, 기준일 2026-11-24"
+ },
+ {
+  "id": "policy-bogeum-price",
+  "fn": "policy",
+  "listing": null,
+  "raw": {
+   "id": "2026000472-075.7770 ",
+   "name": "구리갈매역세권 B-1블록 신안인스빌 디센트",
+   "address": "경기도 구리시 구리갈매역세권 B-1블록",
+   "region": "경기",
+   "sigungu": "구리시",
+   "sido": "경기",
+   "district": "구리시",
+   "supply_type": "APT",
+   "house_secd": "01",
+   "house_dtl": "민영",
+   "rent_secd": "분양주택",
+   "rental": false,
+   "land_lease": false,
+   "land_rent": null,
+   "land_rent_rate": null,
+   "special_apply": "2026-11-09",
+   "special_apply_end": "2026-11-09",
+   "kind": "일반분양 (특별공급·1순위)",
+   "category": "general",
+   "target": null,
+   "unit": "75",
+   "area": 75.777,
+   "households": 38,
+   "complex": {
+    "households": null,
+    "buildings": null,
+    "single": "unknown",
+    "status": "확인 불가",
+    "src": null
+   },
+   "mc_quota": {
+    "unknown": true
+   },
+   "youth": null,
+   "resale": {
+    "base": "당첨자 발표일",
+    "forbidden": false,
+    "months": 36,
+    "none": false,
+    "passed": false,
+    "registration": true,
+    "until_reg": false
+   },
+   "score_ratio": {
+    "rows": [
+     {
+      "lottery": 30,
+      "over": 60,
+      "score": 70,
+      "upto": 85
+     }
+    ]
+   },
+   "residence": {
+    "area": {
+     "name": "경기도 구리시",
+     "sido": "경기",
+     "sigungu": "구리시"
+    },
+    "months": 24,
+    "others": [
+     "서울",
+     "인천",
+     "경기"
+    ],
+    "since": "2024-10-30"
+   },
+   "notice": "2026-10-30",
+   "apply": "2026-11-09",
+   "apply_end": "2026-11-11",
+   "winner": "2026-11-17",
+   "contract": "2026-11-30",
+   "balance": null,
+   "move_in": "2028-08",
+   "price": 6.958,
+   "ext": 0.0,
+   "pay_ratio": null,
+   "contract_split": null,
+   "contract_rate": 0.1,
+   "mid_rate": 0.6,
+   "mkt_low": 7.17,
+   "mkt_base": 7.36,
+   "mkt_note": "같은 구 준공 10년 이내 같은 평형 매매 30건 기준 (최근 6개월) · 거래가 몰린 단지(구리갈매스타힐스 9건, 한라비발디 6건)는 5건 몫으로 줄여 계산",
+   "mkt_count": 30,
+   "mkt_direct_excluded": 1,
+   "jeonse": 4.73,
+   "jeonse_note": "같은 구 준공 10년 이내 전세 45건 중앙값에서 입주장 할인 9%",
+   "capital": true,
+   "regulated": true,
+   "reg_kind": "투기과열",
+   "land_permit": true,
+   "price_cap": true,
+   "residence_duty": null,
+   "duty_from": null,
+   "duty_silent": false,
+   "jeonse_weak": false,
+   "unregistered": true,
+   "need_head": false,
+   "need_account": true,
+   "limits": [
+    [
+     "재당첨 제한",
+     "10년"
+    ],
+    [
+     "실거주 의무",
+     "공고문 확인"
+    ],
+    [
+     "전매 제한",
+     "3년(등기 시 풀림)"
+    ]
+   ],
+   "url": "https://www.applyhome.co.kr/ai/aia/selectAPTLttotPblancDetail.do?houseManageNo=2026000472&pblancNo=2026000472",
+   "notice_pdf": "https://static.applyhome.co.kr/ai/aia/getAtchmnfl.do?houseManageNo=2026000472&pblancNo=2026000472&atchmnflSeqNo=2012076&atchmnflSn=4",
+   "from_notice": [
+    "1순위 가입기간",
+    "다자녀 지역 배정",
+    "세대주 요건",
+    "분양가상한제",
+    "전매 제한",
+    "거주 지역 요건",
+    "재당첨 제한",
+    "가점제·추첨제 비율"
+   ],
+   "geo": null,
+   "account_months": 24,
+   "deposit_count": null,
+   "map_query": "경기도 구리시 구리갈매역세권 B-1블록",
+   "sample": false
+  },
+  "key": "bogeum",
+  "asOf": "2026-11-24",
+  "profile": {
+   "cash": 30000,
+   "liquid": 0,
+   "deposit": 0,
+   "income": 7000,
+   "household": "head",
+   "selfOwn": false,
+   "married": false,
+   "hhNeverOwned": false,
+   "birth": "1985-01-01",
+   "hhSize": 3,
+   "kidsMinor": 0,
+   "_set": [
+    "cash",
+    "liquid",
+    "deposit",
+    "income"
+   ]
+  },
+  "expect": {
+   "ok": false,
+   "cap": null,
+   "ltv": null,
+   "dti": null,
+   "loan": 0
+  },
+  "basis": "규제지역 시세 7.36억 > 6억 — 구리갈매역세권 B-1블록 신안인스빌 디센트 분양가 6.958억·시세 7.36·전용 75.777㎡·규제지역, 기준일 2026-11-24"
+ },
+ {
+  "id": "policy-bogeum-member",
+  "fn": "policy",
+  "listing": null,
+  "raw": {
+   "id": "2026000591-059.9906A",
+   "name": "소사 휴먼빌",
+   "address": "경기도 부천시 소사구 소사본동 277-30번지 일원",
+   "region": "경기",
+   "sigungu": "부천시 소사구",
+   "sido": "경기",
+   "district": "부천시 소사구",
+   "supply_type": "APT",
+   "house_secd": "01",
+   "house_dtl": "민영",
+   "rent_secd": "분양주택",
+   "rental": false,
+   "land_lease": false,
+   "land_rent": null,
+   "land_rent_rate": null,
+   "special_apply": "2026-11-30",
+   "special_apply_end": "2026-11-30",
+   "kind": "일반분양 (특별공급·1순위)",
+   "category": "general",
+   "target": null,
+   "unit": "59A",
+   "area": 59.9906,
+   "households": 4,
+   "complex": {
+    "households": 79,
+    "buildings": 1,
+    "single": "maybe",
+    "status": "확인",
+    "src": "모집공고문 공급규모",
+    "quote": ": 아파트 지하 2층, 지상 20층, 1개동 총 79세대[조합 33세대, 보류지 1세대] 중 일반분양 45세대 [특별공급 23세대(기관추천 4세대, 다자녀가구 4세대, 신혼부부 7세대, 생애최초 4세대, 신생아 4"
+   },
+   "mc_quota": {
+    "buckets": [
+     {
+      "name": "해당 시·도",
+      "pct": 50,
+      "regions": [
+       "경기"
+      ]
+     },
+     {
+      "name": "기타지역",
+      "pct": 50,
+      "regions": [
+       "서울",
+       "인천"
+      ]
+     }
+    ]
+   },
+   "youth": null,
+   "resale": {
+    "base": "당첨자 발표일",
+    "forbidden": false,
+    "months": 12,
+    "none": false,
+    "passed": false,
+    "registration": false,
+    "until_reg": false
+   },
+   "score_ratio": {
+    "rows": [
+     {
+      "lottery": 60,
+      "over": 0,
+      "score": 40,
+      "upto": 60
+     },
+     {
+      "lottery": 60,
+      "over": 60,
+      "score": 40,
+      "upto": 85
+     }
+    ]
+   },
+   "residence": {
+    "area": {
+     "name": "경기도 부천시",
+     "sido": "경기",
+     "sigungu": "부천시"
+    },
+    "months": 0,
+    "others": [
+     "서울",
+     "인천",
+     "경기"
+    ],
+    "since": null
+   },
+   "notice": "2026-11-20",
+   "apply": "2026-11-30",
+   "apply_end": "2026-12-02",
+   "winner": "2026-12-08",
+   "contract": "2026-12-21",
+   "balance": null,
+   "move_in": "2028-05",
+   "price": 5.5932,
+   "ext": 0.0,
+   "pay_ratio": {
+    "balance": 0.3,
+    "contract": 0.1,
+    "mid": 0.6
+   },
+   "contract_split": {
+    "first_won": 10000000,
+    "rest_within": "1개월",
+    "rows": 27
+   },
+   "contract_rate": 0.1,
+   "mid_rate": 0.6,
+   "mkt_low": 4.39,
+   "mkt_base": 5.61,
+   "mkt_note": "같은 동(소사본동) 2km 안 준공 10년 이내 같은 평형(59㎡) 매매 18건 기준 (최근 6개월) · 거래가 몰린 단지(부천한신더휴메트로 11건)는 5건 몫으로 줄여 계산",
+   "mkt_count": 18,
+   "mkt_direct_excluded": 0,
+   "jeonse": 4.05,
+   "jeonse_note": "같은 구 준공 10년 이내 전세 91건 중앙값에서 입주장 할인 9%",
+   "capital": true,
+   "regulated": false,
+   "reg_kind": "비규제",
+   "land_permit": false,
+   "price_cap": false,
+   "residence_duty": 0,
+   "duty_from": null,
+   "duty_silent": false,
+   "jeonse_weak": false,
+   "unregistered": true,
+   "need_head": false,
+   "need_account": true,
+   "limits": [
+    [
+     "재당첨 제한",
+     "없음"
+    ],
+    [
+     "실거주 의무",
+     "없음"
+    ],
+    [
+     "전매 제한",
+     "1년 (~27.12.08)"
+    ]
+   ],
+   "url": "https://www.applyhome.co.kr/ai/aia/selectAPTLttotPblancDetail.do?houseManageNo=2026000591&pblancNo=2026000591",
+   "notice_pdf": "https://static.applyhome.co.kr/ai/aia/getAtchmnfl.do?houseManageNo=2026000591&pblancNo=2026000591&atchmnflSeqNo=2027261&atchmnflSn=4",
+   "from_notice": [
+    "1순위 가입기간",
+    "다자녀 지역 배정",
+    "세대주 요건",
+    "계약금 비율",
+    "분양가상한제",
+    "전매 제한",
+    "거주 지역 요건",
+    "실거주 의무",
+    "재당첨 제한",
+    "가점제·추첨제 비율"
+   ],
+   "geo": {
+    "lat": 37.473313,
+    "lng": 126.801225,
+    "precision": "exact",
+    "query": "경기도 부천시 소사구 소사본동 277-30",
+    "matched": "경기도 부천시 소사구 소사본동 277-30",
+    "source": "네이버 클라우드 플랫폼 Geocoding"
+   },
+   "account_months": 12,
+   "deposit_count": null,
+   "map_query": "경기도 부천시 소사구 소사본동 277-30",
+   "sample": false
+  },
+  "key": "bogeum",
+  "asOf": "2026-11-24",
+  "profile": {
+   "cash": 30000,
+   "liquid": 0,
+   "deposit": 0,
+   "income": 7000,
+   "household": "parents",
+   "selfOwn": false,
+   "married": false,
+   "hhNeverOwned": false,
+   "birth": "1985-01-01",
+   "hhSize": 3,
+   "kidsMinor": 0,
+   "_set": [
+    "cash",
+    "liquid",
+    "deposit",
+    "income"
+   ]
+  },
+  "expect": {
+   "ok": true,
+   "cap": 36000,
+   "ltv": 70,
+   "dti": 60,
+   "loan": 36000
+  },
+  "basis": "세대주가 아니어도 무주택이면 가능 — 소사 휴먼빌 분양가 5.5932억·시세 5.61·전용 59.9906㎡·수도권, 기준일 2026-11-24"
+ },
+ {
+  "id": "policy-bogeum-owner",
+  "fn": "policy",
+  "listing": null,
+  "raw": {
+   "id": "2026000591-059.9906A",
+   "name": "소사 휴먼빌",
+   "address": "경기도 부천시 소사구 소사본동 277-30번지 일원",
+   "region": "경기",
+   "sigungu": "부천시 소사구",
+   "sido": "경기",
+   "district": "부천시 소사구",
+   "supply_type": "APT",
+   "house_secd": "01",
+   "house_dtl": "민영",
+   "rent_secd": "분양주택",
+   "rental": false,
+   "land_lease": false,
+   "land_rent": null,
+   "land_rent_rate": null,
+   "special_apply": "2026-11-30",
+   "special_apply_end": "2026-11-30",
+   "kind": "일반분양 (특별공급·1순위)",
+   "category": "general",
+   "target": null,
+   "unit": "59A",
+   "area": 59.9906,
+   "households": 4,
+   "complex": {
+    "households": 79,
+    "buildings": 1,
+    "single": "maybe",
+    "status": "확인",
+    "src": "모집공고문 공급규모",
+    "quote": ": 아파트 지하 2층, 지상 20층, 1개동 총 79세대[조합 33세대, 보류지 1세대] 중 일반분양 45세대 [특별공급 23세대(기관추천 4세대, 다자녀가구 4세대, 신혼부부 7세대, 생애최초 4세대, 신생아 4"
+   },
+   "mc_quota": {
+    "buckets": [
+     {
+      "name": "해당 시·도",
+      "pct": 50,
+      "regions": [
+       "경기"
+      ]
+     },
+     {
+      "name": "기타지역",
+      "pct": 50,
+      "regions": [
+       "서울",
+       "인천"
+      ]
+     }
+    ]
+   },
+   "youth": null,
+   "resale": {
+    "base": "당첨자 발표일",
+    "forbidden": false,
+    "months": 12,
+    "none": false,
+    "passed": false,
+    "registration": false,
+    "until_reg": false
+   },
+   "score_ratio": {
+    "rows": [
+     {
+      "lottery": 60,
+      "over": 0,
+      "score": 40,
+      "upto": 60
+     },
+     {
+      "lottery": 60,
+      "over": 60,
+      "score": 40,
+      "upto": 85
+     }
+    ]
+   },
+   "residence": {
+    "area": {
+     "name": "경기도 부천시",
+     "sido": "경기",
+     "sigungu": "부천시"
+    },
+    "months": 0,
+    "others": [
+     "서울",
+     "인천",
+     "경기"
+    ],
+    "since": null
+   },
+   "notice": "2026-11-20",
+   "apply": "2026-11-30",
+   "apply_end": "2026-12-02",
+   "winner": "2026-12-08",
+   "contract": "2026-12-21",
+   "balance": null,
+   "move_in": "2028-05",
+   "price": 5.5932,
+   "ext": 0.0,
+   "pay_ratio": {
+    "balance": 0.3,
+    "contract": 0.1,
+    "mid": 0.6
+   },
+   "contract_split": {
+    "first_won": 10000000,
+    "rest_within": "1개월",
+    "rows": 27
+   },
+   "contract_rate": 0.1,
+   "mid_rate": 0.6,
+   "mkt_low": 4.39,
+   "mkt_base": 5.61,
+   "mkt_note": "같은 동(소사본동) 2km 안 준공 10년 이내 같은 평형(59㎡) 매매 18건 기준 (최근 6개월) · 거래가 몰린 단지(부천한신더휴메트로 11건)는 5건 몫으로 줄여 계산",
+   "mkt_count": 18,
+   "mkt_direct_excluded": 0,
+   "jeonse": 4.05,
+   "jeonse_note": "같은 구 준공 10년 이내 전세 91건 중앙값에서 입주장 할인 9%",
+   "capital": true,
+   "regulated": false,
+   "reg_kind": "비규제",
+   "land_permit": false,
+   "price_cap": false,
+   "residence_duty": 0,
+   "duty_from": null,
+   "duty_silent": false,
+   "jeonse_weak": false,
+   "unregistered": true,
+   "need_head": false,
+   "need_account": true,
+   "limits": [
+    [
+     "재당첨 제한",
+     "없음"
+    ],
+    [
+     "실거주 의무",
+     "없음"
+    ],
+    [
+     "전매 제한",
+     "1년 (~27.12.08)"
+    ]
+   ],
+   "url": "https://www.applyhome.co.kr/ai/aia/selectAPTLttotPblancDetail.do?houseManageNo=2026000591&pblancNo=2026000591",
+   "notice_pdf": "https://static.applyhome.co.kr/ai/aia/getAtchmnfl.do?houseManageNo=2026000591&pblancNo=2026000591&atchmnflSeqNo=2027261&atchmnflSn=4",
+   "from_notice": [
+    "1순위 가입기간",
+    "다자녀 지역 배정",
+    "세대주 요건",
+    "계약금 비율",
+    "분양가상한제",
+    "전매 제한",
+    "거주 지역 요건",
+    "실거주 의무",
+    "재당첨 제한",
+    "가점제·추첨제 비율"
+   ],
+   "geo": {
+    "lat": 37.473313,
+    "lng": 126.801225,
+    "precision": "exact",
+    "query": "경기도 부천시 소사구 소사본동 277-30",
+    "matched": "경기도 부천시 소사구 소사본동 277-30",
+    "source": "네이버 클라우드 플랫폼 Geocoding"
+   },
+   "account_months": 12,
+   "deposit_count": null,
+   "map_query": "경기도 부천시 소사구 소사본동 277-30",
+   "sample": false
+  },
+  "key": "bogeum",
+  "asOf": "2026-11-24",
+  "profile": {
+   "cash": 30000,
+   "liquid": 0,
+   "deposit": 0,
+   "income": 7000,
+   "household": "head",
+   "selfOwn": true,
+   "married": false,
+   "hhNeverOwned": false,
+   "birth": "1985-01-01",
+   "hhSize": 3,
+   "kidsMinor": 0,
+   "_set": [
+    "cash",
+    "liquid",
+    "deposit",
+    "income"
+   ]
+  },
+  "expect": {
+   "ok": false,
+   "cap": null,
+   "ltv": null,
+   "dti": null,
+   "loan": 0
+  },
+  "basis": "지금 집 있음 — 소사 휴먼빌 분양가 5.5932억·시세 5.61·전용 59.9906㎡·수도권, 기준일 2026-11-24"
+ },
+ {
   "id": "duty-01",
   "fn": "duty",
   "listing": null,

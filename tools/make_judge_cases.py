@@ -1590,6 +1590,69 @@ def main() -> None:
     l_case("loc-normal", Q_LOC, 70, "지방 일반 70%")
     l_case("loc-first-off", Q_LOC, 70, "스위치 끔 → 지방 70%", feature=False, hhNeverOwned=True)
 
+    # ---------- 17-1d) 정책대출 — 디딤돌·신생아 특례·보금자리론 자격과 한도 (기능 policy_loan, 2026-11-24 운영자 '정책대출도 진행') ----------
+    # 근거(evidence/dsr/2026-11-24-policy.md): 주택금융공사 디딤돌대출 상품소개(https://www.hf.go.kr/ko/sub01/sub01_02_01.do) — 소득 6천(생애최초·2자녀 7천, 신혼 8.5천),
+    #   평가액 5억(신혼·2자녀 6억)·85㎡, 한도 2억(생애최초 2.4억, 신혼·2자녀 3.2억), LTV 70%(생애최초 80%, 수도권·규제지역 70%), DTI 60%, 만 30세 미만 단독세대주 제외,
+    #   만 30세 이상 미혼 단독세대주 3억·60㎡·1.5억(생애최초 2억). 디딤돌대출 맞춤형 관리방안(2024-11-06 정책브리핑): 수도권 아파트 등기 전 잔금대출 제한, 예외 = 신생아 특례 · 연소득 4천 이하의 3억 이하 주택.
+    #   신생아 특례: 2년 안 출산(2023-01-01 이후 출생), 1.3억(맞벌이 2억, 한 사람 1.3억 이하), 9억·85㎡, 한도 4억(금융위 10·15 FAQ).
+    #   보금자리론 상품소개(https://www.hf.go.kr/ko/sub01/sub01_01_01.do): 소득 7천(신혼 8.5천, 자녀 1명 9천, 2명 이상 1억), 6억(시세·감정가·매매가 모두), 한도 3.6억(생애최초 4.2억),
+    #   LTV 70%·DTI 60%, 규제지역 10%p 차감(생애최초·실수요자(연소득 7천 이하) 제외).
+    # 대출액 = min(상품 한도, 분양가·시세 중 낮은 값 × LTV, DTI 로 받을 수 있는 원금). DTI 원금 = (연소득 × DTI − 다른 대출 이자)를 금리 4%(가정)·30년 원리금균등으로. 집값 요건은 분양가·시세 중 높은 값.
+    P_ASOF = "2026-11-24"
+    def p_case(tag, key, raw, basis, ok, cap=None, ltv=70, dti=60, **prof):
+        base = {"cash": 30000, "liquid": 0, "deposit": 0, "income": 5000, "household": "head", "selfOwn": False, "married": False, "hhNeverOwned": False, "birth": "1985-01-01", "hhSize": 3,
+                "kidsMinor": 0, "_set": ["cash", "liquid", "deposit", "income"]}
+        base.update(prof)
+        inc = base["income"] + (base.get("spouseIncome", 0) if base.get("married") else 0)
+        lo = min(raw["price"], raw["mkt_base"]) if raw.get("mkt_base") else raw["price"]
+        if ok:
+            room = inc * dti / 100
+            r, n = 4.0 / 100 / 12, 360
+            dti_loan = room / 12 * (1 - (1 + r) ** -n) / r
+            loan = min(cap * 10000, lo * 10000 * ltv / 100, dti_loan)
+            exp = {"ok": True, "cap": q_round(cap * 10000), "ltv": ltv, "dti": dti, "loan": q_round(loan)}
+        else:
+            exp = {"ok": False, "cap": None, "ltv": None, "dti": None, "loan": 0}
+        add(id=f"policy-{tag}", fn="policy", listing=None, raw=raw, key=key, asOf=P_ASOF, profile=base, expect=exp,
+            basis=basis + f" — {raw['name']} 분양가 {raw['price']}억·시세 {raw.get('mkt_base') or '없음'}·전용 {raw.get('area')}㎡·{'규제지역' if raw.get('regulated') else '수도권' if raw.get('capital') else '지방'}, 기준일 {P_ASOF}")
+    PLOC, PCAP, PREG = Q_LOC, Q_CAP, LL[0]    # 지방 4.244억 84.9㎡ / 수도권 5.5932억(시세 5.61) 59.99㎡ / 규제지역 6.958억(시세 7.36) 75.8㎡
+    # 디딤돌 (지방)
+    p_case("didim-loc", "didim", PLOC, "지방 일반: 소득 5,000만 · 한도 2억", True, cap=2)
+    p_case("didim-inc-at", "didim", PLOC, "소득 경계 6,000만 (이하)", True, cap=2, income=6000)
+    p_case("didim-inc-over", "didim", PLOC, "소득 6,001만 (초과)", False, income=6001)
+    p_case("didim-first", "didim", PLOC, "생애최초: 소득 7,000만까지 · 한도 2.4억 · 지방 LTV 80%", True, cap=2.4, ltv=80, income=7000, hhNeverOwned=True)
+    p_case("didim-first-over", "didim", PLOC, "생애최초 소득 7,001만", False, income=7001, hhNeverOwned=True)
+    p_case("didim-newly", "didim", PLOC, "신혼(혼인 2025-06-01, 7년 이내): 부부합산 8,500만 · 한도 3.2억", True, cap=3.2, income=5000, married=True, spouseIncome=3500, spouseOwn=False, marriedOn="2025-06-01")
+    p_case("didim-newly-7y", "didim", PLOC, "혼인 2019-11-24 = 꼭 7년 → 신혼 아님, 부부합산 8,500만은 6,000만 초과", False, income=5000, married=True, spouseIncome=3500, spouseOwn=False, marriedOn="2019-11-24")
+    p_case("didim-newly-7y-1d", "didim", PLOC, "혼인 2019-11-25 = 7년 하루 전 → 신혼", True, cap=3.2, income=5000, married=True, spouseIncome=3500, spouseOwn=False, marriedOn="2019-11-25")
+    p_case("didim-kids2", "didim", PLOC, "2자녀: 소득 7,000만 · 한도 3.2억", True, cap=3.2, income=7000, kidsMinor=2)
+    p_case("didim-member", "didim", PLOC, "세대주 아님", False, household="parents")
+    p_case("didim-owner", "didim", PLOC, "지금 집 있음", False, selfOwn=True)
+    p_case("didim-single-29", "didim", PLOC, "미혼 단독세대주 만 29세(1997-11-25생)", False, hhSize=1, birth="1997-11-25")
+    p_case("didim-single-30", "didim", PLOC, "미혼 단독세대주 만 30세(1996-11-24생)지만 집값 4.244억 > 3억", False, hhSize=1, birth="1996-11-24")
+    p_case("didim-cap", "didim", PCAP, "수도권 새 아파트: 등기 전 잔금대출 제한(소득 5,000만)", False)
+    p_case("didim-cap-low", "didim", PCAP, "수도권 · 소득 4,000만이어도 집값 5.61억 > 3억 → 예외 아님", False, income=4000)
+    # 신생아 특례 (수도권·규제지역도 가능)
+    p_case("baby-cap", "baby", PCAP, "수도권 · 막내 2025-12-01생 · 소득 1억: 한도 4억", True, cap=4, income=10000, youngestBirth="2025-12-01")
+    p_case("baby-reg", "baby", PREG, "규제지역 6.958억 · 소득 1.3억 (이하)", True, cap=4, income=13000, youngestBirth="2025-12-01")
+    p_case("baby-inc-over", "baby", PREG, "외벌이 1억 3,001만", False, income=13001, youngestBirth="2025-12-01")
+    p_case("baby-dual", "baby", PREG, "맞벌이 1.2억 + 8,000만 = 2억 (이하, 한 사람 1.3억 이하)", True, cap=4, income=12000, married=True, spouseIncome=8000, spouseOwn=False, marriedOn="2015-01-01", youngestBirth="2025-12-01")
+    p_case("baby-dual-over", "baby", PREG, "맞벌이 1.2억 + 8,001만 = 2억 1만 (초과)", False, income=12000, married=True, spouseIncome=8001, spouseOwn=False, marriedOn="2015-01-01", youngestBirth="2025-12-01")
+    p_case("baby-dual-one-high", "baby", PREG, "맞벌이지만 한 사람이 1.4억 → 1.3억 기준, 합 1.5억 초과", False, income=14000, married=True, spouseIncome=1000, spouseOwn=False, marriedOn="2015-01-01", youngestBirth="2025-12-01")
+    p_case("baby-2y", "baby", PCAP, "막내 2024-11-24생 = 꼭 2년 → 2년 안 아님", False, income=10000, youngestBirth="2024-11-24")
+    p_case("baby-2y-1d", "baby", PCAP, "막내 2024-11-25생 = 2년 하루 전", True, cap=4, income=10000, youngestBirth="2024-11-25")
+    p_case("baby-none", "baby", PCAP, "막내 생일 미입력", False, income=10000)
+    p_case("baby-first-loc", "baby", PLOC, "지방 생애최초 LTV 80%", True, cap=4, ltv=80, income=10000, youngestBirth="2025-12-01", hhNeverOwned=True)
+    # 보금자리론
+    p_case("bogeum-cap", "bogeum", PCAP, "수도권 5.61억(6억 이하) · 소득 7,000만: 한도 3.6억", True, cap=3.6, income=7000)
+    p_case("bogeum-inc-over", "bogeum", PCAP, "소득 7,001만", False, income=7001)
+    p_case("bogeum-kid1", "bogeum", PCAP, "미성년 자녀 1명: 9,000만까지", True, cap=3.6, income=9000, kidsMinor=1)
+    p_case("bogeum-kids2-over", "bogeum", PCAP, "자녀 2명: 1억 1만 (초과)", False, income=10001, kidsMinor=2)
+    p_case("bogeum-first", "bogeum", PCAP, "생애최초 한도 4.2억", True, cap=4.2, income=7000, hhNeverOwned=True)
+    p_case("bogeum-price", "bogeum", PREG, "규제지역 시세 7.36억 > 6억", False, income=7000)
+    p_case("bogeum-member", "bogeum", PCAP, "세대주가 아니어도 무주택이면 가능", True, cap=3.6, income=7000, household="parents")
+    p_case("bogeum-owner", "bogeum", PCAP, "지금 집 있음", False, income=7000, selfOwn=True)
+
     # ---------- 17-2) 실거주 의무와 전세 (2026-11-11 밤 자동 개선 — 제한사항 표 '거주의무 최초 입주가능일 5년' 을 못 읽어 '확인 필요'로 남던 것) ----------
     # 정답 tests/golden/notices.json residence_duty(원문 문장 직접 확인). 규칙(2026000528 본문 '■ 거주의무 안내 … 최초 입주가능일부터 3년 이내에 입주하여야 하고,
     # 해당 거주의무 개시일부터 5년 동안 계속 거주'): 거주의무 기간을 모르면 전세 가능 여부 '확인 필요'(check), 기간이 있고 최초 입주가능일 날짜가 없으면 3년 안에 들어가면 되니 전세 한 번만 '조건부'(cond).

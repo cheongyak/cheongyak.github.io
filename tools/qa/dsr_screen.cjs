@@ -96,13 +96,34 @@ const pv = (annual, pct, years) => { const r = pct / 100 / 12, n = years * 12; r
     await page.click('[data-loanfirst="true"]'); r = await page.evaluate(() => { const L = LISTINGS.find(x => x.id === S.id), f = funding(L, S.profile, planOpt(L)); return [f.ltvRate, f.ltvWhy, JSON.parse(localStorage.getItem('cy-profile')).hhNeverOwned]; });
     if (!(Math.abs(r[0] - 0.8) < 1e-9 && r[1] === '생애최초' && r[2] === true)) bad.push('생애최초 버튼: ' + JSON.stringify(r));
     await page.click('[data-loanfirst="false"]'); r = await page.evaluate(() => { const L = LISTINGS.find(x => x.id === S.id); return funding(L, S.profile, planOpt(L)).ltvRate; }); near(r, 0.7, "'있어요' 뒤 LTV"); }
+  // 2-2) 정책대출 (기능 policy_loan): 지방 공고에서 디딤돌 — 소득 8천은 '어려워요'(은행 대출 그대로), 소득 5천·3인 세대면 한도 2억, 자금 플랜에 이름이 나옴
+  if (loc) { await page.evaluate(() => { S.loan = {}; S.profile.hhSize = 3; S.profile.loanMonthly = 0; S.loanL = S.id; S.view = 'loan'; render(); });
+    if (!(await page.$('#loanproduct'))) bad.push('정책대출 고르기 카드 없음');
+    await page.click('[data-loanset="product:didim"]'); let r = await page.evaluate(() => { const L = LISTINGS.find(x => x.id === S.id), f = funding(L, S.profile, planOpt(L)); return { ok: f.policy.ok, loan: f.loan, bank: f.bankLoan, txt: document.getElementById('app').innerText }; });
+    if (r.ok || Math.abs(r.loan - r.bank) > 1e-9 || !/받기 어려워 은행 대출로 계산/.test(r.txt)) bad.push('디딤돌 소득 초과인데 은행 대출로 돌아가지 않음');
+    await page.fill('[data-loanp="income"]', '5000'); await page.dispatchEvent('[data-loanp="income"]', 'change');
+    r = await page.evaluate(() => { const L = LISTINGS.find(x => x.id === S.id), f = funding(L, S.profile, planOpt(L)); return { ok: f.policy.ok, loan: f.loan, cap: f.policy.cap, by: f.limitBy, gap: f.gapLive, exp: f.total - f.loan - f.available - f.dsr.extra, txt: document.getElementById('app').innerText }; });
+    if (!r.ok) bad.push('디딤돌 소득 5천·지방인데 자격 없음'); near(r.cap, 2, '디딤돌 일반 한도'); near(r.loan, Math.min(2, r.loan), '디딤돌 대출액 ≤ 2억'); near(r.gap, r.exp, '정책대출 부족분');
+    if (!/내 DTI/.test(r.txt) || !/받을 수 있는 디딤돌대출/.test(r.txt) || /NaN|undefined|Infinity/.test(r.txt)) bad.push('디딤돌 결과 화면 이상');
+    if (SHOT) await page.screenshot({ path: SHOT.replace(/\.png$/, '-policy.png'), fullPage: true });
+    await page.click('[data-action="loan-back"]'); await page.waitForTimeout(150); const pt = await page.innerText('#app');
+    if (!/디딤돌대출 \(/.test(pt) || !/내 대출 조건 반영 · 디딤돌대출/.test(pt)) bad.push('자금 플랜에 디딤돌대출이 반영되지 않음');
+    await page.evaluate(() => { S.loanL = S.id; S.view = 'loan'; render(); }); await page.click('[data-loanset="product:bank"]');
+    r = await page.evaluate(() => { const L = LISTINGS.find(x => x.id === S.id), f = funding(L, S.profile, planOpt(L)); return [!!f.policy, f.loan, f.bankLoan]; }); if (r[0] || Math.abs(r[1] - r[2]) > 1e-9) bad.push("'은행 대출'로 돌려도 정책대출이 남음"); }
   await page.close();
   // 3) 스위치를 끄면 예전 화면·예전 계산
   page = await open({ dsr_detail: false, first_home_ltv: false });
+  // (policy_loan 은 dsr_detail 이 꺼지면 함께 안 보임 — 아래 4에서 policy_loan 만 끈 경우도 봄)
   const c2 = await pick(page, true);
   if (c2) { const f = await F(page); if (await page.$('[data-action="loan-calc"]')) bad.push('꺼도 계산기 링크가 보임'); if (await page.$('#tabbar [data-go="loan"]:not([hidden])')) bad.push('꺼도 대출 계산 탭이 보임');
     await page.evaluate(() => { location.hash = '#/loan'; }); await page.waitForTimeout(200); if (await page.evaluate(() => S.view) === 'loan' && await page.$('#loancard')) bad.push('꺼도 #/loan 으로 계산기가 열림'); if (f.D) bad.push('꺼도 dsr 계산'); near(f.loanDsr, pv(0.32, 7.0, 30), '끈 상태 한도(예전 7% 30년)');
     if (/매달 갚을 돈/.test(f.html)) bad.push('꺼도 월 상환액 줄이 보임'); }
+  await page.close();
+  // 4) policy_loan 만 끄면: 계산기는 그대로, 정책대출 카드 없음, 저장된 product 는 무시
+  page = await open({ policy_loan: false }); await page.evaluate(() => localStorage.setItem('cy-loan', JSON.stringify({ product: 'didim' }))); await page.reload({ waitUntil: 'networkidle' }); await page.waitForTimeout(600);
+  const c4 = await pick(page, false) || await pick(page, true);
+  if (c4) { await page.evaluate(() => { S.loanL = S.id; S.view = 'loan'; render(); }); const r4 = await page.evaluate(() => { const L = LISTINGS.find(x => x.id === S.id), f = funding(L, S.profile, planOpt(L)); return [!!f.policy, !!document.getElementById('loanproduct'), !!document.getElementById('loancard')]; });
+    if (r4[0] || r4[1] || !r4[2]) bad.push('policy_loan 끔: ' + JSON.stringify(r4)); }
   await b.close();
   console.log(`[QA 대출 조건] 수도권 ${cap ? cap.id : '-'} · 지방 ${loc ? loc.id : '-'} · 문제 ${bad.length + errs.length}`, bad.slice(0, 8), errs.slice(0, 3));
   process.exit(bad.length || errs.length ? 1 : 0);

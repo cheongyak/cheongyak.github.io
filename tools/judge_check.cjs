@@ -59,6 +59,11 @@ const results = await page.evaluate(({ cases, listings, lhNotices }) => {
       else if (c.fn === 'ltv') {   /* 기능 first_home_ltv: 생애최초·서민·실수요자 집값 기준 비율 (2026-11-23) */
         const F0 = CONFIG.features; CONFIG.features = Object.assign({}, F0, { first_home_ltv: c.feature });
         try { const L2 = fromApi(c.raw), f = funding(L2, p, planOpt(L2)); got = { ltv: Math.round(f.ltvRate * 100), amt: Math.round(f.loanLtv * 10000) }; } finally { CONFIG.features = F0; } }
+      else if (c.fn === 'policy') {   /* 기능 policy_loan: 정책대출 자격·한도 (기준일 c.asOf 고정, 금리·만기는 기본값 4%·30년, 2026-11-24) */
+        const LN0 = S.loan; S.loan = {};
+        try { const L2 = fromApi(c.raw), inc = eok((p.income || 0) + (p.married ? (p.spouseIncome || 0) : 0)), D = dsrDetail(L2, p, inc), has = L2.mktBase > 0;
+          const P = policyLoan(c.key, L2, p, D, has ? Math.min(L2.price, L2.mktBase) : L2.price, has ? Math.max(L2.price, L2.mktBase) : L2.price, L2.area, c.asOf);
+          got = P.ok ? { ok: true, cap: Math.round(P.cap * 10000), ltv: Math.round(P.ltv * 100), dti: Math.round(P.dti * 100), loan: Math.round(P.loan * 10000) } : { ok: false, cap: null, ltv: null, dti: null, loan: 0 }; } finally { S.loan = LN0; } }
       else if (c.fn === 'duty') got = { s: jeonseCheck(fromApi(c.raw)).status };   /* 실거주 의무 → 전세 가능 여부 (사례에 공고 원자료를 함께 둔다, 2026-11-11) */
       else if (c.fn === 'residence') { const r = residenceItem(L, p); got = { s: r.s, v: r.v.startsWith(c.expect.v) ? c.expect.v : r.v }; }
     } catch (e) { got = { error: e.message }; }

@@ -1542,6 +1542,74 @@ function eligibility(L, p){
   return { ok: !fails.length, rank2, rank2Need, unsure: !fails.length && warns.length > 0, items, reason, fix };
 }
 
+/* ---------- 정책대출 (기능 policy_loan, 2026-11-24 운영자 '정책대출도 진행') — 근거 evidence/dsr/2026-11-24-policy.md
+   디딤돌: 주택금융공사 상품소개 — 부부합산 연소득 6천만원(생애최초·2자녀 이상 7천만원, 신혼 8천5백만원) 이하 무주택 세대주, 평가액 5억(신혼·2자녀 이상 6억) 이하·전용 85㎡ 이하,
+     한도 2억(생애최초 2.4억, 신혼·2자녀 이상 3.2억), LTV 70%(생애최초 80% — 수도권·규제지역은 70%), DTI 60%, 만기 10·15·20·30년.
+     만 30세 미만 단독세대주 제외, 만 30세 이상 미혼 단독세대주는 3억·60㎡ 이하·한도 1.5억(생애최초 2억).
+     수도권 아파트는 등기 전 잔금대출(후취담보) 제한 — 디딤돌대출 맞춤형 관리방안(2024-12-02~). 예외: 신생아 특례, 연소득 4천만원 이하 가구의 3억 이하 주택.
+   신생아 특례 디딤돌: 대출접수일 기준 2년 안 출산(2023-01-01 이후 출생), 부부합산 1.3억(맞벌이 2억 — 한 사람은 1.3억 이하) 이하, 9억·85㎡ 이하, 한도 4억, LTV·DTI 는 디딤돌과 같음.
+   보금자리론: 주택금융공사 상품소개 — 부부합산 7천만원(신혼 8천5백만원, 미성년 자녀 1명 9천만원, 2명 이상 1억) 이하, 시세·감정가·매매가 모두 6억 이하, 무주택,
+     한도 3.6억(생애최초 4.2억), LTV 아파트 70%·DTI 60% — 규제지역은 각각 10%p 차감(생애최초·실수요자(연소득 7천만원 이하)는 차감 없음). */
+const POLICY = {
+  didim:  { name:'디딤돌대출', short:'디딤돌' },
+  baby:   { name:'신생아 특례 디딤돌대출', short:'신생아 특례' },
+  bogeum: { name:'보금자리론', short:'보금자리론' }
+};
+const POLICY_RULES = {
+  maxYears: 30, dti: 0.6, ltv: 0.7, ltvFirstOther: 0.8,
+  didim:  { inc: 6000, incFirstOrKids2: 7000, incNewly: 8500, price: 5, priceNewlyOrKids2: 6, area: 85, cap: 2, capFirst: 2.4, capNewlyOrKids2: 3.2,
+            single: { minAge: 30, price: 3, area: 60, cap: 1.5, capFirst: 2 }, capitalException: { inc: 4000, price: 3 } },
+  baby:   { inc: 13000, incDual: 20000, price: 9, area: 85, cap: 4, bornFrom: '2023-01-01', withinYears: 2 },
+  bogeum: { inc: 7000, incNewly: 8500, incKid1: 9000, incKids2: 10000, price: 6, cap: 3.6, capFirst: 4.2, regulatedCut: 0.1, realIncome: 7000 }
+};
+const yearsSince = (from, to) => { if (!/^\d{4}-\d{2}-\d{2}$/.test(from || '')) return null; const a = new Date(from + 'T00:00:00Z'), b = new Date(to + 'T00:00:00Z'); if (isNaN(a) || isNaN(b)) return null;
+  let y = b.getUTCFullYear() - a.getUTCFullYear(); if (b.getUTCMonth() < a.getUTCMonth() || (b.getUTCMonth() === a.getUTCMonth() && b.getUTCDate() < a.getUTCDate())) y--; return y; };
+/* 정책대출 하나의 자격·한도. Lx = { regulated, capital }, priceLo·priceHi(억) = 분양가·주변 시세 중 낮은/높은 값(0 이면 집값 모름), area = 전용면적(없으면 null), D = dsrDetail 결과.
+   새 아파트 분양(입주 때 잔금대출)을 전제로 한다. 모르는 값은 유리하게 보지 않는다 */
+function policyLoan(key, Lx, p, D, priceLo, priceHi, area, asOf){
+  const R = POLICY_RULES, r = R[key], why = [], note = [], TODAY_ = asOf || TODAY;   /* asOf: 판정 사례가 기준일을 고정할 때만 */
+  const incMan = (p.income || 0) + (p.married ? (p.spouseIncome || 0) : 0), income = eok(incMan);
+  const first = !ownsNow(p) && (V2() ? p.hhNeverOwned === true : p.firstTime === true), kids = Number(p.kidsMinor) || 0;
+  const ms = p.married === true ? yearsSince(p.marriedOn, TODAY_) : null, newly = ms != null && ms >= 0 && ms < 7;
+  const age = yearsSince(p.birth, TODAY_), single = p.married !== true && kids === 0 && !(Number(p.hhSize) > 1);
+  const homeless = p.selfOwn === false && !ownsNow(p), head = p.household === 'head';
+  let incLimit, priceLimit, areaLimit = null, cap, ltv = first && !(Lx.capital || Lx.regulated) ? R.ltvFirstOther : R.ltv, dti = R.dti, tag = '';
+  if (key === 'didim' || key === 'baby') { if (!head || !homeless) why.push('무주택 세대주만 받을 수 있어요'); }
+  else if (!homeless) why.push('무주택이어야 해요 (집이 있으면 처분 조건으로만 가능)');
+  if (key === 'didim') {
+    const sg = single ? r.single : null;
+    if (single && age == null) why.push('생년월일을 넣어 주세요 (혼자 사는 미혼 세대주는 만 30세부터)');
+    else if (single && age < sg.minAge) why.push('만 30세 미만 단독세대주는 대상이 아니에요');
+    incLimit = newly ? r.incNewly : first || kids >= 2 ? r.incFirstOrKids2 : r.inc;
+    priceLimit = sg ? sg.price : newly || kids >= 2 ? r.priceNewlyOrKids2 : r.price; areaLimit = sg ? sg.area : r.area;
+    cap = sg ? (first ? sg.capFirst : sg.cap) : newly || kids >= 2 ? r.capNewlyOrKids2 : first ? r.capFirst : r.cap;
+    tag = sg ? '미혼 단독세대주' : newly ? '신혼' : kids >= 2 ? '2자녀 이상' : first ? '생애최초' : '일반';
+    if (Lx.capital && !(incMan > 0 && incMan <= r.capitalException.inc && priceHi > 0 && priceHi <= r.capitalException.price + 1e-9))
+      why.push('수도권 새 아파트는 입주 때 디딤돌대출(등기 전 잔금대출)을 받을 수 없어요');
+  } else if (key === 'baby') {
+    const yb = yearsSince(p.youngestBirth, TODAY_);
+    if (yb == null) why.push('2년 안에 출산한 가구만 받을 수 있어요 (내 정보에 막내 생일을 넣어 주세요)');
+    else if (!(p.youngestBirth >= r.bornFrom && yb < r.withinYears)) why.push('대출 신청일 기준 2년 안에 출산(2023년 이후 출생)한 가구만 받을 수 있어요');
+    const dual = p.married === true && p.income > 0 && p.spouseIncome > 0;
+    incLimit = dual && Math.max(p.income, p.spouseIncome) <= r.inc ? r.incDual : r.inc; priceLimit = r.price; areaLimit = r.area; cap = r.cap; tag = dual && incLimit === r.incDual ? '맞벌이' : '';
+  } else {
+    incLimit = kids >= 2 ? r.incKids2 : kids === 1 ? r.incKid1 : newly ? r.incNewly : r.inc; priceLimit = r.price; cap = first ? r.capFirst : r.cap; tag = first ? '생애최초' : '';
+    ltv = R.ltv; if (Lx.regulated && !(first || (incMan > 0 && incMan <= r.realIncome))) { ltv = R.ltv - r.regulatedCut; dti = R.dti - r.regulatedCut; }
+    note.push('입주 때 잔금대출로 받을 수 있는지는 주택금융공사·은행에서 확인하세요');
+  }
+  if (!(incMan > 0)) why.push('연소득을 넣어 주세요');
+  else if (incMan > incLimit) why.push(`부부합산 연소득 ${fmt(eok(incLimit))} 이하만 받을 수 있어요`);
+  if (priceHi > priceLimit + 1e-9) why.push(`집값(분양가·주변 시세) ${priceLimit}억 이하만 받을 수 있어요`);
+  if (areaLimit && area > areaLimit) why.push(`전용 ${areaLimit}㎡ 이하만 받을 수 있어요`);
+  const years = Math.min(D.years, R.maxYears), cr = (loanNum('creditRate', 30) || DSR_RULES.creditRate) / 100;
+  /* DTI = (이 대출 연 원리금 + 다른 대출 연 이자) ÷ 연소득 — 다른 대출: 신용·마이너스통장은 이자만, '그 밖의 대출 월 상환액'은 이자만 가를 수 없어 전부 넣음(보수적) */
+  const otherInt = (D.credit + D.minus + D.fut) * cr + eok(((p.loanMonthly || 0) + (p.married ? (p.spouseLoan || 0) : 0)) * 12);
+  const room = Math.max(0, income * dti - otherInt), loanDti = loanFromAnnual(room, D.rate, years, D.repay), loanLtv = priceLo > 0 ? priceLo * ltv : Infinity;
+  const loan = Math.min(cap, loanLtv, loanDti), ok = why.length === 0;
+  const limitBy = loan === loanDti ? 'DTI(소득)' : loan === cap ? '한도 ' + cap + '억' : '집값의 ' + Math.round(ltv * 100) + '%';
+  return { key, name: POLICY[key].name, ok, why, note, tag, cap, ltv, dti, years, rate: D.rate, repay: D.repay, loanDti, loanLtv, loan: ok ? loan : 0, limitBy, otherInt, income,
+    monthly: ok ? loanMonthlyFirst(loan, D.rate, years, D.repay) : 0, dtiPct: ok && income > 0 ? (loanAnnual(loan, D.rate, years, D.repay) + otherInt) / income * 100 : null };
+}
 /* ---------- 대출 조건 상세 (기능 dsr_detail) ---------- */
 const loanNum = (k, max) => { const v = Number((S.loan || {})[k]); return isFinite(v) && v > 0 ? Math.min(v, max || 1e9) : 0; };   // 저장값이 깨져 있으면 0(안 넣음)
 /* 스트레스 가산금리(%p): 지역 스트레스 금리 × 기본 적용비율 × 대출유형별 적용비율 */
@@ -1614,8 +1682,8 @@ function funding(L, p, opt){
   const ltvEst = !(L.mktBase > 0), ltvBase = ltvEst ? L.price : Math.min(L.price, L.mktBase);
   const loanLtv = ltvBase * ltvRate;
   const cap = L.regulated ? RULES.loanCapRegulated.find(c => (ltvEst ? L.price : L.mktBase) <= c[0])[1] : L.capital ? RULES.loanCapCapital : Infinity;
-  const loan = Math.min(loanDsr, loanLtv, cap);
-  const limitBy = loan === loanDsr ? 'DSR(소득)' : loan === cap ? '한도 ' + cap + '억' : '집값의 ' + Math.round(ltvRate*100) + '%';
+  let loan = Math.min(loanDsr, loanLtv, cap);
+  let limitBy = loan === loanDsr ? 'DSR(소득)' : loan === cap ? '한도 ' + cap + '억' : '집값의 ' + Math.round(ltvRate*100) + '%';
   const jeonseUnk = !(Number(opt.jeonse) > 0) && L.jeonse == null;   /* 주변 전세 시세도 없고 직접 넣지도 않음 → 보증금 0원으로 계산하지 않는다 (2026-10-07) */
   const jeonse = Number(opt.jeonse) > 0 ? eok(opt.jeonse) : (L.jeonse || 0);
   /* 현금·금융·보증금을 하나도 넣지 않았거나 소득을 넣지 않았으면(기본값 0) 자금 '부족'으로 단정하지 않는다 — 빠른 시작은 묻지 않음 (2026-10-06 점검).
@@ -1624,9 +1692,13 @@ function funding(L, p, opt){
   const need = [cashUnk ? '현금·예금' : '', incUnk ? '소득' : ''].filter(Boolean).join('·');
   /* 기능 dsr_detail: 추가 조달(받을 신용대출·사내대출 등)은 더하고, 지금 전세대출은 보증금을 돌려받아 갚으므로 뺀다 — 두 계획(실거주·전세)에 똑같이 */
   const extra = D ? D.fut + D.futOther - D.jeonseLoan : 0;
+  /* 기능 policy_loan: 대출 계산기에서 정책대출을 골랐고 자격이 되면 은행 대출 대신 그 대출로 (자격이 안 되면 은행 대출 그대로 + 이유) */
+  const PL = D && on('policy_loan') && POLICY[S.loan.product] ? policyLoan(S.loan.product, L, p, D, ltvBase, ltvEst ? L.price : Math.max(L.price, L.mktBase), L.area) : null;
+  const bankLoan = loan, bankLimitBy = limitBy;
+  if (PL && PL.ok) { loan = PL.loan; limitBy = PL.limitBy; }
   if (D) { D.extra = extra; D.monthly = loanMonthlyFirst(loan, D.rate, D.years, D.repay); D.newAnnual = loanAnnual(loan, D.test, D.years, D.repay);
     D.pct = income > 0 ? (D.existing + D.newAnnual) / income * 100 : null; D.income = income; }
-  return { dsr: D, ltvWhy: LT.why, total, contractAmt, contractOk: cashNow >= contractAmt - 1e-9 /* 억 단위 소수 오차(4.45×0.05=0.22250000000000003)로 같은 금액을 '부족'으로 보지 않게 */ ? true : cashUnk ? null : false, cashUnk, incUnk, unk: cashUnk || incUnk, need, ltvEst, jeonseUnk, available, loan, loanDsr, loanLtv, ltvRate, cap, limitBy, jeonse,
+  return { policy: PL, bankLoan, bankLimitBy, dsr: D, ltvWhy: LT.why, total, contractAmt, contractOk: cashNow >= contractAmt - 1e-9 /* 억 단위 소수 오차(4.45×0.05=0.22250000000000003)로 같은 금액을 '부족'으로 보지 않게 */ ? true : cashUnk ? null : false, cashUnk, incUnk, unk: cashUnk || incUnk, need, ltvEst, jeonseUnk, available, loan, loanDsr, loanLtv, ltvRate, cap, limitBy, jeonse,
     gapLive: total - loan - available - extra, gapJeonse: total - jeonse - available - extra, tax: m.tax };
 }
 
@@ -1771,6 +1843,10 @@ const SRC = {
   faq1015: ['금융위 대출수요 관리 방안 FAQ', 'https://fsc.go.kr/po020201/85518'],                    /* 수도권·규제지역 주담대 스트레스 금리 1.5% → 3.0%, 15억·25억 한도 */
   dsrCalc: ['금융위 가계부채 관리 강화방안', 'https://fsc.go.kr/edu/news/77147?curPage=23'],        /* DSR 산정만기 신용대출 7년 → 5년, 은행 DSR 40% */
   faq1015b: ['금융위 10·15 대책 FAQ', 'https://fsc.go.kr/po020201/85466'],                          /* 기능 first_home_ltv — 규제지역 LTV 일반 40%·생애최초 70%·서민·실수요자 60%(연소득 9천만·8억 이하·무주택세대주) (2026-11-23 화면에서 숫자 확인) */
+  hfDidim: ['주택금융공사 내집마련 디딤돌대출', 'https://www.hf.go.kr/ko/sub01/sub01_02_01.do'],   /* 기능 policy_loan — 소득 6천·7천·8.5천, 5억·6억, 한도 2억·2.4억·3.2억, LTV 70%·DTI 60% (2026-11-24 화면에서 숫자 확인) */
+  hfBogeum: ['주택금융공사 보금자리론', 'https://www.hf.go.kr/ko/sub01/sub01_01_01.do'],          /* 소득 7천·8.5천·9천·1억, 6억, 한도 3.6억·4.2억, LTV 70%·DTI 60%, 규제지역 10%p 차감 */
+  didimRule: ['디딤돌대출 맞춤형 관리방안 (정책브리핑)', 'https://www.korea.kr/news/policyNewsView.do?newsId=148935934'],   /* 수도권 아파트 후취담보(등기 전 잔금대출) 제한, 신생아 특례·연소득 4천 이하 3억 이하 주택 예외 */
+  babyLoan: ['주택도시기금 신생아 특례 디딤돌대출 안내 (마이홈)', null],                          /* 공식 화면을 여기서 열지 못해 이름만 — 숫자는 금융위 10·15 FAQ(한도 4억)·KB 안내 글로 확인 */
   kfbStress: ['은행연합회 스트레스 금리 공시 (2026년 하반기)', null],                                  /* 지방 주담대 2단계 유지 — 숫자가 보이는 화면을 직접 열지 못해 이름만 */
   estimate: ['이 서비스 추정', null],
   user: ['내가 입력한 값', null],
@@ -3859,7 +3935,7 @@ function dsrBox(L, f){
     </div></details>`;
 }
 /* ---------- 대출 계산기 탭 (기능 dsr_detail, 2026-11-24 운영자: '자금 플랜에는 예전 정보만, 계산기는 따로 탭 — 거기 넣으면 자금 플랜에도 반영') ---------- */
-const loanSet = () => ['type', 'rate', 'years', 'repay', 'credit', 'minus', 'creditRate', 'jeonseLoan', 'futCredit', 'futOther'].some(k => S.loan[k] != null && S.loan[k] !== '');
+const loanSet = () => ['product', 'type', 'rate', 'years', 'repay', 'credit', 'minus', 'creditRate', 'jeonseLoan', 'futCredit', 'futOther'].some(k => S.loan[k] != null && S.loan[k] !== '');
 const LOAN_ZONE = { reg:'규제지역', cap:'수도권', loc:'그 밖의 지역' };
 /* 공고를 고르지 않았을 때: 지역(S.loan.zone)과 집값(S.loan.price, 만원 · 비워도 됨)만으로 — funding() 과 같은 규칙 */
 function loanQuick(p){
@@ -3867,11 +3943,28 @@ function loanQuick(p){
   const income = eok((p.income || 0) + (p.married ? (p.spouseIncome || 0) : 0)), D = dsrDetail(Lq, p, income), price = eok(loanNum('price'));
   const LT = ltvFor(Lq, p, income, price > 0 ? price : Infinity), loanLtv = price > 0 ? price * LT.rate : Infinity;
   const cap = Lq.regulated ? RULES.loanCapRegulated.find(c => (price > 0 ? price : 0) <= c[0])[1] : Lq.capital ? RULES.loanCapCapital : Infinity;
-  const loan = Math.min(D.loanDsr, loanLtv, cap);
-  const limitBy = loan === D.loanDsr ? 'DSR(소득)' : loan === cap ? '한도 ' + cap + '억' : '집값의 ' + Math.round(LT.rate * 100) + '%';
+  let loan = Math.min(D.loanDsr, loanLtv, cap);
+  let limitBy = loan === D.loanDsr ? 'DSR(소득)' : loan === cap ? '한도 ' + cap + '억' : '집값의 ' + Math.round(LT.rate * 100) + '%';
+  const PL = on('policy_loan') && POLICY[S.loan.product] ? policyLoan(S.loan.product, Lq, p, D, price, price, null) : null, bankLoan = loan, bankLimitBy = limitBy;
+  if (PL && PL.ok) { loan = PL.loan; limitBy = PL.limitBy; }
   D.extra = D.fut + D.futOther - D.jeonseLoan; D.monthly = loanMonthlyFirst(loan, D.rate, D.years, D.repay); D.newAnnual = loanAnnual(loan, D.test, D.years, D.repay);
   D.pct = income > 0 ? (D.existing + D.newAnnual) / income * 100 : null; D.income = income;
-  return { quick: true, zone, Lq, price, dsr: D, loan, limitBy, loanDsr: D.loanDsr, loanLtv, ltvRate: LT.rate, ltvWhy: LT.why, cap, incUnk: !(income > 0) };
+  return { policy: PL, bankLoan, bankLimitBy, quick: true, zone, Lq, price, dsr: D, loan, limitBy, loanDsr: D.loanDsr, loanLtv, ltvRate: LT.rate, ltvWhy: LT.why, cap, incUnk: !(income > 0) };
+}
+/* 정책대출을 골랐을 때 결과 아래: 매달 갚을 돈 · DTI · 계산 내역 (기능 policy_loan) */
+function policyBox(f){
+  const P = f.policy, D = f.dsr, rp = P.repay === 'prin' ? '원금균등' : '원리금균등';
+  return `<div class="rows" style="margin-top:6px;padding-top:10px;border-top:1px solid var(--line)">
+      <div class="row"><span>매달 갚을 돈${P.repay === 'prin' ? ' (첫 달)' : ''}<br><span class="small muted">금리 ${pct1(P.rate)}%${D.rateSet ? '' : ' 가정'} · ${P.years}년 · ${rp}</span></span><span>${P.loan > 0 ? '약 ' + fmt(P.monthly) : '—'}</span></div>
+      <div class="row"><span>내 DTI<br><span class="small muted">(이 대출 연 원리금 + 다른 대출 이자) ÷ 연소득 · 한도 ${Math.round(P.dti * 100)}%</span></span><span>${P.dtiPct == null ? '소득 입력 필요' : (Math.round(P.dtiPct * 10) / 10).toFixed(1) + '%'}</span></div>
+    </div>
+    ${D.rateSet ? '' : `<div class="small" style="margin:0">정책대출은 금리가 따로 정해져 있어요. 안내받은 금리를 아래 '대출 금리'에 넣으면 정확해져요.</div>`}
+    ${P.note.map(n => `<div class="small" style="margin:0">${n}.</div>`).join('')}
+    <details><summary class="small" style="cursor:pointer;min-height:32px">${P.name} 계산 내역 보기</summary><div class="small muted" style="display:flex;flex-direction:column;gap:6px">
+      <div>상품 한도 ${P.cap}억${P.tag ? '(' + P.tag + ')' : ''}${isFinite(P.loanLtv) ? ' · 집값 기준 ' + Math.round(P.ltv * 100) + '% ' + fmt(P.loanLtv) : ''} · 소득 기준(DTI ${Math.round(P.dti * 100)}%) ${fmt(P.loanDti)} 중 가장 작은 값이에요.</div>
+      <div>소득 기준: 연소득 ${fmt(P.income)} × ${Math.round(P.dti * 100)}%${P.otherInt > 0 ? ' − 다른 대출 연 이자 ' + fmt(P.otherInt) : ''} 로 금리 ${pct1(P.rate)}% · ${P.years}년 ${rp}을 받을 수 있는 원금이에요. 정책대출은 은행 DSR·스트레스 금리 대신 DTI 로 봐요.</div>
+      <div>참고로 은행 주택담보대출로는 약 ${fmt(f.bankLoan)}(${f.bankLimitBy} 기준)이에요.</div>
+    </div></details>`;
 }
 function vLoan(){
   const p = S.profile, L = S.loanL ? LISTINGS.find(x => x.id === S.loanL && !isRental(x)) : null;
@@ -3882,19 +3975,28 @@ function vLoan(){
       <div class="seg" role="group">${Object.entries(LOAN_ZONE).map(([k, t]) => `<button data-loanset="zone:${k}" aria-pressed="${f.zone === k}">${t}</button>`).join('')}</div>
       <span class="hint">규제지역은 서울 전역과 경기 12곳이에요. 공고의 자금 플랜에서 들어오면 그 공고 지역으로 자동 계산해요.</span>
       <div class="field"><label for="ln-price">집값 (비워도 돼요)</label><div class="money"><input id="ln-price" inputmode="numeric" data-loan="price" value="${loanNum('price') || ''}" placeholder="0"><span>만원</span></div>${mEcho(loanNum('price'))}<span class="hint">넣으면 집값 기준 한도(LTV)와 금액 한도까지 함께 봐요. 비우면 소득 기준(DSR) 한도만 계산해요.</span></div></section>`;
+  const PO = on('policy_loan'), PL = f.policy, pOk = !!(PL && PL.ok);
+  const pAll = PO ? Object.keys(POLICY).map(k => PL && PL.key === k ? PL : policyLoan(k, Lx, p, D, L ? (f.ltvEst ? L.price : Math.min(L.price, L.mktBase)) : f.price, L ? (f.ltvEst ? L.price : Math.max(L.price, L.mktBase)) : f.price, L ? L.area : null)) : [];
+  const prodCard = !PO ? '' : `<section class="card" id="loanproduct"><h2>어떤 대출로 받을까요?</h2>
+    <div class="seg" role="group">${[['bank', '은행 대출']].concat(Object.entries(POLICY).map(([k, v]) => [k, v.short])).map(([k, t]) => `<button data-loanset="product:${k}" aria-pressed="${(POLICY[S.loan.product] ? S.loan.product : 'bank') === k}">${t}</button>`).join('')}</div>
+    <div class="rows">${pAll.map(x => `<div class="row"><span>${x.name}${x.tag ? ' <span class="small muted">' + x.tag + '</span>' : ''}<br><span class="small muted">${x.ok ? `한도 ${x.cap}억 · 집값의 ${Math.round(x.ltv * 100)}% · DTI ${Math.round(x.dti * 100)}%` : x.why[0]}</span></span><span>${x.ok ? '약 ' + fmt(x.loan) : '어려워요'}</span></div>`).join('')}</div>
+    <span class="hint">정책대출은 나라에서 정한 자격(소득·집값·세대)이 맞아야 받아요. ${L ? '이 공고' : '새 아파트 분양'}의 입주 때 잔금대출 기준으로 봤어요. 순자산(5.11억 이하 등)·신용점수·금리 우대는 계산에 넣지 않았어요.</span>
+    <div class="srcs">${src('hfDidim')}${src('didimRule')}${src('babyLoan')}${src('hfBogeum')}</div></section>`;
   const lim = f.incUnk ? '연소득을 넣어 주세요' : '약 ' + fmt(f.loan);
-  const why = f.incUnk ? '소득이 있어야 소득 기준(DSR) 한도를 계산할 수 있어요.' : f.limitBy === 'DSR(소득)' ? '소득 기준(DSR)으로 정해졌어요.' : /^한도/.test(f.limitBy) ? `주택담보대출 금액 한도(${f.cap}억)에 걸렸어요. 소득 기준(DSR)으로는 ${fmt(f.loanDsr)}까지예요.` : `집값 기준(LTV ${Math.round(f.ltvRate * 100)}%${f.ltvWhy ? ' · ' + f.ltvWhy : ''})으로 정해졌어요. 소득 기준(DSR)으로는 ${fmt(f.loanDsr)}까지예요.`;
+  const why = f.incUnk ? '소득이 있어야 소득 기준(DSR) 한도를 계산할 수 있어요.' : pOk ? `${PL.name}${PL.tag ? '(' + PL.tag + ')' : ''} 기준이에요. ${PL.limitBy === 'DTI(소득)' ? '소득 기준(DTI ' + Math.round(PL.dti * 100) + '%)으로 정해졌어요.' : /^한도/.test(PL.limitBy) ? '상품 한도(' + PL.cap + '억)에 걸렸어요.' : '집값 기준(' + Math.round(PL.ltv * 100) + '%)으로 정해졌어요.'}` : f.limitBy === 'DSR(소득)' ? '소득 기준(DSR)으로 정해졌어요.' : /^한도/.test(f.limitBy) ? `주택담보대출 금액 한도(${f.cap}억)에 걸렸어요. 소득 기준(DSR)으로는 ${fmt(f.loanDsr)}까지예요.` : `집값 기준(LTV ${Math.round(f.ltvRate * 100)}%${f.ltvWhy ? ' · ' + f.ltvWhy : ''})으로 정해졌어요. 소득 기준(DSR)으로는 ${fmt(f.loanDsr)}까지예요.`;
   return `
   <div class="top"><div class="brand">대출 계산기</div></div>
   <div class="stack" style="gap:6px"><h1>내 대출 한도와 매달 갚을 돈</h1>
   <p class="muted" style="margin:0;font-size:14px">금리와 지금 있는 대출을 넣으면 은행 심사 방식(스트레스 DSR)으로 계산해요. 여기 넣은 조건은 공고의 자금 플랜에도 그대로 반영돼요.</p></div>
   ${ctx}
-  <section class="card" id="loanresult"><h2>받을 수 있는 주택담보대출 <span class="pill">추정</span></h2>
+  <section class="card" id="loanresult"><h2>받을 수 있는 ${pOk ? PL.name : '주택담보대출'} <span class="pill">추정</span></h2>
     <div style="font-size:26px;font-weight:800;letter-spacing:-.5px">${lim}</div>
+    ${PL && !PL.ok ? `<div class="small" style="margin:0">${PL.name}은 받기 어려워 은행 대출로 계산했어요 — ${PL.why[0]}.</div>` : ''}
     <div class="small muted">${why}${!L && !(f.price > 0) && !f.incUnk ? ' 집값을 넣지 않아 집값 기준(LTV)은 보지 않았어요.' : ''}</div>
-    ${dsrBox(Lx, f)}
+    ${pOk ? policyBox(f) : dsrBox(Lx, f)}
     <div class="small muted">개인 한도는 은행 심사로 정해져요. 이 숫자는 공개된 규정으로 계산한 추정이에요.</div>
   </section>
+  ${prodCard}
   ${loanCard(Lx, f)}
   ${L ? '<button class="btn" data-action="loan-back">자금 플랜으로 돌아가기</button>' : '<button class="btn ghost" data-go="feed">공고 보러 가기</button>'}`;
 }
@@ -3911,7 +4013,7 @@ function vPlan(){
       ${blocked ? '' : `<div class="rows">${rows.map(r => `<div class="row"><span>${r[0]}</span><span>${r[1]}</span></div>`).join('')}
         ${key !== 'live' && f.jeonseUnk ? '' : `<div class="row total"><span>${gap > 0 ? '부족분' : '여유분'}</span><span>${fmt(Math.abs(gap))}</span></div>`}</div>`}
       <div class="small muted">${note}</div>
-      ${key === 'live' && f.dsr && !blocked ? `<div class="row" style="gap:8px;flex-wrap:wrap"><span class="small muted">${loanSet() ? '내 대출 조건 반영 · ' + LOAN_TYPE[f.dsr.type].replace(/ \(.*/, '') + ' ' + pct1(f.dsr.rate) + '% · ' + f.dsr.years + '년' : '대출 금리·기존 대출을 넣으면 더 정확해요'}</span><button class="linkbtn small" data-action="loan-calc">내 대출 조건 계산하기 ›</button></div>` : ''}
+      ${key === 'live' && f.dsr && !blocked ? `<div class="row" style="gap:8px;flex-wrap:wrap"><span class="small muted">${loanSet() ? '내 대출 조건 반영 · ' + (f.policy && f.policy.ok ? f.policy.name + ' ' + pct1(f.policy.rate) + '% · ' + f.policy.years + '년' : LOAN_TYPE[f.dsr.type].replace(/ \(.*/, '') + ' ' + pct1(f.dsr.rate) + '% · ' + f.dsr.years + '년') : '대출 금리·기존 대출을 넣으면 더 정확해요'}</span><button class="linkbtn small" data-action="loan-calc">내 대출 조건 계산하기 ›</button></div>` : ''}
     </section>`;
   const xRows = f.dsr ? [f.dsr.fut + f.dsr.futOther > 0 ? ['받을 신용대출·사내대출 등', fmt(f.dsr.fut + f.dsr.futOther)] : null, f.dsr.jeonseLoan > 0 ? ['전세대출 갚기', '−' + fmt(f.dsr.jeonseLoan)] : null].filter(Boolean) : [];
   const JS = { ok:['ok','전세 가능'], cond:['warn','전세 조건부'], check:['warn','전세 확인 필요'], no:['fail','전세 불가'] }[jc.status];
@@ -3958,8 +4060,9 @@ function vPlan(){
      : L.residenceDuty ? '2년 뒤 보증금을 돌려주고 들어가 살려면 그때 잔금대출이나 현금이 다시 필요해요.'
      : L.regulated && L.capital ? '세입자 전세대출이 막혀 현금 세입자만 받을 수 있어요. 입주장 공실 위험도 감안하세요.'
      : '입주장에 전세 물량이 몰리면 보증금이 내려가요.', jc.status === 'no', jc.status === 'check')}
-  ${scen('live', '잔금대출로 실거주', [['잔금대출 (' + f.limitBy + (f.ltvEst && /^집값/.test(f.limitBy) ? ', 분양가 기준' : '') + ' 기준)', fmt(f.loan)], ['내 자금', fmt(f.available)]].concat(xRows), f.gapLive,
-     '집값 기준(LTV) ' + Math.round(f.ltvRate*100) + '%' + (f.ltvWhy ? '(' + f.ltvWhy + ')' : '') + ' ' + fmt(f.loanLtv) + (f.ltvEst ? '(시세 미확인 · 분양가 기준)' : '') + (isFinite(f.cap) ? ' · 한도 ' + f.cap + '억' : '') + ' · 소득 기준(DSR) ' + fmt(f.loanDsr) + ' 중 더 작은 값이에요.' + (L.regulated ? ' 규제지역이라 6개월 안에 전입해야 해요.' : '') + ' 실제 한도는 은행 심사로 확인하세요.<div class="srcs">' + src('p1015') + src('p627') + (f.ltvWhy ? src('faq1015b') : '') + '</div>')}
+  ${scen('live', '잔금대출로 실거주', [[(f.policy && f.policy.ok ? f.policy.name : '잔금대출') + ' (' + f.limitBy + (f.ltvEst && /^집값/.test(f.limitBy) ? ', 분양가 기준' : '') + ' 기준)', fmt(f.loan)], ['내 자금', fmt(f.available)]].concat(xRows), f.gapLive,
+     f.policy && f.policy.ok ? `${f.policy.name}${f.policy.tag ? '(' + f.policy.tag + ')' : ''}: 상품 한도 ${f.policy.cap}억 · 집값 기준 ${Math.round(f.policy.ltv * 100)}% ${fmt(f.policy.loanLtv)} · 소득 기준(DTI ${Math.round(f.policy.dti * 100)}%) ${fmt(f.policy.loanDti)} 중 가장 작은 값이에요. 자격(순자산 등)과 금리는 기금·주택금융공사·은행에서 확인하세요.<div class="srcs">${src(f.policy.key === 'bogeum' ? 'hfBogeum' : 'hfDidim')}${f.policy.key === 'baby' ? src('babyLoan') : ''}</div>` :
+     (f.policy ? `<b>${f.policy.name}은 받기 어려워 은행 대출로 계산했어요</b> — ${f.policy.why[0]}. ` : '') + '집값 기준(LTV) ' + Math.round(f.ltvRate*100) + '%' + (f.ltvWhy ? '(' + f.ltvWhy + ')' : '') + ' ' + fmt(f.loanLtv) + (f.ltvEst ? '(시세 미확인 · 분양가 기준)' : '') + (isFinite(f.cap) ? ' · 한도 ' + f.cap + '억' : '') + ' · 소득 기준(DSR) ' + fmt(f.loanDsr) + ' 중 더 작은 값이에요.' + (L.regulated ? ' 규제지역이라 6개월 안에 전입해야 해요.' : '') + ' 실제 한도는 은행 심사로 확인하세요.<div class="srcs">' + src('p1015') + src('p627') + (f.ltvWhy ? src('faq1015b') : '') + '</div>')}
 
   <section class="note info"><b>부족분 메우는 방법</b>
     <div><b style="font-size:13px">가족 차용</b> · 차용증과 이자 지급 기록이 있어야 증여로 보지 않아요</div>
