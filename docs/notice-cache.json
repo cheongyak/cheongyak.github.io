@@ -6711,8 +6711,8 @@
    "price_cap": false,
    "quotes": {
     "account_months": "…1순위 : 입주자저축에 가입하여 가입기간이 12개월이 경과하고 지역별·면적별 예치금액 이상 납입한 분 ※ 2순위 : 입주자저축에…",
-    "mc_quota": "…다자녀가구 특별공급 부천시 및 경기도 거주자(50%) 1 1 1 1 4 서울특별시 및 인천광역시 거주자(50%) - - - - - 소계 1 1 1 1 4 신혼부부 특별공급 1 2 2 2 7 생애최초 특별공급 1 1 1 1 4 신생아 특별공급 1 1 1 1 4 합 계 5 6 6 6 23 • 주택형 구분은…",
-    "need_head": "…충족 1순위(12개월 이상, 지역별·면적별 예치금 충족) 가입 세대주 요건 - - - 필요 - - - - 소득 또는 자산기준 - - 적용 - 적용 적용 - - ■ 한국부동산원 청약홈…",
+    "mc_quota": "…다자녀가구 특별공급 부천시 및 경기도 거주자(50%) 1 1 1 1 4 서울특별시 및 인천광역시 거주자(50%) - - - - - 소계 1 1 1 1 4 신혼부부 특별공급 1 2 2 2 7 생애최초 특별공급 1 1 1 1 4 신생아 특별공급 1 1 1 1 4 합 계 5 6 6 6 23 증감이 있을 수 있…",
+    "need_head": "…충족 1순위(12개월 이상, 지역별·면적별 예치금 충족) 가입 세대주 요건 - - - 필요 - - - - 소득 또는 자산기준 - - 적용 - 적용 적용 - - ※ 단, 기관추천 특별공급…",
     "pay_ratio": "…세대수 호실 공급금액 계약금 (10%) 중도금 (60%) 잔금 (30%) 대지비 건축비 계 계약시 계약후 1개월 내…",
     "price_cap": "…민간택지에서 공급하는 분양가상한제 미적용 민영주택으로, 당첨자로 선정되더라도 「주택공급에 관한 규칙」…",
     "resale": "…구분 특별공급 일반공급 전매제한기간 1년 3 공급대상 및 공급금액 ■ 「주택공급에 관한 규칙」 제20조의 규정에…",
@@ -6761,10 +6761,68 @@
       "upto": 85
      }
     ]
+   },
+   "sp_table": {
+    "059.1615D": {
+     "agency": 0,
+     "first": 0,
+     "multichild": 0,
+     "newborn": 0,
+     "newlywed": 0,
+     "total": 0
+    },
+    "059.2599C": {
+     "agency": 0,
+     "first": 0,
+     "multichild": 0,
+     "newborn": 0,
+     "newlywed": 0,
+     "total": 0
+    },
+    "059.2735B": {
+     "agency": 1,
+     "first": 1,
+     "multichild": 1,
+     "newborn": 1,
+     "newlywed": 2,
+     "total": 6
+    },
+    "059.9906A": {
+     "agency": 1,
+     "first": 1,
+     "multichild": 1,
+     "newborn": 1,
+     "newlywed": 1,
+     "total": 5
+    },
+    "084.5869A": {
+     "agency": 1,
+     "first": 1,
+     "multichild": 1,
+     "newborn": 1,
+     "newlywed": 2,
+     "total": 6
+    },
+    "084.6433B": {
+     "agency": 1,
+     "first": 1,
+     "multichild": 1,
+     "newborn": 1,
+     "newlywed": 2,
+     "total": 6
+    },
+    "084.9848C": {
+     "agency": 0,
+     "first": 0,
+     "multichild": 0,
+     "newborn": 0,
+     "newlywed": 0,
+     "total": 0
+    }
    }
   },
   "name": "소사 휴먼빌",
-  "notice_pdf": "https://static.applyhome.co.kr/ai/aia/getAtchmnfl.do?houseManageNo=2026000591&pblancNo=2026000591&atchmnflSeqNo=2027261&atchmnflSn=4",
+  "notice_pdf": "https://static.applyhome.co.kr/ai/aia/getAtchmnfl.do?houseManageNo=2026000591&pblancNo=2026000591&atchmnflSeqNo=2027261&atchmnflSn=5",
   "v": 67
  },
  "2026000596": {
@@ -8875,6 +8933,66 @@
   "notice_pdf": "https://static.applyhome.co.kr/ai/aia/getAtchmnfl.do?houseManageNo=2026910288&pblancNo=2026910288&atchmnflSeqNo=2020031&atchmnflSn=6",
   "v": 67
  },
+ "2026910289": {
+  "found": {
+   "complex": {
+    "buildings": 1,
+    "households": 117,
+    "quote": ": 이안엑소디움 에이펙스 주상복합아파트 지하6층 지상45층 1개동 총 117세대 중 잔여세대 6세대 및 부대시설 ■ 입주시기: 입주지정기간은 2026.12.10.(목) ~ 2027.02.07(일)까지 60일간 ■ 공"
+   },
+   "facts": {
+    "asset_thousand": {
+     "부동산": [],
+     "부동산_만원": [],
+     "자동차": []
+    },
+    "deposit_rows": {},
+    "income_rows": {},
+    "price_seen": {
+     "084.8856A": true,
+     "084.9213C": true,
+     "084.9465B": true
+    }
+   },
+   "need_head": false,
+   "pay_ratio": {
+    "balance": 0.9,
+    "contract": 0.1,
+    "mid": 0.0
+   },
+   "price_cap": false,
+   "quotes": {
+    "need_head": "…민영 비규제지역 무순위(사후) 2차입주자모집공고일 현재 전국 에 거주하는 무주택세대구성원 없음 전매제한 거주의무기간 분양가상한제 택지유형 최초…",
+    "pay_ratio": "…호실 아파트 총 공급 금액 계약금(10%) 잔금(90%) 대지비 건축비 부가세 계 계약시 입주지정기간…",
+    "price_cap": "(1쪽 단지 주요정보 표) 전매제한 거주의무기간 분양가상한제 택지유형 최초 당첨자발표일(2021.04.07.)로부터 6개월로 현재 전매제한 기간 도과 없음 미적용 민간택지",
+    "resale": "…분양가상한제 택지유형 최초 당첨자발표일(2021.04.07.)로부터 6개월로 현재 전매제한 기간 도과 없음 미적용 민간택지 구분 최초입주자모집…",
+    "residence": "…후) 2차입주자모집공고일 현재 전국 에 거주하는 무주택세대구성원 없음 전매제한 거주의무기간…",
+    "residence_duty": "(1쪽 단지 주요정보 표) 전매제한 거주의무기간 분양가상한제 택지유형 최초 당첨자발표일(2021.04.07.)로부터 6개월로 현재 전매제한 기간 도과 없음 미적용 민간택지"
+   },
+   "resale": {
+    "base": "2021-04-07",
+    "forbidden": false,
+    "months": 6,
+    "none": false,
+    "passed": false,
+    "registration": false,
+    "until_reg": false
+   },
+   "residence": {
+    "area": null,
+    "equal": true,
+    "months": 0,
+    "others": [
+     "전국"
+    ],
+    "since": null
+   },
+   "residence_duty": 0
+  },
+  "name": "이안 엑소디움 에이펙스",
+  "notice_pdf": "https://static.applyhome.co.kr/ai/aia/getAtchmnfl.do?houseManageNo=2026910289&pblancNo=2026910289&atchmnflSeqNo=2030016&atchmnflSn=5",
+  "v": 67
+ },
  "2026910290": {
   "found": {
    "complex": {
@@ -9513,6 +9631,332 @@
   "notice_pdf": "https://static.applyhome.co.kr/ai/aia/getAtchmnfl.do?houseManageNo=2026910300&pblancNo=2026910300&atchmnflSeqNo=2027185&atchmnflSn=2",
   "v": 67
  },
+ "2026910301": {
+  "found": {
+   "complex": {
+    "buildings": 6,
+    "households": 936,
+    "quote": ": 아파트 지하 5층, 지상 45~49층 6개동 총 936세대 중 잔여 3세대 ■ 입주시기 : 2029년 01월 예정(정확한 입주일자는 추후 통보함) ■ 공급대상 ( 단위 : ㎡, 세대 ) 주택관리번호 모델 주택형"
+   },
+   "contract_split": {
+    "first_won": 10000000,
+    "rest_within": "15일",
+    "rows": 3
+   },
+   "facts": {
+    "asset_thousand": {
+     "부동산": [],
+     "부동산_만원": [],
+     "자동차": []
+    },
+    "deposit_rows": {},
+    "income_rows": {},
+    "price_seen": {
+     "084.9800A": true,
+     "084.9900C": true
+    }
+   },
+   "need_head": false,
+   "pay_ratio": {
+    "balance": 0.35,
+    "contract": 0.05,
+    "mid": 0.6
+   },
+   "price_cap": false,
+   "quotes": {
+    "need_head": "…입주자모집공고일 현재 수도권(서울·경기·인천)에 거주하는 무주택세대구성원 재당첨제한 전매제한 거주의무기간 분양가상한제 없음 최초…",
+    "pay_ratio": "…해당 세대수 분양가격 계약금(5%) 중도금(60%) 잔 금(35%) 대지비 건축비 계 1차 2차 1회 (10%) 2회…",
+    "price_cap": "(1쪽 단지 주요정보 표) 재당첨제한 전매제한 거주의무기간 분양가상한제 없음 최초 당첨자발표일(2026.07.09.)로부터 6개월 없음 미적용 구분",
+    "resale": "…바랍니다. ■ 본 아파트의 전매제한은 최초 입주자모집공고의 당첨자발표일(2026.07.09.)로부터 6개월 적용됩니다. - 3 - 3 공급대상 및 공급금액 ■ 공급위치 : 경기도 이천시…",
+    "residence": "…(사후) 입주자모집공고일 현재 수도권(서울·경기·인천)에 거주하는 무주택세대구성원 재당첨제한 전매제한 거주의…",
+    "residence_duty": "(1쪽 단지 주요정보 표) 재당첨제한 전매제한 거주의무기간 분양가상한제 없음 최초 당첨자발표일(2026.07.09.)로부터 6개월 없음 미적용 구분",
+    "rewin_years": "…거주하는 무주택세대구성원 재당첨제한 전매제한 거주의무기간 분양가상한제 없음 최초 당첨자발표일(2026.07.09.)로부터 6개월 없음…"
+   },
+   "resale": {
+    "base": "2026-07-09",
+    "forbidden": false,
+    "months": 6,
+    "none": false,
+    "passed": false,
+    "registration": false,
+    "until_reg": false
+   },
+   "residence": {
+    "area": null,
+    "equal": true,
+    "months": 0,
+    "others": [
+     "서울",
+     "경기",
+     "인천"
+    ],
+    "since": null
+   },
+   "residence_duty": 0,
+   "rewin_years": 0
+  },
+  "name": "이천 서희스타힐스 SKY (조합원 취소분)",
+  "notice_pdf": "https://static.applyhome.co.kr/ai/aia/getAtchmnfl.do?houseManageNo=2026910301&pblancNo=2026910301&atchmnflSeqNo=2022069&atchmnflSn=2",
+  "v": 67
+ },
+ "2026910302": {
+  "found": {
+   "complex": {
+    "buildings": 2,
+    "households": 157,
+    "quote": ": 아파트 지하 2층, 지상 20층 2개동 총 157세대 중 잔여 2세대 ■ 입주시기 : 2026년 12월 예정(잔금 납부 후 입주가능, 계약일로부터 90일 이내) ■ 공급대상 (단위 : ㎡, 세대) 주택 관리번호"
+   },
+   "facts": {
+    "asset_thousand": {
+     "부동산": [],
+     "부동산_만원": [],
+     "자동차": []
+    },
+    "deposit_rows": {},
+    "income_rows": {},
+    "price_seen": {
+     "066.8113": true,
+     "068.9883": true
+    }
+   },
+   "need_head": false,
+   "pay_ratio": {
+    "balance": 0.9,
+    "contract": 0.1,
+    "mid": 0.0
+   },
+   "price_cap": false,
+   "quotes": {
+    "need_head": "…무순위(사후) 입주자모집공고일 현재 경기도에 거주하는 무주택세대구성원 재당첨제한 전매제한 거주의무기간 분양가상한제 10년 최초…",
+    "pay_ratio": "…동호수 아파트 공급 금액 계약금(10%) 잔금(90%) 대지비 건축비 계 계약시 입주시 (계약일로부터…",
+    "price_cap": "…민간택지에서 공급하는 분양가상한제 미적용 민영주택으로 기존 주택 당첨으로 인해 재당첨 제한 기간 내에 있는 분 및 그…",
+    "resale": "…바랍니다. ■ 본 아파트의 전매제한은 최초 입주자모집공고의 당첨자발표일(2021.09.08.)로부터 3년간 적용되어 현재 전매제한 기간이 도과하였습니다. - 5 - 3 공급대상 및 공급금액 ■ 공급위치 : 경기도…",
+    "residence": "…(사후) 입주자모집공고일 현재 경기도에 거주하는 무주택세대구성원 재당첨제한 전매제한 거주의…",
+    "residence_duty": "(1쪽 단지 주요정보 표) 재당첨제한 전매제한 거주의무기간 분양가상한제 10년 최초 당첨자발표일(2021.09.08.)로부터 3년간 적용되어 현재 전매제한 기간 도과 없음 미적용 구분",
+    "rewin_years": "…거주하는 무주택세대구성원 재당첨제한 전매제한 거주의무기간 분양가상한제 10년 최초 당첨자발표일(2021.09.08.)로부터 3년간…"
+   },
+   "resale": {
+    "base": "2021-09-08",
+    "forbidden": false,
+    "months": 36,
+    "none": false,
+    "passed": true,
+    "registration": false,
+    "until_reg": false
+   },
+   "residence": {
+    "area": {
+     "name": "경기도",
+     "sido": "경기"
+    },
+    "equal": true,
+    "months": 0,
+    "others": [],
+    "since": null
+   },
+   "residence_duty": 0,
+   "rewin_years": 10
+  },
+  "name": "한화포레나 영흥숲(4차)",
+  "notice_pdf": "https://static.applyhome.co.kr/ai/aia/getAtchmnfl.do?houseManageNo=2026910302&pblancNo=2026910302&atchmnflSeqNo=2022219&atchmnflSn=3",
+  "v": 67
+ },
+ "2026910303": {
+  "found": {
+   "complex": {
+    "buildings": 10,
+    "households": 662,
+    "quote": ": 공동주택(아파트) 지하 3층, 지상 12층~20층 10개동 총 662세대의 잔여 4세대 ■ 입주시기 : 2027년 01월 예정(정확한 입주일자는 추후 통보함) ■ 공급대상 주택관리번호 모델 주택형 (전용면적기준"
+   },
+   "facts": {
+    "asset_thousand": {
+     "부동산": [],
+     "부동산_만원": [],
+     "자동차": []
+    },
+    "deposit_rows": {},
+    "income_rows": {},
+    "price_seen": {
+     "084.9264B": true,
+     "084.9676A": true
+    }
+   },
+   "need_head": false,
+   "pay_ratio": {
+    "balance": 0.8,
+    "contract": 0.2,
+    "mid": 0.0
+   },
+   "price_cap": true,
+   "quotes": {
+    "need_head": "…민영 비규제지역 무순위(사후) 입주자모집공고일 현재 경기도에 거주하는 무주택세대구성원 재당첨제한 전매제한 거주의무기간 분양가상한제 없음 최초…",
+    "pay_ratio": "…동호수 분양가격 계약금(20%) 잔금(80%) 대지비 건축비 계 계약시…",
+    "price_cap": "(1쪽 단지 주요정보 표) 재당첨제한 전매제한 거주의무기간 분양가상한제 없음 최초 당첨자발표일(2023.11.07.)로부터 3년간 적용되어 현재 전매제한 기간 도과 5년 적용 구분",
+    "resale": "…바랍니다. ■ 본 아파트의 전매제한은 최초 입주자모집공고의 당첨자발표일(2023.11.07.)로부터 3년간 적용되어 현재 전매제한 기간이 도과하였습니다. - 4 - 3 공급대상 및 공급금액 ■ 공급위치 : 경기도…",
+    "residence": "…(사후) 입주자모집공고일 현재 경기도에 거주하는 무주택세대구성원 재당첨제한 전매제한 거주의…",
+    "residence_duty": "(1쪽 단지 주요정보 표) 재당첨제한 전매제한 거주의무기간 분양가상한제 없음 최초 당첨자발표일(2023.11.07.)로부터 3년간 적용되어 현재 전매제한 기간 도과 5년 적용 구분",
+    "rewin_years": "…거주하는 무주택세대구성원 재당첨제한 전매제한 거주의무기간 분양가상한제 없음 최초 당첨자발표일(2023.11.07.)로부터 3년간…"
+   },
+   "resale": {
+    "base": "2023-11-07",
+    "forbidden": false,
+    "months": 36,
+    "none": false,
+    "passed": true,
+    "registration": false,
+    "until_reg": false
+   },
+   "residence": {
+    "area": {
+     "name": "경기도",
+     "sido": "경기"
+    },
+    "equal": true,
+    "months": 0,
+    "others": [],
+    "since": null
+   },
+   "residence_duty": 5,
+   "rewin_years": 0
+  },
+  "name": "동탄신도시 금강펜테리움 7차 센트럴파크(2차)",
+  "notice_pdf": "https://static.applyhome.co.kr/ai/aia/getAtchmnfl.do?houseManageNo=2026910303&pblancNo=2026910303&atchmnflSeqNo=2027407&atchmnflSn=5",
+  "v": 67
+ },
+ "2026910304": {
+  "found": {
+   "complex": {
+    "buildings": 17,
+    "households": 1149,
+    "quote": "및 내역 : 아파트 지하 4층 ~ 지상 26층, 17개동, 총 1,149세대 중 일반분양 143세대의 잔여 34세대 입주예정시기 : 2027년 12월 예정 (정확한 입주일자는 추후 통보 예정) 공급대상 (민영주택)"
+   },
+   "contract_split": {
+    "first_won": 50000000,
+    "rest_within": "1개월",
+    "rows": 2
+   },
+   "facts": {
+    "asset_thousand": {
+     "부동산": [],
+     "부동산_만원": [],
+     "자동차": []
+    },
+    "deposit_rows": {},
+    "income_rows": {},
+    "price_seen": {
+     "074.0000A": true,
+     "074.4400D": true,
+     "084.0000A": true,
+     "084.0000C": true,
+     "084.6400G": true
+    }
+   },
+   "need_head": false,
+   "pay_ratio": {
+    "balance": 0.3,
+    "contract": 0.1,
+    "mid": 0.6
+   },
+   "price_cap": false,
+   "quotes": {
+    "need_head": "…현재 수도권(경기도·서울특별시·인천광역시)에 거주하는 무주택세대구성원 재당첨제한 전매제한 거주의무기간 분양가상한제 택지유형 10년 최초…",
+    "pay_ratio": "…토지비 건축비 공급금액 계약금 (10%) 중도금 (60%) 잔금 (30%) 1차 2차 1차(10%) 2차(10%)…",
+    "price_cap": "…민간택지에서 공급하는 분양가상한제 미적용 민영주택으로 기존 주택 당첨으로 인해 재당첨 제한 기간 내에 있는 분 및 그…",
+    "resale": "…택지유형 10년 최초 당첨자발표일(2026.10.02.)로부터 3년간 (단, 소유권이전등기를 완료한 경우 소유권이전등기를 완료한…",
+    "residence": "…(사후) 입주자모집공고일 현재 수도권(경기도·서울특별시·인천광역시)에 거주하는 무주택세대구성원 재당첨제한 전매제한 거주의…",
+    "residence_duty": "(1쪽 단지 주요정보 표) 전매제한 거주의무기간 분양가상한제 택지유형 10년 최초 당첨자발표일(2026.10.02.)로부터 3년간 (단, 소유권이전등기를 완료한 경우 소유권이전등기를 완료한 때까지) 없음 미적용 민간택지",
+    "rewin_years": "…거주하는 무주택세대구성원 재당첨제한 전매제한 거주의무기간 분양가상한제 택지유형 10년 최초 당첨자발표일(2026.10.02.)로부터 3년간 (단,…"
+   },
+   "resale": {
+    "base": "2026-10-02",
+    "forbidden": false,
+    "months": 36,
+    "none": false,
+    "passed": false,
+    "registration": false,
+    "until_reg": false
+   },
+   "residence": {
+    "area": null,
+    "equal": true,
+    "months": 0,
+    "others": [
+     "서울",
+     "경기",
+     "인천"
+    ],
+    "since": null
+   },
+   "residence_duty": 0,
+   "rewin_years": 10
+  },
+  "name": "더샵 분당하이스트(2차)",
+  "notice_pdf": "https://static.applyhome.co.kr/ai/aia/getAtchmnfl.do?houseManageNo=2026910304&pblancNo=2026910304&atchmnflSeqNo=2027367&atchmnflSn=2",
+  "v": 67
+ },
+ "2026910305": {
+  "found": {
+   "complex": {
+    "buildings": 11,
+    "households": 212,
+    "quote": ": 아파트 지하 1층, 지상 4층 11개동 총 212세대 중 잔여 1세대 ■ 입주시기 : 2027년 01월 예정(본 주택은 2025년 11월 준공된 아파트로 금회 공급분에 대하여 입주 시 납부 의무가 있는 모든 금"
+   },
+   "ext": 0.072,
+   "facts": {
+    "asset_thousand": {
+     "부동산": [],
+     "부동산_만원": [],
+     "자동차": []
+    },
+    "deposit_rows": {},
+    "income_rows": {},
+    "price_seen": {
+     "128.8329C": true
+    }
+   },
+   "need_head": false,
+   "pay_ratio": {
+    "balance": 0.8,
+    "contract": 0.2,
+    "mid": 0.0
+   },
+   "price_cap": true,
+   "quotes": {
+    "need_head": "…민영 비규제지역 무순위(사후) 입주자모집공고일 현재 수도권에 거주하는 무주택세대구성원 재당첨제한 전매제한 거주의무기간 분양가상한제 없음 최초 당첨자…",
+    "pay_ratio": "…동호수 분양가격 계약금(20%) 잔금(80%) 대지비 건축비 부가세 계 계약시…",
+    "price_cap": "(1쪽 단지 주요정보 표) 재당첨제한 전매제한 거주의무기간 분양가상한제 없음 최초 당첨자 발표일(2024.02.27.)로부터 3년 3년 적용 구분",
+    "resale": "…바랍니다. ■ 본 아파트의 전매제한은 최초 입주자모집공고의 당첨자발표일(2024.02.27.)로부터 3년간 적용됩니다. - 4 - 3 공급대상 및 공급금액 ■ 공급위치 : 경기도 성남시…",
+    "residence": "…(사후) 입주자모집공고일 현재 수도권에 거주하는 무주택세대구성원 재당첨제한 전매제한 거주의…",
+    "residence_duty": "(1쪽 단지 주요정보 표) 재당첨제한 전매제한 거주의무기간 분양가상한제 없음 최초 당첨자 발표일(2024.02.27.)로부터 3년 3년 적용 구분",
+    "rewin_years": "…거주하는 무주택세대구성원 재당첨제한 전매제한 거주의무기간 분양가상한제 없음 최초 당첨자 발표일(2024.02.27.)로부터 3년 3년 적용…"
+   },
+   "resale": {
+    "base": "2024-02-27",
+    "forbidden": false,
+    "months": 36,
+    "none": false,
+    "passed": false,
+    "registration": false,
+    "until_reg": false
+   },
+   "residence": {
+    "area": null,
+    "equal": true,
+    "months": 0,
+    "others": [
+     "서울",
+     "경기",
+     "인천"
+    ],
+    "since": null
+   },
+   "residence_duty": 3,
+   "rewin_years": 0
+  },
+  "name": "판교TH212(2차)",
+  "notice_pdf": "https://static.applyhome.co.kr/ai/aia/getAtchmnfl.do?houseManageNo=2026910305&pblancNo=2026910305&atchmnflSeqNo=2023020&atchmnflSn=4",
+  "v": 67
+ },
  "2026910306": {
   "found": {
    "complex": {
@@ -9804,6 +10248,76 @@
   },
   "name": "광주 송정 중흥S-클래스 파크뷰",
   "notice_pdf": "https://static.applyhome.co.kr/ai/aia/getAtchmnfl.do?houseManageNo=2026930046&pblancNo=2026930046&atchmnflSeqNo=2024084&atchmnflSn=5",
+  "v": 67
+ },
+ "2026930048": {
+  "found": {
+   "complex": {
+    "buildings": 10,
+    "households": 662,
+    "quote": ": 아파트 지하 3층, 지상 12~20층 10개동 총 662세대 중 불법행위재공급 1세대 ■ 입주시기 : 2027년 01월 예정(정확한 입주일자는 추후 통보함) ■ 공급대상 주택 관리번호 모델 주택형 (전용면적기준"
+   },
+   "ext": 0.036,
+   "facts": {
+    "asset_thousand": {
+     "부동산": [],
+     "부동산_만원": [],
+     "자동차": []
+    },
+    "deposit_rows": {},
+    "income_rows": {},
+    "price_seen": {
+     "084.9676A": true
+    }
+   },
+   "need_head": true,
+   "pay_ratio": {
+    "balance": 0.8,
+    "contract": 0.2,
+    "mid": 0.0
+   },
+   "price_cap": true,
+   "quotes": {
+    "need_head": "…가입여부와 관계없이 청약신청 가능합니다. ■ 본 입주자모집공고의 일반공급은 해당 주택건설지역 거주자 중 무주택세대주(무주택세대의 세대주)를 대상으로 추첨의 방법으로 공급합니다. ■…",
+    "pay_ratio": "…표기 동호수 분 양 가 격 계약금 (20%) 잔금 (80%) 대지비 건축비 부가세 계 계약시…",
+    "price_cap": "…주택(제1항제6호), 분양가상한제 적용주택(제1항제3호) 10년 ※ (예외) 2024.03.25. 시행된…",
+    "resale": "…분양가상한제 택지유형 최초 당첨자발표일(2023.11.07.)로부터 3년간 적용되어 현재 전매제한기간 도과 5년 적용 공공택지 구분 입주자모집공고일 일반공급 접수일…",
+    "residence": "…상자 ■ 입주자모집공고일 현재 해당 주택건설지역인 경기도 화성시에 거주하는 무주택세대주(무주택세대의 세대주) 당첨자…",
+    "residence_duty": "(1쪽 단지 주요정보 표) 전매제한 거주의무기간 분양가상한제 택지유형 최초 당첨자발표일(2023.11.07.)로부터 3년간 적용되어 현재 전매제한기간 도과 5년 적용 공공택지",
+    "rewin_years": "…규제지역여부 거주요건 재당첨제한 민영 투기과열지구 경기도 화성시 거주자 10년 전매제한 거주의무기간 분양가상한제 택지유형 최초…"
+   },
+   "resale": {
+    "base": "2023-11-07",
+    "forbidden": false,
+    "months": 36,
+    "none": false,
+    "passed": true,
+    "registration": false,
+    "until_reg": false
+   },
+   "residence": {
+    "area": {
+     "name": "경기도 화성시",
+     "sido": "경기",
+     "sigungu": "화성시"
+    },
+    "equal": true,
+    "months": 0,
+    "others": [],
+    "since": null
+   },
+   "residence_duty": 5,
+   "rewin_years": 10,
+   "supply_scale": {
+    "general": null,
+    "quote": "불법행위재공급 1세대",
+    "special": {},
+    "special_total": null,
+    "total": 1
+   }
+  },
+  "name": "동탄신도시 금강펜테리움 7차 센트럴파크 불법행위재공급",
+  "notice_pdf": "https://static.applyhome.co.kr/ai/aia/getAtchmnfl.do?houseManageNo=2026930048&pblancNo=2026930048&atchmnflSeqNo=2027422&atchmnflSn=3",
   "v": 67
  }
 }
