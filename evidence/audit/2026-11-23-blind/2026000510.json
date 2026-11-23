@@ -1,0 +1,17 @@
+{"id": "2026000510", "name": "연산역 수자인 센트리오", "fields": {
+"supply_class": {"value": "민영주택", "status": "stated", "quote": "주택유형 ... 민영 부산광역시 1년 이상 계속 거주자 ... 비규제지역 / 분양가상한제 미적용 민영주택", "note": ""},
+"supply_kind": {"value": "일반분양", "status": "stated", "quote": "총 335세대 중 일반분양 139세대 (조합 195세대, 보류지 1세대 제외)", "note": "조합 사업의 일반분양분"},
+"correction": {"value": null, "status": "not_stated", "quote": "", "note": "정정·변경공고 문구 없음"},
+"need_head": {"value": false, "status": "stated", "quote": "세대주 요건 - - - 필요 - - - - (기관추천 다자녀 신혼 노부모 생애최초 신생아 1순위 2순위)", "note": "일반공급 세대주 요건 없음"},
+"price_cap": {"value": false, "status": "stated", "quote": "재당첨제한 전매제한 거주의무기간 분양가상한제 택지유형 없음 6개월 없음 미적용 민간택지", "note": ""},
+"residence_duty": {"value": 0, "status": "stated", "quote": "거주의무기간 ... 없음", "note": "단지 주요정보 표"},
+"rewin_years": {"value": 0, "status": "stated", "quote": "분양가상한제 미적용 민영주택으로, 당첨자로 선정되더라도 「주택공급에 관한 규칙」 제54조에 따른 재당첨 제한을 적용받지 않으며", "note": ""},
+"resale": {"value": {"months": 6, "base": "당첨자발표일 2026-12-08"}, "status": "stated", "quote": "전매제한기간 당첨자발표일(2026.12.8.)로부터 6개월 (※단, 향후 관련법 개정에 따라 조정될 수 있습니다.)", "note": ""},
+"account_months": {"value": 6, "status": "stated", "quote": "③ 주택청약종합저축 : 주택청약종합저축에 가입하여 6개월이 경과하고, 지역별·면적별 예치금액 이상인 분", "note": ""},
+"deposit_count": {"value": null, "status": "not_stated", "quote": "지역별·면적별 예치금액 이상 / 전용면적 85㎡ 이하 300만원 250만원 200만원", "note": "민영주택 예치금 기준(부산 85㎡ 이하 300만원)"},
+"residence": {"value": {"area": "부산광역시", "months": 12, "since": "2025-11-20", "others": ["부산광역시 1년 미만 거주자", "울산광역시", "경상남도"], "equal": false}, "status": "stated", "quote": "부산광역시 1년 이상 계속 거주자 (2025.11.20. 이전부터 계속 거주) 부산광역시 1년 미만 계속 거주자 및 울산광역시, 경상남도 거주자", "note": "since 는 그 날 이전부터 계속 거주"},
+"score_ratio": {"value": [{"over_m2": 0, "upto_m2": 60, "score_pct": 40, "lottery_pct": 60}, {"over_m2": 60, "upto_m2": 85, "score_pct": 40, "lottery_pct": 60}], "status": "stated", "quote": "전용면적 60㎡ 이하 40% 60% / 전용면적 60㎡ 초과 85㎡ 이하 40% 60%", "note": "59A·59B(60 이하), 74·84B(60~85)"},
+"pay_ratio": {"value": {"contract_pct": 5, "mid_pct": 60, "balance_pct": 35}, "status": "stated", "quote": "공급금액 계약금(5%) 중도금(60%) 잔금(35%)", "note": "계약금 1차 계약시 + 2차 계약 후 30일 이내"},
+"mc_quota": {"value": [{"name": "부산광역시 1년 이상 계속 거주자", "pct": 100}, {"name": "기타지역(부산 1년 미만, 울산, 경남)", "pct": 0}], "status": "unclear", "quote": "① 지역 : 해당지역 거주자(부산광역시 1년 이상 계속 거주자) → 기타지역 거주자(부산광역시 1년 미만 거주자 및 울산광역시, 경상남도 거주자)", "note": "비율 숫자 없이 순차로만 적힘. 다자녀는 「아이맘부산플랜」 반영 건설량의 10% 33세대"},
+"special_supply": {"value": {"types": {"기관추천": 7, "다자녀가구": 33, "신혼부부": 67, "노부모부양": 3, "생애최초": 7, "신생아": 3}, "special_total": 120, "general": 19, "total": 139}, "status": "stated", "quote": "일반분양 139세대 ... [특별공급 120세대 (기관추천 7세대, 다자녀가구 33세대, 신혼부부 67세대, 노부모부양 3세대, 생애최초 7세대, 신생아 3세대) 포함]", "note": "다자녀·신혼은 건설량(335) 기준 10%·20%(아이맘부산플랜). 일반공급 19 는 주택형 표 합(5+5+5+4)"}
+}}

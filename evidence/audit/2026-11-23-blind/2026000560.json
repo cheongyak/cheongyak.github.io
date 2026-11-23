@@ -1,0 +1,21 @@
+{
+  "id": "2026000560",
+  "name": "해링턴 플레이스 문래",
+  "fields": {
+    "supply_class": {"value": "민영주택", "status": "stated", "quote": "주택유형 ... 민영 ... 투기과열지구/청약과열지역 ... 택지유형 민간택지", "note": "서울 영등포구, 투기과열지구·청약과열지역"},
+    "supply_kind": {"value": "일반분양", "status": "stated", "quote": "총 218세대 중 일반분양 218세대 [특별공급 117세대(...) 포함]", "note": ""},
+    "correction": {"value": null, "status": "not_stated", "quote": "", "note": "정정·변경공고 문구 없음"},
+    "need_head": {"value": true, "status": "stated", "quote": "투기과열지구 및 청약과열지역에서 공급하는 경우 아래 조건을 만족해야 1순위 신청가능 - 세대주일 것", "note": "1순위만. 2순위는 만19세 이상인 분 또는 세대주인 미성년자. 또한 2주택 이상 소유 세대·과거 5년 이내 당첨 세대 1순위 불가"},
+    "price_cap": {"value": false, "status": "stated", "quote": "재당첨제한 전매제한 거주의무기간 분양가상한제 택지유형 / 10년 3년 없음 미적용 민간택지", "note": ""},
+    "residence_duty": {"value": 0, "status": "stated", "quote": "거주의무기간 ... 없음", "note": ""},
+    "rewin_years": {"value": 10, "status": "stated", "quote": "재당첨제한 ... 10년 / 당첨자로 선정 시 「주택공급에 관한 규칙」 제54조에 따른 재당첨 제한을 적용받게 되며", "note": ""},
+    "resale": {"value": {"months": 36, "base": "최초 당첨자발표일(2026-12-02), 소유권이전등기일까지(3년 초과 시 3년)"}, "status": "stated", "quote": "본 주택의 전매제한은 최초 당첨자발표일(2026.12.02.)로부터 적용 ... 소유권이전등기일까지(다만, 그 기간이 최초 당첨자발표일로부터 3년을 초과하는 경우 3년)", "note": ""},
+    "account_months": {"value": 24, "status": "stated", "quote": "1순위 : 입주자저축에 가입하여 가입기간이 24개월이 경과하고 지역별·면적별 예치금액 이상 납입한 분", "note": "예치금 서울 85㎡ 이하 300만원"},
+    "deposit_count": {"value": null, "status": "not_stated", "quote": "", "note": "민영주택 — 납입횟수 요건 없음"},
+    "residence": {"value": {"area": "서울특별시", "months": 24, "since": "2024-11-13", "others": ["서울특별시(2년 미만)", "인천광역시", "경기도"], "equal": false}, "status": "stated", "quote": "경쟁이 있을 경우 해당 주택건설지역인 서울특별시 2년 이상 거주자가(2024.11.13. 이전부터 계속 거주) 우선합니다.", "note": "기준일(최초 입주자모집공고일) 2026-11-13"},
+    "score_ratio": {"value": [{"over_m2": 60, "upto_m2": 85, "score_pct": 70, "lottery_pct": 30}], "status": "stated", "quote": "구분 가점제 추첨제 전용면적 60㎡ 초과 85㎡ 이하 70% 30%", "note": "주택형 84A·84B·84C만 공급"},
+    "pay_ratio": {"value": {"contract_pct": 10, "mid_pct": 60, "balance_pct": 30}, "status": "stated", "quote": "분양가격 계약금(10%) 중도금(60%) 잔금 (30%)", "note": "계약금 1차 5,000만원 + 2차(계약일로부터 14일 이내); 중도금 6회 각 10%"},
+    "mc_quota": {"value": [{"name": "서울특별시 2년 이상 계속 거주자", "pct": 50}, {"name": "서울특별시 2년 미만 및 경기도, 인천광역시 거주자", "pct": 50}], "status": "stated", "quote": "①지역 : 서울특별시 2년 이상 계속 거주자 50% → 서울특별시 2년 미만 및 경기도, 인천광역시 거주자 50%", "note": "서울 2년 이상 낙첨자는 잔여 50%에서 재경쟁"},
+    "special_supply": {"value": {"types": {"기관추천": 21, "다자녀가구": 21, "신혼부부": 32, "노부모부양": 7, "생애최초": 15, "신생아": 21}, "special_total": 117, "general": 101, "total_households": 218}, "status": "stated", "quote": "총 218세대 중 일반분양 218세대 [특별공급 117세대(기관추천 21세대, 다자녀가구 21세대, 신혼부부 32세대, 노부모부양 7세대, 생애최초 15세대, 신생아 21세대 포함) 포함]", "note": "노부모부양·생애최초·신생아 특별공급은 무주택세대주 요건(공고문 문구)"}
+  }
+}

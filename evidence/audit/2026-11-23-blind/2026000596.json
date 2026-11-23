@@ -1,0 +1,17 @@
+{"id": "2026000596", "name": "고창 데시앙 2블록(민영) 민간참여형 민영주택", "fields": {
+"supply_class": {"value": "민영주택", "status": "stated", "quote": "주택유형 ... 민영주택 / 고창 데시앙 2블록 민간참여형 민영주택 입주자모집공고 / 분양가 상한제 적용 민영주택", "note": "공공택지 분양가상한제 적용 민영주택(85㎡ 초과)"},
+"supply_kind": {"value": "일반분양", "status": "stated", "quote": "총 357세대 중 민영분양주택 177세대 [일반공급 153세대,특별공급 24세대 (다자녀가구: 18세대, 노부모부양: 6세대)]", "note": ""},
+"correction": {"value": null, "status": "not_stated", "quote": "", "note": "정정·변경공고 문구 없음"},
+"need_head": {"value": false, "status": "stated", "quote": "세대주 요건 - 필요 - - (다자녀가구 노부모부양 1순위 2순위) / 만19세 이상인 분 또는 세대주인 미성년자", "note": "일반공급 1·2순위 세대주 요건 없음"},
+"price_cap": {"value": true, "status": "stated", "quote": "재당첨제한 전매제한 거주의무기간 분양가상한제 택지유형 10년 1년 없음 적용 공공택지", "note": ""},
+"residence_duty": {"value": 0, "status": "stated", "quote": "거주의무기간 ... 없음", "note": "단지 주요정보 표"},
+"rewin_years": {"value": 10, "status": "stated", "quote": "재당첨제한 - 분양가상한제 적용주택 (「주택공급에 관한 규칙」 제54조 제1항 제3호) 10년간", "note": "기존 재당첨제한 기간 중인 분도 청약 가능하다고 명시(비규제 민영)"},
+"resale": {"value": {"months": 12, "base": "당첨자발표일(입주자로 선정된 날) 2026-12-08"}, "status": "stated", "quote": "해당 주택의 입주자로 선정된 날[2026.12.08.(화)]로부터 1년간 전매가 금지됩니다.", "note": ""},
+"account_months": {"value": 6, "status": "stated", "quote": "주택청약종합저축 : 주택청약종합저축에 가입하여 6개월이 경과하고, 지역별·면적별 예치금액 이상인 분", "note": ""},
+"deposit_count": {"value": null, "status": "not_stated", "quote": "지역별·면적별 예치금액 이상", "note": "민영주택이라 납입횟수 요건 없음. 예치금(고창군·전북): 102㎡ 이하 300만원, 135㎡ 이하 400만원"},
+"residence": {"value": {"area": "전북특별자치도 고창군", "months": 0, "since": "2026-11-20", "others": ["전북특별자치도(고창군 외)"], "equal": false}, "status": "stated", "quote": "입주자모집공고일 현재 고창군에 거주하거나 전북특별자치도에 거주하는 만19세 이상인 분 / ①지역 : 해당지역 거주자(고창군 거주자) → 기타지역 거주자(전북특별자치도 거주자)", "note": "거주기간 요건 문구 없음(공고일 현재 거주)"},
+"score_ratio": {"value": [{"over_m2": 85, "upto_m2": null, "score_pct": 0, "lottery_pct": 100}], "status": "stated", "quote": "전용면적별 1순위 가점제/추첨제 적용비율 구분 추첨제 전용면적 85㎡ 초과 100% / 1순위 추첨제 : ①지역 →②추첨", "note": "104A·104B·125A 모두 85㎡ 초과"},
+"pay_ratio": {"value": {"contract_pct": 5, "mid_pct": 60, "balance_pct": 35}, "status": "stated", "quote": "공급금액 계약금(5%) 중도금(60%) 잔금 (35%)", "note": ""},
+"mc_quota": {"value": [{"name": "고창군", "pct": 100}, {"name": "전북특별자치도(고창군 외)", "pct": 0}], "status": "unclear", "quote": "①지역 : 해당지역 거주자(고창군 거주자) → 기타지역 거주자(전북특별자치도 거주자)", "note": "비율 숫자 없이 해당지역 우선 순차로만 적힘(100/0 은 순차를 비율로 옮긴 것)"},
+"special_supply": {"value": {"types": {"다자녀가구": 18, "노부모부양": 6}, "special_total": 24, "general": 153, "total": 177}, "status": "stated", "quote": "민영분양주택 177세대 [일반공급 153세대,특별공급 24세대 (다자녀가구: 18세대, 노부모부양: 6세대)]", "note": "85㎡ 초과라 신혼·생애최초·신생아·기관추천 없음"}
+}}

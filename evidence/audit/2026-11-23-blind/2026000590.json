@@ -1,0 +1,17 @@
+{"id": "2026000590", "name": "두산위브 시그니처 광양", "fields": {
+"supply_class": {"value": "민영주택", "status": "stated", "quote": "주택유형 ... 민영 ... 비규제지역 / 재당첨제한 전매제한 거주의무기간 분양가상한제 택지유형 없음 없음 없음 미적용 민간택지", "note": "전남광주통합특별시 광양시, 기존 전라남도 광양시 기준 적용"},
+"supply_kind": {"value": "일반분양", "status": "stated", "quote": "5개동 총 575세대[조합원 455세대 포함] 중 일반분양 120세대", "note": "조합 사업의 일반분양분"},
+"correction": {"value": null, "status": "not_stated", "quote": "", "note": "정정·변경공고 문구 없음"},
+"need_head": {"value": false, "status": "stated", "quote": "세대주 요건 - - - 필요 - - - - (기관추천 다자녀 신혼 노부모 생애최초 신생아 1순위 2순위)", "note": "일반공급 세대주 요건 없음"},
+"price_cap": {"value": false, "status": "stated", "quote": "분양가상한제 ... 미적용 민간택지 / 분양가상한제 미적용 민영주택", "note": ""},
+"residence_duty": {"value": 0, "status": "stated", "quote": "거주의무기간 ... 없음", "note": "단지 주요정보 표"},
+"rewin_years": {"value": 0, "status": "stated", "quote": "재당첨제한 ... 없음 / 당첨자로 선정되더라도 「주택공급에 관한 규칙」 제54조에 따른 재당첨 제한을 적용받지 않으며", "note": ""},
+"resale": {"value": "없음", "status": "stated", "quote": "본 주택의 전매제한은 최초 당첨자발표일로부터 적용되며 기간은 아래와 같습니다. 구분 특별공급 일반공급 전매제한기간 없음 없음", "note": ""},
+"account_months": {"value": 6, "status": "stated", "quote": "③ 주택청약종합저축 : 주택청약종합저축에 가입하여 6개월이 경과하고, 지역별·면적별 예치금액 이상인 분", "note": ""},
+"deposit_count": {"value": null, "status": "not_stated", "quote": "지역별·면적별 예치금액 이상", "note": "민영주택 예치금 기준"},
+"residence": {"value": {"area": "기존 전라남도 광양시", "months": 6, "since": "2026-05-20", "others": ["광양시 6개월 미만 거주자", "기존 전라남도", "기존 광주광역시"], "equal": false}, "status": "stated", "quote": "기존 전라남도 광양시 6개월 이상 계속 거주자 (2026.05.20. 이전부터 계속 거주) / 기존 전라남도 광양시 6개월 미만 거주자 및 기존 전라남도 및 기존 광주광역시 거주자", "note": "since 는 그 날 이전부터 계속 거주"},
+"score_ratio": {"value": [{"over_m2": 60, "upto_m2": 85, "score_pct": 40, "lottery_pct": 60}, {"over_m2": 85, "upto_m2": null, "score_pct": 0, "lottery_pct": 100}], "status": "stated", "quote": "전용면적 60㎡ 초과 85㎡ 이하 40% 60% / 전용면적 85㎡ 초과 - 100%", "note": "60㎡ 이하 주택형 없음(66A·66B 는 60㎡ 초과)"},
+"pay_ratio": {"value": {"contract_pct": 5, "mid_pct": 60, "balance_pct": 35}, "status": "stated", "quote": "공급금액 계약금(5%) 중도금(60%) 잔금(35%)", "note": "계약금 1차 500만원(계약시)+2차(계약후 30일내)"},
+"mc_quota": {"value": [{"name": "광양시 6개월 이상 계속 거주자", "pct": 100}, {"name": "기타지역(광양시 6개월 미만, 기존 전남, 기존 광주)", "pct": 0}], "status": "unclear", "quote": "① 지역 : 해당지역 거주자(광양시 6개월 이상 계속 거주자) → 기타지역 거주자(광양시 6개월 미만 거주자 및 기존 전라남도 및 기존 광주광역시 거주자)", "note": "비율 숫자 없이 순차로만 적힘"},
+"special_supply": {"value": {"types": {"기관추천": 3, "다자녀가구": 10, "신혼부부": 5, "노부모부양": 1, "생애최초": 1, "신생아": 3}, "special_total": 23, "general": 97, "total": 120}, "status": "stated", "quote": "[특별공급 23세대(기관추천 3세대, 다자녀가구 10세대, 신혼부부 5세대, 노부모부양 1세대, 생애최초 1세대, 신생아 3세대) 포함] / 합 계 120 3 10 5 1 1 3 23 97", "note": ""}
+}}

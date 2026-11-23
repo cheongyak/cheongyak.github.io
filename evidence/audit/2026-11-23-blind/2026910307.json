@@ -1,0 +1,21 @@
+{
+  "id": "2026910307",
+  "name": "인천 검단신도시 AB13블록 호반써밋Ⅲ",
+  "fields": {
+    "supply_class": {"value": "민영주택", "status": "stated", "quote": "주택유형 규제지역여부 ... 민영 비규제지역 무순위(사후) 입주자모집공고일 현재 '인천광역시'에 거주하는 무주택세대구성원", "note": ""},
+    "supply_kind": {"value": "무순위(사후접수)", "status": "stated", "quote": "본 주택의 금회 공급 주택형은 최초 입주자모집공고 시 1순위 및 2순위 청약 마감된 주택형으로, 예비입주자를 대상으로 추가입주자를 선정하고 남은 미계약 세대를 공급", "note": ""},
+    "correction": {"value": null, "status": "not_stated", "quote": "", "note": "정정공고 문구 없음. 주택형 표기 변경 안내만 있음(사전당첨자 모집공고 2022.02.28. 이후 사업계획변경으로 전용면적 표기 변경, 청약은 변경 전 주택형 097.9655P 로 신청)"},
+    "need_head": {"value": false, "status": "stated", "quote": "본 주택은 무순위(사후) 입주자모집공고일 현재 인천광역시에 거주하는 무주택세대구성원을 대상으로 공급합니다(외국인 청약불가)", "note": "청약통장 가입여부와 무관하게 신청가능"},
+    "price_cap": {"value": true, "status": "stated", "quote": "재당첨제한 전매제한 거주의무기간 분양가상한제 / 없음 / 최초 당첨자 발표일(2025.12.12.)로부터 3년 ... / 없음 적용", "note": "분양가상한제 '적용'인데 거주의무기간은 '없음'으로 적혀 있음"},
+    "residence_duty": {"value": 0, "status": "stated", "quote": "거주의무기간 ... 없음", "note": "단지 주요정보 표. 상한제 적용 주택인데 없음으로 표기"},
+    "rewin_years": {"value": 0, "status": "stated", "quote": "재당첨제한 ... 없음 / 무순위 입주자모집공고는 청약통장을 사용하지 않는 청약으로 ... 재당첨 제한 등 제한을 받지 않으나", "note": ""},
+    "resale": {"value": {"months": 36, "base": "최초 입주자모집공고의 당첨자발표일(2025.12.12.), 단 소유권이전등기 완료 시 그때까지"}, "status": "stated", "quote": "본 아파트의 전매제한은 최초 입주자모집공고의 당첨자발표일(2025.12.12.)로부터 3년간 적용됩니다.(단, 소유권이전등기를 완료한 경우 소유권이전등기를 완료한 때 까지)", "note": ""},
+    "account_months": {"value": null, "status": "not_stated", "quote": "청약통장 가입여부와 무관하게 신청가능", "note": "무순위라 통장 요건 없음"},
+    "deposit_count": {"value": null, "status": "not_stated", "quote": "청약통장 가입여부와 무관하게 신청가능", "note": "민영·무순위"},
+    "residence": {"value": {"area": "인천광역시", "months": 0, "since": "2026-11-19", "others": [], "equal": true}, "status": "stated", "quote": "본 주택의 무순위(사후) 입주자모집공고일은 2026.11.19.(목)이며(청약자격 요건 중 나이, 거주요건 등의 판단기준일)", "note": "인천광역시 거주자만 신청 가능(기타지역 없음). 거주기간 요건 없음, 주택형별 무작위 추첨"},
+    "score_ratio": {"value": null, "status": "not_stated", "quote": "한국부동산원 입주자 선정 프로그램에 의해 주택형별 무작위 추첨으로 무순위(사후) 당첨자 선정", "note": "가점제 없음, 전량 추첨"},
+    "pay_ratio": {"value": {"contract_pct": 10, "mid_pct": 0, "balance_pct": 90}, "status": "stated", "quote": "공급 금액 계약금(10%) 잔금(90%) ... 97P 642,800,000 64,280,000 578,520,000 / 중도금 납부 기한이 경과하여 ... 중도금이 없고", "note": "잔금은 입주시(계약일로부터 2개월 이내)"},
+    "mc_quota": {"value": null, "status": "not_stated", "quote": "", "note": "특별공급 없음(무순위)"},
+    "special_supply": {"value": {"types": [], "total_households": 905, "this_supply": 1, "no_special": true}, "status": "stated", "quote": "공급규모 : 아파트 지하 2층, 지상 29층 8개동 총 905세대 중 잔여 1세대", "note": "97P 1세대, 특별공급 구분 없음(명시 문구는 없음)"}
+  }
+}

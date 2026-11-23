@@ -1,0 +1,21 @@
+{
+  "id": "2026910306",
+  "name": "광안센텀 비스타동원(조합원 취소분)",
+  "fields": {
+    "supply_class": {"value": "민영주택", "status": "stated", "quote": "주택유형 규제지역여부 무순위(사후) 자격요건 민영 비규제지역", "note": ""},
+    "supply_kind": {"value": "조합원 취소분 등 잔여", "status": "stated", "quote": "총 525세대 중 조합원 취소분 39세대 중 잔여 39세대", "note": "청약홈 접수 유형은 '무순위(사후)'. 단지 유의사항에는 '최초 입주자모집공고 시 1순위 및 2순위 청약 마감된 주택형으로, 예비입주자를 대상으로 추가입주자를 선정하고 남은 미계약 세대를 공급'이라는 문구도 있어 공급 사유 설명이 서로 다름(제목·공급규모는 조합원 취소분)."},
+    "correction": {"value": null, "status": "not_stated", "quote": "", "note": "정정·변경공고 문구 없음"},
+    "need_head": {"value": false, "status": "stated", "quote": "무순위(사후) 입주자모집공고일 현재 부산광역시, 울산광역시, 경상남도에 거주하는 무주택세대구성원 ■ 청약통장 가입여부와 무관하게 신청가능", "note": "무주택세대구성원 대상"},
+    "price_cap": {"value": false, "status": "stated", "quote": "재당첨제한 전매제한 거주의무기간 분양가상한제 / 없음 최초 당첨자발표일 (2026.11.02.)로부터 6개월 없음 미적용", "note": ""},
+    "residence_duty": {"value": 0, "status": "stated", "quote": "거주의무기간 ... 없음", "note": ""},
+    "rewin_years": {"value": 0, "status": "stated", "quote": "재당첨제한 ... 없음 / 청약통장을 사용하지 않는 청약으로 청약 당첨(예비입주자 선정 포함) 시 당첨자로 명단관리 되지 않아 재당첨 제한 등 제한을 받지 않으나", "note": "분양권 소유 시 향후 청약에서 주택 소유로 간주"},
+    "resale": {"value": {"months": 6, "base": "최초 입주자모집공고의 당첨자발표일(2026-11-02)"}, "status": "stated", "quote": "본 아파트의 전매제한은 최초 입주자모집공고의 당첨자발표일(2026.11.02.)로부터 6개월 적용됩니다.", "note": ""},
+    "account_months": {"value": 0, "status": "stated", "quote": "청약통장 가입여부와 무관하게 신청가능", "note": "무순위(사후) — 통장 요건 없음"},
+    "deposit_count": {"value": null, "status": "not_stated", "quote": "", "note": "민영·무순위, 납입횟수 요건 없음(통장 무관)"},
+    "residence": {"value": {"area": "부산광역시, 울산광역시, 경상남도", "months": 0, "since": "2026-11-20", "others": [], "equal": true}, "status": "stated", "quote": "무순위(사후) 입주자모집공고일은 2026.11.20.(금)이며(청약자격 요건 중 나이, 거주요건 등의 판단기준일) / 부산광역시, 울산광역시, 경상남도에 거주하는 무주택세대구성원을 대상으로 공급", "note": "해당·기타지역 구분 없이 주택형별 무작위 추첨"},
+    "score_ratio": {"value": null, "status": "not_stated", "quote": "한국부동산원 입주자 선정 프로그램에 의해 주택형별 무작위 추첨으로 무순위(사후) 당첨자 선정", "note": "가점제 없음, 전량 무작위 추첨"},
+    "pay_ratio": {"value": {"contract_pct": 5, "mid_pct": 60, "balance_pct": 35}, "status": "stated", "quote": "공급금액 계약금(5%) 중도금(60%) 잔금(35%)", "note": "계약금은 1차 500만원 + 2차(계약 후 20일 이내) 나머지"},
+    "mc_quota": {"value": null, "status": "not_stated", "quote": "", "note": "특별공급 없음"},
+    "special_supply": {"value": {"types": [], "total_households": 525, "this_supply": 39, "special_none": true}, "status": "stated", "quote": "총 525세대 중 조합원 취소분 39세대 중 잔여 39세대", "note": "무순위(사후)로 특별공급 항목 없음(공고문에 특별공급 일정·자격 없음)"}
+  }
+}
