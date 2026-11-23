@@ -167,6 +167,56 @@ def nearby(lat: float, lng: float, http: httpx.Client) -> tuple[Optional[list[di
     return None, ", ".join(errs)
 
 
+_ROUND = re.compile(r"((?:추가\s*)?입주자\s*모집\s*공고|불법행위\s*재공급|취소\s*후\s*재공급|계약\s*취소\s*주택|조합원\s*취소분|잔여\s*세대|사후\s*접수|재공급|무순위|잔여)")
+SIBLING_MAX_M = 3000   # 동 중심과 같은 단지 정확한 위치가 이보다 멀면 같은 단지로 보지 않는다
+
+
+def complex_name_key(name: str) -> str:
+    """'동탄신도시 금강펜테리움 7차 센트럴파크 불법행위재공급' · '… 센트럴파크(2차)' → 같은 열쇠. 끝 괄호(회차)와 공급 방식 낱말을 뺀다(단지 이름의 '7차'는 남김)."""
+    n = re.sub(r"\s*\([^)]*\)\s*$", "", name or "")
+    n = _ROUND.sub("", n)
+    return re.sub(r"[\s·()]", "", n)
+
+
+def _households(L) -> Optional[int]:
+    c = getattr(L, "complex", None) or {}
+    h = c.get("households") if isinstance(c, dict) else None
+    return h if isinstance(h, int) and h > 0 else None
+
+
+def borrow_sibling_geo(groups: dict, found: dict, log: list[str]) -> int:
+    """주소가 동까지뿐인 공고(precision dong 또는 못 찾음)는 같은 단지의 다른 공고가 정확한 주소로 찾은 좌표를 쓴다.
+    (2026-11-24 운영자 제보: 2026930048 '화성시 신동 동탄2택지개발지구(A57-2블럭)'은 동 중심에서 잰 시세 6.48~6.88억 → 마진없음,
+     같은 단지 2026910303 '동탄신리천로8길 17'은 정확한 위치 시세 5.0~5.4억 → 비추천. 같은 집이 공고마다 판정이 갈림)
+    같은 단지로 보는 조건(모두): 단지 이름 열쇠가 같음 · 모집공고문 총 세대수가 같음 · 시도가 같음 ·
+    동 중심 좌표가 있으면 그 정확한 위치와 SIBLING_MAX_M 안. 반환: 빌려 쓴 공고 수"""
+    exact = {}
+    for nid, (geo, _) in found.items():
+        if geo and geo.get("precision") == "exact" and not geo.get("via"):
+            L0 = groups[nid][0]
+            exact.setdefault((complex_name_key(L0.name), _households(L0), L0.sido), (nid, geo, L0))
+    n = 0
+    for nid, (geo, nb) in list(found.items()):
+        if geo and geo.get("precision") == "exact":
+            continue
+        L0 = groups[nid][0]
+        hh = _households(L0)
+        hit = exact.get((complex_name_key(L0.name), hh, L0.sido)) if hh else None
+        if not hit or hit[0] == nid:
+            continue
+        sid, sgeo, S0 = hit
+        if geo and geo.get("lat") is not None and _dist_m(geo["lat"], geo["lng"], sgeo["lat"], sgeo["lng"]) > SIBLING_MAX_M:
+            log.append(f"[위치] {L0.name}: 같은 이름·세대수 공고 {sid} 의 위치가 동 중심에서 {SIBLING_MAX_M}m 넘게 떨어져 빌려 쓰지 않음")
+            continue
+        new = {k: sgeo[k] for k in ("lat", "lng", "matched", "source") if k in sgeo}
+        new.update({"precision": "exact", "query": sgeo.get("query"),
+                    "via": {"notice": sid, "address": S0.address, "own": geo.get("query") if geo else None}})
+        found[nid] = (new, found[sid][1])   # 주변 입지도 그 위치 것
+        n += 1
+        log.append(f"[위치] {L0.name}: 공고 주소가 {'동까지뿐' if geo else '좌표 없음'}이라 같은 단지 공고 {sid}({S0.address})의 정확한 위치를 씀")
+    return n
+
+
 def apply_geo(listings: list, log: list[str], previous: Optional[dict] = None, http: Optional[httpx.Client] = None,
               probe: bool = False, geocode_on: bool = True, nearby_on: bool = True, lawd_cache: Optional[dict] = None) -> None:
     """공고(주소)별로 한 번 좌표와 주변 입지를 구해 같은 공고의 주택형 전체에 넣는다."""
@@ -197,6 +247,8 @@ def apply_geo(listings: list, log: list[str], previous: Optional[dict] = None, h
                 geo, msg = None, f"오류 {e.__class__.__name__}"
             log.append(f"[위치] {L0.name}: {'찾음 (' + geo['precision'] + ') ' + geo['matched'] if geo else '못 찾음'} ← {msg}")
         found[nid] = (geo, nb)
+    # 1-1) 동 중심뿐인 공고는 같은 단지 다른 공고의 정확한 위치를 쓴다 (2026-11-24, 같은 집이 공고마다 시세·판정이 갈리지 않게)
+    stat["borrowed"] = borrow_sibling_geo(groups, found, log)
     geo_sec = time.monotonic() - start
     # 2) 주변 입지: 공용 서버라 느릴 수 있어 시간 제한 안에서만. 못 한 공고는 다음 실행에서 다시 시도한다
     for nid, (geo, nb) in found.items():
@@ -261,4 +313,4 @@ def apply_geo(listings: list, log: list[str], previous: Optional[dict] = None, h
             except Exception as e:
                 log.append(f"[입지·점검] 실패: {e.__class__.__name__}")
     log.append(f"[위치] 공고 {len(groups)}건: 정확 {stat['exact']} · 동 기준 {stat['dong']} · 못 찾음 {stat['none']}"
-               f" (지난 값 재사용 {stat['reused']}) · 주변 입지 {stat['nearby']}건 · 좌표 {geo_sec:.0f}초, 전체 {time.monotonic() - start:.0f}초")
+               f" (지난 값 재사용 {stat['reused']}, 같은 단지 공고 위치 {stat.get('borrowed', 0)}) · 주변 입지 {stat['nearby']}건 · 좌표 {geo_sec:.0f}초, 전체 {time.monotonic() - start:.0f}초")

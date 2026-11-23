@@ -148,6 +148,9 @@ def estimate_nearby(address: str, area: Optional[float], basis: Optional[str], t
     far = max(R.NEARBY_RADII)
     rough = has_origin and origin.get("precision") != "exact"
     where = "(공고 주소가 동까지만 있어 동 중심에서 잰 거리)" if rough else ""
+    via = (origin or {}).get("via") if has_origin else None
+    if via:   # 동까지뿐인 주소 대신 같은 단지 다른 공고의 정확한 위치 (geo.borrow_sibling_geo, 2026-11-24)
+        where = f"(공고 주소가 동까지만 있어 같은 단지 공고 {via.get('notice')}의 주소 위치에서 잰 거리)"
     tiers = []   # (단계, 고른 거래(직거래 포함), 범위 글)
     if dong:
         mine = [r for r in pool if (r.get("umd") or "").split()[:1] == [dong] and dists.get(id(r), 0) <= far]
