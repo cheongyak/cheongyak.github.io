@@ -1,5 +1,5 @@
 {
- "updated": "2026-11-22",
+ "updated": "2026-11-24",
  "items": [
   {
    "key": "issues:판정 검증 실패",
@@ -203,7 +203,7 @@
    "effort": "S",
    "status": "open",
    "first_seen": "2026-11-04",
-   "last_seen": "2026-11-23",
+   "last_seen": "2026-11-24",
    "tries": 0,
    "pr": null,
    "success_check": null,
@@ -225,7 +225,7 @@
    "tries": 0,
    "pr": null,
    "success_check": null,
-   "notes": " · #31 손으로 닫음(11-05) · 11-10: 원인 해결됨, 닫기는 운영자 몫 — 고칠 코드 없음 · 11-22: #162 원인(천안라크원 비율 표)은 아침 v1.91.12 로 고쳐짐, 닫기는 운영자 허락 대기"
+   "notes": " · #31 손으로 닫음(11-05) · 11-10: 원인 해결됨, 닫기는 운영자 몫 — 고칠 코드 없음 · 11-22: #162 원인(천안라크원 비율 표)은 아침 v1.91.12 로 고쳐짐, 닫기는 운영자 허락 대기 · 11-24 열린 이슈 없음"
   },
   {
    "key": "runlog:[경고] 청약홈에서 공고를 0건 받았어요",
@@ -276,13 +276,13 @@
    "reach": 1,
    "confidence": 3,
    "effort": "S",
-   "status": "open",
+   "status": "gone",
    "first_seen": "2026-11-05",
    "last_seen": "2026-11-09",
    "tries": 0,
    "pr": null,
    "success_check": null,
-   "notes": "flagged:2015122300021004 와 같은 원인 — owner 아침 자동 고치기라 고르지 않음"
+   "notes": "flagged:2015122300021004 와 같은 원인 — owner 아침 자동 고치기라 고르지 않음 · 11-24 gone(11-09 이후 신호 없음)"
   },
   {
    "key": "flagged:2015122300021004",
@@ -656,14 +656,14 @@
   {
    "key": "audit:2026000563:가점제·추첨제 비율",
    "first_seen": "2026-11-23",
-   "last_seen": "2026-11-23",
+   "last_seen": "2026-11-24",
    "tries": 1,
    "pr": 163,
    "success_check": {
     "how": "합친 뒤 첫 수집의 docs/listings.json 2026000563·566 score_ratio, 공고 화면 안내",
     "expect": "rows [0~60 40/60, 60~85 40/60], 화면에 '가점제 40% · 추첨제 60%'"
    },
-   "notes": "11-23 밤 PR #163. 신호 도구가 이 주 보고 표를 못 잡아 손으로 넣음(manual:signals-audit-rows)",
+   "notes": "11-23 밤 PR #163. 신호 도구가 이 주 보고 표를 못 잡아 손으로 넣음(manual:signals-audit-rows) · 11-24 PR #163 합침(02:36 UTC), 기록은 손 세션 WORK 11:32·v1.94.2·release 있음. 효과 확인 11-27~",
    "title": "563 더샵 트리센트·566 호반써밋 초량 가점제·추첨제 비율 표('■ ②가점' 아래, 제목 없음)를 못 읽음",
    "area": "parse",
    "source": "evidence/audit/2026-11-23-blind/README.md",
@@ -672,12 +672,12 @@
    "reach": 2,
    "confidence": 3,
    "effort": "M",
-   "status": "in_pr"
+   "status": "merged"
   },
   {
    "key": "audit:2026000560:전매제한",
    "first_seen": "2026-11-23",
-   "last_seen": "2026-11-23",
+   "last_seen": "2026-11-24",
    "tries": 0,
    "pr": null,
    "success_check": null,
@@ -695,7 +695,7 @@
   {
    "key": "audit:2026910298:계약금 비율",
    "first_seen": "2026-11-23",
-   "last_seen": "2026-11-23",
+   "last_seen": "2026-11-24",
    "tries": 0,
    "pr": null,
    "success_check": null,
@@ -713,10 +713,13 @@
   {
    "key": "manual:signals-audit-rows",
    "first_seen": "2026-11-23",
-   "last_seen": "2026-11-23",
-   "tries": 0,
-   "pr": null,
-   "success_check": null,
+   "last_seen": "2026-11-24",
+   "tries": 1,
+   "pr": 166,
+   "success_check": {
+    "how": "합친 뒤 python -m tools.qa.improve_signals 결과의 audit: 신호",
+    "expect": "audit:2026000560:전매제한·audit:2026910298:계약금 비율 이 보임(다음 주간 보고 전까지), 옛 보고 key 그대로"
+   },
    "notes": "고칠 방향: 앱 오류 제목 아래 표 줄을 다음 제목 전까지 모두 읽기 + 시험. [루프 규칙] PR 후보",
    "title": "신호 도구(improve_signals.from_blind_audit)가 주간 대조 '앱 오류' 표 줄을 못 잡음 — 11-23 보고는 '앱 오류'가 표 위 제목에만 있음",
    "area": "qa",
@@ -726,7 +729,7 @@
    "reach": 2,
    "confidence": 3,
    "effort": "S",
-   "status": "open"
+   "status": "in_pr"
   }
  ]
 }
