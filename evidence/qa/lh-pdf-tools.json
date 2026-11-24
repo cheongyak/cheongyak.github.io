@@ -1,42 +1,42 @@
 {
- "date": "2026-11-24 08:19",
- "golden_notices": 62,
+ "date": "2026-11-24 08:53",
+ "golden_notices": 63,
  "stat": {
   "pypdf": {
-   "ok": 662,
+   "ok": 673,
    "wrong": 0,
-   "missing": 56,
+   "missing": 57,
    "rent_ok": 185,
    "rent_wrong": 0,
    "rent_missing": 0,
-   "notices": 62
+   "notices": 63
   },
   "pdfium": {
-   "ok": 662,
+   "ok": 674,
    "wrong": 0,
    "missing": 56,
    "rent_ok": 185,
    "rent_wrong": 0,
    "rent_missing": 0,
-   "notices": 62
+   "notices": 63
   },
   "plumber": {
-   "ok": 618,
+   "ok": 629,
    "wrong": 6,
-   "missing": 94,
+   "missing": 95,
    "rent_ok": 171,
    "rent_wrong": 0,
    "rent_missing": 14,
-   "notices": 62
+   "notices": 63
   },
   "merged": {
-   "ok": 664,
+   "ok": 676,
    "wrong": 0,
    "missing": 54,
    "rent_ok": 185,
    "rent_wrong": 0,
    "rent_missing": 0,
-   "notices": 62
+   "notices": 63
   }
  },
  "merged_wrong": 0,
@@ -63,7 +63,9 @@
   "2015122300021069 homeless_relaxed: pypdf, pdfium 만 찾음 → 참",
   "2015122300021094 homeless_relaxed: pypdf, pdfium 만 찾음 → 참",
   "2015122300021108 대학생.income_pct: fill pypdf=None, pdfium=None, plumber='excluded'",
-  "2015122300021119 대학생.income_pct: fill pypdf=None, pdfium=None, plumber='excluded'"
+  "2015122300021119 대학생.income_pct: fill pypdf=None, pdfium=None, plumber='excluded'",
+  "2015122300021130 신혼부부·한부모.dual_add: fill pypdf=None, pdfium=0, plumber=0",
+  "2015122300021130 신혼부부·한부모.income_pct: fill pypdf=None, pdfium={'1': None, '2': 150, '3+': 150}, plumber={'1': None, '2': 150, '3+': 150}"
  ],
  "conflicts": []
 }
