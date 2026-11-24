@@ -1,48 +1,53 @@
 {
- "at": "2026-11-24 15:27",
+ "at": "2026-11-25 07:11",
  "ok": true,
- "collect_run": "2026-11-24 · 공고 309건",
+ "collect_run": "2026-11-25 · 공고 280건",
  "banner": null,
  "flagged": {},
- "pending": [],
+ "pending": [
+  "임대 기관 거르기 화면",
+  "경고 범위 화면",
+  "임대 판정",
+  "임대 화면"
+ ],
  "coverage_missing": 0,
  "observe": [],
  "warnings": [],
  "freshness": [
   {
    "name": "분양",
-   "updated": "2026-11-24 11:46",
-   "hours": 3.7,
+   "updated": "2026-11-25 06:53",
+   "hours": 0.3,
    "stale": false
   },
   {
    "name": "LH 임대",
    "updated": "2026-11-24 14:29",
-   "hours": 1.0,
+   "hours": 16.7,
    "stale": false
   },
   {
    "name": "SH 임대",
-   "updated": "2026-11-24 14:36",
-   "hours": 0.9,
+   "updated": "2026-11-25 06:48",
+   "hours": 0.4,
    "stale": false
   },
   {
    "name": "GH 임대",
    "updated": "2026-11-24 14:37",
-   "hours": 0.8,
+   "hours": 16.6,
    "stale": false
   },
   {
    "name": "공공지원 민간임대",
    "updated": "2026-11-24 14:44",
-   "hours": 0.7,
+   "hours": 16.5,
    "stale": false
   },
   {
    "name": "LH 주거복지·신혼희망",
    "updated": "2026-11-24 14:37",
-   "hours": 0.8,
+   "hours": 16.6,
    "stale": false
   }
  ],
@@ -52,13 +57,18 @@
   "failed": []
  },
  "crosscheck": {
-  "summary": "[검증·공고문] 공고문 83건 대조 · 기준표 320줄 · 분양가 309/309 일치 · 불일치 공고 0건",
+  "summary": "[검증·공고문] 공고문 79건 대조 · 기준표 296줄 · 분양가 280/280 일치 · 불일치 공고 0건",
   "mismatches": []
  },
  "golden": {
   "mismatches": []
  },
- "qa_stale": [],
+ "qa_stale": [
+  "rent-org.json",
+  "verify-scope.json",
+  "lh-qa.json",
+  "lh-screen.json"
+ ],
  "qa": {
   "gate": true,
   "supply_type_fails": 0,
@@ -76,19 +86,19 @@
   "e2e_fails": 0,
   "past_chat_fails": 0,
   "lh_invariant_violations": 0,
-  "lh_judge_qa_fails": 0,
-  "lh_screen_fails": 0,
+  "lh_judge_qa_fails": null,
+  "lh_screen_fails": null,
   "lh_unread": 0,
   "lh_pdf_merged_wrong": 0,
   "pay_audit_bad": 0,
   "parse_moved_changes": 0,
   "coverage_missing": 0,
-  "verify_scope_fails": 0,
+  "verify_scope_fails": null,
   "pay_audit_read": "215/234",
   "lh_data_at": "2026-11-24 14:29",
-  "cross_rule_checks": 450865,
-  "market_at": "2026-11-24",
+  "cross_rule_checks": 439254,
+  "market_at": "2026-11-25",
   "supply_type_at": "2026-11-24",
-  "invariants_at": "2026-11-24"
+  "invariants_at": "2026-11-25"
  }
 }
