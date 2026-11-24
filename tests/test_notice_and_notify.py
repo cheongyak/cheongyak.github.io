@@ -255,6 +255,19 @@ def test_score_ratio_unknown_and_absent():
     assert notice_pdf.parse_score_ratio("전용면적별 1순위 가점제/추첨제 적용비율 구분 가점제 추첨제 전용면적 60㎡ 이하 40% 50%") == {"unknown": True}
 
 
+def test_score_ratio_gajeom_item_head():
+    """표 제목 없이 당첨자 선정 순서 '■ ②가점' 아래 바로 표 머리가 오는 꼴 (2026000563·566, 11-23 주간 원문 대조 P2)."""
+    head = "■ 당첨자 선정 순서 - 1순위 가점제 : ①지역 → ②가점 → ③청약통장 가입기간 → ④추첨 ■ ①지역 : 해당지역 거주자 "
+    assert notice_pdf.parse_score_ratio(head + "■ ②가점 \n구분 가점제 추첨제\n전용면적 60㎡ 이하 40% 60%\n - 가점 산정기준(「주택공급에 관한 규칙」 별표1의2 나목)") == \
+        {"rows": [{"over": 0, "upto": 60, "score": 40, "lottery": 60}]}
+    # 합이 100% 가 아니면 못 읽은 것으로 본다 (같은 검사)
+    assert notice_pdf.parse_score_ratio(head + "■ ②가점 구분 가점제 추첨제 전용면적 60㎡ 이하 40% 50%") == {"unknown": True}
+    # '■ ②가점 : 「주택공급에 관한 규칙」 별표1(가점제 적용기준)…' 설명 문장만 있고 표 머리가 없으면 읽지 않는다
+    assert notice_pdf.parse_score_ratio(head + "■ ②가점 : 「주택공급에 관한 규칙」 별표1(가점제 적용기준)에 의거한 청약가점 점수를 기준으로 당첨자를 선정하며") is None
+    # 머리 뒤에 '전용면적' 줄이 바로 오지 않으면(다른 표) 읽지 않는다
+    assert notice_pdf.parse_score_ratio(head + "■ ②가점 구분 가점제 추첨제 비고 해당 없음 40% 60%") is None
+
+
 def test_pdf_fail_reason_names_file_kind():
     """공고문 PDF 를 못 읽었을 때 원인(스캔 PDF·HWP 등)을 기록에 남긴다 (2026-10-02 오남역 여의재 1단지)."""
     import httpx
