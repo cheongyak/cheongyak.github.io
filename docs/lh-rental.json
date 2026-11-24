@@ -1,147 +1,8 @@
 {
- "updated": "2026-11-24 14:29",
+ "updated": "2026-11-25 06:47",
  "source": "LH 청약플러스 임대 공고 (공공데이터포털 한국토지주택공사 분양임대공고 조회)",
- "count": 81,
+ "count": 82,
  "notices": [
-  {
-   "id": "2015122300021022",
-   "name": "남원노암 공공임대 50년 예비입주자모집",
-   "type": "공공임대",
-   "type_code": "08",
-   "judge_type": true,
-   "region": "전북특별자치도",
-   "posted": "2026-11-06",
-   "close": "2026-11-24",
-   "status": "접수중",
-   "url": "https://apply.lh.or.kr/lhapply/apply/wt/wrtanc/selectWrtancInfo.do?panId=2015122300021022&ccrCnntSysDsCd=03&uppAisTpCd=06&aisTpCd=08&mi=1026",
-   "url_mobile": "https://apply.lh.or.kr/lhapply/apply/wt/wrtanc/selectWrtancInfo.do?panId=2015122300021022&ccrCnntSysDsCd=03&uppAisTpCd=06&aisTpCd=08&mi=1026",
-   "schedule": [
-    {
-     "complex": null,
-     "apply_start": "2026-11-24",
-     "apply_end": "2026-11-25",
-     "apply_time": "2026.11.24 10:00 ~ 2026.11.24 16:10",
-     "docs_target": "2026-12-11",
-     "docs_start": "2026-12-14",
-     "docs_end": "2026-12-18",
-     "winner": "2027-02-26",
-     "contract_start": "2027-03-01",
-     "contract_end": "2027-03-31"
-    }
-   ],
-   "complexes": [
-    {
-     "name": "남원노암",
-     "address": "전북특별자치도 남원시 노송로 1255-9(노암동,주공아파트)",
-     "households": 625,
-     "area": "35.28~36",
-     "move_in": "2022.06",
-     "heating": "중앙가스난방"
-    }
-   ],
-   "units": [
-    {
-     "complex": "남원노암",
-     "type": "14평",
-     "area": 35.28,
-     "supply_area": 49.49,
-     "households": 118,
-     "now_households": 30,
-     "deposit": null,
-     "rent": null,
-     "money_note": "공고문 참조"
-    },
-    {
-     "complex": "남원노암",
-     "type": "15평",
-     "area": 36.0,
-     "supply_area": 50.5,
-     "households": 60,
-     "now_households": 15,
-     "deposit": null,
-     "rent": null,
-     "money_note": "공고문 참조"
-    }
-   ],
-   "files": [
-    {
-     "kind": "공고문(hwp)",
-     "name": "(261106)공임50년예비입주자표준모집공고문(남원노암).hwpx",
-     "url": "https://apply.lh.or.kr/lhapply/lhFile.do?fileid=69306324"
-    },
-    {
-     "kind": "공고문(PDF)",
-     "name": "(261106)공임50년예비입주자표준모집공고문(남원노암).pdf",
-     "url": "https://apply.lh.or.kr/lhapply/lhFile.do?fileid=69306325"
-    }
-   ],
-   "etc": "자세한 사항은 공고문을 반드시 확인하시기 바랍니다.",
-   "office": {
-    "place": "전북특별자치도 남원시 노송로 1255-9(노암동,주공아파트) 관리사무소",
-    "tel": "063-625-1939"
-   },
-   "notice_pdf": "https://apply.lh.or.kr/lhapply/lhFile.do?fileid=69306325",
-   "notice_text": 30685,
-   "rents": [
-    {
-     "complex": null,
-     "type": "14",
-     "group": null,
-     "deposit": 9628000,
-     "rent": 150570
-    },
-    {
-     "complex": null,
-     "type": "15",
-     "group": null,
-     "deposit": 9817000,
-     "rent": 153130
-    }
-   ],
-   "terms": {
-    "relaxed": false,
-    "homeless_relaxed": false,
-    "homeless_max1": false,
-    "income_basis": null,
-    "groups": [
-     {
-      "key": "일반",
-      "name": "일반",
-      "homeless": "household",
-      "income_pct": null,
-      "asset_manwon": null,
-      "car_manwon": null,
-      "age_min": null,
-      "age_max": null
-     }
-    ],
-    "quotes": {
-     "일반": {
-      "account": "모집공고일(2026.11.06) 현재 주택청약종합저축(청약저축 포함)에 가입하여 6개월이 지난 자로서 매월 약정납입일에 월납입금을 6회 이상 납입한 자 (단, 시·도지사"
-     }
-    },
-    "income_table_100": null,
-    "account": {
-     "months": 6,
-     "count": 6,
-     "rank2_any": true
-    }
-   },
-   "api": {
-    "CCR_CNNT_SYS_DS_CD": "03",
-    "SPL_INF_TP_CD": "061",
-    "UPP_AIS_TP_CD": "06",
-    "AIS_TP_CD": "08"
-   },
-   "read": {
-    "tools": [
-     "pypdf",
-     "pdfium",
-     "plumber"
-    ],
-    "conflicts": []
-   }
-  },
   {
    "id": "2015122300020975",
    "name": "제천장락1 50년공공임대주택 예비입주자 모집 공고[2026.11.09]",
@@ -2770,7 +2631,7 @@
    "region": "경기도",
    "posted": "2026-11-05",
    "close": "2026-11-27",
-   "status": "공고중",
+   "status": "접수중",
    "url": "https://apply.lh.or.kr/lhapply/apply/wt/wrtanc/selectWrtancInfo.do?panId=2015122300020973&ccrCnntSysDsCd=03&uppAisTpCd=06&aisTpCd=07&mi=1026",
    "url_mobile": "https://apply.lh.or.kr/lhapply/apply/wt/wrtanc/selectWrtancInfo.do?panId=2015122300020973&ccrCnntSysDsCd=03&uppAisTpCd=06&aisTpCd=07&mi=1026",
    "schedule": [
@@ -4729,7 +4590,7 @@
      "complex": "전주효자4-1 국민임대주택",
      "apply_start": "2026-11-26",
      "apply_end": "2026-11-26",
-     "apply_time": "2026.11.26 10:00 ~ 2026.11.26 19:00",
+     "apply_time": "2026.11.26 10:00 ~ 2026.11.26 16:10",
      "docs_target": "2026-12-04",
      "docs_start": "2026-12-04",
      "docs_end": "2026-12-10",
@@ -16621,6 +16482,169 @@
    }
   },
   {
+   "id": "2015122300021124",
+   "name": "[선계약후검증]이천갈산3 국민임대주택 추가 모집",
+   "type": "국민임대",
+   "type_code": "07",
+   "judge_type": true,
+   "region": "경기도",
+   "posted": "2026-11-24",
+   "close": "2026-12-04",
+   "status": "공고중",
+   "url": "https://apply.lh.or.kr/lhapply/apply/wt/wrtanc/selectWrtancInfo.do?panId=2015122300021124&ccrCnntSysDsCd=03&uppAisTpCd=06&aisTpCd=07&mi=1026",
+   "url_mobile": "https://apply.lh.or.kr/lhapply/apply/wt/wrtanc/selectWrtancInfo.do?panId=2015122300021124&ccrCnntSysDsCd=03&uppAisTpCd=06&aisTpCd=07&mi=1026",
+   "schedule": [
+    {
+     "complex": null,
+     "apply_start": "2026-12-02",
+     "apply_end": "2026-12-04",
+     "apply_time": "~",
+     "docs_target": "2026-12-09",
+     "docs_start": "2026-12-10",
+     "docs_end": "2026-12-14",
+     "winner": "2026-12-18",
+     "contract_start": "2026-12-29",
+     "contract_end": "2026-12-30"
+    }
+   ],
+   "complexes": [
+    {
+     "name": "이천갈산3",
+     "address": "경기도 이천시 영창로 315(갈산동,휴먼시아)",
+     "households": 445,
+     "area": "46.9~51.93",
+     "move_in": "0000.01",
+     "heating": "개별난방"
+    }
+   ],
+   "units": [
+    {
+     "complex": "이천갈산3",
+     "type": "46",
+     "area": 46.9,
+     "supply_area": 68.6244,
+     "households": 240,
+     "now_households": 14,
+     "deposit": null,
+     "rent": null,
+     "money_note": "공고문 참조"
+    },
+    {
+     "complex": "이천갈산3",
+     "type": "51",
+     "area": 51.93,
+     "supply_area": 75.9843,
+     "households": 205,
+     "now_households": 8,
+     "deposit": null,
+     "rent": null,
+     "money_note": "공고문 참조"
+    }
+   ],
+   "files": [
+    {
+     "kind": "공고문(hwp)",
+     "name": "(게시용)(20261124_이천갈산3)국민임대주택추가모집공고문.hwpx",
+     "url": "https://apply.lh.or.kr/lhapply/lhFile.do?fileid=69567776"
+    },
+    {
+     "kind": "공고문(PDF)",
+     "name": "(게시용)(20261124_이천갈산3)국민임대주택추가모집공고문.pdf",
+     "url": "https://apply.lh.or.kr/lhapply/lhFile.do?fileid=69567782"
+    },
+    {
+     "kind": "기타 첨부파일",
+     "name": "[국민임대제출서류양식][첨부1](필수)선계약후검증확약서포함(개인정보수집이용및제3자제공동의서등).pdf",
+     "url": "https://apply.lh.or.kr/lhapply/lhFile.do?fileid=69566905"
+    },
+    {
+     "kind": "기타 첨부파일",
+     "name": "[국민임대제출서류양식][첨부2]예비신혼부부신청확인서및세대구성확인서.pdf",
+     "url": "https://apply.lh.or.kr/lhapply/lhFile.do?fileid=69566911"
+    },
+    {
+     "kind": "기타 첨부파일",
+     "name": "[마이마이서비스이용하기][첨부4]]고객메뉴얼(V7).pdf",
+     "url": "https://apply.lh.or.kr/lhapply/lhFile.do?fileid=69566927"
+    },
+    {
+     "kind": "카탈로그",
+     "name": "[팸플릿]이천갈산3(3단지)국민임대주택.zip",
+     "url": "https://apply.lh.or.kr/lhapply/lhFile.do?fileid=69566931"
+    },
+    {
+     "kind": "기타 첨부파일",
+     "name": "[해당자만]위임장(양식).pdf",
+     "url": "https://apply.lh.or.kr/lhapply/lhFile.do?fileid=69566929"
+    },
+    {
+     "kind": "기타 첨부파일",
+     "name": "[현장접수용][첨부3]본인행정정보제공요구서.pdf",
+     "url": "https://apply.lh.or.kr/lhapply/lhFile.do?fileid=69566919"
+    }
+   ],
+   "etc": "○ 청약신청은 인터넷 PC(LH청약플러스 접속) 또는 인터넷 모바일(“LH청약플러스” 앱(App) 설치)로 가능합니다.\n○ 금회 모집 공고는 동호배정 당첨자에 한해 계약체결 후 입주자격을 검증하는 「선계약 후검증」 방식으로 진행되며, 입주는 입주자격 검증 후 적격자에 한하여 가능합니다.\n○ 당첨동.호는 문자 전송되오나 청약자 본인이 공고문 “10.당첨자발표 및 계약안내”에 따라 필히 확인하시기 바랍니다.\n○ 신청서를 잘못 작성하여 불이익을 받는 일이 발생하지 않도록 신청자께서는 모집공고문을 반드시 숙지하신 후 신청하시기 바랍니다. (공고내용 미숙지로 인한 모든 책임은 신청자 본인에게 있음)\n○ 전화문의는 장시간 접속지연 및 통화대기 등의 불편이 있을 수 있으니, 청약신청과 관련한 내용은 공고문을 참고하여 주시기 바랍니다.\n○ 본 단지는 별도로 견본주택(모델하우스) 운영하지 않으며, 지구 및 단지특성을 담은 홍보물(팸플릿 포함)은 소비자의 이해를 돕기 위한 것으로 차이가 있을 수 있습니다.",
+   "office": {
+    "place": "경기도 용인시 기흥구 동백중앙로 225-6(중동) 쥬네브스타월드 9층",
+    "tel": "1600-1004"
+   },
+   "notice_pdf": "https://apply.lh.or.kr/lhapply/lhFile.do?fileid=69567782",
+   "notice_text": 50560,
+   "rents": [
+    {
+     "complex": "이천갈산3",
+     "type": "46/51",
+     "group": null,
+     "deposit": 34045000,
+     "rent": 232850
+    }
+   ],
+   "terms": {
+    "relaxed": false,
+    "homeless_relaxed": false,
+    "homeless_max1": false,
+    "income_basis": "도시근로자 월평균소득",
+    "groups": [
+     {
+      "key": "일반",
+      "name": "일반",
+      "homeless": "household",
+      "income_pct": {
+       "1": 90,
+       "2": 80,
+       "3+": 70
+      },
+      "asset_manwon": 34500,
+      "car_manwon": 4542,
+      "age_min": null,
+      "age_max": null
+     }
+    ],
+    "quotes": {
+     "일반": {
+      "income": "가구원수별 가구당 월평균 소득(원) 70% 80% 90% 참고사항 1인 2 … 1인 가구 20% 가산, 2인 가구 10% 가산",
+      "asset": "58,337 자산 총자산가액 세대구성원 전원이 보유하고 있는 총자산가액 합산기준 ( 345 )백만원 이하 자동차가액 세대구",
+      "car": "이 보유하고 있는 개별 자동차가액 ( 4,542 )만원 이하 ▪ 외국인은 신청"
+     }
+    },
+    "income_table_100": null
+   },
+   "api": {
+    "CCR_CNNT_SYS_DS_CD": "03",
+    "SPL_INF_TP_CD": "062",
+    "UPP_AIS_TP_CD": "06",
+    "AIS_TP_CD": "07"
+   },
+   "read": {
+    "tools": [
+     "pypdf",
+     "pdfium",
+     "plumber"
+    ],
+    "conflicts": []
+   }
+  },
+  {
    "id": "2015122300021130",
    "name": "수원시지역 호매실21단지, 고등2단지 행복주택 입주자격완화[선계약 후검증] 입주자 모집(2026.11.23)",
    "type": "행복주택",
@@ -18665,6 +18689,238 @@
     "SPL_INF_TP_CD": "062",
     "UPP_AIS_TP_CD": "06",
     "AIS_TP_CD": "09"
+   },
+   "read": {
+    "tools": [
+     "pypdf",
+     "pdfium",
+     "plumber"
+    ],
+    "conflicts": []
+   }
+  },
+  {
+   "id": "2015122300021128",
+   "name": "완주삼례A-1 행복주택 입주자격완화 입주자 모집(동호지정,선계약후검증)",
+   "type": "행복주택",
+   "type_code": "10",
+   "judge_type": true,
+   "region": "전북특별자치도",
+   "posted": "2026-11-24",
+   "close": "2026-12-31",
+   "status": "공고중",
+   "url": "https://apply.lh.or.kr/lhapply/apply/wt/wrtanc/selectWrtancInfo.do?panId=2015122300021128&ccrCnntSysDsCd=03&uppAisTpCd=06&aisTpCd=10&mi=1026",
+   "url_mobile": "https://apply.lh.or.kr/lhapply/apply/wt/wrtanc/selectWrtancInfo.do?panId=2015122300021128&ccrCnntSysDsCd=03&uppAisTpCd=06&aisTpCd=10&mi=1026",
+   "schedule": [
+    {
+     "complex": null,
+     "apply_start": "2026-12-10",
+     "apply_end": "2026-12-31",
+     "apply_time": "~",
+     "docs_target": null,
+     "docs_start": null,
+     "docs_end": null,
+     "winner": "2026-12-31",
+     "contract_start": null,
+     "contract_end": null
+    }
+   ],
+   "complexes": [
+    {
+     "name": "완주삼례 A-1 행복주택",
+     "address": "전북특별자치도 완주군 삼례읍 동학로 36-21 완주삼례 행복 아리따운 아파트",
+     "households": 300,
+     "area": "21.52~44.28",
+     "move_in": "2023.12",
+     "heating": "세대난방"
+    }
+   ],
+   "units": [
+    {
+     "complex": "완주삼례 A-1 행복주택",
+     "type": "21B(대학생,청년)",
+     "area": 21.52,
+     "supply_area": 32.223,
+     "households": 4,
+     "now_households": 4,
+     "deposit": null,
+     "rent": null,
+     "money_note": "공고문 참조"
+    },
+    {
+     "complex": "완주삼례 A-1 행복주택",
+     "type": "26B(고령자,대학생,청년 )",
+     "area": 26.06,
+     "supply_area": 39.021,
+     "households": 12,
+     "now_households": 1,
+     "deposit": null,
+     "rent": null,
+     "money_note": "공고문 참조"
+    }
+   ],
+   "files": [
+    {
+     "kind": "공고문(hwp)",
+     "name": "(선계약후검증)완주삼례A-1행복주택입주자모집공고문_(26.11.24.공고)_게시용v.1.hwpx",
+     "url": "https://apply.lh.or.kr/lhapply/lhFile.do?fileid=69520326"
+    },
+    {
+     "kind": "공고문(PDF)",
+     "name": "(선계약후검증)완주삼례A-1행복주택입주자모집공고문_(26.11.24.공고)_게시용v.1.pdf",
+     "url": "https://apply.lh.or.kr/lhapply/lhFile.do?fileid=69520333"
+    },
+    {
+     "kind": "기타 첨부파일",
+     "name": "신청자전원필수제출양식_선계약후검증.hwpx",
+     "url": "https://apply.lh.or.kr/lhapply/lhFile.do?fileid=69517718"
+    },
+    {
+     "kind": "기타 첨부파일",
+     "name": "완주삼례A-1동호배치표(공가5호)_26.11.24.공고.pdf",
+     "url": "https://apply.lh.or.kr/lhapply/lhFile.do?fileid=69517953"
+    }
+   ],
+   "etc": "* 청약접수 일정 및 제출서류 등을 반드시 확인하시기 바랍니다.\n* 입주자 모집 공고문(첨부파일)을 반드시 확인하시어 불이익이 없도록 유념하시기 바랍니다.\n  (1세대 1주택 신청원칙, 중복신청 시 전부 무효처리 됨)\n* 첨부된 작성양식은 접수처에 비치되어 있으니 참고하시기 바랍니다.\n* 전화문의는 장시간 접속지연 및 통화대기 등의 불편이 있을 수 있으니, 신청과 관련한 내용은 공고문을 참고하여 주시기 바랍니다.\n* 금회 모집은 신청자가 선착순으로 원하는 동호를 지정하여 계약체결하며 계약체결 후 입주자격을 검증하는 先(선)계약 後(후)검증 방식으로 진행됩니다.\n   입주는 적격자에 한하여 개별안내 예정입니다.",
+   "office": {
+    "place": "전북특별자치도 전주시 완산구 홍산로 158(효자동2가) LH전북지역본부",
+    "tel": "1600-1004"
+   },
+   "notice_pdf": "https://apply.lh.or.kr/lhapply/lhFile.do?fileid=69520333",
+   "notice_text": 45141,
+   "rents": [
+    {
+     "complex": null,
+     "type": "21B",
+     "group": "대학생",
+     "deposit": 13192000,
+     "rent": 68150
+    },
+    {
+     "complex": null,
+     "type": "21B",
+     "group": "청년",
+     "deposit": 13968000,
+     "rent": 72160
+    },
+    {
+     "complex": null,
+     "type": "21B",
+     "group": "고령자",
+     "deposit": 14744000,
+     "rent": 76170
+    },
+    {
+     "complex": null,
+     "type": "21B",
+     "group": "주거급여수급자",
+     "deposit": 11640000,
+     "rent": 60140
+    },
+    {
+     "complex": null,
+     "type": "26B",
+     "group": "대학생",
+     "deposit": 15980000,
+     "rent": 82560
+    },
+    {
+     "complex": null,
+     "type": "26B",
+     "group": "청년",
+     "deposit": 16920000,
+     "rent": 87420
+    },
+    {
+     "complex": null,
+     "type": "26B",
+     "group": "고령자",
+     "deposit": 17860000,
+     "rent": 92270
+    },
+    {
+     "complex": null,
+     "type": "26B",
+     "group": "주거급여수급자",
+     "deposit": 14100000,
+     "rent": 72850
+    }
+   ],
+   "terms": {
+    "relaxed": true,
+    "homeless_relaxed": true,
+    "homeless_max1": false,
+    "income_basis": "도시근로자 월평균소득",
+    "groups": [
+     {
+      "key": "대학생",
+      "name": "대학생",
+      "homeless": "self",
+      "income_pct": "excluded",
+      "asset_manwon": "excluded",
+      "car_manwon": 0,
+      "age_min": null,
+      "age_max": null
+     },
+     {
+      "key": "청년",
+      "name": "청년",
+      "homeless": "self",
+      "income_pct": "excluded",
+      "asset_manwon": "excluded",
+      "car_manwon": 4542,
+      "age_min": 19,
+      "age_max": 39,
+      "account_by_movein": true
+     },
+     {
+      "key": "고령자",
+      "name": "고령자",
+      "homeless": "household",
+      "income_pct": "excluded",
+      "asset_manwon": "excluded",
+      "car_manwon": 4542,
+      "age_min": 65,
+      "age_max": null
+     },
+     {
+      "key": "주거급여수급자",
+      "name": "주거급여수급자",
+      "homeless": "household",
+      "income_pct": null,
+      "asset_manwon": null,
+      "car_manwon": null,
+      "age_min": null,
+      "age_max": null
+     }
+    ],
+    "quotes": {
+     "대학생": {
+      "income": "로 간주 ② 혼인 중이 아닐 것 ③ 소득요건 배제 [일반요건 : 신",
+      "asset": "579,278원을 합산하여 산정 ④ 총자산요건 배제 (단, 신청자 본인이 자동차가액 산출대",
+      "car": "자산요건 배제 (단, 신청자 본인이 자동차가액 산출대상 자동차를 소유하고 있지 않을 것"
+     },
+     "청년": {
+      "income": "예술인 ② 혼인 중이 아닐 것 ③ 소득요건 배제 [일반요건 : 해",
+      "asset": "579,278원을 합산하여 산정 ④ 총자산요건 배제 (단, 해당세대가",
+      "car": "당세대가 보유하고 있는 총 자산 중 자동차가액은 4,542만원 이하 일 것) * 가산"
+     },
+     "고령자": {},
+     "주거급여수급자": {}
+    },
+    "income_table_100": {
+     "3": 8168429,
+     "4": 8802202,
+     "5": 9326985,
+     "6": 9906263
+    },
+    "unknown_groups": []
+   },
+   "api": {
+    "CCR_CNNT_SYS_DS_CD": "03",
+    "SPL_INF_TP_CD": "063",
+    "UPP_AIS_TP_CD": "06",
+    "AIS_TP_CD": "10"
    },
    "read": {
     "tools": [
