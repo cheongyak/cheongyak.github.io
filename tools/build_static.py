@@ -45,6 +45,54 @@ def seo_on() -> bool:
     return feature("seo_content")
 
 
+# ---------- 사이트 연관 채널·서비스 소개 (기능 site_identity, 2026-11-25 운영자: 네이버 검색·AI 브리핑이 공식 출처로 알아보게) ----------
+# 네이버 서치어드바이저 '사이트 연관 채널' 규격: <head> 의 JSON-LD 에 사이트 주소(url)와 연관 채널 주소(sameAs)를 적는다. 값은 운영자가 정해 준 그대로.
+SITE_ID = {"name": "청약패스", "url": SITE, "sameAs": ["https://blog.naver.com/cheongyakpass"],
+           "description": "청약홈 모집공고마다 신청 자격(일반·특별공급), 시세 대비 마진, 계약금·중도금·잔금 필요 자금을 계산해 주는 아파트 청약 정리 서비스"}
+SITE_ID_SLUGS = {"about/", "about/operator/", "about/policy/", "about/sources/", "story/", "guide/", "notice/", "rental/"}   # 메인(docs/index.html)과 주요 정적 페이지 — 공고·가이드 낱장에는 넣지 않는다
+
+
+def site_jsonld() -> str:
+    """Organization·WebSite JSON-LD 두 덩어리. docs/index.html <head> 에도 같은 글자가 들어 있다(tests/test_site_identity_20261125.py 가 같은지 본다)."""
+    return "".join('<script type="application/ld+json">' + json.dumps({"@context": "https://schema.org", "@type": t, **SITE_ID}, ensure_ascii=False) + "</script>"
+                   for t in ("Organization", "WebSite"))
+
+
+ABOUT_INTRO = (
+    '<section class="card doc" id="about-intro"><h2>청약패스 소개</h2>'
+    '<p><b>청약패스(cheongyakpass.kr)</b>는 청약홈 모집공고마다 내가 신청할 수 있는지(자격 판정), 주변 시세보다 얼마나 싼지(시세 마진), '
+    '당첨되면 현금이 얼마나 필요한지(필요 자금)를 계산해 보여 주는 아파트 청약 정리 서비스예요.</p>'
+    '<h3>주요 기능</h3>'
+    '<ol>'
+    '<li><b>일반·특별공급 자격 판정</b> — 무주택 여부, 세대, 거주 지역, 청약통장, 소득·자산을 넣으면 공고마다 일반공급과 특별공급(신혼부부·생애최초·다자녀·노부모부양 등)에 신청할 수 있는지와 그 이유를 보여 줘요.</li>'
+    '<li><b>주변 실거래가 대비 시세 마진·등급 비교</b> — 분양가를 국토교통부 실거래가로 계산한 주변 추정 시세와 비교해 마진과 등급을 보여 줘요. 여러 공고를 같은 기준으로 견줄 수 있어요.</li>'
+    '<li><b>필요 현금 계산</b> — 계약금·중도금·잔금 일정과 대출 한도(집값 기준·소득 기준)를 따져, 당첨되면 내 돈이 얼마나 필요한지와 모자란 금액을 계산해요.</li>'
+    '</ol>'
+    '<h3>데이터 출처와 갱신 주기</h3>'
+    '<p>공고·일정·분양가는 청약홈(한국부동산원)과 모집공고문에서, 시세는 국토교통부 실거래가에서 가져와요. 매일 새벽 새로 수집해 하루 한 번 갱신해요. '
+    "판정과 금액은 공개 자료와 내가 넣은 정보로 계산한 참고용 추정이에요. 최종 확인은 모집공고문과 청약홈 '청약자격확인'으로 해 주세요. "
+    '자세한 출처는 <a href="/about/sources/">데이터 출처</a>, 판정 기준은 <a href="/about/policy/">판정·편집 원칙</a>에 정리했어요.</p>'
+    '<h3>자주 묻는 질문</h3>'
+    '<dl class="faq">'
+    '<dt>Q. 청약패스에서 청약 신청까지 할 수 있나요?</dt><dd>A. 아니요. 신청은 청약홈에서 해요. 청약패스는 신청 전에 자격·마진·필요 자금을 미리 따져 보는 서비스예요.</dd>'
+    "<dt>Q. 판정 결과를 그대로 믿어도 되나요?</dt><dd>A. 참고용 추정이에요. 공고문에서 읽지 못해 추정한 값은 '추정'으로, 확인이 필요한 공고는 '데이터 확인 필요'로 표시해요. 신청 전에 모집공고문과 청약홈 '청약자격확인'으로 꼭 확인하세요.</dd>"
+    '<dt>Q. 내가 넣은 소득·자산 정보는 어디에 저장되나요?</dt><dd>A. 내 기기의 브라우저에만 저장되고 서버로 보내지 않아요. 판정도 기기 안에서 계산해요.</dd>'
+    '<dt>Q. 청약홈이나 LH가 운영하는 서비스인가요?</dt><dd>A. 아니요. 청약홈(한국부동산원)·LH·국토교통부와 관계없는 개인이 공개 자료로 운영해요. <a href="/about/operator/">운영자 소개</a>에서 볼 수 있어요.</dd>'
+    '</dl></section>')
+
+
+def about_body(frag_about: str) -> str:
+    """이용 안내 본문. 기능 site_identity 가 켜져 있으면 '청약패스 소개'를 '데이터 검증 현황' 카드 바로 위에 넣는다(카드를 못 찾으면 제목 바로 아래). 꺼져 있으면 예전과 글자 하나 다르지 않다."""
+    body = ("" if "<h1" in frag_about else "<h1>이용 안내</h1>") + frag_about
+    if not feature("site_identity"):
+        return body
+    m = re.search(r'<section class="card"><div class="row"><h2>데이터 검증 현황</h2>', body)
+    if m:
+        return body[: m.start()] + ABOUT_INTRO + body[m.start():]
+    h = re.search(r"</h1>", body)
+    return body[: h.end()] + ABOUT_INTRO + body[h.end():] if h else ABOUT_INTRO + body
+
+
 def page(slug: str, title: str, desc: str, body: str, head: str = "", crumbs: list | None = None) -> str:
     """head·crumbs 는 기능 seo_content 가 켜졌을 때만 쓴다 (꺼져 있으면 예전과 글자 하나 다르지 않게)."""
     if seo_on():
@@ -92,6 +140,8 @@ def seo_page(slug: str, title: str, desc: str, body: str, head: str = "", crumbs
     url = f"{SITE}/{slug}" if slug else SITE + "/"
     nav = " · ".join(f'<a href="{h}">{t}</a>' for h, t in SEO_NAV)
     foot = " · ".join(f'<a href="{h}">{t}</a>' for h, t in SEO_FOOT)
+    if slug in SITE_ID_SLUGS and feature("site_identity"):
+        head += site_jsonld()
     crumb = ""
     if crumbs:
         crumb = '<nav class="crumbs small" aria-label="이동 경로">' + " › ".join(
@@ -275,7 +325,7 @@ def main() -> None:
     frag = json.loads((ROOT / "tools" / "static_fragments.json").read_text(encoding="utf-8"))
     pages = {
         "story/": ("만든 이유와 데이터", "청약패스가 답하려는 질문과 쓰는 데이터(청약홈, 모집공고문, 국토부 실거래가)", frag["story"]),
-        "about/": ("이용 안내", "청약패스 판정의 범위, 데이터와 검증 방식, 개인정보 안내", ("" if "<h1" in frag["about"] else "<h1>이용 안내</h1>") + frag["about"]),
+        "about/": ("이용 안내", "청약패스 판정의 범위, 데이터와 검증 방식, 개인정보 안내", about_body(frag["about"])),
         "terms/": ("이용약관", "청약패스 이용약관", frag["terms"]),
         "privacy/": ("개인정보처리방침", "청약패스 개인정보처리방침", frag["privacy"]),
         "updates/": ("업데이트 소식", "청약패스 업데이트 소식 — 새로 생기고 바뀐 것", frag["updates"]),

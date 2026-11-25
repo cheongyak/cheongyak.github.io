@@ -4,6 +4,15 @@
 2026-09-29 12:55 이전 항목은 규칙을 만들기 전 작업을 커밋 기록으로 정리한 것이라 백업 브랜치가 없어요.
 그 시점으로 되돌릴 때는 해당 커밋 번호로 `git revert` 를 써요.
 
+## 2026-11-25 16:13 · 사이트 연관 채널 JSON-LD · /about/ '청약패스 소개' v1.94.4 (기능 site_identity)
+- 요청: 운영자 '네이버 검색과 AI 브리핑에서 공식 출처로 잘 인식되게 ① 메인과 주요 정적 페이지 <head> 에 Organization·WebSite JSON-LD(name 청약패스, url https://cheongyakpass.kr, sameAs 네이버 블로그, description) ② /about/ 의 데이터 검증 현황 위에 청약패스 소개(요약·주요 기능 3·출처와 갱신·자주 묻는 질문 3~4) + sitemap /about/ lastmod 오늘. 기존 디자인·계산·광고 비활성화 설정은 건드리지 말 것'
+- 변경: tools/build_static 에 site_jsonld()(운영자가 준 값 그대로 Organization·WebSite 두 덩어리)·SITE_ID_SLUGS(about/·about/operator/·about/policy/·about/sources/·story/·guide/·notice/·rental/ — 공고·가이드 낱장은 뺌)·ABOUT_INTRO·about_body(). 메인 docs/index.html <head> 에 같은 JSON-LD 두 줄(손으로 넣음 — 시험이 build_static 값과 같은지 봄). /about/ 은 '데이터 검증 현황' 카드 바로 위에 '청약패스 소개' 카드(정적 HTML): 한 줄 요약, 주요 기능 3, 데이터 출처와 갱신 주기, 자주 묻는 질문 4. 기존 본문·데이터 검증 현황은 글자 그대로. 앱 화면(#/about)·계산·광고 설정은 안 바꿈. sitemap 의 /about/ lastmod 는 만들 때마다 그날 날짜(오늘 2026-11-25) — 따로 고칠 것 없음
+- 파일: tools/build_static.py, docs/index.html, docs/config.json, tests/test_site_identity_20261125.py, docs/about/index.html, docs/about/operator/index.html, docs/about/policy/index.html, docs/about/sources/index.html, docs/story/index.html, docs/guide/index.html, docs/notice/index.html, FEATURES.md, docs/changelog.json, VERSIONS.md, WORK.md, HANDOFF.md
+- 확인: 새 시험 6건(값이 운영자가 준 그대로·메인 head 와 같음·주요 페이지에만·소개가 검증 현황 위·검증 현황 그대로·스위치 끔). 로컬에서 정적 페이지를 만들어 8개 페이지 <head> 의 JSON-LD 를 JSON 으로 읽어 확인, seo_static 통과(금지어 0·구조화 데이터 오류 0·깨진 링크 0), /about/ 390px 캡처 확인. 소개 글의 사실(기기에만 저장·개인 운영·매일 새벽 수집)은 개인정보처리방침·데이터 출처 페이지 문구와 맞춤. pytest 604 passed 1 skipped, judge_check 1070/1070, 메인 스크립트 문법 검사 통과. /rental/ 색인과 sitemap 은 수집이 다시 만들게 둠(로컬 빌드에 새 임대 공고가 섞여서)
+- 기능: site_identity
+- 버전: v1.94.4
+- 백업: backup/20261125-1613
+
 ## 2026-11-25 16:07 · LH 50년 공공임대 — 신청자격 지역 칸이 서식 안내글 그대로인 공고의 거주지역 읽기 (익산어양4, 판정 검증 실패 #167·#168) v1.94.3
 - 요청: 운영자의 검색 노출 작업을 시작하다 verify-status ok=false·이슈 #167·#168 을 보고 먼저 처리(열린 이슈 우선)
 - 원인: 11-25 올라온 익산어양4단지 50년 공공임대(2015122300021129)의 '4. 신청자격' 첫 문장이 '주택건설지역(주택공급에 관한 규칙 제4조제3항 각 호 해당지역 기재)에 거주하는 무주택세대구성원' — LH 서식의 안내글이 지역 이름 대신 그대로 남음. 그래서 거주지역을 못 읽고, 지역을 못 읽으면 '소득·자산 기준 없음(50년 공공임대)'도 확정하지 않는 안전장치 때문에 소득·총자산·자동차까지 못 읽음(4칸)
