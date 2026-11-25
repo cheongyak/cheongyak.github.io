@@ -1,42 +1,42 @@
 {
- "date": "2026-11-25 14:20",
- "golden_notices": 63,
+ "date": "2026-11-25 16:13",
+ "golden_notices": 64,
  "stat": {
   "pypdf": {
-   "ok": 673,
+   "ok": 683,
+   "wrong": 0,
+   "missing": 58,
+   "rent_ok": 185,
+   "rent_wrong": 0,
+   "rent_missing": 0,
+   "notices": 64
+  },
+  "pdfium": {
+   "ok": 684,
    "wrong": 0,
    "missing": 57,
    "rent_ok": 185,
    "rent_wrong": 0,
    "rent_missing": 0,
-   "notices": 63
-  },
-  "pdfium": {
-   "ok": 674,
-   "wrong": 0,
-   "missing": 56,
-   "rent_ok": 185,
-   "rent_wrong": 0,
-   "rent_missing": 0,
-   "notices": 63
+   "notices": 64
   },
   "plumber": {
-   "ok": 629,
-   "wrong": 6,
-   "missing": 95,
+   "ok": 638,
+   "wrong": 7,
+   "missing": 96,
    "rent_ok": 171,
    "rent_wrong": 0,
    "rent_missing": 14,
-   "notices": 63
+   "notices": 64
   },
   "merged": {
-   "ok": 676,
+   "ok": 686,
    "wrong": 0,
-   "missing": 54,
+   "missing": 55,
    "rent_ok": 185,
    "rent_wrong": 0,
    "rent_missing": 0,
-   "notices": 63
+   "notices": 64
   }
  },
  "merged_wrong": 0,
@@ -52,7 +52,8 @@
   "plumber 2015122300020895 account: 읽음 {'months': 6, 'count': 6, 'rank2_any': False} ≠ 정답 {'months': 6, 'count': 6, 'rank2_any': True}",
   "plumber 2015122300021018 일반.asset_manwon: 읽음 34500 ≠ 정답 'excluded'",
   "plumber 2015122300021069 homeless_relaxed: 읽음 False ≠ 정답 True",
-  "plumber 2015122300021094 homeless_relaxed: 읽음 False ≠ 정답 True"
+  "plumber 2015122300021094 homeless_relaxed: 읽음 False ≠ 정답 True",
+  "plumber 2015122300021129 account: 읽음 {'months': 6, 'count': 6, 'rank2_any': False} ≠ 정답 {'months': 6, 'count': 6, 'rank2_any': True}"
  ],
  "merge_notes": [
   "2015122300020453 일반.asset_manwon: majority pypdf='excluded', pdfium='excluded', plumber=34500",
@@ -65,10 +66,8 @@
   "2015122300021108 대학생.income_pct: fill pypdf=None, pdfium=None, plumber='excluded'",
   "2015122300021119 대학생.income_pct: fill pypdf=None, pdfium=None, plumber='excluded'",
   "2015122300021130 신혼부부·한부모.dual_add: fill pypdf=None, pdfium=0, plumber=0",
-  "2015122300021130 신혼부부·한부모.income_pct: fill pypdf=None, pdfium={'1': None, '2': 150, '3+': 150}, plumber={'1': None, '2': 150, '3+': 150}"
+  "2015122300021130 신혼부부·한부모.income_pct: fill pypdf=None, pdfium={'1': None, '2': 150, '3+': 150}, plumber={'1': None, '2': 150, '3+': 150}",
+  "2015122300021129 account: majority pypdf={'months': 6, 'count': 6, 'rank2_any': True}, pdfium={'months': 6, 'count': 6, 'rank2_any': True}, plumber={'months': 6, 'count': 6, 'rank2_any': False}"
  ],
- "conflicts": [],
- "_data": {
-  "lh": "c2c7672d8f5e"
- }
+ "conflicts": []
 }
