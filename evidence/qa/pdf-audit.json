@@ -1,13 +1,24 @@
 {
- "date": "2026-11-25",
+ "date": "2026-11-26",
  "page_cap": 300,
- "notices": 79,
- "with_problem": 6,
+ "notices": 78,
+ "with_problem": 5,
  "kinds": {
   "읽기 도구에 따라 값이 다름": 1,
-  "글자가 거의 없는 쪽 N개 (스캔 이미지·표 그림 추정)": 5
+  "글자가 거의 없는 쪽 N개 (스캔 이미지·표 그림 추정)": 4
  },
- "errors": [],
+ "errors": [
+  {
+   "notice": "2026000523",
+   "name": "형곡 센트럴 아테라",
+   "error": "RemoteProtocolError: Server disconnected without sending a response."
+  },
+  {
+   "notice": "2026000434",
+   "name": "삼도이동 1지구 토지임대부 공공분양주택",
+   "error": "RemoteProtocolError: Server disconnected without sending a response."
+  }
+ ],
  "results": [
   {
    "notice": "2026000598",
@@ -1910,62 +1921,7 @@
   {
    "notice": "2026000523",
    "name": "형곡 센트럴 아테라",
-   "url": "https://www.applyhome.co.kr/ai/aia/selectAPTLttotPblancDetail.do?houseManageNo=2026000523&pblancNo=2026000523",
-   "attachments": 1,
-   "pdfs": 1,
-   "attachment_list": [
-    {
-     "url": "https://static.applyhome.co.kr/ai/aia/getAtchmnfl.do?houseManageNo=2026000523&pblancNo=2026000523&atchmnflSeqNo=2012110&atchmnflSn=2",
-     "bytes": 841575,
-     "pages": 70,
-     "chars": 137705,
-     "head": "- 1 - ※ 단지 주요정보 (분양문의) 1551-3315 주택유형 해당지역 기타지역 규제지역여부 민영 입주자모집공고일 현재 구미시 거주자 입주"
-    }
-   ],
-   "chosen": "https://static.applyhome.co.kr/ai/aia/getAtchmnfl.do?houseManageNo=2026000523&pblancNo=2026000523&atchmnflSeqNo=2012110&atchmnflSn=2",
-   "pages": 70,
-   "pages_read": 70,
-   "chars_read": 137774,
-   "empty_pages": [],
-   "chars_per_page_min": 532,
-   "fields": {
-    "need_head": false,
-    "price_cap": false,
-    "residence_duty": 0,
-    "rewin_years": 0,
-    "account_months": 6,
-    "residence": {
-     "area": "구미시",
-     "months": 0,
-     "since": null
-    }
-   },
-   "fields_merged": {
-    "need_head": false,
-    "price_cap": false,
-    "residence_duty": 0,
-    "rewin_years": 0,
-    "account_months": 6,
-    "residence": {
-     "area": "구미시",
-     "months": 0,
-     "since": null
-    }
-   },
-   "fields_pdfium": {
-    "need_head": false,
-    "price_cap": false,
-    "residence_duty": 0,
-    "rewin_years": 0,
-    "account_months": 6,
-    "residence": {
-     "area": "구미시",
-     "months": 0,
-     "since": null
-    }
-   },
-   "pdfium_chars": 137840,
-   "problem": []
+   "error": "RemoteProtocolError: Server disconnected without sending a response."
   },
   {
    "notice": "2026000515",
@@ -2337,64 +2293,7 @@
   {
    "notice": "2026000434",
    "name": "삼도이동 1지구 토지임대부 공공분양주택",
-   "url": "https://www.applyhome.co.kr/ai/aia/selectAPTLttotPblancDetail.do?houseManageNo=2026000434&pblancNo=2026000434",
-   "attachments": 1,
-   "pdfs": 1,
-   "attachment_list": [
-    {
-     "url": "https://static.applyhome.co.kr/ai/aia/getAtchmnfl.do?houseManageNo=2026000434&pblancNo=2026000434&atchmnflSeqNo=2010009&atchmnflSn=2",
-     "bytes": 1579845,
-     "pages": 42,
-     "chars": 129978,
-     "head": "- 1 - 삼도이동 1지구 토지임대부 공공분양주택 입주자모집공고 구 글 플 레 이 스 토 어애플앱 스토어 청약Home 앱 설치 바로가기 본 입주"
-    }
-   ],
-   "chosen": "https://static.applyhome.co.kr/ai/aia/getAtchmnfl.do?houseManageNo=2026000434&pblancNo=2026000434&atchmnflSeqNo=2010009&atchmnflSn=2",
-   "pages": 42,
-   "pages_read": 42,
-   "chars_read": 130019,
-   "empty_pages": [
-    36,
-    39
-   ],
-   "chars_per_page_min": 21,
-   "fields": {
-    "price_cap": true,
-    "residence_duty": 5,
-    "rewin_years": 10,
-    "residence": {
-     "area": "제주특별자치도",
-     "months": 12,
-     "since": "2025-10-27"
-    },
-    "pub_limits_kind": "total"
-   },
-   "fields_merged": {
-    "price_cap": true,
-    "residence_duty": 5,
-    "rewin_years": 10,
-    "residence": {
-     "area": "제주특별자치도",
-     "months": 12,
-     "since": "2025-10-27"
-    },
-    "pub_limits_kind": "total"
-   },
-   "fields_pdfium": {
-    "price_cap": true,
-    "residence_duty": 5,
-    "rewin_years": 10,
-    "residence": {
-     "area": "제주특별자치도",
-     "months": 12,
-     "since": "2025-10-27"
-    },
-    "pub_limits_kind": "total"
-   },
-   "pdfium_chars": 130040,
-   "problem": [
-    "글자가 거의 없는 쪽 2개 (스캔 이미지·표 그림 추정): [36, 39]"
-   ]
+   "error": "RemoteProtocolError: Server disconnected without sending a response."
   },
   {
    "notice": "2026820012",
@@ -2458,63 +2357,6 @@
     "pub_limits_kind": "town"
    },
    "pdfium_chars": 92216,
-   "problem": []
-  },
-  {
-   "notice": "2026000532",
-   "name": "계양신도시 카이브 유보라(AC4BL)",
-   "url": "https://www.applyhome.co.kr/ai/aia/selectAPTLttotPblancDetail.do?houseManageNo=2026000532&pblancNo=2026000532",
-   "attachments": 1,
-   "pdfs": 1,
-   "attachment_list": [
-    {
-     "url": "https://static.applyhome.co.kr/ai/aia/getAtchmnfl.do?houseManageNo=2026000532&pblancNo=2026000532&atchmnflSeqNo=2002309&atchmnflSn=4",
-     "bytes": 1346300,
-     "pages": 73,
-     "chars": 176759,
-     "head": "- 1 - ※ 단지 주요정보 (분양문의) 1800-0320 주택유형 해당지역 기타지역 규제지역여부 민영 인천광역시 거주자 서울특별시 및 경기도 "
-    }
-   ],
-   "chosen": "https://static.applyhome.co.kr/ai/aia/getAtchmnfl.do?houseManageNo=2026000532&pblancNo=2026000532&atchmnflSeqNo=2002309&atchmnflSn=4",
-   "pages": 73,
-   "pages_read": 73,
-   "chars_read": 176831,
-   "empty_pages": [],
-   "chars_per_page_min": 1048,
-   "fields": {
-    "price_cap": true,
-    "residence_duty": 0,
-    "rewin_years": 10,
-    "account_months": 12,
-    "residence": {
-     "area": "인천광역시",
-     "months": 0,
-     "since": null
-    }
-   },
-   "fields_merged": {
-    "price_cap": true,
-    "residence_duty": 0,
-    "rewin_years": 10,
-    "account_months": 12,
-    "residence": {
-     "area": "인천광역시",
-     "months": 0,
-     "since": null
-    }
-   },
-   "fields_pdfium": {
-    "price_cap": true,
-    "residence_duty": 0,
-    "rewin_years": 10,
-    "account_months": 12,
-    "residence": {
-     "area": "인천광역시",
-     "months": 0,
-     "since": null
-    }
-   },
-   "pdfium_chars": 176535,
    "problem": []
   },
   {
@@ -2615,63 +2457,6 @@
    "problem": []
   },
   {
-   "notice": "2026000518",
-   "name": "GTX운정중앙역 시티프라디움 4단지(후속사업)",
-   "url": "https://www.applyhome.co.kr/ai/aia/selectAPTLttotPblancDetail.do?houseManageNo=2026000518&pblancNo=2026000518",
-   "attachments": 1,
-   "pdfs": 1,
-   "attachment_list": [
-    {
-     "url": "https://static.applyhome.co.kr/ai/aia/getAtchmnfl.do?houseManageNo=2026000518&pblancNo=2026000518&atchmnflSeqNo=1999325&atchmnflSn=5",
-     "bytes": 908674,
-     "pages": 64,
-     "chars": 137756,
-     "head": "- 1 - ※ 본 입주자모집공고의 내용을 숙지한 후 청약 및 계약에 응하시기 바라며, 미숙지로 인한 착오 행위 등에 대하여 청약자 및 계약자 본"
-    }
-   ],
-   "chosen": "https://static.applyhome.co.kr/ai/aia/getAtchmnfl.do?houseManageNo=2026000518&pblancNo=2026000518&atchmnflSeqNo=1999325&atchmnflSn=5",
-   "pages": 64,
-   "pages_read": 64,
-   "chars_read": 137819,
-   "empty_pages": [],
-   "chars_per_page_min": 914,
-   "fields": {
-    "price_cap": true,
-    "residence_duty": 0,
-    "rewin_years": 10,
-    "account_months": 12,
-    "residence": {
-     "area": "파주시",
-     "months": 0,
-     "since": null
-    }
-   },
-   "fields_merged": {
-    "price_cap": true,
-    "residence_duty": 0,
-    "rewin_years": 10,
-    "account_months": 12,
-    "residence": {
-     "area": "파주시",
-     "months": 0,
-     "since": null
-    }
-   },
-   "fields_pdfium": {
-    "price_cap": true,
-    "residence_duty": 0,
-    "rewin_years": 10,
-    "account_months": 12,
-    "residence": {
-     "area": "파주시",
-     "months": 0,
-     "since": null
-    }
-   },
-   "pdfium_chars": 138495,
-   "problem": []
-  },
-  {
    "notice": "2026000373",
    "name": "고덕강일지구 3단지 토지임대부(본청약)",
    "url": "https://www.applyhome.co.kr/ai/aia/selectAPTLttotPblancDetail.do?houseManageNo=2026000373&pblancNo=2026000373",
@@ -2731,6 +2516,63 @@
    "problem": [
     "글자가 거의 없는 쪽 1개 (스캔 이미지·표 그림 추정): [2]"
    ]
+  },
+  {
+   "notice": "2026910294",
+   "name": "신분평 에피트 더웨이시티",
+   "url": "https://www.applyhome.co.kr/ai/aia/selectAPTRemndrLttotPblancDetailView.do?houseManageNo=2026910294&pblancNo=2026910294",
+   "attachments": 1,
+   "pdfs": 1,
+   "attachment_list": [
+    {
+     "url": "https://static.applyhome.co.kr/ai/aia/getAtchmnfl.do?houseManageNo=2026910294&pblancNo=2026910294&atchmnflSeqNo=2031995&atchmnflSn=3",
+     "bytes": 265406,
+     "pages": 7,
+     "chars": 21401,
+     "head": "- 1 - 신분평 에피트 더웨이시티 무순위(사후) 1차 입주자모집공고 구글플레이스토어 애플앱스토어 청약Home 앱 설치 바로가기 ※ 본 아파트 "
+    }
+   ],
+   "chosen": "https://static.applyhome.co.kr/ai/aia/getAtchmnfl.do?houseManageNo=2026910294&pblancNo=2026910294&atchmnflSeqNo=2031995&atchmnflSn=3",
+   "pages": 7,
+   "pages_read": 7,
+   "chars_read": 21407,
+   "empty_pages": [],
+   "chars_per_page_min": 1899,
+   "fields": {
+    "need_head": false,
+    "price_cap": false,
+    "residence_duty": 0,
+    "rewin_years": 0,
+    "residence": {
+     "area": null,
+     "months": 0,
+     "since": null
+    }
+   },
+   "fields_merged": {
+    "need_head": false,
+    "price_cap": false,
+    "residence_duty": 0,
+    "rewin_years": 0,
+    "residence": {
+     "area": null,
+     "months": 0,
+     "since": null
+    }
+   },
+   "fields_pdfium": {
+    "need_head": false,
+    "price_cap": false,
+    "residence_duty": 0,
+    "rewin_years": 0,
+    "residence": {
+     "area": null,
+     "months": 0,
+     "since": null
+    }
+   },
+   "pdfium_chars": 15967,
+   "problem": []
   },
   {
    "notice": "2026930048",
