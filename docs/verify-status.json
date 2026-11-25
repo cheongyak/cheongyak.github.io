@@ -1,9 +1,16 @@
 {
- "at": "2026-11-25 07:31",
- "ok": true,
+ "at": "2026-11-25 14:02",
+ "ok": false,
  "collect_run": "2026-11-25 · 공고 280건",
  "banner": null,
- "flagged": {},
+ "flagged": {
+  "2015122300021129": [
+   "자동 검증(임대 공고문 못 읽음): 일반 신청 가능 거주지역을 공고문에서 읽지 못함 — 공고문 확인",
+   "자동 검증(임대 공고문 못 읽음): 일반 소득 기준을 공고문에서 읽지 못함 — 공고문 확인",
+   "자동 검증(임대 공고문 못 읽음): 일반 총자산 기준을 공고문에서 읽지 못함 — 공고문 확인",
+   "자동 검증(임대 공고문 못 읽음): 일반 자동차 기준을 공고문에서 읽지 못함 — 공고문 확인"
+  ]
+ },
  "pending": [],
  "coverage_missing": 0,
  "observe": [],
@@ -12,37 +19,37 @@
   {
    "name": "분양",
    "updated": "2026-11-25 06:53",
-   "hours": 0.6,
+   "hours": 7.2,
    "stale": false
   },
   {
    "name": "LH 임대",
-   "updated": "2026-11-25 06:47",
-   "hours": 0.7,
+   "updated": "2026-11-25 13:33",
+   "hours": 0.5,
    "stale": false
   },
   {
    "name": "SH 임대",
-   "updated": "2026-11-25 06:48",
-   "hours": 0.7,
+   "updated": "2026-11-25 13:38",
+   "hours": 0.4,
    "stale": false
   },
   {
    "name": "GH 임대",
-   "updated": "2026-11-24 14:37",
-   "hours": 16.9,
+   "updated": "2026-11-25 13:38",
+   "hours": 0.4,
    "stale": false
   },
   {
    "name": "공공지원 민간임대",
    "updated": "2026-11-24 14:44",
-   "hours": 16.8,
+   "hours": 23.3,
    "stale": false
   },
   {
    "name": "LH 주거복지·신혼희망",
-   "updated": "2026-11-24 14:37",
-   "hours": 16.9,
+   "updated": "2026-11-25 13:37",
+   "hours": 0.4,
    "stale": false
   }
  ],
@@ -78,17 +85,17 @@
   "lh_invariant_violations": 0,
   "lh_judge_qa_fails": 0,
   "lh_screen_fails": 0,
-  "lh_unread": 0,
+  "lh_unread": 4,
   "lh_pdf_merged_wrong": 0,
   "pay_audit_bad": 0,
   "parse_moved_changes": 0,
   "coverage_missing": 0,
   "verify_scope_fails": 0,
   "pay_audit_read": "215/234",
-  "lh_data_at": "2026-11-25 06:47",
-  "cross_rule_checks": 450654,
+  "lh_data_at": "2026-11-25 13:33",
+  "cross_rule_checks": 468894,
   "market_at": "2026-11-25",
-  "supply_type_at": "2026-11-24",
-  "invariants_at": "2026-11-24"
+  "supply_type_at": "2026-11-25",
+  "invariants_at": "2026-11-25"
  }
 }
