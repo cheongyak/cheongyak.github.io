@@ -93,22 +93,40 @@ def from_run_log(root: Path) -> list[dict]:
 
 
 SEV = re.compile(r"\*\*(P[0-3])\*\*")
+SEV_PLAIN = re.compile(r"(?<![A-Za-z0-9])(P[0-3])(?![0-9])")
+TABLE_RULE = re.compile(r"^\|[\s:|-]+\|?$")
+ERR_HEAD = re.compile(r"앱 오류\s*(\d+)\s*건")
 
 
 def from_blind_audit(root: Path) -> list[dict]:
-    """가장 최근 주간 원문 대조 보고(evidence/audit/*-blind/README.md)의 '앱 오류' 줄. 대조 작업은 고치지 않고 보고만 한다."""
+    """가장 최근 주간 원문 대조 보고(evidence/audit/*-blind/README.md)의 '앱 오류' 줄. 대조 작업은 고치지 않고 보고만 한다.
+
+    보고 모양이 두 가지다: 표 줄의 '판정' 칸에 '앱 오류'(11-09·11-16) / '### 앱 오류 N건' 제목 아래 표(11-23~, 줄엔 '앱 오류' 낱말 없음).
+    """
     dirs = sorted((root / "evidence" / "audit").glob("*-blind"))
     if not dirs:
         return []
     latest = dirs[-1]
     out = []
-    for line in _read(latest / "README.md").splitlines():
-        if not line.startswith("|") or "앱 오류" not in line:
+    under_err = False   # '앱 오류 N건'(N>0) 제목 아래 표인지 — 다음 제목·표 밖 글줄에서 끝난다
+    lines = _read(latest / "README.md").splitlines()
+    for i, line in enumerate(lines):
+        if line.startswith("#"):
+            m = ERR_HEAD.search(line)
+            under_err = bool(m and int(m.group(1)) > 0)
+            continue
+        if not line.startswith("|"):
+            if line.strip():
+                under_err = False
             continue
         cells = [c.strip() for c in line.strip("|").split("|")]
         if len(cells) < 3:
             continue
-        m = SEV.search(line)
+        if "앱 오류" not in line:
+            nxt = lines[i + 1].strip() if i + 1 < len(lines) else ""
+            if not under_err or TABLE_RULE.match(line.strip()) or TABLE_RULE.match(nxt):   # 구분 줄·머리 줄(바로 아래가 구분 줄)은 빼기
+                continue
+        m = SEV.search(line) or SEV_PLAIN.search(cells[-1])
         title = f"{cells[0][:60]} · {cells[1][:30]}"
         notice = cells[0].split()[0] if cells[0].split() else cells[0]   # '2026000434·435' — 주마다 바뀌는 보고 폴더 이름은 key 에 넣지 않는다
         out.append(_sig(f"audit:{notice}:{cells[1][:20]}", "parse", f"{latest.relative_to(root)}/README.md",

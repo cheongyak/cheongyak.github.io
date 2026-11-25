@@ -77,3 +77,42 @@ def test_issue_groups_and_loop_prs():
     prs = [{"number": 3, "title": "t", "labels": [{"name": "auto-improve"}], "head": {"ref": "auto/x"}, "state": "closed", "merged_at": "2026-11-05"},
            {"number": 4, "title": "u", "labels": [], "head": {"ref": "y"}, "state": "open"}]
     assert [p["number"] for p in loop_prs(prs)] == [3]
+
+
+def test_audit_rows_under_error_heading(tmp_path):
+    """11-23 보고 모양: '### 앱 오류 N건' 제목 아래 표 — 줄에 '앱 오류' 낱말이 없고 심각도가 굵지 않다(11-23 밤 신호 0건으로 놓침)."""
+    root = _repo(tmp_path)
+    a = root / "evidence" / "audit" / "2026-11-23-blind"
+    a.mkdir()
+    a.joinpath("README.md").write_text(
+        "## 판정\n### 앱 오류 2건 (P0 0 · P1 0 · P2 2)\n| 공고 | 항목 | 앱 | 원문 | 단계 | 심각도 |\n|---|---|---|---|---|---|\n"
+        "| 2026000563 더샵 · 2026000566 초량 | 가점제·추첨제 비율 | 못 읽음 | 원문 | A 원문 추출 | P2 (빠짐) |\n"
+        "| 2026000560 문래 | 전매제한 | 등기 때까지 | 원문 | A 원문 추출 | P2 (상한 빠짐) |\n\n"
+        "### 같은 뜻 1칸\n| 공고 | 항목 | 앱 | 원문 |\n|---|---|---|---|\n| 2026000505 경희궁 | 세대주 요건 | x | y |\n"
+        "## 원인 후보\n| 2026000777 | 표 | P1 |\n### 앱 오류 0건\n| (없음) | - | - |\n### 앱 오류 1건\n| 공고번호 | 항목 | 심각도 |\n|---|---|---|\n| 2026000888 | 세대주 | P1 |\n**같은 뜻**\n| 2026000999 | 세대주 | 같음 |\n",
+        encoding="utf-8")
+    audit = {s["key"]: s for s in collect(root)["signals"] if s["key"].startswith("audit:")}
+    assert set(audit) == {"audit:2026000563:가점제·추첨제 비율", "audit:2026000560:전매제한", "audit:2026000888:세대주"}   # 같은 뜻·다른 제목·'0건' 아래 표·머리·구분 줄·표 밖 글줄 뒤는 빼기
+    assert audit["audit:2026000888:세대주"]["severity"] == "P1"
+    assert all(s["severity"] == "P2" for k, s in audit.items() if k != "audit:2026000888:세대주")
+    assert all("2026-11-23-blind" in s["source"] for s in audit.values())
+
+
+def test_audit_real_reports_keep_keys(tmp_path):
+    """저장소의 실제 주간 보고 — 옛 모양(판정 칸 '앱 오류')의 key 는 그대로, 11-23 보고는 앱 오류 3줄(563·560·910298)."""
+    from pathlib import Path
+    import shutil
+    from tools.qa.improve_signals import from_blind_audit
+    base = Path(__file__).resolve().parents[1] / "evidence" / "audit"
+    want = {
+        "2026-11-09-blind": {"audit:2026910283:실거주 의무", "audit:2026910283:분양가상한제"},
+        "2026-11-16-blind": {"audit:2026820015:재당첨 제한"},
+        "2026-11-23-blind": {"audit:2026000563:가점제·추첨제 비율", "audit:2026000560:전매제한", "audit:2026910298:계약금 비율"},
+    }
+    for name, keys in want.items():
+        src = base / name / "README.md"
+        assert src.exists(), name
+        t = tmp_path / name
+        (t / "evidence" / "audit" / name).mkdir(parents=True)
+        shutil.copy(src, t / "evidence" / "audit" / name / "README.md")
+        assert {s["key"] for s in from_blind_audit(t)} == keys, name

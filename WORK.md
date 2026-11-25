@@ -4,6 +4,15 @@
 2026-09-29 12:55 이전 항목은 규칙을 만들기 전 작업을 커밋 기록으로 정리한 것이라 백업 브랜치가 없어요.
 그 시점으로 되돌릴 때는 해당 커밋 번호로 `git revert` 를 써요.
 
+## 2026-11-26 07:17 · 밤 자동 개선 신호 도구가 주간 원문 대조 '앱 오류' 제목 아래 표를 읽게 (PR #166) · 이슈 #167~#170 닫음 · 오늘 수집 돌림
+- 요청: 운영자 '해결된 건 닫고, 검사 도구 고치는 거 뭔지 알려주고 오늘 수집 돌려줘' → PR #166 내용을 설명한 뒤 '합쳐용'
+- 변경: improve_signals.from_blind_audit 가 '앱 오류 N건'(N ≥ 1) 제목 아래 표 줄도 읽고, 굵지 않은 심각도(P0~P3)도 읽음 (11-23 주간 보고부터 표 형식이 바뀌어 앱 오류 3줄을 0건으로 읽던 것). 서비스 화면·판정·수집은 그대로
+- 이슈: #167·#168·#169(판정 검증 실패)·#170(수집 알림) — 익산어양4단지 건(v1.94.3)으로 해결돼 11-25 17:39 verify ok=true 확인하고 닫음. 청약 공고·LH 임대·SH 임대 수집을 손으로 돌림(11-26 07:07)
+- 파일: tools/qa/improve_signals.py, tests/test_improve_signals.py, WORK.md, HANDOFF.md
+- 확인: 최신 main 에 합친 상태로 pytest 606 passed 1 skipped, judge_check 1070/1070. python -m tools.qa.improve_signals 결과에 audit:2026000560:전매제한 · audit:2026910298:계약금 이 보임(563 은 v1.94.2 로 이미 고쳐 다음 주간 보고에서 빠짐)
+- 기능: 없음(수정)
+- 백업: backup/20261126-0717
+
 ## 2026-11-25 16:13 · 사이트 연관 채널 JSON-LD · /about/ '청약패스 소개' v1.94.4 (기능 site_identity)
 - 요청: 운영자 '네이버 검색과 AI 브리핑에서 공식 출처로 잘 인식되게 ① 메인과 주요 정적 페이지 <head> 에 Organization·WebSite JSON-LD(name 청약패스, url https://cheongyakpass.kr, sameAs 네이버 블로그, description) ② /about/ 의 데이터 검증 현황 위에 청약패스 소개(요약·주요 기능 3·출처와 갱신·자주 묻는 질문 3~4) + sitemap /about/ lastmod 오늘. 기존 디자인·계산·광고 비활성화 설정은 건드리지 말 것'
 - 변경: tools/build_static 에 site_jsonld()(운영자가 준 값 그대로 Organization·WebSite 두 덩어리)·SITE_ID_SLUGS(about/·about/operator/·about/policy/·about/sources/·story/·guide/·notice/·rental/ — 공고·가이드 낱장은 뺌)·ABOUT_INTRO·about_body(). 메인 docs/index.html <head> 에 같은 JSON-LD 두 줄(손으로 넣음 — 시험이 build_static 값과 같은지 봄). /about/ 은 '데이터 검증 현황' 카드 바로 위에 '청약패스 소개' 카드(정적 HTML): 한 줄 요약, 주요 기능 3, 데이터 출처와 갱신 주기, 자주 묻는 질문 4. 기존 본문·데이터 검증 현황은 글자 그대로. 앱 화면(#/about)·계산·광고 설정은 안 바꿈. sitemap 의 /about/ lastmod 는 만들 때마다 그날 날짜(오늘 2026-11-25) — 따로 고칠 것 없음
