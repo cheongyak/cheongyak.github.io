@@ -1,8 +1,166 @@
 {
- "updated": "2026-11-25 13:52",
+ "updated": "2026-11-26 13:07",
  "source": "국토교통부 마이홈포털 공공주택 모집공고 조회 서비스 (LH·SH·GH 제외)",
  "count": 5,
  "notices": [
+  {
+   "id": "LOC-21616",
+   "org": "LOCAL",
+   "inst": "광주광역시도시공사",
+   "name": "서림마을 다사로움 행복주택 선착순 동호지정 입주자 모집 공고",
+   "type": "행복주택",
+   "judge_type": false,
+   "youth": false,
+   "region": "전남광주통합특별시",
+   "posted": "2026-11-20",
+   "close": "2026-12-09",
+   "status": "일반공고",
+   "url": "https://www.gmcc.co.kr/board.es?mid=a10402000000&bid=0018&act=view&list_no=19542",
+   "url_mobile": "https://m.myhome.go.kr/hws/portal/sch/selectRsdtRcritNtcDetailView.do?pblancId=21616&houseSn=1",
+   "myhome_url": "https://www.myhome.go.kr/hws/portal/sch/selectRsdtRcritNtcDetailView.do?pblancId=21616&houseSn=1",
+   "schedule": [
+    {
+     "complex": "서림마을다사로움 1단지",
+     "apply_start": "2026-12-07",
+     "apply_end": "2026-12-09",
+     "docs_target": null,
+     "winner": "2027-02-26",
+     "contract_start": null,
+     "contract_end": null
+    },
+    {
+     "complex": "서림마을다사로움 2단지",
+     "apply_start": "2026-12-07",
+     "apply_end": "2026-12-09",
+     "docs_target": null,
+     "winner": "2027-02-26",
+     "contract_start": null,
+     "contract_end": null
+    }
+   ],
+   "complexes": [
+    {
+     "name": "서림마을다사로움 1단지",
+     "address": "전남광주통합특별시 북구 서림로 119-5",
+     "households": null,
+     "heating": "개별난방",
+     "house_type": "아파트"
+    },
+    {
+     "name": "서림마을다사로움 2단지",
+     "address": "전남광주통합특별시 북구 자동차로 11-9",
+     "households": null,
+     "heating": "개별난방",
+     "house_type": "아파트"
+    }
+   ],
+   "units": [
+    {
+     "complex": "서림마을다사로움 1단지",
+     "type": "아파트",
+     "area": null,
+     "households": 1,
+     "now_households": 1,
+     "deposit": null,
+     "rent": null
+    },
+    {
+     "complex": "서림마을다사로움 2단지",
+     "type": "아파트",
+     "area": null,
+     "households": 11,
+     "now_households": 11,
+     "deposit": null,
+     "rent": null
+    }
+   ],
+   "rents": [
+    {
+     "complex": "서림마을다사로움 1단지",
+     "type": "아파트",
+     "group": null,
+     "deposit": 16704000,
+     "rent": 83500
+    },
+    {
+     "complex": "서림마을다사로움 2단지",
+     "type": "아파트",
+     "group": null,
+     "deposit": 16704000,
+     "rent": 83500
+    }
+   ],
+   "terms": null,
+   "files": [],
+   "notice_pdf": null,
+   "office": {
+    "place": null,
+    "tel": "서림마을다사로움 관리사무소 (062)464-0561\r\n광주광역시도시공사 임대주택콜센터 (062)225-2280"
+   }
+  },
+  {
+   "id": "LOC-21615",
+   "org": "LOCAL",
+   "inst": "강원개발공사",
+   "name": "속초산수빌 국민임대아파트 예비입주자 모집안내",
+   "type": "국민임대",
+   "judge_type": false,
+   "youth": false,
+   "region": "강원특별자치도",
+   "posted": "2026-11-10",
+   "close": "2026-12-10",
+   "status": "일반공고",
+   "url": "https://www.gdco.co.kr/customer/notice_view.php?intSeq=5847&strBoardID=NOTI&page=1&pageSize=10",
+   "url_mobile": "https://m.myhome.go.kr/hws/portal/sch/selectRsdtRcritNtcDetailView.do?pblancId=21615&houseSn=1",
+   "myhome_url": "https://www.myhome.go.kr/hws/portal/sch/selectRsdtRcritNtcDetailView.do?pblancId=21615&houseSn=1",
+   "schedule": [
+    {
+     "complex": "산수빌아파트",
+     "apply_start": "2026-11-30",
+     "apply_end": "2026-12-10",
+     "docs_target": null,
+     "winner": "2027-02-26",
+     "contract_start": null,
+     "contract_end": null
+    }
+   ],
+   "complexes": [
+    {
+     "name": "산수빌아파트",
+     "address": "강원특별자치도 속초시 소평로 80",
+     "households": null,
+     "heating": null,
+     "house_type": "아파트"
+    }
+   ],
+   "units": [
+    {
+     "complex": "산수빌아파트",
+     "type": "아파트",
+     "area": null,
+     "households": 25,
+     "now_households": 25,
+     "deposit": null,
+     "rent": null
+    }
+   ],
+   "rents": [
+    {
+     "complex": "산수빌아파트",
+     "type": "아파트",
+     "group": null,
+     "deposit": 34891000,
+     "rent": 135000
+    }
+   ],
+   "terms": null,
+   "files": [],
+   "notice_pdf": null,
+   "office": {
+    "place": null,
+    "tel": "강원개발공사 재무계약부 (033-259-6226)"
+   }
+  },
   {
    "id": "LOC-21333",
    "org": "LOCAL",
@@ -244,198 +402,6 @@
    "office": {
     "place": null,
     "tel": null
-   }
-  },
-  {
-   "id": "LOC-20905",
-   "org": "LOCAL",
-   "inst": "경상북도개발공사",
-   "name": "2026년 칠곡군 천원주택(신혼·신생아 매입임대주택Ⅰ) 예비입주자 모집 공고",
-   "type": "매입임대",
-   "judge_type": false,
-   "youth": false,
-   "region": "경상북도",
-   "posted": "2026-07-28",
-   "close": "2026-11-30",
-   "status": "일반공고",
-   "url": "https://www.gbdc.co.kr/boardview/boardview.do?seqId=0000003638&BBS_ID=4c9b3e75-2935-4bcd-96be-62fb07903949&IPDS_IDX=e54448a5-4c8c-4c3d-bfcf-bc465f677408&BBS_TYPE=L&COLM1=notice&COLM1_CD=notice_02&COLM1_STATUS=&SEARCH_CONTITION=CPDS_SUBJECT_CONTENT&SEARCH_KEYWORD=&CURRENT_PAGE=1",
-   "url_mobile": "https://m.myhome.go.kr/hws/portal/sch/selectRsdtRcritNtcDetailView.do?pblancId=20905",
-   "myhome_url": "https://www.myhome.go.kr/hws/portal/sch/selectRsdtRcritNtcDetailView.do?pblancId=20905",
-   "schedule": [
-    {
-     "complex": null,
-     "apply_start": "2026-07-28",
-     "apply_end": "2026-11-30",
-     "docs_target": null,
-     "winner": "2026-11-30",
-     "contract_start": null,
-     "contract_end": null
-    }
-   ],
-   "complexes": [],
-   "units": [
-    {
-     "complex": null,
-     "type": "다가구주택",
-     "area": null,
-     "households": null,
-     "now_households": null,
-     "deposit": null,
-     "rent": null
-    }
-   ],
-   "rents": [],
-   "terms": null,
-   "files": [],
-   "notice_pdf": null,
-   "office": {
-    "place": null,
-    "tel": "054-650-3116, 3155"
-   }
-  },
-  {
-   "id": "LOC-20901",
-   "org": "LOCAL",
-   "inst": "경상북도개발공사",
-   "name": "2026년 칠곡군 천원주택(청년 매입임대주택) 입주자 및 예비입주자 모집 공고",
-   "type": "매입임대",
-   "judge_type": false,
-   "youth": false,
-   "region": "경상북도",
-   "posted": "2026-07-28",
-   "close": "2026-11-30",
-   "status": "일반공고",
-   "url": "https://www.gbdc.co.kr/boardview/boardview.do?seqId=0000003638&BBS_ID=4c9b3e75-2935-4bcd-96be-62fb07903949&IPDS_IDX=2e8989e9-02ae-48be-9591-f3c4c8e7fa39&BBS_TYPE=L&COLM1=notice&COLM1_CD=notice_02&COLM1_STATUS=&SEARCH_CONTITION=CPDS_SUBJECT_CONTENT&SEARCH_KEYWORD=&CURRENT_PAGE=1",
-   "url_mobile": "https://m.myhome.go.kr/hws/portal/sch/selectRsdtRcritNtcDetailView.do?pblancId=20901",
-   "myhome_url": "https://www.myhome.go.kr/hws/portal/sch/selectRsdtRcritNtcDetailView.do?pblancId=20901",
-   "schedule": [
-    {
-     "complex": null,
-     "apply_start": "2026-07-28",
-     "apply_end": "2026-11-30",
-     "docs_target": null,
-     "winner": "2026-11-30",
-     "contract_start": null,
-     "contract_end": null
-    },
-    {
-     "complex": "로얄",
-     "apply_start": "2026-07-28",
-     "apply_end": "2026-11-30",
-     "docs_target": null,
-     "winner": "2026-11-30",
-     "contract_start": null,
-     "contract_end": null
-    },
-    {
-     "complex": "하모니",
-     "apply_start": "2026-07-28",
-     "apply_end": "2026-11-30",
-     "docs_target": null,
-     "winner": "2026-11-30",
-     "contract_start": null,
-     "contract_end": null
-    },
-    {
-     "complex": "베스트",
-     "apply_start": "2026-07-28",
-     "apply_end": "2026-11-30",
-     "docs_target": null,
-     "winner": "2026-11-30",
-     "contract_start": null,
-     "contract_end": null
-    }
-   ],
-   "complexes": [
-    {
-     "name": "로얄",
-     "address": "경상북도 칠곡군 왜관읍 달오2길 76",
-     "households": null,
-     "heating": null,
-     "house_type": "다가구주택"
-    },
-    {
-     "name": "하모니",
-     "address": "경상북도 칠곡군 왜관읍 달오3길 26-10",
-     "households": null,
-     "heating": null,
-     "house_type": "다가구주택"
-    },
-    {
-     "name": "베스트",
-     "address": "경상북도 칠곡군 왜관읍 달오3길 26-17",
-     "households": null,
-     "heating": null,
-     "house_type": "다가구주택"
-    }
-   ],
-   "units": [
-    {
-     "complex": null,
-     "type": "다가구주택",
-     "area": null,
-     "households": 5,
-     "now_households": 5,
-     "deposit": null,
-     "rent": null
-    },
-    {
-     "complex": "로얄",
-     "type": "다가구주택",
-     "area": null,
-     "households": 1,
-     "now_households": 1,
-     "deposit": null,
-     "rent": null
-    },
-    {
-     "complex": "하모니",
-     "type": "다가구주택",
-     "area": null,
-     "households": 1,
-     "now_households": 1,
-     "deposit": null,
-     "rent": null
-    },
-    {
-     "complex": "베스트",
-     "type": "다가구주택",
-     "area": null,
-     "households": 3,
-     "now_households": 3,
-     "deposit": null,
-     "rent": null
-    }
-   ],
-   "rents": [
-    {
-     "complex": "로얄",
-     "type": "다가구주택",
-     "group": null,
-     "deposit": 2000000,
-     "rent": 30000
-    },
-    {
-     "complex": "하모니",
-     "type": "다가구주택",
-     "group": null,
-     "deposit": 2000000,
-     "rent": 30000
-    },
-    {
-     "complex": "베스트",
-     "type": "다가구주택",
-     "group": null,
-     "deposit": 2000000,
-     "rent": 30000
-    }
-   ],
-   "terms": null,
-   "files": [],
-   "notice_pdf": null,
-   "office": {
-    "place": null,
-    "tel": "054-650-3116, 3155"
    }
   }
  ]
