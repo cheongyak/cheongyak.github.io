@@ -203,7 +203,7 @@
    "effort": "S",
    "status": "open",
    "first_seen": "2026-11-04",
-   "last_seen": "2026-11-25",
+   "last_seen": "2026-11-26",
    "tries": 0,
    "pr": null,
    "success_check": null,
@@ -656,7 +656,7 @@
   {
    "key": "audit:2026000563:가점제·추첨제 비율",
    "first_seen": "2026-11-23",
-   "last_seen": "2026-11-24",
+   "last_seen": "2026-11-26",
    "tries": 1,
    "pr": 163,
    "success_check": {
@@ -677,11 +677,11 @@
   {
    "key": "audit:2026000560:전매제한",
    "first_seen": "2026-11-23",
-   "last_seen": "2026-11-24",
+   "last_seen": "2026-11-26",
    "tries": 0,
    "pr": null,
    "success_check": null,
-   "notes": "11-23: 대조 README 가 앱 표현 형식 결정 필요(등기 때까지+3년 상한)로 정답 줄을 넣지 않음 → 운영자 판단 필요",
+   "notes": "11-23: 대조 README 가 앱 표현 형식 결정 필요(등기 때까지+3년 상한)로 정답 줄을 넣지 않음 → 운영자 판단 필요 · 11-26: 신호 도구(#166)가 스스로 잡음, 여전히 운영자 표현 형식 결정 대기",
    "title": "560 해링턴 플레이스 문래 전매 '등기 때까지(최초 당첨자발표일부터 3년 넘으면 3년)' 3년 상한 빠짐",
    "area": "parse",
    "source": "evidence/audit/2026-11-23-blind/README.md",
@@ -695,11 +695,11 @@
   {
    "key": "audit:2026910298:계약금 비율",
    "first_seen": "2026-11-23",
-   "last_seen": "2026-11-24",
+   "last_seen": "2026-11-26",
    "tries": 0,
    "pr": null,
    "success_check": null,
-   "notes": "11-23: 정액 계약금을 비율로 어떻게 표현할지 결정 필요(대조 README) → 운영자 판단 필요",
+   "notes": "11-23: 정액 계약금을 비율로 어떻게 표현할지 결정 필요(대조 README) → 운영자 판단 필요 · 11-26: 신호 도구(#166)가 스스로 잡음, 여전히 운영자 표현 형식 결정 대기",
    "title": "910298 한양립스 에듀포레 정액 계약금(2,500·3,000만원, 머리 5%)을 못 읽어 10% 추정",
    "area": "parse",
    "source": "evidence/audit/2026-11-23-blind/README.md",
@@ -720,7 +720,7 @@
     "how": "합친 뒤 python -m tools.qa.improve_signals 결과의 audit: 신호",
     "expect": "audit:2026000560:전매제한·audit:2026910298:계약금 비율 이 보임(다음 주간 보고 전까지), 옛 보고 key 그대로"
    },
-   "notes": "고칠 방향: 앱 오류 제목 아래 표 줄을 다음 제목 전까지 모두 읽기 + 시험. [루프 규칙] PR 후보 · 11-25: PR #166 열림 1일, 협업자 댓글 0, mergeable clean",
+   "notes": "고칠 방향: 앱 오류 제목 아래 표 줄을 다음 제목 전까지 모두 읽기 + 시험. [루프 규칙] PR 후보 · 11-25: PR #166 열림 1일, 협업자 댓글 0, mergeable clean · 11-26 PR #166 합침(11-25 22:20 UTC), 기록은 손 세션 WORK 07:17 이 씀(코드 수정이라 버전 없음). 효과 확인 11-29~: improve_signals 에 560·910298 이 보임은 11-26 확인",
    "title": "신호 도구(improve_signals.from_blind_audit)가 주간 대조 '앱 오류' 표 줄을 못 잡음 — 11-23 보고는 '앱 오류'가 표 위 제목에만 있음",
    "area": "qa",
    "source": "tools/qa/improve_signals.py:105",
@@ -729,7 +729,7 @@
    "reach": 2,
    "confidence": 3,
    "effort": "S",
-   "status": "in_pr"
+   "status": "merged"
   }
  ]
 }
