@@ -1,9 +1,104 @@
 {
- "date": "2026-11-26",
+ "date": "2026-11-27",
  "checked": 8,
  "fails": 0,
- "comps_checked": 64,
+ "comps_checked": 49,
  "items": [
+  {
+   "id": "2026910311-071.8178 ",
+   "name": "향남역 그로브 스위첸",
+   "lawd": "41591",
+   "app": {
+    "mkt_basis": "dong_newbuild",
+    "mkt_base": 3.75,
+    "mkt_low": 3.73,
+    "mkt_count": 7
+   },
+   "raw": {
+    "basis": "dong_newbuild",
+    "base": 3.75,
+    "low": 3.73,
+    "count": 7
+   },
+   "comps": 7,
+   "bad": []
+  },
+  {
+   "id": "2026930045-043.7300 ",
+   "name": "잠실 래미안아이파크",
+   "lawd": "11710",
+   "app": {
+    "mkt_basis": "same_complex",
+    "mkt_base": 23.8,
+    "mkt_low": 21.42,
+    "mkt_count": 1
+   },
+   "raw": {
+    "basis": "same_complex",
+    "base": 23.8,
+    "low": 21.42,
+    "count": 1
+   },
+   "comps": 1,
+   "bad": []
+  },
+  {
+   "id": "2026930045-059.4700A",
+   "name": "잠실 래미안아이파크",
+   "lawd": "11710",
+   "app": {
+    "mkt_basis": "near_newbuild",
+    "mkt_base": 22.3,
+    "mkt_low": 21.52,
+    "mkt_count": 7
+   },
+   "raw": {
+    "basis": "near_newbuild",
+    "base": 22.3,
+    "low": 21.52,
+    "count": 7
+   },
+   "comps": 7,
+   "bad": []
+  },
+  {
+   "id": "2026930045-084.9600D",
+   "name": "잠실 래미안아이파크",
+   "lawd": "11710",
+   "app": {
+    "mkt_basis": "same_complex",
+    "mkt_base": 41.9,
+    "mkt_low": 39.8,
+    "mkt_count": 5
+   },
+   "raw": {
+    "basis": "same_complex",
+    "base": 41.9,
+    "low": 39.8,
+    "count": 5
+   },
+   "comps": 5,
+   "bad": []
+  },
+  {
+   "id": "2026930046-059.7670C",
+   "name": "광주 송정 중흥S-클래스 파크뷰",
+   "lawd": "41610",
+   "app": {
+    "mkt_basis": "same_complex",
+    "mkt_base": 4.46,
+    "mkt_low": 4.32,
+    "mkt_count": 14
+   },
+   "raw": {
+    "basis": "same_complex",
+    "base": 4.46,
+    "low": 4.32,
+    "count": 14
+   },
+   "comps": 8,
+   "bad": []
+  },
   {
    "id": "2026930046-059.8670A",
    "name": "광주 송정 중흥S-클래스 파크뷰",
@@ -24,6 +119,25 @@
    "bad": []
   },
   {
+   "id": "2026930047-059.9314B",
+   "name": "청량리 롯데캐슬 하이루체",
+   "lawd": "11230",
+   "app": {
+    "mkt_basis": "same_complex",
+    "mkt_base": 14.46,
+    "mkt_low": 14.4,
+    "mkt_count": 5
+   },
+   "raw": {
+    "basis": "same_complex",
+    "base": 14.46,
+    "low": 14.4,
+    "count": 5
+   },
+   "comps": 5,
+   "bad": []
+  },
+  {
    "id": "2026930048-084.9676A",
    "name": "동탄신도시 금강펜테리움 7차 센트럴파크 불법행위재공급",
    "lawd": "41597",
@@ -41,123 +155,9 @@
    },
    "comps": 8,
    "bad": []
-  },
-  {
-   "id": "2026000373-049.0000A",
-   "name": "고덕강일지구 3단지 토지임대부(본청약)",
-   "lawd": "11740",
-   "app": {
-    "mkt_basis": "dong_newbuild",
-    "mkt_base": 10.04,
-    "mkt_low": 9.8,
-    "mkt_count": 24
-   },
-   "raw": {
-    "basis": "dong_newbuild",
-    "base": 10.04,
-    "low": 9.8,
-    "count": 24
-   },
-   "comps": 8,
-   "bad": []
-  },
-  {
-   "id": "2026000373-049.0000B",
-   "name": "고덕강일지구 3단지 토지임대부(본청약)",
-   "lawd": "11740",
-   "app": {
-    "mkt_basis": "dong_newbuild",
-    "mkt_base": 10.04,
-    "mkt_low": 9.8,
-    "mkt_count": 24
-   },
-   "raw": {
-    "basis": "dong_newbuild",
-    "base": 10.04,
-    "low": 9.8,
-    "count": 24
-   },
-   "comps": 8,
-   "bad": []
-  },
-  {
-   "id": "2026000373-049.0000C",
-   "name": "고덕강일지구 3단지 토지임대부(본청약)",
-   "lawd": "11740",
-   "app": {
-    "mkt_basis": "dong_newbuild",
-    "mkt_base": 10.04,
-    "mkt_low": 9.8,
-    "mkt_count": 24
-   },
-   "raw": {
-    "basis": "dong_newbuild",
-    "base": 10.04,
-    "low": 9.8,
-    "count": 24
-   },
-   "comps": 8,
-   "bad": []
-  },
-  {
-   "id": "2026000373-049.0000D",
-   "name": "고덕강일지구 3단지 토지임대부(본청약)",
-   "lawd": "11740",
-   "app": {
-    "mkt_basis": "dong_newbuild",
-    "mkt_base": 10.04,
-    "mkt_low": 9.8,
-    "mkt_count": 24
-   },
-   "raw": {
-    "basis": "dong_newbuild",
-    "base": 10.04,
-    "low": 9.8,
-    "count": 24
-   },
-   "comps": 8,
-   "bad": []
-  },
-  {
-   "id": "2026000373-049.0000E",
-   "name": "고덕강일지구 3단지 토지임대부(본청약)",
-   "lawd": "11740",
-   "app": {
-    "mkt_basis": "dong_newbuild",
-    "mkt_base": 10.04,
-    "mkt_low": 9.8,
-    "mkt_count": 24
-   },
-   "raw": {
-    "basis": "dong_newbuild",
-    "base": 10.04,
-    "low": 9.8,
-    "count": 24
-   },
-   "comps": 8,
-   "bad": []
-  },
-  {
-   "id": "2026000373-049.0000F",
-   "name": "고덕강일지구 3단지 토지임대부(본청약)",
-   "lawd": "11740",
-   "app": {
-    "mkt_basis": "dong_newbuild",
-    "mkt_base": 10.04,
-    "mkt_low": 9.8,
-    "mkt_count": 24
-   },
-   "raw": {
-    "basis": "dong_newbuild",
-    "base": 10.04,
-    "low": 9.8,
-    "count": 24
-   },
-   "comps": 8,
-   "bad": []
   }
  ],
  "_data": {
-  "listings": "b94fe1d22d17"
+  "listings": "d25cbad4f2d4"
  }
 }
