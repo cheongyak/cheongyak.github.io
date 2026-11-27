@@ -730,12 +730,276 @@ def notice_page(nid: str, r: dict, recs: OrderedDict, eng: dict):
     cta = (f'<a class="btn" href="/#/detail/{L["id"]}">내 조건으로 자격·가점·자금 보기</a>' if r["live"] else "")
     body = (f"<h1>{e(name)}</h1><p class=\"muted\" style=\"margin:0 0 10px\">{e(where(L))} · {e(r['type'])}{' · <b>접수 마감</b>' if r['closed'] else ''}</p>{cta}"
             + s_summary(nid, r)
+            + (f'<p><a class="btn ghost" href="/analysis/{nid}/">{ANALYSIS_LINK}</a></p>' if nid in ANALYSIS_IDS else "")   # 기능 analysis_pages — 리포트가 있는 공고에만 링크 1개
             + (s_result(nid, r) if r["closed"] else "") + (s_grade(nid, r, eng) if r["live"] and not r["closed"] else "")
             + (s_grade(nid, r, eng).replace('<span class="secno">02</span>', '<span class="secno">02-2</span>') if r["live"] and r["closed"] else "")
             + s_schedule(nid, r) + s_price(nid, r) + s_elig(nid, r) + s_money(nid, r) + s_special(nid, r)
             + sec(None, "자주 묻는 질문", faq_html(qas)) + related(nid, r, recs) + sources(nid, r))
     crumbs = [("/", "홈"), ("/notice/", "청약 공고"), (f"/notice/{sido}/", SIDO_FULL.get(sido, sido)), (f"/notice/type/{r['type']}/", r["type"]), (None, name)]
     return title, desc, renumber(body), faq_ld(qas), crumbs
+
+
+# ── 단지 분석 리포트 /analysis/{공고ID}/ (기능 analysis_pages, 2026-11-27 운영자 요청) ─────────────────────────
+# 블로그 해설처럼 읽히게 쓰되 숫자는 모두 수집 데이터와 화면 엔진 결과(tools/seo_engine.json 의 rows·sim)만 쓴다 — 새 계산식을 만들지 않는다.
+# 대상: 지금 공고(docs/listings.json)에 있는 분양 공고 중 시세 등급이 계산된 주택형이 하나라도 있고, 연봉별 자금 계산(sim)이 있는 공고.
+#   (시세를 못 구한 공고·임대·토지임대부는 비교할 내용이 없어 만들지 않는다 — 내용이 얇은 페이지를 늘리지 않게)
+ANALYSIS_IDS: set = set()
+ANALYSIS_LINK = "📊 단지 분석·필요현금 리포트 보기"
+G_ORDER = {"lotto": 0, "consider": 1, "flat": 2, "pass": 3}
+LOAN_SRC = [("금융위 대출수요 관리 방안 FAQ", "https://fsc.go.kr/po020201/85518"), ("금융위 3단계 스트레스 DSR 시행방안", "https://www.fsc.go.kr/edu/news/84634"),
+            ("금융위 10·15 대책 FAQ", "https://fsc.go.kr/po020201/85466")]
+
+
+def analysis_ok(r: dict, eng: dict) -> bool:
+    if not feature("analysis_pages") or not r.get("live"):
+        return False
+    L = r["units"][0]
+    sim = eng.get("sim") or {}
+    if L.get("rental") or L.get("land_lease"):
+        return False
+    return any((r["eng"].get(u["id"]) or {}).get("g") in G_ORDER and sim.get(u["id"]) for u in r["units"])
+
+
+def _rated(r: dict) -> list:
+    ev = r["eng"]
+    return sorted([u for u in r["units"] if (ev.get(u["id"]) or {}).get("g") in G_ORDER and u.get("price")], key=lambda u: (G_ORDER[ev[u["id"]]["g"]], -(ev[u["id"]].get("lo") or -99)))
+
+
+def _signed(v: float) -> str:
+    return ("+" if v >= 0 else "−") + man(abs(v)).replace(" 원", "")
+
+
+def _by_text(x: dict) -> str:
+    by = x.get("by") or ""
+    if by.startswith("DSR"):
+        return "소득 기준(DSR)"
+    if by.startswith("한도"):
+        return f"금액 한도({by.replace('한도 ', '')})"
+    return f"집값 기준({round((x.get('ltv') or 0) * 100)}%" + (f" · {x['ltvWhy']}" if x.get("ltvWhy") else "") + ")"
+
+
+def a_conclusion(nid: str, r: dict, eng: dict) -> str:
+    L, ev, sim = r["units"][0], r["eng"], eng.get("sim") or {}
+    name, rated = L["name"], _rated(r)
+    best, worst = rated[0], rated[-1]
+    xb, xw = ev[best["id"]], ev[worst["id"]]
+    gs = {ev[u["id"]]["g"] for u in rated}
+    if gs <= {"lotto", "consider"}:
+        verdict = "주변 실거래와 견주면 분양가가 눈에 띄게 낮게 나온 공고예요."
+    elif gs <= {"flat"}:
+        verdict = "주변 실거래와 견주면 분양가가 시세와 비슷한 수준인 공고예요."
+    elif gs <= {"pass"}:
+        verdict = "주변 실거래와 견주면 분양가가 시세보다 높게 잡힌 공고예요."
+    elif gs == {"flat", "pass"}:
+        verdict = "시세와 비슷한 주택형과 시세보다 비싼 주택형이 섞여 있어요. 시세 차이만 놓고 보면 여유가 크지 않은 공고예요."
+    elif "pass" in gs:
+        verdict = "주택형에 따라 결과가 갈려요. 시세보다 뚜렷하게 낮은 주택형과 시세보다 비싼 주택형이 함께 있어요."
+    else:
+        verdict = "주택형에 따라 시세와의 차이가 꽤 달라요. 어느 주택형을 넣느냐가 중요한 공고예요."
+    status = "접수가 끝난" if r["closed"] else ("접수를 앞둔" if (L.get("special_apply") or L.get("apply") or "") > TODAY else "지금 접수 중인")
+    lead = (f"<b>{e(name)}</b>{josa(name, '은', '는')} {e(where(L))}에 나온 {e(r['type'])} 공고로, {status} 단지예요. {verdict} "
+            f"아래 내용은 청약홈 공고·모집공고문·국토교통부 실거래가를 바탕으로 청약패스가 계산한 추정이에요.")
+    good, bad, care = [], [], []
+    if (xb.get("lo") or 0) > 0:
+        good.append(f"시세와 차이가 가장 큰 <b>{e(best.get('unit') or '')}</b> 주택형은 보수적으로 잡은 시세(비슷한 거래의 하위 25%)로 봐도 매입가보다 {man(xb['lo'])} 높아요.")
+    elif (xb.get("hi") or 0) > 0:
+        good.append(f"<b>{e(best.get('unit') or '')}</b> 주택형은 기준 시세(중앙값)로는 매입가보다 {man(xb['hi'])} 높아요. 다만 보수 시세로는 차이가 없거나 마이너스예요.")
+    if L.get("price_cap") is True:
+        good.append("분양가상한제가 적용된 공고예요(모집공고문).")
+    pr = L.get("pay_ratio") or {}
+    cr = pr.get("contract") or L.get("contract_rate")
+    if cr and cr <= 0.1:
+        good.append(f"계약금이 분양가의 {round(cr * 100)}%라 당첨 직후에 필요한 현금이 상대적으로 적어요.")
+    if L.get("regulated") is False:
+        good.append("비규제지역이라 무주택자는 집값의 70%까지 주택담보대출을 볼 수 있어요(소득 기준은 따로 봐요).")
+    cnt = best.get("mkt_count") or 0
+    if cnt >= 30:
+        good.append(f"시세를 계산한 근거 거래가 {cnt}건으로 넉넉한 편이에요.")
+    if (xw.get("hi") or 0) < 0:
+        bad.append(f"<b>{e(worst.get('unit') or '')}</b> 주택형은 기준 시세로 봐도 매입가가 {man(-xw['hi'])} 더 비싸요.")
+    elif (xw.get("lo") or 0) < 0:
+        bad.append(f"<b>{e(worst.get('unit') or '')}</b> 주택형은 보수 시세로 보면 매입가가 {man(-xw['lo'])} 더 비싸요. 시세가 조금만 흔들려도 차이가 사라질 수 있어요.")
+    if L.get("regulated") is True:
+        bad.append("규제지역이라 일반 무주택자는 집값의 40%까지만 주택담보대출이 나와요(생애최초 70%, 서민·실수요자 60%). 현금이 많이 필요해요.")
+    rep = max([u for u in rated if sim.get(u["id"])], key=lambda u: u.get("households") or 0)
+    s7 = next((x for x in sim[rep["id"]] if x["income"] == 7000), None)
+    if s7 and s7.get("need") is not None:
+        bad.append(f"연소득 7천만 원 무주택 세대주 기준으로 <b>{e(rep.get('unit') or '')}</b> 주택형에 들어가려면 대출을 받아도 현금이 약 {man(s7['need'])} 필요해요.")
+    if 0 < cnt < 10:
+        bad.append(f"시세 근거 거래가 {cnt}건뿐이라 추정 폭이 넓어요. 주변 시세는 직접 한 번 더 확인하세요.")
+    for k, v in (L.get("limits") or []):
+        care.append(f"{e(k)}: {e(v)}" if "확인" not in str(v) else f"{e(k)}: 공고문에서 직접 확인해야 해요(자동으로 읽지 못함)")
+    if L.get("land_permit"):
+        care.append("토지거래허가구역 안이라 실거주 목적 요건을 함께 확인해야 해요")
+    care.append("시세 차이는 세전 추정이고 확정 수익이 아니에요(양도소득세·대출 이자·옵션 비용 제외)")
+    ul = lambda xs: '<ul class="doclist">' + "".join(f"<li>{x}</li>" for x in xs) + "</ul>"
+    inner = ps(lead)
+    if good:
+        inner += "<h3>좋게 볼 점</h3>" + ul(good)
+    if bad:
+        inner += "<h3>아쉬운 점</h3>" + ul(bad)
+    inner += "<h3>당첨되면 걸리는 조건·주의할 점</h3>" + ul(care)
+    return sec("01", "한눈에 보는 핵심 결론", inner)
+
+
+def a_market(nid: str, r: dict, eng: dict) -> str:
+    L, ev = r["units"][0], r["eng"]
+    rated = _rated(r)
+    rows = "".join(
+        f"<tr><td>{e(u.get('unit') or '')}</td><td>{u.get('area') or 0:.1f}</td><td>{eok(u['price'])}</td><td>{eok(ev[u['id']].get('cost'))}</td>"
+        f"<td>{eok(u.get('mkt_low'))}~{eok(u.get('mkt_base'))}</td><td>{_signed(ev[u['id']].get('lo') or 0)} ~ {_signed(ev[u['id']].get('hi') or 0)}</td><td>{e(ev[u['id']]['label'])}</td></tr>"
+        for u in sorted(rated, key=lambda u: u.get("area") or 0))
+    tbl = ('<div class="gwrap"><table class="gtbl"><tr><th>주택형</th><th>전용㎡</th><th>분양가</th><th>매입가(추정)</th><th>주변 추정 시세<br>(보수~기준)</th><th>시세 − 매입가</th><th>등급</th></tr>'
+           + rows + "</table></div>")
+    best = rated[0]
+    xb = ev[best["id"]]
+    p = ["표의 <b>매입가</b>는 분양가(주택형별 최고가)에 발코니 확장 같은 추가 비용과 취득세 추정을 더한 값이고, <b>주변 추정 시세</b>는 국토교통부 실거래가에서 조건이 비슷한 거래를 모아 계산한 값이에요. "
+         "보수 시세는 그 거래들의 하위 25%, 기준 시세는 중앙값이에요."]
+    if best.get("area") and best.get("mkt_base"):
+        py = lambda v: f"{round(v / best['area'] * 3.3058 * 10000):,}만 원"
+        p.append(f"면적 단가로 바꿔 보면 감이 더 잘 와요. <b>{e(best.get('unit') or '')}</b> 주택형의 분양가는 전용 3.3㎡당 약 {py(best['price'])}이고, 주변 기준 시세는 약 {py(best['mkt_base'])}이에요.")
+    lo, hi = xb.get("lo") or 0, xb.get("hi") or 0
+    if lo > 0:
+        strong = xb["g"] in ("lotto", "consider")
+        p.append(f"해석하면 이래요. <b>{e(best.get('unit') or '')}</b> 주택형은 시세를 낮춰 잡아도(보수 시세) 매입가보다 {man(lo)} 높고, 중앙값으로 보면 {man(hi)} 높아요. "
+                 + ("낮춰 잡은 값에서도 차이가 넉넉히 남는다는 건 분양가가 주변 거래보다 뚜렷하게 아래에 있다는 뜻이에요." if strong
+                    else "낮춰 잡은 값에서는 차이가 크지 않아요. 분양가가 주변 거래와 비슷하거나 조금 낮은 수준이라고 보면 돼요."))
+    elif hi > 0:
+        p.append(f"해석하면 이래요. <b>{e(best.get('unit') or '')}</b> 주택형은 중앙값으로는 매입가보다 {man(hi)} 높지만, 낮춰 잡으면(보수 시세) {man(-lo)} 모자라요. 주변 거래의 가운데 값과는 비슷하거나 조금 싼 정도라, 시세가 내려가면 차이가 없어질 수 있어요.")
+    else:
+        p.append(f"해석하면 이래요. <b>{e(best.get('unit') or '')}</b> 주택형은 중앙값으로 봐도 매입가가 {man(-hi)} 더 비싸요. 지금 주변 거래 가격보다 분양가가 높게 잡혀 있다는 뜻이라, 입지·신축 가치를 따로 따져 봐야 해요.")
+    note = best.get("mkt_note")
+    cs = best.get("mkt_comps") or []
+    if note:
+        s = f"이 시세는 {e(note)}{'' if str(note).endswith('.') else '.'}"
+        cnt = Counter(c.get("apt") for c in cs if c.get("apt"))
+        if cnt:
+            s += " 비교에 많이 쓰인 단지는 " + ", ".join(f"{e(a)}({n}건)" for a, n in cnt.most_common(3)) + (" 등이에요." if len(cnt) > 3 else "이에요.")
+        p.append(s + " " + e(xb.get("how") or ""))
+    unk = [u for u in r["units"] if (ev.get(u["id"]) or {}).get("g") == "unknown"]
+    if unk:
+        p.append(f"{', '.join(e(u.get('unit') or '') for u in unk[:4])} 주택형은 비슷한 거래가 모자라 시세를 계산하지 못했어요. 표에서 뺐고, 이 주택형은 주변 시세를 직접 확인해야 해요.")
+    p.append("시세는 층·향·동 배치·브랜드 차이를 반영하지 못하고, 새 아파트와 기존 아파트의 값 차이도 지역마다 달라요. 표의 차이는 '이만큼 벌 수 있다'가 아니라 '분양가가 주변 거래와 견줘 어디쯤인가'를 보는 숫자예요.")
+    return sec("02", "분양가와 주변 실거래 시세, 어떻게 읽어야 할까", tbl + ps(*p)
+               + '<p class="small muted">출처: 분양가 — 청약홈 공고, 시세 — 국토교통부 실거래가를 바탕으로 한 이 서비스의 추정</p>')
+
+
+def a_money(nid: str, r: dict, eng: dict) -> str:
+    L, ev, sim = r["units"][0], r["eng"], eng.get("sim") or {}
+    asm = eng.get("sim_assume") or {}
+    rated = [u for u in _rated(r) if sim.get(u["id"])]
+    rep = max(rated, key=lambda u: u.get("households") or 0)
+    big = max(rated, key=lambda u: u["price"])
+    picks = [rep] + ([big] if big["id"] != rep["id"] else [])
+    pr = L.get("pay_ratio") or {}
+    c, m = pr.get("contract") or L.get("contract_rate"), pr.get("mid") if pr.get("contract") else L.get("mid_rate")
+    b = pr.get("balance") if pr.get("contract") else ((1 - c - m) if c and m is not None else None)
+    fromn = "계약금 비율" in (L.get("from_notice") or [])
+    p = []
+    if c:
+        p.append(f"분양대금은 계약금 {round(c * 100)}%" + (f", 중도금 {round(m * 100)}%" if m else "") + (f", 잔금 {round(b * 100)}%" if b else "")
+                 + f" 순서로 내요({'모집공고문' if fromn else '공고문에서 비율을 읽지 못해 일반적인 비율로 둔 추정'}). "
+                 + f"<b>{e(rep.get('unit') or '')}</b> 주택형(분양가 {eok(rep['price'])})으로 계산하면 계약금 약 {man(rep['price'] * c)}"
+                 + (f", 중도금 약 {man(rep['price'] * m)}" if m else "") + (f", 잔금 약 {man(rep['price'] * b)}" if b else "") + "이에요."
+                 + (f" 계약은 {kd(L['contract'])}부터 예정돼 있어요." if L.get("contract") else ""))
+    p.append(("중도금은 보통 시행사가 알선하는 집단대출로 내고, 입주할 때 잔금대출(주택담보대출)로 갈아타요. " if m else
+              "이 공고는 중도금 없이 계약금과 잔금으로 나눠 내요. 잔금은 주택담보대출을 받아 치르는 경우가 많아요. ")
+             + "그래서 실제로 내 통장에서 나가야 하는 돈은 <b>계약금</b>과, 잔금을 치를 때 <b>총 필요 자금에서 잔금대출을 뺀 나머지</b>예요. 아래 표는 그 나머지가 연소득에 따라 어떻게 달라지는지 본 거예요.")
+    tbls = ""
+    for u in picks:
+        rows = "".join(f"<tr><td>{man(x['income'] / 10000)}</td><td>{man(x['loan'])}</td><td>{e(_by_text(x))}</td><td><b>{man(x['need'])}</b></td>"
+                       f"<td>{('약 ' + man(x['monthly'])) if x.get('monthly') else '-'}</td></tr>" for x in sim[u["id"]])
+        tot = sim[u["id"]][0]["total"]
+        tbls += (f"<h3>{e(u.get('unit') or '')} 주택형 · 총 필요 자금 {eok(tot)} (분양가 + 추가 비용 + 취득세 추정)</h3>"
+                 '<div class="gwrap"><table class="gtbl"><tr><th>연소득(세전)</th><th>잔금대출 한도(추정)</th><th>한도를 정한 기준</th><th>필요 현금</th><th>매달 갚을 돈</th></tr>'
+                 + rows + "</table></div>")
+    s5, s10 = sim[rep["id"]][0], sim[rep["id"]][-1]
+    read = []
+    if s5["by"].startswith("DSR"):
+        read.append(f"연소득 5천만 원이면 소득 기준(DSR)에 먼저 걸려 대출이 {man(s5['loan'])}에서 멈춰요.")
+    if not s10["by"].startswith("DSR"):
+        read.append(f"연소득 1억 원이면 소득은 충분하지만 {e(_by_text(s10))}에 걸려 {man(s10['loan'])}까지만 나와요. 이 구간부터는 소득이 더 높아도 필요 현금이 줄지 않아요.")
+    if any(x.get("ltvWhy") for x in sim[rep["id"]]) and not s10.get("ltvWhy"):
+        read.append("규제지역에서는 부부합산 연소득 9천만 원 이하·8억 원 이하 주택·무주택 세대주면 서민·실수요자로 집값의 60%까지 볼 수 있어, 소득이 낮은 쪽이 오히려 집값 기준 한도는 커요.")
+    rate = asm.get("rate")
+    test = sim[rep["id"]][0].get("test")
+    assume = (f"가정: 무주택 세대주(생애최초 아님), 다른 대출 없음, 변동형 금리 {rate:g}%"
+              + (f"에 스트레스 금리를 더한 심사 금리 {test:g}%" if test else "") + f", {asm.get('years', 30)}년 원리금균등, 은행 DSR {round((asm.get('dsr') or 0.4) * 100)}%. "
+              "매달 갚을 돈은 실제 금리(가정) 기준이에요. 생애최초·정책대출(디딤돌·신생아 특례·보금자리론), 혼합형·고정금리, 기존 대출이 있으면 숫자가 달라져요.") if rate else \
+             "가정: 무주택 세대주, 다른 대출 없음, 심사 금리와 만기는 화면 기본값."
+    src = " · ".join(f'<a href="{u}" target="_blank" rel="noopener">{e(t)}</a>' for t, u in LOAN_SRC)
+    return sec("03", "계약금·중도금·잔금, 그리고 연봉별 예상 대출과 필요 현금", ps(*p) + tbls + ps(" ".join(read)) + ps(assume)
+               + f'<p><a class="btn ghost" href="/#/loan">내 소득·대출 조건으로 직접 계산하기</a></p>'
+               + f'<p class="small muted">출처: 분양가·납부 비율 — 청약홈 공고·모집공고문, 대출 한도 — 이 서비스의 추정(규정: {src})</p>')
+
+
+def a_check(nid: str, r: dict, eng: dict) -> str:
+    L, t = r["units"][0], r["type"]
+    it = []
+    res = L.get("residence") or {}
+    area = (res.get("area") or {}).get("name")
+    if area:
+        s = f"<b>거주 요건</b> — 해당 지역은 {e(area)}{ieyo(area)}."
+        if res.get("months"):
+            s += f" {res['months']}개월 이상 계속 살았어야 해당 지역 우선 대상이에요" + (f"({kd(res['since'])} 이전 전입)" if res.get("since") else "") + "."
+        if res.get("others"):
+            s += f" {e('·'.join(res['others']))} 거주자는 기타 지역으로 넣을 수 있지만 순서가 뒤예요."
+        it.append(s)
+    else:
+        it.append("<b>거주 요건</b> — 해당 지역·거주 기간을 공고문에서 읽지 못했어요. 모집공고문의 '신청 자격'에서 직접 확인하세요.")
+    if L.get("need_account") is False or t == "무순위":
+        it.append("<b>청약통장</b> — 통장 없이 넣을 수 있는 공고인지 공고문의 신청 자격을 확인하세요.")
+    elif L.get("account_months") or L.get("deposit_count"):
+        it.append("<b>청약통장</b> — 1순위는 " + " · ".join(x for x in [f"가입 {L['account_months']}개월 이상" if L.get("account_months") else "", f"납입 {L['deposit_count']}회 이상" if L.get("deposit_count") else ""] if x)
+                  + "이 필요해요(모집공고문). 지역·면적별 예치금도 공고일 전에 채워져 있어야 해요.")
+    if L.get("need_head") is True:
+        it.append("<b>세대주</b> — 세대주만 신청할 수 있는 공고예요.")
+    elif L.get("regulated"):
+        it.append("<b>세대주</b> — 규제지역이라 일반공급 1순위는 세대주만 가능해요. 세대원은 2순위로 넣어요.")
+    lim = dict(L.get("limits") or [])
+    for k, why in (("재당첨 제한", "당첨되면 이 기간 동안 다른 분양주택에 당첨될 수 없어요. 세대원 전원에게 적용돼요."),
+                   ("전매 제한", "이 기간에는 분양권을 팔 수 없어요."), ("실거주 의무", "기간을 채우지 않으면 전세를 놓거나 팔 수 없어요.")):
+        v = str(lim.get(k) or "")
+        if v == "없음":
+            it.append(f"<b>{e(k)}</b> — 이 공고에는 없어요(공고 조건 기준).")
+        elif "확인" in v:
+            it.append(f"<b>{e(k)}</b> — 청약패스가 공고문에서 값을 읽지 못했어요. 모집공고문에서 직접 확인하세요.")
+        elif v:
+            it.append(f"<b>{e(k)}</b> — {e(v)}. {why}")
+    if L.get("regulated"):
+        it.append("<b>대출과 전입</b> — 규제지역에서 주택담보대출을 받으면 6개월 안에 전입해야 해요. 전세를 놓아 잔금을 치를 계획이라면 실거주 의무와 함께 따져 보세요.")
+    sr = ((L.get("score_ratio") or {}).get("rows") or [])
+    if sr and t == "민영":
+        it.append("<b>가점제·추첨제</b> — " + ", ".join((f"전용 {x['over']}㎡ 초과 " if x.get("over") else "") + (f"{x['upto']}㎡ 이하" if x.get("upto") else "") + f"는 가점제 {x.get('score')}%·추첨제 {x.get('lottery')}%" for x in sr[:3])
+                  + "예요(모집공고문). 가점이 낮으면 추첨 물량이 있는 주택형을 보세요.")
+    dates = [x for x in [("특별공급", L.get("special_apply")), ("일반공급", L.get("apply")), ("당첨자 발표", L.get("winner")), ("계약", L.get("contract"))] if x[1]]
+    if dates:
+        it.append("<b>일정</b> — " + ", ".join(f"{k} {kd(v)}" for k, v in dates) + "." + ("" if r["closed"] else " 접수는 청약홈에서 하루만 받는 경우가 많으니 날짜를 놓치지 마세요."))
+    it.append("<b>자금</b> — 계약금은 대출이 되지 않는 경우가 많아요. 중도금 대출 알선 여부와 이자 조건(후불·무이자)은 공고문에서 확인하세요.")
+    it.append("<b>마지막 확인</b> — 이 글의 조건은 공고문에서 자동으로 읽은 값이에요. 신청 전에 모집공고문 원문과 청약홈 '청약자격확인'으로 다시 확인하세요.")
+    more = " · ".join(x for x in [glink("residence-priority", "거주 요건과 우선공급"), glink("rewin-limit", "재당첨 제한"), glink("down-payment", "계약금·중도금·잔금 준비")] if x)
+    return sec("04", "신청 전 체크리스트", '<ul class="doclist">' + "".join(f"<li>{x}</li>" for x in it) + "</ul>" + (f'<p class="small">더 알아보기: {more}</p>' if more else ""))
+
+
+def analysis_page(nid: str, r: dict, eng: dict, upd: str):
+    L = r["units"][0]
+    name, sido = L["name"], L.get("sido") or ""
+    when = md(L.get("special_apply") or L.get("apply") or L.get("notice"))
+    title = f"{name} 분석 — 분양가·시세 비교와 연봉별 필요 현금 ({when} 접수{' 마감' if r['closed'] else ''})"
+    desc = f"{name}({where(L)}) {r['type']} 단지 분석: 핵심 결론, 분양가와 주변 실거래 시세 비교, 계약금·중도금·잔금과 연소득별 예상 대출·필요 현금, 신청 전 체크리스트"
+    back = (f'<p><a class="btn ghost" href="/notice/{nid}/">{e(name)} 공고 정리로 돌아가기 (일정·주택형별 분양가·자격)</a></p>')
+    tail = sec(None, "이 리포트를 읽는 법", ps(
+        f"이 리포트는 <a href=\"/notice/{nid}/\">{e(name)} 공고 정리</a>의 데이터를 풀어 쓴 해설이에요. 일정·주택형별 분양가·특별공급 물량·자주 묻는 질문은 공고 정리 페이지에 있어요.",
+        "등급을 매기는 기준과 추정값을 다루는 방식은 <a href=\"/about/policy/\">판정·편집 원칙</a>에, 데이터가 어디서 오는지는 <a href=\"/about/sources/\">데이터 출처</a>에 적어 두었어요. "
+        "청약패스는 특정 단지에 넣으라고 권하지 않아요. 숫자를 읽는 방법과 확인할 것을 정리해 드릴 뿐이고, 판단은 모집공고문과 내 자금 사정으로 직접 내려 주세요.")
+        + f'<p><a class="btn" href="/#/detail/{L["id"].strip()}">내 조건으로 자격·가점·자금 판정해 보기</a></p>')
+    body = (f"<h1>{e(name)} 단지 분석 리포트</h1><p class=\"muted\" style=\"margin:0 0 10px\">{e(where(L))} · {e(r['type'])}{' · <b>접수 마감</b>' if r['closed'] else ''} · {kd(upd)} 데이터 기준</p>"
+            + back + a_conclusion(nid, r, eng) + a_market(nid, r, eng) + a_money(nid, r, eng) + a_check(nid, r, eng) + tail)
+    ld = ('<script type="application/ld+json">' + json.dumps({"@context": "https://schema.org", "@type": "Article", "headline": title[:110], "description": desc, "dateModified": upd,
+          "mainEntityOfPage": f"{SITE}/analysis/{nid}/", "author": {"@type": "Organization", "name": "청약패스", "url": SITE},
+          "publisher": {"@type": "Organization", "name": "청약패스", "url": SITE}}, ensure_ascii=False) + "</script>")
+    crumbs = [("/", "홈"), ("/notice/", "청약 공고"), (f"/notice/{nid}/", name), (None, "단지 분석 리포트")]
+    return title, desc, renumber(body), ld, crumbs
 
 
 # ── 목록 페이지 ──────────────────────────────────────────────────────────────
@@ -1389,6 +1653,19 @@ def build_all() -> list[tuple[str, str]]:
     if nd.exists():
         shutil.rmtree(nd)
     upd = (DOCS / "updated.txt").read_text(encoding="utf-8").strip()[:10] if (DOCS / "updated.txt").exists() else TODAY
+    # 기능 analysis_pages: 단지 분석 리포트 — 폴더를 통째로 다시 만든다(목록에서 빠진 공고의 리포트가 남지 않게). 꺼져 있으면 폴더도 링크도 없다
+    ad = DOCS / "analysis"
+    if ad.exists():
+        shutil.rmtree(ad)
+    ANALYSIS_IDS.clear()
+    ANALYSIS_IDS.update(nid for nid, r in recs.items() if analysis_ok(r, eng))
+    for nid in sorted(ANALYSIS_IDS):
+        t, d, b, h, c = analysis_page(nid, recs[nid], eng, min(upd, TODAY))
+        out.append(write(f"analysis/{nid}/", t, d, b, h, c, min(upd, TODAY)))
+        if f"notice/{nid}/" in SITEMAP_SKIP:   # 오래된 마감 공고는 공고 페이지와 같이 sitemap 에서 뺀다
+            SITEMAP_SKIP.add(f"analysis/{nid}/")
+    if ANALYSIS_IDS:   # 앱 상세 화면이 리포트가 있는 공고에만 링크를 보이게
+        (ad / "index.json").write_text(json.dumps({"updated": upd, "ids": sorted(ANALYSIS_IDS)}, ensure_ascii=False), encoding="utf-8")
     for nid, r in recs.items():
         t, d, b, h, c = notice_page(nid, r, recs, eng)
         L = r["units"][0]

@@ -59,6 +59,8 @@ def kind(rel: str) -> str:
         return "rental_list"
     if rel.startswith("guide/") and rel != "guide/index.html":
         return "guide"
+    if re.match(r"analysis/\d+/", rel):
+        return "analysis"
     return "other"
 
 
@@ -98,7 +100,7 @@ def run() -> dict:
         live = k == "notice" and "접수 마감" not in s
         if k == "notice" and live:
             res["live_notice_prose"].append(n)
-        if (live or k == "guide") and n < MIN_PROSE:
+        if (live or k in ("guide", "analysis")) and n < MIN_PROSE:
             res["short"].append(f"{rel} {n}자")
         bad = [m.group(0) for m in FORBID.finditer(t)]
         if bad:
@@ -115,12 +117,17 @@ def run() -> dict:
                 res["ld_bad"].append(rel)
         if k == "notice" and not {"FAQPage", "BreadcrumbList"} <= types and "seo-content" not in res:
             res["ld_missing"].append(rel)
+        if k == "analysis" and not {"Article", "BreadcrumbList"} <= types:   # 기능 analysis_pages
+            res["ld_missing"].append(rel)
         slug = rel[: -len("index.html")]
         if re.search(r'<meta name="robots" content="noindex', s):   # 기능 rental_noindex: 색인하지 않는 페이지는 sitemap 에 없어야 한다
             res["noindex"] = res.get("noindex", 0) + 1
             if slug in locs:
                 res["not_in_sitemap"].append(slug + " (noindex 인데 sitemap 에 있음)")
             continue
+        if k == "analysis":   # 리포트는 그 공고 페이지와 같이 싣고 뺀다
+            nslug = "notice/" + slug.split("/")[1] + "/"
+            skip, skip_late = (skip | {slug}) if nslug in skip else skip, (skip_late | {slug}) if nslug in skip_late else skip_late
         if slug not in locs and slug not in skip:   # 기능 sitemap_recent: 오래된 마감 공고는 일부러 sitemap 에서 뺀다
             res["not_in_sitemap"].append(slug)
         if slug in locs and slug in skip_late:

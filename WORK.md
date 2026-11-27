@@ -4,6 +4,15 @@
 2026-09-29 12:55 이전 항목은 규칙을 만들기 전 작업을 커밋 기록으로 정리한 것이라 백업 브랜치가 없어요.
 그 시점으로 되돌릴 때는 해당 커밋 번호로 `git revert` 를 써요.
 
+## 2026-11-27 12:07 · 단지 분석 리포트 /analysis/{공고ID}/ 신설 v1.95.0 (기능 analysis_pages)
+- 요청: 운영자 '기존 메인·/notice/{id}/·/guide/·/about/·/story/ 레이아웃과 기능은 바꾸지 말고 ① /analysis/{공고ID}/ 정적 분석 페이지(핵심 결론·분양가 vs 시세 해석·계약금·중도금·잔금과 연봉별 대출·필요 현금·신청 전 체크리스트, /notice/ 와 /about/policy/ 링크) ② 공고 화면과 상세에 "📊 단지 분석·필요현금 리포트 보기" 링크 1개, sitemap 포함'
+- 변경: tools/seo_pages 에 analysis_ok·analysis_page(a_conclusion·a_market·a_money·a_check). 대상은 지금 공고 목록에 있는 분양 공고 중 시세 등급이 계산된 주택형이 있고 자금 계산이 있는 공고(임대·토지임대부·시세를 못 구한 공고는 내용이 얇아 만들지 않음) — 지금 63건. 숫자는 새로 계산하지 않고 수집 데이터와 화면 엔진 결과만 씀: tools/snapshot_docs.cjs 가 화면의 funding() 을 연소득 5천·7천·1억(무주택 세대주, 다른 대출 없음, 가진 현금 0원, 대출 조건 기본값)으로 돌린 값을 seo_engine.json 의 sim 에 남김. 문체는 해설글처럼, 권유 표현 없이(금지어 검사 통과). 공고 정리 페이지 '한눈에 보기' 아래와 앱 상세 화면 제목 아래에 링크 1개(리포트가 있는 공고에만 — 앱은 analysis/index.json 으로 앎). sitemap 에 포함, 구조화 데이터 Article·BreadcrumbList. 스위치를 끄면 폴더·링크 모두 없음
+- 파일: tools/seo_pages.py, tools/snapshot_docs.cjs, tools/qa/seo_static.py, docs/index.html, docs/config.json, tests/test_analysis_pages_20261127.py, docs/analysis/**(63쪽 + index.json), docs/notice/**(링크 63쪽), docs/sitemap.xml, tools/seo_engine.json, FEATURES.md, docs/changelog.json, VERSIONS.md, WORK.md, HANDOFF.md, .claude/skills/cheongyakpass-ops/SKILL.md
+- 확인: 63쪽 모두 읽을 수 있는 글자 3,400~4,900자, 금지어 0·깨진 링크 0·구조화 데이터 빠짐 0·sitemap 빠짐 0(seo_static 통과, 리포트는 1,500자 이상·Article 필수로 검사 추가). 두 쪽(구리갈매 472·병점 611)과 가장 짧은 쪽(청주 910287)을 처음부터 끝까지 읽어 어색한 문장('없음. 이 기간에는…', 중도금 없는 공고의 집단대출 설명, 조사)을 고침. 390px 캡처로 리포트·공고 정리 링크·앱 상세 링크 확인, 화면 오류 0. 새 시험 4건. pytest 612 passed 1 skipped, judge_check 1070/1070, regress 판정 변화 0, 메인 스크립트 문법 통과
+- 기능: analysis_pages
+- 버전: v1.95.0
+- 백업: backup/20261127-1206
+
 ## 2026-11-27 12:06 · 본문이 얇은 임대 공고 페이지 색인 제외 (기능 rental_noindex)
 - 요청: 운영자 '애드센스 "가치 없는 콘텐츠" 방지용 색인 정리 — /rental/ 임대 공고 페이지 중 "계층별 소득·자산 기준을 자동으로 읽지 못했어요"처럼 본문 데이터가 빈약한 페이지에는 noindex, follow 를 넣고 sitemap.xml 에서 제외'
 - 변경: 임대 공고 페이지 중 계층별 소득·자산 기준을 읽지 못했고(terms.groups 없음) AI 참고 내용도 없는 페이지의 <head> 에 `<meta name="robots" content="noindex, follow">`, sitemap 에서 뺌. 페이지 자체와 목록의 링크는 그대로(앱·목록에서 들어올 수 있음). 기준을 읽은 페이지(76쪽)와 AI 참고 내용이 있는 SH 페이지(2쪽)는 그대로 색인. 정적 페이지 검사는 noindex 페이지가 sitemap 에 없어도 통과시키고, 반대로 sitemap 에 있으면 실패로 봄
