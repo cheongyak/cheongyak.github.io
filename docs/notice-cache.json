@@ -5270,6 +5270,620 @@
   "notice_pdf": "https://static.applyhome.co.kr/ai/aia/getAtchmnfl.do?houseManageNo=2026000568&pblancNo=2026000568&atchmnflSeqNo=2016034&atchmnflSn=5",
   "v": 68
  },
+ "2026000570": {
+  "found": {
+   "account_months": 6,
+   "complex": {
+    "buildings": 9,
+    "households": 818,
+    "quote": ": 아파트 지하 2층, 지상 27층 9개동 총 818세대 [특별공급 522세대(기관추천 73세대, 다자녀가구 82세대, 신혼부부 123세대, 노부모부양 25세대, 생애최초 138세대, 신생아 81세대) 포함] 및"
+   },
+   "facts": {
+    "asset_thousand": {
+     "부동산": [],
+     "부동산_만원": [
+      33100
+     ],
+     "자동차": []
+    },
+    "deposit_rows": {
+     "102": {
+      "metro": 400,
+      "other": 300,
+      "seoul_busan": 600
+     },
+     "135": {
+      "metro": 700,
+      "other": 400,
+      "seoul_busan": 1000
+     },
+     "85": {
+      "metro": 250,
+      "other": 200,
+      "seoul_busan": 300
+     },
+     "all": {
+      "metro": 1000,
+      "other": 500,
+      "seoul_busan": 1500
+     }
+    },
+    "income_rows": {
+     "100": [
+      7533763,
+      8802202,
+      9326985,
+      9906263,
+      10485541,
+      11064819
+     ],
+     "120": [
+      9040516,
+      10562642,
+      11192382,
+      11887516,
+      12582649,
+      13277783
+     ],
+     "130": [
+      9793892,
+      11442863,
+      12125081,
+      12878142,
+      13631203,
+      14384265
+     ],
+     "160": [
+      12054021,
+      14083523,
+      14923176,
+      15850021,
+      16776866,
+      17703710
+     ]
+    },
+    "price_seen": {
+     "084.0000A": true,
+     "084.0000D": true,
+     "084.9582B": true,
+     "084.9652C": true
+    }
+   },
+   "need_head": false,
+   "pay_ratio": {
+    "balance": 0.3,
+    "contract": 0.1,
+    "mid": 0.6
+   },
+   "price_cap": true,
+   "quotes": {
+    "account_months": "…1순위 : 입주자저축에 가입하여 가입기간이 6개월이 경과하고 지역별·면적별 예치금액 이상 납입한 분 ※ 2순위 : 입주자저축에…",
+    "need_head": "…예치금 충족 1순위(6개월 이상, 지역별·면적별 예치금 충족) 가입 세대주 요건 - - - 필요 - - - - 소득 또는 자산기준 - - 적용 - 적용 적용 - - 세종스마트시티 엘…",
+    "pay_ratio": "…해당 세대수 공급금액 계약금(10%) 중도금(60%) 잔금(30%) 1차(10%) 2차(10%)…",
+    "price_cap": "…(당첨자발표일로부터) 분양가상한제 적용주택(「주택공급에 관한 규칙」 제54조제1항제3호) 10년 ■ 부동산…",
+    "resale": "…구분 특별공급 일반공급 전매제한기간 1년 - 6 - 3 공급대상 및 공급금액 ■ 「주택공급에 관한 규칙」 제20조의…",
+    "residence": "…2122 주택유형 해당지역 기타지역 규제지역여부 민영 세종특별자치시 1년 이상 계속 거주자 (2025.11.27. 이전부터 계속 거주) 세종특별자치시 1년 미만 계속 거주자 및 전국 거주자 비규제지역 재당첨제한 전매제한 거주의무기간 분…",
+    "residence_duty": "(1쪽 단지 주요정보 표) 전매제한 거주의무기간 분양가상한제 택지유형 10년 1년 없음 적용 공공택지",
+    "rewin_years": "…및 전국 거주자 비규제지역 재당첨제한 전매제한 거주의무기간 분양가상한제 택지유형 10년 1년 없음 적용 공공택지 구분 입주자모집공고일 특별공급 접수일…",
+    "score_ratio": "…전용면적별 1순위 가점제/추첨제 적용비율 구분 가점제 추첨제 전용면적 60㎡ 초과 85㎡ 이하 40% 60% - 가점 산정기준(「주택공급에 관한 규칙」 별표1의2 나목) 가점항목 가점상한 가점구분 점수 가점구분 점수 ①무주택기간 32 만30세 미만 미혼자 또는 유주택자 0 8년 이상 ~ 9년 미만 18…"
+   },
+   "resale": {
+    "base": "당첨자 발표일",
+    "forbidden": false,
+    "months": 12,
+    "none": false,
+    "passed": false,
+    "registration": false,
+    "until_reg": false
+   },
+   "residence": {
+    "area": {
+     "name": "세종특별자치시",
+     "sido": "세종"
+    },
+    "months": 12,
+    "others": [
+     "전국"
+    ],
+    "since": "2025-11-27"
+   },
+   "residence_duty": 0,
+   "rewin_years": 10,
+   "score_ratio": {
+    "rows": [
+     {
+      "lottery": 60,
+      "over": 60,
+      "score": 40,
+      "upto": 85
+     }
+    ]
+   }
+  },
+  "name": "세종스마트시티 엘 수자인(행정중심복합도시 5-1생활권 L6블록, 꽃나루마을 16단지)",
+  "notice_pdf": "https://static.applyhome.co.kr/ai/aia/getAtchmnfl.do?houseManageNo=2026000570&pblancNo=2026000570&atchmnflSeqNo=2026046&atchmnflSn=5",
+  "v": 68
+ },
+ "2026000571": {
+  "found": {
+   "account_months": 6,
+   "complex": {
+    "buildings": 14,
+    "households": 648,
+    "quote": ": 아파트 지하 2층, 지상 22층 14개동 총 648세대 [특별공급 412세대(기관추천 58세대, 다자녀가구 64세대, 신혼부부 97세대, 노부모부양 19세대, 생애최초 110세대, 신생아 64세대) 포함] 및"
+   },
+   "facts": {
+    "asset_thousand": {
+     "부동산": [],
+     "부동산_만원": [
+      33100
+     ],
+     "자동차": []
+    },
+    "deposit_rows": {
+     "102": {
+      "metro": 400,
+      "other": 300,
+      "seoul_busan": 600
+     },
+     "135": {
+      "metro": 700,
+      "other": 400,
+      "seoul_busan": 1000
+     },
+     "85": {
+      "metro": 250,
+      "other": 200,
+      "seoul_busan": 300
+     },
+     "all": {
+      "metro": 1000,
+      "other": 500,
+      "seoul_busan": 1500
+     }
+    },
+    "income_rows": {
+     "100": [
+      7533763,
+      8802202,
+      9326985,
+      9906263,
+      10485541,
+      11064819
+     ],
+     "120": [
+      9040516,
+      10562642,
+      11192382,
+      11887516,
+      12582649,
+      13277783
+     ],
+     "130": [
+      9793892,
+      11442863,
+      12125081,
+      12878142,
+      13631203,
+      14384265
+     ],
+     "160": [
+      12054021,
+      14083523,
+      14923176,
+      15850021,
+      16776866,
+      17703710
+     ]
+    },
+    "price_seen": {
+     "084.0000A": true,
+     "084.0000B": true,
+     "084.0000C": true,
+     "084.0000D": true
+    }
+   },
+   "need_head": false,
+   "pay_ratio": {
+    "balance": 0.3,
+    "contract": 0.1,
+    "mid": 0.6
+   },
+   "price_cap": true,
+   "quotes": {
+    "account_months": "…1순위 : 입주자저축에 가입하여 가입기간이 6개월이 경과하고 지역별·면적별 예치금액 이상 납입한 분 ※ 2순위 : 입주자저축에…",
+    "need_head": "…예치금 충족 1순위(6개월 이상, 지역별·면적별 예치금 충족) 가입 세대주 요건 - - - 필요 - - - - 소득 또는 자산기준 - - 적용 - 적용 적용 - - 세종스마트시티 엘…",
+    "pay_ratio": "…해당 세대수 공급금액 계약금(10%) 중도금(60%) 잔금(30%) 1차(10%) 2차(10%)…",
+    "price_cap": "…(당첨자발표일로부터) 분양가상한제 적용주택(「주택공급에 관한 규칙」 제54조제1항제3호) 10년 ■ 부동산…",
+    "resale": "…구분 특별공급 일반공급 전매제한기간 1년 - 6 - 3 공급대상 및 공급금액 ■ 「주택공급에 관한 규칙」 제20조의…",
+    "residence": "…2122 주택유형 해당지역 기타지역 규제지역여부 민영 세종특별자치시 1년 이상 계속 거주자 (2025.11.27. 이전부터 계속 거주) 세종특별자치시 1년 미만 계속 거주자 및 전국 거주자 비규제지역 재당첨제한 전매제한 거주의무기간 분…",
+    "residence_duty": "(1쪽 단지 주요정보 표) 전매제한 거주의무기간 분양가상한제 택지유형 10년 1년 없음 적용 공공택지",
+    "rewin_years": "…및 전국 거주자 비규제지역 재당첨제한 전매제한 거주의무기간 분양가상한제 택지유형 10년 1년 없음 적용 공공택지 구분 입주자모집공고일 특별공급 접수일…",
+    "score_ratio": "…전용면적별 1순위 가점제/추첨제 적용비율 구분 가점제 추첨제 전용면적 60㎡ 초과 85㎡ 이하 40% 60% - 가점 산정기준(「주택공급에 관한 규칙」 별표1의2 나목) 가점항목 가점상한 가점구분 점수 가점구분 점수 ①무주택기간 32 만30세 미만 미혼자 또는 유주택자 0 8년 이상 ~ 9년 미만 18…"
+   },
+   "resale": {
+    "base": "당첨자 발표일",
+    "forbidden": false,
+    "months": 12,
+    "none": false,
+    "passed": false,
+    "registration": false,
+    "until_reg": false
+   },
+   "residence": {
+    "area": {
+     "name": "세종특별자치시",
+     "sido": "세종"
+    },
+    "months": 12,
+    "others": [
+     "전국"
+    ],
+    "since": "2025-11-27"
+   },
+   "residence_duty": 0,
+   "rewin_years": 10,
+   "score_ratio": {
+    "rows": [
+     {
+      "lottery": 60,
+      "over": 60,
+      "score": 40,
+      "upto": 85
+     }
+    ]
+   }
+  },
+  "name": "세종스마트시티 엘 수자인(행정중심복합도시 5-1생활권 L7블록, 꽃나루마을 24단지)",
+  "notice_pdf": "https://static.applyhome.co.kr/ai/aia/getAtchmnfl.do?houseManageNo=2026000571&pblancNo=2026000571&atchmnflSeqNo=2026043&atchmnflSn=4",
+  "v": 68
+ },
+ "2026000572": {
+  "found": {
+   "account_months": 6,
+   "complex": {
+    "buildings": 3,
+    "households": 218,
+    "quote": ": 아파트 지하 2층, 지상 20층 3개동 총 218세대 [특별공급 138세대(기관추천 19세대, 다자녀가구 22세대, 신혼부부 32세대, 노부모부양 7세대, 생애최초 37세대, 신생아 21세대) 포함] 및 부대복"
+   },
+   "facts": {
+    "asset_thousand": {
+     "부동산": [],
+     "부동산_만원": [
+      33100
+     ],
+     "자동차": []
+    },
+    "deposit_rows": {
+     "102": {
+      "metro": 400,
+      "other": 300,
+      "seoul_busan": 600
+     },
+     "135": {
+      "metro": 700,
+      "other": 400,
+      "seoul_busan": 1000
+     },
+     "85": {
+      "metro": 250,
+      "other": 200,
+      "seoul_busan": 300
+     },
+     "all": {
+      "metro": 1000,
+      "other": 500,
+      "seoul_busan": 1500
+     }
+    },
+    "income_rows": {
+     "100": [
+      7533763,
+      8802202,
+      9326985,
+      9906263,
+      10485541,
+      11064819
+     ],
+     "120": [
+      9040516,
+      10562642,
+      11192382,
+      11887516,
+      12582649,
+      13277783
+     ],
+     "130": [
+      9793892,
+      11442863,
+      12125081,
+      12878142,
+      13631203,
+      14384265
+     ],
+     "160": [
+      12054021,
+      14083523,
+      14923176,
+      15850021,
+      16776866,
+      17703710
+     ]
+    },
+    "price_seen": {
+     "084.0000A": true,
+     "084.9582B": true,
+     "084.9652C": true
+    }
+   },
+   "need_head": false,
+   "pay_ratio": {
+    "balance": 0.3,
+    "contract": 0.1,
+    "mid": 0.6
+   },
+   "price_cap": true,
+   "quotes": {
+    "account_months": "…1순위 : 입주자저축에 가입하여 가입기간이 6개월이 경과하고 지역별·면적별 예치금액 이상 납입한 분 ※ 2순위 : 입주자저축에…",
+    "need_head": "…예치금 충족 1순위(6개월 이상, 지역별·면적별 예치금 충족) 가입 세대주 요건 - - - 필요 - - - - 소득 또는 자산기준 - - 적용 - 적용 적용 - - 세종스마트시티 엘…",
+    "pay_ratio": "…해당 세대수 공급금액 계약금(10%) 중도금(60%) 잔금(30%) 1차(10%) 2차(10%)…",
+    "price_cap": "…(당첨자발표일로부터) 분양가상한제 적용주택(「주택공급에 관한 규칙」 제54조제1항제3호) 10년 ■ 부동산…",
+    "resale": "…구분 특별공급 일반공급 전매제한기간 1년 - 6 - 3 공급대상 및 공급금액 ■ 「주택공급에 관한 규칙」 제20조의…",
+    "residence": "…2122 주택유형 해당지역 기타지역 규제지역여부 민영 세종특별자치시 1년 이상 계속 거주자 (2025.11.27. 이전부터 계속 거주) 세종특별자치시 1년 미만 계속 거주자 및 전국 거주자 비규제지역 재당첨제한 전매제한 거주의무기간 분…",
+    "residence_duty": "(1쪽 단지 주요정보 표) 전매제한 거주의무기간 분양가상한제 택지유형 10년 1년 없음 적용 공공택지",
+    "rewin_years": "…및 전국 거주자 비규제지역 재당첨제한 전매제한 거주의무기간 분양가상한제 택지유형 10년 1년 없음 적용 공공택지 구분 입주자모집공고일 특별공급 접수일…",
+    "score_ratio": "…전용면적별 1순위 가점제/추첨제 적용비율 구분 가점제 추첨제 전용면적 60㎡ 초과 85㎡ 이하 40% 60% - 가점 산정기준(「주택공급에 관한 규칙」 별표1의2 나목) 가점항목 가점상한 가점구분 점수 가점구분 점수 - 23 - ※ 2024.03.25. 시행된 「주택공급에 관한 규칙」 별표1의2 나목에…"
+   },
+   "resale": {
+    "base": "당첨자 발표일",
+    "forbidden": false,
+    "months": 12,
+    "none": false,
+    "passed": false,
+    "registration": false,
+    "until_reg": false
+   },
+   "residence": {
+    "area": {
+     "name": "세종특별자치시",
+     "sido": "세종"
+    },
+    "months": 12,
+    "others": [
+     "전국"
+    ],
+    "since": "2025-11-27"
+   },
+   "residence_duty": 0,
+   "rewin_years": 10,
+   "score_ratio": {
+    "rows": [
+     {
+      "lottery": 60,
+      "over": 60,
+      "score": 40,
+      "upto": 85
+     }
+    ]
+   }
+  },
+  "name": "세종스마트시티 엘 수자인(행정중심복합도시 5-1생활권 L8블록, 꽃나루마을 26단지)",
+  "notice_pdf": "https://static.applyhome.co.kr/ai/aia/getAtchmnfl.do?houseManageNo=2026000572&pblancNo=2026000572&atchmnflSeqNo=2027058&atchmnflSn=4",
+  "v": 68
+ },
+ "2026000573": {
+  "found": {
+   "account_months": 6,
+   "complex": {
+    "buildings": 10,
+    "households": 507,
+    "quote": ": 아파트 지하 2층, 지상 18층 10개동 총 507세대 [특별공급 322세대(기관추천 45세대, 다자녀가구 51세대, 신혼부부 76세대, 노부모부양 14세대, 생애최초 86세대, 신생아 50세대) 포함] 및 부"
+   },
+   "facts": {
+    "asset_thousand": {
+     "부동산": [],
+     "부동산_만원": [
+      33100
+     ],
+     "자동차": []
+    },
+    "deposit_rows": {
+     "102": {
+      "metro": 400,
+      "other": 300,
+      "seoul_busan": 600
+     },
+     "135": {
+      "metro": 700,
+      "other": 400,
+      "seoul_busan": 1000
+     },
+     "85": {
+      "metro": 250,
+      "other": 200,
+      "seoul_busan": 300
+     },
+     "all": {
+      "metro": 1000,
+      "other": 500,
+      "seoul_busan": 1500
+     }
+    },
+    "income_rows": {
+     "100": [
+      7533763,
+      8802202,
+      9326985,
+      9906263,
+      10485541,
+      11064819
+     ],
+     "120": [
+      9040516,
+      10562642,
+      11192382,
+      11887516,
+      12582649,
+      13277783
+     ],
+     "130": [
+      9793892,
+      11442863,
+      12125081,
+      12878142,
+      13631203,
+      14384265
+     ],
+     "160": [
+      12054021,
+      14083523,
+      14923176,
+      15850021,
+      16776866,
+      17703710
+     ]
+    },
+    "price_seen": {
+     "084.0000B": true,
+     "084.9442A": true,
+     "084.9652C": true
+    }
+   },
+   "need_head": false,
+   "pay_ratio": {
+    "balance": 0.3,
+    "contract": 0.1,
+    "mid": 0.6
+   },
+   "price_cap": true,
+   "quotes": {
+    "account_months": "…1순위 : 입주자저축에 가입하여 가입기간이 6개월이 경과하고 지역별·면적별 예치금액 이상 납입한 분 ※ 2순위 : 입주자저축에…",
+    "need_head": "…예치금 충족 1순위(6개월 이상, 지역별·면적별 예치금 충족) 가입 세대주 요건 - - - 필요 - - - - 소득 또는 자산기준 - - 적용 - 적용 적용 - - ※ 단, 기관추천 특별공급…",
+    "pay_ratio": "…해당 세대수 공급금액 계약금(10%) 중도금(60%) 잔금(30%) 1차(10%) 2차(10%)…",
+    "price_cap": "…(당첨자발표일로부터) 분양가상한제 적용주택(「주택공급에 관한 규칙」 제54조제1항제3호) 10년 ■ 부동산…",
+    "resale": "…구분 특별공급 일반공급 전매제한기간 1년 - 6 - 3 공급대상 및 공급금액 ■ 「주택공급에 관한 규칙」 제20조의…",
+    "residence": "…2122 주택유형 해당지역 기타지역 규제지역여부 민영 세종특별자치시 1년 이상 계속 거주자 (2025.11.27. 이전부터 계속 거주) 세종특별자치시 1년 미만 계속 거주자 및 전국 거주자 비규제지역 재당첨제한 전매제한 거주의무기간 분…",
+    "residence_duty": "(1쪽 단지 주요정보 표) 전매제한 거주의무기간 분양가상한제 택지유형 10년 1년 없음 적용 공공택지",
+    "rewin_years": "…및 전국 거주자 비규제지역 재당첨제한 전매제한 거주의무기간 분양가상한제 택지유형 10년 1년 없음 적용 공공택지 구분 입주자모집공고일 특별공급 접수일…",
+    "score_ratio": "…전용면적별 1순위 가점제/추첨제 적용비율 구분 가점제 추첨제 전용면적 60㎡ 초과 85㎡ 이하 40% 60% - 가점 산정기준(「주택공급에 관한 규칙」 별표1의2 나목) 가점항목 가점상한 가점구분 점수 가점구분 점수 ①무주택기간 32 만30세 미만 미혼자 또는 유주택자 0 8년 이상 ~ 9년 미만 18…"
+   },
+   "resale": {
+    "base": "당첨자 발표일",
+    "forbidden": false,
+    "months": 12,
+    "none": false,
+    "passed": false,
+    "registration": false,
+    "until_reg": false
+   },
+   "residence": {
+    "area": {
+     "name": "세종특별자치시",
+     "sido": "세종"
+    },
+    "months": 12,
+    "others": [
+     "전국"
+    ],
+    "since": "2025-11-27"
+   },
+   "residence_duty": 0,
+   "rewin_years": 10,
+   "score_ratio": {
+    "rows": [
+     {
+      "lottery": 60,
+      "over": 60,
+      "score": 40,
+      "upto": 85
+     }
+    ]
+   }
+  },
+  "name": "세종스마트시티 엘 수자인(행정중심복합도시 5-1생활권 L11블록, 꽃나루마을 28단지)",
+  "notice_pdf": "https://static.applyhome.co.kr/ai/aia/getAtchmnfl.do?houseManageNo=2026000573&pblancNo=2026000573&atchmnflSeqNo=2026041&atchmnflSn=6",
+  "v": 68
+ },
+ "2026000574": {
+  "found": {
+   "account_months": 12,
+   "contract_split": {
+    "first_won": 20000000,
+    "rest_within": null,
+    "rows": 41
+   },
+   "facts": {
+    "asset_thousand": {
+     "부동산": [],
+     "부동산_만원": [],
+     "자동차": []
+    },
+    "deposit_rows": {},
+    "income_rows": {},
+    "price_seen": {
+     "084.8040E": true,
+     "084.8052C": true,
+     "084.8150B": true,
+     "084.8890A": true,
+     "084.8959D": true
+    }
+   },
+   "need_head": false,
+   "pay_ratio": {
+    "balance": 0.35,
+    "contract": 0.05,
+    "mid": 0.6
+   },
+   "price_cap": false,
+   "quotes": {
+    "account_months": "…입주자저축에 가입하여 가입기간이 개월12 이 경과하고 지역별 면적별· 예치금액 이상 납입한 분 순위 입주자저축에…",
+    "need_head": "…충족 순위1 ( 개월12 이상, 지역별 면적별· 예치금 충족) 가입 세대주 요건 - - - 필요 - - - - 소득 또는 자산기준 - - 적용 - 적용 적용 - - 송도 대광로제비앙…",
+    "pay_ratio": "…해당 세대 수 공급금액 계 약 금(5 % ) 중 도 금(60 % ) 잔 금(35% ) 차1 차2 차1 (10 % ) 차2 (10 % ) 차3…",
+    "price_cap": "…민간택지에서 공급하는 분양가상한제 미적용 민영주택으로, 당첨자로 선정되더라도 주택공급에 관한 규칙 제 조에…",
+    "resale": "…기간은 아래와 같습니다. 구분 특별공급 일반공급 전매제한기간 개월6 ■ 인지세 납부 안내 아파트 공급계약서는 개정된 인지세법 제 조제 항제…",
+    "residence": "…3300 주택유형 해당지역 기타지역 규제지역여부 민영 인천광역시 거주자 서울특별시 경기도 거주자, 비규제지역 재당첨제한 전매제한 거주의무기간 분…",
+    "residence_duty": "(1쪽 단지 주요정보 표) 전매제한 거주의무기간 분양가상한제 택지유형 없음 개월6 없음 미적용 민간택지",
+    "rewin_years": "…경기도 거주자, 비규제지역 재당첨제한 전매제한 거주의무기간 분양가상한제 택지유형 없음 개월6 없음 미적용 민간택지 대규모 택지개발지구/ 본 아파트는…",
+    "score_ratio": "…전용면적별 순위 가점제 추첨제 적용비율- 1 / 구분 가점제 추첨제 전용면적 초과 이하60 85㎡ ㎡ 84A / 84B / 84C / 84D / 84E 40% 60% 가점 산정기준- ( 주택공급에 관한 규칙 별표 제 호 나목1 2 )「 」 ※ 시행된2024.03.25. 주택공급에 관한 규칙 별표 의 나목…"
+   },
+   "resale": {
+    "base": "당첨자 발표일",
+    "forbidden": false,
+    "months": 6,
+    "none": false,
+    "passed": false,
+    "registration": false,
+    "until_reg": false
+   },
+   "residence": {
+    "area": {
+     "name": "인천광역시",
+     "sido": "인천"
+    },
+    "months": 0,
+    "others": [
+     "서울",
+     "경기"
+    ],
+    "since": null
+   },
+   "residence_duty": 0,
+   "rewin_years": 0,
+   "score_ratio": {
+    "rows": [
+     {
+      "lottery": 60,
+      "over": 60,
+      "score": 40,
+      "upto": 85
+     }
+    ]
+   }
+  },
+  "name": "송도 대광로제비앙 모아엘가",
+  "notice_pdf": "https://static.applyhome.co.kr/ai/aia/getAtchmnfl.do?houseManageNo=2026000574&pblancNo=2026000574&atchmnflSeqNo=2014088&atchmnflSn=8",
+  "v": 68
+ },
  "2026000575": {
   "found": {
    "account_months": 12,
@@ -5787,6 +6401,390 @@
   "notice_pdf": "https://static.applyhome.co.kr/ai/aia/getAtchmnfl.do?houseManageNo=2026000585&pblancNo=2026000585&atchmnflSeqNo=2021027&atchmnflSn=5",
   "v": 68
  },
+ "2026000588": {
+  "found": {
+   "account_months": 6,
+   "complex": {
+    "buildings": 8,
+    "households": 1968,
+    "quote": ": 아파트 지하 2층 ~ 지상 48층 8개동 총 1,968세대 [특별공급 525세대(기관추천 65세대, 다자녀가구 195세대, 신혼부부 98세대, 노부모부양 57세대, 생애최초 45세대, 신생아 65세대) 포함]"
+   },
+   "facts": {
+    "asset_thousand": {
+     "부동산": [],
+     "부동산_만원": [
+      33100
+     ],
+     "자동차": []
+    },
+    "deposit_rows": {
+     "102": {
+      "metro": 400,
+      "other": 300,
+      "seoul_busan": 600
+     },
+     "135": {
+      "metro": 700,
+      "other": 400,
+      "seoul_busan": 1000
+     },
+     "85": {
+      "metro": 250,
+      "other": 200,
+      "seoul_busan": 300
+     },
+     "all": {
+      "metro": 1000,
+      "other": 500,
+      "seoul_busan": 1500
+     }
+    },
+    "income_rows": {
+     "100": [
+      7533763,
+      8802202,
+      9326985,
+      9906263,
+      10485541,
+      11064819
+     ],
+     "120": [
+      9040516,
+      10562642,
+      11192382,
+      11887516,
+      12582649,
+      13277783
+     ],
+     "130": [
+      9793892,
+      11442863,
+      12125081,
+      12878142,
+      13631203,
+      14384265
+     ],
+     "160": [
+      12054021,
+      14083523,
+      14923176,
+      15850021,
+      16776866,
+      17703710
+     ]
+    },
+    "price_seen": {
+     "084.3558": true,
+     "103.2343": true,
+     "111.8587": true,
+     "189.9735": true,
+     "217.2962": true
+    }
+   },
+   "need_head": false,
+   "pay_ratio": {
+    "balance": 0.35,
+    "contract": 0.05,
+    "mid": 0.6
+   },
+   "price_cap": false,
+   "quotes": {
+    "account_months": "…1순위 : 입주자저축에 가입하여 가입기간이 6개월이 경과하고 지역별·면적별 예치금액 이상 납입한 분 ※ 2순위 : 입주자저축에…",
+    "need_head": "…예치금 충족 1순위(6개월 이상, 지역별·면적별 예치금 충족) 가입 세대주 요건 - - - 필요 - - - - 소득 또는 자산기준 - - 적용 - 적용 적용 - - ※ 단, 기관추천 특별공급…",
+    "pay_ratio": "…해당 세대수 공급금액 계약금(5%) 중도금(60%) 잔금(35%) 대지비 건축비 부가세 계 1차 2차…",
+    "price_cap": "…민간택지에서 공급하는 분양가상한제 미적용 민영주택으로, 당첨자로 선정되더라도 「주택공급에 관한 규칙」…",
+    "resale": "…구분 특별공급 일반공급 전매제한기간 당첨자발표일(2026.12.15.)로부터 6개월 (※단, 향후 관련법 개정에 따라 조정될 수 있습니다.) - 6 - 3…",
+    "residence": "…1010 주택유형 해당지역 기타지역 규제지역여부 민영 부산광역시 1년 이상 계속 거주자 (2025.11.27 이전부터 계속 거주) 부산광역시 1년 미만 거주자 및 울산광역시, 경상남도 거주자 비규제지역 재당첨제한 전매제한 거주의무기간 분…",
+    "residence_duty": "(1쪽 단지 주요정보 표) 전매제한 거주의무기간 분양가상한제 택지유형 없음 6개월 없음 미적용 민간택지",
+    "rewin_years": "…관한 규칙」 제54조에 따 른 재당첨 제한을 적용받지 않으며, 기존 주택 당첨으로 인해 재당첨 제한 기간 내에 있는 분 및 그 세대에…",
+    "score_ratio": "…전용면적별 1순위 가점제/추첨제 적용비율 구분 가점제 추첨제 전용면적 60㎡ 초과 85㎡ 이하 40% 60% 전용면적 85㎡ 초과 - 100% - 가점 산정기준(「주택공급에 관한 규칙」 별표1 제2호나목) 가점항목 가점상한 가점구분 점수 가점구분 점수 ①무주택기간 32 만30세 미만 미혼자 또는 유주택자…"
+   },
+   "resale": {
+    "base": "2026-12-15",
+    "forbidden": false,
+    "months": 6,
+    "none": false,
+    "passed": false,
+    "registration": false,
+    "until_reg": false
+   },
+   "residence": {
+    "area": {
+     "name": "부산광역시",
+     "sido": "부산"
+    },
+    "months": 12,
+    "others": [
+     "부산",
+     "울산",
+     "경남"
+    ],
+    "since": "2025-11-27"
+   },
+   "residence_duty": 0,
+   "rewin_years": 0,
+   "score_ratio": {
+    "rows": [
+     {
+      "lottery": 60,
+      "over": 60,
+      "score": 40,
+      "upto": 85
+     },
+     {
+      "lottery": 100,
+      "over": 85,
+      "score": 0,
+      "upto": null
+     }
+    ]
+   },
+   "sp_table": {
+    "084.3558": {
+     "agency": 65,
+     "elder": 19,
+     "first": 45,
+     "multichild": 65,
+     "newborn": 65,
+     "newlywed": 98,
+     "total": 357
+    },
+    "103.2343": {
+     "agency": 0,
+     "elder": 19,
+     "first": 0,
+     "multichild": 64,
+     "newborn": 0,
+     "newlywed": 0,
+     "total": 83
+    },
+    "111.8587": {
+     "agency": 0,
+     "elder": 19,
+     "first": 0,
+     "multichild": 64,
+     "newborn": 0,
+     "newlywed": 0,
+     "total": 83
+    },
+    "189.9735": {
+     "agency": 0,
+     "elder": 0,
+     "first": 0,
+     "multichild": 1,
+     "newborn": 0,
+     "newlywed": 0,
+     "total": 1
+    },
+    "217.2962": {
+     "agency": 0,
+     "elder": 0,
+     "first": 0,
+     "multichild": 1,
+     "newborn": 0,
+     "newlywed": 0,
+     "total": 1
+    }
+   }
+  },
+  "name": "일광 THE S",
+  "notice_pdf": "https://static.applyhome.co.kr/ai/aia/getAtchmnfl.do?houseManageNo=2026000588&pblancNo=2026000588&atchmnflSeqNo=2037290&atchmnflSn=1",
+  "v": 68
+ },
+ "2026000589": {
+  "found": {
+   "account_months": 6,
+   "complex": {
+    "buildings": 8,
+    "households": 765,
+    "quote": ": 아파트 지하 2층, 지상 16~29층 8개동 총 765세대 [특별공급 395세대(기관추천 70세대, 다자녀가구 76세대, 신혼부부 106세대, 노부모부양 23세대, 생애최초 50세대, 신생아 70세대) 포함]"
+   },
+   "contract_split": {
+    "first_won": 10000000,
+    "rest_within": "30일",
+    "rows": 26
+   },
+   "facts": {
+    "asset_thousand": {
+     "부동산": [],
+     "부동산_만원": [
+      33100
+     ],
+     "자동차": []
+    },
+    "deposit_rows": {
+     "102": {
+      "metro": 400,
+      "other": 300,
+      "seoul_busan": 600
+     },
+     "135": {
+      "metro": 700,
+      "other": 400,
+      "seoul_busan": 1000
+     },
+     "85": {
+      "metro": 250,
+      "other": 200,
+      "seoul_busan": 300
+     },
+     "all": {
+      "metro": 1000,
+      "other": 500,
+      "seoul_busan": 1500
+     }
+    },
+    "income_rows": {
+     "100": [
+      7533763,
+      8802202,
+      9326985,
+      9906263,
+      10485541,
+      11064819
+     ],
+     "120": [
+      9040516,
+      10562642,
+      11192382,
+      11887516,
+      12582649,
+      13277783
+     ],
+     "130": [
+      9793892,
+      11442863,
+      12125081,
+      12878142,
+      13631203,
+      14384265
+     ],
+     "160": [
+      12054021,
+      14083523,
+      14923176,
+      15850021,
+      16776866,
+      17703710
+     ]
+    },
+    "price_seen": {
+     "084.8065B": true,
+     "084.8894D": true,
+     "084.8909C": true,
+     "084.9772A": true,
+     "113.9804": true
+    }
+   },
+   "need_head": false,
+   "pay_ratio": {
+    "balance": 0.35,
+    "contract": 0.05,
+    "mid": 0.6
+   },
+   "price_cap": false,
+   "quotes": {
+    "account_months": "…1순위 : 입주자저축에 가입하여 가입기간이 6개월이 경과하고 지역별·면적별 예치금액 이상 납입한 분 구 글 플 레 이 스 토…",
+    "need_head": "…예치금 충족 1순위(6개월 이상, 지역별·면적별 예치금 충족) 가입 세대주 요건 - - - 필요 - - - - 소득 또는 자산기준 - - 적용 - 적용 적용 - - ※ 단, 기관추천 특별공급…",
+    "pay_ratio": "…해당 세대수 공급금액 계약금 (5%) 중도금 (60%) 잔금(35%) 대지비 건축비 부가가치세 계 1차 2차 1차…",
+    "price_cap": "…민간택지에서 공급하는 분양가상한제 미적용 민영주택으로, 당첨자로 선정되더라도 「주택공급에 관한…",
+    "resale": "…거주자 비규제지역 재당첨제한 전매제한 거주의무기간 분양가상한제 택지유형 없음 없음 없음 미적용 민간택지 구분 입주자모집공고일 특별공급 접수일 일반공급 1순위…",
+    "residence": "…8898 주택유형 해당지역 기타지역 규제지역여부 민영 영주시 거주자 경상북도(영주시 제외) 및 대구광역시 거주자 비규제지역 재당첨제한 전매제한 거주의무기간 분…",
+    "residence_duty": "(1쪽 단지 주요정보 표) 전매제한 거주의무기간 분양가상한제 택지유형 없음 없음 없음 미적용 민간택지",
+    "rewin_years": "…관한 규칙」제54조에 따른 재당 첨 제한을 적용받지 않으며, 기존 주택 당첨으로 인해 재당첨 제한 기간 내에 있는 분 및 그 세대에…",
+    "score_ratio": "…전용면적별 1순위 가점제/추첨제 적용비율 구분 가점제 추첨제 전용면적 60㎡ 초과 85㎡ 이하 40% 60% 전용면적 85㎡ 초과 - 100% - 가점 산정기준(「주택공급에 관한 규칙」별표1의2 나목) 가점항목 가점상한 가점구분 점수 가점구분 점수 ①무주택기간 32 만30세 미만 미혼자 또는 유주택자 0…"
+   },
+   "resale": {
+    "base": null,
+    "forbidden": false,
+    "months": 0,
+    "none": true,
+    "passed": false,
+    "registration": false,
+    "until_reg": false
+   },
+   "residence": {
+    "area": {
+     "name": "영주시",
+     "sigungu": "영주시"
+    },
+    "months": 0,
+    "others": [
+     "대구",
+     "경북"
+    ],
+    "since": null
+   },
+   "residence_duty": 0,
+   "rewin_years": 0,
+   "score_ratio": {
+    "rows": [
+     {
+      "lottery": 60,
+      "over": 60,
+      "score": 40,
+      "upto": 85
+     },
+     {
+      "lottery": 100,
+      "over": 85,
+      "score": 0,
+      "upto": null
+     }
+    ]
+   },
+   "sp_table": {
+    "084.8065B": {
+     "agency": 12,
+     "elder": 3,
+     "first": 8,
+     "multichild": 11,
+     "newborn": 11,
+     "newlywed": 17,
+     "total": 62
+    },
+    "084.8894D": {
+     "agency": 2,
+     "elder": 1,
+     "first": 2,
+     "multichild": 2,
+     "newborn": 2,
+     "newlywed": 3,
+     "total": 12
+    },
+    "084.8909C": {
+     "agency": 26,
+     "elder": 8,
+     "first": 19,
+     "multichild": 27,
+     "newborn": 27,
+     "newlywed": 41,
+     "total": 148
+    },
+    "084.9772A": {
+     "agency": 30,
+     "elder": 9,
+     "first": 21,
+     "multichild": 30,
+     "newborn": 30,
+     "newlywed": 45,
+     "total": 165
+    },
+    "113.9804": {
+     "agency": 0,
+     "elder": 2,
+     "first": 0,
+     "multichild": 6,
+     "newborn": 0,
+     "newlywed": 0,
+     "total": 8
+    }
+   }
+  },
+  "name": "트리븐 가흥",
+  "notice_pdf": "https://static.applyhome.co.kr/ai/aia/getAtchmnfl.do?houseManageNo=2026000589&pblancNo=2026000589&atchmnflSeqNo=2036074&atchmnflSn=6",
+  "v": 68
+ },
  "2026000590": {
   "found": {
    "account_months": 6,
@@ -6234,6 +7232,185 @@
   },
   "name": "소사 휴먼빌",
   "notice_pdf": "https://static.applyhome.co.kr/ai/aia/getAtchmnfl.do?houseManageNo=2026000591&pblancNo=2026000591&atchmnflSeqNo=2027261&atchmnflSn=5",
+  "v": 68
+ },
+ "2026000592": {
+  "found": {
+   "account_months": 6,
+   "complex": {
+    "buildings": 12,
+    "households": 1165,
+    "quote": ": 아파트 지하 2층, 지상 15~25층 12개동 총 1,165세대 [특별공급 757세대(기관추천 116세대, 다자녀가구 116세대, 신혼부부 175세대, 노부모부양 35세대, 생애최초 198세대, 신생아 117세"
+   },
+   "contract_split": {
+    "first_won": 5000000,
+    "rest_within": "1개월",
+    "rows": 20
+   },
+   "ext": 0.0793,
+   "facts": {
+    "asset_thousand": {
+     "부동산": [],
+     "부동산_만원": [
+      33100
+     ],
+     "자동차": []
+    },
+    "deposit_rows": {
+     "102": {
+      "metro": 400,
+      "other": 300,
+      "seoul_busan": 600
+     },
+     "135": {
+      "metro": 700,
+      "other": 400,
+      "seoul_busan": 1000
+     },
+     "85": {
+      "metro": 250,
+      "other": 200,
+      "seoul_busan": 300
+     },
+     "all": {
+      "metro": 1000,
+      "other": 500,
+      "seoul_busan": 1500
+     }
+    },
+    "income_rows": {
+     "100": [
+      7533763,
+      8802202,
+      9326985,
+      9906263,
+      10485541,
+      11064819
+     ],
+     "120": [
+      9040516,
+      10562642,
+      11192382,
+      11887516,
+      12582649,
+      13277783
+     ],
+     "130": [
+      9793892,
+      11442863,
+      12125081,
+      12878142,
+      13631203,
+      14384265
+     ],
+     "160": [
+      12054021,
+      14083523,
+      14923176,
+      15850021,
+      16776866,
+      17703710
+     ]
+    },
+    "price_seen": {
+     "084.7139C": true,
+     "084.8903A": true,
+     "084.9376B": true,
+     "084.9858D": true
+    }
+   },
+   "need_head": false,
+   "pay_ratio": {
+    "balance": 0.3,
+    "contract": 0.1,
+    "mid": 0.6
+   },
+   "price_cap": true,
+   "quotes": {
+    "account_months": "…1순위 : 입주자저축에 가입하여 가입기간이 6개월이 경과하고 지역별·면적별 예치금액 이상 납입한 분 경북도청 푸르지오…",
+    "need_head": "…예치금 충족 1순위(6개월 이상, 지역별·면적별 예치금 충족) 가입 세대주 요건 - - - 필요 - - - - 소득 또는 자산기준 - - 적용 - 적용 적용 - - ※ 단, 기관추천 특별공급…",
+    "pay_ratio": "…층 해당 세대수 공급금액 계약금(10%) 중도금(60%) 잔금 대지비 건축비 계 1차 2차 1차(10%)…",
+    "price_cap": "…분양가상한제 적용주택(「주택공급에 관한 규칙」 제54조제1항제3호) 10년 ■ 10년…",
+    "resale": "…구분 특별공급 일반공급 전매제한기간 1년 - 6 - 3 공급대상 및 공급금액 ■ 「주택공급에 관한 규칙」 제20조의…",
+    "residence": "…1165 주택유형 해당지역 기타지역 규제지역여부 민영 경상북도 예천군 및 안동시 거주자 전국 거주자 비규제지역 재당첨제한 전매제한 거주의무기간 분…",
+    "residence_duty": "(1쪽 단지 주요정보 표) 전매제한 거주의무기간 분양가상한제 택지유형 10년 1년 없음 적용 공공택지",
+    "rewin_years": "…전국 거주자 비규제지역 재당첨제한 전매제한 거주의무기간 분양가상한제 택지유형 10년 1년 없음 적용 공공택지 구분 입주자모집공고일 특별공급 접수일…",
+    "score_ratio": "…전용면적별 1순위 가점제/추첨제 적용비율 구분 가점제 추첨제 전용면적 60㎡ 초과 이하 85㎡ 이하 40% 60% - 가점 산정기준(「주택공급에 관한 규칙」 별표1 제2호나목) 가점항목 가점상한 가점구분 점수 가점구분 점수 ①무주택기간 32 만30세 미만 미혼자 또는 유주택자 0 8년 이상 ~ 9년 미만…"
+   },
+   "resale": {
+    "base": "당첨자 발표일",
+    "forbidden": false,
+    "months": 12,
+    "none": false,
+    "passed": false,
+    "registration": false,
+    "until_reg": false
+   },
+   "residence": {
+    "area": {
+     "name": "경상북도 예천군",
+     "sido": "경북",
+     "sigungu": "예천군"
+    },
+    "months": 0,
+    "others": [
+     "전국"
+    ],
+    "since": null
+   },
+   "residence_duty": 0,
+   "rewin_years": 10,
+   "score_ratio": {
+    "rows": [
+     {
+      "lottery": 60,
+      "over": 60,
+      "score": 40,
+      "upto": 85
+     }
+    ]
+   },
+   "sp_table": {
+    "084.7139C": {
+     "agency": 15,
+     "elder": 5,
+     "first": 25,
+     "multichild": 15,
+     "newborn": 15,
+     "newlywed": 22,
+     "total": 97
+    },
+    "084.8903A": {
+     "agency": 50,
+     "elder": 15,
+     "first": 85,
+     "multichild": 50,
+     "newborn": 50,
+     "newlywed": 76,
+     "total": 326
+    },
+    "084.9376B": {
+     "agency": 28,
+     "elder": 8,
+     "first": 49,
+     "multichild": 28,
+     "newborn": 29,
+     "newlywed": 43,
+     "total": 185
+    },
+    "084.9858D": {
+     "agency": 23,
+     "elder": 7,
+     "first": 39,
+     "multichild": 23,
+     "newborn": 23,
+     "newlywed": 34,
+     "total": 149
+    }
+   }
+  },
+  "name": "경북도청 푸르지오 퍼스티온",
+  "notice_pdf": "https://static.applyhome.co.kr/ai/aia/getAtchmnfl.do?houseManageNo=2026000592&pblancNo=2026000592&atchmnflSeqNo=2024049&atchmnflSn=7",
   "v": 68
  },
  "2026000596": {
@@ -6845,6 +8022,92 @@
   },
   "name": "병점복합타운 주복1블록 공공분양",
   "notice_pdf": "https://apply.lh.or.kr/lhapply/lhFile.do?fileid=69618419",
+  "v": 68
+ },
+ "2026000612": {
+  "found": {
+   "account_months": 12,
+   "contract_split": {
+    "first_won": 5000000,
+    "rest_within": null,
+    "rows": 25
+   },
+   "facts": {
+    "asset_thousand": {
+     "부동산": [],
+     "부동산_만원": [],
+     "자동차": []
+    },
+    "deposit_rows": {},
+    "income_rows": {},
+    "price_seen": {
+     "059.8977B": true,
+     "059.9390A": true,
+     "071.8211B": true,
+     "084.7577A": true
+    }
+   },
+   "mc_quota": {
+    "unknown": true
+   },
+   "pay_ratio": {
+    "balance": 0.35,
+    "contract": 0.05,
+    "mid": 0.6
+   },
+   "price_cap": true,
+   "quotes": {
+    "account_months": "…입주자저축에 가입하여 가입기간이 개월 12 이 경과하고 지역별 면적별 · 예치금액 이상 납입한 분 순위 입주자저축에…",
+    "pay_ratio": "…해당 세대 수 공급금액 계약금(5%) 중도금(60%) 잔금(35%) 대지비 건축비 계 차1 차2 차1 (10%) 차2…",
+    "price_cap": "…발표일로부터) 분양가상한제 적용주택 제 항제 호( 1 3 ) 년 10 ■ 년 이상 장기복무 중인 군인은10 수도권 외…",
+    "resale": "…. 구분 특별공급 일반공급 전매제한기간 소유권이전등기일까지 다만 그 기간이 년을 초과하는 경우 년( , 3 3 ) 대상증서 공급계약서 유상품목계약서 전매계약서 부동산 소유권 이전에…",
+    "residence": "…0589 주택유형 해당지역 기타지역 규제지역여부 민영 경기도 용인시 거주자 전국 거주자 주택공급에 관한 규칙 제 조제 항제 호바목에 따른 공급단지( 4 1 3 )「 」 비규제지역 재당첨제한 전매제한 거주의무기간 분…",
+    "residence_duty": "(1쪽 단지 주요정보 표) 전매제한 거주의무기간 분양가상한제 택지유형 년10 년 3 없음 적용 공공택지",
+    "rewin_years": "…4 1 3 )「 」 비규제지역 재당첨제한 전매제한 거주의무기간 분양가상한제 택지유형 년10 년 3 없음 적용 공공택지 구분 입주자모집공고일 특별공급 접수일…",
+    "score_ratio": "…전용면적별 순위 가점제 추첨제 적용비율 - 1 / 구분 가점제 추첨제 전용면적 이하60㎡ 40% 60% 전용면적 초과 이하60 85㎡ ㎡ 40% 60% 가점 산정기준 - ( 주택공급에 관한 규칙 별표 제 호나목 1 2 )「 」 ※ 시행된 2024.03.25. 주택공급에 관한 규칙 별표 제 호나목에 따라…"
+   },
+   "resale": {
+    "base": "당첨자 발표일",
+    "forbidden": false,
+    "months": 36,
+    "none": false,
+    "passed": false,
+    "registration": true,
+    "until_reg": false
+   },
+   "residence": {
+    "area": {
+     "name": "경기도 용인시",
+     "sido": "경기",
+     "sigungu": "용인시"
+    },
+    "months": 0,
+    "others": [
+     "전국"
+    ],
+    "since": null
+   },
+   "residence_duty": 0,
+   "rewin_years": 10,
+   "score_ratio": {
+    "rows": [
+     {
+      "lottery": 60,
+      "over": 0,
+      "score": 40,
+      "upto": 60
+     },
+     {
+      "lottery": 60,
+      "over": 60,
+      "score": 40,
+      "upto": 85
+     }
+    ]
+   }
+  },
+  "name": "용인반도체클러스터 동일하이빌 파크밸리 2단지(D1-2블록)",
+  "notice_pdf": "https://static.applyhome.co.kr/ai/aia/getAtchmnfl.do?houseManageNo=2026000612&pblancNo=2026000612&atchmnflSeqNo=2037190&atchmnflSn=3",
   "v": 68
  },
  "2026820013": {
@@ -7491,68 +8754,6 @@
   "notice_pdf": "https://static.applyhome.co.kr/ai/aia/getAtchmnfl.do?houseManageNo=2026910276&pblancNo=2026910276&atchmnflSeqNo=2008508&atchmnflSn=2",
   "v": 68
  },
- "2026910279": {
-  "found": {
-   "complex": {
-    "buildings": 11,
-    "households": 1701,
-    "quote": ": 아파트 지하 4층, 지상 35층 11개동 총 1,701세대 중 잔여 2세대 ■ 입주시기 : 2026년 12월 예정 (최초 입주 개시 2024년 8월이며, 금회 공급분에 대해서는 2026년 12월 31일까지 잔금"
-   },
-   "facts": {
-    "asset_thousand": {
-     "부동산": [],
-     "부동산_만원": [],
-     "자동차": []
-    },
-    "deposit_rows": {},
-    "income_rows": {},
-    "price_seen": {
-     "084.3879B": true,
-     "084.7822A": true
-    }
-   },
-   "need_head": false,
-   "pay_ratio": {
-    "balance": 0.9,
-    "contract": 0.1,
-    "mid": 0.0
-   },
-   "price_cap": false,
-   "quotes": {
-    "need_head": "…민영 비규제지역 무순위(사후) 입주자모집공고일 현재 경기도에 거주하는 무주택세대구성원 재당첨제한 전매제한 거주의무기간 분양가상한제 없음 최초…",
-    "pay_ratio": "…주택형 동 호 공급금액 계약금(10%) 잔금(90%) 대지비 건축비 계 계약 시 입주 시…",
-    "price_cap": "(1쪽 단지 주요정보 표) 재당첨제한 전매제한 거주의무기간 분양가상한제 없음 최초 당첨자발표일(2021.06.28.)로부터 3년간 적용되어 현재 전매제한 기간 도과 없음 미적용 구분",
-    "resale": "…바랍니다. ■ 본 주택의 전매제한은 최초 입주자모집공고의 당첨자발표일(2021.06.28.)로부터 3년간 적용되어 현재 전매제한 기간이 도과되었습니다. - 4 - 3 공급대상 및 공급금액 ■ 공급위치 : 경기도…",
-    "residence": "…(사후) 입주자모집공고일 현재 경기도에 거주하는 무주택세대구성원 재당첨제한 전매제한 거주의…",
-    "residence_duty": "(1쪽 단지 주요정보 표) 재당첨제한 전매제한 거주의무기간 분양가상한제 없음 최초 당첨자발표일(2021.06.28.)로부터 3년간 적용되어 현재 전매제한 기간 도과 없음 미적용 구분",
-    "rewin_years": "…거주하는 무주택세대구성원 재당첨제한 전매제한 거주의무기간 분양가상한제 없음 최초 당첨자발표일(2021.06.28.)로부터 3년간…"
-   },
-   "resale": {
-    "base": "2021-06-28",
-    "forbidden": false,
-    "months": 36,
-    "none": false,
-    "passed": true,
-    "registration": false,
-    "until_reg": false
-   },
-   "residence": {
-    "area": {
-     "name": "경기도",
-     "sido": "경기"
-    },
-    "equal": true,
-    "months": 0,
-    "others": [],
-    "since": null
-   },
-   "residence_duty": 0,
-   "rewin_years": 0
-  },
-  "name": "봉담자이 프라이드시티",
-  "notice_pdf": "https://static.applyhome.co.kr/ai/aia/getAtchmnfl.do?houseManageNo=2026910279&pblancNo=2026910279&atchmnflSeqNo=2013033&atchmnflSn=3",
-  "v": 68
- },
  "2026910280": {
   "found": {
    "complex": {
@@ -7617,74 +8818,6 @@
   },
   "name": "오남역 서희스타힐스 여의재 3단지 (조합원 취소분)",
   "notice_pdf": "https://static.applyhome.co.kr/ai/aia/getAtchmnfl.do?houseManageNo=2026910280&pblancNo=2026910280&atchmnflSeqNo=2008443&atchmnflSn=2",
-  "v": 68
- },
- "2026910282": {
-  "found": {
-   "complex": {
-    "buildings": 6,
-    "households": 426,
-    "quote": ": 공동주택(아파트) 지하 2층, 지상 22층 6개동 총 426세대 중 잔여 21세대 ■ 입주시기 : 2029년 03월 예정(정확한 입주일자는 추후 통보함) ■ 공급대상 (단위: ㎡, 세대) 주택관리번호 모델 주택"
-   },
-   "contract_split": {
-    "first_won": 30000000,
-    "rest_within": "1개월",
-    "rows": 13
-   },
-   "facts": {
-    "asset_thousand": {
-     "부동산": [],
-     "부동산_만원": [],
-     "자동차": []
-    },
-    "deposit_rows": {},
-    "income_rows": {},
-    "price_seen": {
-     "059.7421B": true,
-     "084.9796D": true
-    }
-   },
-   "need_head": false,
-   "pay_ratio": {
-    "balance": 0.5,
-    "contract": 0.1,
-    "mid": 0.4
-   },
-   "price_cap": false,
-   "quotes": {
-    "need_head": "…무순위(사후) 입주자모집공고일 현재 수도권에 거주하는 무주택세대구성원 재당첨제한 전매제한 거주의무기간 분양가상한제 10년 최초…",
-    "pay_ratio": "…층구분 세대수 공급금액 계약금(10%) 중도금(40%) 잔금 대지비 건축비 계 1차 2차 1회(10%)…",
-    "price_cap": "…민간택지에서 공급하는 분양가상한제 미적용 민영주택으로 기존 주택 당첨으로 인해 재당첨 제한 기간 내에 있는 분 및 그…",
-    "resale": "…바랍 니다. ■ 본 아파트의 전매제한은 최초 입주자모집공고의 당첨자발표일(2026.10.12.)로부터 3년간 적용됩니다.(단 3년 내 소유권이전등기 시 해제) - 4 - 3 공급대상 및…",
-    "residence": "…(사후) 입주자모집공고일 현재 수도권에 거주하는 무주택세대구성원 재당첨제한 전매제한 거주의…",
-    "residence_duty": "(1쪽 단지 주요정보 표) 재당첨제한 전매제한 거주의무기간 분양가상한제 10년 최초 당첨자발표일('26.10.12.)로부터 3년간 적용(단, 3년 내 소유권이전등기 시 해제) 없음 미적용 구분",
-    "rewin_years": "…거주하는 무주택세대구성원 재당첨제한 전매제한 거주의무기간 분양가상한제 10년 최초 당첨자발표일('26.10.12.)로부터 3년간…"
-   },
-   "resale": {
-    "base": "2026-10-12",
-    "forbidden": false,
-    "months": 36,
-    "none": false,
-    "passed": false,
-    "registration": false,
-    "until_reg": false
-   },
-   "residence": {
-    "area": null,
-    "equal": true,
-    "months": 0,
-    "others": [
-     "서울",
-     "경기",
-     "인천"
-    ],
-    "since": null
-   },
-   "residence_duty": 0,
-   "rewin_years": 10
-  },
-  "name": "광명 시티프라디움 에듀하임",
-  "notice_pdf": "https://static.applyhome.co.kr/ai/aia/getAtchmnfl.do?houseManageNo=2026910282&pblancNo=2026910282&atchmnflSeqNo=2013002&atchmnflSn=4",
   "v": 68
  },
  "2026910283": {
