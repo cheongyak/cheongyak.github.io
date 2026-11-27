@@ -203,7 +203,7 @@
    "effort": "S",
    "status": "open",
    "first_seen": "2026-11-04",
-   "last_seen": "2026-11-26",
+   "last_seen": "2026-11-27",
    "tries": 0,
    "pr": null,
    "success_check": null,
@@ -656,14 +656,14 @@
   {
    "key": "audit:2026000563:가점제·추첨제 비율",
    "first_seen": "2026-11-23",
-   "last_seen": "2026-11-26",
+   "last_seen": "2026-11-27",
    "tries": 1,
    "pr": 163,
    "success_check": {
     "how": "합친 뒤 첫 수집의 docs/listings.json 2026000563·566 score_ratio, 공고 화면 안내",
     "expect": "rows [0~60 40/60, 60~85 40/60], 화면에 '가점제 40% · 추첨제 60%'"
    },
-   "notes": "11-23 밤 PR #163. 신호 도구가 이 주 보고 표를 못 잡아 손으로 넣음(manual:signals-audit-rows) · 11-24 PR #163 합침(02:36 UTC), 기록은 손 세션 WORK 11:32·v1.94.2·release 있음. 효과 확인 11-27~",
+   "notes": "11-23 밤 PR #163. 신호 도구가 이 주 보고 표를 못 잡아 손으로 넣음(manual:signals-audit-rows) · 11-24 PR #163 합침(02:36 UTC), 기록은 손 세션 WORK 11:32·v1.94.2·release 있음. 효과 확인 11-27~ · 11-27 효과 확인: listings.json 563·566 모두 score_ratio rows [0~60 40/60, 60~85 40/60], 화면 문구 코드(index.html 1056줄 가점제 N% · 추첨제 N%) 그대로",
    "title": "563 더샵 트리센트·566 호반써밋 초량 가점제·추첨제 비율 표('■ ②가점' 아래, 제목 없음)를 못 읽음",
    "area": "parse",
    "source": "evidence/audit/2026-11-23-blind/README.md",
@@ -672,12 +672,12 @@
    "reach": 2,
    "confidence": 3,
    "effort": "M",
-   "status": "merged"
+   "status": "merged_effective"
   },
   {
    "key": "audit:2026000560:전매제한",
    "first_seen": "2026-11-23",
-   "last_seen": "2026-11-26",
+   "last_seen": "2026-11-27",
    "tries": 0,
    "pr": null,
    "success_check": null,
@@ -695,7 +695,7 @@
   {
    "key": "audit:2026910298:계약금 비율",
    "first_seen": "2026-11-23",
-   "last_seen": "2026-11-26",
+   "last_seen": "2026-11-27",
    "tries": 0,
    "pr": null,
    "success_check": null,
