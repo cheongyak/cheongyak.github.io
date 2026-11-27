@@ -90,7 +90,7 @@ jobs:
         continue-on-error: true
         run: |
           python -m tools.build_static
-          git add -A -- docs/sitemap.xml $(for d in docs/notice docs/guide docs/story docs/about docs/terms docs/privacy docs/updates docs/rental docs/archive/seo-grades.json; do [ -e "$d" ] || git ls-files --error-unmatch "$d" >/dev/null 2>&1 && echo "$d"; done)
+          git add -A -- docs/sitemap.xml $(for d in docs/notice docs/analysis docs/guide docs/story docs/about docs/terms docs/privacy docs/updates docs/rental docs/archive/seo-grades.json; do [ -e "$d" ] || git ls-files --error-unmatch "$d" >/dev/null 2>&1 && echo "$d"; done)
           git diff --cached --quiet || (git commit -m "공고 페이지 갱신 $(date +%Y-%m-%d)" && bash tools/qa/push_retry.sh)
       # ---- 수집 뒤 필수 검증 (CLAUDE.md 4항): 판정 검증 사례 + 공고문 대조 결과를 모아 docs/verify-status.json 으로 공개, 다르면 실패 ----
       - uses: actions/setup-node@v4
@@ -118,7 +118,7 @@ jobs:
           node tools/snapshot_docs.cjs && python -m tools.build_static && python -m tools.qa.seo_static --json evidence/qa/seo-static.json | tee -a docs/run-log.txt
           git config user.name "cheongyak-bot"
           git config user.email "actions@users.noreply.github.com"
-          git add -A -- $(for d in docs/sitemap.xml docs/index.html docs/notice docs/guide docs/story docs/about docs/terms docs/privacy docs/rental docs/archive/seo-grades.json tools/seo_engine.json tools/static_fragments.json evidence/qa/seo-static.json; do [ -e "$d" ] || git ls-files --error-unmatch "$d" >/dev/null 2>&1 && echo "$d"; done)
+          git add -A -- $(for d in docs/sitemap.xml docs/index.html docs/notice docs/analysis docs/guide docs/story docs/about docs/terms docs/privacy docs/rental docs/archive/seo-grades.json tools/seo_engine.json tools/static_fragments.json evidence/qa/seo-static.json; do [ -e "$d" ] || git ls-files --error-unmatch "$d" >/dev/null 2>&1 && echo "$d"; done)
           git diff --cached --quiet || { git commit -m "검색용 정적 페이지 갱신 $(date +%Y-%m-%d)" && bash tools/qa/push_retry.sh; }
       - name: MASTER QA 검사 (공급유형 표시 전수 · 데이터 불변식, 기능 qa_gate)
         if: always()

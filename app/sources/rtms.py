@@ -55,6 +55,13 @@ def parse_page(xml_text: str) -> tuple[list[dict], int]:
     code = root.findtext(".//resultCode")
     if code not in (None, "00", "000"):
         raise RtmsError(f"실거래가 API 오류 {code}: {root.findtext('.//resultMsg')}")
+    # 공공데이터포털 관문 오류 문서(<OpenAPI_ServiceResponse><cmmMsgHeader>…)는 resultCode 가 없어 '거래 0건'으로 읽혔다
+    # (2026-11-28: 요청 864건이 모두 '성공'인데 전 지역 매매 0건 → 시세가 전부 '확인 부족'이 되고 보관 시세까지 덮어씀)
+    reason = root.findtext(".//returnReasonCode")
+    if reason not in (None, "00", "000") or root.tag == "OpenAPI_ServiceResponse":
+        raise RtmsError(f"실거래가 API 오류 {reason}: {root.findtext('.//returnAuthMsg') or root.findtext('.//errMsg')}")
+    if code is None and root.tag != "response" and root.find(".//item") is None:   # 정상 응답(<response>)도 결과 코드도 거래도 아니면 거래 0건으로 보지 않는다
+        raise RtmsError(f"실거래가 API 가 알 수 없는 응답을 보냄: <{root.tag}>")
     rows, n = [], 0
     for it in root.iter("item"):
         n += 1
@@ -89,6 +96,19 @@ class RtmsClient:
         self._cache: dict[tuple, list[dict]] = {}
         self.frozen = False          # True 면 새로 요청하지 않는다 (시간 제한을 넘긴 뒤)
         self.stats = {"requests": 0, "failed": 0}
+
+    fail_msg: Optional[str] = None
+
+    def all_empty(self, min_responses: int = 30) -> bool:
+        """받은 응답이 30건 이상인데 매매·분양권·전월세 어디에도 거래가 한 건도 없으면 True — 실제로는 있을 수 없어 조회 실패로 본다"""
+        got = list(self._cache.values())
+        return len(got) >= min_responses and not any(got)
+
+    def mark_failed(self, msg: str) -> None:
+        """이번 실행의 조회 결과를 모두 버리고, 이후 조회는 실패로 답한다 (보관 시세를 쓰게)"""
+        self._cache.clear()
+        self.fail_msg = msg
+        self.frozen = True
 
     def prefetch(self, keys: list[tuple], budget_sec: float, workers: int = 8) -> dict:
         """(kind, lawd, ym) 목록을 동시에 받아 캐시에 넣는다. 시간 제한을 넘기면 남은 것은 포기한다."""
@@ -125,6 +145,8 @@ class RtmsClient:
         key = (kind, lawd, ym)
         if key in self._cache:
             return self._cache[key]
+        if self.fail_msg:
+            raise RtmsError(self.fail_msg)
         if self.frozen:
             raise RtmsError("시간 제한으로 이번 실행에서는 조회하지 못했어요")
         self.stats["requests"] += 1
@@ -155,7 +177,7 @@ class RtmsClient:
                 except ET.ParseError:
                     raise RtmsError(f"{kind} API 가 XML 이 아닌 응답을 보냄: {r.text[:80]!r}")
             except RtmsError as e:
-                if "권한 없음" in str(e) or "API 오류" in str(e) and "LIMITED" in str(e):
+                if "권한 없음" in str(e) or "API 오류" in str(e) and ("LIMITED" in str(e) or "EXCEEDS" in str(e)):
                     raise
                 last = e
             except httpx.HTTPError as e:

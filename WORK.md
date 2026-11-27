@@ -4,6 +4,16 @@
 2026-09-29 12:55 이전 항목은 규칙을 만들기 전 작업을 커밋 기록으로 정리한 것이라 백업 브랜치가 없어요.
 그 시점으로 되돌릴 때는 해당 커밋 번호로 `git revert` 를 써요.
 
+## 2026-11-28 08:29 · 시세가 전부 '확인 부족'으로 뜬 사고 — 실거래가 API 오류 응답을 '거래 0건'으로 읽음 v1.95.1
+- 요청: 운영자 '지금 시세확인부족으로 다뜨는데'
+- 원인: 11-28 07:18 수집에서 국토부 실거래가 API 가 요청 864건 모두에 거래가 하나도 없는 응답을 줬다(run-log: 성공 864·실패 0, 모든 주택형 '6개월 매매 0'). 수집 코드는 결과 코드(resultCode)만 보고 오류를 가려, 공공데이터포털 관문 오류 문서(resultCode 없음)를 '성공·거래 0건'으로 읽었다 → 시세 부족 284건(전날 30건). '성공'으로 처리돼 보관 시세(docs/market-cache.json)까지 빈 값으로 덮어썼다. 응답 원문은 남아 있지 않아 API 쪽 정확한 사유(요청 한도·점검 등)는 확인하지 못함. 함께 발견: 단지 분석 리포트(v1.95.0) 폴더 docs/analysis 가 Actions 저장 목록에 빠져 있어, 수집이 새로 만든 리포트가 저장되지 않고 sitemap 과 어긋남(11-27 추가 때 빠뜨림)
+- 변경: ① app/sources/rtms.parse_page — 관문 오류 문서(returnReasonCode·OpenAPI_ServiceResponse)와 알 수 없는 문서를 오류로 처리 ② 응답 30건 이상이 매매·분양권·전월세 모두 0건이면 조회 실패로 처리(RtmsClient.all_empty·mark_failed, pipeline) → 보관 시세를 쓰고 '○월 ○일 조회값'으로 표시(기존 market_fallback) ③ docs/market-cache.json 을 11-27 06:30 값으로 복구 ④ collect.yml·verify.yml 저장 목록에 docs/analysis 추가
+- 파일: app/sources/rtms.py, app/pipeline.py, tests/test_rtms_gateway_error_20261128.py, docs/market-cache.json, .github/workflows/collect.yml, .github/workflows/verify.yml, docs/changelog.json, VERSIONS.md, WORK.md, HANDOFF.md, .claude/skills/cheongyakpass-ops/SKILL.md
+- 확인: 새 시험 4건(관문 오류·알 수 없는 문서는 오류, 정상 빈 달은 그대로 0건, 전부 0건이면 실패 처리). pytest 611 passed·1 failed(test_seo_static — 저장소의 어긋난 리포트·sitemap 때문, 수집이 다시 만들면 풀림), judge_check 1070/1070. 올린 뒤 수집을 다시 돌려 확인
+- 기능: 없음(수정)
+- 버전: v1.95.1
+- 백업: backup/20261128-0829
+
 ## 2026-11-28 07:59 · 아침 자동 고치기 11-28 (올린 코드 없음)
 - 요청: 예약 작업 '아침 자동 고치기'
 - 변경: 코드 변경 없음. 예약 수집이 07:18 까지 안 돌아(daily-run 11-27) 청약 공고 수집을 손으로 시작하고, 끝난 뒤 LH·SH·GH·민간·지방 공사 임대 수집을 하나씩 손으로 시작함(모두 성공). 못 읽은 공고 6건은 11-27 과 같은 공고·같은 원문(원문·AI 답 파일 11-26 이후 안 바뀜)이고 사람 판단이 필요하다고 정리한 것(HANDOFF -131·-132·-138·-140·-143)이라 규칙을 더하지 않음. qa_observe 비어 있어 승격할 검사 없음

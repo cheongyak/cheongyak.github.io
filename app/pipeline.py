@@ -817,6 +817,9 @@ def run(dry_run: bool = False, today: Optional[date] = None, read_notices: bool 
                f"(성공 {pf['done']}, 실패 {pf['failed']}, 시간 초과로 생략 {pf['skipped']})")
     for msg, n in pf.get("errors", []):
         log.append(f"[실거래 오류] {n}건: {msg}")
+    if rt.all_empty():   # 2026-11-28: 응답은 왔는데 전 지역 매매·분양권·전월세가 모두 0건 — 조회 실패로 보고 보관 시세를 쓴다 (market_fallback)
+        rt.mark_failed("실거래가 API 가 전 지역 거래 0건으로 답해 조회 실패로 처리했어요")
+        log.append(f"[경고·시세] 실거래 응답 {pf['done']}건이 모두 거래 0건 — 조회 실패로 처리 (지난 조회값 사용)")
     for raw in raws:
         if no_supply(raw):
             log.append(f"[제외] {raw.get('name')} {raw.get('house_ty') or raw.get('unit')}: 이번 공고 공급 세대 0 (일반 0·특별 0) — 목록에서 뺌")
