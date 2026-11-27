@@ -116,6 +116,11 @@ def run() -> dict:
         if k == "notice" and not {"FAQPage", "BreadcrumbList"} <= types and "seo-content" not in res:
             res["ld_missing"].append(rel)
         slug = rel[: -len("index.html")]
+        if re.search(r'<meta name="robots" content="noindex', s):   # 기능 rental_noindex: 색인하지 않는 페이지는 sitemap 에 없어야 한다
+            res["noindex"] = res.get("noindex", 0) + 1
+            if slug in locs:
+                res["not_in_sitemap"].append(slug + " (noindex 인데 sitemap 에 있음)")
+            continue
         if slug not in locs and slug not in skip:   # 기능 sitemap_recent: 오래된 마감 공고는 일부러 sitemap 에서 뺀다
             res["not_in_sitemap"].append(slug)
         if slug in locs and slug in skip_late:
@@ -136,7 +141,7 @@ if __name__ == "__main__":
     ln = r["live_notice_prose"]
     print(f"[정적 페이지 검사] {r['pages']}쪽 {r['by_kind']} · 지금 공고 산문 최소 {min(ln) if ln else '-'}자 · 짧음 {len(r['short'])} · 금지어 {len(r['forbidden'])} · 깨진 링크 {len(r['broken'])} · "
           f"구조화 데이터 오류 {len(r['ld_bad'])}·빠짐 {len(r['ld_missing'])} · sitemap 빠짐 {len(r['not_in_sitemap'])} · "
-          f"sitemap 하루 늦음 {len(r['sitemap_stale'])} · {'통과' if r['ok'] else '실패'}")
+          f"sitemap 하루 늦음 {len(r['sitemap_stale'])} · 색인 제외 {r.get('noindex', 0)} · {'통과' if r['ok'] else '실패'}")
     for w in r["warnings"]:
         print(f"  [경고] {w}")
     for k in ("short", "forbidden", "broken", "ld_bad", "ld_missing", "not_in_sitemap", "sitemap_stale"):

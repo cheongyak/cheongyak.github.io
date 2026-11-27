@@ -30,6 +30,7 @@ GRADES = DOCS / "archive" / "seo-grades.json"
 GUIDES = ROOT / "tools" / "guides"
 KEEP_DAYS = 365   # 마감 공고 페이지 보관 (archive/past.json 의 1년 보관 규칙과 같게)
 SITEMAP_CLOSED_DAYS = 30   # 기능 sitemap_recent: 마감 공고는 마지막 일정(당첨자 발표·접수 마감) 뒤 이 날수까지만 sitemap 에
+NOINDEX = '<meta name="robots" content="noindex, follow">'   # 기능 rental_noindex
 SITEMAP_SKIP: set = set()   # build_all 이 채운다 — sitemap 에서 뺄 공고 페이지 경로
 CONTENT_DATE = "2026-11-05"   # 가이드·신뢰 페이지 글을 고친 날 (sitemap lastmod) — 글을 고치면 함께 바꾼다
 MARK_A, MARK_B = "<!--seo:start-->", "<!--seo:end-->"
@@ -1087,6 +1088,9 @@ def rental_page(org: str, n: dict):
     if ai:
         parts.append(sec("04", "공고문에서 읽은 자격 기준 (참고)", ai))
     parts.append(rent_check(org, n, bool(gs)))
+    # 기능 rental_noindex (2026-11-27 운영자: 광고 심사 '가치 없는 콘텐츠' 방지): 계층별 소득·자산 기준을 읽지 못했고 AI 참고 내용도 없는 공고는 본문이 얇다 →
+    #   검색엔진이 색인하지 않게 하고(링크는 따라가게) sitemap 에서 뺀다. 페이지는 그대로 둔다(목록·앱에서 들어올 수 있게)
+    thin = feature("rental_noindex") and not gs and not ai
     qas = [(f"{e(name)} 접수 기간은 언제예요?", (f"접수는 {e(ap)}{'였' if closed else '이'}고, " if ap else "접수 일정은 모집공고문에서 확인해야 해요(청약패스가 날짜를 읽지 못했어요). ")
             + (f"당첨자 발표는 {kd(sch.get('winner'))}{ieyo(kd(sch.get('winner')))}. " if sch.get("winner") else "") + "자세한 일정은 모집공고문을 확인하세요."),
            (f"{e(name)} 임대료는 얼마예요?", ("보증금 " + won_k(min(x["deposit"] for x in rents if x.get("deposit"))) + "부터, 계층·주택형별로 공고문 표에 나와 있어요. " if any(x.get("deposit") for x in rents)
@@ -1104,7 +1108,7 @@ def rental_page(org: str, n: dict):
     crumbs = [("/", "홈"), ("/rental/", "임대 공고"), (f"/rental/{org}/", RENT_ORG[org][0]), (None, name)]
     tag = f"접수 {short_range(sch.get('apply_start'), sch.get('apply_end'))}" if sch.get("apply_start") else f"게시 {md(n.get('posted'))}"
     return (f"{name} 임대 공고 ({tag}) — 자격·임대조건·일정", f"{name}({n.get('region') or ''}) {typ}, {tag}: 신청 자격, 보증금·월 임대료, 접수·발표 일정과 자주 묻는 질문",
-            renumber("".join(parts)), faq_ld(qas), crumbs)
+            renumber("".join(parts)), faq_ld(qas) + (NOINDEX if thin else ""), crumbs)
 
 
 def rent_open_list(allr: dict) -> str:
@@ -1140,6 +1144,8 @@ def rental_build(write) -> list:
         allr[org] = ns
         for n in ns:
             t, d, b, h, c = rental_page(org, n)
+            if NOINDEX in h:
+                SITEMAP_SKIP.add(f"rental/{org}/{rent_slug(n)}/")
             out.append(write(f"rental/{org}/{rent_slug(n)}/", t, d, b, h, c, TODAY))
         li = "".join(f'<li><a href="/rental/{org}/{rent_slug(n)}/"><b>{e(n["name"])}</b></a><br><span class="small muted">{e(n.get("region") or "")} · {e(n.get("type") or "")} · 게시 {md(n.get("posted"))}{(" · 접수 " + short_range(((n.get("schedule") or [{}])[0] or {}).get("apply_start"), ((n.get("schedule") or [{}])[0] or {}).get("apply_end"))) if ((n.get("schedule") or [{}])[0] or {}).get("apply_start") else ""}</span></li>' for n in ns)
         body = (f"<h1>{e(label)} 임대 공고</h1>" + ps(f"{e(label)} 임대주택 공고 {len(ns)}건을 모았어요. 공고마다 신청 자격, 보증금·월 임대료, 접수·발표 일정을 모집공고문 기준으로 정리했어요.",

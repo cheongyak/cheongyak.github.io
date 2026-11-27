@@ -4,6 +4,14 @@
 2026-09-29 12:55 이전 항목은 규칙을 만들기 전 작업을 커밋 기록으로 정리한 것이라 백업 브랜치가 없어요.
 그 시점으로 되돌릴 때는 해당 커밋 번호로 `git revert` 를 써요.
 
+## 2026-11-27 12:06 · 본문이 얇은 임대 공고 페이지 색인 제외 (기능 rental_noindex)
+- 요청: 운영자 '애드센스 "가치 없는 콘텐츠" 방지용 색인 정리 — /rental/ 임대 공고 페이지 중 "계층별 소득·자산 기준을 자동으로 읽지 못했어요"처럼 본문 데이터가 빈약한 페이지에는 noindex, follow 를 넣고 sitemap.xml 에서 제외'
+- 변경: 임대 공고 페이지 중 계층별 소득·자산 기준을 읽지 못했고(terms.groups 없음) AI 참고 내용도 없는 페이지의 <head> 에 `<meta name="robots" content="noindex, follow">`, sitemap 에서 뺌. 페이지 자체와 목록의 링크는 그대로(앱·목록에서 들어올 수 있음). 기준을 읽은 페이지(76쪽)와 AI 참고 내용이 있는 SH 페이지(2쪽)는 그대로 색인. 정적 페이지 검사는 noindex 페이지가 sitemap 에 없어도 통과시키고, 반대로 sitemap 에 있으면 실패로 봄
+- 파일: tools/seo_pages.py, tools/qa/seo_static.py, tools/build_static.py, docs/config.json, tests/test_rental_noindex_20261127.py, docs/rental/**(28쪽), docs/sitemap.xml, docs/about/index.html, tools/static_fragments.json, FEATURES.md, WORK.md
+- 확인: 지금 임대 공고 106쪽 중 28쪽(LH 10·SH 5·GH 3·지방 공사 5·민간임대 5)이 색인 제외, sitemap 281 → 253개 주소. seo_static 통과(색인 제외 28 · sitemap 빠짐 0 · 깨진 링크 0). 새 시험 2건(얇은 페이지만 noindex·스위치 끔 / noindex 인데 sitemap 에 있으면 실패)
+- 기능: rental_noindex
+- 백업: backup/20261127-1206
+
 ## 2026-11-27 07:19 · 아침 자동 고치기 11-27 (올린 코드 없음)
 - 요청: 예약 작업 '아침 자동 고치기'
 - 변경: 코드 변경 없음. 못 읽은 공고 6건 모두 11-26 과 같은 공고·같은 원문(원문 파일·AI 답 파일 11-26 기록 이후 안 바뀜)이고 앞서 사람 판단이 필요하다고 정리한 것(HANDOFF -131·-132·-138·-140·-143)이라 규칙을 더하지 않음. qa_observe 비어 있어 승격할 검사 없음

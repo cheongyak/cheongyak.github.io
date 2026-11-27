@@ -401,7 +401,7 @@ def seo_main(pages: dict) -> None:
     from urllib.parse import quote
     sm = "".join(f"  <url><loc>{SITE}/{quote(s)}</loc><lastmod>{m}</lastmod><changefreq>{c}</changefreq><priority>{p}</priority></url>\n" for s, m, c, p in uniq)
     (DOCS / "sitemap.xml").write_text(f'<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n{sm}</urlset>\n', encoding="utf-8")
-    print(f"[정적 문서·seo_content] {len(pages)}쪽 + 새 페이지 {len(out)}쪽 · sitemap {len(uniq)}개 주소" + (f" (오래된 마감 공고 {len(seo_pages.SITEMAP_SKIP)}쪽은 sitemap 에서 뺌)" if seo_pages.SITEMAP_SKIP else ""))
+    print(f"[정적 문서·seo_content] {len(pages)}쪽 + 새 페이지 {len(out)}쪽 · sitemap {len(uniq)}개 주소" + (f" (오래된 마감 공고·색인 제외 임대 공고 {len(seo_pages.SITEMAP_SKIP)}쪽은 sitemap 에서 뺌)" if seo_pages.SITEMAP_SKIP else ""))
 
 
 if __name__ == "__main__":
