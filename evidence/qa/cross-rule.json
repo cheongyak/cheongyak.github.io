@@ -1,8 +1,8 @@
 {
  "date": "2026-11-27",
- "listings": 299,
+ "listings": 332,
  "profiles": 42,
- "checks": 419559,
+ "checks": 430134,
  "conflicts": 4,
  "severity": {
   "CRITICAL": 0,
@@ -13,9 +13,9 @@
   "DUTY-001": 4
  },
  "states": {
-  "WARNING": 110,
-  "NORMAL": 138,
-  "UNKNOWN": 51
+  "WARNING": 275,
+  "UNKNOWN": 51,
+  "NORMAL": 6
  },
  "examples": [
   {
@@ -327,7 +327,7 @@
  ],
  "pageErrors": [],
  "_data": {
-  "listings": "863eef6fac43",
-  "code": "6ff11fa8e31a"
+  "listings": "422613bd4db2",
+  "code": "c019d88ed2b0"
  }
 }
