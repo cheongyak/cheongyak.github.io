@@ -98,6 +98,7 @@ class RtmsClient:
         self.stats = {"requests": 0, "failed": 0}
 
     fail_msg: Optional[str] = None
+    err_sample: Optional[str] = None   # 오류 응답 한 건의 앞부분 (run-log 진단용)
 
     def all_empty(self, min_responses: int = 30) -> bool:
         """받은 응답이 30건 이상인데 매매·분양권·전월세 어디에도 거래가 한 건도 없으면 True — 실제로는 있을 수 없어 조회 실패로 본다"""
@@ -174,6 +175,10 @@ class RtmsClient:
                 r.raise_for_status()
                 try:
                     return parse_page(r.text)
+                except RtmsError as e:   # 원인을 가릴 수 있게 종류와 응답 앞부분을 남긴다 (인증키는 응답에 없지만 한 번 더 가림)
+                    if self.err_sample is None:
+                        self.err_sample = f"{kind} HTTP {r.status_code} · {r.headers.get('content-type', '')} · " + re.sub(r"\s+", " ", r.text[:300]).replace(self.key, "***")
+                    raise RtmsError(f"{kind} {e}")
                 except ET.ParseError:
                     raise RtmsError(f"{kind} API 가 XML 이 아닌 응답을 보냄: {r.text[:80]!r}")
             except RtmsError as e:
