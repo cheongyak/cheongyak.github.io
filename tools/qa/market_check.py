@@ -46,6 +46,10 @@ def num(v):
 def rows_of(xml_text: str) -> list[dict]:
     """원자료 한 쪽 → 거래 목록 (해제·직거래 표시는 그대로 두고 판단은 아래에서)"""
     root = ET.fromstring(xml_text)
+    # 오류 문서를 '거래 0건'으로 읽지 않는다 (2026-11-28: API 장애 날 결과 코드 04 응답을 0건으로 읽어 '근거 거래가 원자료에 없음' 8건 거짓 경보)
+    code, reason = root.findtext(".//resultCode"), root.findtext(".//returnReasonCode")
+    if code not in (None, "00", "000") or reason not in (None, "00", "000") or (code is None and root.tag != "response" and root.find(".//item") is None):
+        raise RuntimeError(f"실거래가 API 오류 응답 {code or reason or root.tag}")
     out = []
     for it in root.iter("item"):
         g = {c.tag: (c.text or "").strip() for c in it}
@@ -309,6 +313,8 @@ def main() -> int:
     except Exception as e:   # 원자료를 못 받으면 '다름'이 아니라 '확인 못 함'으로 남긴다 (키·주소는 기록하지 않음)
         msg = re.sub(r"(serviceKey=)[^&\s']+", r"\1***", f"{type(e).__name__}: {e}")[:160]
         print(f"[QA 시세 원자료] 원자료를 받지 못함 — {msg}")
+        # 지난 결과(다른 날·장애 때의 '다름')가 남아 검증을 막지 않게 '확인 못 함'으로 적는다
+        OUT.write_text(json.dumps({"date": today.isoformat(), "checked": 0, "fails": 0, "comps_checked": 0, "items": [], "unchecked": "원자료를 받지 못함"}, ensure_ascii=False, indent=1) + "\n", encoding="utf-8")
         return 0
     OUT.write_text(json.dumps(r, ensure_ascii=False, indent=1) + "\n", encoding="utf-8")
     print(f"[QA 시세 원자료] 공고 {r['checked']}개 · 근거 거래 {r['comps_checked']}건을 국토부 원자료와 대조 · 다름 {r['fails']}건")
