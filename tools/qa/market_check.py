@@ -210,14 +210,19 @@ def comp_in(c: dict, rows: list[dict]) -> bool:
                and abs((r["amount"] or 0) / 10000 - (c.get("amount") or 0)) < 0.006 for r in rows)
 
 
-def fetch(http, key: str, kind: str, lawd: str, ym: str) -> list[dict]:
+def fetch(http, key: str, kind: str, lawd: str, ym: str, size: int = 1000) -> list[dict]:
     out = []
-    for page in range(1, 20):
-        r = http.get(BASE + EP[kind], params={"serviceKey": key, "LAWD_CD": lawd, "DEAL_YMD": ym, "numOfRows": 1000, "pageNo": page})
+    for page in range(1, 20000 // size + 1):
+        r = http.get(BASE + EP[kind], params={"serviceKey": key, "LAWD_CD": lawd, "DEAL_YMD": ym, "numOfRows": size, "pageNo": page})
         r.raise_for_status()
-        rows = rows_of(r.text)
+        try:
+            rows = rows_of(r.text)
+        except RuntimeError:
+            if size == 1000 and page == 1:   # 1000건 요청이 오류면 100건으로 한 번 더 (2026-11-28)
+                return fetch(http, key, kind, lawd, ym, 100)
+            raise
         out += rows
-        if len(rows) < 1000:
+        if len(rows) < size:
             break
     return out
 

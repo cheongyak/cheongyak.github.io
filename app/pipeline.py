@@ -812,6 +812,11 @@ def run(dry_run: bool = False, today: Optional[date] = None, read_notices: bool 
     lawd_cache = LC.load()
     lawds = {LC.lawd_for(r["address"], lawd_cache, r.get("area_code_nm")) for r in raws if r.get("price")}
     keys = [(k, l, ym) for l in sorted(x for x in lawds if x) for k in ("trade", "presale", "rent") for ym in months]
+    if keys and hasattr(rt, "probe"):
+        k0 = sorted(keys)[0]
+        pr = rt.probe(k0[1], max(k[2] for k in keys))
+        if len(pr) > 1 or "실패" in pr[0]:
+            log.extend(f"[실거래 오류·진단] {x}" for x in pr)
     pf = rt.prefetch(keys, budget_sec=MARKET_BUDGET_SEC)
     log.append(f"[시간] 공고 {len(raws)}건 {t1 - t0:.0f}초 · 실거래 요청 {pf['total']}건 {pf['seconds']:.0f}초 "
                f"(성공 {pf['done']}, 실패 {pf['failed']}, 시간 초과로 생략 {pf['skipped']})")

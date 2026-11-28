@@ -98,12 +98,28 @@ class RtmsClient:
         self.stats = {"requests": 0, "failed": 0}
 
     fail_msg: Optional[str] = None
+    page_size: int = 1000   # 한 쪽에 받는 건수. probe() 가 1000 이 안 통하면 줄인다
     err_sample: Optional[str] = None   # 오류 응답 한 건의 앞부분 (run-log 진단용)
 
     def all_empty(self, min_responses: int = 30) -> bool:
         """받은 응답이 30건 이상인데 매매·분양권·전월세 어디에도 거래가 한 건도 없으면 True — 실제로는 있을 수 없어 조회 실패로 본다"""
         got = list(self._cache.values())
         return len(got) >= min_responses and not any(got)
+
+    def probe(self, lawd: str, ym: str) -> list[str]:
+        """조회 전에 한 번 찔러 본다. 한 쪽 1000건 요청이 오류면 100·10건으로 다시 해 보고, 되는 크기로 바꾼다.
+        (2026-11-28: 포털 미리보기(10건)는 되는데 수집(1000건)만 '04 HTTP_ERROR' — 원인을 가리고, 크기 문제면 스스로 피해 간다)"""
+        out = []
+        for size in (1000, 100, 10):
+            try:
+                r = self.http.get(BASE + ENDPOINTS["trade"], params={"serviceKey": self.key, "LAWD_CD": lawd, "DEAL_YMD": ym, "numOfRows": size, "pageNo": 1})
+                _, n = parse_page(r.text)
+                out.append(f"한 쪽 {size}건 요청 → 정상(HTTP {r.status_code}, {n}건)")
+                self.page_size = size
+                break
+            except Exception as e:
+                out.append(f"한 쪽 {size}건 요청 → 실패({type(e).__name__}: {str(e).replace(self.key, '***')[:80]})")
+        return out
 
     def mark_failed(self, msg: str) -> None:
         """이번 실행의 조회 결과를 모두 버리고, 이후 조회는 실패로 답한다 (보관 시세를 쓰게)"""
@@ -152,10 +168,10 @@ class RtmsClient:
             raise RtmsError("시간 제한으로 이번 실행에서는 조회하지 못했어요")
         self.stats["requests"] += 1
         rows: list[dict] = []
-        for page in range(1, 20):
+        for page in range(1, 20000 // self.page_size + 1):
             batch, n_raw = self._get_page(kind, lawd, ym, page)
             rows.extend(batch)
-            if n_raw < 1000:   # 해제 거래를 빼기 전 건수로 (빼고 세면 꽉 찬 쪽 다음을 놓친다)
+            if n_raw < self.page_size:   # 해제 거래를 빼기 전 건수로 (빼고 세면 꽉 찬 쪽 다음을 놓친다)
                 break
         self._cache[key] = rows
         return rows
@@ -167,7 +183,7 @@ class RtmsClient:
         for i in range(tries):
             try:
                 r = self.http.get(BASE + ENDPOINTS[kind], params={
-                    "serviceKey": self.key, "LAWD_CD": lawd, "DEAL_YMD": ym, "numOfRows": 1000, "pageNo": page})
+                    "serviceKey": self.key, "LAWD_CD": lawd, "DEAL_YMD": ym, "numOfRows": self.page_size, "pageNo": page})
                 if r.status_code in (401, 403):
                     raise RtmsError(f"{kind} API 권한 없음({r.status_code}). 공공데이터포털에서 이 API 활용신청·승인 상태를 확인하세요.")
                 if r.status_code == 429 or r.status_code >= 500:
