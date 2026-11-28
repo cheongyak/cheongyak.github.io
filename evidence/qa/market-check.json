@@ -1,10 +1,197 @@
 {
  "date": "2026-11-28",
- "checked": 0,
- "fails": 0,
- "comps_checked": 0,
- "items": [],
+ "checked": 8,
+ "fails": 8,
+ "comps_checked": 52,
+ "items": [
+  {
+   "id": "2026910304-074.0000A",
+   "name": "더샵 분당하이스트(2차)",
+   "lawd": "41135",
+   "app": {
+    "mkt_basis": null,
+    "mkt_base": null,
+    "mkt_low": null,
+    "mkt_count": 2
+   },
+   "raw": {
+    "basis": null,
+    "base": null,
+    "low": null,
+    "count": 0
+   },
+   "comps": 2,
+   "bad": [
+    "근거 거래 2건이 원자료(해제·직거래 뺀 같은 조건)에 없음: 더샵분당파크리버 2026-06-22 16.3억, 더샵분당파크리버 2026-06-17 16.3억"
+   ]
+  },
+  {
+   "id": "2026910304-074.4400D",
+   "name": "더샵 분당하이스트(2차)",
+   "lawd": "41135",
+   "app": {
+    "mkt_basis": null,
+    "mkt_base": null,
+    "mkt_low": null,
+    "mkt_count": 2
+   },
+   "raw": {
+    "basis": null,
+    "base": null,
+    "low": null,
+    "count": 0
+   },
+   "comps": 2,
+   "bad": [
+    "근거 거래 2건이 원자료(해제·직거래 뺀 같은 조건)에 없음: 더샵분당파크리버 2026-06-22 16.3억, 더샵분당파크리버 2026-06-17 16.3억"
+   ]
+  },
+  {
+   "id": "2026910304-084.0000A",
+   "name": "더샵 분당하이스트(2차)",
+   "lawd": "41135",
+   "app": {
+    "mkt_basis": "district_newbuild",
+    "mkt_base": 14.5,
+    "mkt_low": 13.6,
+    "mkt_count": 48
+   },
+   "raw": {
+    "basis": null,
+    "base": null,
+    "low": null,
+    "count": 0
+   },
+   "comps": 8,
+   "bad": [
+    "근거 종류 district_newbuild ≠ 원자료 None",
+    "mkt_base 14.5 ≠ 원자료 None",
+    "mkt_low 13.6 ≠ 원자료 None",
+    "근거 거래 8건이 원자료(해제·직거래 뺀 같은 조건)에 없음: 판교더샵포레스트12단지 2026-11-13 14.95억, 판교퍼스트힐푸르지오A2 2026-11-10 13.85억, 판교풍경채어바니티(7단지) 2026-11-07 14.5억"
+   ]
+  },
+  {
+   "id": "2026910304-084.0000C",
+   "name": "더샵 분당하이스트(2차)",
+   "lawd": "41135",
+   "app": {
+    "mkt_basis": "district_newbuild",
+    "mkt_base": 14.5,
+    "mkt_low": 13.6,
+    "mkt_count": 48
+   },
+   "raw": {
+    "basis": null,
+    "base": null,
+    "low": null,
+    "count": 0
+   },
+   "comps": 8,
+   "bad": [
+    "근거 종류 district_newbuild ≠ 원자료 None",
+    "mkt_base 14.5 ≠ 원자료 None",
+    "mkt_low 13.6 ≠ 원자료 None",
+    "근거 거래 8건이 원자료(해제·직거래 뺀 같은 조건)에 없음: 판교더샵포레스트12단지 2026-11-13 14.95억, 판교퍼스트힐푸르지오A2 2026-11-10 13.85억, 판교풍경채어바니티(7단지) 2026-11-07 14.5억"
+   ]
+  },
+  {
+   "id": "2026910304-084.6400G",
+   "name": "더샵 분당하이스트(2차)",
+   "lawd": "41135",
+   "app": {
+    "mkt_basis": "district_newbuild",
+    "mkt_base": 14.5,
+    "mkt_low": 13.6,
+    "mkt_count": 48
+   },
+   "raw": {
+    "basis": null,
+    "base": null,
+    "low": null,
+    "count": 0
+   },
+   "comps": 8,
+   "bad": [
+    "근거 종류 district_newbuild ≠ 원자료 None",
+    "mkt_base 14.5 ≠ 원자료 None",
+    "mkt_low 13.6 ≠ 원자료 None",
+    "근거 거래 8건이 원자료(해제·직거래 뺀 같은 조건)에 없음: 판교더샵포레스트12단지 2026-11-13 14.95억, 판교퍼스트힐푸르지오A2 2026-11-10 13.85억, 판교풍경채어바니티(7단지) 2026-11-07 14.5억"
+   ]
+  },
+  {
+   "id": "2026910305-128.8329C",
+   "name": "판교TH212(2차)",
+   "lawd": "41135",
+   "app": {
+    "mkt_basis": "district_newbuild",
+    "mkt_base": 17.58,
+    "mkt_low": 16.67,
+    "mkt_count": 19
+   },
+   "raw": {
+    "basis": null,
+    "base": null,
+    "low": null,
+    "count": 0
+   },
+   "comps": 8,
+   "bad": [
+    "근거 종류 district_newbuild ≠ 원자료 None",
+    "mkt_base 17.58 ≠ 원자료 None",
+    "mkt_low 16.67 ≠ 원자료 None",
+    "근거 거래 8건이 원자료(해제·직거래 뺀 같은 조건)에 없음: 힐스테이트판교엘포레A4BL 2026-11-16 18.0억, 힐스테이트판교엘포레A4BL 2026-10-24 19.0억, 힐스테이트판교엘포레A6BL 2026-10-19 16.9억"
+   ]
+  },
+  {
+   "id": "2026910306-059.9782C",
+   "name": "광안센텀 비스타동원(조합원 취소분)",
+   "lawd": "26500",
+   "app": {
+    "mkt_basis": "district_newbuild",
+    "mkt_base": 5.69,
+    "mkt_low": 4.29,
+    "mkt_count": 37
+   },
+   "raw": {
+    "basis": null,
+    "base": null,
+    "low": null,
+    "count": 0
+   },
+   "comps": 8,
+   "bad": [
+    "근거 종류 district_newbuild ≠ 원자료 None",
+    "mkt_base 5.69 ≠ 원자료 None",
+    "mkt_low 4.29 ≠ 원자료 None",
+    "근거 거래 8건이 원자료(해제·직거래 뺀 같은 조건)에 없음: 더샵남천프레스티지 2026-11-14 8.94억, 더샵남천프레스티지 2026-11-11 10.0억, 광안자이 2026-11-02 7.3억"
+   ]
+  },
+  {
+   "id": "2026910306-059.9823 ",
+   "name": "광안센텀 비스타동원(조합원 취소분)",
+   "lawd": "26500",
+   "app": {
+    "mkt_basis": "district_newbuild",
+    "mkt_base": 5.69,
+    "mkt_low": 4.29,
+    "mkt_count": 37
+   },
+   "raw": {
+    "basis": null,
+    "base": null,
+    "low": null,
+    "count": 0
+   },
+   "comps": 8,
+   "bad": [
+    "근거 종류 district_newbuild ≠ 원자료 None",
+    "mkt_base 5.69 ≠ 원자료 None",
+    "mkt_low 4.29 ≠ 원자료 None",
+    "근거 거래 8건이 원자료(해제·직거래 뺀 같은 조건)에 없음: 더샵남천프레스티지 2026-11-14 8.94억, 더샵남천프레스티지 2026-11-11 10.0억, 광안자이 2026-11-02 7.3억"
+   ]
+  }
+ ],
  "_data": {
-  "listings": "422613bd4db2"
+  "listings": "0f1cb82015fb"
  }
 }
